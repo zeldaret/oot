@@ -265,30 +265,19 @@ void func_80A6BD7C(EnHorseNormal* this) {
     }
 }
 
-#if FALSE
+#if NON_MATCHING
 void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
-    s32 sp4C;
-    s32 temp_v0_3;
-    u16 temp_t9;
-    s32 phi_t0;
-    s32 phi_t0_2;
-    s32 phi_v1;
-    s32 phi_v1_2;
-    s32 phi_t0_3;
+    s32 phi_t0 = this->unk_150;
+    s32 pad;
 
-    if (D_80A6D510[this->unk_150] != 0) {
-        if (D_80A6D510[this->unk_150] != 1) {
-            phi_t0_2 = this->unk_150;
-            phi_v1 = this->unk_150;
-            if (D_80A6D510[this->unk_150] != 2) {
-                phi_t0_2 = this->unk_150;
-                phi_v1 = this->unk_150;
-                if (D_80A6D510[this->unk_150] != 3) {
-                    phi_t0_2 = this->unk_150;
-                    phi_v1 = this->unk_150;
-                }
-            }
-        } else {
+    switch (D_80A6D510[this->unk_150]) {
+        case 0:
+            func_80A6BD7C(this);
+            this->actor.speedXZ = 0.0f;
+            this->unk_218 = 0.0f;
+            phi_t0 = this->unk_150;
+            break;
+        case 1:
             if (Math_Rand_ZeroOne() < 0.1f) {
                 this->unk_218 = 2.0f * Math_Rand_ZeroOne() - 1.0f;
             }
@@ -297,24 +286,18 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 0.0f;
                 this->unk_218 = 0.0f;
                 phi_t0 = 0;
+            } else if (this->actor.speedXZ < 3.0f) {
+                func_80A6B250(this);
+                phi_t0 = 4;
+            } else if (this->actor.speedXZ < 6.0f) {
+                phi_t0 = 5;
+            } else if (this->actor.speedXZ < 8.0f) {
+                phi_t0 = 6;
             } else {
-                if (this->actor.speedXZ < 3.0f) {
-                    func_80A6B250(this);
-                    phi_t0 = 4;
-                } else {
-                    if (this->actor.speedXZ < 6.0f) {
-                        phi_t0 = 5;
-                    } else {
-                        if (this->actor.speedXZ < 8.0f) {
-                            phi_t0 = 6;
-                        } else {
-                            this->actor.speedXZ = 8.0f;
-                            phi_t0 = 6;
-                        }
-                    }
-                }
+                this->actor.speedXZ = 8.0f;
+                phi_t0 = 6;
             }
-            if (Math_Rand_ZeroOne() < 0.1f || (this->unk_21E == 0 && this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2) && this->unk_274.base.maskA & 2) {
+            if (Math_Rand_ZeroOne() < 0.1f || this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->unk_228.base.maskA & 2) || this->unk_274.base.maskA & 2) {
                 this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 0x32) {
                     this->unk_21E = 0x32;
@@ -331,7 +314,6 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
                 if (this->unk_21C > 0x12C) {
                     this->unk_21C = 0x12C;
                 } else {
-                    sp4C = phi_t0;
                     if (Math_Rand_ZeroOne() < 0.25f) {
                         if (fabsf(this->unk_21C) < 100.0f) {
                             this->unk_21C = 0;
@@ -342,76 +324,58 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
             }
             this->actor.posRot.rot.y += this->unk_21C;
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
-            phi_v1 = this->unk_150;
-        }
-    } else {
-        func_80A6BD7C(this);
-        this->actor.speedXZ = 0.0f;
-        this->unk_218 = 0.0f;
-        phi_t0_2 = this->unk_150;
-        phi_v1 = this->unk_150;
+            break;
+        case 2:
+        case 3:
+            break;
     }
-    phi_v1_2 = phi_v1;
-    if (phi_t0_2 == phi_v1 || SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-        phi_v1_2 = this->unk_150;
-        if (phi_t0_2 != phi_v1_2) {
-            this->unk_150 = phi_t0_2;
+
+    if (phi_t0 == this->unk_150 || SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+        if (phi_t0 != this->unk_150) {
+            this->unk_150 = phi_t0;
             this->unk_1E4 &= ~1;
             this->unk_1E4 &= ~2;
-            if (phi_t0_2 == 1) {
+            if (phi_t0 == 1) {
                 Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            } else {
-                if (phi_t0_2 == 3) {
-                    Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                } else {
-                    func_80A6BCEC(this);
-                }
-            }
-            SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
-            return;
-        }
-        temp_v0_3 = D_80A6D510[phi_v1_2];
-        if (temp_v0_3 != 0) {
-            phi_t0_3 = phi_t0_2;
-            if (temp_v0_3 != 1) {
-                phi_t0_3 = phi_t0_2;
-                if (temp_v0_3 != 2) {
-                    phi_t0_3 = phi_t0_2;
-                    if (temp_v0_3 != 3) {
-                        phi_t0_3 = phi_t0_2;
-                    }
-                }
-            }
-        } else {
-            if (Math_Rand_ZeroOne() < 0.25f) {
-                this->unk_218 = 1.0f;
-                phi_t0_3 = 4;
-            } else {
-                this->actor.speedXZ = 0.0f;
-                this->unk_218 = 0.0f;
-                phi_t0_3 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2.0f)];
-            }
-        }
-        this->unk_1E4 &= ~1;
-        this->unk_1E4 &= ~2;
-        if (phi_t0_3 == 1) {
-            sp4C = phi_t0_3;
-            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        } else {
-            if (phi_t0_3 == 3) {
-                sp4C = phi_t0_3;
+            } else if (phi_t0 == 3) {
                 Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                sp4C = phi_t0_3;
                 func_80A6BCEC(this);
             }
-        }
-        if (sp4C != this->unk_150) {
-            this->unk_150 = sp4C;
             SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
             return;
         }
-        SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+        switch (D_80A6D510[this->unk_150]) {
+            case 0:
+                if (Math_Rand_ZeroOne() < 0.25f) {
+                    this->unk_218 = 1.0f;
+                    phi_t0 = 4;
+                } else {
+                    this->actor.speedXZ = 0.0f;
+                    this->unk_218 = 0.0f;
+                    phi_t0 = D_80A6D4F4[(s32)(Math_Rand_ZeroOne() * 2.0f)];
+                }
+                break;
+            case 1:
+            case 2:
+            case 3:
+                break;
+        }
+
+        this->unk_1E4 &= ~1;
+        this->unk_1E4 &= ~2;
+        if (phi_t0 == 1) {
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        } else if (phi_t0 == 3) {
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_204, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        } else {
+            func_80A6BCEC(this);
+        }
+        if (phi_t0 != this->unk_150) {
+            SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, -3.0f);
+        } else {
+            SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A6D370[this->unk_150], func_80A6B30C(this), 0.0f, SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
+        }
     }
 }
 #else
