@@ -1,3 +1,355 @@
+.rdata
+
+glabel D_8082FDFC
+    .asciz "プレイヤー size1＝%x\n"
+    .balign 4
+
+glabel D_8082FE14
+    .asciz "icon_item size0=%x\n"
+    .balign 4
+
+glabel D_8082FE28
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FE44
+    .asciz "icon_item24 size=%x\n"
+    .balign 4
+
+glabel D_8082FE5C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FE78
+    .asciz "icon_item_dungeon dungeon-size2=%x\n"
+    .balign 4
+
+glabel D_8082FE9C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FEB8
+    .asciz "icon_item_field field-size2=%x\n"
+    .balign 4
+
+glabel D_8082FED8
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FEF4
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_8082FF18
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FF34
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_8082FF58
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FF74
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_8082FF98
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8082FFB4
+    .asciz "サイズ＝%x\n"
+    .balign 4
+
+glabel D_8082FFC0
+    .asciz "item_name I_N_PT=%x\n"
+    .balign 4
+
+glabel D_8082FFD8
+    .asciz "サイズ＝%x\n"
+    .balign 4
+
+glabel D_8082FFE4
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830000
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8083001C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830038
+    .asciz "icon_item size0=%x\n"
+    .balign 4
+
+glabel D_8083004C
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830068
+    .asciz "icon_item24 size=%x\n"
+    .balign 4
+
+glabel D_80830080
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_8083009C
+    .asciz "icon_item_dungeon gameover-size2=%x\n"
+    .balign 4
+
+glabel D_808300C4
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_808300E0
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_80830104
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830120
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_80830144
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_80830160
+    .asciz "icon_item_dungeon dungeon-size=%x\n"
+    .balign 4
+
+glabel D_80830184
+    .asciz "../z_kaleido_scope_PAL.c"
+    .balign 4
+
+glabel D_808301A0
+    .asciz "kscope->angle_s = %f\n"
+    .balign 4
+
+glabel D_808301B8
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_808301C0
+    .asciz "MAGIC_NOW=%d "
+    .balign 4
+
+glabel D_808301D0
+    .asciz "Z_MAGIC_NOW_NOW=%d   →  "
+    .balign 4
+
+glabel D_808301EC
+    .asciz "MAGIC_NOW=%d "
+    .balign 4
+
+glabel D_808301FC
+    .asciz "Z_MAGIC_NOW_NOW=%d\n"
+    .balign 4
+
+glabel D_80830210
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80830214
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_8083021C
+    .asciz "i=%d  LAST_TIME_TYPE=%d\n"
+    .balign 4
+
+glabel D_80830238
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+
+glabel jtbl_80830298
+.word L80826E00
+.word L808279D0
+.word L80827C1C
+.word L80827C90
+.word L80828098
+.word L80829940
+.word L80829940
+.word L808286FC
+.word L80828A38
+.word L80828E28
+.word L80828E54
+.word L808290DC
+.word L808291B8
+.word L80829264
+.word L80829484
+.word L808295F0
+.word L80829828
+
+glabel jtbl_808302DC
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827100
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+.word L80827078
+
+glabel jtbl_80830340
+.word L80827CB4
+.word L80827D78
+.word L80827D8C
+.word L80827DBC
+.word L80829940
+.word L80827DCC
+.word L80827F70
+.word L80829940
+.word L80827FB4
+.word L80829940
+
+glabel jtbl_80830368
+.word L808280BC
+.word L80828198
+.word L808284C0
+.word L808283CC
+.word L80828310
+.word L808284C0
+.word L808283CC
+
+glabel jtbl_80830384
+.word L808293F8
+.word L80829478
+.word L80829478
+.word L80829478
+.word L808293F0
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829434
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829420
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829440
+
+glabel jtbl_808303D8
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L8082940C
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+.word L80829478
+
+glabel jtbl_808304B8
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829894
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+.word L80829880
+
+.text
 glabel KaleidoScope_Update
 /* 13494 80826CB4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 13498 80826CB8 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -510,7 +862,7 @@ glabel L80827100
 /* 13BFC 8082741C 01E1C024 */  and     $t8, $t7, $at              
 /* 13C00 80827420 3C018083 */  lui     $at, %hi(D_80832200)       ## $at = 80830000
 /* 13C04 80827424 AC382200 */  sw      $t8, %lo(D_80832200)($at)  
-/* 13C08 80827428 0C0303AA */  jal     func_800C0EA8              
+/* 13C08 80827428 0C0303AA */  jal     PreRender_Init              
 /* 13C0C 8082742C 248421B0 */  addiu   $a0, $a0, %lo(D_808321B0)  ## $a0 = 808321B0
 /* 13C10 80827430 3C198083 */  lui     $t9, %hi(D_80832200)       ## $t9 = 80830000
 /* 13C14 80827434 8F392200 */  lw      $t9, %lo(D_80832200)($t9)  
@@ -520,7 +872,7 @@ glabel L80827100
 /* 13C24 80827444 248421B0 */  addiu   $a0, $a0, %lo(D_808321B0)  ## $a0 = 808321B0
 /* 13C28 80827448 24050040 */  addiu   $a1, $zero, 0x0040         ## $a1 = 00000040
 /* 13C2C 8082744C 24060070 */  addiu   $a2, $zero, 0x0070         ## $a2 = 00000070
-/* 13C30 80827450 0C03039C */  jal     func_800C0E70              
+/* 13C30 80827450 0C03039C */  jal     PreRender_SetValuesSave              
 /* 13C34 80827454 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 13C38 80827458 0C206067 */  jal     func_8081819C              
 /* 13C3C 8082745C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -3137,7 +3489,7 @@ glabel L80829894
 /* 16100 80829920 8FAF0078 */  lw      $t7, 0x0078($sp)           
 /* 16104 80829924 02202025 */  or      $a0, $s1, $zero            ## $a0 = 8082AB98
 /* 16108 80829928 ADE00694 */  sw      $zero, 0x0694($t7)         ## 00000694
-/* 1610C 8082992C 0C023B2B */  jal     func_8008ECAC              
+/* 1610C 8082992C 0C023B2B */  jal     Player_SetEquipmentData              
 /* 16110 80829930 8FA50078 */  lw      $a1, 0x0078($sp)           
 /* 16114 80829934 3C048083 */  lui     $a0, %hi(D_80830238)       ## $a0 = 80830000
 /* 16118 80829938 0C00084C */  jal     osSyncPrintf

@@ -82,8 +82,8 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
     Vec3f* sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
-        func_800A6E10(&globalCtx->mf_11D60, &thisx->posRot.pos, &sp20, &sp1C);
-        Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, 0x28A0);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->posRot.pos, &sp20, &sp1C);
+        Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
 
@@ -108,13 +108,13 @@ void func_8097C930(DemoGo* this) {
 }
 
 void func_8097C9B8(DemoGo* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_EN_DODO_M_GND);
+    func_80078914(&this->actor.projectedPos, NA_SE_EN_DODO_M_GND);
 }
 
 void func_8097C9DC(DemoGo* this) {
     s32 pad[2];
     if (func_800A56C8(&this->skelAnime, 12.0f) || func_800A56C8(&this->skelAnime, 25.0f)) {
-        func_80078914(&this->actor.unk_E4, NA_SE_EN_MORIBLIN_WALK);
+        func_80078914(&this->actor.projectedPos, NA_SE_EN_MORIBLIN_WALK);
     }
 }
 
@@ -200,21 +200,16 @@ UNK_TYPE DemoGo_FrameUpdateMatrix(DemoGo* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-#ifdef NON_MATCHING
-// return value isn't produced in the same way
-s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 csCmdNPCAction) {
+s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 npcAction) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
-    CsCmdActorAction* npcAction = csCtx->npcActions[func_8097C870(this)];
-    if (csCtx->state != 0) {
-        if (npcAction != NULL && npcAction->action == csCmdNPCAction) {
-            return 1;
-        }
+    s32 actionIdx = func_8097C870(this);
+
+    if ((csCtx->state != 0) && (csCtx->npcActions[actionIdx] != NULL) &&
+        (csCtx->npcActions[actionIdx]->action == npcAction)) {
+        return 1;
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Go/func_8097CDB0.s")
-#endif
 
 void func_8097CE10(DemoGo* this, GlobalContext* globalCtx) {
     this->action = 1;
@@ -340,19 +335,17 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
     void* srcSegment8 = D_8097D440[temp];
     void* srcSegment9 = &D_0600E680;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
 
 void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {

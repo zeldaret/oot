@@ -1,3 +1,21 @@
+.rdata
+glabel D_809ACA70
+    .asciz "../z_eff_ss_stone1.c"
+    .balign 4
+
+glabel D_809ACA88
+    .asciz "../z_eff_ss_stone1.c"
+    .balign 4
+
+glabel D_809ACAA0
+    .asciz "../z_eff_ss_stone1.c"
+    .balign 4
+
+.late_rodata
+glabel D_809ACAB8
+    .float 1500.0
+
+.text
 glabel func_809AC78C
 /* 0008C 809AC78C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00090 809AC790 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -26,7 +44,7 @@ glabel func_809AC78C
 /* 000EC 809AC7EC 8FA50070 */  lw      $a1, 0x0070($sp)           
 /* 000F0 809AC7F0 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFFEC
 /* 000F4 809AC7F4 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE8
-/* 000F8 809AC7F8 0C029B84 */  jal     func_800A6E10              
+/* 000F8 809AC7F8 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 000FC 809AC7FC 00812021 */  addu    $a0, $a0, $at              
 /* 00100 809AC800 3C01809B */  lui     $at, %hi(D_809ACAB8)       ## $at = 809B0000
 /* 00104 809AC804 C422CAB8 */  lwc1    $f2, %lo(D_809ACAB8)($at)  

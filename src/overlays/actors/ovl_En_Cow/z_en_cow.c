@@ -121,8 +121,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                     return;
                 }
             }
-            Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_COW, this->actor.posRot.pos.x,
+                               this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.shape.rot.y, 0, 1);
             this->unk_278 = Math_Rand_ZeroFloat(1000.0f) + 40.0f;
             this->unk_27A = 0;
             this->actor.unk_1F = 6;
@@ -163,7 +163,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
                              SkelAnime_GetFrameCount(&D_060001CC.genericHeader), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistanceFromLink < 150.0f) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistFromLink < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animCurrentSeg == &D_060001CC) {
             this->unk_278 = 0;
@@ -205,8 +205,8 @@ void func_809DF730(EnCow* this, GlobalContext* globalCtx) {
 }
 
 void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
         this->actionFunc = func_809DF730;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
@@ -252,8 +252,8 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 this->unk_276 &= ~0x4;
                 DREG(53) = 0;
             } else {
-                if ((this->actor.xzDistanceFromLink < 150.0f) &&
-                    (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x61A8)) {
+                if ((this->actor.xzDistFromLink < 150.0f) &&
+                    (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
                     this->actionFunc = func_809DF8FC;
                     this->actor.flags |= 0x10000;
@@ -279,8 +279,8 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
                              SkelAnime_GetFrameCount(&D_06004348.genericHeader), 2, 1.0f);
     }
 
-    if ((this->actor.xzDistanceFromLink < 150.0f) &&
-        (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistFromLink < 150.0f) &&
+        (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
         if (this->skelAnime.animCurrentSeg == &D_06004348) {
             this->unk_278 = 0;
@@ -311,7 +311,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->actionFunc(this, globalCtx);
-    if ((thisx->xzDistanceFromLink < 150.0f) &&
+    if ((thisx->xzDistFromLink < 150.0f) &&
         (ABS(Math_Vec3f_Yaw(&thisx->posRot.pos, &player->actor.posRot.pos)) < 0xC000)) {
         targetX = Math_Vec3f_Pitch(&thisx->posRot2.pos, &player->actor.posRot2.pos);
         targetY = Math_Vec3f_Yaw(&thisx->posRot2.pos, &player->actor.posRot2.pos) - thisx->shape.rot.y;
@@ -343,10 +343,10 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->skelAnime.animCurrentSeg == &D_06004348) {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004E98, 1.0f, 0.0f,
-                                 (f32)SkelAnime_GetFrameCount(&D_06004E98.genericHeader), 2, 1.0f);
+                                 SkelAnime_GetFrameCount(&D_06004E98.genericHeader), 2, 1.0f);
         } else {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, 0.0f,
-                                 (f32)SkelAnime_GetFrameCount(&D_06004348.genericHeader), 0, 1.0f);
+                                 SkelAnime_GetFrameCount(&D_06004348.genericHeader), 0, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);

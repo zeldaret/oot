@@ -387,7 +387,7 @@ glabel Jpeg_Decode
 /* AE5A80 8006E8E0 AFAC0010 */  sw    $t4, 0x10($sp)
 /* AE5A84 8006E8E4 30E700FF */  andi  $a3, $a3, 0xff
 /* AE5A88 8006E8E8 27A4009C */  addiu $a0, $sp, 0x9c
-/* AE5A8C 8006E8EC 0C03FE94 */  jal   func_800FFA50
+/* AE5A8C 8006E8EC 0C03FE94 */  jal   JpegDecoder_Decode
 /* AE5A90 8006E8F0 24060004 */   li    $a2, 4
 /* AE5A94 8006E8F4 1040000B */  beqz  $v0, .L8006E924
 /* AE5A98 8006E8F8 3C048014 */   lui   $a0, %hi(D_8013C07C) # $a0, 0x8014

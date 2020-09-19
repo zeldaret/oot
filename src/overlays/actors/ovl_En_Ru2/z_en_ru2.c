@@ -145,7 +145,7 @@ s32 func_80AF26A0(EnRu2* this) {
 void func_80AF26AC(EnRu2* this) {
     this->action = 7;
     this->drawConfig = 0;
-    this->unk_2B4 = 0;
+    this->alpha = 0;
     this->unk_2B8 = 0;
     this->actor.shape.unk_14 = 0;
     this->unk_2B0 = 0.0f;
@@ -252,7 +252,7 @@ void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = thisx->posRot.pos.y;
     f32 posZ = thisx->posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
@@ -261,8 +261,7 @@ void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
     f32 posY = player->actor.posRot.pos.y + 50.0f;
     f32 posZ = player->actor.posRot.pos.z;
 
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0,
-                        10);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0, 10);
     Item_Give(globalCtx, ITEM_MEDALLION_WATER);
 }
 
@@ -391,15 +390,15 @@ void func_80AF2E64() {
 }
 
 void func_80AF2E84(EnRu2* this, GlobalContext* globalCtx) {
-    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                        kREG(19) + 24.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 8);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
+                       kREG(19) + 24.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 8);
 }
 
 void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF27D0(this, globalCtx, 4, 3)) {
         this->action = 8;
         this->drawConfig = 2;
-        this->unk_2B4 = 0;
+        this->alpha = 0;
         this->actor.shape.unk_14 = 0;
         this->unk_2B0 = 0.0f;
         func_80AF2E64();
@@ -408,7 +407,7 @@ void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
     f32* unk_2B0 = &this->unk_2B0;
-    s32 something;
+    s32 alpha;
 
     if (func_80AF27D0(this, globalCtx, 4, 3)) {
         *unk_2B0 += 1.0f;
@@ -416,7 +415,7 @@ void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
             this->action = 9;
             this->drawConfig = 1;
             *unk_2B0 = kREG(5) + 10.0f;
-            this->unk_2B4 = 0xFF;
+            this->alpha = 255;
             this->actor.shape.unk_14 = 0xFF;
             return;
         }
@@ -426,14 +425,14 @@ void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
             this->action = 7;
             this->drawConfig = 0;
             *unk_2B0 = 0.0f;
-            this->unk_2B4 = 0;
+            this->alpha = 0;
             this->actor.shape.unk_14 = 0;
             return;
         }
     }
-    something = (*unk_2B0 / (kREG(5) + 10.0f)) * 255.0f;
-    this->unk_2B4 = something;
-    this->actor.shape.unk_14 = something;
+    alpha = (*unk_2B0 / (kREG(5) + 10.0f)) * 255.0f;
+    this->alpha = alpha;
+    this->actor.shape.unk_14 = alpha;
 }
 
 void func_80AF30AC(EnRu2* this, GlobalContext* globalCtx) {
@@ -441,7 +440,7 @@ void func_80AF30AC(EnRu2* this, GlobalContext* globalCtx) {
         this->action = 8;
         this->drawConfig = 2;
         this->unk_2B0 = kREG(5) + 10.0f;
-        this->unk_2B4 = 0xFF;
+        this->alpha = 255;
         if (this->unk_2B8 == 0) {
             func_80AF2E84(this, globalCtx);
             this->unk_2B8 = 1;
@@ -476,21 +475,20 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     s16 temp = this->unk_2A4;
     UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_2B4);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          NULL, NULL, NULL, gfxCtx->polyXlu.p);
+    oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
+                                           skelAnime->dListCount, NULL, NULL, NULL, oGfxCtx->polyXlu.p);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
 
 void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
@@ -509,11 +507,11 @@ void func_80AF33E0(EnRu2* this) {
 
     temp_f0 = kREG(17) + 10.0f;
     if (temp_f0 <= *unk_2B0) {
-        this->unk_2B4 = 0xFF;
+        this->alpha = 255;
         this->actor.shape.unk_14 = 0xFF;
     } else {
         temp_f18 = (*unk_2B0 / temp_f0) * 255.0f;
-        this->unk_2B4 = temp_f18;
+        this->alpha = temp_f18;
         this->actor.shape.unk_14 = temp_f18;
     }
 }
@@ -656,7 +654,7 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
         func_80AF37AC();
     } else if (*unk_2C4 > kREG(4) + 50.0f) {
         this->actor.textId = 0x403E;
-        func_8010B680(globalCtx, this->actor.textId, 0);
+        func_8010B680(globalCtx, this->actor.textId, NULL);
         this->action = 17;
     }
 }
@@ -802,20 +800,20 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     s16 temp = this->unk_2A4;
     UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }
 
 void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -137,7 +137,7 @@ glabel EnIceHono_Update
 /* 00DDC 80A73DCC 44194000 */  mfc1    $t9, $f8                   
 /* 00DE0 80A73DD0 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00DE4 80A73DD4 AFAF0014 */  sw      $t7, 0x0014($sp)           
-/* 00DE8 80A73DD8 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00DE8 80A73DD8 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 00DEC 80A73DDC AFB90018 */  sw      $t9, 0x0018($sp)           
 /* 00DF0 80A73DE0 8E02014C */  lw      $v0, 0x014C($s0)           ## 0000014C

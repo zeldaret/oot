@@ -1,0 +1,4 @@
+glabel func_800DBE18
+/* B52FB8 800DBE18 03E00008 */  jr    $ra
+/* B52FBC 800DBE1C 00000000 */   nop
+

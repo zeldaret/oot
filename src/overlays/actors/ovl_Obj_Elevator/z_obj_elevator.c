@@ -33,9 +33,9 @@ const ActorInit Obj_Elevator_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_F4, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 600, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 2000, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 600, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
 static f32 sScales[] = { 0.1f, 0.05f };
@@ -111,7 +111,7 @@ void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {
-        Audio_PlayActorSound2(thisx, 0x201E);
+        Audio_PlayActorSound2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 

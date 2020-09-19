@@ -65,7 +65,7 @@ glabel EnHonotrap_Update
 /* 00F64 80A5AB94 AFAC0014 */  sw      $t4, 0x0014($sp)           
 /* 00F68 80A5AB98 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 00F6C 80A5AB9C 24E7B054 */  addiu   $a3, $a3, %lo(D_80A5B054)  ## $a3 = 80A5B054
-/* 00F70 80A5ABA0 0C00A3A1 */  jal     func_80028E84              
+/* 00F70 80A5ABA0 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 00F74 80A5ABA4 24C6B048 */  addiu   $a2, $a2, %lo(D_80A5B048)  ## $a2 = 80A5B048
 /* 00F78 80A5ABA8 0C00B55C */  jal     Actor_Kill
               

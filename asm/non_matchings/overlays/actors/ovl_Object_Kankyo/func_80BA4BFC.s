@@ -1,3 +1,13 @@
+.rdata
+glabel D_80BA5B18
+    .asciz "0"
+    .balign 4
+
+glabel D_80BA5B1C
+    .asciz "../z_object_kankyo.c"
+    .balign 4
+
+.text
 glabel func_80BA4BFC
 /* 0215C 80BA4BFC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 02160 80BA4C00 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

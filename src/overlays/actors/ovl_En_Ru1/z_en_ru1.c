@@ -70,35 +70,35 @@ void func_80AF03F4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF0400(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx);
 
-ColliderCylinderInit_Set3 sCylinderInit1 = {
+static ColliderCylinderInit_Set3 sCylinderInit1 = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0 } },
 };
 
-ColliderCylinderInit_Set3 sCylinderInit2 = {
+static ColliderCylinderInit_Set3 sCylinderInit2 = {
     { COLTYPE_UNK0, 0x09, 0x00, 0x09, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
     { 20, 30, 0, { 0 } },
 };
 
-UNK_PTR D_80AF0858[] = {
+static UNK_PTR D_80AF0858[] = {
     0x0600E3B8, 0x0600F238, 0x0600F638, 0x0600FE38, 0x06010238, 0x06010A38,
 };
 
-UNK_PTR D_80AF0870[] = {
+static UNK_PTR D_80AF0870[] = {
     0x0600E838,
     0x0600FA38,
     0x06010638,
 };
 
-s32 sUnused = 0;
+static s32 sUnused = 0;
 
 #include "z_en_ru1_cutscene_data.c" EARLY
 
-u32 D_80AF1938 = 0;
+static u32 D_80AF1938 = 0;
 
-EnRu1ActionFunc sActionFuncs[] = {
+static EnRu1ActionFunc sActionFuncs[] = {
     func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
     func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
     func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
@@ -108,13 +108,13 @@ EnRu1ActionFunc sActionFuncs[] = {
     func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
+static EnRu1PreLimbDrawFunc sPreLimbDrawFuncs[] = {
     func_80AF0278,
 };
 
-Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
+static Vec3f sMultVec = { 0.0f, 10.0f, 0.0f };
 
-EnRu1DrawFunc sDrawFuncs[] = {
+static EnRu1DrawFunc sDrawFuncs[] = {
     func_80AF03F4,
     func_80AF0400,
     func_80AF05D4,
@@ -172,7 +172,7 @@ void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(thisx, collider2);
     if (this->unk_34C != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
-    } else if (thisx->xzDistanceFromLink > 32.0f) {
+    } else if (thisx->xzDistFromLink > 32.0f) {
         this->unk_34C = 1;
     }
 }
@@ -444,7 +444,7 @@ void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     Actor* thisx = &this->actor;
 
     sp24.x = thisx->posRot.pos.x;
-    sp24.y = thisx->posRot.pos.y + thisx->unk_84;
+    sp24.y = thisx->posRot.pos.y + thisx->waterY;
     sp24.z = thisx->posRot.pos.z;
     func_80029444(globalCtx, &sp24, 100, arg2, arg3);
 }
@@ -471,7 +471,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->posRot.pos.x;
-    pos.y = thisx->posRot.pos.y + thisx->unk_84;
+    pos.y = thisx->posRot.pos.y + thisx->waterY;
     pos.z = thisx->posRot.pos.z;
 
     func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
@@ -582,14 +582,14 @@ void func_80AEBA2C(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEBAFC(EnRu1* this) {
     if (this->unk_298 == 0) {
-        func_80078914(&this->actor.unk_E4, NA_SE_EV_DIVE_INTO_WATER);
+        func_80078914(&this->actor.projectedPos, NA_SE_EV_DIVE_INTO_WATER);
         this->unk_298 = 1;
     }
 }
 
 void func_80AEBB3C(EnRu1* this) {
     if (func_800A56C8(&this->skelAnime, 5.0f)) {
-        func_80078914(&this->actor.unk_E4, 0x863);
+        func_80078914(&this->actor.projectedPos, 0x863);
     }
 }
 
@@ -599,13 +599,13 @@ void func_80AEBB78(EnRu1* this) {
     if ((((func_800A56C8(skelAnime, 4.0f)) || (func_800A56C8(skelAnime, 13.0f))) ||
          (func_800A56C8(skelAnime, 22.0f))) ||
         (func_800A56C8(skelAnime, 31.0f))) {
-        func_80078914(&this->actor.unk_E4, 0x839);
+        func_80078914(&this->actor.projectedPos, 0x839);
     }
 }
 
 void func_80AEBBF4(EnRu1* this) {
     if (func_800A56C8(&this->skelAnime, 8.0f)) {
-        func_80078914(&this->actor.unk_E4, 0x873);
+        func_80078914(&this->actor.projectedPos, 0x873);
     }
 }
 
@@ -614,14 +614,14 @@ void func_80AEBC30(GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.frames == 0xCD) {
         player = PLAYER;
-        Audio_PlaySoundGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.unk_E4, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
 }
 
 void func_80AEBC84(EnRu1* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 0x82) {
-        func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_LAUGH_0);
+        func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
 
@@ -861,14 +861,14 @@ void func_80AEC650(EnRu1* this) {
     s32 pad[2];
     if (this->unk_280 == 0) {
         if ((func_800A56C8(&this->skelAnime, 2.0f)) || (func_800A56C8(&this->skelAnime, 7.0f))) {
-            func_80078914(&this->actor.unk_E4, 0x803);
+            func_80078914(&this->actor.projectedPos, 0x803);
         }
     }
 }
 
 void func_80AEC6B0(EnRu1* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_EV_FALL_DOWN_DIRT);
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_FALL);
+    func_80078914(&this->actor.projectedPos, NA_SE_EV_FALL_DOWN_DIRT);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_FALL);
 }
 
 void func_80AEC6E4(EnRu1* this, GlobalContext* globalCtx) {
@@ -1017,19 +1017,19 @@ void func_80AECC84(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Vec3f* pos;
-    s16 rotTowardsLinkY;
+    s16 yawTowardsLink;
     f32 spawnX;
     f32 spawnY;
     f32 spawnZ;
     s32 pad[2];
 
-    rotTowardsLinkY = thisx->rotTowardsLinkY;
+    yawTowardsLink = thisx->yawTowardsLink;
     pos = &thisx->posRot.pos;
-    spawnX = ((kREG(1) + 12.0f) * Math_Sins(rotTowardsLinkY)) + pos->x;
+    spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
-    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(rotTowardsLinkY)) + pos->z;
-    this->unk_278 = Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                        0, rotTowardsLinkY, 0, 5);
+    spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
+    this->unk_278 = Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
+                                       0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1118,8 +1118,8 @@ void func_80AED0C8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AED0D8(EnRu1* this, GlobalContext* globalCtx) {
     this->action = 17;
     this->drawConfig = 1;
-    this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
-    this->actor.shape.rot.y = this->actor.rotTowardsLinkY;
+    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.yawTowardsLink;
     func_80AECCB0(this, globalCtx);
 }
 
@@ -1159,7 +1159,7 @@ void func_80AED218(EnRu1* this, UNK_TYPE arg1) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06002990, 1.0f, 0, SkelAnime_GetFrameCount(&D_06002990.genericHeader),
                              2, -8.0f);
         this->action = 21;
-        this->unk_27C = this->actor.xzDistanceFromLink;
+        this->unk_27C = this->actor.xzDistFromLink;
     }
 }
 
@@ -1221,32 +1221,33 @@ void func_80AED44C(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AED4FC(EnRu1* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_EV_LAND_DIRT);
+    func_80078914(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
 }
 
 func_80AED520(EnRu1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Audio_PlaySoundGeneral(0x883, &player->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_LIFT);
+    Audio_PlaySoundGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                           &D_801333E8);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 
 void func_80AED57C(EnRu1* this) {
     if (this->actor.speedXZ != 0.0f) {
-        func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_THROW);
+        func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
     }
 }
 
 void func_80AED5B8(EnRu1* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_CRASH);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_CRASH);
 }
 
 void func_80AED5DC(EnRu1* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_UNBALLANCE);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_UNBALLANCE);
 }
 
 void func_80AED600(EnRu1* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_DISCOVER);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_DISCOVER);
 }
 
 s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
@@ -1257,7 +1258,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return 0;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (thisx->unk_84 > kREG(16) + 50.0f) && (this->action != 33)) {
+               (thisx->waterY > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->unk_2A8 = 0xFF;
@@ -1486,7 +1487,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.unk_84 - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.waterY - 10.0f) * 0.5f;
             this->unk_354 = this->actor.posRot.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1576,7 +1577,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
             this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
         dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
         if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (dynaActor->actor.params == 0) &&
-            (!func_8008E988(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
+            (!Player_InCsMode(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
@@ -1594,7 +1595,7 @@ void func_80AEE488(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     s8 curRoomNum;
 
-    if (func_8002F410(thisx, globalCtx)) {
+    if (Actor_HasParent(thisx, globalCtx)) {
         curRoomNum = globalCtx->roomCtx.curRoom.num;
         this->roomNum3 = curRoomNum;
         this->action = 31;
@@ -1615,7 +1616,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
             func_8002F580(this, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
-        } else if (thisx->unk_84 > 0.0f) {
+        } else if (thisx->waterY > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }
@@ -1640,7 +1641,7 @@ s32 func_80AEE6D0(EnRu1* this, GlobalContext* globalCtx) {
     s8 curRoomNum = globalCtx->roomCtx.curRoom.num;
 
     if ((!(gSaveContext.infTable[20] & 0x10)) && (func_80AEB124(globalCtx) != 0)) {
-        if (func_8008E988(globalCtx) == 0) {
+        if (!Player_InCsMode(globalCtx)) {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004648, 1.0f, 0,
                                  SkelAnime_GetFrameCount(&D_06004350.genericHeader), 0, -8.0f);
             func_80AED600(this);
@@ -1662,7 +1663,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
     Player* player;
     f32* unk_370 = &this->unk_370;
 
-    if (func_8002F5A0(this, globalCtx)) {
+    if (Actor_HasNoParent(this, globalCtx)) {
         frameCount = SkelAnime_GetFrameCount(&D_06006B9C.genericHeader);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06006B9C, 1.0f, 0, frameCount, 0, -8.0f);
         func_80AED6DC(this, globalCtx);
@@ -1845,7 +1846,7 @@ void func_80AEEFEC(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEF080(EnRu1* this) {
     if (func_800A56C8(&this->skelAnime, 11.0f)) {
-        func_80078914(&this->actor.unk_E4, NA_SE_EV_LAND_DIRT);
+        func_80078914(&this->actor.projectedPos, NA_SE_EV_LAND_DIRT);
     }
 }
 
@@ -1937,22 +1938,22 @@ void func_80AEF40C(EnRu1* this) {
 
     if ((func_800A56C8(skelAnime, 2.0f)) || (func_800A56C8(skelAnime, 7.0f)) || (func_800A56C8(skelAnime, 12.0f)) ||
         (func_800A56C8(skelAnime, 18.0f)) || (func_800A56C8(skelAnime, 25.0f)) || (func_800A56C8(skelAnime, 33.0f))) {
-        func_80078914(&this->actor.unk_E4, 0x803);
+        func_80078914(&this->actor.projectedPos, 0x803);
     }
 }
 
 void func_80AEF4A8(EnRu1* this, GlobalContext* globalCtx) {
-    Audio_PlaySoundAtPosition(globalCtx, &this->actor.unk_E4, 20, NA_SE_VO_RT_FALL);
+    Audio_PlaySoundAtPosition(globalCtx, &this->actor.projectedPos, 20, NA_SE_VO_RT_FALL);
 }
 
 void func_80AEF4E0(EnRu1* this) {
     if (func_800A56C8(&this->skelAnime, 5.0f)) {
-        func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_LAUGH_0);
+        func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LAUGH_0);
     }
 }
 
 void func_80AEF51C(EnRu1* this) {
-    func_80078914(&this->actor.unk_E4, NA_SE_VO_RT_THROW);
+    func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_THROW);
 }
 
 void func_80AEF540(EnRu1* this) {
@@ -2357,22 +2358,23 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     s16 temp2 = this->unk_260;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 addr2 = D_80AF0870[temp2];
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad1;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1282);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1282);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
-    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
+    oGfxCtx->polyOpa.p =
+        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
 
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
@@ -2382,22 +2384,23 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     s16 temp2 = this->unk_260;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 addr2 = D_80AF0870[temp2];
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad1;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1324);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1324);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_2A8);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_2A8);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnRu1_OverrideLimbDraw, NULL, &this->actor, gfxCtx->polyXlu.p);
+    oGfxCtx->polyXlu.p =
+        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnRu1_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }
 
 void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {

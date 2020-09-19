@@ -5,10 +5,15 @@
 #include <color.h>
 
 typedef struct {
+    f32 unk_0;
+    f32 unk_4;
+} TransitionUnkData;
+
+typedef struct {
     /* 0x00 */ s32 row;
     /* 0x04 */ s32 col;
     /* 0x08 */ s32 frame;
-    /* 0x0C */ f32* unk_0C;
+    /* 0x0C */ TransitionUnkData* unk_0C;
     /* 0x10 */ Vtx* vtxFrame1;
     /* 0x14 */ Vtx* vtxFrame2;
     /* 0x18 */ Mtx projection;

@@ -23,7 +23,7 @@ glabel func_809C5360
 /* 00574 809C53B4 24070168 */  addiu   $a3, $zero, 0x0168         ## $a3 = 00000168
 /* 00578 809C53B8 E7B00018 */  swc1    $f16, 0x0018($sp)          
 /* 0057C 809C53BC 860F015A */  lh      $t7, 0x015A($s0)           ## 0000015A
-/* 00580 809C53C0 0C00C916 */  jal     Actor_SpawnAttached
+/* 00580 809C53C0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00584 809C53C4 AFAF0028 */  sw      $t7, 0x0028($sp)           
 /* 00588 809C53C8 10400004 */  beq     $v0, $zero, .L809C53DC     

@@ -1,3 +1,21 @@
+.rdata
+glabel D_8013C738
+    .asciz "\n\n\nNa_StartMorinigBgm\n\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8013C80C
+   .word L80075B84
+   .word L80075BD8
+   .word L80075C30
+   .word L80075C6C
+   .word L80075CB4
+   .word L80075CE0
+   .word L80075D30
+   .word L80075DE4
+   .word L80075E34
+
+.text
 glabel func_80075B44
 /* AECCE4 80075B44 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AECCE8 80075B48 AFB00014 */  sw    $s0, 0x14($sp)
@@ -166,7 +184,7 @@ glabel L80075D30
 /* AECF44 80075DA4 922A1D6C */  lbu   $t2, 0x1d6c($s1)
 /* AECF48 80075DA8 55400009 */  bnezl $t2, .L80075DD0
 /* AECF4C 80075DAC 920B0B04 */   lbu   $t3, 0xb04($s0)
-/* AECF50 80075DB0 0C023A62 */  jal   func_8008E988
+/* AECF50 80075DB0 0C023A62 */  jal   Player_InCsMode
 /* AECF54 80075DB4 02202025 */   move  $a0, $s1
 /* AECF58 80075DB8 14400004 */  bnez  $v0, .L80075DCC
 /* AECF5C 80075DBC 02202025 */   move  $a0, $s1

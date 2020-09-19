@@ -190,7 +190,7 @@ glabel func_80095D04
 /* B0D13C 80095F9C AFA9006C */  sw    $t1, 0x6c($sp)
 /* B0D140 80095FA0 AFA8009C */  sw    $t0, 0x9c($sp)
 /* B0D144 80095FA4 AFA300A4 */  sw    $v1, 0xa4($sp)
-/* B0D148 80095FA8 0C029B84 */  jal   func_800A6E10
+/* B0D148 80095FA8 0C029B84 */  jal   SkinMatrix_Vec3fMtxFMultXYZW
 /* B0D14C 80095FAC E7B20098 */   swc1  $f18, 0x98($sp)
 /* B0D150 80095FB0 860E0006 */  lh    $t6, 6($s0)
 /* B0D154 80095FB4 C7A8008C */  lwc1  $f8, 0x8c($sp)

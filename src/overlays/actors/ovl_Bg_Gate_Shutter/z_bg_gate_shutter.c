@@ -83,7 +83,7 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
-        Audio_PlayActorSound2(thisx, 0x2067);
+        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->posRot.pos.x -= 2.0f;
         Math_SmoothScaleMaxF(&thisx->posRot.pos.z, -1375.0f, 0.8f, 0.3f);
         if (thisx->posRot.pos.x < -89.0f) {
@@ -105,7 +105,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
-        Audio_PlayActorSound2(thisx, 0x2067);
+        Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->posRot.pos.x += 2.0f;
         Math_SmoothScaleMaxF(&thisx->posRot.pos.z, -1350.0f, 0.8f, 0.3f);
         if (thisx->posRot.pos.x > 90.0f) {
@@ -127,15 +127,13 @@ void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 323);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 323);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06001CD0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001CD0);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }

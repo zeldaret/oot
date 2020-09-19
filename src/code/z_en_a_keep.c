@@ -1,38 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef enum {
-    /* 0x00 */ A_OBJ_BLOCK_SMALL,
-    /* 0x01 */ A_OBJ_BLOCK_LARGE,
-    /* 0x02 */ A_OBJ_BLOCK_HUGE,
-    /* 0x03 */ A_OBJ_BLOCK_SMALL_ROT,
-    /* 0x04 */ A_OBJ_BLOCK_LARGE_ROT,
-    /* 0x05 */ A_OBJ_CUBE_SMALL,
-    /* 0x06 */ A_OBJ_UNKNOWN_6,
-    /* 0x07 */ A_OBJ_GRASS_CLUMP,
-    /* 0x08 */ A_OBJ_TREE_STUMP,
-    /* 0x09 */ A_OBJ_SIGNPOST_OBLONG,
-    /* 0x0A */ A_OBJ_SIGNPOST_ARROW,
-    /* 0x0B */ A_OBJ_KNOB
-} AObjType;
-
-struct EnAObj;
-
-typedef void (*EnAObjActionFunc)(struct EnAObj*, GlobalContext*);
-
-typedef struct EnAObj {
-    /* 0x000 */ DynaPolyActor dyna;
-    /* 0x164 */ EnAObjActionFunc actionFunc;
-    /* 0x168 */ s32 unk_168;
-    /* 0x16C */ s16 textId;
-    /* 0x16E */ s16 unk_16E;
-    /* 0x170 */ s16 unk_170;
-    /* 0x172 */ s16 unk_172;
-    /* 0x174 */ s16 unk_174;
-    /* 0x178 */ f32 unk_178;
-    /* 0x17C */ ColliderCylinder collider;
-} EnAObj; // size = 0x1C8
-
 #define FLAGS 0x00000010
 
 #define THIS ((EnAObj*)thisx)
@@ -126,8 +94,8 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = -1;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
-    thisx->unk_FC = 1200.0f;
-    thisx->unk_F8 = 200.0f;
+    thisx->uncullZoneDownward = 1200.0f;
+    thisx->uncullZoneScale = 200.0f;
 
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
@@ -213,7 +181,7 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
     s16 var;
 
     if (this->dyna.actor.textId != 0) {
-        var = this->dyna.actor.rotTowardsLinkY - this->dyna.actor.shape.rot.y;
+        var = this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y;
         if ((ABS(var) < 0x2800) || ((this->dyna.actor.params == 0xA) && (ABS(var) > 0x5800))) {
             if (func_8002F194(&this->dyna.actor, globalCtx)) {
                 EnAObj_SetupAction(this, func_8001D204);
@@ -238,13 +206,13 @@ void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
             this->unk_16E++;
             this->unk_170 = 20;
 
-            if ((s16)(this->dyna.actor.rotTowardsLinkY + 0x4000) < 0) {
+            if ((s16)(this->dyna.actor.yawTowardsLink + 0x4000) < 0) {
                 this->unk_174 = -1000;
             } else {
                 this->unk_174 = 1000;
             }
 
-            if (this->dyna.actor.rotTowardsLinkY < 0) {
+            if (this->dyna.actor.yawTowardsLink < 0) {
                 this->unk_172 = -this->unk_174;
             } else {
                 this->unk_172 = this->unk_174;
@@ -301,8 +269,8 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void func_8001D5C8(EnAObj* this, s16 params) {
-    this->dyna.actor.unk_FC = 1200.0f;
-    this->dyna.actor.unk_F8 = 720.0f;
+    this->dyna.actor.uncullZoneDownward = 1200.0f;
+    this->dyna.actor.uncullZoneScale = 720.0f;
     EnAObj_SetupAction(this, func_8001D608);
 }
 
@@ -317,7 +285,7 @@ void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
 
     if (this->dyna.actor.speedXZ != 0.0f) {
-        Audio_PlayActorSound2(&this->dyna.actor, 0x200A);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
     }
 
     this->dyna.unk_154 = 0.0f;
@@ -351,10 +319,8 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 type = thisx->params;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 701);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 701);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -363,12 +329,12 @@ void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == A_OBJ_KNOB) {
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 1, 0x3C, 0x3C, 0x3C, 0x32);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 1, 60, 60, 60, 50);
     }
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_80115484[type]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_80115484[type]);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
 }

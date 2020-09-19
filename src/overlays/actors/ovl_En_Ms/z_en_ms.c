@@ -101,14 +101,14 @@ void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
-    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     EnMs_SetOfferText(&this->actor, globalCtx);
     if (func_8002F194(&this->actor, globalCtx) != 0) { // if talk is initiated
         this->actionFunc = EnMs_Talk;
         return;
     }
 
-    if ((this->actor.xzDistanceFromLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
+    if ((this->actor.xzDistFromLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         func_8002F2CC(&this->actor, globalCtx, 90.0f);
     }
 }
@@ -142,9 +142,9 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
 }
 
 void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) { // if attached is set
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         Rupees_ChangeBy(-sPrices[BEANS_BOUGHT]);
-        this->actor.attachedA = NULL;
+        this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
         return;
     }
