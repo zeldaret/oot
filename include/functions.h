@@ -633,10 +633,10 @@ void Camera_Finish(Camera* camera);
 s32 Camera_ChangeMode(Camera* camera, s16 mode);
 s32 Camera_ChangeSetting(Camera* camera, s16 setting);
 s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx);
-s16 Camera_GetDirYaw(Camera* camera);
-s16 Camera_GetRealDirPitch(Camera* camera);
-s16 Camera_GetRealDirYaw(Camera* camera);
-s16 Camera_GetRealDirYaw(Camera* camera);
+s16 Camera_GetInputDirYaw(Camera* camera);
+s16 Camera_GetCamDirPitch(Camera* camera);
+s16 Camera_GetCamDirYaw(Camera* camera);
+s16 Camera_GetCamDirYaw(Camera* camera);
 s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown);
 s32 Camera_SetParam(Camera* camera, s32 param, void* value);
 s32 func_8005AC48(Camera* camera, s16 arg1);
@@ -647,6 +647,8 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0,
+                          void* data1, s16 data2, s16 data3, UNK_TYPE arg6);
 DamageTable* DamageTable_Get(s32 index);
 // ? func_8005B280(?);
 void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);

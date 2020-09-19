@@ -112,7 +112,7 @@ glabel func_8084FCAC
 /* 1DC1C 8084FE2C 0018C880 */  sll     $t9, $t8,  2
 /* 1DC20 8084FE30 00594021 */  addu    $t0, $v0, $t9
 /* 1DC24 8084FE34 8D040790 */  lw      $a0, 0x0790($t0)           ## 00000790
-/* 1DC28 8084FE38 0C016A52 */  jal     Camera_GetDirYaw
+/* 1DC28 8084FE38 0C016A52 */  jal     Camera_GetInputDirYaw
 /* 1DC2C 8084FE3C E7A20024 */  swc1    $f2, 0x0024($sp)
 /* 1DC30 8084FE40 3C098086 */  lui     $t1, %hi(D_80858AB4)       ## $t1 = 80860000
 /* 1DC34 8084FE44 8D298AB4 */  lw      $t1, %lo(D_80858AB4)($t1)

@@ -1289,8 +1289,8 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
             csCtx->unk_18 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_DEMO0);
-                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STATUS_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STATUS_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus, csCtx->cameraPosition,
                               PLAYER, relativeToLink);
@@ -1326,8 +1326,8 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_DEMO0);
-                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STATUS_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STATUS_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->unk_14));
                 Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->unk_14), csCtx->cameraFocus, csCtx->cameraPosition,
                               PLAYER, relativeToLink);
@@ -1367,8 +1367,8 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->unk_14);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STATUS_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_FREE0);
                 sp28 = csCtx->cameraFocus->cameraRoll * 1.40625f;
                 Camera_SetParam(sp2C, 64, &sp28);
@@ -1410,8 +1410,8 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->unk_14);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STATUS_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_FREE0);
                 sp3C.x = csCtx->cameraFocus->pos.x;
                 sp3C.y = csCtx->cameraFocus->pos.y;

@@ -88,7 +88,7 @@ glabel EnIceHono_Draw
 /* 00F2C 80A73F1C 862D07A0 */  lh      $t5, 0x07A0($s1)           ## 000007A0
 /* 00F30 80A73F20 000D7080 */  sll     $t6, $t5,  2               
 /* 00F34 80A73F24 022E7821 */  addu    $t7, $s1, $t6              
-/* 00F38 80A73F28 0C016A7D */  jal     Camera_GetRealDirYaw              
+/* 00F38 80A73F28 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00F3C 80A73F2C 8DE40790 */  lw      $a0, 0x0790($t7)           ## FA008810
 /* 00F40 80A73F30 8FB80078 */  lw      $t8, 0x0078($sp)           
 /* 00F44 80A73F34 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000

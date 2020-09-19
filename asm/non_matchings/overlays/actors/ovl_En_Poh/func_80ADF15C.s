@@ -50,7 +50,7 @@ glabel func_80ADF15C
 /* 014B0 80ADF200 863807A0 */  lh      $t8, 0x07A0($s1)           ## 000007A0
 /* 014B4 80ADF204 0018C880 */  sll     $t9, $t8,  2               
 /* 014B8 80ADF208 02394021 */  addu    $t0, $s1, $t9              
-/* 014BC 80ADF20C 0C016A7D */  jal     Camera_GetRealDirYaw              
+/* 014BC 80ADF20C 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 014C0 80ADF210 8D040790 */  lw      $a0, 0x0790($t0)           ## 00000790
 /* 014C4 80ADF214 24444800 */  addiu   $a0, $v0, 0x4800           ## $a0 = 00004800
 /* 014C8 80ADF218 00042400 */  sll     $a0, $a0, 16               
@@ -65,7 +65,7 @@ glabel func_80ADF15C
 /* 014E8 80ADF238 862907A0 */  lh      $t1, 0x07A0($s1)           ## 000007A0
 /* 014EC 80ADF23C 00095080 */  sll     $t2, $t1,  2               
 /* 014F0 80ADF240 022A5821 */  addu    $t3, $s1, $t2              
-/* 014F4 80ADF244 0C016A7D */  jal     Camera_GetRealDirYaw              
+/* 014F4 80ADF244 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 014F8 80ADF248 8D640790 */  lw      $a0, 0x0790($t3)           ## 00000790
 /* 014FC 80ADF24C 24444800 */  addiu   $a0, $v0, 0x4800           ## $a0 = 00004800
 /* 01500 80ADF250 00042400 */  sll     $a0, $a0, 16               
@@ -93,7 +93,7 @@ glabel func_80ADF15C
 /* 01550 80ADF2A0 862D07A0 */  lh      $t5, 0x07A0($s1)           ## 000007A0
 /* 01554 80ADF2A4 000D7080 */  sll     $t6, $t5,  2               
 /* 01558 80ADF2A8 022E7821 */  addu    $t7, $s1, $t6              
-/* 0155C 80ADF2AC 0C016A7D */  jal     Camera_GetRealDirYaw              
+/* 0155C 80ADF2AC 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 01560 80ADF2B0 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 01564 80ADF2B4 24444800 */  addiu   $a0, $v0, 0x4800           ## $a0 = 00004800
 /* 01568 80ADF2B8 00042400 */  sll     $a0, $a0, 16               
@@ -109,7 +109,7 @@ glabel func_80ADF15C
 /* 0158C 80ADF2DC 863807A0 */  lh      $t8, 0x07A0($s1)           ## 000007A0
 /* 01590 80ADF2E0 0018C880 */  sll     $t9, $t8,  2               
 /* 01594 80ADF2E4 02394021 */  addu    $t0, $s1, $t9              
-/* 01598 80ADF2E8 0C016A7D */  jal     Camera_GetRealDirYaw              
+/* 01598 80ADF2E8 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 0159C 80ADF2EC 8D040790 */  lw      $a0, 0x0790($t0)           ## 00000790
 /* 015A0 80ADF2F0 24444800 */  addiu   $a0, $v0, 0x4800           ## $a0 = 00004800
 /* 015A4 80ADF2F4 00042400 */  sll     $a0, $a0, 16               

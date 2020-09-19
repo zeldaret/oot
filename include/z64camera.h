@@ -4,17 +4,11 @@
 #include <ultra64.h>
 #include <z64cutscene.h>
 
-typedef enum {
-    CAM_STATUS_CUT,
-    CAM_STATUS_WAIT,
-    CAM_STATUS_UNK2,
-    CAM_STATUS_UNK3,
-    CAM_STATUS_UNK4,
-    CAM_STATUS_UNK5,
-    CAM_STATUS_UNK6,
-    CAM_STATUS_ACTIVE,
-    CAM_STATUS_UNKT = 0x100
-} CameraStatusType;
+#define CAM_STAT_CUT        0
+#define CAM_STAT_WAIT       1
+#define CAM_STAT_UNK3       3
+#define CAM_STAT_ACTIVE     7
+#define CAM_STAT_UNK100     0x100
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
@@ -88,17 +82,17 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ CAM_MODE_NORMAL,
-    /* 0x01 */ CAM_MODE_PARALLEL,
-    /* 0x02 */ CAM_MODE_KEEPON,
+    /* 0x01 */ CAM_MODE_TARGET, // Original: CAM_MODE_PARALLEL
+    /* 0x02 */ CAM_MODE_FOLLOWTARGET, // Original: CAM_MODE_KEEPON
     /* 0x03 */ CAM_MODE_TALK,
     /* 0x04 */ CAM_MODE_BATTLE,
     /* 0x05 */ CAM_MODE_CLIMB,
-    /* 0x06 */ CAM_MODE_SUBJECT,
+    /* 0x06 */ CAM_MODE_FIRSTPERSON,  // Original: CAM_MODE_SUBJECT
     /* 0x07 */ CAM_MODE_BOWARROW,
     /* 0x08 */ CAM_MODE_BOWARROWZ,
     /* 0x09 */ CAM_MODE_FOOKSHOT,
     /* 0x0A */ CAM_MODE_BOOMERANG,
-    /* 0x0B */ CAM_MODE_PACHINCO,
+    /* 0x0B */ CAM_MODE_SLINGSHOT, // Original: CasdfsAM_MODE_PACHINCO
     /* 0x0C */ CAM_MODE_CLIMBZ,
     /* 0x0D */ CAM_MODE_JUMP,
     /* 0x0E */ CAM_MODE_HANG,
@@ -107,82 +101,83 @@ typedef enum {
     /* 0x11 */ CAM_MODE_CHARGE,
     /* 0x12 */ CAM_MODE_STILL,
     /* 0x13 */ CAM_MODE_PUSHPULL,
-    /* 0x14 */ CAM_MODE_BOOKEEPON
+    /* 0x14 */ CAM_MODE_BOOMFOLLLOW, // Original: CAM_MODE_BOOKEEPON
+    /* 0x15 */ CAM_MODE_MAX
 } CameraModeType;
 
 typedef enum {
-    CAM_FUNC_NONE,
-    CAM_FUNC_NORM0,
-    CAM_FUNC_NORM1,
-    CAM_FUNC_NORM2,
-    CAM_FUNC_NORM3,
-    CAM_FUNC_NORM4,
-    CAM_FUNC_PARA0,
-    CAM_FUNC_PARA1,
-    CAM_FUNC_PARA2,
-    CAM_FUNC_PARA3,
-    CAM_FUNC_PARA4,
-    CAM_FUNC_KEEP0,
-    CAM_FUNC_KEEP1,
-    CAM_FUNC_KEEP2,
-    CAM_FUNC_KEEP3,
-    CAM_FUNC_KEEP4,
-    CAM_FUNC_SUBJ0,
-    CAM_FUNC_SUBJ1,
-    CAM_FUNC_SUBJ2,
-    CAM_FUNC_SUBJ3,
-    CAM_FUNC_SUBJ4,
-    CAM_FUNC_JUMP0,
-    CAM_FUNC_JUMP1,
-    CAM_FUNC_JUMP2,
-    CAM_FUNC_JUMP3,
-    CAM_FUNC_JUMP4,
-    CAM_FUNC_BATT0,
-    CAM_FUNC_BATT1,
-    CAM_FUNC_BATT2,
-    CAM_FUNC_BATT3,
-    CAM_FUNC_BATT4,
-    CAM_FUNC_FIXD0,
-    CAM_FUNC_FIXD1,
-    CAM_FUNC_FIXD2,
-    CAM_FUNC_FIXD3,
-    CAM_FUNC_FIXD4,
-    CAM_FUNC_DATA0,
-    CAM_FUNC_DATA1,
-    CAM_FUNC_DATA2,
-    CAM_FUNC_DATA3,
-    CAM_FUNC_DATA4,
-    CAM_FUNC_UNIQ0,
-    CAM_FUNC_UNIQ1,
-    CAM_FUNC_UNIQ2,
-    CAM_FUNC_UNIQ3,
-    CAM_FUNC_UNIQ4,
-    CAM_FUNC_UNIQ5,
-    CAM_FUNC_UNIQ6,
-    CAM_FUNC_UNIQ7,
-    CAM_FUNC_UNIQ8,
-    CAM_FUNC_UNIQ9,
-    CAM_FUNC_DEMO0,
-    CAM_FUNC_DEMO1,
-    CAM_FUNC_DEMO2,
-    CAM_FUNC_DEMO3,
-    CAM_FUNC_DEMO4,
-    CAM_FUNC_DEMO5,
-    CAM_FUNC_DEMO6,
-    CAM_FUNC_DEMO7,
-    CAM_FUNC_DEMO8,
-    CAM_FUNC_DEMO9,
-    CAM_FUNC_SPEC0,
-    CAM_FUNC_SPEC1,
-    CAM_FUNC_SPEC2,
-    CAM_FUNC_SPEC3,
-    CAM_FUNC_SPEC4,
-    CAM_FUNC_SPEC5,
-    CAM_FUNC_SPEC6,
-    CAM_FUNC_SPEC7,
-    CAM_FUNC_SPEC8,
-    CAM_FUNC_SPEC9,
-    CAM_FUNC_MAX
+    /* 0x00 */ CAM_FUNC_NONE,
+    /* 0x01 */ CAM_FUNC_NORM0,
+    /* 0x02 */ CAM_FUNC_NORM1,
+    /* 0x03 */ CAM_FUNC_NORM2,
+    /* 0x04 */ CAM_FUNC_NORM3,
+    /* 0x05 */ CAM_FUNC_NORM4,
+    /* 0x06 */ CAM_FUNC_PARA0,
+    /* 0x07 */ CAM_FUNC_PARA1,
+    /* 0x08 */ CAM_FUNC_PARA2,
+    /* 0x09 */ CAM_FUNC_PARA3,
+    /* 0x0A */ CAM_FUNC_PARA4,
+    /* 0x0B */ CAM_FUNC_KEEP0,
+    /* 0x0C */ CAM_FUNC_KEEP1,
+    /* 0x0D */ CAM_FUNC_KEEP2,
+    /* 0x0E */ CAM_FUNC_KEEP3,
+    /* 0x0F */ CAM_FUNC_KEEP4,
+    /* 0x10 */ CAM_FUNC_SUBJ0,
+    /* 0x11 */ CAM_FUNC_SUBJ1,
+    /* 0x12 */ CAM_FUNC_SUBJ2,
+    /* 0x13 */ CAM_FUNC_SUBJ3,
+    /* 0x14 */ CAM_FUNC_SUBJ4,
+    /* 0x15 */ CAM_FUNC_JUMP0,
+    /* 0x16 */ CAM_FUNC_JUMP1,
+    /* 0x17 */ CAM_FUNC_JUMP2,
+    /* 0x18 */ CAM_FUNC_JUMP3,
+    /* 0x19 */ CAM_FUNC_JUMP4,
+    /* 0x1A */ CAM_FUNC_BATT0,
+    /* 0x1B */ CAM_FUNC_BATT1,
+    /* 0x1C */ CAM_FUNC_BATT2,
+    /* 0x1D */ CAM_FUNC_BATT3,
+    /* 0x1E */ CAM_FUNC_BATT4,
+    /* 0x1F */ CAM_FUNC_FIXD0,
+    /* 0x20 */ CAM_FUNC_FIXD1,
+    /* 0x21 */ CAM_FUNC_FIXD2,
+    /* 0x22 */ CAM_FUNC_FIXD3,
+    /* 0x23 */ CAM_FUNC_FIXD4,
+    /* 0x24 */ CAM_FUNC_DATA0,
+    /* 0x25 */ CAM_FUNC_DATA1,
+    /* 0x26 */ CAM_FUNC_DATA2,
+    /* 0x27 */ CAM_FUNC_DATA3,
+    /* 0x28 */ CAM_FUNC_DATA4,
+    /* 0x29 */ CAM_FUNC_UNIQ0,
+    /* 0x2A */ CAM_FUNC_UNIQ1,
+    /* 0x2B */ CAM_FUNC_UNIQ2,
+    /* 0x2C */ CAM_FUNC_UNIQ3,
+    /* 0x2D */ CAM_FUNC_UNIQ4,
+    /* 0x2E */ CAM_FUNC_UNIQ5,
+    /* 0x2F */ CAM_FUNC_UNIQ6,
+    /* 0x30 */ CAM_FUNC_UNIQ7,
+    /* 0x31 */ CAM_FUNC_UNIQ8,
+    /* 0x32 */ CAM_FUNC_UNIQ9,
+    /* 0x33 */ CAM_FUNC_DEMO0,
+    /* 0x34 */ CAM_FUNC_DEMO1,
+    /* 0x35 */ CAM_FUNC_DEMO2,
+    /* 0x36 */ CAM_FUNC_DEMO3,
+    /* 0x37 */ CAM_FUNC_DEMO4,
+    /* 0x38 */ CAM_FUNC_DEMO5,
+    /* 0x39 */ CAM_FUNC_DEMO6,
+    /* 0x3A */ CAM_FUNC_DEMO7,
+    /* 0x3B */ CAM_FUNC_DEMO8,
+    /* 0x3C */ CAM_FUNC_DEMO9,
+    /* 0x3D */ CAM_FUNC_SPEC0,
+    /* 0x3E */ CAM_FUNC_SPEC1,
+    /* 0x3F */ CAM_FUNC_SPEC2,
+    /* 0x40 */ CAM_FUNC_SPEC3,
+    /* 0x41 */ CAM_FUNC_SPEC4,
+    /* 0x42 */ CAM_FUNC_SPEC5,
+    /* 0x43 */ CAM_FUNC_SPEC6,
+    /* 0x44 */ CAM_FUNC_SPEC7,
+    /* 0x45 */ CAM_FUNC_SPEC8,
+    /* 0x46 */ CAM_FUNC_SPEC9,
+    /* 0x47 */ CAM_FUNC_MAX
 } CameraFuncType;
 
 typedef struct {
@@ -884,42 +879,36 @@ typedef struct {
     /* 0x0118 */ s32 waterPrevCamIdx;
     /* 0x011C */ s32 waterPrevCamSetting;
     /* 0x0120 */ s32 waterQuakeId;
-    /* 0x0124 */ CutsceneCameraPoint* atPoints;
-    union {
-        /* 0x0128 */ CutsceneCameraPoint* eyePoints;
-        struct{
-            /* 0x0128 */ s16 unk_128;  
-            /* 0x012A */ u16 unkSfx;
-        };
-    };
-    /* 0x012C */ s16 unk_12C;
-    /* 0x012E */ s16 unk_12E;
-    /* 0x0130 */ s16 uid;    // Unique identifier of the camera.
+    /* 0x0124 */ void* data0;
+    /* 0x0128 */ void* data1;
+    /* 0x012C */ s16 data2;
+    /* 0x012E */ s16 data3;
+    /* 0x0130 */ s16 uid;
     /* 0x0132 */ char unk_132[0x02];
-    /* 0x0134 */ Vec3s direction;
-    /* 0x013A */ Vec3s realDir; // updated regardless of sUpdateCameraDirection
+    /* 0x0134 */ Vec3s inputDir;
+    /* 0x013A */ Vec3s camDir;
     /* 0x0140 */ s16 status;
-    /* 0x0142 */ s16 setting; // referred to as set
+    /* 0x0142 */ s16 setting;
     /* 0x0144 */ s16 mode;
-    /* 0x0146 */ s16 bgCheckId; // unknown if used
+    /* 0x0146 */ s16 bgCheckId;
     /* 0x0148 */ s16 camDataIdx;
-    /* 0x014A */ s16 unk_14A; // unknown if used
+    /* 0x014A */ s16 unk_14A;
     /* 0x014C */ s16 unk_14C;
     /* 0x014E */ s16 childCamIdx;
-    /* 0x0150 */ s16 unk_150; // unknown if used
+    /* 0x0150 */ s16 unk_150;
     /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ s16 prevSetting; // appears to be some clone of setting?
+    /* 0x0154 */ s16 prevSetting;
     /* 0x0156 */ s16 nextCamDataIdx;
     /* 0x0158 */ s16 nextBGCheckId;
     /* 0x015A */ s16 roll;
     /* 0x015C */ s16 paramFlags;
     /* 0x015E */ s16 animState;
-    /* 0x0160 */ s16 timer; // timer when to change the camera back to parent. 
+    /* 0x0160 */ s16 timer;
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;
     /* 0x0166 */ s16 prevCamDataIdx;
     /* 0x0168 */ s16 unk_168;
-    /* 0x016A */ s16 unk_16A; // unknown if used
+    /* 0x016A */ s16 unk_16A;
 } Camera; // size = 0x16C
 
 /**

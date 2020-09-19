@@ -101,7 +101,7 @@ glabel MagicDark_Draw
 /* 009FC 80B87DCC 864D07A0 */  lh      $t5, 0x07A0($s2)           ## 000007A0
 /* 00A00 80B87DD0 000D7080 */  sll     $t6, $t5,  2               
 /* 00A04 80B87DD4 024E7821 */  addu    $t7, $s2, $t6              
-/* 00A08 80B87DD8 0C016A73 */  jal     Camera_GetRealDirPitch              
+/* 00A08 80B87DD8 0C016A73 */  jal     Camera_GetCamDirPitch              
 /* 00A0C 80B87DDC 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 00A10 80B87DE0 00022400 */  sll     $a0, $v0, 16               
 /* 00A14 80B87DE4 0C01DE0D */  jal     Math_Coss
@@ -111,7 +111,7 @@ glabel MagicDark_Draw
 /* 00A20 80B87DF0 865807A0 */  lh      $t8, 0x07A0($s2)           ## 000007A0
 /* 00A24 80B87DF4 0018C880 */  sll     $t9, $t8,  2               
 /* 00A28 80B87DF8 02594021 */  addu    $t0, $s2, $t9              
-/* 00A2C 80B87DFC 0C016A7D */  jal     Camera_GetRealDirYaw              
+/* 00A2C 80B87DFC 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00A30 80B87E00 8D040790 */  lw      $a0, 0x0790($t0)           ## 00000790
 /* 00A34 80B87E04 00022400 */  sll     $a0, $v0, 16               
 /* 00A38 80B87E08 0C01DE1C */  jal     Math_Sins
@@ -131,7 +131,7 @@ glabel MagicDark_Draw
 /* 00A6C 80B87E3C 864907A0 */  lh      $t1, 0x07A0($s2)           ## 000007A0
 /* 00A70 80B87E40 00095080 */  sll     $t2, $t1,  2               
 /* 00A74 80B87E44 024A5821 */  addu    $t3, $s2, $t2              
-/* 00A78 80B87E48 0C016A73 */  jal     Camera_GetRealDirPitch              
+/* 00A78 80B87E48 0C016A73 */  jal     Camera_GetCamDirPitch              
 /* 00A7C 80B87E4C 8D640790 */  lw      $a0, 0x0790($t3)           ## 00000790
 /* 00A80 80B87E50 00022400 */  sll     $a0, $v0, 16               
 /* 00A84 80B87E54 0C01DE1C */  jal     Math_Sins
@@ -149,7 +149,7 @@ glabel MagicDark_Draw
 /* 00AB0 80B87E80 864C07A0 */  lh      $t4, 0x07A0($s2)           ## 000007A0
 /* 00AB4 80B87E84 000C6880 */  sll     $t5, $t4,  2               
 /* 00AB8 80B87E88 024D7021 */  addu    $t6, $s2, $t5              
-/* 00ABC 80B87E8C 0C016A73 */  jal     Camera_GetRealDirPitch              
+/* 00ABC 80B87E8C 0C016A73 */  jal     Camera_GetCamDirPitch              
 /* 00AC0 80B87E90 8DC40790 */  lw      $a0, 0x0790($t6)           ## 00000790
 /* 00AC4 80B87E94 00022400 */  sll     $a0, $v0, 16               
 /* 00AC8 80B87E98 0C01DE0D */  jal     Math_Coss
@@ -159,7 +159,7 @@ glabel MagicDark_Draw
 /* 00AD4 80B87EA4 864F07A0 */  lh      $t7, 0x07A0($s2)           ## 000007A0
 /* 00AD8 80B87EA8 000FC080 */  sll     $t8, $t7,  2               
 /* 00ADC 80B87EAC 0258C821 */  addu    $t9, $s2, $t8              
-/* 00AE0 80B87EB0 0C016A7D */  jal     Camera_GetRealDirYaw              
+/* 00AE0 80B87EB0 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00AE4 80B87EB4 8F240790 */  lw      $a0, 0x0790($t9)           ## 00000790
 /* 00AE8 80B87EB8 00022400 */  sll     $a0, $v0, 16               
 /* 00AEC 80B87EBC 0C01DE0D */  jal     Math_Coss

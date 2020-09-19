@@ -224,7 +224,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     }
 
     Camera_Init(&globalCtx->mainCamera, &globalCtx->view, &globalCtx->colCtx, globalCtx);
-    Camera_ChangeStatus(&globalCtx->mainCamera, CAM_STATUS_ACTIVE);
+    Camera_ChangeStatus(&globalCtx->mainCamera, CAM_STAT_ACTIVE);
 
     for (i = 0; i < 3; i++) {
         Camera_Init(&globalCtx->subCameras[i + 1], &globalCtx->view, &globalCtx->colCtx, globalCtx);
@@ -1692,7 +1692,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     }
 
     if (arg2 <= 0) {
-        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_ACTIVE);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
         globalCtx->cameraPtrs[0]->childCamIdx = globalCtx->cameraPtrs[0]->parentCamIdx = 0;
     } else {
         func_800800F8(globalCtx, 1020, arg2, NULL, 0);

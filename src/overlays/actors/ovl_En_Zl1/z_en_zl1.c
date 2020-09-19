@@ -173,8 +173,8 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animationHeader->genericHeader), 3, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
-        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_WAIT);
-        Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STATUS_ACTIVE);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+        Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STAT_ACTIVE);
         func_800C0808(globalCtx, this->unk_1E8, player, CAM_SET_FREE0);
         globalCtx->envCtx.unk_E2[0] = 0xFF;
         globalCtx->envCtx.unk_E2[1] = 0xFF;
@@ -515,7 +515,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
         case 2:
             if (Actor_HasParent(this, globalCtx)) {
                 Gameplay_CopyCamera(globalCtx, 0, this->unk_1E8);
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STATUS_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
                 Gameplay_ClearCamera(globalCtx, this->unk_1E8);
                 this->actor.parent = NULL;
                 this->unk_1E2 += 1;

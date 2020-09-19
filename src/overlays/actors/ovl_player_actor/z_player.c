@@ -1585,7 +1585,7 @@ void func_8083315C(GlobalContext* globalCtx, Player* this) {
 
     func_80077D10(&D_808535D4, &D_808535D8, sControlInput);
 
-    D_808535DC = Camera_GetDirYaw(ACTIVE_CAM) + D_808535D8;
+    D_808535DC = Camera_GetInputDirYaw(ACTIVE_CAM) + D_808535D8;
 
     this->unk_846 = (this->unk_846 + 1) % 4;
 
@@ -3179,7 +3179,7 @@ s32 func_80837268(Player* this, f32* arg1, s16* arg2, f32 arg3, GlobalContext* g
 
         return 0;
     } else {
-        *arg2 += Camera_GetDirYaw(ACTIVE_CAM);
+        *arg2 += Camera_GetInputDirYaw(ACTIVE_CAM);
         return 1;
     }
 }
@@ -4652,13 +4652,13 @@ s32 func_8083AD4C(GlobalContext* globalCtx, Player* this) {
             if (LINK_IS_ADULT) {
                 cameraMode = CAM_MODE_BOWARROW;
             } else {
-                cameraMode = CAM_MODE_PACHINCO;
+                cameraMode = CAM_MODE_SLINGSHOT;
             }
         } else {
             cameraMode = CAM_MODE_BOOMERANG;
         }
     } else {
-        cameraMode = CAM_MODE_SUBJECT;
+        cameraMode = CAM_MODE_FIRSTPERSON;
     }
 
     return Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), cameraMode);
@@ -6519,7 +6519,7 @@ s32 func_80840058(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
     func_8083DC54(this, globalCtx);
 
     if ((*arg1 != 0.0f) || (ABS(this->unk_87C) > 400)) {
-        s16 temp1 = *arg2 - Camera_GetDirYaw(ACTIVE_CAM);
+        s16 temp1 = *arg2 - Camera_GetInputDirYaw(ACTIVE_CAM);
         u16 temp2 = (ABS(temp1) - 0x2000) & 0xFFFF;
 
         if ((temp2 < 0x4000) || (this->unk_87C != 0)) {
@@ -7670,7 +7670,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
     if (this->unk_850 != 0) {
         sp54 = sControlInput->rel.in.y * 100;
         sp50 = sControlInput->rel.in.x * -120;
-        sp4E = this->actor.shape.rot.y - Camera_GetDirYaw(ACTIVE_CAM);
+        sp4E = this->actor.shape.rot.y - Camera_GetInputDirYaw(ACTIVE_CAM);
 
         sp40 = Math_Coss(sp4E);
         sp4C = (Math_Sins(sp4E) * sp50) + (sp54 * sp40);
@@ -9671,9 +9671,9 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
                     camMode = CAM_MODE_TALK;
                 } else if (this->stateFlags1 & 0x10000) {
                     if (this->stateFlags1 & 0x2000000) {
-                        camMode = CAM_MODE_BOOKEEPON;
+                        camMode = CAM_MODE_BOOMFOLLLOW;
                     } else {
-                        camMode = CAM_MODE_KEEPON;
+                        camMode = CAM_MODE_FOLLOWTARGET;
                     }
                 } else {
                     camMode = CAM_MODE_BATTLE;
@@ -9682,7 +9682,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
             } else if (this->stateFlags1 & 0x1000) {
                 camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & 0x2000000) {
-                camMode = CAM_MODE_BOOKEEPON;
+                camMode = CAM_MODE_BOOMFOLLLOW;
                 Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->boomerangActor);
             } else if (this->stateFlags1 & 0x6000) {
                 if (func_80833B2C(this)) {
@@ -9696,7 +9696,7 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
                 } else if (this->stateFlags1 & 0x200000) {
                     camMode = CAM_MODE_CLIMBZ;
                 } else {
-                    camMode = CAM_MODE_PARALLEL;
+                    camMode = CAM_MODE_TARGET;
                 }
             } else if (this->stateFlags1 & 0x240000) {
                 if ((func_80845668 == this->func_674) || (this->stateFlags1 & 0x200000)) {
@@ -12013,7 +12013,7 @@ void func_8084E6D4(Player* this, GlobalContext* globalCtx) {
         }
 
         if (this->skelAnime.linkAnimetionSeg == &D_04002788) {
-            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, Camera_GetRealDirYaw(ACTIVE_CAM) + 0x8000, 4000);
+            Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000, 4000);
         }
 
         if (func_800A4530(&this->skelAnime, 21.0f)) {
@@ -12561,7 +12561,7 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
                 s16 angle;
                 s16 temp;
 
-                angle = temp = Camera_GetDirYaw(ACTIVE_CAM);
+                angle = temp = Camera_GetInputDirYaw(ACTIVE_CAM);
 
                 if (CHECK_PAD(sControlInput->cur, D_JPAD)) {
                     angle = temp + 0x8000;

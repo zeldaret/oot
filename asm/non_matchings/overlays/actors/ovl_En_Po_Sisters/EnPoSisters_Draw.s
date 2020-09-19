@@ -392,7 +392,7 @@ glabel EnPoSisters_Draw
 /* 045E0 80ADD570 86CA07A0 */  lh      $t2, 0x07A0($s6)           ## 000007A0
 /* 045E4 80ADD574 000A4880 */  sll     $t1, $t2,  2
 /* 045E8 80ADD578 02C95821 */  addu    $t3, $s6, $t1
-/* 045EC 80ADD57C 0C016A7D */  jal     Camera_GetRealDirYaw
+/* 045EC 80ADD57C 0C016A7D */  jal     Camera_GetCamDirYaw
 /* 045F0 80ADD580 8D640790 */  lw      $a0, 0x0790($t3)           ## 00000790
 /* 045F4 80ADD584 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 045F8 80ADD588 00412821 */  addu    $a1, $v0, $at

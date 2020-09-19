@@ -189,7 +189,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x14);
 
-    if ((s16)((Camera_GetRealDirYaw(ACTIVE_CAM) - this->dyna.actor.shape.rot.y) - 0x2E6C) >= 0) {
+    if ((s16)((Camera_GetCamDirYaw(ACTIVE_CAM) - this->dyna.actor.shape.rot.y) - 0x2E6C) >= 0) {
         for (i = 3; i >= 0; i--) {
             oGfxCtx->polyXlu.p = BgHidanRsekizou_DrawFireball(globalCtx, this, i, &mf, 0, oGfxCtx->polyXlu.p);
         }

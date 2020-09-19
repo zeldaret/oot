@@ -38,7 +38,7 @@ glabel func_809AB9DC
 /* 00400 809ABA30 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00404 809ABA34 0C030129 */  jal     Gameplay_GetCamera              
 /* 00408 809ABA38 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0040C 809ABA3C 0C016A52 */  jal     Camera_GetDirYaw              
+/* 0040C 809ABA3C 0C016A52 */  jal     Camera_GetInputDirYaw              
 /* 00410 809ABA40 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 00414 809ABA44 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float
