@@ -44,8 +44,19 @@
 
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
 
+#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
+                        ? ITEM_NONE                                                \
+                        : (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
+                            ? ITEM_SWORD_BGS                                       \
+                            : gSaveContext.equips.buttonItems[0])
+
+#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[button + 1] != BTN_DISABLED) \
+                                ? gSaveContext.equips.buttonItems[button + 1]       \
+                                : ITEM_NONE)
+
 #define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
 #define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
+
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \

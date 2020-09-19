@@ -53,7 +53,7 @@ glabel func_80B9DCD4
 /* 00B80 80B9DD90 1440001D */  bne     $v0, $zero, .L80B9DE08     
 /* 00B84 80B9DD94 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 00B88 80B9DD98 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00B8C 80B9DD9C 0C023A62 */  jal     func_8008E988              
+/* 00B8C 80B9DD9C 0C023A62 */  jal     Player_InCsMode              
 /* 00B90 80B9DDA0 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00B94 80B9DDA4 14400018 */  bne     $v0, $zero, .L80B9DE08     
 /* 00B98 80B9DDA8 8FA60018 */  lw      $a2, 0x0018($sp)           

@@ -50,7 +50,7 @@ void func_800636C0() {
 
 // Called when free movement is active.
 // 8011D394 to enable camera debugger
-void func_8006375C(s32 arg0, s32 arg1, f32* d_80855320) {
+void func_8006375C(s32 arg0, s32 arg1, const char* text) {
 }
 
 // Copy Camera Debugger Text

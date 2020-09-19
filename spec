@@ -334,8 +334,6 @@ beginseg
     include "build/src/code/z_path.o"
     include "build/src/code/code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
-    include "build/data/z_player_lib.data.o"
-    include "build/data/z_player_lib.bss.o"
     include "build/src/code/z_prenmi.o"
     include "build/src/code/z_quake.o"
     include "build/src/code/z_rcp.o"
@@ -585,9 +583,11 @@ endseg
 beginseg
     name "ovl_player_actor"
     include "build/src/overlays/actors/ovl_player_actor/z_player.o"
-    include "build/data/overlays/actors/z_player.data.o"
-    include "build/data/overlays/actors/z_player.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_player_actor/ovl_player_actor_reloc.o"
+#else
     include "build/data/overlays/actors/z_player.reloc.o"
+#endif
 endseg
 
 beginseg
