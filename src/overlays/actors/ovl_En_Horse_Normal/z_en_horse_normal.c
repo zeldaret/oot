@@ -58,8 +58,9 @@ extern AnimationHeader D_060054BC;
 
 extern SkeletonHeader D_06009FAC;
 
-static AnimationHeader* D_80A6D370[] = { &D_06004580, &D_06004C20, &D_060035D4, &D_06002458, &D_060054BC,
-                                         &D_06001A1C, &D_06000608, &D_06000C20, &D_060013A8 };
+static AnimationHeader* D_80A6D370[] = {
+    &D_06004580, &D_06004C20, &D_060035D4, &D_06002458, &D_060054BC, &D_06001A1C, &D_06000608, &D_06000C20, &D_060013A8,
+};
 
 // sCylinderInit
 static ColliderCylinderInit D_80A6D394 = {
