@@ -361,7 +361,7 @@ void func_8099670C(DoorShutter* this, GlobalContext* globalCtx) {
         if (this->unk_16A == 4 || this->unk_16A == 6) {
             col = NULL;
             Actor_SetObjectDependency(globalCtx, this);
-            this->unk_16C = D_809980F0[this->unk_16B].b;
+            this->unk_16C = D_809980F0[this->unk_16B].c;
             DynaPolyInfo_Alloc((this->unk_16A == 6) ? &D_0601EDD0 : &D_06012FD0, &col);
             this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, col);
             if (this->unk_16A == 6) {
@@ -412,7 +412,7 @@ s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
     s16 phi_v0;
 
     player = PLAYER;
-    if (func_8008E988(globalCtx) == 0) {
+    if (Player_InCsMode(globalCtx) == 0) {
         temp_v1 = &D_80998134[this->unk_16C];
         temp_f2 = func_80996840(globalCtx, this, (this->unk_16C != 3) ? 0.0f : 80.0f, (f32)temp_v1->e, (f32)temp_v1->f);
         if (fabsf(temp_f2) < 50.0f) {
@@ -474,18 +474,18 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
             if (this->unk_16E != 0) {
                 if (this->unk_16A == 5) {
                     if (!(gBitFlags[0] & gSaveContext.dungeonItems[gSaveContext.mapIndex])) {
-                        player->unk_690 = -0x204;
+                        player->naviMessageId = -0x204;
                         return;
                     }
                 } else if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] <= 0) {
-                    player->unk_690 = -0x203;
+                    player->naviMessageId = -0x203;
                     return;
                 }
-                player->unk_42E = 0xA;
+                player->doorTimer = 0xA;
             }
-            player->unk_42C = 2;
-            player->unk_42D = temp_ret;
-            player->unk_430 = this;
+            player->doorType = 2;
+            player->doorDirection = temp_ret;
+            player->doorActor = this;
         }
     }
 }
@@ -592,7 +592,7 @@ void func_80996F98(DoorShutter* this, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80997004.s")
 void func_80997004(DoorShutter* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_16E) == 0 && globalCtx->roomCtx.status == 0 && func_80996D14(this, globalCtx) != 0) {
-        if (((this->unk_16A == 5) ? 20.0f : 50.0f) < this->dyna.actor.xzDistanceFromLink) {
+        if (((this->unk_16A == 5) ? 20.0f : 50.0f) < this->dyna.actor.xzDistFromLink) {
             if (func_809962AC(this, globalCtx) != 0) {
                 this->dyna.actor.velocity.y = 30.0f;
             }
@@ -652,7 +652,7 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
         func_8002DBD0(&this->dyna.actor, &sp3C, &player->actor.posRot.pos);
         phi_v0 = (sp3C.z < 0.0f) ? 0 : 1;
         roomCtx = &globalCtx->roomCtx;
-        this->dyna.actor.room = globalCtx->transitionActorList[(u16)this->dyna.actor.params >> 0xA].info[phi_v0].room;
+        this->dyna.actor.room = globalCtx->transitionActorList[(u16)this->dyna.actor.params >> 0xA].sides[phi_v0].room;
         if (temp_v1 != this->dyna.actor.room) {
             prevRoom = &globalCtx->roomCtx.prevRoom;
             tempRoom = roomCtx->curRoom;
@@ -683,7 +683,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
     }
     if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y) != 0) {
         if (20.0f < this->dyna.actor.velocity.y) {
-            this->dyna.actor.unk_80 = this->dyna.actor.initPosRot.pos.y;
+            this->dyna.actor.groundY = this->dyna.actor.initPosRot.pos.y;
             func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.posRot.pos, 45.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
         }
         Audio_PlayActorSound2(this, NA_SE_EV_STONE_BOUND);
@@ -691,7 +691,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
         Quake_SetSpeed(quakeId, -0x7F18);
         Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
         Quake_SetCountdown(quakeId, 0xA);
-        func_800AA000(this->dyna.actor.waterSurfaceDist, 0xB4, 0x14, 0x64);
+        func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0xB4, 0x14, 0x64);
         func_80997220(this, globalCtx);
     }
 }
@@ -720,7 +720,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.bgCheckFlags & 1) {
         func_809962A0(this, func_809976B8);
         if ((gSaveContext.eventChkInf[7] & 1) == 0) {
-            attached = (UnkAttached*)this->dyna.actor.attachedA;
+            attached = (UnkAttached*)this->dyna.actor.parent;
             this->unk_164 = 0xA;
             Audio_PlayActorSound2(this, NA_SE_EV_STONE_BOUND);
             func_8099803C(globalCtx, 2, 0xA, attached->unk_1BC);
@@ -815,7 +815,7 @@ loop_1:
     s32 phi_a0;
     s32 phi_return;
 
-    if (func_8008E988(globalCtx) != 0) {
+    if (Player_InCsMode(globalCtx) != 0) {
         return 1;
     }
     phi_a0 = ABS(func_8002DAC0(this, &globalCtx->view.eye) - this->dyna.actor.shape.rot.y);
@@ -838,7 +838,7 @@ block_10:
     s32 phi_a0;
     s32 phi_return;
 
-    if (func_8008E988(globalCtx) != 0) {
+    if (Player_InCsMode(globalCtx) != 0) {
         return 1;
     }
     temp_a0 = func_8002DAC0(&this->dyna.actor, &globalCtx->view.eye) - this->dyna.actor.shape.rot.y;
