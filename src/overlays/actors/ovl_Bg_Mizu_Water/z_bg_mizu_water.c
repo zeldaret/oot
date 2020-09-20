@@ -25,7 +25,7 @@ typedef struct {
     s32 yDiff;
 } WaterLevel;
 
-static WaterLevel waterLevels[] = {
+static WaterLevel sWaterLevels[] = {
     { 0x00, 0 },
     { 0x1E, 0 },
     { 0x1D, -320 },
@@ -44,10 +44,10 @@ const ActorInit Bg_Mizu_Water_InitVars = {
     (ActorFunc)BgMizuWater_Draw,
 };
 
-static f32 unused1 = 0;
-static f32 unused2 = 110.0f;
+static f32 sUnused1 = 0;
+static f32 sUnused2 = 110.0f;
 
-static u32 waterBoxIDs[] = { 2, 3, 5, 7, 12, 20, 21, 22 };
+static u32 sWaterBoxIndexes[] = { 2, 3, 5, 7, 12, 20, 21, 22 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_STOP),
@@ -70,11 +70,11 @@ u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, GlobalContext* globalCt
         }
         bREG(0) = 0;
     }
-    if ((Flags_GetSwitch(globalCtx, 0x1C)) && (switchFlag != 0x1C)) {
+    if (Flags_GetSwitch(globalCtx, 0x1C) && (switchFlag != 0x1C)) {
         ret = 3;
-    } else if ((Flags_GetSwitch(globalCtx, 0x1D)) && (switchFlag != 0x1D)) {
+    } else if (Flags_GetSwitch(globalCtx, 0x1D) && (switchFlag != 0x1D)) {
         ret = 2;
-    } else if ((Flags_GetSwitch(globalCtx, 0x1E)) && (switchFlag != 0x1E)) {
+    } else if (Flags_GetSwitch(globalCtx, 0x1E) && (switchFlag != 0x1E)) {
         ret = 1;
     } else {
         ret = 0;
@@ -165,7 +165,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void BgMizuWater_Idle(BgMizuWater* this, GlobalContext* globalCtx) {
+void BgMizuWater_WaitForAction(BgMizuWater* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 waterLevelActionIndex;
     s16 params;
@@ -294,7 +294,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
 
 void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMizuWater* this = THIS;
-    s32 y;
+    s32 posY;
     s32 unk0;
     s32 unk1;
     s32 pad;
