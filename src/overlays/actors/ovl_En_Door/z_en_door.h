@@ -29,14 +29,14 @@ typedef struct {
 } EnDoorInfo;
 
 typedef enum {
-    /* 0x00 */ DOOR_0,          // loads rooms
+    /* 0x00 */ DOOR_ROOMLOAD,   // loads rooms
     /* 0x01 */ DOOR_LOCKED,     // small key locked door
-    /* 0x02 */ DOOR_1,          // loads rooms
-    /* 0x03 */ DOOR_NOLOAD,     // doesn't load rooms, used for doors paired with scene transition polygons
+    /* 0x02 */ DOOR_ROOMLOAD2,  // loads rooms
+    /* 0x03 */ DOOR_SCENEEXIT,  // doesn't load rooms, used for doors paired with scene transition polygons
     /* 0x04 */ DOOR_AJAR,       // open slightly but slams shut if Link gets too close
     /* 0x05 */ DOOR_TALKING,    // doors that display a textbox when interacting
-    /* 0x06 */ DOOR_TIME_LOCKED, // locked between 18:00 and 21:00, Dampé's hut
-    /* 0x07 */ DOOR_7           // loads rooms
+    /* 0x06 */ DOOR_EVENING,    // unlocked between 18:00 and 21:00, Dampé's hut
+    /* 0x07 */ DOOR_ROOMLOAD7   // loads rooms
 } EnDoorType;
 
 struct EnDoor;

@@ -172,8 +172,8 @@ glabel EnDoor_Idle
 /* 00670 809FC840 3C014370 */  lui     $at, 0x4370                ## $at = 43700000
 /* 00674 809FC844 44812000 */  mtc1    $at, $f4                   ## $f4 = 240.00
 /* 00678 809FC848 C4E80090 */  lwc1    $f8, 0x0090($a3)           ## 00000090
-/* 0067C 809FC84C 3C0A80A0 */  lui     $t2, %hi(EnDoor_IdleAjar)    ## $t2 = 80A00000
-/* 00680 809FC850 254AC928 */  addiu   $t2, $t2, %lo(EnDoor_IdleAjar) ## $t2 = 809FC928
+/* 0067C 809FC84C 3C0A80A0 */  lui     $t2, %hi(EnDoor_AjarOpen)    ## $t2 = 80A00000
+/* 00680 809FC850 254AC928 */  addiu   $t2, $t2, %lo(EnDoor_AjarOpen) ## $t2 = 809FC928
 /* 00684 809FC854 4608203C */  c.lt.s  $f4, $f8
 /* 00688 809FC858 00000000 */  nop
 /* 0068C 809FC85C 45020003 */  bc1fl   .L809FC86C

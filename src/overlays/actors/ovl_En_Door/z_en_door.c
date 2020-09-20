@@ -10,7 +10,9 @@
 
 #define THIS ((EnDoor*)thisx)
 
-#define DOOR_SLAM_RANGE 120.0f
+#define DOOR_AJAR_SLAM_RANGE 120.0f
+#define DOOR_AJAR_OPEN_RANGE 2*DOOR_AJAR_SLAM_RANGE
+
 #define DOOR_CHECK_RANGE 40.0f
 
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -19,13 +21,12 @@ void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx);
-
 void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx);
 void EnDoor_WaitForCheck(EnDoor* this, GlobalContext* globalCtx);
 void EnDoor_Talk(EnDoor* this, GlobalContext* globalCtx);
-void EnDoor_CheckRange(EnDoor* this, GlobalContext* globalCtx);
-void EnDoor_IdleAjar(EnDoor* this, GlobalContext* globalCtx);
-void EnDoor_Shut(EnDoor* this, GlobalContext* globalCtx);
+void EnDoor_AjarWait(EnDoor* this, GlobalContext* globalCtx);
+void EnDoor_AjarOpen(EnDoor* this, GlobalContext* globalCtx);
+void EnDoor_AjarClose(EnDoor* this, GlobalContext* globalCtx);
 void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx);
 
 const ActorInit En_Door_InitVars = {
@@ -48,12 +49,13 @@ EnDoorInfo D_809FCEA0[] = {
     { SCENE_MIZUSIN,   2, OBJECT_MIZU_OBJECTS },
     { SCENE_HAKADAN,   3, OBJECT_HAKA_DOOR },
     { SCENE_HAKADANCH, 3, OBJECT_HAKA_DOOR },
-    { 0xFFFF,          0, OBJECT_GAMEPLAY_KEEP },
-    { 0xFFFF,          4, OBJECT_GAMEPLAY_FIELD_KEEP },
+    // KEEP objects should remain last and in this order
+    { -1,              0, OBJECT_GAMEPLAY_KEEP },
+    { -1,              4, OBJECT_GAMEPLAY_FIELD_KEEP },
 };
 
 InitChainEntry D_809FCEC4[] = {
-    ICHAIN_U8(unk_1F, 0x0, ICHAIN_CONTINUE),
+    ICHAIN_U8(unk_1F, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
@@ -103,7 +105,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         }
     }
-    if (i >= 4 && Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
+    if (i >= ARRAY_COUNT(D_809FCEA0) - 2 && Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
         objectInfo++;
         if (!globalCtx->sceneNum) {}
     }
@@ -162,8 +164,8 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10;
         this->actor.objBankIndex = this->currentObject;
         this->actionFunc = EnDoor_Idle;
-        if (doorType == DOOR_TIME_LOCKED) {
-            doorType = (gSaveContext.dayTime > 0xC000 && gSaveContext.dayTime < 0xE000) ? DOOR_NOLOAD : DOOR_TALKING;
+        if (doorType == DOOR_EVENING) {
+            doorType = (gSaveContext.dayTime > 0xC000 && gSaveContext.dayTime < 0xE000) ? DOOR_SCENEEXIT : DOOR_TALKING;
         }
         this->actor.posRot.rot.y = 0x0000;
         if (doorType == DOOR_LOCKED) {
@@ -171,8 +173,8 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 this->lockTimer = 10;
             }
         } else if (doorType == DOOR_AJAR) {
-            if (func_8002DB8C(&this->actor, &PLAYER->actor) > DOOR_SLAM_RANGE) {
-                this->actionFunc = EnDoor_CheckRange;
+            if (func_8002DB8C(&this->actor, &PLAYER->actor) > DOOR_AJAR_SLAM_RANGE) {
+                this->actionFunc = EnDoor_AjarWait;
                 this->actor.posRot.rot.y = -0x1800;
             }
         } else if (doorType == DOOR_TALKING) {
@@ -182,7 +184,7 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
                 // this door should be openable at any time of day. Note that there is no
                 // check for time of day as the scene setup for Lon Lon merely initializes
                 // the door with a different text id between day and night setups
-                doorType = DOOR_NOLOAD;
+                doorType = DOOR_SCENEEXIT;
             } else {
                 this->actionFunc = EnDoor_WaitForCheck;
                 this->actor.flags |= 0x8000009;
@@ -207,7 +209,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext *globalCtx) {
     func_8002DBD0(&this->actor, &sp2C, &player->actor.posRot.pos);
     if (this->unk_191 != 0) {
         this->actionFunc = EnDoor_Open;
-        SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, D_809FCECC[this->unk_190], (((s32)player->stateFlags1 * 0x10) < 0) ? 0.75f : 1.5f);
+        SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, D_809FCECC[this->unk_190], (player->stateFlags1 & 0x8000000) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.dungeonKeys[gSaveContext.mapIndex]--;
             Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
@@ -233,9 +235,9 @@ void EnDoor_Idle(EnDoor* this, GlobalContext *globalCtx) {
                 player->doorDirection = (sp2C.z >= 0.0f) ? 1.0f : -1.0f;
                 player->doorActor = &this->actor;
             }
-        } else if (doorType == DOOR_AJAR && this->actor.xzDistFromLink > 2*DOOR_SLAM_RANGE) {
+        } else if (doorType == DOOR_AJAR && this->actor.xzDistFromLink > DOOR_AJAR_OPEN_RANGE) {
             // Once the player moves sufficiently far, have the door open slightly again
-            this->actionFunc = EnDoor_IdleAjar;
+            this->actionFunc = EnDoor_AjarOpen;
         }
     }
 }
@@ -259,22 +261,22 @@ void EnDoor_Talk(EnDoor* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDoor_CheckRange(EnDoor* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink < DOOR_SLAM_RANGE) {
-        this->actionFunc = EnDoor_Shut;
+void EnDoor_AjarWait(EnDoor* this, GlobalContext* globalCtx) {
+    if (this->actor.xzDistFromLink < DOOR_AJAR_SLAM_RANGE) {
+        this->actionFunc = EnDoor_AjarClose;
     }
 }
 
-void EnDoor_IdleAjar(EnDoor* this, GlobalContext* globalCtx) {
-    if (this->actor.xzDistFromLink < DOOR_SLAM_RANGE) {
-        this->actionFunc = EnDoor_Shut;
-    } else if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, -0x1800, 0x100) != 0) {
-        this->actionFunc = EnDoor_CheckRange;
+void EnDoor_AjarOpen(EnDoor* this, GlobalContext* globalCtx) {
+    if (this->actor.xzDistFromLink < DOOR_AJAR_SLAM_RANGE) {
+        this->actionFunc = EnDoor_AjarClose;
+    } else if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, -0x1800, 0x100)) {
+        this->actionFunc = EnDoor_AjarWait;
     }
 }
 
-void EnDoor_Shut(EnDoor* this, GlobalContext* globalCtx) {
-    if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, 0, 0x700) != 0) {
+void EnDoor_AjarClose(EnDoor* this, GlobalContext* globalCtx) {
+    if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, 0, 0x700)) {
         this->actionFunc = EnDoor_Idle;
     }
 }
@@ -284,11 +286,11 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
     s32 numEffects;
 
     if (DECR(this->lockTimer) == 0) { // Wait for the lock to finish if applicable
-        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
             // If done, return to the idle action and free the player
             this->actionFunc = EnDoor_Idle;
             this->unk_191 = 0;
-        } else if (func_800A56C8(&this->skelAnime, sDoorAnimOpenFrames[this->unk_190]) != 0) {
+        } else if (func_800A56C8(&this->skelAnime, sDoorAnimOpenFrames[this->unk_190])) {
             // Play the appropriate sound on open
             Audio_PlayActorSound2(&this->actor, (globalCtx->sceneNum == SCENE_HAKADAN || 
                 globalCtx->sceneNum == SCENE_HAKADANCH || 
@@ -299,7 +301,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
                     func_800293E4(globalCtx, &this->actor.posRot.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }
             }
-        } else if (func_800A56C8(&this->skelAnime, sDoorAnimCloseFrames[this->unk_190]) != 0) {
+        } else if (func_800A56C8(&this->skelAnime, sDoorAnimCloseFrames[this->unk_190])) {
             // Play the appropriate sound on close
             Audio_PlayActorSound2(&this->actor, (globalCtx->sceneNum == SCENE_HAKADAN || 
                 globalCtx->sceneNum == SCENE_HAKADANCH || 
@@ -337,7 +339,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             *dList = temp_a2[phi_v0];
         }
     }
-    return 0;
+    return false;
 }
 
 void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
