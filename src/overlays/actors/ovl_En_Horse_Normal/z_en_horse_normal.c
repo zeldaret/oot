@@ -333,7 +333,6 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
 
     switch (D_80A6D510[this->animationIdx]) {
         case 0:
-            phi_t0 = this->animationIdx;
             func_80A6BD7C(this);
             this->actor.speedXZ = 0.0f;
             this->unk_218 = 0.0f;
