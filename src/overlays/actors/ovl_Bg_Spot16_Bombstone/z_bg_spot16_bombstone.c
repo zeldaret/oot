@@ -352,8 +352,8 @@ void func_808B561C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     posRot = &this->actor.posRot;
     for (index = 0; index < ARRAY_COUNT(D_808B6088); index++) {
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0xCD, posRot->pos.x, posRot->pos.y, posRot->pos.z, 0, 0, 0,
-                        D_808B6088[index]) == 0) {
-            return;
+                        D_808B6088[index]) == NULL) {
+            break;
         }
     }
 }
@@ -368,7 +368,7 @@ void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistFromLink < 130.0f && this->actor.yDistFromLink < 160.0f &&
         this->actor.yDistFromLink >= -10.0f) {
         yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-        absYawDiff = (yawDiff >= 0) ? yawDiff : -yawDiff;
+        absYawDiff = ABS(yawDiff);
 
         adjustedYawDiff = absYawDiff - 0x3FFF;
 
@@ -400,28 +400,26 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
             playerBomb = NULL;
         } else if (timer <= 0 && playerBomb->actor.posRot.pos.y < 1400.0f &&
                    Math3D_Dist1DSq(playerBomb->actor.posRot.pos.x + 1579.0f, playerBomb->actor.posRot.pos.z + 790.0f) <
-                       160000.0f &&
+                       SQ(400.0f) &&
                    playerBomb->actor.params == 0) {
             currentBomb = playerBomb;
             if (currentBomb->timer > 0) {
-                timer = currentBomb->timer + 0x14;
+                timer = currentBomb->timer + 20;
                 func_800800F8(globalCtx, 0x1054, timer, NULL, 0);
             }
         }
-    } else {
-        if ((player->stateFlags1 & 0x800) != 0) {
-            playerHeldActor = player->heldActor;
-            if (playerHeldActor != NULL && playerHeldActor->actor.type == ACTORTYPE_EXPLOSIVES &&
-                playerHeldActor->actor.id == ACTOR_EN_BOMBF) {
-                playerBomb = playerHeldActor;
-            }
+    } else if ((player->stateFlags1 & 0x800)) {
+        playerHeldActor = player->heldActor;
+        if (playerHeldActor != NULL && playerHeldActor->actor.type == ACTORTYPE_EXPLOSIVES &&
+            playerHeldActor->actor.id == ACTOR_EN_BOMBF) {
+            playerBomb = playerHeldActor;
         }
     }
 }
 
 void func_808B5934(BgSpot16Bombstone* this) {
-    this->actor.draw = &BgSpot16Bombstone_Draw;
-    this->actionFunc = &func_808B5950;
+    this->actor.draw = BgSpot16Bombstone_Draw;
+    this->actionFunc = func_808B5950;
 }
 
 void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
@@ -435,7 +433,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     acFlags = this->colliderCylinder.base.acFlags;
 
     if ((acFlags & 2) != 0) {
-        this->colliderCylinder.base.acFlags = acFlags & 0xFFFD;
+        this->colliderCylinder.base.acFlags = acFlags & ~2;
 
         func_808B561C(this, globalCtx);
 
@@ -463,7 +461,7 @@ void func_808B5A78(BgSpot16Bombstone* this) {
     this->unk_154 = 0;
     this->unk_158 = 0;
     this->actor.draw = NULL;
-    this->actionFunc = &func_808B5A94;
+    this->actionFunc = func_808B5A94;
 }
 
 void func_808B5A94(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
@@ -480,7 +478,7 @@ void func_808B5A94(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 }
 
 void func_808B5AF0(BgSpot16Bombstone* this) {
-    this->actionFunc = &func_808B5B04;
+    this->actionFunc = func_808B5B04;
     this->actor.draw = NULL;
 }
 
@@ -493,7 +491,7 @@ void func_808B5B04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
 void func_808B5B58(BgSpot16Bombstone* this) {
     this->unk_154 = 0;
-    this->actionFunc = &func_808B5B6C;
+    this->actionFunc = func_808B5B6C;
 }
 
 void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
