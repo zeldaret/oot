@@ -10,10 +10,15 @@
 
 #define THIS ((EnHorseNormal*)thisx)
 
-typedef struct {
-    s32 unk_00;
-    UNK_TYPE* unk_04;
-} EnHorseNormalUnkStruct;
+typedef struct EnHorseNormalUnkStruct1 {
+    Vec3s pos;
+    s16 unk_06;
+} EnHorseNormalUnkStruct1;
+
+typedef struct EnHorseNormalUnkStruct2 {
+    u32 len;
+    EnHorseNormalUnkStruct1* items;
+} EnHorseNormalUnkStruct2;
 
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -88,22 +93,24 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, 0xFE };
 
 // Unused
-static UNK_TYPE D_80A6D428[] = {
-    0x04220001, 0x01800700, 0x06750027, 0xFE830600, 0x06460001, 0xFBE80600, 0x041D0001, 0xF9AC0600,
-    0xFC0C0001, 0xF99F0700, 0xF9890001, 0xFC6A0600, 0xF9CE0001, 0xFF7A0600, 0xFC3F0001, 0x01930700,
+static EnHorseNormalUnkStruct1 D_80A6D428[] = {
+    { { 1058, 1, 384 }, 1792 },   { { 1653, 39, -381 }, 1536 },  { { 1606, 1, -1048 }, 1536 },
+    { { 1053, 1, -1620 }, 1536 }, { { -1012, 1, -1633 }, 1792 }, { { -1655, 1, -918 }, 1536 },
+    { { -1586, 1, -134 }, 1536 }, { { -961, 1, 403 }, 1792 },
 };
 
 // Unused
-static EnHorseNormalUnkStruct D_80A6D468 = { 0x00000008, D_80A6D428 };
+static EnHorseNormalUnkStruct2 D_80A6D468 = { ARRAY_COUNTU(D_80A6D428), D_80A6D428 };
 
 // Unused
-static UNK_TYPE D_80A6D470[] = {
-    0x00580000, 0x081E0A00, 0x09B20178, 0x12170700, 0x08B4FFE4, 0x19CD0C00, 0x028EFF9C, 0x22A00700, 0xFED7FE0C,
-    0x29AB0C00, 0xEB49FE5C, 0x29900A00, 0xE5E2FE0C, 0x1E500A00, 0xEB740064, 0x15230700, 0xF20BFEF3, 0x0F350A00,
+static EnHorseNormalUnkStruct1 D_80A6D470[] = {
+    { { 88, 0, 2078 }, 2560 },       { { 2482, 376, 4631 }, 1792 },   { { 2228, -28, 6605 }, 3072 },
+    { { 654, -100, 8864 }, 1792 },   { { -297, -500, 10667 }, 3072 }, { { -5303, -420, 10640 }, 2560 },
+    { { -6686, -500, 7760 }, 2560 }, { { -5260, 100, 5411 }, 1792 },  { { -3573, -269, 3893 }, 2560 },
 };
 
 // Unused
-static EnHorseNormalUnkStruct D_80A6D4B8 = { 0x00000009, D_80A6D470 };
+static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNTU(D_80A6D470), D_80A6D470 };
 
 void func_80A6B250(EnHorseNormal* this) {
     static s32 D_80A6D4C0[] = { 0, 16 };
