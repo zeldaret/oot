@@ -61,7 +61,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-s32 D_80BA0B38[] = { 0x64788C50, 0x8CC86496, 0xC864C8F0, 0x506E8C46, 0xA0E15064, 0x82646EBE };
+static Color_RGB8 primColors[] = { { 100, 120, 140 }, { 80, 140, 200 }, { 100, 150, 200 }, { 100, 200, 240 },
+                                   { 80, 110, 140 },  { 70, 160, 225 }, { 80, 100, 130 },  { 100, 110, 190 } };
 
 // generates value for unk_178
 u32 func_80B9FFA0(ObjTimeblock* this) {
@@ -342,4 +343,20 @@ void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/ObjTimeblock_Draw.s")
+extern Gfx D_06000980[]; // Display List
+
+void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    if (THIS->unk_178) {
+        Color_RGB8* primColor = &primColors[THIS->dyna.actor.initPosRot.rot.z & 7];
+
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 0x2FA);
+
+        func_80093D18(globalCtx->state.gfxCtx);
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 0x2FE),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, primColor->r, primColor->g, primColor->b, 255);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000980);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 0x304);
+    }
+}
