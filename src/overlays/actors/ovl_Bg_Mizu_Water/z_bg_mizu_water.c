@@ -168,21 +168,21 @@ void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgMizuWater_WaitForAction(BgMizuWater* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 waterLevelActionIndex;
-    s16 params;
+    s16 prevSwitchFlag;
 
     switch (this->type) {
         case 0:
-            params = this->actor.params;
+            prevSwitchFlag = this->actor.params;
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(this->actor.params, globalCtx);
             if (waterLevelActionIndex != 0) {
-                if (params != sWaterLevels[waterLevelActionIndex].switchFlag) {
+                if (prevSwitchFlag != sWaterLevels[waterLevelActionIndex].switchFlag) {
                     func_800800F8(globalCtx, 0xC30, -0x64 - waterLevelActionIndex, 0, 0);
                     this->actor.params = sWaterLevels[waterLevelActionIndex].switchFlag;
                     this->targetY = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
                 }
             }
-            if ((params != this->actor.params) && (params != 0)) {
-                Flags_UnsetSwitch(globalCtx, params);
+            if ((prevSwitchFlag != this->actor.params) && (prevSwitchFlag != 0)) {
+                Flags_UnsetSwitch(globalCtx, prevSwitchFlag);
             }
             break;
         case 1:
@@ -216,24 +216,24 @@ void BgMizuWater_WaitForAction(BgMizuWater* this, GlobalContext* globalCtx) {
 
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
     s32 pad;
-    s16 params;
+    s16 prevSwitchFlag;
     s32 waterLevelActionIndex;
     WaterBox* waterBoxes;
 
     waterBoxes = globalCtx->colCtx.stat.colHeader->waterBoxes;
     switch (this->type) {
         case 0:
-            params = this->actor.params;
+            prevSwitchFlag = this->actor.params;
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(this->actor.params, globalCtx);
             if (waterLevelActionIndex != 0) {
-                if (params != sWaterLevels[waterLevelActionIndex].switchFlag) {
+                if (prevSwitchFlag != sWaterLevels[waterLevelActionIndex].switchFlag) {
                     this->actor.params = sWaterLevels[waterLevelActionIndex].switchFlag;
                     this->targetY = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
                 }
             }
 
-            if ((params != this->actor.params) && (params != 0)) {
-                Flags_UnsetSwitch(globalCtx, params);
+            if ((prevSwitchFlag != this->actor.params) && (prevSwitchFlag != 0)) {
+                Flags_UnsetSwitch(globalCtx, prevSwitchFlag);
             }
 
             if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 5.0f)) {
