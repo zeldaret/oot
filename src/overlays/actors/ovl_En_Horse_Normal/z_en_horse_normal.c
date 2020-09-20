@@ -16,7 +16,7 @@ typedef struct EnHorseNormalUnkStruct1 {
 } EnHorseNormalUnkStruct1;
 
 typedef struct EnHorseNormalUnkStruct2 {
-    u32 len;
+    s32 len;
     EnHorseNormalUnkStruct1* items;
 } EnHorseNormalUnkStruct2;
 
@@ -99,7 +99,7 @@ static EnHorseNormalUnkStruct1 D_80A6D428[] = {
 };
 
 // Unused
-static EnHorseNormalUnkStruct2 D_80A6D468 = { ARRAY_COUNTU(D_80A6D428), D_80A6D428 };
+static EnHorseNormalUnkStruct2 D_80A6D468 = { ARRAY_COUNT(D_80A6D428), D_80A6D428 };
 
 // Unused
 static EnHorseNormalUnkStruct1 D_80A6D470[] = {
@@ -109,7 +109,7 @@ static EnHorseNormalUnkStruct1 D_80A6D470[] = {
 };
 
 // Unused
-static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNTU(D_80A6D470), D_80A6D470 };
+static EnHorseNormalUnkStruct2 D_80A6D4B8 = { ARRAY_COUNT(D_80A6D470), D_80A6D470 };
 
 void func_80A6B250(EnHorseNormal* this) {
     static s32 D_80A6D4C0[] = { 0, 16 };
