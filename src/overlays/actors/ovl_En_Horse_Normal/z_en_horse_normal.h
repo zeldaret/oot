@@ -8,7 +8,7 @@ struct EnHorseNormal;
 
 typedef struct EnHorseNormal {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 unk_14C;
+    /* 0x014C */ s32 type;
     /* 0x0150 */ s32 unk_150;
     /* 0x0154 */ PSkinAwb skin;
     /* 0x01E4 */ u16 unk_1E4;

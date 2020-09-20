@@ -155,7 +155,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
-    this->unk_14C = 0;
+    this->type = 0;
     this->unk_150 = 0;
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit1);
@@ -240,7 +240,7 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x10;
-    this->unk_14C = 4;
+    this->type = 4;
     this->unk_150 = 6;
     this->waypoint = 0;
     this->actor.speedXZ = 7.0f;
@@ -275,7 +275,7 @@ void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6BBAC(EnHorseNormal* this) {
-    this->unk_14C = 0;
+    this->type = 0;
     this->unk_150 += 1;
 
     if (this->unk_150 >= 9) {
@@ -294,7 +294,7 @@ void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6BC48(EnHorseNormal* this) {
-    this->unk_14C = 1;
+    this->type = 1;
     this->unk_150 = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -443,7 +443,7 @@ void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6C4CC(EnHorseNormal* this) {
-    this->unk_14C = 2;
+    this->type = 2;
     this->unk_150 = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -473,7 +473,7 @@ void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6C6B0(EnHorseNormal* this) {
-    this->unk_14C = 3;
+    this->type = 3;
     this->unk_150 = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -534,7 +534,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
     s32 pad;
 
-    D_80A6D534[this->unk_14C](this, globalCtx);
+    D_80A6D534[this->type](this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
     if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.posRot.pos.z < -2400.0f) {
@@ -608,7 +608,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
-    if (this->unk_14C == 3) {
+    if (this->type == 3) {
         MtxF skinMtx;
         Mtx* mtx1;
         Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
