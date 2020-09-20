@@ -69,8 +69,15 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-s32 D_808B5E84[] = { 0x0A000900, 0x00010000, 0x00000000, 0x00000000, 0x00000000, 0x00000008,
-                     0x00000000, 0x00010000, 0x00BE0050, 0x0000000A, 0x00000032 };
+static ColliderCylinderInit sCylinderInit =
+{
+    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 190, 80, 0, { 10, 0, 50 } },
+};
+
+// s32 D_808B5E84[] = { 0x0A000900, 0x00010000, 0x00000000, 0x00000000, 0x00000000, 0x00000008,
+//                      0x00000000, 0x00010000, 0x00BE0050, 0x0000000A, 0x00000032 };
 
 D_808B5EB0Struct D_808B5EB0[] = { { 0x0000, 0x000A, 0x003C, 0xFFF6, 0x0104, 0x01E0, 0x0007 },
                                   { 0x0000, 0x0000, 0x0032, 0x0000, 0x0104, 0x017C, 0x000D },
@@ -168,7 +175,7 @@ void func_808B4D04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     temp_a1 = &this->colliderCylinder;
     Collider_InitCylinder(globalCtx, temp_a1);
-    Collider_SetCylinder(globalCtx, temp_a1, &this->actor, (ColliderCylinderInit*)D_808B5E84);
+    Collider_SetCylinder(globalCtx, temp_a1, &this->actor, &sCylinderInit);
     this->colliderCylinder.dim.pos.x += (s16)this->actor.posRot.pos.x;
     this->colliderCylinder.dim.pos.y += (s16)this->actor.posRot.pos.y;
     this->colliderCylinder.dim.pos.z += (s16)this->actor.posRot.pos.z;
@@ -179,7 +186,7 @@ void func_808B4D04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->unk_156)) {
         osSyncPrintf("Spot16 obj 爆弾石 破壊済み\n");
-        return 0;
+        return false;
     }
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.4);
@@ -191,7 +198,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     this->unk_150 = &D_06000C20;
 
     func_808B5934(this);
-    return 1;
+    return true;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4D9C.s")
@@ -242,39 +249,40 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4E58.s")
 
-// void BgSpot16Bombstone_Init(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot16Bombstone_Init(Actor *thisx, GlobalContext *globalCtx) {
 
-//     BgSpot16Bombstone* this = THIS;
-//     s16 phi_v1;
+    BgSpot16Bombstone* this = THIS;
+    s16 phi_v1;
 
-//     func_808B4C30(this);
+    func_808B4C30(this);
 
-//     switch(this->actor.params) {
-//         case 0xFF:
-//             phi_v1 = func_808B4D9C(thisx, globalCtx);
-//             break;
-//         case 0:
-//         case 1:
-//         case 2:
-//         case 3:
-//         case 5:
-//             phi_v1 = func_808B4E58(thisx, globalCtx);
-//             break;
-//         default:
-//             osSyncPrintf("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n",
-//                 "../z_bg_spot16_bombstone.c", 0x29C, this->actor.params);
-//             phi_v1 = 0;
-//             break;
-//     }
+    switch(this->actor.params) {
+        case 0xFF:
+            phi_v1 = func_808B4D9C(thisx, globalCtx);
+            break;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            phi_v1 = func_808B4E58(thisx, globalCtx);
+            break;
+        default:
+            osSyncPrintf("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n",
+                "../z_bg_spot16_bombstone.c", 0x29C, this->actor.params);
+            phi_v1 = 0;
+            break;
+    }
 
-//     if (phi_v1 == 0) {
-//         Actor_Kill(thisx);
-//         return;
-//     }
-//     osSyncPrintf("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
-// }
+    if (!phi_v1) {
+        Actor_Kill(thisx);
+        return;
+    }
+    osSyncPrintf("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Init.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/BgSpot16Bombstone_Init.s")
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Bombstone* this = THIS;
@@ -332,16 +340,16 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bombstone/func_808B5240.s")
 
 // void func_808B53A8(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
-//     Vec3f randomVector2;
-//     Vec3f randomVector1;
-//     f32 temp;
 //     s16 scale;
 //     s32 arrayIndex;
+//     Vec3f randomVector1;
+//     Vec3f randomVector2;
+//     f32 tempFloat = 1.3f;
 
 //     if (this->actor.params == 0) {
 //         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_BOMBSTONE, 
 //             this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 5);
-//         arrayIndex = 3;
+//         this->actor.params = 3;
 //     }
 //     else {
 //         arrayIndex = 0;
@@ -355,10 +363,10 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 //             randomVector1.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
 
 //             randomVector2.x = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
-//             randomVector2.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * 1.3f);
+//             randomVector2.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * tempFloat);
 //             randomVector2.z = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
 
-//             scale = D_808B6074[arrayIndex] * this->actor.scale.x * 3;
+//             scale = (D_808B6074[arrayIndex] * this->actor.scale.x) * 3;
 
 //             func_80029E8C(
 //                 globalCtx, 
@@ -379,7 +387,7 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 //                 &D_060009E0);
 //             arrayIndex += 1;
 //         }
-//         while (arrayIndex != ARRAY_COUNT(D_808B6074));
+//         while (arrayIndex != 5);
 //     }
 // }
 
