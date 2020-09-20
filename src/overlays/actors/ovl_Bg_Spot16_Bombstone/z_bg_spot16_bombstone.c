@@ -221,8 +221,6 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     return true;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B4E58.s")
-
 void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     BgSpot16Bombstone* this = THIS;
