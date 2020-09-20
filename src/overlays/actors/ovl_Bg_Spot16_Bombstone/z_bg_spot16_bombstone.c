@@ -212,7 +212,6 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     Actor_SetScale(actor, D_808B5DD8[actor->params].scale * scaleMultiplier);
 
     this->unk_210 = (f32) D_808B5DD8[actor->params].unk_6;
-
     this->unk_212 = (f32) D_808B5DD8[actor->params].unk_8;
 
     actor->posRot.rot.y = D_808B5DD8[actor->params].unk_A;
@@ -335,8 +334,9 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 // void func_808B53A8(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
 //     Vec3f randomVector2;
 //     Vec3f randomVector1;
-//     s32 arrayIndex;
+//     f32 temp;
 //     s16 scale;
+//     s32 arrayIndex;
 
 //     if (this->actor.params == 0) {
 //         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_BOMBSTONE, 
@@ -348,35 +348,38 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 //     }
 
 //     // for (; arrayIndex < ARRAY_COUNT(D_808B6074); ++arrayIndex) {
-//     while (arrayIndex < ARRAY_COUNT(D_808B6074)) {
-//         randomVector1.x = ((Math_Rand_ZeroOne() - 0.5f) * 8) + this->actor.posRot.pos.x;
-//         randomVector1.y = ((Math_Rand_ZeroOne() * 5.0f) + 8) + this->actor.posRot.pos.y;
-//         randomVector1.z = ((Math_Rand_ZeroOne() - 0.5f) * 8) + this->actor.posRot.pos.z;
+//     if (arrayIndex < 5) {
+//         do {
+//             randomVector1.x = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
+//             randomVector1.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 8.0f;
+//             randomVector1.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
 
-//         randomVector2.x = (Math_Rand_ZeroOne() - 0.5f) * 16;
-//         randomVector2.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * 1.3f);
-//         randomVector2.z = (Math_Rand_ZeroOne() - 0.5f) * 16;
+//             randomVector2.x = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
+//             randomVector2.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * 1.3f);
+//             randomVector2.z = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
 
-//         scale = D_808B6074[arrayIndex] * this->actor.scale.x * 3.0f;
+//             scale = D_808B6074[arrayIndex] * this->actor.scale.x * 3;
 
-//         func_80029E8C(
-//             globalCtx, 
-//             &randomVector1, 
-//             &randomVector2, 
-//             &this->actor.posRot.pos, 
-//             -0x1A4, 
-//             0x31, 
-//             0xF, 
-//             0xF, 
-//             0, 
-//             scale,
-//             2, 
-//             0x40, 
-//             0xA0, 
-//             -1, 
-//             OBJECT_BOMBIWA,
-//             &D_060009E0);
-//         arrayIndex += 1;
+//             func_80029E8C(
+//                 globalCtx, 
+//                 &randomVector1, 
+//                 &randomVector2, 
+//                 &this->actor.posRot.pos, 
+//                 -0x1A4, 
+//                 0x31, 
+//                 0xF, 
+//                 0xF, 
+//                 0, 
+//                 scale,
+//                 2, 
+//                 0x40, 
+//                 0xA0, 
+//                 -1, 
+//                 OBJECT_BOMBIWA,
+//                 &D_060009E0);
+//             arrayIndex += 1;
+//         }
+//         while (arrayIndex != ARRAY_COUNT(D_808B6074));
 //     }
 // }
 
@@ -397,47 +400,40 @@ void func_808B561C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B561C.s")
 
-/*
-void func_808B56BC(void *arg0, void *arg1) {
-    void *sp3C;
-    s32 sp28;
-    f32 temp_f0;
+void func_808B56BC(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
+    Player *player = PLAYER;
     f32 temp_f2;
-    s32 temp_a0;
-    s32 temp_v0;
-    void *temp_a2;
-    s32 phi_v1;
+    s16 temp_a0;
+    s32 yawDiff;
+    s32 absYawDiff;
 
-    temp_a2 = arg1->unk1C44;
-    if (arg0->unk90 < 130.0f) {
-        temp_f0 = arg0->unk94;
-        if (temp_f0 < 160.0f) {
-            if (-10.0f <= temp_f0) {
-                temp_v0 = arg0->unk8A - arg0->unkB6;
-                phi_v1 = 0 - temp_v0;
-                if (temp_v0 >= 0) {
-                    phi_v1 = temp_v0;
-                }
-                temp_a0 = (s32) ((phi_v1 - 0x3FFF) << 0x10) >> 0x10;
-                if (temp_a0 > 0) {
-                    sp28 = temp_a0;
-                    sp3C = temp_a2;
-                    temp_f2 = Math_Sins((s16) temp_a0) * arg0->unk90;
-                    if (0.0f <= temp_f2) {
-                        temp_a2->unk24 = (f32) (temp_a2->unk24 + (temp_f2 * arg0->unk15C));
-                        temp_a2->unk2C = (f32) (temp_a2->unk2C + (temp_f2 * arg0->unk160));
-                        return;
-                    }
-                    osSyncPrintf((const char *) "Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n",
-"../z_bg_spot16_bombstone.c", 0x3A7, arg0->unk1C, sp28);
-                }
+    if (this->actor.xzDistFromLink < 130.0f && 
+        this->actor.yDistFromLink < 160.0f && 
+        this->actor.yDistFromLink >= -10.0f
+    ) {
+        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        absYawDiff = (yawDiff >= 0) ? yawDiff : -yawDiff;
+
+        temp_a0 = absYawDiff - 0x3FFF;
+
+        if (temp_a0 > 0) {
+            temp_f2 = Math_Sins(temp_a0) * this->actor.xzDistFromLink;
+
+            if (temp_f2 >= 0.0f) {
+                player->actor.posRot.pos.x += temp_f2 * this->unk_15C;
+                player->actor.posRot.pos.z += temp_f2 * this->unk_160;
+            }
+            else {
+                osSyncPrintf("Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n", 
+                    "../z_bg_spot16_bombstone.c", 935, this->actor.params, temp_a0);
             }
         }
     }
 }
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B56BC.s")
+
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B56BC.s")
 
 /*
 s32 func_808B57E0(s32 arg0, GlobalContext *arg1) {
