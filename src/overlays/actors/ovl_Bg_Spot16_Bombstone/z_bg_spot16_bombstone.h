@@ -3,6 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
+#include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 
 struct BgSpot16Bombstone;
 

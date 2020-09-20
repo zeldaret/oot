@@ -42,8 +42,8 @@ typedef struct D_808B5EB0Struct {
     s16 unk_C;
 } D_808B5EB0Struct; // size = 0x14
 
-s16 D_808B5DD0 = { 0 };
-s16 D_808B5DD4 = { 0 };
+EnBombf *playerBomb = NULL;
+s16 D_808B5DD4 = 0;
 
 D_808B5DD8Struct D_808B5DD8[] = { { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
                                   { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
@@ -435,70 +435,45 @@ void func_808B56BC(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B56BC.s")
 
-/*
-s32 func_808B57E0(s32 arg0, GlobalContext *arg1) {
-    f32 temp_ret;
-    s16 temp_t0;
-    s16 temp_v0_2;
-    s32 temp_v0;
-    s32 temp_v0_3;
-    void *temp_v0_4;
-    void *temp_v1;
-    s32 phi_return;
+void func_808B57E0(BgSpot16Bombstone *this, GlobalContext *globalCtx) {
+    EnBombf *newBomb;
+    Player *player = PLAYER;
+    EnBombf *tempBomb;
 
-    temp_v0_2 = D_808B5DD4;
-    temp_v1 = arg1->unk1C44;
-    if ((s32) temp_v0_2 > 0) {
-        D_808B5DD4 = (s16) (temp_v0_2 - 1);
+    if (D_808B5DD4 > 0) {
+        D_808B5DD4--;
     }
-    temp_v0 = D_808B5DD0;
-    if (temp_v0 != 0) {
-        if (temp_v0->unk130 == 0) {
-            D_808B5DD0 = 0;
-            return temp_v0;
+
+    if (playerBomb != NULL) {
+        if (playerBomb->actor.update == NULL) {
+            playerBomb = NULL;
         }
-        phi_return = temp_v0;
-        if ((s32) D_808B5DD4 <= 0) {
-            phi_return = temp_v0;
-            if (temp_v0->unk28 < 1400.0f) {
-                temp_ret = Math3D_Dist1DSq(temp_v0->unk24 + 1579.0f, temp_v0->unk2C + 790.0f);
-                phi_return = (bitwise s32) temp_ret;
-                if (temp_ret < 160000.0f) {
-                    temp_v0_3 = D_808B5DD0;
-                    phi_return = temp_v0_3;
-                    if (temp_v0_3->unk1C == 0) {
-                        temp_t0 = temp_v0_3->unk1F8;
-                        phi_return = temp_v0_3;
-                        if ((s32) temp_t0 > 0) {
-                            D_808B5DD4 = (s16) (temp_t0 + 0x14);
-                            return (s32) func_800800F8(arg1, (u16)0x1054, D_808B5DD4, NULL, 0);
-                        }
-                    }
-                }
+        else if (D_808B5DD4 <= 0 && 
+            playerBomb->actor.posRot.pos.y < 1400.0f && 
+            Math3D_Dist1DSq(playerBomb->actor.posRot.pos.x + 1579.0f, 
+                playerBomb->actor.posRot.pos.z + 790.0f) < 160000.0f &&
+            playerBomb->actor.params == 0
+        ) {
+            tempBomb = playerBomb;
+            if (tempBomb->timer > 0) {
+                D_808B5DD4 = tempBomb->timer + 0x14;
+                func_800800F8(globalCtx, 0x1054, D_808B5DD4, NULL, 0);
             }
         }
     } else {
-        phi_return = temp_v0;
-        if ((temp_v1->unk67C & 0x800) != 0) {
-            temp_v0_4 = temp_v1->unk3AC;
-            phi_return = (s32) temp_v0_4;
-            if (temp_v0_4 != 0) {
-                phi_return = (s32) temp_v0_4;
-                if (temp_v0_4->unk2 == 3) {
-                    phi_return = (s32) temp_v0_4;
-                    if (temp_v0_4->unk0 == 0x4C) {
-                        D_808B5DD0 = (s32) temp_v0_4;
-                        phi_return = (s32) temp_v0_4;
-                    }
-                }
+        if ((player->stateFlags1 & 0x800) != 0) {
+            newBomb = player->heldActor;
+            if (newBomb != NULL && 
+                newBomb->actor.type == ACTORTYPE_EXPLOSIVES && 
+                newBomb->actor.id == ACTOR_EN_BOMBF
+            ) {
+                playerBomb = newBomb;
             }
         }
     }
-    return phi_return;
 }
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B57E0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot16_Bombstone/func_808B57E0.s")
 
 void func_808B5934(BgSpot16Bombstone* this) {
     this->actor.draw = &BgSpot16Bombstone_Draw;
