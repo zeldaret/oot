@@ -428,7 +428,7 @@ void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3);
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3);
 f32 Math_Rand_ZeroFloat(f32 f);
 f32 Math_Rand_CenteredFloat(f32 f);
-void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2);
+void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 arg1, s32 arg2);
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
 void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);

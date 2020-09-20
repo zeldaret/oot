@@ -4,6 +4,37 @@
 #include <ultra64.h>
 #include <global.h>
 
+/**
+ * Actor Parameters
+ * 
+ * |                  |         |
+ * | Transition Index | Type    | Switch Flag
+ * |------------------|---------|-------------
+ * | 0 0 0 0 0 0      | 0 0 0 0 | 0 0 0 0 0 0 
+ * | 6                | 4       | 6
+ * |
+ * 
+ * Transition Index     1111110000000000
+ * Type                 0000001111000000
+ * Switch Flag          0000000000111111
+ * 
+ */
+
+typedef enum {
+    SHUTTER,
+    F_CLEAR,
+    F_SWITCH,
+    BACK_LOCKED,
+    PG_BARS,
+    BOSS,
+    GOHMA_BLOCK,
+    F_SWITCH_B_CLEAR,
+    PG_BARS_2,
+    SHUTTER_9,
+    SHUTTER_A,
+    KEY_LOCKED
+} DoorShutterType;
+
 struct DoorShutter;
 
 typedef void (*DoorShutterActionFunc)(struct DoorShutter*, GlobalContext*);
@@ -13,7 +44,7 @@ typedef struct DoorShutter {
     /* 0x0164 */ s16 unk_164;
     /* 0x0166 */ s16 unk_166;
     /* 0x0168 */ s16 unk_168;
-    /* 0x016A */ u8 unk_16A;
+    /* 0x016A */ u8 doorType;
     /* 0x016B */ u8 unk_16B;
     /* 0x016C */ u8 unk_16C;
     /* 0x016D */ s8 unk_16D;

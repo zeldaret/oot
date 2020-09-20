@@ -65,7 +65,7 @@ glabel EnDoor_Draw
 .L809FCE34:
 /* 00C64 809FCE34 50A00004 */  beql    $a1, $zero, .L809FCE48     
 /* 00C68 809FCE38 8FAF0054 */  lw      $t7, 0x0054($sp)           
-/* 00C6C 809FCE3C 0C00CFD5 */  jal     func_80033F54              
+/* 00C6C 809FCE3C 0C00CFD5 */  jal     Actor_DrawDoorLock              
 /* 00C70 809FCE40 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00C74 809FCE44 8FAF0054 */  lw      $t7, 0x0054($sp)           
 .L809FCE48:
