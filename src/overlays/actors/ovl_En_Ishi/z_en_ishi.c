@@ -1395,9 +1395,8 @@ void* D_80A873E4[3] = { func_80A7F8A0, func_80A7F8CC, NULL };
 #ifdef NON_MATCHING
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
-    s16 sp2A;
+    s16 sp2A = this->actor.params & 1;
 
-    sp2A = this->actor.params & 1;
     Actor_ProcessInitChain(&this->actor, D_80A873B8[sp2A]);
     if (globalCtx->csCtx.state != 0) {
         this->actor.uncullZoneForward += 1000.0f;
