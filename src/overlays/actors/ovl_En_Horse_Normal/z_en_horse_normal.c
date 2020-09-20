@@ -609,7 +609,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         MtxF skinMtx;
         Mtx* mtx1;
         Vec3f clonePos = { 0.0f, 0.0f, 0.0f };
-        s16 sp62;
+        s16 cloneRotY;
         f32 distFromGround = this->actor.posRot.pos.y - this->actor.groundY;
         f32 temp_f0_4;
 
@@ -619,13 +619,13 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 clonePos.x = 235.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = 100.0f;
-                sp62 = 0x7FFF;
+                cloneRotY = 0x7FFF;
             } else if (this->actor.posRot.pos.x == 238.0f && this->actor.posRot.pos.y == 0.0f &&
                        this->actor.posRot.pos.z == -245.0f) {
                 clonePos.x = 478.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = 100.0f;
-                sp62 = 0x7FFF;
+                cloneRotY = 0x7FFF;
             }
         } else if (globalCtx->sceneNum == SCENE_SPOT20) {
             if (this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f &&
@@ -633,18 +633,18 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 clonePos.x = 780.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = -80.0f;
-                sp62 = 0;
+                cloneRotY = 0;
             } else if (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f &&
                        this->actor.posRot.pos.z == -1170.0f) {
                 clonePos.x = -1000.0f;
                 clonePos.y = 0.0f;
                 clonePos.z = -70.0f;
-                sp62 = 0;
+                cloneRotY = 0;
             }
         }
         func_80A6CC88(globalCtx, this, &clonePos);
         SkinMatrix_SetScaleRotateYRPTranslate(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
-                                              this->actor.shape.rot.x, sp62, this->actor.shape.rot.z, clonePos.x,
+                                              this->actor.shape.rot.x, cloneRotY, this->actor.shape.rot.z, clonePos.x,
                                               (this->actor.shape.unk_08 * this->actor.scale.y) + clonePos.y,
                                               clonePos.z);
         mtx1 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &skinMtx);
@@ -663,7 +663,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, 0);
             temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.unk_10;
             Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
-            Matrix_RotateY(sp62 * (2.0f * M_PI / 0x10000), 1);
+            Matrix_RotateY(cloneRotY * (2.0f * M_PI / 0x10000), 1);
             mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
             if (mtx2 != NULL) {
                 gSPMatrix(oGfxCtx->polyXlu.p++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
