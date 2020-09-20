@@ -143,23 +143,22 @@ void BgSpot03Taki_Draw(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
     u32 gameplayFrames;
     s16 pad;
-    Gfx *dispRefs[4];
     GraphicsContext *gfxCtx;
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_bg_spot03_taki.c", 0x141);
+    OPEN_DISPS(gfxCtx, "../z_bg_spot03_taki.c", 321);
 
     gameplayFrames = globalCtx->gameplayFrames;
 
     gSPMatrix(gfxCtx->polyXlu.p++,
-              Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 0x145),
+              Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0U, gameplayFrames * 5, 0x40, 0x40, 1, 0, gameplayFrames * 5, 0x40, 0x40));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
     gSPDisplayList(gfxCtx->polyXlu.p++, D_06000B20);
 
@@ -172,11 +171,11 @@ void BgSpot03Taki_Draw(Actor *thisx, GlobalContext *globalCtx) {
     gSPDisplayList(gfxCtx->polyXlu.p++, D_06000BC0);
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, gameplayFrames * 3, 0x40, 0x40, 1, 0 - gameplayFrames, gameplayFrames * 3, 0x40, 0x40));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, gameplayFrames * 3, 64, 64, 1, 0 - gameplayFrames, gameplayFrames * 3, 64, 64));
 
     gSPDisplayList(gfxCtx->polyXlu.p++, D_06001580);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 0x166);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
     this->unk_174 = (u8) (this->unk_174 == 0);
 
