@@ -6,6 +6,8 @@
 
 struct EnHorseNormal;
 
+typedef void (*EnHorseNormalActionFunc)(struct EnHorseNormal*, GlobalContext*);
+
 typedef struct EnHorseNormal {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 type;

@@ -10,8 +10,6 @@
 
 #define THIS ((EnHorseNormal*)thisx)
 
-typedef void (*EnHorseNormalUnkFunc)(EnHorseNormal* this, GlobalContext* globalCtx);
-
 typedef struct {
     s32 unk_00;
     UNK_TYPE* unk_04;
@@ -29,10 +27,10 @@ void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
 void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx);
-void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx);
+void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx);
+void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx);
+void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx);
+void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx);
 
 const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
@@ -248,7 +246,7 @@ void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
                          SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
 }
 
-void func_80A6B9D0(EnHorseNormal* this, GlobalContext* globalCtx) {
+void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     Path* path = &globalCtx->setupPathList[this->actor.params & 0xF];
     Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     f32 dx;
@@ -326,11 +324,9 @@ void func_80A6BD7C(EnHorseNormal* this) {
     }
 }
 
-void func_80A6BE6C(EnHorseNormal* this, GlobalContext* globalCtx) {
-    static s32 D_80A6D4F4[] = { 0x00000000, 0x00000001, 0x00000004, 0x00000005, 0x00000006, 0x00000002, 0x00000003 };
-    static s32 D_80A6D510[] = {
-        0x00000000, 0x00000000, 0x00000002, 0x00000002, 0x00000001, 0x00000001, 0x00000001, 0x00000003, 0x00000003,
-    };
+void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
+    static s32 D_80A6D4F4[] = { 0, 1, 4, 5, 6, 2, 3 };
+    static s32 D_80A6D510[] = { 0, 0, 2, 2, 1, 1, 1, 3, 3 };
 
     s32 phi_t0 = this->unk_150;
     s32 pad;
@@ -453,7 +449,7 @@ void func_80A6C4CC(EnHorseNormal* this) {
                          SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
 }
 
-void func_80A6C570(EnHorseNormal* this, GlobalContext* globalCtx) {
+void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
         f32 rand = Math_Rand_ZeroOne();
 
@@ -484,7 +480,7 @@ void func_80A6C6B0(EnHorseNormal* this) {
                          SkelAnime_GetFrameCount(&D_80A6D370[this->unk_150]->genericHeader), 2, 0.0f);
 }
 
-void func_80A6C760(EnHorseNormal* this, GlobalContext* globalCtx) {
+void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx) {
     func_80A6BD7C(this);
 
     if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
@@ -527,14 +523,14 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static EnHorseNormalUnkFunc D_80A6D534[] = {
-        func_80A6BC00, func_80A6BE6C, func_80A6C570, func_80A6C760, func_80A6B9D0,
+    static EnHorseNormalActionFunc actionFuncs[] = {
+        func_80A6BC00, EnHorseNormal_Wander, EnHorseNormal_Wait, EnHorseNormal_WaitClone, EnHorseNormal_FollowPath,
     };
 
     EnHorseNormal* this = THIS;
     s32 pad;
 
-    D_80A6D534[this->type](this, globalCtx);
+    actionFuncs[this->type](this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
     if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.posRot.pos.z < -2400.0f) {
@@ -609,7 +605,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
 
-    // If this is a stationary horse, draw a clone of it
+    // If this horse should be cloned, create a clone of it
     if (this->type == 3) {
         MtxF skinMtx;
         Mtx* mtx1;
@@ -650,7 +646,8 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80A6CC88(globalCtx, this, &clonePos);
         SkinMatrix_SetScaleRotateYRPTranslate(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
                                               this->actor.shape.rot.x, sp62, this->actor.shape.rot.z, clonePos.x,
-                                              (this->actor.shape.unk_08 * this->actor.scale.y) + clonePos.y, clonePos.z);
+                                              (this->actor.shape.unk_08 * this->actor.scale.y) + clonePos.y,
+                                              clonePos.z);
         mtx1 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &skinMtx);
         if (mtx1 == NULL) {
             return;
