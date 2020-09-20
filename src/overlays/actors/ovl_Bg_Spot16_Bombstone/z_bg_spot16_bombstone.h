@@ -24,7 +24,6 @@ typedef struct BgSpot16Bombstone {
     /* 0x0210 */ s16 unk_210;
     /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s8 bombiwaBankIndex;
-    // /* 0x0215 */ char unk_215[0x3];
 } BgSpot16Bombstone; // size = 0x0218
 
 extern const ActorInit Bg_Spot16_Bombstone_InitVars;

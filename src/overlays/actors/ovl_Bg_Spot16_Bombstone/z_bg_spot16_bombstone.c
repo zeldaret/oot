@@ -16,7 +16,6 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5934(BgSpot16Bombstone* this);
 void func_808B5AF0(BgSpot16Bombstone* this);
 void func_808B5A78(BgSpot16Bombstone* this);
-void func_808B53A8(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06000C20;
 extern Gfx D_060009E0;
