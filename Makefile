@@ -20,7 +20,7 @@ MAKE = make
 CPPFLAGS = -P
 
 ifeq ($(OS),Windows_NT)
-    $(error Native Windows builds not yet supported. Please use WSL)
+    $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
 else
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
