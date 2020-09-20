@@ -1009,11 +1009,9 @@ void* func_800E0540(s32 poolIdx, s32 id, u32 size) {
     gAudioContext.unk_2D60[sp18].poolIndex = poolIdx;
     gAudioContext.unk_2D60[sp18].id = id;
     gAudioContext.unk_2D60[sp18].size = size;
-    // @bug missing return? "ret" is in v0, but doing an explicit return
-    // uses an additional register.
-#ifdef AVOID_UB
-    return ret;
-#endif
+    // @bug UB: missing return. "ret" is in v0 at this point, but doing an
+    // explicit return uses an additional register.
+    // return ret;
 }
 
 void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4) {
