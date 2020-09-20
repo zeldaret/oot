@@ -2656,7 +2656,8 @@ endseg
 beginseg
     name "ovl_En_Ishi"
     include "build/src/overlays/actors/ovl_En_Ishi/z_en_ishi.o"
-    include "build/src/overlays/actors/ovl_En_Ishi/ovl_En_Ishi_reloc.o"
+    include "build/data/overlays/actors/z_en_ishi.data.o"
+    include "build/data/overlays/actors/z_en_ishi.reloc.o"
 endseg
 
 beginseg

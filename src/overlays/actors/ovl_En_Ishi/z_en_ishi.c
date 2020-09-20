@@ -21,6 +21,7 @@ void func_80A7F098(EnIshi* this);
 void func_80A7F8A0(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx);
 
+/*
 s16 D_80A7F9F0 = 0;
 s16 D_80A7F9F4 = 0;
 
@@ -1371,6 +1372,12 @@ InitChainEntry D_80A873B8[2][5] = {
 u16 D_80A873E0[2] = { 0x086A, 0x086C };
 
 void* D_80A873E4[3] = { func_80A7F8A0, func_80A7F8CC, NULL };
+**/
+
+extern f32 D_80A7FA18[2];
+extern f32 D_80A7FA20[2];
+extern CollisionCheckInfoInit D_80A87390;
+extern InitChainEntry D_80A873B8[2][5];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E460.s")
 
@@ -1392,7 +1399,6 @@ void* D_80A873E4[3] = { func_80A7F8A0, func_80A7F8CC, NULL };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7EE1C.s")
 
-#ifdef NON_MATCHING
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
     s16 sp2A = this->actor.params & 1;
@@ -1406,7 +1412,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetScale(&this->actor, D_80A7FA18[sp2A]);
     func_80A7E460(this, globalCtx);
-    if ((&D_80A7FA18[sp2A] == &D_80A7FA18[1]) &&
+    if ((sp2A == 1) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
     } else {
@@ -1419,9 +1425,6 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/EnIshi_Init.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/EnIshi_Destroy.s")
 
