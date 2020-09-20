@@ -15,7 +15,7 @@ void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMizuWater_Idle(BgMizuWater* this, GlobalContext* globalCtx);
+void BgMizuWater_WaitForAction(BgMizuWater* this, GlobalContext* globalCtx);
 void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx);
 
 extern Gfx D_06004B20[];
@@ -87,7 +87,7 @@ void BgMizuWater_SetWaterBoxesHeight(WaterBox* waterBoxes, s16 height) {
     u32 i;
 
     for (i = 0; i < 8; i++) {
-        waterBoxes[waterBoxIDs[i]].unk_02 = height;
+        waterBoxes[sWaterBoxIndexes[i]].unk_02 = height;
     }
 }
 
@@ -112,9 +112,9 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
                              Flags_GetSwitch(globalCtx, 0x1D), Flags_GetSwitch(globalCtx, 0x1E));
             }
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(-1, globalCtx);
-            this->actor.posRot.pos.y = waterLevels[waterLevelActionIndex].yDiff + this->baseY;
+            this->actor.posRot.pos.y = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
             BgMizuWater_SetWaterBoxesHeight(waterBoxes, this->actor.posRot.pos.y);
-            this->actor.params = waterLevels[waterLevelActionIndex].switchFlag;
+            this->actor.params = sWaterLevels[waterLevelActionIndex].switchFlag;
             Flags_UnsetSwitch(globalCtx, 0x1C);
             Flags_UnsetSwitch(globalCtx, 0x1D);
             Flags_UnsetSwitch(globalCtx, 0x1E);
@@ -159,7 +159,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    this->actionFunc = BgMizuWater_Idle;
+    this->actionFunc = BgMizuWater_WaitForAction;
 }
 
 void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -175,10 +175,10 @@ void BgMizuWater_WaitForAction(BgMizuWater* this, GlobalContext* globalCtx) {
             params = this->actor.params;
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(this->actor.params, globalCtx);
             if (waterLevelActionIndex != 0) {
-                if (params != waterLevels[waterLevelActionIndex].switchFlag) {
+                if (params != sWaterLevels[waterLevelActionIndex].switchFlag) {
                     func_800800F8(globalCtx, 0xC30, -0x64 - waterLevelActionIndex, 0, 0);
-                    this->actor.params = waterLevels[waterLevelActionIndex].switchFlag;
-                    this->targetY = waterLevels[waterLevelActionIndex].yDiff + this->baseY;
+                    this->actor.params = sWaterLevels[waterLevelActionIndex].switchFlag;
+                    this->targetY = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
                 }
             }
             if ((params != this->actor.params) && (params != 0)) {
@@ -226,9 +226,9 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             params = this->actor.params;
             waterLevelActionIndex = BgMizuWater_GetWaterLevelActionIndex(this->actor.params, globalCtx);
             if (waterLevelActionIndex != 0) {
-                if (params != waterLevels[waterLevelActionIndex].switchFlag) {
-                    this->actor.params = waterLevels[waterLevelActionIndex].switchFlag;
-                    this->targetY = waterLevels[waterLevelActionIndex].yDiff + this->baseY;
+                if (params != sWaterLevels[waterLevelActionIndex].switchFlag) {
+                    this->actor.params = sWaterLevels[waterLevelActionIndex].switchFlag;
+                    this->targetY = sWaterLevels[waterLevelActionIndex].yDiff + this->baseY;
                 }
             }
 
@@ -238,7 +238,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
 
             if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 5.0f)) {
                 globalCtx->unk_11D30[0] = 0;
-                this->actionFunc = BgMizuWater_Idle;
+                this->actionFunc = BgMizuWater_WaitForAction;
                 func_80106CCC(globalCtx);
             }
             BgMizuWater_SetWaterBoxesHeight(globalCtx->colCtx.stat.colHeader->waterBoxes, this->actor.posRot.pos.y);
@@ -253,7 +253,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             }
             if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
                 globalCtx->unk_11D30[0] = 0;
-                this->actionFunc = BgMizuWater_Idle;
+                this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[6].unk_02 = this->actor.posRot.pos.y;
             break;
@@ -265,7 +265,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             }
             if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
                 globalCtx->unk_11D30[0] = 0;
-                this->actionFunc = BgMizuWater_Idle;
+                this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[8].unk_02 = this->actor.posRot.pos.y;
             break;
@@ -277,7 +277,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
             }
             if (Math_ApproxF(&this->actor.posRot.pos.y, this->targetY, 1.0f)) {
                 globalCtx->unk_11D30[0] = 0;
-                this->actionFunc = BgMizuWater_Idle;
+                this->actionFunc = BgMizuWater_WaitForAction;
             }
             waterBoxes[16].unk_02 = this->actor.posRot.pos.y;
             break;
@@ -305,18 +305,18 @@ void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->type == 0) {
-        y = this->actor.posRot.pos.y;
+        posY = this->actor.posRot.pos.y;
         unk0 = 0;
         unk1 = 0;
-        if (y < -15.0f) {
+        if (posY < -15.0f) {
             unk0 = 0;
-            unk1 = ((y - -835.0f) / 820.0f) * 200.0f;
-        } else if (y < 445.0f) {
+            unk1 = ((posY - -835.0f) / 820.0f) * 200.0f;
+        } else if (posY < 445.0f) {
             unk0 = 1;
-            unk1 = 0xFF - (s32)(((y - -15.0f) / 460.0f) * 95.0f);
-        } else if (y <= 765.0f) {
+            unk1 = 0xFF - (s32)(((posY - -15.0f) / 460.0f) * 95.0f);
+        } else if (posY <= 765.0f) {
             unk0 = 2;
-            unk1 = 0xFF - (s32)(((y - 445.0f) / 320.0f) * 95.0f);
+            unk1 = 0xFF - (s32)(((posY - 445.0f) / 320.0f) * 95.0f);
         }
         globalCtx->unk_11D30[1] = ((u8)unk0 << 8) | (unk1 & 0xFF);
     }
