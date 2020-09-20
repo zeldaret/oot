@@ -118,8 +118,10 @@ static InitChainEntry sInitChainBoulder[] = {
 };
 
 static InitChainEntry sInitChainDebris[] = {
-    ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),          ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
+    ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
@@ -449,11 +451,11 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
     }
 
-    if (gGameInfo->data[0x8e0] == 1) {
+    if (mREG(64) == 1) {
         func_808B561C(this, globalCtx);
-        gGameInfo->data[0x8e0] = -0xA;
-    } else if (gGameInfo->data[0x8E0] < 0) {
-        gGameInfo->data[0x8E0]++;
+        mREG(64) = -0xA;
+    } else if (mREG(64) < 0) {
+        mREG(64)++;
     }
 }
 
