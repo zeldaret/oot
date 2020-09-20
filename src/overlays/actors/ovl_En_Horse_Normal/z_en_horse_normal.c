@@ -608,6 +608,8 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
+
+    // If this is a stationary horse, draw a clone of it
     if (this->type == 3) {
         MtxF skinMtx;
         Mtx* mtx1;
