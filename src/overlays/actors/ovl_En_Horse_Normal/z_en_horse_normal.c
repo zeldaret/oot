@@ -613,7 +613,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type == 3) {
         MtxF skinMtx;
         Mtx* mtx1;
-        Vec3f sp64 = { 0.0f, 0.0f, 0.0f };
+        Vec3f clonePos = { 0.0f, 0.0f, 0.0f };
         s16 sp62;
         f32 distFromGround = this->actor.posRot.pos.y - this->actor.groundY;
         f32 temp_f0_4;
@@ -621,36 +621,36 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
             if (this->actor.posRot.pos.x == 355.0f && this->actor.posRot.pos.y == 0.0f &&
                 this->actor.posRot.pos.z == -245.0f) {
-                sp64.x = 235.0f;
-                sp64.y = 0.0f;
-                sp64.z = 100.0f;
+                clonePos.x = 235.0f;
+                clonePos.y = 0.0f;
+                clonePos.z = 100.0f;
                 sp62 = 0x7FFF;
             } else if (this->actor.posRot.pos.x == 238.0f && this->actor.posRot.pos.y == 0.0f &&
                        this->actor.posRot.pos.z == -245.0f) {
-                sp64.x = 478.0f;
-                sp64.y = 0.0f;
-                sp64.z = 100.0f;
+                clonePos.x = 478.0f;
+                clonePos.y = 0.0f;
+                clonePos.z = 100.0f;
                 sp62 = 0x7FFF;
             }
         } else if (globalCtx->sceneNum == SCENE_SPOT20) {
             if (this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f &&
                 this->actor.posRot.pos.z == -1100.0f) {
-                sp64.x = 780.0f;
-                sp64.y = 0.0f;
-                sp64.z = -80.0f;
+                clonePos.x = 780.0f;
+                clonePos.y = 0.0f;
+                clonePos.z = -80.0f;
                 sp62 = 0;
             } else if (this->actor.posRot.pos.x == 880.0f && this->actor.posRot.pos.y == 0.0f &&
                        this->actor.posRot.pos.z == -1170.0f) {
-                sp64.x = -1000.0f;
-                sp64.y = 0.0f;
-                sp64.z = -70.0f;
+                clonePos.x = -1000.0f;
+                clonePos.y = 0.0f;
+                clonePos.z = -70.0f;
                 sp62 = 0;
             }
         }
-        func_80A6CC88(globalCtx, this, &sp64);
+        func_80A6CC88(globalCtx, this, &clonePos);
         SkinMatrix_SetScaleRotateYRPTranslate(&skinMtx, this->actor.scale.x, this->actor.scale.y, this->actor.scale.z,
-                                              this->actor.shape.rot.x, sp62, this->actor.shape.rot.z, sp64.x,
-                                              (this->actor.shape.unk_08 * this->actor.scale.y) + sp64.y, sp64.z);
+                                              this->actor.shape.rot.x, sp62, this->actor.shape.rot.z, clonePos.x,
+                                              (this->actor.shape.unk_08 * this->actor.scale.y) + clonePos.y, clonePos.z);
         mtx1 = SkinMatrix_MtxFToNewMtx(globalCtx->state.gfxCtx, &skinMtx);
         if (mtx1 == NULL) {
             return;
@@ -658,13 +658,13 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPMatrix(oGfxCtx->polyOpa.p++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_800A63CC(&this->actor, globalCtx, &this->skin, 0, 0, 1, 0, 3);
-            this->cloneCollider.dim.pos.x = sp64.x;
-            this->cloneCollider.dim.pos.y = sp64.y;
-            this->cloneCollider.dim.pos.z = sp64.z;
+            this->cloneCollider.dim.pos.x = clonePos.x;
+            this->cloneCollider.dim.pos.y = clonePos.y;
+            this->cloneCollider.dim.pos.z = clonePos.z;
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cloneCollider.base);
             func_80094044(globalCtx->state.gfxCtx);
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
-            Matrix_Translate(sp64.x, sp64.y, sp64.z, 0);
+            Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, 0);
             temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.unk_10;
             Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
             Matrix_RotateY(sp62 * (2.0f * M_PI / 0x10000), 1);
