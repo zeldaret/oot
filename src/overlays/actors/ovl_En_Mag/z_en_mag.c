@@ -1,7 +1,7 @@
 /*
  * File: z_en_mag.c
  * Overlay: ovl_En_Mag
- * Description: Title Screen Actor
+ * Description: Title Screen Manager & Logo
  */
 
 #include "z_en_mag.h"
@@ -15,12 +15,12 @@ void EnMag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMag_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern u8 D_06000000[];
-extern u8 D_06019A00[];
-extern u8 D_0601A400[];
-extern u8 D_06024800[];
-extern u8 D_06024C00[];
-extern u8 D_06024E40[];
+extern u8 D_06000000[]; // Main Logo
+extern u8 D_06019A00[]; // Copyright Notice
+extern u8 D_0601A400[]; // Master Quest Sub Title
+extern u8 D_06024800[]; // Logo Flame Effect
+extern u8 D_06024C00[]; // "The Legend of"
+extern u8 D_06024E40[]; // "Ocarina of Time"
 
 const ActorInit En_Mag_InitVars = {
     ACTOR_EN_MAG,
@@ -34,7 +34,7 @@ const ActorInit En_Mag_InitVars = {
     (ActorFunc)EnMag_Draw,
 };
 
-s16 D_80AA5EC0 = 0;
+static s16 sDelayTimer = 0;
 
 void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMag* this = THIS;
@@ -53,47 +53,47 @@ void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
     VREG(5) = 6;
     VREG(6) = 2;
 
-    this->unk_E312 = 6;
-    this->unk_E314 = 10;
+    this->copyrightAlphaStep = 6;
+    this->fadeOutAlphaStep = 10;
 
     VREG(19) = 99;
     VREG(21) = 9;
     VREG(23) = 10;
     VREG(24) = 8;
 
-    this->unk_E30E = 0;
+    this->effectScroll = 0;
     this->unk_E30C = 0;
 
-    this->unk_E2E4[0] = 0.0f;
-    this->unk_E2E4[1] = 100.0f;
-    this->unk_E2E4[2] = 170.0f;
-    this->unk_E2F0[0] = 0.0f;
-    this->unk_E2F0[1] = 100.0f;
-    this->unk_E2F0[2] = 0.0f;
+    this->effectPrimColor[0] = 0.0f;
+    this->effectPrimColor[1] = 100.0f;
+    this->effectPrimColor[2] = 170.0f;
+    this->effectEnvColor[0] = 0.0f;
+    this->effectEnvColor[1] = 100.0f;
+    this->effectEnvColor[2] = 0.0f;
 
-    this->unk_E2DA = 40;
+    this->effectFadeInTimer = 40;
 
-    this->unk_E2D8 = this->unk_E2E0 = this->unk_E2DC = this->unk_E2FC = this->unk_E300 = this->unk_E304 =
-        this->unk_E308 = 0.0f;
+    this->effectFadeInState = this->effectPrimLodFrac = this->globalState = this->effectAlpha = this->mainAlpha =
+        this->subAlpha = this->copyrightAlpha = 0.0f;
 
     if (gSaveContext.unk_13E7 != 0) {
-        this->unk_E300 = 210;
-        this->unk_E304 = 255;
-        this->unk_E308 = 255;
+        this->mainAlpha = 210;
+        this->subAlpha = 255;
+        this->copyrightAlpha = 255;
 
-        this->unk_E2E0 = 128.0f;
-        this->unk_E2FC = 255.0f;
+        this->effectPrimLodFrac = 128.0f;
+        this->effectAlpha = 255.0f;
 
-        this->unk_E2E4[0] = 170;
-        this->unk_E2E4[1] = 255.0f;
-        this->unk_E2E4[2] = 255.0f;
-        this->unk_E2F0[0] = 200.0f;
-        this->unk_E2F0[1] = 255.0f;
-        this->unk_E2F0[2] = 0;
+        this->effectPrimColor[0] = 170;
+        this->effectPrimColor[1] = 255.0f;
+        this->effectPrimColor[2] = 255.0f;
+        this->effectEnvColor[0] = 200.0f;
+        this->effectEnvColor[1] = 255.0f;
+        this->effectEnvColor[2] = 0;
 
         gSaveContext.unk_13E7 = 0;
-        this->unk_E2DC = 2;
-        D_80AA5EC0 = 20;
+        this->globalState = MAG_STATE_DISPLAY;
+        sDelayTimer = 20;
         gSaveContext.fadeDuration = 1;
         gSaveContext.unk_1419 = 255;
     }
@@ -114,34 +114,34 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMag* this = THIS;
 
     if (gSaveContext.fileNum != 0xFEDC) {
-        if (this->unk_E2DC < 2) {
+        if (this->globalState < MAG_STATE_DISPLAY) {
             if (CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON) ||
                 CHECK_PAD(globalCtx->state.input[0].press, A_BUTTON) ||
                 CHECK_PAD(globalCtx->state.input[0].press, B_BUTTON)) {
 
                 Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-                this->unk_E300 = 210;
-                this->unk_E304 = 255;
-                this->unk_E308 = 255;
+                this->mainAlpha = 210;
+                this->subAlpha = 255;
+                this->copyrightAlpha = 255;
 
-                this->unk_E2E0 = 128.0f;
-                this->unk_E2FC = 255.0f;
+                this->effectPrimLodFrac = 128.0f;
+                this->effectAlpha = 255.0f;
 
-                this->unk_E2E4[0] = 170;
-                this->unk_E2E4[1] = 255.0f;
-                this->unk_E2E4[2] = 255.0f;
-                this->unk_E2F0[0] = 200.0f;
-                this->unk_E2F0[1] = 255.0f;
-                this->unk_E2F0[2] = 0;
+                this->effectPrimColor[0] = 170;
+                this->effectPrimColor[1] = 255.0f;
+                this->effectPrimColor[2] = 255.0f;
+                this->effectEnvColor[0] = 200.0f;
+                this->effectEnvColor[1] = 255.0f;
+                this->effectEnvColor[2] = 0;
 
-                this->unk_E2DC = 2;
-                D_80AA5EC0 = 20;
+                this->globalState = MAG_STATE_DISPLAY;
+                sDelayTimer = 20;
                 gSaveContext.fadeDuration = 1;
                 gSaveContext.unk_1419 = 255;
             }
-        } else if (this->unk_E2DC >= 2) {
-            if (D_80AA5EC0 == 0) {
+        } else if (this->globalState >= MAG_STATE_DISPLAY) {
+            if (sDelayTimer == 0) {
                 if (CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON) ||
                     CHECK_PAD(globalCtx->state.input[0].press, A_BUTTON) ||
                     CHECK_PAD(globalCtx->state.input[0].press, B_BUTTON)) {
@@ -157,120 +157,120 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         globalCtx->fadeTransition = 2;
                     }
 
-                    this->unk_E312 = 15;
-                    this->unk_E314 = 25;
-                    this->unk_E2DC = 3;
+                    this->copyrightAlphaStep = 15;
+                    this->fadeOutAlphaStep = 25;
+                    this->globalState = MAG_STATE_FADE_OUT;
                 }
             } else {
-                D_80AA5EC0--;
+                sDelayTimer--;
             }
         }
     }
 
-    if (this->unk_E2DC == 1) {
-        if (this->unk_E2D8 == 0) {
-            this->unk_E2FC += 6.375f;
-            this->unk_E2E0 += 0.8f;
+    if (this->globalState == MAG_STATE_FADE_IN) {
+        if (this->effectFadeInState == 0) {
+            this->effectAlpha += 6.375f;
+            this->effectPrimLodFrac += 0.8f;
 
-            this->unk_E2E4[0] += 6.375f;
-            this->unk_E2E4[1] += 3.875f;
-            this->unk_E2E4[2] += 2.125f;
-            this->unk_E2F0[0] += 6.375f;
-            this->unk_E2F0[1] += 3.875f;
+            this->effectPrimColor[0] += 6.375f;
+            this->effectPrimColor[1] += 3.875f;
+            this->effectPrimColor[2] += 2.125f;
+            this->effectEnvColor[0] += 6.375f;
+            this->effectEnvColor[1] += 3.875f;
 
-            this->unk_E2DA -= 1;
+            this->effectFadeInTimer--;
 
-            if (this->unk_E2DA == 0) {
-                this->unk_E2E0 = 32.0f;
-                this->unk_E2FC = 255.0f;
+            if (this->effectFadeInTimer == 0) {
+                this->effectPrimLodFrac = 32.0f;
+                this->effectAlpha = 255.0f;
 
-                this->unk_E2E4[0] = 255.0f;
-                this->unk_E2E4[1] = 255.0f;
-                this->unk_E2E4[2] = 255.0f;
-                this->unk_E2F0[0] = 255.0f;
-                this->unk_E2F0[1] = 255.0f;
+                this->effectPrimColor[0] = 255.0f;
+                this->effectPrimColor[1] = 255.0f;
+                this->effectPrimColor[2] = 255.0f;
+                this->effectEnvColor[0] = 255.0f;
+                this->effectEnvColor[1] = 255.0f;
 
-                this->unk_E2DA = 40;
-                this->unk_E2D8 = 1;
+                this->effectFadeInTimer = 40;
+                this->effectFadeInState = 1;
             }
-        } else if (this->unk_E2D8 == 1) {
-            this->unk_E2E4[0] += -2.125f;
-            this->unk_E2F0[0] += -1.375f;
+        } else if (this->effectFadeInState == 1) {
+            this->effectPrimColor[0] += -2.125f;
+            this->effectEnvColor[0] += -1.375f;
 
-            this->unk_E2E0 += 2.4f;
-            this->unk_E2DA -= 1;
+            this->effectPrimLodFrac += 2.4f;
 
-            if (this->unk_E2DA == 0) {
-                this->unk_E2E0 = 128.0f;
+            this->effectFadeInTimer--;
 
-                this->unk_E2E4[0] = 170.0f;
-                this->unk_E2F0[0] = 200.0f;
+            if (this->effectFadeInTimer == 0) {
+                this->effectPrimLodFrac = 128.0f;
 
-                this->unk_E2DA = 32;
-                this->unk_E2D8 = 2;
+                this->effectPrimColor[0] = 170.0f;
+                this->effectEnvColor[0] = 200.0f;
+
+                this->effectFadeInTimer = 32;
+                this->effectFadeInState = 2;
             }
         }
 
-        if (this->unk_E2FC > 160.0f) {
-            this->unk_E300 += VREG(5);
-            if (this->unk_E300 >= 210.0f) {
-                this->unk_E300 = 210.0f;
+        if (this->effectAlpha > 160) {
+            this->mainAlpha += VREG(5);
+            if (this->mainAlpha >= 210.0f) {
+                this->mainAlpha = 210.0f;
             }
 
-            if (this->unk_E300 >= 210) {
-                this->unk_E304 += VREG(6);
-                if (this->unk_E304 >= 255.0f) {
-                    this->unk_E304 = 255.0f;
+            if (this->mainAlpha >= 210) {
+                this->subAlpha += VREG(6);
+                if (this->subAlpha >= 255.0f) {
+                    this->subAlpha = 255.0f;
                 }
 
-                if (this->unk_E304 >= 200) {
-                    this->unk_E308 += this->unk_E312;
-                    if (this->unk_E308 >= 255.0f) {
-                        this->unk_E308 = 255.0f;
-                        this->unk_E2DC = 2;
-                        D_80AA5EC0 = 20;
+                if (this->subAlpha >= 200) {
+                    this->copyrightAlpha += this->copyrightAlphaStep;
+                    if (this->copyrightAlpha >= 255.0f) {
+                        this->copyrightAlpha = 255.0f;
+                        this->globalState = MAG_STATE_DISPLAY;
+                        sDelayTimer = 20;
                     }
                 }
             }
         }
-    } else if (this->unk_E2DC == 3) {
-        this->unk_E2FC -= this->unk_E314;
-        if (this->unk_E2FC < 0.0f) {
-            this->unk_E2FC = 0.0f;
+    } else if (this->globalState == MAG_STATE_FADE_OUT) {
+        this->effectAlpha -= this->fadeOutAlphaStep;
+        if (this->effectAlpha < 0.0f) {
+            this->effectAlpha = 0.0f;
         }
 
-        this->unk_E300 -= this->unk_E314;
-        if (this->unk_E300 < 0.0f) {
-            this->unk_E300 = 0.0f;
+        this->mainAlpha -= this->fadeOutAlphaStep;
+        if (this->mainAlpha < 0.0f) {
+            this->mainAlpha = 0.0f;
         }
 
-        this->unk_E304 -= this->unk_E314;
-        if (this->unk_E304 < 0.0f) {
-            this->unk_E304 = 0.0f;
+        this->subAlpha -= this->fadeOutAlphaStep;
+        if (this->subAlpha < 0.0f) {
+            this->subAlpha = 0.0f;
         }
 
-        this->unk_E308 -= this->unk_E312;
-        if (this->unk_E308 < 0.0f) {
-            this->unk_E308 = 0.0f;
-            this->unk_E2DC = 4;
+        this->copyrightAlpha -= this->copyrightAlphaStep;
+        if (this->copyrightAlpha < 0.0f) {
+            this->copyrightAlpha = 0.0f;
+            this->globalState = MAG_STATE_POST_DISPLAY;
         }
     }
 
-    if (this->unk_E2DC == 0) {
+    if (this->globalState == MAG_STATE_INITIAL) {
         if (Flags_GetEnv(globalCtx, 3)) {
-            this->unk_E2DA = 40;
-            this->unk_E2DC = 1;
+            this->effectFadeInTimer = 40;
+            this->globalState = MAG_STATE_FADE_IN;
         }
-    } else if (this->unk_E2DC == 2) {
+    } else if (this->globalState == MAG_STATE_DISPLAY) {
         if (Flags_GetEnv(globalCtx, 4)) {
-            this->unk_E2DC = 3;
+            this->globalState = MAG_STATE_FADE_OUT;
         }
     }
 }
 
-// EnMag_TextureRectangleI8
-void func_80AA447C(Gfx** gfxp, void* texture, s16 texWidth, s16 texHeight, s16 rectLeft, s16 rectTop, s16 rectWidth,
-                   s16 rectHeight, u16 dsdx, u16 dtdy) {
+void EnMag_DrawTextureI8(Gfx** gfxp, void* texture, s16 texWidth, s16 texHeight, s16 rectLeft, s16 rectTop,
+                         s16 rectWidth, s16 rectHeight, u16 dsdx, u16 dtdy) {
     Gfx* gfx = *gfxp;
 
     gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_I, G_IM_SIZ_8b, texWidth, texHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -282,22 +282,21 @@ void func_80AA447C(Gfx** gfxp, void* texture, s16 texWidth, s16 texHeight, s16 r
     *gfxp = gfx;
 }
 
-// EnMag_MultiTextureRectangleI
-void func_80AA46A0(Gfx** gfxp, void* texture1, void* texture2, s16 texWidth1, s16 texHeight1, s16 texWidth2,
-                   s16 texHeight2, s16 rectLeft, s16 rectTop, s16 rectWidth, s16 rectHeight, u16 dsdx, u16 dtdy,
-                   u16 argD, u16 argE, u16 flag, EnMag* this) {
+void EnMag_DrawEffectTextures(Gfx** gfxp, void* maskTex, void* effectTex, s16 maskWidth, s16 maskHeight,
+                              s16 effectWidth, s16 effectHeight, s16 rectLeft, s16 rectTop, s16 rectWidth,
+                              s16 rectHeight, u16 dsdx, u16 dtdy, u16 shifts, u16 shiftt, u16 flag, EnMag* this) {
     Gfx* gfx = *gfxp;
 
-    gDPLoadMultiBlock_4b(gfx++, texture1, 0x0000, 0, G_IM_FMT_I, texWidth1, texHeight1, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gDPLoadMultiBlock_4b(gfx++, maskTex, 0x0000, 0, G_IM_FMT_I, maskWidth, maskHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     if (1) {}
 
     if (!flag) {
-        gDPLoadMultiBlock(gfx++, texture2, 0x0100, 1, G_IM_FMT_I, G_IM_SIZ_8b, texWidth2, texHeight2, 0,
-                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, 5, argD, argE);
+        gDPLoadMultiBlock(gfx++, effectTex, 0x0100, 1, G_IM_FMT_I, G_IM_SIZ_8b, effectWidth, effectHeight, 0,
+                          G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, 5, shifts, shiftt);
 
-        gDPSetTileSize(gfx++, 1, 0, this->unk_E30E & 0x7F, 0x7C, (this->unk_E30E & 0x7F) + 0x7C);
+        gDPSetTileSize(gfx++, 1, 0, this->effectScroll & 0x7F, 0x7C, (this->effectScroll & 0x7F) + 0x7C);
     }
 
     gSPTextureRectangle(gfx++, rectLeft * 4, rectTop * 4, (rectLeft + rectWidth) * 4, (rectTop + rectHeight) * 4,
@@ -306,69 +305,67 @@ void func_80AA46A0(Gfx** gfxp, void* texture1, void* texture2, s16 texWidth1, s1
     *gfxp = gfx;
 }
 
-void func_80AA4AD4(Gfx** gfxp, s16 arg1, s16 arg2, u8* arg3, u32 arg4, u32 arg5) {
+void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 startLeft, s16 startTop, u8* source, u32 sizeX, u32 sizeY) {
     Gfx* gfx = *gfxp;
-    u8* imgPtr;
-    s32 spAC;
-    u32 temp1;
-    u32 temp2;
-    u32 temp3;
-    s32 temp4;
-    s32 temp5;
+    u8* curTexture;
+    s32 textureCount;
+    u32 rectLeft;
+    u32 rectTop;
+    u32 height;
+    s32 remainingSize;
+    s32 textureSize;
     s32 pad;
     s32 i;
 
     func_80094D28(&gfx);
 
-    imgPtr = arg3;
-    temp1 = arg1 - (arg4 >> 1);
-    temp2 = arg2 - (arg5 >> 1);
-
-    temp4 = arg4 * arg5 * 4;
-    temp3 = 4096 / (arg4 * 4);
-    temp5 = arg4 * temp3 * 4;
-
-    spAC = temp4 / temp5;
-    if ((temp4 % temp5) != 0) {
-        spAC++;
+    curTexture = source;
+    rectLeft = startLeft - (sizeX >> 1);
+    rectTop = startTop - (sizeY >> 1);
+    height = 4096 / (sizeX << 2);
+    remainingSize = (sizeX * sizeY) << 2;
+    textureSize = (sizeX * height) << 2;
+    textureCount = remainingSize / textureSize;
+    if ((remainingSize % textureSize) != 0) {
+        textureCount++;
     }
 
-    gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, arg4, temp3, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+    gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, sizeX, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                    G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    temp4 -= temp5;
+    remainingSize -= textureSize;
 
-    for (i = 0; i < spAC; i++) {
-        gDPSetTextureImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, arg4, imgPtr);
+    for (i = 0; i < textureCount; i++) {
+        gDPSetTextureImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, sizeX, curTexture);
 
         gDPLoadSync(gfx++);
-        gDPLoadTile(gfx++, G_TX_LOADTILE, 0, 0, (arg4 - 1) << 2, (temp3 - 1) << 2);
+        gDPLoadTile(gfx++, G_TX_LOADTILE, 0, 0, (sizeX - 1) << 2, (height - 1) << 2);
 
-        gSPTextureRectangle(gfx++, temp1 << 2, temp2 << 2, (arg4 + temp1) << 2, (temp2 + temp3) << 2, G_TX_RENDERTILE,
-                            0, 0, 1024, 1024);
+        gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + (s32)sizeX) << 2, (rectTop + height) << 2,
+                            G_TX_RENDERTILE, 0, 0, 1024, 1024);
 
         if (1) {}
 
-        imgPtr += temp5;
-        temp2 += temp3;
+        curTexture += textureSize;
+        rectTop += height;
 
-        if ((temp4 - temp5) < 0) {
-            if (temp4 > 0) {
-                temp3 = temp4 / (s32)(arg4 * 4);
-                temp4 -= temp5;
+        if ((remainingSize - textureSize) < 0) {
+            if (remainingSize > 0) {
+                height = remainingSize / (s32)(sizeX << 2);
+                remainingSize -= textureSize;
 
-                gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, arg4, temp3, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, sizeX, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                                G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             }
         } else {
-            temp4 -= temp5;
+            remainingSize -= textureSize;
         }
     }
 
     *gfxp = gfx;
 }
 
-void func_80AA4EB8(Gfx** gfxp, void* texture, s32 rectLeft, s32 rectTop) {
+void EnMag_DrawTextFont(Gfx** gfxp, u8* texture, s32 rectLeft, s32 rectTop) {
     Gfx* gfx = *gfxp;
 
     YREG(0) = 1024.0f / (YREG(1) / 100.0f);
@@ -383,35 +380,32 @@ void func_80AA4EB8(Gfx** gfxp, void* texture, s32 rectLeft, s32 rectTop) {
     *gfxp = gfx;
 }
 
-// EnMag_DrawInner
-void func_80AA507C(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
-    static s16 D_80AA5EC4 = 0;
-    static s16 D_80AA5EC8 = 0;
-    static s16 D_80AA5ECC = 0;
-    static u8 D_80AA5ED0[] = {
+void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
+    static s16 textAlpha = 0;
+    static s16 textFadeDirection = 0;
+    static s16 textFadeTimer = 0;
+    static u8 noControllerFontIndexes[] = {
         0x17, 0x18, 0x0C, 0x18, 0x17, 0x1D, 0x1B, 0x18, 0x15, 0x15, 0x0E, 0x1B,
     };
-    static u8 D_80AA5EDC[] = {
+    static u8 pressStartFontIndexes[] = {
         0x19, 0x1B, 0x0E, 0x1C, 0x1C, 0x1C, 0x1D, 0x0A, 0x1B, 0x1D,
     };
-    static u8* D_80AA5EE8[] = {
+    static u8* effectMaskTextures[] = {
         0x06020000, 0x06020800, 0x06021000, 0x06021800, 0x06022000, 0x06022800, 0x06023000, 0x06023800, 0x06024000,
     };
     EnMag* this = THIS;
-    s32 pad;
     u8* buf = this->unk_150;
+    s32 pad;
     Gfx* gfx = *gfxp;
-    u16 phi_s7;
-    u16 phi_s0;
-    u16 phi_s1;
-    u16 sp8C;
-    u16 phi_s4;
+    u16 i, j, k;
+    u16 rectLeft;
+    u16 rectTop;
 
     gSPSegment(gfx++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
 
     func_8009457C(&gfx);
 
-    this->unk_E30E -= 2;
+    this->effectScroll -= 2;
 
     gDPSetCycleType(gfx++, G_CYC_2CYCLE);
     gDPSetAlphaCompare(gfx++, G_AC_THRESHOLD);
@@ -419,23 +413,24 @@ void func_80AA507C(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     gDPSetCombineLERP(gfx++, TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL1, 1, PRIM_LOD_FRAC, TEXEL0, PRIMITIVE,
                       ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
 
-    gDPSetPrimColor(gfx++, 0, (s16)this->unk_E2E0, (s16)this->unk_E2E4[0], (s16)this->unk_E2E4[1],
-                    (s16)this->unk_E2E4[2], (s16)this->unk_E2FC);
-    gDPSetEnvColor(gfx++, (s16)this->unk_E2F0[0], (s16)this->unk_E2F0[1], (s16)this->unk_E2F0[2], 255);
+    gDPSetPrimColor(gfx++, 0, (s16)this->effectPrimLodFrac, (s16)this->effectPrimColor[0],
+                    (s16)this->effectPrimColor[1], (s16)this->effectPrimColor[2], (s16)this->effectAlpha);
+    gDPSetEnvColor(gfx++, (s16)this->effectEnvColor[0], (s16)this->effectEnvColor[1], (s16)this->effectEnvColor[2],
+                   255);
 
-    if ((s16)this->unk_E2E0 != 0) {
-        for (phi_s1 = 0, phi_s7 = 0, sp8C = 0; phi_s7 < 3; phi_s7++, sp8C += 64) {
-            for (phi_s0 = 0, phi_s4 = 56; phi_s0 < 3; phi_s0++, phi_s1++, phi_s4 += 64) {
-                func_80AA46A0(&gfx, D_80AA5EE8[phi_s1], D_06024800, 64, 64, 32, 32, phi_s4, sp8C, 64, 64, 1024, 1024, 1,
-                              1, phi_s1, this);
+    if ((s16)this->effectPrimLodFrac != 0) {
+        for (k = 0, i = 0, rectTop = 0; i < 3; i++, rectTop += 64) {
+            for (j = 0, rectLeft = 56; j < 3; j++, k++, rectLeft += 64) {
+                EnMag_DrawEffectTextures(&gfx, effectMaskTextures[k], D_06024800, 64, 64, 32, 32, rectLeft, rectTop, 64,
+                                         64, 1024, 1024, 1, 1, k, this);
             }
         }
     }
 
-    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->unk_E300);
+    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->mainAlpha);
 
-    if ((s16)this->unk_E300 != 0) {
-        func_80AA4AD4(&gfx, 152, 100, D_06000000, 160, 160);
+    if ((s16)this->mainAlpha != 0) {
+        EnMag_DrawImageRGBA32(&gfx, 152, 100, D_06000000, 160, 160);
     }
 
     func_8009457C(&gfx);
@@ -445,31 +440,30 @@ void func_80AA507C(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-    if ((s16)this->unk_E300 < 100) {
+    if ((s16)this->mainAlpha < 100) {
         gDPSetRenderMode(gfx++, G_RM_CLD_SURF, G_RM_CLD_SURF2);
     } else {
         gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     }
 
-    gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, (s16)this->unk_E300);
+    gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, (s16)this->mainAlpha);
     gDPSetEnvColor(gfx++, 0, 0, 100, 255);
 
-    if ((s16)this->unk_E300 != 0) {
-        func_80AA447C(&gfx, D_06024C00, 72, 8, 146, 73, 72, 8, 1024, 1024);
-        func_80AA447C(&gfx, D_06024E40, 96, 8, 144, 127, 96, 8, 1024, 1024);
+    if ((s16)this->mainAlpha != 0) {
+        EnMag_DrawTextureI8(&gfx, D_06024C00, 72, 8, 146, 73, 72, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, D_06024E40, 96, 8, 144, 127, 96, 8, 1024, 1024);
 
         gDPPipeSync(gfx++);
-        gDPSetPrimColor(gfx++, 0, 0, 100, 150, 255, (s16)this->unk_E300);
+        gDPSetPrimColor(gfx++, 0, 0, 100, 150, 255, (s16)this->mainAlpha);
         gDPSetEnvColor(gfx++, 20, 80, 160, 255);
 
-        func_80AA447C(&gfx, D_06024C00, 72, 8, 145, 72, 72, 8, 1024, 1024);
-        func_80AA447C(&gfx, D_06024E40, 96, 8, 143, 126, 96, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, D_06024C00, 72, 8, 145, 72, 72, 8, 1024, 1024);
+        EnMag_DrawTextureI8(&gfx, D_06024E40, 96, 8, 143, 126, 96, 8, 1024, 1024);
 
         gDPPipeSync(gfx++);
+        gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->subAlpha);
 
-        gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->unk_E304);
-
-        func_80AA4AD4(&gfx, 174, 145, D_0601A400, 128, 32);
+        EnMag_DrawImageRGBA32(&gfx, 174, 145, D_0601A400, 128, 32);
     }
 
     func_8009457C(&gfx);
@@ -477,9 +471,10 @@ void func_80AA507C(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     gDPSetAlphaCompare(gfx++, G_AC_NONE);
     gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-    gDPSetPrimColor(gfx++, 0, 0, (s16)this->unk_E308, (s16)this->unk_E308, (s16)this->unk_E308, (s16)this->unk_E308);
+    gDPSetPrimColor(gfx++, 0, 0, (s16)this->copyrightAlpha, (s16)this->copyrightAlpha, (s16)this->copyrightAlpha,
+                    (s16)this->copyrightAlpha);
 
-    if ((s16)this->unk_E308 != 0) {
+    if ((s16)this->copyrightAlpha != 0) {
         gDPLoadTextureBlock(gfx++, D_06019A00, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -487,76 +482,82 @@ void func_80AA507C(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     }
 
     if (gSaveContext.fileNum == 0xFEDC) {
-        D_80AA5EC4 = D_80AA5ECC * 10;
-        if (D_80AA5EC4 >= 255) {
-            D_80AA5EC4 = 255;
+        // Draw "NO CONTROLLER" Text
+        textAlpha = textFadeTimer * 10;
+        if (textAlpha >= 255) {
+            textAlpha = 255;
         }
 
+        // Text Shadow
         gDPPipeSync(gfx++);
         gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE,
                           0);
-        gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, D_80AA5EC4);
+        gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
-        phi_s4 = VREG(19) + 1;
-        for (phi_s7 = 0; phi_s7 < 12; phi_s7++) {
-            func_80AA4EB8(&gfx, (buf + (D_80AA5ED0[phi_s7] << 7)) + 0x3C88, phi_s4, YREG(10) + 172);
-            phi_s4 += VREG(21);
-            if (phi_s7 == 1) {
-                phi_s4 += VREG(23);
+        rectLeft = VREG(19) + 1;
+        for (i = 0; i < 12; i++) {
+            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
+            rectLeft += VREG(21);
+            if (i == 1) {
+                rectLeft += VREG(23);
             }
         }
 
+        // Actual Text
         gDPPipeSync(gfx++);
-        gDPSetPrimColor(gfx++, 0, 0, 100, 255, 255, D_80AA5EC4);
+        gDPSetPrimColor(gfx++, 0, 0, 100, 255, 255, textAlpha);
 
-        phi_s4 = VREG(19);
-        for (phi_s7 = 0; phi_s7 < 12; phi_s7++) {
-            func_80AA4EB8(&gfx, (buf + (D_80AA5ED0[phi_s7] << 7)) + 0x3C88, phi_s4, YREG(10) + 171);
-            phi_s4 += VREG(21);
-            if (phi_s7 == 1) {
-                phi_s4 += VREG(23);
+        rectLeft = VREG(19);
+        for (i = 0; i < 12; i++) {
+            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
+            rectLeft += VREG(21);
+            if (i == 1) {
+                rectLeft += VREG(23);
             }
         }
-    } else if (this->unk_E308 >= 200.0f) {
-        D_80AA5EC4 = D_80AA5ECC * 10;
-        if (D_80AA5EC4 >= 255) {
-            D_80AA5EC4 = 255;
+    } else if (this->copyrightAlpha >= 200.0f) {
+        // Draw "PRESS START" Text
+        textAlpha = textFadeTimer * 10;
+        if (textAlpha >= 255) {
+            textAlpha = 255;
         }
 
+        // Text Shadow
         gDPPipeSync(gfx++);
         gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE,
                           0);
-        gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, D_80AA5EC4);
+        gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
-        phi_s4 = YREG(7) + 1;
-        for (phi_s7 = 0; phi_s7 < 10; phi_s7++) {
-            func_80AA4EB8(&gfx, (buf + (D_80AA5EDC[phi_s7] << 7)) + 0x3C88, phi_s4, YREG(10) + 172);
-            phi_s4 += YREG(8);
-            if (phi_s7 == 4) {
-                phi_s4 += YREG(9);
+        rectLeft = YREG(7) + 1;
+        for (i = 0; i < 10; i++) {
+            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
+            rectLeft += YREG(8);
+            if (i == 4) {
+                rectLeft += YREG(9);
             }
         }
 
+        // Actual Text
         gDPPipeSync(gfx++);
-        gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), D_80AA5EC4);
+        gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), textAlpha);
 
-        phi_s4 = YREG(7);
-        for (phi_s7 = 0; phi_s7 < 10; phi_s7++) {
-            func_80AA4EB8(&gfx, (buf + (D_80AA5EDC[phi_s7] << 7)) + 0x3C88, phi_s4, YREG(10) + 171);
-            phi_s4 += YREG(8);
-            if (phi_s7 == 4) {
-                phi_s4 += YREG(9);
+        rectLeft = YREG(7);
+        for (i = 0; i < 10; i++) {
+            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
+            rectLeft += YREG(8);
+            if (i == 4) {
+                rectLeft += YREG(9);
             }
         }
     }
 
-    if (D_80AA5EC8 != 0) {
-        if (--D_80AA5ECC == 0) {
-            D_80AA5EC8 = 0;
+    if (textFadeDirection != 0) {
+        if (--textFadeTimer == 0) {
+            textFadeDirection = 0;
         }
     } else {
-        if (++D_80AA5ECC >= 26) {
-            D_80AA5EC8 = 1;
+        if (++textFadeTimer >= 26) {
+            textFadeDirection = 1;
         }
     }
 
@@ -565,20 +566,20 @@ void func_80AA507C(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
 
 void EnMag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Gfx* sp48;
-    Gfx* sp44;
+    Gfx* gfx;
+    Gfx* gfxRef;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_mag.c", 1151);
 
-    sp44 = oGfxCtx->polyOpa.p;
-    sp48 = Graph_GfxPlusOne(sp44);
-    gSPDisplayList(oGfxCtx->overlay.p++, sp48);
+    gfxRef = oGfxCtx->polyOpa.p;
+    gfx = Graph_GfxPlusOne(gfxRef);
+    gSPDisplayList(oGfxCtx->overlay.p++, gfx);
 
-    func_80AA507C(thisx, globalCtx, &sp48);
+    EnMag_DrawInner(thisx, globalCtx, &gfx);
 
-    gSPEndDisplayList(sp48++);
-    Graph_BranchDlist(sp44, sp48);
-    oGfxCtx->polyOpa.p = sp48;
+    gSPEndDisplayList(gfx++);
+    Graph_BranchDlist(gfxRef, gfx);
+    oGfxCtx->polyOpa.p = gfx;
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_mag.c", 1161);
 }
