@@ -328,6 +328,18 @@ void func_80BA084C(ObjTimeblock* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/ObjTimeblock_Update.s")
+void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjTimeblock* this = THIS;
+
+    this->unk_164(this, globalCtx);
+    if (this->unk_16C > 0) {
+        this->unk_16C--;
+    }
+    if (this->unk_178 != 0) {
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    } else {
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Timeblock/ObjTimeblock_Draw.s")
