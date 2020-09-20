@@ -81,7 +81,7 @@ glabel func_800E4918
 /* B5BBD0 800E4A30 1B20000B */  blez  $t9, .L800E4A60
 /* B5BBD4 800E4A34 02202025 */   move  $a0, $s1
 .L800E4A38:
-/* B5BBD8 800E4A38 0C039D94 */  jal   Audio_GetUnkInstrument
+/* B5BBD8 800E4A38 0C039D94 */  jal   Audio_GetSfx
 /* B5BBDC 800E4A3C 02402825 */   move  $a1, $s2
 /* B5BBE0 800E4A40 10400003 */  beqz  $v0, .L800E4A50
 /* B5BBE4 800E4A44 00402025 */   move  $a0, $v0
