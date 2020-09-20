@@ -1363,8 +1363,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/z_bg_spot18_shutter.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/ovl_Bg_Spot18_Shutter_reloc.o"
 endseg
 
 beginseg
