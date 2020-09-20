@@ -12,7 +12,7 @@
 
 typedef struct EnHorseNormalUnkStruct1 {
     Vec3s pos;
-    u8 unk_06;
+    u8 unk_06; // this may be a s16 if the always-0 following byte is actually not padding
 } EnHorseNormalUnkStruct1;
 
 typedef struct EnHorseNormalUnkStruct2 {
