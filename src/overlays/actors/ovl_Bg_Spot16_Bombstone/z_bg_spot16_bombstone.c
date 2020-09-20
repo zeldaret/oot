@@ -8,6 +8,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_808B5A94(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B04(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx);
@@ -117,7 +118,7 @@ static InitChainEntry sInitChainBoulder[] = {
 };
 
 static InitChainEntry sInitChainDebris[] = {
-    ICHAIN_F32(gravity, 65535, ICHAIN_CONTINUE),          ICHAIN_F32(minVelocityY, 65526, ICHAIN_CONTINUE),
+    ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),          ICHAIN_F32(minVelocityY, -10, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
@@ -146,7 +147,7 @@ void func_808B4C4C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     this->colliderJntSph.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
     this->colliderJntSph.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + 50.0f;
     this->colliderJntSph.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
-    this->colliderJntSph.list->dim.worldSphere.radius = 0x78;
+    this->colliderJntSph.list->dim.worldSphere.radius = 120;
 }
 
 void func_808B4D04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
@@ -167,7 +168,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     }
     Actor_ProcessInitChain(&this->actor, sInitChainBoulder);
     Actor_SetScale(&this->actor, 0.4);
-    this->actor.colChkInfo.mass = 0xFFU;
+    this->actor.colChkInfo.mass = 0xFF;
     func_808B4C4C(this, globalCtx);
     func_808B4D04(this, globalCtx);
     this->sinRotation = Math_Sins(this->actor.shape.rot.y);
@@ -180,8 +181,8 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
 s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     Actor* actor = &this->actor;
-    f32 scaleMultiplier = 0.0016666667f;
-    f32 sinCosPosMultiplier = 50.0f;
+    f32 scaleFactor = 1.0f / 600.0f;
+    f32 sinCosPosFactor = 50.0f;
     f32 sinValue;
     f32 cosValue;
 
@@ -190,7 +191,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     actor->speedXZ = D_808B5DD8[actor->params].speed;
     actor->velocity.y = D_808B5DD8[actor->params].velocity;
 
-    Actor_SetScale(actor, D_808B5DD8[actor->params].scale * scaleMultiplier);
+    Actor_SetScale(actor, D_808B5DD8[actor->params].scale * scaleFactor);
 
     this->unk_210 = (f32)D_808B5DD8[actor->params].unk_6;
     this->unk_212 = (f32)D_808B5DD8[actor->params].unk_8;
@@ -200,9 +201,9 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     sinValue = Math_Sins(this->actor.posRot.rot.y);
     cosValue = Math_Coss(this->actor.posRot.rot.y);
 
-    actor->posRot.pos.x = (sinValue * sinCosPosMultiplier) + actor->initPosRot.pos.x;
+    actor->posRot.pos.x = (sinValue * sinCosPosFactor) + actor->initPosRot.pos.x;
     actor->posRot.pos.y = D_808B5DD8[actor->params].unk_C + actor->initPosRot.pos.y;
-    actor->posRot.pos.z = (cosValue * sinCosPosMultiplier) + actor->initPosRot.pos.z;
+    actor->posRot.pos.z = (cosValue * sinCosPosFactor) + actor->initPosRot.pos.z;
 
     actor->shape.rot.x = D_808B5DD8[actor->params].rotation.x;
     actor->shape.rot.y = D_808B5DD8[actor->params].rotation.y;
@@ -261,7 +262,7 @@ void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ColliderJntSph* colliderJntSph;
 
     if (this->actor.params == 0xFF) {
-        // Boulder is intact so remove it's collider
+        // Boulder is intact so remove its collider
         colliderJntSph = &this->colliderJntSph;
         Collider_DestroyJntSph(globalCtx, colliderJntSph);
         Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
@@ -523,14 +524,14 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Bombstone* this = THIS;
 
-    this->unk_154 = this->unk_154 + 1;
+    this->unk_154++;
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
     }
 }
 
 void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
+    BgSpot16Bombstone* this = THIS;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1253);
