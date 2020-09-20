@@ -276,7 +276,7 @@ void func_80A6BBAC(EnHorseNormal* this) {
     this->type = 0;
     this->animationIdx += 1;
 
-    if (this->animationIdx > 8) {
+    if (this->animationIdx >= ARRAY_COUNT(sAnimations)) {
         this->animationIdx = 0;
     }
 
