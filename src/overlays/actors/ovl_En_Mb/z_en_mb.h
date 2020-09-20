@@ -25,10 +25,12 @@ typedef struct EnMb {
     /* 0x0330 */ char unk_330[2];
     /* 0x0332 */ s16 unk_332;
     /* 0x0334 */ s16 chaseHitboxEnable;
-    /* 0x0334 */ char unk_336[0x26]; 
+    /* 0x0336 */ char unk_336[2];
+    /* 0x0338 */ Vec3f effSpawnPos; 
+    /* 0x0342 */ char unk_344[0x9];
     /* 0x035C */ u8 unk_35C;
     /* 0x035D */ s8 unk_35D;
-    /* 0x035E */ char unk_35E;
+    /* 0x035E */ char unk_35E[2];
     /* 0x0360 */ f32 unk_360;
     /* 0x0364 */ f32 unk_364;
     /* 0x0368 */ ColliderCylinder collider1;

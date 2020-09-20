@@ -66,33 +66,48 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
 };
 
-s32 D_80AA9D50[] = {
-    0x00000000,
-    0x00000000,
-    0x00000000,
+Vec3f D_80AA9D50 = {
+    // 0Vec
+    0.0f,
+    0.0f,
+    0.0f,
 };
 
-s32 D_80AA9D5C[] = {
-    0x41900000,
-    0x41900000,
-    0x00000000,
+Vec3f D_80AA9D5C = {
+    // 18,18,0
+    18.0f,
+    18.0f,
+    0.0f,
 };
 
-s32 D_80AA9D68[] = {
-    0x00140028,
-    0x00000000,
+/*s32 D_80AA9D68[] = {
+    0x001400028,
+    0x000000000,
+};*/
+
+typedef struct {
+    /* 0x0 */ s16 unk_0;
+    /* 0x2 */ s16 unk_2;
+    /* 0x4 */ u16 unk_4;
+} struct_80AA9D68;
+
+ struct_80AA9D68 D_80AA9D68 = {
+    0x0014,
+    0x0028,
+    0x0000,
 };
 
-s32 D_80AA9D70[] = {
-    0xF63C0000,
-    0x0DAC0000,
+ u16 D_80AA9D70[] = {
+    0xF63C,
+    0x0000,
+    0x0DAC,
 };
 
 Vec3f D_80AA9D78 = {
     // ZeroVec
-    0x00000000,
-    0x00000000,
-    0x00000000,
+    0.0f,
+    0.0f,
+    0.0f,
 };
 
 s32 D_80AA9D84[] = {
@@ -182,6 +197,7 @@ extern AnimationHeader D_0600BE58;
 extern AnimationHeader D_0600D5D4;
 extern AnimationHeader D_0600E18C;
 extern AnimationHeader D_0600B4BC;
+extern AnimationHeader D_0600ABE0;
 
 void func_80AA68FC(EnMb* this, GlobalContext* globalCtx);
 void func_80AA6898(EnMb* this);
@@ -507,11 +523,11 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
 // Regaloc
 void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
     s32 currentFrame;
-    s16 temp_v0;
+    s16 playerInvincibilityTImer;
 
-    temp_v0 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if (temp_v0 < 0) {
-        temp_v0 = -temp_v0;
+    playerInvincibilityTImer = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    if (playerInvincibilityTImer < 0) {
+        playerInvincibilityTImer = -playerInvincibilityTImer;
     }
     currentFrame = this->skelAnime.animCurrentFrame;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
@@ -529,7 +545,7 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
-    if (temp_v0 >= 0x1389) {
+    if (playerInvincibilityTImer >= 0x1389) {
         this->chaseHitboxEnable = 0;
         func_80AA6CC0(this);
     }
@@ -538,7 +554,92 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA77D0.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s") 
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
+/*
+void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
+    f32 distToGround;
+    Vec3f effSpawnPos;
+    Vec3f zeroVec;
+    Vec3f sp5C;
+    struct_80AA9D68 sp54;
+    u16 sp4C[3];
+    s8 sp4B;
+    // SkelAnime *temp_a0_2;
+    s16 temp_v0_2;
+    s16 temp_v0_3;
+    u8 playerInvincibilityTImer;
+    //  u8 temp_a0;
+    Player* player = PLAYER;
+
+    zeroVec = D_80AA9D50;
+
+    sp5C = D_80AA9D5C;
+
+    sp54 = D_80AA9D68;
+
+    sp4C[0] = EnMbAttackRotation[0];
+    sp4C[1] = EnMbAttackRotation[1];
+    sp4C[2] =  EnMbAttackRotation[2];
+
+
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, ((sp4C[this->chaseHitboxEnable * 2]) + this->actor.posRot.rot.y),
+                            1, 0x2EE, 0);
+    // temp_a0 = this->collider2.base.atFlags;
+    if ((this->collider2.base.atFlags & 2) != 0) {
+        this->collider2.base.atFlags = (u8)(this->collider2.base.atFlags & 0xFFFD);
+        if (&player->actor == this->collider2.base.at) {
+            playerInvincibilityTImer = player->invincibilityTimer;
+            if (playerInvincibilityTImer < 0) {
+                if (playerInvincibilityTImer < -0x27) {
+                    player->invincibilityTimer = 0;
+                } else {
+                    player->invincibilityTimer = 0;
+                    globalCtx->damagePlayer(globalCtx, -8);
+                }
+            }
+            func_8002F71C(globalCtx, &this->actor, ((650.0f - this->actor.xzDistFromLink) * 0.04f) + 4.0f,
+                          this->actor.posRot.rot.y, 8.0f);
+            player->invincibilityTimer = playerInvincibilityTImer;
+        }
+    }
+    //  temp_a0_2 = &this->skelAnime;
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        // this->unk_32E = this->unk_32E;
+        if (this->unk_32E == 0) {
+            effSpawnPos = this->effSpawnPos;
+
+            distToGround = this->actor.groundY;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
+            func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+            func_80029024(globalCtx, &effSpawnPos, &zeroVec, &zeroVec);
+            func_80033480(globalCtx, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
+            func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
+            func_800358DC(&this->actor, &effSpawnPos, &this->actor.posRot.rot, &sp5C, 0x14, &sp54.unk_0, globalCtx, -1,
+                          0);
+            func_80AA6DA4(this);
+            return;
+        }
+        this->unk_32E = (this->unk_32E - 1);
+        if (this->unk_32E == 0) {
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, (f32)SkelAnime_GetFrameCount(&D_0600ABE0),
+                                 3, 0.0f);
+            return;
+        }
+    } else {
+        // temp_v0_3 = this->unk_32E;
+        if (this->unk_32E != 0) {
+            if (6.0f == this->skelAnime.animCurrentFrame) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_UP);
+                return;
+            }
+        }
+        if (this->unk_32E == 0) {
+            if (3.0f == this->skelAnime.animCurrentFrame) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_DOWN);
+            }
+        }
+    }
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7CAC.s")
 
