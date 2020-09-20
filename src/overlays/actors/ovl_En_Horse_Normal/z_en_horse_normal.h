@@ -11,7 +11,7 @@ typedef void (*EnHorseNormalActionFunc)(struct EnHorseNormal*, GlobalContext*);
 typedef struct EnHorseNormal {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 type;
-    /* 0x0150 */ s32 unk_150;
+    /* 0x0150 */ s32 animationIdx;
     /* 0x0154 */ PSkinAwb skin;
     /* 0x01E4 */ u16 unk_1E4;
     /* 0x01E6 */ char unk_1E6[0x02];
