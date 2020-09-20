@@ -82,7 +82,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, thisx->scale.x);
     } else if (this->unk_14C < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
-        Math_SmoothScaleMaxMinF(&this->unk_154, player->unk_90C, 0.5f, 3.0f, 1.0f);
+        Math_SmoothScaleMaxMinF(&this->unk_154, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
         if (this->unk_14C >= 49) {
             func_80B8772C(globalCtx, (54 - this->unk_14C) * 0.2f);
         }

@@ -296,7 +296,6 @@ beginseg
     include "build/data/z_camera.bss.o"
     include "build/src/code/z_collision_btltbls.o"
     include "build/src/code/z_collision_check.o"
-    include "build/data/z_collision_check.bss.o"
     include "build/src/code/z_common_data.o"
     include "build/src/code/z_debug.o"
     include "build/src/code/z_debug_display.o"
@@ -335,8 +334,6 @@ beginseg
     include "build/src/code/z_path.o"
     include "build/src/code/code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
-    include "build/data/z_player_lib.data.o"
-    include "build/data/z_player_lib.bss.o"
     include "build/src/code/z_prenmi.o"
     include "build/src/code/z_quake.o"
     include "build/src/code/z_rcp.o"
@@ -586,9 +583,11 @@ endseg
 beginseg
     name "ovl_player_actor"
     include "build/src/overlays/actors/ovl_player_actor/z_player.o"
-    include "build/data/overlays/actors/z_player.data.o"
-    include "build/data/overlays/actors/z_player.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_player_actor/ovl_player_actor_reloc.o"
+#else
     include "build/data/overlays/actors/z_player.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -714,8 +713,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Darkmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Darkmeiro/z_bg_gnd_darkmeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_darkmeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_darkmeiro.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Darkmeiro/ovl_Bg_Gnd_Darkmeiro_reloc.o"
 endseg
 
 beginseg
@@ -935,8 +933,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Ice_Shutter/z_bg_ice_shutter.o"
-    include "build/data/overlays/actors/z_bg_ice_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_ice_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Shutter/ovl_Bg_Ice_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -1045,9 +1042,7 @@ endseg
 beginseg
     name "ovl_Bg_Menkuri_Eye"
     include "build/src/overlays/actors/ovl_Bg_Menkuri_Eye/z_bg_menkuri_eye.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.data.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.bss.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Menkuri_Eye/ovl_Bg_Menkuri_Eye_reloc.o"
 endseg
 
 beginseg
@@ -3113,8 +3108,7 @@ endseg
 beginseg
     name "ovl_En_St"
     include "build/src/overlays/actors/ovl_En_St/z_en_st.o"
-    include "build/data/overlays/actors/z_en_st.data.o"
-    include "build/data/overlays/actors/z_en_st.reloc.o"
+    include "build/src/overlays/actors/ovl_En_St/ovl_En_St_reloc.o"
 endseg
 
 beginseg

@@ -144,10 +144,9 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 1:
             SkelCurve_SetAnim(&this->skelCurve, &sTransformUpdIdx, 60.0f, 0.0f, 60.0f, -1.0f);
             MagicWind_SetupAction(this, MagicWind_Shrink);
-            // "Indicates start" = %s
             // Means start
             LOG_STRING("表示開始", "../z_magic_wind.c", 486);
-            func_8002F7DC(player, NA_SE_PL_MAGIC_WIND_WARP);
+            func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_WIND_WARP);
             break;
     }
 }
