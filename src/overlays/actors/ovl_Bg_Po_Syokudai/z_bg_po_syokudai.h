@@ -8,7 +8,7 @@ struct BgPoSyokudai;
 
 typedef struct BgPoSyokudai {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 poeSisterColor;
+    /* 0x014C */ u8 flameColor;
     /* 0x014E */ s16 flameTextureScroll;
     /* 0x0150 */ LightNode* lightNode;
     /* 0x0154 */ LightInfo lightInfo;

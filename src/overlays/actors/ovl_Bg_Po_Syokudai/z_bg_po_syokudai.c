@@ -10,13 +10,14 @@
 
 #define THIS ((BgPoSyokudai*)thisx)
 
-#define POE_SISTER_PURPLE 0 // Meg
-#define POE_SISTER_RED 1    // Joelle
-#define POE_SISTER_BLUE 2   // Beth
-#define POE_SISTER_GREEN 3  // Amy
+typedef enum {
+    POE_FLAME_PURPLE, // Meg
+    POE_FLAME_RED,    // Joelle
+    POE_FLAME_BLUE,   // Beth
+    POE_FLAME_GREEN   // Amy
+} PoeFlameColor;
 
-#define IS_POE_SISTER_BEATEN(color) Flags_GetSwitch(globalCtx, 0x1C + POE_SISTER_##color)
-#define IS_THIS_POE_SISTER_BEATEN() Flags_GetSwitch(globalCtx, this->actor.params)
+#define POE_TORCH_FLAG 0x1C
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -29,14 +30,14 @@ static ColliderCylinderInit sCylinderInit = {
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
-static Color_RGBA8 primColors[] = {
+static Color_RGBA8 sPrimColors[] = {
     { 255, 170, 255, 255 },
     { 255, 200, 0, 255 },
     { 0, 170, 255, 255 },
     { 170, 255, 0, 255 },
 };
 
-static Color_RGBA8 envColors[] = {
+static Color_RGBA8 sEnvColors[] = {
     { 100, 0, 255, 255 },
     { 255, 0, 0, 255 },
     { 0, 0, 255, 255 },
@@ -59,17 +60,16 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-extern Gfx D_060003A0[]; // Display List
-extern Gfx D_0404D4E0[]; // Display List
+extern Gfx D_060003A0[];
+extern Gfx D_0404D4E0[];
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
-
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    this->poeSisterColor = (THIS->actor.params >> 8) & 0xFF;
+    this->flameColor = (THIS->actor.params >> 8) & 0xFF;
     this->actor.params &= 0x3F;
 
     this->actor.colChkInfo.mass = 0xFF;
@@ -85,20 +85,21 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.dim.pos.y = this->actor.posRot.pos.y;
     this->collider.dim.pos.z = this->actor.posRot.pos.z;
 
-    if (this->poeSisterColor == POE_SISTER_PURPLE && IS_POE_SISTER_BEATEN(GREEN) && IS_POE_SISTER_BEATEN(BLUE) &&
-        IS_POE_SISTER_BEATEN(RED) && !IS_THIS_POE_SISTER_BEATEN()) {
+    if (this->flameColor == POE_FLAME_PURPLE && Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_GREEN) &&
+        Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_BLUE) &&
+        Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_RED) && !Flags_GetSwitch(globalCtx, this->actor.params)) {
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0,
                     this->actor.params);
         globalCtx->envCtx.unk_BF = 0x4;
 
-    } else if (!IS_POE_SISTER_BEATEN(PURPLE) && !Flags_GetSwitch(globalCtx, 0x1B)) {
+    } else if (!Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_PURPLE) && !Flags_GetSwitch(globalCtx, 0x1B)) {
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.posRot.pos.x,
                     this->actor.posRot.pos.y + 52.0f, this->actor.posRot.pos.z, 0, 0, 0,
-                    (this->poeSisterColor << 8) + this->actor.params + 0x1000);
+                    (this->flameColor << 8) + this->actor.params + 0x1000);
 
-    } else if (!IS_THIS_POE_SISTER_BEATEN()) {
+    } else if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
         if (globalCtx->envCtx.unk_BF == 0xFF) {
             globalCtx->envCtx.unk_BF = 4;
         }
@@ -120,7 +121,6 @@ void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
-
     s32 pad;
 
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -133,7 +133,6 @@ void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
-
     f32 lightBrightness;
     u8 red;
     u8 green;
@@ -146,9 +145,9 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_060003A0);
 
-    if (IS_THIS_POE_SISTER_BEATEN()) {
-        Color_RGBA8* primColor = &primColors[this->poeSisterColor];
-        Color_RGBA8* envColor = &envColors[this->poeSisterColor];
+    if (Flags_GetSwitch(globalCtx, this->actor.params)) {
+        Color_RGBA8* primColor = &sPrimColors[this->flameColor];
+        Color_RGBA8* envColor = &sEnvColors[this->flameColor];
 
         lightBrightness = (0.3f * Math_Rand_ZeroOne()) + 0.7f;
 
@@ -166,12 +165,10 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, primColor->r, primColor->g, primColor->b, 255);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, envColor->r, envColor->g, envColor->b, 255);
 
-        Matrix_Translate(0.0f, 52.0f, 0.0f, 1);
-        Matrix_RotateY(
-            (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
-                (M_PI / (f32)0x8000),
-            1);
-        Matrix_Scale(0.0027f, 0.0027f, 0.0027f, 1);
+        Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
+                       MTXMODE_APPLY);
+        Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
 
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
