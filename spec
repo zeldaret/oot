@@ -933,8 +933,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Ice_Shutter/z_bg_ice_shutter.o"
-    include "build/data/overlays/actors/z_bg_ice_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_ice_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Shutter/ovl_Bg_Ice_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -1364,8 +1363,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/z_bg_spot18_shutter.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/ovl_Bg_Spot18_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -3530,8 +3528,7 @@ endseg
 beginseg
     name "ovl_Obj_Hana"
     include "build/src/overlays/actors/ovl_Obj_Hana/z_obj_hana.o"
-    include "build/data/overlays/actors/z_obj_hana.data.o"
-    include "build/data/overlays/actors/z_obj_hana.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Hana/ovl_Obj_Hana_reloc.o"
 endseg
 
 beginseg
