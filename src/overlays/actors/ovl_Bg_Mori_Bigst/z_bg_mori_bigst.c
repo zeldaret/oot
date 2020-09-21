@@ -211,7 +211,7 @@ void BgMoriBigst_SpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriBigst_StalfosPairWait(BgMoriBigst* this, GlobalContext* globalCtx) {
-    if ((this->dyna.actor.initPosRot.rot.z == 0) && !func_8008E988(globalCtx)) {
+    if ((this->dyna.actor.initPosRot.rot.z == 0) && !Player_InCsMode(globalCtx)) {
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         BgMoriBigst_FinalNoop(this, globalCtx);
     }

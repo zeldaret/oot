@@ -176,7 +176,7 @@ s32 func_80078E84(GlobalContext* globalCtx) {
 
         if (interfaceCtx->unk_226 <= 0) {
             interfaceCtx->unk_226 = 0;
-            globalCtx->unk_11D58(globalCtx, -(gSaveContext.health + 1));
+            globalCtx->damagePlayer(globalCtx, -(gSaveContext.health + 1));
             return 1;
         }
     }
@@ -381,8 +381,6 @@ void Health_Draw(GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_lifemeter.c", 606);
 }
 
-u32 Health_IsCritical(void);
-
 void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
@@ -391,7 +389,7 @@ void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
         if (interfaceCtx->unk_22A <= 0) {
             interfaceCtx->unk_22A = 0;
             interfaceCtx->unk_22C = 0;
-            if (!func_8008E988(globalCtx) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
+            if (!Player_InCsMode(globalCtx) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
                 Health_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
