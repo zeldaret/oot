@@ -21,18 +21,22 @@
  */
 
 typedef enum {
-    SHUTTER,
-    F_CLEAR,
-    F_SWITCH,
-    BACK_LOCKED,
-    PG_BARS,
-    BOSS,
-    GOHMA_BLOCK,
-    F_SWITCH_B_CLEAR,
-    PG_BARS_2,
-    SHUTTER_9,
-    SHUTTER_A,
-    KEY_LOCKED
+    /* 0x00 */ SHUTTER,
+    /* 0x01 */ F_CLEAR,
+    /* 0x02 */ F_SWITCH,
+    /* 0x03 */ BACK_LOCKED,
+    /* 0x04 */ PG_BARS,
+    /* 0x05 */ BOSS,
+    /* 0x06 */ GOHMA_BLOCK,
+    /* 0x07 */ F_SWITCH_B_CLEAR,
+    /* 0x08 */ PG_BARS_2,
+    /* 0x09 */ SHUTTER_9,
+    /* 0x0A */ SHUTTER_A,
+    /* 0x0B */ KEY_LOCKED,
+    /* 0x0C */ SHUTTER_C,
+    /* 0x0D */ SHUTTER_D,
+    /* 0x0E */ SHUTTER_E,
+    /* 0x0F */ SHUTTER_F
 } DoorShutterType;
 
 struct DoorShutter;
@@ -47,7 +51,7 @@ typedef struct DoorShutter {
     /* 0x016A */ u8 doorType;
     /* 0x016B */ u8 unk_16B;
     /* 0x016C */ u8 unk_16C;
-    /* 0x016D */ s8 unk_16D;
+    /* 0x016D */ s8 requiredObject;
     /* 0x016E */ s8 unk_16E;
     /* 0x016F */ s8 unk_16F;
     /* 0x0170 */ f32 unk_170;
