@@ -161,7 +161,7 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     this->dyna.actor.groundY =
         func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId, &this->dyna.actor, &actorPosition, chkDist);
 
-    if (-0.001f <= (this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y)) {
+    if ((this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) >= -0.001f) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
         return true;
     }
@@ -266,7 +266,7 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
     approxFResult = Math_ApproxF(&this->unk_178, 20.0f, this->unk_174);
 
-    sign = 0.0f <= this->unk_17C ? 1.0f : -1.0f;
+    sign = this->unk_17C >= 0.0f ? 1.0f : -1.0f;
 
     tempUnk178 = ((f32)sign) * this->unk_178;
     actor->posRot.pos.x = actor->initPosRot.pos.x + (tempUnk178 * this->unk_16C);
@@ -314,7 +314,7 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* actor = &this->dyna.actor;
 
-    if (0.001f < fabsf(this->dyna.unk_150)) {
+    if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
     }
@@ -332,7 +332,7 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
     groundY = actor->groundY;
 
-    if (-0.001f <= (groundY - actor->posRot.pos.y)) {
+    if ((groundY - actor->posRot.pos.y) >= -0.001f) {
         actor->posRot.pos.y = groundY;
         func_808B4084(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WOOD_BOUND);
