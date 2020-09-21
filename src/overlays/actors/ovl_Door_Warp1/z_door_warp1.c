@@ -926,29 +926,21 @@ void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc
 void func_8099B140(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 pad;
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2078);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    do {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 200, 255, 255, this->unk_1A8);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 100, 255, this->unk_1A8);
-    } while (0);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 200, 255, 255, (u8)this->unk_1A8);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 100, 255, (u8)this->unk_1A8);
     oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
                                         NULL, NULL, &this->actor, oGfxCtx->polyXlu.p);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2098);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B140.s")
-#endif
 
-#ifdef NON_MATCHING
-// Regalloc
 void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Vec3f eye;
@@ -960,17 +952,14 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002EB44(&this->actor.posRot.pos, &eye, &eye, globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, this->unk_1A8);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x96, 0x00, 0x64, this->unk_1A8);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (u8)this->unk_1A8);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 150, 0, 100, (u8)this->unk_1A8);
     oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
                                         NULL, NULL, &this->actor, oGfxCtx->polyXlu.p);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2152);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B33C.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
 /* void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -980,7 +969,6 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     f32 spDC;
     f32 temp_f0;
     f32 temp_f12;
-    f32 temp_f12_2;
     s32 temp_f10;
     u32 temp_a0;
     u32 temp_a0_3;
@@ -1019,16 +1007,18 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xFF, 0x32, 0x00, 0xFF);
             break;
         default: // blue warp & others
-            if (255.0f * temp_f0 != 0) {
+            if (255 * temp_f0 != 0) {
                 if (this->unk_1A4 == 0) {
                     phi_t3 = (s32)(this->unk_1A4 - 2147483648.0f) | 0x80000000;
                 } else {
                     phi_t3 = 0xFF;
                 }
-            } else if (temp_f10 < 0) {
-                phi_t3 = 0xFF;
             } else {
-                phi_t3 = temp_f10;
+                if (temp_f10 < 0) {
+                    phi_t3 = 0xFF;
+                } else {
+                    phi_t3 = temp_f10;
+                }
             }
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 255 * temp_f0, 0xFF, 0xFF, phi_t3);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 255 * temp_f0, 0xFF, 0xFF);
@@ -1037,7 +1027,7 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_DISABLE);
     gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_MAGICSQ);
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 1.0f, this->actor.posRot.pos.z, MTXMODE_NEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x8C7));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2247));
     Matrix_Push();
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08, 
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
@@ -1046,13 +1036,13 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     Matrix_Translate(0, this->unk_194 * 230.0f, 0, MTXMODE_APPLY);
     temp_f12 = ((this->unk_1AE * spE8) / 100.0f) + 1.0f;
     Matrix_Scale(temp_f12, 1.0f, temp_f12, MTXMODE_APPLY);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x8DB));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2267));
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_060001A0);
     Matrix_Pull();
     if (this->unk_1A0 > 0.0f) {
         switch (this->actor.params) {
             default: // blue warp & others
-                temp_a0_3 = 255.0f * spDC;
+                temp_a0_3 = 255 * spDC;
                 gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, temp_a0_3, 0xFF, 0xFF, this->unk_1A0);
                 gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, temp_a0_3, 0xFF, 0xFF);
                 break;
@@ -1079,9 +1069,9 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
                                 spEC, (-(s32)this->unk_19C & 511), 0x100, 0x100, 1, 
                                 spEC, (-(s32)this->unk_19C & 511), 0x100, 0x100));
         Matrix_Translate(0, this->unk_198 * 60.0f, 0, MTXMODE_APPLY);
-        temp_f12_2 = (((f32) this->unk_1B0 * spE4) / 100.0f) + 1.0f;
-        Matrix_Scale(temp_f12_2, 1.0f, temp_f12_2, MTXMODE_APPLY);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x920));
+        temp_f12 = ((this->unk_1B0 * spE4) / 100.0f) + 1.0f;
+        Matrix_Scale(temp_f12, 1.0f, temp_f12, MTXMODE_APPLY);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2336));
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_060001A0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2340);
