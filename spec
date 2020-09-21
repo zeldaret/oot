@@ -172,8 +172,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o"
-    //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -1164,8 +1163,7 @@ endseg
 beginseg
     name "ovl_Bg_Po_Syokudai"
     include "build/src/overlays/actors/ovl_Bg_Po_Syokudai/z_bg_po_syokudai.o"
-    include "build/data/overlays/actors/z_bg_po_syokudai.data.o"
-    include "build/data/overlays/actors/z_bg_po_syokudai.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Po_Syokudai/ovl_Bg_Po_Syokudai_reloc.o"
 endseg
 
 beginseg
