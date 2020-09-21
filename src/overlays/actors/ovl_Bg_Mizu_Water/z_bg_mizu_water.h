@@ -15,7 +15,7 @@ typedef struct BgMizuWater {
     /* 0x0154 */ f32 targetY;
     /* 0x0158 */ f32 baseY;
     /* 0x015C */ s32 switchFlag; // only used for types 2-4
-} BgMizuWater;                   // size = 0x0160
+} BgMizuWater; // size = 0x0160
 
 extern const ActorInit Bg_Mizu_Water_InitVars;
 
