@@ -1344,7 +1344,6 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Basket"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Basket/z_bg_spot18_basket.o"
-    include "build/data/overlays/actors/z_bg_spot18_basket.data.o"
     include "build/data/overlays/actors/z_bg_spot18_basket.reloc.o"
 endseg
 

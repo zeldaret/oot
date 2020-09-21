@@ -7,10 +7,13 @@
 struct BgSpot18Basket;
 
 typedef struct BgSpot18Basket {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0xD0];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ ColliderJntSph colliderJntSph;
+    /* 0x0184 */ ColliderJntSphItem colliderJntSphItem;
+    /* 0x01A4 */ char unk_14C[0x58];
 } BgSpot18Basket; // size = 0x021C
 
 extern const ActorInit Bg_Spot18_Basket_InitVars;
 
 #endif
+
