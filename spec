@@ -172,8 +172,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o"
-    //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -1163,8 +1162,7 @@ endseg
 beginseg
     name "ovl_Bg_Po_Syokudai"
     include "build/src/overlays/actors/ovl_Bg_Po_Syokudai/z_bg_po_syokudai.o"
-    include "build/data/overlays/actors/z_bg_po_syokudai.data.o"
-    include "build/data/overlays/actors/z_bg_po_syokudai.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Po_Syokudai/ovl_Bg_Po_Syokudai_reloc.o"
 endseg
 
 beginseg
@@ -1362,8 +1360,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/z_bg_spot18_shutter.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/ovl_Bg_Spot18_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -3528,8 +3525,7 @@ endseg
 beginseg
     name "ovl_Obj_Hana"
     include "build/src/overlays/actors/ovl_Obj_Hana/z_obj_hana.o"
-    include "build/data/overlays/actors/z_obj_hana.data.o"
-    include "build/data/overlays/actors/z_obj_hana.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Hana/ovl_Obj_Hana_reloc.o"
 endseg
 
 beginseg
