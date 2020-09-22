@@ -44,7 +44,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static Gfx* sDispLists[] = { 0x06001300, 0x06008840 };
+static Gfx* sDisplayLists[] = { 0x06001300, 0x06008840 };
 
 static s16 sUnkTimer; // seems to be unused
 
@@ -173,6 +173,6 @@ void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 344),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, sDispLists[this->dyna.actor.params]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDisplayLists[this->dyna.actor.params]);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 348);
 }
