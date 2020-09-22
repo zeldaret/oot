@@ -15,8 +15,8 @@ void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashira4_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriHashira4_SetupCheckForMoriTex(BgMoriHashira4* this);
-void BgMoriHashira4_CheckForMoriTex(BgMoriHashira4* this, GlobalContext* globalCtx);
+void BgMoriHashira4_SetupWaitForMoriTex(BgMoriHashira4* this);
+void BgMoriHashira4_WaitForMoriTex(BgMoriHashira4* this, GlobalContext* globalCtx);
 void BgMoriHashira4_SetupPillarsRotate(BgMoriHashira4* this);
 void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx);
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx);
@@ -96,7 +96,7 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_SetHeight(&this->dyna.actor, 50.0f);
-    BgMoriHashira4_SetupCheckForMoriTex(this);
+    BgMoriHashira4_SetupWaitForMoriTex(this);
     // (4 pillars of the Forest Temple) Bank danger
     osSyncPrintf("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
     sUnkTimer = 0;
@@ -109,11 +109,11 @@ void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void BgMoriHashira4_SetupCheckForMoriTex(BgMoriHashira4* this) {
-    BgMoriHashira4_SetupAction(this, BgMoriHashira4_CheckForMoriTex);
+void BgMoriHashira4_SetupWaitForMoriTex(BgMoriHashira4* this) {
+    BgMoriHashira4_SetupAction(this, BgMoriHashira4_WaitForMoriTex);
 }
 
-void BgMoriHashira4_CheckForMoriTex(BgMoriHashira4* this, GlobalContext* globalCtx) {
+void BgMoriHashira4_WaitForMoriTex(BgMoriHashira4* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         this->gateTimer = 0;
         if (this->dyna.actor.params == 0) {
