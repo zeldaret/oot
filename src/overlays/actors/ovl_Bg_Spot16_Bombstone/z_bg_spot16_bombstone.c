@@ -18,12 +18,12 @@ void func_808B5934(BgSpot16Bombstone* this);
 void func_808B5AF0(BgSpot16Bombstone* this);
 void func_808B5A78(BgSpot16Bombstone* this);
 
-extern UNK_TYPE D_06000C20;
-extern Gfx D_060009E0;
+extern Gfx D_06000C20[];
+extern Gfx D_060009E0[];
 
 typedef struct D_808B5DD8Struct {
-    s16 speed;
-    s16 velocity;
+    s16 speedXZ;
+    s16 speedY;
     s16 scale;
     s16 unk_6;
     s16 unk_8;
@@ -42,9 +42,9 @@ typedef struct D_808B5EB0Struct {
     s16 life;
 } D_808B5EB0Struct; // size = 0xE
 
-EnBombf* playerBomb = NULL;
+static EnBombf* sPlayerBomb = NULL;
 
-s16 timer = 0;
+static s16 sTimer = 0;
 
 D_808B5DD8Struct D_808B5DD8[] = { { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
                                   { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
@@ -125,12 +125,13 @@ static InitChainEntry sInitChainDebris[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-Vec3f acceleration = { 0.0f, 0.4f, 0.0f };
+static Vec3f sVelocity = { 0.0f, 0.0f, 0.0f };
 
-f32 D_808B6074[] = { 66.0f, 51.0f, 48.0f, 36.0f, 21.0f };
+static Vec3f sAcceleration = { 0.0f, 0.4f, 0.0f };
 
-s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
+static f32 D_808B6074[] = { 66.0f, 51.0f, 48.0f, 36.0f, 21.0f };
+
+static s16 D_808B6088[] = { 0, 1, 2, 3, 4 };
 
 void func_808B4C30(BgSpot16Bombstone* this) {
     s16 params;
@@ -190,8 +191,8 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 
     Actor_ProcessInitChain(actor, sInitChainDebris);
 
-    actor->speedXZ = D_808B5DD8[actor->params].speed;
-    actor->velocity.y = D_808B5DD8[actor->params].velocity;
+    actor->speedXZ = D_808B5DD8[actor->params].speedXZ;
+    actor->velocity.y = D_808B5DD8[actor->params].speedY;
 
     Actor_SetScale(actor, D_808B5DD8[actor->params].scale * scaleFactor);
 
@@ -225,7 +226,6 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 }
 
 void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
-
     BgSpot16Bombstone* this = THIS;
     s16 shouldLive;
 
@@ -306,7 +306,7 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         position.y = D_808B5EB0[index].unk_4 + actorPosition->y;
         position.z = ((this->cosRotation * tempUnk6) - (tempUnk2 * this->sinRotation)) + actorPosition->z;
 
-        func_800287AC(globalCtx, &position, &velocity, &acceleration, D_808B5EB0[index].scale,
+        func_800287AC(globalCtx, &position, &sVelocity, &sAcceleration, D_808B5EB0[index].scale,
                       D_808B5EB0[index].scaleStep, D_808B5EB0[index].life);
 
         this->unk_158 += 1;
@@ -393,28 +393,28 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnBombf* currentBomb;
 
-    if (timer > 0) {
-        timer--;
+    if (sTimer > 0) {
+        sTimer--;
     }
 
-    if (playerBomb != NULL) {
-        if (playerBomb->actor.update == NULL) {
-            playerBomb = NULL;
-        } else if (timer <= 0 && playerBomb->actor.posRot.pos.y < 1400.0f &&
-                   Math3D_Dist1DSq(playerBomb->actor.posRot.pos.x + 1579.0f, playerBomb->actor.posRot.pos.z + 790.0f) <
+    if (sPlayerBomb != NULL) {
+        if (sPlayerBomb->actor.update == NULL) {
+            sPlayerBomb = NULL;
+        } else if (sTimer <= 0 && sPlayerBomb->actor.posRot.pos.y < 1400.0f &&
+                   Math3D_Dist1DSq(sPlayerBomb->actor.posRot.pos.x + 1579.0f, sPlayerBomb->actor.posRot.pos.z + 790.0f) <
                        SQ(400.0f) &&
-                   playerBomb->actor.params == 0) {
-            currentBomb = playerBomb;
+                   sPlayerBomb->actor.params == 0) {
+            currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
-                timer = currentBomb->timer + 20;
-                func_800800F8(globalCtx, 0x1054, timer, NULL, 0);
+                sTimer = currentBomb->timer + 20;
+                func_800800F8(globalCtx, 0x1054, sTimer, NULL, 0);
             }
         }
-    } else if ((player->stateFlags1 & 0x800)) {
+    } else if (player->stateFlags1 & 0x800) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->actor.type == ACTORTYPE_EXPLOSIVES &&
             playerHeldActor->actor.id == ACTOR_EN_BOMBF) {
-            playerBomb = playerHeldActor;
+            sPlayerBomb = playerHeldActor;
         }
     }
 }
@@ -434,7 +434,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     acFlags = this->colliderCylinder.base.acFlags;
 
-    if ((acFlags & 2) != 0) {
+    if (acFlags & 2) {
         this->colliderCylinder.base.acFlags = acFlags & ~2;
 
         func_808B561C(this, globalCtx);
@@ -510,7 +510,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     }
 
     bgCheckFlags = actor->bgCheckFlags;
-    if ((bgCheckFlags & 8) != 0 || (bgCheckFlags & 1) != 0 && actor->velocity.y < 0.0f) {
+    if ((bgCheckFlags & 8) != 0 || ((bgCheckFlags & 1) != 0 && actor->velocity.y < 0.0f)) {
         func_808B53A8(this, globalCtx);
         func_808B51A8(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &actor->posRot, 20, NA_SE_EV_ROCK_BROKEN);
