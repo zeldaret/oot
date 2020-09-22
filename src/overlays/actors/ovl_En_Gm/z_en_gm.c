@@ -1,3 +1,9 @@
+/*
+ * File: z_en_gm.c
+ * Overlay: ovl_En_Gm
+ * Description: Medi-Goron
+ */
+
 #include "z_en_gm.h"
 #include <vt.h>
 
@@ -257,7 +263,7 @@ void func_80A3DF60(EnGm* this, GlobalContext* globalCtx) {
 
 void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
-    this->count++;
+    this->counter++;
     this->subActionFunc(this, globalCtx);
     this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
     this->actor.posRot2.rot.y = this->actor.posRot.rot.y;

@@ -17,8 +17,8 @@ typedef struct EnGm {
     /* 0x026C */ EnGmActionFunc subActionFunc;
     /* 0x0270 */ ColliderCylinder collider;
     /* 0x02BC */ s8 objBankIndex;
-    /* 0x02BE */ s16 count;
-    /* 0x02C0 */ s16 eyeTimer; // related to eyes
+    /* 0x02BE */ s16 counter;
+    /* 0x02C0 */ s16 eyeTimer;
     /* 0x02C2 */ u8 eyeIndex;
     /* 0x02C4 */ Vec3f talkPos;
 } EnGm; // size = 0x02D0
