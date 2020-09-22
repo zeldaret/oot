@@ -112,8 +112,8 @@ void func_80A6B250(EnHorseNormal* this) {
         ((this->unk_200 != 0) || !(D_80A6D4C0[1] < this->skin.skelAnime.animCurrentFrame))) {
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-        this->unk_200 += 1;
-        if (this->unk_200 >= 2) {
+        this->unk_200++;
+        if (this->unk_200 >= ARRAY_COUNT(D_80A6D4C0)) {
             this->unk_200 = 0;
         }
     }
