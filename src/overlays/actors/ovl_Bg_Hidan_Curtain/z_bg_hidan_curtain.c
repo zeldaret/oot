@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_curtain.c
+ * Overlay: ovl_Bg_Hidan_Curtain
+ * Description: Flame circle
+ */
+
 #include "z_bg_hidan_curtain.h"
 
 #define FLAGS 0x00000010
@@ -10,7 +16,7 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanCurtain_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain* this, GlobalContext* globalCtx);
-void BgHidanCurtain_Cutscene(BgHidanCurtain* this, GlobalContext* globalCtx);
+void BgHidanCurtain_WaitForCutscene(BgHidanCurtain* this, GlobalContext* globalCtx);
 void BgHidanCurtain_WaitForClear(BgHidanCurtain* this, GlobalContext* globalCtx);
 void BgHidanCurtain_TurnOn(BgHidanCurtain* this, GlobalContext* globalCtx);
 void BgHidanCurtain_TurnOff(BgHidanCurtain* this, GlobalContext* globalCtx);
@@ -100,11 +106,11 @@ void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext *globalCtx) {
 void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain *this, GlobalContext *globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         if (this->type == 1) {
-            this->actionFunc = BgHidanCurtain_Cutscene;
+            this->actionFunc = BgHidanCurtain_WaitForCutscene;
             func_800800F8(globalCtx, 3350, -99, &this->actor, 0);
             this->timer = 50;
         } else if (this->type == 3) {
-            this->actionFunc = BgHidanCurtain_Cutscene;
+            this->actionFunc = BgHidanCurtain_WaitForCutscene;
             func_800800F8(globalCtx, 3360, 60, &this->actor, 0);
             this->timer = 30;
         } else {
@@ -113,7 +119,7 @@ void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain *this, GlobalContext *globalC
     }
 }
 
-void BgHidanCurtain_Cutscene(BgHidanCurtain *this, GlobalContext *globalCtx) {
+void BgHidanCurtain_WaitForCutscene(BgHidanCurtain *this, GlobalContext *globalCtx) {
     if (this->timer-- == 0) {
         this->actionFunc = BgHidanCurtain_TurnOff;
     }
