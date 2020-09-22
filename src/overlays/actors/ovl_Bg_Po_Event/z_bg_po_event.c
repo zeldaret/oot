@@ -173,7 +173,7 @@ void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
     static InitChainEntry sInitChain[] = {
         ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
     };
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgPoEvent* this = THIS;
     
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -182,31 +182,31 @@ void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.params &= 0x3F;
 
     if (this->type >= 2) {
-        Collider_InitTris(globalCtx2, &this->collider);
-        Collider_SetTris(globalCtx2, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
-        if (Flags_GetSwitch(globalCtx2, this->dyna.actor.params)) {
+        Collider_InitTris(globalCtx, &this->collider);
+        Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
+        if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
             Actor_Kill(&this->dyna.actor);
         } else {
-            BgPoEvent_InitPaintings(this, globalCtx2);
+            BgPoEvent_InitPaintings(this, globalCtx);
         }
     } else {
         DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
-        if (Flags_GetSwitch(globalCtx2, this->dyna.actor.params)) {
+        if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
             Actor_Kill(&this->dyna.actor);
         } else {
-            BgPoEvent_InitBlocks(this, globalCtx2);
+            BgPoEvent_InitBlocks(this, globalCtx);
         }
     }
 }
 
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgPoEvent* this = THIS;
     
     if (this->type >= 2) {
-        Collider_DestroyTris(globalCtx2, &this->collider);
+        Collider_DestroyTris(globalCtx, &this->collider);
     } else {
-        DynaPolyInfo_Free(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         if ((this->type == 1) && (gSaveContext.timer1Value > 0)) {
             gSaveContext.timer1State = 0xA;
         }
@@ -563,18 +563,18 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgPoEvent* this = THIS;
 
-    this->actionFunc(this, globalCtx2);
+    this->actionFunc(this, globalCtx);
     if ((this->actionFunc == BgPoEvent_AmyWait) || (this->actionFunc == BgPoEvent_PaintingPresent)) {
-        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
 void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* sDispLists[] = { D_060075A0, D_060079E0, D_06006830, D_06006D60, D_06007230 };
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgPoEvent* this = THIS;
     u8 opacity;
     Vec3f sp58;
@@ -582,8 +582,8 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp48;
     f32 pad44;
 
-    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_po_event.c", 1481);
-    func_80093D18(globalCtx2->state.gfxCtx);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1481);
+    func_80093D18(globalCtx->state.gfxCtx);
     if ((this->type == 3) || (this->type == 2)) {
         if (this->actionFunc == BgPoEvent_PaintingEmpty) {
             opacity = 255;
@@ -594,7 +594,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, opacity);
     }
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_po_event.c", 1501),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyOpa.p++, sDispLists[this->type]);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1508);
