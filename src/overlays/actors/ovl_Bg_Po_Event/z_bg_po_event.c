@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_po_event.c
+ * Overlay: ovl_Bg_Po_Event
+ * Description: Poe sisters' paintings and puzzle blocks
+ */
+
 #include "z_bg_po_event.h"
 
 #define FLAGS 0x00000000
