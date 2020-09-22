@@ -147,7 +147,7 @@ void func_808B4C4C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     colliderJntSph = &this->colliderJntSph;
     Collider_InitJntSph(globalCtx, colliderJntSph);
-    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderJntSphItems);
+    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
     this->colliderJntSph.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
     this->colliderJntSph.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + 50.0f;
     this->colliderJntSph.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
