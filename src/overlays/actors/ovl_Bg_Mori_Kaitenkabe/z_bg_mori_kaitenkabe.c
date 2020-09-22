@@ -15,7 +15,7 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriKaitenkabe_CheckForMoriTex(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
+void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupWait(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
@@ -66,7 +66,7 @@ void BgMoriKaitenkabe_Init(Actor *thisx, GlobalContext *globalCtx) {
         // 【Rotating wall】 Bank danger!
         osSyncPrintf("【回転壁】 バンク危険！(%s %d)\n", "../z_bg_mori_kaitenkabe.c", 176);
     } else {
-        this->actionFunc = BgMoriKaitenkabe_CheckForMoriTex;
+        this->actionFunc = BgMoriKaitenkabe_WaitForMoriTex;
     }
 }
 
@@ -77,7 +77,7 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext *globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void BgMoriKaitenkabe_CheckForMoriTex(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
+void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         BgMoriKaitenkabe_SetupWait(this);
         this->dyna.actor.draw = BgMoriKaitenkabe_Draw;
