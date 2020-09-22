@@ -573,7 +573,7 @@ void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* sDispLists[] = { D_060075A0, D_060079E0, D_06006830, D_06006D60, D_06007230 };
+    static Gfx* sDisplayLists[] = { D_060075A0, D_060079E0, D_06006830, D_06006D60, D_06007230 };
     s32 pad;
     BgPoEvent* this = THIS;
     u8 opacity;
@@ -596,7 +596,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, sDispLists[this->type]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDisplayLists[this->type]);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1508);
 
     if ((this->type == 0) || (this->type == 1)) {
