@@ -237,7 +237,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
                     this->subActionFunc = func_80A3DF00;
                 }
                 break;
-            case 1:                               // no
+            case 1: // no
                 func_8010B720(globalCtx, 0x3050); // "All right. Come back again."
                 this->subActionFunc = func_80A3DD7C;
                 break;
