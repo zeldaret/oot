@@ -43,7 +43,7 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 s16 D_808B85C8[] = { 0x8000, 0x2AAA, 0xD555, 0x0000 };
-s32 D_808B85D0 = 0;
+s16 D_808B85D0 = 0;
 
 // s32 D_808B85D4[] = { 0xC8500064, 0xB0F403E8, 0xB0F801F4, 0x30FC03E8 };
 static InitChainEntry sInitChain[] = {
@@ -75,17 +75,21 @@ void func_808B7770(BgSpot18Basket *this, GlobalContext *globalCtx, f32 arg2) {
     f32 randomValue;
     f32 cosValue;
     f32 randomValue2;
-    f32 randomCosValue;
-    s32 i;
     Vec3f acceleration;
     Vec3f velocity;
     Vec3f position;
+    f32 randomCosValue;
+    s8 i = 0;
+    s16 temp;
 
-    for (i = 0; i < 2; i++) {
+    do {
         if (!(arg2 < Math_Rand_ZeroOne())) {
-            D_808B85D0 += 30000;
+            temp = 30000;
+            D_808B85D0 += temp;
+
             sinValue = Math_Sins(D_808B85D0);
             cosValue = Math_Coss(D_808B85D0);
+
             randomValue2 = (Math_Rand_ZeroOne() * 35.0f) + 35.0f;
             randomCosValue = randomValue2 * cosValue;
 
@@ -103,9 +107,10 @@ void func_808B7770(BgSpot18Basket *this, GlobalContext *globalCtx, f32 arg2) {
             randomValue = Math_Rand_ZeroOne();
 
             func_800286CC(globalCtx, &position, &velocity, &acceleration, 
-                ((randomValue * 16.0f) + 80.0f), (s32) ((Math_Rand_ZeroOne() * 30.0f) + 80.0f));
+                ((randomValue * 16.0f) + 80.0f), ((Math_Rand_ZeroOne() * 30.0f) + 80.0f));
         }
-    }
+        i++;
+    } while (i != 2);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7770.s")
