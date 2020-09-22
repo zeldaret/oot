@@ -353,7 +353,7 @@ void func_808B561C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     posRot = &this->actor.posRot;
     for (index = 0; index < ARRAY_COUNT(D_808B6088); index++) {
-        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, 0xCD, posRot->pos.x, posRot->pos.y, posRot->pos.z, 0, 0, 0,
+        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_BOMBSTONE, posRot->pos.x, posRot->pos.y, posRot->pos.z, 0, 0, 0,
                         D_808B6088[index]) == NULL) {
             break;
         }
@@ -510,7 +510,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     }
 
     bgCheckFlags = actor->bgCheckFlags;
-    if ((bgCheckFlags & 8) != 0 || ((bgCheckFlags & 1) != 0 && actor->velocity.y < 0.0f)) {
+    if (bgCheckFlags & 8 || (bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
         func_808B53A8(this, globalCtx);
         func_808B51A8(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &actor->posRot, 20, NA_SE_EV_ROCK_BROKEN);
