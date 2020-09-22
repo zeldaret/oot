@@ -293,7 +293,7 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     if (true) {}
 
     while (true) {
-        if (this->unk_158 >= 26U || this->unk_154 < D_808B5EB0[this->unk_158].unk_0) {
+        if (this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158].unk_0) {
             break;
         }
 
@@ -353,8 +353,8 @@ void func_808B561C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     posRot = &this->actor.posRot;
     for (index = 0; index < ARRAY_COUNT(D_808B6088); index++) {
-        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_BOMBSTONE, posRot->pos.x, posRot->pos.y, posRot->pos.z, 0, 0, 0,
-                        D_808B6088[index]) == NULL) {
+        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_BOMBSTONE, posRot->pos.x, posRot->pos.y,
+                        posRot->pos.z, 0, 0, 0, D_808B6088[index]) == NULL) {
             break;
         }
     }
@@ -401,8 +401,8 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         if (sPlayerBomb->actor.update == NULL) {
             sPlayerBomb = NULL;
         } else if (sTimer <= 0 && sPlayerBomb->actor.posRot.pos.y < 1400.0f &&
-                   Math3D_Dist1DSq(sPlayerBomb->actor.posRot.pos.x + 1579.0f, sPlayerBomb->actor.posRot.pos.z + 790.0f) <
-                       SQ(400.0f) &&
+                   Math3D_Dist1DSq(sPlayerBomb->actor.posRot.pos.x + 1579.0f,
+                                   sPlayerBomb->actor.posRot.pos.z + 790.0f) < SQ(400.0f) &&
                    sPlayerBomb->actor.params == 0) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
