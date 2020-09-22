@@ -12,7 +12,7 @@ typedef struct BgMoriBigst {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgMoriBigstActionFunc actionFunc;
     /* 0x0168 */ s16 waitTimer;
-    /* 0x016A */ s8 objBankIndex;
+    /* 0x016A */ s8 moriTexObjIndex;
 } BgMoriBigst; // size = 0x016C
 
 extern const ActorInit Bg_Mori_Bigst_InitVars;
