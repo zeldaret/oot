@@ -15,8 +15,8 @@ void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriIdomizu_SetupCheckForMoriTex(BgMoriIdomizu* this);
-void BgMoriIdomizu_CheckForMoriTex(BgMoriIdomizu* this, GlobalContext* globalCtx);
+void BgMoriIdomizu_SetupWaitForMoriTex(BgMoriIdomizu* this);
+void BgMoriIdomizu_WaitForMoriTex(BgMoriIdomizu* this, GlobalContext* globalCtx);
 void BgMoriIdomizu_SetupMain(BgMoriIdomizu* this);
 void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx);
 
@@ -77,7 +77,7 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
                      202);
         return;
     }
-    BgMoriIdomizu_SetupCheckForMoriTex(this);
+    BgMoriIdomizu_SetupWaitForMoriTex(this);
     sAlreadyLoaded = true;
     this->isLoaded = true;
     this->actor.room = -1;
@@ -94,11 +94,11 @@ void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgMoriIdomizu_SetupCheckForMoriTex(BgMoriIdomizu* this) {
-    BgMoriIdomizu_SetupAction(this, BgMoriIdomizu_CheckForMoriTex);
+void BgMoriIdomizu_SetupWaitForMoriTex(BgMoriIdomizu* this) {
+    BgMoriIdomizu_SetupAction(this, BgMoriIdomizu_WaitForMoriTex);
 }
 
-void BgMoriIdomizu_CheckForMoriTex(BgMoriIdomizu* this, GlobalContext* globalCtx) {
+void BgMoriIdomizu_WaitForMoriTex(BgMoriIdomizu* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         BgMoriIdomizu_SetupMain(this);
         this->actor.draw = BgMoriIdomizu_Draw;
