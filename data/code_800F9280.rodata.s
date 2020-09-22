@@ -48,6 +48,8 @@ glabel jtbl_8014A680
 
 glabel D_8014A6C0
     .half 0x1C00
+
+glabel gTatumsPerBeat
     .half 0x0030
 
 glabel D_8014A6C4
