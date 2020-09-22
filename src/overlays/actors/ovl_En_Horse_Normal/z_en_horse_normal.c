@@ -274,7 +274,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
 
 void func_80A6BBAC(EnHorseNormal* this) {
     this->type = 0;
-    this->animationIdx += 1;
+    this->animationIdx++;
 
     if (this->animationIdx >= ARRAY_COUNT(sAnimations)) {
         this->animationIdx = 0;
