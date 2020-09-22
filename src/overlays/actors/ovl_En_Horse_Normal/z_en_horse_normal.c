@@ -660,9 +660,9 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cloneCollider.base);
             func_80094044(globalCtx->state.gfxCtx);
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
-            Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, 0);
+            Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, MTXMODE_NEW);
             temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.unk_10;
-            Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, 1);
+            Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
             Matrix_RotateY(cloneRotY * (2.0f * M_PI / 0x10000), 1);
             mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
             if (mtx2 != NULL) {
