@@ -39,9 +39,10 @@ void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
         { 0x06, { 0x00100700, 0x00, 0x20 }, { 0x00100700, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
         { 0x0014, 0x0001E, 0x000A, 0x0000, 0x0000, 0x0000 }
     };
-    GlobalContext* globalCtx2 = globalCtx;
+    // GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     EnVbBall* this = THIS;
-    f32 pad;
+    s32 pad2;
     f32 angle;
 
     if (this->actor.params >= 200) { // Volvagia's bones
@@ -53,12 +54,12 @@ void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.velocity.z = 2.0f * cosf(angle);
         this->actor.gravity = -0.8f;
     } else { // Volvagia's rocks
-        Collider_InitCylinder(globalCtx2, &this->collider1);
-        Collider_SetCylinder(globalCtx2, &this->collider1, &this->actor, &sCylinderInit);
+        Collider_InitCylinder(globalCtx, &this->collider);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         Actor_SetScale(&this->actor, this->actor.posRot.rot.z / 10000.0f);
-        this->collider1.dim.radius = this->actor.scale.y * 3000.0f;
-        this->collider1.dim.height = this->actor.scale.y * 5000.0f;
-        this->collider1.dim.yShift = this->actor.scale.y * -2500.0f;
+        this->collider.dim.radius = this->actor.scale.y * 3000.0f;
+        this->collider.dim.height = this->actor.scale.y * 5000.0f;
+        this->collider.dim.yShift = this->actor.scale.y * -2500.0f;
         this->xRotVel = Math_Rand_CenteredFloat(0x2000);
         this->yRotVel = Math_Rand_CenteredFloat(0x2000);
         this->shadowSize = this->actor.scale.y * 68.0f;
@@ -66,11 +67,11 @@ void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     EnVbBall* this = THIS;
     
     if (this->actor.params < 200) {
-        Collider_DestroyCylinder(globalCtx2, &this->collider1);
+        Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 
@@ -273,39 +274,39 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
             }
         }
-        if (this->collider1.base.atFlags & 2) {
+        if (this->collider.base.atFlags & 2) {
             Player* player = PLAYER;
-            this->collider1.base.atFlags &= ~2;
+            this->collider.base.atFlags &= ~2;
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
-        Collider_CylinderUpdate(&this->actor, &this->collider1);
-        CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider1.base);
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
     }
 }
 
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     EnVbBall* this = THIS;
     
-    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_en_vb_ball.c", 604);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 604);
     if (1) {} // needed for match
-    func_80093D18(globalCtx2->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_vb_ball.c", 607),
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 607),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params >= 200) {
         gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_0600B2F8));
     } else {
         gSPDisplayList(oGfxCtx->polyOpa.p++, SEGMENTED_TO_VIRTUAL(D_06009F20));
-        func_80094044(globalCtx2->state.gfxCtx);
+        func_80094044(globalCtx->state.gfxCtx);
 
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);
         Matrix_Translate(this->actor.posRot.pos.x, 100.0f, this->actor.posRot.pos.z, 0);
         Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, 1);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_vb_ball.c", 626),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 626),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_04049210));
     }
 
-    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_en_vb_ball.c", 632);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 632);
 }

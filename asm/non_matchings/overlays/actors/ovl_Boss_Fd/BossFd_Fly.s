@@ -510,8 +510,8 @@ glabel L808CB988
 /* 00E78 808CBC38 314B00FF */  andi    $t3, $t2, 0x00FF           ## $t3 = 00000001
 /* 00E7C 808CBC3C 000B6080 */  sll     $t4, $t3,  2               
 /* 00E80 808CBC40 018B6023 */  subu    $t4, $t4, $t3              
-/* 00E84 808CBC44 3C0D808D */  lui     $t5, %hi(holeLocations)       ## $t5 = 808D0000
-/* 00E88 808CBC48 25AD192C */  addiu   $t5, $t5, %lo(holeLocations)  ## $t5 = 808D192C
+/* 00E84 808CBC44 3C0D808D */  lui     $t5, %hi(sHoleLocations)       ## $t5 = 808D0000
+/* 00E88 808CBC48 25AD192C */  addiu   $t5, $t5, %lo(sHoleLocations)  ## $t5 = 808D192C
 /* 00E8C 808CBC4C 000C6080 */  sll     $t4, $t4,  2               
 /* 00E90 808CBC50 A6C00248 */  sh      $zero, 0x0248($s6)         ## 00000248
 /* 00E94 808CBC54 A2CA02D4 */  sb      $t2, 0x02D4($s6)           ## 000002D4
@@ -816,10 +816,10 @@ glabel L808CBF44
 /* 012F0 808CC0B0 E6C41464 */  swc1    $f4, 0x1464($s6)           ## 00001464
 /* 012F4 808CC0B4 C4261E9C */  lwc1    $f6, %lo(D_808D1E9C)($at)  
 /* 012F8 808CC0B8 3C01808D */  lui     $at, %hi(D_808D1EA0)       ## $at = 808D0000
-/* 012FC 808CC0BC 3C08808D */  lui     $t0, %hi(holeLocations)       ## $t0 = 808D0000
+/* 012FC 808CC0BC 3C08808D */  lui     $t0, %hi(sHoleLocations)       ## $t0 = 808D0000
 /* 01300 808CC0C0 E6C61460 */  swc1    $f6, 0x1460($s6)           ## 00001460
 /* 01304 808CC0C4 C42A1EA0 */  lwc1    $f10, %lo(D_808D1EA0)($at) 
-/* 01308 808CC0C8 2508192C */  addiu   $t0, $t0, %lo(holeLocations)  ## $t0 = 808D192C
+/* 01308 808CC0C8 2508192C */  addiu   $t0, $t0, %lo(sHoleLocations)  ## $t0 = 808D192C
 /* 0130C 808CC0CC 0019C880 */  sll     $t9, $t9,  2               
 /* 01310 808CC0D0 E6D41484 */  swc1    $f20, 0x1484($s6)          ## 00001484
 /* 01314 808CC0D4 A6C00248 */  sh      $zero, 0x0248($s6)         ## 00000248
@@ -1069,8 +1069,8 @@ glabel L808CC140
 /* 01690 808CC450 312A00FF */  andi    $t2, $t1, 0x00FF           ## $t2 = 00000007
 /* 01694 808CC454 000A5880 */  sll     $t3, $t2,  2               
 /* 01698 808CC458 016A5823 */  subu    $t3, $t3, $t2              
-/* 0169C 808CC45C 3C0C808D */  lui     $t4, %hi(holeLocations)       ## $t4 = 808D0000
-/* 016A0 808CC460 258C192C */  addiu   $t4, $t4, %lo(holeLocations)  ## $t4 = 808D192C
+/* 0169C 808CC45C 3C0C808D */  lui     $t4, %hi(sHoleLocations)       ## $t4 = 808D0000
+/* 016A0 808CC460 258C192C */  addiu   $t4, $t4, %lo(sHoleLocations)  ## $t4 = 808D192C
 /* 016A4 808CC464 000B5880 */  sll     $t3, $t3,  2               
 /* 016A8 808CC468 A6C00248 */  sh      $zero, 0x0248($s6)         ## 00000248
 /* 016AC 808CC46C A2C902D4 */  sb      $t1, 0x02D4($s6)           ## 000002D4
@@ -1207,7 +1207,7 @@ glabel L808CC140
 /* 01890 808CC650 24490001 */  addiu   $t1, $v0, 0x0001           ## $t1 = 00000001
 /* 01894 808CC654 24010033 */  addiu   $at, $zero, 0x0033         ## $at = 00000033
 /* 01898 808CC658 1041010D */  beq     $v0, $at, .L808CCA90       
-/* 0189C 808CC65C 3C09808D */  lui     $t1, %hi(ceilingTargets)       ## $t1 = 808D0000
+/* 0189C 808CC65C 3C09808D */  lui     $t1, %hi(sCeilingTargets)       ## $t1 = 808D0000
 /* 018A0 808CC660 100003CE */  beq     $zero, $zero, .L808CD59C   
 /* 018A4 808CC664 86D90244 */  lh      $t9, 0x0244($s6)           ## 00000244
 .L808CC668:
@@ -1298,8 +1298,8 @@ glabel L808CC6A4
 /* 019D4 808CC794 A2C202D4 */  sb      $v0, 0x02D4($s6)           ## 000002D4
 .L808CC798:
 /* 019D8 808CC798 92C902D4 */  lbu     $t1, 0x02D4($s6)           ## 000002D4
-/* 019DC 808CC79C 3C0B808D */  lui     $t3, %hi(holeLocations)       ## $t3 = 808D0000
-/* 019E0 808CC7A0 256B192C */  addiu   $t3, $t3, %lo(holeLocations)  ## $t3 = 808D192C
+/* 019DC 808CC79C 3C0B808D */  lui     $t3, %hi(sHoleLocations)       ## $t3 = 808D0000
+/* 019E0 808CC7A0 256B192C */  addiu   $t3, $t3, %lo(sHoleLocations)  ## $t3 = 808D192C
 /* 019E4 808CC7A4 00095080 */  sll     $t2, $t1,  2               
 /* 019E8 808CC7A8 01495023 */  subu    $t2, $t2, $t1              
 /* 019EC 808CC7AC 000A5080 */  sll     $t2, $t2,  2               
@@ -1373,13 +1373,13 @@ glabel L808CC878
 /* 01AEC 808CC8AC 4502033B */  bc1fl   .L808CD59C                 
 /* 01AF0 808CC8B0 86D90244 */  lh      $t9, 0x0244($s6)           ## 00000244
 /* 01AF4 808CC8B4 92D902D4 */  lbu     $t9, 0x02D4($s6)           ## 000002D4
-/* 01AF8 808CC8B8 3C01808D */  lui     $at, %hi(holeLocations+4)       ## $at = 808D0000
+/* 01AF8 808CC8B8 3C01808D */  lui     $at, %hi(sHoleLocations+4)       ## $at = 808D0000
 /* 01AFC 808CC8BC A6D80222 */  sh      $t8, 0x0222($s6)           ## 00000222
 /* 01B00 808CC8C0 00194080 */  sll     $t0, $t9,  2               
 /* 01B04 808CC8C4 01194023 */  subu    $t0, $t0, $t9              
 /* 01B08 808CC8C8 00084080 */  sll     $t0, $t0,  2               
 /* 01B0C 808CC8CC 00280821 */  addu    $at, $at, $t0              
-/* 01B10 808CC8D0 C4281930 */  lwc1    $f8, %lo(holeLocations+4)($at)  
+/* 01B10 808CC8D0 C4281930 */  lwc1    $f8, %lo(sHoleLocations+4)($at)  
 /* 01B14 808CC8D4 3C01428C */  lui     $at, 0x428C                ## $at = 428C0000
 /* 01B18 808CC8D8 44815000 */  mtc1    $at, $f10                  ## $f10 = 70.00
 /* 01B1C 808CC8DC 3C01808D */  lui     $at, %hi(D_808D1EE8)       ## $at = 808D0000
@@ -1418,7 +1418,7 @@ glabel L808CC944
 /* 01B98 808CC958 C7A60098 */  lwc1    $f6, 0x0098($sp)           
 /* 01B9C 808CC95C C7A40094 */  lwc1    $f4, 0x0094($sp)           
 /* 01BA0 808CC960 24084000 */  addiu   $t0, $zero, 0x4000         ## $t0 = 00004000
-/* 01BA4 808CC964 3C01808D */  lui     $at, %hi(holeLocations+4)       ## $at = 808D0000
+/* 01BA4 808CC964 3C01808D */  lui     $at, %hi(sHoleLocations+4)       ## $at = 808D0000
 /* 01BA8 808CC968 240B0050 */  addiu   $t3, $zero, 0x0050         ## $t3 = 00000050
 /* 01BAC 808CC96C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 01BB0 808CC970 46083280 */  add.s   $f10, $f6, $f8             
@@ -1443,7 +1443,7 @@ glabel L808CC944
 /* 01BFC 808CC9BC 002A0821 */  addu    $at, $at, $t2              
 /* 01C00 808CC9C0 AED80028 */  sw      $t8, 0x0028($s6)           ## 00000028
 /* 01C04 808CC9C4 AED9002C */  sw      $t9, 0x002C($s6)           ## 0000002C
-/* 01C08 808CC9C8 C4261930 */  lwc1    $f6, %lo(holeLocations+4)($at)  
+/* 01C08 808CC9C8 C4261930 */  lwc1    $f6, %lo(sHoleLocations+4)($at)  
 /* 01C0C 808CC9CC 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 01C10 808CC9D0 44815000 */  mtc1    $at, $f10                  ## $f10 = 1000.00
 /* 01C14 808CC9D4 46163200 */  add.s   $f8, $f6, $f22             
@@ -1506,7 +1506,7 @@ glabel L808CC944
 /* 01CEC 808CCAAC 00034080 */  sll     $t0, $v1,  2               
 /* 01CF0 808CCAB0 01034023 */  subu    $t0, $t0, $v1              
 /* 01CF4 808CCAB4 00084080 */  sll     $t0, $t0,  2               
-/* 01CF8 808CCAB8 25291998 */  addiu   $t1, $t1, %lo(ceilingTargets)  ## $t1 = 00001998
+/* 01CF8 808CCAB8 25291998 */  addiu   $t1, $t1, %lo(sCeilingTargets)  ## $t1 = 00001998
 /* 01CFC 808CCABC 01091021 */  addu    $v0, $t0, $t1              
 /* 01D00 808CCAC0 E6C602AC */  swc1    $f6, 0x02AC($s6)           ## 000002AC
 /* 01D04 808CCAC4 C4480000 */  lwc1    $f8, 0x0000($v0)           ## 00000000

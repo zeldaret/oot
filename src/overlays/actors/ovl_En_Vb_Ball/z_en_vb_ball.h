@@ -16,7 +16,7 @@ typedef struct EnVbBall {
     /* 0x015C */ f32 yRotVel;
     /* 0x0160 */ f32 shadowSize;
     /* 0x0164 */ f32 shadowOpacity;
-    /* 0x0168 */ ColliderCylinder collider1;
+    /* 0x0168 */ ColliderCylinder collider;
 } EnVbBall; // size = 0x01B4
 
 extern const ActorInit En_Vb_Ball_InitVars;

@@ -76,7 +76,7 @@ typedef struct BossFd {
     /* 0x0270 */ f32 bodyTex2Opacity;
     /* 0x0274 */ f32 headTex2Opacity;
     /* 0x0278 */ f32 targetLinkYOffset;
-    /* 0x027C */ f32 ceilingBounce; // Something to do with how he moves while dropping rocks
+    /* 0x027C */ f32 ceilingBounce;
     /* 0x0280 */ f32 bodyPulse;
     /* 0x0284 */ f32 centerManeColor;
     /* 0x0288 */ f32 rightManeColor;
@@ -115,7 +115,7 @@ typedef struct BossFd {
     /* 0x1408 */ Vec3f cameraEye;
     /* 0x1414 */ Vec3f cameraAt;
     /* 0x1420 */ char unk_1420[0x18];
-    /* 0x1438 */ Vec3f cameraEyeVel;            //This is all related to the intro cutscene
+    /* 0x1438 */ Vec3f cameraEyeVel;
     /* 0x1444 */ Vec3f cameraAtVel;
     /* 0x1450 */ Vec3f cameraNextEye;
     /* 0x145C */ Vec3f cameraEyeMaxVel;
