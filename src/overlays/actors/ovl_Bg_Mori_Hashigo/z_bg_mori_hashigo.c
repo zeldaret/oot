@@ -15,8 +15,8 @@ void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashigo_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriHashigo_SetupCheckForMoriTex(BgMoriHashigo* this);
-void BgMoriHashigo_CheckForMoriTex(BgMoriHashigo* this, GlobalContext* globalCtx);
+void BgMoriHashigo_SetupWaitForMoriTex(BgMoriHashigo* this);
+void BgMoriHashigo_WaitForMoriTex(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupClasp(BgMoriHashigo* this);
 void BgMoriHashigo_Clasp(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupLadderWait(BgMoriHashigo* this);
@@ -166,7 +166,7 @@ void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx) {
                      "../z_bg_mori_hashigo.c", 312);
         Actor_Kill(&this->dyna.actor);
     } else {
-        BgMoriHashigo_SetupCheckForMoriTex(this);
+        BgMoriHashigo_SetupWaitForMoriTex(this);
         // (Forest Temple Ladder and its clasp)
         osSyncPrintf("(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n", this->dyna.actor.params);
     }
@@ -184,11 +184,11 @@ void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgMoriHashigo_SetupCheckForMoriTex(BgMoriHashigo* this) {
-    this->actionFunc = BgMoriHashigo_CheckForMoriTex;
+void BgMoriHashigo_SetupWaitForMoriTex(BgMoriHashigo* this) {
+    this->actionFunc = BgMoriHashigo_WaitForMoriTex;
 }
 
-void BgMoriHashigo_CheckForMoriTex(BgMoriHashigo* this, GlobalContext* globalCtx) {
+void BgMoriHashigo_WaitForMoriTex(BgMoriHashigo* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         if (this->dyna.actor.params == (s16)0xFFFF) {
             BgMoriHashigo_SetupClasp(this);
