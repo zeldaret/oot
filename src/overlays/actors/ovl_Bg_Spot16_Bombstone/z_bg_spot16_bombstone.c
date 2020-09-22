@@ -1,4 +1,5 @@
 #include "z_bg_spot16_bombstone.h"
+#include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 
 #define FLAGS 0x00000010
 
@@ -146,7 +147,7 @@ void func_808B4C4C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     colliderJntSph = &this->colliderJntSph;
     Collider_InitJntSph(globalCtx, colliderJntSph);
-    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderJntSphItem);
+    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, &this->colliderJntSphItems);
     this->colliderJntSph.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
     this->colliderJntSph.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + 50.0f;
     this->colliderJntSph.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
@@ -453,7 +454,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     if (mREG(64) == 1) {
         func_808B561C(this, globalCtx);
-        mREG(64) = -0xA;
+        mREG(64) = -10;
     } else if (mREG(64) < 0) {
         mREG(64)++;
     }
@@ -487,7 +488,7 @@ void func_808B5AF0(BgSpot16Bombstone* this) {
 void func_808B5B04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->bombiwaBankIndex)) {
         func_808B5B58(this);
-        this->actor.draw = &BgSpot16Bombstone_Draw;
+        this->actor.draw = BgSpot16Bombstone_Draw;
     }
 }
 
