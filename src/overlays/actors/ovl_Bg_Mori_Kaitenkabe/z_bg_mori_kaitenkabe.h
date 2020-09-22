@@ -16,7 +16,7 @@ typedef struct BgMoriKaitenkabe {
     /* 0x0170 */ f32 rotSpeed;
     /* 0x0174 */ f32 rotDist;
     /* 0x0178 */ Vec3f playerPos;
-    /* 0x0184 */ s8 objBankIndex;
+    /* 0x0184 */ s8 moriTexObjIndex;
 } BgMoriKaitenkabe; // size = 0x0188
 
 extern const ActorInit Bg_Mori_Kaitenkabe_InitVars;

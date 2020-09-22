@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_mori_kaitenkabe.c
+ * Overlay: ovl_Bg_Mori_Kaitenkabe
+ * Description: Rotating wall in Forest Temple basement
+ */
+ 
 #include "z_bg_mori_kaitenkabe.h"
 
 #define FLAGS 0x00000000
@@ -9,9 +15,7 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriKaitenkabe_CrossProd(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2);
-
-void BgMoriKaitenkabe_ObjectCheck(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
+void BgMoriKaitenkabe_CheckForMoriTex(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupWait(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
@@ -49,18 +53,20 @@ void BgMoriKaitenkabe_Init(Actor *thisx, GlobalContext *globalCtx) {
     s32 pad;
     BgMoriKaitenkabe* this = THIS;
     s32 localConst = 0;
-
+    
+    //Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears
     osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_060063B8, &localConst);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->objBankIndex < 0) {
+    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjIndex < 0) {
         Actor_Kill(&this->dyna.actor);
+        // 【Rotating wall】 Bank danger!
         osSyncPrintf("【回転壁】 バンク危険！(%s %d)\n", "../z_bg_mori_kaitenkabe.c", 176);
     } else {
-        this->actionFunc = BgMoriKaitenkabe_ObjectCheck;
+        this->actionFunc = BgMoriKaitenkabe_CheckForMoriTex;
     }
 }
 
@@ -71,8 +77,8 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext *globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void BgMoriKaitenkabe_ObjectCheck(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+void BgMoriKaitenkabe_CheckForMoriTex(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         BgMoriKaitenkabe_SetupWait(this);
         this->dyna.actor.draw = BgMoriKaitenkabe_Draw;
     }
@@ -160,7 +166,7 @@ void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext *globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 347);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->objBankIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
