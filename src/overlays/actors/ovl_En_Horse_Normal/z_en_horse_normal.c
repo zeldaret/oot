@@ -186,8 +186,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        this->actor.shape.rot.z = 0;
-        this->actor.initPosRot.rot.z = this->actor.posRot.rot.z = this->actor.shape.rot.z;
+        this->actor.initPosRot.rot.z = this->actor.posRot.rot.z = this->actor.shape.rot.z = 0;
         func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
         SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimations[this->animationIdx]);
         if ((this->actor.posRot.pos.x == -730.0f && this->actor.posRot.pos.y == 0.0f &&
@@ -200,12 +199,13 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
         if (!gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);
+            return;
         } else {
             func_800A663C(globalCtx, &this->skin, &D_06009FAC, &D_06004580);
             SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C6B0(this);
+            return;
         }
-        return;
     } else if (globalCtx->sceneNum == SCENE_SPOT12) {
         if (this->actor.posRot.pos.x == 3707.0f && this->actor.posRot.pos.y == 1413.0f &&
             this->actor.posRot.pos.z == -665.0f) {
@@ -256,7 +256,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     pointPos += this->waypoint;
     dx = pointPos->x - this->actor.posRot.pos.x;
     dz = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(dx, dz) * 10430.378f, 10, 2000, 1);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(dx, dz) * 10430.378f, 0xA, 0x7D0, 1);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (SQ(dx) + SQ(dz) < 600.0f) {
         this->waypoint++;
@@ -663,7 +663,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, MTXMODE_NEW);
             temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.unk_10;
             Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
-            Matrix_RotateY(cloneRotY * (2.0f * M_PI / 0x10000), 1);
+            Matrix_RotateY(cloneRotY * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
             mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
             if (mtx2 != NULL) {
                 gSPMatrix(oGfxCtx->polyXlu.p++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
