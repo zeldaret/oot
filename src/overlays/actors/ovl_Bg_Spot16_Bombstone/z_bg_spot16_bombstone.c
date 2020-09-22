@@ -176,7 +176,7 @@ s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     func_808B4D04(this, globalCtx);
     this->sinRotation = Math_Sins(this->actor.shape.rot.y);
     this->cosRotation = Math_Coss(this->actor.shape.rot.y);
-    this->unk_150 = &D_06000C20;
+    this->unk_150 = D_06000C20;
 
     func_808B5934(this);
     return true;
@@ -212,7 +212,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
     actor->shape.rot.y = D_808B5DD8[actor->params].rotation.y;
     actor->shape.rot.z = D_808B5DD8[actor->params].rotation.z;
 
-    this->unk_150 = &D_060009E0;
+    this->unk_150 = D_060009E0;
     this->bombiwaBankIndex = Object_GetIndex(&globalctx->objectCtx, OBJECT_BOMBIWA);
 
     if (this->bombiwaBankIndex < 0) {
@@ -341,7 +341,7 @@ void func_808B53A8(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
             scale = D_808B6074[index] * this->actor.scale.x * 3;
 
             func_80029E8C(globalCtx, &randomPosition, &randomVelocity, &this->actor.posRot.pos, -0x1A4, 0x31, 0xF, 0xF,
-                          0, scale, 2, 0x40, 0xA0, -1, OBJECT_BOMBIWA, &D_060009E0);
+                          0, scale, 2, 0x40, 0xA0, -1, OBJECT_BOMBIWA, D_060009E0);
             index += 1;
         } while (index != ARRAY_COUNT(D_808B6074));
     }
