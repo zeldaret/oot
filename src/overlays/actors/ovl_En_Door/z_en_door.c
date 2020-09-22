@@ -66,21 +66,21 @@ AnimationHeader* D_809FCECC[] = {
     0x0400E6A0,
 };
 
-u8 sDoorAnimOpenFrames[] = {
+static u8 sDoorAnimOpenFrames[] = {
     25,
     25,
     25,
     25,
 };
 
-u8 sDoorAnimCloseFrames[] = {
+static u8 sDoorAnimCloseFrames[] = {
     60,
     70,
     60,
     70,
 };
 
-Gfx* D_809FCEE4[5][2] = {
+static Gfx* D_809FCEE4[5][2] = {
     { 0x0400ECB8, 0x0400EE00 }, { 0x0600F998, 0x0600F938 }, { 0x06004958, 0x06004A10 },
     { 0x060013B8, 0x06001420 }, { 0x050047A0, 0x05004978 },
 };
