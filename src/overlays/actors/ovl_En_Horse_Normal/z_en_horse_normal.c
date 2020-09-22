@@ -259,7 +259,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(dx, dz) * 10430.378f, 10, 2000, 1);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (SQ(dx) + SQ(dz) < 600.0f) {
-        this->waypoint += 1;
+        this->waypoint++;
         if (this->waypoint >= path->count) {
             this->waypoint = 0;
         }
