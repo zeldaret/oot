@@ -15,8 +15,8 @@ void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriBigst_SetupCheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_CheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupWaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_WaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupNoop(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx);
@@ -93,7 +93,7 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 270.0f;
         }
         Actor_SetHeight(&this->dyna.actor, 50.0f);
-        BgMoriBigst_SetupCheckForMoriTex(this, globalCtx);
+        BgMoriBigst_SetupWaitForMoriTex(this, globalCtx);
     }
 }
 
@@ -104,11 +104,11 @@ void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void BgMoriBigst_SetupCheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
-    BgMoriBigst_SetupAction(this, BgMoriBigst_CheckForMoriTex);
+void BgMoriBigst_SetupWaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetupAction(this, BgMoriBigst_WaitForMoriTex);
 }
 
-void BgMoriBigst_CheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_WaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
