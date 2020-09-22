@@ -70,7 +70,45 @@ void func_808B7710(BgSpot18Basket* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7710.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7770.s")
+void func_808B7770(BgSpot18Basket *this, GlobalContext *globalCtx, f32 arg2) {
+    f32 sinValue;
+    f32 randomValue;
+    f32 cosValue;
+    f32 randomValue2;
+    f32 randomCosValue;
+    s32 i;
+    Vec3f acceleration;
+    Vec3f velocity;
+    Vec3f position;
+
+    for (i = 0; i < 2; i++) {
+        if (!(arg2 < Math_Rand_ZeroOne())) {
+            D_808B85D0 += 30000;
+            sinValue = Math_Sins(D_808B85D0);
+            cosValue = Math_Coss(D_808B85D0);
+            randomValue2 = (Math_Rand_ZeroOne() * 35.0f) + 35.0f;
+            randomCosValue = randomValue2 * cosValue;
+
+            position.x = (randomValue2 * sinValue) + this->dyna.actor.posRot.pos.x;
+            position.y = this->dyna.actor.posRot.pos.y + 10.0f;
+            position.z = randomCosValue + this->dyna.actor.posRot.pos.z;
+
+            velocity.x = sinValue;
+            velocity.y = 0.0f;
+
+            acceleration.x = 0.0f;
+            acceleration.y = 0.5f;
+            acceleration.z = 0.0f;
+
+            randomValue = Math_Rand_ZeroOne();
+
+            func_800286CC(globalCtx, &position, &velocity, &acceleration, 
+                ((randomValue * 16.0f) + 80.0f), (s32) ((Math_Rand_ZeroOne() * 30.0f) + 80.0f));
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7770.s")
 
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
