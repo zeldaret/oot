@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include <z64audio.h>
 
 f32 func_800DDE20(f32 arg0) {
     return 256.0f * gAudioContext.gAudioBufferParameters.unkUpdatesPerFrameScaled / arg0;

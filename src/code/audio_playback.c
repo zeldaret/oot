@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include <z64audio.h>
 
 void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     f32 volRight, volLeft;

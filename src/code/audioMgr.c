@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include <z64audio.h>
 
 void func_800C3C80(AudioMgr* audioMgr) {
     Sub_AudioMgr_18* sub;

@@ -1,10 +1,9 @@
 #ifndef _Z64_AUDIO_H_
 #define _Z64_AUDIO_H_
 
-/**
- * Structs in this repository have primarily been imported from the SM64 Decompilation.
- * Many struct members are wrong; the symbol '?' next to an offset means the member is a guess.
- */
+#include <z64.h>
+
+/* MACROS */
 
 #define NO_LAYER ((SequenceChannelLayer*)(-1))
 #define NO_CHANNEL ((SequenceChannel*)(-1))
@@ -24,9 +23,15 @@
 #define ADSR_STATE_SUSTAIN 8
 
 #define ADSR_DISABLE 0
-#define ADSR_HANG -1
-#define ADSR_GOTO -2
-#define ADSR_RESTART -3
+#define ADSR_HANG (-1)
+#define ADSR_GOTO (-2)
+#define ADSR_RESTART (-3)
+
+
+/* STRUCTS */
+
+// Structs in this repository have primarily been imported from the SM64 Decompilation.
+// Many struct members are wrong; the symbol '?' next to an offset means the member is a guess.
 
 struct Note;
 struct NotePool;
@@ -69,9 +74,9 @@ typedef struct {
 } Portamento; // size = 0xC
 
 typedef struct {
-    /*?0x0 */ s16 delay;
-    /*?0x2 */ s16 arg;
-} AdsrEnvelope; // size = 0x4?
+    /* 0x0 */ s16 delay;
+    /* 0x2 */ s16 arg;
+} AdsrEnvelope; // size = 0x4
 
 typedef struct {
     /*?0x00 */ u32 start;
@@ -79,7 +84,7 @@ typedef struct {
     /*?0x08 */ u32 count;
     /*?0x0C */ char unk_0C[0x4];
     /*?0x10 */ s16 state[16]; // only exists if count != 0. 8-byte aligned
-} AdpcmLoop; // size = 0x30
+} AdpcmLoop; // size = 0x30 (or 0x10)
 
 typedef struct {
     /*?0x00 */ s32 order;
@@ -741,5 +746,416 @@ typedef struct {
     /* 0x14 */ u8 unk_14;
     /* 0x16 */ u16 unk_16;
 } Reverb; // size >= 0x18
+
+
+/* FUNCTIONS */
+
+f32 func_800DDE20(f32 arg0);
+void func_800DDE3C(void);
+void Audio_ResetLoadStatus(void);
+void Audio_DiscardBank(s32 bankId);
+void Audio_DiscardSequence(s32 seqId);
+void func_800DE238(void* mem, u32 size);
+void* func_800DE258(SoundAllocPool* pool, u32 size);
+void* func_800DE2B0(SoundAllocPool* pool, u32 size);
+void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size);
+void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size);
+void* Audio_AllocZeroed(SoundAllocPool* pool, u32 size);
+void* Audio_Alloc(SoundAllocPool* pool, u32 size);
+void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size);
+void Audio_PersistentPoolClear(PersistentPool* persistent);
+void Audio_TemporaryPoolClear(TemporaryPool* temporary);
+void func_800DE4B0(s32 poolIdx);
+void Audio_InitMainPools(s32 sizeForAudioInitPool);
+void Audio_SessionPoolsInit(AudioPoolSplit4* split);
+void Audio_SeqAndBankPoolInit(AudioPoolSplit2* split);
+void Audio_PersistentPoolsInit(AudioPoolSplit3* split);
+void Audio_TemporaryPoolsInit(AudioPoolSplit3* split);
+void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id);
+void* func_800DF074(s32 poolIdx, s32 arg1, s32 id);
+void* func_800DF0CC(s32 poolIdx, s32 arg1, s32 id);
+void func_800DF5DC(s16* arg0, s32 arg1);
+void func_800DF630(s16* arg0, s32 arg1);
+void func_800DF688(s16* arg0, s32 arg1, s32 arg2);
+void func_800DF7C4(void);
+void func_800DF888(void);
+s32 Audio_ResetStep(void);
+void func_800DFBF8(void);
+void* func_800E04E8(s32 poolIdx, s32 id);
+// ? func_800E0540(?);
+void* func_800E05C4(u32 size, s32 arg1, void* arg2, s8 arg3, s32 arg4);
+void func_800E0634(u32 arg0, u32 arg1);
+UnkHeapEntry* func_800E06CC(u32 size);
+void func_800E0964(UnkHeapEntry* entry, s32 bankId);
+void func_800E0AD8(UnkHeapEntry* entry);
+void func_800E0BB4(UnkHeapEntry* entry, AudioBankSample* sample);
+UnkHeapEntry* func_800E0BF8(u32 size);
+// ? func_800E0C80(?);
+void func_800E0CBC(void);
+void func_800E0E6C(s32 id);
+void func_800E0E90(s32 id);
+void func_800E0EB4(s32 arg0, s32 id);
+void func_800E1148(void);
+// ? func_800E11F0(?);
+// ? func_800E12DC(?);
+void func_800E1618(s32 arg0);
+s32 Audio_IsBankLoadComplete(s32 bankId);
+s32 Audio_IsSeqLoadComplete(s32 seqId);
+void Audio_SetBankLoadStatus(s32 bankId, u8 status);
+void Audio_SetSeqLoadStatus(s32 seqId, u8 status);
+// ? func_800E1A78(?);
+// ? func_800E1AD8(?);
+// ? func_800E1B08(?);
+// ? func_800E1B68(?);
+// ? func_800E1C18(?);
+// ? func_800E1C78(?);
+// ? func_800E1D64(?);
+// ? func_800E1E34(?);
+// ? func_800E1E6C(?);
+// ? func_800E1EB0(?);
+// ? func_800E1EF4(?);
+// ? func_800E1F38(?);
+// ? func_800E1F7C(?);
+// ? func_800E202C(?);
+// ? func_800E20D4(?);
+// ? func_800E2124(?);
+// ? func_800E217C(?);
+// ? func_800E22C4(?);
+// ? func_800E2318(?);
+// ? func_800E2338(?);
+// ? func_800E2454(?);
+// ? func_800E2558(?);
+// ? func_800E2768(?);
+// ? func_800E27A4(?);
+// ? func_800E27F8(?);
+// ? func_800E283C(?);
+// ? func_800E2AA8(?);
+// ? func_800E2BCC(?);
+// ? func_800E2BE0(?);
+// ? func_800E2CE0(?);
+// ? func_800E2FEC(?);
+void func_800E301C(void* callback);
+// ? func_800E3034(?);
+// ? func_800E3094(?);
+void func_800E3400(void);
+// ? func_800E3414(?);
+// ? func_800E35E0(?);
+// ? func_800E3678(?);
+// ? func_800E36EC(?);
+// ? func_800E3874(?);
+// ? func_800E38F8(?);
+// ? func_800E390C(?);
+void func_800E3A14(void);
+// ? func_800E3A44(?);
+// ? func_800E3AC8(?);
+// ? func_800E3BEC(?);
+// ? func_800E3D10(?);
+// ? func_800E3D1C(?);
+// ? func_800E3E58(?);
+// ? func_800E3FB4(?);
+// ? func_800E4044(?);
+// ? func_800E4058(?);
+// ? func_800E4198(?);
+// ? func_800E4590(?);
+// ? func_800E4744(?);
+// ? func_800E48C0(?);
+// ? func_800E4918(?);
+void func_800E4D94(void);
+// ? func_800E4EEC(?);
+// ? func_800E4F58(?);
+void func_800E4FB0(void);
+Sub_AudioMgr_18* func_800E4FE0(void);
+// ? func_800E5000(?);
+// ? func_800E5584(?);
+// ? func_800E5958(?);
+// ? func_800E59AC(?);
+// ? func_800E59F4(?);
+// ? func_800E5A8C(?);
+// ? func_800E5AD8(?);
+// ? func_800E5AFC(?);
+// ? func_800E5B20(?);
+// ? func_800E5B50(?);
+// ? func_800E5B80(?);
+// ? func_800E5C10(?);
+// ? func_800E5C28(?);
+// ? func_800E5D6C(?);
+// ? func_800E5E20(?);
+// ? func_800E5E84(?);
+// ? func_800E5EDC(?);
+// ? func_800E5F34(?);
+// ? func_800E5F88(?);
+// ? func_800E6024(?);
+// ? func_800E6128(?);
+// ? func_800E6300(?);
+// ? func_800E6680(?);
+// ? func_800E66C0(?);
+// ? func_800E67C0(?);
+// ? func_800E6818(?);
+void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb);
+void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput);
+void Audio_NoteInit(Note* note);
+void Audio_NoteDisable(Note* note);
+void Audio_ProcessNotes(void);
+AudioBankSound* Audio_InstrumentGetAudioBankSound(Instrument* instrument, s32 semitone);
+Instrument* Audio_GetInstrumentInner(s32 bankId, s32 instId);
+Drum* Audio_GetDrum(s32 bankId, s32 drumId);
+AudioBankSound* Audio_GetSfx(s32 bankId, s32 sfxId);
+s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, void* arg3);
+void Audio_SeqChanLayerDecayRelease(SequenceChannelLayer* seqLayer, s32 target);
+void Audio_SeqChanLayerNoteDecay(SequenceChannelLayer* seqLayer);
+void Audio_SeqChanLayerNoteRelease(SequenceChannelLayer* seqLayer);
+s32 Audio_BuildSyntheticWave(Note* note, SequenceChannelLayer* seqLayer, s32 waveId);
+void Audio_InitSyntheticWave(Note* note, SequenceChannelLayer* seqLayer);
+void Audio_InitNoteList(AudioListItem* list);
+void Audio_InitNoteLists(NotePool* pool);
+void Audio_InitNoteFreeList(void);
+void Audio_NotePoolClear(NotePool* pool);
+void Audio_NotePoolFill(NotePool* pool, s32 count);
+void Audio_AudioListPushFront(AudioListItem* list, AudioListItem* item);
+void Audio_AudioListRemove(AudioListItem* item);
+Note* Audio_PopNodeWithValueLessEqual(AudioListItem* list, s32 limit);
+void Audio_NoteInitForLayer(Note* note, SequenceChannelLayer* seqLayer);
+void func_800E82C0(Note* note, SequenceChannelLayer* seqLayer);
+void Audio_NoteReleaseAndTakeOwnership(Note* note, SequenceChannelLayer* seqLayer);
+Note* Audio_AllocNoteFromDisabled(NotePool* pool, SequenceChannelLayer* seqLayer);
+Note* Audio_AllocNoteFromDecaying(NotePool* pool, SequenceChannelLayer* seqLayer);
+Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceChannelLayer* seqLayer);
+Note* Audio_AllocNote(SequenceChannelLayer* seqLayer);
+void Audio_NoteInitAll(void);
+void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalculateVolume, s32 b);
+void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer);
+f32 Audio_GetPortamentoFreqScale(Portamento* p);
+s16 Audio_GetVibratoPitchChange(VibratoState* vib);
+f32 Audio_GetVibratoFreqScale(VibratoState* vib);
+void Audio_NoteVibratoUpdate(Note* note);
+void Audio_NoteVibratoInit(Note* note);
+void Audio_NotePortamentoInit(Note* note);
+void Audio_AdsrInit(AdsrState* adsr, AdsrEnvelope* envelope, s16* volOut);
+f32 Audio_AdsrUpdate(AdsrState* adsr);
+void Audio_SequenceChannelDisable(SequenceChannel* seqChannel);
+void Audio_SequencePlayerDisableAsFinished(SequencePlayer* seqPlayer);
+void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer);
+void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item);
+void* Audio_AudioListPopBack(AudioListItem* list);
+void Audio_ProcessSequences(s32 arg0);
+void Audio_ProcessSequence(SequencePlayer* seqPlayer);
+void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer);
+void func_800EC734(s32 seqPlayerIdx);
+void Audio_InitSequencePlayers(void);
+
+
+/* VARIABLES */
+
+extern s16* gWaveSamples[6];
+extern f32 gPitchBendFrequencyScale[256];
+//extern ? D_8012F098;
+//extern ? D_8012F0B0;
+extern f32 D_8012F4B4[256];
+extern f32 gNoteFrequencies[];
+extern u8 gDefaultShortNoteVelocityTable[16];
+extern u8 gDefaultShortNoteDurationTable[16];
+extern AdsrEnvelope gDefaultEnvelope[3];
+extern NoteSubEu gZeroNoteSub;
+extern NoteSubEu gDefaultNoteSub;
+extern u16 gHeadsetPanQuantization[0x10];
+extern f32 gHeadsetPanVolume[128];
+extern f32 gStereoPanVolume[128];
+//extern ? D_8012FBAA;
+//extern ? D_8012FFFF;
+//extern ? D_80130001;
+//extern ? D_80130002;
+//extern ? D_80130004;
+//extern ? D_80130006;
+extern f32 gDefaultPanVolume[128];
+extern s16 D_80130228[128];
+extern s16 D_80130328[];
+//extern ? D_801304A0;
+//extern ? D_801304AC;
+//extern ? D_801304C0;
+//extern ? D_801304D0;
+//extern ? D_801304D8;
+//extern ? D_801304DC;
+//extern ? D_801304E0;
+//extern ? D_801304E4;
+//extern ? D_801304E8;
+//extern ? D_801304EC;
+//extern ? D_801304F0;
+//extern ? D_80130500;
+extern f32 D_80130510;
+extern s32 D_80130514;
+//extern ? D_80130570;
+//extern ? D_80130578;
+//extern ? D_801305B0;
+//extern ? D_801305B4;
+//extern ? D_801305B8;
+//extern ? D_801305BC;
+//extern ? D_801305C0;
+//extern ? D_801305CC;
+//extern ? D_801305E0;
+//extern ? D_801305F4;
+//extern ? D_801305FF;
+//extern ? D_80130600;
+//extern ? D_80130604;
+//extern ? D_80130608;
+//extern ? D_8013060C;
+//extern ? D_80130610;
+//extern ? D_80130614;
+//extern ? D_80130618;
+//extern ? D_8013061C;
+//extern ? D_80130624;
+//extern ? D_80130628;
+//extern ? D_8013062C;
+//extern ? D_80130630;
+//extern ? D_80130634;
+//extern ? D_80130638;
+//extern ? D_8013063C;
+//extern ? D_80130640;
+//extern ? D_80130644;
+//extern ? D_80130648;
+//extern ? D_8013064C;
+//extern ? D_80130650;
+//extern ? D_80130654;
+//extern ? D_80130658;
+//extern ? D_801306DC;
+//extern ? D_80130EFC;
+//extern ? D_80130F00;
+//extern ? D_80130F04;
+//extern ? D_80130F08;
+//extern ? D_80130F0C;
+//extern ? D_80130F10;
+//extern ? D_80130F14;
+//extern ? D_80130F18;
+//extern ? D_80130F1C;
+//extern ? D_80130F20;
+//extern ? D_80130F24;
+//extern ? D_80130F28;
+//extern ? D_80130F2C;
+//extern ? D_80130F30;
+//extern ? D_80130F34;
+//extern ? D_80130F38;
+//extern ? D_80130F3C;
+//extern ? D_80130F3E;
+//extern ? D_80130F40;
+//extern ? D_80130F44;
+//extern ? D_80130F48;
+//extern ? D_80130F4C;
+//extern ? D_80130F50;
+//extern ? D_80130F54;
+//extern ? D_80130F58;
+//extern ? D_80130F5C;
+//extern ? D_80130F60;
+//extern ? D_80130F64;
+//extern ? D_80130F68;
+//extern ? D_80130F6C;
+//extern ? D_80130F74;
+//extern ? D_80130F78;
+//extern ? D_80130F80;
+//extern ? D_80131100;
+//extern ? D_8013170C;
+//extern ? D_80131840;
+//extern ? D_80131858;
+//extern ? D_8013185C;
+//extern ? D_80131860;
+//extern ? D_80131864;
+//extern ? D_80131868;
+//extern ? D_8013186C;
+//extern ? D_80131870;
+//extern ? D_80131874;
+//extern ? D_80131878;
+//extern ? D_8013187C;
+//extern ? D_80131880;
+//extern ? D_80131884;
+//extern ? D_8013188C;
+//extern ? D_80131BE4;
+//extern ? D_80131BE8;
+//extern ? D_80131BEC;
+//extern ? D_80131BF0;
+//extern ? D_80131C00;
+//extern ? D_80131C80;
+//extern ? D_80131C84;
+//extern ? D_80131C88;
+//extern ? D_80131C90;
+//extern ? D_80131C94;
+//extern ? D_80131C98;
+//extern ? D_80131C9C;
+//extern ? D_80131CA0;
+//extern ? D_80131CA4;
+//extern ? D_80131CA8;
+//extern ? D_80131CAC;
+//extern ? D_80131E08;
+//extern ? D_80131E14;
+//extern ? D_80131E20;
+//extern ? D_80131E24;
+//extern ? D_80131E38;
+//extern ? D_80131E43;
+//extern ? D_80131E59;
+//extern ? D_80131E64;
+//extern ? D_80131E6F;
+//extern ? D_80131E7A;
+//extern ? D_80131E88;
+//extern ? D_80131EBC;
+//extern ? D_80131EC0;
+//extern ? D_80131EC4;
+//extern ? D_80131EC8;
+//extern ? D_80131ED0;
+//extern ? D_80131ED4;
+//extern ? D_80131ED8;
+//extern ? D_80131EDC;
+//extern ? D_80131EE0;
+//extern ? D_80131EE4;
+//extern ? D_80131EEE;
+//extern ? D_80131EFC;
+//extern ? D_80131F00;
+//extern ? D_80131F04;
+//extern ? D_80131F08;
+//extern ? D_80131F0C;
+//extern ? D_80131F18;
+//extern ? D_80131F1C;
+//extern ? D_80131F20;
+//extern ? D_80131F28;
+//extern ? D_80131F2C;
+//extern ? D_80131F30;
+//extern ? D_80131F44;
+//extern ? D_80131F4C;
+//extern ? D_80131F50;
+//extern ? D_80131F54;
+//extern ? D_80131F64;
+//extern ? D_80131F68;
+//extern ? D_80131F6C;
+//extern ? D_8013331C;
+//extern ? D_80133340;
+//extern ? D_80133344;
+//extern ? D_80133390;
+//extern ? D_80133398;
+//extern ? D_801333A0;
+//extern ? D_801333A4;
+//extern ? D_801333A8;
+//extern ? D_801333C4;
+//extern ? D_801333CC;
+//extern ? D_801333D0;
+//extern ? D_801333F0;
+//extern ? D_801333F4;
+//extern ? D_801333F8;
+//extern ? D_80133400;
+//extern ? D_80133404;
+//extern ? D_80133408;
+//extern ? D_8013340C;
+//extern ? D_80133414;
+//extern ? D_80133418;
+extern AudioSessionSettings gAudioSessionPresets[];
+
+extern AudioContext gAudioContext; // at 0x8016f180
+extern NotePool gNoteFreeLists; // (AudioContext should include this and further variables, too)
+//extern ? D_80174D28;
+//extern ? D_80174D38;
+//extern ? D_80174D48;
+//extern ? D_80174D64;
+//extern ? D_80174D68;
+//extern ? D_80174D88;
+//extern ? D_80174DA0;
+//extern ? D_80174DB8;
+//extern ? D_80174DBC;
+//extern ? D_80174DC0;
+
 
 #endif

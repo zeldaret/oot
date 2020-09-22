@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include <z64audio.h>
 
 #define PORTAMENTO_IS_SPECIAL(x) ((x).mode & 0x80)
 #define PORTAMENTO_MODE(x) ((x).mode & ~0x80)
