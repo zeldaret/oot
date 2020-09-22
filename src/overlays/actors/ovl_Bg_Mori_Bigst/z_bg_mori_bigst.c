@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_mori_bigst.c
+ * Overlay: ovl_Bg_Mori_Bigst
+ * Description: Forest Temple falling platform and Stalfos fight
+ */
+
 #include "z_bg_mori_bigst.h"
 
 #define FLAGS 0x00000010
@@ -9,18 +15,18 @@ void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMoriBigst_SetupObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_ObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_InitialNoop(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_SpawnStalfos(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_StalfosWait(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupCheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_CheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupNoop(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupFall(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupLanding(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_Landing(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_SpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_StalfosPairWait(BgMoriBigst* this, GlobalContext* globalCtx);
-void BgMoriBigst_FinalNoop(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx);
+void BgMoriBigst_SetupDone(BgMoriBigst* this, GlobalContext* globalCtx);
 
 extern ColHeader D_0600221C;
 extern Gfx D_06001E50[];
@@ -37,7 +43,7 @@ const ActorInit Bg_Mori_Bigst_InitVars = {
     NULL,
 };
 
-void BgMoriBigst_SetActionFunction(BgMoriBigst* this, BgMoriBigstActionFunc actionFunc) {
+void BgMoriBigst_SetupAction(BgMoriBigst* this, BgMoriBigstActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -64,69 +70,69 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
         ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),    ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
         ICHAIN_F32_DIV1000(minVelocityY, -12000, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
     };
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgMoriBigst* this = THIS;
 
     // mori (bigST.keyceiling)
     osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
-                 Flags_GetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F),
-                 Flags_GetTempClear(globalCtx2, this->dyna.actor.room),
-                 Flags_GetClear(globalCtx2, this->dyna.actor.room), PLAYER->actor.posRot.pos.y);
-    BgMoriBigst_InitDynapoly(this, globalCtx2, &D_0600221C, DPM_UNK);
+                 Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F),
+                 Flags_GetTempClear(globalCtx, this->dyna.actor.room),
+                 Flags_GetClear(globalCtx, this->dyna.actor.room), PLAYER->actor.posRot.pos.y);
+    BgMoriBigst_InitDynapoly(this, globalCtx, &D_0600221C, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->objBankIndex = Object_GetIndex(&globalCtx2->objectCtx, OBJECT_MORI_TEX);
+    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->objBankIndex < 0) {
-        // [Big Stalfos key ceiling] bank danger!
+        // 【Big Stalfos key ceiling】 bank danger!
         osSyncPrintf("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
         osSyncPrintf("%s %d\n", "../z_bg_mori_bigst.c", 234);
         Actor_Kill(&this->dyna.actor);
     } else {
-        if (Flags_GetSwitch(globalCtx2, (this->dyna.actor.params >> 8) & 0x3F)) {
+        if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
         } else {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 270.0f;
         }
         Actor_SetHeight(&this->dyna.actor, 50.0f);
-        BgMoriBigst_SetupObjectCheck(this, globalCtx2);
+        BgMoriBigst_SetupCheckForMoriTex(this, globalCtx);
     }
 }
 
 void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgMoriBigst* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void BgMoriBigst_SetupObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx) {
-    BgMoriBigst_SetActionFunction(this, BgMoriBigst_ObjectCheck);
+void BgMoriBigst_SetupCheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetupAction(this, BgMoriBigst_CheckForMoriTex);
 }
 
-void BgMoriBigst_ObjectCheck(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_CheckForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         thisx->draw = BgMoriBigst_Draw;
         if (Flags_GetClear(globalCtx, thisx->room) && (PLAYER->actor.posRot.pos.y > 700.0f)) {
             if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
-                BgMoriBigst_FinalNoop(this, globalCtx);
+                BgMoriBigst_SetupDone(this, globalCtx);
             } else {
-                BgMoriBigst_SpawnStalfos(this, globalCtx);
+                BgMoriBigst_SetupStalfosFight(this, globalCtx);
             }
         } else {
-            BgMoriBigst_InitialNoop(this, globalCtx);
+            BgMoriBigst_SetupNoop(this, globalCtx);
         }
     }
 }
 
-void BgMoriBigst_InitialNoop(BgMoriBigst* this, GlobalContext* globalCtx) {
-    BgMoriBigst_SetActionFunction(this, NULL);
+void BgMoriBigst_SetupNoop(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetupAction(this, NULL);
 }
 
-void BgMoriBigst_SpawnStalfos(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     Actor* stalfos;
 
-    BgMoriBigst_SetActionFunction(this, BgMoriBigst_StalfosWait);
+    BgMoriBigst_SetupAction(this, BgMoriBigst_StalfosFight);
     Flags_UnsetClear(globalCtx, this->dyna.actor.room);
     stalfos = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_TEST, 209.0f, 827.0f,
                                  -3320.0f, 0, 0, 0, 1);
@@ -140,7 +146,7 @@ void BgMoriBigst_SpawnStalfos(BgMoriBigst* this, GlobalContext* globalCtx) {
     Flags_SetClear(globalCtx, this->dyna.actor.room);
 }
 
-void BgMoriBigst_StalfosWait(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((this->dyna.actor.initPosRot.rot.z == 0) &&
@@ -151,7 +157,7 @@ void BgMoriBigst_StalfosWait(BgMoriBigst* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriBigst_SetupFall(BgMoriBigst* this, GlobalContext* globalCtx) {
-    BgMoriBigst_SetActionFunction(this, BgMoriBigst_Fall);
+    BgMoriBigst_SetupAction(this, BgMoriBigst_Fall);
 }
 
 void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
@@ -169,25 +175,25 @@ void BgMoriBigst_SetupLanding(BgMoriBigst* this, GlobalContext* globalCtx) {
     Camera** cameras = globalCtx->cameraPtrs;
     s32 quake;
 
-    BgMoriBigst_SetActionFunction(this, BgMoriBigst_Landing);
+    BgMoriBigst_SetupAction(this, BgMoriBigst_Landing);
     this->waitTimer = 18;
     quake = Quake_Add(cameras[globalCtx->activeCamera], 3);
-    Quake_SetSpeed(quake, 0x61A8);
+    Quake_SetSpeed(quake, 25000);
     Quake_SetQuakeValues(quake, 5, 0, 0, 0);
     Quake_SetCountdown(quake, 16);
 }
 
 void BgMoriBigst_Landing(BgMoriBigst* this, GlobalContext* globalCtx) {
     if (this->waitTimer <= 0) {
-        BgMoriBigst_SpawnStalfosPair(this, globalCtx);
+        BgMoriBigst_SetupStalfosPairFight(this, globalCtx);
     }
 }
 
-void BgMoriBigst_SpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     Actor* stalfos1;
     Actor* stalfos2;
 
-    BgMoriBigst_SetActionFunction(this, BgMoriBigst_StalfosPairWait);
+    BgMoriBigst_SetupAction(this, BgMoriBigst_StalfosPairFight);
     Flags_UnsetClear(globalCtx, this->dyna.actor.room);
     stalfos1 =
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, 2, 70.0f, 827.0f, -3383.0f, 0, 0, 0, 5);
@@ -210,19 +216,19 @@ void BgMoriBigst_SpawnStalfosPair(BgMoriBigst* this, GlobalContext* globalCtx) {
     Flags_SetClear(globalCtx, this->dyna.actor.room);
 }
 
-void BgMoriBigst_StalfosPairWait(BgMoriBigst* this, GlobalContext* globalCtx) {
+void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.initPosRot.rot.z == 0) && !Player_InCsMode(globalCtx)) {
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
-        BgMoriBigst_FinalNoop(this, globalCtx);
+        BgMoriBigst_SetupDone(this, globalCtx);
     }
 }
 
-void BgMoriBigst_FinalNoop(BgMoriBigst* this, GlobalContext* globalCtx) {
-    BgMoriBigst_SetActionFunction(this, NULL);
+void BgMoriBigst_SetupDone(BgMoriBigst* this, GlobalContext* globalCtx) {
+    BgMoriBigst_SetupAction(this, NULL);
 }
 
 void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgMoriBigst* this = THIS;
 
     Actor_SetHeight(&this->dyna.actor, 50.0f);
@@ -230,25 +236,25 @@ void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->waitTimer--;
     }
     if (func_80043590(&this->dyna)) {
-        func_80074CE8(globalCtx2, 6);
+        func_80074CE8(globalCtx, 6);
     }
     if (this->actionFunc != NULL) {
-        this->actionFunc(this, globalCtx2);
+        this->actionFunc(this, globalCtx);
     }
 }
 
 void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     BgMoriBigst* this = THIS;
 
-    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
-    func_80093D18(globalCtx2->state.gfxCtx);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
+    func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx2->objectCtx.status[this->objBankIndex].segment);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->objBankIndex].segment);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001E50);
-    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_mori_bigst.c", 553);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 553);
 }
