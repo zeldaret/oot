@@ -31,12 +31,6 @@ void func_80A6BCEC(EnHorseNormal* this);
 void func_80A6C4CC(EnHorseNormal* this);
 void func_80A6C6B0(EnHorseNormal* this);
 
-void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx);
-void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx);
-void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx);
-void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx);
-void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx);
-
 const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORTYPE_BG,
