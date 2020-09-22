@@ -20,4 +20,5 @@ typedef struct {
     /* 0x08 */ u32 romStart;
     /* 0x0C */ u32 romEnd;
 } DmaEntry;
+
 #endif
