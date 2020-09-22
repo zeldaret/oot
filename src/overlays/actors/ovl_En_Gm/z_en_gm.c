@@ -16,7 +16,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DC44(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DBF4(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx);
-void func_80A3DE10(EnGm* this, GlobalContext* globalCtx);
+void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF00(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx);
 void EnGm_UpdateEye(EnGm* this);
@@ -41,13 +41,13 @@ const ActorInit En_Gm_InitVars = {
     NULL,
 };
 
-ColliderCylinderInit_Set3 D_80A3E350 = {
+static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 100, 120, 0, { 0, 0, 0 } },
 };
 
-InitChainEntry D_80A3E37C[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
 };
@@ -55,13 +55,13 @@ InitChainEntry D_80A3E37C[] = {
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGm* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80A3E37C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     osSyncPrintf(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133,
                  this->actor.params); // "%s[%d]: Medi Goron [%d]"
     this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GM);
     if (this->objBankIndex < 0) {
         osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n");
+        osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n"); // "There is no model bank! !! (Medi Goron)"
         osSyncPrintf(VT_RST);
         __assert("0", "../z_en_gm.c", 145);
     }
@@ -75,7 +75,6 @@ void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80A3D7C8(void) {
-
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 0;
     }
@@ -100,13 +99,13 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
                              SkelAnime_GetFrameCount(&D_060002B8.genericHeader), 0, 0.0f);
         this->actor.draw = EnGm_DrawProc;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &D_80A3E350);
+        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
         this->actor.colChkInfo.mass = 0xFF;
         this->eyeIndex = 0;
         this->eyeTimer = 20;
-        this->actor.textId = 0x3049;
+        this->actor.textId = 0x3049; // "Tight fit..."
         this->actionFunc = func_80A3DFBC;
         this->subActionFunc = func_80A3DB04;
         this->actor.speedXZ = 0.0f;
@@ -124,34 +123,31 @@ void EnGm_UpdateEye(EnGm* this) {
     }
 }
 
-void EnGm_SetTextID(EnGm *this) {
+void EnGm_SetTextID(EnGm* this) {
     switch (func_80A3D7C8()) {
         case 0:
             if (gSaveContext.infTable[11] & 1) {
-                this->actor.textId = 0x304B;
+                this->actor.textId = 0x304B; // "If you can wait five or six years, it should be ready. OK?"
             } else {
-                this->actor.textId = 0x304A;
+                this->actor.textId = 0x304A; // "I'm working on something really cool right now! ..."
             }
             break;
         case 1:
             if (gSaveContext.infTable[11] & 2) {
-                this->actor.textId = 0x304F;
+                this->actor.textId = 0x304F; // "How about buying this knife for 200 rupees?"
             } else {
-                this->actor.textId = 0x304C;
+                this->actor.textId = 0x304C; // "I just completed a small weapon."
             }
             break;
         case 2:
-            this->actor.textId = 0x304E;
+            this->actor.textId = 0x304E; // "It looks like there's a problem with its durability..."
             break;
         case 3:
-            this->actor.textId = 0x304D;
+            this->actor.textId = 0x304D; // "How do you like the feel of it?"
             break;
     }
-
 }
 
-
-// Gm_Wall_Wait
 void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dz;
@@ -171,18 +167,16 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     }
 }
 
-// Gm_Wall_Talk_Start
 void func_80A3DBF4(EnGm* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
         this->subActionFunc = func_80A3DB04;
     }
 }
 
-// Gm_talk_wait
 void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dz;
-    f32 dist;
+    s32 pad;
     Player* player = PLAYER;
 
     EnGm_SetTextID(this);
@@ -200,21 +194,19 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
             case 1:
                 gSaveContext.infTable[11] |= 2;
             case 2:
-                this->subActionFunc = func_80A3DE10;
-                return;
+                this->subActionFunc = EnGm_ProcessChoiceIndex;
             default:
                 return;
         }
 
-        this->subActionFunc = func_80A3DE10;
+        this->subActionFunc = EnGm_ProcessChoiceIndex;
     }
     if (this->collider.base.maskA & 2 || (SQ(dx) + SQ(dz)) < 10000.0f) {
-        this->collider.base.acFlags &= 0xFFFD;
+        this->collider.base.acFlags &= ~2;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
 }
 
-// Gm_Talk_Start
 void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx) {
     u8 flag = func_8010BDBC(&globalCtx->msgCtx);
 
@@ -227,21 +219,20 @@ void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx) {
     }
 }
 
-// Gm_talk2_start
-void func_80A3DE10(EnGm* this, GlobalContext* globalCtx) {
+void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
-            case 0:
+            case 0: // yes
                 if (gSaveContext.rupees < 200) {
-                    func_8010B720(globalCtx, 0xC8);
+                    func_8010B720(globalCtx, 0xC8); // "Nope, you don't have enough Rupees!"
                     this->subActionFunc = func_80A3DD7C;
                 } else {
                     func_8002F434(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
                     this->subActionFunc = func_80A3DF00;
                 }
                 break;
-            case 1:
-                func_8010B720(globalCtx, 0x3050);
+            case 1:                               // no
+                func_8010B720(globalCtx, 0x3050); // "All right. Come back again."
                 this->subActionFunc = func_80A3DD7C;
                 break;
         }
@@ -308,19 +299,17 @@ void func_80A3E090(EnGm* this) {
 }
 
 void EnGm_DrawProc(Actor* thisx, GlobalContext* globalCtx) {
-
-    static UNK_PTR D_80A3E384[] = {
+    static UNK_PTR sEyeTextures[] = {
         0x0600CE80,
         0x0600D280,
         0x0600D680,
     };
-
     EnGm* this = THIS;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gm.c", 613);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A3E384[this->eyeIndex]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      NULL, &this->actor);
