@@ -99,8 +99,8 @@ glabel EnKarebaba_Draw
 /* 0130C 80A9665C 256B6184 */  addiu   $t3, $t3, %lo(EnKarebaba_Wait) ## $t3 = 80A96184
 /* 01310 80A96660 1162006A */  beq     $t3, $v0, .L80A9680C
 /* 01314 80A96664 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 01318 80A96668 3C0580A9 */  lui     $a1, %hi(BLACK_COLOR)       ## $a1 = 80A90000
-/* 0131C 80A9666C 24A56A68 */  addiu   $a1, $a1, %lo(BLACK_COLOR)  ## $a1 = 80A96A68
+/* 01318 80A96668 3C0580A9 */  lui     $a1, %hi(colorBlack)       ## $a1 = 80A90000
+/* 0131C 80A9666C 24A56A68 */  addiu   $a1, $a1, %lo(colorBlack)  ## $a1 = 80A96A68
 /* 01320 80A96670 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01324 80A96674 0C00988C */  jal     func_80026230
 /* 01328 80A96678 24070002 */  addiu   $a3, $zero, 0x0002         ## $a3 = 00000002
@@ -199,8 +199,8 @@ glabel EnKarebaba_Draw
 /* 01480 80A967D0 AC780004 */  sw      $t8, 0x0004($v1)           ## 00000004
 /* 01484 80A967D4 8FA8004C */  lw      $t0, 0x004C($sp)
 /* 01488 80A967D8 8E6A0190 */  lw      $t2, 0x0190($s3)           ## 00000190
-/* 0148C 80A967DC 3C0480A9 */  lui     $a0, %hi(VEC_ZERO2)       ## $a0 = 80A90000
-/* 01490 80A967E0 24846A78 */  addiu   $a0, $a0, %lo(VEC_ZERO2)  ## $a0 = 80A96A78
+/* 0148C 80A967DC 3C0480A9 */  lui     $a0, %hi(vecZero2)       ## $a0 = 80A90000
+/* 01490 80A967E0 24846A78 */  addiu   $a0, $a0, %lo(vecZero2)  ## $a0 = 80A96A78
 /* 01494 80A967E4 550A0004 */  bnel    $t0, $t2, .L80A967F8
 /* 01498 80A967E8 8FA90048 */  lw      $t1, 0x0048($sp)
 /* 0149C 80A967EC 0C0346BD */  jal     Matrix_MultVec3f
@@ -217,10 +217,10 @@ glabel EnKarebaba_Draw
 .L80A9680C:
 /* 014BC 80A9680C 3C0B80A9 */  lui     $t3, %hi(EnKarebaba_Dying)    ## $t3 = 80A90000
 /* 014C0 80A96810 256B5D90 */  addiu   $t3, $t3, %lo(EnKarebaba_Dying) ## $t3 = 80A95D90
-/* 014C4 80A96814 3C0580A9 */  lui     $a1, %hi(BLACK_COLOR)       ## $a1 = 80A90000
+/* 014C4 80A96814 3C0580A9 */  lui     $a1, %hi(colorBlack)       ## $a1 = 80A90000
 /* 014C8 80A96818 3C1080A9 */  lui     $s0, %hi(EnKarebaba_Grow)    ## $s0 = 80A90000
 /* 014CC 80A9681C 26105940 */  addiu   $s0, $s0, %lo(EnKarebaba_Grow) ## $s0 = 80A95940
-/* 014D0 80A96820 24A56A68 */  addiu   $a1, $a1, %lo(BLACK_COLOR)  ## $a1 = 80A96A68
+/* 014D0 80A96820 24A56A68 */  addiu   $a1, $a1, %lo(colorBlack)  ## $a1 = 80A96A68
 /* 014D4 80A96824 AFAB004C */  sw      $t3, 0x004C($sp)
 /* 014D8 80A96828 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 014DC 80A9682C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
