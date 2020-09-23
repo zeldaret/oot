@@ -230,13 +230,10 @@ void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE53AC.s")
 /*
 void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
-    s16 temp_a0;
+    f32 speed;
+    s16 yawDiff;
+    s16 yaw;
     s32 temp_ret;
-    s16 temp_v0;
-    s16 phi_v0;
-    f32 distDiff;
-    f32 rand;
 
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
@@ -258,11 +255,9 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     this->actor.speedXZ += (((this->actor.xzDistFromLink - 20.0f) / ((Math_Rand_ZeroOne() * 50.0f) + 150.0f)) * 1.8f);
     this->actor.speedXZ = CLAMP(this->actor.speedXZ, -3.0f, 3.0f);
 
-    phi_v0 = (this->unk_270 == 0) ? this->actor.yawTowardsLink : -this->actor.yawTowardsLink;
-    temp_v0 = phi_v0 - this->actor.posRot.rot.y;
-    temp_a0 = temp_v0 > 0 ? ((temp_v0 / 31.0f) + 10.0f) : ((temp_v0 / 31.0f) - 10.0f);
-    temp_f0 = temp_a0;
-    this->actor.posRot.rot.y += (temp_f0 + temp_f0);
+    yawDiff = ((this->unk_270 == 0) ? this->actor.yawTowardsLink : -this->actor.yawTowardsLink) - this->actor.posRot.rot.y;
+    yaw = yawDiff > 0 ? ((yawDiff / 31.0f) + 10.0f) : ((yawDiff / 31.0f) - 10.0f);
+    this->actor.posRot.rot.y += (yaw * 2.0f);
 
     if (this->unk_274 == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
