@@ -35,11 +35,11 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern UNK_TYPE D_06000C98;
-extern UNK_TYPE D_06000800;
-extern UNK_TYPE D_06000990;
-extern Gfx D_06000B20[];
+extern Vtx* D_06000800;
+extern Vtx* D_06000990;
+extern Gfx* D_06000B20[];
 extern UNK_TYPE D_06000BC0;
-extern Gfx D_06001580[];
+extern Gfx* D_06001580[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADAE0.s")
 // void func_808ADAE0(BgSpot03Taki* this, s32 arg0) {
@@ -140,10 +140,8 @@ void BgSpot03Taki_Update(Actor *thisx, GlobalContext *globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Draw.s")
 void BgSpot03Taki_Draw(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
+    Gfx *(*dlist)[];
     u32 gameplayFrames;
-    s32 test1;
-    s8 test2;
-    unsigned int test3;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 321);
 
@@ -153,36 +151,29 @@ void BgSpot03Taki_Draw(Actor *thisx, GlobalContext *globalCtx) {
               Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    test2 = gameplayFrames;
-
-    if (test2) {}
-
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, test2 * 5, 64, 64));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    test1 = D_06000B20;
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06001580);
 
     if (this->unk_174 == 0) {
         gSPVertex(oGfxCtx->polyXlu.p++, &D_06000800, 25, 0);
     } else {
         gSPVertex(oGfxCtx->polyXlu.p++, &D_06000990, 25, 0);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, &test1);
+        dlist = &D_06000B20;
+        gSPDisplayList(oGfxCtx->polyXlu.p++, dlist);
     }
 
-    test3 = test2;
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, test2, test2 * 3, 64, 64, 1, -(test3 & 0xFFFFFFFFFFFFFFFFu), test2 * 3, 64, 64));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (u8)gameplayFrames, gameplayFrames * 3, 64, 64, 1, -gameplayFrames, gameplayFrames * 3, 64, 64));
 
-    if (!this) {}
-
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06001580);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &test1);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06000B20);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
-    this->unk_174 = (this->unk_174 == 0);
+    this->unk_174 = this->unk_174 == 0;
 
     if (this->unk_16A > 0 && this->unk_16A < 4) {
         func_800F46E0(&this->dyna.actor.projectedPos, 0.5);
