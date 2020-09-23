@@ -9,8 +9,8 @@ glabel func_800DFBF8
 /* B56DA0 800DFC00 3C168017 */  lui   $s6, %hi(gAudioContext) # $s6, 0x8017
 /* B56DA4 800DFC04 26D6F180 */  addiu $s6, %lo(gAudioContext) # addiu $s6, $s6, -0xe80
 /* B56DA8 800DFC08 92CE3519 */  lbu   $t6, 0x3519($s6)
-/* B56DAC 800DFC0C 3C188013 */  lui   $t8, %hi(D_801337C8) # $t8, 0x8013
-/* B56DB0 800DFC10 271837C8 */  addiu $t8, %lo(D_801337C8) # addiu $t8, $t8, 0x37c8
+/* B56DAC 800DFC0C 3C188013 */  lui   $t8, %hi(gAudioSessionPresets) # $t8, 0x8013
+/* B56DB0 800DFC10 271837C8 */  addiu $t8, %lo(gAudioSessionPresets) # addiu $t8, $t8, 0x37c8
 /* B56DB4 800DFC14 000E78C0 */  sll   $t7, $t6, 3
 /* B56DB8 800DFC18 01EE7823 */  subu  $t7, $t7, $t6
 /* B56DBC 800DFC1C 000F78C0 */  sll   $t7, $t7, 3
@@ -120,10 +120,10 @@ glabel func_800DFBF8
 /* B56F4C 800DFDAC A6D9285C */  sh    $t9, 0x285c($s6)
 .L800DFDB0:
 /* B56F50 800DFDB0 950A0014 */  lhu   $t2, 0x14($t0)
-/* B56F54 800DFDB4 3C0B8015 */  lui   $t3, %hi(D_8014A6C0+2) # $t3, 0x8015
+/* B56F54 800DFDB4 3C0B8015 */  lui   $t3, %hi(gTatumsPerBeat) # $t3, 0x8015
 /* B56F58 800DFDB8 3C018015 */  lui   $at, %hi(D_80149410)
 /* B56F5C 800DFDBC A6CA0002 */  sh    $t2, 2($s6)
-/* B56F60 800DFDC0 856BA6C2 */  lh    $t3, %lo(D_8014A6C0+2)($t3)
+/* B56F60 800DFDC0 856BA6C2 */  lh    $t3, %lo(gTatumsPerBeat)($t3)
 /* B56F64 800DFDC4 C4329410 */  lwc1  $f18, %lo(D_80149410)($at)
 /* B56F68 800DFDC8 C6D02960 */  lwc1  $f16, 0x2960($s6)
 /* B56F6C 800DFDCC 448B2000 */  mtc1  $t3, $f4
@@ -281,7 +281,7 @@ glabel func_800DFBF8
 /* B571B4 800E0014 8C4F002C */  lw    $t7, 0x2c($v0)
 /* B571B8 800E0018 0C037A07 */  jal   Audio_TemporaryPoolsInit
 /* B571BC 800E001C AECF3434 */   sw    $t7, 0x3434($s6)
-/* B571C0 800E0020 0C0377E0 */  jal   func_800DDF80
+/* B571C0 800E0020 0C0377E0 */  jal   Audio_ResetLoadStatus
 /* B571C4 800E0024 00000000 */   nop   
 /* B571C8 800E0028 8EC52894 */  lw    $a1, 0x2894($s6)
 /* B571CC 800E002C 3C138017 */  lui   $s3, %hi(gAudioContext+0x29c0) # $s3, 0x8017
@@ -312,7 +312,7 @@ glabel func_800DFBF8
 .L800E0090:
 /* B57230 800E0090 8EC52890 */  lw    $a1, 0x2890($s6)
 /* B57234 800E0094 02602025 */  move  $a0, $s3
-/* B57238 800E0098 0C0378D1 */  jal   func_800DE344
+/* B57238 800E0098 0C0378D1 */  jal   Audio_AllocDmaMemoryZeroed
 /* B5723C 800E009C 000528C0 */   sll   $a1, $a1, 3
 /* B57240 800E00A0 26100004 */  addiu $s0, $s0, 4
 /* B57244 800E00A4 1611FFFA */  bne   $s0, $s1, .L800E0090
@@ -504,7 +504,7 @@ glabel func_800DFBF8
 /* B57508 800E0368 51A0000F */  beql  $t5, $zero, .L800E03A8
 /* B5750C 800E036C AE400270 */   sw    $zero, 0x270($s2)
 /* B57510 800E0370 02602025 */  move  $a0, $s3
-/* B57514 800E0374 0C0378D1 */  jal   func_800DE344
+/* B57514 800E0374 0C0378D1 */  jal   Audio_AllocDmaMemoryZeroed
 /* B57518 800E0378 24050040 */   li    $a1, 64
 /* B5751C 800E037C AE420278 */  sw    $v0, 0x278($s2)
 /* B57520 800E0380 02602025 */  move  $a0, $s3
@@ -523,7 +523,7 @@ glabel func_800DFBF8
 /* B5754C 800E03AC 5180000F */  beql  $t4, $zero, .L800E03EC
 /* B57550 800E03B0 AE400274 */   sw    $zero, 0x274($s2)
 /* B57554 800E03B4 02602025 */  move  $a0, $s3
-/* B57558 800E03B8 0C0378D1 */  jal   func_800DE344
+/* B57558 800E03B8 0C0378D1 */  jal   Audio_AllocDmaMemoryZeroed
 /* B5755C 800E03BC 24050040 */   li    $a1, 64
 /* B57560 800E03C0 AE42027C */  sw    $v0, 0x27c($s2)
 /* B57564 800E03C4 02602025 */  move  $a0, $s3
