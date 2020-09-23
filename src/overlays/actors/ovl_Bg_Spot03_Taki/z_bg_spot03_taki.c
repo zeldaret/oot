@@ -15,6 +15,7 @@ void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_800F46E0(Vec3f* pos, f32 arg0);
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot03_Taki_InitVars = {
@@ -36,38 +37,36 @@ static InitChainEntry sInitChain[] = {
 extern UNK_TYPE D_06000C98;
 extern UNK_TYPE D_06000800;
 extern UNK_TYPE D_06000990;
-extern UNK_TYPE D_06000B20;
+extern Gfx D_06000B20[];
 extern UNK_TYPE D_06000BC0;
-extern UNK_TYPE D_06001580;
+extern Gfx D_06001580[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADAE0.s")
 // void func_808ADAE0(BgSpot03Taki* this, s32 arg0) {
-//     void *temp_a0;
-//     void *temp_v0;
-
-//     s32 phi_v0;
+//     Vtx* vert;
+//     s32 vertAddr;
 
 //     if (arg0 == 0) {
-//         phi_v0 = SEGMENTED_TO_VIRTUAL(D_06000800);
+//         vertAddr = SEGMENTED_TO_VIRTUAL(D_06000800);
 //     } else {
-//         phi_v0 = SEGMENTED_TO_VIRTUAL(D_06000990);
+//         vertAddr = SEGMENTED_TO_VIRTUAL(D_06000990);
 //     }
 
-//     temp_v0 = PHYSICAL_TO_VIRTUAL(phi_v0);
+//     vert = PHYSICAL_TO_VIRTUAL(vertAddr);
 
-//     temp_v0->unkAF = (s8) (u32) this->unk_170;
-//     temp_a0 = temp_v0 + (1 * 0x10);
-//     temp_a0->unkAF = (s8) (u32) this->unk_170;
-//     temp_a0->unkBF = (s8) (u32) this->unk_170;
-//     temp_a0->unkCF = (s8) (u32) this->unk_170;
-//     temp_a0->unkDF = (s8) (u32) this->unk_170;
+//     vert->unkAF = (s8) this->unk_170;
+//     vert = vert + (1 * 0x10);
+//     vert->unkAF = (s8) this->unk_170;
+//     vert->unkBF = (s8) this->unk_170;
+//     vert->unkCF = (s8) this->unk_170;
+//     vert->unkDF = (s8) this->unk_170;
 // }
 
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Init.s")
 void BgSpot03Taki_Init(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
-    s16 unused;
+    s16 pad;
     s32 sp24 = 0;
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
@@ -141,50 +140,49 @@ void BgSpot03Taki_Update(Actor *thisx, GlobalContext *globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Draw.s")
 void BgSpot03Taki_Draw(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
-    u32 gameplayFrames;
+    s8 gameplayFrames;
     s16 pad;
-    GraphicsContext *gfxCtx;
+    s16 test1;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-
-    OPEN_DISPS(gfxCtx, "../z_bg_spot03_taki.c", 321);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 321);
 
     gameplayFrames = globalCtx->gameplayFrames;
 
-    gSPMatrix(gfxCtx->polyXlu.p++,
+    gSPMatrix(oGfxCtx->polyXlu.p++,
               Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06000B20);
+    test1 = D_06000B20;
 
     if (this->unk_174 == 0) {
-        gSPVertex(gfxCtx->polyXlu.p++, D_06000800, 25, 0);
+        // vert = D_06000800;
+        gSPVertex(oGfxCtx->polyXlu.p++, &D_06000800, 25, 0);
     } else {
-        gSPVertex(gfxCtx->polyXlu.p++, D_06000990, 25, 0);
+        // vert = D_06000990;
+        gSPVertex(oGfxCtx->polyXlu.p++, &D_06000990, 25, 0);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, &test1);
     }
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06000BC0);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, gameplayFrames * 3, 64, 64, 1, -gameplayFrames, gameplayFrames * 3, 64, 64));
+    
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06001580);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, gameplayFrames * 3, 64, 64, 1, 0 - gameplayFrames, gameplayFrames * 3, 64, 64));
-
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06001580);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &test1);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
-    this->unk_174 = (u8) (this->unk_174 == 0);
+    this->unk_174 = (this->unk_174 == 0);
 
-    if ((s32) this->unk_16A > 0) {
-        if ((s32) this->unk_16A < 4) {
-            func_800F46E0(&this->dyna.actor.projectedPos, 0x3F000000);
-            return;
-        }
+    if (this->unk_16A > 0 && this->unk_16A < 4) {
+        func_800F46E0(&this->dyna.actor.projectedPos, 0.5);
     }
-
-    func_800F46E0(&this->dyna.actor.projectedPos, 0x3F800000);
+    else {
+        func_800F46E0(&this->dyna.actor.projectedPos, 1.0);
+    }
 }
