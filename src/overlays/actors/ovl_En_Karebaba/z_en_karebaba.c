@@ -461,15 +461,15 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnKarebaba* this = THIS;
     f32 scale;
     Gfx** current;
     s32 tmp, i;
-    EnKarebaba* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1056);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    if (this->actionFunc == EnKarebaba_DeadItemDrop && (this->actor.params > 40 || (this->actor.params & 1) != 0)) {
+    if (this->actionFunc == EnKarebaba_DeadItemDrop && (this->actor.params > 40 || (this->actor.params & 1))) {
         Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1066), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyOpa.p++, UNK_DLIST);
@@ -498,9 +498,11 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80026608(globalCtx);
     func_80026230(globalCtx, &colorBlack, 1, 2);
     Matrix_Translate(this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, MTXMODE_NEW);
+    
     if (this->actionFunc != EnKarebaba_Grow) {
         scale = 0.01f;
     }
+    
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(this->actor.initPosRot.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1144), G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
