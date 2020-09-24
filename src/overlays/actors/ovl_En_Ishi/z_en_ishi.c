@@ -1,5 +1,7 @@
 #include "z_en_ishi.h"
 
+#include <vt.h>
+
 #define FLAGS 0x00800000
 
 #define THIS ((EnIshi*)thisx)
@@ -15,9 +17,11 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7E824(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7EB10(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7EC04(EnIshi* this, GlobalContext* globalCtx);
-
 void func_80A7F098(EnIshi* this);
-
+void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx);
+void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx);
+void func_80A7F3E8(EnIshi* this);
+void func_80A7F514(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F8A0(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx);
 
@@ -107,6 +111,9 @@ extern InitChainEntry D_80A873B8[2][5];
 extern u16 D_80A873E0[2];
 extern void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx);
 
+extern Gfx D_0500A3B8[];
+extern Gfx D_0500A880[];
+
 void func_80A7E460(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
 
@@ -115,23 +122,98 @@ void func_80A7E460(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E4D8.s")
+s32 func_80A7E4D8(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
+    CollisionPoly* sp34;
+    Vec3f sp28;
+    UNK_TYPE sp24;
+    f32 temp_f0;
+
+    sp28.x = this->actor.posRot.pos.x;
+    sp28.y = this->actor.posRot.pos.y + 30.0f;
+    sp28.z = this->actor.posRot.pos.z;
+    temp_f0 = func_8003C9A4(&globalCtx->colCtx, &sp34, &sp24, &this->actor, &sp28);
+    if (temp_f0 > -32000.0f) {
+        this->actor.posRot.pos.y = temp_f0 + arg2;
+        Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+        return true;
+    } else {
+        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
+        osSyncPrintf(VT_RST);
+        return false;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E5A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E824.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7EB10.s")
+void func_80A7EB10(EnIshi* this, GlobalContext* globalCtx) {
+    Vec3f sp2C;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7EC04.s")
+    Math_Vec3f_Copy(&sp2C, &this->actor.posRot.pos);
+    if (this->actor.bgCheckFlags & 1) {
+        sp2C.x += 2.0f * this->actor.velocity.x;
+        sp2C.y -= 2.0f * this->actor.velocity.y;
+        sp2C.z += 2.0f * this->actor.velocity.z;
+    } else if (this->actor.bgCheckFlags & 8) {
+        sp2C.x -= 2.0f * this->actor.velocity.x;
+        sp2C.y += 2.0f * this->actor.velocity.y;
+        sp2C.z -= 2.0f * this->actor.velocity.z;
+    }
+    func_80033480(globalCtx, &sp2C, 60.0f, 3, 0x50, 0x3C, 1);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7ECF8.s")
+void func_80A7EC04(EnIshi* this, GlobalContext* globalCtx) {
+    Vec3f sp2C;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7ED60.s")
+    Math_Vec3f_Copy(&sp2C, &this->actor.posRot.pos);
+    if (this->actor.bgCheckFlags & 1) {
+        sp2C.x += 2.0f * this->actor.velocity.x;
+        sp2C.y -= 2.0f * this->actor.velocity.y;
+        sp2C.z += 2.0f * this->actor.velocity.z;
+    } else if (this->actor.bgCheckFlags & 8) {
+        sp2C.x -= 2.0f * this->actor.velocity.x;
+        sp2C.y += 2.0f * this->actor.velocity.y;
+        sp2C.z -= 2.0f * this->actor.velocity.z;
+    }
+    func_80033480(globalCtx, &sp2C, 140.0f, 0xA, 0xB4, 0x5A, 1);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7ED94.s")
+void func_80A7ECF8(EnIshi* this, GlobalContext* globalCtx) {
+    if (!(this->actor.params & 1)) {
+        s16 dropParams = (this->actor.params >> 8) & 0xF;
+        if (dropParams >= 0xD) {
+            dropParams = 0;
+        }
+        Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, dropParams << 4);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7EE1C.s")
+void func_80A7ED60(EnIshi* this) {
+    this->actor.velocity.y += this->actor.gravity;
+
+    if (this->actor.velocity.y < this->actor.minVelocityY) {
+        this->actor.velocity.y = this->actor.minVelocityY;
+    }
+}
+
+void func_80A7ED94(Vec3f* arg0, f32 arg1) {
+    arg1 += ((Math_Rand_ZeroOne() * 0.2f) - 0.1f) * arg1;
+    arg0->x -= arg0->x * arg1;
+    arg0->y -= arg0->y * arg1;
+    arg0->z -= arg0->z * arg1;
+}
+
+void func_80A7EE1C(EnIshi* this, GlobalContext* globalCtx) {
+    s32 i;
+
+    for (i = 0; i < 3; i++) {
+        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Math_Rand_ZeroOne() * 0xFFFF, 0, 1) == NULL) {
+            break;
+        }
+    }
+}
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
@@ -164,15 +246,45 @@ void EnIshi_Destroy(EnIshi* this, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F098.s")
+void func_80A7F098(EnIshi* this) {
+    this->actionFunc = func_80A7F0A8;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F0A8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F2F8.s")
+void func_80A7F2F8(EnIshi *this) {
+    this->actionFunc = func_80A7F31C;
+    this->actor.room = -1;
+    this->actor.flags |= 0x10;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F31C.s")
+void func_80A7F31C(EnIshi *this, GlobalContext *globalCtx) {
+    if (Actor_HasNoParent(&this->actor, globalCtx)) {
+        this->actor.room = globalCtx->roomCtx.curRoom.num;
+        if ((this->actor.params & 1) == 1) {
+            Flags_SetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3));
+        }
+        func_80A7F3E8(this);
+        func_80A7ED60(this);
+        func_80A7ED94(&this->actor.velocity, D_80A7FA28[this->actor.params & 1]);
+        func_8002D7EC(&this->actor);
+        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F3E8.s")
+void func_80A7F3E8(EnIshi* this) {
+    this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
+    if (!(this->actor.params & 1)) {
+        D_80A7F9F0 = (Math_Rand_ZeroOne() - 0.5f) * 16000.0f;
+        D_80A7F9F4 = (Math_Rand_ZeroOne() - 0.5f) * 2400.0f;
+    } else {
+        D_80A7F9F0 = (Math_Rand_ZeroOne() - 0.5f) * 8000.0f;
+        D_80A7F9F4 = (Math_Rand_ZeroOne() - 0.5f) * 1600.0f;
+    }
+    this->actor.colChkInfo.mass = 0xF0;
+    this->actionFunc = func_80A7F514;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F514.s")
 
@@ -180,9 +292,20 @@ void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F8A0.s")
+void func_80A7F8A0(EnIshi* this, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_0500A880);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F8CC.s")
+void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx) {
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1050);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_0500A3B8);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
+}
 
 void EnIshi_Draw(EnIshi* this, GlobalContext* globalCtx) {
     D_80A873E4[this->actor.params & 1](this, globalCtx);
