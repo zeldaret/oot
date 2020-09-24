@@ -11,6 +11,7 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx);
+void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx);
 
 ColliderCylinderInit D_80A8FDE0 =
 {
@@ -19,10 +20,8 @@ ColliderCylinderInit D_80A8FDE0 =
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-// 0x60065B0
-extern UNK_TYPE D_060065B0;
-// 0x6000214
-extern UNK_TYPE D_06000214;
+extern SkeletonHeader D_060065B0;
+extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi_InitVars = {
     ACTOR_EN_KAKASI,
@@ -64,7 +63,27 @@ void EnKakasi_Init(Actor *thisx,GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F320.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F660.s")
+void func_80A8F660(EnKakasi *this, GlobalContext *globalCtx) {
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
+    SkelAnime_ChangeAnim(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+
+    this->actor.textId = 0x4076;
+    this->unk_196 = 6;
+    if (gSaveContext.linkAge != 0) {
+        this->unk_194 = 0;
+        if (gSaveContext.unk_F3C[4] != 0) {
+            this->actor.textId = 0x407A;
+            this->unk_196 = 5;
+        }
+    } else {
+        this->unk_194 = 1;
+        if (gSaveContext.unk_F3C[4] != 0) {
+            this->actor.textId = 0x4079;
+            this->unk_196 = 5;
+        }
+    }
+    this->actionFunc = &func_80A8F75C;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F75C.s")
 
