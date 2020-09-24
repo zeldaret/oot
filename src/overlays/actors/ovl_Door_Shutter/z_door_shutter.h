@@ -14,7 +14,7 @@
  * | 6                | 4       | 6
  * |
  * 
- * Transition Index     1111110000000000
+ * Transition Index     1111110000000000    Set by the actor engine when the door is spawned
  * Type                 0000001111000000
  * Switch Flag          0000000000111111
  * 
@@ -22,17 +22,17 @@
 
 typedef enum {
     /* 0x00 */ SHUTTER,
-    /* 0x01 */ F_CLEAR,
-    /* 0x02 */ F_SWITCH,
-    /* 0x03 */ BACK_LOCKED,
-    /* 0x04 */ PG_BARS,
-    /* 0x05 */ BOSS,
-    /* 0x06 */ GOHMA_BLOCK,
-    /* 0x07 */ F_SWITCH_B_CLEAR,
-    /* 0x08 */ PG_BARS_2,
+    /* 0x01 */ SHUTTER_FRONT_CLEAR,
+    /* 0x02 */ SHUTTER_FRONT_SWITCH,
+    /* 0x03 */ SHUTTER_BACK_LOCKED,
+    /* 0x04 */ SHUTTER_PG_BARS,
+    /* 0x05 */ SHUTTER_BOSS,
+    /* 0x06 */ SHUTTER_GOHMA_BLOCK,
+    /* 0x07 */ SHUTTER_FRONT_SWITCH_BACK_CLEAR,
+    /* 0x08 */ SHUTTER_8,
     /* 0x09 */ SHUTTER_9,
     /* 0x0A */ SHUTTER_A,
-    /* 0x0B */ KEY_LOCKED,
+    /* 0x0B */ SHUTTER_KEY_LOCKED,
     /* 0x0C */ SHUTTER_C,
     /* 0x0D */ SHUTTER_D,
     /* 0x0E */ SHUTTER_E,
