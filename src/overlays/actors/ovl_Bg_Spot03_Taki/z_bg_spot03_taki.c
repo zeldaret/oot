@@ -38,32 +38,11 @@ extern UNK_TYPE D_06000C98;
 extern Vtx* D_06000800;
 extern Vtx* D_06000990;
 extern Gfx* D_06000B20[];
-extern UNK_TYPE D_06000BC0;
 extern Gfx* D_06001580[];
 
+// Not decompiled yet.
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADAE0.s")
-// void func_808ADAE0(BgSpot03Taki* this, s32 arg0) {
-//     Vtx* vert;
-//     s32 vertAddr;
 
-//     if (arg0 == 0) {
-//         vertAddr = SEGMENTED_TO_VIRTUAL(D_06000800);
-//     } else {
-//         vertAddr = SEGMENTED_TO_VIRTUAL(D_06000990);
-//     }
-
-//     vert = PHYSICAL_TO_VIRTUAL(vertAddr);
-
-//     vert->unkAF = (s8) this->unk_170;
-//     vert = vert + (1 * 0x10);
-//     vert->unkAF = (s8) this->unk_170;
-//     vert->unkBF = (s8) this->unk_170;
-//     vert->unkCF = (s8) this->unk_170;
-//     vert->unkDF = (s8) this->unk_170;
-// }
-
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Init.s")
 void BgSpot03Taki_Init(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
     s16 pad;
@@ -81,14 +60,12 @@ void BgSpot03Taki_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFunc = func_808ADEF0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Destroy.s")
 void BgSpot03Taki_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADEF0.s")
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
@@ -130,7 +107,6 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
     func_808ADAE0(this, this->unk_174);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Update.s")
 void BgSpot03Taki_Update(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
 
