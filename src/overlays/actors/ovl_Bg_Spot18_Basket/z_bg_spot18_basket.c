@@ -16,12 +16,14 @@ void func_808B7B58(BgSpot18Basket* this);
 void func_808B7BB0(BgSpot18Basket* this);
 void func_808B7D38(BgSpot18Basket* this);
 void func_808B7F74(BgSpot18Basket *this);
+void func_808B818C(BgSpot18Basket *this);
 
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7B6C(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7770(BgSpot18Basket *this, GlobalContext *globalCtx, f32 arg2);
 void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx);
+void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06002154;
 
@@ -57,6 +59,7 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 s16 D_808B85C8[] = { 0x8000, 0x2AAA, 0xD555, 0x0000 };
+
 s16 D_808B85D0 = 0;
 
 // s32 D_808B85D4[] = { 0xC8500064, 0xB0F403E8, 0xB0F801F4, 0x30FC03E8 };
@@ -67,7 +70,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-s32 D_808B85E4[] = { 0xF0600320, 0x0FA00000, 0x00000000 };
+s16 D_808B85E4[] = { 0xF060, 0x0320, 0x0FA0, 0x0000, 0x0000, 0x0000 };
 
 void func_808B7710(BgSpot18Basket* this, GlobalContext* globalCtx) {
     Actor* actor;
@@ -379,9 +382,83 @@ void func_808B7FC0(BgSpot18Basket *this, GlobalContext *globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7FC0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B818C.s")
+void func_808B818C(BgSpot18Basket *this) {
+    this->actionFunc = func_808B81A0;
+    this->unk_216 = 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B81A0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B818C.s")
+
+void func_808B81A0(BgSpot18Basket *this, GlobalContext *globalCtx) {
+    s32 i;
+    Actor *actor = &this->dyna.actor;
+    Vec3f tempVector;
+    EnItem00 *collectible;
+
+    if (this->unk_216 == 1) {
+        tempVector.x = actor->posRot.pos.x;
+        tempVector.y = actor->posRot.pos.y + 170.0f;
+        tempVector.z = actor->posRot.pos.z;
+
+        if (this->unk_218 == 0) {
+            for (i = 0; i < 3; i++) {
+                collectible = Item_DropCollectible(globalCtx, &tempVector, 4);
+                if (collectible != NULL) {
+                    collectible->actor.velocity.y = 11.0f;
+                    collectible->actor.posRot.rot.y =  D_808B85E4[i];
+                }
+            }
+        } else if (this->unk_218 == 1) {
+            for (i = 0; i < 3; i++) {
+                collectible = Item_DropCollectible(globalCtx, &tempVector, 0);
+                if (collectible != NULL) {
+                    collectible->actor.velocity.y = 11.0f;
+                    collectible->actor.posRot.rot.y = D_808B85E4[i];
+                }
+            }
+        } else if (this->unk_218 == 2) {
+            if ((this->unk_21A != 0) || (Flags_GetCollectible(globalCtx, (actor->params & 0x3F)) != 0)) {
+                collectible = Item_DropCollectible(globalCtx, &tempVector, 20);
+                if (collectible != NULL) {
+                    collectible->actor.velocity.y = 11.0f;
+                    collectible->actor.posRot.rot.y = D_808B85E4[1];
+                }
+            } else {
+                collectible = Item_DropCollectible(globalCtx, &tempVector, ((actor->params & 0x3F) << 8) | 6);
+                if (collectible != NULL) {
+                    collectible->actor.velocity.y = 11.0f;
+                    collectible->actor.posRot.rot.y = D_808B85E4[1];
+                    this->unk_21A = 1;
+                }
+            }
+
+            collectible = Item_DropCollectible(globalCtx, &tempVector, 2);
+            if (collectible != NULL) {
+                collectible->actor.velocity.y = 11.0f;
+                collectible->actor.posRot.rot.y = D_808B85E4[0];
+            } 
+
+            collectible = Item_DropCollectible(globalCtx, &tempVector, 1);
+            if (collectible != NULL) {
+                collectible->actor.velocity.y = 11.0f;
+                collectible->actor.posRot.rot.y = D_808B85E4[2];
+            }
+        }
+    } else {
+        if (this->unk_216 == 2) {
+            if (this->unk_218 == 2) {
+                func_80078884(0x4802U);
+            }
+            else {
+                func_80078884(0x4807U);
+            }
+        } else if (this->unk_216 == 200) {
+            func_808B7BB0(this);
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B81A0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Update.s")
 
