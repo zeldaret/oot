@@ -110,7 +110,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHineri* this = THIS;
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
@@ -153,7 +153,7 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_808A3C8C;
                 func_80041880(&D_06006078, &colHeader);
             }
-            this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+            this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         }
     }
 }

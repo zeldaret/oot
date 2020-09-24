@@ -162,7 +162,7 @@ typedef struct Actor {
 
 typedef struct DynaPolyActor {
     /* 0x000 */ struct Actor actor;
-    /* 0x14C */ u32 dynaPolyId;
+    /* 0x14C */ s32 bgId;
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;
     /* 0x158 */ s16 unk_158; //y rotation?

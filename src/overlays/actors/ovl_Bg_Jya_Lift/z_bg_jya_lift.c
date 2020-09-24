@@ -54,7 +54,7 @@ void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, Collision
 
     func_80043480(&this->dyna, moveFlag);
     func_80041880(collisionHeader, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -88,7 +88,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");
         D_8089A020 = 0;
-        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

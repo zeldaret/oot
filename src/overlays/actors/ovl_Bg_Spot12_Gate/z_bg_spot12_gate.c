@@ -53,8 +53,8 @@ void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader
 
     func_80043480(thisx, flags);
     func_80041880(collision, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-    if (this->dyna.dynaPolyId == BG_ACTOR_MAX) {
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
                      thisx->id, thisx->params);
     }
@@ -76,7 +76,7 @@ void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Gate* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B30C0(BgSpot12Gate* this) {

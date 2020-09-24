@@ -53,8 +53,8 @@ void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHea
 
     func_80043480(&this->actor, flag);
     func_80041880(collision, &colHeader);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
-    if (this->dynaPolyId == BG_ACTOR_MAX) {
+    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    if (this->bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
                      this->actor.id, this->actor.params);
     }
@@ -71,7 +71,7 @@ void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void func_808933BC(BgJyaAmishutter* this) {

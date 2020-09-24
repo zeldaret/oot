@@ -3,38 +3,38 @@
 #include <vt.h>
 
 void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
-    MtxF prevSrp;
-    MtxF prevSrpInv;
-    MtxF curSrp;
+    MtxF prevTransform;
+    MtxF prevTransformInv;
+    MtxF curTransform;
     Vec3f pos;
     Vec3f tempPos;
 
     if (func_8003E934(bgId)) {
         SkinMatrix_SetScaleRotateYRPTranslate(
-            &prevSrp, colCtx->dyna.bgActors[bgId].prevSrp.scale.x, colCtx->dyna.bgActors[bgId].prevSrp.scale.y,
-            colCtx->dyna.bgActors[bgId].prevSrp.scale.z, colCtx->dyna.bgActors[bgId].prevSrp.rot.x,
-            colCtx->dyna.bgActors[bgId].prevSrp.rot.y, colCtx->dyna.bgActors[bgId].prevSrp.rot.z,
-            colCtx->dyna.bgActors[bgId].prevSrp.pos.x, colCtx->dyna.bgActors[bgId].prevSrp.pos.y,
-            colCtx->dyna.bgActors[bgId].prevSrp.pos.z);
-        if (SkinMatrix_Invert(&prevSrp, &prevSrpInv) != 2) {
+            &prevTransform, colCtx->dyna.bgActors[bgId].prevTransform.scale.x,
+            colCtx->dyna.bgActors[bgId].prevTransform.scale.y, colCtx->dyna.bgActors[bgId].prevTransform.scale.z,
+            colCtx->dyna.bgActors[bgId].prevTransform.rot.x, colCtx->dyna.bgActors[bgId].prevTransform.rot.y,
+            colCtx->dyna.bgActors[bgId].prevTransform.rot.z, colCtx->dyna.bgActors[bgId].prevTransform.pos.x,
+            colCtx->dyna.bgActors[bgId].prevTransform.pos.y, colCtx->dyna.bgActors[bgId].prevTransform.pos.z);
+        if (SkinMatrix_Invert(&prevTransform, &prevTransformInv) != 2) {
             SkinMatrix_SetScaleRotateYRPTranslate(
-                &curSrp, colCtx->dyna.bgActors[bgId].curSrp.scale.x, colCtx->dyna.bgActors[bgId].curSrp.scale.y,
-                colCtx->dyna.bgActors[bgId].curSrp.scale.z, colCtx->dyna.bgActors[bgId].curSrp.rot.x,
-                colCtx->dyna.bgActors[bgId].curSrp.rot.y, colCtx->dyna.bgActors[bgId].curSrp.rot.z,
-                colCtx->dyna.bgActors[bgId].curSrp.pos.x, colCtx->dyna.bgActors[bgId].curSrp.pos.y,
-                colCtx->dyna.bgActors[bgId].curSrp.pos.z);
-            SkinMatrix_Vec3fMtxFMultXYZ(&prevSrpInv, &actor->posRot.pos, &tempPos);
-            SkinMatrix_Vec3fMtxFMultXYZ(&curSrp, &tempPos, &pos);
+                &curTransform, colCtx->dyna.bgActors[bgId].curTransform.scale.x,
+                colCtx->dyna.bgActors[bgId].curTransform.scale.y, colCtx->dyna.bgActors[bgId].curTransform.scale.z,
+                colCtx->dyna.bgActors[bgId].curTransform.rot.x, colCtx->dyna.bgActors[bgId].curTransform.rot.y,
+                colCtx->dyna.bgActors[bgId].curTransform.rot.z, colCtx->dyna.bgActors[bgId].curTransform.pos.x,
+                colCtx->dyna.bgActors[bgId].curTransform.pos.y, colCtx->dyna.bgActors[bgId].curTransform.pos.z);
+            SkinMatrix_Vec3fMtxFMultXYZ(&prevTransformInv, &actor->posRot.pos, &tempPos);
+            SkinMatrix_Vec3fMtxFMultXYZ(&curTransform, &tempPos, &pos);
             actor->posRot.pos = pos;
-            if (32760.0f <= pos.x || pos.x <= -32760.0f || 32760.0f <= pos.y || pos.y <= -32760.0f ||
-                32760.0f <= pos.z || pos.z <= -32760.0f) {
+            if (BGCHECK_XYZ_ABSMAX <= pos.x || pos.x <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.y ||
+                pos.y <= -BGCHECK_XYZ_ABSMAX || BGCHECK_XYZ_ABSMAX <= pos.z || pos.z <= -BGCHECK_XYZ_ABSMAX) {
 
                 osSyncPrintf(VT_FGCOL(RED));
                 // @bug file and line are not passed to osSyncPrintf
+                // Position is not valid
                 osSyncPrintf(
                     "BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n",
                     pos.x, pos.y, pos.z);
-                // EUC-JP: 位置が妥当ではありません。 | Position is not valid
                 osSyncPrintf(VT_RST);
             }
         }
@@ -44,9 +44,9 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
 // Rotate actor
 void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     if (func_8003E934(bgId)) {
-        s16 rot = colCtx->dyna.bgActors[bgId].curSrp.rot.y - colCtx->dyna.bgActors[bgId].prevSrp.rot.y;
+        s16 rot = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
 
-        if (actor->id == 0) {
+        if (actor->id == ACTOR_PLAYER) {
             ((Player*)actor)->currentYaw += rot;
         }
 

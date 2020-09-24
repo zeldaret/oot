@@ -143,7 +143,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_808801B8;
             }
 
-            this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+            this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
         }
     } else {
         this->timer = 40;
@@ -159,7 +159,7 @@ void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params != HAKA_TRAP_PROPELLER) {
         if (thisx->params != HAKA_TRAP_GUILLOTINE_SLOW) {
-            func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             if ((thisx->params == HAKA_TRAP_SPIKED_WALL) || (thisx->params == HAKA_TRAP_SPIKED_WALL_2)) {
                 Collider_DestroyTris(globalCtx, &this->colliderSpikes);
             }

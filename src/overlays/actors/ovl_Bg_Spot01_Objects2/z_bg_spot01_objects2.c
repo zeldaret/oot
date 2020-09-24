@@ -102,16 +102,16 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
         switch (this->dyna.actor.params & 7) {
             case 4: // Shooting gallery
                 func_80041880(&D_06001A38, &colHeader);
-                this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+                this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 break;
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
                 func_80041880(&D_06001C58, &colHeader);
-                this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+                this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 if (gSaveContext.nightFlag == 0) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
-                                        position.y, position.z, thisx->posRot.rot.x, thisx->posRot.rot.y,
-                                        thisx->posRot.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
+                                       position.y, position.z, thisx->posRot.rot.x, thisx->posRot.rot.y,
+                                       thisx->posRot.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
                 }
                 break;
             case 0: // Potion Shop Poster

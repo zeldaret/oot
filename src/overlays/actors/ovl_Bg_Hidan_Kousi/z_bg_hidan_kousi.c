@@ -81,7 +81,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80041880(D_80889E70[thisx->params & 0xFF], &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->posRot.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
         func_80889ACC(this);
@@ -93,7 +93,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80889ACC(BgHidanKousi* this) {

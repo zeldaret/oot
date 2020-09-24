@@ -93,7 +93,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, sp28);
 
     thisx->posRot2.pos = thisx->posRot.pos;
-    this->dyna.dynaPolyId = -1;
+    this->dyna.bgId = BGACTOR_NEG_ONE;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = DPM_UNK;
     thisx->uncullZoneDownward = 1200.0f;
@@ -102,26 +102,26 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
         case A_OBJ_BLOCK_HUGE:
-            this->dyna.dynaPolyId = 1;
+            this->dyna.bgId = 1;
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_BG);
             func_8001D5C8(this, thisx->params);
             break;
         case A_OBJ_BLOCK_SMALL_ROT:
         case A_OBJ_BLOCK_LARGE_ROT:
-            this->dyna.dynaPolyId = 3;
+            this->dyna.bgId = 3;
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_BG);
             func_8001D310(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:
             // clang-format off
-            thisx->flags |= 0x1; this->dyna.dynaPolyId = 5; this->unk_178 = 10.0f;
+            thisx->flags |= 0x1; this->dyna.bgId = 5; this->unk_178 = 10.0f;
             // clang-format on
             thisx->gravity = -2.0f;
             func_8001D234(this, thisx->params);
             break;
         case A_OBJ_GRASS_CLUMP:
         case A_OBJ_TREE_STUMP:
-            this->dyna.dynaPolyId = 0;
+            this->dyna.bgId = 0;
             func_8001D234(this, thisx->params);
             break;
         case A_OBJ_SIGNPOST_OBLONG:
@@ -151,16 +151,16 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->colChkInfo.mass = 0xFF;
     }
 
-    if (this->dyna.dynaPolyId != -1) {
-        func_80041880(D_8011546C[this->dyna.dynaPolyId], &colHeader);
-        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    if (this->dyna.bgId != BGACTOR_NEG_ONE) {
+        func_80041880(D_8011546C[this->dyna.bgId], &colHeader);
+        this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
 }
 
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAObj* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:

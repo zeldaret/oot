@@ -54,7 +54,7 @@ extern CollisionHeader D_060011D4;
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgZg* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808C0C50(BgZg* this) {
@@ -112,7 +112,7 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80043480(thisx, DPM_UNK);
     colHeader = NULL;
     func_80041880(&D_060011D4, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
         thisx->scale.x = thisx->scale.x * 1.3f;
         thisx->scale.z = thisx->scale.z * 1.3f;

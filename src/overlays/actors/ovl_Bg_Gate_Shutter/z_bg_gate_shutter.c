@@ -43,7 +43,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80043480(&this->dyna, DPM_UNK);
     func_80041880(&D_06001DA8, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->posRot.pos.x;
     this->somePos.y = thisx->posRot.pos.y;
     this->somePos.z = thisx->posRot.pos.z;
@@ -63,7 +63,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgGateShutter* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {

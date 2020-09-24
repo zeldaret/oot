@@ -41,7 +41,7 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80043480(thisx, DPM_UNK);
     func_80041880(&D_060004D0, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->scale.x = 0.1f;
     thisx->scale.y = 0.1f;
     thisx->scale.z = 0.1f;
@@ -57,7 +57,7 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Saku* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {

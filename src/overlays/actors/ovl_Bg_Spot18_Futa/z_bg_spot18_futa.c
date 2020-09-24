@@ -44,14 +44,14 @@ void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80043480(&this->actor, DPM_UNK);
     func_80041880(&D_06000368, &colHeader);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
     Actor_ProcessInitChain(&this->actor, sInitChain);
 }
 
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {

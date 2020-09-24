@@ -61,7 +61,7 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_80043480(&this->dyna, DPM_UNK3);
     func_80041880(&D_060108B8, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitCylinder(globalCtx, &this->potCollider);
     Collider_SetCylinder(globalCtx, &this->potCollider, &this->dyna.actor, &sPotColliderInit);
     Collider_InitCylinder(globalCtx, &this->flamesCollider);
@@ -74,7 +74,7 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaTubo* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->potCollider);
     Collider_DestroyCylinder(globalCtx, &this->flamesCollider);
 }

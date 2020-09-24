@@ -69,13 +69,13 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
             thisx->flags |= 0x10;
         }
     }
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot05Soko* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {

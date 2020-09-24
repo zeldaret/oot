@@ -51,8 +51,8 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, vo
 
     func_80043480(&this->dyna, flag);
     func_80041880(arg2, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.dynaPolyId == BG_ACTOR_MAX) {
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
 
         // Warning: move BG registration failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombiwa.c", 174,
@@ -91,7 +91,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 

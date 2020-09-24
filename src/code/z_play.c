@@ -1389,9 +1389,9 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
     floorY = func_8003CB30(&globalCtx->colCtx, &poly, vec);
 
     if (floorY > BGCHECK_Y_MIN) {
-        nx = poly.norm.x * COLPOLY_NORM_FRAC;
-        ny = poly.norm.y * COLPOLY_NORM_FRAC;
-        nz = poly.norm.z * COLPOLY_NORM_FRAC;
+        nx = COLPOLY_GET_NORMAL(poly.normal.x);
+        ny = COLPOLY_GET_NORMAL(poly.normal.y);
+        nz = COLPOLY_GET_NORMAL(poly.normal.z);
 
         temp1 = sqrtf(1.0f - SQ(nx));
 

@@ -60,13 +60,13 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->unk_1F = 1;
     thisx->gravity = -2.0f;
     func_80041880(&D_060006D0, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPubox* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {

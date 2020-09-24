@@ -77,7 +77,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
             Actor_SetHeight(thisx, 40.0f);
         }
-        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
     this->timer = 0;
 }
@@ -85,7 +85,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanHasi* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {

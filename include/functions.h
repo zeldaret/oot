@@ -480,7 +480,7 @@ u16 func_80038878(DynaSSNodeList*);
 // ? func_800388E8(?);
 // ? func_80038924(?);
 // ? func_800389D4(?);
-void func_80038A28(CollisionPoly* poly, f32 x, f32 y, f32 z, MtxF* mtxF);
+void func_80038A28(CollisionPoly* poly, f32 trx, f32 try, f32 trz, MtxF* dest);
 f32 func_80038B7C(CollisionPoly* poly, Vec3f* point);
 // ? func_80038BE0(?);
 // ? func_80038D48(?);
@@ -496,8 +496,8 @@ f32 func_80038B7C(CollisionPoly* poly, Vec3f* point);
 // ? func_8003992C(?);
 // ? func_80039A3C(?);
 // ? func_80039AEC(?);
-s32 func_8003A3E0(Lookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight, CollisionPoly** outPoly);
-s32 func_8003A5B8(u16* nodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist, s32 bccFlags);
+s32 func_8003A3E0(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight, CollisionPoly** outPoly);
+s32 func_8003A5B8(u16* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB, Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist, s32 bccFlags);
 // ? func_8003A7D8(?);
 // ? func_8003A95C(?);
 // ? func_8003AB28(?);
@@ -624,9 +624,9 @@ void func_80042FC4(GlobalContext*, CollisionContext*);
 // ? func_800432A0(?);
 void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId);
 s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor);
-void func_80043480(DynaPolyActor* actor, DynaPolyMoveFlag flags);
+void func_80043480(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags);
 void func_800434A0(DynaPolyActor* dynaActor);
-void func_800434A8(DynaPolyActor* actor);
+void func_800434A8(DynaPolyActor* dynaActor);
 void func_80043538(DynaPolyActor* dynaActor);
 s32 func_8004356C(DynaPolyActor* dynaActor);
 s32 func_80043590(DynaPolyActor* dynaActor);
@@ -2557,9 +2557,4 @@ void func_80820434(GlobalContext*, GraphicsContext*);
 void func_80821C10(GlobalContext*);
 void func_80825C14(GlobalContext*);
 void func_808161AC(GlobalContext*);
-//#define DynaPolyInfo_Alloc func_80041880
-//#define DynaPolyInfo_RegisterActor func_8003EA74
-//#define DynaPolyInfo_GetActor func_8003EB84
-//#define DynaPolyInfo_Free func_8003ED58
-//#define DynaPolyInfo_SetActorMove func_80043480
 #endif

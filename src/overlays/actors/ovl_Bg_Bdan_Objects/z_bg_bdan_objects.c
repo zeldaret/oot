@@ -151,13 +151,13 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBdanObjects* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (thisx->params == 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }

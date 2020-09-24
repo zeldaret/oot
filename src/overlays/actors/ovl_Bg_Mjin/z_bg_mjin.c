@@ -67,7 +67,7 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMjin* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
@@ -82,7 +82,7 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         func_80043480(&this->dyna.actor, 0);
         collision = this->dyna.actor.params != 0 ? &D_06000658 : &D_06000330_;
         func_80041880(collision, &colHeader);
-        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         BgMjin_SetupAction(this, func_808A0920);
         this->dyna.actor.draw = BgMjin_Draw;
     }

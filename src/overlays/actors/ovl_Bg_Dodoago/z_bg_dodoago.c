@@ -92,7 +92,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, D_808725BC);
     func_80043480(&this->dyna, DPM_UNK);
     func_80041880(&D_06001DDC, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -115,7 +115,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->colliders[0]);
     Collider_DestroyCylinder(globalCtx, &this->colliders[1]);
     Collider_DestroyCylinder(globalCtx, &this->colliders[2]);

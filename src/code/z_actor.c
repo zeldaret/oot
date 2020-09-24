@@ -1220,7 +1220,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
                                             &actor->wallPoly, &bgId, actor, arg2))) {
             sp5C = actor->wallPoly;
             Math_Vec3f_Copy(&actor->posRot.pos, &sp64);
-            actor->wallPolyRot = atan2s(sp5C->norm.z, sp5C->norm.x);
+            actor->wallPolyRot = atan2s(sp5C->normal.z, sp5C->normal.x);
             actor->bgCheckFlags |= 8;
             actor->wallPolySource = bgId;
         } else {
@@ -4108,9 +4108,9 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
 
     if (actor->floorPoly != NULL) {
         floorPoly = actor->floorPoly;
-        sp44 = floorPoly->norm.x * COLPOLY_NORM_FRAC;
-        sp40 = floorPoly->norm.y * COLPOLY_NORM_FRAC;
-        sp3C = floorPoly->norm.z * COLPOLY_NORM_FRAC;
+        sp44 = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+        sp40 = COLPOLY_GET_NORMAL(floorPoly->normal.y);
+        sp3C = COLPOLY_GET_NORMAL(floorPoly->normal.z);
 
         sp38 = Math_Sins(arg1);
         sp34 = Math_Coss(arg1);

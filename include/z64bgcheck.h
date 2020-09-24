@@ -6,34 +6,42 @@ struct Actor;
 struct DynaPolyActor;
 
 #define SS_NULL 0xFFFF
-#define COLPOLY_NORM_FRAC (1.0f / 32767)
-#define COLPOLY_GET_NORM(n) ((n)*COLPOLY_NORM_FRAC)
+
+#define BGACTOR_NEG_ONE -1
 
 // bccFlags
-#define BGCHECK_CHECK_WALL 1
-#define BGCHECK_CHECK_FLOOR 2
-#define BGCHECK_CHECK_CEILING 4
-#define BGCHECK_CHECK_ONE_FACE 8
-#define BGCHECK_CHECK_DYNA 0x10
+#define BGCHECK_CHECK_WALL (1 << 0)
+#define BGCHECK_CHECK_FLOOR (1 << 1)
+#define BGCHECK_CHECK_CEILING (1 << 2)
+#define BGCHECK_CHECK_ONE_FACE (1 << 3)
+#define BGCHECK_CHECK_DYNA (1 << 4)
+#define BGCHECK_CHECK_ALL (BGCHECK_CHECK_WALL | BGCHECK_CHECK_FLOOR | BGCHECK_CHECK_CEILING | BGCHECK_CHECK_ONE_FACE | BGCHECK_CHECK_DYNA) 
 
 // bciFlags
 #define BGCHECK_IGNORE_NONE 0
-#define BGCHECK_IGNORE_CEILING 1
-#define BGCHECK_IGNORE_WALL 2
-#define BGCHECK_IGNORE_FLOOR 4
+#define BGCHECK_IGNORE_CEILING (1 << 0)
+#define BGCHECK_IGNORE_WALL (1 << 1)
+#define BGCHECK_IGNORE_FLOOR (1 << 2)
 
 // xpFlags
 #define COLPOLY_IGNORE_NONE 0
-#define COLPOLY_IGNORE_CAMERA 1
-#define COLPOLY_IGNORE_ENTITY 2
-#define COLPOLY_IGNORE_PROJECTILES 4
-#define COLPOLY_SNORM(x) ((short)((x) * 32767))
+#define COLPOLY_IGNORE_CAMERA (1 << 0)
+#define COLPOLY_IGNORE_ENTITY (1 << 1)
+#define COLPOLY_IGNORE_PROJECTILES (1 << 2)
+
+#define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
+#define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
+#define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
+#define COLPOLY_VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
+#define COLPOLY_VTX_INDEX(vI) ((vI)&0x1FFF)
+
 
 #define BG_ACTOR_MAX 50
 #define BGCHECK_SCENE BG_ACTOR_MAX
 #define BGCHECK_Y_MIN -32000.0f
-#define VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
-#define VTX_INDEX(vI) ((vI)&0x1FFF)
+#define BGCHECK_XYZ_ABSMAX 32760.0f
+#define BGCHECK_SUBDIV_OVERLAP 50
+#define BGCHECK_SUBDIV_MIN 150.0f
 
 #define FUNC_80041EA4_RESPAWN 5
 #define FUNC_80041EA4_MOUNT_WALL 6
@@ -58,10 +66,10 @@ typedef struct {
             /* 0x06 */ u16 vIC;
         };
     };
-    /* 0x08 */ Vec3s norm; // Unit normal vector.
-                           // Value ranges from -0x7FFF to 0x7FFF, representing -1 to 1. 0x8000 is invalid
+    /* 0x08 */ Vec3s normal; // Unit normal vector
+                           // Value ranges from -0x7FFF to 0x7FFF, representing -1.0 to 1.0; 0x8000 is not valid
 
-    /* 0x0E */ s16 dist; // Plane distance from origin
+    /* 0x0E */ s16 dist; // Plane distance from origin along the normal
 } CollisionPoly;         // size = 0x10
 
 typedef struct {
@@ -86,22 +94,23 @@ typedef struct {
 
 typedef struct {
     u32 data[2];
+
+    // Type 1
+    // 0x0800_0000 = wall damage
 } SurfaceType;
-// Type 1
-// 0x0800_0000 = wall damage
 
 typedef struct {
-    /* 0x00 */ Vec3s minBounds; // colAbsMin
-    /* 0x06 */ Vec3s maxBounds; // colAbsMax
+    /* 0x00 */ Vec3s minBounds;
+    /* 0x06 */ Vec3s maxBounds;
     /* 0x0C */ u16 nbVertices;
-    /* 0x10 */ Vec3s* vtxList; // vertexArray
+    /* 0x10 */ Vec3s* vtxList;
     /* 0x14 */ u16 nbPolygons;
-    /* 0x18 */ CollisionPoly* polyList; // polygonArray
+    /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* polygonTypes;
     /* 0x20 */ CamData* cameraDataList;
     /* 0x24 */ u16 nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
-} CollisionHeader; // BGDataInfo
+} CollisionHeader; // original name: BGDataInfo
 
 typedef struct {
     s16 polyId;
@@ -125,7 +134,7 @@ typedef struct {
     u16 floor;
     u16 wall;
     u16 ceiling;
-} Lookup;
+} StaticLookup;
 
 typedef struct {
     u16 polyStartIndex;
@@ -138,9 +147,9 @@ typedef struct {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ CollisionHeader* colHeader;
     /* 0x08 */ DynaLookup dynaLookup;
-    /* 0x10 */ u16 vtxStartIndex; // dyna vtx index start
-    /* 0x14 */ ScaleRotPos prevSrp;
-    /* 0x34 */ ScaleRotPos curSrp;
+    /* 0x10 */ u16 vtxStartIndex; 
+    /* 0x14 */ ScaleRotPos prevTransform;
+    /* 0x34 */ ScaleRotPos curTransform;
     /* 0x54 */ Sphere16 boundingSphere;
     /* 0x5C */ f32 minY;
     /* 0x60 */ f32 maxY;
@@ -150,26 +159,26 @@ typedef struct {
     /* 0x0000 */ u8 bitFlag;
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
     /* 0x138C */ u16 bgActorFlags[BG_ACTOR_MAX]; // & 0x0008 = no dyna ceiling
-    /* 0x13F0 */ CollisionPoly* polyList;        // pbuf
-    /* 0x13F4 */ Vec3s* vtxList;                 // pbuf
+    /* 0x13F0 */ CollisionPoly* polyList;
+    /* 0x13F4 */ Vec3s* vtxList;        
     /* 0x13F8 */ DynaSSNodeList polyNodes;
     /* 0x1404 */ s32 polyNodesMax;
     /* 0x1408 */ s32 polyListMax;
     /* 0x140C */ s32 vtxListMax;
-} DynaCollisionContext; // size = 0x1410 //810
+} DynaCollisionContext; // size = 0x1410
 
 typedef struct CollisionContext {
     /* 0x00 */ CollisionHeader* colHeader;
     /* 0x04 */ Vec3f minBounds;
     /* 0x10 */ Vec3f maxBounds;
-    /* 0x1C */ Vec3i subdivisions;
-    /* 0x28 */ Vec3f unitSize;
-    /* 0x34 */ Vec3f inverseUnitSize;
-    /* 0x40 */ Lookup* lookupTbl;
+    /* 0x1C */ Vec3i subdivAmount;
+    /* 0x28 */ Vec3f subdivLength;
+    /* 0x34 */ Vec3f subdivSizeInv;
+    /* 0x40 */ StaticLookup* lookupTbl;
     /* 0x44 */ SSNodeList polyNodes;
     /* 0x50 */ DynaCollisionContext dyna;
     /* 0x1460 */ u32 memSize;
-} CollisionContext; // off 0x07C0 size = 0x1464
+} CollisionContext; // size = 0x1464
 
 typedef struct {
     /* 0x00 */ struct GlobalContext* globalCtx;

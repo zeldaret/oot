@@ -66,7 +66,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, D_808865A0);
     func_80043480(&this->dyna, DPM_UNK);
     func_80041880(&D_0600DA10, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(globalCtx, &this->collider);
     Collider_SetTris(globalCtx, &this->collider, thisx, &D_80886590, this->colliderItems);
 
@@ -82,7 +82,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
 }
 

@@ -63,9 +63,9 @@ void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, Colli
 
     func_80043480(&this->dyna, moveFlag);
     func_80041880(collision, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == BG_ACTOR_MAX) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -108,7 +108,7 @@ void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->hasInitialized) {
         sHasSpawned = false;
         Collider_DestroyCylinder(globalCtx, &this->collider);
-        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

@@ -84,7 +84,7 @@ void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     this->dyna.actor.flags |= 0x20030;
     func_80043480(&this->dyna, DPM_UNK);
     func_80041880(&D_0600169C, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -162,7 +162,7 @@ void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         case HEAVYBLOCK_SMALL_PIECE:
             break;
         default:
-            func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

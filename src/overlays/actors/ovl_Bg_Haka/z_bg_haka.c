@@ -50,14 +50,14 @@ void BgHaka_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_80043480(&this->dyna, DPM_UNK);
     func_80041880(&D_06000428, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8087B7E8;
 }
 
 void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHaka* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8087B758(BgHaka* this, Player* player) {

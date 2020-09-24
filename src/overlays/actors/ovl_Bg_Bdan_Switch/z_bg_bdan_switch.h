@@ -19,7 +19,7 @@ typedef void (*BgBdanSwitchActionFunc)(struct BgBdanSwitch*, GlobalContext*);
 
 typedef struct BgBdanSwitch {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
+    /* 0x014C */ s32 bgId;
     /* 0x0150 */ f32 unk_150;
     /* 0x0154 */ f32 unk_154;
     /* 0x0158 */ u32 unk_158;

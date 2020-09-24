@@ -53,7 +53,7 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80041880(&D_06000908, &colHeader);
     }
 
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 
     if (LINK_IS_CHILD) {
         Actor_Kill(&this->actor);
@@ -63,7 +63,7 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx) {

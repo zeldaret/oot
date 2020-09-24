@@ -2,7 +2,7 @@
 #include <global.h>
 
 void func_80043480(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
-    dynaActor->dynaPolyId = -1;
+    dynaActor->bgId = -1;
     dynaActor->unk_15C = flags;
     dynaActor->unk_160 = 0;
     dynaActor->unk_150 = 0.0f;

@@ -1907,9 +1907,9 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
         arg2->unk_24 = sp44;
     }
 
-    arg2->unk_0C.x = arg2->unk_18->norm.x * COLPOLY_NORM_FRAC;
-    arg2->unk_0C.y = arg2->unk_18->norm.y * COLPOLY_NORM_FRAC;
-    arg2->unk_0C.z = arg2->unk_18->norm.z * COLPOLY_NORM_FRAC;
+    arg2->unk_0C.x = COLPOLY_GET_NORMAL(arg2->unk_18->normal.x);
+    arg2->unk_0C.y = COLPOLY_GET_NORMAL(arg2->unk_18->normal.y);
+    arg2->unk_0C.z = COLPOLY_GET_NORMAL(arg2->unk_18->normal.z);
     arg2->unk_00.x = arg2->unk_0C.x + sp68.x;
     arg2->unk_00.y = arg2->unk_0C.y + sp68.y;
     arg2->unk_00.z = arg2->unk_0C.z + sp68.z;
@@ -1965,9 +1965,9 @@ f32 func_80044434(Camera* camera, Vec3f* arg1, Vec3f* arg2, s32* arg3) {
         arg1->z = 0.0f;
         arg1->y = 1.0f;
     } else {
-        arg1->x = sp28->norm.x * COLPOLY_NORM_FRAC;
-        arg1->y = sp28->norm.y * COLPOLY_NORM_FRAC;
-        arg1->z = sp28->norm.z * COLPOLY_NORM_FRAC;
+        arg1->x = COLPOLY_GET_NORMAL(sp28->normal.x);
+        arg1->y = COLPOLY_GET_NORMAL(sp28->normal.y);
+        arg1->z = COLPOLY_GET_NORMAL(sp28->normal.z);
     }
 
     return temp_ret;

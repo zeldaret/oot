@@ -46,23 +46,23 @@ void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80043480(thisx, DPM_UNK);
     func_80041880(&D_060074EC, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->actionFunc = func_8089F788;
 }
 
 void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMizuUzu* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (PLAYER->currentBoots == 1) {
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
     Audio_PlayActorSound2(thisx, NA_SE_EV_WATER_CONVECTION - SFX_FLAG);
     thisx->shape.rot.y += 0x1C0;

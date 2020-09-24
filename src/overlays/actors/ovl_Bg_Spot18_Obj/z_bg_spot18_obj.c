@@ -136,7 +136,7 @@ s32 func_808B8A98(BgSpot18Obj* this, GlobalContext* globalCtx) {
 
     func_80043480(&this->dyna.actor, DPM_UNK);
     func_80041880(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;
 }
 
@@ -201,7 +201,7 @@ void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Obj* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B8DC0(BgSpot18Obj* this) {

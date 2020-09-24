@@ -42,13 +42,13 @@ void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_80043480(&this->actor, DPM_UNK3);
     func_80041880(&D_060042D8, &colHeader);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 }
 
 void BgMenkuriKaiten_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx) {

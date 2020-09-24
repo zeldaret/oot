@@ -40,21 +40,21 @@ void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_80043480(&this->actor, DPM_UNK);
     func_80041880(&D_06007888, &colHeader);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 }
 
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
 
     if (gSaveContext.eventChkInf[4] & 0x800) {
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
     } else {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
     }
 }

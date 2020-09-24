@@ -66,7 +66,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     func_80043480(&this->dyna, DPM_UNK);
     func_80041880(&D_06000E94, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Actor_SetHeight(thisx, 50.0f);
 
@@ -86,7 +86,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgTreemouth* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808BC65C(BgTreemouth* this, GlobalContext* globalCtx) {

@@ -68,7 +68,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
     func_80041880(&D_06004F30, &colHeader);
 
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
         BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
@@ -81,7 +81,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanKd* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 

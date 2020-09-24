@@ -42,7 +42,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_80043480(&this->actor, DPM_UNK);
     func_80041880(&D_06001438, &colHeader);
-    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 
     if (this->actor.params == 1) {
         if ((!Flags_GetEventChkInf(0x18)) && (DREG(1) == 0)) {
@@ -56,7 +56,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgUmaJump* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx) {

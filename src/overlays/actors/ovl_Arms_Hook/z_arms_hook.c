@@ -260,8 +260,8 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
         if (func_8003DE84(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, 1, 1, 1, 1, &bgId) != 0) {
             if (func_8002F9EC(globalCtx, &this->actor, poly, bgId, &sp78) == false) {
-                sp5C = poly->norm.x * (1 / SHT_MAX);
-                sp58 = poly->norm.z * (1 / SHT_MAX);
+                sp5C = COLPOLY_GET_NORMAL(poly->normal.x);
+                sp58 = COLPOLY_GET_NORMAL(poly->normal.z);
                 Math_Vec3f_Copy(&this->actor.posRot.pos, &sp78);
                 this->actor.posRot.pos.x += 10.0f * sp5C;
                 this->actor.posRot.pos.z += 10.0f * sp58;

@@ -143,14 +143,14 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_808B02D0(this, globalCtx);
     func_80041880(&D_060039D4, &colHeader);
-    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Bakudankabe* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
