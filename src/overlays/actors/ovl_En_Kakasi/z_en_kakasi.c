@@ -9,7 +9,8 @@ void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+s32 D_80A8FDE0[] = {0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00040100, 0x00140046, 0x00000000, 0x00000000};
+
 const ActorInit En_Kakasi_InitVars = {
     ACTOR_EN_KAKASI,
     ACTORTYPE_NPC,
@@ -21,7 +22,7 @@ const ActorInit En_Kakasi_InitVars = {
     (ActorFunc)EnKakasi_Update,
     (ActorFunc)EnKakasi_Draw,
 };
-*/
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Destroy.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Init.s")
