@@ -18,6 +18,8 @@ void func_808B7D38(BgSpot18Basket* this);
 
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7B6C(BgSpot18Basket* this, GlobalContext* globalCtx);
+void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx);
+void func_808B7770(BgSpot18Basket *this, GlobalContext *globalCtx, f32 arg2);
 
 extern UNK_TYPE D_06002154;
 
@@ -248,9 +250,71 @@ void func_808B7BCC(BgSpot18Basket *this, GlobalContext *globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7BCC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7D38.s")
+void func_808B7D38(BgSpot18Basket *this) {
+    this->actionFunc = func_808B7D50;
+    this->unk_216 = 0;
+    this->unk_214 = 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7D50.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7D38.s")
+
+void func_808B7D50(BgSpot18Basket *this, GlobalContext *globalCtx) {
+    f32 tempValue2;
+    f32 tempValue;
+
+    if (this->unk_216 >= 121) {
+        Math_ApproxS(&this->unk_210, 1000, 50);
+    } else {
+        Math_ApproxS(&this->unk_210, 3000, 100);
+    }
+
+    this->dyna.actor.shape.rot.y = this->dyna.actor.shape.rot.y + this->unk_210;
+
+    if (this->unk_216 < 70) {
+        Math_ApproxF(&this->unk_208, 100.0f, 2.0f);
+    } else {
+        Math_ApproxF(&this->unk_208, 0.0f, 2.0f);
+    }
+
+    Math_ApproxS(&this->unk_20C, 1000, 20);
+
+    this->unk_20E += this->unk_20C;
+
+    this->dyna.actor.posRot.pos.x = (Math_Sins(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.x;
+    this->dyna.actor.posRot.pos.z = (Math_Coss(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.z;
+
+    this->unk_212 += 3000;
+
+    Math_ApproxS(&this->unk_214, 1500, 30);
+
+    this->dyna.actor.shape.rot.x = Math_Coss(this->unk_212) * this->unk_214;
+    this->dyna.actor.shape.rot.z = -Math_Sins(this->unk_212) * this->unk_214;
+
+    if (this->unk_216 >= 141) {
+        func_808B7F74(this);
+    }
+
+    if (this->unk_216 < 80) {
+        func_808B7770(this, globalCtx, 1.0f);
+    } else {
+        func_808B7770(this, globalCtx, 0.8f);
+    }
+
+    tempValue2 = (this->unk_210 - 500) * 0.0006f;
+
+    tempValue = CLAMP(tempValue2, 0.0f, 1.5f);
+    // if (tempValue2 < 0.0f) {
+    //     tempValue = 0.0f;
+    // } else if (tempValue2 > 1.5f) {
+    //     tempValue = 1.5f;
+    // } else {
+    //     tempValue = tempValue2;
+    // }
+
+    func_800F436C(&this->dyna.actor.projectedPos, 203, tempValue);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7D50.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7F74.s")
 

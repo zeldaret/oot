@@ -15,11 +15,11 @@ typedef struct BgSpot18Basket {
     /* 0x01C4 */ char unk_1C4[0x40];
     /* 0x0204 */ BgSpot18BasketActionFunc actionFunc;
     /* 0x0208 */ f32 unk_208;
-    // /* 0x020A */ char unk_20A[0x2];
     /* 0x020C */ s16 unk_20C;
     /* 0x020E */ s16 unk_20E;
     /* 0x0210 */ s16 unk_210;
-    /* 0x0214 */ char unk_214[0x4];
+    /* 0x0212 */ s16 unk_212;
+    /* 0x0214 */ s16 unk_214;
     /* 0x0216 */ s16 unk_216;
     /* 0x0218 */ char unk_218[0x4];
 
