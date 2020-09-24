@@ -9,7 +9,7 @@ void EnIshi_Destroy(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_Draw(EnIshi* this, GlobalContext* globalCtx);
 
-void func_80A7E460(EnIshi* this, GlobalContext* globalCtx);
+void func_80A7E460(Actor* thisx, GlobalContext* globalCtx);
 s32 func_80A7E4D8(EnIshi* this, GlobalContext* globalCtx, f32 arg2);
 void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7E824(EnIshi* this, GlobalContext* globalCtx);
@@ -107,7 +107,13 @@ extern InitChainEntry D_80A873B8[2][5];
 extern u16 D_80A873E0[2];
 extern void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E460.s")
+void func_80A7E460(Actor* thisx, GlobalContext* globalCtx) {
+    EnIshi* this = THIS;
+
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A87338[this->actor.params & 1]);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E4D8.s")
 
@@ -139,7 +145,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = Math_Rand_ZeroFloat(0x10000);
     }
     Actor_SetScale(&this->actor, D_80A7FA18[sp2A]);
-    func_80A7E460(this, globalCtx);
+    func_80A7E460(&this->actor, globalCtx);
     if ((sp2A == 1) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
@@ -154,7 +160,9 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/EnIshi_Destroy.s")
+void EnIshi_Destroy(EnIshi* this, GlobalContext* globalCtx) {
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F098.s")
 
@@ -168,7 +176,9 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F514.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/EnIshi_Update.s")
+void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx) {
+    this->actionFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F8A0.s")
 
