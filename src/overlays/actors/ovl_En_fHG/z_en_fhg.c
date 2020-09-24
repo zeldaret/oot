@@ -11,6 +11,7 @@
 #define FLAGS 0x00000010
 
 #define THIS ((EnfHG*)thisx)
+#define BOSSPG ((BossGanondrof*)this->actor.parent)
 
 void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +101,7 @@ void func_80B62B04(EnfHG* this, GlobalContext* globalCtx) {
 void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
     s32 pad64;
     Player* player = PLAYER;
-    BossGanondrof* bossPG = (BossGanondrof*)this->actor.parent;
+    BossGanondrof* bossPG = BOSSPG;
     s32 pad58;
     s32 pad54;
     Camera* camera;
@@ -571,7 +572,7 @@ void func_80B6476C(EnfHG* this, GlobalContext* globalCtx) {
         }
     }
     if (dxz2 == 0.0f) {
-        BossGanondrof* bossPG = (BossGanondrof*)this->actor.parent;
+        BossGanondrof* bossPG = BOSSPG;
         this->timers[0] = 140;
         this->actionFunc = func_80B64AA8;
         SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, 0.0f);
@@ -609,7 +610,7 @@ void func_80B64AA8(EnfHG* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, 0x38B0);
     }
     if (this->timers[0] == 0) {
-        BossGanondrof* bossPG = (BossGanondrof*)this->actor.parent;
+        BossGanondrof* bossPG = BOSSPG;
         if (this->actor.params != 1) {
             this->unk_14E = 1;
             bossPG->killActor = 1;
@@ -666,7 +667,7 @@ void func_80B64E94(s32 arg0, s32 arg1, s32 arg2) {
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnfHG* this = THIS;
-    BossGanondrof* bossPG = (BossGanondrof*)this->actor.parent;
+    BossGanondrof* bossPG = BOSSPG;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2439);
