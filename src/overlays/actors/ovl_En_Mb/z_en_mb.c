@@ -91,20 +91,27 @@ typedef struct {
     /* 0x4 */ u16 unk_4;
 } struct_80AA9D68;
 
- struct_80AA9D68 D_80AA9D68 = {
+struct_80AA9D68 D_80AA9D68 = {
     0x0014,
     0x0028,
     0x0000,
 };
 
- u16 D_80AA9D70[] = {
+typedef struct {
+    s16 unk_0;
+    s16 unk_2;
+    s16 unk_4;
+} struct_80AA9D70;
+
+struct_80AA9D70 D_80AA9D70 = {
     0xF63C,
     0x0000,
     0x0DAC,
 };
 
-Vec3f D_80AA9D78 = {
+
     // ZeroVec
+Vec3f D_80AA9D78 = {
     0.0f,
     0.0f,
     0.0f,
@@ -367,12 +374,12 @@ void func_80AA6BF0(EnMb* this) {
         yawDiffABS = 0 - yawDiff;
     }
     if (yawDiffABS < 0x259) {
-        this->chaseHitboxEnable = 2;
+        this->attackParams = 2;
     } else {
         if (yawDiff >= 0) {
-            this->chaseHitboxEnable = 1;
+            this->attackParams = 1;
         } else {
-            this->chaseHitboxEnable = 3;
+            this->attackParams = 3;
         }
     }
     func_80AA6050(this, func_80AA7938);
@@ -443,7 +450,7 @@ void func_80AA702C(EnMb* this, GlobalContext* globalCtx) {
         player->actor.parent = 0;
         player->unk_850 = 0xC8;
         func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
-        this->chaseHitboxEnable = 0;
+        this->attackParams = 0;
     }
 
     if (this->actor.dmgEffectTimer == 0) {
@@ -539,14 +546,14 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 3000, 0);
     } else {
         this->actor.speedXZ = 10.0f;
-        this->chaseHitboxEnable = 1;
+        this->attackParams = 1;
         func_80033260(globalCtx, &this->actor, &this->actor.posRot, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
         if ((currentFrame != (s32)this->skelAnime.animCurrentFrame) && ((currentFrame == 2) || (currentFrame == 6))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
     if (playerInvincibilityTImer >= 0x1389) {
-        this->chaseHitboxEnable = 0;
+        this->attackParams = 0;
         func_80AA6CC0(this);
     }
 }
@@ -554,21 +561,16 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA77D0.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
-/*
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
+
 void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     f32 distToGround;
     Vec3f effSpawnPos;
     Vec3f zeroVec;
     Vec3f sp5C;
     struct_80AA9D68 sp54;
-    u16 sp4C[3];
-    s8 sp4B;
-    // SkelAnime *temp_a0_2;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    u8 playerInvincibilityTImer;
-    //  u8 temp_a0;
+    struct_80AA9D70 sp4C;
+    s8 playerInvincibilityTImer;
     Player* player = PLAYER;
 
     zeroVec = D_80AA9D50;
@@ -577,16 +579,12 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
 
     sp54 = D_80AA9D68;
 
-    sp4C[0] = EnMbAttackRotation[0];
-    sp4C[1] = EnMbAttackRotation[1];
-    sp4C[2] =  EnMbAttackRotation[2];
+    sp4C = D_80AA9D70;
 
-
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, ((sp4C[this->chaseHitboxEnable * 2]) + this->actor.posRot.rot.y),
-                            1, 0x2EE, 0);
-    // temp_a0 = this->collider2.base.atFlags;
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (&sp4C + (this->attackParams)) + this->actor.posRot.rot.y, 1, 0x2EE,
+                            0);
     if ((this->collider2.base.atFlags & 2) != 0) {
-        this->collider2.base.atFlags = (u8)(this->collider2.base.atFlags & 0xFFFD);
+        this->collider2.base.atFlags &= 0xFFFD;
         if (&player->actor == this->collider2.base.at) {
             playerInvincibilityTImer = player->invincibilityTimer;
             if (playerInvincibilityTImer < 0) {
@@ -602,9 +600,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             player->invincibilityTimer = playerInvincibilityTImer;
         }
     }
-    //  temp_a0_2 = &this->skelAnime;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        // this->unk_32E = this->unk_32E;
         if (this->unk_32E == 0) {
             effSpawnPos = this->effSpawnPos;
 
@@ -626,7 +622,6 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        // temp_v0_3 = this->unk_32E;
         if (this->unk_32E != 0) {
             if (6.0f == this->skelAnime.animCurrentFrame) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_UP);
@@ -639,7 +634,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             }
         }
     }
-}*/
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7CAC.s")
 
