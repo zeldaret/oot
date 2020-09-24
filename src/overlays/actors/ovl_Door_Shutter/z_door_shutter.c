@@ -22,7 +22,7 @@ s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx);
 Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p);
 void func_8099803C(GlobalContext* globalCtx, s16 y, s16 countdown, s16 arg3);
 void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx);
-void func80996A54(DoorShutter* this, GlobalContext* globalCtx);
+void func_80996A54(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996B00(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx);
@@ -171,8 +171,8 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
             if (doorType == SHUTTER_FRONT_SWITCH_BACK_CLEAR) { // Swap the back clear to the front clear
                 doorType = SHUTTER_FRONT_CLEAR;
             } else {
-                doorType = (doorType == SHUTTER_BOSS) ? SHUTTER_BACK_LOCKED
-                                                      : SHUTTER; // boss doors aren't 2 way but others can be
+                // boss doors aren't 2 way but others can be
+                doorType = (doorType == SHUTTER_BOSS) ? SHUTTER_BACK_LOCKED : SHUTTER;
             }
         }
     }
@@ -180,7 +180,7 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
 
     if (doorType == SHUTTER_FRONT_CLEAR) {
         if (!Flags_GetClear(globalCtx, this->dyna.actor.room)) {
-            DoorShutter_SetupAction(this, func80996A54);
+            DoorShutter_SetupAction(this, func_80996A54);
             this->unk_170 = 1.0f;
             return true;
         }
@@ -332,7 +332,7 @@ s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
     return 0.0f;
 }
 
-void func80996A54(DoorShutter* this, GlobalContext* globalCtx) {
+void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, this->dyna.actor.room) || Flags_GetTempClear(globalCtx, this->dyna.actor.room)) {
         // open bars when flag is set
         Flags_SetClear(globalCtx, this->dyna.actor.room);
