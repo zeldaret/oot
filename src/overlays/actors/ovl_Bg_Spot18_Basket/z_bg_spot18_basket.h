@@ -21,7 +21,8 @@ typedef struct BgSpot18Basket {
     /* 0x0212 */ s16 unk_212;
     /* 0x0214 */ s16 unk_214;
     /* 0x0216 */ s16 unk_216;
-    /* 0x0218 */ char unk_218[0x4];
+    /* 0x0218 */ s16 unk_218;
+    /* 0x021A */ s16 unk_21A;
 
 } BgSpot18Basket; // size = 0x021C
 
