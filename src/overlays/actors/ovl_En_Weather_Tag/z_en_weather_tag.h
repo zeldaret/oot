@@ -6,9 +6,12 @@
 
 struct EnWeatherTag;
 
+typedef void (*EnWeatherTagActionFunc)(struct EnWeatherTag*, GlobalContext*);
+
 typedef struct EnWeatherTag {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x8];
+    /* 0x014C */ EnWeatherTagActionFunc actionFunc;
+    /* 0x0150 */ char unk_150[0x04];
 } EnWeatherTag; // size = 0x0154
 
 extern const ActorInit En_Weather_Tag_InitVars;

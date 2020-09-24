@@ -108,7 +108,7 @@ glabel func_80046E20
 /* ABE130 80046F90 E6260010 */  swc1  $f6, 0x10($s1)
 /* ABE134 80046F94 8D29CEC0 */  lw    $t1, %lo(D_8015CEC0)($t1)
 /* ABE138 80046F98 AE29000C */  sw    $t1, 0xc($s1)
-/* ABE13C 80046F9C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABE13C 80046F9C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABE140 80046FA0 8FA50034 */   lw    $a1, 0x34($sp)
 /* ABE144 80046FA4 8FAA0074 */  lw    $t2, 0x74($sp)
 /* ABE148 80046FA8 2650005C */  addiu $s0, $s2, 0x5c
@@ -197,7 +197,7 @@ glabel func_80046E20
 /* ABE28C 800470EC E7AA005C */  swc1  $f10, 0x5c($sp)
 /* ABE290 800470F0 C6240008 */  lwc1  $f4, 8($s1)
 /* ABE294 800470F4 46102481 */  sub.s $f18, $f4, $f16
-/* ABE298 800470F8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABE298 800470F8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABE29C 800470FC E7B20060 */   swc1  $f18, 0x60($sp)
 /* ABE2A0 80047100 8FAB0074 */  lw    $t3, 0x74($sp)
 /* ABE2A4 80047104 8FA40030 */  lw    $a0, 0x30($sp)

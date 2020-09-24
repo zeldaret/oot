@@ -1,6 +1,6 @@
 .rdata
 glabel D_80139614
-    .asciz "\x1B[1m%06u:\x1B[m camera: spline demo: start %s \n"
+    .asciz "\x1b[1m%06u:\x1b[m camera: spline demo: start %s \n"
     .balign 4
 
 glabel D_80139644
@@ -20,7 +20,7 @@ glabel D_8013965C
     .balign 4
 
 glabel D_80139664
-    .asciz "\x1B[41;37mcamera: spline demo: owner dead\n\x1B[m"
+    .asciz "\x1b[41;37mcamera: spline demo: owner dead\n\x1b[m"
     .balign 4
 
 .text
@@ -49,7 +49,7 @@ glabel Camera_Demo1
 .L80054524:
 /* ACB6C4 80054524 86090142 */  lh    $t1, 0x142($s0)
 .L80054528:
-/* ACB6C8 80054528 3C0B8012 */  lui   $t3, %hi(sCameraSettings)
+/* ACB6C8 80054528 3C0B8012 */  lui   $t3, %hi(sCameraSettings+4)
 /* ACB6CC 8005452C 860C0144 */  lh    $t4, 0x144($s0)
 /* ACB6D0 80054530 000950C0 */  sll   $t2, $t1, 3
 /* ACB6D4 80054534 016A5821 */  addu  $t3, $t3, $t2

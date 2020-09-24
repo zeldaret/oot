@@ -51,8 +51,8 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(thisx, 1);
     DynaPolyInfo_Alloc(&D_0600E1E8, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
-    if (Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
-                            thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
+    if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
+                           thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
         Actor_Kill(thisx);
         return;
     }
@@ -62,13 +62,13 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
 void func_80886F24(BgHidanFslift* this) {
     Actor* thisx = &this->dyna.actor;
 
-    if (thisx->attachedB != NULL && thisx->attachedB->update != NULL) {
-        thisx->attachedB->posRot.pos.x = thisx->posRot.pos.x;
-        thisx->attachedB->posRot.pos.y = thisx->posRot.pos.y + 40.0f;
-        thisx->attachedB->posRot.pos.z = thisx->posRot.pos.z + -28.0f;
+    if (thisx->child != NULL && thisx->child->update != NULL) {
+        thisx->child->posRot.pos.x = thisx->posRot.pos.x;
+        thisx->child->posRot.pos.y = thisx->posRot.pos.y + 40.0f;
+        thisx->child->posRot.pos.z = thisx->posRot.pos.z + -28.0f;
         return;
     }
-    thisx->attachedB = NULL;
+    thisx->child = NULL;
 }
 
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -112,7 +112,7 @@ void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
     } else {
-        func_8002F974(thisx, 0x20b9);
+        func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
     func_80886F24(this);
 }
@@ -125,7 +125,7 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
             func_80886FB4(this);
         } else {
-            func_8002F974(thisx, 0x20b9);
+            func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
         func_80886FB4(this);

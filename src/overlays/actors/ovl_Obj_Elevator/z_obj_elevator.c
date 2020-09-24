@@ -111,7 +111,7 @@ void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {
-        Audio_PlayActorSound2(thisx, 0x201E);
+        Audio_PlayActorSound2(thisx, NA_SE_EV_STONE_STATUE_OPEN - SFX_FLAG);
     }
 }
 

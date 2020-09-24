@@ -5,25 +5,19 @@ void func_80110990(GlobalContext* globalCtx) {
     Map_Destroy(globalCtx);
 }
 
-#ifdef NON_MATCHING
-// regalloc, stack usage and minor ordering differences
 void func_801109B0(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    s32 parameterStart;
-    s32 parameterSize;
-    s32 do_actionStart;
-    s32 do_actionOffset;
-    s32 temp;
+    u32 parameterSize;
+    u16 do_actionOffset;
+    u8 temp;
 
     gSaveContext.unk_1422 = 0;
-    gSaveContext.unk_13EA = 0;
-    gSaveContext.unk_13E8 = 0;
+    gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
 
     View_Init(&interfaceCtx->view, globalCtx->state.gfxCtx);
 
-    interfaceCtx->unk_1EC = interfaceCtx->unk_1EE = 0;
     interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
-    interfaceCtx->unk_1F0 = 0;
+    interfaceCtx->unk_1EC = interfaceCtx->unk_1EE = interfaceCtx->unk_1F0 = 0;
     interfaceCtx->unk_22E = 0;
     interfaceCtx->unk_230 = 16;
     interfaceCtx->unk_1F4 = 0.0f;
@@ -34,33 +28,31 @@ void func_801109B0(GlobalContext* globalCtx) {
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
 
-    parameterStart = _parameter_staticSegmentRomStart;
-    parameterSize = _parameter_staticSegmentRomEnd - parameterStart;
+    parameterSize = (u32)_parameter_staticSegmentRomEnd - (u32)_parameter_staticSegmentRomStart;
 
     // Translates to: "Permanent PARAMETER Segment = %x"
     osSyncPrintf("常駐ＰＡＲＡＭＥＴＥＲセグメント=%x\n", parameterSize);
 
     interfaceCtx->parameterSegment = GameState_Alloc(&globalCtx->state, parameterSize, "../z_construct.c", 159);
 
-    osSyncPrintf("parameter->parameterSegment=%x", interfaceCtx->parameterSegment);
+    osSyncPrintf("parameter->parameterSegment=%x\n", interfaceCtx->parameterSegment);
 
     if (interfaceCtx->parameterSegment == NULL) {
         __assert("parameter->parameterSegment != NULL", "../z_construct.c", 161);
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, parameterStart, parameterSize, "../z_construct.c", 162);
+    DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
+                        "../z_construct.c", 162);
 
     interfaceCtx->do_actionSegment = GameState_Alloc(&globalCtx->state, 0x480, "../z_construct.c", 166);
 
     // Translates to: "DO Action Texture Initialization"
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480);
-    osSyncPrintf("parameter->do_actionSegment=%x", interfaceCtx->do_actionSegment);
+    osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->do_actionSegment);
 
     if (interfaceCtx->do_actionSegment == NULL) {
         __assert("parameter->do_actionSegment != NULL", "../z_construct.c", 169);
     }
-
-    do_actionStart = _do_action_staticSegmentRomStart;
 
     if (gSaveContext.language == 0) {
         do_actionOffset = 0;
@@ -70,8 +62,8 @@ void func_801109B0(GlobalContext* globalCtx) {
         do_actionOffset = 0x5700;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->do_actionSegment, do_actionStart + do_actionOffset, 0x300, "../z_construct.c",
-                        174);
+    DmaMgr_SendRequest1(interfaceCtx->do_actionSegment, (u32)_do_action_staticSegmentRomStart + do_actionOffset, 0x300,
+                        "../z_construct.c", 174);
 
     if (gSaveContext.language == 0) {
         do_actionOffset = 0x480;
@@ -81,8 +73,8 @@ void func_801109B0(GlobalContext* globalCtx) {
         do_actionOffset = 0x5B80;
     }
 
-    DmaMgr_SendRequest1((void*)((u32)interfaceCtx->do_actionSegment + 0x300), do_actionStart + do_actionOffset, 0x180,
-                        "../z_construct.c", 178);
+    DmaMgr_SendRequest1((void*)((u32)interfaceCtx->do_actionSegment + 0x300),
+                        (u32)_do_action_staticSegmentRomStart + do_actionOffset, 0x180, "../z_construct.c", 178);
 
     interfaceCtx->icon_itemSegment = GameState_Alloc(&globalCtx->state, 0x4000, "../z_construct.c", 190);
 
@@ -126,11 +118,11 @@ void func_801109B0(GlobalContext* globalCtx) {
                             "../z_construct.c", 219);
     }
 
-    osSyncPrintf("ＥＶＥＮＴ＝%d\n", gSaveContext.timer1State);
+    osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
 
     if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8) || (gSaveContext.timer2State == 4) ||
         (gSaveContext.timer2State == 10)) {
-        osSyncPrintf("restart_flag=%d\n", gSaveContext.respawnFlag);
+        osSyncPrintf("restart_flag=%d\n", ((void)0, gSaveContext.respawnFlag));
 
         if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
             if (gSaveContext.timer1State == 4) {
@@ -167,24 +159,20 @@ void func_801109B0(GlobalContext* globalCtx) {
     Health_InitData(globalCtx);
     Map_Init(globalCtx);
 
-    interfaceCtx->unk_242 = 0;
-    interfaceCtx->unk_23C = 0;
+    interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
 
     R_ITEM_BTN_X(0) = 160;
-    R_B_BTN_COLOR(0) = 0xFF;
-    R_B_BTN_COLOR(1) = 0x1E;
-    R_B_BTN_COLOR(2) = 0x1E;
+    R_B_BTN_COLOR(0) = 255;
+    R_B_BTN_COLOR(1) = 30;
+    R_B_BTN_COLOR(2) = 30;
     R_ITEM_ICON_X(0) = 160;
     R_ITEM_AMMO_X(0) = 162;
     R_A_BTN_X = 186;
     R_A_ICON_X = 186;
-    R_A_BTN_COLOR(0) = 0x00;
-    R_A_BTN_COLOR(1) = 0xC8;
-    R_A_BTN_COLOR(2) = 0x32;
+    R_A_BTN_COLOR(0) = 0;
+    R_A_BTN_COLOR(1) = 200;
+    R_A_BTN_COLOR(2) = 50;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_construct/func_801109B0.s")
-#endif
 
 void func_80110F68(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
@@ -290,7 +278,7 @@ void func_80111070(void) {
     YREG(94) = 3;
     YREG(95) = 1;
     R_MAGIC_FILL_COLOR(0) = 0;
-    R_MAGIC_FILL_COLOR(1) = 0xC8;
+    R_MAGIC_FILL_COLOR(1) = 200;
     R_MAGIC_FILL_COLOR(2) = 0;
     ZREG(9) = 0x8C;
     ZREG(10) = 0xC8;
@@ -321,8 +309,8 @@ void func_80111070(void) {
     ZREG(36) = 0;
     ZREG(37) = 0;
     ZREG(38) = 0;
-    R_C_BTN_COLOR(0) = 0xFF;
-    R_C_BTN_COLOR(1) = 0xA0;
+    R_C_BTN_COLOR(0) = 255;
+    R_C_BTN_COLOR(1) = 160;
     R_C_BTN_COLOR(2) = 0;
     ZREG(46) = 1;
     ZREG(47) = 1;
@@ -548,8 +536,8 @@ void func_80111070(void) {
         R_COMPASS_OFFSET_X = 0x6E;
         R_COMPASS_OFFSET_Y = -0x2E4;
         R_MINIMAP_COLOR(0) = 0;
-        R_MINIMAP_COLOR(1) = 0xFF;
-        R_MINIMAP_COLOR(2) = 0xFF;
+        R_MINIMAP_COLOR(1) = 255;
+        R_MINIMAP_COLOR(2) = 255;
     }
 
     VREG(21) = 0;

@@ -58,7 +58,8 @@ void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808C0C50(BgZg* this) {
-    Audio_PlaySoundGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                           &D_801333E8);
 }
 
 s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
@@ -126,20 +127,16 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    GraphicsContext* tempgfxCtx; // oddly needs this to match
-    Gfx* dispRefs[4];
+    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
 
-    tempgfxCtx = globalCtx->state.gfxCtx;
-    gfxCtx = tempgfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 311);
+    OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
-    func_80093D18(gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_zg.c", 315),
+    func_80093D18(localGfxCtx);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001080);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06001080);
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 320);
+    CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);
 }
 
 void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {

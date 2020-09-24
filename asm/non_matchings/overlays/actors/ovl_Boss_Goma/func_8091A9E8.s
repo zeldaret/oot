@@ -124,7 +124,7 @@ glabel func_8091A9E8
 /* 05188 8091AB98 E7AA0018 */  swc1    $f10, 0x0018($sp)          
 /* 0518C 8091AB9C AFAD001C */  sw      $t5, 0x001C($sp)           
 /* 05190 8091ABA0 AFAE0020 */  sw      $t6, 0x0020($sp)           
-/* 05194 8091ABA4 0C00C916 */  jal     Actor_SpawnAttached
+/* 05194 8091ABA4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 05198 8091ABA8 AFAF0024 */  sw      $t7, 0x0024($sp)           
 /* 0519C 8091ABAC 10400006 */  beq     $v0, $zero, .L8091ABC8     

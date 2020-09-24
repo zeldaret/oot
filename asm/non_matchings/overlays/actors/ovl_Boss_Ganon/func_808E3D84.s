@@ -1,3 +1,59 @@
+.rdata
+glabel D_808F7D70
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7D84
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7D98
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7DAC
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7DC0
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7DD4
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7DE8
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7DFC
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7E10
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7E24
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+glabel D_808F7E38
+    .asciz "../z_boss_ganon.c"
+    .balign 4
+
+.late_rodata
+glabel D_808F826C
+    .float 1.5707964
+
+glabel D_808F8270
+    .float 1.29999995
+
+glabel D_808F8274
+    .float 1500.0
+
+.text
 glabel func_808E3D84
 /* 0D514 808E3D84 27BDFE88 */  addiu   $sp, $sp, 0xFE88           ## $sp = FFFFFE88
 /* 0D518 808E3D88 AFB1003C */  sw      $s1, 0x003C($sp)           

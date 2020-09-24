@@ -1823,7 +1823,7 @@ glabel L800BE148
 /* B35994 800BE7F4 10000021 */  b     .L800BE87C
 /* B35998 800BE7F8 00000000 */   nop
 .L800BE7FC:
-/* B3599C 800BE7FC 0C023A62 */  jal   func_8008E988
+/* B3599C 800BE7FC 0C023A62 */  jal   Player_InCsMode
 /* B359A0 800BE800 02002025 */   move  $a0, $s0
 /* B359A4 800BE804 10400006 */  beqz  $v0, .L800BE820
 /* B359A8 800BE808 3C0A8016 */   lui   $t2, %hi(gGameInfo) # $t2, 0x8016
@@ -2024,7 +2024,7 @@ glabel L800BE148
 /* B35C70 800BEAD0 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B35C74 800BEAD4 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
 .L800BEAD8:
-/* B35C78 800BEAD8 0C02CE6E */  jal   func_800B39B8
+/* B35C78 800BEAD8 0C02CE6E */  jal   ShrinkWindow_Update
 /* B35C7C 800BEADC 84440110 */   lh    $a0, 0x110($v0)
 /* B35C80 800BEAE0 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B35C84 800BEAE4 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
