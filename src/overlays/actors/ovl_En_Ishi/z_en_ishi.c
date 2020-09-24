@@ -45,9 +45,9 @@ s16 D_80A7FA30[0x2852] = { 0x2852, 0x2810 };
 
 u8 D_80A84AD4[0x2854] = { 0x14, 0x28 };
 
-void* D_80A87328[2] = { func_80A7E5A8, func_80A7E824 };
+void (*D_80A87328[2])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7E5A8, func_80A7E824 };
 
-void* D_80A87330[2] = { func_80A7EB10, func_80A7EC04 };
+void (*D_80A87330[2])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7EB10, func_80A7EC04 };
 
 ColliderCylinderInit D_80A87338[2] = {
     {
@@ -90,11 +90,22 @@ u16 D_80A873E0[2] = { 0x086A, 0x086C };
 void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7F8A0, func_80A7F8CC, NULL };
 **/
 
+extern s16 D_80A7F9F0;
+extern s16 D_80A7F9F4;
 extern f32 D_80A7FA18[2];
 extern f32 D_80A7FA20[2];
+extern f32 D_80A7FA28[2];
+extern s16 D_80A7FA30[0x2852];
+extern u8 D_80A84AD4[0x2854];
+extern void (*D_80A87328[2])(EnIshi* this, GlobalContext* globalCtx);
+extern void (*D_80A87330[2])(EnIshi* this, GlobalContext* globalCtx);
+extern ColliderCylinderInit D_80A87338[2];
 extern CollisionCheckInfoInit D_80A87390;
+extern s16 D_80A87398[6];
+extern s16 D_80A873A4[10];
 extern InitChainEntry D_80A873B8[2][5];
-extern void (*D_80A873E4[])(EnIshi* this, GlobalContext* globalCtx);
+extern u16 D_80A873E0[2];
+extern void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E460.s")
 
