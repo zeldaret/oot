@@ -61,7 +61,7 @@ glabel L80B9E690
 /* 014AC 80B9E6BC 8FBF001C */  lw      $ra, 0x001C($sp)           
 glabel L80B9E6C0
 /* 014B0 80B9E6C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 014B4 80B9E6C4 0C023A62 */  jal     func_8008E988              
+/* 014B4 80B9E6C4 0C023A62 */  jal     Player_InCsMode              
 /* 014B8 80B9E6C8 AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 014BC 80B9E6CC 14400005 */  bne     $v0, $zero, .L80B9E6E4     
 /* 014C0 80B9E6D0 8FA70020 */  lw      $a3, 0x0020($sp)           

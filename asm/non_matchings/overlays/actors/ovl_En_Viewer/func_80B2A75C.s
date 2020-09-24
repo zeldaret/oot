@@ -157,7 +157,7 @@ glabel func_80B2A75C
 /* 00740 80B2A940 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00744 80B2A944 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 00748 80B2A948 E7A60014 */  swc1    $f6, 0x0014($sp)
-/* 0074C 80B2A94C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0074C 80B2A94C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00750 80B2A950 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00754 80B2A954 8FA6005C */  lw      $a2, 0x005C($sp)
@@ -488,7 +488,7 @@ glabel L80B2AD44
 /* 00BDC 80B2ADDC AFA00028 */  sw      $zero, 0x0028($sp)
 /* 00BE0 80B2ADE0 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 00BE4 80B2ADE4 E7A40014 */  swc1    $f4, 0x0014($sp)
-/* 00BE8 80B2ADE8 0C00C916 */  jal     Actor_SpawnAttached
+/* 00BE8 80B2ADE8 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00BEC 80B2ADEC E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 00BF0 80B2ADF0 8FA6005C */  lw      $a2, 0x005C($sp)
@@ -513,7 +513,7 @@ glabel L80B2AD44
 /* 00C38 80B2AE38 AFA80028 */  sw      $t0, 0x0028($sp)
 /* 00C3C 80B2AE3C E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 00C40 80B2AE40 E7AA0014 */  swc1    $f10, 0x0014($sp)
-/* 00C44 80B2AE44 0C00C916 */  jal     Actor_SpawnAttached
+/* 00C44 80B2AE44 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00C48 80B2AE48 E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 00C4C 80B2AE4C 8FA6005C */  lw      $a2, 0x005C($sp)

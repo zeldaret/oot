@@ -16,10 +16,10 @@ typedef struct EnElf {
     /* 0x01EA */ Vec3s transitionDrawTable[15];
     /* 0x0244 */ Color_RGBAf innerColor;
     /* 0x0254 */ Color_RGBAf outerColor;
-    /* 0x0264 */ LightInfoPositional lightInfoGlow;
-    /* 0x0274 */ z_Light* lightNodeGlow;
-    /* 0x0278 */ LightInfoPositional lightInfoNoGlow;
-    /* 0x0288 */ z_Light* lightNodeNoGlow;
+    /* 0x0264 */ LightInfo lightInfoGlow;
+    /* 0x0274 */ LightNode* lightNodeGlow;
+    /* 0x0278 */ LightInfo lightInfoNoGlow;
+    /* 0x0288 */ LightNode* lightNodeNoGlow;
     /* 0x028C */ Vec3f unk_28C; //pos copy
     /* 0x0298 */ Actor* elfMsg;
     /* 0x029C */ f32 unk_29C;

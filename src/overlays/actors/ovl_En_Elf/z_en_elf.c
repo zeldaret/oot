@@ -319,16 +319,16 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
     thisx->shape.unk_14 = 0xFF;
 
-    Lights_InitType2PositionalLight(&this->lightInfoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
-                                    255, 255, 255, 0);
-    this->lightNodeGlow = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfoGlow);
+    Lights_PointGlowSetInfo(&this->lightInfoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 255,
+                              255, 255, 0);
+    this->lightNodeGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoGlow);
 
-    Lights_InitType0PositionalLight(&this->lightInfoNoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
-                                    255, 255, 255, 0);
-    this->lightNodeNoGlow = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
+    Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 255,
+                            255, 255, 0);
+    this->lightNodeNoGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
 
     this->flags = 0;
-    this->dissapearTimer = 0x258;
+    this->dissapearTimer = 600;
     this->unk_2A4 = 0.0f;
 
     colorConfig = 0;
@@ -431,8 +431,8 @@ void EnElf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnElf* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNodeGlow);
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->lightNodeNoGlow);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNodeGlow);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNodeNoGlow);
 }
 
 void func_80A02A20(EnElf* this, GlobalContext* globalCtx) {
@@ -466,26 +466,26 @@ void func_80A02B38(EnElf* this, GlobalContext* globalCtx) {
     this->unk_28C.x = Math_Coss(player->actor.shape.rot.y) * this->unk_28C.x;
     this->unk_2AC += this->unk_2B0;
 }
-// better name for attachedToPos
-void func_80A02BD8(EnElf* this, Vec3f* attachedToPos, f32 arg2) {
+// better name for parentPos
+void func_80A02BD8(EnElf* this, Vec3f* parentPos, f32 arg2) {
     f32 yVelTarget;
     f32 yVelDirection;
 
-    yVelTarget = ((attachedToPos->y + this->unk_28C.y) - this->actor.posRot.pos.y) * arg2;
+    yVelTarget = ((parentPos->y + this->unk_28C.y) - this->actor.posRot.pos.y) * arg2;
     yVelDirection = (yVelTarget >= 0.0f) ? 1.0f : -1.0f;
     yVelTarget = fabsf(yVelTarget);
     yVelTarget = CLAMP(yVelTarget, 0.0f, 20.0f) * yVelDirection;
     Math_ApproxF(&this->actor.velocity.y, yVelTarget, 32.0f);
 }
 
-void func_80A02C98(EnElf* this, Vec3f* attachedToPos, f32 arg2) {
+void func_80A02C98(EnElf* this, Vec3f* parentPos, f32 arg2) {
     f32 xVelTarget;
     f32 zVelTarget;
     f32 xVelDirection;
     f32 zVelDirection;
 
-    xVelTarget = ((attachedToPos->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg2;
-    zVelTarget = ((attachedToPos->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg2;
+    xVelTarget = ((parentPos->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg2;
+    zVelTarget = ((parentPos->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg2;
 
     xVelDirection = (xVelTarget >= 0.0f) ? 1.0f : -1.0f;
     zVelDirection = (zVelTarget >= 0.0f) ? 1.0f : -1.0f;
@@ -496,7 +496,7 @@ void func_80A02C98(EnElf* this, Vec3f* attachedToPos, f32 arg2) {
     xVelTarget = CLAMP(xVelTarget, 0.0f, 20.0f) * xVelDirection;
     zVelTarget = CLAMP(zVelTarget, 0.0f, 20.0f) * zVelDirection;
 
-    func_80A02BD8(this, attachedToPos, arg2);
+    func_80A02BD8(this, parentPos, arg2);
     Math_ApproxF(&this->actor.velocity.x, xVelTarget, 1.5f);
     Math_ApproxF(&this->actor.velocity.z, zVelTarget, 1.5f);
     func_8002D7EC(&this->actor);
@@ -609,7 +609,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     }
 
     func_80A0232C(this, globalCtx);
-    this->unk_28C.y = player->unk_908[0].y;
+    this->unk_28C.y = player->bodyPartsPos[0].y;
     func_80A02F2C(this, &this->unk_28C);
     func_80A03018(this, globalCtx);
 
@@ -617,13 +617,12 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         EnElf_SpawnSparkles(this, globalCtx, 16);
     }
 
-    if (func_8002F410(&this->actor, globalCtx)) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    // func_8008E988 does a bunch of checks to make sure player is allowed to interact with the fairy
-    if (!func_8008E988(globalCtx)) {
+    if (!Player_InCsMode(globalCtx)) {
         heightDiff = this->actor.posRot.pos.y - refActor->actor.posRot.pos.y;
 
         if ((heightDiff > 0.0f) && (heightDiff < 60.0f)) {
@@ -659,23 +658,23 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         }
 
         if (!(this->flags & FAIRY_FLAG_BIG)) {
-            func_8002F434(&this->actor, globalCtx, GI_SPECIAL_BOTTLE, 80.0f, 60.0f);
+            func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 60.0f);
         }
     }
 }
 
 void func_80A0353C(EnElf* this, GlobalContext* globalCtx) {
-    Vec3f attachedToPos;
-    Actor* attachedTo;
+    Vec3f parentPos;
+    Actor* parent;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80A02A20(this, globalCtx);
-    attachedTo = this->actor.attachedA;
+    parent = this->actor.parent;
 
-    if ((attachedTo != NULL) && (attachedTo->update != NULL)) {
-        attachedToPos = this->actor.attachedA->posRot.pos;
-        attachedToPos.y += ((1500.0f * this->actor.scale.y) + 40.0f);
-        func_80A02C98(this, &attachedToPos, 0.2f);
+    if ((parent != NULL) && (parent->update != NULL)) {
+        parentPos = this->actor.parent->posRot.pos;
+        parentPos.y += ((1500.0f * this->actor.scale.y) + 40.0f);
+        func_80A02C98(this, &parentPos, 0.2f);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -757,7 +756,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
     this->unk_28C.x = Math_Coss(this->unk_2AC) * this->unk_2B8;
     this->unk_28C.z = Math_Sins(this->unk_2AC) * -this->unk_2B8;
     this->unk_2AC += this->unk_2B0;
-    func_80A02E30(this, &player->unk_908[0]);
+    func_80A02E30(this, &player->bodyPartsPos[0]);
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, globalCtx, 32);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
@@ -781,7 +780,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
         this->unk_2B8 = 1.0f;
     }
 
-    func_80A02E30(this, &player->unk_908[0]);
+    func_80A02E30(this, &player->bodyPartsPos[0]);
     Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * 0.012345679f)) * 0.008f);
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, globalCtx, 32);
@@ -814,15 +813,15 @@ void func_80A03B28(EnElf* this, GlobalContext* globalCtx) {
 
     if ((this->flags & 0x20) != 0) {
         player = PLAYER;
-        Lights_InitType0PositionalLight(&this->lightInfoNoGlow, player->actor.posRot.pos.x,
+        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.posRot.pos.x,
                                         (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 0xFF,
                                         0xFF, 0xFF, 0xC8);
     } else {
-        Lights_InitType0PositionalLight(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                         this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, -1);
     }
 
-    Lights_InitType2PositionalLight(&this->lightInfoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+    Lights_PointGlowSetInfo(&this->lightInfoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                     this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, light2Radius);
 
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
@@ -830,8 +829,8 @@ void func_80A03B28(EnElf* this, GlobalContext* globalCtx) {
     Actor_SetScale(this, this->actor.scale.x);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
-
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
+/*
 void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     Vec3f sp54;
     Vec3f sp48;
@@ -844,12 +843,12 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     func_80A03AB0(this, globalCtx);
 
     xScale = 0.0f;
-    
+
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[8] != NULL)) {
         func_80A05F10(&sp54, globalCtx, 8);
 
         if (globalCtx->csCtx.npcActions[8]->action == 5) {
-            if(1) {}
+            if (1) {}
             EnElf_SpawnSparkles(this, globalCtx, 16);
         }
 
@@ -863,7 +862,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
         if ((globalCtx->sceneNum == SCENE_LINK_HOME) && (gSaveContext.sceneSetupIndex == 4)) {
             // play dash sound as navi enters links house in the intro
-            if(1) {}
+            if (1) {}
             if (globalCtx->csCtx.frames == 55) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
             }
@@ -883,16 +882,17 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        distFromLinksHead = Math_Vec3f_DistXYZ(&player->unk_908[8], &this->actor.posRot.pos);
+        distFromLinksHead = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos);
 
         switch (this->unk_2A8) {
             case 7:
                 xScale = 1.0f - (this->unk_2AE * 0.033333335f);
-                func_80A02C98(this, &player->unk_908[8], xScale);
-                xScale = 1.0f - ((Math_Vec3f_DistXYZ(&player->unk_908[8], &this->actor.posRot.pos) - 5.0f) * 0.05f);
+                func_80A02C98(this, &player->bodyPartsPos[8], xScale);
+                xScale =
+                    1.0f - ((Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos) - 5.0f) * 0.05f);
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
-                    //if (this->actor.scale.y){} // fixes regalloc, if 1 doesnt work
+                    // if (this->actor.scale.y){} // fixes regalloc, if 1 doesnt work
                     xScale = 0;
                 } else {
                     if (distFromLinksHead < 25.0f) {
@@ -904,12 +904,12 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 EnElf_SpawnSparkles(this, globalCtx, 16);
                 break;
             case 8:
-                func_80A02C98(this, &player->unk_908[8], 0.2f);
-                this->actor.posRot.pos = player->unk_908[8];
+                func_80A02C98(this, &player->bodyPartsPos[8], 0.2f);
+                this->actor.posRot.pos = player->bodyPartsPos[8];
                 func_80A029A8(this, 1);
                 break;
             case 11:
-                sp54 = player->unk_908[8];
+                sp54 = player->bodyPartsPos[8];
                 sp54.y += this->actor.scale.y * 1500.0f;
                 func_80A02E30(this, &sp54);
                 EnElf_SpawnSparkles(this, globalCtx, 16);
@@ -984,7 +984,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
     func_80A03B28(this, globalCtx);
 }
-
+*/
 // EnElf_ChangeColor
 void func_80A0438C(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* curColor, f32 rate) {
     Color_RGBAf rgbaDiff;
@@ -1100,9 +1100,9 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
         naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
 
         if (((player->unk_664 == NULL) || (&player->actor == player->unk_664)) || (&this->actor == player->unk_664)) {
-            naviRefPos.x = player->unk_908[7].x + (Math_Sins(player->actor.shape.rot.y) * 20.0f);
-            naviRefPos.y = player->unk_908[7].y + 5.0f;
-            naviRefPos.z = player->unk_908[7].z + (Math_Coss(player->actor.shape.rot.y) * 20.0f);
+            naviRefPos.x = player->bodyPartsPos[7].x + (Math_Sins(player->actor.shape.rot.y) * 20.0f);
+            naviRefPos.y = player->bodyPartsPos[7].y + 5.0f;
+            naviRefPos.z = player->bodyPartsPos[7].z + (Math_Coss(player->actor.shape.rot.y) * 20.0f);
         }
 
         this->actor.posRot2.pos = naviRefPos;

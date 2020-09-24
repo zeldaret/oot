@@ -77,7 +77,7 @@ glabel EnPoh_Init
 /* 00118 80ADDE68 260602AC */  addiu   $a2, $s0, 0x02AC           ## $a2 = 000002AC
 /* 0011C 80ADDE6C AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 00120 80ADDE70 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00124 80ADDE74 0C01E9D9 */  jal     Lights_Insert
+/* 00124 80ADDE74 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 00128 80ADDE78 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 0012C 80ADDE7C C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
@@ -103,7 +103,7 @@ glabel EnPoh_Init
 /* 0017C 80ADDECC AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 00180 80ADDED0 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 00184 80ADDED4 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00188 80ADDED8 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 00188 80ADDED8 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 0018C 80ADDEDC 8FA40030 */  lw      $a0, 0x0030($sp)           
 /* 00190 80ADDEE0 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
