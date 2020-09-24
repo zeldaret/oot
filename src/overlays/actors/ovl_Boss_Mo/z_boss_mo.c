@@ -719,7 +719,7 @@ void func_8091C538(BossMo *this, GlobalContext *globalCtx) {
             }
             if (this->actionState == 3) {
                 if ((this->timers[0] >= 5) && (this->linkHitTimer != 0) && (player->actor.parent == NULL)){
-                    if (globalCtx->unk_11D4C(globalCtx, &player->actor) != 0) {
+                    if (globalCtx->grabPlayer(globalCtx, player)) {
                         player->actor.parent = (Actor*) this;
                         this->actionState = 4;
                         func_80078914(&this->unk_1010, 0x38F3);
@@ -785,7 +785,7 @@ void func_8091C538(BossMo *this, GlobalContext *globalCtx) {
                 Interface_ChangeAlpha(0xB);
             }
             if ((this->timers[0] % 8) == 0) {
-                globalCtx->unk_11D58(globalCtx, -1);
+                globalCtx->damagePlayer(globalCtx, -1);
             }
             Math_SmoothScaleMaxF(&this->waterLevelMod, -5.0f, 0.1, 0.4f);
             sp1B4 = this->tentRot[15].x;
@@ -821,7 +821,7 @@ void func_8091C538(BossMo *this, GlobalContext *globalCtx) {
                 if ((Actor*)this == player->actor.parent) {
                     player->unk_850 = 0x65;
                     player->actor.parent = NULL;
-                    player->action = 0;
+                    player->csMode = 0;
                     if (this->timers[0] == 0) {
                         func_8002F6D4(globalCtx, &this->actor, 20.0f, this->actor.shape.rot.y + 0x8000, 10.0f, 0);
                     }
@@ -850,7 +850,7 @@ void func_8091C538(BossMo *this, GlobalContext *globalCtx) {
             if ((Actor*)this == player->actor.parent) {
                 player->unk_850 = 0x65;
                 player->actor.parent = NULL;
-                player->action = 0;
+                player->csMode = 0;
             }
             Math_SmoothScaleMaxF(&this->tentRippleSize, 0.15f, 0.5f, 0.01f);
             if (this->meltIndex < 0x29) {
@@ -1119,7 +1119,7 @@ void func_8091F2FC(BossMo* this, GlobalContext* globalCtx) {
             }
             temp_s0 = this->collider1.list[i1].body.acHitItem;
             this->invincibilityTimer = 5;
-            if ((temp_s0->toucher.flags << 0xE) < 0) {
+            if (temp_s0->toucher.flags & 0x00020000) {
                 func_80078914(&this->unk_1010, 0x38F4);
                 this->cutIndex = 0xF;
                 this->meltIndex = this->cutIndex + 1;
@@ -1706,7 +1706,7 @@ void func_80921280(BossMo* this, GlobalContext* globalCtx) {
         temp_s0 = this->collider2.body.acHitItem;
         osSyncPrintf("Core_Damage_check 当り！！\n");
         this->collider2.base.acFlags &= ~2;
-        if ((temp_s0->toucher.flags << 0xE) < 0) {
+        if (temp_s0->toucher.flags & 0x00020000) {
             if (this->actionState == 0xA) {
                 this->actionState = 0xB;
             }
@@ -1741,7 +1741,7 @@ void func_80921280(BossMo* this, GlobalContext* globalCtx) {
                         if (player->actor.parent != NULL) {
                             player->unk_850 = 0x65;
                             player->actor.parent = NULL;
-                            player->action = 0;
+                            player->csMode = 0;
                         }
                     } else {
                         this->actor.colChkInfo.health = 1;
@@ -1762,7 +1762,7 @@ void func_80921280(BossMo* this, GlobalContext* globalCtx) {
                         if (player->actor.parent == (Actor*)D_80925CD4) {
                             player->unk_850 = 0x65;
                             player->actor.parent = NULL;
-                            player->action = 0;
+                            player->csMode = 0;
                         }
                     }
                     this->actionState = 5;
