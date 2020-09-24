@@ -158,7 +158,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
 
         case 0x0A:
-            this->actor.shape.rot.y = func_8005A948(camera) + (((*this).unk_156 & 0xFF) << 0x0F);
+            this->actor.shape.rot.y = func_8005A948(camera) + ((*this).unk_156 & 0xFF) * 0x8000;
             Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
 
             if (this->unk_150.x == 0) {
@@ -189,7 +189,7 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
 
         case 0x0B:
-            this->actor.shape.rot.y = func_8005A948(camera) + (((*this).unk_156 & 0xFF) << 0x0F);
+            this->actor.shape.rot.y = func_8005A948(camera) + ((*this).unk_156 & 0xFF) * 0x8000;
 
             Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
             if (this->unk_150.x == 0x1E) {
@@ -347,18 +347,18 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
 }
 
 void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
-    EnfHG* horse;
+    BossGanondrof* bossPG;
     s16 i;
 
     osSyncPrintf("yari hikari 1\n");
-    horse = (EnfHG*)this->actor.parent;
+    bossPG = (BossGanondrof*)this->actor.parent;
     if ((this->unk_156 % 2) != 0) {
         Actor_SetScale(&this->actor, 6.0f);
     } else {
         Actor_SetScale(&this->actor, 5.25f);
     }
 
-    this->actor.posRot.pos = horse->unk_200;
+    this->actor.posRot.pos = bossPG->unk_200;
     this->actor.shape.rot.z += (s16)(Math_Rand_ZeroOne() * 20000.0f) + 0x4000;
 
     osSyncPrintf("yari hikari 2\n");
@@ -440,12 +440,12 @@ void func_80A10220(EnFhgFire* this, GlobalContext* globalCtx) {
         }
         switch (this->fireMode) {
             case 0:
-                spF2 = (player->stateFlags1 & 2) &&
-                               (ABS((s16)(player->actor.shape.rot.y - (s16)(bossPG->actor.yawTowardsLink + 0x8000))) <
-                                0x2000) &&
-                               (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f)
-                           ? 1
-                           : 0;
+                spF2 =
+                    ((player->stateFlags1 & 2) &&
+                     (ABS((s16)(player->actor.shape.rot.y - (s16)(bossPG->actor.yawTowardsLink + 0x8000))) < 0x2000) &&
+                     (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f))
+                        ? 1
+                        : 0;
                 if ((this->collider.base.acFlags & 2) || spF2) {
                     ColliderBody* hurtbox = this->collider.body.acHitItem;
                     s16 spB6;
@@ -462,7 +462,7 @@ void func_80A10220(EnFhgFire* this, GlobalContext* globalCtx) {
                                                (s16)(Math_Rand_ZeroOne() * 25.0f) + 0x32, 0);
                     }
                     spE8 = spF2;
-                    if (!spE8 && ((hurtbox->toucher.flags << 0xB) < 0)) {
+                    if (!spE8 && (hurtbox->toucher.flags & 0x00100000)) {
                         spF3 = 2;
                         Audio_PlaySoundGeneral(0x180C, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);

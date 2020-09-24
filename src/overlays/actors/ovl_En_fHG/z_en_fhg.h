@@ -6,30 +6,53 @@
 
 struct EnfHG;
 
+typedef void (*EnfHGActionFunc)(struct EnfHG*, GlobalContext*);
+
+typedef struct EnfHGPainting {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ s16 yRot;
+} EnfHGPainting; // size = 0x10;
+
 typedef struct EnfHG {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ u8 unk_14C;
     /* 0x014D */ u8 unk_14D;
     /* 0x014E */ u8 unk_14E;
     /* 0x014F */ u8 unk_14F;
-    /* 0x0150 */ char unk_150[0x77];
-    /* 0x01C7 */ u8 unk_1C7;
-    /* 0x01C8 */ char unk_1C8;
-    /* 0x01C9 */ u8 flyMode;
-    /* 0x01CA */ u8 unk_1CA;
-    /* 0x01CB */ char unk_1CB[0x13];
+    /* 0x0150 */ Vec3f unk_150;
+    /* 0x015C */ Vec3f unk_15C;
+    /* 0x0168 */ Vec3f unk_168;
+    /* 0x0174 */ Vec3f unk_174;
+    /* 0x0180 */ Vec3f unk_180;
+    /* 0x018C */ Vec3f unk_18C;
+    /* 0x0198 */ f32 unk_198;
+    /* 0x019C */ f32 unk_19C;
+    /* 0x0198 */ f32 unk_1A0;
+    /* 0x01A4 */ f32 unk_1A4;
+    /* 0x01A8 */ f32 unk_1A8;
+    /* 0x01AC */ f32 unk_1AC;
+    /* 0x01B0 */ char unk_1B0[0x10];
+    /* 0x01C0 */ s16 unk_1C0;
+    /* 0x01C2 */ s16 unk_1C2;
+    /* 0x01C4 */ s16 unk_1C4;
+    /* 0x01C6 */ s16 unk_1C6;
+    /* 0x01C8 */ s16 unk_1C8;
+    /* 0x01CA */ s16 unk_1CA;
+    /* 0x01CC */ s16 unk_1CC;
+    /* 0x01CE */ char unk_1CE[6];
+    /* 0x01D4 */ s16 timers[5];
     /* 0x01DE */ s16 unk_1DE;
     /* 0x01E0 */ s16 unk_1E0;
-    /* 0x01E2 */ char unk_1E2[0x6];
+    /* 0x01E2 */ char unk_1E2[2];
+    /* 0x01E4 */ char unk_1E4[4];
     /* 0x01E8 */ f32 unk_1E8;
     /* 0x01EC */ f32 unk_1EC;
     /* 0x01F0 */ f32 unk_1F0;
     /* 0x01F4 */ f32 unk_1F4;
     /* 0x01F8 */ f32 unk_1F8;
-    /* 0x01FC */ char unk_1FC[0x4];
-    /* 0x0200 */ Vec3f unk_200;
-    /* 0x020C */ Vec3f unk_20C;
-    /* 0x0218 */ char unk_218[0x7C];
+    /* 0x01FC */ EnfHGActionFunc actionFunc;
+    /* 0x0200 */ char unk_200[4];
+    /* 0x0204 */ PSkinAwb skin;
 } EnfHG; // size = 0x0294
 
 extern const ActorInit En_Fhg_InitVars;

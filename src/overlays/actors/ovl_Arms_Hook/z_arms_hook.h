@@ -11,8 +11,7 @@ typedef void (*ArmsHookActionFunc)(struct ArmsHook*, GlobalContext*);
 typedef struct ArmsHook {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderQuad collider;
-    /* 0x01CC */ s32 unk_1CC;
-    /* 0x01D0 */ char unk_1D0[0x18];
+    /* 0x01CC */ WeaponInfo hookInfo;
     /* 0x01E8 */ Vec3f unk_1E8;
     /* 0x01F4 */ Vec3f unk_1F4;
     /* 0x0200 */ Actor* grabbed;

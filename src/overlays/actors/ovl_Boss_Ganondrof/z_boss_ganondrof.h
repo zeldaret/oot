@@ -21,7 +21,7 @@ typedef struct BossGanondrof {
     /* 0x01A4 */ s16 unk_1A4; // Something to do with distinguishing fast and slow pitch animations
     /* 0x01A6 */ s16 throwCount;
     /* 0x01A8 */ s16 cutsceneMaskOff;
-    /* 0x01A8 */ s16 unk_1AA; // Has to do with opening cutscene. Probably set by horse
+    /* 0x01AA */ s16 unk_1AA; // Has to do with opening cutscene. Probably set by horse
     /* 0x01AC */ s16 chargeParticleAngle;
     /* 0x01AE */ s16 unk_1AE;
     /* 0x01B0 */ s16 unk_1B0;

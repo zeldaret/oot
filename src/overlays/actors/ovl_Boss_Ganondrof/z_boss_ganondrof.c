@@ -135,13 +135,16 @@ static u8 D_80914F28[] = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
 };
 
-static UNK_PTR D_80915028[] = { (UNK_PTR) 0x0600A800, (UNK_PTR) 0x0600AE80, (UNK_PTR) 0x0600AF00, (UNK_PTR) 0x0600C180, (UNK_PTR) 0x0600C400 };
-static UNK_PTR D_8091503C[] = { (UNK_PTR) 0x0600B980, (UNK_PTR) 0x0600C480, (UNK_PTR) 0x0600BC80, (UNK_PTR) 0x0600BD80, (UNK_PTR) 0x0600C080 };
+static UNK_PTR D_80915028[] = { (UNK_PTR)0x0600A800, (UNK_PTR)0x0600AE80, (UNK_PTR)0x0600AF00, (UNK_PTR)0x0600C180,
+                                (UNK_PTR)0x0600C400 };
+static UNK_PTR D_8091503C[] = { (UNK_PTR)0x0600B980, (UNK_PTR)0x0600C480, (UNK_PTR)0x0600BC80, (UNK_PTR)0x0600BD80,
+                                (UNK_PTR)0x0600C080 };
 static UNK_PTR D_80915050[] = {
-    (UNK_PTR) 0x0600C200, (UNK_PTR) 0x0600A000, (UNK_PTR) 0x0600A200, (UNK_PTR) 0x0600A400, (UNK_PTR) 0x0600A600, (UNK_PTR) 0x0600A880, (UNK_PTR) 0x0600B780, (UNK_PTR) 0x0600BA80, (UNK_PTR) 0x0600BE80,
+    (UNK_PTR)0x0600C200, (UNK_PTR)0x0600A000, (UNK_PTR)0x0600A200, (UNK_PTR)0x0600A400, (UNK_PTR)0x0600A600,
+    (UNK_PTR)0x0600A880, (UNK_PTR)0x0600B780, (UNK_PTR)0x0600BA80, (UNK_PTR)0x0600BE80,
 };
-static UNK_PTR D_80915074[] = { (UNK_PTR) 0x0600AA80, (UNK_PTR) 0x0600AF80 };
-static UNK_PTR D_8091507C[] = { (UNK_PTR) 0x060040B0, (UNK_PTR) 0x06003FB0 };
+static UNK_PTR D_80915074[] = { (UNK_PTR)0x0600AA80, (UNK_PTR)0x0600AF80 };
+static UNK_PTR D_8091507C[] = { (UNK_PTR)0x060040B0, (UNK_PTR)0x06003FB0 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
@@ -232,7 +235,7 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.colChkInfo.health = 30;
         this->unk_4CC = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->unk_4D0);
         Lights_PointNoGlowSetInfo(&this->unk_4D0, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                        this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, 0xFF);
+                                  this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, 0xFF);
         BossGanondrof_SetupIntro(this, globalCtx);
     } else {
         BossGanondrof_SetupPaintings(this);
@@ -249,7 +252,7 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 214.0f, -33.0f, -3315.0f, 0, 0, 0, 0);
     } else {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG, this->actor.posRot.pos.x,
-                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->actor.params);
+                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->actor.params);
     }
 }
 
@@ -282,9 +285,9 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actor.posRot.pos = horse->actor.posRot.pos;
     this->actor.shape.rot.y = this->actor.posRot.rot.y = horse->actor.posRot.rot.y;
-    
+
     osSyncPrintf("SW %d------------------------------------------------\n", horse->unk_14C);
-    
+
     if ((this->animationTimer[1] != 0) && (this->animationTimer[1] < 25)) {
         Vec3f sp88;
         Vec3f sp7C = { 0.0f, 0.0f, 0.0f };
@@ -323,7 +326,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600D99C, -7.0f);
         tmpHorse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x,
-                            this->unk_200.y, this->unk_200.z, 0x32, 0, 0, 0x26);
+                           this->unk_200.y, this->unk_200.z, 0x32, 0, 0, 0x26);
         this->actor.child = &tmpHorse->actor;
     }
 
@@ -383,7 +386,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
         this->actor.flags |= 1;
         horse2 = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x,
-                            this->unk_200.y, this->unk_200.z, 0x1E, 0, 0, 0x26);
+                           this->unk_200.y, this->unk_200.z, 0x1E, 0, 0, 0x26);
         this->actor.child = &horse2->actor;
     } else if (horse->unk_14C == 3) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003080, -2.0f);
@@ -576,7 +579,7 @@ void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
 
     horse = (EnfHG*)this->actor.child;
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x,
-                        this->unk_200.y, this->unk_200.z, tmpf1, 0, 0, 0x26);
+                       this->unk_200.y, this->unk_200.z, tmpf1, 0, 0, 0x26);
     this->actor.child = &horse->actor;
     this->throwCount++;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
@@ -612,7 +615,7 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
     if (func_800A56C8(&this->skelAnime, this->unk_1A4) != 0) {
         horse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x,
-                            this->unk_200.y, this->unk_200.z, this->slowPitch, 0, 0, 0x32);
+                           this->unk_200.y, this->unk_200.z, this->slowPitch, 0, 0, 0x32);
         this->actor.child = &horse->actor;
     }
 
@@ -626,7 +629,7 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupVolley(BossGanondrof* this, GlobalContext* globalCtx) {
-    static AnimationHeader* D_809150D0[] = { (AnimationHeader*) 0x06010FD4, (AnimationHeader*) 0x06011800 };
+    static AnimationHeader* D_809150D0[] = { (AnimationHeader*)0x06010FD4, (AnimationHeader*)0x06011800 };
 
     s16 rand = Math_Rand_ZeroOne() * 1.99f;
 
@@ -879,7 +882,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
     if (!(this->floatAndParticleTimer & 7)) {
         horse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_200.x,
-                            this->unk_200.y, this->unk_200.z, 8, 1, 0, 0x26);
+                           this->unk_200.y, this->unk_200.z, 8, 1, 0, 0x26);
         this->actor.child = &horse->actor;
     }
 }
@@ -997,7 +1000,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             if (this->animationTimer[1] == 1) {
                 horse2 = (EnfHG*)this->actor.child;
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, 14.0f, -30.0f,
-                                    -3315.0f, 0x4000, 0, 0, 0x29);
+                                   -3315.0f, 0x4000, 0, 0, 0x29);
                 this->actor.child = &horse2->actor;
                 func_8010B680(globalCtx, 0x108E, NULL);
             }
@@ -1178,13 +1181,10 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx) {
-    ColliderTouch* toucher;
+    s32 acFlagCheck;
     EnfHG* horse = (EnfHG*)this->actor.child;
     ColliderBody* hurtbox;
-    u8 dmg;
-    u8 canKill;
-    s32 acFlagCheck;
-    
+
     if (this->invincibilityTimer != 0) {
         this->invincibilityTimer--;
         this->volleyCount = 0;
@@ -1195,7 +1195,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
             if (acFlagCheck) {
                 this->collider1.base.acFlags &= ~2;
                 hurtbox = this->collider1.body.acHitItem;
-            } 
+            }
             if (this->attackMode != 0) {
                 if (acFlagCheck && (this->actionFunc != BossGanondrof_Vulnerable) &&
                     (hurtbox->toucher.flags & 0x1F8A4)) {
@@ -1203,13 +1203,15 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
                     osSyncPrintf("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->volleyCount == 0) {
-                        toucher = &hurtbox->toucher;
-                        if (toucher->flags & 0x80) {
+                        u8 dmg;
+                        u8 canKill = false;
+                        s32 flags = hurtbox->toucher.flags;
+
+                        if (flags & 0x80) {
                             return;
                         }
-                        canKill = 0;
-                        dmg = func_800635D0(toucher->flags);
-                        (dmg == 0) ? (dmg = 2) : (canKill = 1);
+                        dmg = func_800635D0(flags);
+                        (dmg == 0) ? (dmg = 2) : (canKill = true);
                         if (((s8)this->actor.colChkInfo.health > 2) || canKill) {
                             this->actor.colChkInfo.health -= dmg;
                         }
@@ -1327,8 +1329,8 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == 1) {
-        Lights_PointNoGlowSetInfo(&this->unk_4D0, this->unk_200.x, this->unk_200.y, this->unk_200.z, 0xFF, 0xFF,
-                                        0xFF, 0xC8);
+        Lights_PointNoGlowSetInfo(&this->unk_4D0, this->unk_200.x, this->unk_200.y, this->unk_200.z, 0xFF, 0xFF, 0xFF,
+                                  0xC8);
     }
 }
 
@@ -1462,8 +1464,9 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->invincibilityTimer & 4) != 0) {
         oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, 0xFF, 0x32, 0, 0, 0x384, 0x44B);
     } else {
-        oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)horse->unk_1E8, (u32)horse->unk_1EC, (u32)horse->unk_1F0, 0,
-                                       (s32)horse->unk_1F4 + 0x3E3, (s32)horse->unk_1F8 + 0x3E8);
+        oGfxCtx->polyOpa.p =
+            Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)horse->unk_1E8, (u32)horse->unk_1EC, (u32)horse->unk_1F0, 0,
+                       (s32)horse->unk_1F4 + 0x3E3, (s32)horse->unk_1F8 + 0x3E8);
     }
 
     osSyncPrintf("DRAW 11\n");
