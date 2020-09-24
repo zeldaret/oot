@@ -88,7 +88,7 @@ InitChainEntry D_80A873B8[2][5] = {
 u16 D_80A873E0[2] = { 0x086A, 0x086C };
 
 void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7F8A0, func_80A7F8CC, NULL };
-**/
+*/
 
 extern s16 D_80A7F9F0;
 extern s16 D_80A7F9F4;
