@@ -172,8 +172,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o"
-    //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -296,7 +295,6 @@ beginseg
     include "build/data/z_camera.bss.o"
     include "build/src/code/z_collision_btltbls.o"
     include "build/src/code/z_collision_check.o"
-    include "build/data/z_collision_check.bss.o"
     include "build/src/code/z_common_data.o"
     include "build/src/code/z_debug.o"
     include "build/src/code/z_debug_display.o"
@@ -335,8 +333,6 @@ beginseg
     include "build/src/code/z_path.o"
     include "build/src/code/code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
-    include "build/data/z_player_lib.data.o"
-    include "build/data/z_player_lib.bss.o"
     include "build/src/code/z_prenmi.o"
     include "build/src/code/z_quake.o"
     include "build/src/code/z_rcp.o"
@@ -586,9 +582,11 @@ endseg
 beginseg
     name "ovl_player_actor"
     include "build/src/overlays/actors/ovl_player_actor/z_player.o"
-    include "build/data/overlays/actors/z_player.data.o"
-    include "build/data/overlays/actors/z_player.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_player_actor/ovl_player_actor_reloc.o"
+#else
     include "build/data/overlays/actors/z_player.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -934,8 +932,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Ice_Shutter/z_bg_ice_shutter.o"
-    include "build/data/overlays/actors/z_bg_ice_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_ice_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Shutter/ovl_Bg_Ice_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -1166,8 +1163,7 @@ endseg
 beginseg
     name "ovl_Bg_Po_Syokudai"
     include "build/src/overlays/actors/ovl_Bg_Po_Syokudai/z_bg_po_syokudai.o"
-    include "build/data/overlays/actors/z_bg_po_syokudai.data.o"
-    include "build/data/overlays/actors/z_bg_po_syokudai.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Po_Syokudai/ovl_Bg_Po_Syokudai_reloc.o"
 endseg
 
 beginseg
@@ -1365,8 +1361,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/z_bg_spot18_shutter.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Shutter/ovl_Bg_Spot18_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -3530,8 +3525,7 @@ endseg
 beginseg
     name "ovl_Obj_Hana"
     include "build/src/overlays/actors/ovl_Obj_Hana/z_obj_hana.o"
-    include "build/data/overlays/actors/z_obj_hana.data.o"
-    include "build/data/overlays/actors/z_obj_hana.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Hana/ovl_Obj_Hana_reloc.o"
 endseg
 
 beginseg

@@ -26,7 +26,7 @@ glabel func_808A4FA4
 /* 00224 808A4FE4 14200034 */  bne     $at, $zero, .L808A50B8     
 /* 00228 808A4FE8 AC8F0168 */  sw      $t7, 0x0168($a0)           ## 00000168
 /* 0022C 808A4FEC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00230 808A4FF0 0C023A62 */  jal     func_8008E988              
+/* 00230 808A4FF0 0C023A62 */  jal     Player_InCsMode              
 /* 00234 808A4FF4 AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 00238 808A4FF8 54400030 */  bnel    $v0, $zero, .L808A50BC     
 /* 0023C 808A4FFC C6000150 */  lwc1    $f0, 0x0150($s0)           ## 00000150

@@ -97,7 +97,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
             gSaveContext.infTable[29] = 1;
         }
 
-        func_8008ECAC(globalCtx, player);
+        Player_SetEquipmentData(globalCtx, player);
         globalCtx->pauseCtx.unk_238 = 10;
     }
 

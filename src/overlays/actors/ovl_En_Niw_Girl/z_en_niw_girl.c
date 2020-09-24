@@ -124,7 +124,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 
     // Only allow Link to talk to her when she is playing the jumping animation
-    if ((this->jumpTimer == 0) || (func_8008F080(globalCtx) != 0)) {
+    if ((this->jumpTimer == 0) || (Player_GetMask(globalCtx) != PLAYER_MASK_NONE)) {
         this->jumpTimer = 60;
         this->actionFunc = EnNiwGirl_Talk;
     }
@@ -137,21 +137,21 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
     }
-    switch (func_8008F080(globalCtx)) {
-        case 1:
+    switch (Player_GetMask(globalCtx)) {
+        case PLAYER_MASK_KEATON:
             this->actor.textId = 0x7118;
             break;
-        case 3:
+        case PLAYER_MASK_SPOOKY:
             this->actor.textId = 0x7119;
             break;
-        case 4:
-        case 6:
-        case 7:
+        case PLAYER_MASK_BUNNY:
+        case PLAYER_MASK_ZORA:
+        case PLAYER_MASK_GERUDO:
             this->actor.textId = 0x711A;
             break;
-        case 2:
-        case 5:
-        case 8:
+        case PLAYER_MASK_SKULL:
+        case PLAYER_MASK_GORON:
+        case PLAYER_MASK_TRUTH:
             this->actor.textId = 0x711B;
             break;
     }

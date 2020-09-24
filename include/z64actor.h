@@ -1,6 +1,7 @@
 #ifndef _Z64ACTOR_H_
 #define _Z64ACTOR_H_
 
+#include <z64dma.h>
 #include <z64animation.h>
 #include <z64math.h>
 #include <z64collision_check.h>
@@ -96,7 +97,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ Vec3s  rot; // Current actor shape rotation
-    /* 0x06 */ u8     unk_06;
+    /* 0x06 */ s16    unk_06;
     /* 0x08 */ f32    unk_08; // Model y axis offset. Represents model space units. collision mesh related
     /* 0x0C */ void (*shadowDrawFunc)(struct Actor*, struct Lights*, struct GlobalContext*);
     /* 0x10 */ f32    unk_10;
@@ -191,12 +192,6 @@ typedef struct {
 } DynaPolyActor; // size = 0x164
 
 typedef struct {
-    /* 0x00 */ s32 active;
-    /* 0x04 */ Vec3f tip;
-    /* 0x10 */ Vec3f base;
-} Struct_80090480_arg2;
-
-typedef struct {
     /* 0x00 */ MtxF* unk_00;
     /* 0x04 */ s16* unk_04;
     /* 0x08 */ s16 unk_08;
@@ -205,163 +200,6 @@ typedef struct {
     /* 0x10 */ s32 unk_10;
     /* 0x14 */ s32 unk_14;
 } struct_80032E24;
-
-struct Player;
-
-typedef void (*PlayerActionFunc)(struct Player*, struct GlobalContext*);
-
-typedef struct Player {
-    /* 0x0000 */ Actor      actor;
-    /* 0x014C */ s8         currentTunic;
-    /* 0x014D */ s8         currentSword;
-    /* 0x014E */ s8         currentShield;
-    /* 0x014F */ s8         currentBoots;
-    /* 0x0150 */ s8         heldItemCButtonIdx;
-    /* 0x0151 */ s8         heldItemActionParam;
-    /* 0x0152 */ s8         unk_152;
-    /* 0x0153 */ s8         unk_153;
-    /* 0x0154 */ s8         unk_154;
-    /* 0x0155 */ char       unk_155[0x003];
-    /* 0x0158 */ s8         unk_158;
-    /* 0x0159 */ char       unk_159[0x002];
-    /* 0x015B */ u8         unk_15B;
-    /* 0x015C */ u8         unk_15C;
-    /* 0x015D */ u8         unk_15D;
-    /* 0x015E */ u8         unk_15E;
-    /* 0x015F */ u8         currentMask;
-    /* 0x0160 */ UNK_PTR    unk_160;
-    /* 0x0164 */ UNK_PTR    unk_164;
-    /* 0x0168 */ UNK_PTR    unk_168;
-    /* 0x016C */ UNK_PTR    unk_16C;
-    /* 0x0170 */ u8         unk_170;
-    /* 0x0171 */ char       unk_171[0x023];
-    /* 0x0194 */ OSMesgQueue unk_194;
-    /* 0x01AC */ char       unk_1AC[0x004];
-    /* 0x01B0 */ void*      getItemModel; // Pointer to the space where the get item model is allocated
-    /* 0x01B4 */ SkelAnime  skelAnime;
-    /* 0x01F8 */ char        unk_1F8[0x1B4];
-    /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ Vec3f      unk_3B0; // related to links hands
-    /* 0x03BC */ char       unk_3BC[0x00C];
-    /* 0x03C8 */ Vec3f      unk_3C8;
-    /* 0x03D4 */ char       unk_3D4[0x058];
-    /* 0x042C */ s8         unk_42C;
-    /* 0x042D */ s8         unk_42D;
-    /* 0x042E */ s16        unk_42E;
-    /* 0x0430 */ Actor*     unk_430;
-    /* 0x0434 */ u8         getItemId;
-    /* 0x0435 */ char       unk_435[0x001];
-    /* 0x0436 */ u16        getItemDirection;
-    /* 0x0438 */ Actor*     interactRangeActor;
-    /* 0x043C */ s8         unk_43C;
-    /* 0x043D */ char       unk_43D[0x003];
-    /* 0x0440 */ Actor*     rideActor;
-    /* 0x0444 */ u8         action;
-    /* 0x0445 */ char       unk_445[0x003];
-    /* 0x0448 */ Actor*     unk_448;
-    /* 0x044C */ char       unk_44C[0x004];
-    /* 0x0450 */ Vec3f      unk_450;
-    /* 0x045C */ char       unk_45C[0x00E];
-    /* 0x046A */ u16        unk_46A;
-    /* 0x046C */ char       unk_46C[0x06E];
-    /* 0x04DA */ s16        unk_4DA;
-    /* 0x04DC */ char       unk_4DC[0x008];
-    /* 0x04E4 */ Collider   unk_4E4; // TODO determine type
-    /* 0x04FC */ char       unk_4FC[0x068];
-    /* 0x0564 */ Collider   unk_564; // TODO determine type
-    /* 0x057C */ char       unk_57C[0x07C];
-    /* 0x05F8 */ u8         unk_5F8;
-    /* 0x05F9 */ char       unk_5F9[0x06B];
-    /* 0x0664 */ Actor*     unk_664;
-    /* 0x0668 */ char       unk_668[0x004];
-    /* 0x066C */ s32        unk_66C;
-    /* 0x0670 */ u32        swordEffectId;
-    /* 0x0674 */ PlayerActionFunc  actionFunc;
-    /* 0x0678 */ u32        ageProperties;
-    /* 0x067C */ u32        stateFlags1;
-    /* 0x0680 */ u32        stateFlags2;
-    /* 0x0684 */ Actor*     unk_684;
-    /* 0x0688 */ char       unk_688[0x004];
-    /* 0x068C */ Actor*     navi;
-    /* 0x0690 */ s16        naviMessageId;
-    /* 0x0692 */ u8         unk_692;
-    /* 0x0693 */ s8         exchangeItemId;
-    /* 0x0694 */ Actor*     naviTargetActor;
-    /* 0x0698 */ f32        targetActorDistance;
-    /* 0x069C */ char       unk_69C[0x008];
-    /* 0x06A4 */ f32        unk_6A4;
-    /* 0x06A8 */ Actor*     unk_6A8;
-    /* 0x06AC */ char       unk_6AC[0x001];
-    /* 0x06AD */ u8         unk_6AD;
-    /* 0x06AE */ char       unk_6AE[0x2];
-    /* 0x06B0 */ s16        unk_6B0;
-    /* 0x06B2 */ char       unk_6B4[0x4];
-    /* 0x06B6 */ Vec3s      unk_6B6;
-    /* 0x06BC */ s16        unk_6BC;
-    /* 0x06BE */ s16        unk_6BE;
-    /* 0x06C0 */ s16        unk_6C0;
-    /* 0x06C2 */ s16        unk_6C2;
-    /* 0x06C4 */ f32        unk_6C4;
-    /* 0x06C8 */ SkelAnime  skelAnime2;
-    /* 0x070C */ char       unk_70C[0x128];
-    /* 0x0834 */ s16        unk_834;
-    /* 0x0836 */ char       unk_836[0x002];
-    /* 0x0838 */ f32        linearVelocity;
-    /* 0x083C */ s16        currentYaw;
-    /* 0x083E */ s16        targetYaw;
-    /* 0x0840 */ u16        unk_840;
-    /* 0x0842 */ s8         swordAnimation;
-    /* 0x0843 */ s8         swordState;
-    /* 0x0844 */ u8         unk_844;
-    /* 0x0845 */ u8         unk_845;
-    /* 0x0846 */ u8         unk_846;
-    /* 0x0847 */ char       unk_847[0x004];
-    /* 0x084B */ s8         unk_84B[4];
-    /* 0x084F */ s8         unk_84F;
-    /* 0x0850 */ s16        unk_850;
-    /* 0x0852 */ char       unk_852[0x00A];
-    /* 0x085C */ f32        stickLength;
-    /* 0x0860 */ s16        stickFlameTimer;
-    /* 0x0862 */ s8         overheadItemId;
-    /* 0x0863 */ char       unk_863[0x021];
-
-    /* 0x0884 */ f32        ledgeDistance; // The distance from link to a grabbable ledge
-    // Only updates if pushing against a wall with a grabbable ledge above
-    // If the ledge is too high to grab the value is 399.96f
-
-    /* 0x0888 */ f32        wallDistance; // Only updates if pushing against a wall with a grabbable ledge above
-    /* 0x088C */ char       unk_88C[0x008];
-    /* 0x0894 */ s16        dropY; // Truncated copy of y position that does not update while falling
-    /* 0x0896 */ s16        fallY; // The truncated y distance link has moved in that frame, positive is down, negative is up
-    /* 0x0898 */ char       unk_898[0x008];
-    /* 0x08A0 */ u8         unk_8A0;
-    /* 0x08A1 */ u8         unk_8A1;
-    /* 0x08A2 */ u16        unk_8A2;
-    /* 0x08A4 */ f32        unk_8A4;
-    /* 0x08A8 */ f32        unk_8A8;
-    /* 0x08AC */ f32        fanWindSpeed;
-    /* 0x08B0 */ s16        fanWindDirection;
-    /* 0x08B2 */ char       unk_8B2[0x002];
-    /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
-    /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
-    /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
-    /* 0x0908 */ char       unk_908[0x04];
-    /* 0x090C */ f32        unk_90C;
-    /* 0x0910 */ char       unk_910[0x4C];
-    /* 0x095C */ Vec3f      unk_95C;
-    /* 0x0968 */ char       unk_968[0x78];
-    /* 0x09E0 */ MtxF       mf_9E0;
-    /* 0x0A20 */ MtxF       mf_A20;
-    /* 0x0A60 */ char       unk_A60[0x08];
-    /* 0x0A68 */ s8         unk_A68;
-    /* 0x0A69 */ char       unk_A6A[0x0F];
-
-    /* 0x0A78 */ s8         invincibilityTimer; // Take no damage if this value is nonzero
-    // Positive induces red flashing, negative does not
-    // Counts towards zero each frame
-
-    /* 0x0A79 */ char       unk_A79[0x1B];
-} Player; // size = 0xA94
 
 typedef enum {
     /* 0x00 */ ITEM00_RUPEE_GREEN,
