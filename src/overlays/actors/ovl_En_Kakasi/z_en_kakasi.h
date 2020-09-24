@@ -6,9 +6,16 @@
 
 struct EnKakasi;
 
+typedef void (*EnKakasiFunc)(struct EnKakasi*, GlobalContext*);
+
+
 typedef struct EnKakasi {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x70];
+    /* 0x014C */ EnKakasiFunc actionFunc;
+    /* 0x0150 */ SkelAnime skelanime;
+    /* 0x0194 */ char unk_194[0x1A];
+    /* 0x01AE */ Vec3s rot;
+    /* 0x01B4 */ char unk_1B4[0x8];
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x01BD */ char unk_1BD[0x4];
     // 4 bytes remaining
