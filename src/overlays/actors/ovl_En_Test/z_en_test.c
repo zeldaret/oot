@@ -302,7 +302,7 @@ void func_808615A4(EnTest* this) {
     EnTest_SetupAction(this, func_808615F4);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808615F4.s")
+// decide action after slash 1?
 void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 yawDiff;
@@ -333,24 +333,26 @@ void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
         yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
         if (ABS(yawDiff) <= 0x2710) {
             yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-            if ((ABS(yawDiff) <= 0x3E80) || (this->actor.params != 3)) {
+            if ((ABS(yawDiff) > 0x3E80) && (this->actor.params != 3)) {
                 this->actor.posRot.rot.y = this->actor.yawTowardsLink;
                 func_8086194C(this);
             } else {
-                if ((player->stateFlags1 & 0x10)) {
-                    func_80861418(this);
-                } else if (!this->actor.isTargeted) {
-                    if ((globalCtx->gameplayFrames & 1) == 0) {
-                        func_8086194C(this);
+                if (player->stateFlags1 & 0x10) {
+                    if (this->actor.isTargeted) {
+                        func_80861418(this);
                     } else {
-                        func_808627C4(this);
+                        if (globalCtx->gameplayFrames & 1) {
+                            func_808627C4(this, globalCtx);
+                        } else {
+                            func_8086194C(this);
+                        }                        
                     }
                 } else {
                     func_80861418(this);
                 }
             }
         } else {
-            func_808627C4(this);
+            func_808627C4(this, globalCtx);
         }
     }
 }
