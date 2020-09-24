@@ -57,8 +57,8 @@ glabel EnIshi_Init
 /* 00B40 80A7EFA0 0C29F918 */  jal     func_80A7E460              
 /* 00B44 80A7EFA4 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00B48 80A7EFA8 8FAB0020 */  lw      $t3, 0x0020($sp)           
-/* 00B4C 80A7EFAC 3C0C80A8 */  lui     $t4, %hi(D_80A7FA1C)       ## $t4 = 80A80000
-/* 00B50 80A7EFB0 258CFA1C */  addiu   $t4, $t4, %lo(D_80A7FA1C)  ## $t4 = 80A7FA1C
+/* 00B4C 80A7EFAC 3C0C80A8 */  lui     $t4, %hi(D_80A7FA18+4)       ## $t4 = 80A80000
+/* 00B50 80A7EFB0 258CFA1C */  addiu   $t4, $t4, %lo(D_80A7FA18+4)  ## $t4 = 80A7FA1C
 /* 00B54 80A7EFB4 156C000F */  bne     $t3, $t4, .L80A7EFF4       
 /* 00B58 80A7EFB8 00000000 */  nop
 /* 00B5C 80A7EFBC 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
