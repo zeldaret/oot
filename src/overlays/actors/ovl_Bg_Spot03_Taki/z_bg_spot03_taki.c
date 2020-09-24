@@ -137,7 +137,7 @@ void BgSpot03Taki_Update(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Draw.s")
+#ifdef NON_MATCHING
 void BgSpot03Taki_Draw(Actor *thisx, GlobalContext *globalCtx) {
     BgSpot03Taki *this = THIS;
     Gfx *(*dlist)[];
@@ -182,3 +182,6 @@ void BgSpot03Taki_Draw(Actor *thisx, GlobalContext *globalCtx) {
         func_800F46E0(&this->dyna.actor.projectedPos, 1.0);
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Draw.s")
+#endif
