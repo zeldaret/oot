@@ -331,38 +331,37 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     EnMa3* this = THIS;
     Vec3f vec = D_80AA3898;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
     if (limbIndex == 18) {
         Matrix_MultVec3f(&vec, &thisx->posRot2.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animCurrentSeg == &D_060093BC)) {
-        gSPDisplayList(gfxCtx->polyOpa.p++, &D_06005420);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06005420);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
 }
 
 void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMa3* this = THIS;
     Camera* camera;
     f32 someFloat;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
+
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
     someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);
 }

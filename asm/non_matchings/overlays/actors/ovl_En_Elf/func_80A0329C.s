@@ -74,7 +74,7 @@ glabel func_80A0329C
 /* 01748 80A03378 24060010 */  addiu   $a2, $zero, 0x0010         ## $a2 = 00000010
 /* 0174C 80A0337C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80A03380:
-/* 01750 80A03380 0C00BD04 */  jal     func_8002F410              
+/* 01750 80A03380 0C00BD04 */  jal     Actor_HasParent              
 /* 01754 80A03384 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 01758 80A03388 10400005 */  beq     $v0, $zero, .L80A033A0     
 /* 0175C 80A0338C 00000000 */  nop
@@ -84,7 +84,7 @@ glabel func_80A0329C
 /* 01768 80A03398 10000064 */  beq     $zero, $zero, .L80A0352C   
 /* 0176C 80A0339C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80A033A0:
-/* 01770 80A033A0 0C023A62 */  jal     func_8008E988              
+/* 01770 80A033A0 0C023A62 */  jal     Player_InCsMode              
 /* 01774 80A033A4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 01778 80A033A8 54400060 */  bnel    $v0, $zero, .L80A0352C     
 /* 0177C 80A033AC 8FBF0024 */  lw      $ra, 0x0024($sp)           

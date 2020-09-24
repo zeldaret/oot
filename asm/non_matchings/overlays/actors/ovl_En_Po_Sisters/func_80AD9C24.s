@@ -62,7 +62,7 @@ glabel func_80AD9C24
 /* 00D80 80AD9D10 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00D84 80AD9D14 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00D88 80AD9D18 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00D8C 80AD9D1C 0C01E796 */  jal     Lights_SetPositionalLightColorAndRadius
+/* 00D8C 80AD9D1C 0C01E796 */  jal     Lights_PointSetColorAndRadius
               
 /* 00D90 80AD9D20 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00D94 80AD9D24 3C0C80AE */  lui     $t4, %hi(func_80ADB338)    ## $t4 = 80AE0000

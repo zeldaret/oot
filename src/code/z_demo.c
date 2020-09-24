@@ -258,7 +258,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 15:
             if (sp3F != 0) {
-                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->getItemModel, 0xA0, 0x78,
+                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->giObjectSegment, 0xA0, 0x78,
                                         0x90, 0x18, 0x14);
             }
             break;
@@ -329,16 +329,16 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 27:
             if (globalCtx->state.frames & 8) {
-                if (globalCtx->envCtx.unk_8C[0] < 40) {
-                    globalCtx->envCtx.unk_8C[0] += 2;
-                    globalCtx->envCtx.unk_8C[4] -= 3;
-                    globalCtx->envCtx.unk_8C[5] -= 3;
+                if (globalCtx->envCtx.unk_8C[0][0] < 40) {
+                    globalCtx->envCtx.unk_8C[0][0] += 2;
+                    globalCtx->envCtx.unk_8C[1][1] -= 3;
+                    globalCtx->envCtx.unk_8C[1][2] -= 3;
                 }
             } else {
-                if (globalCtx->envCtx.unk_8C[0] > 2) {
-                    globalCtx->envCtx.unk_8C[0] -= 2;
-                    globalCtx->envCtx.unk_8C[4] += 3;
-                    globalCtx->envCtx.unk_8C[5] += 3;
+                if (globalCtx->envCtx.unk_8C[0][0] > 2) {
+                    globalCtx->envCtx.unk_8C[0][0] -= 2;
+                    globalCtx->envCtx.unk_8C[1][1] += 3;
+                    globalCtx->envCtx.unk_8C[1][2] += 3;
                 }
             }
             break;
@@ -882,9 +882,9 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 71:
                 gSaveContext.equips.equipment |= 0x0100;
-                func_8008ECAC(globalCtx, player);
+                Player_SetEquipmentData(globalCtx, player);
                 gSaveContext.equips.equipment |= 0x1000;
-                func_8008ECAC(globalCtx, player);
+                Player_SetEquipmentData(globalCtx, player);
                 globalCtx->linkAgeOnLoad = 1;
                 globalCtx->nextEntranceIndex = 0x0053;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -1852,8 +1852,6 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (0) {} // Necessary to match
 
@@ -1861,18 +1859,17 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         if (0) {} // Also necessary to match
 
         if (BREG(0) != 0) {
-            gfxCtx = globalCtx->state.gfxCtx;
-            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4101);
+            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4101);
 
-            prevDisplayList = gfxCtx->polyOpa.p;
-            displayList = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
-            gSPDisplayList(gfxCtx->overlay.p++, displayList);
+            prevDisplayList = oGfxCtx->polyOpa.p;
+            displayList = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
+            gSPDisplayList(oGfxCtx->overlay.p++, displayList);
             Cutscene_DrawDebugInfo(globalCtx, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
             Graph_BranchDlist(prevDisplayList, displayList);
-            gfxCtx->polyOpa.p = displayList;
+            oGfxCtx->polyOpa.p = displayList;
 
-            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4108);
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4108);
         }
 
         csCtx->frames++;
@@ -1928,7 +1925,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     u8 i;
 
-    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !func_8008E988(globalCtx)) {
+    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !Player_InCsMode(globalCtx)) {
         gSaveContext.cutsceneIndex = 0xFFFD;
     }
 

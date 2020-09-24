@@ -322,25 +322,20 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_bg_spot01_idohashira.c", 689);
-    func_80093D18(gfxCtx);
+    OPEN_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 689);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_spot01_idohashira.c", 699),
+    func_80093D18(localGfxCtx);
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, globalCtx);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000420);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000420);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_spot01_idohashira.c", 708);
+    CLOSE_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 708);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idohashira/func_808AB700.s")
-#endif
 
 void BgSpot01Idohashira_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idohashira* this = THIS;

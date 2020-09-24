@@ -857,169 +857,137 @@ Gfx* func_80093808(Gfx* gfx) {
 }
 
 void func_80093848(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1293);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1293);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x3A]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x3A]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1297);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1297);
 }
 
 void func_800938B4(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1309);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1309);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x39]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x39]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1313);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1313);
 }
 
 void func_80093920(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1325);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1325);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x32]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x32]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1329);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1329);
 }
 
 void func_8009398C(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1341);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1341);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x33]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x33]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1345);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1345);
 }
 
 void func_800939F8(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1357);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1357);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x34]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x34]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1361);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1361);
 }
 
 void func_80093A64(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1373);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1373);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x35]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x35]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1377);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1377);
 }
 
 void func_80093AD0(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1389);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1389);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x36]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x36]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1393);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1393);
 }
 
 void func_80093B3C(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1405);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1405);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x37]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x37]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1409);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1409);
 }
 
 void func_80093BA8(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1421);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1421);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1A]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1A]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1425);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1425);
 }
 
 void func_80093C14(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1439);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1439);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x19]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x19]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1443);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1443);
 }
 
 void func_80093C80(GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[5];
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
-    gfxCtx = globalCtx->state.gfxCtx;
     func_80093D18(gfxCtx);
 
     if (globalCtx->roomCtx.curRoom.unk_03 == 3) {
-        Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1460);
+        OPEN_DISPS(gfxCtx, "../z_rcp.c", 1460);
 
-        gDPSetColorDither(gfxCtx->polyOpa.p++, G_CD_DISABLE);
+        gDPSetColorDither(oGfxCtx->polyOpa.p++, G_CD_DISABLE);
 
-        Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1462);
+        CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1462);
     }
 }
 
 void func_80093D18(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1475);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1475);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x19]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x19]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1479);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1479);
 }
 
 void func_80093D84(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1491);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1491);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x19]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x19]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1495);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1495);
 }
 
 void func_80093DF0(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1507);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1507);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1F]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1F]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1511);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1511);
 }
 
 void func_80093E5C(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1523);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1523);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x20]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x20]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1527);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1527);
 }
 
 void func_80093EC8(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1539);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1539);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x21]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x21]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1543);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1543);
 }
 
 Gfx* func_80093F34(Gfx* gfx) {
@@ -1033,43 +1001,35 @@ Gfx* func_80093F58(Gfx* gfx) {
 }
 
 void func_80093F7C(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1569);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1569);
+    oGfxCtx->polyOpa.p = func_80093F58(oGfxCtx->polyOpa.p);
 
-    gfxCtx->polyOpa.p = func_80093F58(gfxCtx->polyOpa.p);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1573);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1573);
 }
 
 void func_80093FD8(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1585);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1585);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x23]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x23]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1589);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1589);
 }
 
 void func_80094044(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1601);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1601);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x2C]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x2C]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1605);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1605);
 }
 
 void func_800940B0(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1617);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1617);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x24]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x24]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1621);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1621);
 }
 
 Gfx* func_8009411C(Gfx* gfx) {
@@ -1078,83 +1038,67 @@ Gfx* func_8009411C(Gfx* gfx) {
 }
 
 void func_80094140(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1640);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1640);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1C]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1C]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1644);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1644);
 }
 
 void func_800941AC(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1651);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1651);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2B]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2B]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1655);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1655);
 }
 
 void func_80094218(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1670);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1670);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2D]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2D]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1674);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1674);
 }
 
 void func_80094284(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1681);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1681);
+    gSPDisplayList(oGfxCtx->overlay.p++, &sSetupDL[6 * 0x2E]);
 
-    gSPDisplayList(gfxCtx->overlay.p++, &sSetupDL[6 * 0x2E]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1685);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1685);
 }
 
 void func_800942F0(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1700);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1700);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x26]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x26]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1704);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1704);
 }
 
 void func_8009435C(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1722);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1722);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x04]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x04]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1726);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1726);
 }
 
 void func_800943C8(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1758);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1758);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x25]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x25]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1762);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1762);
 }
 
 void func_80094434(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1775);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1775);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x02]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x02]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1779);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1779);
 }
 
 Gfx* func_800944A0(Gfx* gfx) {
@@ -1163,23 +1107,19 @@ Gfx* func_800944A0(Gfx* gfx) {
 }
 
 void func_800944C4(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1799);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1799);
+    oGfxCtx->polyOpa.p = func_800944A0(oGfxCtx->polyOpa.p);
 
-    gfxCtx->polyOpa.p = func_800944A0(gfxCtx->polyOpa.p);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1801);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1801);
 }
 
 void func_80094520(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1809);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1809);
+    oGfxCtx->overlay.p = func_800944A0(oGfxCtx->overlay.p);
 
-    gfxCtx->overlay.p = func_800944A0(gfxCtx->overlay.p);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1811);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1811);
 }
 
 void func_8009457C(Gfx** gfxp) {
@@ -1189,33 +1129,27 @@ void func_8009457C(Gfx** gfxp) {
 }
 
 void func_800945A0(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1837);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1837);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x28]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x28]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1841);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1841);
 }
 
 void func_8009460C(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1853);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1853);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x29]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x29]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1857);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1857);
 }
 
 void func_80094678(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1869);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1869);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x2F]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x2F]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1873);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1873);
 }
 
 Gfx* func_800946E4(Gfx* gfx) {
@@ -1275,84 +1209,68 @@ Gfx* func_80094968(Gfx* gfx) {
 }
 
 void func_800949A8(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1953);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1953);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2A]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2A]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1957);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1957);
 }
 
 void func_80094A14(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1964);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1964);
+    gSPDisplayList(oGfxCtx->overlay.p++, &sSetupDL[6 * 0x2A]);
 
-    gSPDisplayList(gfxCtx->overlay.p++, &sSetupDL[6 * 0x2A]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1968);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1968);
 }
 
 void func_80094A80(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 1992);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1992);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x30]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x30]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1996);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1996);
 }
 
 void func_80094AEC(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2008);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2008);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x31]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x31]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2012);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2012);
 }
 
 void func_80094B58(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2024);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2024);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x1B]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x1B]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2028);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2028);
 }
 
 void func_80094BC4(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2040);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2040);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x3C]);
+    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_DISABLE);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x3C]);
-    gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2043);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2043);
 }
 
 void func_80094C50(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2056);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2056);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &sSetupDL[6 * 0x3D]);
 
-    gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x3D]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2058);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2058);
 }
 
 void func_80094CBC(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2086);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2086);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x38]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x38]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2090);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2090);
 }
 
 void func_80094D28(Gfx** gfxp) {
@@ -1362,13 +1280,11 @@ void func_80094D28(Gfx** gfxp) {
 }
 
 void func_80094D4C(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2112);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2112);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &sSetupDL[6 * 0x3B]);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x3B]);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2116);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2116);
 }
 
 Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
@@ -1448,30 +1364,27 @@ Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a) {
 }
 
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
-    Gfx* dispRefs[5];
-    s32 ret;
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2386);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2386);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sFillSetupDL);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, sFillSetupDL);
+    gSPDisplayList(oGfxCtx->overlay.p++, sFillSetupDL);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, sFillSetupDL);
-    gSPDisplayList(gfxCtx->polyXlu.p++, sFillSetupDL);
-    gSPDisplayList(gfxCtx->overlay.p++, sFillSetupDL);
+    gDPSetScissorFrac(oGfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissorFrac(oGfxCtx->polyXlu.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissorFrac(oGfxCtx->overlay.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
 
-    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
-    gDPSetScissorFrac(gfxCtx->polyXlu.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
-    gDPSetScissorFrac(gfxCtx->overlay.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
+    gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
+    gDPSetColorImage(oGfxCtx->polyXlu.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
+    gDPSetColorImage(oGfxCtx->overlay.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
 
-    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
-    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
-    gDPSetColorImage(gfxCtx->polyXlu.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
-    gDPSetColorImage(gfxCtx->overlay.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
-
-    gDPSetDepthImage(gfxCtx->polyOpa.p++, gZBuffer);
-    gDPSetDepthImage(gfxCtx->polyXlu.p++, gZBuffer);
-    gDPSetDepthImage(gfxCtx->overlay.p++, gZBuffer);
+    gDPSetDepthImage(oGfxCtx->polyOpa.p++, gZBuffer);
+    gDPSetDepthImage(oGfxCtx->polyXlu.p++, gZBuffer);
+    gDPSetDepthImage(oGfxCtx->overlay.p++, gZBuffer);
 
     if ((R_PAUSE_MENU_MODE < 2) && (gTrnsnUnkState < 2)) {
-        ret = ShrinkWindow_GetCurrentVal();
+        s32 ret = ShrinkWindow_GetCurrentVal();
 
         if (HREG(80) == 16) {
             if (HREG(95) != 16) {
@@ -1513,44 +1426,42 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
             }
         }
 
-        gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gZBuffer);
-        gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_FILL);
-        gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
-        gDPSetFillColor(gfxCtx->polyOpa.p++,
+        gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gZBuffer);
+        gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
+        gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
+        gDPSetFillColor(oGfxCtx->polyOpa.p++,
                         (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
-        gDPFillRectangle(gfxCtx->polyOpa.p++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
-        gDPPipeSync(gfxCtx->polyOpa.p++);
+        gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
 
-        gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
-        gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_FILL);
-        gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
-        gDPSetFillColor(gfxCtx->polyOpa.p++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
-        gDPFillRectangle(gfxCtx->polyOpa.p++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
-        gDPPipeSync(gfxCtx->polyOpa.p++);
+        gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
+        gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
+        gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
+        gDPSetFillColor(oGfxCtx->polyOpa.p++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
+        gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
 
         if (ret > 0) {
-            gDPPipeSync(gfxCtx->overlay.p++);
-            gDPSetCycleType(gfxCtx->overlay.p++, G_CYC_FILL);
-            gDPSetRenderMode(gfxCtx->overlay.p++, G_RM_NOOP, G_RM_NOOP2);
-            gDPSetFillColor(gfxCtx->overlay.p++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
-            gDPFillRectangle(gfxCtx->overlay.p++, 0, 0, gScreenWidth - 1, ret - 1);
-            gDPFillRectangle(gfxCtx->overlay.p++, 0, gScreenHeight - ret, gScreenWidth - 1, gScreenHeight - 1);
-            gDPPipeSync(gfxCtx->overlay.p++);
+            gDPPipeSync(oGfxCtx->overlay.p++);
+            gDPSetCycleType(oGfxCtx->overlay.p++, G_CYC_FILL);
+            gDPSetRenderMode(oGfxCtx->overlay.p++, G_RM_NOOP, G_RM_NOOP2);
+            gDPSetFillColor(oGfxCtx->overlay.p++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
+            gDPFillRectangle(oGfxCtx->overlay.p++, 0, 0, gScreenWidth - 1, ret - 1);
+            gDPFillRectangle(oGfxCtx->overlay.p++, 0, gScreenHeight - ret, gScreenWidth - 1, gScreenHeight - 1);
+            gDPPipeSync(oGfxCtx->overlay.p++);
         }
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2497);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2497);
 }
 
 void func_80095974(GraphicsContext* gfxCtx) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_rcp.c", 2503);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2503);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sFillSetupDL);
+    gDPSetScissorFrac(oGfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetDepthImage(oGfxCtx->polyOpa.p++, gZBuffer);
+    gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, sFillSetupDL);
-    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
-    gDPSetDepthImage(gfxCtx->polyOpa.p++, gZBuffer);
-    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
-
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2513);
+    CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2513);
 }

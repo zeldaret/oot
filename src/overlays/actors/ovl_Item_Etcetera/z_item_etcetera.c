@@ -49,7 +49,7 @@ static s16 sDrawItemIndexes[] = {
 
 static s16 sGetItemIds[] = {
     GI_BOTTLE,     GI_LETTER_RUTO, GI_SHIELD_HYLIAN, GI_QUIVER_40, GI_SCALE_SILVER, GI_SCALE_GOLD, GI_KEY_SMALL,
-    GI_ARROW_FIRE, GI_INVALID,     GI_INVALID,       GI_INVALID,   GI_INVALID,      GI_INVALID,    GI_INVALID,
+    GI_ARROW_FIRE, GI_NONE,        GI_NONE,          GI_NONE,      GI_NONE,         GI_NONE,       GI_NONE,
 };
 
 void ItemEtcetera_SetupAction(ItemEtcetera* this, ItemEtceteraActionFunc actionFunc) {
@@ -117,7 +117,7 @@ void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
 }
 
 void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == 1) {
             gSaveContext.eventChkInf[3] |= 2;
             Flags_SetSwitch(globalCtx, 0xB);
@@ -129,7 +129,7 @@ void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
 }
 
 void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
-    if (func_8002F410(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == 1) {
             gSaveContext.eventChkInf[3] |= 2;
             Flags_SetSwitch(globalCtx, 0xB);

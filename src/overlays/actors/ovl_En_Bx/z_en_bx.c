@@ -138,11 +138,11 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
                 (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
-                if (player->invincibilityTimer < -0x27) {
+                if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
                 } else {
                     player->invincibilityTimer = 0;
-                    globalCtx->unk_11D58(globalCtx, -4);
+                    globalCtx->damagePlayer(globalCtx, -4);
                 }
             }
             func_8002F71C(globalCtx, &this->actor, 6.0f, tmp32, 6.0f);
@@ -182,62 +182,47 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Issue with Gfx_TwoTexScroll I think
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
-    void* matrices = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
-    f32 tmpf1;
-    f32 tmpf2;
+    s32 pad;
+    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
+    s16 i;
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-        Mtx* matrix = &matrices[0];
-        s16 i;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bx.c", 464);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 464);
-        func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, matrices);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
-        gSPSegment(gfxCtx->polyOpa.p++, 0x09,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x10, 0x10, 1, 0,
-                                    (-globalCtx->gameplayFrames * 10) % 128, 0x20, 0x20));
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bx.c", 478),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, mtx);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0, (globalCtx->gameplayFrames * -10) % 128,
+                                32, 32));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bx.c", 478),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        if (this->actor.params & 0x80) {
-            func_809D1D0C(&this->actor, globalCtx);
-        }
-
-        this->unk_14E -= 0xBB8;
-        tmpf1 = Math_Coss(this->unk_14E);
-        tmpf1 = (tmpf1 * 0.0075f) + 0.015f;
-        thisx->scale.x = tmpf1;
-        thisx->scale.z = tmpf1;
-
-        for (i = 3; i >= 0; i--) {
-            tmpf2 = Math_Coss(this->unk_14E + ((i & 0xFF) * 8192));
-            tmpf2 = (tmpf2 * 0.0075f) + 0.015f;
-            this->unk_184[i].x = tmpf2;
-            this->unk_184[i].z = tmpf2;
-            this->unk_1B4[i].x = thisx->shape.rot.x;
-            this->unk_1B4[i].y = thisx->shape.rot.y;
-            this->unk_1B4[i].z = thisx->shape.rot.z;
-        }
-
-        for (i = 0; i < 4; i++, matrix++) {
-            Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
-            Matrix_RotateRPY(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
-            Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
-            Matrix_ToMtx(matrix, "../z_en_bx.c", 507);
-        }
-
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_060022F0);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 511);
+    if (this->actor.params & 0x80) {
+        func_809D1D0C(&this->actor, globalCtx);
     }
+
+    this->unk_14E -= 0xBB8;
+    thisx->scale.z = thisx->scale.x = (Math_Coss(this->unk_14E) * 0.0075f) + 0.015f;
+
+    for (i = 3; i >= 0; i--) {
+        s16 off = (0x2000 * i);
+        this->unk_184[i].z = this->unk_184[i].x = (Math_Coss(this->unk_14E + off) * 0.0075f) + 0.015f;
+        this->unk_1B4[i].x = thisx->shape.rot.x;
+        this->unk_1B4[i].y = thisx->shape.rot.y;
+        this->unk_1B4[i].z = thisx->shape.rot.z;
+    }
+
+    for (i = 0; i < 4; i++, mtx++) {
+        Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
+        Matrix_RotateRPY(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
+        Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
+        Matrix_ToMtx(mtx, "../z_en_bx.c", 507);
+    }
+
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060022F0);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bx.c", 511);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bx/EnBx_Draw.s")
-#endif

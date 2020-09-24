@@ -110,22 +110,21 @@ u32 Fault_ProcessClient(u32 callback, u32 param0, u32 param1) {
     return a.ret;
 }
 
-#ifdef NON_MATCHING
-// minor ordering differences
 void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* param1) {
     OSIntMask mask;
-    u32 alreadyExists = false;
-    FaultClient* iter;
+    s32 alreadyExists = false;
 
     mask = osSetIntMask(1);
 
-    iter = sFaultStructPtr->clients;
-    while (iter != NULL) {
-        if (iter == client) {
-            alreadyExists = true;
-            goto end;
+    {
+        FaultClient* iter = sFaultStructPtr->clients;
+        while (iter != NULL) {
+            if (iter == client) {
+                alreadyExists = true;
+                goto end;
+            }
+            iter = iter->next;
         }
-        iter = iter->next;
     }
 
     client->callback = callback;
@@ -140,9 +139,6 @@ end:
         osSyncPrintf(VT_COL(RED, WHITE) "fault_AddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddClient.s")
-#endif
 
 void Fault_RemoveClient(FaultClient* client) {
     FaultClient* iter;
@@ -182,22 +178,21 @@ void Fault_RemoveClient(FaultClient* client) {
     }
 }
 
-#ifdef NON_MATCHING
-// minor ordering differences
 void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* param) {
-    FaultAddrConvClient* iter;
-    u32 alreadyExists = false;
     OSIntMask mask;
+    u32 alreadyExists = false;
 
     mask = osSetIntMask(1);
 
-    iter = sFaultStructPtr->addrConvClients;
-    while (iter != NULL) {
-        if (iter == client) {
-            alreadyExists = true;
-            goto end;
+    {
+        FaultAddrConvClient* iter = sFaultStructPtr->addrConvClients;
+        while (iter != NULL) {
+            if (iter == client) {
+                alreadyExists = true;
+                goto end;
+            }
+            iter = iter->next;
         }
-        iter = iter->next;
     }
 
     client->callback = callback;
@@ -211,9 +206,6 @@ end:
         osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddAddrConvClient.s")
-#endif
 
 void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     FaultAddrConvClient* iter;
@@ -536,21 +528,21 @@ void Fault_Wait5Seconds(void) {
     sFaultStructPtr->faultActive = true;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Fault_WaitForButtonCombo() {
     Input* curInput = &sFaultStructPtr->padInput;
-    Input** curInputPtr = &curInput;
     s32 state;
     u32 s1;
     u32 s2;
     u32 kDown;
     u32 kCur;
 
+    if (1) {}
+    if (1) {}
+
     osSyncPrintf(
         VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
-            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE)
-            VT_RST "\n");
+            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
+                                                                                                                                                     "\n");
     osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
         WHITE) ")" VT_RST "\n");
 
@@ -568,10 +560,8 @@ void Fault_WaitForButtonCombo() {
         kDown = curInput->press.in.button;
         kCur = curInput->cur.in.button;
 
-        if (kCur == 0) {
-            if (s1 == s2) {
-                s1 = 0;
-            }
+        if ((kCur == 0) && (s1 == s2)) {
+            s1 = 0;
         } else if (kDown != 0) {
             if (s1 == s2) {
                 state = 0;
@@ -682,9 +672,6 @@ void Fault_WaitForButtonCombo() {
         osWritebackDCacheAll();
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WaitForButtonCombo.s")
-#endif
 
 void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     u32* alignedAddr;
@@ -719,12 +706,10 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     FaultDrawer_SetCharPad(0, 0);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
     Input* curInput = &sFaultStructPtr->padInput;
     u32 addr = pc;
-    u32 count;
+    s32 count;
     u32 off;
 
     do {
@@ -766,34 +751,33 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         if (CHECK_PAD(curInput->cur, Z_TRIG)) {
             off = 0x100;
         }
+
         if (CHECK_PAD(curInput->cur, B_BUTTON)) {
             off <<= 8;
         }
-        if (CHECK_PAD(curInput->cur, U_JPAD)) {
+
+        if (CHECK_PAD(curInput->press, U_JPAD)) {
             addr -= off;
         }
-        if (CHECK_PAD(curInput->cur, D_JPAD)) {
+        if (CHECK_PAD(curInput->press, D_JPAD)) {
             addr += off;
         }
-        if (CHECK_PAD(curInput->cur, U_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, U_CBUTTONS)) {
             addr = pc;
         }
-        if (CHECK_PAD(curInput->cur, D_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, D_CBUTTONS)) {
             addr = sp;
         }
-        if (CHECK_PAD(curInput->cur, L_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, L_CBUTTONS)) {
             addr = unk0;
         }
-        if (CHECK_PAD(curInput->cur, R_CBUTTONS)) {
+        if (CHECK_PAD(curInput->press, R_CBUTTONS)) {
             addr = unk1;
         }
-    } while (!CHECK_PAD(curInput->cur, L_TRIG));
+    } while (!CHECK_PAD(curInput->press, L_TRIG));
 
     sFaultStructPtr->faultActive = true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawMemDump.s")
-#endif
 
 void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
     u32 sp = *spPtr;
@@ -923,7 +907,7 @@ void Fault_CommitFB() {
     }
 
     osViSwapBuffer(fb);
-    FaultDrawer_SetDrawerFB(fb, 0x140, 0xf0);
+    FaultDrawer_SetDrawerFB(fb, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void Fault_ProcessClients(void) {

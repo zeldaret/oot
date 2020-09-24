@@ -1028,8 +1028,8 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
-    this->unk_278 = Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                        0, yawTowardsLink, 0, 5);
+    this->unk_278 = Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
+                                       0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1577,7 +1577,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
             this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
         dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
         if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (dynaActor->actor.params == 0) &&
-            (!func_8008E988(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
+            (!Player_InCsMode(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
@@ -1595,7 +1595,7 @@ void func_80AEE488(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     s8 curRoomNum;
 
-    if (func_8002F410(thisx, globalCtx)) {
+    if (Actor_HasParent(thisx, globalCtx)) {
         curRoomNum = globalCtx->roomCtx.curRoom.num;
         this->roomNum3 = curRoomNum;
         this->action = 31;
@@ -1641,7 +1641,7 @@ s32 func_80AEE6D0(EnRu1* this, GlobalContext* globalCtx) {
     s8 curRoomNum = globalCtx->roomCtx.curRoom.num;
 
     if ((!(gSaveContext.infTable[20] & 0x10)) && (func_80AEB124(globalCtx) != 0)) {
-        if (func_8008E988(globalCtx) == 0) {
+        if (!Player_InCsMode(globalCtx)) {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004648, 1.0f, 0,
                                  SkelAnime_GetFrameCount(&D_06004350.genericHeader), 0, -8.0f);
             func_80AED600(this);
@@ -1663,7 +1663,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
     Player* player;
     f32* unk_370 = &this->unk_370;
 
-    if (func_8002F5A0(this, globalCtx)) {
+    if (Actor_HasNoParent(this, globalCtx)) {
         frameCount = SkelAnime_GetFrameCount(&D_06006B9C.genericHeader);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06006B9C, 1.0f, 0, frameCount, 0, -8.0f);
         func_80AED6DC(this, globalCtx);
@@ -2358,22 +2358,23 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     s16 temp2 = this->unk_260;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 addr2 = D_80AF0870[temp2];
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad1;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1282);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1282);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
-    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
+    oGfxCtx->polyOpa.p =
+        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
 
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
@@ -2383,22 +2384,23 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     s16 temp2 = this->unk_260;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 addr2 = D_80AF0870[temp2];
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad1;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1324);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1324);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->unk_2A8);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_2A8);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnRu1_OverrideLimbDraw, NULL, &this->actor, gfxCtx->polyXlu.p);
+    oGfxCtx->polyXlu.p =
+        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnRu1_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }
 
 void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {

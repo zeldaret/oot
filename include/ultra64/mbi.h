@@ -49,8 +49,6 @@
 #define _SHIFTR(v, s, w)	\
     ((unsigned int)(((unsigned int)(v) >> (s)) & ((0x01 << (w)) - 1)))
 
-#define _SHIFT _SHIFTL	/* old, for compatibility only */
-
 #define G_ON	(1)
 #define G_OFF	(0)
 

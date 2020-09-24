@@ -10,7 +10,7 @@ glabel func_8006F0FC
 /* AE62BC 8006F11C 84A5FD80 */   lh    $a1, %lo(D_8015FD80)($a1)
 /* AE62C0 8006F120 3C018012 */  lui   $at, %hi(D_8011FB44) # $at, 0x8012
 /* AE62C4 8006F124 A422FB44 */  sh    $v0, %lo(D_8011FB44)($at)
-/* AE62C8 8006F128 0C01EA6D */  jal   func_8007A9B4
+/* AE62C8 8006F128 0C01EA6D */  jal   Lights_GlowCheck
 /* AE62CC 8006F12C 8FA4001C */   lw    $a0, 0x1c($sp)
 /* AE62D0 8006F130 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AE62D4 8006F134 27BD0018 */  addiu $sp, $sp, 0x18

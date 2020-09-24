@@ -10,7 +10,7 @@ static u32 sRandFloat;
 /**
  * Gets the next integer in the sequence of pseudo-random numbers.
  */
-u32 Math_Rand_Next() {
+u32 Math_Rand_Next(void) {
     return sRandInt = (sRandInt * 1664525) + 1013904223;
 }
 
@@ -26,7 +26,7 @@ void Math_Rand_Seed(u32 seed) {
  * the next integer and masking it to an IEEE-754 compliant floating-point number
  * between 1.0f and 2.0f, returning the result subtract 1.0f.
  */
-f32 Math_Rand_ZeroOne() {
+f32 Math_Rand_ZeroOne(void) {
     sRandInt = (sRandInt * 1664525) + 1013904223;
     sRandFloat = ((sRandInt >> 9) | 0x3F800000);
     return *((f32*)&sRandFloat) - 1.0f;
@@ -36,7 +36,7 @@ f32 Math_Rand_ZeroOne() {
  * Returns a pseudo-random floating-point number between -0.5f and 0.5f by the same
  * manner in which Math_Rand_ZeroOne generates its result.
  */
-f32 Math_Rand_Centered() {
+f32 Math_Rand_Centered(void) {
     sRandInt = (sRandInt * 1664525) + 1013904223;
     sRandFloat = ((sRandInt >> 9) | 0x3F800000);
     return *((f32*)&sRandFloat) - 1.5f;

@@ -93,7 +93,7 @@ extern AnimationHeader D_06009244;
 
 void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
-    GlobalContext* gctx = globalCtx;
+    GlobalContext* globalCtx2 = globalCtx;
     s32 invisble;
     s32 pad;
 
@@ -120,28 +120,28 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = EnFloormas_SmWait;
     } else {
         // spawn first small floormaster
-        this->actor.attachedA =
-            Actor_Spawn(&gctx->actorCtx, gctx, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                        this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
-        if (this->actor.attachedA == NULL) {
+        this->actor.parent =
+            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
+        if (this->actor.parent == NULL) {
             Actor_Kill(&this->actor);
             return;
         }
         // spawn 2nd small floormaster
-        this->actor.attachedB =
-            Actor_Spawn(&gctx->actorCtx, gctx, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                        this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
-        if (this->actor.attachedB == NULL) {
-            Actor_Kill(this->actor.attachedA);
+        this->actor.child =
+            Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_FLOORMAS, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, invisble + SPAWN_SMALL);
+        if (this->actor.child == NULL) {
+            Actor_Kill(this->actor.parent);
             Actor_Kill(&this->actor);
             return;
         }
 
         // link floormasters together
-        this->actor.attachedA->attachedB = &this->actor;
-        this->actor.attachedA->attachedA = this->actor.attachedB;
-        this->actor.attachedB->attachedA = &this->actor;
-        this->actor.attachedB->attachedB = this->actor.attachedA;
+        this->actor.parent->child = &this->actor;
+        this->actor.parent->parent = this->actor.child;
+        this->actor.child->parent = &this->actor;
+        this->actor.child->child = this->actor.parent;
         EnFloormas_SetupBigDecideAction(this);
     }
 }
@@ -256,8 +256,8 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     } else {
         this->actor.draw = EnFloormas_Draw;
     }
-    this->actor.shape.rot.y = this->actor.attachedA->shape.rot.y + 0x5555;
-    this->actor.posRot.pos = this->actor.attachedA->posRot.pos;
+    this->actor.shape.rot.y = this->actor.parent->shape.rot.y + 0x5555;
+    this->actor.posRot.pos = this->actor.parent->posRot.pos;
     this->actor.params = 0x10;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC), 2, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
@@ -342,13 +342,13 @@ void EnFloormas_SetupMerge(EnFloormas* this) {
 }
 
 void EnFloormas_SetupSmWait(EnFloormas* this) {
-    EnFloormas* attachedA = (EnFloormas*)this->actor.attachedA;
-    EnFloormas* attachedB = (EnFloormas*)this->actor.attachedB;
+    EnFloormas* parent = (EnFloormas*)this->actor.parent;
+    EnFloormas* child = (EnFloormas*)this->actor.child;
 
     // if this is the last remaining small floor master, kill all.
-    if ((attachedA->actionFunc == EnFloormas_SmWait) && (attachedB->actionFunc == EnFloormas_SmWait)) {
-        Actor_Kill(&attachedA->actor);
-        Actor_Kill(&attachedB->actor);
+    if ((parent->actionFunc == EnFloormas_SmWait) && (child->actionFunc == EnFloormas_SmWait)) {
+        Actor_Kill(&parent->actor);
+        Actor_Kill(&child->actor);
         Actor_Kill(&this->actor);
         return;
     }
@@ -398,8 +398,8 @@ void EnFloormas_Die(EnFloormas* this, GlobalContext* globalCtx) {
     if (this->actor.scale.x > 0.004f) {
         // split
         this->actor.shape.rot.y = this->actor.yawTowardsLink + 0x8000;
-        EnFloormas_SetupSplit((EnFloormas*)this->actor.attachedB);
-        EnFloormas_SetupSplit((EnFloormas*)this->actor.attachedA);
+        EnFloormas_SetupSplit((EnFloormas*)this->actor.child);
+        EnFloormas_SetupSplit((EnFloormas*)this->actor.parent);
         EnFloormas_SetupSplit(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SPLIT);
     } else {
@@ -678,10 +678,10 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == MERGE_SLAVE) {
-        if (this->actor.attachedA->params == MERGE_MASTER) {
-            primaryFloormas = this->actor.attachedA;
-        } else if (this->actor.attachedB->params == MERGE_MASTER) {
-            primaryFloormas = this->actor.attachedB;
+        if (this->actor.parent->params == MERGE_MASTER) {
+            primaryFloormas = this->actor.parent;
+        } else if (this->actor.child->params == MERGE_MASTER) {
+            primaryFloormas = this->actor.child;
         } else {
             this->actor.params = 0x10;
             return;
@@ -721,17 +721,17 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
-    } else if ((this->actor.yDistFromLink < -10.0f) && this->collider.base.maskA & 2 &&
+    } else if ((this->actor.yDistFromLink < -10.0f) && (this->collider.base.maskA & 2) &&
                (&player->actor == this->collider.base.oc)) {
-        globalCtx->unk_11D4C(globalCtx, player);
+        globalCtx->grabPlayer(globalCtx, player);
         EnFloormas_SetupGrabLink(this, player);
     }
 }
 
 void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    EnFloormas* attachedA;
-    EnFloormas* attachedB;
+    EnFloormas* parent;
+    EnFloormas* child;
     f32 yDelta;
     f32 xzDelta;
 
@@ -761,14 +761,14 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
 
     // let go
     if (!(player->stateFlags2 & 0x80) || (player->invincibilityTimer < 0)) {
-        attachedA = this->actor.attachedA;
-        attachedB = this->actor.attachedB;
+        parent = this->actor.parent;
+        child = this->actor.child;
 
-        if (((attachedA->actionFunc == EnFloormas_GrabLink) || attachedA->actionFunc == EnFloormas_SmWait) &&
-            (attachedB->actionFunc == EnFloormas_GrabLink || attachedB->actionFunc == EnFloormas_SmWait)) {
+        if (((parent->actionFunc == EnFloormas_GrabLink) || parent->actionFunc == EnFloormas_SmWait) &&
+            (child->actionFunc == EnFloormas_GrabLink || child->actionFunc == EnFloormas_SmWait)) {
 
-            attachedA->actor.params = MERGE_SLAVE;
-            attachedB->actor.params = MERGE_SLAVE;
+            parent->actor.params = MERGE_SLAVE;
+            child->actor.params = MERGE_SLAVE;
             this->actor.params = MERGE_MASTER;
         }
 
@@ -785,7 +785,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
             } else {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S);
             }
-            globalCtx->unk_11D58(globalCtx, -8);
+            globalCtx->damagePlayer(globalCtx, -8);
         }
     }
 
@@ -796,10 +796,10 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
     Actor* primFloormas;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (this->actor.attachedA->params == MERGE_MASTER) {
-        primFloormas = this->actor.attachedA;
-    } else if (this->actor.attachedB->params == MERGE_MASTER) {
-        primFloormas = this->actor.attachedB;
+    if (this->actor.parent->params == MERGE_MASTER) {
+        primFloormas = this->actor.parent;
+    } else if (this->actor.child->params == MERGE_MASTER) {
+        primFloormas = this->actor.child;
     } else {
         if (this->actor.bgCheckFlags & 2) {
             this->actor.params = 0x10;
@@ -830,8 +830,8 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
 }
 
 void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
-    EnFloormas* attachedA;
-    EnFloormas* attachedB;
+    EnFloormas* parent;
+    EnFloormas* child;
     s32 mergeCnt;
     f32 prevScale;
     f32 curScale;
@@ -840,23 +840,23 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
 
     DECR(this->smActionTimer);
 
-    attachedA = this->actor.attachedA;
-    attachedB = this->actor.attachedB;
+    parent = this->actor.parent;
+    child = this->actor.child;
 
     if (this->smActionTimer == 0) {
-        if (attachedA->actionFunc != EnFloormas_SmWait) {
-            EnFloormas_SetupSmShrink(attachedA, globalCtx);
+        if (parent->actionFunc != EnFloormas_SmWait) {
+            EnFloormas_SetupSmShrink(parent, globalCtx);
         }
 
-        if (attachedB->actionFunc != EnFloormas_SmWait) {
-            EnFloormas_SetupSmShrink(attachedB, globalCtx);
+        if (child->actionFunc != EnFloormas_SmWait) {
+            EnFloormas_SetupSmShrink(child, globalCtx);
         }
     } else {
-        if ((attachedA->actionFunc != EnFloormas_SmWait) && (attachedA->actionFunc != EnFloormas_SmShrink)) {
+        if ((parent->actionFunc != EnFloormas_SmWait) && (parent->actionFunc != EnFloormas_SmShrink)) {
             mergeCnt++;
         }
 
-        if ((attachedB->actionFunc != EnFloormas_SmWait) && (attachedB->actionFunc != EnFloormas_SmShrink)) {
+        if ((child->actionFunc != EnFloormas_SmWait) && (child->actionFunc != EnFloormas_SmShrink)) {
             mergeCnt++;
         }
     }
@@ -1075,40 +1075,39 @@ static Color_RGBA8 sMergeColor = { 0x00, 0xFF, 0x00, 0x00 };
 
 void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfx[4];
-    s32 pad;
 
-    Graph_OpenDisps(gfx, globalCtx->state.gfxCtx, "../z_en_floormas.c", 2318);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2318);
+
     func_80093D18(globalCtx->state.gfxCtx);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026230(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
 
-    gfxCtx->polyOpa.p =
+    oGfxCtx->polyOpa.p =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
+                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026608(globalCtx);
     }
-    Graph_CloseDisps(gfx, globalCtx->state.gfxCtx, "../z_en_floormas.c", 2340);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2340);
 }
 
 void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfx[4];
 
-    Graph_OpenDisps(gfx, globalCtx->state.gfxCtx, "../z_en_floormas.c", 2352);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2352);
+
     func_80093D84(globalCtx->state.gfxCtx);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026690(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
-    gfxCtx->polyXlu.p =
+    oGfxCtx->polyXlu.p =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, gfxCtx->polyXlu.p);
+                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, oGfxCtx->polyXlu.p);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026A6C(globalCtx);
     }
-    Graph_CloseDisps(gfx, globalCtx->state.gfxCtx, "../z_en_floormas.c", 2374);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2374);
 }
