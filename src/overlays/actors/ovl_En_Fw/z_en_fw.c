@@ -191,23 +191,12 @@ void func_80A1EC70(EnFw *this, GlobalContext *globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_80A1ECD4(EnFw *this, GlobalContext *globalCtx) {
-    f32 sp5C;
-    Vec3f sp48;
-    SkelAnime *sp3C;
-    EnBom *bomb;
-    SkelAnime *temp_a0;
-    f32 *temp_a0_2;
-    f32 *temp_a0_3;
     f32 temp_f0;
-    s16 temp_v0_3;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    s32 temp_v0_4;
-    EnFd *flareDancer;
     s16 phi_v0;
-    s16 phi_v0_2;
+    f32 sp5C;
+    EnBom *bomb;
+    EnFd *flareDancer;
 
     Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (this->skelAnime.animCurrentSeg == &D_06006CF8) {
@@ -250,7 +239,7 @@ void func_80A1ECD4(EnFw *this, GlobalContext *globalCtx) {
                 return;
             }
         } else {
-            if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0) {
+            if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0.0f) {
                 func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->unk_208);
                 return;
             }
@@ -265,53 +254,53 @@ void func_80A1ECD4(EnFw *this, GlobalContext *globalCtx) {
             Math_SmoothScaleMaxMinF(&this->unk_218, 200.0f, 0.3f, 100.0f, 0.0f);
             if (this->unk_214 != 0) {
                 Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
-                phi_v0 = this->actor.posRot.rot.y ^ 0x8000;
+                temp_f0 = (s16)(this->actor.posRot.rot.y ^ 0x8000);
                 sp5C = this->actor.shape.rot.y;
-                temp_f0 = Math_SmoothScaleMaxMinF(&sp5C, phi_v0, 0.1f, 10000.0f, 0.0f);
+                temp_f0 = Math_SmoothScaleMaxMinF(&sp5C, temp_f0, 0.1f, 10000.0f, 0.0f);
                 this->actor.shape.rot.y = sp5C;
                 if (!(5460.0f < temp_f0)) {
                     this->unk_214 = 0;
                 } else {
-                    func_80A1E760(&sp48, this, this->unk_218, this->unk_202);
-                    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(sp48.x, sp48.z) * 10430.378f), 4, 0xFA0, 1);
+                    return;
                 }
-                this->actor.posRot.rot = this->actor.shape.rot;
+            } else {
+                Vec3f sp48;
+                func_80A1E760(&sp48, this, this->unk_218, this->unk_202);
+                Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(sp48.x, sp48.z) * 10430.378f), 4, 0xFA0, 1);
+            }
+            this->actor.posRot.rot = this->actor.shape.rot;
+            if (this->unk_20E == 0) {
+                if (func_80A1E668(this, globalCtx)) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SURP);
+                    this->unk_210 = 8;
+                    this->unk_20E = 8;
+                }
+            }
+            if (this->unk_20E != 0) {
+                if (DECR(this->unk_210) == 0) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SLIDE);
+                    this->unk_210 = 4;
+                }
+                Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
+                this->skelAnime.animPlaybackSpeed = 0.0f;
+                func_80A1E8F8(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
+                this->unk_20E--;
                 if (this->unk_20E == 0) {
-                    if (func_80A1E668(this, globalCtx)) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SURP);
-                        this->unk_210 = 8;
-                        this->unk_20E = 8;
-                    }
+                    this->unk_214 = 1;
+                    this->unk_202 = -this->unk_202;
+                    return;
                 }
-                if (this->unk_20E != 0) {
-                    if (DECR(this->unk_210) == 0) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_SLIDE);
-                        this->unk_210 = 4;
-                    }
-                    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 1.0f, 0.0f);
-                    this->skelAnime.animPlaybackSpeed = 0.0f;
-                    func_80A1E8F8(this, 8, 0.16f, 0.2f, 3, 8.0f, 20.0f, ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f);
-                    this->unk_20E--;
-                    if (this->unk_20E == 0) {
-                        this->unk_214 = 1;
-                        this->unk_202 = -this->unk_202;
-                        return;
-                    }
-                } else {
-                    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
-                    phi_v0 = this->skelAnime.animCurrentFrame;
-                    if (phi_v0 == 1 || phi_v0 == 4) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
-                        func_80A1E8F8(this, 8, 0.16f, 0.1f, 1, 0.0f, 20.0f, 0.0f);
-                    }
+            } else {
+                Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
+                phi_v0 = this->skelAnime.animCurrentFrame;
+                if (phi_v0 == 1 || phi_v0 == 4) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
+                    func_80A1E8F8(this, 8, 0.16f, 0.1f, 1, 0.0f, 20.0f, 0.0f);
                 }
             }
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fw/func_80A1ECD4.s")
-#endif
 
 void func_80A1F2A8(EnFw *this, GlobalContext *globalCtx) {
     s16 sp36;
