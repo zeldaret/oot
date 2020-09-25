@@ -64,7 +64,7 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
 
         if (npcAction0 != NULL) {
             if (npcAction0->action == 2) {
-                if ((this->unk_14C & 1) == 0) {
+                if (!(this->unk_14C & 1)) {
                     this->unk_14E = npcAction0->startPos.x;
                 }
                 this->unk_14C |= 1;
@@ -79,7 +79,7 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx) {
 
         if (npcAction1 != NULL) {
             if (npcAction1->action == 2) {
-                if ((this->unk_14C & 2) == 0) {
+                if (!(this->unk_14C & 2)) {
                     this->unk_14E = npcAction1->startPos.x;
                 }
                 this->unk_14C |= 2;
