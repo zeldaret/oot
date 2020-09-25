@@ -10,6 +10,8 @@
 
 #define THIS ((BgSpot03Taki*)thisx)
 
+void func_808ADAE0(BgSpot03Taki* this, s32 arg0);
+
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -40,8 +42,17 @@ extern Vtx* D_06000990[];
 extern Gfx* D_06000B20[];
 extern Gfx* D_06001580[];
 
-// Not decompiled yet.
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADAE0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/func_808ADAE0.s")
+void func_808ADAE0(BgSpot03Taki* this, s32 arg0) {
+    Vtx* vtx = (arg0 == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
+    vtx = PHYSICAL_TO_VIRTUAL(vtx);
+
+    vtx[10].v.cn[3] = this->unk_170;
+    vtx[10].v.cn[3] = this->unk_170;
+    vtx[11].v.cn[3] = this->unk_170;
+    vtx[12].v.cn[3] = this->unk_170;
+    vtx[13].v.cn[3] = this->unk_170;
+}
 
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot03Taki* this = THIS;
