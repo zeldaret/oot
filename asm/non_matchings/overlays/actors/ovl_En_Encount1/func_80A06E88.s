@@ -58,7 +58,7 @@ glabel func_80A06E88
 /* 00808 80A06F28 8F39E670 */  lw      $t9, %lo(gSaveContext+0x10)($t9)
 /* 0080C 80A06F2C 13200006 */  beq     $t9, $zero, .L80A06F48     
 /* 00810 80A06F30 00000000 */  nop
-/* 00814 80A06F34 0C023C20 */  jal     func_8008F080              
+/* 00814 80A06F34 0C023C20 */  jal     Player_GetMask              
 /* 00818 80A06F38 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 0081C 80A06F3C 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 00820 80A06F40 54410004 */  bnel    $v0, $at, .L80A06F54       

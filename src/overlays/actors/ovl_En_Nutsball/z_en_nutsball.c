@@ -90,14 +90,15 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         (this->collider.base.acFlags & 2) || (this->collider.base.maskA & 2)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
-        if ((player->currentShield == 1) || ((player->currentShield == 2) && LINK_IS_ADULT)) {
+        if ((player->currentShield == PLAYER_SHIELD_DEKU) ||
+            ((player->currentShield == PLAYER_SHIELD_HYLIAN) && LINK_IS_ADULT)) {
             if ((this->collider.base.atFlags & 2) && (this->collider.base.atFlags & 0x10) &&
                 (this->collider.base.atFlags & 4)) {
                 this->collider.base.atFlags &= ~0x16;
                 this->collider.base.atFlags |= 0x08;
 
                 this->collider.body.toucher.flags = 2;
-                func_800D20CC(&player->mf_A20, &sp4C, 0);
+                func_800D20CC(&player->shieldMf, &sp4C, 0);
                 this->actor.posRot.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;
                 return;
