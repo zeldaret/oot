@@ -9,8 +9,14 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx);
+void func_80A1F708(EnFw* this);
+void func_80A1F814(EnFw* this, GlobalContext* globalCtx);
+void func_80A1F664(EnFw *this, Vec3f *initialPos, Vec3f *initialSpeed, Vec3f *accel, u8 initialTimer, f32 scale, f32 scaleSpeed);
+void func_80A1EC70(EnFw* this, GlobalContext* globalCtx);
+void func_80A1ECD4(EnFw* this, GlobalContext* globalCtx);
+void func_80A1F39C(EnFw* this, GlobalContext* globalCtx);
+void func_80A1F2A8(EnFw* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit En_Fw_InitVars = {
     ACTOR_EN_FW,
     ACTORTYPE_ENEMY,
@@ -22,7 +28,6 @@ const ActorInit En_Fw_InitVars = {
     (ActorFunc)EnFw_Update,
     (ActorFunc)EnFw_Draw,
 };
-*/
 
 static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
@@ -36,6 +41,21 @@ static ColliderJntSphInit sJntSphInit =
     { COLTYPE_UNK6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
     1, sJntSphItemsInit,
 };
+
+static CollisionCheckInfoInit2 D_80A1FB94 = {
+    0x08, 0x0002, 0x0019, 0x0019, 0xFF
+};
+
+struct_80034EC0_Entry D_80A1FBA0[] = {
+    { 0x06006CF8, 0.0f, 0.0f, -1.0f, 0x03, 0.0f },
+    { 0x06007CD0, 1.0f, 0.0f, -1.0f, 0x03, -8.0f },
+    { 0x06007DC8, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
+};
+
+extern SkeletonHeader D_06007C30;
+extern Gfx D_06007928[];
+extern Gfx D_06007938[];
+extern AnimationHeader D_06006CF8;
 
 s32 func_80A1E5A0(EnFw *this, s32 arg1, f32 arg2) {
     s16 temp_v1;
@@ -120,8 +140,6 @@ s32 func_80A1E838(EnFw *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A1F664(EnFw*,Vec3f*,Vec3f*,Vec3f*,u8,f32,f32);
-
 s32 func_80A1E8F8(EnFw *this, u8 arg1, f32 arg2, f32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     Vec3f sp9C = { 0.0f, 0.0f, 0.0f };
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
@@ -145,25 +163,6 @@ s32 func_80A1E8F8(EnFw *this, u8 arg1, f32 arg2, f32 arg3, s32 arg4, f32 arg5, f
     }
     return 0;
 }
-
-extern SkeletonHeader D_06007C30;
-
-/* .word 0x06006CF8, 0x00000000, 0x00000000, 0xBF800000, 0x03000000, 0x00000000, 
-0x06007CD0, 0x3F800000, 0x00000000, 0xBF800000, 0x03000000, 0xC1000000, 
-0x06007DC8, 0x3F800000, 0x00000000, 0xBF800000, 0x01000000, 0xC1000000*/
-
-static struct_80034EC0_Entry D_80A1FBA0[] = {
-    { 0x06006CF8, 0.0f, 0.0f, -1.0f, 0x03, 0.0f },
-    { 0x06007CD0, 1.0f, 0.0f, -1.0f, 0x03, -8.0f },
-    { 0x06007DC8, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
-};
-
-static CollisionCheckInfoInit2 D_80A1FB94 = {
-    0x08, 0x0002, 0x0019, 0x0019, 0xFF
-};
-
-void func_80A1EC70(EnFw* this, GlobalContext* globalCtx);
-void func_80A1ECD4(EnFw* this, GlobalContext* globalCtx);
 
 void EnFw_Init(Actor *thisx, GlobalContext *globalCtx) {
     EnFw* this = THIS;
@@ -192,8 +191,6 @@ void func_80A1EC70(EnFw *this, GlobalContext *globalCtx) {
     }
 }
 
-extern AnimationHeader D_06006CF8;
-void func_80A1F2A8(EnFw* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
 void func_80A1ECD4(EnFw *this, GlobalContext *globalCtx) {
     f32 sp5C;
@@ -316,8 +313,6 @@ void func_80A1ECD4(EnFw *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fw/func_80A1ECD4.s")
 #endif
 
-void func_80A1F39C(EnFw* this, GlobalContext* globalCtx);
-
 void func_80A1F2A8(EnFw *this, GlobalContext *globalCtx) {
     s16 sp36;
 
@@ -357,14 +352,25 @@ void EnFw_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A1F708(EnFw* this);
-void func_80A1F814(EnFw* this, GlobalContext* globalCtx);
+s32 func_80A1F52C(GlobalContext *globalContext, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx) {
+    return 0;
+}
 
-s32 func_80A1F52C(GlobalContext* globalContext, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fw/func_80A1F52C.s")
+void func_80A1F544(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, void *thisx) {
+    EnFw* this = THIS;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    
 
-void func_80A1F544(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fw/func_80A1F544.s")
+    if (limbIndex == 2) {
+        Matrix_MultVec3f(&zeroVec, &this->unk_1F4);
+    }
+
+    if (limbIndex == 3) {
+        limbIndex = limbIndex;
+        Matrix_MultVec3f(&zeroVec, &this->actor.posRot2.pos);
+    }
+    func_800628A4(limbIndex, &this->collider);
+}
 
 void EnFw_Draw(Actor *thisx, GlobalContext *globalCtx) {
     EnFw* this = THIS;
@@ -377,7 +383,23 @@ void EnFw_Draw(Actor *thisx, GlobalContext *globalCtx) {
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80A1F52C, func_80A1F544, this);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fw/func_80A1F664.s")
+void func_80A1F664(EnFw *this, Vec3f *initialPos, Vec3f *initialSpeed, Vec3f *accel, u8 initialTimer, f32 scale, f32 scaleSpeed) {
+    EnFdPart* part = this->particles;
+    s16 i;
+
+    for(i = 0; i < ARRAY_COUNT(this->particles); i++, part++){
+        if(part->type != 1){
+            part->scale = scale;
+            part->scaleSpeed = scaleSpeed;
+            part->initialTimer = part->timer = initialTimer;
+            part->type = 1;
+            part->pos = *initialPos;
+            part->accel = *accel;
+            part->speed = *initialSpeed;
+            return;
+        }
+    }
+}
 
 void func_80A1F708(EnFw *this) {
     EnFdPart *part = this->particles;
@@ -400,23 +422,22 @@ void func_80A1F708(EnFw *this) {
         }
     }
 }
-extern Gfx D_06007928[];
-extern Gfx D_06007938[];
-static Gfx* D_80A1FC18[] = {
-     0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 
-     0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0,
-};
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fw/func_80A1F814.s")
 void func_80A1F814(EnFw *this, GlobalContext *globalCtx) {
-    s32 phi_s7;
+    static Gfx* D_80A1FC18[] = {
+        0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 
+        0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0,
+    };
     EnFdPart* part = this->particles;
+    s16 phi_s7;
+    s16 alpha;
     s16 i;
     s16 idx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fw.c", 0x4A7);
-    func_80093D84(globalCtx->state.gfxCtx);
     phi_s7 = 0;
+    func_80093D84(globalCtx->state.gfxCtx);
+    if(1){}
     for(i = 0; i < ARRAY_COUNT(this->particles); i++, part++){
         if (part->type != 0) {
             if (phi_s7 == 0) {
@@ -425,7 +446,8 @@ void func_80A1F814(EnFw *this, GlobalContext *globalCtx) {
                 gDPSetEnvColor(oGfxCtx->polyXlu.p++, 100, 60, 20, 0);
                 phi_s7 = 1;
             }
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, part->timer * (255.0f / part->initialTimer));
+            alpha = part->timer * (255.0f / part->initialTimer);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, alpha);
             gDPPipeSync(oGfxCtx->polyXlu.p++);
             Matrix_Translate(part->pos.x, part->pos.y, part->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
