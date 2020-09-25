@@ -1485,8 +1485,11 @@ endseg
 beginseg
     name "ovl_Boss_Mo"
     include "build/src/overlays/actors/ovl_Boss_Mo/z_boss_mo.o"
-    //include "build/src/overlays/actors/ovl_Boss_Mo/ovl_Boss_Mo_reloc.o"
+    #ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Mo/ovl_Boss_Mo_reloc.o"
+    #else
     include "build/data/overlays/actors/z_boss_mo.reloc.o"
+    #endif
 endseg
 
 beginseg
