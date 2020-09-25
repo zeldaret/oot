@@ -70,7 +70,8 @@ CollisionCheckInfoInit D_80A87390 = { 0, 12, 60, 0xFF };
 
 s16 D_80A87398[6] = { 16, 13, 11, 9, 7, 5 };
 
-s16 D_80A873A4[10] = { 145, 135, 120, 100, 70, 50, 45, 40, 35, 0 };
+// Note: Removed zero at end, might not have been padding
+s16 D_80A873A4[9] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
 
 InitChainEntry D_80A873B8[2][5] = {
     {
@@ -106,7 +107,7 @@ extern void (*D_80A87330[2])(EnIshi* this, GlobalContext* globalCtx);
 extern ColliderCylinderInit D_80A87338[2];
 extern CollisionCheckInfoInit D_80A87390;
 extern s16 D_80A87398[6];
-extern s16 D_80A873A4[10];
+extern s16 D_80A873A4[9];
 extern InitChainEntry D_80A873B8[2][5];
 extern u16 D_80A873E0[2];
 extern void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx);
@@ -153,9 +154,9 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(D_80A87398); i++) {
-        pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
-        pos.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 5.0f;
-        pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
+        pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+        pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
         Math_Vec3f_Copy(&velocity, &this->actor.velocity);
         if (this->actor.bgCheckFlags & 1) {
             velocity.x *= 0.8f;
@@ -178,7 +179,52 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+void func_80A7E824(EnIshi *this, GlobalContext *globalCtx) {
+    f32 rand;
+    Vec3f velocity;
+    Vec3f pos;
+    s16 angle = 0x1000;
+    s32 i;
+    s32 phi_v0;
+    s32 phi_v1;
+
+    for (i = 0; i < ARRAY_COUNT(D_80A873A4); i++) {
+        angle += 0x4E20;
+        rand = Math_Rand_ZeroOne() * 10.0f;
+        pos.x = (Math_Sins(angle) * rand) + this->actor.posRot.pos.x;
+        pos.y = ((Math_Rand_ZeroOne() * 40.0f) + this->actor.posRot.pos.y) + 5.0f;
+        pos.z = (Math_Coss(angle) * rand) + this->actor.posRot.pos.z;
+        Math_Vec3f_Copy(&velocity, &this->actor.velocity);
+        if (this->actor.bgCheckFlags & 1) {
+            velocity.x *= 0.9f;
+            velocity.y *= -0.8f;
+            velocity.z *= 0.9f;
+        } else if (this->actor.bgCheckFlags & 8) {
+            velocity.x *= -0.9f;
+            velocity.y *= 0.8f;
+            velocity.z *= -0.9f;
+        }
+        rand = Math_Rand_ZeroOne() * 10.0f;
+        velocity.x += rand * Math_Sins(angle);
+        velocity.y += (Math_Rand_ZeroOne() * 4.0f) + ((Math_Rand_ZeroOne() * i) * 0.7f);
+        velocity.z += rand * Math_Coss(angle);
+        if (i == 0) {
+            phi_v1 = -0x1C2;
+            phi_v0 = 0x29;
+        } else if (i < 4) {
+            phi_v1 = -0x17C;
+            phi_v0 = 0x25;
+        } else {
+            phi_v1 = -0x140;
+            phi_v0 = 0x45;
+        }
+        func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, D_80A873A4[i], 5, 2, 0x46, 0, 2, D_0500A880);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E824.s")
+#endif
 
 void func_80A7EB10(EnIshi* this, GlobalContext* globalCtx) {
     Vec3f sp2C;
