@@ -94,38 +94,38 @@ void EnRd_SetupAction(EnRd* this, EnRdActionFunc actionFunc) {
 void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnRd* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.unk_1F = 0;
-    this->actor.colChkInfo.damageTable = &sDamageTable;
-    ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
+    Actor_ProcessInitChain(thisx, sInitChain);
+    thisx->unk_1F = 0;
+    thisx->colChkInfo.damageTable = &sDamageTable;
+    ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->unk_310 = this->unk_30E = 0;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 50.0f;
-    this->actor.colChkInfo.mass = 0xFE;
-    this->actor.colChkInfo.health = 8;
+    thisx->posRot2.pos = thisx->posRot.pos;
+    thisx->posRot2.pos.y += 50.0f;
+    thisx->colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.health = 8;
     this->unk_314 = this->unk_31D = 0xFF;
-    this->unk_312 = (THIS->actor.params & 0xFF00) >> 8;
+    this->unk_312 = (thisx->params & 0xFF00) >> 8;
 
-    if (this->actor.params & 0x80) {
-        this->actor.params |= 0xFF00;
+    if (thisx->params & 0x80) {
+        thisx->params |= 0xFF00;
     } else {
-        this->actor.params &= 0xFF;
+        thisx->params &= 0xFF;
     }
 
-    if (this->actor.params >= -1) {
+    if (thisx->params >= -1) {
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->limbDrawTable,
                          this->transitionDrawTable, 26);
-        this->actor.naviEnemyId = 42;
+        thisx->naviEnemyId = 42;
     } else {
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->limbDrawTable,
                          this->transitionDrawTable, 26);
-        this->actor.naviEnemyId = 45;
+        thisx->naviEnemyId = 45;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
-    if (this->actor.params >= -2) {
+    if (thisx->params >= -2) {
         func_80AE269C(this);
     } else {
         func_80AE2970(this);
@@ -133,8 +133,8 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if (this->actor.params == 3) {
-        this->actor.flags |= 0x80;
+    if (thisx->params == 3) {
+        thisx->flags |= 0x80;
     }
 }
 
@@ -295,7 +295,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     }
 
     if ((ABS(sp32) < 0x1554) && (func_8002DB48(&this->actor, &player->actor) <= 150.0f)) {
-        if ((!(player->stateFlags1 & 0x2C6080)) && (!(player->stateFlags2 & 0x80))) {
+        if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80)) {
             if (this->unk_306 == 0) {
                 if (!(this->unk_312 & 0x80)) {
                     player->actor.freezeTimer = 40;
@@ -365,7 +365,7 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if ((!(player->stateFlags1 & 0x2C6080)) && (!(player->stateFlags2 & 0x80)) &&
+    if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80) &&
         (func_8002DB6C(&player->actor, &this->actor.initPosRot.pos) < 150.0f)) {
         this->actor.unk_1F = 0;
         func_80AE2B90(this, globalCtx);
@@ -751,7 +751,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
 
                 if (this->unk_31C == 0xE) {
                     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x50);
-                    this->unk_31A = 0x28U;
+                    this->unk_31A = 0x28;
                 } else {
                     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
                 }
