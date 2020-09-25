@@ -113,6 +113,7 @@ extern u16 D_80A873E0[2];
 extern void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx);
 
 extern Gfx D_0500A3B8[];
+extern Gfx D_0500A5E8[];
 extern Gfx D_0500A880[];
 
 void func_80A7E460(Actor* thisx, GlobalContext* globalCtx) {
@@ -180,21 +181,22 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-void func_80A7E824(EnIshi *this, GlobalContext *globalCtx) {
-    f32 rand;
+void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
+    // Vec3f* temp = &this->actor.posRot.pos;
     Vec3f velocity;
     Vec3f pos;
     s16 angle = 0x1000;
     s32 i;
-    s32 phi_v0;
-    s32 phi_v1;
+    f32 rand;
+    s16 phi_v0;
+    s16 phi_v1;
 
     for (i = 0; i < ARRAY_COUNT(D_80A873A4); i++) {
         angle += 0x4E20;
         rand = Math_Rand_ZeroOne() * 10.0f;
-        pos.x = (Math_Sins(angle) * rand) + this->actor.posRot.pos.x;
-        pos.y = ((Math_Rand_ZeroOne() * 40.0f) + this->actor.posRot.pos.y) + 5.0f;
-        pos.z = (Math_Coss(angle) * rand) + this->actor.posRot.pos.z;
+        pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
+        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
+        pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
         Math_Vec3f_Copy(&velocity, &this->actor.velocity);
         if (this->actor.bgCheckFlags & 1) {
             velocity.x *= 0.9f;
@@ -210,16 +212,16 @@ void func_80A7E824(EnIshi *this, GlobalContext *globalCtx) {
         velocity.y += (Math_Rand_ZeroOne() * 4.0f) + ((Math_Rand_ZeroOne() * i) * 0.7f);
         velocity.z += rand * Math_Coss(angle);
         if (i == 0) {
-            phi_v1 = -0x1C2;
             phi_v0 = 0x29;
+            phi_v1 = -0x1C2;
         } else if (i < 4) {
-            phi_v1 = -0x17C;
             phi_v0 = 0x25;
+            phi_v1 = -0x17C;
         } else {
-            phi_v1 = -0x140;
             phi_v0 = 0x45;
+            phi_v1 = -0x140;
         }
-        func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, D_80A873A4[i], 5, 2, 0x46, 0, 2, D_0500A880);
+        func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, D_80A873A4[i], 5, 2, 0x46, 0, 2, D_0500A5E8);
     }
 }
 #else
