@@ -10,7 +10,13 @@
 
 #define THIS ((BgSpot03Taki*)thisx)
 
-void func_808ADAE0(BgSpot03Taki* this, s32 arg0);
+#define STATE_CLOSED 0
+#define STATE_OPENING_IDLE 1
+#define STATE_OPENING_ANIMATED 2
+#define STATE_OPENED 3
+#define STATE_CLOSING 4
+
+void func_808ADAE0(BgSpot03Taki* this, s32 bufferIndex);
 
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,14 +46,15 @@ extern UNK_TYPE D_06000C98;
 extern Vtx* D_06000800[];
 extern Vtx* D_06000990[];
 extern Gfx* D_06000B20[];
+extern Gfx* D_06000BC0[];
 extern Gfx* D_06001580[];
 
-void func_808ADAE0(BgSpot03Taki* this, s32 arg0) {
+void func_808ADAE0(BgSpot03Taki* this, s32 bufferIndex) {
     int i;
-    Vtx* vtx = (arg0 == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
+    Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
 
     for (i = 0; i < 5; i++) {
-        vtx[i + 10].v.cn[3] = this->unk_170;
+        vtx[i + 10].v.cn[3] = this->openingAlpha;
     }
 }
 
@@ -62,7 +69,7 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->unk_174 = 0;
-    this->unk_170 = 255.0f;
+    this->openingAlpha = 255.0f;
     func_808ADAE0(this, 0);
     func_808ADAE0(this, 1);
     this->actionFunc = func_808ADEF0;
@@ -75,43 +82,44 @@ void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
-    if (this->unk_16A == 0) {
-        if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
-            this->unk_16A = 2;
-            this->unk_168 = 0x28;
+    if (this->state == STATE_CLOSED) {
+        if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
+            this->state = STATE_OPENING_ANIMATED;
+            this->timer = 40;
             func_800800F8(globalCtx, 0x1004, -0x63, NULL, 0);
         }
-    } else if (this->unk_16A == 1) {
-        this->unk_168--;
-        if (this->unk_168 < 0) {
-            this->unk_16A = 2;
+    } else if (this->state == STATE_OPENING_IDLE) {
+        this->timer--;
+        if (this->timer < 0) {
+            this->state = STATE_OPENING_ANIMATED;
         }
-    } else if (this->unk_16A == 2) {
-        if (this->unk_170 > 0) {
-            this->unk_170 -= 5;
-            if (this->unk_170 <= 0.0f) {
+    } else if (this->state == STATE_OPENING_ANIMATED) {
+        if (this->openingAlpha > 0) {
+            this->openingAlpha -= 5;
+            if (this->openingAlpha <= 0.0f) {
                 func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-                this->unk_168 = 0x190;
-                this->unk_16A = 3;
-                this->unk_170 = 0;
+                this->timer = 400;
+                this->state = STATE_OPENED;
+                this->openingAlpha = 0;
             }
         }
-    } else if (this->unk_16A == 3) {
-        this->unk_168--;
-        if (this->unk_168 < 0) {
-            this->unk_16A = 4;
+    } else if (this->state == STATE_OPENED) {
+        this->timer--;
+        if (this->timer < 0) {
+            this->state = STATE_CLOSING;
         }
-    } else if (this->unk_16A == 4) {
-        if (this->unk_170 < 255.0f) {
-            this->unk_170 += 5.0f;
-            if (this->unk_170 >= 255.0f) {
+    } else if (this->state == STATE_CLOSING) {
+        if (this->openingAlpha < 255.0f) {
+            this->openingAlpha += 5.0f;
+            if (this->openingAlpha >= 255.0f) {
                 func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-                this->unk_16A = 0;
-                this->unk_170 = 255.0f;
+                this->state = STATE_CLOSED;
+                this->openingAlpha = 255.0f;
                 Flags_UnsetSwitch(globalCtx, this->switchFlag);
             }
         }
     }
+
     func_808ADAE0(this, this->unk_174);
 }
 
@@ -121,10 +129,9 @@ void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#ifdef NON_MATCHING
 void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot03Taki* this = THIS;
-    Gfx*(*dlist)[];
+    s32 pad;
     u32 gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 321);
@@ -140,32 +147,29 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         oGfxCtx->polyXlu.p++, 0x08,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06001580);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06000B20);
 
     if (this->unk_174 == 0) {
         gSPVertex(oGfxCtx->polyXlu.p++, &D_06000800, 25, 0);
     } else {
         gSPVertex(oGfxCtx->polyXlu.p++, &D_06000990, 25, 0);
-        dlist = &D_06000B20;
-        gSPDisplayList(oGfxCtx->polyXlu.p++, dlist);
     }
 
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06000BC0);
+
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (u8)gameplayFrames, gameplayFrames * 3, 64, 64, 1,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 1, gameplayFrames * 3, 64, 64, 1,
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06000B20);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06001580);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
     this->unk_174 = this->unk_174 == 0;
 
-    if (this->unk_16A > 0 && this->unk_16A < 4) {
+    if (this->state > STATE_CLOSED && this->state < STATE_CLOSING) {
         func_800F46E0(&this->dyna.actor.projectedPos, 0.5);
     } else {
         func_800F46E0(&this->dyna.actor.projectedPos, 1.0);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot03_Taki/BgSpot03Taki_Draw.s")
-#endif
