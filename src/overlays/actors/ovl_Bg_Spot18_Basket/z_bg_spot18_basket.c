@@ -26,6 +26,7 @@ void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06002154;
+extern UNK_TYPE D_060018B0;
 
 const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
@@ -72,16 +73,13 @@ static InitChainEntry sInitChain[] = {
 
 s16 D_808B85E4[] = { 0xF060, 0x0320, 0x0FA0, 0x0000, 0x0000, 0x0000 };
 
-void func_808B7710(BgSpot18Basket* this, GlobalContext* globalCtx) {
-    Actor* actor;
+void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot18Basket* this = THIS;
 
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-    actor = &this->dyna.actor;
-    Collider_SetJntSph(globalCtx, &this->colliderJntSph, actor, &sJntSphInit, &this->colliderJntSphItem);
-    actor->colChkInfo.mass = 0xFF;
-
-    // TODO: Needs to go
-    if (actor) {}
+    // actor = &this->dyna.actor;
+    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->colliderJntSphItem);
+    this->dyna.actor.colChkInfo.mass = 0xFF;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7710.s")
@@ -460,6 +458,32 @@ void func_808B81A0(BgSpot18Basket *this, GlobalContext *globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B81A0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Update.s")
+void BgSpot18Basket_Update(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot18Basket* this = THIS;
+    Vec3s somePointer;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Draw.s")
+    this->unk_216 += 1;
+    this->actionFunc(this, globalCtx);
+    this->dyna.actor.groundY = func_8003C9A4(
+        &globalCtx->colCtx, 
+        &this->dyna.actor.floorPoly, &somePointer, &this->dyna.actor, &this->dyna.actor.posRot);
+    if (this->actionFunc != func_808B7AFC) {
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
+        if (this->actionFunc != func_808B7B6C) {
+            this->colliderJntSph.base.acFlags = this->colliderJntSph.base.acFlags & 0xFFFD;
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Update.s")
+
+void BgSpot18Basket_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    BgSpot18Basket* this = THIS;
+
+    func_800628A4(0, &this->colliderJntSph);
+    func_800628A4(1, &this->colliderJntSph);
+    Gfx_DrawDListOpa(globalCtx, &D_060018B0);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Draw.s")
