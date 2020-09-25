@@ -91,9 +91,9 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             Player* player = PLAYER;
             s16 bodyPart = this->rBodyPart;
 
-            this->pos.x = player->unk_908[bodyPart].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
-            this->pos.y = player->unk_908[bodyPart].y;
-            this->pos.z = player->unk_908[bodyPart].z - (Math_Coss(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
+            this->pos.x = player->bodyPartsPos[bodyPart].x - (Math_Sins(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
+            this->pos.y = player->bodyPartsPos[bodyPart].y;
+            this->pos.z = player->bodyPartsPos[bodyPart].z - (Math_Coss(func_8005A9F4(ACTIVE_CAM)) * 5.0f);
 
             Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
         }

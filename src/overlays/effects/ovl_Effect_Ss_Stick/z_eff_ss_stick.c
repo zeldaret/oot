@@ -69,7 +69,7 @@ void EffectSsStick_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D18(gfxCtx);
     gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, D_80125F98);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, gCullBackDList);
     gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_stick.c", 188);

@@ -1,7 +1,7 @@
 /*
  * File: z_eff_ss_g_fire.c
  * Overlay: ovl_Effect_Ss_G_Fire
- * Description:
+ * Description: Flame Footprints
  */
 
 #include "z_eff_ss_g_fire.h"

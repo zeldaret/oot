@@ -7,6 +7,7 @@
 #include <ultra64/controller.h>
 #include <z64light.h>
 #include <z64actor.h>
+#include <z64player.h>
 #include <z64audio.h>
 #include <z64object.h>
 #include <z64cutscene.h>
@@ -109,13 +110,13 @@ typedef struct {
     /* 0x0032 */ s8           magicLevel;
     /* 0x0033 */ s8           magic;
     /* 0x0034 */ s16          rupees;
-    /* 0x0036 */ u16          bgsHitsLeft;
+    /* 0x0036 */ u16          swordHealth;
     /* 0x0038 */ u16          naviTimer;
     /* 0x003A */ u8           magicAcquired;
     /* 0x003B */ char         unk_3B[0x0001];
     /* 0x003C */ u8           doubleMagic;
     /* 0x003D */ u8           doubleDefense;
-    /* 0x003E */ s8           bgsFlag;
+    /* 0x003E */ u8           bgsFlag;
     /* 0x0040 */ ItemEquips   childEquips;
     /* 0x004A */ ItemEquips   adultEquips;
     /* 0x0054 */ char         unk_54[0x0014];
@@ -162,9 +163,12 @@ typedef struct {
     /* 0x1360 */ s32          sceneSetupIndex;
     /* 0x1364 */ s32          respawnFlag; // "restart_flag"
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
-    /* 0x13BC */ char         unk_13BC[0x0008];
+    /* 0x13BC */ f32          unk_13BC;
+    /* 0x13C0 */ u16          unk_13C0;
+    /* 0x13C2 */ char         unk_13C2[0x0001];
+    /* 0x13C3 */ u8           unk_13C3;
     /* 0x13C4 */ s16          dogParams;
-    /* 0x13C6 */ u8           unk_13C6;
+    /* 0x13C6 */ u8           textTriggerFlags;
     /* 0x13C7 */ u8           unk_13C7;
     /* 0x13C8 */ s16          nayrusLoveTimer;
     /* 0x13CA */ char         unk_13CA[0x0002];
@@ -606,7 +610,7 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ u32      texture;
+    /* 0x00 */ u8*      texture;
     /* 0x04 */ s16      unk_4;
     /* 0x06 */ s16      unk_6;
     /* 0x08 */ u8       unk_8;
@@ -618,7 +622,7 @@ typedef struct {
 } TitleCardContext; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ u32    length; // number of actors loaded of this type
+    /* 0x00 */ s32    length; // number of actors loaded of this type
     /* 0x04 */ Actor* first;  // pointer to first actor of this type
 } ActorListEntry; // size = 0x08
 
@@ -1103,10 +1107,10 @@ typedef struct {
 } ActorEntry; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ s8    frontRoom;    // Room to switch to when triggered from the front of the object
-    /* 0x01 */ s8    frontEffects; // How the camera reacts during the front transition
-    /* 0x02 */ s8    backRoom;     // Room to switch to when triggered from the back of the object
-    /* 0x03 */ s8    backEffects;  // How the camera reacts during the back transition
+    struct {
+        s8 room;    // Room to switch to
+        s8 effects; // How the camera reacts during the transition
+    } /* 0x00 */ sides[2]; // 0 = front, 1 = back
     /* 0x04 */ s16   id;
     /* 0x06 */ Vec3s pos;
     /* 0x0C */ s16   rotY;
@@ -1178,7 +1182,6 @@ typedef struct {
 
 typedef struct SelectContext {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ s32 unk_A4;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ s32 count;
     /* 0x01D4 */ SceneSelectEntry* scenes;
@@ -1224,7 +1227,6 @@ typedef struct GlobalContext {
     /* 0x000A6 */ u8 sceneConfig;
     /* 0x000A7 */ char unk_A7[0x9];
     /* 0x000B0 */ void* sceneSegment;
-    /* 0x000B4 */ char unk_B4[0x4];
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
     /* 0x001E0 */ Camera subCameras[3];
@@ -1252,11 +1254,15 @@ typedef struct GlobalContext {
     /* 0x11D30 */ s16 unk_11D30[2];
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
-    /* 0x11D3C */ char unk_11D3C[0x10];
-    /* 0x11D4C */ s32 (*unk_11D4C)(struct GlobalContext*, Actor*);
-    /* 0x11D50 */ char unk_11D50[0x8];
-    /* 0x11D58 */ void (*unk_11D58)(struct GlobalContext*, s32);
-    /* 0x11D5C */ void (*unk_11D5C)(struct GlobalContext*, Actor*);
+    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, SkeletonHeader* skelHeader);
+    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
+    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
+    /* 0x11D48 */ s32 (*startPlayerFishing)(struct GlobalContext* globalCtx);
+    /* 0x11D4C */ s32 (*grabPlayer)(struct GlobalContext* globalCtx, Player* player);
+    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct GlobalContext* globalCtx, Actor* actor, s32 mode);
+    /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
+    /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
+    /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
     /* 0x11D60 */ MtxF mf_11D60;
     /* 0x11DA0 */ MtxF mf_11DA0;
     /* 0x11DE0 */ Mtx* unk_11DE0;
@@ -1271,7 +1277,7 @@ typedef struct GlobalContext {
     /* 0x11DF8 */ ActorEntry* setupActorList;
     /* 0x11DFC */ UNK_PTR unk_11DFC;
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
-    /* 0x11E04 */ UNK_PTR setupExitList;
+    /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
     /* 0x11E10 */ char unk_11E10[0x4];
@@ -1301,7 +1307,6 @@ typedef struct GlobalContext {
 
 typedef struct {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ char unk_A4[4];
     /* 0x00A8 */ View view;
 } OpeningContext; // size = 0x1D0
 
@@ -2026,5 +2031,14 @@ typedef struct {
     /* 0x00 */ u16* value;
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ u8 limbCount;
+    /* 0x01 */ char unk_01[0x01];
+    /* 0x02 */ u8 dListCount;
+    /* 0x04 */ Skeleton* skeleton;
+    /* 0x08 */ char unk_08[0x18];
+    /* 0x20 */ Vec3s* limbDrawTable;
+} struct_80091A24_arg3; // size >= 0x24
 
 #endif

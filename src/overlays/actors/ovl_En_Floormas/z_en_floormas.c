@@ -721,9 +721,9 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
-    } else if ((this->actor.yDistFromLink < -10.0f) && this->collider.base.maskA & 2 &&
+    } else if ((this->actor.yDistFromLink < -10.0f) && (this->collider.base.maskA & 2) &&
                (&player->actor == this->collider.base.oc)) {
-        globalCtx->unk_11D4C(globalCtx, player);
+        globalCtx->grabPlayer(globalCtx, player);
         EnFloormas_SetupGrabLink(this, player);
     }
 }
@@ -785,7 +785,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
             } else {
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S);
             }
-            globalCtx->unk_11D58(globalCtx, -8);
+            globalCtx->damagePlayer(globalCtx, -8);
         }
     }
 

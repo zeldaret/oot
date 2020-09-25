@@ -183,9 +183,9 @@ void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs*
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
         player = PLAYER;
         randBodypart = Math_Rand_ZeroFloat(17.9f);
-        this->pos.x = player->unk_908[randBodypart].x + Math_Rand_CenteredFloat(10.0f);
-        this->pos.y = player->unk_908[randBodypart].y + Math_Rand_CenteredFloat(15.0f);
-        this->pos.z = player->unk_908[randBodypart].z + Math_Rand_CenteredFloat(10.0f);
+        this->pos.x = player->bodyPartsPos[randBodypart].x + Math_Rand_CenteredFloat(10.0f);
+        this->pos.y = player->bodyPartsPos[randBodypart].y + Math_Rand_CenteredFloat(15.0f);
+        this->pos.z = player->bodyPartsPos[randBodypart].z + Math_Rand_CenteredFloat(10.0f);
     } else if (this->rParam == FHGFLASH_SHOCK_PG) {
         phantomGanon = (BossGanondrof*)this->actor;
         randBodypart = Math_Rand_ZeroFloat(23.9f);

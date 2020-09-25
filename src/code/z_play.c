@@ -178,7 +178,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
 
     if (gSaveContext.linkAge != globalCtx->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
-        func_8008ECAC(globalCtx, player);
+        Player_SetEquipmentData(globalCtx, player);
     }
 
     func_80031C3C(&globalCtx->actorCtx, globalCtx);
@@ -925,7 +925,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
-                    } else if (func_8008E988(globalCtx)) {
+                    } else if (Player_InCsMode(globalCtx)) {
                         // Translates to: "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (YREG(15) == 0x10) {
@@ -1372,7 +1372,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
 
 // original name: "Game_play_demo_mode_check"
 s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
-    return (globalCtx->csCtx.state != 0) || func_8008E988(globalCtx);
+    return (globalCtx->csCtx.state != 0) || Player_InCsMode(globalCtx);
 }
 
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
@@ -1801,18 +1801,20 @@ s32 func_800C0D28(GlobalContext* globalCtx) {
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
     TransitionActorEntry* transitionActor;
+    s32 frontRoom;
 
     if (actor->type != ACTORTYPE_DOOR) {
         return 0;
     }
 
     transitionActor = &globalCtx->transitionActorList[(u16)actor->params >> 10];
+    frontRoom = transitionActor->sides[0].room;
 
-    if (transitionActor->backRoom == transitionActor->frontRoom) {
+    if (frontRoom == transitionActor->sides[1].room) {
         return 0;
     }
 
-    if (actor->room == transitionActor->frontRoom) {
+    if (frontRoom == actor->room) {
         *yaw = actor->shape.rot.y;
     } else {
         *yaw = actor->shape.rot.y + 0x8000;
