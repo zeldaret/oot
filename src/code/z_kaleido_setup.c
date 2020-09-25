@@ -142,5 +142,5 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
 void KaleidoSetup_Destroy(GlobalContext* globalCtx) {
 }
 
-void func_8006EE50(UNK_PTR arg0, s16 arg1, s16 arg2) {
+void func_8006EE50(Font* font, s16 arg1, s16 arg2) {
 }

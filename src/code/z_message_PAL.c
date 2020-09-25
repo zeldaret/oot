@@ -7,7 +7,7 @@
 
 // TODO move these prototypes
 
-void func_8006EE50(MessageData*, u16, u16);
+//void func_8006EE50(MessageData*, u16, u16);
 
 void func_800ECC04(u16); // original name : Na_StartOcarinaSinglePlayCheck2
 void func_800ED93C(u8,u8);
@@ -707,8 +707,8 @@ extern s16 D_801539F4;
 extern s16 D_801539F8;
 extern s16 D_801539FC;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107980.s")
-Gfx* func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107980.s")
+/* Gfx* func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
     s16 sp60;
     s32 spC;
     s32 sp8;
@@ -895,7 +895,7 @@ Gfx* func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
         *p = gfx;
     }
     return gfx;
-}
+} */
 
 
 
@@ -1166,7 +1166,7 @@ void func_80109968(GlobalContext* globalCtx, u16 arg1, s16 arg2) {
 
 extern s16 D_8014B304;
 extern s16 D_8014B2F0;
-extern s8 D_8014B300;
+extern volatile s8 D_8014B300;
 
 #ifdef NON_EQUIVALENT
 // Plenty, but general structure seems good
@@ -1557,7 +1557,7 @@ void func_80109B3C(GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80109B3C.s")
 #endif
 
-extern s8 D_8014B2F4;
+extern volatile s8 D_8014B2F4;
 extern s16 D_8014B318;
 
 void func_8010B0C0(GlobalContext*, u16);
@@ -1591,7 +1591,8 @@ void func_8010B0C0(GlobalContext*, u16);
         Interface_ChangeAlpha(5);
     }
     D_8014B308 = 0;
-    D_8014B2F4 = D_8014B300 = D_8014B308;
+    D_8014B300 = D_8014B308;
+    D_8014B2F4 = D_8014B308;
     D_8014B318 = D_8014B308 & 0xFF;
     if (textId >= 0x0500 && textId < 0x0600) { // text ids 0500 to 0600 are reserved for credits
         D_8014B308 = 1;
@@ -1607,10 +1608,10 @@ void func_8010B0C0(GlobalContext*, u16);
     if (textId == 0xC2 || textId == 0xFA) { // C2 = One piece of heart , FA = WINNER One piece of heart
         // Increments text id based on piece of heart count, assumes the piece of heart text is all
         // in order and that you don't have more than the intended amount of heart pieces.
-        textId += ((gSaveContext.questItems & 0xF0000000) >> 0x1C);
+        textId += (gSaveContext.questItems & 0xF0000000) >> 0x1C;
     } else if (msgCtx->unk_E2F8 == 0xC && CHECK_OWNED_EQUIP(EQUIP_SWORD,2)) {
         textId = 0xB; // Traded Giant's Knife for Biggoron Sword
-    } else if (msgCtx->unk_E2F8 == 0xB4 && (gSaveContext.eventChkInf[9] & 0x00000040)) {
+    } else if (msgCtx->unk_E2F8 == 0xB4 && (gSaveContext.eventChkInf[9] & 0x40)) {
         textId = 0xB5; // Destroyed Gold Skulltula
     }
     // Ocarina Staff + Dialog
@@ -1626,36 +1627,33 @@ void func_8010B0C0(GlobalContext*, u16);
         osSyncPrintf("\x1b[33m");
         osSyncPrintf("？？？？？？？？？？？？？？？？  z_message.c  ？？？？？？？？？？？？？？？？？？\n");
         osSyncPrintf("\x1b[m");
-        gSaveContext.eventInf[3] = 0;
-        gSaveContext.eventInf[2] = 0;
-        gSaveContext.eventInf[1] = 0;
-        gSaveContext.eventInf[0] = 0;
+        gSaveContext.eventInf[0] = gSaveContext.eventInf[1] =  gSaveContext.eventInf[2] = gSaveContext.eventInf[3] = 0;
     }
-    sp30 = &msgCtx->unk_128;
+    sp30 = &msgCtx->font.msgData;
     if (D_8014B308 != 0) {
         func_80107628(globalCtx, textId);
         msgCtx->unk_E300 = sp30->size;
-        DmaMgr_SendRequest1(msgCtx->msgbuf, 
-                        (u32)(_staff_message_data_staticSegmentRomStart + sp30->offset), 
-                        sp30->size, "../z_message_PAL.c", 1954);
+        DmaMgr_SendRequest1(globalCtx->msgCtx.font.msgBuf, 
+                        (u32)(_staff_message_data_staticSegmentRomStart + globalCtx->msgCtx.font.msgData.offset), 
+                        msgCtx->unk_E300, "../z_message_PAL.c", 1954);
     } else {
         temp_v0_2 = gSaveContext.language;
         if (temp_v0_2 == 0) {
             func_80107628(globalCtx, textId);
             msgCtx->unk_E300 = sp30->size;
-            DmaMgr_SendRequest1(msgCtx->msgbuf, 
+            DmaMgr_SendRequest1((u32)msgCtx->font.msgBuf, 
                             (u32)(_nes_message_data_staticSegmentRomStart + sp30->offset), 
                         sp30->size, "../z_message_PAL.c", 1966);
         } else if (temp_v0_2 == 1) {
             func_80107628(globalCtx, textId);
             msgCtx->unk_E300 = sp30->size;
-            DmaMgr_SendRequest1(msgCtx->msgbuf, 
+            DmaMgr_SendRequest1((u32)msgCtx->font.msgBuf, 
                             (u32)(_ger_message_data_staticSegmentRomStart + sp30->offset), 
                             sp30->size, "../z_message_PAL.c", 1978);
         } else {
             func_80107628(globalCtx, textId);
             msgCtx->unk_E300 = sp30->size;
-            DmaMgr_SendRequest1(msgCtx->msgbuf, 
+            DmaMgr_SendRequest1((u32)msgCtx->font.msgBuf, 
                             (u32)(_fra_message_data_staticSegmentRomStart + sp30->offset), 
                             sp30->size, "../z_message_PAL.c", 1990);
         }
@@ -1875,7 +1873,7 @@ void func_8010B820(GlobalContext*, u16);
         Interface_ChangeAlpha(1);
     }
     for (phi_s0_3 = 0, phi_v0_3 = 0; phi_v0_3 < 0x30; phi_v0_3++, phi_s0_3 += 0x80) {
-        func_8006EE50(&globalCtx->msgCtx.unk_128, 0x8140, phi_s0_3);
+        func_8006EE50(&globalCtx->msgCtx.font, 0x8140, phi_s0_3);
     }
 } */
 
