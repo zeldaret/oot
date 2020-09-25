@@ -320,11 +320,11 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->shape.unk_14 = 0xFF;
 
     Lights_PointGlowSetInfo(&this->lightInfoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 255,
-                              255, 255, 0);
+                            255, 255, 0);
     this->lightNodeGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoGlow);
 
-    Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 255,
-                            255, 255, 0);
+    Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
+                              255, 255, 255, 0);
     this->lightNodeNoGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
 
     this->flags = 0;
@@ -814,15 +814,15 @@ void func_80A03B28(EnElf* this, GlobalContext* globalCtx) {
     if ((this->flags & 0x20) != 0) {
         player = PLAYER;
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.posRot.pos.x,
-                                        (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 0xFF,
-                                        0xFF, 0xFF, 0xC8);
+                                  (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 0xFF, 0xFF,
+                                  0xFF, 0xC8);
     } else {
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                        this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, -1);
+                                  this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, -1);
     }
 
     Lights_PointGlowSetInfo(&this->lightInfoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                    this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, light2Radius);
+                            this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, light2Radius);
 
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
 
@@ -886,15 +886,15 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
         switch (this->unk_2A8) {
             case 7:
-                xScale = 1.0f - (this->unk_2AE * 0.033333335f);
-                func_80A02C98(this, &player->bodyPartsPos[8], xScale);
+                func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * 0.033333335f);
                 xScale =
                     1.0f - ((Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos) - 5.0f) * 0.05f);
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
-                    // if (this->actor.scale.y){} // fixes regalloc, if 1 doesnt work
-                    xScale = 0;
+                    xScale = 0.0f;
                 } else {
+                    // xScale = (distFromLinksHead < 25.0f) ? (1.0f - SQ(xScale)) * 0.008f : 0.008f;
+
                     if (distFromLinksHead < 25.0f) {
                         xScale = (1.0f - SQ(xScale)) * 0.008f;
                     } else {
@@ -918,7 +918,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                     this->unk_2B8 += 1.0f;
                 }
 
-                if (21.0f <= this->unk_2B8) {
+                if (this->unk_2B8 >= 21.0f) {
                     this->unk_2B8 -= 1.0f;
                 }
 
@@ -940,7 +940,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 if (arrowPointedActor != NULL) {
                     func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
 
-                    if (5.0f <= this->actor.speedXZ) {
+                    if (this->actor.speedXZ >= 5.0f) {
                         EnElf_SpawnSparkles(this, globalCtx, 16);
                     }
                 } else {
@@ -956,7 +956,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                         func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
                         EnElf_SpawnSparkles(this, globalCtx, 16);
                     } else {
-                        if (100.0f < distFromLinksHead) {
+                        if (distFromLinksHead > 100.0f) {
                             this->flags |= 2;
 
                             if (this->unk_2C7 == 0) {
