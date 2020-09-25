@@ -35,8 +35,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern UNK_TYPE D_06000C98;
-extern Vtx* D_06000800;
-extern Vtx* D_06000990;
+extern Vtx* D_06000800[];
+extern Vtx* D_06000990[];
 extern Gfx* D_06000B20[];
 extern Gfx* D_06001580[];
 
