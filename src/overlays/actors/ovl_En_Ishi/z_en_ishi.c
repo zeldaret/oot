@@ -138,13 +138,45 @@ s32 func_80A7E4D8(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
         return true;
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
+        // Translation: Failure adhering to ground
         osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_ishi.c", 388);
         osSyncPrintf(VT_RST);
         return false;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E5A8.s")
+void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f velocity;
+    Vec3f pos;
+    s32 phi_v0;
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(D_80A87398); i++) {
+        pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
+        pos.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 5.0f;
+        pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
+        Math_Vec3f_Copy(&velocity, &this->actor.velocity);
+        if (this->actor.bgCheckFlags & 1) {
+            velocity.x *= 0.8f;
+            velocity.y *= -0.8f;
+            velocity.z *= 0.8f;
+        } else if (this->actor.bgCheckFlags & 8) {
+            velocity.x *= -0.8f;
+            velocity.y *= 0.8f;
+            velocity.z *= -0.8f;
+        }
+        velocity.x += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
+        velocity.y += Math_Rand_ZeroOne() * 6.0f;
+        velocity.z += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
+        if (Math_Rand_ZeroOne() < 0.5f) {
+            phi_v0 = 0x41;
+        } else {
+            phi_v0 = 0x21;
+        }
+        func_80029E8C(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, D_80A87398[i], 3, 0xA, 0x28, -1, 2, D_0500A880);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E824.s")
 
