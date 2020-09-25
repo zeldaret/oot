@@ -14,7 +14,6 @@ typedef struct EnHorseNormal {
     /* 0x0150 */ s32 animationIdx;
     /* 0x0154 */ PSkinAwb skin;
     /* 0x01E4 */ u16 unk_1E4;
-    /* 0x01E6 */ char unk_1E6[0x02];
     /* 0x01E8 */ Vec3f unk_1E8;
     /* 0x01F4 */ Vec3f unk_1F4;
     /* 0x0200 */ s32 unk_200;
