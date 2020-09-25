@@ -61,20 +61,18 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = &func_80A8F660;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F28C.s")
-// void func_80A8F28C(EnKakasi *this) {
-//     f32 *temp_a0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F28C.s")
+void func_80A8F28C(EnKakasi *this){
+  this->unk_1AC = 0;
+  this->unk_1A4 = 0;
+  this->skelanime.animPlaybackSpeed = 0.0f;
+  this->unk_1A8 = this->unk_1AC;
 
-//     this->unk1AC = (u16)0;
-//     this->unk1A4 = (u16)0;
-//     temp_a0 = &this->skelanime.animCurrentFrame;
-//     temp_a0[1] = 0.0f;
-//     temp_a0->unk40 = (s16) this->unk1AC;
-//     Math_SmoothDownscaleMaxF(temp_a0, 0.5f, 1.0f);
-//     Math_SmoothScaleMaxMinS((s16 *) &this->actor.shape, (s16) this->unk_19A, (u16)5, (u16)0x2710, 0);
-//     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (s16) this->unk_19C, (u16)5, (u16)0x2710, 0);
-//     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->unk1B2, (u16)5, (u16)0x2710, 0);
-// }
+  Math_SmoothDownscaleMaxF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
+  Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
+  Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
+  Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F320.s")
 
