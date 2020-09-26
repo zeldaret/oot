@@ -180,9 +180,8 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
-    // Vec3f* temp = &this->actor.posRot.pos;
+    Vec3f* temp = &this->actor.posRot.pos;
     Vec3f velocity;
     Vec3f pos;
     s16 angle = 0x1000;
@@ -190,13 +189,17 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     f32 rand;
     s16 phi_v0;
     s16 phi_v1;
+    s32 temp2;
 
     for (i = 0; i < ARRAY_COUNT(D_80A873A4); i++) {
+        if (this) {}
+        if (this) {}
         angle += 0x4E20;
         rand = Math_Rand_ZeroOne() * 10.0f;
         pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
+        temp2 = this->actor.bgCheckFlags;
         Math_Vec3f_Copy(&velocity, &this->actor.velocity);
         if (this->actor.bgCheckFlags & 1) {
             velocity.x *= 0.9f;
@@ -224,9 +227,6 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
         func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, D_80A873A4[i], 5, 2, 0x46, 0, 2, D_0500A5E8);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7E824.s")
-#endif
 
 void func_80A7EB10(EnIshi* this, GlobalContext* globalCtx) {
     Vec3f sp2C;
