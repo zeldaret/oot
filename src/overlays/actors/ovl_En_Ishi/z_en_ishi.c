@@ -49,9 +49,9 @@ static f32 D_80A7FA18[] = { 0.1f, 0.4f };
 static f32 D_80A7FA20[] = { 58.0f, 80.0f };
 static f32 D_80A7FA28[] = { 0.0f, 0.005f };
 
-static s16 D_80A7FA30[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
+static u16 D_80A7FA30[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
 
-static u8 D_80A84AD4[0x2852] = { 0x14, 0x28 };
+static u8 D_80A84AD4[0x2852] = { 20, 40 };
 
 static EnIshiUnkFunc1 D_80A87328[] = { func_80A7E5A8, func_80A7E824 };
 
@@ -134,13 +134,14 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
         } else {
             phi_v0 = 0x21;
         }
-        func_80029E8C(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, scales[i], 3, 0xA, 0x28, -1, 2, D_0500A880);
+        func_80029E8C(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, scales[i], 3, 0xA, 0x28, -1, 2,
+                      D_0500A880);
     }
 }
 
 void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
-    
+
     Vec3f* temp = &this->actor.posRot.pos;
     Vec3f velocity;
     Vec3f pos;
@@ -184,7 +185,8 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 0x45;
             phi_v1 = -0x140;
         }
-        func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, scales[i], 5, 2, 0x46, 0, 2, D_0500A5E8);
+        func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, scales[i], 5, 2,
+                      0x46, 0, 2, D_0500A5E8);
     }
 }
 
@@ -249,7 +251,9 @@ void func_80A7EE1C(EnIshi* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Math_Rand_ZeroOne() * 0xFFFF, 0, 1) == NULL) {
+        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Math_Rand_ZeroOne() * 0xFFFF, 0,
+                        1) == NULL) {
             break;
         }
     }
@@ -319,7 +323,8 @@ void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
         if ((this->actor.params >> 4) & 1) {
             func_80A7EE1C(this, globalCtx);
         }
-    } else if (this->collider.base.acFlags & 2 && sp32 == 0 && this->collider.body.acHitItem->toucher.flags & 0x40000048) {
+    } else if (this->collider.base.acFlags & 2 && sp32 == 0 &&
+               this->collider.body.acHitItem->toucher.flags & 0x40000048) {
         func_80A7ECF8(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[sp32], D_80A7FA30[sp32]);
         D_80A87328[sp32](this, globalCtx);
@@ -445,7 +450,8 @@ void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_0500A3B8);
 
