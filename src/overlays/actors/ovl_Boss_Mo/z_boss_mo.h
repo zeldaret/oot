@@ -13,16 +13,16 @@ typedef struct BossMoParticle {
     /* 0x0C */ Vec3f vel;
     /* 0x18 */ Vec3f accel;
     /* 0x24 */ u8 type;
-    /* 0x25 */ u8 timer1;
+    /* 0x25 */ u8 timer;
     /* 0x26 */ u8 stopTimer;
     /* 0x28 */ s16 unk_28; // unused?
     /* 0x2A */ s16 opacity;
-    /* 0x2C */ s16 unk_2C;
-    /* 0x2E */ s16 unk_2E;
+    /* 0x2C */ s16 rippleMode;
+    /* 0x2E */ s16 maxOpacity;
     /* 0x30 */ f32 scale;
     /* 0x34 */ f32 unk_34;
     /* 0x38 */ f32 unk_38;
-    /* 0x3C */ Vec3f* unk_3C;
+    /* 0x3C */ Vec3f* targetPos;
 } BossMoParticle; //size = 0x40
 
 typedef struct BossMo {
@@ -47,10 +47,10 @@ typedef struct BossMo {
     /* 0x0170 */ s16 unk_170;
     /* 0x0172 */ s16 cutIndex;
     /* 0x0174 */ s16 meltIndex;
-    /* 0x0176 */ s16 unk_176;
+    /* 0x0176 */ s16 linkToLeft;
     /* 0x0178 */ s16 mashCounter;
     /* 0x017A */ s16 noBubbles;
-    /* 0x017C */ s16 unk_17C;
+    /* 0x017C */ s16 sfxTimer;
     /* 0x017E */ s16 timers[5];
     /* 0x0188 */ f32 unk_188;
     /* 0x018C */ f32 unk_18C;
@@ -70,7 +70,7 @@ typedef struct BossMo {
     /* 0x01C4 */ f32 waterTexOpacity;
     /* 0x01C8 */ f32 waterLevelMod;
     /* 0x01CC */ s16 baseBubblesTimer;
-    /* 0x01CE */ s16 unk_1CE;
+    /* 0x01CE */ s16 attackAngleMod;
     /* 0x01D0 */ u8 unk_1D0; //unused?
     /* 0x01D1 */ u8 drawActor;
     /* 0x01D2 */ u8 linkHitTimer;
@@ -109,9 +109,9 @@ typedef struct BossMo {
     /* 0x1008 */ f32 unk_1008;
     /* 0x100C */ f32 unk_100C;
     /* 0x1010 */ Vec3f unk_1010;
-    /* 0x101C */ ColliderJntSph collider1;
+    /* 0x101C */ ColliderJntSph colliderTent;
     /* 0x103C */ ColliderJntSphItem colliderItems[19];
-    /* 0x14FC */ ColliderCylinder collider2;
+    /* 0x14FC */ ColliderCylinder colliderCore;
     /* 0x1548 */ char tent2KillTimer8[0x44]; //unused?
 } BossMo; // size = 0x158C
 
