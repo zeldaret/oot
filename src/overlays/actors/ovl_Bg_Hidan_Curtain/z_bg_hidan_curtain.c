@@ -64,7 +64,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->sizeIndex = ((this->type == 2) || (this->type == 4)) ? 1 : 0;
     hcParams = &sHCParams[this->sizeIndex];
-    this->chestFlag = (thisx->params >> 6) & 0x3F;
+    this->treasureFlag = (thisx->params >> 6) & 0x3F;
     this->actor.params &= 0x3F;
 
     if ((this->actor.params < 0) || (this->actor.params > 0x3F)) {
@@ -90,7 +90,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - hcParams->riseDist;
         }
     }
-    if (((this->type == 1) && Flags_GetTreasure(globalCtx, this->chestFlag)) ||
+    if (((this->type == 1) && Flags_GetTreasure(globalCtx, this->treasureFlag)) ||
         (((this->type == 0) || (this->type == 6)) && Flags_GetClear(globalCtx, this->actor.room))) {
         Actor_Kill(&this->actor);
     }
@@ -215,7 +215,7 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (gSaveContext.sceneSetupIndex <= 3) {
                 func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
             }
-        } else if ((this->type == 1) && Flags_GetTreasure(globalCtx2, this->chestFlag)) {
+        } else if ((this->type == 1) && Flags_GetTreasure(globalCtx2, this->treasureFlag)) {
             Actor_Kill(&this->actor);
         }
         this->texScroll++;
