@@ -2775,12 +2775,13 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
 
             if (actionParam == PLAYER_AP_LENS) {
                 if (func_80087708(globalCtx, 0, 3)) {
-                    if (globalCtx->actorCtx.unk_03 != 0) {
+                    if (globalCtx->actorCtx.lensActive != 0) {
                         func_800304B0(globalCtx);
                     } else {
-                        globalCtx->actorCtx.unk_03 = 1;
+                        globalCtx->actorCtx.lensActive = 1;
                     }
-                    func_80078884((globalCtx->actorCtx.unk_03 != 0) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
+                    func_80078884((globalCtx->actorCtx.lensActive != 0) ? NA_SE_SY_GLASSMODE_ON
+                                                                        : NA_SE_SY_GLASSMODE_OFF);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
@@ -7476,7 +7477,7 @@ void func_808429B4(GlobalContext* globalCtx, s32 speed, s32 y, s32 countdown) {
 
 void func_80842A28(GlobalContext* globalCtx, Player* this) {
     func_808429B4(globalCtx, 27767, 7, 20);
-    globalCtx->actorCtx.unk_02 = 4;
+    globalCtx->actorCtx.hammerTimer = 4;
     func_8083264C(this, 255, 20, 150, 0);
     func_8002F7DC(&this->actor, NA_SE_IT_HAMMER_HIT);
 }
@@ -10115,7 +10116,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this) ? &D_04003310 : (this->shockTimer != 0) ? &D_04002F08 : &D_04002878);
+                                  func_808332B8(this) ? &D_04003310
+                                                      : (this->shockTimer != 0) ? &D_04002F08 : &D_04002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&

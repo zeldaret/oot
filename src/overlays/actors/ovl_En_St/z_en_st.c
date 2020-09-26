@@ -448,7 +448,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (globalCtx->actorCtx.unk_02 != 0) {
+    if (globalCtx->actorCtx.hammerTimer != 0) {
         return true;
     }
 

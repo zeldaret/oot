@@ -42,7 +42,7 @@ typedef struct EnFd {
     /* 0x04C0 */ s16 circlesToComplete;
     /* 0x04C2 */ s16 invincibilityTimer;
     /* 0x04C4 */ s16 attackTimer;
-    /* 0x04C8 */ f32 distToInitPos;
+    /* 0x04C8 */ f32 runRadius;
     /* 0x04CC */ f32 fadeAlpha;
     /* 0x04D0 */ Vec3f corePos;
     /* 0x04DC */ Vec3s limbDrawTable[27];
