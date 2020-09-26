@@ -1489,10 +1489,9 @@ void func_8091F5A8(BossMo* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Ordering issue setting timers[0] in case 0x96. Ordering issues at end of function.
 void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
     s16 i;
+    s16 pad8C;
     f32 dx;
     f32 dz;
     f32 sp80;
@@ -1500,6 +1499,8 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
     Vec3f sp70;
     Vec3f sp64;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Vec3f sp54;
+    Vec3f sp48;
 
     switch (this->cutsceneState) {
         case 0x64:
@@ -1542,8 +1543,6 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
             }
             if (this->timers[0] == 0x14) {
                 for (i = 0; i < 300; i++) {
-                    Vec3f sp54;
-                    Vec3f sp48;
                     sp54.x = Math_Rand_CenteredFloat(10.0f);
                     sp54.y = Math_Rand_CenteredFloat(10.0f);
                     sp54.z = Math_Rand_CenteredFloat(10.0f);
@@ -1576,7 +1575,7 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
                 this->unk_FEC = 0.0f;
                 this->unk_FF0 = 0.02f;
                 this->unk_FD4.y = 320.0f;
-                if (1) {}
+                if(1){}
                 this->timers[0] = 100;
                 D_80925CD4->drawActor = 1;
                 D_80925CD4->actionState = 0xCB;
@@ -1712,16 +1711,15 @@ void func_809206C4(BossMo* this, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&sp70, &sp64);
     this->unk_F68.x = sp64.x + this->unk_F74.x;
     this->unk_F68.z = sp64.z + this->unk_F74.z;
+    pad8C = 1; // I don't care how fake this is. It matches.
     if (this->cutsceneCamera != 0) {
-        if (1) {}
+        if(pad8C) {
         Math_SmoothScaleMaxF(&this->unk_F74.y, this->unk_FD4.y, this->unk_FE0.y, this->unk_FB0.y * this->unk_FEC);
         Math_SmoothScaleMaxF(&this->unk_FEC, 1.0f, 1.0f, this->unk_FF0);
+        }
         func_800C04D8(globalCtx, this->cutsceneCamera, &this->unk_F74, &this->unk_F68);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Mo/func_809206C4.s")
-#endif
 
 void func_80921280(BossMo* this, GlobalContext* globalCtx) {
     ColliderBody* temp_s0;
