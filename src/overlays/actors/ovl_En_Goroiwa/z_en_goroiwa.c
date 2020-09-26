@@ -503,8 +503,8 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -860, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),  ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -554,10 +554,10 @@ void func_80A4D5E0(EnGoroiwa* this) {
     this->unk_1C0 = 1.0f;
 }
 
-void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
-    static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
-    static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
+static EnGoroiwaUnkFunc1 D_80A4DF18[] = { func_80A4C814, func_80A4C6C8 };
+static EnGoroiwaUnkFunc2 D_80A4DF20[] = { func_80A4D9DC, func_80A4D8CC };
 
+void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 temp_v0_5;
     s16 yawDiff;
     s16 temp_v1_2;
