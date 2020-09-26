@@ -166,7 +166,8 @@ typedef struct Actor {
 } Actor; // size = 0x14C
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x04];
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ char unk_01[0x03];
     /* 0x04 */ Actor* actor;
     /* 0x08 */ void* unk_08; // Struct800417A0*
     /* 0x0C */ char  unk_0C[0x0C];
