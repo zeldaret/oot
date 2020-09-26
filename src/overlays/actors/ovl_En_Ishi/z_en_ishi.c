@@ -49,9 +49,10 @@ static f32 D_80A7FA18[] = { 0.1f, 0.4f };
 static f32 D_80A7FA20[] = { 58.0f, 80.0f };
 static f32 D_80A7FA28[] = { 0.0f, 0.005f };
 
-static u16 D_80A7FA30[NA_SE_EV_ROCK_BROKEN] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
+// Hmm, these array lengths look suspiciously like NA_SE_EV_ROCK_BROKEN... Coincidence? I think not.
+static u16 D_80A7FA30[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
 
-static u8 D_80A84AD4[NA_SE_EV_ROCK_BROKEN] = { 20, 40 };
+static u8 D_80A84AD4[0x2852] = { 20, 40 };
 
 static EnIshiUnkFunc1 D_80A87328[] = { func_80A7E5A8, func_80A7E824 };
 
