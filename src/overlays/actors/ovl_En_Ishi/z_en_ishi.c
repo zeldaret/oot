@@ -189,7 +189,7 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     f32 rand;
     s16 phi_v0;
     s16 phi_v1;
-    s32 temp2;
+    s32 pad;
 
     for (i = 0; i < ARRAY_COUNT(D_80A873A4); i++) {
         if (this) {}
@@ -199,7 +199,7 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
-        temp2 = this->actor.bgCheckFlags;
+        phi_v0 = this->actor.bgCheckFlags;
         Math_Vec3f_Copy(&velocity, &this->actor.velocity);
         if (this->actor.bgCheckFlags & 1) {
             velocity.x *= 0.9f;
