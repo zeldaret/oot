@@ -521,7 +521,7 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x = Math_atan2f(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
 }
 
-static EnHorseNormalActionFunc actionFuncs[] = {
+static EnHorseNormalActionFunc sActionFuncs[] = {
     func_80A6BC00, EnHorseNormal_Wander, EnHorseNormal_Wait, EnHorseNormal_WaitClone, EnHorseNormal_FollowPath,
 };
 
@@ -529,7 +529,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
     s32 pad;
 
-    actionFuncs[this->type](this, globalCtx);
+    sActionFuncs[this->type](this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
     if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.posRot.pos.z < -2400.0f) {
