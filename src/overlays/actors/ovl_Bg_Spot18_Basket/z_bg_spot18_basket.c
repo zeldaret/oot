@@ -15,18 +15,18 @@ void func_808B7AEC(BgSpot18Basket* this);
 void func_808B7B58(BgSpot18Basket* this);
 void func_808B7BB0(BgSpot18Basket* this);
 void func_808B7D38(BgSpot18Basket* this);
-void func_808B7F74(BgSpot18Basket *this);
-void func_808B818C(BgSpot18Basket *this);
+void func_808B7F74(BgSpot18Basket* this);
+void func_808B818C(BgSpot18Basket* this);
 
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7B6C(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx);
-void func_808B7770(BgSpot18Basket *this, GlobalContext *globalCtx, f32 arg2);
+void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2);
 void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06002154;
-extern UNK_TYPE D_060018B0;
+extern Gfx D_060018B0;
 
 const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
@@ -40,7 +40,6 @@ const ActorInit Bg_Spot18_Basket_InitVars = {
     (ActorFunc)BgSpot18Basket_Draw,
 };
 
-// D_808B8570
 static ColliderJntSphItemInit sJntSphItemsInit[2] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
@@ -52,18 +51,62 @@ static ColliderJntSphItemInit sJntSphItemsInit[2] = {
     },
 };
 
-// D_808B85B8
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
     2,
     sJntSphItemsInit,
 };
 
-s16 D_808B85C8[] = { 0x8000, 0x2AAA, 0xD555, 0x0000 };
+static s16 D_808B85C8[] = { 32768, 10922, 54613, 0 };
 
-s16 D_808B85D0 = 0;
+void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot18Basket* this = THIS;
 
-// s32 D_808B85D4[] = { 0xC8500064, 0xB0F403E8, 0xB0F801F4, 0x30FC03E8 };
+    Collider_InitJntSph(globalCtx, &this->colliderJntSph);
+    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->colliderJntSphItem);
+    this->dyna.actor.colChkInfo.mass = 255;
+}
+
+void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
+    Vec3f acceleration;
+    Vec3f velocity;
+    Vec3f position;
+    f32 cosValue;
+    s32 i = 0;
+    f32 randomValue;
+    static s16 D_808B85D0 = 0;
+    f32 sinValue;
+    s32 arraySize = 2;
+
+    while (i != arraySize) {
+        if (globalCtx) {}
+        if (!(arg2 < Math_Rand_ZeroOne())) {
+            D_808B85D0 += 30000;
+
+            sinValue = Math_Sins(D_808B85D0);
+            cosValue = Math_Coss(D_808B85D0);
+
+            randomValue = (Math_Rand_ZeroOne() * 35.0f) + 35.0f;
+
+            position.x = (randomValue * sinValue) + this->dyna.actor.posRot.pos.x;
+            position.y = this->dyna.actor.posRot.pos.y + 10.0f;
+            position.z = (randomValue * cosValue) + this->dyna.actor.posRot.pos.z;
+
+            velocity.x = sinValue;
+            velocity.y = 0.0f;
+            velocity.z = cosValue;
+
+            acceleration.x = 0.0f;
+            acceleration.y = 0.5f;
+            acceleration.z = 0.0f;
+
+            func_800286CC(globalCtx, &position, &velocity, &acceleration, ((Math_Rand_ZeroOne() * 16) + 80),
+                          ((Math_Rand_ZeroOne() * 30) + 80));
+        }
+        i++;
+    }
+}
+
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
@@ -71,66 +114,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-s16 D_808B85E4[] = { 0xF060, 0x0320, 0x0FA0, 0x0000, 0x0000, 0x0000 };
-
-void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Basket* this = THIS;
-
-    Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-    // actor = &this->dyna.actor;
-    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->colliderJntSphItem);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
-}
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7710.s")
-
-// void func_808B7770(BgSpot18Basket *this, GlobalContext *globalCtx, f32 arg2) {
-//     s32 max;
-//     s32 i = 0;
-//     s16 *angle;
-//     f32 sinValue;
-//     f32 cosValue;
-//     f32 randomValue2;
-//     Vec3f acceleration;
-//     Vec3f velocity;
-//     Vec3f position;
-    
-//     max = 2;
-//     angle = &D_808B85D0;
-
-//     while (i != max) {
-//         if (!(arg2 < Math_Rand_ZeroOne())) {
-//             *angle += 30000;
-
-//             sinValue = Math_Sins(*angle);
-//             cosValue = Math_Coss(*angle);
-
-//             randomValue2 = (Math_Rand_ZeroOne() * 35.0f) + 35.0f;
-
-//             position.x = (randomValue2 * sinValue) + this->dyna.actor.posRot.pos.x;
-//             position.y = this->dyna.actor.posRot.pos.y + 10.0f;
-//             position.z = (randomValue2 * cosValue) + this->dyna.actor.posRot.pos.z;
-
-//             velocity.x = sinValue;
-//             velocity.y = 0.0f;
-//             velocity.z = 0.0f;
-
-//             acceleration.x = 0.0f;
-//             acceleration.y = 0.5f;
-//             acceleration.z = 0.0f;
-
-//             func_800286CC(globalCtx, &position, &velocity, &acceleration, 
-//                 ((Math_Rand_ZeroOne() * 16) + 80), ((Math_Rand_ZeroOne() * 30) + 80));
-//         }
-//         i++;
-//     }
-// }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7770.s")
+static s16 D_808B85E4[] = { 61536, 800, 4000 };
 
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
-    Actor *actor = &this->dyna.actor;
+    Actor* actor = &this->dyna.actor;
     s32 moveFlag = 0;
 
     DynaPolyInfo_SetActorMove(&this->dyna, 3);
@@ -144,84 +132,69 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     actor->initPosRot.pos.y = actor->initPosRot.pos.y + 0.01f;
     actor->posRot.pos.y = actor->initPosRot.pos.y;
 
-    if (Flags_GetSwitch(globalCtx, (actor->params >> 8) & 0x3F) != 0) {
+    if (Flags_GetSwitch(globalCtx, (actor->params >> 8) & 0x3F)) {
         func_808B7BB0(this);
         return;
     }
 
     func_808B7AEC(this);
-    Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, 0x1C3, actor->posRot.pos.x,
-                       actor->posRot.pos.y, actor->posRot.pos.z, actor->shape.rot.x,
-                       actor->shape.rot.y + 0x1555, actor->shape.rot.z, -1);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, 451, actor->posRot.pos.x, actor->posRot.pos.y,
+                       actor->posRot.pos.z, actor->shape.rot.x, actor->shape.rot.y + 5461, actor->shape.rot.z, -1);
 
-    if (actor->child == 0) {
+    if (!actor->child) {
         osSyncPrintf("\x1b[31m");
-        osSyncPrintf("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 0x15F);
+        osSyncPrintf("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
         osSyncPrintf("\x1b[m");
         Actor_Kill(actor);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Init.s")
-
-void BgSpot18Basket_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Destroy.s")
-
 void func_808B7AEC(BgSpot18Basket* this) {
     this->actionFunc = func_808B7AFC;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7AEC.s")
-
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F) != 0) {
-        func_800800F8(globalCtx, 0x107C, 0x50, this, 0);
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
+        func_800800F8(globalCtx, 4220, 80, this, 0);
         func_808B7B58(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7AFC.s")
-//
 void func_808B7B58(BgSpot18Basket* this) {
     this->actionFunc = func_808B7B6C;
     this->unk_216 = 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7B58.s")
-
-void func_808B7B6C(BgSpot18Basket *this, GlobalContext *globalCtx) {
-    if (this->unk_216 >= 0x15) {
+void func_808B7B6C(BgSpot18Basket* this, GlobalContext* globalCtx) {
+    if (this->unk_216 >= 21) {
         func_808B7BB0(this);
         this->dyna.actor.child->parent = NULL;
         this->dyna.actor.child = NULL;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7B6C.s")
-
-void func_808B7BB0(BgSpot18Basket *this) {
+void func_808B7BB0(BgSpot18Basket* this) {
     this->unk_20C = 0;
     this->actionFunc = func_808B7BCC;
     this->unk_210 = this->unk_20C;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7BB0.s")
-
-void func_808B7BCC(BgSpot18Basket *this, GlobalContext *globalCtx) {
+void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     f32 positionDiff;
-    Actor *colliderBaseAc;
+    Actor* colliderBaseAc;
 
-    Math_ApproxS(&this->unk_210, 0x1F4, 0x1E);
+    Math_ApproxS(&this->unk_210, 500, 30);
 
     this->dyna.actor.shape.rot.y += this->unk_210;
 
     Math_ApproxF(&this->unk_208, 50.0f, 1.5f);
-    Math_ApproxS(&this->unk_20C, 0x190, 0xF);
+    Math_ApproxS(&this->unk_20C, 400, 15);
 
     this->unk_20E += this->unk_20C;
 
@@ -235,33 +208,25 @@ void func_808B7BCC(BgSpot18Basket *this, GlobalContext *globalCtx) {
             positionDiff = colliderBaseAc->posRot.pos.y - this->dyna.actor.posRot.pos.y;
 
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
-                if (Math3D_Dist2DSq(
-                    colliderBaseAc->posRot.pos.z, 
-                    this->colliderJntSph.base.ac->posRot.pos.x, 
-                    this->dyna.actor.posRot.pos.z, 
-                    this->dyna.actor.posRot.pos.x) < 1024.0f
-                ) {
-                    func_800800F8(globalCtx, 0x1072, 0xF0, this, 0);
+                if (Math3D_Dist2DSq(colliderBaseAc->posRot.pos.z, this->colliderJntSph.base.ac->posRot.pos.x,
+                                    this->dyna.actor.posRot.pos.z, this->dyna.actor.posRot.pos.x) < 1024.0f) {
+                    func_800800F8(globalCtx, 4210, 240, this, 0);
                     func_808B7D38(this);
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 }
             }
         }
     }
-    func_8002F974(this, 0x2024U);
+    func_8002F974(this, 8228);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7BCC.s")
-
-void func_808B7D38(BgSpot18Basket *this) {
+void func_808B7D38(BgSpot18Basket* this) {
     this->actionFunc = func_808B7D50;
     this->unk_216 = 0;
     this->unk_214 = 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7D38.s")
-
-void func_808B7D50(BgSpot18Basket *this, GlobalContext *globalCtx) {
+void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx) {
     f32 tempValue2;
     f32 tempValue;
 
@@ -310,42 +275,36 @@ void func_808B7D50(BgSpot18Basket *this, GlobalContext *globalCtx) {
     func_800F436C(&this->dyna.actor.projectedPos, 203, tempValue);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7D50.s")
+void func_808B7F74(BgSpot18Basket* this) {
+    s16 shapeRotY;
 
-void func_808B7F74(BgSpot18Basket *this) {
-    s16 temp_v0;
-
-    temp_v0 = this->dyna.actor.shape.rot.y;
+    shapeRotY = this->dyna.actor.shape.rot.y;
     this->actionFunc = func_808B7FC0;
 
-    if ((temp_v0 < -0x2E93) || (temp_v0 >= 0x7C19)) {
+    if ((shapeRotY < -11923) || (shapeRotY >= 31769)) {
         this->unk_218 = 2;
+    } else if (shapeRotY < 9922) {
+        this->unk_218 = 1;
     } else {
-        if (temp_v0 < 0x26C2) {
-            this->unk_218 = 1;
-        } else {
-            this->unk_218 = 0;
-        }
+        this->unk_218 = 0;
     }
+
     this->unk_216 = 0;
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7F74.s")
-
-void func_808B7FC0(BgSpot18Basket *this, GlobalContext *globalCtx) {
+void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx) {
     s32 pad;
-    s32 sp20;
-    f32 temp_f0;
-    s16 temp_v0;
-    f32 phi_f2;
+    s32 tempUnk214;
+    f32 tempUnk210;
+    s16 arrayValue;
+    f32 clampedTempUnk210;
 
     this->unk_212 += 3000;
 
-    if (this->unk_216 >= 0xD) {
-        sp20 = Math_ApproxS(&this->unk_214, 0, 55);
+    if (this->unk_216 >= 13) {
+        tempUnk214 = Math_ApproxS(&this->unk_214, 0, 55);
     } else {
-        sp20 = 0;
+        tempUnk214 = 0;
     }
 
     this->dyna.actor.shape.rot.x = Math_Coss(this->unk_212) * this->unk_214;
@@ -354,11 +313,11 @@ void func_808B7FC0(BgSpot18Basket *this, GlobalContext *globalCtx) {
     Math_ApproxS(&this->unk_210, 500, 10);
     this->dyna.actor.shape.rot.y += this->unk_210;
 
-    if (sp20 != 0) {
-        temp_v0 = D_808B85C8[this->unk_218];
+    if (tempUnk214 != 0) {
+        arrayValue = D_808B85C8[this->unk_218];
 
-        if ((s16) (this->dyna.actor.shape.rot.y - temp_v0) >= 0) {
-            this->dyna.actor.shape.rot.y = temp_v0;
+        if ((s16)(this->dyna.actor.shape.rot.y - arrayValue) >= 0) {
+            this->dyna.actor.shape.rot.y = arrayValue;
 
             func_808B818C(this);
             func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -371,27 +330,23 @@ void func_808B7FC0(BgSpot18Basket *this, GlobalContext *globalCtx) {
         func_808B7770(this, globalCtx, 0.3f);
     }
 
-    temp_f0 = (this->unk_210 - 500) * 0.0006f;
+    tempUnk210 = (this->unk_210 - 500) * 0.0006f;
 
-    phi_f2 = CLAMP(temp_f0, 0.0f, 1.5f);
-    
-    func_800F436C(&this->dyna.actor.projectedPos, 203, phi_f2);
+    clampedTempUnk210 = CLAMP(tempUnk210, 0.0f, 1.5f);
+
+    func_800F436C(&this->dyna.actor.projectedPos, 203, clampedTempUnk210);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7FC0.s")
-
-void func_808B818C(BgSpot18Basket *this) {
+void func_808B818C(BgSpot18Basket* this) {
     this->actionFunc = func_808B81A0;
     this->unk_216 = 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B818C.s")
-
-void func_808B81A0(BgSpot18Basket *this, GlobalContext *globalCtx) {
+void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx) {
     s32 i;
-    Actor *actor = &this->dyna.actor;
+    Actor* actor = &this->dyna.actor;
     Vec3f tempVector;
-    EnItem00 *collectible;
+    EnItem00* collectible;
 
     if (this->unk_216 == 1) {
         tempVector.x = actor->posRot.pos.x;
@@ -403,7 +358,7 @@ void func_808B81A0(BgSpot18Basket *this, GlobalContext *globalCtx) {
                 collectible = Item_DropCollectible(globalCtx, &tempVector, 4);
                 if (collectible != NULL) {
                     collectible->actor.velocity.y = 11.0f;
-                    collectible->actor.posRot.rot.y =  D_808B85E4[i];
+                    collectible->actor.posRot.rot.y = D_808B85E4[i];
                 }
             }
         } else if (this->unk_218 == 1) {
@@ -434,7 +389,7 @@ void func_808B81A0(BgSpot18Basket *this, GlobalContext *globalCtx) {
             if (collectible != NULL) {
                 collectible->actor.velocity.y = 11.0f;
                 collectible->actor.posRot.rot.y = D_808B85E4[0];
-            } 
+            }
 
             collectible = Item_DropCollectible(globalCtx, &tempVector, 1);
             if (collectible != NULL) {
@@ -442,31 +397,25 @@ void func_808B81A0(BgSpot18Basket *this, GlobalContext *globalCtx) {
                 collectible->actor.posRot.rot.y = D_808B85E4[2];
             }
         }
-    } else {
-        if (this->unk_216 == 2) {
-            if (this->unk_218 == 2) {
-                func_80078884(0x4802U);
-            }
-            else {
-                func_80078884(0x4807U);
-            }
-        } else if (this->unk_216 == 200) {
-            func_808B7BB0(this);
+    } else if (this->unk_216 == 2) {
+        if (this->unk_218 == 2) {
+            func_80078884(18434);
+        } else {
+            func_80078884(18439);
         }
+    } else if (this->unk_216 == 200) {
+        func_808B7BB0(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B81A0.s")
-
-void BgSpot18Basket_Update(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
     Vec3s somePointer;
 
     this->unk_216 += 1;
     this->actionFunc(this, globalCtx);
-    this->dyna.actor.groundY = func_8003C9A4(
-        &globalCtx->colCtx, 
-        &this->dyna.actor.floorPoly, &somePointer, &this->dyna.actor, &this->dyna.actor.posRot);
+    this->dyna.actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &somePointer,
+                                             &this->dyna.actor, &this->dyna.actor.posRot);
     if (this->actionFunc != func_808B7AFC) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
         if (this->actionFunc != func_808B7B6C) {
@@ -476,14 +425,10 @@ void BgSpot18Basket_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Update.s")
-
-void BgSpot18Basket_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
 
     func_800628A4(0, &this->colliderJntSph);
     func_800628A4(1, &this->colliderJntSph);
     Gfx_DrawDListOpa(globalCtx, &D_060018B0);
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/BgSpot18Basket_Draw.s")
