@@ -42,54 +42,56 @@ static ColliderCylinderInit sCylInitFlame = {
     { 15, 45, 45, { 0, 0, 0 } },
 };
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
+};
+
 static s32 sLitTorchCount;
 
-void ObjSyokudai_Init(Actor* thisx, GlobalContext *globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
-    };
-    static u8 sColTypesStand[] = {0x09, 0x0B, 0x0B};
+void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
+    static u8 sColTypesStand[] = { 0x09, 0x0B, 0x0B };
     s32 pad;
     ObjSyokudai* this = THIS;
     s32 torchType = this->actor.params & 0xF000;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-    
-    Collider_InitCylinder(globalCtx, &this->collider1);
-    Collider_SetCylinder(globalCtx, &this->collider1, &this->actor, &sCylInitStand);
-    this->collider1.base.type = sColTypesStand[this->actor.params >> 0xC];
-    
-    Collider_InitCylinder(globalCtx, &this->collider2);
-    Collider_SetCylinder(globalCtx, &this->collider2, &this->actor, &sCylInitFlame);
-    
+
+    Collider_InitCylinder(globalCtx, &this->colliderStand);
+    Collider_SetCylinder(globalCtx, &this->colliderStand, &this->actor, &sCylInitStand);
+    this->colliderStand.base.type = sColTypesStand[this->actor.params >> 0xC];
+
+    Collider_InitCylinder(globalCtx, &this->colliderFlame);
+    Collider_SetCylinder(globalCtx, &this->colliderFlame, &this->actor, &sCylInitFlame);
+
     this->actor.colChkInfo.mass = 0xFF;
-    
-    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y + 70.0f, this->actor.posRot.pos.z, 0xFF, 0xFF, 0xB4, -1);
+
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y + 70.0f,
+                            this->actor.posRot.pos.z, 0xFF, 0xFF, 0xB4, -1);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    
+
     if ((this->actor.params & 0x400) || ((torchType != 2) && Flags_GetSwitch(globalCtx, this->actor.params & 0x3F))) {
-        this->timer = -1;
+        this->litTimer = -1;
     }
-    
+
     this->flameTexScroll = (s32)(Math_Rand_ZeroOne() * 20.0f);
     sLitTorchCount = 0;
     Actor_SetHeight(&this->actor, 60.0f);
 }
 
-void ObjSyokudai_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjSyokudai* this = THIS;
-    
-    Collider_DestroyCylinder(globalCtx, &this->collider1);
-    Collider_DestroyCylinder(globalCtx, &this->collider2);
+
+    Collider_DestroyCylinder(globalCtx, &this->colliderStand);
+    Collider_DestroyCylinder(globalCtx, &this->colliderFlame);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
 
-void ObjSyokudai_Update(Actor* thisx, GlobalContext *globalCtx2) {
+void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     ObjSyokudai* this = THIS;
     s32 torchCount = (this->actor.params >> 6) & 0xF;
@@ -99,86 +101,89 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext *globalCtx2) {
     WaterBox* dummy;
     f32 waterSurface;
     s32 lightRadius = -1;
-    u8 lightColorY = 0;
+    u8 brightness = 0;
     Player* player;
     EnArrow* arrow;
-    s32 itemType;
+    s32 interactionType;
     u32 toucherFlags;
     Vec3f tipToFlame;
-    ColliderCylinder* collider1;
-    ColliderCylinder* collider2;
+    ColliderCylinder* colliderStand;
+    ColliderCylinder* colliderFlame;
 
     litTimeScale = torchCount;
-    if(torchCount == 10) {
+    if (torchCount == 10) {
         torchCount = 24;
     }
-    if (func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &waterSurface, &dummy) && ((waterSurface - this->actor.posRot.pos.y) > 52.0f )) {
-        this->timer = 0;
+    if (func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &waterSurface,
+                      &dummy) &&
+        ((waterSurface - this->actor.posRot.pos.y) > 52.0f)) {
+        this->litTimer = 0;
         if (torchType == 1) {
             Flags_UnsetSwitch(globalCtx, switchFlag);
             if (torchCount != 0) {
-                this->timer = 1;
+                this->litTimer = 1;
             }
         }
     } else {
         player = PLAYER;
-        itemType = 0;
+        interactionType = 0;
         if (this->actor.params & 0x400) {
-            this->timer = -1;
+            this->litTimer = -1;
         }
         if (torchCount != 0) {
             if (Flags_GetSwitch(globalCtx, switchFlag)) {
-                if (this->timer == 0) {
-                    this->timer = -1;
+                if (this->litTimer == 0) {
+                    this->litTimer = -1;
                     if (torchType == 0) {
                         func_80080480(globalCtx, &this->actor);
                     }
-                } else if (this->timer > 0) {
-                    this->timer = -1;
+                } else if (this->litTimer > 0) {
+                    this->litTimer = -1;
                 }
-            } else if (this->timer < 0) {
-                this->timer = 20;
+            } else if (this->litTimer < 0) {
+                this->litTimer = 20;
             }
         }
-        if (this->collider2.base.acFlags & 2) {
-            toucherFlags = this->collider2.body.acHitItem->toucher.flags;
+        if (this->colliderFlame.base.acFlags & 2) {
+            toucherFlags = this->colliderFlame.body.acHitItem->toucher.flags;
             if (toucherFlags & 0x20820) {
-                itemType = 1;
+                interactionType = 1;
             }
         } else if (player->heldItemActionParam == 6) {
             Math_Vec3f_Diff(&player->swordInfo[0].tip, &this->actor.posRot.pos, &tipToFlame);
             tipToFlame.y -= 67.0f;
             if ((SQ(tipToFlame.x) + SQ(tipToFlame.y) + SQ(tipToFlame.z)) < SQ(20.0f)) {
-                itemType = -1;
+                interactionType = -1;
             }
         }
-        if (itemType != 0) {
-            if (this->timer != 0) {
-                if (itemType < 0) {
+        if (interactionType != 0) {
+            if (this->litTimer != 0) {
+                if (interactionType < 0) {
                     if (player->unk_860 == 0) {
                         player->unk_860 = 210;
-                        Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &D_801333E0,
+                                               &D_801333E0, &D_801333E8);
                     } else if (player->unk_860 < 200) {
                         player->unk_860 = 200;
                     }
                 } else if (toucherFlags & 0x20) {
-                    arrow = (EnArrow*) this->collider2.base.ac;
-                    if(arrow->actor.update && (arrow->actor.id == ACTOR_EN_ARROW)) {
+                    arrow = (EnArrow*)this->colliderFlame.base.ac;
+                    if (arrow->actor.update && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
                         arrow->unk_1A8 = 0x800;
                     }
                 }
-                if ((0 <= this->timer) && (this->timer < (50 * litTimeScale + 100)) && (torchType != 0)) {
-                    this->timer = 50 * litTimeScale + 100;
+                if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
+                    this->litTimer = 50 * litTimeScale + 100;
                 }
-            } else if ((torchType != 0) && (((itemType > 0) && (toucherFlags & 0x20800))
-                                            || ((itemType < 0) && (player->unk_860 != 0)))) {
-                
-                if ((itemType < 0) && ( player->unk_860 < 200)){
+            } else if ((torchType != 0) && (((interactionType > 0) && (toucherFlags & 0x20800)) ||
+                                            ((interactionType < 0) && (player->unk_860 != 0)))) {
+
+                if ((interactionType < 0) && (player->unk_860 < 200)) {
                     player->unk_860 = 200;
                 }
                 if (torchCount == 0) {
-                    this->timer = -1;
+                    this->litTimer = -1;
                     if (torchType != 2) {
                         Flags_SetSwitch(globalCtx, switchFlag);
                         func_80080480(globalCtx, &this->actor);
@@ -188,45 +193,46 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext *globalCtx2) {
                     if (sLitTorchCount >= torchCount) {
                         Flags_SetSwitch(globalCtx, switchFlag);
                         func_80080480(globalCtx, &this->actor);
-                        this->timer = -1;
+                        this->litTimer = -1;
                     } else {
-                        this->timer = (litTimeScale * 50) + 110;
+                        this->litTimer = (litTimeScale * 50) + 110;
                     }
                 }
-                Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                                       &D_801333E8);
             }
         }
     }
-    collider1 = &this->collider1;
-    Collider_CylinderUpdate(&this->actor, collider1);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider1->base);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider1->base);
-    
-    collider2 = &this->collider2;
-    Collider_CylinderUpdate(&this->actor, collider2);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider2->base);
+    colliderStand = &this->colliderStand;
+    Collider_CylinderUpdate(&this->actor, colliderStand);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
 
-    if (this->timer > 0) {
-        this->timer--;
-        if ((this->timer == 0) && (torchType != 0)) {
+    colliderFlame = &this->colliderFlame;
+    Collider_CylinderUpdate(&this->actor, colliderFlame);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderFlame->base);
+
+    if (this->litTimer > 0) {
+        this->litTimer--;
+        if ((this->litTimer == 0) && (torchType != 0)) {
             sLitTorchCount--;
         }
     }
-    if (this->timer != 0) {
-        if ((this->timer < 0) || (this->timer >= 20)) {
+    if (this->litTimer != 0) {
+        if ((this->litTimer < 0) || (this->litTimer >= 20)) {
             lightRadius = 200;
         } else {
-            lightRadius = (this->timer * 200.0f) / 20.0f;
+            lightRadius = (this->litTimer * 200.0f) / 20.0f;
         }
-        lightColorY = (u8)(Math_Rand_ZeroOne() * 127.0f) + 128;
+        brightness = (u8)(Math_Rand_ZeroOne() * 127.0f) + 128;
         func_8002F974(&this->actor, NA_SE_EV_TORCH - SFX_FLAG);
     }
-    Lights_PointSetColorAndRadius(&this->lightInfo, lightColorY, lightColorY, 0, lightRadius);
+    Lights_PointSetColorAndRadius(&this->lightInfo, brightness, brightness, 0, lightRadius);
     this->flameTexScroll++;
 }
 
-void ObjSyokudai_Draw(Actor* thisx, GlobalContext *globalCtx) {
-    static Gfx* sDisplayLists[] = {0x060003A0, 0x06000B90, 0x06000870};
+void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Gfx* sDisplayLists[] = { 0x060003A0, 0x06000B90, 0x06000870 };
     s32 pad;
     ObjSyokudai* this = THIS;
     s32 timerMax;
@@ -235,36 +241,42 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext *globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 707);
     func_80093D18(globalCtx->state.gfxCtx);
-    
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 714), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 714),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
     gSPDisplayList(oGfxCtx->polyOpa.p++, sDisplayLists[(u16)this->actor.params >> 0xC]);
-    
-    if (this->timer != 0) {
+
+    if (this->litTimer != 0) {
         f32 flameScale = 1.0f;
-        
-        if (this->timer > timerMax) {
-            flameScale = (timerMax - this->timer + 10) / 10.0f;
-        } else if ((this->timer > 0) && (this->timer < 20)) {
-            flameScale = this->timer / 20.0f;
+
+        if (this->litTimer > timerMax) {
+            flameScale = (timerMax - this->litTimer + 10) / 10.0f;
+        } else if ((this->litTimer > 0) && (this->litTimer < 20)) {
+            flameScale = this->litTimer / 20.0f;
         }
         flameScale *= 0.0027f;
-        
+
         func_80093D84(globalCtx->state.gfxCtx);
-        
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, (this->flameTexScroll * -20) & 0x1FF, 0x20, 0x80));
-        
+
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
+                                    (this->flameTexScroll * -20) & 0x1FF, 0x20, 0x80));
+
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 0, 255);
-        
+
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-        
+
         Matrix_Translate(0.0f, 52.0f, 0.0f, 1);
-        Matrix_RotateY((s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) * (M_PI/0x8000), 1);
+        Matrix_RotateY(
+            (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
+                (M_PI / 0x8000),
+            1);
         Matrix_Scale(flameScale, flameScale, flameScale, 1);
-        
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 745), 
-        G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        
+
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 745),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 749);
