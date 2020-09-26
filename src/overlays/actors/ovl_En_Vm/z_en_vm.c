@@ -15,7 +15,16 @@ void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-/*
+void EnVm_SetupWait(EnVm* this);
+void EnVm_Wait(EnVm* this, GlobalContext* globalCtx);
+void EnVm_SetupAttack(EnVm* this);
+void EnVm_Attack(EnVm* this, GlobalContext* globalCtx);
+void EnVm_SetupStun(EnVm* this);
+void EnVm_Stun(EnVm* this, GlobalContext* globalCtx);
+void EnVm_SetupDie(EnVm* this);
+void EnVm_Die(EnVm* this, GlobalContext* globalCtx);
+void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx);
+
 const ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
     ACTORTYPE_ENEMY,
@@ -27,35 +36,497 @@ const ActorInit En_Vm_InitVars = {
     (ActorFunc)EnVm_Update,
     (ActorFunc)EnVm_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2D460.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/EnVm_Init.s")
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 25, 70, 0, { 0, 0, 0 } },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/EnVm_Destroy.s")
+static ColliderQuadInit sQuadInit1 = {
+    { COLTYPE_METAL_SHIELD, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x10 }, { 0x00000000, 0x00, 0x00 }, 0x81, 0x00, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2D600.s")
+static ColliderQuadInit sQuadInit2 = {
+    { COLTYPE_METAL_SHIELD, 0x00, 0x09, 0x00, 0x00, COLSHAPE_QUAD },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2D68C.s")
+Vec3f D_80B2EAEC = { 0.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2D9D8.s")
+Vec3f D_80B2EAF8 = { 0.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2DA7C.s")
+Vec3f D_80B2EB04 = { 500.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2DCC8.s")
+Vec3f D_80B2EB10 = { -500.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2DD70.s")
+Vec3f D_80B2EB1C = { 0.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2DE7C.s")
+Vec3f D_80B2EB28 = { 0.0f, 0.0f, 1600.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2DF84.s")
+Vec3f D_80B2EB34 = { 1000.0f, 700.0f, 2000.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2E034.s")
+Vec3f D_80B2EB40 = { 1000.0f, -700.0f, 2000.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/EnVm_Update.s")
+Vec3f D_80B2EB4C = { -1000.0f, 700.0f, 1500.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2E2D8.s")
+Vec3f D_80B2EB58 = { -1000.0f, -700.0f, 1500.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2E340.s")
+Vec3f D_80B2EB64 = { 500.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/EnVm_Draw.s")
+Vec3f D_80B2EB70 = { -500.0f, 0.0f, 0.0f };
+
+Vec3f D_80B2EB7C = { 0.4f, 0.4f, 0.4f };
+
+UNK_PTR D_80B2EB88[] = { 0x0402CFE0, 0x0402D7E0, 0x0402DFE0, 0x0402E7E0, 0x0402EFE0,
+                         0x0402F7E0, 0x0402FFE0, 0x040307E0, 0x04030FE0, 0x040317E0 };
+
+extern SkeletonHeader D_06003F60;
+extern AnimationHeader D_06000068;
+extern Gfx D_04031FE0[];
+extern Gfx D_06002728[];
+
+void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
+}
+
+void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnVm* this = THIS;
+
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003F60, &D_06000068, this->limbDrawTable,
+                   this->transitionDrawTable, 11);
+    ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
+    Collider_InitCylinder(globalCtx, &this->colliderCylinder);
+    Collider_SetCylinder(globalCtx, &this->colliderCylinder, thisx, &sCylinderInit);
+    Collider_InitQuad(globalCtx, &this->colliderQuad1);
+    Collider_SetQuad(globalCtx, &this->colliderQuad1, thisx, &sQuadInit1);
+    Collider_InitQuad(globalCtx, &this->colliderQuad2);
+    Collider_SetQuad(globalCtx, &this->colliderQuad2, thisx, &sQuadInit2);
+    this->beamSightRange = (thisx->params >> 8) * 40.0f;
+    thisx->params &= 0xFF;
+    thisx->naviEnemyId = 0x39;
+
+    if (thisx->params == BMT_LARGE) {
+        thisx->colChkInfo.health = 2;
+        Actor_SetScale(thisx, 0.014f);
+    } else {
+        thisx->colChkInfo.health = 1;
+        Actor_SetScale(thisx, 0.01f);
+    }
+
+    EnVm_SetupWait(thisx);
+}
+
+void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnVm* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
+}
+
+void EnVm_SetupWait(EnVm* this) {
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000068);
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 1.0f, frameCount, frameCount, 2, 0.0f);
+    this->unk_25E = this->unk_260 = 0;
+    this->unk_21C = 0;
+    this->timer = 10;
+    EnVm_SetupAction(this, EnVm_Wait);
+}
+
+void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    f32 tempVar1;
+    s16 phi_v0;
+    s16 pad2;
+    s16 pad;
+    s16 pitch;
+
+    switch (this->unk_25E) {
+        case 0:
+            Math_SmoothScaleMaxMinS(&this->beamRot.x, 0, 10, 1500, 0);
+            phi_v0 = this->actor.yawTowardsLink - this->headRotY - this->actor.shape.rot.y;
+            pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
+
+            if (pitch > 0x1B91) {
+                pitch = 0x1B91;
+            }
+
+            tempVar1 = this->beamSightRange - this->actor.xzDistFromLink;
+
+            if (this->actor.xzDistFromLink <= this->beamSightRange && ABS(phi_v0) <= 10000 && pitch >= 3640 &&
+                this->actor.yDistFromLink <= 80.0f && this->actor.yDistFromLink >= -160.0f) {
+                Math_SmoothScaleMaxMinS(&this->beamRot, pitch, 10, 4000, 0);
+                if (Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
+                                            (ABS((s16)((tempVar1)*180.0f)) / 3) + 4000, 0) <= 5460 &&
+                    --this->timer == 0) {
+                    this->unk_25E++;
+                    this->skelAnime.animCurrentFrame = 0.0f;
+                    this->skelAnime.initialFrame = 0.0f;
+                    this->skelAnime.animPlaybackSpeed = 2.0f;
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_AIM);
+                }
+            } else {
+                this->headRotY -= 500;
+            }
+
+            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            return;
+            break;
+        case 1:
+            break;
+        default:
+            return;
+            break;
+    }
+
+    Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 8000, 0);
+
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        this->unk_260++;
+        this->skelAnime.animCurrentFrame = 0.0f;
+    }
+
+    if (this->unk_260 == 2) {
+        this->beamRot.y = this->actor.yawTowardsLink;
+        this->beamRot.x = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos.x);
+
+        if (this->beamRot.x > 0x1B91) {
+            this->beamRot.x = 0x1B91;
+        }
+
+        if (this->beamRot.x < 2730) {
+
+            this->skelAnime.initialFrame = this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
+            this->unk_25E = this->unk_260 = 0;
+            this->timer = 10;
+            this->skelAnime.animPlaybackSpeed = 1.0f;
+            return;
+        }
+
+        this->skelAnime.animCurrentFrame = 6.0f;
+        func_8002A770(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255, 255, 16,
+                      20);
+        EnVm_SetupAttack(this);
+    }
+}
+
+void EnVm_SetupAttack(EnVm* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 3.0f, 3.0f, 7.0f, 2, 0.0f);
+    this->timer = 305;
+    this->beamScale.x = 0.6f;
+    this->beamSpeed = 40.0f;
+    this->unk_21C = 1;
+    this->colliderQuad1.base.atFlags &= 0xFFFD;
+    EnVm_SetupAction(this, EnVm_Attack);
+}
+
+void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    s16 pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
+    f32 dist;
+    Vec3f playerPos;
+
+    if (pitch > 0x1B91) {
+        pitch = 0x1B91;
+    }
+
+    if ((this->colliderQuad1.base.atFlags & 2) != 0) {
+        this->colliderQuad1.base.atFlags &= 0xFFFD;
+        this->timer = 0;
+
+        if (this->beamScale.x > 0.1f) {
+            this->beamScale.x = 0.1f;
+        }
+    }
+
+    if (this->beamRot.x < 2730 || this->timer == 0) {
+        Math_SmoothScaleMaxMinF(&this->beamScale, 0.0f, 1.0f, 0.03f, 0.0f);
+        this->unk_260 = 0;
+
+        if (this->beamScale.x == 0.0f) {
+            this->beamScale.z = 0.0f;
+            this->beamScale.y = 0.0f;
+            EnVm_SetupWait(this);
+        }
+    } else {
+        if (--this->timer > 300) {
+            return;
+        }
+
+        Math_SmoothScaleMaxMinS(&this->headRotY, -this->actor.shape.rot.y + this->actor.yawTowardsLink, 10, 3500, 0);
+        Math_SmoothScaleMaxMinS(&this->beamRot.y, this->actor.yawTowardsLink, 10, 3500, 0);
+        Math_SmoothScaleMaxMinS(&this->beamRot, pitch, 10, 3500, 0);
+        playerPos = player->actor.posRot.pos;
+
+        if (player->actor.groundY > -32000.0f) {
+            playerPos.y = player->actor.groundY;
+        }
+
+        dist = Math_Vec3f_DistXYZ(&this->beamPos1, &playerPos);
+        Math_SmoothScaleMaxMinF(&this->beamScale.z, dist, 1.0f, this->beamSpeed, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->beamScale.x, 0.1f, 1.0f, 0.12f, 0.0f);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER - SFX_FLAG);
+
+        if (this->unk_260 > 2) {
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderQuad1);
+        }
+
+        this->unk_260 = 3;
+    }
+
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        this->skelAnime.animCurrentFrame = this->skelAnime.initialFrame;
+    }
+}
+
+void EnVm_SetupStun(EnVm* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, -1.0f, SkelAnime_GetFrameCount(&D_06000068), 0.0f, 2, 0.0f);
+    this->unk_260 = 0;
+    this->timer = 180;
+    this->unk_25E = this->unk_260;
+    this->unk_21C = 2;
+    this->beamScale.z = 0.0f;
+    this->beamScale.y = 0.0f;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    EnVm_SetupAction(this, EnVm_Stun);
+}
+
+void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
+    if (this->timer == 0) {
+        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+            this->unk_25E++;
+
+            if (this->unk_25E == 3) {
+                EnVm_SetupWait(this);
+                return;
+            } else {
+                if (this->unk_25E == 1) {
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 1.0f, 0.0f,
+                                         SkelAnime_GetFrameCount(&D_06000068), 2, 0.0f);
+                } else {
+                    this->timer = 10;
+                    this->skelAnime.animCurrentFrame = 0.0f;
+                    this->skelAnime.animPlaybackSpeed = 2.0f;
+                }
+            }
+        }
+    } else {
+        Math_SmoothScaleMaxMinS(&this->beamRot, 0, 10, 1500, 0);
+        this->timer--;
+        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    }
+}
+
+void EnVm_SetupDie(EnVm* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, -1.0f, SkelAnime_GetFrameCount(&D_06000068), 0.0f, 2, 0.0f);
+    this->timer = 33;
+    this->unk_25E = this->unk_260 = 0;
+    this->unk_21C = 3;
+    this->beamScale.z = 0.0f;
+    this->beamScale.y = 0.0f;
+    this->actor.shape.unk_08 = -5000.0f;
+    this->actor.posRot.pos.y += (5000.0f * this->actor.scale.y);
+    this->actor.velocity.y = 8.0f;
+    this->actor.gravity = -0.5f;
+    this->actor.speedXZ = (Math_Rand_ZeroOne() + 1.0f);
+    this->actor.posRot.rot.y = Math_Rand_CenteredFloat(65535.0f);
+    EnVm_SetupAction(this, EnVm_Die);
+}
+
+void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
+    EnBom* EnBom;
+
+    this->beamRot.x += 1500;
+    this->headRotY += 2500;
+    Actor_MoveForward(&this->actor);
+
+    if (--this->timer == 0) {
+        EnBom = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
+                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0x6FF, 0);
+
+        if (EnBom != NULL) {
+            EnBom->timer = 0;
+        }
+
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0xA0);
+        Actor_Kill(&this->actor);
+    }
+}
+
+void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
+    EnBom* EnBom;
+
+    if (Actor_GetCollidedExplosive(globalCtx, &this->colliderCylinder) != 0) {
+        osSyncPrintf("hp down %d\n", --this->actor.colChkInfo.health);
+    } else {
+        if (!(this->colliderQuad2.base.acFlags & 2) || this->unk_21C == 2) {
+            return;
+        }
+
+        this->colliderQuad2.base.acFlags &= 0xFFFD;
+    }
+
+    if (this->actor.colChkInfo.health != 0) {
+        func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+        EnVm_SetupStun(this);
+    } else {
+        EnBom = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
+                            this->actor.posRot.pos.y + 20.0f, this->actor.posRot.pos.z, 0, 0, 0x601, 0);
+
+        if (EnBom != NULL) {
+            EnBom->timer = 0;
+        }
+
+        EnVm_SetupDie(this);
+    }
+}
+
+void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnVm* this = THIS;
+    CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
+
+    if (this->actor.colChkInfo.health != 0) {
+        EnVm_CheckHealth(this, globalCtx);
+    }
+
+    if (this->unk_260 == 4) {
+        func_8002A90C(globalCtx, &this->beamPos3, 20, -1, 255, 20);
+        func_80033480(globalCtx, &this->beamPos3, 6.0f, 1, 120, 20, 1);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER_GND - SFX_FLAG);
+    }
+
+    this->actionFunc(this, globalCtx);
+    this->beamTexScroll += 0x0C;
+
+    if (this->actor.colChkInfo.health != 0) {
+        if (this->unk_21C != 2) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_ROLL_HEAD - SFX_FLAG);
+        }
+    }
+
+    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
+    CollisionCheck_SetOC(globalCtx, colChkCtx, &this->colliderCylinder);
+
+    if (this->actor.dmgEffectTimer == 0) {
+        if (this->actor.colChkInfo.health != 0) {
+            CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderCylinder);
+        }
+    }
+
+    CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderQuad2);
+    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.posRot2.pos.y += ((6500.0f + this->actor.shape.unk_08) * this->actor.scale.y);
+}
+
+s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnVm* this = THIS;
+
+    if (limbIndex == 2) {
+        rot->x += this->beamRot.x;
+        rot->y += this->headRotY;
+    } else if (limbIndex == 10) {
+        if (this->unk_21C == 3) {
+            *dList = NULL;
+        }
+    }
+
+    return 0;
+}
+
+void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnVm* this = THIS;
+    Vec3f sp80 = D_80B2EAF8;
+    Vec3f sp74 = D_80B2EB04;
+    Vec3f sp68 = D_80B2EB10;
+    s32 pad;
+    Vec3f sp58;
+    CollisionPoly* sp54;
+    u32 sp50;
+    f32 phi_f2;
+
+    if (limbIndex == 2) {
+        Matrix_MultVec3f(&D_80B2EB1C, &this->beamPos1);
+        Matrix_MultVec3f(&D_80B2EB28, &this->beamPos2);
+
+        if (this->unk_260 >= 3) {
+            sp54 = NULL;
+            sp80.z = (this->beamScale.z + 500.0f) * (this->actor.scale.y * 10000.0f);
+            Matrix_MultVec3f(&sp80, &this->beamPos3);
+
+            if (func_8003DE84(&globalCtx->colCtx, &this->beamPos1, &this->beamPos3, &sp58, &sp54, 1, 1, 0, 1, &sp50) ==
+                1) {
+                this->beamScale.z = Math_Vec3f_DistXYZ(&this->beamPos1, &sp58) - 5.0f;
+                this->unk_260 = 4;
+                this->beamPos3 = sp58;
+            }
+
+            if (this->beamScale.z != 0.0f) {
+                phi_f2 = 100.0f;
+
+                if (this->actor.scale.y > 0.01f) {
+                    phi_f2 = 70.0f;
+                }
+
+                sp74.z = sp68.z = Math_Vec3f_DistXYZ(&this->beamPos1, &this->beamPos3) * phi_f2;
+                Matrix_MultVec3f(&D_80B2EB64, &this->colliderQuad1.dim.quad[3]);
+                Matrix_MultVec3f(&D_80B2EB70, &this->colliderQuad1.dim.quad[2]);
+                Matrix_MultVec3f(&sp74, &this->colliderQuad1.dim.quad[1]);
+                Matrix_MultVec3f(&sp68, &this->colliderQuad1.dim.quad[0]);
+                func_80062734(&this->colliderQuad1, &this->colliderQuad1.dim.quad[0], &this->colliderQuad1.dim.quad[1],
+                              &this->colliderQuad1.dim.quad[2], &this->colliderQuad1.dim.quad[3]);
+            }
+        }
+
+        Matrix_MultVec3f(&D_80B2EB34, &this->colliderQuad2.dim.quad[1]);
+        Matrix_MultVec3f(&D_80B2EB40, &this->colliderQuad2.dim.quad[0]);
+        Matrix_MultVec3f(&D_80B2EB4C, &this->colliderQuad2.dim.quad[3]);
+        Matrix_MultVec3f(&D_80B2EB58, &this->colliderQuad2.dim.quad[2]);
+        func_80062734(&this->colliderQuad2, &this->colliderQuad2.dim.quad[0], &this->colliderQuad2.dim.quad[1],
+                      &this->colliderQuad2.dim.quad[2], &this->colliderQuad2.dim.quad[3]);
+    }
+}
+
+void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnVm* this = THIS;
+    GlobalContext* globalCtx2 = globalCtx; // Required to match
+    Vec3f actorPos;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vm.c", 1014);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnVm_OverrideLimbDraw,
+                   EnVm_PostLimbDraw, &this->actor);
+    actorPos = this->actor.posRot.pos;
+    func_80033C30(&actorPos, &D_80B2EB7C, 255, globalCtx);
+
+    if (this->unk_260 >= 3) {
+        Matrix_Translate(this->beamPos3.x, this->beamPos3.y + 10.0f, this->beamPos3.z, MTXMODE_NEW);
+        Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1033),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 168);
+        func_80094BC4(globalCtx->state.gfxCtx);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 0);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[globalCtx2->gameplayFrames & 7]));
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_04031FE0);
+        Matrix_RotateY(32767.0f, MTXMODE_APPLY);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1044),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(globalCtx2->gameplayFrames + 4) & 7]));
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_04031FE0);
+    }
+
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, this->beamTexScroll));
+    Matrix_Translate(this->beamPos1.x, this->beamPos1.y, this->beamPos1.z, MTXMODE_NEW);
+    Matrix_RotateRPY(this->beamRot.x, this->beamRot.y, this->beamRot.z, MTXMODE_APPLY);
+    Matrix_Scale(this->beamScale.x * 0.1f, this->beamScale.x * 0.1f, this->beamScale.z * 0.0015f, 1);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1063),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06002728);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vm.c", 1068);
+}
