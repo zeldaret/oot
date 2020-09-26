@@ -276,7 +276,7 @@ void EnMag_DrawTextureI8(Gfx** gfxp, void* texture, s16 texWidth, s16 texHeight,
     gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_I, G_IM_SIZ_8b, texWidth, texHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    gSPTextureRectangle(gfx++, rectLeft * 4, rectTop * 4, (rectLeft + rectWidth) * 4, (rectTop + rectHeight) * 4,
+    gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
                         G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
     *gfxp = gfx;
@@ -299,19 +299,19 @@ void EnMag_DrawEffectTextures(Gfx** gfxp, void* maskTex, void* effectTex, s16 ma
         gDPSetTileSize(gfx++, 1, 0, this->effectScroll & 0x7F, 0x7C, (this->effectScroll & 0x7F) + 0x7C);
     }
 
-    gSPTextureRectangle(gfx++, rectLeft * 4, rectTop * 4, (rectLeft + rectWidth) * 4, (rectTop + rectHeight) * 4,
+    gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
                         G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
     *gfxp = gfx;
 }
 
-void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 startLeft, s16 startTop, u8* source, u32 sizeX, u32 sizeY) {
+void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 centerX, s16 centerY, u8* source, u32 width, u32 height) {
     Gfx* gfx = *gfxp;
     u8* curTexture;
     s32 textureCount;
     u32 rectLeft;
     u32 rectTop;
-    u32 height;
+    u32 textureHeight;
     s32 remainingSize;
     s32 textureSize;
     s32 pad;
@@ -320,41 +320,41 @@ void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 startLeft, s16 startTop, u8* source, 
     func_80094D28(&gfx);
 
     curTexture = source;
-    rectLeft = startLeft - (sizeX >> 1);
-    rectTop = startTop - (sizeY >> 1);
-    height = 4096 / (sizeX << 2);
-    remainingSize = (sizeX * sizeY) << 2;
-    textureSize = (sizeX * height) << 2;
+    rectLeft = centerX - (width / 2);
+    rectTop = centerY - (height / 2);
+    textureHeight = 4096 / (width << 2);
+    remainingSize = (width * height) << 2;
+    textureSize = (width * textureHeight) << 2;
     textureCount = remainingSize / textureSize;
     if ((remainingSize % textureSize) != 0) {
-        textureCount++;
+        textureCount += 1;
     }
 
-    gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, sizeX, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+    gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, textureHeight, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                    G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     remainingSize -= textureSize;
 
     for (i = 0; i < textureCount; i++) {
-        gDPSetTextureImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, sizeX, curTexture);
+        gDPSetTextureImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, curTexture);
 
         gDPLoadSync(gfx++);
-        gDPLoadTile(gfx++, G_TX_LOADTILE, 0, 0, (sizeX - 1) << 2, (height - 1) << 2);
+        gDPLoadTile(gfx++, G_TX_LOADTILE, 0, 0, (width - 1) << 2, (textureHeight - 1) << 2);
 
-        gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + (s32)sizeX) << 2, (rectTop + height) << 2,
-                            G_TX_RENDERTILE, 0, 0, 1024, 1024);
+        gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + (s32)width) << 2,
+                            (rectTop + textureHeight) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
 
         if (1) {}
 
         curTexture += textureSize;
-        rectTop += height;
+        rectTop += textureHeight;
 
         if ((remainingSize - textureSize) < 0) {
             if (remainingSize > 0) {
-                height = remainingSize / (s32)(sizeX << 2);
+                textureHeight = remainingSize / (s32)(width << 2);
                 remainingSize -= textureSize;
 
-                gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, sizeX, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                gSetTileCustom(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_32b, width, textureHeight, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                                G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             }
         } else {
@@ -365,7 +365,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 startLeft, s16 startTop, u8* source, 
     *gfxp = gfx;
 }
 
-void EnMag_DrawTextFont(Gfx** gfxp, u8* texture, s32 rectLeft, s32 rectTop) {
+void EnMag_DrawCharTexture(Gfx** gfxp, u8* texture, s32 rectLeft, s32 rectTop) {
     Gfx* gfx = *gfxp;
 
     YREG(0) = 1024.0f / (YREG(1) / 100.0f);
@@ -374,7 +374,7 @@ void EnMag_DrawTextFont(Gfx** gfxp, u8* texture, s32 rectLeft, s32 rectTop) {
     gDPLoadTextureBlock_4b(gfx++, texture, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    gSPTextureRectangle(gfx++, rectLeft * 4, rectTop * 4, (rectLeft + YREG(2)) * 4, (rectTop + YREG(2)) * 4,
+    gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + YREG(2)) << 2, (rectTop + YREG(2)) << 2,
                         G_TX_RENDERTILE, 0, 0, YREG(0), YREG(0));
 
     *gfxp = gfx;
@@ -495,8 +495,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
         rectLeft = VREG(19) + 1;
-        for (i = 0; i < 12; i++) {
-            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
+        for (i = 0; i < ARRAY_COUNT(noControllerFontIndexes); i++) {
+            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
             rectLeft += VREG(21);
             if (i == 1) {
                 rectLeft += VREG(23);
@@ -508,8 +508,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, 100, 255, 255, textAlpha);
 
         rectLeft = VREG(19);
-        for (i = 0; i < 12; i++) {
-            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
+        for (i = 0; i < ARRAY_COUNT(noControllerFontIndexes); i++) {
+            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
             rectLeft += VREG(21);
             if (i == 1) {
                 rectLeft += VREG(23);
@@ -529,8 +529,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
         rectLeft = YREG(7) + 1;
-        for (i = 0; i < 10; i++) {
-            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
+        for (i = 0; i < ARRAY_COUNT(pressStartFontIndexes); i++) {
+            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
             rectLeft += YREG(8);
             if (i == 4) {
                 rectLeft += YREG(9);
@@ -542,8 +542,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), textAlpha);
 
         rectLeft = YREG(7);
-        for (i = 0; i < 10; i++) {
-            EnMag_DrawTextFont(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
+        for (i = 0; i < ARRAY_COUNT(pressStartFontIndexes); i++) {
+            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
             rectLeft += YREG(8);
             if (i == 4) {
                 rectLeft += YREG(9);
