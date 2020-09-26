@@ -10,7 +10,6 @@ typedef void (*BgSpot15RrboxActionFunc)(struct BgSpot15Rrbox*, GlobalContext*);
 
 typedef struct BgSpot15Rrbox {
     /* 0x0000 */ DynaPolyActor dyna;
-
     /* 0x0164 */ BgSpot15RrboxActionFunc actionFunc;
     /* 0x0168 */ s16 unk_168; 
     /* 0x016C */ f32 unk_16C; 
