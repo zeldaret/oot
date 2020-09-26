@@ -10,7 +10,7 @@
 
 #define THIS ((BgSpot03Taki*)thisx)
 
-void func_808ADAE0(BgSpot03Taki* this, s32 bufferIndex);
+void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex);
 
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -45,7 +45,7 @@ extern Gfx* D_06000B20[];
 extern Gfx* D_06000BC0[];
 extern Gfx* D_06001580[];
 
-void func_808ADAE0(BgSpot03Taki* this, s32 bufferIndex) {
+void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
     int i;
     Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
 
@@ -66,8 +66,8 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->bufferIndex = 0;
     this->openingAlpha = 255.0f;
-    func_808ADAE0(this, 0);
-    func_808ADAE0(this, 1);
+    BgSpot03Taki_ApplyOpeningAlpha(this, 0);
+    BgSpot03Taki_ApplyOpeningAlpha(this, 1);
     this->actionFunc = func_808ADEF0;
 }
 
@@ -116,7 +116,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         }
     }
 
-    func_808ADAE0(this, this->bufferIndex);
+    BgSpot03Taki_ApplyOpeningAlpha(this, this->bufferIndex);
 }
 
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx) {
