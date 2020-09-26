@@ -55,34 +55,34 @@ static ColliderQuadInit sQuadInit2 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-Vec3f D_80B2EAEC = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B2EAEC = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80B2EAF8 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B2EAF8 = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80B2EB04 = { 500.0f, 0.0f, 0.0f };
+static Vec3f D_80B2EB04 = { 500.0f, 0.0f, 0.0f };
 
-Vec3f D_80B2EB10 = { -500.0f, 0.0f, 0.0f };
+static Vec3f D_80B2EB10 = { -500.0f, 0.0f, 0.0f };
 
-Vec3f D_80B2EB1C = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B2EB1C = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80B2EB28 = { 0.0f, 0.0f, 1600.0f };
+static Vec3f D_80B2EB28 = { 0.0f, 0.0f, 1600.0f };
 
-Vec3f D_80B2EB34 = { 1000.0f, 700.0f, 2000.0f };
+static Vec3f D_80B2EB34 = { 1000.0f, 700.0f, 2000.0f };
 
-Vec3f D_80B2EB40 = { 1000.0f, -700.0f, 2000.0f };
+static Vec3f D_80B2EB40 = { 1000.0f, -700.0f, 2000.0f };
 
-Vec3f D_80B2EB4C = { -1000.0f, 700.0f, 1500.0f };
+static Vec3f D_80B2EB4C = { -1000.0f, 700.0f, 1500.0f };
 
-Vec3f D_80B2EB58 = { -1000.0f, -700.0f, 1500.0f };
+static Vec3f D_80B2EB58 = { -1000.0f, -700.0f, 1500.0f };
 
-Vec3f D_80B2EB64 = { 500.0f, 0.0f, 0.0f };
+static Vec3f D_80B2EB64 = { 500.0f, 0.0f, 0.0f };
 
-Vec3f D_80B2EB70 = { -500.0f, 0.0f, 0.0f };
+static Vec3f D_80B2EB70 = { -500.0f, 0.0f, 0.0f };
 
-Vec3f D_80B2EB7C = { 0.4f, 0.4f, 0.4f };
+static Vec3f D_80B2EB7C = { 0.4f, 0.4f, 0.4f };
 
-UNK_PTR D_80B2EB88[] = { 0x0402CFE0, 0x0402D7E0, 0x0402DFE0, 0x0402E7E0, 0x0402EFE0,
-                         0x0402F7E0, 0x0402FFE0, 0x040307E0, 0x04030FE0, 0x040317E0 };
+static UNK_PTR D_80B2EB88[] = { 0x0402CFE0, 0x0402D7E0, 0x0402DFE0, 0x0402E7E0, 0x0402EFE0,
+                                0x0402F7E0, 0x0402FFE0, 0x040307E0, 0x04030FE0, 0x040317E0 };
 
 extern SkeletonHeader D_06003F60;
 extern AnimationHeader D_06000068;
@@ -138,29 +138,29 @@ void EnVm_SetupWait(EnVm* this) {
 
 void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 tempVar1;
-    s16 phi_v0;
-    s16 pad2;
+    f32 fVar;
+    s16 sVar;
     s16 pad;
+    s16 pad1;
     s16 pitch;
 
     switch (this->unk_25E) {
         case 0:
             Math_SmoothScaleMaxMinS(&this->beamRot.x, 0, 10, 1500, 0);
-            phi_v0 = this->actor.yawTowardsLink - this->headRotY - this->actor.shape.rot.y;
+            sVar = this->actor.yawTowardsLink - this->headRotY - this->actor.shape.rot.y;
             pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
 
             if (pitch > 0x1B91) {
                 pitch = 0x1B91;
             }
 
-            tempVar1 = this->beamSightRange - this->actor.xzDistFromLink;
+            fVar = this->beamSightRange - this->actor.xzDistFromLink;
 
-            if (this->actor.xzDistFromLink <= this->beamSightRange && ABS(phi_v0) <= 10000 && pitch >= 3640 &&
+            if (this->actor.xzDistFromLink <= this->beamSightRange && ABS(sVar) <= 10000 && pitch >= 3640 &&
                 this->actor.yDistFromLink <= 80.0f && this->actor.yDistFromLink >= -160.0f) {
                 Math_SmoothScaleMaxMinS(&this->beamRot, pitch, 10, 4000, 0);
                 if (Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
-                                            (ABS((s16)((tempVar1)*180.0f)) / 3) + 4000, 0) <= 5460 &&
+                                            (ABS((s16)((fVar)*180.0f)) / 3) + 4000, 0) <= 5460 &&
                     --this->timer == 0) {
                     this->unk_25E++;
                     this->skelAnime.animCurrentFrame = 0.0f;
@@ -443,20 +443,20 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f sp68 = D_80B2EB10;
     s32 pad;
     Vec3f sp58;
-    CollisionPoly* sp54;
-    u32 sp50;
-    f32 phi_f2;
+    CollisionPoly* poly;
+    u32 buff;
+    f32 fVar;
 
     if (limbIndex == 2) {
         Matrix_MultVec3f(&D_80B2EB1C, &this->beamPos1);
         Matrix_MultVec3f(&D_80B2EB28, &this->beamPos2);
 
         if (this->unk_260 >= 3) {
-            sp54 = NULL;
+            poly = NULL;
             sp80.z = (this->beamScale.z + 500.0f) * (this->actor.scale.y * 10000.0f);
             Matrix_MultVec3f(&sp80, &this->beamPos3);
 
-            if (func_8003DE84(&globalCtx->colCtx, &this->beamPos1, &this->beamPos3, &sp58, &sp54, 1, 1, 0, 1, &sp50) ==
+            if (func_8003DE84(&globalCtx->colCtx, &this->beamPos1, &this->beamPos3, &sp58, &poly, 1, 1, 0, 1, &buff) ==
                 1) {
                 this->beamScale.z = Math_Vec3f_DistXYZ(&this->beamPos1, &sp58) - 5.0f;
                 this->unk_260 = 4;
@@ -464,13 +464,13 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
             }
 
             if (this->beamScale.z != 0.0f) {
-                phi_f2 = 100.0f;
+                fVar = 100.0f;
 
                 if (this->actor.scale.y > 0.01f) {
-                    phi_f2 = 70.0f;
+                    fVar = 70.0f;
                 }
 
-                sp74.z = sp68.z = Math_Vec3f_DistXYZ(&this->beamPos1, &this->beamPos3) * phi_f2;
+                sp74.z = sp68.z = Math_Vec3f_DistXYZ(&this->beamPos1, &this->beamPos3) * fVar;
                 Matrix_MultVec3f(&D_80B2EB64, &this->colliderQuad1.dim.quad[3]);
                 Matrix_MultVec3f(&D_80B2EB70, &this->colliderQuad1.dim.quad[2]);
                 Matrix_MultVec3f(&sp74, &this->colliderQuad1.dim.quad[1]);
