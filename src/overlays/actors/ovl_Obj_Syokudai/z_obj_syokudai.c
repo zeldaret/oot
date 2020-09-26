@@ -148,7 +148,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext *globalCtx2) {
         } else if (player->heldItemActionParam == 6) {
             Math_Vec3f_Diff(&player->swordInfo[0].tip, &this->actor.posRot.pos, &tipToFlame);
             tipToFlame.y -= 67.0f;
-            if ((SQ(tipToFlame.x) + SQ(tipToFlame.y) + SQ(tipToFlame.z)) < 400.0f) {
+            if ((SQ(tipToFlame.x) + SQ(tipToFlame.y) + SQ(tipToFlame.z)) < SQ(20.0f)) {
                 itemType = -1;
             }
         }
