@@ -43,8 +43,9 @@ static InitChainEntry sInitChain[] = {
 
 extern UNK_TYPE D_06000C98;
 
-extern Vtx* D_06000800[];
-extern Vtx* D_06000990[];
+// These are identical vertex data for the waterfall.
+extern Vtx* D_06000800[]; // Vertex buffer 0
+extern Vtx* D_06000990[]; // Vertex buffer 1
 
 extern Gfx* D_06000B20[];
 extern Gfx* D_06000BC0[];
@@ -69,7 +70,7 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Alloc(&D_06000C98, &sp24);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->unk_174 = 0;
+    this->bufferIndex = 0;
     this->openingAlpha = 255.0f;
     func_808ADAE0(this, 0);
     func_808ADAE0(this, 1);
@@ -121,7 +122,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         }
     }
 
-    func_808ADAE0(this, this->unk_174);
+    func_808ADAE0(this, this->bufferIndex);
 }
 
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -150,7 +151,7 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06000B20);
 
-    if (this->unk_174 == 0) {
+    if (this->bufferIndex == 0) {
         gSPVertex(oGfxCtx->polyXlu.p++, &D_06000800, 25, 0);
     } else {
         gSPVertex(oGfxCtx->polyXlu.p++, &D_06000990, 25, 0);
@@ -166,7 +167,7 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
-    this->unk_174 = this->unk_174 == 0;
+    this->bufferIndex = this->bufferIndex == 0;
 
     if (this->state > STATE_CLOSED && this->state < STATE_CLOSING) {
         func_800F46E0(&this->dyna.actor.projectedPos, 0.5);

@@ -15,7 +15,7 @@ typedef struct BgSpot03Taki {
     /* 0x016A */ u8 state;
     /* 0x016C */ u16 switchFlag;
     /* 0x0170 */ f32 openingAlpha;
-    /* 0x0174 */ u8 unk_174;
+    /* 0x0174 */ u8 bufferIndex;
 } BgSpot03Taki; // size = 0x0178
 
 extern const ActorInit Bg_Spot03_Taki_InitVars;
