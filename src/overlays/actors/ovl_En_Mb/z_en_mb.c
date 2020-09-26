@@ -109,15 +109,14 @@ struct_80AA9D70 D_80AA9D70 = {
     0x0DAC,
 };
 
-
-    // ZeroVec
+// ZeroVec
 Vec3f D_80AA9D78 = {
     0.0f,
     0.0f,
     0.0f,
 };
 
-s32 D_80AA9D84[] = {
+Vec3f D_80AA9D84 = {
     0x00000000,
     0x00000000,
     0x00000000,
@@ -190,14 +189,14 @@ s32 D_80AA9E20[] = {
 s32 D_80AA9E44[] = { 0xC57A0000, 0x45DAC000, 0x455AC000, 0xC57A0000, 0x00000000, 0x455AC000,
                      0x457A0000, 0x00000000, 0x455AC000, 0x00000000, 0x00000000 };
 
-extern SkeletonHeader D_06008F38;
-extern AnimationHeader D_060028E0;
+extern SkeletonHeader D_06008F38;    // D_06008F38
+extern AnimationHeader animEnMbWait; // D_060028E0
 extern SkeletonHeader D_06014190;
 extern AnimationHeader D_0600EBE4;
-extern AnimationHeader D_060041A8;
-extern AnimationHeader D_06009FC0;
-extern AnimationHeader D_06002C10;
-extern AnimationHeader D_06002F10;
+extern AnimationHeader animEnMbLookLeftandRight; // D_060041A8
+extern AnimationHeader animEnMbWalk;             // D_06009FC0
+extern AnimationHeader animEnMbReadyCharge;      // D_06002C10
+extern AnimationHeader animEnMbCharge;           // D_06002F10
 extern AnimationHeader D_06009280;
 extern AnimationHeader D_06001950;
 extern AnimationHeader D_0600BE58;
@@ -205,6 +204,7 @@ extern AnimationHeader D_0600D5D4;
 extern AnimationHeader D_0600E18C;
 extern AnimationHeader D_0600B4BC;
 extern AnimationHeader D_0600ABE0;
+extern AnimationHeader animEnMbFallBack; // D_060016B4
 
 void func_80AA68FC(EnMb* this, GlobalContext* globalCtx);
 void func_80AA6898(EnMb* this);
@@ -220,6 +220,8 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx);
 void func_80AA840C(EnMb* this, GlobalContext* globalCtx);
 void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx);
 void func_80AA7938(EnMb* this, GlobalContext* globalCtx);
+void func_80AA90A0(EnMb* this, GlobalContext* globalCtx);
+void func_80AA8FC8(EnMb* this);
 
 void func_80AA6050(EnMb* this, EnMbActionFunc actionFunc) { // Setup Action Func
     this->actionFunc = actionFunc;
@@ -244,7 +246,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     phi_v1 = this->actor.params;
     switch (phi_v1 + 1) {
         case 0:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, &this->limbDrawTable,
+            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &animEnMbWait, &this->limbDrawTable,
                              &this->transitionDrawTable, 28);
             this->actor.colChkInfo.health = 2;
             this->actor.colChkInfo.mass = 0xFE;
@@ -284,7 +286,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
     }
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, &this->limbDrawTable,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &animEnMbWait, &this->limbDrawTable,
                      &this->transitionDrawTable, 28);
     Actor_SetScale(&this->actor, 0.014f);
     this->unk_35D = (thisx->params & 0xFF00) >> 8;
@@ -310,14 +312,13 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6830.s")
 void func_80AA6830(EnMb* this) {
-    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060041A8, -4.0f);
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &animEnMbLookLeftandRight, -4.0f);
     this->actor.speedXZ = 0.0f;
     this->unk_32A = Math_Rand_S16Offset(0x1E, 0x32);
     this->unk_320 = 6;
     func_80AA6050(this, func_80AA7134);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6898.s")
 void func_80AA6898(EnMb* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600EBE4);
     this->actor.speedXZ = 0.0f;
@@ -330,7 +331,7 @@ void func_80AA6898(EnMb* this) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6974.s")
 void func_80AA6974(EnMb* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009FC0), 0, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &animEnMbWalk, 0.0f, 0.0f, SkelAnime_GetFrameCount(&animEnMbWalk), 0, -4.0f);
     this->actor.speedXZ = 0.59999996f;
     this->unk_32A = Math_Rand_S16Offset(0x32, 0x46);
     this->unk_332 = 1;
@@ -343,8 +344,8 @@ void func_80AA6974(EnMb* this) {
 void func_80AA6AC8(EnMb* this) {
     f32 frameCount;
 
-    frameCount = SkelAnime_GetFrameCount(&D_06002C10);
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002C10, -4.0f);
+    frameCount = SkelAnime_GetFrameCount(&animEnMbReadyCharge);
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &animEnMbReadyCharge, -4.0f);
     this->unk_320 = 10;
     this->actor.speedXZ = 0.0f;
     this->unk_32E = (s16)frameCount + 6;
@@ -502,8 +503,8 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
         if (this->unk_32A == 0) {
             this->unk_32E = (this->unk_32E - 1);
             if (this->unk_32E == 0) {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C10, -1.0f, (f32)SkelAnime_GetFrameCount(&D_06002C10),
-                                     0.0f, 2, 0.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &animEnMbReadyCharge, -1.0f,
+                                     (f32)SkelAnime_GetFrameCount(&animEnMbReadyCharge), 0.0f, 2, 0.0f);
                 this->unk_32A = 1;
                 this->actor.speedXZ = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
@@ -538,7 +539,7 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
     }
     currentFrame = this->skelAnime.animCurrentFrame;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06002F10);
+        SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &animEnMbCharge);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
     }
     if (this->unk_32E != 0) {
@@ -561,8 +562,9 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA77D0.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
-
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
+// End of a chain of calls
+/*
 void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     f32 distToGround;
     Vec3f effSpawnPos;
@@ -581,17 +583,10 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
 
     sp4C = D_80AA9D70;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (&sp4C + (this->attackParams)) + this->actor.posRot.rot.y, 1, 0x2EE,
-                            0);
-    if ((this->collider2.base.atFlags & 2) != 0) {
-        this->collider2.base.atFlags &= 0xFFFD;
-        if (&player->actor == this->collider2.base.at) {
-            playerInvincibilityTImer = player->invincibilityTimer;
-            if (playerInvincibilityTImer < 0) {
-                if (playerInvincibilityTImer < -0x27) {
-                    player->invincibilityTimer = 0;
-                } else {
-                    player->invincibilityTimer = 0;
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (&sp4C + (this->attackParams)) + this->actor.posRot.rot.y, 1,
+0x2EE, 0); if ((this->collider2.base.atFlags & 2) != 0) { this->collider2.base.atFlags &= 0xFFFD; if (&player->actor ==
+this->collider2.base.at) { playerInvincibilityTImer = player->invincibilityTimer; if (playerInvincibilityTImer < 0) { if
+(playerInvincibilityTImer < -0x27) { player->invincibilityTimer = 0; } else { player->invincibilityTimer = 0;
                     globalCtx->damagePlayer(globalCtx, -8);
                 }
             }
@@ -635,7 +630,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
         }
     }
 }
-
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7CAC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA800C.s")
@@ -704,7 +699,7 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_EQUIVILENT
-void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
+void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) { // EnMbPartol
     s32 currentFrame;
     Player* player = PLAYER;
     s16 temp_v1;
@@ -817,9 +812,69 @@ void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8F50.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8FC8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8FC8.s")
+void func_80AA8FC8(EnMb* this) { // Likely setup Death for charging moblin
+    s16 yawDiff;
+    s32 yawDiffAbs;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA90A0.s")
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiffAbs = (yawDiff >= 0) ? yawDiff : -yawDiff;
+    if (yawDiffAbs < 0x4001) {
+        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &animEnMbFallBack, -4.0f);
+        this->actor.speedXZ = -8.0f;
+    } else {
+        SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &animEnMbFallBack, -4.0f);
+        this->actor.speedXZ = 8.0f;
+    }
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->unk_32A = 0x1E;
+    this->unk_320 = 0;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
+    this->actor.flags &= -2;
+    func_80AA6050(this, func_80AA90A0);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA90A0.s")
+void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {///////
+    s32 phi_s0;
+    Vec3f zeroVec;
+    Player* player = PLAYER;
+    Vec3f effPos;
+
+
+    // temp_s0 = globalCtx->unk1C44;
+    // sp10 = 0.0f;
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    if ((player->stateFlags2 & 0x80) != 0) {
+        if (&this->actor == player->actor.parent) {
+            player->stateFlags2 &= -0x81;
+            player->actor.parent = 0;
+            player->unk_850 = 0xC8;
+            // sp10 = 4.0f;
+            func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
+            this->attackParams = 0;
+        }
+    }
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        if (this->unk_32A > 0) {
+            zeroVec = D_80AA9D84;
+            this->actor.shape.unk_10 = 0.0f;
+            this->unk_32A--;
+            phi_s0 = 4;
+            for (phi_s0; phi_s0 >= 0; phi_s0--) {
+                effPos.x = Math_Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.x;
+                effPos.y = Math_Rand_CenteredFloat(15.0f) + (this->actor.posRot.pos.y + 20.0f);
+                effPos.z = Math_Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.z;
+
+                func_8002A6B8(globalCtx, &effPos, &zeroVec, &zeroVec, 0x64, 7, 0xFF, 0xFF, 0XFF, 0XFF, 0XFF, 1, 9, 1, 0,
+                              0);
+            }
+            return;
+        }
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0xE0);
+        Actor_Kill(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA92B8.s")
 
