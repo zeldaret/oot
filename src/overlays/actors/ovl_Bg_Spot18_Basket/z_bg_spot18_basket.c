@@ -10,14 +10,12 @@ void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx);
-
 void func_808B7AEC(BgSpot18Basket* this);
 void func_808B7B58(BgSpot18Basket* this);
 void func_808B7BB0(BgSpot18Basket* this);
 void func_808B7D38(BgSpot18Basket* this);
 void func_808B7F74(BgSpot18Basket* this);
 void func_808B818C(BgSpot18Basket* this);
-
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7B6C(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx);
@@ -56,14 +54,14 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-static s16 D_808B85C8[] = { 32768, 10922, 54613, 0 };
+static s16 D_808B85C8[] = { 0x8000, 0x2AAA, 0xD555, 0x0000 };
 
 void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
 
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->colliderJntSphItem);
-    this->dyna.actor.colChkInfo.mass = 255;
+    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->colliderJntSphItems);
+    this->dyna.actor.colChkInfo.mass = 0xFF;
 }
 
 void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
@@ -75,12 +73,12 @@ void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
     f32 randomValue;
     static s16 D_808B85D0 = 0;
     f32 sinValue;
-    s32 arraySize = 2;
+    s32 numberOfLoops = 2;
 
-    while (i != arraySize) {
+    while (i != numberOfLoops) {
         if (globalCtx) {}
         if (!(arg2 < Math_Rand_ZeroOne())) {
-            D_808B85D0 += 30000;
+            D_808B85D0 += 0x7530;
 
             sinValue = Math_Sins(D_808B85D0);
             cosValue = Math_Coss(D_808B85D0);
@@ -150,6 +148,7 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
 }
@@ -208,7 +207,7 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
 
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
                 if (Math3D_Dist2DSq(colliderBaseAc->posRot.pos.z, this->colliderJntSph.base.ac->posRot.pos.x,
-                                    this->dyna.actor.posRot.pos.z, this->dyna.actor.posRot.pos.x) < 1024.0f) {
+                                    this->dyna.actor.posRot.pos.z, this->dyna.actor.posRot.pos.x) < SQ(32.0f)) {
                     func_800800F8(globalCtx, 4210, 240, this, 0);
                     func_808B7D38(this);
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -353,7 +352,7 @@ void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx) {
         tempVector.z = actor->posRot.pos.z;
 
         if (this->unk_218 == 0) {
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < ARRAY_COUNT(D_808B85E4); i++) {
                 collectible = Item_DropCollectible(globalCtx, &tempVector, 4);
                 if (collectible != NULL) {
                     collectible->actor.velocity.y = 11.0f;
@@ -361,7 +360,7 @@ void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx) {
                 }
             }
         } else if (this->unk_218 == 1) {
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < ARRAY_COUNT(D_808B85E4); i++) {
                 collectible = Item_DropCollectible(globalCtx, &tempVector, 0);
                 if (collectible != NULL) {
                     collectible->actor.velocity.y = 11.0f;
@@ -418,7 +417,7 @@ void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_808B7AFC) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
         if (this->actionFunc != func_808B7B6C) {
-            this->colliderJntSph.base.acFlags = this->colliderJntSph.base.acFlags & 0xFFFD;
+            this->colliderJntSph.base.acFlags &= 0xFFFD;
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
         }
     }

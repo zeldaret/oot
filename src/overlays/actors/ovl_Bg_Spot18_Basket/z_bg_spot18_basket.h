@@ -17,8 +17,7 @@ typedef struct D_808B85E4Struct {
 typedef struct BgSpot18Basket {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ColliderJntSph colliderJntSph;
-    /* 0x0184 */ ColliderJntSphItem colliderJntSphItem;
-    /* 0x01C4 */ char unk_1C4[0x40];
+    /* 0x0184 */ ColliderJntSphItem colliderJntSphItems[2];
     /* 0x0204 */ BgSpot18BasketActionFunc actionFunc;
     /* 0x0208 */ f32 unk_208;
     /* 0x020C */ s16 unk_20C;
