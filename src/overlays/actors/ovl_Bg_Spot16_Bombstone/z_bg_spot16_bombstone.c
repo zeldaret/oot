@@ -22,32 +22,11 @@ void func_808B5A78(BgSpot16Bombstone* this);
 extern Gfx D_06000C20[];
 extern Gfx D_060009E0[];
 
-typedef struct {
-    s16 speedXZ;
-    s16 speedY;
-    s16 scale;
-    s16 unk_6;
-    s16 unk_8;
-    s16 unk_A;
-    s16 unk_C;
-    Vec3s rotation;
-} D_808B5DD8Struct; // size = 0x14
-
-typedef struct {
-    s16 unk_0;
-    s16 unk_2;
-    s16 unk_4;
-    s16 unk_6;
-    s16 scale;
-    s16 scaleStep;
-    s16 life;
-} D_808B5EB0Struct; // size = 0xE
-
 static EnBombf* sPlayerBomb = NULL;
 
 static s16 sTimer = 0;
 
-D_808B5DD8Struct D_808B5DD8[] = {
+s16 D_808B5DD8[6][10] = {
     { 0x0008, 0x0004, 0x0046, 0x07D0, 0xFCE0, 0x0000, 0x0064, 0x0000, 0x0000, 0x0000 },
     { 0x0006, 0x0003, 0x0032, 0x00C8, 0x0A28, 0xC350, 0x005A, 0x0000, 0x0000, 0x0000 },
     { 0x0005, 0x0003, 0x0028, 0xF63C, 0x0190, 0x30B0, 0x0032, 0x0000, 0x0000, 0x0000 },
@@ -75,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 190, 80, 0, { 10, 0, 50 } },
 };
 
-static D_808B5EB0Struct D_808B5EB0[] = {
+static s16 D_808B5EB0[26][7] = {
     { 0x0000, 0x000A, 0x003C, 0xFFF6, 0x0104, 0x01E0, 0x0007 },
     { 0x0000, 0x0000, 0x0032, 0x0000, 0x0104, 0x017C, 0x000D },
     { 0x0001, 0x001E, 0x0014, 0x0014, 0x00A0, 0x0104, 0x000A },
@@ -155,11 +134,10 @@ void func_808B4C4C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 }
 
 void func_808B4D04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
-    ColliderCylinder* colliderCylinder;
+    s32 pad;
 
-    colliderCylinder = &this->colliderCylinder;
-    Collider_InitCylinder(globalCtx, colliderCylinder);
-    Collider_SetCylinder(globalCtx, colliderCylinder, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(globalCtx, &this->colliderCylinder);
+    Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
     this->colliderCylinder.dim.pos.x += (s16)this->actor.posRot.pos.x;
     this->colliderCylinder.dim.pos.y += (s16)this->actor.posRot.pos.y;
     this->colliderCylinder.dim.pos.z += (s16)this->actor.posRot.pos.z;
@@ -192,26 +170,26 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 
     Actor_ProcessInitChain(actor, sInitChainDebris);
 
-    actor->speedXZ = D_808B5DD8[actor->params].speedXZ;
-    actor->velocity.y = D_808B5DD8[actor->params].speedY;
+    actor->speedXZ = D_808B5DD8[actor->params][0];
+    actor->velocity.y = D_808B5DD8[actor->params][1];
 
-    Actor_SetScale(actor, D_808B5DD8[actor->params].scale * scaleFactor);
+    Actor_SetScale(actor, D_808B5DD8[actor->params][2] * scaleFactor);
 
-    this->unk_210 = (f32)D_808B5DD8[actor->params].unk_6;
-    this->unk_212 = (f32)D_808B5DD8[actor->params].unk_8;
+    this->unk_210 = (f32)D_808B5DD8[actor->params][3];
+    this->unk_212 = (f32)D_808B5DD8[actor->params][4];
 
-    actor->posRot.rot.y = D_808B5DD8[actor->params].unk_A;
+    actor->posRot.rot.y = D_808B5DD8[actor->params][5];
 
     sinValue = Math_Sins(this->actor.posRot.rot.y);
     cosValue = Math_Coss(this->actor.posRot.rot.y);
 
     actor->posRot.pos.x = (sinValue * sinCosPosFactor) + actor->initPosRot.pos.x;
-    actor->posRot.pos.y = D_808B5DD8[actor->params].unk_C + actor->initPosRot.pos.y;
+    actor->posRot.pos.y = D_808B5DD8[actor->params][6] + actor->initPosRot.pos.y;
     actor->posRot.pos.z = (cosValue * sinCosPosFactor) + actor->initPosRot.pos.z;
 
-    actor->shape.rot.x = D_808B5DD8[actor->params].rotation.x;
-    actor->shape.rot.y = D_808B5DD8[actor->params].rotation.y;
-    actor->shape.rot.z = D_808B5DD8[actor->params].rotation.z;
+    actor->shape.rot.x = D_808B5DD8[actor->params][7];
+    actor->shape.rot.y = D_808B5DD8[actor->params][8];
+    actor->shape.rot.z = D_808B5DD8[actor->params][9];
 
     this->unk_150 = D_060009E0;
     this->bombiwaBankIndex = Object_GetIndex(&globalctx->objectCtx, OBJECT_BOMBIWA);
@@ -294,21 +272,21 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     if (1) {}
 
     while (true) {
-        if (this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158].unk_0) {
+        if (this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158][0]) {
             break;
         }
 
         index = this->unk_158;
 
-        tempUnk2 = D_808B5EB0[index].unk_2;
-        tempUnk6 = D_808B5EB0[index].unk_6;
+        tempUnk2 = D_808B5EB0[index][1];
+        tempUnk6 = D_808B5EB0[index][3];
 
         position.x = ((this->sinRotation * tempUnk6) + (tempUnk2 * this->cosRotation)) + actorPosition->x;
-        position.y = D_808B5EB0[index].unk_4 + actorPosition->y;
+        position.y = D_808B5EB0[index][2] + actorPosition->y;
         position.z = ((this->cosRotation * tempUnk6) - (tempUnk2 * this->sinRotation)) + actorPosition->z;
 
-        func_800287AC(globalCtx, &position, &sVelocity, &sAcceleration, D_808B5EB0[index].scale,
-                      D_808B5EB0[index].scaleStep, D_808B5EB0[index].life);
+        func_800287AC(globalCtx, &position, &sVelocity, &sAcceleration, D_808B5EB0[index][4], D_808B5EB0[index][5],
+                      D_808B5EB0[index][6]);
 
         this->unk_158 += 1;
     }
@@ -427,6 +405,7 @@ void func_808B5934(BgSpot16Bombstone* this) {
 
 void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     s32 pad;
+
     func_808B56BC(this, globalCtx);
     func_808B57E0(this, globalCtx);
 
