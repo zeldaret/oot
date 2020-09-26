@@ -43,6 +43,12 @@ const ActorInit Bg_Mori_Bigst_InitVars = {
     NULL,
 };
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),      ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),     ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(minVelocityY, -12000, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
+
 void BgMoriBigst_SetupAction(BgMoriBigst* this, BgMoriBigstActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -65,19 +71,14 @@ void BgMoriBigst_InitDynapoly(BgMoriBigst* this, GlobalContext* globalCtx, ColHe
 }
 
 void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 3000, ICHAIN_CONTINUE),    ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
-        ICHAIN_F32_DIV1000(minVelocityY, -12000, ICHAIN_CONTINUE), ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
-    };
     s32 pad;
     BgMoriBigst* this = THIS;
 
     // mori (bigST.keyceiling)
     osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
                  Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F),
-                 Flags_GetTempClear(globalCtx, this->dyna.actor.room),
-                 Flags_GetClear(globalCtx, this->dyna.actor.room), PLAYER->actor.posRot.pos.y);
+                 Flags_GetTempClear(globalCtx, this->dyna.actor.room), Flags_GetClear(globalCtx, this->dyna.actor.room),
+                 PLAYER->actor.posRot.pos.y);
     BgMoriBigst_InitDynapoly(this, globalCtx, &D_0600221C, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
@@ -86,15 +87,15 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
         osSyncPrintf("%s %d\n", "../z_bg_mori_bigst.c", 234);
         Actor_Kill(&this->dyna.actor);
-    } else {
-        if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
-            this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
-        } else {
-            this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 270.0f;
-        }
-        Actor_SetHeight(&this->dyna.actor, 50.0f);
-        BgMoriBigst_SetupWaitForMoriTex(this, globalCtx);
+        return;
     }
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
+        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+    } else {
+        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 270.0f;
+    }
+    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    BgMoriBigst_SetupWaitForMoriTex(this, globalCtx);
 }
 
 void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -172,12 +173,12 @@ void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriBigst_SetupLanding(BgMoriBigst* this, GlobalContext* globalCtx) {
-    Camera** cameras = globalCtx->cameraPtrs;
+    s32 pad;
     s32 quake;
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_Landing);
     this->waitTimer = 18;
-    quake = Quake_Add(cameras[globalCtx->activeCamera], 3);
+    quake = Quake_Add(ACTIVE_CAM, 3);
     Quake_SetSpeed(quake, 25000);
     Quake_SetQuakeValues(quake, 5, 0, 0, 0);
     Quake_SetCountdown(quake, 16);
