@@ -111,18 +111,18 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-static s16 D_808B85E4[] = { 61536, 800, 4000 };
+static s16 D_808B85E4[] = { 0xF060, 0x0320, 0x0FA0 };
 
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
     Actor* actor = &this->dyna.actor;
-    s32 moveFlag = 0;
+    s32 temp = 0;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 3);
+    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK3);
     func_808B7710(this, globalCtx);
-    DynaPolyInfo_Alloc(&D_06002154, &moveFlag);
+    DynaPolyInfo_Alloc(&D_06002154, &temp);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, actor, moveFlag);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, actor, temp);
 
     Actor_ProcessInitChain(actor, sInitChain);
     ActorShape_Init(&actor->shape, 0.0f, ActorShadow_DrawFunc_Circle, 15.0f);
@@ -135,10 +135,10 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_808B7AEC(this);
-    Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, 451, actor->posRot.pos.x, actor->posRot.pos.y,
-                       actor->posRot.pos.z, actor->shape.rot.x, actor->shape.rot.y + 5461, actor->shape.rot.z, -1);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_BG_SPOT18_FUTA, actor->posRot.pos.x, actor->posRot.pos.y,
+                       actor->posRot.pos.z, actor->shape.rot.x, actor->shape.rot.y + 0x1555, actor->shape.rot.z, -1);
 
-    if (!actor->child) {
+    if (actor->child == NULL) {
         osSyncPrintf("\x1b[31m");
         osSyncPrintf("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
         osSyncPrintf("\x1b[m");
