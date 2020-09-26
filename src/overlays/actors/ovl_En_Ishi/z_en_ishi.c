@@ -24,6 +24,7 @@ void func_80A7F3E8(EnIshi* this);
 void func_80A7F514(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F8A0(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx);
+void func_80A7F2F8(EnIshi* this);
 
 /*
 s16 D_80A7F9F0 = 0;
@@ -330,15 +331,46 @@ void func_80A7F098(EnIshi* this) {
     this->actionFunc = func_80A7F0A8;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F0A8.s")
+void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s16 sp32 = this->actor.params & 1;
 
-void func_80A7F2F8(EnIshi *this) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        func_80A7F2F8(this);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, D_80A873E0[sp32]);
+        if ((this->actor.params >> 4) & 1) {
+            func_80A7EE1C(this, globalCtx);
+        }
+    } else if (this->collider.base.acFlags & 2 && sp32 == 0 && this->collider.body.acHitItem->toucher.flags & 0x40000048) {
+        func_80A7ECF8(this, globalCtx);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[sp32], D_80A7FA30[sp32]);
+        D_80A87328[sp32](this, globalCtx);
+        D_80A87330[sp32](this, globalCtx);
+        Actor_Kill(&this->actor);
+    } else if (this->actor.xzDistFromLink < 600.0f) {
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        this->collider.base.acFlags &= ~2;
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        if (this->actor.xzDistFromLink < 400.0f) {
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            if (this->actor.xzDistFromLink < 90.0f) {
+                if (sp32 == 1) {
+                    func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
+                } else {
+                    func_8002F434(&this->actor, globalCtx, 0, 50.0f, 10.0f);
+                }
+            }
+        }
+    }
+}
+
+void func_80A7F2F8(EnIshi* this) {
     this->actionFunc = func_80A7F31C;
     this->actor.room = -1;
     this->actor.flags |= 0x10;
 }
 
-void func_80A7F31C(EnIshi *this, GlobalContext *globalCtx) {
+void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
         if ((this->actor.params & 1) == 1) {
