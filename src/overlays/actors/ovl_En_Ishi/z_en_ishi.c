@@ -398,7 +398,60 @@ void func_80A7F3E8(EnIshi* this) {
     this->actionFunc = func_80A7F514;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F514.s")
+void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s16 sp4A = this->actor.params & 1;
+    s32 pad2;
+    s32 quakeIdx;
+    Vec3f sp34;
+
+    if (this->actor.bgCheckFlags & 9) {
+        func_80A7ECF8(this, globalCtx);
+        D_80A87328[sp4A](this, globalCtx);
+        if (!(this->actor.bgCheckFlags & 0x20)) {
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[sp4A], D_80A7FA30[sp4A]);
+            D_80A87330[sp4A](this, globalCtx);
+        }
+        if (sp4A == 1) {
+            quakeIdx = Quake_Add(ACTIVE_CAM, 3);
+            Quake_SetSpeed(quakeIdx, -0x3CB0);
+            Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
+            Quake_SetCountdown(quakeIdx, 7);
+            func_800AA000(this->actor.xyzDistFromLinkSq, 0xFF, 0x14, 0x96);
+        }
+        Actor_Kill(&this->actor);
+    } else {
+        if (this->actor.bgCheckFlags & 0x40) {
+            sp34.x = this->actor.posRot.pos.x;
+            sp34.y = this->actor.posRot.pos.y + this->actor.waterY;
+            sp34.z = this->actor.posRot.pos.z;
+            func_8002949C(globalCtx, &sp34, 0, 0, 0, 0x15E);
+            if (sp4A == 0) {
+                func_80029444(globalCtx, &sp34, 0x96, 0x28A, 0);
+                func_80029444(globalCtx, &sp34, 0x190, 0x320, 4);
+                func_80029444(globalCtx, &sp34, 0x1F4, 0x44C, 8);
+            } else {
+                func_80029444(globalCtx, &sp34, 0x12C, 0x2BC, 0);
+                func_80029444(globalCtx, &sp34, 0x1F4, 0x384, 4);
+                func_80029444(globalCtx, &sp34, 0x1F4, 0x514, 8);
+            }
+            this->actor.minVelocityY = -6.0f;
+            D_80A7F9F0 >>= 2;
+            D_80A7F9F4 >>= 2;
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+            this->actor.bgCheckFlags &= ~0x40;
+        }
+        Math_ApproxF(&this->actor.shape.unk_08, 0.0f, 2.0f);
+        func_80A7ED60(this);
+        func_80A7ED94(&this->actor.velocity, D_80A7FA28[sp4A]);
+        func_8002D7EC(&this->actor);
+        this->actor.shape.rot.x += D_80A7F9F0;
+        this->actor.shape.rot.y += D_80A7F9F4;
+        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    }
+}
 
 void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
