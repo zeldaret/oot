@@ -258,7 +258,12 @@ void func_8003E954(u32 uParm1, u8* puParm2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003EA74.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/DynaPolyInfo_GetActor.s")
+DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, s32 dynaPolyId) {
+    if (!func_8003E934(dynaPolyId) || !(colCtx->dyna.flags[dynaPolyId] & 1) || (colCtx->dyna.flags[dynaPolyId] & 2)) {
+        return NULL;
+    }
+    return colCtx->dyna.actorMeshArr[dynaPolyId].actor;
+}
 
 void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, s32 dynaPolyId) {
     if (func_8003E934(dynaPolyId)) {
