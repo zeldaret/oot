@@ -10,12 +10,12 @@
 
 #define THIS ((EnHorseNormal*)thisx)
 
-typedef struct EnHorseNormalUnkStruct1 {
+typedef struct {
     Vec3s pos;
     u8 unk_06; // this may be a s16 if the always-0 following byte is actually not padding
 } EnHorseNormalUnkStruct1;
 
-typedef struct EnHorseNormalUnkStruct2 {
+typedef struct {
     s32 len;
     EnHorseNormalUnkStruct1* items;
 } EnHorseNormalUnkStruct2;
