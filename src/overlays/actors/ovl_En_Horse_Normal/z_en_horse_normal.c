@@ -521,11 +521,11 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x = Math_atan2f(this->actor.posRot.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
 }
 
-void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static EnHorseNormalActionFunc actionFuncs[] = {
-        func_80A6BC00, EnHorseNormal_Wander, EnHorseNormal_Wait, EnHorseNormal_WaitClone, EnHorseNormal_FollowPath,
-    };
+static EnHorseNormalActionFunc actionFuncs[] = {
+    func_80A6BC00, EnHorseNormal_Wander, EnHorseNormal_Wait, EnHorseNormal_WaitClone, EnHorseNormal_FollowPath,
+};
 
+void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = THIS;
     s32 pad;
 
