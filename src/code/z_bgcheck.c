@@ -258,7 +258,11 @@ void func_8003E954(u32 uParm1, u8* puParm2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003EA74.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003EB84.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/DynaPolyInfo_GetActor.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003EBF8.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003EC50.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003ECA8.s")
 
