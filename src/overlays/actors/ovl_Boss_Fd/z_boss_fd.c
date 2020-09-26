@@ -144,6 +144,13 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+};
+
 void BossFd_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
     s16 i;
 
@@ -250,12 +257,6 @@ void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
-        ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
-        ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-        ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
-    };
     s32 pad;
     BossFd* this = THIS;
     s16 i;

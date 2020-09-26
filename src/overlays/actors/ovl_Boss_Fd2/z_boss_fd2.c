@@ -108,6 +108,13 @@ static Vec3f sHoleLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.
                                  { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
                                  { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+};
+
 void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
                          Vec3f* acceleration, f32 scale) {
     s16 i;
@@ -204,12 +211,6 @@ void BossFd2_SpawnDust(BossFdParticle* particle, Vec3f* position, Vec3f* velocit
 }
 
 void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
-        ICHAIN_S8(naviEnemyId, 33, ICHAIN_CONTINUE),
-        ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-        ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
-    };
     s32 pad;
     BossFd2* this = THIS;
 
