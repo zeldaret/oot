@@ -784,4 +784,3 @@ glabel func_800C2500
 /* B3A178 800C2FD8 8FB60030 */  lw    $s6, 0x30($sp)
 /* B3A17C 800C2FDC 03E00008 */  jr    $ra
 /* B3A180 800C2FE0 27BD0188 */   addiu $sp, $sp, 0x188
-
