@@ -43,8 +43,8 @@ typedef struct BossMo {
     /* 0x0168 */ union{s16 waitUnderwater; s16 baseTex2y;};
     /* 0x016A */ s16 tentWidthIndex;
     /* 0x016C */ s16 tentPulseTimer;
-    /* 0x016E */ s16 tentAngle;
-    /* 0x0170 */ s16 unk_170;
+    /* 0x016E */ s16 tentAngleX;
+    /* 0x0170 */ s16 tentAngleZ;
     /* 0x0172 */ s16 cutIndex;
     /* 0x0174 */ s16 meltIndex;
     /* 0x0176 */ s16 linkToLeft;
@@ -53,12 +53,12 @@ typedef struct BossMo {
     /* 0x017C */ s16 sfxTimer;
     /* 0x017E */ s16 timers[5];
     /* 0x0188 */ f32 unk_188;
-    /* 0x018C */ f32 unk_18C;
-    /* 0x0190 */ f32 unk_190;
+    /* 0x018C */ f32 unk_18C; //Relates to X rotation for tentacle bending
+    /* 0x0190 */ f32 unk_190; 
     /* 0x0194 */ f32 unk_194;
-    /* 0x0198 */ f32 unk_198;
+    /* 0x0198 */ f32 unk_198; //Relates to Z rotation for tentacle bending
     /* 0x019C */ f32 unk_19C;
-    /* 0x01A0 */ f32 unk_1A0;
+    /* 0x01A0 */ f32 tentMaxStretch;
     /* 0x01A4 */ f32 baseOpacity;
     /* 0x01A8 */ f32 cutScale;
     /* 0x01AC */ f32 waterTex1x;
@@ -66,7 +66,7 @@ typedef struct BossMo {
     /* 0x01B4 */ f32 waterTex2x;
     /* 0x01B8 */ f32 waterTex2y;
     /* 0x01BC */ f32 waterLevel;
-    /* 0x01C0 */ f32 unk_1C0;
+    /* 0x01C0 */ f32 flattenRate;
     /* 0x01C4 */ f32 waterTexOpacity;
     /* 0x01C8 */ f32 waterLevelMod;
     /* 0x01CC */ s16 baseBubblesTimer;
@@ -90,29 +90,29 @@ typedef struct BossMo {
     /* 0x0F60 */ s16 cutsceneState;
     /* 0x0F62 */ s16 cutsceneCamera;
     /* 0x0F64 */ s16 targetIndex;
-    /* 0x0F68 */ Vec3f unk_F68;
-    /* 0x0F74 */ Vec3f unk_F74;
-    /* 0x0F80 */ Vec3f unk_F80;
+    /* 0x0F68 */ Vec3f cameraEye;
+    /* 0x0F74 */ Vec3f cameraAt;
+    /* 0x0F80 */ Vec3f cameraUp;
     /* 0x0F8C */ char unk_F8C[0x18]; //unused?
-    /* 0x0FA4 */ Vec3f unk_FA4;
-    /* 0x0FB0 */ Vec3f unk_FB0;
-    /* 0x0FBC */ Vec3f unk_FBC;
-    /* 0x0FC8 */ Vec3f unk_FC8;
-    /* 0x0FD4 */ Vec3f unk_FD4;
-    /* 0x0FE0 */ Vec3f unk_FE0;
-    /* 0x0FEC */ f32 unk_FEC;
-    /* 0x0FF0 */ f32 unk_FF0;
+    /* 0x0FA4 */ Vec3f cameraEyeVel;
+    /* 0x0FB0 */ Vec3f cameraAtVel;
+    /* 0x0FBC */ Vec3f cameraNextEye;
+    /* 0x0FC8 */ Vec3f cameraEyeMaxVel;
+    /* 0x0FD4 */ Vec3f cameraNextAt;
+    /* 0x0FE0 */ Vec3f cameraAtMaxVel;
+    /* 0x0FEC */ f32 cameraSpeedMod;
+    /* 0x0FF0 */ f32 cameraAccel;
     /* 0x0FF4 */ char unk_FF4[8]; //unused?
-    /* 0x0FFC */ f32 unk_FFC;
-    /* 0x1000 */ f32 unk_1000;
-    /* 0x1004 */ f32 unk_1004;
-    /* 0x1008 */ f32 unk_1008;
-    /* 0x100C */ f32 unk_100C;
+    /* 0x0FFC */ f32 cameraDist;
+    /* 0x1000 */ f32 cameraSpeed;
+    /* 0x1004 */ f32 cameraYaw;
+    /* 0x1008 */ f32 cameraYawRate;
+    /* 0x100C */ f32 cameraYawShake;
     /* 0x1010 */ Vec3f unk_1010;
     /* 0x101C */ ColliderJntSph colliderTent;
     /* 0x103C */ ColliderJntSphItem colliderItems[19];
     /* 0x14FC */ ColliderCylinder colliderCore;
-    /* 0x1548 */ char tent2KillTimer8[0x44]; //unused?
+    /* 0x1548 */ char unk_1548[0x44]; //unused?
 } BossMo; // size = 0x158C
 
 extern const ActorInit Boss_Mo_InitVars;
