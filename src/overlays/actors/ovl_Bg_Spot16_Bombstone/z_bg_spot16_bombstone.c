@@ -240,12 +240,10 @@ void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot16Bombstone* this = THIS;
-    ColliderJntSph* colliderJntSph;
 
     if (this->actor.params == 0xFF) {
         // Boulder is intact so remove its collider
-        colliderJntSph = &this->colliderJntSph;
-        Collider_DestroyJntSph(globalCtx, colliderJntSph);
+        Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
         Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
     }
 }
