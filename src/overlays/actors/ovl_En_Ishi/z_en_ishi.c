@@ -26,9 +26,12 @@ void func_80A7F8A0(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F2F8(EnIshi* this);
 
-/*
-s16 D_80A7F9F0 = 0;
-s16 D_80A7F9F4 = 0;
+extern Gfx D_0500A3B8[];
+extern Gfx D_0500A5E8[];
+extern Gfx D_0500A880[];
+
+static s16 D_80A7F9F0 = 0;
+static s16 D_80A7F9F4 = 0;
 
 const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
@@ -42,19 +45,19 @@ const ActorInit En_Ishi_InitVars = {
     (ActorFunc)EnIshi_Draw,
 };
 
-f32 D_80A7FA18[2] = { 0.1f, 0.4f };
-f32 D_80A7FA20[2] = { 58.0f, 80.0f };
-f32 D_80A7FA28[2] = { 0.0f, 0.005f };
+static f32 D_80A7FA18[2] = { 0.1f, 0.4f };
+static f32 D_80A7FA20[2] = { 58.0f, 80.0f };
+static f32 D_80A7FA28[2] = { 0.0f, 0.005f };
 
-s16 D_80A7FA30[0x2852] = { 0x2852, 0x2810 };
+static s16 D_80A7FA30[0x2852] = { 0x2852, 0x2810 };
 
-u8 D_80A84AD4[0x2854] = { 0x14, 0x28 };
+static u8 D_80A84AD4[0x2854] = { 0x14, 0x28 };
 
-void (*D_80A87328[2])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7E5A8, func_80A7E824 };
+static void (*D_80A87328[2])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7E5A8, func_80A7E824 };
 
-void (*D_80A87330[2])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7EB10, func_80A7EC04 };
+static void (*D_80A87330[2])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7EB10, func_80A7EC04 };
 
-ColliderCylinderInit D_80A87338[2] = {
+static ColliderCylinderInit D_80A87338[2] = {
     {
         { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
@@ -67,14 +70,13 @@ ColliderCylinderInit D_80A87338[2] = {
     }
 };
 
-CollisionCheckInfoInit D_80A87390 = { 0, 12, 60, 0xFF };
+static CollisionCheckInfoInit D_80A87390 = { 0, 12, 60, 0xFF };
 
-s16 D_80A87398[6] = { 16, 13, 11, 9, 7, 5 };
+static s16 D_80A87398[6] = { 16, 13, 11, 9, 7, 5 };
 
-// Note: Removed zero at end, might not have been padding
-s16 D_80A873A4[9] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
+static s16 D_80A873A4[9] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
 
-InitChainEntry D_80A873B8[2][5] = {
+static InitChainEntry D_80A873B8[2][5] = {
     {
         ICHAIN_F32_DIV1000(gravity, 64336, ICHAIN_CONTINUE),
         ICHAIN_F32_DIV1000(minVelocityY, 45536, ICHAIN_CONTINUE),
@@ -91,31 +93,9 @@ InitChainEntry D_80A873B8[2][5] = {
     },
 };
 
-u16 D_80A873E0[2] = { 0x086A, 0x086C };
+static u16 D_80A873E0[2] = { 0x086A, 0x086C };
 
-void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7F8A0, func_80A7F8CC, NULL };
-*/
-
-extern s16 D_80A7F9F0;
-extern s16 D_80A7F9F4;
-extern f32 D_80A7FA18[2];
-extern f32 D_80A7FA20[2];
-extern f32 D_80A7FA28[2];
-extern s16 D_80A7FA30[0x2852];
-extern u8 D_80A84AD4[0x2854];
-extern void (*D_80A87328[2])(EnIshi* this, GlobalContext* globalCtx);
-extern void (*D_80A87330[2])(EnIshi* this, GlobalContext* globalCtx);
-extern ColliderCylinderInit D_80A87338[2];
-extern CollisionCheckInfoInit D_80A87390;
-extern s16 D_80A87398[6];
-extern s16 D_80A873A4[9];
-extern InitChainEntry D_80A873B8[2][5];
-extern u16 D_80A873E0[2];
-extern void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx);
-
-extern Gfx D_0500A3B8[];
-extern Gfx D_0500A5E8[];
-extern Gfx D_0500A880[];
+static void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7F8A0, func_80A7F8CC, NULL };
 
 void func_80A7E460(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
