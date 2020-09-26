@@ -6,25 +6,23 @@
 
 #define THIS ((EnIshi*)thisx)
 
-void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnIshi_Destroy(EnIshi* this, GlobalContext* globalCtx);
-void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx);
-void EnIshi_Draw(EnIshi* this, GlobalContext* globalCtx);
+typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
 
-void func_80A7E460(Actor* thisx, GlobalContext* globalCtx);
-s32 func_80A7E4D8(EnIshi* this, GlobalContext* globalCtx, f32 arg2);
+void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_80A7F098(EnIshi* this);
+void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx);
+void func_80A7F2F8(EnIshi* this);
+void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx);
+void func_80A7F3E8(EnIshi* this);
+void func_80A7F514(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7E824(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7EB10(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7EC04(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F098(EnIshi* this);
-void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F3E8(EnIshi* this);
-void func_80A7F514(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F8A0(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F2F8(EnIshi* this);
 
 extern Gfx D_0500A3B8[];
 extern Gfx D_0500A5E8[];
@@ -92,10 +90,6 @@ static InitChainEntry D_80A873B8[2][5] = {
         ICHAIN_F32(uncullZoneDownward, 500, ICHAIN_STOP),
     },
 };
-
-static u16 D_80A873E0[2] = { 0x086A, 0x086C };
-
-static void (*D_80A873E4[3])(EnIshi* this, GlobalContext* globalCtx) = { func_80A7F8A0, func_80A7F8CC, NULL };
 
 void func_80A7E460(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
@@ -303,8 +297,8 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnIshi_Destroy(EnIshi* this, GlobalContext* globalCtx) {
-    Collider_DestroyCylinder(globalCtx, &this->collider);
+void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    Collider_DestroyCylinder(globalCtx, &THIS->collider);
 }
 
 void func_80A7F098(EnIshi* this) {
@@ -312,6 +306,8 @@ void func_80A7F098(EnIshi* this) {
 }
 
 void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
+    static u16 D_80A873E0[] = { 0x086A, 0x086C };
+
     s32 pad;
     s16 sp32 = this->actor.params & 1;
 
@@ -433,7 +429,9 @@ void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnIshi* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
@@ -452,6 +450,10 @@ void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }
 
-void EnIshi_Draw(EnIshi* this, GlobalContext* globalCtx) {
-    D_80A873E4[this->actor.params & 1](this, globalCtx);
+static EnIshiDrawFunc sDrawFuncs[] = { func_80A7F8A0, func_80A7F8CC };
+
+void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnIshi* this = THIS;
+
+    sDrawFuncs[this->actor.params & 1](this, globalCtx);
 }
