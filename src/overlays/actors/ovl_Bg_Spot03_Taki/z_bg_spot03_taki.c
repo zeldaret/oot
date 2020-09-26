@@ -23,7 +23,6 @@ void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_800F46E0(Vec3f* pos, f32 arg0);
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot03_Taki_InitVars = {
@@ -43,8 +42,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern UNK_TYPE D_06000C98;
+
 extern Vtx* D_06000800[];
 extern Vtx* D_06000990[];
+
 extern Gfx* D_06000B20[];
 extern Gfx* D_06000BC0[];
 extern Gfx* D_06001580[];
