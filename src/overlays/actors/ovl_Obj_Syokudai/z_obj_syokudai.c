@@ -163,7 +163,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext *globalCtx2) {
                     }
                 } else if (toucherFlags & 0x20) {
                     arrow = (EnArrow*) this->collider2.base.ac;
-                    if(arrow->actor.update && (arrow->actor.id == 0x16)) {
+                    if(arrow->actor.update && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
                         arrow->unk_1A8 = 0x800;
                     }
