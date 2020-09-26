@@ -144,11 +144,10 @@ void func_808B4C30(BgSpot16Bombstone* this) {
 }
 
 void func_808B4C4C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
-    ColliderJntSph* colliderJntSph;
+    s32 pad;
 
-    colliderJntSph = &this->colliderJntSph;
-    Collider_InitJntSph(globalCtx, colliderJntSph);
-    Collider_SetJntSph(globalCtx, colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
+    Collider_InitJntSph(globalCtx, &this->colliderJntSph);
+    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
     this->colliderJntSph.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
     this->colliderJntSph.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + 50.0f;
     this->colliderJntSph.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
@@ -496,20 +495,18 @@ void func_808B5B58(BgSpot16Bombstone* this) {
 }
 
 void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
-    u16 bgCheckFlags;
     Actor* actor = &this->actor;
 
     Actor_MoveForward(actor);
-    actor->shape.rot.x = actor->shape.rot.x + this->unk_210;
-    actor->shape.rot.z = actor->shape.rot.z + this->unk_212;
+    actor->shape.rot.x += this->unk_210;
+    actor->shape.rot.z += this->unk_212;
 
     if (this->unk_154 > 60) {
         Actor_Kill(actor);
         return;
     }
 
-    bgCheckFlags = actor->bgCheckFlags;
-    if (bgCheckFlags & 8 || (bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
+    if (actor->bgCheckFlags & 8 || (actor->bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
         func_808B53A8(this, globalCtx);
         func_808B51A8(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &actor->posRot, 20, NA_SE_EV_ROCK_BROKEN);
@@ -545,7 +542,7 @@ void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(oGfxCtx->polyOpa.p++, this->unk_150);
     } else {
         // The boulder is debris
-        gSPSegment(oGfxCtx->polyOpa.p++, 6, globalCtx->objectCtx.status[this->bombiwaBankIndex].segment);
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->bombiwaBankIndex].segment);
         gSPDisplayList(oGfxCtx->polyOpa.p++, this->unk_150);
     }
 
