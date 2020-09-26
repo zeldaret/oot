@@ -4,6 +4,14 @@
 #include <ultra64.h>
 #include <global.h>
 
+typedef enum {
+    WATERFALL_CLOSED,
+    WATERFALL_OPENING_IDLE,
+    WATERFALL_OPENING_ANIMATED,
+    WATERFALL_OPENED,
+    WATERFALL_CLOSING,
+} BgSpot03TakiState;
+
 struct BgSpot03Taki;
 
 typedef void (*BgSpot03TakiActionFunc)(struct BgSpot03Taki*, struct GlobalContext*);

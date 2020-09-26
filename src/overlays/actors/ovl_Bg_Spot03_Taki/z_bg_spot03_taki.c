@@ -10,12 +10,6 @@
 
 #define THIS ((BgSpot03Taki*)thisx)
 
-#define STATE_CLOSED 0
-#define STATE_OPENING_IDLE 1
-#define STATE_OPENING_ANIMATED 2
-#define STATE_OPENED 3
-#define STATE_CLOSING 4
-
 void func_808ADAE0(BgSpot03Taki* this, s32 bufferIndex);
 
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -84,38 +78,38 @@ void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
-    if (this->state == STATE_CLOSED) {
+    if (this->state == WATERFALL_CLOSED) {
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-            this->state = STATE_OPENING_ANIMATED;
+            this->state = WATERFALL_OPENING_ANIMATED;
             this->timer = 40;
             func_800800F8(globalCtx, 0x1004, -0x63, NULL, 0);
         }
-    } else if (this->state == STATE_OPENING_IDLE) {
+    } else if (this->state == WATERFALL_OPENING_IDLE) {
         this->timer--;
         if (this->timer < 0) {
-            this->state = STATE_OPENING_ANIMATED;
+            this->state = WATERFALL_OPENING_ANIMATED;
         }
-    } else if (this->state == STATE_OPENING_ANIMATED) {
+    } else if (this->state == WATERFALL_OPENING_ANIMATED) {
         if (this->openingAlpha > 0) {
             this->openingAlpha -= 5;
             if (this->openingAlpha <= 0.0f) {
                 func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
                 this->timer = 400;
-                this->state = STATE_OPENED;
+                this->state = WATERFALL_OPENED;
                 this->openingAlpha = 0;
             }
         }
-    } else if (this->state == STATE_OPENED) {
+    } else if (this->state == WATERFALL_OPENED) {
         this->timer--;
         if (this->timer < 0) {
-            this->state = STATE_CLOSING;
+            this->state = WATERFALL_CLOSING;
         }
-    } else if (this->state == STATE_CLOSING) {
+    } else if (this->state == WATERFALL_CLOSING) {
         if (this->openingAlpha < 255.0f) {
             this->openingAlpha += 5.0f;
             if (this->openingAlpha >= 255.0f) {
                 func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-                this->state = STATE_CLOSED;
+                this->state = WATERFALL_CLOSED;
                 this->openingAlpha = 255.0f;
                 Flags_UnsetSwitch(globalCtx, this->switchFlag);
             }
@@ -169,7 +163,7 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     this->bufferIndex = this->bufferIndex == 0;
 
-    if (this->state > STATE_CLOSED && this->state < STATE_CLOSING) {
+    if (this->state > WATERFALL_CLOSED && this->state < WATERFALL_CLOSING) {
         func_800F46E0(&this->dyna.actor.projectedPos, 0.5);
     } else {
         func_800F46E0(&this->dyna.actor.projectedPos, 1.0);
