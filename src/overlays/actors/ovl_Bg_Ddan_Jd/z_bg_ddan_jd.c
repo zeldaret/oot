@@ -37,18 +37,20 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-#define STATE_GO_BOTTOM 0
-#define STATE_GO_MIDDLE_FROM_BOTTOM 1
-#define STATE_GO_MIDDLE_FROM_TOP 2
-#define STATE_GO_TOP 3
+enum BgDdanJdState {
+    STATE_GO_BOTTOM,
+    STATE_GO_MIDDLE_FROM_BOTTOM,
+    STATE_GO_MIDDLE_FROM_TOP,
+    STATE_GO_TOP,
+};
 
 #define MOVE_HEIGHT_MIDDLE 140.0f
 #define MOVE_HEIGHT_TOP 700.0f
 
 #define IDLE_FRAMES 100
 
-// Since ySpeed also determines whether the platform is the shortcut to the top of the dungeon, these must be
-// different values to work correctly
+// Since ySpeed is used to determine if the platform should rise to the top of the dungeon, these must be assigned
+// different values in order for the shortcut to work correctly
 #define DEFAULT_Y_SPEED 1
 #define SHORTCUT_Y_SPEED 5
 
@@ -64,9 +66,9 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
 
-    // @bug: Missing check for actor.params < 0x40. This will cause inconsistent behavior if params >= 0x40 and the
-    // bound switch state is turned on while in the same room, as the shortcut behavior won't become enabled until the
-    // actor is reloaded.
+    // Missing check for actor.params < 0x40. This will cause inconsistent behavior if params >= 0x40 and the bound
+    // switch state is turned on while in the same room, as the shortcut behavior won't become enabled until the actor
+    // is reloaded.
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
         this->ySpeed = SHORTCUT_Y_SPEED;
     } else {
@@ -135,17 +137,17 @@ void BgDdanJd_MoveEffects(BgDdanJd* this, GlobalContext* globalCtx) {
     if (globalCtx->gameplayFrames & 1) {
         dustPos.x = this->dyna.actor.posRot.pos.x + 65.0f;
         dustPos.z = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 0x14, 0x3C, 1);
+        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
         dustPos.x = this->dyna.actor.posRot.pos.x - 65.0f;
         dustPos.z = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 0x14, 0x3C, 1);
+        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     } else {
         dustPos.x = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
         dustPos.z = this->dyna.actor.posRot.pos.z + 65.0f;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 0x14, 0x3C, 1);
+        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
         dustPos.x = Math_Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
         dustPos.z = this->dyna.actor.posRot.pos.z - 65.0f;
-        func_80033480(globalCtx, &dustPos, 5.0f, 1, 0x14, 0x3C, 1);
+        func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     }
     if (this->ySpeed == SHORTCUT_Y_SPEED) {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
@@ -163,7 +165,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
         this->idleTimer = 0;
         this->actionFunc = BgDdanJd_Idle;
         func_800800F8(globalCtx, 0xBF4, -0x63, &this->dyna.actor, 0);
-    } else if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->targetY, (f32)this->ySpeed)) {
+    } else if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->targetY, this->ySpeed)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;
     }
