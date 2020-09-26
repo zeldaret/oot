@@ -89,7 +89,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext *globalCtx) {
             this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - sp24->riseDist;
         }
     }
-    if(((this->type == 1) && Flags_GetTreasure(globalCtx, this->chestFlag))
+    if(((this->type == 1) && Flags_GetTreasure(globalCtx, this->treasureFlag))
         || (((this->type == 0) || (this->type == 6)) && Flags_GetClear(globalCtx, this->actor.room))) {
         Actor_Kill(&this->actor);
     }
