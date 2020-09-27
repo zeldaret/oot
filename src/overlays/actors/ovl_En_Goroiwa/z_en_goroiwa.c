@@ -78,7 +78,7 @@ void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     func_80A4BCA0(this);
     this->collider.list[0].dim.worldSphere.radius = 58;
 }
