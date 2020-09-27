@@ -11,7 +11,11 @@
 
 #define THIS ((ObjLightswitch*)thisx)
 
-typedef enum { FACE_EYES_CLOSED, FACE_EYES_OPEN, FACE_EYES_OPEN_SMILING } FaceTextureIndex;
+typedef enum {
+    /* 0x00 */ FACE_EYES_CLOSED, 
+    /* 0x01 */ FACE_EYES_OPEN, 
+    /* 0x02 */ FACE_EYES_OPEN_SMILING
+} FaceTextureIndex;
 
 void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
