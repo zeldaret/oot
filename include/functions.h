@@ -2178,7 +2178,7 @@ void func_800ED858(u8);
 // ? func_800F3990(?);
 // ? func_800F3A08(?);
 // ? func_800F3ED4(?);
-// ? func_800F3F3C(?);
+void func_800F3F3C(u8);
 // ? func_800F3F84(?);
 void func_800F4010(Vec3f*, u16, f32);
 void func_800F4138(Vec3f*, u16, f32);
