@@ -78,7 +78,7 @@ static ColliderCylinderInit sCylinderInit[] = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFF };
 
-void func_80A7E460(Actor* thisx, GlobalContext* globalCtx) {
+void EnIshi_SetupCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -298,7 +298,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = Math_Rand_ZeroFloat(0x10000);
     }
     Actor_SetScale(&this->actor, D_80A7FA18[type]);
-    func_80A7E460(&this->actor, globalCtx);
+    EnIshi_SetupCollider(&this->actor, globalCtx);
     if ((type == ROCK_LARGE) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
@@ -333,7 +333,7 @@ void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
         if ((this->actor.params >> 4) & 1) {
             func_80A7EE1C(this, globalCtx);
         }
-    } else if (this->collider.base.acFlags & 2 && type == ROCK_SMALL &&
+    } else if (this->collider.base.acFlags & 2 && (type == ROCK_SMALL) &&
                this->collider.body.acHitItem->toucher.flags & 0x40000048) {
         func_80A7ECF8(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
