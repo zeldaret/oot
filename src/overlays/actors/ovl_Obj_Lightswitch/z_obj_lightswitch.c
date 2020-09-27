@@ -355,29 +355,26 @@ void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx) {
 
 void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjLightswitch* this = THIS;
-    Actor* child;
-
-    if (globalCtx) {}
+    GlobalContext* globalCtx2 = globalCtx;
 
     if (this->toggleDelay > 0) {
         this->toggleDelay--;
     }
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx2);
 
     if (this->actor.update != NULL) {
         if ((this->actor.params & 1) == 1) {
-            child = this->actor.child;
-            this->actor.posRot.pos.x = child->posRot.pos.x;
-            this->actor.posRot.pos.y = child->posRot.pos.y + 60.0f;
-            this->actor.posRot.pos.z = child->posRot.pos.z;
+            this->actor.posRot.pos.x = this->actor.child->posRot.pos.x;
+            this->actor.posRot.pos.y = this->actor.child->posRot.pos.y + 60.0f;
+            this->actor.posRot.pos.z = this->actor.child->posRot.pos.z;
             Actor_SetHeight(&this->actor, 0.0f);
         }
 
         this->prevFrameACflags = this->collider.base.acFlags;
         this->collider.base.acFlags &= ~2;
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
     }
 }
 
