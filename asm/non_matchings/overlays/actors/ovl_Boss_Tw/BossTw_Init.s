@@ -375,11 +375,11 @@ glabel BossTw_Init
 /* 00F3C 80939C0C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00F40 80939C10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00F44 80939C14 3C188094 */  lui     $t8, %hi(BossTw_TwinrovaUpdate)    ## $t8 = 80940000
+/* 00F44 80939C14 3C188094 */  lui     $t8, %hi(func_80940D48)    ## $t8 = 80940000
 /* 00F48 80939C18 3C198094 */  lui     $t9, %hi(BossTw_TwinrovaDraw)    ## $t9 = 80940000
 /* 00F4C 80939C1C 240E005B */  addiu   $t6, $zero, 0x005B         ## $t6 = 0000005B
 /* 00F50 80939C20 240F0018 */  addiu   $t7, $zero, 0x0018         ## $t7 = 00000018
-/* 00F54 80939C24 27180D48 */  addiu   $t8, $t8, %lo(BossTw_TwinrovaUpdate) ## $t8 = 80940D48
+/* 00F54 80939C24 27180D48 */  addiu   $t8, $t8, %lo(func_80940D48) ## $t8 = 80940D48
 /* 00F58 80939C28 27395084 */  addiu   $t9, $t9, %lo(BossTw_TwinrovaDraw) ## $t9 = 80945084
 /* 00F5C 80939C2C A20E0117 */  sb      $t6, 0x0117($s0)           ## 00000117
 /* 00F60 80939C30 A20F00AF */  sb      $t7, 0x00AF($s0)           ## 000000AF

@@ -118,10 +118,10 @@ typedef struct BossTw {
     /* 0x05F8 */ u8 unk_5F8;
     /* 0x05F9 */ u8 unk_5F9;
     /* 0x05FA */ s16 unk_5FA; // camera state?
-    /* 0x05FC */ s16 unk_5FC; // cam id? 
+    /* 0x05FC */ s16 subCamId; // cam id? 
     /* 0x05FE */ s16 unk_5FE;
-    /* 0x0600 */ Vec3f unk_600; // eye
-    /* 0x060C */ Vec3f unk_60C; // at
+    /* 0x0600 */ Vec3f subCamEye; // eye
+    /* 0x060C */ Vec3f subCamAt; // at
     /* 0x0618 */ Vec3f unk_618; // probably vec3f
     /* 0x0624 */ Vec3f unk_624;
     /* 0x0630 */ Vec3f unk_630;

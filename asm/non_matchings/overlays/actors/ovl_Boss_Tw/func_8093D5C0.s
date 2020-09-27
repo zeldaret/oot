@@ -74,7 +74,7 @@ glabel D_8094AFCC
     .float 3.14159274101
 
 .text
-glabel BossTw_TwinrovaPlayIntro
+glabel func_8093D5C0
 /* 048F0 8093D5C0 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 048F4 8093D5C4 AFBF0034 */  sw      $ra, 0x0034($sp)
 /* 048F8 8093D5C8 AFB30030 */  sw      $s3, 0x0030($sp)

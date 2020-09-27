@@ -28,7 +28,7 @@ glabel D_8094B04C
  .word 0x3F733333
 
 .text
-glabel BossTw_TwinrovaUpdate
+glabel func_80940D48
 /* 08078 80940D48 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0807C 80940D4C AFBF0044 */  sw      $ra, 0x0044($sp)           
 /* 08080 80940D50 AFB30040 */  sw      $s3, 0x0040($sp)           
