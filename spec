@@ -1119,9 +1119,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Hashira4"
     include "build/src/overlays/actors/ovl_Bg_Mori_Hashira4/z_bg_mori_hashira4.o"
-    include "build/data/overlays/actors/z_bg_mori_hashira4.data.o"
-    include "build/data/overlays/actors/z_bg_mori_hashira4.bss.o"
-    include "build/data/overlays/actors/z_bg_mori_hashira4.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Hashira4/ovl_Bg_Mori_Hashira4_reloc.o"
 endseg
 
 beginseg
