@@ -504,7 +504,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
         case 1:
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 this->actor.textId = 0xFFFF;
-                globalCtx->unk_11D5C(globalCtx, &this->actor);
+                globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
                 globalCtx->msgCtx.msgMode = 0x36;
                 globalCtx->msgCtx.unk_E3E7 = 4;
