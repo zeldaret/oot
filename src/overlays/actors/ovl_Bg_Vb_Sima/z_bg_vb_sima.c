@@ -43,7 +43,8 @@ void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
     DynaPolyInfo_Alloc(&D_06000D68, &colHeader);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -63,7 +64,7 @@ void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* veloc
             particle->vel = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
-            particle->opacity = 255;
+            particle->alpha = 255;
             particle->timer1 = (s16)Math_Rand_ZeroFloat(10.0f);
             break;
         }
@@ -71,8 +72,8 @@ void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* veloc
 }
 
 void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static Color_RGBA8_n sColorYellow = { 255, 255, 0, 255 };
-    static Color_RGBA8_n sColorRed = { 255, 10, 0, 255 };
+    static Color_RGBA8_n colorYellow = { 255, 255, 0, 255 };
+    static Color_RGBA8_n colorRed = { 255, 10, 0, 255 };
     s32 pad;
     BgVbSima* this = THIS;
     BossFd* bossFd = BOSSFD;
@@ -128,7 +129,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 splashPos.y = -80.0f;
                 splashPos.z = this->dyna.actor.posRot.pos.z + edgeZ;
 
-                func_8002836C(globalCtx, &splashPos, &splashVel, &splashAcc, &sColorYellow, &sColorRed,
+                func_8002836C(globalCtx, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
                               (s16)Math_Rand_ZeroFloat(100.0f) + 500, 0xA, 0x14);
 
                 for (i2 = 0; i2 < 3; i2++) {

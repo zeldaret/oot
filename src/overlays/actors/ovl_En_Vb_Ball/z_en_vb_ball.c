@@ -33,13 +33,13 @@ const ActorInit En_Vb_Ball_InitVars = {
     (ActorFunc)EnVbBall_Draw,
 };
 
+static ColliderCylinderInit sCylinderInit = {
+    { 0x0A, 0x11, 0x09, 0x39, 0x10, 0x01 },
+    { 0x06, { 0x00100700, 0x00, 0x20 }, { 0x00100700, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    { 0x0014, 0x0001E, 0x000A, 0x0000, 0x0000, 0x0000 }
+};
+
 void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static ColliderCylinderInit sCylinderInit = {
-        { 0x0A, 0x11, 0x09, 0x39, 0x10, 0x01 },
-        { 0x06, { 0x00100700, 0x00, 0x20 }, { 0x00100700, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 0x0014, 0x0001E, 0x000A, 0x0000, 0x0000, 0x0000 }
-    };
-    // GlobalContext* globalCtx2 = globalCtx;
     s32 pad;
     EnVbBall* this = THIS;
     s32 pad2;
@@ -69,7 +69,7 @@ void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnVbBall* this = THIS;
-    
+
     if (this->actor.params < 200) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
@@ -161,7 +161,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 pad2;
     s16 spawnNum;
     s16 i;
-    
+
     this->unkTimer2++;
     DECR(this->unkTimer1);
     this->actor.shape.rot.x += (s16)this->xRotVel;
@@ -287,7 +287,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnVbBall* this = THIS;
-    
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 604);
     if (1) {} // needed for match
     func_80093D18(globalCtx->state.gfxCtx);
@@ -301,8 +301,8 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80094044(globalCtx->state.gfxCtx);
 
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);
-        Matrix_Translate(this->actor.posRot.pos.x, 100.0f, this->actor.posRot.pos.z, 0);
-        Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, 1);
+        Matrix_Translate(this->actor.posRot.pos.x, 100.0f, this->actor.posRot.pos.z, MTXMODE_NEW);
+        Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, MTXMODE_APPLY);
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 626),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_04049210));

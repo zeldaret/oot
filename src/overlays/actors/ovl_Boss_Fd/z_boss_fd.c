@@ -161,7 +161,7 @@ void BossFd_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocit
             particle->vel = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
-            particle->opacity = 0xFF;
+            particle->alpha = 255;
             particle->timer1 = (s16)Math_Rand_ZeroFloat(10.0f);
             break;
         }
@@ -202,7 +202,7 @@ void BossFd_SpawnDust(BossFdParticle* particle, Vec3f* position, Vec3f* velocity
 }
 
 void BossFd_SpawnFireBreath(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale,
-                            s16 opacity, s16 kbAngle) {
+                            s16 alpha, s16 kbAngle) {
     s16 i;
 
     for (i = 0; i < 180; i++, particle++) {
@@ -216,7 +216,7 @@ void BossFd_SpawnFireBreath(BossFdParticle* particle, Vec3f* position, Vec3f* ve
             particle->pos.y -= particle->vel.y;
             particle->pos.z -= particle->vel.z;
             particle->scaleMod = 0.0f;
-            particle->opacity = opacity;
+            particle->alpha = alpha;
             particle->yStop = Math_Rand_ZeroFloat(10.0f);
             particle->timer2 = 0;
             particle->scale = scale / 400.0f;
@@ -339,12 +339,13 @@ void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
 // All instructions match.
 
 static Vec3f sHoleLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-                          { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-                          { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
+                                  { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
+                                  { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
 
-static Vec3f sCeilingTargets[] = { { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
-                           { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f } };
-
+static Vec3f sCeilingTargets[] = {
+    { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
+    { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f }
+};
 
 void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = false;
@@ -1120,11 +1121,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 #else
 
 Vec3f sHoleLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-                          { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-                          { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
+                           { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
+                           { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
 
 Vec3f sCeilingTargets[] = { { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
-                           { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f } };    
+                            { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f } };
 
 Vec3f D_808D19E0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808D19EC = { 0.0f, 0.03f, 0.0f };
@@ -1169,11 +1170,11 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
     }
 }
 
-static Vec3f sD_808D1A28 = { 0.0f, 0.0f, 50.0f };
+static Vec3f sFireAudioVec = { 0.0f, 0.0f, 50.0f };
 
 void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
-    static Color_RGBA8_n sColorYellow = { 255, 255, 0, 255 };
-    static Color_RGBA8_n sColorRed = { 255, 10, 0, 255 };
+    static Color_RGBA8_n colorYellow = { 255, 255, 0, 255 };
+    static Color_RGBA8_n colorRed = { 255, 10, 0, 255 };
     s16 breathOpacity = 0;
     f32 jawAngle;
     f32 jawSpeed;
@@ -1280,7 +1281,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                 spawnPos1.y = 100.0f;
                 spawnPos1.z = temp_z + this->holePosition.z;
 
-                func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &sColorYellow, &sColorRed,
+                func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed,
                               (s16)Math_Rand_ZeroFloat(150.0f) + 800, 0xA, (s16)Math_Rand_ZeroFloat(5.0f) + 17);
             }
         } else {
@@ -1298,7 +1299,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                 spawnPos1.y = 100.0f;
                 spawnPos1.z = temp_z + this->holePosition.z;
 
-                func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &sColorYellow, &sColorRed, 500, 0xA, 20);
+                func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed, 500, 0xA, 20);
             }
         }
 
@@ -1333,14 +1334,14 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         this->fogMode = 2;
         spawnSpeed2.z = 30.0f;
 
-        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_FIRE - SFX_FLAG, &sD_808D1A28, 4, &D_801333E0, &D_801333E0,
+        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_FIRE - SFX_FLAG, &sFireAudioVec, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         spawnPos2 = this->headPos;
 
         spawnAngleY = (this->actor.posRot.rot.y / (f32)0x8000) * M_PI;
         spawnAngleX = (((-this->actor.posRot.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
-        Matrix_RotateY(spawnAngleY, 0);
-        Matrix_RotateX(spawnAngleX, 1);
+        Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
+        Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
 
         BossFd_SpawnFireBreath(this->particles, &spawnPos2, &spawnVel2, &spawnAccel2,
@@ -1361,8 +1362,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         for (i = 0; i < 6; i++) {
             spawnAngleY = Math_Rand_ZeroFloat(2.0f * M_PI);
             spawnAngleX = Math_Rand_ZeroFloat(2.0f * M_PI);
-            Matrix_RotateY(spawnAngleY, 0);
-            Matrix_RotateX(spawnAngleX, 1);
+            Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
+            Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
             Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
 
             spawnAccel2.x = (spawnVel2.x * -10) / 100;
@@ -1456,9 +1457,9 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->rockTimer != 0) {
         this->rockTimer--;
         if ((this->rockTimer % 16) == 0) {
-            EnVbBall* bossFdRock = (EnVbBall*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL,
-                                                       this->actor.posRot.pos.x, 1000.0f, this->actor.posRot.pos.z, 0,
-                                                       0, (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
+            EnVbBall* bossFdRock = (EnVbBall*)Actor_SpawnAsChild(
+                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL, this->actor.posRot.pos.x, 1000.0f,
+                this->actor.posRot.pos.z, 0, 0, (s16)Math_Rand_ZeroFloat(50.0f) + 0x82, 0x64);
             if (bossFdRock != NULL) {
                 for (i = 0; i < 10; i++) {
                     Vec3f debrisVel = { 0.0f, 0.0f, 0.0f };
@@ -1546,9 +1547,9 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                 particle->color.r = colors[cInd].r;
                 particle->color.g = colors[cInd].g;
                 particle->color.b = colors[cInd].b;
-                particle->opacity -= 20;
-                if (particle->opacity <= 0) {
-                    particle->opacity = 0;
+                particle->alpha -= 20;
+                if (particle->alpha <= 0) {
+                    particle->alpha = 0;
                     particle->type = 0;
                 }
             } else if ((particle->type == FD_DEBRIS) || (particle->type == FD_SKULL_PIECE)) {
@@ -1605,8 +1606,8 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
-    static UNK_TYPE sParticleSegments[] = { 0x04051DB0, 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
-                                0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0 };
+    static UNK_TYPE particleTex[] = { 0x04051DB0, 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
+                                      0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0 };
     u8 flag = 0;
     s16 i;
     f32 pad;
@@ -1625,10 +1626,10 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
             }
 
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, particle->color.r, particle->color.g, particle->color.b,
-                            particle->opacity);
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, 0);
+                            particle->alpha);
+            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(particle->scale, particle->scale, 1.0f, 1);
+            Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4046),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1646,10 +1647,10 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, 0);
-            Matrix_RotateY(particle->yRot, 1);
-            Matrix_RotateX(particle->xRot, 1);
-            Matrix_Scale(particle->scale, particle->scale, 1.0f, 1);
+            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_RotateY(particle->yRot, MTXMODE_APPLY);
+            Matrix_RotateX(particle->xRot, MTXMODE_APPLY);
+            Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4068),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1669,13 +1670,13 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, 0);
-            Matrix_Scale(particle->scale, particle->scale, particle->scale, 1);
+            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
             func_800D1FD4(&globalCtx->mf_11DA0);
 
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sParticleSegments[particle->timer2]));
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(particleTex[particle->timer2]));
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600B3C8);
         }
     }
@@ -1691,14 +1692,14 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 0, particle->opacity);
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, 0);
-            Matrix_Scale(particle->scale, particle->scale, particle->scale, 1);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 0, particle->alpha);
+            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
             func_800D1FD4(&globalCtx->mf_11DA0);
 
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4154),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sParticleSegments[particle->timer2]));
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(particleTex[particle->timer2]));
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600B3C8);
         }
     }
@@ -1713,10 +1714,10 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, 0);
-            Matrix_RotateY(particle->yRot, 1);
-            Matrix_RotateX(particle->xRot, 1);
-            Matrix_Scale(particle->scale, particle->scale, 1.0f, 1);
+            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_RotateY(particle->yRot, MTXMODE_APPLY);
+            Matrix_RotateX(particle->xRot, MTXMODE_APPLY);
+            Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4192),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1795,8 +1796,8 @@ s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     return 0;
 }
 
-static s16 sD_808D1AC0[] = { 0, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
-static s16 sD_808D1AE8[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 }; // Unused? Seems to be for the mane.
+static s16 sBodyIndex[] = { 0, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
+static s16 sManeIndex[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 }; // Unused? Seems to be for the mane.
 
 void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec3f* maneRot, f32* maneScale, u8 mode) {
     f32 sp140[] = { 0.0f, 10.0f, 17.0f, 20.0f, 19.5f, 18.0f, 17.0f, 15.0f, 15.0f, 15.0f };
@@ -1843,18 +1844,18 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
             spB4.z = 0.0f;
         }
 
-        Matrix_RotateY((maneRot + maneIndex)->y, 0);
-        Matrix_RotateX(-(maneRot + maneIndex)->x, 1);
+        Matrix_RotateY((maneRot + maneIndex)->y, MTXMODE_NEW);
+        Matrix_RotateX(-(maneRot + maneIndex)->x, MTXMODE_APPLY);
 
         Matrix_MultVec3f(&spB4, &spA8);
 
         Matrix_Translate((manePos + maneIndex)->x + spA8.x, (manePos + maneIndex)->y + spA8.y,
-                         (manePos + maneIndex)->z + spA8.z, 0);
-        Matrix_RotateY((maneRot + maneIndex)->y + phi_f20, 1);
-        Matrix_RotateX(-((maneRot + maneIndex)->x + phi_f22), 1);
+                         (manePos + maneIndex)->z + spA8.z, MTXMODE_NEW);
+        Matrix_RotateY((maneRot + maneIndex)->y + phi_f20, MTXMODE_APPLY);
+        Matrix_RotateX(-((maneRot + maneIndex)->x + phi_f22), MTXMODE_APPLY);
         Matrix_Scale(maneScale[maneIndex] * (0.01f - (i * 0.0008f)), maneScale[maneIndex] * (0.01f - (i * 0.0008f)),
                      0.01f, 1);
-        Matrix_RotateX(-M_PI / 2.0f, 1);
+        Matrix_RotateX(-M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4480),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_060091E8);
@@ -1892,21 +1893,21 @@ s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    static Vec3f sD_808D1BA0 = { 4500.0f, 0.0f, 0.0f };
-    static Vec3f sD_808D1BAC = { 4000.0f, 0.0f, 0.0f };
+    static Vec3f targetMod = { 4500.0f, 0.0f, 0.0f };
+    static Vec3f headMod = { 4000.0f, 0.0f, 0.0f };
     BossFd* this = THIS;
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sD_808D1BA0, &this->actor.posRot2.pos);
-        Matrix_MultVec3f(&sD_808D1BAC, &this->headPos);
+        Matrix_MultVec3f(&targetMod, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&headMod, &this->headPos);
     }
 }
 
 static Gfx* sEyeDLists[] = { 0x060038A8, 0x060034A8, 0x06003CA8 };
 
 static Gfx* sBodyDLists[] = { 0x060079A0, 0x06007AC0, 0x06007B70, 0x06007BD0, 0x06007C30, 0x06007C90,
-                                0x06007CF0, 0x06007D50, 0x06007DB0, 0x06007E10, 0x06007E70, 0x06007ED0,
-                                0x06007F30, 0x06007F90, 0x06007FF0, 0x06008038, 0x06008080, 0x060080D8 };
+                              0x06007CF0, 0x06007D50, 0x06007DB0, 0x06007E10, 0x06007E70, 0x06007ED0,
+                              0x06007F30, 0x06007F90, 0x06007FF0, 0x06008038, 0x06008080, 0x060080D8 };
 
 void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     s16 segIndex;
@@ -1926,23 +1927,25 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
 
     osSyncPrintf("LH\n");
     Matrix_Push();
-    segIndex = (sD_808D1AC0[2] + this->leadBodySeg) % 100;
-    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z, 0);
-    Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
-    Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
-    Matrix_Translate(-13.0f, -5.0f, 13.0f, 1);
-    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
+    segIndex = (sBodyIndex[2] + this->leadBodySeg) % 100;
+    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
+                     MTXMODE_NEW);
+    Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
+    Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
+    Matrix_Translate(-13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
+    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
     SkelAnime_Draw(globalCtx, this->skelAnime2.skeleton, this->skelAnime2.limbDrawTbl, BossFd_OverrideRightArmDraw,
                    NULL, &this->actor);
     Matrix_Pull();
     osSyncPrintf("RH\n");
     Matrix_Push();
-    segIndex = (sD_808D1AC0[2] + this->leadBodySeg) % 100;
-    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z, 0);
-    Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
-    Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
-    Matrix_Translate(13.0f, -5.0f, 13.0f, 1);
-    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
+    segIndex = (sBodyIndex[2] + this->leadBodySeg) % 100;
+    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
+                     MTXMODE_NEW);
+    Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
+    Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
+    Matrix_Translate(13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
+    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
     SkelAnime_Draw(globalCtx, this->skelAnime3.skeleton, this->skelAnime3.limbDrawTbl, BossFd_OverrideLeftArmDraw, NULL,
                    &this->actor);
     Matrix_Pull();
@@ -1951,18 +1954,18 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
 
     Matrix_Push();
     for (i1 = 0; i1 < 18; i1++, tempMat++) {
-        segIndex = (sD_808D1AC0[i1 + 1] + this->leadBodySeg) % 100;
+        segIndex = (sBodyIndex[i1 + 1] + this->leadBodySeg) % 100;
         Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
-                         0);
-        Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
-        Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
+                         MTXMODE_NEW);
+        Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
+        Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
         Matrix_Translate(0.0f, 0.0f, 35.0f, 1);
-        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
+        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         if (i1 < this->skinSegments) {
             Matrix_Scale(1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) * (*this).bodyPulse),
                          1.0f + (Math_Sins((this->leadBodySeg * 5000.0f) + (i1 * 7000.0f)) * (*this).bodyPulse), 1.0f,
-                         1);
-            Matrix_RotateY(M_PI / 2.0f, 1);
+                         MTXMODE_APPLY);
+            Matrix_RotateY(M_PI / 2.0f, MTXMODE_APPLY);
             Matrix_ToMtx(tempMat, "../z_boss_fd.c", 4719);
             gSPMatrix(oGfxCtx->polyOpa.p++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyOpa.p++, sBodyDLists[i1]);
@@ -1976,15 +1979,15 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                 f32 spD4 = 0.1f;
                 temp_float = 0.1f;
 
-                Matrix_Translate(0.0f, 0.0f, -1100.0f, 1);
-                Matrix_RotateY(-M_PI, 1);
+                Matrix_Translate(0.0f, 0.0f, -1100.0f, MTXMODE_APPLY);
+                Matrix_RotateY(-M_PI, MTXMODE_APPLY);
                 if (i1 >= 14) {
                     f32 sp84 = 1.0f - ((i1 - 14) * 0.2f);
                     Matrix_Scale(sp84, sp84, 1.0f, 1);
                     spD4 = 0.1f * sp84;
                     temp_float = 0.1f * sp84;
                 }
-                Matrix_Scale(0.1f, 0.1f, 0.1f, 1);
+                Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
                 gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4768),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600B2F8);
@@ -2016,19 +2019,20 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, (s8)this->headTex2Opacity);
     Matrix_Push();
     temp_float = (this->actionState >= 204) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f);
-    segIndex = (sD_808D1AC0[0] + this->leadBodySeg) % 100;
-    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z, 0);
-    Matrix_RotateY(this->bodySegsRot[segIndex].y, 1);
-    Matrix_RotateX(-this->bodySegsRot[segIndex].x, 1);
-    Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * M_PI, 1);
-    Matrix_Translate(0.0f, 0.0f, temp_float, 1);
+    segIndex = (sBodyIndex[0] + this->leadBodySeg) % 100;
+    Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
+                     MTXMODE_NEW);
+    Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
+    Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
+    Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+    Matrix_Translate(0.0f, 0.0f, temp_float, MTXMODE_APPLY);
     Matrix_Push();
-    Matrix_Translate(0.0f, 0.0f, 25.0f, 1);
+    Matrix_Translate(0.0f, 0.0f, 25.0f, MTXMODE_APPLY);
     osSyncPrintf("BHC\n");
     func_800628A4(0, &this->collider);
     Matrix_Pull();
     osSyncPrintf("BHCE\n");
-    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, 1);
+    Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
     SkelAnime_Draw(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl, BossFd_OverrideHeadDraw,
                    BossFd_PostHeadDraw, &this->actor);
     osSyncPrintf("SK\n");

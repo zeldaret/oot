@@ -105,8 +105,8 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static Vec3f sHoleLocations[] = { { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-                                 { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-                                 { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
+                                  { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
+                                  { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f } };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
@@ -134,7 +134,7 @@ void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec
 }
 
 void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
-                             Vec3f* acceleration, f32 scale, s16 opacity, s16 kbAngle) {
+                             Vec3f* acceleration, f32 scale, s16 alpha, s16 kbAngle) {
     s16 i;
 
     for (i = 0; i < 180; i++, particle++) {
@@ -148,7 +148,7 @@ void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle,
             particle->pos.y -= particle->vel.y;
             particle->pos.z -= particle->vel.z;
             particle->scaleMod = 0.0f;
-            particle->opacity = opacity;
+            particle->alpha = alpha;
             particle->yStop = Math_Rand_ZeroFloat(10.0f);
             particle->timer2 = 0;
             particle->scale = scale / 400.0f;
@@ -169,7 +169,7 @@ void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdParticle* particle, Vec3
             particle->vel = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
-            particle->opacity = 255;
+            particle->alpha = 255;
             particle->timer1 = (s16)Math_Rand_ZeroFloat(10.0f);
             break;
         }
@@ -434,7 +434,7 @@ void BossFd2_SetupBreatheFire(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 static Vec3f sD_808D61A0 = { 0.0, 0.0, 50.0 }; // Unused? BossFd uses a similar array for its fire breath sfx.
-    
+
 void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f toLink;
@@ -498,8 +498,8 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
 
         temp_y = ((this->actor.shape.rot.y + this->headRot.y) / (f32)0x8000) * M_PI;
         temp_x = ((this->headRot.x / (f32)0x8000) * M_PI) + 1.0f / 2;
-        Matrix_RotateY(temp_y, 0);
-        Matrix_RotateX(temp_x, 1);
+        Matrix_RotateY(temp_y, MTXMODE_NEW);
+        Matrix_RotateX(temp_x, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed, &spawnVel);
 
         breathScale = 300.0f + 50.0f * Math_Sins(this->varianceTimer * 0x2000);
@@ -518,8 +518,8 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         for (i = 0; i < 6; i++) {
             temp_y = Math_Rand_ZeroFloat(2.0f * M_PI);
             temp_x = Math_Rand_ZeroFloat(2.0f * M_PI);
-            Matrix_RotateY(temp_y, 0);
-            Matrix_RotateX(temp_x, 1);
+            Matrix_RotateY(temp_y, MTXMODE_NEW);
+            Matrix_RotateX(temp_x, MTXMODE_APPLY);
             Matrix_MultVec3f(&spawnSpeed, &spawnVel);
 
             spawnAccel.x = (spawnVel.x * -10.0f) / 100.0f;
@@ -729,7 +729,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
             }
             Math_SmoothScaleMaxF(&this->skelAnime.animPlaybackSpeed, retreatSpeed, 1.0f, 1.0f);
-            Matrix_RotateY(((this->actor.yawTowardsLink / (f32)0x8000) * M_PI) + 0.2f, 0);
+            Matrix_RotateY(((this->actor.yawTowardsLink / (f32)0x8000) * M_PI) + 0.2f, MTXMODE_NEW);
             sp70.x = 0.0f;
             sp70.y = 0.0f;
             sp70.z = 250.0f;
@@ -988,7 +988,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     BossFd2* this = THIS;
     s16 i;
-    
+
     osSyncPrintf("FD2 move start \n");
     this->disableAT = false;
     this->actor.flags &= ~0x400;
@@ -996,7 +996,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unkTimer++;
 
     this->actionFunc(this, globalCtx2);
-    
+
     for (i = 0; i < 5; i++) {
         DECR(this->timers[i]);
     }
@@ -1066,19 +1066,19 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    static Vec3f sD_808D620C = { 4500.0f, 0.0f, 0.0f };
-    static Vec3f sD_808D6218 = { 4000.0f, 0.0f, 0.0f };
-    static Vec3f sD_808D6224 = { 4000.0f, -2900.0, 2000.0f };
-    static Vec3f sD_808D6230 = { 4000.0f, -1600.0, 0.0f };
-    static Vec3f sD_808D623C = { 4000.0f, -1600.0, -2000.0f };
+    static Vec3f targetMod = { 4500.0f, 0.0f, 0.0f };
+    static Vec3f headMod = { 4000.0f, 0.0f, 0.0f };
+    static Vec3f centerManeMod = { 4000.0f, -2900.0, 2000.0f };
+    static Vec3f rightManeMod = { 4000.0f, -1600.0, 0.0f };
+    static Vec3f leftManeMod = { 4000.0f, -1600.0, -2000.0f };
     BossFd2* this = THIS;
 
     if (limbIndex == 35) {
-        Matrix_MultVec3f(&sD_808D620C, &this->actor.posRot2.pos);
-        Matrix_MultVec3f(&sD_808D6218, &this->headPos);
-        Matrix_MultVec3f(&sD_808D6224, &this->centerMane.head);
-        Matrix_MultVec3f(&sD_808D6230, &this->rightMane.head);
-        Matrix_MultVec3f(&sD_808D623C, &this->leftMane.head);
+        Matrix_MultVec3f(&targetMod, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&headMod, &this->headPos);
+        Matrix_MultVec3f(&centerManeMod, &this->centerMane.head);
+        Matrix_MultVec3f(&rightManeMod, &this->rightMane.head);
+        Matrix_MultVec3f(&leftManeMod, &this->leftMane.head);
     }
     func_800628A4(limbIndex, &this->collider);
 }
@@ -1135,8 +1135,8 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
         spBC.x = 0.0f;
         spBC.y = 0.0f;
         spBC.z = spE8[i] * 25.0f;
-        Matrix_RotateY(temp_angleY, 0);
-        Matrix_RotateX(temp_angleX, 1);
+        Matrix_RotateY(temp_angleY, MTXMODE_NEW);
+        Matrix_RotateX(temp_angleX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spBC, &spB0);
         temp_vec.x = (pos + i)->x;
         temp_vec.y = (pos + i)->y;
@@ -1168,12 +1168,12 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
     }
 
     for (i = 0; i < 9; i++) {
-        Matrix_Translate((pos + i)->x, (pos + i)->y, (pos + i)->z, 0);
-        Matrix_RotateY((rot + i)->y, 1);
-        Matrix_RotateX((rot + i)->x, 1);
+        Matrix_Translate((pos + i)->x, (pos + i)->y, (pos + i)->z, MTXMODE_NEW);
+        Matrix_RotateY((rot + i)->y, MTXMODE_APPLY);
+        Matrix_RotateX((rot + i)->x, MTXMODE_APPLY);
         xyScale = (0.01f - (i * 0.0009f)) * spE8[i] * scale[i];
-        Matrix_Scale(xyScale, xyScale, 0.01f * spE8[i], 1);
-        Matrix_RotateX(M_PI / 2.0f, 1);
+        Matrix_Scale(xyScale, xyScale, 0.01f * spE8[i], MTXMODE_APPLY);
+        Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2498),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_06004BC8);
@@ -1215,7 +1215,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* sEyeDLists[] = { 0x06002B08, 0x06002708, 0x06002F08 };
+    static Gfx* eyeDisplayLists[] = { 0x06002B08, 0x06002708, 0x06002F08 };
     s32 pad;
     BossFd2* this = THIS;
 
@@ -1226,7 +1226,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->damageFlashTimer & 2) {
             oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, 255, 255, 255, 0, 0x384, 0x44B);
         }
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeDLists[this->eyeState]));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(eyeDisplayLists[this->eyeState]));
 
         gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->bodyTex1x, (s16)this->bodyTex1y, 0x20, 0x20,

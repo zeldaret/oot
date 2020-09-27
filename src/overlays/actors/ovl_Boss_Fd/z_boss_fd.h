@@ -16,7 +16,7 @@ typedef struct BossFdParticle {
     /* 0x24 */ u8 type;
     /* 0x25 */ u8 timer1;
     /* 0x26 */ Color_RGB8 color;
-    /* 0x2A */ s16 opacity;
+    /* 0x2A */ s16 alpha;
     /* 0x2C */ s16 timer2;
     /* 0x2E */ s16 kbAngle;
     /* 0x30 */ f32 scale;
