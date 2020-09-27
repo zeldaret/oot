@@ -25,7 +25,7 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-extern UNK_TYPE D_060037D8;
+extern ColHeader D_060037D8;
 extern Gfx D_060036B0[];
 extern Gfx D_06004770[];
 
@@ -54,16 +54,32 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, GlobalContext* globalCtx, UNK_PTR arg2, s32 moveFlag) {
+static InitChainEntry sInitChainClasp[] = {
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_U8(unk_1F, 3, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 40, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
+
+static InitChainEntry sInitChainLadder[] = {
+    ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
+
+void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, GlobalContext* globalCtx, ColHeader* collision, s32 moveFlag) {
     s32 pad;
-    s32 localConst;
+    ColHeader* colHeader;
     s32 pad2;
 
-    localConst = 0;
+    colHeader = NULL;
     DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
+    DynaPolyInfo_Alloc(collision, &colHeader);
     this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.dynaPolyId == 0x32) {
         // Warning : move BG login failed
@@ -111,20 +127,11 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, GlobalContext* globalCtx) {
 }
 
 s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, GlobalContext* globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
-        ICHAIN_U8(unk_1F, 3, ICHAIN_CONTINUE),
-        ICHAIN_F32(unk_4C, 40, ICHAIN_CONTINUE),
-        ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
-    };
-
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChainClasp);
     this->dyna.actor.flags |= 1;
     Actor_SetHeight(&this->dyna.actor, 55.0f);
     BgMoriHashigo_InitCollider(this, globalCtx);
-    if ((this->dyna.actor.params == (s16)0xFFFF) && !BgMoriHashigo_SpawnLadder(this, globalCtx)) {
+    if ((this->dyna.actor.params == -1) && !BgMoriHashigo_SpawnLadder(this, globalCtx)) {
         return false;
     } else {
         return true;
@@ -132,15 +139,8 @@ s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, GlobalContext* globalCtx) {
 }
 
 s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, GlobalContext* globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 400, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
-        ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
-    };
-
-    BgMoriHashigo_InitDynapoly(this, globalCtx, &D_060037D8, 0);
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    BgMoriHashigo_InitDynapoly(this, globalCtx, &D_060037D8, DPM_UNK);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChainLadder);
     return true;
 }
 
@@ -148,7 +148,7 @@ void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriHashigo* this = THIS;
 
-    if (this->dyna.actor.params == (s16)0xFFFF) {
+    if (this->dyna.actor.params == -1) {
         if (!BgMoriHashigo_InitClasp(this, globalCtx)) {
             Actor_Kill(&this->dyna.actor);
             return;
@@ -179,7 +179,7 @@ void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.params == 0) {
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
-    if (this->dyna.actor.params == (s16)0xFFFF) {
+    if (this->dyna.actor.params == -1) {
         Collider_DestroyJntSph(globalCtx, &this->collider);
     }
 }
@@ -190,7 +190,7 @@ void BgMoriHashigo_SetupWaitForMoriTex(BgMoriHashigo* this) {
 
 void BgMoriHashigo_WaitForMoriTex(BgMoriHashigo* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        if (this->dyna.actor.params == (s16)0xFFFF) {
+        if (this->dyna.actor.params == -1) {
             BgMoriHashigo_SetupClasp(this);
         } else if (this->dyna.actor.params == 0) {
             BgMoriHashigo_SetupLadderWait(this);
@@ -235,16 +235,16 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this) {
 }
 
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx) {
-    static f32 sBounceSpeed[3] = { 4.0f, 2.7f, 1.7f };
+    static f32 bounceSpeed[3] = { 4.0f, 2.7f, 1.7f };
     Actor* thisx = &this->dyna.actor;
 
     Actor_MoveForward(thisx);
     if ((thisx->bgCheckFlags & 1) && (thisx->velocity.y < 0.0f)) {
-        if (this->bounceCounter >= ARRAY_COUNT(sBounceSpeed)) {
+        if (this->bounceCounter >= ARRAY_COUNT(bounceSpeed)) {
             BgMoriHashigo_SetupLadderRest(this);
         } else {
             func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 0x1C);
-            thisx->velocity.y = sBounceSpeed[this->bounceCounter];
+            thisx->velocity.y = bounceSpeed[this->bounceCounter];
             this->bounceCounter++;
         }
     } else {
@@ -284,7 +284,7 @@ void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (this->dyna.actor.params) {
-        case (s16)0xFFFF:
+        case -1:
             gSPDisplayList(oGfxCtx->polyOpa.p++, D_06004770);
             break;
         case 0:
