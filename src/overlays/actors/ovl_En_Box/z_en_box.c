@@ -356,7 +356,7 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
         func_8002F5F0(&this->dyna.actor, globalCtx);
     }
 
-    if (Flags_GetTempClear(globalCtx, this->dyna.actor.room) && !func_8008E988(globalCtx)) {
+    if (Flags_GetTempClear(globalCtx, this->dyna.actor.room) && !Player_InCsMode(globalCtx)) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
         EnBox_SetupAction(this, EnBox_AppearInit);
         func_80080480(globalCtx, &this->dyna.actor);
@@ -401,7 +401,6 @@ void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx) {
 
 /**
  * Chest is ready to be open
- * something else (like, Link's actor?) probably sets unk_1F4 from outside this actor's code?
  */
 void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     f32 frameCount;

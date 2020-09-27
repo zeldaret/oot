@@ -38,7 +38,7 @@ typedef struct EnBox {
     /* 0x01B4 */ EnBoxActionFunc actionFunc;
     /* 0x01B8 */ Vec3s limbDrawTable[5];
     /* 0x01D6 */ Vec3s transitionDrawTable[5];
-    /* 0x01F4 */ s16 unk_1F4; // probably a frame count? used but never initialized!
+    /* 0x01F4 */ s16 unk_1F4; // probably a frame count? set by player code
     /* 0x01F6 */ u8 movementFlags;
     /* 0x01F7 */ u8 alpha;
     /* 0x01F8 */ u8 switchFlag;
