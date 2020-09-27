@@ -1907,9 +1907,9 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
         arg2->unk_24 = sp44;
     }
 
-    arg2->unk_0C.x = arg2->unk_18->norm.x * (1.f / 32767);
-    arg2->unk_0C.y = arg2->unk_18->norm.y * (1.f / 32767);
-    arg2->unk_0C.z = arg2->unk_18->norm.z * (1.f / 32767);
+    arg2->unk_0C.x = arg2->unk_18->norm.x * (1.0f / 32767.0f);
+    arg2->unk_0C.y = arg2->unk_18->norm.y * (1.0f / 32767.0f);
+    arg2->unk_0C.z = arg2->unk_18->norm.z * (1.0f / 32767.0f);
     arg2->unk_00.x = arg2->unk_0C.x + sp68.x;
     arg2->unk_00.y = arg2->unk_0C.y + sp68.y;
     arg2->unk_00.z = arg2->unk_0C.z + sp68.z;
@@ -1965,9 +1965,9 @@ f32 func_80044434(Camera* camera, Vec3f* arg1, Vec3f* arg2, s32* arg3) {
         arg1->z = 0.0f;
         arg1->y = 1.0f;
     } else {
-        arg1->x = sp28->norm.x * (1.f / 32767);
-        arg1->y = sp28->norm.y * (1.f / 32767);
-        arg1->z = sp28->norm.z * (1.f / 32767);
+        arg1->x = sp28->norm.x * (1.f / 32767.0f);
+        arg1->y = sp28->norm.y * (1.f / 32767.0f);
+        arg1->z = sp28->norm.z * (1.f / 32767.0f);
     }
 
     return temp_ret;
@@ -3369,7 +3369,7 @@ void func_80059EC8(Camera* camera) {
             player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
-            if (player->action != 0) {
+            if (player->csMode != 0) {
                 func_8002DF54(camera->globalCtx, &player->actor, 7);
                 osSyncPrintf("camera: player demo end!!\n");
             }
@@ -3545,8 +3545,8 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeMode.s")
 #endif
 
-void func_8005A444(Camera* camera, s16 arg1) {
-    Camera_ChangeMode(camera, arg1, 0);
+s32 func_8005A444(Camera* camera, s16 arg1) {
+    return Camera_ChangeMode(camera, arg1, 0);
 }
 
 s32 func_8005A470(Camera* camera, s16 arg1) {
@@ -3927,7 +3927,7 @@ Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera) {
 }
 
 void Camera_SetCameraData(Camera* camera, s16 arg1, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
-                          s16 relativeToPlayer, s16 arg5) {
+                          s16 relativeToPlayer, s16 arg5, s32 arg6) {
     if (arg1 & 0x1) {
         camera->atPoints = atPoints;
     }
