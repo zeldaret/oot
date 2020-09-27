@@ -85,10 +85,10 @@ void func_8007BBA8(GraphicsContext* gfxCtx, u8* arg1) {
         switch (arg1[i]) {
             case 9:
                 D_80120120 = (((D_80120120 / 8) / 8) + 1) * 8 * 8;
-                if (D_80120120 >= 320) {
+                if (D_80120120 >= SCREEN_WIDTH) {
                     D_80120120 = 0;
                     D_80120124 += 8;
-                    if (D_80120124 >= 240) {
+                    if (D_80120124 >= SCREEN_HEIGHT) {
                         D_80120124 = 0;
                     }
                 }
@@ -97,7 +97,7 @@ void func_8007BBA8(GraphicsContext* gfxCtx, u8* arg1) {
             case 13:
                 D_80120120 = 0;
                 D_80120124 += 8;
-                if (D_80120124 >= 240) {
+                if (D_80120124 >= SCREEN_HEIGHT) {
                     D_80120124 = 0;
                 }
                 break;

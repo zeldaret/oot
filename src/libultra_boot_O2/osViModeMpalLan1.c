@@ -5,7 +5,7 @@ OSViMode osViModeMpalLan1 = {
     {
         // comRegs
         0x311E,    // ctrl
-        0x140,     // width
+        SCREEN_WIDTH,     // width
         0x4651E39, // burst
         0x20D,     // vSync
         0x40C11,   // hSync

@@ -168,7 +168,7 @@ glabel func_800E3094
 /* B5A498 800E32F8 240F0001 */  li    $t7, 1
 /* B5A49C 800E32FC A2203519 */  sb    $zero, 0x3519($s1)
 /* B5A4A0 800E3300 A22F3518 */  sb    $t7, 0x3518($s1)
-/* B5A4A4 800E3304 0C037E3D */  jal   func_800DF8F4
+/* B5A4A4 800E3304 0C037E3D */  jal   Audio_ResetStep
 /* B5A4A8 800E3308 A62D2840 */   sh    $t5, 0x2840($s1)
 /* B5A4AC 800E330C 3C050004 */  lui   $a1, %hi(_AudioseqSegmentRomStart) # $a1, 4
 /* B5A4B0 800E3310 24A54DF0 */  addiu $a1, %lo(_AudioseqSegmentRomStart) # addiu $a1, $a1, 0x4df0

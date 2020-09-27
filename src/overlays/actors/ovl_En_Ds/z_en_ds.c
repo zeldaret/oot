@@ -149,7 +149,7 @@ void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
                 this->brewTimer = 60;
                 Flags_SetSwitch(globalCtx, 0x3F);
                 globalCtx->msgCtx.msgMode = 0x37;
-                player->exchangeItemId = 0;
+                player->exchangeItemId = EXCH_ITEM_NONE;
                 break;
             case 1: // no
                 func_8010B720(globalCtx, 0x504C);
@@ -209,7 +209,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        if (func_8002F368(globalCtx) == 8) {
+        if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;
@@ -229,7 +229,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x5048;
 
         if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistFromLink < 200.0f)) {
-            func_8002F298(this, globalCtx, 100.0f, 8);
+            func_8002F298(this, globalCtx, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
             this->unk_1E8 |= 1;
         }
     }
