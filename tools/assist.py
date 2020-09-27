@@ -35,7 +35,7 @@ def get_all_s_files():
 
 
 def get_symbol_bytes(offsets, func):
-    if "start" not in offsets[func] or "end" not in offsets[func]:
+    if func not in offsets or "start" not in offsets[func] or "end" not in offsets[func]:
         return None
     start = offsets[func]["start"]
     end = offsets[func]["end"]
@@ -116,6 +116,8 @@ def diff_syms(qb, tb):
 
 def get_matches(query):
     query_bytes = get_symbol_bytes(map_offsets, query)
+    if query_bytes is None:
+        sys.exit("Symbol '" + query + "' not found")
 
     ret = {}
     for symbol in map_offsets:
