@@ -1980,6 +1980,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
 }
 
 static s8 sBssDummy1;
+static s8 sBssDummy2;
 
 static TriNorm D_8015E3A0;
 static TriNorm D_8015E3D8;
@@ -2031,10 +2032,10 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-static s8 sBssDummy2;
 static s8 sBssDummy3;
 static s8 sBssDummy4;
 static s8 sBssDummy5;
+static s8 sBssDummy6;
 
 static Vec3f D_8015E420;
 
@@ -2076,10 +2077,10 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-static s8 sBssDummy6;
 static s8 sBssDummy7;
 static s8 sBssDummy8;
 static s8 sBssDummy9;
+static s8 sBssDummy10;
 
 static Vec3f D_8015E430;
 static TriNorm D_8015E440;
@@ -2909,10 +2910,10 @@ void func_8006285C(GlobalContext* globalCtx, ColliderTris* collider, s32 index, 
 // In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
 // For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
 // by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
-static s8 sBssDummy10;
 static s8 sBssDummy11;
 static s8 sBssDummy12;
 static s8 sBssDummy13;
+static s8 sBssDummy14;
 
 void func_800628A4(s32 arg0, ColliderJntSph* collider) {
     static Vec3f D_8015E648;

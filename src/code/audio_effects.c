@@ -21,7 +21,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalcul
     chanFreqScale = seqChannel->freqScale;
     if (b != 0) {
         chanFreqScale *= seqChannel->seqPlayer->unk_34;
-        seqChannel->changes.s.freqScale = 1;
+        seqChannel->changes.s.freqScale = true;
     }
 
     for (i = 0; i < 4; i++) {
@@ -31,7 +31,7 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* seqChannel, s32 recalcul
                 layer->noteFreqScale = layer->freqScale * chanFreqScale;
                 layer->noteVelocity = layer->velocitySquare2 * seqChannel->appliedVolume;
                 layer->notePan = (seqChannel->pan + layer->pan * (0x80 - seqChannel->panChannelWeight)) >> 7;
-                layer->notePropertiesNeedInit = 0;
+                layer->notePropertiesNeedInit = false;
             } else {
                 if (seqChannel->changes.s.freqScale) {
                     layer->noteFreqScale = layer->freqScale * chanFreqScale;
@@ -53,7 +53,7 @@ void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer) {
 
     if (seqPlayer->fadeTimer != 0) {
         seqPlayer->fadeVolume += seqPlayer->fadeVelocity;
-        seqPlayer->recalculateVolume = 1;
+        seqPlayer->recalculateVolume = true;
 
         if (seqPlayer->fadeVolume > 1.0f) {
             seqPlayer->fadeVolume = 1.0f;
@@ -78,7 +78,7 @@ void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer) {
         }
     }
 
-    seqPlayer->recalculateVolume = 0;
+    seqPlayer->recalculateVolume = false;
 }
 
 f32 Audio_GetPortamentoFreqScale(Portamento* p) {
@@ -258,7 +258,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                     break;
 
                 default:
-                    adsr->delay *= gAudioContext.unk_286C;
+                    adsr->delay *= gAudioContext.gAudioBufferParameters.unk_24;
                     if (adsr->delay == 0) {
                         adsr->delay = 1;
                     }
@@ -313,12 +313,12 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
 
     if (adsr->action.s.decay) {
         adsr->action.s.state = ADSR_STATE_DECAY;
-        adsr->action.s.decay = 0;
+        adsr->action.s.decay = false;
     }
 
     if (adsr->action.s.release) {
         adsr->action.s.state = ADSR_STATE_RELEASE;
-        adsr->action.s.release = 0;
+        adsr->action.s.release = false;
     }
 
     if (adsr->current < 0.0f) {
