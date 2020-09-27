@@ -47,6 +47,12 @@ void func_8085FDD0(EnTest* this);
 void func_8085FF28(EnTest* this);
 void func_8086194C(EnTest* this);
 void func_808615A4(EnTest* this);
+void func_8086181C(EnTest* this);
+void func_80861B94(EnTest* this);
+void func_80860438(EnTest* this);
+void func_80860EC0(EnTest* this);
+void func_80861418(EnTest* this);
+void func_808627C4(EnTest* this, GlobalContext* globalCtx);
 
 // animation indexes?
 u8 D_80864510[] = {
@@ -122,6 +128,13 @@ extern AnimationHeader D_0600316C; // ready stance
 extern AnimationHeader D_06001978; // jump back
 extern AnimationHeader D_0600B00C; // slash 1
 extern AnimationHeader D_0600B4E4; // slash 1 end
+extern AnimationHeader D_0600BE4C; // slash 2
+extern AnimationHeader D_0600A324; // jumpslash start
+extern AnimationHeader D_0600A99C; // jumpslash
+extern AnimationHeader D_0600E2B0; // sidestep
+extern AnimationHeader D_060081B4; // walk forward?
+extern AnimationHeader D_06001C20; // block
+extern AnimationHeader D_060026D4; //?
 
 void EnTest_SetupAction(EnTest* this, EnTestActionFunc* actionFunc) {
     this->actionFunc = actionFunc;
@@ -233,24 +246,282 @@ void func_8085FF28(EnTest* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8085FF9C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860068.s")
+// setup wait after jump back (and after jumpslash apparently)
+void func_80860068(EnTest* this) {
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime_188, &D_0600316C);
+    this->unk_7C8 = 0xA;
+    this->timer = (Math_Rand_ZeroOne() * 10.0f) + 5.0f;
+    this->actor.speedXZ = 0.0f;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    EnTest_SetupAction(this, func_808600EC);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808600EC.s")
+// wait after jump back
+void func_808600EC(EnTest* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    s16 yawDiff;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime_188);
+
+    if (func_808641E8(globalCtx, this) == 0) {
+        yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
+
+        if (this->actor.xzDistFromLink < 100.0f) {
+            if ((player->swordState != 0) && (ABS(yawDiff) >= 0x1F40)) {
+                this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+
+                if (Math_Rand_ZeroOne() > 0.7f && player->swordAnimation != 0x11) {
+                    func_8086194C(this);
+                } else {
+                    func_808627C4(this, globalCtx);
+                }
+                return;
+            }
+        }
+
+        if (this->timer != 0) {
+            this->timer--;
+        } else {
+            if (func_8002E084(this, 0x1555) != 0) {
+                if ((this->actor.xzDistFromLink < 220.0f) && (this->actor.xzDistFromLink > 160.0f) &&
+                    (Math_Rand_ZeroOne() < 0.3f)) {
+                    // player is targeting this stalfos
+                    if (func_80033A84(globalCtx, this) != 0) {
+                        func_80861B94(this);
+                    } else {
+                        func_808627C4(this, globalCtx);
+                    }
+                } else {
+                    if ((Math_Rand_ZeroOne() > 0.3f)) {
+                        func_80860438(this);
+                    } else {
+                        func_808627C4(this, globalCtx);
+                    }
+                }
+            } else {
+                if (Math_Rand_ZeroOne() > 0.7f) {
+                    func_80860BDC(this);
+                } else {
+                    func_8085FAB0(this, globalCtx);
+                }
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860318.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808603CC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860438.s")
+// block and start walking?
+void func_80860438(EnTest* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime_4A8, &D_06001C20, 2.0f, 0.0f,
+                         SkelAnime_GetFrameCount(&D_06001C20.genericHeader), 2, 2.0f);
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime_188, &D_060081B4);
+    this->timer = (s16)(Math_Rand_ZeroOne() * 5.0f);
+    this->unk_7C8 = 0xD;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    EnTest_SetupAction(this, func_808604FC);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808604FC.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808604FC.s")
+void func_808604FC(EnTest* this, GlobalContext* globalCtx) {
+    f32 sp68;
+    s32 sp60;
+    Player* player = PLAYER;
+    SkelAnime* sp34;
+    GlobalContext* temp_a0;
+    SkelAnime* temp_a0_2;
+    SkelAnime* temp_a0_3;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f0_3;
+    f32 speed1;
+    f32 temp_f0_5;
+    f32 currentFrame1;
+    f32 temp_f16;
+    f32 temp_f8;
+    s16 temp_v0_3;
+    s16 temp_v0_5;
+    s32 speedFrameNegative;
+    s32 oldFrame;
+    s16 yawDiff;
+    s32 speedFramePositive;
+    u8 temp_v0;
+    void* temp_t6;
+    f32 distOffset;
+    f32 phi_f2_2;
+    f32 playbackSpeed;
+    f32 phi_f2_4;
+    s32 phi_v1;
+    f32 speedAbs2;
+    f32 speedAbs;
+
+    // sp68 = 0.0f;
+    if (func_808641E8(globalCtx, this) == 0) {
+        this->timer++;
+        // sp68 = 0.0f;
+        distOffset = 0.0f;
+        if (func_80033AB8(globalCtx, this) != 0) {
+            distOffset = 150.0f;
+        }
+
+        if (this->actor.xzDistFromLink <= (80.0f + distOffset)) {
+            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, -5.0f, 1.0f, 0.8f, 0.0f);
+        } else if (this->actor.xzDistFromLink > (110.0f + distOffset)) {
+            Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 5.0f, 1.0f, 0.8f, 0.0f);
+        }
+
+        // not actually clamp, need to fix
+        this->actor.speedXZ = CLAMP(this->actor.speedXZ, -5.0f, 5.0f);
+
+        if (this->actor.params == 3) {
+            if (func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.posRot.rot.y) == 0) {
+                this->actor.speedXZ *= -1.0f;
+            }
+        }
+
+        // not abs maybe?
+        if (ABS(this->actor.speedXZ) < 3.0f) {
+            SkelAnime_ChangeAnim(&this->skelAnime_188, &D_060081B4, 0.0f, this->skelAnime_188.animCurrentFrame,
+                                 SkelAnime_GetFrameCount(&D_060081B4.genericHeader), 0, -6.0f);
+            playbackSpeed = this->actor.speedXZ * 10.0f;
+        } else {
+            SkelAnime_ChangeAnim(&this->skelAnime_188, &D_060026D4, 0.0f, this->skelAnime_188.animCurrentFrame,
+                                 SkelAnime_GetFrameCount(&D_060026D4.genericHeader), 0, -4.0f);
+            playbackSpeed = (this->actor.speedXZ * 10.0f) * 0.02f;
+        }
+
+        if (this->actor.speedXZ >= 0.0f) {
+            if (this->unk_7DE == 0) {
+                this->unk_7DE++;
+            }
+            playbackSpeed = CLAMP_MAX(playbackSpeed, 2.5f);
+        } else {
+            playbackSpeed = CLAMP_MIN(playbackSpeed, -2.5f);
+        }
+
+        this->skelAnime_188.animPlaybackSpeed = playbackSpeed;
+        yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
+
+        if ((this->actor.xzDistFromLink < 100.0f) && (player->swordState != 0) && (ABS(yawDiff) >= 0x1F40)) {
+            this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
+            // might be backwards?
+            if ((Math_Rand_ZeroOne() > 0.7f) && (player->swordAnimation != 0x11)) {
+                func_8086194C(this);
+            } else {
+                func_80861EC0(this);
+            }
+            return;
+        }
+
+        oldFrame = this->skelAnime_188.animCurrentFrame;
+        SkelAnime_FrameUpdateMatrix(&this->skelAnime_188);
+        speed1 = this->skelAnime_188.animPlaybackSpeed;
+        if (0.0f <= speed1) {
+            speedAbs = speed1;
+        } else {
+            speedAbs = -speed1;
+        }
+        currentFrame1 = this->skelAnime_188.animCurrentFrame;
+        speedFrameNegative = currentFrame1 - speedAbs;
+        if (0.0f <= speed1) {
+            speedAbs2 = speed1;
+        } else {
+            speedAbs2 = -speed1;
+        }
+        if (oldFrame != currentFrame1) {
+            speedFramePositive = speedAbs2 + oldFrame;
+            if ((speedFramePositive < 2) || (speedFrameNegative > 0)) {
+                if (speedFrameNegative < 7) {
+                    if (speedFramePositive >= 8) {
+                    block_48:
+                        Audio_PlayActorSound2(this, NA_SE_EN_STAL_WALK);
+                    }
+                }
+            } else {
+                goto block_48;
+            }
+        }
+
+        if ((this->timer & 0x1F) == 0) {
+            Audio_PlayActorSound2(this, NA_SE_EN_STAL_WARAU);
+            this->timer += (s16)(Math_Rand_ZeroOne() * 5.0f);
+        }
+
+        if ((this->actor.xzDistFromLink < 220.0f) && (this->actor.xzDistFromLink > 160.0f)) {
+            if (func_8002E084(this, 0x71C)) {
+                if (func_80033A84(globalCtx, this)) {
+                    if (Math_Rand_ZeroOne() < 0.1f) {
+                        func_80861B94(this);
+                        return;
+                    }
+                } else {
+                    if (player->heldItemActionParam != PLAYER_AP_NONE) {
+                        if (this->actor.isTargeted) {
+                            if (globalCtx->gameplayFrames & 1) {
+                                func_808627C4(this, globalCtx);
+                            } else {
+                                func_8085FAB0(this, globalCtx);
+                            }
+                            return;
+                        } else {
+                            func_80860EC0(this);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (Math_Rand_ZeroOne() < 0.4f) {
+            this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
+        }
+
+        if (func_8002E084(this, 0x11C7) == 0) {
+            func_80860068(this);
+            this->timer = (Math_Rand_ZeroOne() * 10.0f) + 10.0f;
+            return;
+        }
+        if (this->actor.xzDistFromLink < 110.0f) {
+            // flip?
+            if (!(0.2f < Math_Rand_ZeroOne())) {
+                func_80861EC0(this);
+                return;
+            }
+            if (!(player->stateFlags1 & 0x10)) {
+                func_80861418(this);
+                return;
+            }
+            if (!this->actor.isTargeted) {
+                func_808627C4(this, globalCtx);
+                return;
+            }
+            func_80861418(this);
+            return;
+        }
+        if (Math_Rand_ZeroOne() < 0.1f) {
+            this->actor.speedXZ = 5.0f;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860BDC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860C24.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860EC0.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860EC0.s")
+void func_80860EC0(EnTest* this) {
 
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime_188, &D_0600E2B0);
+    this->unk_7C8 = 0xF;
+    this->actor.speedXZ = (Math_Rand_ZeroOne() > 0.5f) ? -0.5f : 0.5f;
+    this->timer = (Math_Rand_ZeroOne() * 15.0f) + 25.0f;
+    this->unk_7EC = 0.0f;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    EnTest_SetupAction(this, func_80860F84);
+}
+
+// later
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860F84.s")
 
 // setup slash
@@ -268,6 +539,7 @@ void func_80861418(EnTest* this) {
     }
 }
 
+// slash 1
 void func_8086149C(EnTest* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
@@ -316,7 +588,7 @@ void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (0.7f < Math_Rand_ZeroOne()) {
+        if (Math_Rand_ZeroOne() > 0.7f) {
             func_80860068(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
             return;
@@ -324,7 +596,7 @@ void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
 
         this->actor.posRot.rot.y = func_8002DA78(this, player);
 
-        if (0.7f < Math_Rand_ZeroOne()) {
+        if (Math_Rand_ZeroOne() > 0.7f) {
             if (this->actor.params != 3) {
                 func_8086194C(this);
                 return;
@@ -345,7 +617,7 @@ void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
                             func_808627C4(this, globalCtx);
                         } else {
                             func_8086194C(this);
-                        }                        
+                        }
                     }
                 } else {
                     func_80861418(this);
@@ -357,11 +629,40 @@ void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8086181C.s")
+// setup slash 2
+void func_8086181C(EnTest* this) {
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime_188, &D_0600BE4C);
+    this->swordCollider.base.atFlags &= ~4;
+    this->unk_7C8 = 0x11;
+    this->swordCollider.body.toucher.damage = 16;
+    this->actor.speedXZ = 0.0f;
+    EnTest_SetupAction(this, func_80861898);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861898.s")
+    if (this->unk_7DE != 0) {
+        this->unk_7DE = 3;
+    }
+}
 
-// jump back (setup?)
+// slash 2
+void func_80861898(EnTest* this, GlobalContext* globalCtx) {
+    this->actor.speedXZ = 0.0f;
+
+    if ((s32)this->skelAnime_188.animCurrentFrame == 2) {
+        Audio_PlayActorSound2(this, NA_SE_EN_STAL_SAKEBI);
+    }
+
+    if ((this->skelAnime_188.animCurrentFrame > 1.0f) && (this->skelAnime_188.animCurrentFrame < 8.0f)) {
+        this->atOn = true;
+    } else {
+        this->atOn = false;
+    }
+
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime_188) != 0) {
+        func_80861418(this);
+    }
+}
+
+// setup jump back
 void func_8086194C(EnTest* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime_188, &D_06001978);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
@@ -380,6 +681,7 @@ void func_8086194C(EnTest* this) {
     }
 }
 
+// jump back
 void func_808619EC(EnTest* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xBB8, 1);
 
@@ -415,9 +717,53 @@ void func_808619EC(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861B94.s")
+// setup jumpslash
+void func_80861B94(EnTest* this) {
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime_188, &D_0600A324);
+    func_800F8A44(&this->actor.projectedPos, NA_SE_EN_STAL_WARAU);
+    this->timer = 0;
+    this->unk_7C8 = 0x17;
+    this->actor.velocity.y = 10.0f;
+    this->actor.speedXZ = 8.0f;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->swordCollider.base.atFlags &= ~4;
+    EnTest_SetupAction(this, func_80861C40);
+    this->swordCollider.body.toucher.damage = 32;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861C40.s")
+    if (this->unk_7DE != 0) {
+        this->unk_7DE = 3;
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861C40.s")
+void func_80861C40(EnTest* this, GlobalContext* globalCtx) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime_188) != 0) {
+        if (this->timer == 0) {
+            SkelAnime_ChangeAnimDefaultStop(&this->skelAnime_188, &D_0600A99C);
+            this->timer = 1;
+            this->atOn = true;
+            Audio_PlayActorSound2(this, NA_SE_EN_STAL_SAKEBI);
+            Audio_PlayActorSound2(this, NA_SE_EN_STAL_JUMP);
+        } else {
+            this->actor.speedXZ = 0.0f;
+            func_80860068(this);
+        }
+    }
+
+    if ((this->timer != 0) && (this->skelAnime_188.animCurrentFrame >= 5.0f)) {
+        this->atOn = false;
+    }
+
+    if (this->actor.posRot.pos.y <= this->actor.groundY) {
+        if (0.0f != this->actor.speedXZ) {
+            Audio_PlayActorSound2(this, NA_SE_EN_DODO_M_GND);
+        }
+        this->actor.posRot.pos.y = this->actor.groundY;
+        this->actor.velocity.y = 0.0f;
+        this->actor.speedXZ = 0.0f;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861D50.s")
 
@@ -443,8 +789,25 @@ void func_808619EC(EnTest* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862650.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808627C4.s")
+//
+void func_808627C4(EnTest* this, GlobalContext* globalCtx) {
 
+    if (func_80033AB8(globalCtx, this) != 0) {
+        func_80860EC0(this);
+        return;
+    }
+
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime_188, &D_0600E2B0, -2.0f);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
+    this->actor.speedXZ = (globalCtx->gameplayFrames & 1) ? -4.0f : 4.0f;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3FFF;
+    this->timer = (Math_Rand_ZeroOne() * 20.0f) + 20.0f;
+    this->unk_7C8 = 0x18;
+    EnTest_SetupAction(this, func_808628C8);
+    this->unk_7EC = 0.0f;
+}
+
+// later
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808628C8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862DBC.s")
@@ -499,7 +862,7 @@ void func_808641E8(GlobalContext *globalCtx, EnTest *this) {
     s16 sp22;
     s16 wallYawDiff;
     s16 touchingWall;
-    Actor *temp_v0;
+    Actor *yawDiff;
     EnTest *temp_a0;
     EnTest *temp_a1;
     EnTest *temp_a1_2;

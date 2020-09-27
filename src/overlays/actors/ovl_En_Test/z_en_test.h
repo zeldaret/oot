@@ -24,7 +24,8 @@ typedef struct EnTest {
     /* 0x07DE */ u8 unk_7DE;
     /* 0x07DF */ char unk_7DF[0x9];
     /* 0x07E8 */ s32 timer;
-    /* 0x07EC */ char unk_7EC[0x1C];
+    /* 0x07EC */ f32 unk_7EC;
+    /* 0x07F0 */ char unk_7F0[0x18];
     /* 0x0808 */ s8 atOn;
     /* 0x07EC */ char unk_809[0x3];
     /* 0x080C */ u32 effectIndex;
