@@ -31,8 +31,8 @@ typedef void (*EnIshiUnkFunc2)(struct EnIshi*, GlobalContext*);
 typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
 
 typedef enum {
-    /* 0x00 */ TYPE_ROCK,
-    /* 0x01 */ TYPE_BOULDER
+    /* 0x00 */ ROCK_SMALL,
+    /* 0x01 */ ROCK_LARGE
 } EnIshiType;
 
 static s16 D_80A7F9F0 = 0;
@@ -299,7 +299,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetScale(&this->actor, D_80A7FA18[type]);
     func_80A7E460(&this->actor, globalCtx);
-    if ((type == TYPE_BOULDER) &&
+    if ((type == ROCK_LARGE) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
     } else {
@@ -333,7 +333,7 @@ void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
         if ((this->actor.params >> 4) & 1) {
             func_80A7EE1C(this, globalCtx);
         }
-    } else if (this->collider.base.acFlags & 2 && type == TYPE_ROCK &&
+    } else if (this->collider.base.acFlags & 2 && type == ROCK_SMALL &&
                this->collider.body.acHitItem->toucher.flags & 0x40000048) {
         func_80A7ECF8(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
@@ -347,7 +347,7 @@ void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistFromLink < 400.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistFromLink < 90.0f) {
-                if (type == TYPE_BOULDER) {
+                if (type == ROCK_LARGE) {
                     func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
                 } else {
                     func_8002F434(&this->actor, globalCtx, 0, 50.0f, 10.0f);
@@ -366,7 +366,7 @@ void func_80A7F2F8(EnIshi* this) {
 void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
-        if ((this->actor.params & 1) == TYPE_BOULDER) {
+        if ((this->actor.params & 1) == ROCK_LARGE) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3));
         }
         func_80A7F3E8(this);
@@ -405,7 +405,7 @@ void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
             D_80A87330[type](this, globalCtx);
         }
-        if (type == TYPE_BOULDER) {
+        if (type == ROCK_LARGE) {
             quakeIdx = Quake_Add(ACTIVE_CAM, 3);
             Quake_SetSpeed(quakeIdx, -0x3CB0);
             Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
@@ -419,7 +419,7 @@ void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
             sp34.y = this->actor.posRot.pos.y + this->actor.waterY;
             sp34.z = this->actor.posRot.pos.z;
             func_8002949C(globalCtx, &sp34, 0, 0, 0, 0x15E);
-            if (type == TYPE_ROCK) {
+            if (type == ROCK_SMALL) {
                 func_80029444(globalCtx, &sp34, 0x96, 0x28A, 0);
                 func_80029444(globalCtx, &sp34, 0x190, 0x320, 4);
                 func_80029444(globalCtx, &sp34, 0x1F4, 0x44C, 8);
@@ -452,11 +452,11 @@ void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void EnIshi_DrawRock(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_DrawSmall(EnIshi* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, D_0500A880);
 }
 
-void EnIshi_DrawBoulder(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     func_80093D18(globalCtx->state.gfxCtx);
@@ -468,7 +468,7 @@ void EnIshi_DrawBoulder(EnIshi* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }
 
-static EnIshiDrawFunc sDrawFuncs[] = { EnIshi_DrawRock, EnIshi_DrawBoulder };
+static EnIshiDrawFunc sDrawFuncs[] = { EnIshi_DrawSmall, EnIshi_DrawLarge };
 
 void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
