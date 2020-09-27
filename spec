@@ -1087,8 +1087,7 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Water"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.o"
-    include "build/data/overlays/actors/z_bg_mizu_water.data.o"
-    include "build/data/overlays/actors/z_bg_mizu_water.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Water/ovl_Bg_Mizu_Water_reloc.o"
 endseg
 
 beginseg
@@ -1119,9 +1118,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Hashira4"
     include "build/src/overlays/actors/ovl_Bg_Mori_Hashira4/z_bg_mori_hashira4.o"
-    include "build/data/overlays/actors/z_bg_mori_hashira4.data.o"
-    include "build/data/overlays/actors/z_bg_mori_hashira4.bss.o"
-    include "build/data/overlays/actors/z_bg_mori_hashira4.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Hashira4/ovl_Bg_Mori_Hashira4_reloc.o"
 endseg
 
 beginseg
@@ -1303,8 +1300,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot15_Rrbox"
     include "build/src/overlays/actors/ovl_Bg_Spot15_Rrbox/z_bg_spot15_rrbox.o"
-    include "build/data/overlays/actors/z_bg_spot15_rrbox.data.o"
-    include "build/data/overlays/actors/z_bg_spot15_rrbox.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot15_Rrbox/ovl_Bg_Spot15_Rrbox_reloc.o"
 endseg
 
 beginseg
@@ -1611,8 +1607,7 @@ endseg
 beginseg
     name "ovl_Demo_Shd"
     include "build/src/overlays/actors/ovl_Demo_Shd/z_demo_shd.o"
-    include "build/data/overlays/actors/z_demo_shd.data.o"
-    include "build/data/overlays/actors/z_demo_shd.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Shd/ovl_Demo_Shd_reloc.o"
 endseg
 
 beginseg
@@ -2981,8 +2976,11 @@ endseg
 beginseg
     name "ovl_En_Rd"
     include "build/src/overlays/actors/ovl_En_Rd/z_en_rd.o"
-    include "build/data/overlays/actors/z_en_rd.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Rd/ovl_En_Rd_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_rd.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3159,8 +3157,7 @@ endseg
 beginseg
     name "ovl_En_Takara_Man"
     include "build/src/overlays/actors/ovl_En_Takara_Man/z_en_takara_man.o"
-    include "build/data/overlays/actors/z_en_takara_man.data.o"
-    include "build/data/overlays/actors/z_en_takara_man.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Takara_Man/ovl_En_Takara_Man_reloc.o"
 endseg
 
 beginseg
