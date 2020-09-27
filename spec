@@ -1304,8 +1304,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot15_Rrbox"
     include "build/src/overlays/actors/ovl_Bg_Spot15_Rrbox/z_bg_spot15_rrbox.o"
-    include "build/data/overlays/actors/z_bg_spot15_rrbox.data.o"
-    include "build/data/overlays/actors/z_bg_spot15_rrbox.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot15_Rrbox/ovl_Bg_Spot15_Rrbox_reloc.o"
 endseg
 
 beginseg
