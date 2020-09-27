@@ -267,12 +267,12 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
 
-        Matrix_Translate(0.0f, 52.0f, 0.0f, 1);
+        Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(
             (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
                 (M_PI / 0x8000),
-            1);
-        Matrix_Scale(flameScale, flameScale, flameScale, 1);
+            MTXMODE_APPLY);
+        Matrix_Scale(flameScale, flameScale, flameScale, MTXMODE_APPLY);
 
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
