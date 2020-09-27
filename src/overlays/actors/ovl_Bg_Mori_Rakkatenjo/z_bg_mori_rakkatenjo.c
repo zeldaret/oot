@@ -43,12 +43,13 @@ const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     NULL,
 };
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
+    ICHAIN_F32(minVelocityY, -11, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
+
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
-        ICHAIN_F32(minVelocityY, -11, ICHAIN_CONTINUE),
-        ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
-    };
     s32 pad;
     BgMoriRakkatenjo* this = THIS;
     ColHeader* colHeader = NULL;
@@ -147,14 +148,14 @@ void BgMoriRakkatenjo_SetupFall(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    static f32 sBounceVel[] = { 4.0f, 1.5f, 0.4f, 0.1f };
+    static f32 bounceVel[] = { 4.0f, 1.5f, 0.4f, 0.1f };
     s32 temp;
     Actor* thisx = &this->dyna.actor;
     s32 quake;
 
     Actor_MoveForward(thisx);
     if ((thisx->velocity.y < 0.0f) && (thisx->posRot.pos.y <= 403.0f)) {
-        if (this->bounceCount >= ARRAY_COUNT(sBounceVel)) {
+        if (this->bounceCount >= ARRAY_COUNT(bounceVel)) {
             BgMoriRakkatenjo_SetupRest(this);
         } else {
             if (this->bounceCount == 0) {
@@ -163,10 +164,10 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
                 func_800AA000(SQ(thisx->yDistFromLink), 0xFF, 0x14, 0x96);
             }
             thisx->posRot.pos.y =
-                403.0f - (thisx->posRot.pos.y - 403.0f) * sBounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
-            thisx->velocity.y = sBounceVel[this->bounceCount];
+                403.0f - (thisx->posRot.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
+            thisx->velocity.y = bounceVel[this->bounceCount];
             this->bounceCount++;
-            quake = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 3);
+            quake = Quake_Add(ACTIVE_CAM, 3);
             Quake_SetSpeed(quake, -0x3CB0);
             Quake_SetQuakeValues(quake, 5, 0, 0, 0);
             Quake_SetCountdown(quake, 5);
@@ -211,7 +212,7 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (sCamSetting == 0) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = globalCtx->cameraPtrs[0]->setting;
-            Camera_SetCameraData(globalCtx->cameraPtrs[0], 1, this, NULL, 0, 0, 0);
+            Camera_SetCameraData(globalCtx->cameraPtrs[0], 1, &this->dyna.actor, NULL, 0, 0, 0);
             func_8005A77C(globalCtx->cameraPtrs[0], 0x27);
         }
     } else if (sCamSetting != 0) {
