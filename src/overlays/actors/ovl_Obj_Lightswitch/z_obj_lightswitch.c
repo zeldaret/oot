@@ -196,9 +196,9 @@ void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ObjLightswitch_OffInit(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_Off;
     this->faceTextureIndex = FACE_EYES_CLOSED;
-    this->red = 155 << 6;
-    this->green = 125 << 6;
-    this->blue = 255 << 6;
+    this->color[0] = 155 << 6;
+    this->color[1] = 125 << 6;
+    this->color[2] = 255 << 6;
     this->alpha = 255 << 6;
 }
 
@@ -244,8 +244,8 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
         Math_ApproxS(&this->flameRingRotSpeed, -0xAA, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
-        this->red = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
-        this->green = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
+        this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
+        this->color[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
 
         if (this->timer >= 20) {
             ObjLightswitch_OnInit(this);
@@ -260,9 +260,9 @@ void ObjLightswitch_OnInit(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_On;
     this->faceTextureIndex = FACE_EYES_OPEN_SMILING;
 
-    this->red = 255 << 6;
-    this->green = 255 << 6;
-    this->blue = 255 << 6;
+    this->color[0] = 255 << 6;
+    this->color[1] = 255 << 6;
+    this->color[2] = 255 << 6;
     this->alpha = 255 << 6;
 
     this->flameRingRotSpeed = -0xAA;
@@ -313,8 +313,8 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
         Math_ApproxS(&this->flameRingRotSpeed, 0, 0xA);
         this->flameRingRot += this->flameRingRotSpeed;
 
-        this->red = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
-        this->green = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
+        this->color[0] = this->timer * (((255 - 155) << 6) / 20) + (155 << 6);
+        this->color[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
 
         if (this->timer <= 0) {
             ObjLightswitch_OffInit(this);
@@ -385,15 +385,8 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 809);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    /*
-    // the sane way to write the next line but doesn't match:
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (u8)(this->red >> 6), (u8)(this->green >> 6), (u8)(this->blue >> 6),
-                   (u8)(this->alpha >> 6));
-    // using a `s16 color[3];` array instead of red/green/blue matches but not in ObjLightswitch_DrawXlu
-    */
-    gDPSetColor(oGfxCtx->polyOpa.p++, G_SETENVCOLOR,
-                (((u8)(this->blue >> 6) & 0xFF) << 8) | (((u8)(this->red >> 6) & 0xFF) << 24) |
-                    (((u8)(this->green >> 6) & 0xFF) << 16) | ((u8)(this->alpha >> 6) & 0xFF));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
+                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09, &D_80116280[2]);
 
     if ((this->actor.params & 1) == 1) {
@@ -442,10 +435,8 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 890);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gDPSetColor(oGfxCtx->polyXlu.p++, G_SETENVCOLOR,
-                ((((u8)(this->blue >> 6)) & 0xFF) << 8) |
-                    (((((u8)(this->red >> 6)) & 0xFF) << 24) | ((((u8)(this->green >> 6)) & 0xFF) << 16) |
-                     ((((u8)(this->alpha >> 6)) & 0xFF) << 0)));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
+                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09, D_80116280);
 
     sp68.x = this->actor.posRot.pos.x;
