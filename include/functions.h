@@ -927,6 +927,7 @@ void func_80073988(GlobalContext*, EnvironmentContext*, View*, GraphicsContext*,
 // ? func_80073A5C(?);
 f32 func_800746DC();
 // ? func_80074704(?);
+void func_80074CE8(GlobalContext* globalCtx, s32 arg1);
 // ? func_80074D6C(?);
 // ? func_80074FF4(?);
 // ? func_800750C0(?);
