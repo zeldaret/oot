@@ -366,7 +366,7 @@ void func_808B56BC(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 }
 
 void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
-    EnBombf* playerHeldActor;
+    Actor* playerHeldActor;
     Player* player = PLAYER;
     EnBombf* currentBomb;
 
@@ -389,8 +389,8 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         }
     } else if (player->stateFlags1 & 0x800) {
         playerHeldActor = player->heldActor;
-        if (playerHeldActor != NULL && playerHeldActor->actor.type == ACTORTYPE_EXPLOSIVES &&
-            playerHeldActor->actor.id == ACTOR_EN_BOMBF) {
+        if (playerHeldActor != NULL && playerHeldActor->type == ACTORTYPE_EXPLOSIVES &&
+            playerHeldActor->id == ACTOR_EN_BOMBF) {
             sPlayerBomb = playerHeldActor;
         }
     }
