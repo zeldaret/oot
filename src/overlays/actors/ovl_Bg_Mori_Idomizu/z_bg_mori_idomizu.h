@@ -12,7 +12,7 @@ typedef struct BgMoriIdomizu {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BgMoriIdomizuActionFunc actionFunc;
     /* 0x0150 */ f32 targetWaterLevel;
-    /* 0x0154 */ s32 prevSwitchFlag;
+    /* 0x0154 */ s32 prevSwitchFlagSet;
     /* 0x0158 */ s16 isLoaded;
     /* 0x015A */ s16 drainTimer;
     /* 0x015C */ s8 moriTexObjIndex;

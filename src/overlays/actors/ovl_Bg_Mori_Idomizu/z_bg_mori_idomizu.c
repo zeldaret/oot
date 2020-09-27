@@ -61,8 +61,8 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.scale.z = 1.0f;
     this->actor.posRot.pos.x = 119.0f;
     this->actor.posRot.pos.z = -1820.0f;
-    this->prevSwitchFlag = Flags_GetSwitch(globalCtx, this->actor.params & 0x3F);
-    if (this->prevSwitchFlag != 0) {
+    this->prevSwitchFlagSet = Flags_GetSwitch(globalCtx, this->actor.params & 0x3F);
+    if (this->prevSwitchFlagSet != 0) {
         this->actor.posRot.pos.y = -282.0f;
         BgMoriIdomizu_SetWaterLevel(globalCtx, -282);
     } else {
@@ -112,19 +112,19 @@ void BgMoriIdomizu_SetupMain(BgMoriIdomizu* this) {
 void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
     s8 roomNum;
     Actor* thisx = &this->actor;
-    s32 switchFlag;
+    s32 switchFlagSet;
 
     roomNum = globalCtx->roomCtx.curRoom.num;
-    switchFlag = Flags_GetSwitch(globalCtx, thisx->params & 0x3F);
-    if (switchFlag) {
+    switchFlagSet = Flags_GetSwitch(globalCtx, thisx->params & 0x3F);
+    if (switchFlagSet) {
         this->targetWaterLevel = -282.0f;
     } else {
         this->targetWaterLevel = 184.0f;
     }
-    if (switchFlag && !this->prevSwitchFlag) {
+    if (switchFlagSet && !this->prevSwitchFlagSet) {
         func_800800F8(globalCtx, 0xCA8, 0x46, thisx, 0);
         this->drainTimer = 90;
-    } else if (!switchFlag && this->prevSwitchFlag) {
+    } else if (!switchFlagSet && this->prevSwitchFlagSet) {
         func_800800F8(globalCtx, 0xCA8, 0x46, thisx, 0);
         this->drainTimer = 90;
         thisx->posRot.pos.y = 0.0f;
@@ -135,7 +135,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
             Math_ApproxF(&thisx->posRot.pos.y, this->targetWaterLevel, 3.5f);
             BgMoriIdomizu_SetWaterLevel(globalCtx, thisx->posRot.pos.y);
             if (this->drainTimer > 0) {
-                if (switchFlag) {
+                if (switchFlagSet) {
                     func_800788CC(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
@@ -148,7 +148,7 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return;
     }
-    this->prevSwitchFlag = switchFlag;
+    this->prevSwitchFlagSet = switchFlagSet;
 }
 
 void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -179,7 +179,7 @@ void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0x7F - (gFrames & 0x7F), gFrames % 0x80, 0x20, 0x20, 1,
                                 gFrames & 0x7F, gFrames % 0x80, 0x20, 0x20));
-                                
+
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_060049D0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 382);
