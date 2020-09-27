@@ -120,9 +120,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         tempf1 = player->actor.posRot.pos.x - this->actor.posRot.pos.x;
         tempf2 = player->actor.posRot.pos.y + 30.0f - this->actor.posRot.pos.y;
         tempf3 = player->actor.posRot.pos.z - this->actor.posRot.pos.z;
-        this->actor.posRot.rot.y = Math_atan2f(tempf1, tempf3) * (0x8000/M_PI);
+        this->actor.posRot.rot.y = Math_atan2f(tempf1, tempf3) * (0x8000 / M_PI);
         tempf4 = sqrtf(SQ(tempf1) + SQ(tempf3));
-        this->actor.posRot.rot.x = Math_atan2f(tempf2, tempf4) * (0x8000/M_PI);
+        this->actor.posRot.rot.x = Math_atan2f(tempf2, tempf4) * (0x8000 / M_PI);
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
@@ -147,8 +147,8 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
     s16 i;
-    Camera* camera  = Gameplay_GetCamera(globalCtx, 0);
-    
+    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+
     switch (this->fireMode) {
         case 0:
             this->fireMode = 10;
@@ -354,7 +354,7 @@ void EnFhgFire_SpearSpark(EnFhgFire* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 5.25f);
     }
 
-    this->actor.posRot.pos = bossPG->unk_200;
+    this->actor.posRot.pos = bossPG->spearPos;
     this->actor.shape.rot.z += (s16)(Math_Rand_ZeroOne() * 20000.0f) + 0x4000;
 
     osSyncPrintf("yari hikari 2\n");
@@ -633,7 +633,7 @@ void EnFhgFire_PhantomWarp(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     osSyncPrintf("EFC 1\n");
-    if ((this->timer1 == 0) || ((this->actor.params == 39) && (horse->unk_14F != 0))) {
+    if ((this->timer1 == 0) || ((this->actor.params == 39) && horse->fhgFireKillWarp)) {
         Actor_Kill(&this->actor);
     }
     osSyncPrintf("EFC 2\n");

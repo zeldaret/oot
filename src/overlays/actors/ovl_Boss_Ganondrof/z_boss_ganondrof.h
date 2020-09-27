@@ -12,24 +12,24 @@ typedef struct BossGanondrof {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossGanondrofActionFunc actionFunc;
-    /* 0x0194 */ s16 floatAndParticleTimer;
+    /* 0x0194 */ s16 varianceTimer;
     /* 0x0196 */ char unk_196[0x6]; // Unusued?
     /* 0x019C */ s16 unk_19C; // Unused?
     /* 0x019E */ s16 unk_19E; // Unused?
     /* 0x01A0 */ s16 invincibilityTimer;
-    /* 0x01A2 */ s16 slowPitch;
-    /* 0x01A4 */ s16 unk_1A4; // Something to do with distinguishing fast and slow pitch animations
+    /* 0x01A2 */ s16 animeIndex;
+    /* 0x01A4 */ s16 throwSpeed; // Something to do with distinguishing fast and slow pitch animations
     /* 0x01A6 */ s16 throwCount;
     /* 0x01A8 */ s16 cutsceneMaskOff;
-    /* 0x01AA */ s16 unk_1AA; // Has to do with opening cutscene. Probably set by horse
+    /* 0x01AA */ s16 eyeState;
     /* 0x01AC */ s16 chargeParticleAngle;
-    /* 0x01AE */ s16 unk_1AE;
+    /* 0x01AE */ s16 bodyDecay;
     /* 0x01B0 */ s16 unk_1B0;
     /* 0x01B2 */ s16 unk_1B2; // These are all death cutscene variables
     /* 0x01B4 */ s16 unk_1B4;
     /* 0x01B6 */ s16 unk_1B6;
     /* 0x01B8 */ char unk_1B8[0x4]; // Unused?
-    /* 0x01BC */ s16 animationTimer[5];
+    /* 0x01BC */ s16 timers[5];
     /* 0x01C6 */ u8 killActor;
     /* 0x01C7 */ u8 volleyCount;
     /* 0x01C8 */ u8 electricityTimer;
@@ -37,10 +37,14 @@ typedef struct BossGanondrof {
     /* 0x01CA */ u8 returnSuccess;  //Set by fhg_Fire
     /* 0x01CC */ f32 unk_1CC; //Indirectly controls his erratic floating.
     /* 0x01D0 */ f32 unk_1D0;
-    /* 0x01D4 */ f32 unk_1D4[4];
+    /* 0x01D4 */ f32 unk_1D4;
+    /* 0x01D8 */ f32 unk_1D8;
+    /* 0x01DC */ f32 unk_1DC;
+    /* 0x01E0 */ f32 unk_1E0;
     /* 0x01E4 */ char unk_1E4[0x1C];
-    /* 0x0200 */ Vec3f unk_200;
-    /* 0x020C */ Vec3f unk_20C[26]; // unk size, fix me
+    /* 0x0200 */ Vec3f spearPos;
+    /* 0x020C */ Vec3f unk_20C;
+    /* 0x020C */ Vec3f unk_210[25]; // unk size, fix me
     /* 0x0344 */ char unk_344[0x18];
     /* 0x035C */ s16 unk_35C;
     /* 0x035E */ s16 unk_35E;
