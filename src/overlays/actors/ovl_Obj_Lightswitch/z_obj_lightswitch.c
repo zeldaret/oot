@@ -22,17 +22,17 @@ void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void ObjLightswitch_OffInit(ObjLightswitch* this);
+void ObjLightswitch_SetupOff(ObjLightswitch* this);
 void ObjLightswitch_Off(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_TurnOnInit(ObjLightswitch* this);
+void ObjLightswitch_SetupTurnOn(ObjLightswitch* this);
 void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_OnInit(ObjLightswitch* this);
+void ObjLightswitch_SetupOn(ObjLightswitch* this);
 void ObjLightswitch_On(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_TurnOffInit(ObjLightswitch* this);
+void ObjLightswitch_SetupTurnOff(ObjLightswitch* this);
 void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_DisappearDelayInit(ObjLightswitch* this);
+void ObjLightswitch_SetupDisappearDelay(ObjLightswitch* this);
 void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_DisappearInit(ObjLightswitch* this);
+void ObjLightswitch_SetupDisappear(ObjLightswitch* this);
 void ObjLightswitch_Disappear(ObjLightswitch* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000260[]; // face, uses rgba16 32x32 texture at 0x08000000, branches to dlist 0x09000000, uses env color
@@ -160,10 +160,10 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_BURN) {
             removeSelf = true;
         } else {
-            ObjLightswitch_OnInit(this);
+            ObjLightswitch_SetupOn(this);
         }
     } else {
-        ObjLightswitch_OffInit(this);
+        ObjLightswitch_SetupOff(this);
     }
     if ((this->actor.params & 1) == 1) {
         if (switchFlagSet) {
@@ -197,7 +197,7 @@ void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &THIS->collider);
 }
 
-void ObjLightswitch_OffInit(ObjLightswitch* this) {
+void ObjLightswitch_SetupOff(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_Off;
     this->faceTextureIndex = FACE_EYES_CLOSED;
     this->color[0] = 155 << 6;
@@ -211,26 +211,26 @@ void ObjLightswitch_Off(ObjLightswitch* this, GlobalContext* globalCtx) {
         case OBJLIGHTSWITCH_TYPE_STAY_ON:
         case OBJLIGHTSWITCH_TYPE_2:
             if (this->collider.base.acFlags & 2) {
-                ObjLightswitch_TurnOnInit(this);
+                ObjLightswitch_SetupTurnOn(this);
                 ObjLightswitch_SetSwitchFlag(this, globalCtx);
             }
             break;
         case OBJLIGHTSWITCH_TYPE_1:
             if ((this->collider.base.acFlags & 2) && !(this->prevFrameACflags & 2)) {
-                ObjLightswitch_TurnOnInit(this);
+                ObjLightswitch_SetupTurnOn(this);
                 ObjLightswitch_SetSwitchFlag(this, globalCtx);
             }
             break;
         case OBJLIGHTSWITCH_TYPE_BURN:
             if (this->collider.base.acFlags & 2) {
-                ObjLightswitch_DisappearDelayInit(this);
+                ObjLightswitch_SetupDisappearDelay(this);
                 ObjLightswitch_SetSwitchFlag(this, globalCtx);
             }
             break;
     }
 }
 
-void ObjLightswitch_TurnOnInit(ObjLightswitch* this) {
+void ObjLightswitch_SetupTurnOn(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_TurnOn;
     this->toggleDelay = 100;
     this->timer = 0;
@@ -252,7 +252,7 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
         this->color[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
 
         if (this->timer >= 20) {
-            ObjLightswitch_OnInit(this);
+            ObjLightswitch_SetupOn(this);
         } else if (this->timer == 15) {
             this->faceTextureIndex = FACE_EYES_OPEN;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FOOT_SWITCH);
@@ -260,7 +260,7 @@ void ObjLightswitch_TurnOn(ObjLightswitch* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjLightswitch_OnInit(ObjLightswitch* this) {
+void ObjLightswitch_SetupOn(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_On;
     this->faceTextureIndex = FACE_EYES_OPEN_SMILING;
 
@@ -277,19 +277,19 @@ void ObjLightswitch_On(ObjLightswitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params >> 4 & 3) {
         case OBJLIGHTSWITCH_TYPE_STAY_ON:
             if (!Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F)) {
-                ObjLightswitch_TurnOffInit(this);
+                ObjLightswitch_SetupTurnOff(this);
             }
             break;
         case OBJLIGHTSWITCH_TYPE_1:
             if (this->collider.base.acFlags & 2 && !(this->prevFrameACflags & 2)) {
-                ObjLightswitch_TurnOffInit(this);
+                ObjLightswitch_SetupTurnOff(this);
                 ObjLightswitch_ClearSwitchFlag(this, globalCtx);
             }
             break;
         case OBJLIGHTSWITCH_TYPE_2:
             if (!(this->collider.base.acFlags & 2)) {
                 if (this->timer >= 7) {
-                    ObjLightswitch_TurnOffInit(this);
+                    ObjLightswitch_SetupTurnOff(this);
                     ObjLightswitch_ClearSwitchFlag(this, globalCtx);
                 } else {
                     this->timer++;
@@ -302,7 +302,7 @@ void ObjLightswitch_On(ObjLightswitch* this, GlobalContext* globalCtx) {
     this->flameRingRot += this->flameRingRotSpeed;
 }
 
-void ObjLightswitch_TurnOffInit(ObjLightswitch* this) {
+void ObjLightswitch_SetupTurnOff(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_TurnOff;
     this->toggleDelay = 100;
     this->timer = 20;
@@ -321,7 +321,7 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
         this->color[1] = this->timer * (((255 - 125) << 6) / 20) + (125 << 6);
 
         if (this->timer <= 0) {
-            ObjLightswitch_OffInit(this);
+            ObjLightswitch_SetupOff(this);
         } else if (this->timer == 15) {
             this->faceTextureIndex = FACE_EYES_CLOSED;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_FOOT_SWITCH);
@@ -329,18 +329,18 @@ void ObjLightswitch_TurnOff(ObjLightswitch* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjLightswitch_DisappearDelayInit(ObjLightswitch* this) {
+void ObjLightswitch_SetupDisappearDelay(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_DisappearDelay;
     this->toggleDelay = 100;
 }
 
 void ObjLightswitch_DisappearDelay(ObjLightswitch* this, GlobalContext* globalCtx) {
     if (func_8005B198() == this->actor.type || this->toggleDelay <= 0) {
-        ObjLightswitch_DisappearInit(this);
+        ObjLightswitch_SetupDisappear(this);
     }
 }
 
-void ObjLightswitch_DisappearInit(ObjLightswitch* this) {
+void ObjLightswitch_SetupDisappear(ObjLightswitch* this) {
     this->actionFunc = ObjLightswitch_Disappear;
     this->alpha = 255 << 6;
 }
