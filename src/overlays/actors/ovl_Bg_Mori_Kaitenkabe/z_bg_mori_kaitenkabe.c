@@ -3,7 +3,7 @@
  * Overlay: ovl_Bg_Mori_Kaitenkabe
  * Description: Rotating wall in Forest Temple basement
  */
- 
+
 #include "z_bg_mori_kaitenkabe.h"
 
 #define FLAGS 0x00000000
@@ -21,7 +21,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_060063B8;
+extern ColHeader D_060063B8;
 extern Gfx D_060056B0[];
 
 const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
@@ -43,23 +43,24 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-void BgMoriKaitenkabe_CrossProd(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
-    arg0->x = (arg1->y * arg2->z) - (arg1->z * arg2->y);
-    arg0->y = (arg1->z * arg2->x) - (arg1->x * arg2->z);
-    arg0->z = (arg1->x * arg2->y) - (arg1->y * arg2->x);
+void BgMoriKaitenkabe_CrossProduct(Vec3f* dest, Vec3f* v1, Vec3f* v2) {
+    dest->x = (v1->y * v2->z) - (v1->z * v2->y);
+    dest->y = (v1->z * v2->x) - (v1->x * v2->z);
+    dest->z = (v1->x * v2->y) - (v1->y * v2->x);
 }
 
-void BgMoriKaitenkabe_Init(Actor *thisx, GlobalContext *globalCtx) {
+void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriKaitenkabe* this = THIS;
-    s32 localConst = 0;
-    
-    //Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears
+    ColHeader* colHeader = NULL;
+
+    // Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears
     osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_060063B8, &localConst);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
+    DynaPolyInfo_Alloc(&D_060063B8, &colHeader);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
         Actor_Kill(&this->dyna.actor);
@@ -70,14 +71,14 @@ void BgMoriKaitenkabe_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriKaitenkabe* this = THIS;
-    
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
+void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         BgMoriKaitenkabe_SetupWait(this);
         this->dyna.actor.draw = BgMoriKaitenkabe_Draw;
@@ -89,26 +90,26 @@ void BgMoriKaitenkabe_SetupWait(BgMoriKaitenkabe* this) {
     this->timer = 0;
 }
 
-void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
-    Vec3f sp3C;
-    Vec3f sp30;
-    Vec3f sp24;
+void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
+    Vec3f push;
+    Vec3f leverArm;
+    Vec3f torque;
     Player* player = PLAYER;
 
-    if (0.001f < this->dyna.unk_150) {
+    if (this->dyna.unk_150 > 0.001f) {
         this->timer++;
         if ((this->timer > 28) && !Player_InCsMode(globalCtx)) {
             BgMoriKaitenkabe_SetupRotate(this);
             func_8002DF54(globalCtx, &this->dyna.actor, 8);
-            Math_Vec3f_Copy(&this->playerPos, &player->actor.posRot.pos);
-            sp3C.x = Math_Sins(this->dyna.unk_158);
-            sp3C.y = 0.0f;
-            sp3C.z = Math_Coss(this->dyna.unk_158);
-            sp30.x = this->dyna.actor.posRot.pos.x - player->actor.posRot.pos.x;
-            sp30.y = 0.0f;
-            sp30.z = this->dyna.actor.posRot.pos.z - player->actor.posRot.pos.z;
-            BgMoriKaitenkabe_CrossProd(&sp24, &sp3C, &sp30);
-            this->rotDirection = (sp24.y > 0.0f) ? 1.0f : -1.0f;
+            Math_Vec3f_Copy(&this->lockedPlayerPos, &player->actor.posRot.pos);
+            push.x = Math_Sins(this->dyna.unk_158);
+            push.y = 0.0f;
+            push.z = Math_Coss(this->dyna.unk_158);
+            leverArm.x = this->dyna.actor.posRot.pos.x - player->actor.posRot.pos.x;
+            leverArm.y = 0.0f;
+            leverArm.z = this->dyna.actor.posRot.pos.z - player->actor.posRot.pos.z;
+            BgMoriKaitenkabe_CrossProduct(&torque, &push, &leverArm);
+            this->rotDirection = (torque.y > 0.0f) ? 1.0f : -1.0f;
         }
     } else {
         this->timer = 0;
@@ -119,47 +120,48 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
     }
 }
 
-void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe *this) {
+void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this) {
     this->actionFunc = BgMoriKaitenkabe_Rotate;
     this->rotSpeed = 0.0f;
-    this->rotDist = 0.0f;
+    this->rotYdeg = 0.0f;
 }
 
-void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe *this, GlobalContext *globalCtx) {
+void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 tempRot;
-    
+    Actor* thisx = &this->dyna.actor;
+    s16 rotY;
+
     Math_ApproxF(&this->rotSpeed, 0.6f, 0.02f);
-    if (Math_ApproxF(&this->rotDist, this->rotDirection * 45.0f, this->rotSpeed)) {
+    if (Math_ApproxF(&this->rotYdeg, this->rotDirection * 45.0f, this->rotSpeed)) {
         BgMoriKaitenkabe_SetupWait(this);
-        func_8002DF54(globalCtx, &this->dyna.actor, 7);
+        func_8002DF54(globalCtx, thisx, 7);
         if (this->rotDirection > 0.0f) {
-            this->dyna.actor.initPosRot.rot.y += 0x2000;
+            thisx->initPosRot.rot.y += 0x2000;
         } else {
-            this->dyna.actor.initPosRot.rot.y -= 0x2000;
+            thisx->initPosRot.rot.y -= 0x2000;
         }
-        this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y = this->dyna.actor.initPosRot.rot.y;
+        thisx->posRot.rot.y = thisx->shape.rot.y = thisx->initPosRot.rot.y;
         func_800788CC(NA_SE_EV_STONEDOOR_STOP);
     } else {
-        tempRot = this->rotDist * (0x10000/360.0f);
-        this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y = this->dyna.actor.initPosRot.rot.y + tempRot;
+        rotY = this->rotYdeg * (0x10000 / 360.0f);
+        thisx->posRot.rot.y = thisx->shape.rot.y = thisx->initPosRot.rot.y + rotY;
         func_800788CC(NA_SE_EV_WALL_SLIDE - SFX_FLAG);
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
     }
-    Math_Vec3f_Copy(&player->actor.posRot.pos, &this->playerPos);
+    Math_Vec3f_Copy(&player->actor.posRot.pos, &this->lockedPlayerPos);
 }
 
-void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext *globalCtx) {
+void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriKaitenkabe* this = THIS;
-    
-    this->actionFunc(this,globalCtx);
+
+    this->actionFunc(this, globalCtx);
 }
 
-void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriKaitenkabe* this = THIS;
 
@@ -168,9 +170,10 @@ void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext *globalCtx) {
 
     gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 352),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_060056B0);
-    
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 356);
 }
