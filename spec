@@ -1313,8 +1313,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot16_Bombstone"
     include "build/src/overlays/actors/ovl_Bg_Spot16_Bombstone/z_bg_spot16_bombstone.o"
-    include "build/data/overlays/actors/z_bg_spot16_bombstone.data.o"
-    include "build/data/overlays/actors/z_bg_spot16_bombstone.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot16_Bombstone/ovl_Bg_Spot16_Bombstone_reloc.o"
 endseg
 
 beginseg
