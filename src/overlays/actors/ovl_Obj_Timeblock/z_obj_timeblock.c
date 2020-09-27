@@ -28,9 +28,6 @@
  * initPosRot.rot.z &>> 0x7 = color
  */
 
-#define BLOCK_OF_TIME_JA "時のブロック"
-#define ATTENTION_CAMERA_JA "注目カメラ"
-
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -45,6 +42,9 @@ void ObjTimeblock_StartAltBehaviorVisibleActionFunc(ObjTimeblock* this);
 void ObjTimeblock_AltBehaviorVisibleActionFunc(ObjTimeblock* this, GlobalContext* globalCtx);
 void ObjTimeblock_StartAltBehaviourNotVisibleActionFunc(ObjTimeblock* this);
 void ObjTimeblock_AltBehaviourNotVisibleActionFunc(ObjTimeblock* this, GlobalContext* globalCtx);
+
+extern Gfx D_06000980[];
+extern s32 D_06000B30;
 
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
@@ -120,21 +120,19 @@ void ObjTimeblock_ToggleSwitchFlag(GlobalContext* globalCtx, s32 flag) {
     }
 }
 
-extern s32 D_06000B30;
-
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjTimeblock* this = THIS;
     s32 pad;
-    UNK_TYPE dynaPoly_p = 0;
+    UNK_PTR colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
     this->dyna.actor.shape.rot.z = 0;
     this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z;
 
-    DynaPolyInfo_Alloc(&D_06000B30, &dynaPoly_p);
+    DynaPolyInfo_Alloc(&D_06000B30, &colHeader);
 
     this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, dynaPoly_p);
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Actor_SetScale(&this->dyna.actor, sSizeOptions[(this->dyna.actor.params >> 8) & 1].scale);
@@ -161,7 +159,8 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
         ObjTimeblock_StartAltBehaviourNotVisibleActionFunc(this);
     }
 
-    osSyncPrintf(BLOCK_OF_TIME_JA " (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
+    // "Block of time (...)"
+    osSyncPrintf("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n",
                  (u16)this->dyna.actor.params, this->save, this->dyna.actor.initPosRot.rot.z & 7,
                  (this->dyna.actor.params >> 11) & 7, (this->dyna.actor.params >> 10) & 1);
 }
@@ -169,8 +168,6 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, THIS->dyna.dynaPolyId);
 }
-
-extern s32 func_80043590(DynaPolyActor* actor);
 
 u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, GlobalContext* globalCtx) {
     if (this->isVisible && func_80043590(&this->dyna)) {
@@ -181,9 +178,9 @@ u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, GlobalContext* globalCtx) {
         Vec3f distance;
         f32 blockSize;
 
-        // Will not return true if player would be inside the block?
         func_8002DBD0(&this->dyna.actor, &distance, &(PLAYER)->actor.posRot.pos);
         blockSize = this->dyna.actor.scale.x * 50.0f + 6.0f;
+        // Return true if player's xz position is not inside the block
         if (blockSize < fabsf(distance.x) || blockSize < fabsf(distance.z)) {
             return true;
         }
@@ -234,9 +231,8 @@ void ObjTimeblock_StartNormalActionFunc(ObjTimeblock* this) {
     this->actionFunc = &ObjTimeblock_NormalActionFunc;
 }
 
-extern void func_80080480(GlobalContext* globalCtx, Actor* actor);
-
 void ObjTimeblock_NormalActionFunc(ObjTimeblock* this, GlobalContext* globalCtx) {
+    u32 newIsVisible;
 
     if (this->songObserverFunc(this, globalCtx) && this->demoEffectTimer <= 0) {
         ObjTimeblock_SpawnDemoEffect(this, globalCtx);
@@ -244,7 +240,8 @@ void ObjTimeblock_NormalActionFunc(ObjTimeblock* this, GlobalContext* globalCtx)
 
         // Possibly points the camera to this actor
         func_80080480(globalCtx, &this->dyna.actor);
-        osSyncPrintf("◯◯◯◯ Time Block " ATTENTION_CAMERA_JA " (frame counter  %d)\n", globalCtx->state.frames);
+        // "◯◯◯◯ Time Block Attention Camera (frame counter  %d)\n"
+        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", globalCtx->state.frames);
 
         this->demoEffectFirstPartTimer = 12;
 
@@ -266,13 +263,13 @@ void ObjTimeblock_NormalActionFunc(ObjTimeblock* this, GlobalContext* globalCtx)
             }
         }
     }
-    {
-        u32 newIsVisible = ObjTimeblock_CalculateIsVisible(this);
-        if (this->save == OBJ_TIMEBLOCK_SAVE && newIsVisible != this->isVisible) {
-            ObjTimeblock_StartDoNothingActionFunc(this);
-        }
-        this->isVisible = newIsVisible;
+
+    newIsVisible = ObjTimeblock_CalculateIsVisible(this);
+    if (this->save == OBJ_TIMEBLOCK_SAVE && newIsVisible != this->isVisible) {
+        ObjTimeblock_StartDoNothingActionFunc(this);
     }
+    this->isVisible = newIsVisible;
+
     if (this->demoEffectTimer == 50) {
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
     }
@@ -302,7 +299,9 @@ void ObjTimeblock_AltBehaviorVisibleActionFunc(ObjTimeblock* this, GlobalContext
 
         // Possibly points the camera to this actor
         func_80080480(globalCtx, &this->dyna.actor);
-        osSyncPrintf("◯◯◯◯ Time Block " ATTENTION_CAMERA_JA " (frame counter  %d)\n", globalCtx->state.frames);
+
+        // "◯◯◯◯ Time Block Attention Camera (frame counter  %d)\n"
+        osSyncPrintf("◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n", globalCtx->state.frames);
 
         ObjTimeblock_ToggleSwitchFlag(globalCtx, this->dyna.actor.params & 0x3F);
     }
@@ -353,8 +352,6 @@ void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
 }
-
-extern Gfx D_06000980[];
 
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (THIS->isVisible) {

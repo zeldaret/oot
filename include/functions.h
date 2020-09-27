@@ -1051,7 +1051,7 @@ Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b);
 // ? func_80080024(?);
 s16 func_800800F8(GlobalContext* globalCtx, s16 arg1, s16 arg2, Actor* actor, s16 arg4);
 void func_800803F0(GlobalContext* globalCtx, s16 camId);
-// ? func_80080480(?);
+void func_80080480(GlobalContext* globalCtx, Actor* actor);
 UNK_TYPE func_800806BC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE);
 void func_80080788(UNK_TYPE, UNK_TYPE);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);
