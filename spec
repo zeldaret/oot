@@ -1099,8 +1099,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Bigst"
     include "build/src/overlays/actors/ovl_Bg_Mori_Bigst/z_bg_mori_bigst.o"
-    include "build/data/overlays/actors/z_bg_mori_bigst.data.o"
-    include "build/data/overlays/actors/z_bg_mori_bigst.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Bigst/ovl_Bg_Mori_Bigst_reloc.o"
 endseg
 
 beginseg
