@@ -6,10 +6,6 @@
 
 #define THIS ((EnIshi*)thisx)
 
-typedef void (*EnIshiUnkFunc1)(struct EnIshi*, GlobalContext*);
-typedef void (*EnIshiUnkFunc2)(struct EnIshi*, GlobalContext*);
-typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
-
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -29,6 +25,15 @@ void func_80A7EC04(EnIshi* this, GlobalContext* globalCtx);
 extern Gfx D_0500A3B8[];
 extern Gfx D_0500A5E8[];
 extern Gfx D_0500A880[];
+
+typedef void (*EnIshiUnkFunc1)(struct EnIshi*, GlobalContext*);
+typedef void (*EnIshiUnkFunc2)(struct EnIshi*, GlobalContext*);
+typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
+
+typedef enum {
+    /* 0x00 */ ROCK,
+    /* 0x01 */ BOULDER,
+} EnIshiType;
 
 static s16 D_80A7F9F0 = 0;
 static s16 D_80A7F9F4 = 0;
@@ -283,23 +288,23 @@ static InitChainEntry sInitChains[][5] = {
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
-    s16 sp2A = this->actor.params & 1;
+    s16 type = this->actor.params & 1;
 
-    Actor_ProcessInitChain(&this->actor, sInitChains[sp2A]);
+    Actor_ProcessInitChain(&this->actor, sInitChains[type]);
     if (globalCtx->csCtx.state != 0) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = Math_Rand_ZeroFloat(0x10000);
     }
-    Actor_SetScale(&this->actor, D_80A7FA18[sp2A]);
+    Actor_SetScale(&this->actor, D_80A7FA18[type]);
     func_80A7E460(&this->actor, globalCtx);
-    if ((sp2A == 1) &&
+    if ((type == BOULDER) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
     } else {
         func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        this->actor.shape.unk_08 = D_80A7FA20[sp2A];
+        this->actor.shape.unk_08 = D_80A7FA20[type];
         if (!((this->actor.params >> 5) & 1) && !func_80A7E4D8(this, globalCtx, 0.0f)) {
             Actor_Kill(&this->actor);
         } else {
@@ -320,20 +325,20 @@ void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
     static u16 D_80A873E0[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
 
     s32 pad;
-    s16 sp32 = this->actor.params & 1;
+    s16 type = this->actor.params & 1;
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         func_80A7F2F8(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, D_80A873E0[sp32]);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, D_80A873E0[type]);
         if ((this->actor.params >> 4) & 1) {
             func_80A7EE1C(this, globalCtx);
         }
-    } else if (this->collider.base.acFlags & 2 && sp32 == 0 &&
+    } else if (this->collider.base.acFlags & 2 && type == ROCK &&
                this->collider.body.acHitItem->toucher.flags & 0x40000048) {
         func_80A7ECF8(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[sp32], D_80A7FA30[sp32]);
-        D_80A87328[sp32](this, globalCtx);
-        D_80A87330[sp32](this, globalCtx);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
+        D_80A87328[type](this, globalCtx);
+        D_80A87330[type](this, globalCtx);
         Actor_Kill(&this->actor);
     } else if (this->actor.xzDistFromLink < 600.0f) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
@@ -342,7 +347,7 @@ void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistFromLink < 400.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistFromLink < 90.0f) {
-                if (sp32 == 1) {
+                if (type == BOULDER) {
                     func_8002F434(&this->actor, globalCtx, 0, 80.0f, 20.0f);
                 } else {
                     func_8002F434(&this->actor, globalCtx, 0, 50.0f, 10.0f);
@@ -361,7 +366,7 @@ void func_80A7F2F8(EnIshi* this) {
 void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
-        if ((this->actor.params & 1) == 1) {
+        if ((this->actor.params & 1) == BOULDER) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3));
         }
         func_80A7F3E8(this);
@@ -388,19 +393,19 @@ void func_80A7F3E8(EnIshi* this) {
 
 void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
     s32 pad;
-    s16 sp4A = this->actor.params & 1;
+    s16 type = this->actor.params & 1;
     s32 pad2;
     s32 quakeIdx;
     Vec3f sp34;
 
     if (this->actor.bgCheckFlags & 9) {
         func_80A7ECF8(this, globalCtx);
-        D_80A87328[sp4A](this, globalCtx);
+        D_80A87328[type](this, globalCtx);
         if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[sp4A], D_80A7FA30[sp4A]);
-            D_80A87330[sp4A](this, globalCtx);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
+            D_80A87330[type](this, globalCtx);
         }
-        if (sp4A == 1) {
+        if (type == BOULDER) {
             quakeIdx = Quake_Add(ACTIVE_CAM, 3);
             Quake_SetSpeed(quakeIdx, -0x3CB0);
             Quake_SetQuakeValues(quakeIdx, 3, 0, 0, 0);
@@ -414,7 +419,7 @@ void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
             sp34.y = this->actor.posRot.pos.y + this->actor.waterY;
             sp34.z = this->actor.posRot.pos.z;
             func_8002949C(globalCtx, &sp34, 0, 0, 0, 0x15E);
-            if (sp4A == 0) {
+            if (type == ROCK) {
                 func_80029444(globalCtx, &sp34, 0x96, 0x28A, 0);
                 func_80029444(globalCtx, &sp34, 0x190, 0x320, 4);
                 func_80029444(globalCtx, &sp34, 0x1F4, 0x44C, 8);
@@ -431,7 +436,7 @@ void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
         }
         Math_ApproxF(&this->actor.shape.unk_08, 0.0f, 2.0f);
         func_80A7ED60(this);
-        func_80A7ED94(&this->actor.velocity, D_80A7FA28[sp4A]);
+        func_80A7ED94(&this->actor.velocity, D_80A7FA28[type]);
         func_8002D7EC(&this->actor);
         this->actor.shape.rot.x += D_80A7F9F0;
         this->actor.shape.rot.y += D_80A7F9F4;
@@ -447,11 +452,11 @@ void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void func_80A7F8A0(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_DrawRock(EnIshi* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, D_0500A880);
 }
 
-void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_DrawBoulder(EnIshi* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     func_80093D18(globalCtx->state.gfxCtx);
@@ -463,7 +468,7 @@ void func_80A7F8CC(EnIshi* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }
 
-static EnIshiDrawFunc sDrawFuncs[] = { func_80A7F8A0, func_80A7F8CC };
+static EnIshiDrawFunc sDrawFuncs[] = { EnIshi_DrawRock, EnIshi_DrawBoulder };
 
 void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
