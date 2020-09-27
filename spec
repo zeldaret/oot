@@ -1608,8 +1608,7 @@ endseg
 beginseg
     name "ovl_Demo_Shd"
     include "build/src/overlays/actors/ovl_Demo_Shd/z_demo_shd.o"
-    include "build/data/overlays/actors/z_demo_shd.data.o"
-    include "build/data/overlays/actors/z_demo_shd.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Shd/ovl_Demo_Shd_reloc.o"
 endseg
 
 beginseg
