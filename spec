@@ -2977,8 +2977,11 @@ endseg
 beginseg
     name "ovl_En_Rd"
     include "build/src/overlays/actors/ovl_En_Rd/z_en_rd.o"
-    include "build/data/overlays/actors/z_en_rd.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Rd/ovl_En_Rd_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_rd.reloc.o"
+#endif
 endseg
 
 beginseg
