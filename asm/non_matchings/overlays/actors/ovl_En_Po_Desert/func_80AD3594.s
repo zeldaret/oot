@@ -153,7 +153,7 @@ glabel func_80AD3594
 /* 00B20 80AD37D0 00073C03 */  sra     $a3, $a3, 16               
 /* 00B24 80AD37D4 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 00B28 80AD37D8 AFAA0014 */  sw      $t2, 0x0014($sp)           
-/* 00B2C 80AD37DC 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00B2C 80AD37DC 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 00B30 80AD37E0 AFAB0018 */  sw      $t3, 0x0018($sp)           
 .L80AD37E4:
