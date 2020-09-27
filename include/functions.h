@@ -283,7 +283,7 @@ void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg
 // ? func_8002A90C(?);
 void EffectSsDeadSound_SpawnStationary(GlobalContext* globalCtx, Vec3f* pos, u16 sfxId, s16 lowerPriority, s16 unk28,
                                        s32 life);
-UNK_TYPE func_8002AA44(GlobalContext* globalCtx, Vec3f*, Vec3f*, Vec3f*, s32);
+// ? func_8002AA44(?);
 void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
 void Overlay_FreeGameState(GameStateOverlay* overlayEntry);

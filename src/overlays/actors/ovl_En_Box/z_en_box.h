@@ -43,7 +43,7 @@ typedef struct EnBox {
     /* 0x01F7 */ u8 alpha;
     /* 0x01F8 */ u8 switchFlag;
     /* 0x01F9 */ u8 type;
-    /* 0x01FA */ u8 iceEffTimer;
+    /* 0x01FA */ u8 iceSmokeTimer;
     /* 0x01FB */ u8 unk_1FB;
 } EnBox; // size = 0x01FC
 
