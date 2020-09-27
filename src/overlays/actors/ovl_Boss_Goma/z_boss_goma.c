@@ -15,9 +15,9 @@ typedef enum {
      * resets to this every Update
      * allows not drawing lens and iris when eye is closed (see BossGoma_OverrideLimbDraw)
      */
-    BOSSGOMA_EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES,
-    BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES,
-    BOSSGOMA_EYESTATE_IRIS_FOLLOW_NO_IFRAMES
+    EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES,
+    EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES,
+    EYESTATE_IRIS_FOLLOW_NO_IFRAMES
 } BossGoma_EyeState;
 
 /**
@@ -25,24 +25,24 @@ typedef enum {
  * these comments describe what the end result looks like, omitting steps that have no actual effect
  */
 typedef enum {
-    BOSSGOMA_VISUALSTATE_RED, // main/eye: red
+    VISUALSTATE_RED, // main/eye: red
     /*
     resets to this every Update
     main: greenish cyan, blinks with dark gray every 16 frames
     eye: white
     */
-    BOSSGOMA_VISUALSTATE_DEFAULT,
-    BOSSGOMA_VISUALSTATE_DEFEATED, // main/eye: dark gray
+    VISUALSTATE_DEFAULT,
+    VISUALSTATE_DEFEATED, // main/eye: dark gray
     /*
     main: greenish cyan, alternates with blue every 2 frames during invincibility frames
     eye: greenish cyan
     */
-    BOSSGOMA_VISUALSTATE_STUNNED = 4,
+    VISUALSTATE_STUNNED = 4,
     /*
     main: greenish cyan, alternates with red every 2 frames during invincibility frames
     eye: greenish cyan
     */
-    BOSSGOMA_VISUALSTATE_HIT
+    VISUALSTATE_HIT
 } BossGoma_VisualState;
 
 void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -204,38 +204,39 @@ static u8 sClearPixelTableSecondPass[16 * 16] = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 };
 // indexed by limb (where the root limb is 1)
-u8 D_8091B244[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x1E, // tail end/last part
-                    0x28, // tail 2nd to last part
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x0A, // back of right claw/hand
-                    0x0F, // front of right claw/hand
-                    0x15, // part of right arm (inner)
-                    0x00, 0x00,
-                    0x19, // part of right arm (shell)
-                    0x00, 0x00,
-                    0x1F, // part of right arm (shell on shoulder)
-                    0x23, // part of right arm (shoulder)
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x2B, // end of left antenna
-                    0x30, // middle of left antenna
-                    0x35, // start of left antenna
-                    0x00, 0x00, 0x00, 0x00,
-                    0x2A, // end of right antenna
-                    0x2D, // middle of right antenna
-                    0x35, // start of right antenna
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x0B, // back of left claw/hand
-                    0x0F, // front of left claw/hand
-                    0x15, // part of left arm (inner)
-                    0x00, 0x00,
-                    0x19, // part of left arm (shell)
-                    0x00, 0x00,
-                    0x1E, // part of left arm (shell on shoulder)
-                    0x23, // part of left arm (shoulder)
-                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00 };
+static u8 D_8091B244[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x1E, // tail end/last part
+    0x28, // tail 2nd to last part
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x0A, // back of right claw/hand
+    0x0F, // front of right claw/hand
+    0x15, // part of right arm (inner)
+    0x00, 0x00,
+    0x19, // part of right arm (shell)
+    0x00, 0x00,
+    0x1F, // part of right arm (shell on shoulder)
+    0x23, // part of right arm (shoulder)
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x2B, // end of left antenna
+    0x30, // middle of left antenna
+    0x35, // start of left antenna
+    0x00, 0x00, 0x00, 0x00,
+    0x2A, // end of right antenna
+    0x2D, // middle of right antenna
+    0x35, // start of right antenna
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x0B, // back of left claw/hand
+    0x0F, // front of left claw/hand
+    0x15, // part of left arm (inner)
+    0x00, 0x00,
+    0x19, // part of left arm (shell)
+    0x00, 0x00,
+    0x1E, // part of left arm (shell on shoulder)
+    0x23, // part of left arm (shoulder)
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+};
 
 /**
  * Sets the `i`th pixel of a 16x16 RGBA16 image to 0 (transparent black)
@@ -834,7 +835,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxF(&this->subCameraAt.y, this->actor.posRot2.pos.y, 0.1f, 10.0f);
             }
             if (func_800A56C8(&this->skelanime, 40.0f)) {
-                Audio_PlayActorSound2(&this->actor, 0x380E);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY1);
                 if (!(gSaveContext.eventChkInf[7] & 1)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_06019BA8),
                                            0xA0, 0xB4, 0x80, 0x28);
@@ -918,8 +919,8 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
         func_800A9F6C(0.0f, 0x96, 0x14, 0x14);
     }
 
-    this->visualState = BOSSGOMA_VISUALSTATE_DEFEATED;
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
+    this->visualState = VISUALSTATE_DEFEATED;
+    this->eyeState = EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
 
     // timer setup to 1200
     if (this->framesUntilNextAction == 1001) {
@@ -1030,9 +1031,12 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
             break;
         case 2:
             camera = Gameplay_GetCamera(globalCtx, 0);
-            Math_SmoothScaleMaxMinF(&this->subCameraEye.x, camera->eye.x, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothScaleMaxMinF(&this->subCameraEye.y, camera->eye.y, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
-            Math_SmoothScaleMaxMinF(&this->subCameraEye.z, camera->eye.z, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
+            Math_SmoothScaleMaxMinF(&this->subCameraEye.x, camera->eye.x, 0.2f, this->subCameraFollowSpeed * 50.0f,
+                                    0.1f);
+            Math_SmoothScaleMaxMinF(&this->subCameraEye.y, camera->eye.y, 0.2f, this->subCameraFollowSpeed * 50.0f,
+                                    0.1f);
+            Math_SmoothScaleMaxMinF(&this->subCameraEye.z, camera->eye.z, 0.2f, this->subCameraFollowSpeed * 50.0f,
+                                    0.1f);
             Math_SmoothScaleMaxMinF(&this->subCameraAt.x, camera->at.x, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->subCameraAt.y, camera->at.y, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->subCameraAt.z, camera->at.z, 0.2f, this->subCameraFollowSpeed * 50.0f, 0.1f);
@@ -1162,8 +1166,8 @@ void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx) {
             BossGoma_SetupFloorMain(this);
         }
     }
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_FOLLOW_NO_IFRAMES;
-    this->visualState = BOSSGOMA_VISUALSTATE_RED;
+    this->eyeState = EYESTATE_IRIS_FOLLOW_NO_IFRAMES;
+    this->visualState = VISUALSTATE_RED;
 }
 
 void BossGoma_FloorPrepareAttack(BossGoma* this, GlobalContext* globalCtx) {
@@ -1173,8 +1177,8 @@ void BossGoma_FloorPrepareAttack(BossGoma* this, GlobalContext* globalCtx) {
         BossGoma_SetupFloorAttack(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY1);
     }
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_FOLLOW_NO_IFRAMES;
-    this->visualState = BOSSGOMA_VISUALSTATE_RED;
+    this->eyeState = EYESTATE_IRIS_FOLLOW_NO_IFRAMES;
+    this->visualState = VISUALSTATE_RED;
 }
 
 void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
@@ -1224,8 +1228,8 @@ void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
             break;
     }
 
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_FOLLOW_NO_IFRAMES;
-    this->visualState = BOSSGOMA_VISUALSTATE_RED;
+    this->eyeState = EYESTATE_IRIS_FOLLOW_NO_IFRAMES;
+    this->visualState = VISUALSTATE_RED;
 }
 
 void BossGoma_FloorDamaged(BossGoma* this, GlobalContext* globalCtx) {
@@ -1234,9 +1238,9 @@ void BossGoma_FloorDamaged(BossGoma* this, GlobalContext* globalCtx) {
         BossGoma_SetupFloorStunned(this);
         this->patienceTimer = 0;
     }
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
+    this->eyeState = EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
     Math_SmoothScaleMaxF(&this->eyeIrisScaleX, 0.4f, 0.5f, 0.2f);
-    this->visualState = BOSSGOMA_VISUALSTATE_HIT;
+    this->visualState = VISUALSTATE_HIT;
 }
 
 void BossGoma_FloorLandStruckDown(BossGoma* this, GlobalContext* globalCtx) {
@@ -1289,9 +1293,9 @@ void BossGoma_FloorStunned(BossGoma* this, GlobalContext* globalCtx) {
         }
     }
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
+    this->eyeState = EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
     Math_SmoothScaleMaxF(&this->eyeIrisScaleX, 0.4f, 0.5f, 0.2f);
-    this->visualState = BOSSGOMA_VISUALSTATE_STUNNED;
+    this->visualState = VISUALSTATE_STUNNED;
 }
 
 void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
@@ -1366,7 +1370,7 @@ void BossGoma_CeilingSpawnGohmas(BossGoma* this, GlobalContext* globalCtx) {
         BossGoma_SetupCeilingIdle(this);
     }
 
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
+    this->eyeState = EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
 }
 
 void BossGoma_CeilingPrepareSpawnGohmas(BossGoma* this, GlobalContext* globalCtx) {
@@ -1375,8 +1379,8 @@ void BossGoma_CeilingPrepareSpawnGohmas(BossGoma* this, GlobalContext* globalCtx
     if (this->framesUntilNextAction == 0) {
         BossGoma_SetupCeilingSpawnGohmas(this);
     }
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
-    this->visualState = BOSSGOMA_VISUALSTATE_RED;
+    this->eyeState = EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
+    this->visualState = VISUALSTATE_RED;
 }
 
 void BossGoma_FloorIdle(BossGoma* this, GlobalContext* globalCtx) {
@@ -1565,7 +1569,7 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
 
     if (!this->disableGameplayLogic) {
         player = PLAYER;
-        if (this->eyeState == BOSSGOMA_EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES) {
+        if (this->eyeState == EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES) {
             // player + 0xA73 seems to be related to "throwing something"
             if (player->unk_A73 != 0) {
                 player->unk_A73 = 0;
@@ -1588,7 +1592,7 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxS(&this->eyeLidBottomRotX, 0, 1, 0x7D0);
             Math_SmoothScaleMaxS(&this->eyeLidTopRotX, 0, 1, 0x7D0);
         }
-        if (this->eyeState != BOSSGOMA_EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES) {
+        if (this->eyeState != EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES) {
             targetEyeIrisRotY = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.shape.rot.y;
             targetEyeIrisRotX = func_8002DAE0(&this->actor, &PLAYER->actor) - this->actor.shape.rot.x;
             if (this->actor.shape.rot.x > 0x4000 || this->actor.shape.rot.x < -0x4000) {
@@ -1684,7 +1688,7 @@ void BossGoma_UpdateMainEnvColor(BossGoma* this) {
     static f32 D_8091B364[][3] = { { 255, 17, 0 },  { 0, 255, 170 }, { 50, 50, 50 },
                                    { 0, 255, 170 }, { 0, 0, 255 },   { 255, 17, 0 } };
 
-    if (this->visualState == BOSSGOMA_VISUALSTATE_DEFAULT && this->frameCount & 0x10) {
+    if (this->visualState == VISUALSTATE_DEFAULT && this->frameCount & 0x10) {
         Math_SmoothScaleMaxF(&this->mainEnvColor[0], 50.0f, 0.5f, 20.0f);
         Math_SmoothScaleMaxF(&this->mainEnvColor[1], 50.0f, 0.5f, 20.0f);
         Math_SmoothScaleMaxF(&this->mainEnvColor[2], 50.0f, 0.5f, 20.0f);
@@ -1718,12 +1722,12 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossGoma* this = THIS;
     s32 pad;
 
-    this->visualState = BOSSGOMA_VISUALSTATE_DEFAULT;
+    this->visualState = VISUALSTATE_DEFAULT;
     this->frameCount++;
     DECR(this->framesUntilNextAction);
     DECR(this->timer);
     DECR(this->sfxFaintTimer);
-    this->eyeState = BOSSGOMA_EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES;
+    this->eyeState = EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES;
     this->actionFunc(this, globalCtx);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 
@@ -1772,7 +1776,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 
     switch (limbIndex) {
         case 5: // eye (lens)
-            if (this->eyeState == BOSSGOMA_EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES && this->eyeLidBottomRotX < -0xA8C) {
+            if (this->eyeState == EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES && this->eyeLidBottomRotX < -0xA8C) {
                 *dList = NULL;
             } else if (this->invincibilityFrames != 0) {
                 gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)(Math_Rand_ZeroOne() * 255.0f),
@@ -1793,10 +1797,10 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             rot->y += this->eyeIrisRotY;
             break;
         case 39: // eye (iris)
-            if (this->eyeState == BOSSGOMA_EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES && this->eyeLidBottomRotX < -0xA8C) {
+            if (this->eyeState == EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES && this->eyeLidBottomRotX < -0xA8C) {
                 *dList = NULL;
             } else {
-                if (this->visualState == BOSSGOMA_VISUALSTATE_DEFEATED) {
+                if (this->visualState == VISUALSTATE_DEFEATED) {
                     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 50, 50, 50, 255);
                 } else {
                     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, 255);
@@ -1804,7 +1808,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
                 Matrix_JointPosition(pos, rot);
                 if (*dList != NULL) {
                     Matrix_Push();
-                    Matrix_Scale(this->eyeIrisScaleX, this->eyeIrisScaleY, 1.0f, 1);
+                    Matrix_Scale(this->eyeIrisScaleX, this->eyeIrisScaleY, 1.0f, MTXMODE_APPLY);
                     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4815),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gSPDisplayList(oGfxCtx->polyOpa.p++, *dList);
@@ -1822,7 +1826,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             if (*dList != NULL) {
                 Matrix_Push();
                 Matrix_Scale(this->tailLimbsScale[limbIndex - 11], this->tailLimbsScale[limbIndex - 11],
-                             this->tailLimbsScale[limbIndex - 11], 1);
+                             this->tailLimbsScale[limbIndex - 11], MTXMODE_APPLY);
                 gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4836),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(oGfxCtx->polyOpa.p++, *dList);
@@ -1862,7 +1866,7 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         Matrix_MultVec3f(&clawBackLocalPos, &this->leftHandBackLimbWorldPos);
     }
 
-    if (this->visualState == BOSSGOMA_VISUALSTATE_DEFEATED) {
+    if (this->visualState == VISUALSTATE_DEFEATED) {
         if (*dList != NULL) {
             Matrix_MultVec3f(&clawBackLocalPos, &this->defeatedLimbPositions[limbIndex]);
         } else {
@@ -1890,7 +1894,7 @@ Gfx* BossGoma_EmptyDlist(GraphicsContext* gfxCtx) {
     Gfx* dList;
     Gfx* dListHead;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 1);
+    dList = Graph_Alloc(gfxCtx, 1 * sizeof(Gfx));
     dListHead = dList;
 
     gSPEndDisplayList(dList++);
@@ -1902,7 +1906,7 @@ Gfx* BossGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
     Gfx* dList;
     Gfx* dListHead;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
+    dList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
     dListHead = dList;
 
     gDPPipeSync(dList++);
@@ -1920,7 +1924,7 @@ void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_goma.c", 4991);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_Translate(0.0f, -4000.0f, 0.0f, 1);
+    Matrix_Translate(0.0f, -4000.0f, 0.0f, MTXMODE_APPLY);
 
     if (this->noBackfaceCulling) {
         gSPSegment(oGfxCtx->polyOpa.p++, 0x08, BossGoma_NoBackfaceCullingDlist(globalCtx->state.gfxCtx));
