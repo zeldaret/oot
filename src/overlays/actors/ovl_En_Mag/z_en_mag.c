@@ -115,9 +115,9 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (gSaveContext.fileNum != 0xFEDC) {
         if (this->globalState < MAG_STATE_DISPLAY) {
-            if (CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON) ||
-                CHECK_PAD(globalCtx->state.input[0].press, A_BUTTON) ||
-                CHECK_PAD(globalCtx->state.input[0].press, B_BUTTON)) {
+            if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START) ||
+                CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
+                CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
 
                 Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
@@ -142,9 +142,9 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         } else if (this->globalState >= MAG_STATE_DISPLAY) {
             if (sDelayTimer == 0) {
-                if (CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON) ||
-                    CHECK_PAD(globalCtx->state.input[0].press, A_BUTTON) ||
-                    CHECK_PAD(globalCtx->state.input[0].press, B_BUTTON)) {
+                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START) ||
+                    CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
+                    CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
 
                     if (globalCtx->sceneLoadFlag != 20) {
                         func_800F68BC(0);

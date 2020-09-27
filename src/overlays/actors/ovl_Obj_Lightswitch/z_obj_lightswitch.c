@@ -5,15 +5,15 @@
  */
 
 #include "z_obj_lightswitch.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
 #define THIS ((ObjLightswitch*)thisx)
 
 typedef enum {
-    /* 0x00 */ FACE_EYES_CLOSED, 
-    /* 0x01 */ FACE_EYES_OPEN, 
+    /* 0x00 */ FACE_EYES_CLOSED,
+    /* 0x01 */ FACE_EYES_OPEN,
     /* 0x02 */ FACE_EYES_OPEN_SMILING
 } FaceTextureIndex;
 
