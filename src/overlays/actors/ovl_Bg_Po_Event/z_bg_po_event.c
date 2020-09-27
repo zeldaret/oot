@@ -29,12 +29,13 @@ void BgPoEvent_PaintingAppear(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06007860;
+
 extern Gfx D_060075A0[];
 extern Gfx D_060079E0[];
 extern Gfx D_06006830[];
 extern Gfx D_06006D60[];
 extern Gfx D_06007230[];
+extern ColHeader D_06007860;
 
 const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
@@ -139,12 +140,12 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     static s16 blockPosX[] = { 2149, 1969, 1909 };
     static s16 blockPosZ[] = { -1410, -1350, -1530 };
     Actor* newBlock;
-    s32 local_c = 0;
+    ColHeader* colHeader = NULL;
     s32 bgId;
 
     this->dyna.actor.flags |= 0x30;
-    DynaPolyInfo_Alloc(&D_06007860, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+    DynaPolyInfo_Alloc(&D_06007860, &colHeader);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
         newBlock = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
                                       blockPosX[this->index], this->dyna.actor.posRot.pos.y, blockPosZ[this->index], 0,
