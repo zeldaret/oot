@@ -23,7 +23,7 @@ void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx);
 void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06002154;
-extern Gfx D_060018B0;
+extern Gfx D_060018B0[];
 
 const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
@@ -249,7 +249,7 @@ void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.pos.x = (Math_Sins(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z = (Math_Coss(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.z;
 
-    this->unk_212 += 3000;
+    this->unk_212 += 0xBB8;
 
     Math_ApproxS(&this->unk_214, 1500, 30);
 
@@ -297,7 +297,7 @@ void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx) {
     s16 arrayValue;
     f32 clampedTempUnk210;
 
-    this->unk_212 += 3000;
+    this->unk_212 += 0xBB8;
 
     if (this->unk_216 >= 13) {
         tempUnk214 = Math_ApproxS(&this->unk_214, 0, 55);
@@ -397,9 +397,9 @@ void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx) {
         }
     } else if (this->unk_216 == 2) {
         if (this->unk_218 == 2) {
-            func_80078884(18434);
+            func_80078884(NA_SE_SY_CORRECT_CHIME);
         } else {
-            func_80078884(18439);
+            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         }
     } else if (this->unk_216 == 200) {
         func_808B7BB0(this);
@@ -428,5 +428,5 @@ void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800628A4(0, &this->colliderJntSph);
     func_800628A4(1, &this->colliderJntSph);
-    Gfx_DrawDListOpa(globalCtx, &D_060018B0);
+    Gfx_DrawDListOpa(globalCtx, D_060018B0);
 }
