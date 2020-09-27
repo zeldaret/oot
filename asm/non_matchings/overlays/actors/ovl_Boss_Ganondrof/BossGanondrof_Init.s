@@ -51,7 +51,7 @@ glabel BossGanondrof_Init
 /* 004C4 80910B04 A21800AF */  sb      $t8, 0x00AF($s0)           ## 000000AF
 /* 004C8 80910B08 260604D0 */  addiu   $a2, $s0, 0x04D0           ## $a2 = 000004D0
 /* 004CC 80910B0C AFA60044 */  sw      $a2, 0x0044($sp)           
-/* 004D0 80910B10 0C01E9D9 */  jal     Lights_Insert
+/* 004D0 80910B10 0C01E9D9 */  jal     LightContext_InsertLight
               
 /* 004D4 80910B14 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 004D8 80910B18 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
@@ -78,7 +78,7 @@ glabel BossGanondrof_Init
 /* 0052C 80910B6C AFAC0018 */  sw      $t4, 0x0018($sp)           
 /* 00530 80910B70 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00534 80910B74 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 00538 80910B78 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00538 80910B78 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 0053C 80910B7C 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00540 80910B80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -180,7 +180,7 @@ glabel BossGanondrof_Init
 /* 00694 80910CD4 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00698 80910CD8 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 0069C 80910CDC 8619001C */  lh      $t9, 0x001C($s0)           ## 00001C40
-/* 006A0 80910CE0 0C00C916 */  jal     Actor_SpawnAttached
+/* 006A0 80910CE0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 006A4 80910CE4 AFB90028 */  sw      $t9, 0x0028($sp)           
 /* 006A8 80910CE8 8FBF003C */  lw      $ra, 0x003C($sp)           

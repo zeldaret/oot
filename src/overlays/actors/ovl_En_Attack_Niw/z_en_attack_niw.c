@@ -47,7 +47,8 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable, this->transitionDrawTable, 16);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
+                     this->transitionDrawTable, 16);
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
@@ -64,9 +65,9 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAttackNiw* this = THIS;
-    EnNiw* cucco = (EnNiw*)this->actor.attachedA;
+    EnNiw* cucco = (EnNiw*)this->actor.parent;
 
-    if (this->actor.attachedA != NULL) {
+    if (this->actor.parent != NULL) {
         if ((cucco->actor.update != NULL) && (cucco->unk_296 > 0)) {
             cucco->unk_296--;
         }
@@ -173,7 +174,7 @@ s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp1E, &sp1C);
-    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E >= 0x141) || (sp1C < 0) || (sp1C >= 0xF1)) {
+    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0) || (sp1C > SCREEN_HEIGHT)) {
         return 0;
     } else {
         return 1;
@@ -218,8 +219,7 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
         this->unk_2E0 = 5.0f;
         this->unk_288 = 0.0f;
         this->actionFunc = func_809B59B0;
-    } else if (((this->actor.projectedPos.z > 0.0f) && 
-                (fabsf(sp34.x - this->actor.posRot.pos.x) < 50.0f) &&
+    } else if (((this->actor.projectedPos.z > 0.0f) && (fabsf(sp34.x - this->actor.posRot.pos.x) < 50.0f) &&
                 (fabsf(sp34.y - this->actor.posRot.pos.y) < 50.0f) &&
                 (fabsf(sp34.z - this->actor.posRot.pos.z) < 50.0f)) ||
                (this->actor.bgCheckFlags & 1)) {
@@ -356,8 +356,8 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     tmpf1 = 20.0f;
     if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
-        cucco = (EnNiw*)this->actor.attachedA;
-        if ((this->actor.attachedA->update != NULL) && (this->actor.attachedA != NULL) && (cucco != NULL) &&
+        cucco = (EnNiw*)this->actor.parent;
+        if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
             (cucco->unk_26A == 0) && (player->invincibilityTimer == 0)) {
             func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
             cucco->unk_26A = 0x46;

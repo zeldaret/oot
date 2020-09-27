@@ -289,7 +289,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
             if (ACTOR_BG_SPOT15_SAKU != actor->dyna.actor.id) {
                 actor = (BgSpot15Saku*)(actor->dyna.actor.next);
             } else {
-                this->attachedGate = actor;
+                this->gate = actor;
                 actor->unk_168 = 1;
                 break;
             }
@@ -325,7 +325,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgSpot15Saku*)this->attachedGate;
+    gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
@@ -350,7 +350,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
     var = 0;
     if (gSaveContext.infTable[7] & 0x40) {
         if (!(gSaveContext.infTable[7] & 0x80)) {
-            if (func_8008F080(globalCtx) == 1) {
+            if (Player_GetMask(globalCtx) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A; // "Wha-ha-ha-hah! Do you think you're in disguise, Mr. Hero?"
                 } else {
@@ -401,19 +401,19 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_300 = 6;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         exchangeItemId = func_8002F368(globalCtx);
-        if (exchangeItemId == 1) { // exchangeItemId = zelda's letter
+        if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             player->actor.textId = 0x2010; // "Oh, this is...this is surely Princess Zelda's handwriting!"
             this->unk_300 = 5;
             this->actionFunc = func_80A53C0C;
-        } else if (exchangeItemId != 0) {  // exchangeItemId != nothing
+        } else if (exchangeItemId != EXCH_ITEM_NONE) {
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
         yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
         if (!(120.0f < this->actor.xzDistFromLink) && (yawDiff < 0x4300)) {
-            func_8002F298(&this->actor, globalCtx, 100.0f, 1);
+            func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
         }
     }
 }
@@ -453,10 +453,10 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
     }
     if (this->unk_2EC <= frameCount) {
         while (gate != NULL) {
-            if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
+            if (gate->dyna.actor.id != ACTOR_BG_GATE_SHUTTER) {
                 gate = (BgGateShutter*)gate->dyna.actor.next;
             } else {
-                this->attachedGate = gate;
+                this->gate = gate;
                 gate->openingState = 1;
                 break;
             }
@@ -496,7 +496,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgGateShutter*)this->attachedGate;
+    gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
@@ -539,7 +539,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
             case 0:
                 this->actor.textId = 0x2020; // "My boy will be very happy with this!.."
                 func_8010B720(globalCtx, this->actor.textId);
-                func_8008F08C(globalCtx);
+                Player_UnsetMask(globalCtx);
                 gSaveContext.infTable[7] |= 0x80;
                 gSaveContext.itemGetInf[3] |= 0x100;
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -619,7 +619,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
             if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
                 gate = (BgGateShutter*)(gate->dyna.actor.next);
             } else {
-                this->attachedGate = gate;
+                this->gate = gate;
                 if (this->unk_30A != 2) {
                     gate->openingState = -1;
                     break;
@@ -830,28 +830,24 @@ void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06002C10);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi2* this;
-    GraphicsContext* gfxCtx;
-    s32 linkObjBankIndex;
+    EnHeishi2* this = THIS;
     Mtx* mtx;
-    Gfx* dispRefs[4];
+    s32 linkObjBankIndex;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1792);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1792);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    this = THIS;
+
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
                    EnHeishi2_PostLimbDraw, &this->actor);
     if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
@@ -862,11 +858,12 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(DEGTORAD(70.0), MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
-            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
-            gSPSegment(gfxCtx->polyOpa.p++, 0x0D, mtx);
-            gSPDisplayList(gfxCtx->polyOpa.p++, &D_0602B060);
-            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
+            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
+            gSPSegment(oGfxCtx->polyOpa.p++, 0x0D, mtx);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, &D_0602B060);
+            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         }
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1834);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1834);
 }

@@ -59,30 +59,27 @@ u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 }
 
 void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     MtxF mtx;
-    s32 pad1;
+    s32 pad;
     f32 scale;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, gfxCtx, "../z_eff_ss_blast.c", 170);
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_blast.c", 170);
 
     scale = this->regs[SS_BLAST_RADIUS] * 0.0025f;
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, this->regs[SS_BLAST_PRIM_R], this->regs[SS_BLAST_PRIM_G],
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_BLAST_PRIM_R], this->regs[SS_BLAST_PRIM_G],
                    this->regs[SS_BLAST_PRIM_B], this->regs[SS_BLAST_PRIM_A]);
     func_800BFCB8(globalCtx, &mtx, &this->pos);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, this->regs[SS_BLAST_ENV_R], this->regs[SS_BLAST_ENV_G],
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_BLAST_ENV_R], this->regs[SS_BLAST_ENV_G],
                     this->regs[SS_BLAST_ENV_B], this->regs[SS_BLAST_ENV_A]);
     Matrix_Put(&mtx);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, this->displayList);
-    Graph_CloseDisps(&dispRefs, gfxCtx, "../z_eff_ss_blast.c", 204);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_blast.c", 204);
 }
 
 void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {

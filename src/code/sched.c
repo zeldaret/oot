@@ -179,8 +179,6 @@ OSScTask* func_800C89D4(SchedContext* sc, OSScTask* task) {
     return task;
 }
 
-#ifdef NON_MATCHING
-// regalloc
 s32 Sched_Schedule(SchedContext* sc, OSScTask** sp, OSScTask** dp, s32 state) {
     s32 ret = state;
     OSScTask* gfxTask = sc->gfxListHead;
@@ -195,7 +193,7 @@ s32 Sched_Schedule(SchedContext* sc, OSScTask** sp, OSScTask** dp, s32 state) {
             sc->audioListTail = NULL;
         }
     } else if (gfxTask != NULL) {
-        if (gfxTask->state & OS_SC_YIELDED || !(sc->gfxListHead->flags & OS_SC_NEEDS_RDP)) {
+        if (gfxTask->state & OS_SC_YIELDED || !(gfxTask->flags & OS_SC_NEEDS_RDP)) {
             if (ret & OS_SC_SP) {
                 *sp = gfxTask;
                 ret &= ~OS_SC_SP;
@@ -205,7 +203,7 @@ s32 Sched_Schedule(SchedContext* sc, OSScTask** sp, OSScTask** dp, s32 state) {
                 }
             }
         } else if (ret == (OS_SC_SP | OS_SC_DP)) {
-            if (sc->gfxListHead->framebuffer == NULL || func_800C89D4(sc, gfxTask) != NULL) {
+            if (gfxTask->framebuffer == NULL || func_800C89D4(sc, gfxTask) != NULL) {
                 *sp = *dp = gfxTask;
                 ret &= ~(OS_SC_SP | OS_SC_DP);
                 sc->gfxListHead = sc->gfxListHead->next;
@@ -217,9 +215,6 @@ s32 Sched_Schedule(SchedContext* sc, OSScTask** sp, OSScTask** dp, s32 state) {
     }
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sched/Sched_Schedule.s")
-#endif
 
 void func_800C8BC4(SchedContext* sc, OSScTask* task) {
     if (sc->pendingSwapBuf1 == NULL) {

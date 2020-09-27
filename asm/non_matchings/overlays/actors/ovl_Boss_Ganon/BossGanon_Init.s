@@ -149,7 +149,7 @@ glabel BossGanon_Init
 /* 00B04 808D7374 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00B08 808D7378 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00B0C 808D737C E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 00B10 808D7380 0C00C916 */  jal     Actor_SpawnAttached
+/* 00B10 808D7380 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00B14 808D7384 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00B18 808D7388 3C018090 */  lui     $at, %hi(D_808F93C0)       ## $at = 80900000

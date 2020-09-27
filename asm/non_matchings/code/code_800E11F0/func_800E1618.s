@@ -9,8 +9,8 @@ glabel func_800E1618
 /* B587D4 800E1634 0018C980 */  sll   $t9, $t8, 6
 /* B587D8 800E1638 03280019 */  multu $t9, $t0
 /* B587DC 800E163C 8E4E2874 */  lw    $t6, 0x2874($s2)
-/* B587E0 800E1640 3C148017 */  lui   $s4, %hi(D_80171B40) # $s4, 0x8017
-/* B587E4 800E1644 26941B40 */  addiu $s4, %lo(D_80171B40) # addiu $s4, $s4, 0x1b40
+/* B587E0 800E1640 3C148017 */  lui   $s4, %hi(gAudioContext+0x29c0) # $s4, 0x8017
+/* B587E4 800E1644 26941B40 */  addiu $s4, %lo(gAudioContext+0x29c0) # addiu $s4, $s4, 0x1b40
 /* B587E8 800E1648 AFBF002C */  sw    $ra, 0x2c($sp)
 /* B587EC 800E164C AFA40030 */  sw    $a0, 0x30($sp)
 /* B587F0 800E1650 AFB30024 */  sw    $s3, 0x24($sp)
@@ -19,7 +19,7 @@ glabel func_800E1618
 /* B587FC 800E165C 02802025 */  move  $a0, $s4
 /* B58800 800E1660 00002812 */  mflo  $a1
 /* B58804 800E1664 AE4E288C */  sw    $t6, 0x288c($s2)
-/* B58808 800E1668 0C0378F7 */  jal   func_800DE3DC
+/* B58808 800E1668 0C0378F7 */  jal   Audio_Alloc
 /* B5880C 800E166C 00000000 */   nop
 /* B58810 800E1670 8E492894 */  lw    $t1, 0x2894($s2)
 /* B58814 800E1674 864B2848 */  lh    $t3, 0x2848($s2)
@@ -82,8 +82,8 @@ glabel func_800E1618
 /* B588E0 800E1740 28810100 */  slti  $at, $a0, 0x100
 /* B588E4 800E1744 10200009 */  beqz  $at, .L800E176C
 /* B588E8 800E1748 00808825 */   move  $s1, $a0
-/* B588EC 800E174C 3C038017 */  lui   $v1, %hi(D_8016F280) # $v1, 0x8017
-/* B588F0 800E1750 2463F280 */  addiu $v1, %lo(D_8016F280) # addiu $v1, $v1, -0xd80
+/* B588EC 800E174C 3C038017 */  lui   $v1, %hi(gAudioContext+0x100) # $v1, 0x8017
+/* B588F0 800E1750 2463F280 */  addiu $v1, %lo(gAudioContext+0x100) # addiu $v1, $v1, -0xd80
 /* B588F4 800E1754 02511021 */  addu  $v0, $s2, $s1
 .L800E1758:
 /* B588F8 800E1758 24420001 */  addiu $v0, $v0, 1
@@ -157,8 +157,8 @@ glabel func_800E1618
 /* B589F0 800E1850 28810100 */  slti  $at, $a0, 0x100
 /* B589F4 800E1854 1020000A */  beqz  $at, .L800E1880
 /* B589F8 800E1858 00808825 */   move  $s1, $a0
-/* B589FC 800E185C 3C038017 */  lui   $v1, %hi(D_8016F280) # $v1, 0x8017
-/* B58A00 800E1860 2463F280 */  addiu $v1, %lo(D_8016F280) # addiu $v1, $v1, -0xd80
+/* B589FC 800E185C 3C038017 */  lui   $v1, %hi(gAudioContext+0x100) # $v1, 0x8017
+/* B58A00 800E1860 2463F280 */  addiu $v1, %lo(gAudioContext+0x100) # addiu $v1, $v1, -0xd80
 /* B58A04 800E1864 02511021 */  addu  $v0, $s2, $s1
 .L800E1868:
 /* B58A08 800E1868 8E582624 */  lw    $t8, 0x2624($s2)

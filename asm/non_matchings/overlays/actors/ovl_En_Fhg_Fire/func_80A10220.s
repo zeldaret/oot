@@ -863,7 +863,7 @@ glabel func_80A10220
 /* 01B80 80A10DE0 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 01B84 80A10DE4 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 01B88 80A10DE8 AFAD001C */  sw      $t5, 0x001C($sp)           
-/* 01B8C 80A10DEC 0C00C916 */  jal     Actor_SpawnAttached
+/* 01B8C 80A10DEC 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 01B90 80A10DF0 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 01B94 80A10DF4 8FA20050 */  lw      $v0, 0x0050($sp)           
@@ -926,7 +926,7 @@ glabel func_80A10220
 /* 01C58 80A10EB8 AFAD0018 */  sw      $t5, 0x0018($sp)           
 /* 01C5C 80A10EBC AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 01C60 80A10EC0 AFB80010 */  sw      $t8, 0x0010($sp)           
-/* 01C64 80A10EC4 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 01C64 80A10EC4 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 01C68 80A10EC8 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 01C6C 80A10ECC C6080068 */  lwc1    $f8, 0x0068($s0)           ## 00000068

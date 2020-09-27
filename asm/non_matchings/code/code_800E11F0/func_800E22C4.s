@@ -5,9 +5,9 @@ glabel func_800E22C4
 /* B59470 800E22D0 8FA50028 */  lw    $a1, 0x28($sp)
 /* B59474 800E22D4 0C0389DA */  jal   func_800E2768
 /* B59478 800E22D8 00002025 */   move  $a0, $zero
-/* B5947C 800E22DC 3C0E8017 */  lui   $t6, %hi(D_80172618)
+/* B5947C 800E22DC 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x3498)
 /* B59480 800E22E0 01C27021 */  addu  $t6, $t6, $v0
-/* B59484 800E22E4 91CE2618 */  lbu   $t6, %lo(D_80172618)($t6)
+/* B59484 800E22E4 91CE2618 */  lbu   $t6, %lo(gAudioContext+0x3498)($t6)
 /* B59488 800E22E8 24010001 */  li    $at, 1
 /* B5948C 800E22EC 00002025 */  move  $a0, $zero
 /* B59490 800E22F0 15C10003 */  bne   $t6, $at, .L800E2300

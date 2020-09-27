@@ -72,7 +72,7 @@ glabel L80AADB78
 /* 0040C 80AADB7C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00410 80AADB80 50400028 */  beql    $v0, $zero, .L80AADC24     
 /* 00414 80AADB84 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00418 80AADB88 0C023C23 */  jal     func_8008F08C              
+/* 00418 80AADB88 0C023C23 */  jal     Player_UnsetMask              
 /* 0041C 80AADB8C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00420 80AADB90 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00424 80AADB94 0C021344 */  jal     Item_Give              

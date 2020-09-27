@@ -22,7 +22,7 @@ glabel func_80ADE6D4
 /* 009D4 80ADE724 00052C00 */  sll     $a1, $a1, 16               
 /* 009D8 80ADE728 00052C03 */  sra     $a1, $a1, 16               
 /* 009DC 80ADE72C AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 009E0 80ADE730 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 009E0 80ADE730 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 009E4 80ADE734 248402AC */  addiu   $a0, $a0, 0x02AC           ## $a0 = 000002AC
 /* 009E8 80ADE738 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
