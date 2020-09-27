@@ -37,12 +37,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-enum BgDdanJdState {
+typedef enum {
     STATE_GO_BOTTOM,
     STATE_GO_MIDDLE_FROM_BOTTOM,
     STATE_GO_MIDDLE_FROM_TOP,
     STATE_GO_TOP,
-};
+} BgDdanJdState;
 
 #define MOVE_HEIGHT_MIDDLE 140.0f
 #define MOVE_HEIGHT_TOP 700.0f
@@ -103,7 +103,7 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {
             this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
             this->targetY = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_MIDDLE;
         } else if (this->state == STATE_GO_MIDDLE_FROM_BOTTOM) {
-            // If platform goes all the way to the top
+            // If the platform has been activated as a shortcut
             if (this->ySpeed != DEFAULT_Y_SPEED) {
                 this->state = STATE_GO_TOP;
                 this->targetY = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_TOP;
@@ -112,7 +112,7 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {
                 this->targetY = this->dyna.actor.initPosRot.pos.y;
             }
         } else if (this->state == STATE_GO_MIDDLE_FROM_TOP) {
-            // If platform goes all the way to the top
+            // If the platform has been activated as a shortcut
             if (this->ySpeed != DEFAULT_Y_SPEED) {
                 this->state = STATE_GO_TOP;
                 this->targetY = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_TOP;
