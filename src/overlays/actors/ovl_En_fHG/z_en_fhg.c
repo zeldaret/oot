@@ -18,16 +18,16 @@ void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B62B04(EnfHG* this, GlobalContext* globalCtx);
-void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx);
-void func_80B63D84(EnfHG* this, GlobalContext* globalCtx, s16 arg2);
-void func_80B6404C(EnfHG* this, GlobalContext* globalCtx);
-void func_80B6424C(EnfHG* this, GlobalContext* globalCtx);
-void func_80B6476C(EnfHG* this, GlobalContext* globalCtx);
-void func_80B64AA8(EnfHG* this, GlobalContext* globalCtx);
-void func_80B64CF4(EnfHG* this, GlobalContext* globalCtx);
+void EnfHG_SetupIntro(EnfHG* this, GlobalContext* globalCtx);
+void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx);
+void EnfHG_SetupApproach(EnfHG* this, GlobalContext* globalCtx, s16 paintingIndex);
+void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx);
+void EnfHG_ExitPainting(EnfHG* this, GlobalContext* globalCtx);
+void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx);
+void EnfHG_EnterPainting(EnfHG* this, GlobalContext* globalCtx);
+void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx);
 
-void func_80B64E94(s32 arg0, s32 arg1, s32 arg2);
+void EnfHG_Noop(s32 arg0, s32 arg1, s32 paintingIndex);
 
 extern SkeletonHeader D_0600B098;
 extern AnimationHeader D_0600B4C8;
@@ -51,22 +51,22 @@ const ActorInit En_fHG_InitVars = {
     (ActorFunc)EnfHG_Draw,
 };
 
-EnfHGPainting D_80B65190[] = { { { 0.0f, 60.0f, -315.0f }, 0x0000 },   { { -260.0f, 60.0f, -145.0f }, 0x2AAA },
+EnfHGPainting sPaintings[6] = { { { 0.0f, 60.0f, -315.0f }, 0x0000 },   { { -260.0f, 60.0f, -145.0f }, 0x2AAA },
                                { { -260.0f, 60.0f, 165.0f }, 0x5554 }, { { 0.0f, 60.0f, 315.0f }, 0x7FFE },
                                { { 260.0f, 60.0f, 155.0f }, 0xAAA8 },  { { 260.0f, 60.0f, -155.0f }, 0xD552 } };
 
-InitChainEntry D_80B651F0[] = {
+InitChainEntry sInitChain[2] = {
     ICHAIN_S8(naviEnemyId, 26, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
 };
 
-Vec3f D_80B651F8 = { 0.0f, 0.0f, 50.0f };
+Vec3f sAudioVec = { 0.0f, 0.0f, 50.0f };
 
 void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnfHG* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80B651F0);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Flags_SetSwitch(globalCtx, 0x14);
     Actor_SetScale(&this->actor, 0.011499999f);
     this->actor.gravity = -3.5f;
@@ -77,9 +77,9 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     func_800A663C(globalCtx, &this->skin, &D_0600B098, &D_0600B4C8);
 
     if (this->actor.params >= 0xA) {
-        func_80B63D84(this, globalCtx, this->actor.params - 0xA);
+        EnfHG_SetupApproach(this, globalCtx, this->actor.params - 0xA);
     } else {
-        func_80B62B04(this, globalCtx);
+        EnfHG_SetupIntro(this, globalCtx);
     }
 }
 
@@ -92,13 +92,13 @@ void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("F DT2\n");
 }
 
-void func_80B62B04(EnfHG* this, GlobalContext* globalCtx) {
+void EnfHG_SetupIntro(EnfHG* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skin.skelAnime, &D_0600E8A0);
-    this->actionFunc = func_80B62B6C;
+    this->actionFunc = EnfHG_Intro;
     VEC_SET(this->actor.posRot.pos, 14.0f, -300.0f, -3315.0f);
 }
 
-void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
+void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
     s32 pad64;
     Player* player = PLAYER;
     BossGanondrof* bossPG = BOSSPG;
@@ -106,20 +106,20 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
     s32 pad54;
     Camera* camera;
 
-    if (this->unk_1CA != 9) {
+    if (this->cutsceneState != 9) {
         SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
     }
-    switch (this->unk_1CA) {
+    switch (this->cutsceneState) {
         case 0:
             if ((fabsf(player->actor.posRot.pos.x - 14.0f) < 150.0f) &&
                 (fabsf(player->actor.posRot.pos.z - -3315.0f) < 150.0f)) {
-                this->unk_1CA = 15;
+                this->cutsceneState = 15;
             }
             break;
         case 15:
             if ((fabsf(player->actor.posRot.pos.x - 14.0f) < 100.0f) &&
                 (fabsf(player->actor.posRot.pos.z - -3000.0f) < 100.0f)) {
-                this->unk_1CA = 1;
+                this->cutsceneState = 1;
                 if (gSaveContext.eventChkInf[7] & 4) {
                     this->timers[0] = 57;
                 }
@@ -128,7 +128,7 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
         case 1:
             if (gSaveContext.eventChkInf[7] & 4) {
                 if (this->timers[0] == 55) {
-                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x2E, 14.0f, -130.0f, -3007.0f, 0,
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 14.0f, -130.0f, -3007.0f, 0,
                                        0, 0, 0x100);
                 }
                 if (this->timers[0] == 51) {
@@ -136,17 +136,17 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
                     Audio_SetBGM(0x1B);
                 }
                 if (this->timers[0] == 0) {
-                    func_80B63D84(this, globalCtx, Math_Rand_ZeroOne() * 5.99f);
-                    this->unk_14C = 0xFF;
+                    EnfHG_SetupApproach(this, globalCtx, Math_Rand_ZeroOne() * 5.99f);
+                    this->unk_14C = 255;
                 }
                 break;
             }
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->unk_1CC = Gameplay_CreateSubCamera(globalCtx);
+            this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, this->unk_1CC, 7);
-            this->unk_1CA = 2;
+            Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
+            this->cutsceneState = 2;
             this->timers[0] = 60;
             this->actor.posRot.pos.y = -40.0f;
             Audio_SetBGM(0x100100FF);
@@ -156,9 +156,9 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
             VEC_SET(player->actor.posRot.pos, 14.0f, -26.0f, -3160.0f);
             player->actor.posRot.rot.y = player->actor.shape.rot.y = 0;
             player->actor.speedXZ = 0.0f;
-            VEC_SET(this->unk_150, 14.0f, 4.0f, -3145.0f);
-            this->unk_15C.x = this->unk_15C.y = 14.0f;
-            this->unk_15C.z = -3000.0f;
+            VEC_SET(this->cameraEye, 14.0f, 4.0f, -3145.0f);
+            this->cameraAt.x = this->cameraAt.y = 14.0f;
+            this->cameraAt.z = -3000.0f;
             if (this->timers[0] == 25) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x2E, 14.0f, -130.0f, -3007.0f, 0, 0,
                                    0, 0x100);
@@ -167,8 +167,8 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(this->actor.child, 0x283C);
             }
             if (this->timers[0] == 0) {
-                this->unk_1CA = 3;
-                this->timers[0] = 0x50;
+                this->cutsceneState = 3;
+                this->timers[0] = 80;
             }
             break;
         case 3:
@@ -181,55 +181,55 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 1) {
                 Audio_SetBGM(0x23);
             }
-            Math_SmoothScaleMaxF(&this->unk_150.x, 54.0f, 0.05f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_150.y, 4.0f, 0.05f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_150.z, -3235.0f, 0.05f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.x, -86.0f, 0.05f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.y, 14.0f, 0.05f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.z, -2980.0f, 0.05f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_1A8, 1.0f, 1.0f, 0.01f);
+            Math_SmoothScaleMaxF(&this->cameraEye.x, 54.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraEye.y, 4.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, -3235.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.x, -86.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, 14.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.z, -2980.0f, 0.05f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.01f);
             if (this->timers[0] == 0) {
-                this->unk_1CA = 4;
+                this->cutsceneState = 4;
                 this->timers[0] = 50;
-                this->unk_1A8 = 0.0f;
+                this->cameraSpeedMod = 0.0f;
             }
             break;
         case 4:
-            Math_SmoothScaleMaxF(&this->unk_150.x, 84.0f, 0.1f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_150.y, -26.0f, 0.1f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_150.z, -3115.0f, 0.1f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.x, -136.0f, 0.1f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.y, 74.0f, 0.1f, this->unk_1A8 * 20.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.z, -3380.0f, 0.1f, this->unk_1A8 * 40.0f);
-            Math_SmoothScaleMaxF(&this->unk_1A8, 1.0f, 1.0f, 0.05f);
+            Math_SmoothScaleMaxF(&this->cameraEye.x, 84.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, -3115.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.x, -136.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, 74.0f, 0.1f, this->cameraSpeedMod * 20.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.z, -3380.0f, 0.1f, this->cameraSpeedMod * 40.0f);
+            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 5) {
                 Audio_PlayActorSound2(&this->actor, 0x282C);
             }
             if (this->timers[0] == 0) {
-                this->unk_1CA = 5;
+                this->cutsceneState = 5;
                 this->timers[0] = 50;
-                this->unk_1A8 = 0.0f;
+                this->cameraSpeedMod = 0.0f;
             }
             break;
         case 5:
-            this->unk_1CA = 6;
-            VEC_SET(this->unk_150, 64.0f, -16.0f, -3205.0f);
-            VEC_SET(this->unk_15C, -136.0f, 174.0f, -3470.0f);
-            this->unk_168.x = fabsf(this->unk_150.x - 34.0f);
-            this->unk_168.y = fabsf(this->unk_150.y - 69.0f);
-            this->unk_168.z = fabsf(this->unk_150.z - -3290.0f);
-            this->unk_174.x = fabsf(this->unk_15C.x - -136.0f);
-            this->unk_174.y = fabsf(this->unk_15C.y - 164.0f);
-            this->unk_174.z = fabsf(this->unk_15C.z - -3380.0f);
+            this->cutsceneState = 6;
+            VEC_SET(this->cameraEye, 64.0f, -16.0f, -3205.0f);
+            VEC_SET(this->cameraAt, -136.0f, 174.0f, -3470.0f);
+            this->cameraEyeVel.x = fabsf(this->cameraEye.x - 34.0f);
+            this->cameraEyeVel.y = fabsf(this->cameraEye.y - 69.0f);
+            this->cameraEyeVel.z = fabsf(this->cameraEye.z - -3290.0f);
+            this->cameraAtVel.x = fabsf(this->cameraAt.x - -136.0f);
+            this->cameraAtVel.y = fabsf(this->cameraAt.y - 164.0f);
+            this->cameraAtVel.z = fabsf(this->cameraAt.z - -3380.0f);
             this->timers[0] = 250;
         case 6:
-            Math_SmoothScaleMaxF(&this->unk_150.x, 34.0f, 0.05f, this->unk_1A8 * this->unk_168.x);
-            Math_SmoothScaleMaxF(&this->unk_150.y, 69.0f, 0.05f, this->unk_1A8 * this->unk_168.y);
-            Math_SmoothScaleMaxF(&this->unk_150.z, -3290.0f, 0.05f, this->unk_1A8 * this->unk_168.z);
-            Math_SmoothScaleMaxF(&this->unk_15C.x, -136.0f, 0.05f, this->unk_1A8 * this->unk_174.x);
-            Math_SmoothScaleMaxF(&this->unk_15C.y, 164.0f, 0.05f, this->unk_1A8 * this->unk_174.y);
-            Math_SmoothScaleMaxF(&this->unk_15C.z, -3380.0f, 0.05f, this->unk_1A8 * this->unk_174.z);
-            Math_SmoothScaleMaxF(&this->unk_1A8, 0.01f, 1.0f, 0.001f);
+            Math_SmoothScaleMaxF(&this->cameraEye.x, 34.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.x);
+            Math_SmoothScaleMaxF(&this->cameraEye.y, 69.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.y);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, -3290.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.z);
+            Math_SmoothScaleMaxF(&this->cameraAt.x, -136.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.x);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, 164.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.y);
+            Math_SmoothScaleMaxF(&this->cameraAt.z, -3380.0f, 0.05f, this->cameraSpeedMod * this->cameraAtVel.z);
+            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 0.01f, 1.0f, 0.001f);
             if ((this->timers[0] == 245) || (this->timers[0] == 3)) {
                 SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_0600DDB8, -8.0f);
                 this->unk_14C = 2;
@@ -238,50 +238,50 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
                     Audio_PlayActorSound2(&this->actor, 0x38B2);
                 }
             }
-            if (this->timers[0] == 0xC0) {
+            if (this->timers[0] == 192) {
                 Audio_PlayActorSound2(&this->actor, 0x282C);
             }
-            if (this->timers[0] == 0xD4) {
+            if (this->timers[0] == 212) {
                 Audio_PlayActorSound2(&this->actor, 0x282B);
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600E8A0, 0.3f, 0.0f, 5.0f, 1, -10.0f);
             }
-            if (this->timers[0] == 0x5A) {
+            if (this->timers[0] == 90) {
                 globalCtx->envCtx.unk_BF = 2;
                 globalCtx->envCtx.unk_D6 = 0x14;
             }
-            if (this->timers[0] == 0x64) {
+            if (this->timers[0] == 100) {
                 this->unk_14C = 3;
             }
-            if (this->timers[0] == 0x3C) {
+            if (this->timers[0] == 60) {
                 this->unk_14C = 5;
             }
-            if (this->timers[0] == 0x82) {
+            if (this->timers[0] == 130) {
                 Audio_SetBGM(0x105000FF);
             }
-            if (this->timers[0] == 0x1E) {
+            if (this->timers[0] == 30) {
                 bossPG->unk_1AA = 2;
             }
-            if (this->timers[0] == 0x23) {
-                func_80078914(&D_80B651F8, 0x38AB);
+            if (this->timers[0] == 35) {
+                func_80078914(&sAudioVec, 0x38AB);
             }
-            if (this->timers[0] == 0x82) {
+            if (this->timers[0] == 130) {
                 bossPG->unk_1AA = 1;
-                func_80078914(&D_80B651F8, 0x39D6);
+                func_80078914(&sAudioVec, 0x39D6);
             }
-            if (this->timers[0] == 0x14) {
+            if (this->timers[0] == 20) {
                 Audio_SetBGM(0x1B);
             }
             if (this->timers[0] == 2) {
-                this->unk_1A8 = 0.0f;
-                this->unk_1CA = 7;
-                this->unk_168.x = fabsf(this->unk_150.x - 194.0f);
-                this->unk_168.y = fabsf(this->unk_150.y - -26.0f);
-                this->unk_168.z = fabsf(this->unk_150.z - -3175.0f);
-                this->timers[0] = 0x64;
-                this->timers[1] = 0x22;
-                this->unk_174.x = fabsf(this->unk_15C.x - this->actor.posRot.pos.x);
-                this->unk_174.y = fabsf(this->unk_15C.y - ((this->actor.posRot.pos.y + 70.0f) - 20.0f));
-                this->unk_174.z = fabsf(this->unk_15C.z - this->actor.posRot.pos.z);
+                this->cameraSpeedMod = 0.0f;
+                this->cutsceneState = 7;
+                this->cameraEyeVel.x = fabsf(this->cameraEye.x - 194.0f);
+                this->cameraEyeVel.y = fabsf(this->cameraEye.y - -26.0f);
+                this->cameraEyeVel.z = fabsf(this->cameraEye.z - -3175.0f);
+                this->timers[0] = 100;
+                this->timers[1] = 34;
+                this->cameraAtVel.x = fabsf(this->cameraAt.x - this->actor.posRot.pos.x);
+                this->cameraAtVel.y = fabsf(this->cameraAt.y - ((this->actor.posRot.pos.y + 70.0f) - 20.0f));
+                this->cameraAtVel.z = fabsf(this->cameraAt.z - this->actor.posRot.pos.z);
             }
             break;
         case 7:
@@ -289,29 +289,29 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600E8A0, 0.5f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600E8A0.genericHeader), 1, -3.0f);
             }
-            Math_SmoothScaleMaxF(&this->unk_150.x, 194.0f, 0.1f, this->unk_1A8 * this->unk_168.x);
-            Math_SmoothScaleMaxF(&this->unk_150.y, -26.0f, 0.1f, this->unk_1A8 * this->unk_168.y);
-            Math_SmoothScaleMaxF(&this->unk_150.z, this->unk_1AC + -3175.0f, 0.1f, this->unk_1A8 * this->unk_168.z);
-            Math_SmoothScaleMaxF(&this->unk_1AC, -100.0f, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.x, this->actor.posRot.pos.x, 0.1f, this->unk_1A8 * 10.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
-                                 this->unk_1A8 * 10.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.z, this->actor.posRot.pos.z, 0.1f, this->unk_1A8 * 10.0f);
+            Math_SmoothScaleMaxF(&this->cameraEye.x, 194.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.x);
+            Math_SmoothScaleMaxF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.y);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraPanZ + -3175.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.z);
+            Math_SmoothScaleMaxF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.1f, this->cameraSpeedMod * 10.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
+                                 this->cameraSpeedMod * 10.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.1f, this->cameraSpeedMod * 10.0f);
             Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 2.0f);
             this->actor.posRot.pos.y += 2.0f * Math_Sins(this->unk_1C0 * 0x5DC);
-            Math_SmoothScaleMaxF(&this->unk_1A8, 1.0f, 1.0f, 0.05f);
-            if (this->timers[0] == 0x4B) {
+            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
+            if (this->timers[0] == 75) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&D_060059A0),
                                        0xA0, 0xB4, 0x80, 0x28);
             }
             if (this->timers[0] == 0) {
-                this->unk_1CA = 8;
-                this->timers[0] = 0xC8;
-                this->timers[1] = 0x17;
-                this->unk_1A8 = 0.0f;
+                this->cutsceneState = 8;
+                this->timers[0] = 200;
+                this->timers[1] = 23;
+                this->cameraSpeedMod = 0.0f;
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600C65C, 1.0f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600C65C.genericHeader), 3, -4.0f);
-                this->unk_14C = 0xA;
+                this->unk_14C = 10;
                 Audio_PlayActorSound2(&this->actor, 0x38B2);
                 Audio_PlayActorSound2(&this->actor, 0x283D);
             }
@@ -320,78 +320,83 @@ void func_80B62B6C(EnfHG* this, GlobalContext* globalCtx) {
             if (this->timers[1] == 1) {
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600CB1C, 0.5f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600CB1C.genericHeader), 3, -3.0f);
-                this->unk_14C = 0xB;
+                this->unk_14C = 11;
             }
-            if (this->timers[0] == 0xAA) {
+            if (this->timers[0] == 170) {
                 func_8002DF54(globalCtx, &this->actor, 8);
                 Audio_PlayActorSound2(&this->actor, 0x38A6);
             }
-            Math_SmoothScaleMaxF(&this->unk_150.z, this->unk_1AC + -3215.0f, 0.1f, this->unk_1A8 * 1.5f);
-            Math_SmoothScaleMaxF(&this->unk_1AC, -100.0f, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, -2915.5f, 1.0f, this->unk_1A8 * 10.0f);
-            Math_SmoothScaleMaxF(&this->unk_1A8, 1.0f, 1.0f, 0.05f);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
+            Math_SmoothScaleMaxF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
+            Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, -2915.5f, 1.0f, this->cameraSpeedMod * 10.0f);
+            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if ((fabsf(this->actor.posRot.pos.z - -2915.5f) < 300.0f) && (this->unk_1C8 == 0)) {
                 this->unk_1C8 = 1;
-                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x6D, 14.0f,
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, 14.0f,
                                    this->actor.posRot.pos.y + 50.0f, -2915.5f, 0, this->actor.shape.rot.y, 0, 0x28);
-                this->unk_14F = 1;
+                this->unk_14F = true;
             }
-            Math_SmoothScaleMaxF(&this->unk_15C.x, this->actor.posRot.pos.x, 0.2f, 50.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.z, this->actor.posRot.pos.z, 0.2f, 50.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.2f, 50.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.2f, 50.0f);
             osSyncPrintf("TIME %d-------------------------------------------------\n", this->timers[0]);
             if (fabsf(this->actor.posRot.pos.z - -2915.5f) < 1.0f) {
                 globalCtx->envCtx.unk_BF = 0;
                 globalCtx->envCtx.unk_D6 = 0x14;
-                this->unk_1CA = 9;
+                this->cutsceneState = 9;
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, -3.0f);
-                this->unk_14C = 0xFF;
-                this->timers[1] = 0x4B;
-                this->timers[0] = 0x8C;
+                this->unk_14C = 255;
+                this->timers[1] = 75;
+                this->timers[0] = 140;
             }
             break;
         case 9:
-            func_80B64AA8(this, globalCtx);
-            Math_SmoothScaleMaxF(&this->unk_150.z, this->unk_1AC + -3215.0f, 0.1f, this->unk_1A8 * 1.5f);
-            Math_SmoothScaleMaxF(&this->unk_1AC, -100.0f, 0.1f, 1.0f);
-            Math_SmoothScaleMaxF(&this->unk_15C.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
-                                 this->unk_1A8 * 10.0f);
+            EnfHG_EnterPainting(this, globalCtx);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
+            Math_SmoothScaleMaxF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
+                                 this->cameraSpeedMod * 10.0f);
             if (this->timers[1] == 0) {
                 camera = Gameplay_GetCamera(globalCtx, 0);
-                camera->eye = this->unk_150;
-                camera->eyeNext = this->unk_150;
-                camera->at = this->unk_15C;
-                func_800C08AC(globalCtx, this->unk_1CC, 0);
-                this->unk_1CC = 0;
+                camera->eye = this->cameraEye;
+                camera->eyeNext = this->cameraEye;
+                camera->at = this->cameraAt;
+                func_800C08AC(globalCtx, this->cutsceneCamera, 0);
+                this->cutsceneCamera = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
-                this->actionFunc = func_80B64AA8;
+                this->actionFunc = EnfHG_EnterPainting;
             }
             break;
     }
-    if (this->unk_1CC != 0) {
-        func_800C04D8(globalCtx, this->unk_1CC, &this->unk_15C, &this->unk_150);
+    if (this->cutsceneCamera != 0) {
+        func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
 }
 
-void func_80B63D84(EnfHG* this, GlobalContext* globalCtx, s16 arg2) {
-    s16 D_80B65204[] = { 3, 4, 5, 0, 1, 2 };
+void EnfHG_SetupApproach(EnfHG* this, GlobalContext* globalCtx, s16 paintingIndex) {
+    s16 oppositeIndex[6] = { 3, 4, 5, 0, 1, 2 };
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, 0.0f);
-    this->actionFunc = func_80B6404C;
-    this->unk_1C2 = arg2;
-    this->unk_1C4 = D_80B65204[this->unk_1C2];
-    osSyncPrintf("KABE NO 1 = %d\n", this->unk_1C2);
-    osSyncPrintf("KABE NO 2 = %d\n", this->unk_1C4);
-    this->actor.posRot.pos.x = (1.3f * D_80B65190[this->unk_1C2].pos.x) + 10.0f;
-    this->actor.posRot.pos.y = D_80B65190[this->unk_1C2].pos.y + 120.0f;
-    this->actor.posRot.pos.z = (1.3f * D_80B65190[this->unk_1C2].pos.z) - 3325.0f;
-    this->actor.posRot.rot.y = D_80B65190[this->unk_1C2].yRot;
+    this->actionFunc = EnfHG_Approach;
+    this->curPainting = paintingIndex;
+    this->targetPainting = oppositeIndex[this->curPainting];
+    
+    osSyncPrintf("KABE NO 1 = %d\n", this->curPainting);
+    osSyncPrintf("KABE NO 2 = %d\n", this->targetPainting);
+    
+    this->actor.posRot.pos.x = (1.3f * sPaintings[this->curPainting].pos.x) + 10.0f;
+    this->actor.posRot.pos.y = sPaintings[this->curPainting].pos.y + 120.0f;
+    this->actor.posRot.pos.z = (1.3f * sPaintings[this->curPainting].pos.z) - 3325.0f;
+    this->actor.posRot.rot.y = sPaintings[this->curPainting].yRot;
+    
     osSyncPrintf("XP1  = %f\n", this->actor.posRot.pos.x);
     osSyncPrintf("ZP1  = %f\n", this->actor.posRot.pos.z);
-    this->unk_18C.x = (D_80B65190[this->unk_1C4].pos.x * 1.3f) + 10.0f;
-    this->unk_18C.y = D_80B65190[this->unk_1C4].pos.y;
-    this->unk_18C.z = (D_80B65190[this->unk_1C4].pos.z * 1.3f) - 3325.0f;
+    
+    this->unk_18C.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + 10.0f;
+    this->unk_18C.y = sPaintings[this->targetPainting].pos.y;
+    this->unk_18C.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - 3325.0f;
     this->unk_198 = (fabsf(this->unk_18C.x - this->actor.posRot.pos.x) * 2) * 0.01f;
+    
     if (this->unk_198 < 1.0f) {
         this->unk_198 = 1.0f;
     }
@@ -399,6 +404,7 @@ void func_80B63D84(EnfHG* this, GlobalContext* globalCtx, s16 arg2) {
     if (this->unk_19C < 1.0f) {
         this->unk_19C = 1.0f;
     }
+    
     this->timers[0] = 100;
     this->actor.scale.x = 0.002f;
     this->actor.scale.y = 0.002f;
@@ -415,7 +421,7 @@ void func_80B63D84(EnfHG* this, GlobalContext* globalCtx, s16 arg2) {
     this->unk_1C8 = 0;
 }
 
-void func_80B6404C(EnfHG* this, GlobalContext* globalCtx) {
+void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
     osSyncPrintf("STANDBY !!\n");
     osSyncPrintf("XP2  = %f\n", this->actor.posRot.pos.x);
     osSyncPrintf("ZP2  = %f\n", this->actor.posRot.pos.z);
@@ -436,28 +442,28 @@ void func_80B6404C(EnfHG* this, GlobalContext* globalCtx) {
         osSyncPrintf("arg_data ------------------------------------>%d\n", this->actor.params);
         if (this->actor.params != 1) {
             this->timers[0] = 140;
-            this->actionFunc = func_80B64AA8;
+            this->actionFunc = EnfHG_EnterPainting;
             SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, 0.0f);
             this->unk_1C6 = -0x8000;
         } else {
-            this->actionFunc = func_80B6424C;
+            this->actionFunc = EnfHG_ExitPainting;
             Audio_PlayActorSound2(&this->actor, 0x283D);
             this->timers[0] = 40;
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x6D, this->actor.posRot.pos.x,
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->actor.posRot.pos.x,
                                this->actor.posRot.pos.y + 50.0f, this->actor.posRot.pos.z, 0,
                                this->actor.shape.rot.y + 0x8000, 0, 0x27);
-            this->unk_14F = 0;
+            this->unk_14F = false;
         }
     }
 }
 
-void func_80B6424C(EnfHG* this, GlobalContext* globalCtx) {
+void EnfHG_ExitPainting(EnfHG* this, GlobalContext* globalCtx) {
     f32 sp54;
     f32 sp50;
     f32 sp4C;
 
     osSyncPrintf("KABE OUT !!\n");
-    this->unk_14D = 0;
+    this->unk_14D = false;
     SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
     if (this->timers[0] != 0) {
         Math_SmoothScaleMaxF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.0002f);
@@ -479,9 +485,9 @@ void func_80B6424C(EnfHG* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, 0x38A6);
             Audio_PlayActorSound2(&this->actor, 0x38B2);
         }
-        if (this->unk_1DE == 0) {
+        if (this->hitTimer == 0) {
             if (this->timers[1] == 24) {
-                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x6D, this->actor.posRot.pos.x,
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->actor.posRot.pos.x,
                                    (this->actor.posRot.pos.y + 100.0f) + 25.0f, this->actor.posRot.pos.z, 0, 0, 0, 1);
             }
             if (this->timers[1] == 45) {
@@ -500,8 +506,8 @@ void func_80B6424C(EnfHG* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
         Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->unk_18C.z, 1.0f, this->unk_19C);
     }
-    if (this->unk_1DE == 20) {
-        this->actionFunc = func_80B6476C;
+    if (this->hitTimer == 20) {
+        this->actionFunc = EnfHG_Damage;
         this->unk_1C8 = 0;
         SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600CB1C, -1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_0600CB1C.genericHeader), 2, -5.0f);
@@ -513,13 +519,13 @@ void func_80B6424C(EnfHG* this, GlobalContext* globalCtx) {
         sp50 = this->actor.posRot.pos.z - this->unk_18C.z;
         sp4C = sqrtf(SQ(sp54) + SQ(sp50));
         if (sp4C < 350.0f) {
-            this->unk_14D = 1;
+            this->unk_14D = true;
         }
         if ((sp4C < 300.0f) && (this->unk_1C8 == 0)) {
             this->unk_1C8 = 1;
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x6D, this->unk_18C.x,
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_18C.x,
                                this->actor.posRot.pos.y + 50.0f, this->unk_18C.z, 0, this->actor.shape.rot.y, 0, 0x28);
-            this->unk_14F = 1;
+            this->unk_14F = true;
         }
         osSyncPrintf("SPD X %f\n", this->unk_198);
         osSyncPrintf("SPD Z %f\n", this->unk_19C);
@@ -527,14 +533,14 @@ void func_80B6424C(EnfHG* this, GlobalContext* globalCtx) {
         osSyncPrintf("Z=%f\n", sp50);
         if (sp4C == 0.0f) {
             this->timers[0] = 140;
-            this->actionFunc = func_80B64AA8;
+            this->actionFunc = EnfHG_EnterPainting;
             SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, 0.0f);
             this->unk_14C = 5;
         }
     }
 }
 
-void func_80B6476C(EnfHG* this, GlobalContext* globalCtx) {
+void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dz;
     f32 dxz2;
@@ -549,10 +555,10 @@ void func_80B6476C(EnfHG* this, GlobalContext* globalCtx) {
     if (this->timers[0] != 0) {
         Math_SmoothDownscaleMaxF(&this->unk_1A0, 1.0f, 0.1f);
         if (this->timers[0] == 1) {
-            this->unk_1C4 = this->unk_1C2;
-            this->unk_18C.x = (D_80B65190[this->unk_1C4].pos.x * 1.3f) + 10.0f;
-            this->unk_18C.y = D_80B65190[this->unk_1C4].pos.y;
-            this->unk_18C.z = (D_80B65190[this->unk_1C4].pos.z * 1.3f) - 3325.0f;
+            this->targetPainting = this->curPainting;
+            this->unk_18C.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + 10.0f;
+            this->unk_18C.y = sPaintings[this->targetPainting].pos.y;
+            this->unk_18C.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - 3325.0f;
         }
     } else {
         Math_SmoothScaleMaxF(&this->unk_1A0, 1.0f, 1.0f, 0.1f);
@@ -566,7 +572,7 @@ void func_80B6476C(EnfHG* this, GlobalContext* globalCtx) {
     if (dxz2 < 300.0f) {
         if (this->unk_1C8 == 0) {
             this->unk_1C8 = 1;
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x6D, this->unk_18C.x,
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->unk_18C.x,
                                this->actor.posRot.pos.y + 50.0f, this->unk_18C.z, 0, this->actor.shape.rot.y + 0x8000,
                                0, 0x28);
         }
@@ -574,18 +580,18 @@ void func_80B6476C(EnfHG* this, GlobalContext* globalCtx) {
     if (dxz2 == 0.0f) {
         BossGanondrof* bossPG = BOSSPG;
         this->timers[0] = 140;
-        this->actionFunc = func_80B64AA8;
+        this->actionFunc = EnfHG_EnterPainting;
         SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, 0.0f);
         if (bossPG->actor.colChkInfo.health > 24) {
             this->unk_14C = 5;
         } else {
-            bossPG->attackMode = 1;
+            bossPG->actionState = 1;
         }
         this->unk_1C6 = -0x8000;
     }
 }
 
-void func_80B64AA8(EnfHG* this, GlobalContext* globalCtx) {
+void EnfHG_EnterPainting(EnfHG* this, GlobalContext* globalCtx) {
     s16 temp_rand1;
     s16 temp_rand2;
 
@@ -612,57 +618,57 @@ void func_80B64AA8(EnfHG* this, GlobalContext* globalCtx) {
     if (this->timers[0] == 0) {
         BossGanondrof* bossPG = BOSSPG;
         if (this->actor.params != 1) {
-            this->unk_14E = 1;
+            this->unk_14E = true;
             bossPG->killActor = 1;
-        } else if (bossPG->attackMode != 0) {
-            this->actionFunc = func_80B64CF4;
+        } else if (bossPG->actionState != 0) {
+            this->actionFunc = EnfHG_Done;
             this->actor.draw = NULL;
         } else {
             temp_rand1 = Math_Rand_ZeroOne() * 5.99f;
-            func_80B63D84(this, globalCtx, temp_rand1);
+            EnfHG_SetupApproach(this, globalCtx, temp_rand1);
             do {
                 temp_rand2 = Math_Rand_ZeroOne() * 5.99f;
             } while (temp_rand2 == temp_rand1);
             osSyncPrintf("ac1 = %x `````````````````````````````````````````````````\n",
-                         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x52,
+                         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANONDROF,
                                             this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                             this->actor.posRot.pos.z, 0, 0, 0, temp_rand2 + 0xA));
         }
     }
 }
 
-void func_80B64CF4(EnfHG* this, GlobalContext* globalCtx) {
-    this->unk_14D = 0;
+void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx) {
+    this->unk_14D = false;
 }
 
 void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnfHG* this = THIS;
-    u8 iv0;
+    u8 i;
 
-    if (this->unk_14E != 0) {
+    if (this->unk_14E) {
         Actor_Kill(&this->actor);
         return;
     }
     this->unk_1C0++;
-    this->unk_14D = 1;
-    for (iv0 = 0; iv0 < 5; iv0++) {
-        DECR(this->timers[iv0]);
+    this->unk_14D = true;
+    for (i = 0; i < 5; i++) {
+        DECR(this->timers[i]);
     }
 
     this->actionFunc(this, globalCtx);
 
-    DECR(this->unk_1DE);
+    DECR(this->hitTimer);
 
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 
-    this->actor.shape.unk_08 = Math_Sins(this->unk_1DE * 0x9000) * 700.0f * (this->unk_1DE / 20.0f);
-    this->actor.shape.rot.z = (s16)(Math_Sins(this->unk_1DE * 0x7000) * 1500.0f) * (this->unk_1DE / 20.0f);
+    this->actor.shape.unk_08 = Math_Sins(this->hitTimer * 0x9000) * 700.0f * (this->hitTimer / 20.0f);
+    this->actor.shape.rot.z = (s16)(Math_Sins(this->hitTimer * 0x7000) * 1500.0f) * (this->hitTimer / 20.0f);
 }
 
-void func_80B64E94(s32 arg0, s32 arg1, s32 arg2) {
+void EnfHG_Noop(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -673,11 +679,11 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2439);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    oGfxCtx->polyOpa.p = (((bossPG->invincibilityTimer & 4) != 0) && (bossPG->attackMode == 0))
+    oGfxCtx->polyOpa.p = (((bossPG->invincibilityTimer & 4) != 0) && (bossPG->actionState == 0))
                              ? Gfx_SetFog(oGfxCtx->polyOpa.p, 0xFF, 50, 0, 0, 900, 1099)
                              : Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)this->unk_1E8, (u32)this->unk_1EC,
                                           (u32)this->unk_1F0, 0, (s32)this->unk_1F4 + 995, (s32)this->unk_1F8 + 1000);
-    func_800A6330(&this->actor, globalCtx, &this->skin, func_80B64E94, 0x23);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);
     oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);
 }

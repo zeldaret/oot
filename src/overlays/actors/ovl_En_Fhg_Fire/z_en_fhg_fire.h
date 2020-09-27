@@ -6,12 +6,14 @@
 
 struct EnFhgFire;
 
-typedef void (*EnFhgFireActionFunc)(struct EnFhgFire*, GlobalContext *globalCtx);
+typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, GlobalContext *globalCtx);
 
 typedef struct EnFhgFire {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnFhgFireActionFunc actionFunc;
-    /* 0x0150 */ Vec3s unk_150; // rotation
+    /* 0x014C */ EnFhgFireUpdateFunc updateFunc;
+    /* 0x0150 */ s16 timer1;
+    /* 0x0152 */ s16 timer2;
+    /* 0x0154 */ char unk_154[2];
     /* 0x0156 */ s16 unk_156;
     /* 0x0158 */ s16 fireMode;
     /* 0x015a */ s16 unk_15A;

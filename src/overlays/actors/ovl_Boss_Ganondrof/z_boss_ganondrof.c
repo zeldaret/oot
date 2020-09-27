@@ -84,55 +84,55 @@ static ColliderCylinderInit sCylinderInit2 = {
     { 20, 30, -20, { 0, 0, 0 } },
 };
 
-static u8 D_80914D28[] = {
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00,
-    0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01,
-    0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00,
-    0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00,
-    0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
-    0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+static u8 D_80914D28[0x100] = {
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+    0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0,
+    0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1,
+    1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0,
+    1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1,
+    1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0,
+    0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+    1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1,
+    1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
+    1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1,
 };
 
-static u8 D_80914E28[] = {
-    0x01, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
-    0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
-    0x01, 0x01, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
-    0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01,
-    0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-    0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00,
-    0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01,
+static u8 D_80914E28[0x100] = {
+    1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0,
+    0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1,
+    1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0,
+    1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+    0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+    0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1,
+    0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0,
+    0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
+    1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0,
+    0, 0, 1, 1, 1, 0, 0, 0, 1,
 };
 
-static u8 D_80914F28[] = {
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+static u8 D_80914F28[0x100] = {
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1,
 };
 
 static UNK_PTR D_80915028[] = { (UNK_PTR)0x0600A800, (UNK_PTR)0x0600AE80, (UNK_PTR)0x0600AF00, (UNK_PTR)0x0600C180,
@@ -216,10 +216,10 @@ void func_80910784(u8* arg0, s16 arg1) {
     }
 }
 
-void func_80910A34(Vec3f* arg0, ColliderCylinder* collider) {
-    collider->dim.pos.x = arg0->x;
-    collider->dim.pos.y = arg0->y;
-    collider->dim.pos.z = arg0->z;
+void BossGanondrof_SetColliderPos(Vec3f* pos, ColliderCylinder* collider) {
+    collider->dim.pos.x = pos->x;
+    collider->dim.pos.y = pos->y;
+    collider->dim.pos.z = pos->z;
 }
 
 void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -401,7 +401,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos = horse->actor.posRot.pos;
     this->actor.posRot.pos.y = horse->actor.posRot.pos.y;
     this->actor.shape.rot.y = this->actor.posRot.rot.y = horse->actor.posRot.rot.y;
-    if (this->attackMode != 0) {
+    if (this->actionState != 0) {
         BossGanondrof_SetupIdle(this, -20.0f);
         this->animationTimer[0] = 100;
         this->collider1.dim.radius = 0x14;
@@ -436,7 +436,7 @@ void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx) {
     Vec3f sp5C;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    switch (this->attackMode) {
+    switch (this->actionState) {
         case 1:
             if (this->animationTimer[0] == 0) {
                 this->animationTimer[0] = (s16)(Math_Rand_ZeroOne() * 64.0f) + 0x1E;
@@ -445,12 +445,12 @@ void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx) {
                     if (tmpf1 < 0.25f) {
                         BossGanondrof_SetupThrow(this, globalCtx);
                     } else if (tmpf1 >= 0.8f) {
-                        this->attackMode = 4;
+                        this->actionState = 4;
                         this->animationTimer[0] = 0x3C;
                         this->unk_1CC = 0.0f;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
                     } else {
-                        this->attackMode = 2;
+                        this->actionState = 2;
                         this->animationTimer[0] = 0x3C;
                         this->unk_1CC = 0.0f;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
@@ -458,7 +458,7 @@ void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx) {
                 } else if ((tmpf1 < 0.5f) || (this->throwCount < 5)) {
                     BossGanondrof_SetupThrow(this, globalCtx);
                 } else {
-                    this->attackMode = 2;
+                    this->actionState = 2;
                     this->animationTimer[0] = 0x3C;
                     this->unk_1CC = 0.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
@@ -489,7 +489,7 @@ void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx) {
             sp7C.x = -3050.0f;
             sp7C.x += (Math_Coss(this->floatAndParticleTimer * 1792) * 100.0f);
             if (this->animationTimer[0] == 0) {
-                this->attackMode = 3;
+                this->actionState = 3;
                 this->returnSuccess = 0;
                 BossGanondrof_SetupThrow(this, globalCtx);
                 this->animationTimer[0] = 80;
@@ -509,7 +509,7 @@ void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx) {
             }
 
             if (this->animationTimer[0] == 0) {
-                this->attackMode = 1;
+                this->actionState = 1;
             }
             break;
 
@@ -567,7 +567,7 @@ void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600EC94, -5.0f);
     this->actionFunc = BossGanondrof_Throw;
     // Here Phantom Ganon decides whether to throw a normal ball or a slow one
-    if ((Math_Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->attackMode == 1)) {
+    if ((Math_Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->actionState == 1)) {
         this->slowPitch = 1;
         this->unk_1A4 = 0x3E8;
         tmpf1 = 0x20;
@@ -603,7 +603,7 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     if (func_800A56C8(&this->skelAnime, this->unk_1A4) != 0) {
-        if (this->attackMode < 2) {
+        if (this->actionState < 2) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
         } else {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
@@ -707,7 +707,7 @@ void BossGanondrof_Vulnerable(BossGanondrof* this, GlobalContext* globalCtx) {
         BossGanondrof_SetupIdle(this, -5.0f);
         this->animationTimer[0] = 30;
         this->animationTimer[2] = 30;
-        this->attackMode = 1;
+        this->actionState = 1;
         this->actor.velocity.y = 0.0f;
         this->actor.gravity = 0.0f;
     }
@@ -737,7 +737,7 @@ void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
     if (this->animationTimer[0] == 0) {
         BossGanondrof_SetupIdle(this, -5.0f);
         this->animationTimer[0] = 10;
-        this->attackMode = 1;
+        this->actionState = 1;
     }
 }
 
@@ -844,7 +844,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 if ((this->actor.speedXZ <= 0.5f) && (fabsf(this->actor.velocity.y) <= 0.1f)) {
                     BossGanondrof_SetupIdle(this, -10.0f);
                     this->animationTimer[0] = 30;
-                    this->attackMode = 1;
+                    this->actionState = 1;
                 }
             }
             break;
@@ -1196,7 +1196,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
                 this->collider1.base.acFlags &= ~2;
                 hurtbox = this->collider1.body.acHitItem;
             }
-            if (this->attackMode != 0) {
+            if (this->actionState != 0) {
                 if (acFlagCheck && (this->actionFunc != BossGanondrof_Vulnerable) &&
                     (hurtbox->toucher.flags & 0x1F8A4)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
@@ -1227,7 +1227,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
                         this->animationTimer[0] = 120;
                     }
                     this->invincibilityTimer = 10;
-                    horse->unk_1DE = 20;
+                    horse->hitTimer = 20;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DAMAGE);
                 } else {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
@@ -1235,7 +1235,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
             } else if (acFlagCheck && (hurtbox->toucher.flags & 0x1F8A4)) {
                 this->invincibilityTimer = 10;
                 this->actor.colChkInfo.health -= 2;
-                horse->unk_1DE = 20;
+                horse->hitTimer = 20;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DAMAGE);
             }
             this->volleyCount = 0;
@@ -1287,9 +1287,9 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     osSyncPrintf("MOVE END\n");
-    func_80910A34(&this->unk_20C[0], &this->collider1);
-    func_80910A34(&this->unk_200, &this->collider2);
-    if (!this->attackMode && !horse->unk_14D) {
+    BossGanondrof_SetColliderPos(&this->unk_20C[0], &this->collider1);
+    BossGanondrof_SetColliderPos(&this->unk_200, &this->collider2);
+    if (!this->actionState && !horse->unk_14D) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
     }
 
@@ -1311,7 +1311,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     sp68 = ((-sp70 * this->actor.velocity.x) + (sp74 * this->actor.velocity.z)) * 300.0f;
     Math_SmoothScaleMaxF(&this->unk_3C8, sp6C, 1.0f, 600.0f);
     Math_SmoothScaleMaxF(&this->unk_3CC, sp68, 1.0f, 600.0f);
-    if ((this->attackMode != 0) && (this->actionFunc != BossGanondrof_Vulnerable) && (this->unk_35E == 0)) {
+    if ((this->actionState != 0) && (this->actionFunc != BossGanondrof_Vulnerable) && (this->unk_35E == 0)) {
         tmpf1 = (Math_Sins(this->floatAndParticleTimer * 2268) * -500.0f) - 500.0f;
     } else {
         tmpf1 = 0.0f;
@@ -1417,7 +1417,7 @@ void BossGanondrof_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         Matrix_MultVec3f(&D_8091512C, &this->unk_200);
     }
 
-    if (((this->attackMode != 0) || (this->actionFunc == BossGanondrof_Intro)) && (limbIndex < 26)) {
+    if (((this->actionState != 0) || (this->actionFunc == BossGanondrof_Intro)) && (limbIndex < 26)) {
         Matrix_MultVec3f(&D_80915120, &this->unk_20C[limbIndex]);
     }
 }
@@ -1447,15 +1447,15 @@ Gfx* func_80914818(GraphicsContext* gfxCtx) {
 }
 
 void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanondrof* this = THIS;
     s32 pad;
+    BossGanondrof* this = THIS;
     EnfHG* horse;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3716);
     osSyncPrintf("MOVE P = %x\n", this->actor.update);
     osSyncPrintf("STOP TIMER = %d ==============\n", this->actor.freezeTimer);
     horse = (EnfHG*)this->actor.child;
-    if (this->attackMode == 0) {
+    if (this->actionState == 0) {
         Matrix_RotateY((horse->unk_1E0 * 3.1416f) / 32768.0f, 1);
     }
 

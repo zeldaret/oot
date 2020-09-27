@@ -33,7 +33,7 @@ typedef struct BossGanondrof {
     /* 0x01C6 */ u8 killActor;
     /* 0x01C7 */ u8 volleyCount;
     /* 0x01C8 */ u8 electricityTimer;
-    /* 0x01C9 */ u8 attackMode;
+    /* 0x01C9 */ u8 actionState;
     /* 0x01CA */ u8 returnSuccess;  //Set by fhg_Fire
     /* 0x01CC */ f32 unk_1CC; //Indirectly controls his erratic floating.
     /* 0x01D0 */ f32 unk_1D0;
