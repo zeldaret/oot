@@ -31,7 +31,7 @@ glabel D_8094B160
     .float 1.57079637051
 
 .text
-glabel BossTw_SpawnPortalsDraw
+glabel func_809447BC
 /* 0BAEC 809447BC 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0BAF0 809447C0 AFBF003C */  sw      $ra, 0x003C($sp)           
 /* 0BAF4 809447C4 AFB00038 */  sw      $s0, 0x0038($sp)           

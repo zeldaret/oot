@@ -143,7 +143,7 @@ void func_800BC88C(GlobalContext* globalCtx) {
 }
 
 Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
-    Gfx_SetFog2(gfx, globalCtx->lightCtx.fogRed, globalCtx->lightCtx.fogGreen, globalCtx->lightCtx.fogBlue, 0,
+    Gfx_SetFog2(gfx, globalCtx->lightCtx.ambient.r, globalCtx->lightCtx.ambient.g, globalCtx->lightCtx.ambient.b, 0,
                 globalCtx->lightCtx.unk_0A, 1000);
 }
 
