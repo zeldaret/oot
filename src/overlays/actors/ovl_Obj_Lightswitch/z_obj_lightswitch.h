@@ -8,12 +8,12 @@ struct ObjLightswitch;
 
 typedef void (*ObjLightswitchActionFunc)(struct ObjLightswitch*, GlobalContext*);
 
-enum ObjLightswitch_Type {
-    OBJLIGHTSWITCH_TYPE_STAY_ON, // doesn't turn off unless the switch flag is cleared some other way
-    OBJLIGHTSWITCH_TYPE_1,       // turns on and off
-    OBJLIGHTSWITCH_TYPE_2,       // turns on and off
-    OBJLIGHTSWITCH_TYPE_BURN     // disappears when turned on
-};
+typedef enum {
+    /* 0 */ OBJLIGHTSWITCH_TYPE_STAY_ON, // doesn't turn off unless the switch flag is cleared some other way
+    /* 1 */ OBJLIGHTSWITCH_TYPE_1,       // turns on and off
+    /* 2 */ OBJLIGHTSWITCH_TYPE_2,       // turns on and off
+    /* 3 */ OBJLIGHTSWITCH_TYPE_BURN     // disappears when turned on
+} ObjLightswitch_Type;
 
 typedef struct ObjLightswitch {
     /* 0x0000 */ Actor actor;
