@@ -91,7 +91,7 @@ glabel BossGoma_Init
 /* 00384 80915D94 AFA00028 */  sw      $zero, 0x0028($sp)
 /* 00388 80915D98 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 0038C 80915D9C E7A00018 */  swc1    $f0, 0x0018($sp)
-/* 00390 80915DA0 0C00C916 */  jal     Actor_SpawnAttached
+/* 00390 80915DA0 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00394 80915DA4 E7B00014 */  swc1    $f16, 0x0014($sp)
 /* 00398 80915DA8 3C01C420 */  lui     $at, 0xC420                ## $at = C4200000

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808F7E58
+    .float 0.6
+
+.text
 glabel func_808D6F3C
 /* 006CC 808D6F3C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 006D0 808D6F40 3C020001 */  lui     $v0, 0x0001                ## $v0 = 00010000

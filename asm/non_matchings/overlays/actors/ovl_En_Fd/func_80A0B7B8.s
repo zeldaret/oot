@@ -60,7 +60,7 @@ glabel func_80A0B7B8
 /* 001C8 80A0B888 03281021 */  addu    $v0, $t9, $t0              
 /* 001CC 80A0B88C 00021400 */  sll     $v0, $v0, 16               
 /* 001D0 80A0B890 00021403 */  sra     $v0, $v0, 16               
-/* 001D4 80A0B894 0C00C916 */  jal     Actor_SpawnAttached
+/* 001D4 80A0B894 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 001D8 80A0B898 AFA20020 */  sw      $v0, 0x0020($sp)           
 /* 001DC 80A0B89C 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001

@@ -90,14 +90,15 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         (this->collider.base.acFlags & 2) || (this->collider.base.maskA & 2)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
-        if ((player->currentShield == 1) || ((player->currentShield == 2) && LINK_IS_ADULT)) {
+        if ((player->currentShield == PLAYER_SHIELD_DEKU) ||
+            ((player->currentShield == PLAYER_SHIELD_HYLIAN) && LINK_IS_ADULT)) {
             if ((this->collider.base.atFlags & 2) && (this->collider.base.atFlags & 0x10) &&
                 (this->collider.base.atFlags & 4)) {
                 this->collider.base.atFlags &= ~0x16;
                 this->collider.base.atFlags |= 0x08;
 
                 this->collider.body.toucher.flags = 2;
-                func_800D20CC(&player->mf_A20, &sp4C, 0);
+                func_800D20CC(&player->shieldMf, &sp4C, 0);
                 this->actor.posRot.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;
                 return;
@@ -139,17 +140,16 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 327);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 327);
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateZ(thisx->initPosRot.rot.z * 9.58738e-05f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, sDLists[thisx->params]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists[thisx->params]);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
 }

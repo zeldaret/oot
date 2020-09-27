@@ -627,7 +627,7 @@ glabel func_8002FBAC
 /* AA75E8 80030448 AFAA0014 */  sw    $t2, 0x14($sp)
 /* AA75EC 8003044C AFAE0010 */  sw    $t6, 0x10($sp)
 /* AA75F0 80030450 2484BC00 */  addiu $a0, %lo(D_8015BC00) # addiu $a0, $a0, -0x4400
-/* AA75F4 80030454 0C01E763 */  jal   Lights_InitType0PositionalLight
+/* AA75F4 80030454 0C01E763 */  jal   Lights_PointNoGlowSetInfo
 /* AA75F8 80030458 AFAD001C */   sw    $t5, 0x1c($sp)
 /* AA75FC 8003045C 8FAF00F8 */  lw    $t7, 0xf8($sp)
 /* AA7600 80030460 3C068013 */  lui   $a2, %hi(D_80136304) # $a2, 0x8013

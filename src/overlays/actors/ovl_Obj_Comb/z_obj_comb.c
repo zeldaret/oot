@@ -186,12 +186,9 @@ void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
     func_80093D18(globalCtx->state.gfxCtx);
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (118.0f * this->actor.scale.y),
@@ -202,11 +199,12 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, 1);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_050095B0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_050095B0);
 
     func_800628A4(0, &this->collider);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

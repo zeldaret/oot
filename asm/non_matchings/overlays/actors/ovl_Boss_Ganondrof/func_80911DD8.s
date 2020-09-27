@@ -1,3 +1,13 @@
+.rdata
+glabel D_809151A8
+    .asciz "this->fwork[GND_END_FRAME] = %d\n"
+    .balign 4
+
+glabel D_809151CC
+    .asciz "this->work[GND_SHOT_FRAME] = %d\n"
+    .balign 4
+
+.text
 glabel func_80911DD8
 /* 01798 80911DD8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0179C 80911DDC AFB00038 */  sw      $s0, 0x0038($sp)
@@ -112,7 +122,7 @@ glabel func_80911DD8
 /* 0191C 80911F5C AFAC0028 */  sw      $t4, 0x0028($sp)
 /* 01920 80911F60 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 01924 80911F64 AFA00020 */  sw      $zero, 0x0020($sp)
-/* 01928 80911F68 0C00C916 */  jal     Actor_SpawnAttached
+/* 01928 80911F68 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 0192C 80911F6C AFAB001C */  sw      $t3, 0x001C($sp)
 /* 01930 80911F70 8FAD004C */  lw      $t5, 0x004C($sp)

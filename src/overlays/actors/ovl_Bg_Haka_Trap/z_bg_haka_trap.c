@@ -200,7 +200,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881018 = 0;
     Player* player = PLAYER;
 
-    if ((D_80880F30 == 0) && (func_8008E988(globalCtx) == 0)) {
+    if ((D_80880F30 == 0) && (!Player_InCsMode(globalCtx))) {
         if (!Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x, 0.5f)) {
             func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) {
@@ -403,9 +403,10 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
 
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.posRot.pos);
 
-    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) && (PLAYER->currentBoots != 1)) {
-        player->fanWindSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
-        player->fanWindDirection = this->dyna.actor.shape.rot.y;
+    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
+        (PLAYER->currentBoots != PLAYER_BOOTS_IRON)) {
+        player->windSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
+        player->windDirection = this->dyna.actor.shape.rot.y;
     }
 }
 
@@ -487,7 +488,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* sDLists[5] = {
         0x06007610, 0x06009860, 0x06007EF0, 0x06008A20, 0x060072C0,
     };
-    static Color_RGBA8 D_8088103C = { 0 };
+    static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
     BgHakaTrap* this = THIS;
     s32 pad;
     Vec3f sp2C;
@@ -511,7 +512,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp2C.z = thisx->posRot.pos.z;
         sp2C.y = thisx->posRot.pos.y + 110.0f;
 
-        func_800A6EF4(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
+        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
         func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

@@ -4,9 +4,9 @@
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 
-#define PHYSICAL_TO_VIRTUAL(addr) ((u32)(addr) + 0x80000000)
-#define PHYSICAL_TO_VIRTUAL2(addr) ((u32)(addr) - 0x80000000)
-#define SEGMENTED_TO_VIRTUAL(addr) (void*)(PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)]) + SEGMENT_OFFSET(addr))
+#define PHYSICAL_TO_VIRTUAL(addr) (void*)((u32)(addr) + 0x80000000)
+#define VIRTUAL_TO_PHYSICAL(addr) (u32)((u8*)(addr) - 0x80000000)
+#define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 
@@ -45,9 +45,17 @@
 
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
 
-#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
-    (curState)->init = newInit;                          \
-    (curState)->size = sizeof(newStruct);
+#define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
+                        ? ITEM_NONE                                                \
+                        : (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
+                            ? ITEM_SWORD_BGS                                       \
+                            : gSaveContext.equips.buttonItems[0])
+
+#define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[button + 1] != BTN_DISABLED) \
+                                ? gSaveContext.equips.buttonItems[button + 1]       \
+                                : ITEM_NONE)
+
+#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \
@@ -61,7 +69,36 @@
 #define LOG_NUM(exp, value, file, line) LOG(exp, value, "%d", file, line)
 #define LOG_HEX(exp, value, file, line) LOG(exp, value, "%x", file, line)
 
-/*
+#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
+    (curState)->init = newInit;                          \
+    (curState)->size = sizeof(newStruct)
+
+#define SET_FULLSCREEN_VIEWPORT(view)      \
+    {                                      \
+        Viewport viewport;                 \
+        viewport.bottomY = SCREEN_HEIGHT;  \
+        viewport.rightX = SCREEN_WIDTH;    \
+        viewport.topY = 0;                 \
+        viewport.leftX = 0;                \
+        View_SetViewport(view, &viewport); \
+    }                                      \
+    (void)0
+
+extern GraphicsContext* oGfxCtx;
+
+#define OPEN_DISPS(gfxCtx, file, line) \
+    {                                  \
+        GraphicsContext* oGfxCtx;      \
+        Gfx* dispRefs[4];              \
+        oGfxCtx = gfxCtx;              \
+        Graph_OpenDisps(dispRefs, gfxCtx, file, line)
+
+#define CLOSE_DISPS(gfxCtx, file, line)                 \
+        Graph_CloseDisps(dispRefs, gfxCtx, file, line); \
+    }                                                   \
+    (void)0
+
+/**
  * `x` vertex x
  * `y` vertex y
  * `z` vertex z
@@ -75,17 +112,5 @@
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a } } }
 
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
-
-#define SET_FULLSCREEN_VIEWPORT(view)     \
-    {                                      \
-        Viewport viewport;                 \
-        viewport.bottomY = SCREEN_HEIGHT;  \
-        viewport.rightX = SCREEN_WIDTH;    \
-        viewport.topY = 0;                 \
-        viewport.leftX = 0;                \
-        View_SetViewport(view, &viewport); \
-    }
-
-#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
 
 #endif

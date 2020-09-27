@@ -1,0 +1,46 @@
+glabel func_800DBA40
+/* B52BE0 800DBA40 8CCE0270 */  lw    $t6, 0x270($a2)
+/* B52BE4 800DBA44 00801025 */  move  $v0, $a0
+/* B52BE8 800DBA48 30AFFFFF */  andi  $t7, $a1, 0xffff
+/* B52BEC 800DBA4C 11C00010 */  beqz  $t6, .L800DBA90
+/* B52BF0 800DBA50 3C010702 */   lui   $at, 0x702
+/* B52BF4 800DBA54 01E1C025 */  or    $t8, $t7, $at
+/* B52BF8 800DBA58 AC580000 */  sw    $t8, ($v0)
+/* B52BFC 800DBA5C 8CD90270 */  lw    $t9, 0x270($a2)
+/* B52C00 800DBA60 3C010700 */  lui   $at, 0x700
+/* B52C04 800DBA64 24840008 */  addiu $a0, $a0, 8
+/* B52C08 800DBA68 AC590004 */  sw    $t9, 4($v0)
+/* B52C0C 800DBA6C 90C90000 */  lbu   $t1, ($a2)
+/* B52C10 800DBA70 00801825 */  move  $v1, $a0
+/* B52C14 800DBA74 24840008 */  addiu $a0, $a0, 8
+/* B52C18 800DBA78 00095400 */  sll   $t2, $t1, 0x10
+/* B52C1C 800DBA7C 01415825 */  or    $t3, $t2, $at
+/* B52C20 800DBA80 356C0C80 */  ori   $t4, $t3, 0xc80
+/* B52C24 800DBA84 AC6C0000 */  sw    $t4, ($v1)
+/* B52C28 800DBA88 8CCD0278 */  lw    $t5, 0x278($a2)
+/* B52C2C 800DBA8C AC6D0004 */  sw    $t5, 4($v1)
+.L800DBA90:
+/* B52C30 800DBA90 8CCE0274 */  lw    $t6, 0x274($a2)
+/* B52C34 800DBA94 00801025 */  move  $v0, $a0
+/* B52C38 800DBA98 30AFFFFF */  andi  $t7, $a1, 0xffff
+/* B52C3C 800DBA9C 11C00010 */  beqz  $t6, .L800DBAE0
+/* B52C40 800DBAA0 3C010702 */   lui   $at, 0x702
+/* B52C44 800DBAA4 01E1C025 */  or    $t8, $t7, $at
+/* B52C48 800DBAA8 AC580000 */  sw    $t8, ($v0)
+/* B52C4C 800DBAAC 8CD90274 */  lw    $t9, 0x274($a2)
+/* B52C50 800DBAB0 3C010700 */  lui   $at, 0x700
+/* B52C54 800DBAB4 24840008 */  addiu $a0, $a0, 8
+/* B52C58 800DBAB8 AC590004 */  sw    $t9, 4($v0)
+/* B52C5C 800DBABC 90C90000 */  lbu   $t1, ($a2)
+/* B52C60 800DBAC0 00801825 */  move  $v1, $a0
+/* B52C64 800DBAC4 24840008 */  addiu $a0, $a0, 8
+/* B52C68 800DBAC8 00095400 */  sll   $t2, $t1, 0x10
+/* B52C6C 800DBACC 01415825 */  or    $t3, $t2, $at
+/* B52C70 800DBAD0 356C0E20 */  ori   $t4, $t3, 0xe20
+/* B52C74 800DBAD4 AC6C0000 */  sw    $t4, ($v1)
+/* B52C78 800DBAD8 8CCD027C */  lw    $t5, 0x27c($a2)
+/* B52C7C 800DBADC AC6D0004 */  sw    $t5, 4($v1)
+.L800DBAE0:
+/* B52C80 800DBAE0 03E00008 */  jr    $ra
+/* B52C84 800DBAE4 00801025 */   move  $v0, $a0
+

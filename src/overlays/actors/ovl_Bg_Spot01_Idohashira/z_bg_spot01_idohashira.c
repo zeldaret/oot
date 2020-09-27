@@ -72,38 +72,38 @@ void func_808AAD3C(GlobalContext* globalCtx, Vec3f* vec, u32 arg2) {
     effect.gravity = -1.0f;
     effect.uDiv = arg2;
     effect.vDiv = arg2;
-    effect.colorStart[0].r = 0x00;
-    effect.colorStart[0].g = 0x00;
-    effect.colorStart[0].b = 0x00;
-    effect.colorStart[0].a = 0xFF;
-    effect.colorStart[1].r = 0x00;
-    effect.colorStart[1].g = 0x00;
-    effect.colorStart[1].b = 0x00;
-    effect.colorStart[1].a = 0xFF;
-    effect.colorStart[2].r = 0x00;
-    effect.colorStart[2].g = 0x00;
-    effect.colorStart[2].b = 0x00;
-    effect.colorStart[2].a = 0xFF;
-    effect.colorStart[3].r = 0x00;
-    effect.colorStart[3].g = 0x00;
-    effect.colorStart[3].b = 0x00;
-    effect.colorStart[3].a = 0xFF;
-    effect.colorEnd[0].r = 0x00;
-    effect.colorEnd[0].g = 0x00;
-    effect.colorEnd[0].b = 0x00;
-    effect.colorEnd[0].a = 0x00;
-    effect.colorEnd[1].r = 0x00;
-    effect.colorEnd[1].g = 0x00;
-    effect.colorEnd[1].b = 0x00;
-    effect.colorEnd[1].a = 0x00;
-    effect.colorEnd[2].r = 0x00;
-    effect.colorEnd[2].g = 0x00;
-    effect.colorEnd[2].b = 0x00;
-    effect.colorEnd[2].a = 0x00;
-    effect.colorEnd[3].r = 0x00;
-    effect.colorEnd[3].g = 0x00;
-    effect.colorEnd[3].b = 0x00;
-    effect.colorEnd[3].a = 0x00;
+    effect.colorStart[0].r = 0;
+    effect.colorStart[0].g = 0;
+    effect.colorStart[0].b = 0;
+    effect.colorStart[0].a = 255;
+    effect.colorStart[1].r = 0;
+    effect.colorStart[1].g = 0;
+    effect.colorStart[1].b = 0;
+    effect.colorStart[1].a = 255;
+    effect.colorStart[2].r = 0;
+    effect.colorStart[2].g = 0;
+    effect.colorStart[2].b = 0;
+    effect.colorStart[2].a = 255;
+    effect.colorStart[3].r = 0;
+    effect.colorStart[3].g = 0;
+    effect.colorStart[3].b = 0;
+    effect.colorStart[3].a = 255;
+    effect.colorEnd[0].r = 0;
+    effect.colorEnd[0].g = 0;
+    effect.colorEnd[0].b = 0;
+    effect.colorEnd[0].a = 0;
+    effect.colorEnd[1].r = 0;
+    effect.colorEnd[1].g = 0;
+    effect.colorEnd[1].b = 0;
+    effect.colorEnd[1].a = 0;
+    effect.colorEnd[2].r = 0;
+    effect.colorEnd[2].g = 0;
+    effect.colorEnd[2].b = 0;
+    effect.colorEnd[2].a = 0;
+    effect.colorEnd[3].r = 0;
+    effect.colorEnd[3].g = 0;
+    effect.colorEnd[3].b = 0;
+    effect.colorEnd[3].a = 0;
     effect.timer = 0;
     effect.duration = 32;
 
@@ -322,25 +322,20 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_bg_spot01_idohashira.c", 689);
-    func_80093D18(gfxCtx);
+    OPEN_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 689);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_spot01_idohashira.c", 699),
+    func_80093D18(localGfxCtx);
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, globalCtx);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06000420);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000420);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_spot01_idohashira.c", 708);
+    CLOSE_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 708);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idohashira/func_808AB700.s")
-#endif
 
 void BgSpot01Idohashira_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idohashira* this = THIS;

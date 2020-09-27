@@ -1,3 +1,86 @@
+.late_rodata
+glabel D_80BA5C14
+    .float 0.4
+
+glabel D_80BA5C18
+    .float 0.6
+
+glabel D_80BA5C1C
+    .float 0.2
+
+glabel D_80BA5C20
+    .float 1.6
+
+glabel D_80BA5C24
+    .float 65535.0
+
+glabel D_80BA5C28
+    .float 0.1
+
+glabel D_80BA5C2C
+    .float 0.01
+
+glabel D_80BA5C30
+    .float 0.4
+
+glabel D_80BA5C34
+    .float 9.99999974738e-06
+
+glabel D_80BA5C38
+    .float 0.02
+
+glabel D_80BA5C3C
+    .float 0.008
+
+glabel D_80BA5C40
+    .float 0.05
+
+glabel D_80BA5C44
+    .float 0.0149999996
+
+glabel D_80BA5C48
+    .float 0.01
+
+glabel D_80BA5C4C
+    .float 0.05
+
+glabel D_80BA5C50
+    .float 0.005
+
+glabel D_80BA5C54
+    .float 0.01
+
+glabel D_80BA5C58
+    .float 0.4
+
+glabel D_80BA5C5C
+    .float 0.004
+
+glabel D_80BA5C60
+    .double 1.0E-2
+
+glabel D_80BA5C68
+    .float 0.08
+
+glabel D_80BA5C6C
+    .float 0.05
+
+glabel D_80BA5C70
+    .float 1.6
+
+glabel D_80BA5C74
+    .float 9.99999974738e-06
+
+glabel D_80BA5C78
+    .float 0.1
+
+glabel D_80BA5C7C
+    .float 9.99999974738e-06
+
+glabel D_80BA5C80
+    .float 0.0002
+
+.text
 glabel func_80BA2DD4
 /* 00334 80BA2DD4 27BDFF08 */  addiu   $sp, $sp, 0xFF08           ## $sp = FFFFFF08
 /* 00338 80BA2DD8 3C0F80BA */  lui     $t7, %hi(D_80BA5948)       ## $t7 = 80BA0000

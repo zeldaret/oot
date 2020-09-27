@@ -1,6 +1,6 @@
 .rdata
 glabel D_8013930C
-    .asciz "\x1B[43;30mcamera: item: item type changed %d -> %d\n\x1B[m"
+    .asciz "\x1b[43;30mcamera: item: item type changed %d -> %d\n\x1b[m"
     .balign 4
 
 glabel D_80139344
@@ -180,7 +180,7 @@ glabel Camera_KeepOn4
 /* AC5740 8004E5A0 3C014288 */  li    $at, 0x42880000 # 0.000000
 /* AC5744 8004E5A4 44814000 */  mtc1  $at, $f8
 /* AC5748 8004E5A8 86380142 */  lh    $t8, 0x142($s1)
-/* AC574C 8004E5AC 3C088012 */  lui   $t0, %hi(sCameraSettings)
+/* AC574C 8004E5AC 3C088012 */  lui   $t0, %hi(sCameraSettings+4)
 /* AC5750 8004E5B0 46004283 */  div.s $f10, $f8, $f0
 /* AC5754 8004E5B4 0018C8C0 */  sll   $t9, $t8, 3
 /* AC5758 8004E5B8 86290144 */  lh    $t1, 0x144($s1)
@@ -578,12 +578,12 @@ glabel L8004EB20
 /* AC5D00 8004EB60 AFA50040 */  sw    $a1, 0x40($sp)
 /* AC5D04 8004EB64 E7AE0088 */  swc1  $f14, 0x88($sp)
 /* AC5D08 8004EB68 27A400B0 */  addiu $a0, $sp, 0xb0
-/* AC5D0C 8004EB6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC5D0C 8004EB6C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC5D10 8004EB70 AC2AD3A0 */   sw    $t2, %lo(D_8011D3A0)($at)
 /* AC5D14 8004EB74 26260074 */  addiu $a2, $s1, 0x74
 /* AC5D18 8004EB78 AFA6003C */  sw    $a2, 0x3c($sp)
 /* AC5D1C 8004EB7C 27A400A8 */  addiu $a0, $sp, 0xa8
-/* AC5D20 8004EB80 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC5D20 8004EB80 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC5D24 8004EB84 8FA50040 */   lw    $a1, 0x40($sp)
 /* AC5D28 8004EB88 26230094 */  addiu $v1, $s1, 0x94
 /* AC5D2C 8004EB8C 8C6C0000 */  lw    $t4, ($v1)

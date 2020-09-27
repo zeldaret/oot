@@ -1,7 +1,7 @@
 /*
  * File: z_arrow_fire.c
  * Overlay: ovl_Arrow_Fire
- * Description: Fire Arrow. Spawned by and attached to a normal arrow.
+ * Description: Fire Arrow. Spawned as a child of a normal arrow.
  */
 
 #include "z_arrow_fire.h"
@@ -50,7 +50,7 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_158 = 1.0f;
     ArrowFire_SetupAction(&this->actor, ArrowFire_Charge);
     Actor_SetScale(this, 0.01f);
-    this->alpha = 0xA0;
+    this->alpha = 160;
     this->timer = 0;
     this->unk_15C = 0.0f;
 }
@@ -64,7 +64,7 @@ void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
     EnArrow* arrow;
 
-    arrow = (EnArrow*)this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -73,18 +73,18 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
     if (this->radius < 10) {
         this->radius += 1;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
     func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_FIRE - SFX_FLAG);
 
-    // If arrow's attached is null, Link has fired the arrow
-    if (arrow->actor.attachedA == NULL) {
+    // if arrow has no parent, player has fired the arrow
+    if (arrow->actor.parent == NULL) {
         this->unkPos = this->actor.posRot.pos;
         this->radius = 10;
         ArrowFire_SetupAction(this, ArrowFire_Fly);
-        this->alpha = 0xFF;
+        this->alpha = 255;
     }
 }
 
@@ -151,12 +151,12 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
     f32 distanceScaled;
     s32 pad;
 
-    arrow = (EnArrow*)this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.parent;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
     }
-    // copy position and rotation from the attached arrow
+    // copy position and rotation from arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
     distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * (1.0f / 24.0f);
@@ -170,9 +170,9 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
-        this->alpha = 0xFF;
+        this->alpha = 255;
     } else if (arrow->timer < 34) {
-        if (this->alpha < 0x23) {
+        if (this->alpha < 35) {
             Actor_Kill(&this->actor);
         } else {
             this->alpha -= 0x19;
@@ -194,21 +194,19 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ArrowFire* this = THIS;
     s32 pad;
     u32 stateFrames;
-    GraphicsContext* gfxCtx;
-    Actor* tranform;
     EnArrow* arrow;
-    Gfx* dispRefs[4];
+    Actor* tranform;
 
     stateFrames = globalCtx->state.frames;
-    arrow = (EnArrow*)this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.parent;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
-        // clang-format off
-        gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
-        // clang-format on
+
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
+
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateX(tranform->shape.rot.x * (M_PI / 32768), MTXMODE_APPLY);
@@ -217,18 +215,18 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         // Draw red effect over the screen when arrow hits
         if (this->unk_15C > 0) {
-            gfxCtx->polyXlu.p = func_800937C0(gfxCtx->polyXlu.p);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0x00, 0x00,
+            oGfxCtx->polyXlu.p = func_800937C0(oGfxCtx->polyXlu.p);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0, 0,
                             (s32)(150.0f * this->unk_15C) & 0xFF);
-            gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_DISABLE);
-            gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
-            gDPFillRectangle(gfxCtx->polyXlu.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+            gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_DISABLE);
+            gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_DISABLE);
+            gDPFillRectangle(oGfxCtx->polyXlu.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
         }
 
         // Draw fire on the arrow
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xC8, 0x00, this->alpha);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0x80);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 200, 0, this->alpha);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 128);
         Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
@@ -237,13 +235,14 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         Matrix_Scale(this->radius * 0.2f, this->unk_158 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, sTextureDL);
-        gSPDisplayList(gfxCtx->polyXlu.p++,
+        gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL);
+        gSPDisplayList(oGfxCtx->polyXlu.p++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
                                         255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
-        gSPDisplayList(gfxCtx->polyXlu.p++, sVertexDL);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, sVertexDL);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);
     }
 }
