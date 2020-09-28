@@ -1535,10 +1535,12 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
 
     for (i1 = 0; i1 < 180; i1++, particle++) {
         if (particle->type != FD_NULL) {
+            particle->timer1++;
+            
             particle->pos.x += particle->vel.x;
             particle->pos.y += particle->vel.y;
             particle->pos.z += particle->vel.z;
-            particle->timer1++;
+            
             particle->vel.x += particle->accel.x;
             particle->vel.y += particle->accel.y;
             particle->vel.z += particle->accel.z;
