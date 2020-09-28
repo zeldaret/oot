@@ -350,7 +350,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
     var = 0;
     if (gSaveContext.infTable[7] & 0x40) {
         if (!(gSaveContext.infTable[7] & 0x80)) {
-            if (func_8008F080(globalCtx) == 1) {
+            if (Player_GetMask(globalCtx) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A; // "Wha-ha-ha-hah! Do you think you're in disguise, Mr. Hero?"
                 } else {
@@ -401,19 +401,19 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_300 = 6;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         exchangeItemId = func_8002F368(globalCtx);
-        if (exchangeItemId == 1) { // exchangeItemId = zelda's letter
+        if (exchangeItemId == EXCH_ITEM_LETTER_ZELDA) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             player->actor.textId = 0x2010; // "Oh, this is...this is surely Princess Zelda's handwriting!"
             this->unk_300 = 5;
             this->actionFunc = func_80A53C0C;
-        } else if (exchangeItemId != 0) {  // exchangeItemId != nothing
+        } else if (exchangeItemId != EXCH_ITEM_NONE) {
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
         yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
         if (!(120.0f < this->actor.xzDistFromLink) && (yawDiff < 0x4300)) {
-            func_8002F298(&this->actor, globalCtx, 100.0f, 1);
+            func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
         }
     }
 }
@@ -539,7 +539,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
             case 0:
                 this->actor.textId = 0x2020; // "My boy will be very happy with this!.."
                 func_8010B720(globalCtx, this->actor.textId);
-                func_8008F08C(globalCtx);
+                Player_UnsetMask(globalCtx);
                 gSaveContext.infTable[7] |= 0x80;
                 gSaveContext.itemGetInf[3] |= 0x100;
                 Item_Give(globalCtx, ITEM_SOLD_OUT);

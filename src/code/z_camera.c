@@ -3369,7 +3369,7 @@ void func_80059EC8(Camera* camera) {
             player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
-            if (player->action != 0) {
+            if (player->csMode != 0) {
                 func_8002DF54(camera->globalCtx, &player->actor, 7);
                 osSyncPrintf("camera: player demo end!!\n");
             }
@@ -3545,8 +3545,8 @@ s32 Camera_ChangeMode(Camera* camera, s16 mode, u8 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeMode.s")
 #endif
 
-void func_8005A444(Camera* camera, s16 arg1) {
-    Camera_ChangeMode(camera, arg1, 0);
+s32 func_8005A444(Camera* camera, s16 arg1) {
+    return Camera_ChangeMode(camera, arg1, 0);
 }
 
 s32 func_8005A470(Camera* camera, s16 arg1) {
@@ -3927,7 +3927,7 @@ Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera) {
 }
 
 void Camera_SetCameraData(Camera* camera, s16 arg1, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints,
-                          s16 relativeToPlayer, s16 arg5) {
+                          s16 relativeToPlayer, s16 arg5, s32 arg6) {
     if (arg1 & 0x1) {
         camera->atPoints = atPoints;
     }

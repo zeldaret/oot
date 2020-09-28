@@ -77,7 +77,7 @@ void ArmsHook_Wait(ArmsHook* this, GlobalContext* globalCtx) {
     if (this->actor.parent == NULL) {
         player = PLAYER;
         // get correct timer length for hookshot or longshot
-        length = (player->heldItemActionParam == 0x10) ? 13 : 26;
+        length = (player->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 13 : 26;
 
         ArmsHook_SetupAction(this, ArmsHook_Shoot);
         func_8002D9A4(&this->actor, 20.0f);
@@ -111,8 +111,8 @@ void ArmsHook_DetachHookFromActor(ArmsHook* this) {
 
 s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
-    if (func_8008F104(player)) {
-        if ((player->unk_154 != player->heldItemActionParam) || ((player->actor.flags & 0x100)) ||
+    if (Player_HoldsHookshot(player)) {
+        if ((player->itemActionParam != player->heldItemActionParam) || ((player->actor.flags & 0x100)) ||
             ((player->stateFlags1 & 0x4000080))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);
@@ -151,7 +151,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 velocity;
     s32 pad1;
 
-    if ((this->actor.parent == NULL) || (!func_8008F104(player))) {
+    if ((this->actor.parent == NULL) || (!Player_HoldsHookshot(player))) {
         ArmsHook_DetachHookFromActor(this);
         Actor_Kill(&this->actor);
         return;
@@ -310,21 +310,21 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp58;
 
     if (player->actor.draw != NULL) {
-        if (player->unk_15D == 0xF) {
+        if (player->rightHandType == 15) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arms_hook.c", 850);
 
             if ((ArmsHook_Shoot != this->actionFunc) || (this->timer <= 0)) {
                 Matrix_MultVec3f(&D_80865B70, &this->unk_1E8);
                 Matrix_MultVec3f(&D_80865B88, &sp6C);
                 Matrix_MultVec3f(&D_80865B94, &sp60);
-                this->unk_1CC = 0;
+                this->hookInfo.active = 0;
             } else {
                 Matrix_MultVec3f(&D_80865B7C, &this->unk_1E8);
                 Matrix_MultVec3f(&D_80865BA0, &sp6C);
                 Matrix_MultVec3f(&D_80865BAC, &sp60);
             }
 
-            func_80090480(globalCtx, &this->collider.base, &this->unk_1CC, &sp6C, &sp60);
+            func_80090480(globalCtx, &this->collider, &this->hookInfo, &sp6C, &sp60);
             func_80093D18(globalCtx->state.gfxCtx);
             gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

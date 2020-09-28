@@ -3865,7 +3865,7 @@ u32 func_80041F7C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
 }
 
 // SurfaceType get surface lighting setting
-u32 func_80041FA0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u32 func_80041FA0(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) { //MF: return type s32
     return func_800419B0(colCtx, poly, bgId, 1) >> 6 & 0x1F;
 }
 
