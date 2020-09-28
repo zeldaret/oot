@@ -110,13 +110,13 @@ struct_80AA9D70 D_80AA9D70 = {
 };
 
 // ZeroVec
-Vec3f D_80AA9D78 = {
+static Vec3f D_80AA9D78 = {
     0.0f,
     0.0f,
     0.0f,
 };
 
-Vec3f D_80AA9D84 = {
+static Vec3f D_80AA9D84 = {
     0x00000000,
     0x00000000,
     0x00000000,
@@ -205,6 +205,7 @@ extern AnimationHeader D_0600E18C;
 extern AnimationHeader D_0600B4BC;
 extern AnimationHeader D_0600ABE0;
 extern AnimationHeader animEnMbFallBack; // D_060016B4
+extern AnimationHeader D_060041A8;
 
 void func_80AA68FC(EnMb* this, GlobalContext* globalCtx);
 void func_80AA6898(EnMb* this);
@@ -222,6 +223,7 @@ void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx);
 void func_80AA7938(EnMb* this, GlobalContext* globalCtx);
 void func_80AA90A0(EnMb* this, GlobalContext* globalCtx);
 void func_80AA8FC8(EnMb* this);
+void func_80AA71AC(EnMb* this, GlobalContext globalCtx);
 
 void func_80AA6050(EnMb* this, EnMbActionFunc actionFunc) { // Setup Action Func
     this->actionFunc = actionFunc;
@@ -304,8 +306,30 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6408.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6444.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6444.s")
+void func_80AA6444(EnMb* this, GlobalContext* globalCtx) {//Setup path
+    Path* path;
+    Vec3s* pathPos;
+    s8 temp;
 
+    path = &globalCtx->setupPathList[this->unk_35D];
+
+    if (this->unk_35C == 0) {
+        this->unk_35E = 1;
+    } else {
+        temp = path->count - 1;
+        if (temp == this->unk_35C) {
+            this->unk_35E = -1;
+        }
+    }
+    this->unk_35C += this->unk_35E;
+    pathPos =((gSegments[(u32) ((s32) path->points * 0x10) >> 0x1C] + ((s32) path->points & 0xFFFFFF)) + (this->unk_35C * 6)) + 0x80000000;
+    //pathPos = SEGMENTED_TO_VIRTUAL(path->points);
+    //pathPos += this->unk_35C;
+    this->unk_344.x = pathPos->x;
+    this->unk_344.y = pathPos->y;
+    this->unk_344.z = pathPos->z;
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA652C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA66A0.s")
@@ -327,7 +351,15 @@ void func_80AA6898(EnMb* this) {
     func_80AA6050(this, func_80AA8DD8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA68FC.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA68FC.s")
+void func_80AA68FC(EnMb* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060041A8, -4.0f);
+    this->actor.speedXZ = 0.0f;
+    this->unk_32A = Math_Rand_S16Offset(0x28, 0x50);
+    this->unk_320 = 6;
+    func_80AA6444(this, globalCtx);
+    func_80AA6050(this, func_80AA71AC);
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6974.s")
 void func_80AA6974(EnMb* this) {
@@ -835,22 +867,18 @@ void func_80AA8FC8(EnMb* this) { // Likely setup Death for charging moblin
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA90A0.s")
-void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {///////
+void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     s32 phi_s0;
     Vec3f zeroVec;
     Player* player = PLAYER;
     Vec3f effPos;
 
-
-    // temp_s0 = globalCtx->unk1C44;
-    // sp10 = 0.0f;
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-    if ((player->stateFlags2 & 0x80) != 0) {
+    if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.parent) {
             player->stateFlags2 &= -0x81;
             player->actor.parent = 0;
             player->unk_850 = 0xC8;
-            // sp10 = 4.0f;
             func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
             this->attackParams = 0;
         }
@@ -866,12 +894,12 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {///////
                 effPos.y = Math_Rand_CenteredFloat(15.0f) + (this->actor.posRot.pos.y + 20.0f);
                 effPos.z = Math_Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.z;
 
-                func_8002A6B8(globalCtx, &effPos, &zeroVec, &zeroVec, 0x64, 7, 0xFF, 0xFF, 0XFF, 0XFF, 0XFF, 1, 9, 1, 0,
-                              0);
+                func_8002A6B8(globalCtx, &effPos, &zeroVec, &zeroVec, 0x64, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0xFF, 0, 1, 9,
+                              1);
             }
             return;
         }
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0xE0);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xE0);
         Actor_Kill(&this->actor);
     }
 }

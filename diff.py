@@ -64,7 +64,7 @@ if argcomplete:
                     pos = data.find(search, endPos)
                 completes.append(match)
         return completes
-    start_argument.completer = complete_symbol
+    setattr(start_argument, "completer", complete_symbol)
 
 parser.add_argument("end", nargs="?", help="Address to end diff at.")
 parser.add_argument(
@@ -129,6 +129,12 @@ parser.add_argument(
     dest="ignore_large_imms",
     action="store_true",
     help="Pretend all large enough immediates are the same.",
+)
+parser.add_argument(
+    "-I",
+    "--ignore-addr-diffs",
+    action="store_true",
+    help="Ignore address differences. Currently only affects AArch64.",
 )
 parser.add_argument(
     "-B",
@@ -612,13 +618,82 @@ class Line(NamedTuple):
     mnemonic: str
     diff_row: str
     original: str
+    normalized_original: str
     line_num: str
     branch_target: Optional[str]
     source_lines: List[str]
     comment: Optional[str]
 
 
+class DifferenceNormalizer:
+    def normalize(self, mnemonic: str, row: str) -> str:
+        """This should be called exactly once for each line."""
+        row = self._normalize_arch_specific(mnemonic, row)
+        if args.ignore_large_imms:
+            row = re.sub(re_large_imm, "<imm>", row)
+        return row
+
+    def _normalize_arch_specific(self, mnemonic: str, row: str) -> str:
+        return row
+
+
+class DifferenceNormalizerAArch64(DifferenceNormalizer):
+    def __init__(self) -> None:
+        super().__init__()
+        self._adrp_pair_registers: Set[str] = set()
+
+    def _normalize_arch_specific(self, mnemonic: str, row: str) -> str:
+        if args.ignore_addr_diffs:
+            row = self._normalize_adrp_differences(mnemonic, row)
+            row = self._normalize_bl(mnemonic, row)
+        return row
+
+    def _normalize_bl(self, mnemonic: str, row: str) -> str:
+        if mnemonic != "bl":
+            return row
+
+        row, _ = split_off_branch(row)
+        return row
+
+    def _normalize_adrp_differences(self, mnemonic: str, row: str) -> str:
+        """Identifies ADRP + LDR/ADD pairs that are used to access the GOT and
+        suppresses any immediate differences.
+
+        Whenever an ADRP is seen, the destination register is added to the set of registers
+        that are part of an ADRP + LDR/ADD pair. Registers are removed from the set as soon
+        as they are used for an LDR or ADD instruction which completes the pair.
+
+        This method is somewhat crude but should manage to detect most such pairs.
+        """
+        row_parts = row.split("\t", 1)
+        if mnemonic == "adrp":
+            self._adrp_pair_registers.add(row_parts[1].strip().split(",")[0])
+            row, _ = split_off_branch(row)
+        elif mnemonic == "ldr":
+            for reg in self._adrp_pair_registers:
+                # ldr xxx, [reg]
+                # ldr xxx, [reg, <imm>]
+                if f", [{reg}" in row_parts[1]:
+                    self._adrp_pair_registers.remove(reg)
+                    return normalize_imms(row)
+        elif mnemonic == "add":
+            for reg in self._adrp_pair_registers:
+                # add reg, reg, <imm>
+                if row_parts[1].startswith(f"{reg}, {reg}, "):
+                    self._adrp_pair_registers.remove(reg)
+                    return normalize_imms(row)
+
+        return row
+
+
+def make_difference_normalizer() -> DifferenceNormalizer:
+    if arch == "aarch64":
+        return DifferenceNormalizerAArch64()
+    return DifferenceNormalizer()
+
+
 def process(lines):
+    normalizer = make_difference_normalizer()
     skip_next = False
     source_lines = []
     if not args.diff_obj:
@@ -660,6 +735,7 @@ def process(lines):
         if mnemonic not in instructions_with_address_immediates:
             row = re.sub(re_int, lambda s: hexify_int(row, s), row)
         original = row
+        normalized_original = normalizer.normalize(mnemonic, original)
         if skip_next:
             skip_next = False
             row = "<delay-slot>"
@@ -688,6 +764,7 @@ def process(lines):
                 mnemonic=mnemonic,
                 diff_row=row,
                 original=original,
+                normalized_original=normalized_original,
                 line_num=line_num,
                 branch_target=branch_target,
                 source_lines=source_lines,
@@ -722,12 +799,6 @@ class SymbolColorer:
             self.symbol_colors[s] = color
         t = t or s
         return f"{color}{t}{Fore.RESET}"
-
-
-def maybe_normalize_large_imms(row):
-    if args.ignore_large_imms:
-        row = re.sub(re_large_imm, "<imm>", row)
-    return row
 
 
 def normalize_imms(row):
@@ -865,9 +936,7 @@ def do_diff(basedump: str, mydump: str) -> List[OutputLine]:
             line_color1 = line_color2 = sym_color = Fore.RESET
             line_prefix = " "
             if line1 and line2 and line1.diff_row == line2.diff_row:
-                if maybe_normalize_large_imms(
-                    line1.original
-                ) == maybe_normalize_large_imms(line2.original):
+                if line1.normalized_original == line2.normalized_original:
                     out1 = line1.original
                     out2 = line2.original
                 elif line1.diff_row == "<delay-slot>":
