@@ -11,7 +11,7 @@ typedef void (*EnPartActionFunc)(struct EnPart*, GlobalContext*);
 typedef struct EnPart {
     /* 0x000 */ Actor actor;
     /* 0x14C */ u8 action;
-    /* 0x14E */ s16 effectDelay;
+    /* 0x14E */ s16 timer;
     /* 0x150 */ Gfx* displayList;
     /* 0x154 */ f32 rotZ;
     /* 0x158 */ f32 rotZSpeed;

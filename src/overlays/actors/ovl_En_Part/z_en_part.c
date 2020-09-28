@@ -53,26 +53,26 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -0.3f - Math_Rand_ZeroOne() * 0.5f;
             this->rotZSpeed = 0.3f;
-            this->effectDelay = 25;
+            this->timer = 25;
             this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
             break;
         case 13:
-            this->effectDelay = 400;
+            this->timer = 400;
         case 12:
             this->actor.speedXZ = Math_Rand_CenteredFloat(6.0f);
             this->actor.initPosRot.pos = this->actor.posRot.pos;
-            this->effectDelay += 60;
+            this->timer += 60;
             this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
             this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
             this->rotZSpeed = 0.15f;
             break;
         case 14:
-            func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1); // ~0x7FFE
+            func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1);
         case 1:
         case 4:
         case 9:
         case 10:
-            this->effectDelay += (s16)(Math_Rand_ZeroOne() * 17.0f) + 5;
+            this->timer += (s16)(Math_Rand_ZeroOne() * 17.0f) + 5;
         case 2:
             this->actor.velocity.y = Math_Rand_ZeroOne() * 5.0f + 4.0f;
             this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.5f;
@@ -82,7 +82,7 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
             func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1);
         case 3:
             this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
-            this->effectDelay = (s16)(Math_Rand_ZeroOne() * 17.0f) + 10;
+            this->timer = (s16)(Math_Rand_ZeroOne() * 17.0f) + 10;
             this->actor.velocity.y = Math_Rand_ZeroOne() * 3.0f + 8.0f;
             this->actor.gravity = -0.6f - Math_Rand_ZeroOne() * 0.3f;
             this->rotZSpeed = 0.15f;
@@ -100,21 +100,17 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
             this->actor.gravity = -1.2f;
             this->rotZSpeed = 0.15f * sign;
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-            this->effectDelay = 18;
+            this->timer = 18;
             break;
     }
 }
 
 void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
-    static Vec3f D_80ACF1B0 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_80ACF1BC = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_80ACF1C8 = { 0.0f, 0.0f, 0.0f };
-
     s32 i;
     Vec3f pos;
-    Vec3f velocity = D_80ACF1B0;
-    Vec3f accel = D_80ACF1BC;
-    Vec3f zero = D_80ACF1C8;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    Vec3f zero = { 0.0f, 0.0f, 0.0f };
 
     if ((this->actor.params == 12) || (this->actor.params == 13)) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x1D);
@@ -129,7 +125,7 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
         if ((this->actor.params == 13) && (this->actor.parent != NULL) && (this->actor.parent->update == NULL)) {
             this->actor.parent = NULL;
         }
-    } else if (this->effectDelay <= 0) {
+    } else if (this->timer <= 0) {
         switch (this->actor.params) {
             case 1:
             case 9:
@@ -170,7 +166,7 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->effectDelay--;
+    this->timer--;
     this->rotZ += this->rotZSpeed;
 }
 
@@ -179,51 +175,41 @@ void func_80ACE5B8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
-    static Vec3f D_80ACF1D4 = { 0.0f, 8.0f, 0.0f };
-    static Vec3f D_80ACF1E0 = { 0.0f, -1.5f, 0.0f };
-
     Player* player = PLAYER;
-    Vec3f velocity;
-    Vec3f accel;
-    u8 invincibilityTimer;
 
-    this->effectDelay--;
-    if (this->effectDelay == 0) {
+    this->timer--;
+    if (this->timer == 0) {
         Actor_Kill(&this->actor);
-        return;
-    }
+    } else {
+        Vec3f velocity = { 0.0f, 8.0f, 0.0f };
+        Vec3f accel = { 0.0f, -1.5f, 0.0f };
 
-    velocity = D_80ACF1D4;
-    accel = D_80ACF1E0;
-
-    if (sqrt(this->actor.xyzDistFromLinkSq) <= 40.0f) {
-        invincibilityTimer = player->invincibilityTimer;
-        if (player->invincibilityTimer <= 0) {
-            if (player->invincibilityTimer <= -40) {
-                player->invincibilityTimer = 0;
-            } else {
-                player->invincibilityTimer = 0;
-                globalCtx->damagePlayer(globalCtx, -8);
+        if (sqrt(this->actor.xyzDistFromLinkSq) <= 40.0f) {
+            u8 prevInvincibilityTimer = player->invincibilityTimer;
+            if (player->invincibilityTimer <= 0) {
+                if (player->invincibilityTimer <= -40) {
+                    player->invincibilityTimer = 0;
+                } else {
+                    player->invincibilityTimer = 0;
+                    globalCtx->damagePlayer(globalCtx, -8);
+                }
             }
+            func_8002F71C(globalCtx, this->actor.parent, (650.0f - this->actor.parent->xzDistFromLink) * 0.04f + 4.0f,
+                          this->actor.parent->posRot.rot.y, 8.0f);
+            player->invincibilityTimer = prevInvincibilityTimer;
+            this->timer = 1;
         }
-        func_8002F71C(globalCtx, this->actor.parent, (650.0f - this->actor.parent->xzDistFromLink) * 0.04f + 4.0f,
-                      this->actor.parent->posRot.rot.y, 8.0f);
-        player->invincibilityTimer = invincibilityTimer;
-        this->effectDelay = 1;
-    }
 
-    func_80033480(globalCtx, &this->actor.posRot.pos, 0.0f, 1, 300, 150, 1);
-    velocity.x = Math_Rand_CenteredFloat(16.0f);
-    func_80029724(globalCtx, &this->actor.posRot.pos, &velocity, &accel, 20,
-                  (s32)((Math_Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, 0);
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_GNDWAVE - SFX_FLAG);
+        func_80033480(globalCtx, &this->actor.posRot.pos, 0.0f, 1, 300, 150, 1);
+        velocity.x = Math_Rand_CenteredFloat(16.0f);
+        func_80029724(globalCtx, &this->actor.posRot.pos, &velocity, &accel, 20,
+                      (s32)((Math_Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, 0);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_GNDWAVE - SFX_FLAG);
+    }
 }
 
 void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
-    static Vec3f D_80ACF1EC = { 0.0f, 0.0f, 0.0f };
-
-    Vec3f zero = D_80ACF1EC;
-    f32 diffsSum;
+    Vec3f zero = { 0.0f, 0.0f, 0.0f };
 
     if ((this->actor.parent == NULL) || (this->actor.parent->update == NULL)) {
         func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero, (s16)(this->actor.scale.y * 100.0f) * 40, 7,
@@ -232,18 +218,19 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->effectDelay == 0) {
-        diffsSum = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f, 5.0f, 0.0f);
+    if (this->timer == 0) {
+        f32 diffsSum =
+            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothScaleMaxMinF(&this->rotZ, 0.0f, 1.0f, 0.25f, 0.0f);
         if (diffsSum == 0.0f) {
             this->actor.parent->initPosRot.rot.x--;
-            this->effectDelay--;
+            this->timer--;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_DAMAGE);
         }
-    } else if (this->effectDelay > 0) {
-        this->effectDelay--;
+    } else if (this->timer > 0) {
+        this->timer--;
     }
 
     if (this->actor.parent->colChkInfo.health != 0) {
@@ -252,8 +239,9 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static EnPartActionFunc sActionFuncs[] = { func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8,
-                                               func_80ACE7E8 };
+    static EnPartActionFunc sActionFuncs[] = {
+        func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8, func_80ACE7E8,
+    };
 
     EnPart* this = THIS;
 
