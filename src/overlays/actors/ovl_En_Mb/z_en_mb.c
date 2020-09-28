@@ -307,6 +307,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6408.s")
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6444.s")
+//Matching all but regaloc but very likely fake
 void func_80AA6444(EnMb* this, GlobalContext* globalCtx) {//Setup path
     Path* path;
     Vec3s* pathPos;
@@ -323,6 +324,7 @@ void func_80AA6444(EnMb* this, GlobalContext* globalCtx) {//Setup path
         }
     }
     this->unk_35C += this->unk_35E;
+    //Fake match suspect
     pathPos =((gSegments[(u32) ((s32) path->points * 0x10) >> 0x1C] + ((s32) path->points & 0xFFFFFF)) + (this->unk_35C * 6)) + 0x80000000;
     //pathPos = SEGMENTED_TO_VIRTUAL(path->points);
     //pathPos += this->unk_35C;
