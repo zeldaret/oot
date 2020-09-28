@@ -121,7 +121,6 @@ void func_80A6B250(EnHorseNormal* this) {
 
 f32 func_80A6B30C(EnHorseNormal* this) {
     static f32 D_80A6D4C8[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.5f, 1.5f, 1.5f, 1.5f, 1.0f };
-
     f32 result;
 
     if (this->animationIdx == 4) {
@@ -327,7 +326,6 @@ void func_80A6BD7C(EnHorseNormal* this) {
 void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
     static s32 D_80A6D4F4[] = { 0, 1, 4, 5, 6, 2, 3 };
     static s32 D_80A6D510[] = { 0, 0, 2, 2, 1, 1, 1, 3, 3 };
-
     s32 phi_t0 = this->animationIdx;
     s32 pad;
 
