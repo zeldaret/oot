@@ -15,6 +15,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F28C(EnKakasi* this);
+void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg);
 
 ColliderCylinderInit D_80A8FDE0 = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -62,22 +63,103 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F28C.s")
-void func_80A8F28C(EnKakasi *this){
-  this->unk_1AC = 0;
-  this->unk_1A4 = 0;
-  this->skelanime.animPlaybackSpeed = 0.0f;
-  this->unk_1A8 = this->unk_1AC;
+void func_80A8F28C(EnKakasi* this) {
+    this->unk_1AC = 0;
+    this->unk_1A4 = 0;
+    this->skelanime.animPlaybackSpeed = 0.0f;
+    this->unk_1A8 = this->unk_1AC;
 
-  Math_SmoothDownscaleMaxF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
-  Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
-  Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
-  Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
+    Math_SmoothDownscaleMaxF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
 }
 
+#ifdef NON_MATCHING
+void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
+    s16 phi_v0;
+    s16 currentFrame;
+
+    phi_v0 = globalCtx->msgCtx.unk_E410[0];
+    if (arg != 0) {
+        if (this->unk_1A2 == 0) {
+            this->unk_1A2 = (s32)Math_Rand_ZeroFloat(10.99f) + 30;
+            this->unk_1A6 = (s32)Math_Rand_ZeroFloat(4.99f);
+        }
+
+        this->unk_19A = (s32)Math_Rand_ZeroFloat(2.99f) + 5;
+        phi_v0 = this->unk_1A6;
+    }
+    switch (phi_v0) {
+        case 0:
+            this->unk_19A++;
+            if (this->unk_1A4 == 0) {
+                this->unk_1A4 = 1;
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_ROLL);
+            }
+            break;
+        case 1:
+            this->unk_19A++;
+            this->unk_1B8 = 1.0f;
+            break;
+        case 2:
+            this->unk_19A++;
+            if (this->unk_1AC == 0) {
+                this->unk_1AC = 5000;
+            }
+            break;
+        case 3:
+            this->unk_19A++;
+            if (this->unk_1A8 == 0) {
+                this->unk_1A8 = 5000;
+            }
+            break;
+        case 4:
+            this->unk_19A++;
+            this->unk_1B8 = 2.0f;
+            break;
+    }
+
+    if (this->unk_19A > 8) {
+        this->unk_19A = 8;
+    }
+
+    if (this->unk_19A != 0) {
+        this->actor.gravity = -1.0f;
+        if (this->unk_19A == 8 && ((this->actor.bgCheckFlags & 1) != 0)) {
+            this->actor.velocity.y = 3.0f;
+            Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
+        }
+        Math_SmoothScaleMaxF(&this->skelanime.animPlaybackSpeed, this->unk_1B8, 0.1, 0.2);
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->unk_1A8, 5, 1000, 0);
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->unk_1AC, 5, 1000, 0);
+
+        if (this->unk_1A8 != 0 && fabsf(this->actor.shape.rot.x - this->unk_1A8) < 50.0f) {
+            this->unk_1A8 *= -1.0f;
+        }
+        if (this->unk_1AC != 0 && fabsf(this->actor.shape.rot.z - this->unk_1AC) < 50.0f) {
+            this->unk_1AC *= -1.0f;
+        }
+
+        if (this->unk_1A4 != 0) {
+            this->actor.shape.rot.y += 0x1000;
+            if (this->actor.shape.rot.y == 0) {
+                this->unk_1A4 = 0;
+            }
+        }
+        currentFrame = this->skelanime.animCurrentFrame;
+        if (currentFrame == 0xB || currentFrame == 0x11) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
+        } 
+        SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F320.s")
+#endif
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214.genericHeader);
     SkelAnime_ChangeAnim(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
 
     this->actor.textId = 0x4076;
@@ -115,18 +197,17 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
         }
         return;
     }
-    
+
     angleTowardsLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     if (!(120.0f < this->actor.xzDistFromLink)) {
         absAngleTowardsLink = ABS(angleTowardsLink);
-        
+
         if (absAngleTowardsLink < 0x4300) {
             if (this->unk_194 == 0) {
 
-
                 if ((s32)(player->stateFlags2) << 7 < 0) {
                     this->unk_208 = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
-                
+
                     func_8010BD58(globalCtx, 0x2A);
                     this->unk_19A = 0;
                     this->unk_1B8 = 0.0;
