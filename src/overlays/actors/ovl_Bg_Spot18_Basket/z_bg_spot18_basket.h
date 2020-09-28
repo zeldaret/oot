@@ -8,12 +8,6 @@ struct BgSpot18Basket;
 
 typedef void (*BgSpot18BasketActionFunc)(struct BgSpot18Basket*, GlobalContext*);
 
-typedef struct D_808B85E4Struct {
-    s16 unk_0;
-    s16 unk_2;
-    s16 unk_4;
-} D_808B85E4Struct;
-
 typedef struct BgSpot18Basket {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ColliderJntSph colliderJntSph;
@@ -29,7 +23,6 @@ typedef struct BgSpot18Basket {
     /* 0x0218 */ s16 unk_218;
     /* 0x021A */ u8 unk_21A;
     /* 0x021B */ u8 unk_21B;
-
 } BgSpot18Basket; // size = 0x021C
 
 extern const ActorInit Bg_Spot18_Basket_InitVars;
