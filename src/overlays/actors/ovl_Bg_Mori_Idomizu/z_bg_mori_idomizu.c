@@ -163,7 +163,7 @@ void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriIdomizu* this = THIS;
-    u32 gFrames = globalCtx->gameplayFrames;
+    u32 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_idomizu.c", 356);
 
@@ -177,8 +177,8 @@ void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 128);
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0x7F - (gFrames & 0x7F), gFrames % 0x80, 0x20, 0x20, 1,
-                                gFrames & 0x7F, gFrames % 0x80, 0x20, 0x20));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0x7F - (gameplayFrames & 0x7F), gameplayFrames % 0x80, 0x20,
+                                0x20, 1, gameplayFrames & 0x7F, gameplayFrames % 0x80, 0x20, 0x20));
 
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_060049D0);
 
