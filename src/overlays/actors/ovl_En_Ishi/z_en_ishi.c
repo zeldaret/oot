@@ -111,7 +111,6 @@ s32 func_80A7E4D8(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
 
 void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 16, 13, 11, 9, 7, 5 };
-
     s32 pad;
     Vec3f velocity;
     Vec3f pos;
@@ -147,7 +146,6 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
 
 void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
-
     // temp needed to force actor's velocity on the stack instead of pos
     Vec3f* temp = &this->actor.posRot.pos;
     Vec3f velocity;
@@ -323,7 +321,6 @@ void func_80A7F098(EnIshi* this) {
 
 void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
     static u16 D_80A873E0[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
-
     s32 pad;
     s16 type = this->actor.params & 1;
 
