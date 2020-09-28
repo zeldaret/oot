@@ -1,4 +1,5 @@
 #include "z_bg_spot18_basket.h"
+#include <vt.h>
 
 #define FLAGS 0x00000010
 
@@ -73,9 +74,9 @@ void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
     s32 i = 0;
     f32 randomValue;
     f32 sinValue;
-    s32 temp = 2;
+    s32 count = 2;
 
-    for (; i != temp; i++) {
+    for (; i != count; i++) {
         if (globalCtx) {}
         if (!(arg2 < Math_Rand_ZeroOne())) {
             D_808B85D0 += 0x7530;
@@ -137,9 +138,9 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
                        actor->shape.rot.z, -1);
 
     if (actor->child == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         Actor_Kill(actor);
     }
 }
