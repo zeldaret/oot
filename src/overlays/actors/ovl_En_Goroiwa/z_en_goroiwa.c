@@ -628,6 +628,7 @@ void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void func_80A4D9DC(EnGoroiwa* this) {
     static s16 waitDurations[] = { 20, 6 };
+
     this->actionFunc = func_80A4DA3C;
     this->actor.speedXZ = 0.0f;
     func_80A4BD70(this, 2);
