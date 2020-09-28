@@ -66,7 +66,6 @@ extern Gfx D_060006B0[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
     static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
-
     Sphere16* worldSphere = &this->collider.list[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.posRot.pos.x;
@@ -240,7 +239,6 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
 void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
     static Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     static Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
-
     Vec3f effectPos;
     s32 i;
     s16 angle = 0;
@@ -409,7 +407,6 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     static Vec3f unitY = { 0.0f, 1.0f, 0.0f };
-
     s32 pad;
     Vec3f* temp;
     f32 sp8C;
@@ -464,7 +461,6 @@ void func_80A4D074(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
-
     s16 angle1;
     s16 angle2;
     s32 pad;
@@ -509,7 +505,6 @@ static InitChainEntry sInitChain[] = {
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     static f32 D_80A4DF10[] = { 0.0f, 595.0f };
-
     EnGoroiwa* this = THIS;
     s32 pathIdx;
 
@@ -633,7 +628,6 @@ void func_80A4D944(EnGoroiwa* this, GlobalContext* globalCtx) {
 
 void func_80A4D9DC(EnGoroiwa* this) {
     static s16 waitDurations[] = { 20, 6 };
-
     this->actionFunc = func_80A4DA3C;
     this->actor.speedXZ = 0.0f;
     func_80A4BD70(this, 2);
