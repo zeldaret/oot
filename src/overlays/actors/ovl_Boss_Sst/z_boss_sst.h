@@ -29,7 +29,6 @@ typedef struct {
     /* 0x001A */ char unk_1A[0x2];
 } BossSstStruct2; // size = 0x1C
 
-
 typedef struct BossSst {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
