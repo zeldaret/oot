@@ -16,14 +16,25 @@ typedef struct BossMoParticle {
     /* 0x25 */ u8 timer;
     /* 0x26 */ u8 stopTimer;
     /* 0x28 */ s16 unk_28; // unused?
-    /* 0x2A */ s16 opacity;
+    /* 0x2A */ s16 alpha;
     /* 0x2C */ s16 rippleMode;
-    /* 0x2E */ s16 maxOpacity;
+    /* 0x2E */ s16 maxAlpha;
     /* 0x30 */ f32 scale;
     /* 0x34 */ f32 unk_34;
     /* 0x38 */ f32 unk_38;
     /* 0x3C */ Vec3f* targetPos;
 } BossMoParticle; //size = 0x40
+
+typedef enum {
+    /* 0 */ MO_NULL,
+    /* 1 */ MO_SMALL_RIPPLE,
+    /* 2 */ MO_BIG_RIPPLE,
+    /* 3 */ MO_DROPLET,
+    /* 4 */ MO_SPLASH,
+    /* 5 */ MO_SPLASH_TRAIL,
+    /* 6 */ MO_WET_SPOT,
+    /* 7 */ MO_BUBBLE
+} BossMoParticleType;
 
 typedef struct BossMo {
     /* 0x0000 */ Actor actor;
@@ -59,7 +70,7 @@ typedef struct BossMo {
     /* 0x0198 */ f32 unk_198; //Relates to Z rotation for tentacle bending
     /* 0x019C */ f32 unk_19C;
     /* 0x01A0 */ f32 tentMaxStretch;
-    /* 0x01A4 */ f32 baseOpacity;
+    /* 0x01A4 */ f32 baseAlpha;
     /* 0x01A8 */ f32 cutScale;
     /* 0x01AC */ f32 waterTex1x;
     /* 0x01B0 */ f32 waterTex1y;
@@ -67,7 +78,7 @@ typedef struct BossMo {
     /* 0x01B8 */ f32 waterTex2y;
     /* 0x01BC */ f32 waterLevel;
     /* 0x01C0 */ f32 flattenRate;
-    /* 0x01C4 */ f32 waterTexOpacity;
+    /* 0x01C4 */ f32 waterTexAlpha;
     /* 0x01C8 */ f32 waterLevelMod;
     /* 0x01CC */ s16 baseBubblesTimer;
     /* 0x01CE */ s16 attackAngleMod;
