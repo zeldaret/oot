@@ -640,8 +640,8 @@ void BossSst_Init(Actor* thisx, GlobalContext *globalCtx) {
                 this->actor.posRot.pos.y, 
                 this->actor.posRot.pos.z + 400.0f, 
                 0, this->actor.shape.rot.y, 0, 1);
-            D_80938C98[0]->actor.attachedB = &D_80938C98[1]->actor;
-            D_80938C98[1]->actor.attachedB = &D_80938C98[0]->actor;
+            D_80938C98[0]->actor.child = &D_80938C98[1]->actor;
+            D_80938C98[1]->actor.child = &D_80938C98[0]->actor;
 
             this->actor.flags &= ~1;
             this->actor.update = func_80934338;
@@ -1585,7 +1585,7 @@ void func_8092FC60(BossSst *this, GlobalContext *globalCtx) {
     Math_ApproxF(&this->actor.posRot.pos.y, this->actor.groundY, 20.0f);
     Math_ApproxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
     Math_ApproxF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
-    if (D_8093746C[this->actor.attachedB->params] == 8) {
+    if (D_8093746C[this->actor.child->params] == 8) {
         Player* player = PLAYER;
 
         if (this->unk_198 != 0) {
@@ -1615,7 +1615,7 @@ void func_8092FDD0(BossSst *this) {
 
 void func_8092FE44(BossSst *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (D_8093746C[((BossSst*)this->actor.attachedB)->actor.params] == 8) {
+    if (D_8093746C[((BossSst*)this->actor.child)->actor.params] == 8) {
         func_8092FBE4(this);
         return;
     }
@@ -1656,7 +1656,7 @@ void func_8092FF94(BossSst *this) {
 
 void func_8092FFF0(BossSst *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (D_8093746C[this->actor.attachedB->params] == 8) {
+    if (D_8093746C[this->actor.child->params] == 8) {
         func_8092FBE4(this);
         return;
     }
@@ -1680,7 +1680,7 @@ void func_809300E4(BossSst *this) {
 
 void func_80930158(BossSst *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (D_8093746C[((BossSst*)this->actor.attachedB)->actor.params] == 8) {
+    if (D_8093746C[((BossSst*)this->actor.child)->actor.params] == 8) {
         func_8092FBE4(this);
         return;
     }
@@ -1710,7 +1710,7 @@ void func_80930238(BossSst *this) {
 
 void func_80930284(BossSst *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (D_8093746C[this->actor.attachedB->params] == 8) {
+    if (D_8093746C[this->actor.child->params] == 8) {
         func_8092FBE4(this);
         return;
     }
@@ -2003,8 +2003,8 @@ void func_809310CC(BossSst *this, GlobalContext *globalCtx) {
 
 void func_80931210(BossSst *this) {
     D_8093746C[this->actor.params] = 6;
-    if (D_8093746C[((BossSst*)this->actor.attachedB)->actor.params] != 6) {
-        func_80931210((BossSst*)this->actor.attachedB);
+    if (D_8093746C[((BossSst*)this->actor.child)->actor.params] != 6) {
+        func_80931210((BossSst*)this->actor.child);
     }
 
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_8093785C[this->actor.params], 10.0f);
@@ -2014,7 +2014,7 @@ void func_80931210(BossSst *this) {
     this->unk_1A6 = this->unk_194 * 16384;
     this->unk_198 = 0;
     this->unk_195 = 0;
-    ((BossSst*)this->actor.attachedB)->unk_195 = 0;
+    ((BossSst*)this->actor.child)->unk_195 = 0;
     this->actionFunc = func_80931300;
 }
 
@@ -2027,8 +2027,8 @@ void func_80931300(BossSst *this, GlobalContext *globalCtx) {
 
         if (this->unk_198 == 0) {
             func_809314F0(this);
-            func_809314F0((BossSst*)this->actor.attachedB);
-            ((BossSst*)this->actor.attachedB)->unk_3C4 = this->unk_3C4;
+            func_809314F0((BossSst*)this->actor.child);
+            ((BossSst*)this->actor.child)->unk_3C4 = this->unk_3C4;
         }
     } else if (this->unk_195 == 0) {
         this->unk_195 = SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -2041,7 +2041,7 @@ void func_80931300(BossSst *this, GlobalContext *globalCtx) {
         
         this->actor.posRot.pos.x = (Math_Sins(this->actor.posRot.rot.y) * this->unk_3C4) + D_80938C90->actor.posRot.pos.x;
         this->actor.posRot.pos.z = (Math_Coss(this->actor.posRot.rot.y) * this->unk_3C4) + D_80938C90->actor.posRot.pos.z;
-    } else if (((BossSst*)this->actor.attachedB)->unk_195 != 0) {
+    } else if (((BossSst*)this->actor.child)->unk_195 != 0) {
         this->unk_198 = 0x14;
     }
 }
@@ -2077,7 +2077,7 @@ void func_80931560(BossSst *this, GlobalContext *globalCtx) {
     } else {
         if (this->collider1.base.atFlags & 2) {
             this->collider1.base.atFlags &= ~3;
-            ((BossSst*)this->actor.attachedB)->collider1.base.atFlags &= ~3;
+            ((BossSst*)this->actor.child)->collider1.base.atFlags &= ~3;
             func_809338DC(this, globalCtx);
         }
 
@@ -2405,9 +2405,9 @@ void func_80932674(BossSst *this, GlobalContext *globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHADEST_SHAKEHAND);
     }
 
-    if (D_8093746C[this->actor.attachedB->params] == 8) {
-        if ((((BossSst*)this->actor.attachedB)->actionFunc == func_80932674) ||
-           (((BossSst*)this->actor.attachedB)->actionFunc == func_8093285C)) {
+    if (D_8093746C[this->actor.child->params] == 8) {
+        if ((((BossSst*)this->actor.child)->actionFunc == func_80932674) ||
+           (((BossSst*)this->actor.child)->actionFunc == func_8093285C)) {
             func_80932808(this);
         } else if (this->unk_198 == 0) {
             this->unk_198 = 0x50;
@@ -2437,7 +2437,7 @@ void func_8093285C(BossSst *this, GlobalContext *globalCtx) {
         }
     } else if (this->collider1.base.atFlags & 2) {
         this->collider1.base.atFlags &= ~3;
-        ((BossSst*)this->actor.attachedB)->collider1.base.atFlags &= ~3;
+        ((BossSst*)this->actor.child)->collider1.base.atFlags &= ~3;
         D_80938C90->collider1.base.atFlags &= ~3;
         func_8002F71C(globalCtx, &this->actor, 10.0f, this->actor.shape.rot.y, 5.0f);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
@@ -2640,7 +2640,7 @@ void func_80933328(BossSst *this) {
 
     D_8093746C[this->actor.params] = 9;
     Math_Vec3f_Copy(&this->unk_3C8, &this->actor.posRot.pos);
-    func_80933554((BossSst*)this->actor.attachedB);
+    func_80933554((BossSst*)this->actor.child);
     this->unk_195 = 0;
     this->unk_196 = 1;
     this->unk_198 = 0x23;
@@ -2676,16 +2676,16 @@ void func_809333F4(BossSst *this, GlobalContext *globalCtx) {
 
     this->actor.dmgEffectTimer = 0xA;
     if (this->unk_19A != 0) {
-        sp24 = Math_Sins(this->actor.attachedB->shape.rot.x) * 5.0f;
-        sp20 = Math_Coss(this->actor.attachedB->shape.rot.x) * 5.0f;
+        sp24 = Math_Sins(this->actor.child->shape.rot.x) * 5.0f;
+        sp20 = Math_Coss(this->actor.child->shape.rot.x) * 5.0f;
         if ((this->unk_19A & 1) != 0) {
             sp24 *= -1.0f;
             sp20 *= -1.0f;
         }
 
-        this->actor.posRot.pos.x = (Math_Coss(this->actor.attachedB->shape.rot.y) * sp20) + this->unk_3C8.x;
+        this->actor.posRot.pos.x = (Math_Coss(this->actor.child->shape.rot.y) * sp20) + this->unk_3C8.x;
         this->actor.posRot.pos.y = this->unk_3C8.y + sp24;
-        this->actor.posRot.pos.z = (Math_Sins(this->actor.attachedB->shape.rot.y) * sp20) + this->unk_3C8.z;
+        this->actor.posRot.pos.z = (Math_Sins(this->actor.child->shape.rot.y) * sp20) + this->unk_3C8.z;
         this->unk_19A--;
     }
 }
@@ -2699,8 +2699,8 @@ void func_80933554(BossSst *this) {
         this->unk_196 = 0;
     }
 
-    this->unk_3C4 = func_8002DBB0(&this->actor, &((BossSst*)this->actor.attachedB)->unk_3C8);
-    this->unk_1A4 = func_8002DAC0(&this->actor, &((BossSst*)this->actor.attachedB)->unk_3C8);
+    this->unk_3C4 = func_8002DBB0(&this->actor, &((BossSst*)this->actor.child)->unk_3C8);
+    this->unk_1A4 = func_8002DAC0(&this->actor, &((BossSst*)this->actor.child)->unk_3C8);
     func_80933CEC(this, 1);
     this->actionFunc = func_80933608;
 }
@@ -2712,10 +2712,10 @@ void func_80933608(BossSst *this, GlobalContext *globalCtx) {
     tmp &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x1000, 0x400);
     tmp &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x800);
     tmp &= Math_ApproxUpdateScaledS(&this->unk_1A0, 0, 0x400);
-    tmp &= Math_ApproxF(&this->actor.posRot.pos.y, ((BossSst*)this->actor.attachedB)->unk_3C8.y + 200.0f, 50.0f);
+    tmp &= Math_ApproxF(&this->actor.posRot.pos.y, ((BossSst*)this->actor.child)->unk_3C8.y + 200.0f, 50.0f);
     tmp &= Math_ApproxF(&this->unk_3C4, 400.0f, 60.0f);
-    this->actor.posRot.pos.x = ((BossSst*)this->actor.attachedB)->unk_3C8.x - (Math_Sins(this->unk_1A4) * this->unk_3C4);
-    this->actor.posRot.pos.z = ((BossSst*)this->actor.attachedB)->unk_3C8.z - (Math_Coss(this->unk_1A4) * this->unk_3C4);
+    this->actor.posRot.pos.x = ((BossSst*)this->actor.child)->unk_3C8.x - (Math_Sins(this->unk_1A4) * this->unk_3C4);
+    this->actor.posRot.pos.z = ((BossSst*)this->actor.child)->unk_3C8.z - (Math_Coss(this->unk_1A4) * this->unk_3C4);
     if ((SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) && (tmp != 0)) {
         func_80933724(this);
     }
@@ -2742,7 +2742,7 @@ void func_80933748(BossSst *this, GlobalContext *globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_ICE_BROKEN);
             }
 
-            ((BossSst*)this->actor.attachedB)->unk_19A = 5;
+            ((BossSst*)this->actor.child)->unk_19A = 5;
         }
     } else {
         this->actor.speedXZ *= 0.8f;
@@ -2752,11 +2752,11 @@ void func_80933748(BossSst *this, GlobalContext *globalCtx) {
         }
     }
 
-    this->actor.posRot.pos.x = ((BossSst*)this->actor.attachedB)->unk_3C8.x - (Math_Sins(this->unk_1A4) * this->unk_3C4);
-    this->actor.posRot.pos.z = ((BossSst*)this->actor.attachedB)->unk_3C8.z - (Math_Coss(this->unk_1A4) * this->unk_3C4);
-    this->actor.posRot.pos.y = ((BossSst*)this->actor.attachedB)->unk_3C8.y + (this->unk_3C4 * 0.4f);
+    this->actor.posRot.pos.x = ((BossSst*)this->actor.child)->unk_3C8.x - (Math_Sins(this->unk_1A4) * this->unk_3C4);
+    this->actor.posRot.pos.z = ((BossSst*)this->actor.child)->unk_3C8.z - (Math_Coss(this->unk_1A4) * this->unk_3C4);
+    this->actor.posRot.pos.y = ((BossSst*)this->actor.child)->unk_3C8.y + (this->unk_3C4 * 0.4f);
     if (this->unk_198 == 0) {
-        ((BossSst*)this->actor.attachedB)->unk_195 = 1;
+        ((BossSst*)this->actor.child)->unk_195 = 1;
         func_80930474(this);
     }
 
@@ -2771,7 +2771,7 @@ void func_809338DC(BossSst *this, GlobalContext *globalCtx) {
         if (player->actor.colChkInfo.health > 0) {
             this->collider1.base.maskA &= ~1;
             if (D_8093746C[this->actor.params] == 6) {
-                ((BossSst*)this->actor.attachedB)->collider1.base.maskA &= ~1;
+                ((BossSst*)this->actor.child)->collider1.base.maskA &= ~1;
             }
         }
     }
@@ -2784,7 +2784,7 @@ void func_80933978(BossSst *this, GlobalContext *globalCtx, s32 arg2) {
         player->actor.attachedA = NULL;
         player->unk_850 = 0x64;
         this->collider1.base.maskA |= 1;
-        ((BossSst*)this->actor.attachedB)->collider1.base.maskA |= 1;
+        ((BossSst*)this->actor.child)->collider1.base.maskA |= 1;
         if (arg2 != 0) {
             func_8002F71C(globalCtx, &this->actor, 0.0f, this->actor.shape.rot.y, 0.0f);
         }
@@ -2830,7 +2830,7 @@ void func_80933B84(BossSst *this) {
     f32 tmpf1 = Math_Rand_ZeroOne() * 6.0f;
     s32 tmp;
 
-    if (D_8093746C[((BossSst*)this->actor.attachedB)->actor.params] == 8) {
+    if (D_8093746C[((BossSst*)this->actor.child)->actor.params] == 8) {
         tmpf1 *= 0.8333333f;
         if (tmpf1 > 4.0f) {
             tmpf1 = 4.0f;
@@ -2886,9 +2886,9 @@ void func_80933D54(BossSst *this, GlobalContext *globalCtx) {
             this->collider1.base.acFlags &= ~1;
             this->collider1.base.maskA &= ~4;
             func_80933978(this, globalCtx, 1);
-            if (D_8093746C[this->actor.attachedB->params] == 6) {
-                func_80933978((BossSst*)this->actor.attachedB, globalCtx, 1);
-                func_80930474((BossSst*)this->actor.attachedB);
+            if (D_8093746C[this->actor.child->params] == 6) {
+                func_80933978((BossSst*)this->actor.child, globalCtx, 1);
+                func_80930474((BossSst*)this->actor.child);
             }
 
             this->actor.flags &= ~1;
@@ -2896,7 +2896,7 @@ void func_80933D54(BossSst *this, GlobalContext *globalCtx) {
                 func_80933328(this);
             } else {
                 func_809322B4(this);
-                if (D_8093746C[this->actor.attachedB->params] != 8) {
+                if (D_8093746C[this->actor.child->params] != 8) {
                     sp24 = 0;
                 }
             }
