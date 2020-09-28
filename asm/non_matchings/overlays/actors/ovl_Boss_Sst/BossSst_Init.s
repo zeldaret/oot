@@ -13,11 +13,11 @@ glabel BossSst_Init
 /* 00008 8092C5D8 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 0000C 8092C5DC AFBF0034 */  sw      $ra, 0x0034($sp)
 /* 00010 8092C5E0 AFB0002C */  sw      $s0, 0x002C($sp)
-/* 00014 8092C5E4 3C058093 */  lui     $a1, %hi(D_8093788C)       ## $a1 = 80930000
+/* 00014 8092C5E4 3C058093 */  lui     $a1, %hi(sInitChain)       ## $a1 = 80930000
 /* 00018 8092C5E8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0001C 8092C5EC 0C01E037 */  jal     Actor_ProcessInitChain
 
-/* 00020 8092C5F0 24A5788C */  addiu   $a1, $a1, %lo(D_8093788C)  ## $a1 = 8093788C
+/* 00020 8092C5F0 24A5788C */  addiu   $a1, $a1, %lo(sInitChain)  ## $a1 = 8093788C
 /* 00024 8092C5F4 260506B4 */  addiu   $a1, $s0, 0x06B4           ## $a1 = 000006B4
 /* 00028 8092C5F8 AFA50044 */  sw      $a1, 0x0044($sp)
 /* 0002C 8092C5FC 0C0170D9 */  jal     Collider_InitCylinder
@@ -82,16 +82,16 @@ glabel BossSst_Init
 /* 0010C 8092C6DC 0C00AC78 */  jal     ActorShape_Init
 
 /* 00110 8092C6E0 3C0742BE */  lui     $a3, 0x42BE                ## $a3 = 42BE0000
-/* 00114 8092C6E4 3C078093 */  lui     $a3, %hi(D_809377BC)       ## $a3 = 80930000
+/* 00114 8092C6E4 3C078093 */  lui     $a3, %hi(sJntSphInit1)       ## $a3 = 80930000
 /* 00118 8092C6E8 260803F4 */  addiu   $t0, $s0, 0x03F4           ## $t0 = 000003F4
 /* 0011C 8092C6EC AFA80010 */  sw      $t0, 0x0010($sp)
-/* 00120 8092C6F0 24E777BC */  addiu   $a3, $a3, %lo(D_809377BC)  ## $a3 = 809377BC
+/* 00120 8092C6F0 24E777BC */  addiu   $a3, $a3, %lo(sJntSphInit1)  ## $a3 = 809377BC
 /* 00124 8092C6F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00128 8092C6F8 8FA50040 */  lw      $a1, 0x0040($sp)
 /* 0012C 8092C6FC 0C017014 */  jal     Collider_SetJntSph
 /* 00130 8092C700 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00134 8092C704 3C078093 */  lui     $a3, %hi(D_809377CC)       ## $a3 = 80930000
-/* 00138 8092C708 24E777CC */  addiu   $a3, $a3, %lo(D_809377CC)  ## $a3 = 809377CC
+/* 00134 8092C704 3C078093 */  lui     $a3, %hi(sCylinderInit1)       ## $a3 = 80930000
+/* 00138 8092C708 24E777CC */  addiu   $a3, $a3, %lo(sCylinderInit1)  ## $a3 = 809377CC
 /* 0013C 8092C70C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00140 8092C710 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00144 8092C714 0C01712B */  jal     Collider_SetCylinder
@@ -239,14 +239,14 @@ glabel BossSst_Init
 /* 00358 8092C928 10000046 */  beq     $zero, $zero, .L8092CA44
 /* 0035C 8092C92C 8FBF0034 */  lw      $ra, 0x0034($sp)
 .L8092C930:
-/* 00360 8092C930 3C078093 */  lui     $a3, %hi(D_80937620)       ## $a3 = 80930000
+/* 00360 8092C930 3C078093 */  lui     $a3, %hi(sJntSphInit2)       ## $a3 = 80930000
 /* 00364 8092C934 260D03F4 */  addiu   $t5, $s0, 0x03F4           ## $t5 = 000003F4
 /* 00368 8092C938 AFAD0010 */  sw      $t5, 0x0010($sp)
-/* 0036C 8092C93C 24E77620 */  addiu   $a3, $a3, %lo(D_80937620)  ## $a3 = 80937620
+/* 0036C 8092C93C 24E77620 */  addiu   $a3, $a3, %lo(sJntSphInit2)  ## $a3 = 80937620
 /* 00370 8092C940 0C017014 */  jal     Collider_SetJntSph
 /* 00374 8092C944 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00378 8092C948 3C078093 */  lui     $a3, %hi(D_809377F8)       ## $a3 = 80930000
-/* 0037C 8092C94C 24E777F8 */  addiu   $a3, $a3, %lo(D_809377F8)  ## $a3 = 809377F8
+/* 00378 8092C948 3C078093 */  lui     $a3, %hi(sCylinderInit2)       ## $a3 = 80930000
+/* 0037C 8092C94C 24E777F8 */  addiu   $a3, $a3, %lo(sCylinderInit2)  ## $a3 = 809377F8
 /* 00380 8092C950 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00384 8092C954 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00388 8092C958 0C01712B */  jal     Collider_SetCylinder
