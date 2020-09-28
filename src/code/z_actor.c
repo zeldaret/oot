@@ -4094,7 +4094,7 @@ EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3,
         spawnedEnPart->actor.speedXZ = arg3[0];
         spawnedEnPart->displayList = arg8;
         spawnedEnPart->action = 2;
-        spawnedEnPart->effectDelay = arg4;
+        spawnedEnPart->timer = arg4;
         spawnedEnPart->rotZ = arg3[1];
         spawnedEnPart->rotZSpeed = arg3[2];
         return spawnedEnPart;
