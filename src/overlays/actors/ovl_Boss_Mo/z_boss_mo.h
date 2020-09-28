@@ -20,8 +20,8 @@ typedef struct BossMoParticle {
     /* 0x2C */ s16 rippleMode;
     /* 0x2E */ s16 maxAlpha;
     /* 0x30 */ f32 scale;
-    /* 0x34 */ f32 unk_34;
-    /* 0x38 */ f32 unk_38;
+    /* 0x34 */ union {f32 maxSize; f32 shimmer; f32 suction;};
+    /* 0x38 */ union {f32 spreadRate; f32 stretch; f32 maxScale;};
     /* 0x3C */ Vec3f* targetPos;
 } BossMoParticle; //size = 0x40
 

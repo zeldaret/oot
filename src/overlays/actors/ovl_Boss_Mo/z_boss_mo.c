@@ -207,16 +207,16 @@ void BossMo_SpawnRipples(BossMoParticle* particle, Vec3f* pos, f32 scale, f32 ma
             particle->vel = sRippleZeroVec;
             particle->accel = sRippleZeroVec;
             particle->scale = scale * 0.0025f;
-            particle->unk_34 = maxScale * 0.0025f;
+            particle->maxSize = maxScale * 0.0025f;
             if (scale > 300.0f) {
                 particle->alpha = 0;
                 particle->maxAlpha = maxAlpha;
                 particle->rippleMode = 0;
-                particle->unk_38 = (particle->unk_34 - particle->scale) * 0.05f;
+                particle->spreadRate = (particle->maxSize - particle->scale) * 0.05f;
             } else {
                 particle->alpha = maxAlpha;
                 particle->rippleMode = 1;
-                particle->unk_38 = (particle->unk_34 - particle->scale) * 0.1f;
+                particle->spreadRate = (particle->maxSize - particle->scale) * 0.1f;
             }
             return;
         }
@@ -233,11 +233,11 @@ void BossMo_SpawnDroplet(s16 type, BossMoParticle* particle, Vec3f* pos, Vec3f* 
             particle->pos = *pos;
             particle->vel = *vel;
             particle->accel = gravity;
-            if (type == 5) {
+            if (type == MO_SPLASH_TRAIL) {
                 particle->accel.y = 0.0f;
             }
             particle->scale = scale;
-            particle->unk_38 = 1.0f;
+            particle->spreadRate = 1.0f;
             particle->stopTimer = 0;
             return;
         }
@@ -256,7 +256,7 @@ void BossMo_SpawnStillDroplet(BossMoParticle* particle, Vec3f* pos, f32 scale) {
             particle->vel = zeroVec;
             particle->accel = zeroVec;
             particle->scale = scale;
-            particle->unk_38 = 1.0f;
+            particle->spreadRate = 1.0f;
             return;
         }
     }
@@ -273,7 +273,7 @@ void BossMo_SpawnBubble(BossMoParticle* particle, Vec3f* pos, Vec3f* vel, Vec3f*
             particle->vel = *vel;
             particle->accel = *accel;
             particle->scale = scale;
-            particle->unk_34 = 0.0f;
+            particle->suction = 0.0f;
             particle->targetPos = targetPos;
             if (targetPos == NULL) {
                 particle->alpha = 255;
@@ -2700,7 +2700,7 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                 if (this->cutsceneState >= 100) {
                     particle->pos.y = WATER_LEVEL;
                 }
-                Math_SmoothScaleMaxF(&particle->scale, particle->unk_34, 0.2f, particle->unk_38);
+                Math_SmoothScaleMaxF(&particle->scale, particle->maxSize, 0.2f, particle->spreadRate);
                 if (particle->rippleMode == 0) {
                     particle->alpha += 15;
                     if (particle->alpha >= particle->maxAlpha) {
@@ -2733,13 +2733,13 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                         targetPos = particle->targetPos;
                         dx = targetPos->x - particle->pos.x;
                         dz = targetPos->z - particle->pos.z;
-                        bubbleSpeed.z = particle->unk_34;
+                        bubbleSpeed.z = particle->suction;
                         Matrix_RotateY(Math_atan2f(dx, dz), MTXMODE_NEW);
                         Matrix_MultVec3f(&bubbleSpeed, &bubbleVel);
                         particle->vel.x = bubbleVel.x;
                         particle->vel.z = bubbleVel.z;
                     }
-                    Math_SmoothScaleMaxF(&particle->unk_34, 5.0f, 1.0f, 0.5f);
+                    Math_SmoothScaleMaxF(&particle->suction, 5.0f, 1.0f, 0.5f);
                     if (particle->timer > 20) {
                         particle->alpha -= 30;
                         particle->accel.y = 1.5f;
@@ -2758,16 +2758,16 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                         || (particle->type == MO_SPLASH_TRAIL) || (particle->type == MO_WET_SPOT)) {          
                 f32 shimmer = (particle->timer & 6) ? 80.0f : 200.0f;
                 
-                Math_SmoothScaleMaxF(&particle->unk_34, shimmer, 1.0f, 80.0f);
+                Math_SmoothScaleMaxF(&particle->shimmer, shimmer, 1.0f, 80.0f);
                 if (particle->type == MO_WET_SPOT) {
-                    Math_SmoothScaleMaxF(&particle->scale, particle->unk_38, 0.1f, 0.6f);
+                    Math_SmoothScaleMaxF(&particle->scale, particle->maxScale, 0.1f, 0.6f);
                     particle->alpha -= 15;
                     if (particle->alpha <= 0) {
                         particle->alpha = 0;
                         particle->type = MO_NULL;
                     }
                 } else {
-                    particle->alpha = particle->unk_34;
+                    particle->alpha = particle->shimmer;
                     if (particle->type == MO_SPLASH_TRAIL) {
                         Math_SmoothScaleMaxF(&particle->scale, 0.0f, 1.0f, 0.02f);
                         if (particle->scale <= 0.0f) {
@@ -2784,7 +2784,7 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                         }
                         if (particle->stopTimer == 0) {
                             if (particle->vel.y < -5.0f) {
-                                Math_SmoothScaleMaxF(&particle->unk_38, 5.0f, 0.1f, 0.15f);
+                                Math_SmoothScaleMaxF(&particle->stretch, 5.0f, 0.1f, 0.15f);
                             }
                         } else if (particle->stopTimer == 1) {
                             particle->vel.x = Math_Rand_CenteredFloat(3.0f);
@@ -2804,7 +2804,7 @@ void BossMo_UpdateParticles(BossMo* this, GlobalContext* globalCtx) {
                             }
                             particle->type = MO_WET_SPOT;
                             particle->alpha = 150;
-                            particle->unk_38 = (particle->scale * 15.0f) * 0.15f;
+                            particle->stretch = (particle->scale * 15.0f) * 0.15f;
                         } else if (particle->pos.y <= WATER_LEVEL) {
                             Vec3f sp78 = particle->pos;
                             sp78.y = WATER_LEVEL;
@@ -2890,12 +2890,12 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s16)(*particle).unk_34, (s16)(*particle).unk_34, 255,
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s16)(*particle).shimmer, (s16)(*particle).shimmer, 255,
                             particle->alpha);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(particle->scale / particle->unk_38, particle->unk_38 * particle->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(particle->scale / particle->stretch, particle->stretch * particle->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -2917,7 +2917,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s16)(*particle).unk_34, (s16)(*particle).unk_34, 0xFF,
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s16)(*particle).shimmer, (s16)(*particle).shimmer, 0xFF,
                             particle->alpha);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
