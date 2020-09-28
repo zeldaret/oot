@@ -41,7 +41,9 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     }
 }
 
-// Rotate actor
+/**
+* Rotate actor
+*/
 void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     if (func_8003E934(bgId)) {
         s16 rot = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
@@ -68,7 +70,7 @@ void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
     }
 }
 
-/*
+/**
 * Transform actor's position
 * `actor` is the actor to update
 */
