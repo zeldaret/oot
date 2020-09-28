@@ -162,28 +162,6 @@ extern u8 D_8016E1B0[];
 
 extern Struct_8013331C* D_8013331C[9];
 
-
-
-void func_800F3A08(u8, u8, u8);
-
-// audio random ?
-s32 func_800E67C0(void);
-
-// TODO move prototypes
-void func_800E5B20(u32, s8);
-
-void func_800F7CEC(u8);
-void func_800F8480(u8);
-void func_800F8F34(u8);
-
-void func_800F7B54(u8, u8);
-
-void func_800FA240(u8, u8, u8, u8);
-
-void func_800F2D6C(u8*, u16 sfxId);
-
-
-
 void func_800F7260(u16 arg0) {
     u8 bankId;
 
@@ -440,6 +418,7 @@ void func_800F8480(u8 bankId) {
                 }
                 if (entry->unk_26 & 0xC0) {
                     switch (entry->unk_26 & 0xC0) {
+                        // Calls to Audio_Random ?
                         case 0x40:
                             entry->unk_2F = func_800E67C0() & 0xF;
                             break;
@@ -465,7 +444,7 @@ void func_800F8480(u8 bankId) {
                 } else {
                     entry->unk_2A = 5;
                 }
-            } else if (seqChannel->soundScriptIO[1] == 0xFF) {
+            } else if ((u8)seqChannel->soundScriptIO[1] == 0xFF) {
                 func_800F7B54(bankId, bankIndex);
             } else if (entry->unk_2A == 3) {
                 func_800F3A08(bankId, bankIndex, D_8016E260);

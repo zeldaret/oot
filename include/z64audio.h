@@ -319,7 +319,7 @@ typedef struct SequenceChannel {
     /* 0x60 */ M64ScriptState scriptState;
     /* 0x7C */ AdsrSettings adsr;
     /* 0x84 */ NotePool notePool;
-    /* 0xC4 */ u8 soundScriptIO[8]; // bridge between sound script and audio lib
+    /* 0xC4 */ s8 soundScriptIO[8]; // bridge between sound script and audio lib
     /* 0xCC */ s16* unk_CC;
     /* 0xD0 */ ReverbBits reverbBits;
 } SequenceChannel; // size = 0xD4
