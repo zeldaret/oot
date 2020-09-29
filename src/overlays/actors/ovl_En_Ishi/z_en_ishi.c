@@ -50,7 +50,7 @@ const ActorInit En_Ishi_InitVars = {
     (ActorFunc)EnIshi_Draw,
 };
 
-static f32 D_80A7FA18[] = { 0.1f, 0.4f };
+static f32 sRockScales[] = { 0.1f, 0.4f };
 static f32 D_80A7FA20[] = { 58.0f, 80.0f };
 static f32 D_80A7FA28[] = { 0.0f, 0.005f };
 
@@ -295,7 +295,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.shape.rot.y == 0) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = Math_Rand_ZeroFloat(0x10000);
     }
-    Actor_SetScale(&this->actor, D_80A7FA18[type]);
+    Actor_SetScale(&this->actor, sRockScales[type]);
     EnIshi_SetupCollider(&this->actor, globalCtx);
     if ((type == ROCK_LARGE) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
