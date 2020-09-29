@@ -16,6 +16,23 @@ endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
+MAKE = make
+CPPFLAGS = -P
+
+ifeq ($(OS),Windows_NT)
+    $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        DETECTED_OS=linux
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        DETECTED_OS=macos
+        MAKE=gmake
+        CPPFLAGS += -xc++
+    endif
+endif
+
 #### Tools ####
 ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
   MIPS_BINUTILS_PREFIX := mips-linux-gnu-
@@ -23,8 +40,8 @@ else
   $(error Please install or build mips-linux-gnu)
 endif
 
-CC       := tools/ido_recomp/linux/7.1/cc
-CC_OLD   := tools/ido_recomp/linux/5.3/cc
+CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
+CC_OLD   := tools/ido_recomp/$(DETECTED_OS)/5.3/cc
 
 # if ORIG_COMPILER is 1, check that either QEMU_IRIX is set or qemu-irix package installed
 ifeq ($(ORIG_COMPILER),1)
@@ -159,18 +176,18 @@ $(ELF): $(TEXTURE_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
-	$(CPP) -P $< > build/spec
+	$(CPP) $(CPPFLAGS) $< > build/spec
 	$(MKLDSCRIPT) build/spec $@
 
 build/undefined_syms.txt: undefined_syms.txt
-	$(CPP) -P $< > build/undefined_syms.txt
+	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
 
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
 setup:
 	git submodule update --init --recursive
-	make -C tools
+	$(MAKE) -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py

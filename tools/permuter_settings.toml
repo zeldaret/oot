@@ -2,11 +2,15 @@
 "g[DS]P.*" = "void"
 "gDma.*" = "void"
 "G_IM_SIZ_.*" = "int"
-"G_[AC]CMUX.*" = "int"
+"G_[AC]C.*" = "int"
 LOG = "void"
 SET_FULLSCREEN_VIEWPORT = "void"
 OPEN_DISPS = "void"
 CLOSE_DISPS = "void"
 ABS = "int"
 SQ = "int"
+<<<<<<< HEAD
 SEGMENTED_TO_VIRTUAL = "void*"
+=======
+CLAMP = "int"
+>>>>>>> a506801cd73d0aa6a071d61ab95f0c427e458000

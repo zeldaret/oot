@@ -64,7 +64,11 @@ if argcomplete:
                     pos = data.find(search, endPos)
                 completes.append(match)
         return completes
+<<<<<<< HEAD
     setattr(start_argument, "completer", complete_symbol)
+=======
+    start_argument.completer = complete_symbol
+>>>>>>> a506801cd73d0aa6a071d61ab95f0c427e458000
 
 parser.add_argument("end", nargs="?", help="Address to end diff at.")
 parser.add_argument(
@@ -618,13 +622,17 @@ class Line(NamedTuple):
     mnemonic: str
     diff_row: str
     original: str
+<<<<<<< HEAD
     normalized_original: str
+=======
+>>>>>>> a506801cd73d0aa6a071d61ab95f0c427e458000
     line_num: str
     branch_target: Optional[str]
     source_lines: List[str]
     comment: Optional[str]
 
 
+<<<<<<< HEAD
 class DifferenceNormalizer:
     def normalize(self, mnemonic: str, row: str) -> str:
         """This should be called exactly once for each line."""
@@ -694,6 +702,9 @@ def make_difference_normalizer() -> DifferenceNormalizer:
 
 def process(lines):
     normalizer = make_difference_normalizer()
+=======
+def process(lines):
+>>>>>>> a506801cd73d0aa6a071d61ab95f0c427e458000
     skip_next = False
     source_lines = []
     if not args.diff_obj:
@@ -764,7 +775,10 @@ def process(lines):
                 mnemonic=mnemonic,
                 diff_row=row,
                 original=original,
+<<<<<<< HEAD
                 normalized_original=normalized_original,
+=======
+>>>>>>> a506801cd73d0aa6a071d61ab95f0c427e458000
                 line_num=line_num,
                 branch_target=branch_target,
                 source_lines=source_lines,
@@ -936,7 +950,13 @@ def do_diff(basedump: str, mydump: str) -> List[OutputLine]:
             line_color1 = line_color2 = sym_color = Fore.RESET
             line_prefix = " "
             if line1 and line2 and line1.diff_row == line2.diff_row:
+<<<<<<< HEAD
                 if line1.normalized_original == line2.normalized_original:
+=======
+                if maybe_normalize_large_imms(
+                    line1.original
+                ) == maybe_normalize_large_imms(line2.original):
+>>>>>>> a506801cd73d0aa6a071d61ab95f0c427e458000
                     out1 = line1.original
                     out2 = line2.original
                 elif line1.diff_row == "<delay-slot>":
