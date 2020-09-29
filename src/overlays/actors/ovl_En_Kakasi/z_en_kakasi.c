@@ -233,4 +233,15 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Update.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Draw.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Draw.s")
+void EnKakasi_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    EnKakasi *this = THIS;
+
+    if (BREG(3) != 0) {
+        osSyncPrintf("\n\n");
+        // flag!
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_F3C[4]); 
+    }
+    func_80093D18(globalCtx->state.gfxCtx);
+    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, 0, 0, &this->actor);
+}
