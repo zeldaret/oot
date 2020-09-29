@@ -4,6 +4,16 @@
 #include <ultra64.h>
 #include <global.h>
 
+#define FHG_LIGHTNING_STRIKE 1
+#define FHG_LIGHTNING_TRAIL 100
+#define FHG_TRAIL_HITBOX 35
+#define FHG_LIGHTNING_BURST 36
+#define FHG_SPEAR_SPARK 38
+#define FHG_WARP_EMERGE 39
+#define FHG_WARP_RETREAT 40
+#define FHG_WARP_DEATH 41
+#define FHG_ENERGY_BALL 50
+
 struct EnFhgFire;
 
 typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, GlobalContext *globalCtx);

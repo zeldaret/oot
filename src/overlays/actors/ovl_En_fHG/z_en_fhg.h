@@ -47,7 +47,7 @@ typedef struct EnfHG {
     /* 0x01E4 */ char unk_1E4[4];
     /* 0x01E8 */ f32 unk_1E8;
     /* 0x01EC */ f32 unk_1EC;
-    /* 0x01F0 */ f32 unk_1F0;
+    /* 0x01F0 */ f32 unk_1F0; //These have something to do with fog
     /* 0x01F4 */ f32 unk_1F4;
     /* 0x01F8 */ f32 unk_1F8;
     /* 0x01FC */ EnfHGActionFunc actionFunc;
