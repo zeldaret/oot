@@ -34,8 +34,8 @@ typedef enum {
     /* 0x01 */ ROCK_LARGE
 } EnIshiType;
 
-static s16 D_80A7F9F0 = 0;
-static s16 D_80A7F9F4 = 0;
+static s16 sRotSpeedX = 0;
+static s16 sRotSpeedY = 0;
 
 const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
@@ -233,7 +233,7 @@ void EnIshi_DropCollectible(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7ED60(EnIshi* this) {
+void EnIshi_Fall(EnIshi* this) {
     this->actor.velocity.y += this->actor.gravity;
 
     if (this->actor.velocity.y < this->actor.minVelocityY) {
@@ -360,7 +360,7 @@ void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3));
         }
         EnIshi_SetupFly(this);
-        func_80A7ED60(this);
+        EnIshi_Fall(this);
         func_80A7ED94(&this->actor.velocity, D_80A7FA28[this->actor.params & 1]);
         func_8002D7EC(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
@@ -371,11 +371,11 @@ void EnIshi_SetupFly(EnIshi* this) {
     this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
     this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
     if (!(this->actor.params & 1)) {
-        D_80A7F9F0 = (Math_Rand_ZeroOne() - 0.5f) * 16000.0f;
-        D_80A7F9F4 = (Math_Rand_ZeroOne() - 0.5f) * 2400.0f;
+        sRotSpeedX = (Math_Rand_ZeroOne() - 0.5f) * 16000.0f;
+        sRotSpeedY = (Math_Rand_ZeroOne() - 0.5f) * 2400.0f;
     } else {
-        D_80A7F9F0 = (Math_Rand_ZeroOne() - 0.5f) * 8000.0f;
-        D_80A7F9F4 = (Math_Rand_ZeroOne() - 0.5f) * 1600.0f;
+        sRotSpeedX = (Math_Rand_ZeroOne() - 0.5f) * 8000.0f;
+        sRotSpeedY = (Math_Rand_ZeroOne() - 0.5f) * 1600.0f;
     }
     this->actor.colChkInfo.mass = 0xF0;
     this->actionFunc = EnIshi_Fly;
@@ -420,17 +420,17 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
                 func_80029444(globalCtx, &sp34, 0x1F4, 0x514, 8);
             }
             this->actor.minVelocityY = -6.0f;
-            D_80A7F9F0 >>= 2;
-            D_80A7F9F4 >>= 2;
+            sRotSpeedX >>= 2;
+            sRotSpeedY >>= 2;
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
             this->actor.bgCheckFlags &= ~0x40;
         }
         Math_ApproxF(&this->actor.shape.unk_08, 0.0f, 2.0f);
-        func_80A7ED60(this);
+        EnIshi_Fall(this);
         func_80A7ED94(&this->actor.velocity, D_80A7FA28[type]);
         func_8002D7EC(&this->actor);
-        this->actor.shape.rot.x += D_80A7F9F0;
-        this->actor.shape.rot.y += D_80A7F9F4;
+        this->actor.shape.rot.x += sRotSpeedX;
+        this->actor.shape.rot.y += sRotSpeedY;
         func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
         Collider_CylinderUpdate(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
