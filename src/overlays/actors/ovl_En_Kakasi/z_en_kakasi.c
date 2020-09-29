@@ -16,7 +16,8 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F28C(EnKakasi* this);
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg);
-void func_80A8FBB8(EnKakasi *this, GlobalContext *globalCtx);
+void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx);
+void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx);
 
 ColliderCylinderInit D_80A8FDE0 = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -151,7 +152,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
         currentFrame = this->skelanime.animCurrentFrame;
         if (currentFrame == 0xB || currentFrame == 0x11) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
-        } 
+        }
         SkelAnime_FrameUpdateMatrix(&this->skelanime);
     }
 }
@@ -226,10 +227,26 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F8D0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F9C8.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F9C8.s")
+void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
+    func_80A8F28C(this);
+    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    func_8002DF54(globalCtx, NULL, 8);
+    if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0)) {
+
+        if (this->unk_208 != -1) {
+            func_8005B1A4(globalCtx->cameraPtrs[this->unk_208]);
+        }
+        this->unk_208 = func_800800F8(globalCtx, 0x8DE, -0x63, &this->actor, 0);
+        globalCtx->msgCtx.msgMode = 0x37U;
+        func_8002DF54(globalCtx, NULL, 8);
+        func_8010BD58(globalCtx, 0x2B);
+        this->actionFunc = func_80A8FAA4;
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8FAA4.s")
-void func_80A8FAA4(EnKakasi *this, GlobalContext *globalCtx) {
+void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE != 0xF) {
         func_80A8F320(this, globalCtx, 1);
         return;
@@ -254,14 +271,14 @@ void func_80A8FAA4(EnKakasi *this, GlobalContext *globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8FBB8.s")
-void func_80A8FBB8(EnKakasi *this, GlobalContext *globalCtx) {
+void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_8005B1A4(globalCtx->cameraPtrs[this->unk_208]);
             func_80106CCC(globalCtx);
-            func_8002DF54(globalCtx, NULL, (u8)7U);
+            func_8002DF54(globalCtx, NULL, 7);
             this->actionFunc = &func_80A8F660;
         }
     }
@@ -281,8 +298,8 @@ void func_80A8FBB8(EnKakasi *this, GlobalContext *globalCtx) {
 //         if (this->unk_19C != 0) {
 //             this->unk_19C -= 1;
 //         }
-//     } 
-    
+//     }
+
 //     this->unk_1B4 = 60.0f;
 //     Actor_SetHeight(&this->actor, 60.0f);
 //     this->actionFunc(this, globalCtx);
@@ -293,14 +310,15 @@ void func_80A8FBB8(EnKakasi *this, GlobalContext *globalCtx) {
 // }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Draw.s")
-void EnKakasi_Draw(Actor *thisx, GlobalContext *globalCtx) {
-    EnKakasi *this = THIS;
+void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnKakasi* this = THIS;
 
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");
         // flag!
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_F3C[4]); 
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_F3C[4]);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, 0, 0, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, 0, 0,
+                     &this->actor);
 }
