@@ -1002,14 +1002,14 @@ void EffectSsFireTail_SpawnFlameOnPlayer(GlobalContext* globalCtx, f32 scale, s1
 // EffectSsEnFire Spawn Functions
 
 // note: if bodyPart is greater than -1 the actor MUST have a table of Vec3f positions at offset 0x14C in the instance
-void EffectSsEnFire_SpawnVec3f(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, s16 unk_12, s16 flags,
+void EffectSsEnFire_SpawnVec3f(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 scale, s16 arg4, s16 flags,
                                s16 bodyPart) {
     EffectSsEnFireInitParams initParams;
 
     Math_Vec3f_Copy(&initParams.pos, pos);
     initParams.actor = actor;
     initParams.scale = scale;
-    initParams.unk_12 = unk_12;
+    initParams.unk_12 = arg4;
     initParams.flags = flags;
     initParams.bodyPart = bodyPart;
 
@@ -1021,13 +1021,13 @@ void EffectSsEnFire_SpawnVec3f(GlobalContext* globalCtx, Actor* actor, Vec3f* po
 }
 
 // note: if bodyPart is greater than -1 the actor MUST have a table of Vec3s positions at offset 0x14C in the instance
-void EffectSsEnFire_SpawnVec3s(GlobalContext* globalCtx, Actor* actor, Vec3s* vec, s16 scale, s16 arg4, s16 flags,
+void EffectSsEnFire_SpawnVec3s(GlobalContext* globalCtx, Actor* actor, Vec3s* pos, s16 scale, s16 arg4, s16 flags,
                                s16 bodyPart) {
     EffectSsEnFireInitParams initParams;
 
-    initParams.pos.x = vec->x;
-    initParams.pos.y = vec->y;
-    initParams.pos.z = vec->z;
+    initParams.pos.x = pos->x;
+    initParams.pos.y = pos->y;
+    initParams.pos.z = pos->z;
     initParams.actor = actor;
     initParams.scale = scale;
     initParams.unk_12 = arg4;
