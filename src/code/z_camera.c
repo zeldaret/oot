@@ -22,6 +22,7 @@ s32 Camera_QRegInit(void);
 #define BGCAM_JFIFID(v) ((v)[2].y)
 
 #define FLG_ADJSLOPE (1 << 0)
+#define FLG_OFFGROUND (1 << 7)
 
 #include "z_camera_data.c"
 
@@ -201,7 +202,9 @@ Vec3f* Camera_Vec3fTranslateByUnitVector(Vec3f* dest, Vec3f* src, Vec3f* unitVec
  */
 s32 Camera_BGCheckInfo(Camera* camera, Vec3f* from, CamColChk* to) {
     CollisionContext* colCtx = &camera->globalCtx->colCtx;
-    Vec3f toNewPos, toPoint, fromToNorm;
+    Vec3f toNewPos;
+    Vec3f toPoint;
+    Vec3f fromToNorm;
     f32 floorPolyY;
     CollisionPoly* floorPoly;
     s32 floorBgId;
@@ -872,7 +875,7 @@ s32 func_80045508(Camera* camera, VecSph* diffSph, CamColChk* eyeChk, CamColChk*
 }
 
 /**
- * Calculates the a value which to adjust the y value when on a slope
+ * Calculates how much to adjust the camera at's y value when on a slope.
  */
 f32 Camera_CalcSlopeYAdj(Vec3f* floorNorm, s16 playerYRot, s16 eyeAtYaw, f32 adjAmt) {
     f32 tmp;
@@ -1023,8 +1026,6 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, 
         Camera_LERPCeilVec3f(&posOffsetTarget, &camera->posOffset, camera->yOffsetUpdateRate,
                              camera->xzOffsetUpdateRate, 0.1f);
     } else {
-        // this condition can basically never be met, due to the decision to call
-        // this function in Camera_Parallel1
         if (!PREG(75)) {
             phi_f20 = playerPosRot->pos.y - *arg3;
             sp54 = OLib_Vec3fDistXZ(at, &camera->eye);
@@ -1062,7 +1063,6 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, 
     return 1;
 }
 
-#define FLG_OFFGROUND (1 << 7)
 /**
  * Adjusts at position for Camera_Battle1 and Camera_KeepOn1
  */
@@ -1413,7 +1413,7 @@ s32 Camera_Normal1(Camera* camera) {
     f32 sp98;
     f32 sp94;
     Vec3f sp88;
-    s16 t2;
+    s16 wiggleAdj;
     s16 t;
     VecSph eyeAdjustment;
     VecSph atEyeGeo;
@@ -1599,9 +1599,9 @@ s32 Camera_Normal1(Camera* camera) {
         }
 
         if (anim->swing.unk_18 != 0) {
-            camera->inputDir.y = Camera_LERPCeilS(
-                camera->inputDir.y + BINANG_SUB(BINANG_ROT180(anim->swing.unk_16), camera->inputDir.y),
-                camera->inputDir.y, 1.0f - (0.99f * sp98), 0xA);
+            camera->inputDir.y =
+                Camera_LERPCeilS(camera->inputDir.y + BINANG_SUB(BINANG_ROT180(anim->swing.unk_16), camera->inputDir.y),
+                                 camera->inputDir.y, 1.0f - (0.99f * sp98), 0xA);
         }
 
         if (norm1->interfaceFlags & 4) {
@@ -1617,8 +1617,8 @@ s32 Camera_Normal1(Camera* camera) {
 
         // crit wiggle
         if (gSaveContext.health <= 16 && ((camera->globalCtx->state.frames % 256) == 0)) {
-            t2 = Math_Rand_ZeroOne() * 10000.0f;
-            camera->inputDir.y = t2 + camera->inputDir.y;
+            wiggleAdj = Math_Rand_ZeroOne() * 10000.0f;
+            camera->inputDir.y = wiggleAdj + camera->inputDir.y;
         }
     } else {
         anim->swing.swingUpdateRate = norm1->unk_0C;
@@ -2283,9 +2283,9 @@ s32 Camera_Jump1(Camera* camera) {
             camera->inputDir.z = 0;
         }
         if (anim->swing.unk_18) {
-            camera->inputDir.y = Camera_LERPCeilS(
-                camera->inputDir.y + BINANG_SUB(BINANG_ROT180(anim->swing.unk_16), camera->inputDir.y),
-                camera->inputDir.y, 1.0f - (0.99f * spA4), 0xA);
+            camera->inputDir.y =
+                Camera_LERPCeilS(camera->inputDir.y + BINANG_SUB(BINANG_ROT180(anim->swing.unk_16), camera->inputDir.y),
+                                 camera->inputDir.y, 1.0f - (0.99f * spA4), 0xA);
         }
     } else {
         anim->swing.swingUpdateRate = jump1->yawUpateRateTarget;
@@ -2651,9 +2651,9 @@ s32 Camera_Jump3(Camera* camera) {
         }
 
         if (anim->swing.unk_18 != 0) {
-            camera->inputDir.y = Camera_LERPCeilS(
-                camera->inputDir.y + BINANG_SUB(BINANG_ROT180(anim->swing.unk_16), camera->inputDir.y),
-                camera->inputDir.y, 1.0f - (0.99f * spBC), 0xA);
+            camera->inputDir.y =
+                Camera_LERPCeilS(camera->inputDir.y + BINANG_SUB(BINANG_ROT180(anim->swing.unk_16), camera->inputDir.y),
+                                 camera->inputDir.y, 1.0f - (0.99f * spBC), 0xA);
         }
     } else {
         anim->swing.swingUpdateRate = jump3->swingUpdateRate;
@@ -4753,7 +4753,7 @@ s32 Camera_Unique3(Camera* camera) {
 }
 
 /**
- * Camera's eye is specified by scene camera data, at point is genered at the intersection
+ * Camera's eye is specified by scene camera data, at point is generated at the intersection
  * of the eye to the player
  */
 s32 Camera_Unique0(Camera* camera) {
@@ -5509,7 +5509,8 @@ void Camera_RotateAroundPoint(PosRot* at, Vec3f* pos, Vec3f* dst) {
 }
 
 /**
- * Camera follows points specified at camera + 0x124 and camera + 0x128
+ * Camera follows points specified at pointers to CutsceneCameraPoints,
+ * camera->data0 for camera at positions, and camera->data1 for camera eye positions
  * until all keyFrames have been exhausted.
  */
 s32 Camera_Demo1(Camera* camera) {
@@ -6759,7 +6760,7 @@ s32 Camera_Special9(Camera* camera) {
 
 Camera* Camera_Create(View* view, CollisionContext* colCtx, GlobalContext* globalCtx) {
     Camera* newCamera = ZeldaArena_MallocDebug(sizeof(*newCamera), "../z_camera.c", 9370);
-    
+
     if (newCamera != NULL) {
         osSyncPrintf(VT_FGCOL(BLUE) "camera: create --- allocate %d byte" VT_RST "\n", sizeof(*newCamera) * 4);
         Camera_Init(newCamera, view, colCtx, globalCtx);
@@ -6972,7 +6973,6 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     }
 
     if (status == CAM_STAT_ACTIVE && camera->status != CAM_STAT_ACTIVE) {
-        // if we're making the camera active, but it is not already active, update PREG values
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         for (i = 0; i < sCameraSettings[camera->setting].cameraModes[camera->mode].valueCnt; i++) {
             valueP = &values[i];
@@ -7372,11 +7372,9 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
         } else {
             // player is not above ground.
             sOOBTimer++;
-            if (1) {
-                camera->floorNorm.x = 0.0;
-                camera->floorNorm.y = 1.0f;
-                camera->floorNorm.z = 0.0;
-            }
+            camera->floorNorm.x = 0.0;
+            camera->floorNorm.y = 1.0f;
+            camera->floorNorm.z = 0.0;
         }
 
         camera->playerPosRot = curPlayerPosRot;
@@ -7919,7 +7917,7 @@ s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
 
 s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
     s32 pad[3];
-    
+
     if (value != NULL) {
         switch (param) {
             case 1:
@@ -8080,8 +8078,8 @@ Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera) {
     return dst;
 }
 
-void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0,
-                          void* data1, s16 data2, s16 data3, UNK_TYPE arg6) {
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
+                          UNK_TYPE arg6) {
     if (setDataFlags & 0x1) {
         camera->data0 = data0;
     }
