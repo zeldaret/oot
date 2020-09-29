@@ -13,10 +13,10 @@ void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnIshi_SetupWait(EnIshi* this);
 void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F2F8(EnIshi* this);
-void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7F3E8(EnIshi* this);
-void func_80A7F514(EnIshi* this, GlobalContext* globalCtx);
+void EnIshi_SetupLiftedUp(EnIshi* this);
+void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx);
+void EnIshi_SetupFly(EnIshi* this);
+void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx);
@@ -318,7 +318,7 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
     s16 type = this->actor.params & 1;
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
-        func_80A7F2F8(this);
+        EnIshi_SetupLiftedUp(this);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, D_80A873E0[type]);
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, globalCtx);
@@ -347,19 +347,19 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7F2F8(EnIshi* this) {
-    this->actionFunc = func_80A7F31C;
+void EnIshi_SetupLiftedUp(EnIshi* this) {
+    this->actionFunc = EnIshi_LiftedUp;
     this->actor.room = -1;
     this->actor.flags |= 0x10;
 }
 
-void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
         if ((this->actor.params & 1) == ROCK_LARGE) {
             Flags_SetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3));
         }
-        func_80A7F3E8(this);
+        EnIshi_SetupFly(this);
         func_80A7ED60(this);
         func_80A7ED94(&this->actor.velocity, D_80A7FA28[this->actor.params & 1]);
         func_8002D7EC(&this->actor);
@@ -367,7 +367,7 @@ void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7F3E8(EnIshi* this) {
+void EnIshi_SetupFly(EnIshi* this) {
     this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
     this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
     if (!(this->actor.params & 1)) {
@@ -378,10 +378,10 @@ void func_80A7F3E8(EnIshi* this) {
         D_80A7F9F4 = (Math_Rand_ZeroOne() - 0.5f) * 1600.0f;
     }
     this->actor.colChkInfo.mass = 0xF0;
-    this->actionFunc = func_80A7F514;
+    this->actionFunc = EnIshi_Fly;
 }
 
-void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 type = this->actor.params & 1;
     s32 pad2;
