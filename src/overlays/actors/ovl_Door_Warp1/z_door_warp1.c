@@ -961,24 +961,22 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
-/* void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
-    s32 spEC;
+#ifdef NON_MATCHING
+// Regalloc, small reorderings near the end of the first switch
+void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
+    s32 pad;
+    u32 pad1;
+    u32 spEC;
     f32 spE8;
     f32 spE4;
-    f32 spDC;
-    f32 temp_f0;
     f32 temp_f12;
-    s32 temp_f10;
-    u32 temp_a0;
-    u32 temp_a0_3;
-    s32 phi_t3;
+    f32 temp_f0;
 
     spEC = globalCtx->state.frames * 10;
     spE8 = (this->unk_194 >= 1.0f) ? 0.0f : 1.0f - this->unk_194;
     spE4 = (this->unk_198 >= 1.0f) ? 0.0f : 1.0f - this->unk_198;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x87D);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2173);
 
     temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.70000004768f;
     if (this->actor.params != 4 && this->actor.params != 6 && this->actor.params != 8 &&
@@ -990,92 +988,86 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     }
     func_80093D84(globalCtx->state.gfxCtx);
     switch (this->actor.params) {
-        case 4: // yellow warp
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xC8, 0xFF, 0x00, 0xFF);
+        case 4:
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 255, 0, 255);
             break;
-        case 8: // orange/tan warp
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xFF, 0x96, 0x00, 0xFF);
+        case 8:
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 150, 0, 255);
             break;
-        case 9: // green warp
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0x00, 0xC8, 0x00, 0xFF);
+        case 9:
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 200, 0, 255);
             break;
-        case 10: // red warp
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xFF, 0x32, 0x00, 0xFF);
+        case 10:
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 50, 0, 255);
             break;
-        default: // blue warp & others
-            if (255 * temp_f0 != 0) {
-                if (this->unk_1A4 == 0) {
-                    phi_t3 = (s32)(this->unk_1A4 - 2147483648.0f) | 0x80000000;
-                } else {
-                    phi_t3 = 0xFF;
-                }
-            } else {
-                if (temp_f10 < 0) {
-                    phi_t3 = 0xFF;
-                } else {
-                    phi_t3 = temp_f10;
-                }
-            }
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 255 * temp_f0, 0xFF, 0xFF, phi_t3);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 255 * temp_f0, 0xFF, 0xFF);
+        default:
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255 * temp_f0, 255, 255);
             break;
     }
     gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_DISABLE);
-    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_MAGICSQ);
+    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
+
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 1.0f, this->actor.posRot.pos.z, MTXMODE_NEW);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2247));
     Matrix_Push();
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, 
-            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
-                    spEC, (s32)(-this->unk_19C + this->unk_19C) & 511, 0x100, 0x100, 1, 
-                    spEC, (s32)(-this->unk_19C + this->unk_19C) & 511, 0x100, 0x100));
-    Matrix_Translate(0, this->unk_194 * 230.0f, 0, MTXMODE_APPLY);
-    temp_f12 = ((this->unk_1AE * spE8) / 100.0f) + 1.0f;
+
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+            spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100, 1, 
+            spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100));
+
+    Matrix_Translate(0.0f, this->unk_194 * 230.0f, 0.0f, MTXMODE_APPLY);
+    temp_f12 = (((f32) this->unk_1AE * spE8) / 100.0f) + 1.0f;
     Matrix_Scale(temp_f12, 1.0f, temp_f12, MTXMODE_APPLY);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2267));
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_060001A0);
     Matrix_Pull();
+
     if (this->unk_1A0 > 0.0f) {
         switch (this->actor.params) {
-            default: // blue warp & others
-                temp_a0_3 = 255 * spDC;
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, temp_a0_3, 0xFF, 0xFF, this->unk_1A0);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, temp_a0_3, 0xFF, 0xFF);
+            case 4:
+                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 255, 0, 255);
                 break;
-            case 4: // yellow warp
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0xFF, 0xFF, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xC8, 0xFF, 0x00, 0xFF);
+            case 8:
+                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 150, 0, 255);
                 break;
-            case 8: // orange/tan warp
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0xFF, 0xFF, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xFF, 0x96, 0x00, 0xFF);
+            case 9:
+                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 200, 0, 255);
                 break;
-            case 9: // green warp
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0x00, 0x00, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0xC8, 0x00, 0xFF);
+            case 10:
+                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 50, 0, 255);
                 break;
-            case 10: // red warp
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 0xFF, 0xFF, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xFF, 0x32, 0x00, 0xFF);
+            default:
+                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A0);
+                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255 * temp_f0, 255, 255);
                 break;
         }
         spEC *= 2;
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, 
-                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
-                                spEC, (-(s32)this->unk_19C & 511), 0x100, 0x100, 1, 
-                                spEC, (-(s32)this->unk_19C & 511), 0x100, 0x100));
-        Matrix_Translate(0, this->unk_198 * 60.0f, 0, MTXMODE_APPLY);
-        temp_f12 = ((this->unk_1B0 * spE4) / 100.0f) + 1.0f;
+
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+                spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100, 1, 
+                spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
+
+        Matrix_Translate(0.0f, this->unk_198 * 60.0f, 0.0f, MTXMODE_APPLY);
+        temp_f12 = (((f32) this->unk_1B0 * spE4) / 100.0f) + 1.0f;
         Matrix_Scale(temp_f12, 1.0f, temp_f12, MTXMODE_APPLY);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2336));
         gSPDisplayList(oGfxCtx->polyXlu.p++, D_060001A0);
     }
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2340);
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Draw.s")
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1106,189 +1098,3 @@ void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Multiplication won't generate multu
-/* void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
-    Vec3f eye;
-    Gfx* dispRefs[4];
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = globalCtx->state.gfxCtx;
-    eye.x = -(Math_Sins(globalCtx->state.frames * 200) * 120.0f) * 80.0f;
-    eye.y =  (Math_Coss(globalCtx->state.frames * 200) * 120.0f) * 80.0f;
-    eye.z =  (Math_Coss(globalCtx->state.frames * 200) * 120.0f) * 80.0f;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_warp1.c", 2122);
-    func_80093D84(globalCtx->state.gfxCtx);
-    func_8002EB44(&this->actor.posRot.pos, &eye, &eye, globalCtx->state.gfxCtx);
-
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, this->unk_1A8);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x96, 0x00, 0x64, this->unk_1A8);
-
-    gfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, &this->actor, gfxCtx->polyXlu.p);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_warp1.c", 2152);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-} */
-
-
-
-/* void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
-    s32 spEC;
-    f32 spE8;
-    f32 spE4;
-    f32 spDC;
-    GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
-    void *sp94;
-    void *sp90;
-    void *sp8C;
-    void *sp5C;
-    void *sp58;
-    s32 sp40;
-    f32 temp_f0;
-    f32 temp_f12;
-    f32 temp_f12_2;
-    s32 temp_a0_2;
-    s32 temp_a2;
-    s32 temp_a2_2;
-    s32 temp_a3;
-    s32 temp_a3_2;
-    s32 temp_f10;
-    u32 temp_a0;
-    u32 temp_a0_3;
-    s32 phi_t3;
-
-    spEC = (s32) (globalCtx->state.frames * 10);
-    if (1.0f <= this->unk_194) {
-        spE8 = 0.0f;
-    } else {
-        spE8 = (f32) (1.0f - this->unk_194);
-    }
-    if (1.0f <= this->unk_198) {
-        spE4 = 0.0f;
-    } else {
-        spE4 = (f32) (1.0f - this->unk_198);
-    }
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(gfxArr, gfxCtx, "../z_door_warp1.c", 0x87D);
-    temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.70000004768f;
-    if (this->actor.params != 4 && this->actor.params != 6 && this->actor.params != 8 &&
-        this->actor.params != 9 && this->actor.params != 0xA) {
-        this->unk_19C += temp_f0 * 15.0f;
-    }
-    if (this->actor.params == 6) {
-        this->unk_19C -= (temp_f0 + temp_f0);
-    }
-    spDC = temp_f0;
-    func_80093D84(gfxCtx);
-    switch (this->actor.params) {
-        case 4: // yellow warp
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xC8, 0xFF, 0x00, 0xFF);
-            break;
-        case 8: // orange/tan warp
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x96, 0x00, 0xFF);
-            break;
-        case 9: // green warp
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0xC8, 0x00, 0xFF);
-            break;
-        case 10: // red warp
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0xFF, 0xFF, 0xFF, this->unk_1A4);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x32, 0x00, 0xFF);
-            break;
-        default: // blue warp & others
-            temp_a0 = (u32) (255.0f * spDC) & 0xFF;
-            temp_f10 = (s32) this->unk_1A4;
-            if ((ERROR(cfc1) & 0x78) != 0) {
-                if ((ERROR(cfc1) & 0x78) == 0) {
-                    phi_t3 = (s32) (this->unk_1A4 - 2147483648.0f) | 0x80000000;
-                } else {
-    loop_26:
-                    phi_t3 = -1;
-                }
-            } else {
-                phi_t3 = temp_f10;
-                if (temp_f10 < 0) {
-                    goto loop_26;
-                }
-            }
-            
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), temp_a0, 0xFF, 0xFF, phi_t3);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, temp_a0, 0xFF, 0xFF);
-            break;
-    }
-    gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
-    gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_MAGICSQ);
-
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 1.0f, this->actor.posRot.pos.z, 0);
-
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0A, Matrix_NewMtx(gfxCtx, "../z_door_warp1.c", 0x8C7));
-
-    Matrix_Push();
-
-    temp_a2 = spEC & 0xFF;
-    temp_a3 = 0 - (this->unk_19C + this->unk_19C) & 0x1FF;
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, Draw_TwoTexScroll(gfxCtx, 0, temp_a2, temp_a3, 0x100, 0x100, 1, temp_a2, temp_a3, 0x100, 0x100));
-
-    Matrix_Translate(0, this->unk_194 * 230.0f, 0, 1);
-    temp_f12 = (((f32) this->unk_1AE * spE8) / 100.0f) + 1.0f;
-    Matrix_Scale(temp_f12, 1.0f, temp_f12, 1);
-    
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(gfxCtx, "../z_door_warp1.c", 0x8DB));
-
-    temp_a0_2 = D_060001A0;
-    gSPDisplayList(gfxCtx->polyXlu.p++, temp_a0_2);
-
-    sp40 = temp_a0_2;
-    Matrix_Pull(temp_a0_2);
-    if (0.0f < this->unk_1A0) {
-        switch (this->actor.params) {
-            case 4: // yellow warp
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0xFF, 0xFF, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xC8, 0xFF, 0x00, 0xFF);
-                break;
-            case 8: // orange/tan warp
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0xFF, 0xFF, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x96, 0x00, 0xFF);
-                break;
-            case 9: // green warp
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0x00, 0x00, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0xC8, 0x00, 0xFF);
-                break;
-            case 10: // red warp
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5), 0xFF, 0xFF, 0xFF, this->unk_1A4);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x32, 0x00, 0xFF);
-                break;
-            default: // blue warp & others
-                temp_a0_3 = (u32) (255.0f * spDC) & 0xFF;
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, qu08(0.5f), temp_a0_3, 0xFF, 0xFF, this->unk_1A0);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, temp_a0_3, 0xFF, 0xFF);
-                break;
-        }
-        spEC *= 2;
-        temp_a2_2 = spEC & 0xFF;
-        temp_a3_2 = 0 - ((s32)this->unk_19C & 0x1FF);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08, Draw_TwoTexScroll(gfxCtx, 0, temp_a2_2, temp_a3_2, 0x100, 0x100, 1, temp_a2_2, temp_a3_2, 0x100, 0x100));
-
-        Matrix_Translate(0, this->unk_198 * 60.0f, 0, 1);
-        temp_f12_2 = (((f32) this->unk_1B0 * spE4) / 100.0f) + 1.0f;
-        Matrix_Scale(temp_f12_2, 1.0f, temp_f12_2, 1);
-
-        gSPSegment(gfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(gfxCtx, "../z_door_warp1.c", 0x920));
-        gSPDisplayList(gfxCtx->polyXlu.p++, sp40);
-    }
-    Graph_CloseDisps(gfxArr, gfxCtx, "../z_door_warp1.c", 2340);
-} */
