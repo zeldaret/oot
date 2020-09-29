@@ -6,6 +6,7 @@
 s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags);
 s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags);
 s32 Camera_QRegInit(void);
+s32 Camera_CheckWater(Camera* camera);
 
 #define RELOAD_PARAMS \
     (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14 || R_RELOAD_CAM_PARAMS)
@@ -1930,7 +1931,7 @@ s32 Camera_Normal3(Camera* camera) {
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &sp84);
 
     if (camera->status == CAM_STAT_ACTIVE) {
-        func_80046E20(camera, &sp84, norm3->distMin, norm3->yawUpdateSpeed, &sp8C, anim);
+        func_80046E20(camera, &sp84, norm3->distMin, norm3->yawUpdateSpeed, &sp8C, &anim->swing);
     } else {
         *eye = *eyeNext;
     }
@@ -3116,7 +3117,7 @@ s32 Camera_KeepOn1(Camera* camera) {
             } else {
                 func_8002EEE4(&camera->targetPosRot, camera->target);
             }
-            func_8002EEE4(&camera->targetPosRot.pos, camera->target);
+            func_8002EEE4(&camera->targetPosRot, camera->target);
             if (anim->unk_0C != camera->target) {
                 anim->unk_0C = camera->target;
                 camera->atLERPStepScale = 0.0f;
@@ -3756,7 +3757,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     KeepOn0Anim* anim = &keep0->anim;
     s32 pad;
     Vec3s* sceneCamData;
-    Vec3s sceneCameraRot;
+    Vec3s sceneCamRot;
     s16 fov;
 
     camera->unk_14C &= ~0x10;
@@ -3775,7 +3776,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(sceneCamData));
     *eye = *eyeNext;
 
-    sceneCameraRot = BGCAM_ROT(sceneCamData); // unused
+    sceneCamRot = BGCAM_ROT(sceneCamData); // unused
 
     fov = BGCAM_FOV(sceneCamData);
     if (fov == -1) {
@@ -4051,7 +4052,7 @@ s32 Camera_Fixed4(Camera* camera) {
     VecSph atEyeNextOffset;
     VecSph atTargetEyeNextOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
-    CamPosData* camPosData;
+    Vec3s* camPosData;
     Vec3f* posOffset = &camera->posOffset;
     Fixed4* fixed4 = (Fixed4*)camera->paramData;
     Fixed4Anim* anim = &fixed4->anim;
@@ -5837,10 +5838,10 @@ s32 Camera_Demo5(Camera* camera) {
         return true;
     }
     func_8002EEE4(&camera->targetPosRot, camera->target);
-    OLib_Vec3fDiffToVecSphGeo(&playerTargetGeo, &camera->targetPosRot, &camera->playerPosRot.pos);
+    OLib_Vec3fDiffToVecSphGeo(&playerTargetGeo, &camera->targetPosRot.pos, &camera->playerPosRot.pos);
     D_8011D3AC = camera->target->type;
     func_8002F374(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
-    eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot, &camera->eye);
+    eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     OLib_Vec3fDiffToVecSphGeo(&eyePlayerGeo, &playerPosRot2.pos, &camera->eyeNext);
     sp4A = eyePlayerGeo.yaw - playerTargetGeo.yaw;
     if (camera->target->type == ACTORTYPE_PLAYER) {
@@ -5954,7 +5955,7 @@ s32 Camera_Demo5(Camera* camera) {
         func_8002EEE4(&targetPosRot2, camera->target);
         targetPosRot2.pos.x += 50.0f * Math_Sins(BINANG_ROT180(sp4A));
         targetPosRot2.pos.z += 50.0f * Math_Coss(BINANG_ROT180(sp4A));
-        if (Camera_BGCheck(camera, &playerPosRot2, &targetPosRot2.pos)) {
+        if (Camera_BGCheck(camera, &playerPosRot2.pos, &targetPosRot2.pos)) {
             D_8011D954[1].actionFlags = 0xC1;
             D_8011D954[2].actionFlags = 0x8F;
         } else {
@@ -5978,7 +5979,7 @@ s32 Camera_Demo5(Camera* camera) {
         Player_GetHeight(camera->player);
         D_8011D9F4[0].timerInit = camera->timer;
         func_8002EEE4(&targetPosRot2, camera->target);
-        if (Camera_BGCheck(camera, &playerPosRot2, &targetPosRot2.pos)) {
+        if (Camera_BGCheck(camera, &playerPosRot2.pos, &targetPosRot2.pos)) {
             D_8011D9F4[1].timerInit = 4;
             D_8011D9F4[1].actionFlags = 0x8F;
         } else {
@@ -7195,6 +7196,7 @@ s32 Camera_CheckWater(Camera* camera) {
         camera->unk_152 = 0;
     }
     func_800F6828(0);
+    // @BUG: doesn't always return a value, but sometimes does.
 }
 
 /**
