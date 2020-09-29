@@ -87,7 +87,7 @@ void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, &this->collider);
 }
 
-s32 func_80A7E4D8(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
+s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
     CollisionPoly* sp34;
     Vec3f sp28;
     UNK_TYPE sp24;
@@ -296,7 +296,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         this->actor.shape.unk_08 = D_80A7FA20[type];
-        if (!((this->actor.params >> 5) & 1) && !func_80A7E4D8(this, globalCtx, 0.0f)) {
+        if (!((this->actor.params >> 5) & 1) && !EnIshi_SnapToFloor(this, globalCtx, 0.0f)) {
             Actor_Kill(&this->actor);
         } else {
             EnIshi_SetupWait(this);
