@@ -146,8 +146,7 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
 
 void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
-    // temp needed to force actor's velocity on the stack instead of pos
-    Vec3f* temp = &this->actor.posRot.pos;
+    Actor* thisx = &this->actor;
     Vec3f velocity;
     Vec3f pos;
     s16 angle = 0x1000;
@@ -155,7 +154,6 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     f32 rand;
     s16 phi_v0;
     s16 phi_v1;
-    s32 pad;
 
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
         // needed to fix regalloc
@@ -166,10 +164,7 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
-        // bgCheckFlags must be assigned to a variable here to fix stack
-        // phi_v0 chosen to avoid an unused variable warning
-        phi_v0 = this->actor.bgCheckFlags;
-        Math_Vec3f_Copy(&velocity, &this->actor.velocity);
+        Math_Vec3f_Copy(&velocity, &thisx->velocity);
         if (this->actor.bgCheckFlags & 1) {
             velocity.x *= 0.9f;
             velocity.y *= -0.8f;
