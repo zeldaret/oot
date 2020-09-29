@@ -224,7 +224,7 @@ glabel func_809B3FDC
 /* 009CC 809B42EC 3C05809B */  lui     $a1, %hi(func_809B45E0)    ## $a1 = 809B0000
 /* 009D0 809B42F0 51000045 */  beql    $t0, $zero, .L809B4408
 /* 009D4 809B42F4 8E02024C */  lw      $v0, 0x024C($s0)           ## 0000024C
-/* 009D8 809B42F8 0C26CE48 */  jal     func_809B3920
+/* 009D8 809B42F8 0C26CE48 */  jal     EnArrow_SetupAction
 /* 009DC 809B42FC 24A545E0 */  addiu   $a1, $a1, %lo(func_809B45E0) ## $a1 = 809B45E0
 /* 009E0 809B4300 3C050400 */  lui     $a1, 0x0400                ## $a1 = 04000000
 /* 009E4 809B4304 24A5436C */  addiu   $a1, $a1, 0x436C           ## $a1 = 0400436C

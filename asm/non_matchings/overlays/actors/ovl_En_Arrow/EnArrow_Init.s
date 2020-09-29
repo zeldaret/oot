@@ -159,7 +159,7 @@ glabel EnArrow_Init
 .L809B3B28:
 /* 00208 809B3B28 3C05809B */  lui     $a1, %hi(func_809B3BD4)    ## $a1 = 809B0000
 /* 0020C 809B3B2C 24A53BD4 */  addiu   $a1, $a1, %lo(func_809B3BD4) ## $a1 = 809B3BD4
-/* 00210 809B3B30 0C26CE48 */  jal     func_809B3920              
+/* 00210 809B3B30 0C26CE48 */  jal     EnArrow_SetupAction              
 /* 00214 809B3B34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00218 809B3B38 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 0021C 809B3B3C 8FB00028 */  lw      $s0, 0x0028($sp)           

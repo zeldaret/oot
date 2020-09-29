@@ -62,7 +62,7 @@ glabel L809B3C70
 .L809B3C70:
 /* 00350 809B3C70 3C05809B */  lui     $a1, %hi(func_809B3FDC)    ## $a1 = 809B0000
 /* 00354 809B3C74 24A53FDC */  addiu   $a1, $a1, %lo(func_809B3FDC) ## $a1 = 809B3FDC
-/* 00358 809B3C78 0C26CE48 */  jal     func_809B3920              
+/* 00358 809B3C78 0C26CE48 */  jal     EnArrow_SetupAction              
 /* 0035C 809B3C7C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00360 809B3C80 26040210 */  addiu   $a0, $s0, 0x0210           ## $a0 = 00000210
 /* 00364 809B3C84 0C01DF90 */  jal     Math_Vec3f_Copy

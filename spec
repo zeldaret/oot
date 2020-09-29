@@ -1965,7 +1965,6 @@ endseg
 beginseg
     name "ovl_En_Arrow"
     include "build/src/overlays/actors/ovl_En_Arrow/z_en_arrow.o"
-    include "build/data/overlays/actors/z_en_arrow.data.o"
     include "build/data/overlays/actors/z_en_arrow.reloc.o"
 endseg
 

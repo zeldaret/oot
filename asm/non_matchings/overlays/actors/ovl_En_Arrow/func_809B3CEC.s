@@ -15,7 +15,7 @@ glabel func_809B3CEC
 /* 003DC 809B3CFC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 003E0 809B3D00 AFBF001C */  sw      $ra, 0x001C($sp)
 /* 003E4 809B3D04 3C05809B */  lui     $a1, %hi(func_809B4640)    ## $a1 = 809B0000
-/* 003E8 809B3D08 0C26CE48 */  jal     func_809B3920
+/* 003E8 809B3D08 0C26CE48 */  jal     EnArrow_SetupAction
 /* 003EC 809B3D0C 24A54640 */  addiu   $a1, $a1, %lo(func_809B4640) ## $a1 = 809B4640
 /* 003F0 809B3D10 3C050400 */  lui     $a1, 0x0400                ## $a1 = 04000000
 /* 003F4 809B3D14 24A54310 */  addiu   $a1, $a1, 0x4310           ## $a1 = 04004310
