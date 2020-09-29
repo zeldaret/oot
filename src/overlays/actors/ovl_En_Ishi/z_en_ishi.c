@@ -64,7 +64,7 @@ static EnIshiEffectSpawnFunc sFragmentSpawnFuncs[] = { EnIshi_SpawnFragmentsSmal
 
 static EnIshiEffectSpawnFunc sDustSpawnFuncs[] = { EnIshi_SpawnDustSmall, EnIshi_SpawnDustLarge };
 
-static ColliderCylinderInit sCylinderInit[] = {
+static ColliderCylinderInit sCylinderInits[] = {
     {
         { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
@@ -83,7 +83,7 @@ void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit[this->actor.params & 1]);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInits[this->actor.params & 1]);
     Collider_CylinderUpdate(&this->actor, &this->collider);
 }
 
