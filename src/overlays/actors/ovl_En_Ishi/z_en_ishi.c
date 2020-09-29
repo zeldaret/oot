@@ -156,20 +156,17 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     s16 phi_v1;
 
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
-        // needed to fix regalloc
-        if (this) {}
-        if (this) {}
         angle += 0x4E20;
         rand = Math_Rand_ZeroOne() * 10.0f;
         pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
         Math_Vec3f_Copy(&velocity, &thisx->velocity);
-        if (this->actor.bgCheckFlags & 1) {
+        if (thisx->bgCheckFlags & 1) {
             velocity.x *= 0.9f;
             velocity.y *= -0.8f;
             velocity.z *= 0.9f;
-        } else if (this->actor.bgCheckFlags & 8) {
+        } else if (thisx->bgCheckFlags & 8) {
             velocity.x *= -0.9f;
             velocity.y *= 0.8f;
             velocity.z *= -0.9f;
