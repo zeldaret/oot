@@ -386,7 +386,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     s16 type = this->actor.params & 1;
     s32 pad2;
     s32 quakeIdx;
-    Vec3f sp34;
+    Vec3f effectPos;
 
     if (this->actor.bgCheckFlags & 9) {
         EnIshi_DropCollectible(this, globalCtx);
@@ -404,37 +404,36 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
             func_800AA000(this->actor.xyzDistFromLinkSq, 0xFF, 0x14, 0x96);
         }
         Actor_Kill(&this->actor);
-    } else {
-        if (this->actor.bgCheckFlags & 0x40) {
-            sp34.x = this->actor.posRot.pos.x;
-            sp34.y = this->actor.posRot.pos.y + this->actor.waterY;
-            sp34.z = this->actor.posRot.pos.z;
-            func_8002949C(globalCtx, &sp34, 0, 0, 0, 0x15E);
-            if (type == ROCK_SMALL) {
-                func_80029444(globalCtx, &sp34, 0x96, 0x28A, 0);
-                func_80029444(globalCtx, &sp34, 0x190, 0x320, 4);
-                func_80029444(globalCtx, &sp34, 0x1F4, 0x44C, 8);
-            } else {
-                func_80029444(globalCtx, &sp34, 0x12C, 0x2BC, 0);
-                func_80029444(globalCtx, &sp34, 0x1F4, 0x384, 4);
-                func_80029444(globalCtx, &sp34, 0x1F4, 0x514, 8);
-            }
-            this->actor.minVelocityY = -6.0f;
-            sRotSpeedX >>= 2;
-            sRotSpeedY >>= 2;
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
-            this->actor.bgCheckFlags &= ~0x40;
+        return;
+    } else if (this->actor.bgCheckFlags & 0x40) {
+        effectPos.x = this->actor.posRot.pos.x;
+        effectPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+        effectPos.z = this->actor.posRot.pos.z;
+        func_8002949C(globalCtx, &effectPos, 0, 0, 0, 0x15E);
+        if (type == ROCK_SMALL) {
+            func_80029444(globalCtx, &effectPos, 0x96, 0x28A, 0);
+            func_80029444(globalCtx, &effectPos, 0x190, 0x320, 4);
+            func_80029444(globalCtx, &effectPos, 0x1F4, 0x44C, 8);
+        } else {
+            func_80029444(globalCtx, &effectPos, 0x12C, 0x2BC, 0);
+            func_80029444(globalCtx, &effectPos, 0x1F4, 0x384, 4);
+            func_80029444(globalCtx, &effectPos, 0x1F4, 0x514, 8);
         }
-        Math_ApproxF(&this->actor.shape.unk_08, 0.0f, 2.0f);
-        EnIshi_Fall(this);
-        func_80A7ED94(&this->actor.velocity, D_80A7FA28[type]);
-        func_8002D7EC(&this->actor);
-        this->actor.shape.rot.x += sRotSpeedX;
-        this->actor.shape.rot.y += sRotSpeedY;
-        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        this->actor.minVelocityY = -6.0f;
+        sRotSpeedX >>= 2;
+        sRotSpeedY >>= 2;
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        this->actor.bgCheckFlags &= ~0x40;
     }
+    Math_ApproxF(&this->actor.shape.unk_08, 0.0f, 2.0f);
+    EnIshi_Fall(this);
+    func_80A7ED94(&this->actor.velocity, D_80A7FA28[type]);
+    func_8002D7EC(&this->actor);
+    this->actor.shape.rot.x += sRotSpeedX;
+    this->actor.shape.rot.y += sRotSpeedY;
+    func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
