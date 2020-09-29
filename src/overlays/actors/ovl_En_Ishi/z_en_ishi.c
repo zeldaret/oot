@@ -11,8 +11,8 @@ void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A7F098(EnIshi* this);
-void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx);
+void EnIshi_SetupWait(EnIshi* this);
+void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F2F8(EnIshi* this);
 void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F3E8(EnIshi* this);
@@ -230,7 +230,7 @@ void func_80A7EC04(EnIshi* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &sp2C, 140.0f, 0xA, 0xB4, 0x5A, 1);
 }
 
-void func_80A7ECF8(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_DropCollectible(EnIshi* this, GlobalContext* globalCtx) {
     if (!(this->actor.params & 1)) {
         s16 dropParams = (this->actor.params >> 8) & 0xF;
         if (dropParams >= 0xD) {
@@ -255,7 +255,7 @@ void func_80A7ED94(Vec3f* arg0, f32 arg1) {
     arg0->z -= arg0->z * arg1;
 }
 
-void func_80A7EE1C(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_SpawnBugs(EnIshi* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
@@ -306,7 +306,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (!((this->actor.params >> 5) & 1) && !func_80A7E4D8(this, globalCtx, 0.0f)) {
             Actor_Kill(&this->actor);
         } else {
-            func_80A7F098(this);
+            EnIshi_SetupWait(this);
         }
     }
 }
@@ -315,11 +315,11 @@ void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &THIS->collider);
 }
 
-void func_80A7F098(EnIshi* this) {
-    this->actionFunc = func_80A7F0A8;
+void EnIshi_SetupWait(EnIshi* this) {
+    this->actionFunc = EnIshi_Wait;
 }
 
-void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
     static u16 D_80A873E0[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
     s32 pad;
     s16 type = this->actor.params & 1;
@@ -328,11 +328,11 @@ void func_80A7F0A8(EnIshi* this, GlobalContext* globalCtx) {
         func_80A7F2F8(this);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, D_80A873E0[type]);
         if ((this->actor.params >> 4) & 1) {
-            func_80A7EE1C(this, globalCtx);
+            EnIshi_SpawnBugs(this, globalCtx);
         }
     } else if (this->collider.base.acFlags & 2 && (type == ROCK_SMALL) &&
                this->collider.body.acHitItem->toucher.flags & 0x40000048) {
-        func_80A7ECF8(this, globalCtx);
+        EnIshi_DropCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
         D_80A87328[type](this, globalCtx);
         D_80A87330[type](this, globalCtx);
@@ -396,7 +396,7 @@ void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
     Vec3f sp34;
 
     if (this->actor.bgCheckFlags & 9) {
-        func_80A7ECF8(this, globalCtx);
+        EnIshi_DropCollectible(this, globalCtx);
         D_80A87328[type](this, globalCtx);
         if (!(this->actor.bgCheckFlags & 0x20)) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
