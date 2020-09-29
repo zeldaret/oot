@@ -36,16 +36,14 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-static Vec3f D_80A6F4CC = { 300.0f, 1000.0f, 0.0f };
-
 extern SkeletonHeader D_06006260;
 extern AnimationHeader D_060005C0;
 
 void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHs2* this = THIS;
-	s32 pad;
+    s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->limbDrawTable,
                      this->transitionDrawTable, 16);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C0);
@@ -144,6 +142,7 @@ s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    static Vec3f D_80A6F4CC = { 300.0f, 1000.0f, 0.0f };
     EnHs2* this = THIS;
 
     if (limbIndex == 9) {
