@@ -139,8 +139,8 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
         } else {
             phi_v0 = 0x21;
         }
-        func_80029E8C(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, scales[i], 3, 0xA, 0x28, -1, 2,
-                      D_0500A880);
+        func_80029E8C(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, scales[i], 3, 0xA, 0x28, -1,
+                      OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
 }
 
@@ -194,7 +194,7 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
             phi_v1 = -0x140;
         }
         func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, scales[i], 5, 2,
-                      0x46, 0, 2, D_0500A5E8);
+                      0x46, 0, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
     }
 }
 
