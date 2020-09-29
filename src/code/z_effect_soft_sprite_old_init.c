@@ -39,7 +39,7 @@
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-// effects that use this draw function are responsible for making sure their reg usage lines up with
+// effects that use this draw function are responsible for making sure their regs line up with the usage here
 
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* texture) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
