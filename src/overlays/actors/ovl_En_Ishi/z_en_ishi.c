@@ -114,7 +114,7 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f velocity;
     Vec3f pos;
-    s32 phi_v0;
+    s16 phi_v0;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
