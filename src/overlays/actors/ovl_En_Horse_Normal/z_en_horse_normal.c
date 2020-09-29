@@ -20,6 +20,14 @@ typedef struct {
     EnHorseNormalUnkStruct1* items;
 } EnHorseNormalUnkStruct2;
 
+typedef enum {
+    /* 0x00 */ HORSE_NULL, // Cycles through animations in sAnimations
+    /* 0x01 */ HORSE_WANDER,
+    /* 0x02 */ HORSE_STATIC,
+    /* 0x03 */ HORSE_STATIC_CLONEABLE,
+    /* 0x04 */ HORSE_FOLLOW_PATH
+} EnHorseNormalType;
+
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -152,7 +160,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
-    this->type = 0;
+    this->type = HORSE_NULL;
     this->animationIdx = 0;
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit1);
@@ -237,7 +245,7 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x10;
-    this->type = 4;
+    this->type = HORSE_FOLLOW_PATH;
     this->animationIdx = 6;
     this->waypoint = 0;
     this->actor.speedXZ = 7.0f;
@@ -271,8 +279,8 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A6BBAC(EnHorseNormal* this) {
-    this->type = 0;
+void EnHorseNormal_NextAnimation(EnHorseNormal* this) {
+    this->type = HORSE_NULL;
     this->animationIdx++;
 
     if (this->animationIdx >= ARRAY_COUNT(sAnimations)) {
@@ -282,16 +290,16 @@ void func_80A6BBAC(EnHorseNormal* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimations[this->animationIdx]);
 }
 
-void func_80A6BC00(EnHorseNormal* this, GlobalContext* globalCtx) {
+void EnHorseNormal_CycleAnimations(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-        func_80A6BBAC(this);
+        EnHorseNormal_NextAnimation(this);
     }
 }
 
 void func_80A6BC48(EnHorseNormal* this) {
-    this->type = 1;
+    this->type = HORSE_WANDER;
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -436,7 +444,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6C4CC(EnHorseNormal* this) {
-    this->type = 2;
+    this->type = HORSE_STATIC;
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -466,7 +474,7 @@ void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6C6B0(EnHorseNormal* this) {
-    this->type = 3;
+    this->type = HORSE_STATIC_CLONEABLE;
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -520,7 +528,8 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 static EnHorseNormalActionFunc sActionFuncs[] = {
-    func_80A6BC00, EnHorseNormal_Wander, EnHorseNormal_Wait, EnHorseNormal_WaitClone, EnHorseNormal_FollowPath,
+    EnHorseNormal_CycleAnimations, EnHorseNormal_Wander,     EnHorseNormal_Wait,
+    EnHorseNormal_WaitClone,       EnHorseNormal_FollowPath,
 };
 
 void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -602,8 +611,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
 
-    // If this horse should be cloned, create a clone of it
-    if (this->type == 3) {
+    if (this->type == HORSE_STATIC_CLONEABLE) {
         MtxF skinMtx;
         Mtx* mtx1;
         Vec3f clonePos = { 0.0f, 0.0f, 0.0f };
