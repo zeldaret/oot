@@ -158,9 +158,9 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
         angle += 0x4E20;
         rand = Math_Rand_ZeroOne() * 10.0f;
-        pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
-        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
-        pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
+        pos.x = thisx->posRot.pos.x + (Math_Sins(angle) * rand);
+        pos.y = thisx->posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
+        pos.z = thisx->posRot.pos.z + (Math_Coss(angle) * rand);
         Math_Vec3f_Copy(&velocity, &thisx->velocity);
         if (thisx->bgCheckFlags & 1) {
             velocity.x *= 0.9f;
@@ -185,8 +185,8 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 0x45;
             phi_v1 = -0x140;
         }
-        func_80029E8C(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, scales[i], 5, 2,
-                      0x46, 0, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+        func_80029E8C(globalCtx, &pos, &velocity, &thisx->posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, scales[i], 5, 2, 0x46,
+                      0, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
     }
 }
 
