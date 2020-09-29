@@ -17,17 +17,16 @@ void func_80A7F2F8(EnIshi* this);
 void func_80A7F31C(EnIshi* this, GlobalContext* globalCtx);
 void func_80A7F3E8(EnIshi* this);
 void func_80A7F514(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7E824(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7EB10(EnIshi* this, GlobalContext* globalCtx);
-void func_80A7EC04(EnIshi* this, GlobalContext* globalCtx);
+void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx);
+void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx);
+void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx);
+void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx);
 
-extern Gfx D_0500A3B8[];
-extern Gfx D_0500A5E8[];
-extern Gfx D_0500A880[];
+extern Gfx D_0500A3B8[]; // Large gray rock
+extern Gfx D_0500A5E8[]; // Large gray rock fragments
+extern Gfx D_0500A880[]; // Small gray rock
 
-typedef void (*EnIshiUnkFunc1)(struct EnIshi*, GlobalContext*);
-typedef void (*EnIshiUnkFunc2)(struct EnIshi*, GlobalContext*);
+typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, GlobalContext*);
 typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
 
 typedef enum {
@@ -54,14 +53,16 @@ static f32 sRockScales[] = { 0.1f, 0.4f };
 static f32 D_80A7FA20[] = { 58.0f, 80.0f };
 static f32 D_80A7FA28[] = { 0.0f, 0.005f };
 
-// Hmm, these array lengths look suspiciously like NA_SE_EV_ROCK_BROKEN... Coincidence? I think not.
-static u16 D_80A7FA30[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
+// the sizes of these arrays are very large and take up way more space than it needs to.
+// coincidentally the sizes are the same size as the ID for NA_SE_EV_ROCK_BROKEN, which may explain a mistake that could
+// have been made here
+static u16 sBreakSounds[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
 
-static u8 D_80A84AD4[0x2852] = { 20, 40 };
+static u8 sBreakSoundDurations[0x2852] = { 20, 40 };
 
-static EnIshiUnkFunc1 D_80A87328[] = { func_80A7E5A8, func_80A7E824 };
+static EnIshiEffectSpawnFunc sFragmentSpawnFuncs[] = { EnIshi_SpawnFragmentsSmall, EnIshi_SpawnFragmentsLarge };
 
-static EnIshiUnkFunc2 D_80A87330[] = { func_80A7EB10, func_80A7EC04 };
+static EnIshiEffectSpawnFunc sDustSpawnFuncs[] = { EnIshi_SpawnDustSmall, EnIshi_SpawnDustLarge };
 
 static ColliderCylinderInit sCylinderInit[] = {
     {
@@ -109,7 +110,7 @@ s32 func_80A7E4D8(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
     }
 }
 
-void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 16, 13, 11, 9, 7, 5 };
     s32 pad;
     Vec3f velocity;
@@ -144,7 +145,7 @@ void func_80A7E5A8(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
+void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
     Actor* thisx = &this->actor;
     Vec3f velocity;
@@ -190,36 +191,36 @@ void func_80A7E824(EnIshi* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7EB10(EnIshi* this, GlobalContext* globalCtx) {
-    Vec3f sp2C;
+void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx) {
+    Vec3f pos;
 
-    Math_Vec3f_Copy(&sp2C, &this->actor.posRot.pos);
+    Math_Vec3f_Copy(&pos, &this->actor.posRot.pos);
     if (this->actor.bgCheckFlags & 1) {
-        sp2C.x += 2.0f * this->actor.velocity.x;
-        sp2C.y -= 2.0f * this->actor.velocity.y;
-        sp2C.z += 2.0f * this->actor.velocity.z;
+        pos.x += 2.0f * this->actor.velocity.x;
+        pos.y -= 2.0f * this->actor.velocity.y;
+        pos.z += 2.0f * this->actor.velocity.z;
     } else if (this->actor.bgCheckFlags & 8) {
-        sp2C.x -= 2.0f * this->actor.velocity.x;
-        sp2C.y += 2.0f * this->actor.velocity.y;
-        sp2C.z -= 2.0f * this->actor.velocity.z;
+        pos.x -= 2.0f * this->actor.velocity.x;
+        pos.y += 2.0f * this->actor.velocity.y;
+        pos.z -= 2.0f * this->actor.velocity.z;
     }
-    func_80033480(globalCtx, &sp2C, 60.0f, 3, 0x50, 0x3C, 1);
+    func_80033480(globalCtx, &pos, 60.0f, 3, 0x50, 0x3C, 1);
 }
 
-void func_80A7EC04(EnIshi* this, GlobalContext* globalCtx) {
-    Vec3f sp2C;
+void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx) {
+    Vec3f pos;
 
-    Math_Vec3f_Copy(&sp2C, &this->actor.posRot.pos);
+    Math_Vec3f_Copy(&pos, &this->actor.posRot.pos);
     if (this->actor.bgCheckFlags & 1) {
-        sp2C.x += 2.0f * this->actor.velocity.x;
-        sp2C.y -= 2.0f * this->actor.velocity.y;
-        sp2C.z += 2.0f * this->actor.velocity.z;
+        pos.x += 2.0f * this->actor.velocity.x;
+        pos.y -= 2.0f * this->actor.velocity.y;
+        pos.z += 2.0f * this->actor.velocity.z;
     } else if (this->actor.bgCheckFlags & 8) {
-        sp2C.x -= 2.0f * this->actor.velocity.x;
-        sp2C.y += 2.0f * this->actor.velocity.y;
-        sp2C.z -= 2.0f * this->actor.velocity.z;
+        pos.x -= 2.0f * this->actor.velocity.x;
+        pos.y += 2.0f * this->actor.velocity.y;
+        pos.z -= 2.0f * this->actor.velocity.z;
     }
-    func_80033480(globalCtx, &sp2C, 140.0f, 0xA, 0xB4, 0x5A, 1);
+    func_80033480(globalCtx, &pos, 140.0f, 0xA, 0xB4, 0x5A, 1);
 }
 
 void EnIshi_DropCollectible(EnIshi* this, GlobalContext* globalCtx) {
@@ -325,9 +326,9 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
     } else if (this->collider.base.acFlags & 2 && (type == ROCK_SMALL) &&
                this->collider.body.acHitItem->toucher.flags & 0x40000048) {
         EnIshi_DropCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
-        D_80A87328[type](this, globalCtx);
-        D_80A87330[type](this, globalCtx);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, sBreakSoundDurations[type], sBreakSounds[type]);
+        sFragmentSpawnFuncs[type](this, globalCtx);
+        sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
     } else if (this->actor.xzDistFromLink < 600.0f) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
@@ -389,10 +390,11 @@ void func_80A7F514(EnIshi* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 9) {
         EnIshi_DropCollectible(this, globalCtx);
-        D_80A87328[type](this, globalCtx);
+        sFragmentSpawnFuncs[type](this, globalCtx);
         if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, D_80A84AD4[type], D_80A7FA30[type]);
-            D_80A87330[type](this, globalCtx);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, sBreakSoundDurations[type],
+                                      sBreakSounds[type]);
+            sDustSpawnFuncs[type](this, globalCtx);
         }
         if (type == ROCK_LARGE) {
             quakeIdx = Quake_Add(ACTIVE_CAM, 3);
