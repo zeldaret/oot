@@ -313,13 +313,13 @@ void EnIshi_SetupWait(EnIshi* this) {
 }
 
 void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
-    static u16 D_80A873E0[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
+    static u16 liftSounds[] = { NA_SE_PL_PULL_UP_ROCK, NA_SE_PL_PULL_UP_BIGROCK };
     s32 pad;
     s16 type = this->actor.params & 1;
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnIshi_SetupLiftedUp(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, D_80A873E0[type]);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, liftSounds[type]);
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, globalCtx);
         }
