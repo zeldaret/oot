@@ -14,7 +14,7 @@ s32 Camera_QRegInit(void);
 #define NEXTSETTING ((values++)->val)
 #define NEXTPCT PCT(NEXTSETTING)
 
-#define ONEPNTDEM ((Unique9OnePointDemo*)camera->paramData)
+#define ONEPOINTDEMO ((Unique9OnePointDemo*)camera->paramData)
 
 #define BGCAM_POS(v) ((v)[0])
 #define BGCAM_ROT(v) ((v)[1])
@@ -173,7 +173,8 @@ Vec3f* Camera_Vec3sToVec3f(Vec3f* dest, Vec3s* src) {
 }
 
 Vec3f* Camera_Vec3fVecSphGeoAdd(Vec3f* dest, Vec3f* a, VecSph* b) {
-    Vec3f copy, vecB;
+    Vec3f copy;
+    Vec3f vecB;
     OLib_VecSphGeoToVec3f(&vecB, b);
 
     copy.x = a->x + vecB.x;
@@ -199,14 +200,13 @@ Vec3f* Camera_Vec3fTranslateByUnitVector(Vec3f* dest, Vec3f* src, Vec3f* unitVec
  * Detects the collision poly between `from` and `to`, places collision info in `to`
  */
 s32 Camera_BGCheckInfo(Camera* camera, Vec3f* from, CamColChk* to) {
-    CollisionContext* colCtx;
+    CollisionContext* colCtx = &camera->globalCtx->colCtx;
     Vec3f toNewPos, toPoint, fromToNorm;
     f32 floorPolyY;
     CollisionPoly* floorPoly;
     s32 floorBgId;
     VecSph fromToOffset;
 
-    colCtx = &camera->globalCtx->colCtx;
     OLib_Vec3fDiffToVecSphGeo(&fromToOffset, from, &to->pos);
     fromToOffset.r += 8.0f;
     Camera_Vec3fVecSphGeoAdd(&toPoint, from, &fromToOffset);
@@ -261,7 +261,7 @@ s32 Camera_BGCheck(Camera* camera, Vec3f* from, Vec3f* to) {
 }
 
 s32 func_80043F94(Camera* camera, Vec3f* from, CamColChk* to) {
-    CollisionContext* colCtx;
+    CollisionContext* colCtx = &camera->globalCtx->colCtx;
     Vec3f toNewPos;
     Vec3f toPos;
     Vec3f fromToNorm;
@@ -271,7 +271,6 @@ s32 func_80043F94(Camera* camera, Vec3f* from, CamColChk* to) {
     s32 bgId;
     VecSph fromToGeo;
 
-    colCtx = &camera->globalCtx->colCtx;
     OLib_Vec3fDiffToVecSphGeo(&fromToGeo, from, &to->pos);
     fromToGeo.r += 8.0f;
     Camera_Vec3fVecSphGeoAdd(&toPos, from, &fromToGeo);
@@ -385,7 +384,8 @@ f32 Camera_GetFloorYNorm(Camera* camera, Vec3f* floorNorm, Vec3f* chkPos, s32* b
  * Gets the position of the floor from `pos`
  */
 f32 Camera_GetFloorY(Camera* camera, Vec3f* pos) {
-    Vec3f posCheck, floorNorm;
+    Vec3f posCheck;
+    Vec3f floorNorm;
     s32 bgId;
 
     posCheck = *pos;
@@ -561,7 +561,6 @@ s16 func_80044ADC(Camera* camera, s16 yaw, s16 arg2) {
     static f32 D_8015CE50;
     static f32 D_8015CE54;
     static CamColChk D_8015CE58;
-
     Vec3f playerPos;
     Vec3f rotatedPos;
     Vec3f floorNorm;
@@ -804,7 +803,6 @@ s32 func_80045508(Camera* camera, VecSph* diffSph, CamColChk* eyeChk, CamColChk*
     Vec3f* at = &camera->at;
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
-
     Vec3f eyePos;
     s32 atEyeBgId;
     s32 eyeAtBgId;
@@ -1308,7 +1306,6 @@ void func_80046E20(Camera* camera, VecSph* eyeAdjustment, f32 minDist, f32 arg3,
     static CamColChk atEyeColChk;
     static CamColChk eyeAtColChk;
     static CamColChk newEyeColChk;
-
     Vec3f* eye = &camera->eye;
     s32 temp_v0;
     Vec3f* at = &camera->at;
@@ -1619,7 +1616,7 @@ s32 Camera_Normal1(Camera* camera) {
         }
 
         // crit wiggle
-        if (gSaveContext.health <= 0x10 && ((camera->globalCtx->state.frames % 256) == 0)) {
+        if (gSaveContext.health <= 16 && ((camera->globalCtx->state.frames % 256) == 0)) {
             t2 = Math_Rand_ZeroOne() * 10000.0f;
             camera->inputDir.y = t2 + camera->inputDir.y;
         }
@@ -1630,7 +1627,7 @@ s32 Camera_Normal1(Camera* camera) {
         *eye = *eyeNext;
     }
 
-    spA0 = (gSaveContext.health <= 0x10 ? 0.8f : 1.0f);
+    spA0 = (gSaveContext.health <= 16 ? 0.8f : 1.0f);
     camera->fov = Camera_LERPCeilF(norm1->fovTarget * spA0, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5f, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, norm1->atLERPScaleMax);
@@ -3445,6 +3442,9 @@ s32 Camera_KeepOn3(Camera* camera) {
 
 #ifdef NON_MATCHING
 s32 Camera_KeepOn4(Camera* camera) {
+    static Vec3f D_8015BD50;
+    static Vec3f D_8015BD60;
+    static Vec3f D_8015BD70;
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
@@ -3468,10 +3468,6 @@ s32 Camera_KeepOn4(Camera* camera) {
     Player* player;
     s16 angleCnt;
     s32 i;
-
-    static Vec3f D_8015BD50;
-    static Vec3f D_8015BD60;
-    static Vec3f D_8015BD70;
 
     player = (Player*)camera->globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first;
 
@@ -5001,7 +4997,7 @@ s32 Camera_Unique8(Camera* camera) {
 s32 Camera_Unique9(Camera* camera) {
     Vec3f atTarget;
     Vec3f eyeTarget;
-    Unique9* uniq9 = &ONEPNTDEM->uniq9;
+    Unique9* uniq9 = &ONEPOINTDEMO->uniq9;
     Unique9Anim* anim = &uniq9->anim;
     f32 invKeyFrameTimer;
     VecSph eyeNextAtOffset;
@@ -5059,8 +5055,8 @@ s32 Camera_Unique9(Camera* camera) {
     if (anim->keyFrameTimer == 0) {
         anim->isNewKeyFrame = true;
         anim->curKeyFrameIdx++;
-        if (anim->curKeyFrameIdx < ONEPNTDEM->keyFrameCnt) {
-            anim->curKeyFrame = &ONEPNTDEM->keyFrames[anim->curKeyFrameIdx];
+        if (anim->curKeyFrameIdx < ONEPOINTDEMO->keyFrameCnt) {
+            anim->curKeyFrame = &ONEPOINTDEMO->keyFrames[anim->curKeyFrameIdx];
             anim->keyFrameTimer = anim->curKeyFrame->timerInit;
 
             if (anim->curKeyFrame->unk_01 != 0xFF) {
@@ -5852,28 +5848,28 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D6AC[1].timerInit = camera->timer - 1;
             D_8011D6AC[1].atTargetInit.z = Math_Rand_ZeroOne() * 10.0f;
             D_8011D6AC[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
-            ONEPNTDEM->keyFrames = D_8011D6AC;
-            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
+            ONEPOINTDEMO->keyFrames = D_8011D6AC;
+            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
             if (camera->parentCamIdx != 0) {
-                ONEPNTDEM->keyFrameCnt--;
+                ONEPOINTDEMO->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
         } else {
             D_8011D724[1].eyeTargetInit.x = Math_Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
-            ONEPNTDEM->keyFrames = D_8011D724;
-            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D724);
+            ONEPOINTDEMO->keyFrames = D_8011D724;
+            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D724);
             if (camera->parentCamIdx != 0) {
-                ONEPNTDEM->keyFrameCnt--;
+                ONEPOINTDEMO->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D724[2].timerInit;
             }
         }
     } else if (playerTargetGeo.r < 30.0f) {
         // distance between player and target is less than 30 units.
-        ONEPNTDEM->keyFrames = D_8011D79C;
-        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
+        ONEPOINTDEMO->keyFrames = D_8011D79C;
+        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
         if ((sp78.yaw < 0x15) || (sp78.yaw >= 0x12C) || (sp78.pitch < 0x29) || (sp78.pitch >= 0xC8)) {
             D_8011D79C[0].actionFlags = 0x41;
             D_8011D79C[0].atTargetInit.y = -30.0f;
@@ -5887,7 +5883,7 @@ s32 Camera_Demo5(Camera* camera) {
         D_8011D79C[1].timerInit = camera->timer - 1;
 
         if (camera->parentCamIdx != 0) {
-            ONEPNTDEM->keyFrameCnt -= 2;
+            ONEPOINTDEMO->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
         }
@@ -5895,10 +5891,10 @@ s32 Camera_Demo5(Camera* camera) {
         // distance from the camera's current positon and the target is less than 300 units
         // and the distance fromthe camera's current position to the player is less than 30 units
         D_8011D83C[0].timerInit = camera->timer;
-        ONEPNTDEM->keyFrames = D_8011D83C;
-        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
+        ONEPOINTDEMO->keyFrames = D_8011D83C;
+        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
         if (camera->parentCamIdx != 0) {
-            ONEPNTDEM->keyFrameCnt--;
+            ONEPOINTDEMO->keyFrameCnt--;
         } else {
             camera->timer += D_8011D83C[1].timerInit;
         }
@@ -5908,10 +5904,10 @@ s32 Camera_Demo5(Camera* camera) {
         // is less than ~76.9 degrees
         if (sp78.yaw >= 0x15 && sp78.yaw < 0x12C && sp78.pitch >= 0x29 && sp78.pitch < 0xC8 && eyePlayerGeo.r > 30.0f) {
             D_8011D88C[0].timerInit = camera->timer;
-            ONEPNTDEM->keyFrames = D_8011D88C;
-            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
+            ONEPOINTDEMO->keyFrames = D_8011D88C;
+            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
             if (camera->parentCamIdx != 0) {
-                ONEPNTDEM->keyFrameCnt--;
+                ONEPOINTDEMO->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D88C[1].timerInit;
             }
@@ -5926,10 +5922,10 @@ s32 Camera_Demo5(Camera* camera) {
             }
             D_8011D8DC[0].timerInit = camera->timer;
             D_8011D8DC[1].timerInit = (s16)(eyeTargetDist * 0.005f) + 8;
-            ONEPNTDEM->keyFrames = D_8011D8DC;
-            ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
+            ONEPOINTDEMO->keyFrames = D_8011D8DC;
+            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
             if (camera->parentCamIdx != 0) {
-                ONEPNTDEM->keyFrameCnt -= 2;
+                ONEPOINTDEMO->keyFrameCnt -= 2;
             } else {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
             }
@@ -5963,10 +5959,10 @@ s32 Camera_Demo5(Camera* camera) {
         } else {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
-        ONEPNTDEM->keyFrames = D_8011D954;
-        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D954);
+        ONEPOINTDEMO->keyFrames = D_8011D954;
+        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D954);
         if (camera->parentCamIdx != 0) {
-            ONEPNTDEM->keyFrameCnt -= 2;
+            ONEPOINTDEMO->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
         }
@@ -5988,14 +5984,14 @@ s32 Camera_Demo5(Camera* camera) {
             t = eyeTargetDist * 0.005f;
             D_8011D9F4[1].timerInit = t + 8;
         }
-        ONEPNTDEM->keyFrames = D_8011D9F4;
-        ONEPNTDEM->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
+        ONEPOINTDEMO->keyFrames = D_8011D9F4;
+        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
         if (camera->parentCamIdx != 0) {
             if (camera->globalCtx->state.frames & 1) {
                 D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
                 D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
             }
-            ONEPNTDEM->keyFrameCnt -= 2;
+            ONEPOINTDEMO->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D9F4[1].timerInit + D_8011D9F4[2].timerInit;
             D_8011D9F4[0].rollTargetInit = D_8011D9F4[1].rollTargetInit = 0;
@@ -6763,6 +6759,7 @@ s32 Camera_Special9(Camera* camera) {
 
 Camera* Camera_Create(View* view, CollisionContext* colCtx, GlobalContext* globalCtx) {
     Camera* newCamera = ZeldaArena_MallocDebug(sizeof(*newCamera), "../z_camera.c", 9370);
+    
     if (newCamera != NULL) {
         osSyncPrintf(VT_FGCOL(BLUE) "camera: create --- allocate %d byte" VT_RST "\n", sizeof(*newCamera) * 4);
         Camera_Init(newCamera, view, colCtx, globalCtx);
@@ -6956,7 +6953,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     Camera_QRegInit();
     osSyncPrintf(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
     if (camera->thisIdx == 0) {
-        Camera_ChkWater(camera);
+        Camera_CheckWater(camera);
     }
 }
 
@@ -7079,7 +7076,7 @@ void Camera_PrintSettings(Camera* camera);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_PrintSettings.s")
 #endif
 
-s32 Camera_ChkWater(Camera* camera) {
+s32 Camera_CheckWater(Camera* camera) {
     f32 waterY;
     s16 newQuakeId;
     s32 waterBoxProp;
@@ -7321,7 +7318,6 @@ void func_80058E8C(Camera* camera) {
 
 Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
     static s32 sOOBTimer = 0;
-
     Vec3f viewAt;
     Vec3f viewEye;
     Vec3f viewUp;
@@ -7387,7 +7383,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
 
         if (sOOBTimer < 200) {
             if (camera->status == CAM_STAT_ACTIVE) {
-                Camera_ChkWater(camera);
+                Camera_CheckWater(camera);
                 Camera_SetRoomHotFlag(camera);
             }
 
@@ -7872,6 +7868,7 @@ Vec3s* Camera_GetInputDir(Vec3s* dst, Camera* camera) {
 
 s16 Camera_GetInputDirPitch(Camera* camera) {
     Vec3s dir;
+
     Camera_GetInputDir(&dir, camera);
     return dir.x;
 }
@@ -7894,17 +7891,17 @@ Vec3s* Camera_GetCamDir(Vec3s* dst, Camera* camera) {
 }
 
 s16 Camera_GetCamDirPitch(Camera* camera) {
-    Vec3s realDir;
+    Vec3s camDir;
 
-    Camera_GetCamDir(&realDir, camera);
-    return realDir.x;
+    Camera_GetCamDir(&camDir, camera);
+    return camDir.x;
 }
 
 s16 Camera_GetCamDirYaw(Camera* camera) {
-    Vec3s realDir;
+    Vec3s camDir;
 
-    Camera_GetCamDir(&realDir, camera);
-    return realDir.y;
+    Camera_GetCamDir(&camDir, camera);
+    return camDir.y;
 }
 
 s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
@@ -7922,6 +7919,7 @@ s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
 
 s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
     s32 pad[3];
+    
     if (value != NULL) {
         switch (param) {
             case 1:
