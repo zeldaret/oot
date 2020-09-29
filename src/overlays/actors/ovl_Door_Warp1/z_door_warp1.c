@@ -104,7 +104,7 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099898C.s")
 void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
-    Player* sp34 = PLAYER;
+    Player* player = PLAYER;
 
     this->unk_1AC = 0;
     this->unk_1AE = -0x8C;
@@ -181,9 +181,9 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.entranceIndex == 0x610 ||  // desert colossus
                 gSaveContext.entranceIndex == 0x580) &&  // graveyard
                 gSaveContext.sceneSetupIndex < 4) || (PLAYER->actor.params & 0xF00) != 0x200) {
-                Actor_Kill(this);
+                Actor_Kill(&this->actor);
             }
-            if (func_8002DB8C(sp34, this) > 100.0f) {
+            if (func_8002DB8C(&player->actor, &this->actor) > 100.0f) {
                 Actor_Kill(&this->actor);
             }
             func_80998780(this, func_8099AEE4);
@@ -233,9 +233,9 @@ void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, 0, 0, 0);
     SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 0, 
-            SkelAnime_GetFrameCount(&D_06001374), 
-            SkelAnime_GetFrameCount(&D_06001374), 2, 0.0f, 1);
-    this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374);
+            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 
+            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 2, 0.0f, 1);
+    this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374.genericHeader);
     this->unk_1AC = 0xA;
     this->unk_1AE = 0x78;
     this->unk_1B0 = 0xE6;
@@ -267,9 +267,9 @@ void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
     SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 0, 
         // this arg is saved and loaded from the stack when the second GetFrameCount is called, offset off by 4
-            SkelAnime_GetFrameCount(&D_06001374),
-            SkelAnime_GetFrameCount(&D_06001374), 2, 0.0f, 1);
-    this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374);
+            SkelAnime_GetFrameCount(&D_06001374.genericHeader),
+            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 2, 0.0f, 1);
+    this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374.genericHeader);
     this->unk_1AE = 0x78;
     this->unk_1B0 = 0xE6;
     this->unk_192 = 0xC8;
@@ -582,7 +582,7 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999E64.s")
 void func_80999E64(DoorWarp1* this, GlobalContext* globalCtx) {
-    Audio_PlayActorSound2(this, NA_SE_EV_WARP_HOLE - SFX_FLAG);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     if (this->unk_1EC != 0 && func_80999938(this, globalCtx) != 0) {
         this->unk_1EC = 2;
         func_8002DF54(globalCtx, &this->actor, 10);
@@ -711,8 +711,8 @@ void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx) {
     }
     Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 1.0f, 
-            SkelAnime_GetFrameCount(&D_06001374), 
-            SkelAnime_GetFrameCount(&D_06001374), 2, 40.0f, 1);
+            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 
+            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 2, 40.0f, 1);
     this->unk_1B2 = 0x32;
     func_80998780(this, func_8099A5EC);
 }
@@ -961,8 +961,12 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-#ifdef NON_MATCHING
+/* #ifdef NON_MATCHING
 // Regalloc, small reorderings near the end of the first switch
+
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
+#endif */
 void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 pad;
     u32 pad1;
@@ -978,9 +982,9 @@ void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2173);
 
-    temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.70000004768f;
+    temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.7f;
     if (this->actor.params != 4 && this->actor.params != 6 && this->actor.params != 8 &&
-        this->actor.params != 9 && this->actor.params != 0xA) {
+        this->actor.params != 9 && this->actor.params != 10) {
         this->unk_19C += (s16)(temp_f0 * 15.0f);
     }
     if (this->actor.params == 6) {
@@ -1065,9 +1069,6 @@ void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2340);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Draw.s")
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
