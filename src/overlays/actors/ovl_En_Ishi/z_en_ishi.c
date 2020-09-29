@@ -78,7 +78,7 @@ static ColliderCylinderInit sCylinderInit[] = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFF };
 
-void EnIshi_SetupCollider(Actor* thisx, GlobalContext* globalCtx) {
+void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnIshi* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -288,7 +288,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = Math_Rand_ZeroFloat(0x10000);
     }
     Actor_SetScale(&this->actor, sRockScales[type]);
-    EnIshi_SetupCollider(&this->actor, globalCtx);
+    EnIshi_InitCollider(&this->actor, globalCtx);
     if ((type == ROCK_LARGE) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
