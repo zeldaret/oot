@@ -192,9 +192,13 @@ typedef enum {
 
 struct EffectSs;
 
+typedef u32 (*EffectSsInitFunc)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs, void* initParams);
+typedef void (*EffectSsUpdateFunc)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
+typedef void (*EffectSsDrawFunc)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
+
 typedef struct {
     /* 0x00 */ u32 type;
-    /* 0x04 */ u32 (*init)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs, void* initParams);
+    /* 0x04 */ EffectSsInitFunc init;
 } EffectSsInit; // size = 0x08
 
 typedef struct {
@@ -211,8 +215,8 @@ typedef struct EffectSs {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
-    /* 0x24 */ void (*update)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
-    /* 0x28 */ void (*draw)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
+    /* 0x24 */ EffectSsUpdateFunc update;
+    /* 0x28 */ EffectSsDrawFunc draw;
     /* 0x2C */ Vec3f vec; // usage specific per effect
     /* 0x38 */ void* gfx; // mostly used for display lists, sometimes textures
     /* 0x3C */ Actor* actor; // interfacing actor, usually the actor that spawned the effect
@@ -228,6 +232,21 @@ typedef struct {
     /* 0x04 */ s32 searchStartIndex;
     /* 0x08 */ s32 tableSize;
 } EffectSsInfo; // size = 0x0C
+
+/* G Effect Regs */
+
+#define rgTexIdx regs[0]
+#define rgScale regs[1]
+#define rgTexIdxStep regs[2]
+#define rgPrimColorR regs[3]
+#define rgPrimColorG regs[4]
+#define rgPrimColorB regs[5]
+#define rgPrimColorA regs[6]
+#define rgEnvColorR regs[7]
+#define rgEnvColorG regs[8]
+#define rgEnvColorB regs[9]
+#define rgEnvColorA regs[10]
+#define rgObjBankIdx regs[11]
 
 typedef enum {
     /* 0x00 */ EFFECT_SS_DUST,

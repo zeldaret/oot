@@ -32,10 +32,9 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
     s32 pad;
     s32 objBankIdx;
-    Vec3f zeroVecSrc = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
     void* oldSeg6;
-    Vec3f zeroVec;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
         objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FHG);
@@ -61,9 +60,7 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
         }
     } else {
         this->actor = initParams->actor;
-        zeroVec = zeroVecSrc;
-        this->accel = zeroVec;
-        this->velocity = zeroVec;
+        this->velocity = this->accel = zeroVec;
         this->life = (s16)(Math_Rand_ZeroOne() * 10.0f) + 111;
         this->rScale = (s16)Math_Rand_ZeroFloat(initParams->scale) + initParams->scale;
         this->rAlpha = 255;

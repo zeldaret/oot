@@ -31,13 +31,13 @@ extern Gfx D_0404D4E0[];
 
 u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsEnFireInitParams* initParams = (EffectSsEnFireInitParams*)initParamsx;
-    Vec3f zeroVecSrc = { 0.0f, 0.0f, 0.0f };
-    Vec3f zeroVec;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    // Vec3f zeroVec;
 
     this->pos = initParams->pos;
-    zeroVec = zeroVecSrc;
-    this->accel = zeroVec;
-    this->velocity = zeroVec;
+    // zeroVec = zeroVec;
+    this->velocity = this->accel = zeroVec;
+    // this->velocity = zeroVec;
     this->life = 20;
     this->rLifespan = this->life;
     this->actor = initParams->actor;

@@ -318,8 +318,8 @@ void BgSpot16Bombstone_SpawnFragments(BgSpot16Bombstone* this, GlobalContext* gl
 
             scale = D_808B6074[index] * this->actor.scale.x * 3;
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.posRot.pos, -420, 0x31, 0xF, 0xF,
-                          0, scale, 2, 0x40, 160, KAKERA_COLOR_NONE, OBJECT_BOMBIWA, D_060009E0);
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.posRot.pos, -420, 0x31, 0xF, 0xF, 0, scale, 2,
+                                 0x40, 160, KAKERA_COLOR_NONE, OBJECT_BOMBIWA, D_060009E0);
             index += 1;
         } while (index != ARRAY_COUNT(D_808B6074));
     }

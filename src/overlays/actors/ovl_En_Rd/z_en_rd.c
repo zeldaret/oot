@@ -893,7 +893,7 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
             THIS->unk_31A--;
             if (this->unk_31A % 4 == 0) {
                 EffectSsEnFire_SpawnVec3s(globalCtx, &this->actor, &this->firePos[this->unk_31A >> 2], 0x4B, 0, 0,
-                              (this->unk_31A >> 2));
+                                          (this->unk_31A >> 2));
             }
         }
     } else {

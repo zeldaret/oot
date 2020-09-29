@@ -6,18 +6,9 @@
 
 #include "z_eff_ss_g_splash.h"
 
-#define rTexIdx regs[0]
-#define rScale regs[1]
-#define rTexIdxStep regs[2]
-#define rPrimColorR regs[3]
-#define rPrimColorG regs[4]
-#define rPrimColorB regs[5]
-#define rPrimColorA regs[6]
-#define rEnvColorR regs[7]
-#define rEnvColorG regs[8]
-#define rEnvColorB regs[9]
-#define rEnvColorA regs[10]
-#define rType regs[11] // in EffectSs_DrawGEffect this is used as an object bank index for what gets loaded to segment 6
+//! @bug the reuse of regs[11] means that EffectSs_DrawGEffect will treat the type as an object bank index
+// this ends up having no effect because the texture provided does not use segment 6
+#define rType regs[11]
 
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParams);
 void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -32,12 +23,9 @@ extern Gfx D_04027DF0[];
 
 u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsGSplashInitParams* initParams = (EffectSsGSplashInitParams*)initParamsx;
-    Vec3f emptyVecSrc = { 0.0f, 0.0f, 0.0f };
-    Vec3f emptyVec;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
-    emptyVec = emptyVecSrc;
-    this->accel = emptyVec;
-    this->velocity = emptyVec;
+    this->velocity = this->accel = zeroVec;
     this->pos = initParams->pos;
     this->draw = EffectSsGSplash_Draw;
     this->update = EffectSsGSplash_Update;
@@ -48,53 +36,53 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 
     this->gfx = SEGMENTED_TO_VIRTUAL(D_04027DF0);
     this->life = 8;
-    this->rScale = initParams->scale;
-    this->rTexIdx = 0;
-    this->rTexIdxStep = 100;
+    this->rgScale = initParams->scale;
+    this->rgTexIdx = 0;
+    this->rgTexIdxStep = 100;
 
     if (initParams->customColor) {
-        this->rPrimColorR = initParams->primColor.r;
-        this->rPrimColorG = initParams->primColor.g;
-        this->rPrimColorB = initParams->primColor.b;
-        this->rPrimColorA = initParams->primColor.a;
-        this->rEnvColorR = initParams->envColor.r;
-        this->rEnvColorG = initParams->envColor.g;
-        this->rEnvColorB = initParams->envColor.b;
-        this->rEnvColorA = initParams->envColor.a;
+        this->rgPrimColorR = initParams->primColor.r;
+        this->rgPrimColorG = initParams->primColor.g;
+        this->rgPrimColorB = initParams->primColor.b;
+        this->rgPrimColorA = initParams->primColor.a;
+        this->rgEnvColorR = initParams->envColor.r;
+        this->rgEnvColorG = initParams->envColor.g;
+        this->rgEnvColorB = initParams->envColor.b;
+        this->rgEnvColorA = initParams->envColor.a;
         this->rType = initParams->type;
     } else {
         switch (initParams->type) {
             case 0:
-                this->rPrimColorR = 255;
-                this->rPrimColorG = 255;
-                this->rPrimColorB = 255;
-                this->rPrimColorA = 200;
-                this->rEnvColorR = 255;
-                this->rEnvColorG = 255;
-                this->rEnvColorB = 255;
-                this->rEnvColorA = 200;
+                this->rgPrimColorR = 255;
+                this->rgPrimColorG = 255;
+                this->rgPrimColorB = 255;
+                this->rgPrimColorA = 200;
+                this->rgEnvColorR = 255;
+                this->rgEnvColorG = 255;
+                this->rgEnvColorB = 255;
+                this->rgEnvColorA = 200;
                 this->rType = 0;
                 break;
             case 1:
-                this->rPrimColorR = 255;
-                this->rPrimColorG = 255;
-                this->rPrimColorB = 255;
-                this->rPrimColorA = 255;
-                this->rEnvColorR = 255;
-                this->rEnvColorG = 255;
-                this->rEnvColorB = 255;
-                this->rEnvColorA = 255;
+                this->rgPrimColorR = 255;
+                this->rgPrimColorG = 255;
+                this->rgPrimColorB = 255;
+                this->rgPrimColorA = 255;
+                this->rgEnvColorR = 255;
+                this->rgEnvColorG = 255;
+                this->rgEnvColorB = 255;
+                this->rgEnvColorA = 255;
                 this->rType = 1;
                 break;
             case 2:
-                this->rPrimColorR = 255;
-                this->rPrimColorG = 255;
-                this->rPrimColorB = 255;
-                this->rPrimColorA = 200;
-                this->rEnvColorR = 255;
-                this->rEnvColorG = 255;
-                this->rEnvColorB = 255;
-                this->rEnvColorA = 200;
+                this->rgPrimColorR = 255;
+                this->rgPrimColorG = 255;
+                this->rgPrimColorB = 255;
+                this->rgPrimColorA = 200;
+                this->rgEnvColorR = 255;
+                this->rgEnvColorG = 255;
+                this->rgEnvColorB = 255;
+                this->rgEnvColorA = 200;
                 this->rType = 2;
                 break;
         }
@@ -111,24 +99,24 @@ void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     switch (this->rType) {
         case 0:
-            texIdx = this->rTexIdx / 0x64;
-            if (texIdx >= 8) {
+            texIdx = this->rgTexIdx / 100;
+            if (texIdx > 7) {
                 texIdx = 7;
             }
             EffectSs_DrawGEffect(globalCtx, this, sTextures[texIdx]);
             break;
 
         case 1:
-            texIdx = this->rTexIdx / 0x64;
-            if (texIdx >= 8) {
+            texIdx = this->rgTexIdx / 100;
+            if (texIdx > 7) {
                 texIdx = 7;
             }
             EffectSs_DrawGEffect(globalCtx, this, sTextures[texIdx]);
             break;
 
         case 2:
-            texIdx = this->rTexIdx / 0x64;
-            if (texIdx >= 8) {
+            texIdx = this->rgTexIdx / 100;
+            if (texIdx > 7) {
                 texIdx = 7;
             }
             EffectSs_DrawGEffect(globalCtx, this, sTextures[texIdx]);
@@ -144,9 +132,9 @@ void EffectSsGSplash_Update(GlobalContext* globalCtx, u32 index, EffectSs* this)
 
     if ((this->rType == 1) && (this->life == 5)) {
         newSplashPos = this->pos;
-        newSplashPos.y += ((this->rScale * 20) * 0.002f);
-        EffectSsGSplash_Spawn(globalCtx, &newSplashPos, 0, 0, 2, this->rScale / 2);
+        newSplashPos.y += ((this->rgScale * 20) * 0.002f);
+        EffectSsGSplash_Spawn(globalCtx, &newSplashPos, 0, 0, 2, this->rgScale / 2);
     }
 
-    this->rTexIdx += this->rTexIdxStep;
+    this->rgTexIdx += this->rgTexIdxStep;
 }

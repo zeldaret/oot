@@ -28,15 +28,17 @@ EffectSsInit Effect_Ss_Bomb2_InitVars = {
     EffectSsBomb2_Init,
 };
 
+static EffectSsDrawFunc sDrawFuncs[] = {
+    EffectSsBomb2_DrawFade,
+    EffectSsBomb2_DrawLayered,
+};
+
 extern Gfx D_0400BF80[];
 extern Gfx D_0400BFE8[];
 extern Gfx D_0400C040[];
 
 u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
-    static void* drawFuncs[] = {
-        EffectSsBomb2_DrawFade,
-        EffectSsBomb2_DrawLayered,
-    };
+
     EffectSsBomb2InitParams* initParams = (EffectSsBomb2InitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
@@ -45,7 +47,7 @@ u32 EffectSsBomb2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->gfx = SEGMENTED_TO_VIRTUAL(D_0400BF80);
     this->life = 24;
     this->update = EffectSsBomb2_Update;
-    this->draw = drawFuncs[initParams->drawMode];
+    this->draw = sDrawFuncs[initParams->drawMode];
     this->rScale = initParams->scale;
     this->rScaleStep = initParams->scaleStep;
     this->rPrimColorR = 255;

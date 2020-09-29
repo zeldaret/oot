@@ -36,14 +36,13 @@ EffectSsInit Effect_Ss_G_Magma2_InitVars = {
 extern Gfx D_06025A90[];
 
 u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
-    static Vec3f zeroVecSrc = { 0.0f, 0.0f, 0.0f };
     s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_KINGDODONGO);
     s32 pad;
-    Vec3f zeroVec;
-    EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
 
-    if ((objBankIndex > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
-        zeroVec = zeroVecSrc;
+    if ((objBankIndex >= 0) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
+        Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+        EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
+
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         this->rObjBankIdx = objBankIndex;
         this->pos = initParams->pos;

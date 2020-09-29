@@ -30,10 +30,14 @@ EffectSsInit Effect_Ss_Dust_InitVars = {
     EffectSsDust_Init,
 };
 
+static EffectSsUpdateFunc sUpdateFuncs[] = {
+    EffectSsDust_Update,
+    EffectSsBlast_UpdateFire,
+};
+
 extern Gfx D_04010050[];
 
 u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
-    static void* updateFuncs[] = { EffectSsDust_Update, EffectSsBlast_UpdateFire };
     s32 randColorOffset;
     EffectSsDustInitParams* initParams = (EffectSsDustInitParams*)initParamsx;
 
@@ -42,7 +46,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
     this->gfx = SEGMENTED_TO_VIRTUAL(D_04010050);
     this->life = initParams->life;
-    this->update = updateFuncs[initParams->updateMode];
+    this->update = sUpdateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;
 
     if (initParams->drawFlags & 4) {

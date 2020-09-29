@@ -852,7 +852,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
                    EnHeishi2_PostLimbDraw, &this->actor);
     if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
-        if (linkObjBankIndex > -1) {
+        if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             Matrix_RotateZ(DEGTORAD(70.0), MTXMODE_APPLY);

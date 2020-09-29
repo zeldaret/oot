@@ -33,15 +33,12 @@ extern Gfx D_040244B0[];
 
 u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 pad;
-    Vec3f zeroVecSrc = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     WaterBox* waterBox;
     EffectSsGRippleInitParams* initParams = (EffectSsGRippleInitParams*)initParamsx;
-    Vec3f zeroVec;
 
     waterBox = NULL;
-    zeroVec = zeroVecSrc;
-    this->accel = zeroVec;
-    this->velocity = zeroVec;
+    this->velocity = this->accel = zeroVec;
     this->pos = initParams->pos;
     this->gfx = SEGMENTED_TO_VIRTUAL(D_040254B0);
     this->life = initParams->life + 20;

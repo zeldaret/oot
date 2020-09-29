@@ -30,13 +30,10 @@ u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     };
     StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;
-    Vec3f pos;
 
     this->rObjBankIdx = Object_GetIndex(&globalCtx->objectCtx, ageInfoEntry->objectID);
     this->gfx = ageInfoEntry->displayList;
-    pos = initParams->pos;
-    this->pos = pos;
-    this->vec = pos;
+    this->vec = this->pos = initParams->pos;
     this->rYaw = initParams->yaw;
     this->velocity.x = Math_Sins(initParams->yaw) * 6.0f;
     this->velocity.z = Math_Coss(initParams->yaw) * 6.0f;

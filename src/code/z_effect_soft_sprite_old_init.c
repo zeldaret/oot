@@ -39,18 +39,7 @@
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-// effects that use this draw function are responsible for making sure their reg usage lines up with those listed here
-#define rTexIdx regs[0]
-#define rScale regs[1]
-#define rPrimColorR regs[3]
-#define rPrimColorG regs[4]
-#define rPrimColorB regs[5]
-#define rPrimColorA regs[6]
-#define rEnvColorR regs[7]
-#define rEnvColorG regs[8]
-#define rEnvColorB regs[9]
-#define rEnvColorA regs[10]
-#define rObjBankIdx regs[11]
+// effects that use this draw function are responsible for making sure their reg usage lines up with
 
 void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* texture) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -63,11 +52,11 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* textur
     Mtx* mtx;
     void* object;
 
-    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
+    object = globalCtx->objectCtx.status[this->rgObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
-    scale = this->rScale * 0.0025f;
+    scale = this->rgScale * 0.0025f;
     SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
     SkinMatrix_SetScale(&mfScale, scale, scale, scale);
     SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
@@ -81,9 +70,10 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* textur
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(texture));
         func_80094C50(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
-                        this->rPrimColorA);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rgPrimColorR, this->rgPrimColorG, this->rgPrimColorB,
+                        this->rgPrimColorA);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rgEnvColorR, this->rgEnvColorG, this->rgEnvColorB,
+                       this->rgEnvColorA);
         gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
@@ -996,7 +986,8 @@ void EffectSsFireTail_SpawnFlame(GlobalContext* globalCtx, Actor* actor, Vec3f* 
 void EffectSsFireTail_SpawnFlameOnPlayer(GlobalContext* globalCtx, f32 scale, s16 bodyPart, f32 colorIntensity) {
     Player* player = PLAYER;
 
-    EffectSsFireTail_SpawnFlame(globalCtx, &player->actor, &player->bodyPartsPos[bodyPart], scale, bodyPart, colorIntensity);
+    EffectSsFireTail_SpawnFlame(globalCtx, &player->actor, &player->bodyPartsPos[bodyPart], scale, bodyPart,
+                                colorIntensity);
 }
 
 // EffectSsEnFire Spawn Functions

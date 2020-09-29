@@ -21,8 +21,8 @@
 #define rType regs[12]
 
 u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this);
-void func_809A5D98(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsFireTail_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Fire_Tail_InitVars = {
     EFFECT_SS_FIRE_TAIL,
@@ -45,8 +45,8 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->accel.z = 0.0f;
     this->life = initParams->life;
     this->actor = initParams->actor;
-    this->draw = func_809A5858;
-    this->update = func_809A5D98;
+    this->draw = EffectSsFireTail_Draw;
+    this->update = EffectSsFireTail_Update;
     this->rScale = initParams->scale * 1000.0f;
     this->rLifespan = initParams->life;
     this->rReg2 = -0xA;
@@ -67,7 +67,7 @@ u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     return 1;
 }
 
-void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     s16 yaw;
@@ -105,13 +105,13 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     temp1 = fabsf(Math_Coss(yaw));
     temp2 = Math_Sins(yaw);
     dist = Math_Vec3f_DistXZ(&scale, &this->vec) / (this->rReg10 * 0.1f);
-    Matrix_RotateY(((((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000)))) * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateZ(temp2 * this->rReg2 * dist * 0.017453292f, MTXMODE_APPLY);
     temp2 = 1.0f - ((f32)(this->life + 1) / this->rLifespan);
     temp2 = 1.0f - SQ(temp2);
     scale.x = scale.y = scale.z = temp2 * (this->rScale * 0.000010000001f);
     Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
-    temp1 = ((((this->rReg3 * 0.01f) * temp1) * dist) + 1.0f);
+    temp1 = (this->rReg3 * 0.01f * temp1 * dist) + 1.0f;
 
     if (temp1 < 0.1f) {
         temp1 = 0.1f;
@@ -137,6 +137,6 @@ void func_809A5858(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     CLOSE_DISPS(gfxCtx, "../z_eff_fire_tail.c", 273);
 }
 
-void func_809A5D98(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsFireTail_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->rScale *= 0.9f;
 }
