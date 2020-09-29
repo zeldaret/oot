@@ -16,6 +16,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F28C(EnKakasi* this);
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg);
+void func_80A8FBB8(EnKakasi *this, GlobalContext *globalCtx);
 
 ColliderCylinderInit D_80A8FDE0 = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -164,7 +165,7 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
 
     this->actor.textId = 0x4076;
     this->unk_196 = 6;
-    if (gSaveContext.linkAge != 0) {
+    if (LINK_IS_CHILD) {
         this->unk_194 = 0;
         if (gSaveContext.unk_F3C[4] != 0) {
             this->actor.textId = 0x407A;
@@ -177,7 +178,7 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
             this->unk_196 = 5;
         }
     }
-    this->actionFunc = &func_80A8F75C;
+    this->actionFunc = func_80A8F75C;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F75C.s")
@@ -227,7 +228,30 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F9C8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8FAA4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8FAA4.s")
+void func_80A8FAA4(EnKakasi *this, GlobalContext *globalCtx) {
+    if (globalCtx->msgCtx.unk_E3EE != 0xF) {
+        func_80A8F320(this, globalCtx, 1);
+        return;
+    }
+    osSyncPrintf("game_play->message.msg_mode=%d\n", globalCtx->msgCtx.msgMode);
+    if (globalCtx->msgCtx.msgMode == 0) {
+        if (this->unk_194 != 0) {
+            this->actor.textId = 0x4077;
+            this->unk_196 = 5;
+            func_8010B680(globalCtx, this->actor.textId, NULL);
+        } else {
+            this->actor.textId = 0x4078;
+            this->unk_196 = 5;
+            func_8010B680(globalCtx, this->actor.textId, NULL);
+        }
+        this->actionFunc = func_80A8FBB8;
+        func_800803F0(globalCtx, this->unk_208);
+        this->unk_208 = -1;
+        this->unk_208 = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+        func_8005B1A4(globalCtx->cameraPtrs[this->unk_208]);
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8FBB8.s")
 void func_80A8FBB8(EnKakasi *this, GlobalContext *globalCtx) {
