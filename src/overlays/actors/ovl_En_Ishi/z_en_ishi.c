@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ishi.c
+ * Overlay: ovl_En_Ishi
+ * Description: Small and large gray rocks
+ */
+
 #include "z_en_ishi.h"
 
 #include <vt.h>
