@@ -215,12 +215,12 @@ void EnWallmas_SetupCooldown(EnWallmas* this) {
 }
 
 void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
-    static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    func_8002A6B8(globalCtx, &this->actor.posRot.pos, &D_80B30D70, &D_80B30D70, 0xFA, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0,
-                  0, 0xFF, 1, 9, 1);
+    EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0,
+                         255, 1, 9, true);
 
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xC0);
     this->actionFunc = EnWallmas_Die;
@@ -497,7 +497,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
                 }
             } else {
                 if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
-                    func_8002A65C(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, 0x28);
+                    EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos, 40, 40);
                 }
 
                 EnWallmas_SetupTakeDamage(this);

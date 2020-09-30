@@ -142,7 +142,7 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
     }
 }
 
-/*
+/**
  * For every light in a provided list, try to find a free slot in the provided Lights group and bind
  * a light to it. Then apply color and positional/directional info for each light
  * based on the parameters supplied by the node.
@@ -216,7 +216,7 @@ void func_8007A698(LightContext* lightCtx, u8 arg1, u8 arg2, u8 arg3, s16 numLig
     lightCtx->unk_0C = arg5;
 }
 
-/*
+/**
  * Allocate a new Lights group and initilize the ambient color with that provided by LightContext
  */
 Lights* LightContext_NewLights(LightContext* lightCtx, GraphicsContext* gfxCtx) {
@@ -234,7 +234,7 @@ void LightContext_DestroyList(GlobalContext* globalCtx, LightContext* lightCtx) 
     }
 }
 
-/*
+/**
  * Insert a new light into the list pointed to by LightContext
  *
  * Note: Due to the limited number of slots in a Lights group, inserting too many lights in the

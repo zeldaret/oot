@@ -1,21 +1,13 @@
 /*
  * File: z_eff_ss_dead_sound.c
  * Overlay: ovl_Effect_Ss_Dead_Sound
- * Description: Plays a sound effect.
- *
- * If repeat mode is on, the sound is replayed every update for the duration of life.
- * Repeat mode is unused in the original game.
+ * Description: Plays a sound effect
  */
 
 #include "z_eff_ss_dead_sound.h"
 
-typedef enum {
-    /* 0x0A */ SS_DEADSOUND_SFX_ID = 10,
-    /* 0x0B */ SS_DEADSOUND_REPEAT_MODE,
-} EffectSsDeadSoundRegs;
-
-#define REPEAT_MODE_OFF 1
-#define REPEAT_MODE_ON 2
+#define rSfxId regs[10]
+#define rRepeatMode regs[11] // sound is replayed every update. unused in the original game
 
 u32 EffectSsDeadSound_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDeadSound_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -27,6 +19,7 @@ EffectSsInit Effect_Ss_Dead_Sound_InitVars = {
 
 u32 EffectSsDeadSound_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDeadSoundInitParams* initParams = (EffectSsDeadSoundInitParams*)initParamsx;
+
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
@@ -34,22 +27,24 @@ u32 EffectSsDeadSound_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, 
     this->life = initParams->life;
     this->draw = NULL;
     this->update = EffectSsDeadSound_Update;
-    this->regs[SS_DEADSOUND_REPEAT_MODE] = initParams->repeatMode;
-    this->regs[SS_DEADSOUND_SFX_ID] = initParams->sfxId;
+    this->rRepeatMode = initParams->repeatMode;
+    this->rSfxId = initParams->sfxId;
     // "constructor 3"
     osSyncPrintf("コンストラクター3\n");
+
     return 1;
 }
 
 void EffectSsDeadSound_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    switch (this->regs[SS_DEADSOUND_REPEAT_MODE]) {
-        case REPEAT_MODE_OFF:
-            this->regs[SS_DEADSOUND_REPEAT_MODE]--;
+    switch (this->rRepeatMode) {
+        case DEADSOUND_REPEAT_MODE_OFF:
+            this->rRepeatMode--; // decrement to 0 so sound only plays once
             break;
-        case REPEAT_MODE_ON:
+        case DEADSOUND_REPEAT_MODE_ON:
             break;
         default:
             return;
     }
-    Audio_PlaySoundGeneral(this->regs[SS_DEADSOUND_SFX_ID], &this->pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+    Audio_PlaySoundGeneral(this->rSfxId, &this->pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
