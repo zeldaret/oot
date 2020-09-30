@@ -139,7 +139,7 @@ glabel func_80ACE5C8
 /* 009E4 80ACE7B4 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 009E8 80ACE7B8 4600540D */  trunc.w.s $f16, $f10                 
 /* 009EC 80ACE7BC 440D8000 */  mfc1    $t5, $f16                  
-/* 009F0 80ACE7C0 0C00A5C9 */  jal     func_80029724              
+/* 009F0 80ACE7C0 0C00A5C9 */  jal     EffectSsHahen_Spawn              
 /* 009F4 80ACE7C4 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 009F8 80ACE7C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 009FC 80ACE7CC 0C00BE0A */  jal     Audio_PlayActorSound2

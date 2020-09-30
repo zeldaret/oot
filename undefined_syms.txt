@@ -226,8 +226,10 @@ D_0400CB70 = 0x0400CB70;
 D_04010130 = 0x04010130;
 D_04015720 = 0x04015720;
 D_04015760 = 0x04015760;
+D_040184B0 = 0x040184B0;
 D_0401A0B0 = 0x0401A0B0;
 D_0401E370 = 0x0401E370;
+D_04021770 = 0x04021770;
 D_0402CF30 = 0x0402CF30;
 D_04033EE0 = 0x04033EE0;
 D_04037730 = 0x04037730;
@@ -1018,6 +1020,76 @@ D_0400BF80 = 0x0400BF80;
 D_0400BF80 = 0x0400BF80;
 D_0400BFE8 = 0x0400BFE8;
 D_0400C040 = 0x0400C040;
+
+// z_eff_ss_bubble
+D_04055EB0 = 0x04055EB0;
+D_04055DB0 = 0x04055DB0;
+D_0401A160 = 0x0401A160;
+
+// z_eff_ss_lightning
+D_0402CF30 = 0x0402CF30;
+
+// z_eff_ss_d_fire
+D_060098A0 = 0x060098A0;
+
+// z_eff_ss_g_magma
+D_04024410 = 0x04024410;
+
+// z_eff_ss_g_fire
+D_0401C220 = 0x0401C220;
+
+// z_eff_ss_g_magma2
+D_06025A90 = 0x06025A90;
+
+// z_eff_ss_dead_dd
+D_01000000 = 0x01000000;
+
+// z_eff_ss_fire_tail
+D_0404D5A0 = 0x0404D5A0;
+D_0404D4E0 = 0x0404D4E0;
+
+// z_eff_ss_stone1
+D_04029E90 = 0x04029E90;
+
+// z_eff_ss_sibuki
+D_04055EB0 = 0x04055EB0;
+D_04055DB0 = 0x04055DB0;
+D_0401A160 = 0x0401A160;
+
+// z_eff_ss_sibuki2
+D_0401E2C0 = 0x0401E2C0;
+
+// z_eff_ss_dt_bubble
+D_04055DB0 = 0x04055DB0;
+D_04055EB0 = 0x04055EB0;
+D_0401A160 = 0x0401A160;
+
+// z_eff_ss_dead_db
+D_04031FE0 = 0x04031FE0;
+
+// z_eff_ss_dead_ds
+D_04037730 = 0x04037730;
+
+// z_eff_ss_ice_smoke
+D_060030A0 = 0x060030A0;
+D_06003158 = 0x06003158;
+
+// z_eff_ss_hahen
+D_0400C0D0 = 0x0400C0D0;
+D_0400CD80 = 0x0400CD80;
+
+// z_eff_ss_k_fire
+D_0404D4E0 = 0x0404D4E0;
+
+// z_eff_ss_en_fire
+D_0404D5A0 = 0x0404D5A0;
+D_0404D4E0 = 0x0404D4E0;
+
+// z_eff_ss_ice_piece
+D_04033720 = 0x04033720;
+
+// z_eff_ss_en_ice
+D_04033818 = 0x04033818;
 
 // z_en_fhg_fire
 D_0600FAA0 = 0x0600FAA0;
