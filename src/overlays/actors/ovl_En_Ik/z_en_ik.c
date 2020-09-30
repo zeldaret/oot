@@ -19,6 +19,16 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80A77AEC(EnIk* this, GlobalContext* globalCtx);
+void func_80A77B0C(EnIk* this, GlobalContext* globalCtx);
+void func_80A77B3C(EnIk* this, GlobalContext* globalCtx);
+void func_80A7748C(EnIk* this, GlobalContext* globalCtx);
+void func_80A774BC(EnIk* this, GlobalContext* globalCtx);
+void func_80A774F8(EnIk* this, GlobalContext* globalCtx);
+void func_80A77ED0(EnIk* this, GlobalContext* globalCtx);
+void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
+void func_80A77844(EnIk* this, GlobalContext* globalCtx);
+
 void func_80A74398(EnIk* this, GlobalContext* globalCtx);
 void func_80A74714(EnIk* this);
 void func_80A7489C(EnIk* this);
@@ -34,13 +44,86 @@ extern AnimationHeader D_0600DD50;
 extern SkeletonHeader D_0601E178;
 
 extern ColliderCylinderInit D_80A78340;
+extern ColliderTrisItemInit D_80A7836C[2];
 extern ColliderTrisInit D_80A783E4;
 extern ColliderQuadInit D_80A783F4;
 extern DamageTable D_80A78444;
-extern EnIkActionFunc D_80A78604[5]; // sActionFuncs
-extern EnIkDrawFunc D_80A7861C[2];   // sDrawFuncs
+
+extern EnIkActionFunc D_80A78604[6];
+extern EnIkDrawFunc D_80A7861C[3];
 
 /*
+// sCylinderInit
+ColliderCylinderInit D_80A78340 = {
+    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    { 25, 80, 0, { 0, 0, 0 } },
+};
+
+// sTrisItemsInit
+ColliderTrisItemInit D_80A7836C[] = {
+    {
+        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFC3FFFF, 0x00, 0x00 }, 0x00, 0x09, 0x00 },
+        { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
+    },
+    {
+        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFC3FFFF, 0x00, 0x00 }, 0x00, 0x09, 0x00 },
+        { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
+    },
+};
+
+// sTrisInit
+ColliderTrisInit D_80A783E4 = {
+    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
+    ARRAY_COUNT(D_80A7836C),
+    D_80A7836C,
+};
+
+// sQuadInit
+ColliderQuadInit D_80A783F4 = {
+    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
+    { 0x00, { 0x20000000, 0x00, 0x40 }, { 0x00000000, 0x00, 0x00 }, 0x81, 0x00, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+// sDamageTable
+DamageTable D_80A78444 = { {
+    0xD0, 0xF2, 0xE1, 0xF2, 0xD0, 0xE2, 0xF2, 0xD0, 0xF1, 0xF2, 0xF4, 0xE2, 0xE2, 0xE2, 0xE2, 0xE2,
+    0xEF, 0x60, 0x60, 0x60, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0xFA, 0x00, 0xF4, 0x00,
+} };
+
+UNK_TYPE D_80A78464[] = { 0x00000000, 0x3F000000, 0x00000000, 0x43960000, 0x00000000, 0x00000000 };
+UNK_TYPE D_80A7847C[] = { 0x44480000, 0xC3480000, 0xC5A28000 };
+UNK_TYPE D_80A78488[] = { 0x00000000, 0x00000000, 0x00000000 };
+UNK_TYPE D_80A78494[] = { 0xC3480000, 0xC5098000, 0xC3480000 };
+UNK_TYPE D_80A784A0[] = { 0xC5BB8000, 0x44FA0000, 0xC53B8000 };
+UNK_TYPE D_80A784AC[] = { 0xC53B8000, 0xC42F0000, 0xC59C4000, 0xC53B8000, 0xC42F0000,
+                          0x44FA0000, 0x457A0000, 0xC42F0000, 0x44FA0000 };
+UNK_TYPE D_80A784D0[] = { 0x457A0000, 0xC42F0000, 0x44FA0000, 0x457A0000, 0xC42F0000,
+                          0xC59C4000, 0xC53B8000, 0xC42F0000, 0xC59C4000 };
+UNK_TYPE D_80A784F4[] = { 0x00000000, 0x00000000, 0x00000000 };
+UNK_TYPE D_80A78500[] = { 0x00000000, 0x3E99999A, 0x00000000 };
+UNK_TYPE D_80A7850C[] = { 0xC8C8C8FF };
+UNK_TYPE D_80A78510[] = { 0x96969600 };
+UNK_TYPE D_80A78514[] = { 0x447A0000, 0xC47A0000, 0x447A0000, 0x00000000, 0xC47A0000, 0x00000000, 0xC47A0000,
+                          0xC59C4000, 0xC57A0000, 0x447A0000, 0xC59C4000, 0xC53B8000, 0xC47A0000, 0x447A0000,
+                          0xC5BB8000, 0xC47A0000, 0x453B8000, 0xC59C4000, 0xC4480000, 0x447A0000, 0xC53B8000,
+                          0x00000000, 0xC57A0000, 0xC4FA0000, 0xC47A0000, 0xC4FA0000, 0xC5BB8000, 0x447A0000,
+                          0xC53B8000, 0x00000000, 0x44FA0000, 0xC4FA0000, 0xC57A0000, 0xC47A0000, 0x00000000,
+                          0xC5BB8000, 0x447A0000, 0xC4FA0000, 0xC4FA0000, 0x00000000, 0xC4FA0000, 0x45034000,
+                          0x00000000, 0x00000000, 0x00000000, 0x447A0000, 0xC47A0000, 0xC5BB8000, 0x44FA0000,
+                          0x00000000, 0xC53B8000, 0xC47A0000, 0xC47A0000, 0xC57A0000, 0x44610000, 0xC4480000,
+                          0x4528C000 };
+UNK_TYPE D_80A785F8[] = { 0x44340000, 0x44610000, 0x451C4000 };
+
+// sActionFuncs
+EnIkActionFunc D_80A78604[] = {
+    func_80A77AEC, func_80A77B0C, func_80A77B3C, func_80A7748C, func_80A774BC, func_80A774F8,
+};
+
+// sDrawFuncs
+EnIkDrawFunc D_80A7861C[] = { func_80A77ED0, func_80A77EDC, func_80A77844 };
+
 const ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORTYPE_BOSS,
@@ -54,12 +137,7 @@ const ActorInit En_Ik_InitVars = {
 };
 */
 
-/*
-static ColliderTrisInit sTrisInit = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
-    2, D_80A7836C,
-};
-*/
+char D_80A78FA0[0x10];
 
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
@@ -267,7 +345,7 @@ void func_80A76BF4(void) {
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
 
-    if (this->action < 0 || this->action > ARRAY_COUNT(D_80A78604) || D_80A78604[this->action] == NULL) {
+    if (this->action < 0 || this->action >= ARRAY_COUNT(D_80A78604) || D_80A78604[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         D_80A78604[this->action](this, globalCtx);
@@ -285,7 +363,7 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
 
-    if (this->drawMode < 0 || this->drawMode > ARRAY_COUNT(D_80A7861C) || D_80A7861C[this->drawMode] == NULL) {
+    if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(D_80A7861C) || D_80A7861C[this->drawMode] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
         D_80A7861C[this->drawMode](this, globalCtx);
