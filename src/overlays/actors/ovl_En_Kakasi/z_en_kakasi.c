@@ -1,3 +1,9 @@
+/*
+ * File: z_en_kakasi.c
+ * Overlay: ovl_En_Kakasi
+ * Description: Pierre the Scarecrow
+ */
+
 #include "z_en_kakasi.h"
 #include "vt.h"
 
@@ -7,7 +13,7 @@
 
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnKakasi_Update(Actor* this, GlobalContext* globalCtx);
 void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx);
@@ -64,7 +70,6 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = &func_80A8F660;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F28C.s")
 void func_80A8F28C(EnKakasi* this) {
     this->unk_1AC = 0;
     this->unk_1A4 = 0;
@@ -77,6 +82,7 @@ void func_80A8F28C(EnKakasi* this) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
 }
 
+// Only regalloc
 #ifdef NON_MATCHING
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
     s16 phi_v0;
@@ -182,7 +188,6 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A8F75C;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F75C.s")
 void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 angleTowardsLink;
@@ -190,7 +195,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
-    this->unk_208 = -1;
+    this->camId = -1;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->unk_196 == 5) {
             this->actionFunc = &func_80A8F9C8;
@@ -208,7 +213,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
             if (this->unk_194 == 0) {
 
                 if ((s32)(player->stateFlags2) << 7 < 0) {
-                    this->unk_208 = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+                    this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
 
                     func_8010BD58(globalCtx, 0x2A);
                     this->unk_19A = 0;
@@ -225,19 +230,40 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F8D0.s")
+void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F9C8.s")
+    if (globalCtx->msgCtx.unk_E3EE == 4 && globalCtx->msgCtx.msgMode == 0) {
+        // end?
+        osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n" VT_RST);
+
+        if (this->unk_19A != 0) {
+            func_80106CCC(globalCtx);
+            this->actor.textId = 0x4077;
+            this->unk_196 = 5;
+            func_8010B680(globalCtx, this->actor.textId, NULL);
+            this->actionFunc = func_80A8F9C8;
+        } else {
+            func_800803F0(globalCtx, this->camId);
+            this->camId = -1;
+            this->actionFunc = func_80A8F660;
+        }
+    } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+        func_80A8F320(this, globalCtx, 0);
+        player->stateFlags2 |= 0x800000;
+    }
+}
+
 void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     func_8002DF54(globalCtx, NULL, 8);
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0)) {
 
-        if (this->unk_208 != -1) {
-            func_8005B1A4(globalCtx->cameraPtrs[this->unk_208]);
+        if (this->camId != -1) {
+            func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
-        this->unk_208 = func_800800F8(globalCtx, 0x8DE, -0x63, &this->actor, 0);
+        this->camId = func_800800F8(globalCtx, 0x8DE, -0x63, &this->actor, 0);
         globalCtx->msgCtx.msgMode = 0x37U;
         func_8002DF54(globalCtx, NULL, 8);
         func_8010BD58(globalCtx, 0x2B);
@@ -245,7 +271,6 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8FAA4.s")
 void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE != 0xF) {
         func_80A8F320(this, globalCtx, 1);
@@ -263,20 +288,19 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
             func_8010B680(globalCtx, this->actor.textId, NULL);
         }
         this->actionFunc = func_80A8FBB8;
-        func_800803F0(globalCtx, this->unk_208);
-        this->unk_208 = -1;
-        this->unk_208 = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
-        func_8005B1A4(globalCtx->cameraPtrs[this->unk_208]);
+        func_800803F0(globalCtx, this->camId);
+        this->camId = -1;
+        this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+        func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8FBB8.s")
 void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
-            func_8005B1A4(globalCtx->cameraPtrs[this->unk_208]);
+            func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
             func_80106CCC(globalCtx);
             func_8002DF54(globalCtx, NULL, 7);
             this->actionFunc = &func_80A8F660;
@@ -284,32 +308,35 @@ void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnKakasi* this = THIS;
+    s32 pad;
+    s32 i;
+
+    this->unk_198++;
+    this->actor.posRot.rot = this->actor.shape.rot;
+    for (i = 0; i < 8; i += 2) {
+        if (1) {
+            if (this->unk_19C != 0) {
+                if (!pad) {}
+            }
+        }
+        this->unk_19C--;
+    }
+
+    this->unk_1B4 = 60.0f;
+    Actor_SetHeight(&this->actor, 60.0f);
+    this->actionFunc(this, globalCtx);
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Update.s")
-// void EnKakasi_Update(Actor *thisx, GlobalContext *globalCtx) {
-//     EnKakasi *this = THIS;
-//     s32 i;
+#endif
 
-//     this->actor.posRot.rot.x = this->actor.shape.rot.x;
-//     // this->actor.posRot.rot.y = this->actor.shape.rot.y;
-//     this->unk_198 = (s16) (this->unk_198 + 1);
-//     this->actor.posRot.rot.z = this->actor.shape.rot.z;
-
-//     for(i = 0; i != 8; i += 2) {
-//         if (this->unk_19C != 0) {
-//             this->unk_19C -= 1;
-//         }
-//     }
-
-//     this->unk_1B4 = 60.0f;
-//     Actor_SetHeight(&this->actor, 60.0f);
-//     this->actionFunc(this, globalCtx);
-//     Actor_MoveForward(&this->actor);
-//     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
-//     Collider_CylinderUpdate(&this->actor, &this->collider);
-//     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-// }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Draw.s")
 void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi* this = THIS;
 
