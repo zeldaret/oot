@@ -78,7 +78,7 @@ glabel func_80AE5938
 /* 00D80 80AE5A50 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 00D84 80AE5A54 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00D88 80AE5A58 AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 00D8C 80AE5A5C 0C00A850 */  jal     func_8002A140              
+/* 00D8C 80AE5A5C 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 00D90 80AE5A60 E7A20028 */  swc1    $f2, 0x0028($sp)           
 .L80AE5A64:
 /* 00D94 80AE5A64 3C0E80AE */  lui     $t6, %hi(func_80AE5E48)    ## $t6 = 80AE0000

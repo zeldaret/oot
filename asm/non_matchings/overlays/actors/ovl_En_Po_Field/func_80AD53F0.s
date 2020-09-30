@@ -28,7 +28,7 @@ glabel func_80AD53F0
 /* 01954 80AD5454 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 01958 80AD5458 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 0195C 80AD545C AFB90010 */  sw      $t9, 0x0010($sp)           
-/* 01960 80AD5460 0C00A5E9 */  jal     func_800297A4              
+/* 01960 80AD5460 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 01964 80AD5464 AFAC0024 */  sw      $t4, 0x0024($sp)           
 /* 01968 80AD5468 0C2B50AC */  jal     func_80AD42B0              
 /* 0196C 80AD546C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

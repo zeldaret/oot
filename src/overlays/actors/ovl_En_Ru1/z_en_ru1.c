@@ -439,31 +439,28 @@ s32 func_80AEB480(GlobalContext* globalCtx, u16 action) {
     return func_80AEAFE0(globalCtx, action, 3);
 }
 
-void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
-    Vec3f sp24;
+void EnRu1_SpawnRipple(EnRu1* this, GlobalContext* globalCtx, s16 radiusMax, s16 life) {
+    Vec3f pos;
     Actor* thisx = &this->actor;
 
-    sp24.x = thisx->posRot.pos.x;
-    sp24.y = thisx->posRot.pos.y + thisx->waterY;
-    sp24.z = thisx->posRot.pos.z;
-    func_80029444(globalCtx, &sp24, 100, arg2, arg3);
+    pos.x = thisx->posRot.pos.x;
+    pos.y = thisx->posRot.pos.y + thisx->waterY;
+    pos.z = thisx->posRot.pos.z;
+    EffectSsGRipple_Spawn(globalCtx, &pos, 100, radiusMax, life);
 }
 
 void func_80AEB50C(EnRu1* this, GlobalContext* globalCtx) {
     this->unk_270 += 1.0f;
     if (this->unk_270 >= kREG(3) + 10.0f) {
-        func_80AEB4A8(this, globalCtx, kREG(1) + 500, 0);
+        EnRu1_SpawnRipple(this, globalCtx, kREG(1) + 500, 0);
         this->unk_270 = 0.0f;
     }
 }
 
 void func_80AEB59C(EnRu1* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
-
-    func_80AEB4A8(this, globalCtx, kREG(2) + 500, 0);
-    func_80AEB4A8(this, globalCtx, kREG(2) + 500, kREG(3) + 10.0f);
-    temp_f0 = kREG(3) + 10.0f;
-    func_80AEB4A8(this, globalCtx, kREG(2) + 500, temp_f0 + temp_f0);
+    EnRu1_SpawnRipple(this, globalCtx, kREG(2) + 500, 0);
+    EnRu1_SpawnRipple(this, globalCtx, kREG(2) + 500, kREG(3) + 10.0f);
+    EnRu1_SpawnRipple(this, globalCtx, kREG(2) + 500, (kREG(3) + 10.0f) * 2.0f);
 }
 
 void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
@@ -474,7 +471,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     pos.y = thisx->posRot.pos.y + thisx->waterY;
     pos.z = thisx->posRot.pos.z;
 
-    func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
+    EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 1, 0);
 }
 
 void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {
