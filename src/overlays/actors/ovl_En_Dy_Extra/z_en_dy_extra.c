@@ -90,8 +90,8 @@ void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Color_RGBA8_n primColors[] = { { 255, 255, 170, 255 }, { 255, 255, 170, 255 } };
-    static Color_RGBA8_n envColors[] = { { 255, 100, 255, 255 }, { 100, 255, 255, 255 } };
+    static Color_RGBA8 primColors[] = { { 255, 255, 170, 255 }, { 255, 255, 170, 255 } };
+    static Color_RGBA8 envColors[] = { { 255, 100, 255, 255 }, { 100, 255, 255, 255 } };
     static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02,
                                0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02 };
     EnDyExtra* this = THIS;
