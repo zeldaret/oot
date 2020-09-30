@@ -45,7 +45,7 @@ glabel func_80BA1294
 /* 005C0 80BA1320 46062200 */  add.s   $f8, $f4, $f6              
 /* 005C4 80BA1324 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 005C8 80BA1328 8FA400E4 */  lw      $a0, 0x00E4($sp)           
-/* 005CC 80BA132C 0C00A527 */  jal     func_8002949C              
+/* 005CC 80BA132C 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 005D0 80BA1330 E7A800CC */  swc1    $f8, 0x00CC($sp)           
 /* 005D4 80BA1334 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 005D8 80BA1338 4481F000 */  mtc1    $at, $f30                  ## $f30 = 5.00
@@ -157,7 +157,7 @@ glabel func_80BA1294
 /* 0075C 80BA14BC 02A03025 */  or      $a2, $s5, $zero            ## $a2 = FFFFFFDC
 /* 00760 80BA14C0 02803825 */  or      $a3, $s4, $zero            ## $a3 = 00000024
 /* 00764 80BA14C4 AFA80038 */  sw      $t0, 0x0038($sp)           
-/* 00768 80BA14C8 0C00A7A3 */  jal     func_80029E8C
+/* 00768 80BA14C8 0C00A7A3 */  jal     EffectSsKakera_Spawn
               
 /* 0076C 80BA14CC AFAB003C */  sw      $t3, 0x003C($sp)           
 /* 00770 80BA14D0 26314E20 */  addiu   $s1, $s1, 0x4E20           ## $s1 = 00004E20

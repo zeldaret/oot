@@ -219,7 +219,7 @@ glabel EnTp_Update
 /* 01974 80B22754 27A6005C */  addiu   $a2, $sp, 0x005C           ## $a2 = FFFFFFEC
 /* 01978 80B22758 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE0
 /* 0197C 80B2275C 46105480 */  add.s   $f18, $f10, $f16           
-/* 01980 80B22760 0C00A2DD */  jal     func_80028B74              
+/* 01980 80B22760 0C00A2DD */  jal     EffectSsKiraKira_SpawnSmall              
 /* 01984 80B22764 E7B2004C */  swc1    $f18, 0x004C($sp)          
 /* 01988 80B22768 8E0F014C */  lw      $t7, 0x014C($s0)           ## 0000014C
 .L80B2276C:
