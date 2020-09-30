@@ -54,6 +54,13 @@ const ActorInit En_Ik_InitVars = {
 };
 */
 
+/*
+static ColliderTrisInit sTrisInit = {
+    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
+    2, D_80A7836C,
+};
+*/
+
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
 
@@ -198,7 +205,7 @@ void func_80A7489C(EnIk* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76798.s")
 
 // starts middle boss bgm
-void func_80A76BF4() {
+void func_80A76BF4(void) {
     // NA_BGM_MIDDLE_BOSS
     func_800F5ACC(0x38);
 }
@@ -304,7 +311,7 @@ void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
     this->actor.draw = func_80A76798;
     this->actor.flags |= 5;
     gSaveContext.eventChkInf[3] |= 0x800;
-    Actor_SetScale(this, 0.012f);
+    Actor_SetScale(&this->actor, 0.012f);
     func_80A7489C(this);
 }
 

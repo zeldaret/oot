@@ -23,7 +23,7 @@ typedef struct EnIk {
     /* 0x0320 */ ColliderCylinder unk_320;
     /* 0x036C */ ColliderQuad unk_36C;
     /* 0x03EC */ ColliderTris unk_3EC;
-    /* 0x040C */ char unk_40C[0xB8];
+    /* 0x040C */ ColliderTrisItem unk_40C[2];
     /* 0x04C4 */ s32 blureIdx;
     /* 0x04C8 */ s32 action;
     /* 0x04CC */ s32 drawMode;
