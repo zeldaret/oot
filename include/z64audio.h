@@ -682,7 +682,9 @@ typedef struct {
     /* 0x2894 */ s32 gMaxSimultaneousNotes; // (bad name)
     /* 0x2898 */ s16 gTempoInternalToExternal;
     /* 0x289A */ s8 gSoundMode;
-    /* 0x289B */ char unk_289B[0xD];
+    /* 0x289B */ char unk_289B[0x1];
+    /* 0x289C */ s32 unk_289C;
+    /* 0x98A0 */ char unk_28A0[8];
     /* 0x28A8 */ s32 unk_28A8;
     /* 0x28AC */ u64* gAudioCmdBuffers[2];
     /* 0x28B4 */ char unk_28B4[0xAC];
