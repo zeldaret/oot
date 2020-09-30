@@ -138,8 +138,8 @@ void EnVm_SetupWait(EnVm* this) {
 
 void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 fVar;
-    s16 sVar;
+    f32 dist;
+    s16 headRot;
     s16 pad;
     s16 pad1;
     s16 pitch;
@@ -147,20 +147,20 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
     switch (this->unk_25E) {
         case 0:
             Math_SmoothScaleMaxMinS(&this->beamRot.x, 0, 10, 1500, 0);
-            sVar = this->actor.yawTowardsLink - this->headRotY - this->actor.shape.rot.y;
+            headRot = this->actor.yawTowardsLink - this->headRotY - this->actor.shape.rot.y;
             pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
 
             if (pitch > 0x1B91) {
                 pitch = 0x1B91;
             }
 
-            fVar = this->beamSightRange - this->actor.xzDistFromLink;
+            dist = this->beamSightRange - this->actor.xzDistFromLink;
 
-            if (this->actor.xzDistFromLink <= this->beamSightRange && ABS(sVar) <= 10000 && pitch >= 3640 &&
+            if (this->actor.xzDistFromLink <= this->beamSightRange && ABS(headRot) <= 10000 && pitch >= 3640 &&
                 this->actor.yDistFromLink <= 80.0f && this->actor.yDistFromLink >= -160.0f) {
                 Math_SmoothScaleMaxMinS(&this->beamRot, pitch, 10, 4000, 0);
                 if (Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
-                                            (ABS((s16)((fVar)*180.0f)) / 3) + 4000, 0) <= 5460 &&
+                                            (ABS((s16)((dist)*180.0f)) / 3) + 4000, 0) <= 5460 &&
                     --this->timer == 0) {
                     this->unk_25E++;
                     this->skelAnime.animCurrentFrame = 0.0f;
@@ -174,7 +174,6 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
             return;
-            break;
         case 1:
             break;
         default:
@@ -198,18 +197,16 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
         }
 
         if (this->beamRot.x < 2730) {
-
             this->skelAnime.initialFrame = this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
             this->unk_25E = this->unk_260 = 0;
             this->timer = 10;
             this->skelAnime.animPlaybackSpeed = 1.0f;
-            return;
+        } else {
+            this->skelAnime.animCurrentFrame = 6.0f;
+            func_8002A770(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255, 255, 16,
+                        20);
+            EnVm_SetupAttack(this);
         }
-
-        this->skelAnime.animCurrentFrame = 6.0f;
-        func_8002A770(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255, 255, 16,
-                      20);
-        EnVm_SetupAttack(this);
     }
 }
 
@@ -219,7 +216,7 @@ void EnVm_SetupAttack(EnVm* this) {
     this->beamScale.x = 0.6f;
     this->beamSpeed = 40.0f;
     this->unk_21C = 1;
-    this->colliderQuad1.base.atFlags &= 0xFFFD;
+    this->colliderQuad1.base.atFlags &= ~2;
     EnVm_SetupAction(this, EnVm_Attack);
 }
 
@@ -301,7 +298,6 @@ void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
 
             if (this->unk_25E == 3) {
                 EnVm_SetupWait(this);
-                return;
             } else {
                 if (this->unk_25E == 1) {
                     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 1.0f, 0.0f,
@@ -366,7 +362,7 @@ void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
             return;
         }
 
-        this->colliderQuad2.base.acFlags &= 0xFFFD;
+        this->colliderQuad2.base.acFlags &= ~2;
     }
 
     if (this->actor.colChkInfo.health != 0) {
@@ -418,7 +414,7 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderQuad2);
     this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += ((6500.0f + this->actor.shape.unk_08) * this->actor.scale.y);
+    this->actor.posRot2.pos.y += (6500.0f + this->actor.shape.unk_08) * this->actor.scale.y;
 }
 
 s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
@@ -445,7 +441,7 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f sp58;
     CollisionPoly* poly;
     u32 buff;
-    f32 fVar;
+    f32 dist;
 
     if (limbIndex == 2) {
         Matrix_MultVec3f(&D_80B2EB1C, &this->beamPos1);
@@ -464,13 +460,13 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
             }
 
             if (this->beamScale.z != 0.0f) {
-                fVar = 100.0f;
+                dist = 100.0f;
 
                 if (this->actor.scale.y > 0.01f) {
-                    fVar = 70.0f;
+                    dist = 70.0f;
                 }
 
-                sp74.z = sp68.z = Math_Vec3f_DistXYZ(&this->beamPos1, &this->beamPos3) * fVar;
+                sp74.z = sp68.z = Math_Vec3f_DistXYZ(&this->beamPos1, &this->beamPos3) * dist;
                 Matrix_MultVec3f(&D_80B2EB64, &this->colliderQuad1.dim.quad[3]);
                 Matrix_MultVec3f(&D_80B2EB70, &this->colliderQuad1.dim.quad[2]);
                 Matrix_MultVec3f(&sp74, &this->colliderQuad1.dim.quad[1]);
