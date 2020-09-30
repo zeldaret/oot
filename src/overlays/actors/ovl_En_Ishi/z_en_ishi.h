@@ -4,6 +4,11 @@
 #include <ultra64.h>
 #include <global.h>
 
+typedef enum {
+    /* 0x00 */ ROCK_SMALL,
+    /* 0x01 */ ROCK_LARGE
+} EnIshiType;
+
 struct EnIshi;
 
 typedef void (*EnIshiActionFunc)(struct EnIshi*, GlobalContext*);

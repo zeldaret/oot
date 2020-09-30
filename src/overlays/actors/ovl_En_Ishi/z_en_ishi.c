@@ -36,11 +36,6 @@ extern Gfx D_0500A880[]; // Small gray rock
 typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, GlobalContext*);
 typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
 
-typedef enum {
-    /* 0x00 */ ROCK_SMALL,
-    /* 0x01 */ ROCK_LARGE
-} EnIshiType;
-
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
@@ -61,7 +56,7 @@ static f32 D_80A7FA20[] = { 58.0f, 80.0f };
 static f32 D_80A7FA28[] = { 0.0f, 0.005f };
 
 // the sizes of these arrays are very large and take up way more space than it needs to.
-// coincidentally the sizes are the same size as the ID for NA_SE_EV_ROCK_BROKEN, which may explain a mistake that could
+// coincidentally the sizes are the same as the ID for NA_SE_EV_ROCK_BROKEN, which may explain a mistake that could
 // have been made here
 static u16 sBreakSounds[0x2852] = { NA_SE_EV_ROCK_BROKEN, NA_SE_EV_WALL_BROKEN };
 
@@ -120,43 +115,43 @@ s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
 void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 16, 13, 11, 9, 7, 5 };
     s32 pad;
-    Vec3f fragmentVelocity;
-    Vec3f effectPos;
+    Vec3f velocity;
+    Vec3f pos;
     s16 phi_v0;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
-        effectPos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        effectPos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
-        effectPos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        Math_Vec3f_Copy(&fragmentVelocity, &this->actor.velocity);
+        pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+        pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        Math_Vec3f_Copy(&velocity, &this->actor.velocity);
         if (this->actor.bgCheckFlags & 1) {
-            fragmentVelocity.x *= 0.8f;
-            fragmentVelocity.y *= -0.8f;
-            fragmentVelocity.z *= 0.8f;
+            velocity.x *= 0.8f;
+            velocity.y *= -0.8f;
+            velocity.z *= 0.8f;
         } else if (this->actor.bgCheckFlags & 8) {
-            fragmentVelocity.x *= -0.8f;
-            fragmentVelocity.y *= 0.8f;
-            fragmentVelocity.z *= -0.8f;
+            velocity.x *= -0.8f;
+            velocity.y *= 0.8f;
+            velocity.z *= -0.8f;
         }
-        fragmentVelocity.x += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
-        fragmentVelocity.y += Math_Rand_ZeroOne() * 6.0f;
-        fragmentVelocity.z += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
+        velocity.x += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
+        velocity.y += Math_Rand_ZeroOne() * 6.0f;
+        velocity.z += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
         if (Math_Rand_ZeroOne() < 0.5f) {
             phi_v0 = 65;
         } else {
             phi_v0 = 33;
         }
-        EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -420, phi_v0, 30, 5, 0, scales[i], 3,
-                             10, 40, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 30, 5, 0, scales[i], 3, 10, 40,
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
 }
 
 void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
     Actor* thisx = &this->actor;
-    Vec3f fragmentVelocity;
-    Vec3f effectPos;
+    Vec3f velocity;
+    Vec3f pos;
     s16 angle = 0x1000;
     s32 i;
     f32 rand;
@@ -166,23 +161,23 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
         angle += 0x4E20;
         rand = Math_Rand_ZeroOne() * 10.0f;
-        effectPos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
-        effectPos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
-        effectPos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
-        Math_Vec3f_Copy(&fragmentVelocity, &thisx->velocity);
+        pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
+        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
+        pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
+        Math_Vec3f_Copy(&velocity, &thisx->velocity);
         if (thisx->bgCheckFlags & 1) {
-            fragmentVelocity.x *= 0.9f;
-            fragmentVelocity.y *= -0.8f;
-            fragmentVelocity.z *= 0.9f;
+            velocity.x *= 0.9f;
+            velocity.y *= -0.8f;
+            velocity.z *= 0.9f;
         } else if (thisx->bgCheckFlags & 8) {
-            fragmentVelocity.x *= -0.9f;
-            fragmentVelocity.y *= 0.8f;
-            fragmentVelocity.z *= -0.9f;
+            velocity.x *= -0.9f;
+            velocity.y *= 0.8f;
+            velocity.z *= -0.9f;
         }
         rand = Math_Rand_ZeroOne() * 10.0f;
-        fragmentVelocity.x += rand * Math_Sins(angle);
-        fragmentVelocity.y += (Math_Rand_ZeroOne() * 4.0f) + ((Math_Rand_ZeroOne() * i) * 0.7f);
-        fragmentVelocity.z += rand * Math_Coss(angle);
+        velocity.x += rand * Math_Sins(angle);
+        velocity.y += (Math_Rand_ZeroOne() * 4.0f) + ((Math_Rand_ZeroOne() * i) * 0.7f);
+        velocity.z += rand * Math_Coss(angle);
         if (i == 0) {
             phi_v0 = 41;
             phi_v1 = -450;
@@ -193,8 +188,8 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 69;
             phi_v1 = -320;
         }
-        EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &this->actor.posRot.pos, phi_v1, phi_v0, 30, 5,
-                             0, scales[i], 5, 2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 30, 5, 0, scales[i],
+                             5, 2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
     }
 }
 
@@ -231,7 +226,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx) {
 }
 
 void EnIshi_DropCollectible(EnIshi* this, GlobalContext* globalCtx) {
-    if (!(this->actor.params & 1)) {
+    if ((this->actor.params & 1) == ROCK_SMALL) {
         s16 dropParams = (this->actor.params >> 8) & 0xF;
         if (dropParams >= 0xD) {
             dropParams = 0;
@@ -259,9 +254,11 @@ void EnIshi_SpawnBugs(EnIshi* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Math_Rand_ZeroOne() * 0xFFFF, 0,
-                        1) == NULL) {
+        Actor* bug =
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Math_Rand_ZeroOne() * 0xFFFF, 0, 1);
+
+        if (bug == NULL) {
             break;
         }
     }
@@ -377,14 +374,14 @@ void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
 void EnIshi_SetupFly(EnIshi* this) {
     this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
     this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
-    if (!(this->actor.params & 1)) {
+    if ((this->actor.params & 1) == ROCK_SMALL) {
         sRotSpeedX = (Math_Rand_ZeroOne() - 0.5f) * 16000.0f;
         sRotSpeedY = (Math_Rand_ZeroOne() - 0.5f) * 2400.0f;
     } else {
         sRotSpeedX = (Math_Rand_ZeroOne() - 0.5f) * 8000.0f;
         sRotSpeedY = (Math_Rand_ZeroOne() - 0.5f) * 1600.0f;
     }
-    this->actor.colChkInfo.mass = 0xF0;
+    this->actor.colChkInfo.mass = 240;
     this->actionFunc = EnIshi_Fly;
 }
 
