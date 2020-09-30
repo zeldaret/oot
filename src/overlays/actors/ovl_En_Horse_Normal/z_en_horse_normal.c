@@ -88,7 +88,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
-    1,
+    ARRAY_COUNT(sJntSphItemsInit),
     sJntSphItemsInit,
 };
 
