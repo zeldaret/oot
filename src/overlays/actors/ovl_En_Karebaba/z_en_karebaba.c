@@ -258,7 +258,7 @@ void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
         EnKarebaba_SetupUpright(this);
     }
     this->actor.shape.rot.y += 0x1999;
-    func_800297A4(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
 }
 
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
@@ -340,14 +340,14 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
 
     if (this->actor.params == 0) {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4800, 0x71C);
-        func_800297A4(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
         if (0.005f < this->actor.scale.x && ((this->actor.bgCheckFlags & 2) != 0 || (this->actor.bgCheckFlags & 8) != 0)) {
             this->actor.scale.z = 0.0f;
             this->actor.scale.y = 0.0f;
             this->actor.scale.x = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~5;
-            func_800297A4(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 15, -1, 10, 0);
+            EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 15, -1, 10, 0);
         }
         if ((this->actor.bgCheckFlags & 2) != 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -395,7 +395,7 @@ void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y += 0x1999;
-    func_800297A4(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
 }
 
 void EnKarebaba_Wait(EnKarebaba* this, GlobalContext* globalCtx) {
