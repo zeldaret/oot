@@ -138,7 +138,7 @@ glabel func_80ABD190
 /* 007D8 80ABD388 10000006 */  beq     $zero, $zero, .L80ABD3A4   
 /* 007DC 80ABD38C 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80ABD390:
-/* 007E0 80ABD390 0C00A729 */  jal     func_80029CA4              
+/* 007E0 80ABD390 0C00A729 */  jal     EffectSsHitMark_SpawnFixedScale              
 /* 007E4 80ABD394 27A60030 */  addiu   $a2, $sp, 0x0030           ## $a2 = FFFFFFF0
 /* 007E8 80ABD398 10000002 */  beq     $zero, $zero, .L80ABD3A4   
 /* 007EC 80ABD39C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000

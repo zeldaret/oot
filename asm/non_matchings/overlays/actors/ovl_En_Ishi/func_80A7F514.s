@@ -105,7 +105,7 @@ glabel func_80A7F514
 /* 0123C 80A7F69C C610002C */  lwc1    $f16, 0x002C($s0)          ## 0000002C
 /* 01240 80A7F6A0 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 01244 80A7F6A4 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 01248 80A7F6A8 0C00A527 */  jal     func_8002949C              
+/* 01248 80A7F6A8 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 0124C 80A7F6AC E7B0003C */  swc1    $f16, 0x003C($sp)          
 /* 01250 80A7F6B0 87AA004A */  lh      $t2, 0x004A($sp)           
 /* 01254 80A7F6B4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -116,41 +116,41 @@ glabel func_80A7F514
 /* 01268 80A7F6C8 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFE4
 /* 0126C 80A7F6CC 24060096 */  addiu   $a2, $zero, 0x0096         ## $a2 = 00000096
 /* 01270 80A7F6D0 2407028A */  addiu   $a3, $zero, 0x028A         ## $a3 = 0000028A
-/* 01274 80A7F6D4 0C00A511 */  jal     func_80029444              
+/* 01274 80A7F6D4 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 01278 80A7F6D8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0127C 80A7F6DC 240B0004 */  addiu   $t3, $zero, 0x0004         ## $t3 = 00000004
 /* 01280 80A7F6E0 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 01284 80A7F6E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01288 80A7F6E8 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFE4
 /* 0128C 80A7F6EC 24060190 */  addiu   $a2, $zero, 0x0190         ## $a2 = 00000190
-/* 01290 80A7F6F0 0C00A511 */  jal     func_80029444              
+/* 01290 80A7F6F0 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 01294 80A7F6F4 24070320 */  addiu   $a3, $zero, 0x0320         ## $a3 = 00000320
 /* 01298 80A7F6F8 24190008 */  addiu   $t9, $zero, 0x0008         ## $t9 = 00000008
 /* 0129C 80A7F6FC AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 012A0 80A7F700 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 012A4 80A7F704 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFE4
 /* 012A8 80A7F708 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
-/* 012AC 80A7F70C 0C00A511 */  jal     func_80029444              
+/* 012AC 80A7F70C 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 012B0 80A7F710 2407044C */  addiu   $a3, $zero, 0x044C         ## $a3 = 0000044C
 /* 012B4 80A7F714 10000013 */  beq     $zero, $zero, .L80A7F764   
 /* 012B8 80A7F718 3C01C0C0 */  lui     $at, 0xC0C0                ## $at = C0C00000
 .L80A7F71C:
 /* 012BC 80A7F71C 240702BC */  addiu   $a3, $zero, 0x02BC         ## $a3 = 000002BC
-/* 012C0 80A7F720 0C00A511 */  jal     func_80029444              
+/* 012C0 80A7F720 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 012C4 80A7F724 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 012C8 80A7F728 240C0004 */  addiu   $t4, $zero, 0x0004         ## $t4 = 00000004
 /* 012CC 80A7F72C AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 012D0 80A7F730 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 012D4 80A7F734 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFE4
 /* 012D8 80A7F738 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
-/* 012DC 80A7F73C 0C00A511 */  jal     func_80029444              
+/* 012DC 80A7F73C 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 012E0 80A7F740 24070384 */  addiu   $a3, $zero, 0x0384         ## $a3 = 00000384
 /* 012E4 80A7F744 240D0008 */  addiu   $t5, $zero, 0x0008         ## $t5 = 00000008
 /* 012E8 80A7F748 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 012EC 80A7F74C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 012F0 80A7F750 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFE4
 /* 012F4 80A7F754 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
-/* 012F8 80A7F758 0C00A511 */  jal     func_80029444              
+/* 012F8 80A7F758 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 012FC 80A7F75C 24070514 */  addiu   $a3, $zero, 0x0514         ## $a3 = 00000514
 /* 01300 80A7F760 3C01C0C0 */  lui     $at, 0xC0C0                ## $at = C0C00000
 .L80A7F764:
