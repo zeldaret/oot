@@ -1032,8 +1032,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Zurerukabe"
     include "build/src/overlays/actors/ovl_Bg_Jya_Zurerukabe/z_bg_jya_zurerukabe.o"
-    include "build/data/overlays/actors/z_bg_jya_zurerukabe.data.o"
-    include "build/data/overlays/actors/z_bg_jya_zurerukabe.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Zurerukabe/ovl_Bg_Jya_Zurerukabe_reloc.o"
 endseg
 
 beginseg
