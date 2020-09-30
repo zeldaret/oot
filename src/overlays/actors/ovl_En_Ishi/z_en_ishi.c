@@ -120,43 +120,43 @@ s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
 void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 16, 13, 11, 9, 7, 5 };
     s32 pad;
-    Vec3f velocity;
-    Vec3f pos;
+    Vec3f fragmentVelocity;
+    Vec3f effectPos;
     s16 phi_v0;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
-        pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
-        pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        Math_Vec3f_Copy(&velocity, &this->actor.velocity);
+        effectPos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        effectPos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
+        effectPos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        Math_Vec3f_Copy(&fragmentVelocity, &this->actor.velocity);
         if (this->actor.bgCheckFlags & 1) {
-            velocity.x *= 0.8f;
-            velocity.y *= -0.8f;
-            velocity.z *= 0.8f;
+            fragmentVelocity.x *= 0.8f;
+            fragmentVelocity.y *= -0.8f;
+            fragmentVelocity.z *= 0.8f;
         } else if (this->actor.bgCheckFlags & 8) {
-            velocity.x *= -0.8f;
-            velocity.y *= 0.8f;
-            velocity.z *= -0.8f;
+            fragmentVelocity.x *= -0.8f;
+            fragmentVelocity.y *= 0.8f;
+            fragmentVelocity.z *= -0.8f;
         }
-        velocity.x += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
-        velocity.y += Math_Rand_ZeroOne() * 6.0f;
-        velocity.z += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
+        fragmentVelocity.x += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
+        fragmentVelocity.y += Math_Rand_ZeroOne() * 6.0f;
+        fragmentVelocity.z += (Math_Rand_ZeroOne() - 0.5f) * 11.0f;
         if (Math_Rand_ZeroOne() < 0.5f) {
-            phi_v0 = 0x41;
+            phi_v0 = 65;
         } else {
-            phi_v0 = 0x21;
+            phi_v0 = 33;
         }
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, scales[i], 3, 0xA, 40,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+        EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -420, phi_v0, 30, 5, 0, scales[i], 3,
+                             10, 40, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
 }
 
 void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
     static s16 scales[] = { 145, 135, 120, 100, 70, 50, 45, 40, 35 };
     Actor* thisx = &this->actor;
-    Vec3f velocity;
-    Vec3f pos;
+    Vec3f fragmentVelocity;
+    Vec3f effectPos;
     s16 angle = 0x1000;
     s32 i;
     f32 rand;
@@ -166,35 +166,35 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(scales); i++) {
         angle += 0x4E20;
         rand = Math_Rand_ZeroOne() * 10.0f;
-        pos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
-        pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
-        pos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
-        Math_Vec3f_Copy(&velocity, &thisx->velocity);
+        effectPos.x = this->actor.posRot.pos.x + (Math_Sins(angle) * rand);
+        effectPos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() * 40.0f) + 5.0f;
+        effectPos.z = this->actor.posRot.pos.z + (Math_Coss(angle) * rand);
+        Math_Vec3f_Copy(&fragmentVelocity, &thisx->velocity);
         if (thisx->bgCheckFlags & 1) {
-            velocity.x *= 0.9f;
-            velocity.y *= -0.8f;
-            velocity.z *= 0.9f;
+            fragmentVelocity.x *= 0.9f;
+            fragmentVelocity.y *= -0.8f;
+            fragmentVelocity.z *= 0.9f;
         } else if (thisx->bgCheckFlags & 8) {
-            velocity.x *= -0.9f;
-            velocity.y *= 0.8f;
-            velocity.z *= -0.9f;
+            fragmentVelocity.x *= -0.9f;
+            fragmentVelocity.y *= 0.8f;
+            fragmentVelocity.z *= -0.9f;
         }
         rand = Math_Rand_ZeroOne() * 10.0f;
-        velocity.x += rand * Math_Sins(angle);
-        velocity.y += (Math_Rand_ZeroOne() * 4.0f) + ((Math_Rand_ZeroOne() * i) * 0.7f);
-        velocity.z += rand * Math_Coss(angle);
+        fragmentVelocity.x += rand * Math_Sins(angle);
+        fragmentVelocity.y += (Math_Rand_ZeroOne() * 4.0f) + ((Math_Rand_ZeroOne() * i) * 0.7f);
+        fragmentVelocity.z += rand * Math_Coss(angle);
         if (i == 0) {
-            phi_v0 = 0x29;
-            phi_v1 = -0x1C2;
+            phi_v0 = 41;
+            phi_v1 = -450;
         } else if (i < 4) {
-            phi_v0 = 0x25;
-            phi_v1 = -0x17C;
+            phi_v0 = 37;
+            phi_v1 = -380;
         } else {
-            phi_v0 = 0x45;
-            phi_v1 = -0x140;
+            phi_v0 = 69;
+            phi_v1 = -320;
         }
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, scales[i],
-                             5, 2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+        EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &this->actor.posRot.pos, phi_v1, phi_v0, 30, 5,
+                             0, scales[i], 5, 2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
     }
 }
 
@@ -393,7 +393,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     s16 type = this->actor.params & 1;
     s32 pad2;
     s32 quakeIdx;
-    Vec3f effectPos;
+    Vec3f contactPos;
 
     if (this->actor.bgCheckFlags & 9) {
         EnIshi_DropCollectible(this, globalCtx);
@@ -413,18 +413,18 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     } else if (this->actor.bgCheckFlags & 0x40) {
-        effectPos.x = this->actor.posRot.pos.x;
-        effectPos.y = this->actor.posRot.pos.y + this->actor.waterY;
-        effectPos.z = this->actor.posRot.pos.z;
-        EffectSsGSplash_Spawn(globalCtx, &effectPos, 0, 0, 0, 350);
+        contactPos.x = this->actor.posRot.pos.x;
+        contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+        contactPos.z = this->actor.posRot.pos.z;
+        EffectSsGSplash_Spawn(globalCtx, &contactPos, 0, 0, 0, 350);
         if (type == ROCK_SMALL) {
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 150, 650, 0);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 400, 800, 4);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 500, 1100, 8);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 400, 800, 4);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 500, 1100, 8);
         } else {
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 300, 700, 0);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 500, 900, 4);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 500, 1300, 8);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 300, 700, 0);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 500, 900, 4);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 500, 1300, 8);
         }
         this->actor.minVelocityY = -6.0f;
         sRotSpeedX >>= 2;
