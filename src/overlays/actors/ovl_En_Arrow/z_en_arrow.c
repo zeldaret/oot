@@ -41,37 +41,6 @@ InitChainEntry D_809B4DA0[] = {
     ICHAIN_F32(minVelocityY, 65386, ICHAIN_STOP),
 };
 
-EffectBlureInit2 D_809B4DA4 = {
-    0x00000000,             // calcMode
-    0x0004,                 // flags
-    0x0000,                 // addAngleChange
-    { 0, 255, 200, 255 },   // p1StartColor
-    { 0, 255, 255, 255 },   // p2StartColor
-    { 0, 255, 200, 0 },     // p1EndColor
-    { 0, 255, 255, 0 },     // p2EndColor
-    10,                     // elemDuration
-    0,                      // unkFlag
-    1,                      // drawMode
-    0,                      // mode4Param
-    { 255, 255, 170, 255 }, // altPrimColor
-    { 0, 150, 0, 0 },       // altEnvColor
-
-};
-// EffectBlureInit2 D_809B4DC8
-// EffectBlureInit2 D_809B4DEC
-// EffectBlureInit2 D_809B4E10
-
-s32 D_809B4DC8[] = { 0x00000000, 0x00040000, 0x00FFC8FF, 0x00FFFFFF, 0x00FFC800,
-                     0x00FFFF00, 0x10000100, 0xFFC800FF, 0xFF000000 };
-s32 D_809B4DEC[] = { 0x00000000, 0x00040000, 0x00FFC8FF, 0x00FFFFFF, 0x00FFC800,
-                     0x00FFFF00, 0x10000100, 0xAAFFFFFF, 0x0064FF00 };
-s32 D_809B4E10[] = { 0x00000000, 0x00040000, 0x00FFC8FF, 0x00FFFFFF, 0x00FFC800,
-                     0x00FFFF00, 0x10000100, 0xFFFFAAFF, 0xFFFF0000 };
-u32 D_809B4E34[] = {
-    0x00000800, 0x00000020, 0x00000020, 0x00000800, 0x00001000,
-    0x00002000, 0x00010000, 0x00004000, 0x00008000, 0x00000004,
-};
-
 s32 D_809B4E5C[] = { 0x010A010B, 0x010C010A, 0x010A010A };
 s32 D_809B4E68[] = { 0x00000000, 0x3F000000, 0x00000000 };
 s32 D_809B4E74[] = { 0x00000000, 0x3F000000, 0x00000000 };
@@ -81,26 +50,51 @@ s32 D_809B4E88[] = { 0x00000000, 0x43C80000, 0x44BB8000 };
 s32 D_809B4E94[] = { 0x00000000, 0xC3C80000, 0x44BB8000 };
 s32 D_809B4EA0[] = { 0x00000000, 0x00000000, 0xC3960000, 0x00000000 };
 
+extern SkeletonHeader D_04006010;
+extern AnimationHeader D_0400436C;
+
 void EnArrow_SetupAction(EnArrow* this, EnArrowActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/EnArrow_Init.s")
 void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
+    static EffectBlureInit2 D_809B4DA4 = {
+        0, 4, 0, { 0, 255, 200, 255 },   { 0, 255, 255, 255 }, { 0, 255, 200, 0 }, { 0, 255, 255, 0 }, 10,
+        0, 1, 0, { 255, 255, 170, 255 }, { 0, 150, 0, 0 },
+
+    };
+    static EffectBlureInit2 D_809B4DC8 = {
+        0, 4, 0, { 0, 255, 200, 255 }, { 0, 255, 255, 255 }, { 0, 255, 200, 0 }, { 0, 255, 255, 0 }, 10,
+        0, 1, 0, { 255, 200, 0, 255 }, { 255, 0, 0, 0 },
+    };
+    static EffectBlureInit2 D_809B4DEC = {
+        0, 4, 0, { 0, 255, 200, 255 },   { 0, 255, 255, 255 }, { 0, 255, 200, 0 }, { 0, 255, 255, 0 }, 10,
+        0, 1, 0, { 170, 255, 255, 255 }, { 0, 100, 255, 0 },
+
+    };
+    static EffectBlureInit2 D_809B4E10 = {
+        0, 4, 0, { 0, 255, 200, 255 },   { 0, 255, 255, 255 }, { 0, 255, 200, 0 }, { 0, 255, 255, 0 }, 10,
+        0, 1, 0, { 255, 255, 170, 255 }, { 255, 255, 0, 0 },
+
+    };
+    static u32 D_809B4E34[] = {
+        0x00000800, 0x00000020, 0x00000020, 0x00000800, 0x00001000,
+        0x00002000, 0x00010000, 0x00004000, 0x00008000, 0x00000004,
+    };
     EnArrow* this = THIS;
 
     Actor_ProcessInitChain(this, D_809B4DA0);
 
     if (this->actor.params == -0xA) {
-        this->actor.params = 0xA;
         this->unk_24B = 1;
+        this->actor.params = 0xA;
     }
 
     if (this->actor.params < 0xA) {
-        this->actor.params = this->actor.params;
 
         if (this->actor.params < 9) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, 0x04006010, 0x0400436C, NULL, NULL, 0);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &D_04006010, &D_0400436C, NULL, NULL, 0);
         }
 
         if (this->actor.params < 3) {
@@ -113,10 +107,15 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE2, 0, 0, &D_809B4DA4);
         } else if (this->actor.params == 3) {
+
             Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE2, 0, 0, &D_809B4DC8);
+
         } else if (this->actor.params == 4) {
+
             Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE2, 0, 0, &D_809B4DEC);
+
         } else if (this->actor.params == 5) {
+
             Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE2, 0, 0, &D_809B4E10);
         }
 
@@ -124,12 +123,7 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetQuad(globalCtx, &this->collider, this, &D_809B4D50);
 
         if (this->actor.params < 3) {
-            this->collider.body.toucherFlags &= ~0x18;
-            /*
-            temp_t6 = this->collider.body.toucherFlags & 0xFFE7;
-            this->collider.body.toucherFlags = temp_t6;
-            this->collider.body.toucherFlags = temp_t6;
-            */
+            this->collider.body.toucherFlags = this->collider.body.toucherFlags &= ~0x18;
         }
 
         if (this->actor.params < 0) {
