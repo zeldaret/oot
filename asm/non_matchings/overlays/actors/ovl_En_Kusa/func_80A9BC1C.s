@@ -61,27 +61,27 @@ glabel func_80A9BC1C
 /* 00D50 80A9BCF0 C610002C */  lwc1    $f16, 0x002C($s0)          ## 0000002C
 /* 00D54 80A9BCF4 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 00D58 80A9BCF8 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 00D5C 80A9BCFC 0C00A527 */  jal     func_8002949C              
+/* 00D5C 80A9BCFC 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00D60 80A9BD00 E7B00038 */  swc1    $f16, 0x0038($sp)          
 /* 00D64 80A9BD04 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D68 80A9BD08 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFF0
 /* 00D6C 80A9BD0C 24060096 */  addiu   $a2, $zero, 0x0096         ## $a2 = 00000096
 /* 00D70 80A9BD10 2407028A */  addiu   $a3, $zero, 0x028A         ## $a3 = 0000028A
-/* 00D74 80A9BD14 0C00A511 */  jal     func_80029444              
+/* 00D74 80A9BD14 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 00D78 80A9BD18 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00D7C 80A9BD1C 240A0004 */  addiu   $t2, $zero, 0x0004         ## $t2 = 00000004
 /* 00D80 80A9BD20 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 00D84 80A9BD24 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D88 80A9BD28 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFF0
 /* 00D8C 80A9BD2C 24060190 */  addiu   $a2, $zero, 0x0190         ## $a2 = 00000190
-/* 00D90 80A9BD30 0C00A511 */  jal     func_80029444              
+/* 00D90 80A9BD30 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 00D94 80A9BD34 24070320 */  addiu   $a3, $zero, 0x0320         ## $a3 = 00000320
 /* 00D98 80A9BD38 240B0008 */  addiu   $t3, $zero, 0x0008         ## $t3 = 00000008
 /* 00D9C 80A9BD3C AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 00DA0 80A9BD40 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DA4 80A9BD44 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFF0
 /* 00DA8 80A9BD48 240601F4 */  addiu   $a2, $zero, 0x01F4         ## $a2 = 000001F4
-/* 00DAC 80A9BD4C 0C00A511 */  jal     func_80029444              
+/* 00DAC 80A9BD4C 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 00DB0 80A9BD50 2407044C */  addiu   $a3, $zero, 0x044C         ## $a3 = 0000044C
 /* 00DB4 80A9BD54 3C01C040 */  lui     $at, 0xC040                ## $at = C0400000
 /* 00DB8 80A9BD58 44819000 */  mtc1    $at, $f18                  ## $f18 = -3.00

@@ -10,7 +10,7 @@ typedef void (*EnRdActionFunc)(struct EnRd*, GlobalContext*);
 
 typedef struct EnRd {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3s unkFire[10];
+    /* 0x014C */ Vec3s firePos[10];
     /* 0x0188 */ SkelAnime skelAnime;
     /* 0x01CC */ Vec3s limbDrawTable[26];
     /* 0x0268 */ Vec3s transitionDrawTable[26];

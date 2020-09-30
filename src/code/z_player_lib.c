@@ -703,7 +703,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
                    s32 thighLimbIndex, s32 shinLimbIndex, s32 footLimbIndex) {
     Vec3f spA4;
     Vec3f sp98;
-    Vec3f sp8C;
+    Vec3f footprintPos;
     CollisionPoly* sp88;
     UNK_TYPE sp84;
     f32 sp80;
@@ -737,12 +737,12 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
         Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->limbDrawTbl[shinLimbIndex]);
         Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_8012602C, &sp98);
-        Matrix_MultVec3f(&D_80126070, &sp8C);
+        Matrix_MultVec3f(&D_80126070, &footprintPos);
         Matrix_Pull();
 
-        sp8C.y += 15.0f;
+        footprintPos.y += 15.0f;
 
-        sp80 = func_8003C9A4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &sp8C) + sp74;
+        sp80 = func_8003C9A4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) + sp74;
 
         if (sp98.y < sp80) {
             sp70 = sp98.x - spA4.x;
@@ -786,8 +786,8 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             temp3 = func_80041D4C(&globalCtx->colCtx, sp88, sp84);
 
             if ((temp3 >= 2) && (temp3 < 4) && !func_80042108(&globalCtx->colCtx, sp88, sp84)) {
-                sp8C.y = sp80;
-                func_80029568(globalCtx, &sp8C);
+                footprintPos.y = sp80;
+                EffectSsGFire_Spawn(globalCtx, &footprintPos);
             }
         }
     }

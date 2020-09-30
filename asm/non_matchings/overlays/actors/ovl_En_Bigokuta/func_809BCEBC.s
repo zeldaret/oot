@@ -36,7 +36,7 @@ glabel func_809BCEBC
 /* 002E4 809BCF44 24070514 */  addiu   $a3, $zero, 0x0514         ## $a3 = 00000514
 /* 002E8 809BCF48 45020004 */  bc1fl   .L809BCF5C                 
 /* 002EC 809BCF4C 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 002F0 809BCF50 0C00A511 */  jal     func_80029444              
+/* 002F0 809BCF50 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 002F4 809BCF54 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 002F8 809BCF58 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809BCF5C:

@@ -60,7 +60,7 @@ glabel func_80AE5A9C
 /* 00EA4 80AE5B74 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 00EA8 80AE5B78 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00EAC 80AE5B7C AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 00EB0 80AE5B80 0C00A850 */  jal     func_8002A140              
+/* 00EB0 80AE5B80 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 00EB4 80AE5B84 E7A20028 */  swc1    $f2, 0x0028($sp)           
 /* 00EB8 80AE5B88 1000000A */  beq     $zero, $zero, .L80AE5BB4   
 /* 00EBC 80AE5B8C 8FBF003C */  lw      $ra, 0x003C($sp)           
