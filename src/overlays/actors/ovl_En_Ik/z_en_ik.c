@@ -12,7 +12,6 @@
 
 #define THIS ((EnIk*)thisx)
 
-typedef void (*EnIkActionFunc)(struct EnIk*, GlobalContext*);
 typedef void (*EnIkDrawFunc)(struct EnIk*, GlobalContext*);
 
 void EnIk_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -22,11 +21,16 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A74398(EnIk* this, GlobalContext* globalCtx);
 void func_80A74714(EnIk* this);
+void func_80A7489C(EnIk* this);
+void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
 void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
+void func_80A76BF4();
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx);
+void func_80A78160(EnIk* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_0600C114;
+extern AnimationHeader D_0600DD50;
 extern SkeletonHeader D_0601E178;
 
 extern ColliderCylinderInit D_80A78340;
@@ -62,7 +66,10 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->unk_36C);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74390.s")
+// EnIk_SetupAction
+void func_80A74390(EnIk* this, EnIkActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
+}
 
 #ifdef NON_MATCHING
 void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
@@ -130,7 +137,15 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A747C0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7489C.s")
+void func_80A7489C(EnIk* this) {
+    f32 frames = SkelAnime_GetFrameCount(&D_0600DD50.genericHeader);
+
+    this->actor.flags |= 5;
+    this->unk_2F8 = 4;
+    this->actor.speedXZ = 0.0f;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600DD50, 0.0f, 0.0f, frames, 0, 4.0f);
+    func_80A74390(this, func_80A7492C);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7492C.s")
 
@@ -182,7 +197,11 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76798.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76BF4.s")
+// starts middle boss bgm
+void func_80A76BF4() {
+    // NA_BGM_MIDDLE_BOSS
+    func_800F5ACC(0x38);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76C14.s")
 
@@ -266,9 +285,28 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A780D0.s")
+void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
+    if (this->actor.params == 0) {
+        if (!(gSaveContext.eventChkInf[3] & 0x800)) {
+            this->actor.update = EnIk_Update;
+            this->actor.draw = EnIk_Draw;
+            Actor_SetScale(&this->actor, 0.01f);
+        } else {
+            func_80A78160(this, globalCtx);
+            func_80A76BF4();
+        }
+    }
+    osSyncPrintf("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A78160.s")
+void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
+    this->actor.update = func_80A75FA0;
+    this->actor.draw = func_80A76798;
+    this->actor.flags |= 5;
+    gSaveContext.eventChkInf[3] |= 0x800;
+    Actor_SetScale(this, 0.012f);
+    func_80A7489C(this);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A781CC.s")
 

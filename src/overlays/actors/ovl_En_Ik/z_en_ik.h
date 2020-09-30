@@ -6,16 +6,20 @@
 
 struct EnIk;
 
+typedef void (*EnIkActionFunc)(struct EnIk*, GlobalContext*);
+
 typedef struct EnIk {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[30];
     /* 0x0244 */ Vec3s transitionDrawTable[30];
-    /* 0x02F8 */ char unk_2F8[0x04];
+    /* 0x02F8 */ s8 unk_2F8;
+    /* 0x02F9 */ char unk_2F9[0x03];
     /* 0x02FC */ s8 unk_2FC;
     /* 0x02FD */ char unk_2FD[0x05];
     /* 0x0302 */ s16 switchFlags;
-    /* 0x0304 */ char unk_304[0x1C];
+    /* 0x0304 */ EnIkActionFunc actionFunc;
+    /* 0x0308 */ char unk_308[0x18];
     /* 0x0320 */ ColliderCylinder unk_320;
     /* 0x036C */ ColliderQuad unk_36C;
     /* 0x03EC */ ColliderTris unk_3EC;
