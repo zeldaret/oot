@@ -23,8 +23,8 @@ typedef struct EnKarebaba {
     /* 0x0194 */ Vec3s limbDrawTable[8];
     /* 0x01C4 */ Vec3s transitionDrawTable[8];
     /* 0x01F4 */ CollisionPoly* boundFloor;
-    /* 0x01F8 */ ColliderCylinder hitbox1;
-    /* 0x0244 */ ColliderCylinder hitbox2;
+    /* 0x01F8 */ ColliderCylinder headHitbox;
+    /* 0x0244 */ ColliderCylinder bodyHitbox;
 } EnKarebaba; // size = 0x0290
 
 #endif
