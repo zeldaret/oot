@@ -6,6 +6,8 @@
 
 #include "z_eff_ss_solder_srch_ball.h"
 
+#define rUnused regs[1]
+
 u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
@@ -22,8 +24,8 @@ u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* t
     this->accel = initParams->accel;
     this->update = EffectSsSolderSrchBall_Update;
     this->life = 100;
-    this->regs[1] = initParams->unk_24;
-    this->unk_3C = initParams->linkDetected;
+    this->rUnused = initParams->unused;
+    this->actor = initParams->linkDetected; // actor field was incorrectly used as a pointer to something else
     return 1;
 }
 
@@ -35,7 +37,7 @@ void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs
     s16* linkDetected;
     Player* player = PLAYER;
 
-    linkDetected = this->unk_3C;
+    linkDetected = this->actor;
 
     playerPosDiffX = player->actor.posRot.pos.x - this->pos.x;
     playerPosDiffY = player->actor.posRot.pos.y - this->pos.y;

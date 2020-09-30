@@ -5,6 +5,7 @@
  */
 
 #include "z_en_goroiwa.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include <vt.h>
 
@@ -236,41 +237,39 @@ s32 func_80A4C27C(EnGoroiwa* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80A4C3A4(GlobalContext* globalCtx, Vec3f* arg1) {
-    static Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
-    static Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
-    Vec3f effectPos;
+void EnGoroiwa_SpawnDust(GlobalContext* globalCtx, Vec3f* pos) {
+    static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    static Vec3f accel = { 0.0f, 0.3f, 0.0f };
+    Vec3f randPos;
     s32 i;
     s16 angle = 0;
 
     for (i = 0; i < 8; i++) {
         angle += 0x4E20;
-        effectPos.x = arg1->x + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle));
-        effectPos.y = arg1->y + ((Math_Rand_ZeroOne() - 0.5f) * 40.0f);
-        effectPos.z = arg1->z + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle);
-        func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100,
-                      80);
-        func_800286CC(globalCtx, &effectPos, &effectVelocity, &effectAccel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80,
-                      80);
+        randPos.x = pos->x + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f)) * Math_Sins(angle));
+        randPos.y = pos->y + ((Math_Rand_ZeroOne() - 0.5f) * 40.0f);
+        randPos.z = pos->z + ((47.0f * ((Math_Rand_ZeroOne() * 0.5f) + 0.5f))) * Math_Coss(angle);
+        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 30.0f) + 100, 80);
+        func_800286CC(globalCtx, &randPos, &velocity, &accel, (s16)(Math_Rand_ZeroOne() * 20.0f) + 80, 80);
     }
 }
 
-void func_80A4C594(GlobalContext* globalCtx, Vec3f* arg1) {
-    Vec3f sp4C;
+void EnGoroiwa_SpawnWaterEffects(GlobalContext* globalCtx, Vec3f* contactPos) {
+    Vec3f splashPos;
     s32 i;
     s16 angle = 0;
 
     for (i = 0; i < 11; i++) {
         angle += 0x1746;
-        sp4C.x = arg1->x + (Math_Sins(angle) * 55.0f);
-        sp4C.y = arg1->y;
-        sp4C.z = arg1->z + (Math_Coss(angle) * 55.0f);
-        func_8002949C(globalCtx, &sp4C, 0, 0, 0, 350);
+        splashPos.x = contactPos->x + (Math_Sins(angle) * 55.0f);
+        splashPos.y = contactPos->y;
+        splashPos.z = contactPos->z + (Math_Coss(angle) * 55.0f);
+        EffectSsGSplash_Spawn(globalCtx, &splashPos, 0, 0, 0, 350);
     }
 
-    func_80029444(globalCtx, arg1, 300, 700, 0);
-    func_80029444(globalCtx, arg1, 500, 900, 4);
-    func_80029444(globalCtx, arg1, 500, 1300, 8);
+    EffectSsGRipple_Spawn(globalCtx, contactPos, 300, 700, 0);
+    EffectSsGRipple_Spawn(globalCtx, contactPos, 500, 900, 4);
+    EffectSsGRipple_Spawn(globalCtx, contactPos, 500, 1300, 8);
 }
 
 s32 func_80A4C6C8(EnGoroiwa* this, GlobalContext* globalCtx) {
@@ -375,7 +374,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
                     sp44.x = this->actor.posRot.pos.x;
                     sp44.y = temp_f0_2 + 10.0f;
                     sp44.z = this->actor.posRot.pos.z;
-                    func_80A4C3A4(globalCtx, &sp44);
+                    EnGoroiwa_SpawnDust(globalCtx, &sp44);
                 }
             }
         }
@@ -395,7 +394,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
             sp30.x = this->actor.posRot.pos.x;
             sp30.y = ySurface;
             sp30.z = this->actor.posRot.pos.z;
-            func_80A4C594(globalCtx, &sp30);
+            EnGoroiwa_SpawnWaterEffects(globalCtx, &sp30);
             this->actor.velocity.y *= 0.2f;
         }
         if (this->actor.velocity.y < -8.0f) {
@@ -466,7 +465,7 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f* thisPos = &this->actor.posRot.pos;
     Vec3f effectPos;
-    Vec3f effectVelocity;
+    Vec3f fragmentVelocity;
     f32 temp_f24;
     f32 temp_f22;
     f32 temp_f20;
@@ -482,12 +481,12 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
         temp_f20_2 = Math_Sins(angle2);
         effectPos.y = (((Math_Rand_ZeroOne() - 0.5f) * 100.0f) * temp_f20_2) + colliderHeightOffset[temp_v0];
         effectPos.z = ((Math_Rand_ZeroOne() * 50.0f) * temp_f24) * Math_Sins(angle2);
-        effectVelocity.x = effectPos.x * 0.2f;
-        effectVelocity.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
-        effectVelocity.z = effectPos.z * 0.2f;
+        fragmentVelocity.x = effectPos.x * 0.2f;
+        fragmentVelocity.y = (Math_Rand_ZeroOne() * 15.0f) + 2.0f;
+        fragmentVelocity.z = effectPos.z * 0.2f;
         Math_Vec3f_Sum(&effectPos, thisPos, &effectPos);
-        func_80029E8C(globalCtx, &effectPos, &effectVelocity, &effectPos, -340, 33, 28, 2, 0,
-                      (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, -1, 1, D_0400D340);
+        EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -340, 33, 28, 2, 0,
+                             (Math_Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, D_0400D340);
     }
 
     effectPos.x = thisPos->x;
