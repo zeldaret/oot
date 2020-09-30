@@ -282,7 +282,7 @@ glabel func_80898DB4
 /* 008AC 8089914C AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 008B0 80899150 AFB90024 */  sw      $t9, 0x0024($sp)           
 /* 008B4 80899154 AFAE0018 */  sw      $t6, 0x0018($sp)           
-/* 008B8 80899158 0C00A7A3 */  jal     func_80029E8C
+/* 008B8 80899158 0C00A7A3 */  jal     EffectSsKakera_Spawn
               
 /* 008BC 8089915C AFA90030 */  sw      $t1, 0x0030($sp)           
 /* 008C0 80899160 0C03F66B */  jal     Math_Rand_ZeroOne
