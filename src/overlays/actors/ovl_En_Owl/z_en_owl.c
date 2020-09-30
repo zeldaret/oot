@@ -5,10 +5,6 @@
 
 #define THIS ((EnOwl*)thisx)
 
-extern Gfx D_060089A8;
-extern Gfx D_06008DA8;
-extern Gfx D_060091A8;
-//600C1C4
 extern AnimationHeader D_0600C1C4;
 extern CsCmdActorAction D_0201E6A0;
 extern CsCmdActorAction D_0201B0C0;
@@ -54,12 +50,12 @@ Vec3s D_80ACD62C = {0.0f, 0.0f, 0.0f};
 
 Gfx* dLists[] = {
     NULL,
-    &D_060089A8,
-    &D_06008DA8,
-    &D_060091A8,
+    0x060089A8,
+    0x06008DA8,
+    0x060091A8,
 };
 
-void EnOwl_ChangeMode(EnOwl* this, ActorFunc, OwlFunc, SkelAnime*, AnimationHeader*, f32);
+void EnOwl_ChangeMode(EnOwl* this, EnOwlActionFunc, OwlFunc, SkelAnime*, AnimationHeader*, f32);
 void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACC540(EnOwl* this);
 void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx);
@@ -107,7 +103,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.minVelocityY = -10.0f;
     this->actor.unk_4C = 500.0f;
-    EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, &this->skelAnime2, &D_0600C8A0, 0.0f);
+    EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime2, &D_0600C8A0, 0.0f);
     this->actionFlags = this->unk_406 = this->unk_409 = 0;
     this->unk_405 = 4;
     this->unk_407 = 0;
@@ -240,6 +236,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx)
 {
     EnOwl* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -286,37 +283,39 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
                 this->actionFlags &= ~0x40;
             }
         }
-        this->cameraIdx = func_800800F8(globalCtx, 0x21FC, (s16)cameraFlags, &this->actor, 0);
-        return 1;
-    }
+        this->cameraIdx = func_800800F8(globalCtx, 0x21FC, cameraFlags, &this->actor, 0);
+        return true;
+    } else {
+        this->actor.textId = textId;
+        distCheck = (flags & 2) ? 200.0f : 1000.0f;
+        if (this->actor.xzDistFromLink < targetDist)
+        {
+            this->actor.flags |= 0x10000;
+            func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
+        }
 
-    this->actor.textId = textId;
-    distCheck = (flags & 2) ? 200.0f : 1000.0f;
-    if (this->actor.xzDistFromLink < targetDist)
-    {
-        this->actor.flags |= 0x10000;
-        func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
+        return false;
     }
-    return 0;
 }
 
 s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId)
 {
-    if (func_8002F194(&this->actor, globalCtx) != 0)
-    {
-        return 1;
+    if (func_8002F194(&this->actor, globalCtx)) {
+        return true;
+    } else {
+        this->actor.textId = textId;
+        if (this->actor.xzDistFromLink < 120.0f)
+        {
+            func_8002F1C4(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
+        }
+
+        return false;
     }
-    this->actor.textId = textId;
-    if (this->actor.xzDistFromLink < 120.0f)
-    {
-        func_8002F1C4(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
-    }
-    return 0;
 }
 
 void func_80ACA5C8(EnOwl* this)
 {
-    EnOwl_ChangeMode(this, &func_80ACBEA0, &func_80ACC540, &this->skelAnime, &D_0600C684, 0.0f);
+    EnOwl_ChangeMode(this, func_80ACBEA0, func_80ACC540, &this->skelAnime, &D_0600C684, 0.0f);
     this->curDlistIdx = 0;
     this->nextDlistIdx = Math_Rand_S16Offset(60, 60);
 }
@@ -391,7 +390,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx)
         {
             this->actionFlags &= ~2;
             func_80ACA71C(this);
-            this->actionFunc = &func_80ACA690;
+            this->actionFunc = func_80ACA690;
         }
         this->actor.flags &= ~0x10000;
     }
@@ -406,7 +405,7 @@ void EnOwl_ConfirmKokiriMessage(EnOwl* this, GlobalContext* globalCtx)
                 break;
             case OWL_OK:
                 func_8010B720(globalCtx, 0x2067);
-                this->actionFunc = &func_80ACA76C;
+                this->actionFunc = func_80ACA76C;
                 break;
         }
     }
@@ -420,7 +419,7 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx)
         // Sets BGM
         func_800F5C64(0x5A);
 
-        this->actionFunc = &EnOwl_ConfirmKokiriMessage;
+        this->actionFunc = EnOwl_ConfirmKokiriMessage;
         // spoke to owl by lost woods
         gSaveContext.eventChkInf[6] |= 0x8000;
     }
@@ -431,13 +430,13 @@ void func_80ACA998(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
     {
         switch(globalCtx->msgCtx.choiceIndex){
-            case 0:
+            case OWL_REPEAT:
                 func_8010B720(globalCtx, 0x2069);
-                this->actionFunc = &func_80ACAA54;
+                this->actionFunc = func_80ACAA54;
                 break;
-            case 1:
+            case OWL_OK:
                 func_8010B720(globalCtx, 0x206B);
-                this->actionFunc = &func_80ACA7E0;
+                this->actionFunc = func_80ACA7E0;
                 break;
         }
         this->actionFlags &= ~2;
@@ -450,7 +449,7 @@ void func_80ACAA54(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
         {
         func_8010B720(globalCtx, 0x206A);
-        this->actionFunc = &func_80ACA998;
+        this->actionFunc = func_80ACA998;
         this->actionFlags |= 2;
         func_80ACA71C(this);
     }
@@ -461,7 +460,7 @@ void func_80ACAAC0(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
     {
         func_8010B720(globalCtx, 0x2069);
-        this->actionFunc = &func_80ACAA54;
+        this->actionFunc = func_80ACAA54;
         this->actionFlags &= ~2;
         func_80ACA71C(this);
     }
@@ -473,7 +472,7 @@ void EnOwl_WaitHyruleCastle(EnOwl* this, GlobalContext* globalCtx)
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2068, 540.0f, 0) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACAAC0;
+        this->actionFunc = func_80ACAAC0;
     }
 }
 
@@ -482,7 +481,7 @@ void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
     {
         switch(globalCtx->msgCtx.choiceIndex){
-            case 0:
+            case OWL_REPEAT:
                 // obtained zelda's letter
                 if (gSaveContext.eventChkInf[4] & 1)
                 {
@@ -492,11 +491,11 @@ void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx)
                 {
                     func_8010B720(globalCtx, 0x206C);
                 }
-                this->actionFunc = &func_80ACAC6C;
+                this->actionFunc = func_80ACAC6C;
                 break;
-            case 1:
+            case OWL_OK:
                 func_8010B720(globalCtx, 0x206E);
-                this->actionFunc = &func_80ACA7E0;
+                this->actionFunc = func_80ACA7E0;
                 break;
         }
 
@@ -510,7 +509,7 @@ void func_80ACAC6C(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
     {
         func_8010B720(globalCtx, 0x206A);
-        this->actionFunc = &func_80ACAB88;
+        this->actionFunc = func_80ACAB88;
         this->actionFlags |= 2;
         func_80ACA71C(this);
     }
@@ -522,7 +521,7 @@ void EnOwl_WaitKakariko(EnOwl* this, GlobalContext* globalCtx)
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206C, 480.0f, 0) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACAC6C;
+        this->actionFunc = func_80ACAC6C;
     }
 }
 
@@ -531,13 +530,13 @@ void func_80ACAD34(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
     {
         switch(globalCtx->msgCtx.choiceIndex){
-            case 0:
+            case OWL_REPEAT:
                 func_8010B720(globalCtx, 0x206F);
-                this->actionFunc = &func_80ACADF0;
+                this->actionFunc = func_80ACADF0;
                 break;
-            case 1:
+            case OWL_OK:
                 func_8010B720(globalCtx, 0x2070);
-                this->actionFunc = &func_80ACA7E0;
+                this->actionFunc = func_80ACA7E0;
                 break;
         }
 
@@ -551,7 +550,7 @@ void func_80ACADF0(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
     {
         func_8010B720(globalCtx, 0x206A);
-        this->actionFunc = &func_80ACAD34;
+        this->actionFunc = func_80ACAD34;
         this->actionFlags |= 2;
         func_80ACA71C(this);
     }
@@ -563,7 +562,7 @@ void EnOwl_WaitGerudo(EnOwl* this, GlobalContext *globalCtx)
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x206F, 360.0f, 0) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACADF0;
+        this->actionFunc = func_80ACADF0;
     }
 }
 
@@ -572,13 +571,13 @@ void func_80ACAEB8(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
     {
         switch(globalCtx->msgCtx.choiceIndex){
-            case 0:
+            case OWL_REPEAT:
                 func_8010B720(globalCtx, 0x2071);
-                this->actionFunc = &func_80ACAF74;
+                this->actionFunc = func_80ACAF74;
                 break;
-            case 1:
+            case OWL_OK:
                 func_8010B720(globalCtx, 0x2072);
-                this->actionFunc = &func_80ACA7E0;
+                this->actionFunc = func_80ACA7E0;
                 break;
         }
 
@@ -592,7 +591,7 @@ void func_80ACAF74(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
     {
         func_8010B720(globalCtx, 0x206A);
-        this->actionFunc = &func_80ACAEB8;
+        this->actionFunc = func_80ACAEB8;
         this->actionFlags |= 2;
         func_80ACA71C(this);
     }
@@ -604,7 +603,7 @@ void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx)
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x2071, 360.0f, 0) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACAF74;
+        this->actionFunc = func_80ACAF74;
     }
 }
 
@@ -639,10 +638,11 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx)
     {
         textId = 0x4002;
     }
+
     if (EnOwl_CheckInitTalk(this, globalCtx, textId, 360.0f, 0) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACB03C;
+        this->actionFunc = func_80ACB03C;
     }
 }
 
@@ -652,7 +652,7 @@ void func_80ACB148(EnOwl* this, GlobalContext* globalCtx)
     {
         Audio_SetBGM(0x110000FF);
         func_80ACA5C8(this);
-        this->actionFunc = &func_80ACC30C;
+        this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(globalCtx, 0x23);
     }
 }
@@ -669,12 +669,13 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx)
     {
         textId = 0x4003;
     }
+
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId) != 0)
     {
         gSaveContext.infTable[25] |= 0x20;
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACB148;
+        this->actionFunc = func_80ACB148;
 
     }
 }
@@ -685,7 +686,7 @@ void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx)
     {
         Audio_SetBGM(0x110000FF);
         func_80ACA5C8(this);
-        this->actionFunc = &func_80ACC30C;
+        this->actionFunc = func_80ACC30C;
     }
 }
 
@@ -694,7 +695,7 @@ void func_80ACB274(EnOwl* this, GlobalContext* globalCtx)
     if (func_8002F334(this, globalCtx) != 0)
     {
         Audio_SetBGM(0x110000FF);
-        this->actionFunc = &EnOwl_WaitDeathMountainShortcut;
+        this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }
 
@@ -706,7 +707,7 @@ void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx)
         if (func_80ACA558(this, globalCtx, 0x3062) != 0)
         {
             func_800F5C64(0x5A);
-            this->actionFunc = &func_80ACB274;
+            this->actionFunc = func_80ACB274;
             return;
         }
     }
@@ -715,7 +716,7 @@ void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx)
         if (func_80ACA558(this, globalCtx, 0x3063) != 0)
         {
             func_800F5C64(0x5A);
-            this->actionFunc = &func_80ACB22C;
+            this->actionFunc = func_80ACB22C;
         }
     }
 }
@@ -725,13 +726,13 @@ void func_80ACB344(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
     {
         switch(globalCtx->msgCtx.choiceIndex){
-            case 0:
+            case OWL_REPEAT:
                 func_8010B720(globalCtx, 0x607A);
                 break;
-            case 1:
+            case OWL_OK:
                 func_8010B720(globalCtx, 0x607C);
-                this->actionFunc = &func_80ACA7E0;
-            break;
+                this->actionFunc = func_80ACA7E0;
+                break;
         }
     }
 }
@@ -742,7 +743,7 @@ void func_80ACB3E0(EnOwl* this, GlobalContext* globalCtx)
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x6079, 360.0f, 2) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACB344;
+        this->actionFunc = func_80ACB344;
     }
 }
 
@@ -751,13 +752,13 @@ void func_80ACB440(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
     {
         switch(globalCtx->msgCtx.choiceIndex){
-            case 0:
+            case OWL_REPEAT:
                 func_8010B720(globalCtx, 0x10C1);
-                this->actionFunc = &func_80ACB4FC;
+                this->actionFunc = func_80ACB4FC;
                 break;
-            case 1:
+            case OWL_OK:
                 func_8010B720(globalCtx, 0x10C3);
-                this->actionFunc = &func_80ACA7E0;
+                this->actionFunc = func_80ACA7E0;
         }
 
         this->actionFlags &= ~2;
@@ -770,7 +771,7 @@ void func_80ACB4FC(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
     {
         func_8010B720(globalCtx, 0x10C2);
-        this->actionFunc = &func_80ACB440;
+        this->actionFunc = func_80ACB440;
         this->actionFlags |= 2;
         func_80ACA71C(this);
     }
@@ -782,7 +783,7 @@ void EnOwl_WaitLWPreSaria(EnOwl* this, GlobalContext* globalCtx)
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C0, 190.0f, 0) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACB4FC;
+        this->actionFunc = func_80ACB4FC;
     }
 }
 
@@ -791,13 +792,13 @@ void func_80ACB5C4(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
     {
         switch(globalCtx->msgCtx.choiceIndex){
-            case 0:
+            case OWL_REPEAT:
                 func_8010B720(globalCtx, 0x10C5);
-                this->actionFunc = &func_80ACB680;
+                this->actionFunc = func_80ACB680;
                 break;
-            case 1:
+            case OWL_OK:
                 func_8010B720(globalCtx, 0x10C7);
-                this->actionFunc = &func_80ACA7E0;
+                this->actionFunc = func_80ACA7E0;
                 break;
         }
 
@@ -811,7 +812,7 @@ void func_80ACB680(EnOwl* this, GlobalContext* globalCtx)
     if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
     {
         func_8010B720(globalCtx, 0x10C6);
-        this->actionFunc = &func_80ACB5C4;
+        this->actionFunc = func_80ACB5C4;
         this->actionFlags |= 2;
         func_80ACA71C(this);
     }
@@ -823,7 +824,7 @@ void EnOwl_WaitLWPostSaria(EnOwl* this, GlobalContext* globalCtx)
     if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C4, 360.0f, 0) != 0)
     {
         func_800F5C64(0x5A);
-        this->actionFunc = &func_80ACB680;
+        this->actionFunc = func_80ACB680;
     }
 }
 
@@ -842,6 +843,7 @@ void func_80ACB748(EnOwl* this, GlobalContext* globalCtx)
     if(xyzDist > 1.0f){
         xyzDist = 1.0f;
     }
+
     switch(whichOwl){
         case 7:
             unkf2 = xyzDist * 2.f;
@@ -879,7 +881,7 @@ void func_80ACB904(EnOwl* this, GlobalContext* globalCtx)
         func_80ACD2CC(this, globalCtx);
     }
 
-    if ((this->actionFlags & 0x80) != 0)
+    if (this->actionFlags & 0x80)
     {
         func_80ACB748(this, globalCtx);
     }
@@ -895,7 +897,8 @@ void func_80ACB994(EnOwl* this, GlobalContext* globalCtx)
         }
         func_80ACD4D4(this, globalCtx);
     }
-    if ((this->actionFlags & 0x80) != 0)
+
+    if (this->actionFlags & 0x80)
     {
         func_80ACB748(this, globalCtx);
     }
@@ -917,7 +920,7 @@ void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx)
         }
     }
 
-    if ((this->actionFlags & 0x80) != 0)
+    if (this->actionFlags & 0x80)
     {
         func_80ACB748(this, globalCtx);
     }
@@ -927,42 +930,42 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx)
 {
     switch(globalCtx->csCtx.npcActions[7]->action - 1){
         case CS_STATE_IDLE:
-            EnOwl_ChangeMode(this, &func_80ACB904, &func_80ACC540, &this->skelAnime, &D_060015CC, 0.0f);
+            EnOwl_ChangeMode(this, func_80ACB904, func_80ACC540, &this->skelAnime, &D_060015CC, 0.0f);
             break;
         case CS_STATE_SKIPPABLE_INIT:
-            this->actor.draw = &EnOwl_Draw;
-            EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, &this->skelAnime, &D_0600C8A0, 0.0f);
+            this->actor.draw = EnOwl_Draw;
+            EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime, &D_0600C8A0, 0.0f);
             break;
         case CS_STATE_SKIPPABLE_EXEC:
-            this->actor.draw = &EnOwl_Draw;
-            EnOwl_ChangeMode(this, &func_80ACB994, &func_80ACC540, &this->skelAnime, &D_060015CC, 0.0f);
+            this->actor.draw = EnOwl_Draw;
+            EnOwl_ChangeMode(this, func_80ACB994, func_80ACC540, &this->skelAnime, &D_060015CC, 0.0f);
             break;
         case CS_STATE_UNSKIPPABLE_INIT:
             this->actor.draw = NULL;
-            this->actionFunc = &EnOwl_WaitDefault;
+            this->actionFunc = EnOwl_WaitDefault;
             break;
         case CS_STATE_UNSKIPPABLE_EXEC:
             Actor_Kill(&this->actor);
             break;
     }
+
     this->unk_40A = globalCtx->csCtx.npcActions[7]->action;
 }
 
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx)
 {
     this->actor.flags |= 0x20;
-    if(this->actor.xzDistFromLink > 6000.0f)
+    if(this->actor.xzDistFromLink > 6000.0f && !(this->actionFlags & 0x80))
     {
-        if (!(this->actionFlags & 0x80))
-        {
-            Actor_Kill(&this->actor);
-        }
+        Actor_Kill(&this->actor);
     }
+
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x80, 0x40);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->actor.speedXZ < 16.0f)
     {
-        this->actor.speedXZ += 0.5f;
+        this->
+        actor.speedXZ += 0.5f;
     }
     if ((this->unk_3F8 + 1000.0f) < this->actor.posRot.pos.y)
     {
@@ -971,59 +974,58 @@ void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx)
             this->actor.velocity.y -= 0.4f;
         }
     }
-    else
+    else if (this->actor.velocity.y < 4.0f)
     {
-        if (this->actor.velocity.y < 4.0f)
-        {
-            this->actor.velocity.y += 0.2f;
-        }
+        this->actor.velocity.y += 0.2f;
     }
+
     this->actionFlags |= 8;
 }
 
 void func_80ACBD4C(EnOwl* this, GlobalContext* globalCtx)
 {
-    if (10.0f < this->skelAnime.animCurrentFrame)
+    if (this->skelAnime.animCurrentFrame > 10.0f)
     {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x400, 0x40);
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
 
-    if (45.0f < this->skelAnime.animCurrentFrame)
+    if (this->skelAnime.animCurrentFrame > 45.0f)
     {
         this->actor.velocity.y = 2.0f;
         this->actor.gravity = 0.0f;
         this->actor.speedXZ = 8.0f;
     }
-    else if (17.0f < this->skelAnime.animCurrentFrame)
+    else if (this->skelAnime.animCurrentFrame > 17.0f)
     {
         this->actor.velocity.y = 6.0f;
         this->actor.gravity = 0.0f;
         this->actor.speedXZ = 4.0f;
     }
 
-    if ((this->actionFlags & 1) != 0)
+    if (this->actionFlags & 1)
     {
-        EnOwl_ChangeMode(this, &func_80ACBC0C, &func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
+        EnOwl_ChangeMode(this, func_80ACBC0C, func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
         this->unk_3FE = 6;
         if(this->actionFlags & 0x40){
             this->unk_400 += 0x2000;
-        }else{
+        } else{
             this->unk_400 -= 0x2000;
         }
     }
+
     this->actionFlags |= 8;
 }
 
 void func_80ACBEA0(EnOwl* this, GlobalContext* GlobalContext)
 {
-    if ((this->actionFlags & 1) != 0)
+    if (this->actionFlags & 1)
     {
         this->unk_3FE = 3;
-        EnOwl_ChangeMode(this, &func_80ACBD4C, &func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
+        EnOwl_ChangeMode(this, func_80ACBD4C, func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
         this->unk_3F8 = this->actor.posRot.pos.y;
         this->actor.velocity.y = 2.0f;
-        if ((this->actionFlags & 0x40) != 0)
+        if (this->actionFlags & 0x40)
         {
             this->unk_400 = this->actor.posRot.rot.y + 0x4000;
         }
@@ -1032,6 +1034,7 @@ void func_80ACBEA0(EnOwl* this, GlobalContext* GlobalContext)
             this->unk_400 = this->actor.posRot.rot.y - 0x4000;
         }
     }
+
     this->actionFlags |= 8;
 }
 
@@ -1039,9 +1042,9 @@ void func_80ACBF50(EnOwl* this, GlobalContext* globalCtx)
 {
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    if ((this->actionFlags & 1) != 0)
+    if (this->actionFlags & 1)
     {
-        EnOwl_ChangeMode(this, &func_80ACBC0C, &func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
+        EnOwl_ChangeMode(this, func_80ACBC0C, func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
         this->unk_3FE = 6;
         this->actor.velocity.y = 2.0f;
         this->actor.gravity = 0.0f;
@@ -1087,13 +1090,14 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx)
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             gSaveContext.cutsceneTrigger = 1;
             func_800F44EC(0x14, 0xA);
-            this->actionFunc = &EnOwl_WaitDefault;
+            this->actionFunc = EnOwl_WaitDefault;
             this->unk_40A = 0;
             this->actionFlags |= 0x80;
             D_8011FB40 = 0;
         }
     }
-    if (37.0f <= this->skelAnime.animCurrentFrame)
+
+    if (this->skelAnime.animCurrentFrame >= 37.0f)
     {
         if (this->unk_3FE > 0)
         {
@@ -1102,9 +1106,10 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx)
         }
         else
         {
-            this->actionFunc = &func_80ACBF50;
+            this->actionFunc = func_80ACBF50;
         }
     }
+
     this->actionFlags |= 8;
 }
 
@@ -1121,27 +1126,29 @@ void func_80ACC23C(EnOwl* this, GlobalContext* globalCtx)
         this->actor.shape.rot.y = this->actor.posRot.rot.y;
     }
 
-    if (37.0f <= this->skelAnime.animCurrentFrame)
+    if (this->skelAnime.animCurrentFrame >= 37.0f)
     {
         this->skelAnime.animCurrentFrame = 21.0f;
-        this->actionFunc = &func_80ACC00C;
+        this->actionFunc = func_80ACC00C;
         this->unk_3FE = 5;
         this->actor.velocity.y = 0.0f;
         this->actor.gravity = 0.0f;
         this->actor.speedXZ = 0.0f;
     }
+
     this->actionFlags |= 8;
 }
 
 void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx)
 {
-    if ((this->actionFlags & 1) != 0)
+    if (this->actionFlags & 1)
     {
         this->unk_3FE = 3;
-        EnOwl_ChangeMode(this, &func_80ACC23C, &func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
+        EnOwl_ChangeMode(this, func_80ACC23C, func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
         this->unk_3F8 = this->actor.posRot.pos.y;
         this->actor.velocity.y = 0.2f;
     }
+
     this->actionFlags |= 8;
 }
 
@@ -1152,7 +1159,7 @@ void func_80ACC390(EnOwl* this)
     {
         this->unk_3FE--;
         this->actor.shape.rot.z = Math_Sins(this->unk_3FE * 0x333) * 1000.0f;
-    }else {
+    } else {
         this->unk_410 = &func_80ACC460;
         this->unk_3FE = 6;
         SkelAnime_ChangeAnim(this->curSkelAnime, &D_060015CC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060015CC.genericHeader), 2, 5.0f);
@@ -1167,11 +1174,10 @@ void func_80ACC460(EnOwl* this)
         {
             this->unk_3FE--;
             SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
-        }
-        else {
+        } else {
             this->unk_3FE = 0xA0;
-            this->unk_410 = &func_80ACC390;
-            SkelAnime_ChangeAnim(this->curSkelAnime, &D_0600C1C4, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_0600C1C4.genericHeader), 0, 5.0f);
+            this->unk_410 = func_80ACC390;
+            SkelAnime_ChangeAnim(this->curSkelAnime, &D_0600C1C4, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C1C4.genericHeader), 0, 5.0f);
         }
     }
 }
@@ -1182,9 +1188,9 @@ void func_80ACC540(EnOwl* this)
     {
         SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
         this->actionFlags |= 1;
-        return;
+    } else {
+        this->actionFlags &= ~1;
     }
-    this->actionFlags &= ~1;
 }
 
 s32 func_80ACC5CC(EnOwl* this)
@@ -1192,43 +1198,34 @@ s32 func_80ACC5CC(EnOwl* this)
     s32 phi_v1;
     s32 ret;
 
-    phi_v1 = ((this->actionFlags & 2) != 0) ? 0x20 : 0;
+    phi_v1 = (this->actionFlags & 2) ? 0x20 : 0;
     if (phi_v1 == (this->unk_3EE & 0x3F)) {
-        return 1;
-    }
-
-    if ((this->actionFlags & 0x20) != 0) {
-        this->unk_3EE += 4;
+        return true;
     } else {
-        this->unk_3EE -= 4;
-    }
+        if ((this->actionFlags & 0x20) != 0) {
+            this->unk_3EE += 4;
+        } else {
+            this->unk_3EE -= 4;
+        }
 
-    return 0;
+        return false;
+    }
 }
 
 s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx)
 {
     s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
-    if ((globalCtx->sceneNum != 0x5C))
-    {
-        return 1;
+    if ((globalCtx->sceneNum != 0x5C)) {
+        return true;
+    } else if(switchFlag == 0xA){
+        return true;
+    } else if (globalCtx->csCtx.frames >= 0x12C && globalCtx->csCtx.frames < 0x1AF) {
+        return true;
+    } else if (globalCtx->csCtx.frames >= 0x438 && globalCtx->csCtx.frames < 0x493) {
+        return true;
+    } else {
+        return false;
     }
-
-    if(switchFlag == 0xA){
-        return 1;
-    }
-
-    if (globalCtx->csCtx.frames >= 0x12C && globalCtx->csCtx.frames < 0x1AF)
-    {
-        return 1;
-    }
-
-    if (globalCtx->csCtx.frames >= 0x438 && globalCtx->csCtx.frames < 0x493)
-    {
-        return 1;
-    }
-
-    return 0;
 }
 
 #ifdef NON_MATCHING
@@ -1487,13 +1484,13 @@ s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, V
     return 0;
 }
 
-void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, Actor* actor)
+void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, Actor* thisx)
 {
-    EnOwl* this = (EnOwl*)actor;
+    EnOwl* this = THIS;
     Vec3f vec;
 
     vec.z = 0.0f;
-    if ((this->actionFlags & 2) != 0)
+    if (this->actionFlags & 2)
     {
         vec.x = 700.0f;
         vec.y = 400.0f;
@@ -1511,23 +1508,20 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
 
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx)
 {
-    char pad[4];
     EnOwl* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* gfx[4];
+    s32 pad;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(gfx, globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2247);
     func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
     SkelAnime_DrawSV(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->limbDrawTbl, this->curSkelAnime->dListCount, &EnOwl_OverrideLimbDraw, &EnOwl_PostLimbUpdate, &this->actor);
-    Graph_CloseDisps(gfx, globalCtx->state.gfxCtx, "../z_en_owl.c", 2264);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_owl.c", 2264);
 }
 
-void EnOwl_ChangeMode(EnOwl *this, ActorFunc actionFunc, OwlFunc arg2, SkelAnime* skelAnime, AnimationHeader* animation, f32 transitionRate)
+void EnOwl_ChangeMode(EnOwl *this, EnOwlActionFunc actionFunc, OwlFunc arg2, SkelAnime* skelAnime, AnimationHeader* animation, f32 transitionRate)
 {
     this->curSkelAnime = skelAnime;
-    SkelAnime_ChangeAnim(this->curSkelAnime, animation, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&animation->genericHeader), 2, transitionRate);
+    SkelAnime_ChangeAnim(this->curSkelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 2, transitionRate);
     this->actionFunc = actionFunc;
     this->unk_410 = arg2;
 }
