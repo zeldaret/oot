@@ -1,13 +1,40 @@
+/*
+ * File: z_en_ik.c
+ * Overlay: ovl_En_Ik
+ * Description: Iron Knuckle
+ */
+
 #include "z_en_ik.h"
+
+#include <vt.h>
 
 #define FLAGS 0x00000010
 
 #define THIS ((EnIk*)thisx)
 
+typedef void (*EnIkActionFunc)(struct EnIk*, GlobalContext*);
+typedef void (*EnIkDrawFunc)(struct EnIk*, GlobalContext*);
+
 void EnIk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_80A74398(EnIk* this, GlobalContext* globalCtx);
+void func_80A74714(EnIk* this);
+void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
+void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
+void func_80A780D0(EnIk* this, GlobalContext* globalCtx);
+
+extern AnimationHeader D_0600C114;
+extern SkeletonHeader D_0601E178;
+
+extern ColliderCylinderInit D_80A78340;
+extern ColliderTrisInit D_80A783E4;
+extern ColliderQuadInit D_80A783F4;
+extern DamageTable D_80A78444;
+extern EnIkActionFunc D_80A78604[5]; // sActionFuncs
+extern EnIkDrawFunc D_80A7861C[2];   // sDrawFuncs
 
 /*
 const ActorInit En_Ik_InitVars = {
@@ -22,11 +49,78 @@ const ActorInit En_Ik_InitVars = {
     (ActorFunc)EnIk_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_Destroy.s")
+
+void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+
+    if (Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_IK, ACTORTYPE_ENEMY, 8000.0f) == NULL) {
+        func_800F5B58();
+    }
+
+    Collider_DestroyTris(globalCtx, &this->unk_3EC);
+    Collider_DestroyCylinder(globalCtx, &this->unk_320);
+    Collider_DestroyQuad(globalCtx, &this->unk_36C);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74390.s")
 
+#ifdef NON_MATCHING
+void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
+    EffectBlureInit1 blureInit;
+
+    this->actor.update = func_80A75FA0;
+    this->actor.draw = func_80A76798;
+    this->actor.flags |= 0x400;
+    Collider_InitCylinder(globalCtx, &this->unk_320);
+    Collider_SetCylinder(globalCtx, &this->unk_320, &this->actor, &D_80A78340);
+    Collider_InitTris(globalCtx, &this->unk_3EC);
+    Collider_SetTris(globalCtx, &this->unk_3EC, &this->actor, &D_80A783E4, this->unk_40C);
+    Collider_InitQuad(globalCtx, &this->unk_36C);
+    Collider_SetQuad(globalCtx, &this->unk_36C, &this->actor, &D_80A783F4);
+    this->actor.colChkInfo.damageTable = &D_80A78444;
+    this->actor.params &= 0xFF;
+    this->actor.colChkInfo.mass = 0xFE;
+    this->unk_2FC = 0;
+    this->actor.colChkInfo.health = 30;
+    this->switchFlags = (this->actor.params >> 8) & 0xFF;
+    this->actor.gravity = -1.0f;
+
+    if (this->actor.params == 0) {
+        this->actor.colChkInfo.health = 50;
+        this->actor.naviEnemyId = 52;
+    } else {
+        Actor_SetScale(&this->actor, 0.012f);
+        this->actor.naviEnemyId = 53;
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
+    }
+
+    blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p2StartColor[0] = blureInit.p2StartColor[1] =
+        blureInit.p2StartColor[2] = blureInit.p1EndColor[0] = blureInit.p1EndColor[1] = blureInit.p2EndColor[0] =
+            blureInit.p2EndColor[1] = 255;
+
+    blureInit.p2StartColor[3] = 64;
+    blureInit.p1StartColor[3] = 200;
+    blureInit.p1StartColor[2] = 150;
+    blureInit.p1EndColor[3] = 0;
+    blureInit.elemDuration = 8;
+    blureInit.unkFlag = 0;
+    blureInit.calcMode = 2;
+    blureInit.p1EndColor[2] = 150;
+    blureInit.p2EndColor[2] = 255;
+    blureInit.p2EndColor[3] = 0;
+    Effect_Add(globalCtx, this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
+    func_80A74714(this);
+    if (this->switchFlags != 0xFF) {
+        if (Flags_GetSwitch(globalCtx, this->switchFlags)) {
+            Actor_Kill(&this->actor);
+        }
+    } else if ((this->actor.params != 0) && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
+        Actor_Kill(&this->actor);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74398.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A745E4.s")
 
@@ -144,7 +238,15 @@ const ActorInit En_Ik_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77B3C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_Update.s")
+void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+
+    if (this->action < 0 || this->action > ARRAY_COUNT(D_80A78604) || D_80A78604[this->action] == NULL) {
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        D_80A78604[this->action](this, globalCtx);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77BF8.s")
 
@@ -154,7 +256,15 @@ const ActorInit En_Ik_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77EDC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_Draw.s")
+void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+
+    if (this->drawMode < 0 || this->drawMode > ARRAY_COUNT(D_80A7861C) || D_80A7861C[this->drawMode] == NULL) {
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        D_80A7861C[this->drawMode](this, globalCtx);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A780D0.s")
 
@@ -162,4 +272,18 @@ const ActorInit En_Ik_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A781CC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_Init.s")
+void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+    s32 flag = this->actor.params & 0xFF00;
+
+    if (((this->actor.params & 0xFF) == 0 && (gSaveContext.eventChkInf[3] & 0x1000)) ||
+        (flag != 0 && Flags_GetSwitch(globalCtx, flag >> 8))) {
+        Actor_Kill(&this->actor);
+    } else {
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0601E178, &D_0600C114, this->limbDrawTable,
+                         this->transitionDrawTable, 30);
+        func_80A74398(this, globalCtx);
+        func_80A780D0(this, globalCtx);
+    }
+}
