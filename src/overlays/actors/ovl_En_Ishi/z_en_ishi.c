@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ishi.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include <vt.h>
 
@@ -146,8 +147,8 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
         } else {
             phi_v0 = 0x21;
         }
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, scales[i], 3, 0xA, 0x28, -1,
-                             OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 0x1E, 5, 0, scales[i], 3, 0xA, 40,
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
 }
 
@@ -193,7 +194,7 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             phi_v1 = -0x140;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.posRot.pos, phi_v1, phi_v0, 0x1E, 5, 0, scales[i],
-                             5, 2, 0x46, 0, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+                             5, 2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
     }
 }
 
@@ -415,15 +416,15 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         effectPos.x = this->actor.posRot.pos.x;
         effectPos.y = this->actor.posRot.pos.y + this->actor.waterY;
         effectPos.z = this->actor.posRot.pos.z;
-        EffectSsGSplash_Spawn(globalCtx, &effectPos, 0, 0, 0, 0x15E);
+        EffectSsGSplash_Spawn(globalCtx, &effectPos, 0, 0, 0, 350);
         if (type == ROCK_SMALL) {
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 0x96, 0x28A, 0);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 0x190, 0x320, 4);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 0x1F4, 0x44C, 8);
+            EffectSsGRipple_Spawn(globalCtx, &effectPos, 150, 650, 0);
+            EffectSsGRipple_Spawn(globalCtx, &effectPos, 400, 800, 4);
+            EffectSsGRipple_Spawn(globalCtx, &effectPos, 500, 1100, 8);
         } else {
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 0x12C, 0x2BC, 0);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 0x1F4, 0x384, 4);
-            EffectSsGRipple_Spawn(globalCtx, &effectPos, 0x1F4, 0x514, 8);
+            EffectSsGRipple_Spawn(globalCtx, &effectPos, 300, 700, 0);
+            EffectSsGRipple_Spawn(globalCtx, &effectPos, 500, 900, 4);
+            EffectSsGRipple_Spawn(globalCtx, &effectPos, 500, 1300, 8);
         }
         this->actor.minVelocityY = -6.0f;
         sRotSpeedX >>= 2;
