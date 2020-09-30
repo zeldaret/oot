@@ -81,18 +81,15 @@ void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACB4FC(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACB680(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACC460(EnOwl* this);
-
 void func_80ACBEA0(EnOwl*,GlobalContext*);
 
 #ifdef NON_MATCHING
-// Close, stack alloc and using r0 instead of zero in unk_406 assignment
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
 {
     EnOwl* this = THIS;
     ColliderCylinder* collider;
     u32 whichOwl;
     s32 switchFlag;
-    s16 yRot;
 
     Actor_ProcessInitChain(&this->actor, sOwlInitChain);
     ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Circle, 36.0f);
@@ -110,7 +107,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
     this->unk_404 = 0;
     this->unk_408 = 4;
     whichOwl = (this->actor.params & 0xFC0) >> 6;
-    switchFlag = this->actor.params & 0x3F;
+    switchFlag = (this->actor.params & 0x3F);
     if (this->actor.params == 0xFFF)
     {
         whichOwl = 1;
@@ -118,8 +115,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
     }
     osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, whichOwl, switchFlag); // conversation owl %4x no = %d, sv = %d
 
-    // If the Owl is not the default, and the switch flag is set, remove the owl.
-    if (whichOwl != OWL_DEFAULT && switchFlag < 0x20 && Flags_GetSwitch(globalCtx, switchFlag))
+    if ((whichOwl != OWL_DEFAULT) && (switchFlag < 0x20) && Flags_GetSwitch(globalCtx, switchFlag))
     {
         osSyncPrintf("savebitでフクロウ退避\n"); // Save owl with savebit
         Actor_Kill(&this->actor);
@@ -128,27 +124,24 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
 
     this->unk_3EE = 0;
     this->unk_400 = this->actor.posRot.rot.y;
+
     switch(whichOwl){
-        // Default, does nothing
         case OWL_DEFAULT:
             this->actionFunc = EnOwl_WaitDefault;
             this->actor.uncullZoneForward = 4000.0f;
             this->unk_40A = 0;
             break;
-        // outside kokiri forest
         case OWL_OUTSIDE_KOKIRI:
             this->actionFunc = EnOwl_WaitOutsideKokiri;
             break;
-        // Entrance to Hyrule castle
         case OWL_HYRULE_CASTLE:
             this->actionFlags |= 2;
             this->unk_3EE = 0x20;
             this->actionFunc = EnOwl_WaitHyruleCastle;
             break;
-        // In front of kakariko
         case OWL_KAKARIKO:
-            // has zelda's letter
             if(gSaveContext.eventChkInf[4] & 1){
+                // has zelda's letter
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -156,25 +149,22 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
 
             this->actionFunc = EnOwl_WaitKakariko;
             break;
-        // Between Lake Hylia and Gerudo Valley
         case OWL_HYLIA_GERUDO:
-            // has ocarina of time
             if(gSaveContext.eventChkInf[4] & 8){
+                // has ocarina of time
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
             }
             this->actionFunc = EnOwl_WaitGerudo;
             break;
-        // In front of Lake Hylia
         case OWL_LAKE_HYLIA:
             this->actionFunc = EnOwl_WaitLakeHylia;
             break;
-        // unknown
         case OWL_ZORA_RIVER:
-            // opened zora's domain or has zelda's letter
             if((gSaveContext.eventChkInf[3] & 0x200) ||
-            (gSaveContext.eventChkInf[4] & 1) == 0){
+                !(gSaveContext.eventChkInf[4] & 1)){
+                // opened zora's domain or has zelda's letter
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -182,24 +172,19 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
 
             this->actionFunc = EnOwl_WaitZoraRiver;
             break;
-        // Lake hylia shortcut
         case OWL_HYLIA_SHORTCUT:
             this->actionFunc = EnOwl_WaitHyliaShortcut;
             Flags_UnsetSwitch(globalCtx, 0x23);
             return;
-        // Death mountain shortcut
         case OWL_DEATH_MOUNTAIN:
             this->actionFunc = EnOwl_WaitDeathMountainShortcut;
             break;
-        // Death mountain shortcut
         case OWL_DEATH_MOUNTAIN2:
             this->actionFunc = EnOwl_WaitDeathMountainShortcut;
             break;
-        // Dessert Colossus
         case OWL_DESSERT_COLOSSUS:
             this->actionFunc = func_80ACB3E0;
             break;
-        // Lost woods before saria
         case OWL_LOST_WOODS_PRESARIA:
             if (!CHECK_QUEST_ITEM(0xC)){
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
@@ -208,7 +193,6 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
             }
             this->actionFunc = EnOwl_WaitLWPreSaria;
             break;
-        // Lost woods after saria
         case OWL_LOST_WOODS_POSTSARIA:
             if(!CHECK_QUEST_ITEM(0xC)){
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
@@ -217,8 +201,8 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
             }
             this->actionFunc = EnOwl_WaitLWPostSaria;
             break;
-        // Outside kokiri forest
         default:
+            // Outside kokiri forest
             osSyncPrintf(VT_FGCOL(CYAN));
             osSyncPrintf("no = %d  \n", whichOwl);
             osSyncPrintf("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n"); // Unfinished owl unfinished owl unfinished owl
