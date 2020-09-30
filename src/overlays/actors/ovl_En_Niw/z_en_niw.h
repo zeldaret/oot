@@ -8,6 +8,19 @@ struct EnNiw;
 
 typedef void (*EnNiwActionFunc)(struct EnNiw*, GlobalContext*);
 
+typedef struct EnNiwParticle {
+    /* 0x0000 */ u8 type;
+    /* 0x0004 */ Vec3f pos;
+    /* 0x0010 */ Vec3f vel;
+    /* 0x001C */ Vec3f accel;
+    /* 0x0028 */ s16 lifespan;
+    /* 0x002A */ s16 unk_2A; //variance timer?
+    /* 0x002C */ f32 scale;
+    /* 0x0030 */ f32 unk_30;
+    /* 0x0034 */ u8 timer;
+    /* 0x0036 */ char unk_35[3];
+} EnNiwParticle; // size = 0x0038
+
 typedef struct EnNiw {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -20,9 +33,9 @@ typedef struct EnNiw {
     /* 0x025A */ s16 unk_25A;
     /* 0x025C */ s16 unk_25C;
     /* 0x025E */ s16 unk_25E;
-    /* 0x0260 */ s16 unk_260;
-    /* 0x0262 */ s16 unk_262;
-    /* 0x0264 */ s16 unk_264;
+    /* 0x0260 */ s16 sfxTimer1;
+    /* 0x0262 */ s16 sfxTimer2;
+    /* 0x0264 */ s16 sfxTimer3;
     /* 0x0266 */ s16 unk_266;
     /* 0x0268 */ s16 unk_268;
     /* 0x026A */ s16 unk_26A;
@@ -66,9 +79,8 @@ typedef struct EnNiw {
     /* 0x0300 */ f32 unk_300;
     /* 0x0304 */ f32 unk_304;
     /* 0x0308 */ u8 unk_308;
-    /* 0x030A */ char unk_30A[2];
     /* 0x030C */ ColliderCylinder collider;
-    /* 0x0358 */ char unk_358[0x460];
+    /* 0x0358 */ EnNiwParticle particle[20];
 } EnNiw; // size = 0x07B8
 
 extern const ActorInit En_Niw_InitVars;

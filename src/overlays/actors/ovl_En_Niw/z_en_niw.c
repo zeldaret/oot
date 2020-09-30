@@ -17,7 +17,7 @@ void func_80AB6324(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6EB4(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB5BF8(EnNiw* this, GlobalContext* globalCtx, s16 arg2);
-void func_80AB8168(EnNiw* this, Vec3f* globalCtx, Vec3f* arg2, Vec3f* arg3, f32 arg4);
+void func_80AB8168(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 void func_80AB7420(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB747C(EnNiw* this, GlobalContext* globalCtx);
@@ -32,6 +32,7 @@ void func_80AB7204(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB714C(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB8258(EnNiw* this, GlobalContext* globalCtx);
 
 s16 D_80AB85E0 = 0;
 
@@ -89,6 +90,8 @@ static InitChainEntry sInitChain[] = {
 
 extern SkeletonHeader D_06002530;
 extern AnimationHeader D_060000E8;
+extern Gfx D_060023B0[];
+extern Gfx D_06002428[];
 
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNiw* this = THIS;
@@ -452,7 +455,7 @@ void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.gravity = -2.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
-        this->unk_260 = 30;
+        this->sfxTimer1 = 30;
         this->path = 0;
         this->unk_25A = 30;
         this->actor.flags &= ~1;
@@ -474,7 +477,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
     if (this->actor.params != 0x000A) {
         if (Actor_HasParent(&this->actor, globalCtx)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
-            this->unk_260 = 30;
+            this->sfxTimer1 = 30;
             this->path = 0;
             this->unk_25A = 30;
             this->actor.flags &= ~1;
@@ -488,9 +491,9 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
         if (this->path != 0) {
             this->unk_2A6 = 1;
 
-            if (this->unk_264 == 0) {
+            if (this->sfxTimer3 == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
-                this->unk_264 = 100;
+                this->sfxTimer3 = 100;
             }
 
             this->unk_2A0 = Math_Rand_ZeroFloat(1.99f);
@@ -648,7 +651,7 @@ void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx) {
 
     if (Actor_HasNoParent(&this->actor, globalCtx) != 0) {
         if (this->actor.params == 0x000D) {
-            this->unk_260 = 0;
+            this->sfxTimer1 = 0;
             this->unk_2A6 = 1;
             this->actionFunc = func_80AB6EB4;
             this->actor.velocity.y = 4.0f;
@@ -687,7 +690,7 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 4.0f;
     } else {
         if (this->actor.bgCheckFlags & 1) {
-            this->unk_260 = 0;
+            this->sfxTimer1 = 0;
             this->actor.velocity.y = 4.0f;
             this->unk_2A6 = 1;
         }
@@ -702,7 +705,7 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
-        this->unk_260 = 30;
+        this->sfxTimer1 = 30;
         this->path = 0;
         this->unk_25A = 30;
         this->actor.flags &= ~1;
@@ -777,7 +780,7 @@ void func_80AB70A0(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB70F8(EnNiw* this, GlobalContext* globalCtx) {
-    this->unk_260 = 100;
+    this->sfxTimer1 = 100;
     if (this->unk_25C == 0) {
         this->unk_25C = 60;
         this->unk_254 = 10;
@@ -788,7 +791,7 @@ void func_80AB70F8(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB714C(EnNiw* this, GlobalContext* globalCtx) {
-    this->unk_260 = 100;
+    this->sfxTimer1 = 100;
     if (this->unk_25C == 40) {
         this->unk_26C[0] = 10000.0f;
         this->unk_26C[7] = 14000.0f;
@@ -866,11 +869,10 @@ void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
     if (this->unk_2A8 == 0 && this->actor.params != 0x000A && this->actionFunc != func_80AB6450 &&
         this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= 0xFFFD;
-        this->unk_260 = 30;
+        this->sfxTimer1 = 30;
         if (this->unk_2A4 > 0) {
             if (D_80AB85E0 == 0) {
                 this->unk_2A4--;
-                ;
             }
         }
         this->unk_2A6 = 1;
@@ -881,29 +883,29 @@ void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw/EnNiw_Update.s")
-
 // Vec3f D_80AB86E8 = { 0.0f, 0.0f, 0.0f };
 // Vec3f D_80AB86F4 = { 0.0f, 0.0f, 0.0f };
-
-/* function that does not match :< */
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw/EnNiw_Update.s")
 
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
+    f32 groundY;
     EnNiw* this = THIS;
     Player* player = PLAYER;
+    s16 i;
+    s16 phi_v1;
     Vec3f spC4 = { 0.0f, 0.0f, 0.0f }; // D_80AB86E8;
     Vec3f spB8 = { 0.0f, 0.0f, 0.0f }; // D_80AB86F4;
     Vec3f spAC;
     Vec3f spA0;
     Vec3f sp94;
+    f32 pad90;
     f32 sp8C;
-    f32 camResult;
     f32 camX;
-    f32 camZ;
     f32 camY;
+    f32 camZ;
     f32 sq;
-    s16 phi_v1;
-    s16 i;
+    f32 camResult;
+    f32 pad2[10];
 
     this->unk_294++;
 
@@ -911,26 +913,26 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_26C[9] = 0.0f;
     }
 
-    if (this->unk_2A6 != 0) {
+    if (this->unk_2A6) {
         phi_v1 = 20;
 
         if (this->unk_2A6 == 2) {
             phi_v1 = 4;
         }
 
-        if (phi_v1 > 0) {
-            for (i = 0; i < phi_v1; i++) {
+        //if (phi_v1 > 0) {
+            for (i = 0; phi_v1 > i; i++) {
                 VEC_SET(spAC, Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x,
                         Math_Rand_CenteredFloat(10.0f) + (this->actor.posRot.pos.y + this->unk_304),
                         Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z);
                 sp8C = Math_Rand_ZeroFloat(6.0f) + 6.0f;
 
-                if (this->unk_2A6 == 2 && this->unk_304 != 0.0f) {
-                    spAC.y += 10.0f;
+                if (this->unk_2A6 == 2 && this->unk_304 != 0) {
+                    spAC.y += 10;
                 }
 
-                if (this->unk_304 == 0.0f) {
-                    sp8C = Math_Rand_ZeroFloat(2.0f) + 2.0f;
+                if (this->unk_304 == 0) {
+                    sp8C = Math_Rand_ZeroFloat(2.0f) + 2;
                 }
 
                 VEC_SET(spA0, Math_Rand_CenteredFloat(3.0f), (Math_Rand_ZeroFloat(2.0f) * 0.5f) + 2.0f,
@@ -938,64 +940,78 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
                 VEC_SET(sp94, 0.0f, -0.15f, 0.0f);
                 func_80AB8168(this, &spAC, &spA0, &sp94, sp8C);
             }
-        }
+        //}
 
         this->unk_2A6 = 0;
     }
 
     func_80AB8258(&this->actor, globalCtx);
 
-    if (this->unk_254 != 0) {
-        this->unk_254--;
-    }
+    DECR(this->unk_254);
+    DECR(this->unk_256);
+    DECR(this->unk_258);
+    DECR(this->unk_25A);
+    DECR(this->unk_25C);
+    DECR(this->unk_266);
+    DECR(this->unk_25E);
+    DECR(this->sfxTimer1);
+    DECR(this->sfxTimer2);
+    DECR(this->sfxTimer3);
+    DECR(this->unk_268);
+    DECR(this->unk_26A);
+    /*
+        if (this->unk_254 != 0) {
+            this->unk_254--;
+        }
 
-    if (this->unk_256 != 0) {
-        this->unk_256--;
-    }
+        if (this->unk_256 != 0) {
+            this->unk_256--;
+        }
 
-    if (this->unk_258 != 0) {
-        this->unk_258--;
-    }
+        if (this->unk_258 != 0) {
+            this->unk_258--;
+        }
 
-    if (this->unk_25A != 0) {
-        this->unk_25A--;
-    }
+        if (this->unk_25A != 0) {
+            this->unk_25A--;
+        }
 
-    if (this->unk_25C != 0) {
-        this->unk_25C--;
-    }
+        if (this->unk_25C != 0) {
+            this->unk_25C--;
+        }
 
-    if (this->unk_266 != 0) {
-        this->unk_266--;
-    }
+        if (this->unk_266 != 0) {
+            this->unk_266--;
+        }
 
-    if (this->unk_25E != 0) {
-        this->unk_25E--;
-    }
+        if (this->unk_25E != 0) {
+            this->unk_25E--;
+        }
 
-    if (this->unk_260 != 0) {
-        this->unk_260--;
-    }
+        if (this->sfxTimer1 != 0) {
+            this->sfxTimer1--;
+        }
 
-    if (this->unk_262 != 0) {
-        this->unk_262--;
-    }
+        if (this->sfxTimer2 != 0) {
+            this->sfxTimer2--;
+        }
 
-    if (this->unk_264 != 0) {
-        this->unk_264;
-    }
+        if (this->sfxTimer3 != 0) {
+            this->sfxTimer3--;
+        }
 
-    if (this->unk_268 != 0) {
-        this->unk_268--;
-    }
+        if (this->unk_268 != 0) {
+            this->unk_268--;
+        }
 
-    if (this->unk_26A != 0) {
-        this->unk_26A--;
-    }
-
-    this->actor.shape.rot.x = this->actor.posRot.rot.x;
-    this->actor.shape.unk_10 = 15.0f;
-    this->actor.shape.rot.z = this->actor.posRot.rot.z;
+        if (this->unk_26A != 0) {
+            this->unk_26A--;
+        }
+    */
+    this->actor.shape.rot = this->actor.posRot.rot; // petrie
+    // this->actor.shape.rot.x = this->actor.posRot.rot.x;
+    // this->actor.shape.unk_10 = 15.0f;
+    // this->actor.shape.rot.z = this->actor.posRot.rot.z;
     this->actionFunc(this, globalCtx);
     Actor_SetHeight(&this->actor, this->unk_304);
     Actor_MoveForward(&this->actor);
@@ -1008,12 +1024,13 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 29);
     }
 
-    if (this->actor.groundY <= -32000.0f || this->actor.groundY >= 320000.0f) {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n\x1b[m", this->actor.groundY);
+    groundY = this->actor.groundY;
+    if (groundY <= -32000.0f || groundY >= 32000.0f) {
+        osSyncPrintf("\x1b[32m☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n\x1b[m", groundY);
         camX = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
         camY = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
         camZ = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
-        camResult = camY / sqrtf(((camX * camX) + (camY * camY)) + (camZ * camZ));
+        camResult = camY / sqrtf(((SQ(camX)) + (SQ(camY))) + (SQ(camZ)));
         osSyncPrintf("\x1b[31m☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n\x1b[m", this->actor.posRot.pos.x);
         osSyncPrintf("\x1b[31m☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n\x1b[m", this->actor.posRot.pos.y);
         osSyncPrintf("\x1b[31m☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n\x1b[m", this->actor.posRot.pos.z);
@@ -1049,11 +1066,13 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_2C4 = 0.0f;
         this->unk_2DC = 0.0f;
         this->unk_2E0 = 0.0f;
+        /*this->unk_2E0 = this->unk_2DC = this->unk_2C4 = this->unk_2C8 = this->unk_2CC = this->unk_2D0 = this->unk_2D4 =
+            this->unk_2D8 = this->unk_2F0 = this->unk_2F4 = this->unk_2F8 = this->unk_2FC = this->unk_300 = 0.0f; // float literal issue i think*/
         this->unk_2A8 = this->unk_294 = this->unk_298 = this->unk_2A6 = this->unk_29E = this->unk_2A0 = this->unk_2A2 =
             0;
 
         for (i = 0; 10 > i; i++) {
-            this->unk_26C[i] = 0.0f;
+            this->unk_26C[i] = 0;
         }
 
         this->unk_2A8 = 0;
@@ -1091,7 +1110,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_26C[5] = 0.0f;
             this->unk_26C[6] = 0.0f;
             this->unk_26C[8] = 0.0f;
-            this->unk_260 = 10000;
+            this->sfxTimer1 = 10000;
             this->unk_2A8 = 1;
             this->unk_2AC = this->unk_2B8 = this->actor.posRot.pos.x;
             this->unk_2B0 = this->unk_2BC = this->actor.posRot.pos.y;
@@ -1103,30 +1122,30 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sq = 20.0f; // permuter thought this was a good idea but idk
 
-    if (this->unk_2A8 != 0 && this->actor.xyzDistFromLinkSq < (20.0f * 20.0f) && player->invincibilityTimer == 0) {
+    if (this->unk_2A8 != 0 && this->actor.xyzDistFromLinkSq < SQ(sq) && player->invincibilityTimer == 0) {
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
     }
 
     func_80AB747C(&this->actor, globalCtx);
 
-    if (this->unk_262 == 0 && this->actionFunc == func_80AB6BF8) {
-        this->unk_262 = 7;
+    if (this->sfxTimer2 == 0 && this->actionFunc == func_80AB6BF8) {
+        this->sfxTimer2 = 7;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_WAKEUP);
     }
 
-    if (this->unk_260 == 0) {
-        if (1) {} // permuter why
+    if (this->sfxTimer1 == 0) {
+        /*if (1) {} // permuter why
         if (1) {}
         if (1) {}
         if (1) {}
         if (1) {}
-        if (1) {}
+        if (1) {}*/
 
         if (this->actionFunc != func_80AB6570) {
-            this->unk_260 = 30;
+            this->sfxTimer1 = 30;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_A);
         } else {
-            this->unk_260 = 300;
+            this->sfxTimer1 = 300;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_N);
         }
     }
@@ -1187,8 +1206,86 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80AB840C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw/func_80AB8168.s")
+void func_80AB8168(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
+    s16 i;
+    EnNiwParticle* particle = this->particle;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw/func_80AB8258.s")
+    for (i = 0; i < 20; i++, particle++) {
+        if (particle->type == 0) {
+            particle->type = 1;
+            particle->pos = *pos;
+            particle->vel = *vel;
+            particle->accel = *accel;
+            particle->timer = 0;
+            particle->scale = scale / 1000.0f;
+            particle->lifespan = (s16)Math_Rand_ZeroFloat(20.0f) + 40;
+            particle->unk_2A = Math_Rand_ZeroFloat(1000.0f);
+            return;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw/func_80AB840C.s")
+void func_80AB8258(EnNiw* this, GlobalContext* globalCtx) {
+    s16 i;
+    EnNiwParticle* particle = this->particle;
+
+    for (i = 0; i < 20; i++, particle++) {
+        if (particle->type != 0) {
+            particle->timer++;
+            particle->pos.x += particle->vel.x;
+            particle->pos.y += particle->vel.y;
+            particle->pos.z += particle->vel.z;
+            particle->vel.x += particle->accel.x;
+            particle->vel.y += particle->accel.y;
+            particle->vel.z += particle->accel.z;
+
+            if (particle->type == 1) {
+                particle->unk_2A++;
+                Math_SmoothScaleMaxF(&particle->vel.x, 0.0f, 1.0f, 0.05f);
+                Math_SmoothScaleMaxF(&particle->vel.z, 0.0f, 1.0f, 0.05f);
+
+                if (particle->vel.y < -0.5f) {
+                    particle->vel.y = -0.5f;
+                }
+
+                particle->unk_30 = Math_Sins(particle->unk_2A * 0xBB8) * M_PI * 0.2f;
+                if (particle->lifespan < particle->timer) {
+                    particle->type = 0;
+                }
+            }
+        }
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw/func_80AB840C.s")
+void func_80AB840C(EnNiw* this, GlobalContext* globalCtx) {
+    u8 flag = 0;
+    s16 i;
+    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    EnNiwParticle* particle = this->particle;
+
+    OPEN_DISPS(gfxCtx, "../z_en_niw.c", 1897);
+
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    for (i = 0; i < 20; i++, particle++) {
+        if (particle->type == 1) {
+            if (!flag) {
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);
+                flag++;
+            }
+
+            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(particle->unk_30, 1);
+            Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06002428);
+        }
+    }
+
+    CLOSE_DISPS(gfxCtx, "../z_en_niw.c", 1919);
+}
