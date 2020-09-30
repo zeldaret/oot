@@ -221,7 +221,7 @@ glabel func_80B2D68C
 /* 00548 80B2D9A8 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 0054C 80B2D9AC AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 00550 80B2D9B0 8FA40074 */  lw      $a0, 0x0074($sp)           
-/* 00554 80B2D9B4 0C00A9DC */  jal     func_8002A770              
+/* 00554 80B2D9B4 0C00A9DC */  jal     EffectSsDeadDd_Spawn              
 /* 00558 80B2D9B8 00C03825 */  or      $a3, $a2, $zero            ## $a3 = 80B2EAEC
 /* 0055C 80B2D9BC 0C2CB676 */  jal     func_80B2D9D8              
 /* 00560 80B2D9C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

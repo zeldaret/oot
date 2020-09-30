@@ -12,8 +12,8 @@
 #define THIS ((ObjLightswitch*)thisx)
 
 typedef enum {
-    /* 0x00 */ FACE_EYES_CLOSED, 
-    /* 0x01 */ FACE_EYES_OPEN, 
+    /* 0x00 */ FACE_EYES_CLOSED,
+    /* 0x01 */ FACE_EYES_OPEN,
     /* 0x02 */ FACE_EYES_OPEN_SMILING
 } FaceTextureIndex;
 
@@ -145,7 +145,8 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, GlobalContext* g
         pos.x = this->actor.posRot.pos.x + ((z * s) + (x * c));
         pos.y = this->actor.posRot.pos.y + y + 10.0f;
         pos.z = this->actor.posRot.pos.z + ((z * c) - (x * s));
-        func_8002A6B8(globalCtx, &pos, &D_80B97F74, &D_80B97F74, 0x64, 0, 0xFF, 0xFF, 0xA0, 0xA0, 0xFF, 0, 0, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &pos, &D_80B97F74, &D_80B97F74, 100, 0, 255, 255, 160, 160, 255, 0, 0, 1, 9,
+                             true);
     }
 }
 
