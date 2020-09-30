@@ -137,7 +137,7 @@ const ActorInit En_Ik_InitVars = {
 };
 */
 
-char D_80A78FA0[0x10];
+Vec3s D_80A78FA0;
 
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
@@ -314,7 +314,13 @@ void func_80A76BF4(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A772A4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A772EC.s")
+void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    f32 wDest;
+
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->actor.posRot, &D_80A78FA0, &wDest);
+    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7735C.s")
 
