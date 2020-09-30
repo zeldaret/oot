@@ -2647,7 +2647,6 @@ endseg
 beginseg
     name "ovl_En_Kakasi2"
     include "build/src/overlays/actors/ovl_En_Kakasi2/z_en_kakasi2.o"
-    include "build/data/overlays/actors/z_en_kakasi2.data.o"
     include "build/data/overlays/actors/z_en_kakasi2.reloc.o"
 endseg
 
