@@ -64,7 +64,7 @@ static InitChainEntry sInitChain[] = {
 extern Gfx D_06012340[];
 extern UNK_PTR D_06012508;
 
-void func_8089B440(BgJyaZurerukabe* this, GlobalContext* globalCtx, void* arg2, DynaPolyMoveFlag flags) {
+void func_8089B440(BgJyaZurerukabe* this, GlobalContext* globalCtx, void* arg2, s32 flags) {
     s32 pad;
     s32 localC = 0;
     s32 pad2;
@@ -80,13 +80,12 @@ void func_8089B440(BgJyaZurerukabe* this, GlobalContext* globalCtx, void* arg2, 
 }
 
 void func_8089B4C8(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
-    Player* player = (Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first;
-    s32 new_var = 0;
+    Player* player = PLAYER;
 
     if ((player->stateFlags1 == 0x200000) && (player->actor.wallPoly != NULL)) {
         s32 i;
 
-        for (i = new_var; i < ARRAY_COUNT(D_8089BA18); i++) {
+        for (i = 0; i < ARRAY_COUNT(D_8089BA18); i++) {
             f32 posY = player->actor.posRot.pos.y;
             if ((posY >= D_8089BA18[i][0]) && (posY <= D_8089BA18[i][1])) {
                 break;
