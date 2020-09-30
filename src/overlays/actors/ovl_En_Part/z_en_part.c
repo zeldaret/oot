@@ -67,7 +67,7 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
             this->rotZSpeed = 0.15f;
             break;
         case 14:
-            func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1);
+            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.posRot.pos, 40, 0x8001, 0, -1);
         case 1:
         case 4:
         case 9:
@@ -79,7 +79,7 @@ void func_80ACDDE8(EnPart* this, GlobalContext* globalCtx) {
             this->rotZSpeed = 0.15f;
             break;
         case 11:
-            func_8002A4D4(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, -0x7FFF, 0, -1);
+            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.posRot.pos, 40, 0x8001, 0, -1);
         case 3:
             this->actor.speedXZ = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
             this->timer = (s16)(Math_Rand_ZeroOne() * 17.0f) + 10;
@@ -131,13 +131,15 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
             case 9:
             case 10:
             case 14:
-                func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero,
-                              (s16)(this->actor.scale.y * 100.0f) * 40, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0xFF, 0, 1, 9, 1);
+                EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zero, &zero,
+                                     (s16)(this->actor.scale.y * 100.0f) * 40, 7, 255, 255, 255, 255, 0, 255, 0, 1, 9,
+                                     true);
                 break;
             case 3:
             case 11:
-                func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero,
-                              (s16)(this->actor.scale.y * 100.0f) * 40, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
+                EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zero, &zero,
+                                     (s16)(this->actor.scale.y * 100.0f) * 40, 7, 255, 255, 255, 255, 0, 0, 255, 1, 9,
+                                     true);
                 break;
             case 4:
                 for (i = 7; i >= 0; i--) {
@@ -146,7 +148,8 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
                             Math_Rand_CenteredFloat(50.0f);
                     pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(60.0f);
                     velocity.y = Math_Rand_ZeroOne() + 1.0f;
-                    func_80029618(globalCtx, &pos, &velocity, &accel, Math_Rand_S16Offset(80, 100), 0x19, 0, 1);
+                    EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, Math_Rand_S16Offset(80, 100),
+                                                       25, 0, 1);
                 }
                 break;
             case 5:
@@ -157,7 +160,8 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
                     pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(25.0f);
                     pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(40.0f);
                     pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(25.0f);
-                    func_8002A6B8(globalCtx, &pos, &zero, &zero, 0x28, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
+                    EffectSsDeadDb_Spawn(globalCtx, &pos, &zero, &zero, 40, 7, 255, 255, 255, 255, 0, 0, 255, 1, 9,
+                                         true);
                 }
                 break;
         }
@@ -202,8 +206,8 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
 
         func_80033480(globalCtx, &this->actor.posRot.pos, 0.0f, 1, 300, 150, 1);
         velocity.x = Math_Rand_CenteredFloat(16.0f);
-        func_80029724(globalCtx, &this->actor.posRot.pos, &velocity, &accel, 20,
-                      (s32)((Math_Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, 0);
+        EffectSsHahen_Spawn(globalCtx, &this->actor.posRot.pos, &velocity, &accel, 20,
+                            (s32)((Math_Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_GNDWAVE - SFX_FLAG);
     }
 }
@@ -212,8 +216,8 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
     Vec3f zero = { 0.0f, 0.0f, 0.0f };
 
     if ((this->actor.parent == NULL) || (this->actor.parent->update == NULL)) {
-        func_8002A6B8(globalCtx, &this->actor.posRot.pos, &zero, &zero, (s16)(this->actor.scale.y * 100.0f) * 40, 7,
-                      0xFF, 0xFF, 0xFF, 0xFF, 0, 0xFF, 0, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zero, &zero, (s16)(this->actor.scale.y * 100.0f) * 40,
+                             7, 255, 255, 255, 255, 0, 255, 0, 1, 9, true);
         Actor_Kill(&this->actor);
         return;
     }
