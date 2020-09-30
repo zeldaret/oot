@@ -193,7 +193,7 @@ glabel func_809C9EF8
 /* 013B8 809CA178 8FA4005C */  lw      $a0, 0x005C($sp)           
 /* 013BC 809CA17C 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFF4
 /* 013C0 809CA180 27A60040 */  addiu   $a2, $sp, 0x0040           ## $a2 = FFFFFFE8
-/* 013C4 809CA184 0C00AA91 */  jal     func_8002AA44              
+/* 013C4 809CA184 0C00AA91 */  jal     EffectSsIceSmoke_Spawn              
 /* 013C8 809CA188 27A70034 */  addiu   $a3, $sp, 0x0034           ## $a3 = FFFFFFDC
 /* 013CC 809CA18C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L809CA190:

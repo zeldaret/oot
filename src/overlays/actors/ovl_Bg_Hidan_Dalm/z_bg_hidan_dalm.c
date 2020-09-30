@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_dalm.c
+ * Overlay: ovl_Bg_Hidan_Dalm
+ * Description: Hammerable Totem Pieces (Fire Temple)
+ */
+
 #include "z_bg_hidan_dalm.h"
 
 #define FLAGS 0x00000000
@@ -9,7 +15,7 @@ void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx);
+void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx);
 void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Dalm_InitVars = {
@@ -76,7 +82,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Actor_Kill(thisx);
     } else {
-        this->actionFunc = BgHidanDalm_WaitInteraction;
+        this->actionFunc = BgHidanDalm_Wait;
     }
 }
 
@@ -87,7 +93,7 @@ void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyTris(globalCtx, &this->collider);
 }
 
-void BgHidanDalm_WaitInteraction(BgHidanDalm* this, GlobalContext* globalCtx) {
+void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((this->collider.base.acFlags & 2) && !Player_InCsMode(globalCtx) &&
@@ -136,7 +142,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
         velocity.x = 5.0f * Math_Sins(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
         velocity.z = 5.0f * Math_Coss(this->dyna.actor.posRot.rot.y + 0x8000) + (Math_Rand_ZeroOne() - 0.5f) * 5.0f;
         velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
-        func_80028B18(globalCtx, &pos, &velocity, &accel);
+        EffectSsKiraKira_SpawnSmallYellow(globalCtx, &pos, &velocity, &accel);
     }
 }
 
@@ -180,7 +186,7 @@ void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Gfx_DrawDListOpa(globalCtx, D_0600BDF0);
     }
 
-    if (this->actionFunc == BgHidanDalm_WaitInteraction) {
+    if (this->actionFunc == BgHidanDalm_Wait) {
         BgHidanDalm_UpdateCollider(this);
     }
 }

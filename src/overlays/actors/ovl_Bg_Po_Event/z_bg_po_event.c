@@ -29,7 +29,6 @@ void BgPoEvent_PaintingAppear(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx);
 
-
 extern Gfx D_060075A0[];
 extern Gfx D_060079E0[];
 extern Gfx D_06006830[];
@@ -145,7 +144,8 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.flags |= 0x30;
     DynaPolyInfo_Alloc(&D_06007860, &colHeader);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.dynaPolyId =
+        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
         newBlock = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
                                       blockPosX[this->index], this->dyna.actor.posRot.pos.y, blockPosZ[this->index], 0,
@@ -445,13 +445,13 @@ void BgPoEvent_AmyWait(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_AmyPuzzle(BgPoEvent* this, GlobalContext* globalCtx) {
-    Vec3f sp54;
+    Vec3f pos;
 
     if (sPuzzleState == 0xF) {
-        sp54.x = this->dyna.actor.posRot.pos.x - 5.0f;
-        sp54.y = Math_Rand_CenteredFloat(120.0f) + this->dyna.actor.posRot.pos.y;
-        sp54.z = Math_Rand_CenteredFloat(120.0f) + this->dyna.actor.posRot.pos.z;
-        func_8002A6B8(globalCtx, &sp54, &sZeroVec, &sZeroVec, 170, 0, 200, 255, 100, 170, 0, 255, 0, 1, 9, true);
+        pos.x = this->dyna.actor.posRot.pos.x - 5.0f;
+        pos.y = Math_Rand_CenteredFloat(120.0f) + this->dyna.actor.posRot.pos.y;
+        pos.z = Math_Rand_CenteredFloat(120.0f) + this->dyna.actor.posRot.pos.z;
+        EffectSsDeadDb_Spawn(globalCtx, &pos, &sZeroVec, &sZeroVec, 170, 0, 200, 255, 100, 170, 0, 255, 0, 1, 9, true);
     } else if (sPuzzleState == 0x20) {
         Actor_Kill(&this->dyna.actor);
     } else {
@@ -554,9 +554,11 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx) {
     sp54.z = Math_Rand_CenteredFloat(50.0f) + this->dyna.actor.posRot.pos.z;
     if (this->timer >= 0) {
         if (this->type == 2) {
-            func_8002A6B8(globalCtx, &sp54, &sZeroVec, &sZeroVec, 100, 0, 255, 255, 150, 170, 255, 0, 0, 1, 9, true);
+            EffectSsDeadDb_Spawn(globalCtx, &sp54, &sZeroVec, &sZeroVec, 100, 0, 255, 255, 150, 170, 255, 0, 0, 1, 9,
+                                 true);
         } else {
-            func_8002A6B8(globalCtx, &sp54, &sZeroVec, &sZeroVec, 100, 0, 200, 255, 255, 170, 50, 100, 255, 1, 9, true);
+            EffectSsDeadDb_Spawn(globalCtx, &sp54, &sZeroVec, &sZeroVec, 100, 0, 200, 255, 255, 170, 50, 100, 255, 1, 9,
+                                 true);
         }
     }
     if (this->timer == 0) {

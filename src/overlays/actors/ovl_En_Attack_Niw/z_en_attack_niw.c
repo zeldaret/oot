@@ -346,7 +346,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 0x20) && (this->actionFunc != func_809B5C18)) {
         Math_Vec3f_Copy(&sp30, &this->actor.posRot.pos);
         sp30.y += this->actor.waterY;
-        func_8002949C(globalCtx, &sp30, 0, 0, 0, 0x190);
+        EffectSsGSplash_Spawn(globalCtx, &sp30, 0, 0, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;
         this->unk_2E0 = 0.0f;

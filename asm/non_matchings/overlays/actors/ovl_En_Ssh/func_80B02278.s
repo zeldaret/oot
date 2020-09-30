@@ -27,7 +27,7 @@ glabel func_80B02278
 /* 0006C 80B022DC AFAA0018 */  sw      $t2, 0x0018($sp)           
 /* 00070 80B022E0 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00074 80B022E4 AFA80010 */  sw      $t0, 0x0010($sp)           
-/* 00078 80B022E8 0C00A3E1 */  jal     func_80028F84              
+/* 00078 80B022E8 0C00A3E1 */  jal     EffectSsBlast_SpawnWhiteCustomScale              
 /* 0007C 80B022EC E7A80030 */  swc1    $f8, 0x0030($sp)           
 /* 00080 80B022F0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00084 80B022F4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
