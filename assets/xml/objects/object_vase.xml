@@ -1,5 +1,5 @@
 <Root>
     <File Name="object_vase">
-        <DList Name="mesh"/>
+        <DList Name="objVaseMesh"/>
     </File>
 </Root>
