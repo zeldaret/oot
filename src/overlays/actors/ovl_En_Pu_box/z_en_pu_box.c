@@ -5,6 +5,7 @@
  */
 
 #include "z_en_pu_box.h"
+#include <../assets/objects/object_pu_box/object_pu_box.h>
 
 #define FLAGS 0x00000010
 
@@ -27,8 +28,7 @@ const ActorInit En_Pu_box_InitVars = {
     (ActorFunc)EnPubox_Draw,
 };
 
-extern Gfx _object_pu_box_mesh2[];
-extern UNK_TYPE _object_pu_box_dynaPolyInfo;
+extern UNK_TYPE puBoxDynaPolyInfo;
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
@@ -59,7 +59,7 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_15C = 0;
     thisx->unk_1F = 1;
     thisx->gravity = -2.0f;
-    DynaPolyInfo_Alloc(&_object_pu_box_dynaPolyInfo, &local_c);
+    DynaPolyInfo_Alloc(&puBoxDynaPolyInfo, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
@@ -88,5 +88,5 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &_object_pu_box_mesh2);
+    Gfx_DrawDListOpa(globalCtx, puBoxMesh2);
 }

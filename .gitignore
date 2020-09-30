@@ -47,6 +47,12 @@ tools/*dSYM/
 *.ia16.png
 *.ci4.png
 *.ci8.png
+*.mdli
+*.anmi
+*.obj
+*.mtl
+*.fbx
+!*_custom*
 
 # Per-user configuration
 .python-version

@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_pu_box">
-        <DList Name="mesh"/>
-        <DList Name="mesh2" Address="0x380"/>
-        <Blob Name="dynaPolyInfo" Address="0x6D0" Size="0x80"/>
+        <DList Name="puBoxMesh"/>
+        <DList Name="puBoxMesh2" Address="0x380"/>
+        <Blob Name="puBoxDynaPolyInfo" Address="0x6D0" Size="0x80"/>
     </File>
 </Root>
