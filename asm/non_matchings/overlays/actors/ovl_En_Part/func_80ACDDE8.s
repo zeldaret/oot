@@ -152,7 +152,7 @@ glabel L80ACDF44
 /* 00184 80ACDF54 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00188 80ACDF58 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 0018C 80ACDF5C 24070028 */  addiu   $a3, $zero, 0x0028         ## $a3 = 00000028
-/* 00190 80ACDF60 0C00A935 */  jal     func_8002A4D4              
+/* 00190 80ACDF60 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 00194 80ACDF64 AFA00014 */  sw      $zero, 0x0014($sp)         
 glabel L80ACDF68
 /* 00198 80ACDF68 0C03F66B */  jal     Math_Rand_ZeroOne
@@ -200,7 +200,7 @@ glabel L80ACDFEC
 /* 0022C 80ACDFFC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00230 80ACE000 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
 /* 00234 80ACE004 24070028 */  addiu   $a3, $zero, 0x0028         ## $a3 = 00000028
-/* 00238 80ACE008 0C00A935 */  jal     func_8002A4D4              
+/* 00238 80ACE008 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 0023C 80ACE00C AFA00014 */  sw      $zero, 0x0014($sp)         
 glabel L80ACE010
 /* 00240 80ACE010 0C03F66B */  jal     Math_Rand_ZeroOne
