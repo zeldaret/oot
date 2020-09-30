@@ -176,7 +176,7 @@ glabel func_808BF97C
 /* 007CC 808BFBDC 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000008
 /* 007D0 808BFBE0 03C03025 */  or      $a2, $s8, $zero            ## $a2 = FFFFFFF4
 /* 007D4 808BFBE4 AFA0002C */  sw      $zero, 0x002C($sp)         
-/* 007D8 808BFBE8 0C00A9AE */  jal     func_8002A6B8              
+/* 007D8 808BFBE8 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 007DC 808BFBEC AFA00030 */  sw      $zero, 0x0030($sp)         
 /* 007E0 808BFBF0 26522AAA */  addiu   $s2, $s2, 0x2AAA           ## $s2 = 00002AAA
 /* 007E4 808BFBF4 26730001 */  addiu   $s3, $s3, 0x0001           ## $s3 = 00000001

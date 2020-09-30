@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tubo_trap.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #include <vt.h>
 
@@ -69,88 +70,90 @@ void EnTuboTrap_DropCollectible(EnTuboTrap* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnTuboTrap_SpawnFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
+void EnTuboTrap_SpawnEffectsOnLand(EnTuboTrap* this, GlobalContext* globalCtx) {
     f32 rand;
     f32 cos;
     f32 sin;
-    Vec3f spC8;
-    Vec3f spBC;
+    Vec3f pos;
+    Vec3f velocity;
     s16 var;
-    s32 temp;
+    s32 arg5;
     s32 i;
     Vec3f* actorPos = &this->actor.posRot.pos;
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
         sin = Math_Sins(var);
         cos = Math_Coss(var);
-        spC8.x = sin * 8.0f;
-        spC8.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
-        spC8.z = cos * 8.0f;
+        pos.x = sin * 8.0f;
+        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = cos * 8.0f;
 
-        spBC.x = spC8.x * 0.23f;
-        spBC.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
-        spBC.z = spC8.z * 0.23f;
+        velocity.x = pos.x * 0.23f;
+        velocity.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        velocity.z = pos.z * 0.23f;
 
-        spC8.x += actorPos->x;
-        spC8.y += actorPos->y;
-        spC8.z += actorPos->z;
+        pos.x += actorPos->x;
+        pos.y += actorPos->y;
+        pos.z += actorPos->z;
 
         rand = Math_Rand_ZeroOne();
         if (rand < 0.2f) {
-            temp = 96;
+            arg5 = 96;
         } else if (rand < 0.6f) {
-            temp = 64;
+            arg5 = 64;
         } else {
-            temp = 32;
+            arg5 = 32;
         }
 
-        func_80029E8C(globalCtx, &spC8, &spBC, actorPos, -240, temp, 10, 10, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
-                      0, 32, 60, -1, 3, &D_05017A60);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, actorPos, -240, arg5, 10, 10, 0,
+                             (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, &D_05017A60);
     }
 
     func_80033480(globalCtx, actorPos, 30.0f, 4, 20, 50, 0);
 }
 
-void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
+void EnTuboTrap_SpawnEffectsInWater(EnTuboTrap* this, GlobalContext* globalCtx) {
     f32 rand;
     f32 cos;
     f32 sin;
-    Vec3f spC8;
-    Vec3f spBC;
+    Vec3f pos;
+    Vec3f velocity;
     s16 var;
-    s32 temp;
+    s32 arg5;
     s32 i;
     Vec3f* actorPos = &this->actor.posRot.pos;
 
-    spC8 = *actorPos;
-    spC8.y += this->actor.waterY;
+    pos = *actorPos;
+    pos.y += this->actor.waterY;
 
-    func_8002949C(globalCtx, &spC8, 0, 0, 0, 400);
+    EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
 
     for (i = 0, var = 0; i < 15; i++, var += 20000) {
         sin = Math_Sins(var);
         cos = Math_Coss(var);
-        spC8.x = sin * 8.0f;
-        spC8.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
-        spC8.z = cos * 8.0f;
+        pos.x = sin * 8.0f;
+        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = cos * 8.0f;
 
-        spBC.x = spC8.x * 0.20f;
-        spBC.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
-        spBC.z = spC8.z * 0.20f;
+        velocity.x = pos.x * 0.20f;
+        velocity.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
+        velocity.z = pos.z * 0.20f;
 
-        spC8.x += actorPos->x;
-        spC8.y += actorPos->y;
-        spC8.z += actorPos->z;
+        pos.x += actorPos->x;
+        pos.y += actorPos->y;
+        pos.z += actorPos->z;
 
         rand = Math_Rand_ZeroOne();
         if (rand < 0.2f) {
-            temp = 64;
+            arg5 = 64;
         } else {
-            temp = 32;
+            arg5 = 32;
         }
 
-        func_80029E8C(globalCtx, &spC8, &spBC, actorPos, -180, temp, 30, 30, 0, (Math_Rand_ZeroOne() * 65.0f) + 15.0f,
-                      0, 32, 70, -1, 3, &D_05017A60);
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, actorPos, -180, arg5, 30, 30, 0,
+                             (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, &D_05017A60);
     }
 }
 
@@ -160,7 +163,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 15.0f)) {
-        EnTuboTrap_SpawnWaterFragments(this, globalCtx);
+        EnTuboTrap_SpawnEffectsInWater(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
@@ -169,7 +172,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.atFlags & 4) {
         this->collider.base.atFlags &= ~4;
-        EnTuboTrap_SpawnFragments(this, globalCtx);
+        EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_IT_SHIELD_REFLECT_SW);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -179,7 +182,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
-        EnTuboTrap_SpawnFragments(this, globalCtx);
+        EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_EXPLOSION);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -190,7 +193,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
         if (this->collider.base.at == &player->actor) {
-            EnTuboTrap_SpawnFragments(this, globalCtx);
+            EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
             Audio_PlaySoundAtPosition(globalCtx, &player->actor.posRot.pos, 40, NA_SE_PL_BODY_HIT);
             EnTuboTrap_DropCollectible(this, globalCtx);
@@ -200,7 +203,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1)) {
-        EnTuboTrap_SpawnFragments(this, globalCtx);
+        EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_POT_BROKEN);
         EnTuboTrap_DropCollectible(this, globalCtx);
         Actor_Kill(&this->actor);

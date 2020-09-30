@@ -46,7 +46,7 @@ glabel func_80A003DC
 /* 004E8 80A00488 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 004EC 80A0048C 8FA5002C */  lw      $a1, 0x002C($sp)
 /* 004F0 80A00490 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 004F4 80A00494 0C00A527 */  jal     func_8002949C
+/* 004F4 80A00494 0C00A527 */  jal     EffectSsGSplash_Spawn
 /* 004F8 80A00498 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 004FC 80A0049C 3C0E80A0 */  lui     $t6, %hi(func_80A00B18)    ## $t6 = 80A00000
 /* 00500 80A004A0 25CE0B18 */  addiu   $t6, $t6, %lo(func_80A00B18) ## $t6 = 80A00B18
