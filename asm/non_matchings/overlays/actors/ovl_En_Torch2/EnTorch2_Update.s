@@ -45,13 +45,13 @@ glabel EnTorch2_Update
 /* 004A4 80B1DE24 9063015E */  lbu     $v1, %lo(D_80B2015E)($v1)  
 /* 004A8 80B1DE28 87A8005A */  lh      $t0, 0x005A($sp)           
 /* 004AC 80B1DE2C AFA2005C */  sw      $v0, 0x005C($sp)           
-/* 004B0 80B1DE30 1060000D */  beq     $v1, $zero, .L80B1DE68     
+/* 004B0 80B1DE30 1060000D */  beq     $v1, $zero, .L80B1DE68  #GOTO   
 /* 004B4 80B1DE34 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 004B8 80B1DE38 10610069 */  beq     $v1, $at, .L80B1DFE0       
+/* 004B8 80B1DE38 10610069 */  beq     $v1, $at, .L80B1DFE0    #GOTO   
 /* 004BC 80B1DE3C 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
-/* 004C0 80B1DE40 106103EC */  beq     $v1, $at, .L80B1EDF4       
+/* 004C0 80B1DE40 106103EC */  beq     $v1, $at, .L80B1EDF4     #GOTO  
 /* 004C4 80B1DE44 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
-/* 004C8 80B1DE48 10610358 */  beq     $v1, $at, .L80B1EBAC       
+/* 004C8 80B1DE48 10610358 */  beq     $v1, $at, .L80B1EBAC       #GOTO
 /* 004CC 80B1DE4C 26180024 */  addiu   $t8, $s0, 0x0024           ## $t8 = 00000024
 /* 004D0 80B1DE50 8FB90084 */  lw      $t9, 0x0084($sp)           
 /* 004D4 80B1DE54 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -82,8 +82,8 @@ glabel EnTorch2_Update
 /* 0052C 80B1DEAC E6120024 */  swc1    $f18, 0x0024($s0)          ## 00000024
 /* 00530 80B1DEB0 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
 /* 00534 80B1DEB4 44812000 */  mtc1    $at, $f4                   ## $f4 = 25.00
-/* 00538 80B1DEB8 3C0180B2 */  lui     $at, %hi(D_80B20158)       ## $at = 80B20000
-/* 0053C 80B1DEBC C4280158 */  lwc1    $f8, %lo(D_80B20158)($at)  
+/* 00538 80B1DEB8 3C0180B2 */  lui     $at, %hi(D_80B20150+8)       ## $at = 80B20000
+/* 0053C 80B1DEBC C4280158 */  lwc1    $f8, %lo(D_80B20150+8)($at)  
 /* 00540 80B1DEC0 46040182 */  mul.s   $f6, $f0, $f4              
 /* 00544 80B1DEC4 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000
 /* 00548 80B1DEC8 44818000 */  mtc1    $at, $f16                  ## $f16 = 120.00
@@ -129,24 +129,24 @@ glabel EnTorch2_Update
 /* 005E0 80B1DF60 A7A40066 */  sh      $a0, 0x0066($sp)           
 /* 005E4 80B1DF64 3C0180B2 */  lui     $at, %hi(D_80B1F9F0)       ## $at = 80B20000
 /* 005E8 80B1DF68 C426F9F0 */  lwc1    $f6, %lo(D_80B1F9F0)($at)  
-/* 005EC 80B1DF6C 3C0180B2 */  lui     $at, %hi(D_80B20132)       ## $at = 80B20000
+/* 005EC 80B1DF6C 3C0180B2 */  lui     $at, %hi(D_80B20130+2)       ## $at = 80B20000
 /* 005F0 80B1DF70 87A40066 */  lh      $a0, 0x0066($sp)           
 /* 005F4 80B1DF74 46060202 */  mul.s   $f8, $f0, $f6              
 /* 005F8 80B1DF78 4600428D */  trunc.w.s $f10, $f8                  
 /* 005FC 80B1DF7C 440C5000 */  mfc1    $t4, $f10                  
 /* 00600 80B1DF80 0C01DE0D */  jal     Math_Coss
               ## coss?
-/* 00604 80B1DF84 A02C0132 */  sb      $t4, %lo(D_80B20132)($at)  
+/* 00604 80B1DF84 A02C0132 */  sb      $t4, %lo(D_80B20130+2)($at)  
 /* 00608 80B1DF88 3C0180B2 */  lui     $at, %hi(D_80B1F9F0)       ## $at = 80B20000
 /* 0060C 80B1DF8C C430F9F0 */  lwc1    $f16, %lo(D_80B1F9F0)($at) 
-/* 00610 80B1DF90 3C0180B2 */  lui     $at, %hi(D_80B20133)       ## $at = 80B20000
+/* 00610 80B1DF90 3C0180B2 */  lui     $at, %hi(D_80B20130+3)       ## $at = 80B20000
 /* 00614 80B1DF94 46100482 */  mul.s   $f18, $f0, $f16            
 /* 00618 80B1DF98 4600910D */  trunc.w.s $f4, $f18                  
 /* 0061C 80B1DF9C 44032000 */  mfc1    $v1, $f4                   
 /* 00620 80B1DFA0 00000000 */  nop
 /* 00624 80B1DFA4 00031E00 */  sll     $v1, $v1, 24               
 /* 00628 80B1DFA8 00031E03 */  sra     $v1, $v1, 24               
-/* 0062C 80B1DFAC A0230133 */  sb      $v1, %lo(D_80B20133)($at)  
+/* 0062C 80B1DFAC A0230133 */  sb      $v1, %lo(D_80B20130+3)($at)  
 .L80B1DFB0:
 /* 00630 80B1DFB0 0C03D6B3 */  jal     func_800F5ACC              
 /* 00634 80B1DFB4 24040038 */  addiu   $a0, $zero, 0x0038         ## $a0 = 00000038
@@ -678,7 +678,7 @@ glabel EnTorch2_Update
 /* 00DDC 80B1E75C 3C0580B2 */  lui     $a1, %hi(D_80B20130)       ## $a1 = 80B20000
 /* 00DE0 80B1E760 8D6C067C */  lw      $t4, 0x067C($t3)           ## 0000067C
 /* 00DE4 80B1E764 000C7240 */  sll     $t6, $t4,  9               
-/* 00DE8 80B1E768 05C00005 */  bltz    $t6, .L80B1E780            
+/* 00DE8 80B1E768 05C00005 */  bltz    $t6, .L80B1E780           
 .L80B1E76C:
 /* 00DEC 80B1E76C 24A50130 */  addiu   $a1, $a1, %lo(D_80B20130)  ## $a1 = 80B20130
 /* 00DF0 80B1E770 0C2C76F6 */  jal     func_80B1DBD8              
@@ -945,27 +945,27 @@ glabel EnTorch2_Update
 /* 011A4 80B1EB24 A7A40066 */  sh      $a0, 0x0066($sp)           
 /* 011A8 80B1EB28 3C0180B2 */  lui     $at, %hi(D_80B1F9F0)       ## $at = 80B20000
 /* 011AC 80B1EB2C C424F9F0 */  lwc1    $f4, %lo(D_80B1F9F0)($at)  
-/* 011B0 80B1EB30 3C0180B2 */  lui     $at, %hi(D_80B20132)       ## $at = 80B20000
+/* 011B0 80B1EB30 3C0180B2 */  lui     $at, %hi(D_80B20130+2)       ## $at = 80B20000
 /* 011B4 80B1EB34 87A40066 */  lh      $a0, 0x0066($sp)           
 /* 011B8 80B1EB38 46040182 */  mul.s   $f6, $f0, $f4              
 /* 011BC 80B1EB3C 4600320D */  trunc.w.s $f8, $f6                   
 /* 011C0 80B1EB40 44184000 */  mfc1    $t8, $f8                   
 /* 011C4 80B1EB44 0C01DE0D */  jal     Math_Coss
               ## coss?
-/* 011C8 80B1EB48 A0380132 */  sb      $t8, %lo(D_80B20132)($at)  
+/* 011C8 80B1EB48 A0380132 */  sb      $t8, %lo(D_80B20130+2)($at)  
 /* 011CC 80B1EB4C 3C0180B2 */  lui     $at, %hi(D_80B1F9F0)       ## $at = 80B20000
 /* 011D0 80B1EB50 C42AF9F0 */  lwc1    $f10, %lo(D_80B1F9F0)($at) 
 /* 011D4 80B1EB54 3C0280B2 */  lui     $v0, %hi(D_80B20165)       ## $v0 = 80B20000
 /* 011D8 80B1EB58 90420165 */  lbu     $v0, %lo(D_80B20165)($v0)  
 /* 011DC 80B1EB5C 460A0402 */  mul.s   $f16, $f0, $f10            
-/* 011E0 80B1EB60 3C0180B2 */  lui     $at, %hi(D_80B20133)       ## $at = 80B20000
+/* 011E0 80B1EB60 3C0180B2 */  lui     $at, %hi(D_80B20130+3)       ## $at = 80B20000
 /* 011E4 80B1EB64 8FAA002C */  lw      $t2, 0x002C($sp)           
 /* 011E8 80B1EB68 4600848D */  trunc.w.s $f18, $f16                 
 /* 011EC 80B1EB6C 44039000 */  mfc1    $v1, $f18                  
 /* 011F0 80B1EB70 00000000 */  nop
 /* 011F4 80B1EB74 00031E00 */  sll     $v1, $v1, 24               
 /* 011F8 80B1EB78 00031E03 */  sra     $v1, $v1, 24               
-/* 011FC 80B1EB7C A0230133 */  sb      $v1, %lo(D_80B20133)($at)  
+/* 011FC 80B1EB7C A0230133 */  sb      $v1, %lo(D_80B20130+3)($at)  
 /* 01200 80B1EB80 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
 /* 01204 80B1EB84 104100B0 */  beq     $v0, $at, .L80B1EE48       
 /* 01208 80B1EB88 00000000 */  nop
@@ -979,9 +979,9 @@ glabel EnTorch2_Update
 /* 01228 80B1EBA8 A02E0165 */  sb      $t6, %lo(D_80B20165)($at)  
 .L80B1EBAC:
 /* 0122C 80B1EBAC A2000843 */  sb      $zero, 0x0843($s0)         ## 00000843
-/* 01230 80B1EBB0 3C0180B2 */  lui     $at, %hi(D_80B20133)       ## $at = 80B20000
-/* 01234 80B1EBB4 A0200133 */  sb      $zero, %lo(D_80B20133)($at) 
-/* 01238 80B1EBB8 A0200132 */  sb      $zero, %lo(D_80B20132)($at) 
+/* 01230 80B1EBB0 3C0180B2 */  lui     $at, %hi(D_80B20130+3)       ## $at = 80B20000
+/* 01234 80B1EBB4 A0200133 */  sb      $zero, %lo(D_80B20130+3)($at) 
+/* 01238 80B1EBB8 A0200132 */  sb      $zero, %lo(D_80B20130+2)($at) 
 /* 0123C 80B1EBBC 820D0A78 */  lb      $t5, 0x0A78($s0)           ## 00000A78
 /* 01240 80B1EBC0 3C014320 */  lui     $at, 0x4320                ## $at = 43200000
 /* 01244 80B1EBC4 59A00085 */  blezl   $t5, .L80B1EDDC            
@@ -989,7 +989,7 @@ glabel EnTorch2_Update
 /* 0124C 80B1EBCC C6060080 */  lwc1    $f6, 0x0080($s0)           ## 00000080
 /* 01250 80B1EBD0 44814000 */  mtc1    $at, $f8                   ## $f8 = 160.00
 /* 01254 80B1EBD4 C6040028 */  lwc1    $f4, 0x0028($s0)           ## 00000028
-/* 01258 80B1EBD8 3C0180B2 */  lui     $at, %hi(D_80B20154)       ## $at = 80B20000
+/* 01258 80B1EBD8 3C0180B2 */  lui     $at, %hi(D_80B20150+4)       ## $at = 80B20000
 /* 0125C 80B1EBDC 46083281 */  sub.s   $f10, $f6, $f8             
 /* 01260 80B1EBE0 460A203C */  c.lt.s  $f4, $f10                  
 /* 01264 80B1EBE4 00000000 */  nop
@@ -1004,7 +1004,7 @@ glabel EnTorch2_Update
 /* 01288 80B1EC08 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
 /* 0128C 80B1EC0C A2000A78 */  sb      $zero, 0x0A78($s0)         ## 00000A78
 /* 01290 80B1EC10 E6100060 */  swc1    $f16, 0x0060($s0)          ## 00000060
-/* 01294 80B1EC14 C4320154 */  lwc1    $f18, %lo(D_80B20154)($at) 
+/* 01294 80B1EC14 C4320154 */  lwc1    $f18, %lo(D_80B20150+4)($at) 
 /* 01298 80B1EC18 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 0129C 80B1EC1C 44813000 */  mtc1    $at, $f6                   ## $f6 = 40.00
 /* 012A0 80B1EC20 00000000 */  nop
@@ -1089,13 +1089,13 @@ glabel EnTorch2_Update
               ## coss?
 /* 013C4 80B1ED44 00042403 */  sra     $a0, $a0, 16               
 /* 013C8 80B1ED48 C7A20038 */  lwc1    $f2, 0x0038($sp)           
-/* 013CC 80B1ED4C 3C0180B2 */  lui     $at, %hi(D_80B20158)       ## $at = 80B20000
-/* 013D0 80B1ED50 C4240158 */  lwc1    $f4, %lo(D_80B20158)($at)  
+/* 013CC 80B1ED4C 3C0180B2 */  lui     $at, %hi(D_80B20150+8)       ## $at = 80B20000
+/* 013D0 80B1ED50 C4240158 */  lwc1    $f4, %lo(D_80B20150+8)($at)  
 /* 013D4 80B1ED54 46020202 */  mul.s   $f8, $f0, $f2              
-/* 013D8 80B1ED58 3C0180B2 */  lui     $at, %hi(D_80B20154)       ## $at = 80B20000
+/* 013D8 80B1ED58 3C0180B2 */  lui     $at, %hi(D_80B20150+4)       ## $at = 80B20000
 /* 013DC 80B1ED5C 46044280 */  add.s   $f10, $f8, $f4             
 /* 013E0 80B1ED60 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
-/* 013E4 80B1ED64 C4300154 */  lwc1    $f16, %lo(D_80B20154)($at) 
+/* 013E4 80B1ED64 C4300154 */  lwc1    $f16, %lo(D_80B20150+4)($at) 
 /* 013E8 80B1ED68 10000003 */  beq     $zero, $zero, .L80B1ED78   
 /* 013EC 80B1ED6C E6100028 */  swc1    $f16, 0x0028($s0)          ## 00000028
 /* 013F0 80B1ED70 C6120080 */  lwc1    $f18, 0x0080($s0)          ## 00000080
@@ -1166,7 +1166,7 @@ glabel EnTorch2_Update
 /* 014D0 80B1EE50 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 014D4 80B1EE54 3C1880B2 */  lui     $t8, %hi(D_80B2015E)       ## $t8 = 80B20000
 /* 014D8 80B1EE58 15C10013 */  bne     $t6, $at, .L80B1EEA8       
-/* 014DC 80B1EE5C 3C0580B2 */  lui     $a1, %hi(D_80B20136)       ## $a1 = 80B20000
+/* 014DC 80B1EE5C 3C0580B2 */  lui     $a1, %hi(D_80B20130+6)       ## $a1 = 80B20000
 /* 014E0 80B1EE60 8FA70078 */  lw      $a3, 0x0078($sp)           
 /* 014E4 80B1EE64 80ED0843 */  lb      $t5, 0x0843($a3)           ## 00000843
 /* 014E8 80B1EE68 51A00008 */  beql    $t5, $zero, .L80B1EE8C     
@@ -1183,9 +1183,9 @@ glabel EnTorch2_Update
 /* 0150C 80B1EE8C 3C0180B2 */  lui     $at, %hi(D_80B1F9F0)       ## $at = 80B20000
 /* 01510 80B1EE90 24060010 */  addiu   $a2, $zero, 0x0010         ## $a2 = 00000010
 /* 01514 80B1EE94 E428F9F0 */  swc1    $f8, %lo(D_80B1F9F0)($at)  
-/* 01518 80B1EE98 3C0180B2 */  lui     $at, %hi(D_80B20132)       ## $at = 80B20000
-/* 0151C 80B1EE9C A0200132 */  sb      $zero, %lo(D_80B20132)($at) 
-/* 01520 80B1EEA0 A0200133 */  sb      $zero, %lo(D_80B20133)($at) 
+/* 01518 80B1EE98 3C0180B2 */  lui     $at, %hi(D_80B20130+2)       ## $at = 80B20000
+/* 0151C 80B1EE9C A0200132 */  sb      $zero, %lo(D_80B20130+2)($at) 
+/* 01520 80B1EEA0 A0200133 */  sb      $zero, %lo(D_80B20130+3)($at) 
 /* 01524 80B1EEA4 A4260130 */  sh      $a2, %lo(D_80B20130)($at)  
 .L80B1EEA8:
 /* 01528 80B1EEA8 9318015E */  lbu     $t8, %lo(D_80B2015E)($t8)  
@@ -1210,12 +1210,12 @@ glabel EnTorch2_Update
 .L80B1EEF4:
 /* 01574 80B1EEF4 3C0680B2 */  lui     $a2, %hi(D_80B20130)       ## $a2 = 80B20000
 /* 01578 80B1EEF8 94C60130 */  lhu     $a2, %lo(D_80B20130)($a2)  
-/* 0157C 80B1EEFC 94A50136 */  lhu     $a1, %lo(D_80B20136)($a1)  
-/* 01580 80B1EF00 3C0180B2 */  lui     $at, %hi(D_80B2013C)       ## $at = 80B20000
+/* 0157C 80B1EEFC 94A50136 */  lhu     $a1, %lo(D_80B20130+6)($a1)  
+/* 01580 80B1EF00 3C0180B2 */  lui     $at, %hi(D_80B20130+12)       ## $at = 80B20000
 /* 01584 80B1EF04 30CB0010 */  andi    $t3, $a2, 0x0010           ## $t3 = 00000000
 /* 01588 80B1EF08 00A61826 */  xor     $v1, $a1, $a2              
 /* 0158C 80B1EF0C 00C3C824 */  and     $t9, $a2, $v1              
-/* 01590 80B1EF10 A439013C */  sh      $t9, %lo(D_80B2013C)($at)  
+/* 01590 80B1EF10 A439013C */  sh      $t9, %lo(D_80B20130+12)($at)  
 /* 01594 80B1EF14 1160000F */  beq     $t3, $zero, .L80B1EF54     
 /* 01598 80B1EF18 00C01025 */  or      $v0, $a2, $zero            ## $v0 = 80B20000
 /* 0159C 80B1EF1C 3C0C80B2 */  lui     $t4, %hi(D_80B20160)       ## $t4 = 80B20000
@@ -1236,34 +1236,34 @@ glabel EnTorch2_Update
 /* 015D0 80B1EF50 00C01025 */  or      $v0, $a2, $zero            ## $v0 = 00000010
 .L80B1EF54:
 /* 015D4 80B1EF54 00A36824 */  and     $t5, $a1, $v1              
-/* 015D8 80B1EF58 3C0180B2 */  lui     $at, %hi(D_80B20142)       ## $at = 80B20000
-/* 015DC 80B1EF5C A42D0142 */  sh      $t5, %lo(D_80B20142)($at)  
-/* 015E0 80B1EF60 3C0180B2 */  lui     $at, %hi(D_80B20136)       ## $at = 80B20000
+/* 015D8 80B1EF58 3C0180B2 */  lui     $at, %hi(D_80B20130+18)       ## $at = 80B20000
+/* 015DC 80B1EF5C A42D0142 */  sh      $t5, %lo(D_80B20130+18)($at)  
+/* 015E0 80B1EF60 3C0180B2 */  lui     $at, %hi(D_80B20130+6)       ## $at = 80B20000
 /* 015E4 80B1EF64 30583FFF */  andi    $t8, $v0, 0x3FFF           ## $t8 = 00000010
 /* 015E8 80B1EF68 3C0480B2 */  lui     $a0, %hi(D_80B20130)       ## $a0 = 80B20000
-/* 015EC 80B1EF6C A4380136 */  sh      $t8, %lo(D_80B20136)($at)  
+/* 015EC 80B1EF6C A4380136 */  sh      $t8, %lo(D_80B20130+6)($at)  
 /* 015F0 80B1EF70 24840130 */  addiu   $a0, $a0, %lo(D_80B20130)  ## $a0 = 80B20130
 /* 015F4 80B1EF74 0C03F31B */  jal     PadUtils_UpdateRelXY              
 /* 015F8 80B1EF78 A4260130 */  sh      $a2, %lo(D_80B20130)($at)  
-/* 015FC 80B1EF7C 3C0F80B2 */  lui     $t7, %hi(D_80B20132)       ## $t7 = 80B20000
-/* 01600 80B1EF80 3C0A80B2 */  lui     $t2, %hi(D_80B20138)       ## $t2 = 80B20000
-/* 01604 80B1EF84 814A0138 */  lb      $t2, %lo(D_80B20138)($t2)  
-/* 01608 80B1EF88 81EF0132 */  lb      $t7, %lo(D_80B20132)($t7)  
-/* 0160C 80B1EF8C 3C0E80B2 */  lui     $t6, %hi(D_80B2013E)       ## $t6 = 80B20000
-/* 01610 80B1EF90 81CE013E */  lb      $t6, %lo(D_80B2013E)($t6)  
+/* 015FC 80B1EF7C 3C0F80B2 */  lui     $t7, %hi(D_80B20130+2)       ## $t7 = 80B20000
+/* 01600 80B1EF80 3C0A80B2 */  lui     $t2, %hi(D_80B20130+8)       ## $t2 = 80B20000
+/* 01604 80B1EF84 814A0138 */  lb      $t2, %lo(D_80B20130+8)($t2)  
+/* 01608 80B1EF88 81EF0132 */  lb      $t7, %lo(D_80B20130+2)($t7)  
+/* 0160C 80B1EF8C 3C0E80B2 */  lui     $t6, %hi(D_80B20130+14)       ## $t6 = 80B20000
+/* 01610 80B1EF90 81CE013E */  lb      $t6, %lo(D_80B20130+14)($t6)  
 /* 01614 80B1EF94 01EA6023 */  subu    $t4, $t7, $t2              
-/* 01618 80B1EF98 3C0180B2 */  lui     $at, %hi(D_80B2013E)       ## $at = 80B20000
+/* 01618 80B1EF98 3C0180B2 */  lui     $at, %hi(D_80B20130+14)       ## $at = 80B20000
 /* 0161C 80B1EF9C 01CC6821 */  addu    $t5, $t6, $t4              
-/* 01620 80B1EFA0 A02D013E */  sb      $t5, %lo(D_80B2013E)($at)  
-/* 01624 80B1EFA4 3C0F80B2 */  lui     $t7, %hi(D_80B20139)       ## $t7 = 80B20000
-/* 01628 80B1EFA8 3C1880B2 */  lui     $t8, %hi(D_80B20133)       ## $t8 = 80B20000
-/* 0162C 80B1EFAC 83180133 */  lb      $t8, %lo(D_80B20133)($t8)  
-/* 01630 80B1EFB0 81EF0139 */  lb      $t7, %lo(D_80B20139)($t7)  
-/* 01634 80B1EFB4 3C0E80B2 */  lui     $t6, %hi(D_80B2013F)       ## $t6 = 80B20000
-/* 01638 80B1EFB8 81CE013F */  lb      $t6, %lo(D_80B2013F)($t6)  
+/* 01620 80B1EFA0 A02D013E */  sb      $t5, %lo(D_80B20130+14)($at)  
+/* 01624 80B1EFA4 3C0F80B2 */  lui     $t7, %hi(D_80B20130+9)       ## $t7 = 80B20000
+/* 01628 80B1EFA8 3C1880B2 */  lui     $t8, %hi(D_80B20130+3)       ## $t8 = 80B20000
+/* 0162C 80B1EFAC 83180133 */  lb      $t8, %lo(D_80B20130+3)($t8)  
+/* 01630 80B1EFB0 81EF0139 */  lb      $t7, %lo(D_80B20130+9)($t7)  
+/* 01634 80B1EFB4 3C0E80B2 */  lui     $t6, %hi(D_80B20130+15)       ## $t6 = 80B20000
+/* 01638 80B1EFB8 81CE013F */  lb      $t6, %lo(D_80B20130+15)($t6)  
 /* 0163C 80B1EFBC 030F5823 */  subu    $t3, $t8, $t7              
 /* 01640 80B1EFC0 01CB6021 */  addu    $t4, $t6, $t3              
-/* 01644 80B1EFC4 A02C013F */  sb      $t4, %lo(D_80B2013F)($at)  
+/* 01644 80B1EFC4 A02C013F */  sb      $t4, %lo(D_80B20130+15)($at)  
 /* 01648 80B1EFC8 920D00AF */  lbu     $t5, 0x00AF($s0)           ## 000000AF
 /* 0164C 80B1EFCC 15A0000C */  bne     $t5, $zero, .L80B1F000     
 /* 01650 80B1EFD0 3C1880B2 */  lui     $t8, %hi(D_80B1FA04)       ## $t8 = 80B20000
@@ -1453,14 +1453,14 @@ glabel EnTorch2_Update
 /* 018FC 80B1F27C 358D0004 */  ori     $t5, $t4, 0x0004           ## $t5 = 00000004
 /* 01900 80B1F280 A20D0692 */  sb      $t5, 0x0692($s0)           ## 00000692
 /* 01904 80B1F284 AE0F067C */  sw      $t7, 0x067C($s0)           ## 0000067C
-/* 01908 80B1F288 3C0180B2 */  lui     $at, %hi(D_80B2013F)       ## $at = 80B20000
-/* 0190C 80B1F28C A020013F */  sb      $zero, %lo(D_80B2013F)($at) 
-/* 01910 80B1F290 A020013E */  sb      $zero, %lo(D_80B2013E)($at) 
+/* 01908 80B1F288 3C0180B2 */  lui     $at, %hi(D_80B20130+15)       ## $at = 80B20000
+/* 0190C 80B1F28C A020013F */  sb      $zero, %lo(D_80B20130+15)($at) 
+/* 01910 80B1F290 A020013E */  sb      $zero, %lo(D_80B20130+14)($at) 
 /* 01914 80B1F294 3C0180B2 */  lui     $at, %hi(D_80B20130)       ## $at = 80B20000
 /* 01918 80B1F298 44809000 */  mtc1    $zero, $f18                ## $f18 = 0.00
 /* 0191C 80B1F29C A4200130 */  sh      $zero, %lo(D_80B20130)($at) 
-/* 01920 80B1F2A0 3C0180B2 */  lui     $at, %hi(D_80B2013C)       ## $at = 80B20000
-/* 01924 80B1F2A4 A420013C */  sh      $zero, %lo(D_80B2013C)($at) 
+/* 01920 80B1F2A0 3C0180B2 */  lui     $at, %hi(D_80B20130+12)       ## $at = 80B20000
+/* 01924 80B1F2A4 A420013C */  sh      $zero, %lo(D_80B20130+12)($at) 
 /* 01928 80B1F2A8 E6120838 */  swc1    $f18, 0x0838($s0)          ## 00000838
 .L80B1F2AC:
 /* 0192C 80B1F2AC 8FAA002C */  lw      $t2, 0x002C($sp)           
