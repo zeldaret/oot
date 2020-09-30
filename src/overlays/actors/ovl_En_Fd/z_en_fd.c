@@ -646,12 +646,12 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFd* this = THIS;
     s32 clampedHealth;
-    Color_RGBA8_n primColors[] = {
+    Color_RGBA8 primColors[] = {
         { 255, 255, 200, 255 },
         { 200, 200, 200, 255 },
         { 255, 255, 0, 255 },
     };
-    Color_RGBA8_n envColors[] = {
+    Color_RGBA8 envColors[] = {
         { 0, 255, 0, 255 },
         { 0, 0, 255, 255 },
         { 255, 0, 0, 255 },
@@ -739,7 +739,7 @@ void EnFd_UpdateFlameParticles(EnFd* this) {
 void EnFd_UpdateDotParticles(EnFd* this) {
     EnFdPart* part = this->particles;
     s16 i;
-    Color_RGBA8_n dotColors[] = {
+    Color_RGBA8 dotColors[] = {
         { 255, 128, 0, 0 },
         { 255, 0, 0, 0 },
         { 255, 255, 0, 0 },

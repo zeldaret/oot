@@ -192,11 +192,11 @@ void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Color_RGBA8_n primColors[] = {
+    Color_RGBA8 primColors[] = {
         { 255, 255, 0, 255 },
         { 255, 255, 255, 255 },
     };
-    Color_RGBA8_n envColors[] = {
+    Color_RGBA8 envColors[] = {
         { 255, 10, 0, 255 },
         { 0, 10, 255, 255 },
     };
