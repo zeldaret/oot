@@ -265,7 +265,7 @@ glabel func_8002FBAC
 /* AA706C 8002FECC AFAB0010 */  sw    $t3, 0x10($sp)
 /* AA7070 8002FED0 AFAC0014 */  sw    $t4, 0x14($sp)
 /* AA7074 8002FED4 8FA400F8 */  lw    $a0, 0xf8($sp)
-/* AA7078 8002FED8 0C00A2EC */  jal   func_80028BB0
+/* AA7078 8002FED8 0C00A2EC */  jal   EffectSsKiraKira_SpawnDispersed
 /* AA707C 8002FEDC 27A500A4 */   addiu $a1, $sp, 0xa4
 /* AA7080 8002FEE0 3C018016 */  lui   $at, %hi(D_8015BC18)
 /* AA7084 8002FEE4 C428BC18 */  lwc1  $f8, %lo(D_8015BC18)($at)

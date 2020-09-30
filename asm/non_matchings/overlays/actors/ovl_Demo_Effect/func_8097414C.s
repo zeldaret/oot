@@ -78,7 +78,7 @@ glabel func_8097414C
 /* 0330C 8097425C 02603825 */  or      $a3, $s3, $zero            ## $a3 = FFFFFFE8
 /* 03310 80974260 AFB40010 */  sw      $s4, 0x0010($sp)           
 /* 03314 80974264 E7B00084 */  swc1    $f16, 0x0084($sp)          
-/* 03318 80974268 0C00A2EC */  jal     func_80028BB0              
+/* 03318 80974268 0C00A2EC */  jal     EffectSsKiraKira_SpawnDispersed              
 /* 0331C 8097426C AFB50014 */  sw      $s5, 0x0014($sp)           
 /* 03320 80974270 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 03324 80974274 1616FFEA */  bne     $s0, $s6, .L80974220       
