@@ -67,7 +67,7 @@ glabel func_80A22250
 /* 00488 80A22348 448E2000 */  mtc1    $t6, $f4                   ## $f4 = 0.00
 /* 0048C 80A2234C 00000000 */  nop
 /* 00490 80A22350 468021A0 */  cvt.s.w $f6, $f4                   
-/* 00494 80A22354 0C00A732 */  jal     func_80029CC8              
+/* 00494 80A22354 0C00A732 */  jal     EffectSsHitMark_SpawnCustomScale              
 /* 00498 80A22358 E7A60058 */  swc1    $f6, 0x0058($sp)           
 /* 0049C 80A2235C 86220150 */  lh      $v0, 0x0150($s1)           ## 00000150
 /* 004A0 80A22360 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
@@ -82,7 +82,7 @@ glabel func_80A22250
 /* 004C4 80A22384 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 004C8 80A22388 27A60038 */  addiu   $a2, $sp, 0x0038           ## $a2 = FFFFFFD0
 /* 004CC 80A2238C 27A70044 */  addiu   $a3, $sp, 0x0044           ## $a3 = FFFFFFDC
-/* 004D0 80A22390 0C00A97D */  jal     func_8002A5F4              
+/* 004D0 80A22390 0C00A97D */  jal     EffectSsExtra_Spawn              
 /* 004D4 80A22394 E7A8003C */  swc1    $f8, 0x003C($sp)           
 /* 004D8 80A22398 86220150 */  lh      $v0, 0x0150($s1)           ## 00000150
 .L80A2239C:

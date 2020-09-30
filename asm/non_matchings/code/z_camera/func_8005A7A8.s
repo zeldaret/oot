@@ -1,6 +1,6 @@
 .rdata
 glabel D_80139CC0
-    .asciz "\x1B[41;37mcamera: error: illegal camera ID (%d) !! (%d|%d|%d)\n\x1B[m"
+    .asciz "\x1b[41;37mcamera: error: illegal camera ID (%d) !! (%d|%d|%d)\n\x1b[m"
     .balign 4
 
 .text

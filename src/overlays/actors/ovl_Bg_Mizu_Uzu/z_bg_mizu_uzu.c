@@ -28,8 +28,8 @@ const ActorInit Bg_Mizu_Uzu_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_F8, 1000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
@@ -59,12 +59,12 @@ void BgMizuUzu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (PLAYER->currentBoots == 1) {
+    if (PLAYER->currentBoots == PLAYER_BOOTS_IRON) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     } else {
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
-    Audio_PlayActorSound2(thisx, 0x20CD);
+    Audio_PlayActorSound2(thisx, NA_SE_EV_WATER_CONVECTION - SFX_FLAG);
     thisx->shape.rot.y += 0x1C0;
 }
 

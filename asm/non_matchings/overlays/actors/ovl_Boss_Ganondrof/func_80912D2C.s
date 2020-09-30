@@ -1,3 +1,86 @@
+.rdata
+glabel D_809152F8
+    .asciz "PYP %f\n"
+    .balign 4
+
+glabel D_80915300
+    .asciz "7\n"
+    .balign 4
+
+glabel D_80915304
+    .asciz "8\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8091545C
+    .word L80912E00
+    .word L80912FB4
+    .word L809131C4
+    .word L80913424
+    .word L809134B4
+    .word L8091352C
+
+glabel D_80915474
+    .float 0.2
+
+glabel D_80915478
+    .float 0.02
+
+glabel D_8091547C
+    .float 0.05
+
+glabel D_80915480
+    .float 0.05
+
+glabel D_80915484
+    .float 0.05
+
+glabel D_80915488
+    .float -3315.0
+
+glabel D_8091548C
+    .float -3315.0
+
+glabel D_80915490
+    .float -3315.0
+
+glabel D_80915494
+    .float -3315.0
+
+glabel D_80915498
+    .float -3315.0
+
+glabel D_8091549C
+    .float -3265.0
+
+glabel D_809154A0
+    .float -3315.0
+
+glabel D_809154A4
+    .float -3315.0
+
+glabel D_809154A8
+    .float -3115.0
+
+glabel D_809154AC
+    .float -0.2
+
+glabel D_809154B0
+    .float 0.002
+
+glabel D_809154B4
+    .float -3315.0
+
+glabel D_809154B8
+    .float 0.002
+
+glabel D_809154BC
+    .float 0.001
+
+glabel D_809154C0
+    .float 0.001
+
+.text
 glabel func_80912D2C
 /* 026EC 80912D2C 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 026F0 80912D30 AFB40048 */  sw      $s4, 0x0048($sp)
@@ -340,7 +423,7 @@ glabel L809131C4
 /* 02BD0 80913210 2407006D */  addiu   $a3, $zero, 0x006D         ## $a3 = 0000006D
 /* 02BD4 80913214 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 02BD8 80913218 E7A60014 */  swc1    $f6, 0x0014($sp)
-/* 02BDC 8091321C 0C00C916 */  jal     Actor_SpawnAttached
+/* 02BDC 8091321C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 02BE0 80913220 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 02BE4 80913224 AE50011C */  sw      $s0, 0x011C($s2)           ## 0000011C
@@ -868,7 +951,7 @@ glabel L8091352C
 /* 03370 809139B0 0018CC03 */  sra     $t9, $t8, 16
 /* 03374 809139B4 2728000F */  addiu   $t0, $t9, 0x000F           ## $t0 = 0000000F
 /* 03378 809139B8 AFA80010 */  sw      $t0, 0x0010($sp)
-/* 0337C 809139BC 0C00A76F */  jal     func_80029DBC
+/* 0337C 809139BC 0C00A76F */  jal     EffectSsKFire_Spawn
 /* 03380 809139C0 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 03384 809139C4 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float
@@ -902,7 +985,7 @@ glabel L8091352C
 /* 033EC 80913A2C 27A60088 */  addiu   $a2, $sp, 0x0088           ## $a2 = FFFFFFC8
 /* 033F0 80913A30 27A70070 */  addiu   $a3, $sp, 0x0070           ## $a3 = FFFFFFB0
 /* 033F4 80913A34 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 033F8 80913A38 0C00A5C9 */  jal     func_80029724
+/* 033F8 80913A38 0C00A5C9 */  jal     EffectSsHahen_Spawn
 /* 033FC 80913A3C AFA00020 */  sw      $zero, 0x0020($sp)
 .L80913A40:
 /* 03400 80913A40 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001

@@ -1,3 +1,65 @@
+.rdata
+glabel D_80AB880C
+    .asciz "\x1b[32m☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8838
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8868
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8898
+    .asciz "\x1b[31m☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB88C8
+    .asciz "\x1b[32m☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB88F8
+    .asciz "\x1b[32m☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8928
+    .asciz "\x1b[32m☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8958
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB8988
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB89B8
+    .asciz "\x1b[33m☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n\x1b[m"
+    .balign 4
+
+glabel D_80AB89E8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB89EC
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB89F0
+    .asciz "\x1b[33m☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+glabel D_80AB8A1C
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB8B0C
+    .float -0.15
+
+.text
 glabel EnNiw_Update
 /* 01DB4 80AB7534 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 01DB8 80AB7538 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -528,7 +590,7 @@ glabel EnNiw_Update
 /* 02528 80AB7CA8 A62A025A */  sh      $t2, 0x025A($s1)           ## 0000025A
 /* 0252C 80AB7CAC AFAC0014 */  sw      $t4, 0x0014($sp)           
 /* 02530 80AB7CB0 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 02534 80AB7CB4 0C00A527 */  jal     func_8002949C              
+/* 02534 80AB7CB4 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 02538 80AB7CB8 8FA400E4 */  lw      $a0, 0x00E4($sp)           
 /* 0253C 80AB7CBC 3C0480AC */  lui     $a0, %hi(D_80AB89EC)       ## $a0 = 80AC0000
 /* 02540 80AB7CC0 A620025C */  sh      $zero, 0x025C($s1)         ## 0000025C

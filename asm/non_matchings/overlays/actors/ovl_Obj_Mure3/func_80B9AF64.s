@@ -9,7 +9,7 @@ glabel func_80B9AF64
 /* 0059C 80B9AF6C AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 005A0 80B9AF70 C48E00EC */  lwc1    $f14, 0x00EC($a0)          ## 000000EC
 /* 005A4 80B9AF74 C48C00E4 */  lwc1    $f12, 0x00E4($a0)          ## 000000E4
-/* 005A8 80B9AF78 0C032D57 */  jal     func_800CB55C              
+/* 005A8 80B9AF78 0C032D57 */  jal     Math3D_Dist1DSq              
 /* 005AC 80B9AF7C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 005B0 80B9AF80 3C0180BA */  lui     $at, %hi(D_80B9B0E0)       ## $at = 80BA0000
 /* 005B4 80B9AF84 C424B0E0 */  lwc1    $f4, %lo(D_80B9B0E0)($at)  

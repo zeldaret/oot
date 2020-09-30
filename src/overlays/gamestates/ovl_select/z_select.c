@@ -40,7 +40,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.unk_13C7 = 1;
     D_8011FB30 = 0;
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext)
+    SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }
 
 static SceneSelectEntry sScenes[] = {
@@ -172,8 +172,6 @@ static SceneSelectEntry sScenes[] = {
     { "title", Select_LoadTitle, 0x0000 },
 };
 
-#ifdef NON_MATCHING
-// mostly regalloc, a good amount of instruction ordering. confirmed equivalent in game.
 void Select_UpdateMenu(SelectContext* this) {
     Input* controller1;
     s32 pad;
@@ -315,7 +313,8 @@ void Select_UpdateMenu(SelectContext* this) {
     }
 
     if (CHECK_PAD(controller1->press, L_TRIG)) {
-        this->unk_1DC = (++this->unk_1DC + 7) % 7;
+        this->unk_1DC++;
+        this->unk_1DC = (this->unk_1DC + 7) % 7;
         this->currentScene = this->unk_20C = this->unk_1E0[this->unk_1DC];
     }
 
@@ -325,9 +324,12 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_220 = 0;
         this->unk_21C = 0;
 
-        this->currentScene = (++this->currentScene + this->count) % this->count;
+        this->currentScene++;
+        this->currentScene = (this->currentScene + this->count) % this->count;
+
         if (this->currentScene == ((this->unk_20C + this->count + 0x13) % this->count)) {
-            this->unk_20C = (++this->unk_20C + this->count) % this->count;
+            this->unk_20C++;
+            this->unk_20C = (this->unk_20C + this->count) % this->count;
         }
     }
 
@@ -336,13 +338,16 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_21C = 0;
 
         if (this->currentScene == this->unk_20C) {
-            this->unk_20C = ((this->unk_20C - 2) + this->count) % this->count;
+            this->unk_20C -= 2;
+            this->unk_20C = (this->unk_20C + this->count) % this->count;
         }
 
-        this->currentScene = ((--this->currentScene) + this->count) % this->count;
+        this->currentScene--;
+        this->currentScene = (this->currentScene + this->count) % this->count;
 
         if (this->currentScene == ((this->unk_20C + this->count) % this->count)) {
-            this->unk_20C = (--this->unk_20C + this->count) % this->count;
+            this->unk_20C--;
+            this->unk_20C = (this->unk_20C + this->count) % this->count;
         }
     }
 
@@ -369,9 +374,6 @@ void Select_UpdateMenu(SelectContext* this) {
         this->unk_230 = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_select/Select_UpdateMenu.s")
-#endif
 
 void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
     s32 scene;
@@ -501,68 +503,57 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
 }
 
 void Select_DrawMenu(SelectContext* this) {
-    s32 arg;
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
     GfxPrint* printer;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = this->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 930);
+    OPEN_DISPS(gfxCtx, "../z_select.c", 930);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
-    SET_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, gfxCtx->polyOpa.p);
+    GfxPrint_Open(printer, oGfxCtx->polyOpa.p);
     Select_PrintMenu(this, printer);
-    arg = gSaveContext.linkAge;
-    Select_PrintAgeSetting(this, printer, arg);
-    arg = gSaveContext.cutsceneIndex;
-    Select_PrintCutsceneSetting(this, printer, arg);
-    gfxCtx->polyOpa.p = GfxPrint_Close(printer);
+    Select_PrintAgeSetting(this, printer, ((void)0, gSaveContext.linkAge));
+    Select_PrintCutsceneSetting(this, printer, ((void)0, gSaveContext.cutsceneIndex));
+    oGfxCtx->polyOpa.p = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_select.c", 966);
+    CLOSE_DISPS(gfxCtx, "../z_select.c", 966);
 }
 
 void Select_DrawLoadingScreen(SelectContext* this) {
-    s32 pad;
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
     GfxPrint* printer;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = this->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 977);
+    OPEN_DISPS(gfxCtx, "../z_select.c", 977);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
-    SET_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, gfxCtx->polyOpa.p);
+    GfxPrint_Open(printer, oGfxCtx->polyOpa.p);
     Select_PrintLoadingMessage(this, printer);
-    gfxCtx->polyOpa.p = GfxPrint_Close(printer);
+    oGfxCtx->polyOpa.p = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_select.c", 1006);
+    CLOSE_DISPS(gfxCtx, "../z_select.c", 1006);
 }
 
 void Select_Draw(SelectContext* this) {
-    s32 pad;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
 
-    gfxCtx = this->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 1013);
+    OPEN_DISPS(gfxCtx, "../z_select.c", 1013);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
-    SET_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
 
     if (!this->state.running) {
@@ -571,7 +562,7 @@ void Select_Draw(SelectContext* this) {
         Select_DrawMenu(this);
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_select.c", 1037);
+    CLOSE_DISPS(gfxCtx, "../z_select.c", 1037);
 }
 
 void Select_Main(SelectContext* this) {

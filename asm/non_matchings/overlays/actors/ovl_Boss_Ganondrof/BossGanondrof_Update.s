@@ -1,3 +1,29 @@
+.rdata
+glabel D_80915314
+    .asciz "MOVE START %d\n"
+    .balign 4
+
+glabel D_80915324
+    .asciz "MOVE START EEEEEEEEEEEEEEEEEEEEEE%d\n"
+    .balign 4
+
+glabel D_8091534C
+    .asciz "MOVE END\n"
+    .balign 4
+
+glabel D_80915358
+    .asciz "F 1\n"
+    .balign 4
+
+glabel D_80915360
+    .asciz "F 15\n"
+    .balign 4
+
+glabel D_80915368
+    .asciz "F 2\n"
+    .balign 4
+
+.text
 glabel BossGanondrof_Update
 /* 0384C 80913E8C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 03850 80913E90 AFB1002C */  sw      $s1, 0x002C($sp)           
@@ -264,7 +290,7 @@ glabel BossGanondrof_Update
 /* 03BE0 80914220 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03BE4 80914224 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 03BE8 80914228 8FA60048 */  lw      $a2, 0x0048($sp)           
-/* 03BEC 8091422C 0C00A757 */  jal     func_80029D5C              
+/* 03BEC 8091422C 0C00A757 */  jal     EffectSsFhgFlash_SpawnShock              
 /* 03BF0 80914230 2407002D */  addiu   $a3, $zero, 0x002D         ## $a3 = 0000002D
 /* 03BF4 80914234 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 03BF8 80914238 00108400 */  sll     $s0, $s0, 16               
@@ -303,7 +329,7 @@ glabel BossGanondrof_Update
 /* 03C74 809142B4 AFB9001C */  sw      $t9, 0x001C($sp)           
 /* 03C78 809142B8 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 03C7C 809142BC AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 03C80 809142C0 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 03C80 809142C0 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 03C84 809142C4 AFB80010 */  sw      $t8, 0x0010($sp)           
 .L809142C8:

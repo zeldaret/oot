@@ -1,8 +1,90 @@
-#include <ultra64.h>
-#include <global.h>
+/*
+ * File: z_eff_ss_blast.c
+ * Overlay: ovl_Effect_Ss_Blast
+ * Description: Shockwave Effect
+ */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Blast/func_8099EDB0.s")
+#include "z_eff_ss_blast.h"
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Blast/func_8099EF08.s")
+#define rPrimColorR regs[0]
+#define rPrimColorG regs[1]
+#define rPrimColorB regs[2]
+#define rPrimColorA regs[3]
+#define rEnvColorR regs[4]
+#define rEnvColorG regs[5]
+#define rEnvColorB regs[6]
+#define rEnvColorA regs[7]
+#define rAlphaTarget regs[8]
+#define rScale regs[9]
+#define rScaleStep regs[10]
+#define rScaleStepDecay regs[11]
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Blast/func_8099F0AC.s")
+u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+
+EffectSsInit Effect_Ss_Blast_InitVars = {
+    EFFECT_SS_BLAST,
+    EffectSsBlast_Init,
+};
+
+extern Gfx D_0401A0B0[];
+
+u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsBlastParams* initParams = (EffectSsBlastParams*)initParamsx;
+
+    this->pos = initParams->pos;
+    this->pos.y += 5.0f;
+    this->velocity = initParams->velocity;
+    this->accel = initParams->accel;
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_0401A0B0);
+    this->life = initParams->life;
+    this->draw = EffectSsBlast_Draw;
+    this->update = EffectSsBlast_Update;
+    this->rPrimColorR = initParams->primColor.r;
+    this->rPrimColorG = initParams->primColor.g;
+    this->rPrimColorB = initParams->primColor.b;
+    this->rPrimColorA = initParams->primColor.a;
+    this->rEnvColorR = initParams->envColor.r;
+    this->rEnvColorG = initParams->envColor.g;
+    this->rEnvColorB = initParams->envColor.b;
+    this->rEnvColorA = initParams->envColor.a;
+    this->rAlphaTarget = initParams->primColor.a / initParams->life;
+    this->rScale = initParams->scale;
+    this->rScaleStep = initParams->scaleStep;
+    this->rScaleStepDecay = initParams->sclaeStepDecay;
+    return 1;
+}
+
+void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    MtxF mf;
+    s32 pad;
+    f32 radius;
+
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_blast.c", 170);
+
+    radius = this->rScale * 0.0025f;
+
+    func_80093D84(globalCtx->state.gfxCtx);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+    func_800BFCB8(globalCtx, &mf, &this->pos);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                    this->rPrimColorA);
+    Matrix_Put(&mf);
+    Matrix_Scale(radius, radius, radius, MTXMODE_APPLY);
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_blast.c", 204);
+}
+
+void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    Math_ApproxS(&this->rPrimColorA, 0, this->rAlphaTarget);
+    this->rScale += this->rScaleStep;
+
+    if (this->rScaleStep != 0) {
+        this->rScaleStep -= this->rScaleStepDecay;
+    }
+}

@@ -1,10 +1,10 @@
 .rdata
 glabel D_80139C58
-    .asciz "\x1B[41;37mcamera: error: illegal camera set (%d) !!!!\n\x1B[m"
+    .asciz "\x1b[41;37mcamera: error: illegal camera set (%d) !!!!\n\x1b[m"
     .balign 4
 
 glabel D_80139C90
-    .asciz "\x1B[1m%06u:\x1B[m camera: change camera[%d] set %s\n"
+    .asciz "\x1b[1m%06u:\x1b[m camera: change camera[%d] set %s\n"
     .balign 4
 
 .text

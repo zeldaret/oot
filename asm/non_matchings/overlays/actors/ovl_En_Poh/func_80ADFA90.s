@@ -258,7 +258,7 @@ glabel func_80ADFA90
 /* 020B0 80ADFE00 00073C00 */  sll     $a3, $a3, 16               
 /* 020B4 80ADFE04 00073C03 */  sra     $a3, $a3, 16               
 /* 020B8 80ADFE08 AFAB0018 */  sw      $t3, 0x0018($sp)           
-/* 020BC 80ADFE0C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 020BC 80ADFE0C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 020C0 80ADFE10 AFAD001C */  sw      $t5, 0x001C($sp)           
 /* 020C4 80ADFE14 8FBF002C */  lw      $ra, 0x002C($sp)           

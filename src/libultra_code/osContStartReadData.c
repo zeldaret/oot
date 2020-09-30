@@ -1,56 +1,56 @@
 #include <ultra64.h>
 #include <global.h>
-
 #include <ultra64/controller.h>
 
 s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret;
-    __osSiGetAccess(); // __osSiGetAccess
-    if (_osCont_lastPollType != 1) {
+    __osSiGetAccess();
+    if (__osContLastPoll != 1) {
         __osPackReadData();
-        __osSiRawStartDma(OS_WRITE, &_osPifInternalBuff);
+        __osSiRawStartDma(OS_WRITE, &__osPifInternalBuff);
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
     }
-    ret = __osSiRawStartDma(OS_READ, &_osPifInternalBuff);
-    _osCont_lastPollType = 1;
+    ret = __osSiRawStartDma(OS_READ, &__osPifInternalBuff);
+    __osContLastPoll = CONT_CMD_READ_BUTTON;
     __osSiRelAccess();
     return ret;
 }
 
-void osContGetReadData(OSContPad* pad) {
-    PIF_IO_slot_t* slot_ptr;
-    PIF_IO_slot_t slot;
+void osContGetReadData(OSContPad* contData) {
+    u8* bufptr;
+    __OSContReadHeader read;
     s32 i;
-    slot_ptr = _osPifInternalBuff.slots;
-    for (i = 0; i < _osCont_numControllers; i++, slot_ptr++, pad++) {
-        slot = *slot_ptr;
-        pad->errno = (slot.hdr.status_hi_bytes_rec_lo & 0xc0) >> 4;
-        if (pad->errno == 0) {
-            pad->button = slot.input.button;
-            pad->stick_x = slot.input.x;
-            pad->stick_y = slot.input.y;
+    bufptr = (u8*)(&__osPifInternalBuff);
+    for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(read), contData++) {
+        read = *((__OSContReadHeader*)bufptr);
+        contData->errno = (read.rxsize & 0xC0) >> 4;
+        if (contData->errno == 0) {
+            contData->button = read.button;
+            contData->stick_x = read.joyX;
+            contData->stick_y = read.joyY;
         }
     };
 }
 
 void __osPackReadData() {
-    PIF_IO_slot_t* slot_ptr;
-    PIF_IO_slot_t slot;
+    u8* bufptr;
+    __OSContReadHeader read;
     s32 i;
-    slot_ptr = _osPifInternalBuff.slots;
+    bufptr = (u8*)(&__osPifInternalBuff);
     for (i = 0; i < 0xF; i++) {
-        _osPifInternalBuff.words[i] = 0;
+        __osPifInternalBuff.ram[i] = 0;
     }
-    _osPifInternalBuff.status_control = 1;
-    slot.hdr.slot_type = 0xFF;
-    slot.hdr.bytes_send = 1;
-    slot.hdr.status_hi_bytes_rec_lo = 4;
-    slot.hdr.command = 1;
-    slot.input.button = 0xFFFF;
-    slot.input.x = 0xFF;
-    slot.input.y = 0xFF;
-    for (i = 0; i < _osCont_numControllers; i++) {
-        *slot_ptr++ = slot;
+    __osPifInternalBuff.status = 1;
+    read.align = 0xFF;
+    read.txsize = 1;
+    read.rxsize = 4;
+    read.poll = CONT_CMD_READ_BUTTON;
+    read.button = 0xFFFF;
+    read.joyX = 0xFF;
+    read.joyY = 0xFF;
+    for (i = 0; i < __osMaxControllers; i++) {
+        *((__OSContReadHeader*)bufptr) = read;
+        bufptr += sizeof(read);
     }
-    slot_ptr->hdr.slot_type = 0xFE;
+    *((u8*)bufptr) = CONT_CMD_END;
 }

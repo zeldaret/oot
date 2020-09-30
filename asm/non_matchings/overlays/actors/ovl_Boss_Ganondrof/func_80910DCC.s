@@ -1,3 +1,13 @@
+.rdata
+glabel D_80915150
+    .asciz "SW %d------------------------------------------------\n"
+    .balign 4
+
+.late_rodata
+glabel D_80915414
+    .float 0.03
+
+.text
 glabel func_80910DCC
 /* 0078C 80910DCC 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 00790 80910DD0 AFBF0054 */  sw      $ra, 0x0054($sp)
@@ -92,7 +102,7 @@ glabel func_80910DCC
 /* 008DC 80910F1C 000E7C00 */  sll     $t7, $t6, 16
 /* 008E0 80910F20 000FC403 */  sra     $t8, $t7, 16
 /* 008E4 80910F24 27190005 */  addiu   $t9, $t8, 0x0005           ## $t9 = 00000005
-/* 008E8 80910F28 0C00A76F */  jal     func_80029DBC
+/* 008E8 80910F28 0C00A76F */  jal     EffectSsKFire_Spawn
 /* 008EC 80910F2C AFB90010 */  sw      $t9, 0x0010($sp)
 /* 008F0 80910F30 866201BE */  lh      $v0, 0x01BE($s3)           ## 000001BE
 .L80910F34:
@@ -181,7 +191,7 @@ glabel func_80910DCC
 /* 00A20 80911060 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 00A24 80911064 2407006D */  addiu   $a3, $zero, 0x006D         ## $a3 = 0000006D
 /* 00A28 80911068 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 00A2C 8091106C 0C00C916 */  jal     Actor_SpawnAttached
+/* 00A2C 8091106C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00A30 80911070 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00A34 80911074 AE70011C */  sw      $s0, 0x011C($s3)           ## 0000011C

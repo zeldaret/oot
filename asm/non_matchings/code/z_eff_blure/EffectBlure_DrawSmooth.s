@@ -93,7 +93,7 @@ glabel EffectBlure_DrawSmooth
 /* A991CC 8002202C 46804220 */  cvt.s.w $f8, $f8
 /* A991D0 80022030 44063000 */  mfc1  $a2, $f6
 /* A991D4 80022034 44074000 */  mfc1  $a3, $f8
-/* A991D8 80022038 0C029E89 */  jal   func_800A7A24
+/* A991D8 80022038 0C029E89 */  jal   SkinMatrix_SetTranslate
 /* A991DC 8002203C 00000000 */   nop   
 /* A991E0 80022040 3C018013 */  lui   $at, %hi(D_80135448)
 /* A991E4 80022044 C4205448 */  lwc1  $f0, %lo(D_80135448)($at)
@@ -102,14 +102,14 @@ glabel EffectBlure_DrawSmooth
 /* A991F0 80022050 44050000 */  mfc1  $a1, $f0
 /* A991F4 80022054 44060000 */  mfc1  $a2, $f0
 /* A991F8 80022058 44070000 */  mfc1  $a3, $f0
-/* A991FC 8002205C 0C029DA9 */  jal   func_800A76A4
+/* A991FC 8002205C 0C029DA9 */  jal   SkinMatrix_SetScale
 /* A99200 80022060 00000000 */   nop   
 /* A99204 80022064 02002025 */  move  $a0, $s0
 /* A99208 80022068 02202825 */  move  $a1, $s1
-/* A9920C 8002206C 0C029BE8 */  jal   func_800A6FA0
+/* A9920C 8002206C 0C029BE8 */  jal   SkinMatrix_MtxFMtxFMult
 /* A99210 80022070 27A6005C */   addiu $a2, $sp, 0x5c
 /* A99214 80022074 02A02025 */  move  $a0, $s5
-/* A99218 80022078 0C029F9C */  jal   func_800A7E70
+/* A99218 80022078 0C029F9C */  jal   SkinMatrix_MtxFToNewMtx
 /* A9921C 8002207C 27A5005C */   addiu $a1, $sp, 0x5c
 /* A99220 80022080 50400056 */  beql  $v0, $zero, .L800221DC
 /* A99224 80022084 8FBF002C */   lw    $ra, 0x2c($sp)

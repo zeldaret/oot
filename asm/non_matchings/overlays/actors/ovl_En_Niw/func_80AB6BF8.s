@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80AB8AE8
+    .float 5000.0
+
+glabel D_80AB8AEC
+    .float 5000.0
+
+glabel D_80AB8AF0
+    .float 5000.0
+
+.text
 glabel func_80AB6BF8
 /* 01478 80AB6BF8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0147C 80AB6BFC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -36,7 +47,7 @@ glabel func_80AB6BF8
 /* 014F0 80AB6C70 440C4000 */  mfc1    $t4, $f8                   
 /* 014F4 80AB6C74 00000000 */  nop
 /* 014F8 80AB6C78 A60C00B8 */  sh      $t4, 0x00B8($s0)           ## 000000B8
-/* 014FC 80AB6C7C 0C00BD68 */  jal     func_8002F5A0              
+/* 014FC 80AB6C7C 0C00BD68 */  jal     Actor_HasNoParent              
 /* 01500 80AB6C80 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01504 80AB6C84 10400018 */  beq     $v0, $zero, .L80AB6CE8     
 /* 01508 80AB6C88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

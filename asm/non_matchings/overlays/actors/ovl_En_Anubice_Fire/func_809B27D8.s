@@ -107,7 +107,7 @@ glabel func_809B27D8
 /* 003B0 809B2950 31F80004 */  andi    $t8, $t7, 0x0004           ## $t8 = 00000000
 /* 003B4 809B2954 53000035 */  beql    $t8, $zero, .L809B2A2C     
 /* 003B8 809B2958 C62A0150 */  lwc1    $f10, 0x0150($s1)          ## 00000150
-/* 003BC 809B295C 0C023C26 */  jal     func_8008F098              
+/* 003BC 809B295C 0C023C26 */  jal     Player_HasMirrorShieldEquipped              
 /* 003C0 809B2960 8FA400C4 */  lw      $a0, 0x00C4($sp)           
 /* 003C4 809B2964 1040001D */  beq     $v0, $zero, .L809B29DC     
 /* 003C8 809B2968 26250024 */  addiu   $a1, $s1, 0x0024           ## $a1 = 00000024
@@ -148,7 +148,7 @@ glabel func_809B27D8
 /* 0044C 809B29EC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00450 809B29F0 8FA400C4 */  lw      $a0, 0x00C4($sp)           
 /* 00454 809B29F4 02403025 */  or      $a2, $s2, $zero            ## $a2 = FFFFFFB8
-/* 00458 809B29F8 0C00A3A1 */  jal     func_80028E84              
+/* 00458 809B29F8 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 0045C 809B29FC 02003825 */  or      $a3, $s0, $zero            ## $a3 = FFFFFFC4
 /* 00460 809B2A00 E6340064 */  swc1    $f20, 0x0064($s1)          ## 00000064
 /* 00464 809B2A04 E6340060 */  swc1    $f20, 0x0060($s1)          ## 00000060
@@ -215,7 +215,7 @@ glabel func_809B27D8
 /* 00544 809B2AE4 AFB20018 */  sw      $s2, 0x0018($sp)           
 /* 00548 809B2AE8 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 0054C 809B2AEC AFBE0010 */  sw      $s8, 0x0010($sp)           
-/* 00550 809B2AF0 0C00A2EC */  jal     func_80028BB0              
+/* 00550 809B2AF0 0C00A2EC */  jal     EffectSsKiraKira_SpawnDispersed              
 /* 00554 809B2AF4 E7AA00A0 */  swc1    $f10, 0x00A0($sp)          
 /* 00558 809B2AF8 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0055C 809B2AFC 1615FFE0 */  bne     $s0, $s5, .L809B2A80       

@@ -21,7 +21,7 @@ glabel func_80AB15D4
 /* 00890 80AB1620 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00894 80AB1624 2407008B */  addiu   $a3, $zero, 0x008B         ## $a3 = 0000008B
 /* 00898 80AB1628 E7A00010 */  swc1    $f0, 0x0010($sp)           
-/* 0089C 80AB162C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0089C 80AB162C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 008A0 80AB1630 E7AC0018 */  swc1    $f12, 0x0018($sp)          
 /* 008A4 80AB1634 8FA4003C */  lw      $a0, 0x003C($sp)           

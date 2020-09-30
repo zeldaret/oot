@@ -1,3 +1,26 @@
+.late_rodata
+glabel D_8091541C
+    .float 0.8
+
+glabel D_80915420
+    .float -3315.0
+
+glabel D_80915424
+    .float -3315.0
+
+glabel D_80915428
+    .float -3050.0
+
+glabel D_8091542C
+    .float -3050.0
+
+glabel D_80915430
+    .float -3100.0
+
+glabel D_80915434
+    .float -0.079999998
+
+.text
 glabel func_8091156C
 /* 00F2C 8091156C 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00F30 80911570 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -485,7 +508,7 @@ glabel func_8091156C
 /* 01604 80911C44 00095400 */  sll     $t2, $t1, 16               
 /* 01608 80911C48 000A5C03 */  sra     $t3, $t2, 16               
 /* 0160C 80911C4C 256C0096 */  addiu   $t4, $t3, 0x0096           ## $t4 = 00000096
-/* 01610 80911C50 0C00A73C */  jal     func_80029CF0              
+/* 01610 80911C50 0C00A73C */  jal     EffectSsFhgFlash_SpawnLightBall              
 /* 01614 80911C54 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 01618 80911C58 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0161C 80911C5C 00108400 */  sll     $s0, $s0, 16               

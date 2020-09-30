@@ -164,7 +164,7 @@ glabel func_80107980
 /* B7ED5C 80107BBC 03207025 */   move  $t6, $t9
 /* B7ED60 80107BC0 3C018015 */  lui   $at, %hi(D_801539E4) # $at, 0x8015
 /* B7ED64 80107BC4 A42939E4 */  sh    $t1, %lo(D_801539E4)($at)
-/* B7ED68 80107BC8 3C018015 */  lui   $at, %hi(D_801539E4) # $at, 0x8015
+/* B7ED68 80107BC8 3C018015 */  lui   $at, %hi(D_801539E0) # $at, 0x8015
 /* B7ED6C 80107BCC A42A39E0 */  sh    $t2, %lo(D_801539E0)($at)
 /* B7ED70 80107BD0 00801825 */  move  $v1, $a0
 /* B7ED74 80107BD4 10000006 */  b     .L80107BF0

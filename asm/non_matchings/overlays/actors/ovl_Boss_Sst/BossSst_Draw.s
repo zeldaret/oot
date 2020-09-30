@@ -165,7 +165,7 @@ glabel BossSst_Draw
 /* 082D4 809348A4 C4347A18 */  lwc1    $f20, %lo(D_80937A18)($at)
 /* 082D8 809348A8 AFA2008C */  sw      $v0, 0x008C($sp)
 .L809348AC:
-/* 082DC 809348AC 0C032D94 */  jal     func_800CB650
+/* 082DC 809348AC 0C032D94 */  jal     Math3D_Vec3fDistSq
 /* 082E0 809348B0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000009D4
 /* 082E4 809348B4 4600B03C */  c.lt.s  $f22, $f0
 /* 082E8 809348B8 3C128093 */  lui     $s2, %hi(D_809369A8)       ## $s2 = 80930000

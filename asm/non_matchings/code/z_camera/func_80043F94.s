@@ -17,7 +17,7 @@ glabel func_80043F94
 /* ABB150 80043FB0 00A08825 */  move  $s1, $a1
 /* ABB154 80043FB4 25F807C0 */  addiu $t8, $t7, 0x7c0
 /* ABB158 80043FB8 AFB80084 */  sw    $t8, 0x84($sp)
-/* ABB15C 80043FBC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABB15C 80043FBC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABB160 80043FC0 27A40040 */   addiu $a0, $sp, 0x40
 /* ABB164 80043FC4 3C014100 */  li    $at, 0x41000000 # 0.000000
 /* ABB168 80043FC8 44813000 */  mtc1  $at, $f6
@@ -184,7 +184,7 @@ glabel func_80043F94
 /* ABB3DC 8004423C 468094A0 */  cvt.s.w $f18, $f18
 /* ABB3E0 80044240 AFB10010 */  sw    $s1, 0x10($sp)
 /* ABB3E4 80044244 44079000 */  mfc1  $a3, $f18
-/* ABB3E8 80044248 0C033857 */  jal   func_800CE15C
+/* ABB3E8 80044248 0C033857 */  jal   Math3D_LineSegVsPlane
 /* ABB3EC 8004424C 00000000 */   nop
 /* ABB3F0 80044250 1040001B */  beqz  $v0, .L800442C0
 /* ABB3F4 80044254 27A40060 */   addiu $a0, $sp, 0x60

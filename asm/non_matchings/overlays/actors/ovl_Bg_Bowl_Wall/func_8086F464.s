@@ -113,7 +113,7 @@ glabel func_8086F464
 /* 004A0 8086F600 E7B00090 */  swc1    $f16, 0x0090($sp)          
 /* 004A4 8086F604 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFD8
 /* 004A8 8086F608 02C03025 */  or      $a2, $s6, $zero            ## $a2 = FFFFFFE4
-/* 004AC 8086F60C 0C00A3A1 */  jal     func_80028E84              
+/* 004AC 8086F60C 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 004B0 8086F610 02A03825 */  or      $a3, $s5, $zero            ## $a3 = FFFFFFF0
 /* 004B4 8086F614 4406E000 */  mfc1    $a2, $f28                  
 /* 004B8 8086F618 240D0032 */  addiu   $t5, $zero, 0x0032         ## $t5 = 00000032
@@ -129,7 +129,7 @@ glabel func_8086F464
 /* 004E0 8086F640 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFD8
 /* 004E4 8086F644 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 004E8 8086F648 AFB40014 */  sw      $s4, 0x0014($sp)           
-/* 004EC 8086F64C 0C00A5E9 */  jal     func_800297A4              
+/* 004EC 8086F64C 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 004F0 8086F650 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 004F4 8086F654 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 004F8 8086F658 0C00BE0A */  jal     Audio_PlayActorSound2

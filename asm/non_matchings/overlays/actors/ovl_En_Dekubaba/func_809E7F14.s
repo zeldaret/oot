@@ -123,7 +123,7 @@ glabel func_809E7F14
 /* 028E0 809E80B0 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 028E4 809E80B4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 028E8 809E80B8 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 028EC 809E80BC 0C00A5E9 */  jal     func_800297A4              
+/* 028EC 809E80BC 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 028F0 809E80C0 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 028F4 809E80C4 8FBF0034 */  lw      $ra, 0x0034($sp)           
 /* 028F8 809E80C8 8FB0002C */  lw      $s0, 0x002C($sp)           

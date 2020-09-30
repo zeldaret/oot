@@ -109,7 +109,7 @@ void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
 
     if (this->actor.waterY > 0) {
         for (i = 0; i < 10; i++) {
-            func_800293E4(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 10.0f, 10.0f, 30.0f, 0.25f);
         }
     }
 }
@@ -137,10 +137,10 @@ void EnSb_SetupWaitOpen(EnSb* this) {
 }
 
 void EnSb_SetupLunge(EnSb* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06000124.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000124.genericHeader);
     f32 playbackSpeed = this->actor.waterY > 0.0f ? 1.0f : 0.0f;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frames, 2, 0);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frameCount, 2, 0);
     this->behavior = SHELLBLADE_LUNGE;
     this->actionFunc = EnSb_Lunge;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
@@ -470,7 +470,7 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             flamePos.x = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
             flamePos.y = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
             flamePos.z = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
-            func_8002A4D4(globalCtx, this, &flamePos, 0x64, 0, 0, -1);
+            EffectSsEnFire_SpawnVec3f(globalCtx, this, &flamePos, 100, 0, 0, -1);
         }
     }
 }

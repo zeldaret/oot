@@ -1,8 +1,57 @@
-#include <ultra64.h>
-#include <global.h>
+/*
+ * File: z_eff_ss_g_fire.c
+ * Overlay: ovl_Effect_Ss_G_Fire
+ * Description: Flame Footprints
+ */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Fire/func_809A5ED0.s")
+#include "z_eff_ss_g_fire.h"
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Fire/func_809A6010.s")
+u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsGFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Fire/func_809A60B4.s")
+EffectSsInit Effect_Ss_G_Fire_InitVars = {
+    EFFECT_SS_G_FIRE,
+    EffectSsGFire_Init,
+};
+
+extern Gfx D_0401C220[];
+
+u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsGFireInitParams* initParams = (EffectSsGFireInitParams*)initParamsx;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+
+    this->velocity = this->accel = zeroVec;
+    this->pos = initParams->pos;
+    this->draw = EffectSsGFire_Draw;
+    this->update = EffectSsGFire_Update;
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_0401C220);
+    this->life = 8;
+    this->flags = 0;
+    this->rgScale = 200;
+    this->rgTexIdx = 0;
+    this->rgTexIdxStep = 50;
+    this->rgPrimColorR = 255;
+    this->rgPrimColorG = 220;
+    this->rgPrimColorB = 80;
+    this->rgPrimColorA = 255;
+    this->rgEnvColorR = 130;
+    this->rgEnvColorG = 30;
+    this->rgEnvColorB = 0;
+    this->rgEnvColorA = 0;
+
+    return 1;
+}
+
+void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    void* textures[] = {
+        0x0401A220, 0x0401A620, 0x0401AA20, 0x0401AE20, 0x0401B220, 0x0401B620, 0x0401BA20, 0x0401BE20,
+    };
+    s16 texIdx = (this->rgTexIdx / 100) % 7;
+
+    EffectSs_DrawGEffect(globalCtx, this, textures[texIdx]);
+}
+
+void EffectSsGFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    this->rgTexIdx += this->rgTexIdxStep;
+}

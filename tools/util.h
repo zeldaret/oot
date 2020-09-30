@@ -2,7 +2,7 @@
 #define _UTIL_H_
 
 #ifdef __GNUC__
-__attribute__((format(printf, 1, 2)))
+__attribute__((format(printf, 1, 2), noreturn))
 #endif
 void util_fatal_error(const char *msgfmt, ...);
 

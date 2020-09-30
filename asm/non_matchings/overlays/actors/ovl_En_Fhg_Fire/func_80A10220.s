@@ -192,7 +192,7 @@ glabel func_80A10220
 /* 011D4 80A10434 000FC400 */  sll     $t8, $t7, 16               
 /* 011D8 80A10438 0018CC03 */  sra     $t9, $t8, 16               
 /* 011DC 80A1043C 27290096 */  addiu   $t1, $t9, 0x0096           ## $t1 = 00000096
-/* 011E0 80A10440 0C00A73C */  jal     func_80029CF0              
+/* 011E0 80A10440 0C00A73C */  jal     EffectSsFhgFlash_SpawnLightBall              
 /* 011E4 80A10444 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 011E8 80A10448 87A200E0 */  lh      $v0, 0x00E0($sp)           
 /* 011EC 80A1044C 24420001 */  addiu   $v0, $v0, 0x0001           ## $v0 = 00000001
@@ -309,7 +309,7 @@ glabel func_80A10220
 /* 0137C 80A105DC 00086400 */  sll     $t4, $t0, 16               
 /* 01380 80A105E0 000C5C03 */  sra     $t3, $t4, 16               
 /* 01384 80A105E4 256E0032 */  addiu   $t6, $t3, 0x0032           ## $t6 = 00000032
-/* 01388 80A105E8 0C00A73C */  jal     func_80029CF0              
+/* 01388 80A105E8 0C00A73C */  jal     EffectSsFhgFlash_SpawnLightBall              
 /* 0138C 80A105EC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 01390 80A105F0 87A200B6 */  lh      $v0, 0x00B6($sp)           
 /* 01394 80A105F4 24420001 */  addiu   $v0, $v0, 0x0001           ## $v0 = 00000001
@@ -702,7 +702,7 @@ glabel func_80A10220
 /* 01928 80A10B88 00086400 */  sll     $t4, $t0, 16               
 /* 0192C 80A10B8C 000C5C03 */  sra     $t3, $t4, 16               
 /* 01930 80A10B90 256E0050 */  addiu   $t6, $t3, 0x0050           ## $t6 = 00000050
-/* 01934 80A10B94 0C00A73C */  jal     func_80029CF0              
+/* 01934 80A10B94 0C00A73C */  jal     EffectSsFhgFlash_SpawnLightBall              
 /* 01938 80A10B98 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 0193C 80A10B9C 87A20096 */  lh      $v0, 0x0096($sp)           
 /* 01940 80A10BA0 24420001 */  addiu   $v0, $v0, 0x0001           ## $v0 = 00000001
@@ -832,7 +832,7 @@ glabel func_80A10220
 /* 01B04 80A10D64 000C5C00 */  sll     $t3, $t4, 16               
 /* 01B08 80A10D68 000B7403 */  sra     $t6, $t3, 16               
 /* 01B0C 80A10D6C 25CF0064 */  addiu   $t7, $t6, 0x0064           ## $t7 = 00000064
-/* 01B10 80A10D70 0C00A73C */  jal     func_80029CF0              
+/* 01B10 80A10D70 0C00A73C */  jal     EffectSsFhgFlash_SpawnLightBall              
 /* 01B14 80A10D74 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 01B18 80A10D78 87A20078 */  lh      $v0, 0x0078($sp)           
 /* 01B1C 80A10D7C 24420001 */  addiu   $v0, $v0, 0x0001           ## $v0 = 00000001
@@ -863,7 +863,7 @@ glabel func_80A10220
 /* 01B80 80A10DE0 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 01B84 80A10DE4 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 01B88 80A10DE8 AFAD001C */  sw      $t5, 0x001C($sp)           
-/* 01B8C 80A10DEC 0C00C916 */  jal     Actor_SpawnAttached
+/* 01B8C 80A10DEC 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 01B90 80A10DF0 E7A40018 */  swc1    $f4, 0x0018($sp)           
 /* 01B94 80A10DF4 8FA20050 */  lw      $v0, 0x0050($sp)           
@@ -926,7 +926,7 @@ glabel func_80A10220
 /* 01C58 80A10EB8 AFAD0018 */  sw      $t5, 0x0018($sp)           
 /* 01C5C 80A10EBC AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 01C60 80A10EC0 AFB80010 */  sw      $t8, 0x0010($sp)           
-/* 01C64 80A10EC4 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 01C64 80A10EC4 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 01C68 80A10EC8 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 01C6C 80A10ECC C6080068 */  lwc1    $f8, 0x0068($s0)           ## 00000068

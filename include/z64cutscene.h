@@ -74,7 +74,7 @@ typedef struct {
     /* 0x00 */ u16 action; // "dousa"
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-    union{ 
+    union {
         /* 0x06 */ Vec3s rot;
         /* 0x06 */ Vec3us urot;
     };

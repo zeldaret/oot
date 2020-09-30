@@ -1,22 +1,22 @@
 .rdata
 glabel D_80B2F3A0
-    .asciz "\x1B[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1B[m"
+    .asciz "\x1b[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B2F3CC
-    .asciz "\x1B[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1B[m"
+    .asciz "\x1b[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B2F3F8
-    .asciz "[34m☆☆☆☆ やった原！ ☆☆☆☆☆ \n[m"
+    .asciz "\x1b[34m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B2F424
-    .asciz "[35m☆☆☆☆ やった原！ ☆☆☆☆☆ \n[m"
+    .asciz "\x1b[35m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 glabel D_80B2F450
-    .asciz "[36m☆☆☆☆ やった原！ ☆☆☆☆☆ \n[m"
+    .asciz "\x1b[36m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1b[m"
     .balign 4
 
 .text
@@ -75,7 +75,7 @@ glabel func_80B2F0B8
 /* 0038C 80B2F17C AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 00390 80B2F180 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 00394 80B2F184 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFF0
-/* 00398 80B2F188 0C00A3A1 */  jal     func_80028E84              
+/* 00398 80B2F188 0C00A3A1 */  jal     EffectSsBomb2_SpawnLayered              
 /* 0039C 80B2F18C E7B00040 */  swc1    $f16, 0x0040($sp)          
 /* 003A0 80B2F190 24190032 */  addiu   $t9, $zero, 0x0032         ## $t9 = 00000032
 /* 003A4 80B2F194 2408000F */  addiu   $t0, $zero, 0x000F         ## $t0 = 0000000F
@@ -91,7 +91,7 @@ glabel func_80B2F0B8
 /* 003CC 80B2F1BC 27A50038 */  addiu   $a1, $sp, 0x0038           ## $a1 = FFFFFFD8
 /* 003D0 80B2F1C0 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 003D4 80B2F1C4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 003D8 80B2F1C8 0C00A5E9 */  jal     func_800297A4              
+/* 003D8 80B2F1C8 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 003DC 80B2F1CC AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 003E0 80B2F1D0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 003E4 80B2F1D4 0C00BE0A */  jal     Audio_PlayActorSound2

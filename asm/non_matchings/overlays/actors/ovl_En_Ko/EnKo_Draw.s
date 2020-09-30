@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A9A79C
+    .asciz "../z_en_ko.c"
+    .balign 4
+
+glabel D_80A9A7AC
+    .asciz "../z_en_ko.c"
+    .balign 4
+
+.text
 glabel EnKo_Draw
 /* 02F50 80A99D00 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 02F54 80A99D04 AFBF002C */  sw      $ra, 0x002C($sp)           

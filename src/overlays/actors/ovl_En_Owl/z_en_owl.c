@@ -23,7 +23,6 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx);
-//#define NON_MATCHING
 
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
@@ -46,9 +45,9 @@ ColliderCylinderInit sOwlCylinderInit =
 
 InitChainEntry sOwlInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F4, 1400, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_F8, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 2400, ICHAIN_STOP),
+    ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 2400, ICHAIN_STOP),
 };
 
 Vec3s D_80ACD62C = {0.0f, 0.0f, 0.0f};
@@ -89,7 +88,6 @@ void func_80ACC460(EnOwl* this);
 
 void func_80ACBEA0(EnOwl*,GlobalContext*);
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 // Close, stack alloc and using r0 instead of zero in unk_406 assignment
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
@@ -138,7 +136,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx)
         // Default, does nothing
         case OWL_DEFAULT:
             this->actionFunc = EnOwl_WaitDefault;
-            this->actor.unk_F4 = 4000.0f;
+            this->actor.uncullZoneForward = 4000.0f;
             this->unk_40A = 0;
             break;
         // outside kokiri forest
@@ -1458,8 +1456,6 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx)
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Update.s")
 #endif
-
-#define NON_MATCHING
 
 s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, Actor* actor)
 {

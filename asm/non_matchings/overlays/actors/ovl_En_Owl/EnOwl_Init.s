@@ -1,6 +1,6 @@
 .rdata
 glabel D_80ACD650
-    .asciz "[36m 会話フクロウ %4x no = %d, sv = %d\n[m"
+    .asciz "\x1b[36m 会話フクロウ %4x no = %d, sv = %d\n\x1b[m"
     .balign 4
 
 glabel D_80ACD67C

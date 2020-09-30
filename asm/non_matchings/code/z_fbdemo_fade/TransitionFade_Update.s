@@ -1,6 +1,6 @@
 .rdata
 glabel D_801430C0
-    .asciz "\x1b[41;37m０除算! ZCommonGet fade_speed に０がはいってる\x1B[m"
+    .asciz "\x1b[41;37m０除算! ZCommonGet fade_speed に０がはいってる\x1b[m"
     # EUC-JP: ０除算! ZCommonGet fade_speed に０がはいってる | Divide by zero! Zero is entered in ZCommonGetfade_speed
     .balign 4
 

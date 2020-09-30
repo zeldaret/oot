@@ -98,8 +98,8 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         EnHintnuts_SetupWait(this);
-        Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_HINTNUTS, this->actor.posRot.pos.x,
-                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.posRot.rot.y, 0, 0xA);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_HINTNUTS, this->actor.posRot.pos.x,
+                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.posRot.rot.y, 0, 0xA);
     }
 }
 
@@ -437,14 +437,14 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     }
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, temp_a1, 0x800);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if ((this->animFlagAndTimer == 0) || (this->actor.unk_E4.z < 0.0f)) {
+    if ((this->animFlagAndTimer == 0) || (this->actor.projectedPos.z < 0.0f)) {
         func_80106CCC(globalCtx);
         if (this->actor.params == 3) {
             Flags_SetClear(globalCtx, this->actor.room);
             sPuzzleCounter = 3;
         }
-        if (this->actor.attachedB != NULL) {
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this->actor.attachedB, ACTORTYPE_PROP);
+        if (this->actor.child != NULL) {
+            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this->actor.child, ACTORTYPE_PROP);
         }
         Actor_Kill(&this->actor);
     }
@@ -458,8 +458,8 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
     }
     if (this->animFlagAndTimer == 0) {
         if (sPuzzleCounter == 3) {
-            if (this->actor.attachedB != NULL) {
-                Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this->actor.attachedB, ACTORTYPE_PROP);
+            if (this->actor.child != NULL) {
+                Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this->actor.child, ACTORTYPE_PROP);
             }
             this->animFlagAndTimer = 1;
         } else if (sPuzzleCounter == -4) {
@@ -514,7 +514,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetHeight(&this->actor, this->skelAnime.animCurrentFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
             Actor_SetHeight(&this->actor, 20.0f - ((this->skelAnime.animCurrentFrame * 20.0f) /
-                                                   (f32)SkelAnime_GetFrameCount(&D_060024CC.genericHeader)));
+                                                   SkelAnime_GetFrameCount(&D_060024CC.genericHeader)));
         } else {
             Actor_SetHeight(&this->actor, 20.0f);
         }

@@ -1,8 +1,96 @@
-#include <ultra64.h>
-#include <global.h>
+/*
+ * File: z_eff_ss_fcircle.c
+ * Overlay: ovl_Effect_Ss_Fcircle
+ * Description: Fire Circle
+ */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Fcircle/func_809A4120.s")
+#include "z_eff_ss_fcircle.h"
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Fcircle/func_809A41DC.s")
+#define rUnused regs[3] // probably supposed to be an alpha
+#define rRadius regs[8]
+#define rHeight regs[9]
+#define rYaw regs[10]
+#define rScale regs[11]
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Fcircle/func_809A44E0.s")
+u32 EffectSsFcircle_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsFcircle_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsFcircle_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+
+EffectSsInit Effect_Ss_Fcircle_InitVars = {
+    EFFECT_SS_FCIRCLE,
+    EffectSsFcircle_Init,
+};
+
+extern Gfx D_040184B0[];
+
+u32 EffectSsFcircle_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsFcircleInitParams* initParams = (EffectSsFcircleInitParams*)initParamsx;
+
+    this->pos = initParams->pos;
+    this->actor = initParams->actor;
+    this->vec.x = initParams->pos.x - initParams->actor->posRot.pos.x;
+    this->vec.y = initParams->pos.y - initParams->actor->posRot.pos.y;
+    this->vec.z = initParams->pos.z - initParams->actor->posRot.pos.z;
+    this->gfx = D_040184B0;
+    this->life = 20;
+    this->draw = EffectSsFcircle_Draw;
+    this->update = EffectSsFcircle_Update;
+    this->rUnused = 255;
+    this->rRadius = initParams->radius;
+    this->rHeight = initParams->height;
+    this->rYaw = initParams->actor->shape.rot.y;
+
+    return 1;
+}
+
+void EffectSsFcircle_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    s32 pad;
+    f32 yScale;
+    f32 xzScale;
+    f32 scale;
+
+    OPEN_DISPS(gfxCtx, "../z_eff_fcircle.c", 149);
+
+    scale = (this->rScale * (0.5f + (this->life * 0.025f))) * 0.01f;
+    yScale = (this->rHeight * 0.001f) * scale;
+    xzScale = (this->rRadius * 0.001f) * scale;
+
+    Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
+    Matrix_Scale(xzScale, yScale, xzScale, MTXMODE_APPLY);
+    Matrix_RotateY(this->rYaw * 0.0000958738f, MTXMODE_APPLY);
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_fcircle.c", 163),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    func_80093D84(globalCtx->state.gfxCtx);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->gameplayFrames % 128, 0, 32, 64, 1, 0,
+                                ((globalCtx->gameplayFrames) * -0xF) % 256, 32, 64));
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 220, 0, (this->life * 12.75f));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_fcircle.c", 186);
+}
+
+void EffectSsFcircle_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    Actor* actor = this->actor;
+
+    if (actor != NULL) {
+        if (actor->update != NULL) {
+            this->pos.x = actor->posRot.pos.x + this->vec.x;
+            this->pos.y = actor->posRot.pos.y + this->vec.y;
+            this->pos.z = actor->posRot.pos.z + this->vec.z;
+            this->rYaw = actor->shape.rot.y;
+
+            if (actor->dmgEffectTimer > 20) {
+                this->life = 20;
+            } else {
+                this->life = actor->dmgEffectTimer;
+            }
+
+            Math_ApproxS(&this->rScale, 100, 20);
+        } else {
+            this->actor = NULL;
+        }
+    }
+}

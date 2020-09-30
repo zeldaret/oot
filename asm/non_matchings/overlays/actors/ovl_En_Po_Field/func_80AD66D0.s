@@ -143,7 +143,7 @@ glabel func_80AD66D0
 /* 02DBC 80AD68BC 46082282 */  mul.s   $f10, $f4, $f8             
 /* 02DC0 80AD68C0 4600540D */  trunc.w.s $f16, $f10                 
 /* 02DC4 80AD68C4 44098000 */  mfc1    $t1, $f16                  
-/* 02DC8 80AD68C8 0C01E77C */  jal     Lights_InitType2PositionalLight
+/* 02DC8 80AD68C8 0C01E77C */  jal     Lights_PointGlowSetInfo
               
 /* 02DCC 80AD68CC AFA9001C */  sw      $t1, 0x001C($sp)           
 .L80AD68D0:
