@@ -52,7 +52,6 @@ extern DamageTable D_80A78444;
 extern EnIkActionFunc D_80A78604[6];
 extern EnIkDrawFunc D_80A7861C[3];
 
-/*
 // sCylinderInit
 ColliderCylinderInit D_80A78340 = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -135,7 +134,6 @@ const ActorInit En_Ik_InitVars = {
     (ActorFunc)EnIk_Update,
     (ActorFunc)EnIk_Draw,
 };
-*/
 
 Vec3s D_80A78FA0;
 
