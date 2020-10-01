@@ -31,7 +31,7 @@ glabel func_80A780D0
 .L80A78128:
 /* 03E18 80A78128 0C29E058 */  jal     func_80A78160              
 /* 03E1C 80A7812C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 03E20 80A78130 0C29DAFD */  jal     func_80A76BF4              
+/* 03E20 80A78130 0C29DAFD */  jal     EnIk_StartMusic              
 /* 03E24 80A78134 00000000 */  nop
 /* 03E28 80A78138 8606001C */  lh      $a2, 0x001C($s0)           ## 0000001C
 .L80A7813C:

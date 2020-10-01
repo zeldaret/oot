@@ -1,4 +1,4 @@
-glabel func_80A76BF4
+glabel EnIk_StartMusic
 /* 028E4 80A76BF4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 028E8 80A76BF8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 028EC 80A76BFC 0C03D6B3 */  jal     func_800F5ACC              
