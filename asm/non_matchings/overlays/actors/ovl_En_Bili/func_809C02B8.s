@@ -80,7 +80,7 @@ glabel func_809C02B8
 /* 00B38 809C03D8 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 00B3C 809C03DC 02A02825 */  or      $a1, $s5, $zero            ## $a1 = FFFFFFF0
 /* 00B40 809C03E0 02C03025 */  or      $a2, $s6, $zero            ## $a2 = 809C16A0
-/* 00B44 809C03E4 0C00A568 */  jal     func_800295A0              
+/* 00B44 809C03E4 0C00A568 */  jal     EffectSsLightning_Spawn              
 /* 00B48 809C03E8 02E03825 */  or      $a3, $s7, $zero            ## $a3 = 809C16A4
 /* 00B4C 809C03EC 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000002
 .L809C03F0:

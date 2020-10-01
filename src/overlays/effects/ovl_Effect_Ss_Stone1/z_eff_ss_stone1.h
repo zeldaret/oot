@@ -6,8 +6,7 @@
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
+    /* 0x00 */ s32 unk_C;
 } EffectSsStone1InitParams; // size = 0x
 
 #endif

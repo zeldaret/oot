@@ -6,35 +6,140 @@
 
 #include "z_eff_ss_dead_dd.h"
 
-typedef enum {
-    /* 0x00 */ SS_DEAD_DD_0,
-    /* 0x01 */ SS_DEAD_DD_1,
-    /* 0x02 */ SS_DEAD_DD_2,
-    /* 0x03 */ SS_DEAD_DD_3,
-    /* 0x04 */ SS_DEAD_DD_4,
-    /* 0x05 */ SS_DEAD_DD_5,
-    /* 0x06 */ SS_DEAD_DD_6,
-    /* 0x07 */ SS_DEAD_DD_7,
-    /* 0x08 */ SS_DEAD_DD_8,
-    /* 0x09 */ SS_DEAD_DD_9,
-    /* 0x0A */ SS_DEAD_DD_A,
-    /* 0x0B */ SS_DEAD_DD_B,
-    /* 0x0C */ SS_DEAD_DD_C,
-} EffectSsDead_DdRegs;
+#define rScale regs[0]
+#define rPrimColorR regs[2]
+#define rPrimColorG regs[3]
+#define rPrimColorB regs[4]
+#define rAlpha regs[5]
+#define rEnvColorR regs[6]
+#define rEnvColorG regs[7]
+#define rEnvColorB regs[8]
+#define rScaleStep regs[9]
+#define rAlphaStep regs[10]
+#define rAlphaMode regs[11] // if mode is 0 alpha decreases over time, otherwise it increases
 
 u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsDeadDd_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsDeadDd_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_Dead_Dd_InitVars = {
     EFFECT_SS_DEAD_DD,
     EffectSsDeadDd_Init,
 };
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Dead_Dd/EffectSsDeadDd_Init.s")
+extern Mtx D_01000000;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Dead_Dd/func_809A12B4.s")
+u32 EffectSsDeadDd_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    s32 i;
+    EffectSsDeadDdInitParams* initParams = (EffectSsDeadDdInitParams*)initParamsx;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Dead_Dd/func_809A14B0.s")
+    if (initParams->type == 0) {
+        this->pos = initParams->pos;
+        this->velocity = initParams->velocity;
+        this->accel = initParams->accel;
+        this->life = initParams->life;
+        this->rScaleStep = initParams->scaleStep;
+        this->rAlphaMode = initParams->alphaStep;
+
+        if (initParams->alphaStep != 0) {
+            this->rAlphaStep = initParams->alphaStep;
+        } else {
+            this->rAlphaStep = initParams->alpha / initParams->life;
+        }
+
+        this->draw = EffectSsDeadDd_Draw;
+        this->update = EffectSsDeadDd_Update;
+        this->rScale = initParams->scale;
+        this->rPrimColorR = initParams->primColor.r;
+        this->rPrimColorG = initParams->primColor.g;
+        this->rPrimColorB = initParams->primColor.b;
+        this->rAlpha = initParams->alpha;
+        this->rEnvColorR = initParams->envColor.r;
+        this->rEnvColorG = initParams->envColor.g;
+        this->rEnvColorB = initParams->envColor.b;
+
+    } else if (initParams->type == 1) {
+        this->life = initParams->life;
+        this->rScaleStep = initParams->scaleStep;
+        this->rAlphaMode = 0;
+        this->rAlphaStep = 155 / initParams->life;
+        this->rScale = initParams->scale;
+        this->rPrimColorR = 255;
+        this->rPrimColorG = 255;
+        this->rPrimColorB = 155;
+        this->rAlpha = 155;
+        this->rEnvColorR = 250;
+        this->rEnvColorG = 180;
+        this->rEnvColorB = 0;
+        this->draw = EffectSsDeadDd_Draw;
+        this->update = EffectSsDeadDd_Update;
+
+        for (i = initParams->randIter; i > 0; i--) {
+            this->pos.x = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.x;
+            this->pos.y = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.y;
+            this->pos.z = ((Math_Rand_ZeroOne() - 0.5f) * initParams->randPosScale) + initParams->pos.z;
+            this->accel.x = this->velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->accel.y = this->velocity.y = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            this->accel.z = this->velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+        }
+    } else {
+        osSyncPrintf("Effect_SS_Dd_disp_mode():mode_swが変です。\n");
+        return 0;
+    }
+
+    return 1;
+}
+
+void EffectSsDeadDd_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    MtxF mfTrans;
+    MtxF mfScale;
+    MtxF mfResult;
+    Mtx* mtx;
+    f32 scale;
+
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_dead_dd.c", 214);
+
+    scale = this->rScale * 0.01f;
+    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&mfScale, scale, scale, scale);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &mfScale, &mfResult);
+
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
+
+    if (mtx != NULL) {
+        func_80094BC4(gfxCtx);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                        this->rAlpha);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rAlpha);
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(oGfxCtx->polyXlu.p++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+        gDPSetCombineLERP(oGfxCtx->polyXlu.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
+                          0, PRIMITIVE, 0);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_04037730);
+    }
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_dead_dd.c", 259);
+}
+
+void EffectSsDeadDd_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+
+    this->rScale += this->rScaleStep;
+
+    if (this->rScale < 0) {
+        this->rScale = 0;
+    }
+
+    if (this->rAlphaMode != 0) {
+        this->rAlpha += this->rAlphaStep;
+        if (this->rAlpha > 255) {
+            this->rAlpha = 255;
+        }
+    } else {
+        if (this->rAlpha < this->rAlphaStep) {
+            this->rAlpha = 0;
+        } else {
+            this->rAlpha -= this->rAlphaStep;
+        }
+    }
+}

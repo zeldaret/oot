@@ -15,4 +15,7 @@ typedef struct {
     /* 0x2C */ s32 life;
 } EffectSsDeadSoundInitParams; // size = 0x30
 
+#define DEADSOUND_REPEAT_MODE_OFF 1
+#define DEADSOUND_REPEAT_MODE_ON 2
+
 #endif

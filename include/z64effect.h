@@ -35,8 +35,8 @@ typedef struct {
     /* 0x490 */ f32 gravity;
     /* 0x494 */ u32 uDiv; // "u_div"
     /* 0x498 */ u32 vDiv; // "v_div"
-    /* 0x49C */ Color_RGBA8_n colorStart[4];
-    /* 0x4AC */ Color_RGBA8_n colorEnd[4];
+    /* 0x49C */ Color_RGBA8 colorStart[4];
+    /* 0x4AC */ Color_RGBA8 colorEnd[4];
     /* 0x4BC */ s32 timer;
     /* 0x4C0 */ s32 duration;
 } EffectSparkInit; // size = 0x4C4
@@ -49,8 +49,8 @@ typedef struct {
     /* 0x490 */ f32 gravity;
     /* 0x494 */ u32 uDiv; // "u_div"
     /* 0x498 */ u32 vDiv; // "v_div"
-    /* 0x49C */ Color_RGBA8_n colorStart[4];
-    /* 0x4AC */ Color_RGBA8_n colorEnd[4];
+    /* 0x49C */ Color_RGBA8 colorStart[4];
+    /* 0x4AC */ Color_RGBA8 colorEnd[4];
     /* 0x4BC */ s32 timer;
     /* 0x4C0 */ s32 duration;
 } EffectSpark; // size = 0x4C4
@@ -86,8 +86,8 @@ typedef struct {
     /* 0x19 */ u8 unkFlag;
     /* 0x1A */ u8 drawMode; // 0: simple; 1: simple with alt colors; 2+: smooth
     /* 0x1B */ u8 mode4Param;
-    /* 0x1C */ Color_RGBA8_n altPrimColor; // used with drawMode 1
-    /* 0x20 */ Color_RGBA8_n altEnvColor; // used with drawMode 1
+    /* 0x1C */ Color_RGBA8 altPrimColor; // used with drawMode 1
+    /* 0x20 */ Color_RGBA8 altEnvColor; // used with drawMode 1
 } EffectBlureInit2; // size = 0x24
 
 typedef struct {
@@ -97,16 +97,16 @@ typedef struct {
     /* 0x188 */ u16 flags;
     /* 0x18A */ s16 addAngleChange;
     /* 0x18C */ s16 addAngle;
-    /* 0x18E */ Color_RGBA8_n p1StartColor;
-    /* 0x192 */ Color_RGBA8_n p2StartColor;
-    /* 0x196 */ Color_RGBA8_n p1EndColor;
-    /* 0x19A */ Color_RGBA8_n p2EndColor;
+    /* 0x18E */ Color_RGBA8 p1StartColor;
+    /* 0x192 */ Color_RGBA8 p2StartColor;
+    /* 0x196 */ Color_RGBA8 p1EndColor;
+    /* 0x19A */ Color_RGBA8 p2EndColor;
     /* 0x19E */ u8 numElements; // "now_edge_num"
     /* 0x19F */ u8 elemDuration;
     /* 0x1A0 */ u8 unkFlag;
     /* 0x1A1 */ u8 drawMode; // 0: simple; 1: simple with alt colors; 2+: smooth
-    /* 0x1A2 */ Color_RGBA8_n altPrimColor; // used with drawMode 1
-    /* 0x1A6 */ Color_RGBA8_n altEnvColor; // used with drawMode 1
+    /* 0x1A2 */ Color_RGBA8 altPrimColor; // used with drawMode 1
+    /* 0x1A6 */ Color_RGBA8 altEnvColor; // used with drawMode 1
 } EffectBlure; // size = 0x1AC
 
 typedef struct {
@@ -122,12 +122,12 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 numElements;
     /* 0x02 */ Vec3s position;
-    /* 0x08 */ Color_RGBA8_n primColorStart;
-    /* 0x0C */ Color_RGBA8_n envColorStart;
-    /* 0x10 */ Color_RGBA8_n primColorMid;
-    /* 0x14 */ Color_RGBA8_n envColorMid;
-    /* 0x18 */ Color_RGBA8_n primColorEnd;
-    /* 0x1C */ Color_RGBA8_n envColorEnd;
+    /* 0x08 */ Color_RGBA8 primColorStart;
+    /* 0x0C */ Color_RGBA8 envColorStart;
+    /* 0x10 */ Color_RGBA8 primColorMid;
+    /* 0x14 */ Color_RGBA8 envColorMid;
+    /* 0x18 */ Color_RGBA8 primColorEnd;
+    /* 0x1C */ Color_RGBA8 envColorEnd;
     /* 0x20 */ f32 deceleration;
     /* 0x24 */ f32 maxInitialSpeed;
     /* 0x28 */ f32 lengthCutoff;
@@ -140,12 +140,12 @@ typedef struct {
     /* 0x000 */ EffectShieldParticleElement elements[16];
     /* 0x180 */ u8 numElements;
     /* 0x182 */ Vec3s position;
-    /* 0x188 */ Color_RGBA8_n primColorStart;
-    /* 0x18C */ Color_RGBA8_n envColorStart;
-    /* 0x190 */ Color_RGBA8_n primColorMid;
-    /* 0x194 */ Color_RGBA8_n envColorMid;
-    /* 0x198 */ Color_RGBA8_n primColorEnd;
-    /* 0x19C */ Color_RGBA8_n envColorEnd;
+    /* 0x188 */ Color_RGBA8 primColorStart;
+    /* 0x18C */ Color_RGBA8 envColorStart;
+    /* 0x190 */ Color_RGBA8 primColorMid;
+    /* 0x194 */ Color_RGBA8 envColorMid;
+    /* 0x198 */ Color_RGBA8 primColorEnd;
+    /* 0x19C */ Color_RGBA8 envColorEnd;
     /* 0x1A0 */ f32 deceleration;
     /* 0x1A4 */ char unk_1A4[0x04];
     /* 0x1A8 */ f32 maxInitialSpeed;
@@ -192,9 +192,13 @@ typedef enum {
 
 struct EffectSs;
 
+typedef u32 (*EffectSsInitFunc)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs, void* initParams);
+typedef void (*EffectSsUpdateFunc)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
+typedef void (*EffectSsDrawFunc)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
+
 typedef struct {
     /* 0x00 */ u32 type;
-    /* 0x04 */ u32 (*init)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs, void* initParams);
+    /* 0x04 */ EffectSsInitFunc init;
 } EffectSsInit; // size = 0x08
 
 typedef struct {
@@ -211,11 +215,11 @@ typedef struct EffectSs {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
-    /* 0x24 */ void (*update)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
-    /* 0x28 */ void (*draw)(struct GlobalContext* globalCtx, u32 index, struct EffectSs* effectSs);
-    /* 0x2C */ Vec3f unk_2C;
-    /* 0x38 */ Gfx* displayList;
-    /* 0x3C */ void* unk_3C;
+    /* 0x24 */ EffectSsUpdateFunc update;
+    /* 0x28 */ EffectSsDrawFunc draw;
+    /* 0x2C */ Vec3f vec; // usage specific per effect
+    /* 0x38 */ void* gfx; // mostly used for display lists, sometimes textures
+    /* 0x3C */ Actor* actor; // interfacing actor, usually the actor that spawned the effect
     /* 0x40 */ s16 regs[13]; // specific per effect
     /* 0x5A */ u16 flags;
     /* 0x5C */ s16 life; // -1 means this entry is free
@@ -228,6 +232,21 @@ typedef struct {
     /* 0x04 */ s32 searchStartIndex;
     /* 0x08 */ s32 tableSize;
 } EffectSsInfo; // size = 0x0C
+
+/* G Effect Regs */
+
+#define rgTexIdx regs[0]
+#define rgScale regs[1]
+#define rgTexIdxStep regs[2]
+#define rgPrimColorR regs[3]
+#define rgPrimColorG regs[4]
+#define rgPrimColorB regs[5]
+#define rgPrimColorA regs[6]
+#define rgEnvColorR regs[7]
+#define rgEnvColorG regs[8]
+#define rgEnvColorB regs[9]
+#define rgEnvColorA regs[10]
+#define rgObjBankIdx regs[11]
 
 typedef enum {
     /* 0x00 */ EFFECT_SS_DUST,

@@ -6,8 +6,6 @@
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
-} EffectSsGMagmaInitParams; // size = 0x
+} EffectSsGMagmaInitParams; // size = 0xC
 
 #endif

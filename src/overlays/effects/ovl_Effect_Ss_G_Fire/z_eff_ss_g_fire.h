@@ -6,8 +6,6 @@
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
-} EffectSsGFireInitParams; // size = 0x
+} EffectSsGFireInitParams; // size = 0xC
 
 #endif
