@@ -19,6 +19,11 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80A74714(EnIk* this);
+void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
+void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
+void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
+void func_80A77844(EnIk* this, GlobalContext* globalCtx);
 void func_80A77AEC(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B0C(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B3C(EnIk* this, GlobalContext* globalCtx);
@@ -27,25 +32,20 @@ void func_80A774BC(EnIk* this, GlobalContext* globalCtx);
 void func_80A774F8(EnIk* this, GlobalContext* globalCtx);
 void func_80A77ED0(EnIk* this, GlobalContext* globalCtx);
 void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
-void func_80A77844(EnIk* this, GlobalContext* globalCtx);
 
-void func_80A74398(Actor* thisx, GlobalContext* globalCtx);
-void func_80A74714(EnIk* this);
-void func_80A7489C(EnIk* this);
-void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
-void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
-void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
-void func_80A780D0(EnIk* this, GlobalContext* globalCtx);
+void func_80A77148(EnIk* this);
+void func_80A77158(EnIk* this, GlobalContext* globalCtx);
+void func_80A771E4(EnIk* this);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
-
-s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
-
-s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
-
+void func_80A7735C(EnIk* this, GlobalContext* globalCtx);
+void func_80A77434(EnIk* this, GlobalContext* globalCtx);
+void func_80A77474(EnIk* this, GlobalContext* globalCtx);
 s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
+s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
+s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 
 extern UNK_TYPE D_02003F80;
 extern AnimationHeader D_0600C114;
@@ -415,9 +415,49 @@ void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 345);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A779DC.s")
+void func_80A779DC(EnIk* this, GlobalContext* globalCtx) {
+    CsCmdActorAction* npcAction = EnIk_GetNpcAction(globalCtx, 4);
+    u32 action;
+    u32 currentNpcAction;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77AEC.s")
+    if (npcAction != NULL) {
+        action = npcAction->action;
+        currentNpcAction = this->npcAction;
+        if (action != currentNpcAction) {
+            switch (action - 1) {
+                case 0:
+                    func_80A77148(this);
+                    break;
+                case 1:
+                    func_80A77158(this, globalCtx);
+                    break;
+                case 2:
+                    func_80A771E4(this);
+                    break;
+                case 3:
+                    func_80A78160(this, globalCtx);
+                    break;
+                case 4:
+                    func_80A7735C(this, globalCtx);
+                    break;
+                case 5:
+                    func_80A77434(this, globalCtx);
+                    break;
+                case 6:
+                    func_80A77474(this, globalCtx);
+                    break;
+                default:
+                    osSyncPrintf("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+            }
+
+            this->npcAction = action;
+        }
+    }
+}
+
+void func_80A77AEC(EnIk* this, GlobalContext* globalCtx) {
+    func_80A779DC(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77B0C.s")
 
