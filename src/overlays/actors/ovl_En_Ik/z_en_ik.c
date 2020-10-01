@@ -143,7 +143,6 @@ void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-#ifdef NON_MATCHING
 void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
     s32 pad;
@@ -162,11 +161,11 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.colChkInfo.damageTable = &D_80A78444;
     this->actor.colChkInfo.mass = 0xFE;
-    this->actor.colChkInfo.health = 30;
     this->unk_2FC = 0;
-    this->actor.params &= 0xFF;
-    this->switchFlags = (this->actor.params >> 8) & 0xFF;
+    this->actor.colChkInfo.health = 30;
     this->actor.gravity = -1.0f;
+    this->switchFlags = (thisx->params >> 8) & 0xFF;
+    this->actor.params &= 0xFF;
 
     if (thisx->params == 0) {
         this->actor.colChkInfo.health += 20;
@@ -201,9 +200,6 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74398.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A745E4.s")
 
