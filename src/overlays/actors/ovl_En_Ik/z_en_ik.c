@@ -38,6 +38,9 @@ void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
 
+s32 EnIk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+void EnIk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
+
 extern AnimationHeader D_0600C114;
 extern AnimationHeader D_0600DD50;
 extern SkeletonHeader D_0601E178;
@@ -252,7 +255,20 @@ void func_80A7489C(EnIk* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75FA0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A761B0.s")
+Gfx* func_80A761B0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
+    Gfx* displayList;
+    Gfx* displayListHead;
+
+    displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    displayListHead = displayList;
+
+    gDPPipeSync(displayListHead++);
+    gDPSetPrimColor(displayListHead++, 0, 0, primR, primG, primB, 255);
+    gDPSetEnvColor(displayListHead++, envR, envG, envB, 255);
+    gSPEndDisplayList(displayListHead++);
+
+    return displayList;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7626C.s")
 
@@ -335,13 +351,31 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77BF8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77C7C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77ED0.s")
+void func_80A77ED0(EnIk* this, GlobalContext* globalCtx) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77EDC.s")
+void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    SkelAnime* skelAnime = &this->skelAnime;
+    s32 pad[2];
+
+    OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 630);
+
+    func_8002EBCC(&this->actor, globalCtx, 0);
+    func_80093D18(gfxCtx);
+    func_80093D84(gfxCtx);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                     EnIk_OverrideLimbDraw, EnIk_PostLimbDraw, &this->actor);
+
+    CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 653);
+}
 
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
