@@ -167,7 +167,7 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
     this->actor.gravity = -1.0f;
 
     if (this->actor.params == 0) {
-        this->actor.colChkInfo.health = 50;
+        this->actor.colChkInfo.health += 20;
         this->actor.naviEnemyId = 52;
     } else {
         Actor_SetScale(&this->actor, 0.012f);
@@ -191,11 +191,9 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
     func_80A74714(this);
 
-    if (this->switchFlags != 0xFF) {
-        if (Flags_GetSwitch(globalCtx, this->switchFlags)) {
-            Actor_Kill(&this->actor);
-        }
-    } else if ((this->actor.params != 0) && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
+    if (this->switchFlags != 0xFF && Flags_GetSwitch(globalCtx, this->switchFlags)) {
+        Actor_Kill(&this->actor);
+    } else if (this->actor.params != 0 && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
     }
 }
