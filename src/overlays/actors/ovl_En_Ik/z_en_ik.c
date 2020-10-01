@@ -424,26 +424,26 @@ void func_80A779DC(EnIk* this, GlobalContext* globalCtx) {
         action = npcAction->action;
         currentNpcAction = this->npcAction;
         if (action != currentNpcAction) {
-            switch (action - 1) {
-                case 0:
+            switch (action) {
+                case 1:
                     func_80A77148(this);
                     break;
-                case 1:
+                case 2:
                     func_80A77158(this, globalCtx);
                     break;
-                case 2:
+                case 3:
                     func_80A771E4(this);
                     break;
-                case 3:
+                case 4:
                     func_80A78160(this, globalCtx);
                     break;
-                case 4:
+                case 5:
                     func_80A7735C(this, globalCtx);
                     break;
-                case 5:
+                case 6:
                     func_80A77434(this, globalCtx);
                     break;
-                case 6:
+                case 7:
                     func_80A77474(this, globalCtx);
                     break;
                 default:
