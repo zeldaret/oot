@@ -148,32 +148,32 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EffectBlureInit1 blureInit;
 
-    this->actor.update = func_80A75FA0;
-    this->actor.draw = func_80A76798;
-    this->actor.flags |= 0x400;
+    thisx->update = func_80A75FA0;
+    thisx->draw = func_80A76798;
+    thisx->flags |= 0x400;
 
     Collider_InitCylinder(globalCtx, &this->unk_320);
-    Collider_SetCylinder(globalCtx, &this->unk_320, &this->actor, &D_80A78340);
+    Collider_SetCylinder(globalCtx, &this->unk_320, thisx, &D_80A78340);
     Collider_InitTris(globalCtx, &this->unk_3EC);
-    Collider_SetTris(globalCtx, &this->unk_3EC, &this->actor, &D_80A783E4, this->unk_40C);
+    Collider_SetTris(globalCtx, &this->unk_3EC, thisx, &D_80A783E4, this->unk_40C);
     Collider_InitQuad(globalCtx, &this->unk_36C);
-    Collider_SetQuad(globalCtx, &this->unk_36C, &this->actor, &D_80A783F4);
+    Collider_SetQuad(globalCtx, &this->unk_36C, thisx, &D_80A783F4);
 
-    this->actor.colChkInfo.damageTable = &D_80A78444;
-    this->actor.colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.damageTable = &D_80A78444;
+    thisx->colChkInfo.mass = 0xFE;
     this->unk_2FC = 0;
-    this->actor.colChkInfo.health = 30;
-    this->actor.gravity = -1.0f;
+    thisx->colChkInfo.health = 30;
+    thisx->gravity = -1.0f;
     this->switchFlags = (thisx->params >> 8) & 0xFF;
-    this->actor.params &= 0xFF;
+    thisx->params &= 0xFF;
 
     if (thisx->params == 0) {
-        this->actor.colChkInfo.health += 20;
-        this->actor.naviEnemyId = 52;
+        thisx->colChkInfo.health += 20;
+        thisx->naviEnemyId = 52;
     } else {
-        Actor_SetScale(&this->actor, 0.012f);
-        this->actor.naviEnemyId = 53;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
+        Actor_SetScale(thisx, 0.012f);
+        thisx->naviEnemyId = 53;
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_ENEMY);
     }
 
     blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p2StartColor[0] = blureInit.p2StartColor[1] =
@@ -194,10 +194,10 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->switchFlags != 0xFF) {
         if (Flags_GetSwitch(globalCtx, this->switchFlags)) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(thisx);
         }
-    } else if (this->actor.params != 0 && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
-        Actor_Kill(&this->actor);
+    } else if (thisx->params != 0 && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
+        Actor_Kill(thisx);
     }
 }
 
