@@ -28,7 +28,7 @@ glabel D_80A786E0
     .balign 4
 
 .text
-glabel func_80A76330
+glabel EnIk_PostLimbDraw3
 /* 02020 80A76330 27BDFF00 */  addiu   $sp, $sp, 0xFF00           ## $sp = FFFFFF00
 /* 02024 80A76334 AFB00024 */  sw      $s0, 0x0024($sp)           
 /* 02028 80A76338 AFBF003C */  sw      $ra, 0x003C($sp)           

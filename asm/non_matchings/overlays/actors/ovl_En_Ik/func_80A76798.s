@@ -269,13 +269,13 @@ glabel func_80A76798
 /* 02880 80A76B90 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 .L80A76B94:
 /* 02884 80A76B94 8FB90080 */  lw      $t9, 0x0080($sp)
-/* 02888 80A76B98 3C0980A7 */  lui     $t1, %hi(func_80A7626C)    ## $t1 = 80A70000
-/* 0288C 80A76B9C 3C0A80A7 */  lui     $t2, %hi(func_80A76330)    ## $t2 = 80A70000
+/* 02888 80A76B98 3C0980A7 */  lui     $t1, %hi(EnIk_OverrideLimbDraw3)    ## $t1 = 80A70000
+/* 0288C 80A76B9C 3C0A80A7 */  lui     $t2, %hi(EnIk_PostLimbDraw3)    ## $t2 = 80A70000
 /* 02890 80A76BA0 8F250150 */  lw      $a1, 0x0150($t9)           ## 00000150
 /* 02894 80A76BA4 8F26016C */  lw      $a2, 0x016C($t9)           ## 0000016C
 /* 02898 80A76BA8 9327014E */  lbu     $a3, 0x014E($t9)           ## 0000014E
-/* 0289C 80A76BAC 254A6330 */  addiu   $t2, $t2, %lo(func_80A76330) ## $t2 = 80A76330
-/* 028A0 80A76BB0 2529626C */  addiu   $t1, $t1, %lo(func_80A7626C) ## $t1 = 80A7626C
+/* 0289C 80A76BAC 254A6330 */  addiu   $t2, $t2, %lo(EnIk_PostLimbDraw3) ## $t2 = 80A76330
+/* 028A0 80A76BB0 2529626C */  addiu   $t1, $t1, %lo(EnIk_OverrideLimbDraw3) ## $t1 = 80A7626C
 /* 028A4 80A76BB4 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 028A8 80A76BB8 AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 028AC 80A76BBC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

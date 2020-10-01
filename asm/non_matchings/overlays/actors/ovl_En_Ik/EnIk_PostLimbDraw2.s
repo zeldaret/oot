@@ -46,7 +46,7 @@ glabel jtbl_80A789E4
 .word L80A777A4
 
 .text
-glabel func_80A7759C
+glabel EnIk_PostLimbDraw2
 /* 0328C 80A7759C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 03290 80A775A0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 03294 80A775A4 AFB00018 */  sw      $s0, 0x0018($sp)           

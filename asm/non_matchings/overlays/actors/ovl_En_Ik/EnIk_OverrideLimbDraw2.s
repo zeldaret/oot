@@ -1,4 +1,4 @@
-glabel func_80A77530
+glabel EnIk_OverrideLimbDraw2
 /* 03220 80A77530 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 03224 80A77534 2401000D */  addiu   $at, $zero, 0x000D         ## $at = 0000000D
 /* 03228 80A77538 AFBF0014 */  sw      $ra, 0x0014($sp)           

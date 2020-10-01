@@ -38,8 +38,14 @@ void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
 
-s32 EnIk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void EnIk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
+s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
+
+s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
+
+s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 
 extern AnimationHeader D_0600C114;
 extern AnimationHeader D_0600DD50;
@@ -270,11 +276,40 @@ Gfx* func_80A761B0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
     return displayList;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7626C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw3.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76330.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw3.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76798.s")
+void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1309);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    if (this->actor.params == 0) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A761B0(globalCtx->state.gfxCtx, 245, 225, 155, 30, 30, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A761B0(globalCtx->state.gfxCtx, 255, 40, 0, 40, 0, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80A761B0(globalCtx->state.gfxCtx, 255, 255, 255, 20, 40, 30));
+    } else if (this->actor.params == 1) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A761B0(globalCtx->state.gfxCtx, 245, 255, 205, 30, 35, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A761B0(globalCtx->state.gfxCtx, 185, 135, 25, 20, 20, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80A761B0(globalCtx->state.gfxCtx, 255, 255, 255, 30, 40, 20));
+    } else if (this->actor.params == 2) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A761B0(globalCtx->state.gfxCtx, 55, 65, 55, 0, 0, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A761B0(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80A761B0(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+    } else {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A761B0(globalCtx->state.gfxCtx, 255, 255, 255, 180, 180, 180));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A761B0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80A761B0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+    }
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     EnIk_OverrideLimbDraw3, EnIk_PostLimbDraw3, &this->actor);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1351);
+}
 
 void EnIk_StartMusic(void) {
     func_800F5ACC(0x38);
@@ -327,11 +362,28 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A774F8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77530.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw2.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7759C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw2.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77844.s")
+void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    SkelAnime* skelAnime = &this->skelAnime;
+    s32 pad[2];
+
+    OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 322);
+
+    func_8002EBCC(&this->actor, globalCtx, 0);
+    func_80093D18(gfxCtx);
+    func_80093D84(gfxCtx);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                     EnIk_OverrideLimbDraw2, EnIk_PostLimbDraw2, &this->actor);
+
+    CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 345);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A779DC.s")
 
@@ -351,9 +403,9 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw1.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw1.s")
 
 void func_80A77ED0(EnIk* this, GlobalContext* globalCtx) {
 }
@@ -372,7 +424,7 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                     EnIk_OverrideLimbDraw, EnIk_PostLimbDraw, &this->actor);
+                     EnIk_OverrideLimbDraw1, EnIk_PostLimbDraw1, &this->actor);
 
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 653);
 }

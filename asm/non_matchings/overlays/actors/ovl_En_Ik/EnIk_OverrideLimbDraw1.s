@@ -1,4 +1,4 @@
-glabel EnIk_OverrideLimbDraw
+glabel EnIk_OverrideLimbDraw1
 /* 038E8 80A77BF8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 038EC 80A77BFC 24010011 */  addiu   $at, $zero, 0x0011         ## $at = 00000011
 /* 038F0 80A77C00 AFBF0014 */  sw      $ra, 0x0014($sp)           

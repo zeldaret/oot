@@ -1,4 +1,4 @@
-glabel func_80A7626C
+glabel EnIk_OverrideLimbDraw3
 /* 01F5C 80A7626C 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
 /* 01F60 80A76270 AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 01F64 80A76274 14A1000A */  bne     $a1, $at, .L80A762A0       
