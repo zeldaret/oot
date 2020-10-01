@@ -32,7 +32,7 @@ glabel func_80A751C8
 /* 00F28 80A75238 3C0580A7 */  lui     $a1, %hi(func_80A75260)    ## $a1 = 80A70000
 /* 00F2C 80A7523C A20002FC */  sb      $zero, 0x02FC($s0)         ## 000002FC
 /* 00F30 80A75240 24A55260 */  addiu   $a1, $a1, %lo(func_80A75260) ## $a1 = 80A75260
-/* 00F34 80A75244 0C29D0E4 */  jal     func_80A74390
+/* 00F34 80A75244 0C29D0E4 */  jal     EnIk_SetupAction
 /* 00F38 80A75248 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00F3C 80A7524C 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 00F40 80A75250 8FB00028 */  lw      $s0, 0x0028($sp)

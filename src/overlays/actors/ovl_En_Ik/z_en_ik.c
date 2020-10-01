@@ -35,22 +35,12 @@ void func_80A7489C(EnIk* this);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
 void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
-void func_80A76BF4();
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_0600C114;
 extern AnimationHeader D_0600DD50;
 extern SkeletonHeader D_0601E178;
-
-extern ColliderCylinderInit D_80A78340;
-extern ColliderTrisItemInit D_80A7836C[2];
-extern ColliderTrisInit D_80A783E4;
-extern ColliderQuadInit D_80A783F4;
-extern DamageTable D_80A78444;
-
-extern EnIkActionFunc D_80A78604[6];
-extern EnIkDrawFunc D_80A7861C[3];
 
 // sCylinderInit
 ColliderCylinderInit D_80A78340 = {
@@ -149,8 +139,7 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->unk_36C);
 }
 
-// EnIk_SetupAction
-void func_80A74390(EnIk* this, EnIkActionFunc actionFunc) {
+void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -227,7 +216,7 @@ void func_80A7489C(EnIk* this) {
     this->unk_2F8 = 4;
     this->actor.speedXZ = 0.0f;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600DD50, 0.0f, 0.0f, frames, 0, 4.0f);
-    func_80A74390(this, func_80A7492C);
+    EnIk_SetupAction(this, func_80A7492C);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7492C.s")
@@ -280,9 +269,7 @@ void func_80A7489C(EnIk* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76798.s")
 
-// starts middle boss bgm
-void func_80A76BF4(void) {
-    // NA_BGM_MIDDLE_BOSS
+void EnIk_StartMusic(void) {
     func_800F5ACC(0x38);
 }
 
@@ -382,7 +369,7 @@ void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 0.01f);
         } else {
             func_80A78160(this, globalCtx);
-            func_80A76BF4();
+            EnIk_StartMusic();
         }
     }
     osSyncPrintf("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
