@@ -712,7 +712,7 @@ typedef struct {
     /* 0x2974 */ s16 unk_2974[3];
     /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
-    /* 0x2984*/ s32 unk_2984;
+    /* 0x2984 */ s32 unk_2984;
     /* 0x2988 */ char unk_2988[0x8];
     /* 0x2990 */ SoundAllocPool gAudioSessionPool;
     /* 0x29A0 */ SoundAllocPool gUnkPool;

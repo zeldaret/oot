@@ -620,7 +620,7 @@ extern s16 D_80130328[];
 //extern ? D_801304E4;
 //extern ? D_801304E8;
 //extern ? D_801304EC;
-//extern ? D_801304F0;
+//extern ? audRand;
 //extern ? D_80130500;
 extern f32 D_80130510;
 extern s32 D_80130514;

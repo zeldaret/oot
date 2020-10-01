@@ -136,6 +136,8 @@ void func_800E1B08(unk_dma_s *arg0, u32 romAddr, u16 arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2AA8.s")
 
+void (*D_801304D0)(OSPiHandle* handle, OSIoMesg* mb, s32 direction)= osEPiStartDma;
+
 void func_800E2BCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
@@ -152,10 +154,12 @@ void func_800E2CB8(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E301C.s")
 
+u32 D_801304D4 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3028.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3034.s")
 
+u32 D_801304D8 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3094.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3400.s")
@@ -220,6 +224,7 @@ void func_800E4EDC(void) {
 void func_800E4EE4(void) {
 }
 
+u32 D_801304DC = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4EEC.s")
 
 extern u8* D_8016B738[];
@@ -247,8 +252,13 @@ void func_800E4FE0(void) {
     func_800E5000();
 }
 
+u32 D_801304E0 = 0x80;
+u32 D_801304E4 = 0;
 //large
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5000.s")
+
+#include <ultra64.h>
+#include <global.h>
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5584.s")
 
@@ -343,8 +353,8 @@ void func_800E5B50(u32 arg0, u16 arg1) {
     func_800E5A8C(arg0, &sp1C);
 }
 
+u32 D_801304E8 = 0;
 #ifdef NON_MATCHING
-extern s32 D_801304E8;
 s32 func_800E5B80(void) {
     u8 temp_a0;
     u8 temp_a3;
@@ -372,6 +382,7 @@ s32 func_800E5B80(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5C28.s")
 
+u8 D_801304EC = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5D6C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5E20.s")
@@ -499,17 +510,14 @@ void func_800E66A0(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E66C0.s")
 
-#ifdef NON_MACHING
-u32 func_800E67C0(void) {
-    static u32 D_801304F0 = 0x1234567;
+// matching, but marked NON_MATCHING until data is decompiled
+u32 Audio_RandUInt(void) {
+    static u32 audRand = 0x12345678;
 
-    D_801304F0 = ((osGetCount() + 0x1234567) * (D_801304F0 + gAudioContext.unk_289C));
-    D_801304F0 += gAudioContext.gAudioRandom;
-    return D_801304F0;
+    audRand = ((osGetCount() + 0x1234567) * (audRand + gAudioContext.unk_289C));
+    audRand += gAudioContext.gAudioRandom;
+    return audRand;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E67C0.s")
-#endif
 
 void func_800E6818(void) {
     func_800E59F4();

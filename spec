@@ -409,7 +409,6 @@ beginseg
     include "build/data/code_800DACC0.bss.o"
     include "build/src/code/audio_heap.o"
     include "build/src/code/code_800E11F0.o"
-    include "build/data/code_800E11F0.data.o"
     include "build/data/code_800E11F0.rodata.o"
     include "build/src/libultra_code/code_800E6840.o"
     include "build/src/libultra_code/osAiSetNextBuffer.o"

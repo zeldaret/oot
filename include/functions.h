@@ -2134,7 +2134,7 @@ void func_800E4FB0(void);
 // ? func_800E6300(?);
 // ? func_800E6680(?);
 // ? func_800E66C0(?);
-// ? func_800E67C0(?);
+u32 Audio_RandUInt(void);
 // ? func_800E6818(?);
 // ? func_800E6840(?);
 void func_800E6880(void* mem, s32 size);
