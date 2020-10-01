@@ -7,7 +7,13 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800F94FC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/Audio_SetBGM.s")
+extern u32 D_8016E350[0x100];
+extern u8 D_80133400;
+
+void Audio_SetBGM(u32 bgmID) {
+    D_8016E350[D_80133400] = bgmID;
+    D_80133400++;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800FA034.s")
 

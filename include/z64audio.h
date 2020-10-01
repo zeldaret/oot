@@ -655,6 +655,24 @@ typedef struct {
 } AudioStruct0D68; // size = 0x14
 
 typedef struct {
+    u32 unk_00;
+    u32 unk_04;
+} unk_5C50_s;
+
+typedef struct {
+    union{
+        struct {
+            s16 unk_00;
+            u16 unk_02;
+        };
+        u32 unk_00w;
+    };
+    u32 unk_04;
+    s8 unk_08;
+    char unk_09[0x7];
+} unk_dma_s;
+
+typedef struct {
     /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 gNumSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;
@@ -694,7 +712,8 @@ typedef struct {
     /* 0x2974 */ s16 unk_2974[3];
     /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
-    /* 0x2984 */ char unk_2984[0xC];
+    /* 0x2984*/ s32 unk_2984;
+    /* 0x2988 */ char unk_2988[0x8];
     /* 0x2990 */ SoundAllocPool gAudioSessionPool;
     /* 0x29A0 */ SoundAllocPool gUnkPool;
     /* 0x29B0 */ SoundAllocPool gAudioInitPool;
@@ -729,6 +748,16 @@ typedef struct {
     /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
     /* 0x5B84 */ s32 gNoteSubEuOffset;
     /* 0x5B88 */ AudioListItem gLayerFreeList;
+    /* 0x5B98 */ char unk_5B98[0x40];
+    /* 0x5BD8 */ u8 unk_5BD8;
+    /* 0x5BD9 */ u8 unk_5BD9;
+    /* 0x5BDA */ u8 unk_5BDA;
+    /* 0x5BDC */ char unk_5BDB[0x9];
+    /* 0x5BE4 */ OSMesgQueue* unk_5BE4;
+    /* 0x5BE8 */ OSMesgQueue* unk_5BE8;
+    /* 0x5BEC */ OSMesgQueue* unk_5BEC;
+    /* 0x5BF0 */ char unk_5BF0[0x64];
+    /* 0x5C50 */ unk_5C50_s unk_5C50[1];
 } AudioContext; // size >= 0x5c50
 
 typedef struct {

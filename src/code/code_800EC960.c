@@ -12,7 +12,8 @@ typedef struct {
 } unk_s1;
 typedef struct {
     f32 unk_00;
-    char unk_04[8];
+    f32 unk_04;
+    f32 unk_08;
     s32 unk_0C;
 } unk_s2;
 
@@ -21,12 +22,17 @@ void func_800E5B20(s32,s8);
 void func_800F5550(u16);
 void func_800F5E18(u8 arg0, u16 arg1, u8 arg2, s8 arg3, s8 arg4);
 u8 *func_800E5E84(s32 arg0, u8 *arg1);
+void func_800F4784(unk_s2 *arg0);
+void func_800F56A8(void);
 
 extern u8 D_80131880;
 extern u8 D_80131858;
 extern f32 D_80130F24;
 extern u8 D_80130F34;
 extern u32 D_80130F28;
+extern u8 D_80131F4C[];
+extern u32 D_8016BAB8;
+extern u8 D_80131F50;
 
 // stick float vals
 extern f32      D_8012F6B4[];
@@ -95,10 +101,10 @@ extern u16      D_8016B9F6;
 
 extern s8       D_8016BA08;
 extern s8       D_8016BA09;
-extern s32      D_8016BA0C;
+extern s32      D_8016BA0C; // cur button.
 extern s32      D_8016BA10;
 extern s32      D_8016BA14;
-extern s32      D_8016BA18;
+extern s32      D_8016BA18; // prev button.
 extern u8       D_8016BA29; // has played a note?
 extern u8       D_8016BAA8;
 extern f32      D_8016BAAC;
@@ -316,7 +322,11 @@ void func_800ECDBC(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ED200.s")
 
-
+#define OCARINA_CUP (0xE)
+#define OCARINA_CDOWN (0x5)
+#define OCARINA_CLEFT (0xB)
+#define OCARINA_CRIGHT (0x9)
+#define OCARINA_A (0x2)
 
 #ifdef NON_MATCHING
 void func_800ED458(s32 arg0) {
@@ -547,7 +557,19 @@ void func_800EE6F4(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE930.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE97C.s")
+extern u32 D_8016BAB0;
+extern u32 D_8016BAB4;
+
+void func_800EE97C(void) {
+    Input sp20[4];
+    u32 btn;
+
+    PadMgr_RequestPadData(&gPadMgr, &sp20, 0);
+    btn = sp20[3].cur.in.button;
+    D_8016BAB0 = btn & 0xFFFF;
+    D_8016BAB8 = (btn ^ D_8016BAB4) & btn;
+    D_8016BAB4 = btn;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE9D0.s")
 
@@ -565,9 +587,6 @@ void func_800EE6F4(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F28AC.s")
 
-extern u8 D_80131F4C[];
-extern u32 D_8016BAB8;
-extern u8 D_80131F50;
 void func_800F28B4(void) {
     if (D_8016BAB8 & 0x800) {
         if (D_80131F50 > 0) {
@@ -786,7 +805,7 @@ void func_800F3138(UNK_TYPE arg0) {
 void func_800F3140(UNK_TYPE arg0, UNK_TYPE arg1) {
 }
 
-void func_800E5AFC(u32, u8);
+void func_800E5AFC(u32, u32);
 
 #ifdef NON_MATCHING
 void func_800F314C(u16 arg0) {
@@ -860,7 +879,16 @@ void func_800F3ED4(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F46E0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F4784.s")
+void func_800F4784(unk_s2 *arg0) {
+    if (arg0->unk_0C != 0) {
+        arg0->unk_0C--;
+        if (arg0->unk_0C != 0) {
+            arg0->unk_00 = arg0->unk_00 + arg0->unk_08;
+        } else {
+            arg0->unk_00 = arg0->unk_04;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F47BC.s")
 
@@ -1009,7 +1037,20 @@ void func_800F5550(u16 arg0) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F5550.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F56A8.s")
+void func_800F56A8(void) {
+    u16 temp_v0;
+    u8 bvar;
+
+    temp_v0 = func_800FA0B4(0);
+    bvar = temp_v0 & 0xFF;
+    if ((temp_v0 != 0xFFFF) && ((D_80130658[bvar] & 0x10) != 0)) {
+        if (D_8013062C != 0xC0) {
+            D_8013062C = gAudioContext.gSequencePlayers->unk_158[3];
+        } else {
+            D_8013062C = 0;
+        }
+    }
+}
 
 void func_800F5718(void) {
     if (func_800FA0B4(0) != 0x4C) {
@@ -1150,29 +1191,27 @@ void func_800F5C64(u16 arg0) {
     D_8016B9F6 = arg0;
 }
 
-#ifdef NON_MATCHING
 void func_800F5CF8(void) {
     u16 sp26;
     u16 sp24;
     u16 sp22;
-    s32 sp1C;
 
     if (D_8016B9F4 != 0) {
         D_8016B9F4--;
         if (D_8016B9F4 == 0) {
-            func_800E5AFC(0xE3000000U, 0U);
-            func_800E5AFC(0xE3000000U, 1U);
+            func_800E5AFC(0xE3000000, 0);
+            func_800E5AFC(0xE3000000, 1);
             func_800FA0B4(0);
             sp26 = func_800FA0B4(1);
             sp22 = func_800FA0B4(3);
             if (sp26 == 0xFFFF) {
                 func_800FA240(0, 1, 0, 5);
                 func_800FA240(3, 1, 0, 5);
-                Audio_SetBGM(0xC180010AU);
-                Audio_SetBGM(0xC183010AU);
-                Audio_SetBGM(0xC1900000U);
+                Audio_SetBGM(0xC180010A);
+                Audio_SetBGM(0xC183010A);
+                Audio_SetBGM(0xC1900000);
                 if (sp22 != 0x2F) {
-                    Audio_SetBGM(0xC1930000U);
+                    Audio_SetBGM(0xC1930000);
                 }
             }
             Audio_SetBGM(D_8016B9F6 | 0x1010000);
@@ -1183,9 +1222,6 @@ void func_800F5CF8(void) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F5CF8.s")
-#endif
 
 void func_800F5E18(u8 arg0, u16 arg1, u8 arg2, s8 arg3, s8 arg4) {
     Audio_SetBGM(0x70000000 | (arg0 << 0x18) | ((arg3 & 0xFF) << 0x10) | (u8)arg4);
@@ -1562,7 +1598,7 @@ void func_800F71BC(s32 arg0) {
 
 void func_800F7208(void) {
     func_800FADF8();
-    func_800E5AFC(0xF2000000U, 1);
+    func_800E5AFC(0xF2000000, 1);
     func_800F6C34();
     func_800F3ED4();
     func_800F9280(2, 0, 0x70, 1);
