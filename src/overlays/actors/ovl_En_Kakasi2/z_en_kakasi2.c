@@ -162,7 +162,7 @@ void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     currentFrame = this->skelAnime.animCurrentFrame;
-    if (currentFrame == 0xB || currentFrame == 0x11) {
+    if (currentFrame == 11 || currentFrame == 17) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
     }
 
