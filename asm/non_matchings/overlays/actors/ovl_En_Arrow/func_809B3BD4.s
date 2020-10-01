@@ -1,15 +1,15 @@
 .late_rodata
 glabel jtbl_809B4F20
-.word L809B3C50
-.word L809B3C50
-.word L809B3C50
-.word L809B3C64
-.word L809B3C64
-.word L809B3C64
-.word L809B3C70
-.word L809B3C70
-.word L809B3C70
-.word L809B3C3C
+.word L809B3C50_012 # 0
+.word L809B3C50_012 # 1
+.word L809B3C50_012 # 2
+.word L809B3C64_345 # 3
+.word L809B3C64_345 # 4
+.word L809B3C64_345 # 5
+.word L809B3C70_678 # 6
+.word L809B3C70_678 # 7
+.word L809B3C70_678 # 8
+.word L809B3C70_9 # 9
 
 .text
 glabel func_809B3BD4
@@ -36,30 +36,30 @@ glabel func_809B3BD4
 .L809B3C20:
 /* 00300 809B3C20 2C41000A */  sltiu   $at, $v0, 0x000A           
 .L809B3C24:
-/* 00304 809B3C24 10200012 */  beq     $at, $zero, .L809B3C70     
+/* 00304 809B3C24 10200012 */  beq     $at, $zero, .L809B3C70_678     
 /* 00308 809B3C28 3C01809B */  lui     $at, %hi(jtbl_809B4F20)       ## $at = 809B0000
 /* 0030C 809B3C2C 00380821 */  addu    $at, $at, $t8              
 /* 00310 809B3C30 8C384F20 */  lw      $t8, %lo(jtbl_809B4F20)($at)  
 /* 00314 809B3C34 03000008 */  jr      $t8                        
 /* 00318 809B3C38 00000000 */  nop
-glabel L809B3C3C
+glabel L809B3C70_9
 /* 0031C 809B3C3C 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 00320 809B3C40 0C00BDF7 */  jal     func_8002F7DC              
 /* 00324 809B3C44 24051820 */  addiu   $a1, $zero, 0x1820         ## $a1 = 00001820
-/* 00328 809B3C48 10000009 */  beq     $zero, $zero, .L809B3C70   
+/* 00328 809B3C48 10000009 */  beq     $zero, $zero, .L809B3C70_678   
 /* 0032C 809B3C4C 00000000 */  nop
-glabel L809B3C50
+glabel L809B3C50_012
 /* 00330 809B3C50 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 00334 809B3C54 0C00BDF7 */  jal     func_8002F7DC              
 /* 00338 809B3C58 24051804 */  addiu   $a1, $zero, 0x1804         ## $a1 = 00001804
-/* 0033C 809B3C5C 10000004 */  beq     $zero, $zero, .L809B3C70   
+/* 0033C 809B3C5C 10000004 */  beq     $zero, $zero, .L809B3C70_678   
 /* 00340 809B3C60 00000000 */  nop
-glabel L809B3C64
+glabel L809B3C64_345
 /* 00344 809B3C64 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 00348 809B3C68 0C00BDF7 */  jal     func_8002F7DC              
 /* 0034C 809B3C6C 24051839 */  addiu   $a1, $zero, 0x1839         ## $a1 = 00001839
-glabel L809B3C70
-.L809B3C70:
+glabel L809B3C70_678
+.L809B3C70_678:
 /* 00350 809B3C70 3C05809B */  lui     $a1, %hi(func_809B3FDC)    ## $a1 = 809B0000
 /* 00354 809B3C74 24A53FDC */  addiu   $a1, $a1, %lo(func_809B3FDC) ## $a1 = 809B3FDC
 /* 00358 809B3C78 0C26CE48 */  jal     EnArrow_SetupAction              

@@ -588,9 +588,12 @@ s32 func_8003D7A0(CollisionContext*, f32*, Vec3f*, f32, UNK_PTR, u32*, Actor*);
 // ? func_8003D7F0(?);
 // ? func_8003DD28(?);
 // ? func_8003DD6C(?);
-s32 func_8003DE84(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*);
+s32 func_8003DE84(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
+                  s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
 s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*);
 // ? func_8003DFA0(?);
+s32 func_8003E02C(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
+                  s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
 // ? func_8003E0FC(?);
 // ? func_8003E188(?);
 // ? func_8003E214(?);
