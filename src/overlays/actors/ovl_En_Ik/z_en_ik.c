@@ -29,7 +29,7 @@ void func_80A77ED0(EnIk* this, GlobalContext* globalCtx);
 void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
 void func_80A77844(EnIk* this, GlobalContext* globalCtx);
 
-void func_80A74398(EnIk* this, GlobalContext* globalCtx);
+void func_80A74398(Actor* thisx, GlobalContext* globalCtx);
 void func_80A74714(EnIk* this);
 void func_80A7489C(EnIk* this);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
@@ -144,7 +144,9 @@ void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
 }
 
 #ifdef NON_MATCHING
-void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
+void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+    s32 pad;
     EffectBlureInit1 blureInit;
 
     this->actor.update = func_80A75FA0;
@@ -159,14 +161,14 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->unk_36C, &this->actor, &D_80A783F4);
 
     this->actor.colChkInfo.damageTable = &D_80A78444;
-    this->actor.params &= 0xFF;
     this->actor.colChkInfo.mass = 0xFE;
-    this->unk_2FC = 0;
     this->actor.colChkInfo.health = 30;
+    this->unk_2FC = 0;
+    this->actor.params &= 0xFF;
     this->switchFlags = (this->actor.params >> 8) & 0xFF;
     this->actor.gravity = -1.0f;
 
-    if (this->actor.params == 0) {
+    if (thisx->params == 0) {
         this->actor.colChkInfo.health += 20;
         this->actor.naviEnemyId = 52;
     } else {
@@ -191,8 +193,10 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
     func_80A74714(this);
 
-    if (this->switchFlags != 0xFF && Flags_GetSwitch(globalCtx, this->switchFlags)) {
-        Actor_Kill(&this->actor);
+    if (this->switchFlags != 0xFF) {
+        if (Flags_GetSwitch(globalCtx, this->switchFlags)) {
+            Actor_Kill(&this->actor);
+        }
     } else if (this->actor.params != 0 && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
     }
@@ -397,7 +401,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0601E178, &D_0600C114, this->limbDrawTable,
                          this->transitionDrawTable, 30);
-        func_80A74398(this, globalCtx);
+        func_80A74398(&this->actor, globalCtx);
         func_80A780D0(this, globalCtx);
     }
 }
