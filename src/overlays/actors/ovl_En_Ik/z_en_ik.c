@@ -175,19 +175,18 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
 
     blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p2StartColor[0] = blureInit.p2StartColor[1] =
         blureInit.p2StartColor[2] = blureInit.p1EndColor[0] = blureInit.p1EndColor[1] = blureInit.p2EndColor[0] =
-            blureInit.p2EndColor[1] = 255;
+            blureInit.p2EndColor[1] = blureInit.p2EndColor[2] = 255;
 
     blureInit.p2StartColor[3] = 64;
     blureInit.p1StartColor[3] = 200;
-    blureInit.p1StartColor[2] = 150;
-    blureInit.p1EndColor[3] = 0;
+    blureInit.p1StartColor[2] = blureInit.p1EndColor[2] = 150;
+    blureInit.p1EndColor[3] = blureInit.p2EndColor[3] = 0;
+
     blureInit.elemDuration = 8;
     blureInit.unkFlag = 0;
     blureInit.calcMode = 2;
-    blureInit.p1EndColor[2] = 150;
-    blureInit.p2EndColor[2] = 255;
-    blureInit.p2EndColor[3] = 0;
-    Effect_Add(globalCtx, this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
+
+    Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
     func_80A74714(this);
     if (this->switchFlags != 0xFF) {
         if (Flags_GetSwitch(globalCtx, this->switchFlags)) {
