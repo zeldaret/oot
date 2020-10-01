@@ -308,34 +308,28 @@ void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi* this = THIS;
     s32 pad;
     s32 i;
 
-    this->unk_198++;
+    this->unk_198 += 1;
     this->actor.posRot.rot = this->actor.shape.rot;
-    for (i = 0; i < 8; i += 2) {
-        if (1) {
-            if (this->unk_19C != 0) {
-                if (!pad) {}
-            }
-        }
-        this->unk_19C--;
+    for (i = 0; i < 4; i++) {
+        
+        if (this->unk_19C[i] != 0) {
+            this->unk_19C[i]--;
+        }        
     }
 
     this->unk_1B4 = 60.0f;
-    Actor_SetHeight(&this->actor, 60.0f);
+    Actor_SetHeight(&this->actor, this->unk_1B4);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/EnKakasi_Update.s")
-#endif
 
 void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi* this = THIS;
