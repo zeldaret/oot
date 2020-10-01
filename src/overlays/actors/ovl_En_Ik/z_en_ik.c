@@ -125,7 +125,7 @@ const ActorInit En_Ik_InitVars = {
     (ActorFunc)EnIk_Draw,
 };
 
-Vec3s D_80A78FA0;
+Vec3f D_80A78FA0;
 
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
@@ -150,12 +150,14 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
     this->actor.update = func_80A75FA0;
     this->actor.draw = func_80A76798;
     this->actor.flags |= 0x400;
+
     Collider_InitCylinder(globalCtx, &this->unk_320);
     Collider_SetCylinder(globalCtx, &this->unk_320, &this->actor, &D_80A78340);
     Collider_InitTris(globalCtx, &this->unk_3EC);
     Collider_SetTris(globalCtx, &this->unk_3EC, &this->actor, &D_80A783E4, this->unk_40C);
     Collider_InitQuad(globalCtx, &this->unk_36C);
     Collider_SetQuad(globalCtx, &this->unk_36C, &this->actor, &D_80A783F4);
+
     this->actor.colChkInfo.damageTable = &D_80A78444;
     this->actor.params &= 0xFF;
     this->actor.colChkInfo.mass = 0xFE;
@@ -188,6 +190,7 @@ void func_80A74398(EnIk* this, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
     func_80A74714(this);
+
     if (this->switchFlags != 0xFF) {
         if (Flags_GetSwitch(globalCtx, this->switchFlags)) {
             Actor_Kill(&this->actor);
@@ -302,7 +305,7 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[2];
     f32 wDest;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->actor.posRot, &D_80A78FA0, &wDest);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->actor.posRot.pos, &D_80A78FA0, &wDest);
     Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
