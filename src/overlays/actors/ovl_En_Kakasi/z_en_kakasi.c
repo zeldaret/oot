@@ -20,8 +20,6 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx);
-void func_80A8F28C(EnKakasi* this);
-void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg);
 void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx);
 
@@ -48,6 +46,7 @@ const ActorInit En_Kakasi_InitVars = {
 
 void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -82,8 +81,6 @@ void func_80A8F28C(EnKakasi* this) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
 }
 
-// Only regalloc
-#ifdef NON_MATCHING
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
     s16 phi_v0;
     s16 currentFrame;
@@ -91,11 +88,11 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
     phi_v0 = globalCtx->msgCtx.unk_E410[0];
     if (arg != 0) {
         if (this->unk_1A2 == 0) {
-            this->unk_1A2 = (s32)Math_Rand_ZeroFloat(10.99f) + 30;
-            this->unk_1A6 = (s32)Math_Rand_ZeroFloat(4.99f);
+            this->unk_1A2 = (s16)Math_Rand_ZeroFloat(10.99f) + 30;
+            this->unk_1A6 = (s16)Math_Rand_ZeroFloat(4.99f);
         }
 
-        this->unk_19A = (s32)Math_Rand_ZeroFloat(2.99f) + 5;
+        this->unk_19A = (s16)Math_Rand_ZeroFloat(2.99f) + 5;
         phi_v0 = this->unk_1A6;
     }
     switch (phi_v0) {
@@ -150,24 +147,22 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
         }
 
         if (this->unk_1A4 != 0) {
-            this->actor.shape.rot.y += 0x1000;
+            this->actor.shape.rot.y += 4096;
             if (this->actor.shape.rot.y == 0) {
                 this->unk_1A4 = 0;
             }
         }
         currentFrame = this->skelanime.animCurrentFrame;
-        if (currentFrame == 0xB || currentFrame == 0x11) {
+        if (currentFrame == 11 || currentFrame == 17) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
         }
         SkelAnime_FrameUpdateMatrix(&this->skelanime);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi/func_80A8F320.s")
-#endif
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06000214.genericHeader);
+
     SkelAnime_ChangeAnim(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
 
     this->actor.textId = 0x4076;
@@ -206,10 +201,10 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     }
 
     angleTowardsLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if (!(120.0f < this->actor.xzDistFromLink)) {
+    if (!(this->actor.xzDistFromLink > 120.0f)) {
         absAngleTowardsLink = ABS(angleTowardsLink);
 
-        if (absAngleTowardsLink < 0x4300) {
+        if (absAngleTowardsLink < 17152) {
             if (this->unk_194 == 0) {
 
                 if ((s32)(player->stateFlags2) << 7 < 0) {
@@ -258,6 +253,7 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     func_8002DF54(globalCtx, NULL, 8);
+
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0)) {
 
         if (this->camId != -1) {
@@ -276,7 +272,9 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
         func_80A8F320(this, globalCtx, 1);
         return;
     }
+
     osSyncPrintf("game_play->message.msg_mode=%d\n", globalCtx->msgCtx.msgMode);
+    
     if (globalCtx->msgCtx.msgMode == 0) {
         if (this->unk_194 != 0) {
             this->actor.textId = 0x4077;
@@ -298,6 +296,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
 void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
+
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
@@ -316,10 +315,9 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_198 += 1;
     this->actor.posRot.rot = this->actor.shape.rot;
     for (i = 0; i < 4; i++) {
-        
         if (this->unk_19C[i] != 0) {
             this->unk_19C[i]--;
-        }        
+        }
     }
 
     this->unk_1B4 = 60.0f;
