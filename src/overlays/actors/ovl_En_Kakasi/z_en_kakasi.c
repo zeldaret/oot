@@ -13,7 +13,7 @@
 
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnKakasi_Update(Actor* this, GlobalContext* globalCtx);
+void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx);
@@ -131,7 +131,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
 
     if (this->unk_19A != 0) {
         this->actor.gravity = -1.0f;
-        if (this->unk_19A == 8 && ((this->actor.bgCheckFlags & 1) != 0)) {
+        if (this->unk_19A == 8 && (this->actor.bgCheckFlags & 1)) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
@@ -320,8 +320,8 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->unk_1B4 = 60.0f;
-    Actor_SetHeight(&this->actor, this->unk_1B4);
+    this->height = 60.0f;
+    Actor_SetHeight(&this->actor, this->height);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);

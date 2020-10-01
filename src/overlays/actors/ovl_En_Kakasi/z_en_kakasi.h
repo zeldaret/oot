@@ -15,7 +15,7 @@ typedef struct EnKakasi {
     /* 0x0194 */ u8 unk_194;
     /* 0x0195 */ char unk_195;
     /* 0x0196 */ s16 unk_196;
-    /* 0x0198 */ s16 unk_198; // something related to Y or height
+    /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
     /* 0x019C */ s16 unk_19C[0x3];
     /* 0x01A2 */ s16 unk_1A2;
@@ -25,11 +25,10 @@ typedef struct EnKakasi {
     /* 0x01AA */ char unk_1AA[0x2];
     /* 0x01AC */ s16 unk_1AC;
     /* 0x01AE */ Vec3s rot;
-    /* 0x01B4 */ f32 unk_1B4; // height?
+    /* 0x01B4 */ f32 height;
     /* 0x01B8 */ f32 unk_1B8;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ s16 camId;
-    // 4 bytes remaining
 } EnKakasi; // size = 0x020C
 
 extern const ActorInit En_Kakasi_InitVars;
