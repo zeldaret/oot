@@ -269,7 +269,7 @@ void func_80A7489C(EnIk* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76798.s")
 
-void EnIk_StartMusic(void) {
+void EnIk_PlayBGM(void) {
     func_800F5ACC(0x38);
 }
 
@@ -369,7 +369,7 @@ void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 0.01f);
         } else {
             func_80A78160(this, globalCtx);
-            EnIk_StartMusic();
+            EnIk_PlayBGM();
         }
     }
     osSyncPrintf("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
