@@ -1,7 +1,7 @@
 /*
  * File: z_en_part.c
  * Overlay: ovl_En_Part
- * Description: Particle emitter for enemies' death
+ * Description: Effect spawner for enemies' death
  */
 
 #include "z_en_part.h"
@@ -110,7 +110,7 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
-    Vec3f zero = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if ((this->actor.params == 12) || (this->actor.params == 13)) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x1D);
@@ -131,13 +131,13 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
             case 9:
             case 10:
             case 14:
-                EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zero, &zero,
+                EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zeroVec, &zeroVec,
                                      (s16)(this->actor.scale.y * 100.0f) * 40, 7, 255, 255, 255, 255, 0, 255, 0, 1, 9,
                                      true);
                 break;
             case 3:
             case 11:
-                EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zero, &zero,
+                EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zeroVec, &zeroVec,
                                      (s16)(this->actor.scale.y * 100.0f) * 40, 7, 255, 255, 255, 255, 0, 0, 255, 1, 9,
                                      true);
                 break;
@@ -149,7 +149,7 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
                     pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(60.0f);
                     velocity.y = Math_Rand_ZeroOne() + 1.0f;
                     EffectSsDtBubble_SpawnColorProfile(globalCtx, &pos, &velocity, &accel, Math_Rand_S16Offset(80, 100),
-                                                       25, 0, 1);
+                                                       25, 0, true);
                 }
                 break;
             case 5:
@@ -160,8 +160,8 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
                     pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(25.0f);
                     pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(40.0f);
                     pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(25.0f);
-                    EffectSsDeadDb_Spawn(globalCtx, &pos, &zero, &zero, 40, 7, 255, 255, 255, 255, 0, 0, 255, 1, 9,
-                                         true);
+                    EffectSsDeadDb_Spawn(globalCtx, &pos, &zeroVec, &zeroVec, 40, 7, 255, 255, 255, 255, 0, 0, 255, 1,
+                                         9, true);
                 }
                 break;
         }
@@ -213,11 +213,11 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
-    Vec3f zero = { 0.0f, 0.0f, 0.0f };
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if ((this->actor.parent == NULL) || (this->actor.parent->update == NULL)) {
-        EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zero, &zero, (s16)(this->actor.scale.y * 100.0f) * 40,
-                             7, 255, 255, 255, 255, 0, 255, 0, 1, 9, true);
+        EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zeroVec, &zeroVec,
+                             (s16)(this->actor.scale.y * 100.0f) * 40, 7, 255, 255, 255, 255, 0, 255, 0, 1, 9, true);
         Actor_Kill(&this->actor);
         return;
     }
@@ -266,18 +266,18 @@ void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 Gfx* func_80ACEAC0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
-    Gfx* displayList;
-    Gfx* displayListHead;
+    Gfx* dList;
+    Gfx* dListHead;
 
-    displayList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
-    displayListHead = displayList;
+    dList = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    dListHead = dList;
 
-    gDPPipeSync(displayListHead++);
-    gDPSetPrimColor(displayListHead++, 0, 0, primR, primG, primB, 255);
-    gDPSetEnvColor(displayListHead++, envR, envG, envB, 255);
-    gSPEndDisplayList(displayListHead++);
+    gDPPipeSync(dListHead++);
+    gDPSetPrimColor(dListHead++, 0, 0, primR, primG, primB, 255);
+    gDPSetEnvColor(dListHead++, envR, envG, envB, 255);
+    gSPEndDisplayList(dListHead++);
 
-    return displayList;
+    return dList;
 }
 
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
