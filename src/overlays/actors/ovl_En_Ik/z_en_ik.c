@@ -47,9 +47,12 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 
+extern UNK_TYPE D_02003F80;
 extern AnimationHeader D_0600C114;
 extern AnimationHeader D_0600DD50;
 extern SkeletonHeader D_0601E178;
+extern AnimationHeader D_060203D8;
+extern SkeletonHeader D_060205C0;
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -325,9 +328,24 @@ void EnIk_StartMusic(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7707C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7709C.s")
+CsCmdActorAction* EnIk_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
+    if (globalCtx->csCtx.state != 0) {
+        return globalCtx->csCtx.npcActions[actionIdx];
+    } else {
+        return NULL;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A770C0.s")
+void func_80A770C0(EnIk* this, GlobalContext* globalCtx, s32 actionIdx) {
+    CsCmdActorAction* npcAction = EnIk_GetNpcAction(globalCtx, actionIdx);
+
+    if (npcAction != NULL) {
+        this->actor.posRot.pos.x = npcAction->startPos.x;
+        this->actor.posRot.pos.y = npcAction->startPos.y;
+        this->actor.posRot.pos.z = npcAction->startPos.z;
+        this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77140.s")
 
@@ -350,7 +368,19 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
     Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7735C.s")
+void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
+    s32 pad[3];
+    f32 frames = (f32)SkelAnime_GetFrameCount(&D_060203D8.genericHeader);
+
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060205C0, NULL, this->limbDrawTable, this->transitionDrawTable,
+                     30);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060203D8, 1.0f, 0.0f, frames, 2, 0.0f);
+    this->action = 3;
+    this->drawMode = 2;
+    func_80A770C0(this, globalCtx, 4);
+    func_80A772EC(this, globalCtx);
+    this->actor.shape.unk_14 = 0xFF;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77434.s")
 
@@ -462,7 +492,19 @@ void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
     func_80A7489C(this);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A781CC.s")
+void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+
+    if (!Gameplay_InCsMode(globalCtx)) {
+        this->actor.update = EnIk_Update;
+        this->actor.draw = EnIk_Draw;
+        Cutscene_SetSegment(globalCtx, &D_02003F80);
+        gSaveContext.cutsceneTrigger = 1;
+        Actor_SetScale(&this->actor, 0.01f);
+        gSaveContext.eventChkInf[3] |= 0x1000;
+        func_80A7735C(this, globalCtx);
+    }
+}
 
 void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;

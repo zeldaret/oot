@@ -3,7 +3,7 @@ glabel func_80A774F8
 /* 031EC 80A774FC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 031F0 80A77500 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 031F4 80A77504 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 031F8 80A77508 0C29DC27 */  jal     func_80A7709C              
+/* 031F8 80A77508 0C29DC27 */  jal     EnIk_GetNpcAction              
 /* 031FC 80A7750C 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004
 /* 03200 80A77510 54400004 */  bnel    $v0, $zero, .L80A77524     
 /* 03204 80A77514 8FBF0014 */  lw      $ra, 0x0014($sp)           

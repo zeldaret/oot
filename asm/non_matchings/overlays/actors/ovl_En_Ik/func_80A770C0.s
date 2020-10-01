@@ -5,7 +5,7 @@ glabel func_80A770C0
 /* 02DBC 80A770CC AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 02DC0 80A770D0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 02DC4 80A770D4 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
-/* 02DC8 80A770D8 0C29DC27 */  jal     func_80A7709C              
+/* 02DC8 80A770D8 0C29DC27 */  jal     EnIk_GetNpcAction              
 /* 02DCC 80A770DC AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 02DD0 80A770E0 10400013 */  beq     $v0, $zero, .L80A77130     
 /* 02DD4 80A770E4 8FA70018 */  lw      $a3, 0x0018($sp)           

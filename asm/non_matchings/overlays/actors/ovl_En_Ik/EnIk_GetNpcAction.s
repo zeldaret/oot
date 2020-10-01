@@ -1,4 +1,4 @@
-glabel func_80A7709C
+glabel EnIk_GetNpcAction
 /* 02D8C 80A7709C 908E1D6C */  lbu     $t6, 0x1D6C($a0)           ## 00001D6C
 /* 02D90 80A770A0 00057880 */  sll     $t7, $a1,  2               
 /* 02D94 80A770A4 008FC021 */  addu    $t8, $a0, $t7              
