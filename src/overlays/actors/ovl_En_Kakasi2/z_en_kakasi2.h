@@ -14,10 +14,10 @@ typedef struct EnKakasi2 {
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ s16 unk_194;
     /* 0x0196 */ s16 saveFlag;
-    /* 0x0198 */ u16 unk_198;
+    /* 0x0198 */ s16 unk_198;
     /* 0x019A */ char unk_19A[0x2];
     /* 0x019C */ Vec3f position;
-    /* 0x01A8 */ f32 unk_1A8; // Maybe is Sphere?
+    /* 0x01A8 */ f32 height;
     /* 0x01AC */ ColliderCylinder collider;
 } EnKakasi2; // size = 0x01F8
 
