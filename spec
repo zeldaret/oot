@@ -2886,8 +2886,7 @@ endseg
 beginseg
     name "ovl_En_Part"
     include "build/src/overlays/actors/ovl_En_Part/z_en_part.o"
-    include "build/data/overlays/actors/z_en_part.data.o"
-    include "build/data/overlays/actors/z_en_part.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Part/ovl_En_Part_reloc.o"
 endseg
 
 beginseg
