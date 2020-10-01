@@ -14,7 +14,7 @@ typedef struct EnKakasi3 {
     /* 0x0150 */ SkelAnime skelAnime;
     /* 0x0194 */ u8 unk_194;
     /* 0x0195 */ u8 unk_195;
-    /* 0x0196 */ s16 unk_196;
+    /* 0x0196 */ s16 dialogState;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
     /* 0x019C */ s16 unk_19C[0x3];
