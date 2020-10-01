@@ -91,7 +91,12 @@ void EnKakasi2_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->actor.shape.unk_08 = -8000.0f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi2/EnKakasi2_Destroy.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi2/EnKakasi2_Destroy.s")
+void EnKakasi2_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    EnKakasi2 *this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi2/func_80A90264.s")
 
