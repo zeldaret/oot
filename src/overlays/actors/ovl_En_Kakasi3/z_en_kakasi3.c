@@ -268,7 +268,34 @@ void func_80A915B8(EnKakasi3* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi3/func_80A91620.s")
+void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+
+    if (globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 0xB)) {
+
+        if (globalCtx->msgCtx.msgMode == 0) {
+            func_800803F0(globalCtx, this->camId);
+            if (globalCtx->cameraPtrs[this->camId] == 0) {
+                this->camId = -1;
+            }
+            if (this->camId != -1) {
+                func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
+            }
+            this->actionFunc = func_80A911F0;
+            return;
+        }
+    }
+
+    if (globalCtx->msgCtx.unk_E3EE == 3 && globalCtx->msgCtx.msgMode == 0) {
+        this->dialogState = 5;
+        func_8010B680(globalCtx, 0x40A5, NULL);
+        func_8002DF54(globalCtx, NULL, 8);
+        this->actionFunc = func_80A91A90;
+    } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+        func_80A90EBC(this, globalCtx, 0);
+        player->stateFlags2 |= 0x800000;
+    }
+}
 
 void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
 
@@ -303,7 +330,6 @@ void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi3/func_80A918E4.s")
 void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
