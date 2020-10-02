@@ -139,7 +139,7 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
-        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 0x0A,
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 10,
                                   this->actor.posRot.pos.z, 155, 210, 255, 0);
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         this->unk_154 = Math_Rand_ZeroOne() * (0x1FFFF / 2.0f);
@@ -271,8 +271,6 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
-    f32 temp_f0;
-
     this->actionFunc = EnIceHono_SmallFlameMove;
     this->timer = 44;
     this->alpha = 255;
@@ -281,14 +279,11 @@ void EnIceHono_SetupActionSmallFlame(EnIceHono* this) {
         this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.6f) + 0.5f;
     } else {
         this->smallFlameTargetYScale = (Math_Rand_ZeroOne() * 0.005f) + 0.003f;
-        temp_f0 = Math_Rand_ZeroOne();
-        this->actor.speedXZ = (temp_f0 + temp_f0) + 0.5f;
+        this->actor.speedXZ = (Math_Rand_ZeroOne() * 2.0f) + 0.5f;
     }
 }
 
 void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
-    f32 unk = 10.0f;
-
     if (this->timer > 20) {
         Math_ApproxF(&this->actor.scale.x, 0.006f, 0.00016f);
         Math_ApproxF(&this->actor.scale.y, this->smallFlameTargetYScale * 0.667f, 0.00014f);
@@ -299,7 +294,7 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
     this->actor.scale.z = this->actor.scale.x;
     Math_ApproxF(&this->actor.speedXZ, 0, 0.06f);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, unk, unk, 0.0f, 5);
+    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
 
     if (this->timer < 25) {
         this->alpha -= 10;
@@ -330,11 +325,11 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
         sin156 = Math_Sins(this->unk_156);
         sin154 = Math_Sins(this->unk_154);
         intensity = (Math_Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
-        if ((0.7f < intensity) || (intensity < 0.2f)) {
+        if ((intensity > 0.7f) || (intensity < 0.2f)) {
             // Translates to: "impossible value(ratio = %f)"
             osSyncPrintf("ありえない値(ratio = %f)\n", (f64)intensity);
         }
-        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 0x0A,
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 10,
                                   this->actor.posRot.pos.z, (s32)(155.0f * intensity), (s32)(210.0f * intensity),
                                   (s32)(255.0f * intensity), 1400);
     }
@@ -359,10 +354,8 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 150, 255, 0);
 
-    Matrix_RotateY(
-        (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
-            (M_PI / 0x8000),
-        MTXMODE_APPLY);
+    Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
+                   MTXMODE_APPLY);
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
