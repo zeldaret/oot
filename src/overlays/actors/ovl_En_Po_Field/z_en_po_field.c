@@ -106,7 +106,7 @@ extern Gfx D_060023B0[];
 
 void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoField* this = THIS;
-    s32 temp;
+    s32 pad;
 
     if (sNumSpawned != 10) {
         sSpawnPositions[sNumSpawned].x = this->actor.posRot.pos.x;
@@ -350,26 +350,27 @@ f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
 
 void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3s* spawn;
+    f32 spawnDist;
     s32 i;
     UNK_TYPE sp88;
-    f32 spawnDist;
 
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
     // Do not allow a poe to spawn until 10 seconds after entering the scene
     if (this->actionTimer == 0) {
-        for (spawn = &sSpawnPositions[0], i = 0; i < sNumSpawned; spawn++, i++) {
+        for (i = 0; i < sNumSpawned; i++) {
             // Check for player within spawn range
-            if (fabsf(spawn->x - player->actor.posRot.pos.x) < 150.0f && fabsf(spawn->z - player->actor.posRot.pos.z) < 150.0f) {
-                // If this big poe is caught
-                if (Flags_GetSwitch(globalCtx, sSpawnSwitchFlags[i]) != 0) {
-                    // And the player is not riding Epona, elect to spawn a Small Poe
-                    if (!(player->stateFlags1 & 0x800000)) {
+            if (fabsf(sSpawnPositions[i].x - player->actor.posRot.pos.x) < 150.0f && fabsf(sSpawnPositions[i].z - player->actor.posRot.pos.z) < 150.0f) {
+                // If the Big Poe is already caught, consider spawning a small Poe
+                if (Flags_GetSwitch(globalCtx, sSpawnSwitchFlags[i])) {
+                    // If the player is riding Epona, do not spawn a small poe
+                    if (player->stateFlags1 & 0x800000) {
+                        return; 
+                    } else {
                         this->actor.params = EN_PO_FIELD_SMALL;
                         spawnDist = 300.0f;
-                    } else return; // Since the Big Poe is already caught, spawn nothing
+                    }
                 } else if (player->stateFlags1 & 0x800000 || Math_Rand_ZeroOne() < 0.4f) {
                     // If the player is riding Epona or a 40% chance, elect to spawn a Big Poe
                     this->actor.params = EN_PO_FIELD_BIG;
@@ -837,7 +838,6 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// OverrideLimbDraw2
 s32 EnPoField_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
     EnPoField* this = THIS;
 
@@ -858,7 +858,6 @@ s32 EnPoField_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     return 0;
 }
 
-// PostLimDraw2
 void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
     EnPoField* this = THIS;
 

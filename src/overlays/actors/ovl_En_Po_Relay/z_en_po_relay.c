@@ -86,6 +86,7 @@ Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
 
 Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
+// sEyesSegments
 UNK_PTR D_80AD8D54[] = {
     0x06003B40, 0x06004340, 0x06004B40,
 };

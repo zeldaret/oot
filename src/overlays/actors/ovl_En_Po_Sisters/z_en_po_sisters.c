@@ -1223,8 +1223,7 @@ void func_80ADC55C(EnPoSisters* this) {
     }
 }
 
-// OverrideLimbDraw2
-s32 func_80ADC77C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+s32 EnPoSisters_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
     EnPoSisters* this = THIS;
     Color_RGBA8* color;
 
@@ -1252,7 +1251,7 @@ s32 func_80ADC77C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // PostLimbDraw2
-void func_80ADC970(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+void EnPoSisters_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
     EnPoSisters* this = THIS;
     s32 i;
     s32 pad;
@@ -1311,11 +1310,11 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_22E.a == 255 || this->unk_22E.a == 0) {
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
         gSPSegment(oGfxCtx->polyOpa.p++, 0x09, D_80116280 + 2);
-        oGfxCtx->polyOpa.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80ADC77C, func_80ADC970, &this->actor, oGfxCtx->polyOpa.p);
+        oGfxCtx->polyOpa.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, oGfxCtx->polyOpa.p);
     } else {
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, this->unk_22E.a);
         gSPSegment(oGfxCtx->polyXlu.p++, 0x09, D_80116280);
-        oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80ADC77C, func_80ADC970, &this->actor, oGfxCtx->polyXlu.p);
+        oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, oGfxCtx->polyXlu.p);
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);
