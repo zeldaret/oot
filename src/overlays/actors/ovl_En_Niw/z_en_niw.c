@@ -10,29 +10,30 @@ void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AB70F8(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB5BF8(EnNiw* this, GlobalContext* globalCtx, s16 arg2);
+void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2);
+void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB6324(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6450(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6570(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB6324(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB6EB4(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB5BF8(EnNiw* this, GlobalContext* globalCtx, s16 arg2);
-void EnNiw_ParticleSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
-void func_80AB7420(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB6EB4(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB747C(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2);
-void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB627C(EnNiw* this, GlobalContext* globalCtx);
-s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+void func_80AB70A0(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB70F8(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB714C(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB7204(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7328(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB7204(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB714C(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB7420(EnNiw* this, GlobalContext* globalCtx);
+void func_80AB747C(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_ParticleSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 void EnNiw_ParticleUpdate(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx);
 
 s16 D_80AB85E0 = 0;
 
@@ -72,14 +73,16 @@ static u8 sSpawnedVer1 = 0;
 
 static u8 sSpawnedVer2 = 0;
 
-static u32 D_80AB8684[] = {
-    0x05000901, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0xFFCFFFFF,
-    0x00000000, 0x00010100, 0x000F0019, 0x00040000, 0x00000000,
+static ColliderCylinderInit sCylinderInit1 = {
+    { COLTYPE_UNK5, 0x00, 0x09, 0x01, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 15, 25, 4, { 0, 0, 0 } },
 };
 
-static u32 D_80AB86B0[] = {
-    0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000100, 0x000F0019, 0x00040000, 0x00000000,
+static ColliderCylinderInit sCylinderInit2 = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 15, 25, 4, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -201,19 +204,19 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.colChkInfo.mass = 0xFF;
         case 13:
         case 14:
-            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, D_80AB86B0);
+            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit2);
             if (globalCtx->sceneNum == SCENE_LINK_HOME && !(gSaveContext.eventChkInf[1] & 0x4000)) {
                 Actor_Kill(&this->actor);
             }
             break;
         default:
-            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, D_80AB8684);
+            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit1);
             break;
     }
 
     osSyncPrintf("\x1b[33m☆☆☆☆☆ どんな奴？ ☆☆☆☆☆ %d\n\x1b[m", this->actor.params);
     osSyncPrintf("\n\n");
-    this->actionFunc = func_80AB627C;
+    this->actionFunc = EnNiw_ResetAction;
 }
 
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -394,7 +397,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
     func_80AB5BF8(this, globalCtx, 5);
 }
 
-void func_80AB627C(EnNiw* this, GlobalContext* globalCtx) {
+void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
 
     switch (this->actor.params) {
@@ -421,9 +424,8 @@ void func_80AB6324(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) != 0) {
+    if (this->actor.bgCheckFlags & 1) {
         if (this->actor.velocity.y < 0.0f) {
-
             this->unk_2AC = this->unk_2B8 = this->actor.posRot.pos.x;
             this->unk_2B0 = this->unk_2BC = this->actor.posRot.pos.y;
             this->unk_2B4 = this->unk_2C0 = this->actor.posRot.pos.z;
@@ -436,6 +438,7 @@ void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
             return;
         }
     }
+
     func_80AB5BF8(this, globalCtx, 2);
 }
 
@@ -602,9 +605,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
     Vec3s* pointPos;
     f32 pathDiffX;
     f32 pathDiffZ;
-    s16 pathNumber;
-
-    pathNumber = this->path - 1;
+    s16 pathNumber = this->path - 1;
 
     if (this->path == 0) {
         this->unk_2AC = this->unk_2B8 = this->actor.posRot.pos.x;
@@ -613,7 +614,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         this->timer5 = this->timer4 = this->unk_29E = 0;
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speedXZ =
             this->unk_2FC = this->unk_300 = 0.0f;
-        this->actionFunc = func_80AB627C;
+        this->actionFunc = EnNiw_ResetAction;
     } else {
         path = &globalCtx->setupPathList[pathNumber];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
@@ -653,7 +654,7 @@ void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx) {
             return;
         }
 
-        this->actor.shape.rot.z = 0x0000;
+        this->actor.shape.rot.z = 0;
         this->actor.shape.rot.y = this->actor.shape.rot.z;
         this->actor.shape.rot.x = this->actor.shape.rot.z;
         this->actor.flags |= 1;
@@ -677,7 +678,7 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speedXZ =
                 this->unk_2FC = this->unk_300 = 0.0f;
 
-            this->actionFunc = func_80AB627C;
+            this->actionFunc = EnNiw_ResetAction;
             return;
         }
 
@@ -782,7 +783,7 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB70A0(EnNiw* this, GlobalContext* globalCtx) {
-    func_800800F8(globalCtx, (u16)0x8F2, (u16)-0x63, &this->actor, 0);
+    func_800800F8(globalCtx, 0x8F2, -0x63, &this->actor, 0);
     this->timer5 = 100;
     this->unk_2A2 = 1;
     this->actionFunc = func_80AB70F8;
@@ -861,7 +862,7 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
             this->actor.params = 0x0000;
         }
 
-        this->actionFunc = func_80AB627C;
+        this->actionFunc = EnNiw_ResetAction;
     } else {
         this->unk_2E4 = Math_atan2f(this->actor.posRot.pos.x - player->actor.posRot.pos.x,
                                     this->actor.posRot.pos.z - player->actor.posRot.pos.z) *
@@ -874,7 +875,7 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
 void func_80AB7420(EnNiw* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1) {
         this->unk_2A4 = (s16)Math_Rand_ZeroFloat(3.99f) + 5;
-        this->actionFunc = func_80AB627C;
+        this->actionFunc = EnNiw_ResetAction;
     }
 }
 
