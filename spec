@@ -738,7 +738,6 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Soulmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/z_bg_gnd_soulmeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.data.o"
     include "build/data/overlays/actors/z_bg_gnd_soulmeiro.reloc.o"
 endseg
 
