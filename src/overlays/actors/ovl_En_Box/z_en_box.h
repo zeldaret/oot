@@ -27,7 +27,7 @@ typedef enum {
     /*  9 */ ENBOX_TYPE_9,                      // big, has something more to do with player and message context?
     /* 10 */ ENBOX_TYPE_10,                     // like 9
     /* 11 */ ENBOX_TYPE_SWITCH_FLAG_BIG         // big, appear on switch flag set
-} EnBox_Type;
+} EnBoxType;
 
 typedef struct EnBox {
     /* 0x0000 */ DynaPolyActor dyna;

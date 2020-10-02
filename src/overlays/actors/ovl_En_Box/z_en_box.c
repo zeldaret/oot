@@ -4,37 +4,37 @@
 
 #define THIS ((EnBox*)thisx)
 
-typedef enum {
-    /*
-     set on init unless treasure flag is set
-     if clear, chest moves (Actor_MoveForward) (falls, likely)
-     ends up cleared from SWITCH_FLAG_FALL types when switch flag is set
-    */
-    ENBOX_MOVE_IMMOBILE = 1 << 0,
-    /*
-     set in the logic for SWITCH_FLAG_FALL types
-     otherwise unused
-    */
-    ENBOX_MOVE_UNUSED = 1 << 1,
-    /*
-     set with 50% chance on init for SWITCH_FLAG_FALL types
-     only used for SWITCH_FLAG_FALL types
-     ends up "blinking" (set/clear every frame) once switch flag is set,
-        if some collision-related condition (?) is met
-     only used for signum of z rotation
-    */
-    ENBOX_MOVE_FALL_ANGLE_SIDE = 1 << 2,
-    /*
-     when set, gets cleared next EnBox_Update call and clip to the floor
-    */
-    ENBOX_MOVE_STICK_TO_GROUND = 1 << 4
-} EnBox_MovementFlags;
+// movement flags
+
+/*
+set on init unless treasure flag is set
+if clear, chest moves (Actor_MoveForward) (falls, likely)
+ends up cleared from SWITCH_FLAG_FALL types when switch flag is set
+*/
+#define ENBOX_MOVE_IMMOBILE (1 << 0)
+/*
+set in the logic for SWITCH_FLAG_FALL types
+otherwise unused
+*/
+#define ENBOX_MOVE_UNUSED (1 << 1)
+/*
+set with 50% chance on init for SWITCH_FLAG_FALL types
+only used for SWITCH_FLAG_FALL types
+ends up "blinking" (set/clear every frame) once switch flag is set,
+if some collision-related condition (?) is met
+only used for signum of z rotation
+*/
+#define ENBOX_MOVE_FALL_ANGLE_SIDE (1 << 2)
+/*
+when set, gets cleared next EnBox_Update call and clip to the floor
+*/
+#define ENBOX_MOVE_STICK_TO_GROUND (1 << 4)
 
 typedef enum {
     ENBOX_STATE_0, // waiting for player near / player available / player ? (IDLE)
     ENBOX_STATE_1, // used only temporarily, maybe "player is ready" ?
     ENBOX_STATE_2  // waiting for something message context-related
-} EnBox_StateUnk1FB;
+} EnBoxStateUnk1FB;
 
 void EnBox_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -78,7 +78,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 0, ICHAIN_STOP),
 };
 
-static s32 unused;
+static s32 sUnused;
 
 void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -105,11 +105,9 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 dynaUnk;
     f32 animFrameStart;
     f32 animFrameCount;
-    s32 linkAge;
 
     animFrameStart = 0.0f;
-    linkAge = gSaveContext.linkAge;
-    animHeader = D_809CA800[linkAge];
+    animHeader = D_809CA800[((void)0, gSaveContext.linkAge)];
     dynaUnk = 0;
     animFrameCount = SkelAnime_GetFrameCount(&animHeader->genericHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -179,10 +177,8 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->movementFlags |= ENBOX_MOVE_STICK_TO_GROUND;
     }
 
-    this->dyna.actor.shape.rot.z = 0;
     this->dyna.actor.posRot.rot.y += 0x8000;
-    this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z;
-    this->dyna.actor.initPosRot.rot.z = this->dyna.actor.shape.rot.z;
+    this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
     SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, animHeader, this->limbDrawTable,
                    this->transitionDrawTable, 5);
@@ -411,7 +407,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
 
     this->alpha = 255;
     this->movementFlags |= ENBOX_MOVE_IMMOBILE;
-    if (this->unk_1F4) { // unk_1F4 is modified by player code
+    if (this->unk_1F4 != 0) { // unk_1F4 is modified by player code
         linkAge = gSaveContext.linkAge;
         anim = D_809CA800[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
         frameCount = SkelAnime_GetFrameCount(&anim->genericHeader);
@@ -478,7 +474,7 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
             sfxId = NA_SE_EV_TBOX_OPEN;
         }
 
-        if (sfxId) {
+        if (sfxId != 0) {
             Audio_PlaySoundGeneral(sfxId, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
 
@@ -493,7 +489,7 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809C9EF8(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_SpawnIceSmoke(EnBox* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Vec3f vel = { 0.0f, 1.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
@@ -520,7 +516,7 @@ void func_809C9EF8(EnBox* this, GlobalContext* globalCtx) {
             vel.y = 1.8f;
             vel.z = f0 * 1.6f * Math_Coss(this->dyna.actor.posRot.rot.y);
         }
-        func_8002AA44(globalCtx, &pos, &vel, &accel, 150);
+        EffectSsIceSmoke_Spawn(globalCtx, &pos, &vel, &accel, 150);
     }
 }
 
@@ -532,7 +528,7 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnBox_ClipToGround(this, globalCtx);
     }
 
-    (this->actionFunc)(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 
     if (!(this->movementFlags & ENBOX_MOVE_IMMOBILE)) {
         Actor_MoveForward(&this->dyna.actor);
@@ -552,11 +548,11 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->dyna.actor.params >> 5 & 0x7F) == 0x7C && this->actionFunc == EnBox_Open &&
         this->skelanime.animCurrentFrame > 45 && this->iceSmokeTimer < 100) {
-        func_809C9EF8(this, globalCtx);
+        EnBox_SpawnIceSmoke(this, globalCtx);
     }
 }
 
-void EnBox_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     EnBox* this = THIS;
     s32 pad;
 
@@ -580,58 +576,58 @@ void EnBox_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 Gfx* EnBox_EmptyDList(GraphicsContext* gfxCtx) {
-    Gfx* dList;
     Gfx* dListHead;
+    Gfx* dList;
 
-    dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
-    if (dListHead == NULL) {
+    dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+    if (dList == NULL) {
         __assert("gfxp != NULL", "../z_en_box.c", 1528);
     }
 
-    dList = dListHead;
-    gSPEndDisplayList(dList++);
+    dListHead = dList;
+    gSPEndDisplayList(dListHead++);
 
-    return dListHead;
+    return dList;
 }
 
 // set render mode with a focus on transparency
 Gfx* func_809CA4A0(GraphicsContext* gfxCtx) {
-    Gfx* dListHead;
     Gfx* dList;
+    Gfx* dListHead;
 
-    dList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    if (dList == NULL) {
+    dListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    if (dListHead == NULL) {
         __assert("gfxp != NULL", "../z_en_box.c", 1546);
     }
 
-    dListHead = dList;
-    gDPSetRenderMode(dList++,
+    dList = dListHead;
+    gDPSetRenderMode(dListHead++,
                      AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
                          GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
                      AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
                          GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA));
-    gSPEndDisplayList(dList++);
+    gSPEndDisplayList(dListHead++);
 
-    return dListHead;
+    return dList;
 }
 
 Gfx* func_809CA518(GraphicsContext* gfxCtx) {
-    Gfx* dListHead;
     Gfx* dList;
+    Gfx* dListHead;
 
-    dList = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    if (dList == NULL) {
+    dListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    if (dListHead == NULL) {
         __assert("gfxp != NULL", "../z_en_box.c", 1564);
     }
 
-    dListHead = dList;
-    gDPSetRenderMode(dList++,
+    dList = dListHead;
+    gDPSetRenderMode(dListHead++,
                      AA_EN | Z_CMP | Z_UPD | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | ALPHA_CVG_SEL |
                          GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
                      G_RM_AA_ZB_OPA_SURF2);
-    gSPEndDisplayList(dList++);
+    gSPEndDisplayList(dListHead++);
 
-    return dListHead;
+    return dList;
 }
 
 void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -650,7 +646,7 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(oGfxCtx->polyOpa.p++, 0x08, EnBox_EmptyDList(globalCtx->state.gfxCtx));
         func_80093D18(globalCtx->state.gfxCtx);
         oGfxCtx->polyOpa.p = SkelAnime_Draw2(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
-                                             EnBox_PostLimbDraw2, &this->dyna.actor, oGfxCtx->polyOpa.p);
+                                             EnBox_PostLimbDraw, &this->dyna.actor, oGfxCtx->polyOpa.p);
     } else if (this->alpha != 0) {
         gDPPipeSync(oGfxCtx->polyXlu.p++);
         func_80093D84(globalCtx->state.gfxCtx);
@@ -661,7 +657,7 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPSegment(oGfxCtx->polyXlu.p++, 0x08, func_809CA4A0(globalCtx->state.gfxCtx));
         }
         oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
-                                             EnBox_PostLimbDraw2, &this->dyna.actor, oGfxCtx->polyXlu.p);
+                                             EnBox_PostLimbDraw, &this->dyna.actor, oGfxCtx->polyXlu.p);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_box.c", 1639);
