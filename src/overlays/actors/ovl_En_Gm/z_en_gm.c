@@ -14,7 +14,7 @@
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnGm_DrawProc(Actor* thisx, GlobalContext* globalCtx);
+void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx);
@@ -103,7 +103,7 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_060002B8.genericHeader), 0, 0.0f);
-        this->actor.draw = EnGm_DrawProc;
+        this->actor.draw = EnGm_Draw;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
@@ -123,7 +123,7 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
 void EnGm_UpdateEye(EnGm* this) {
     if (this->eyeTimer != 0) {
         this->eyeTimer--;
-    } else if ((u8)(this->eyeIndex += 1) >= 3) {
+    } else if ((u8)(++this->eyeIndex) >= 3) {
         this->eyeIndex = 0;
         this->eyeTimer = Math_Rand_ZeroFloat(60.0f) + 20.0f;
     }
@@ -304,7 +304,7 @@ void func_80A3E090(EnGm* this) {
     this->actor.posRot2.pos.y += 100.0f;
 }
 
-void EnGm_DrawProc(Actor* thisx, GlobalContext* globalCtx) {
+void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static UNK_PTR sEyeTextures[] = {
         0x0600CE80,
         0x0600D280,
