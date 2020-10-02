@@ -1,26 +1,22 @@
 /*
  * File: z_eff_ss_g_spk.c
  * Overlay: ovl_Effect_Ss_G_Spk
- * Description: Fuse Sparks
+ * Description: Sparks
  */
 
 #include "z_eff_ss_g_spk.h"
 
-typedef enum {
-    /* 0x00 */ SS_G_SPK_PRIM_R,
-    /* 0x01 */ SS_G_SPK_PRIM_G,
-    /* 0x02 */ SS_G_SPK_PRIM_B,
-    /* 0x03 */ SS_G_SPK_PRIM_A,
-    /* 0x04 */ SS_G_SPK_ENV_R,
-    /* 0x05 */ SS_G_SPK_ENV_G,
-    /* 0x06 */ SS_G_SPK_ENV_B,
-    /* 0x07 */ SS_G_SPK_ENV_A,
-    /* 0x08 */ SS_G_SPK_TEX_IDX,
-    /* 0x09 */ SS_G_SPK_SCALE,
-    /* 0x0A */ SS_G_SPK_SCALE_STEP,
-} EffectSsGSpkRegs;
-
-#define SPARK_SOURCE ((Actor*)this->unk_3C)
+#define rPrimColorR regs[0]
+#define rPrimColorG regs[1]
+#define rPrimColorB regs[2]
+#define rPrimColorA regs[3]
+#define rEnvColorR regs[4]
+#define rEnvColorG regs[5]
+#define rEnvColorB regs[6]
+#define rEnvColorA regs[7]
+#define rTexIdx regs[8]
+#define rScale regs[9]
+#define rScaleStep regs[10]
 
 u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -32,13 +28,6 @@ EffectSsInit Effect_Ss_G_Spk_InitVars = {
     EffectSsGSpk_Init,
 };
 
-static UNK_PTR D_809A7498[] = {
-    0x04055FB0,
-    0x040561B0,
-    0x040563B0,
-    0x040565B0,
-};
-
 extern Gfx D_04025550[];
 
 u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
@@ -47,13 +36,13 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->displayList = SEGMENTED_TO_VIRTUAL(&D_04025550);
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_04025550);
 
     if (initParams->updateMode == 0) {
         this->life = 10;
-        this->unk_2C.x = initParams->pos.x - initParams->actor->posRot.pos.x;
-        this->unk_2C.y = initParams->pos.y - initParams->actor->posRot.pos.y;
-        this->unk_2C.z = initParams->pos.z - initParams->actor->posRot.pos.z;
+        this->vec.x = initParams->pos.x - initParams->actor->posRot.pos.x;
+        this->vec.y = initParams->pos.y - initParams->actor->posRot.pos.y;
+        this->vec.z = initParams->pos.z - initParams->actor->posRot.pos.z;
         this->update = EffectSsGSpk_Update;
     } else {
         this->life = 5;
@@ -61,54 +50,56 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     }
 
     this->draw = EffectSsGSpk_Draw;
-    this->regs[SS_G_SPK_PRIM_R] = initParams->primColor.r;
-    this->regs[SS_G_SPK_PRIM_G] = initParams->primColor.g;
-    this->regs[SS_G_SPK_PRIM_B] = initParams->primColor.b;
-    this->regs[SS_G_SPK_PRIM_A] = initParams->primColor.a;
-    this->regs[SS_G_SPK_ENV_R] = initParams->envColor.r;
-    this->regs[SS_G_SPK_ENV_G] = initParams->envColor.g;
-    this->regs[SS_G_SPK_ENV_B] = initParams->envColor.b;
-    this->regs[SS_G_SPK_ENV_A] = initParams->envColor.a;
-    this->regs[SS_G_SPK_TEX_IDX] = 0;
-    this->regs[SS_G_SPK_SCALE] = initParams->scale;
-    this->regs[SS_G_SPK_SCALE_STEP] = initParams->scaleStep;
-    this->unk_3C = initParams->actor;
+    this->rPrimColorR = initParams->primColor.r;
+    this->rPrimColorG = initParams->primColor.g;
+    this->rPrimColorB = initParams->primColor.b;
+    this->rPrimColorA = initParams->primColor.a;
+    this->rEnvColorR = initParams->envColor.r;
+    this->rEnvColorG = initParams->envColor.g;
+    this->rEnvColorB = initParams->envColor.b;
+    this->rEnvColorA = initParams->envColor.a;
+    this->rTexIdx = 0;
+    this->rScale = initParams->scale;
+    this->rScaleStep = initParams->scaleStep;
+    this->actor = initParams->actor;
 
     return 1;
 }
 
+static void* sTextures[] = {
+    0x04055FB0,
+    0x040561B0,
+    0x040563B0,
+    0x040565B0,
+};
+
 void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    MtxF sp11C;
-    MtxF spDC;
-    MtxF sp9C;
-    MtxF sp5C;
+    MtxF mfTrans;
+    MtxF mfScale;
+    MtxF mfResult;
+    MtxF mfTrans11DA0;
     Mtx* mtx;
     f32 scale;
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_spk.c", 208);
 
-    scale = this->regs[SS_G_SPK_SCALE] * 0.0025f;
+    scale = this->rScale * 0.0025f;
+    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
+    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
 
-    SkinMatrix_SetTranslate(&sp11C, this->pos.x, this->pos.y, this->pos.z);
-    SkinMatrix_SetScale(&spDC, scale, scale, 1.0f);
-    SkinMatrix_MtxFMtxFMult(&sp11C, &globalCtx->mf_11DA0, &sp5C);
-    SkinMatrix_MtxFMtxFMult(&sp5C, &spDC, &sp9C);
-
-    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp9C);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
         gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809A7498[this->regs[SS_G_SPK_TEX_IDX]]));
-
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
         func_80094BC4(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->regs[SS_G_SPK_PRIM_R], this->regs[SS_G_SPK_PRIM_G],
-                        this->regs[SS_G_SPK_PRIM_B], 255);
-
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->regs[SS_G_SPK_ENV_R], this->regs[SS_G_SPK_ENV_G],
-                       this->regs[SS_G_SPK_ENV_B], this->regs[SS_G_SPK_ENV_A]);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->displayList);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
     }
 
     if (1) {}
@@ -122,33 +113,33 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.x = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
     this->accel.z = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
 
-    if (SPARK_SOURCE != NULL) {
-        if ((SPARK_SOURCE->type == ACTORTYPE_EXPLOSIVES) && (SPARK_SOURCE->update != NULL)) {
-            this->pos.x = SPARK_SOURCE->posRot.pos.x + this->unk_2C.x;
-            this->pos.y = SPARK_SOURCE->posRot.pos.y + this->unk_2C.y;
-            this->pos.z = SPARK_SOURCE->posRot.pos.z + this->unk_2C.z;
+    if (this->actor != NULL) {
+        if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {
+            this->pos.x = this->actor->posRot.pos.x + this->vec.x;
+            this->pos.y = this->actor->posRot.pos.y + this->vec.y;
+            this->pos.z = this->actor->posRot.pos.z + this->vec.z;
         }
     }
 
-    this->unk_2C.x += this->accel.x;
-    this->unk_2C.z += this->accel.z;
+    this->vec.x += this->accel.x;
+    this->vec.z += this->accel.z;
 
-    this->regs[SS_G_SPK_TEX_IDX]++;
-    this->regs[SS_G_SPK_TEX_IDX] &= 3;
-    this->regs[SS_G_SPK_SCALE] += this->regs[SS_G_SPK_SCALE_STEP];
+    this->rTexIdx++;
+    this->rTexIdx &= 3;
+    this->rScale += this->rScaleStep;
 }
 
 // this update mode is unused in the original game
 // with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
 void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    if (SPARK_SOURCE != NULL) {
-        if ((SPARK_SOURCE->type == ACTORTYPE_EXPLOSIVES) && (SPARK_SOURCE->update != NULL)) {
-            this->pos.x += (Math_Sins(SPARK_SOURCE->posRot.rot.y) * SPARK_SOURCE->speedXZ);
-            this->pos.z += (Math_Coss(SPARK_SOURCE->posRot.rot.y) * SPARK_SOURCE->speedXZ);
+    if (this->actor != NULL) {
+        if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {
+            this->pos.x += (Math_Sins(this->actor->posRot.rot.y) * this->actor->speedXZ);
+            this->pos.z += (Math_Coss(this->actor->posRot.rot.y) * this->actor->speedXZ);
         }
     }
 
-    this->regs[SS_G_SPK_TEX_IDX]++;
-    this->regs[SS_G_SPK_TEX_IDX] &= 3;
-    this->regs[SS_G_SPK_SCALE] += this->regs[SS_G_SPK_SCALE_STEP];
+    this->rTexIdx++;
+    this->rTexIdx &= 3;
+    this->rScale += this->rScaleStep;
 }

@@ -212,8 +212,8 @@ void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     Vec3f dustVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f dustAccel = { 0.0f, 0.2f, 0.0f };
-    Color_RGBA8_n dustPrimColor = { 0, 0, 0, 255 };
-    Color_RGBA8_n dustEnvColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustPrimColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustEnvColor = { 0, 0, 0, 255 };
     Vec3f dustPos;
     f32 tmpf2;
     f32 sp4C;
@@ -335,7 +335,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
         dustVelocity.y = Math_Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
         dustPos = this->actor.posRot.pos;
-        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 0x258, 0x28, 0x1E);
+        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 600, 40, 30);
     }
 }
 
@@ -514,8 +514,8 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
-    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) || (sp2C < 0) ||
-        (sp2C > SCREEN_HEIGHT)) {
+    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
+        (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
         return;
     }
