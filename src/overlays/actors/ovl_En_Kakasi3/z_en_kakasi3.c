@@ -25,6 +25,7 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx);
 void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx);
 void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx);
 void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx);
+void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx);
 
 ColliderCylinderInit D_80A91D10 = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -302,7 +303,44 @@ void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi3/func_80A918E4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kakasi3/func_80A918E4.s")
+void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+
+    if (BREG(3) != 0) {
+        // No way!
+        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.unk_E3EE);
+    }
+    if (globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) {
+
+        if (globalCtx->msgCtx.msgMode == 0) {
+            func_8010B680(globalCtx, 0x40A6, NULL);
+            this->dialogState = 5;
+            func_800803F0(globalCtx, this->camId);
+            this->camId = -1;
+            func_8002DF54(globalCtx, NULL, 8);
+            this->actionFunc = func_80A91A90;
+            return;
+        }
+    }
+    if ((globalCtx->msgCtx.unk_E3EE == 3) && (globalCtx->msgCtx.msgMode == 0)) {
+        globalCtx->msgCtx.unk_E3EE = 4;
+        if (BREG(3) != 0) {
+            osSyncPrintf("\n\n");
+            // With this, other guys are OK! That's it!
+            osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n" VT_RST,
+                         globalCtx->msgCtx.unk_E3EE);
+        }
+        this->unk_195 = 1;
+        func_8010B680(globalCtx, 0x40A7, NULL);
+        this->dialogState = 5;
+        func_8002DF54(globalCtx, NULL, 8);
+        this->actionFunc = func_80A91A90;
+    } else if (globalCtx->msgCtx.unk_E3EE == 1) {
+        func_80A90EBC(this, globalCtx, 0);
+        player->stateFlags2 |= 0x800000;
+    }
+}
 
 void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
     func_80A90E28(this);
