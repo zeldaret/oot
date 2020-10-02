@@ -162,7 +162,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
         this->subActionFunc = func_80A3DC44;
     } else if (func_8002F194(&this->actor, globalCtx)) {
         this->subActionFunc = func_80A3DBF4;
-    } else if (this->collider.base.maskA & 2 || (SQ(dx) + SQ(dz)) < 10000.0f) {
+    } else if (this->collider.base.maskA & 2 || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~2;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
