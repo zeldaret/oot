@@ -271,7 +271,7 @@ glabel EnRr_Draw
 /* 0216C 80AEA5AC 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFB4
 /* 02170 80AEA5B0 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
 /* 02174 80AEA5B4 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 02178 80AEA5B8 0C00A935 */  jal     func_8002A4D4
+/* 02178 80AEA5B8 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f
 /* 0217C 80AEA5BC AFA00014 */  sw      $zero, 0x0014($sp)
 /* 02180 80AEA5C0 1000000B */  beq     $zero, $zero, .L80AEA5F0
 /* 02184 80AEA5C4 8FBF005C */  lw      $ra, 0x005C($sp)
@@ -283,7 +283,7 @@ glabel EnRr_Draw
 /* 02198 80AEA5D8 AFB8001C */  sw      $t8, 0x001C($sp)
 /* 0219C 80AEA5DC AFB90020 */  sw      $t9, 0x0020($sp)
 /* 021A0 80AEA5E0 AFAA0024 */  sw      $t2, 0x0024($sp)
-/* 021A4 80AEA5E4 0C00A850 */  jal     func_8002A140
+/* 021A4 80AEA5E4 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f
 /* 021A8 80AEA5E8 E7B00028 */  swc1    $f16, 0x0028($sp)
 .L80AEA5EC:
 /* 021AC 80AEA5EC 8FBF005C */  lw      $ra, 0x005C($sp)
