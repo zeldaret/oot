@@ -171,6 +171,7 @@ static ColliderJntSphInit sColliderJntSphInit = {
     13,
     sColliderJntSphItemInit,
 };
+
 static u8 sClearPixelTableFirstPass[16 * 16] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00,
     0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x01,
@@ -203,6 +204,7 @@ static u8 sClearPixelTableSecondPass[16 * 16] = {
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
     0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 };
+
 // indexed by limb (where the root limb is 1)
 static u8 D_8091B244[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -281,17 +283,19 @@ void BossGoma_ClearPixels(u8* clearPixelTable, s16 i) {
     BossGoma_ClearPixels32x32Rgba16((s16*)SEGMENTED_TO_VIRTUAL(D_060193A8), clearPixelTable, i);
 }
 
-void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static InitChainEntry D_8091B2A8[] = { ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-                                           ICHAIN_S8(naviEnemyId, 1, ICHAIN_CONTINUE),
-                                           ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP) };
+static InitChainEntry sInitChain[] = {
+    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 1, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
+};
 
+void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossGoma* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_8091B2A8);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 4000.0f, ActorShadow_DrawFunc_Circle, 150.0f);
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_0601DCF8, &D_06012678, 0, 0, 0);
+    SkelAnime_Init(globalCtx, &this->skelanime, &D_0601DCF8, &D_06012678, NULL, NULL, 0);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelanime, &D_06012678);
     this->actor.shape.rot.x = -0x8000; // upside-down
     this->eyeIrisScaleX = 1.0f;
@@ -535,10 +539,9 @@ void BossGoma_SetupFloorDamaged(BossGoma* this) {
 
 void BossGoma_UpdateCeilingMovement(BossGoma* this, GlobalContext* globalCtx, f32 dz, f32 targetSpeedXZ,
                                     s16 rotateTowardsCenter) {
-    static Vec3f _vel = { 0, 0, 0 };
-    static Vec3f _accel = { 0, -0.5f, 0 };
-    static Vec3f roomCenter = { -150, 0, -350 };
-
+    static Vec3f velInit = { 0.0f, 0.0f, 0.0f };
+    static Vec3f accelInit = { 0.0f, -0.5f, 0.0f };
+    static Vec3f roomCenter = { -150.0f, 0.0f, -350.0f };
     Vec3f* basePos = NULL;
     s16 i;
     Vec3f vel;
@@ -562,8 +565,8 @@ void BossGoma_UpdateCeilingMovement(BossGoma* this, GlobalContext* globalCtx, f3
 
     if (basePos != NULL) {
         for (i = 0; i < 5; i++) {
-            vel = _vel;
-            accel = _accel;
+            vel = velInit;
+            accel = accelInit;
             pos.x = Math_Rand_CenteredFloat(70.0f) + basePos->x;
             pos.y = Math_Rand_ZeroFloat(30.0f) + basePos->y;
             pos.z = Math_Rand_CenteredFloat(70.0f) + basePos->z;
@@ -888,23 +891,16 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 }
 
 void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
-    static Vec3f _vel1 = { 0, 0, 0 };
-    static Vec3f _accel1 = { 0, 1, 0 };
-    static Color_RGBA8 _color1 = { 255, 255, 255, 255 };
-    static Color_RGBA8 _color2 = { 0, 100, 255, 255 };
-    static Vec3f _vel2 = { 0, 0, 0 };
-    static Vec3f _accel2 = { 0, -0.5f, 0 };
-    static Vec3f roomCenter = { -150, 0, -350 };
-
+    static Vec3f roomCenter = { -150.0f, 0.0f, -350.0f };
     f32 dx;
     f32 dz;
     s16 j;
-    Vec3f vel1 = _vel1;
-    Vec3f accel1 = _accel1;
-    Color_RGBA8 color1 = _color1;
-    Color_RGBA8 color2 = _color2;
-    Vec3f vel2 = _vel2;
-    Vec3f accel2 = _accel2;
+    Vec3f vel1 = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel1 = { 0.0f, 1.0f, 0.0f };
+    Color_RGBA8 color1 = { 255, 255, 255, 255 };
+    Color_RGBA8 color2 = { 0, 100, 255, 255 };
+    Vec3f vel2 = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel2 = { 0.0f, -0.5f, 0.0f };
     Vec3f pos;
     Camera* camera;
     Player* player = PLAYER;
@@ -938,7 +934,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
     if (this->framesUntilNextAction < 1080 && this->actionState < 3) {
         if (this->framesUntilNextAction < 1070) {
-            Audio_PlayActorSound2(&this->actor, 0x301C);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_LAST - SFX_FLAG);
         }
         for (i = 0; i < 4; i++) {
             // @bug this 0-indexes into this->defeatedLimbPositions which is initialized with
@@ -949,7 +945,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                 pos.x = Math_Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
                 pos.y = Math_Rand_CenteredFloat(10.0f) + this->defeatedLimbPositions[j].y;
                 pos.z = Math_Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].z;
-                func_8002836C(globalCtx, &pos, &vel1, &accel1, &color1, &color2, 0x1F4, 0xA, 0xA);
+                func_8002836C(globalCtx, &pos, &vel1, &accel1, &color1, &color2, 500, 10, 10);
             }
         }
         for (i = 0; i < 15; i++) {
@@ -959,7 +955,8 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                 pos.x = Math_Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
                 pos.y = Math_Rand_CenteredFloat(10.0f) + this->defeatedLimbPositions[j].y;
                 pos.z = Math_Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].z;
-                EffectSsHahen_Spawn(globalCtx, &pos, &vel2, &accel2, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, NULL);
+                EffectSsHahen_Spawn(globalCtx, &pos, &vel2, &accel2, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10,
+                                    NULL);
             }
         }
     }
@@ -1666,7 +1663,7 @@ void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
                        (acHitItem->toucher.flags & 5) != 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM2);
-                func_800F8D04(0x380E);
+                func_800F8D04(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
                 BossGoma_SetupFloorStunned(this);
                 this->sfxFaintTimer = 100;
@@ -1683,10 +1680,14 @@ void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
 }
 
 void BossGoma_UpdateMainEnvColor(BossGoma* this) {
-    static f32 D_8091B31C[][3] = { { 255, 17, 0 },  { 0, 255, 170 }, { 50, 50, 50 },
-                                   { 0, 255, 170 }, { 0, 255, 170 }, { 0, 255, 170 } };
-    static f32 D_8091B364[][3] = { { 255, 17, 0 },  { 0, 255, 170 }, { 50, 50, 50 },
-                                   { 0, 255, 170 }, { 0, 0, 255 },   { 255, 17, 0 } };
+    static f32 colors1[][3] = {
+        { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
+        { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f },
+    };
+    static f32 colors2[][3] = {
+        { 255.0f, 17.0f, 0.0f },  { 0.0f, 255.0f, 170.0f }, { 50.0f, 50.0f, 50.0f },
+        { 0.0f, 255.0f, 170.0f }, { 0.0f, 0.0f, 255.0f },   { 255.0f, 17.0f, 0.0f },
+    };
 
     if (this->visualState == VISUALSTATE_DEFAULT && this->frameCount & 0x10) {
         Math_SmoothScaleMaxF(&this->mainEnvColor[0], 50.0f, 0.5f, 20.0f);
@@ -1694,28 +1695,30 @@ void BossGoma_UpdateMainEnvColor(BossGoma* this) {
         Math_SmoothScaleMaxF(&this->mainEnvColor[2], 50.0f, 0.5f, 20.0f);
     } else if (this->invincibilityFrames != 0) {
         if (this->invincibilityFrames & 2) {
-            this->mainEnvColor[0] = D_8091B364[this->visualState][0];
-            this->mainEnvColor[1] = D_8091B364[this->visualState][1];
-            this->mainEnvColor[2] = D_8091B364[this->visualState][2];
+            this->mainEnvColor[0] = colors2[this->visualState][0];
+            this->mainEnvColor[1] = colors2[this->visualState][1];
+            this->mainEnvColor[2] = colors2[this->visualState][2];
         } else {
-            this->mainEnvColor[0] = D_8091B31C[this->visualState][0];
-            this->mainEnvColor[1] = D_8091B31C[this->visualState][1];
-            this->mainEnvColor[2] = D_8091B31C[this->visualState][2];
+            this->mainEnvColor[0] = colors1[this->visualState][0];
+            this->mainEnvColor[1] = colors1[this->visualState][1];
+            this->mainEnvColor[2] = colors1[this->visualState][2];
         }
     } else {
-        Math_SmoothScaleMaxF(&this->mainEnvColor[0], D_8091B31C[this->visualState][0], 0.5f, 20.0f);
-        Math_SmoothScaleMaxF(&this->mainEnvColor[1], D_8091B31C[this->visualState][1], 0.5f, 20.0f);
-        Math_SmoothScaleMaxF(&this->mainEnvColor[2], D_8091B31C[this->visualState][2], 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->mainEnvColor[0], colors1[this->visualState][0], 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->mainEnvColor[1], colors1[this->visualState][1], 0.5f, 20.0f);
+        Math_SmoothScaleMaxF(&this->mainEnvColor[2], colors1[this->visualState][2], 0.5f, 20.0f);
     }
 }
 
 void BossGoma_UpdateEyeEnvColor(BossGoma* this) {
-    static f32 D_8091B3AC[][3] = { { 255, 17, 0 },  { 255, 255, 255 }, { 50, 50, 50 },
-                                   { 0, 255, 170 }, { 0, 255, 170 },   { 0, 255, 170 } };
+    static f32 targetEyeEnvColors[][3] = {
+        { 255.0f, 17.0f, 0.0f },  { 255.0f, 255.0f, 255.0f }, { 50.0f, 50.0f, 50.0f },
+        { 0.0f, 255.0f, 170.0f }, { 0.0f, 255.0f, 170.0f },   { 0.0f, 255.0f, 170.0f },
+    };
 
-    Math_SmoothScaleMaxF(&this->eyeEnvColor[0], D_8091B3AC[this->visualState][0], 0.5f, 20.0f);
-    Math_SmoothScaleMaxF(&this->eyeEnvColor[1], D_8091B3AC[this->visualState][1], 0.5f, 20.0f);
-    Math_SmoothScaleMaxF(&this->eyeEnvColor[2], D_8091B3AC[this->visualState][2], 0.5f, 20.0f);
+    Math_SmoothScaleMaxF(&this->eyeEnvColor[0], targetEyeEnvColors[this->visualState][0], 0.5f, 20.0f);
+    Math_SmoothScaleMaxF(&this->eyeEnvColor[1], targetEyeEnvColors[this->visualState][1], 0.5f, 20.0f);
+    Math_SmoothScaleMaxF(&this->eyeEnvColor[2], targetEyeEnvColors[this->visualState][2], 0.5f, 20.0f);
 }
 
 void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1842,11 +1845,10 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    static Vec3f tailZero = { 0, 0, 0 };
-    static Vec3f clawBackLocalPos = { 0, 0, 0 };
-    static Vec3f focusEyeLocalPos = { 0, 300, 2650 }; // in the center of the surface of the lens
-    static Vec3f zero = { 0, 0, 0 };
-
+    static Vec3f tailZero = { 0.0f, 0.0f, 0.0f };
+    static Vec3f clawBackLocalPos = { 0.0f, 0.0f, 0.0f };
+    static Vec3f focusEyeLocalPos = { 0.0f, 300.0f, 2650.0f }; // in the center of the surface of the lens
+    static Vec3f zero = { 0.0f, 0.0f, 0.0f };
     Vec3f childPos;
     Vec3s childRot;
     EnGoma* childActor;
@@ -1942,5 +1944,17 @@ void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, this->lastTailLimbWorldPos.x,
                        this->lastTailLimbWorldPos.y - 50.0f, this->lastTailLimbWorldPos.z, 0, i * 0x5555, 0, i);
     // @bug (maybe) if child gohma fails to spawn this softlocks due to the lack of a != NULL check?
+    /*
+    Detailed explanation of the oversight:
+    BossGoma_UpdateEye sets eyeClosedTimer to 7 if any childrenGohmaState[i] is positive (i = 0,1,2)
+    Gohma only comes down from the ceiling when:
+     - shot by the player (BossGoma_UpdateHit), but eyeClosedTimer being positive acts as invincibility frames
+     - all children gohmas are dead (BossGoma_CeilingIdle), but the children gohma actors are responsible for setting
+       childrenGohmaState[i] to indicate they're dead
+    So basically if childrenGohmaState[i] is 1 and the corresponding child gohma actor fails to spawn, the fight will
+    softlock with Gohma being stuck on the ceiling.
+    Gohma also doesn't respawn children for indices (i) that already have been spawned, even if dead, until the next
+    time it climbs a wall.
+    */
     this->childrenGohmaState[i] = 1;
 }
