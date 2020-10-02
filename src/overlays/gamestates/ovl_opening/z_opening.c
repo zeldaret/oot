@@ -10,9 +10,9 @@
 void Opening_SetupTitleScreen(OpeningContext* this) {
     gSaveContext.gameMode = 1;
     this->state.running = false;
-    gSaveContext.linkAge = 0;
-    func_800A82C8();
-    gSaveContext.cutsceneIndex = 0xFFF3;
+    gSaveContext.memory.linkAge = 0;
+    Sram_InitSaveSlotDebug();
+    gSaveContext.memory.cutsceneIndex = 0xFFF3;
     gSaveContext.sceneSetupIndex = 7;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }

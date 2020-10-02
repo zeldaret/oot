@@ -418,7 +418,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         func_800800F8(globalCtx, 0x1054, 0x32, NULL, 0);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
-        gSaveContext.eventChkInf[2] |= 8;
+        gSaveContext.memory.information.eventChkInf[2] |= 8;
 
         func_808B5A78(this);
     } else {

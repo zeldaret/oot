@@ -73,7 +73,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
     s16* timer1ValuePtr; // weirdness with this necessary to match
 
-    if (!(gSaveContext.infTable[11] & 0x100)) {
+    if (!(gSaveContext.memory.information.infTable[11] & 0x100)) {
         return 0x2000;
     }
     timer1ValuePtr = &gSaveContext.timer1Value;
@@ -83,13 +83,13 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
-        if ((gSaveContext.unk_EC4 == 0) || (gSaveContext.unk_EC4 >= 0xB4)) {
-            gSaveContext.unk_EC4 = 0xB4;
+        if ((gSaveContext.memory.information.unk_EC4 == 0) || (gSaveContext.memory.information.unk_EC4 >= 0xB4)) {
+            gSaveContext.memory.information.unk_EC4 = 0xB4;
             gSaveContext.timer1Value = *timer1ValuePtr;
         }
-        if (!(gSaveContext.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
+        if (!(gSaveContext.memory.information.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
             return 0x208F;
-        } else if (gSaveContext.timer1Value < gSaveContext.unk_EC4) {
+        } else if (gSaveContext.timer1Value < gSaveContext.memory.information.unk_EC4) {
             return 0x2012;
         } else {
             return 0x2004;
@@ -99,7 +99,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         (Actor_FindNearby(globalCtx, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
-    if (!(gSaveContext.infTable[11] & 0x200)) {
+    if (!(gSaveContext.memory.information.infTable[11] & 0x200)) {
         return 0x2002;
     } else {
         return 0x2003;
@@ -122,11 +122,11 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
             break;
         case 4:
             if (func_80106BC8(globalCtx) != 0) {
-                gSaveContext.infTable[11] |= 0x200;
+                gSaveContext.memory.information.infTable[11] |= 0x200;
                 if (globalCtx->msgCtx.choiceIndex == 0) {
-                    if (gSaveContext.eventChkInf[1] & 0x4000) {
+                    if (gSaveContext.memory.information.eventChkInf[1] & 0x4000) {
                         func_8010B720(globalCtx, 0x2091);
-                    } else if (gSaveContext.unk_EC4 == 0) {
+                    } else if (gSaveContext.memory.information.unk_EC4 == 0) {
                         func_8010B720(globalCtx, 0x2092);
                     } else {
                         func_8010B720(globalCtx, 0x2090);
@@ -137,15 +137,15 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
         case 2:
             switch (thisx->textId) {
                 case 0x2000:
-                    gSaveContext.infTable[11] |= 0x100;
+                    gSaveContext.memory.information.infTable[11] |= 0x100;
                     ret = 0;
                     break;
                 case 0x208F:
-                    gSaveContext.eventChkInf[1] |= 0x4000;
+                    gSaveContext.memory.information.eventChkInf[1] |= 0x4000;
                 case 0x2004:
                 case 0x2012:
-                    if (gSaveContext.unk_EC4 > gSaveContext.timer1Value) {
-                        gSaveContext.unk_EC4 = gSaveContext.timer1Value;
+                    if (gSaveContext.memory.information.unk_EC4 > gSaveContext.timer1Value) {
+                        gSaveContext.memory.information.unk_EC4 = gSaveContext.timer1Value;
                     }
                 case 0x208E:
                     gSaveContext.eventInf[0] &= ~0x400;
@@ -154,7 +154,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.timer1State = 0xA;
                     break;
                 case 0x2002:
-                    gSaveContext.infTable[11] |= 0x200;
+                    gSaveContext.memory.information.infTable[11] |= 0x200;
                 case 0x2003:
                     if (!(gSaveContext.eventInf[0] & 0x400)) {
                         ret = 0;
@@ -192,10 +192,10 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
-    if (gSaveContext.linkAge == 1) {
+    if (gSaveContext.memory.linkAge == 1) {
         return 2;
     }
-    if (!(gSaveContext.eventChkInf[1] & 0x100)) {
+    if (!(gSaveContext.memory.information.eventChkInf[1] & 0x100)) {
         return 2;
     }
     if (gSaveContext.eventInf[0] & 0x400) {

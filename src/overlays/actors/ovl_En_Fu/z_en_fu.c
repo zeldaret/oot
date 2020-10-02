@@ -137,7 +137,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 
     textID = Text_GetFaceReaction(globalCtx, 0xB);
     if (textID == 0) {
-        textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
+        textID = (gSaveContext.memory.information.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
         // 0x5032: "Go around!..I'm so happy!..I'm trying to come up with a musical theme inspired by this windmill..."
         // 0x5033: "Go around, go around, go around... What? It's going way too fast!"
     }
@@ -155,7 +155,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
         this->actionFunc = EnFu_WaitAdult;
-        gSaveContext.eventChkInf[5] |= 0x800;
+        gSaveContext.memory.information.eventChkInf[5] |= 0x800;
         globalCtx->msgCtx.unk_E3EE = 4;
     }
 }
@@ -182,7 +182,7 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
         globalCtx->msgCtx.unk_E3EE = 0;
-        gSaveContext.eventChkInf[6] |= 0x20;
+        gSaveContext.memory.information.eventChkInf[6] |= 0x20;
     } else if (globalCtx->msgCtx.unk_E3EE == 2) {
         player->stateFlags2 &= ~0x1000000;
         this->actionFunc = EnFu_WaitAdult;
@@ -218,7 +218,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((gSaveContext.eventChkInf[5] & 0x800)) {
+    if ((gSaveContext.memory.information.eventChkInf[5] & 0x800)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & 0x1000000) {
         this->actor.textId = 0x5035;

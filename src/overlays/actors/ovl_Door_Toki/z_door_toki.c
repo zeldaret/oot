@@ -52,7 +52,7 @@ void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
 
-    if (gSaveContext.eventChkInf[4] & 0x800) {
+    if (gSaveContext.memory.information.eventChkInf[4] & 0x800) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
     } else {
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);

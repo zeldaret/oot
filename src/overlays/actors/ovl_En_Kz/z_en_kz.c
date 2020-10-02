@@ -58,7 +58,7 @@ u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
         return 0x402B;
-    } else if (gSaveContext.eventChkInf[3] & 8) {
+    } else if (gSaveContext.memory.information.eventChkInf[3] & 8) {
         return 0x401C;
     } else {
         player->exchangeItemId = EXCH_ITEM_LETTER_RUTO;
@@ -70,7 +70,7 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
-        if (!(gSaveContext.infTable[19] & 0x200)) {
+        if (!(gSaveContext.memory.information.infTable[19] & 0x200)) {
             if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 2)) {
                 return 0x401F;
             } else {
@@ -108,14 +108,14 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this) {
             ret = 0;
             switch (this->actor.textId) {
                 case 0x4012:
-                    gSaveContext.infTable[19] |= 0x200;
+                    gSaveContext.memory.information.infTable[19] |= 0x200;
                     ret = 2;
                     break;
                 case 0x401B:
                     ret = func_80106BC8(globalCtx) == 0 ? 1 : 2;
                     break;
                 case 0x401F:
-                    gSaveContext.infTable[19] |= 0x200;
+                    gSaveContext.memory.information.infTable[19] |= 0x200;
                     break;
             }
             break;
@@ -219,7 +219,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0) != 0) {
-        if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
+        if ((this->actor.textId == 0x401A) && !(gSaveContext.memory.information.eventChkInf[3] & 8)) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
@@ -241,7 +241,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
             }
 
             this->isTrading = false;
-            if (gSaveContext.infTable[19] & 0x200) {
+            if (gSaveContext.memory.information.infTable[19] & 0x200) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
             } else {
@@ -315,12 +315,12 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E0.unk_00 = 0;
     func_80034EC0(&this->skelanime, sAnimations, 0);
 
-    if (gSaveContext.eventChkInf[3] & 8) {
+    if (gSaveContext.memory.information.eventChkInf[3] & 8) {
         EnKz_SetMovedPos(this, globalCtx);
     }
 
     if (LINK_IS_ADULT) {
-        if (!(gSaveContext.infTable[19] & 0x100)) {
+        if (!(gSaveContext.memory.information.infTable[19] & 0x100)) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
                                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                0x04FF);
@@ -382,7 +382,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
         func_80034EC0(&this->skelanime, sAnimations, 1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
         EnKz_SetMovedPos(this, globalCtx);
-        gSaveContext.eventChkInf[3] |= 8;
+        gSaveContext.memory.information.eventChkInf[3] |= 8;
         this->actor.speedXZ = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }
@@ -439,8 +439,8 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    if (LINK_IS_ADULT && !(gSaveContext.infTable[19] & 0x100)) {
-        gSaveContext.infTable[19] |= 0x100;
+    if (LINK_IS_ADULT && !(gSaveContext.memory.information.infTable[19] & 0x100)) {
+        gSaveContext.memory.information.infTable[19] |= 0x100;
     }
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);

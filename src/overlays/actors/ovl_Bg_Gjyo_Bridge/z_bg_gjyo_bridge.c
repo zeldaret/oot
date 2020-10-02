@@ -53,7 +53,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 
-    if (gSaveContext.eventChkInf[4] & 0x2000) {
+    if (gSaveContext.memory.information.eventChkInf[4] & 0x2000) {
         this->actionFunc = func_808787A4;
     } else {
         this->dyna.actor.draw = NULL;
@@ -90,7 +90,7 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
         (globalCtx->csCtx.npcActions[2]->action == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-        gSaveContext.eventChkInf[4] |= 0x2000;
+        gSaveContext.memory.information.eventChkInf[4] |= 0x2000;
     }
 }
 

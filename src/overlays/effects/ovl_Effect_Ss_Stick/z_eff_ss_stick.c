@@ -28,7 +28,7 @@ u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         { OBJECT_LINK_BOY, 0x0602BA38 },   // adult, broken sword
         { OBJECT_LINK_CHILD, 0x06006CC0 }, // child, broken stick
     };
-    StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
+    StickDrawInfo* ageInfoEntry = gSaveContext.memory.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;
 
     this->rObjBankIdx = Object_GetIndex(&globalCtx->objectCtx, ageInfoEntry->objectID);

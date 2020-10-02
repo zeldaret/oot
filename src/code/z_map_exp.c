@@ -29,7 +29,8 @@ void Map_SetPaletteData(GlobalContext* globalCtx, s16 room) {
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "PALETE Set"
     osSyncPrintf("ＰＡＬＥＴＥセット 【 i=%x : room=%x 】Room_Inf[%d][4]=%x  ( map_palete_no = %d )\n", paletteNum,
-                 room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteNum);
+                 room, mapIndex, gSaveContext.memory.information.sceneFlags[mapIndex].rooms,
+                 interfaceCtx->mapPaletteNum);
     osSyncPrintf(VT_RST);
 
     interfaceCtx->unk_140[paletteNum * 2] = 2;
@@ -47,7 +48,7 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
         interfaceCtx->unk_140[i + 16] = 0;
     }
 
-    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+    if (gSaveContext.memory.information.items.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
         interfaceCtx->unk_140[30] = 0;
         interfaceCtx->unk_140[31] = 1;
     }
@@ -73,7 +74,7 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
         case SCENE_HAKADAN_BS:
             for (i = 0; i < gMapData->maxPaletteCount[mapIndex]; i++) {
                 room = gMapData->paletteRoom[mapIndex][floor][i];
-                if ((room != 0xFF) && (gSaveContext.sceneFlags[mapIndex].rooms & gBitFlags[room])) {
+                if ((room != 0xFF) && (gSaveContext.memory.information.sceneFlags[mapIndex].rooms & gBitFlags[room])) {
                     Map_SetPaletteData(globalCtx, room);
                 }
             }
@@ -117,11 +118,12 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
                     extendedMapIndex = 0x15;
                 }
             } else if (globalCtx->sceneNum == SCENE_SPOT09) {
-                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !((gSaveContext.eventChkInf[9] & 0xF) == 0xF)) {
+                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) &&
+                    !((gSaveContext.memory.information.eventChkInf[9] & 0xF) == 0xF)) {
                     extendedMapIndex = 0x16;
                 }
             } else if (globalCtx->sceneNum == SCENE_SPOT12) {
-                if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+                if ((gSaveContext.memory.information.eventChkInf[9] & 0xF) == 0xF) {
                     extendedMapIndex = 0x17;
                 }
             }
@@ -197,8 +199,8 @@ void Map_InitRoomData(GlobalContext* globalCtx, s16 room) {
             case SCENE_MIZUSIN_BS:
             case SCENE_JYASINBOSS:
             case SCENE_HAKADAN_BS:
-                gSaveContext.sceneFlags[mapIndex].rooms |= gBitFlags[room];
-                osSyncPrintf("ＲＯＯＭ＿ＩＮＦ＝%d\n", gSaveContext.sceneFlags[mapIndex].rooms);
+                gSaveContext.memory.information.sceneFlags[mapIndex].rooms |= gBitFlags[room];
+                osSyncPrintf("ＲＯＯＭ＿ＩＮＦ＝%d\n", gSaveContext.memory.information.sceneFlags[mapIndex].rooms);
                 interfaceCtx->mapRoomNum = room;
                 interfaceCtx->unk_25A = mapIndex;
                 Map_SetPaletteData(globalCtx, room);
@@ -384,7 +386,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     gDPSetCombineLERP(oGfxCtx->overlay.p++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0,
                                       PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
 
-                    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                    if (gSaveContext.memory.information.items.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
                         gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
                         gDPLoadTextureBlock_4b(oGfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
@@ -396,7 +398,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                                             0, 0, 1024, 1024);
                     }
 
-                    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_COMPASS]) {
+                    if (gSaveContext.memory.information.items.dungeonItems[mapIndex] & gBitFlags[DUNGEON_COMPASS]) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                         func_80094520(globalCtx->state.gfxCtx);
                         MapMark_DrawConditionally(globalCtx);
@@ -457,7 +459,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                         (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
                         if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
-                             (gSaveContext.infTable[26] & gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
+                             (gSaveContext.memory.information.infTable[26] &
+                              gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
                             gDPLoadTextureBlock(oGfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
@@ -472,7 +475,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if ((globalCtx->sceneNum == SCENE_SPOT08) && (gSaveContext.infTable[26] & gBitFlags[9])) {
+                    if ((globalCtx->sceneNum == SCENE_SPOT08) &&
+                        (gSaveContext.memory.information.infTable[26] & gBitFlags[9])) {
                         gDPLoadTextureBlock(oGfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -526,7 +530,7 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
                 interfaceCtx->unk_140[30] = 0;
-                if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                if (gSaveContext.memory.information.items.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
                     interfaceCtx->unk_140[31] = 1;
                 } else {
                     interfaceCtx->unk_140[31] = 0;
@@ -539,7 +543,7 @@ void Map_Update(GlobalContext* globalCtx) {
                 }
 
                 if (1) { // Appears to be necessary to match
-                    gSaveContext.sceneFlags[mapIndex].floors |= gBitFlags[floor];
+                    gSaveContext.memory.information.sceneFlags[mapIndex].floors |= gBitFlags[floor];
                     VREG(30) = floor;
                     if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
                         R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);

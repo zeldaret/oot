@@ -850,13 +850,14 @@ s16 func_8001F404(s16 dropId) {
     // clang-format off
     if (((dropId == ITEM00_BOMBS_A      || dropId == ITEM00_BOMBS_SPECIAL || dropId == ITEM00_BOMBS_B)      && INV_CONTENT(ITEM_BOMB) == ITEM_NONE) ||
         ((dropId == ITEM00_ARROWS_SMALL || dropId == ITEM00_ARROWS_MEDIUM || dropId == ITEM00_ARROWS_LARGE) && INV_CONTENT(ITEM_BOW) == ITEM_NONE) ||
-        ((dropId == ITEM00_MAGIC_LARGE  || dropId == ITEM00_MAGIC_SMALL)                                    && gSaveContext.magicLevel == 0) ||
+        ((dropId == ITEM00_MAGIC_LARGE  || dropId == ITEM00_MAGIC_SMALL)                                    && gSaveContext.memory.information.sub_1C.magicLevel == 0) ||
         ((dropId == ITEM00_SEEDS)                                                                           && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
         return -1;
     }
     // clang-format on
 
-    if (dropId == ITEM00_HEART && gSaveContext.healthCapacity == gSaveContext.health) {
+    if (dropId == ITEM00_HEART &&
+        gSaveContext.memory.information.sub_1C.healthCapacity == gSaveContext.memory.information.sub_1C.health) {
         return ITEM00_RUPEE_GREEN;
     }
 
@@ -989,26 +990,28 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
     }
 
     if (dropId == ITEM00_FLEXIBLE) {
-        if (gSaveContext.health <= 0x10) { // 1 heart or less
+        if (gSaveContext.memory.information.sub_1C.health <= 0x10) { // 1 heart or less
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z, 0,
                         0, 0, 0x0002);
             EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 40);
             return;
-        } else if (gSaveContext.health <= 0x30) { // 3 hearts or less
+        } else if (gSaveContext.memory.information.sub_1C.health <= 0x30) { // 3 hearts or less
             params = 0xB * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_HEART;
-        } else if (gSaveContext.health <= 0x50) { // 5 hearts or less
+        } else if (gSaveContext.memory.information.sub_1C.health <= 0x50) { // 5 hearts or less
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_HEART;
-        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
+        } else if ((gSaveContext.memory.information.sub_1C.magicLevel != 0) &&
+                   (gSaveContext.memory.information.sub_1C.magic == 0)) { // Empty magic meter
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_LARGE;
-        } else if ((gSaveContext.magicLevel != 0) &&
-                   (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) { // Half magic or less
+        } else if ((gSaveContext.memory.information.sub_1C.magicLevel != 0) &&
+                   (gSaveContext.memory.information.sub_1C.magic <=
+                    (gSaveContext.memory.information.sub_1C.magicLevel >> 1))) { // Half magic or less
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_MAGIC_SMALL;
@@ -1024,7 +1027,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
             params = 0xD * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_BOMBS_A;
-        } else if (gSaveContext.rupees < 11) { // Less than 11 Rupees
+        } else if (gSaveContext.memory.information.sub_1C.rupees < 11) { // Less than 11 Rupees
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = ITEM00_RUPEE_RED;

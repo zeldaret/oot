@@ -26,33 +26,33 @@
 
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
-#define LINK_IS_CHILD (gSaveContext.linkAge != 0)
-#define LINK_IS_ADULT (gSaveContext.linkAge == 0)
+#define LINK_IS_CHILD (gSaveContext.memory.linkAge != 0)
+#define LINK_IS_ADULT (gSaveContext.memory.linkAge == 0)
 #define LINK_AGE_IN_YEARS (LINK_IS_CHILD ? YEARS_CHILD : YEARS_ADULT)
 
 #define SLOT(item) gItemSlots[item]
-#define INV_CONTENT(item) gSaveContext.items[SLOT(item)]
-#define AMMO(item) gSaveContext.ammo[SLOT(item)]
+#define INV_CONTENT(item) gSaveContext.memory.information.items.items[SLOT(item)]
+#define AMMO(item) gSaveContext.memory.information.items.ammo[SLOT(item)]
 #define BEANS_BOUGHT AMMO(ITEM_BEAN + 1)
 
-#define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
-#define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
-#define CHECK_OWNED_EQUIP(equip, value) ((gBitFlags[value] << gEquipShifts[equip]) & gSaveContext.equipment)
+#define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.memory.information.items.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.memory.information.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define CHECK_OWNED_EQUIP(equip, value) ((gBitFlags[value] << gEquipShifts[equip]) & gSaveContext.memory.information.items.equipment)
 
-#define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
+#define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.memory.information.items.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
 
-#define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
+#define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.memory.information.items.questItems)
 
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
-                        : (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
+                        : (gSaveContext.memory.information.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
                             ? ITEM_SWORD_BGS                                       \
-                            : gSaveContext.equips.buttonItems[0])
+                            : gSaveContext.memory.information.equips.buttonItems[0])
 
 #define C_BTN_ITEM(button) ((gSaveContext.buttonStatus[button + 1] != BTN_DISABLED) \
-                                ? gSaveContext.equips.buttonItems[button + 1]       \
+                                ? gSaveContext.memory.information.equips.buttonItems[button + 1]       \
                                 : ITEM_NONE)
 
 #define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)

@@ -71,7 +71,7 @@ s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
         case 0:
             return this->unk_1B8 == 1;
         case 4:
-            return gSaveContext.infTable[20] & 0x40;
+            return gSaveContext.memory.information.infTable[20] & 0x40;
         case 3:
             return this->unk_1B8 == 4;
         default:
@@ -89,7 +89,7 @@ void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
             this->unk_1B8 = 3;
             break;
         case 4:
-            gSaveContext.infTable[20] |= 0x40;
+            gSaveContext.memory.information.infTable[20] |= 0x40;
             break;
         default:
             osSyncPrintf("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n");

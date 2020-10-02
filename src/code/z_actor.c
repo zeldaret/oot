@@ -1739,17 +1739,17 @@ f32 D_8015BC18;
 void func_8002FA60(GlobalContext* globalCtx) {
     Vec3f lightPos;
 
-    if (gSaveContext.fw.set) {
+    if (gSaveContext.memory.information.fw.set) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.fw.pos.x;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.fw.pos.y;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.fw.pos.z;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.fw.yaw;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.fw.playerParams;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.fw.entranceIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.fw.roomIndex;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.fw.tempSwchFlags;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.fw.tempCollectFlags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.memory.information.fw.pos.x;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.memory.information.fw.pos.y;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.memory.information.fw.pos.z;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.memory.information.fw.yaw;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.memory.information.fw.playerParams;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.memory.information.fw.entranceIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.memory.information.fw.roomIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.memory.information.fw.tempSwchFlags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.memory.information.fw.tempCollectFlags;
     } else {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
         gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = 0.0f;
@@ -1881,7 +1881,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             spD0 = 0xFF - (((temp_a3 * 0x10) - temp_a3) * 2);
 
             if (spD0 < 0) {
-                gSaveContext.fw.set = 0;
+                gSaveContext.memory.information.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 spD0 = 0;
             } else {
@@ -1892,7 +1892,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         }
 
         if ((globalCtx->csCtx.state == 0) &&
-            (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.entranceIndex) &&
+            (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.memory.entranceIndex) &&
             (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
             oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x19);
 
@@ -1953,7 +1953,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     SaveSceneFlags* saveSceneFlags;
     s32 i;
 
-    saveSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
+    saveSceneFlags = &gSaveContext.memory.information.sceneFlags[globalCtx->sceneNum];
 
     bzero(actorCtx, sizeof(*actorCtx));
 
@@ -4143,28 +4143,28 @@ void func_80035B18(GlobalContext* globalCtx, Actor* actor, u16 textId) {
  * Tests if event_chk_inf flag is set.
  */
 s32 Flags_GetEventChkInf(s32 flag) {
-    return gSaveContext.eventChkInf[flag >> 4] & (1 << (flag & 0xF));
+    return gSaveContext.memory.information.eventChkInf[flag >> 4] & (1 << (flag & 0xF));
 }
 
 /**
  * Sets event_chk_inf flag.
  */
 void Flags_SetEventChkInf(s32 flag) {
-    gSaveContext.eventChkInf[flag >> 4] |= (1 << (flag & 0xF));
+    gSaveContext.memory.information.eventChkInf[flag >> 4] |= (1 << (flag & 0xF));
 }
 
 /**
  * Tests if "inf_table flag is set.
  */
 s32 Flags_GetInfTable(s32 flag) {
-    return gSaveContext.infTable[flag >> 4] & (1 << (flag & 0xF));
+    return gSaveContext.memory.information.infTable[flag >> 4] & (1 << (flag & 0xF));
 }
 
 /**
  * Sets "inf_table" flag.
  */
 void Flags_SetInfTable(s32 flag) {
-    gSaveContext.infTable[flag >> 4] |= (1 << (flag & 0xF));
+    gSaveContext.memory.information.infTable[flag >> 4] |= (1 << (flag & 0xF));
 }
 
 u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
@@ -4461,7 +4461,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(0x6A)) {
                 retTextId = 0x7004;
-            } else if ((gSaveContext.dayTime >= 0x4000) && (gSaveContext.dayTime < 0xC556)) {
+            } else if ((gSaveContext.memory.dayTime >= 0x4000) && (gSaveContext.memory.dayTime < 0xC556)) {
                 retTextId = 0x7002;
             } else {
                 retTextId = 0x7003;
@@ -4866,7 +4866,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 }
             } else {
                 if (!Flags_GetEventChkInf(0x18)) {
-                    if (gSaveContext.nightFlag) {
+                    if (gSaveContext.memory.nightFlag) {
                         retTextId = 0x204E;
                     } else if (Flags_GetInfTable(0x9A)) {
                         retTextId = 0x2031;
@@ -5248,7 +5248,7 @@ s32 func_800374E0(GlobalContext* globalCtx, Actor* actor, u16 textId) {
         case 0x2030:
         case 0x2031:
             if (msgCtx->choiceIndex == 0) {
-                if (gSaveContext.rupees >= 10) {
+                if (gSaveContext.memory.information.sub_1C.rupees >= 10) {
                     func_80035B18(globalCtx, actor, 0x2034);
                     Rupees_ChangeBy(-10);
                 } else {
@@ -5479,7 +5479,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->posRot2.pos = actor->posRot.pos;
     actor->posRot2.pos.y += arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.memory.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsLink - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5488,7 +5488,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.memory.entranceIndex == 0x00EE)) {
         sp2C = globalCtx->view.eye;
     } else {
         sp2C = player->actor.posRot2.pos;
@@ -5508,7 +5508,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     actor->posRot2.pos = arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.memory.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsLink - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5517,7 +5517,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.memory.entranceIndex == 0x00EE)) {
         sp24 = globalCtx->view.eye;
     } else {
         sp24 = player->actor.posRot2.pos;

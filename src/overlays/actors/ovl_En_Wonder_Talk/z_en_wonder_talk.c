@@ -107,7 +107,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 // Attention coordinates
                 osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 this->unk_15C = 120.0f;
-                if (gSaveContext.eventChkInf[1] & 0x2000) {
+                if (gSaveContext.memory.information.eventChkInf[1] & 0x2000) {
                     Actor_Kill(&this->actor);
                 }
                 break;
@@ -135,7 +135,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
     s16 yawDiffTemp;
 
     this->unk_15A++;
-    if (this->unk_150 == 4 && (gSaveContext.eventChkInf[1] & 0x2000)) {
+    if (this->unk_150 == 4 && (gSaveContext.memory.information.eventChkInf[1] & 0x2000)) {
         Actor_Kill(&this->actor);
         return;
     }

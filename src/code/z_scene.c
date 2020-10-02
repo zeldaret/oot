@@ -202,9 +202,9 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     s16 linkObjectId;
 
     globalCtx->linkActorEntry = linkEntry;
-    globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
+    globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.memory.linkAge);
 
-    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
+    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.memory.linkAge)];
 
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&globalCtx->objectCtx, linkObjectId);
@@ -380,7 +380,7 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     u32 dayTime;
 
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
-        gSaveContext.environmentTime = gSaveContext.dayTime =
+        gSaveContext.environmentTime = gSaveContext.memory.dayTime =
             ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / 0.021972656f;
     }
 
@@ -394,16 +394,16 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
         D_8011FB40 = globalCtx->envCtx.unk_02;
     }
 
-    dayTime = gSaveContext.dayTime;
+    dayTime = gSaveContext.memory.dayTime;
     globalCtx->envCtx.unk_04.x = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.dayTime;
+    dayTime = gSaveContext.memory.dayTime;
     globalCtx->envCtx.unk_04.y = (Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.dayTime;
+    dayTime = gSaveContext.memory.dayTime;
     globalCtx->envCtx.unk_04.z = (Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
 
-    if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
-        (gSaveContext.entranceIndex == 0x0604)) {
-        gSaveContext.environmentTime = gSaveContext.dayTime;
+    if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.memory.cutsceneIndex < 0xFFF0)) ||
+        (gSaveContext.memory.entranceIndex == 0x0604)) {
+        gSaveContext.environmentTime = gSaveContext.memory.dayTime;
         if ((gSaveContext.environmentTime >= 0x2AAC) && (gSaveContext.environmentTime < 0x4555)) {
             gSaveContext.environmentTime = 0x3556;
         } else if ((gSaveContext.environmentTime >= 0x4555) && (gSaveContext.environmentTime < 0x5556)) {
@@ -457,8 +457,8 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
     s32 pad;
     SceneCmd* altHeader;
 
-    osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.linkAge));
-    osSyncPrintf("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.cutsceneIndex));
+    osSyncPrintf("\n[ZU]sceneset age    =[%X]", ((void)0, gSaveContext.memory.linkAge));
+    osSyncPrintf("\n[ZU]sceneset time   =[%X]", ((void)0, gSaveContext.memory.cutsceneIndex));
     osSyncPrintf("\n[ZU]sceneset counter=[%X]", ((void)0, gSaveContext.sceneSetupIndex));
 
     if (gSaveContext.sceneSetupIndex != 0) {
@@ -508,10 +508,10 @@ void func_800993C0(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     if (((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_GANON_TOU)) ||
         ((globalCtx->sceneNum >= SCENE_ENTRA) && (globalCtx->sceneNum <= SCENE_SHRINE_R))) {
-        if (gSaveContext.cutsceneIndex < 0xFFF0) {
-            gSaveContext.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
-            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.worldMapAreaData,
-                         gSaveContext.worldMapArea);
+        if (gSaveContext.memory.cutsceneIndex < 0xFFF0) {
+            gSaveContext.memory.information.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
+            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n",
+                         gSaveContext.memory.information.worldMapAreaData, gSaveContext.worldMapArea);
         }
     }
 }

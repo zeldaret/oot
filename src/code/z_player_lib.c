@@ -313,13 +313,13 @@ void Player_SetModelsForHoldingShield(Player* this) {
         ((this->itemActionParam < 0) || (this->itemActionParam == this->heldItemActionParam))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
             this->rightHandType = 10;
-            this->rightHandDLists = &sPlayerDListGroups[10][(void)0, gSaveContext.linkAge];
+            this->rightHandDLists = &sPlayerDListGroups[10][(void)0, gSaveContext.memory.linkAge];
             if (this->sheathType == 18) {
                 this->sheathType = 16;
             } else if (this->sheathType == 19) {
                 this->sheathType = 17;
             }
-            this->sheathDLists = &sPlayerDListGroups[this->sheathType][(void)0, gSaveContext.linkAge];
+            this->sheathDLists = &sPlayerDListGroups[this->sheathType][(void)0, gSaveContext.memory.linkAge];
             this->modelAnimType = 2;
             this->itemActionParam = -1;
         }
@@ -331,10 +331,10 @@ void Player_SetModels(Player* this, s32 modelGroup) {
     this->rightHandType = gPlayerModelTypes[modelGroup][2];
     this->sheathType = gPlayerModelTypes[modelGroup][3];
 
-    this->leftHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][1]][(void)0, gSaveContext.linkAge];
-    this->rightHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][2]][(void)0, gSaveContext.linkAge];
-    this->sheathDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][3]][(void)0, gSaveContext.linkAge];
-    this->waistDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][4]][(void)0, gSaveContext.linkAge];
+    this->leftHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][1]][(void)0, gSaveContext.memory.linkAge];
+    this->rightHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][2]][(void)0, gSaveContext.memory.linkAge];
+    this->sheathDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][3]][(void)0, gSaveContext.memory.linkAge];
+    this->waistDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][4]][(void)0, gSaveContext.memory.linkAge];
 
     Player_SetModelsForHoldingShield(this);
 }
@@ -513,7 +513,8 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 }
 
 s32 Player_HoldsBrokenKnife(Player* this) {
-    return (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) && (gSaveContext.swordHealth <= 0.0f);
+    return (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) &&
+           (gSaveContext.memory.information.sub_1C.swordHealth <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 actionParam) {
@@ -727,15 +728,15 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
         (Player_ActionToMagicSpell(this, this->itemActionParam) < 0)) {
         s32 pad;
 
-        sp7C = D_80126058[(void)0, gSaveContext.linkAge];
-        sp78 = D_80126060[(void)0, gSaveContext.linkAge];
-        sp74 = D_80126068[(void)0, gSaveContext.linkAge] - this->unk_6C4;
+        sp7C = D_80126058[(void)0, gSaveContext.memory.linkAge];
+        sp78 = D_80126060[(void)0, gSaveContext.memory.linkAge];
+        sp74 = D_80126068[(void)0, gSaveContext.memory.linkAge] - this->unk_6C4;
 
         Matrix_Push();
         Matrix_JointPosition(pos, rot);
         Matrix_MultVec3f(&D_8012602C, &spA4);
-        Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->limbDrawTbl[shinLimbIndex]);
-        Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.memory.linkAge], &skelAnime->limbDrawTbl[shinLimbIndex]);
+        Matrix_Translate(D_80126050[(void)0, gSaveContext.memory.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_8012602C, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
         Matrix_Pull();
@@ -866,13 +867,13 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
-            if ((D_80160014 == 4) && (gSaveContext.swordHealth <= 0.0f)) {
+            if ((D_80160014 == 4) && (gSaveContext.memory.information.sub_1C.swordHealth <= 0.0f)) {
                 dLists += 4;
             } else if ((D_80160014 == 6) && (this->stateFlags1 & 0x2000000)) {
-                dLists = &D_80125E08[gSaveContext.linkAge];
+                dLists = &D_80125E08[gSaveContext.memory.linkAge];
                 D_80160014 = 0;
             } else if ((this->leftHandType == 0) && (this->actor.speedXZ > 2.0f) && !(this->stateFlags1 & 0x8000000)) {
-                dLists = &D_80125E18[gSaveContext.linkAge];
+                dLists = &D_80125E18[gSaveContext.memory.linkAge];
                 D_80160014 = 1;
             }
 
@@ -883,7 +884,7 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             if (D_80160018 == 10) {
                 dLists += this->currentShield * 4;
             } else if ((this->rightHandType == 8) && (this->actor.speedXZ > 2.0f) && !(this->stateFlags1 & 0x8000000)) {
-                dLists = &D_80125E58[gSaveContext.linkAge];
+                dLists = &D_80125E58[gSaveContext.memory.linkAge];
                 D_80160018 = 9;
             }
 
@@ -894,11 +895,11 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
             if ((this->sheathType == 18) || (this->sheathType == 19)) {
                 dLists += this->currentShield * 4;
                 if ((LINK_IS_CHILD) && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
-                    (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
+                    (gSaveContext.memory.information.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                     dLists += 16;
                 }
             } else if ((LINK_IS_CHILD) && ((this->sheathType == 16) || (this->sheathType == 17)) &&
-                       (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
+                       (gSaveContext.memory.information.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D68;
             }
 
@@ -918,15 +919,15 @@ s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (this->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == PLAYER_LIMB_L_FOREARM) {
-            *dList = D_80125F18[(void)0, gSaveContext.linkAge];
+            *dList = D_80125F18[(void)0, gSaveContext.memory.linkAge];
         } else if (limbIndex == PLAYER_LIMB_L_HAND) {
-            *dList = D_80125F20[(void)0, gSaveContext.linkAge];
+            *dList = D_80125F20[(void)0, gSaveContext.memory.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_SHOULDER) {
-            *dList = D_80125F28[(void)0, gSaveContext.linkAge];
+            *dList = D_80125F28[(void)0, gSaveContext.memory.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_FOREARM) {
-            *dList = D_80125F30[(void)0, gSaveContext.linkAge];
+            *dList = D_80125F30[(void)0, gSaveContext.memory.linkAge];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-            *dList = Player_HoldsHookshot(this) ? D_0602A738 : D_80125F38[(void)0, gSaveContext.linkAge];
+            *dList = Player_HoldsHookshot(this) ? D_0602A738 : D_80125F38[(void)0, gSaveContext.memory.linkAge];
         } else {
             *dList = NULL;
         }
@@ -1211,7 +1212,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2712),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, sBottleDLists[gSaveContext.linkAge]);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, sBottleDLists[gSaveContext.memory.linkAge]);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2717);
         }
@@ -1248,7 +1249,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->rightHandType == 0xFF) {
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == 11) || (this->rightHandType == 12)) {
-            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge]; // sp+0xB0
+            BowStringData* stringData = &sBowStringData[gSaveContext.memory.linkAge]; // sp+0xB0
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
 
@@ -1343,7 +1344,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
             Matrix_MultVec3f(&D_801260D4, &this->actor.posRot2.pos);
         } else {
-            Vec3f* vec = &D_801261E0[gSaveContext.linkAge];
+            Vec3f* vec = &D_801261E0[gSaveContext.memory.linkAge];
 
             func_8002BDB0(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
         }
@@ -1358,7 +1359,7 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     u32 size;
     void* ptr;
 
-    linkObjectId = gLinkObjectIds[(void)0, gSaveContext.linkAge];
+    linkObjectId = gLinkObjectIds[(void)0, gSaveContext.memory.linkAge];
 
     size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
     ptr = segment + 0x3800;
@@ -1373,8 +1374,8 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &D_04003238, 9,
-                                ptr, ptr, PLAYER_LIMB_MAX);
+    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.memory.linkAge],
+                                &D_04003238, 9, ptr, ptr, PLAYER_LIMB_MAX);
 
     return size + 0x8890;
 }
@@ -1395,7 +1396,7 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         type = gPlayerModelTypes[modelGroup][1];
         D_80160014 = type;
-        if ((type == 4) && (gSaveContext.swordHealth <= 0.0f)) {
+        if ((type == 4) && (gSaveContext.memory.information.sub_1C.swordHealth <= 0.0f)) {
             dListOffset = 4;
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
@@ -1415,7 +1416,7 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
         return 0;
     }
 
-    dLists = &sPlayerDListGroups[type][(void)0, gSaveContext.linkAge];
+    dLists = &sPlayerDListGroups[type][(void)0, gSaveContext.memory.linkAge];
     *dList = dLists[dListOffset];
 
     return 0;

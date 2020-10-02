@@ -92,71 +92,89 @@ typedef enum {
     /* 0xFF */ BTN_DISABLED = 0xFF
 } ButtonStatus;
 
-// Save Context (dbg ram start: 8015E660)
+
 typedef struct {
-    /* 0x0000 */ s32          entranceIndex;
-    /* 0x0004 */ s32          linkAge; // 0: Adult; 1: Child
-    /* 0x0008 */ s32          cutsceneIndex;
-    /* 0x000C */ u16          dayTime; // "zelda_time"
-    /* 0x0010 */ s32          nightFlag;
-    /* 0x0014 */ s32          unk_14;
-    /* 0x0018 */ s32          unk_18;
-    /* 0x001C */ char         newf[6]; // string "ZELDAZ"
-    /* 0x0022 */ s16          deaths;
-    /* 0x0024 */ char         playerName[8];
-    /* 0x002C */ s16          n64ddFlag;
-    /* 0x002E */ s16          healthCapacity; // "max_life"
-    /* 0x0030 */ s16          health; // "now_life"
-    /* 0x0032 */ s8           magicLevel;
-    /* 0x0033 */ s8           magic;
-    /* 0x0034 */ s16          rupees;
-    /* 0x0036 */ u16          swordHealth;
-    /* 0x0038 */ u16          naviTimer;
-    /* 0x003A */ u8           magicAcquired;
-    /* 0x003B */ char         unk_3B[0x0001];
-    /* 0x003C */ u8           doubleMagic;
-    /* 0x003D */ u8           doubleDefense;
-    /* 0x003E */ u8           bgsFlag;
-    /* 0x0040 */ ItemEquips   childEquips;
-    /* 0x004A */ ItemEquips   adultEquips;
-    /* 0x0054 */ char         unk_54[0x0014];
-    /* 0x0068 */ ItemEquips   equips;
-    /* 0x0072 */ char         unk_72[0x0002];
-    /* 0x0074 */ u8           items[24];
-    /* 0x008C */ s8           ammo[16];
-    /* 0x009C */ u16          equipment;
-    /* 0x00A0 */ u32          upgrades;
-    /* 0x00A4 */ u32          questItems;
-    /* 0x00A8 */ u8           dungeonItems[20];
-    /* 0x00BC */ s8           dungeonKeys[19];
-    /* 0x00CF */ s8           defenseHearts;
-    /* 0x00D0 */ s16          gsTokens;
-    /* 0x00D4 */ SaveSceneFlags sceneFlags[124];
+    /* 0x0000 */ char         newf[6]; // string "ZELDAZ"
+    /* 0x0006 */ s16          deaths;
+    /* 0x0008 */ char         playerName[8];
+    /* 0x0010 */ s16          n64ddFlag;
+    /* 0x0012 */ s16          healthCapacity; // "max_life"
+    /* 0x0014 */ s16          health; // "now_life"
+    /* 0x0016 */ s8           magicLevel;
+    /* 0x0017 */ s8           magic;
+    /* 0x0018 */ s16          rupees;
+    /* 0x001A */ u16          swordHealth;
+    /* 0x001C */ u16          naviTimer;
+    /* 0x001E */ u8           magicAcquired;
+    /* 0x001F */ char         unk_1F[0x0001];
+    /* 0x0020 */ u8           doubleMagic;
+    /* 0x0021 */ u8           doubleDefense;
+    /* 0x0022 */ u8           bgsFlag;
+    /* 0x0024 */ ItemEquips   childEquips;
+    /* 0x002E */ ItemEquips   adultEquips;
+    /* 0x0038 */ u32          unk_38; // this may be incorrect, currently used for alignement
+    /* 0x003C */ char         unk_3C[0x00E];
+    /* 0x004A */ s16          sceneDataId;
+} SaveSub1C; // size = 0x4C
+
+typedef struct {
+    /* 0x0000 */ u8           items[24];
+    /* 0x0018 */ s8           ammo[16];
+    /* 0x0028 */ u16          equipment;
+    /* 0x002C */ u32          upgrades;
+    /* 0x0030 */ u32          questItems;
+    /* 0x0034 */ u8           dungeonItems[20];
+    /* 0x0048 */ s8           dungeonKeys[19];
+    /* 0x005B */ s8           defenseHearts;
+    /* 0x005C */ s16          gsTokens;
+} SaveItems; // size = 0x5E
+
+typedef struct {
     struct {
-        /* 0x0E64 */ Vec3i pos;
-        /* 0x0E70 */ s32  yaw;
-        /* 0x0E74 */ s32  playerParams;
-        /* 0x0E78 */ s32  entranceIndex;
-        /* 0x0E7C */ s32  roomIndex;
-        /* 0x0E80 */ s32  set;
-        /* 0x0E84 */ s32  tempSwchFlags;
-        /* 0x0E88 */ s32  tempCollectFlags;
-    }                         fw;
-    /* 0x0E8C */ char         unk_E8C[0x0010];
-    /* 0x0E9C */ s32          gsFlags[6];
-    /* 0x0EB4 */ char         unk_EB4[0x0010];
-    /* 0x0EC4 */ s32          unk_EC4;
-    /* 0x0EC8 */ char         unk_EC8[0x000C];
-    /* 0x0ED4 */ u16          eventChkInf[14]; // "event_chk_inf"
-    /* 0x0EF0 */ u16          itemGetInf[4]; // "item_get_inf"
-    /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
-    /* 0x0F34 */ char         unk_F34[0x0004];
-    /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char         unk_F3C[0x0389];
-    /* 0x12C5 */ u8           unk_12C5;
-    /* 0x12C6 */ char         unk_12C6[0x0082];
-    /* 0x1348 */ HorseData    horseData;
-    /* 0x1352 */ u16          checksum; // "check_sum"
+        /* 0x0000 */ s32          entranceIndex;
+        /* 0x0004 */ s32          linkAge; // 0: Adult; 1: Child
+        /* 0x0008 */ s32          cutsceneIndex;
+        /* 0x000C */ u16          dayTime; // "zelda_time"
+        /* 0x0010 */ s32          nightFlag;
+        /* 0x0014 */ s32          unk_14;
+        /* 0x0018 */ s32          unk_18;
+
+        struct {
+            /* 0x001C */ SaveSub1C    sub_1C;
+            /* 0x0068 */ ItemEquips   equips;
+            /* 0x0074 */ SaveItems    items;
+            /* 0x00D4 */ SaveSceneFlags sceneFlags[124];
+            struct {
+                /* 0x0E64 */ Vec3i pos;
+                /* 0x0E70 */ s32  yaw;
+                /* 0x0E74 */ s32  playerParams;
+                /* 0x0E78 */ s32  entranceIndex;
+                /* 0x0E7C */ s32  roomIndex;
+                /* 0x0E80 */ s32  set;
+                /* 0x0E84 */ s32  tempSwchFlags;
+                /* 0x0E88 */ s32  tempCollectFlags;
+            }                         fw;
+            /* 0x0E8C */ char         unk_E8C[0x0010];
+            /* 0x0E9C */ s32          gsFlags[6];
+            /* 0x0EB4 */ char         unk_EB4[0x0010]; // 0xEB8 = z_common_data.memory.information.room_inf[127][0]
+            /* 0x0EC4 */ s32          unk_EC4;
+            /* 0x0EC8 */ char         unk_EC8[0x000C];
+            /* 0x0ED4 */ u16          eventChkInf[14]; // "event_chk_inf"
+            /* 0x0EF0 */ u16          itemGetInf[4]; // "item_get_inf"
+            /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
+            /* 0x0F34 */ char         unk_F34[0x0004];
+            /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
+            /* 0x0F3C */ char         unk_F3C[0x4];
+            /* 0x0F40 */ u8           unk_F40;
+            /* 0x0F41 */ u8           unk_F41;
+            /* 0x0F42 */ char         unk_F42[0x383];
+            /* 0x12C5 */ u8           unk_12C5;
+            /* 0x12C6 */ char         unk_12C6[0x0082];
+            /* 0x1348 */ HorseData    horseData;
+            /* 0x1352 */ u16          checksum; // "check_sum"
+        } information;
+    } memory;
+    
     /* 0x1354 */ s32          fileNum; // "file_no"
     /* 0x1358 */ char         unk_1358[0x0004];
     /* 0x135C */ s32          gameMode;
@@ -676,10 +694,6 @@ typedef struct {
 } SoundSource; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ char unk_0[0x4];
-} SubGlobalContext1F74; // size = 0x4
-
-typedef struct {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[3];
     /* 0x134 */ Gfx* dpList;
@@ -1123,7 +1137,7 @@ typedef struct {
 } EntranceEntry;
 
 typedef struct {
-    /* 0x00 */ void* read_buff;
+    /* 0x00 */ u8* readBuff;
 } Sram; // size = 0x4
 
 typedef struct GameAllocEntry {
@@ -1240,7 +1254,7 @@ typedef struct GlobalContext {
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
     /* 0x01DB4 */ SoundSource soundSources[16];
-    /* 0x01F74 */ SubGlobalContext1F74 sub_1F74;
+    /* 0x01F74 */ Sram sram;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
@@ -1309,6 +1323,95 @@ typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A8 */ View view;
 } OpeningContext; // size = 0x1D0
+
+typedef struct {
+    /* 0x00000 */ GameState state;
+    /* 0x000A4 */ Vtx* allocVtx1;
+    /* 0x000A8 */ void* staticSegment;
+    /* 0x000AC */ void* parameterSegment;
+    /* 0x000B0 */ char unk_B0[0x8];
+    /* 0x000B8 */ View view;
+    /* 0x001E0 */ Sram sram;
+    /* 0x001E4 */ char unk_1E4[0x4];
+    /* 0x001E8 */ SkyboxContext skybox;
+    /* 0x00338 */ char unk_338[0x10];
+    /* 0x00348 */ MessageContext messageCtx;
+    /* 0x0E760 */ char kanfont[0xE188];
+    /* 0x1C8E8 */ EnvironmentContext kankyo;
+    /* 0x1C9E4 */ char unk_1C9E4[0x4];
+    /* 0x1C9E8 */ Vtx* allocVtx2;
+    /* 0x1C9EC */ Vtx* allocVtx3;
+    /* 0x1C9F0 */ Vtx* allocVtx4;
+    /* 0x1C9F4 */ u8 n64ddFlag;
+    /* 0x1C9F6 */ u16 deaths[3];
+    /* 0x1C9FC */ u8 fileNames[3][8];
+    /* 0x1CA14 */ u16 healthCapacities[3];
+    /* 0x1CA1C */ u32 questItems[3];
+    /* 0x1CA28 */ s16 n64ddFlags[3];
+    /* 0x1CA2E */ s8 heartStatus[3];
+    /* 0x1CA32 */ u16 nowLife[3];
+    /* 0x1CA38 */ s16 btnIdx;
+    /* 0x1CA3A */ u16 yesNoButtonIdx;
+    /* 0x1CA3C */ s16 menuIdx;
+    /* 0x1CA3E */ s16 fileSelectStateIdx;
+    /* 0x1CA40 */ s16 unkActionIndex;
+    /* 0x1CA42 */ u16 nextFileSelectStateIdx;
+    /* 0x1CA44 */ s16 openFileStateIdx;
+    /* 0x1CA46 */ s16 selectedFileIdx;
+    /* 0x1CA48 */ char unk_1CA48[0x2];
+    /* 0x1CA4A */ u16 fileNamesY[3];
+    /* 0x1CA50 */ u16 actionTimer;
+    /* 0x1CA52 */ u16 buttonsY[6];
+    /* 0x1CA5E */ s16 copyDsFiletIdx;
+    /* 0x1CA60 */ u16 fileWarningTexIdx;
+    /* 0x1CA62 */ u16 warningFileIdx;
+    /* 0x1CA64 */ u16 titleTexIdx;
+    /* 0x1CA66 */ u16 nextTitleTexIdx;
+    /* 0x1CA68 */ s16 windowR;
+    /* 0x1CA6A */ s16 windowG;
+    /* 0x1CA6C */ s16 windowB;
+    /* 0x1CA6E */ u16 selectFileTitleA;
+    /* 0x1CA70 */ u16 openFileTitleA;
+    /* 0x1CA72 */ u16 windowA;
+    /* 0x1CA74 */ u16 fileButtonsA[3];
+    /* 0x1CA7A */ u16 fileNameBoxesA[3];
+    /* 0x1CA80 */ u16 fileNamesA[3];
+    /* 0x1CA86 */ u16 metalJointsA[3];
+    /* 0x1CA8C */ u16 fileInfoA;
+    /* 0x1CA8E */ u16 targetFileInfoBoxA;
+    /* 0x1CA90 */ u16 unkFileInfoBoxA;
+    /* 0x1CA92 */ u16 copyButtonA;
+    /* 0x1CA94 */ u16 eraseButtonA;
+    /* 0x1CA96 */ u16 yesBiuttonA;
+    /* 0x1CA98 */ u16 quitButtonA;
+    /* 0x1CA9A */ u16 optionButtonA;
+    /* 0x1CA9C */ u16 newFileNameBoxA;
+    /* 0x1CA9E */ u16 decideCancelTextA;
+    /* 0x1CAA0 */ u16 fileEmptyTextA;
+    /* 0x1CAA2 */ u16 highlightColorR;
+    /* 0x1CAA4 */ u16 highlightColorG;
+    /* 0x1CAA6 */ u16 highlightColorB;
+    /* 0x1CAA8 */ u16 highlightColorA;
+    /* 0x1CAAA */ u16 highlightColorAIncrease;
+    /* 0x1CAAC */ char unk_1CAAC[0x6];
+    /* 0x1CAB2 */ u16 stickXTimer;
+    /* 0x1CAB4 */ u16 stickYTimer;
+    /* 0x1CAB6 */ u16 idxXOff;
+    /* 0x1CAB8 */ u16 idxYOff;
+    /* 0x1CABA */ s16 stickX;
+    /* 0x1CABC */ s16 stickY;
+    /* 0x1CABE */ u16 newFileNameBoxX;
+    /* 0x1CAC0 */ u16 windowX;
+    /* 0x1CAC4 */ f32 windowRotX;
+    /* 0x1CAC8 */ u16 kbdButtonIdx;
+    /* 0x1CACA */ u16 unk_1CACA;
+    /* 0x1CACC */ u16 kbdCharBoxA;
+    /* 0x1CACE */ s16 kbdCharIdx;
+    /* 0x1CAD0 */ s16 kbdCharX;
+    /* 0x1CAD2 */ s16 kbdCharY;
+    /* 0x1CAD4 */ s16 newFileNameCharCount;
+    /* 0x1CAD6 */ u16 unk_1CAD6[3];
+} FileChooseContext; // size = 0x1CADC
 
 typedef enum {
     DPM_UNK = 0,

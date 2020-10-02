@@ -50,7 +50,7 @@ void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_158 = 100.0f;
     this->unk_15C = 0.5f;
     if (gSaveContext.sceneSetupIndex < 4) {
-        gSaveContext.eventChkInf[6] &= 0xFFDF;
+        gSaveContext.memory.information.eventChkInf[6] &= 0xFFDF;
     }
     BgSpot01Fusya_SetupAction(this, func_808AAA50);
 }
@@ -62,7 +62,7 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     f32 temp;
     Actor* thisx = &this->actor;
 
-    if (gSaveContext.eventChkInf[6] & 0x20) {
+    if (gSaveContext.memory.information.eventChkInf[6] & 0x20) {
         this->unk_158 = 1800.0f;
     }
     thisx->shape.rot.z += this->unk_154;

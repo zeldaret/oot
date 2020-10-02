@@ -42,7 +42,7 @@ void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjDekujr* this = THIS;
     s32 pad;
 
-    if (gSaveContext.cutsceneIndex < 0xFFF0) {
+    if (gSaveContext.memory.cutsceneIndex < 0xFFF0) {
         if (!LINK_IS_ADULT) {
             Actor_Kill(&this->actor);
             return;
@@ -129,7 +129,7 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    if ((gSaveContext.cutsceneIndex >= 0xFFF0) && (this->unk_19B == 0)) {
+    if ((gSaveContext.memory.cutsceneIndex >= 0xFFF0) && (this->unk_19B == 0)) {
         this->unk_19C = 0;
         this->unk_19B = 1;
     }
