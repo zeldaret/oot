@@ -902,8 +902,6 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                     this->unk_2C0 = 0;
                     xScale = 0.0f;
                 } else {
-                    // xScale = (distFromLinksHead < 25.0f) ? (1.0f - SQ(xScale)) * 0.008f : 0.008f;
-
                     if (distFromLinksHead < 25.0f) {
                         xScale = (1.0f - SQ(xScale)) * 0.008f;
                     } else {
