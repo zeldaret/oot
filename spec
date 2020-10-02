@@ -2250,7 +2250,11 @@ endseg
 beginseg
     name "ovl_En_Elf"
     include "build/src/overlays/actors/ovl_En_Elf/z_en_elf.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Elf/ovl_En_Elf_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_elf.reloc.o"
+#endif
 endseg
 
 beginseg
