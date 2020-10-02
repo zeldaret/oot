@@ -3239,7 +3239,7 @@ typedef struct {
     /* 0x210 */ s16 unk_210;
 } Actor_80033780;
 
-Actor_80033780* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
+Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
     Actor_80033780* itemActor;
     Vec3f spA8;
     f32 deltaX;
