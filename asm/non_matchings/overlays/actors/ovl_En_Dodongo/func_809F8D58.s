@@ -89,7 +89,7 @@ glabel func_809F8D58
 /* 00C58 809F8EA8 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 00C5C 809F8EAC 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFD8
 /* 00C60 809F8EB0 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFF0
-/* 00C64 809F8EB4 0C00A4E8 */  jal     func_800293A0              
+/* 00C64 809F8EB4 0C00A4E8 */  jal     EffectSsDFire_SpawnFixedScale              
 /* 00C68 809F8EB8 27A7003C */  addiu   $a3, $sp, 0x003C           ## $a3 = FFFFFFE4
 /* 00C6C 809F8EBC 10000010 */  beq     $zero, $zero, .L809F8F00   
 /* 00C70 809F8EC0 00000000 */  nop

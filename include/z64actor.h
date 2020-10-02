@@ -196,7 +196,7 @@ typedef struct {
     /* 0x04 */ s16* unk_04;
     /* 0x08 */ s16 unk_08;
     /* 0x0A */ char unk_0A[0x02];
-    /* 0x0C */ s32* unk_0C;
+    /* 0x0C */ Gfx** unk_0C;
     /* 0x10 */ s32 unk_10;
     /* 0x14 */ s32 unk_14;
 } struct_80032E24;

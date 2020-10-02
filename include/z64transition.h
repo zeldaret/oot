@@ -24,8 +24,8 @@ typedef struct {
 } TransitionUnk; // size = 0xE0
 
 typedef struct {
-    /* 0x000 */ Color_RGBA8 color;
-    /* 0x004 */ Color_RGBA8 envColor;
+    /* 0x000 */ Color_RGBA8_u32 color;
+    /* 0x004 */ Color_RGBA8_u32 envColor;
     /* 0x008 */ u8 direction;
     /* 0x009 */ u8 frame;
     /* 0x00A */ u8 isDone;
@@ -41,13 +41,13 @@ typedef struct {
     /* 0x000 */ u8 fadeType;
     /* 0x001 */ u8 isDone;
     /* 0x002 */ u8 fadeDirection;
-    /* 0x004 */ Color_RGBA8 fadeColor;
+    /* 0x004 */ Color_RGBA8_u32 fadeColor;
     /* 0x008 */ u16 fadeTimer;
 } TransitionFade; // size = 0xC
 
 typedef struct {
-    /* 0x000 */ Color_RGBA8 color;
-    /* 0x004 */ Color_RGBA8 envColor;
+    /* 0x000 */ Color_RGBA8_u32 color;
+    /* 0x004 */ Color_RGBA8_u32 envColor;
     /* 0x008 */ s32 texX;
     /* 0x00C */ s32 texY;
     /* 0x010 */ s32 step;
@@ -65,7 +65,7 @@ typedef struct {
 } TransitionCircle; // size = 0x228;
 
 typedef struct {
-    /* 0x000 */ Color_RGBA8 color;
+    /* 0x000 */ Color_RGBA8_u32 color;
     /* 0x004 */ f32 transPos;
     /* 0x008 */ f32 step;
     /* 0x00C */ s32 state;

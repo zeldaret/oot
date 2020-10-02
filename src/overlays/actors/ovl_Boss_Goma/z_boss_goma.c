@@ -567,7 +567,7 @@ void BossGoma_UpdateCeilingMovement(BossGoma* this, GlobalContext* globalCtx, f3
             pos.x = Math_Rand_CenteredFloat(70.0f) + basePos->x;
             pos.y = Math_Rand_ZeroFloat(30.0f) + basePos->y;
             pos.z = Math_Rand_CenteredFloat(70.0f) + basePos->z;
-            func_80029724(globalCtx, &pos, &vel, &accel, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, 0);
+            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, NULL);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_HIGH);
     }
@@ -890,8 +890,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
     static Vec3f _vel1 = { 0, 0, 0 };
     static Vec3f _accel1 = { 0, 1, 0 };
-    static Color_RGBA8_n _color1 = { 255, 255, 255, 255 };
-    static Color_RGBA8_n _color2 = { 0, 100, 255, 255 };
+    static Color_RGBA8 _color1 = { 255, 255, 255, 255 };
+    static Color_RGBA8 _color2 = { 0, 100, 255, 255 };
     static Vec3f _vel2 = { 0, 0, 0 };
     static Vec3f _accel2 = { 0, -0.5f, 0 };
     static Vec3f roomCenter = { -150, 0, -350 };
@@ -901,8 +901,8 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
     s16 j;
     Vec3f vel1 = _vel1;
     Vec3f accel1 = _accel1;
-    Color_RGBA8_n color1 = _color1;
-    Color_RGBA8_n color2 = _color2;
+    Color_RGBA8 color1 = _color1;
+    Color_RGBA8 color2 = _color2;
     Vec3f vel2 = _vel2;
     Vec3f accel2 = _accel2;
     Vec3f pos;
@@ -933,7 +933,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
     if (this->framesUntilNextAction < 1200 && this->framesUntilNextAction > 1100 &&
         this->framesUntilNextAction % 8 == 0) {
-        func_800299AC(globalCtx, &this->actor.posRot2.pos);
+        EffectSsSibuki_SpawnBurst(globalCtx, &this->actor.posRot2.pos);
     }
 
     if (this->framesUntilNextAction < 1080 && this->actionState < 3) {
@@ -959,7 +959,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                 pos.x = Math_Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
                 pos.y = Math_Rand_CenteredFloat(10.0f) + this->defeatedLimbPositions[j].y;
                 pos.z = Math_Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].z;
-                func_80029724(globalCtx, &pos, &vel2, &accel2, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 0xA, -1, 0xA, 0);
+                EffectSsHahen_Spawn(globalCtx, &pos, &vel2, &accel2, 0, (s16)(Math_Rand_ZeroOne() * 5.0f) + 10, -1, 10, NULL);
             }
         }
     }
@@ -1657,7 +1657,7 @@ void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
                 if ((s8)this->actor.colChkInfo.health > 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM1);
                     BossGoma_SetupFloorDamaged(this);
-                    func_800299AC(globalCtx, &this->actor.posRot2.pos);
+                    EffectSsSibuki_SpawnBurst(globalCtx, &this->actor.posRot2.pos);
                 } else {
                     BossGoma_SetupDefeated(this, globalCtx);
                     func_80032C7C(globalCtx, &this->actor);

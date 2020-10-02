@@ -9,7 +9,7 @@ Input* D_8012D1F8 = NULL;
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
 VisMono D_80161498;
-Color_RGBA8 D_801614B0;
+Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
 u64 D_801614D0[0xA00];
@@ -1158,7 +1158,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             oGfxCtx->polyOpa.p = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
-            PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
+            PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer,
+                                gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
                 MsgEvent_SendNullTask();

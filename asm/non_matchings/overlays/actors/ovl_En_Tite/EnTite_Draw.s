@@ -212,7 +212,7 @@ glabel EnTite_Draw
 /* 02AFC 80B1B57C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02B00 80B1B580 27A6004C */  addiu   $a2, $sp, 0x004C           ## $a2 = FFFFFFC4
 /* 02B04 80B1B584 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 02B08 80B1B588 0C00A850 */  jal     func_8002A140              
+/* 02B08 80B1B588 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 02B0C 80B1B58C E7AA0028 */  swc1    $f10, 0x0028($sp)          
 .L80B1B590:
 /* 02B10 80B1B590 8FBF003C */  lw      $ra, 0x003C($sp)           

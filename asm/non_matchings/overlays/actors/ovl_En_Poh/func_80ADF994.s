@@ -34,7 +34,7 @@ glabel func_80ADF994
 /* 01CBC 80ADFA0C 3C0640C0 */  lui     $a2, 0x40C0                ## $a2 = 40C00000
 /* 01CC0 80ADFA10 8D8D001C */  lw      $t5, 0x001C($t4)           ## 0000001C
 /* 01CC4 80ADFA14 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 01CC8 80ADFA18 0C00A5E9 */  jal     func_800297A4              
+/* 01CC8 80ADFA18 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 01CCC 80ADFA1C AFAD0024 */  sw      $t5, 0x0024($sp)           
 /* 01CD0 80ADFA20 0C2B79B5 */  jal     func_80ADE6D4              
 /* 01CD4 80ADFA24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
