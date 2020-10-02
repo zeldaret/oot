@@ -562,7 +562,7 @@ typedef struct {
     /* 0x18 */ void*     polygonArray;
     /* 0x1C */ void*     polygonTypes;
     /* 0x20 */ void*     cameraData;
-    /* 0x24 */ s16       nbWaterBoxes;
+    /* 0x24 */ u16       nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader;
 
@@ -1529,7 +1529,7 @@ typedef struct GfxPrint {
     /* 0x0C */ u16 baseX;
     /* 0x0E */ u8 baseY;
     /* 0x0F */ u8 flag;
-    /* 0x10 */ Color_RGBA8 color;
+    /* 0x10 */ Color_RGBA8_u32 color;
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
@@ -1926,15 +1926,15 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8 color;
-    /* 0x0C */ Color_RGBA8 envColor;
+    /* 0x08 */ Color_RGBA8_u32 color;
+    /* 0x0C */ Color_RGBA8_u32 envColor;
 } struct_801664F0; // size = 0x10
 
 typedef struct {
     /* 0x00 */ u32 unk_00;
     /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8 primColor;
-    /* 0x0C */ Color_RGBA8 envColor;
+    /* 0x08 */ Color_RGBA8_u32 primColor;
+    /* 0x0C */ Color_RGBA8_u32 envColor;
     /* 0x10 */ u16* tlut;
     /* 0x14 */ Gfx* monoDl;
 } VisMono; // size = 0x18
@@ -1943,8 +1943,8 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u32 useRgba;
     /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8 primColor;
-    /* 0x08 */ Color_RGBA8 envColor;
+    /* 0x08 */ Color_RGBA8_u32 primColor;
+    /* 0x08 */ Color_RGBA8_u32 envColor;
 } struct_80166500; // size = 0x10
 
 typedef struct {

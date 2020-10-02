@@ -63,7 +63,7 @@ glabel func_808A780C
 /* 016E4 808A78F4 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFFF4
 /* 016E8 808A78F8 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 016EC 808A78FC AFA0002C */  sw      $zero, 0x002C($sp)         
-/* 016F0 808A7900 0C00A9AE */  jal     func_8002A6B8              
+/* 016F0 808A7900 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 016F4 808A7904 AFA00030 */  sw      $zero, 0x0030($sp)         
 /* 016F8 808A7908 1000001D */  beq     $zero, $zero, .L808A7980   
 /* 016FC 808A790C 8602016C */  lh      $v0, 0x016C($s0)           ## 0000016C
@@ -93,7 +93,7 @@ glabel func_808A780C
 /* 01758 808A7968 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 0175C 808A796C 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFFF4
 /* 01760 808A7970 00C03825 */  or      $a3, $a2, $zero            ## $a3 = 00000000
-/* 01764 808A7974 0C00A9AE */  jal     func_8002A6B8              
+/* 01764 808A7974 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 01768 808A7978 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 0176C 808A797C 8602016C */  lh      $v0, 0x016C($s0)           ## 0000016C
 .L808A7980:

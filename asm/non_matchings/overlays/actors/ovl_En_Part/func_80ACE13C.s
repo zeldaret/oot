@@ -150,7 +150,7 @@ glabel L80ACE2AC
 /* 0055C 80ACE32C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 00560 80ACE330 26250024 */  addiu   $a1, $s1, 0x0024           ## $a1 = 00000024
 /* 00564 80ACE334 02603025 */  or      $a2, $s3, $zero            ## $a2 = FFFFFFCC
-/* 00568 80ACE338 0C00A9AE */  jal     func_8002A6B8              
+/* 00568 80ACE338 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 0056C 80ACE33C 02603825 */  or      $a3, $s3, $zero            ## $a3 = FFFFFFCC
 /* 00570 80ACE340 1000008A */  beq     $zero, $zero, .L80ACE56C   
 /* 00574 80ACE344 00000000 */  nop
@@ -190,7 +190,7 @@ glabel L80ACE348
 /* 005F8 80ACE3C8 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 005FC 80ACE3CC 26250024 */  addiu   $a1, $s1, 0x0024           ## $a1 = 00000024
 /* 00600 80ACE3D0 02603025 */  or      $a2, $s3, $zero            ## $a2 = FFFFFFCC
-/* 00604 80ACE3D4 0C00A9AE */  jal     func_8002A6B8              
+/* 00604 80ACE3D4 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 00608 80ACE3D8 02603825 */  or      $a3, $s3, $zero            ## $a3 = FFFFFFCC
 /* 0060C 80ACE3DC 10000063 */  beq     $zero, $zero, .L80ACE56C   
 /* 00610 80ACE3E0 00000000 */  nop
@@ -242,7 +242,7 @@ glabel L80ACE3E4
 /* 006AC 80ACE47C 27A6008C */  addiu   $a2, $sp, 0x008C           ## $a2 = FFFFFFE4
 /* 006B0 80ACE480 27A70080 */  addiu   $a3, $sp, 0x0080           ## $a3 = FFFFFFD8
 /* 006B4 80ACE484 AFA20010 */  sw      $v0, 0x0010($sp)           
-/* 006B8 80ACE488 0C00A586 */  jal     func_80029618              
+/* 006B8 80ACE488 0C00A586 */  jal     EffectSsDtBubble_SpawnColorProfile              
 /* 006BC 80ACE48C AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 006C0 80ACE490 2610FFFF */  addiu   $s0, $s0, 0xFFFF           ## $s0 = 00000006
 /* 006C4 80ACE494 0601FFD7 */  bgez    $s0, .L80ACE3F4            
@@ -299,7 +299,7 @@ glabel L80ACE4A4
 /* 0077C 80ACE54C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 00780 80ACE550 02402825 */  or      $a1, $s2, $zero            ## $a1 = FFFFFFF0
 /* 00784 80ACE554 02603025 */  or      $a2, $s3, $zero            ## $a2 = FFFFFFCC
-/* 00788 80ACE558 0C00A9AE */  jal     func_8002A6B8              
+/* 00788 80ACE558 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 0078C 80ACE55C 02603825 */  or      $a3, $s3, $zero            ## $a3 = FFFFFFCC
 /* 00790 80ACE560 2610FFFF */  addiu   $s0, $s0, 0xFFFF           ## $s0 = 00000003
 /* 00794 80ACE564 0601FFD3 */  bgez    $s0, .L80ACE4B4            

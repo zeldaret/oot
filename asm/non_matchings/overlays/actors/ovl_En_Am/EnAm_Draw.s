@@ -95,7 +95,7 @@ glabel EnAm_Draw
 /* 01FFC 809AFF1C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02000 809AFF20 27A60068 */  addiu   $a2, $sp, 0x0068           ## $a2 = FFFFFFF0
 /* 02004 809AFF24 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 02008 809AFF28 0C00A850 */  jal     func_8002A140              
+/* 02008 809AFF28 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 0200C 809AFF2C E7AA0028 */  swc1    $f10, 0x0028($sp)          
 .L809AFF30:
 /* 02010 809AFF30 3C06809B */  lui     $a2, %hi(D_809B0170)       ## $a2 = 809B0000

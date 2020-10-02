@@ -20,7 +20,7 @@ typedef struct EnElf {
     /* 0x0274 */ LightNode* lightNodeGlow;
     /* 0x0278 */ LightInfo lightInfoNoGlow;
     /* 0x0288 */ LightNode* lightNodeNoGlow;
-    /* 0x028C */ Vec3f unk_28C; //pos copy
+    /* 0x028C */ Vec3f unk_28C;
     /* 0x0298 */ Actor* elfMsg;
     /* 0x029C */ f32 unk_29C;
     /* 0x02A0 */ f32 unk_2A0;
@@ -30,17 +30,16 @@ typedef struct EnElf {
     /* 0x02AC */ s16 unk_2AC;
     /* 0x02AE */ s16 unk_2AE;
     /* 0x02B0 */ s16 unk_2B0;
-    /* 0x02B2 */ char unk_2B2[0x2];
     /* 0x02B4 */ f32 unk_2B4;
     /* 0x02B8 */ f32 unk_2B8;
     /* 0x02BC */ s16 unk_2BC;
     /* 0x02BE */ u16 timer;
-    /* 0x02C0 */ s16 unk_2C0; //timer
+    /* 0x02C0 */ s16 unk_2C0;
     /* 0x02C2 */ s16 dissapearTimer;
     /* 0x02C4 */ u16 flags;
     /* 0x02C6 */ u8 unk_2C6;
     /* 0x02C7 */ u8 unk_2C7;
-    /* 0x02C8 */ EnElfUnkFunc unk_2C8; // some func pointer
+    /* 0x02C8 */ EnElfUnkFunc func_2C8;
     /* 0x02CC */ EnElfActionFunc actionFunc;
 } EnElf; // size = 0x02D0
 

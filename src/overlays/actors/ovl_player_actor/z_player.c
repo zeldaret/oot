@@ -13,6 +13,7 @@
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 #define THIS ((Player*)thisx)
 
@@ -5448,22 +5449,22 @@ void func_8083CF5C(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_8083CFA8(GlobalContext* globalCtx, Player* this, f32 arg2, s32 arg3) {
+s32 func_8083CFA8(GlobalContext* globalCtx, Player* this, f32 arg2, s32 splashScale) {
     f32 sp3C = fabsf(arg2);
     UNK_TYPE sp38;
     f32 sp34;
-    Vec3f sp28;
-    s32 temp;
+    Vec3f splashPos;
+    s32 splashType;
 
     if (sp3C > 2.0f) {
-        sp28.x = this->bodyPartsPos[0].x;
-        sp28.z = this->bodyPartsPos[0].z;
+        splashPos.x = this->bodyPartsPos[0].x;
+        splashPos.z = this->bodyPartsPos[0].z;
         sp34 = this->actor.posRot.pos.y;
-        if (func_8004213C(globalCtx, &globalCtx->colCtx, sp28.x, sp28.z, &sp34, &sp38)) {
+        if (func_8004213C(globalCtx, &globalCtx->colCtx, splashPos.x, splashPos.z, &sp34, &sp38)) {
             if ((sp34 - this->actor.posRot.pos.y) < 100.0f) {
-                temp = (sp3C <= 10.0f) ? 0 : 1;
-                sp28.y = sp34;
-                func_8002949C(globalCtx, &sp28, 0, 0, temp, arg3);
+                splashType = (sp3C <= 10.0f) ? 0 : 1;
+                splashPos.y = sp34;
+                EffectSsGSplash_Spawn(globalCtx, &splashPos, NULL, NULL, splashType, splashScale);
                 return 1;
             }
         }
@@ -5609,7 +5610,7 @@ void func_8083D53C(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
-    Vec3f sp5C;
+    Vec3f ripplePos;
     f32 temp1;
     f32 temp2;
     f32 temp3;
@@ -5670,10 +5671,10 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
             if (this->unk_854 > 15.0f) {
                 this->unk_854 = 0.0f;
 
-                sp5C.x = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.x;
-                sp5C.y = this->actor.posRot.pos.y + this->actor.waterY;
-                sp5C.z = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.z;
-                func_80029444(globalCtx, &sp5C, 100, 500, 0);
+                ripplePos.x = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.x;
+                ripplePos.y = this->actor.posRot.pos.y + this->actor.waterY;
+                ripplePos.z = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.z;
+                EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 0);
 
                 if ((this->linearVelocity > 4.0f) && !func_808332B8(this) &&
                     ((this->actor.posRot.pos.y + this->actor.waterY) < this->bodyPartsPos[0].y)) {
@@ -5684,19 +5685,19 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
         }
 
         if (this->actor.waterY > 40.0f) {
-            s32 sp48 = 0;
+            s32 numBubbles = 0;
             s32 i;
 
             if ((this->actor.velocity.y > -1.0f) || (this->actor.bgCheckFlags & 1)) {
                 if (Math_Rand_ZeroOne() < 0.2f) {
-                    sp48 = 1;
+                    numBubbles = 1;
                 }
             } else {
-                sp48 = this->actor.velocity.y * -2.0f;
+                numBubbles = this->actor.velocity.y * -2.0f;
             }
 
-            for (i = 0; i < sp48; i++) {
-                func_800293E4(globalCtx, &this->actor.posRot.pos, 20.0f, 10.0f, 20.0f, 0.13f);
+            for (i = 0; i < numBubbles; i++) {
+                EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 20.0f, 10.0f, 20.0f, 0.13f);
             }
         }
     }
@@ -7489,7 +7490,7 @@ void func_80842A88(GlobalContext* globalCtx, Player* this) {
 s32 func_80842AC4(GlobalContext* globalCtx, Player* this) {
     if ((this->heldItemActionParam == PLAYER_AP_STICK) && (this->unk_85C > 0.5f)) {
         if (AMMO(ITEM_STICK) != 0) {
-            func_800298EC(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
+            EffectSsStick_Spawn(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
             this->unk_85C = 0.5f;
             func_80842A88(globalCtx, this);
             func_8002F7DC(&this->actor, NA_SE_IT_WOODSTICK_BROKEN);
@@ -7505,7 +7506,7 @@ s32 func_80842B7C(GlobalContext* globalCtx, Player* this) {
     if (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) {
         if ((gSaveContext.bgsFlag == 0) && (gSaveContext.swordHealth > 0.0f)) {
             if ((gSaveContext.swordHealth -= 1.0f) <= 0.0f) {
-                func_800298EC(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
+                EffectSsStick_Spawn(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
                 func_800849EC(globalCtx);
                 func_8002F7DC(&this->actor, NA_SE_IT_MAJIN_SWORD_BROKEN);
             }
@@ -9735,8 +9736,8 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
 Vec3f D_808547A4 = { 0.0f, 0.5f, 0.0f };
 Vec3f D_808547B0 = { 0.0f, 0.5f, 0.0f };
 
-Color_RGBA8_n D_808547BC = { 255, 255, 100, 255 };
-Color_RGBA8_n D_808547C0 = { 255, 50, 0, 0 };
+Color_RGBA8 D_808547BC = { 255, 255, 100, 255 };
+Color_RGBA8 D_808547C0 = { 255, 50, 0, 0 };
 
 void func_80848A04(GlobalContext* globalCtx, Player* this) {
     f32 temp;
@@ -9764,28 +9765,27 @@ void func_80848A04(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_80848B44(GlobalContext* globalCtx, Player* this) {
-    Vec3f sp3C;
-    Vec3f* sp38;
-    s32 sp34;
+    Vec3f shockPos;
+    Vec3f* randBodyPart;
+    s32 shockScale;
 
     this->shockTimer--;
     this->unk_892 += this->shockTimer;
 
     if (this->unk_892 > 20) {
-        sp34 = this->shockTimer * 2;
-
+        shockScale = this->shockTimer * 2;
         this->unk_892 -= 20;
 
-        if (sp34 > 40) {
-            sp34 = 40;
+        if (shockScale > 40) {
+            shockScale = 40;
         }
 
-        sp38 = this->bodyPartsPos + (s32)Math_Rand_ZeroFloat(17.9f);
-        sp3C.x = (Math_Rand_CenteredFloat(5.0f) + sp38->x) - this->actor.posRot.pos.x;
-        sp3C.y = (Math_Rand_CenteredFloat(5.0f) + sp38->y) - this->actor.posRot.pos.y;
-        sp3C.z = (Math_Rand_CenteredFloat(5.0f) + sp38->z) - this->actor.posRot.pos.z;
+        randBodyPart = this->bodyPartsPos + (s32)Math_Rand_ZeroFloat(17.9f);
+        shockPos.x = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->x) - this->actor.posRot.pos.x;
+        shockPos.y = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->y) - this->actor.posRot.pos.y;
+        shockPos.z = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->z) - this->actor.posRot.pos.z;
 
-        EffectSsFhgFlash_Spawn2(globalCtx, &this->actor, &sp3C, sp34, 1);
+        EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &shockPos, shockScale, FHGFLASH_SHOCK_PLAYER);
         func_8002F8F0(&this->actor, NA_SE_PL_SPARK - SFX_FLAG);
     }
 }
@@ -9836,7 +9836,7 @@ void func_80848C74(GlobalContext* globalCtx, Player* this) {
 
             flameIntensity = (*timerPtr - 25.0f) * 0.02f;
             flameIntensity = CLAMP(flameIntensity, 0.0f, 1.0f);
-            func_8002A484(globalCtx, flameScale, i, flameIntensity);
+            EffectSsFireTail_SpawnFlameOnPlayer(globalCtx, flameScale, i, flameIntensity);
         }
 
         if (1) {}
@@ -10115,7 +10115,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this) ? &D_04003310 : (this->shockTimer != 0) ? &D_04002F08 : &D_04002878);
+                                  func_808332B8(this) ? &D_04003310
+                                                      : (this->shockTimer != 0) ? &D_04002F08 : &D_04002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&
@@ -12495,7 +12496,7 @@ void func_8084FB10(Player* this, GlobalContext* globalCtx) {
 
         if (func_80832594(this, 1, 100)) {
             this->unk_84F = -1;
-            func_80029FAC(globalCtx, &this->actor.posRot.pos, this->actor.scale.x);
+            EffectSsIcePiece_SpawnBurst(globalCtx, &this->actor.posRot.pos, this->actor.scale.x);
             func_8002F7DC(&this->actor, NA_SE_PL_ICE_BROKEN);
         } else {
             this->stateFlags2 |= 0x4000;
@@ -12675,7 +12676,6 @@ s32 func_80850224(Player* this, GlobalContext* globalCtx) {
 }
 
 Vec3f D_80854A40 = { 0.0f, 40.0f, 45.0f };
-Vec3f D_80854A4C = { 0.0f, 0.0f, 0.0f };
 
 void func_808502D0(Player* this, GlobalContext* globalCtx) {
     struct_80854190* sp44 = &D_80854190[this->swordAnimation];
@@ -12723,11 +12723,12 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
             }
         } else if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
             if ((this->swordAnimation == 0x16) || (this->swordAnimation == 0x13)) {
-                Vec3f sp30;
+                static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+                Vec3f shockwavePos;
                 f32 sp2C;
 
-                sp30.y = func_8083973C(globalCtx, this, &D_80854A40, &sp30);
-                sp2C = this->actor.posRot.pos.y - sp30.y;
+                shockwavePos.y = func_8083973C(globalCtx, this, &D_80854A40, &shockwavePos);
+                sp2C = this->actor.posRot.pos.y - shockwavePos.y;
 
                 Math_ApproxUpdateScaledS(&this->actor.posRot2.rot.x, atan2s(45.0f, sp2C), 800);
                 func_80836AB8(this, 1);
@@ -12736,7 +12737,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                      ((this->swordAnimation == 0x13) && func_800A4530(&this->skelAnime, 2.0f))) &&
                     (sp2C > -40.0f) && (sp2C < 40.0f)) {
                     func_80842A28(globalCtx, this);
-                    func_80029024(globalCtx, &sp30, &D_80854A4C, &D_80854A4C);
+                    EffectSsBlast_SpawnWhiteShockwave(globalCtx, &shockwavePos, &zeroVec, &zeroVec);
                 }
             }
         }
@@ -13707,14 +13708,12 @@ Vec3s D_80855210[2][2] = {
     { { -200, 500, 0 }, { 600, 400, 600 } },
 };
 
-Vec3f D_80855228 = { 0.0f, 0.0f, 0.0f };
-
-Color_RGB8 D_80855234 = { 255, 255, 255 };
-Color_RGB8 D_80855238 = { 0, 128, 128 };
-
 void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    static Color_RGB8 primColor = { 255, 255, 255 };
+    static Color_RGB8 envColor = { 0, 128, 128 };
     s32 age = gSaveContext.linkAge;
-    Vec3f sp40;
+    Vec3f sparklePos;
     Vec3f sp34;
     Vec3s* ptr;
 
@@ -13731,9 +13730,9 @@ void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     sp34.y = ptr[0].y + Math_Rand_CenteredFloat(ptr[1].y);
     sp34.z = ptr[0].z + Math_Rand_CenteredFloat(ptr[1].z);
 
-    SkinMatrix_Vec3fMtxFMultXYZ(&this->shieldMf, &sp34, &sp40);
+    SkinMatrix_Vec3fMtxFMultXYZ(&this->shieldMf, &sp34, &sparklePos);
 
-    func_80028BB0(globalCtx, &sp40, &D_80855228, &D_80855228, &D_80855234, &D_80855238, 600, -10);
+    EffectSsKiraKira_SpawnDispersed(globalCtx, &sparklePos, &zeroVec, &zeroVec, &primColor, &envColor, 600, -10);
 }
 
 void func_8085283C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {

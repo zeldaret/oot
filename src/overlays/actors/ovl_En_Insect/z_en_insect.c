@@ -67,8 +67,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
 };
 
-Vec3f D_80A7DF28[2] = { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } };
-
 void func_80A7BE20(EnInsect* this) {
     this->unk_314 = D_80A7DF10[this->actor.params & 3];
 }
@@ -397,8 +395,10 @@ void func_80A7CBC8(EnInsect* this) {
 }
 
 void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    static Vec3f unused = { 0.0f, 0.0f, 0.0f };
     s32 pad[2];
-    Vec3f sp34;
+    Vec3f velocity;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.1f, 0.5f, 0.0f);
     Math_ApproxS(&this->actor.shape.rot.x, 10922, 352);
@@ -411,11 +411,11 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if (this->unk_31A >= 21 && Math_Rand_ZeroOne() < 0.1f) {
-        sp34.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
-        sp34.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
-        sp34.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
-        func_800286CC(globalCtx, &this->actor.posRot.pos, &sp34, D_80A7DF28, Math_Rand_ZeroOne() * 5.0f + 8.0f,
+    if (this->unk_31A > 20 && Math_Rand_ZeroOne() < 0.1f) {
+        velocity.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
+        velocity.y = Math_Sins(this->actor.shape.rot.x) * 0.6f;
+        velocity.z = Math_Coss(this->actor.shape.rot.y) * -0.6f;
+        func_800286CC(globalCtx, &this->actor.posRot.pos, &velocity, &accel, Math_Rand_ZeroOne() * 5.0f + 8.0f,
                       Math_Rand_ZeroOne() * 5.0f + 8.0f);
     }
 
@@ -497,8 +497,8 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
         sp40.x = this->actor.posRot.pos.x;
         sp40.y = this->actor.posRot.pos.y + this->actor.waterY;
         sp40.z = this->actor.posRot.pos.z;
-        func_80029444(globalCtx, &sp40, 20, 100, 4);
-        func_80029444(globalCtx, &sp40, 40, 200, 8);
+        EffectSsGRipple_Spawn(globalCtx, &sp40, 20, 100, 4);
+        EffectSsGRipple_Spawn(globalCtx, &sp40, 40, 200, 8);
     }
 
     if (this->unk_31A <= 0 || ((this->unk_314 & 4) && this->unk_31C <= 0) ||
@@ -532,7 +532,8 @@ void func_80A7D26C(EnInsect* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, CLAMP_MIN(this->actor.scale.x - 0.00005f, 0.001f));
 
     if (this->actor.waterY > 5.0f && this->actor.waterY < 30.0f && Math_Rand_ZeroOne() < 0.3f) {
-        func_800293E4(globalCtx, &this->actor.posRot.pos, -5.0f, 5.0f, 5.0f, (Math_Rand_ZeroOne() * 0.04f) + 0.02f);
+        EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, -5.0f, 5.0f, 5.0f,
+                             (Math_Rand_ZeroOne() * 0.04f) + 0.02f);
     }
 
     if (this->unk_31A <= 0) {

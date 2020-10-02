@@ -59,7 +59,7 @@ glabel func_80A03CF8
 /* 02120 80A03D50 53200053 */  beql    $t9, $zero, .L80A03EA0     
 /* 02124 80A03D54 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 02128 80A03D58 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFF4
-/* 0212C 80A03D5C 0C2817C4 */  jal     func_80A05F10              
+/* 0212C 80A03D5C 0C2817C4 */  jal     EnElf_GetCutsceneNextPos              
 /* 02130 80A03D60 01E02825 */  or      $a1, $t7, $zero            ## $a1 = 00000000
 /* 02134 80A03D64 8FA80064 */  lw      $t0, 0x0064($sp)           
 /* 02138 80A03D68 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
@@ -484,7 +484,7 @@ glabel func_80A03CF8
 /* 02738 80A04368 E7B20010 */  swc1    $f18, 0x0010($sp)          
 .L80A0436C:
 /* 0273C 80A0436C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 02740 80A04370 0C280ECA */  jal     func_80A03B28              
+/* 02740 80A04370 0C280ECA */  jal     EnElf_UpdateLights              
 /* 02744 80A04374 8FA50064 */  lw      $a1, 0x0064($sp)           
 /* 02748 80A04378 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 0274C 80A0437C 8FB00020 */  lw      $s0, 0x0020($sp)           

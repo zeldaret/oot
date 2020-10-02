@@ -45,7 +45,7 @@ glabel func_809F1EFC
 /* 004C0 809F1FA0 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 004C4 809F1FA4 3C0640C0 */  lui     $a2, 0x40C0                ## $a2 = 40C00000
 /* 004C8 809F1FA8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 004CC 809F1FAC 0C00A5E9 */  jal     func_800297A4
+/* 004CC 809F1FAC 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst
 /* 004D0 809F1FB0 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 004D4 809F1FB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004D8 809F1FB8 0C00BE0A */  jal     Audio_PlayActorSound2

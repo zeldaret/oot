@@ -49,9 +49,11 @@ void func_80A02B38(EnElf* this, GlobalContext* globalCtx);
 void func_80A020A4(EnElf* this, GlobalContext* globalCtx);
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx);
 
+// misc
 void func_80A04414(EnElf* this, GlobalContext* globalCtx);
-
+void func_80A0461C(EnElf* this, GlobalContext* globalCtx);
 void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife);
+void EnElf_GetCutsceneNextPos(Vec3f* vec, GlobalContext* globalCtx, s32 action);
 
 const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
@@ -69,15 +71,21 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 8, ICHAIN_STOP),
 };
 
-Color_RGBAf D_80A06024[] = { { 255.0f, 255.0f, 255.0f, 255.0f }, { 255.0f, 220.0f, 220.0f, 255.0f } };
+static Color_RGBAf sInnerColors[] = {
+    { 255.0f, 255.0f, 255.0f, 255.0f },
+    { 255.0f, 220.0f, 220.0f, 255.0f },
+};
 
-Color_RGBAf D_80A06044[] = { { 255.0f, 255.0f, 255.0f, 255.0f }, { 255.0f, 50.0f, 100.0f, 255.0f } };
+static Color_RGBAf sOuterColors[] = {
+    { 255.0f, 255.0f, 255.0f, 255.0f },
+    { 255.0f, 50.0f, 100.0f, 255.0f },
+};
 
 typedef struct {
     u8 r, g, b;
 } FairyColorFlags;
 
-FairyColorFlags D_80A06064[] = {
+static FairyColorFlags sColorFlags[] = {
     { 0, 0, 0 }, { 1, 0, 0 }, { 1, 2, 0 }, { 1, 0, 2 }, { 0, 1, 0 }, { 2, 1, 0 }, { 0, 1, 2 },
     { 0, 0, 1 }, { 2, 0, 1 }, { 0, 2, 1 }, { 1, 1, 0 }, { 1, 0, 1 }, { 0, 1, 1 },
 };
@@ -96,8 +104,8 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 0:
             this->unk_2AE = 0x400;
             this->unk_2B0 = 0x200;
-            this->unk_2C8 = func_80A02A20;
-            this->unk_2C0 = 0x64;
+            this->func_2C8 = func_80A02A20;
+            this->unk_2C0 = 100;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 20.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -105,8 +113,8 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 12:
             this->unk_2AE = 0x400;
             this->unk_2B0 = 0x200;
-            this->unk_2C8 = func_80A02A20;
-            this->unk_2C0 = 0x64;
+            this->func_2C8 = func_80A02A20;
+            this->unk_2C0 = 100;
             this->unk_2B4 = 1.0f;
             this->unk_2B8 = 5.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -114,7 +122,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 10:
             this->unk_2AE = 0x400;
             this->unk_2B0 = 0;
-            this->unk_2C8 = func_80A02A20;
+            this->func_2C8 = func_80A02A20;
             this->unk_2B8 = 0.0f;
             this->unk_2B4 = 5.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -122,13 +130,13 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 9:
             this->unk_2AE = 0x1000;
             this->unk_2B0 = 0x200;
-            this->unk_2C8 = func_80A02A20;
+            this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 3.0f;
             this->unk_2B8 = 10.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
             break;
         case 7:
-            this->unk_2C8 = func_80A02A20;
+            this->func_2C8 = func_80A02A20;
             this->unk_2AE = 0x1E;
             this->unk_2C0 = 1;
             this->unk_2B4 = 0.0f;
@@ -138,7 +146,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 8:
             this->unk_2AE = 0x1000;
             this->unk_2B0 = 0x200;
-            this->unk_2C8 = func_80A02A20;
+            this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 0.0f;
             this->unk_2B8 = 0.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -146,7 +154,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 1:
             this->unk_2AE = 0x1000;
             this->unk_2B0 = 0x800;
-            this->unk_2C8 = func_80A02A20;
+            this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 7.5f;
             this->skelAnime.animPlaybackSpeed = 2.0f;
@@ -154,28 +162,28 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 2:
             this->unk_2AE = 0x400;
             this->unk_2B0 = 0x1000;
-            this->unk_2C8 = func_80A02AA4;
+            this->func_2C8 = func_80A02AA4;
             this->unk_2B4 = 10.0f;
             this->unk_2B8 = 20.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
             break;
         case 3:
             this->unk_2B0 = 0x600;
-            this->unk_2C8 = func_80A02B38;
+            this->func_2C8 = func_80A02B38;
             this->unk_2B8 = 1.0f;
             this->unk_2B4 = 1.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
             break;
         case 4:
             this->unk_2B0 = 0x800;
-            this->unk_2C8 = func_80A02B38;
+            this->func_2C8 = func_80A02B38;
             this->unk_2B4 = 20.0f;
             this->unk_2B8 = 10.0;
             this->skelAnime.animPlaybackSpeed = 2.0f;
             break;
         case 5:
             this->unk_2B0 = 0x200;
-            this->unk_2C8 = func_80A02B38;
+            this->func_2C8 = func_80A02B38;
             this->unk_2B4 = 10.0f;
             this->unk_2B8 = 10.0f;
             this->skelAnime.animPlaybackSpeed = 0.5f;
@@ -183,7 +191,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 6:
             this->unk_2AE = 0x1000;
             this->unk_2B0 = 0x800;
-            this->unk_2C8 = func_80A02A20;
+            this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 60.0f;
             this->unk_2B8 = 20.0f;
             this->skelAnime.animPlaybackSpeed = 2.0f;
@@ -191,8 +199,8 @@ void func_80A01C38(EnElf* this, s32 arg1) {
         case 11:
             this->unk_2AE = 0x400;
             this->unk_2B0 = 0x2000;
-            this->unk_2C8 = func_80A02A20;
-            this->unk_2C0 = 0x2A;
+            this->func_2C8 = func_80A02A20;
+            this->unk_2C0 = 42;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 1.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -206,7 +214,7 @@ s32 func_80A01F90(Vec3f* this, Vec3f* arg1, f32 arg2) {
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_80A01F90(&this->actor.posRot.pos, &player->actor.posRot.pos, 30.0f) == 0) {
+    if (!func_80A01F90(&this->actor.posRot.pos, &player->actor.posRot.pos, 30.0f)) {
         this->unk_2B8 = 0.5f;
     } else {
         this->unk_2B8 = 2.0f;
@@ -219,7 +227,7 @@ void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
         this->unk_2AC = 0x80;
         this->unk_2B8 = Math_Rand_ZeroFloat(1.0f) + 0.5f;
         this->unk_2B0 = Math_Rand_CenteredFloat(32767.0f);
-        this->unk_2C8 = func_80A0214C;
+        this->func_2C8 = func_80A0214C;
     }
 }
 
@@ -234,7 +242,7 @@ void func_80A020A4(EnElf* this, GlobalContext* globalCtx) {
             this->unk_2AC = 0x80;
             this->unk_2B8 = Math_Rand_ZeroFloat(1.0f) + 0.5f;
             this->unk_2B0 = Math_Rand_CenteredFloat(32767.0f);
-            this->unk_2C8 = func_80A0214C;
+            this->func_2C8 = func_80A0214C;
         }
     }
 }
@@ -251,7 +259,7 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
                 this->unk_2A8 = 2;
                 this->unk_2AC = 0x400;
                 this->unk_2B8 = 2.0f;
-                this->unk_2C8 = func_80A020A4;
+                this->func_2C8 = func_80A020A4;
                 this->actor.speedXZ = 1.5f;
                 this->unk_2C0 = (s16)Math_Rand_ZeroFloat(8.0f) + 4;
             } else {
@@ -268,7 +276,7 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
                 this->unk_2A8 = 3;
                 this->unk_2AC = 0x200;
                 this->unk_2B8 = (xzDistFromLink + xzDistFromLink) + 1.0f;
-                this->unk_2C8 = func_80A01FE0;
+                this->func_2C8 = func_80A01FE0;
                 this->unk_2C0 = (s16)Math_Rand_ZeroFloat(16.0f) + 0x10;
             } else {
                 this->unk_2C0 = 10;
@@ -285,17 +293,17 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A0232C(EnElf* this, GlobalContext* globalCtx) {
-    if (func_80A01F90(&this->unk_28C, &this->actor.posRot, 100.0f) != 0) {
+    if (func_80A01F90(&this->unk_28C, &this->actor.posRot.pos, 100.0f)) {
         this->unk_2A8 = 0;
         this->unk_2AC = 0x200;
-        this->unk_2C8 = func_80A0214C;
+        this->func_2C8 = func_80A0214C;
         this->unk_2B8 = 1.5f;
     } else {
-        this->unk_2C8(this, globalCtx);
+        this->func_2C8(this, globalCtx);
     }
 }
 
-f32 func_80A023A4(s32 colorFlag) {
+f32 EnElf_GetColorValue(s32 colorFlag) {
     switch (colorFlag) {
         case 1:
             return Math_Rand_ZeroFloat(55.0f) + 200.0f;
@@ -330,7 +338,6 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->flags = 0;
     this->dissapearTimer = 600;
     this->unk_2A4 = 0.0f;
-
     colorConfig = 0;
 
     switch (thisx->params) {
@@ -380,7 +387,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2AE = (s16)(Math_Rand_ZeroFloat(1048.0f)) + 0x200;
             this->unk_28C = thisx->posRot.pos;
             this->unk_2BC = Math_Rand_CenteredFloat(32767.0f);
-            this->unk_2C8 = func_80A0214C;
+            this->func_2C8 = func_80A0214C;
             func_80A0232C(this, globalCtx);
             this->unk_2C0 = 0;
             this->dissapearTimer = 240;
@@ -405,25 +412,25 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2A0 = 3.0f;
-    this->innerColor = D_80A06024[0];
+    this->innerColor = sInnerColors[0];
 
     if (colorConfig > 0) {
-        this->outerColor.r = func_80A023A4(D_80A06064[colorConfig].r);
-        this->outerColor.g = func_80A023A4(D_80A06064[colorConfig].g);
-        this->outerColor.b = func_80A023A4(D_80A06064[colorConfig].b);
+        this->outerColor.r = EnElf_GetColorValue(sColorFlags[colorConfig].r);
+        this->outerColor.g = EnElf_GetColorValue(sColorFlags[colorConfig].g);
+        this->outerColor.b = EnElf_GetColorValue(sColorFlags[colorConfig].b);
         this->outerColor.a = 0.0f;
     } else {
-        this->innerColor = D_80A06024[-colorConfig];
-        this->outerColor = D_80A06044[-colorConfig];
+        this->innerColor = sInnerColors[-colorConfig];
+        this->outerColor = sOuterColors[-colorConfig];
     }
 }
 
-void func_80A0299C(EnElf* this, GlobalContext* globalCtx) {
+void func_80A0299C(EnElf* this, s32 arg1) {
 }
 
-void func_80A029A8(EnElf* this, s16 arg1) {
+void func_80A029A8(EnElf* this, s16 increment) {
     if (this->dissapearTimer < 600) {
-        this->dissapearTimer += arg1;
+        this->dissapearTimer += increment;
     }
 }
 
@@ -466,26 +473,26 @@ void func_80A02B38(EnElf* this, GlobalContext* globalCtx) {
     this->unk_28C.x = Math_Coss(player->actor.shape.rot.y) * this->unk_28C.x;
     this->unk_2AC += this->unk_2B0;
 }
-// better name for parentPos
-void func_80A02BD8(EnElf* this, Vec3f* parentPos, f32 arg2) {
+
+void func_80A02BD8(EnElf* this, Vec3f* targetPos, f32 arg2) {
     f32 yVelTarget;
     f32 yVelDirection;
 
-    yVelTarget = ((parentPos->y + this->unk_28C.y) - this->actor.posRot.pos.y) * arg2;
+    yVelTarget = ((targetPos->y + this->unk_28C.y) - this->actor.posRot.pos.y) * arg2;
     yVelDirection = (yVelTarget >= 0.0f) ? 1.0f : -1.0f;
     yVelTarget = fabsf(yVelTarget);
     yVelTarget = CLAMP(yVelTarget, 0.0f, 20.0f) * yVelDirection;
     Math_ApproxF(&this->actor.velocity.y, yVelTarget, 32.0f);
 }
 
-void func_80A02C98(EnElf* this, Vec3f* parentPos, f32 arg2) {
+void func_80A02C98(EnElf* this, Vec3f* targetPos, f32 arg2) {
     f32 xVelTarget;
     f32 zVelTarget;
     f32 xVelDirection;
     f32 zVelDirection;
 
-    xVelTarget = ((parentPos->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg2;
-    zVelTarget = ((parentPos->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg2;
+    xVelTarget = ((targetPos->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg2;
+    zVelTarget = ((targetPos->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg2;
 
     xVelDirection = (xVelTarget >= 0.0f) ? 1.0f : -1.0f;
     zVelDirection = (zVelTarget >= 0.0f) ? 1.0f : -1.0f;
@@ -496,34 +503,34 @@ void func_80A02C98(EnElf* this, Vec3f* parentPos, f32 arg2) {
     xVelTarget = CLAMP(xVelTarget, 0.0f, 20.0f) * xVelDirection;
     zVelTarget = CLAMP(zVelTarget, 0.0f, 20.0f) * zVelDirection;
 
-    func_80A02BD8(this, parentPos, arg2);
+    func_80A02BD8(this, targetPos, arg2);
     Math_ApproxF(&this->actor.velocity.x, xVelTarget, 1.5f);
     Math_ApproxF(&this->actor.velocity.z, zVelTarget, 1.5f);
     func_8002D7EC(&this->actor);
 }
 
-void func_80A02E30(EnElf* this, Vec3f* vec) {
-    func_80A02BD8(this, vec, 0.2f);
-    this->actor.velocity.x = (vec->x + this->unk_28C.x) - this->actor.posRot.pos.x;
-    this->actor.velocity.z = (vec->z + this->unk_28C.z) - this->actor.posRot.pos.z;
+void func_80A02E30(EnElf* this, Vec3f* targetPos) {
+    func_80A02BD8(this, targetPos, 0.2f);
+    this->actor.velocity.x = (targetPos->x + this->unk_28C.x) - this->actor.posRot.pos.x;
+    this->actor.velocity.z = (targetPos->z + this->unk_28C.z) - this->actor.posRot.pos.z;
     func_8002D7EC(&this->actor);
-    this->actor.posRot.pos.x = vec->x + this->unk_28C.x;
-    this->actor.posRot.pos.z = vec->z + this->unk_28C.z;
+    this->actor.posRot.pos.x = targetPos->x + this->unk_28C.x;
+    this->actor.posRot.pos.z = targetPos->z + this->unk_28C.z;
 }
 
-void func_80A02EC0(EnElf* this, Vec3f* arg1) {
-    func_80A02BD8(this, arg1, 0.2f);
+void func_80A02EC0(EnElf* this, Vec3f* targetPos) {
+    func_80A02BD8(this, targetPos, 0.2f);
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
     func_8002D7EC(&this->actor);
-    this->actor.posRot.pos.x = arg1->x + this->unk_28C.x;
-    this->actor.posRot.pos.z = arg1->z + this->unk_28C.z;
+    this->actor.posRot.pos.x = targetPos->x + this->unk_28C.x;
+    this->actor.posRot.pos.z = targetPos->z + this->unk_28C.z;
 }
 
-void func_80A02F2C(EnElf* this, Vec3f* vec) {
+void func_80A02F2C(EnElf* this, Vec3f* targetPos) {
     f32 yVelTarget;
     f32 yVelDirection;
 
-    yVelTarget = (((Math_Sins(this->unk_2AA) * this->unk_2B4) + vec->y) - this->actor.posRot.pos.y) * 0.2f;
+    yVelTarget = (((Math_Sins(this->unk_2AA) * this->unk_2B4) + targetPos->y) - this->actor.posRot.pos.y) * 0.2f;
     yVelDirection = (yVelTarget >= 0.0f) ? 1.0f : -1.0f;
     this->unk_2AA += this->unk_2AE;
     yVelTarget = fabsf(yVelTarget);
@@ -563,37 +570,38 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->unk_2BC;
     Actor_MoveForward(&this->actor);
 }
-void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03148.s")
-/*
+
+#ifdef NON_MATCHING
+// slight ordering and regalloc
 void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
     f32 xVelTarget;
     f32 zVelTarget;
     f32 xzVelocity;
-    f32 xzVelScale;
     f32 clampedXZ;
 
     xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg4;
     zVelTarget = ((arg1->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg4;
+    arg3 += 30.0f;
 
     func_80A02BD8(this, arg1, arg4 + 0.3f);
-    arg3 += 30.0f;
 
     xzVelocity = sqrtf(SQ(xVelTarget) + SQ(zVelTarget));
     clampedXZ = CLAMP(xzVelocity, arg2, arg3);
     this->actor.speedXZ = clampedXZ;
 
     if ((xzVelocity != clampedXZ) && (xzVelocity != 0.0f)) {
-        xzVelScale = clampedXZ / xzVelocity;
-        zVelTarget *= xzVelScale;
-        xVelTarget *= xzVelScale;
+        zVelTarget *= (clampedXZ / xzVelocity);
+        xVelTarget *= (clampedXZ / xzVelocity);
     }
 
     Math_ApproxF(&this->actor.velocity.x, xVelTarget, 5.0f);
     Math_ApproxF(&this->actor.velocity.z, zVelTarget, 5.0f);
     func_8002D7EC(this);
 }
-*/
+#else
+void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03148.s")
+#endif
 
 void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     Player* refActor = PLAYER;
@@ -627,7 +635,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
 
         if ((heightDiff > 0.0f) && (heightDiff < 60.0f)) {
             if (!func_80A01F90(&this->actor.posRot.pos, &refActor->actor.posRot.pos, 10.0f)) {
-                Health_ChangeBy(globalCtx, 0x80);
+                Health_ChangeBy(globalCtx, 128);
                 if ((this->flags & FAIRY_FLAG_BIG)) {
                     Magic_Fill(globalCtx);
                 }
@@ -693,6 +701,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
 
     this->unk_28C.x = Math_Coss(this->unk_2AC) * this->unk_2B8;
     this->unk_28C.y = this->unk_28C.y + this->unk_2B4;
+
     switch (this->unk_2AA) {
         case 0:
             if (this->unk_2B4 < 2.0f) {
@@ -702,7 +711,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if (-1.0f < this->unk_2B4) {
+            if (this->unk_2B4 > -1.0f) {
                 this->unk_2B4 -= 0.2f;
             }
     }
@@ -788,52 +797,52 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
-    if ((this->flags & 4) != 0) {
+    if (this->flags & 4) {
         func_80A04414(this, globalCtx);
     }
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    if (this->unk_2C8 == 0) {
+    if (this->func_2C8 == NULL) {
         __assert("0", "../z_en_elf.c", 1725);
     }
 
-    this->unk_2C8(this, globalCtx);
+    this->func_2C8(this, globalCtx);
 }
 
-void func_80A03B28(EnElf* this, GlobalContext* globalCtx) {
-    s16 light2Radius;
+void EnElf_UpdateLights(EnElf* this, GlobalContext* globalCtx) {
+    s16 glowLightRadius;
     Player* player;
 
-    light2Radius = 100;
+    glowLightRadius = 100;
 
     if (this->unk_2A8 == 8) {
-        light2Radius = 0;
+        glowLightRadius = 0;
     }
 
-    if ((this->flags & 0x20) != 0) {
+    if (this->flags & 0x20) {
         player = PLAYER;
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.posRot.pos.x,
-                                  (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 0xFF, 0xFF,
-                                  0xFF, 0xC8);
+                                  (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 255, 255, 255,
+                                  200);
     } else {
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                  this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, -1);
+                                  this->actor.posRot.pos.z, 255, 255, 255, -1);
     }
 
     Lights_PointGlowSetInfo(&this->lightInfoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                            this->actor.posRot.pos.z, 0xFF, 0xFF, 0xFF, light2Radius);
+                            this->actor.posRot.pos.z, 255, 255, 255, glowLightRadius);
 
     this->unk_2BC = atan2s(this->actor.velocity.z, this->actor.velocity.x);
 
-    Actor_SetScale(this, this->actor.scale.x);
+    Actor_SetScale(&this->actor, this->actor.scale.x);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
-/*
+#ifdef NON_MATCHING
+// float regalloc
 void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
-    Vec3f sp54;
-    Vec3f sp48;
+    Vec3f nextPos;
+    Vec3f prevPos;
     Player* player = PLAYER;
     Actor* arrowPointedActor;
     f32 xScale;
@@ -845,36 +854,36 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     xScale = 0.0f;
 
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[8] != NULL)) {
-        func_80A05F10(&sp54, globalCtx, 8);
+        EnElf_GetCutsceneNextPos(&nextPos, globalCtx, 8);
 
         if (globalCtx->csCtx.npcActions[8]->action == 5) {
             if (1) {}
             EnElf_SpawnSparkles(this, globalCtx, 16);
         }
 
-        sp48 = this->actor.posRot.pos;
+        prevPos = this->actor.posRot.pos;
 
         if (this->unk_2A8 == 0xA) {
-            func_80A02EC0(this, &sp54);
+            func_80A02EC0(this, &nextPos);
         } else {
-            func_80A02C98(this, &sp54, 0.2f);
+            func_80A02C98(this, &nextPos, 0.2f);
         }
 
         if ((globalCtx->sceneNum == SCENE_LINK_HOME) && (gSaveContext.sceneSetupIndex == 4)) {
-            // play dash sound as navi enters links house in the intro
+            // play dash sound as Navi enters Links house in the intro
             if (1) {}
             if (globalCtx->csCtx.frames == 55) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
             }
 
-            // play dash sound in intervals as navi is waking up link in the intro
+            // play dash sound in intervals as Navi is waking up Link in the intro
             if (this->unk_2A8 == 6) {
                 if (this->flags & 0x40) {
-                    if (sp48.y < this->actor.posRot.pos.y) {
+                    if (prevPos.y < this->actor.posRot.pos.y) {
                         this->flags &= ~0x40;
                     }
                 } else {
-                    if (this->actor.posRot.pos.y < sp48.y) {
+                    if (this->actor.posRot.pos.y < prevPos.y) {
                         this->flags |= 0x40;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
                     }
@@ -909,9 +918,9 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 func_80A029A8(this, 1);
                 break;
             case 11:
-                sp54 = player->bodyPartsPos[8];
-                sp54.y += this->actor.scale.y * 1500.0f;
-                func_80A02E30(this, &sp54);
+                nextPos = player->bodyPartsPos[8];
+                nextPos.y += this->actor.scale.y * 1500.0f;
+                func_80A02E30(this, &nextPos);
                 EnElf_SpawnSparkles(this, globalCtx, 16);
 
                 if (this->unk_2B8 <= 19.0f) {
@@ -928,17 +937,18 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 12:
-                sp54 = ACTIVE_CAM->eye;
-                sp54.y += (-2000.0f * this->actor.scale.y);
-                func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
+                nextPos = ACTIVE_CAM->eye;
+                nextPos.y += (-2000.0f * this->actor.scale.y);
+                func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
                 break;
             default:
                 func_80A029A8(this, 1);
-                sp54 = globalCtx->actorCtx.targetCtx.naviRefPos;
-                sp54.y += (1500.0f * this->actor.scale.y);
+                nextPos = globalCtx->actorCtx.targetCtx.naviRefPos;
+                nextPos.y += (1500.0f * this->actor.scale.y);
                 arrowPointedActor = globalCtx->actorCtx.targetCtx.arrowPointedActor;
+
                 if (arrowPointedActor != NULL) {
-                    func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
+                    func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
 
                     if (this->actor.speedXZ >= 5.0f) {
                         EnElf_SpawnSparkles(this, globalCtx, 16);
@@ -953,7 +963,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                             this->flags ^= 2;
                         }
 
-                        func_80A03148(this, &sp54, 0.0f, 20.0f, 0.2f);
+                        func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
                         EnElf_SpawnSparkles(this, globalCtx, 16);
                     } else {
                         if (distFromLinksHead > 100.0f) {
@@ -965,7 +975,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
                             this->unk_2C0 = 0x64;
                         }
-                        func_80A03148(this, &sp54, 0.0f, this->unk_2A0, 0.2f);
+                        func_80A03148(this, &nextPos, 0.0f, this->unk_2A0, 0.2f);
                     }
                 }
                 break;
@@ -978,15 +988,17 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
         if (this->unk_2A8 == 8) {
             this->actor.scale.x = 0.0f;
         } else {
-            Math_SmoothScaleMaxMinF(&this->actor.scale, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
+            Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
         }
     }
 
-    func_80A03B28(this, globalCtx);
+    EnElf_UpdateLights(this, globalCtx);
 }
-*/
-// EnElf_ChangeColor
-void func_80A0438C(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* curColor, f32 rate) {
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
+#endif
+
+void EnElf_ChangeColor(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* curColor, f32 rate) {
     Color_RGBAf rgbaDiff;
 
     rgbaDiff.r = (newColor->r - curColor->r);
@@ -1004,7 +1016,7 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     Actor* arrowPointedActor = globalCtx->actorCtx.targetCtx.arrowPointedActor;
     Player* player = PLAYER;
     f32 transitionRate;
-    u16 targetSfxID;
+    u16 targetSound;
 
     if (globalCtx->actorCtx.targetCtx.unk_40 != 0.0f) {
         this->unk_2C6 = 0;
@@ -1017,7 +1029,7 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     } else {
         if (this->unk_2C6 == 0) {
             if ((arrowPointedActor == NULL) ||
-                (Math_Vec3f_DistXYZ(&this->actor.posRot, &globalCtx->actorCtx.targetCtx) < 50.0f)) {
+                (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &globalCtx->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
@@ -1026,9 +1038,9 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
                 this->outerColor = globalCtx->actorCtx.targetCtx.naviOuter;
             } else {
                 transitionRate = 0.25f / this->unk_29C;
-                func_80A0438C(&this->innerColor, &globalCtx->actorCtx.targetCtx.naviInner, &this->innerColor,
+                EnElf_ChangeColor(&this->innerColor, &globalCtx->actorCtx.targetCtx.naviInner, &this->innerColor,
                               transitionRate);
-                func_80A0438C(&this->outerColor, &globalCtx->actorCtx.targetCtx.naviOuter, &this->outerColor,
+                EnElf_ChangeColor(&this->outerColor, &globalCtx->actorCtx.targetCtx.naviOuter, &this->outerColor,
                               transitionRate);
             }
         }
@@ -1041,13 +1053,13 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     } else {
         if ((arrowPointedActor != NULL) && (player->unk_664 != NULL)) {
             if (arrowPointedActor->type == ACTORTYPE_NPC) {
-                targetSfxID = NA_SE_VO_NAVY_HELLO;
+                targetSound = NA_SE_VO_NAVY_HELLO;
             } else {
-                targetSfxID = (arrowPointedActor->type == ACTORTYPE_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+                targetSound = (arrowPointedActor->type == ACTORTYPE_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
             }
 
             if (this->unk_2C7 == 0) {
-                Audio_PlayActorSound2(this, targetSfxID);
+                Audio_PlayActorSound2(&this->actor, targetSound);
             }
 
             this->flags |= 1;
@@ -1055,16 +1067,140 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A0461C.s")
+#ifdef NON_MATCHING
+// useless branch near case 11/default in the switch for this->unk_2A8
+void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
+    s32 temp;
+    Actor* arrowPointedActor;
+    Player* player = PLAYER;
 
-// EnElf_SpawnSparkles
+    if (globalCtx->csCtx.state != 0) {
+        if (globalCtx->csCtx.npcActions[8] != NULL) {
+            switch (globalCtx->csCtx.npcActions[8]->action) {
+                case 4:
+                    temp = 9;
+                    break;
+                case 3:
+                    temp = 6;
+                    break;
+                case 1:
+                    temp = 10;
+                    break;
+                default:
+                    temp = 0;
+                    break;
+            }
+        } else {
+            temp = 0;
+            this->unk_2C0 = 100;
+        }
+
+    } else {
+        arrowPointedActor = globalCtx->actorCtx.targetCtx.arrowPointedActor;
+
+        if ((player->stateFlags1 & 0x400) || ((YREG(15) & 0x10) && func_800BC56C(globalCtx, 2))) {
+            temp = 12;
+            this->unk_2C0 = 100;
+        } else {
+            if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->type == ACTORTYPE_NPC))) {
+                if (arrowPointedActor != NULL) {
+                    this->unk_2C0 = 100;
+                    player->stateFlags2 |= 0x100000;
+                    temp = 0;
+                } else {
+                    switch (this->unk_2A8) {
+                        case 0:
+                            if (this->unk_2C0 != 0) {
+                                this->unk_2C0--;
+                                temp = 0;
+                            } else {
+                                if (this->unk_2C7 == 0) {
+                                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_NAVY_VANISH);
+                                }
+                                temp = 7;
+                            }
+                            break;
+                        case 7:
+                            if (this->unk_2C0 != 0) {
+                                if (this->unk_2AE > 0) {
+                                    this->unk_2AE--;
+                                    temp = 7;
+                                } else {
+                                    player->stateFlags2 |= 0x100000;
+                                    temp = 0;
+                                }
+                            } else {
+                                temp = 8;
+                                func_80A029A8(this, 10);
+                            }
+                            break;
+                        case 8:
+                            temp = 8;
+                            break;
+                        case 11:
+                            temp = this->unk_2A8;
+                            if (this->unk_2C0 > 0) {
+                                this->unk_2C0--;
+                            } else {
+                                temp = 0;
+                            }
+                            break;
+                        default:
+                            temp = 0;
+                            break;
+                    }
+                }
+            }
+        }
+
+        switch (temp) {
+            case 0:
+                if (!(player->stateFlags2 & 0x100000)) {
+                    temp = 7;
+                    if (this->unk_2C7 == 0) {
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EV_NAVY_VANISH);
+                    }
+                }
+                break;
+            case 8:
+                if (player->stateFlags2 & 0x100000) {
+                    func_80A0299C(this, 0x32);
+                    this->unk_2C0 = 42;
+                    temp = 11;
+                    if (this->unk_2C7 == 0) {
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
+                    }
+                }
+                break;
+            case 7:
+                player->stateFlags2 &= ~0x100000;
+                break;
+            default:
+                player->stateFlags2 |= 0x100000;
+                break;
+        }
+    }
+
+    if (temp != this->unk_2A8) {
+        func_80A01C38(this, temp);
+
+        if (temp == 11) {
+            this->unk_2B8 = Math_Vec3f_DistXZ(&player->bodyPartsPos[8], &this->actor.posRot.pos);
+            this->unk_2AC = Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->bodyPartsPos[8]);
+        }
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A0461C.s")
+#endif
+
 void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife) {
     static Vec3f sparkleVelocity = { 0.0f, -0.05f, 0.0f };
     static Vec3f sparkleAccel = { 0.0f, -0.025f, 0.0f };
     s32 pad;
     Vec3f sparklePos;
-    Color_RGBA8_n primColor;
-    Color_RGBA8_n envColor;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
 
     sparklePos.x = Math_Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.x;
     sparklePos.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
@@ -1078,25 +1214,26 @@ void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife)
     envColor.g = this->outerColor.g;
     envColor.b = this->outerColor.b;
 
-    func_80028BB0(globalCtx, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor, 1000, sparkleLife);
+    EffectSsKiraKira_SpawnDispersed(globalCtx, &sparklePos, &sparkleVelocity, &sparkleAccel, &primColor, &envColor,
+                                    1000, sparkleLife);
 }
 
 void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
     s32 pad;
-    u32 player;
+    s32* bgId;
 
-    this->actor.groundY = func_8003CA0C(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &player, &this->actor,
+    this->actor.groundY = func_8003CA0C(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId, &this->actor,
                                         &this->actor.posRot.pos);
     this->actor.shape.unk_14 = 0x32;
 }
 
-// moving to talk to player
+// move to talk to player
 void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     Vec3f posRot2Copy;
     Player* player = PLAYER;
     Vec3f naviRefPos;
 
-    if ((this->flags & 0x10) != 0) {
+    if (this->flags & 0x10) {
         naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
 
         if (((player->unk_664 == NULL) || (&player->actor == player->unk_664)) || (&this->actor == player->unk_664)) {
@@ -1119,10 +1256,10 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
-    func_80A03B28(this, globalCtx);
+    EnElf_UpdateLights(this, globalCtx);
 }
 
-// moving after talking to player
+// move after talking to player
 void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -1132,13 +1269,13 @@ void func_80A04F94(EnElf* this, GlobalContext* globalCtx) {
     func_800773A8(globalCtx, SQ(this->unk_2A4), player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
 }
 
-// talk to saria again?
+// ask to talk to saria again
 void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
     EnElf* this = THIS;
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
@@ -1182,14 +1319,14 @@ void func_80A05188(Actor* thisx, GlobalContext* globalCtx) {
     func_80A04F94(this, globalCtx);
 }
 
-// talk to me?
+// ask to talk to navi
 void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
     s32 naviCUpText;
     EnElf* this = THIS;
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 naviCUpText = ElfMessage_GetCUpText(globalCtx);
@@ -1214,14 +1351,14 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
     func_80A04F94(this, globalCtx);
 }
 
-// talk to saria?
+// ask to talk to saria
 void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
     EnElf* this = THIS;
 
     func_80A04DE4(this, globalCtx);
 
     if (func_8010BDBC(&globalCtx->msgCtx) == 4) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (func_80106BC8(globalCtx)) {
             globalCtx->msgCtx.unk_E3F2 = 0xFF;
 
             switch (globalCtx->msgCtx.choiceIndex) {
@@ -1261,6 +1398,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     } else {
+        // trigger dialog instantly for negative message IDs
         if (player->naviMessageId < 0) {
             thisx->flags |= 0x10000;
         }
@@ -1301,7 +1439,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
             if (gSaveContext.naviTimer < 25800) {
                 gSaveContext.naviTimer++;
             } else {
-                if ((this->flags & 0x80) == 0) {
+                if (!(this->flags & 0x80)) {
                     gSaveContext.naviTimer = 0;
                 }
             }
@@ -1316,6 +1454,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         func_800773A8(globalCtx, SQ(this->unk_2A4) * this->unk_2A4, player->actor.projectedPos.z + 780.0f, 0.2f, 0.5f);
     }
 
+    // temp probably fake match
     unk2C7 = this->unk_2C7;
     if (unk2C7 > 0) {
         this->unk_2C7--;
@@ -1380,15 +1519,12 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
     Gfx* dList;
     Player* player = PLAYER;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if ((this->unk_2A8 != 8) && !(this->flags & 8)) {
         if (!(player->stateFlags1 & 0x100000) || (kREG(90) < this->actor.projectedPos.z)) {
             dList = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Gfx) * 4);
 
-            gfxCtx = globalCtx->state.gfxCtx;
-            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_elf.c", 2730);
+            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2730);
 
             func_80094B58(globalCtx->state.gfxCtx);
 
@@ -1397,7 +1533,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             alphaScale = this->dissapearTimer < 0 ? (this->dissapearTimer * (7.0f / 6000.0f)) + 1.0f : 1.0f;
 
-            gSPSegment(gfxCtx->polyXlu.p++, 0x08, dList);
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, dList);
             gDPPipeSync(dList++);
             gDPSetPrimColor(dList++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g, (u8)this->innerColor.b,
                             (u8)(this->innerColor.a * alphaScale));
@@ -1409,14 +1545,33 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             gSPEndDisplayList(dList++);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
-            gfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                                EnElf_OverrideLimbDraw, 0, &this->actor, gfxCtx->polyXlu.p);
+            oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                                 EnElf_OverrideLimbDraw, 0, &this->actor, oGfxCtx->polyXlu.p);
 
-            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
         }
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A05F10.s")
+void EnElf_GetCutsceneNextPos(Vec3f* vec, GlobalContext* globalCtx, s32 action) {
+    Vec3f startPos;
+    Vec3f endPos;
+    CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[action];
+    f32 lerp;
+
+    startPos.x = npcAction->startPos.x;
+    startPos.y = npcAction->startPos.y;
+    startPos.z = npcAction->startPos.z;
+
+    endPos.x = npcAction->endPos.x;
+    endPos.y = npcAction->endPos.y;
+    endPos.z = npcAction->endPos.z;
+
+    lerp = func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
+
+    vec->x = ((endPos.x - startPos.x) * lerp) + startPos.x;
+    vec->y = ((endPos.y - startPos.y) * lerp) + startPos.y;
+    vec->z = ((endPos.z - startPos.z) * lerp) + startPos.z;
+}

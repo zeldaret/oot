@@ -105,7 +105,7 @@ glabel func_809EAEC4
 /* 002F8 809EB038 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 002FC 809EB03C 4600320D */  trunc.w.s $f8, $f6                   
 /* 00300 809EB040 44194000 */  mfc1    $t9, $f8                   
-/* 00304 809EB044 0C00A5C9 */  jal     func_80029724              
+/* 00304 809EB044 0C00A5C9 */  jal     EffectSsHahen_Spawn              
 /* 00308 809EB048 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 0030C 809EB04C 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 00310 809EB050 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
