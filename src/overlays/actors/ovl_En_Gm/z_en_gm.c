@@ -25,11 +25,6 @@ void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx);
 void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF00(EnGm* this, GlobalContext* globalCtx);
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx);
-void EnGm_UpdateEye(EnGm* this);
-void EnGm_SetTextID(EnGm* this);
-void func_80A3E090(EnGm* this);
-
-s32 func_80A3D7C8(void);
 
 extern UNK_TYPE D_0600DE80[];
 extern SkeletonHeader D_0600FEF0;
@@ -64,8 +59,8 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     osSyncPrintf(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", "../z_en_gm.c", 133,
                  this->actor.params); // "%s[%d]: Medi Goron [%d]"
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GM);
-    if (this->objBankIndex < 0) {
+    this->objGmBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GM);
+    if (this->objGmBankIndex < 0) {
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n"); // "There is no model bank! !! (Medi Goron)"
         osSyncPrintf(VT_RST);
@@ -96,11 +91,11 @@ s32 func_80A3D7C8(void) {
 }
 
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
         this->actor.flags &= ~0x10;
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, this->limbDrawTable, this->transitionDrawTable,
                          18);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_060002B8.genericHeader), 0, 0.0f);
         this->actor.draw = EnGm_Draw;
@@ -133,23 +128,23 @@ void EnGm_SetTextID(EnGm* this) {
     switch (func_80A3D7C8()) {
         case 0:
             if (gSaveContext.infTable[11] & 1) {
-                this->actor.textId = 0x304B; // "If you can wait five or six years, it should be ready. OK?"
+                this->actor.textId = 0x304B;
             } else {
-                this->actor.textId = 0x304A; // "I'm working on something really cool right now! ..."
+                this->actor.textId = 0x304A;
             }
             break;
         case 1:
             if (gSaveContext.infTable[11] & 2) {
-                this->actor.textId = 0x304F; // "How about buying this knife for 200 rupees?"
+                this->actor.textId = 0x304F;
             } else {
-                this->actor.textId = 0x304C; // "I just completed a small weapon."
+                this->actor.textId = 0x304C;
             }
             break;
         case 2:
-            this->actor.textId = 0x304E; // "It looks like there's a problem with its durability..."
+            this->actor.textId = 0x304E;
             break;
         case 3:
-            this->actor.textId = 0x304D; // "How do you like the feel of it?"
+            this->actor.textId = 0x304D;
             break;
     }
 }
@@ -230,7 +225,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
-                    func_8010B720(globalCtx, 0xC8); // "Nope, you don't have enough Rupees!"
+                    func_8010B720(globalCtx, 0xC8); 
                     this->subActionFunc = func_80A3DD7C;
                 } else {
                     func_8002F434(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
@@ -238,7 +233,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x3050); // "All right. Come back again."
+                func_8010B720(globalCtx, 0x3050);
                 this->subActionFunc = func_80A3DD7C;
                 break;
         }
@@ -262,7 +257,7 @@ void func_80A3DF60(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
     this->counter++;
     this->subActionFunc(this, globalCtx);
     this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
@@ -275,6 +270,7 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
 
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGm* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
