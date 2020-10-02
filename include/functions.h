@@ -2056,7 +2056,7 @@ void func_800E5B20(u32, s8);
 // ? func_800E6300(?);
 // ? func_800E6680(?);
 // ? func_800E66C0(?);
-s32 func_800E67C0(void);
+s32 Audio_NextRandom(void);
 // ? func_800E6818(?);
 // ? func_800E6840(?);
 // ? func_800E6880(?);
