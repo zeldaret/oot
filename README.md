@@ -35,7 +35,20 @@ For older versions of Windows, install a Linux VM or refer to [Docker](#Docker) 
 
 ### macOS
 
-For macOS, install a Linux VM or refer to [Docker](#Docker) instructions.
+For macOS, use homebrew to install the following dependencies:
+* coreutils
+* make
+* python3
+```bash
+brew update
+brew install coreutils make python3
+```
+
+You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
+
+Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
+The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
+You should now be able to continue onto step 3.
 
 ### Linux (Native or under WSL / VM)
 
@@ -136,31 +149,11 @@ docker build . -t oot
 
 #### 3. Start the container
 
-##### Option A: With docker run
-
 To start the container, you can mount your local filesystem into the docker container and run an interactive bash session.
 
 ```bash
 docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/bash
 ```
-
-##### Option B (only for macOS): With docker-sync
-
-Prerequisite for this option: Install docker-sync with `gem install docker-sync`
-
-To start docker-sync and the development container, use `docker-sync-stack start`
-
-After a lot of waiting, you'll see something like "Attaching to oot_oot_1".
-This means the container is ready.
-
-Then it's time to log into the container to begin working.
-Note that this will be done in another tab while you leave the docker-sync tab going.
-
-To get the container id, use `docker container ls` and use the ID from the container with image oot:latest in the following command:
-
-`docker exec -it <CONTAINER-ID> /bin/bash` You're in.
-
-> Note: When done working, type Ctrl+c on the docker-sync tab to close the container and docker-sync.
 
 #### 4. Setup and Build the ROM
 

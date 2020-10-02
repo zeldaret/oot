@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000000
 
@@ -336,7 +337,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(10.0f);
         pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(10.0f);
         pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(10.0f);
-        func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -394,7 +395,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
-        func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -877,7 +878,8 @@ EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 pa
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
         spawnedActor = (EnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
                                               spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
-        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
+        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
+                                          DEADSOUND_REPEAT_MODE_OFF, 40);
     } else {
         if (!param8000) {
             params = func_8001F404(params & 0x00FF);
@@ -920,7 +922,8 @@ EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 p
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
         spawnedActor = (EnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
                                               spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
-        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
+        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
+                                          DEADSOUND_REPEAT_MODE_OFF, 40);
     } else {
         params = func_8001F404(params & 0x00FF);
         if (params != -1) {
@@ -989,7 +992,8 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
         if (gSaveContext.health <= 0x10) { // 1 heart or less
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z, 0,
                         0, 0, 0x0002);
-            EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
+            EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
+                                              DEADSOUND_REPEAT_MODE_OFF, 40);
             return;
         } else if (gSaveContext.health <= 0x30) { // 3 hearts or less
             params = 0xB * 0x10;

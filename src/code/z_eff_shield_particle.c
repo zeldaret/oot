@@ -113,7 +113,7 @@ s32 EffectShieldParticle_Update(void* thisx) {
     return 0;
 }
 
-void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8_n* primColor, Color_RGBA8_n* envColor) {
+void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8* primColor, Color_RGBA8* envColor) {
     s32 halfDuration;
     f32 ratio;
 
@@ -153,8 +153,8 @@ void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8_n* p
 void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
     EffectShieldParticle* this = (EffectShieldParticle*)thisx;
     EffectShieldParticleElement* elem;
-    Color_RGBA8_n primColor;
-    Color_RGBA8_n envColor;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
 
     OPEN_DISPS(gfxCtx, "../z_eff_shield_particle.c", 272);
 

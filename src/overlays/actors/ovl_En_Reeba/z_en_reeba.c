@@ -55,8 +55,8 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_060001E4;
-extern AnimationHeader D_06001EE8;
+extern AnimationHeader D_060001E4;
+extern SkeletonHeader D_06001EE8;
 
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnReeba* this = THIS;
@@ -76,9 +76,10 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->isBig = this->actor.params;
     this->scale = 0.04f;
-    if (this->isBig != 0) {
-        this->collider.dim.radius = 0x23;
-        this->collider.dim.height = 0x2D;
+
+    if (this->isBig) {
+        this->collider.dim.radius = 35;
+        this->collider.dim.height = 45;
         this->scale *= 1.5f;
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
@@ -86,6 +87,7 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.body.toucher.damage = 16;
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
     }
+
     temp_f0 = this->scale * -27500.0f;
     this->unk_284 = temp_f0;
     this->actor.shape.unk_08 = temp_f0;
@@ -93,10 +95,12 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     func_8002E4B4(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
     temp_ret = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
+
     if ((temp_ret != 4) && (temp_ret != 7)) {
         Actor_Kill(&this->actor);
         return;
     }
+
     this->actionfunc = func_80AE4F40;
 }
 
@@ -105,13 +109,14 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnEncount1* spawner;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
+
     if (this->actor.parent != NULL) {
         spawner = (EnEncount1*)this->actor.parent;
         if (spawner->actor.update != NULL) {
             if (spawner->unk_152 > 0) {
                 spawner->unk_152--;
             }
-            if (this->isBig != 0) {
+            if (this->isBig) {
                 spawner->unk_16C = 0;
                 spawner->unk_164 = 0x258;
             }
@@ -120,7 +125,7 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060001E4);
+    f32 frames = SkelAnime_GetFrameCount(&D_060001E4.genericHeader);
     Player* player = PLAYER;
     s16 abs;
 
@@ -132,14 +137,15 @@ void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
     if (this->unk_278 < 0) {
         this->unk_278 = 2;
     }
-    if (this->unk_278 >= 21) {
+
+    if (this->unk_278 > 20) {
         this->unk_278 = 20;
     }
 
     this->actor.flags &= ~0x08000000;
     this->actor.posRot.pos.y = this->actor.groundY;
 
-    if (this->isBig != 0) {
+    if (this->isBig) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_BIG_APPEAR);
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
@@ -188,10 +194,10 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
                     this->actor.posRot.rot.y = this->actor.yawTowardsLink - (800.0f * playerLinearVel);
             }
 
-            if (this->isBig != 0) {
+            if (this->isBig) {
                 this->actionfunc = func_80AE538C;
             } else {
-                this->unk_272 = 0x82;
+                this->unk_272 = 130;
                 this->actor.speedXZ = Math_Rand_ZeroFloat(4.0f) + 6.0f;
                 this->actionfunc = func_80AE5270;
             }
@@ -207,7 +213,9 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     if (this->actor.shape.unk_10 < 12.0f) {
         Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
     }
+
     temp_ret = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
+
     if ((temp_ret != 4) && (temp_ret != 7)) {
         this->actionfunc = func_80AE5688;
         this->actor.speedXZ = 0.0f;
@@ -217,7 +225,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
             this->actionfunc = func_80AE5688;
         } else if (this->unk_274 == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
-            this->unk_274 = 0xA;
+            this->unk_274 = 10;
         }
     }
 }
@@ -250,25 +258,26 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.xzDistFromLink < 70.0f) && (this->unk_270 == 0)) {
-        this->unk_270 = 0x1E;
+        this->unk_270 = 30;
     }
     this->actor.speedXZ += (((this->actor.xzDistFromLink - 20.0f) / ((Math_Rand_ZeroOne() * 50.0f) + 150.0f)) * 1.8f);
     this->actor.speedXZ = CLAMP(this->actor.speedXZ, -3.0f, 3.0f);
 
-    yawDiff = ((this->unk_270 == 0) ? this->actor.yawTowardsLink : -this->actor.yawTowardsLink) - this->actor.posRot.rot.y;
-    yaw = yawDiff > 0 ? ((yawDiff / 31.0f) + 10.0f) : ((yawDiff / 31.0f) - 10.0f);
+    yawDiff = ((this->unk_270 == 0) ? this->actor.yawTowardsLink : -this->actor.yawTowardsLink) -
+this->actor.posRot.rot.y; yaw = yawDiff > 0 ? ((yawDiff / 31.0f) + 10.0f) : ((yawDiff / 31.0f) - 10.0f);
     this->actor.posRot.rot.y += (yaw * 2.0f);
 
     if (this->unk_274 == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
-        this->unk_274 = 0x14;
+        this->unk_274 = 20;
     }
-    
+
 }
 */
 
 void func_80AE561C(EnReeba* this, GlobalContext* globalCtx) {
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 0.3f);
+
     if (this->unk_272 == 0) {
         if (this->isBig) {
             this->actionfunc = func_80AE538C;
@@ -293,11 +302,13 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
     Math_SmoothDownscaleMaxF(&this->actor.shape.unk_10, 1.0f, 0.3f);
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.1f, 0.3f);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
+
     if ((this->unk_284 + 10.0f) <= this->actor.shape.unk_08) {
         if ((globalCtx->gameplayFrames & 3) == 0) {
             func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.shape.unk_10, 1, 8.0f, 0x1F4,
                           0xA, 1);
         }
+
         Math_SmoothScaleMaxF(&this->actor.shape.unk_08, this->unk_284, 1.0f, this->unk_288);
         Math_SmoothScaleMaxF(&this->unk_288, 300.0f, 1.0f, 5.0f);
     } else {
@@ -306,7 +317,7 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE57F0(EnReeba* this, GlobalContext* globalCtx) {
-    this->unk_276 = 0xE;
+    this->unk_276 = 14;
     this->actor.speedXZ = -8.0f;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
@@ -322,7 +333,7 @@ void func_80AE5854(EnReeba* this, GlobalContext* globalCtx) {
 
     if (this->unk_276 == 0) {
         if (this->isBig) {
-            this->unk_270 = 0x1E;
+            this->unk_270 = 30;
             this->actionfunc = func_80AE538C;
             return;
         } else {
@@ -332,7 +343,7 @@ void func_80AE5854(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE58EC(EnReeba* this, GlobalContext* globalCtx) {
-    this->unk_278 = 0xE;
+    this->unk_278 = 14;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     this->actor.speedXZ = -8.0f;
     this->actor.flags |= 0x8000000;
@@ -342,7 +353,7 @@ void func_80AE58EC(EnReeba* this, GlobalContext* globalCtx) {
 
 void func_80AE5938(EnReeba* this, GlobalContext* globalCtx) {
     Vec3f pos;
-    f32 unkf;
+    f32 scale;
 
     if (this->unk_278 != 0) {
         if (this->actor.speedXZ < 0.0f) {
@@ -350,21 +361,23 @@ void func_80AE5938(EnReeba* this, GlobalContext* globalCtx) {
         }
     } else {
         this->actor.speedXZ = 0.0f;
+
         if ((this->unk_27E == 4) || (this->actor.colChkInfo.health != 0)) {
             if (this->unk_27E == 2) {
                 pos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
                 pos.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
                 pos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-                unkf = 3.0f;
+                scale = 3.0f;
                 if (this->isBig != 0) {
-                    unkf = 6.0f;
+                    scale = 6.0f;
                 }
-                func_8002A140(globalCtx, this, &pos, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, unkf);
+                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255, scale);
             }
-            this->unk_278 = 0x42;
+
+            this->unk_278 = 66;
             this->actionfunc = func_80AE5E48;
         } else {
-            this->unk_278 = 0x1E;
+            this->unk_278 = 30;
             this->actionfunc = func_80AE5A9C;
         }
     }
@@ -372,18 +385,18 @@ void func_80AE5938(EnReeba* this, GlobalContext* globalCtx) {
 
 void func_80AE5A9C(EnReeba* this, GlobalContext* globalCtx) {
     Vec3f randPos;
-    f32 unkf;
+    f32 scale;
 
     if (this->unk_278 != 0) {
         if ((this->unk_27E == 2) && ((this->unk_278 & 0xF) == 0)) {
             randPos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
             randPos.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
             randPos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-            unkf = 3.0f;
+            scale = 3.0f;
             if (this->isBig) {
-                unkf = 6.0f;
+                scale = 6.0f;
             }
-            func_8002A140(globalCtx, &this->actor, &randPos, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF, unkf);
+            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &randPos, 150, 150, 150, 250, 235, 245, 255, scale);
         }
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
@@ -396,18 +409,16 @@ void func_80AE5BC4(EnReeba* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = -8.0f;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
-    this->unk_278 = 0xE;
+    this->unk_278 = 14;
     this->actor.flags &= ~1;
     this->actionfunc = func_80AE5C38;
 }
 
 void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
-
     Vec3f pos;
-    Vec3f sp68 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp5C = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     EnEncount1* spawner;
-    f32 sp60;
 
     if (this->unk_278 != 0) {
         if (this->actor.speedXZ < 0.0f) {
@@ -420,8 +431,8 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
             pos.x = this->actor.posRot.pos.x;
             pos.y = this->actor.posRot.pos.y;
             pos.z = this->actor.posRot.pos.z;
-            sp5C.y = 4.0f;
-            func_8002A6B8(globalCtx, &pos, &sp5C, &sp68, 0x78, 0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 1, 9, 1);
+            velocity.y = 4.0f;
+            EffectSsDeadDb_Spawn(globalCtx, &pos, &velocity, &accel, 120, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
 
             if (this->isBig == 0) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &pos, 0xE0);
@@ -449,14 +460,13 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
-    if (this->unk_278 < 0x25) {
+    if (this->unk_278 < 37) {
         this->actor.shape.rot.x = Math_Rand_CenteredFloat(3000.0f);
         this->actor.shape.rot.z = Math_Rand_CenteredFloat(3000.0f);
 
         if (this->unk_278 == 0) {
             if (this->isBig) {
                 this->actionfunc = func_80AE538C;
-                return;
             } else {
                 this->actionfunc = func_80AE5688;
             }
@@ -467,10 +477,12 @@ void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
 void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & 2)) {
         this->collider.base.acFlags &= ~2;
+
         if ((this->actionfunc != func_80AE5C38) && (this->actionfunc != func_80AE5854)) {
             this->actor.shape.rot.z = 0;
             this->unk_27E = 0;
             this->actor.shape.rot.x = this->actor.shape.rot.z;
+
             switch (this->actor.colChkInfo.damageEffect) {
                 case 11: // none
                 case 12: // boomerang
@@ -560,10 +572,11 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->collider.base.atFlags & 4) {
         this->collider.base.atFlags &= ~4;
+
         if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
             this->actor.speedXZ = 8.0f;
             this->actor.posRot.rot.y *= -1.0f;
-            this->unk_272 = 0xE;
+            this->unk_272 = 14;
             this->actionfunc = func_80AE561C;
             return;
         }
@@ -589,13 +602,14 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
+
     if ((this->actor.shape.unk_08 >= -700.0f) && (this->actor.colChkInfo.health > 0)) {
         if (this->actionfunc != func_80AE56E0) {
             CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
 
             if (!(this->actor.shape.unk_08 < 0.0f)) {
                 CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-
+                
                 if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
                     CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
                 }
