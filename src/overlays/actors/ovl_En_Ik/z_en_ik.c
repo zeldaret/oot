@@ -33,6 +33,10 @@ void func_80A774F8(EnIk* this, GlobalContext* globalCtx);
 void func_80A77ED0(EnIk* this, GlobalContext* globalCtx);
 void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
 
+void func_80A745E4(EnIk* this, GlobalContext* globalCtx);
+void func_80A74AAC(EnIk* this);
+void func_80A74E2C(EnIk* this);
+void func_80A751C8(EnIk* this);
 void func_80A77148(EnIk* this);
 void func_80A77158(EnIk* this, GlobalContext* globalCtx);
 void func_80A771E4(EnIk* this);
@@ -243,7 +247,65 @@ void func_80A7489C(EnIk* this) {
     EnIk_SetupAction(this, func_80A7492C);
 }
 
+#ifdef NON_MATCHING
+void func_80A7492C(EnIk *this, GlobalContext *globalCtx) {
+    f32 temp_f0;
+    f32 temp_f0_2;
+    s16 yawDiff;
+    s32 phi_a0;
+    s32 absYawDiff;
+    f32 phi_f2;
+    s32 absYawDiff_2;
+    f32 phi_f2_2;
+
+    phi_a0 = 0x3FFC;
+    if (this->unk_2FB == 0) {
+        phi_a0 = 0xAAA;
+    }
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    absYawDiff = ABS(yawDiff);
+    if ((phi_a0 >= absYawDiff) && (this->actor.xzDistFromLink < 100.0f)) {
+        temp_f0 = this->actor.yDistFromLink;
+        if (0.0f <= temp_f0) {
+            phi_f2 = temp_f0;
+        } else {
+            phi_f2 = -temp_f0;
+        }
+        if (phi_f2 < 150.0f) {
+            if ((globalCtx->gameplayFrames & 1) != 0) {
+                func_80A74E2C(this);
+            } else {
+                func_80A751C8(this);
+            }
+        } else {
+block_13:
+            absYawDiff_2 = ABS(yawDiff);
+            if (absYawDiff_2 < 0x4001) {
+                temp_f0_2 = this->actor.yDistFromLink;
+                if (0.0f <= temp_f0_2) {
+                    phi_f2_2 = temp_f0_2;
+                } else {
+                    phi_f2_2 = -temp_f0_2;
+                }
+                if (phi_f2_2 < 150.0f) {
+                    func_80A74AAC(this);
+                } else {
+block_21:
+                    func_80A74AAC(this);
+                }
+            } else {
+                goto block_21;
+            }
+        }
+    } else {
+        goto block_13;
+    }
+    func_80A745E4(this, globalCtx);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7492C.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74AAC.s")
 

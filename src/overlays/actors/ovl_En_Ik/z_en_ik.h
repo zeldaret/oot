@@ -14,7 +14,8 @@ typedef struct EnIk {
     /* 0x0190 */ Vec3s limbDrawTable[30];
     /* 0x0244 */ Vec3s transitionDrawTable[30];
     /* 0x02F8 */ s8 unk_2F8;
-    /* 0x02F9 */ char unk_2F9[0x03];
+    /* 0x02F9 */ char unk_2F9[0x02];
+    /* 0x02FB */ u8 unk_2FB;
     /* 0x02FC */ s8 unk_2FC;
     /* 0x02FD */ char unk_2FD[0x05];
     /* 0x0302 */ s16 switchFlags;
