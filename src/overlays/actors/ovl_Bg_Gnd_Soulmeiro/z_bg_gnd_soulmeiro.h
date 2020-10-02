@@ -11,7 +11,8 @@ typedef void (*BgGndSoulmeiroActionFunc)(struct BgGndSoulmeiro*, GlobalContext*)
 typedef struct BgGndSoulmeiro {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
-    /* 0x0198 */ char unk_198[0x4];
+    /* 0x0198 */ u16 unk_198;
+    /* 0x019A */ char unk_19A[0x2];
     /* 0x019C */ BgGndSoulmeiroActionFunc actionFunc;
 } BgGndSoulmeiro; // size = 0x01A0
 
