@@ -22,7 +22,7 @@ typedef struct EnMb {
     /* 0x032A */ s16 unk_32A;
     /* 0x032C */ s16 soundTimer;
     /* 0x032E */ s16 unk_32E;
-    /* 0x0330 */ char unk_330[2];
+    /* 0x0330 */ s16 unk_330;
     /* 0x0332 */ s16 unk_332;
     /* 0x0334 */ s16 attackParams;
     /* 0x0336 */ char unk_336[2];
