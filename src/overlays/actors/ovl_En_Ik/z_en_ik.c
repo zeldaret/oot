@@ -247,37 +247,21 @@ void func_80A7489C(EnIk* this) {
     EnIk_SetupAction(this, func_80A7492C);
 }
 
-void func_80A7492C(EnIk *this, GlobalContext *globalCtx) {
-    s16 yawDiff;
-    s32 phi_a0;
-    f32 absDist;
+void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
+    s32 phi_a0 = (this->unk_2FB == 0) ? 0x0AAA : 0x3FFC;
+    s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-    phi_a0 = (this->unk_2FB == 0) ? 0x0AAA : 0x3FFC;
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistFromLink < 100.0f)) {
-        absDist = ABS(this->actor.yDistFromLink);
-        if (absDist < 150.0f) {
-            if ((globalCtx->gameplayFrames & 1)) {
-                func_80A74E2C(this);
-            } else {
-                func_80A751C8(this);
-            }
+    if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistFromLink < 100.0f) &&
+        (ABS(this->actor.yDistFromLink) < 150.0f)) {
+        if ((globalCtx->gameplayFrames & 1)) {
+            func_80A74E2C(this);
         } else {
-block_13:
-            if (ABS(yawDiff) < 0x4001) {
-                absDist = ABS(this->actor.yDistFromLink);
-                if (absDist < 150.0f) {
-                    func_80A74AAC(this);
-                } else {
-block_21:
-                    func_80A74AAC(this);
-                }
-            } else {
-                goto block_21;
-            }
+            func_80A751C8(this);
         }
+    } else if ((ABS(yawDiff) <= 0x4000) && (ABS(this->actor.yDistFromLink) < 150.0f)) {
+        func_80A74AAC(this);
     } else {
-        goto block_13;
+        func_80A74AAC(this);
     }
     func_80A745E4(this, globalCtx);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
