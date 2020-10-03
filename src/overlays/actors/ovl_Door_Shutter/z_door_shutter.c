@@ -164,7 +164,7 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
         // if front room equals back room (no room transition)
         if (frontRoom == transitionEntry->sides[1].room) {
             if (ABS((s16)(this->dyna.actor.shape.rot.y - this->dyna.actor.yawTowardsLink)) < 0x4000) {
-                frontRoom = 0xFF;
+                frontRoom = -1;
             }
         }
         if (frontRoom == this->dyna.actor.room) {
@@ -314,7 +314,7 @@ f32 func_80996840(GlobalContext* globalCtx, DoorShutter* this, f32 arg2, f32 arg
 s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (Player_InCsMode(globalCtx) == 0) {
+    if (!Player_InCsMode(globalCtx)) {
         ShutterInfo* temp_v1 = &D_80998134[this->unk_16C];
         f32 temp_f2 = func_80996840(globalCtx, this, (this->unk_16C != 3) ? 0.0f : 80.0f, temp_v1->e, temp_v1->f);
 
@@ -379,7 +379,7 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
                     player->naviMessageId = -0x203;
                     return;
                 }
-                player->doorTimer = 0xA;
+                player->doorTimer = 10;
             }
             player->doorType = 2;
             player->doorDirection = doorDirection;
@@ -392,10 +392,10 @@ void func_80996C60(DoorShutter* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.type == ACTORTYPE_DOOR) {
         Player* player = PLAYER;
         s32 sp38 = this->unk_16C;
-        s32 sp34 = 15;
+        s32 sp34 = 0xF;
 
-        if (DoorShutter_SetupDoor(this, globalCtx) != 0) {
-            sp34 = 32;
+        if (DoorShutter_SetupDoor(this, globalCtx)) {
+            sp34 = 0x20;
         }
         DoorShutter_SetupAction(this, func_80997004);
         this->unk_16C = sp38;
@@ -549,7 +549,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
         Math_ApproxF(&this->dyna.actor.velocity.y, 20.0f, 8.0f);
     }
     if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
-        if (20.0f < this->dyna.actor.velocity.y) {
+        if (this->dyna.actor.velocity.y > 20.0f) {
             this->dyna.actor.groundY = this->dyna.actor.initPosRot.pos.y;
             func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.posRot.pos, 45.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
         }
@@ -594,6 +594,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_809976B8(DoorShutter* this, GlobalContext* globalCtx) {
     f32 mult;
+    
     if (this->unk_164 != 0) {
         this->unk_164--;
         mult = sinf((this->unk_164 * 250.0f) / 100.0f);
@@ -681,6 +682,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
             oGfxCtx->polyOpa.p = func_80997838(globalCtx, this, oGfxCtx->polyOpa.p);
             if (this->unk_170 != 0.0f) {
                 f32 sp58 = (this->unk_166 * 0.01f) * this->unk_170;
+                
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255.0f * sp58);
                 Matrix_Translate(0, 0, sp70->translateZ, MTXMODE_APPLY);
@@ -697,6 +699,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (globalCtx->roomCtx.prevRoom.num >= 0 ||
                     transitionEntry->sides[0].room == transitionEntry->sides[1].room) {
                     s32 yaw = Math_Vec3f_Yaw(&globalCtx->view.eye, &this->dyna.actor.posRot.pos);
+                    
                     if (ABS((s16)(this->dyna.actor.shape.rot.y - yaw)) < 0x4000) {
                         Matrix_RotateY(M_PI, MTXMODE_APPLY);
                     }
