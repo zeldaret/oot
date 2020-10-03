@@ -129,8 +129,15 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 # create build directories
 $(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),build/$(dir)))
 
+
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
+build/src/libultra_code_O1/%.o: OPTFLAGS := -O1
+build/src/libultra_code_O2/%.o: OPTFLAGS := -O2
+build/src/libultra_code_O2_g3/%.o: OPTFLAGS := -O2 -g3
+
+build/src/libultra_code_O1/llcvt.o: MIPS_VERSION := -mips3 -32
+
 build/src/code/fault.o: CFLAGS += -trapuv
 build/src/code/fault.o: OPTFLAGS := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
@@ -140,18 +147,12 @@ build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
 
-# Todo: split libultra_code into libultra_code_O1, etc..
-build/src/libultra_code/sqrt.o: OPTFLAGS := -O2 -g3
-build/src/libultra_code/absf.o: OPTFLAGS := -O2 -g3
-build/src/libultra_code/osSetTimer.o: OPTFLAGS := -O1
-build/src/libultra_code/osStopTimer.o: OPTFLAGS := -O1
-build/src/libultra_code/llcvt.o: OPTFLAGS := -O1
-build/src/libultra_code/llcvt.o: MIPS_VERSION := -mips3 -32
-
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
+build/src/libultra_code_O1/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code_O2/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code_O2_g3/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
-build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegdecoder.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
@@ -229,7 +230,7 @@ build/src/%.o: src/%.c
 	$(CC_CHECK) $^
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
-build/src/libultra_code/llcvt.o: src/libultra_code/llcvt.c
+build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
 	python3 tools/set_o32abi_bit.py $@

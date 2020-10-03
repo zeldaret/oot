@@ -1,8 +1,8 @@
 #ifndef _Z_EN_ISHI_H_
 #define _Z_EN_ISHI_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef enum {
     /* 0x00 */ ROCK_SMALL,
