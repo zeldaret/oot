@@ -1341,7 +1341,7 @@ void func_808326F0(Player* this) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        func_800F8D04(*entry + this->ageProperties->unk_92);
+        func_800F8D04((u16)(*entry + this->ageProperties->unk_92));
         entry++;
     }
 }
