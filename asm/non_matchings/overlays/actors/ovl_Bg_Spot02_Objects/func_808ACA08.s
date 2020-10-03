@@ -31,7 +31,7 @@ glabel func_808ACA08
 /* 00418 808ACA78 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 0041C 808ACA7C AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00420 808ACA80 AFAC0024 */  sw      $t4, 0x0024($sp)           
-/* 00424 808ACA84 0C00A5E9 */  jal     func_800297A4              
+/* 00424 808ACA84 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 00428 808ACA88 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0042C 808ACA8C 10000006 */  beq     $zero, $zero, .L808ACAA8   
 /* 00430 808ACA90 8FAD0044 */  lw      $t5, 0x0044($sp)           

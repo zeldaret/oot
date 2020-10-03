@@ -29,7 +29,7 @@ const ActorInit En_Light_InitVars = {
 };
 
 typedef struct {
-    /* 0x00 */ Color_RGBA8_n primColor;
+    /* 0x00 */ Color_RGBA8 primColor;
     /* 0x04 */ Color_RGB8 envColor;
     /* 0x07 */ u8 scale;
 } FlameParams;
