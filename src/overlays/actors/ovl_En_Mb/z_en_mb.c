@@ -117,9 +117,9 @@ static Vec3f D_80AA9D78 = {
 };
 
 static Vec3f D_80AA9D84 = {
-    0x00000000,
-    0x00000000,
-    0x00000000,
+    0.0f,
+    0.0f,
+    0.0f,
 };
 
 s32 D_80AA9D90[] = {
@@ -168,18 +168,18 @@ s32 D_80AA9DE4[] = {
     0x447A0000, 0xC60CA000, 0x44FA0000, 0x44898000, 0xC42F0000, 0x00000000,
 };
 
-s32 D_80AA9DFC[] = {
-    0x00000000,
-    0x00000000,
-    0x00000000,
+Vec3f D_80AA9DFC = {
+    0.0f,
+    0.0f,
+    0.0f,
 };
 
-s32 D_80AA9E08[] = { 0x00000000, 0xC5FA0000, 0x00000000 };
+Vec3f D_80AA9E08 = { 0.0f, -8000.0f, 0.0f };
 
-s32 D_80AA9E14[] = {
-    0x00000000,
-    0x00000000,
-    0x00000000,
+Vec3f D_80AA9E14 = {
+    0.0f,
+    0.0f,
+    0.0f,
 };
 
 s32 D_80AA9E20[] = {
@@ -303,12 +303,16 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80AA68FC(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Destroy.s")
-
+void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnMb* this = THIS;
+    Collider_DestroyTris(globalCtx, &this->collider3);
+    Collider_DestroyCylinder(globalCtx, &this->collider1);
+    Collider_DestroyQuad(globalCtx, &this->collider2);
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6408.s")
 
 #ifdef NON_MATCHING
-// Matching all but regaloc but very likely fake
+// Very small regaloc
 void func_80AA6444(EnMb* this, GlobalContext* globalCtx) { // Setup path
     Path* path;
     Vec3s* pathPos;
@@ -319,18 +323,16 @@ void func_80AA6444(EnMb* this, GlobalContext* globalCtx) { // Setup path
     if (this->unk_35C == 0) {
         this->unk_35E = 1;
     } else {
-        temp = path->count - 1;
+        temp = (path->count - 1) & 0xFFFFFFFFFFFFFFFF;
         if (temp == this->unk_35C) {
             this->unk_35E = -1;
         }
     }
+
     this->unk_35C += this->unk_35E;
-    // Fake match suspect
-    pathPos =
-        ((gSegments[(u32)((s32)path->points * 0x10) >> 0x1C] + ((s32)path->points & 0xFFFFFF)) + (this->unk_35C * 6)) +
-        0x80000000;
-    // pathPos = SEGMENTED_TO_VIRTUAL(path->points);
-    // pathPos += this->unk_35C;
+
+    pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->unk_35C];
+
     this->unk_344.x = pathPos->x;
     this->unk_344.y = pathPos->y;
     this->unk_344.z = pathPos->z;
@@ -339,7 +341,6 @@ void func_80AA6444(EnMb* this, GlobalContext* globalCtx) { // Setup path
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6444.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA652C.s")
 s32 func_80AA652C(EnMb* this, GlobalContext* globalCtx) {
     Player* player;
     f32 xDist;
@@ -380,8 +381,36 @@ s32 func_80AA652C(EnMb* this, GlobalContext* globalCtx) {
     }
     return 0;
 }
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA66A0.s")
 
+void func_80AA66A0(EnMb* this, GlobalContext* globalCtx) {
+    Path* path;
+    s16 yawToPoints;
+    Vec3f points;
+    Vec3s* pointPath;
+    s16 yawDiff;
+    s32 pathCount;
+    s32 pathIndex;
+    s32 yawDiffABS;
+    path = &globalCtx->setupPathList[this->unk_35D];
+    for (pathIndex = 0, pathCount = path->count - 1; pathCount >= 0; pathCount--, pathIndex++) {
+        pointPath = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[pathIndex];
+        points.x = pointPath->x;
+        points.y = pointPath->y;
+        points.z = pointPath->z;
+        yawToPoints = Math_Vec3f_Yaw(&this->actor.posRot.pos, &points);
+        yawDiff = (yawToPoints) - this->actor.yawTowardsLink;
+        yawDiffABS = (yawDiff >= 0) ? yawDiff : -yawDiff;
+        if (yawDiffABS < 0x1771) {
+            this->actor.posRot.rot.y = yawToPoints;
+            if (pathIndex == this->unk_35C) {
+                this->unk_35E = -this->unk_35E;
+            }
+            this->unk_344 = points;
+            this->unk_35C = pathIndex;
+            return;
+        }
+    }
+}
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6830.s")
 void func_80AA6830(EnMb* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &animEnMbLookLeftandRight, -4.0f);
@@ -682,75 +711,9 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA77D0.s")
 #endif
 
+// Weird Data issue
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
-// End of a chain of calls
-/*
-void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
-    f32 distToGround;
-    Vec3f effSpawnPos;
-    Vec3f zeroVec;
-    Vec3f sp5C;
-    struct_80AA9D68 sp54;
-    struct_80AA9D70 sp4C;
-    s8 playerInvincibilityTImer;
-    Player* player = PLAYER;
 
-    zeroVec = D_80AA9D50;
-
-    sp5C = D_80AA9D5C;
-
-    sp54 = D_80AA9D68;
-
-    sp4C = D_80AA9D70;
-
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (&sp4C + (this->attackParams)) + this->actor.posRot.rot.y, 1,
-0x2EE, 0); if ((this->collider2.base.atFlags & 2) != 0) { this->collider2.base.atFlags &= 0xFFFD; if (&player->actor ==
-this->collider2.base.at) { playerInvincibilityTImer = player->invincibilityTimer; if (playerInvincibilityTImer < 0) { if
-(playerInvincibilityTImer < -0x27) { player->invincibilityTimer = 0; } else { player->invincibilityTimer = 0;
-                    globalCtx->damagePlayer(globalCtx, -8);
-                }
-            }
-            func_8002F71C(globalCtx, &this->actor, ((650.0f - this->actor.xzDistFromLink) * 0.04f) + 4.0f,
-                          this->actor.posRot.rot.y, 8.0f);
-            player->invincibilityTimer = playerInvincibilityTImer;
-        }
-    }
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        if (this->unk_32E == 0) {
-            effSpawnPos = this->effSpawnPos;
-
-            distToGround = this->actor.groundY;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
-            func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
-            func_80029024(globalCtx, &effSpawnPos, &zeroVec, &zeroVec);
-            func_80033480(globalCtx, &effSpawnPos, 2.0f, 3, 0x12C, 0xB4, 1);
-            func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
-            func_800358DC(&this->actor, &effSpawnPos, &this->actor.posRot.rot, &sp5C, 0x14, &sp54.unk_0, globalCtx, -1,
-                          0);
-            func_80AA6DA4(this);
-            return;
-        }
-        this->unk_32E = (this->unk_32E - 1);
-        if (this->unk_32E == 0) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, (f32)SkelAnime_GetFrameCount(&D_0600ABE0),
-                                 3, 0.0f);
-            return;
-        }
-    } else {
-        if (this->unk_32E != 0) {
-            if (6.0f == this->skelAnime.animCurrentFrame) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_UP);
-                return;
-            }
-        }
-        if (this->unk_32E == 0) {
-            if (3.0f == this->skelAnime.animCurrentFrame) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_DOWN);
-            }
-        }
-    }
-}
-*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7CAC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA800C.s")
@@ -963,7 +926,6 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8DD8.s")
 void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad;
@@ -986,7 +948,6 @@ void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8F50.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA8FC8.s")
 void func_80AA8FC8(EnMb* this) { // Likely setup Death for charging moblin
     s16 yawDiff;
     s32 yawDiffAbs;
@@ -1008,7 +969,6 @@ void func_80AA8FC8(EnMb* this) { // Likely setup Death for charging moblin
     func_80AA6050(this, func_80AA90A0);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA90A0.s")
 void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     s32 phi_s0;
     Vec3f zeroVec;
@@ -1055,5 +1015,139 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA9870.s")
-
+// Post Limb Draw
+/*void func_80AA9870(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    s32 sp34;
+    Vec3f sp24;
+    u32 temp_t5;
+    void* temp_v0;
+    s32 phi_v1;
+    EnMb* this = THIS;
+    phi_v1 = -1;
+    if (thisx->params == 0) {
+        if (limbIndex == 0xC) {
+            sp34 = -1;
+            Matrix_MultVec3f(&D_80AA9E08, thisx + 0x338);
+            if (this->attackParams > 0) {
+                sp34 = -1;
+                func_80AA9440(this, globalCtx);
+            }
+        }
+        sp34 = -1;
+        func_8002BDB0(thisx, limbIndex, 0x16, &D_80AA9DFC, 0x1B, &D_80AA9DFC);
+        phi_v1 = -1;
+    }
+    temp_t5 = limbIndex - 6;
+    if (this->unk328 != 0) {
+        switch (temp_t5) { // Default cases 0 4 5 7 9 10 12 13 15 17 18 20
+            case 0:        // Good
+                phi_v1 = 5;
+                break;
+            case 1:
+                phi_v1 = 0;
+                break;
+            case 3:
+                phi_v1 = 3;
+                break;
+            case 6:
+                phi_v1 = 1;
+                break;
+            case 8:
+                phi_v1 = 4;
+                break;
+            case 11:
+                phi_v1 = 2;
+                break;
+            case 14:
+                phi_v1 = 6;
+                break;
+            case 16:
+                phi_v1 = 8;
+                break;
+            case 19:
+                phi_v1 = 7;
+                break;
+            case 21:
+                phi_v1 = 9;
+                break;
+            default:
+                break;
+                // block_18:
+                if (phi_v1 >= 0) {
+                    sp34 = phi_v1;
+                    Matrix_MultVec3f(&D_80AA9E14, &sp24);
+                    temp_v0 = thisx + (phi_v1 * 6);
+                    temp_v0->unk14C = (s16)(s32)sp24;
+                    temp_v0->unk14E = (s16)(s32)sp28;
+                    temp_v0->unk150 = (s16)(s32)sp2C;
+                }
+        }
+    }
+}*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Draw.s")
+/*void EnMb_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    ? spA4;
+    ? sp98;
+    ? sp8C;
+    ? sp80;
+    ? sp74;
+    ? sp68;
+    f32 sp28;
+    ?32 sp24;
+    ?32 sp20;
+    ?32 sp1C;
+    Actor *sp18;
+    ColliderTris *temp_s0_2;
+    Vec3f *temp_s0;
+    s16 temp_v1;
+    Vec3f *phi_s1;
+    Vec3f *phi_s2;
+    Vec3f *phi_s3;
+    Vec3f *phi_s0;
+    f32 phi_f0;
+    EnMb* this = THIS;
+    func_80093D18(globalCtx->state.gfxCtx);
+    sp18 = thisx;
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, 0,
+&func_80AA9870, thisx); if (thisx->params != 0) { if ((s32) thisx->unk334 > 0) { func_80AA92B8(thisx, globalCtx);
+        }
+        phi_s1 = (Vec3f *) D_80AA9E20;
+        phi_s2 = (Vec3f *) &sp8C;
+        phi_s3 = (Vec3f *) D_80AA9E44;
+        phi_s0 = (Vec3f *) &sp68;
+loop_4:
+        Matrix_MultVec3f(phi_s1, phi_s2);
+        Matrix_MultVec3f(phi_s3, phi_s0);
+        temp_s0 = phi_s0 + 0xC;
+        phi_s1 = phi_s1 + 0xC;
+        phi_s2 = phi_s2 + 0xC;
+        phi_s3 = phi_s3 + 0xC;
+        phi_s0 = temp_s0;
+        if (temp_s0 != &sp8C) {
+            goto loop_4;
+        }
+        temp_s0_2 = thisx + 0x434;
+        func_800627A0(temp_s0_2, 0, (Vec3f *) &sp8C, (Vec3f *) &sp98, &spA4);
+        func_800627A0(temp_s0_2, 1, (Vec3f *) &sp68, (Vec3f *) &sp74, &sp80);
+    }
+    if (thisx->unk328 != 0) {
+        temp_v1 = thisx->unk328;
+        thisx->dmgEffectTimer = (u8) (thisx->dmgEffectTimer + 1);
+        if ((s32) temp_v1 >= 0) {
+            thisx->unk328 = (s16) (temp_v1 - 1);
+        }
+        if (((s32) thisx->unk328 & 3) == 0) {
+            phi_f0 = 2.5f;
+            if (thisx->params == 0) {
+                phi_f0 = 4.0f;
+            }
+            sp24 = 0xFF;
+            sp20 = 0xF5;
+            sp1C = 0xEB;
+            sp18 = 0xFA;
+            sp28 = phi_f0;
+            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, thisx + (((s32) thisx->unk328 >> 2) * 6) + 0x14C,
+(u16)0x96, 0x96, 0x96);
+        }
+    }
+}*/
