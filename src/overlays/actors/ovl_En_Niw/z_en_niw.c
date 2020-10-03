@@ -1159,7 +1159,7 @@ void EnNiw_ParticleSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 
     s16 i;
     EnNiwParticle* particle = this->particle;
 
-    for (i = 0; i < 20; i++, particle++) {
+    for (i = 0; i < ARRAY_COUNT(this->particle); i++, particle++) {
         if (particle->type == 0) {
             particle->type = 1;
             particle->pos = *pos;
