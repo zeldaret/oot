@@ -107,12 +107,12 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == 0x000B) {
-        if (sSpawnedVer1 != 0) {
+        if (sSpawnedVer1) {
             Actor_Kill(&this->actor);
             osSyncPrintf("\x1b[33m☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n\x1b[m");
             return;
         }
-        sSpawnedVer1 = 1;
+        sSpawnedVer1 = true;
         this->actor.room = -1;
     }
 
