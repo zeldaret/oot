@@ -69,7 +69,8 @@ SoundBankEntry* gSoundBanks[7] = {
 };
 
 u8 sBankSizes[ARRAY_COUNT(gSoundBanks)] = {
-    9, 12, 22, 20, 8, 3, 5,
+    ARRAY_COUNT(D_8016BAD0), ARRAY_COUNT(D_8016BC80), ARRAY_COUNT(D_8016BEC0), ARRAY_COUNT(D_8016C2E0),
+    ARRAY_COUNT(D_8016C6A0), ARRAY_COUNT(D_8016C820), ARRAY_COUNT(D_8016C8B0),
 };
 
 u8 D_801333CC = 0;
@@ -244,7 +245,12 @@ void func_800F7680(void) {
                         phi_s1 = phi_a1;
                         sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
                     } else if (temp_s0->unk_24 < sp43) {
-                        if (1) {} if (1) {} if (1) {} if (1) {} if (1) {} if (1) {}
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
+                        if (1) {}
                         phi_s1 = phi_a1;
                         sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
                     }
@@ -544,29 +550,21 @@ void func_800F8E3C(void) {
 }
 
 void func_800F8EA0(u8 arg0, u8 arg1, u16 arg2) {
-    f32 temp_f0;
-    Struct_800F8EA0* temp_v0;
-
     if (arg2 == 0) {
         arg2++;
     }
-    temp_v0 = &D_8016E270[arg0];
-    temp_f0 = arg1 / 127.0f;
-    temp_v0->unk_4 = temp_f0;
-    temp_v0->unk_C = arg2;
-    temp_v0->unk_8 = ((temp_v0->unk_0 - temp_v0->unk_4) / arg2);
+    D_8016E270[arg0].unk_4 = arg1 / 127.0f;
+    D_8016E270[arg0].unk_C = arg2;
+    D_8016E270[arg0].unk_8 = ((D_8016E270[arg0].unk_0 - D_8016E270[arg0].unk_4) / arg2);
 }
 
 void func_800F8F34(u8 arg0) {
-    Struct_800F8EA0* temp_v0;
-
-    temp_v0 = &D_8016E270[arg0];
-    if (temp_v0->unk_C != 0) {
-        temp_v0->unk_C--;
-        if (temp_v0->unk_C != 0) {
-            temp_v0->unk_0 -= temp_v0->unk_8;
+    if (D_8016E270[arg0].unk_C != 0) {
+        D_8016E270[arg0].unk_C--;
+        if (D_8016E270[arg0].unk_C != 0) {
+            D_8016E270[arg0].unk_0 -= D_8016E270[arg0].unk_8;
         } else {
-            temp_v0->unk_0 = temp_v0->unk_4;
+            D_8016E270[arg0].unk_0 = D_8016E270[arg0].unk_4;
         }
     }
 }
