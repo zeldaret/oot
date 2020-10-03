@@ -410,7 +410,7 @@ void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
 
 void func_80AB6324(EnNiw* this, GlobalContext* globalCtx) {
     if (this->unk_308 != 0) {
-        this->actor.velocity.y = (Math_Rand_ZeroFloat(2.0f) + 4.0f);
+        this->actor.velocity.y = Math_Rand_ZeroFloat(2.0f) + 4.0f;
         this->actor.speedXZ = Math_Rand_ZeroFloat(2.0f) + 3.0f;
         this->actionFunc = func_80AB63A8;
     }
