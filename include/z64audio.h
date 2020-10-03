@@ -743,9 +743,9 @@ typedef struct {
 } Reverb; // size >= 0x18
 
 typedef struct {
-    /* 0x00 */ Vec3f*   pos;        // "pos"
-    /* 0x04 */ f32*     unk_4;
-    /* 0x08 */ f32*     unk_8;
+    /* 0x00 */ f32*     posX;
+    /* 0x04 */ f32*     posY;
+    /* 0x08 */ f32*     posZ;
     /* 0x0C */ u8       unk_C;
     /* 0x10 */ u32*     unk_10;
     /* 0x14 */ u32*     unk_14;

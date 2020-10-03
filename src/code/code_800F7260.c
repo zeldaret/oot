@@ -3,12 +3,12 @@
 #include <vt.h>
 
 typedef struct {
-    /* 0x00 */ u16     sfxId;
-    /* 0x04 */ Vec3f*  pos;
-    /* 0x08 */ u8      unk_8;
-    /* 0x0C */ u32*    unk_C;
-    /* 0x10 */ u32*    unk_10;
-    /* 0x14 */ u32*    unk_14;
+    /* 0x00 */ u16 sfxId;
+    /* 0x04 */ Vec3f* pos;
+    /* 0x08 */ u8 unk_8;
+    /* 0x0C */ u32* unk_C;
+    /* 0x10 */ u32* unk_10;
+    /* 0x14 */ u32* unk_14;
 } Struct_800F738C; // size = 0x18
 
 typedef struct {
@@ -24,24 +24,29 @@ typedef struct {
 } Struct_800F7CEC;
 
 typedef struct {
-    u8  unk_0;
+    u8 unk_0;
     u16 unk_2;
 } Struct_8013331C;
 
 u8 D_80133340[4] = {
-    0x53, 0x45, 0x00, 0x00,
+    0x53,
+    0x45,
+    0x00,
+    0x00,
 };
 
-char D_80133344[] = VT_COL(RED,WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n";
+char D_80133344[] = VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr:%08X pos:%f-%f-%f" VT_RST "\n";
 
 s32 D_8013338C = 0;
 
 UNK_TYPE D_80133390[] = {
-    0x53455120, 0x48000000,
+    0x53455120,
+    0x48000000,
 };
 
 UNK_TYPE D_80133398[] = {
-    0x20202020, 0x4C000000,
+    0x20202020,
+    0x4C000000,
 };
 
 u8 D_801333A0 = 0;
@@ -60,13 +65,7 @@ u8 D_801333A4 = 0;
  * 6 : Voice Bank           size 5
  */
 SoundBankEntry* gSoundBanks[7] = {
-    D_8016BAD0,
-    D_8016BC80,
-    D_8016BEC0,
-    D_8016C2E0,
-    D_8016C6A0,
-    D_8016C820,
-    D_8016C8B0,
+    D_8016BAD0, D_8016BC80, D_8016BEC0, D_8016C2E0, D_8016C6A0, D_8016C820, D_8016C8B0,
 };
 
 u8 sBankSizes[ARRAY_COUNT(gSoundBanks)] = {
@@ -160,7 +159,7 @@ void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, u32* a3, u32* a4, u32* 
     }
 }
 
-void func_800F74E0(u8 arg0, SoundBankEntry *arg1) {
+void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
     Struct_800F738C* entry;
     s32 phi_a0;
     u8 i = D_801333A4;
@@ -175,17 +174,17 @@ void func_800F74E0(u8 arg0, SoundBankEntry *arg1) {
                 }
                 break;
             case 1:
-                if (SFX_BANK_MASK(entry->sfxId) == SFX_BANK_MASK(arg1->unk_28) && entry->pos == arg1->pos) {
+                if (SFX_BANK_MASK(entry->sfxId) == SFX_BANK_MASK(arg1->unk_28) && &entry->pos->x == arg1->posX) {
                     phi_a0 = true;
                 }
                 break;
             case 2:
-                if (entry->pos == arg1->pos) {
+                if (&entry->pos->x == arg1->posX) {
                     phi_a0 = true;
                 }
                 break;
             case 3:
-                if (entry->pos == arg1->pos && entry->sfxId == arg1->unk_28) {
+                if (&entry->pos->x == arg1->posX && entry->sfxId == arg1->unk_28) {
                     phi_a0 = true;
                 }
                 break;
@@ -208,7 +207,8 @@ void func_800F74E0(u8 arg0, SoundBankEntry *arg1) {
 }
 
 #ifdef NON_EQUIVALENT
-// Mostly ok at the start, then runs into some reorderings with regalloc throughout the rest
+// Mostly ok at the start, then runs into some reorderings near the assignments
+// of temp_s0 and temp_a2, inducing regalloc throughout the rest
 void func_800F7680(void) {
     u8 sp43;
     Struct_8013331C* temp_a2;
@@ -232,7 +232,7 @@ void func_800F7680(void) {
     phi_t4 = 0;
     phi_a1 = gSoundBanks[phi_s5][0].next;
     while (phi_a1 != 0xFF && phi_a1 != 0) {
-        if (gSoundBanks[phi_s5][phi_a1].pos == phi_t2->pos) {
+        if (gSoundBanks[phi_s5][phi_a1].posX == &phi_t2->pos->x) {
             temp_a2 = &D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)];
             temp_s0 = &gSoundBanks[phi_s5][phi_a1];
             if (!(temp_a2->unk_2 & 0x20) || temp_s0->unk_24 != temp_a2->unk_0) {
@@ -244,7 +244,7 @@ void func_800F7680(void) {
                         phi_s1 = phi_a1;
                         sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
                     } else if (temp_s0->unk_24 < sp43) {
-                        if (1) { }  if (1) { }  if (1) { }  if (1) { }  if (1) { }  if (1) { } 
+                        if (1) {} if (1) {} if (1) {} if (1) {} if (1) {} if (1) {}
                         phi_s1 = phi_a1;
                         sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
                     }
@@ -272,7 +272,8 @@ void func_800F7680(void) {
                     }
                     phi_a1 = 0;
                 }
-            } else return;
+            } else
+                return;
         }
         if (phi_a1 != 0) {
             phi_a1 = gSoundBanks[phi_s5][phi_a1].next;
@@ -281,9 +282,9 @@ void func_800F7680(void) {
     if (gSoundBanks[phi_s5][D_8016E1A8[phi_s5]].next != 0xFF && phi_a1 != 0) {
         phi_a1 = D_8016E1A8[phi_s5];
         temp_s0 = &gSoundBanks[phi_s5][phi_a1];
-        temp_s0->pos = &phi_t2->pos->x;
-        temp_s0->unk_4 = &phi_t2->pos->y;
-        temp_s0->unk_8 = &phi_t2->pos->z;
+        temp_s0->posX = &phi_t2->pos->x;
+        temp_s0->posY = &phi_t2->pos->y;
+        temp_s0->posZ = &phi_t2->pos->z;
         temp_s0->unk_C = phi_t2->unk_8;
         temp_s0->unk_10 = phi_t2->unk_C;
         temp_s0->unk_14 = phi_t2->unk_10;
@@ -421,7 +422,7 @@ void func_800F8884(u8 bankId, Vec3f* pos) {
 
     while (bankIndex != 0xFF) {
         entry = &gSoundBanks[bankId][bankIndex];
-        if (entry->pos == pos) {
+        if (entry->posX == &pos->x) {
             if (entry->unk_2A >= 3) {
                 func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
@@ -440,7 +441,7 @@ void func_800F89A0(u8 bankId, Vec3f* pos) {
 
     func_800F8884(bankId, pos);
     sp18.unk_28 = bankId << 0xC;
-    sp18.pos = pos;
+    sp18.posX = &pos->x;
     func_800F74E0(1, &sp18);
 }
 
@@ -451,7 +452,7 @@ void func_800F89E8(Vec3f* pos) {
     for (i = 0; i < ARRAY_COUNT(gSoundBanks); i++) {
         func_800F8884(i, pos);
     }
-    sp24.pos = pos;
+    sp24.posX = &pos->x;
     func_800F74E0(2, &sp24);
 }
 
@@ -463,7 +464,7 @@ void func_800F8A44(Vec3f* pos, u16 sfxId) {
 
     while (bankIndex != 0xFF) {
         entry = &gSoundBanks[SFX_BANK(sfxId)][bankIndex];
-        if (entry->pos == pos && entry->unk_28 == sfxId) {
+        if (entry->posX == &pos->x && entry->unk_28 == sfxId) {
             if (entry->unk_2A >= 3) {
                 func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
@@ -478,7 +479,7 @@ void func_800F8A44(Vec3f* pos, u16 sfxId) {
             bankIndex = gSoundBanks[SFX_BANK(sfxId)][bankIndex2].next;
         }
     }
-    sp50.pos = pos;
+    sp50.posX = &pos->x;
     sp50.unk_28 = sfxId;
     func_800F74E0(3, &sp50);
 }
