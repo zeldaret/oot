@@ -68,7 +68,7 @@ glabel func_809AE270
 /* 00448 809AE368 02603025 */  or      $a2, $s3, $zero            ## $a2 = 809B005C
 /* 0044C 809AE36C 02803825 */  or      $a3, $s4, $zero            ## $a3 = 809B0068
 /* 00450 809AE370 46048480 */  add.s   $f18, $f16, $f4            
-/* 00454 809AE374 0C00A2DD */  jal     func_80028B74              
+/* 00454 809AE374 0C00A2DD */  jal     EffectSsKiraKira_SpawnSmall              
 /* 00458 809AE378 E7B20088 */  swc1    $f18, 0x0088($sp)          
 /* 0045C 809AE37C 2631FFFF */  addiu   $s1, $s1, 0xFFFF           ## $s1 = 00000003
 /* 00460 809AE380 1620FFE3 */  bne     $s1, $zero, .L809AE310     
