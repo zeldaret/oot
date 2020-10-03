@@ -126,7 +126,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
                      this->transitionDrawTable, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
-        for (i = 0, posListEntry = sKakarikoPosList; i != 7; i++, posListEntry++) {
+        for (i = 0, posListEntry = sKakarikoPosList; i < ARRAY_COUNT(sKakarikoPosList); i++, posListEntry++) {
             if (fabsf(this->actor.posRot.pos.x - posListEntry->x) < 40.0f &&
                 fabsf(this->actor.posRot.pos.z - posListEntry->z) < 40.0f) {
                 this->unk_2AA = i;
