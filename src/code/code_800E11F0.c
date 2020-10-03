@@ -1092,36 +1092,34 @@ void func_800E5C28(unk_5C50_s *arg01) {
     }
 }
 
-u8 D_801304EC = 0;
-#ifdef NON_MATCHING
 void func_800E5D6C(u32 arg0) {
-    s32 temp_t8;
-    u8 temp_t9;
-    u8 temp_v1;
-    void *temp_s0;
-    unk_5C50_s* s;
+    static u8 D_801304EC = 0;
+    unk_5c50_b* s;
+    u8 tmp;
 
     if (gAudioContext.unk_5BDA == 0) {
         D_801304EC = arg0 >> 8;
     }
 
-    while((arg0 & 0xFF) != D_801304EC){
-        s = &gAudioContext.unk_5C50[D_801304EC];
-        if (0xF8 == gAudioContext.unk_5C50[D_801304EC].b0) {
+
+    while(true){
+        tmp = arg0 & 0xFF;
+        if(D_801304EC == tmp){
+            gAudioContext.unk_5BDA = 0;
+            return;
+        }
+
+        s = &gAudioContext.unk_5C50[D_801304EC++ & 0xFF].bytes;
+        if (s->b0 == 0xF8) {
             gAudioContext.unk_5BDA = 1;
             return;
         }
-        D_801304EC++;
 
         func_800E5C28(s);
         s->b0 = 0;
+
     }
-    gAudioContext.unk_5BDA = 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5D6C.s")
-void func_800E5D6C(u32 arg0);
-#endif
 
 u32 func_800E5E20(u32 *arg0) {
     u32 sp1C;
