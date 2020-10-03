@@ -258,7 +258,7 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     if (this->dyna.actor.room >= 0) {
         s32 transitionActorId = (u16)this->dyna.actor.params >> 0xA;
-        
+
         globalCtx->transitionActorList[transitionActorId].id *= -1;
     }
 }
@@ -339,7 +339,7 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
         this->unk_16F = -0x64;
     } else if (func_809968D4(this, globalCtx) != 0) {
         Player* player = PLAYER;
-        
+
         player->naviMessageId = -0x202;
     }
 }
@@ -365,10 +365,10 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
         }
     } else {
         s32 doorDirection = func_809968D4(this, globalCtx);
-        
+
         if (doorDirection != 0) {
             Player* player = PLAYER;
-            
+
             if (this->unk_16E != 0) {
                 if (this->doorType == SHUTTER_BOSS) {
                     if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, gSaveContext.mapIndex)) {
@@ -457,7 +457,7 @@ void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx) {
             this->unk_16F = -100;
         } else if (func_809968D4(this, globalCtx)) {
             Player* player = PLAYER;
-            
+
             // Jabu navi text for switch doors is different
             player->naviMessageId = (globalCtx->sceneNum == SCENE_BDAN) ? -0x20B : -0x202;
         }
@@ -497,7 +497,7 @@ void func_80997004(DoorShutter* this, GlobalContext* globalCtx) {
 void func_80997150(DoorShutter* this, GlobalContext* globalCtx) {
     if (this->unk_16F != 0) {
         if (this->unk_16F < 0) {
-            if (globalCtx->state.frames & 1) {
+            if (globalCtx->state.frames % 2 != 0) {
                 this->unk_16F++;
             }
             if (this->dyna.actor.type == func_8005B198() || this->unk_16F == 0) {
@@ -522,7 +522,7 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.room >= 0) {
         Vec3f vec;
-        
+
         func_8002DBD0(&this->dyna.actor, &vec, &player->actor.posRot.pos);
         this->dyna.actor.room =
             globalCtx->transitionActorList[(u16)this->dyna.actor.params >> 0xA].sides[(vec.z < 0.0f) ? 0 : 1].room;
@@ -586,7 +586,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
         DoorShutter_SetupAction(this, func_809976B8);
         if (!(gSaveContext.eventChkInf[7] & 1)) { // not began Gohma fight
             BossGoma* parent = (BossGoma*)this->dyna.actor.parent;
-            
+
             this->unk_164 = 10;
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             func_8099803C(globalCtx, 2, 10, parent->subCameraId);
@@ -597,7 +597,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_809976B8(DoorShutter* this, GlobalContext* globalCtx) {
     f32 mult;
-    
+
     if (this->unk_164 != 0) {
         this->unk_164--;
         mult = sinf(this->unk_164 * 250.0f / 100.0f);
@@ -612,7 +612,7 @@ void func_80997744(DoorShutter* this, GlobalContext* globalCtx) {
     if (this->unk_164 != 0) {
         this->unk_164--;
     }
-    phi_f0 = (this->unk_164 & 1) ? -3.0f : 0.0f;
+    phi_f0 = (this->unk_164 % 2 != 0) ? -3.0f : 0.0f;
     Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, -34.0f + phi_f0, 1.0f, 20.0f, 0.0f);
     osSyncPrintf("FHG SAKU END !!\n");
 }
@@ -685,7 +685,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
             oGfxCtx->polyOpa.p = func_80997838(globalCtx, this, oGfxCtx->polyOpa.p);
             if (this->unk_170 != 0.0f) {
                 f32 sp58 = (this->unk_166 * 0.01f) * this->unk_170;
-                
+
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255.0f * sp58);
                 Matrix_Translate(0, 0, sp70->translateZ, MTXMODE_APPLY);
@@ -702,7 +702,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (globalCtx->roomCtx.prevRoom.num >= 0 ||
                     transitionEntry->sides[0].room == transitionEntry->sides[1].room) {
                     s32 yaw = Math_Vec3f_Yaw(&globalCtx->view.eye, &this->dyna.actor.posRot.pos);
-                    
+
                     if (ABS((s16)(this->dyna.actor.shape.rot.y - yaw)) < 0x4000) {
                         Matrix_RotateY(M_PI, MTXMODE_APPLY);
                     }
