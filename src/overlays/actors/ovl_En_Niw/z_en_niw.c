@@ -928,7 +928,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             phi_v1 = 4;
         }
 
-        for (i = 0; phi_v1 > i; i++) {
+        for (i = 0; i < phi_v1; i++) {
             VEC_SET(spAC, Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x,
                     Math_Rand_CenteredFloat(10.0f) + (this->actor.posRot.pos.y + this->unk_304),
                     Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z);
