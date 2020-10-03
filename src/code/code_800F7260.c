@@ -174,7 +174,7 @@ void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
                 }
                 break;
             case 1:
-                if (SFX_BANK_MASK(entry->sfxId) == SFX_BANK_MASK(arg1->unk_28) && &entry->pos->x == arg1->posX) {
+                if (SFX_BANK_MASK(entry->sfxId) == SFX_BANK_MASK(arg1->unk_28) && (&entry->pos->x == arg1->posX)) {
                     phi_a0 = true;
                 }
                 break;
