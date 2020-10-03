@@ -272,8 +272,9 @@ void func_800F7680(void) {
                     }
                     phi_a1 = 0;
                 }
-            } else
+            } else {
                 return;
+            }
         }
         if (phi_a1 != 0) {
             phi_a1 = gSoundBanks[phi_s5][phi_a1].next;
