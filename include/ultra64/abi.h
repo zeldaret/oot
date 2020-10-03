@@ -1,5 +1,5 @@
-#ifndef _ABI_H_
-#define _ABI_H_
+#ifndef _ULTRA64_ABI_H_
+#define _ULTRA64_ABI_H_
 
 /* Audio commands: */
 #define A_SPNOOP 0
@@ -388,4 +388,4 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = (unsigned int)d;                                 \
     }
 
-#endif /* !_ABI_H_ */
+#endif /* _ULTRA64_ABI_H_ */
