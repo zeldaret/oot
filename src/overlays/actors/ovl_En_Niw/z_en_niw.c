@@ -638,7 +638,7 @@ void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx) {
     VEC_SET(this->actor.shape.rot, Math_Rand_CenteredFloat(5000.0f), Math_Rand_CenteredFloat(5000.0f),
             Math_Rand_CenteredFloat(5000.0f));
 
-    if (Actor_HasNoParent(&this->actor, globalCtx) != 0) {
+    if (Actor_HasNoParent(&this->actor, globalCtx)) {
         if (this->actor.params == 0x000D) {
             this->sfxTimer1 = 0;
             this->unk_2A6 = 1;
