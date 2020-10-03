@@ -18,7 +18,6 @@ typedef struct {
 } unk_s2;
 
 void func_800FA240(u8, u8, u8, u8);
-void func_800E5B20(s32,s8);
 void func_800F5550(u16);
 void func_800F5E18(u8 arg0, u16 arg1, u8 arg2, s8 arg3, s8 arg4);
 u8 *func_800E5E84(s32 arg0, u8 *arg1);

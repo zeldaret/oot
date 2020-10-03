@@ -559,7 +559,7 @@ typedef struct {
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
-    /* 0x0C */ u16 updatesPerFrame;
+    /* 0x0C */ s16 updatesPerFrame;
     /* 0x0E */ s16 samplesPerUpdate;
     /* 0x10 */ s16 samplesPerUpdateMax;
     /* 0x12 */ s16 samplesPerUpdateMin;

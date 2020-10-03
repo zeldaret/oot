@@ -26,6 +26,18 @@ typedef enum {
     CHAN_UPD_REVERB_FLG         // 14
 } ChannelUpdateType;
 
+//extern s32 D_8014A6CC;
+extern u32 D_8014A6C8;
+extern u32 D_8014A6C4;
+extern f32 D_80149480;
+extern f32 D_80149484;
+extern f32 D_80149488;
+extern u8 gSequenceTable[];
+extern u8 gAudioBankTable[];
+extern u8 gAudioTable[];
+extern u8 D_80155340[];
+extern u32 D_801755D0;
+
 void func_800E3FB4(unk_1770_s *arg0, u32 size);
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
 ManyStruct_800E0E0C_2 *func_800E27F8(s32 arg0);
@@ -343,7 +355,6 @@ void func_800E3028(u32 arg0) {
     D_801304D4 = arg0;
 }
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 CtlEntry *func_800E3034(s32 arg0) {
     AudioBankTable *temp_t8;
@@ -367,19 +378,8 @@ CtlEntry *func_800E3034(s32 arg0);
 #undef NON_MATCHING
 
 u32 D_801304D8 = 0;
-//extern s32 D_8014A6CC;
-extern u32 D_8014A6C8;
-extern u32 D_8014A6C4;
-extern f32 D_80149480;
-extern f32 D_80149484;
-extern f32 D_80149488;
-extern u8 gSequenceTable[];
-extern u8 gAudioBankTable[];
-extern u8 gAudioTable[];
-extern u8 D_80155340[];
-extern u32 D_801755D0;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3094.s")
+#ifdef NON_MATCHING
 // AudioContext_Init
 void func_800E3094(void *heap, u32 heapSize) {
     static s32 D_8014A6CC = 48352;
@@ -500,6 +500,10 @@ void func_800E3094(void *heap, u32 heapSize) {
     D_801304D8 = 1;
     osSendMesg(gAudioContext.unk_5BE8, (void*)gAudioContext.unk_289C, 0);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3094.s")
+void func_800E3094(void *heap, u32 heapSize);
+#endif
 
 void func_800E3400(void) {
     gAudioContext.unk_1D64 = 0;
@@ -811,6 +815,8 @@ void func_800E1EB0(u8,u8,u8,OSMesgQueue*);
 void func_800E1E6C(u8,u8,u8,OSMesgQueue*);
 void func_800E1F7C(u8);
 
+#ifdef NON_MATCHING
+// matches, but data.
 void func_800E5584(unk_5C50_s *arg0) {
     s32 i;
     s32 pad;
@@ -924,6 +930,10 @@ void func_800E5584(unk_5C50_s *arg0) {
             return;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5584.s")
+void func_800E5584(unk_5C50_s *arg0);
+#endif
 
 #ifdef NON_MATCHING
 void func_800E5958(s32 arg0, u32 arg1) {
@@ -980,7 +990,6 @@ void func_800E59F4(void) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E59F4.s")
 #endif
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_800E5A8C(u32 arg0, void **arg1) {
     unk_5C50_s *t = &gAudioContext.unk_5C50[gAudioContext.unk_5BD8];
@@ -1084,7 +1093,7 @@ void func_800E5C28(unk_5C50_s *arg01) {
 }
 
 u8 D_801304EC = 0;
-//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5D6C.s")
+#ifdef NON_MATCHING
 void func_800E5D6C(u32 arg0) {
     s32 temp_t8;
     u8 temp_t9;
@@ -1109,6 +1118,10 @@ void func_800E5D6C(u32 arg0) {
     }
     gAudioContext.unk_5BDA = 0;
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5D6C.s")
+void func_800E5D6C(u32 arg0);
+#endif
 
 u32 func_800E5E20(u32 *arg0) {
     u32 sp1C;
@@ -1134,7 +1147,7 @@ void func_800E5EA4(s32 arg0, u32 *arg1, u32 *arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5F34.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5F88.s")
+#ifdef NON_MATCHING
 s32 func_800E5F88(u32 arg0) {
     s32 sp24;
     u32 sp20;
@@ -1157,6 +1170,10 @@ s32 func_800E5F88(u32 arg0) {
     func_800E5AFC(0xF9000000U, arg0);
     return func_800E5B80();
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5F88.s")
+s32 func_800E5F88(u32 arg0);
+#endif
 
 #ifdef NON_MATCHING
 extern u32 D_801304D8;
@@ -1196,6 +1213,8 @@ void func_800E611C(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6128.s")
 
+#ifdef NON_MATCHING
+// matching, but data
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1) {
     f32 floatData;
     s8 s8Data;
@@ -1272,6 +1291,10 @@ void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1) {
             return;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6300.s")
+void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1);
+#endif
 
 void func_800E64B0(s32 arg0, s32 arg1, s32 arg2) {
     func_800E5AFC(((arg0 & 0xFF) << 0x10) | 0xFA000000 | ((arg1 & 0xFF) << 8) | (arg2 & 0xFF), 1);

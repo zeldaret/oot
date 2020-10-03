@@ -69,7 +69,7 @@ void func_800F9280(u8 arg0, u8 arg1, u8 arg2, u16 arg3);
 #endif
 
 void func_800F9474(u8 arg0, u16 arg1) {
-    func_800E5AFC(MK_CMD(0x83, arg0, 0x00, 0x00), (arg1 * gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
+    func_800E5AFC(MK_CMD(0x83, arg0, 0x00, 0x00), (arg1 * (u16)gAudioContext.gAudioBufferParameters.updatesPerFrame) / 4);
     D_8016E750[arg0].unk_254 = 0xFFFF;
 }
 
