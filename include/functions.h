@@ -624,6 +624,7 @@ s32 func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius);
 // ? func_8003E9A0(?);
 void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
 void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
+void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
 u32 DynaPolyInfo_RegisterActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, UNK_TYPE arg3);
 DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, UNK_TYPE dynaPolyId);
 void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
@@ -1114,8 +1115,9 @@ Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b);
 // ? func_80080024(?);
 s16 func_800800F8(GlobalContext* globalCtx, s16 arg1, s16 arg2, Actor* actor, s16 arg4);
 void func_800803F0(GlobalContext* globalCtx, s16 camId);
-// ? func_80080480(?);
+UNK_RET func_80080480(GlobalContext* globalCtx, Actor* actor);
 UNK_TYPE func_800806BC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE);
+UNK_TYPE func_80080728(GlobalContext* globalCtx, u8 actorType);
 void func_80080788(UNK_TYPE, UNK_TYPE);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor);
@@ -1358,8 +1360,8 @@ void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, Skeleton
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
 void SkelAnime_ChangeAnimImpl(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 frame,
                               f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2);
-void SkelAnime_ChangeAnim(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 unk0,
-                          f32 frameCount, u8 unk1, f32 transitionRate);
+void SkelAnime_ChangeAnim(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 frame,
+                          f32 frameCount, u8 mode, f32 transitionRate);
 void SkelAnime_ChangeAnimDefaultStop(SkelAnime* skelAnime, AnimationHeader* animationseg);
 void SkelAnime_ChangeAnimTransitionStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 transitionRate);
 void SkelAnime_ChangeAnimPlaybackStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed);

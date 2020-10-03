@@ -5977,10 +5977,10 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                 this->stateFlags1 |= 0x20000C00;
                 func_8083AE40(this, giEntry->objectId);
                 this->actor.posRot.pos.x =
-                    chest->actor.posRot.pos.x - (Math_Sins(chest->actor.shape.rot.y) * 29.434299469f);
+                    chest->dyna.actor.posRot.pos.x - (Math_Sins(chest->dyna.actor.shape.rot.y) * 29.434299469f);
                 this->actor.posRot.pos.z =
-                    chest->actor.posRot.pos.z - (Math_Coss(chest->actor.shape.rot.y) * 29.434299469f);
-                this->currentYaw = this->actor.shape.rot.y = chest->actor.shape.rot.y;
+                    chest->dyna.actor.posRot.pos.z - (Math_Coss(chest->dyna.actor.shape.rot.y) * 29.434299469f);
+                this->currentYaw = this->actor.shape.rot.y = chest->dyna.actor.shape.rot.y;
                 func_80832224(this);
 
                 if ((giEntry->itemId != ITEM_NONE) && (giEntry->gi >= 0) &&

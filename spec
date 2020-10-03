@@ -2038,9 +2038,7 @@ endseg
 beginseg
     name "ovl_En_Box"
     include "build/src/overlays/actors/ovl_En_Box/z_en_box.o"
-    include "build/data/overlays/actors/z_en_box.data.o"
-    include "build/data/overlays/actors/z_en_box.bss.o"
-    include "build/data/overlays/actors/z_en_box.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Box/ovl_En_Box_reloc.o"
 endseg
 
 beginseg
