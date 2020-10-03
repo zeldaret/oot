@@ -158,7 +158,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((gSaveContext.eventChkInf[1] & 0x10) != 0) {
+            if (gSaveContext.eventChkInf[1] & 0x10) {
                 Actor_Kill(&this->actor);
             }
             break;
