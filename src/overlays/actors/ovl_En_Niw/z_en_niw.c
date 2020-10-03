@@ -1178,7 +1178,7 @@ void EnNiw_ParticleUpdate(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
     EnNiwParticle* particle = this->particle;
 
-    for (i = 0; i < 20; i++, particle++) {
+    for (i = 0; i < ARRAY_COUNT(this->particle); i++, particle++) {
         if (particle->type != 0) {
             particle->timer++;
             particle->pos.x += particle->vel.x;
