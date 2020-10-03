@@ -35,7 +35,7 @@ void EnNiw_ParticleSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 
 void EnNiw_ParticleUpdate(EnNiw* this, GlobalContext* globalCtx);
 void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx);
 
-s16 D_80AB85E0 = 0;
+static s16 D_80AB85E0 = 0;
 
 const ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
