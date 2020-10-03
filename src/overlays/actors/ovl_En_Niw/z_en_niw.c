@@ -614,7 +614,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.posRot.pos.x;
         pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
-        this->unk_2E4 = Math_atan2f(pathDiffX, pathDiffZ) * 10430.378f;
+        this->unk_2E4 = Math_atan2f(pathDiffX, pathDiffZ) * (0x8000 / M_PI);
         func_80AB6100(this, globalCtx, 2);
 
         if (fabsf(pathDiffX) < 30.0f && fabsf(pathDiffZ) < 30.0f) {
