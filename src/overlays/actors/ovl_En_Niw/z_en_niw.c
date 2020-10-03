@@ -332,9 +332,8 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx) {
             VEC_SET(attackCuccoPos, ((Math_Rand_ZeroOne() - 0.5f) * viewX) + globalCtx->view.eye.x,
                     Math_Rand_CenteredFloat(0.3f) + ((globalCtx->view.eye.y + 50.0f) + (viewY * 0.5f)),
                     ((Math_Rand_ZeroOne() - 0.5f) * viewZ) + globalCtx->view.eye.z);
-            attackCucco =
-                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ATTACK_NIW, attackCuccoPos.x,
-                                   attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
+            attackCucco = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ATTACK_NIW,
+                                             attackCuccoPos.x, attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
 
             if (attackCucco != NULL) {
                 this->unk_296++;
@@ -561,7 +560,6 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
         iVar1 = 1;
         Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_2B8, 1.0f, this->unk_2FC);
         Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->unk_2C0, 1.0f, this->unk_2FC);
-        pi = 0x8000 / M_PI;
         Math_SmoothScaleMaxF(&this->unk_2FC, 3.0f, 1.0f, 0.3f);
         fVar2 = this->unk_2B8 - this->actor.posRot.pos.x;
         fVar3 = this->unk_2C0 - this->actor.posRot.pos.z;
@@ -579,6 +577,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
+        pi = 0x8000 / M_PI;
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(fVar2, fVar3) * pi, 3, this->unk_300, 0);
         Math_SmoothScaleMaxF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
@@ -725,7 +724,7 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 0x20) {
         this->actor.gravity = 0.0f;
 
-        if (15.0f < this->actor.waterY > ) {
+        if (this->actor.waterY > 15.0f) {
             this->actor.posRot.pos.y += 2.0f;
         }
 
@@ -815,7 +814,7 @@ void func_80AB714C(EnNiw* this, GlobalContext* globalCtx) {
 
 void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
     EnNiw_SpawnAttackCucco(this, globalCtx);
-    
+
     if (this->timer7 < 2) {
         if (this->timer7 == 1) {
             this->actor.speedXZ = 3.0f;
