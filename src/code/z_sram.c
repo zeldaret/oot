@@ -362,7 +362,7 @@ void Sram_OpenSaveSlot(Sram* sram) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sram/Sram_OpenSaveSlot.s")
 #endif
 
-void Sram_CalcChecksum(u32 unk) {
+void Sram_WriteSaveSlot(u32 unk) {
     u16 off;
     u16 checksum;
     u16 j;

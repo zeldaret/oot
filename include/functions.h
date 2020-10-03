@@ -1391,7 +1391,7 @@ void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z);
 void Sram_InitSaveSlotDefault(void);
 void Sram_InitSaveSlotDebug(void);
 void Sram_OpenSaveSlot(Sram* sram);
-void Sram_CalcChecksum(u32 unk);
+void Sram_WriteSaveSlot(u32 unk);
 void Sram_LoadSaveSlots(FileChooseContext* fileChoose, Sram* sram);
 void Sram_InitSaveSlot(FileChooseContext* fileChoose, Sram* sram);
 void Sram_ClearSaveSlot(FileChooseContext* fileChoose, Sram* sram);
