@@ -952,7 +952,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                         EnElf_SpawnSparkles(this, globalCtx, 16);
                     }
                 } else {
-                    if ((this->timer & 0x1F) == 0) {
+                    if ((this->timer % 32) == 0) {
                         this->unk_2A0 = Math_Rand_ZeroFloat(7.0f) + 3.0f;
                     }
 
