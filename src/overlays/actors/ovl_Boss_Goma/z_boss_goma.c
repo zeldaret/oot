@@ -358,7 +358,7 @@ void BossGoma_SetupDefeated(BossGoma* this, GlobalContext* globalCtx) {
 }
 
 /**
- * The initial action, where Gohma is waiting on the ceiling
+ * Initial action setup, with Gohma waiting on the ceiling for the fight to start.
  */
 void BossGoma_SetupEncounter(BossGoma* this, GlobalContext* globalCtx) {
     f32 fc = SkelAnime_GetFrameCount(&D_06002360.genericHeader);
@@ -383,8 +383,7 @@ void BossGoma_SetupFloorIdle(BossGoma* this) {
 }
 
 /**
- * On the ceiling and not doing anything for 20-30 frames, before spawning gohmas
- * Gohma can be struck down (get shot and fall)
+ * On the ceiling and not doing anything for 20-30 frames, leads to spawning children gohmas
  */
 void BossGoma_SetupCeilingIdle(BossGoma* this) {
     this->framesUntilNextAction = Math_Rand_S16Offset(20, 30);
@@ -394,7 +393,7 @@ void BossGoma_SetupCeilingIdle(BossGoma* this) {
 }
 
 /**
- * Gohma goes back to the floor after the player killed the three gohmas it spawned
+ * When the player killed all children gohmas
  */
 void BossGoma_SetupFallJump(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_06005F28, 1.0f, 0.0f, 0.0f, 2, -5.0f);
@@ -404,6 +403,9 @@ void BossGoma_SetupFallJump(BossGoma* this) {
     this->actor.gravity = -2.0f;
 }
 
+/**
+ * When the player successfully hits Gohma on the ceiling
+ */
 void BossGoma_SetupFallStruckDown(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_060058C0, 1.0f, 0.0f, 0.0f, 2, -5.0f);
     this->actionFunc = BossGoma_FallStruckDown;
@@ -412,9 +414,6 @@ void BossGoma_SetupFallStruckDown(BossGoma* this) {
     this->actor.gravity = -2.0f;
 }
 
-/**
- * Spawn three gohmas, one after the other. Cannot be interrupted
- */
 void BossGoma_SetupCeilingSpawnGohmas(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_060113BC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060113BC.genericHeader),
                          0, -15.0f);
@@ -422,9 +421,6 @@ void BossGoma_SetupCeilingSpawnGohmas(BossGoma* this) {
     this->spawnGohmasActionTimer = 0;
 }
 
-/**
- * Red eye for 70 frames
- */
 void BossGoma_SetupCeilingPrepareSpawnGohmas(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_060029F0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060029F0.genericHeader),
                          0, -10.0f);
@@ -455,8 +451,7 @@ void BossGoma_SetupCeilingMoveToCenter(BossGoma* this) {
 }
 
 /**
- * Gohma approaches the player as long as it has patience (see patienceTimer), then moves away from the player
- * Gohma climbs any wall it collides with
+ * Root action when on the floor, leads to attacking or climbing.
  */
 void BossGoma_SetupFloorMain(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_0601EB4C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0601EB4C.genericHeader),
@@ -466,7 +461,7 @@ void BossGoma_SetupFloorMain(BossGoma* this) {
 }
 
 /**
- * Gohma is back on the floor after the player has killed its children Gohmas.
+ * Gohma jumped to the floor on its own, after the player has killed its children Gohmas.
  */
 void BossGoma_SetupFloorLand(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_06005F28, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06005F28.genericHeader),
@@ -476,8 +471,7 @@ void BossGoma_SetupFloorLand(BossGoma* this) {
 }
 
 /**
- * Gohma is back on the floor after the player struck it down from the ceiling.
- * Gohma ends up stunned (BossGoma_FloorStunned)
+ * Gohma was shot by the player down from the ceiling.
  */
 void BossGoma_SetupFloorLandStruckDown(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_060058C0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060058C0.genericHeader),
@@ -488,7 +482,7 @@ void BossGoma_SetupFloorLandStruckDown(BossGoma* this) {
 }
 
 /**
- * Gohma is stunned and vulnerable. It can only be damaged during this action.
+ * Gohma is vulnerable, from being struck down from the ceiling or on the ground.
  */
 void BossGoma_SetupFloorStunned(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_0600CCD8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600CCD8.genericHeader),
@@ -497,8 +491,7 @@ void BossGoma_SetupFloorStunned(BossGoma* this) {
 }
 
 /**
- * Take an attack posture when the player is close enough.
- * If the player backs off, cancel the attack, or attack.
+ * Take an attack posture, when the player is close enough.
  */
 void BossGoma_SetupFloorAttackPosture(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_0600C468, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C468.genericHeader),
@@ -507,7 +500,7 @@ void BossGoma_SetupFloorAttackPosture(BossGoma* this) {
 }
 
 /**
- * Only lasts 1 frame. Plays a sound.
+ * Leads to BossGoma_FloorAttack after 1 frame
  */
 void BossGoma_SetupFloorPrepareAttack(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_06000AE8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000AE8.genericHeader),
@@ -516,9 +509,6 @@ void BossGoma_SetupFloorPrepareAttack(BossGoma* this) {
     this->framesUntilNextAction = 0;
 }
 
-/**
- * Gohma attacks, then the action eventually goes back to BossGoma_FloorMain
- */
 void BossGoma_SetupFloorAttack(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_06004318, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004318.genericHeader),
                          2, -10.0f);
@@ -529,7 +519,8 @@ void BossGoma_SetupFloorAttack(BossGoma* this) {
 
 /**
  * Plays an animation for Gohma being hit (while stunned)
- * Preserves timers apart from the patience one, and goes back to BossGoma_FloorStunned once the animation finishes
+ * The setup and the action preserve timers apart from the patience one, notably `framesUntilNextAction` which is used
+ * as the stun duration
  */
 void BossGoma_SetupFloorDamaged(BossGoma* this) {
     SkelAnime_ChangeAnim(&this->skelanime, &D_06006E60, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06006E60.genericHeader),
@@ -553,6 +544,12 @@ void BossGoma_UpdateCeilingMovement(BossGoma* this, GlobalContext* globalCtx, f3
     Math_SmoothScaleMaxF(&this->actor.speedXZ, targetSpeedXZ, 0.5f, 2.0f);
 
     if (rotateTowardsCenter) {
+        /*
+        On the ceiling, Gohma has a x rotation of -0x8000 so it is upside down.
+        Since x rotation happens after y rotation that means the y rotation here must be added 0x8000 so that Gohma
+        faces the intended direction, towards center, in the end.
+        This also explains why `targetSpeedXZ` is always negative: the speedXZ only uses the y rotation.
+        */
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &roomCenter) + 0x8000,
                              3, 0x3E8);
     }
@@ -611,6 +608,13 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     Audio_SetBGM(0x100100FF);
 }
 
+/**
+ * Spawns the door once the player entered
+ * Wait for the player to look at Gohma on the ceiling
+ * Handles the "meeting Gohma" cutscene, including boss card
+ * 
+ * Skips the door and look-at-Gohma puzzle if the player already reached the boss card part before
+ */
 void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
     Camera* cam;
     Player* player;
@@ -890,6 +894,10 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Handles the "Gohma defeated" cutscene and effects
+ * Spawns the heart container and blue warp actors
+ */
 void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
     static Vec3f roomCenter = { -150.0f, 0.0f, -350.0f };
     f32 dx;
@@ -1150,6 +1158,9 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * If the player backs off, cancel the attack, or attack.
+ */
 void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 2.0f);
@@ -1167,6 +1178,9 @@ void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx) {
     this->visualState = VISUALSTATE_RED;
 }
 
+/**
+ * Only lasts 1 frame. Plays a sound.
+ */
 void BossGoma_FloorPrepareAttack(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     // timer setup to 0
@@ -1178,6 +1192,9 @@ void BossGoma_FloorPrepareAttack(BossGoma* this, GlobalContext* globalCtx) {
     this->visualState = VISUALSTATE_RED;
 }
 
+/**
+ * Gohma attacks, then the action eventually goes back to BossGoma_FloorMain
+ */
 void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
     s16 i;
 
@@ -1229,6 +1246,9 @@ void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
     this->visualState = VISUALSTATE_RED;
 }
 
+/**
+ * Plays the animation to its end, then goes back to BossGoma_FloorStunned
+ */
 void BossGoma_FloorDamaged(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     if (func_800A56C8(&this->skelanime, SkelAnime_GetFrameCount(&D_06006E60.genericHeader))) {
@@ -1240,6 +1260,11 @@ void BossGoma_FloorDamaged(BossGoma* this, GlobalContext* globalCtx) {
     this->visualState = VISUALSTATE_HIT;
 }
 
+/**
+ * Gohma is back on the floor after the player struck it down from the ceiling.
+ * Sets patience to 0
+ * Gohma is then stunned (BossGoma_FloorStunned)
+ */
 void BossGoma_FloorLandStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     if (func_800A56C8(&this->skelanime, this->currentAnimFrameCount)) {
@@ -1251,6 +1276,10 @@ void BossGoma_FloorLandStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 55.0f, 4, 8.0f, 500, 10, 1);
 }
 
+/**
+ * Gohma is back on the floor after the player has killed its children Gohmas.
+ * Plays an animation then goes to usual floor behavior, with refilled patience.
+ */
 void BossGoma_FloorLand(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     if (func_800A56C8(&this->skelanime, this->currentAnimFrameCount)) {
@@ -1259,6 +1288,9 @@ void BossGoma_FloorLand(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Gohma is stunned and vulnerable. It can only be damaged during this action.
+ */
 void BossGoma_FloorStunned(BossGoma* this, GlobalContext* globalCtx) {
     if (this->sfxFaintTimer <= 90) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_FAINT - 0x800);
@@ -1295,6 +1327,9 @@ void BossGoma_FloorStunned(BossGoma* this, GlobalContext* globalCtx) {
     this->visualState = VISUALSTATE_STUNNED;
 }
 
+/**
+ * Gohma goes back to the floor after the player killed the three gohmas it spawned
+ */
 void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
@@ -1307,6 +1342,9 @@ void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Gohma falls to the floor after the player hit it
+ */
 void BossGoma_FallStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, 0, 2, 0xBB8);
@@ -1320,6 +1358,9 @@ void BossGoma_FallStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Spawn three gohmas, one after the other. Cannot be interrupted
+ */
 void BossGoma_CeilingSpawnGohmas(BossGoma* this, GlobalContext* globalCtx) {
     s16 i;
 
@@ -1370,6 +1411,10 @@ void BossGoma_CeilingSpawnGohmas(BossGoma* this, GlobalContext* globalCtx) {
     this->eyeState = EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES;
 }
 
+/**
+ * Prepare to spawn children gohmas, red eye for 70 frames
+ * During this time, the player can interrupt by hitting Gohma and make it fall from the ceiling
+ */
 void BossGoma_CeilingPrepareSpawnGohmas(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     // timer setup to 70
@@ -1380,6 +1425,9 @@ void BossGoma_CeilingPrepareSpawnGohmas(BossGoma* this, GlobalContext* globalCtx
     this->visualState = VISUALSTATE_RED;
 }
 
+/**
+ * On the floor, not doing anything special.
+ */
 void BossGoma_FloorIdle(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 2.0f);
@@ -1390,6 +1438,11 @@ void BossGoma_FloorIdle(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * On the ceiling, not doing anything special.
+ * Eventually spawns children gohmas, jumping down to the floor when they are killed, or staying on the ceiling as long
+ * as any is still alive.
+ */
 void BossGoma_CeilingIdle(BossGoma* this, GlobalContext* globalCtx) {
     s16 i;
 
@@ -1421,7 +1474,11 @@ void BossGoma_CeilingIdle(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
-// with the "walk cautiously" animation
+/**
+ * Gohma approaches the player as long as it has patience (see patienceTimer), then moves away from the player
+ * Gohma climbs any wall it collides with
+ * Uses the "walk cautiously" animation
+ */
 void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
     s16 rot;
 
@@ -1509,6 +1566,9 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Gohma moves up until it reaches the ceiling
+ */
 void BossGoma_WallClimb(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     if (this->frameCount % 8 == 0) {
@@ -1525,6 +1585,9 @@ void BossGoma_WallClimb(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Goes to BossGoma_CeilingIdle after enough time and after being close enough to the center of the ceiling.
+ */
 void BossGoma_CeilingMoveToCenter(BossGoma* this, GlobalContext* globalCtx) {
     s16 angle;
     s16 absDiff;
@@ -1559,6 +1622,12 @@ void BossGoma_CeilingMoveToCenter(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update eye-related properties
+ *  - open/close (eye lid rotation)
+ *  - look at the player (iris rotation)
+ *  - iris scale, when menacing or damaged
+ */
 void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
     s16 targetEyeIrisRotX;
     s16 targetEyeIrisRotY;
@@ -1613,6 +1682,10 @@ void BossGoma_UpdateEye(BossGoma* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Part of achieving visual effects when spawning children gohmas,
+ * inflating each tail limb one after the other.
+ */
 void BossGoma_UpdateTailLimbsScale(BossGoma* this) {
     s16 i;
 
@@ -1623,6 +1696,7 @@ void BossGoma_UpdateTailLimbsScale(BossGoma* this) {
         }
     }
 
+    // See BossGoma_CeilingSpawnGohmas for `tailLimbsScaleTimers` usage
     for (i = 0; i < ARRAY_COUNT(this->tailLimbsScaleTimers); i++) {
         if (this->tailLimbsScaleTimers[i] != 0) {
             this->tailLimbsScaleTimers[i]--;
