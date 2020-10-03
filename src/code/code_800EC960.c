@@ -92,7 +92,6 @@ extern u8       D_8016B8B2;
 extern u8       D_8016B8B3;
 extern u8       D_8016B8B4;
 extern unk_s1   D_8016B8B8[];
-extern u16      D_8016E9A4;
 extern u8       D_8016B9D8;
 extern u8       D_8016B9F2;
 extern u8       D_8016B9F3;
@@ -1245,11 +1244,11 @@ void func_800F6114(f32 arg0) {
 
             D_80130624 = ((350.0f - phi_f0) * 127.0f) / 350.0f;
             func_800FA240(3, 3, D_80130624, 0xA);
-            if (D_8016E9A4 != 1) {
+            if (D_8016E750[0].unk_254 != 1) {
                 func_800FA240(0, 3, (0x7F - D_80130624), 0xA);
             }
         }
-        if (D_8016E9A4 != 1) {
+        if (D_8016E750[0].unk_254 != 1) {
             func_800F510C(D_80130624);
         }
     }
@@ -1379,7 +1378,7 @@ void func_800F6828(u8 arg0) {
 
     D_80130648 = arg0;
     D_80130640 = arg0;
-    if (D_8016E9A4 == 1) {
+    if (D_8016E750[0].unk_254 == 1) {
         for(i = 0; i < 16; i++){
             t = i;
             func_800E5B20(((t & 0xFF) << 8) | 0x6000000 | 6, arg0);
@@ -1488,7 +1487,7 @@ void func_800F6D58(u8 arg0, u8 arg1, u8 arg2) {
 
     temp_s1 = arg0 & 0xFF;
     temp_s2 = arg1 & 0xFF;
-    if ((D_8016E9A4 != 1) && (func_800FA11C(1, 0xF00000FF) != 0)) {
+    if ((D_8016E750[0].unk_254 != 1) && (func_800FA11C(1, 0xF00000FF) != 0)) {
         D_80131F64 = 1;
         return;
     }

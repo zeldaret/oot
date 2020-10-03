@@ -3235,10 +3235,10 @@ extern s16 gTatumsPerBeat;
 //extern ? D_80154AE8;
 //extern ? D_80154AFC;
 //extern ? D_80154B00;
-//extern ? D_801550D0;
+//extern ? audioBankTable;
 //extern ? D_80155340;
-//extern ? D_80155500;
-//extern ? D_80155BF0;
+//extern ? gSequenceTable;
+//extern ? gAudioTable;
 //extern ? D_80155C70;
 extern u8 D_80155F50[];
 extern u8 D_80157580[];
@@ -3555,8 +3555,7 @@ extern FaultThreadStruct gFaultStruct;
 //extern ? D_8016E320;
 //extern ? D_8016E348;
 //extern ? D_8016E350;
-//extern ? D_8016E750;
-//extern ? D_8016E9A4;
+extern unk_D_8016E750 D_8016E750[4];
 //extern ? D_8016EE8B;
 extern AudioContext gAudioContext; // at 0x8016f180
 extern NotePool gNoteFreeLists; // probably includes this and further members, too

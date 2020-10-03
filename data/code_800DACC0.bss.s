@@ -253,13 +253,10 @@ glabel D_8016E350
     .space 0x400
 
 glabel D_8016E750
-    .space 0x254
+    .space 0x990
 
-glabel D_8016E9A4
-    .space 0x4E7
-
-glabel D_8016EE8B
-    .space 0x2F5
+glabel D_8016F0E0
+    .space 0xA0
 
 glabel gAudioContext
     .space 0x5b98

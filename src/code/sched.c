@@ -250,7 +250,7 @@ void Sched_RunTask(SchedContext* sc, OSScTask* spTask, OSScTask* dpTask) {
         __assert("sc->curRSPTask == NULL", "../sched.c", 663);
     }
     if (spTask != NULL) {
-        if (spTask->list.t.type == 0) {
+        if (spTask->list.t.type == M_NULTASK) {
             if (spTask->flags & OS_SC_NEEDS_RSP) {
                 spTask->state &= ~OS_SC_SP;
                 sc->curRSPTask = NULL;

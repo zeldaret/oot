@@ -1172,7 +1172,7 @@ void func_800E0AD8(UnkHeapEntry* entry) {
     s32 unk3;
     s32 bankId;
 
-    numBanks = *gAudioContext.unk_2834;
+    numBanks = gAudioContext.audioBankTable->header.entryCnt;
     for (bankId = 0; bankId < numBanks; bankId++) {
         unk2 = gAudioContext.gCtlEntries[bankId].unk_02;
         unk3 = gAudioContext.gCtlEntries[bankId].unk_03;
@@ -1227,7 +1227,7 @@ void func_800E0CBC(void) {
     s32 bankId;
     s32 j;
 
-    numBanks = *gAudioContext.unk_2834;
+    numBanks = gAudioContext.audioBankTable->header.entryCnt;
     for (bankId = 0; bankId < numBanks; bankId++) {
         unk2 = gAudioContext.gCtlEntries[bankId].unk_02;
         unk3 = gAudioContext.gCtlEntries[bankId].unk_03;
@@ -1275,8 +1275,8 @@ void func_800E0E90(s32 id) {
 }
 
 void func_800E0EB4(s32 arg0, s32 id) {
-    ManyStruct_800E0E0C_2* manyThing;
-    Struct_800E0E0C_2* thing;
+    AudioTable* audioTable;
+    AudioTableEntry* thing;
     s32 numBanks;
     s32 instId;
     s32 drumId;
@@ -1291,19 +1291,19 @@ void func_800E0EB4(s32 arg0, s32 id) {
     u8** fakematch;
     s32 pad[4];
 
-    manyThing = gAudioContext.unk_2838;
-    numBanks = *gAudioContext.unk_2834;
+    audioTable = gAudioContext.audioTable;
+    numBanks = gAudioContext.audioBankTable->header.entryCnt;
     sp78.unk_0 = func_800DF074(2, 2, id);
     if (sp78.unk_0 == NULL) {
         return;
     }
 
-    thing = &manyThing->unk_C[id];
-    sp78.unk_8 = thing->unk_8;
-    sp78.unk_C = thing->unk_C;
+    thing = &audioTable->entries[id];
+    sp78.unk_8 = thing->size;
+    sp78.unk_C = thing->unk_08;
 
     if ((sp78.unk_C == 2) || (sp78.unk_C == 3)) {
-        sp78.unk_4 = thing->unk_4;
+        sp78.unk_4 = thing->tableOffset;
     } else {
         sp78.unk_4 = NULL;
     }

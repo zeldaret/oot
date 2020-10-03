@@ -152,13 +152,13 @@ glabel func_800E3094
 /* B5A458 800E32B8 0208082B */  sltu  $at, $s0, $t0
 /* B5A45C 800E32BC 1420FFF7 */  bnez  $at, .L800E329C
 /* B5A460 800E32C0 AE022964 */   sw    $v0, 0x2964($s0)
-/* B5A464 800E32C4 3C098015 */  lui   $t1, %hi(D_80155500) # $t1, 0x8015
-/* B5A468 800E32C8 3C0A8015 */  lui   $t2, %hi(D_801550D0) # $t2, 0x8015
-/* B5A46C 800E32CC 3C0B8015 */  lui   $t3, %hi(D_80155BF0) # $t3, 0x8015
+/* B5A464 800E32C4 3C098015 */  lui   $t1, %hi(gSequenceTable) # $t1, 0x8015
+/* B5A468 800E32C8 3C0A8015 */  lui   $t2, %hi(audioBankTable) # $t2, 0x8015
+/* B5A46C 800E32CC 3C0B8015 */  lui   $t3, %hi(gAudioTable) # $t3, 0x8015
 /* B5A470 800E32D0 3C0E8015 */  lui   $t6, %hi(D_80155340) # $t6, 0x8015
-/* B5A474 800E32D4 25295500 */  addiu $t1, %lo(D_80155500) # addiu $t1, $t1, 0x5500
-/* B5A478 800E32D8 254A50D0 */  addiu $t2, %lo(D_801550D0) # addiu $t2, $t2, 0x50d0
-/* B5A47C 800E32DC 256B5BF0 */  addiu $t3, %lo(D_80155BF0) # addiu $t3, $t3, 0x5bf0
+/* B5A474 800E32D4 25295500 */  addiu $t1, %lo(gSequenceTable) # addiu $t1, $t1, 0x5500
+/* B5A478 800E32D8 254A50D0 */  addiu $t2, %lo(audioBankTable) # addiu $t2, $t2, 0x50d0
+/* B5A47C 800E32DC 256B5BF0 */  addiu $t3, %lo(gAudioTable) # addiu $t3, $t3, 0x5bf0
 /* B5A480 800E32E0 25CE5340 */  addiu $t6, %lo(D_80155340) # addiu $t6, $t6, 0x5340
 /* B5A484 800E32E4 AE292830 */  sw    $t1, 0x2830($s1)
 /* B5A488 800E32E8 AE2A2834 */  sw    $t2, 0x2834($s1)

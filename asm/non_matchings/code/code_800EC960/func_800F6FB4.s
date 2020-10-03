@@ -1,7 +1,7 @@
 glabel func_800F6FB4
 /* B6E154 800F6FB4 27BDFFD0 */  addiu $sp, $sp, -0x30
-/* B6E158 800F6FB8 3C028017 */  lui   $v0, %hi(D_8016E9A4) # $v0, 0x8017
-/* B6E15C 800F6FBC 9442E9A4 */  lhu   $v0, %lo(D_8016E9A4)($v0)
+/* B6E158 800F6FB8 3C028017 */  lui   $v0, %hi(D_8016E750) # $v0, 0x8017
+/* B6E15C 800F6FBC 9442E9A4 */  lhu   $v0, %lo(D_8016E750+0x254)($v0)
 /* B6E160 800F6FC0 AFB1001C */  sw    $s1, 0x1c($sp)
 /* B6E164 800F6FC4 AFB00018 */  sw    $s0, 0x18($sp)
 /* B6E168 800F6FC8 3401FFFF */  li    $at, 65535
