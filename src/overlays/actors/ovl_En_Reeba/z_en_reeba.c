@@ -1,6 +1,13 @@
+
+/*
+ * File: z_en_reeba.c
+ * Overlay: ovl_En_Reeba
+ * Description: Leever
+ */
+
 #include "z_en_reeba.h"
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x08000015
 
@@ -459,7 +466,7 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
                         osSyncPrintf("\n\n");
                     }
                 }
-                
+
                 Actor_Kill(&this->actor);
             }
         }
@@ -591,12 +598,8 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
-        if (this->collider.base.at == &player->actor) {
-            if (!this->isBig) {
-                if (this->actionfunc != func_80AE56E0) {
-                    this->actionfunc = func_80AE5688;
-                }
-            }
+        if ((this->collider.base.at == &player->actor) && (!this->isBig) && (this->actionfunc != func_80AE56E0)) {
+            this->actionfunc = func_80AE5688;
         }
     }
 
@@ -610,16 +613,18 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
 
-    if ((this->actor.shape.unk_08 >= -700.0f) && (this->actor.colChkInfo.health > 0)) {
-        if (this->actionfunc != func_80AE56E0) {
-            CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+    if ((this->actor.shape.unk_08 >= -700.0f) && (this->actor.colChkInfo.health > 0) &&
+        (this->actionfunc != func_80AE56E0)) {
 
-            if (!(this->actor.shape.unk_08 < 0.0f)) {
-                CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
 
-                if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
-                    CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-                }
+        if (!(this->actor.shape.unk_08 < 0.0f)) {
+
+            CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+
+            if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
+
+                CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
             }
         }
     }
