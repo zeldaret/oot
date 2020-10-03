@@ -338,7 +338,7 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx) {
                     ((Math_Rand_ZeroOne() - 0.5f) * viewZ) + globalCtx->view.eye.z);
             attackCucco =
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ATTACK_NIW, attackCuccoPos.x,
-                                   attackCuccoPos.y, attackCuccoPos.z, 0x0000, 0x0000, 0x0000, 0x0000);
+                                   attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
 
             if (attackCucco != NULL) {
                 this->unk_296++;
