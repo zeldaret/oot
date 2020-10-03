@@ -10,9 +10,6 @@ void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AB5BF8(EnNiw* this, GlobalContext* globalCtx, s16 arg2);
-void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2);
 void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6324(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx);
@@ -22,15 +19,11 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB6EB4(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB70A0(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB70F8(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB714C(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7204(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7328(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB7420(EnNiw* this, GlobalContext* globalCtx);
-void func_80AB747C(EnNiw* this, GlobalContext* globalCtx);
 void EnNiw_ParticleSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
 void EnNiw_ParticleUpdate(EnNiw* this, GlobalContext* globalCtx);
 void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx);
@@ -49,12 +42,12 @@ const ActorInit En_Niw_InitVars = {
     (ActorFunc)EnNiw_Draw,
 };
 
-f32 D_80AB8604[] = {
+static f32 D_80AB8604[] = {
     5000.0f,
     -5000.0f,
 };
 
-f32 D_80AB860C[] = {
+static f32 D_80AB860C[] = {
     5000.0f,
     3000.0f,
     4000.0f,
@@ -364,6 +357,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
 
     if (this->timer4 == 0) {
         this->timer4 = 3;
+
         if ((this->actor.bgCheckFlags & 1) != 0) {
             this->actor.velocity.y = 3.5f;
         }
@@ -384,6 +378,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
     if (arg2 == 1) {
         if ((this->timer6 == 0) || ((this->actor.bgCheckFlags & 8) != 0)) {
             this->timer6 = 150;
+
             if (this->timer8 == 0) {
                 this->timer8 = 70;
                 this->unk_2E4 = this->actor.yawTowardsLink;
@@ -445,13 +440,11 @@ void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
 void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->actor.xzDistFromLink < 30.0f) {
-        if (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 5.0f) {
-            this->timer6 = 100;
-            this->actor.gravity = -2.0f;
-            this->actionFunc = func_80AB7290;
-            return;
-        }
+    if (this->actor.xzDistFromLink < 30.0f && fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 5.0f) {
+        this->timer6 = 100;
+        this->actor.gravity = -2.0f;
+        this->actionFunc = func_80AB7290;
+        return;
     }
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
