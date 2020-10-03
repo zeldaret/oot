@@ -565,21 +565,11 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionfunc(this, globalCtx2);
     Actor_SetScale(&this->actor, this->scale);
 
-    if (this->unk_270 != 0) {
-        this->unk_270--;
-    }
-    if (this->unk_272 != 0) {
-        this->unk_272--;
-    }
-    if (this->unk_278 != 0) {
-        this->unk_278--;
-    }
-    if (this->unk_274 != 0) {
-        this->unk_274--;
-    }
-    if (this->unk_276 != 0) {
-        this->unk_276--;
-    }
+    DECR(this->unk_270);
+    DECR(this->unk_272);
+    DECR(this->unk_278);
+    DECR(this->unk_274);
+    DECR(this->unk_276);
 
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx2, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
