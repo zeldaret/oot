@@ -875,7 +875,7 @@ void func_80AB7420(EnNiw* this, GlobalContext* globalCtx) {
 void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
     if (this->unk_2A8 == 0 && this->actor.params != 0x000A && this->actionFunc != func_80AB6450 &&
         this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= 0xFFFD;
+        this->collider.base.acFlags &= ~2;
         this->sfxTimer1 = 30;
         if (this->unk_2A4 > 0) {
             if (D_80AB85E0 == 0) {
