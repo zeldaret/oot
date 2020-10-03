@@ -1217,7 +1217,7 @@ void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < 20; i++, particle++) {
+    for (i = 0; i < ARRAY_COUNT(this->particle); i++, particle++) {
         if (particle->type == 1) {
             if (!flag) {
                 gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);
