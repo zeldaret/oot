@@ -16,10 +16,6 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx);
-f32 func_80996840(GlobalContext* globalCtx, DoorShutter* this, f32 arg2, f32 arg3, f32 arg4);
-s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx);
-Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p);
 void func_8099803C(GlobalContext* globalCtx, s16 y, s16 countdown, s16 arg3);
 void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996A54(DoorShutter* this, GlobalContext* globalCtx);
@@ -216,7 +212,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (phi_a3 < 0) {
         ShutterSceneInfo* phi_v1;
 
-        for (phi_v1 = &D_80998240[0], i = 0; i != ARRAY_COUNT(D_80998240) - 1; i++, phi_v1++) {
+        for (phi_v1 = &D_80998240[0], i = 0; i < ARRAY_COUNT(D_80998240) - 1; i++, phi_v1++) {
             if (globalCtx2->sceneNum == phi_v1->sceneNum) {
                 break;
             }
@@ -225,7 +221,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (phi_a3 == 6) {
         BossDoorInfo* phi_v1_2;
 
-        for (phi_v1_2 = &D_80998288[0], i = 0; i != ARRAY_COUNT(D_80998288) - 1; i++, phi_v1_2++) {
+        for (phi_v1_2 = &D_80998288[0], i = 0; i < ARRAY_COUNT(D_80998288) - 1; i++, phi_v1_2++) {
             if (globalCtx2->sceneNum == phi_v1_2->dungeonScene || globalCtx2->sceneNum == phi_v1_2->bossScene) {
                 break;
             }
@@ -271,13 +267,13 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
         this->dyna.actor.objBankIndex = this->requiredObject;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
             // Init dynapoly for shutters of the type that uses it
-            s32 polyId = 0;
+            UNK_TYPE temp = 0;
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             this->unk_16C = D_809980F0[this->unk_16B].index1;
-            DynaPolyInfo_Alloc((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &D_06012FD0, &polyId);
+            DynaPolyInfo_Alloc((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &D_06012FD0, &temp);
             this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, polyId);
+                DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
                 // Set gravity for the block to fall
                 this->dyna.actor.velocity.y = 0.0f;
@@ -506,9 +502,9 @@ void func_80997150(DoorShutter* this, GlobalContext* globalCtx) {
             this->unk_16F--;
         }
     } else if (func_80996E08(this, globalCtx, 0.0f)) {
-        if (this->doorType != SHUTTER && this->doorType != SHUTTER_FRONT_CLEAR) { // not shutter or clear
+        if (!(this->doorType == SHUTTER || this->doorType == SHUTTER_FRONT_CLEAR)) {
             DoorShutter_SetupAction(this, func_80996F98);
-        } else { // shutter or clear
+        } else {
             DoorShutter_SetupAction(this, func_80996B0C);
         }
         func_800F5B58();
@@ -597,8 +593,8 @@ void func_809976B8(DoorShutter* this, GlobalContext* globalCtx) {
     
     if (this->unk_164 != 0) {
         this->unk_164--;
-        mult = sinf((this->unk_164 * 250.0f) / 100.0f);
-        this->dyna.actor.shape.unk_08 = ((this->unk_164 * 3.0f) / 10.0f) * mult;
+        mult = sinf(this->unk_164 * 250.0f / 100.0f);
+        this->dyna.actor.shape.unk_08 = this->unk_164 * 3.0f / 10.0f * mult;
     }
 }
 
@@ -630,9 +626,9 @@ Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p) {
     s32 i;
 
     Matrix_Get(&mtx);
-    for (i = 0; i != ARRAY_COUNT(D_809982B4); i++) {
+    for (i = 0; i < ARRAY_COUNT(D_809982B4); i++) {
         Matrix_RotateZ(angle, MTXMODE_APPLY);
-        if (!(i & 1)) {
+        if (i % 2 == 0) {
             Matrix_Translate(0.0f, 800.0f, 0.0f, MTXMODE_APPLY);
         } else if (i == 1 || i == 7) {
             Matrix_Translate(0.0f, 848.52f, 0.0f, MTXMODE_APPLY);
@@ -662,7 +658,7 @@ s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
     phi_a1 = (s16)(this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y);
     phi_a0 = ABS(phi_a0);
     phi_a1 = ABS(phi_a1);
-    if (!(phi_a1 >= 0x4000 || phi_a0 <= 0x4000) || (phi_a1 >= 0x4001 && phi_a0 < 0x4000)) {
+    if ((phi_a1 < 0x4000 && phi_a0 > 0x4000) || (phi_a1 > 0x4000 && phi_a0 < 0x4000)) {
         return false;
     }
     return true;
