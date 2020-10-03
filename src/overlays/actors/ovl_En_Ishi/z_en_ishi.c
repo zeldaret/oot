@@ -7,7 +7,7 @@
 #include "z_en_ishi.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00800000
 
@@ -297,15 +297,15 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((type == ROCK_LARGE) &&
         Flags_GetSwitch(globalCtx, ((this->actor.params >> 0xA) & 0x3C) | ((this->actor.params >> 6) & 3))) {
         Actor_Kill(&this->actor);
-    } else {
-        func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        this->actor.shape.unk_08 = D_80A7FA20[type];
-        if (!((this->actor.params >> 5) & 1) && !EnIshi_SnapToFloor(this, globalCtx, 0.0f)) {
-            Actor_Kill(&this->actor);
-        } else {
-            EnIshi_SetupWait(this);
-        }
+        return;
     }
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    this->actor.shape.unk_08 = D_80A7FA20[type];
+    if (!((this->actor.params >> 5) & 1) && !EnIshi_SnapToFloor(this, globalCtx, 0.0f)) {
+        Actor_Kill(&this->actor);
+        return;
+    }
+    EnIshi_SetupWait(this);
 }
 
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -409,7 +409,8 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
         return;
-    } else if (this->actor.bgCheckFlags & 0x40) {
+    }
+    if (this->actor.bgCheckFlags & 0x40) {
         contactPos.x = this->actor.posRot.pos.x;
         contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
         contactPos.z = this->actor.posRot.pos.z;
