@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <initvars.h>
+#include "global.h"
+#include "initvars.h"
 
 #define ACTOR_OVERLAY(name, allocType)                                                                  \
     {                                                                                                   \

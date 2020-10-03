@@ -1,30 +1,29 @@
 #ifndef _Z64_H_
 #define _Z64_H_
 
-#include <ultra64.h>
-#include <ultra64/gbi.h>
-#include <ultra64/gs2dex.h>
-#include <ultra64/controller.h>
-#include <z64light.h>
-#include <z64actor.h>
-#include <z64player.h>
-#include <z64audio.h>
-#include <z64object.h>
-#include <z64cutscene.h>
-#include <z64collision_check.h>
-#include <z64scene.h>
-#include <z64effect.h>
-#include <z64item.h>
-#include <z64animation.h>
-#include <z64dma.h>
-#include <z64math.h>
-#include <z64transition.h>
-#include <bgm.h>
-#include <sfx.h>
-#include <color.h>
-#include <ichain.h>
-#include <stdarg.h>
-#include <regs.h>
+#include "ultra64.h"
+#include "ultra64/gs2dex.h"
+#include "z64light.h"
+#include "z64actor.h"
+#include "z64player.h"
+#include "z64audio.h"
+#include "z64object.h"
+#include "z64cutscene.h"
+#include "z64collision_check.h"
+#include "z64scene.h"
+#include "z64effect.h"
+#include "z64item.h"
+#include "z64animation.h"
+#include "z64dma.h"
+#include "z64math.h"
+#include "z64transition.h"
+#include "bgm.h"
+#include "sfx.h"
+#include "color.h"
+#include "ichain.h"
+#include "stdarg.h"
+#include "stdlib.h"
+#include "regs.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -33,6 +32,14 @@
 #define REGION_US 1
 #define REGION_JP 2
 #define REGION_EU 3
+
+#define Z_PRIORITY_MAIN        10
+#define Z_PRIORITY_GRAPH       11
+#define Z_PRIORITY_AUDIOMGR    12
+#define Z_PRIORITY_PADMGR      14
+#define Z_PRIORITY_SCHED       15
+#define Z_PRIORITY_DMAMGR      16
+#define Z_PRIORITY_IRQMGR      17
 
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
@@ -301,36 +308,10 @@ typedef struct GraphicsContext {
 } GraphicsContext; // size = 0x300
 
 typedef struct {
-    PadInput in;
-    union {
-        u16 status;
-        struct {
-            u8 errno;
-            u8 statusLo;
-        };
-    };
-} PadState;
-
-typedef struct
-{
-    /* 0x00 */ PadState cur;
-    /* 0x06 */ PadState prev;
-    /* 0x0C */ PadState press; // X/Y store delta from last frame
-    /* 0x12 */ PadState rel; // X/Y store adjusted
-    /* The old version of this struct is:
-    RawInput raw;
-    u16      status;
-    RawInput rawPrev;
-    u16      statusPrev;
-    u16      padPressed;
-    s8       xDiff;
-    s8       yDiff;
-    char     unk_10[0x02];
-    u16      padReleased;
-    s8       xAdjusted;
-    s8       yAdjusted;
-    char     unk_16[0x02];
-    */
+    /* 0x00 */ OSContPad cur;
+    /* 0x06 */ OSContPad prev;
+    /* 0x0C */ OSContPad press; // X/Y store delta from last frame
+    /* 0x12 */ OSContPad rel; // X/Y store adjusted
 } Input; // size = 0x18
 
 typedef struct {
@@ -1624,16 +1605,16 @@ typedef struct {
     /* 0x0078 */ IrqMgr* irqMgr;
     /* 0x0080 */ OSThread thread;
     /* 0x0230 */ Input inputs[4];
-    /* 0x0290 */ PadState pads[4];
-    /* 0x02A8 */ volatile u8 validCtrlrsMask;
+    /* 0x0290 */ OSContPad pads[4];
+    /* 0x02A8 */ vu8 validCtrlrsMask;
     /* 0x02A9 */ u8 ncontrollers;
     /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
     /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
-    /* 0x02B2 */ volatile u8 rumbleEnable[4];
+    /* 0x02B2 */ vu8 rumbleEnable[4];
     /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
     /* 0x02BC */ OSPfs pfs[4];
-    /* 0x045C */ volatile u8 rumbleOffFrames;
-    /* 0x045D */ volatile u8 rumbleOnFrames;
+    /* 0x045C */ vu8 rumbleOffFrames;
+    /* 0x045D */ vu8 rumbleOnFrames;
     /* 0x045E */ u8 preNMIShutdown;
     /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
     /* 0x0464 */ u32 retraceCallbackValue;

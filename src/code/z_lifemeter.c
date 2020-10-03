@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 extern s16 D_8011FF10[3];
 extern s16 D_8011FF24[3];
