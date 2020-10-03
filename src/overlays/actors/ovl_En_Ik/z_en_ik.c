@@ -21,9 +21,16 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A74714(EnIk* this);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
+void func_80A74AAC(EnIk* this);
+void func_80A74E2C(EnIk* this);
+void func_80A74EBC(EnIk* this, GlobalContext* globalCtx);
+void func_80A7506C(EnIk* this);
+void func_80A7510C(EnIk* this, GlobalContext* globalCtx);
+void func_80A751C8(EnIk* this);
+void func_80A75260(EnIk* this, GlobalContext* globalCtx);
+void func_80A753D0(EnIk* this);
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
 void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
-void func_80A77844(EnIk* this, GlobalContext* globalCtx);
 void func_80A77AEC(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B0C(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B3C(EnIk* this, GlobalContext* globalCtx);
@@ -32,29 +39,8 @@ void func_80A774BC(EnIk* this, GlobalContext* globalCtx);
 void func_80A774F8(EnIk* this, GlobalContext* globalCtx);
 void func_80A77ED0(EnIk* this, GlobalContext* globalCtx);
 void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
-
-void func_80A7510C(EnIk* this, GlobalContext* globalCtx);
-void func_80A745E4(EnIk* this, GlobalContext* globalCtx);
-void func_80A74AAC(EnIk* this);
-void func_80A74E2C(EnIk* this);
-void func_80A74EBC(EnIk* this, GlobalContext* globalCtx);
-void func_80A7506C(EnIk* this);
-void func_80A751C8(EnIk* this);
-void func_80A75260(EnIk* this, GlobalContext* globalCtx);
-void func_80A753D0(EnIk* this);
-void func_80A77148(EnIk* this);
-void func_80A77158(EnIk* this, GlobalContext* globalCtx);
-void func_80A771E4(EnIk* this);
+void func_80A77844(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
-void func_80A7735C(EnIk* this, GlobalContext* globalCtx);
-void func_80A77434(EnIk* this, GlobalContext* globalCtx);
-void func_80A77474(EnIk* this, GlobalContext* globalCtx);
-s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
-s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
-s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 
 extern UNK_TYPE D_02003F80;
 extern AnimationHeader D_0600C114;
@@ -238,6 +224,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+void func_80A745E4(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A745E4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74674.s")
@@ -425,8 +412,10 @@ Gfx* func_80A761B0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
     return displayList;
 }
 
+s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw3.s")
 
+void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw3.s")
 
 void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
@@ -495,10 +484,13 @@ void func_80A770C0(EnIk* this, GlobalContext* globalCtx, s32 actionIdx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77140.s")
 
+void func_80A77148(EnIk* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77148.s")
 
+void func_80A77158(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77158.s")
 
+void func_80A771E4(EnIk* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A771E4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77264.s")
@@ -528,8 +520,10 @@ void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = 0xFF;
 }
 
+void func_80A77434(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77434.s")
 
+void func_80A77474(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77474.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7748C.s")
@@ -538,8 +532,10 @@ void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A774F8.s")
 
+s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw2.s")
 
+void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw2.s")
 
 void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
@@ -619,8 +615,10 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw1.s")
 
+void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw1.s")
 
 void func_80A77ED0(EnIk* this, GlobalContext* globalCtx) {
