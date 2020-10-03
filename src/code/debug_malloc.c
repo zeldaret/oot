@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define LOG_SEVERITY_NOLOG 0
 #define LOG_SEVERITY_ERROR 2

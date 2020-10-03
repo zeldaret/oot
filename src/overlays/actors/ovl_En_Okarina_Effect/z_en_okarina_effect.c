@@ -5,7 +5,7 @@
  */
 
 #include "z_en_okarina_effect.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x02000010
 

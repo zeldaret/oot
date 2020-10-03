@@ -1,8 +1,7 @@
 #ifndef _Z64TRANSITION_H_
 
-#include <ultra64.h>
-#include <ultra64/gbi.h>
-#include <color.h>
+#include "ultra64.h"
+#include "color.h"
 
 typedef struct {
     f32 unk_0;
