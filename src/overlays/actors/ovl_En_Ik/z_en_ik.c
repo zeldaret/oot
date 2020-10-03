@@ -19,6 +19,7 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+Actor* func_80A74674(GlobalContext* globalCtx, EnIk* this);
 void func_80A74714(EnIk* this);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
 void func_80A74AAC(EnIk* this);
@@ -29,6 +30,8 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx);
 void func_80A751C8(EnIk* this);
 void func_80A75260(EnIk* this, GlobalContext* globalCtx);
 void func_80A753D0(EnIk* this);
+void func_80A754A0(EnIk* this);
+void func_80A755F0(EnIk* this);
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
 void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
 void func_80A7748C(EnIk* this, GlobalContext* globalCtx);
@@ -224,8 +227,15 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A745E4(EnIk* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A745E4.s")
+s32 func_80A745E4(EnIk* this, GlobalContext* globalCtx) {
+    if (((this->unk_2FB != 0) || (this->actor.params == 0)) &&
+        (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0) &&
+        (globalCtx->gameplayFrames & 1)) {
+        func_80A755F0(this);
+        return true;
+    }
+    return false;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74674.s")
 
@@ -265,7 +275,71 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74AAC.s")
 
+#ifdef NON_EQUIVALENT
+void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
+    s16 temp_a1;
+    s16 temp_t0;
+    s16 yawDiff;
+    s16 sp30;
+    s16 sp2E;
+    s16 temp_v1_3;
+    s16 phi_t0;
+    s32 phi_a1;
+    s16 phi_a3;
+
+    if (this->unk_2FB == 0) {
+        phi_t0 = 0xAAA;
+        phi_a3 = 0x320;
+        sp30 = 0;
+        sp2E = 0x10;
+    } else {
+        phi_t0 = 0x3FFC;
+        phi_a3 = 0x4B0;
+        sp30 = 2;
+        sp2E = 9;
+    }
+    temp_a1 = this->actor.wallPolyRot - this->actor.shape.rot.y;
+    if ((this->actor.bgCheckFlags & 8) && (ABS(temp_a1) >= 0x4000)) {
+        phi_t0 = (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, phi_a1, 1, phi_a3, 0);
+    } else {
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
+    }
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    if ((phi_t0 >= ABS(yawDiff)) && (this->actor.xzDistFromLink < 100.0f)) {
+        if (ABS(this->actor.yDistFromLink) < 150.0f) {
+            if ((globalCtx->gameplayFrames & 1)) {
+                func_80A74E2C(this);
+            } else {
+                func_80A751C8(this);
+            }
+        }
+    }
+    if (func_80A74674(globalCtx, this) != NULL) {
+        func_80A751C8(this);
+        this->unk_2FC = 1;
+    } else {
+        temp_t0 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        if (ABS(temp_t0) > 0x4000) {
+            this->unk_300--;
+            if (this->unk_300 == 0) {
+                func_80A754A0(this);
+            }
+        } else {
+            this->unk_300 = 0x28;
+        }
+    }
+    func_80A745E4(this, globalCtx);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    temp_v1_3 = this->skelAnime.animCurrentFrame;
+    if ((sp30 == temp_v1_3) || (sp2E == temp_v1_3)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74BA4.s")
+#endif
 
 void func_80A74E2C(EnIk* this) {
     f32 frames = SkelAnime_GetFrameCount(&D_06001C28.genericHeader);
