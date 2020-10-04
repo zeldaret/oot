@@ -1132,8 +1132,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Kaitenkabe"
     include "build/src/overlays/actors/ovl_Bg_Mori_Kaitenkabe/z_bg_mori_kaitenkabe.o"
-    include "build/data/overlays/actors/z_bg_mori_kaitenkabe.data.o"
-    include "build/data/overlays/actors/z_bg_mori_kaitenkabe.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Kaitenkabe/ovl_Bg_Mori_Kaitenkabe_reloc.o"
 endseg
 
 beginseg
