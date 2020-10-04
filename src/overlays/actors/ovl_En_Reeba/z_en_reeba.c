@@ -464,7 +464,7 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
                         }
                         // How many are dead?
                         osSyncPrintf("\n\n");
-                        osSyncPrintf("\x1b[32m☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n\x1b[m", spawner->numLeeversDead);
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n" VT_RST, spawner->numLeeversDead);
                         osSyncPrintf("\n\n");
                     }
                 }
