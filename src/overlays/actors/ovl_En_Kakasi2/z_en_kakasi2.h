@@ -6,7 +6,7 @@
 
 struct EnKakasi2;
 
-typedef void (*EnKakasi2ActionFunc)(struct EnKakasi2*, struct GlobalContext*);
+typedef void (*EnKakasi2ActionFunc)(struct EnKakasi2*, GlobalContext*);
 
 typedef struct EnKakasi2 {
     /* 0x0000 */ Actor actor;
@@ -15,7 +15,6 @@ typedef struct EnKakasi2 {
     /* 0x0194 */ s16 unk_194;
     /* 0x0196 */ s16 saveFlag;
     /* 0x0198 */ s16 unk_198;
-    /* 0x019A */ char unk_19A[0x2];
     /* 0x019C */ Vec3f position;
     /* 0x01A8 */ f32 height;
     /* 0x01AC */ ColliderCylinder collider;

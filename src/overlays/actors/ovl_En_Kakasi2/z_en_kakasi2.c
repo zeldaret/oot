@@ -5,13 +5,13 @@
  */
 
 #include "z_en_kakasi2.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x0A000031
 
 #define THIS ((EnKakasi2*)thisx)
 
-ColliderCylinderInit D_80A909A0 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -20,8 +20,8 @@ ColliderCylinderInit D_80A909A0 = {
 void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx);
-
 void func_80A90948(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80A9062C(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx);
@@ -76,22 +76,22 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n" VT_RST, this->saveFlag);
     osSyncPrintf("\n\n");
 
-    this->actor.colChkInfo.mass = 0xFFU;
+    this->actor.colChkInfo.mass = 0xFF;
     this->height = 60.0f;
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.flags |= 0x400;
     this->unk_198 = this->actor.shape.rot.y;
-    
+
     if (this->saveFlag >= 0 && Flags_GetSwitch(globalCtx, this->saveFlag)) {
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A909A0);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, 0, 0, 0);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
         this->actionFunc = func_80A9062C;
-        return;
+    } else {
+        this->actionFunc = func_80A90264;
+        this->actor.shape.unk_08 = -8000.0f;
     }
-    this->actionFunc = func_80A90264;
-    this->actor.shape.unk_08 = -8000.0f;
 }
 
 void EnKakasi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -110,8 +110,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A909A0);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, 0, 0, 0);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
         func_80080480(globalCtx, this);
         this->actor.flags |= 0x8000001;
 
@@ -122,12 +122,10 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->saveFlag);
         this->actionFunc = func_80A904D8;
-        return;
-    }
-    if ((this->actor.xzDistFromLink < this->position.x) &&
-        (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->position.y) &&
-        ((u16)gSaveContext.eventChkInf[9] & 0x1000) != 0) {
-        
+    } else if ((this->actor.xzDistFromLink < this->position.x) &&
+               (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->position.y) &&
+               ((u16)gSaveContext.eventChkInf[9] & 0x1000) != 0) {
+
         this->unk_194 = 0;
         if (globalCtx->msgCtx.unk_E3EE == 0xB) {
             if (this->saveFlag >= 0) {
@@ -137,8 +135,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3EE = 4;
             this->actor.draw = func_80A90948;
             Collider_InitCylinder(globalCtx, &this->collider);
-            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A909A0);
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, 0, 0, 0);
+            Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
             func_80080480(globalCtx, this);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 
@@ -150,7 +148,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
 void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06000214.genericHeader);
-   
+
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_COME_UP_DEKU_JR);
     this->actionFunc = func_80A90578;
@@ -166,7 +164,7 @@ void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
     }
 
-    this->actor.shape.rot.y += 2048;
+    this->actor.shape.rot.y += 0x800;
     Math_SmoothDownscaleMaxF(&this->actor.shape.unk_08, 0.5f, 500.0f);
 
     if (this->actor.shape.unk_08 > -100.0f) {
@@ -230,6 +228,6 @@ void func_80A90948(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, 0, 0,
-                     &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+                     NULL, &this->actor);
 }
