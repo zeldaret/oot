@@ -231,7 +231,7 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
 void ObjKibako_SetupThrown(ObjKibako* this) {
     this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
     this->actor.velocity.z = Math_Coss(this->actor.posRot.rot.y) * this->actor.speedXZ;
-    this->actor.colChkInfo.mass = 0xF0;
+    this->actor.colChkInfo.mass = 240;
     this->actionFunc = ObjKibako_Thrown;
 }
 
