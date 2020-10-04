@@ -5,6 +5,7 @@
  */
 
 #include "z_demo_sa.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #include "vt.h"
 
@@ -605,7 +606,7 @@ void func_8098F83C(DemoSa* this, GlobalContext* globalCtx) {
 
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600B1A0, &D_0601113C, NULL, NULL, 0);
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, thisPos->x, thisPos->y, thisPos->z,
-                       0, 0, 0, 3);
+                       0, 0, 0, FAIRY_KOKIRI);
     this->action = 16;
     this->drawConfig = 0;
     this->actor.shape.unk_14 = 0;
