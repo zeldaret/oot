@@ -5,7 +5,7 @@
  */
 
 #include "z_en_kakasi3.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x02000009
 
@@ -73,10 +73,9 @@ void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A90E28(EnKakasi3* this) {
-    this->unk_1AE = 0;
     this->unk_1A4 = 0;
     this->skelAnime.animPlaybackSpeed = 0.0f;
-    this->unk_1AA = this->unk_1AE;
+    this->unk_1AA = this->unk_1AE = 0;
 
     Math_SmoothDownscaleMaxF(&this->skelAnime.animCurrentFrame, 0.5f, 1.0f);
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
@@ -138,7 +137,7 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
-        Math_SmoothScaleMaxF(&this->skelAnime.animPlaybackSpeed, this->unk_1B8, 0.1, 0.2);
+        Math_SmoothScaleMaxF(&this->skelAnime.animPlaybackSpeed, this->unk_1B8, 0.1f, 0.2f);
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->unk_1AA, 5, 1000, 0);
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->unk_1AE, 5, 1000, 0);
 
@@ -179,14 +178,14 @@ void func_80A91284(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (LINK_IS_CHILD) {
         this->unk_194 = 0;
-        if (gSaveContext.unk_12C5) {
+        if (gSaveContext.unk_12C5 != 0) {
             this->actor.textId = 0x40A0;
             this->dialogState = 5;
             this->unk_1A8 = 1;
         }
     } else {
         this->unk_194 = 1;
-        if (gSaveContext.unk_12C5) {
+        if (gSaveContext.unk_12C5 != 0) {
             if (this->unk_195) {
                 this->actor.textId = 0x40A2;
             } else {
@@ -206,7 +205,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->camId = -1;
     if (func_8002F194(&this->actor, globalCtx)) {
-        if (this->unk_194 == 0) {
+        if (!this->unk_194) {
             if (this->unk_1A8 == 0) {
                 this->actionFunc = func_80A91284;
             } else {
@@ -223,7 +222,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
         absAngleTowardsLink = ABS(angleTowardsLink);
 
         if (absAngleTowardsLink < 0x4300) {
-            if (this->unk_194 == 0) {
+            if (!this->unk_194) {
 
                 if (player->stateFlags2 & 0x1000000) {
                     this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
@@ -237,10 +236,9 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                 } else if (this->actor.xzDistFromLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
-            } else if ((gSaveContext.unk_12C5 != 0) && (this->unk_195 == 0)) {
+            } else if (gSaveContext.unk_12C5 != 0 && !this->unk_195) {
 
                 if (player->stateFlags2 & 0x1000000) {
-
                     this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
                     globalCtx->msgCtx.msgMode = 0x37;
                     this->dialogState = 5;
@@ -313,7 +311,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE != 0xF) {
         func_80A90EBC(this, globalCtx, 1);
     } else {
-        globalCtx->msgCtx.unk_E3EE = 4U;
+        globalCtx->msgCtx.unk_E3EE = 4;
         func_80106CCC(globalCtx);
         func_800803F0(globalCtx, this->camId);
         this->actionFunc = func_80A911F0;
@@ -370,7 +368,7 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, NULL, 8);
 
     if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
-        if (this->unk_195 != 0) {
+        if (this->unk_195) {
             if (!(gSaveContext.eventChkInf[9] & 0x1000)) {
                 gSaveContext.eventChkInf[9] |= 0x1000;
             }

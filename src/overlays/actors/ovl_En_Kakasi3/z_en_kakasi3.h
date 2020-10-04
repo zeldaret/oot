@@ -29,8 +29,6 @@ typedef struct EnKakasi3 {
     /* 0x01B8 */ f32 unk_1B8;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ s16 camId;
-    /* 0x020A */ char unk_20A[2];
-
 } EnKakasi3; // size = 0x020C
 
 extern const ActorInit En_Kakasi3_InitVars;
