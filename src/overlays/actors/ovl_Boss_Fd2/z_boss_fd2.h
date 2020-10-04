@@ -1,8 +1,8 @@
 #ifndef _Z_BOSS_FD2_H_
 #define _Z_BOSS_FD2_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BossFd2;
 
