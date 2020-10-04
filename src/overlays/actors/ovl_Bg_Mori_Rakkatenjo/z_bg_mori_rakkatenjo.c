@@ -149,7 +149,7 @@ void BgMoriRakkatenjo_SetupFall(BgMoriRakkatenjo* this) {
 
 void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
     static f32 bounceVel[] = { 4.0f, 1.5f, 0.4f, 0.1f };
-    s32 temp;
+    s32 pad;
     Actor* thisx = &this->dyna.actor;
     s32 quake;
 
@@ -168,7 +168,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
             thisx->velocity.y = bounceVel[this->bounceCount];
             this->bounceCount++;
             quake = Quake_Add(ACTIVE_CAM, 3);
-            Quake_SetSpeed(quake, -0x3CB0);
+            Quake_SetSpeed(quake, 50000);
             Quake_SetQuakeValues(quake, 5, 0, 0, 0);
             Quake_SetCountdown(quake, 5);
         }
