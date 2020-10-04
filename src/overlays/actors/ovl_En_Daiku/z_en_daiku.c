@@ -1,5 +1,5 @@
 #include "z_en_daiku.h"
-#include "../ovl_En_GeldB/z_en_geldb.h"
+#include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 
 #define FLAGS 0x00000019
 
@@ -13,11 +13,11 @@ typedef struct {
 } EnDaikuAnimation;
 
 typedef enum {
-    ENDAIKU_ANIM_SHOUT,
-    ENDAIKU_ANIM_STAND,
-    ENDAIKU_ANIM_CELEBRATE,
-    ENDAIKU_ANIM_RUN,
-    ENDAIKU_ANIM_SIT
+    /* 0 */ ENDAIKU_ANIM_SHOUT,
+    /* 1 */ ENDAIKU_ANIM_STAND,
+    /* 2 */ ENDAIKU_ANIM_CELEBRATE,
+    /* 3 */ ENDAIKU_ANIM_RUN,
+    /* 4 */ ENDAIKU_ANIM_SIT
 } EnDaikuAnimationIdx;
 
 typedef struct {
@@ -25,14 +25,22 @@ typedef struct {
     s32 maxFramesActive;
 } EnDaikuEscapeSubCamParam;
 
-typedef enum {
-    ENDAIKU_STATEFLAG_1 = 1 << 1, // probably related to animating torso and head to look towards the player
-    ENDAIKU_STATEFLAG_2 = 1 << 2, // same
-    ENDAIKU_STATEFLAG_GERUDOFIGHTING = 1 << 3, // the gerudo guard appeared (after talking to the carpenter)
-    ENDAIKU_STATEFLAG_GERUDODEFEATED = 1 << 4  // the gerudo guard was defeated
-} EnDaikuStateFlags;
+// state flags
 
-typedef enum { ENDAIKU_STATE_CAN_TALK, ENDAIKU_STATE_TALKING = 2, ENDAIKU_STATE_NO_TALK } EnDaikuTalkState;
+// probably related to animating torso and head to look towards the player
+#define ENDAIKU_STATEFLAG_1 (1 << 1)
+// same
+#define ENDAIKU_STATEFLAG_2 (1 << 2)
+// the gerudo guard appeared (after talking to the carpenter)
+#define ENDAIKU_STATEFLAG_GERUDOFIGHTING (1 << 3)
+// the gerudo guard was defeated
+#define ENDAIKU_STATEFLAG_GERUDODEFEATED (1 << 4)
+
+typedef enum {
+    /* 0 */ ENDAIKU_STATE_CAN_TALK,
+    /* 2 */ ENDAIKU_STATE_TALKING = 2,
+    /* 3 */ ENDAIKU_STATE_NO_TALK
+} EnDaikuTalkState;
 
 void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDaiku_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -588,7 +596,7 @@ s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Ve
 }
 
 void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    static Gfx* hair[] = { 0x06005BD0, 0x06005AC0, 0x06005990, 0x06005880 };
+    static Gfx* hairDLists[] = { 0x06005BD0, 0x06005AC0, 0x06005990, 0x06005880 };
     static Vec3f targetPosHeadLocal = { 700, 1100, 0 };
     EnDaiku* this = THIS;
 
@@ -596,7 +604,7 @@ void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s
 
     if (limb == 15) { // head
         Matrix_MultVec3f(&targetPosHeadLocal, &this->actor.posRot2.pos);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, hair[this->actor.params & 3]);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, hairDLists[this->actor.params & 3]);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1330);
