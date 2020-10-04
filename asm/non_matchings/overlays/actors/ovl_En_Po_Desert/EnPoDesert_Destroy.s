@@ -7,7 +7,7 @@ glabel EnPoDesert_Destroy
 /* 00180 80AD2E30 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00184 80AD2E34 8DC60224 */  lw      $a2, 0x0224($t6)           ## 00000224
 /* 00188 80AD2E38 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 0018C 80AD2E3C 0C01E9F1 */  jal     Lights_Remove
+/* 0018C 80AD2E3C 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00190 80AD2E40 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00194 80AD2E44 8FA50018 */  lw      $a1, 0x0018($sp)           

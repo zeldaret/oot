@@ -82,20 +82,6 @@ void func_80AE73D8(EnRl* this, GlobalContext* globalCtx) {
     }
 }
 
-EnRlActionFunc sActionFuncs[] = { func_80AE7798, func_80AE77B8, func_80AE77F8, func_80AE7838,
-                                  func_80AE7C64, func_80AE7C94, func_80AE7CE8, func_80AE7D40 };
-EnRlDrawFunc sDrawFuncs[] = { func_80AE7FD0, func_80AE7FDC, func_80AE7D94 };
-
-const ActorInit En_Rl_InitVars = { ACTOR_EN_RL,
-                                   ACTORTYPE_NPC,
-                                   FLAGS,
-                                   OBJECT_RL,
-                                   sizeof(EnRl),
-                                   (ActorFunc)EnRl_Init,
-                                   (ActorFunc)EnRl_Destroy,
-                                   (ActorFunc)EnRl_Update,
-                                   (ActorFunc)EnRl_Draw };
-
 void func_80AE744C(EnRl* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
@@ -139,7 +125,8 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
     s16 sceneNum = globalCtx->sceneNum;
 
     if (gSaveContext.sceneSetupIndex == 4 && sceneNum == SCENE_KENJYANOMA && globalCtx->csCtx.state != 0 &&
-        globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 && !this->lightMedallionGiven) {
+        globalCtx->csCtx.npcActions[6] != NULL && globalCtx->csCtx.npcActions[6]->action == 2 &&
+        !this->lightMedallionGiven) {
         player = PLAYER;
         pos.x = player->actor.posRot.pos.x;
         pos.y = player->actor.posRot.pos.y + 80.0f;
@@ -152,13 +139,10 @@ void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
 
 void func_80AE7668(EnRl* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 temp;
 
     this->drawConfig = 1;
     this->action = 1;
-    temp = this->actor.posRot.rot.y + 0x8000;
-    player->actor.shape.rot.y = temp;
-    player->actor.posRot.rot.y = temp;
+    player->actor.posRot.rot.y = player->actor.shape.rot.y = this->actor.posRot.rot.y + 0x8000;
 }
 
 void func_80AE7698(EnRl* this, GlobalContext* globalCtx) {
@@ -338,6 +322,11 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 331);
 }
 
+EnRlActionFunc sActionFuncs[] = {
+    func_80AE7798, func_80AE77B8, func_80AE77F8, func_80AE7838,
+    func_80AE7C64, func_80AE7C94, func_80AE7CE8, func_80AE7D40,
+};
+
 void EnRl_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRl* this = THIS;
 
@@ -381,6 +370,12 @@ void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 437);
 }
 
+EnRlDrawFunc sDrawFuncs[] = {
+    func_80AE7FD0,
+    func_80AE7FDC,
+    func_80AE7D94,
+};
+
 void EnRl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRl* this = THIS;
 
@@ -390,3 +385,15 @@ void EnRl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     sDrawFuncs[this->drawConfig](this, globalCtx);
 }
+
+const ActorInit En_Rl_InitVars = {
+    ACTOR_EN_RL,
+    ACTORTYPE_NPC,
+    FLAGS,
+    OBJECT_RL,
+    sizeof(EnRl),
+    (ActorFunc)EnRl_Init,
+    (ActorFunc)EnRl_Destroy,
+    (ActorFunc)EnRl_Update,
+    (ActorFunc)EnRl_Draw,
+};

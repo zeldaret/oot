@@ -5,6 +5,7 @@
  */
 
 #include "z_en_nutsball.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000010
 
@@ -90,14 +91,15 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         (this->collider.base.acFlags & 2) || (this->collider.base.maskA & 2)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
-        if ((player->currentShield == 1) || ((player->currentShield == 2) && LINK_IS_ADULT)) {
+        if ((player->currentShield == PLAYER_SHIELD_DEKU) ||
+            ((player->currentShield == PLAYER_SHIELD_HYLIAN) && LINK_IS_ADULT)) {
             if ((this->collider.base.atFlags & 2) && (this->collider.base.atFlags & 0x10) &&
                 (this->collider.base.atFlags & 4)) {
                 this->collider.base.atFlags &= ~0x16;
                 this->collider.base.atFlags |= 0x08;
 
                 this->collider.body.toucher.flags = 2;
-                func_800D20CC(&player->mf_A20, &sp4C, 0);
+                func_800D20CC(&player->shieldMf, &sp4C, 0);
                 this->actor.posRot.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;
                 return;
@@ -108,7 +110,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         sp40.y = this->actor.posRot.pos.y + 4;
         sp40.z = this->actor.posRot.pos.z;
 
-        func_800297A4(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, -1, 10, 0);
+        EffectSsHahen_SpawnBurst(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
     } else {
