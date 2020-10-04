@@ -46,33 +46,33 @@ const ActorInit En_Kakasi2_InitVars = {
 void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = THIS;
     s32 pad;
-    f32 temp0;
-    f32 temp1;
+    f32 spawnRangeY;
+    f32 spawnRangeXZ;
 
     osSyncPrintf("\n\n");
     // Visit Umeda
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
 
     this->switchFlag = this->actor.params & 0x3F;
-    temp0 = (this->actor.params >> 6) & 0xFF;
-    temp1 = this->actor.posRot.rot.z;
+    spawnRangeY = (this->actor.params >> 6) & 0xFF;
+    spawnRangeXZ = this->actor.posRot.rot.z;
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
     this->actor.unk_1F = 4;
-    this->distance.x = (temp0 * 40.0f) + 40.0f;
-    this->distance.y = (temp1 * 40.0f) + 40.0f;
+    this->maxSpawnDistance.x = (spawnRangeY * 40.0f) + 40.0f;
+    this->maxSpawnDistance.y = (spawnRangeXZ * 40.0f) + 40.0f;
 
     // Former? (Argument 0)
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n" VT_RST, temp0);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n" VT_RST, spawnRangeY);
     // Former? (Z angle)
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n" VT_RST, temp1);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n" VT_RST, spawnRangeXZ);
     // Correction coordinates X
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n" VT_RST, this->distance.x);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
     // Correction coordinates Y
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n" VT_RST, this->distance.y);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.y);
     // Correction coordinates Z
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n" VT_RST, this->distance.z);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.z);
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
     osSyncPrintf("\n\n");
 
@@ -106,8 +106,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
     this->unk_194++;
 
-    if ((BREG(1) != 0) && (this->actor.xzDistFromLink < this->distance.x) &&
-        (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->distance.y)) {
+    if ((BREG(1) != 0) && (this->actor.xzDistFromLink < this->maxSpawnDistance.x) &&
+        (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y)) {
 
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
@@ -123,8 +123,8 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
 
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         this->actionFunc = func_80A904D8;
-    } else if ((this->actor.xzDistFromLink < this->distance.x) &&
-               (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->distance.y) &&
+    } else if ((this->actor.xzDistFromLink < this->maxSpawnDistance.x) &&
+               (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y) &&
                (gSaveContext.eventChkInf[9] & 0x1000)) {
 
         this->unk_194 = 0;
@@ -206,12 +206,12 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         if (BREG(5) != 0) {
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistFromLink);
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->distance.x);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
             osSyncPrintf("\n\n");
         }
         if (this->actor.draw == NULL) {
             if (this->unk_194 != 0) {
-                if (!(this->unk_194 & 1)) {
+                if ((this->unk_194 % 2) == 0) {
                     DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                            this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
                                            1.0f, 1.0f, 1.0f, 70, 70, 70, 255, 4, globalCtx2->state.gfxCtx);
