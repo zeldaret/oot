@@ -13,7 +13,7 @@
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_808A5D60(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgMoriRakkatenjo_SetupWaitForMoriTex(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_WaitForMoriTex(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
@@ -54,7 +54,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriRakkatenjo* this = THIS;
     ColHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
+    DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
     // Forest Temple obj. Falling Ceiling
     osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.initPosRot.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.initPosRot.pos.x) > 0.001f) ||
@@ -89,13 +89,13 @@ void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-s32 BgMoriRakkatenjo_LinkUnder(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
+s32 BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
     Vec3f* pos = &PLAYER->actor.posRot.pos;
 
     return (-3300.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
 
-s32 BgMoriRakkatenjo_LinkClose(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
+s32 BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
     Vec3f* pos = &PLAYER->actor.posRot.pos;
 
     return (-3360.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
@@ -108,7 +108,7 @@ void BgMoriRakkatenjo_SetupWaitForMoriTex(BgMoriRakkatenjo* this) {
 void BgMoriRakkatenjo_WaitForMoriTex(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         BgMoriRakkatenjo_SetupWait(this);
-        this->dyna.actor.draw = func_808A5D60;
+        this->dyna.actor.draw = BgMoriRakkatenjo_Draw;
     }
 }
 
@@ -120,7 +120,7 @@ void BgMoriRakkatenjo_SetupWait(BgMoriRakkatenjo* this) {
 
 void BgMoriRakkatenjo_Wait(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
     if (this->fallCount == 0) {
-        if (BgMoriRakkatenjo_LinkClose(this, globalCtx) || (this->timer < 20)) {
+        if (BgMoriRakkatenjo_IsLinkClose(this, globalCtx) || (this->timer < 20)) {
             if (this->timer <= 0) {
                 BgMoriRakkatenjo_SetupFall(this);
             }
@@ -128,7 +128,7 @@ void BgMoriRakkatenjo_Wait(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
             this->timer = 21;
         }
     } else {
-        if (BgMoriRakkatenjo_LinkUnder(this, globalCtx) || (this->timer < 20)) {
+        if (BgMoriRakkatenjo_IsLinkUnder(this, globalCtx) || (this->timer < 20)) {
             if (this->timer <= 0) {
                 BgMoriRakkatenjo_SetupFall(this);
             }
@@ -208,7 +208,7 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
     this->actionFunc(this, globalCtx);
-    if (BgMoriRakkatenjo_LinkUnder(this, globalCtx)) {
+    if (BgMoriRakkatenjo_IsLinkUnder(this, globalCtx)) {
         if (sCamSetting == 0) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = globalCtx->cameraPtrs[0]->setting;
@@ -222,7 +222,7 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_808A5D60(Actor* thisx, GlobalContext* globalCtx) {
+void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriRakkatenjo* this = THIS;
 

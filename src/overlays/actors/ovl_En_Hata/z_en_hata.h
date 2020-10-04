@@ -1,8 +1,8 @@
 #ifndef _Z_EN_HATA_H_
 #define _Z_EN_HATA_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
     /* 0x0000 */ DynaPolyActor dyna;
