@@ -654,7 +654,7 @@ void DynaPolyInfo_Alloc(UNK_PTR arg0, UNK_PTR arg1);
 // ? func_80041B80(?);
 struct_80041C10_ret* func_80041C10(CollisionContext* colCtx, s32, s32);
 // ? func_80041C98(?);
-// ? func_80041D4C(?);
+UNK_TYPE func_80041D4C(CollisionContext*, CollisionPoly*, CollisionPoly*);
 // ? func_80041D94(?);
 // ? func_80041DB8(?);
 // ? func_80041EC8(?);
