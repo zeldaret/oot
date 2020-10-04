@@ -5,7 +5,7 @@
  */
 
 #include "z_obj_syokudai.h"
-#include "../ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x00000410
 
@@ -168,7 +168,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     }
                 } else if (toucherFlags & 0x20) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
-                    if (arrow->actor.update && (arrow->actor.id == ACTOR_EN_ARROW)) {
+                    if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
                         arrow->unk_1A8 = 0x800;
                     }
@@ -269,7 +269,7 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(
-            (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
+            (s16)(func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) *
                 (M_PI / 0x8000),
             MTXMODE_APPLY);
         Matrix_Scale(flameScale, flameScale, flameScale, MTXMODE_APPLY);
