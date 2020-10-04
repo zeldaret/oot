@@ -46,27 +46,27 @@ const ActorInit En_Kakasi2_InitVars = {
 void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = THIS;
     s32 pad;
-    f32 argument0;
-    f32 zAngle;
+    f32 temp0;
+    f32 temp1;
 
     osSyncPrintf("\n\n");
     // Visit Umeda
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
 
     this->switchFlag = this->actor.params & 0x3F;
-    argument0 = (this->actor.params >> 6) & 0xFF;
-    zAngle = this->actor.posRot.rot.z;
+    temp0 = (this->actor.params >> 6) & 0xFF;
+    temp1 = this->actor.posRot.rot.z;
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
     this->actor.unk_1F = 4;
-    this->distance.x = (argument0 * 40.0f) + 40.0f;
-    this->distance.y = (zAngle * 40.0f) + 40.0f;
+    this->distance.x = (temp0 * 40.0f) + 40.0f;
+    this->distance.y = (temp1 * 40.0f) + 40.0f;
 
     // Former? (Argument 0)
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n" VT_RST, argument0);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n" VT_RST, temp0);
     // Former? (Z angle)
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n" VT_RST, zAngle);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n" VT_RST, temp1);
     // Correction coordinates X
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n" VT_RST, this->distance.x);
     // Correction coordinates Y
