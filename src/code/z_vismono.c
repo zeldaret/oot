@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 // (Note: 80 = SCREEN_HEIGHT/3, see VisMono_DrawTexture)
 // Did the devs forget to update this? 1+1+1+80*(7+2+2+3)+1+1 makes more sense

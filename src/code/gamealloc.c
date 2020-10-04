@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void GameAlloc_Log(GameAlloc* this) {
     GameAllocEntry* iter;

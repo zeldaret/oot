@@ -1,8 +1,8 @@
 #ifndef _Z_BG_SPOT16_DOUGHNUT_H_
 #define _Z_BG_SPOT16_DOUGHNUT_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgSpot16Doughnut;
 
