@@ -5,8 +5,7 @@
  */
 
 #include "z_bg_gnd_soulmeiro.h"
-#include <macros.h>
-#include <ultra64/gbi.h>
+#include "global.h"
 
 #define FLAGS 0x00000000
 
@@ -15,7 +14,7 @@
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgGndSoulmeiro_Draw(BgGndSoulmeiro* this, GlobalContext* globalCtx);
+void BgGndSoulmeiro_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx);
@@ -47,7 +46,7 @@ InitChainEntry D_8087B55C[] = {
 };
 
 s32 D_8087B56C[] = { 0x00000000, 0x00000000, 0x00000000 };
-Gfx* D_8087B578[] = { 0x06007C00, 0x06002320, 0x060035A0, 0x00000000, 0x00000000, 0x00000000 };
+Gfx* D_8087B578[] = { 0x06007C00, 0x06002320, 0x060035A0 };
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Soulmeiro/BgGndSoulmeiro_Init.s")
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -230,31 +229,29 @@ void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Soulmeiro/BgGndSoulmeiro_Draw.s")
-void BgGndSoulmeiro_Draw(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
+void BgGndSoulmeiro_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 params = thisx->params & 0xFF;
+    // BgGndSoulmeiro* this = THIS;
 
-    switch (this->actor.params) {
+    if (1) {}
+
+    switch (params) {
         case 0:
-            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 398);
+            OPEN_DISPS(globalCtx->state.gfxCtx,  "../z_bg_gnd_soulmeiro.c", 398);
 
             func_80093D84(globalCtx->state.gfxCtx);
-            gSPMatrix(globalCtx->state.gfxCtx->polyXlu.p++,
-                      Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 0x190),
+            gSPMatrix(oGfxCtx->polyXlu.p++,
+                      Matrix_NewMtx(globalCtx->state.gfxCtx,  "../z_bg_gnd_soulmeiro.c", 0x190),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(globalCtx->state.gfxCtx->polyXlu.p++, D_8087B578[this->actor.params]);
-            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 403);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_8087B578[params]);
+            CLOSE_DISPS(globalCtx->state.gfxCtx,  "../z_bg_gnd_soulmeiro.c", 403);
             break;
         case 1:
-            Gfx_DrawDListXlu(globalCtx, D_8087B578[this->actor.params]);
+            Gfx_DrawDListXlu(globalCtx, D_8087B578[params]);
             break;
         case 2:
-            Gfx_DrawDListOpa(globalCtx, D_8087B578[this->actor.params]);
+            Gfx_DrawDListOpa(globalCtx, D_8087B578[params]);
             break;
     }
-    // if (temp_t0 == 0) {}
-    // if (temp_t0 == 1) {}
-    // if (temp_t0 != 2) {
-    //     return;
-    // }
 }
