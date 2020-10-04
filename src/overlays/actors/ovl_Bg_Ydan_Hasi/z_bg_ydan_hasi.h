@@ -1,8 +1,8 @@
 #ifndef _Z_BG_YDAN_HASI_H_
 #define _Z_BG_YDAN_HASI_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgYdanHasi;
 

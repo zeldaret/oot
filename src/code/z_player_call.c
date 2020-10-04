@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define FLAGS 0x06000035
 

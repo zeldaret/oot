@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u8 D_8012D200[] = {
     0, 1, 2, 3, 4, 5, 6,

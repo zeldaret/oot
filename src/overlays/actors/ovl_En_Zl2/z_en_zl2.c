@@ -5,7 +5,7 @@
  */
 
 #include "z_en_zl2.h"
-#include <vt.h>
+#include "vt.h"
 
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
