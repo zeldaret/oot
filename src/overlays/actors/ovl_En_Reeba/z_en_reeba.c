@@ -219,17 +219,22 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
 
     if ((surfaceType != 4) && (surfaceType != 7)) {
-        this->actionfunc = func_80AE5688;
         this->actor.speedXZ = 0.0f;
-    } else {
-        if ((this->unk_272 == 0) || (this->actor.xzDistFromLink < 30.0f) || (this->actor.xzDistFromLink > 400.0f) ||
-            (this->actor.bgCheckFlags & 8)) {
-            this->actionfunc = func_80AE5688;
-        } else if (this->unk_274 == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
-            this->unk_274 = 10;
-        }
+        this->actionfunc = func_80AE5688;
+        return;
     }
+
+    if ((this->unk_272 == 0) || (this->actor.xzDistFromLink < 30.0f) || (this->actor.xzDistFromLink > 400.0f) ||
+        (this->actor.bgCheckFlags & 8)) {
+        this->actionfunc = func_80AE5688;
+        return;
+    }
+    
+    if (this->unk_274 == 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
+        this->unk_274 = 10;
+    }
+
 }
 
 void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
