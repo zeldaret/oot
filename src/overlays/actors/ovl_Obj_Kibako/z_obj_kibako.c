@@ -129,8 +129,9 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         } else {
             phi_s0 = 0x20;
         }
-        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -200, phi_s0, 10, 10, 0, (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0,
-                      32, 60, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
+        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -200, phi_s0, 10, 10, 0,
+                             (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
     func_80033480(globalCtx, &this->actor.posRot.pos, 40.0f, 3, 50, 140, 1);
 }
@@ -163,8 +164,9 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
         spC8.z += pos->z;
         temp_rand = Math_Rand_ZeroOne();
         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
-        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -180, phi_s0, 30, 30, 0, (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0,
-                      32, 70, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
+        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -180, phi_s0, 30, 30, 0,
+                             (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 70, KAKERA_COLOR_NONE,
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
 }
 
