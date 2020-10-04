@@ -13,7 +13,6 @@ typedef struct EnKakasi {
     /* 0x014C */ EnKakasiFunc actionFunc;
     /* 0x0150 */ SkelAnime skelanime;
     /* 0x0194 */ u8 unk_194;
-    /* 0x0195 */ char unk_195;
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;

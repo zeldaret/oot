@@ -193,9 +193,9 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     this->camId = -1;
     if (func_8002F194(&this->actor, globalCtx)) {
         if (this->unk_196 == 5) {
-            this->actionFunc = &func_80A8F9C8;
+            this->actionFunc = func_80A8F9C8;
         } else {
-            this->actionFunc = &func_80A8F660;
+            this->actionFunc = func_80A8F660;
         }
         return;
     }
@@ -213,7 +213,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
                     this->unk_19A = 0;
                     this->unk_1B8 = 0.0;
                     player->stateFlags2 |= 0x800000;
-                    this->actionFunc = &func_80A8F8D0;
+                    this->actionFunc = func_80A8F8D0;
                     return;
                 }
                 if (this->actor.xzDistFromLink < 80.0f) {
@@ -302,7 +302,7 @@ void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
             func_80106CCC(globalCtx);
             func_8002DF54(globalCtx, NULL, 7);
-            this->actionFunc = &func_80A8F660;
+            this->actionFunc = func_80A8F660;
         }
     }
 }
