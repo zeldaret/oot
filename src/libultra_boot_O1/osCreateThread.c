@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSThread* __osThreadTail[2] = { NULL, (OSThread*)-1 };
 OSThread* __osRunQueue = __osThreadTail;

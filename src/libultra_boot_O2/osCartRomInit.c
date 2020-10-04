@@ -1,5 +1,4 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
 OSPiHandle __CartRomHandle;
 

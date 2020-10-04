@@ -1,8 +1,8 @@
 #ifndef _Z_EN_DY_EXTRA_H_
 #define _Z_EN_DY_EXTRA_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnDyExtra;
 
