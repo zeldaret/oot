@@ -335,8 +335,8 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
                               255, 255, 255, 0);
     this->lightNodeNoGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
 
-    this->flags = 0;
-    this->dissapearTimer = 600;
+    this->fairyFlags = 0;
+    this->disapearTimer = 600;
     this->unk_2A4 = 0.0f;
     colorConfig = 0;
 
@@ -345,7 +345,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             thisx->room = -1;
             EnElf_SetupAction(this, func_80A03CF8);
             func_80A01C38(this, 0);
-            this->flags |= 4;
+            this->fairyFlags |= 4;
             thisx->update = func_80A053F0;
             this->elfMsg = NULL;
             this->unk_2C7 = 0x14;
@@ -375,10 +375,10 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2B4 = 7.0f;
             break;
         case FAIRY_HEAL_BIG:
-            this->flags |= FAIRY_FLAG_BIG;
+            this->fairyFlags |= FAIRY_FLAG_BIG;
             thisx->shape.shadowDrawFunc = ActorShadow_DrawFunc_WhiteCircle;
         case FAIRY_HEAL_TIMED:
-            this->flags |= FAIRY_FLAG_TIMED;
+            this->fairyFlags |= FAIRY_FLAG_TIMED;
         case FAIRY_HEAL:
             colorConfig = -1;
             EnElf_SetupAction(this, func_80A0329C);
@@ -390,7 +390,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->func_2C8 = func_80A0214C;
             func_80A0232C(this, globalCtx);
             this->unk_2C0 = 0;
-            this->dissapearTimer = 240;
+            this->disapearTimer = 240;
             break;
         case FAIRY_KOKIRI:
             colorConfig = Math_Rand_ZeroFloat(11.99f) + 1.0f;
@@ -429,8 +429,8 @@ void func_80A0299C(EnElf* this, s32 arg1) {
 }
 
 void func_80A029A8(EnElf* this, s16 increment) {
-    if (this->dissapearTimer < 600) {
-        this->dissapearTimer += increment;
+    if (this->disapearTimer < 600) {
+        this->disapearTimer += increment;
     }
 }
 
@@ -636,7 +636,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         if ((heightDiff > 0.0f) && (heightDiff < 60.0f)) {
             if (!func_80A01F90(&this->actor.posRot.pos, &refActor->actor.posRot.pos, 10.0f)) {
                 Health_ChangeBy(globalCtx, 128);
-                if ((this->flags & FAIRY_FLAG_BIG)) {
+                if ((this->fairyFlags & FAIRY_FLAG_BIG)) {
                     Magic_Fill(globalCtx);
                 }
                 this->unk_2B8 = 50.0f;
@@ -650,14 +650,14 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (this->flags & FAIRY_FLAG_TIMED) {
-            if (this->dissapearTimer > 0) {
-                this->dissapearTimer--;
+        if (this->fairyFlags & FAIRY_FLAG_TIMED) {
+            if (this->disapearTimer > 0) {
+                this->disapearTimer--;
             } else {
-                this->dissapearTimer--;
+                this->disapearTimer--;
 
-                if (this->dissapearTimer > -10) {
-                    Actor_SetScale(&this->actor, ((this->dissapearTimer + 10) * 0.008f) * 0.1f);
+                if (this->disapearTimer > -10) {
+                    Actor_SetScale(&this->actor, ((this->disapearTimer + 10) * 0.008f) * 0.1f);
                 } else {
                     Actor_Kill(&this->actor);
                     return;
@@ -665,7 +665,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (!(this->flags & FAIRY_FLAG_BIG)) {
+        if (!(this->fairyFlags & FAIRY_FLAG_BIG)) {
             func_8002F434(&this->actor, globalCtx, GI_MAX, 80.0f, 60.0f);
         }
     }
@@ -797,7 +797,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
-    if (this->flags & 4) {
+    if (this->fairyFlags & 4) {
         func_80A04414(this, globalCtx);
     }
 
@@ -820,7 +820,7 @@ void EnElf_UpdateLights(EnElf* this, GlobalContext* globalCtx) {
         glowLightRadius = 0;
     }
 
-    if (this->flags & 0x20) {
+    if (this->fairyFlags & 0x20) {
         player = PLAYER;
         Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.posRot.pos.x,
                                   (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 255, 255, 255,
@@ -878,13 +878,13 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
             // play dash sound in intervals as Navi is waking up Link in the intro
             if (this->unk_2A8 == 6) {
-                if (this->flags & 0x40) {
+                if (this->fairyFlags & 0x40) {
                     if (prevPos.y < this->actor.posRot.pos.y) {
-                        this->flags &= ~0x40;
+                        this->fairyFlags &= ~0x40;
                     }
                 } else {
                     if (this->actor.posRot.pos.y < prevPos.y) {
-                        this->flags |= 0x40;
+                        this->fairyFlags |= 0x40;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
                     }
                 }
@@ -898,15 +898,14 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * 0.033333335f);
                 xScale =
                     1.0f - ((Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos) - 5.0f) * 0.05f);
+
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
                     xScale = 0.0f;
+                } else if (distFromLinksHead < 25.0f) {
+                    xScale = (1.0f - SQ(xScale)) * 0.008f;
                 } else {
-                    if (distFromLinksHead < 25.0f) {
-                        xScale = (1.0f - SQ(xScale)) * 0.008f;
-                    } else {
-                        xScale = 0.008f;
-                    }
+                    xScale = 0.008f;
                 }
                 EnElf_SpawnSparkles(this, globalCtx, 16);
                 break;
@@ -956,16 +955,16 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                         this->unk_2A0 = Math_Rand_ZeroFloat(7.0f) + 3.0f;
                     }
 
-                    if (this->flags & 2) {
+                    if (this->fairyFlags & 2) {
                         if (distFromLinksHead < 30.0f) {
-                            this->flags ^= 2;
+                            this->fairyFlags ^= 2;
                         }
 
                         func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
                         EnElf_SpawnSparkles(this, globalCtx, 16);
                     } else {
                         if (distFromLinksHead > 100.0f) {
-                            this->flags |= 2;
+                            this->fairyFlags |= 2;
 
                             if (this->unk_2C7 == 0) {
                                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
@@ -982,12 +981,10 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
     if (this->unk_2A8 == 7) {
         this->actor.scale.x = xScale;
+    } else if (this->unk_2A8 == 8) {
+        this->actor.scale.x = 0.0f;
     } else {
-        if (this->unk_2A8 == 8) {
-            this->actor.scale.x = 0.0f;
-        } else {
-            Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
-        }
+        Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.008f, 0.3f, 0.00080000004f, 0.000080000005f);
     }
 
     EnElf_UpdateLights(this, globalCtx);
@@ -1037,16 +1034,16 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
             } else {
                 transitionRate = 0.25f / this->unk_29C;
                 EnElf_ChangeColor(&this->innerColor, &globalCtx->actorCtx.targetCtx.naviInner, &this->innerColor,
-                              transitionRate);
+                                  transitionRate);
                 EnElf_ChangeColor(&this->outerColor, &globalCtx->actorCtx.targetCtx.naviOuter, &this->outerColor,
-                              transitionRate);
+                                  transitionRate);
             }
         }
     }
 
-    if (this->flags & 1) {
+    if (this->fairyFlags & 1) {
         if ((arrowPointedActor == NULL) || (player->unk_664 == NULL)) {
-            this->flags ^= 1;
+            this->fairyFlags ^= 1;
         }
     } else {
         if ((arrowPointedActor != NULL) && (player->unk_664 != NULL)) {
@@ -1060,7 +1057,7 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, targetSound);
             }
 
-            this->flags |= 1;
+            this->fairyFlags |= 1;
         }
     }
 }
@@ -1231,7 +1228,7 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f naviRefPos;
 
-    if (this->flags & 0x10) {
+    if (this->fairyFlags & 0x10) {
         naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
 
         if (((player->unk_664 == NULL) || (&player->actor == player->unk_664)) || (&this->actor == player->unk_664)) {
@@ -1241,7 +1238,7 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
         }
 
         this->actor.posRot2.pos = naviRefPos;
-        this->flags &= ~0x10;
+        this->fairyFlags &= ~0x10;
     }
 
     func_80A03AB0(this, globalCtx);
@@ -1283,7 +1280,7 @@ void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
                 func_80106CCC(globalCtx);
                 this->actor.update = func_80A053F0;
                 func_80A01C38(this, 0);
-                this->flags &= ~0x20;
+                this->fairyFlags &= ~0x20;
                 break;
         }
     }
@@ -1341,7 +1338,7 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
                 func_80106CCC(globalCtx);
                 this->actor.update = func_80A053F0;
                 func_80A01C38(this, 0);
-                this->flags &= ~0x20;
+                this->fairyFlags &= ~0x20;
                 break;
         }
     }
@@ -1373,7 +1370,7 @@ void func_80A052F4(Actor* thisx, GlobalContext* globalCtx) {
     } else if (func_8002F334(thisx, globalCtx)) {
         this->actor.update = func_80A053F0;
         func_80A01C38(this, 0);
-        this->flags &= ~0x20;
+        this->fairyFlags &= ~0x20;
     }
 
     func_80A04F94(this, globalCtx);
@@ -1407,17 +1404,17 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         thisx->posRot2.pos = thisx->posRot.pos;
 
         if (thisx->textId == ElfMessage_GetCUpText(globalCtx)) {
-            this->flags |= 0x80;
+            this->fairyFlags |= 0x80;
             gSaveContext.naviTimer = 3001;
         }
 
-        this->flags |= 0x10;
-        this->flags |= 0x20;
+        this->fairyFlags |= 0x10;
+        this->fairyFlags |= 0x20;
         thisx->update = func_80A052F4;
         func_80A01C38(this, 3);
 
         if (this->elfMsg != NULL) {
-            this->elfMsg->flags |= 0x100;
+            this->elfMsg->actor.flags |= 0x100;
         }
 
         thisx->flags &= ~0x10000;
@@ -1436,10 +1433,8 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         if (!Gameplay_InCsMode(globalCtx)) {
             if (gSaveContext.naviTimer < 25800) {
                 gSaveContext.naviTimer++;
-            } else {
-                if (!(this->flags & 0x80)) {
-                    gSaveContext.naviTimer = 0;
-                }
+            } else if (!(this->fairyFlags & 0x80)) {
+                gSaveContext.naviTimer = 0;
             }
         }
     }
@@ -1473,7 +1468,7 @@ void EnElf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->unk_2BC;
     this->timer++;
 
-    if (this->flags & FAIRY_FLAG_BIG) {
+    if (this->fairyFlags & FAIRY_FLAG_BIG) {
         func_80A04D90(this, globalCtx);
     }
 }
@@ -1489,7 +1484,7 @@ s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == 8) {
         scale = ((Math_Sins(this->timer * 4096) * 0.1f) + 1.0f) * 0.012f;
 
-        if (this->flags & FAIRY_FLAG_BIG) {
+        if (this->fairyFlags & FAIRY_FLAG_BIG) {
             scale *= 2.0f;
         }
 
@@ -1500,13 +1495,13 @@ s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     }
 
     // do not draw wings for big fairies
-    if (this->flags & FAIRY_FLAG_BIG) {
+    if (this->fairyFlags & FAIRY_FLAG_BIG) {
         if (limbIndex == 4 || limbIndex == 7 || limbIndex == 11 || limbIndex == 14) {
             *dList = NULL;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1518,7 +1513,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* dList;
     Player* player = PLAYER;
 
-    if ((this->unk_2A8 != 8) && !(this->flags & 8)) {
+    if ((this->unk_2A8 != 8) && !(this->fairyFlags & 8)) {
         if (!(player->stateFlags1 & 0x100000) || (kREG(90) < this->actor.projectedPos.z)) {
             dList = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Gfx) * 4);
 
@@ -1529,14 +1524,14 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             envAlpha = (this->timer * 50) & 0x1FF;
             envAlpha = (envAlpha > 255) ? 511 - envAlpha : envAlpha;
 
-            alphaScale = this->dissapearTimer < 0 ? (this->dissapearTimer * (7.0f / 6000.0f)) + 1.0f : 1.0f;
+            alphaScale = this->disapearTimer < 0 ? (this->disapearTimer * (7.0f / 6000.0f)) + 1.0f : 1.0f;
 
             gSPSegment(oGfxCtx->polyXlu.p++, 0x08, dList);
             gDPPipeSync(dList++);
             gDPSetPrimColor(dList++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g, (u8)this->innerColor.b,
                             (u8)(this->innerColor.a * alphaScale));
 
-            if (this->flags & 4) {
+            if (this->fairyFlags & 4) {
                 gDPSetRenderMode(dList++, G_RM_PASS, G_RM_CLD_SURF2);
             } else {
                 gDPSetRenderMode(dList++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
@@ -1546,7 +1541,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
             oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                                 EnElf_OverrideLimbDraw, 0, &this->actor, oGfxCtx->polyXlu.p);
+                                                 EnElf_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
         }

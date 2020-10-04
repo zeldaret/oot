@@ -3,6 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
+#include "overlays/actors/ovl_Elf_Msg/z_elf_msg.h"
 
 struct EnElf;
 
@@ -21,7 +22,7 @@ typedef struct EnElf {
     /* 0x0278 */ LightInfo lightInfoNoGlow;
     /* 0x0288 */ LightNode* lightNodeNoGlow;
     /* 0x028C */ Vec3f unk_28C;
-    /* 0x0298 */ Actor* elfMsg;
+    /* 0x0298 */ ElfMsg* elfMsg;
     /* 0x029C */ f32 unk_29C;
     /* 0x02A0 */ f32 unk_2A0;
     /* 0x02A4 */ f32 unk_2A4;
@@ -35,8 +36,8 @@ typedef struct EnElf {
     /* 0x02BC */ s16 unk_2BC;
     /* 0x02BE */ u16 timer;
     /* 0x02C0 */ s16 unk_2C0;
-    /* 0x02C2 */ s16 dissapearTimer;
-    /* 0x02C4 */ u16 flags;
+    /* 0x02C2 */ s16 disapearTimer;
+    /* 0x02C4 */ u16 fairyFlags;
     /* 0x02C6 */ u8 unk_2C6;
     /* 0x02C7 */ u8 unk_2C7;
     /* 0x02C8 */ EnElfUnkFunc func_2C8;
