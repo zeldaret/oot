@@ -185,7 +185,7 @@ void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame != 0) {
         Math_SmoothDownscaleMaxF(&this->skelAnime.animCurrentFrame, 0.5f, 1.0f);
     }
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_198, 0x5, 0xBB8, 0x0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_198, 5, 0xBB8, 0);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
