@@ -104,7 +104,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f* breakPos = &this->actor.posRot.pos;
     Vec3f pos;
-    Vec3f vel;
+    Vec3f velocity;
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
         f32 sn = Math_Sins(angle);
@@ -115,9 +115,9 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         pos.x = sn * 16.0f;
         pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cs * 16.0f;
-        vel.x = pos.x * 0.2f;
-        vel.y = (Math_Rand_ZeroOne() * 6.0f) + 2.0f;
-        vel.z = pos.z * 0.2f;
+        velocity.x = pos.x * 0.2f;
+        velocity.y = (Math_Rand_ZeroOne() * 6.0f) + 2.0f;
+        velocity.z = pos.z * 0.2f;
         pos.x += breakPos->x;
         pos.y += breakPos->y;
         pos.z += breakPos->z;
@@ -129,7 +129,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         } else {
             phi_s0 = 0x20;
         }
-        EffectSsKakera_Spawn(globalCtx, &pos, &vel, breakPos, -200, phi_s0, 10, 10, 0,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -200, phi_s0, 10, 10, 0,
                              (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
@@ -141,7 +141,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f* breakPos = &this->actor.posRot.pos;
     Vec3f pos;
-    Vec3f vel;
+    Vec3f velocity;
 
     pos = *breakPos;
     pos.y += this->actor.waterY;
@@ -156,15 +156,15 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
         pos.x = sn * 16.0f;
         pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = cs * 16.0f;
-        vel.x = pos.x * 0.18f;
-        vel.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
-        vel.z = pos.z * 0.18f;
+        velocity.x = pos.x * 0.18f;
+        velocity.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
+        velocity.z = pos.z * 0.18f;
         pos.x += breakPos->x;
         pos.y += breakPos->y;
         pos.z += breakPos->z;
         temp_rand = Math_Rand_ZeroOne();
         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
-        EffectSsKakera_Spawn(globalCtx, &pos, &vel, breakPos, -180, phi_s0, 30, 30, 0,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -180, phi_s0, 30, 30, 0,
                              (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 70, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
