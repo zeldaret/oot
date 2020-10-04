@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void func_8008E6A0(SubGlobalContext7B8* this) {
     this->counter = 0;
@@ -6,20 +6,20 @@ void func_8008E6A0(SubGlobalContext7B8* this) {
 }
 
 u32 func_8008E6AC(SubGlobalContext7B8* this, Input* input) {
-    if (CHECK_PAD(input->cur, R_TRIG) && CHECK_PAD(input->press, D_JPAD)) {
+    if (CHECK_BTN_ALL(input->cur.button, BTN_R) && CHECK_BTN_ALL(input->press.button, BTN_DDOWN)) {
         this->toggle = !this->toggle;
     }
     if (!this->toggle) {
         goto ret_true;
     }
 
-    if (CHECK_PAD(input->cur, Z_TRIG)) {
+    if (CHECK_BTN_ALL(input->cur.button, BTN_Z)) {
 
-        if (CHECK_PAD(input->press, R_TRIG)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
             goto ret_true;
         }
 
-        if (CHECK_PAD(input->cur, R_TRIG)) {
+        if (CHECK_BTN_ALL(input->cur.button, BTN_R)) {
             this->counter++;
             if (this->counter >= 9) {
                 goto ret_true;
