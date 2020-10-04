@@ -13,28 +13,18 @@ void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnKarebaba_DisableHitbox(EnKarebaba* this);
 void EnKarebaba_SetupGrow(EnKarebaba*);
 void EnKarebaba_SetupIdle(EnKarebaba*);
-void EnKarebaba_SetupAwaken(EnKarebaba* this);
-void EnKarebaba_SetupUpright(EnKarebaba* this);
-void EnKarebaba_SetupSpin(EnKarebaba* this);
-void EnKarebaba_SetupDying(EnKarebaba* this);
-void EnKarebaba_SetupDeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx);
-void EnKarebaba_SetupRetract(EnKarebaba* this);
-void EnKarebaba_SetupWait(EnKarebaba* this);
-void EnKarebaba_SetupRegrow(EnKarebaba* this);
 void EnKarebaba_Grow(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Idle(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx);
-void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_DeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx);
-void EnKarebaba_Wait(EnKarebaba* this, GlobalContext* globalCtx);
+void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx);
-void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx);
+void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx);
 
 const ActorInit En_Karebaba_InitVars = {
     ACTOR_EN_KAREBABA,
@@ -48,13 +38,13 @@ const ActorInit En_Karebaba_InitVars = {
     (ActorFunc)EnKarebaba_Draw
 };
 
-static ColliderCylinderInit sKarebabaHitbox = {
+static ColliderCylinderInit sBodyCollider = {
     { 0xC, 0, 9, 0, 0x10, COLSHAPE_CYLINDER },
     { 0, { 0x00000000, 0, 0 }, { ~0x00300000, 0, 0 }, 0, 1, 0 },
     { 7, 25, 0, { 0, 0, 0 } }
 };
 
-static ColliderCylinderInit sKarebabaHitbox2 = {
+static ColliderCylinderInit sHeadCollider = {
     { 0x0C, 0x11, 0, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0, { ~0x00300000, 0, 8 }, { 0x00000000, 0, 0 }, 9, 0, 1 },
     { 4, 25, 0, { 0, 0, 0 }}
@@ -98,7 +88,7 @@ static Gfx* sDisplayLists[] = {
     D_06001828
 };
 
-Vec3f sVecZero2 = { 0.0f, 0.0f, 0.0f };
+static Vec3f sVecZero2 = { 0.0f, 0.0f, 0.0f };
 
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
@@ -106,12 +96,12 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(this, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 22.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, &this->limbDrawTable, &this->transitionDrawTable, 8);
-    Collider_InitCylinder(globalCtx, &this->bodyHitbox);
-    Collider_SetCylinder(globalCtx, &this->bodyHitbox, this, &sKarebabaHitbox);
-    Collider_CylinderUpdate(this, &this->bodyHitbox);
-    Collider_InitCylinder(globalCtx, &this->headHitbox);
-    Collider_SetCylinder(globalCtx, &this->headHitbox, this, &sKarebabaHitbox2);
-    Collider_CylinderUpdate(this, &this->headHitbox);
+    Collider_InitCylinder(globalCtx, &this->bodyCollider);
+    Collider_SetCylinder(globalCtx, &this->bodyCollider, this, &sBodyCollider);
+    Collider_CylinderUpdate(this, &this->bodyCollider);
+    Collider_InitCylinder(globalCtx, &this->headCollider);
+    Collider_SetCylinder(globalCtx, &this->headCollider, this, &sHeadCollider);
+    Collider_CylinderUpdate(this, &this->headCollider);
     func_80061ED4(&this->actor.colChkInfo, DamageTable_Get(1), &sKarebabaCheckInfo);
 
     this->boundFloor = NULL;
@@ -126,17 +116,17 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
 
-    Collider_DestroyCylinder(globalCtx, &this->bodyHitbox);
-    Collider_DestroyCylinder(globalCtx, &this->headHitbox);
+    Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
+    Collider_DestroyCylinder(globalCtx, &this->headCollider);
 }
 
-void EnKarebaba_DisableHitbox(EnKarebaba* this) {
-    this->bodyHitbox.dim.radius = 7;
-    this->bodyHitbox.dim.height = 25;
-    this->bodyHitbox.base.type = COLTYPE_UNK12;
-    this->bodyHitbox.base.acFlags |= 4;
-    this->bodyHitbox.body.bumper.flags = ~0x00300000;
-    this->headHitbox.dim.height = 25;
+void EnKarebaba_ResetCollider(EnKarebaba* this) {
+    this->bodyCollider.dim.radius = 7;
+    this->bodyCollider.dim.height = 25;
+    this->bodyCollider.base.type = COLTYPE_UNK12;
+    this->bodyCollider.base.acFlags |= 4;
+    this->bodyCollider.body.bumper.flags = ~0x00300000;
+    this->headCollider.dim.height = 25;
 }
 
 void EnKarebaba_SetupGrow(EnKarebaba* this) {
@@ -164,12 +154,12 @@ void EnKarebaba_SetupAwaken(EnKarebaba* this) {
 void EnKarebaba_SetupUpright(EnKarebaba* this) {
     if (this->actionFunc != EnKarebaba_Spin) {
         Actor_SetScale(&this->actor, 0.01f);
-        this->bodyHitbox.base.type = COLTYPE_UNK6;
-        this->bodyHitbox.base.acFlags &= ~0x0004;
-        this->bodyHitbox.body.bumper.flags = gSaveContext.linkAge != 0 ? 0x07C00710 : 0x0FC00710;
-        this->bodyHitbox.dim.radius = 15;
-        this->bodyHitbox.dim.height = 80;
-        this->headHitbox.dim.height = 80;
+        this->bodyCollider.base.type = COLTYPE_UNK6;
+        this->bodyCollider.base.acFlags &= ~0x0004;
+        this->bodyCollider.body.bumper.flags = gSaveContext.linkAge != 0 ? 0x07C00710 : 0x0FC00710;
+        this->bodyCollider.dim.radius = 15;
+        this->bodyCollider.dim.height = 80;
+        this->headCollider.dim.height = 80;
     }
 
     this->actor.params = 40;
@@ -207,27 +197,29 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba *this, GlobalContext *globalCtx) {
 
 void EnKarebaba_SetupRetract(EnKarebaba* this) {
     AnimationHeader* anim = &D_060002B8;
+
     SkelAnime_ChangeAnim(&this->skelAnime, anim, -3.0f, SkelAnime_GetFrameCount(anim), 0.0f, 2, -3.0f);
-    EnKarebaba_DisableHitbox(this);
+    EnKarebaba_ResetCollider(this);
     this->actionFunc = EnKarebaba_Retract;
 }
 
-void EnKarebaba_SetupWait(EnKarebaba* this) {
+void EnKarebaba_SetupDead(EnKarebaba* this) {
     AnimationHeader* anim = &D_060002B8;
+
     SkelAnime_ChangeAnim(&this->skelAnime, anim, 0.0f, 0.0f, 0.0f, 2, 0.0f); // Anim Mode == STOP
-    EnKarebaba_DisableHitbox(this);
+    EnKarebaba_ResetCollider(this);
     this->actor.shape.rot.x = -0x4000;
     this->actor.params = 200;
     this->actor.parent = NULL;
     this->actor.shape.unk_10 = 0.0f;
     Math_Vec3f_Copy(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-    this->actionFunc = EnKarebaba_Wait;
+    this->actionFunc = EnKarebaba_Dead;
 }
 
 void EnKarebaba_SetupRegrow(EnKarebaba* this) {
     this->actor.shape.unk_08 = 0.0f;
     this->actor.shape.unk_10 = 22.0f;
-    this->headHitbox.dim.radius = sKarebabaHitbox2.dim.radius;
+    this->headCollider.dim.radius = sHeadCollider.dim.radius;
     Actor_SetScale(&this->actor, 0.0f);
     this->actionFunc = EnKarebaba_Regrow;
 }
@@ -275,7 +267,7 @@ void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 
     // Check if Link attacks the Deku Baba
-    if (this->bodyHitbox.base.acFlags & 2) {
+    if (this->bodyCollider.base.acFlags & 2) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
     } else if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) > 240.0f) {
@@ -296,9 +288,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (func_800A56C8(&this->skelAnime, 0.0f) || func_800A56C8(&this->skelAnime, 12.0f)) {
-        if (true) {
-            // Here for matching purposes only.
-        }
+        if (true) { } // Here for matching purposes only.
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
@@ -310,7 +300,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
         value = 10;
     }
 
-    this->headHitbox.dim.radius = sKarebabaHitbox2.dim.radius + (value * 2);
+    this->headCollider.dim.radius = sHeadCollider.dim.radius + (value * 2);
     this->actor.shape.rot.x = 0xC000 - (value * 0x100);
     this->actor.shape.rot.y += value * 0x40 * 11;
     this->actor.posRot.pos.y = (Math_Sins(this->actor.shape.rot.x) * -60.0f) + this->actor.initPosRot.pos.y;
@@ -320,7 +310,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * thing) + this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * thing) + this->actor.initPosRot.pos.z;
 
-    if ((this->bodyHitbox.base.acFlags & 2) != 0) {
+    if ((this->bodyCollider.base.acFlags & 2) != 0) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
         return;
@@ -341,7 +331,7 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
-        if (0.005f < this->actor.scale.x && ((this->actor.bgCheckFlags & 2) != 0 || (this->actor.bgCheckFlags & 8) != 0)) {
+        if (this->actor.scale.x > 0.005f && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.z = 0.0f;
             this->actor.scale.y = 0.0f;
             this->actor.scale.x = 0.0f;
@@ -349,7 +339,7 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~5;
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 15, -1, 10, 0);
         }
-        if ((this->actor.bgCheckFlags & 2) != 0) {
+        if (this->actor.bgCheckFlags & 2) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             this->actor.params = 1;
         }
@@ -376,8 +366,8 @@ void EnKarebaba_DeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
         this->actor.params--;
     }
 
-    if (Actor_HasParent(&this->actor, globalCtx) != 0 || this->actor.params == 0) {
-        EnKarebaba_SetupWait(this);
+    if (Actor_HasParent(&this->actor, globalCtx) || this->actor.params == 0) {
+        EnKarebaba_SetupDead(this);
         return;
     }
 
@@ -387,8 +377,7 @@ void EnKarebaba_DeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
 void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_ApproxF(&this->actor.scale.x, 0.005f, 0.0005f);
-    this->actor.scale.z = this->actor.scale.x;
-    this->actor.scale.y = this->actor.scale.x;
+    this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 
     if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 14.0f, 5.0f)) {
         EnKarebaba_SetupIdle(this);
@@ -398,7 +387,7 @@ void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
 }
 
-void EnKarebaba_Wait(EnKarebaba* this, GlobalContext* globalCtx) {
+void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (this->actor.params != 0) {
@@ -427,11 +416,12 @@ void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
 
 void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
-    f32 temp, unused;
+    f32 temp;
+    s32 unused;
 
     this->actionFunc(this, globalCtx);
 
-    if (this->actionFunc != EnKarebaba_Wait) {
+    if (this->actionFunc != EnKarebaba_Dead) {
         if (this->actionFunc == EnKarebaba_Dying) {
             Actor_MoveForward(&this->actor);
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 15.0f, 10.0f, 5);
@@ -443,10 +433,10 @@ void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->actionFunc != EnKarebaba_Dying && this->actionFunc != EnKarebaba_DeadItemDrop) {
             if (this->actionFunc != EnKarebaba_Regrow && this->actionFunc != EnKarebaba_Grow) {
-                CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->headHitbox);
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyHitbox);
+                CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->headCollider);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider);
             }
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headHitbox);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider);
             Actor_SetHeight(&this->actor, (this->actor.scale.x * 10.0f) / 0.01f);
             temp = this->actor.initPosRot.pos.y + 40.0f;
             this->actor.posRot2.pos.x = this->actor.initPosRot.pos.x;
@@ -476,7 +466,7 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
 void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
     s32 i;
-    s32 displayListLength;
+    s32 displayListTotal;
     f32 scale;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1056);
@@ -488,7 +478,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1066), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyOpa.p++, D_06003070);
         }
-    } else if (this->actionFunc != EnKarebaba_Wait) {
+    } else if (this->actionFunc != EnKarebaba_Dead) {
         func_80026230(globalCtx, &sColorBlack, 1, 2);
         SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 0, 0, 0);
         Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
@@ -497,14 +487,14 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         Matrix_RotateRPY(this->actor.shape.rot.x, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
 
-        displayListLength = this->actionFunc == EnKarebaba_Dying ? 2 : 3;
+        displayListTotal = this->actionFunc == EnKarebaba_Dying ? 2 : 3;
 
-        for (i = 0; i < displayListLength; i++) {
+        for (i = 0; i < displayListTotal; i++) {
             Matrix_Translate(0, 0, -2000.0f, MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1116), G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyOpa.p++, sDisplayLists[i]);
 
-            if (&sDisplayLists[0] == &sDisplayLists[i] && this->actionFunc == EnKarebaba_Dying) {
+            if (i == 0 && this->actionFunc == EnKarebaba_Dying) {
                 Matrix_MultVec3f(&sVecZero2, &this->actor.posRot2.pos);
             }
         }
