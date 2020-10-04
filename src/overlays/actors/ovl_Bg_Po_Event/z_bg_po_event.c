@@ -18,7 +18,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_BlockWait(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockShake(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx);
-void BgPoEvent_BlockStop(BgPoEvent* this, GlobalContext* globalCtx);
+void BgPoEvent_BlockIdle(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockReset(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx);
@@ -312,11 +312,11 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
             }
         }
         this->direction = 0;
-        this->actionFunc = BgPoEvent_BlockStop;
+        this->actionFunc = BgPoEvent_BlockIdle;
     }
 }
 
-void BgPoEvent_BlockStop(BgPoEvent* this, GlobalContext* globalCtx) {
+void BgPoEvent_BlockIdle(BgPoEvent* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* amy;
 
@@ -392,7 +392,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
         this->dyna.actor.speedXZ = 0.0f;
         this->direction = 5;
         sBlocksAtRest++;
-        this->actionFunc = BgPoEvent_BlockStop;
+        this->actionFunc = BgPoEvent_BlockIdle;
         if (this->type == 1) {
             return;
         }
