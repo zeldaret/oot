@@ -126,7 +126,7 @@ glabel func_809CB458
 /* 00AEC 809CB5FC 44094000 */  mfc1    $t1, $f8                   
 /* 00AF0 809CB600 440B8000 */  mfc1    $t3, $f16                  
 /* 00AF4 809CB604 AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 00AF8 809CB608 0C00A568 */  jal     func_800295A0              
+/* 00AF8 809CB608 0C00A568 */  jal     EffectSsLightning_Spawn              
 /* 00AFC 809CB60C AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00B00 809CB610 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 00B04 809CB614 1615FFCD */  bne     $s0, $s5, .L809CB54C       

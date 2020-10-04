@@ -232,7 +232,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* sDisplayLists[] = { 0x060003A0, 0x06000B90, 0x06000870 };
+    static Gfx* displayLists[] = { 0x060003A0, 0x06000B90, 0x06000870 };
     s32 pad;
     ObjSyokudai* this = THIS;
     s32 timerMax;
@@ -245,7 +245,7 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 714),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, sDisplayLists[(u16)this->actor.params >> 0xC]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, displayLists[(u16)this->actor.params >> 0xC]);
 
     if (this->litTimer != 0) {
         f32 flameScale = 1.0f;

@@ -276,7 +276,7 @@ glabel L8091F7D0
 /* 03DC0 8091F8C0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 03DC4 8091F8C4 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 03DC8 8091F8C8 E7A60010 */  swc1    $f6, 0x0010($sp)           
-/* 03DCC 8091F8CC 0C00A4F9 */  jal     func_800293E4              
+/* 03DCC 8091F8CC 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 03DD0 8091F8D0 E7AA0014 */  swc1    $f10, 0x0014($sp)          
 /* 03DD4 8091F8D4 86020182 */  lh      $v0, 0x0182($s0)           ## 00000182
 .L8091F8D8:
@@ -519,7 +519,7 @@ glabel L8091F8F8
 /* 04148 8091FC48 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 0414C 8091FC4C 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 04150 8091FC50 E7A60010 */  swc1    $f6, 0x0010($sp)           
-/* 04154 8091FC54 0C00A4F9 */  jal     func_800293E4              
+/* 04154 8091FC54 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 04158 8091FC58 E7AA0014 */  swc1    $f10, 0x0014($sp)          
 /* 0415C 8091FC5C 8603015A */  lh      $v1, 0x015A($s0)           ## 0000015A
 .L8091FC60:
