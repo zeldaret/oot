@@ -163,7 +163,7 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
 
-    if ((globalCtx->gameplayFrames & 3) == 0) {
+    if ((globalCtx->gameplayFrames % 4) == 0) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.shape.unk_10, 1, 8.0f, 0x1F4, 0xA,
                       1);
     }
@@ -262,7 +262,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     }
 
     speed = (this->actor.xzDistFromLink - 20.0f) / ((Math_Rand_ZeroOne() * 50.0f) + 150.0f);
-    this->actor.speedXZ = this->actor.speedXZ + ((speed)*1.8f);
+    this->actor.speedXZ += speed * 1.8f;
 
     if (this->actor.speedXZ >= 3.0f) {
         this->actor.speedXZ = 3.0f;
@@ -296,9 +296,6 @@ void func_80AE561C(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
-    u32 temp_t7;
-    u32 temp_t9;
-
     this->unk_27E = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     this->actor.flags |= 0x8000000;
@@ -457,12 +454,12 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
 
                 if (spawner->actor.update != NULL) {
                     if (!this->isBig) {
-                        if (spawner->leeversDead < 10) {
-                            spawner->leeversDead++;
+                        if (spawner->numLeeversDead < 10) {
+                            spawner->numLeeversDead++;
                         }
                         // How many are dead?
                         osSyncPrintf("\n\n");
-                        osSyncPrintf("\x1b[32m☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n\x1b[m", spawner->leeversDead);
+                        osSyncPrintf("\x1b[32m☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n\x1b[m", spawner->numLeeversDead);
                         osSyncPrintf("\n\n");
                     }
                 }
@@ -489,7 +486,7 @@ void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2)) {
+    if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
 
         if ((this->actionfunc != func_80AE5C38) && (this->actionfunc != func_80AE5854)) {
@@ -500,24 +497,20 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
             switch (this->actor.colChkInfo.damageEffect) {
                 case 11: // none
                 case 12: // boomerang
-                    if (this->actor.colChkInfo.health > 1) {
-                        if (this->unk_27E != 4) {
-                            this->unk_27E = 4;
-                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                            func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
-                            this->actionfunc = func_80AE58EC;
-                            break;
-                        }
+                    if ((this->actor.colChkInfo.health > 1) && (this->unk_27E != 4)) {
+                        this->unk_27E = 4;
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                        this->actionfunc = func_80AE58EC;
+                        break;
                     }
                 case 13: // hookshot/longshot
-                    if (this->actor.colChkInfo.health > 2) {
-                        if (this->unk_27E != 4) {
-                            this->unk_27E = 4;
-                            func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
-                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                            this->actionfunc = func_80AE58EC;
-                            break;
-                        }
+                    if ((this->actor.colChkInfo.health > 2) && (this->unk_27E != 4)) {
+                        this->unk_27E = 4;
+                        func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                        this->actionfunc = func_80AE58EC;
+                        break;
                     }
                 case 14:
                     this->unk_27C = 6;
@@ -549,8 +542,6 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
                         this->actionfunc = func_80AE58EC;
                     }
                     break;
-                default:
-                    break;
             }
         }
     }
@@ -565,11 +556,25 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionfunc(this, globalCtx2);
     Actor_SetScale(&this->actor, this->scale);
 
-    DECR(this->unk_270);
-    DECR(this->unk_272);
-    DECR(this->unk_278);
-    DECR(this->unk_274);
-    DECR(this->unk_276);
+    if (this->unk_270 != 0) {
+        this->unk_270--;
+    }
+
+    if (this->unk_272 != 0) {
+        this->unk_272--;
+    }
+
+    if (this->unk_278 != 0) {
+        this->unk_278--;
+    }
+
+    if (this->unk_274 != 0) {
+        this->unk_274--;
+    }
+
+    if (this->unk_276 != 0) {
+        this->unk_276--;
+    }
 
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx2, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
@@ -588,7 +593,7 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
-        if ((this->collider.base.at == &player->actor) && (!this->isBig) && (this->actionfunc != func_80AE56E0)) {
+        if ((this->collider.base.at == &player->actor) && !this->isBig && (this->actionfunc != func_80AE56E0)) {
             this->actionfunc = func_80AE5688;
         }
     }
@@ -605,15 +610,12 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.shape.unk_08 >= -700.0f) && (this->actor.colChkInfo.health > 0) &&
         (this->actionfunc != func_80AE56E0)) {
-
         CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
 
         if (!(this->actor.shape.unk_08 < 0.0f)) {
-
             CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
 
             if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
-
                 CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
             }
         }
@@ -634,7 +636,7 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x0, 0x01, 255, 255, 255, 255);
     }
 
-    SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, 0, &this->actor);
+    SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_reeba.c", 1088);
 
@@ -645,7 +647,6 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         debugPos.y = this->actor.posRot.pos.y + 20.0f;
         debugPos.z = (Math_Coss(this->actor.posRot.rot.y) * 30.0f) + this->actor.posRot.pos.z;
         DebugDisplay_AddObject(debugPos.x, debugPos.y, debugPos.z, this->actor.posRot.rot.x, this->actor.posRot.rot.y,
-                               this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 0xFF, 0, 0, 0xFF, 4,
-                               globalCtx->state.gfxCtx);
+                               this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }
 }
