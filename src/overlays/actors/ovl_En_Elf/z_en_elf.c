@@ -636,7 +636,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         if ((heightDiff > 0.0f) && (heightDiff < 60.0f)) {
             if (!func_80A01F90(&this->actor.posRot.pos, &refActor->actor.posRot.pos, 10.0f)) {
                 Health_ChangeBy(globalCtx, 128);
-                if ((this->fairyFlags & FAIRY_FLAG_BIG)) {
+                if (this->fairyFlags & FAIRY_FLAG_BIG) {
                     Magic_Fill(globalCtx);
                 }
                 this->unk_2B8 = 50.0f;
@@ -1231,7 +1231,7 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     if (this->fairyFlags & 0x10) {
         naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
 
-        if (((player->unk_664 == NULL) || (&player->actor == player->unk_664)) || (&this->actor == player->unk_664)) {
+        if ((player->unk_664 == NULL) || (&player->actor == player->unk_664) || (&this->actor == player->unk_664)) {
             naviRefPos.x = player->bodyPartsPos[7].x + (Math_Sins(player->actor.shape.rot.y) * 20.0f);
             naviRefPos.y = player->bodyPartsPos[7].y + 5.0f;
             naviRefPos.z = player->bodyPartsPos[7].z + (Math_Coss(player->actor.shape.rot.y) * 20.0f);
@@ -1270,7 +1270,7 @@ void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
@@ -1321,7 +1321,7 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 naviCUpText = ElfMessage_GetCUpText(globalCtx);
