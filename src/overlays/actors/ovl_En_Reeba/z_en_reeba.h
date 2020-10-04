@@ -24,7 +24,6 @@ typedef struct EnReeba {
     /* 0x027C */ s16 unk_27C;
     /* 0x027E */ s16 unk_27E;
     /* 0x0280 */ s16 unk_280;
-    /* 0x0282 */ char unk_282[0x2];
     /* 0x0284 */ f32 unk_284;
     /* 0x0288 */ f32 unk_288;
     /* 0x028C */ f32 scale;
