@@ -6,7 +6,7 @@
 
 struct EnKakasi3;
 
-typedef void (*EnKakasi3ActionFunc)(struct EnKakasi3*, struct GlobalContext*);
+typedef void (*EnKakasi3ActionFunc)(struct EnKakasi3*, GlobalContext*);
 
 typedef struct EnKakasi3 {
     /* 0x0000 */ Actor actor;
@@ -17,20 +17,19 @@ typedef struct EnKakasi3 {
     /* 0x0196 */ s16 dialogState;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
-    /* 0x019C */ s16 unk_19C[0x3];
-    /* 0x01A2 */ s16 unk_1A2;
+    /* 0x019C */ s16 unk_19C[4];
     /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A6 */ s16 unk_1A6;
     /* 0x01A8 */ s16 unk_1A8;
     /* 0x01AA */ s16 unk_1AA;
-    /* 0x01AC */ char unk_1AC;
+    /* 0x01AC */ char unk_1AC[2];
     /* 0x01AE */ s16 unk_1AE;
     /* 0x01B0 */ Vec3s rot;
-    /* 0x01B6 */ char unk_1B6[0x2];
+    /* 0x01B6 */ char unk_1B6[2];
     /* 0x01B8 */ f32 unk_1B8;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ s16 camId;
-    /* 0x020A */ char unk_020A[0x2];
+    /* 0x020A */ char unk_20A[2];
 
 } EnKakasi3; // size = 0x020C
 
