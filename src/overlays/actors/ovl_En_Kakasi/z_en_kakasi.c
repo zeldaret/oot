@@ -185,8 +185,8 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
 
 void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 angleTowardsLink;
-    s16 absAngleTowardsLink;
+    s16 yawTowardsLink;
+    s16 absyawTowardsLink;
 
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
@@ -200,11 +200,11 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
         return;
     }
 
-    angleTowardsLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawTowardsLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     if (!(this->actor.xzDistFromLink > 120.0f)) {
-        absAngleTowardsLink = ABS(angleTowardsLink);
+        absyawTowardsLink = ABS(yawTowardsLink);
 
-        if (absAngleTowardsLink < 0x4300) {
+        if (absyawTowardsLink < 0x4300) {
             if (!this->unk_194) {
                 if (player->stateFlags2 & 0x1000000) {
                     this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
