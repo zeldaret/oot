@@ -63,7 +63,7 @@ glabel EnTest_Draw
 /* 04AE0 80864130 24C6014C */  addiu   $a2, $a2, 0x014C           ## $a2 = 0000014C
 /* 04AE4 80864134 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 04AE8 80864138 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 04AEC 8086413C 0C00A877 */  jal     func_8002A1DC              
+/* 04AEC 8086413C 0C00A877 */  jal     EffectSsEnIce_SpawnFlyingVec3s              
 /* 04AF0 80864140 E7A40028 */  swc1    $f4, 0x0028($sp)           
 .L80864144:
 /* 04AF4 80864144 8FBF003C */  lw      $ra, 0x003C($sp)           

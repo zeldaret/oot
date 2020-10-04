@@ -168,7 +168,7 @@ glabel func_80AA7938
 /* 01B40 80AA7B90 27A60068 */  addiu   $a2, $sp, 0x0068           ## $a2 = FFFFFFE0
 /* 01B44 80AA7B94 00C03825 */  or      $a3, $a2, $zero            ## $a3 = FFFFFFE0
 /* 01B48 80AA7B98 8FA4008C */  lw      $a0, 0x008C($sp)
-/* 01B4C 80AA7B9C 0C00A409 */  jal     func_80029024
+/* 01B4C 80AA7B9C 0C00A409 */  jal     EffectSsBlast_SpawnWhiteShockwave
 /* 01B50 80AA7BA0 27A50074 */  addiu   $a1, $sp, 0x0074           ## $a1 = FFFFFFEC
 /* 01B54 80AA7BA4 2418012C */  addiu   $t8, $zero, 0x012C         ## $t8 = 0000012C
 /* 01B58 80AA7BA8 240800B4 */  addiu   $t0, $zero, 0x00B4         ## $t0 = 000000B4

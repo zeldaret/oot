@@ -41,31 +41,13 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-Vec3f D_809D250C = { 0.015f, 0.015f, 0.015f };
-
-Vec3f D_809D2518 = { 0.0f, 0.0f, 0.0f };
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
-};
-
-Vec3f D_809D2528 = { 8000.0f, 15000.0f, 2500.0f };
-
-Vec3f D_809D2534 = { 8000.0f, 10000.0f, 2500.0f };
-
-Vec3f D_809D2540 = { -8000.0f, 15000.0f, 2500.0f };
-
-Vec3f D_809D254C = { -8000.0f, 10000.0f, 2500.0f };
-
-Color_RGBA8 D_809D2558 = { 255, 255, 255, 255 };
-Color_RGBA8 D_809D255C = { 200, 255, 255, 255 };
-
-UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
-
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
-    Vec3f sp48 = D_809D250C;
-    Vec3f sp3C = D_809D2518;
+    Vec3f sp48 = { 0.015f, 0.015f, 0.015f };
+    Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
+    static InitChainEntry sInitChain[] = {
+        ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
+    };
     s32 i;
     s32 pad;
 
@@ -104,8 +86,10 @@ void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809D1D0C(Actor* thisx, GlobalContext* globalCtx) {
-    Vec3f sp5C = D_809D2528;
-    Vec3f sp50 = D_809D2534;
+    Vec3f sp5C = { 8000.0f, 15000.0f, 2500.0f };
+    Vec3f sp50 = { 8000.0f, 10000.0f, 2500.0f };
+    static Vec3f D_809D2540 = { -8000.0f, 15000.0f, 2500.0f };
+    static Vec3f D_809D254C = { -8000.0f, 10000.0f, 2500.0f };
     Vec3f sp44;
     Vec3f sp38;
     EnBx* this = THIS;
@@ -123,9 +107,6 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     s16 tmp32;
     s32 tmp33;
-    Vec3f sp58;
-    s16 tmp16;
-    u32 test;
 
     if ((thisx->xzDistFromLink <= 70.0f) || (this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
         (this->colliderQuad.base.atFlags & 2)) {
@@ -162,12 +143,17 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_14C--;
         for (i = 0; i < 4; i++) {
             if (!((this->unk_14C + (i << 1)) % 4)) {
-                tmp16 = (s32)Math_Rand_CenteredFloat(12288.0f);
-                tmp16 = (tmp16 + (i * 16384)) + 0x2000;
-                sp58.x = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
-                sp58.y = Math_Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
-                sp58.z = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
-                func_800295A0(globalCtx, &sp58, &D_809D2558, &D_809D255C, 0xE6, tmp16, 6, 0);
+                static Color_RGBA8 primColor = { 255, 255, 255, 255 };
+                static Color_RGBA8 envColor = { 200, 255, 255, 255 };
+                Vec3f pos;
+                s16 yaw;
+
+                yaw = (s32)Math_Rand_CenteredFloat(12288.0f);
+                yaw = (yaw + (i * 0x4000)) + 0x2000;
+                pos.x = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
+                pos.y = Math_Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
+                pos.z = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
+                EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor, 230, yaw, 6, 0);
             }
         }
 
@@ -183,6 +169,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
     EnBx* this = THIS;
     s32 pad;
     Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
