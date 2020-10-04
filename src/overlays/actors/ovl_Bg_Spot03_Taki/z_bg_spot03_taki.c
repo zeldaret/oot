@@ -10,8 +10,6 @@
 
 #define THIS ((BgSpot03Taki*)thisx)
 
-void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex);
-
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -46,7 +44,7 @@ extern Gfx* D_06000BC0[];
 extern Gfx* D_06001580[];
 
 void BgSpot03Taki_ApplyOpeningAlpha(BgSpot03Taki* this, s32 bufferIndex) {
-    int i;
+    s32 i;
     Vtx* vtx = (bufferIndex == 0) ? SEGMENTED_TO_VIRTUAL(D_06000800) : SEGMENTED_TO_VIRTUAL(D_06000990);
 
     for (i = 0; i < 5; i++) {
@@ -143,29 +141,29 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         oGfxCtx->polyXlu.p++, 0x08,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06000B20);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000B20);
 
     if (this->bufferIndex == 0) {
-        gSPVertex(oGfxCtx->polyXlu.p++, &D_06000800, 25, 0);
+        gSPVertex(oGfxCtx->polyXlu.p++, D_06000800, 25, 0);
     } else {
-        gSPVertex(oGfxCtx->polyXlu.p++, &D_06000990, 25, 0);
+        gSPVertex(oGfxCtx->polyXlu.p++, D_06000990, 25, 0);
     }
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06000BC0);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000BC0);
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 1, gameplayFrames * 3, 64, 64, 1,
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06001580);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06001580);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
     this->bufferIndex = this->bufferIndex == 0;
 
     if (this->state > WATERFALL_CLOSED && this->state < WATERFALL_CLOSING) {
-        func_800F46E0(&this->dyna.actor.projectedPos, 0.5);
+        func_800F46E0(&this->dyna.actor.projectedPos, 0.5f);
     } else {
-        func_800F46E0(&this->dyna.actor.projectedPos, 1.0);
+        func_800F46E0(&this->dyna.actor.projectedPos, 1.0f);
     }
 }
