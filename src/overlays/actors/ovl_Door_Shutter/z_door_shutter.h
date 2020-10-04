@@ -1,8 +1,8 @@
 #ifndef _Z_DOOR_SHUTTER_H_
 #define _Z_DOOR_SHUTTER_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct DoorShutter;
 

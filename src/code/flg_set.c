@@ -1,5 +1,4 @@
-#include <global.h>
-#include <ultra64/controller.h>
+#include "global.h"
 
 void FlagSet_Update(GlobalContext* globalCtx) {
     static s32 entryIdx = 0;
@@ -76,35 +75,35 @@ void FlagSet_Update(GlobalContext* globalCtx) {
             }
         }
 
-        if (CHECK_PAD(input->press, L_JPAD)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT)) {
             timer = 10;
             curBit++;
         }
-        if (CHECK_PAD(input->press, R_JPAD)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT)) {
             curBit--;
             timer = 10;
         }
 
         if (timer == 0) {
-            if (CHECK_PAD(input->cur, L_JPAD)) {
+            if (CHECK_BTN_ALL(input->cur.button, BTN_DLEFT)) {
                 curBit++;
                 timer = 2;
             }
-            if (CHECK_PAD(input->cur, R_JPAD)) {
+            if (CHECK_BTN_ALL(input->cur.button, BTN_DRIGHT)) {
                 curBit--;
                 timer = 2;
             }
         }
 
         curBit %= 16;
-        if (CHECK_PAD(input->press, U_JPAD)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
             entryIdx--;
             if (entryIdx < 0) {
                 entryIdx = 0;
             }
             timer = 10;
         }
-        if (CHECK_PAD(input->press, D_JPAD)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_DDOWN)) {
             timer = 10;
             entryIdx++;
             if (!entries[entryIdx].value) {
@@ -113,14 +112,14 @@ void FlagSet_Update(GlobalContext* globalCtx) {
         }
 
         if (timer == 0) {
-            if (CHECK_PAD(input->cur, U_JPAD)) {
+            if (CHECK_BTN_ALL(input->cur.button, BTN_DUP)) {
                 entryIdx--;
                 timer = 2;
                 if (entryIdx < 0) {
                     entryIdx = 0;
                 }
             }
-            if (CHECK_PAD(input->cur, D_JPAD)) {
+            if (CHECK_BTN_ALL(input->cur.button, BTN_DDOWN)) {
                 timer = 2;
                 entryIdx++;
                 if (!entries[entryIdx].value) {
@@ -129,7 +128,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
             }
         }
 
-        if (CHECK_PAD(input->press, A_BUTTON)) {
+        if (CHECK_BTN_ALL(input->press.button, BTN_A)) {
             *entries[entryIdx].value ^= (1 << curBit);
         }
 
@@ -145,7 +144,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
         oGfxCtx->polyOpa.p = gfx;
     }
 
-    if (CHECK_PAD(input->press, L_TRIG)) {
+    if (CHECK_BTN_ALL(input->press.button, BTN_L)) {
         globalCtx->pauseCtx.flag = 0;
     }
 

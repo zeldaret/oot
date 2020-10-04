@@ -1,4 +1,5 @@
 #include "z_bg_jya_megami.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000000
 
@@ -126,17 +127,17 @@ void BgJyaMegami_InitCollider(BgJyaMegami* this, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, &this->colliderItem);
 }
 
-void func_8089A1DC(GlobalContext* globalCtx, Vec3f* burstOrigin, Vec3f* burstDepthX, s32 num, s32 arg4) {
+void func_8089A1DC(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, s32 num, s32 arg4) {
     Vec3f spB4;
     s32 i;
 
     for (i = 0; i < num; i++) {
         s32 idx = ((s16)(Math_Rand_ZeroOne() * 8.0f)) & D_8089B17C[arg4];
-        s16 u0 = ((idx < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
-        func_80029E8C(globalCtx, burstOrigin, burstDepthX, burstOrigin, -90, u0, D_8089B16C[idx], 4, 0, D_8089B14C[idx],
-                      0, 5, D_8089B15C[idx], -1, OBJECT_JYA_OBJ, D_0600B9F8);
+        s16 arg5 = ((idx < 5) && (Math_Rand_ZeroOne() < 0.7f)) ? 0x40 : 0x20;
+        EffectSsKakera_Spawn(globalCtx, pos, velocity, pos, -90, arg5, D_8089B16C[idx], 4, 0, D_8089B14C[idx], 0, 5,
+                             D_8089B15C[idx], KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600B9F8);
         if (Math_Rand_ZeroOne() < 0.45f) {
-            Math_Vec3f_Copy(&spB4, burstOrigin);
+            Math_Vec3f_Copy(&spB4, pos);
             spB4.z += 25.0f;
             func_80033480(globalCtx, &spB4, 60.0f, 0, D_8089B14C[idx] * 4 + 50, D_8089B14C[idx] * 4 + 70, 1);
         }
