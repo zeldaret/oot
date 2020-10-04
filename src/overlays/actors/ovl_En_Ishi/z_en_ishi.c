@@ -226,11 +226,15 @@ void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx) {
 }
 
 void EnIshi_DropCollectible(EnIshi* this, GlobalContext* globalCtx) {
+    s16 dropParams;
+
     if ((this->actor.params & 1) == ROCK_SMALL) {
-        s16 dropParams = (this->actor.params >> 8) & 0xF;
+        dropParams = (this->actor.params >> 8) & 0xF;
+
         if (dropParams >= 0xD) {
             dropParams = 0;
         }
+        
         Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, dropParams << 4);
     }
 }
@@ -266,15 +270,15 @@ void EnIshi_SpawnBugs(EnIshi* this, GlobalContext* globalCtx) {
 
 static InitChainEntry sInitChains[][5] = {
     {
-        ICHAIN_F32_DIV1000(gravity, 64336, ICHAIN_CONTINUE),
-        ICHAIN_F32_DIV1000(minVelocityY, 45536, ICHAIN_CONTINUE),
+        ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE),
+        ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
         ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
         ICHAIN_F32(uncullZoneScale, 150, ICHAIN_CONTINUE),
         ICHAIN_F32(uncullZoneDownward, 400, ICHAIN_STOP),
     },
     {
-        ICHAIN_F32_DIV1000(gravity, 63036, ICHAIN_CONTINUE),
-        ICHAIN_F32_DIV1000(minVelocityY, 45536, ICHAIN_CONTINUE),
+        ICHAIN_F32_DIV1000(gravity, -2500, ICHAIN_CONTINUE),
+        ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
         ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
         ICHAIN_F32(uncullZoneScale, 250, ICHAIN_CONTINUE),
         ICHAIN_F32(uncullZoneDownward, 500, ICHAIN_STOP),
