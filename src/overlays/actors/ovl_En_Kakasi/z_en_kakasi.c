@@ -48,6 +48,7 @@ void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
+    //! @bug Skelanime_Free is not called
 }
 
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -65,19 +66,19 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.flags |= 0x400;
     this->actor.colChkInfo.mass = 0xFF;
 
-    Actor_SetScale(&this->actor, 0.01);
-    this->actionFunc = &func_80A8F660;
+    Actor_SetScale(&this->actor, 0.01f);
+    this->actionFunc = func_80A8F660;
 }
 
 void func_80A8F28C(EnKakasi* this) {
     this->unk_1A4 = 0;
     this->skelanime.animPlaybackSpeed = 0.0f;
-    this->unk_1A8 = this->unk_1AC = 0;
+    this->unk_1A8 = this->unk_1AC = 0x0;
 
     Math_SmoothDownscaleMaxF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rot.y, 5, 0x2710, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 5, 0x2710, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 0x5, 0x2710, 0x0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rot.y, 0x5, 0x2710, 0x0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->rot.z, 0x5, 0x2710, 0x0);
 }
 
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
@@ -108,14 +109,14 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
             break;
         case 2:
             this->unk_19A++;
-            if (this->unk_1AC == 0) {
-                this->unk_1AC = 5000;
+            if (this->unk_1AC == 0x0) {
+                this->unk_1AC = 0x1388;
             }
             break;
         case 3:
             this->unk_19A++;
-            if (this->unk_1A8 == 0) {
-                this->unk_1A8 = 5000;
+            if (this->unk_1A8 == 0x0) {
+                this->unk_1A8 = 0x1388;
             }
             break;
         case 4:
@@ -134,14 +135,14 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
-        Math_SmoothScaleMaxF(&this->skelanime.animPlaybackSpeed, this->unk_1B8, 0.1, 0.2);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->unk_1A8, 5, 1000, 0);
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->unk_1AC, 5, 1000, 0);
+        Math_SmoothScaleMaxF(&this->skelanime.animPlaybackSpeed, this->unk_1B8, 0.1f, 0.2f);
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->unk_1A8, 0x5, 0x3E8, 0);
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->unk_1AC, 0x5, 0x3E8, 0);
 
-        if (this->unk_1A8 != 0 && fabsf(this->actor.shape.rot.x - this->unk_1A8) < 50.0f) {
+        if (this->unk_1A8 != 0x0 && fabsf(this->actor.shape.rot.x - this->unk_1A8) < 50.0f) {
             this->unk_1A8 *= -1.0f;
         }
-        if (this->unk_1AC != 0 && fabsf(this->actor.shape.rot.z - this->unk_1AC) < 50.0f) {
+        if (this->unk_1AC != 0x0 && fabsf(this->actor.shape.rot.z - this->unk_1AC) < 50.0f) {
             this->unk_1AC *= -1.0f;
         }
 
@@ -167,13 +168,13 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     this->actor.textId = 0x4076;
     this->unk_196 = 6;
     if (LINK_IS_CHILD) {
-        this->unk_194 = 0;
+        this->unk_194 = false;
         if (gSaveContext.unk_F3C[4] != 0) {
             this->actor.textId = 0x407A;
             this->unk_196 = 5;
         }
     } else {
-        this->unk_194 = 1;
+        this->unk_194 = true;
         if (gSaveContext.unk_F3C[4] != 0) {
             this->actor.textId = 0x4079;
             this->unk_196 = 5;
@@ -275,7 +276,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
     osSyncPrintf("game_play->message.msg_mode=%d\n", globalCtx->msgCtx.msgMode);
 
     if (globalCtx->msgCtx.msgMode == 0) {
-        if (this->unk_194 != 0) {
+        if (this->unk_194) {
             this->actor.textId = 0x4077;
             this->unk_196 = 5;
             func_8010B680(globalCtx, this->actor.textId, NULL);
@@ -313,7 +314,7 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_198++;
     this->actor.posRot.rot = this->actor.shape.rot;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_19C); i++) {
         if (this->unk_19C[i] != 0) {
             this->unk_19C[i]--;
         }
