@@ -1,0 +1,52 @@
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 252: Incompatible pointer type assignment
+             SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &animEnMbWait, &this->limbDrawTable,
+ --------------------------------------------------------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 253: Incompatible pointer type assignment
+                              &this->transitionDrawTable, 28);
+ -----------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 261: Incompatible pointer type assignment
+             SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, &this->limbDrawTable,
+ ------------------------------------------------------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 262: Incompatible pointer type assignment
+                              &this->transitionDrawTable, 28);
+ -----------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 265: Incompatible pointer type assignment
+             this->actor.colChkInfo.damageTable = &sDamageTable2;
+ -----------------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 292: Incompatible pointer type assignment
+     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &animEnMbWait, &this->limbDrawTable,
+ ------------------------------------------------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 293: Incompatible pointer type assignment
+                      &this->transitionDrawTable, 28);
+ ---------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 443: Incompatible pointer type assignment
+     SkelAnime_ChangeAnim(&this->skelAnime, &animEnMbWalk, 0.0f, 0.0f, SkelAnime_GetFrameCount(&animEnMbWalk), 0, -4.0f);
+ ----------------------------------------------------------------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 455: Incompatible pointer type assignment
+     frames = SkelAnime_GetFrameCount(&animEnMbWalk);
+ -------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 467: Incompatible pointer type assignment
+     frameCount = SkelAnime_GetFrameCount(&animEnMbReadyCharge);
+ -----------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 487: Incompatible pointer type assignment
+     frames = SkelAnime_GetFrameCount(&D_0600B4BC);
+ -------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 527: Incompatible pointer type assignment
+     frames = SkelAnime_GetFrameCount(&D_0600D5D4);
+ -------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 656: Incompatible pointer type assignment
+                                      SkelAnime_GetFrameCount(&animEnMbReadyCharge), 0.0f, 2, 0.0f);
+ -------------------------------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 733: Incompatible pointer type assignment
+                                          (f32)SkelAnime_GetFrameCount(&D_0600E18C), 3, 0.0f);
+ ----------------------------------------------------------------------^
+cfe: Warning 709: /tmp/preprocessedwt_j01fy.c, line 738: Incompatible pointer type assignment
+                                          (f32)SkelAnime_GetFrameCount(&D_0600E18C), 3, 0.0f);
+ ----------------------------------------------------------------------^
+cfe: Error: /tmp/preprocessedwt_j01fy.c, line 1028: 'this' undefined; reoccurrences will not be reported.
+             Matrix_MultVec3f(&D_80AA9E08, &this->effPos);
+ -------------------------------------------^
+cfe: Error: /tmp/preprocessedwt_j01fy.c, line 1039: 'this' undefined; reoccurrences will not be reported.
+     if (this->unk_328 != 0) {
+ --------^
+make: *** [Makefile:221: build/src/overlays/actors/ovl_En_Mb/z_en_mb.o] Error 55

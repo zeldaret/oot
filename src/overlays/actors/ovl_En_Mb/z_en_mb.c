@@ -168,26 +168,22 @@ s32 D_80AA9DE4[] = {
     0x447A0000, 0xC60CA000, 0x44FA0000, 0x44898000, 0xC42F0000, 0x00000000,
 };
 
-Vec3f D_80AA9DFC = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
+Vec3f D_80AA9DFC = { 0.0f, 0.0f, 0.0f };
 
 Vec3f D_80AA9E08 = { 0.0f, -8000.0f, 0.0f };
 
-Vec3f D_80AA9E14 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
+Vec3f D_80AA9E14 = { 0.0f, 0.0f, 0.0f };
 
-s32 D_80AA9E20[] = {
-    0x457A0000, 0x45DAC000, 0x455AC000, 0x457A0000, 0x00000000, 0x455AC000, 0xC57A0000, 0x45DAC000, 0x455AC000,
-};
+//Vec3f D_80AA9E20[] = { { 4000.0f, 7000.0f, 3500.0f },  { 4000.0f, 0.0f, 3500.0f },  { -4000.0f, 7000.0f, 3500.0f },
+  //                     { -4000.0f, 7000.0f, 3500.0f }, { -4000.0f, 0.0f, 3500.0f }, { 4000.0f, 0.0f, 3500.0f } };
 
-s32 D_80AA9E44[] = { 0xC57A0000, 0x45DAC000, 0x455AC000, 0xC57A0000, 0x00000000, 0x455AC000,
-                     0x457A0000, 0x00000000, 0x455AC000, 0x00000000, 0x00000000 };
+Vec3f D_80AA9E20 = { 4000.0f, 7000.0f, 3500.0f };
+Vec3f D_80AA9E2C = { 4000.0f, 0.0f, 3500.0f };
+Vec3f D_80AA9E38 = { -4000.0f, 7000.0f, 3500.0f };
+
+Vec3f D_80AA9E44 = { -4000.0f, 7000.0f, 3500.0f };
+Vec3f D_80AA9E50 = { -4000.0f, 0.0f, 3500.0f };
+Vec3f D_80AA9E5C = { 4000.0f, 0.0f, 3500.0f };
 
 extern SkeletonHeader D_06008F38;    // D_06008F38
 extern AnimationHeader animEnMbWait; // D_060028E0
@@ -1009,83 +1005,89 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA92B8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA9440.s")
+/*void func_80AA9440(EnMb *this, GlobalContext *globalCtx) {
+s32 pad;
+
+
+
+    Matrix_MultVec3f(D_80AA9DC0, &this->collider2.dim.quad[1]);
+
+    Matrix_MultVec3f(D_80AA9DCC,  &this->collider2.dim.quad[0]);
+
+    Matrix_MultVec3f(D_80AA9DD8,  &this->collider2.dim.quad[3]);
+
+    Matrix_MultVec3f(D_80AA9DE4,  &this->collider2.dim.quad[2]);
+    
+    func_80062734(&this->collider2, &this->collider2.dim.quad[0], &this->collider2.dim.quad[1], &this->collider2.dim.quad[2], &this->collider2.dim.quad[3]);
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA94D8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Update.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA9870.s")
 // Post Limb Draw
-/*void func_80AA9870(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    s32 sp34;
-    Vec3f sp24;
-    u32 temp_t5;
-    void* temp_v0;
+void func_80AA9870(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     s32 phi_v1;
     EnMb* this = THIS;
+    Vec3f sp24;
+    s32 sp34;
+
     phi_v1 = -1;
     if (thisx->params == 0) {
         if (limbIndex == 0xC) {
-            sp34 = -1;
-            Matrix_MultVec3f(&D_80AA9E08, thisx + 0x338);
+            Matrix_MultVec3f(&D_80AA9E08, &this->effSpawnPos);
             if (this->attackParams > 0) {
-                sp34 = -1;
-                func_80AA9440(this, globalCtx);
+                func_80AA9440(thisx, globalCtx);
             }
         }
-        sp34 = -1;
         func_8002BDB0(thisx, limbIndex, 0x16, &D_80AA9DFC, 0x1B, &D_80AA9DFC);
-        phi_v1 = -1;
     }
-    temp_t5 = limbIndex - 6;
-    if (this->unk328 != 0) {
-        switch (temp_t5) { // Default cases 0 4 5 7 9 10 12 13 15 17 18 20
-            case 0:        // Good
-                phi_v1 = 5;
-                break;
-            case 1:
+
+    if (this->unk_328 != 0) {
+        switch (limbIndex) {
+            case 7:
                 phi_v1 = 0;
                 break;
-            case 3:
-                phi_v1 = 3;
-                break;
-            case 6:
+            case 12:
                 phi_v1 = 1;
                 break;
-            case 8:
-                phi_v1 = 4;
-                break;
-            case 11:
+            case 17:
                 phi_v1 = 2;
                 break;
+            case 9:
+                phi_v1 = 3;
+                break;
             case 14:
+                phi_v1 = 4;
+                break;
+            case 6:
+                phi_v1 = 5;
+                break;
+            case 20:
                 phi_v1 = 6;
                 break;
-            case 16:
-                phi_v1 = 8;
-                break;
-            case 19:
+            case 25:
                 phi_v1 = 7;
                 break;
-            case 21:
+            case 22:
+                phi_v1 = 8;
+                break;
+            case 27:
                 phi_v1 = 9;
                 break;
-            default:
-                break;
+
                 // block_18:
-                if (phi_v1 >= 0) {
-                    sp34 = phi_v1;
-                    Matrix_MultVec3f(&D_80AA9E14, &sp24);
-                    temp_v0 = thisx + (phi_v1 * 6);
-                    temp_v0->unk14C = (s16)(s32)sp24;
-                    temp_v0->unk14E = (s16)(s32)sp28;
-                    temp_v0->unk150 = (s16)(s32)sp2C;
-                }
+        }
+        if (phi_v1 >= 0) {
+            Matrix_MultVec3f(&D_80AA9E14, &sp24);
+            this->unk_14C[phi_v1].x = sp24.x;
+            this->unk_14C[phi_v1].y = sp24.y;
+            this->unk_14C[phi_v1].z = sp24.z;
         }
     }
-}*/
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Draw.s")
-/*void EnMb_Draw(Actor *thisx, GlobalContext *globalCtx) {
+/*void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ? spA4;
     ? sp98;
     ? sp8C;
@@ -1093,29 +1095,30 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     ? sp74;
     ? sp68;
     f32 sp28;
-    ?32 sp24;
-    ?32 sp20;
-    ?32 sp1C;
-    Actor *sp18;
-    ColliderTris *temp_s0_2;
-    Vec3f *temp_s0;
-    s16 temp_v1;
-    Vec3f *phi_s1;
-    Vec3f *phi_s2;
-    Vec3f *phi_s3;
-    Vec3f *phi_s0;
+    ? 32 sp24;
+    ? 32 sp20;
+    ? 32 sp1C;
+    Vec3f* temp_s0;
+    // s16 temp_v1;
+    Vec3f* phi_s1;
+    Vec3f* phi_s2;
+    Vec3f* phi_s3;
+    Vec3f* phi_s0;
     f32 phi_f0;
     EnMb* this = THIS;
+
     func_80093D18(globalCtx->state.gfxCtx);
-    sp18 = thisx;
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, 0,
-&func_80AA9870, thisx); if (thisx->params != 0) { if ((s32) thisx->unk334 > 0) { func_80AA92B8(thisx, globalCtx);
+                     &func_80AA9870, thisx);
+    if (thisx->params != 0) {
+        if (this->attackParams > 0) {
+            func_80AA92B8(thisx, globalCtx);
         }
-        phi_s1 = (Vec3f *) D_80AA9E20;
-        phi_s2 = (Vec3f *) &sp8C;
-        phi_s3 = (Vec3f *) D_80AA9E44;
-        phi_s0 = (Vec3f *) &sp68;
-loop_4:
+        phi_s1 = &D_80AA9E20;
+        phi_s2 = &D_80AA9E2C; //(Vec3f*)&sp8C;
+        phi_s3 = (Vec3f*)D_80AA9E44;
+        phi_s0 = (Vec3f*)&sp68;
+    loop_4:
         Matrix_MultVec3f(phi_s1, phi_s2);
         Matrix_MultVec3f(phi_s3, phi_s0);
         temp_s0 = phi_s0 + 0xC;
@@ -1126,17 +1129,16 @@ loop_4:
         if (temp_s0 != &sp8C) {
             goto loop_4;
         }
-        temp_s0_2 = thisx + 0x434;
-        func_800627A0(temp_s0_2, 0, (Vec3f *) &sp8C, (Vec3f *) &sp98, &spA4);
-        func_800627A0(temp_s0_2, 1, (Vec3f *) &sp68, (Vec3f *) &sp74, &sp80);
+        func_800627A0(&this->collider3, 0, (Vec3f*)&sp8C, (Vec3f*)&sp98, &spA4);
+        func_800627A0(&this->collider3, 1, (Vec3f*)&sp68, (Vec3f*)&sp74, &sp80);
     }
-    if (thisx->unk328 != 0) {
-        temp_v1 = thisx->unk328;
-        thisx->dmgEffectTimer = (u8) (thisx->dmgEffectTimer + 1);
-        if ((s32) temp_v1 >= 0) {
-            thisx->unk328 = (s16) (temp_v1 - 1);
+    if (this->unk_328 != 0) {
+        // temp_v1 = this->unk_328;
+        thisx->dmgEffectTimer += 1;
+        if (this->unk_328 >= 0) {
+            this->unk_328--;
         }
-        if (((s32) thisx->unk328 & 3) == 0) {
+        if ((thisx->unk_328 & 3) == 0) {
             phi_f0 = 2.5f;
             if (thisx->params == 0) {
                 phi_f0 = 4.0f;
@@ -1146,8 +1148,8 @@ loop_4:
             sp1C = 0xEB;
             sp18 = 0xFA;
             sp28 = phi_f0;
-            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, thisx + (((s32) thisx->unk328 >> 2) * 6) + 0x14C,
-(u16)0x96, 0x96, 0x96);
+            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, thisx + (((s32)thisx->unk328 >> 2) * 6) + 0x14C, (u16)0x96,
+                                           0x96, 0x96);
         }
     }
 }*/
