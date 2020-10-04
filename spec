@@ -667,8 +667,7 @@ endseg
 beginseg
     name "ovl_Bg_Ddan_Jd"
     include "build/src/overlays/actors/ovl_Bg_Ddan_Jd/z_bg_ddan_jd.o"
-    include "build/data/overlays/actors/z_bg_ddan_jd.data.o"
-    include "build/data/overlays/actors/z_bg_ddan_jd.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ddan_Jd/ovl_Bg_Ddan_Jd_reloc.o"
 endseg
 
 beginseg
@@ -1111,8 +1110,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Hashigo"
     include "build/src/overlays/actors/ovl_Bg_Mori_Hashigo/z_bg_mori_hashigo.o"
-    include "build/data/overlays/actors/z_bg_mori_hashigo.data.o"
-    include "build/data/overlays/actors/z_bg_mori_hashigo.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Hashigo/ovl_Bg_Mori_Hashigo_reloc.o"
 endseg
 
 beginseg
@@ -1130,8 +1128,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Idomizu"
     include "build/src/overlays/actors/ovl_Bg_Mori_Idomizu/z_bg_mori_idomizu.o"
-    include "build/data/overlays/actors/z_bg_mori_idomizu.data.o"
-    include "build/data/overlays/actors/z_bg_mori_idomizu.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Idomizu/ovl_Bg_Mori_Idomizu_reloc.o"
 endseg
 
 beginseg
@@ -2483,8 +2480,7 @@ endseg
 beginseg
     name "ovl_En_Goroiwa"
     include "build/src/overlays/actors/ovl_En_Goroiwa/z_en_goroiwa.o"
-    include "build/data/overlays/actors/z_en_goroiwa.data.o"
-    include "build/data/overlays/actors/z_en_goroiwa.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Goroiwa/ovl_En_Goroiwa_reloc.o"
 endseg
 
 beginseg
