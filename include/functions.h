@@ -2257,6 +2257,7 @@ void func_800F4190(Vec3f*, u16);
 void func_800F436C(UNK_TYPE arg0, s16 arg1, f32 arg2);
 // ? func_800F4414(?);
 // ? func_800F4524(?);
+void func_800F46E0(Vec3f* pos, f32 arg0);
 // ? func_800F4784(?);
 void func_800F47BC(void);
 void func_800F47FC(void);
