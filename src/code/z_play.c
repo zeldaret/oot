@@ -146,8 +146,8 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
                 globalCtx->lightCtx.unk_0A, 1000);
 }
 
-void Gameplay_Destroy(GlobalContext* globalCtx) {
-    s32 pad;
+void Gameplay_Destroy(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
     Player* player = PLAYER;
 
     globalCtx->state.gfxCtx->callback = NULL;
@@ -191,7 +191,8 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc and stack usage differences
 // also missing some extra duplicated instructions
-void Gameplay_Init(GlobalContext* globalCtx) {
+void Gameplay_Init(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
     GraphicsContext* gfxCtx;
     void* zAlloc; // 0x84
     void* zAllocAligned;
@@ -1329,7 +1330,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/Gameplay_Draw.s")
 #endif
 
-void Gameplay_Main(GlobalContext* globalCtx) {
+void Gameplay_Main(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
+    
     D_8012D1F8 = &globalCtx->state.input[0];
 
     DebugDisplay_Init();

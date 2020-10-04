@@ -566,20 +566,23 @@ void Select_Draw(SelectContext* this) {
     CLOSE_DISPS(gfxCtx, "../z_select.c", 1037);
 }
 
-void Select_Main(SelectContext* this) {
+void Select_Main(GameState* thisx) {
+    SelectContext* this = (SelectContext*)thisx;
+    
     Select_UpdateMenu(this);
     Select_Draw(this);
 }
 
-void Select_Destroy(SelectContext* this) {
+void Select_Destroy(GameState* thisx) {
     osSyncPrintf("%c", 7);
     // "view_cleanup will hang, so it won't be called"
     osSyncPrintf("*** view_cleanupはハングアップするので、呼ばない ***\n");
 }
 
-void Select_Init(SelectContext* this) {
+void Select_Init(GameState* thisx) {
+    SelectContext* this = (SelectContext*)thisx;
     u32 size;
-    s32 pad[2];
+    s32 pad;
 
     this->state.main = Select_Main;
     this->state.destroy = Select_Destroy;

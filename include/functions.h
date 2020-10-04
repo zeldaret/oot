@@ -1210,7 +1210,7 @@ void Player_DrawGetItem(GlobalContext* globalCtx, Player* player);
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime);
 void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
                    s32 sword, s32 tunic, s32 shield, s32 boots);
-void PreNMI_Init(PreNMIContext* prenmiCtx);
+void PreNMI_Init(GameState* thisx);
 Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2);
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x);
 s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake);
@@ -1576,9 +1576,9 @@ s32 func_800BC56C(GlobalContext* globalCtx, s16 arg1);
 void func_800BC590(GlobalContext* globalCtx);
 void func_800BC5E0(GlobalContext* globalCtx, s32 arg1);
 Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx);
-void Gameplay_Destroy(GlobalContext* globalCtx);
-void Gameplay_Init(GlobalContext* globalCtx);
-void Gameplay_Main(GlobalContext* globalCtx);
+void Gameplay_Destroy(GameState* thisx);
+void Gameplay_Init(GameState* thisx);
+void Gameplay_Main(GameState* thisx);
 s32 Gameplay_InCsMode(GlobalContext* globalCtx);
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec);
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file);
@@ -2619,14 +2619,14 @@ void func_801109B0(GlobalContext* globalCtx);
 void func_80110F68(GlobalContext* globalCtx);
 void func_80112098(GlobalContext* globalCtx);
 
-void Title_Init(TitleContext*);
-void Title_Destroy(TitleContext* this);
-void Select_Init(SelectContext*);
-void Select_Destroy(SelectContext*);
-void Opening_Init(OpeningContext* this);
-void Opening_Destroy(OpeningContext* this);
-void func_80811A20(GameState*); // FileChoose_Init
-void func_80811A18(GameState*); // FileChoose_Destroy
+void Title_Init(GameState* thisx);
+void Title_Destroy(GameState* thisx);
+void Select_Init(GameState* thisx);
+void Select_Destroy(GameState* thisx);
+void Opening_Init(GameState* thisx);
+void Opening_Destroy(GameState* thisx);
+void func_80811A20(GameState* thisx); // FileChoose_Init
+void func_80811A18(GameState* thisx); // FileChoose_Destroy
 
 void func_80823994(PauseContext*, f32, f32, f32);
 void func_800949A8(GraphicsContext*);

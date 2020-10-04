@@ -39,17 +39,21 @@ void PreNMI_Draw(PreNMIContext* prenmiCtx) {
     CLOSE_DISPS(gfxCtx, "../z_prenmi.c", 112);
 }
 
-void PreNMI_Main(PreNMIContext* prenmiCtx) {
+void PreNMI_Main(GameState* thisx) {
+    PreNMIContext* prenmiCtx = (PreNMIContext*)thisx;
+    
     PreNMI_Update(prenmiCtx);
     PreNMI_Draw(prenmiCtx);
 
     prenmiCtx->state.unk_A0 = 1;
 }
 
-void PreNMI_Destroy(PreNMIContext* prenmiCtx) {
+void PreNMI_Destroy(GameState* thisx) {
 }
 
-void PreNMI_Init(PreNMIContext* prenmiCtx) {
+void PreNMI_Init(GameState* thisx) {
+    PreNMIContext* prenmiCtx = (PreNMIContext*)thisx;
+
     prenmiCtx->state.main = PreNMI_Main;
     prenmiCtx->state.destroy = PreNMI_Destroy;
     prenmiCtx->timer = 30;
