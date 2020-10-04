@@ -17,8 +17,7 @@ typedef struct EnKakasi {
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
-    /* 0x019C */ s16 unk_19C[0x3];
-    /* 0x01A2 */ s16 unk_1A2;
+    /* 0x019C */ s16 unk_19C[4];
     /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A6 */ s16 unk_1A6;
     /* 0x01A8 */ s16 unk_1A8;

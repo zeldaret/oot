@@ -23,7 +23,7 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx);
 
-ColliderCylinderInit D_80A8FDE0 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x04, 0x01 },
     { 20, 70, 0, { 0, 0, 0 } },
@@ -57,7 +57,7 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.y);
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A8FDE0);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
     SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
 
@@ -70,10 +70,9 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A8F28C(EnKakasi* this) {
-    this->unk_1AC = 0;
     this->unk_1A4 = 0;
     this->skelanime.animPlaybackSpeed = 0.0f;
-    this->unk_1A8 = this->unk_1AC;
+    this->unk_1A8 = this->unk_1AC = 0;
 
     Math_SmoothDownscaleMaxF(&this->skelanime.animCurrentFrame, 0.5f, 1.0f);
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->rot.x, 5, 0x2710, 0);
@@ -87,8 +86,8 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
 
     phi_v0 = globalCtx->msgCtx.unk_E410[0];
     if (arg != 0) {
-        if (this->unk_1A2 == 0) {
-            this->unk_1A2 = (s16)Math_Rand_ZeroFloat(10.99f) + 30;
+        if (this->unk_19C[3] == 0) {
+            this->unk_19C[3] = (s16)Math_Rand_ZeroFloat(10.99f) + 30;
             this->unk_1A6 = (s16)Math_Rand_ZeroFloat(4.99f);
         }
 
@@ -147,7 +146,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
         }
 
         if (this->unk_1A4 != 0) {
-            this->actor.shape.rot.y += 4096;
+            this->actor.shape.rot.y += 0x1000;
             if (this->actor.shape.rot.y == 0) {
                 this->unk_1A4 = 0;
             }
@@ -191,7 +190,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
     SkelAnime_FrameUpdateMatrix(&this->skelanime);
     this->camId = -1;
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (func_8002F194(&this->actor, globalCtx)) {
         if (this->unk_196 == 5) {
             this->actionFunc = &func_80A8F9C8;
         } else {
@@ -204,10 +203,9 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     if (!(this->actor.xzDistFromLink > 120.0f)) {
         absAngleTowardsLink = ABS(angleTowardsLink);
 
-        if (absAngleTowardsLink < 17152) {
-            if (this->unk_194 == 0) {
-
-                if ((s32)(player->stateFlags2) << 7 < 0) {
+        if (absAngleTowardsLink < 0x4300) {
+            if (!this->unk_194) {
+                if (player->stateFlags2 & 0x1000000) {
                     this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
 
                     func_8010BD58(globalCtx, 0x2A);
@@ -216,7 +214,8 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
                     player->stateFlags2 |= 0x800000;
                     this->actionFunc = &func_80A8F8D0;
                     return;
-                } else if (this->actor.xzDistFromLink < 80.0f) {
+                }
+                if (this->actor.xzDistFromLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             }
@@ -260,7 +259,7 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
         this->camId = func_800800F8(globalCtx, 0x8DE, -0x63, &this->actor, 0);
-        globalCtx->msgCtx.msgMode = 0x37U;
+        globalCtx->msgCtx.msgMode = 0x37;
         func_8002DF54(globalCtx, NULL, 8);
         func_8010BD58(globalCtx, 0x2B);
         this->actionFunc = func_80A8FAA4;
@@ -274,7 +273,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
     }
 
     osSyncPrintf("game_play->message.msg_mode=%d\n", globalCtx->msgCtx.msgMode);
-    
+
     if (globalCtx->msgCtx.msgMode == 0) {
         if (this->unk_194 != 0) {
             this->actor.textId = 0x4077;
@@ -312,7 +311,7 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 i;
 
-    this->unk_198 += 1;
+    this->unk_198++;
     this->actor.posRot.rot = this->actor.shape.rot;
     for (i = 0; i < 4; i++) {
         if (this->unk_19C[i] != 0) {
@@ -338,6 +337,6 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_F3C[4]);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, 0, 0,
-                     &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, NULL,
+                     NULL, &this->actor);
 }
