@@ -24,6 +24,14 @@ void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, GlobalContext* globalCtx)
 
 extern Gfx D_040184B0[];
 
+typedef struct {
+    /* 0x00 */ s16 radius;
+    /* 0x02 */ s16 height;
+    /* 0x04 */ f32 scale;
+    /* 0x08 */ f32 riseDist;
+    /* 0x0C */ f32 riseSpeed;
+} BgHidanCurtainParams; // size = 0x10
+
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x09, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x20000000, 0x01, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x01 },
@@ -53,7 +61,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("Curtain (arg_data 0x%04x)\n", this->actor.params);
     Actor_SetHeight(&this->actor, 20.0f);
-    this->type = (thisx->params >> 0xC) & 0xF; // needed for matching
+    this->type = (thisx->params >> 0xC) & 0xF;
     if (this->type > 6) {
         // Type is not set
         osSyncPrintf("Error : object のタイプが設定されていない(%s %d)(arg_data 0x%04x)\n", "../z_bg_hidan_curtain.c",
@@ -62,10 +70,10 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    this->sizeIndex = ((this->type == 2) || (this->type == 4)) ? 1 : 0;
-    hcParams = &sHCParams[this->sizeIndex];
+    this->size = ((this->type == 2) || (this->type == 4)) ? 1 : 0;
+    hcParams = &sHCParams[this->size];
     this->treasureFlag = (thisx->params >> 6) & 0x3F;
-    this->actor.params &= 0x3F;
+    thisx->params &= 0x3F;
 
     if ((this->actor.params < 0) || (this->actor.params > 0x3F)) {
         // Save bit is not set
@@ -139,7 +147,7 @@ void BgHidanCurtain_WaitForSwitchOff(BgHidanCurtain* this, GlobalContext* global
 }
 
 void BgHidanCurtain_TurnOn(BgHidanCurtain* this, GlobalContext* globalCtx) {
-    f32 riseSpeed = sHCParams[this->sizeIndex].riseSpeed;
+    f32 riseSpeed = sHCParams[this->size].riseSpeed;
 
     if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, riseSpeed)) {
         Flags_UnsetSwitch(globalCtx, this->actor.params);
@@ -148,7 +156,7 @@ void BgHidanCurtain_TurnOn(BgHidanCurtain* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanCurtain_TurnOff(BgHidanCurtain* this, GlobalContext* globalCtx) {
-    BgHidanCurtainParams* hcParams = &sHCParams[this->sizeIndex];
+    BgHidanCurtainParams* hcParams = &sHCParams[this->size];
 
     if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - hcParams->riseDist,
                      hcParams->riseSpeed)) {
@@ -181,41 +189,41 @@ void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, GlobalContext* globalCtx)
     }
 }
 
-void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BgHidanCurtain* this = THIS;
-    BgHidanCurtainParams* hcParams = &sHCParams[this->sizeIndex];
-    f32 riseStatus;
+    BgHidanCurtainParams* hcParams = &sHCParams[this->size];
+    f32 riseProgress;
 
-    if ((globalCtx2->cameraPtrs[0]->setting == 0x28) || (globalCtx2->cameraPtrs[0]->setting == 0x38)) {
+    if ((globalCtx->cameraPtrs[0]->setting == 0x28) || (globalCtx->cameraPtrs[0]->setting == 0x38)) {
         this->collider.base.atFlags &= ~2;
     } else {
         if (this->collider.base.atFlags & 2) {
             this->collider.base.atFlags &= ~2;
-            func_8002F71C(globalCtx2, &this->actor, 5.0f, this->actor.yawTowardsLink, 1.0f);
+            func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsLink, 1.0f);
         }
         if ((this->type == 4) || (this->type == 5)) {
             this->actor.posRot.pos.y =
                 (2.0f * this->actor.initPosRot.pos.y) - hcParams->riseDist - this->actor.posRot.pos.y;
         }
 
-        this->actionFunc(this, globalCtx2);
+        this->actionFunc(this, globalCtx);
 
         if ((this->type == 4) || (this->type == 5)) {
             this->actor.posRot.pos.y =
                 (2.0f * this->actor.initPosRot.pos.y) - hcParams->riseDist - this->actor.posRot.pos.y;
         }
-        riseStatus =
+        riseProgress =
             (hcParams->riseDist - (this->actor.initPosRot.pos.y - this->actor.posRot.pos.y)) / hcParams->riseDist;
-        this->alpha = 255.0f * riseStatus;
+        this->alpha = 255.0f * riseProgress;
         if (this->alpha > 50) {
-            this->collider.dim.height = hcParams->height * riseStatus;
-            CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
-            CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            this->collider.dim.height = hcParams->height * riseProgress;
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (gSaveContext.sceneSetupIndex <= 3) {
                 func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR_S - SFX_FLAG);
             }
-        } else if ((this->type == 1) && Flags_GetTreasure(globalCtx2, this->treasureFlag)) {
+        } else if ((this->type == 1) && Flags_GetTreasure(globalCtx, this->treasureFlag)) {
             Actor_Kill(&this->actor);
         }
         this->texScroll++;
@@ -234,7 +242,7 @@ void BgHidanCurtain_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->texScroll & 0x7F, 0, 0x20, 0x40, 1, 0,
-                                (u8)(this->texScroll * -0xF), 0x20, 0x40));
+                                (this->texScroll * -0xF) & 0xFF, 0x20, 0x40));
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_curtain.c", 698),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
