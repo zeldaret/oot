@@ -1137,8 +1137,7 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Rakkatenjo"
     include "build/src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/z_bg_mori_rakkatenjo.o"
-    include "build/data/overlays/actors/z_bg_mori_rakkatenjo.data.o"
-    include "build/data/overlays/actors/z_bg_mori_rakkatenjo.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/ovl_Bg_Mori_Rakkatenjo_reloc.o"
 endseg
 
 beginseg
