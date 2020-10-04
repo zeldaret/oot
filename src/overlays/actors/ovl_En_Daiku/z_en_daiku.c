@@ -324,7 +324,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
-    gerudo = (EnGeldB*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_GELDB, 5);
+    gerudo = (EnGeldB*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_GELDB, ACTORTYPE_ENEMY);
     if (gerudo == NULL) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDODEFEATED;
         this->stateFlags &= ~ENDAIKU_STATEFLAG_GERUDOFIGHTING;
