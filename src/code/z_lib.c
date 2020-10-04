@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void Lib_MemSet(u8* dest, size_t size, u8 val) {
     u32 i;
@@ -168,8 +167,8 @@ s32 func_80077C6C(f32* pValue, f32 target, f32 incrStep, f32 decrStep) {
 }
 
 void func_80077D10(f32* arg0, s16* arg1, Input* input) {
-    f32 relX = input->rel.in.x;
-    f32 relY = input->rel.in.y;
+    f32 relX = input->rel.stick_x;
+    f32 relY = input->rel.stick_y;
 
     *arg0 = sqrtf(SQ(relX) + SQ(relY));
     *arg0 = (60.0f < *arg0) ? 60.0f : *arg0;

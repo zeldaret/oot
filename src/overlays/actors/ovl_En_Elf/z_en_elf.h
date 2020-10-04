@@ -1,8 +1,8 @@
 #ifndef _Z_EN_ELF_H_
 #define _Z_EN_ELF_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 #include "overlays/actors/ovl_Elf_Msg/z_elf_msg.h"
 
 struct EnElf;
