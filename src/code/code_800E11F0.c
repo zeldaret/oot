@@ -9,6 +9,12 @@
 #define AS_S32(x) (*(s32*)&(x)->unk_04)
 
 typedef enum {
+    SEQUENCE_TABLE,
+    BANK_TABLE,
+    AUDIO_TABLE
+} AudioTableType;
+
+typedef enum {
     CHAN_UPD_UNK_0,             // 0
     CHAN_UPD_VOL_SCALE,         // 1
     CHAN_UPD_VOL,               // 2
@@ -36,18 +42,22 @@ extern u8 gSequenceTable[];
 extern u8 gAudioBankTable[];
 extern u8 gAudioTable[];
 extern u8 D_80155340[];
-extern u32 D_801755D0;
+extern void(*D_801755D0)(void); // not sure about arguments yet.
 
 void func_800E3FB4(unk_1770_s *arg0, u32 size);
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
-ManyStruct_800E0E0C_2 *func_800E27F8(s32 arg0);
+void *func_800E27F8(s32 tableType);
 u32 func_800E2768(u32, u32);
 void *func_800E27A4(s32 poolIdx, s32 id);
-u8* func_800E2318(u32 arg0, u32 *arg1);
-u8 *func_800E2338(u32 arg0, u32 *arg1, s32 arg2);
+u32 func_800E2318(u32 arg0, u32 *arg1);
+u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2);
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1);
 void func_800E59AC(s32 playerIdx, u32 fadeTimer);
 void func_800E6818(void);
+u32 func_800E5000(void);
+void *func_800E2558(u32 arg0, u32 arg1, s32 *arg2);
+void func_800E2BCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 arg3);
 
 // like audio_load in sm64, but completely rewritten
 
@@ -210,48 +220,131 @@ u8* func_800E1F38(s32 arg0, u32 *arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E22C4.s")
 
-u8* func_800E2318(u32 arg0, u32 *arg1) {
+u32 func_800E2318(u32 arg0, u32 *arg1) {
     return func_800E2338(arg0, arg1, 1);
 }
 
-u8 *func_800E2338(u32 arg0, u32 *arg1, s32 arg2) {
+u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2) {
     void *temp_v0;
-    ManyStruct_800E0E0C_2 *sp30;
+    AudioTable *audioTable;
     u32 temp_s0;
     s8 tmp;
 
     temp_s0 = func_800E2768(2, arg0);
-    sp30 = func_800E27F8(2);
+    audioTable = func_800E27F8(2);
     if (temp_v0 = func_800E27A4(2, temp_s0), temp_v0 != NULL) {
         if (gAudioContext.gUnusedLoadStatus[temp_s0] != 1) {
             func_800E1AD8(temp_s0, 2);
         }
         *arg1 = 0;
         return temp_v0;
-    } else if (tmp = sp30->unk_C[arg0].unk_D, tmp == 4 || arg2 == 1) {
-        *arg1 = sp30->unk_C[arg0].unk_C;
-        return sp30->unk_C[temp_s0].unk_4;
+    } else if (tmp = audioTable->entries[arg0].unk_09, tmp == 4 || arg2 == 1) {
+        *arg1 = audioTable->entries[arg0].unk_08;
+        return audioTable->entries[temp_s0].tableOffset;
     } else if (temp_v0 = func_800E2558(2, arg0, &arg2), temp_v0 != NULL) {
         *arg1 = 0;
         return temp_v0;
     } else {
-        *arg1 = sp30->unk_C[arg0].unk_C;
-        return sp30->unk_C[temp_s0].unk_4;
+        *arg1 = audioTable->entries[arg0].unk_08;
+        return audioTable->entries[temp_s0].tableOffset;
     }
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2454.s")
 
+#ifdef NON_MATCHING
+void *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
+    u32 size;
+    AudioTable *table;
+    s32 sp40;
+    u32 tableOffset;
+    u32 id;
+    s32 sp24;
+    void* phi_s0;
+    s32 status;
+    s32 t;
+
+    id = func_800E2768(tableType, bankId);
+    phi_s0 = func_800E27A4(tableType, id);
+    if (phi_s0 != NULL) {
+        *arg2 = 0;
+        status = 2;
+    } else {
+        table = func_800E27F8(tableType);
+        size = ALIGN16(table->entries[id].size);
+        sp40 = table->entries[bankId].unk_08;
+        sp24 = table->entries[bankId].unk_09;
+        tableOffset = table->entries[id].tableOffset;
+        switch(sp24){
+            case 0:
+                phi_s0 = func_800E0540(tableType, id, size);
+                if (phi_s0 == 0) {
+                    return phi_s0;
+                }
+                break;
+                
+            case 1:
+                phi_s0 = Audio_AllocBankOrSeq(tableType, size, 1, id);
+                if (phi_s0 == 0) {
+                    return phi_s0;
+                }
+                break;
+            case 2:
+                phi_s0 = Audio_AllocBankOrSeq(tableType, size, 0, id);
+                if (phi_s0 == 0) {
+                    return phi_s0;
+                }
+                break;
+            case 3:
+            case 4:
+            default:
+                phi_s0 = Audio_AllocBankOrSeq(tableType, size, 2, id);
+                if (phi_s0 == 0) {
+                    return phi_s0;
+                }
+                break;
+
+        }
+
+        *arg2 = 1;
+        if (sp40 == 1) {
+            func_800E2BCC(tableOffset, phi_s0, size, table->header.unk_02);
+        } else {
+            func_800E2AA8(tableOffset, phi_s0, size, sp40);
+        }
+
+        status = sp24 == 0 ? 5 : 2;
+    }
+
+    switch(tableType){
+        case 0:
+            Audio_SetSeqLoadStatus(id, status);
+            break;
+        case 1:
+            Audio_SetBankLoadStatus(id, status);
+            break;
+        case 2:
+            func_800E1A78(id, status);
+            break;
+        default:
+            break;
+
+    }
+
+    return phi_s0;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2558.s")
+void *func_800E2558(u32 tableType, u32 bankId, s32 *arg2);
+#endif
 
 // returns a bankIdx? 
-u32 func_800E2768(u32 arg0, u32 bankId) {
-    ManyStruct_800E0E0C_2 *temp_v0;
+u32 func_800E2768(u32 poolIdx, u32 bankId) {
     u8 *phi_a1;
+    AudioTable *table = func_800E27F8(poolIdx);
 
-    temp_v0 = func_800E27F8(arg0);
-    if (temp_v0->unk_C[bankId].unk_8 == 0) {
-        bankId = (s32)temp_v0->unk_C[bankId].unk_4;
+    if (table->entries[bankId].size == 0) {
+        bankId = (s32)table->entries[bankId].tableOffset;
     }
 
     return bankId;
@@ -273,19 +366,19 @@ void *func_800E27A4(s32 poolIdx, s32 id) {
     return NULL;
 }
 
-ManyStruct_800E0E0C_2 *func_800E27F8(s32 arg0) {
-    ManyStruct_800E0E0C_2 * ret;
-    switch(arg0){
-        case 0:
+void *func_800E27F8(s32 tableType) {
+    void* ret;
+    switch(tableType){
+        case SEQUENCE_TABLE:
             ret = gAudioContext.sequenceTable;
             break;
-        case 1:
+        case BANK_TABLE:
             ret = gAudioContext.audioBankTable;
             break;
         default:
             ret =  NULL;
             break;
-        case 2:
+        case AUDIO_TABLE:
             ret = gAudioContext.audioTable;
             break;
     }
@@ -294,15 +387,42 @@ ManyStruct_800E0E0C_2 *func_800E27F8(s32 arg0) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E283C.s")
 
+#ifdef NON_MATCHING
+// matching, but data.
+void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 direction) {
+    OSMesgQueue* msgQueue = &gAudioContext.unk_25E8;
+    OSIoMesg* ioMesg = &gAudioContext.unk_2604;
+    size = ALIGN16(size);
+
+    func_800E6840(addr, size);
+
+    while(true){
+        if(size < 0x400){
+            break;
+        }
+        func_800E2BE0(ioMesg, OS_MESG_PRI_NORMAL, OS_READ, tableOffset, addr, 0x400, msgQueue, direction, "FastCopy");
+        osRecvMesg(msgQueue, NULL, OS_MESG_BLOCK);
+        size -= 0x400;
+        tableOffset += 0x400;
+        addr += 0x400;
+    }
+
+    if (size != 0) {
+        func_800E2BE0(ioMesg, OS_MESG_PRI_NORMAL, OS_READ, tableOffset, addr, size, msgQueue, direction, "FastCopy");
+        osRecvMesg(msgQueue, NULL, OS_MESG_BLOCK);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2AA8.s")
+#endif
+#undef NON_MATCHING
 
 
 void func_800E2BCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
-s32 (*D_801304D0)(OSPiHandle* handle, OSIoMesg* mb) = osEPiStartDma;
-#ifdef NON_MATCHING
-s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, u32 arg2, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue *reqQueue, u32 arg7, char *arg8) {
+s32 (*D_801304D0)(OSPiHandle* handle, OSIoMesg* mb, s32 direction) = osEPiStartDma;
+s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue *reqQueue, s32 arg7, char *arg8) {
     OSPiHandle *handle;
 
     if (gAudioContext.unk_2984 >= 0x11) {
@@ -320,24 +440,19 @@ s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, u32 arg2, u32 devAddr, void* ram
             return 0;
     }
 
-    if ((size & 0xF) != 0) {
+    if ((size % 0x10) != 0) {
         size = ALIGN16(size);
     }
 
     mesg->hdr.pri = priority;
     mesg->hdr.retQueue = reqQueue;
+    mesg->dramAddr = ramAddr;
     mesg->devAddr = devAddr;
     mesg->size = size;
-    mesg->dramAddr = ramAddr;
     handle->transferInfo.cmdType = 2;
-    D_801304D0(handle, mesg);
-    // @BUG D_801304D0 does not appear to accept a2 here, which osEPiStartDma expects.
+    D_801304D0(handle, mesg, direction);
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2BE0.s")
-s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, u32 arg2, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue *reqQueue, u32 arg7, char *arg8);
-#endif
 
 void func_800E2CB8(void) {
 }
@@ -355,27 +470,16 @@ void func_800E3028(u32 arg0) {
     D_801304D4 = arg0;
 }
 
-#ifdef NON_MATCHING
-CtlEntry *func_800E3034(s32 arg0) {
-    AudioBankTable *temp_t8;
-    AudioBankTableEntry *temp_v1;
-    CtlEntry *temp_v0;
+void func_800E3034(s32 arg0) {
+    CtlEntry *temp_v0 = &gAudioContext.gCtlEntries[arg0];
+    AudioBankTableEntry *temp_v1 = &gAudioContext.audioBankTable->entries[arg0];
 
-    temp_t8 = gAudioContext.audioBankTable;
-    temp_v0 = &gAudioContext.gCtlEntries[arg0];
-    temp_v0->unk_02 = (u8) ((s32) temp_t8->entries[arg0].unk_0A >> 8);
-    temp_v1 = &temp_t8->entries[arg0];
-    temp_v0->unk_03 = (u8) temp_t8->entries[arg0].unk_0A;
-    temp_v0->numInstruments = (u8) ((s32) (s16) temp_v1->unk_0C >> 8);
-    temp_v0->numDrums = (u8) (s16) temp_v1->unk_0C;
-    temp_v0->numSfx = (u16) (s16) temp_v1->unk_0E;
-    return temp_v0;
+    temp_v0->unk_02 = (temp_v1->unk_0A >> 8) & 0xFF;
+    temp_v0->unk_03 = (temp_v1->unk_0A) & 0xFF;
+    temp_v0->numInstruments = (temp_v1->unk_0C >> 8) & 0xFF;
+    temp_v0->numDrums = (temp_v1->unk_0C) & 0xFF;
+    temp_v0->numSfx = temp_v1->unk_0E;  
 }
-#else
-CtlEntry *func_800E3034(s32 arg0);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3034.s")
-#endif
-#undef NON_MATCHING
 
 u32 D_801304D8 = 0;
 

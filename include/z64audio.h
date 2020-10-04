@@ -738,19 +738,18 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ u32 tableOffset;
     /* 0x0004 */ u32 size;
-    /* 0x0008 */ s16 unk_08;
+    /* 0x0008 */ u8 unk_08;
+    /* 0x0009 */ u8 unk_09;
     /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ u8 unk_0C;
-    /* 0x000D */ u8 unk_0D;
-    /* 0x000E */ u8 unk_0E;
-    /* 0x00)F */ u8 unk_0F;
+    /* 0x000C */ s16 unk_0C;
+    /* 0x000E */ s16 unk_0E;
 } AudioBankTableEntry; // size = 0x10
 
 typedef struct {
     /* 0x0000 */ u32 tableOffset;
     /* 0x0004 */ u32 size;
     /* 0x0008 */ s8 unk_08;
-    /* 0x0009 */ u8 unk_09;
+    /* 0x0009 */ s8 unk_09;
     /* 0x000A */ char pad[6];
 } AudioTableEntry; // size = 0x10
 
@@ -791,7 +790,8 @@ typedef struct {
     /* 0x1DC8 */ u32 unk_1DC8;
     /* 0x1DCC */ char unk_1DCC[0x4C];
     /* 0x1E18 */ OSPiHandle* cartHandle;
-    /* 0x1E1C */ OSPiHandle* unk_1E1C;
+    /* probably an unused PI handle for n64 disk drive */
+    /* 0x1E1C */ OSPiHandle* unk_1E1C;  
     /* 0x1E20 */ OSMesgQueue unk_1E20;
     /* 0x1E38 */ OSMesg unk_1E38;
     /* 0x1E38 */ char unk_1E3C[0x3C];
@@ -803,7 +803,8 @@ typedef struct {
     /* 0x1EEC */ char unk_1EEC[0x6FC];
     /* 0x25E8 */ OSMesgQueue unk_25E8;
     /* 0x2600 */ OSMesg unk_2600;
-    /* 0x2604 */ char unk_2604[0x1C];
+    /* 0x2604 */ OSIoMesg unk_2604;
+    /* 0x261C */ char unk_261C[4];
     /* 0x2620 */ s32 gSampleDmaNumListItems;
     /* 0x2624 */ char unk_2624[0x20C];
     /* 0x2830 */ SequenceTable* sequenceTable;
