@@ -70,7 +70,7 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFF;
 
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y + 70.0f,
-                            this->actor.posRot.pos.z, 0xFF, 0xFF, 0xB4, -1);
+                            this->actor.posRot.pos.z, 255, 255, 180, -1);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
 
     if ((this->actor.params & 0x400) || ((torchType != 2) && Flags_GetSwitch(globalCtx, this->actor.params & 0x3F))) {
