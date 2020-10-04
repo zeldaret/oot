@@ -1,8 +1,8 @@
 #ifndef _Z_OBJ_KIBAKO_H_
 #define _Z_OBJ_KIBAKO_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct ObjKibako;
 

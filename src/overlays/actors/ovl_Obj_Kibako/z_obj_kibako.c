@@ -128,8 +128,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         } else {
             phi_s0 = 0x20;
         }
-        // EffectSsKakera_Spawn
-        func_80029E8C(globalCtx, &spC8, &spBC, pos, -200, phi_s0, 10, 10, 0, (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0,
+        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -200, phi_s0, 10, 10, 0, (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0,
                       32, 60, -1, 3, D_05005380);
     }
     func_80033480(globalCtx, &this->actor.posRot.pos, 40.0f, 3, 50, 140, 1);
@@ -144,7 +143,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
 
     spC8 = *pos;
     spC8.y += this->actor.waterY;
-    func_8002949C(globalCtx, &spC8, 0, 0, 0, 0x1F4);
+    EffectSsGSplash_Spawn(globalCtx, &spC8, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
         f32 sn = Math_Sins(angle);
@@ -163,8 +162,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
         spC8.z += pos->z;
         temp_rand = Math_Rand_ZeroOne();
         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
-        // EffectSsKakera_Spawn
-        func_80029E8C(globalCtx, &spC8, &spBC, pos, -180, phi_s0, 30, 30, 0, (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0,
+        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -180, phi_s0, 30, 30, 0, (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0,
                       32, 70, -1, 3, D_05005380);
     }
 }
@@ -179,12 +177,12 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
         ObjKibako_SetupHeld(this);
     } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 19.0f)) {
         ObjKibako_WaterBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x14, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
     } else if (this->collider.base.acFlags & 2) {
         ObjKibako_AirBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 0x14, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
     } else {
@@ -242,12 +240,12 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
 
     if ((thisx->bgCheckFlags & 0xB) || (this->collider.base.atFlags & 2)) {
         ObjKibako_AirBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(thisx);
     } else if (this->actor.bgCheckFlags & 0x40) {
         ObjKibako_WaterBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x14, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(thisx);
     } else {

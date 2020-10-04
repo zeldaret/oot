@@ -47,11 +47,28 @@ static ColliderCylinderInit sColCylinderInit1 = {
 
 s16 sHasParent = false;
 
-Color_RGBA8_n D_8087259C = { 100, 100, 100, 0 };
-Color_RGBA8_n D_808725A0 = { 40, 40, 40, 0 };
+extern Gfx D_60013500[];
+extern UNK_TYPE D_06001DDC;
 
-static Vec3f sVelocity = { 0.0f, -1.5f, 0.0f };
-static Vec3f sAcceleration = { 0.0f, -0.2f, 0.0f };
+void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
+}
+
+void BgDodoago_SpawnSparkles(Vec3f* vec, GlobalContext* globalCtx) {
+    Vec3f pos;
+    Color_RGBA8 primColor = { 100, 100, 100, 0 };
+    Color_RGBA8 envColor = { 40, 40, 40, 0 };
+    static Vec3f velocity = { 0.0f, -1.5f, 0.0f };
+    static Vec3f acceleration = { 0.0f, -0.2f, 0.0f };
+    s32 i;
+
+    for (i = 4; i > 0; i--) {
+        pos.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
+        pos.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
+        pos.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &velocity, &acceleration, &primColor, &envColor);
+    }
+}
 
 static InitChainEntry D_808725BC[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -60,29 +77,9 @@ static InitChainEntry D_808725BC[] = {
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
-extern Gfx D_60013500[];
-extern UNK_TYPE D_06001DDC;
-
 u8 D_808727C0[100];
+
 s32 D_80872824;
-
-void BgDodoago_SetupAction(BgDodoago* this, BgDodoagoActionFunc actionFunc) {
-    this->actionFunc = actionFunc;
-}
-
-void func_80871A08(Vec3f* vec, GlobalContext* globalCtx) {
-    Vec3f pos;
-    Color_RGBA8_n primColor = D_8087259C;
-    Color_RGBA8_n envColor = D_808725A0;
-    s32 i;
-
-    for (i = 4; i > 0; i--) {
-        pos.x = Math_Rand_CenteredFloat(20.0f) + vec->x;
-        pos.y = Math_Rand_CenteredFloat(10.0f) + vec->y;
-        pos.z = Math_Rand_CenteredFloat(20.0f) + vec->z;
-        func_80028B74(globalCtx, &pos, &sVelocity, &sAcceleration, &primColor, &envColor);
-    }
-}
 
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
@@ -206,13 +203,13 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
     currentPos.y = this->dyna.actor.posRot.pos.y - 20.0f;
     currentPos.z = this->dyna.actor.posRot.pos.z + 100.0f;
 
-    func_80871A08(&currentPos, globalCtx);
+    BgDodoago_SpawnSparkles(&currentPos, globalCtx);
 
     currentPos.x = this->dyna.actor.posRot.pos.x - 200.0f;
     currentPos.y = this->dyna.actor.posRot.pos.y - 20.0f;
     currentPos.z = this->dyna.actor.posRot.pos.z + 100.0f;
 
-    func_80871A08(&currentPos, globalCtx);
+    BgDodoago_SpawnSparkles(&currentPos, globalCtx);
     Math_ApproxS(&this->unk_164, 0x64, 3);
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 

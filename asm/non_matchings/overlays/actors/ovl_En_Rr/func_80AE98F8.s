@@ -247,7 +247,7 @@ glabel L80AE9B4C
 /* 017CC 80AE9C0C E7A00078 */  swc1    $f0, 0x0078($sp)           
 /* 017D0 80AE9C10 E7A0007C */  swc1    $f0, 0x007C($sp)           
 /* 017D4 80AE9C14 E7A00080 */  swc1    $f0, 0x0080($sp)           
-/* 017D8 80AE9C18 0C00A9AE */  jal     func_8002A6B8              
+/* 017D8 80AE9C18 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 017DC 80AE9C1C E7A80098 */  swc1    $f8, 0x0098($sp)           
 /* 017E0 80AE9C20 10000013 */  beq     $zero, $zero, .L80AE9C70   
 /* 017E4 80AE9C24 8FBF005C */  lw      $ra, 0x005C($sp)           

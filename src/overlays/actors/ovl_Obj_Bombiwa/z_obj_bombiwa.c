@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_bombiwa.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000000
 
@@ -86,25 +87,25 @@ void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
-    Vec3f temp_s2;
-    Vec3f temp_s3;
+    Vec3f pos;
+    Vec3f velocity;
     Gfx** dlist;
-    s16 u0;
+    s16 arg5;
     s16 scale;
     s32 i;
 
     dlist = D_060009E0;
     for (i = 0; i < ARRAY_COUNT(sEffectScales); i++) {
-        temp_s2.x = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.x;
-        temp_s2.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.initPosRot.pos.y) + 8.0f;
-        temp_s2.z = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.z;
-        temp_s3.x = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
-        temp_s3.y = (Math_Rand_ZeroOne() * 16.0f) + 5.0f;
-        temp_s3.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
+        pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.x;
+        pos.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.initPosRot.pos.y) + 8.0f;
+        pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 10.0f) + this->actor.initPosRot.pos.z;
+        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
+        velocity.y = (Math_Rand_ZeroOne() * 16.0f) + 5.0f;
+        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
         scale = sEffectScales[i];
-        u0 = (scale >= 11) ? 37 : 33;
-        func_80029E8C(globalCtx, &temp_s2, &temp_s3, &temp_s2, -400, u0, 10, 2, 0, scale, 1, 0, 80, -1, OBJECT_BOMBIWA,
-                      dlist);
+        arg5 = (scale >= 11) ? 37 : 33;
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, 10, 2, 0, scale, 1, 0, 80, KAKERA_COLOR_NONE,
+                             OBJECT_BOMBIWA, dlist);
     }
     func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 8, 100, 160, 1);
 }

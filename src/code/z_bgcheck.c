@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80038600.s")
 
@@ -23,7 +22,7 @@ void func_800387FC(u32 uParm1, u32* puParm2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003880C.s")
 
-void func_80038870(int iParm1) {
+void func_80038870(s32 iParm1) {
     *(u32*)(iParm1 + 4) = 0;
 }
 
@@ -31,9 +30,9 @@ u32 func_80038878(s32 iParm1) {
     u32 uVar1;
 
     uVar1 = *(u32*)(iParm1 + 4) & 0xffff;
-    *(int*)(iParm1 + 4) = *(u32*)(iParm1 + 4) + 1;
+    *(s32*)(iParm1 + 4) = *(u32*)(iParm1 + 4) + 1;
 
-    if (*(int*)(iParm1 + 8) <= (int)uVar1) {
+    if (*(s32*)(iParm1 + 8) <= (s32)uVar1) {
         return 0xffff;
     }
 
@@ -200,7 +199,7 @@ void func_8003E6E4(u16* a0) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E750.s")
 
-void func_8003E804(int iParm1) {
+void func_8003E804(s32 iParm1) {
     func_8003E5B4(iParm1 + 0x14, iParm1 + 0x34);
 }
 
@@ -231,7 +230,7 @@ void func_8003E8EC(u32 uParm1, u32* iParm2) {
     iParm2[0x0C] = iParm2[0x14];
 
 
-   //int i;
+   //s32 i;
    //for (i = 0; i < 4; i++) {
        //iParm2[0x06 + (i * 2)] = iParm2[0x0E + (i * 2)];
        //iParm2[0x07 + (i * 2)] = iParm2[0x0D + (i * 2)];
@@ -239,7 +238,7 @@ void func_8003E8EC(u32 uParm1, u32* iParm2) {
 }
 */
 
-u32 func_8003E934(int iParm1) {
+u32 func_8003E934(s32 iParm1) {
     if (!((-1 < iParm1) && (iParm1 < 0x32))) {
         return 0;
     }
@@ -338,13 +337,13 @@ void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-void func_80041978(int iParm1, int iParm2) {
+void func_80041978(s32 iParm1, s32 iParm2) {
     u8* puVar1;
 
     puVar1 = *(u8**)(iParm1 + 8);
     if (puVar1 < puVar1 + iParm2) {
         *puVar1 = 0;
-        while (puVar1++ < (u8*)(*(int*)(iParm1 + 8) + iParm2)) {
+        while (puVar1++ < (u8*)(*(s32*)(iParm1 + 8) + iParm2)) {
             *puVar1 = 0;
         }
     }
