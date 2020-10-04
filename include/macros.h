@@ -12,7 +12,6 @@
 
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
-#define	ULTRA_ABS(x) ((x) > 0) ? (x) : -(x)
 #define DECR(x) ((x) == 0 ? 0 : ((x) -= 1))
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
@@ -55,7 +54,9 @@
                                 ? gSaveContext.equips.buttonItems[button + 1]       \
                                 : ITEM_NONE)
 
-#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
+#define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
+#define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
+
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \

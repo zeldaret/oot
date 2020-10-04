@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 void func_80092320(PreNMIContext* prenmiCtx) {
     prenmiCtx->state.running = false;

@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags);
 void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags);

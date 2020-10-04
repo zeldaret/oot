@@ -1,8 +1,8 @@
 #ifndef _Z_EN_INSECT_H_
 #define _Z_EN_INSECT_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 #include "overlays/actors/ovl_Obj_Makekinsuta/z_obj_makekinsuta.h"
 
 struct EnInsect;

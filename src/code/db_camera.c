@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 extern GlobalContext* D_80161100;
 extern s32 D_8012CED8;

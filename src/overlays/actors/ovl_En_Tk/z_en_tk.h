@@ -1,8 +1,8 @@
 #ifndef _Z_EN_TK_H_
 #define _Z_EN_TK_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 /* Dirt particle effect */
 struct EnTkEff;
