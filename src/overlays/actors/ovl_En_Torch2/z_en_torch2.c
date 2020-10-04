@@ -64,8 +64,8 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     Player* this = THIS;
 
-    sInput.cur.in.button = sInput.press.in.button = sInput.rel.in.button = 0;
-    sInput.cur.in.x = sInput.cur.in.y = 0;
+    sInput.cur.button = sInput.press.button = sInput.rel.button = 0;
+    sInput.cur.stick_x = sInput.cur.stick_y = 0;
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemActionParam = this->heldItemId = 3;
     Player_SetModelGroup(this, 2);
@@ -150,7 +150,7 @@ s32 EnTorch2_SwingSword(GlobalContext* globalCtx, Input* input, Player* this) {
                         break;
                 }
             }
-            input->cur.in.button = B_BUTTON;
+            input->cur.button = BTN_B;
             return 1;
         }
     }
@@ -162,7 +162,7 @@ void EnTorch2_Backflip(Player* player, Input* input, Player* this) {
     sStickAngle = this->actor.yawTowardsLink + 0x8000;
     sStickTilt = 127.0f;
     sZTargetFlag = true;
-    input->cur.in.button = A_BUTTON;
+    input->cur.button = BTN_A;
     player->invincibilityTimer = 10;
     sCounterState = 0;
 }
@@ -192,7 +192,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     s16 sp4C;
 
     sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
-    sInput.cur.in.button = 0;
+    sInput.cur.button = 0;
     camera = Gameplay_GetCamera(globalCtx, 0);
     sp5C = EnTorch2_AttackItem(globalCtx, this);
     switch (sActionState) {
@@ -207,12 +207,12 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     sDodgeRollState = 1;
                     sStickAngle = this->actor.yawTowardsLink;
                     sStickTilt = 127.0f;
-                    sInput.cur.in.button = A_BUTTON;
+                    sInput.cur.button = BTN_A;
                     sZTargetFlag = false;
                     sp66 = camera->unk_13A.y - sStickAngle;
-                    sInput.cur.in.x = sStickTilt * Math_Sins(sp66);
+                    sInput.cur.stick_x = sStickTilt * Math_Sins(sp66);
                     temp = sStickTilt * Math_Coss(sp66);
-                    sInput.cur.in.y = temp;
+                    sInput.cur.stick_y = temp;
                 }
                 func_800F5ACC(0x38);
                 sActionState = ENTORCH2_ATTACK;
@@ -249,7 +249,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 sDodgeRollState = 1;
                 sStickAngle = this->actor.yawTowardsLink;
                 sStickTilt = 127.0f;
-                sInput.cur.in.button = A_BUTTON;
+                sInput.cur.button = BTN_A;
             } else if (sJumpslashTimer == 0) {
                 if ((player->swordState || (player->actor.velocity.y > -3.0f)) &&
                     (player->swordAnimation == 17)) { // jumpslash
@@ -258,7 +258,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                                                   : this->actor.yawTowardsLink - 0x4000;
                     sStickTilt = 127.0f;
                     sJumpslashFlag = false;
-                    sInput.cur.in.button |= A_BUTTON;
+                    sInput.cur.button |= BTN_A;
                     sJumpslashTimer = 15;
                 } else if (sSwordJumpState != 0) {
                     sStickTilt = 0.0f;
@@ -274,7 +274,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     sSwordJumpTimer--;
                     if ((sSwordJumpTimer == 0) || ((player->invincibilityTimer > 0) && !this->swordState)) {
                         this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-                        sInput.cur.in.button = A_BUTTON;
+                        sInput.cur.button = BTN_A;
                         player->stateFlags3 &= ~4;
                         sStickTilt = 127.0f;
                         player->skelAnime.animCurrentFrame = 3.0f;
@@ -293,7 +293,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 } else {
                     if (sHoldShieldTimer != 0) {
                         sHoldShieldTimer--;
-                        sInput.cur.in.button = R_TRIG;
+                        sInput.cur.button = BTN_R;
                     }
                     if (func_800354B4(globalCtx, &this->actor, 120.0f, 0x7FFF, 0x7FFF, this->actor.posRot.rot.y)) {
                         if ((player->swordAnimation == 12) && (this->actor.xzDistFromLink < 90.0f)) {
@@ -313,13 +313,13 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 player->skelAnime.animCurrentFrame = 2.0f;
                                 func_800A3BC0(globalCtx, &player->skelAnime);
                                 sHoldShieldTimer = 0;
-                                sInput.cur.in.button = A_BUTTON;
+                                sInput.cur.button = BTN_A;
                             } else {
                                 EnTorch2_Backflip(this, &sInput, this);
                             }
                         } else {
                             sStickAngle = this->actor.yawTowardsLink;
-                            sInput.cur.in.button = B_BUTTON;
+                            sInput.cur.button = BTN_B;
                             if (player->swordAnimation <= 3) {
                                 sStickTilt = 0.0f;
                             } else if (player->swordAnimation <= 7) {
@@ -329,13 +329,13 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 sStickTilt = 127.0f;
                                 sStickAngle -= 0x4000;
                             } else if (player->swordAnimation <= 23) {
-                                sInput.cur.in.button = R_TRIG;
+                                sInput.cur.button = BTN_R;
                             } else if (player->swordAnimation <= 27) {
                                 EnTorch2_Backflip(this, &sInput, this);
                             } else {
                                 EnTorch2_Backflip(this, &sInput, this);
                             }
-                            if (!(sInput.cur.in.button & (A_BUTTON | R_TRIG)) && !this->swordState &&
+                            if (!(sInput.cur.button & (BTN_A | BTN_R)) && !this->swordState &&
                                 player->swordState) {
                                 sCounterState = 1;
                             }
@@ -383,7 +383,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     }
                 }
             } else if (sJumpslashFlag && (sAlpha == 255) && (this->actor.velocity.y > 0)) {
-                sInput.cur.in.button |= B_BUTTON;
+                sInput.cur.button |= BTN_B;
             } else if (!sJumpslashFlag && (this->actor.bgCheckFlags & 1)) {
                 sStickAngle = this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
                 if (sAlpha != 255) {
@@ -391,22 +391,22 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     sStickTilt = 127.0f;
                     sZTargetFlag = true;
                 }
-                sInput.cur.in.button |= A_BUTTON;
+                sInput.cur.button |= BTN_A;
                 sJumpslashFlag = true;
                 this->invincibilityTimer = 10;
             }
             sp66 = camera->unk_13A.y - sStickAngle;
 
-            sInput.cur.in.x = Math_Sins(sp66) * sStickTilt;
+            sInput.cur.stick_x = Math_Sins(sp66) * sStickTilt;
             temp = Math_Coss(sp66) * sStickTilt;
-            sInput.cur.in.y = temp;
+            sInput.cur.stick_y = temp;
             if ((sAlpha != 255) && ((globalCtx->gameplayFrames % 8) == 0)) {
                 sAlpha++;
             }
             break;
         case ENTORCH2_DAMAGE:
             this->swordState = 0;
-            sInput.cur.in.x = sInput.cur.in.y = 0;
+            sInput.cur.stick_x = sInput.cur.stick_y = 0;
             if ((this->invincibilityTimer > 0) && (this->actor.posRot.pos.y < (this->actor.groundY - 160.0f))) {
                 this->stateFlags3 &= ~1;
                 this->actor.flags |= 1;
@@ -453,35 +453,35 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if ((gSaveContext.unk_13F0 == 3) &&
         (!player->swordState || (player->swordAnimation < 0x18) || (player->swordAnimation > 0x1B))) {
         sStickTilt = 0.0f;
-        sInput.cur.in.x = 0;
-        sInput.cur.in.y = 0;
-        sInput.cur.in.button = R_TRIG;
+        sInput.cur.stick_x = 0;
+        sInput.cur.stick_y = 0;
+        sInput.cur.button = BTN_R;
     }
     if ((sActionState == ENTORCH2_ATTACK) && (this->actor.xzDistFromLink <= 610.0f) && sZTargetFlag) {
-        sInput.cur.in.button |= Z_TRIG;
+        sInput.cur.button |= BTN_Z;
     }
 
-    phi_a2 = sInput.cur.in.button;
-    pad54 = sInput.cur.in.button ^ sInput.prev.in.button;
-    sInput.press.in.button = sInput.cur.in.button & pad54;
-    phi_v0 = sInput.cur.in.button;
-    if (sInput.cur.in.button & R_TRIG) {
-        sInput.cur.in.button = phi_a2;
+    phi_a2 = sInput.cur.button;
+    pad54 = sInput.cur.button ^ sInput.prev.button;
+    sInput.press.button = sInput.cur.button & pad54;
+    phi_v0 = sInput.cur.button;
+    if (sInput.cur.button & BTN_R) {
+        sInput.cur.button = phi_a2;
         if ((sCounterState == 0) && !this->swordState) {
-            phi_a2 = R_TRIG;
+            phi_a2 = BTN_R;
         } else {
-            phi_a2 = phi_v0 ^ R_TRIG;
+            phi_a2 = phi_v0 ^ BTN_R;
         }
         phi_v0 = phi_a2;
     }
-    sInput.rel.in.button = sInput.prev.in.button & pad54;
-    sInput.prev.in.button = phi_v0 & 0x3FFF; // & ~(A_BUTTON | B_BUTTON)
-    sInput.cur.in.button = phi_a2;
+    sInput.rel.button = sInput.prev.button & pad54;
+    sInput.prev.button = phi_v0 & 0x3FFF; // & ~(BTN_A | BTN_B)
+    sInput.cur.button = phi_a2;
 
     PadUtils_UpdateRelXY(&sInput);
 
-    sInput.press.in.x += (s8)(sInput.cur.in.x - sInput.prev.in.x);
-    sInput.press.in.y += (s8)(sInput.cur.in.y - sInput.prev.in.y);
+    sInput.press.stick_x += (s8)(sInput.cur.stick_x - sInput.prev.stick_x);
+    sInput.press.stick_y += (s8)(sInput.cur.stick_y - sInput.prev.stick_y);
 
     if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
         this->csMode = 0x18;
@@ -541,9 +541,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->stateFlags1 &= ~0x04000000;
         this->stateFlags3 |= 4;
         this->invincibilityTimer = 0;
-        sInput.press.in.x = sInput.press.in.y = 0;
-        sInput.cur.in.button = 0;
-        sInput.press.in.button = 0;
+        sInput.press.stick_x = sInput.press.stick_y = 0;
+        sInput.cur.button = 0;
+        sInput.press.button = 0;
         this->linearVelocity = 0.0f;
     }
 

@@ -459,7 +459,7 @@ typedef struct {
     // these bitfields should perhaps be merged into a single struct
     union {
         struct {
-            /*?0x00 */ volatile u8 enabled : 1;
+            /* 0x00 */ vu8 enabled : 1;
             /* 0x00 */ u8 needsInit : 1;
             /*?0x00 */ u8 finished : 1;
             /*?0x00 */ u8 envMixerNeedsInit : 1;

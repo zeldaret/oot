@@ -1,8 +1,8 @@
 #ifndef _Z_EN_DS_H_
 #define _Z_EN_DS_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnDs;
 
@@ -17,7 +17,7 @@ typedef struct EnDs {
     /* 0x01BA */ char unk_1B8[0x1E];
     /* 0x01D8 */ Vec3s unk_1D8;
     /* 0x01DE */ Vec3s unk_1DE;
-    /* 0x01E4 */ float unk_1E4;
+    /* 0x01E4 */ f32 unk_1E4;
     /* 0x01E8 */ u16 unk_1E8;
     /* 0x01EA */ u16 brewTimer;
     /* 0x01EC */ EnDsActionFunc actionFunc;
