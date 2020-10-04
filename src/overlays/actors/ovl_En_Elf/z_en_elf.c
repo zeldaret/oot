@@ -1501,7 +1501,7 @@ s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         }
     }
 
-    return false;
+    return 0;
 }
 
 void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
