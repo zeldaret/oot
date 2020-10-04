@@ -824,8 +824,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Curtain"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.o"
-    include "build/data/overlays/actors/z_bg_hidan_curtain.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_curtain.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Curtain/ovl_Bg_Hidan_Curtain_reloc.o"
 endseg
 
 beginseg
