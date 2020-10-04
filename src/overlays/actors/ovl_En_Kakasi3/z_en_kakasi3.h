@@ -25,7 +25,6 @@ typedef struct EnKakasi3 {
     /* 0x01AC */ char unk_1AC[2];
     /* 0x01AE */ s16 unk_1AE;
     /* 0x01B0 */ Vec3s rot;
-    /* 0x01B6 */ char unk_1B6[2];
     /* 0x01B8 */ f32 unk_1B8;
     /* 0x01BC */ ColliderCylinder collider;
     /* 0x0208 */ s16 camId;

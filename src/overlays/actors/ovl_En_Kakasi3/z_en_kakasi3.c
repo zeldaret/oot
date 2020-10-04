@@ -233,7 +233,8 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     player->stateFlags2 |= 0x800000;
                     this->actionFunc = func_80A915B8;
                     return;
-                } else if (this->actor.xzDistFromLink < 80.0f) {
+                } 
+                if (this->actor.xzDistFromLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             } else if (gSaveContext.unk_12C5 != 0 && !this->unk_195) {
@@ -247,7 +248,8 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                     player->stateFlags2 |= 0x800000;
                     this->actionFunc = func_80A9187C;
                     return;
-                } else if (this->actor.xzDistFromLink < 80.0f) {
+                } 
+                if (this->actor.xzDistFromLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
             }
