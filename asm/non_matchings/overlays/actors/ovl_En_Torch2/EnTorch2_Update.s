@@ -194,7 +194,7 @@ glabel EnTorch2_Update
 /* 006D0 80B1E050 3C1880B2 */  lui     $t8, %hi(sStaggerCount)       ## $t8 = 80B20000
 /* 006D4 80B1E054 3C0B8016 */  lui     $t3, %hi(gSaveContext+0x30)
 /* 006D8 80B1E058 11CF0008 */  beq     $t6, $t7, .L80B1E07C       
-/* 006DC 80B1E05C 3C0C80B2 */  lui     $t4, %hi(sAttackState)       ## $t4 = 80B20000
+/* 006DC 80B1E05C 3C0C80B2 */  lui     $t4, %hi(sCounterState)       ## $t4 = 80B20000
 /* 006E0 80B1E060 93180162 */  lbu     $t8, %lo(sStaggerCount)($t8)  
 /* 006E4 80B1E064 3C0180B2 */  lui     $at, %hi(sStaggerCount)       ## $at = 80B20000
 /* 006E8 80B1E068 27190001 */  addiu   $t9, $t8, 0x0001           ## $t9 = 80B20001
@@ -207,17 +207,17 @@ glabel EnTorch2_Update
 /* 00700 80B1E080 29610050 */  slti    $at, $t3, 0x0050           
 /* 00704 80B1E084 10200009 */  beq     $at, $zero, .L80B1E0AC     
 /* 00708 80B1E088 00000000 */  nop
-/* 0070C 80B1E08C 918C0160 */  lbu     $t4, %lo(sAttackState)($t4)  
-/* 00710 80B1E090 3C0180B2 */  lui     $at, %hi(sAttackState)       ## $at = 80B20000
+/* 0070C 80B1E08C 918C0160 */  lbu     $t4, %lo(sCounterState)($t4)  
+/* 00710 80B1E090 3C0180B2 */  lui     $at, %hi(sCounterState)       ## $at = 80B20000
 /* 00714 80B1E094 240D0032 */  addiu   $t5, $zero, 0x0032         ## $t5 = 00000032
 /* 00718 80B1E098 11800004 */  beq     $t4, $zero, .L80B1E0AC     
 /* 0071C 80B1E09C 00000000 */  nop
-/* 00720 80B1E0A0 A0200160 */  sb      $zero, %lo(sAttackState)($at) 
+/* 00720 80B1E0A0 A0200160 */  sb      $zero, %lo(sCounterState)($at) 
 /* 00724 80B1E0A4 3C0180B2 */  lui     $at, %hi(sStaggerTimer)       ## $at = 80B20000
 /* 00728 80B1E0A8 A02D0163 */  sb      $t5, %lo(sStaggerTimer)($at)  
 .L80B1E0AC:
-/* 0072C 80B1E0AC 3C0E80B2 */  lui     $t6, %hi(sAttackState)       ## $t6 = 80B20000
-/* 00730 80B1E0B0 91CE0160 */  lbu     $t6, %lo(sAttackState)($t6)  
+/* 0072C 80B1E0AC 3C0E80B2 */  lui     $t6, %hi(sCounterState)       ## $t6 = 80B20000
+/* 00730 80B1E0B0 91CE0160 */  lbu     $t6, %lo(sCounterState)($t6)  
 /* 00734 80B1E0B4 51C00013 */  beql    $t6, $zero, .L80B1E104     
 /* 00738 80B1E0B8 82180A78 */  lb      $t8, 0x0A78($s0)           ## 00000A78
 /* 0073C 80B1E0BC 820F0843 */  lb      $t7, 0x0843($s0)           ## 00000843
@@ -497,10 +497,10 @@ glabel EnTorch2_Update
 /* 00B34 80B1E4B4 45020048 */  bc1fl   .L80B1E5D8                 
 /* 00B38 80B1E4B8 860D008A */  lh      $t5, 0x008A($s0)           ## 0000008A
 /* 00B3C 80B1E4BC 82190843 */  lb      $t9, 0x0843($s0)           ## 00000843
-/* 00B40 80B1E4C0 3C0A80B2 */  lui     $t2, %hi(sAttackState)       ## $t2 = 80B20000
+/* 00B40 80B1E4C0 3C0A80B2 */  lui     $t2, %hi(sCounterState)       ## $t2 = 80B20000
 /* 00B44 80B1E4C4 1720003C */  bne     $t9, $zero, .L80B1E5B8     
 /* 00B48 80B1E4C8 00000000 */  nop
-/* 00B4C 80B1E4CC 914A0160 */  lbu     $t2, %lo(sAttackState)($t2)  
+/* 00B4C 80B1E4CC 914A0160 */  lbu     $t2, %lo(sCounterState)($t2)  
 /* 00B50 80B1E4D0 15400039 */  bne     $t2, $zero, .L80B1E5B8     
 /* 00B54 80B1E4D4 00000000 */  nop
 /* 00B58 80B1E4D8 80EB0A78 */  lb      $t3, 0x0A78($a3)           ## 00000A78
@@ -640,11 +640,11 @@ glabel EnTorch2_Update
 /* 00D4C 80B1E6CC 00000000 */  nop
 /* 00D50 80B1E6D0 80ED0843 */  lb      $t5, 0x0843($a3)           ## 00000843
 /* 00D54 80B1E6D4 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
-/* 00D58 80B1E6D8 3C0180B2 */  lui     $at, %hi(sAttackState)       ## $at = 80B20000
+/* 00D58 80B1E6D8 3C0180B2 */  lui     $at, %hi(sCounterState)       ## $at = 80B20000
 /* 00D5C 80B1E6DC 11A000CA */  beq     $t5, $zero, .L80B1EA08     
 /* 00D60 80B1E6E0 00000000 */  nop
 /* 00D64 80B1E6E4 100000C8 */  beq     $zero, $zero, .L80B1EA08   
-/* 00D68 80B1E6E8 A0380160 */  sb      $t8, %lo(sAttackState)($at)  
+/* 00D68 80B1E6E8 A0380160 */  sb      $t8, %lo(sCounterState)($at)  
 .L80B1E6EC:
 /* 00D6C 80B1E6EC 8619008A */  lh      $t9, 0x008A($s0)           ## 0000008A
 /* 00D70 80B1E6F0 3C0180B2 */  lui     $at, %hi(sStickAngle)       ## $at = 80B20000
@@ -716,10 +716,10 @@ glabel EnTorch2_Update
 /* 00E64 80B1E7E4 14400088 */  bne     $v0, $zero, .L80B1EA08     
 /* 00E68 80B1E7E8 00000000 */  nop
 /* 00E6C 80B1E7EC 82190843 */  lb      $t9, 0x0843($s0)           ## 00000843
-/* 00E70 80B1E7F0 3C0A80B2 */  lui     $t2, %hi(sAttackState)       ## $t2 = 80B20000
+/* 00E70 80B1E7F0 3C0A80B2 */  lui     $t2, %hi(sCounterState)       ## $t2 = 80B20000
 /* 00E74 80B1E7F4 17200084 */  bne     $t9, $zero, .L80B1EA08     
 /* 00E78 80B1E7F8 00000000 */  nop
-/* 00E7C 80B1E7FC 914A0160 */  lbu     $t2, %lo(sAttackState)($t2)  
+/* 00E7C 80B1E7FC 914A0160 */  lbu     $t2, %lo(sCounterState)($t2)  
 /* 00E80 80B1E800 3C0580B2 */  lui     $a1, %hi(sInput)       ## $a1 = 80B20000
 /* 00E84 80B1E804 24A50130 */  addiu   $a1, $a1, %lo(sInput)  ## $a1 = 80B20130
 /* 00E88 80B1E808 1540007F */  bne     $t2, $zero, .L80B1EA08     
@@ -1218,8 +1218,8 @@ glabel EnTorch2_Update
 /* 01590 80B1EF10 A439013C */  sh      $t9, %lo(sInput+12)($at)  
 /* 01594 80B1EF14 1160000F */  beq     $t3, $zero, .L80B1EF54     
 /* 01598 80B1EF18 00C01025 */  or      $v0, $a2, $zero            ## $v0 = 80B20000
-/* 0159C 80B1EF1C 3C0C80B2 */  lui     $t4, %hi(sAttackState)       ## $t4 = 80B20000
-/* 015A0 80B1EF20 918C0160 */  lbu     $t4, %lo(sAttackState)($t4)  
+/* 0159C 80B1EF1C 3C0C80B2 */  lui     $t4, %hi(sCounterState)       ## $t4 = 80B20000
+/* 015A0 80B1EF20 918C0160 */  lbu     $t4, %lo(sCounterState)($t4)  
 /* 015A4 80B1EF24 3C0180B2 */  lui     $at, %hi(sInput)       ## $at = 80B20000
 /* 015A8 80B1EF28 A4260130 */  sh      $a2, %lo(sInput)($at)  
 /* 015AC 80B1EF2C 15800007 */  bne     $t4, $zero, .L80B1EF4C     
@@ -1619,11 +1619,11 @@ glabel EnTorch2_Update
 /* 01B58 80B1F4D8 44813000 */  mtc1    $at, $f6                   ## $f6 = -18.00
 /* 01B5C 80B1F4DC C4680838 */  lwc1    $f8, 0x0838($v1)           ## 00000838
 /* 01B60 80B1F4E0 3C0780B2 */  lui     $a3, %hi(sStaggerTimer)       ## $a3 = 80B20000
-/* 01B64 80B1F4E4 3C0680B2 */  lui     $a2, %hi(sAttackState)       ## $a2 = 80B20000
+/* 01B64 80B1F4E4 3C0680B2 */  lui     $a2, %hi(sCounterState)       ## $a2 = 80B20000
 /* 01B68 80B1F4E8 46083032 */  c.eq.s  $f6, $f8                   
 /* 01B6C 80B1F4EC 24E70163 */  addiu   $a3, $a3, %lo(sStaggerTimer)  ## $a3 = 80B20163
 /* 01B70 80B1F4F0 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
-/* 01B74 80B1F4F4 24C60160 */  addiu   $a2, $a2, %lo(sAttackState)  ## $a2 = 80B20160
+/* 01B74 80B1F4F4 24C60160 */  addiu   $a2, $a2, %lo(sCounterState)  ## $a2 = 80B20160
 /* 01B78 80B1F4F8 4502001A */  bc1fl   .L80B1F564                 
 /* 01B7C 80B1F4FC 90C20000 */  lbu     $v0, 0x0000($a2)           ## 80B20160
 /* 01B80 80B1F500 C6000090 */  lwc1    $f0, 0x0090($s0)           ## 00000090
@@ -1690,8 +1690,8 @@ glabel EnTorch2_Update
 /* 01C60 80B1F5E0 0C017458 */  jal     Collider_QuadSetAT              
 /* 01C64 80B1F5E4 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 01C68 80B1F5E8 3C0780B2 */  lui     $a3, %hi(sStaggerTimer)       ## $a3 = 80B20000
-/* 01C6C 80B1F5EC 3C0680B2 */  lui     $a2, %hi(sAttackState)       ## $a2 = 80B20000
-/* 01C70 80B1F5F0 24C60160 */  addiu   $a2, $a2, %lo(sAttackState)  ## $a2 = 80B20160
+/* 01C6C 80B1F5EC 3C0680B2 */  lui     $a2, %hi(sCounterState)       ## $a2 = 80B20000
+/* 01C70 80B1F5F0 24C60160 */  addiu   $a2, $a2, %lo(sCounterState)  ## $a2 = 80B20160
 /* 01C74 80B1F5F4 24E70163 */  addiu   $a3, $a3, %lo(sStaggerTimer)  ## $a3 = 80B20163
 .L80B1F5F8:
 /* 01C78 80B1F5F8 90E20000 */  lbu     $v0, 0x0000($a3)           ## 80B20163

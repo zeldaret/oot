@@ -3160,8 +3160,8 @@ endseg
 beginseg
     name "ovl_En_Torch2"
     include "build/src/overlays/actors/ovl_En_Torch2/z_en_torch2.o"
-    include "build/src/overlays/actors/ovl_En_Torch2/ovl_En_Torch2_reloc.o"
-    //include "build/data/overlays/actors/z_en_torch2.reloc.o"
+    //include "build/src/overlays/actors/ovl_En_Torch2/ovl_En_Torch2_reloc.o"
+    include "build/data/overlays/actors/z_en_torch2.reloc.o"
 endseg
 
 beginseg
