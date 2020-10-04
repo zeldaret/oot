@@ -102,9 +102,9 @@ void ObjKibako_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
 void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
     s16 angle;
     s32 i;
-    Vec3f* pos = &this->actor.posRot.pos;
-    Vec3f spC8;
-    Vec3f spBC;
+    Vec3f* breakPos = &this->actor.posRot.pos;
+    Vec3f pos;
+    Vec3f vel;
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
         f32 sn = Math_Sins(angle);
@@ -112,15 +112,15 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         f32 temp_rand;
         s16 phi_s0;
 
-        spC8.x = sn * 16.0f;
-        spC8.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
-        spC8.z = cs * 16.0f;
-        spBC.x = spC8.x * 0.2f;
-        spBC.y = (Math_Rand_ZeroOne() * 6.0f) + 2.0f;
-        spBC.z = spC8.z * 0.2f;
-        spC8.x += pos->x;
-        spC8.y += pos->y;
-        spC8.z += pos->z;
+        pos.x = sn * 16.0f;
+        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = cs * 16.0f;
+        vel.x = pos.x * 0.2f;
+        vel.y = (Math_Rand_ZeroOne() * 6.0f) + 2.0f;
+        vel.z = pos.z * 0.2f;
+        pos.x += breakPos->x;
+        pos.y += breakPos->y;
+        pos.z += breakPos->z;
         temp_rand = Math_Rand_ZeroOne();
         if (temp_rand < 0.1f) {
             phi_s0 = 0x60;
@@ -129,7 +129,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         } else {
             phi_s0 = 0x20;
         }
-        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -200, phi_s0, 10, 10, 0,
+        EffectSsKakera_Spawn(globalCtx, &pos, &vel, breakPos, -200, phi_s0, 10, 10, 0,
                              (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
@@ -139,13 +139,13 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
 void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
     s16 angle;
     s32 i;
-    Vec3f* pos = &this->actor.posRot.pos;
-    Vec3f spC8;
-    Vec3f spBC;
+    Vec3f* breakPos = &this->actor.posRot.pos;
+    Vec3f pos;
+    Vec3f vel;
 
-    spC8 = *pos;
-    spC8.y += this->actor.waterY;
-    EffectSsGSplash_Spawn(globalCtx, &spC8, NULL, NULL, 0, 500);
+    pos = *breakPos;
+    pos.y += this->actor.waterY;
+    EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 500);
 
     for (i = 0, angle = 0; i < 12; i++, angle += 0x4E20) {
         f32 sn = Math_Sins(angle);
@@ -153,18 +153,18 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
         f32 temp_rand;
         s16 phi_s0;
 
-        spC8.x = sn * 16.0f;
-        spC8.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
-        spC8.z = cs * 16.0f;
-        spBC.x = spC8.x * 0.18f;
-        spBC.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
-        spBC.z = spC8.z * 0.18f;
-        spC8.x += pos->x;
-        spC8.y += pos->y;
-        spC8.z += pos->z;
+        pos.x = sn * 16.0f;
+        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = cs * 16.0f;
+        vel.x = pos.x * 0.18f;
+        vel.y = (Math_Rand_ZeroOne() * 4.0f) + 2.0f;
+        vel.z = pos.z * 0.18f;
+        pos.x += breakPos->x;
+        pos.y += breakPos->y;
+        pos.z += breakPos->z;
         temp_rand = Math_Rand_ZeroOne();
         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
-        EffectSsKakera_Spawn(globalCtx, &spC8, &spBC, pos, -180, phi_s0, 30, 30, 0,
+        EffectSsKakera_Spawn(globalCtx, &pos, &vel, breakPos, -180, phi_s0, 30, 30, 0,
                              (Math_Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 70, KAKERA_COLOR_NONE,
                              OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
     }
