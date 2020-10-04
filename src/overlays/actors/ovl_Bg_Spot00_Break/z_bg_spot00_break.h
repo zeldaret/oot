@@ -1,8 +1,8 @@
 #ifndef _Z_BG_SPOT00_BREAK_H
 #define _Z_BG_SPOT00_BREAK_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 
 struct BgSpot00Break;

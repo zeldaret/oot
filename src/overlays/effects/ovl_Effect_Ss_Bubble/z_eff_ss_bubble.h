@@ -1,13 +1,15 @@
 #ifndef _Z_EFF_SS_BUBBLE_H_
 #define _Z_EFF_SS_BUBBLE_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
-} EffectSsBubbleInitParams; // size = 0x
+    /* 0x0C */ f32 yPosOffset;
+    /* 0x10 */ f32 yPosRandScale;
+    /* 0x14 */ f32 xzPosRandScale;
+    /* 0x18 */ f32 scale;
+} EffectSsBubbleInitParams; // size = 0x1C
 
 #endif

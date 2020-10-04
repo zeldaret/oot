@@ -62,12 +62,12 @@ static InitChainEntry sInitChain[] = {
 static Vec3f D_80AE4918 = { 0.0f, 0.0f, 0.0f };
 
 // I'm guessing these are primitive and environment colors that go unused
-static Color_RGBA8_n D_80AE4924 = { 200, 200, 255, 255 };
-static Color_RGBA8_n D_80AE4928 = { 0, 0, 255, 0 };
+static Color_RGBA8 D_80AE4924 = { 200, 200, 255, 255 };
+static Color_RGBA8 D_80AE4928 = { 0, 0, 255, 0 };
 
 static Vec3f D_80AE492C = { 0.0f, 0.0f, 0.0f };
-static Color_RGBA8_n D_80AE4938 = { 200, 200, 255, 255 };
-static Color_RGBA8_n D_80AE493C = { 0, 0, 255, 0 };
+static Color_RGBA8 D_80AE4938 = { 200, 200, 255, 255 };
+static Color_RGBA8 D_80AE493C = { 0, 0, 255, 0 };
 
 static Vec3f D_80AE4940 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
@@ -277,8 +277,8 @@ void func_80AE2B90(EnRd* this, GlobalContext* globalCtx) {
 
 void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     Vec3f sp44 = D_80AE4918;
-    Color_RGBA8_n sp40 = D_80AE4924;
-    Color_RGBA8_n sp3C = D_80AE4928;
+    Color_RGBA8 sp40 = D_80AE4924;
+    Color_RGBA8 sp3C = D_80AE4928;
     Player* player = PLAYER;
     s32 pad;
     s16 sp32 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
@@ -518,8 +518,8 @@ void func_80AE37BC(EnRd* this) {
 
 void func_80AE3834(EnRd* this, GlobalContext* globalCtx) {
     Vec3f sp34 = D_80AE492C;
-    Color_RGBA8_n sp30 = D_80AE4938;
-    Color_RGBA8_n sp2C = D_80AE493C;
+    Color_RGBA8 sp30 = D_80AE4938;
+    Color_RGBA8 sp2C = D_80AE493C;
     Player* player = PLAYER;
     s16 temp_v0 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->unk_30E - this->unk_310;
 
@@ -866,9 +866,9 @@ void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
         if (idx >= 0) {
             Matrix_MultVec3f(&sp2C, &destPos);
-            this->unkFire[idx].x = destPos.x;
-            this->unkFire[idx].y = destPos.y;
-            this->unkFire[idx].z = destPos.z;
+            this->firePos[idx].x = destPos.x;
+            this->firePos[idx].y = destPos.y;
+            this->firePos[idx].z = destPos.z;
         }
     }
 }
@@ -892,8 +892,8 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.dmgEffectTimer++;
             THIS->unk_31A--;
             if (this->unk_31A % 4 == 0) {
-                func_8002A54C(globalCtx, &this->actor, &this->unkFire[this->unk_31A >> 2], 0x4B, 0, 0,
-                              (this->unk_31A >> 2));
+                EffectSsEnFire_SpawnVec3s(globalCtx, &this->actor, &this->firePos[this->unk_31A >> 2], 0x4B, 0, 0,
+                                          (this->unk_31A >> 2));
             }
         }
     } else {
