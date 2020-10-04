@@ -12,6 +12,7 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
@@ -7896,7 +7897,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         }
     } else if (this->unk_84F != 0) {
         this->unk_850 = 60;
-        func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, 5);
+        func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
         func_800800F8(globalCtx, 0x26B4, 125, &this->actor, 0);
     } else if (globalCtx->unk_10A20 == 2) {
@@ -9164,7 +9165,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (initMode != 0) {
         if ((gSaveContext.gameMode == 0) || (gSaveContext.gameMode == 3)) {
-            this->naviActor = func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_80854778, 0);
+            this->naviActor = func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_80854778, FAIRY_NAVI);
             if (gSaveContext.dogParams != 0) {
                 gSaveContext.dogParams |= 0x8000;
             }
@@ -12204,7 +12205,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
     }
 
     if (func_800A4530(&this->skelAnime, 37.0f)) {
-        func_80839680(globalCtx, this, &this->leftHandPos, &D_80854A1C, 1);
+        func_80839680(globalCtx, this, &this->leftHandPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         func_8002F7DC(&this->actor, NA_SE_EV_BOTTLE_CAP_OPEN);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
