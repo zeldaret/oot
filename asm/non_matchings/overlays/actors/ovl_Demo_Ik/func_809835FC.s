@@ -93,7 +93,7 @@ glabel func_809835FC
 /* 00458 80983758 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 0045C 8098375C 02A02825 */  or      $a1, $s5, $zero            ## $a1 = FFFFFFEC
 /* 00460 80983760 02403025 */  or      $a2, $s2, $zero            ## $a2 = FFFFFFE0
-/* 00464 80983764 0C00A9AE */  jal     func_8002A6B8              
+/* 00464 80983764 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 00468 80983768 02403825 */  or      $a3, $s2, $zero            ## $a3 = FFFFFFE0
 /* 0046C 8098376C 2610000C */  addiu   $s0, $s0, 0x000C           ## $s0 = 0000000C
 /* 00470 80983770 5613FFD8 */  bnel    $s0, $s3, .L809836D4       

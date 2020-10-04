@@ -5,7 +5,7 @@
  */
 
 #include "z_elf_msg2.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 

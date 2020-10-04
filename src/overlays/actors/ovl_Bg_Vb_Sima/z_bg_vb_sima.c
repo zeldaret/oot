@@ -72,8 +72,8 @@ void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* veloc
 }
 
 void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static Color_RGBA8_n colorYellow = { 255, 255, 0, 255 };
-    static Color_RGBA8_n colorRed = { 255, 10, 0, 255 };
+    static Color_RGBA8 colorYellow = { 255, 255, 0, 255 };
+    static Color_RGBA8 colorRed = { 255, 10, 0, 255 };
     s32 pad;
     BgVbSima* this = THIS;
     BossFd* bossFd = BOSSFD;

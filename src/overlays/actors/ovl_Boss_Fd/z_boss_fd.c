@@ -878,7 +878,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                         sp164.y = 0.03f;
 
-                        func_80029DBC(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
+                        EffectSsKFire_Spawn(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
 
                         for (i2 = 0; i2 < 15; i2++) {
                             sp170.x = Math_Rand_CenteredFloat(20.0f);
@@ -989,7 +989,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                 sp108.y = 0.03f;
 
-                func_80029DBC(globalCtx, &sp120, &sp114, &sp108, (s16)Math_Rand_ZeroFloat(15.0f) + 30, 0);
+                EffectSsKFire_Spawn(globalCtx, &sp120, &sp114, &sp108, (s16)Math_Rand_ZeroFloat(15.0f) + 30, 0);
             }
             if (this->timers[0] < 20) {
                 Math_SmoothDownscaleMaxF(&this->actor.scale.x, 1.0f, 0.0025f);
@@ -1173,8 +1173,8 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
 static Vec3f sFireAudioVec = { 0.0f, 0.0f, 50.0f };
 
 void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
-    static Color_RGBA8_n colorYellow = { 255, 255, 0, 255 };
-    static Color_RGBA8_n colorRed = { 255, 10, 0, 255 };
+    static Color_RGBA8 colorYellow = { 255, 255, 0, 255 };
+    static Color_RGBA8 colorRed = { 255, 10, 0, 255 };
     s16 breathOpacity = 0;
     f32 jawAngle;
     f32 jawSpeed;

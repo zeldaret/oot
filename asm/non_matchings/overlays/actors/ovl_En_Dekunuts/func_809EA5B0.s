@@ -45,7 +45,7 @@ glabel func_809EA5B0
 /* 010F8 809EA658 00C03825 */  or      $a3, $a2, $zero            ## $a3 = 809EABB0
 /* 010FC 809EA65C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01100 809EA660 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFF0
-/* 01104 809EA664 0C00A9AE */  jal     func_8002A6B8              
+/* 01104 809EA664 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 01108 809EA668 E7B00060 */  swc1    $f16, 0x0060($sp)          
 /* 0110C 809EA66C C6120028 */  lwc1    $f18, 0x0028($s0)          ## 00000028
 /* 01110 809EA670 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -66,7 +66,7 @@ glabel func_809EA5B0
 /* 0114C 809EA6AC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01150 809EA6B0 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFF0
 /* 01154 809EA6B4 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
-/* 01158 809EA6B8 0C00A5E9 */  jal     func_800297A4              
+/* 01158 809EA6B8 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 0115C 809EA6BC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01160 809EA6C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01164 809EA6C4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000

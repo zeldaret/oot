@@ -1,14 +1,11 @@
-#include <global.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ultra64/printf.h>
+#include "global.h"
 
 #define BUFF_LEN 0x20
 
 s16 _Ldunscale(s16*, _Pft*);
 void _Genld(_Pft*, u8, u8*, s16, s16);
 
-const double D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 10e127L, 10e255L };
+const f64 D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 10e127L, 10e255L };
 
 /* float properties */
 #define _D0 0
@@ -161,8 +158,8 @@ void _Ldtob(_Pft* args, u8 type) {
 
 s16 _Ldunscale(s16* pex, _Pft* px) {
 
-    unsigned short* ps = (unsigned short*)px;
-    short xchar = (ps[_D0] & _DMASK) >> _DOFF;
+    u16* ps = (u16*)px;
+    s16 xchar = (ps[_D0] & _DMASK) >> _DOFF;
     if (xchar == _DMAX) { /* NaN or INF */
         *pex = 0;
         return (s16)(ps[_D0] & _DFRAC || ps[_D1] || ps[_D2] || ps[_D3] ? NAN : INF);
@@ -275,7 +272,7 @@ void _Genld(_Pft* px, u8 code, u8* p, s16 nsig, s16 xexp) {
         px->n2 = p - (u8*)&px->s[px->n1];
     }
     if ((px->flags & (FLAGS_ZERO | FLAGS_MINUS)) == FLAGS_ZERO) { /* pad with leading zeros */
-        int n = px->n0 + px->n1 + px->nz1 + px->n2 + px->nz2;
+        s32 n = px->n0 + px->n1 + px->nz1 + px->n2 + px->nz2;
 
         if (n < px->width) {
             px->nz0 = px->width - n;

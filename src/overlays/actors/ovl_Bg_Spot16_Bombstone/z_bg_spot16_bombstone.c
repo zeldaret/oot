@@ -1,5 +1,6 @@
 #include "z_bg_spot16_bombstone.h"
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000010
 
@@ -248,7 +249,7 @@ void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_808B51A8(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
+void BgSpot16Bombstone_SpawnDust(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     f32 scaleX1 = this->actor.scale.x * 150;
     s16 scaleX2 = this->actor.scale.x * 250;
     Vec3f posRot;
@@ -290,10 +291,10 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808B53A8(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
+void BgSpot16Bombstone_SpawnFragments(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     f32 velocityYMultiplier = 1.3f;
-    Vec3f randomPosition;
-    Vec3f randomVelocity;
+    Vec3f pos;
+    Vec3f velocity;
     s32 index;
     s16 scale;
 
@@ -307,18 +308,18 @@ void func_808B53A8(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     if (index < ARRAY_COUNT(D_808B6074)) {
         do {
-            randomPosition.x = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
-            randomPosition.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 8.0f;
-            randomPosition.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
+            pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.x;
+            pos.y = ((Math_Rand_ZeroOne() * 5.0f) + this->actor.posRot.pos.y) + 8.0f;
+            pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 8.0f) + this->actor.posRot.pos.z;
 
-            randomVelocity.x = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
-            randomVelocity.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * velocityYMultiplier);
-            randomVelocity.z = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
+            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
+            velocity.y = (Math_Rand_ZeroOne() * 14.0) + (fabsf(this->actor.velocity.y) * velocityYMultiplier);
+            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 16.0f;
 
             scale = D_808B6074[index] * this->actor.scale.x * 3;
 
-            func_80029E8C(globalCtx, &randomPosition, &randomVelocity, &this->actor.posRot.pos, -0x1A4, 0x31, 0xF, 0xF,
-                          0, scale, 2, 0x40, 0xA0, -1, OBJECT_BOMBIWA, D_060009E0);
+            EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.posRot.pos, -420, 0x31, 0xF, 0xF, 0, scale, 2,
+                                 0x40, 160, KAKERA_COLOR_NONE, OBJECT_BOMBIWA, D_060009E0);
             index += 1;
         } while (index != ARRAY_COUNT(D_808B6074));
     }
@@ -484,8 +485,8 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     }
 
     if (actor->bgCheckFlags & 8 || (actor->bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
-        func_808B53A8(this, globalCtx);
-        func_808B51A8(this, globalCtx);
+        BgSpot16Bombstone_SpawnFragments(this, globalCtx);
+        BgSpot16Bombstone_SpawnDust(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &actor->posRot, 20, NA_SE_EV_ROCK_BROKEN);
         Actor_Kill(actor);
         return;

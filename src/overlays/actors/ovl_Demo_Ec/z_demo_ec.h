@@ -1,8 +1,8 @@
 #ifndef _Z_DEMO_EC_H_
 #define _Z_DEMO_EC_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct DemoEc;
 
