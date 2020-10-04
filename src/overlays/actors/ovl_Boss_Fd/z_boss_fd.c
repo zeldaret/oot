@@ -158,7 +158,7 @@ void BossFd_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocit
         if (particle->type == FD_NULL) {
             particle->type = FD_EMBER;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->alpha = 255;
@@ -175,7 +175,7 @@ void BossFd_SpawnDebris(BossFdParticle* particle, Vec3f* position, Vec3f* veloci
         if (particle->type == FD_NULL) {
             particle->type = FD_DEBRIS;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->xRot = Math_Rand_ZeroFloat(100.0f);
@@ -192,7 +192,7 @@ void BossFd_SpawnDust(BossFdParticle* particle, Vec3f* position, Vec3f* velocity
         if (particle->type == 0) {
             particle->type = FD_DUST;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->timer2 = 0;
             particle->scale = scale / 400.0f;
@@ -210,11 +210,11 @@ void BossFd_SpawnFireBreath(BossFdParticle* particle, Vec3f* position, Vec3f* ve
             particle->type = FD_FIRE_BREATH;
             particle->timer1 = 0;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
-            particle->pos.x -= particle->vel.x;
-            particle->pos.y -= particle->vel.y;
-            particle->pos.z -= particle->vel.z;
+            particle->pos.x -= particle->velocity.x;
+            particle->pos.y -= particle->velocity.y;
+            particle->pos.z -= particle->velocity.z;
             particle->scaleMod = 0.0f;
             particle->alpha = alpha;
             particle->yStop = Math_Rand_ZeroFloat(10.0f);
@@ -1282,7 +1282,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                 spawnPos1.z = temp_z + this->holePosition.z;
 
                 func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed,
-                              (s16)Math_Rand_ZeroFloat(150.0f) + 800, 0xA, (s16)Math_Rand_ZeroFloat(5.0f) + 17);
+                              (s16)Math_Rand_ZeroFloat(150.0f) + 800, 10, (s16)Math_Rand_ZeroFloat(5.0f) + 17);
             }
         } else {
             for (i = 0; i < 2; i++) {
@@ -1299,7 +1299,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                 spawnPos1.y = 100.0f;
                 spawnPos1.z = temp_z + this->holePosition.z;
 
-                func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed, 500, 0xA, 20);
+                func_8002836C(globalCtx, &spawnPos1, &spawnVel1, &spawnAccel1, &colorYellow, &colorRed, 500, 10, 20);
             }
         }
 
@@ -1537,13 +1537,13 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
         if (particle->type != FD_NULL) {
             particle->timer1++;
             
-            particle->pos.x += particle->vel.x;
-            particle->pos.y += particle->vel.y;
-            particle->pos.z += particle->vel.z;
+            particle->pos.x += particle->velocity.x;
+            particle->pos.y += particle->velocity.y;
+            particle->pos.z += particle->velocity.z;
             
-            particle->vel.x += particle->accel.x;
-            particle->vel.y += particle->accel.y;
-            particle->vel.z += particle->accel.z;
+            particle->velocity.x += particle->accel.x;
+            particle->velocity.y += particle->accel.y;
+            particle->velocity.z += particle->accel.z;
             if (particle->type == FD_EMBER) {
                 cInd = particle->timer1 % 4;
                 particle->color.r = colors[cInd].r;
@@ -1589,9 +1589,9 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
                     if ((particle->pos.y <= (particle->yStop + 130.0f)) || (particle->timer1 >= 10)) {
                         particle->accel.y = 5.0f;
                         particle->timer2++;
-                        particle->vel.y = 0.0f;
-                        particle->accel.x = (particle->vel.x * -25.0f) / 100.0f;
-                        particle->accel.z = (particle->vel.z * -25.0f) / 100.0f;
+                        particle->velocity.y = 0.0f;
+                        particle->accel.x = (particle->velocity.x * -25.0f) / 100.0f;
+                        particle->accel.z = (particle->velocity.z * -25.0f) / 100.0f;
                     }
                 } else {
                     if (particle->scale < 2.5f) {

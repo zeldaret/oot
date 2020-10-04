@@ -5,7 +5,7 @@
  */
 
 #include "z_boss_fd2.h"
-#include "../ovl_Boss_Fd/z_boss_fd.h"
+#include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0x00000035
 
@@ -123,7 +123,7 @@ void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec
         if (particle->type == FD_NULL) {
             particle->type = FD_DEBRIS;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->xRot = Math_Rand_ZeroFloat(100.0f);
@@ -142,11 +142,11 @@ void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle,
             particle->type = FD_FIRE_BREATH;
             particle->timer1 = 0;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
-            particle->pos.x -= particle->vel.x;
-            particle->pos.y -= particle->vel.y;
-            particle->pos.z -= particle->vel.z;
+            particle->pos.x -= particle->velocity.x;
+            particle->pos.y -= particle->velocity.y;
+            particle->pos.z -= particle->velocity.z;
             particle->scaleMod = 0.0f;
             particle->alpha = alpha;
             particle->yStop = Math_Rand_ZeroFloat(10.0f);
@@ -166,7 +166,7 @@ void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdParticle* particle, Vec3
         if (particle->type == 0) {
             particle->type = 1;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->alpha = 255;
@@ -184,7 +184,7 @@ void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdParticle* particle,
         if (particle->type == FD_NULL) {
             particle->type = FD_SKULL_PIECE;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->xRot = Math_Rand_ZeroFloat(100.0f);
@@ -201,7 +201,7 @@ void BossFd2_SpawnDust(BossFdParticle* particle, Vec3f* position, Vec3f* velocit
         if (particle->type == FD_NULL) {
             particle->type = FD_DUST;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->timer2 = 0;
             particle->scale = scale / 400.0f;

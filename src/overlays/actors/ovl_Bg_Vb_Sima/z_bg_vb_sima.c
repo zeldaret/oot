@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_vb_sima.h"
-#include "../ovl_Boss_Fd/z_boss_fd.h"
+#include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0x00000000
 
@@ -61,7 +61,7 @@ void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* veloc
         if (particle->type == FD_NULL) {
             particle->type = FD_EMBER;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->alpha = 255;
@@ -130,7 +130,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 splashPos.z = this->dyna.actor.posRot.pos.z + edgeZ;
 
                 func_8002836C(globalCtx, &splashPos, &splashVel, &splashAcc, &colorYellow, &colorRed,
-                              (s16)Math_Rand_ZeroFloat(100.0f) + 500, 0xA, 0x14);
+                              (s16)Math_Rand_ZeroFloat(100.0f) + 500, 10, 20);
 
                 for (i2 = 0; i2 < 3; i2++) {
                     emberVel.x = splashVel.x;

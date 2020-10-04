@@ -5,7 +5,7 @@
  */
 
 #include "z_en_vb_ball.h"
-#include "../ovl_Boss_Fd/z_boss_fd.h"
+#include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0x00000030
 
@@ -83,7 +83,7 @@ void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Ve
         if (particle->type == FD_NULL) {
             particle->type = FD_DEBRIS;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->scale = scale / 1000.0f;
             particle->xRot = Math_Rand_ZeroFloat(100.0f);
@@ -101,7 +101,7 @@ void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdParticle* particle, Vec3
         if (particle->type == FD_NULL) {
             particle->type = FD_DUST;
             particle->pos = *position;
-            particle->vel = *velocity;
+            particle->velocity = *velocity;
             particle->accel = *acceleration;
             particle->timer2 = 0;
             particle->scale = scale / 400.0f;
