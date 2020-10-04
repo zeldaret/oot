@@ -3495,7 +3495,7 @@ endseg
 beginseg
     name "ovl_Obj_Kibako"
     include "build/src/overlays/actors/ovl_Obj_Kibako/z_obj_kibako.o"
-    include "build/data/overlays/actors/z_obj_kibako.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Kibako/ovl_Obj_Kibako_reloc.o"
 endseg
 
 beginseg
