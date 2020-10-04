@@ -1145,9 +1145,7 @@ endseg
 beginseg
     name "ovl_Bg_Po_Event"
     include "build/src/overlays/actors/ovl_Bg_Po_Event/z_bg_po_event.o"
-    include "build/data/overlays/actors/z_bg_po_event.data.o"
-    include "build/data/overlays/actors/z_bg_po_event.bss.o"
-    include "build/data/overlays/actors/z_bg_po_event.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Po_Event/ovl_Bg_Po_Event_reloc.o"
 endseg
 
 beginseg
