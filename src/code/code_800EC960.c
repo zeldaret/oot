@@ -1435,6 +1435,7 @@ void func_800F6BDC(void) {
     }
 }
 
+// AudioMgr_PreNMI
 void func_800F6C14(void) {
     func_800E6024();
 }

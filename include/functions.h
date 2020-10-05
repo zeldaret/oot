@@ -2118,7 +2118,7 @@ void func_800E4D94(void);
 // ? func_800E4EEC(?);
 // ? func_800E4F58(?);
 void func_800E4FB0(void);
-// ? func_800E4FE0(?);
+AudioTask* func_800E4FE0(void);
 // ? func_800E5000(?);
 // ? func_800E5584(?);
 // ? func_800E5958(?);

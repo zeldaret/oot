@@ -47,20 +47,22 @@ extern void(*D_801755D0)(void); // not sure about arguments yet.
 void func_800E3FB4(unk_1770_s *arg0, u32 size);
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
 void *func_800E27F8(s32 tableType);
-u32 func_800E2768(u32, u32);
+u32 func_800E2768(s32, u32);
 void *func_800E27A4(s32 poolIdx, s32 id);
 u32 func_800E2318(u32 arg0, u32 *arg1);
 u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2);
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1);
 void func_800E59AC(s32 playerIdx, u32 fadeTimer);
 void func_800E6818(void);
-u32 func_800E5000(void);
-void *func_800E2558(u32 arg0, u32 arg1, s32 *arg2);
+AudioTask* func_800E5000(void);
+u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2);
 void func_800E2BCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 arg3);
 unk_1770_s *func_800E3AC8(s32 devAddr, void* ramAddr, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 unk_1770_s *func_800E3A44(char *arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4);
+u8* func_800E22C4(s32 seqId);
+void func_800E5D6C(u32);
 
 // like audio_load in sm64, but completely rewritten
 
@@ -166,14 +168,13 @@ s32 func_800E1B68(s32 arg0, u32 *arg1) {
     phi_s0 = gAudioContext.unk_283C[arg0]; // ofset into unk_283C for cnt?
     phi_s1 = *(phi_s0 + gAudioContext.unk_283Cb);
     phi_s0++;
+
     while(phi_s1 > 0){
-        phi_s2 = *(phi_s0 + gAudioContext.unk_283Cb);
-        
-        phi_s0++;
+        phi_s2 = gAudioContext.unk_283Cb[phi_s0++];
         sp28 = func_800E2454(phi_s2);
         phi_s1--;
-
     }
+
     *arg1 = phi_s2;
     return sp28;
 }
@@ -251,17 +252,111 @@ u8* func_800E1F38(s32 arg0, u32 *arg1) {
     return &gAudioContext.unk_283Cb[temp_v1];
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E1F7C.s")
+void func_800E202C(s32 arg0);
+void func_800E1F7C(s32 arg0) {
+    s32 temp_s0;
+    s32 phi_s1;
+    s32 phi_s2;
+    
+    phi_s1 = gAudioContext.unk_283C[arg0];
+    phi_s2 = *(phi_s1 + gAudioContext.unk_283Cb);
+    phi_s1++;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E202C.s")
+    while(phi_s2 > 0){
+        phi_s2--;
+        temp_s0 = func_800E2768(1, gAudioContext.unk_283Cb[phi_s1++]);
+        if (func_800E04E8(1, temp_s0) == NULL) {
+            func_800E202C(temp_s0);
+            Audio_SetBankLoadStatus(temp_s0, 0);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E20D4.s")
+void func_800E202C(s32 arg0) {
+    s32 i;
+    SoundMultiPool* pool = &gAudioContext.gBankLoadedPool;
+    PersistentPool* persistent;
+
+    if (arg0 == pool->temporary.entries[0].id) {
+        pool->temporary.entries[0].id = -1;
+    } else if (arg0 == pool->temporary.entries[1].id) {
+        pool->temporary.entries[1].id = -1;
+    }
+
+    persistent = &pool->persistent;
+    for(i = 0; i < persistent->numEntries; i++){
+        if (arg0 == persistent->entries[i].id) {
+            persistent->entries[i].id = -1;
+        }
+    }
+
+    Audio_DiscardBank(arg0);
+}
+
+s32 func_800E217C(s32 playerIdx, s32,s32);
+
+s32 func_800E20D4(s32 playerIdx, s32 arg1, s32 arg2) {
+    if (gAudioContext.unk_2984 != 0) {
+        return 0;
+    } else {
+        gAudioContext.gSequencePlayers[playerIdx].unk_DC = 0;
+        return func_800E217C(playerIdx, arg1, arg2);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2124.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E217C.s")
+s32 func_800E217C(s32 playerIdx, s32 seqId, s32 arg2) {
+    SequencePlayer *seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
+    u8 *seqData;
+    s32 phi_s0;
+    s32 phi_s1;
+    s32 phi_s2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E22C4.s")
+    if (seqId >= gAudioContext.unk_2840) {
+        return 0;
+    }
+
+    Audio_SequencePlayerDisable(seqPlayer);
+
+    phi_s2 = 0xFF;
+    phi_s0 = gAudioContext.unk_283C[seqId];
+    phi_s1 = gAudioContext.unk_283Cb[phi_s0++];
+    
+    while(phi_s1 > 0){
+        phi_s2 = gAudioContext.unk_283Cb[phi_s0++];
+        func_800E2454(phi_s2);
+        phi_s1--;
+    }
+
+    seqData = func_800E22C4(seqId);
+    if (seqData == NULL) {
+        return 0;
+    }
+
+    Audio_ResetSequencePlayer(seqPlayer);
+    seqPlayer->seqId = seqId;
+    seqPlayer->defaultBank = func_800E2768(1, phi_s2);
+    seqPlayer->seqData = seqData;
+    seqPlayer->enabled = 1;
+    seqPlayer->scriptState.pc = seqData;
+    seqPlayer->scriptState.depth = 0;
+    seqPlayer->delay = 0;
+    seqPlayer->finished = 0;
+    seqPlayer->seqVariationEu[0] = playerIdx;
+    Audio_ProcessSequence(seqPlayer);
+}
+
+u8 *func_800E22C4(s32 seqId) {
+    s32 pad;
+    s32 sp20;
+
+    if (gAudioContext.gSeqLoadStatus[func_800E2768(0, seqId)] == 1) {
+        return NULL;
+    }
+
+    return func_800E2558(0, seqId, &sp20);
+}
 
 u32 func_800E2318(u32 arg0, u32 *arg1) {
     return func_800E2338(arg0, arg1, 1);
@@ -296,54 +391,55 @@ u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2454.s")
 
 #ifdef NON_MATCHING
-void *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
+// matching, but data.
+u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
     u32 size;
     AudioTable *table;
-    s32 sp40;
-    u32 tableOffset;
-    u32 id;
-    s32 sp24;
-    void* phi_s0;
+    s32 pad;
+    u32 sp40;
     s32 status;
-    s32 t;
+    u32 tableOffset;
+    s32 sp24;
+    u8* ret;
+    u32 id;
 
     id = func_800E2768(tableType, bankId);
-    phi_s0 = func_800E27A4(tableType, id);
-    if (phi_s0 != NULL) {
+    ret = func_800E27A4(tableType, id);
+    if (ret != NULL) {
         *arg2 = 0;
         status = 2;
     } else {
         table = func_800E27F8(tableType);
-        size = ALIGN16(table->entries[id].size);
+        size = table->entries[id].size;
+        size = ALIGN16(size);
         sp40 = table->entries[bankId].unk_08;
         sp24 = table->entries[bankId].unk_09;
         tableOffset = table->entries[id].tableOffset;
         switch(sp24){
             case 0:
-                phi_s0 = func_800E0540(tableType, id, size);
-                if (phi_s0 == 0) {
-                    return phi_s0;
+                ret = func_800E0540(tableType, id, size);
+                if (ret == NULL) {
+                    return ret;
                 }
                 break;
-                
             case 1:
-                phi_s0 = Audio_AllocBankOrSeq(tableType, size, 1, id);
-                if (phi_s0 == 0) {
-                    return phi_s0;
+                ret = Audio_AllocBankOrSeq(tableType, size, 1, id);
+                if (ret == NULL) {
+                    return ret;
                 }
                 break;
             case 2:
-                phi_s0 = Audio_AllocBankOrSeq(tableType, size, 0, id);
-                if (phi_s0 == 0) {
-                    return phi_s0;
+                ret = Audio_AllocBankOrSeq(tableType, size, 0, id);
+                if (ret == NULL) {
+                    return ret;
                 }
                 break;
             case 3:
+                break;
             case 4:
-            default:
-                phi_s0 = Audio_AllocBankOrSeq(tableType, size, 2, id);
-                if (phi_s0 == 0) {
-                    return phi_s0;
+                ret = Audio_AllocBankOrSeq(tableType, size, 2, id);
+                if (ret == NULL) {
+                    return ret;
                 }
                 break;
 
@@ -351,9 +447,9 @@ void *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
 
         *arg2 = 1;
         if (sp40 == 1) {
-            func_800E2BCC(tableOffset, phi_s0, size, table->header.unk_02);
+            func_800E2BCC(tableOffset, ret, size, (s16)table->header.unk_02);
         } else {
-            func_800E2AA8(tableOffset, phi_s0, size, sp40);
+            func_800E2AA8(tableOffset, ret, size, sp40);
         }
 
         status = sp24 == 0 ? 5 : 2;
@@ -374,15 +470,14 @@ void *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
 
     }
 
-    return phi_s0;
+    return ret;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2558.s")
-void *func_800E2558(u32 tableType, u32 bankId, s32 *arg2);
 #endif
 
 // returns a bankIdx? 
-u32 func_800E2768(u32 poolIdx, u32 bankId) {
+u32 func_800E2768(s32 poolIdx, u32 bankId) {
     u8 *phi_a1;
     AudioTable *table = func_800E27F8(poolIdx);
 
@@ -500,7 +595,11 @@ s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, s32 direction, u32 devAddr, void
 void func_800E2CB8(void) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2CC0.s")
+void func_800E2CC0(u32 arg0, u32 arg1) {
+    s32 sp1C;
+
+    func_800E2558(arg0, arg1, &sp1C);
+}
 
 #ifdef NON_MATCHING
 // matching but data
@@ -605,9 +704,15 @@ void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2CE0.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2FEC.s")
+void func_800E2FEC(s32 arg0) {
+    func_800E36EC(arg0);
+    func_800E4590(arg0);
+    func_800E3BEC(arg0);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E301C.s")
+void func_800E301C(void *callback) {
+    D_801304D0 = callback;
+}
 
 u32 D_801304D4 = 0;
 void func_800E3028(u32 arg0) {
@@ -685,17 +790,17 @@ void func_800E3094(void *heap, u32 heapSize) {
     }
 
     gAudioContext.unk_289C = 0;
-    gAudioContext.unk_28A4 = NULL;
+    gAudioContext.unk_28A4 = 0;
     gAudioContext.unk_28A8 = 0;
     gAudioContext.gSoundMode = 0;
-    gAudioContext.unk_28B8 = 0;
-    gAudioContext.unk_28F4 = 0;
-    gAudioContext.unk_2944 = 0;
+    gAudioContext.unk_28B8 = NULL;
+    gAudioContext.rspTask.task.t.data_size = 0;
+    gAudioContext.unk_2908.task.t.yield_data_size = 0;
     osCreateMesgQueue(&gAudioContext.unk_25E8, &gAudioContext.unk_2600, 1);
     osCreateMesgQueue(&gAudioContext.unk_1ED0, &gAudioContext.unk_1EE8, 0x40);
     osCreateMesgQueue(&gAudioContext.unk_1E20, &gAudioContext.unk_1E38, 0x10);
     osCreateMesgQueue(&gAudioContext.unk_1E78, &gAudioContext.unk_1E90, 0x10);
-    gAudioContext.unk_28A0 = NULL;
+    gAudioContext.unk_28A0 = 0;
     gAudioContext.gSampleDmaNumListItems = 0;
     gAudioContext.cartHandle = osCartRomInit();
 
@@ -828,6 +933,7 @@ unk_1770_s *func_800E3AC8(s32 devAddr, void* ramAddr, s32 arg2, s32 arg3, s32 ar
     } else if (arg4 == 1) {
         phi_v1->unk_14 = arg2;
     } else {
+        // 256 bit alignment.
         phi_v1->unk_14 = ((arg2 / arg4) + 0xFF) & ~0xFF;
         if (phi_v1->unk_14 < 0x100) {
             phi_v1->unk_14 = 0x100;
@@ -1004,12 +1110,55 @@ void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E478C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E48C0.s")
+void func_800E48C0(AudioBankSound *sound) {
+    AudioBankSample *sample = sound->sample;
+
+    if ((sample->bits24 != 0) && (sample->unk_bits26) && (sample->bits2)) {
+        gAudioContext.unk_B68[gAudioContext.unk_1768++] = sample;
+    }
+}
+
+typedef struct {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} unk_4C;
 
 // large
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4918.s")
+void func_800E4918(s32, s32, unk_4C*);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4D94.s")
+void func_800E4D94(void) {
+    s32 pad;
+    u32 temp_s2;
+    AudioTable *temp_s3;
+    s32 pad2;
+    s32 i;
+
+    temp_s3 = func_800E27F8(2);
+    for(i = 0; i < gAudioContext.unk_2D50.unused; i++){
+        unk_4C sp4C;
+        if (gAudioContext.unk_2D60[i].poolIndex == 1) {
+            temp_s2 = func_800E2768(1, gAudioContext.unk_2D60[i].id);
+            sp4C.unk_00 = gAudioContext.gCtlEntries[temp_s2].unk_02;
+            sp4C.unk_04 = gAudioContext.gCtlEntries[temp_s2].unk_03;
+            
+            if (sp4C.unk_00 != 0xFF) {
+                sp4C.unk_00 = func_800E2768(2, sp4C.unk_00);
+                sp4C.unk_10 = temp_s3->entries[sp4C.unk_00].unk_08;
+            }
+
+            if (sp4C.unk_04 != 0xFF) {
+                sp4C.unk_04 = func_800E2768(2, sp4C.unk_04);
+                sp4C.unk_14 = temp_s3->entries[sp4C.unk_04].unk_08;
+            }
+            func_800E4918(temp_s2, 0, &sp4C);
+        }
+    }
+}
 
 void func_800E4ED4(void) {
 }
@@ -1044,19 +1193,203 @@ void func_800E4FB0(void) {
     osCreateMesgQueue(&D_8016B6E0, &D_8016B6F8, 0x10);
 }
 
-void func_800E4FE0(void) {
-    func_800E5000();
+AudioTask* func_800E5000(void);
+
+// AudioMgr_Retrace
+AudioTask* func_800E4FE0(void) {
+    return func_800E5000();
 }
 
 u32 D_801304E0 = 0x80;
-u32 D_801304E4 = 0;
-//large
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5000.s")
+AudioTask* D_801304E4 = NULL;
 
-void func_800E20D4(u8 playerIdx, u8, u8);
+extern u8 D_80155C70[];
+//large
+//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5000.s")
+AudioTask *func_800E5000(void) {
+    u32 sp6C;
+    s32 sp68;
+    s32 sp5C;
+    s16 *sp58;
+    u32 sp4C;
+    s32 sp48;
+    void *sp3C;
+    void *sp34;
+    OSTask_t *temp_v1_10;
+    OSMesgQueue *temp_s1;
+    s16 temp_a0_2;
+    s16 temp_v0_2;
+    s16 temp_v1;
+    s16 temp_v1_2;
+    s16 temp_v1_9;
+    s32 temp_a0;
+    s32 temp_a3;
+    s32 temp_a3_2;
+    s32 temp_hi;
+    s32 temp_s0;
+    s32 temp_s0_2;
+    s32 temp_s0_3;
+    s32 temp_s0_4;
+    s32 temp_s0_5;
+    s32 temp_t4;
+    s32 temp_t6;
+    s32 temp_t7;
+    s32 temp_v1_6;
+    s32 temp_v1_7;
+    s32 temp_v1_8;
+    u32 temp_t3;
+    u32 temp_t4_2;
+    void *temp_t0;
+    void *temp_v1_3;
+    void *temp_v1_4;
+    void *temp_v1_5;
+    s16 phi_v1;
+    s32 phi_a0;
+    void *phi_v1_2;
+    s32 phi_s0;
+    s32 phi_v1_3;
+    void *phi_v1_4;
+    s32 phi_s0_2;
+    s32 phi_v1_5;
+    s32 phi_s0_3;
+    s32 phi_s0_4;
+    void *phi_v1_6;
+    s32 phi_s0_5;
+    s32 i;
+
+    gAudioContext.unk_289C++;
+    if (gAudioContext.unk_289C % (gAudioContext.gAudioBufferParameters.presetUnk4) != 0) {
+        if (D_801755D0 != 0) {
+            D_801755D0();
+        }
+
+        if (gAudioContext.gAudioBufferParameters.presetUnk4 != ((gAudioContext.unk_289C % (gAudioContext.gAudioBufferParameters.presetUnk4)) + 1)) {
+            return NULL;
+        }
+        return D_801304E4;
+    }
+
+    osSendMesg(gAudioContext.unk_5BE8, gAudioContext.unk_289C, 0);
+    temp_t4 = gAudioContext.unk_28A8 + 1;
+    temp_t6 = (gAudioContext.unk_28A8 + 1) % 3;
+    temp_hi = (((gAudioContext.unk_28A8 + 1) % 3) + 1) % 3;
+    gAudioContext.unk_28A8 = gAudioContext.unk_28A8 + 1;
+    gAudioContext.unk_28A4 ^= 1;
+    gAudioContext.unk_28A8 = gAudioContext.unk_28A8 % 3;
+    sp6C = osAiGetLength() >> 2;
+    if (gAudioContext.unk_2984 < 0x10) {
+        temp_v0_2 = gAudioContext.unk_2974[temp_hi];
+        if (temp_v0_2 != 0) {
+            sp34 = &gAudioContext + (temp_hi * 4);
+            sp3C = &gAudioContext + (temp_hi * 2);
+            osAiSetNextBuffer(gAudioContext.unk_2968[temp_hi], temp_v0_2 * 4);
+        }
+    }
+
+    if (D_801755D0 != NULL) {
+        D_801755D0();
+    }
+
+    sp5C = gAudioContext.unk_28A0;
+    for(i = 0; i < gAudioContext.unk_28A0; i++) {
+        if (osRecvMesg(&gAudioContext.unk_1ED0, NULL, 0) == 0) {
+            sp5C--;
+        }
+    }
+
+    temp_s1 = &gAudioContext.unk_1ED0;
+    if (sp5C != 0) {
+        for(i = 0; i < sp5C; i++){
+            osRecvMesg(&gAudioContext.unk_1ED0, NULL, 1);
+        }
+    }
+
+    sp48 = gAudioContext.unk_1ED0.validCount;
+    if (gAudioContext.unk_1ED0.validCount != 0) {
+        for(i = 0; i < gAudioContext.unk_1ED0.validCount; i++){
+            osRecvMesg(&gAudioContext.unk_1ED0, NULL, 0);
+        }
+    }
+    gAudioContext.unk_28A0 = 0;
+    func_800E11F0();
+    func_800E2FEC(gAudioContext.gAudioResetStatus);
+    func_800E4F58();
+    if ((gAudioContext.gAudioResetStatus != 0) && (Audio_ResetStep() == 0)) {
+        if (gAudioContext.gAudioResetStatus == 0) {
+            osSendMesg(gAudioContext.unk_5BE4, gAudioContext.gAudioResetPresetIdToLoad, 0);
+        }
+
+        D_801304E4 = NULL;
+        return NULL;
+    }
+
+    if (gAudioContext.unk_2984 > 0x10) {
+        return NULL;
+    }
+
+    if (gAudioContext.unk_2984 != 0) {
+        gAudioContext.unk_2984++;
+    }
+
+    gAudioContext.unk_28B8 = &gAudioContext.rspTask[gAudioContext.unk_28A4];
+    gAudioContext.unk_28B4 = &gAudioContext.gAudioCmdBuffers[gAudioContext.unk_28A4];
+    gAudioContext.unk_2974[gAudioContext.unk_28A8] = (s16) ((((gAudioContext.gAudioBufferParameters.samplesPerFrameTarget - sp6C) + 0x80) & 0xFFF0) + 0x10);
+    if (gAudioContext.unk_2974[gAudioContext.unk_28A8] < gAudioContext.gAudioBufferParameters.minAiBufferLength) {
+        gAudioContext.unk_2974[gAudioContext.unk_28A8] = gAudioContext.gAudioBufferParameters.minAiBufferLength;
+    }
+
+    if (gAudioContext.gAudioBufferParameters.maxAiBufferLength < (s32) gAudioContext.unk_2974[gAudioContext.unk_28A8]) {
+        gAudioContext.unk_2974[gAudioContext.unk_28A8] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
+    }
+
+    if (gAudioContext.gAudioResetStatus == 0) {
+        i = 0;
+        while(osRecvMesg(gAudioContext.unk_5BEC, &sp4C, 0) != -1){
+            func_800E5D6C(sp4C);
+            i++;
+        }
+        if ((i == 0) && (gAudioContext.unk_5BDA != 0)) {
+            func_800E5B80();
+        }
+    }
+
+    gAudioContext.unk_28B4 = func_800DB0C4(gAudioContext.unk_28B4, &sp68, gAudioContext.unk_2968[gAudioContext.unk_28A8], gAudioContext.unk_2974[gAudioContext.unk_28A8]);
+    gAudioContext.gAudioRandom = osGetCount() * (gAudioContext.gAudioRandom + gAudioContext.unk_289C);
+    gAudioContext.gAudioRandom = gAudioContext.unk_2968[gAudioContext.unk_28A8][gAudioContext.unk_289C & 0xFF] + gAudioContext.gAudioRandom;;
+    gWaveSamples[8] = (s16*)((((u8*)func_800E4FE0)) + (gAudioContext.gAudioRandom & 0xFFF0));
+    gAudioContext.unk_28B8->taskQueue = NULL;
+    gAudioContext.unk_28B8->unk_44 = NULL;
+    temp_v1_10 = &gAudioContext.unk_28B8->task.t;
+    temp_v1_10->type = 2U;
+    temp_v1_10->flags = 0U;
+    temp_v1_10->ucode_boot = D_801120C0;
+    temp_v1_10->ucode_boot_size = 0x1000;
+    temp_v1_10->ucode_data_size = (((s32) (D_80155F50 - D_80155C70) >> 3) * 8) - 1;
+    temp_v1_10->ucode = D_801120C0;
+    temp_v1_10->ucode_data = D_80155C70;
+    temp_v1_10->ucode_size = 0x1000;
+    temp_v1_10->dram_stack = NULL;
+    temp_v1_10->dram_stack_size = 0;
+    temp_v1_10->output_buff = NULL;
+    temp_v1_10->output_buff_size = NULL;
+    temp_v1_10->data_ptr = gAudioContext.gAudioCmdBuffers[gAudioContext.unk_28A4];
+    temp_v1_10->yield_data_ptr = NULL;
+    temp_v1_10->yield_data_size = 0;
+    temp_v1_10->data_size = sp68 * 8;
+
+    if (D_801304E0 < sp68) {
+        D_801304E0 = sp68;
+    }
+
+    if (gAudioContext.gAudioBufferParameters.presetUnk4 == 1) {
+        return gAudioContext.unk_28B8;
+    }
+    D_801304E4 = gAudioContext.unk_28B8;
+    return NULL;
+}
+
 void func_800E2124(u8,u8, void*);
 void func_800E5958(s32 arg0, u32 arg1);
-void func_800E1F7C(u8);
 
 #ifdef NON_MATCHING
 // matches, but data.

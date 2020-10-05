@@ -1080,7 +1080,7 @@ UnkHeapEntry* func_800E06CC(u32 size) {
 
     index = -1;
     for (i = 0; i < gAudioContext.unk_176C; i++) {
-        thing = &gAudioContext.unk_0D68[i];
+        thing = &gAudioContext.unk_0D54[i + 1];
         if (thing->unk_10 == 0) {
             start = thing->unk_08;
             end = thing->unk_08 + thing->sample->bits24 - 1;

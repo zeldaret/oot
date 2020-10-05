@@ -90,9 +90,10 @@ typedef struct {
 } AdpcmBook;
 
 typedef struct {
-    /* 0x00 */ u8 bits4 : 4;
-    /* 0x00 */ u8 bits2 : 2;
-    /* 0x00 */ u8 unk_bits2 : 2;
+    /* 0x00 */ u32 bits4 : 4;
+    /* 0x00 */ u32 bits2 : 2;
+    /* 0x00 */ u32 unk_bits26 : 1;
+    /* 0x00 */ u32 unk_bits25 : 1;
     /* 0x01 */ u32 bits24 : 24;
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
@@ -763,7 +764,13 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ AudioTableHeader header;
     /* 0x0010 */ AudioTableEntry entries[1];
-} AudioTable; // size >= 020
+} AudioTable; // size >= 0x20
+
+typedef struct {
+    /* 0x0000 */ OSTask task;
+    /* 0x0040 */ OSMesgQueue* taskQueue;
+    /* 0x0044 */ void* unk_44; // probbly a message that gets unused.
+} AudioTask; // size = 0x48
 
 typedef struct {
     /* 0x0000 */ char unk_0000;
@@ -773,9 +780,11 @@ typedef struct {
     /* 0x0006 */ char unk_0006[0x0e];
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
     /* 0x0018 */ SynthesisReverb gSynthesisReverbs[4];
-    /* 0x0B38 */ char unk_0B38[0x230];
-    /* 0x0D68 */ AudioStruct0D68 unk_0D68[128]; // guessing at size
-    /* 0x1768 */ char unk_1768[4];
+    /* 0x0B38 */ char unk_0B38[0x30];
+    /* 0x0B68 */ AudioBankSample* unk_B68[1]; // unknown size.
+    /* 0x0B6C */ char unk_B6C[0x1E8];
+    /* 0x0D54 */ AudioStruct0D68 unk_0D54[129]; // guessing at size
+    /* 0x1768 */ s32 unk_1768;
     /* 0x176C */ s32 unk_176C;
     /* 0x1770 */ unk_1770_s unk_1770[0x10];
     /* 0x1CF0 */ OSMesgQueue unk_queue_1CF0;
@@ -783,7 +792,9 @@ typedef struct {
     /* 0x1D48 */ u32 unk_1D48;
     /* 0x1D4C */ char unk_1D4C[0x18];
     /* 0x1D64 */ u32 unk_1D64;
-    /* 0x1D6C */ char unk_1D68[0x60];
+    /* 0x1D6C */ char unk_1D68[0x18];
+    /* 0x1D80 */ OSMesgQueue unk_1D80;
+    /* 0x1D98 */ char unk_1D98[0x30];
     /* 0x1DC8 */ u32 unk_1DC8;
     /* 0x1DCC */ char unk_1DCC[0x4C];
     /* 0x1E18 */ OSPiHandle* cartHandle;
@@ -824,17 +835,15 @@ typedef struct {
     /* 0x289A */ s8 gSoundMode;
     /* 0x289B */ char unk_289B[0x1];
     /* 0x289C */ s32 unk_289C;
-    /* 0x28A0 */ void* unk_28A0;
-    /* 0x28A4 */ void* unk_28A4;
+    /* 0x28A0 */ s32 unk_28A0;
+    /* 0x28A4 */ s32 unk_28A4;
     /* 0x28A8 */ s32 unk_28A8;
     /* 0x28AC */ u64* gAudioCmdBuffers[2];
-    /* 0x28B4 */ char unk_28B4[0x4];
-    /* 0x28B8 */ u32 unk_28B8;
-    /* 0x28BC */ char unk_28BC[0x38];
-    /* 0x28F4 */ u32 unk_28F4;
-    /* 0x28F8 */ char unk_28F8[0x4C];
-    /* 0x2944 */ u32 unk_2944;
-    /* 0x2948 */ char unk_2948[0x18];
+    /* 0x28B4 */ u64* unk_28B4;
+    /* 0x28B8 */ AudioTask* unk_28B8;
+    /* 0x28BC */ char unk_28BC[0x4];
+    /* 0x28C0 */ AudioTask rspTask[2];
+    /* 0x2950 */ char unk_2950[0x10];
     /* 0x2960 */ f32 unk_2960;
     /* 0x2964 */ s32 gRefreshRate;
     /* 0x2968 */ s16* unk_2968[3];

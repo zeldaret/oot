@@ -584,7 +584,7 @@ extern s32 gDebugArenaLogSeverity;
 //extern ? D_8012DDDC;
 //extern ? sUCodeDisasModeHMacros;
 //extern ? sUCodeDisasModeLMacros;
-extern s16* gWaveSamples[6];
+extern s16* gWaveSamples[9];
 extern f32 gPitchBendFrequencyScale[256];
 //extern ? D_8012F098;
 //extern ? D_8012F0B0;
