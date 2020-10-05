@@ -47,6 +47,23 @@ extern Gfx D_0600D6E8[];
 
 extern UNK_TYPE D_0600D700;
 
+typedef enum {
+    /* 0 */ NO_CUTSCENE,
+    /* 1 */ INTRO_WAIT,
+    /* 2 */ INTRO_START,
+    /* 3 */ INTRO_LOOK_LINK,
+    /* 4 */ INTRO_LOOK_GROUND,
+    /* 5 */ INTRO_COLLAPSE,
+    /* 6 */ INTRO_EMERGE
+} BossFdCutsceneStates;
+
+typedef enum {
+    /* 0 */ INTRO_FLY_EMERGE,
+    /* 1 */ INTRO_FLY_HOLE,
+    /* 2 */ INTRO_FLY_CAMERA,
+    /* 3 */ INTRO_FLY_RETRAT
+} BossFdIntroFlyStates;
+
 const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
     ACTORTYPE_BOSS,
@@ -270,8 +287,8 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime1, &D_06011660, &D_060115E4, 0, 0, 0);
     SkelAnime_Init(globalCtx, &this->skelAnime2, &D_060115A0, &D_06011524, 0, 0, 0);
     SkelAnime_Init(globalCtx, &this->skelAnime3, &D_060114E0, &D_06011464, 0, 0, 0);
-    this->introState2 = 1;
-    if (this->introState2 == 0) {
+    this->introState = INTRO_WAIT;
+    if (this->introState == NO_CUTSCENE) {
         Audio_SetBGM(0x6B);
     }
 
@@ -294,7 +311,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.colChkInfo.health = 24;
     this->skinSegments = 18;
-    if (this->introState2 == 0) {
+    if (this->introState == NO_CUTSCENE) {
         this->actionFunc = BossFd_Wait;
     } else {
         BossFd_SetupFly(this, globalCtx);
@@ -307,7 +324,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
     } else {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.posRot.pos.x,
-                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->introState2);
+                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->introState);
     }
 }
 
@@ -321,7 +338,7 @@ void BossFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-s32 BossFd_FacingLink(BossFd* this) {
+s32 BossFd_IsFacingLink(BossFd* this) {
     return ABS((s16)(this->actor.yawTowardsLink - this->actor.posRot.rot.y)) < 0x2000;
 }
 
@@ -363,7 +380,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     f32 temp_y;
     f32 temp_x;
     f32 temp_z;
-    s32 pad;
+    s32 pad19C;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime1);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime2);
@@ -385,21 +402,21 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
      *                                   Boss Intro Cutscene                                *
      ****************************************************************************************/
 
-    if (this->introState2 != 0) {
+    if (this->introState != NO_CUTSCENE) {
         Player* player2 = PLAYER; // definitely needed for match
         Camera* camera = Gameplay_GetCamera(globalCtx, 0);
-        switch (this->introState2) {
-            case 1: // Waiting before the fight
+        switch (this->introState) {
+            case INTRO_WAIT:
                 this->fogMode = 3;
                 this->targetPosition.x = 0.0f;
                 this->targetPosition.y = -110.0f;
                 this->targetPosition.z = 0.0;
                 this->maxTurnRate = 10000.0f;
-                this->actionState = -1;
+                this->actionState = FD_WAIT_INTRO;
                 if ((fabsf(player2->actor.posRot.pos.z) < 80.0f) &&
                     (fabsf(player2->actor.posRot.pos.x - 340.0f) < 60.0f)) {
 
-                    this->introState2 = 2;
+                    this->introState = INTRO_START;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
                     this->introCamera = Gameplay_CreateSubCamera(globalCtx);
@@ -434,7 +451,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->cameraSpeedMod = 0.0f;
                     this->cameraAccel = 0.0f;
                     if (gSaveContext.eventChkInf[7] & 8) {
-                        this->introState2 = 6;
+                        this->introState = INTRO_EMERGE;
                         this->cameraNextEye.x = ((player2->actor.posRot.pos.x + 100.0f) + 300.0f) - 600.0f;
                         this->cameraNextEye.y = (player2->actor.posRot.pos.y + 100.0f) - 50.0f;
                         this->cameraNextEye.z = (player2->actor.posRot.pos.z + 200.0f) - 150.0f;
@@ -456,7 +473,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->targetPosition.y = holePosition1->y - 200.0f;
                         this->targetPosition.z = holePosition1->z;
                         this->timers[0] = 50;
-                        this->actionState = 3;
+                        this->actionState = FD_EMERGE;
                         this->actor.posRot.rot.x = 0x4000;
                         this->movementTimer = 0;
                         this->timers[3] = 250;
@@ -465,13 +482,13 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     }
                 }
                 break;
-            case 2: // Set up cutscene
+            case INTRO_START:
                 if (this->timers[0] == 0) {
                     this->cameraAccel = 0.0010000002f; // I can't find a reasonable way to get this from a calculation
                     this->timers[0] = 100;
-                    this->introState2 = 3;
+                    this->introState = INTRO_LOOK_LINK;
                 }
-            case 3: // Camera zooms in on Link
+            case INTRO_LOOK_LINK:
                 player2->actor.posRot.rot.y = -0x4000;
                 player2->actor.posRot.pos.x = 380.0f;
                 player2->actor.posRot.pos.y = 100.0f;
@@ -491,7 +508,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, &this->actor, 0x13);
                 }
                 if (this->timers[0] == 0) {
-                    this->introState2 = 4;
+                    this->introState = INTRO_LOOK_GROUND;
                     this->cameraNextAt.y = player2->actor.posRot.pos.y + 10.0f;
                     this->cameraAtMaxVel.y = 0.2f;
                     this->cameraSpeedMod = 0.0f;
@@ -500,13 +517,13 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->movementTimer = 0;
                 }
                 break;
-            case 4: // Camera looks at ground
+            case INTRO_LOOK_GROUND:
                 this->cameraYMod = Math_Coss(this->movementTimer * 0x8000) * this->cameraShake;
                 Math_SmoothScaleMaxF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
                 if (this->timers[0] == 0) {
-                    this->introState2 = 5;
+                    this->introState = INTRO_COLLAPSE;
                     this->cameraNextEye.x = (player2->actor.posRot.pos.x + 100.0f) + 300.0f;
                     this->cameraNextEye.y = player2->actor.posRot.pos.y + 100.0f;
                     this->cameraNextEye.z = player2->actor.posRot.pos.z + 200.0f;
@@ -520,7 +537,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, &this->actor, 0x14);
                 }
                 break;
-            case 5: // Camera zooms out to show platform collapsing
+            case INTRO_COLLAPSE:
                 this->cameraAccel = 0.005f;
                 this->cameraYMod = Math_Coss(this->movementTimer * 0x8000) * this->cameraShake;
                 Math_SmoothScaleMaxF(&this->cameraShake, 2.0f, 1.0f, 0.8 * 0.01f);
@@ -530,7 +547,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->collapsePlatform = 1;
                 }
                 if (this->timers[0] == 0) {
-                    this->introState2 = 6;
+                    this->introState = INTRO_EMERGE;
                     this->cameraSpeedMod = 0.0f;
                     this->cameraNextEye.x = ((player2->actor.posRot.pos.x + 100.0f) + 300.0f) - 600.0f;
                     this->cameraNextEye.y = (player2->actor.posRot.pos.y + 100.0f) - 50.0f;
@@ -548,7 +565,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->targetPosition.y = sHoleLocations[this->holeIndex].y - 200.0f;
                     this->targetPosition.z = sHoleLocations[this->holeIndex].z;
                     this->timers[0] = 50;
-                    this->actionState = 3;
+                    this->actionState = FD_EMERGE;
                     this->actor.posRot.rot.x = 0x4000;
                     this->movementTimer = 0;
                     this->timers[3] = 250;
@@ -556,7 +573,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->flightSpeed = 5.0f;
                 }
                 break;
-            case 6: // Volvagia emerges
+            case INTRO_EMERGE:
                 osSyncPrintf("WAY_SPD X = %f\n", this->cameraAtVel.x);
                 osSyncPrintf("WAY_SPD Y = %f\n", this->cameraAtVel.y);
                 osSyncPrintf("WAY_SPD Z = %f\n", this->cameraAtVel.z);
@@ -591,18 +608,18 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->cameraNextEye.y = player2->actor.posRot.pos.y + 50.0f;
                     this->cameraNextEye.z = player2->actor.posRot.pos.z + 50.0f;
                 }
-                if (this->actionState == 1) {
-                    switch (this->introState1) {
-                        case 0:
+                if (this->actionState == FD_FLY_HOLE) {
+                    switch (this->introFlyState) {
+                        case INTRO_FLY_EMERGE: // Volvagia emerges
                             this->timers[5] = 100;
-                            this->introState1 = 1;
-                        case 1: // Volvagia flies above his hole
+                            this->introFlyState = INTRO_FLY_HOLE;
+                        case INTRO_FLY_HOLE: // Volvagia flies above his hole
                             if (this->timers[5] == 0) {
-                                this->introState1 = 2;
+                                this->introFlyState = INTRO_FLY_CAMERA;
                                 this->timers[5] = 75;
                             }
                             break;
-                        case 2: // Volvagia flies toward the camera
+                        case INTRO_FLY_CAMERA: // Volvagia flies toward the camera
                             this->targetPosition = this->cameraEye;
                             if (this->timers[5] == 0) {
                                 this->timers[0] = 0;
@@ -610,13 +627,13 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                 this->targetPosition.x = sHoleLocations[this->holeIndex].x;
                                 this->targetPosition.y = sHoleLocations[this->holeIndex].y + 200.0f + 50.0f;
                                 this->targetPosition.z = sHoleLocations[this->holeIndex].z;
-                                this->introState1 = 3;
+                                this->introFlyState = INTRO_FLY_RETRAT;
                             }
                             if (this->timers[5] == 30) {
                                 this->roarTimer = 40;
                                 this->fireBreathTimer = 20;
                             }
-                        case 3: // Volvagia returns to his hole
+                        case INTRO_FLY_RETRAT: // Volvagia returns to his hole
                             break;
                     }
                 }
@@ -627,9 +644,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     camera->eyeNext = this->cameraEye;
                     camera->at = this->cameraAt;
                     func_800C08AC(globalCtx, this->introCamera, 0);
-                    this->introCamera = 0;
-                    this->introState1 = this->introCamera;
-                    this->introState2 = this->introCamera;
+                    this->introState = this->introFlyState = this->introCamera = NO_CUTSCENE;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;
@@ -647,15 +662,15 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
      *                              Attacks and Death Cutscene                                     *
      ***********************************************************************************************/
     switch (this->actionState) {
-        case 0: // Cases 0 - 3 deal with flying in and out of holes
+        case FD_FLY_MAIN:
             sp1CF = true;
             if (this->timers[0] == 0) {
                 if (this->actor.colChkInfo.health == 0) {
-                    this->actionState = 200;
+                    this->actionState = FD_DEATH_START;
                     this->timers[0] = 0;
                     this->timers[1] = 100;
                 } else {
-                    if (this->introState2 != 0) {
+                    if (this->introState != NO_CUTSCENE) {
                         this->holeIndex = 6;
                     } else {
                         do {
@@ -668,33 +683,33 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->targetPosition.z = sHoleLocations[this->holeIndex].z;
                     this->turnRate = 0.0f;
                     this->maxTurnRate = 1000.0f;
-                    if (this->introState2 != 0) {
+                    if (this->introState != NO_CUTSCENE) {
                         this->timers[0] = 10050;
                     } else {
                         this->timers[0] = 20;
                     }
                     this->flightWobbleAmplitude = 100.0f;
-                    this->actionState = 1;
+                    this->actionState = FD_FLY_HOLE;
 
                     if (this->startAttack) {
-                        this->startAttack = 0;
+                        this->startAttack = false;
                         this->flightCount++;
                         if (this->flightCount & 1) {
-                            this->actionState = 100;
+                            this->actionState = FD_FLY_CHASE;
                             this->timers[0] = 300;
                             this->maxTurnRate = 900.0f;
                             this->targetLinkYOffset = 300.0f;
                             this->unk_234 = this->unk_236 = 0;
                         } else {
-                            this->actionState = 50;
+                            this->actionState = FD_FLY_CEILING;
                         }
                     }
                 }
             }
             break;
-        case 1:
+        case FD_FLY_HOLE:
             if ((this->timers[0] == 0) && (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 100.0f)) {
-                this->actionState = 2;
+                this->actionState = FD_BURROW;
                 this->targetPosition.y = sHoleLocations[this->holeIndex].y - 70.0f;
                 this->maxTurnRate = 10000.0f;
                 this->flightWobbleAmplitude = 0.0f;
@@ -704,17 +719,17 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->holePosition.z = this->targetPosition.z;
             }
             break;
-        case 2:
+        case FD_BURROW:
             sp1CF = true;
             if (this->timers[0] == 0) {
                 this->actionFunc = BossFd_Wait;
                 this->handoffSignal = 100;
             }
             break;
-        case 3:
+        case FD_EMERGE:
             if ((this->timers[0] == 0) && (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 100.0f)) {
                 this->actor.posRot.pos = this->targetPosition;
-                this->actionState = 0;
+                this->actionState = FD_FLY_MAIN;
                 this->actor.posRot.rot.x = 0x4000;
                 this->targetPosition.y = sHoleLocations[this->holeIndex].y + 200.0f;
                 this->timers[4] = 80;
@@ -724,14 +739,14 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->holePosition.z = this->targetPosition.z;
 
                 func_80033E1C(globalCtx, 1, 0x50, 0x5000);
-                if (this->introState2) {
+                if (this->introState != NO_CUTSCENE) {
                     this->timers[0] = 50;
                 } else { // This isn't a fake match. The game actually does this.
                     this->timers[0] = 50;
                 }
             }
             break;
-        case 50: // Flying up to the ceiling to drop rocks
+        case FD_FLY_CEILING:
             this->flightSpeed = 8;
             this->targetPosition.x = 0.0f;
             this->targetPosition.y = 700.0f;
@@ -739,13 +754,13 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->flightWobbleAmplitude = 200.0f;
             this->maxTurnRate = 3000.0f;
             if (this->actor.posRot.pos.y > 700.0f) {
-                this->actionState = 51;
+                this->actionState = FD_DROP_ROCKS;
                 this->timers[0] = 25;
                 this->timers[2] = 150;
                 this->ceilingTargetIndex = 0;
             }
             break;
-        case 51: // Flying around the ceiling dropping rocks
+        case FD_DROP_ROCKS:
             this->flightSpeed = 8;
             this->flightWobbleAmplitude = 200.0f;
             this->maxTurnRate = 10000.0f;
@@ -775,12 +790,12 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Math_SmoothDownscaleMaxF(&this->ceilingBounce, 1.0f, 1000.0f);
             }
             if (this->timers[2] == 0) {
-                this->actionState = 0;
+                this->actionState = FD_FLY_MAIN;
                 this->timers[0] = 0;
-                this->startAttack = 0;
+                this->startAttack = false;
             }
             break;
-        case 100: // Chasing Link and breathing fire at him
+        case FD_FLY_CHASE:
             this->actor.flags |= 0x1000000;
             temp_y = Math_Sins(this->movementTimer * 2396.0f) * 30.0f;
             temp_y = temp_y + this->targetLinkYOffset;
@@ -790,19 +805,19 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->flightWobbleAmplitude = 0.0f;
             if (((this->timers[0] % 64) == 0) && (this->timers[0] < 450)) {
                 this->roarTimer = 40;
-                if (BossFd_FacingLink(this)) {
+                if (BossFd_IsFacingLink(this)) {
                     this->fireBreathTimer = 20;
                 }
             }
             if ((this->damageFlashTimer != 0) || (this->timers[0] == 0) || (player->actor.posRot.pos.y < 70.0f)) {
-                this->actionState = 0;
+                this->actionState = FD_FLY_MAIN;
                 this->timers[0] = 0;
-                this->startAttack = 0;
+                this->startAttack = false;
             } else {
                 Math_SmoothScaleMaxF(&this->targetLinkYOffset, 50.0, 1.0f, 2.0f);
             }
             break;
-        case 200: // Start of death cutscene
+        case FD_DEATH_START:
             if (sqrtf(SQ(dx) + SQ(dz)) < 50.0f) {
                 this->timers[0] = 0;
             }
@@ -821,11 +836,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             this->maxTurnRate = 10000.0f;
             Math_SmoothScaleMaxF(&this->bodyPulse, 0.3f, 1.0f, 0.05f);
             if (this->timers[1] == 0) {
-                this->actionState = 201;
+                this->actionState = FD_SKIN_BURN;
                 this->timers[0] = 30;
             }
             break;
-        case 201: // Skin burning off scene
+        case FD_SKIN_BURN:
             this->targetPosition.x = 0.0f;
             this->targetPosition.y = 390.0f;
             this->targetPosition.z = 0.0f;
@@ -840,7 +855,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         Audio_SetBGM(0x21);
                     }
                 } else {
-                    this->actionState = 202;
+                    this->actionState = FD_BONES_FALL;
                     this->timers[0] = 30;
                 }
             }
@@ -854,7 +869,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Vec3f sp170;
                 Vec3f sp164 = { 0.0f, 0.03f, 0.0f };
                 Vec3f sp158;
-                f32 pad5;
+                f32 pad154;
                 s16 temp_rand2;
                 s16 sp150;
 
@@ -878,7 +893,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                         sp164.y = 0.03f;
 
-                        EffectSsKFire_Spawn(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40, 0x64);
+                        EffectSsKFire_Spawn(globalCtx, &sp188, &sp17C, &sp164, (s16)Math_Rand_ZeroFloat(20.0f) + 40,
+                                            0x64);
 
                         for (i2 = 0; i2 < 15; i2++) {
                             sp170.x = Math_Rand_CenteredFloat(20.0f);
@@ -896,14 +912,14 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
             }
             break;
-        case 202: // Skeleton breaks apart.
+        case FD_BONES_FALL:
             this->stopFlag = true;
             this->fogMode = 3;
             if (this->timers[0] < 18) {
                 this->bodyFallApart[this->timers[0]] = 1;
             }
             if (this->timers[0] == 0) {
-                this->actionState = 203;
+                this->actionState = FD_SKULL_PAUSE;
                 this->timers[0] = 15;
                 this->ceilingTargetIndex = 0;
                 player->actor.posRot.pos.y = 90.0f;
@@ -911,14 +927,14 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 player->actor.posRot.pos.z = 150.0f;
             }
             break;
-        case 203: // Pause for effect
+        case FD_SKULL_PAUSE:
             if (this->timers[0] == 0) {
-                this->actionState = 204;
+                this->actionState = FD_SKULL_FALL;
                 this->timers[0] = 20;
                 this->stopFlag = false;
             }
             break;
-        case 204: // Skull falls to the ground
+        case FD_SKULL_FALL:
             this->turnRate = this->maxTurnRate = this->actor.speedXZ = this->flightSpeed = 0;
 
             if (this->timers[0] == 1) {
@@ -966,11 +982,11 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y = 0;
             }
             if (this->timers[1] == 1) {
-                this->actionState = 205;
+                this->actionState = FD_SKULL_BURN;
                 this->timers[0] = 70;
             }
             break;
-        case 205: // Skull burns away
+        case FD_SKULL_BURN:
             this->actor.velocity.y = 0.0f;
             this->actor.posRot.pos.y = 110.0f;
             this->turnRate = this->maxTurnRate = this->actor.speedXZ = this->flightSpeed = 0.0f;
@@ -1004,7 +1020,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
             }
             break;
-        case -1: // Waiting before boss cutscene.
+        case FD_WAIT_INTRO:
             break;
     }
 
@@ -1017,14 +1033,14 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         Vec3f spE0[3];
         Vec3f spBC[3];
         f32 phi_f20;
-        f32 pad4;
-        f32 pad3;
-        f32 pad2;
-        f32 pad1;
+        f32 padB4;
+        f32 padB0;
+        f32 padAC;
+
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.y, angleToTarget, 0xA, this->turnRate);
 
-        if (((this->actionState == 100) || (this->actionState == 101)) && (this->actor.posRot.pos.y < 110.0f) &&
-            (pitchToTarget < 0)) {
+        if (((this->actionState == FD_FLY_CHASE) || (this->actionState == FD_FLY_UNUSED)) &&
+            (this->actor.posRot.pos.y < 110.0f) && (pitchToTarget < 0)) {
             pitchToTarget = 0;
             Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 110.0f, 1.0f, 5.0f);
         }
@@ -1032,7 +1048,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxS(&this->actor.posRot.rot.x, pitchToTarget, 0xA, this->turnRate);
         Math_SmoothScaleMaxF(&this->turnRate, this->maxTurnRate, 1.0f, 20000.0f);
         Math_SmoothScaleMaxF(&this->actor.speedXZ, this->flightSpeed, 1.0f, 0.1f);
-        if (this->actionState < 204) {
+        if (this->actionState < FD_SKULL_FALL) {
             func_8002D908(&this->actor);
         }
         func_8002D7EC(&this->actor);
@@ -1070,7 +1086,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->flattenMane, 0.5f, 1.0f, 0.05f);
         }
 
-        if (this->actionState < 204) {
+        if (this->actionState < FD_SKULL_FALL) {
             if ((this->actor.pos4.y < 90.0f) && (90.0f <= this->actor.posRot.pos.y)) {
                 this->timers[4] = 80;
                 func_80033E1C(globalCtx, 1, 80, 0x5000);
@@ -1154,8 +1170,8 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
         this->targetPosition.z = sHoleLocations[this->holeIndex].z;
         this->actor.posRot.pos = this->targetPosition;
         this->timers[0] = 10;
-        this->actionState = 3;
-        this->startAttack = 1;
+        this->actionState = FD_EMERGE;
+        this->startAttack = true;
     }
     if (this->handoffSignal == 2) {
         this->handoffSignal = 0;
@@ -1166,7 +1182,7 @@ void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
         this->targetPosition.z = sHoleLocations[1].z;
         this->actor.posRot.pos = this->targetPosition;
         this->timers[0] = 10;
-        this->actionState = 3;
+        this->actionState = FD_EMERGE;
     }
 }
 
@@ -1261,7 +1277,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         if (this->holeSplashTimer != 0) {
             this->holeSplashTimer--;
             if ((this->actor.colChkInfo.health == 0) ||
-                ((this->introState2 == 6) && (this->actor.posRot.rot.x > 0x3000))) {
+                ((this->introState == INTRO_EMERGE) && (this->actor.posRot.rot.x > 0x3000))) {
                 if ((u8)this->fogMode == 0) {
                     globalCtx->envCtx.unk_D8 = 0.0f;
                 }
@@ -1424,7 +1440,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     DECR(this->damageFlashTimer);
     DECR(this->invincibilityTimer);
 
-    if (this->actionState < 200) {
+    if (this->actionState < FD_DEATH_START) {
         if (this->invincibilityTimer == 0) {
             BossFd_CollisionCheck(this, globalCtx);
         }
@@ -1536,11 +1552,11 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
     for (i1 = 0; i1 < 180; i1++, particle++) {
         if (particle->type != FD_NULL) {
             particle->timer1++;
-            
+
             particle->pos.x += particle->velocity.x;
             particle->pos.y += particle->velocity.y;
             particle->pos.z += particle->velocity.z;
-            
+
             particle->velocity.x += particle->accel.x;
             particle->velocity.y += particle->accel.y;
             particle->velocity.z += particle->accel.z;
@@ -1799,7 +1815,7 @@ s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 static s16 sBodyIndex[] = { 0, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
-static s16 sManeIndex[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 }; // Unused? Seems to be for the mane.
+static s16 sManeIndex[] = { 0, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10 }; // Unused
 
 void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec3f* maneRot, f32* maneScale, u8 mode) {
     f32 sp140[] = { 0.0f, 10.0f, 17.0f, 20.0f, 19.5f, 18.0f, 17.0f, 15.0f, 15.0f, 15.0f };
@@ -2020,7 +2036,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     gDPPipeSync(oGfxCtx->polyOpa.p++);
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, (s8)this->headTex2Opacity);
     Matrix_Push();
-    temp_float = (this->actionState >= 204) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f);
+    temp_float = (this->actionState >= FD_SKULL_FALL) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f);
     segIndex = (sBodyIndex[0] + this->leadBodySeg) % 100;
     Matrix_Translate(this->bodySegsPos[segIndex].x, this->bodySegsPos[segIndex].y, this->bodySegsPos[segIndex].z,
                      MTXMODE_NEW);

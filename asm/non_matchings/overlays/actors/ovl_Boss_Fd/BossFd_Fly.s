@@ -1629,7 +1629,7 @@ glabel L808CC944
 /* 01EB4 808CCC74 10200007 */  beq     $at, $zero, .L808CCC94     
 /* 01EB8 808CCC78 24190028 */  addiu   $t9, $zero, 0x0028         ## $t9 = 00000028
 /* 01EBC 808CCC7C A6D9022E */  sh      $t9, 0x022E($s6)           ## 0000022E
-/* 01EC0 808CCC80 0C232D9F */  jal     BossFd_FacingLink              
+/* 01EC0 808CCC80 0C232D9F */  jal     BossFd_IsFacingLink              
 /* 01EC4 808CCC84 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 01EC8 808CCC88 10400002 */  beq     $v0, $zero, .L808CCC94     
 /* 01ECC 808CCC8C 24080014 */  addiu   $t0, $zero, 0x0014         ## $t0 = 00000014

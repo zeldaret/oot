@@ -47,6 +47,15 @@ extern AnimationHeader D_0600C1D0;
 extern AnimationHeader D_0600C8EC;
 extern SkeletonHeader D_06011A78;
 
+typedef enum {
+    /* 0 */ DEATH_START,
+    /* 1 */ DEATH_RETREAT,
+    /* 2 */ DEATH_HANDOFF,
+    /* 3 */ DEATH_FD_BODY,
+    /* 4 */ DEATH_FD_SKULL,
+    /* 5 */ DEATH_FINISH
+} BossFd2CutsceneStates;
+
 const ActorInit Boss_Fd2_InitVars = {
     ACTOR_BOSS_FD2,
     ACTORTYPE_BOSS,
@@ -433,7 +442,7 @@ void BossFd2_SetupBreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     this->actionState = 0;
 }
 
-static Vec3f sD_808D61A0 = { 0.0, 0.0, 50.0 }; // Unused? BossFd uses a similar array for its fire breath sfx.
+static Vec3f sUnkVec = { 0.0, 0.0, 50.0 }; // Unused? BossFd uses a similar array for its fire breath sfx.
 
 void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
@@ -649,7 +658,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060089DC, 1.0f, 0.0f, this->animationLength, 3, -3.0f);
     this->actionFunc = BossFd2_Death;
     this->actor.flags &= ~1;
-    this->deathState = 0;
+    this->deathState = DEATH_START;
 }
 
 void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
@@ -687,8 +696,8 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(skelAnime);
     switch (this->deathState) {
-        case 0:
-            this->deathState = 1;
+        case DEATH_START:
+            this->deathState = DEATH_RETREAT;
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             this->deathCamera = Gameplay_CreateSubCamera(globalCtx);
@@ -711,7 +720,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             this->cameraAtMaxVel.x = 0.1f;
             this->cameraAtMaxVel.y = 0.1f;
             this->cameraAtMaxVel.z = 0.1f;
-        case 1:
+        case DEATH_RETREAT:
             this->holeCounter++;
             if (this->holeCounter < 15) {
                 retreatSpeed = 1.0f;
@@ -747,17 +756,17 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                     bossFd->timers[4] = 60;
                 }
                 if (this->holeCounter >= 100) {
-                    this->deathState = 2;
+                    this->deathState = DEATH_HANDOFF;
                     this->timers[0] = 50;
                 }
             } else if (func_800A56C8(skelAnime, 15.0f)) {
                 SkelAnime_ChangeAnimTransitionStop(skelAnime, &D_060089DC, -10.0f);
             }
             break;
-        case 2:
+        case DEATH_HANDOFF:
             if (this->timers[0] == 0) {
                 this->actor.draw = NULL;
-                this->deathState = 3;
+                this->deathState = DEATH_FD_BODY;
                 bossFd->handoffSignal = 2;
                 this->actionState = 0;
                 this->cameraSpeedMod = 0.0f;
@@ -765,7 +774,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, -100.0f, 1.0f, 5.0f);
             }
             break;
-        case 3:
+        case DEATH_FD_BODY:
             if (bossFd->actor.posRot.pos.y < 80.0f) {
                 if (bossFd->actor.posRot.rot.x > 0x3000) {
                     this->cameraNextAt = bossFd->actor.posRot.pos;
@@ -786,15 +795,15 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, &bossFd->actor, 1);
                 }
             }
-            if ((bossFd->actionState == 202) && (bossFd->timers[0] == 5)) {
-                this->deathState = 4;
+            if ((bossFd->actionState == FD_BONES_FALL) && (bossFd->timers[0] == 5)) {
+                this->deathState = DEATH_FD_SKULL;
                 this->cameraSpeedMod = 0.0f;
                 this->cameraAccel = 0.02f;
                 this->cameraNextEye.y = 150.0f;
                 this->cameraNextEye.z = bossFd->actor.posRot.pos.z + 300.0f;
             }
             break;
-        case 4:
+        case DEATH_FD_SKULL:
             Math_SmoothScaleMaxF(&this->cameraNextAt.y, 100.0, 1.0f, 100.0f);
             this->cameraNextAt.x = 0.0f;
             this->cameraNextAt.z = 0.0f;
@@ -809,8 +818,8 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 }
                 this->cameraYMod = (bossFd->deathCameraShakeTimer & 1) ? cameraShake : -cameraShake;
             }
-            if (bossFd->actionState == 205) {
-                this->deathState = 5;
+            if (bossFd->actionState == FD_SKULL_BURN) {
+                this->deathState = DEATH_FINISH;
                 camera->eye = this->cameraEye;
                 camera->eyeNext = this->cameraEye;
                 camera->at = this->cameraAt;
@@ -823,7 +832,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
             break;
-        case 5:
+        case DEATH_FINISH:
             break;
     }
     BossFd2_UpdateCamera(this, globalCtx);
@@ -1003,7 +1012,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     DECR(this->damageFlashTimer);
     DECR(this->invincibilityTimer);
 
-    if (this->deathState == 0) {
+    if (this->deathState == DEATH_START) {
         if (this->invincibilityTimer == 0) {
             BossFd2_CollisionCheck(this, globalCtx2);
         }

@@ -33,6 +33,24 @@ typedef enum {
     /* 5 */ FD_SKULL_PIECE
 } BossFdParticleType;
 
+typedef enum {
+    /*  -1 */ FD_WAIT_INTRO = -1,
+    /*   0 */ FD_FLY_MAIN,
+    /*   1 */ FD_FLY_HOLE,
+    /*   2 */ FD_BURROW,
+    /*   3 */ FD_EMERGE,
+    /*  50 */ FD_FLY_CEILING = 50,
+    /*  51 */ FD_DROP_ROCKS,
+    /* 100 */ FD_FLY_CHASE = 100,
+    /* 101 */ FD_FLY_UNUSED,
+    /* 200 */ FD_DEATH_START = 200,
+    /* 201 */ FD_SKIN_BURN,
+    /* 202 */ FD_BONES_FALL,
+    /* 203 */ FD_SKULL_PAUSE,
+    /* 204 */ FD_SKULL_FALL,
+    /* 205 */ FD_SKULL_BURN
+} BossFdActionStates;
+
 typedef struct BossFdMane {
     /* 0x000 */ Vec3f pos[30];
     /* 0x168 */ f32 scale[30];
@@ -109,8 +127,8 @@ typedef struct BossFd {
     /* 0x13CC */ f32 jawOpening;
     /* 0x13D0 */ s16 bodyFallApart[18];
     /* 0x13F4 */ Vec3f headPos;
-    /* 0x1400 */ s16 introState1;
-    /* 0x1402 */ s16 introState2;
+    /* 0x1400 */ s16 introFlyState;
+    /* 0x1402 */ s16 introState;
     /* 0x1404 */ s16 introCamera;
     /* 0x1408 */ Vec3f cameraEye;
     /* 0x1414 */ Vec3f cameraAt;
