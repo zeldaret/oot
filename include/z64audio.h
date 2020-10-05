@@ -713,8 +713,8 @@ typedef struct {
 } unk_1770_s; // size = 0x58
 
 typedef struct {
-    u16 cnt;
-    u8 data[1];
+    u16 offsets[18];
+    char data[1];
 } unk_283C;
 
 typedef struct {
@@ -809,8 +809,7 @@ typedef struct {
     /* 0x2838 */ AudioTable* audioTable;
     union {
     /* 0x283C */ u16* unk_283C;
-        char* unk_283Cb;
-        unk_283C* unk_283Cs;
+    /* 0x283C */ char* unk_283Cb;
     };
     /* 0x2840 */ u16 unk_2840; // channels used?
     /* 0x2844 */ CtlEntry* gCtlEntries;
@@ -887,7 +886,9 @@ typedef struct {
     /* 0x5BE4 */ OSMesgQueue* unk_5BE4;
     /* 0x5BE8 */ OSMesgQueue* unk_5BE8;
     /* 0x5BEC */ OSMesgQueue* unk_5BEC;
-    /* 0x5BF0 */ char unk_5BF0[0x48];
+    /* 0x5BF0 */ OSMesgQueue unk_5BF0;
+    /* 0x5C08 */ OSMesgQueue unk_5C08;
+    /* 0x5C20 */ OSMesgQueue unk_5C20;
     /* 0x5C38 */ OSMesg unk_5C38;
     /* 0x5C3C */ OSMesg unk_5C3C;
     /* 0x5C40 */ OSMesg unk_5C40;
