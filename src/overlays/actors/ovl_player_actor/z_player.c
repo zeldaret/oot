@@ -4043,9 +4043,9 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u
                     }
 
                     if (linearVel > R_RUN_SPEED_LIMIT / 100.0f) {
-                        gSaveContext.unk_13BC = R_RUN_SPEED_LIMIT / 100.0f;
+                        gSaveContext.entranceSpeed = R_RUN_SPEED_LIMIT / 100.0f;
                     } else {
-                        gSaveContext.unk_13BC = linearVel;
+                        gSaveContext.entranceSpeed = linearVel;
                     }
 
                     if (D_808535F4 != 0) {
@@ -4274,8 +4274,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         func_8003C890(&globalCtx->colCtx, &sp58, &sp4C);
 
                         if (func_80839034(globalCtx, this, sp58, 50)) {
-                            gSaveContext.unk_13BC = 2.0f;
-                            gSaveContext.unk_13C0 = NA_SE_OC_DOOR_OPEN;
+                            gSaveContext.entranceSpeed = 2.0f;
+                            gSaveContext.entranceSound = NA_SE_OC_DOOR_OPEN;
                         }
                     } else {
                         func_8005AD40(Gameplay_GetCamera(globalCtx, 0), doorActor,
@@ -5358,18 +5358,18 @@ void func_8083CA20(GlobalContext* globalCtx, Player* this) {
 
 void func_8083CA54(GlobalContext* globalCtx, Player* this) {
     this->linearVelocity = 2.0f;
-    gSaveContext.unk_13BC = 2.0f;
+    gSaveContext.entranceSpeed = 2.0f;
     if (func_8083C910(globalCtx, this, 120.0f)) {
         this->unk_850 = -15;
     }
 }
 
 void func_8083CA9C(GlobalContext* globalCtx, Player* this) {
-    if (gSaveContext.unk_13BC < 0.1f) {
-        gSaveContext.unk_13BC = 0.1f;
+    if (gSaveContext.entranceSpeed < 0.1f) {
+        gSaveContext.entranceSpeed = 0.1f;
     }
 
-    this->linearVelocity = gSaveContext.unk_13BC;
+    this->linearVelocity = gSaveContext.entranceSpeed;
 
     if (func_8083C910(globalCtx, this, 800.0f)) {
         this->unk_850 = -80 / this->linearVelocity;
@@ -8679,7 +8679,7 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
             sp30 = 20;
 
             if (this->stateFlags1 & 1) {
-                sp34 = gSaveContext.unk_13BC;
+                sp34 = gSaveContext.entranceSpeed;
 
                 if (D_808535F4 != 0) {
                     this->unk_450.x = (Math_Sins(D_808535FC) * 400.0f) + this->actor.posRot.pos.x;
@@ -8688,7 +8688,7 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
             } else if (this->unk_850 < 0) {
                 this->unk_850++;
 
-                sp34 = gSaveContext.unk_13BC;
+                sp34 = gSaveContext.entranceSpeed;
                 sp30 = -1;
             }
 
@@ -9074,7 +9074,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 sp4C;
     s32 initMode;
     s16 params;
-    u16 unk_13C0;
+    u16 entranceSound;
 
     globalCtx->unk_11E5C = globalCtx->bombchuBowlingAmmo = 0;
 
@@ -9128,7 +9128,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((sp50 == 0) || (sp50 < -1)) {
-        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && (gSaveContext.unk_13C7 != 0) &&
+        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && (gSaveContext.showTitleCard) &&
             (gSaveContext.sceneSetupIndex < 4) &&
             (gEntranceTable[gSaveContext.save.entranceIndex + gSaveContext.sceneSetupIndex].field & 0x4000) &&
             ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.save.info.eventChkInf[11] & 1)) &&
@@ -9136,7 +9136,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
             TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 0xA0, 0x78, 0x90,
                                     0x18, 0x14);
         }
-        gSaveContext.unk_13C7 = 1;
+        gSaveContext.showTitleCard = true;
     }
 
     if (sp50 == 2) {
@@ -9180,10 +9180,11 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->stateFlags3 &= ~0x40;
     }
 
-    if (gSaveContext.unk_13C0 != 0) {
-        unk_13C0 = gSaveContext.unk_13C0;
-        Audio_PlayActorSound2(&this->actor, unk_13C0);
-        gSaveContext.unk_13C0 = 0;
+    if (gSaveContext.entranceSound != 0) {
+        entranceSound = gSaveContext.entranceSound;
+        // this appears to be bugged and doesnt play properly. not sure why yet
+        Audio_PlayActorSound2(&this->actor, entranceSound);
+        gSaveContext.entranceSound = 0;
     }
 
     Map_SavePlayerInitialInfo(globalCtx);
@@ -13707,7 +13708,7 @@ void func_80852648(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         this->heldItemId = ITEM_NONE;
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
         this->leftHandDLists = D_80125E08;
-        Inventory_ChangeEquipment(EQUIP_SWORD, 2);
+        Inventory_ChangeEquipment(EQUIP_SWORD, PLAYER_SWORD_MASTER);
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(globalCtx, 0);
     }

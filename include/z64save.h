@@ -51,15 +51,15 @@ typedef struct {
 } RespawnData; // size = 0x1C
 
 typedef struct {
-    /* 0x0E64 */ Vec3i pos;
-    /* 0x0E70 */ s32 yaw;
-    /* 0x0E74 */ s32 playerParams;
-    /* 0x0E78 */ s32 entranceIndex;
-    /* 0x0E7C */ s32 roomIndex;
-    /* 0x0E80 */ s32 set;
-    /* 0x0E84 */ s32 tempSwchFlags;
-    /* 0x0E88 */ s32 tempCollectFlags;
-} FaroresWindData;
+    /* 0x00 */ Vec3i pos;
+    /* 0x0C */ s32 yaw;
+    /* 0x10 */ s32 playerParams;
+    /* 0x14 */ s32 entranceIndex;
+    /* 0x18 */ s32 roomIndex;
+    /* 0x1C */ s32 set;
+    /* 0x20 */ s32 tempSwchFlags;
+    /* 0x24 */ s32 tempCollectFlags;
+} FaroresWindData; // size = 0x28
 
 typedef struct {
     /* 0x00 */ char newf[6]; // string "ZELDAZ"
@@ -87,30 +87,30 @@ typedef struct {
 } PlayerData; // size = 0x4C
 
 typedef struct {
-    /* 0x001C */ PlayerData playerData;
-    /* 0x0068 */ ItemEquips equips;
-    /* 0x0074 */ Inventory inventory;
-    /* 0x00D4 */ SavedSceneFlags sceneFlags[124];
-    /* 0x0E64 */ FaroresWindData fw;
-    /* 0x0E8C */ char unk_E8C[0x0010];
-    /* 0x0E9C */ s32 gsFlags[6];
-    /* 0x0EB4 */ char unk_EB4[0x0010];
-    /* 0x0EC4 */ s32 unk_EC4;
-    /* 0x0EC8 */ char unk_EC8[0x000C];
-    /* 0x0ED4 */ u16 eventChkInf[14]; // "event_chk_inf"
-    /* 0x0EF0 */ u16 itemGetInf[4]; // "item_get_inf"
-    /* 0x0EF8 */ u16 infTable[30]; // "inf_table"
-    /* 0x0F34 */ char unk_F34[0x0004];
-    /* 0x0F38 */ u32 worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char unk_F3C[0x4];
-    /* 0x0F40 */ u8 scarecrowCustomSongSet;
-    /* 0x0F41 */ u8 scarecrowCustomSong[0x360];
-    /* 0x12A1 */ char unk_12A1[0x0024];
-    /* 0x12C5 */ u8 scarecrowSpawnSongSet;
-    /* 0x12C6 */ u8 scarecrowSpawnSong[0x0080];
-    /* 0x1346 */ char unk_1346[0x0002];
-    /* 0x1348 */ HorseData horseData;
-    /* 0x1352 */ u16 checksum; // "check_sum"
+    /* 0x0000 */ PlayerData playerData;
+    /* 0x004C */ ItemEquips equips;
+    /* 0x0058 */ Inventory inventory;
+    /* 0x00B8 */ SavedSceneFlags sceneFlags[124];
+    /* 0x0E48 */ FaroresWindData fw;
+    /* 0x0E70 */ char unk_E70[0x10];
+    /* 0x0E80 */ s32 gsFlags[6];
+    /* 0x0E98 */ char unk_E98[0x10];
+    /* 0x0EA8 */ s32 horseRaceRecord;
+    /* 0x0EAC */ char unk_EAC[0x0C];
+    /* 0x0EB8 */ u16 eventChkInf[14]; // "event_chk_inf"
+    /* 0x0ED4 */ u16 itemGetInf[4]; // "item_get_inf"
+    /* 0x0EDC */ u16 infTable[30]; // "inf_table"
+    /* 0x0F18 */ char unk_F18[0x04];
+    /* 0x0F1C */ u32 worldMapAreaData; // "area_arrival"
+    /* 0x0F20 */ char unk_F20[0x4];
+    /* 0x0F24 */ u8 scarecrowCustomSongSet;
+    /* 0x0F25 */ u8 scarecrowCustomSong[0x360];
+    /* 0x1285 */ char unk_1285[0x24];
+    /* 0x12A9 */ u8 scarecrowSpawnSongSet;
+    /* 0x12AA */ u8 scarecrowSpawnSong[0x80];
+    /* 0x132A */ char unk_132A[0x02];
+    /* 0x132C */ HorseData horseData;
+    /* 0x1336 */ u16 checksum; // "check_sum"
 } SaveInfo; // size = 0x1338
 
 typedef struct {
@@ -119,8 +119,8 @@ typedef struct {
     /* 0x08 */ s32 cutsceneIndex;
     /* 0x0C */ u16 dayTime; // "zelda_time"
     /* 0x10 */ s32 nightFlag;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
+    /* 0x14 */ s32 numDays;
+    /* 0x18 */ s32 unk_18; // increments with numDays, gets reset by goron for bgs and one other use
     /* 0x1C */ SaveInfo info;
 } Save; // size = 0x1354
 
@@ -132,13 +132,13 @@ typedef struct {
     /* 0x1360 */ s32 sceneSetupIndex;
     /* 0x1364 */ s32 respawnFlag; // "restart_flag"
     /* 0x1368 */ RespawnData respawn[3]; // "restart_data"
-    /* 0x13BC */ f32 unk_13BC;
-    /* 0x13C0 */ u16 unk_13C0;
+    /* 0x13BC */ f32 entranceSpeed;
+    /* 0x13C0 */ u16 entranceSound;
     /* 0x13C2 */ char unk_13C2[0x0001];
     /* 0x13C3 */ u8 unk_13C3;
     /* 0x13C4 */ s16 dogParams;
     /* 0x13C6 */ u8 textTriggerFlags;
-    /* 0x13C7 */ u8 unk_13C7;
+    /* 0x13C7 */ u8 showTitleCard;
     /* 0x13C8 */ s16 nayrusLoveTimer;
     /* 0x13CA */ char unk_13CA[0x0002];
     /* 0x13CC */ s16 rupeeAccumulator;
@@ -157,11 +157,11 @@ typedef struct {
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16 unk_13F0;
-    /* 0x13F2 */ s16 unk_13F2;
-    /* 0x13F4 */ s16 unk_13F4;
-    /* 0x13F6 */ s16 unk_13F6;
-    /* 0x13F8 */ s16 unk_13F8;
+    /* 0x13F0 */ s16 unk_13F0; // magic related
+    /* 0x13F2 */ s16 unk_13F2; // magic related
+    /* 0x13F4 */ s16 unk_13F4; // magic related
+    /* 0x13F6 */ s16 unk_13F6; // magic related
+    /* 0x13F8 */ s16 unk_13F8; // magic related
     /* 0x13FA */ u16 eventInf[4]; // "event_inf"
     /* 0x1402 */ u16 mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16 minigameState;
@@ -172,8 +172,8 @@ typedef struct {
     /* 0x140B */ char unk_140B[0x0001];
     /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
     /* 0x140E */ u16 unk_140E; // bgm related
-    /* 0x1410 */ u8 unk_1410;
-    /* 0x1411 */ u8 unk_1411;
+    /* 0x1410 */ u8 unk_1410; // transition related
+    /* 0x1411 */ char unk_1411[0x0001];
     /* 0x1412 */ u16 nextCutsceneIndex;
     /* 0x1414 */ u8 cutsceneTrigger;
     /* 0x1415 */ u8 chamberCutsceneNum;

@@ -318,7 +318,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {
-            gSaveContext.save.unk_14++;
+            gSaveContext.save.numDays++;
             gSaveContext.save.unk_18++;
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||

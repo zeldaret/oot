@@ -1400,7 +1400,7 @@ void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z);
 void Sram_InitNewSave(void);
 void Sram_InitDebugSave(void);
 void Sram_OpenSave(Sram* sram);
-void Sram_WriteSave(u32 unk);
+void Sram_WriteSave(s32 unused);
 void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, Sram* sram);
 void Sram_InitSave(FileChooseContext* fileChoose, Sram* sram);
 void Sram_EraseSave(FileChooseContext* fileChoose, Sram* sram);

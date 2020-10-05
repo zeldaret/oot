@@ -3,7 +3,7 @@
 
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
-#include "z64sram.h"
+#include "z64save.h"
 #include "z64light.h"
 #include "z64actor.h"
 #include "z64player.h"

@@ -37,7 +37,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
     gSaveContext.seqIndex = 0xFF;
     gSaveContext.nightSeqIndex = 0xFF;
-    gSaveContext.unk_13C7 = 1;
+    gSaveContext.showTitleCard = true;
     D_8011FB30 = 0;
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);

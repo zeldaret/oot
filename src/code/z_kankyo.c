@@ -77,7 +77,7 @@ void func_800775D8() {
 }
 
 s32 func_800775E4() {
-    return gSaveContext.save.unk_14;
+    return gSaveContext.save.numDays;
 }
 
 void func_800775F0(u16 arg0) {
