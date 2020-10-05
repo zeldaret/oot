@@ -1086,9 +1086,9 @@ void func_800E59F4(void) {
     gAudioContext.unk_5BE8 = &D_80174D70;
     gAudioContext.unk_5BEC = &D_80174D88;
     gAudioContext.unk_5BE4 = &D_80174DA0;
-    osCreateMesgQueue(gAudioContext.unk_5BE8, &D_80174DB8, 1);
-    osCreateMesgQueue(gAudioContext.unk_5BEC, &D_80174DC0, 4);
-    osCreateMesgQueue(gAudioContext.unk_5BE4, &D_80174DBC, 1);
+    osCreateMesgQueue(gAudioContext.unk_5BE8, &gAudioContext.unk_5C38, 1);
+    osCreateMesgQueue(gAudioContext.unk_5BEC, &gAudioContext.unk_5C40, 4);
+    osCreateMesgQueue(gAudioContext.unk_5BE4, &gAudioContext.unk_5C3C, 1);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E59F4.s")
@@ -1410,10 +1410,9 @@ void func_800E651C(u32 arg0, s32 arg1) {
     func_800E5AFC((arg1 & 0xFF) | 0xFD000000, arg0);
 }
 
-extern OSMesgQueue* D_80174D68;
 void func_800E6550(void) {
-    osRecvMesg(D_80174D68, NULL, OS_MESG_NOBLOCK);
-    osRecvMesg(D_80174D68, NULL, OS_MESG_BLOCK);
+    osRecvMesg(gAudioContext.unk_5BE8, NULL, OS_MESG_NOBLOCK);
+    osRecvMesg(gAudioContext.unk_5BE8, NULL, OS_MESG_BLOCK);
 }
 
 #ifdef NON_MATCHING

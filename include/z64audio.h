@@ -878,7 +878,7 @@ typedef struct {
     /* 0x5AB0 */ SequenceChannel gSequenceChannelNone;
     /* 0x5B84 */ s32 gNoteSubEuOffset;
     /* 0x5B88 */ AudioListItem gLayerFreeList;
-    /* 0x5B98 */ char unk_5B98[0x40];
+    /* 0x5B98 */ NotePool gNoteFreeLists; 
     /* 0x5BD8 */ u8 unk_5BD8;
     /* 0x5BD9 */ u8 unk_5BD9;
     /* 0x5BDA */ u8 unk_5BDA;
@@ -887,7 +887,11 @@ typedef struct {
     /* 0x5BE4 */ OSMesgQueue* unk_5BE4;
     /* 0x5BE8 */ OSMesgQueue* unk_5BE8;
     /* 0x5BEC */ OSMesgQueue* unk_5BEC;
-    /* 0x5BF0 */ char unk_5BF0[0x60];
+    /* 0x5BF0 */ char unk_5BF0[0x48];
+    /* 0x5C38 */ OSMesg unk_5C38;
+    /* 0x5C3C */ OSMesg unk_5C3C;
+    /* 0x5C40 */ OSMesg unk_5C40;
+    /* 0x5C44 */ char unk_5C44[0xC];
     /* 0x5C50 */ unk_5C50_s unk_5C50[0x100];
 } AudioContext; // size = 0x6450
 

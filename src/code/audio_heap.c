@@ -64,7 +64,7 @@ void Audio_DiscardBank(s32 bankId) {
             }
             Audio_NoteDisable(note);
             Audio_AudioListRemove(&note->listItem);
-            Audio_AudioListPushBack(&gNoteFreeLists.disabled, &note->listItem);
+            Audio_AudioListPushBack(&gAudioContext.gNoteFreeLists.disabled, &note->listItem);
         }
     }
 }

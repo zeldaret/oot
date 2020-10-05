@@ -1,8 +1,8 @@
 glabel func_800E5EDC
 /* B5D07C 800E5EDC 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B5D080 800E5EE0 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B5D084 800E5EE4 3C048017 */  lui   $a0, %hi(D_80174D64) # $a0, 0x8017
-/* B5D088 800E5EE8 8C844D64 */  lw    $a0, %lo(D_80174D64)($a0)
+/* B5D084 800E5EE4 3C048017 */  lui   $a0, %hi(gAudioContext) # $a0, 0x8017
+/* B5D088 800E5EE8 8C844D64 */  lw    $a0, %lo(gAudioContext+0x5BE4)($a0)
 /* B5D08C 800E5EEC 27A50018 */  addiu $a1, $sp, 0x18
 /* B5D090 800E5EF0 0C000CA0 */  jal   osRecvMesg
 /* B5D094 800E5EF4 00003025 */   move  $a2, $zero

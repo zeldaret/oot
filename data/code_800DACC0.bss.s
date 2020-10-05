@@ -259,43 +259,7 @@ glabel D_8016F0E0
     .space 0xA0
 
 glabel gAudioContext
-    .space 0x5b98
-
-glabel gNoteFreeLists
-    .space 0x10
-
-glabel D_80174D28
-    .space 0x10
-
-glabel D_80174D38
-    .space 0x10
-
-glabel D_80174D48
-    .space 0x1C
-
-glabel D_80174D64
-    .space 0x4
-
-glabel D_80174D68
-    .space 0x8
-
-glabel D_80174D70
-    .space 0x18
-
-glabel D_80174D88
-    .space 0x18
-
-glabel D_80174DA0
-    .space 0x18
-
-glabel D_80174DB8
-    .space 0x4
-
-glabel D_80174DBC
-    .space 0x4
-
-glabel D_80174DC0
-    .space 0x810
+    .space 0x6450
 
 glabel D_801755D0
     .space 0x20

@@ -602,11 +602,11 @@ void Audio_InitNoteLists(NotePool* pool) {
 void Audio_InitNoteFreeList(void) {
     s32 i;
 
-    Audio_InitNoteLists(&gNoteFreeLists);
+    Audio_InitNoteLists(&gAudioContext.gNoteFreeLists);
     for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
         gAudioContext.gNotes[i].listItem.u.value = &gAudioContext.gNotes[i];
         gAudioContext.gNotes[i].listItem.prev = NULL;
-        Audio_AudioListPushBack(&gNoteFreeLists.disabled, &gAudioContext.gNotes[i].listItem);
+        Audio_AudioListPushBack(&gAudioContext.gNoteFreeLists.disabled, &gAudioContext.gNotes[i].listItem);
     }
 }
 
@@ -620,22 +620,22 @@ void Audio_NotePoolClear(NotePool* pool) {
         switch (i) {
             case 0:
                 source = &pool->disabled;
-                dest = &gNoteFreeLists.disabled;
+                dest = &gAudioContext.gNoteFreeLists.disabled;
                 break;
 
             case 1:
                 source = &pool->decaying;
-                dest = &gNoteFreeLists.decaying;
+                dest = &gAudioContext.gNoteFreeLists.decaying;
                 break;
 
             case 2:
                 source = &pool->releasing;
-                dest = &gNoteFreeLists.releasing;
+                dest = &gAudioContext.gNoteFreeLists.releasing;
                 break;
 
             case 3:
                 source = &pool->active;
-                dest = &gNoteFreeLists.active;
+                dest = &gAudioContext.gNoteFreeLists.active;
                 break;
         }
 
@@ -666,22 +666,22 @@ void Audio_NotePoolFill(NotePool* pool, s32 count) {
 
         switch (i) {
             case 0:
-                source = &gNoteFreeLists.disabled;
+                source = &gAudioContext.gNoteFreeLists.disabled;
                 dest = &pool->disabled;
                 break;
 
             case 1:
-                source = &gNoteFreeLists.decaying;
+                source = &gAudioContext.gNoteFreeLists.decaying;
                 dest = &pool->decaying;
                 break;
 
             case 2:
-                source = &gNoteFreeLists.releasing;
+                source = &gAudioContext.gNoteFreeLists.releasing;
                 dest = &pool->releasing;
                 break;
 
             case 3:
-                source = &gNoteFreeLists.active;
+                source = &gAudioContext.gNoteFreeLists.active;
                 dest = &pool->active;
                 break;
         }
@@ -883,9 +883,9 @@ Note* Audio_AllocNote(SequenceChannelLayer* seqLayer) {
     }
 
     if (policy & 8) {
-        if (!(ret = Audio_AllocNoteFromDisabled(&gNoteFreeLists, seqLayer)) &&
-            !(ret = Audio_AllocNoteFromDecaying(&gNoteFreeLists, seqLayer)) &&
-            !(ret = Audio_AllocNoteFromActive(&gNoteFreeLists, seqLayer))) {
+        if (!(ret = Audio_AllocNoteFromDisabled(&gAudioContext.gNoteFreeLists, seqLayer)) &&
+            !(ret = Audio_AllocNoteFromDecaying(&gAudioContext.gNoteFreeLists, seqLayer)) &&
+            !(ret = Audio_AllocNoteFromActive(&gAudioContext.gNoteFreeLists, seqLayer))) {
             goto null_return;
         }
         return ret;
@@ -893,13 +893,13 @@ Note* Audio_AllocNote(SequenceChannelLayer* seqLayer) {
 
     if (!(ret = Audio_AllocNoteFromDisabled(&seqLayer->seqChannel->notePool, seqLayer)) &&
         !(ret = Audio_AllocNoteFromDisabled(&seqLayer->seqChannel->seqPlayer->notePool, seqLayer)) &&
-        !(ret = Audio_AllocNoteFromDisabled(&gNoteFreeLists, seqLayer)) &&
+        !(ret = Audio_AllocNoteFromDisabled(&gAudioContext.gNoteFreeLists, seqLayer)) &&
         !(ret = Audio_AllocNoteFromDecaying(&seqLayer->seqChannel->notePool, seqLayer)) &&
         !(ret = Audio_AllocNoteFromDecaying(&seqLayer->seqChannel->seqPlayer->notePool, seqLayer)) &&
-        !(ret = Audio_AllocNoteFromDecaying(&gNoteFreeLists, seqLayer)) &&
+        !(ret = Audio_AllocNoteFromDecaying(&gAudioContext.gNoteFreeLists, seqLayer)) &&
         !(ret = Audio_AllocNoteFromActive(&seqLayer->seqChannel->notePool, seqLayer)) &&
         !(ret = Audio_AllocNoteFromActive(&seqLayer->seqChannel->seqPlayer->notePool, seqLayer)) &&
-        !(ret = Audio_AllocNoteFromActive(&gNoteFreeLists, seqLayer))) {
+        !(ret = Audio_AllocNoteFromActive(&gAudioContext.gNoteFreeLists, seqLayer))) {
         goto null_return;
     }
     return ret;
