@@ -926,7 +926,7 @@ Gfx sDefaultDisplayList[] = {
 void func_800994A0(GlobalContext* globalCtx) {
     s16 computedEntranceIndex;
 
-    if (gSaveContext.save.nightFlag) {
+    if (gSaveContext.nightFlag) {
         if (LINK_IS_CHILD) {
             computedEntranceIndex = globalCtx->nextEntranceIndex + 1;
         } else {
@@ -972,7 +972,7 @@ void func_800995DC(GlobalContext* globalCtx) {
 
     { s32 pad; }
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A2F8[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A2F8[gSaveContext.nightFlag]));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4783);
 }
@@ -1008,7 +1008,7 @@ void func_80099878(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A300[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A300[gSaveContext.nightFlag]));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_8012A308[(s32)(gameplayFrames & 14) >> 1]));
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 1) % 256, 0, 64, 32, 1, 0,
@@ -1265,7 +1265,7 @@ void func_8009AFE0(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A328[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A328[gSaveContext.nightFlag]));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5507);
 }
@@ -1286,7 +1286,7 @@ void func_8009B0FC(GlobalContext* globalCtx) {
     spAC = globalCtx->unk_11D30[1] & 0xFF;
     gameplayFrames = globalCtx->gameplayFrames;
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A330[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A330[gSaveContext.nightFlag]));
 
     if (spB0 == 1) {
         gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
@@ -1514,7 +1514,7 @@ void func_8009C3EC(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6042);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A338[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A338[gSaveContext.nightFlag]));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32,
                                 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
@@ -1616,7 +1616,7 @@ void func_8009CC00(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6290);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A340[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A340[gSaveContext.nightFlag]));
     gSPSegment(oGfxCtx->polyOpa.p++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32,
                                 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
@@ -1710,7 +1710,7 @@ void func_8009D31C(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A348[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A348[gSaveContext.nightFlag]));
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 128, 128, 128, 128);
@@ -1733,7 +1733,7 @@ void func_8009D438(GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
         var = 1;
     } else {
-        var = gSaveContext.save.nightFlag;
+        var = gSaveContext.nightFlag;
     }
 
     gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A358[var]));
@@ -1781,7 +1781,7 @@ void func_8009D758(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6640);
 
     gameplayFrames = globalCtx->gameplayFrames;
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A360[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A360[gSaveContext.nightFlag]));
     gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - gameplayFrames % 128, (gameplayFrames * 1) % 128, 32,
                                 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
@@ -1808,7 +1808,7 @@ void func_8009D974(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A368[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A368[gSaveContext.nightFlag]));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6762);
 }
@@ -1838,14 +1838,14 @@ void func_8009DA30(GlobalContext* globalCtx) {
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, displayListHead);
 
-    if ((gSaveContext.save.dayTime >= 0x4AAC) && (gSaveContext.save.dayTime <= 0xC555)) {
+    if ((gSaveContext.dayTime >= 0x4AAC) && (gSaveContext.dayTime <= 0xC555)) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.save.dayTime > 0xC555) {
+        if (gSaveContext.dayTime > 0xC555) {
             if (globalCtx->unk_11D30[0] != 255) {
                 Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
             }
-        } else if (gSaveContext.save.dayTime >= 0x4000) {
+        } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
                 Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
             }
@@ -1867,7 +1867,7 @@ void func_8009DD5C(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A370[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A370[gSaveContext.nightFlag]));
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 128, 128, 128, 128);
@@ -1938,8 +1938,7 @@ void func_8009E0B8(GlobalContext* globalCtx) {
         spA3 = 255 - (u8)globalCtx->unk_11D30[0];
     } else if (gSaveContext.sceneSetupIndex == 6) {
         spA0 = globalCtx->unk_11D30[0] + 500;
-    } else if (((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) &&
-               (gSaveContext.save.info.eventChkInf[0] & 0x80)) {
+    } else if (((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) && (gSaveContext.eventChkInf[0] & 0x80)) {
         spA0 = 2150;
     }
 
@@ -1967,8 +1966,7 @@ void func_8009E54C(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7058);
 
-    if ((gSaveContext.sceneSetupIndex > 3) ||
-        (LINK_IS_ADULT && !(gSaveContext.save.info.eventChkInf[6] & 0x200))) {
+    if ((gSaveContext.sceneSetupIndex > 3) || (LINK_IS_ADULT && !(gSaveContext.eventChkInf[6] & 0x200))) {
         globalCtx->unk_11D30[0] = 87;
     }
 
@@ -2006,7 +2004,7 @@ void func_8009E730(GlobalContext* globalCtx) {
     gDPPipeSync(oGfxCtx->polyOpa.p++);
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 128, 128, 128, 128);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A378[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A378[gSaveContext.nightFlag]));
 
     { s32 pad[2]; }
 
@@ -2133,7 +2131,7 @@ void func_8009F1B4(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A380[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A380[gSaveContext.nightFlag]));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7371);
 }
@@ -2194,14 +2192,14 @@ void func_8009F5D4(GlobalContext* globalCtx) {
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08, displayListHead);
 
-    if ((gSaveContext.save.dayTime >= 0x4AAC) && (gSaveContext.save.dayTime <= 0xC000)) {
+    if ((gSaveContext.dayTime >= 0x4AAC) && (gSaveContext.dayTime <= 0xC000)) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.save.dayTime > 0xC000) {
+        if (gSaveContext.dayTime > 0xC000) {
             if (globalCtx->unk_11D30[0] != 255) {
                 Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
             }
-        } else if (gSaveContext.save.dayTime >= 0x4000) {
+        } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
                 Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
             }
@@ -2268,7 +2266,7 @@ void func_8009F9D0(GlobalContext* globalCtx) {
     gDPPipeSync(oGfxCtx->polyXlu.p++);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 128, 128, 128, 128);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A388[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A388[gSaveContext.nightFlag]));
 
     { s32 pad[2]; }
 
@@ -2283,7 +2281,7 @@ void func_8009FB74(GlobalContext* globalCtx) {
 
     { s32 pad[2]; }
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A390[gSaveContext.save.nightFlag]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_8012A390[gSaveContext.nightFlag]));
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
     gDPSetEnvColor(oGfxCtx->polyOpa.p++, 128, 128, 128, 128);

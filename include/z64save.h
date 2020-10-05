@@ -62,70 +62,58 @@ typedef struct {
 } FaroresWindData; // size = 0x28
 
 typedef struct {
-    /* 0x00 */ char newf[6]; // string "ZELDAZ"
-    /* 0x06 */ s16 deaths;
-    /* 0x08 */ char playerName[8];
-    /* 0x10 */ s16 n64ddFlag;
-    /* 0x12 */ s16 healthCapacity; // "max_life"
-    /* 0x14 */ s16 health; // "now_life"
-    /* 0x16 */ s8 magicLevel;
-    /* 0x17 */ s8 magic;
-    /* 0x18 */ s16 rupees;
-    /* 0x1A */ u16 swordHealth;
-    /* 0x1C */ u16 naviTimer;
-    /* 0x1E */ u8 magicAcquired;
-    /* 0x1F */ u8 unk_1F;
-    /* 0x20 */ u8 doubleMagic;
-    /* 0x21 */ u8 doubleDefense;
-    /* 0x22 */ u8 bgsFlag;
-    /* 0x23 */ u8 ocarinaGameReward;
-    /* 0x24 */ ItemEquips childEquips;
-    /* 0x2E */ ItemEquips adultEquips;
-    /* 0x38 */ u32 unk_38; // this may be incorrect, currently used for alignement
-    /* 0x3C */ char unk_3C[0x0E];
-    /* 0x4A */ s16 savedSceneNum;
-} PlayerData; // size = 0x4C
-
-typedef struct {
-    /* 0x0000 */ PlayerData playerData; // "S_Private"
-    /* 0x004C */ ItemEquips equips;
-    /* 0x0058 */ Inventory inventory;
-    /* 0x00B8 */ SavedSceneFlags sceneFlags[124];
-    /* 0x0E48 */ FaroresWindData fw;
-    /* 0x0E70 */ char unk_E70[0x10];
-    /* 0x0E80 */ s32 gsFlags[6];
-    /* 0x0E98 */ char unk_E98[0x10];
-    /* 0x0EA8 */ s32 horseRaceRecord;
-    /* 0x0EAC */ char unk_EAC[0x0C];
-    /* 0x0EB8 */ u16 eventChkInf[14]; // "event_chk_inf"
-    /* 0x0ED4 */ u16 itemGetInf[4]; // "item_get_inf"
-    /* 0x0EDC */ u16 infTable[30]; // "inf_table"
-    /* 0x0F18 */ char unk_F18[0x04];
-    /* 0x0F1C */ u32 worldMapAreaData; // "area_arrival"
-    /* 0x0F20 */ char unk_F20[0x4];
-    /* 0x0F24 */ u8 scarecrowCustomSongSet;
-    /* 0x0F25 */ u8 scarecrowCustomSong[0x360];
-    /* 0x1285 */ char unk_1285[0x24];
-    /* 0x12A9 */ u8 scarecrowSpawnSongSet;
-    /* 0x12AA */ u8 scarecrowSpawnSong[0x80];
-    /* 0x132A */ char unk_132A[0x02];
-    /* 0x132C */ HorseData horseData;
-    /* 0x1336 */ u16 checksum; // "check_sum"
-} SaveInfo; // size = 0x1338
-
-typedef struct {
-    /* 0x00 */ s32 entranceIndex;
-    /* 0x04 */ s32 linkAge; // 0: Adult; 1: Child
-    /* 0x08 */ s32 cutsceneIndex;
-    /* 0x0C */ u16 dayTime; // "zelda_time"
-    /* 0x10 */ s32 nightFlag;
-    /* 0x14 */ s32 numDays;
-    /* 0x18 */ s32 unk_18; // increments with numDays, gets reset by goron for bgs and one other use
-    /* 0x1C */ SaveInfo info; // "information"
-} Save; // size = 0x1354
-
-typedef struct {
-    /* 0x0000 */ Save save; // data that gets restored when you load a save. "memory"
+    /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
+    /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child
+    /* 0x0008 */ s32 cutsceneIndex;
+    /* 0x000C */ u16 dayTime; // "zelda_time"
+    /* 0x0010 */ s32 nightFlag;
+    /* 0x0014 */ s32 numDays;
+    /* 0x0018 */ s32 unk_18; // increments with numDays, gets reset by goron for bgs and one other use
+    /* 0x001C */ char newf[6]; // string "ZELDAZ". start of `info` substruct, originally called "information"
+    /* 0x0022 */ s16 deaths;
+    /* 0x0024 */ char playerName[8];
+    /* 0x002C */ s16 n64ddFlag;
+    /* 0x002E */ s16 healthCapacity; // "max_life"
+    /* 0x0030 */ s16 health; // "now_life"
+    /* 0x0032 */ s8 magicLevel;
+    /* 0x0033 */ s8 magic;
+    /* 0x0034 */ s16 rupees;
+    /* 0x0036 */ u16 swordHealth;
+    /* 0x0038 */ u16 naviTimer;
+    /* 0x003A */ u8 magicAcquired;
+    /* 0x003B */ char unk_3B[0x01];
+    /* 0x003C */ u8 doubleMagic;
+    /* 0x003D */ u8 doubleDefense;
+    /* 0x003E */ u8 bgsFlag;
+    /* 0x003F */ u8 ocarinaGameReward;
+    /* 0x0040 */ ItemEquips childEquips;
+    /* 0x004A */ ItemEquips adultEquips;
+    /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignement
+    /* 0x0058 */ char unk_58[0x0E];
+    /* 0x0066 */ s16 savedSceneNum;
+    /* 0x0068 */ ItemEquips equips;
+    /* 0x0074 */ Inventory inventory;
+    /* 0x00D4 */ SavedSceneFlags sceneFlags[124];
+    /* 0x0E64 */ FaroresWindData fw;
+    /* 0x0E8C */ char unk_E8C[0x10];
+    /* 0x0E9C */ s32 gsFlags[6];
+    /* 0x0EB4 */ char unk_EB4[0x10];
+    /* 0x0EC4 */ s32 horseRaceRecord;
+    /* 0x0EC8 */ char unk_EC8[0x0C];
+    /* 0x0ED4 */ u16 eventChkInf[14]; // "event_chk_inf"
+    /* 0x0EF0 */ u16 itemGetInf[4]; // "item_get_inf"
+    /* 0x0EF8 */ u16 infTable[30]; // "inf_table"
+    /* 0x0F34 */ char unk_F34[0x04];
+    /* 0x0F38 */ u32 worldMapAreaData; // "area_arrival"
+    /* 0x0F3C */ char unk_F3C[0x4];
+    /* 0x0F40 */ u8 scarecrowCustomSongSet;
+    /* 0x0F41 */ u8 scarecrowCustomSong[0x360];
+    /* 0x12A1 */ char unk_12A1[0x24];
+    /* 0x12C5 */ u8 scarecrowSpawnSongSet;
+    /* 0x12C6 */ u8 scarecrowSpawnSong[0x80];
+    /* 0x1346 */ char unk_1346[0x02];
+    /* 0x1348 */ HorseData horseData;
+    /* 0x1352 */ u16 checksum; // "check_sum"
     /* 0x1354 */ s32 fileNum; // "file_no"
     /* 0x1358 */ char unk_1358[0x0004];
     /* 0x135C */ s32 gameMode;
@@ -152,7 +140,7 @@ typedef struct {
     /* 0x13E0 */ u8 seqIndex;
     /* 0x13E1 */ u8 nightSeqIndex;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 unk_13E7;
+    /* 0x13E7 */ u8 unk_13E7; // alpha related
     /* 0x13E8 */ u16 unk_13E8; // alpha type?
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?

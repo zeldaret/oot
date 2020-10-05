@@ -343,7 +343,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
         return ret;
     }
 
-    if (gSaveContext.save.info.infTable[13] & 0x0200) {
+    if (gSaveContext.infTable[13] & 0x0200) {
         /* "Do you want me to dig here? ..." */
         return 0x5019;
     } else {
@@ -362,7 +362,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
         case 2:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
-                gSaveContext.save.info.infTable[13] |= 0x0100;
+                gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
             break;
@@ -373,17 +373,17 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
                     thisx->textId = 0x0084;
-                } else if (gSaveContext.save.info.playerData.rupees < 10) {
+                } else if (gSaveContext.rupees < 10) {
                     /* "You don't have enough Rupees!" */
                     thisx->textId = 0x0085;
                 } else {
                     globalCtx->msgCtx.msgMode = 0x37;
                     Rupees_ChangeBy(-10);
-                    gSaveContext.save.info.infTable[13] |= 0x0200;
+                    gSaveContext.infTable[13] |= 0x0200;
                     return 2;
                 }
                 func_8010B720(globalCtx, thisx->textId);
-                gSaveContext.save.info.infTable[13] |= 0x0200;
+                gSaveContext.infTable[13] |= 0x0200;
             }
             break;
         case 5:
@@ -496,7 +496,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    if (gSaveContext.save.dayTime <= 0xC000 || gSaveContext.save.dayTime >= 0xE000 || !LINK_IS_CHILD ||
+    if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
         Actor_Kill(&this->actor);
         return;
@@ -619,8 +619,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                  * Upgrade the purple rupee reward to the heart piece if this
                  * is the first grand prize dig.
                  */
-                if ((gSaveContext.save.info.itemGetInf[1] & 0x1000) == 0) {
-                    gSaveContext.save.info.itemGetInf[1] |= 0x1000;
+                if ((gSaveContext.itemGetInf[1] & 0x1000) == 0) {
+                    gSaveContext.itemGetInf[1] |= 0x1000;
                     this->currentReward = 4;
                 }
             }

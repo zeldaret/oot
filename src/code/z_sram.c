@@ -1,21 +1,91 @@
 #include "global.h"
 #include "vt.h"
 
+// these are the main substructs of save context.
+// we are going to hold off on splitting save context until later on,
+// so these temporary structs will live here for now.
+
+typedef struct {
+    /* 0x00 */ char newf[6]; // string "ZELDAZ"
+    /* 0x06 */ s16 deaths;
+    /* 0x08 */ char playerName[8];
+    /* 0x10 */ s16 n64ddFlag;
+    /* 0x12 */ s16 healthCapacity; // "max_life"
+    /* 0x14 */ s16 health;         // "now_life"
+    /* 0x16 */ s8 magicLevel;
+    /* 0x17 */ s8 magic;
+    /* 0x18 */ s16 rupees;
+    /* 0x1A */ u16 swordHealth;
+    /* 0x1C */ u16 naviTimer;
+    /* 0x1E */ u8 magicAcquired;
+    /* 0x1F */ u8 unk_1F;
+    /* 0x20 */ u8 doubleMagic;
+    /* 0x21 */ u8 doubleDefense;
+    /* 0x22 */ u8 bgsFlag;
+    /* 0x23 */ u8 ocarinaGameReward;
+    /* 0x24 */ ItemEquips childEquips;
+    /* 0x2E */ ItemEquips adultEquips;
+    /* 0x38 */ u32 unk_38; // this may be incorrect, currently used for alignement
+    /* 0x3C */ char unk_3C[0x0E];
+    /* 0x4A */ s16 savedSceneNum;
+} SavePlayerData; // size = 0x4C
+
+typedef struct {
+    /* 0x0000 */ SavePlayerData playerData; // "S_Private" substruct name
+    /* 0x004C */ ItemEquips equips;
+    /* 0x0058 */ Inventory inventory;
+    /* 0x00B8 */ SavedSceneFlags sceneFlags[124];
+    /* 0x0E48 */ FaroresWindData fw;
+    /* 0x0E70 */ char unk_E70[0x10];
+    /* 0x0E80 */ s32 gsFlags[6];
+    /* 0x0E98 */ char unk_E98[0x10];
+    /* 0x0EA8 */ s32 horseRaceRecord;
+    /* 0x0EAC */ char unk_EAC[0x0C];
+    /* 0x0EB8 */ u16 eventChkInf[14]; // "event_chk_inf"
+    /* 0x0ED4 */ u16 itemGetInf[4];   // "item_get_inf"
+    /* 0x0EDC */ u16 infTable[30];    // "inf_table"
+    /* 0x0F18 */ char unk_F18[0x04];
+    /* 0x0F1C */ u32 worldMapAreaData; // "area_arrival"
+    /* 0x0F20 */ char unk_F20[0x4];
+    /* 0x0F24 */ u8 scarecrowCustomSongSet;
+    /* 0x0F25 */ u8 scarecrowCustomSong[0x360];
+    /* 0x1285 */ char unk_1285[0x24];
+    /* 0x12A9 */ u8 scarecrowSpawnSongSet;
+    /* 0x12AA */ u8 scarecrowSpawnSong[0x80];
+    /* 0x132A */ char unk_132A[0x02];
+    /* 0x132C */ HorseData horseData;
+    /* 0x1336 */ u16 checksum; // "check_sum"
+} SaveInfo;                    // size = 0x1338
+
+typedef struct {
+    /* 0x00 */ s32 entranceIndex;
+    /* 0x04 */ s32 linkAge; // 0: Adult; 1: Child
+    /* 0x08 */ s32 cutsceneIndex;
+    /* 0x0C */ u16 dayTime; // "zelda_time"
+    /* 0x10 */ s32 nightFlag;
+    /* 0x14 */ s32 numDays;
+    /* 0x18 */ s32 unk_18;    // increments with numDays, gets reset by goron for bgs and one other use
+    /* 0x1C */ SaveInfo info; // "information"
+} Save;                       // size = 0x1354
+
+#define SAVE_PLAYER_DATA (*((SavePlayerData*)&gSaveContext.newf))
+#define SAVE_INFO (*((SaveInfo*)&gSaveContext.newf))
+
 #define FIELD_SIZE(type, field) sizeof(((type*)0)->field)
 
 #define SRAM_SIZE 0x8000
 #define SLOT_SIZE 0x1450
 #define CHECKSUM_SIZE 0x9AAu
-#define SAVE_SIZE FIELD_SIZE(SaveContext, save)
-#define INFO_SIZE FIELD_SIZE(SaveContext, save.info)
+#define SAVE_SIZE 0x1354 // FIELD_SIZE(SaveContext, save)
+#define INFO_SIZE 0x1338 // FIELD_SIZE(SaveContext, save.info)
 
-#define DEATHS OFFSETOF(SaveContext, save.info.playerData.deaths)
-#define NAME OFFSETOF(SaveContext, save.info.playerData.playerName)
-#define N64DD OFFSETOF(SaveContext, save.info.playerData.n64ddFlag)
-#define HEALTH_CAP OFFSETOF(SaveContext, save.info.playerData.healthCapacity)
-#define QUEST OFFSETOF(SaveContext, save.info.inventory.questItems)
-#define DEFENSE OFFSETOF(SaveContext, save.info.inventory.defenseHearts)
-#define HEALTH OFFSETOF(SaveContext, save.info.playerData.health)
+#define DEATHS OFFSETOF(SaveContext, deaths)
+#define NAME OFFSETOF(SaveContext, playerName)
+#define N64DD OFFSETOF(SaveContext, n64ddFlag)
+#define HEALTH_CAP OFFSETOF(SaveContext, healthCapacity)
+#define QUEST OFFSETOF(SaveContext, inventory.questItems)
+#define DEFENSE OFFSETOF(SaveContext, inventory.defenseHearts)
+#define HEALTH OFFSETOF(SaveContext, health)
 
 #define SLOT_OFFSET(idx) (SLOT_SIZE * idx + 0x20)
 
@@ -44,7 +114,7 @@ u16 gSramSlotOffsets[][3] = {
 
 char sZeldaMagic[] = { '\0', '\0', '\0', '\x98', '\x09', '\x10', '\x21', 'Z', 'E', 'L', 'D', 'A' };
 
-PlayerData sNewSavePlayerData = {
+SavePlayerData sNewSavePlayerData = {
     { '\0', '\0', '\0', '\0', '\0', '\0' },             // newf
     0,                                                  // deaths
     { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName
@@ -101,29 +171,33 @@ Inventory sNewSaveInventory = {
 
 u16 sNewSaveChecksum = 0;
 
+/**
+ *  Initialize new save.
+ *  This Save has an empty inventory with 3 hearts and single magic.
+ */
 void Sram_InitNewSave(void) {
     SaveContext* temp = &gSaveContext;
 
-    bzero(&gSaveContext.save.info, INFO_SIZE);
-    gSaveContext.save.numDays = 0;
-    gSaveContext.save.unk_18 = 0;
+    bzero(&SAVE_INFO, INFO_SIZE);
+    gSaveContext.numDays = 0;
+    gSaveContext.unk_18 = 0;
 
-    gSaveContext.save.info.playerData = sNewSavePlayerData;
-    gSaveContext.save.info.equips = sNewSaveEquips;
-    gSaveContext.save.info.inventory = sNewSaveInventory;
+    SAVE_PLAYER_DATA = sNewSavePlayerData;
+    gSaveContext.equips = sNewSaveEquips;
+    gSaveContext.inventory = sNewSaveInventory;
 
-    temp->save.info.checksum = sNewSaveChecksum;
-    gSaveContext.save.info.horseData.scene = SCENE_SPOT00;
-    gSaveContext.save.info.horseData.pos.x = -1840;
-    gSaveContext.save.info.horseData.pos.y = 72;
-    gSaveContext.save.info.horseData.pos.z = 5497;
-    gSaveContext.save.info.horseData.angle = -0x6AD9;
-    gSaveContext.save.info.playerData.magicLevel = 0;
-    gSaveContext.save.info.infTable[29] = 1;
-    gSaveContext.save.info.sceneFlags[5].swch = 0x40000000;
+    temp->checksum = sNewSaveChecksum;
+    gSaveContext.horseData.scene = SCENE_SPOT00;
+    gSaveContext.horseData.pos.x = -1840;
+    gSaveContext.horseData.pos.y = 72;
+    gSaveContext.horseData.pos.z = 5497;
+    gSaveContext.horseData.angle = -0x6AD9;
+    gSaveContext.magicLevel = 0;
+    gSaveContext.infTable[29] = 1;
+    gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
 
-PlayerData sDebugSavePlayerData = {
+SavePlayerData sDebugSavePlayerData = {
     { 'Z', 'E', 'L', 'D', 'A', 'Z' },                   // newf
     0,                                                  // deaths
     { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E }, // playerName ( "LINK" )
@@ -179,43 +253,51 @@ Inventory sDebugSaveInventory = {
 
 u16 sDebugSaveChecksum = 0;
 
+/**
+ *  Initialize debug save. This is also used on the Title Screen
+ *  This Save has a mostly full inventory with 10 hearts and single magic.
+ * 
+ *  Some noteable flags that are set:
+ *  Showed mido sword/shield, met deku tree, deku tree mouth opened, 
+ *  used blue warp in gohmas room, zelda fled castle, light arrow cutscene watched,
+ *  and set water level in water temple to highest level.
+ */
 void Sram_InitDebugSave(void) {
     SaveContext* temp = &gSaveContext;
 
-    bzero(&gSaveContext.save.info, INFO_SIZE);
-    gSaveContext.save.numDays = 0;
-    gSaveContext.save.unk_18 = 0;
+    bzero(&SAVE_INFO, INFO_SIZE);
+    gSaveContext.numDays = 0;
+    gSaveContext.unk_18 = 0;
 
-    gSaveContext.save.info.playerData = sDebugSavePlayerData;
-    gSaveContext.save.info.equips = sDebugSaveEquips;
-    gSaveContext.save.info.inventory = sDebugSaveInventory;
+    SAVE_PLAYER_DATA = sDebugSavePlayerData;
+    gSaveContext.equips = sDebugSaveEquips;
+    gSaveContext.inventory = sDebugSaveInventory;
 
-    temp->save.info.checksum = sDebugSaveChecksum;
-    gSaveContext.save.info.horseData.scene = SCENE_SPOT00;
-    gSaveContext.save.info.horseData.pos.x = -1840;
-    gSaveContext.save.info.horseData.pos.y = 72;
-    gSaveContext.save.info.horseData.pos.z = 5497;
-    gSaveContext.save.info.horseData.angle = -0x6AD9;
-    gSaveContext.save.info.infTable[0] |= 0x5009;
-    gSaveContext.save.info.eventChkInf[0] |= 0x123F;
-    gSaveContext.save.info.eventChkInf[8] |= 1;
-    gSaveContext.save.info.eventChkInf[12] |= 0x10;
+    temp->checksum = sDebugSaveChecksum;
+    gSaveContext.horseData.scene = SCENE_SPOT00;
+    gSaveContext.horseData.pos.x = -1840;
+    gSaveContext.horseData.pos.y = 72;
+    gSaveContext.horseData.pos.z = 5497;
+    gSaveContext.horseData.angle = -0x6AD9;
+    gSaveContext.infTable[0] |= 0x5009;
+    gSaveContext.eventChkInf[0] |= 0x123F;
+    gSaveContext.eventChkInf[8] |= 1;
+    gSaveContext.eventChkInf[12] |= 0x10;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
+        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
         Inventory_ChangeEquipment(EQUIP_SWORD, PLAYER_SWORD_KOKIRI);
         if (gSaveContext.fileNum == 0xFF) {
-            gSaveContext.save.info.equips.buttonItems[1] = ITEM_SLINGSHOT;
-            gSaveContext.save.info.equips.cButtonSlots[0] = SLOT_SLINGSHOT;
+            gSaveContext.equips.buttonItems[1] = ITEM_SLINGSHOT;
+            gSaveContext.equips.cButtonSlots[0] = SLOT_SLINGSHOT;
             Inventory_ChangeEquipment(EQUIP_SHIELD, PLAYER_SHIELD_DEKU);
         }
     }
 
-    gSaveContext.save.entranceIndex = 0xCD;
-    gSaveContext.save.info.playerData.magicLevel = 0;
-    gSaveContext.save.info.sceneFlags[5].swch = 0x40000000;
+    gSaveContext.entranceIndex = 0xCD;
+    gSaveContext.magicLevel = 0;
+    gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
-
 
 #ifdef NON_MATCHING
 // regalloc differences at the end
@@ -245,10 +327,10 @@ void Sram_OpenSave(Sram* sram) {
     MemCopy(&gSaveContext, sram->readBuff + i, SAVE_SIZE);
 
     osSyncPrintf(VT_FGCOL(YELLOW));
-    osSyncPrintf("SCENE_DATA_ID = %d   SceneNo = %d\n", gSaveContext.save.info.playerData.savedSceneNum,
-                 ((void)0, gSaveContext.save.entranceIndex));
+    osSyncPrintf("SCENE_DATA_ID = %d   SceneNo = %d\n", gSaveContext.savedSceneNum,
+                 ((void)0, gSaveContext.entranceIndex));
 
-    switch (gSaveContext.save.info.playerData.savedSceneNum) {
+    switch (gSaveContext.savedSceneNum) {
         case SCENE_YDAN:
         case SCENE_DDAN:
         case SCENE_BDAN:
@@ -263,61 +345,61 @@ void Sram_OpenSave(Sram* sram) {
         case SCENE_MEN:
         case SCENE_GERUDOWAY:
         case SCENE_GANONTIKA:
-            gSaveContext.save.entranceIndex = dungeonEntrances[gSaveContext.save.info.playerData.savedSceneNum];
+            gSaveContext.entranceIndex = dungeonEntrances[gSaveContext.savedSceneNum];
             break;
         case SCENE_YDAN_BOSS:
-            gSaveContext.save.entranceIndex = 0;
+            gSaveContext.entranceIndex = 0;
             break;
         case SCENE_DDAN_BOSS:
-            gSaveContext.save.entranceIndex = 4;
+            gSaveContext.entranceIndex = 4;
             break;
         case SCENE_BDAN_BOSS:
-            gSaveContext.save.entranceIndex = 0x28;
+            gSaveContext.entranceIndex = 0x28;
             break;
         case SCENE_MORIBOSSROOM:
-            gSaveContext.save.entranceIndex = 0x169;
+            gSaveContext.entranceIndex = 0x169;
             break;
         case SCENE_FIRE_BS:
-            gSaveContext.save.entranceIndex = 0x165;
+            gSaveContext.entranceIndex = 0x165;
             break;
         case SCENE_MIZUSIN_BS:
-            gSaveContext.save.entranceIndex = 0x10;
+            gSaveContext.entranceIndex = 0x10;
             break;
         case SCENE_JYASINBOSS:
-            gSaveContext.save.entranceIndex = 0x82;
+            gSaveContext.entranceIndex = 0x82;
             break;
         case SCENE_HAKADAN_BS:
-            gSaveContext.save.entranceIndex = 0x37;
+            gSaveContext.entranceIndex = 0x37;
             break;
         case SCENE_GANON_SONOGO:
         case SCENE_GANONTIKA_SONOGO:
         case SCENE_GANON_BOSS:
         case SCENE_GANON_FINAL:
         case SCENE_GANON_DEMO:
-            gSaveContext.save.entranceIndex = 0x41B;
+            gSaveContext.entranceIndex = 0x41B;
             break;
 
         default:
-            if (gSaveContext.save.info.playerData.savedSceneNum != SCENE_LINK_HOME) {
-                gSaveContext.save.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? 0xBB : 0x5F4;
+            if (gSaveContext.savedSceneNum != SCENE_LINK_HOME) {
+                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? 0xBB : 0x5F4;
             } else {
-                gSaveContext.save.entranceIndex = 0xBB;
+                gSaveContext.entranceIndex = 0xBB;
             }
             break;
     }
 
-    osSyncPrintf("scene_no = %d\n", gSaveContext.save.entranceIndex);
+    osSyncPrintf("scene_no = %d\n", gSaveContext.entranceIndex);
     osSyncPrintf(VT_RST);
 
-    if (gSaveContext.save.info.playerData.health < 0x30) {
-        gSaveContext.save.info.playerData.health = 0x30;
+    if (gSaveContext.health < 0x30) {
+        gSaveContext.health = 0x30;
     }
 
-    if (gSaveContext.save.info.scarecrowCustomSongSet) {
+    if (gSaveContext.scarecrowCustomSongSet) {
         osSyncPrintf(VT_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCopy(gScarecrowCustomSongPtr, &gSaveContext.save.info.scarecrowCustomSong, 0x360);
+        MemCopy(gScarecrowCustomSongPtr, &gSaveContext.scarecrowCustomSong, 0x360);
 
         ptr = gScarecrowCustomSongPtr;
         for (i = 0; i < 0x360; i++, ptr++) {
@@ -328,11 +410,11 @@ void Sram_OpenSave(Sram* sram) {
         osSyncPrintf(VT_RST);
     }
 
-    if (gSaveContext.save.info.scarecrowSpawnSongSet) {
+    if (gSaveContext.scarecrowSpawnSongSet) {
         osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCopy(gScarecrowSpawnSongPtr, &gSaveContext.save.info.scarecrowSpawnSong, 0x80);
+        MemCopy(gScarecrowSpawnSongPtr, &gSaveContext.scarecrowSpawnSong, 0x80);
 
         ptr = gScarecrowSpawnSongPtr;
         for (i = 0; i < 0x80; i++, ptr++) {
@@ -344,23 +426,23 @@ void Sram_OpenSave(Sram* sram) {
     }
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
-    if ((gSaveContext.save.info.eventChkInf[4] & 1) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-        gSaveContext.save.info.eventChkInf[4] &= ~1;
+    if ((gSaveContext.eventChkInf[4] & 1) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
+        gSaveContext.eventChkInf[4] &= ~1;
         INV_CONTENT(ITEM_LETTER_ZELDA) = ITEM_CHICKEN;
 
         for (i = 1; i < 4; i++) {
-            if (gSaveContext.save.info.equips.buttonItems[i] == ITEM_LETTER_ZELDA) {
-                gSaveContext.save.info.equips.buttonItems[i] = ITEM_CHICKEN;
+            if (gSaveContext.equips.buttonItems[i] == ITEM_LETTER_ZELDA) {
+                gSaveContext.equips.buttonItems[i] = ITEM_CHICKEN;
             }
         }
     }
 
     // check for owning kokiri sword.. to restore master sword? bug or debug feature?
     if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_SWORD, PLAYER_SWORD_KOKIRI)) {
-        gSaveContext.save.info.inventory.equipment |= gBitFlags[1] << gEquipShifts[EQUIP_SWORD];
-        gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_MASTER;
-        gSaveContext.save.info.equips.equipment &= ~0xF;
-        gSaveContext.save.info.equips.equipment |= 2;
+        gSaveContext.inventory.equipment |= gBitFlags[1] << gEquipShifts[EQUIP_SWORD];
+        gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
+        gSaveContext.equips.equipment &= ~0xF;
+        gSaveContext.equips.equipment |= 2;
     }
 
     for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {
@@ -368,14 +450,14 @@ void Sram_OpenSave(Sram* sram) {
             INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
 
             for (j = 1; j < 4; j++) {
-                if (gSaveContext.save.info.equips.buttonItems[j] == gSpoilingItems[i]) {
-                    gSaveContext.save.info.equips.buttonItems[j] = gSpoilingItemReverts[i];
+                if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
+                    gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i];
                 }
             }
         }
     }
 
-    gSaveContext.save.info.playerData.magicLevel = 0;
+    gSaveContext.magicLevel = 0;
 }
 #else
 s16 dungeonEntrances[] = {
@@ -395,13 +477,13 @@ void Sram_WriteSave(s32 unused) {
     u16 j;
     u16* ptr;
 
-    gSaveContext.save.info.checksum = 0;
+    gSaveContext.checksum = 0;
 
     ptr = (u16*)&gSaveContext;
     checksum = 0;
     j = 0;
     CALC_CHECKSUM(offset, j, ptr, checksum);
-    gSaveContext.save.info.checksum = checksum;
+    gSaveContext.checksum = checksum;
 
     ptr = (u16*)&gSaveContext;
     checksum = 0;
@@ -421,7 +503,7 @@ void Sram_WriteSave(s32 unused) {
 /**
  *  For all 3 slots, verify that the checksum is correct. If corrupted, attempt to load a backup save.
  *  If backup is also corrupted, default to a new save (or debug save for slot 0 on debug rom).
- * 
+ *
  *  After verifying all 3 saves, pass relevant data to File Select to be displayed.
  */
 #ifdef NON_MATCHING
@@ -441,15 +523,15 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, Sram* sram) {
     bzero(sram->readBuff, SRAM_SIZE);
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sram->readBuff, SRAM_SIZE, OS_READ);
 
-    dayTime = gSaveContext.save.dayTime;
+    dayTime = gSaveContext.dayTime;
 
     for (slotNum = 0; slotNum < 3; slotNum++) {
         offset = gSramSlotOffsets[0][slotNum];
         osSyncPrintf("ぽいんと＝%x(%d)    SAVE_MAX=%d\n", offset, gSaveContext.fileNum, SAVE_SIZE);
         MemCopy(&gSaveContext, sram->readBuff + offset, SAVE_SIZE);
 
-        oldChecksum = gSaveContext.save.info.checksum;
-        gSaveContext.save.info.checksum = 0;
+        oldChecksum = gSaveContext.checksum;
+        gSaveContext.checksum = 0;
         osSyncPrintf("\n＝＝＝＝＝＝＝＝＝＝＝＝＝  Ｓ（%d） ＝＝＝＝＝＝＝＝＝＝＝＝＝\n", slotNum);
 
         // j = 0;
@@ -469,8 +551,8 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, Sram* sram) {
             offset = gSramSlotOffsets[1][slotNum];
             MemCopy(&gSaveContext, sram->readBuff + offset, SAVE_SIZE);
 
-            oldChecksum = gSaveContext.save.info.checksum;
-            gSaveContext.save.info.checksum = 0;
+            oldChecksum = gSaveContext.checksum;
+            gSaveContext.checksum = 0;
             osSyncPrintf("================= ＢＡＣＫ─ＵＰ ========================\n");
 
             newChecksum = 0;
@@ -486,26 +568,25 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, Sram* sram) {
                 // backup save didnt work, make new save
                 // offPtr = &gSramSlotOffsets[1][slotNum];
                 osSyncPrintf("ＥＲＲＯＲ！！！ ＝ %x(%d+3)\n", offset, slotNum);
-                bzero(&gSaveContext.save.entranceIndex, sizeof(gSaveContext.save.entranceIndex));
-                bzero(&gSaveContext.save.linkAge, sizeof(gSaveContext.save.linkAge));
-                bzero(&gSaveContext.save.cutsceneIndex, sizeof(gSaveContext.save.cutsceneIndex));
-                bzero(&gSaveContext.save.dayTime, sizeof(gSaveContext.save.dayTime));
-                bzero(&gSaveContext.save.nightFlag, sizeof(gSaveContext.save.nightFlag));
-                bzero(&gSaveContext.save.numDays, sizeof(gSaveContext.save.numDays));
-                bzero(&gSaveContext.save.unk_18, sizeof(gSaveContext.save.unk_18));
+                bzero(&gSaveContext.entranceIndex, sizeof(gSaveContext.entranceIndex));
+                bzero(&gSaveContext.linkAge, sizeof(gSaveContext.linkAge));
+                bzero(&gSaveContext.cutsceneIndex, sizeof(gSaveContext.cutsceneIndex));
+                bzero(&gSaveContext.dayTime, sizeof(gSaveContext.dayTime));
+                bzero(&gSaveContext.nightFlag, sizeof(gSaveContext.nightFlag));
+                bzero(&gSaveContext.numDays, sizeof(gSaveContext.numDays));
+                bzero(&gSaveContext.unk_18, sizeof(gSaveContext.unk_18));
 
                 if (slotNum == 0) {
                     Sram_InitDebugSave();
-                    gSaveContext.save.info.playerData.newf[0] = 'Z';
-                    gSaveContext.save.info.playerData.newf[1] = 'E';
-                    gSaveContext.save.info.playerData.newf[2] = 'L';
-                    gSaveContext.save.info.playerData.newf[3] = 'D';
-                    gSaveContext.save.info.playerData.newf[4] = 'A';
-                    gSaveContext.save.info.playerData.newf[5] = 'Z';
-                    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
-                                 gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
-                                 gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
-                                 gSaveContext.save.info.playerData.newf[5]);
+                    gSaveContext.newf[0] = 'Z';
+                    gSaveContext.newf[1] = 'E';
+                    gSaveContext.newf[2] = 'L';
+                    gSaveContext.newf[3] = 'D';
+                    gSaveContext.newf[4] = 'A';
+                    gSaveContext.newf[5] = 'Z';
+                    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.newf[0], gSaveContext.newf[1],
+                                 gSaveContext.newf[2], gSaveContext.newf[3], gSaveContext.newf[4],
+                                 gSaveContext.newf[5]);
                 } else {
                     Sram_InitNewSave();
                 }
@@ -524,25 +605,22 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, Sram* sram) {
                     newChecksum += *ptr++;
                 }
 
-                gSaveContext.save.info.checksum = newChecksum;
-                osSyncPrintf("\nCheck_Sum=%x(%x)\n", gSaveContext.save.info.checksum, newChecksum);
+                gSaveContext.checksum = newChecksum;
+                osSyncPrintf("\nCheck_Sum=%x(%x)\n", gSaveContext.checksum, newChecksum);
 
                 offset = gSramSlotOffsets[1][slotNum];
                 SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-                osSyncPrintf("????#%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
-                             gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
-                             gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
-                             gSaveContext.save.info.playerData.newf[5]);
-                osSyncPrintf("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", offset, slotNum,
-                             gSaveContext.save.info.checksum, newChecksum);
+                osSyncPrintf("????#%x,%x,%x,%x,%x,%x\n", gSaveContext.newf[0], gSaveContext.newf[1],
+                             gSaveContext.newf[2], gSaveContext.newf[3], gSaveContext.newf[4], gSaveContext.newf[5]);
+                osSyncPrintf("\nぽいんと＝%x(%d+3)  check_sum=%x(%x)\n", offset, slotNum, gSaveContext.checksum,
+                             newChecksum);
             }
 
             offset = gSramSlotOffsets[0][slotNum];
             SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", offset, slotNum, gSaveContext.save.info.checksum,
-                         newChecksum);
+            osSyncPrintf("ぽいんと＝%x(%d)  check_sum=%x(%x)\n", offset, slotNum, gSaveContext.checksum, newChecksum);
         } else {
             // SAVE data OK! ! ! !
             osSyncPrintf("\nＳＡＶＥデータ ＯＫ！！！！\n");
@@ -551,7 +629,7 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, Sram* sram) {
 
     bzero(sram->readBuff, SRAM_SIZE);
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sram->readBuff, SRAM_SIZE, OS_READ);
-    gSaveContext.save.dayTime = dayTime;
+    gSaveContext.dayTime = dayTime;
 
     osSyncPrintf("SAVECT=%x, NAME=%x, LIFE=%x, ITEM=%x,  64DD=%x,  HEART=%x\n", DEATHS, NAME, HEALTH_CAP, QUEST, N64DD,
                  DEFENSE);
@@ -609,32 +687,30 @@ void Sram_InitSave(FileChooseContext* fileChoose, Sram* sram) {
         Sram_InitDebugSave();
     }
 
-    gSaveContext.save.entranceIndex = 0xBB;
-    gSaveContext.save.linkAge = 1;
-    gSaveContext.save.dayTime = 0x6AAB;
-    gSaveContext.save.cutsceneIndex = 0xFFF1;
+    gSaveContext.entranceIndex = 0xBB;
+    gSaveContext.linkAge = 1;
+    gSaveContext.dayTime = 0x6AAB;
+    gSaveContext.cutsceneIndex = 0xFFF1;
 
     if (fileChoose->btnIdx == 0) {
-        gSaveContext.save.cutsceneIndex = 0;
+        gSaveContext.cutsceneIndex = 0;
     }
 
     for (offset = 0; offset < 8; offset++) {
-        gSaveContext.save.info.playerData.playerName[offset] = fileChoose->fileNames[fileChoose->btnIdx][offset];
+        gSaveContext.playerName[offset] = fileChoose->fileNames[fileChoose->btnIdx][offset];
     }
 
-    gSaveContext.save.info.playerData.newf[0] = 'Z';
-    gSaveContext.save.info.playerData.newf[1] = 'E';
-    gSaveContext.save.info.playerData.newf[2] = 'L';
-    gSaveContext.save.info.playerData.newf[3] = 'D';
-    gSaveContext.save.info.playerData.newf[4] = 'A';
-    gSaveContext.save.info.playerData.newf[5] = 'Z';
+    gSaveContext.newf[0] = 'Z';
+    gSaveContext.newf[1] = 'E';
+    gSaveContext.newf[2] = 'L';
+    gSaveContext.newf[3] = 'D';
+    gSaveContext.newf[4] = 'A';
+    gSaveContext.newf[5] = 'Z';
 
-    gSaveContext.save.info.playerData.n64ddFlag = fileChoose->n64ddFlag;
+    gSaveContext.n64ddFlag = fileChoose->n64ddFlag;
     osSyncPrintf("６４ＤＤフラグ=%d\n", fileChoose->n64ddFlag);
-    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.save.info.playerData.newf[0],
-                 gSaveContext.save.info.playerData.newf[1], gSaveContext.save.info.playerData.newf[2],
-                 gSaveContext.save.info.playerData.newf[3], gSaveContext.save.info.playerData.newf[4],
-                 gSaveContext.save.info.playerData.newf[5]);
+    osSyncPrintf("newf=%x,%x,%x,%x,%x,%x\n", gSaveContext.newf[0], gSaveContext.newf[1], gSaveContext.newf[2],
+                 gSaveContext.newf[3], gSaveContext.newf[4], gSaveContext.newf[5]);
     osSyncPrintf("\n$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
 
     ptr = (u16*)&gSaveContext;
@@ -650,8 +726,8 @@ void Sram_InitSave(FileChooseContext* fileChoose, Sram* sram) {
         }
     }
 
-    gSaveContext.save.info.checksum = checksum;
-    osSyncPrintf("\nチェックサム＝%x\n", gSaveContext.save.info.checksum); // Checksum = %x
+    gSaveContext.checksum = checksum;
+    osSyncPrintf("\nチェックサム＝%x\n", gSaveContext.checksum); // Checksum = %x
 
     offset = gSramSlotOffsets[0][gSaveContext.fileNum];
     osSyncPrintf("I=%x no=%d\n", offset, gSaveContext.fileNum);
@@ -737,8 +813,7 @@ void Sram_CopySave(FileChooseContext* fileChoose, Sram* sram) {
             sizeof(fileChoose->n64ddFlags[0]));
     MemCopy(&fileChoose->heartStatus[fileChoose->copyDestFileIdx], sram->readBuff + offset + DEFENSE,
             sizeof(fileChoose->heartStatus[0]));
-    MemCopy(&fileChoose->nowLife[fileChoose->copyDestFileIdx],
-            (sram->readBuff + offset) + OFFSETOF(SaveContext, save.info.playerData.health),
+    MemCopy(&fileChoose->nowLife[fileChoose->copyDestFileIdx], (sram->readBuff + offset) + HEALTH,
             sizeof(fileChoose->nowLife[0]));
 
     osSyncPrintf("f_64dd[%d]=%d\n", gSaveContext.fileNum, fileChoose->n64ddFlags[gSaveContext.fileNum]);

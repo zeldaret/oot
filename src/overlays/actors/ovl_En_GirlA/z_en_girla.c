@@ -219,55 +219,55 @@ void func_80A3A750(EnGirlA* this, EnGirlAActionFunc func) {
 s32 func_80A3A758(EnGirlA* this) {
     switch (this->actor.params) {
         case 17:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x4) {
+            if (gSaveContext.itemGetInf[0] & 0x4) {
                 this->actor.params = 16;
                 return 1;
             }
             break;
         case 24:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x40) {
+            if (gSaveContext.itemGetInf[0] & 0x40) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
         case 25:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x80) {
+            if (gSaveContext.itemGetInf[0] & 0x80) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
         case 26:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x100) {
+            if (gSaveContext.itemGetInf[0] & 0x100) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
         case 27:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x200) {
+            if (gSaveContext.itemGetInf[0] & 0x200) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
         case 28:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x400) {
+            if (gSaveContext.itemGetInf[0] & 0x400) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
         case 21:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x8) {
+            if (gSaveContext.itemGetInf[0] & 0x8) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
         case 22:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x10) {
+            if (gSaveContext.itemGetInf[0] & 0x10) {
                 this->actor.params = 38;
                 return 1;
             }
             break;
         case 23:
-            if (gSaveContext.save.info.itemGetInf[0] & 0x20) {
+            if (gSaveContext.itemGetInf[0] & 0x20) {
                 this->actor.params = 38;
                 return 1;
             }
@@ -328,7 +328,7 @@ s32 func_80A3AAA8(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     return 1;
@@ -341,7 +341,7 @@ s32 func_80A3AB58(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     return 1;
@@ -351,7 +351,7 @@ s32 func_80A3ABF8(GlobalContext* globalCtx, EnGirlA* this) {
     if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_NUT) >= CUR_CAPACITY(UPG_NUTS))) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_NUT) == ITEM_NONE) {
@@ -364,7 +364,7 @@ s32 func_80A3ACAC(GlobalContext* globalCtx, EnGirlA* this) {
     if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_STICK) >= CUR_CAPACITY(UPG_STICKS))) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
@@ -377,7 +377,7 @@ s32 func_80A3AD60(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_FISH) == ITEM_NONE) {
@@ -390,7 +390,7 @@ s32 func_80A3ADD4(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POTION_RED) == ITEM_NONE) {
@@ -403,7 +403,7 @@ s32 func_80A3AE48(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POTION_GREEN) == ITEM_NONE) {
@@ -416,7 +416,7 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POTION_BLUE) == ITEM_NONE) {
@@ -426,11 +426,10 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
-    if ((gBitFlags[2] & gSaveContext.save.info.inventory.equipment) &&
-        !(gBitFlags[3] & gSaveContext.save.info.inventory.equipment)) {
+    if ((gBitFlags[2] & gSaveContext.inventory.equipment) && !(gBitFlags[3] & gSaveContext.inventory.equipment)) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SWORD_BGS) == ITEM_NONE) {
@@ -440,10 +439,10 @@ s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[5] & gSaveContext.save.info.inventory.equipment) {
+    if (gBitFlags[5] & gSaveContext.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SHIELD_HYLIAN) == ITEM_NONE) {
@@ -453,10 +452,10 @@ s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B040(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[4] & gSaveContext.save.info.inventory.equipment) {
+    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SHIELD_DEKU) == ITEM_NONE) {
@@ -469,10 +468,10 @@ s32 func_80A3B0BC(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[9] & gSaveContext.save.info.inventory.equipment) {
+    if (gBitFlags[9] & gSaveContext.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_TUNIC_GORON) == ITEM_NONE) {
@@ -485,10 +484,10 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[10] & gSaveContext.save.info.inventory.equipment) {
+    if (gBitFlags[10] & gSaveContext.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_TUNIC_ZORA) == ITEM_NONE) {
@@ -498,17 +497,17 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B204(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) {
+    if (gSaveContext.healthCapacity == gSaveContext.health) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     return 1;
 }
 
 s32 func_80A3B250(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_MILK_BOTTLE) == ITEM_NONE) {
@@ -518,7 +517,7 @@ s32 func_80A3B250(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B2AC(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_LETTER_ZELDA) == ITEM_NONE) {
@@ -539,7 +538,7 @@ s32 func_80A3B328(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_BOMBCHU) >= 50) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_BOMBCHU) == ITEM_NONE) {
@@ -552,7 +551,7 @@ s32 func_80A3B3A8(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
         return 2;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SEEDS) == ITEM_NONE) {
@@ -569,7 +568,7 @@ s32 func_80A3B464(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_BLUE_FIRE) == ITEM_NONE) {
@@ -582,7 +581,7 @@ s32 func_80A3B4D8(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_BUG) == ITEM_NONE) {
@@ -595,7 +594,7 @@ s32 func_80A3B54C(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POE) == ITEM_NONE) {
@@ -608,7 +607,7 @@ s32 func_80A3B5C0(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
+    if (gSaveContext.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_FAIRY) == ITEM_NONE) {
@@ -659,7 +658,7 @@ void func_80A3B780(GlobalContext* globalCtx, EnGirlA* this) {
 
 void func_80A3B7BC(GlobalContext* globalCtx, EnGirlA* this) {
     func_800849EC(globalCtx);
-    gSaveContext.save.info.playerData.swordHealth = 8;
+    gSaveContext.swordHealth = 8;
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -746,7 +745,7 @@ void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this) {
 
 void func_80A3BB6C(GlobalContext* globalCtx, EnGirlA* this) {
     if (this->actor.params == 12) {
-        if (gSaveContext.save.info.infTable[7] & 0x40) {
+        if (gSaveContext.infTable[7] & 0x40) {
             Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Math_Rand_ZeroFloat(7.9f)]));
             return;
         }
@@ -765,28 +764,28 @@ void func_80A3BC3C(GlobalContext* globalCtx, EnGirlA* this) {
 void func_80A3BC6C(GlobalContext* globalCtx, EnGirlA* this) {
     switch (this->actor.params) {
         case 24:
-            gSaveContext.save.info.itemGetInf[0] |= 0x40;
+            gSaveContext.itemGetInf[0] |= 0x40;
             break;
         case 25:
-            gSaveContext.save.info.itemGetInf[0] |= 0x80;
+            gSaveContext.itemGetInf[0] |= 0x80;
             break;
         case 26:
-            gSaveContext.save.info.itemGetInf[0] |= 0x100;
+            gSaveContext.itemGetInf[0] |= 0x100;
             break;
         case 27:
-            gSaveContext.save.info.itemGetInf[0] |= 0x200;
+            gSaveContext.itemGetInf[0] |= 0x200;
             break;
         case 28:
-            gSaveContext.save.info.itemGetInf[0] |= 0x400;
+            gSaveContext.itemGetInf[0] |= 0x400;
             break;
         case 21:
-            gSaveContext.save.info.itemGetInf[0] |= 0x8;
+            gSaveContext.itemGetInf[0] |= 0x8;
             break;
         case 22:
-            gSaveContext.save.info.itemGetInf[0] |= 0x10;
+            gSaveContext.itemGetInf[0] |= 0x10;
             break;
         case 23:
-            gSaveContext.save.info.itemGetInf[0] |= 0x20;
+            gSaveContext.itemGetInf[0] |= 0x20;
             break;
     }
     Rupees_ChangeBy(-this->unk_1C8);
@@ -806,27 +805,27 @@ void func_80A3BD8C(GlobalContext* globalCtx, EnGirlA* this) {
         tmp3 = 0;
         switch (this->actor.params) {
             case 30:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x100) {
+                if (gSaveContext.itemGetInf[3] & 0x100) {
                     tmp3 = 1;
                 }
                 break;
             case 31:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x400) {
+                if (gSaveContext.itemGetInf[3] & 0x400) {
                     tmp3 = 1;
                 }
                 break;
             case 32:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x200) {
+                if (gSaveContext.itemGetInf[3] & 0x200) {
                     tmp3 = 1;
                 }
                 break;
             case 33:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x800) {
+                if (gSaveContext.itemGetInf[3] & 0x800) {
                     tmp3 = 1;
                 }
                 break;
             case 34:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x800) {
+                if (gSaveContext.itemGetInf[3] & 0x800) {
                     tmp3 = 1;
                 }
                 break;
@@ -888,7 +887,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->unk_194;
         switch (this->actor.params - 30) {
             case 0:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x100) {
+                if (gSaveContext.itemGetInf[3] & 0x100) {
                     this->actor.textId = 0x70B6;
                 } else {
                     this->actor.textId = tmp->unk_0C;
@@ -896,7 +895,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
                 this->unk_1A0 = tmp->unk_0E;
                 break;
             case 1:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x400) {
+                if (gSaveContext.itemGetInf[3] & 0x400) {
                     this->actor.textId = 0x70B5;
                 } else {
                     this->actor.textId = tmp->unk_0C;
@@ -904,7 +903,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
                 this->unk_1A0 = tmp->unk_0E;
                 break;
             case 2:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x200) {
+                if (gSaveContext.itemGetInf[3] & 0x200) {
                     this->actor.textId = 0x70B4;
                 } else {
                     this->actor.textId = tmp->unk_0C;
@@ -913,7 +912,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
                 this->unk_1A0 = tmp->unk_0E;
                 break;
             case 3:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x800) {
+                if (gSaveContext.itemGetInf[3] & 0x800) {
                     this->actor.textId = 0x70B7;
                 } else {
                     this->actor.textId = tmp->unk_0C;
@@ -922,7 +921,7 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
                 this->unk_1A0 = tmp->unk_0E;
                 break;
             case 4:
-                if (gSaveContext.save.info.itemGetInf[3] & 0x800) {
+                if (gSaveContext.itemGetInf[3] & 0x800) {
                     this->actor.textId = 0x70BB;
                     this->unk_1A0 = tmp->unk_0E;
                 } else {

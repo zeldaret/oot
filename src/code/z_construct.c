@@ -85,42 +85,36 @@ void func_801109B0(GlobalContext* globalCtx) {
         __assert("parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
     }
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.save.info.equips.buttonItems[0],
-                 gSaveContext.save.info.equips.buttonItems[1],
-                 gSaveContext.save.info.equips.buttonItems[2],
-                 gSaveContext.save.info.equips.buttonItems[3]);
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.buttonItems[0],
+                 gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
+                 gSaveContext.equips.buttonItems[3]);
 
-    if (gSaveContext.save.info.equips.buttonItems[0] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[0] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
-                            _icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[0] * 0x1000,
-                            0x1000, "../z_construct.c", 198);
-    } else if (gSaveContext.save.info.equips.buttonItems[0] != 0xFF) {
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
+                            "../z_construct.c", 198);
+    } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
-                            _icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[0] * 0x1000,
-                            0x1000, "../z_construct.c", 203);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
+                            "../z_construct.c", 203);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[1] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[1] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x1000),
-                            _icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[1] * 0x1000,
-                            0x1000, "../z_construct.c", 209);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000, 0x1000,
+                            "../z_construct.c", 209);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[2] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[2] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x2000),
-                            _icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[2] * 0x1000,
-                            0x1000, "../z_construct.c", 214);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000, 0x1000,
+                            "../z_construct.c", 214);
     }
 
-    if (gSaveContext.save.info.equips.buttonItems[3] < 0xF0) {
+    if (gSaveContext.equips.buttonItems[3] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x3000),
-                            _icon_item_staticSegmentRomStart +
-                                gSaveContext.save.info.equips.buttonItems[3] * 0x1000,
-                            0x1000, "../z_construct.c", 219);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000, 0x1000,
+                            "../z_construct.c", 219);
     }
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", ((void)0, gSaveContext.timer1State));
@@ -145,7 +139,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
         gSaveContext.timerX[temp] = 26;
 
-        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
+        if (gSaveContext.healthCapacity > 0xA0) {
             gSaveContext.timerY[temp] = 54;
         } else {
             gSaveContext.timerY[temp] = 46;

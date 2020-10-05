@@ -307,7 +307,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
 
     if (gSaveContext.sceneSetupIndex < 4) {
-        if ((gSaveContext.save.info.eventChkInf[5] & 0x10) && LINK_IS_ADULT) {
+        if ((gSaveContext.eventChkInf[5] & 0x10) && LINK_IS_ADULT) {
             Actor_Kill(&this->dyna.actor);
         } else {
             this->action = 0;

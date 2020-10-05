@@ -123,12 +123,12 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
         this->unk_2B4 = 1;
         this->actionFunc = func_80A56B40;
     } else {
-        if (gSaveContext.save.info.eventChkInf[8] & 1) {
+        if (gSaveContext.eventChkInf[8] & 1) {
             this->actor.textId = 0x5065;
             this->actionFunc = func_80A56B40;
             return;
         }
-        if (gSaveContext.save.info.eventChkInf[4] & 0x20) {
+        if (gSaveContext.eventChkInf[4] & 0x20) {
             this->actor.textId = 0x5068;
             this->actionFunc = func_80A56B40;
             return;
@@ -139,7 +139,7 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
             } else {
                 this->actor.textId = 0x507A;
             }
-        } else if (!gSaveContext.save.nightFlag) {
+        } else if (!gSaveContext.nightFlag) {
             if (this->unk_284 == 0) {
                 this->actor.textId = 0x5063;
             } else {
@@ -185,13 +185,13 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
         return;
     }
     if (globalCtx->sceneNum == SCENE_MIHARIGOYA) {
-        if (gSaveContext.save.nightFlag == 0) {
+        if (gSaveContext.nightFlag == 0) {
             this->actor.textId = 0x7004;
         } else {
             this->actor.textId = 0x709A;
         }
     } else if (globalCtx->sceneNum != SCENE_MARKET_NIGHT) {
-        if (!gSaveContext.save.nightFlag) {
+        if (!gSaveContext.nightFlag) {
             this->actor.textId = 0x7002;
         } else {
             this->actor.textId = 0x7003;
@@ -204,14 +204,14 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
-    if (gSaveContext.save.info.eventChkInf[4] & 0x20) {
+    if (gSaveContext.eventChkInf[4] & 0x20) {
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
     this->unk_284 = 0;
-    if (gSaveContext.save.info.eventChkInf[8] & 1) {
-        if (!(gSaveContext.save.info.infTable[6] & 0x1000)) {
+    if (gSaveContext.eventChkInf[8] & 1) {
+        if (!(gSaveContext.infTable[6] & 0x1000)) {
             f32 frames = SkelAnime_GetFrameCount(&D_0600C444);
             SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
             this->actor.textId = 0x7007;
@@ -258,7 +258,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);
-            gSaveContext.save.info.infTable[6] |= 0x1000;
+            gSaveContext.infTable[6] |= 0x1000;
             func_8002DF54(globalCtx, NULL, 8);
             this->actionFunc = func_80A56A50;
         }

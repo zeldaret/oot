@@ -73,7 +73,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
-    if (type == 2 && (gSaveContext.save.info.eventChkInf[4] & 1)) {
+    if (type == 2 && (gSaveContext.eventChkInf[4] & 1)) {
         Actor_Kill(&this->actor);
     }
 }

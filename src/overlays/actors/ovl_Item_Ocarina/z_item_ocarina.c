@@ -60,8 +60,7 @@ void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case 3:
             ItemOcarina_SetupAction(this, ItemOcarina_WaitInWater);
-            if (!(gSaveContext.save.info.eventChkInf[8] & 1) ||
-                (gSaveContext.save.info.eventChkInf[4] & 8)) {
+            if (!(gSaveContext.eventChkInf[8] & 1) || (gSaveContext.eventChkInf[4] & 8)) {
                 Actor_Kill(thisx);
                 return;
             }
@@ -179,7 +178,7 @@ void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
 
 void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
-        gSaveContext.save.info.eventChkInf[4] |= 8;
+        gSaveContext.eventChkInf[4] |= 8;
         Flags_SetSwitch(globalCtx, 3);
         this->actionFunc = ItemOcarina_StartSoTCutscene;
         this->actor.draw = NULL;
