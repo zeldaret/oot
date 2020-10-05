@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 #define AS_F32(x) (*(f32*)&(x)->unk_04)
 #define AS_U8(x) (*(u8*)&(x)->unk_04)

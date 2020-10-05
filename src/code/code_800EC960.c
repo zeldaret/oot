@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
     f32 unk_00;
@@ -134,10 +134,10 @@ void func_800ECA00(void) {
 
     sp18 = D_8016BA0C;
     PadMgr_RequestPadData(&gPadMgr, &sp20, 0);
-    D_8016BA0C = sp20[0].cur.in.button;
+    D_8016BA0C = sp20[0].cur.button;
     D_8016BA14 = sp18;
-    D_8016BA08 = sp20[0].rel.in.x;
-    D_8016BA09 = sp20[0].rel.in.y;
+    D_8016BA08 = sp20[0].rel.stick_x;
+    D_8016BA09 = sp20[0].rel.stick_y;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ECA00.s")
@@ -563,7 +563,7 @@ void func_800EE97C(void) {
     u32 btn;
 
     PadMgr_RequestPadData(&gPadMgr, &sp20, 0);
-    btn = sp20[3].cur.in.button;
+    btn = sp20[3].cur.button;
     D_8016BAB0 = btn & 0xFFFF;
     D_8016BAB8 = (btn ^ D_8016BAB4) & btn;
     D_8016BAB4 = btn;

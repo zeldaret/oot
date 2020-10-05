@@ -457,34 +457,31 @@ typedef struct {
     // may contain portamento, vibratoState, if those are not part of Note itself
 } NotePlaybackState;
 
-typedef union {
-    struct {
-        /*?0x00 */ volatile u8 enabled : 1; //80
-        /* 0x00 */ u8 needsInit : 1; // 40
-        /*?0x00 */ u8 finished : 1; // 20
-        /*?0x00 */ u8 envMixerNeedsInit : 1; // 10
-        /* 0x00 */ u8 stereoStrongRight : 1; // 08
-        /* 0x00 */ u8 stereoStrongLeft : 1; // 04
-        /* 0x00 */ u8 stereoHeadsetEffects : 1; // 02
-        /* 0x00 */ u8 usesHeadsetPanEffects : 1; // 01
-    } s;
-    /*?0x00 */ u8 asByte;
-} NoteBits0;
-
-typedef union {
-    struct {
-        /*?0x01 */ u8 reverbIndex : 3;
-        /* 0x01 */ u8 bookOffset : 2;
-        /*?0x01 */ u8 bit2 : 1;
-        /*?0x01 */ u8 isSyntheticWave : 1;
-        /*?0x01 */ u8 hasTwoAdpcmParts : 1;
-    } s;
-    /*?0x01 */ u8 asByte;
-} NoteBits1;
-
 typedef struct {
-    /* 0x01 */ NoteBits0 bitField0;
-    /* 0x02 */ NoteBits1 bitField1;
+    // these bitfields should perhaps be merged into a single struct
+    union {
+        struct {
+            /* 0x00 */ vu8 enabled : 1;
+            /* 0x00 */ u8 needsInit : 1;
+            /*?0x00 */ u8 finished : 1;
+            /*?0x00 */ u8 envMixerNeedsInit : 1;
+            /* 0x00 */ u8 stereoStrongRight : 1;
+            /* 0x00 */ u8 stereoStrongLeft : 1;
+            /* 0x00 */ u8 stereoHeadsetEffects : 1;
+            /* 0x00 */ u8 usesHeadsetPanEffects : 1;
+        } s;
+        /*?0x00 */ u8 asByte;
+    } bitField0;
+    union {
+        struct {
+            /*?0x01 */ u8 reverbIndex : 3;
+            /* 0x01 */ u8 bookOffset : 2;
+            /*?0x01 */ u8 bit2 : 1;
+            /*?0x01 */ u8 isSyntheticWave : 1;
+            /*?0x01 */ u8 hasTwoAdpcmParts : 1;
+        } s;
+        /*?0x01 */ u8 asByte;
+    } bitField1;
     /* 0x02 */ u8 unk_2;
     /*?0x03 */ u8 headsetPanRight;
     /*?0x04 */ u8 headsetPanLeft;

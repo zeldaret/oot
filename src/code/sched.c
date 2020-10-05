@@ -1,12 +1,11 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #define RSP_DONE_MSG 667
 #define RDP_DONE_MSG 668
 #define ENTRY_MSG 670
 
 // data
-volatile s32 sLogScheduler = false;
+vs32 sLogScheduler = false;
 
 // bss
 OSTime sRSPGFXStartTime;

@@ -1,8 +1,8 @@
 #ifndef _VARIABLES_H_
 #define _VARIABLES_H_
 
-#include <z64.h>
-#include <segment_symbols.h>
+#include "z64.h"
+#include "segment_symbols.h"
 
 extern u8 D_02000000[];
 extern u8 D_02000400[];
@@ -90,7 +90,7 @@ extern u8 D_800093F0[];
 extern s8 D_80009430;
 extern u32 D_80009460;
 extern u32 gDmaMgrDmaBuffSize;
-extern volatile u8 gViConfigUseDefault;
+extern vu8 gViConfigUseDefault;
 extern u8 gViConfigAdditionalScanLines;
 extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;
@@ -103,13 +103,11 @@ extern u64 osClockRate;
 extern s32 osViClock;
 extern u32 __osShutdown;
 extern u32 __OSGlobalIntMask;
-extern __osHwInt __osHwIntTable[];
 extern OSThread* __osThreadTail[];
-extern OSThread *__osRunQueue;
-extern OSThread *__osActiveQueue;
-extern OSThread *__osRunningThread;
+extern OSThread* __osRunQueue;
+extern OSThread* __osActiveQueue;
+extern OSThread* __osRunningThread;
 extern OSThread* __osFaultedThread;
-extern OSMgrArgs __osPiDevMgr;
 extern OSPiHandle* __osPiTable;
 extern OSPiHandle* __osCurrentHandle[];
 extern OSTimer* __osTimerList;
@@ -130,7 +128,6 @@ extern OSMesgQueue __osPiAccessQueue;
 extern OSPiHandle __Dom1SpeedParam;
 extern OSPiHandle __Dom2SpeedParam;
 extern OSThread __osThreadSave;
-extern __OSEventState __osEventStateTab[];
 extern OSTimer __osBaseTimer;
 extern OSTime __osCurrentTime;
 extern u32 __osBaseCounter;
@@ -578,7 +575,7 @@ extern Mtx gMtxClear;
 extern MtxF gMtxFClear;
 extern u8 D_8012DBB0;
 extern u32 D_8012DBC0;
-extern volatile u32 gIrqMgrResetStatus;
+extern vu32 gIrqMgrResetStatus;
 extern volatile OSTime gIrqMgrRetraceTime;
 extern s32 gDebugArenaLogSeverity;
 //extern ? sUCodeDisasGeometryModes;
