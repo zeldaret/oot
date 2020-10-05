@@ -5,8 +5,8 @@
  */
 
 #include "z_en_fhg.h"
-#include "../ovl_Boss_Ganondrof/z_boss_ganondrof.h"
-#include "../ovl_En_fHG/z_en_fhg.h"
+#include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
+#include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
 #define FLAGS 0x00000010
 
@@ -333,7 +333,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             if ((fabsf(this->actor.posRot.pos.z - -2915.5f) < 300.0f) && !this->spawnedWarp) {
                 this->spawnedWarp = true;
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, 14.0f,
-                                   this->actor.posRot.pos.y + 50.0f, -2915.5f, 0, this->actor.shape.rot.y, 0, 40);
+                                   this->actor.posRot.pos.y + 50.0f, -2915.5f, 0, this->actor.shape.rot.y, 0, FHG_WARP_RETREAT);
                 this->fhgFireKillWarp = true;
             }
             Math_SmoothScaleMaxF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.2f, 50.0f);
@@ -451,7 +451,7 @@ void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
             this->timers[0] = 40;
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                this->actor.posRot.pos.x, this->actor.posRot.pos.y + 50.0f, this->actor.posRot.pos.z, 0,
-                               this->actor.shape.rot.y + 0x8000, 0, 39);
+                               this->actor.shape.rot.y + 0x8000, 0, FHG_WARP_EMERGE);
             this->fhgFireKillWarp = false;
         }
     }
@@ -489,7 +489,7 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
             if (this->timers[1] == 24) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                    this->actor.posRot.pos.x, (this->actor.posRot.pos.y + 100.0f) + 25.0f,
-                                   this->actor.posRot.pos.z, 0, 0, 0, 1);
+                                   this->actor.posRot.pos.z, 0, 0, 0, FHG_LIGHTNING_STRIKE);
             }
             if (this->timers[1] == 45) {
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B9D0, 0.0f);
@@ -526,7 +526,7 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
             this->spawnedWarp = true;
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->inPaintingPos.x,
                                this->actor.posRot.pos.y + 50.0f, this->inPaintingPos.z, 0, this->actor.shape.rot.y, 0,
-                               40);
+                               FHG_WARP_RETREAT);
             this->fhgFireKillWarp = true;
         }
         osSyncPrintf("SPD X %f\n", this->inPaintingVelX);
@@ -578,7 +578,7 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
             this->spawnedWarp = true;
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->inPaintingPos.x,
                                this->actor.posRot.pos.y + 50.0f, this->inPaintingPos.z, 0,
-                               this->actor.shape.rot.y + 0x8000, 0, 40);
+                               this->actor.shape.rot.y + 0x8000, 0, FHG_WARP_RETREAT);
         }
     }
     if (dxz2 == 0.0f) {

@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -9,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
 VisMono D_80161498;
-Color_RGBA8 D_801614B0;
+Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
 u64 D_801614D0[0xA00];
@@ -921,7 +920,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if (globalCtx->unk_1242B != 0) {
-                if (CHECK_PAD(input[0].press, U_CBUTTONS)) {
+                if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);

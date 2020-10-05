@@ -1,8 +1,8 @@
 #ifndef _Z_EFF_SS_DEAD_SOUND_H_
 #define _Z_EFF_SS_DEAD_SOUND_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -14,5 +14,8 @@ typedef struct {
     /* 0x26 */ s16 unused2;
     /* 0x2C */ s32 life;
 } EffectSsDeadSoundInitParams; // size = 0x30
+
+#define DEADSOUND_REPEAT_MODE_OFF 1
+#define DEADSOUND_REPEAT_MODE_ON 2
 
 #endif

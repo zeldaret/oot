@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // TODO: name magic constants
 void osViBlack(u8 active) {

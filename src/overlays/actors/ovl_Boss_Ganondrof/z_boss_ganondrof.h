@@ -1,8 +1,8 @@
 #ifndef _Z_BOSS_GANONDROF_H_
 #define _Z_BOSS_GANONDROF_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BossGanondrof;
 
@@ -44,7 +44,7 @@ typedef struct BossGanondrof {
     /* 0x01E4 */ char unk_1E4[0x1C];
     /* 0x0200 */ Vec3f spearPos;
     /* 0x020C */ Vec3f unk_20C;
-    /* 0x020C */ Vec3f unk_210[25]; // unk size, fix me
+    /* 0x0218 */ Vec3f bodyPartsPos[25]; // unk size, fix me
     /* 0x0344 */ char unk_344[0x18];
     /* 0x035C */ s16 unk_35C;
     /* 0x035E */ s16 unk_35E;

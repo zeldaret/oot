@@ -1,22 +1,25 @@
 #ifndef _Z_EN_FHG_FIRE_H_
 #define _Z_EN_FHG_FIRE_H_
 
-#include <ultra64.h>
-#include <global.h>
-
-#define FHG_LIGHTNING_STRIKE 1
-#define FHG_LIGHTNING_TRAIL 100
-#define FHG_TRAIL_HITBOX 35
-#define FHG_LIGHTNING_BURST 36
-#define FHG_SPEAR_SPARK 38
-#define FHG_WARP_EMERGE 39
-#define FHG_WARP_RETREAT 40
-#define FHG_WARP_DEATH 41
-#define FHG_ENERGY_BALL 50
+#include "ultra64.h"
+#include "global.h"
 
 struct EnFhgFire;
 
 typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, GlobalContext *globalCtx);
+
+typedef enum {
+    /*   1 */ FHG_LIGHTNING_STRIKE = 1,
+    /*  35 */ FHG_LIGHTNING_SHOCK = 35,
+    /*  36 */ FHG_LIGHTNING_BURST,
+    /*  38 */ FHG_SPEAR_SPARK = 38,
+    /*  39 */ FHG_WARP_EMERGE,
+    /*  40 */ FHG_WARP_RETREAT,
+    /*  41 */ FHG_WARP_DEATH,
+    /*  50 */ FHG_ENERGY_BALL = 50,
+    /* 100 */ FHG_LIGHTNING_TRAIL = 100
+} FhgFireParams;
+    
 
 typedef struct EnFhgFire {
     /* 0x0000 */ Actor actor;
