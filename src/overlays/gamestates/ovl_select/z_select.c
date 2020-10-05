@@ -19,11 +19,11 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
-        Sram_InitSaveSlotDebug();
-        gSaveContext.unk_13F6 = gSaveContext.save.info.sub_1C.magic;
-        gSaveContext.save.info.sub_1C.magic = 0;
+        Sram_InitDebugSave();
+        gSaveContext.unk_13F6 = gSaveContext.save.info.playerData.magic;
+        gSaveContext.save.info.playerData.magic = 0;
         gSaveContext.unk_13F4 = 0;
-        gSaveContext.save.info.sub_1C.magicLevel = gSaveContext.save.info.sub_1C.magic;
+        gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.magic;
     }
     gSaveContext.buttonStatus[4] = BTN_ENABLED;
     gSaveContext.buttonStatus[3] = BTN_ENABLED;

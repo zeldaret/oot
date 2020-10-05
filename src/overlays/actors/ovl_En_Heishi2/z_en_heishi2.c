@@ -230,7 +230,7 @@ void func_80A5344C(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 5;
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.save.info.sub_1C.rupees >= 10) {
+                if (gSaveContext.save.info.playerData.rupees >= 10) {
                     Rupees_ChangeBy(-10);
                     this->actor.textId = 0x7098; // "OK, I'll let you pass, quickly!"
                     this->actionFunc = func_80A53538;

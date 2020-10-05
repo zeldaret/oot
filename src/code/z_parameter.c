@@ -636,7 +636,7 @@ void func_80083108(GlobalContext* globalCtx) {
 
                             Interface_LoadItemIcon1(globalCtx, 0);
                         } else {
-                            if (gSaveContext.save.info.items.items[SLOT_BOW] == ITEM_NONE) {
+                            if (gSaveContext.save.info.inventory.items[SLOT_BOW] == ITEM_NONE) {
                                 gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
                             } else {
                                 Interface_LoadItemIcon1(globalCtx, 0);
@@ -752,7 +752,7 @@ void func_80083108(GlobalContext* globalCtx) {
                 if (player->stateFlags1 & 0x00800000) {
                     if ((gSaveContext.save.info.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.save.info.equips.buttonItems[0] != ITEM_BOW)) {
-                        if (gSaveContext.save.info.items.items[SLOT_BOW] == ITEM_NONE) {
+                        if (gSaveContext.save.info.inventory.items[SLOT_BOW] == ITEM_NONE) {
                             gSaveContext.save.info.equips.buttonItems[0] = ITEM_NONE;
                         } else {
                             gSaveContext.save.info.equips.buttonItems[0] = ITEM_BOW;
@@ -1141,24 +1141,24 @@ void Inventory_SwapAgeEquipment(void) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         for (i = 0; i < 4; i++) {
             if (i != 0) {
-                gSaveContext.save.info.sub_1C.childEquips.buttonItems[i] =
+                gSaveContext.save.info.playerData.childEquips.buttonItems[i] =
                     gSaveContext.save.info.equips.buttonItems[i];
             } else {
-                gSaveContext.save.info.sub_1C.childEquips.buttonItems[i] = ITEM_SWORD_KOKIRI;
+                gSaveContext.save.info.playerData.childEquips.buttonItems[i] = ITEM_SWORD_KOKIRI;
             }
 
             if (i != 0) {
-                gSaveContext.save.info.sub_1C.childEquips.cButtonSlots[i - 1] =
+                gSaveContext.save.info.playerData.childEquips.cButtonSlots[i - 1] =
                     gSaveContext.save.info.equips.cButtonSlots[i - 1];
             }
         }
 
-        gSaveContext.save.info.sub_1C.childEquips.equipment = gSaveContext.save.info.equips.equipment;
+        gSaveContext.save.info.playerData.childEquips.equipment = gSaveContext.save.info.equips.equipment;
 
-        if (gSaveContext.save.info.sub_1C.adultEquips.buttonItems[0] == ITEM_NONE) {
+        if (gSaveContext.save.info.playerData.adultEquips.buttonItems[0] == ITEM_NONE) {
             gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_MASTER;
 
-            if (gSaveContext.save.info.items.items[SLOT_NUT] != ITEM_NONE) {
+            if (gSaveContext.save.info.inventory.items[SLOT_NUT] != ITEM_NONE) {
                 gSaveContext.save.info.equips.buttonItems[1] = ITEM_NUT;
                 gSaveContext.save.info.equips.cButtonSlots[0] = SLOT_NUT;
             } else {
@@ -1168,18 +1168,18 @@ void Inventory_SwapAgeEquipment(void) {
 
             gSaveContext.save.info.equips.buttonItems[2] = ITEM_BOMB;
             gSaveContext.save.info.equips.buttonItems[3] =
-                gSaveContext.save.info.items.items[SLOT_OCARINA];
+                gSaveContext.save.info.inventory.items[SLOT_OCARINA];
             gSaveContext.save.info.equips.cButtonSlots[1] = SLOT_BOMB;
             gSaveContext.save.info.equips.cButtonSlots[2] = SLOT_OCARINA;
             gSaveContext.save.info.equips.equipment = 0x1122;
         } else {
             for (i = 0; i < 4; i++) {
                 gSaveContext.save.info.equips.buttonItems[i] =
-                    gSaveContext.save.info.sub_1C.adultEquips.buttonItems[i];
+                    gSaveContext.save.info.playerData.adultEquips.buttonItems[i];
 
                 if (i != 0) {
                     gSaveContext.save.info.equips.cButtonSlots[i - 1] =
-                        gSaveContext.save.info.sub_1C.adultEquips.cButtonSlots[i - 1];
+                        gSaveContext.save.info.playerData.adultEquips.cButtonSlots[i - 1];
                 }
 
                 if (((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_BOTTLE) &&
@@ -1189,35 +1189,35 @@ void Inventory_SwapAgeEquipment(void) {
                     osSyncPrintf("Register_Item_Pt(%d)=%d\n", i,
                                  gSaveContext.save.info.equips.cButtonSlots[i - 1]);
                     gSaveContext.save.info.equips.buttonItems[i] =
-                        gSaveContext.save.info.items
+                        gSaveContext.save.info.inventory
                             .items[gSaveContext.save.info.equips.cButtonSlots[i - 1]];
                 }
             }
 
             gSaveContext.save.info.equips.equipment =
-                gSaveContext.save.info.sub_1C.adultEquips.equipment;
+                gSaveContext.save.info.playerData.adultEquips.equipment;
         }
     } else {
         for (i = 0; i < 4; i++) {
-            gSaveContext.save.info.sub_1C.adultEquips.buttonItems[i] =
+            gSaveContext.save.info.playerData.adultEquips.buttonItems[i] =
                 gSaveContext.save.info.equips.buttonItems[i];
 
             if (i != 0) {
-                gSaveContext.save.info.sub_1C.adultEquips.cButtonSlots[i - 1] =
+                gSaveContext.save.info.playerData.adultEquips.cButtonSlots[i - 1] =
                     gSaveContext.save.info.equips.cButtonSlots[i - 1];
             }
         }
 
-        gSaveContext.save.info.sub_1C.adultEquips.equipment = gSaveContext.save.info.equips.equipment;
+        gSaveContext.save.info.playerData.adultEquips.equipment = gSaveContext.save.info.equips.equipment;
 
-        if (gSaveContext.save.info.sub_1C.childEquips.buttonItems[0] != ITEM_NONE) {
+        if (gSaveContext.save.info.playerData.childEquips.buttonItems[0] != ITEM_NONE) {
             for (i = 0; i < 4; i++) {
                 gSaveContext.save.info.equips.buttonItems[i] =
-                    gSaveContext.save.info.sub_1C.childEquips.buttonItems[i];
+                    gSaveContext.save.info.playerData.childEquips.buttonItems[i];
 
                 if (i != 0) {
                     gSaveContext.save.info.equips.cButtonSlots[i - 1] =
-                        gSaveContext.save.info.sub_1C.childEquips.cButtonSlots[i - 1];
+                        gSaveContext.save.info.playerData.childEquips.cButtonSlots[i - 1];
                 }
 
                 if (((gSaveContext.save.info.equips.buttonItems[i] >= ITEM_BOTTLE) &&
@@ -1227,13 +1227,13 @@ void Inventory_SwapAgeEquipment(void) {
                     osSyncPrintf("Register_Item_Pt(%d)=%d\n", i,
                                  gSaveContext.save.info.equips.cButtonSlots[i - 1]);
                     gSaveContext.save.info.equips.buttonItems[i] =
-                        gSaveContext.save.info.items
+                        gSaveContext.save.info.inventory
                             .items[gSaveContext.save.info.equips.cButtonSlots[i - 1]];
                 }
             }
 
             gSaveContext.save.info.equips.equipment =
-                gSaveContext.save.info.sub_1C.childEquips.equipment;
+                gSaveContext.save.info.playerData.childEquips.equipment;
             gSaveContext.save.info.equips.equipment &= 0xFFF0;
             gSaveContext.save.info.equips.equipment |= 0x0001;
         }
@@ -1242,7 +1242,7 @@ void Inventory_SwapAgeEquipment(void) {
     temp = gEquipMasks[EQUIP_SHIELD] & gSaveContext.save.info.equips.equipment;
     if (temp != 0) {
         temp >>= gEquipShifts[EQUIP_SHIELD];
-        if (!(gBitFlags[temp + 3] & gSaveContext.save.info.items.equipment)) {
+        if (!(gBitFlags[temp + 3] & gSaveContext.save.info.inventory.equipment)) {
             gSaveContext.save.info.equips.equipment &= gEquipNegMasks[EQUIP_SHIELD];
         }
     }
@@ -1258,10 +1258,10 @@ void Interface_InitHorsebackArchery(GlobalContext* globalCtx) {
 }
 
 void func_800849EC(GlobalContext* globalCtx) {
-    gSaveContext.save.info.items.equipment |= gBitFlags[2] << gEquipShifts[EQUIP_SWORD];
-    gSaveContext.save.info.items.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
+    gSaveContext.save.info.inventory.equipment |= gBitFlags[2] << gEquipShifts[EQUIP_SWORD];
+    gSaveContext.save.info.inventory.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
 
-    if (gBitFlags[3] & gSaveContext.save.info.items.equipment) {
+    if (gBitFlags[3] & gSaveContext.save.info.inventory.equipment) {
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
     } else {
         gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_BGS;
@@ -1342,16 +1342,16 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
-    osSyncPrintf("item_get_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.save.info.items.items[slot]);
+    osSyncPrintf("item_get_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.save.info.inventory.items[slot]);
     osSyncPrintf(VT_RST);
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
-        gSaveContext.save.info.items.questItems |=
+        gSaveContext.save.info.inventory.questItems |=
             gBitFlags[item - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         // Translates to: "Seals = %x"
-        osSyncPrintf("封印 = %x\n", gSaveContext.save.info.items.questItems);
+        osSyncPrintf("封印 = %x\n", gSaveContext.save.info.inventory.questItems);
         osSyncPrintf(VT_RST);
 
         if (item == ITEM_MEDALLION_WATER) {
@@ -1360,57 +1360,57 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SONG_MINUET) && (item <= ITEM_SONG_STORMS)) {
-        gSaveContext.save.info.items.questItems |= gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
+        gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         // Translates to: "Musical scores = %x"
-        osSyncPrintf("楽譜 = %x\n", gSaveContext.save.info.items.questItems);
+        osSyncPrintf("楽譜 = %x\n", gSaveContext.save.info.inventory.questItems);
         // Translates to: "Musical scores = %x (%x) (%x)"
-        osSyncPrintf("楽譜 = %x (%x) (%x)\n", gSaveContext.save.info.items.questItems,
+        osSyncPrintf("楽譜 = %x (%x) (%x)\n", gSaveContext.save.info.inventory.questItems,
                      gBitFlags[item - ITEM_SONG_MINUET + QUEST_SONG_MINUET], gBitFlags[item - ITEM_SONG_MINUET]);
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if ((item >= ITEM_KOKIRI_EMERALD) && (item <= ITEM_ZORA_SAPPHIRE)) {
-        gSaveContext.save.info.items.questItems |=
+        gSaveContext.save.info.inventory.questItems |=
             gBitFlags[item - ITEM_KOKIRI_EMERALD + QUEST_KOKIRI_EMERALD];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         // Translates to: "Spiritual Stones = %x"
-        osSyncPrintf("精霊石 = %x\n", gSaveContext.save.info.items.questItems);
+        osSyncPrintf("精霊石 = %x\n", gSaveContext.save.info.inventory.questItems);
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if ((item == ITEM_STONE_OF_AGONY) || (item == ITEM_GERUDO_CARD)) {
-        gSaveContext.save.info.items.questItems |=
+        gSaveContext.save.info.inventory.questItems |=
             gBitFlags[item - ITEM_STONE_OF_AGONY + QUEST_STONE_OF_AGONY];
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         // Translates to: "Items = %x"
-        osSyncPrintf("アイテム = %x\n", gSaveContext.save.info.items.questItems);
+        osSyncPrintf("アイテム = %x\n", gSaveContext.save.info.inventory.questItems);
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if (item == ITEM_SKULL_TOKEN) {
-        gSaveContext.save.info.items.questItems |= gBitFlags[item - ITEM_SKULL_TOKEN + QUEST_SKULL_TOKEN];
-        gSaveContext.save.info.items.gsTokens++;
+        gSaveContext.save.info.inventory.questItems |= gBitFlags[item - ITEM_SKULL_TOKEN + QUEST_SKULL_TOKEN];
+        gSaveContext.save.info.inventory.gsTokens++;
 
         osSyncPrintf(VT_FGCOL(YELLOW));
         // Translates to: "N Coins = %x(%d)"
-        osSyncPrintf("Ｎコイン = %x(%d)\n", gSaveContext.save.info.items.questItems,
-                     gSaveContext.save.info.items.gsTokens);
+        osSyncPrintf("Ｎコイン = %x(%d)\n", gSaveContext.save.info.inventory.questItems,
+                     gSaveContext.save.info.inventory.gsTokens);
         osSyncPrintf(VT_RST);
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
-        gSaveContext.save.info.items.equipment |= gBitFlags[item - ITEM_SWORD_KOKIRI]
+        gSaveContext.save.info.inventory.equipment |= gBitFlags[item - ITEM_SWORD_KOKIRI]
                                                            << gEquipShifts[EQUIP_SWORD];
 
         if (item == ITEM_SWORD_BGS) {
-            gSaveContext.save.info.sub_1C.swordHealth = 8;
+            gSaveContext.save.info.playerData.swordHealth = 8;
 
             if (ALL_EQUIP_VALUE(EQUIP_SWORD) == 0xF) {
-                gSaveContext.save.info.items.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
+                gSaveContext.save.info.inventory.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
                 if (gSaveContext.save.info.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
                     gSaveContext.save.info.equips.buttonItems[0] = ITEM_SWORD_BGS;
                     Interface_LoadItemIcon1(globalCtx, 0);
@@ -1425,26 +1425,26 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SHIELD_DEKU) && (item <= ITEM_SHIELD_MIRROR)) {
-        gSaveContext.save.info.items.equipment |=
+        gSaveContext.save.info.inventory.equipment |=
             (gBitFlags[item - ITEM_SHIELD_DEKU] << gEquipShifts[EQUIP_SHIELD]);
         return ITEM_NONE;
     } else if ((item >= ITEM_TUNIC_KOKIRI) && (item <= ITEM_TUNIC_ZORA)) {
-        gSaveContext.save.info.items.equipment |=
+        gSaveContext.save.info.inventory.equipment |=
             (gBitFlags[item - ITEM_TUNIC_KOKIRI] << gEquipShifts[EQUIP_TUNIC]);
         return ITEM_NONE;
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
-        gSaveContext.save.info.items.equipment |=
+        gSaveContext.save.info.inventory.equipment |=
             (gBitFlags[item - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]);
         return ITEM_NONE;
     } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
-        gSaveContext.save.info.items.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
+        gSaveContext.save.info.inventory.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
         return ITEM_NONE;
     } else if (item == ITEM_KEY_SMALL) {
-        if (gSaveContext.save.info.items.dungeonKeys[gSaveContext.mapIndex] < 0) {
-            gSaveContext.save.info.items.dungeonKeys[gSaveContext.mapIndex] = 1;
+        if (gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] < 0) {
+            gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = 1;
             return ITEM_NONE;
         } else {
-            gSaveContext.save.info.items.dungeonKeys[gSaveContext.mapIndex]++;
+            gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex]++;
             return ITEM_NONE;
         }
     } else if ((item == ITEM_QUIVER_30) || (item == ITEM_BOW)) {
@@ -1517,28 +1517,28 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         Inventory_ChangeUpgrade(UPG_WALLET, 2);
         return ITEM_NONE;
     } else if (item == ITEM_STICK_UPGRADE_20) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_STICK) = ITEM_STICK;
         }
         Inventory_ChangeUpgrade(UPG_STICKS, 2);
         AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 2);
         return ITEM_NONE;
     } else if (item == ITEM_STICK_UPGRADE_30) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_STICK) = ITEM_STICK;
         }
         Inventory_ChangeUpgrade(UPG_STICKS, 3);
         AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 3);
         return ITEM_NONE;
     } else if (item == ITEM_NUT_UPGRADE_30) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_NUT) = ITEM_NUT;
         }
         Inventory_ChangeUpgrade(UPG_NUTS, 2);
         AMMO(ITEM_NUT) = CAPACITY(UPG_NUTS, 2);
         return ITEM_NONE;
     } else if (item == ITEM_NUT_UPGRADE_40) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_NUT) = ITEM_NUT;
         }
         Inventory_ChangeUpgrade(UPG_NUTS, 3);
@@ -1554,7 +1554,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
         return ITEM_NONE;
     } else if (item == ITEM_STICK) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             Inventory_ChangeUpgrade(UPG_STICKS, 1);
             AMMO(ITEM_STICK) = 1;
         } else {
@@ -1564,7 +1564,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             }
         }
     } else if ((item == ITEM_STICKS_5) || (item == ITEM_STICKS_10)) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             Inventory_ChangeUpgrade(UPG_STICKS, 1);
             AMMO(ITEM_STICK) = sAmmoRefillCounts[item - ITEM_STICKS_5];
         } else {
@@ -1575,7 +1575,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
         item = ITEM_STICK;
     } else if (item == ITEM_NUT) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             Inventory_ChangeUpgrade(UPG_NUTS, 1);
             AMMO(ITEM_NUT) = ITEM_NUT;
         } else {
@@ -1585,7 +1585,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             }
         }
     } else if ((item == ITEM_NUTS_5) || (item == ITEM_NUTS_10)) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             Inventory_ChangeUpgrade(UPG_NUTS, 1);
             AMMO(ITEM_NUT) += sAmmoRefillCounts[item - ITEM_NUTS_5];
             // Translates to: "Deku Nuts %d(%d)=%d BS_count=%d"
@@ -1615,7 +1615,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
         return ITEM_NONE;
     } else if (item == ITEM_BOMBCHU) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_BOMBCHU) = ITEM_BOMBCHU;
             AMMO(ITEM_BOMBCHU) = 10;
             return ITEM_NONE;
@@ -1627,7 +1627,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             return ITEM_NONE;
         }
     } else if ((item == ITEM_BOMBCHUS_5) || (item == ITEM_BOMBCHUS_20)) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_BOMBCHU) = ITEM_BOMBCHU;
             AMMO(ITEM_BOMBCHU) += sAmmoRefillCounts[item - ITEM_BOMBCHUS_5 + 8];
             return ITEM_NONE;
@@ -1692,7 +1692,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
         return ITEM_NONE;
     } else if (item == ITEM_BEAN) {
-        if (gSaveContext.save.info.items.items[slot] == ITEM_NONE) {
+        if (gSaveContext.save.info.inventory.items[slot] == ITEM_NONE) {
             INV_CONTENT(item) = item;
             AMMO(ITEM_BEAN) = 1;
             BEANS_BOUGHT = 1;
@@ -1702,11 +1702,11 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
         return ITEM_NONE;
     } else if ((item == ITEM_HEART_PIECE_2) || (item == ITEM_HEART_PIECE)) {
-        gSaveContext.save.info.items.questItems += 1 << (QUEST_HEART_PIECE + 4);
+        gSaveContext.save.info.inventory.questItems += 1 << (QUEST_HEART_PIECE + 4);
         return ITEM_NONE;
     } else if (item == ITEM_HEART_CONTAINER) {
-        gSaveContext.save.info.sub_1C.healthCapacity += 0x10;
-        gSaveContext.save.info.sub_1C.health += 0x10;
+        gSaveContext.save.info.playerData.healthCapacity += 0x10;
+        gSaveContext.save.info.playerData.health += 0x10;
         return ITEM_NONE;
     } else if (item == ITEM_HEART) {
         // Translates to: "Recovery Heart"
@@ -1744,8 +1744,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         return ITEM_NONE;
     } else if (item == ITEM_BOTTLE) {
         for (i = 0; i < 4; i++) {
-            if (gSaveContext.save.info.items.items[SLOT(item) + i] == ITEM_NONE) {
-                gSaveContext.save.info.items.items[SLOT(item) + i] = item;
+            if (gSaveContext.save.info.inventory.items[SLOT(item) + i] == ITEM_NONE) {
+                gSaveContext.save.info.inventory.items[SLOT(item) + i] = item;
                 return ITEM_NONE;
             }
         }
@@ -1759,7 +1759,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.save.info.items.items[bottleSlot + i] == ITEM_BOTTLE) {
+                if (gSaveContext.save.info.inventory.items[bottleSlot + i] == ITEM_BOTTLE) {
                     // Translates to: "Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   Empty Bottle=%d   Content=%d"
                     osSyncPrintf("Item_Pt(1)=%d Item_Pt(2)=%d Item_Pt(3)=%d   空瓶=%d   中味=%d\n",
                                  gSaveContext.save.info.equips.cButtonSlots[0],
@@ -1780,14 +1780,14 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
                         gSaveContext.buttonStatus[3] = BTN_ENABLED;
                     }
 
-                    gSaveContext.save.info.items.items[bottleSlot + i] = item;
+                    gSaveContext.save.info.inventory.items[bottleSlot + i] = item;
                     return ITEM_NONE;
                 }
             }
         } else {
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.save.info.items.items[bottleSlot + i] == ITEM_NONE) {
-                    gSaveContext.save.info.items.items[bottleSlot + i] = item;
+                if (gSaveContext.save.info.inventory.items[bottleSlot + i] == ITEM_NONE) {
+                    gSaveContext.save.info.inventory.items[bottleSlot + i] = item;
                     return ITEM_NONE;
                 }
             }
@@ -1817,7 +1817,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         return ITEM_NONE;
     }
 
-    oldItem = gSaveContext.save.info.items.items[slot];
+    oldItem = gSaveContext.save.info.inventory.items[slot];
     osSyncPrintf("Item_Register(%d)=%d  %d\n", slot, item, oldItem);
     INV_CONTENT(item) = item;
 
@@ -1839,7 +1839,7 @@ u8 Item_CheckObtainability(u8 item) {
 
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("item_get_non_setting=%d  pt=%d  z=%x\n", item, slot,
-                 gSaveContext.save.info.items.items[slot]);
+                 gSaveContext.save.info.inventory.items[slot]);
     osSyncPrintf(VT_RST);
 
     if ((item >= ITEM_MEDALLION_FOREST) && (item <= ITEM_MEDALLION_LIGHT)) {
@@ -1850,28 +1850,28 @@ u8 Item_CheckObtainability(u8 item) {
         if (item == ITEM_SWORD_BGS) {
             return ITEM_NONE;
         } else if ((gBitFlags[item - ITEM_SWORD_KOKIRI] << gEquipShifts[EQUIP_SWORD]) &
-                   gSaveContext.save.info.items.equipment) {
+                   gSaveContext.save.info.inventory.equipment) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_SHIELD_DEKU) && (item <= ITEM_SHIELD_MIRROR)) {
         if ((gBitFlags[item - ITEM_SHIELD_DEKU] << gEquipShifts[EQUIP_SHIELD]) &
-            gSaveContext.save.info.items.equipment) {
+            gSaveContext.save.info.inventory.equipment) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_TUNIC_KOKIRI) && (item <= ITEM_TUNIC_ZORA)) {
         if ((gBitFlags[item - ITEM_TUNIC_KOKIRI] << gEquipShifts[EQUIP_TUNIC]) &
-            gSaveContext.save.info.items.equipment) {
+            gSaveContext.save.info.inventory.equipment) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
         if ((gBitFlags[item - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) &
-            gSaveContext.save.info.items.equipment) {
+            gSaveContext.save.info.inventory.equipment) {
             return item;
         } else {
             return ITEM_NONE;
@@ -1942,13 +1942,13 @@ u8 Item_CheckObtainability(u8 item) {
             }
 
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.save.info.items.items[bottleSlot + i] == ITEM_BOTTLE) {
+                if (gSaveContext.save.info.inventory.items[bottleSlot + i] == ITEM_BOTTLE) {
                     return ITEM_NONE;
                 }
             }
         } else {
             for (i = 0; i < 4; i++) {
-                if (gSaveContext.save.info.items.items[bottleSlot + i] == ITEM_NONE) {
+                if (gSaveContext.save.info.inventory.items[bottleSlot + i] == ITEM_NONE) {
                     return ITEM_NONE;
                 }
             }
@@ -1957,7 +1957,7 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_NONE;
     }
 
-    return gSaveContext.save.info.items.items[slot];
+    return gSaveContext.save.info.inventory.items[slot];
 }
 
 void Inventory_DeleteItem(u16 item, u16 invSlot) {
@@ -1967,9 +1967,9 @@ void Inventory_DeleteItem(u16 item, u16 invSlot) {
         BEANS_BOUGHT = 0;
     }
 
-    gSaveContext.save.info.items.items[invSlot] = ITEM_NONE;
+    gSaveContext.save.info.inventory.items[invSlot] = ITEM_NONE;
 
-    osSyncPrintf("\nItem_Register(%d)\n", invSlot, gSaveContext.save.info.items.items[invSlot]);
+    osSyncPrintf("\nItem_Register(%d)\n", invSlot, gSaveContext.save.info.inventory.items[invSlot]);
 
     for (i = 1; i < 4; i++) {
         if (gSaveContext.save.info.equips.buttonItems[i] == item) {
@@ -1982,9 +1982,9 @@ void Inventory_DeleteItem(u16 item, u16 invSlot) {
 s32 Inventory_ReplaceItem(GlobalContext* globalCtx, u16 oldItem, u16 newItem) {
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.items.items); i++) {
-        if (gSaveContext.save.info.items.items[i] == oldItem) {
-            gSaveContext.save.info.items.items[i] = newItem;
+    for (i = 0; i < ARRAY_COUNT(gSaveContext.save.info.inventory.items); i++) {
+        if (gSaveContext.save.info.inventory.items[i] == oldItem) {
+            gSaveContext.save.info.inventory.items[i] = newItem;
             // Translates to: "Item Purge (%d)"
             osSyncPrintf("アイテム消去(%d)\n", i);
             for (i = 1; i < 4; i++) {
@@ -2002,7 +2002,7 @@ s32 Inventory_ReplaceItem(GlobalContext* globalCtx, u16 oldItem, u16 newItem) {
 }
 
 s32 Inventory_HasEmptyBottle(void) {
-    u8* items = gSaveContext.save.info.items.items;
+    u8* items = gSaveContext.save.info.inventory.items;
 
     if (items[SLOT_BOTTLE_1] == ITEM_BOTTLE) {
         return 1;
@@ -2018,7 +2018,7 @@ s32 Inventory_HasEmptyBottle(void) {
 }
 
 s32 Inventory_HasSpecificBottle(u8 bottleItem) {
-    u8* items = gSaveContext.save.info.items.items;
+    u8* items = gSaveContext.save.info.inventory.items;
 
     if (items[SLOT_BOTTLE_1] == bottleItem) {
         return 1;
@@ -2037,16 +2037,16 @@ void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 button) {
     osSyncPrintf(
         "item_no=%x,  c_no=%x,  Pt=%x  Item_Register=%x\n", item, button,
         gSaveContext.save.info.equips.cButtonSlots[button - 1],
-        gSaveContext.save.info.items.items[gSaveContext.save.info.equips.cButtonSlots[button - 1]]);
+        gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[button - 1]]);
 
     // Special case to only empty half of a Lon Lon Milk Bottle
-    if ((gSaveContext.save.info.items.items[gSaveContext.save.info.equips.cButtonSlots[button - 1]] ==
+    if ((gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[button - 1]] ==
          ITEM_MILK_BOTTLE) &&
         (item == ITEM_BOTTLE)) {
         item = ITEM_MILK_HALF;
     }
 
-    gSaveContext.save.info.items.items[gSaveContext.save.info.equips.cButtonSlots[button - 1]] = item;
+    gSaveContext.save.info.inventory.items[gSaveContext.save.info.equips.cButtonSlots[button - 1]] = item;
     gSaveContext.save.info.equips.buttonItems[button] = item;
 
     Interface_LoadItemIcon1(globalCtx, button);
@@ -2063,7 +2063,7 @@ s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
     bottleSlot = SLOT(ITEM_FAIRY);
 
     for (i = 0; i < 4; i++) {
-        if (gSaveContext.save.info.items.items[bottleSlot + i] == ITEM_FAIRY) {
+        if (gSaveContext.save.info.inventory.items[bottleSlot + i] == ITEM_FAIRY) {
             for (j = 1; j < 4; j++) {
                 if (gSaveContext.save.info.equips.buttonItems[j] == ITEM_FAIRY) {
                     gSaveContext.save.info.equips.buttonItems[j] = ITEM_BOTTLE;
@@ -2075,7 +2075,7 @@ s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
             }
             // Translates to: "Fairy Usage＝%d"
             osSyncPrintf("妖精使用＝%d\n", bottleSlot);
-            gSaveContext.save.info.items.items[bottleSlot + i] = ITEM_BOTTLE;
+            gSaveContext.save.info.inventory.items[bottleSlot + i] = ITEM_BOTTLE;
             return 1;
         }
     }
@@ -2183,25 +2183,25 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
 
     // Translates to: "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
     osSyncPrintf("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", healthChange,
-                 gSaveContext.save.info.sub_1C.health, gSaveContext.save.info.sub_1C.healthCapacity);
+                 gSaveContext.save.info.playerData.health, gSaveContext.save.info.playerData.healthCapacity);
 
     // clang-format off
     if (healthChange > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4,
                                                    &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if ((gSaveContext.save.info.sub_1C.doubleDefense != 0) && (healthChange < 0)) {
+    } else if ((gSaveContext.save.info.playerData.doubleDefense != 0) && (healthChange < 0)) {
         healthChange >>= 1;
         // Translates to: "Heart decrease halved!!＝%d"
         osSyncPrintf("ハート減少半分！！＝%d\n", healthChange);
     }
     // clang-format on
 
-    gSaveContext.save.info.sub_1C.health += healthChange;
+    gSaveContext.save.info.playerData.health += healthChange;
 
-    if (gSaveContext.save.info.sub_1C.health > gSaveContext.save.info.sub_1C.healthCapacity) {
-        gSaveContext.save.info.sub_1C.health = gSaveContext.save.info.sub_1C.healthCapacity;
+    if (gSaveContext.save.info.playerData.health > gSaveContext.save.info.playerData.healthCapacity) {
+        gSaveContext.save.info.playerData.health = gSaveContext.save.info.playerData.healthCapacity;
     }
 
-    heartCount = gSaveContext.save.info.sub_1C.health % 0x10;
+    heartCount = gSaveContext.save.info.playerData.health % 0x10;
 
     healthLevel = heartCount;
     if (heartCount != 0) {
@@ -2215,10 +2215,10 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
     }
 
     // Translates to: "Life=%d ＊＊＊  %d ＊＊＊＊＊＊"
-    osSyncPrintf("  ライフ=%d  ＊＊＊  %d  ＊＊＊＊＊＊\n", gSaveContext.save.info.sub_1C.health, healthLevel);
+    osSyncPrintf("  ライフ=%d  ＊＊＊  %d  ＊＊＊＊＊＊\n", gSaveContext.save.info.playerData.health, healthLevel);
 
-    if (gSaveContext.save.info.sub_1C.health <= 0) {
-        gSaveContext.save.info.sub_1C.health = 0;
+    if (gSaveContext.save.info.playerData.health <= 0) {
+        gSaveContext.save.info.playerData.health = 0;
         return 0;
     } else {
         return 1;
@@ -2226,7 +2226,7 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
 }
 
 void Health_GiveHearts(s16 hearts) {
-    gSaveContext.save.info.sub_1C.healthCapacity += hearts * 0x10;
+    gSaveContext.save.info.playerData.healthCapacity += hearts * 0x10;
 }
 
 void Rupees_ChangeBy(s16 rupeeChange) {
@@ -2294,9 +2294,9 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
 }
 
 void func_80087680(GlobalContext* globalCtx) {
-    if (gSaveContext.save.info.sub_1C.magicAcquired) {
+    if (gSaveContext.save.info.playerData.magicAcquired) {
         gSaveContext.unk_13F2 = gSaveContext.unk_13F0;
-        gSaveContext.unk_13F6 = (gSaveContext.save.info.sub_1C.doubleMagic * 0x30) + 0x30;
+        gSaveContext.unk_13F6 = (gSaveContext.save.info.playerData.doubleMagic * 0x30) + 0x30;
         gSaveContext.unk_13F0 = 9;
     }
 }
@@ -2311,11 +2311,11 @@ void func_800876C8(GlobalContext* globalCtx) {
 }
 
 s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
-    if (!gSaveContext.save.info.sub_1C.magicAcquired) {
+    if (!gSaveContext.save.info.playerData.magicAcquired) {
         return 0;
     }
 
-    if ((arg2 != 5) && (gSaveContext.save.info.sub_1C.magic - arg1) < 0) {
+    if ((arg2 != 5) && (gSaveContext.save.info.playerData.magic - arg1) < 0) {
         if (gSaveContext.unk_13F4 != 0) {
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
@@ -2329,7 +2329,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
                 if (gSaveContext.unk_13F0 == 7) {
                     globalCtx->actorCtx.unk_03 = 0;
                 }
-                gSaveContext.unk_13F8 = gSaveContext.save.info.sub_1C.magic - arg1;
+                gSaveContext.unk_13F8 = gSaveContext.save.info.playerData.magic - arg1;
                 gSaveContext.unk_13F0 = 1;
                 return 1;
             } else {
@@ -2341,7 +2341,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
                 if (gSaveContext.unk_13F0 == 7) {
                     globalCtx->actorCtx.unk_03 = 0;
                 }
-                gSaveContext.unk_13F8 = gSaveContext.save.info.sub_1C.magic - arg1;
+                gSaveContext.unk_13F8 = gSaveContext.save.info.playerData.magic - arg1;
                 gSaveContext.unk_13F0 = 6;
                 return 1;
             } else {
@@ -2350,7 +2350,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
             }
         case 3:
             if (gSaveContext.unk_13F0 == 0) {
-                if (gSaveContext.save.info.sub_1C.magic != 0) {
+                if (gSaveContext.save.info.playerData.magic != 0) {
                     globalCtx->interfaceCtx.unk_230 = 80;
                     gSaveContext.unk_13F0 = 7;
                     return 1;
@@ -2369,7 +2369,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
                 if (gSaveContext.unk_13F0 == 7) {
                     globalCtx->actorCtx.unk_03 = 0;
                 }
-                gSaveContext.unk_13F8 = gSaveContext.save.info.sub_1C.magic - arg1;
+                gSaveContext.unk_13F8 = gSaveContext.save.info.playerData.magic - arg1;
                 gSaveContext.unk_13F0 = 4;
                 return 1;
             } else {
@@ -2377,8 +2377,8 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
                 return 0;
             }
         case 5:
-            if (gSaveContext.unk_13F4 >= gSaveContext.save.info.sub_1C.magic) {
-                gSaveContext.unk_13F8 = gSaveContext.save.info.sub_1C.magic + arg1;
+            if (gSaveContext.unk_13F4 >= gSaveContext.save.info.playerData.magic) {
+                gSaveContext.unk_13F8 = gSaveContext.save.info.playerData.magic + arg1;
 
                 if (gSaveContext.unk_13F8 >= gSaveContext.unk_13F4) {
                     gSaveContext.unk_13F8 = gSaveContext.unk_13F4;
@@ -2410,7 +2410,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
 
     switch (gSaveContext.unk_13F0) {
         case 8:
-            maxMagic = gSaveContext.save.info.sub_1C.magicLevel * 0x30;
+            maxMagic = gSaveContext.save.info.playerData.magicLevel * 0x30;
             if (gSaveContext.unk_13F4 != maxMagic) {
                 if (gSaveContext.unk_13F4 < maxMagic) {
                     gSaveContext.unk_13F4 += 8;
@@ -2428,7 +2428,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
             break;
         case 9:
-            gSaveContext.save.info.sub_1C.magic += 4;
+            gSaveContext.save.info.playerData.magic += 4;
 
             if (gSaveContext.gameMode == 0 && gSaveContext.sceneSetupIndex < 4) {
                 Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
@@ -2436,10 +2436,10 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
 
             // Translates to: "Storage MAGIC_NOW=%d (%d)"
-            osSyncPrintf("蓄電 MAGIC_NOW=%d (%d)\n", gSaveContext.save.info.sub_1C.magic,
+            osSyncPrintf("蓄電 MAGIC_NOW=%d (%d)\n", gSaveContext.save.info.playerData.magic,
                          gSaveContext.unk_13F6);
-            if (gSaveContext.save.info.sub_1C.magic >= gSaveContext.unk_13F6) {
-                gSaveContext.save.info.sub_1C.magic = gSaveContext.unk_13F6;
+            if (gSaveContext.save.info.playerData.magic >= gSaveContext.unk_13F6) {
+                gSaveContext.save.info.playerData.magic = gSaveContext.unk_13F6;
                 gSaveContext.unk_13F0 = gSaveContext.unk_13F2;
                 gSaveContext.unk_13F2 = 0;
             }
@@ -2449,14 +2449,14 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             gSaveContext.unk_13F0 = 2;
             break;
         case 2:
-            gSaveContext.save.info.sub_1C.magic -= 2;
-            if (gSaveContext.save.info.sub_1C.magic <= 0) {
-                gSaveContext.save.info.sub_1C.magic = 0;
+            gSaveContext.save.info.playerData.magic -= 2;
+            if (gSaveContext.save.info.playerData.magic <= 0) {
+                gSaveContext.save.info.playerData.magic = 0;
                 gSaveContext.unk_13F0 = 3;
                 sMagicBorderB = 255;
                 sMagicBorderG = 255;
                 sMagicBorderR = 255;
-            } else if (gSaveContext.save.info.sub_1C.magic == gSaveContext.unk_13F8) {
+            } else if (gSaveContext.save.info.playerData.magic == gSaveContext.unk_13F8) {
                 gSaveContext.unk_13F0 = 3;
                 sMagicBorderB = 255;
                 sMagicBorderG = 255;
@@ -2507,7 +2507,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
                 (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->sceneLoadFlag == 0) &&
                 (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
-                if ((gSaveContext.save.info.sub_1C.magic == 0) ||
+                if ((gSaveContext.save.info.playerData.magic == 0) ||
                     ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.save.info.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.save.info.equips.buttonItems[2] != ITEM_LENS) &&
@@ -2523,7 +2523,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
 
                 globalCtx->interfaceCtx.unk_230--;
                 if (globalCtx->interfaceCtx.unk_230 == 0) {
-                    gSaveContext.save.info.sub_1C.magic--;
+                    gSaveContext.save.info.playerData.magic--;
                     globalCtx->interfaceCtx.unk_230 = 80;
                 }
             }
@@ -2561,10 +2561,10 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
             break;
         case 10:
-            gSaveContext.save.info.sub_1C.magic += 4;
+            gSaveContext.save.info.playerData.magic += 4;
             Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            if (gSaveContext.save.info.sub_1C.magic >= gSaveContext.unk_13F8) {
-                gSaveContext.save.info.sub_1C.magic = gSaveContext.unk_13F8;
+            if (gSaveContext.save.info.playerData.magic >= gSaveContext.unk_13F8) {
+                gSaveContext.save.info.playerData.magic = gSaveContext.unk_13F8;
                 gSaveContext.unk_13F0 = gSaveContext.unk_13F2;
                 gSaveContext.unk_13F2 = 0;
             }
@@ -2594,8 +2594,8 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
 
-    if (gSaveContext.save.info.sub_1C.magicLevel != 0) {
-        if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+    if (gSaveContext.save.info.playerData.magicLevel != 0) {
+        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
             magicBarY = R_MAGIC_BAR_LARGE_Y;
         } else {
             magicBarY = R_MAGIC_BAR_SMALL_Y;
@@ -2641,7 +2641,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
                                  G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(oGfxCtx->overlay.p++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
-                                (R_MAGIC_FILL_X + gSaveContext.save.info.sub_1C.magic) << 2,
+                                (R_MAGIC_FILL_X + gSaveContext.save.info.playerData.magic) << 2,
                                 (magicBarY + 10) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
 
             // Fill the rest of the bar with the normal magic color
@@ -2662,7 +2662,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
                                  G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(oGfxCtx->overlay.p++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
-                                (R_MAGIC_FILL_X + gSaveContext.save.info.sub_1C.magic) << 2,
+                                (R_MAGIC_FILL_X + gSaveContext.save.info.playerData.magic) << 2,
                                 (magicBarY + 10) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
         }
     }
@@ -3166,7 +3166,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             case SCENE_GANON_SONOGO:
             case SCENE_GANONTIKA_SONOGO:
             case SCENE_TAKARAYA:
-                if (gSaveContext.save.info.items.dungeonKeys[gSaveContext.mapIndex] >= 0) {
+                if (gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] >= 0) {
                     // Small Key Icon
                     gDPPipeSync(oGfxCtx->overlay.p++);
                     gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 200, 230, 255, interfaceCtx->magicAlpha);
@@ -3182,7 +3182,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                     interfaceCtx->counterDigits[2] = 0;
                     interfaceCtx->counterDigits[3] =
-                        gSaveContext.save.info.items.dungeonKeys[gSaveContext.mapIndex];
+                        gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex];
 
                     while (interfaceCtx->counterDigits[3] >= 10) {
                         interfaceCtx->counterDigits[2]++;
@@ -3213,9 +3213,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         // Rupee Counter
         gDPPipeSync(oGfxCtx->overlay.p++);
 
-        if (gSaveContext.save.info.sub_1C.rupees == CUR_CAPACITY(UPG_WALLET)) {
+        if (gSaveContext.save.info.playerData.rupees == CUR_CAPACITY(UPG_WALLET)) {
             gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 120, 255, 0, interfaceCtx->magicAlpha);
-        } else if (gSaveContext.save.info.sub_1C.rupees != 0) {
+        } else if (gSaveContext.save.info.playerData.rupees != 0) {
             gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->magicAlpha);
         } else {
             gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 100, 100, 100, interfaceCtx->magicAlpha);
@@ -3225,7 +3225,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                           0, PRIMITIVE, 0);
 
         interfaceCtx->counterDigits[0] = interfaceCtx->counterDigits[1] = 0;
-        interfaceCtx->counterDigits[2] = gSaveContext.save.info.sub_1C.rupees;
+        interfaceCtx->counterDigits[2] = gSaveContext.save.info.playerData.rupees;
 
         if ((interfaceCtx->counterDigits[2] >= 10000) || (interfaceCtx->counterDigits[2] < 0)) {
             interfaceCtx->counterDigits[2] &= 0xDDD;
@@ -3563,7 +3563,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             switch (gSaveContext.timer1State) {
                 case 1:
                     gSaveContext.timer1State = 2;
-                    gSaveContext.timer1Value = gSaveContext.save.info.sub_1C.health >> 1;
+                    gSaveContext.timer1Value = gSaveContext.save.info.playerData.health >> 1;
                     D_8015FFE0 = D_8015FFE2 = 20;
                     break;
                 case 2:
@@ -3599,7 +3599,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s3 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
                     gSaveContext.timerX[0] -= phi_s3;
 
-                    if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                    if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                         phi_s3 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
                         phi_s3 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
@@ -3611,7 +3611,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         gSaveContext.timerX[0] = 26;
                         D_8015FFE2 = 20;
 
-                        if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                             gSaveContext.timerY[0] = 54;
                         } else {
                             gSaveContext.timerY[0] = 46;
@@ -3626,7 +3626,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 case 4:
                 case 8:
                     if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
-                        if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                             gSaveContext.timerY[0] = 54;
                         } else {
                             gSaveContext.timerY[0] = 46;
@@ -3645,9 +3645,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             if (gSaveContext.timer1Value == 0) {
                                 gSaveContext.timer1State = 10;
                                 if (D_80125A5C != 0) {
-                                    gSaveContext.save.info.sub_1C.health = 0;
+                                    gSaveContext.save.info.playerData.health = 0;
                                     globalCtx->damagePlayer(globalCtx,
-                                                            -(gSaveContext.save.info.sub_1C.health + 2));
+                                                            -(gSaveContext.save.info.playerData.health + 2));
                                 }
                                 D_80125A5C = 0;
                             } else if (gSaveContext.timer1Value > 60) {
@@ -3671,7 +3671,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s3 = (gSaveContext.timerX[0] - 26) / D_8015FFE2;
                     gSaveContext.timerX[0] -= phi_s3;
 
-                    if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                    if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                         phi_s3 = (gSaveContext.timerY[0] - 54) / D_8015FFE2;
                     } else {
                         phi_s3 = (gSaveContext.timerY[0] - 46) / D_8015FFE2;
@@ -3683,7 +3683,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         gSaveContext.timerX[0] = 26;
                         D_8015FFE2 = 20;
 
-                        if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                             gSaveContext.timerY[0] = 54;
                         } else {
                             gSaveContext.timerY[0] = 46;
@@ -3693,7 +3693,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     }
                 case 14:
                     if (gSaveContext.timer1State == 14) {
-                        if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                             gSaveContext.timerY[0] = 54;
                         } else {
                             gSaveContext.timerY[0] = 46;
@@ -3769,7 +3769,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             phi_s3 = (gSaveContext.timerX[1] - 26) / D_8015FFE2;
                             gSaveContext.timerX[1] -= phi_s3;
 
-                            if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                            if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                                 phi_s3 = (gSaveContext.timerY[1] - 54) / D_8015FFE6;
                             } else {
                                 phi_s3 = (gSaveContext.timerY[1] - 46) / D_8015FFE6;
@@ -3781,7 +3781,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                 gSaveContext.timerX[1] = 26;
                                 D_8015FFE6 = 20;
 
-                                if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                                if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                                     gSaveContext.timerY[1] = 54;
                                 } else {
                                     gSaveContext.timerY[1] = 46;
@@ -3796,7 +3796,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         case 4:
                         case 10:
                             if ((gSaveContext.timer2State == 4) || (gSaveContext.timer2State == 10)) {
-                                if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+                                if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
                                     gSaveContext.timerY[1] = 54;
                                 } else {
                                     gSaveContext.timerY[1] = 46;
@@ -4084,20 +4084,20 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if (gSaveContext.healthAccumulator != 0) {
         gSaveContext.healthAccumulator -= 4;
-        gSaveContext.save.info.sub_1C.health += 4;
+        gSaveContext.save.info.playerData.health += 4;
 
-        if ((gSaveContext.save.info.sub_1C.health & 0xF) < 4) {
+        if ((gSaveContext.save.info.playerData.health & 0xF) < 4) {
             Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
 
-        osSyncPrintf("now_life=%d  max_life=%d\n", gSaveContext.save.info.sub_1C.health,
-                     gSaveContext.save.info.sub_1C.healthCapacity);
+        osSyncPrintf("now_life=%d  max_life=%d\n", gSaveContext.save.info.playerData.health,
+                     gSaveContext.save.info.playerData.healthCapacity);
 
-        if (gSaveContext.save.info.sub_1C.health >= gSaveContext.save.info.sub_1C.healthCapacity) {
-            gSaveContext.save.info.sub_1C.health = gSaveContext.save.info.sub_1C.healthCapacity;
+        if (gSaveContext.save.info.playerData.health >= gSaveContext.save.info.playerData.healthCapacity) {
+            gSaveContext.save.info.playerData.health = gSaveContext.save.info.playerData.healthCapacity;
             osSyncPrintf("S_Private.now_life=%d  S_Private.max_life=%d\n",
-                         gSaveContext.save.info.sub_1C.health,
-                         gSaveContext.save.info.sub_1C.healthCapacity);
+                         gSaveContext.save.info.playerData.health,
+                         gSaveContext.save.info.playerData.healthCapacity);
             gSaveContext.healthAccumulator = 0;
         }
     }
@@ -4123,29 +4123,29 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {
-            if (gSaveContext.save.info.sub_1C.rupees < CUR_CAPACITY(UPG_WALLET)) {
+            if (gSaveContext.save.info.playerData.rupees < CUR_CAPACITY(UPG_WALLET)) {
                 gSaveContext.rupeeAccumulator--;
-                gSaveContext.save.info.sub_1C.rupees++;
+                gSaveContext.save.info.playerData.rupees++;
                 Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
                 // Translates to: "Rupee Amount MAX = %d"
                 osSyncPrintf("ルピー数ＭＡＸ = %d\n", CUR_CAPACITY(UPG_WALLET));
-                gSaveContext.save.info.sub_1C.rupees = CUR_CAPACITY(UPG_WALLET);
+                gSaveContext.save.info.playerData.rupees = CUR_CAPACITY(UPG_WALLET);
                 gSaveContext.rupeeAccumulator = 0;
             }
-        } else if (gSaveContext.save.info.sub_1C.rupees != 0) {
+        } else if (gSaveContext.save.info.playerData.rupees != 0) {
             if (gSaveContext.rupeeAccumulator <= -50) {
                 gSaveContext.rupeeAccumulator += 10;
-                gSaveContext.save.info.sub_1C.rupees -= 10;
+                gSaveContext.save.info.playerData.rupees -= 10;
 
-                if (gSaveContext.save.info.sub_1C.rupees < 0) {
-                    gSaveContext.save.info.sub_1C.rupees = 0;
+                if (gSaveContext.save.info.playerData.rupees < 0) {
+                    gSaveContext.save.info.playerData.rupees = 0;
                 }
 
                 Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
                 gSaveContext.rupeeAccumulator++;
-                gSaveContext.save.info.sub_1C.rupees--;
+                gSaveContext.save.info.playerData.rupees--;
                 Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
         } else {
@@ -4201,15 +4201,15 @@ void Interface_Update(GlobalContext* globalCtx) {
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
         (globalCtx->sceneLoadFlag == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->transitionMode == 0) &&
         ((globalCtx->csCtx.state == 0) || !Player_InCsMode(globalCtx))) {
-        if ((gSaveContext.save.info.sub_1C.magicAcquired != 0) &&
-            (gSaveContext.save.info.sub_1C.magicLevel == 0)) {
-            gSaveContext.save.info.sub_1C.magicLevel = gSaveContext.save.info.sub_1C.doubleMagic + 1;
+        if ((gSaveContext.save.info.playerData.magicAcquired != 0) &&
+            (gSaveContext.save.info.playerData.magicLevel == 0)) {
+            gSaveContext.save.info.playerData.magicLevel = gSaveContext.save.info.playerData.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;
             osSyncPrintf(VT_FGCOL(YELLOW));
             // Translates to: "Magic Start!!!!!!!!!"
             osSyncPrintf("魔法スター─────ト！！！！！！！！！\n");
-            osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.save.info.sub_1C.magicLevel);
-            osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.save.info.sub_1C.magic);
+            osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.save.info.playerData.magicLevel);
+            osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.save.info.playerData.magic);
             osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.unk_13F6);
             osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.unk_13F4);
             osSyncPrintf(VT_RST);
@@ -4220,7 +4220,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if (gSaveContext.timer1State == 0) {
         if (((D_80125A58 == 1) || (D_80125A58 == 2) || (D_80125A58 == 4)) &&
-            ((gSaveContext.save.info.sub_1C.health >> 1) != 0)) {
+            ((gSaveContext.save.info.playerData.health >> 1) != 0)) {
             gSaveContext.timer1State = 1;
             gSaveContext.timerX[0] = 140;
             gSaveContext.timerY[0] = 80;

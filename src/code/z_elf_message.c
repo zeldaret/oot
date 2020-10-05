@@ -24,7 +24,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                    ((flag & gSaveContext.save.info.eventChkInf[(msg->byte1 & 0xF0) >> 4]) != 0);
         case 2:
             return ((msg->byte0 & 1) == 1) ==
-                   ((gSaveContext.save.info.items.dungeonItems[gSaveContext.mapIndex] &
+                   ((gSaveContext.save.info.inventory.dungeonItems[gSaveContext.mapIndex] &
                      gBitFlags[msg->byte1 - ITEM_KEY_BOSS]) != 0);
         case 4:
             return ((msg->byte0 & 1) == 1) == (msg->byte3 == INV_CONTENT(msg->byte1));
@@ -35,7 +35,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                 case 0x10:
                     return ((msg->byte0 & 1) == 1) ==
                            (((gBitFlags[msg->byte3 - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) &
-                             gSaveContext.save.info.items.equipment) != 0);
+                             gSaveContext.save.info.inventory.equipment) != 0);
                 case 0x20:
                     return ((msg->byte0 & 1) == 1) ==
                            ((CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET)) != 0);
@@ -44,7 +44,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                            ((CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST)) != 0);
                 case 0x40:
                     return ((msg->byte0 & 1) == 1) ==
-                           (((void)0, gSaveContext.save.info.sub_1C.magicAcquired) != 0);
+                           (((void)0, gSaveContext.save.info.playerData.magicAcquired) != 0);
             }
     }
 

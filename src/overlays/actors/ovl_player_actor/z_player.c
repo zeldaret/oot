@@ -1830,7 +1830,7 @@ void func_80833A20(Player* this, s32 newSwordState) {
 
     if (this->swordState == 0) {
         if ((this->heldItemActionParam == PLAYER_AP_SWORD_BGS) &&
-            (gSaveContext.save.info.sub_1C.swordHealth > 0.0f)) {
+            (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
         } else {
             itemSfx = NA_SE_IT_SWORD_SWING;
@@ -2031,7 +2031,7 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
 void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.type == ACTORTYPE_PLAYER) && !(this->stateFlags1 & 0x100) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & 0x400000)) &&
-        (gSaveContext.save.info.sub_1C.health != 0) && (globalCtx->csCtx.state == 0) && (this->csMode == 0) &&
+        (gSaveContext.save.info.playerData.health != 0) && (globalCtx->csCtx.state == 0) && (this->csMode == 0) &&
         (globalCtx->unk_11E5C == 0) && (globalCtx->activeCamera == 0) && (globalCtx->sceneLoadFlag != 0x14) &&
         (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
@@ -2803,7 +2803,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
             if (temp >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
                     ((gSaveContext.unk_13F4 != 0) && (gSaveContext.unk_13F0 == 0) &&
-                     (gSaveContext.save.info.sub_1C.magic >= sMagicSpellCosts[temp]))) {
+                     (gSaveContext.save.info.playerData.magic >= sMagicSpellCosts[temp]))) {
                     this->itemActionParam = actionParam;
                     this->unk_6AD = 4;
                 } else {
@@ -3057,7 +3057,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                     actorToTarget = &PLAYER->actor;
                 }
 
-                holdTarget = (gSaveContext.zTargetingSetting != 0) || (this->actor.type != ACTORTYPE_PLAYER);
+                holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.type != ACTORTYPE_PLAYER);
                 this->stateFlags1 |= 0x8000;
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
@@ -5236,7 +5236,7 @@ s32 func_8083C544(Player* this, GlobalContext* globalCtx) {
         if (!(this->stateFlags1 & 0x400000) && (Player_GetSwordHeld(this) != 0) && (this->unk_844 == 1) &&
             (this->heldItemActionParam != PLAYER_AP_STICK)) {
             if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) ||
-                (gSaveContext.save.info.sub_1C.swordHealth > 0.0f)) {
+                (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
                 func_808377DC(globalCtx, this);
                 return 1;
             }
@@ -7511,9 +7511,9 @@ s32 func_80842AC4(GlobalContext* globalCtx, Player* this) {
 
 s32 func_80842B7C(GlobalContext* globalCtx, Player* this) {
     if (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) {
-        if ((gSaveContext.save.info.sub_1C.bgsFlag == 0) &&
-            (gSaveContext.save.info.sub_1C.swordHealth > 0.0f)) {
-            if ((gSaveContext.save.info.sub_1C.swordHealth -= 1.0f) <= 0.0f) {
+        if ((gSaveContext.save.info.playerData.bgsFlag == 0) &&
+            (gSaveContext.save.info.playerData.swordHealth > 0.0f)) {
+            if ((gSaveContext.save.info.playerData.swordHealth -= 1.0f) <= 0.0f) {
                 EffectSsStick_Spawn(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
                 func_800849EC(globalCtx);
                 func_8002F7DC(&this->actor, NA_SE_IT_MAJIN_SWORD_BROKEN);
@@ -10117,7 +10117,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         if (!Player_InBlockingCsMode(globalCtx, this) && !(this->stateFlags2 & 0x40000)) {
             func_8083D53C(globalCtx, this);
 
-            if ((this->actor.type == ACTORTYPE_PLAYER) && (gSaveContext.save.info.sub_1C.health == 0)) {
+            if ((this->actor.type == ACTORTYPE_PLAYER) && (gSaveContext.save.info.playerData.health == 0)) {
                 if (this->stateFlags1 & 0x206000) {
                     func_80832440(globalCtx, this);
                     func_80837B9C(this, globalCtx);
@@ -11822,7 +11822,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
         } else {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
                 ((this->getItemId == GI_HEART_PIECE) &&
-                 ((gSaveContext.save.info.items.questItems & 0xF0000000) == 0x40000000))) {
+                 ((gSaveContext.save.info.inventory.questItems & 0xF0000000) == 0x40000000))) {
                 temp1 = 0x924;
             } else {
                 temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? 0x39 : 0x922;
@@ -12085,7 +12085,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
                     rand = 3;
                 }
 
-                if ((rand < 0) && (gSaveContext.save.info.sub_1C.health <= 0x10)) {
+                if ((rand < 0) && (gSaveContext.save.info.playerData.health <= 0x10)) {
                     rand = 3;
                 }
 

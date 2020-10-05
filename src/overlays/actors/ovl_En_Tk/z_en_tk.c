@@ -373,7 +373,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
                     thisx->textId = 0x0084;
-                } else if (gSaveContext.save.info.sub_1C.rupees < 10) {
+                } else if (gSaveContext.save.info.playerData.rupees < 10) {
                     /* "You don't have enough Rupees!" */
                     thisx->textId = 0x0085;
                 } else {

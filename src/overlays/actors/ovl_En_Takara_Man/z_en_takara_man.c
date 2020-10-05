@@ -57,7 +57,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST,
                  globalCtx->actorCtx.flags.chest); // "Bun! %x" (needs a better translation)
     globalCtx->actorCtx.flags.chest = 0;
-    gSaveContext.save.info.items.dungeonKeys[gSaveContext.mapIndex] = -1;
+    gSaveContext.save.info.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl, this->transitionDrawTbl,
                      10);
     thisx->posRot2.pos = thisx->posRot.pos;
@@ -134,7 +134,7 @@ void func_80B17934(EnTakaraMan* this, GlobalContext* globalCtx) {
     if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // Yes
-                if (gSaveContext.save.info.sub_1C.rupees >= 10) {
+                if (gSaveContext.save.info.playerData.rupees >= 10) {
                     func_80106CCC(globalCtx);
                     Rupees_ChangeBy(-10);
                     this->unk_214 = 1;

@@ -439,7 +439,7 @@ extern RomFile gObjectTable[402];
 extern EntranceInfo gEntranceTable[1556];
 extern Scene gSceneTable[110];
 //extern ? D_8012A4A0;
-extern u16 gSramSaveOffsets[2][3];
+extern u16 gSramSlotOffsets[2][3];
 //extern ? D_8012A690;
 //extern ? D_8012A69C;
 //extern ? D_8012A6A4;

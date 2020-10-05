@@ -1154,7 +1154,7 @@ typedef struct {
     /* 0x1CA4A */ u16 fileNamesY[3];
     /* 0x1CA50 */ u16 actionTimer;
     /* 0x1CA52 */ u16 buttonsY[6];
-    /* 0x1CA5E */ s16 copyDsFiletIdx;
+    /* 0x1CA5E */ s16 copyDestFileIdx;
     /* 0x1CA60 */ u16 fileWarningTexIdx;
     /* 0x1CA62 */ u16 warningFileIdx;
     /* 0x1CA64 */ u16 titleTexIdx;

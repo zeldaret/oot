@@ -145,7 +145,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
         gSaveContext.timerX[temp] = 26;
 
-        if (gSaveContext.save.info.sub_1C.healthCapacity > 0xA0) {
+        if (gSaveContext.save.info.playerData.healthCapacity > 0xA0) {
             gSaveContext.timerY[temp] = 54;
         } else {
             gSaveContext.timerY[temp] = 46;

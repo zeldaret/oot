@@ -96,7 +96,7 @@ glabel jtbl_80140FB8
     .word L800A85C0
 
 .text
-glabel Sram_OpenSaveSlot
+glabel Sram_OpenSave
 /* B1F624 800A8484 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B1F628 800A8488 AFB00014 */  sw    $s0, 0x14($sp)
 /* B1F62C 800A848C 00808025 */  move  $s0, $a0
@@ -108,11 +108,11 @@ glabel Sram_OpenSaveSlot
 /* B1F644 800A84A4 3C118016 */  lui   $s1, %hi(gSaveContext) # $s1, 0x8016
 /* B1F648 800A84A8 2631E660 */  addiu $s1, %lo(gSaveContext) # addiu $s1, $s1, -0x19a0
 /* B1F64C 800A84AC 8E261354 */  lw    $a2, 0x1354($s1)
-/* B1F650 800A84B0 3C078013 */  lui   $a3, %hi(gSramSaveOffsets)
+/* B1F650 800A84B0 3C078013 */  lui   $a3, %hi(gSramSlotOffsets)
 /* B1F654 800A84B4 3C048014 */  lui   $a0, %hi(D_80140864) # $a0, 0x8014
 /* B1F658 800A84B8 00067040 */  sll   $t6, $a2, 1
 /* B1F65C 800A84BC 00EE3821 */  addu  $a3, $a3, $t6
-/* B1F660 800A84C0 94E5A4E0 */  lhu   $a1, %lo(gSramSaveOffsets)($a3)
+/* B1F660 800A84C0 94E5A4E0 */  lhu   $a1, %lo(gSramSlotOffsets)($a3)
 /* B1F664 800A84C4 24840864 */  addiu $a0, %lo(D_80140864) # addiu $a0, $a0, 0x864
 /* B1F668 800A84C8 0C00084C */  jal   osSyncPrintf
 /* B1F66C 800A84CC A7A50026 */   sh    $a1, 0x26($sp)
@@ -151,9 +151,9 @@ glabel Sram_OpenSaveSlot
 
 glabel L800A854C
 /* B1F6EC 800A854C 0002C840 */  sll   $t9, $v0, 1
-/* B1F6F0 800A8550 3C0C8013 */  lui   $t4, %hi(sSramEntranceIndices)
+/* B1F6F0 800A8550 3C0C8013 */  lui   $t4, %hi(dungeonEntrances)
 /* B1F6F4 800A8554 01996021 */  addu  $t4, $t4, $t9
-/* B1F6F8 800A8558 858CA670 */  lh    $t4, %lo(sSramEntranceIndices)($t4)
+/* B1F6F8 800A8558 858CA670 */  lh    $t4, %lo(dungeonEntrances)($t4)
 /* B1F6FC 800A855C 1000002C */  b     .L800A8610
 /* B1F700 800A8560 AE2C0000 */   sw    $t4, ($s1)
 

@@ -1725,12 +1725,12 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 }
 
 void Gameplay_SaveSceneFlags(GlobalContext* globalCtx) {
-    SaveSceneFlags* sceneFlags = &gSaveContext.save.info.sceneFlags[globalCtx->sceneNum];
+    SavedSceneFlags* savedSceneFlags = &gSaveContext.save.info.sceneFlags[globalCtx->sceneNum];
 
-    sceneFlags->chest = globalCtx->actorCtx.flags.chest;
-    sceneFlags->swch = globalCtx->actorCtx.flags.swch;
-    sceneFlags->clear = globalCtx->actorCtx.flags.clear;
-    sceneFlags->collect = globalCtx->actorCtx.flags.collect;
+    savedSceneFlags->chest = globalCtx->actorCtx.flags.chest;
+    savedSceneFlags->swch = globalCtx->actorCtx.flags.swch;
+    savedSceneFlags->clear = globalCtx->actorCtx.flags.clear;
+    savedSceneFlags->collect = globalCtx->actorCtx.flags.collect;
 }
 
 void Gameplay_SetRespawnData(GlobalContext* globalCtx, s32 respawnMode, s16 entranceIndex, s32 roomIndex,

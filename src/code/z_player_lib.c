@@ -513,7 +513,7 @@ s32 Player_HoldsTwoHandedWeapon(Player* this) {
 
 s32 Player_HoldsBrokenKnife(Player* this) {
     return (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) &&
-           (gSaveContext.save.info.sub_1C.swordHealth <= 0.0f);
+           (gSaveContext.save.info.playerData.swordHealth <= 0.0f);
 }
 
 s32 Player_ActionToBottle(Player* this, s32 actionParam) {
@@ -866,7 +866,7 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
-            if ((D_80160014 == 4) && (gSaveContext.save.info.sub_1C.swordHealth <= 0.0f)) {
+            if ((D_80160014 == 4) && (gSaveContext.save.info.playerData.swordHealth <= 0.0f)) {
                 dLists += 4;
             } else if ((D_80160014 == 6) && (this->stateFlags1 & 0x2000000)) {
                 dLists = &D_80125E08[gSaveContext.save.linkAge];
@@ -1395,7 +1395,7 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         type = gPlayerModelTypes[modelGroup][1];
         D_80160014 = type;
-        if ((type == 4) && (gSaveContext.save.info.sub_1C.swordHealth <= 0.0f)) {
+        if ((type == 4) && (gSaveContext.save.info.playerData.swordHealth <= 0.0f)) {
             dListOffset = 4;
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {

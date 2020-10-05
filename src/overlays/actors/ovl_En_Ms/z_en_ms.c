@@ -125,7 +125,7 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
         if (func_80106BC8(globalCtx) != 0) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0: // yes
-                    if (gSaveContext.save.info.sub_1C.rupees < sPrices[BEANS_BOUGHT]) {
+                    if (gSaveContext.save.info.playerData.rupees < sPrices[BEANS_BOUGHT]) {
                         func_8010B720(globalCtx, 0x4069); // not enough rupees text
                         return;
                     }

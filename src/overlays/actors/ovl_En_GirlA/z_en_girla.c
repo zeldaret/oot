@@ -328,7 +328,7 @@ s32 func_80A3AAA8(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     return 1;
@@ -341,7 +341,7 @@ s32 func_80A3AB58(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     return 1;
@@ -351,7 +351,7 @@ s32 func_80A3ABF8(GlobalContext* globalCtx, EnGirlA* this) {
     if ((CUR_CAPACITY(UPG_NUTS) != 0) && (AMMO(ITEM_NUT) >= CUR_CAPACITY(UPG_NUTS))) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_NUT) == ITEM_NONE) {
@@ -364,7 +364,7 @@ s32 func_80A3ACAC(GlobalContext* globalCtx, EnGirlA* this) {
     if ((CUR_CAPACITY(UPG_STICKS) != 0) && (AMMO(ITEM_STICK) >= CUR_CAPACITY(UPG_STICKS))) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_STICK) == ITEM_NONE) {
@@ -377,7 +377,7 @@ s32 func_80A3AD60(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_FISH) == ITEM_NONE) {
@@ -390,7 +390,7 @@ s32 func_80A3ADD4(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POTION_RED) == ITEM_NONE) {
@@ -403,7 +403,7 @@ s32 func_80A3AE48(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POTION_GREEN) == ITEM_NONE) {
@@ -416,7 +416,7 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POTION_BLUE) == ITEM_NONE) {
@@ -426,11 +426,11 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
-    if ((gBitFlags[2] & gSaveContext.save.info.items.equipment) &&
-        !(gBitFlags[3] & gSaveContext.save.info.items.equipment)) {
+    if ((gBitFlags[2] & gSaveContext.save.info.inventory.equipment) &&
+        !(gBitFlags[3] & gSaveContext.save.info.inventory.equipment)) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SWORD_BGS) == ITEM_NONE) {
@@ -440,10 +440,10 @@ s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[5] & gSaveContext.save.info.items.equipment) {
+    if (gBitFlags[5] & gSaveContext.save.info.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SHIELD_HYLIAN) == ITEM_NONE) {
@@ -453,10 +453,10 @@ s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B040(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[4] & gSaveContext.save.info.items.equipment) {
+    if (gBitFlags[4] & gSaveContext.save.info.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SHIELD_DEKU) == ITEM_NONE) {
@@ -469,10 +469,10 @@ s32 func_80A3B0BC(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[9] & gSaveContext.save.info.items.equipment) {
+    if (gBitFlags[9] & gSaveContext.save.info.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_TUNIC_GORON) == ITEM_NONE) {
@@ -485,10 +485,10 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[10] & gSaveContext.save.info.items.equipment) {
+    if (gBitFlags[10] & gSaveContext.save.info.inventory.equipment) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_TUNIC_ZORA) == ITEM_NONE) {
@@ -498,17 +498,17 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B204(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gSaveContext.save.info.sub_1C.healthCapacity == gSaveContext.save.info.sub_1C.health) {
+    if (gSaveContext.save.info.playerData.healthCapacity == gSaveContext.save.info.playerData.health) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     return 1;
 }
 
 s32 func_80A3B250(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_MILK_BOTTLE) == ITEM_NONE) {
@@ -518,7 +518,7 @@ s32 func_80A3B250(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B2AC(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_LETTER_ZELDA) == ITEM_NONE) {
@@ -539,7 +539,7 @@ s32 func_80A3B328(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_BOMBCHU) >= 50) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_BOMBCHU) == ITEM_NONE) {
@@ -552,7 +552,7 @@ s32 func_80A3B3A8(GlobalContext* globalCtx, EnGirlA* this) {
     if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
         return 2;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_SEEDS) == ITEM_NONE) {
@@ -569,7 +569,7 @@ s32 func_80A3B464(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_BLUE_FIRE) == ITEM_NONE) {
@@ -582,7 +582,7 @@ s32 func_80A3B4D8(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_BUG) == ITEM_NONE) {
@@ -595,7 +595,7 @@ s32 func_80A3B54C(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_POE) == ITEM_NONE) {
@@ -608,7 +608,7 @@ s32 func_80A3B5C0(GlobalContext* globalCtx, EnGirlA* this) {
     if (!Inventory_HasEmptyBottle()) {
         return 3;
     }
-    if (gSaveContext.save.info.sub_1C.rupees < this->unk_1C8) {
+    if (gSaveContext.save.info.playerData.rupees < this->unk_1C8) {
         return 4;
     }
     if (Item_CheckObtainability(ITEM_FAIRY) == ITEM_NONE) {
@@ -659,7 +659,7 @@ void func_80A3B780(GlobalContext* globalCtx, EnGirlA* this) {
 
 void func_80A3B7BC(GlobalContext* globalCtx, EnGirlA* this) {
     func_800849EC(globalCtx);
-    gSaveContext.save.info.sub_1C.swordHealth = 8;
+    gSaveContext.save.info.playerData.swordHealth = 8;
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
