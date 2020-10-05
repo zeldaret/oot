@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 // unused
 Gfx sCircleNullDList[] = {

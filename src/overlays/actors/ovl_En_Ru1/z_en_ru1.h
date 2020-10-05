@@ -1,11 +1,11 @@
 #ifndef _Z_EN_RU1_H_
 #define _Z_EN_RU1_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
-#include <overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h>
-#include <overlays/actors/ovl_Door_Warp1/z_door_warp1.h>
+#include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 struct EnRu1;
 

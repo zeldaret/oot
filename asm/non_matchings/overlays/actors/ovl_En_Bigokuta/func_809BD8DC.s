@@ -92,7 +92,7 @@ glabel func_809BD8DC
 /* 00DA4 809BDA04 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 00DA8 809BDA08 46045181 */  sub.s   $f6, $f10, $f4             
 /* 00DAC 809BDA0C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00DB0 809BDA10 0C00A527 */  jal     func_8002949C              
+/* 00DB0 809BDA10 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00DB4 809BDA14 E7A60034 */  swc1    $f6, 0x0034($sp)           
 /* 00DB8 809BDA18 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00DBC 809BDA1C 44818000 */  mtc1    $at, $f16                  ## $f16 = 40.00
@@ -106,7 +106,7 @@ glabel func_809BD8DC
 /* 00DDC 809BDA3C E7B2002C */  swc1    $f18, 0x002C($sp)          
 /* 00DE0 809BDA40 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 00DE4 809BDA44 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00DE8 809BDA48 0C00A527 */  jal     func_8002949C              
+/* 00DE8 809BDA48 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00DEC 809BDA4C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00DF0 809BDA50 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DF4 809BDA54 0C00BE0A */  jal     Audio_PlayActorSound2

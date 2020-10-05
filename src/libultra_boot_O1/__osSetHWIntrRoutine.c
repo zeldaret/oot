@@ -1,7 +1,8 @@
-#include <global.h>
+#include "global.h"
+#include "ultra64/internal.h"
 
 void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg) {
-    register int prevInt;
+    register s32 prevInt;
 
     prevInt = __osDisableInt();
 
