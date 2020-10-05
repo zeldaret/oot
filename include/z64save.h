@@ -87,7 +87,7 @@ typedef struct {
 } PlayerData; // size = 0x4C
 
 typedef struct {
-    /* 0x0000 */ PlayerData playerData;
+    /* 0x0000 */ PlayerData playerData; // "S_Private"
     /* 0x004C */ ItemEquips equips;
     /* 0x0058 */ Inventory inventory;
     /* 0x00B8 */ SavedSceneFlags sceneFlags[124];
@@ -121,11 +121,11 @@ typedef struct {
     /* 0x10 */ s32 nightFlag;
     /* 0x14 */ s32 numDays;
     /* 0x18 */ s32 unk_18; // increments with numDays, gets reset by goron for bgs and one other use
-    /* 0x1C */ SaveInfo info;
+    /* 0x1C */ SaveInfo info; // "information"
 } Save; // size = 0x1354
 
 typedef struct {
-    /* 0x0000 */ Save save; // data that gets restored when you load a save
+    /* 0x0000 */ Save save; // data that gets restored when you load a save. "memory"
     /* 0x1354 */ s32 fileNum; // "file_no"
     /* 0x1358 */ char unk_1358[0x0004];
     /* 0x135C */ s32 gameMode;
