@@ -75,7 +75,7 @@ typedef enum {
     /* 103 */ DEATH_CEILING,
     /* 104 */ DEATH_DROPLET,
     /* 105 */ DEATH_FINISH,
-    /* 101 */ DEATH_CORE_BURST = 150
+    /* 150 */ DEATH_CORE_BURST = 150
 } CutsceneStates;
 
 // boss title card
