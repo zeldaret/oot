@@ -45,7 +45,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-Vec3f D_8087B56C = { 0.0f, 0.0f, 0.0f };
+static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+
+
 Gfx* D_8087B578[] = { 0x06007C00, 0x06002320, 0x060035A0 };
 
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -66,6 +68,7 @@ void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 9);
                 this->actor.draw = NULL;
                 Actor_Kill(&this->actor);
+                return;
             } else {
                 this->actor.draw = BgGndSoulmeiro_Draw;
             }
@@ -90,24 +93,26 @@ void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Soulmeiro/func_8087AF38.s")
 void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
-    Vec3f posB;
-    Vec3f posA;
-    f32 randCOS;
+    Vec3f vecA;
+    Vec3f vecB;
+    s16 temp_1;
+    s16 temp_2;
+    f32 temp_3;
+    f32 temp_4;
     f32 distXZ;
-    f32 randSIN;
-    s16 randCentered;
     s32 i;
-    s16 randIncrement;
+    BgGndSoulmeiro* this2;
 
-    DECR(this->unk_198);
+    (this->unk_198) == 0 ? 0 : ((this->unk_198--));
 
     if (this->unk_198 == 20) {
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         this->actor.draw = NULL;
-    } 
-    if (this->unk_198 == 0) {
+    }
+
+    // This should be this->unk_198 != 0, this is required to match
+    if (!this->unk_198) {
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         Actor_Kill(&this->actor);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
@@ -115,33 +120,35 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->unk_198 % 6 == 0) {
-        randIncrement = Math_Rand_ZeroOne() * (0x10000 / 6.0f);
-        posA.y = 0.0f;
-        posB.y = this->actor.posRot.pos.y;
-        
-        for (i = 0; i < 6; i++) {
-            randCentered = Math_Rand_CenteredFloat(0x2800) + ((f32)randIncrement);
-            randSIN = Math_Sins(randCentered);
-            randCOS = Math_Coss(randCentered);
-            posB.x = this->actor.posRot.pos.x + (120.0f * randSIN);
-            posB.z = this->actor.posRot.pos.z + (120.0f * randCOS);
+    if (1) {}
 
-            distXZ = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &posB) * (1.0f / 120.0f);
+    if ((this->unk_198 % 6) == 0) { 
+        temp_2 = Math_Rand_ZeroOne() * (10922.0f); // This should be: 0x10000 / 6.0f
+        vecA.y = 0.0f;
+        vecB.y = this->actor.posRot.pos.y;
+
+        this2 = this;
+        for (i = 0; i < 6; i++) {
+            temp_1 = Math_Rand_CenteredFloat(0x2800) + temp_2;
+            temp_3 = Math_Sins(temp_1);
+            temp_4 = Math_Coss(temp_1);
+            vecB.x = this2->actor.posRot.pos.x + (120.0f * temp_3);
+            vecB.z = this2->actor.posRot.pos.z + (120.0f * temp_4);
+            distXZ = Math_Vec3f_DistXZ(&this2->actor.initPosRot.pos, &vecB) * (1.0f / 120.f); 
             if (distXZ < 0.7f) {
-                randSIN = Math_Sins(randCentered + 0x8000);
-                randCOS = Math_Coss(randCentered + 0x8000);
-                posB.x = this->actor.posRot.pos.x + (120.0f * randSIN);
-                posB.z = this->actor.posRot.pos.z + (120.0f * randCOS);
-                distXZ = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &posB) * (1.0f / 120.0f);
+                temp_3 = Math_Sins(temp_1 + 0x8000);
+                temp_4 = Math_Coss(temp_1 + 0x8000);
+                vecB.x = this->actor.posRot.pos.x + (120.0f * temp_3);
+                vecB.z = this->actor.posRot.pos.z + (120.0f * temp_4);
+                distXZ = Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &vecB) * (1.0f / 120.f);
             }
 
-            posA.x = 4.0f * randSIN * distXZ;
-            posA.y = 0.0f;
-            posA.z = 4.0f * randCOS * distXZ;
-            EffectSsDeadDb_Spawn(globalCtx, &this->actor.initPosRot.pos, &posA, &D_8087B56C, 0x3C, 6, 0xFF, 0xFF, 0x96,
-                                 0xAA, 0xFF, 0, 0, 1, 0xE, 1);
-            randIncrement += 0x2AAA;
+            vecA.x = 4.0f * temp_3 * distXZ;
+            vecA.y = 0.0f;
+            vecA.z = 4.0f * temp_4 * distXZ;
+            EffectSsDeadDb_Spawn(globalCtx, &this->actor.initPosRot.pos, &vecA, &zeroVec, 60, 6, 255, 255, 150,
+                                 170, 255, 0, 0, 1, 14, true);
+            temp_2 += 0x2AAA;
         }
     }
 }
@@ -149,11 +156,11 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F) == 0) {
+    if (!Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         this->actor.draw = BgGndSoulmeiro_Draw;
         if ((this->collider.base.acFlags & 2) != 0) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
-            this->unk_198 = 0x28;
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            this->unk_198 = 40;
             this->actionFunc = func_8087AF38;
             return;
         }
@@ -164,7 +171,7 @@ void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 
 void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 
-    if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F) != 0) {
+    if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         this->actor.draw = BgGndSoulmeiro_Draw;
     } else {
         this->actor.draw = NULL;
@@ -181,7 +188,6 @@ void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgGndSoulmeiro_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 params = thisx->params & 0xFF;
-    // BgGndSoulmeiro* this = THIS;
 
     if (1) {}
 
@@ -190,7 +196,7 @@ void BgGndSoulmeiro_Draw(Actor* thisx, GlobalContext* globalCtx) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 398);
 
             func_80093D84(globalCtx->state.gfxCtx);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 0x190),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gnd_soulmeiro.c", 400),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_8087B578[params]);
