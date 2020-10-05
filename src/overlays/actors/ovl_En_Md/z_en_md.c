@@ -335,7 +335,7 @@ u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
         return 0x1045;
     }
 
-    if (gSaveContext.memory.information.eventChkInf[0] & 0x10) {
+    if (gSaveContext.save.info.eventChkInf[0] & 0x10) {
         return 0x1034;
     }
 
@@ -343,7 +343,7 @@ u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
         return 0x1033;
     }
 
-    if (gSaveContext.memory.information.infTable[0] & 0x1000) {
+    if (gSaveContext.save.info.infTable[0] & 0x1000) {
         return 0x1030;
     }
 
@@ -354,7 +354,7 @@ u16 EnMd_GetTextKokiriHome(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = 0;
 
-    if (gSaveContext.memory.information.eventChkInf[4] & 1) {
+    if (gSaveContext.save.info.eventChkInf[4] & 1) {
         return 0x1028;
     }
 
@@ -365,18 +365,18 @@ u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
     this->unk_208 = 0;
     this->unk_209 = 0;
 
-    if (gSaveContext.memory.information.eventChkInf[4] & 0x100) {
-        if (gSaveContext.memory.information.infTable[1] & 0x200) {
+    if (gSaveContext.save.info.eventChkInf[4] & 0x100) {
+        if (gSaveContext.save.info.infTable[1] & 0x200) {
             return 0x1071;
         }
         return 0x1070;
     }
 
-    if (gSaveContext.memory.information.eventChkInf[0] & 0x400) {
+    if (gSaveContext.save.info.eventChkInf[0] & 0x400) {
         return 0x1068;
     }
 
-    if (gSaveContext.memory.information.infTable[1] & 0x20) {
+    if (gSaveContext.save.info.infTable[1] & 0x20) {
         return 0x1061;
     }
 
@@ -410,17 +410,17 @@ s16 func_80AAAF04(GlobalContext* globalCtx, EnMd* this) {
         case 2:
             switch (this->actor.textId) {
                 case 0x1028:
-                    gSaveContext.memory.information.eventChkInf[0] |= 0x8000;
+                    gSaveContext.save.info.eventChkInf[0] |= 0x8000;
                     break;
                 case 0x102F:
-                    gSaveContext.memory.information.eventChkInf[0] |= 4;
-                    gSaveContext.memory.information.infTable[0] |= 0x1000;
+                    gSaveContext.save.info.eventChkInf[0] |= 4;
+                    gSaveContext.save.info.infTable[0] |= 0x1000;
                     break;
                 case 0x1060:
-                    gSaveContext.memory.information.infTable[1] |= 0x20;
+                    gSaveContext.save.info.infTable[1] |= 0x20;
                     break;
                 case 0x1070:
-                    gSaveContext.memory.information.infTable[1] |= 0x200;
+                    gSaveContext.save.info.infTable[1] |= 0x200;
                     break;
                 case 0x1033:
                 case 0x1067:
@@ -438,15 +438,15 @@ s16 func_80AAAF04(GlobalContext* globalCtx, EnMd* this) {
 
 u8 EnMd_ShouldSpawn(EnMd* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT04) {
-        if (!(gSaveContext.memory.information.eventChkInf[1] & 0x1000) &&
-            !(gSaveContext.memory.information.eventChkInf[4] & 1)) {
+        if (!(gSaveContext.save.info.eventChkInf[1] & 0x1000) &&
+            !(gSaveContext.save.info.eventChkInf[4] & 1)) {
             return 1;
         }
     }
 
     if (globalCtx->sceneNum == SCENE_KOKIRI_HOME4) {
-        if (((gSaveContext.memory.information.eventChkInf[1] & 0x1000) != 0) ||
-            ((gSaveContext.memory.information.eventChkInf[4] & 1) != 0)) {
+        if (((gSaveContext.save.info.eventChkInf[1] & 0x1000) != 0) ||
+            ((gSaveContext.save.info.eventChkInf[4] & 1) != 0)) {
             if (LINK_IS_CHILD) {
                 return 1;
             }
@@ -507,7 +507,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         temp = 2;
     } else {
         this->unk_1E0.unk_18 = player->actor.posRot.pos;
-        this->unk_1E0.unk_14 = (gSaveContext.memory.linkAge > 0) ? 0.0f : -18.0f;
+        this->unk_1E0.unk_14 = (gSaveContext.save.linkAge > 0) ? 0.0f : -18.0f;
     }
 
     func_80034A14(&this->actor, &this->unk_1E0, 2, temp);
@@ -571,7 +571,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
     f32 temp;
 
     if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
-        temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.memory.information.eventChkInf[1] & 0x1000) &&
+        temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.save.info.eventChkInf[1] & 0x1000) &&
                 (globalCtx->sceneNum == SCENE_SPOT04))
                    ? 100.0f
                    : 400.0f;
@@ -606,10 +606,10 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
 
-    if (((globalCtx->sceneNum == SCENE_SPOT04) && !(gSaveContext.memory.information.eventChkInf[0] & 0x10)) ||
-        ((globalCtx->sceneNum == SCENE_SPOT04) && (gSaveContext.memory.information.eventChkInf[0] & 0x10) &&
+    if (((globalCtx->sceneNum == SCENE_SPOT04) && !(gSaveContext.save.info.eventChkInf[0] & 0x10)) ||
+        ((globalCtx->sceneNum == SCENE_SPOT04) && (gSaveContext.save.info.eventChkInf[0] & 0x10) &&
          CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
-        ((globalCtx->sceneNum == SCENE_SPOT10) && !(gSaveContext.memory.information.eventChkInf[0] & 0x400))) {
+        ((globalCtx->sceneNum == SCENE_SPOT10) && !(gSaveContext.save.info.eventChkInf[0] & 0x400))) {
         this->actor.initPosRot.pos = this->actor.posRot.pos;
         this->actionFunc = func_80AAB948;
         return;
@@ -669,16 +669,16 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1E0.unk_00 == 2) {
-        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.memory.information.eventChkInf[1] & 0x1000) &&
+        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.save.info.eventChkInf[1] & 0x1000) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
             globalCtx->msgCtx.msgMode = 0x37;
         }
 
         if (globalCtx->sceneNum == SCENE_SPOT04) {
-            gSaveContext.memory.information.eventChkInf[0] |= 0x10;
+            gSaveContext.save.info.eventChkInf[0] |= 0x10;
         }
         if (globalCtx->sceneNum == SCENE_SPOT10) {
-            gSaveContext.memory.information.eventChkInf[0] |= 0x400;
+            gSaveContext.save.info.eventChkInf[0] |= 0x400;
         }
 
         func_80AAA92C(this, 3);
@@ -736,10 +736,10 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.memory.information.eventChkInf[1] & 0x1000) &&
+    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(gSaveContext.save.info.eventChkInf[1] & 0x1000) &&
         (globalCtx->sceneNum == SCENE_SPOT04)) {
         func_80106CCC(globalCtx);
-        gSaveContext.memory.information.eventChkInf[1] |= 0x1000;
+        gSaveContext.save.info.eventChkInf[1] |= 0x1000;
         Actor_Kill(&this->actor);
         return;
     }

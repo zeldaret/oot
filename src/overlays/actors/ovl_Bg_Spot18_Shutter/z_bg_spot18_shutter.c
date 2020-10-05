@@ -51,7 +51,7 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (param == 0) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-            if (gSaveContext.memory.information.infTable[16] & 0x200) {
+            if (gSaveContext.save.info.infTable[16] & 0x200) {
                 this->actionFunc = func_808B95AC;
                 this->dyna.actor.posRot.pos.y += 180.0f;
             } else {
@@ -66,7 +66,7 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     } else {
-        if (gSaveContext.memory.information.infTable[16] & 0x200) {
+        if (gSaveContext.save.info.infTable[16] & 0x200) {
             this->dyna.actor.posRot.pos.x += 125.0f * Math_Coss(this->dyna.actor.posRot.rot.y);
             this->dyna.actor.posRot.pos.z -= 125.0f * Math_Sins(this->dyna.actor.posRot.rot.y);
             this->actionFunc = func_808B95AC;
@@ -97,7 +97,7 @@ void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
-    if (gSaveContext.memory.information.infTable[16] & 0x200) {
+    if (gSaveContext.save.info.infTable[16] & 0x200) {
         Actor_SetHeight(&this->dyna.actor, 70.0f);
         if (((this->dyna.actor.params >> 8) & 1) == 0) {
             this->actionFunc = func_808B9698;

@@ -4,10 +4,10 @@
  * Description: Debug Scene Select Menu
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
-#include <alloca.h>
+#include "ultra64.h"
+#include "global.h"
+#include "vt.h"
+#include "alloca.h"
 
 void Select_LoadTitle(SelectContext* this) {
     this->state.running = false;
@@ -20,10 +20,10 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitSaveSlotDebug();
-        gSaveContext.unk_13F6 = gSaveContext.memory.information.sub_1C.magic;
-        gSaveContext.memory.information.sub_1C.magic = 0;
+        gSaveContext.unk_13F6 = gSaveContext.save.info.sub_1C.magic;
+        gSaveContext.save.info.sub_1C.magic = 0;
         gSaveContext.unk_13F4 = 0;
-        gSaveContext.memory.information.sub_1C.magicLevel = gSaveContext.memory.information.sub_1C.magic;
+        gSaveContext.save.info.sub_1C.magicLevel = gSaveContext.save.info.sub_1C.magic;
     }
     gSaveContext.buttonStatus[4] = BTN_ENABLED;
     gSaveContext.buttonStatus[3] = BTN_ENABLED;
@@ -32,7 +32,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.buttonStatus[0] = BTN_ENABLED;
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
     Audio_SetBGM(NA_BGM_STOP);
-    gSaveContext.memory.entranceIndex = entranceIndex;
+    gSaveContext.save.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
     gSaveContext.seqIndex = 0xFF;
@@ -181,93 +181,93 @@ void Select_UpdateMenu(SelectContext* this) {
 
     if (this->unk_21C == 0) {
 
-        if (CHECK_PAD(controller1->press, A_BUTTON) || CHECK_PAD(controller1->press, START_BUTTON)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_A) || CHECK_BTN_ALL(controller1->press.button, BTN_START)) {
             selectedScene = &this->scenes[this->currentScene];
             if (selectedScene->loadFunc != NULL) {
                 selectedScene->loadFunc(this, selectedScene->entranceIndex);
             }
         }
 
-        if (CHECK_PAD(controller1->press, B_BUTTON)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-                gSaveContext.memory.linkAge = 1;
+                gSaveContext.save.linkAge = 1;
             } else {
-                gSaveContext.memory.linkAge = 0;
+                gSaveContext.save.linkAge = 0;
             }
         }
 
-        if (CHECK_PAD(controller1->press, Z_TRIG)) {
-            if (gSaveContext.memory.cutsceneIndex == 0x8000) {
-                gSaveContext.memory.cutsceneIndex = 0;
-            } else if (gSaveContext.memory.cutsceneIndex == 0) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF0;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF0) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF1;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF1) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF2;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF2) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF3;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF3) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF4;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF4) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF5;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF5) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF6;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF6) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF7;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF7) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF8;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF8) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF9;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF9) {
-                gSaveContext.memory.cutsceneIndex = 0xFFFA;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFFA) {
-                gSaveContext.memory.cutsceneIndex = 0x8000;
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_Z)) {
+            if (gSaveContext.save.cutsceneIndex == 0x8000) {
+                gSaveContext.save.cutsceneIndex = 0;
+            } else if (gSaveContext.save.cutsceneIndex == 0) {
+                gSaveContext.save.cutsceneIndex = 0xFFF0;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF0) {
+                gSaveContext.save.cutsceneIndex = 0xFFF1;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF1) {
+                gSaveContext.save.cutsceneIndex = 0xFFF2;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF2) {
+                gSaveContext.save.cutsceneIndex = 0xFFF3;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF3) {
+                gSaveContext.save.cutsceneIndex = 0xFFF4;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF4) {
+                gSaveContext.save.cutsceneIndex = 0xFFF5;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF5) {
+                gSaveContext.save.cutsceneIndex = 0xFFF6;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF6) {
+                gSaveContext.save.cutsceneIndex = 0xFFF7;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF7) {
+                gSaveContext.save.cutsceneIndex = 0xFFF8;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF8) {
+                gSaveContext.save.cutsceneIndex = 0xFFF9;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF9) {
+                gSaveContext.save.cutsceneIndex = 0xFFFA;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFFA) {
+                gSaveContext.save.cutsceneIndex = 0x8000;
             }
-        } else if (CHECK_PAD(controller1->press, R_TRIG)) {
-            if (gSaveContext.memory.cutsceneIndex == 0x8000) {
-                gSaveContext.memory.cutsceneIndex = 0xFFFA;
-            } else if (gSaveContext.memory.cutsceneIndex == 0) {
-                gSaveContext.memory.cutsceneIndex = 0x8000;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF0) {
-                gSaveContext.memory.cutsceneIndex = 0;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF1) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF0;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF2) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF1;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF3) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF2;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF4) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF3;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF5) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF4;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF6) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF5;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF7) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF6;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF8) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF7;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFF9) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF8;
-            } else if (gSaveContext.memory.cutsceneIndex == 0xFFFA) {
-                gSaveContext.memory.cutsceneIndex = 0xFFF9;
+        } else if (CHECK_BTN_ALL(controller1->press.button, BTN_R)) {
+            if (gSaveContext.save.cutsceneIndex == 0x8000) {
+                gSaveContext.save.cutsceneIndex = 0xFFFA;
+            } else if (gSaveContext.save.cutsceneIndex == 0) {
+                gSaveContext.save.cutsceneIndex = 0x8000;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF0) {
+                gSaveContext.save.cutsceneIndex = 0;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF1) {
+                gSaveContext.save.cutsceneIndex = 0xFFF0;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF2) {
+                gSaveContext.save.cutsceneIndex = 0xFFF1;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF3) {
+                gSaveContext.save.cutsceneIndex = 0xFFF2;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF4) {
+                gSaveContext.save.cutsceneIndex = 0xFFF3;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF5) {
+                gSaveContext.save.cutsceneIndex = 0xFFF4;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF6) {
+                gSaveContext.save.cutsceneIndex = 0xFFF5;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF7) {
+                gSaveContext.save.cutsceneIndex = 0xFFF6;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF8) {
+                gSaveContext.save.cutsceneIndex = 0xFFF7;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFF9) {
+                gSaveContext.save.cutsceneIndex = 0xFFF8;
+            } else if (gSaveContext.save.cutsceneIndex == 0xFFFA) {
+                gSaveContext.save.cutsceneIndex = 0xFFF9;
             }
         }
 
-        gSaveContext.memory.nightFlag = 0;
-        if (gSaveContext.memory.cutsceneIndex == 0) {
-            gSaveContext.memory.nightFlag = 1;
+        gSaveContext.save.nightFlag = 0;
+        if (gSaveContext.save.cutsceneIndex == 0) {
+            gSaveContext.save.nightFlag = 1;
         }
 
         // user can change "opt", but it doesn't do anything
-        if (CHECK_PAD(controller1->press, U_CBUTTONS)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_CUP)) {
             this->opt--;
         }
-        if (CHECK_PAD(controller1->press, D_CBUTTONS)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_CDOWN)) {
             this->opt++;
         }
 
-        if (CHECK_PAD(controller1->press, U_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DUP)) {
             if (this->unk_22C == 1) {
                 this->unk_224 = 0;
             }
@@ -279,12 +279,12 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(controller1->cur, U_JPAD) && this->unk_224 == 0) {
+        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DUP) && this->unk_224 == 0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30) * 3;
         }
 
-        if (CHECK_PAD(controller1->press, D_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DDOWN)) {
             if (this->unk_230 == 1) {
                 this->unk_228 = 0;
             }
@@ -296,23 +296,24 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(controller1->cur, D_JPAD) && (this->unk_228 == 0)) {
+        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DDOWN) && (this->unk_228 == 0)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30) * 3;
         }
 
-        if (CHECK_PAD(controller1->press, L_JPAD) || CHECK_PAD(controller1->cur, L_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DLEFT) || CHECK_BTN_ALL(controller1->cur.button, BTN_DLEFT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30);
         }
 
-        if (CHECK_PAD(controller1->press, R_JPAD) || CHECK_PAD(controller1->cur, R_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DRIGHT) ||
+            CHECK_BTN_ALL(controller1->cur.button, BTN_DRIGHT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30);
         }
     }
 
-    if (CHECK_PAD(controller1->press, L_TRIG)) {
+    if (CHECK_BTN_ALL(controller1->press.button, BTN_L)) {
         this->unk_1DC++;
         this->unk_1DC = (this->unk_1DC + 7) % 7;
         this->currentScene = this->unk_20C = this->unk_1E0[this->unk_1DC];
@@ -454,16 +455,16 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
     switch (csIndex) {
         case 0:
             label = "\x8D ﾖﾙ \x8Cｺﾞﾛﾝ";
-            gSaveContext.memory.dayTime = 0;
+            gSaveContext.save.dayTime = 0;
             break;
         case 0x8000:
             // clang-format off
-            gSaveContext.memory.dayTime = 0x8000; label = "\x8Dｵﾋﾙ \x8Cｼﾞｬﾗ";
+            gSaveContext.save.dayTime = 0x8000; label = "\x8Dｵﾋﾙ \x8Cｼﾞｬﾗ";
             // clang-format on
             break;
         case 0xFFF0:
             // clang-format off
-            gSaveContext.memory.dayTime = 0x8000; label = "ﾃﾞﾓ00";
+            gSaveContext.save.dayTime = 0x8000; label = "ﾃﾞﾓ00";
             // clang-format on
             break;
         case 0xFFF1:
@@ -498,7 +499,7 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
             break;
     };
 
-    gSaveContext.environmentTime = gSaveContext.memory.dayTime;
+    gSaveContext.environmentTime = gSaveContext.save.dayTime;
     GfxPrint_Printf(printer, "Stage:\x8C%s", label);
 }
 
@@ -517,8 +518,8 @@ void Select_DrawMenu(SelectContext* this) {
     GfxPrint_Init(printer);
     GfxPrint_Open(printer, oGfxCtx->polyOpa.p);
     Select_PrintMenu(this, printer);
-    Select_PrintAgeSetting(this, printer, ((void)0, gSaveContext.memory.linkAge));
-    Select_PrintCutsceneSetting(this, printer, ((void)0, gSaveContext.memory.cutsceneIndex));
+    Select_PrintAgeSetting(this, printer, ((void)0, gSaveContext.save.linkAge));
+    Select_PrintCutsceneSetting(this, printer, ((void)0, gSaveContext.save.cutsceneIndex));
     oGfxCtx->polyOpa.p = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
@@ -616,6 +617,6 @@ void Select_Init(SelectContext* this) {
 
     this->staticSegment = GameState_Alloc(this, size, "../z_select.c", 1114);
     DmaMgr_SendRequest1(this->staticSegment, _z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
-    gSaveContext.memory.cutsceneIndex = 0x8000;
-    gSaveContext.memory.linkAge = 1;
+    gSaveContext.save.cutsceneIndex = 0x8000;
+    gSaveContext.save.linkAge = 1;
 }

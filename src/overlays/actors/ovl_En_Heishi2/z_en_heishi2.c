@@ -4,11 +4,11 @@
  * Description: Hyrulian Guards
  */
 
+#include "vt.h"
 #include "z_en_heishi2.h"
 #include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
-#include <vt.h>
 
 #define FLAGS 0x00000009
 
@@ -180,15 +180,15 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_30B = 1;
         this->unk_300 = 6;
         this->actionFunc = func_80A5475C;
-    } else if ((gSaveContext.memory.information.eventChkInf[0] & 0x200) &&
-               (gSaveContext.memory.information.eventChkInf[2] & 0x20) &&
-               (gSaveContext.memory.information.eventChkInf[3] & 0x80)) {
+    } else if ((gSaveContext.save.info.eventChkInf[0] & 0x200) &&
+               (gSaveContext.save.info.eventChkInf[2] & 0x20) &&
+               (gSaveContext.save.info.eventChkInf[3] & 0x80)) {
         // "Get all spiritual stones!"
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;
         this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.memory.nightFlag) {
+    } else if (gSaveContext.save.nightFlag) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;
@@ -201,7 +201,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 6;
         this->actor.textId = 0x7099; // "KEEP IT A SECRET FROM EVERYONE"
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.memory.information.eventChkInf[1] & 4) {
+    } else if (gSaveContext.save.info.eventChkInf[1] & 4) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
             osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
@@ -230,7 +230,7 @@ void func_80A5344C(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 5;
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                if (gSaveContext.memory.information.sub_1C.rupees >= 10) {
+                if (gSaveContext.save.info.sub_1C.rupees >= 10) {
                     Rupees_ChangeBy(-10);
                     this->actor.textId = 0x7098; // "OK, I'll let you pass, quickly!"
                     this->actionFunc = func_80A53538;
@@ -349,8 +349,8 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     this->unk_30B = 0;
     var = 0;
-    if (gSaveContext.memory.information.infTable[7] & 0x40) {
-        if (!(gSaveContext.memory.information.infTable[7] & 0x80)) {
+    if (gSaveContext.save.info.infTable[7] & 0x40) {
+        if (!(gSaveContext.save.info.infTable[7] & 0x80)) {
             if (Player_GetMask(globalCtx) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A; // "Wha-ha-ha-hah! Do you think you're in disguise, Mr. Hero?"
@@ -525,7 +525,7 @@ void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
         if (func_80106BC8(globalCtx) != 0) {
-            gSaveContext.memory.information.infTable[7] |= 0x40;
+            gSaveContext.save.info.infTable[7] |= 0x40;
             func_80106CCC(globalCtx);
             func_8002DF54(globalCtx, 0, 7);
             this->actionFunc = func_80A53908;
@@ -541,8 +541,8 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x2020; // "My boy will be very happy with this!.."
                 func_8010B720(globalCtx, this->actor.textId);
                 Player_UnsetMask(globalCtx);
-                gSaveContext.memory.information.infTable[7] |= 0x80;
-                gSaveContext.memory.information.itemGetInf[3] |= 0x100;
+                gSaveContext.save.info.infTable[7] |= 0x80;
+                gSaveContext.save.info.itemGetInf[3] |= 0x100;
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
                 if (this->unk_30A != 0) {
                     this->unk_30A = 2;
@@ -851,7 +851,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
                    EnHeishi2_PostLimbDraw, &this->actor);
-    if ((this->initParams == 5) && (gSaveContext.memory.information.infTable[7] & 0x80)) {
+    if ((this->initParams == 5) && (gSaveContext.save.info.infTable[7] & 0x80)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);

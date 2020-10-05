@@ -49,7 +49,7 @@ void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp32);
 
     if ((globalCtx->sceneNum != SCENE_SPOT20 || LINK_IS_CHILD) ||
-        (((gSaveContext.memory.information.eventChkInf[1] & 0x100)) && (gSaveContext.memory.cutsceneIndex != 0xFFF0))) {
+        (((gSaveContext.save.info.eventChkInf[1] & 0x100)) && (gSaveContext.save.cutsceneIndex != 0xFFF0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }

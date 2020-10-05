@@ -6,7 +6,7 @@
 
 #include "z_demo_im.h"
 
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000011
 
@@ -890,7 +890,7 @@ void func_80986BE4(DemoIm* this, s32 arg1) {
 }
 
 void func_80986BF8(DemoIm* this, GlobalContext* globalCtx) {
-    if (gSaveContext.memory.information.eventChkInf[4] & 1) {
+    if (gSaveContext.save.info.eventChkInf[4] & 1) {
         this->action = 24;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -902,14 +902,14 @@ void func_80986C30(DemoIm* this, GlobalContext* globalCtx) {
     if (func_80986A5C(this, globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02002524);
         gSaveContext.cutsceneTrigger = 1;
-        gSaveContext.memory.information.eventChkInf[5] |= 0x200;
+        gSaveContext.save.info.eventChkInf[5] |= 0x200;
         Item_Give(globalCtx, GI_BULLET_BAG_40);
         func_80985F54(this);
     }
 }
 
 void func_80986CC8(DemoIm* this) {
-    if (gSaveContext.memory.information.eventChkInf[4] & 1) {
+    if (gSaveContext.save.info.eventChkInf[4] & 1) {
         this->action = 26;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -919,7 +919,7 @@ void func_80986CC8(DemoIm* this) {
 
 void func_80986CFC(DemoIm* this, GlobalContext* globalCtx) {
     if (func_80986A5C(this, globalCtx)) {
-        gSaveContext.memory.information.eventChkInf[4] |= 0x1000;
+        gSaveContext.save.info.eventChkInf[4] |= 0x1000;
         this->action = 19;
     }
 }
@@ -928,9 +928,9 @@ void func_80986D40(DemoIm* this, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 6) {
         this->action = 19;
         this->drawConfig = 1;
-    } else if (gSaveContext.memory.information.eventChkInf[8] & 1) {
+    } else if (gSaveContext.save.info.eventChkInf[8] & 1) {
         Actor_Kill(&this->actor);
-    } else if (!(gSaveContext.memory.information.eventChkInf[5] & 0x200)) {
+    } else if (!(gSaveContext.save.info.eventChkInf[5] & 0x200)) {
         this->action = 23;
     } else {
         this->action = 20;

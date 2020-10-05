@@ -233,7 +233,7 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
-        if (gSaveContext.memory.information.eventChkInf[0] & 0x80) {
+        if (gSaveContext.save.info.eventChkInf[0] & 0x80) {
             alpha = 2150;
         }
     } else { // neeeded to match

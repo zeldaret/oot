@@ -5,7 +5,7 @@
  */
 
 #include "z_en_guest.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000019
 
@@ -56,7 +56,7 @@ extern Gfx D_060059B0[];
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
 
-    if (gSaveContext.memory.information.infTable[7] & 0x40) {
+    if (gSaveContext.save.info.infTable[7] & 0x40) {
         Actor_Kill(&this->actor);
     } else {
         this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);

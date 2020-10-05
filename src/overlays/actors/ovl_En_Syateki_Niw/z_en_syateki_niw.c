@@ -5,7 +5,7 @@
  */
 
 #include "z_en_syateki_niw.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -458,7 +458,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
         case 6:
             if (this->unk_25E == 1) {
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->nextEntranceIndex = gSaveContext.memory.entranceIndex;
+                globalCtx->nextEntranceIndex = gSaveContext.save.entranceIndex;
                 globalCtx->unk_11E5C = 0;
                 player->actor.freezeTimer = 20;
                 this->unk_25E = 0x14;

@@ -4,15 +4,14 @@
  * Description: Initializes the game into the title screen
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void Opening_SetupTitleScreen(OpeningContext* this) {
     gSaveContext.gameMode = 1;
     this->state.running = false;
-    gSaveContext.memory.linkAge = 0;
+    gSaveContext.save.linkAge = 0;
     Sram_InitSaveSlotDebug();
-    gSaveContext.memory.cutsceneIndex = 0xFFF3;
+    gSaveContext.save.cutsceneIndex = 0xFFF3;
     gSaveContext.sceneSetupIndex = 7;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_heishi1.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -107,7 +107,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
     // "current time"
     // clang-format off
-    time = gSaveContext.memory.dayTime; osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, time);
+    time = gSaveContext.save.dayTime; osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, time);
     // clang-format on
     // "check time"
     osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, 0xBAAA);
@@ -122,15 +122,15 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.memory.dayTime < 0xB888) || (!gSaveContext.memory.nightFlag)) &&
-            !(gSaveContext.memory.information.eventChkInf[8] & 1)) {
+        if (((gSaveContext.save.dayTime < 0xB888) || (!gSaveContext.save.nightFlag)) &&
+            !(gSaveContext.save.info.eventChkInf[8] & 1)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.memory.dayTime >= 0xB889) || (gSaveContext.memory.nightFlag) ||
-            (gSaveContext.memory.information.eventChkInf[8] & 1)) {
+        if ((gSaveContext.save.dayTime >= 0xB889) || (gSaveContext.save.nightFlag) ||
+            (gSaveContext.save.info.eventChkInf[8] & 1)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);
@@ -359,7 +359,7 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
         if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx))) {
             func_80106CCC(globalCtx);
             if (!this->loadStarted) {
-                gSaveContext.memory.information.eventChkInf[4] |= 0x4000;
+                gSaveContext.save.info.eventChkInf[4] |= 0x4000;
                 globalCtx->nextEntranceIndex = 0x4FA;
                 globalCtx->sceneLoadFlag = 0x14;
                 this->loadStarted = true;

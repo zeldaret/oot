@@ -1,10 +1,10 @@
 #ifndef _Z64ACTOR_H_
 #define _Z64ACTOR_H_
 
-#include <z64dma.h>
-#include <z64animation.h>
-#include <z64math.h>
-#include <z64collision_check.h>
+#include "z64dma.h"
+#include "z64animation.h"
+#include "z64math.h"
+#include "z64collision_check.h"
 
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20

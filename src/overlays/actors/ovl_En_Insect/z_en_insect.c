@@ -1,5 +1,5 @@
 #include "z_en_insect.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000000
 
@@ -670,7 +670,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
                 temp_a0 = ((this->soilActor->actor.params >> 8) & 0x1F) - 1;
                 temp_a1 = temp_a0 & 3;
 
-                if ((((gSaveContext.memory.information.gsFlags[temp_a0 >> 2] & D_8012723C[temp_a1]) >>
+                if ((((gSaveContext.save.info.gsFlags[temp_a0 >> 2] & D_8012723C[temp_a1]) >>
                       D_8012724C[temp_a1]) &
                      (this->soilActor->actor.params & 0xFF)) == 0) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);

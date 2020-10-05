@@ -5,7 +5,7 @@
  */
 
 #include "z_en_okarina_tag.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x02000010
 
@@ -117,7 +117,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
         this->actor.flags &= ~1;
     } else {
-        if ((this->unk_152 != 6) || (gSaveContext.memory.information.unk_12C5 != 0)) {
+        if ((this->unk_152 != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & 0x1000000) {
                 // "North! ! ! ! !"
                 osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistFromLink);
@@ -189,11 +189,11 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->unk_15A++;
-    if ((this->unk_152 != 6) || (gSaveContext.memory.information.unk_12C5 != 0)) {
+    if ((this->unk_152 != 6) || (gSaveContext.save.info.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actor.flags &= ~1;
-        } else if (((this->unk_150 != 4) || !(gSaveContext.memory.information.eventChkInf[4] & 0x800)) &&
-                   ((this->unk_150 != 6) || !(gSaveContext.memory.information.eventChkInf[1] & 0x2000)) &&
+        } else if (((this->unk_150 != 4) || !(gSaveContext.save.info.eventChkInf[4] & 0x800)) &&
+                   ((this->unk_150 != 6) || !(gSaveContext.save.info.eventChkInf[1] & 0x2000)) &&
                    (this->actor.xzDistFromLink < (90.0f + this->unk_15C)) &&
                    (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
             if (player->stateFlags2 & 0x1000000) {
@@ -241,7 +241,7 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
         switch (this->unk_150) {
             case 1:
                 Flags_SetSwitch(globalCtx, this->switchFlag);
-                gSaveContext.memory.information.eventChkInf[3] |= 0x200;
+                gSaveContext.save.info.eventChkInf[3] |= 0x200;
                 break;
             case 2:
                 globalCtx->csCtx.segment = D_80ABF9D0;
@@ -256,7 +256,7 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 globalCtx->csCtx.segment =
                     (LINK_IS_ADULT) ? SEGMENTED_TO_VIRTUAL(&D_02003C80) : SEGMENTED_TO_VIRTUAL(&D_02005020);
                 gSaveContext.cutsceneTrigger = 1;
-                gSaveContext.memory.information.eventChkInf[1] |= 0x2000;
+                gSaveContext.save.info.eventChkInf[1] |= 0x2000;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 break;
             default:

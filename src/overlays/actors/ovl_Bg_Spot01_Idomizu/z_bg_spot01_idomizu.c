@@ -39,7 +39,7 @@ void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idomizu* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    if (gSaveContext.memory.information.eventChkInf[6] & 0x80 || LINK_AGE_IN_YEARS == YEARS_ADULT) {
+    if (gSaveContext.save.info.eventChkInf[6] & 0x80 || LINK_AGE_IN_YEARS == YEARS_ADULT) {
         this->waterHeight = -550.0f;
     } else {
         this->waterHeight = 52.0f;
@@ -52,7 +52,7 @@ void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
-    if (gSaveContext.memory.information.eventChkInf[6] & 0x80) {
+    if (gSaveContext.save.info.eventChkInf[6] & 0x80) {
         this->waterHeight = -550.0f;
     }
     globalCtx->colCtx.stat.colHeader->waterBoxes[0].unk_02 = this->actor.posRot.pos.y;
