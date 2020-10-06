@@ -65,15 +65,6 @@ static EnButteFlightParams sFollowLinkParams[] = {
     { 10, 20, 2.0f, 0.3f, 1.0f, 0 },
     { 10, 20, 2.4f, 0.3f, 1.0f, 0 },
 };
-static f32 sTransformationEffectScale = 0.0f;
-static s16 sTransformationEffectAlpha = 0;
-static Vec3f D_809CE3C4 = { 0.0f, 0.0f, -3.0f };
-static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 700, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 20, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
-};
 
 extern AnimationHeader D_05002470;
 extern SkeletonHeader D_050036F0;
@@ -92,6 +83,9 @@ void EnButte_SelectFlightParams(EnButte* this, EnButteFlightParams* flightParams
     this->timer = Math_Rand_S16Offset(flightParams->minTime, flightParams->maxTime);
 }
 
+static f32 sTransformationEffectScale = 0.0f;
+static s16 sTransformationEffectAlpha = 0;
+
 void EnButte_ResetTransformationEffect(void) {
     sTransformationEffectScale = 0.0f;
     sTransformationEffectAlpha = 0;
@@ -102,7 +96,9 @@ void EnButte_UpdateTransformationEffect(void) {
     sTransformationEffectAlpha += 4000;
 }
 
-void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
+void func_809CD144(EnButte* this, GlobalContext* globalCtx) {
+    static Vec3f D_809CE3C4 = { 0.0f, 0.0f, -3.0f };
+
     Vec3f sp5C;
     s32 alpha;
     Vec3s camDir;
@@ -132,6 +128,13 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
 }
 
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
+    static InitChainEntry sInitChain[] = {
+        ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
+        ICHAIN_F32(uncullZoneForward, 700, ICHAIN_CONTINUE),
+        ICHAIN_F32(uncullZoneScale, 20, ICHAIN_CONTINUE),
+        ICHAIN_F32(uncullZoneDownward, 600, ICHAIN_STOP),
+    };
+
     EnButte* this = THIS;
 
     if (this->actor.params == -1) {
@@ -318,8 +321,8 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
     distFromHome = Math3D_Dist2DSq(this->actor.posRot.pos.x, this->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
                                    this->actor.initPosRot.pos.z);
-    if ((player->heldItemActionParam != 6) || !(fabsf(player->actor.speedXZ) < 1.8f) || (this->swordDownTimer > 0) ||
-        !(distFromHome < SQ(320.0f))) {
+    if (!((player->heldItemActionParam == 6) && (fabsf(player->actor.speedXZ) < 1.8f) && (this->swordDownTimer <= 0) &&
+        (distFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
     } else if (distFromHome > SQ(240.0f)) {
         distFromSword = Math3D_Dist2DSq(player->swordInfo[0].tip.x, player->swordInfo[0].tip.z,
@@ -412,6 +415,6 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (((this->actor.params & 1) == 1) && (this->actionFunc == EnButte_TransformIntoFairy)) {
-        EnButte_DrawTransformationEffect(this, globalCtx);
+        func_809CD144(this, globalCtx);
     }
 }
