@@ -275,14 +275,12 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74AAC.s")
 
-#ifdef NON_EQUIVALENT
 void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     s16 temp_t0;
     s16 temp_a1;
     s16 yawDiff;
     s16 sp30;
     s16 sp2E;
-    s32 phi_a1;
     s16 phi_a3;
 
     if (this->unk_2FB == 0) {
@@ -298,8 +296,8 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     }
     temp_a1 = this->actor.wallPolyRot - this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (ABS(temp_a1) >= 0x4000)) {
-        temp_t0 = (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, phi_a1, 1, phi_a3, 0);
+        temp_a1 = (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, temp_a1, 1, phi_a3, 0);
     } else {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
     }
@@ -334,9 +332,6 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74BA4.s")
-#endif
 
 void func_80A74E2C(EnIk* this) {
     f32 frames = SkelAnime_GetFrameCount(&D_06001C28.genericHeader);
