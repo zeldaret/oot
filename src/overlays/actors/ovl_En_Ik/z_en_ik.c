@@ -282,31 +282,30 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 sp30;
     s16 sp2E;
-    s16 phi_t0;
     s32 phi_a1;
     s16 phi_a3;
 
     if (this->unk_2FB == 0) {
-        phi_t0 = 0xAAA;
+        temp_t0 = 0xAAA;
         phi_a3 = 0x320;
         sp30 = 0;
         sp2E = 0x10;
     } else {
-        phi_t0 = 0x3FFC;
+        temp_t0 = 0x3FFC;
         phi_a3 = 0x4B0;
         sp30 = 2;
         sp2E = 9;
     }
     temp_a1 = this->actor.wallPolyRot - this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (ABS(temp_a1) >= 0x4000)) {
-        phi_t0 = (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
+        temp_t0 = (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, phi_a1, 1, phi_a3, 0);
     } else {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((phi_t0 >= ABS(yawDiff)) && (this->actor.xzDistFromLink < 100.0f)) {
+    if ((temp_t0 >= ABS(yawDiff)) && (this->actor.xzDistFromLink < 100.0f)) {
         if (ABS(this->actor.yDistFromLink) < 150.0f) {
             if ((globalCtx->gameplayFrames & 1)) {
                 func_80A74E2C(this);
