@@ -1,7 +1,7 @@
 #ifndef _Z64MATH_H_
 #define _Z64MATH_H_
 
-#include <ultra64.h>
+#include "ultra64.h"
 
 #define VEC_SET(V,X,Y,Z) V.x=X;V.y=Y;V.z=Z
 
@@ -54,10 +54,10 @@ typedef struct {
 } Cylinder16; // size = 0x0C
 
 typedef struct {
-    f32 radius;
-    f32 height;
-    f32 yShift;
-    Vec3f pos;
+    /* 0x00 */ f32 radius;
+    /* 0x04 */ f32 height;
+    /* 0x08 */ f32 yShift;
+    /* 0x0C */ Vec3f pos;
 } Cylinderf; // size = 0x18
 
 typedef struct {
@@ -72,9 +72,9 @@ typedef struct {
 
 // Defines a point in the spherical coordinate system
 typedef struct {
-    f32 r;      // radius
-    s16 pitch;  // polar (zenith) angle
-    s16 yaw;    // azimuthal angle
+    /* 0x00 */ f32 r;      // radius
+    /* 0x04 */ s16 pitch;  // polar (zenith) angle
+    /* 0x06 */ s16 yaw;    // azimuthal angle
 } VecSph; // size = 0x08
 
 #define IS_ZERO(f) (fabsf(f) < 0.008f)

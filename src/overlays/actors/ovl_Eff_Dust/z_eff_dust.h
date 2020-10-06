@@ -1,8 +1,8 @@
 #ifndef _Z_EFF_DUST_H_
 #define _Z_EFF_DUST_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EffDust;
 

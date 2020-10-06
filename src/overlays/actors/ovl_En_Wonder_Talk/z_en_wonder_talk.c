@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wonder_talk.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x08000009
 

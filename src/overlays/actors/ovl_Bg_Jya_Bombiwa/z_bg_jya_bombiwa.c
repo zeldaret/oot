@@ -1,6 +1,6 @@
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000000
 

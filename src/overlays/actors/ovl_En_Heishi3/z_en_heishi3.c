@@ -5,7 +5,7 @@
  */
 
 #include "z_en_heishi3.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000000
 

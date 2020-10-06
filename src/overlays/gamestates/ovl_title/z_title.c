@@ -4,9 +4,8 @@
  * Description: Displays the Nintendo Logo
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <alloca.h>
+#include "global.h"
+#include "alloca.h"
 
 extern Gfx D_01002720[];
 extern u8 D_01001800[];

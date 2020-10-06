@@ -158,7 +158,7 @@ void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
     }
 }
 
-int EnDs_CheckRupeesAndBottle() {
+s32 EnDs_CheckRupeesAndBottle() {
     if (gSaveContext.memory.information.sub_1C.rupees < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
