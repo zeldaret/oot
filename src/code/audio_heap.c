@@ -690,11 +690,11 @@ void func_800DF888(void) {
     s32 ind;
     s32 i;
 
-    ind = gAudioContext.unk_28A8;
-    gAudioContext.unk_2974[ind] = gAudioContext.gAudioBufferParameters.minAiBufferLength;
+    ind = gAudioContext.curAIBufIdx;
+    gAudioContext.aiBufLengths[ind] = gAudioContext.gAudioBufferParameters.minAiBufferLength;
 
     for (i = 0; i < 0x580; i++) {
-        gAudioContext.unk_2968[ind][i] = 0;
+        gAudioContext.aiBuffers[ind][i] = 0;
     }
 }
 
@@ -761,9 +761,9 @@ s32 Audio_ResetStep(void) {
             func_800DFBF8();
             gAudioContext.gAudioResetStatus = 0;
             for (i = 0; i < 3; i++) {
-                gAudioContext.unk_2974[i] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
+                gAudioContext.aiBufLengths[i] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
                 for (j = 0; j < 0x580; j++) {
-                    gAudioContext.unk_2968[i][j] = 0;
+                    gAudioContext.aiBuffers[i][j] = 0;
                 }
             }
             break;

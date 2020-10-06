@@ -790,10 +790,10 @@ void func_800E3094(void *heap, u32 heapSize) {
     }
 
     gAudioContext.unk_289C = 0;
-    gAudioContext.unk_28A4 = 0;
-    gAudioContext.unk_28A8 = 0;
+    gAudioContext.rspTaskIdx = 0;
+    gAudioContext.curAIBufIdx = 0;
     gAudioContext.gSoundMode = 0;
-    gAudioContext.unk_28B8 = NULL;
+    gAudioContext.currTask = NULL;
     gAudioContext.rspTask.task.t.data_size = 0;
     gAudioContext.unk_2908.task.t.yield_data_size = 0;
     osCreateMesgQueue(&gAudioContext.unk_25E8, &gAudioContext.unk_2600, 1);
@@ -821,7 +821,7 @@ void func_800E3094(void *heap, u32 heapSize) {
     Audio_InitMainPools(D_8014A6C8);
 
     for(i = 0; i < 3; i++){
-        gAudioContext.unk_2968[i] = Audio_AllocZeroed(&gAudioContext.gAudioInitPool, 0xB00);
+        gAudioContext.aiBuffers[i] = Audio_AllocZeroed(&gAudioContext.gAudioInitPool, 0xB00);
     }
     
     gAudioContext.sequenceTable = &gSequenceTable;
@@ -1204,8 +1204,7 @@ u32 D_801304E0 = 0x80;
 AudioTask* D_801304E4 = NULL;
 
 extern u8 D_80155C70[];
-//large
-//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5000.s")
+#ifdef NON_MATCHING
 AudioTask *func_800E5000(void) {
     u32 sp6C;
     s32 sp68;
@@ -1263,26 +1262,26 @@ AudioTask *func_800E5000(void) {
             D_801755D0();
         }
 
-        if (gAudioContext.gAudioBufferParameters.presetUnk4 != ((gAudioContext.unk_289C % (gAudioContext.gAudioBufferParameters.presetUnk4)) + 1)) {
+        if (gAudioContext.gAudioBufferParameters.presetUnk4 == ((gAudioContext.unk_289C % (gAudioContext.gAudioBufferParameters.presetUnk4)) + 1)) {
+            return D_801304E4;
+        } else {
             return NULL;
         }
-        return D_801304E4;
     }
 
     osSendMesg(gAudioContext.unk_5BE8, gAudioContext.unk_289C, 0);
-    temp_t4 = gAudioContext.unk_28A8 + 1;
-    temp_t6 = (gAudioContext.unk_28A8 + 1) % 3;
-    temp_hi = (((gAudioContext.unk_28A8 + 1) % 3) + 1) % 3;
-    gAudioContext.unk_28A8 = gAudioContext.unk_28A8 + 1;
-    gAudioContext.unk_28A4 ^= 1;
-    gAudioContext.unk_28A8 = gAudioContext.unk_28A8 % 3;
-    sp6C = osAiGetLength() >> 2;
+    temp_t4 = gAudioContext.curAIBufIdx + 1;
+    temp_t6 = (gAudioContext.curAIBufIdx + 1) % 3;
+    gAudioContext.rspTaskIdx ^= 1;
+    gAudioContext.curAIBufIdx++;
+    gAudioContext.curAIBufIdx %= 3;
+    temp_hi = (gAudioContext.curAIBufIdx - 2 + 3) % 3;
+    sp6C = osAiGetLength() / 4;
     if (gAudioContext.unk_2984 < 0x10) {
-        temp_v0_2 = gAudioContext.unk_2974[temp_hi];
-        if (temp_v0_2 != 0) {
+        if (gAudioContext.aiBufLengths[temp_hi] != 0) {
             sp34 = &gAudioContext + (temp_hi * 4);
             sp3C = &gAudioContext + (temp_hi * 2);
-            osAiSetNextBuffer(gAudioContext.unk_2968[temp_hi], temp_v0_2 * 4);
+            osAiSetNextBuffer(gAudioContext.aiBuffers[temp_hi], gAudioContext.aiBufLengths[temp_hi] * 4);
         }
     }
 
@@ -1297,7 +1296,6 @@ AudioTask *func_800E5000(void) {
         }
     }
 
-    temp_s1 = &gAudioContext.unk_1ED0;
     if (sp5C != 0) {
         for(i = 0; i < sp5C; i++){
             osRecvMesg(&gAudioContext.unk_1ED0, NULL, 1);
@@ -1306,7 +1304,7 @@ AudioTask *func_800E5000(void) {
 
     sp48 = gAudioContext.unk_1ED0.validCount;
     if (gAudioContext.unk_1ED0.validCount != 0) {
-        for(i = 0; i < gAudioContext.unk_1ED0.validCount; i++){
+        for(i = 0; i < sp48; i++){
             osRecvMesg(&gAudioContext.unk_1ED0, NULL, 0);
         }
     }
@@ -1325,21 +1323,19 @@ AudioTask *func_800E5000(void) {
 
     if (gAudioContext.unk_2984 > 0x10) {
         return NULL;
-    }
-
-    if (gAudioContext.unk_2984 != 0) {
+    } else if (gAudioContext.unk_2984 != 0) {
         gAudioContext.unk_2984++;
     }
 
-    gAudioContext.unk_28B8 = &gAudioContext.rspTask[gAudioContext.unk_28A4];
-    gAudioContext.unk_28B4 = &gAudioContext.gAudioCmdBuffers[gAudioContext.unk_28A4];
-    gAudioContext.unk_2974[gAudioContext.unk_28A8] = (s16) ((((gAudioContext.gAudioBufferParameters.samplesPerFrameTarget - sp6C) + 0x80) & 0xFFF0) + 0x10);
-    if (gAudioContext.unk_2974[gAudioContext.unk_28A8] < gAudioContext.gAudioBufferParameters.minAiBufferLength) {
-        gAudioContext.unk_2974[gAudioContext.unk_28A8] = gAudioContext.gAudioBufferParameters.minAiBufferLength;
+    gAudioContext.currTask = &gAudioContext.rspTask[gAudioContext.rspTaskIdx];
+    gAudioContext.currCmdBuff = gAudioContext.gAudioCmdBuffers[gAudioContext.rspTaskIdx];
+    gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] = (s16) ((((gAudioContext.gAudioBufferParameters.samplesPerFrameTarget - sp6C) + 0x80) & 0xFFF0) + 0x10);
+    if (gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] < gAudioContext.gAudioBufferParameters.minAiBufferLength) {
+        gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] = gAudioContext.gAudioBufferParameters.minAiBufferLength;
     }
 
-    if (gAudioContext.gAudioBufferParameters.maxAiBufferLength < (s32) gAudioContext.unk_2974[gAudioContext.unk_28A8]) {
-        gAudioContext.unk_2974[gAudioContext.unk_28A8] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
+    if (gAudioContext.gAudioBufferParameters.maxAiBufferLength < gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]) {
+        gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
     }
 
     if (gAudioContext.gAudioResetStatus == 0) {
@@ -1353,13 +1349,13 @@ AudioTask *func_800E5000(void) {
         }
     }
 
-    gAudioContext.unk_28B4 = func_800DB0C4(gAudioContext.unk_28B4, &sp68, gAudioContext.unk_2968[gAudioContext.unk_28A8], gAudioContext.unk_2974[gAudioContext.unk_28A8]);
+    gAudioContext.currCmdBuff = func_800DB0C4(gAudioContext.currCmdBuff, &sp68, gAudioContext.aiBuffers[gAudioContext.curAIBufIdx], gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]);
     gAudioContext.gAudioRandom = osGetCount() * (gAudioContext.gAudioRandom + gAudioContext.unk_289C);
-    gAudioContext.gAudioRandom = gAudioContext.unk_2968[gAudioContext.unk_28A8][gAudioContext.unk_289C & 0xFF] + gAudioContext.gAudioRandom;;
+    gAudioContext.gAudioRandom = gAudioContext.aiBuffers[gAudioContext.curAIBufIdx][gAudioContext.unk_289C & 0xFF] + gAudioContext.gAudioRandom;;
     gWaveSamples[8] = (s16*)((((u8*)func_800E4FE0)) + (gAudioContext.gAudioRandom & 0xFFF0));
-    gAudioContext.unk_28B8->taskQueue = NULL;
-    gAudioContext.unk_28B8->unk_44 = NULL;
-    temp_v1_10 = &gAudioContext.unk_28B8->task.t;
+    gAudioContext.currTask->taskQueue = NULL;
+    gAudioContext.currTask->unk_44 = NULL;
+    temp_v1_10 = &gAudioContext.currTask->task.t;
     temp_v1_10->type = 2U;
     temp_v1_10->flags = 0U;
     temp_v1_10->ucode_boot = D_801120C0;
@@ -1372,7 +1368,7 @@ AudioTask *func_800E5000(void) {
     temp_v1_10->dram_stack_size = 0;
     temp_v1_10->output_buff = NULL;
     temp_v1_10->output_buff_size = NULL;
-    temp_v1_10->data_ptr = gAudioContext.gAudioCmdBuffers[gAudioContext.unk_28A4];
+    temp_v1_10->data_ptr = gAudioContext.gAudioCmdBuffers[gAudioContext.rspTaskIdx];
     temp_v1_10->yield_data_ptr = NULL;
     temp_v1_10->yield_data_size = 0;
     temp_v1_10->data_size = sp68 * 8;
@@ -1382,11 +1378,14 @@ AudioTask *func_800E5000(void) {
     }
 
     if (gAudioContext.gAudioBufferParameters.presetUnk4 == 1) {
-        return gAudioContext.unk_28B8;
+        return gAudioContext.currTask;
     }
-    D_801304E4 = gAudioContext.unk_28B8;
+    D_801304E4 = gAudioContext.currTask;
     return NULL;
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5000.s")
+#endif
 
 void func_800E2124(u8,u8, void*);
 void func_800E5958(s32 arg0, u32 arg1);

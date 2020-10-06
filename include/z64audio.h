@@ -770,7 +770,8 @@ typedef struct {
     /* 0x0000 */ OSTask task;
     /* 0x0040 */ OSMesgQueue* taskQueue;
     /* 0x0044 */ void* unk_44; // probbly a message that gets unused.
-} AudioTask; // size = 0x48
+    /* 0x0048 */ char unk_48[0x8];
+} AudioTask; // size = 0x50
 
 typedef struct {
     /* 0x0000 */ char unk_0000;
@@ -833,21 +834,19 @@ typedef struct {
     /* 0x2894 */ s32 gMaxSimultaneousNotes; // (bad name)
     /* 0x2898 */ s16 gTempoInternalToExternal;
     /* 0x289A */ s8 gSoundMode;
-    /* 0x289B */ char unk_289B[0x1];
     /* 0x289C */ s32 unk_289C;
     /* 0x28A0 */ s32 unk_28A0;
-    /* 0x28A4 */ s32 unk_28A4;
-    /* 0x28A8 */ s32 unk_28A8;
+    /* 0x28A4 */ s32 rspTaskIdx;
+    /* 0x28A8 */ s32 curAIBufIdx;
     /* 0x28AC */ u64* gAudioCmdBuffers[2];
-    /* 0x28B4 */ u64* unk_28B4;
-    /* 0x28B8 */ AudioTask* unk_28B8;
+    /* 0x28B4 */ u64* currCmdBuff;
+    /* 0x28B8 */ AudioTask* currTask;
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
-    /* 0x2950 */ char unk_2950[0x10];
     /* 0x2960 */ f32 unk_2960;
     /* 0x2964 */ s32 gRefreshRate;
-    /* 0x2968 */ s16* unk_2968[3];
-    /* 0x2974 */ s16 unk_2974[3];
+    /* 0x2968 */ s16* aiBuffers[3];
+    /* 0x2974 */ s16 aiBufLengths[3];
     /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
     /* 0x2984 */ u32 unk_2984;
