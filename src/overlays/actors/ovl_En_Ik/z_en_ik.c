@@ -628,12 +628,39 @@ void func_80A7598C(EnIk* this) {
     this->actor.speedXZ = 0.0f;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005944, 1.0f, 0.0f, frames, 2, -4.0f);
     this->unk_2F9 = 0x18;
-    Audio_PlayActorSound2(this, NA_SE_EN_IRONNACK_DEAD);
-    Audio_PlayActorSound2(this, NA_SE_EN_NUTS_CUTBODY);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DEAD);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
     EnIk_SetupAction(this, func_80A75A38);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75A38.s")
+void func_80A75A38(EnIk* this, GlobalContext* globalCtx) {
+    s32 i;
+    Vec3f pos;
+    Vec3f sp7C;
+
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        if ((this->actor.colChkInfo.health == 0) && (this->unk_2F9 != 0)) {
+            sp7C = D_80A78464;
+            this->unk_2F9--;
+
+            for (i = 0xC - (this->unk_2F9 >> 1); i >= 0; i--) {
+                pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(120.0f);
+                pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(120.0f);
+                pos.y = this->actor.posRot.pos.y + 20.0f + Math_Rand_CenteredFloat(50.0f);
+                EffectSsDeadDb_Spawn(globalCtx, &pos, &sp7C, &sp7C, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
+            }
+            if (this->unk_2F9 == 0) {
+                Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xB0);
+                if (this->switchFlags != 0xFF) {
+                    Flags_SetSwitch(globalCtx, this->switchFlags);
+                }
+                Actor_Kill(&this->actor);
+            }
+        }
+    } else if (this->skelAnime.animCurrentFrame == 23.0f) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75C38.s")
 
@@ -695,14 +722,36 @@ void EnIk_StartMusic(void) {
     func_800F5ACC(0x38);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76C14.s")
+void func_80A76C14(EnIk* this) {
+    if (func_800A56C8(&this->skelAnime, 1.0f)) {
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+    } else if (func_800A56C8(&this->skelAnime, 33.0f)) {
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+    } else if (func_800A56C8(&this->skelAnime, 68.0f) || func_800A56C8(&this->skelAnime, 80.0f)) {
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+    } else if (func_800A56C8(&this->skelAnime, 107.0f)) {
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+    } else if (func_800A56C8(&this->skelAnime, 156.0f)) {
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+    } else if (func_800A56C8(&this->skelAnime, 188.0f)) {
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                               &D_801333E8);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76DDC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76E2C.s")
 
+void func_80A77034(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77034.s")
 
+s32 func_80A7707C(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7707C.s")
 
 CsCmdActorAction* EnIk_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
@@ -735,6 +784,7 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx);
 void func_80A771E4(EnIk* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A771E4.s")
 
+void func_80A77264(EnIk* this, GlobalContext* globalCtx, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77264.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A772A4.s")
@@ -843,9 +893,20 @@ void func_80A77AEC(EnIk* this, GlobalContext* globalCtx) {
     func_80A779DC(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77B0C.s")
+void func_80A77B0C(EnIk* this, GlobalContext* globalCtx) {
+    func_80A77034(this, globalCtx);
+    func_80A779DC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77B3C.s")
+void func_80A77B3C(EnIk* this, GlobalContext* globalCtx) {
+    s32 sp24;
+
+    sp24 = func_80A7707C(this, globalCtx);
+    func_80A76C14(this);
+    func_80A77034(this, globalCtx);
+    func_80A779DC(this, globalCtx);
+    func_80A77264(this, globalCtx, sp24);
+}
 
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
