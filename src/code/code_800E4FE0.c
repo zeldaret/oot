@@ -254,7 +254,7 @@ AudioTask *func_800E5000(void) {
     return NULL;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5000.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5000.s")
 #endif
 
 void func_800E2124(u8,u8, void*);
@@ -391,7 +391,7 @@ void func_800E5958(s32 arg0, u32 arg1) {
     seqPlayer->fadeVelocity = -(seqPlayer->fadeVolume / seqPlayer->fadeTimer);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5958.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5958.s")
 #endif
 
 void func_800E59AC(s32 playerIdx, u32 fadeTimer) {
@@ -432,7 +432,7 @@ void func_800E5A8C(u32 arg0, void **arg1) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5A8C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5A8C.s")
 #endif
 
 void func_800E5AD8(u32 arg0, f32 arg1) {
@@ -477,10 +477,10 @@ s32 func_800E5B80(void) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5B80.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5B80.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5C10.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5C10.s")
 
 void func_800E5C28(unk_5C50_s *arg01) {
     unk_5c50_b* arg0 = arg01;
@@ -569,9 +569,9 @@ void func_800E5EA4(s32 arg0, u32 *arg1, u32 *arg2) {
     *arg2 = gAudioContext.gCtlEntries[arg0].unk_03;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5EDC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5EDC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5F34.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5F34.s")
 
 #ifdef NON_MATCHING
 s32 func_800E5F88(u32 arg0) {
@@ -597,7 +597,7 @@ s32 func_800E5F88(u32 arg0) {
     return func_800E5B80();
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5F88.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5F88.s")
 s32 func_800E5F88(u32 arg0);
 #endif
 
@@ -611,7 +611,7 @@ void func_800E6024(void) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6024.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E6024.s")
 #endif
 
 s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
@@ -637,7 +637,7 @@ void func_800E611C(void) {
     gAudioContext.gUnkPool.start = NULL;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6128.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E6128.s")
 
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1) {
     f32 floatData;
@@ -775,7 +775,7 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
     return 0;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6590.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E6590.s")
 #endif
 
 void func_800E6680(void) {
@@ -786,7 +786,7 @@ void func_800E66A0(void) {
     func_800E66C0(2);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E66C0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E66C0.s")
 
 u32 Audio_RandUInt(void) {
     static u32 audRand = 0x12345678;

@@ -62,7 +62,6 @@ unk_1770_s *func_800E3AC8(s32 devAddr, void* ramAddr, s32 arg2, s32 arg3, s32 ar
 unk_1770_s *func_800E3A44(char *arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4);
 u8* func_800E22C4(s32 seqId);
-void func_800E5D6C(u32);
 
 // like audio_load in sm64, but completely rewritten
 
