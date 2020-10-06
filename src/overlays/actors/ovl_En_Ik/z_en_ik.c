@@ -19,7 +19,7 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-Actor* func_80A74674(GlobalContext* globalCtx, EnIk* this);
+Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor);
 void func_80A74714(EnIk* this);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
 void func_80A74AAC(EnIk* this);
@@ -237,7 +237,22 @@ s32 func_80A745E4(EnIk* this, GlobalContext* globalCtx) {
     return false;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74674.s")
+Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
+    Actor* prop = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+
+    while (prop != NULL) {
+        if ((prop == actor) || (prop->id != ACTOR_BG_JYA_IRONOBJ)) {
+            prop = prop->next;
+            continue;
+        } else if (func_8002E1A8(actor, prop, 80.0f, 0x2710)) {
+            return prop;
+        }
+
+        prop = prop->next;
+    }
+
+    return NULL;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74714.s")
 
@@ -296,7 +311,8 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     }
     temp_a1 = this->actor.wallPolyRot - this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (ABS(temp_a1) >= 0x4000)) {
-        temp_a1 = (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
+        temp_a1 =
+            (this->actor.yawTowardsLink > 0) ? this->actor.wallPolyRot - 0x4000 : this->actor.wallPolyRot + 0x4000;
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, temp_a1, 1, phi_a3, 0);
     } else {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, phi_a3, 0);
@@ -312,7 +328,7 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (func_80A74674(globalCtx, this) != NULL) {
+    if (func_80A74674(globalCtx, &this->actor) != NULL) {
         func_80A751C8(this);
         this->unk_2FC = 1;
     } else {
