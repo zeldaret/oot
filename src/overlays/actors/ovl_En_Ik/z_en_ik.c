@@ -913,9 +913,10 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
-    } else {
-        sActionFuncs[this->action](this, globalCtx);
+        return;
     }
+    
+    sActionFuncs[this->action](this, globalCtx);
 }
 
 s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
@@ -951,9 +952,10 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
-    } else {
-        sDrawFuncs[this->drawMode](this, globalCtx);
+        return;
     }
+    
+    sDrawFuncs[this->drawMode](this, globalCtx);
 }
 
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
