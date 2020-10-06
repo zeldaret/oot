@@ -1,3 +1,13 @@
+.rdata
+glabel D_8014942C
+    .asciz "FastCopy"
+    .balign 4
+
+glabel D_80149438
+    .asciz "FastCopy"
+    .balign 4
+
+.text
 glabel func_800E2AA8
 /* B59C48 800E2AA8 27BDFFB0 */  addiu $sp, $sp, -0x50
 /* B59C4C 800E2AAC AFB20038 */  sw    $s2, 0x38($sp)

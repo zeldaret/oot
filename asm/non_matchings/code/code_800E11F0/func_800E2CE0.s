@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_8014946C
+    .word L800E2E30
+    .word L800E2E5C
+    .word L800E2E80
+    .word L800E2EA4
+    .word L800E2EA4
+
+.text
 glabel func_800E2CE0
 /* B59E80 800E2CE0 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B59E84 800E2CE4 AFBF002C */  sw    $ra, 0x2c($sp)

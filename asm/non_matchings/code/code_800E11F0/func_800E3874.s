@@ -1,3 +1,9 @@
+.rdata
+glabel D_80149444
+    .asciz "SLOWCOPY"
+    .balign 4
+
+.text
 glabel func_800E3874
 /* B5AA14 800E3874 27BDFFC0 */  addiu $sp, $sp, -0x40
 /* B5AA18 800E3878 AFB00030 */  sw    $s0, 0x30($sp)

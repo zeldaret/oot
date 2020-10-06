@@ -1095,7 +1095,7 @@ void func_800E3FB4(unk_1770_s *arg0, u32 size) {
     size = ALIGN16(size);
     func_800E6840(arg0->ramAddr, size); // invalDCache
     osCreateMesgQueue(&arg0->msgQueue, &arg0->msg, 1);
-    func_800E2BE0(&arg0->ioMesg, 0, 0, arg0->devAddr, arg0->ramAddr, size, &arg0->msgQueue, arg0->unk_02, D_80149450);
+    func_800E2BE0(&arg0->ioMesg, 0, 0, arg0->devAddr, arg0->ramAddr, size, &arg0->msgQueue, arg0->unk_02, "BGCOPY");
 }
 
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {

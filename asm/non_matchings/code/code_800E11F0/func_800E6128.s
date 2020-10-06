@@ -1,3 +1,21 @@
+.late_rodata
+glabel jtbl_8014954C
+    .word L800E6150
+    .word L800E62F8
+    .word L800E62F8
+    .word L800E62F8
+    .word L800E62F8
+    .word L800E61C4
+    .word L800E617C
+    .word L800E61B8
+    .word L800E6194
+    .word L800E61D8
+    .word L800E61F8
+    .word L800E6268
+    .word L800E62B8
+    .word L800E61AC
+
+.text
 glabel func_800E6128
 /* B5D2C8 800E6128 90AE0000 */  lbu   $t6, ($a1)
 /* B5D2CC 800E612C 25CFFFBF */  addiu $t7, $t6, -0x41

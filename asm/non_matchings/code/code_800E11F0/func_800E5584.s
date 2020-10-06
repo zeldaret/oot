@@ -1,3 +1,56 @@
+.late_rodata
+glabel jtbl_80149490
+    .word L800E58AC
+    .word L800E58AC
+    .word L800E58AC
+    .word L800E593C
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E569C
+    .word L800E56B0
+    .word L800E5700
+    .word L800E57D8
+    .word L800E57F0
+    .word L800E5810
+    .word L800E5850
+    .word L800E5944
+    .word L800E5944
+    .word L800E5880
+    .word L800E5944
+    .word L800E589C
+    .word L800E5830
+    .word L800E5944
+    .word L800E58C8
+
+glabel jtbl_8014950C
+    .word L800E55EC
+    .word L800E5600
+    .word L800E563C
+    .word L800E5944
+    .word L800E5624
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5944
+    .word L800E5860
+
+.text
 glabel func_800E5584
 /* B5C724 800E5584 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* B5C728 800E5588 AFBF001C */  sw    $ra, 0x1c($sp)

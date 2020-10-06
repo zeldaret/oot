@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80149480
+    .float 20.03042
+
+glabel D_80149484
+    .float 16.546
+
+glabel D_80149488
+    .float 16.713
+
+.text
 glabel func_800E3094
 /* B5A234 800E3094 27BDFF90 */  addiu $sp, $sp, -0x70
 /* B5A238 800E3098 AFB10018 */  sw    $s1, 0x18($sp)

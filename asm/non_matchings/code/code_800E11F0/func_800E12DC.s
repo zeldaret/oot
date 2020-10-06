@@ -1,3 +1,9 @@
+.rdata
+glabel D_80149420
+    .asciz "SUPERDMA"
+    .balign 4
+
+.text
 glabel func_800E12DC
 /* B5847C 800E12DC 27BDFFB0 */  addiu $sp, $sp, -0x50
 /* B58480 800E12E0 AFB10030 */  sw    $s1, 0x30($sp)
