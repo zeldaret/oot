@@ -282,7 +282,6 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 sp30;
     s16 sp2E;
-    s16 temp_v1_3;
     s16 phi_t0;
     s32 phi_a1;
     s16 phi_a3;
@@ -332,8 +331,7 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     }
     func_80A745E4(this, globalCtx);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    temp_v1_3 = this->skelAnime.animCurrentFrame;
-    if ((sp30 == temp_v1_3) || (sp2E == temp_v1_3)) {
+    if ((sp30 == (s16)this->skelAnime.animCurrentFrame) || (sp2E == (s16)this->skelAnime.animCurrentFrame)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WALK);
     }
 }
