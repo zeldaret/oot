@@ -125,7 +125,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A904D8;
     } else if ((this->actor.xzDistFromLink < this->maxSpawnDistance.x) &&
                (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < this->maxSpawnDistance.y) &&
-               (gSaveContext.eventChkInf[9] & 0x1000)) {
+               (gSaveContext.memory.information.eventChkInf[9] & 0x1000)) {
 
         this->unk_194 = 0;
         if (globalCtx->msgCtx.unk_E3EE == 11) {

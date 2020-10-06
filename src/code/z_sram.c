@@ -727,7 +727,7 @@ void Sram_InitSram(GameState* gameState, Sram* sram) {
         sram->readBuff[2] = gSaveContext.language;
         Sram_Write16Bytes(sram);
     }
-    if (gameState->input[2].cur.in.button & R_JPAD) {
+    if (gameState->input[2].cur.button & BTN_DRIGHT) {
         bzero(sram->readBuff, SRAM_SIZE);
         for (i = 0; i < CHECKSUM_SIZE; i++) {
             sram->readBuff[i] = i;

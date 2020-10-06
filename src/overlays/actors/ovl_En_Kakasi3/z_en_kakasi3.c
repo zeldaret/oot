@@ -179,14 +179,14 @@ void func_80A91284(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (LINK_IS_CHILD) {
         this->unk_194 = false;
-        if (gSaveContext.unk_12C5 != 0) {
+        if (gSaveContext.memory.information.unk_12C5 != 0) {
             this->actor.textId = 0x40A0;
             this->dialogState = 5;
             this->unk_1A8 = 1;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.unk_12C5 != 0) {
+        if (gSaveContext.memory.information.unk_12C5 != 0) {
             if (this->unk_195) {
                 this->actor.textId = 0x40A2;
             } else {
@@ -238,7 +238,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                 if (this->actor.xzDistFromLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
-            } else if (gSaveContext.unk_12C5 != 0 && !this->unk_195) {
+            } else if (gSaveContext.memory.information.unk_12C5 != 0 && !this->unk_195) {
 
                 if (player->stateFlags2 & 0x1000000) {
                     this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
@@ -380,8 +380,8 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (this->dialogState == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
         if (this->unk_195) {
-            if (!(gSaveContext.eventChkInf[9] & 0x1000)) {
-                gSaveContext.eventChkInf[9] |= 0x1000;
+            if (!(gSaveContext.memory.information.eventChkInf[9] & 0x1000)) {
+                gSaveContext.memory.information.eventChkInf[9] |= 0x1000;
             }
         }
         if (globalCtx->cameraPtrs[this->camId] == NULL) {
@@ -405,7 +405,7 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(2) != 0) {
         osSyncPrintf("\n\n");
         // flag!
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_12C5);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.memory.information.unk_12C5);
     }
 
     this->unk_198++;
