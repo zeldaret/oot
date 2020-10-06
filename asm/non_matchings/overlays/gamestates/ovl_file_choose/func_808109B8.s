@@ -1,3 +1,21 @@
+.rdata
+glabel D_80812EE4
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812EF8
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812F0C
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+.late_rodata
+glabel D_80813018
+    .float 0.78
+    
+.text
 glabel func_808109B8
 /* 0CC78 808109B8 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 0CC7C 808109BC AFBF002C */  sw      $ra, 0x002C($sp)           

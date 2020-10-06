@@ -1,3 +1,13 @@
+.rdata
+glabel D_80812CF0
+    .asciz "Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  "
+    .balign 4
+
+glabel D_80812D1C
+    .asciz "終了！！！\n"
+    .balign 4
+    
+.text
 glabel func_8080B1A8
 /* 07468 8080B1A8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0746C 8080B1AC 3C0E0002 */  lui     $t6, 0x0002                ## $t6 = 00020000
@@ -32,7 +42,4 @@ glabel func_8080B1A8
 /* 074D4 8080B214 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 074D8 8080B218 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 074DC 8080B21C 03E00008 */  jr      $ra                        
-/* 074E0 8080B220 00000000 */  nop
-glabel L8080B224
-/* 074E4 8080B224 03E00008 */  jr      $ra                        
-/* 074E8 8080B228 AFA40000 */  sw      $a0, 0x0000($sp)           
+/* 074E0 8080B220 00000000 */  nop           

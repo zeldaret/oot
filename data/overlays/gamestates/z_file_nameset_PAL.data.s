@@ -121,7 +121,7 @@ glabel D_80812770
 .word func_808068F0
 .word func_808069B4
 .word func_80806C20
-.word L8080BE28
+.word func_8080BE28
 .word func_8080BE84
 .word func_80809038
 .word func_80808F84
@@ -190,8 +190,8 @@ glabel D_80812A18
 .word func_80810440
 .word func_80810698
 .word func_808106F4
-glabel jtbl_80812A38
-.word L8080B224
+glabel D_80812A38
+.word func_8080B224
 .word func_8080F560
 .word func_808109B8
 glabel D_80812A44

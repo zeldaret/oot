@@ -1,3 +1,41 @@
+.rdata
+glabel D_80812BB4
+    .asciz "ＳＡＶＥ"
+    .balign 4
+
+glabel D_80812BC0
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_80812BC8
+    .asciz "sram->read_buff[2] = J_N = %x\n"
+    .balign 4
+
+glabel D_80812BE8
+    .asciz "sram->read_buff[2] = J_N = %x\n"
+    .balign 4
+
+glabel D_80812C08
+    .asciz "Na_SetSoundOutputMode = %d\n"
+    .balign 4
+
+glabel D_80812C24
+    .asciz "Na_SetSoundOutputMode = %d\n"
+    .balign 4
+
+glabel D_80812C40
+    .asciz "Na_SetSoundOutputMode = %d\n"
+    .balign 4
+
+glabel D_80812C5C
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80812C60
+    .asciz "終了\n"
+    .balign 4
+    
+.text
 glabel func_8080969C
 /* 0595C 8080969C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 05960 808096A0 AFBF0024 */  sw      $ra, 0x0024($sp)           

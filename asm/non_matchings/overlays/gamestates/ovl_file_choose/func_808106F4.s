@@ -1,3 +1,17 @@
+.rdata
+glabel D_80812EB4
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80812EBC
+    .asciz "Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n"
+    .balign 4
+
+glabel D_80812EE0
+    .asciz "\x1b[m"
+    .balign 4
+    
+.text
 glabel func_808106F4
 /* 0C9B4 808106F4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0C9B8 808106F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

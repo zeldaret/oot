@@ -16,11 +16,11 @@ glabel D_80812CF0
 glabel D_80812D1C
     .asciz "終了！！！\n"
     .balign 4
-
+#
 glabel D_80812D28
     .asciz "REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n"
     .balign 4
-
+#
 glabel D_80812D4C
     .asciz "1:read_buff[]=%x, %x, %x, %x\n"
     .balign 4
@@ -44,7 +44,7 @@ glabel D_80812DC4
 glabel D_80812DE4
     .asciz "read_buff[]=%x, %x, %x, %x\n"
     .balign 4
-
+#
 glabel D_80812E00
     .asciz "../z_file_choose.c"
     .balign 4
@@ -52,7 +52,7 @@ glabel D_80812E00
 glabel D_80812E14
     .asciz "../z_file_choose.c"
     .balign 4
-
+#
 glabel D_80812E28
     .asciz "../z_file_choose.c"
     .balign 4
@@ -60,7 +60,7 @@ glabel D_80812E28
 glabel D_80812E3C
     .asciz "../z_file_choose.c"
     .balign 4
-
+#
 glabel D_80812E50
     .asciz "../z_file_choose.c"
     .balign 4
@@ -80,7 +80,7 @@ glabel D_80812E8C
 glabel D_80812EA0
     .asciz "../z_file_choose.c"
     .balign 4
-
+#
 glabel D_80812EB4
     .asciz "\x1b[32m"
     .balign 4
@@ -92,7 +92,7 @@ glabel D_80812EBC
 glabel D_80812EE0
     .asciz "\x1b[m"
     .balign 4
-
+#
 glabel D_80812EE4
     .asciz "../z_file_choose.c"
     .balign 4
@@ -104,7 +104,7 @@ glabel D_80812EF8
 glabel D_80812F0C
     .asciz "../z_file_choose.c"
     .balign 4
-
+#
 glabel D_80812F20
     .asciz "../z_file_choose.c"
     .balign 4
@@ -112,7 +112,7 @@ glabel D_80812F20
 glabel D_80812F34
     .asciz "../z_file_choose.c"
     .balign 4
-
+#
 glabel D_80812F48
     .asciz "SIZE=%x\n"
     .balign 4

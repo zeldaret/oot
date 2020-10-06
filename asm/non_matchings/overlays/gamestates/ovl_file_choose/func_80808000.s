@@ -1,3 +1,25 @@
+.rdata
+glabel D_80812B20
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+
+glabel D_80812B38
+    .asciz "014 xpos=%d  contents=%d\n"
+    .balign 4
+
+glabel D_80812B54
+    .asciz "23 xpos=%d  contents=%d\n"
+    .balign 4
+
+glabel D_80812B70
+    .asciz "mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n"
+    .balign 4
+
+glabel D_80812B9C
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+    
+.text
 glabel func_80808000
 /* 042C0 80808000 27BDFF10 */  addiu   $sp, $sp, 0xFF10           ## $sp = FFFFFF10
 /* 042C4 80808004 AFBF0024 */  sw      $ra, 0x0024($sp)           

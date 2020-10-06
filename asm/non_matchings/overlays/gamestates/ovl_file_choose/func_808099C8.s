@@ -1,3 +1,35 @@
+.rdata
+glabel D_80812C68
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+
+glabel D_80812C80
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+
+glabel D_80812C98
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+
+glabel D_80812CB0
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+
+glabel D_80812CC8
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+
+.late_rodata
+glabel D_80812CE0
+    .float 0.1
+
+glabel D_80812CE4
+    .float 0.2
+
+glabel D_80812CE8
+    .float 0.4
+    
+.text
 glabel func_808099C8
 /* 05C88 808099C8 27BDFE48 */  addiu   $sp, $sp, 0xFE48           ## $sp = FFFFFE48
 /* 05C8C 808099CC AFBF0024 */  sw      $ra, 0x0024($sp)           

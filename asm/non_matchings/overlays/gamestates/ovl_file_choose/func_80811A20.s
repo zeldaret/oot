@@ -1,3 +1,41 @@
+.rdata
+glabel D_80812F48
+    .asciz "SIZE=%x\n"
+    .balign 4
+
+glabel D_80812F54
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812F68
+    .asciz "this->staticSegment != NULL"
+    .balign 4
+
+glabel D_80812F84
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812F98
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812FAC
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812FC0
+    .asciz "this->parameterSegment != NULL"
+    .balign 4
+
+glabel D_80812FE0
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812FF4
+    .asciz "../z_file_choose.c"
+    .balign 4
+    
+.text
 glabel func_80811A20
 /* 0DCE0 80811A20 3C0F8016 */  lui     $t7, %hi(gGameInfo)
 /* 0DCE4 80811A24 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)

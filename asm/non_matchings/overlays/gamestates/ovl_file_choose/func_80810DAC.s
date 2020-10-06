@@ -1,3 +1,13 @@
+.rdata
+glabel D_80812F20
+    .asciz "../z_file_choose.c"
+    .balign 4
+
+glabel D_80812F34
+    .asciz "../z_file_choose.c"
+    .balign 4
+    
+.text
 glabel func_80810DAC
 /* 0D06C 80810DAC 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0D070 80810DB0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -219,12 +229,12 @@ glabel func_80810DAC
 /* 0D398 808110D8 0320F809 */  jalr    $ra, $t9                   
 /* 0D39C 808110DC 00000000 */  nop
 /* 0D3A0 808110E0 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 0D3A4 808110E4 3C198081 */  lui     $t9, %hi(jtbl_80812A38)       ## $t9 = 80810000
+/* 0D3A4 808110E4 3C198081 */  lui     $t9, %hi(D_80812A38)       ## $t9 = 80810000
 /* 0D3A8 808110E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0D3AC 808110EC 84AE4A3C */  lh      $t6, 0x4A3C($a1)           ## 00004A3C
 /* 0D3B0 808110F0 000E7880 */  sll     $t7, $t6,  2               
 /* 0D3B4 808110F4 032FC821 */  addu    $t9, $t9, $t7              
-/* 0D3B8 808110F8 8F392A38 */  lw      $t9, %lo(jtbl_80812A38)($t9)  
+/* 0D3B8 808110F8 8F392A38 */  lw      $t9, %lo(D_80812A38)($t9)  
 /* 0D3BC 808110FC 0320F809 */  jalr    $ra, $t9                   
 /* 0D3C0 80811100 00000000 */  nop
 /* 0D3C4 80811104 8FA50028 */  lw      $a1, 0x0028($sp)           

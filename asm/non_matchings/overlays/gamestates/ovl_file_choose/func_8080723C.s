@@ -1,3 +1,13 @@
+.rdata
+glabel D_80812AC0
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+
+glabel D_80812AD8
+    .asciz "../z_file_nameset_PAL.c"
+    .balign 4
+    
+.text
 glabel func_8080723C
 /* 034FC 8080723C 27BDFEE0 */  addiu   $sp, $sp, 0xFEE0           ## $sp = FFFFFEE0
 /* 03500 80807240 AFBF001C */  sw      $ra, 0x001C($sp)           

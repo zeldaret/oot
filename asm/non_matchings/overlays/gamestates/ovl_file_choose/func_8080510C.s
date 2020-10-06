@@ -1,3 +1,9 @@
+.rdata 
+glabel D_80812A60
+    .asciz "connect_alpha=%d  decision_alpha[%d]=%d\n"
+    .balign 4
+
+.text
 glabel func_8080510C
 /* 013CC 8080510C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 013D0 80805110 3C080001 */  lui     $t0, 0x0001                ## $t0 = 00010000

@@ -1,3 +1,9 @@
+.rdata
+glabel D_80812D28
+    .asciz "REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n"
+    .balign 4
+    
+.text
 glabel func_8080B52C
 /* 077EC 8080B52C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 077F0 8080B530 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -606,7 +612,4 @@ glabel func_8080B52C
 /* 080D8 8080BE18 8FB00028 */  lw      $s0, 0x0028($sp)           
 /* 080DC 8080BE1C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 080E0 8080BE20 03E00008 */  jr      $ra                        
-/* 080E4 8080BE24 00000000 */  nop
-glabel L8080BE28
-/* 080E8 8080BE28 03E00008 */  jr      $ra                        
-/* 080EC 8080BE2C AFA40000 */  sw      $a0, 0x0000($sp)           
+/* 080E4 8080BE24 00000000 */  nop          
