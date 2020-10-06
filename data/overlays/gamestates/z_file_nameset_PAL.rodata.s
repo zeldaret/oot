@@ -9,12 +9,12 @@
 
 .balign 16
 
-glabel D_80812A60
-    .asciz "connect_alpha=%d  decision_alpha[%d]=%d\n"
-    .balign 4
+#glabel D_80812A60
+#    .asciz "connect_alpha=%d  decision_alpha[%d]=%d\n"
+#    .balign 4
 
 # This appears to be a file boundary
-.balign 16
+#.balign 16
 
 glabel D_80812A90
     .asciz "../z_file_nameset_PAL.c"
