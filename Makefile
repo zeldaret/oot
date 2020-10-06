@@ -150,8 +150,6 @@ build/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
 build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
-# build/src/code/z_message_PAL.o: CFLAGS += -use_readonly_const -rdata_shared
-# build/src/code/z_message_tables.o: CFLAGS += -use_readonly_const -rdata_shared
 
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
@@ -221,9 +219,8 @@ build/scenes/%.o: scenes/%.c
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/text/%.o: text/%.c
-#$(CC) -c -E $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $^ > $(^:.c=.i)
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(OBJCOPY) -j.rodata -O binary $@ $@.bin
+	$(OBJCOPY) -O binary $@ $@.bin
 
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^

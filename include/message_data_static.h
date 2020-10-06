@@ -2,6 +2,7 @@
 #define _MESSAGE_DATA_STATIC_H_
 
 #include "global.h"
+#include "message_data_fmt.h"
 
 #define MSEG 07
 
@@ -68,18 +69,5 @@ extern const char _message_0xFFFC_nes[];
 
 #undef DECLARE_MESSAGE
 #undef DECLARE_MESSAGE_END
-
-/**********************************************\
- * 
- *   Message Table Declarations
- * 
-\**********************************************/ 
-
-#define MESSAGE_SEGMENT(textId, lang) _message_##textId##_##lang
-
-#define DECLARE_MESSAGE_ENTRY(textId, type, yPos, lang) \
-    { textId, type, yPos, MESSAGE_SEGMENT(textId, lang) }
-
-#define MESSAGE_ENTRY_END() { 0xFFFF, 0x0, 0x0, NULL }
 
 #endif

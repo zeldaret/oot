@@ -95,16 +95,4 @@
 #define HIGHSCORE_MARATHON      "\x04"
 #define HIGHSCORE_DAMPE_RACE    "\x06"
 
-/**********************************************\
- * 
- *   Message Declaration
- * 
- * Strings in message_data_static files have 
- * no null char, the sizeof(message) is there 
- * to remove it
- * 
-\**********************************************/ 
-//#define DECLARE_MESSAGE(textId, lang, message) \
-//    const char _message_##textId##_##lang[sizeof(message)] = { message END }
-
 #endif

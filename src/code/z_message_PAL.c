@@ -1,9 +1,9 @@
 #include "global.h"
 #include "message_data_static.h"
-
+/* 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const.rodata.s")
-
-static MessageTableEntry const D_8014B320[] = {
+ */
+/* static MessageTableEntry const D_8014B320[] = {
     #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
         { textId, type, yPos, _message_##textId##_nes },
     #define DECLARE_MESSAGE_END() \
@@ -14,7 +14,6 @@ static MessageTableEntry const D_8014B320[] = {
     #undef DECLARE_MESSAGE
     #undef DECLARE_MESSAGE_END
 };
-
 
 static const char* D_8014F548[] = {
     #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
@@ -44,7 +43,7 @@ static MessageTableEntry const D_80153768[] = {
     #include "../text/declare_messages_staff.h"
     #undef DECLARE_MESSAGE
     #undef DECLARE_MESSAGE_END
-};
+}; */
 
 /* 
 static const MessageTableEntry* D_801538F0[] = {D_8014B320};
@@ -52,10 +51,9 @@ static const char* D_801538F4[] = {D_8014F548};
 static const char* D_801538F8[] = {D_80151658};
 static const MessageTableEntry* D_801538FC[] = {D_80153768};
  */
-
+/* 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const2.rodata.s")
-
-
+ */
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801069B0.s")
 

@@ -1,4 +1,5 @@
 #include "global.h"
+#include "message_data_static.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kanfont/func_8006EE60.s")
 

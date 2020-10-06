@@ -116,10 +116,55 @@ control_codes = {
     '\x1F': "TIME",
 }
 
+color_type_default = {
+    0x40 : "WHITE",
+    0x41 : "RED",
+    0x42 : "GREEN",
+    0x43 : "BLUE",
+    0x44 : "LIGHTBLUE",
+    0x45 : "PINK",
+    0x46 : "YELLOW",
+    0x47 : "BLACK",
+}
+
+color_type_1 = {
+    0x40 : "WHITE",
+    0x41 : "TYPE1_ORANGE",
+    0x42 : "TYPE1_GREEN",
+    0x43 : "TYPE1_BLUE",
+    0x44 : "TYPE1_LIGHTBLUE",
+    0x45 : "TYPE1_PURPLE",
+    0x46 : "TYPE1_YELLOW",
+    0x47 : "BLACK",
+}
+
+color_type_5 = {
+    0x40 : "TYPE5_BLACK",
+    0x41 : "RED",
+    0x42 : "GREEN",
+    0x43 : "BLUE",
+    0x44 : "LIGHTBLUE",
+    0x45 : "PINK",
+    0x46 : "YELLOW",
+    0x47 : "BLACK",
+}
+
+highscores = {
+    0x00 : "HIGHSCORE_HORSE_ARCHERY",
+    0x01 : "HIGHSCORE_POE_POINTS",   
+    0x02 : "HIGHSCORE_LARGEST_FISH", 
+    0x03 : "HIGHSCORE_HORSE_RACE",   
+    0x04 : "HIGHSCORE_MARATHON",     
+    0x06 : "HIGHSCORE_DAMPE_RACE",   
+}
+
 def format_char(byte):
     return f"\\x{byte:02X}"
 
-def decode(read_bytes):
+def decode(read_bytes, box_type):
+    next_is_color = False
+    next_is_highscore = False
+
     next_is_byte_mod = False
     next_is_box_break_delayed = False
     next_is_hword_mod = 0
@@ -129,7 +174,19 @@ def decode(read_bytes):
     for byte in read_bytes:
         if next_is_byte_mod:
             #buf.append(format_hex(byte,1) + ") \"")
-            buf.append("\"" + format_char(byte) + "\") \"") # + ("\n" if next_is_box_break_delayed else "")
+            value = "\"" + format_char(byte) + "\""
+            if next_is_highscore:
+                value = highscores[byte]
+                next_is_highscore = False
+            elif next_is_color:
+                if box_type == 5:
+                    value = color_type_5[byte]
+                elif box_type == 1:
+                    value = color_type_1[byte]
+                else:
+                    value = color_type_default[byte]
+                next_is_color = False
+            buf.append(value + ") \"") # + ("\n" if next_is_box_break_delayed else "")
             next_is_byte_mod = False
             next_is_box_break_delayed = False
         elif next_is_hword_mod == 1:
@@ -160,11 +217,14 @@ def decode(read_bytes):
                     if (name == "COLOR" or name == "SHIFT" or name == "BOX_BREAK_DELAYED" or 
                         name == "FADE" or name == "ITEM_ICON" or name == "TEXT_SPEED" or
                         name == "HIGHSCORE"):
-                        if name == "BOX_BREAK_DELAYED":
-                            buf.append("\"" + name + "(")
+                        buf.append("\" " + name + "(")
+                        if name == "HIGHSCORE":
+                            next_is_highscore = True
+                        elif name == "COLOR":
+                            next_is_color = True
+                        elif name == "BOX_BREAK_DELAYED":
                             next_is_box_break_delayed = True
                         else:
-                            buf.append("\" " + name + "(")
                             next_is_box_break_delayed = False
                         next_is_byte_mod = True
                     # single halfwords
@@ -268,7 +328,7 @@ def cvt(m):
 
 doubles = re.compile(r"(?<!\\)(\"\")")
 def fixup_message(message):
-    return re.sub(doubles, cvt, ("\"" + message.replace("\n","\\n\"\n\"") + "\"")).replace("\n ","\n").replace("BOX_BREAK ","BOX_BREAK\n").strip()
+    return re.sub(doubles, cvt, ("\"" + message.replace("\n","\\n\"\n\"") + "\"")).replace("\n ","\n").replace("BOX_BREAK\"","\nBOX_BREAK\n\"").replace("BOX_BREAK ","\nBOX_BREAK\n").strip()
 ###
 
 def dump_all_text():
@@ -283,7 +343,7 @@ def dump_all_text():
             nes_text = ""
             with open("baserom/nes_message_data_static","rb") as infile:
                 infile.seek(nes_offset)
-                nes_text = fixup_message(decode(infile.read(nes_length)).replace("\x00","",-1))
+                nes_text = fixup_message(decode(infile.read(nes_length), entry[1]).replace("\x00","",-1))
 
             ger_text = ""
             fra_text = ""
@@ -294,17 +354,17 @@ def dump_all_text():
                 ger_length = next_entry[4] - entry[4]
                 with open("baserom/ger_message_data_static","rb") as infile:
                     infile.seek(ger_offset)
-                    ger_text = fixup_message(decode(infile.read(ger_length)).replace("\x00","",-1))
+                    ger_text = fixup_message(decode(infile.read(ger_length), entry[1]).replace("\x00","",-1))
                 
                 fra_offset = segmented_to_physical(entry[5])
                 fra_length = next_entry[5] - entry[5]
                 with open("baserom/fra_message_data_static","rb") as infile:
                     infile.seek(fra_offset)
-                    fra_text = fixup_message(decode(infile.read(fra_length)).replace("\x00","",-1))
+                    fra_text = fixup_message(decode(infile.read(fra_length), entry[1]).replace("\x00","",-1))
 
             messages.append((entry[0], entry[1], entry[2], nes_text, ger_text, fra_text))
         elif entry[0] == 0xFFFD:
-            messages.append((entry[0], entry[1], entry[2], "", "", ""))
+            messages.append((entry[0], entry[1], entry[2], "\"\"", "\"\"", "\"\""))
         elif entry[0] == 0xFFFF:
             messages.append((entry[0], entry[1], entry[2], "///END///", "///END///", "///END///"))
         else:
@@ -323,7 +383,7 @@ def dump_staff_text():
             staff_length = (staff_message_data_static_size if entry[0] == 0x052F else segmented_to_physical(next_entry[3])) - segmented_to_physical(entry[3])
             with open("baserom/staff_message_data_static","rb") as infile:
                 infile.seek(staff_offset)
-                messages.append((entry[0], entry[1], entry[2], fixup_message(decode(infile.read(staff_length)).replace("\x00","",-1))))
+                messages.append((entry[0], entry[1], entry[2], fixup_message(decode(infile.read(staff_length), entry[1]).replace("\x00","",-1))))
         else:
             messages.append((entry[0], entry[1], entry[2], "///END///"))
     return messages
@@ -336,18 +396,18 @@ read_tables()
 
 for message in dump_all_text():
     if message[3] == "///END///":
-        print(f"DECLARE_MESSAGE_END()\n")
+        print(f"DECLARE_MESSAGE_END()")
     else:
         out = ""
         if message[0] == 0xFFFC:
             out = "#ifdef DECLARE_MESSAGE_FFFC\n"
         out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\
-\n{message[3]},\n\
-\n{message[4]},\n\
-\n{message[5]}\
-)\n"
+\n{message[3]}\n,\
+\n{message[4]}\n,\
+\n{message[5]}\n\
+)"
         if message[0] == 0xFFFC:
-            out += "#endif\n"
+            out += "\n#endif"
         out += "\n"
         print(out)
 
