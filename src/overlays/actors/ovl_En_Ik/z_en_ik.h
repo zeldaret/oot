@@ -24,7 +24,7 @@ typedef struct EnIk {
     /* 0x0300 */ s16 unk_300;
     /* 0x0302 */ s16 switchFlags;
     /* 0x0304 */ EnIkActionFunc actionFunc;
-    /* 0x0308 */ char unk_308[0x18];
+    /* 0x0308 */ struct_80032E24 unk_308;
     /* 0x0320 */ ColliderCylinder unk_320;
     /* 0x036C */ ColliderQuad unk_36C;
     /* 0x03EC */ ColliderTris unk_3EC;

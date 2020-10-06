@@ -35,8 +35,10 @@ void func_80A753D0(EnIk* this);
 void func_80A7545C(EnIk* this, GlobalContext* globalCtx);
 void func_80A754A0(EnIk* this);
 void func_80A75530(EnIk* this, GlobalContext* globalCtx);
-void func_80A7567C(EnIk* this, GlobalContext* globalCtx);
 void func_80A755F0(EnIk* this);
+void func_80A7567C(EnIk* this, GlobalContext* globalCtx);
+void func_80A758B0(EnIk* this, GlobalContext* globalCtx);
+void func_80A75A38(EnIk* this, GlobalContext* globalCtx);
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
 void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
 void func_80A7748C(EnIk* this, GlobalContext* globalCtx);
@@ -56,7 +58,10 @@ extern AnimationHeader D_06002538;
 extern AnimationHeader D_060029FC;
 extern AnimationHeader D_060033C4;
 extern AnimationHeader D_06003DBC;
+extern AnimationHeader D_060045BC;
 extern AnimationHeader D_0600485C;
+extern AnimationHeader D_06005944;
+extern AnimationHeader D_06006194;
 extern AnimationHeader D_06006734;
 extern AnimationHeader D_0600C114;
 extern AnimationHeader D_0600CD70;
@@ -375,7 +380,7 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((temp_t0 >= ABS(yawDiff)) && (this->actor.xzDistFromLink < 100.0f)) {
+    if ((ABS(yawDiff) <= temp_t0) && (this->actor.xzDistFromLink < 100.0f)) {
         if (ABS(this->actor.yDistFromLink) < 150.0f) {
             if ((globalCtx->gameplayFrames & 1)) {
                 func_80A74E2C(this);
@@ -517,7 +522,7 @@ void func_80A753D0(EnIk* this) {
     this->unk_2FF = this->unk_2FE = 0;
     this->unk_2F8 = 8;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06003DBC, 1.5f, 0.0f, frames, 3, -4.0f);
-    EnIk_SetupAction(this, &func_80A7545C);
+    EnIk_SetupAction(this, func_80A7545C);
 }
 
 void func_80A7545C(EnIk* this, GlobalContext* globalCtx) {
@@ -564,13 +569,69 @@ void func_80A755F0(EnIk* this) {
     EnIk_SetupAction(this, func_80A7567C);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7567C.s")
+void func_80A7567C(EnIk* this, GlobalContext* globalCtx) {
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_3EC.base);
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4000) &&
+            (this->actor.xzDistFromLink < 100.0f) && (ABS(this->actor.yDistFromLink) < 150.0f)) {
+            if ((globalCtx->gameplayFrames & 1)) {
+                func_80A74E2C(this);
+            } else {
+                func_80A751C8(this);
+            }
+        } else {
+            func_80A7489C(this);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75790.s")
+void func_80A75790(EnIk* this) {
+    s16 yaw;
+    s16 yawDiff;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A758B0.s")
+    yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_320.base.ac->posRot.pos);
+    this->unk_2F8 = 0;
+    yawDiff = yaw - this->actor.shape.rot.y;
+    if (ABS(yawDiff) <= 0x4000) {
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06006194, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_06006194.genericHeader), 2, -4.0f);
+        this->actor.speedXZ = -6.0f;
+    } else {
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060045BC, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_060045BC.genericHeader), 2, -4.0f);
+        this->actor.speedXZ = 6.0f;
+    }
+    this->unk_2FE = 0;
+    EnIk_SetupAction(this, func_80A758B0);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7598C.s")
+void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
+    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    if (func_8003305C(&this->actor, &this->unk_308, globalCtx, this->actor.params + 4)) {
+        this->unk_308.unk_10 = 0;
+    }
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4000) {
+            func_80A7489C(this);
+            func_80A745E4(this, globalCtx);
+        } else {
+            func_80A754A0(this);
+        }
+    }
+}
+
+void func_80A7598C(EnIk* this) {
+    f32 frames = SkelAnime_GetFrameCount(&D_06005944.genericHeader);
+
+    this->unk_2FE = 0;
+    this->unk_2F8 = 2;
+    this->actor.speedXZ = 0.0f;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005944, 1.0f, 0.0f, frames, 2, -4.0f);
+    this->unk_2F9 = 0x18;
+    Audio_PlayActorSound2(this, NA_SE_EN_IRONNACK_DEAD);
+    Audio_PlayActorSound2(this, NA_SE_EN_NUTS_CUTBODY);
+    EnIk_SetupAction(this, func_80A75A38);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75A38.s")
 
