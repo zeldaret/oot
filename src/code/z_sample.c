@@ -38,7 +38,9 @@ void Sample_Draw(SampleContext* this) {
     CLOSE_DISPS(gfxCtx, "../z_sample.c", 111);
 }
 
-void Sample_Main(SampleContext* this) {
+void Sample_Main(GameState* thisx) {
+    SampleContext* this = (SampleContext*)thisx;
+
     Sample_Draw(this);
     Sample_HandleStateChange(this);
 }
