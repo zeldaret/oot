@@ -43,7 +43,7 @@ void Sample_Main(SampleContext* this) {
     Sample_HandleStateChange(this);
 }
 
-void Sample_Destroy(SampleContext* this) {
+void Sample_Destroy(GameState* thisx) {
 }
 
 void Sample_SetupView(SampleContext* this) {
@@ -83,7 +83,8 @@ void Sample_LoadTitleStatic(SampleContext* this) {
     DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
 }
 
-void Sample_Init(SampleContext* this) {
+void Sample_Init(GameState* thisx) {
+    SampleContext* this = (SampleContext*)thisx;
     this->state.main = Sample_Main;
     this->state.destroy = Sample_Destroy;
     R_UPDATE_RATE = 1;
