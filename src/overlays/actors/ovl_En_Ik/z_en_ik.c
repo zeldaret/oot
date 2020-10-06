@@ -277,8 +277,8 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
 
 #ifdef NON_EQUIVALENT
 void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
-    s16 temp_a1;
     s16 temp_t0;
+    s16 temp_a1;
     s16 yawDiff;
     s16 sp30;
     s16 sp2E;
