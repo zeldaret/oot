@@ -21,6 +21,7 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor);
 void func_80A74714(EnIk* this);
+void func_80A747C0(EnIk* this, GlobalContext* globalCtx);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
 void func_80A74AAC(EnIk* this);
 void func_80A74E2C(EnIk* this);
@@ -51,6 +52,7 @@ extern AnimationHeader D_06002538;
 extern AnimationHeader D_060029FC;
 extern AnimationHeader D_060033C4;
 extern AnimationHeader D_0600C114;
+extern AnimationHeader D_0600CD70;
 extern AnimationHeader D_0600DD50;
 extern SkeletonHeader D_0601E178;
 extern AnimationHeader D_060203D8;
@@ -254,9 +256,41 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
     return NULL;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A74714.s")
+void func_80A74714(EnIk* this) {
+    f32 frames = SkelAnime_GetFrameCount(&D_0600CD70.genericHeader);
+    f32 frame;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A747C0.s")
+    if (this->actor.params >= 2) {
+        frame = frames - 1.0f;
+    } else {
+        frame = 0.0f;
+    }
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600CD70, 0.0f, frame, frames, 2, 0.0f);
+    this->unk_2F8 = 3;
+    this->actor.speedXZ = 0.0f;
+    EnIk_SetupAction(this, func_80A747C0);
+}
+
+void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
+    Vec3f sp24;
+
+    if (this->unk_320.base.acFlags & 2) {
+        sp24 = this->actor.posRot.pos;
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+        sp24.y += 30.0f;
+        func_8003424C(globalCtx, &sp24);
+        this->skelAnime.animPlaybackSpeed = 1.0f;
+        func_800F5ACC(0x38);
+    }
+    if (this->skelAnime.animCurrentFrame == 5.0f) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_WAKEUP);
+    }
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        this->actor.flags |= 5;
+        func_80A74AAC(this);
+    }
+}
 
 void func_80A7489C(EnIk* this) {
     f32 frames = SkelAnime_GetFrameCount(&D_0600DD50.genericHeader);
