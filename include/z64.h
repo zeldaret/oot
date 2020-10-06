@@ -1378,7 +1378,7 @@ typedef struct {
     /* 0x1CAD2 */ s16 kbdCharY;
     /* 0x1CAD4 */ s16 newFileNameCharCount;
     /* 0x1CAD6 */ u16 unk_1CAD6[3];
-} FileSelectContext; // size = 0x1CADC
+} FileChooseContext; // size = 0x1CADC
 
 typedef enum {
     DPM_UNK = 0,

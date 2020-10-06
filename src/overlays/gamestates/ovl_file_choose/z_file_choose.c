@@ -71,7 +71,7 @@
 //void func_80811A20(FileSelectContext* this);
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80811A20.s")
 void func_80811A20(GameState* thisx) {
-    FileSelectContext* this = (FileSelectContext*)thisx;
+    FileChooseContext* this = (FileChooseContext*)thisx;
     u8* sp30;
     u32 sp2C;
     u32 temp_a1;
