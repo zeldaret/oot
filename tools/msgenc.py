@@ -4,25 +4,24 @@
 message data static text encoder
 """
 
-import sys
-import re
+import re, sys
 
 charmap = {}
+
+string_regex = re.compile(r"([\"'`])(?:[\s\S])*?(?:(?<!\\)\1)")
+arg_regex = re.compile(r"\([^\)\n]*\)(\.[^\)]*\))?")
 
 def read_charmap():
     global charmap
     contents = ""
     with open("text/charmap.txt") as infile:
         contents = infile.read()
-    for line in contents.split("\n"):
-        if line is not "" and not line.startswith("//"):
-            charmap[line.split(" = ")[0].replace("'","")] = chr(int(line.split(" = ")[1].strip(),16))
+    lines = [line for line in contents.split("\n") if (line is not "" and not line.startswith("//"))]
+    for line in lines:
+        charmap[line.split(" = ")[0].replace("'","")] = chr(int(line.split(" = ")[1].strip(),16))
 
 def flip_charmap():
     return dict((v,k) for k,v in charmap.items())
-
-string_regex = re.compile(r"([\"'`])(?:[\s\S])*?(?:(?<!\\)\1)")
-arg_regex = re.compile(r"\([^\)\n]*\)(\.[^\)]*\))?")
 
 def cvt_str(m):
     string = m.group(0).replace("\\n",charmap["\\n"])
@@ -45,14 +44,20 @@ def cvt_arg(m):
             string = string.replace(arg,"\""+chr(value)+"\"") # hex(value).upper().replace("0X","\\x")
     return string
 
-read_charmap()
+if __name__ == "__main__":
+    read_charmap()
 
-contents = ""
-with open(sys.argv[1], "r") as infile:
-    contents = infile.read()
+    contents = ""
+    with open(sys.argv[1], "r") as infile:
+        contents = infile.read()
 
-contents = re.sub(string_regex, cvt_str, contents)
-#contents = re.sub(arg_regex, cvt_arg, contents)
+    if sys.argv[1].endswith(".h"):
+        contents = re.sub(string_regex, cvt_str, contents)
+    elif sys.argv[1].endswith(".c"):
+        contents = contents\
+            .replace("#include \"declare_messages.h\"", "#include \"build/text/declare_messages.enc.h\"")\
+            .replace("#include \"declare_messages_staff.h\"", "#include \"build/text/declare_messages_staff.enc.h\"")
+    #contents = re.sub(arg_regex, cvt_arg, contents)
 
-with open(sys.argv[2], "w", encoding="raw_unicode_escape") as outfile:
-    outfile.write(contents)
+    with open(sys.argv[2], "w", encoding="raw_unicode_escape") as outfile:
+        outfile.write(contents)

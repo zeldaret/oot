@@ -1,46 +1,57 @@
 #include "global.h"
-
-#include <message_data_static.h>
+#include "message_data_static.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const.rodata.s")
 
-#define MESSAGE_ENTRY(textId, type, yPos) DECLARE_MESSAGE_ENTRY(textId, type, yPos, nes),
-#define MESSAGE_TABLE_MAIN
-
-static const MessageTableEntry D_8014B320[] = {
-    #include "text/message_entries.h"
+static MessageTableEntry const D_8014B320[] = {
+    #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+        { textId, type, yPos, _message_##textId##_nes },
+    #define DECLARE_MESSAGE_END() \
+        { 0xFFFD, 0, 0, NULL },
+    #define DECLARE_MESSAGE_FFFC
+    #include "../text/declare_messages.h"
+    #undef DECLARE_MESSAGE_FFFC
+    #undef DECLARE_MESSAGE
+    #undef DECLARE_MESSAGE_END
 };
 
-#undef MESSAGE_TABLE_MAIN
-#undef MESSAGE_ENTRY
-#define MESSAGE_ENTRY(textId, type, yPos) MESSAGE_SEGMENT(textId, ger),
 
 static const char* D_8014F548[] = {
-    #include "text/message_entries.h"
-    NULL,
+    #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+        _message_##textId##_ger,
+    #define DECLARE_MESSAGE_END() \
+        NULL,
+    #include "../text/declare_messages.h"
+    #undef DECLARE_MESSAGE
+    #undef DECLARE_MESSAGE_END
 };
-
-#undef MESSAGE_ENTRY
-#define MESSAGE_ENTRY(textId, type, yPos) MESSAGE_SEGMENT(textId, fra),
 
 static const char* D_80151658[] = {
-    #include "text/message_entries.h"
-    NULL,
+    #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
+        _message_##textId##_fra,
+    #define DECLARE_MESSAGE_END() \
+        NULL,
+    #include "../text/declare_messages.h"
+    #undef DECLARE_MESSAGE
+    #undef DECLARE_MESSAGE_END
 };
 
-#undef MESSAGE_ENTRY
-#define MESSAGE_ENTRY(textId, type, yPos) DECLARE_MESSAGE_ENTRY(textId, type, yPos, staff),
-
-static const MessageTableEntry D_80153768[] = {
-    #include "text/staff_entries.h"
+static MessageTableEntry const D_80153768[] = {
+    #define DECLARE_MESSAGE(textId, type, yPos, staffMessage) \
+        { textId, type, yPos, _message_##textId##_staff },
+    #define DECLARE_MESSAGE_END() \
+        { 0xFFFD, 0, 0, NULL },
+    #include "../text/declare_messages_staff.h"
+    #undef DECLARE_MESSAGE
+    #undef DECLARE_MESSAGE_END
 };
 
-#undef MESSAGE_ENTRY
-
-static const MessageTableEntry* D_801538F0 = D_8014B320;
-static const char* D_801538F4 = D_8014F548;
-static const char* D_801538F8 = D_80151658;
-static const MessageTableEntry* D_801538FC = D_80153768;
+/* 
+static const MessageTableEntry* D_801538F0[] = {D_8014B320};
+static const char* D_801538F4[] = {D_8014F548};
+static const char* D_801538F8[] = {D_80151658};
+static const MessageTableEntry* D_801538FC[] = {D_80153768};
+ */
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const2.rodata.s")
 

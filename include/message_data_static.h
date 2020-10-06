@@ -1,7 +1,7 @@
 #ifndef _MESSAGE_DATA_STATIC_H_
 #define _MESSAGE_DATA_STATIC_H_
 
-#include <ultra64.h>
+#include "global.h"
 
 #define MSEG 07
 
@@ -44,31 +44,30 @@ typedef struct {
  * 
 \**********************************************/ 
 
-#define DECLARE_MESSAGE_REFS(textId) \
+#define DECLARE_MESSAGE(textId, type, yPos, staffMessage) \
+    extern const char _message_##textId##_staff[];
+
+#define DECLARE_MESSAGE_END() \
+    DECLARE_MESSAGE(0xFFFD, BOX_BLACK, POS_VARIABLE,)
+
+#include "../text/declare_messages_staff.h"
+
+#undef DECLARE_MESSAGE
+#undef DECLARE_MESSAGE_END
+
+#define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     extern const char _message_##textId##_nes[]; \
     extern const char _message_##textId##_ger[]; \
     extern const char _message_##textId##_fra[];
 
-#define DECLARE_MESSAGE_REF_FFFC() extern const char _message_0xFFFC_nes[];
+#define DECLARE_MESSAGE_END() \
+    DECLARE_MESSAGE(0xFFFD, BOX_BLACK, POS_VARIABLE,,,)
 
-#define DECLARE_MESSAGE_REF_STAFF(textId) \
-    extern const char _message_##textId##_staff[];
+#include "../text/declare_messages.h"
+extern const char _message_0xFFFC_nes[];
 
-#define MESSAGE_ENTRY(textId, type, yPos) DECLARE_MESSAGE_REF_STAFF(textId)
-#define MESSAGE_ENTRY_END() 
-
-#include "text/staff_entries.h"
-
-#undef MESSAGE_ENTRY_END()
-#undef MESSAGE_ENTRY
-
-#define MESSAGE_ENTRY(textId, type, yPos) DECLARE_MESSAGE_REFS(textId)
-#define MESSAGE_DECLARATIONS
-
-#include "text/message_entries.h"
-
-#undef MESSAGE_DECLARATIONS
-#undef MESSAGE_ENTRY
+#undef DECLARE_MESSAGE
+#undef DECLARE_MESSAGE_END
 
 /**********************************************\
  * 

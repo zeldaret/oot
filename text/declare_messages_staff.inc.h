@@ -1,0 +1,710 @@
+DECLARE_MESSAGE(0x0500, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Producer/Supervisor"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SHIGERU MIYAMOTO" QUICKTEXT_DISABLE  FADE2("\x00\x32"))
+
+
+DECLARE_MESSAGE(0x0501, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x48") "Directors"
+""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x30") "Script Director"
+""
+""
+SHIFT("\x24")  SHIFT("\x48") "TORU OSAWA" QUICKTEXT_DISABLE  FADE2("\x00\x32"))
+
+
+DECLARE_MESSAGE(0x0502, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Game System Directors"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YOICHI YAMADA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "EIJI ONOZUKA"
+""
+""
+""
+SHIFT("\x24") "3D System Director/Character Design"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YOSHIAKI KOIZUMI" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0503, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Program Director"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "TOSHIO IWAWAKI"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Music Composer"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "KOJI KONDO" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x0504, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Cinema Scene Directors"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "TAKUMI KAWAGOE"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "NAOKI MORI"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Map Data Manager"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "SHIGEO KIMURA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0505, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE  SHIFT("\x24")  SHIFT("\x36") "Programmers"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Main System"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "KENZO HAYAKAWA"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Display System"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "YASUNARI SOEJIMA"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Boss Enemy Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "KAZUAKI MORITA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0506, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Enemy Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MASUMI TARUKADO"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROSHI UMEMIYA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MASARO SAKAKIBARA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0507, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SHIGEKI YOSHIDA "
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TAKAMITSU KUZUHARA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SATORU TAKAHATA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0508, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "NOBUO OKAJIMA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "NOBUHIRO SUMIYOSHI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "ATSUSHI NISHIWAKI" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0509, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+SHIFT("\x24")  SHIFT("\x18") "Technical Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "KENJI MATSUTANI"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Tool Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YUICHI YAMAMOTO"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Camera Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MASATOSHI OGAWA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x050A, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Cinema Scene Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MAKOTO SASAKI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "KUNIHIRO KOMATSU"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Sound Effects Program"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YOJI INAGAKI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TAKUYA MAEKAWA" QUICKTEXT_DISABLE  FADE2("\x00\x85"))
+
+
+DECLARE_MESSAGE(0x050B, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+SHIFT("\x24")  SHIFT("\x42") "Designers"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Character Design"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YOSHIKI HARUHANA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SATORU TAKIZAWA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "JIN IKEDA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SATOMI MAEKAWA" QUICKTEXT_DISABLE  FADE2("\x00\x85"))
+
+
+DECLARE_MESSAGE(0x050C, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Field Design"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MAKOTO MIYANAGA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROMASA SHIKATA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROMU TAKEMURA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x050D, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Dungeon Design"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "KENTA USUI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SHINICHI IKEMATSU"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TAKESHI HOSONO" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x050E, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+SHIFT("\x24")  SHIFT("\x18") "Effects Design"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TOMOAKI KUROUME"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Prerendered Background Design"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SHIGEKI YOSHIDA"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Item Design"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "REN UEHARA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x050F, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+SHIFT("\x24")  SHIFT("\x36") "Cinema Scene Unit"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Assistant Director"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "DAIKI IWAMOTO"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Cinema Scene Animators"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROSHI MATSUNAGA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "DAISUKE KAGEYAMA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0510, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "MOCAP System Directors"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SHINYA TAKAHASHI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TSUYOSHI WATANABE" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x0511, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+SHIFT("\x24")  SHIFT("\x48") "Actor Unit"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Character Voices"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "FUJIKO TAKIMOTO"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "NOBUYUKI HIYAMA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "JUN MIZUSAWA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0512, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Character Voices"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TAKASHI NAGASAKO"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YAYOI JINGUJI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "KAORI MIZUHASHI" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0513, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+SHIFT("\x24") "  Motion Capture Actor"
+""
+""
+SHIFT("\x24")  SHIFT("\x24") "YOSHINORI TSUJIMOTO (JAC)"
+""
+""
+""
+SHIFT("\x24") "  Action Coordinator"
+""
+""
+SHIFT("\x24")  SHIFT("\x24") "YUTA MOROKAJI (JAC)" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x0514, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+SHIFT("\x24")  SHIFT("\x36") "Art Work Unit"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Character Illustration"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YUSUKE NAKANO"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Illustration Support"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "WATARU YAMAGUCHI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MINORU MAEDA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0515, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "Deleted" QUICKTEXT_DISABLE  FADE2("\x00\x78"))
+
+
+DECLARE_MESSAGE(0x0516, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "Support Unit"
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Supervisors"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TAKASHI TEZUKA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "TOSHIHIKO NAKAGO"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Schedule Management"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YOSHITAKA NISHIKAWA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0517, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+SHIFT("\x24")  SHIFT("\x18") "Script Support"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "KENSUKE TANABE"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "English Text Writer"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "DAN OWSEN"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "English Text Translation"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "HIRO YAMADA" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0518, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Technical Support"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIRONOBU KAKUI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROHITO YOSHIMOTO"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YOSHINORI TANIMOTO" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x0519, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Technical Support"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIDEAKI SHIMIZU"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SHIN HASEGAWA"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "YASUKI TAWARAISHI"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "SHINGO OKAMOTO" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x051A, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Motion Editors"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROSHI MOMOSE"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "RUI SHIMAMURA" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x051B, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "German Text Writer"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MARCUS MENOLD"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "THOMAS RINKE"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "CLAUDE MOYSE"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "CLUB NINTENDO REDAKTION" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x051C, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Progress Management"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "KIMIYOSHI FUKUI"
+""
+""
+SHIFT("\x24")  SHIFT("\x3C") "KEIZO KATO" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x051D, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+SHIFT("\x24")  SHIFT("\x12") "Special Thanks to"
+""
+""
+SHIFT("\x24")  SHIFT("\x30") "MITSUHIRO HIKINO"
+""
+""
+SHIFT("\x24")  SHIFT("\x30") "YOSHITAKA TAKESHITA"
+""
+""
+SHIFT("\x24")  SHIFT("\x30") "GENTARO TAKAGI"
+""
+""
+SHIFT("\x24")  SHIFT("\x30") "ATSUSHI SAKAGUCHI"
+""
+""
+SHIFT("\x24")  SHIFT("\x30") "HAJIME KITAGAWA" QUICKTEXT_DISABLE  FADE2("\x00\xA6"))
+
+
+DECLARE_MESSAGE(0x051E, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x18") "Special Thanks to"
+""
+""
+SHIFT("\x24")  SHIFT("\x2A") "NINTENDO E.A.D"
+""
+""
+SHIFT("\x24")  SHIFT("\x2A") "SUPER MARIO CLUB"
+""
+""
+SHIFT("\x24")  SHIFT("\x2A") "NINTENDO OF AMERICA INC."
+""
+SHIFT("\x24")  SHIFT("\x30") "DEBUGGING STAFF" QUICKTEXT_DISABLE  FADE2("\x00\x64"))
+
+
+DECLARE_MESSAGE(0x051F, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Executive Producer"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROSHI YAMAUCHI" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x0520, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Special Thanks to"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "NINTENDO OF EUROPE GMBH"
+""
+SHIFT("\x24")  SHIFT("\x3C") "DEBUGGING STAFF"
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "NINTENDO FRANCE"
+""
+SHIFT("\x24")  SHIFT("\x3C") "S.A.R.L STAFF" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x0521, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "Coordinator"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MITSUHIRO TAKANO"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "MASASHI GOTO"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "HIROYUKI UESUGI" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x0522, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE ""
+""
+""
+""
+""
+SHIFT("\x24")  SHIFT("\x12") "French Text Writer"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "JULIEN BARDAKOFF"
+""
+""
+SHIFT("\x24")  SHIFT("\x36") "FLEURY JEAN-BAPTISTE" QUICKTEXT_DISABLE  FADE2("\x00\x42"))
+
+
+DECLARE_MESSAGE(0x0523, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "Deleted" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x0524, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "24" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x0525, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "25" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x0526, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "26" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x0527, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "27" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x0528, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "28" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x0529, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "29" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x052A, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "2A" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x052B, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "2B" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x052C, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "2C" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x052D, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "2D" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x052E, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "2E" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE(0x052F, BOX_CREDITS, POS_VARIABLE,
+QUICKTEXT_ENABLE "2F" QUICKTEXT_DISABLE  FADE2("\x00\x50"))
+
+
+DECLARE_MESSAGE_END()

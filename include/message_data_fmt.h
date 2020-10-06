@@ -1,9 +1,6 @@
 #ifndef _MESSAGE_DATA_FMT_H_
 #define _MESSAGE_DATA_FMT_H_
 
-#include <ultra64.h>
-#include <global.h>
-
 /**********************************************\
  * 
  *   Control Codes
@@ -107,7 +104,7 @@
  * to remove it
  * 
 \**********************************************/ 
-#define DECLARE_MESSAGE(textId, lang, message) \
-    const char _message_##textId##_##lang[sizeof(message)] = { message END }
+//#define DECLARE_MESSAGE(textId, lang, message) \
+//    const char _message_##textId##_##lang[sizeof(message)] = { message END }
 
 #endif
