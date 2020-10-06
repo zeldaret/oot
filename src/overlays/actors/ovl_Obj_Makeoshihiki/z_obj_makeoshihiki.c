@@ -78,7 +78,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (block->unk_24[typeIdx] & 2) {
-        ((ObjOshihiki*)thisx->child)->unk_1BE = 1;
+        ((ObjOshihiki*)thisx->child)->cantMove = true;
     }
     thisx->posRot.rot.z = thisx->shape.rot.z = 0;
     osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params,
@@ -127,7 +127,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sFlagSwitchFuncs[sFlags[i][1]](globalCtx, (thisx->params >> 8) & 0x3F);
 
             if (block->unk_24[i] & 2) {
-                ((ObjOshihiki*)thisx->child)->unk_1BE = 1;
+                ((ObjOshihiki*)thisx->child)->cantMove = true;
             }
 
             break;

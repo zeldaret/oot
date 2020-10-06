@@ -6,6 +6,8 @@
 
 #include "z_obj_blockstop.h"
 
+#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+
 #define FLAGS 0x00000000
 
 #define THIS ((ObjBlockstop*)thisx)
@@ -50,8 +52,9 @@ void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
                       &this->actor.floorPoly, 0, 0, 1, 1, &sp48, &this->actor)) {
         dynaActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, sp48);
 
-        if ((dynaActor != NULL) && (dynaActor->actor.id == 0xFF)) {
-            if (((dynaActor->actor.params & 0x000F) == 3) || ((dynaActor->actor.params & 0x000F) == 7)) {
+        if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_OBJ_OSHIHIKI)) {
+            if (((dynaActor->actor.params & 0x000F) == 3 /*HUGE_SWITCH_OFF*/) ||
+                ((dynaActor->actor.params & 0x000F) == 7 /*HUGE_SWITCH_ON*/)) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
             } else {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);

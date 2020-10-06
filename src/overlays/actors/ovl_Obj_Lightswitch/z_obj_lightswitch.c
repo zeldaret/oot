@@ -176,10 +176,11 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.posRot.rot.x = this->actor.initPosRot.rot.x = this->actor.shape.rot.x;
         this->actor.posRot.rot.z = this->actor.initPosRot.rot.z = this->actor.shape.rot.z;
         this->actor.flags |= 0x20;
-        if (!Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_OBJ_OSHIHIKI,
-                                this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
-                                this->actor.initPosRot.pos.z, 0, this->actor.initPosRot.rot.y, 0, 0xFF00)) {
+        if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_OBJ_OSHIHIKI,
+                               this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z,
+                               0, this->actor.initPosRot.rot.y, 0, 0xFF00) == NULL) {
             osSyncPrintf(VT_COL(RED, WHITE));
+            // Push-pull block occurrence failure
             osSyncPrintf("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_obj_lightswitch.c", 452,
                          this->actor.params);
             osSyncPrintf(VT_RST);
@@ -191,11 +192,15 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (removeSelf) {
         Actor_Kill(&this->actor);
     }
+    // Light switch
     osSyncPrintf("(光スイッチ)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+    GlobalContext* globalCtx2 = globalCtx;
+    ObjLightswitch* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx2, &this->collider);
 }
 
 void ObjLightswitch_SetupOff(ObjLightswitch* this) {
