@@ -390,8 +390,6 @@ u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2454.s")
 
-#ifdef NON_MATCHING
-// matching, but data.
 u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
     u32 size;
     AudioTable *table;
@@ -435,7 +433,6 @@ u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
                 }
                 break;
             case 3:
-                break;
             case 4:
                 ret = Audio_AllocBankOrSeq(tableType, size, 2, id);
                 if (ret == NULL) {
@@ -472,9 +469,6 @@ u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2) {
 
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2558.s")
-#endif
 
 // returns a bankIdx? 
 u32 func_800E2768(s32 poolIdx, u32 bankId) {
@@ -525,8 +519,6 @@ void *func_800E27F8(s32 tableType) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E283C.s")
 
-#ifdef NON_MATCHING
-// matching, but data.
 void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 direction) {
     OSMesgQueue* msgQueue = &gAudioContext.unk_25E8;
     OSIoMesg* ioMesg = &gAudioContext.unk_2604;
@@ -538,7 +530,7 @@ void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 direction) {
         if(size < 0x400){
             break;
         }
-        func_800E2BE0(ioMesg, OS_MESG_PRI_NORMAL, OS_READ, tableOffset, addr, 0x400, msgQueue, direction, "FastCopy");
+        func_800E2BE0(ioMesg, OS_MESG_PRI_HIGH, OS_READ, tableOffset, addr, 0x400, msgQueue, direction, "FastCopy");
         osRecvMesg(msgQueue, NULL, OS_MESG_BLOCK);
         size -= 0x400;
         tableOffset += 0x400;
@@ -546,14 +538,10 @@ void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 direction) {
     }
 
     if (size != 0) {
-        func_800E2BE0(ioMesg, OS_MESG_PRI_NORMAL, OS_READ, tableOffset, addr, size, msgQueue, direction, "FastCopy");
+        func_800E2BE0(ioMesg, OS_MESG_PRI_HIGH, OS_READ, tableOffset, addr, size, msgQueue, direction, "FastCopy");
         osRecvMesg(msgQueue, NULL, OS_MESG_BLOCK);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2AA8.s")
-#endif
-#undef NON_MATCHING
 
 
 void func_800E2BCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -601,8 +589,6 @@ void func_800E2CC0(u32 arg0, u32 arg1) {
     func_800E2558(arg0, arg1, &sp1C);
 }
 
-#ifdef NON_MATCHING
-// matching but data
 void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4) {
     u32 sp54;
     AudioTable *sp50;
@@ -667,7 +653,6 @@ void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4) {
                 }
                 break;
             case 3:
-                break;
             case 4:
                 sp4C = Audio_AllocBankOrSeq(arg0, sp54, 2, sp34);
                 if (sp4C == NULL) {
@@ -700,9 +685,6 @@ void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4) {
 
     return sp4C;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2CE0.s")
-#endif
 
 void func_800E2FEC(s32 arg0) {
     func_800E36EC(arg0);
@@ -794,8 +776,8 @@ void func_800E3094(void *heap, u32 heapSize) {
     gAudioContext.curAIBufIdx = 0;
     gAudioContext.gSoundMode = 0;
     gAudioContext.currTask = NULL;
-    gAudioContext.rspTask.task.t.data_size = 0;
-    gAudioContext.unk_2908.task.t.yield_data_size = 0;
+    gAudioContext.rspTask[0].task.t.data_size = 0;
+    gAudioContext.rspTask[1].task.t.yield_data_size = 0;
     osCreateMesgQueue(&gAudioContext.unk_25E8, &gAudioContext.unk_2600, 1);
     osCreateMesgQueue(&gAudioContext.unk_1ED0, &gAudioContext.unk_1EE8, 0x40);
     osCreateMesgQueue(&gAudioContext.unk_1E20, &gAudioContext.unk_1E38, 0x10);

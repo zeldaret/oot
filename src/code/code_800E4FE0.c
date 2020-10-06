@@ -260,8 +260,6 @@ AudioTask *func_800E5000(void) {
 void func_800E2124(u8,u8, void*);
 void func_800E5958(s32 arg0, u32 arg1);
 
-#ifdef NON_MATCHING
-// matches, but data.
 void func_800E5584(unk_5C50_s *arg0) {
     s32 i;
     s32 pad;
@@ -375,10 +373,6 @@ void func_800E5584(unk_5C50_s *arg0) {
             return;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E5584.s")
-void func_800E5584(unk_5C50_s *arg0);
-#endif
 
 #ifdef NON_MATCHING
 void func_800E5958(s32 arg0, u32 arg1) {
@@ -645,8 +639,6 @@ void func_800E611C(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6128.s")
 
-#ifdef NON_MATCHING
-// matching, but data
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1) {
     f32 floatData;
     s8 s8Data;
@@ -723,10 +715,6 @@ void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1) {
             return;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6300.s")
-void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1);
-#endif
 
 void func_800E64B0(s32 arg0, s32 arg1, s32 arg2) {
     func_800E5AFC(((arg0 & 0xFF) << 0x10) | 0xFA000000 | ((arg1 & 0xFF) << 8) | (arg2 & 0xFF), 1);
