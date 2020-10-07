@@ -1,7 +1,6 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
-#include <z64actor.h>
+#include "global.h"
+#include "vt.h"
+#include "z64actor.h"
 
 // func_80041DB8, SurfaceType wall properties
 s32 D_80119D90[32] = {

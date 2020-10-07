@@ -3,7 +3,7 @@
  * Overlay: ovl_Bg_Mori_Hashira4
  * Description: Forest Temple gates and rotating pillars
  */
- 
+
 #include "z_bg_mori_hashira4.h"
 
 #define FLAGS 0x00000010

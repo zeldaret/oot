@@ -223,7 +223,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
-    static Vec3f D_8088101C = { 0.0f, 0.0f, 0.0f };
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f vector;
     f32 xScale;
     s32 i;
@@ -243,8 +243,8 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
         vector.y = Math_Rand_ZeroOne() * 10.0f + this->dyna.actor.posRot.pos.y + 30.0f;
         vector.z = Math_Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
 
-        func_8002A6B8(globalCtx, &vector, &D_8088101C, &D_8088101C, 0x82, 0x14, 0xFF, 0xFF, 0x96, 0xAA, 0xFF, 0, 0, 1,
-                      9, 0);
+        EffectSsDeadDb_Spawn(globalCtx, &vector, &zeroVec, &zeroVec, 130, 20, 255, 255, 150, 170, 255, 0, 0, 1, 9,
+                             false);
     }
 
     if (this->timer == 0) {

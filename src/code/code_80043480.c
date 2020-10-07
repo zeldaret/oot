@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void func_80043480(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
     dynaActor->bgId = -1;

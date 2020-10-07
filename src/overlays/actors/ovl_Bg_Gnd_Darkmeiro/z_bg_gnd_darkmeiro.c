@@ -36,7 +36,6 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
 
 extern Gfx D_060088B0[];
 extern Gfx D_0600BEC0[];
-
 extern CollisionHeader D_0600C080;
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
