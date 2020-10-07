@@ -90,11 +90,16 @@ typedef struct {
 } AdpcmBook;
 
 typedef struct {
-    /* 0x00 */ u32 bits4 : 4;
-    /* 0x00 */ u32 bits2 : 2;
-    /* 0x00 */ u32 unk_bits26 : 1;
-    /* 0x00 */ u32 unk_bits25 : 1;
-    /* 0x01 */ u32 bits24 : 24;
+    union{
+        struct {
+            /* 0x00 */ u32 bits4 : 4;
+            /* 0x00 */ u32 bits2 : 2;
+            /* 0x00 */ u32 unk_bits26 : 1;
+            /* 0x00 */ u32 unk_bits25 : 1;
+            /* 0x01 */ u32 bits24 : 24;
+        };
+        u32 bits;
+    };
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
     /*?0x0C */ AdpcmBook* book;
@@ -679,7 +684,15 @@ typedef struct {
         };
         unk_5c50_b bytes;
     };
-    void* unk_04; // data?
+    union {
+        void* unk_04; // data?
+        f32 asFloat;
+        s32 asInt;
+        u16 asUShort;
+        s8 asSbyte;
+        u8 asUbyte;
+        u32 asUInt;
+    };
 } unk_5C50_s;
 
 typedef struct {
@@ -695,23 +708,49 @@ typedef struct {
     char unk_09[0x7];
 } unk_dma_s;
 
+#define MK_ASYNC_MSG(b0,b1,b2,b3)(((b0) << 0x18) | ((b1) << 0x10) | ((b2) << 0x08) | ((b3) << 0x00))
+#define ASYNC_TBLTYPE(v)((u8)(v >> 0x10))
+#define ASYNC_B2(v)((u8)(v >> 0x08))
+#define ASYNC_B3(v)((u8)(v >> 0x00))
+#define AYSNC_B0(v)(((u8)(v >> 0x18))
+
 typedef struct {
-    /* 0x00 */ s8 unk_00;
+    /* 0x00 */ s8 status;
     /* 0x01 */ s8 unk_01;
     /* 0x02 */ s8 unk_02; // type?
     /* 0x03 */ char unk_03[0x1];
     /* 0x04 */ u32 unk_04;
     /* 0x08 */ u32 devAddr;
-    /* 0x0C */ void* ramAddr;
-    /* 0x10 */ u32 unk_10; // size ?
-    /* 0x14 */ u32 unk_14; // also
-    /* 0x18 */ char unk_18[0x4];
-    /* 0x1C */ u32 unk_1C;
-    /* 0x20 */ OSMesgQueue* unk_20;
+    /* 0x0C */ u8* ramAddr;
+    /* 0x10 */ u32 bytesRemaining;
+    /* 0x14 */ u32 chunkSize;
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ u32 retMsg;
+    /* 0x20 */ OSMesgQueue* retQueue;
     /* 0x24 */ OSMesgQueue msgQueue;
     /* 0x3C */ OSMesg msg;
     /* 0x40 */ OSIoMesg ioMesg;
-} unk_1770_s; // size = 0x58
+} AsyncLoadReq; // size = 0x58
+
+typedef struct {
+    /* 0x0000 */ u8 unk_00;
+    /* 0x0001 */ s8 unk_01;
+    /* 0x0002 */ s16 unk_02;
+    /* 0x0004 */ s32 unk_04;
+    /* 0x0008 */ s32 devAddr;
+    /* 0x000C */ u8* ramAddr;
+    /* 0x0010 */ s32 unk_10;
+    /* 0x0014 */ s32 unk_14;
+    /* 0x0018 */ s32 unk_18;
+    /* 0x001C */ s32 unk_1C;
+    /* 0x0020 */ s32 unk_20;
+    /* 0x0024 */ u8* sampleAddr;
+    /* 0x0028 */ AdpcmLoop* loop;
+    /* 0x002C */ AdpcmBook* book;
+    /* 0x0030 */ OSMesgQueue msgqueue;
+    /* 0x0048 */ OSMesg msg;
+    /* 0x004C */ OSIoMesg ioMesg;
+} unk_1D50_s; // size = 0x64
 
 typedef struct {
     u16 offsets[18];
@@ -720,13 +759,13 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ s16 entryCnt;
-    /* 0x0002 */ u16 unk_02;
+    /* 0x0002 */ s16 unk_02;
     /* 0x0004 */ u32 romAddr;
     /* 0x0008 */ char pad[0x8];
 } AudioTableHeader; // size = 0x10
 
 typedef struct {
-    /* 0x0000 */ u32 tableOffset;
+    /* 0x0000 */ u32 romAddr;
     /* 0x0004 */ u32 size;
     /* 0x0008 */ s8 unk_08;
     /* 0x0009 */ s8 type;
@@ -734,7 +773,7 @@ typedef struct {
 } SequenceTableEntry; // size = 0x10
 
 typedef struct {
-    /* 0x0000 */ u32 tableOffset;
+    /* 0x0000 */ u32 romAddr;
     /* 0x0004 */ u32 size;
     /* 0x0008 */ u8 unk_08;
     /* 0x0009 */ u8 unk_09;
@@ -744,7 +783,7 @@ typedef struct {
 } AudioBankTableEntry; // size = 0x10
 
 typedef struct {
-    /* 0x0000 */ u32 tableOffset;
+    /* 0x0000 */ u32 romAddr;
     /* 0x0004 */ u32 size;
     /* 0x0008 */ s8 unk_08;
     /* 0x0009 */ s8 unk_09;
@@ -774,6 +813,17 @@ typedef struct {
 } AudioTask; // size = 0x50
 
 typedef struct {
+    /* 0x0000 */ u8* ramAddr;
+    /* 0x0004 */ u32 devAddr;
+    /* 0x0008 */ u16 unk_08;
+    /* 0x000A */ u16 size;
+    /* 0x000C */ u8 unk_0C;
+    /* 0x000D */ u8 unk_0D;
+    /* 0x000E */ u8 unk_0E;
+    /* 0x000F */ u8 unk_0F;
+} SampleDmaReq; // size = 0x10
+
+typedef struct {
     /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 gNumSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;
@@ -787,17 +837,12 @@ typedef struct {
     /* 0x0D54 */ AudioStruct0D68 unk_0D54[129]; // guessing at size
     /* 0x1768 */ s32 unk_1768;
     /* 0x176C */ s32 unk_176C;
-    /* 0x1770 */ unk_1770_s unk_1770[0x10];
+    /* 0x1770 */ AsyncLoadReq asyncReqs[0x10];
     /* 0x1CF0 */ OSMesgQueue unk_queue_1CF0;
     /* 0x1D08 */ char unk_1D08[0x40];
     /* 0x1D48 */ u32 unk_1D48;
-    /* 0x1D4C */ char unk_1D4C[0x18];
-    /* 0x1D64 */ u32 unk_1D64;
-    /* 0x1D6C */ char unk_1D68[0x18];
-    /* 0x1D80 */ OSMesgQueue unk_1D80;
-    /* 0x1D98 */ char unk_1D98[0x30];
-    /* 0x1DC8 */ u32 unk_1DC8;
-    /* 0x1DCC */ char unk_1DCC[0x4C];
+    /* 0x1D4C */ u32 unk_1D4C;
+    /* 0x1D50 */ unk_1D50_s unk_1D50[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* probably an unused PI handle for n64 disk drive */
     /* 0x1E1C */ OSPiHandle* unk_1E1C;  
@@ -809,13 +854,22 @@ typedef struct {
     /* 0x1E94 */ char unk_1E94[0x3C];
     /* 0x1ED0 */ OSMesgQueue unk_1ED0;
     /* 0x1EE8 */ OSMesg unk_1EE8;
-    /* 0x1EEC */ char unk_1EEC[0x6FC];
+    /* 0x1EEC */ char unk_1EEC[0xFC];
+    /* 0x1FE8 */ OSIoMesg sampIoReq[1]; // unknown size
+    /* 0x2000 */ char unk_2000[0x5E8];
     /* 0x25E8 */ OSMesgQueue unk_25E8;
     /* 0x2600 */ OSMesg unk_2600;
     /* 0x2604 */ OSIoMesg unk_2604;
-    /* 0x261C */ char unk_261C[4];
-    /* 0x2620 */ s32 gSampleDmaNumListItems;
-    /* 0x2624 */ char unk_2624[0x20C];
+    /* 0x261C */ SampleDmaReq* sampleDmaReqs;
+    /* 0x2620 */ u32 sampleDmaReqCnt;
+    /* 0x2624 */ u32 unk_2624; // sample start idx?
+    /* 0x2628 */ s32 unk_2628;
+    /* 0x262C */ u8 unk_262C[0x100];
+    /* 0x272C */ u8 unk_272C[0x100];
+    /* 0x282C */ u8 unk_282C;
+    /* 0x282D */ u8 unk_282D;
+    /* 0x282E */ u8 unk_282E;
+    /* 0x282F */ u8 unk_282F;
     /* 0x2830 */ SequenceTable* sequenceTable;
     /* 0x2834 */ AudioBankTable* audioBankTable;
     /* 0x2838 */ AudioTable* audioTable;
@@ -829,13 +883,14 @@ typedef struct {
     /* 0x2870 */ f32 unk_2870;
     /* 0x2874 */ s32 unk_2874;
     /* 0x2874 */ s32 unk_2878;
-    /* 0x287C */ char unk_287C[0x14];
+    /* 0x287C */ char unk_287C[0x10];
+    /* 0x288C */ s32 unk_288C;
     /* 0x2890 */ s32 gMaxAudioCmds;
     /* 0x2894 */ s32 gMaxSimultaneousNotes; // (bad name)
     /* 0x2898 */ s16 gTempoInternalToExternal;
     /* 0x289A */ s8 gSoundMode;
     /* 0x289C */ s32 unk_289C;
-    /* 0x28A0 */ s32 unk_28A0;
+    /* 0x28A0 */ s32 sampleIoReqIdx;
     /* 0x28A4 */ s32 rspTaskIdx;
     /* 0x28A8 */ s32 curAIBufIdx;
     /* 0x28AC */ u64* gAudioCmdBuffers[2];
@@ -849,7 +904,7 @@ typedef struct {
     /* 0x2974 */ s16 aiBufLengths[3];
     /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
-    /* 0x2984 */ u32 unk_2984;
+    /* 0x2984 */ volatile u32 unk_2984;
     /* 0x2988 */ char unk_2988[0x8];
     /* 0x2990 */ SoundAllocPool gAudioSessionPool;
     /* 0x29A0 */ SoundAllocPool gUnkPool;

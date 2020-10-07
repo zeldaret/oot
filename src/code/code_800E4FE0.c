@@ -1,13 +1,6 @@
 // possibly external.c
 #include "global.h"
 
-#define AS_F32(x) (*(f32*)&(x)->unk_04)
-#define AS_U8(x) (*(u8*)&(x)->unk_04)
-#define AS_S8(x) (*(s8*)&(x)->unk_04)
-#define AS_U16(x) (*(u16*)&(x)->unk_04)
-#define AS_U32(x) (*(u32*)&(x)->unk_04)
-#define AS_S32(x) (*(s32*)&(x)->unk_04)
-
 typedef enum {
     SEQUENCE_TABLE,
     BANK_TABLE,
@@ -44,7 +37,7 @@ extern u8 gAudioTable[];
 extern u8 D_80155340[];
 extern void(*D_801755D0)(void); // not sure about arguments yet.
 
-void func_800E3FB4(unk_1770_s *arg0, u32 size);
+void func_800E3FB4(AsyncLoadReq *arg0, u32 size);
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
 void *func_800E27F8(s32 tableType);
 u32 func_800E2768(s32, u32);
@@ -52,17 +45,18 @@ void *func_800E27A4(s32 poolIdx, s32 id);
 u32 func_800E2318(u32 arg0, u32 *arg1);
 u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2);
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1);
-void func_800E59AC(s32 playerIdx, u32 fadeTimer);
+void func_800E59AC(s32 playerIdx, s32 fadeTimer);
 void func_800E6818(void);
 AudioTask* func_800E5000(void);
 u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2);
 void func_800E2BCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 arg3);
-unk_1770_s *func_800E3AC8(s32 devAddr, void* ramAddr, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-unk_1770_s *func_800E3A44(char *arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+AsyncLoadReq *func_800E3AC8(s32 devAddr, void* ramAddr, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+AsyncLoadReq *func_800E3A44(char *arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4);
 u8* func_800E22C4(s32 seqId);
 void func_800E5D6C(u32);
+void func_800E6128(SequencePlayer *seqPlayer, unk_5C50_s *arg1);
 
 // AudioMgr_Retrace
 AudioTask* func_800E4FE0(void) {
@@ -159,8 +153,8 @@ AudioTask *func_800E5000(void) {
         D_801755D0();
     }
 
-    sp5C = gAudioContext.unk_28A0;
-    for(i = 0; i < gAudioContext.unk_28A0; i++) {
+    sp5C = gAudioContext.sampleIoReqIdx;
+    for(i = 0; i < gAudioContext.sampleIoReqIdx; i++) {
         if (osRecvMesg(&gAudioContext.unk_1ED0, NULL, 0) == 0) {
             sp5C--;
         }
@@ -178,7 +172,7 @@ AudioTask *func_800E5000(void) {
             osRecvMesg(&gAudioContext.unk_1ED0, NULL, 0);
         }
     }
-    gAudioContext.unk_28A0 = 0;
+    gAudioContext.sampleIoReqIdx = 0;
     func_800E11F0();
     func_800E2FEC(gAudioContext.gAudioResetStatus);
     func_800E4F58();
@@ -258,7 +252,7 @@ AudioTask *func_800E5000(void) {
 #endif
 
 void func_800E2124(u8,u8, void*);
-void func_800E5958(s32 arg0, u32 arg1);
+void func_800E5958(s32 arg0, s32 arg1);
 
 void func_800E5584(unk_5C50_s *arg0) {
     s32 i;
@@ -281,17 +275,16 @@ void func_800E5584(unk_5C50_s *arg0) {
 
         case 0x83:
             if (gAudioContext.gSequencePlayers[arg0->bytes.b1].enabled) {
-                temp_a1_5 = arg0->unk_04;
-                if (temp_a1_5 == 0) {
+                if (arg0->asInt == 0) {
                     Audio_SequencePlayerDisableAsFinished(&gAudioContext.gSequencePlayers[arg0->bytes.b1]);
                 } else {
-                    func_800E5958(arg0->bytes.b1, temp_a1_5);
+                    func_800E5958(arg0->bytes.b1, arg0->asInt);
                 }
             }
             return;
 
         case 0xF0:
-            gAudioContext.gSoundMode = AS_U32(arg0);
+            gAudioContext.gSoundMode = arg0->asUInt;
             return;
 
         case 0xF1:
@@ -303,7 +296,7 @@ void func_800E5584(unk_5C50_s *arg0) {
             return;
 
         case 0xF2:
-            if (AS_U32(arg0) == 1) {
+            if (arg0->asUInt == 1) {
                 for(i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++){
                     Note* note = &gAudioContext.gNotes[i];
                     NoteSubEu *subEu = &note->noteSubEu.bitField0;
@@ -338,14 +331,14 @@ void func_800E5584(unk_5C50_s *arg0) {
             func_800E1F7C(arg0->bytes.b2);
             return;
         case 0x90:
-            gAudioContext.unk_5BDC[arg0->bytes.b1] =  AS_U16(arg0);
+            gAudioContext.unk_5BDC[arg0->bytes.b1] =  arg0->asUShort;
             return;
         case 0xF9:
             gAudioContext.gAudioResetStatus = 5;
-            gAudioContext.gAudioResetPresetIdToLoad = AS_U32(arg0);
+            gAudioContext.gAudioResetPresetIdToLoad = arg0->asUInt;
             return;
         case 0xFB:
-            D_801755D0 = AS_U32(arg0);
+            D_801755D0 = arg0->asUInt;
             return;
 
         case 0xE0:
@@ -355,7 +348,7 @@ void func_800E5584(unk_5C50_s *arg0) {
             return;
 
         case 0xFE:
-            temp_t7 = AS_U32(arg0);
+            temp_t7 = arg0->asUInt;
             if (temp_t7 == 1) {
                 for(i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++){
                     SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[i];
@@ -367,34 +360,28 @@ void func_800E5584(unk_5C50_s *arg0) {
             func_800E66C0(temp_t7);
             return;
         case 0xE3:
-            func_800DE4B0(AS_S32(arg0));
+            func_800DE4B0(arg0->asInt);
             return;
         default:
             return;
     }
 }
 
-#ifdef NON_MATCHING
-void func_800E5958(s32 arg0, u32 arg1) {
-    SequencePlayer* seqPlayer;
-    s32 temp_t7;
-    void *temp_v0;
-    s16 phi_a1;
-    f32 a1;
+// SetFadeOutTimer
+void func_800E5958(s32 playerIdx, s32 fadeTimer) {
+    SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
 
-    if (arg1 == 0) {
-        arg1 = 1;
+    if (fadeTimer == 0) {
+        fadeTimer = 1;
     }
-    seqPlayer = &gAudioContext.gSequencePlayers[arg0];
+    
+    seqPlayer->fadeVelocity = -(seqPlayer->fadeVolume / fadeTimer);
     seqPlayer->state = 2;
-    seqPlayer->fadeTimer = arg1;
-    seqPlayer->fadeVelocity = -(seqPlayer->fadeVolume / seqPlayer->fadeTimer);
+    seqPlayer->fadeTimer = fadeTimer;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5958.s")
-#endif
 
-void func_800E59AC(s32 playerIdx, u32 fadeTimer) {
+// SetFadeInTimer
+void func_800E59AC(s32 playerIdx, s32 fadeTimer) {
     SequencePlayer* seqPlayer;
     if (fadeTimer != 0) {
         seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
@@ -419,6 +406,7 @@ void func_800E59F4(void) {
 }
 
 #ifdef NON_MATCHING
+// regalloc
 void func_800E5A8C(u32 arg0, void **arg1) {
     unk_5C50_s *t = &gAudioContext.unk_5C50[gAudioContext.unk_5BD8];
 
@@ -455,21 +443,17 @@ void func_800E5B50(u32 arg0, u16 arg1) {
     func_800E5A8C(arg0, &sp1C);
 }
 
-u32 D_801304E8 = 0;
 #ifdef NON_MATCHING
+// useless branch at the end to load -1 into v0
 s32 func_800E5B80(void) {
-    u8 temp_a0;
-    u8 temp_a3;
-    u8 temp_v0;
+    static s32 D_801304E8 = 0;
 
-    temp_v0 = gAudioContext.unk_5BD8;
-    temp_a3 = gAudioContext.unk_5BD9;
-    temp_a0 = ((temp_v0 - temp_a3) + 0x100);
-    if (D_801304E8 < temp_a0) {
-        D_801304E8 = temp_a0;
+    if (D_801304E8 < (u8)((gAudioContext.unk_5BD8 - gAudioContext.unk_5BD9) + 0x100)) {
+        D_801304E8 = (u8)((gAudioContext.unk_5BD8 - gAudioContext.unk_5BD9) + 0x100);
     }
 
-    if (osSendMesg(gAudioContext.unk_5BEC, (void*)(((temp_a3 & 0xFF) << 8) | (temp_v0 & 0xFF)), OS_MESG_NOBLOCK) != -1) {
+    
+    if (osSendMesg(gAudioContext.unk_5BEC, (void*)(((gAudioContext.unk_5BD9 & 0xFF) << 8) | (gAudioContext.unk_5BD8 & 0xFF)), OS_MESG_NOBLOCK) != -1) {
         gAudioContext.unk_5BD9 = gAudioContext.unk_5BD8;
         return 0;
     } else {
@@ -477,10 +461,15 @@ s32 func_800E5B80(void) {
     }
 }
 #else
+s32 func_800E5B80(void);
+s32 D_801304E8 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5B80.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5C10.s")
+void func_800E5C10(void) {
+    gAudioContext.unk_5BDA = 0;
+    gAudioContext.unk_5BD9 = gAudioContext.unk_5BD8;
+}
 
 void func_800E5C28(unk_5C50_s *arg01) {
     unk_5c50_b* arg0 = arg01;
@@ -569,40 +558,50 @@ void func_800E5EA4(s32 arg0, u32 *arg1, u32 *arg2) {
     *arg2 = gAudioContext.gCtlEntries[arg0].unk_03;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5EDC.s")
+s32 func_800E5EDC(void) {
+    s32 pad;
+    s32 sp18;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5F34.s")
-
-#ifdef NON_MATCHING
-s32 func_800E5F88(u32 arg0) {
-    s32 sp24;
-    u32 sp20;
-    u8 temp_v0;
-
-    func_800E5F34();
-    temp_v0 = gAudioContext.gAudioResetStatus;
-    if (temp_v0 != 0) {
-        func_800E5C10();
-        if (arg0 == gAudioContext.gAudioResetPresetIdToLoad) {
-            return -2;
-        }
-        if (temp_v0 >= 3) {
-            gAudioContext.gAudioResetPresetIdToLoad = arg0;
-            return -3;
-        }
-        osRecvMesg(gAudioContext.unk_5BE4, &sp20, 1);
+    if (osRecvMesg(gAudioContext.unk_5BE4, &sp18, 0) == -1) {
+        return 0;
+    } else if (gAudioContext.gAudioResetPresetIdToLoad != sp18) {
+        return -1;
+    } else {
+        return 1;
     }
+}
+
+void func_800E5F34(void)
+{
+    // probably a macro of some type? 
+    s32 chk = -1; s32 sp28; do {} while (osRecvMesg(gAudioContext.unk_5BE4, &sp28, 0) != chk);
+}
+
+s32 func_800E5F88(u32 resetPreloadID) {
+    s32 resetStatus;
+    OSMesg msg;
+    s32 pad;
+
     func_800E5F34();
-    func_800E5AFC(0xF9000000U, arg0);
+    resetStatus = gAudioContext.gAudioResetStatus;
+    if (resetStatus != 0) {
+        func_800E5C10();
+        if (gAudioContext.gAudioResetPresetIdToLoad == resetPreloadID) {
+            return -2;
+        } else if (resetStatus > 2) {
+            gAudioContext.gAudioResetPresetIdToLoad = resetPreloadID;
+            return -3;
+        } else {
+            osRecvMesg(gAudioContext.unk_5BE4, &msg, OS_MESG_BLOCK);
+        }
+    }
+
+    func_800E5F34();
+    func_800E5AFC(0xF9000000, resetPreloadID);
+    
     return func_800E5B80();
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5F88.s")
-s32 func_800E5F88(u32 arg0);
-#endif
 
-#ifdef NON_MATCHING
-extern u32 D_801304D8;
 void func_800E6024(void) {
     gAudioContext.unk_2984 = 1;
     if (D_801304D8 != 0) {
@@ -610,9 +609,6 @@ void func_800E6024(void) {
         gAudioContext.gAudioResetStatus = 0;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E6024.s")
-#endif
 
 s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
     SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
@@ -637,81 +633,134 @@ void func_800E611C(void) {
     gAudioContext.gUnkPool.start = NULL;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E6128.s")
+void func_800E6128(SequencePlayer *seqPlayer, unk_5C50_s *arg1) {
+    f32 phi_f0;
+    switch(arg1->b0){
+        case 0x41:
+            if (seqPlayer->fadeVolumeScale != arg1->asFloat) {
+                seqPlayer->fadeVolumeScale = arg1->asFloat;
+                seqPlayer->recalculateVolume = 1;
+            }
+            return;
+        case 0x47:
+            seqPlayer->tempo = arg1->asInt * 0x30;
+            return;
+        case 0x49:
+            seqPlayer->unk_0C = arg1->asInt * 0x30;
+            return;
+        case 0x4E:
+            seqPlayer->unk_0C = arg1->asInt;
+            return;
+        case 0x48:
+            seqPlayer->transposition = arg1->asSbyte;
+            return;
+        case 0x46:
+            seqPlayer->unk_158[arg1->b3] = arg1->asSbyte;
+            return;
+        case 0x4A:
+            phi_f0 = (s32)arg1->b2 / 127.0f;
+            goto block_11;
+        case 0x4B:
+            phi_f0 = ((s32)arg1->b2 / 100.0f) * seqPlayer->fadeVolume;
+    block_11:
+            if (seqPlayer->state != 2) {
+                seqPlayer->volume = seqPlayer->fadeVolume;
+                if (arg1->asInt == 0) {
+                    seqPlayer->fadeVolume = phi_f0;
+                } else {
+                    s32 tmp = arg1->asInt;
+                    seqPlayer->state = 0;
+                    seqPlayer->fadeTimer = tmp;
+                    seqPlayer->fadeVelocity = (phi_f0 - seqPlayer->fadeVolume) / tmp;
+                }
+            }
+            return;
+        case 0x4C:
+            if (seqPlayer->state != 2) {
+                if (arg1->asInt == 0) {
+                    seqPlayer->fadeVolume = seqPlayer->volume;
+                } else {
+                    s32 tmp = arg1->asInt;
+                    seqPlayer->state = 0;
+                    seqPlayer->fadeTimer = tmp;
+                    seqPlayer->fadeVelocity = (seqPlayer->volume - seqPlayer->fadeVolume) / tmp;
+                }
+            }
+            return;
+        case 0x4D:
+            seqPlayer->unk_34 = arg1->asFloat;
+            if (seqPlayer->unk_34 == 1.0f) {
+                seqPlayer->unk_0b1 = 0;
+            } else {
+                seqPlayer->unk_0b1 = 1;
+            }
+    }
+}
 
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1) {
-    f32 floatData;
-    s8 s8Data;
-
     switch(arg1->bytes.b0){
         case CHAN_UPD_VOL_SCALE:
-            floatData = AS_F32(arg1);
-            if (floatData != channel->volumeScale) {
-                channel->volumeScale = floatData;
+            if (channel->volumeScale != arg1->asFloat) {
+                channel->volumeScale = arg1->asFloat;
                 channel->changes.s.volume = 1;
             }
             return;
         case CHAN_UPD_VOL:
-            floatData = AS_F32(arg1);
-            if (floatData != channel->volume) {
-                channel->volume = floatData;
+            if (channel->volume != arg1->asFloat) {
+                channel->volume = arg1->asFloat;
                 channel->changes.s.volume = 1;
             }
             return;
         case CHAN_UPD_PAN_SIGNED:
-            s8Data = AS_S8(arg1);
-            if (s8Data != channel->newPan) {
-                channel->newPan = s8Data;
+            if (channel->newPan != arg1->asSbyte) {
+                channel->newPan = arg1->asSbyte;
                 channel->changes.s.pan = 1;
             }
             return;
         case CHAN_UPD_PAN_UNSIGNED:
-            s8Data = AS_U8(arg1);
-            if (s8Data != channel->newPan) {
-                channel->panChannelWeight = s8Data;
+            if (channel->newPan != arg1->asSbyte) {
+                channel->panChannelWeight = arg1->asSbyte;
                 channel->changes.s.pan = 1;
             }
             return;
         case CHAN_UPD_FREQ_SCALE:
-            floatData = AS_F32(arg1);
-            if (floatData != channel->freqScale) {
-                channel->freqScale = floatData;
+            if (channel->freqScale != arg1->asFloat) {
+                channel->freqScale = arg1->asFloat;
                 channel->changes.s.freqScale = 1;
             }
             return;
         case CHAN_UPD_REVERB:
-            s8Data = AS_S8(arg1);
-            if (s8Data != channel->reverb) {
-                channel->reverb = s8Data;
+            if (channel->reverb != arg1->asSbyte) {
+                channel->reverb = arg1->asSbyte;
             }
             return;
         case CHAN_UPD_SCRIPT_IO:
             if (arg1->bytes.b3 < 8) {
-                channel->soundScriptIO[arg1->bytes.b3] = AS_S8(arg1);
+                channel->soundScriptIO[arg1->bytes.b3] = arg1->asSbyte;
             }
             return;
         case CHAN_UPD_STOP_SOMETHING2:
-            channel->stopSomething2 = AS_S8(arg1);
+            channel->stopSomething2 = arg1->asSbyte;
             return;
         case CHAN_UPD_MUTE_BEHAVE:
-            channel->muteBehavior = AS_S8(arg1);
+            channel->muteBehavior = arg1->asSbyte;
             return;
         case CHAN_UPD_VIBE_X8:
-            channel->vibratoExtentTarget = AS_U8(arg1) * 8;
+            channel->vibratoExtentTarget = arg1->asUbyte * 8;
             channel->vibratoExtentChangeDelay = 1;
             return;
         case CHAN_UPD_VIBE_X32:
-            channel->vibratoRateTarget = AS_U8(arg1) * 32;
+            channel->vibratoRateTarget = arg1->asUbyte * 32;
             channel->vibratoRateChangeDelay = 1;
             return;
         case CHAN_UPD_UNK_0F:
-            channel->unk_0F = AS_U8(arg1);
+            channel->unk_0F = arg1->asUbyte;
             return;
         case CHAN_UPD_UNK_20:
-            channel->unk_20 = AS_U16(arg1);
+            channel->unk_20 = arg1->asUShort;
             return;
         case CHAN_UPD_REVERB_FLG:
-            channel->reverbBits.asByte = AS_U8(arg1);
+            channel->reverbBits.asByte = arg1->asUbyte;
             return;
     }
 }
@@ -786,7 +835,41 @@ void func_800E66A0(void) {
     func_800E66C0(2);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E66C0.s")
+s32 func_800E66C0(s32 arg0) {
+    s32 phi_v1;
+    NotePlaybackState *temp_a2;
+    NoteSubEu *temp_a3;
+    s32 i;
+    Note* note;
+    AudioBankSound* sound;
+
+    phi_v1 = 0;
+    for(i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++){
+        note = &gAudioContext.gNotes[i];
+        temp_a2 = &note->playbackState;
+        if(note->noteSubEu.bitField0.s.enabled){
+            temp_a3 = &note->noteSubEu;
+            if(temp_a2->adsr.action.s.state != 0){
+                if(arg0 >= 2) {
+                    sound = temp_a3->sound.audioBankSound;
+                    if(sound == NULL || temp_a3->bitField1.s.bit2){
+                        continue;
+                    }
+                    if(sound->sample->bits2 == 0){
+                        continue;
+                    }
+                }
+
+                phi_v1++;
+                if((arg0 & 1) == 1){
+                    temp_a2->adsr.fadeOutVel = gAudioContext.gAudioBufferParameters.updatesPerFrameInv;
+                    temp_a2->adsr.action.s.release = 1;
+                }
+            }
+        }
+    }
+    return phi_v1;
+}
 
 u32 Audio_RandUInt(void) {
     static u32 audRand = 0x12345678;

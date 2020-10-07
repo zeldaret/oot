@@ -2071,7 +2071,7 @@ void Audio_SetSeqLoadStatus(s32 seqId, s32 status);
 // ? func_800E1F38(?);
 // ? func_800E1F7C(?);
 // ? func_800E202C(?);
-// ? func_800E20D4(?);
+s32 func_800E20D4(s32 playerIdx, s32 seqId, s32 arg2);
 // ? func_800E2124(?);
 // ? func_800E217C(?);
 // ? func_800E22C4(?);

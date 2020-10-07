@@ -792,7 +792,7 @@ void func_800DFBF8(void) {
     u32 intMask;
 
     preset = &gAudioSessionPresets[gAudioContext.gAudioResetPresetIdToLoad];
-    gAudioContext.gSampleDmaNumListItems = 0;
+    gAudioContext.sampleDmaReqCnt = 0;
     gAudioContext.gAudioBufferParameters.frequency = preset->frequency;
     gAudioContext.gAudioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.gAudioBufferParameters.frequency);
     gAudioContext.gAudioBufferParameters.samplesPerFrameTarget =
@@ -1303,7 +1303,7 @@ void func_800E0EB4(s32 arg0, s32 id) {
     sp78.unk_C = thing->unk_08;
 
     if ((sp78.unk_C == 2) || (sp78.unk_C == 3)) {
-        sp78.unk_4 = thing->tableOffset;
+        sp78.unk_4 = thing->romAddr;
     } else {
         sp78.unk_4 = NULL;
     }

@@ -618,7 +618,7 @@ void func_800F28B4(void) {
     }
 
     if (D_8016BAB8 & 0x8000) {
-        func_800E5B20(0x46000000, D_80131F4C[1]);
+        func_800E5B20(MK_CMD(0x46, 0x00, 0x00 , 0x00), D_80131F4C[1]);
         Audio_SetBGM(D_80131F4C[0] | 0x10000);
     }
 
