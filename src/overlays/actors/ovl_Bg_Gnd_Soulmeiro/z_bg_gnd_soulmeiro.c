@@ -45,7 +45,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 
 Gfx* D_8087B578[] = { 0x06007C00, 0x06002320, 0x060035A0 };
@@ -104,7 +104,9 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
     s32 i;
     BgGndSoulmeiro* this2;
 
-    (this->unk_198) == 0 ? 0 : ((this->unk_198--));
+    if (this->unk_198 != 0) {
+        this->unk_198--;
+    }
 
     if (this->unk_198 == 20) {
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
@@ -146,7 +148,7 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
             vecA.x = 4.0f * temp_3 * distXZ;
             vecA.y = 0.0f;
             vecA.z = 4.0f * temp_4 * distXZ;
-            EffectSsDeadDb_Spawn(globalCtx, &this->actor.initPosRot.pos, &vecA, &zeroVec, 60, 6, 255, 255, 150,
+            EffectSsDeadDb_Spawn(globalCtx, &this->actor.initPosRot.pos, &vecA, &sZeroVec, 60, 6, 255, 255, 150,
                                  170, 255, 0, 0, 1, 14, true);
             temp_2 += 0x2AAA;
         }
@@ -158,7 +160,7 @@ void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 
     if (!Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         this->actor.draw = BgGndSoulmeiro_Draw;
-        if ((this->collider.base.acFlags & 2) != 0) {
+        if (this->collider.base.acFlags & 2) {
             Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_198 = 40;
             this->actionFunc = func_8087AF38;
