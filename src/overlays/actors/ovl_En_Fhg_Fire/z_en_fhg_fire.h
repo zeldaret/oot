@@ -12,7 +12,7 @@ typedef enum {
     /*   1 */ FHG_LIGHTNING_STRIKE = 1,
     /*  35 */ FHG_LIGHTNING_SHOCK = 35,
     /*  36 */ FHG_LIGHTNING_BURST,
-    /*  38 */ FHG_SPEAR_SPARK = 38,
+    /*  38 */ FHG_SPEAR_LIGHT = 38,
     /*  39 */ FHG_WARP_EMERGE,
     /*  40 */ FHG_WARP_RETREAT,
     /*  41 */ FHG_WARP_DEATH,

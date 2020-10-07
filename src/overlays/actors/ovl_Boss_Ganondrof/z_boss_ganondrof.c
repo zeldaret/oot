@@ -75,13 +75,13 @@ const ActorInit Boss_Ganondrof_InitVars = {
     (ActorFunc)BossGanondrof_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit1 = {
+static ColliderCylinderInit sCylinderInitBody = {
     { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
     { 30, 90, -50, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit sCylinderInit2 = {
+static ColliderCylinderInit sCylinderInitSpear = {
     { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 20, 30, -20, { 0, 0, 0 } },
@@ -215,18 +215,18 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params < 10) {
         this->actor.params = 1;
         this->actor.colChkInfo.health = 30;
-        this->unk_4CC = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->unk_4D0);
-        Lights_PointNoGlowSetInfo(&this->unk_4D0, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                   this->actor.posRot.pos.z, 255, 255, 255, 255);
         BossGanondrof_SetupIntro(this, globalCtx);
     } else {
         BossGanondrof_SetupPaintings(this);
     }
 
-    Collider_InitCylinder(globalCtx, &this->collider1);
-    Collider_InitCylinder(globalCtx, &this->collider2);
-    Collider_SetCylinder(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
-    Collider_SetCylinder(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
+    Collider_InitCylinder(globalCtx, &this->colliderBody);
+    Collider_InitCylinder(globalCtx, &this->colliderSpear);
+    Collider_SetCylinder(globalCtx, &this->colliderBody, &this->actor, &sCylinderInitBody);
+    Collider_SetCylinder(globalCtx, &this->colliderSpear, &this->actor, &sCylinderInitSpear);
     this->actor.flags &= ~1;
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
@@ -243,10 +243,10 @@ void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("DT1\n");
     SkelAnime_Free(&this->skelAnime, globalCtx);
-    Collider_DestroyCylinder(globalCtx, &this->collider1);
-    Collider_DestroyCylinder(globalCtx, &this->collider2);
+    Collider_DestroyCylinder(globalCtx, &this->colliderBody);
+    Collider_DestroyCylinder(globalCtx, &this->colliderSpear);
     if (this->actor.params == 1) {
-        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->unk_4CC);
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     }
 
     osSyncPrintf("DT2\n");
@@ -308,7 +308,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600D99C, -7.0f);
         tmpHorse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                           this->spearPos.y, this->spearPos.z, 0x32, 0, 0, FHG_SPEAR_SPARK);
+                           this->spearPos.y, this->spearPos.z, 0x32, 0, 0, FHG_SPEAR_LIGHT);
         this->actor.child = &tmpHorse->actor;
     }
 
@@ -368,7 +368,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
         this->actor.flags |= 1;
         horse2 = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                           this->spearPos.y, this->spearPos.z, 0x1E, 0, 0, FHG_SPEAR_SPARK);
+                           this->spearPos.y, this->spearPos.z, 0x1E, 0, 0, FHG_SPEAR_LIGHT);
         this->actor.child = &horse2->actor;
     } else if (horse->bossPGintroState == 3) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003080, -2.0f);
@@ -386,9 +386,9 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     if (this->actionState != 0) {
         BossGanondrof_SetupIdle(this, -20.0f);
         this->timers[0] = 100;
-        this->collider1.dim.radius = 20;
-        this->collider1.dim.height = 60;
-        this->collider1.dim.yShift = -33;
+        this->colliderBody.dim.radius = 20;
+        this->colliderBody.dim.height = 60;
+        this->colliderBody.dim.yShift = -33;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
         this->actor.naviEnemyId = 0x1A;
     } else {
@@ -563,7 +563,7 @@ void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
 
     horse = (EnfHG*)this->actor.child;
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                       this->spearPos.y, this->spearPos.z, tmpf1, 0, 0, FHG_SPEAR_SPARK);
+                       this->spearPos.y, this->spearPos.z, tmpf1, 0, 0, FHG_SPEAR_LIGHT);
     this->actor.child = &horse->actor;
     this->throwCount++;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
@@ -710,7 +710,7 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
 void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 tmpf1;
 
-    this->collider1.base.type = 9;
+    this->colliderBody.base.type = 9;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
@@ -753,7 +753,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 tmpf1 = this->actor.posRot.pos.x - 14.0f;
     f32 tmpf2 = this->actor.posRot.pos.z - -3315.0f;
 
-    this->collider1.base.type = 9;
+    this->colliderBody.base.type = 9;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     switch (this->animeIndex) {
         case 0:
@@ -866,7 +866,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
     if (!(this->varianceTimer & 7)) {
         horse = (EnfHG*)this->actor.child;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                           this->spearPos.y, this->spearPos.z, 8, 1, 0, FHG_SPEAR_SPARK);
+                           this->spearPos.y, this->spearPos.z, 8, 1, 0, FHG_SPEAR_LIGHT);
         this->actor.child = &horse->actor;
     }
 }
@@ -1172,13 +1172,13 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
     if (this->invincibilityTimer != 0) {
         this->invincibilityTimer--;
         this->volleyCount = 0;
-        this->collider1.base.acFlags &= ~2;
+        this->colliderBody.base.acFlags &= ~2;
     } else {
-        acFlagCheck = this->collider1.base.acFlags & 2;
+        acFlagCheck = this->colliderBody.base.acFlags & 2;
         if ((acFlagCheck && ((s8)this->actor.colChkInfo.health > 0)) || (this->volleyCount != 0)) {
             if (acFlagCheck) {
-                this->collider1.base.acFlags &= ~2;
-                hurtbox = this->collider1.body.acHitItem;
+                this->colliderBody.base.acFlags &= ~2;
+                hurtbox = this->colliderBody.body.acHitItem;
             }
             if (this->actionState != 0) {
                 if (acFlagCheck && (this->actionFunc != BossGanondrof_Vulnerable) &&
@@ -1243,7 +1243,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~0x400;
-    this->collider1.base.type = 3;
+    this->colliderBody.base.type = 3;
     if (this->killActor) {
         Actor_Kill(&this->actor);
         return;
@@ -1264,21 +1264,21 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     osSyncPrintf("MOVE END\n");
-    BossGanondrof_SetColliderPos(&this->unk_20C, &this->collider1);
-    BossGanondrof_SetColliderPos(&this->spearPos, &this->collider2);
+    BossGanondrof_SetColliderPos(&this->unk_20C, &this->colliderBody);
+    BossGanondrof_SetColliderPos(&this->spearPos, &this->colliderSpear);
     if ((this->actionState == 0) && !horse->bossPGinPainting) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     }
 
     if ((this->actionFunc == BossGanondrof_Vulnerable) && (this->timers[0] >= 2)) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     } else if (this->actionFunc == BossGanondrof_Block) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     } else if (this->actionFunc == BossGanondrof_Charge) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSpear.base);
     }
 
     this->actor.posRot2.pos = this->unk_20C;
@@ -1306,7 +1306,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == 1) {
-        Lights_PointNoGlowSetInfo(&this->unk_4D0, this->spearPos.x, this->spearPos.y, this->spearPos.z, 0xFF, 0xFF,
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->spearPos.x, this->spearPos.y, this->spearPos.z, 0xFF, 0xFF,
                                   0xFF, 0xC8);
     }
 }

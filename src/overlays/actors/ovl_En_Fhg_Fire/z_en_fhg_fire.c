@@ -95,7 +95,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.radius = this->actor.posRot.rot.x * 0.13f;
         this->collider.dim.height = this->actor.posRot.rot.x * 0.13f;
         this->collider.dim.yShift = 0;
-    } else if (this->actor.params == FHG_SPEAR_SPARK) {
+    } else if (this->actor.params == FHG_SPEAR_LIGHT) {
         // "light spear"
         osSyncPrintf("yari hikari ct 1\n");
         EnFhgFire_SetUpdate(this, EnFhgFire_SpearSpark);
@@ -678,7 +678,7 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
-    } else if ((this->actor.params == FHG_SPEAR_SPARK) || (this->actor.params == FHG_ENERGY_BALL)) {
+    } else if ((this->actor.params == FHG_SPEAR_LIGHT) || (this->actor.params == FHG_ENERGY_BALL)) {
         osSyncPrintf("yari hikari draw 1\n");
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_80093D84(globalCtx->state.gfxCtx);

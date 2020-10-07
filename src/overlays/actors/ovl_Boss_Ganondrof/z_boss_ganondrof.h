@@ -77,10 +77,10 @@ typedef struct BossGanondrof {
     /* 0x03D8 */ f32 unk_3D8;
     /* 0x03DC */ f32 unk_3DC[30];
     /* 0x0454 */ f32 unk_454[30];
-    /* 0x04CC */ LightNode* unk_4CC;
-    /* 0x04D0 */ LightInfo unk_4D0;
-    /* 0x04E0 */ ColliderCylinder collider1;
-    /* 0x052C */ ColliderCylinder collider2;
+    /* 0x04CC */ LightNode* lightNode;
+    /* 0x04D0 */ LightInfo lightInfo;
+    /* 0x04E0 */ ColliderCylinder colliderBody;
+    /* 0x052C */ ColliderCylinder colliderSpear;
 } BossGanondrof; // size = 0x0578
 
 extern const ActorInit Boss_Ganondrof_InitVars;
