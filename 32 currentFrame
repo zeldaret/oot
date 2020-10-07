@@ -1,0 +1,908 @@
+TARGET                                              CURRENT                                           PREVIOUS
+[39m2788:    addiu   sp,sp,-0x50[0m                      [39m  [39m2788:    addiu   sp,sp,-0x50[0m                    
+[39m278c:    sw      ra,0x24(sp)[0m                      [39m  [39m278c:    sw      ra,0x24(sp)[0m                    
+[39m2790:    sw      s0,0x20(sp)[0m                      [39m  [39m2790:    sw      s0,0x20(sp)[0m                    
+[39m2794:    lw      t6,0x1c44(a1)[0m                    [39m  [39m2794:    lw      t6,0x1c44(a1)[0m                  
+[39m2798:    move    s0,a0[0m                            [39m  [39m2798:    move    s0,a0[0m                          
+[39m279c:    lui     a1,0x3f19[0m                        [39m  [39m279c:    lui     a1,0x3f19[0m                      
+[39m27a0:    sw      t6,0x3c(sp)[0m                      [39m  [39m27a0:    sw      t6,0x3c(sp)[0m                    
+[39m27a4:    lh      t8,0xb6(a0)[0m                      [39m  [39m27a4:    lh      t8,0xb6(a0)[0m                    
+[39m27a8:    lh      t7,0x8a(a0)[0m                      [39m  [39m27a8:    lh      t7,0x8a(a0)[0m                    
+[39m27ac:    addiu   a0,s0,0x68[0m                       [39m  [39m27ac:    addiu   a0,s0,0x68[0m                     
+[39m27b0:    ori     a1,a1,0x9999[0m                     [39m  [39m27b0:    ori     a1,a1,0x9999[0m                   
+[39m27b4:    subu    v1,t7,t8[0m                         [39m  [39m27b4:    subu    v1,t7,t8[0m                       
+[39m27b8:    sll     v1,v1,0x10[0m                       [39m  [39m27b8:    sll     v1,v1,0x10[0m                     
+[39m27bc:    sra     v1,v1,0x10[0m                       [39m  [39m27bc:    sra     v1,v1,0x10[0m                     
+[39m27c0:    bgez    v1,27d4[0m [35m~>[39m                       [39m  [39m27c0:    bgez    v1,27d4[0m [35m~>[39m                     
+[39m27c4:    lui     a2,0x3dcc[0m                        [39m  [39m27c4:    lui     a2,0x3dcc[0m                      
+[39m27c8:    negu    v1,v1[0m                            [39m  [39m27c8:    negu    v1,v1[0m                          
+[39m27cc:    sll     v1,v1,0x10[0m                       [39m  [39m27cc:    sll     v1,v1,0x10[0m                     
+[39m27d0:    sra     v1,v1,0x10[0m                       [39m  [39m27d0:    sra     v1,v1,0x10[0m                     
+[39m27d4: [35m~>[39m[39m mtc1    zero,$f4[0m                         [39m  [39m27d4: [35m~>[39m[39m mtc1    zero,$f4[0m                       
+[39m27d8:    ori     a2,a2,0xcccd[0m                     [39m  [39m27d8:    ori     a2,a2,0xcccd[0m                   
+[39m27dc:    lui     a3,0x3f80[0m                        [39m  [39m27dc:    lui     a3,0x3f80[0m                      
+[39m27e0:    sh      v1,0x3a(sp)[0m                      [39m  [39m27e0:    sh      v1,0x3a(sp)[0m                    
+[39m27e4:    jal     Math_SmoothScaleMaxMinF[0m          [39m  [39m27e4:    jal     Math_SmoothScaleMaxMinF[0m        
+[39m27e8:    swc1    $f4,0x10(sp)[0m                     [39m  [39m27e8:    swc1    $f4,0x10(sp)[0m                   
+[39m27ec:    lwc1    $f8,0x1a4(s0)[0m                    [39m  [39m27ec:    lwc1    $f8,0x1a4(s0)[0m                  
+[39m27f0:    lwc1    $f6,0x68(s0)[0m                     [39m  [39m27f0:    lwc1    $f6,0x68(s0)[0m                   
+[39m27f4:    addiu   a0,s0,0x18c[0m                      [39m  [39m27f4:    addiu   a0,s0,0x18c[0m                    
+[39m27f8:    trunc.w.s $f10,$f8[0m                       [39m  [39m27f8:    trunc.w.s $f10,$f8[0m                     
+[39m27fc:    swc1    $f6,0x1a8(s0)[0m                    [39m  [39m27fc:    swc1    $f6,0x1a8(s0)[0m                  
+[39m2800:    mfc1    t0,$f10[0m                          [39m  [39m2800:    mfc1    t0,$f10[0m                        
+[39m2804:    jal     SkelAnime_FrameUpdateMatrix[0m      [39m  [39m2804:    jal     SkelAnime_FrameUpdateMatrix[0m    
+[39m2808:    sw      t0,0x4c(sp)[0m                      [39m  [39m2808:    sw      t0,0x4c(sp)[0m                    
+[39m280c:    mtc1    zero,$f2[0m                         [39m  [39m280c:    mtc1    zero,$f2[0m                       
+[39m2810:    lwc1    $f0,0x1a8(s0)[0m                    [39m  [39m2810:    lwc1    $f0,0x1a8(s0)[0m                  
+[39m2814:    lh      v1,0x3a(sp)[0m                      [39m  [39m2814:    lh      v1,0x3a(sp)[0m                    
+[39m2818:    addiu   a0,s0,8[0m                          [39m  [39m2818:    addiu   a0,s0,8[0m                        
+[39m281c:    c.le.s  $f2,$f0[0m                          [39m  [39m281c:    c.le.s  $f2,$f0[0m                        
+[39m2820:    nop[0m                                      [39m  [39m2820:    nop[0m                                    
+[39m2824:    bc1fl   2838[0m [36m~>[39m                          [39m  [39m2824:    bc1fl   2838[0m [36m~>[39m                        
+[39m2828:    neg.s   $f16,$f0[0m                         [39m  [39m2828:    neg.s   $f16,$f0[0m                       
+[39m282c:    b       283c[0m [32m~>[39m                          [39m  [39m282c:    b       283c[0m [32m~>[39m                        
+[39m2830:    swc1    $f0,0x34(sp)[0m                     [39m  [39m2830:    swc1    $f0,0x34(sp)[0m                   
+[39m2834: [36m~>[39m[39m neg.s   $f16,$f0[0m                         [39m  [39m2834: [36m~>[39m[39m neg.s   $f16,$f0[0m                       
+[39m2838:    swc1    $f16,0x34(sp)[0m                    [39m  [39m2838:    swc1    $f16,0x34(sp)[0m                  
+[39m283c: [32m~>[39m[39m lwc1    $f18,0x1a4(s0)[0m                   [39m  [39m283c: [32m~>[39m[39m lwc1    $f18,0x1a4(s0)[0m                 
+[39m2840:    lwc1    $f4,0x34(sp)[0m                     [39m  [39m2840:    lwc1    $f4,0x34(sp)[0m                   
+[39m2844:    c.le.s  $f2,$f0[0m                          [39m  [39m2844:    c.le.s  $f2,$f0[0m                        
+[39m2848:    sub.s   $f6,$f18,$f4[0m                     [39m  [39m2848:    sub.s   $f6,$f18,$f4[0m                   
+[39m284c:    trunc.w.s $f8,$f6[0m                        [39m  [39m284c:    trunc.w.s $f8,$f6[0m                      
+[39m2850:    mfc1    t2,$f8[0m                           [39m  [39m2850:    mfc1    t2,$f8[0m                         
+[39m2854:    bc1f    2864[0m [31m~>[39m                          [39m  [39m2854:    bc1f    2864[0m [31m~>[39m                        
+[39m2858:    sw      t2,0x48(sp)[0m                      [39m  [39m2858:    sw      t2,0x48(sp)[0m                    [33ms [39m2858:    sw      t2,[93m0x44(sp)[39m[0m
+[39m285c:    b       286c[0m [93m~>[39m                          [39m  [39m285c:    b       286c[0m [93m~>[39m                        
+[39m2860:    swc1    $f0,0x34(sp)[0m                     [39m  [39m2860:    swc1    $f0,0x34(sp)[0m                   
+[39m2864: [31m~>[39m[39m neg.s   $f10,$f0[0m                         [39m  [39m2864: [31m~>[39m[39m neg.s   $f10,$f0[0m                       
+[39m2868:    swc1    $f10,0x34(sp)[0m                    [39m  [39m2868:    swc1    $f10,0x34(sp)[0m                  
+[39m286c: [93m~>[39m[39m lh      t3,0x32e(s0)[0m                     [39m  [39m286c: [93m~>[39m[39m lh      t3,0x32e(s0)[0m                   
+[39m2870:    lw      a1,0x3c(sp)[0m                      [39m  [39m2870:    lw      a1,0x3c(sp)[0m                    
+[39m2874:    bnez    t3,28f8[0m [95m~>[39m                       [39m  [39m2874:    bnez    t3,28f8[0m [95m~>[39m                     
+[39m2878:    addiu   a1,a1,0x24[0m                       [39m  [39m2878:    addiu   a1,a1,0x24[0m                     
+[39m287c:    jal     Math_Vec3f_DistXZ[0m                [39m  [39m287c:    jal     Math_Vec3f_DistXZ[0m              
+[39m2880:    sh      v1,0x3a(sp)[0m                      [39m  [39m2880:    sh      v1,0x3a(sp)[0m                    
+[39m2884:    lwc1    $f16,0x364(s0)[0m                   [39m  [39m2884:    lwc1    $f16,0x364(s0)[0m                 
+[39m2888:    lh      v1,0x3a(sp)[0m                      [39m  [39m2888:    lh      v1,0x3a(sp)[0m                    
+[39m288c:    addiu   a0,s0,0x32[0m                       [39m  [39m288c:    addiu   a0,s0,0x32[0m                     
+[39m2890:    c.lt.s  $f0,$f16[0m                         [39m  [39m2890:    c.lt.s  $f0,$f16[0m                       
+[39m2894:    li      a2,1[0m                             [39m  [39m2894:    li      a2,1[0m                           
+[39m2898:    li      a3,0x2ee[0m                         [39m  [39m2898:    li      a3,0x2ee[0m                       
+[39m289c:    bc1fl   28fc[0m [95m~>[39m                          [39m  [39m289c:    bc1fl   28fc[0m [95m~>[39m                        
+[39m28a0:    lw      t6,4(s0)[0m                         [39m  [39m28a0:    lw      t6,4(s0)[0m                       
+[39m28a4:    lh      a1,0x8a(s0)[0m                      [39m  [39m28a4:    lh      a1,0x8a(s0)[0m                    
+[39m28a8:    sh      v1,0x3a(sp)[0m                      [39m  [39m28a8:    sh      v1,0x3a(sp)[0m                    
+[39m28ac:    jal     Math_SmoothScaleMaxMinS[0m          [39m  [39m28ac:    jal     Math_SmoothScaleMaxMinS[0m        
+[39m28b0:    sw      zero,0x10(sp)[0m                    [39m  [39m28b0:    sw      zero,0x10(sp)[0m                  
+[39m28b4:    lui     at,0x43fa[0m                        [39m  [39m28b4:    lui     at,0x43fa[0m                      
+[39m28b8:    mtc1    at,$f4[0m                           [39m  [39m28b8:    mtc1    at,$f4[0m                         
+[39m28bc:    lwc1    $f18,0x90(s0)[0m                    [39m  [39m28bc:    lwc1    $f18,0x90(s0)[0m                  
+[39m28c0:    lw      t4,4(s0)[0m                         [39m  [39m28c0:    lw      t4,4(s0)[0m                       
+[39m28c4:    lh      v1,0x3a(sp)[0m                      [39m  [39m28c4:    lh      v1,0x3a(sp)[0m                    
+[39m28c8:    c.lt.s  $f18,$f4[0m                         [39m  [39m28c8:    c.lt.s  $f18,$f4[0m                       
+[39m28cc:    ori     t5,t4,0x1[0m                        [39m  [39m28cc:    ori     t5,t4,0x1[0m                      
+[39m28d0:    sw      t5,4(s0)[0m                         [39m  [39m28d0:    sw      t5,4(s0)[0m                       
+[39m28d4:    slti    at,v1,0x1388[0m                     [39m  [39m28d4:    slti    at,v1,0x1388[0m                   
+[39m28d8:    bc1fl   2a08[0m [96m~>[39m                          [39m  [39m28d8:    bc1fl   2a08[0m [96m~>[39m                        
+[39m28dc:    lwc1    $f10,0x1a4(s0)[0m                   [39m  [39m28dc:    lwc1    $f10,0x1a4(s0)[0m                 
+[39m28e0:    beqzl   at,2a08[0m [96m~>[39m                       [39m  [39m28e0:    beqzl   at,2a08[0m [96m~>[39m                     
+[39m28e4:    lwc1    $f10,0x1a4(s0)[0m                   [39m  [39m28e4:    lwc1    $f10,0x1a4(s0)[0m                 
+[39m28e8:    jal     func_80AA6AC8[0m                    [39m  [39m28e8:    jal     func_80AA6AC8[0m                  
+[39m28ec:    move    a0,s0[0m                            [39m  [39m28ec:    move    a0,s0[0m                          
+[39m28f0:    b       2a08[0m [92m~>[39m                          [39m  [39m28f0:    b       2a08[0m [92m~>[39m                        
+[39m28f4:    lwc1    $f10,0x1a4(s0)[0m                   [39m  [39m28f4:    lwc1    $f10,0x1a4(s0)[0m                 
+[39m28f8: [95m~>[39m[39m lw      t6,4(s0)[0m                         [39m  [39m28f8: [95m~>[39m[39m lw      t6,4(s0)[0m                       
+[39m28fc:    li      at,-2[0m                            [39m  [39m28fc:    li      at,-2[0m                          
+[39m2900:    addiu   a0,s0,0x24[0m                       [39m  [39m2900:    addiu   a0,s0,0x24[0m                     
+[39m2904:    and     t7,t6,at[0m                         [39m  [39m2904:    and     t7,t6,at[0m                       
+[39m2908:    sw      t7,4(s0)[0m                         [39m  [39m2908:    sw      t7,4(s0)[0m                       
+[39m290c:    addiu   a1,s0,8[0m                          [39m  [39m290c:    addiu   a1,s0,8[0m                        
+[39m2910:    sw      a1,[93m0x30(sp)[39m[0m                      [33ms [39m2910:    sw      a1,[93m0x2c(sp)[39m[0m                    
+[39m2914:    jal     Math_Vec3f_DistXZ[0m                [39m  [39m2914:    jal     Math_Vec3f_DistXZ[0m              
+[39m2918:    sw      a0,[95m0x2c(sp)[39m[0m                      [33ms [39m2918:    sw      a0,[95m0x28(sp)[39m[0m                    
+[39m291c:    lwc1    $f6,0x360(s0)[0m                    [39m  [39m291c:    lwc1    $f6,0x360(s0)[0m                  
+[39m2920:    lw      a0,[95m0x2c(sp)[39m[0m                      [33ms [39m2920:    lw      a0,[95m0x28(sp)[39m[0m                    
+[39m2924:    lw      a1,[93m0x30(sp)[39m[0m                      [33ms [39m2924:    lw      a1,[93m0x2c(sp)[39m[0m                    
+[39m2928:    c.lt.s  $f6,$f0[0m                          [39m  [39m2928:    c.lt.s  $f6,$f0[0m                        
+[39m292c:    nop[0m                                      [39m  [39m292c:    nop[0m                                    
+[39m2930:    bc1t    2944[0m [90m~>[39m                          [39m  [39m2930:    bc1t    2944[0m [90m~>[39m                        
+[39m2934:    nop[0m                                      [39m  [39m2934:    nop[0m                                    
+[39m2938:    lh      v1,0x32c(s0)[0m                     [39m  [39m2938:    lh      v1,0x32c(s0)[0m                   
+[39m293c:    beqz    v1,296c[0m [35m~>[39m                       [39m  [39m293c:    beqz    v1,296c[0m [35m~>[39m                     
+[39m2940:    nop[0m                                      [39m  [39m2940:    nop[0m                                    
+[39m2944: [90m~>[39m[39m jal     Math_Vec3f_Yaw[0m                   [39m  [39m2944: [90m~>[39m[39m jal     Math_Vec3f_Yaw[0m                 
+[39m2948:    nop[0m                                      [39m  [39m2948:    nop[0m                                    
+[39m294c:    sll     a1,v0,0x10[0m                       [39m  [39m294c:    sll     a1,v0,0x10[0m                     
+[39m2950:    sra     a1,a1,0x10[0m                       [39m  [39m2950:    sra     a1,a1,0x10[0m                     
+[39m2954:    addiu   a0,s0,0x32[0m                       [39m  [39m2954:    addiu   a0,s0,0x32[0m                     
+[39m2958:    li      a2,1[0m                             [39m  [39m2958:    li      a2,1[0m                           
+[39m295c:    li      a3,0x2ee[0m                         [39m  [39m295c:    li      a3,0x2ee[0m                       
+[39m2960:    jal     Math_SmoothScaleMaxMinS[0m          [39m  [39m2960:    jal     Math_SmoothScaleMaxMinS[0m        
+[39m2964:    sw      zero,0x10(sp)[0m                    [39m  [39m2964:    sw      zero,0x10(sp)[0m                  
+[39m2968:    lh      v1,0x32c(s0)[0m                     [39m  [39m2968:    lh      v1,0x32c(s0)[0m                   
+[39m296c: [35m~>[39m[39m beqz    v1,2978[0m [36m~>[39m                       [39m  [39m296c: [35m~>[39m[39m beqz    v1,2978[0m [36m~>[39m                     
+[39m2970:    addiu   t8,v1,-1[0m                         [39m  [39m2970:    addiu   t8,v1,-1[0m                       
+[39m2974:    sh      t8,0x32c(s0)[0m                     [39m  [39m2974:    sh      t8,0x32c(s0)[0m                   
+[39m2978: [36m~>[39m[39m lh      v0,0x32e(s0)[0m                     [39m  [39m2978: [36m~>[39m[39m lh      v0,0x32e(s0)[0m                   
+[39m297c:    move    a0,s0[0m                            [39m  [39m297c:    move    a0,s0[0m                          
+[39m2980:    beqz    v0,298c[0m [32m~>[39m                       [39m  [39m2980:    beqz    v0,298c[0m [32m~>[39m                     
+[39m2984:    addiu   t9,v0,-1[0m                         [39m  [39m2984:    addiu   t9,v0,-1[0m                       
+[39m2988:    sh      t9,0x32e(s0)[0m                     [39m  [39m2988:    sh      t9,0x32e(s0)[0m                   
+[39m298c: [32m~>[39m[39m lh      t0,0x32c(s0)[0m                     [39m  [39m298c: [32m~>[39m[39m lh      t0,0x32c(s0)[0m                   
+[39m2990:    bnezl   t0,29a4[0m [31m~>[39m                       [39m  [39m2990:    bnezl   t0,29a4[0m [31m~>[39m                     
+[39m2994:    lh      t1,0x32a(s0)[0m                     [39m  [39m2994:    lh      t1,0x32a(s0)[0m                   
+[39m2998:    jal     Audio_PlayActorSound2[0m            [39m  [39m2998:    jal     Audio_PlayActorSound2[0m          
+[39m299c:    li      a1,0x38bb[0m                        [39m  [39m299c:    li      a1,0x38bb[0m                      
+[39m29a0: [31m~>[39m[39m lh      t1,0x32a(s0)[0m                     [39m  [39m29a0: [31m~>[39m[39m lh      t1,0x32a(s0)[0m                   
+[39m29a4:    addiu   t2,t1,-1[0m                         [39m  [39m29a4:    addiu   t2,t1,-1[0m                       
+[39m29a8:    sh      t2,0x32a(s0)[0m                     [39m  [39m29a8:    sh      t2,0x32a(s0)[0m                   
+[39m29ac:    lh      t3,0x32a(s0)[0m                     [39m  [39m29ac:    lh      t3,0x32a(s0)[0m                   
+[39m29b0:    bnezl   t3,2a08[0m [96m~>[39m                       [39m  [39m29b0:    bnezl   t3,2a08[0m [96m~>[39m                     
+[39m29b4:    lwc1    $f10,0x1a4(s0)[0m                   [39m  [39m29b4:    lwc1    $f10,0x1a4(s0)[0m                 
+[39m29b8:    jal     Math_Rand_ZeroOne[0m                [39m  [39m29b8:    jal     Math_Rand_ZeroOne[0m              
+[39m29bc:    nop[0m                                      [39m  [39m29bc:    nop[0m                                    
+[39m29c0:    lui     at,[94m%hi(D_80AA9E8C)[0m[0m               [94mi [39m29c0:    lui     at,[94m%hi(.rodata)[0m[0m                
+[39m29c4:    lwc1    $f8,[94m%lo(D_80AA9E8C)[0m(at)[0m          [94mi [39m29c4:    lwc1    $f8,[94m%lo(.rodata+0x1c)[0m(at)[0m      
+[39m29c8:    li      a0,0x32[0m                          [39m  [39m29c8:    li      a0,0x32[0m                        
+[39m29cc:    c.lt.s  $f8,$f0[0m                          [39m  [39m29cc:    c.lt.s  $f8,$f0[0m                        
+[39m29d0:    nop[0m                                      [39m  [39m29d0:    nop[0m                                    
+[39m29d4:    bc1f    29fc[0m [93m~>[39m                          [39m  [39m29d4:    bc1f    29fc[0m [93m~>[39m                        
+[39m29d8:    nop[0m                                      [39m  [39m29d8:    nop[0m                                    
+[39m29dc:    jal     Math_Rand_S16Offset[0m              [39m  [39m29dc:    jal     Math_Rand_S16Offset[0m            
+[39m29e0:    li      a1,0x46[0m                          [39m  [39m29e0:    li      a1,0x46[0m                        
+[39m29e4:    sh      v0,0x32a(s0)[0m                     [39m  [39m29e4:    sh      v0,0x32a(s0)[0m                   
+[39m29e8:    li      a0,0xf[0m                           [39m  [39m29e8:    li      a0,0xf[0m                         
+[39m29ec:    jal     Math_Rand_S16Offset[0m              [39m  [39m29ec:    jal     Math_Rand_S16Offset[0m            
+[39m29f0:    li      a1,0x28[0m                          [39m  [39m29f0:    li      a1,0x28[0m                        
+[39m29f4:    b       2a04[0m [96m~>[39m                          [39m  [39m29f4:    b       2a04[0m [96m~>[39m                        
+[39m29f8:    sh      v0,0x32c(s0)[0m                     [39m  [39m29f8:    sh      v0,0x32c(s0)[0m                   
+[39m29fc: [93m~>[39m[39m jal     func_80AA6830[0m                    [39m  [39m29fc: [93m~>[39m[39m jal     func_80AA6830[0m                  
+[39m2a00:    move    a0,s0[0m                            [39m  [39m2a00:    move    a0,s0[0m                          
+[39m2a04: [96m~>[39m[39m lwc1    $f10,0x1a4(s0)[0m                   [39m  [39m2a04: [96m~>[39m[39m lwc1    $f10,0x1a4(s0)[0m                 
+[33m2a08: [92m~>[39m[33m lw      [35mv0[39m,[96m0x4c(sp)[39m[0m                      [33mr [33m2a08: [92m~>[39m[33m lw      [35mv1[39m,[96m0x4c(sp)[39m[0m                    
+[39m2a0c:    lw      t6,0x48(sp)[0m                      [39m  [39m2a0c:    lw      t6,0x48(sp)[0m                    [33ms [39m2a0c:    lw      t6,[93m0x44(sp)[39m[0m
+[39m2a10:    trunc.w.s $f16,$f10[0m                      [39m  [39m2a10:    trunc.w.s $f16,$f10[0m                    
+[39m2a14:    slti    at,t6,2[0m                          [39m  [39m2a14:    slti    at,t6,2[0m                        
+[33m2a18:    mfc1    [36mt5[39m,[32m$f16[39m[0m                          [33mr [33m2a18:    mfc1    [36mv0[39m,[32m$f16[39m[0m                        
+[39m2a1c:    nop[0m                                      [39m  [39m2a1c:    nop[0m                                    
+[33m2a20:    beql    [35mv0[39m,[36mt5[39m,2a84[0m [95m~>[39m                    [33mr [33m2a20:    beql    [35mv1[39m,[36mv0[39m,2a84[0m [95m~>[39m                  
+[39m2a24:    lh      t4,0x32(s0)[0m                      [39m  [39m2a24:    lh      t4,0x32(s0)[0m                    
+[39m2a28:    beqz    at,2a48[0m [96m~>[39m                       [39m  [39m2a28:    beqz    at,2a48[0m [96m~>[39m                     
+[39m2a2c:    lwc1    $f18,0x34(sp)[0m                    [39m  [39m2a2c:    lwc1    $f18,0x34(sp)[0m                  
+[39m2a30:    trunc.w.s $f4,$f18[0m                       [39m  [39m2a30:    trunc.w.s $f4,$f18[0m                     
+[39m2a34:    mfc1    t8,$f4[0m                           [39m  [39m2a34:    mfc1    t8,$f4[0m                         
+[39m2a38:    nop[0m                                      [39m  [39m2a38:    nop[0m                                    
+[39m2a3c:    addu    t9,t8,v0[0m                         [39m  [39m2a3c:    addu    t9,t8,v0[0m                       
+[39m2a40:    bgtzl   t9,2a78[0m [92m~>[39m                       [39m  [39m2a40:    bgtzl   t9,2a78[0m [92m~>[39m                     
+[39m2a44:    move    a0,s0[0m                            [39m  [39m2a44:    move    a0,s0[0m                          
+[39m2a48: [96m~>[39m[39m lw      t0,0x48(sp)[0m                      [39m  [39m2a48: [96m~>[39m[39m lw      t0,0x48(sp)[0m                    [33ms [39m2a48: [96m~>[39m[39m lw      t0,[93m0x44(sp)[39m[0m
+[39m2a4c:    lwc1    $f6,0x34(sp)[0m                     [39m  [39m2a4c:    lwc1    $f6,0x34(sp)[0m                   
+[39m2a50:    slti    at,t0,0x15[0m                       [39m  [39m2a50:    slti    at,t0,0x15[0m                     
+[39m2a54:    beqzl   at,2a84[0m [95m~>[39m                       [39m  [39m2a54:    beqzl   at,2a84[0m [95m~>[39m                     
+[39m2a58:    lh      t4,0x32(s0)[0m                      [39m  [39m2a58:    lh      t4,0x32(s0)[0m                    
+[39m2a5c:    trunc.w.s $f8,$f6[0m                        [39m  [39m2a5c:    trunc.w.s $f8,$f6[0m                      
+[39m2a60:    mfc1    t2,$f8[0m                           [39m  [39m2a60:    mfc1    t2,$f8[0m                         
+[39m2a64:    nop[0m                                      [39m  [39m2a64:    nop[0m                                    
+[33m2a68:    addu    [31mt3[39m,[93mt2[39m,[35mv0[39m[0m                         [33mr [33m2a68:    addu    [31mt3[39m,[93mt2[39m,[35mv1[39m[0m                       
+[39m2a6c:    slti    at,t3,0x14[0m                       [39m  [39m2a6c:    slti    at,t3,0x14[0m                     
+[39m2a70:    bnez    at,2a80[0m [95m~>[39m                       [39m  [39m2a70:    bnez    at,2a80[0m [95m~>[39m                     
+[39m2a74: [92m~>[39m[39m move    a0,s0[0m                            [39m  [39m2a74: [92m~>[39m[39m move    a0,s0[0m                          
+[39m2a78:    jal     Audio_PlayActorSound2[0m            [39m  [39m2a78:    jal     Audio_PlayActorSound2[0m          
+[39m2a7c:    li      a1,0x38b8[0m                        [39m  [39m2a7c:    li      a1,0x38b8[0m                      
+[39m2a80: [95m~>[39m[39m lh      t4,0x32(s0)[0m                      [39m  [39m2a80: [95m~>[39m[39m lh      t4,0x32(s0)[0m                    
+[39m2a84:    sh      t4,0xb6(s0)[0m                      [39m  [39m2a84:    sh      t4,0xb6(s0)[0m                    
+[39m2a88:    lw      ra,0x24(sp)[0m                      [39m  [39m2a88:    lw      ra,0x24(sp)[0m                    
+[39m2a8c:    lw      s0,0x20(sp)[0m                      [39m  [39m2a8c:    lw      s0,0x20(sp)[0m                    
+[39m2a90:    addiu   sp,sp,0x50[0m                       [39m  [39m2a90:    addiu   sp,sp,0x50[0m                     
+[39m2a94:    jr      ra[0m                               [39m  [39m2a94:    jr      ra[0m                             
+[39m2a98:    nop[0m                                      [39m  [39m2a98:    nop[0m                                    
+[39m2a9c:    addiu   sp,sp,-0x48[0m                      [39m  [39m2a9c:    addiu   sp,sp,-0x48[0m                    
+[39m2aa0:    sw      s0,0x20(sp)[0m                      [39m  [39m2aa0:    sw      s0,0x20(sp)[0m                    
+[39m2aa4:    move    s0,a0[0m                            [39m  [39m2aa4:    move    s0,a0[0m                          
+[39m2aa8:    sw      a1,0x4c(sp)[0m                      [39m  [39m2aa8:    sw      a1,0x4c(sp)[0m                    
+[39m2aac:    sw      ra,0x24(sp)[0m                      [39m  [39m2aac:    sw      ra,0x24(sp)[0m                    
+[39m2ab0:    addiu   a1,s0,0x24[0m                       [39m  [39m2ab0:    addiu   a1,s0,0x24[0m                     
+[39m2ab4:    addiu   a0,a0,0x344[0m                      [39m  [39m2ab4:    addiu   a0,a0,0x344[0m                    
+[39m2ab8:    sw      a0,0x2c(sp)[0m                      [39m  [39m2ab8:    sw      a0,0x2c(sp)[0m                    
+[39m2abc:    jal     Math_Vec3f_DistXZ[0m                [39m  [39m2abc:    jal     Math_Vec3f_DistXZ[0m              
+[39m2ac0:    sw      a1,0x28(sp)[0m                      [39m  [39m2ac0:    sw      a1,0x28(sp)[0m                    
+[39m2ac4:    lui     at,0x4100[0m                        [39m  [39m2ac4:    lui     at,0x4100[0m                      
+[39m2ac8:    mtc1    at,$f4[0m                           [39m  [39m2ac8:    mtc1    at,$f4[0m                         
+[39m2acc:    nop[0m                                      [39m  [39m2acc:    nop[0m                                    
+[39m2ad0:    c.le.s  $f0,$f4[0m                          [39m  [39m2ad0:    c.le.s  $f0,$f4[0m                        
+[39m2ad4:    nop[0m                                      [39m  [39m2ad4:    nop[0m                                    
+[39m2ad8:    bc1tl   2b28[0m [90m~>[39m                          [39m  [39m2ad8:    bc1tl   2b28[0m [90m~>[39m                        
+[39m2adc:    move    a0,s0[0m                            [39m  [39m2adc:    move    a0,s0[0m                          
+[39m2ae0:    jal     Math_Rand_ZeroOne[0m                [39m  [39m2ae0:    jal     Math_Rand_ZeroOne[0m              
+[39m2ae4:    nop[0m                                      [39m  [39m2ae4:    nop[0m                                    
+[39m2ae8:    lui     at,%hi(.rodata)[0m                  [39m  [39m2ae8:    lui     at,%hi(.rodata)[0m                
+[39m2aec:    lwc1    $f6,%lo(.rodata+0x20)(at)[0m        [39m  [39m2aec:    lwc1    $f6,%lo(.rodata+0x20)(at)[0m      
+[39m2af0:    addiu   a0,s0,8[0m                          [39m  [39m2af0:    addiu   a0,s0,8[0m                        
+[39m2af4:    c.lt.s  $f0,$f6[0m                          [39m  [39m2af4:    c.lt.s  $f0,$f6[0m                        
+[39m2af8:    nop[0m                                      [39m  [39m2af8:    nop[0m                                    
+[39m2afc:    bc1fl   2b3c[0m [35m~>[39m                          [39m  [39m2afc:    bc1fl   2b3c[0m [35m~>[39m                        
+[39m2b00:    mtc1    zero,$f10[0m                        [39m  [39m2b00:    mtc1    zero,$f10[0m                      
+[39m2b04:    jal     Math_Vec3f_DistXZ[0m                [39m  [39m2b04:    jal     Math_Vec3f_DistXZ[0m              
+[39m2b08:    lw      a1,0x28(sp)[0m                      [39m  [39m2b08:    lw      a1,0x28(sp)[0m                    
+[39m2b0c:    lui     at,0x4080[0m                        [39m  [39m2b0c:    lui     at,0x4080[0m                      
+[39m2b10:    mtc1    at,$f8[0m                           [39m  [39m2b10:    mtc1    at,$f8[0m                         
+[39m2b14:    nop[0m                                      [39m  [39m2b14:    nop[0m                                    
+[39m2b18:    c.le.s  $f0,$f8[0m                          [39m  [39m2b18:    c.le.s  $f0,$f8[0m                        
+[39m2b1c:    nop[0m                                      [39m  [39m2b1c:    nop[0m                                    
+[39m2b20:    bc1f    2b38[0m [35m~>[39m                          [39m  [39m2b20:    bc1f    2b38[0m [35m~>[39m                        
+[39m2b24: [90m~>[39m[39m move    a0,s0[0m                            [39m  [39m2b24: [90m~>[39m[39m move    a0,s0[0m                          
+[39m2b28:    jal     func_80AA68FC[0m                    [39m  [39m2b28:    jal     func_80AA68FC[0m                  
+[39m2b2c:    lw      a1,0x4c(sp)[0m                      [39m  [39m2b2c:    lw      a1,0x4c(sp)[0m                    
+[39m2b30:    b       2b6c[0m [36m~>[39m                          [39m  [39m2b30:    b       2b6c[0m [36m~>[39m                        
+[39m2b34:    lw      a0,0x28(sp)[0m                      [39m  [39m2b34:    lw      a0,0x28(sp)[0m                    
+[39m2b38: [35m~>[39m[39m mtc1    zero,$f10[0m                        [39m  [39m2b38: [35m~>[39m[39m mtc1    zero,$f10[0m                      
+[39m2b3c:    lui     a1,0x3f19[0m                        [39m  [39m2b3c:    lui     a1,0x3f19[0m                      
+[39m2b40:    lui     a2,0x3dcc[0m                        [39m  [39m2b40:    lui     a2,0x3dcc[0m                      
+[39m2b44:    ori     a2,a2,0xcccd[0m                     [39m  [39m2b44:    ori     a2,a2,0xcccd[0m                   
+[39m2b48:    ori     a1,a1,0x9999[0m                     [39m  [39m2b48:    ori     a1,a1,0x9999[0m                   
+[39m2b4c:    addiu   a0,s0,0x68[0m                       [39m  [39m2b4c:    addiu   a0,s0,0x68[0m                     
+[39m2b50:    lui     a3,0x3f80[0m                        [39m  [39m2b50:    lui     a3,0x3f80[0m                      
+[39m2b54:    jal     Math_SmoothScaleMaxMinF[0m          [39m  [39m2b54:    jal     Math_SmoothScaleMaxMinF[0m        
+[39m2b58:    swc1    $f10,0x10(sp)[0m                    [39m  [39m2b58:    swc1    $f10,0x10(sp)[0m                  
+[39m2b5c:    lwc1    $f2,0x68(s0)[0m                     [39m  [39m2b5c:    lwc1    $f2,0x68(s0)[0m                   
+[39m2b60:    add.s   $f16,$f2,$f2[0m                     [39m  [39m2b60:    add.s   $f16,$f2,$f2[0m                   
+[39m2b64:    swc1    $f16,0x1a8(s0)[0m                   [39m  [39m2b64:    swc1    $f16,0x1a8(s0)[0m                 
+[39m2b68:    lw      a0,0x28(sp)[0m                      [39m  [39m2b68:    lw      a0,0x28(sp)[0m                    
+[39m2b6c: [36m~>[39m[39m jal     Math_Vec3f_Yaw[0m                   [39m  [39m2b6c: [36m~>[39m[39m jal     Math_Vec3f_Yaw[0m                 
+[39m2b70:    lw      a1,0x2c(sp)[0m                      [39m  [39m2b70:    lw      a1,0x2c(sp)[0m                    
+[39m2b74:    sh      v0,0x330(s0)[0m                     [39m  [39m2b74:    sh      v0,0x330(s0)[0m                   
+[39m2b78:    lh      a1,0x330(s0)[0m                     [39m  [39m2b78:    lh      a1,0x330(s0)[0m                   
+[39m2b7c:    sw      zero,0x10(sp)[0m                    [39m  [39m2b7c:    sw      zero,0x10(sp)[0m                  
+[39m2b80:    addiu   a0,s0,0x32[0m                       [39m  [39m2b80:    addiu   a0,s0,0x32[0m                     
+[39m2b84:    li      a2,1[0m                             [39m  [39m2b84:    li      a2,1[0m                           
+[39m2b88:    jal     Math_SmoothScaleMaxMinS[0m          [39m  [39m2b88:    jal     Math_SmoothScaleMaxMinS[0m        
+[39m2b8c:    li      a3,0x5dc[0m                         [39m  [39m2b8c:    li      a3,0x5dc[0m                       
+[39m2b90:    lwc1    $f0,0x94(s0)[0m                     [39m  [39m2b90:    lwc1    $f0,0x94(s0)[0m                   
+[39m2b94:    mtc1    zero,$f18[0m                        [39m  [39m2b94:    mtc1    zero,$f18[0m                      
+[39m2b98:    lui     at,0x41a0[0m                        [39m  [39m2b98:    lui     at,0x41a0[0m                      
+[39m2b9c:    mtc1    at,$f4[0m                           [39m  [39m2b9c:    mtc1    at,$f4[0m                         
+[39m2ba0:    c.le.s  $f18,$f0[0m                         [39m  [39m2ba0:    c.le.s  $f18,$f0[0m                       
+[39m2ba4:    move    a0,s0[0m                            [39m  [39m2ba4:    move    a0,s0[0m                          
+[39m2ba8:    bc1fl   2bbc[0m [32m~>[39m                          [39m  [39m2ba8:    bc1fl   2bbc[0m [32m~>[39m                        
+[39m2bac:    neg.s   $f2,$f0[0m                          [39m  [39m2bac:    neg.s   $f2,$f0[0m                        
+[39m2bb0:    b       2bbc[0m [31m~>[39m                          [39m  [39m2bb0:    b       2bbc[0m [31m~>[39m                        
+[39m2bb4:    mov.s   $f2,$f0[0m                          [39m  [39m2bb4:    mov.s   $f2,$f0[0m                        
+[39m2bb8: [32m~>[39m[39m neg.s   $f2,$f0[0m                          [39m  [39m2bb8: [32m~>[39m[39m neg.s   $f2,$f0[0m                        
+[39m2bbc: [31m~>[39m[39m c.le.s  $f2,$f4[0m                          [39m  [39m2bbc: [31m~>[39m[39m c.le.s  $f2,$f4[0m                        
+[39m2bc0:    nop[0m                                      [39m  [39m2bc0:    nop[0m                                    
+[39m2bc4:    bc1fl   2c60[0m [93m~>[39m                          [39m  [39m2bc4:    bc1fl   2c60[0m [93m~>[39m                        
+[39m2bc8:    lh      v0,0x32c(s0)[0m                     [39m  [39m2bc8:    lh      v0,0x32c(s0)[0m                   
+[39m2bcc:    jal     func_80AA652C[0m                    [39m  [39m2bcc:    jal     func_80AA652C[0m                  
+[39m2bd0:    lw      a1,0x4c(sp)[0m                      [39m  [39m2bd0:    lw      a1,0x4c(sp)[0m                    
+[39m2bd4:    beqzl   v0,2c60[0m [93m~>[39m                       [39m  [39m2bd4:    beqzl   v0,2c60[0m [93m~>[39m                     
+[39m2bd8:    lh      v0,0x32c(s0)[0m                     [39m  [39m2bd8:    lh      v0,0x32c(s0)[0m                   
+[39m2bdc:    lh      t6,0xb6(s0)[0m                      [39m  [39m2bdc:    lh      t6,0xb6(s0)[0m                    
+[39m2be0:    lh      t7,0x8a(s0)[0m                      [39m  [39m2be0:    lh      t7,0x8a(s0)[0m                    
+[39m2be4:    subu    v0,t6,t7[0m                         [39m  [39m2be4:    subu    v0,t6,t7[0m                       
+[39m2be8:    sll     v0,v0,0x10[0m                       [39m  [39m2be8:    sll     v0,v0,0x10[0m                     
+[39m2bec:    sra     v0,v0,0x10[0m                       [39m  [39m2bec:    sra     v0,v0,0x10[0m                     
+[39m2bf0:    bltz    v0,2c00[0m [95m~>[39m                       [39m  [39m2bf0:    bltz    v0,2c00[0m [95m~>[39m                     
+[39m2bf4:    negu    v1,v0[0m                            [39m  [39m2bf4:    negu    v1,v0[0m                          
+[39m2bf8:    b       2c00[0m [95m~>[39m                          [39m  [39m2bf8:    b       2c00[0m [95m~>[39m                        
+[39m2bfc:    move    v1,v0[0m                            [39m  [39m2bfc:    move    v1,v0[0m                          
+[39m2c00: [95m~>[39m[39m slti    at,v1,0x4001[0m                     [39m  [39m2c00: [95m~>[39m[39m slti    at,v1,0x4001[0m                   
+[39m2c04:    bnezl   at,2c38[0m [96m~>[39m                       [39m  [39m2c04:    bnezl   at,2c38[0m [96m~>[39m                     
+[39m2c08:    move    a0,s0[0m                            [39m  [39m2c08:    move    a0,s0[0m                          
+[39m2c0c:    jal     func_8002DDE4[0m                    [39m  [39m2c0c:    jal     func_8002DDE4[0m                  
+[39m2c10:    lw      a0,0x4c(sp)[0m                      [39m  [39m2c10:    lw      a0,0x4c(sp)[0m                    
+[39m2c14:    beqz    v0,2c5c[0m [93m~>[39m                       [39m  [39m2c14:    beqz    v0,2c5c[0m [93m~>[39m                     
+[39m2c18:    lui     at,0x4320[0m                        [39m  [39m2c18:    lui     at,0x4320[0m                      
+[39m2c1c:    lwc1    $f6,0x90(s0)[0m                     [39m  [39m2c1c:    lwc1    $f6,0x90(s0)[0m                   
+[39m2c20:    mtc1    at,$f8[0m                           [39m  [39m2c20:    mtc1    at,$f8[0m                         
+[39m2c24:    nop[0m                                      [39m  [39m2c24:    nop[0m                                    
+[39m2c28:    c.lt.s  $f6,$f8[0m                          [39m  [39m2c28:    c.lt.s  $f6,$f8[0m                        
+[39m2c2c:    nop[0m                                      [39m  [39m2c2c:    nop[0m                                    
+[39m2c30:    bc1f    2c5c[0m [93m~>[39m                          [39m  [39m2c30:    bc1f    2c5c[0m [93m~>[39m                        
+[39m2c34: [96m~>[39m[39m move    a0,s0[0m                            [39m  [39m2c34: [96m~>[39m[39m move    a0,s0[0m                          
+[39m2c38:    jal     func_80AA66A0[0m                    [39m  [39m2c38:    jal     func_80AA66A0[0m                  
+[39m2c3c:    lw      a1,0x4c(sp)[0m                      [39m  [39m2c3c:    lw      a1,0x4c(sp)[0m                    
+[39m2c40:    move    a0,s0[0m                            [39m  [39m2c40:    move    a0,s0[0m                          
+[39m2c44:    jal     Audio_PlayActorSound2[0m            [39m  [39m2c44:    jal     Audio_PlayActorSound2[0m          
+[39m2c48:    li      a1,0x38bb[0m                        [39m  [39m2c48:    li      a1,0x38bb[0m                      
+[39m2c4c:    jal     func_80AA6AC8[0m                    [39m  [39m2c4c:    jal     func_80AA6AC8[0m                  
+[39m2c50:    move    a0,s0[0m                            [39m  [39m2c50:    move    a0,s0[0m                          
+[39m2c54:    b       2d78[0m [92m~>[39m                          [39m  [39m2c54:    b       2d78[0m [92m~>[39m                        
+[39m2c58:    lw      ra,0x24(sp)[0m                      [39m  [39m2c58:    lw      ra,0x24(sp)[0m                    
+[39m2c5c: [93m~>[39m[39m lh      v0,0x32c(s0)[0m                     [39m  [39m2c5c: [93m~>[39m[39m lh      v0,0x32c(s0)[0m                   
+[39m2c60:    move    a0,s0[0m                            [39m  [39m2c60:    move    a0,s0[0m                          
+[39m2c64:    beqz    v0,2c70[0m [90m~>[39m                       [39m  [39m2c64:    beqz    v0,2c70[0m [90m~>[39m                     
+[39m2c68:    addiu   t8,v0,-1[0m                         [39m  [39m2c68:    addiu   t8,v0,-1[0m                       
+[39m2c6c:    sh      t8,0x32c(s0)[0m                     [39m  [39m2c6c:    sh      t8,0x32c(s0)[0m                   
+[39m2c70: [90m~>[39m[39m lh      v0,0x32e(s0)[0m                     [39m  [39m2c70: [90m~>[39m[39m lh      v0,0x32e(s0)[0m                   
+[39m2c74:    beqz    v0,2c80[0m [35m~>[39m                       [39m  [39m2c74:    beqz    v0,2c80[0m [35m~>[39m                     
+[39m2c78:    addiu   t9,v0,-1[0m                         [39m  [39m2c78:    addiu   t9,v0,-1[0m                       
+[39m2c7c:    sh      t9,0x32e(s0)[0m                     [39m  [39m2c7c:    sh      t9,0x32e(s0)[0m                   
+[39m2c80: [35m~>[39m[39m lh      t0,0x32c(s0)[0m                     [39m  [39m2c80: [35m~>[39m[39m lh      t0,0x32c(s0)[0m                   
+[39m2c84:    bnezl   t0,2ca8[0m [36m~>[39m                       [39m  [39m2c84:    bnezl   t0,2ca8[0m [36m~>[39m                     
+[39m2c88:    lwc1    $f10,0x1a4(s0)[0m                   [39m  [39m2c88:    lwc1    $f10,0x1a4(s0)[0m                 
+[39m2c8c:    jal     Audio_PlayActorSound2[0m            [39m  [39m2c8c:    jal     Audio_PlayActorSound2[0m          
+[39m2c90:    li      a1,0x38bb[0m                        [39m  [39m2c90:    li      a1,0x38bb[0m                      
+[39m2c94:    li      a0,0x1e[0m                          [39m  [39m2c94:    li      a0,0x1e[0m                        
+[39m2c98:    jal     Math_Rand_S16Offset[0m              [39m  [39m2c98:    jal     Math_Rand_S16Offset[0m            
+[39m2c9c:    li      a1,0x46[0m                          [39m  [39m2c9c:    li      a1,0x46[0m                        
+[39m2ca0:    sh      v0,0x32c(s0)[0m                     [39m  [39m2ca0:    sh      v0,0x32c(s0)[0m                   
+[39m2ca4: [36m~>[39m[39m lwc1    $f10,0x1a4(s0)[0m                   [39m  [39m2ca4: [36m~>[39m[39m lwc1    $f10,0x1a4(s0)[0m                 
+[39m2ca8:    addiu   a0,s0,0x18c[0m                      [39m  [39m2ca8:    addiu   a0,s0,0x18c[0m                    
+[39m2cac:    trunc.w.s $f16,$f10[0m                      [39m  [39m2cac:    trunc.w.s $f16,$f10[0m                    
+[39m2cb0:    mfc1    v1,$f16[0m                          [39m  [39m2cb0:    mfc1    v1,$f16[0m                        
+[39m2cb4:    jal     SkelAnime_FrameUpdateMatrix[0m      [39m  [39m2cb4:    jal     SkelAnime_FrameUpdateMatrix[0m    
+[39m2cb8:    sw      v1,0x44(sp)[0m                      [39m  [39m2cb8:    sw      v1,0x44(sp)[0m                    
+[39m2cbc:    lwc1    $f0,0x1a8(s0)[0m                    [39m  [39m2cbc:    lwc1    $f0,0x1a8(s0)[0m                  
+[39m2cc0:    mtc1    zero,$f18[0m                        [39m  [39m2cc0:    mtc1    zero,$f18[0m                      
+[39m2cc4:    mtc1    zero,$f8[0m                         [39m  [39m2cc4:    mtc1    zero,$f8[0m                       
+[39m2cc8:    lw      v1,0x44(sp)[0m                      [39m  [39m2cc8:    lw      v1,0x44(sp)[0m                    
+[39m2ccc:    c.le.s  $f18,$f0[0m                         [39m  [39m2ccc:    c.le.s  $f18,$f0[0m                       
+[39m2cd0:    nop[0m                                      [39m  [39m2cd0:    nop[0m                                    
+[39m2cd4:    bc1fl   2ce8[0m [32m~>[39m                          [39m  [39m2cd4:    bc1fl   2ce8[0m [32m~>[39m                        
+[39m2cd8:    neg.s   $f2,$f0[0m                          [39m  [39m2cd8:    neg.s   $f2,$f0[0m                        
+[39m2cdc:    b       2ce8[0m [31m~>[39m                          [39m  [39m2cdc:    b       2ce8[0m [31m~>[39m                        
+[39m2ce0:    mov.s   $f2,$f0[0m                          [39m  [39m2ce0:    mov.s   $f2,$f0[0m                        
+[39m2ce4: [32m~>[39m[39m neg.s   $f2,$f0[0m                          [39m  [39m2ce4: [32m~>[39m[39m neg.s   $f2,$f0[0m                        
+[39m2ce8: [31m~>[39m[39m lwc1    $f12,0x1a4(s0)[0m                   [39m  [39m2ce8: [31m~>[39m[39m lwc1    $f12,0x1a4(s0)[0m                 
+[39m2cec:    c.le.s  $f8,$f0[0m                          [39m  [39m2cec:    c.le.s  $f8,$f0[0m                        
+[39m2cf0:    sub.s   $f4,$f12,$f2[0m                     [39m  [39m2cf0:    sub.s   $f4,$f12,$f2[0m                   
+[39m2cf4:    trunc.w.s $f10,$f12[0m                      [39m  [39m2cf4:    trunc.w.s $f10,$f12[0m                    
+[39m2cf8:    trunc.w.s $f6,$f4[0m                        [39m  [39m2cf8:    trunc.w.s $f6,$f4[0m                      
+[39m2cfc:    mfc1    t4,$f10[0m                          [39m  [39m2cfc:    mfc1    t4,$f10[0m                        
+[39m2d00:    mfc1    v0,$f6[0m                           [39m  [39m2d00:    mfc1    v0,$f6[0m                         
+[39m2d04:    bc1fl   2d18[0m [93m~>[39m                          [39m  [39m2d04:    bc1fl   2d18[0m [93m~>[39m                        
+[39m2d08:    neg.s   $f2,$f0[0m                          [39m  [39m2d08:    neg.s   $f2,$f0[0m                        
+[39m2d0c:    b       2d18[0m [95m~>[39m                          [39m  [39m2d0c:    b       2d18[0m [95m~>[39m                        
+[39m2d10:    mov.s   $f2,$f0[0m                          [39m  [39m2d10:    mov.s   $f2,$f0[0m                        
+[39m2d14: [93m~>[39m[39m neg.s   $f2,$f0[0m                          [39m  [39m2d14: [93m~>[39m[39m neg.s   $f2,$f0[0m                        
+[39m2d18: [95m~>[39m[39m beq     v1,t4,2d6c[0m [96m~>[39m                    [39m  [39m2d18: [95m~>[39m[39m beq     v1,t4,2d6c[0m [96m~>[39m                  
+[39m2d1c:    slti    at,v0,2[0m                          [39m  [39m2d1c:    slti    at,v0,2[0m                        
+[39m2d20:    beqzl   at,2d40[0m [92m~>[39m                       [39m  [39m2d20:    beqzl   at,2d40[0m [92m~>[39m                     
+[39m2d24:    slti    at,v0,0x15[0m                       [39m  [39m2d24:    slti    at,v0,0x15[0m                     
+[39m2d28:    trunc.w.s $f16,$f2[0m                       [39m  [39m2d28:    trunc.w.s $f16,$f2[0m                     
+[39m2d2c:    mfc1    t6,$f16[0m                          [39m  [39m2d2c:    mfc1    t6,$f16[0m                        
+[39m2d30:    nop[0m                                      [39m  [39m2d30:    nop[0m                                    
+[39m2d34:    addu    t7,t6,v1[0m                         [39m  [39m2d34:    addu    t7,t6,v1[0m                       
+[39m2d38:    bgtz    t7,2d60[0m [90m~>[39m                       [39m  [39m2d38:    bgtz    t7,2d60[0m [90m~>[39m                     
+[39m2d3c: [92m~>[39m[39m slti    at,v0,0x15[0m                       [39m  [39m2d3c: [92m~>[39m[39m slti    at,v0,0x15[0m                     
+[39m2d40:    beqzl   at,2d70[0m [96m~>[39m                       [39m  [39m2d40:    beqzl   at,2d70[0m [96m~>[39m                     
+[39m2d44:    lh      t1,0x32(s0)[0m                      [39m  [39m2d44:    lh      t1,0x32(s0)[0m                    
+[39m2d48:    trunc.w.s $f18,$f2[0m                       [39m  [39m2d48:    trunc.w.s $f18,$f2[0m                     
+[39m2d4c:    mfc1    t9,$f18[0m                          [39m  [39m2d4c:    mfc1    t9,$f18[0m                        
+[39m2d50:    nop[0m                                      [39m  [39m2d50:    nop[0m                                    
+[39m2d54:    addu    t0,t9,v1[0m                         [39m  [39m2d54:    addu    t0,t9,v1[0m                       
+[39m2d58:    slti    at,t0,0x14[0m                       [39m  [39m2d58:    slti    at,t0,0x14[0m                     
+[39m2d5c:    bnez    at,2d6c[0m [96m~>[39m                       [39m  [39m2d5c:    bnez    at,2d6c[0m [96m~>[39m                     
+[39m2d60: [90m~>[39m[39m move    a0,s0[0m                            [39m  [39m2d60: [90m~>[39m[39m move    a0,s0[0m                          
+[39m2d64:    jal     Audio_PlayActorSound2[0m            [39m  [39m2d64:    jal     Audio_PlayActorSound2[0m          
+[39m2d68:    li      a1,0x38b8[0m                        [39m  [39m2d68:    li      a1,0x38b8[0m                      
+[39m2d6c: [96m~>[39m[39m lh      t1,0x32(s0)[0m                      [39m  [39m2d6c: [96m~>[39m[39m lh      t1,0x32(s0)[0m                    
+[39m2d70:    sh      t1,0xb6(s0)[0m                      [39m  [39m2d70:    sh      t1,0xb6(s0)[0m                    
+[39m2d74:    lw      ra,0x24(sp)[0m                      [39m  [39m2d74:    lw      ra,0x24(sp)[0m                    
+[39m2d78: [92m~>[39m[39m lw      s0,0x20(sp)[0m                      [39m  [39m2d78: [92m~>[39m[39m lw      s0,0x20(sp)[0m                    
+[39m2d7c:    addiu   sp,sp,0x48[0m                       [39m  [39m2d7c:    addiu   sp,sp,0x48[0m                     
+[39m2d80:    jr      ra[0m                               [39m  [39m2d80:    jr      ra[0m                             
+[39m2d84:    nop[0m                                      [39m  [39m2d84:    nop[0m                                    
+[39m2d88:    addiu   sp,sp,-0x28[0m                      [39m  [39m2d88:    addiu   sp,sp,-0x28[0m                    
+[39m2d8c:    sw      ra,0x14(sp)[0m                      [39m  [39m2d8c:    sw      ra,0x14(sp)[0m                    
+[39m2d90:    lw      t6,0x1c44(a1)[0m                    [39m  [39m2d90:    lw      t6,0x1c44(a1)[0m                  
+[39m2d94:    move    a2,a0[0m                            [39m  [39m2d94:    move    a2,a0[0m                          
+[39m2d98:    addiu   a0,a0,0x18c[0m                      [39m  [39m2d98:    addiu   a0,a0,0x18c[0m                    
+[39m2d9c:    sw      t6,0x24(sp)[0m                      [39m  [39m2d9c:    sw      t6,0x24(sp)[0m                    
+[39m2da0:    lh      t8,-0x102(a0)[0m                    [39m  [39m2da0:    lh      t8,-0x102(a0)[0m                  
+[39m2da4:    lh      t7,-0x15a(a0)[0m                    [39m  [39m2da4:    lh      t7,-0x15a(a0)[0m                  
+[39m2da8:    sw      a2,0x28(sp)[0m                      [39m  [39m2da8:    sw      a2,0x28(sp)[0m                    
+[39m2dac:    subu    v1,t7,t8[0m                         [39m  [39m2dac:    subu    v1,t7,t8[0m                       
+[39m2db0:    sll     v1,v1,0x10[0m                       [39m  [39m2db0:    sll     v1,v1,0x10[0m                     
+[39m2db4:    sra     v1,v1,0x10[0m                       [39m  [39m2db4:    sra     v1,v1,0x10[0m                     
+[39m2db8:    jal     SkelAnime_FrameUpdateMatrix[0m      [39m  [39m2db8:    jal     SkelAnime_FrameUpdateMatrix[0m    
+[39m2dbc:    sh      v1,0x1e(sp)[0m                      [39m  [39m2dbc:    sh      v1,0x1e(sp)[0m                    
+[39m2dc0:    lw      a2,0x28(sp)[0m                      [39m  [39m2dc0:    lw      a2,0x28(sp)[0m                    
+[39m2dc4:    lw      a1,0x24(sp)[0m                      [39m  [39m2dc4:    lw      a1,0x24(sp)[0m                    
+[39m2dc8:    addiu   a0,a2,8[0m                          [39m  [39m2dc8:    addiu   a0,a2,8[0m                        
+[39m2dcc:    jal     Math_Vec3f_DistXZ[0m                [39m  [39m2dcc:    jal     Math_Vec3f_DistXZ[0m              
+[39m2dd0:    addiu   a1,a1,0x24[0m                       [39m  [39m2dd0:    addiu   a1,a1,0x24[0m                     
+[39m2dd4:    lw      a2,0x28(sp)[0m                      [39m  [39m2dd4:    lw      a2,0x28(sp)[0m                    
+[39m2dd8:    lh      v1,0x1e(sp)[0m                      [39m  [39m2dd8:    lh      v1,0x1e(sp)[0m                    
+[39m2ddc:    lw      t9,0x24(sp)[0m                      [39m  [39m2ddc:    lw      t9,0x24(sp)[0m                    
+[39m2de0:    lwc1    $f4,0x364(a2)[0m                    [39m  [39m2de0:    lwc1    $f4,0x364(a2)[0m                  
+[39m2de4:    c.lt.s  $f0,$f4[0m                          [39m  [39m2de4:    c.lt.s  $f0,$f4[0m                        
+[39m2de8:    nop[0m                                      [39m  [39m2de8:    nop[0m                                    
+[39m2dec:    bc1fl   2e2c[0m [35m~>[39m                          [39m  [39m2dec:    bc1fl   2e2c[0m [35m~>[39m                        
+[39m2df0:    lw      ra,0x14(sp)[0m                      [39m  [39m2df0:    lw      ra,0x14(sp)[0m                    
+[39m2df4:    lw      t0,0x67c(t9)[0m                     [39m  [39m2df4:    lw      t0,0x67c(t9)[0m                   
+[39m2df8:    sll     t1,t0,0x5[0m                        [39m  [39m2df8:    sll     t1,t0,0x5[0m                      
+[39m2dfc:    bltzl   t1,2e2c[0m [35m~>[39m                       [39m  [39m2dfc:    bltzl   t1,2e2c[0m [35m~>[39m                     
+[39m2e00:    lw      ra,0x14(sp)[0m                      [39m  [39m2e00:    lw      ra,0x14(sp)[0m                    
+[39m2e04:    bltz    v1,2e14[0m [36m~>[39m                       [39m  [39m2e04:    bltz    v1,2e14[0m [36m~>[39m                     
+[39m2e08:    negu    v0,v1[0m                            [39m  [39m2e08:    negu    v0,v1[0m                          
+[39m2e0c:    b       2e14[0m [36m~>[39m                          [39m  [39m2e0c:    b       2e14[0m [36m~>[39m                        
+[39m2e10:    move    v0,v1[0m                            [39m  [39m2e10:    move    v0,v1[0m                          
+[39m2e14: [36m~>[39m[39m slti    at,v0,0x3e80[0m                     [39m  [39m2e14: [36m~>[39m[39m slti    at,v0,0x3e80[0m                   
+[39m2e18:    beqzl   at,2e2c[0m [35m~>[39m                       [39m  [39m2e18:    beqzl   at,2e2c[0m [35m~>[39m                     
+[39m2e1c:    lw      ra,0x14(sp)[0m                      [39m  [39m2e1c:    lw      ra,0x14(sp)[0m                    
+[39m2e20:    jal     func_80AA6BF0[0m                    [39m  [39m2e20:    jal     func_80AA6BF0[0m                  
+[39m2e24:    move    a0,a2[0m                            [39m  [39m2e24:    move    a0,a2[0m                          
+[39m2e28: [35m~>[39m[39m lw      ra,0x14(sp)[0m                      [39m  [39m2e28: [35m~>[39m[39m lw      ra,0x14(sp)[0m                    
+[39m2e2c:    addiu   sp,sp,0x28[0m                       [39m  [39m2e2c:    addiu   sp,sp,0x28[0m                     
+[39m2e30:    jr      ra[0m                               [39m  [39m2e30:    jr      ra[0m                             
+[39m2e34:    nop[0m                                      [39m  [39m2e34:    nop[0m                                    
+[39m2e38:    addiu   sp,sp,-0x20[0m                      [39m  [39m2e38:    addiu   sp,sp,-0x20[0m                    
+[39m2e3c:    sw      ra,0x1c(sp)[0m                      [39m  [39m2e3c:    sw      ra,0x1c(sp)[0m                    
+[39m2e40:    sw      s0,0x18(sp)[0m                      [39m  [39m2e40:    sw      s0,0x18(sp)[0m                    
+[39m2e44:    lh      t7,0xb6(a0)[0m                      [39m  [39m2e44:    lh      t7,0xb6(a0)[0m                    
+[39m2e48:    lh      t6,0x8a(a0)[0m                      [39m  [39m2e48:    lh      t6,0x8a(a0)[0m                    
+[39m2e4c:    move    s0,a0[0m                            [39m  [39m2e4c:    move    s0,a0[0m                          
+[39m2e50:    addiu   a0,s0,0x18c[0m                      [39m  [39m2e50:    addiu   a0,s0,0x18c[0m                    
+[39m2e54:    subu    v0,t6,t7[0m                         [39m  [39m2e54:    subu    v0,t6,t7[0m                       
+[39m2e58:    sll     v0,v0,0x10[0m                       [39m  [39m2e58:    sll     v0,v0,0x10[0m                     
+[39m2e5c:    sra     v0,v0,0x10[0m                       [39m  [39m2e5c:    sra     v0,v0,0x10[0m                     
+[39m2e60:    bltz    v0,2e70[0m [32m~>[39m                       [39m  [39m2e60:    bltz    v0,2e70[0m [32m~>[39m                     
+[39m2e64:    negu    v1,v0[0m                            [39m  [39m2e64:    negu    v1,v0[0m                          
+[39m2e68:    b       2e70[0m [32m~>[39m                          [39m  [39m2e68:    b       2e70[0m [32m~>[39m                        
+[39m2e6c:    move    v1,v0[0m                            [39m  [39m2e6c:    move    v1,v0[0m                          
+[39m2e70: [32m~>[39m[39m slti    at,v1,0x4001[0m                     [39m  [39m2e70: [32m~>[39m[39m slti    at,v1,0x4001[0m                   
+[39m2e74:    beqz    at,2ea0[0m [31m~>[39m                       [39m  [39m2e74:    beqz    at,2ea0[0m [31m~>[39m                     
+[39m2e78:    lui     a1,[94m0x600[0m[0m                         [94mi [39m2e78:    lui     a1,[94m%hi(D_0600095C)[0m[0m             
+[39m2e7c:    lui     a1,[94m0x600[0m[0m                         [94mi [39m2e7c:    lui     a1,[94m%hi(D_06001950)[0m[0m             
+[39m2e80:    addiu   a1,a1,[94m0x1950[0m[0m                     [94mi [39m2e80:    addiu   a1,a1,[94m%lo(D_06001950)[0m[0m          
+[39m2e84:    addiu   a0,s0,0x18c[0m                      [39m  [39m2e84:    addiu   a0,s0,0x18c[0m                    
+[39m2e88:    jal     SkelAnime_ChangeAnimTransitionStop[0m[39m  [39m2e88:    jal     SkelAnime_ChangeAnimTransitionStop[0m
+[39m2e8c:    lui     a2,0xc080[0m                        [39m  [39m2e8c:    lui     a2,0xc080[0m                      
+[39m2e90:    lui     at,0xc100[0m                        [39m  [39m2e90:    lui     at,0xc100[0m                      
+[39m2e94:    mtc1    at,$f4[0m                           [39m  [39m2e94:    mtc1    at,$f4[0m                         
+[39m2e98:    b       2ebc[0m [93m~>[39m                          [39m  [39m2e98:    b       2ebc[0m [93m~>[39m                        
+[39m2e9c:    swc1    $f4,0x68(s0)[0m                     [39m  [39m2e9c:    swc1    $f4,0x68(s0)[0m                   
+[39m2ea0: [31m~>[39m[39m addiu   a1,a1,[94m0x95c[0m[0m                      [94mi [39m2ea0: [31m~>[39m[39m addiu   a1,a1,[94m%lo(D_0600095C)[0m[0m          
+[39m2ea4:    jal     SkelAnime_ChangeAnimTransitionStop[0m[39m  [39m2ea4:    jal     SkelAnime_ChangeAnimTransitionStop[0m
+[39m2ea8:    lui     a2,0xc080[0m                        [39m  [39m2ea8:    lui     a2,0xc080[0m                      
+[39m2eac:    lui     at,0x4100[0m                        [39m  [39m2eac:    lui     at,0x4100[0m                      
+[39m2eb0:    mtc1    at,$f6[0m                           [39m  [39m2eb0:    mtc1    at,$f6[0m                         
+[39m2eb4:    nop[0m                                      [39m  [39m2eb4:    nop[0m                                    
+[39m2eb8:    swc1    $f6,0x68(s0)[0m                     [39m  [39m2eb8:    swc1    $f6,0x68(s0)[0m                   
+[39m2ebc: [93m~>[39m[39m lh      t9,0x32(s0)[0m                      [39m  [39m2ebc: [93m~>[39m[39m lh      t9,0x32(s0)[0m                    
+[39m2ec0:    li      t8,0x1e[0m                          [39m  [39m2ec0:    li      t8,0x1e[0m                        
+[39m2ec4:    sh      t8,0x32a(s0)[0m                     [39m  [39m2ec4:    sh      t8,0x32a(s0)[0m                   
+[39m2ec8:    sw      zero,0x320(s0)[0m                   [39m  [39m2ec8:    sw      zero,0x320(s0)[0m                 
+[39m2ecc:    move    a0,s0[0m                            [39m  [39m2ecc:    move    a0,s0[0m                          
+[39m2ed0:    li      a1,0x38be[0m                        [39m  [39m2ed0:    li      a1,0x38be[0m                      
+[39m2ed4:    jal     Audio_PlayActorSound2[0m            [39m  [39m2ed4:    jal     Audio_PlayActorSound2[0m          
+[39m2ed8:    sh      t9,0xb6(s0)[0m                      [39m  [39m2ed8:    sh      t9,0xb6(s0)[0m                    
+[39m2edc:    lui     a1,%hi(func_80AA8F50)[0m            [39m  [39m2edc:    lui     a1,%hi(func_80AA8F50)[0m          
+[39m2ee0:    addiu   a1,a1,%lo(func_80AA8F50)[0m         [39m  [39m2ee0:    addiu   a1,a1,%lo(func_80AA8F50)[0m       
+[39m2ee4:    jal     [94mfunc_80AA6050[0m[0m                    [94mi [39m2ee4:    jal     [94mEnMb_SetupAction[0m[0m               
+[39m2ee8:    move    a0,s0[0m                            [39m  [39m2ee8:    move    a0,s0[0m                          
+[39m2eec:    lw      ra,0x1c(sp)[0m                      [39m  [39m2eec:    lw      ra,0x1c(sp)[0m                    
+[39m2ef0:    lw      s0,0x18(sp)[0m                      [39m  [39m2ef0:    lw      s0,0x18(sp)[0m                    
+[39m2ef4:    addiu   sp,sp,0x20[0m                       [39m  [39m2ef4:    addiu   sp,sp,0x20[0m                     
+[39m2ef8:    jr      ra[0m                               [39m  [39m2ef8:    jr      ra[0m                             
+[39m2efc:    nop[0m                                      [39m  [39m2efc:    nop[0m                                    
+[39m2f00:    mtc1    zero,$f0[0m                         [39m  [39m2f00:    mtc1    zero,$f0[0m                       
+[39m2f04:    addiu   sp,sp,-0x28[0m                      [39m  [39m2f04:    addiu   sp,sp,-0x28[0m                    
+[39m2f08:    sw      s0,0x20(sp)[0m                      [39m  [39m2f08:    sw      s0,0x20(sp)[0m                    
+[39m2f0c:    sw      a1,0x2c(sp)[0m                      [39m  [39m2f0c:    sw      a1,0x2c(sp)[0m                    
+[39m2f10:    move    s0,a0[0m                            [39m  [39m2f10:    move    s0,a0[0m                          
+[39m2f14:    sw      ra,0x24(sp)[0m                      [39m  [39m2f14:    sw      ra,0x24(sp)[0m                    
+[39m2f18:    mfc1    a1,$f0[0m                           [39m  [39m2f18:    mfc1    a1,$f0[0m                         
+[39m2f1c:    addiu   a0,a0,0x68[0m                       [39m  [39m2f1c:    addiu   a0,a0,0x68[0m                     
+[39m2f20:    lui     a2,0x3f80[0m                        [39m  [39m2f20:    lui     a2,0x3f80[0m                      
+[39m2f24:    lui     a3,0x3f00[0m                        [39m  [39m2f24:    lui     a3,0x3f00[0m                      
+[39m2f28:    jal     Math_SmoothScaleMaxMinF[0m          [39m  [39m2f28:    jal     Math_SmoothScaleMaxMinF[0m        
+[39m2f2c:    swc1    $f0,0x10(sp)[0m                     [39m  [39m2f2c:    swc1    $f0,0x10(sp)[0m                   
+[39m2f30:    jal     SkelAnime_FrameUpdateMatrix[0m      [39m  [39m2f30:    jal     SkelAnime_FrameUpdateMatrix[0m    
+[39m2f34:    addiu   a0,s0,0x18c[0m                      [39m  [39m2f34:    addiu   a0,s0,0x18c[0m                    
+[39m2f38:    beqzl   v0,2f68[0m [95m~>[39m                       [39m  [39m2f38:    beqzl   v0,2f68[0m [95m~>[39m                     
+[39m2f3c:    lw      ra,0x24(sp)[0m                      [39m  [39m2f3c:    lw      ra,0x24(sp)[0m                    
+[39m2f40:    lh      t6,0x1c(s0)[0m                      [39m  [39m2f40:    lh      t6,0x1c(s0)[0m                    
+[39m2f44:    bgez    t6,2f5c[0m [96m~>[39m                       [39m  [39m2f44:    bgez    t6,2f5c[0m [96m~>[39m                     
+[39m2f48:    nop[0m                                      [39m  [39m2f48:    nop[0m                                    
+[39m2f4c:    jal     func_80AA6830[0m                    [39m  [39m2f4c:    jal     func_80AA6830[0m                  
+[39m2f50:    move    a0,s0[0m                            [39m  [39m2f50:    move    a0,s0[0m                          
+[39m2f54:    b       2f68[0m [92m~>[39m                          [39m  [39m2f54:    b       2f68[0m [92m~>[39m                        
+[39m2f58:    lw      ra,0x24(sp)[0m                      [39m  [39m2f58:    lw      ra,0x24(sp)[0m                    
+[39m2f5c: [96m~>[39m[39m jal     func_80AA6B80[0m                    [39m  [39m2f5c: [96m~>[39m[39m jal     func_80AA6B80[0m                  
+[39m2f60:    move    a0,s0[0m                            [39m  [39m2f60:    move    a0,s0[0m                          
+[39m2f64: [95m~>[39m[39m lw      ra,0x24(sp)[0m                      [39m  [39m2f64: [95m~>[39m[39m lw      ra,0x24(sp)[0m                    
+[39m2f68: [92m~>[39m[39m lw      s0,0x20(sp)[0m                      [39m  [39m2f68: [92m~>[39m[39m lw      s0,0x20(sp)[0m                    
+[39m2f6c:    addiu   sp,sp,0x28[0m                       [39m  [39m2f6c:    addiu   sp,sp,0x28[0m                     
+[39m2f70:    jr      ra[0m                               [39m  [39m2f70:    jr      ra[0m                             
+[39m2f74:    nop[0m                                      [39m  [39m2f74:    nop[0m                                    
+[39m2f78:    addiu   sp,sp,-0x20[0m                      [39m  [39m2f78:    addiu   sp,sp,-0x20[0m                    
+[39m2f7c:    sw      ra,0x1c(sp)[0m                      [39m  [39m2f7c:    sw      ra,0x1c(sp)[0m                    
+[39m2f80:    sw      s0,0x18(sp)[0m                      [39m  [39m2f80:    sw      s0,0x18(sp)[0m                    
+[39m2f84:    lh      t7,0xb6(a0)[0m                      [39m  [39m2f84:    lh      t7,0xb6(a0)[0m                    
+[39m2f88:    lh      t6,0x8a(a0)[0m                      [39m  [39m2f88:    lh      t6,0x8a(a0)[0m                    
+[39m2f8c:    move    s0,a0[0m                            [39m  [39m2f8c:    move    s0,a0[0m                          
+[39m2f90:    addiu   a0,s0,0x18c[0m                      [39m  [39m2f90:    addiu   a0,s0,0x18c[0m                    
+[39m2f94:    subu    v0,t6,t7[0m                         [39m  [39m2f94:    subu    v0,t6,t7[0m                       
+[39m2f98:    sll     v0,v0,0x10[0m                       [39m  [39m2f98:    sll     v0,v0,0x10[0m                     
+[39m2f9c:    sra     v0,v0,0x10[0m                       [39m  [39m2f9c:    sra     v0,v0,0x10[0m                     
+[39m2fa0:    bltz    v0,2fb0[0m [90m~>[39m                       [39m  [39m2fa0:    bltz    v0,2fb0[0m [90m~>[39m                     
+[39m2fa4:    negu    v1,v0[0m                            [39m  [39m2fa4:    negu    v1,v0[0m                          
+[39m2fa8:    b       2fb0[0m [90m~>[39m                          [39m  [39m2fa8:    b       2fb0[0m [90m~>[39m                        
+[39m2fac:    move    v1,v0[0m                            [39m  [39m2fac:    move    v1,v0[0m                          
+[39m2fb0: [90m~>[39m[39m slti    at,v1,0x4001[0m                     [39m  [39m2fb0: [90m~>[39m[39m slti    at,v1,0x4001[0m                   
+[39m2fb4:    beqz    at,2fe0[0m [35m~>[39m                       [39m  [39m2fb4:    beqz    at,2fe0[0m [35m~>[39m                     
+[39m2fb8:    lui     a1,%hi(animEnMbFallBack)[0m         [39m  [39m2fb8:    lui     a1,%hi(animEnMbFallBack)[0m       
+[39m2fbc:    lui     a1,%hi(animEnMbFallBack)[0m         [39m  [39m2fbc:    lui     a1,%hi(animEnMbFallBack)[0m       
+[39m2fc0:    addiu   a1,a1,%lo(animEnMbFallBack)[0m      [39m  [39m2fc0:    addiu   a1,a1,%lo(animEnMbFallBack)[0m    
+[39m2fc4:    addiu   a0,s0,0x18c[0m                      [39m  [39m2fc4:    addiu   a0,s0,0x18c[0m                    
+[39m2fc8:    jal     SkelAnime_ChangeAnimTransitionStop[0m[39m  [39m2fc8:    jal     SkelAnime_ChangeAnimTransitionStop[0m
+[39m2fcc:    lui     a2,0xc080[0m                        [39m  [39m2fcc:    lui     a2,0xc080[0m                      
+[39m2fd0:    lui     at,0xc100[0m                        [39m  [39m2fd0:    lui     at,0xc100[0m                      
+[39m2fd4:    mtc1    at,$f4[0m                           [39m  [39m2fd4:    mtc1    at,$f4[0m                         
+[39m2fd8:    b       2ffc[0m [36m~>[39m                          [39m  [39m2fd8:    b       2ffc[0m [36m~>[39m                        
+[39m2fdc:    swc1    $f4,0x68(s0)[0m                     [39m  [39m2fdc:    swc1    $f4,0x68(s0)[0m                   
+[39m2fe0: [35m~>[39m[39m addiu   a1,a1,%lo(animEnMbFallBack)[0m      [39m  [39m2fe0: [35m~>[39m[39m addiu   a1,a1,%lo(animEnMbFallBack)[0m    
+[39m2fe4:    jal     SkelAnime_ChangeAnimTransitionStop[0m[39m  [39m2fe4:    jal     SkelAnime_ChangeAnimTransitionStop[0m
+[39m2fe8:    lui     a2,0xc080[0m                        [39m  [39m2fe8:    lui     a2,0xc080[0m                      
+[39m2fec:    lui     at,0x4100[0m                        [39m  [39m2fec:    lui     at,0x4100[0m                      
+[39m2ff0:    mtc1    at,$f6[0m                           [39m  [39m2ff0:    mtc1    at,$f6[0m                         
+[39m2ff4:    nop[0m                                      [39m  [39m2ff4:    nop[0m                                    
+[39m2ff8:    swc1    $f6,0x68(s0)[0m                     [39m  [39m2ff8:    swc1    $f6,0x68(s0)[0m                   
+[39m2ffc: [36m~>[39m[39m lh      t8,0xb6(s0)[0m                      [39m  [39m2ffc: [36m~>[39m[39m lh      t8,0xb6(s0)[0m                    
+[39m3000:    li      t9,0x1e[0m                          [39m  [39m3000:    li      t9,0x1e[0m                        
+[39m3004:    sh      t9,0x32a(s0)[0m                     [39m  [39m3004:    sh      t9,0x32a(s0)[0m                   
+[39m3008:    sw      zero,0x320(s0)[0m                   [39m  [39m3008:    sw      zero,0x320(s0)[0m                 
+[39m300c:    move    a0,s0[0m                            [39m  [39m300c:    move    a0,s0[0m                          
+[39m3010:    li      a1,0x38be[0m                        [39m  [39m3010:    li      a1,0x38be[0m                      
+[39m3014:    jal     Audio_PlayActorSound2[0m            [39m  [39m3014:    jal     Audio_PlayActorSound2[0m          
+[39m3018:    sh      t8,0x32(s0)[0m                      [39m  [39m3018:    sh      t8,0x32(s0)[0m                    
+[39m301c:    lw      t0,4(s0)[0m                         [39m  [39m301c:    lw      t0,4(s0)[0m                       
+[39m3020:    li      at,-2[0m                            [39m  [39m3020:    li      at,-2[0m                          
+[39m3024:    lui     a1,%hi(func_80AA90A0)[0m            [39m  [39m3024:    lui     a1,%hi(func_80AA90A0)[0m          
+[39m3028:    and     t1,t0,at[0m                         [39m  [39m3028:    and     t1,t0,at[0m                       
+[39m302c:    sw      t1,4(s0)[0m                         [39m  [39m302c:    sw      t1,4(s0)[0m                       
+[39m3030:    addiu   a1,a1,%lo(func_80AA90A0)[0m         [39m  [39m3030:    addiu   a1,a1,%lo(func_80AA90A0)[0m       
+[39m3034:    jal     [94mfunc_80AA6050[0m[0m                    [94mi [39m3034:    jal     [94mEnMb_SetupAction[0m[0m               
+[39m3038:    move    a0,s0[0m                            [39m  [39m3038:    move    a0,s0[0m                          
+[39m303c:    lw      ra,0x1c(sp)[0m                      [39m  [39m303c:    lw      ra,0x1c(sp)[0m                    
+[39m3040:    lw      s0,0x18(sp)[0m                      [39m  [39m3040:    lw      s0,0x18(sp)[0m                    
+[39m3044:    addiu   sp,sp,0x20[0m                       [39m  [39m3044:    addiu   sp,sp,0x20[0m                     
+[39m3048:    jr      ra[0m                               [39m  [39m3048:    jr      ra[0m                             
+[39m304c:    nop[0m                                      [39m  [39m304c:    nop[0m                                    
+[39m3050:    addiu   sp,sp,-0xa0[0m                      [39m  [39m3050:    addiu   sp,sp,-0xa0[0m                    
+[39m3054:    sdc1    $f20,0x48(sp)[0m                    [39m  [39m3054:    sdc1    $f20,0x48(sp)[0m                  
+[39m3058:    mtc1    zero,$f20[0m                        [39m  [39m3058:    mtc1    zero,$f20[0m                      
+[39m305c:    sw      s4,0x70(sp)[0m                      [39m  [39m305c:    sw      s4,0x70(sp)[0m                    
+[39m3060:    sw      ra,0x74(sp)[0m                      [39m  [39m3060:    sw      ra,0x74(sp)[0m                    
+[39m3064:    sw      s3,0x6c(sp)[0m                      [39m  [39m3064:    sw      s3,0x6c(sp)[0m                    
+[39m3068:    sw      s2,0x68(sp)[0m                      [39m  [39m3068:    sw      s2,0x68(sp)[0m                    
+[39m306c:    sw      s1,0x64(sp)[0m                      [39m  [39m306c:    sw      s1,0x64(sp)[0m                    
+[39m3070:    sw      s0,0x60(sp)[0m                      [39m  [39m3070:    sw      s0,0x60(sp)[0m                    
+[39m3074:    sdc1    $f24,0x58(sp)[0m                    [39m  [39m3074:    sdc1    $f24,0x58(sp)[0m                  
+[39m3078:    sdc1    $f22,0x50(sp)[0m                    [39m  [39m3078:    sdc1    $f22,0x50(sp)[0m                  
+[39m307c:    move    s4,a1[0m                            [39m  [39m307c:    move    s4,a1[0m                          
+[39m3080:    lw      s0,0x1c44(a1)[0m                    [39m  [39m3080:    lw      s0,0x1c44(a1)[0m                  
+[39m3084:    move    s1,a0[0m                            [39m  [39m3084:    move    s1,a0[0m                          
+[39m3088:    mfc1    a1,$f20[0m                          [39m  [39m3088:    mfc1    a1,$f20[0m                        
+[39m308c:    addiu   a0,a0,0x68[0m                       [39m  [39m308c:    addiu   a0,a0,0x68[0m                     
+[39m3090:    lui     a2,0x3f80[0m                        [39m  [39m3090:    lui     a2,0x3f80[0m                      
+[39m3094:    lui     a3,0x3f00[0m                        [39m  [39m3094:    lui     a3,0x3f00[0m                      
+[39m3098:    jal     Math_SmoothScaleMaxMinF[0m          [39m  [39m3098:    jal     Math_SmoothScaleMaxMinF[0m        
+[39m309c:    swc1    $f20,0x10(sp)[0m                    [39m  [39m309c:    swc1    $f20,0x10(sp)[0m                  
+[39m30a0:    lw      v0,0x680(s0)[0m                     [39m  [39m30a0:    lw      v0,0x680(s0)[0m                   
+[39m30a4:    andi    t6,v0,0x80[0m                       [39m  [39m30a4:    andi    t6,v0,0x80[0m                     
+[39m30a8:    beqz    t6,30f4[0m [32m~>[39m                       [39m  [39m30a8:    beqz    t6,30f4[0m [32m~>[39m                     
+[39m30ac:    nop[0m                                      [39m  [39m30ac:    nop[0m                                    
+[39m30b0:    lw      t7,0x118(s0)[0m                     [39m  [39m30b0:    lw      t7,0x118(s0)[0m                   
+[39m30b4:    lui     at,0x4080[0m                        [39m  [39m30b4:    lui     at,0x4080[0m                      
+[39m30b8:    li      t9,0xc8[0m                          [39m  [39m30b8:    li      t9,0xc8[0m                        
+[39m30bc:    bne     s1,t7,30f4[0m [32m~>[39m                    [39m  [39m30bc:    bne     s1,t7,30f4[0m [32m~>[39m                  
+[39m30c0:    move    a0,s4[0m                            [39m  [39m30c0:    move    a0,s4[0m                          
+[39m30c4:    mtc1    at,$f0[0m                           [39m  [39m30c4:    mtc1    at,$f0[0m                         
+[39m30c8:    li      at,-0x81[0m                         [39m  [39m30c8:    li      at,-0x81[0m                       
+[39m30cc:    and     t8,v0,at[0m                         [39m  [39m30cc:    and     t8,v0,at[0m                       
+[39m30d0:    sw      t8,0x680(s0)[0m                     [39m  [39m30d0:    sw      t8,0x680(s0)[0m                   
+[39m30d4:    sw      zero,0x118(s0)[0m                   [39m  [39m30d4:    sw      zero,0x118(s0)[0m                 
+[39m30d8:    sh      t9,0x850(s0)[0m                     [39m  [39m30d8:    sh      t9,0x850(s0)[0m                   
+[39m30dc:    lh      a3,0x32(s1)[0m                      [39m  [39m30dc:    lh      a3,0x32(s1)[0m                    
+[39m30e0:    mfc1    a2,$f0[0m                           [39m  [39m30e0:    mfc1    a2,$f0[0m                         
+[39m30e4:    move    a1,s1[0m                            [39m  [39m30e4:    move    a1,s1[0m                          
+[39m30e8:    jal     func_8002F71C[0m                    [39m  [39m30e8:    jal     func_8002F71C[0m                  
+[39m30ec:    swc1    $f0,0x10(sp)[0m                     [39m  [39m30ec:    swc1    $f0,0x10(sp)[0m                   
+[39m30f0:    sh      zero,0x334(s1)[0m                   [39m  [39m30f0:    sh      zero,0x334(s1)[0m                 
+[39m30f4: [32m~>[39m[39m jal     SkelAnime_FrameUpdateMatrix[0m      [39m  [39m30f4: [32m~>[39m[39m jal     SkelAnime_FrameUpdateMatrix[0m    
+[39m30f8:    addiu   a0,s1,0x18c[0m                      [39m  [39m30f8:    addiu   a0,s1,0x18c[0m                    
+[39m30fc:    beqzl   v0,3240[0m [31m~>[39m                       [39m  [39m30fc:    beqzl   v0,3240[0m [31m~>[39m                     
+[39m3100:    lw      ra,0x74(sp)[0m                      [39m  [39m3100:    lw      ra,0x74(sp)[0m                    
+[39m3104:    lh      t0,0x32a(s1)[0m                     [39m  [39m3104:    lh      t0,0x32a(s1)[0m                   
+[39m3108:    move    a0,s4[0m                            [39m  [39m3108:    move    a0,s4[0m                          
+[39m310c:    move    a1,s1[0m                            [39m  [39m310c:    move    a1,s1[0m                          
+[39m3110:    blez    t0,322c[0m [93m~>[39m                       [39m  [39m3110:    blez    t0,322c[0m [93m~>[39m                     
+[39m3114:    addiu   a2,s1,0x24[0m                       [39m  [39m3114:    addiu   a2,s1,0x24[0m                     
+[39m3118:    lui     t1,%hi(.data)[0m                    [39m  [39m3118:    lui     t1,%hi(.data)[0m                  
+[39m311c:    addiu   t1,t1,%lo(.data+0x1a4)[0m           [39m  [39m311c:    addiu   t1,t1,%lo(.data+0x1a4)[0m         
+[39m3120:    lw      t3,0(t1)[0m                         [39m  [39m3120:    lw      t3,0(t1)[0m                       
+[39m3124:    addiu   s2,sp,0x90[0m                       [39m  [39m3124:    addiu   s2,sp,0x90[0m                     
+[39m3128:    lui     at,0x41a0[0m                        [39m  [39m3128:    lui     at,0x41a0[0m                      
+[39m312c:    sw      t3,0(s2)[0m                         [39m  [39m312c:    sw      t3,0(s2)[0m                       
+[39m3130:    lw      t2,4(t1)[0m                         [39m  [39m3130:    lw      t2,4(t1)[0m                       
+[39m3134:    mtc1    at,$f24[0m                          [39m  [39m3134:    mtc1    at,$f24[0m                        
+[39m3138:    lui     at,0x4170[0m                        [39m  [39m3138:    lui     at,0x4170[0m                      
+[39m313c:    sw      t2,4(s2)[0m                         [39m  [39m313c:    sw      t2,4(s2)[0m                       
+[39m3140:    lw      t3,8(t1)[0m                         [39m  [39m3140:    lw      t3,8(t1)[0m                       
+[39m3144:    mtc1    at,$f22[0m                          [39m  [39m3144:    mtc1    at,$f22[0m                        
+[39m3148:    lui     at,0x42dc[0m                        [39m  [39m3148:    lui     at,0x42dc[0m                      
+[39m314c:    sw      t3,8(s2)[0m                         [39m  [39m314c:    sw      t3,8(s2)[0m                       
+[39m3150:    lh      t4,0x32a(s1)[0m                     [39m  [39m3150:    lh      t4,0x32a(s1)[0m                   
+[39m3154:    swc1    $f20,0xc4(s1)[0m                    [39m  [39m3154:    swc1    $f20,0xc4(s1)[0m                  
+[39m3158:    mtc1    at,$f20[0m                          [39m  [39m3158:    mtc1    at,$f20[0m                        
+[39m315c:    addiu   t5,t4,-1[0m                         [39m  [39m315c:    addiu   t5,t4,-1[0m                       
+[39m3160:    sh      t5,0x32a(s1)[0m                     [39m  [39m3160:    sh      t5,0x32a(s1)[0m                   
+[39m3164:    li      s0,4[0m                             [39m  [39m3164:    li      s0,4[0m                           
+[39m3168:    addiu   s3,sp,0x80[0m                       [39m  [39m3168:    addiu   s3,sp,0x80[0m                     
+[39m316c: [95m~>[39m[39m jal     Math_Rand_CenteredFloat[0m          [39m  [39m316c: [95m~>[39m[39m jal     Math_Rand_CenteredFloat[0m        
+[39m3170:    mov.s   $f12,$f20[0m                        [39m  [39m3170:    mov.s   $f12,$f20[0m                      
+[39m3174:    lwc1    $f4,0x24(s1)[0m                     [39m  [39m3174:    lwc1    $f4,0x24(s1)[0m                   
+[39m3178:    mov.s   $f12,$f22[0m                        [39m  [39m3178:    mov.s   $f12,$f22[0m                      
+[39m317c:    add.s   $f6,$f0,$f4[0m                      [39m  [39m317c:    add.s   $f6,$f0,$f4[0m                    
+[39m3180:    jal     Math_Rand_CenteredFloat[0m          [39m  [39m3180:    jal     Math_Rand_CenteredFloat[0m        
+[39m3184:    swc1    $f6,0x80(sp)[0m                     [39m  [39m3184:    swc1    $f6,0x80(sp)[0m                   
+[39m3188:    lwc1    $f8,0x28(s1)[0m                     [39m  [39m3188:    lwc1    $f8,0x28(s1)[0m                   
+[39m318c:    mov.s   $f12,$f20[0m                        [39m  [39m318c:    mov.s   $f12,$f20[0m                      
+[39m3190:    add.s   $f10,$f8,$f24[0m                    [39m  [39m3190:    add.s   $f10,$f8,$f24[0m                  
+[39m3194:    add.s   $f16,$f0,$f10[0m                    [39m  [39m3194:    add.s   $f16,$f0,$f10[0m                  
+[39m3198:    jal     Math_Rand_CenteredFloat[0m          [39m  [39m3198:    jal     Math_Rand_CenteredFloat[0m        
+[39m319c:    swc1    $f16,0x84(sp)[0m                    [39m  [39m319c:    swc1    $f16,0x84(sp)[0m                  
+[39m31a0:    lwc1    $f18,0x2c(s1)[0m                    [39m  [39m31a0:    lwc1    $f18,0x2c(s1)[0m                  
+[39m31a4:    li      t6,0x64[0m                          [39m  [39m31a4:    li      t6,0x64[0m                        
+[39m31a8:    li      t7,7[0m                             [39m  [39m31a8:    li      t7,7[0m                           
+[39m31ac:    add.s   $f4,$f0,$f18[0m                     [39m  [39m31ac:    add.s   $f4,$f0,$f18[0m                   
+[39m31b0:    li      t8,0xff[0m                          [39m  [39m31b0:    li      t8,0xff[0m                        
+[39m31b4:    li      t9,0xff[0m                          [39m  [39m31b4:    li      t9,0xff[0m                        
+[39m31b8:    li      t0,0xff[0m                          [39m  [39m31b8:    li      t0,0xff[0m                        
+[39m31bc:    li      t1,0xff[0m                          [39m  [39m31bc:    li      t1,0xff[0m                        
+[39m31c0:    li      t2,0xff[0m                          [39m  [39m31c0:    li      t2,0xff[0m                        
+[39m31c4:    li      t3,1[0m                             [39m  [39m31c4:    li      t3,1[0m                           
+[39m31c8:    li      t4,9[0m                             [39m  [39m31c8:    li      t4,9[0m                           
+[39m31cc:    li      t5,1[0m                             [39m  [39m31cc:    li      t5,1[0m                           
+[39m31d0:    swc1    $f4,0x88(sp)[0m                     [39m  [39m31d0:    swc1    $f4,0x88(sp)[0m                   
+[39m31d4:    sw      t5,0x3c(sp)[0m                      [39m  [39m31d4:    sw      t5,0x3c(sp)[0m                    
+[39m31d8:    sw      t4,0x38(sp)[0m                      [39m  [39m31d8:    sw      t4,0x38(sp)[0m                    
+[39m31dc:    sw      t3,0x34(sp)[0m                      [39m  [39m31dc:    sw      t3,0x34(sp)[0m                    
+[39m31e0:    sw      t2,0x2c(sp)[0m                      [39m  [39m31e0:    sw      t2,0x2c(sp)[0m                    
+[39m31e4:    sw      t1,0x24(sp)[0m                      [39m  [39m31e4:    sw      t1,0x24(sp)[0m                    
+[39m31e8:    sw      t0,0x20(sp)[0m                      [39m  [39m31e8:    sw      t0,0x20(sp)[0m                    
+[39m31ec:    sw      t9,0x1c(sp)[0m                      [39m  [39m31ec:    sw      t9,0x1c(sp)[0m                    
+[39m31f0:    sw      t8,0x18(sp)[0m                      [39m  [39m31f0:    sw      t8,0x18(sp)[0m                    
+[39m31f4:    sw      t7,0x14(sp)[0m                      [39m  [39m31f4:    sw      t7,0x14(sp)[0m                    
+[39m31f8:    sw      t6,0x10(sp)[0m                      [39m  [39m31f8:    sw      t6,0x10(sp)[0m                    
+[39m31fc:    sw      zero,0x30(sp)[0m                    [39m  [39m31fc:    sw      zero,0x30(sp)[0m                  
+[39m3200:    sw      zero,0x28(sp)[0m                    [39m  [39m3200:    sw      zero,0x28(sp)[0m                  
+[39m3204:    move    a0,s4[0m                            [39m  [39m3204:    move    a0,s4[0m                          
+[39m3208:    move    a1,s3[0m                            [39m  [39m3208:    move    a1,s3[0m                          
+[39m320c:    move    a2,s2[0m                            [39m  [39m320c:    move    a2,s2[0m                          
+[39m3210:    jal     EffectSsDeadDb_Spawn[0m             [39m  [39m3210:    jal     EffectSsDeadDb_Spawn[0m           
+[39m3214:    move    a3,s2[0m                            [39m  [39m3214:    move    a3,s2[0m                          
+[39m3218:    addiu   s0,s0,-1[0m                         [39m  [39m3218:    addiu   s0,s0,-1[0m                       
+[39m321c:    bgez    s0,316c[0m [95m~>[39m                       [39m  [39m321c:    bgez    s0,316c[0m [95m~>[39m                     
+[39m3220:    nop[0m                                      [39m  [39m3220:    nop[0m                                    
+[39m3224:    b       3240[0m [96m~>[39m                          [39m  [39m3224:    b       3240[0m [96m~>[39m                        
+[39m3228:    lw      ra,0x74(sp)[0m                      [39m  [39m3228:    lw      ra,0x74(sp)[0m                    
+[39m322c: [93m~>[39m[39m jal     Item_DropCollectibleRandom[0m       [39m  [39m322c: [93m~>[39m[39m jal     Item_DropCollectibleRandom[0m     
+[39m3230:    li      a3,0xe0[0m                          [39m  [39m3230:    li      a3,0xe0[0m                        
+[39m3234:    jal     Actor_Kill[0m                       [39m  [39m3234:    jal     Actor_Kill[0m                     
+[39m3238:    move    a0,s1[0m                            [39m  [39m3238:    move    a0,s1[0m                          
+[39m323c: [31m~>[39m[39m lw      ra,0x74(sp)[0m                      [39m  [39m323c: [31m~>[39m[39m lw      ra,0x74(sp)[0m                    
+[39m3240: [96m~>[39m[39m ldc1    $f20,0x48(sp)[0m                    [39m  [39m3240: [96m~>[39m[39m ldc1    $f20,0x48(sp)[0m                  
+[39m3244:    ldc1    $f22,0x50(sp)[0m                    [39m  [39m3244:    ldc1    $f22,0x50(sp)[0m                  
+[39m3248:    ldc1    $f24,0x58(sp)[0m                    [39m  [39m3248:    ldc1    $f24,0x58(sp)[0m                  
+[39m324c:    lw      s0,0x60(sp)[0m                      [39m  [39m324c:    lw      s0,0x60(sp)[0m                    
+[39m3250:    lw      s1,0x64(sp)[0m                      [39m  [39m3250:    lw      s1,0x64(sp)[0m                    
+[39m3254:    lw      s2,0x68(sp)[0m                      [39m  [39m3254:    lw      s2,0x68(sp)[0m                    
+[39m3258:    lw      s3,0x6c(sp)[0m                      [39m  [39m3258:    lw      s3,0x6c(sp)[0m                    
+[39m325c:    lw      s4,0x70(sp)[0m                      [39m  [39m325c:    lw      s4,0x70(sp)[0m                    
+[39m3260:    jr      ra[0m                               [39m  [39m3260:    jr      ra[0m                             
+[39m3264:    addiu   sp,sp,0xa0[0m                       [39m  [39m3264:    addiu   sp,sp,0xa0[0m                     
+[39m3268:    addiu   sp,sp,-0x70[0m                      [39m  [39m3268:    addiu   sp,sp,-0x70[0m                    
+[39m326c:    lui     t6,[94m%hi(D_80AA9D90)[0m[0m               [94mi [39m326c:    lui     t6,[94m%hi(.data)[0m[0m                  
+[39m3270:    sw      ra,0x24(sp)[0m                      [39m  [39m3270:    sw      ra,0x24(sp)[0m                    
+[39m3274:    sw      s0,0x20(sp)[0m                      [39m  [39m3274:    sw      s0,0x20(sp)[0m                    
+[39m3278:    sw      a1,0x74(sp)[0m                      [39m  [39m3278:    sw      a1,0x74(sp)[0m                    
+[39m327c:    addiu   t6,t6,[94m%lo(D_80AA9D90)[0m[0m            [94mi [39m327c:    addiu   t6,t6,[94m%lo(.data+0x1b0)[0m[0m         
+[39m3280:    lw      t8,0(t6)[0m                         [39m  [39m3280:    lw      t8,0(t6)[0m                       
+[39m3284:    addiu   a2,sp,0x64[0m                       [39m  [39m3284:    addiu   a2,sp,0x64[0m                     
+[39m3288:    lui     t0,[94m%hi(D_80AA9D9C)[0m[0m               [94mi [39m3288:    lui     t0,[94m%hi(.data)[0m[0m                  
+[39m328c:    sw      t8,0(a2)[0m                         [39m  [39m328c:    sw      t8,0(a2)[0m                       
+[39m3290:    lw      t7,4(t6)[0m                         [39m  [39m3290:    lw      t7,4(t6)[0m                       
+[39m3294:    addiu   t0,t0,[94m%lo(D_80AA9D9C)[0m[0m            [94mi [39m3294:    addiu   t0,t0,[94m%lo(.data+0x1bc)[0m[0m         
+[39m3298:    addiu   t9,sp,0x58[0m                       [39m  [39m3298:    addiu   t9,sp,0x58[0m                     
+[39m329c:    sw      t7,4(a2)[0m                         [39m  [39m329c:    sw      t7,4(a2)[0m                       
+[39m32a0:    lw      t8,8(t6)[0m                         [39m  [39m32a0:    lw      t8,8(t6)[0m                       
+[39m32a4:    lui     t4,[94m%hi(D_80AA9DA8)[0m[0m               [94mi [39m32a4:    lui     t4,[94m%hi(.data)[0m[0m                  
+[39m32a8:    addiu   t4,t4,[94m%lo(D_80AA9DA8)[0m[0m            [94mi [39m32a8:    addiu   t4,t4,[94m%lo(.data+0x1c8)[0m[0m         
+[39m32ac:    sw      t8,8(a2)[0m                         [39m  [39m32ac:    sw      t8,8(a2)[0m                       
+[39m32b0:    lw      t2,0(t0)[0m                         [39m  [39m32b0:    lw      t2,0(t0)[0m                       
+[39m32b4:    lw      t1,4(t0)[0m                         [39m  [39m32b4:    lw      t1,4(t0)[0m                       
+[39m32b8:    addiu   t3,sp,0x4c[0m                       [39m  [39m32b8:    addiu   t3,sp,0x4c[0m                     
+[39m32bc:    sw      t2,0(t9)[0m                         [39m  [39m32bc:    sw      t2,0(t9)[0m                       
+[39m32c0:    lw      t2,8(t0)[0m                         [39m  [39m32c0:    lw      t2,8(t0)[0m                       
+[39m32c4:    sw      t1,4(t9)[0m                         [39m  [39m32c4:    sw      t1,4(t9)[0m                       
+[39m32c8:    lui     t8,[94m%hi(D_80AA9DB4)[0m[0m               [94mi [39m32c8:    lui     t8,[94m%hi(.data)[0m[0m                  
+[39m32cc:    sw      t2,8(t9)[0m                         [39m  [39m32cc:    sw      t2,8(t9)[0m                       
+[39m32d0:    lw      t6,0(t4)[0m                         [39m  [39m32d0:    lw      t6,0(t4)[0m                       
+[39m32d4:    lw      t5,4(t4)[0m                         [39m  [39m32d4:    lw      t5,4(t4)[0m                       
+[39m32d8:    addiu   t8,t8,[94m%lo(D_80AA9DB4)[0m[0m            [94mi [39m32d8:    addiu   t8,t8,[94m%lo(.data+0x1d4)[0m[0m         
+[39m32dc:    sw      t6,0(t3)[0m                         [39m  [39m32dc:    sw      t6,0(t3)[0m                       
+[39m32e0:    lw      t6,8(t4)[0m                         [39m  [39m32e0:    lw      t6,8(t4)[0m                       
+[39m32e4:    sw      t5,4(t3)[0m                         [39m  [39m32e4:    sw      t5,4(t3)[0m                       
+[39m32e8:    addiu   t7,sp,0x40[0m                       [39m  [39m32e8:    addiu   t7,sp,0x40[0m                     
+[39m32ec:    sw      t6,8(t3)[0m                         [39m  [39m32ec:    sw      t6,8(t3)[0m                       
+[39m32f0:    lw      t0,0(t8)[0m                         [39m  [39m32f0:    lw      t0,0(t8)[0m                       
+[39m32f4:    lw      t9,4(t8)[0m                         [39m  [39m32f4:    lw      t9,4(t8)[0m                       
+[39m32f8:    move    s0,a0[0m                            [39m  [39m32f8:    move    s0,a0[0m                          
+[39m32fc:    sw      t0,0(t7)[0m                         [39m  [39m32fc:    sw      t0,0(t7)[0m                       
+[39m3300:    lw      t0,8(t8)[0m                         [39m  [39m3300:    lw      t0,8(t8)[0m                       
+[39m3304:    sw      t9,4(t7)[0m                         [39m  [39m3304:    sw      t9,4(t7)[0m                       
+[39m3308:    lui     at,0x44fa[0m                        [39m  [39m3308:    lui     at,0x44fa[0m                      
+[39m330c:    sw      t0,8(t7)[0m                         [39m  [39m330c:    sw      t0,8(t7)[0m                       
+[39m3310:    lh      t1,0x1c(a0)[0m                      [39m  [39m3310:    lh      t1,0x1c(a0)[0m                    
+[39m3314:    lwc1    $f4,0x64(sp)[0m                     [39m  [39m3314:    lwc1    $f4,0x64(sp)[0m                   
+[39m3318:    move    a0,a2[0m                            [39m  [39m3318:    move    a0,a2[0m                          
+[39m331c:    blez    t1,3384[0m [92m~>[39m                       [39m  [39m331c:    blez    t1,3384[0m [92m~>[39m                     
+[39m3320:    addiu   a1,s0,0x400[0m                      [39m  [39m3320:    addiu   a1,s0,0x400[0m                    
+[39m3324:    mtc1    at,$f0[0m                           [39m  [39m3324:    mtc1    at,$f0[0m                         
+[39m3328:    lwc1    $f8,0x4c(sp)[0m                     [39m  [39m3328:    lwc1    $f8,0x4c(sp)[0m                   
+[39m332c:    lwc1    $f16,0x58(sp)[0m                    [39m  [39m332c:    lwc1    $f16,0x58(sp)[0m                  
+[39m3330:    lui     at,0xc57a[0m                        [39m  [39m3330:    lui     at,0xc57a[0m                      
+[39m3334:    mtc1    at,$f2[0m                           [39m  [39m3334:    mtc1    at,$f2[0m                         
+[39m3338:    add.s   $f6,$f4,$f0[0m                      [39m  [39m3338:    add.s   $f6,$f4,$f0[0m                    
+[39m333c:    lui     at,0x457a[0m                        [39m  [39m333c:    lui     at,0x457a[0m                      
+[39m3340:    mtc1    at,$f12[0m                          [39m  [39m3340:    mtc1    at,$f12[0m                        
+[39m3344:    add.s   $f10,$f8,$f0[0m                     [39m  [39m3344:    add.s   $f10,$f8,$f0[0m                   
+[39m3348:    lwc1    $f4,0x40(sp)[0m                     [39m  [39m3348:    lwc1    $f4,0x40(sp)[0m                   
+[39m334c:    lwc1    $f8,0x54(sp)[0m                     [39m  [39m334c:    lwc1    $f8,0x54(sp)[0m                   
+[39m3350:    sub.s   $f18,$f16,$f0[0m                    [39m  [39m3350:    sub.s   $f18,$f16,$f0[0m                  
+[39m3354:    lwc1    $f16,0x48(sp)[0m                    [39m  [39m3354:    lwc1    $f16,0x48(sp)[0m                  
+[39m3358:    swc1    $f6,0x64(sp)[0m                     [39m  [39m3358:    swc1    $f6,0x64(sp)[0m                   
+[39m335c:    swc1    $f10,0x4c(sp)[0m                    [39m  [39m335c:    swc1    $f10,0x4c(sp)[0m                  
+[39m3360:    swc1    $f18,0x58(sp)[0m                    [39m  [39m3360:    swc1    $f18,0x58(sp)[0m                  
+[39m3364:    sub.s   $f6,$f4,$f0[0m                      [39m  [39m3364:    sub.s   $f6,$f4,$f0[0m                    
+[39m3368:    swc1    $f2,0x6c(sp)[0m                     [39m  [39m3368:    swc1    $f2,0x6c(sp)[0m                   
+[39m336c:    swc1    $f2,0x60(sp)[0m                     [39m  [39m336c:    swc1    $f2,0x60(sp)[0m                   
+[39m3370:    add.s   $f10,$f8,$f12[0m                    [39m  [39m3370:    add.s   $f10,$f8,$f12[0m                  
+[39m3374:    swc1    $f6,0x40(sp)[0m                     [39m  [39m3374:    swc1    $f6,0x40(sp)[0m                   
+[39m3378:    add.s   $f18,$f16,$f12[0m                   [39m  [39m3378:    add.s   $f18,$f16,$f12[0m                 
+[39m337c:    swc1    $f10,0x54(sp)[0m                    [39m  [39m337c:    swc1    $f10,0x54(sp)[0m                  
+[39m3380:    swc1    $f18,0x48(sp)[0m                    [39m  [39m3380:    swc1    $f18,0x48(sp)[0m                  
+[39m3384: [92m~>[39m[39m jal     Matrix_MultVec3f[0m                 [39m  [39m3384: [92m~>[39m[39m jal     Matrix_MultVec3f[0m               
+[39m3388:    sw      a1,0x34(sp)[0m                      [39m  [39m3388:    sw      a1,0x34(sp)[0m                    
+[39m338c:    addiu   a1,s0,0x3f4[0m                      [39m  [39m338c:    addiu   a1,s0,0x3f4[0m                    
+[39m3390:    sw      a1,0x38(sp)[0m                      [39m  [39m3390:    sw      a1,0x38(sp)[0m                    
+[39m3394:    jal     Matrix_MultVec3f[0m                 [39m  [39m3394:    jal     Matrix_MultVec3f[0m               
+[39m3398:    addiu   a0,sp,0x58[0m                       [39m  [39m3398:    addiu   a0,sp,0x58[0m                     
+[39m339c:    addiu   a1,s0,0x418[0m                      [39m  [39m339c:    addiu   a1,s0,0x418[0m                    
+[39m33a0:    sw      a1,0x2c(sp)[0m                      [39m  [39m33a0:    sw      a1,0x2c(sp)[0m                    
+[39m33a4:    jal     Matrix_MultVec3f[0m                 [39m  [39m33a4:    jal     Matrix_MultVec3f[0m               
+[39m33a8:    addiu   a0,sp,0x4c[0m                       [39m  [39m33a8:    addiu   a0,sp,0x4c[0m                     
+[39m33ac:    addiu   a3,s0,0x40c[0m                      [39m  [39m33ac:    addiu   a3,s0,0x40c[0m                    
+[39m33b0:    move    a1,a3[0m                            [39m  [39m33b0:    move    a1,a3[0m                          
+[39m33b4:    sw      a3,0x30(sp)[0m                      [39m  [39m33b4:    sw      a3,0x30(sp)[0m                    
+[39m33b8:    jal     Matrix_MultVec3f[0m                 [39m  [39m33b8:    jal     Matrix_MultVec3f[0m               
+[39m33bc:    addiu   a0,sp,0x40[0m                       [39m  [39m33bc:    addiu   a0,sp,0x40[0m                     
+[39m33c0:    lw      t2,0x2c(sp)[0m                      [39m  [39m33c0:    lw      t2,0x2c(sp)[0m                    
+[39m33c4:    lw      a3,0x30(sp)[0m                      [39m  [39m33c4:    lw      a3,0x30(sp)[0m                    
+[39m33c8:    addiu   a0,s0,0x3b4[0m                      [39m  [39m33c8:    addiu   a0,s0,0x3b4[0m                    
+[39m33cc:    lw      a1,0x38(sp)[0m                      [39m  [39m33cc:    lw      a1,0x38(sp)[0m                    
+[39m33d0:    lw      a2,0x34(sp)[0m                      [39m  [39m33d0:    lw      a2,0x34(sp)[0m                    
+[39m33d4:    jal     func_80062734[0m                    [39m  [39m33d4:    jal     func_80062734[0m                  
+[39m33d8:    sw      t2,0x10(sp)[0m                      [39m  [39m33d8:    sw      t2,0x10(sp)[0m                    
+[39m33dc:    lw      ra,0x24(sp)[0m                      [39m  [39m33dc:    lw      ra,0x24(sp)[0m                    
+[39m33e0:    lw      s0,0x20(sp)[0m                      [39m  [39m33e0:    lw      s0,0x20(sp)[0m                    
+[39m33e4:    addiu   sp,sp,0x70[0m                       [39m  [39m33e4:    addiu   sp,sp,0x70[0m                     
+[39m33e8:    jr      ra[0m                               [39m  [39m33e8:    jr      ra[0m                             
+[39m33ec:    nop[0m                                      [39m  [39m33ec:    nop[0m                                    
+[39m33f0:    addiu   sp,sp,-0x40[0m                      [39m  [39m33f0:    addiu   sp,sp,-0x40[0m                    
+[39m33f4:    sw      s0,0x20(sp)[0m                      [39m  [39m33f4:    sw      s0,0x20(sp)[0m                    
+[39m33f8:    move    s0,a0[0m                            [39m  [39m33f8:    move    s0,a0[0m                          
+[39m33fc:    sw      a1,0x44(sp)[0m                      [39m  [39m33fc:    sw      a1,0x44(sp)[0m                    
+[39m3400:    sw      ra,0x24(sp)[0m                      [39m  [39m3400:    sw      ra,0x24(sp)[0m                    
+[39m3404:    addiu   a1,s0,0x400[0m                      [39m  [39m3404:    addiu   a1,s0,0x400[0m                    
+[39m3408:    lui     a0,[94m%hi(D_80AA9DC0)[0m[0m               [94mi [39m3408:    lui     a0,[94m%hi(.data)[0m[0m                  
+[39m340c:    addiu   a0,a0,[94m%lo(D_80AA9DC0)[0m[0m            [94mi [39m340c:    addiu   a0,a0,[94m%lo(.data+0x1e0)[0m[0m         
+[39m3410:    jal     Matrix_MultVec3f[0m                 [39m  [39m3410:    jal     Matrix_MultVec3f[0m               
+[39m3414:    sw      a1,0x38(sp)[0m                      [39m  [39m3414:    sw      a1,0x38(sp)[0m                    
+[39m3418:    lui     a0,[94m%hi(D_80AA9DCC)[0m[0m               [94mi [39m3418:    lui     a0,[94m%hi(.data)[0m[0m                  
+[39m341c:    addiu   a1,s0,0x3f4[0m                      [39m  [39m341c:    addiu   a1,s0,0x3f4[0m                    
+[39m3420:    sw      a1,0x34(sp)[0m                      [39m  [39m3420:    sw      a1,0x34(sp)[0m                    
+[39m3424:    jal     Matrix_MultVec3f[0m                 [39m  [39m3424:    jal     Matrix_MultVec3f[0m               
+[39m3428:    addiu   a0,a0,[94m%lo(D_80AA9DCC)[0m[0m            [94mi [39m3428:    addiu   a0,a0,[94m%lo(.data+0x1ec)[0m[0m         
+[39m342c:    lui     a0,[94m%hi(D_80AA9DD8)[0m[0m               [94mi [39m342c:    lui     a0,[94m%hi(.data)[0m[0m                  
+[39m3430:    addiu   a1,s0,0x418[0m                      [39m  [39m3430:    addiu   a1,s0,0x418[0m                    
+[39m3434:    sw      a1,0x2c(sp)[0m                      [39m  [39m3434:    sw      a1,0x2c(sp)[0m                    
+[39m3438:    jal     Matrix_MultVec3f[0m                 [39m  [39m3438:    jal     Matrix_MultVec3f[0m               
+[39m343c:    addiu   a0,a0,[94m%lo(D_80AA9DD8)[0m[0m            [94mi [39m343c:    addiu   a0,a0,[94m%lo(.data+0x1f8)[0m[0m         
+[39m3440:    lui     a0,[94m%hi(D_80AA9DE4)[0m[0m               [94mi [39m3440:    lui     a0,[94m%hi(.data)[0m[0m                  
+[39m3444:    addiu   a3,s0,0x40c[0m                      [39m  [39m3444:    addiu   a3,s0,0x40c[0m                    
+[39m3448:    move    a1,a3[0m                            [39m  [39m3448:    move    a1,a3[0m                          
+[39m344c:    sw      a3,0x30(sp)[0m                      [39m  [39m344c:    sw      a3,0x30(sp)[0m                    
+[39m3450:    jal     Matrix_MultVec3f[0m                 [39m  [39m3450:    jal     Matrix_MultVec3f[0m               
+[39m3454:    addiu   a0,a0,[94m%lo(D_80AA9DE4)[0m[0m            [94mi [39m3454:    addiu   a0,a0,[94m%lo(.data+0x204)[0m[0m         
+[39m3458:    lw      t6,0x2c(sp)[0m                      [39m  [39m3458:    lw      t6,0x2c(sp)[0m                    
+[39m345c:    lw      a3,0x30(sp)[0m                      [39m  [39m345c:    lw      a3,0x30(sp)[0m                    
+[39m3460:    addiu   a0,s0,0x3b4[0m                      [39m  [39m3460:    addiu   a0,s0,0x3b4[0m                    
+[39m3464:    lw      a1,0x34(sp)[0m                      [39m  [39m3464:    lw      a1,0x34(sp)[0m                    
+[39m3468:    lw      a2,0x38(sp)[0m                      [39m  [39m3468:    lw      a2,0x38(sp)[0m                    
+[39m346c:    jal     func_80062734[0m                    [39m  [39m346c:    jal     func_80062734[0m                  
+[39m3470:    sw      t6,0x10(sp)[0m                      [39m  [39m3470:    sw      t6,0x10(sp)[0m                    
+[39m3474:    lw      ra,0x24(sp)[0m                      [39m  [39m3474:    lw      ra,0x24(sp)[0m                    
+[39m3478:    lw      s0,0x20(sp)[0m                      [39m  [39m3478:    lw      s0,0x20(sp)[0m                    
+[39m347c:    addiu   sp,sp,0x40[0m                       [39m  [39m347c:    addiu   sp,sp,0x40[0m                     
+[39m3480:    jr      ra[0m                               [39m  [39m3480:    jr      ra[0m                             
+[39m3484:    nop[0m                                      [39m  [39m3484:    nop[0m                                    
+[39m3488:    addiu   sp,sp,-0x28[0m                      [39m  [39m3488:    addiu   sp,sp,-0x28[0m                    
+[39m348c:    sw      ra,0x24(sp)[0m                      [39m  [39m348c:    sw      ra,0x24(sp)[0m                    
+[39m3490:    sw      s0,0x20(sp)[0m                      [39m  [39m3490:    sw      s0,0x20(sp)[0m                    
+[39m3494:    sw      a1,0x2c(sp)[0m                      [39m  [39m3494:    sw      a1,0x2c(sp)[0m                    
+[39m3498:    lbu     v0,0x445(a0)[0m                     [39m  [39m3498:    lbu     v0,0x445(a0)[0m                   
+[39m349c:    move    s0,a0[0m                            [39m  [39m349c:    move    s0,a0[0m                          
+[39m34a0:    lw      v1,0x1c44(a1)[0m                    [39m  [39m34a0:    lw      v1,0x1c44(a1)[0m                  
+[39m34a4:    andi    t7,v0,0x2[0m                        [39m  [39m34a4:    andi    t7,v0,0x2[0m                      
+[39m34a8:    beqzl   t7,34cc[0m [90m~>[39m                       [39m  [39m34a8:    beqzl   t7,34cc[0m [90m~>[39m                     
+[39m34ac:    lbu     a0,0x379(s0)[0m                     [39m  [39m34ac:    lbu     a0,0x379(s0)[0m                   
+[39m34b0:    lbu     t9,0x379(a0)[0m                     [39m  [39m34b0:    lbu     t9,0x379(a0)[0m                   
+[39m34b4:    andi    t8,v0,0xff7d[0m                     [39m  [39m34b4:    andi    t8,v0,0xff7d[0m                   
+[39m34b8:    sb      t8,0x445(a0)[0m                     [39m  [39m34b8:    sb      t8,0x445(a0)[0m                   
+[39m34bc:    andi    t0,t9,0xfffd[0m                     [39m  [39m34bc:    andi    t0,t9,0xfffd[0m                   
+[39m34c0:    b       3640[0m [35m~>[39m                          [39m  [39m34c0:    b       3640[0m [35m~>[39m                        
+[39m34c4:    sb      t0,0x379(a0)[0m                     [39m  [39m34c4:    sb      t0,0x379(a0)[0m                   
+[39m34c8: [90m~>[39m[39m lbu     a0,0x379(s0)[0m                     [39m  [39m34c8: [90m~>[39m[39m lbu     a0,0x379(s0)[0m                   
+[39m34cc:    andi    t1,a0,0x2[0m                        [39m  [39m34cc:    andi    t1,a0,0x2[0m                      
+[39m34d0:    beqzl   t1,3644[0m [35m~>[39m                       [39m  [39m34d0:    beqzl   t1,3644[0m [35m~>[39m                     
+[39m34d4:    lw      ra,0x24(sp)[0m                      [39m  [39m34d4:    lw      ra,0x24(sp)[0m                    
+[39m34d8:    lw      t2,0x320(s0)[0m                     [39m  [39m34d8:    lw      t2,0x320(s0)[0m                   
+[39m34dc:    slti    at,t2,5[0m                          [39m  [39m34dc:    slti    at,t2,5[0m                        
+[39m34e0:    bnezl   at,3644[0m [35m~>[39m                       [39m  [39m34e0:    bnezl   at,3644[0m [35m~>[39m                     
+[39m34e4:    lw      ra,0x24(sp)[0m                      [39m  [39m34e4:    lw      ra,0x24(sp)[0m                    
+[39m34e8:    lbu     a3,0xb1(s0)[0m                      [39m  [39m34e8:    lbu     a3,0xb1(s0)[0m                    
+[39m34ec:    andi    t3,a0,0xfffd[0m                     [39m  [39m34ec:    andi    t3,a0,0xfffd[0m                   
+[39m34f0:    sb      t3,0x379(s0)[0m                     [39m  [39m34f0:    sb      t3,0x379(s0)[0m                   
+[39m34f4:    beqz    a3,3640[0m [35m~>[39m                       [39m  [39m34f4:    beqz    a3,3640[0m [35m~>[39m                     
+[39m34f8:    li      at,5[0m                             [39m  [39m34f8:    li      at,5[0m                           
+[39m34fc:    beql    a3,at,3644[0m [35m~>[39m                    [39m  [39m34fc:    beql    a3,at,3644[0m [35m~>[39m                  
+[39m3500:    lw      ra,0x24(sp)[0m                      [39m  [39m3500:    lw      ra,0x24(sp)[0m                    
+[39m3504:    lw      v0,0x680(v1)[0m                     [39m  [39m3504:    lw      v0,0x680(v1)[0m                   
+[39m3508:    andi    t4,v0,0x80[0m                       [39m  [39m3508:    andi    t4,v0,0x80[0m                     
+[39m350c:    beqzl   t4,355c[0m [36m~>[39m                       [39m  [39m350c:    beqzl   t4,355c[0m [36m~>[39m                     
+[39m3510:    sb      a3,0x188(s0)[0m                     [39m  [39m3510:    sb      a3,0x188(s0)[0m                   
+[39m3514:    lw      t5,0x118(v1)[0m                     [39m  [39m3514:    lw      t5,0x118(v1)[0m                   
+[39m3518:    lui     at,0x40c0[0m                        [39m  [39m3518:    lui     at,0x40c0[0m                      
+[39m351c:    li      t7,0xc8[0m                          [39m  [39m351c:    li      t7,0xc8[0m                        
+[39m3520:    bne     s0,t5,3558[0m [36m~>[39m                    [39m  [39m3520:    bne     s0,t5,3558[0m [36m~>[39m                  
+[39m3524:    move    a1,s0[0m                            [39m  [39m3524:    move    a1,s0[0m                          
+[39m3528:    mtc1    at,$f0[0m                           [39m  [39m3528:    mtc1    at,$f0[0m                         
+[39m352c:    li      at,-0x81[0m                         [39m  [39m352c:    li      at,-0x81[0m                       
+[39m3530:    and     t6,v0,at[0m                         [39m  [39m3530:    and     t6,v0,at[0m                       
+[39m3534:    sw      t6,0x680(v1)[0m                     [39m  [39m3534:    sw      t6,0x680(v1)[0m                   
+[39m3538:    sw      zero,0x118(v1)[0m                   [39m  [39m3538:    sw      zero,0x118(v1)[0m                 
+[39m353c:    sh      t7,0x850(v1)[0m                     [39m  [39m353c:    sh      t7,0x850(v1)[0m                   
+[39m3540:    lh      a3,0x32(s0)[0m                      [39m  [39m3540:    lh      a3,0x32(s0)[0m                    
+[39m3544:    mfc1    a2,$f0[0m                           [39m  [39m3544:    mfc1    a2,$f0[0m                         
+[39m3548:    lw      a0,0x2c(sp)[0m                      [39m  [39m3548:    lw      a0,0x2c(sp)[0m                    
+[39m354c:    jal     func_8002F71C[0m                    [39m  [39m354c:    jal     func_8002F71C[0m                  
+[39m3550:    swc1    $f0,0x10(sp)[0m                     [39m  [39m3550:    swc1    $f0,0x10(sp)[0m                   
+[39m3554:    lbu     a3,0xb1(s0)[0m                      [39m  [39m3554:    lbu     a3,0xb1(s0)[0m                    
+[39m3558: [36m~>[39m[39m sb      a3,0x188(s0)[0m                     [39m  [39m3558: [36m~>[39m[39m sb      a3,0x188(s0)[0m                   
+[39m355c:    sh      zero,0x334(s0)[0m                   [39m  [39m355c:    sh      zero,0x334(s0)[0m                 
+[39m3560:    move    a0,s0[0m                            [39m  [39m3560:    move    a0,s0[0m                          
+[39m3564:    addiu   a1,s0,0x380[0m                      [39m  [39m3564:    addiu   a1,s0,0x380[0m                    
+[39m3568:    jal     func_80035650[0m                    [39m  [39m3568:    jal     func_80035650[0m                  
+[39m356c:    move    a2,zero[0m                          [39m  [39m356c:    move    a2,zero[0m                        
+[39m3570:    lbu     v0,0xb1(s0)[0m                      [39m  [39m3570:    lbu     v0,0xb1(s0)[0m                    
+[39m3574:    li      at,1[0m                             [39m  [39m3574:    li      at,1[0m                           
+[39m3578:    beq     v0,at,3588[0m [32m~>[39m                    [39m  [39m3578:    beq     v0,at,3588[0m [32m~>[39m                  
+[39m357c:    li      at,6[0m                             [39m  [39m357c:    li      at,6[0m                           
+[39m3580:    bne     v0,at,35b0[0m [31m~>[39m                    [39m  [39m3580:    bne     v0,at,35b0[0m [31m~>[39m                  
+[39m3584:    nop[0m                                      [39m  [39m3584:    nop[0m                                    
+[39m3588: [32m~>[39m[39m lw      t8,0x320(s0)[0m                     [39m  [39m3588: [32m~>[39m[39m lw      t8,0x320(s0)[0m                   
+[39m358c:    li      at,5[0m                             [39m  [39m358c:    li      at,5[0m                           
+[39m3590:    beql    t8,at,3644[0m [35m~>[39m                    [39m  [39m3590:    beql    t8,at,3644[0m [35m~>[39m                  
+[39m3594:    lw      ra,0x24(sp)[0m                      [39m  [39m3594:    lw      ra,0x24(sp)[0m                    
+[39m3598:    jal     Actor_ApplyDamage[0m                [39m  [39m3598:    jal     Actor_ApplyDamage[0m              
+[39m359c:    move    a0,s0[0m                            [39m  [39m359c:    move    a0,s0[0m                          
+[39m35a0:    jal     func_80AA6F8C[0m                    [39m  [39m35a0:    jal     func_80AA6F8C[0m                  
+[39m35a4:    move    a0,s0[0m                            [39m  [39m35a4:    move    a0,s0[0m                          
+[31m35a8:    b       3644[0m [93m~>[39m                          [31m<                                                 
+[31m35ac:    lw      ra,0x24(sp)[0m                      [31m<                                                 
+[31m35b0: [31m~>[39m[31m jal     Actor_ApplyDamage[0m                [31m<                                                 
