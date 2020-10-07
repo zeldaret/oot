@@ -393,7 +393,7 @@ static f32 sDropletWidth[41] = {
     9.0f,      8.9861f,   8.944272f, 8.87412f,  8.774964f, 8.645808f, 8.485281f, 8.291562f, 8.062258f,
     7.794229f, 7.483315f, 7.123903f, 6.708204f, 6.22495f,  5.656854f, 4.974937f, 4.123106f, 2.95804f,
     0.0f,      0.0f,      0.0f,      0.0f,      0.0f,
-};
+}; // These are sqrt(9^2 - (i/2 - 9)^2) / 2, a sphere of radius 9.
 
 void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
