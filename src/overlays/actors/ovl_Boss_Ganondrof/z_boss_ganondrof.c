@@ -14,6 +14,39 @@
 
 #define THIS ((BossGanondrof*)thisx)
 
+typedef enum {
+    /* 0 */ NOT_DEAD,
+    /* 1 */ DEATH_START,
+    /* 2 */ DEATH_THROE,
+    /* 3 */ DEATH_WARP,
+    /* 4 */ DEATH_SCREAM,
+    /* 5 */ DEATH_DISINTEGRATE,
+    /* 6 */ DEATH_FINISH
+} BossGanondrofDeathStates;
+
+typedef enum {
+    /* 0 */ THROW_NORMAL,
+    /* 1 */ THROW_SLOW
+} BossGanondrofThrowActions;
+
+typedef enum {
+    /* 0 */ STUNNED_FALL,
+    /* 1 */ STUNNED_GROUND
+} BossGanondrofStunnedActions;
+
+typedef enum {
+    /* 0 */ CHARGE_WINDUP,
+    /* 1 */ CHARGE_START,
+    /* 2 */ CHARGE_ATTACK,
+    /* 3 */ CHARGE_FINISH
+} BossGanondrofChargeActions;
+
+typedef enum {
+    /* 0 */ DEATH_SPASM,
+    /* 1 */ DEATH_LIMP,
+    /* 2 */ DEATH_HUNCHED
+} BossGanondrofDeathActions;
+
 void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -23,17 +56,17 @@ void BossGanondrof_SetupIntro(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_SetupPaintings(BossGanondrof* this);
 void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_SetupIdle(BossGanondrof* this, f32 arg1);
-void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx);
+void BossGanondrof_SetupNeutral(BossGanondrof* this, f32 arg1);
+void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_SetupVolley(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Volley(BossGanondrof* this, GlobalContext* globalCtx);
+void BossGanondrof_SetupReturn(BossGanondrof* this, GlobalContext* globalCtx);
+void BossGanondrof_Return(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_SetupCharge(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Vulnerable(BossGanondrof* this, GlobalContext* globalCtx);
+void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 
 extern Gfx D_06004EC0[];
@@ -87,43 +120,74 @@ static ColliderCylinderInit sCylinderInitSpear = {
     { 20, 30, -20, { 0, 0, 0 } },
 };
 
-static u8 D_80914D28[0x100] = {
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0,
-    0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0,
-    1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1,
-    1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0,
-    1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1,
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+// clang-format off
+static u8 sDecayMaskHigh[16 * 16] = {
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,
+    1,0,1,1,0,0,0,0,1,1,1,1,1,1,0,1,
+    1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,1,
+    1,0,0,1,1,1,1,0,0,0,1,1,1,0,0,1,
+    1,0,0,1,1,1,1,1,0,0,0,1,1,0,0,1,
+    1,0,1,1,1,1,0,0,0,0,0,1,0,0,0,1,
+    1,1,1,1,1,1,1,1,0,0,0,0,1,1,0,1,
+    1,0,1,1,1,1,1,0,0,0,0,1,1,1,0,1,
+    1,0,0,1,1,1,0,0,0,1,1,1,1,1,0,1,
+    1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,
+    1,0,0,0,1,1,0,0,0,1,1,1,1,1,1,1,
+    1,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1,
+    1,0,1,1,1,1,1,0,0,1,1,1,1,1,0,1,
+    1,1,1,1,1,1,1,0,0,1,1,1,0,0,0,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 };
 
-static u8 D_80914E28[0x100] = {
-    1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0,
-    0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0,
-    0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-    0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1,
+static u8 sDecayMaskLow[16 * 16] = {
+    1,1,1,0,1,0,0,1,0,0,1,1,1,1,1,1,
+    0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,0,
+    1,0,1,1,0,0,0,0,0,1,1,0,0,1,0,0,
+    1,0,0,1,1,0,0,0,0,0,1,1,1,0,0,0,
+    0,0,0,1,1,1,0,0,0,0,0,1,1,0,0,1,
+    0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,1,
+    1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,
+    1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
+    1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,1,
+    0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,
+    0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,
+    1,0,0,0,0,1,0,0,0,0,0,1,1,1,0,0,
+    1,0,0,0,0,1,0,0,0,0,1,0,1,1,0,0,
+    0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,
+    1,0,0,0,1,0,1,0,0,0,1,1,0,0,0,1,
+    1,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,
 };
 
-static u8 D_80914F28[0x100] = {
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+static u8 sDecayMaskTotal[16 * 16] = {
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 };
+// clang-format on
 
-static UNK_PTR D_80915028[] = { 0x0600A800, 0x0600AE80, 0x0600AF00, 0x0600C180,
-                                0x0600C400, };
-static UNK_PTR D_8091503C[] = { 0x0600B980, 0x0600C480, 0x0600BC80, 0x0600BD80,
-                                0x0600C080, };
+// These appear to be Phantom Ganon's body textures, but I don't know which is which.
+static UNK_PTR D_80915028[] = {
+    0x0600A800, 0x0600AE80, 0x0600AF00, 0x0600C180, 0x0600C400,
+};
+static UNK_PTR D_8091503C[] = {
+    0x0600B980, 0x0600C480, 0x0600BC80, 0x0600BD80, 0x0600C080,
+};
 static UNK_PTR D_80915050[] = {
-    0x0600C200, 0x0600A000, 0x0600A200, 0x0600A400, 0x0600A600,
-    0x0600A880, 0x0600B780, 0x0600BA80, 0x0600BE80,
+    0x0600C200, 0x0600A000, 0x0600A200, 0x0600A400, 0x0600A600, 0x0600A880, 0x0600B780, 0x0600BA80, 0x0600BE80,
 };
 static UNK_PTR D_80915074[] = { 0x0600AA80, 0x0600AF80 };
 static UNK_PTR D_8091507C[] = { 0x060040B0, 0x06003FB0 };
@@ -135,66 +199,64 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 
-static Vec3f D_80915094 = { 0.0f, 0.0f, 50.0f };
-
-void func_80910640(s16* arg0, u8* arg1, s16 arg2) {
-    if (arg1[arg2] != 0) {
-        arg0[arg2 / 4] = 0;
+void BossGanondrof_ClearPixels8x8(s16* texture, u8* mask, s16 index) {
+    if (mask[index]) {
+        texture[index / 4] = 0;
     }
 }
 
-void func_80910680(s16* arg0, u8* arg1, s16 arg2) {
-    if (arg1[arg2] != 0) {
-        arg0[arg2 / 2] = 0;
+void BossGanondrof_ClearPixels16x8(s16* texture, u8* mask, s16 index) {
+    if (mask[index]) {
+        texture[index / 2] = 0;
     }
 }
 
-void func_809106C0(s16* arg0, u8* arg1, s16 arg2) {
-    if (arg1[arg2] != 0) {
-        arg0[arg2] = 0;
+void BossGanondrof_ClearPixels16x16(s16* texture, u8* mask, s16 index) {
+    if (mask[index]) {
+        texture[index] = 0;
     }
 }
 
-void func_809106F0(s16* arg0, u8* arg1, s16 arg2) {
+void BossGanondrof_ClearPixels32x16(s16* texture, u8* mask, s16 index) {
     s16 tmp;
 
-    if (arg1[arg2] != 0) {
-        tmp = (arg2 & 0xF) + ((arg2 & 0xF0) * 2);
-        arg0[tmp + 16] = 0;
-        arg0[tmp] = 0;
+    if (mask[index]) {
+        tmp = (index & 0xF) + ((index & 0xF0) << 1);
+        texture[tmp + 0x10] = 0;
+        texture[tmp] = 0;
     }
 }
 
-void func_80910738(s16* arg0, u8* arg1, s16 arg2) {
+void BossGanondrof_ClearPixels16x32(s16* texture, u8* mask, s16 index) {
     s16 tmp;
 
-    if (arg1[arg2] != 0) {
-        tmp = ((arg2 & 0xF) * 2) + ((arg2 & 0xF0) * 2);
-        arg0[tmp + 1] = 0;
-        arg0[tmp] = 0;
+    if (mask[index]) {
+        tmp = ((index & 0xF) * 2) + ((index & 0xF0) * 2);
+        texture[tmp + 1] = 0;
+        texture[tmp] = 0;
     }
 }
 
-void func_80910784(u8* arg0, s16 arg1) {
+void BossGanondrof_ClearPixels(u8* mask, s16 index) {
     s16 i;
 
     for (i = 0; i < 5; i++) {
-        func_80910640(SEGMENTED_TO_VIRTUAL(D_80915028[i]), arg0, arg1);
-        func_80910680(SEGMENTED_TO_VIRTUAL(D_8091503C[i]), arg0, arg1);
+        BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(D_80915028[i]), mask, index);
+        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(D_8091503C[i]), mask, index);
     }
 
     for (i = 0; i < 9; i++) {
-        func_809106C0(SEGMENTED_TO_VIRTUAL(D_80915050[i]), arg0, arg1);
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_80915050[i]), mask, index);
     }
 
     for (i = 0; i < 2; i++) {
-        func_80910738(SEGMENTED_TO_VIRTUAL(D_80915074[i]), arg0, arg1);
+        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(D_80915074[i]), mask, index);
     }
 
-    func_809106F0(SEGMENTED_TO_VIRTUAL(&D_0600B380), arg0, arg1);
-    func_80910738(SEGMENTED_TO_VIRTUAL(&D_06003DB0), arg0, arg1);
+    BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(&D_0600B380), mask, index);
+    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(&D_06003DB0), mask, index);
     for (i = 0; i < 2; i++) {
-        func_809106C0(SEGMENTED_TO_VIRTUAL(D_8091507C[i]), arg0, arg1);
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_8091507C[i]), mask, index);
     }
 }
 
@@ -205,8 +267,8 @@ void BossGanondrof_SetColliderPos(Vec3f* pos, ColliderCylinder* collider) {
 }
 
 void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BossGanondrof* this = THIS;
     s32 pad;
+    BossGanondrof* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -239,6 +301,7 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BossGanondrof* this = THIS;
 
     osSyncPrintf("DT1\n");
@@ -255,99 +318,101 @@ void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BossGanondrof_SetupIntro(BossGanondrof* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060019A4);
     this->actionFunc = BossGanondrof_Intro;
-    this->cutsceneMaskOff = 1;
+    this->maskOff = true;
 }
 
+static Vec3f sAudioVec = { 0.0f, 0.0f, 50.0f };
+
 void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
-    s32 pad2;
-    s16 pad;
     s16 i;
+    s32 pad;
     EnfHG* horse = (EnfHG*)this->actor.child;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actor.posRot.pos = horse->actor.posRot.pos;
     this->actor.shape.rot.y = this->actor.posRot.rot.y = horse->actor.posRot.rot.y;
 
-    osSyncPrintf("SW %d------------------------------------------------\n", horse->bossPGintroState);
+    osSyncPrintf("SW %d------------------------------------------------\n", horse->bossFhgSignal);
 
     if ((this->timers[1] != 0) && (this->timers[1] < 25)) {
         Vec3f sp88;
         Vec3f sp7C = { 0.0f, 0.0f, 0.0f };
         Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
-        sp88.x = this->bodyPartsPos[15-1].x + Math_Rand_CenteredFloat(10.0f);
-        sp88.y = this->bodyPartsPos[15-1].y + Math_Rand_ZeroFloat(-5.0f);
-        sp88.z = this->bodyPartsPos[15-1].z + Math_Rand_CenteredFloat(10.0f) + 5.0f;
+        sp88.x = this->bodyPartsPos[14].x + Math_Rand_CenteredFloat(10.0f);
+        sp88.y = this->bodyPartsPos[14].y + Math_Rand_ZeroFloat(-5.0f);
+        sp88.z = this->bodyPartsPos[14].z + Math_Rand_CenteredFloat(10.0f) + 5.0f;
         sp70.y = 0.03f;
         EffectSsKFire_Spawn(globalCtx, &sp88, &sp7C, &sp70, (s16)Math_Rand_ZeroFloat(10.0f) + 5, 0);
     }
 
     if (this->timers[1] == 20) {
-        this->cutsceneMaskOff = 0;
+        this->maskOff = false;
     }
 
     if (this->timers[1] == 30) {
-        func_80078914(&D_80915094, NA_SE_EN_FANTOM_TRANSFORM);
+        func_80078914(&sAudioVec, NA_SE_EN_FANTOM_TRANSFORM);
     }
 
-    if (horse->bossPGintroState == 3) {
+    if (horse->bossFhgSignal == FHG_LIGHTNING) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06001144, 0.5f, 0.0f,
                              SkelAnime_GetFrameCount(&D_06001144.genericHeader), 3, 0.0f);
         this->timers[1] = 40;
     }
 
-    if (horse->bossPGintroState == 2) {
+    if (horse->bossFhgSignal == FHG_REAR) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002684, -3.0f);
     }
 
-    if (horse->bossPGintroState == 5) {
+    if (horse->bossFhgSignal == FHG_RIDE) {
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060019A4, -13.0f);
     }
 
-    if (horse->bossPGintroState == 10) {
-        EnfHG* tmpHorse;
+    if (horse->bossFhgSignal == FHG_SPUR) {
+        EnfHG* tempHorse;
+
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600D99C, -7.0f);
-        tmpHorse = (EnfHG*)this->actor.child;
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                           this->spearPos.y, this->spearPos.z, 0x32, 0, 0, FHG_SPEAR_LIGHT);
-        this->actor.child = &tmpHorse->actor;
+        tempHorse = (EnfHG*)this->actor.child;
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
+                           this->spearTip.y, this->spearTip.z, 50, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
+        this->actor.child = &tempHorse->actor;
     }
 
-    if (horse->bossPGintroState == 11) {
+    if (horse->bossFhgSignal == FHG_FINISH) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600DF80, -5.0f);
     }
 
     switch (this->eyeState) {
         case 1:
-            this->unk_1E0 += 40.0f;
-            if (this->unk_1E0 >= 255.0f) {
-                this->unk_1E0 = 255.0f;
+            this->eyeAlpha += 40.0f;
+            if (this->eyeAlpha >= 255.0f) {
+                this->eyeAlpha = 255.0f;
             }
             break;
 
         case 2:
-            this->unk_1D4 += 20.0f;
-            if (this->unk_1D4 > 255.0f) {
-                this->unk_1D4 = 255.0f;
+            this->eyeBrightness += 20.0f;
+            if (this->eyeBrightness > 255.0f) {
+                this->eyeBrightness = 255.0f;
             }
             break;
     }
 
-    this->unk_3D4 = Math_Sins(this->varianceTimer * 1768) * 0;
-    this->unk_3D8 = Math_Coss(this->varianceTimer * 2268) * 300.0f;
+    this->armRotY = Math_Sins(this->varianceTimer * 0x6E8) * 0;
+    this->armRotZ = Math_Coss(this->varianceTimer * 0x8DC) * 300.0f;
     for (i = 0; i < 30; i++) {
-        this->unk_454[i] = Math_Sins(this->varianceTimer * ((i * 50) + 0x7B0)) * 100.0f;
-        this->unk_3DC[i] = Math_Coss(this->varianceTimer * ((i * 50) + 0x8DC)) * 100.0f;
+        this->rideRotY[i] = Math_Sins(this->varianceTimer * ((i * 50) + 0x7B0)) * 100.0f;
+        this->rideRotZ[i] = Math_Coss(this->varianceTimer * ((i * 50) + 0x8DC)) * 100.0f;
     }
 
-    if (horse->bossPGintroState == 255) {
+    if (horse->bossFhgSignal == FHG_START_FIGHT) {
         BossGanondrof_SetupPaintings(this);
         for (i = 0; i < 30; i++) {
-            this->unk_3DC[i] = 0.0f;
-            this->unk_454[i] = 0.0f;
+            this->rideRotZ[i] = 0.0f;
+            this->rideRotY[i] = 0.0f;
         }
     }
 
-    horse->bossPGintroState = 0;
+    horse->bossFhgSignal = FHG_NO_SIGNAL;
 }
 
 void BossGanondrof_SetupPaintings(BossGanondrof* this) {
@@ -357,24 +422,25 @@ void BossGanondrof_SetupPaintings(BossGanondrof* this) {
 
 void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     EnfHG* horse = (EnfHG*)this->actor.child; // sp48;
-    EnfHG* horse2;
 
     osSyncPrintf("RUN 1\n");
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     osSyncPrintf("RUN 2\n");
 
-    if (horse->bossPGintroState == 1) {
+    if (horse->bossFhgSignal == FHG_RAISE_SPEAR) {
+        EnfHG* tmpHorse;
+
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600D99C, -2.0f);
         this->actor.flags |= 1;
-        horse2 = (EnfHG*)this->actor.child;
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                           this->spearPos.y, this->spearPos.z, 0x1E, 0, 0, FHG_SPEAR_LIGHT);
-        this->actor.child = &horse2->actor;
-    } else if (horse->bossPGintroState == 3) {
+        tmpHorse = (EnfHG*)this->actor.child;
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
+                           this->spearTip.y, this->spearTip.z, 30, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
+        this->actor.child = &tmpHorse->actor;
+    } else if (horse->bossFhgSignal == FHG_LIGHTNING) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003080, -2.0f);
-    } else if (horse->bossPGintroState == 4) {
+    } else if (horse->bossFhgSignal == FHG_RESET) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600DF80, -2.0f);
-    } else if (horse->bossPGintroState == 5) {
+    } else if (horse->bossFhgSignal == FHG_RIDE) {
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06003CA4, -2.0f);
         this->actor.flags &= ~1;
     }
@@ -383,8 +449,8 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos = horse->actor.posRot.pos;
     this->actor.posRot.pos.y = horse->actor.posRot.pos.y;
     this->actor.shape.rot.y = this->actor.posRot.rot.y = horse->actor.posRot.rot.y;
-    if (this->actionState != 0) {
-        BossGanondrof_SetupIdle(this, -20.0f);
+    if (this->flyMode != FHG_FLY_PAINTING) {
+        BossGanondrof_SetupNeutral(this, -20.0f);
         this->timers[0] = 100;
         this->colliderBody.dim.radius = 20;
         this->colliderBody.dim.height = 60;
@@ -392,7 +458,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
         this->actor.naviEnemyId = 0x1A;
     } else {
-        horse->bossPGintroState = 0;
+        horse->bossFhgSignal = FHG_NO_SIGNAL;
         this->actor.scale.x = horse->actor.scale.x / 1.15f;
         this->actor.scale.y = horse->actor.scale.y / 1.15f;
         this->actor.scale.z = horse->actor.scale.z / 1.15f;
@@ -400,139 +466,139 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 }
 
-void BossGanondrof_SetupIdle(BossGanondrof* this, f32 arg1) {
+void BossGanondrof_SetupNeutral(BossGanondrof* this, f32 arg1) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06010060, arg1);
-    this->actionFunc = BossGanondrof_Idle;
+    this->actionFunc = BossGanondrof_Neutral;
     this->actor.flags |= 1;
-    this->unk_1CC = 0.0f;
+    this->floatSpeed = 0.0f;
     this->timers[0] = (s16)(Math_Rand_ZeroOne() * 64.0f) + 30;
 }
 
-void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx) {
-    f32 sp84;
-    f32 sp80;
-    f32 sp7C;
+void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
+    f32 targetX;
+    f32 targetY;
+    f32 targetZ;
     Player* player = PLAYER;
-    f32 tmpf1;
-    f32 tmpf2;
+    Actor* playerx = &player->actor;
+    Actor* thisx = &this->actor;
+    f32 rand01;
     s16 i;
-    s32 pad3;
-    Vec3f sp5C;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    switch (this->actionState) {
-        case 1:
+    switch (this->flyMode) {
+        case FHG_FLY_NEUTRAL:
             if (this->timers[0] == 0) {
-                this->timers[0] = (s16)(Math_Rand_ZeroOne() * 64.0f) + 0x1E;
-                tmpf1 = Math_Rand_ZeroOne();
-                if (this->actor.colChkInfo.health < 5) {
-                    if (tmpf1 < 0.25f) {
+                this->timers[0] = (s16)(Math_Rand_ZeroOne() * 64.0f) + 30;
+                rand01 = Math_Rand_ZeroOne();
+                if (thisx->colChkInfo.health < 5) {
+                    if (rand01 < 0.25f) {
                         BossGanondrof_SetupThrow(this, globalCtx);
-                    } else if (tmpf1 >= 0.8f) {
-                        this->actionState = 4;
+                    } else if (rand01 >= 0.8f) {
+                        this->flyMode = FHG_FLY_CHARGE;
                         this->timers[0] = 60;
-                        this->unk_1CC = 0.0f;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
+                        this->floatSpeed = 0.0f;
+                        Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_LAUGH);
                     } else {
-                        this->actionState = 2;
+                        this->flyMode = FHG_FLY_VOLLEY;
                         this->timers[0] = 60;
-                        this->unk_1CC = 0.0f;
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
+                        this->floatSpeed = 0.0f;
+                        Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_LAUGH);
                     }
-                } else if ((tmpf1 < 0.5f) || (this->throwCount < 5)) {
+                } else if ((rand01 < 0.5f) || (this->throwCount < 5)) {
                     BossGanondrof_SetupThrow(this, globalCtx);
                 } else {
-                    this->actionState = 2;
+                    this->flyMode = FHG_FLY_VOLLEY;
                     this->timers[0] = 60;
-                    this->unk_1CC = 0.0f;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
+                    this->floatSpeed = 0.0f;
+                    Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_LAUGH);
                 }
             }
 
             if (this->timers[1] != 0) {
-                sp84 = 14.0f;
-                sp7C = -3315.0f;
+                targetX = 14.0f;
+                targetZ = -3315.0f;
             } else {
-                sp84 = (Math_Sins(player->actor.shape.rot.y) * 180.0f) + player->actor.posRot.pos.x;
-                sp7C = (Math_Coss(player->actor.shape.rot.y) * 180.0f) + player->actor.posRot.pos.z;
-                if (sqrtf(SQ(sp84 - 14.0f) + SQ(sp7C - -3315.0f)) > 280.0f) {
-                    this->timers[1] = 0x32;
-                    this->unk_1CC = 0.0f;
+                targetX = playerx->posRot.pos.x + (180.0f * Math_Sins(playerx->shape.rot.y));
+                targetZ = playerx->posRot.pos.z + (180.0f * Math_Coss(playerx->shape.rot.y));
+                if (sqrtf(SQ(targetX - 14.0f) + SQ(targetZ - -3315.0f)) > 280.0f) {
+                    this->timers[1] = 50;
+                    this->floatSpeed = 0.0f;
                 }
             }
 
-            sp80 = player->actor.posRot.pos.y + 100.0f;
-            sp84 += Math_Sins(this->varianceTimer * 1280) * 100.0f;
-            sp7C += Math_Coss(this->varianceTimer * 1792) * 100.0f;
+            targetY = playerx->posRot.pos.y + 100.0f + 0.0f;
+            targetX += Math_Sins(this->varianceTimer * 0x500) * 100.0f;
+            targetZ += Math_Coss(this->varianceTimer * 0x700) * 100.0f;
             break;
+        case FHG_FLY_VOLLEY:
+            targetX = 0.0f;
+            targetZ = -3050.0f;
 
-        case 2:
-            sp80 = (player->actor.posRot.pos.y + 100.0f) + 100.0f;
-            sp84 = 0;
-            sp84 += (Math_Sins(this->varianceTimer * 1280) * 100.0f);
-            sp7C = -3050.0f;
-            sp7C += (Math_Coss(this->varianceTimer * 1792) * 100.0f);
+            targetY = playerx->posRot.pos.y + 100.0f + 100.0f;
+            targetX += Math_Sins(this->varianceTimer * 0x500) * 100.0f;
+            targetZ += Math_Coss(this->varianceTimer * 0x700) * 100.0f;
             if (this->timers[0] == 0) {
-                this->actionState = 3;
-                this->returnSuccess = 0;
+                this->flyMode = FHG_FLY_RETURN;
+                this->returnSuccess = false;
                 BossGanondrof_SetupThrow(this, globalCtx);
                 this->timers[0] = 80;
             }
             break;
+        case FHG_FLY_RETURN:
+            targetX = 0.0f;
+            targetZ = -3050.0f;
 
-        case 3:
-            sp80 = (player->actor.posRot.pos.y + 100.0f) + 100.0f;
-            sp84 = 0;
-            sp84 += (Math_Sins(this->varianceTimer * 1280) * 50.0f);
-            sp7C = -3050.0f;
-            sp7C += (Math_Coss(this->varianceTimer * 1792) * 50.0f);
-            if (this->returnSuccess != 0) {
-                this->returnSuccess = 0;
-                BossGanondrof_SetupVolley(this, globalCtx);
+            targetY = playerx->posRot.pos.y + 100.0f + 100.0f;
+            targetX += Math_Sins(this->varianceTimer * 0x500) * 50.0f;
+            targetZ += Math_Coss(this->varianceTimer * 0x700) * 50.0f;
+            if (this->returnSuccess) {
+                this->returnSuccess = false;
+                BossGanondrof_SetupReturn(this, globalCtx);
                 this->timers[0] = 80;
             }
 
             if (this->timers[0] == 0) {
-                this->actionState = 1;
+                this->flyMode = FHG_FLY_NEUTRAL;
             }
             break;
+        case FHG_FLY_CHARGE:
+            targetX = 0.0f;
+            targetZ = -3100.0f;
 
-        case 4:
-            sp80 = (player->actor.posRot.pos.y + 100.0f) + 50.0f;
-            sp84 = 0;
-            sp84 += (Math_Sins(this->varianceTimer * 1280) * 100.0f);
-            sp7C = -3100.0f;
-            sp7C += (Math_Coss(this->varianceTimer * 1792) * 100.0f);
+            targetY = playerx->posRot.pos.y + 100.0f + 50.0f;
+            targetX += Math_Sins(this->varianceTimer * 0x500) * 100.0f;
+            targetZ += Math_Coss(this->varianceTimer * 0x700) * 100.0f;
             if (this->timers[0] == 0) {
                 BossGanondrof_SetupCharge(this, globalCtx);
             }
             break;
     }
 
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, sp84, 0.05f, this->unk_1CC);
+    Math_SmoothScaleMaxF(&thisx->posRot.pos.x, targetX, 0.05f, this->floatSpeed);
     if (this->timers[2] != 0) {
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, sp80 + 100.0f, 0.1f, 50.0f);
+        Math_SmoothScaleMaxF(&thisx->posRot.pos.y, targetY + 100.0f, 0.1f, 50.0f);
     } else {
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, sp80, 0.05f, 10.0f);
+        Math_SmoothScaleMaxF(&thisx->posRot.pos.y, targetY, 0.05f, 10.0f);
     }
 
-    Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, sp7C, 0.05f, this->unk_1CC);
-    Math_SmoothScaleMaxF(&this->unk_1CC, 50.0f, 1.0f, 0.5f);
-    this->actor.velocity.x = this->actor.posRot.pos.x - this->actor.pos4.x;
-    this->actor.velocity.z = this->actor.posRot.pos.z - this->actor.pos4.z;
-    tmpf2 = Math_Sins(this->varianceTimer * 1500);
-    this->actor.posRot.pos.y += (tmpf2 + tmpf2);
-    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0xBB8);
+    Math_SmoothScaleMaxF(&thisx->posRot.pos.z, targetZ, 0.05f, this->floatSpeed);
+    Math_SmoothScaleMaxF(&this->floatSpeed, 50.0f, 1.0f, 0.5f);
+    thisx->velocity.x = thisx->posRot.pos.x - thisx->pos4.x;
+    thisx->velocity.z = thisx->posRot.pos.z - thisx->pos4.z;
+    thisx->posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
+    Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0xBB8);
     if ((this->varianceTimer & 1) == 0) {
+        Vec3f sp5C;
         Vec3f sp50 = { 0.0f, 0.0f, 0.0f };
         Vec3f sp44 = { 0.0f, 0.0f, 0.0f };
 
         for (i = 0; i < 3; i++) {
-            sp5C.x = Math_Rand_CenteredFloat(20.0f) + this->spearPos.x;
-            sp5C.y = Math_Rand_CenteredFloat(20.0f) + this->spearPos.y;
-            sp5C.z = Math_Rand_CenteredFloat(20.0f) + this->spearPos.z;
+            sp5C.x = Math_Rand_CenteredFloat(20.0f) + this->spearTip.x;
+            sp5C.y = Math_Rand_CenteredFloat(20.0f) + this->spearTip.y;
+            sp5C.z = Math_Rand_CenteredFloat(20.0f) + this->spearTip.z;
             sp44.y = -0.08f;
-            EffectSsFhgFlash_SpawnLightBall(globalCtx, &sp5C, &sp50, &sp44, (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, FHGFLASH_LIGHTBALL_GREEN);
+            EffectSsFhgFlash_SpawnLightBall(globalCtx, &sp5C, &sp50, &sp44, (s16)(Math_Rand_ZeroOne() * 80.0f) + 150,
+                                            FHGFLASH_LIGHTBALL_GREEN);
         }
     }
 
@@ -540,54 +606,50 @@ void BossGanondrof_Idle(BossGanondrof* this, GlobalContext* globalCtx) {
         BossGanondrof_SetupBlock(this, globalCtx);
     }
 
-    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_FLOAT - SFX_FLAG);
+    Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_FLOAT - SFX_FLAG);
 }
 
 void BossGanondrof_SetupThrow(BossGanondrof* this, GlobalContext* globalCtx) {
     EnfHG* horse;
-    s16 tmpf1;
+    s16 lightTime;
 
-    this->unk_1D0 = SkelAnime_GetFrameCount(&D_0600EC94.genericHeader);
+    this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600EC94.genericHeader);
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600EC94, -5.0f);
     this->actionFunc = BossGanondrof_Throw;
-    // Here Phantom Ganon decides whether to throw a normal ball or a slow one
-    if ((Math_Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->actionState == 1)) {
-        this->animeIndex = 1;
-        this->throwSpeed = 1000;
-        tmpf1 = 32;
+    if ((Math_Rand_ZeroOne() <= 0.1f) && (this->throwCount >= 10) && (this->flyMode == FHG_FLY_NEUTRAL)) {
+        this->actionState = THROW_SLOW;
+        this->throwFrame = 1000;
+        lightTime = 32;
     } else {
-        this->animeIndex = 0;
-        this->throwSpeed = 25;
-        tmpf1 = 25;
+        this->actionState = THROW_NORMAL;
+        this->throwFrame = 25;
+        lightTime = 25;
     }
 
     horse = (EnfHG*)this->actor.child;
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                       this->spearPos.y, this->spearPos.z, tmpf1, 0, 0, FHG_SPEAR_LIGHT);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
+                       this->spearTip.y, this->spearTip.z, lightTime, FHGFIRE_LIGHT_GREEN, 0, FHGFIRE_SPEAR_LIGHT);
     this->actor.child = &horse->actor;
     this->throwCount++;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
 }
 
 void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
-    EnfHG* horse;
-    f32 tmpf1;
-
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    osSyncPrintf("this->fwork[GND_END_FRAME] = %d\n", (s16)this->unk_1D0);
-    osSyncPrintf("this->work[GND_SHOT_FRAME] = %d\n", this->throwSpeed);
-    if (func_800A56C8(&this->skelAnime, this->unk_1D0)) {
-        BossGanondrof_SetupIdle(this, -6.0f);
+    osSyncPrintf("this->fwork[GND_END_FRAME] = %d\n", (s16)this->animeFrameCount);
+    osSyncPrintf("this->work[GND_SHOT_FRAME] = %d\n", this->throwFrame);
+    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+        BossGanondrof_SetupNeutral(this, -6.0f);
     }
 
-    if ((this->animeIndex != 0) && func_800A56C8(&this->skelAnime, 21.0f)) {
-        this->unk_1D0 = SkelAnime_GetFrameCount(&D_0600F48C.genericHeader);
+    if ((this->actionState != THROW_NORMAL) && func_800A56C8(&this->skelAnime, 21.0f)) {
+        this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600F48C.genericHeader);
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600F48C, 0.0f);
-        this->throwSpeed = 10;
+        this->throwFrame = 10;
     }
 
-    if (func_800A56C8(&this->skelAnime, this->throwSpeed)) {
-        if (this->actionState < 2) {
+    if (func_800A56C8(&this->skelAnime, this->throwFrame)) {
+        if (this->flyMode <= FHG_FLY_NEUTRAL) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
         } else {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
@@ -596,10 +658,10 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
     }
 
-    if (func_800A56C8(&this->skelAnime, this->throwSpeed)) {
-        horse = (EnfHG*)this->actor.child;
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                           this->spearPos.y, this->spearPos.z, this->animeIndex, 0, 0, FHG_ENERGY_BALL);
+    if (func_800A56C8(&this->skelAnime, this->throwFrame)) {
+        EnfHG* horse = (EnfHG*)this->actor.child;
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
+                           this->spearTip.y, this->spearTip.z, this->actionState, 0, 0, FHGFIRE_ENERGY_BALL);
         this->actor.child = &horse->actor;
     }
 
@@ -608,23 +670,20 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.z += this->actor.velocity.z;
     Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
     Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
-    tmpf1 = Math_Sins(this->varianceTimer * 1500);
-    this->actor.posRot.pos.y += 2.0f * tmpf1;
+    this->actor.posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
 }
 
-void BossGanondrof_SetupVolley(BossGanondrof* this, GlobalContext* globalCtx) {
-    static AnimationHeader* D_809150D0[] = { (AnimationHeader*)0x06010FD4, (AnimationHeader*)0x06011800 };
+void BossGanondrof_SetupReturn(BossGanondrof* this, GlobalContext* globalCtx) {
+    static AnimationHeader* returnAnime[] = { 0x06010FD4, 0x06011800 };
 
     s16 rand = Math_Rand_ZeroOne() * 1.99f;
 
-    this->unk_1D0 = SkelAnime_GetFrameCount(&D_809150D0[rand]->genericHeader);
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, D_809150D0[rand], 0.0f);
-    this->actionFunc = BossGanondrof_Volley;
+    this->animeFrameCount = SkelAnime_GetFrameCount(&returnAnime[rand]->genericHeader);
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, returnAnime[rand], 0.0f);
+    this->actionFunc = BossGanondrof_Return;
 }
 
-void BossGanondrof_Volley(BossGanondrof* this, GlobalContext* globalCtx) {
-    f32 tmpf1;
-
+void BossGanondrof_Return(BossGanondrof* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_800A56C8(&this->skelAnime, 5.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
@@ -632,54 +691,53 @@ void BossGanondrof_Volley(BossGanondrof* this, GlobalContext* globalCtx) {
         osSyncPrintf("VOISE               2  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     }
 
-    if (func_800A56C8(&this->skelAnime, this->unk_1D0)) {
-        BossGanondrof_SetupIdle(this, 0.0f);
+    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+        BossGanondrof_SetupNeutral(this, 0.0f);
     }
 
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
     Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
     Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
-    tmpf1 = Math_Sins(this->varianceTimer * 1500);
-    this->actor.posRot.pos.y += 2.0f * tmpf1;
+    this->actor.posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
     if (this->returnSuccess) {
-        this->returnSuccess = 0;
-        BossGanondrof_SetupVolley(this, globalCtx);
+        this->returnSuccess = false;
+        BossGanondrof_SetupReturn(this, globalCtx);
         this->timers[0] = 80;
     }
 }
 
-void BossGanondrof_SetupVulnerable(BossGanondrof* this, GlobalContext* globalCtx) {
-    if (this->actionFunc != BossGanondrof_Vulnerable) {
-        this->unk_1D0 = SkelAnime_GetFrameCount(&D_060108D8.genericHeader);
+void BossGanondrof_SetupStunned(BossGanondrof* this, GlobalContext* globalCtx) {
+    if (this->actionFunc != BossGanondrof_Stunned) {
+        this->animeFrameCount = SkelAnime_GetFrameCount(&D_060108D8.genericHeader);
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060108D8, 0.0f);
         this->timers[0] = 50;
-        this->electricityTimer = 60;
+        this->shockTimer = 60;
     } else {
-        this->unk_1D0 = SkelAnime_GetFrameCount(&D_0600FAC8.genericHeader);
+        this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600FAC8.genericHeader);
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600FAC8, 0.0f);
     }
 
-    this->actionFunc = BossGanondrof_Vulnerable;
-    this->animeIndex = 0;
+    this->actionFunc = BossGanondrof_Stunned;
+    this->actionState = STUNNED_FALL;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
 }
 
-void BossGanondrof_Vulnerable(BossGanondrof* this, GlobalContext* globalCtx) {
+void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
     osSyncPrintf("DAMAGE   .................................\n");
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actor.gravity = -0.2f;
     if (this->actor.posRot.pos.y <= 5.0f) {
-        if (this->animeIndex == 0) {
-            this->unk_1D0 = SkelAnime_GetFrameCount(&D_06011BCC.genericHeader);
+        if (this->actionState == STUNNED_FALL) {
+            this->animeFrameCount = SkelAnime_GetFrameCount(&D_06011BCC.genericHeader);
             SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06011BCC, -10.0f);
-            this->animeIndex = 1;
+            this->actionState = STUNNED_GROUND;
         }
 
         this->actor.velocity.y = 0.0f;
         this->actor.gravity = 0.0f;
-        if (func_800A56C8(&this->skelAnime, this->unk_1D0) != 0) {
+        if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DAMAGE2);
         }
 
@@ -688,10 +746,10 @@ void BossGanondrof_Vulnerable(BossGanondrof* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("TIME0 %d ********************************************\n", this->timers[0]);
     if (this->timers[0] == 0) {
-        BossGanondrof_SetupIdle(this, -5.0f);
+        BossGanondrof_SetupNeutral(this, -5.0f);
         this->timers[0] = 30;
         this->timers[2] = 30;
-        this->actionState = 1;
+        this->flyMode = FHG_FLY_NEUTRAL;
         this->actor.velocity.y = 0.0f;
         this->actor.gravity = 0.0f;
     }
@@ -700,7 +758,7 @@ void BossGanondrof_Vulnerable(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
-    this->unk_1D0 = SkelAnime_GetFrameCount(&D_06010344.genericHeader);
+    this->animeFrameCount = SkelAnime_GetFrameCount(&D_06010344.genericHeader);
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06010344, -3.0f);
     this->actionFunc = BossGanondrof_Block;
     this->timers[0] = 10;
@@ -708,367 +766,345 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
-    f32 tmpf1;
-
     this->colliderBody.base.type = 9;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
     Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
     Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
-    tmpf1 = Math_Sins(this->varianceTimer * 1500);
-    this->actor.posRot.pos.y += 2.0f * tmpf1;
+    this->actor.posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
     if (this->timers[0] == 0) {
-        BossGanondrof_SetupIdle(this, -5.0f);
+        BossGanondrof_SetupNeutral(this, -5.0f);
         this->timers[0] = 10;
-        this->actionState = 1;
+        this->flyMode = FHG_FLY_NEUTRAL;
     }
 }
 
 void BossGanondrof_SetupCharge(BossGanondrof* this, GlobalContext* globalCtx) {
-    this->unk_1D0 = SkelAnime_GetFrameCount(&D_060129E0.genericHeader);
+    this->animeFrameCount = SkelAnime_GetFrameCount(&D_060129E0.genericHeader);
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060129E0, -3.0f);
     this->actionFunc = BossGanondrof_Charge;
     this->timers[0] = 20;
-    this->animeIndex = 0;
+    this->actionState = CHARGE_WINDUP;
 }
 
 void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
-    static Vec3f D_809150D8 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_809150E4 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_809150F0 = { 0.0f, 50.0f, 0.0f };
-
-    s32 pad;
-    s32 pad2;
     Player* player = PLAYER;
-    EnfHG* horse;
-    Vec3f tmpVec;
-    f32 tmpf3;
-    s16 i;
-    Vec3f spB0;
-    Vec3f spA4;
-    Vec3f sp98;
-    Vec3f sp8C;
-    Vec3f sp80;
-    f32 tmpf1 = this->actor.posRot.pos.x - 14.0f;
-    f32 tmpf2 = this->actor.posRot.pos.z - -3315.0f;
+    Actor* playerx = &player->actor;
+    Actor* thisx = &this->actor;
+    f32 dxCenter = thisx->posRot.pos.x - 14.0f;
+    f32 dzCenter = thisx->posRot.pos.z - -3315.0f;
 
     this->colliderBody.base.type = 9;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    switch (this->animeIndex) {
-        case 0:
+    switch (this->actionState) {
+        case CHARGE_WINDUP:
             if (this->timers[0] == 218) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_STICK);
+                Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_STICK);
             }
 
             if (this->timers[0] == 19) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_ATTACK);
+                Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_ATTACK);
             }
 
-            this->actor.posRot.pos.x += this->actor.velocity.x;
-            this->actor.posRot.pos.z += this->actor.velocity.z;
-            Math_SmoothDownscaleMaxF(&this->actor.velocity.x, 1.0f, 0.5f);
-            Math_SmoothDownscaleMaxF(&this->actor.velocity.z, 1.0f, 0.5f);
+            thisx->posRot.pos.x += thisx->velocity.x;
+            thisx->posRot.pos.z += thisx->velocity.z;
+            Math_SmoothDownscaleMaxF(&thisx->velocity.x, 1.0f, 0.5f);
+            Math_SmoothDownscaleMaxF(&thisx->velocity.z, 1.0f, 0.5f);
             if (this->timers[0] == 0) {
-                this->animeIndex = 1;
+                this->actionState = CHARGE_START;
                 this->timers[0] = 10;
-                this->actor.speedXZ = 0.0f;
-                this->unk_1D0 = SkelAnime_GetFrameCount(&D_06011F44.genericHeader);
+                thisx->speedXZ = 0.0f;
+                this->animeFrameCount = SkelAnime_GetFrameCount(&D_06011F44.genericHeader);
                 SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06011F44, 0.0f);
             }
 
-            Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x7D0);
+            Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
             break;
-
-        case 1:
-            if (func_800A56C8(&this->skelAnime, this->unk_1D0) != 0) {
-                this->unk_1D0 = SkelAnime_GetFrameCount(&D_0601267C.genericHeader);
+        case CHARGE_START:
+            if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+                this->animeFrameCount = SkelAnime_GetFrameCount(&D_0601267C.genericHeader);
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0601267C, 0.0f);
-                this->animeIndex = 2;
+                this->actionState = CHARGE_ATTACK;
             }
-
-        case 2:
+        case CHARGE_ATTACK:
             if (this->timers[0] != 0) {
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x7D0);
-                tmpVec.x = player->actor.posRot.pos.x - this->actor.posRot.pos.x;
-                tmpVec.y = (player->actor.posRot.pos.y + 40.0f) - this->actor.posRot.pos.y;
-                tmpVec.z = player->actor.posRot.pos.z - this->actor.posRot.pos.z;
-                this->actor.posRot.rot.y = this->actor.shape.rot.y;
-                tmpf3 = sqrtf(SQ(tmpVec.x) + SQ(tmpVec.z));
-                this->actor.posRot.rot.x = Math_atan2f(tmpVec.y, tmpf3) * 10430.378f;
+                Vec3f vecToLink;
+
+                Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
+                vecToLink.x = playerx->posRot.pos.x - thisx->posRot.pos.x;
+                vecToLink.y = playerx->posRot.pos.y + 40.0f - thisx->posRot.pos.y;
+                vecToLink.z = playerx->posRot.pos.z - thisx->posRot.pos.z;
+                thisx->posRot.rot.y = thisx->shape.rot.y;
+                thisx->posRot.rot.x =
+                    Math_atan2f(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))) * (0x8000 / M_PI);
             }
 
-            func_8002D908(&this->actor);
-            func_8002D7EC(&this->actor);
-            Math_SmoothScaleMaxF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
-            if ((sqrtf(SQ(tmpf1) + SQ(tmpf2)) > 280.0f) || (this->actor.xyzDistFromLinkSq < 10000.0f)) {
-                this->animeIndex = 3;
+            func_8002D908(thisx);
+            func_8002D7EC(thisx);
+            Math_SmoothScaleMaxF(&thisx->speedXZ, 10.0f, 1.0f, 0.5f);
+            if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistFromLinkSq < SQ(100.0f))) {
+                this->actionState = CHARGE_FINISH;
                 this->timers[0] = 20;
             }
             break;
-
-        case 3:
-            this->actor.gravity = 0.2f;
-            Actor_MoveForward(&this->actor);
-            osSyncPrintf("YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", this->actor.posRot.pos.y);
-            if (this->actor.posRot.pos.y < 5.0f) {
-                this->actor.posRot.pos.y = 5.0f;
-                this->actor.velocity.y = 0.0f;
+        case CHARGE_FINISH:
+            thisx->gravity = 0.2f;
+            Actor_MoveForward(thisx);
+            osSyncPrintf("YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", thisx->posRot.pos.y);
+            if (thisx->posRot.pos.y < 5.0f) {
+                thisx->posRot.pos.y = 5.0f;
+                thisx->velocity.y = 0.0f;
             }
 
-            if (sqrtf(SQ(tmpf1) + SQ(tmpf2)) > 280.0f) {
-                Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 2.0f);
+            if (sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) {
+                Math_SmoothDownscaleMaxF(&thisx->speedXZ, 1.0f, 2.0f);
                 this->timers[0] = 0;
             }
 
             if (this->timers[0] == 0) {
-                Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 1.0f, 2.0f);
-                Math_SmoothDownscaleMaxF(&this->actor.velocity.y, 1.0f, 2.0f);
-                Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x7D0);
-                if ((this->actor.speedXZ <= 0.5f) && (fabsf(this->actor.velocity.y) <= 0.1f)) {
-                    BossGanondrof_SetupIdle(this, -10.0f);
+                Math_SmoothDownscaleMaxF(&thisx->speedXZ, 1.0f, 2.0f);
+                Math_SmoothDownscaleMaxF(&thisx->velocity.y, 1.0f, 2.0f);
+                Math_SmoothScaleMaxS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
+                if ((thisx->speedXZ <= 0.5f) && (fabsf(thisx->velocity.y) <= 0.1f)) {
+                    BossGanondrof_SetupNeutral(this, -10.0f);
                     this->timers[0] = 30;
-                    this->actionState = 1;
+                    this->flyMode = FHG_FLY_NEUTRAL;
                 }
             }
             break;
     }
 
-    if (this->actor.posRot.pos.y > 50.0f) {
-        tmpf1 = Math_Sins(this->varianceTimer * 1500);
-        this->actor.posRot.pos.y += 2.0f * tmpf1;
+    if (thisx->posRot.pos.y > 50.0f) {
+        thisx->posRot.pos.y += 2.0f * Math_Sins(this->varianceTimer * 1500);
     }
+    {
+        s16 i;
+        Vec3f spB0;
+        Vec3f spA4 = { 0.0f, 0.0f, 0.0f };
+        Vec3f sp98 = { 0.0f, 0.0f, 0.0f };
+        Vec3f sp8C = { 0.0f, 50.0f, 0.0f };
+        Vec3f sp80;
 
-    spA4 = D_809150D8;
-    sp98 = D_809150E4;
-    sp8C = D_809150F0;
-    sp8C.y = 10.0f;
-    for (i = 0; i < 10; i++) {
-        Matrix_Push();
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
-        Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((this->chargeParticleAngle / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_MultVec3f(&sp8C, &sp80);
-        Matrix_Pull();
-        spB0.x = this->spearPos.x + sp80.x;
-        spB0.y = this->spearPos.y + sp80.y;
-        spB0.z = this->spearPos.z + sp80.z;
-        spA4.x = (sp80.x * 500.0f) / 1000.0f;
-        spA4.y = (sp80.y * 500.0f) / 1000.0f;
-        spA4.z = (sp80.z * 500.0f) / 1000.0f;
-        sp98.x = (sp80.x * -50.0f) / 1000.0f;
-        sp98.y = (sp80.y * -50.0f) / 1000.0f;
-        sp98.z = (sp80.z * -50.0f) / 1000.0f;
-        EffectSsFhgFlash_SpawnLightBall(globalCtx, &spB0, &spA4, &sp98, 150, i % 7);
-        this->chargeParticleAngle += 0x1A5C;
+        sp8C.y = 10.0f;
+        for (i = 0; i < 10; i++) {
+            Matrix_Push();
+            Matrix_RotateY((thisx->shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+            Matrix_RotateX((thisx->shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateZ((this->particleAngle / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_MultVec3f(&sp8C, &sp80);
+            Matrix_Pull();
+            spB0.x = this->spearTip.x + sp80.x;
+            spB0.y = this->spearTip.y + sp80.y;
+            spB0.z = this->spearTip.z + sp80.z;
+            spA4.x = (sp80.x * 500.0f) / 1000.0f;
+            spA4.y = (sp80.y * 500.0f) / 1000.0f;
+            spA4.z = (sp80.z * 500.0f) / 1000.0f;
+            sp98.x = (sp80.x * -50.0f) / 1000.0f;
+            sp98.y = (sp80.y * -50.0f) / 1000.0f;
+            sp98.z = (sp80.z * -50.0f) / 1000.0f;
+            EffectSsFhgFlash_SpawnLightBall(globalCtx, &spB0, &spA4, &sp98, 150, i % 7);
+            this->particleAngle += 0x1A5C;
+        }
     }
 
     if (!(this->varianceTimer & 7)) {
-        horse = (EnfHG*)this->actor.child;
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->spearPos.x,
-                           this->spearPos.y, this->spearPos.z, 8, 1, 0, FHG_SPEAR_LIGHT);
-        this->actor.child = &horse->actor;
+        EnfHG* horse = (EnfHG*)thisx->child;
+
+        Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_FHG_FIRE, this->spearTip.x,
+                           this->spearTip.y, this->spearTip.z, 8, FHGFIRE_LIGHT_BLUE, 0, FHGFIRE_SPEAR_LIGHT);
+        thisx->child = &horse->actor;
     }
 }
 
 void BossGanondrof_SetupDeath(BossGanondrof* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600090C);
-    this->unk_1D0 = SkelAnime_GetFrameCount(&D_0600090C.genericHeader);
+    this->animeFrameCount = SkelAnime_GetFrameCount(&D_0600090C.genericHeader);
     this->actionFunc = BossGanondrof_Death;
     Audio_SetBGM(0x100100FF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DEAD);
-    this->unk_35E = 1;
+    this->deathState = DEATH_START;
     this->actor.flags &= ~1;
     this->varianceTimer = 0;
-    this->electricityTimer = 50;
+    this->shockTimer = 50;
 }
 
 void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
-    u8 spBF = 0;
-    u8 spBE = 0;
-    f32 spB8;
-    f32 spB4;
-    f32 frames;
-    EnfHG* horse;
-    EnfHG* horse2;
+    u8 holdCamera = false;
+    u8 bodyDecayLevel = 0;
+    f32 camX;
+    f32 camZ;
+    f32 pad;
     Player* player = PLAYER;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
-    Vec3f sp94;
 
     osSyncPrintf("PYP %f\n", player->actor.groundY);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    this->unk_1B6++;
-    if (((this->unk_1B6 >= 0x3D) && (this->unk_1B6 <= 0x1F3)) ||
-        ((this->unk_1B6 >= 0x1F6) && (this->unk_1B6 <= 0x26B))) {
+    this->deathSfxTimer++;
+    if (((60 < this->deathSfxTimer) && (this->deathSfxTimer < 500)) ||
+        ((501 < this->deathSfxTimer) && (this->deathSfxTimer < 620))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_LAST - SFX_FLAG);
     }
 
-    switch (this->unk_35E) {
-        case 1:
+    switch (this->deathState) {
+        case DEATH_START:
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
-            this->unk_35C = Gameplay_CreateSubCamera(globalCtx);
+            this->deathCamera = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
             osSyncPrintf("7\n");
-            Gameplay_ChangeCameraStatus(globalCtx, this->unk_35C, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, this->deathCamera, 7);
             osSyncPrintf("8\n");
-            this->unk_35E = 2;
+            this->deathState = DEATH_THROE;
             player->actor.speedXZ = 0.0f;
             this->timers[0] = 50;
-            this->unk_360 = camera->eye;
-            this->unk_36C = camera->at;
-            this->unk_398 = (this->unk_20C.z + 100.0f) + 50.0f;
-            this->unk_394 = 50.0f;
-            this->unk_3AC = this->unk_20C.y - 10.0f;
-            this->unk_3B0 = this->unk_20C.z;
-            this->unk_390 = this->unk_20C.x;
-            this->unk_3A8 = this->unk_20C.x;
-            this->unk_378 = fabsf(camera->eye.x - this->unk_390);
-            this->unk_37C = fabsf(camera->eye.y - this->unk_394);
-            this->unk_380 = fabsf(camera->eye.z - this->unk_398);
-            this->unk_384 = fabsf(camera->at.x - this->unk_3A8);
-            this->unk_388 = fabsf(camera->at.y - this->unk_3AC);
-            this->unk_38C = fabsf(camera->at.z - this->unk_3B0);
-            this->unk_3C4 = 0.02f;
-            this->unk_39C = this->unk_3A0 = this->unk_3A4 = 0.05f;
-            this->animeIndex = 0;
+            this->cameraEye = camera->eye;
+            this->cameraAt = camera->at;
+            this->cameraNextEye.x = this->targetPos.x;
+            this->cameraNextEye.y = 50.0f;
+            this->cameraNextEye.z = (this->targetPos.z + 100.0f) + 50.0f;
+            this->cameraNextAt.x = this->targetPos.x;
+            this->cameraNextAt.y = this->targetPos.y - 10.0f;
+            this->cameraNextAt.z = this->targetPos.z;
+            this->cameraEyeVel.x = fabsf(camera->eye.x - this->cameraNextEye.x);
+            this->cameraEyeVel.y = fabsf(camera->eye.y - this->cameraNextEye.y);
+            this->cameraEyeVel.z = fabsf(camera->eye.z - this->cameraNextEye.z);
+            this->cameraAtVel.x = fabsf(camera->at.x - this->cameraNextAt.x);
+            this->cameraAtVel.y = fabsf(camera->at.y - this->cameraNextAt.y);
+            this->cameraAtVel.z = fabsf(camera->at.z - this->cameraNextAt.z);
+            this->cameraAccel = 0.02f;
+            this->cameraEyeMaxVel.x = this->cameraEyeMaxVel.y = this->cameraEyeMaxVel.z = 0.05f;
+            this->actionState = DEATH_SPASM;
             this->timers[0] = 150;
-            this->unk_3B4 = 0.2f;
-            this->unk_3B8 = 0.2f;
-            this->unk_3BC = 0.2f;
-
-        case 2:
-            switch (this->animeIndex) {
-                case 0:
-                    if (func_800A56C8(&this->skelAnime, this->unk_1D0)) {
-                        frames = SkelAnime_GetFrameCount(&D_060108D8.genericHeader);
-                        this->unk_1D0 = frames;
-                        SkelAnime_ChangeAnim(&this->skelAnime, &D_060108D8, 0.5f, 0.0f, frames, 3, 0.0f);
-                        this->animeIndex = 1;
+            this->cameraAtMaxVel.x = 0.2f;
+            this->cameraAtMaxVel.y = 0.2f;
+            this->cameraAtMaxVel.z = 0.2f;
+        case DEATH_THROE:
+            switch (this->actionState) {
+                case DEATH_SPASM:
+                    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+                        this->animeFrameCount = SkelAnime_GetFrameCount(&D_060108D8.genericHeader);
+                        SkelAnime_ChangeAnim(&this->skelAnime, &D_060108D8, 0.5f, 0.0f, this->animeFrameCount, 3, 0.0f);
+                        this->actionState = DEATH_LIMP;
                     }
                     break;
-
-                case 1:
-                    if (func_800A56C8(&this->skelAnime, this->unk_1D0)) {
-                        this->unk_1D0 = SkelAnime_GetFrameCount(&D_06000D84.genericHeader);
+                case DEATH_LIMP:
+                    if (func_800A56C8(&this->skelAnime, this->animeFrameCount)) {
+                        this->animeFrameCount = SkelAnime_GetFrameCount(&D_06000D84.genericHeader);
                         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000D84, -20.0f);
-                        this->animeIndex = 2;
+                        this->actionState = DEATH_HUNCHED;
                     }
-
-                case 2:
-                    spBE = 1;
+                case DEATH_HUNCHED:
+                    bodyDecayLevel = 1;
                     break;
             }
-
             Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->varianceTimer * -100, 5, 0xBB8);
-            Math_SmoothScaleMaxF(&this->unk_398, this->unk_20C.z + 60.0f, 0.02f, 0.5f);
+            Math_SmoothScaleMaxF(&this->cameraNextEye.z, this->targetPos.z + 60.0f, 0.02f, 0.5f);
             Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 100.0f, 0.05f, 100.0f);
             this->actor.posRot.pos.y += Math_Sins(this->varianceTimer * 1500);
-            this->unk_3A8 = this->unk_20C.x;
-            this->unk_3AC = this->unk_20C.y - 10.0f;
-            this->unk_3B0 = this->unk_20C.z;
+            this->cameraNextAt.x = this->targetPos.x;
+            this->cameraNextAt.y = this->targetPos.y - 10.0f;
+            this->cameraNextAt.z = this->targetPos.z;
             if (this->timers[0] == 0) {
-                this->unk_35E = 3;
+                this->deathState = DEATH_WARP;
                 this->timers[0] = 350;
                 this->timers[1] = 50;
-                this->unk_1D8 = 300.0f;
-                this->unk_394 = 200.0f;
+                this->cameraZoom = 300.0f;
+                this->cameraNextEye.y = 200.0f;
                 player->actor.posRot.pos.x = -186.0f;
                 player->actor.posRot.pos.z = -3315.0f;
-                spBF = 1;
-                spBE = 1;
+                holdCamera = true;
+                bodyDecayLevel = 1;
             }
             break;
-
-        case 3:
+        case DEATH_WARP:
             if (this->timers[1] == 1) {
-                horse2 = (EnfHG*)this->actor.child;
+                EnfHG* tmpHorse = (EnfHG*)this->actor.child;
+
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, 14.0f, -30.0f,
-                                   -3315.0f, 0x4000, 0, 0, FHG_WARP_DEATH);
-                this->actor.child = &horse2->actor;
+                                   -3315.0f, 0x4000, 0, 0, FHGFIRE_WARP_DEATH);
+                this->actor.child = &tmpHorse->actor;
                 func_8010B680(globalCtx, 0x108E, NULL);
             }
 
             this->actor.shape.rot.y -= 0xC8;
             this->actor.posRot.pos.y += Math_Sins(this->varianceTimer * 1500);
-            this->unk_1DC += 120.0f;
-            spB8 = Math_Sins(this->unk_1DC) * (*this).unk_1D8;
-            spB4 = Math_Coss(this->unk_1DC) * (*this).unk_1D8;
-            this->unk_360.x = 14.0f + spB8;
-            this->unk_360.y = this->unk_394;
-            this->unk_360.z = -3315.0f + spB4;
-            this->unk_36C.x = 14.0f;
-            this->unk_36C.y = -10.0f;
-            this->unk_36C.z = -3315.0f;
-            Math_SmoothScaleMaxF(&this->unk_394, 0.0f, 0.05f, 0.5f);
-            Math_SmoothScaleMaxF(&this->unk_1D8, 170.0f, 0.05f, 1.0f);
+            this->cameraAngle += 120.0f;
+            camX = Math_Sins(this->cameraAngle) * (*this).cameraZoom;
+            camZ = Math_Coss(this->cameraAngle) * (*this).cameraZoom;
+            this->cameraEye.x = 14.0f + camX;
+            this->cameraEye.y = this->cameraNextEye.y;
+            this->cameraEye.z = -3315.0f + camZ;
+            this->cameraAt.x = 14.0f;
+            this->cameraAt.y = -10.0f;
+            this->cameraAt.z = -3315.0f;
+            Math_SmoothScaleMaxF(&this->cameraNextEye.y, 0.0f, 0.05f, 0.5f);
+            Math_SmoothScaleMaxF(&this->cameraZoom, 170.0f, 0.05f, 1.0f);
             Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, 14.0f, 0.05f, 1.5f);
             Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 50.0f, 0.05f, 1.0f);
             Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, -3315.0f, 0.05f, 1.5f);
             if (this->timers[0] == 0) {
-                this->unk_35E = 4;
+                this->deathState = DEATH_SCREAM;
                 this->timers[0] = 50;
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600189C, -10.0f);
                 this->actor.posRot.pos.x = 14.0f;
                 this->actor.posRot.pos.y = 50.0f;
                 this->actor.posRot.pos.z = -3315.0f;
                 this->actor.shape.rot.y = 0;
-                this->bodyDecay = 0;
+                this->bodyDecayIndex = 0;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAST);
             }
 
-            spBF = 1;
-            spBE = 1;
+            holdCamera = true;
+            bodyDecayLevel = 1;
             break;
-
-        case 4:
-            spBF = 1;
-            spBE = 2;
+        case DEATH_SCREAM:
+            holdCamera = true;
+            bodyDecayLevel = 2;
             this->actor.posRot.pos.y = 50.0f;
-            this->unk_360.y = 50.0f;
-            this->unk_360.x = 14.0f;
-            this->unk_360.z = -3265.0f;
-            this->unk_36C.x = 14.0f;
-            this->unk_36C.y = 70.0f;
-            this->unk_36C.z = -3315.0f;
+            this->cameraEye.x = 14.0f;
+            this->cameraEye.y = 50.0f;
+            this->cameraEye.z = -3265.0f;
+            this->cameraAt.x = 14.0f;
+            this->cameraAt.y = 70.0f;
+            this->cameraAt.z = -3315.0f;
             if (this->timers[0] == 0) {
-                this->unk_35E = 5;
+                this->deathState = DEATH_DISINTEGRATE;
                 SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06001AB0, -10.0f);
-                this->bodyDecay = 0;
+                this->bodyDecayIndex = 0;
                 this->timers[0] = 40;
             }
             break;
-
-        case 5:
-            spBF = 1;
-            spBE = 3;
-            Math_SmoothDownscaleMaxF(&this->unk_360.y, 0.05f, 1.0f);
-            Math_SmoothScaleMaxF(&this->unk_360.z, -3145.0f, 0.05f, 2.0f);
-            Math_SmoothScaleMaxF(&this->unk_36C.y, 20.0f, 0.05f, 1.0f);
+        case DEATH_DISINTEGRATE:
+            holdCamera = true;
+            bodyDecayLevel = 3;
+            Math_SmoothDownscaleMaxF(&this->cameraEye.y, 0.05f, 1.0f);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, -3145.0f, 0.05f, 2.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, 20.0f, 0.05f, 1.0f);
             if (this->timers[0] == 0) {
                 this->timers[0] = 250;
-                this->unk_35E = 6;
+                this->deathState = DEATH_FINISH;
             }
             break;
-
-        case 6:
-            spBF = 1;
-            spBE = 10;
+        case DEATH_FINISH:
+            holdCamera = true;
+            bodyDecayLevel = 10;
             if (this->timers[0] == 150) {
                 Audio_SetBGM(0x21);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, 14.0f, -33.0f, -3315.0f, 0, 0, 0, -1);
             }
 
-            Math_SmoothDownscaleMaxF(&this->unk_360.y, 0.05f, 1.0f);
-            Math_SmoothScaleMaxF(&this->unk_360.z, -3145.0f, 0.05f, 2.0f);
-            Math_SmoothScaleMaxF(&this->unk_36C.y, 20.0f, 0.05f, 1.0f);
+            Math_SmoothDownscaleMaxF(&this->cameraEye.y, 0.05f, 1.0f);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, -3145.0f, 0.05f, 2.0f);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, 20.0f, 0.05f, 1.0f);
             if (this->timers[0] == 0) {
-                horse = (EnfHG*)this->actor.child;
-                camera->eye = this->unk_360;
-                camera->eyeNext = this->unk_360;
-                camera->at = this->unk_36C;
-                func_800C08AC(globalCtx, this->unk_35C, 0);
-                this->unk_35C = 0;
+                EnfHG* horse = (EnfHG*)this->actor.child;
+
+                camera->eye = this->cameraEye;
+                camera->eyeNext = this->cameraEye;
+                camera->at = this->cameraAt;
+                func_800C08AC(globalCtx, this->deathCamera, 0);
+                this->deathCamera = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 14.0f, -33.0f, -3115.0f, 0, 0, 0, 0);
@@ -1081,40 +1117,41 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (spBE) {
+    if (bodyDecayLevel) {
+        Vec3f sp94;
         Vec3f sp88 = { 0.0f, 0.0f, 0.0f };
         Vec3f sp7C = { 0.0f, 0.0f, 0.0f };
         Vec3f sp70 = { 0.0f, -0.5f, 0.0f };
-        s16 sp6E;
+        s16 limbDecayIndex;
         s16 i;
 
         sp88.x = this->actor.posRot.pos.x - this->actor.pos4.x;
         sp88.z = this->actor.posRot.pos.z - this->actor.pos4.z;
-        if (spBE < 10) {
-            if (this->unk_1B4 == 0) {
+        if (bodyDecayLevel < 10) {
+            if (this->deathEnvTimer == 0) {
                 if (globalCtx->envCtx.unk_BF == 0) {
                     globalCtx->envCtx.unk_BF = 3;
-                    this->unk_1B4 = (s16)Math_Rand_ZeroFloat(5.0f) + 4.0f;
+                    this->deathEnvTimer = (s16)Math_Rand_ZeroFloat(5.0f) + 4.0f;
                     globalCtx->envCtx.unk_D6 = 0x28;
                 } else {
                     globalCtx->envCtx.unk_BF = 0;
-                    this->unk_1B4 = (s16)Math_Rand_ZeroFloat(2.0f) + 2.0f;
+                    this->deathEnvTimer = (s16)Math_Rand_ZeroFloat(2.0f) + 2.0f;
                     globalCtx->envCtx.unk_D6 = 0x14;
                 }
             } else {
-                this->unk_1B4--;
+                this->deathEnvTimer--;
             }
 
             for (i = 0; i <= 0; i++) {
-                sp6E = this->unk_1B2;
-                this->unk_1B2++;
-                this->unk_1B2 %= 25;
-                sp94.x = this->bodyPartsPos[sp6E].x + Math_Rand_CenteredFloat(5.0f);
-                sp94.y = this->bodyPartsPos[sp6E].y + Math_Rand_CenteredFloat(5.0f);
-                sp94.z = this->bodyPartsPos[sp6E].z + Math_Rand_CenteredFloat(5.0f);
+                limbDecayIndex = this->limbDecayIndex;
+                this->limbDecayIndex++;
+                this->limbDecayIndex %= 25;
+                sp94.x = this->bodyPartsPos[limbDecayIndex].x + Math_Rand_CenteredFloat(5.0f);
+                sp94.y = this->bodyPartsPos[limbDecayIndex].y + Math_Rand_CenteredFloat(5.0f);
+                sp94.z = this->bodyPartsPos[limbDecayIndex].z + Math_Rand_CenteredFloat(5.0f);
                 sp7C.y = 0.0f;
 
-                if (spBE == 3) {
+                if (bodyDecayLevel == 3) {
                     sp7C.y = -0.2f;
                     sp7C.x = (14.0f - sp94.x) * 0.002f;
                     sp7C.z = (-3315.0f - sp94.z) * 0.002f;
@@ -1123,9 +1160,11 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                     sp70.z = (-3315.0f - sp94.z) * 0.001f;
                 }
 
-                EffectSsKFire_Spawn(globalCtx, &sp94, &sp88, &sp7C, (s16)Math_Rand_ZeroFloat(20.0f) + 15, spBE);
-                if ((Math_Rand_ZeroOne() < 0.5f) || (spBE == 3)) {
-                    EffectSsHahen_Spawn(globalCtx, &sp94, &sp88, &sp70, 0, (s16)Math_Rand_ZeroFloat(4.0f) + 7, HAHEN_OBJECT_DEFAULT, 10, 0);
+                EffectSsKFire_Spawn(globalCtx, &sp94, &sp88, &sp7C, (s16)Math_Rand_ZeroFloat(20.0f) + 15,
+                                    bodyDecayLevel);
+                if ((Math_Rand_ZeroOne() < 0.5f) || (bodyDecayLevel == 3)) {
+                    EffectSsHahen_Spawn(globalCtx, &sp94, &sp88, &sp70, 0, (s16)Math_Rand_ZeroFloat(4.0f) + 7,
+                                        HAHEN_OBJECT_DEFAULT, 10, 0);
                 }
             }
         } else {
@@ -1133,34 +1172,40 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             globalCtx->envCtx.unk_D6 = 0x14;
         }
 
-        this->unk_1B0 = true;
+        this->bodyDecayFlag = true;
         for (i = 0; i < 5; i++) {
-            if (spBE == 1) {
-                func_80910784(D_80914E28, this->bodyDecay);
-            } else if (spBE == 2) {
-                func_80910784(D_80914D28, this->bodyDecay);
+            if (bodyDecayLevel == 1) {
+                BossGanondrof_ClearPixels(sDecayMaskLow, this->bodyDecayIndex);
+            } else if (bodyDecayLevel == 2) {
+                BossGanondrof_ClearPixels(sDecayMaskHigh, this->bodyDecayIndex);
             } else {
-                func_80910784(D_80914F28, this->bodyDecay);
+                BossGanondrof_ClearPixels(sDecayMaskTotal, this->bodyDecayIndex);
             }
 
-            if (this->bodyDecay < 0x100) {
-                this->bodyDecay++;
+            if (this->bodyDecayIndex < 0x100) {
+                this->bodyDecayIndex++;
             }
         }
     }
 
-    if (this->unk_35C != 0) {
-        if (spBF == 0) {
-            Math_SmoothScaleMaxF(&this->unk_360.x, this->unk_390, this->unk_39C, this->unk_378 * this->unk_3C0);
-            Math_SmoothScaleMaxF(&this->unk_360.y, this->unk_394, this->unk_3A0, this->unk_37C * this->unk_3C0);
-            Math_SmoothScaleMaxF(&this->unk_360.z, this->unk_398, this->unk_3A4, this->unk_380 * this->unk_3C0);
-            Math_SmoothScaleMaxF(&this->unk_36C.x, this->unk_3A8, this->unk_3B4, this->unk_384 * this->unk_3C0);
-            Math_SmoothScaleMaxF(&this->unk_36C.y, this->unk_3AC, this->unk_3B8, this->unk_388 * this->unk_3C0);
-            Math_SmoothScaleMaxF(&this->unk_36C.z, this->unk_3B0, this->unk_3BC, this->unk_38C * this->unk_3C0);
-            Math_SmoothScaleMaxF(&this->unk_3C0, 1.0f, 1.0f, this->unk_3C4);
+    if (this->deathCamera != 0) {
+        if (!holdCamera) {
+            Math_SmoothScaleMaxF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
+                                 this->cameraEyeVel.x * this->cameraSpeedMod);
+            Math_SmoothScaleMaxF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
+                                 this->cameraEyeVel.y * this->cameraSpeedMod);
+            Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
+                                 this->cameraEyeVel.z * this->cameraSpeedMod);
+            Math_SmoothScaleMaxF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
+                                 this->cameraAtVel.x * this->cameraSpeedMod);
+            Math_SmoothScaleMaxF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
+                                 this->cameraAtVel.y * this->cameraSpeedMod);
+            Math_SmoothScaleMaxF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
+                                 this->cameraAtVel.z * this->cameraSpeedMod);
+            Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
 
-        func_800C04D8(globalCtx, this->unk_35C, &this->unk_36C, &this->unk_360);
+        func_800C04D8(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
     }
 }
 
@@ -1171,22 +1216,22 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
 
     if (this->invincibilityTimer != 0) {
         this->invincibilityTimer--;
-        this->volleyCount = 0;
+        this->returnCount = 0;
         this->colliderBody.base.acFlags &= ~2;
     } else {
         acFlagCheck = this->colliderBody.base.acFlags & 2;
-        if ((acFlagCheck && ((s8)this->actor.colChkInfo.health > 0)) || (this->volleyCount != 0)) {
+        if ((acFlagCheck && ((s8)this->actor.colChkInfo.health > 0)) || (this->returnCount != 0)) {
             if (acFlagCheck) {
                 this->colliderBody.base.acFlags &= ~2;
                 hurtbox = this->colliderBody.body.acHitItem;
             }
-            if (this->actionState != 0) {
-                if (acFlagCheck && (this->actionFunc != BossGanondrof_Vulnerable) &&
+            if (this->flyMode != FHG_FLY_PAINTING) {
+                if (acFlagCheck && (this->actionFunc != BossGanondrof_Stunned) &&
                     (hurtbox->toucher.flags & 0x0001F8A4)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
                     osSyncPrintf("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
-                    if (this->volleyCount == 0) {
+                    if (this->returnCount == 0) {
                         u8 dmg;
                         u8 canKill = false;
                         s32 flags = hurtbox->toucher.flags;
@@ -1206,8 +1251,8 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
                             return;
                         }
                     }
-                    BossGanondrof_SetupVulnerable(this, globalCtx);
-                    if (this->volleyCount >= 2) {
+                    BossGanondrof_SetupStunned(this, globalCtx);
+                    if (this->returnCount >= 2) {
                         this->timers[0] = 120;
                     }
                     this->invincibilityTimer = 10;
@@ -1222,7 +1267,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
                 horse->hitTimer = 20;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DAMAGE);
             }
-            this->volleyCount = 0;
+            this->returnCount = 0;
         }
     }
 }
@@ -1232,14 +1277,14 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp70;
     f32 sp6C;
     f32 sp68;
+    f32 sp64;
     s32 pad;
     BossGanondrof* this = THIS;
     EnfHG* horse;
     s16 i;
     s16 j;
-    f32 tmpf1;
+    s32 pad1;
     s32 pad2;
-    s32 pad3;
 
     osSyncPrintf("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~0x400;
@@ -1248,29 +1293,29 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-
     this->varianceTimer++;
     horse = (EnfHG*)this->actor.child;
     osSyncPrintf("MOVE START EEEEEEEEEEEEEEEEEEEEEE%d\n", this->actor.params);
+
     this->actionFunc(this, globalCtx);
+
     for (i = 0; i < 5; i++) {
         DECR(this->timers[i]);
     }
-    DECR(this->unk_19C);
-    DECR(this->unk_19E);
+    DECR(this->unkTimer1);
+    DECR(this->unkTimer2);
 
     if (this->actionFunc != BossGanondrof_Death) {
         BossGanondrof_CollisionCheck(this, globalCtx);
     }
 
     osSyncPrintf("MOVE END\n");
-    BossGanondrof_SetColliderPos(&this->unk_20C, &this->colliderBody);
-    BossGanondrof_SetColliderPos(&this->spearPos, &this->colliderSpear);
-    if ((this->actionState == 0) && !horse->bossPGinPainting) {
+    BossGanondrof_SetColliderPos(&this->targetPos, &this->colliderBody);
+    BossGanondrof_SetColliderPos(&this->spearTip, &this->colliderSpear);
+    if ((this->flyMode == FHG_FLY_PAINTING) && !horse->bossFhgInPainting) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     }
-
-    if ((this->actionFunc == BossGanondrof_Vulnerable) && (this->timers[0] >= 2)) {
+    if ((this->actionFunc == BossGanondrof_Stunned) && (this->timers[0] > 1)) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     } else if (this->actionFunc == BossGanondrof_Block) {
@@ -1281,22 +1326,24 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSpear.base);
     }
 
-    this->actor.posRot2.pos = this->unk_20C;
+    this->actor.posRot2.pos = this->targetPos;
+
     sp70 = Math_Sins(-this->actor.shape.rot.y);
     sp74 = Math_Coss(-this->actor.shape.rot.y);
-    sp6C = ((this->actor.velocity.z * sp70) + (sp74 * this->actor.velocity.x)) * 300.0f;
+    sp6C = ((sp70 * this->actor.velocity.z) + (sp74 * this->actor.velocity.x)) * 300.0f;
     sp68 = ((-sp70 * this->actor.velocity.x) + (sp74 * this->actor.velocity.z)) * 300.0f;
-    Math_SmoothScaleMaxF(&this->unk_3C8, sp6C, 1.0f, 600.0f);
-    Math_SmoothScaleMaxF(&this->unk_3CC, sp68, 1.0f, 600.0f);
-    if ((this->actionState != 0) && (this->actionFunc != BossGanondrof_Vulnerable) && (this->unk_35E == 0)) {
-        tmpf1 = (Math_Sins(this->varianceTimer * 2268) * -500.0f) - 500.0f;
+    Math_SmoothScaleMaxF(&this->legRotY, sp6C, 1.0f, 600.0f);
+    Math_SmoothScaleMaxF(&this->legRotZ, sp68, 1.0f, 600.0f);
+    if ((this->flyMode != FHG_FLY_PAINTING) && (this->actionFunc != BossGanondrof_Stunned) &&
+        (this->deathState == NOT_DEAD)) {
+        sp64 = (Math_Sins(this->varianceTimer * 0x8DC) * -500.0f) - 500.0f;
     } else {
-        tmpf1 = 0.0f;
+        sp64 = 0.0f;
     }
 
-    Math_SmoothScaleMaxF(&this->unk_3D0, tmpf1, 1.0f, 100.0f);
-    if (this->electricityTimer != 0) {
-        this->electricityTimer--;
+    Math_SmoothScaleMaxF(&this->legSplitY, sp64, 1.0f, 100.0f);
+    if (this->shockTimer != 0) {
+        this->shockTimer--;
         osSyncPrintf("F 1\n");
         for (j = 0; j < 7; j++) {
             osSyncPrintf("F 15\n");
@@ -1306,8 +1353,8 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params == 1) {
-        Lights_PointNoGlowSetInfo(&this->lightInfo, this->spearPos.x, this->spearPos.y, this->spearPos.z, 0xFF, 0xFF,
-                                  0xFF, 0xC8);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->spearTip.x, this->spearTip.y, this->spearTip.z, 255, 255, 255,
+                                  200);
     }
 }
 
@@ -1316,66 +1363,65 @@ s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
     BossGanondrof* this = THIS;
 
     switch (limbIndex) {
-        case 15:
-            if ((this->actionFunc == BossGanondrof_Intro) && this->cutsceneMaskOff) {
+        case 14 + 1:
+            if ((this->actionFunc == BossGanondrof_Intro) && this->maskOff) {
                 *dList = D_06004EC0;
             }
-            rot->y += this->unk_454[limbIndex];
-            rot->z += this->unk_3DC[limbIndex];
+            rot->y += this->rideRotY[limbIndex];
+            rot->z += this->rideRotZ[limbIndex];
             break;
 
-        case 19:
-            rot->y += this->unk_3C8 + this->unk_3D0;
-            rot->z += this->unk_3CC;
+        case 18 + 1:
+            rot->y += this->legRotY + this->legSplitY;
+            rot->z += this->legRotZ;
             break;
 
-        case 20:
-            rot->y += this->unk_3C8 + this->unk_3D0;
-            rot->z += this->unk_3CC;
+        case 19 + 1:
+            rot->y += this->legRotY + this->legSplitY;
+            rot->z += this->legRotZ;
             break;
 
-        case 21:
-            rot->y += this->unk_3C8 + this->unk_3D0;
-            rot->z += this->unk_3CC;
+        case 20 + 1:
+            rot->y += this->legRotY + this->legSplitY;
+            rot->z += this->legRotZ;
             break;
 
-        case 23:
-            rot->y += this->unk_3C8 - this->unk_3D0;
-            rot->z += this->unk_3CC;
+        case 22 + 1:
+            rot->y += this->legRotY - this->legSplitY;
+            rot->z += this->legRotZ;
             break;
 
-        case 24:
-            rot->y += this->unk_3C8 - this->unk_3D0;
-            rot->z += this->unk_3CC;
+        case 23 + 1:
+            rot->y += this->legRotY - this->legSplitY;
+            rot->z += this->legRotZ;
             break;
 
-        case 25:
-            rot->y += this->unk_3C8 - this->unk_3D0;
-            rot->z += this->unk_3CC;
+        case 24 + 1:
+            rot->y += this->legRotY - this->legSplitY;
+            rot->z += this->legRotZ;
             break;
 
-        case 5:
-        case 6:
-        case 7:
-            rot->y += this->unk_3D4;
-            rot->z += this->unk_3D8;
+        case 4 + 1:
+        case 5 + 1:
+        case 6 + 1:
+            rot->y += this->armRotY;
+            rot->z += this->armRotZ;
             break;
 
-        case 8:
-        case 9:
-        case 10:
-            rot->y += this->unk_3D4;
-            rot->z += this->unk_3D8;
+        case 7 + 1:
+        case 8 + 1:
+        case 9 + 1:
+            rot->y += this->armRotY;
+            rot->z += this->armRotZ;
             break;
 
-        case 13:
-            if (this->unk_35E != 0) {
+        case 12 + 1:
+            if (this->deathState != NOT_DEAD) {
                 *dList = NULL;
             }
-
         default:
-            rot->y += this->unk_454[limbIndex];
-            rot->z += this->unk_3DC[limbIndex];
+            rot->y += this->rideRotY[limbIndex];
+            rot->z += this->rideRotZ[limbIndex];
             break;
     }
 
@@ -1383,23 +1429,23 @@ s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
 }
 
 void BossGanondrof_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    static Vec3f D_80915120 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_8091512C = { 0.0f, 0.0f, 6000.0f };
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    static Vec3f spearVec = { 0.0f, 0.0f, 6000.0f };
 
     BossGanondrof* this = THIS;
 
-    if (limbIndex == 14) {
-        Matrix_MultVec3f(&D_80915120, &this->unk_20C);
-    } else if (limbIndex == 13) {
-        Matrix_MultVec3f(&D_8091512C, &this->spearPos);
+    if (limbIndex == 13 + 1) {
+        Matrix_MultVec3f(&zeroVec, &this->targetPos);
+    } else if (limbIndex == 12 + 1) {
+        Matrix_MultVec3f(&spearVec, &this->spearTip);
     }
 
-    if (((this->actionState != 0) || (this->actionFunc == BossGanondrof_Intro)) && (limbIndex < 26)) {
-        Matrix_MultVec3f(&D_80915120, &this->bodyPartsPos[limbIndex-1]);
+    if (((this->flyMode != FHG_FLY_PAINTING) || (this->actionFunc == BossGanondrof_Intro)) && (limbIndex <= 25)) {
+        Matrix_MultVec3f(&zeroVec, &this->bodyPartsPos[limbIndex - 1]);
     }
 }
 
-Gfx* func_809147A0(GraphicsContext* gfxCtx) {
+Gfx* BossGanondrof_GetClearPixelDList(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
     Gfx* dList;
 
@@ -1414,7 +1460,7 @@ Gfx* func_809147A0(GraphicsContext* gfxCtx) {
     return dList;
 }
 
-Gfx* func_80914818(GraphicsContext* gfxCtx) {
+Gfx* BossGanondrof_GetNullDList(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
     Gfx* dList;
 
@@ -1432,7 +1478,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("MOVE P = %x\n", this->actor.update);
     osSyncPrintf("STOP TIMER = %d ==============\n", this->actor.freezeTimer);
     horse = (EnfHG*)this->actor.child;
-    if (this->actionState == 0) {
+    if (this->flyMode == FHG_FLY_PAINTING) {
         Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, 1);
     }
 
@@ -1441,18 +1487,19 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->invincibilityTimer & 4) {
         oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, 255, 50, 0, 0, 900, 1099);
     } else {
-        oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)horse->unk_1E8, (u32)horse->unk_1EC,
-                                        (u32)horse->unk_1F0, 0, (s32)horse->unk_1F4 + 995, (s32)horse->unk_1F8 + 1000);
+        oGfxCtx->polyOpa.p =
+            Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)horse->warpFogR, (u32)horse->warpFogG, (u32)horse->warpFogB, 0,
+                       (s32)horse->warpFogUnk1 + 995, (s32)horse->warpFogUnk2 + 1000);
     }
 
     osSyncPrintf("DRAW 11\n");
-    osSyncPrintf("EYE_COL %d\n", (s16)this->unk_1D4);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->unk_1D4, (s16)this->unk_1D4, (s16)this->unk_1D4,
-                   (s16)(*this).unk_1E0);
-    if (this->unk_1B0) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_809147A0(globalCtx->state.gfxCtx));
+    osSyncPrintf("EYE_COL %d\n", (s16)this->eyeBrightness);
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->eyeBrightness, (s16)this->eyeBrightness, (s16)this->eyeBrightness,
+                   (s16)(*this).eyeAlpha);
+    if (this->bodyDecayFlag) {
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, BossGanondrof_GetClearPixelDList(globalCtx->state.gfxCtx));
     } else {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80914818(globalCtx->state.gfxCtx));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, BossGanondrof_GetNullDList(globalCtx->state.gfxCtx));
     }
 
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossGanondrof_OverrideLimbDraw,

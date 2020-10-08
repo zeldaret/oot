@@ -8,15 +8,22 @@ struct EnfHG;
 
 typedef void (*EnfHGActionFunc)(struct EnfHG*, GlobalContext*);
 
-typedef struct EnfHGPainting {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ s16 yRot;
-} EnfHGPainting; // size = 0x10;
+typedef enum {
+    /*  0 */ FHG_NO_SIGNAL,
+    /*  1 */ FHG_RAISE_SPEAR,
+    /*  2 */ FHG_REAR,
+    /*  3 */ FHG_LIGHTNING,
+    /*  4 */ FHG_RESET,
+    /*  5 */ FHG_RIDE,
+    /* 10 */ FHG_SPUR = 10,
+    /* 11 */ FHG_FINISH,
+    /* -1 */ FHG_START_FIGHT = 255
+} EnfHGSignals;
 
 typedef struct EnfHG {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 bossPGintroState;
-    /* 0x014D */ u8 bossPGinPainting;
+    /* 0x014C */ u8 bossFhgSignal;
+    /* 0x014D */ u8 bossFhgInPainting;
     /* 0x014E */ u8 killActor;
     /* 0x014F */ u8 fhgFireKillWarp;
     /* 0x0150 */ Vec3f cameraEye;
@@ -43,13 +50,12 @@ typedef struct EnfHG {
     /* 0x01D4 */ s16 timers[5];
     /* 0x01DE */ s16 hitTimer;
     /* 0x01E0 */ s16 turnRot;
-    /* 0x01E2 */ char unk_1E2[2];
-    /* 0x01E4 */ char unk_1E4[4];
-    /* 0x01E8 */ f32 unk_1E8;
-    /* 0x01EC */ f32 unk_1EC;
-    /* 0x01F0 */ f32 unk_1F0; //These have something to do with fog
-    /* 0x01F4 */ f32 unk_1F4;
-    /* 0x01F8 */ f32 unk_1F8;
+    /* 0x01E2 */ char unk_1E2[6];
+    /* 0x01E8 */ f32 warpFogR;
+    /* 0x01EC */ f32 warpFogG;
+    /* 0x01F0 */ f32 warpFogB;
+    /* 0x01F4 */ f32 warpFogUnk1;
+    /* 0x01F8 */ f32 warpFogUnk2;
     /* 0x01FC */ EnfHGActionFunc actionFunc;
     /* 0x0200 */ char unk_200[4];
     /* 0x0204 */ PSkinAwb skin;

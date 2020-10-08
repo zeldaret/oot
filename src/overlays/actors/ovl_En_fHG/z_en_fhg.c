@@ -11,7 +11,26 @@
 #define FLAGS 0x00000010
 
 #define THIS ((EnfHG*)thisx)
-#define BOSSPG ((BossGanondrof*)this->actor.parent)
+#define BOSSFHG ((BossGanondrof*)this->actor.parent)
+
+typedef struct EnfHGPainting {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ s16 yRot;
+} EnfHGPainting; // size = 0x10;
+
+typedef enum {
+    /*  0 */ INTRO_WAIT,
+    /*  1 */ INTRO_START,
+    /*  2 */ INTRO_FENCE,
+    /*  3 */ INTRO_BACK,
+    /*  4 */ INTRO_REVEAL,
+    /*  5 */ INTRO_CUT,
+    /*  6 */ INTRO_LAUGH,
+    /*  7 */ INTRO_TITLE,
+    /*  8 */ INTRO_RETREAT,
+    /*  9 */ INTRO_FINISH,
+    /* 15 */ INTRO_READY = 15
+} EnfHGIntroStates;
 
 void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -52,8 +71,8 @@ const ActorInit En_fHG_InitVars = {
 };
 
 static EnfHGPainting sPaintings[6] = { { { 0.0f, 60.0f, -315.0f }, 0x0000 },   { { -260.0f, 60.0f, -145.0f }, 0x2AAA },
-                                { { -260.0f, 60.0f, 165.0f }, 0x5554 }, { { 0.0f, 60.0f, 315.0f }, 0x7FFE },
-                                { { 260.0f, 60.0f, 155.0f }, 0xAAA8 },  { { 260.0f, 60.0f, -155.0f }, 0xD552 } };
+                                       { { -260.0f, 60.0f, 165.0f }, 0x5554 }, { { 0.0f, 60.0f, 315.0f }, 0x7FFE },
+                                       { { 260.0f, 60.0f, 155.0f }, 0xAAA8 },  { { 260.0f, 60.0f, -155.0f }, 0xD552 } };
 
 static InitChainEntry sInitChain[2] = {
     ICHAIN_S8(naviEnemyId, 26, ICHAIN_CONTINUE),
@@ -100,31 +119,31 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
     static Vec3f audioVec = { 0.0f, 0.0f, 50.0f };
     s32 pad64;
     Player* player = PLAYER;
-    BossGanondrof* bossPG = BOSSPG;
+    BossGanondrof* bossFhg = BOSSFHG;
     s32 pad58;
     s32 pad54;
     Camera* camera;
 
-    if (this->cutsceneState != 9) {
+    if (this->cutsceneState != INTRO_FINISH) {
         SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
     }
     switch (this->cutsceneState) {
-        case 0:
+        case INTRO_WAIT:
             if ((fabsf(player->actor.posRot.pos.x - 14.0f) < 150.0f) &&
                 (fabsf(player->actor.posRot.pos.z - -3315.0f) < 150.0f)) {
-                this->cutsceneState = 15;
+                this->cutsceneState = INTRO_READY;
             }
             break;
-        case 15:
+        case INTRO_READY:
             if ((fabsf(player->actor.posRot.pos.x - 14.0f) < 100.0f) &&
                 (fabsf(player->actor.posRot.pos.z - -3000.0f) < 100.0f)) {
-                this->cutsceneState = 1;
+                this->cutsceneState = INTRO_START;
                 if (gSaveContext.eventChkInf[7] & 4) {
                     this->timers[0] = 57;
                 }
             }
             break;
-        case 1:
+        case INTRO_START:
             if (gSaveContext.eventChkInf[7] & 4) {
                 if (this->timers[0] == 55) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 14.0f,
@@ -136,7 +155,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 0) {
                     EnfHG_SetupApproach(this, globalCtx, Math_Rand_ZeroOne() * 5.99f);
-                    this->bossPGintroState = 255;
+                    this->bossFhgSignal = FHG_START_FIGHT;
                 }
                 break;
             }
@@ -145,13 +164,13 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
             Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
             Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
-            this->cutsceneState = 2;
+            this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
             this->actor.posRot.pos.y = -40.0f;
             Audio_SetBGM(0x100100FF);
             gSaveContext.eventChkInf[7] |= 4;
             Flags_SetSwitch(globalCtx, 0x23);
-        case 2:
+        case INTRO_FENCE:
             VEC_SET(player->actor.posRot.pos, 14.0f, -26.0f, -3160.0f);
             player->actor.posRot.rot.y = player->actor.shape.rot.y = 0;
             player->actor.speedXZ = 0.0f;
@@ -166,11 +185,11 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
             }
             if (this->timers[0] == 0) {
-                this->cutsceneState = 3;
+                this->cutsceneState = INTRO_BACK;
                 this->timers[0] = 80;
             }
             break;
-        case 3:
+        case INTRO_BACK:
             if (this->timers[0] == 25) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_GROAN);
             }
@@ -188,12 +207,12 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->cameraAt.z, -2980.0f, 0.05f, this->cameraSpeedMod * 20.0f);
             Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.01f);
             if (this->timers[0] == 0) {
-                this->cutsceneState = 4;
+                this->cutsceneState = INTRO_REVEAL;
                 this->timers[0] = 50;
                 this->cameraSpeedMod = 0.0f;
             }
             break;
-        case 4:
+        case INTRO_REVEAL:
             Math_SmoothScaleMaxF(&this->cameraEye.x, 84.0f, 0.1f, this->cameraSpeedMod * 20.0f);
             Math_SmoothScaleMaxF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * 20.0f);
             Math_SmoothScaleMaxF(&this->cameraEye.z, -3115.0f, 0.1f, this->cameraSpeedMod * 20.0f);
@@ -205,13 +224,13 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_SANDDUST);
             }
             if (this->timers[0] == 0) {
-                this->cutsceneState = 5;
+                this->cutsceneState = INTRO_CUT;
                 this->timers[0] = 50;
                 this->cameraSpeedMod = 0.0f;
             }
             break;
-        case 5:
-            this->cutsceneState = 6;
+        case INTRO_CUT:
+            this->cutsceneState = INTRO_LAUGH;
             VEC_SET(this->cameraEye, 64.0f, -16.0f, -3205.0f);
             VEC_SET(this->cameraAt, -136.0f, 174.0f, -3470.0f);
             this->cameraEyeVel.x = fabsf(this->cameraEye.x - 34.0f);
@@ -221,7 +240,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->cameraAtVel.y = fabsf(this->cameraAt.y - 164.0f);
             this->cameraAtVel.z = fabsf(this->cameraAt.z - -3380.0f);
             this->timers[0] = 250;
-        case 6:
+        case INTRO_LAUGH:
             Math_SmoothScaleMaxF(&this->cameraEye.x, 34.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.x);
             Math_SmoothScaleMaxF(&this->cameraEye.y, 69.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.y);
             Math_SmoothScaleMaxF(&this->cameraEye.z, -3290.0f, 0.05f, this->cameraSpeedMod * this->cameraEyeVel.z);
@@ -231,7 +250,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->cameraSpeedMod, 0.01f, 1.0f, 0.001f);
             if ((this->timers[0] == 245) || (this->timers[0] == 3)) {
                 SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_0600DDB8, -8.0f);
-                this->bossPGintroState = 2;
+                this->bossFhgSignal = FHG_REAR;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
                 if (this->timers[0] == 3) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
@@ -249,22 +268,22 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_D6 = 0x14;
             }
             if (this->timers[0] == 100) {
-                this->bossPGintroState = 3;
+                this->bossFhgSignal = FHG_LIGHTNING;
             }
             if (this->timers[0] == 60) {
-                this->bossPGintroState = 5;
+                this->bossFhgSignal = FHG_RIDE;
             }
             if (this->timers[0] == 130) {
                 Audio_SetBGM(0x105000FF);
             }
             if (this->timers[0] == 30) {
-                bossPG->eyeState = 2;
+                bossFhg->eyeState = 2;
             }
             if (this->timers[0] == 35) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_EYE);
             }
             if (this->timers[0] == 130) {
-                bossPG->eyeState = 1;
+                bossFhg->eyeState = 1;
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
@@ -272,7 +291,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             }
             if (this->timers[0] == 2) {
                 this->cameraSpeedMod = 0.0f;
-                this->cutsceneState = 7;
+                this->cutsceneState = INTRO_TITLE;
                 this->cameraEyeVel.x = fabsf(this->cameraEye.x - 194.0f);
                 this->cameraEyeVel.y = fabsf(this->cameraEye.y - -26.0f);
                 this->cameraEyeVel.z = fabsf(this->cameraEye.z - -3175.0f);
@@ -283,7 +302,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 this->cameraAtVel.z = fabsf(this->cameraAt.z - this->actor.posRot.pos.z);
             }
             break;
-        case 7:
+        case INTRO_TITLE:
             if (this->timers[1] == 1) {
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600E8A0, 0.5f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600E8A0.genericHeader), 1, -3.0f);
@@ -305,22 +324,22 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                                        0xA0, 0xB4, 0x80, 0x28);
             }
             if (this->timers[0] == 0) {
-                this->cutsceneState = 8;
+                this->cutsceneState = INTRO_RETREAT;
                 this->timers[0] = 200;
                 this->timers[1] = 23;
                 this->cameraSpeedMod = 0.0f;
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600C65C, 1.0f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600C65C.genericHeader), 3, -4.0f);
-                this->bossPGintroState = 10;
+                this->bossFhgSignal = FHG_SPUR;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
             }
             break;
-        case 8:
+        case INTRO_RETREAT:
             if (this->timers[1] == 1) {
                 SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600CB1C, 0.5f, 0.0f,
                                      SkelAnime_GetFrameCount(&D_0600CB1C.genericHeader), 3, -3.0f);
-                this->bossPGintroState = 11;
+                this->bossFhgSignal = FHG_FINISH;
             }
             if (this->timers[0] == 170) {
                 func_8002DF54(globalCtx, &this->actor, 8);
@@ -333,7 +352,8 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             if ((fabsf(this->actor.posRot.pos.z - -2915.5f) < 300.0f) && !this->spawnedWarp) {
                 this->spawnedWarp = true;
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, 14.0f,
-                                   this->actor.posRot.pos.y + 50.0f, -2915.5f, 0, this->actor.shape.rot.y, 0, FHG_WARP_RETREAT);
+                                   this->actor.posRot.pos.y + 50.0f, -2915.5f, 0, this->actor.shape.rot.y, 0,
+                                   FHGFIRE_WARP_RETREAT);
                 this->fhgFireKillWarp = true;
             }
             Math_SmoothScaleMaxF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.2f, 50.0f);
@@ -342,14 +362,14 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             if (fabsf(this->actor.posRot.pos.z - -2915.5f) < 1.0f) {
                 globalCtx->envCtx.unk_BF = 0;
                 globalCtx->envCtx.unk_D6 = 0x14;
-                this->cutsceneState = 9;
+                this->cutsceneState = INTRO_FINISH;
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, -3.0f);
-                this->bossPGintroState = 255;
+                this->bossFhgSignal = FHG_START_FIGHT;
                 this->timers[1] = 75;
                 this->timers[0] = 140;
             }
             break;
-        case 9:
+        case INTRO_FINISH:
             EnfHG_Retreat(this, globalCtx);
             Math_SmoothScaleMaxF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
             Math_SmoothScaleMaxF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
@@ -411,11 +431,11 @@ void EnfHG_SetupApproach(EnfHG* this, GlobalContext* globalCtx, s16 paintingInde
     this->actor.scale.z = 0.001f;
     this->approachRate = 0.0f;
 
-    this->unk_1E8 = globalCtx->lightCtx.unk_07;
-    this->unk_1EC = globalCtx->lightCtx.unk_08;
-    this->unk_1F0 = globalCtx->lightCtx.unk_09;
-    this->unk_1F4 = 0.0f;
-    this->unk_1F8 = 0.0f;
+    this->warpFogR = globalCtx->lightCtx.unk_07;
+    this->warpFogG = globalCtx->lightCtx.unk_08;
+    this->warpFogB = globalCtx->lightCtx.unk_09;
+    this->warpFogUnk1 = 0.0f;
+    this->warpFogUnk2 = 0.0f;
     this->turnRot = 0;
     this->turnAround = 0;
     this->spawnedWarp = false;
@@ -451,7 +471,7 @@ void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
             this->timers[0] = 40;
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                this->actor.posRot.pos.x, this->actor.posRot.pos.y + 50.0f, this->actor.posRot.pos.z, 0,
-                               this->actor.shape.rot.y + 0x8000, 0, FHG_WARP_EMERGE);
+                               this->actor.shape.rot.y + 0x8000, 0, FHGFIRE_WARP_EMERGE);
             this->fhgFireKillWarp = false;
         }
     }
@@ -463,24 +483,24 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
     f32 sp4C;
 
     osSyncPrintf("KABE OUT !!\n");
-    this->bossPGinPainting = false;
+    this->bossFhgInPainting = false;
     SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
     if (this->timers[0] != 0) {
         Math_SmoothScaleMaxF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.0002f);
         if (this->timers[0] == 1) {
-            this->bossPGintroState = 1;
+            this->bossFhgSignal = FHG_RAISE_SPEAR;
             this->timers[1] = 50;
             SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_0600C65C, 0.0f);
         }
-        Math_SmoothScaleMaxF(&this->unk_1E8, 255.0f, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->unk_1EC, 255.0f, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->unk_1F0, 255.0f, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->unk_1F4, -60.0f, 1.0f, 5.0f);
+        Math_SmoothScaleMaxF(&this->warpFogR, 255.0f, 1.0f, 10.0f);
+        Math_SmoothScaleMaxF(&this->warpFogG, 255.0f, 1.0f, 10.0f);
+        Math_SmoothScaleMaxF(&this->warpFogB, 255.0f, 1.0f, 10.0f);
+        Math_SmoothScaleMaxF(&this->warpFogUnk1, -60.0f, 1.0f, 5.0f);
     } else {
-        Math_SmoothScaleMaxF(&this->unk_1E8, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->unk_1EC, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->unk_1F0, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_SmoothScaleMaxF(&this->unk_1F4, 0.0f, 1.0f, 5.0f);
+        Math_SmoothScaleMaxF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_SmoothScaleMaxF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_SmoothScaleMaxF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_SmoothScaleMaxF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
         if (this->timers[1] == 29) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
@@ -489,17 +509,17 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
             if (this->timers[1] == 24) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
                                    this->actor.posRot.pos.x, (this->actor.posRot.pos.y + 100.0f) + 25.0f,
-                                   this->actor.posRot.pos.z, 0, 0, 0, FHG_LIGHTNING_STRIKE);
+                                   this->actor.posRot.pos.z, 0, 0, 0, FHGFIRE_LIGHTNING_STRIKE);
             }
             if (this->timers[1] == 45) {
                 SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B9D0, 0.0f);
             }
             if (this->timers[1] == 38) {
-                this->bossPGintroState = 3;
+                this->bossFhgSignal = FHG_LIGHTNING;
             }
             if (this->timers[1] == 16) {
                 SkelAnime_ChangeAnimTransitionStop(&this->skin.skelAnime, &D_0600CB1C, 0.0f);
-                this->bossPGintroState = 4;
+                this->bossFhgSignal = FHG_RESET;
             }
         }
         Math_SmoothScaleMaxF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.002f);
@@ -513,20 +533,20 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
         SkelAnime_ChangeAnim(&this->skin.skelAnime, &D_0600CB1C, -1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_0600CB1C.genericHeader), 2, -5.0f);
         this->timers[0] = 10;
-        this->bossPGintroState = 4;
+        this->bossFhgSignal = FHG_RESET;
         this->damageSpeedMod = 1.0f;
     } else {
         sp54 = this->actor.posRot.pos.x - this->inPaintingPos.x;
         sp50 = this->actor.posRot.pos.z - this->inPaintingPos.z;
         sp4C = sqrtf(SQ(sp54) + SQ(sp50));
         if (sp4C < 350.0f) {
-            this->bossPGinPainting = true;
+            this->bossFhgInPainting = true;
         }
         if ((sp4C < 300.0f) && !this->spawnedWarp) {
             this->spawnedWarp = true;
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->inPaintingPos.x,
                                this->actor.posRot.pos.y + 50.0f, this->inPaintingPos.z, 0, this->actor.shape.rot.y, 0,
-                               FHG_WARP_RETREAT);
+                               FHGFIRE_WARP_RETREAT);
             this->fhgFireKillWarp = true;
         }
         osSyncPrintf("SPD X %f\n", this->inPaintingVelX);
@@ -537,7 +557,7 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
             this->timers[0] = 140;
             this->actionFunc = EnfHG_Retreat;
             SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, 0.0f);
-            this->bossPGintroState = 5;
+            this->bossFhgSignal = FHG_RIDE;
         }
     }
 }
@@ -549,10 +569,10 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("REVISE !!\n");
     SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
-    Math_SmoothScaleMaxF(&this->unk_1E8, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->unk_1EC, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->unk_1F0, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_SmoothScaleMaxF(&this->unk_1F4, 0.0f, 1.0f, 5.0f);
+    Math_SmoothScaleMaxF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_SmoothScaleMaxF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
     Math_SmoothScaleMaxF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.002f);
     if (this->timers[0] != 0) {
         Math_SmoothDownscaleMaxF(&this->damageSpeedMod, 1.0f, 0.1f);
@@ -578,18 +598,18 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
             this->spawnedWarp = true;
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->inPaintingPos.x,
                                this->actor.posRot.pos.y + 50.0f, this->inPaintingPos.z, 0,
-                               this->actor.shape.rot.y + 0x8000, 0, FHG_WARP_RETREAT);
+                               this->actor.shape.rot.y + 0x8000, 0, FHGFIRE_WARP_RETREAT);
         }
     }
     if (dxz2 == 0.0f) {
-        BossGanondrof* bossPG = BOSSPG;
+        BossGanondrof* bossFhg = BOSSFHG;
         this->timers[0] = 140;
         this->actionFunc = EnfHG_Retreat;
         SkelAnime_ChangeAnimTransitionRepeat(&this->skin.skelAnime, &D_0600B4C8, 0.0f);
-        if (bossPG->actor.colChkInfo.health > 24) {
-            this->bossPGintroState = 5;
+        if (bossFhg->actor.colChkInfo.health > 24) {
+            this->bossFhgSignal = FHG_RIDE;
         } else {
-            bossPG->actionState = 1;
+            bossFhg->flyMode = FHG_FLY_NEUTRAL;
         }
         this->turnAround = -0x8000;
     }
@@ -620,11 +640,11 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
     }
     if (this->timers[0] == 0) {
-        BossGanondrof* bossPG = BOSSPG;
+        BossGanondrof* bossFhg = BOSSFHG;
         if (this->actor.params != 1) {
             this->killActor = true;
-            bossPG->killActor = true;
-        } else if (bossPG->actionState != 0) {
+            bossFhg->killActor = true;
+        } else if (bossFhg->flyMode != FHG_FLY_PAINTING) {
             this->actionFunc = EnfHG_Done;
             this->actor.draw = NULL;
         } else {
@@ -636,13 +656,13 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
             osSyncPrintf("ac1 = %x `````````````````````````````````````````````````\n",
                          Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANONDROF,
                                             this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                            this->actor.posRot.pos.z, 0, 0, 0, temp_rand2 + 0xA));
+                                            this->actor.posRot.pos.z, 0, 0, 0, temp_rand2 + 10));
         }
     }
 }
 
 void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx) {
-    this->bossPGinPainting = false;
+    this->bossFhgInPainting = false;
 }
 
 void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -655,7 +675,7 @@ void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     this->gallopTimer++;
-    this->bossPGinPainting = true;
+    this->bossFhgInPainting = true;
     for (i = 0; i < 5; i++) {
         DECR(this->timers[i]);
     }
@@ -677,16 +697,17 @@ void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnfHG* this = THIS;
-    BossGanondrof* bossPG = BOSSPG;
+    BossGanondrof* bossFhg = BOSSFHG;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2439);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    oGfxCtx->polyOpa.p = (((bossPG->invincibilityTimer & 4) != 0) && (bossPG->actionState == 0))
-                             ? Gfx_SetFog(oGfxCtx->polyOpa.p, 0xFF, 50, 0, 0, 900, 1099)
-                             : Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)this->unk_1E8, (u32)this->unk_1EC,
-                                          (u32)this->unk_1F0, 0, (s32)this->unk_1F4 + 995, (s32)this->unk_1F8 + 1000);
+    oGfxCtx->polyOpa.p =
+        ((bossFhg->invincibilityTimer & 4) && (bossFhg->flyMode == FHG_FLY_PAINTING))
+            ? Gfx_SetFog(oGfxCtx->polyOpa.p, 0xFF, 50, 0, 0, 900, 1099)
+            : Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
+                         (s32)this->warpFogUnk1 + 995, (s32)this->warpFogUnk2 + 1000);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);
     oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);
