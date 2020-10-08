@@ -144,19 +144,19 @@ glabel D_80130F04
 glabel D_80130F08
     .incbin "baserom.z64", 0xBA80A8, 0x4
 
-glabel D_80130F0C
+glabel sOcarinaInpEnabled
     .incbin "baserom.z64", 0xBA80AC, 0x4
 
 glabel D_80130F10
     .incbin "baserom.z64", 0xBA80B0, 0x4
 
-glabel D_80130F14
+glabel sCurOcarinaBtnVal
     .incbin "baserom.z64", 0xBA80B4, 0x4
 
 glabel D_80130F18
     .incbin "baserom.z64", 0xBA80B8, 0x4
 
-glabel D_80130F1C
+glabel sCurOcarinaBtnIdx
     .incbin "baserom.z64", 0xBA80BC, 0x4
 
 glabel D_80130F20

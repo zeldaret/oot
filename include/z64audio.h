@@ -734,16 +734,16 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u8 unk_00;
-    /* 0x0001 */ s8 unk_01;
-    /* 0x0002 */ s16 unk_02;
+    /* 0x0001 */ u8 unk_01;
+    /* 0x0002 */ u16 unk_02;
     /* 0x0004 */ s32 unk_04;
     /* 0x0008 */ s32 devAddr;
     /* 0x000C */ u8* ramAddr;
-    /* 0x0010 */ s32 unk_10;
+    /* 0x0010 */ u8* unk_10;
     /* 0x0014 */ s32 unk_14;
     /* 0x0018 */ s32 unk_18;
-    /* 0x001C */ s32 unk_1C;
-    /* 0x0020 */ s32 unk_20;
+    /* 0x001C */ s8* unk_1C;
+    /* 0x0020 */ u32 unk_20;
     /* 0x0024 */ u8* sampleAddr;
     /* 0x0028 */ AdpcmLoop* loop;
     /* 0x002C */ AdpcmBook* book;

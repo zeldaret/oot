@@ -21,11 +21,11 @@ glabel func_800ED200
 /* B643E8 800ED248 00000000 */   nop   
 /* B643EC 800ED24C 3C198017 */  lui   $t9, %hi(D_8016BA29) # $t9, 0x8017
 /* B643F0 800ED250 9339BA29 */  lbu   $t9, %lo(D_8016BA29)($t9)
-/* B643F4 800ED254 3C058013 */  lui   $a1, %hi(D_80130F14) # $a1, 0x8013
+/* B643F4 800ED254 3C058013 */  lui   $a1, %hi(sCurOcarinaBtnVal) # $a1, 0x8013
 /* B643F8 800ED258 3C0E8013 */  lui   $t6, %hi(D_80130F18) # $t6, 0x8013
 /* B643FC 800ED25C 5320007A */  beql  $t9, $zero, .L800ED448
 /* B64400 800ED260 8FBF001C */   lw    $ra, 0x1c($sp)
-/* B64404 800ED264 90A50F14 */  lbu   $a1, %lo(D_80130F14)($a1)
+/* B64404 800ED264 90A50F14 */  lbu   $a1, %lo(sCurOcarinaBtnVal)($a1)
 /* B64408 800ED268 91CE0F18 */  lbu   $t6, %lo(D_80130F18)($t6)
 /* B6440C 800ED26C 240100FF */  li    $at, 255
 /* B64410 800ED270 50AE0075 */  beql  $a1, $t6, .L800ED448
@@ -148,8 +148,8 @@ glabel func_800ED200
 /* B645B4 800ED414 25980001 */   addiu $t8, $t4, 1
 /* B645B8 800ED418 3C018013 */  lui   $at, %hi(D_80131878) # $at, 0x8013
 /* B645BC 800ED41C A0381878 */  sb    $t8, %lo(D_80131878)($at)
-/* B645C0 800ED420 3C018013 */  lui   $at, %hi(D_80130F0C) # $at, 0x8013
-/* B645C4 800ED424 A0200F0C */  sb    $zero, %lo(D_80130F0C)($at)
+/* B645C0 800ED420 3C018013 */  lui   $at, %hi(sOcarinaInpEnabled) # $at, 0x8013
+/* B645C4 800ED424 A0200F0C */  sb    $zero, %lo(sOcarinaInpEnabled)($at)
 /* B645C8 800ED428 3C018013 */  lui   $at, %hi(D_80130F3C) # $at, 0x8013
 /* B645CC 800ED42C AC200F3C */  sw    $zero, %lo(D_80130F3C)($at)
 .L800ED430:

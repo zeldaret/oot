@@ -16,7 +16,7 @@ glabel func_800ECDF8
 /* B63FD0 800ECE30 51C000EB */  beql  $t6, $zero, .L800ED1E0
 /* B63FD4 800ECE34 8FBF002C */   lw    $ra, 0x2c($sp)
 /* B63FD8 800ECE38 80420F2C */  lb    $v0, %lo(D_80130F2C)($v0)
-/* B63FDC 800ECE3C 3C0F8013 */  lui   $t7, %hi(D_80130F14) # $t7, 0x8013
+/* B63FDC 800ECE3C 3C0F8013 */  lui   $t7, %hi(sCurOcarinaBtnVal) # $t7, 0x8013
 /* B63FE0 800ECE40 3C188013 */  lui   $t8, %hi(D_80130F18) # $t8, 0x8013
 /* B63FE4 800ECE44 04410003 */  bgez  $v0, .L800ECE54
 /* B63FE8 800ECE48 00401825 */   move  $v1, $v0
@@ -30,7 +30,7 @@ glabel func_800ECDF8
 /* B64004 800ECE64 100000DD */  b     .L800ED1DC
 /* B64008 800ECE68 AC200F3C */   sw    $zero, %lo(D_80130F3C)($at)
 .L800ECE6C:
-/* B6400C 800ECE6C 91EF0F14 */  lbu   $t7, %lo(D_80130F14)($t7)
+/* B6400C 800ECE6C 91EF0F14 */  lbu   $t7, %lo(sCurOcarinaBtnVal)($t7)
 /* B64010 800ECE70 93180F18 */  lbu   $t8, %lo(D_80130F18)($t8)
 /* B64014 800ECE74 3C0E8017 */  lui   $t6, %hi(D_8016BA2B) # $t6, 0x8017
 /* B64018 800ECE78 AFAF0040 */  sw    $t7, 0x40($sp)
@@ -104,8 +104,8 @@ glabel func_800ECDF8
 /* B6411C 800ECF7C 15CF0006 */  bne   $t6, $t7, .L800ECF98
 /* B64120 800ECF80 00000000 */   nop   
 /* B64124 800ECF84 A0381878 */  sb    $t8, %lo(D_80131878)($at)
-/* B64128 800ECF88 3C018013 */  lui   $at, %hi(D_80130F0C) # $at, 0x8013
-/* B6412C 800ECF8C A0200F0C */  sb    $zero, %lo(D_80130F0C)($at)
+/* B64128 800ECF88 3C018013 */  lui   $at, %hi(sOcarinaInpEnabled) # $at, 0x8013
+/* B6412C 800ECF8C A0200F0C */  sb    $zero, %lo(sOcarinaInpEnabled)($at)
 /* B64130 800ECF90 3C018013 */  lui   $at, %hi(D_80130F3C) # $at, 0x8013
 /* B64134 800ECF94 AC200F3C */  sw    $zero, %lo(D_80130F3C)($at)
 .L800ECF98:
@@ -229,8 +229,8 @@ glabel func_800ECDF8
 /* B642E4 800ED144 8FB90034 */   lw    $t9, 0x34($sp)
 /* B642E8 800ED148 3C028013 */  lui   $v0, %hi(D_80130F3C) # $v0, 0x8013
 /* B642EC 800ED14C 8C420F3C */  lw    $v0, %lo(D_80130F3C)($v0)
-/* B642F0 800ED150 3C018013 */  lui   $at, %hi(D_80130F0C) # $at, 0x8013
-/* B642F4 800ED154 A0200F0C */  sb    $zero, %lo(D_80130F0C)($at)
+/* B642F0 800ED150 3C018013 */  lui   $at, %hi(sOcarinaInpEnabled) # $at, 0x8013
+/* B642F4 800ED154 A0200F0C */  sb    $zero, %lo(sOcarinaInpEnabled)($at)
 /* B642F8 800ED158 30594000 */  andi  $t9, $v0, 0x4000
 /* B642FC 800ED15C 13200009 */  beqz  $t9, .L800ED184
 /* B64300 800ED160 001F7080 */   sll   $t6, $ra, 2
