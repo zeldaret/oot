@@ -341,7 +341,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
     }
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         globalCtx->msgCtx.msgMode == 0) {
-            
+
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
         func_800803F0(globalCtx, this->camId);

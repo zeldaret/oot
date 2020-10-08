@@ -70,7 +70,8 @@ static InitChainEntry sInitChainLadder[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
+void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader;
     s32 pad2;
@@ -78,8 +79,7 @@ void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, GlobalContext* globalCtx, C
     colHeader = NULL;
     func_80043480(&this->dyna, moveFlag);
     func_80041880(collision, &colHeader);
-    this->dyna.bgId =
-        func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed

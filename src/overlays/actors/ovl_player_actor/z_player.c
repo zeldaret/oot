@@ -9570,7 +9570,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
                     D_80854798.y = (sp64 + 5.0f) - this->actor.posRot.pos.y;
 
                     if (func_80839768(globalCtx, this, &D_80854798, &sp78, &sp74, &D_80858AA8) &&
-                        (temp3 = this->actor.wallPolyRot - atan2s(sp78->normal.z, sp78->normal.x), ABS(temp3) < 0x4000) &&
+                        (temp3 = this->actor.wallPolyRot - atan2s(sp78->normal.z, sp78->normal.x),
+                         ABS(temp3) < 0x4000) &&
                         !func_80041E18(&globalCtx->colCtx, sp78, sp74)) {
                         this->wallHeight = 399.96002f;
                     } else if (func_80041DE4(&globalCtx->colCtx, wallPoly, this->actor.wallPolySource) == 0) {

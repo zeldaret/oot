@@ -75,7 +75,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80041880 (&D_060087AC, &colHeader);
+    func_80041880(&D_060087AC, &colHeader);
     this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     BgMoriRakkatenjo_SetupWaitForMoriTex(this);
     sCamSetting = 0;
