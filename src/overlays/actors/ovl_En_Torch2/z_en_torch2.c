@@ -199,7 +199,7 @@ void EnTorch2_Backflip(Player* this, Input* input, Actor* thisx) {
     sCounterState = 0;
 }
 
-#define NON_MATCHING
+// #define NON_MATCHING
 
 #ifdef NON_MATCHING
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
