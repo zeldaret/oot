@@ -4,7 +4,7 @@
 typedef struct {
     Drum** drums;
     AudioBankSound** sfx;
-    Instrument instruments[1];
+    Instrument* instruments[1];
 } unk_ldr;
 
 #define AS_F32(x) (*(f32*)&(x)->unk_04)
@@ -84,8 +84,9 @@ AudioBankSample *func_800E35E0(s32 bankId, s32 sfxId);
 void func_800E3BEC(s32 arg0);
 void func_800E3D10(u32 arg0, s32 arg1);
 void func_800E3E58(AsyncLoadReq *arg0, s32 arg1);
-void func_800E4198(s32 arg0, s32* arg1, unk_4C* arg2, s32 arg3);
+void func_800E4198(s32, unk_ldr*, unk_4C*, s32);
 void func_800E283C(s32,unk_ldr*,unk_4C*);
+void func_800E4058(AudioBankSound* sound, u32,unk_4C*);
 
 // like audio_load in sm64, but completely rewritten
 
@@ -591,6 +592,8 @@ u8 *func_800E2454(u32 arg0) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2454.s")
 #endif
 
+
+
 u8 *func_800E2558(u32 tableType, u32 bankId, s32 *didAllocate) {
     u32 size;
     AudioTable *table;
@@ -718,8 +721,94 @@ void *func_800E27F8(s32 tableType) {
     return ret;
 }
 
+#ifdef NON_MATCHING
+void func_800E283C(s32 arg0, unk_ldr *arg1, unk_4C *arg2) {
+    s32 sp54;
+    s32 sp50;
+    s32 sp44;
+    s32 sp3C;
+    AudioBankSound **temp_v1_2;
+    CtlEntry *temp_v0;
+    Drum **temp_v1;
+    Instrument **temp_s2_2;
+    s32 temp_s1;
+    s32 temp_s2;
+    s32 temp_v1_3;
+    u16 temp_s5;
+    u8 temp_a3;
+    void *temp_s0;
+    void *temp_s0_2;
+    void *temp_t0;
+    void *temp_v0_2;
+    void *temp_v0_3;
+    s32 phi_s2;
+    s32 phi_v1;
+    s32 phi_a3;
+    s32 phi_s1;
+    Instrument **phi_s2_2;
+    s32 i;
+    Drum* drumP;
+    AudioBankSound* soundP;
+    s32 numDrums;
+    s32 numSfx;
+    u32 numInstruments;
 
+    numDrums = gAudioContext.gCtlEntries[arg0].numDrums;
+    numSfx = gAudioContext.gCtlEntries[arg0].numSfx;
+    numInstruments = gAudioContext.gCtlEntries[arg0].numInstruments;
+
+    if(arg1->drums != NULL && numDrums != 0){
+        arg1->drums = (u32)arg1 + (u32)arg1->drums;
+        for(i = 0; i < numDrums; i++){
+            drumP = arg1->drums[i]; // temp_s0 = arg1->drums + phi_s2
+            drumP = (u32)drumP + (u32)arg1; // temp_s0 = temp_s0 + arg1
+            if(drumP != NULL){ // should always be true
+                arg1->drums[i] = drumP; // *temp_v0_2 = temp_s0
+                func_800E4058(&drumP->sound, arg1, arg2);
+                drumP->envelope = (u32)arg1 + (u32)drumP->envelope;
+                drumP->loaded = 1;
+            }
+        }
+    }
+
+    if(arg1->sfx != NULL & numSfx != 0){
+        arg1->sfx = (u32)arg1 + (u32)arg1->sfx;
+        for(i = 0; i < numSfx; i++){
+            soundP = arg1->sfx[i];
+            if(soundP != NULL && soundP->sample != NULL){
+                func_800E4058(soundP, arg1, arg2);
+            }
+        }
+    }
+
+    if(numInstruments >= 0x7F){
+        numInstruments = 0x7E;
+    }
+
+    if((numInstruments + 1) >= 2){
+        for(i = 0; i < numInstruments; i++){
+            arg1->instruments[i] = (u32)arg1 + (u32)arg1->instruments[i];
+            if(arg1->instruments[i]->loaded == 0){
+                if(arg1->instruments[i]->normalRangeLo != 0){
+                    func_800E4058(&arg1->instruments[i]->lowNotesSound, arg1, arg2);
+                }
+                func_80034058(&arg1->instruments[i]->normalNotesSound, arg1, arg2);
+                if(arg1->instruments[i]->normalRangeHi != 0x7F){
+                    func_800E4058(&arg1->instruments[i]->highNotesSound, arg1, arg2);
+                }
+                arg1->instruments[i]->loaded = 1;
+                arg1->instruments[i]->envelope = (u32)arg1->instruments[i]->envelope + (u32)arg1;
+            }
+        }
+    }
+
+    gAudioContext.gCtlEntries[arg0].drums = arg1->drums;
+    gAudioContext.gCtlEntries[arg0].soundEffects = arg1->sfx;
+    gAudioContext.gCtlEntries[arg0].instruments = arg1->instruments;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E283C.s")
+#endif
 
 // SyncLoad
 void func_800E2AA8(u32 devAddr, u8* addr, u32 size, u32 handleType) {
@@ -1388,10 +1477,156 @@ void func_800E3FB4(AsyncLoadReq *req, u32 size) {
 void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4058.s")
+#ifdef NON_MATCHING
+void func_800E4058(AudioBankSound *sound, u32 arg1, unk_4C *arg2) {
+    AudioBankSample* sample;
+    if ((u32)sound->sample >= 0x80000001) {
+        return;
+    }
 
-void func_800E4198(s32, s32*, unk_4C*, s32);
+    sound->sample = arg1 + (u32)sound->sample;
+    sample = sound->sample;
+    if ((sample->bits24 == 0) || (sample->unk_bits25 == 1)) {
+        return;
+    }
+
+    sample->loop = arg1 + (u32)sample->loop;
+    sample->book = arg1 + (u32)sample->book;
+    switch(sample->bits2){
+        case 0:
+            sample->sampleAddr = &sample->sampleAddr[arg2->unk_08];
+            sample->bits2 = arg2->unk_10;
+            break;
+        case 1:
+            sample->sampleAddr = &sample->sampleAddr[arg2->unk_0C];
+            sample->bits2 = arg2->unk_14;
+            break;
+        case 2:
+        case 3:
+            break;
+    }
+
+    sample->unk_bits25 = 1;
+    
+    if ((sample->unk_bits26) && (sample->bits2 != 0)) {
+        gAudioContext.unk_B68[gAudioContext.unk_1768++] = sample;
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4058.s")
+#endif
+
+extern u32 D_8016B780;
+#ifdef NON_MATCHING
+void func_800E4198(s32 arg0, unk_ldr *arg1, unk_4C *arg2, s32 arg3) {
+    s32 sp4C;
+    AudioBankSample *temp_s0;
+    AudioBankSample *temp_s0_2;
+    AudioContext *temp_v0;
+    s32 temp_a0;
+    s32 temp_s4;
+    s32 temp_t1;
+    s32 temp_t2;
+    u32 temp_a2;
+    u32 temp_v0_2;
+    u32 temp_v0_3;
+    u32 temp_v0_5;
+    u32 temp_v1;
+    u32 temp_v1_2;
+    u32 temp_v1_3;
+    u32 temp_v1_4;
+    u32 temp_v1_5;
+    AudioStruct0D68 *temp_v0_4;
+    s32 phi_v0;
+    AudioContext *phi_v0_2;
+    s32 phi_s4;
+    u8 *phi_s1;
+    u8 *phi_v0_3;
+    s32 i;
+    s32 size;
+
+    if (gAudioContext.unk_176C != 0) {
+        sp4C = 1;
+    } else {
+        D_8016B780 = 0;
+        sp4C = 0;
+    }
+
+    gAudioContext.unk_1768 = 0;
+    
+    func_800E283C(arg0, arg1, arg2);
+    
+    for(i = 0; i < gAudioContext.unk_1768; i++){
+        // unused.
+        size += ALIGN16(gAudioContext.unk_B68[i]->bits24);
+    }
+
+    for(i = 0; i < gAudioContext.unk_1768; i++){
+        if (gAudioContext.unk_176C != 0x78) {
+            temp_s0 = gAudioContext.unk_B68[phi_s4];
+            phi_s1 = NULL;
+            switch(arg3){
+                case 0:
+                    if (arg2->unk_10 == temp_s0->bits2) {
+                        phi_s1 = func_800E05C4(temp_s0->bits24, arg2->unk_00, temp_s0->sampleAddr, temp_s0->bits2, 1);
+                    } else if (arg2->unk_14 == temp_s0->bits2) {
+                        phi_s1 = func_800E05C4(temp_s0->bits24, arg2->unk_04, temp_s0->sampleAddr, temp_s0->bits2, 1);
+                    } else if (3 == temp_s0->bits2) {
+                        phi_s1 = func_800E05C4(temp_s0->bits24, 0xFE, temp_s0->sampleAddr, temp_s0->bits2, 1);
+                    }
+                    break;
+                case 1:
+                    if (arg2->unk_10 == temp_s0->bits2) {
+                        phi_s1 = func_800E05C4(temp_s0->bits24, arg2->unk_00, temp_s0->sampleAddr, temp_s0->bits2, 0);
+                    } else if (arg2->unk_14 == temp_s0->bits2) {
+                        phi_s1 = func_800E05C4(temp_s0->bits24, arg2->unk_04, temp_s0->sampleAddr, temp_s0->bits2, 0);
+                    } else if (3 == temp_s0->bits2) {
+                        phi_s1 = func_800E05C4(temp_s0->bits24, 0xFE, temp_s0->sampleAddr, temp_s0->bits2, 0);
+                    } else {
+                        phi_s1 = NULL;
+                    }
+                    break;
+            }
+
+            if(phi_s1 == NULL){
+                continue;
+            }
+
+            switch(arg3){
+                case 0:
+                    if (temp_s0->bits2 == 1) {
+                        func_800E2BCC(temp_s0->sampleAddr, phi_s1, temp_s0->bits24, gAudioContext.audioTable->header.unk_02);
+                        temp_s0->sampleAddr = phi_s1;
+                        temp_s0->unk_bits25 = 0;
+                    } else {
+                        func_800E2AA8(temp_s0->sampleAddr, phi_s1, temp_s0->bits24, temp_s0->bits2);
+                        temp_s0->sampleAddr = phi_s1;
+                        temp_s0->unk_bits25 = 0;
+                    }
+                    break;
+                case 1:
+                    temp_v0_4 = &gAudioContext.unk_0D54[gAudioContext.unk_176C];
+                    temp_v0_4->sample = temp_s0;
+                    temp_v0_4->unk_08 = phi_s1;
+                    temp_v0_4->unk_10 = 0;
+                    temp_v0_4->pad = (s32) ((gAudioContext.unk_176C << 0x18) | 0xFFFFFF);
+                    temp_v0_4->unk_00 = &(&temp_s0->sampleAddr[temp_s0->bits24])[temp_s0->bits2];
+                    gAudioContext.unk_176C++;
+                    break;
+
+            }
+        }
+    }
+
+    gAudioContext.unk_1768 = 0;
+    if ((gAudioContext.unk_176C != 0) && (sp4C == 0)) {
+        temp_s0_2 = gAudioContext.unk_0D54[gAudioContext.unk_176C].sample;
+        func_800E3AC8(temp_s0_2->sampleAddr, gAudioContext.unk_0D54[gAudioContext.unk_176C].unk_08, temp_s0_2->bits24, temp_s0_2->bits2, (temp_s0_2->bits24 / 0x1000) + 1, &gAudioContext.unk_1E78, gAudioContext.unk_0D54[gAudioContext.unk_176C].pad);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4198.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4590.s")
 
