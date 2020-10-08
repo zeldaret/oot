@@ -14,5 +14,5 @@ GameStateOverlay gGameStateOverlayTable[] = {
     GAMESTATE_OVERLAY(title, Title_Init, Title_Destroy, sizeof(TitleContext)),
     GAMESTATE_OVERLAY_INTERNAL(Gameplay_Init, Gameplay_Destroy, sizeof(GlobalContext)),
     GAMESTATE_OVERLAY(opening, Opening_Init, Opening_Destroy, sizeof(OpeningContext)),
-    GAMESTATE_OVERLAY(file_choose, func_80811A20, func_80811A18, 0x1CAE0),
+    GAMESTATE_OVERLAY(file_choose, FileChoose_Init, FileChoose_Destroy, sizeof(FileChooseContext)),
 };

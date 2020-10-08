@@ -421,9 +421,9 @@ void func_80099090(GlobalContext* globalCtx, SceneCmd* cmd) {
     s8 temp2 = cmd->windSettings.unk_05;
     s8 temp3 = cmd->windSettings.unk_06;
 
-    globalCtx->envCtx.unk_A8 = temp1;
-    globalCtx->envCtx.unk_AA = temp2;
-    globalCtx->envCtx.unk_AC = temp3;
+    globalCtx->envCtx.unk_A8.x = temp1;
+    globalCtx->envCtx.unk_A8.y = temp2;
+    globalCtx->envCtx.unk_A8.z = temp3;
     globalCtx->envCtx.unk_B0 = cmd->windSettings.unk_07;
 }
 

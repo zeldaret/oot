@@ -844,9 +844,9 @@ glabel Gameplay_Update
 /* B34B4C 800BD9AC AE000098 */  sw    $zero, 0x98($s0)
 /* B34B50 800BD9B0 8DEFF9BC */  lw    $t7, %lo(gSaveContext+0x135c)($t7)
 /* B34B54 800BD9B4 24010002 */  li    $at, 2
-/* B34B58 800BD9B8 3C0D8081 */  lui   $t5, %hi(func_80811A20) # $t5, 0x8081
+/* B34B58 800BD9B8 3C0D8081 */  lui   $t5, %hi(FileChoose_Init) # $t5, 0x8081
 /* B34B5C 800BD9BC 11E10012 */  beq   $t7, $at, .L800BDA08
-/* B34B60 800BD9C0 25AD1A20 */   addiu $t5, %lo(func_80811A20) # addiu $t5, $t5, 0x1a20
+/* B34B60 800BD9C0 25AD1A20 */   addiu $t5, %lo(FileChoose_Init) # addiu $t5, $t5, 0x1a20
 /* B34B64 800BD9C4 3C18800C */  lui   $t8, %hi(Gameplay_Init) # $t8, 0x800c
 /* B34B68 800BD9C8 3C090001 */  lui   $t1, (0x00012518 >> 16) # lui $t1, 1
 /* B34B6C 800BD9CC 35292518 */  ori   $t1, (0x00012518 & 0xFFFF) # ori $t1, $t1, 0x2518

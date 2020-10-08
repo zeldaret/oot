@@ -36,7 +36,7 @@ glabel D_80812FF4
     .balign 4
     
 .text
-glabel func_80811A20
+glabel FileChoose_Init
 /* 0DCE0 80811A20 3C0F8016 */  lui     $t7, %hi(gGameInfo)
 /* 0DCE4 80811A24 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 0DCE8 80811A28 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
@@ -118,9 +118,9 @@ glabel func_80811A20
 /* 0DDFC 80811B3C 0C02A89E */  jal     View_Init
 /* 0DE00 80811B40 8E050000 */  lw      $a1, 0x0000($s0)           ## 00000000
 /* 0DE04 80811B44 3C0A8081 */  lui     $t2, %hi(func_80810DAC)    ## $t2 = 80810000
-/* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(func_80811A18)       ## $t3 = 80810000
+/* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(FileChoose_Destroy)       ## $t3 = 80810000
 /* 0DE0C 80811B4C 254A0DAC */  addiu   $t2, $t2, %lo(func_80810DAC) ## $t2 = 80810DAC
-/* 0DE10 80811B50 256B1A18 */  addiu   $t3, $t3, %lo(func_80811A18)  ## $t3 = 80811A18
+/* 0DE10 80811B50 256B1A18 */  addiu   $t3, $t3, %lo(FileChoose_Destroy)  ## $t3 = 80811A18
 /* 0DE14 80811B54 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
 /* 0DE18 80811B58 AE0B0008 */  sw      $t3, 0x0008($s0)           ## 00000008
 /* 0DE1C 80811B5C 0C2044EA */  jal     func_808113A8

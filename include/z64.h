@@ -849,7 +849,9 @@ typedef struct {
     /* 0x00 */ char     unk_00[0x02];
     /* 0x02 */ u16      unk_02;
     /* 0x04 */ Vec3f    unk_04;
-    /* 0x10 */ char     unk_10[0x03];
+    /* 0x10 */ u8       unk_10;
+    /* 0x11 */ u8       unk_11;
+    /* 0x12 */ char     unk_12[0x01];
     /* 0x13 */ u8       unk_13;
     /* 0x14 */ char     unk_14[0x01];
     /* 0x15 */ u8       skyDisabled;
@@ -865,25 +867,33 @@ typedef struct {
     /* 0x21 */ u8       unk_21;
     /* 0x22 */ u16      unk_22;
     /* 0x24 */ u16      unk_24;
-    /* 0x26 */ char     unk_26[0x04];
-    /* 0x2A */ s8       unk_2A;
-    /* 0x2B */ s8       unk_2B;
-    /* 0x2C */ s8       unk_2C;
-    /* 0x2D */ char     unk_2D[0x5E];
+    /* 0x26 */ char     unk_26[0x02];
+    /* 0x28 */ LightInfo unk_28;
+    /* 0x36 */ LightInfo unk_36;
+    /* 0x44 */ u8       unk_44;
+    /* 0x45 */ char     unk_45[0x3];
+    /* 0x48 */ DmaRequest  dmaRequest;
+    /* 0x68 */ OSMesgQueue loadQueue;
+    /* 0x80 */ OSMesg   loadMsg;
+    /* 0x84 */ f32      unk_84;
+    /* 0x88 */ f32      unk_88;
     /* 0x8C */ s16      unk_8C[3][3];
     /* 0x9E */ s16      unk_9E;
     /* 0xA0 */ s16      unk_A0;
     /* 0xA2 */ char     unk_A2[0x06];
-    /* 0xA8 */ s16      unk_A8;
-    /* 0xAA */ s16      unk_AA;
-    /* 0xAC */ s16      unk_AC;
+    /* 0xA8 */ Vec3s    unk_A8;
     /* 0xB0 */ f32      unk_B0;
     /* 0xB4 */ u8       nbLightSettings;
     /* 0xB8 */ UNK_PTR  lightSettingsList;
-    /* 0xBC */ char     unk_BC[0x03];
+    /* 0xBC */ u8       unk_BC;
+    /* 0xBD */ u8       unk_BD;
+    /* 0xBE */ u8       unk_BE;
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x16];
-    /* 0xD6 */ s16      unk_D6;
+    /* 0xC0 */ u8       unk_C0[3][3];
+    /* 0xC9 */ u8       unk_C9[3][3];
+    /* 0xD2 */ s16      unk_D2;
+    /* 0xD4 */ s16      unk_D4;
+    /* 0xD6 */ u16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -895,7 +905,8 @@ typedef struct {
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;
-    /* 0xE9 */ char     unk_E9[0x05];
+    /* 0xE9 */ u8       unk_E9;
+    /* 0xEA */ Color_RGBA8 unk_EA;
     /* 0xEE */ u8       unk_EE[4];
     /* 0xF2 */ u8       unk_F2[4];
     /* 0xF6 */ char     unk_F6[0x06];
@@ -1104,7 +1115,7 @@ typedef struct {
 } EntranceEntry;
 
 typedef struct {
-    /* 0x00 */ void* read_buff;
+    /* 0x00 */ u8* readBuff;
 } Sram; // size = 0x4
 
 typedef struct GameAllocEntry {
@@ -1300,85 +1311,76 @@ typedef struct {
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Sram sram;
     /* 0x001E4 */ char unk_1E4[0x4];
-    /* 0x001E8 */ SkyboxContext skybox;
+    /* 0x001E8 */ SkyboxContext skyboxCtx;
     /* 0x00338 */ char unk_338[0x10];
     /* 0x00348 */ MessageContext messageCtx;
     /* 0x0E760 */ char kanfont[0xE188];
-    /* 0x1C8E8 */ EnvironmentContext kankyo;
+    /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
     /* 0x1C9E8 */ Vtx* allocVtx2;
     /* 0x1C9EC */ Vtx* allocVtx3;
     /* 0x1C9F0 */ Vtx* allocVtx4;
     /* 0x1C9F4 */ u8 n64ddFlag;
     /* 0x1C9F6 */ u16 deaths[3];
-    /* 0x1C9FC */ u8 fileNames[3][8];
+    /* 0x1C9FC */ u8 fileNames[3][8]; // flip?
     /* 0x1CA14 */ u16 healthCapacities[3];
     /* 0x1CA1C */ u32 questItems[3];
     /* 0x1CA28 */ s16 n64ddFlags[3];
-    /* 0x1CA2E */ s8 heartStatus[3];
-    /* 0x1CA32 */ u16 nowLife[3];
-    /* 0x1CA38 */ s16 btnIdx;
-    /* 0x1CA3A */ u16 yesNoButtonIdx;
-    /* 0x1CA3C */ s16 menuIdx;
-    /* 0x1CA3E */ s16 fileSelectStateIdx;
-    /* 0x1CA40 */ s16 unkActionIndex;
-    /* 0x1CA42 */ u16 nextFileSelectStateIdx;
-    /* 0x1CA44 */ s16 openFileStateIdx;
-    /* 0x1CA46 */ s16 selectedFileIdx;
+    /* 0x1CA2E */ s8 defense[3];
+    /* 0x1CA32 */ u16 health[3];
+    /* 0x1CA38 */ s16 buttonIndex;
+    /* 0x1CA3A */ s16 openChoiceIndex; // 0: yes, 1: quit
+    /* 0x1CA3C */ s16 menuIndex;
+    /* 0x1CA3E */ s16 fileSelectStateIndex;
+    /* 0x1CA40 */ s16 prevFileSelectStateIndex;
+    /* 0x1CA42 */ s16 nextFileSelectStateIndex;
+    /* 0x1CA44 */ s16 openFileStateIndex;
+    /* 0x1CA46 */ s16 selectedFileIndex;
     /* 0x1CA48 */ char unk_1CA48[0x2];
-    /* 0x1CA4A */ u16 fileNamesY[3];
-    /* 0x1CA50 */ u16 actionTimer;
-    /* 0x1CA52 */ u16 buttonsY[6];
-    /* 0x1CA5E */ s16 copyDestFileIdx;
-    /* 0x1CA60 */ u16 fileWarningTexIdx;
-    /* 0x1CA62 */ u16 warningFileIdx;
-    /* 0x1CA64 */ u16 titleTexIdx;
-    /* 0x1CA66 */ u16 nextTitleTexIdx;
-    /* 0x1CA68 */ s16 windowR;
-    /* 0x1CA6A */ s16 windowG;
-    /* 0x1CA6C */ s16 windowB;
-    /* 0x1CA6E */ u16 selectFileTitleA;
-    /* 0x1CA70 */ u16 openFileTitleA;
-    /* 0x1CA72 */ u16 windowA;
-    /* 0x1CA74 */ u16 fileButtonsA[3];
-    /* 0x1CA7A */ u16 fileNameBoxesA[3];
-    /* 0x1CA80 */ u16 fileNamesA[3];
-    /* 0x1CA86 */ u16 metalJointsA[3];
-    /* 0x1CA8C */ u16 fileInfoA;
-    /* 0x1CA8E */ u16 targetFileInfoBoxA;
-    /* 0x1CA90 */ u16 unkFileInfoBoxA;
-    /* 0x1CA92 */ u16 copyButtonA;
-    /* 0x1CA94 */ u16 eraseButtonA;
-    /* 0x1CA96 */ u16 yesBiuttonA;
-    /* 0x1CA98 */ u16 quitButtonA;
-    /* 0x1CA9A */ u16 optionButtonA;
-    /* 0x1CA9C */ u16 newFileNameBoxA;
-    /* 0x1CA9E */ u16 decideCancelTextA;
-    /* 0x1CAA0 */ u16 fileEmptyTextA;
-    /* 0x1CAA2 */ u16 highlightColorR;
-    /* 0x1CAA4 */ u16 highlightColorG;
-    /* 0x1CAA6 */ u16 highlightColorB;
-    /* 0x1CAA8 */ u16 highlightColorA;
-    /* 0x1CAAA */ u16 highlightColorAIncrease;
-    /* 0x1CAAC */ char unk_1CAAC[0x6];
-    /* 0x1CAB2 */ u16 stickXTimer;
-    /* 0x1CAB4 */ u16 stickYTimer;
-    /* 0x1CAB6 */ u16 idxXOff;
-    /* 0x1CAB8 */ u16 idxYOff;
-    /* 0x1CABA */ s16 stickX;
-    /* 0x1CABC */ s16 stickY;
-    /* 0x1CABE */ u16 newFileNameBoxX;
-    /* 0x1CAC0 */ u16 windowX;
-    /* 0x1CAC4 */ f32 windowRotX;
-    /* 0x1CAC8 */ u16 kbdButtonIdx;
-    /* 0x1CACA */ u16 unk_1CACA;
-    /* 0x1CACC */ u16 kbdCharBoxA;
-    /* 0x1CACE */ s16 kbdCharIdx;
-    /* 0x1CAD0 */ s16 kbdCharX;
-    /* 0x1CAD2 */ s16 kbdCharY;
+    /* 0x1CA4A */ s16 fileNamesY[3];
+    /* 0x1CA50 */ s16 actionTimer;
+    /* 0x1CA52 */ s16 buttonsPosY[6]; // buttons on the first page
+    /* 0x1CA5E */ s16 copyDestFileIndex;
+    /* 0x1CA60 */ s16 fileWarningTexIndex;
+    /* 0x1CA62 */ s16 warningFileIndex;
+    /* 0x1CA64 */ s16 titleTexIndex;
+    /* 0x1CA66 */ s16 nextTitleTexIndex;
+    /* 0x1CA68 */ s16 windowColor[3];
+    /* 0x1CA6E */ s16 titleAlpha[2];
+    /* 0x1CA72 */ s16 windowAlpha;
+    /* 0x1CA74 */ s16 fileButtonAlpha[3];
+    /* 0x1CA7A */ s16 nameBoxAlpha[3];
+    /* 0x1CA80 */ s16 nameAlpha[3];
+    /* 0x1CA86 */ s16 connectorAlpha[3];
+    /* 0x1CA8C */ s16 fileInfoAlpha[3];
+    /* 0x1CA92 */ s16 copyEraseAlpha[2]; // array of 4?
+    /* 0x1CA92 */ s16 yesQuitAlpha[2];
+    /* 0x1CA9A */ s16 optionButtonAlpha;
+    /* 0x1CA9C */ s16 nameEntryBoxAlpha;
+    /* 0x1CA9E */ s16 bottomTextAlpha;
+    /* 0x1CAA0 */ s16 emptyFileTextAlpha;
+    /* 0x1CAA2 */ s16 highlightColor[4];
+    /* 0x1CAAA */ s16 highlightFlashDir; // 0 decrease, 1 increase
+    /* 0x1CAAC */ s16 unk_1CAAC;
+    /* 0x1CAAE */ s16 unk_1CAAE[2]; // no array?
+    /* 0x1CAB2 */ s16 inputTimerX;
+    /* 0x1CAB4 */ s16 inputTimerY;
+    /* 0x1CAB6 */ s16 xIndexOffset; // better name
+    /* 0x1CAB8 */ s16 yIndexOffset; // better name
+    /* 0x1CABA */ s16 inputX;
+    /* 0x1CABC */ s16 inputY;
+    /* 0x1CABE */ s16 nameEntryBoxPosX;
+    /* 0x1CAC0 */ s16 windowPosX;
+    /* 0x1CAC4 */ f32 windowRot;
+    /* 0x1CAC8 */ s16 kbdButtonIndex; // only for extra buttons, not characters
+    /* 0x1CACA */ s16 charPage; // 0: hiragana, 1: katakana, 2: alphabet
+    /* 0x1CACC */ s16 charBgAlpha; // square shape the letter sits in
+    /* 0x1CACE */ s16 charIndex; // 0 - 64, top left to bottom right
+    /* 0x1CAD0 */ s16 kbdX; // 0,0 is top left character
+    /* 0x1CAD2 */ s16 kbdY;
     /* 0x1CAD4 */ s16 newFileNameCharCount;
-    /* 0x1CAD6 */ u16 unk_1CAD6[3];
-} FileChooseContext; // size = 0x1CADC
+    /* 0x1CAD6 */ s16 unk_1CAD6[5];
+} FileChooseContext; // size = 0x1CAE0
 
 typedef enum {
     DPM_UNK = 0,
