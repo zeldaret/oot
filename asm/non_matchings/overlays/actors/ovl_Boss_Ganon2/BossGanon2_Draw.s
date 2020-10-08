@@ -209,7 +209,7 @@ glabel BossGanon2_Draw
 /* 08CA0 80905BE0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 08CA4 80905BE4 8FB90068 */  lw      $t9, 0x0068($sp)
 /* 08CA8 80905BE8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 08CAC 80905BEC 0C02F228 */  jal     func_800BC8A0
+/* 08CAC 80905BEC 0C02F228 */  jal     Gameplay_SetFog
 /* 08CB0 80905BF0 8F2502C0 */  lw      $a1, 0x02C0($t9)           ## 000002C0
 /* 08CB4 80905BF4 8FAC0068 */  lw      $t4, 0x0068($sp)
 /* 08CB8 80905BF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000

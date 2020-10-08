@@ -57,7 +57,7 @@ void func_80026608(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 159);
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
-    oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+    oGfxCtx->polyOpa.p = Gameplay_SetFog(globalCtx, oGfxCtx->polyOpa.p);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 164);
 }
@@ -116,7 +116,7 @@ void func_80026A6C(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 217);
 
     gDPPipeSync(oGfxCtx->polyXlu.p++);
-    oGfxCtx->polyXlu.p = func_800BC8A0(globalCtx, oGfxCtx->polyXlu.p);
+    oGfxCtx->polyXlu.p = Gameplay_SetFog(globalCtx, oGfxCtx->polyXlu.p);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 222);
 }

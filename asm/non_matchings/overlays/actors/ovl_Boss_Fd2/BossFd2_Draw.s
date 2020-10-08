@@ -150,7 +150,7 @@ glabel BossFd2_Draw
 /* 038F0 808D5F60 0C235638 */  jal     func_808D58E0
 /* 038F4 808D5F64 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 038F8 808D5F68 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 038FC 808D5F6C 0C02F228 */  jal     func_800BC8A0
+/* 038FC 808D5F6C 0C02F228 */  jal     Gameplay_SetFog
 /* 03900 808D5F70 8E0502C0 */  lw      $a1, 0x02C0($s0)           ## 000002C0
 /* 03904 808D5F74 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
 .L808D5F78:

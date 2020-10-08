@@ -142,9 +142,9 @@ void func_800BC88C(GlobalContext* globalCtx) {
     globalCtx->transitionCtx.transitionType = -1;
 }
 
-Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
-    Gfx_SetFog2(gfx, globalCtx->lightCtx.fog.r, globalCtx->lightCtx.fog.g, globalCtx->lightCtx.fog.b, 0,
-                globalCtx->lightCtx.fogAlpha, 1000);
+Gfx* Gameplay_SetFog(GlobalContext* globalCtx, Gfx* gfx) {
+    Gfx_SetFog2(gfx, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1], globalCtx->lightCtx.fogColor[2], 0,
+                globalCtx->lightCtx.fogNear, 1000);
 }
 
 void Gameplay_Destroy(GlobalContext* globalCtx) {
@@ -621,20 +621,20 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 4:
                     D_801614C8 = 0;
                     globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2.r = 0xA0;
-                    globalCtx->envCtx.unk_E2.g = 0xA0;
-                    globalCtx->envCtx.unk_E2.b = 0xA0;
+                    globalCtx->envCtx.unk_E2[0] = 160;
+                    globalCtx->envCtx.unk_E2[1] = 160;
+                    globalCtx->envCtx.unk_E2[2] = 160;
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E2.a = 0;
+                        globalCtx->envCtx.unk_E2[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
-                        globalCtx->envCtx.unk_E2.a = 0xFF;
+                        globalCtx->envCtx.unk_E2[3] = 255;
                         globalCtx->transitionMode = 6;
                     }
                     break;
 
                 case 5:
-                    globalCtx->envCtx.unk_E2.a = (D_801614C8 / 20.0f) * 255.0f;
+                    globalCtx->envCtx.unk_E2[3] = (D_801614C8 / 20.0f) * 255.0f;
                     if (D_801614C8 >= 20 && 1) {
                         globalCtx->state.running = 0;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
@@ -647,7 +647,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 6:
-                    globalCtx->envCtx.unk_E2.a = (1 - D_801614C8 / 20.0f) * 255.0f;
+                    globalCtx->envCtx.unk_E2[3] = (1 - D_801614C8 / 20.0f) * 255.0f;
                     if (D_801614C8 >= 20 && 1) {
                         gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
@@ -662,14 +662,14 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 7:
                     D_801614C8 = 0;
                     globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2.r = 0xAA;
-                    globalCtx->envCtx.unk_E2.g = 0xA0;
-                    globalCtx->envCtx.unk_E2.b = 0x96;
+                    globalCtx->envCtx.unk_E2[0] = 170;
+                    globalCtx->envCtx.unk_E2[1] = 160;
+                    globalCtx->envCtx.unk_E2[2] = 150;
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->envCtx.unk_E2.a = 0;
+                        globalCtx->envCtx.unk_E2[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
-                        globalCtx->envCtx.unk_E2.a = 0xFF;
+                        globalCtx->envCtx.unk_E2[3] = 255;
                         globalCtx->transitionMode = 6;
                     }
                     break;
@@ -758,16 +758,16 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 16:
                     D_801614C8 = 0;
                     globalCtx->envCtx.unk_E1 = 1;
-                    globalCtx->envCtx.unk_E2.r = 0;
-                    globalCtx->envCtx.unk_E2.g = 0;
-                    globalCtx->envCtx.unk_E2.b = 0;
-                    globalCtx->envCtx.unk_E2.a = 0xFF;
+                    globalCtx->envCtx.unk_E2[0] = 0;
+                    globalCtx->envCtx.unk_E2[1] = 0;
+                    globalCtx->envCtx.unk_E2[2] = 0;
+                    globalCtx->envCtx.unk_E2[3] = 255;
                     globalCtx->transitionMode = 17;
                     break;
 
                 case 17:
                     if (gSaveContext.unk_1410 != 0) {
-                        globalCtx->envCtx.unk_E2.a = gSaveContext.unk_1410;
+                        globalCtx->envCtx.unk_E2[3] = gSaveContext.unk_1410;
                         if (gSaveContext.unk_1410 < 0x65) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
@@ -828,8 +828,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     osSyncPrintf("FINISH=%d\n", globalCtx->actorCtx.unk_00);
                     if ((globalCtx->actorCtx.unk_00 > 0) && ((globalCtx->actorCtx.unk_00 % 2) != 0)) {
                         globalCtx->envCtx.unk_E1 = 1;
-                        globalCtx->envCtx.unk_E2.r = globalCtx->envCtx.unk_E2.g = globalCtx->envCtx.unk_E2.b = 0x96;
-                        globalCtx->envCtx.unk_E2.a = 0x50;
+                        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 150;
+                        globalCtx->envCtx.unk_E2[3] = 80;
                     } else {
                         globalCtx->envCtx.unk_E1 = 0;
                     }
@@ -1099,8 +1099,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
     func_80095248(gfxCtx, 0, 0, 0);
 
     if ((HREG(80) != 10) || (HREG(82) != 0)) {
-        oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
-        oGfxCtx->polyXlu.p = func_800BC8A0(globalCtx, oGfxCtx->polyXlu.p);
+        oGfxCtx->polyOpa.p = Gameplay_SetFog(globalCtx, oGfxCtx->polyOpa.p);
+        oGfxCtx->polyXlu.p = Gameplay_SetFog(globalCtx, oGfxCtx->polyXlu.p);
 
         func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
         func_800AAA50(&globalCtx->view, 15);
@@ -1268,8 +1268,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                     if (globalCtx->envCtx.unk_E1) {} // Necessary to match
 
                     if (globalCtx->envCtx.unk_E1 == 1) {
-                        Kankyo_FillScreen(gfxCtx, globalCtx->envCtx.unk_E2.r, globalCtx->envCtx.unk_E2.g,
-                                          globalCtx->envCtx.unk_E2.b, globalCtx->envCtx.unk_E2.a, 3);
+                        Kankyo_FillScreen(gfxCtx, globalCtx->envCtx.unk_E2[0], globalCtx->envCtx.unk_E2[1],
+                                          globalCtx->envCtx.unk_E2[2], globalCtx->envCtx.unk_E2[3], 3);
                     } else {
                         // Also necessary to match
                     }

@@ -357,7 +357,7 @@ glabel BossTw_Draw
 /* 0AAC4 80943794 0C034221 */  jal     Matrix_Pull
 /* 0AAC8 80943798 00000000 */  nop
 /* 0AACC 8094379C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 0AAD0 809437A0 0C02F228 */  jal     func_800BC8A0
+/* 0AAD0 809437A0 0C02F228 */  jal     Gameplay_SetFog
 /* 0AAD4 809437A4 8E2502C0 */  lw      $a1, 0x02C0($s1)           ## 000002C0
 /* 0AAD8 809437A8 AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
 /* 0AADC 809437AC 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C

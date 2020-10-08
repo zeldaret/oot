@@ -300,7 +300,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 temp = 0xFF;
+    s32 temp = 255;
 
     globalCtx->envCtx.unk_E1 = 0x01;
     this->actor.shape.rot.y += 0x1000;
@@ -314,17 +314,17 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_D6 = 0x14;
     }
     if (this->unk_150.y >= 0x30) {
-        globalCtx->envCtx.unk_E2.c[2] = temp;
-        globalCtx->envCtx.unk_E2.c[1] = temp;
-        globalCtx->envCtx.unk_E2.c[0] = temp;
+        globalCtx->envCtx.unk_E2[2] = temp;
+        globalCtx->envCtx.unk_E2[1] = temp;
+        globalCtx->envCtx.unk_E2[0] = temp;
 
         if (((this->unk_150.x & 0xFF) % 2) != 0) {
-            globalCtx->envCtx.unk_E2.c[3] = 0x46;
+            globalCtx->envCtx.unk_E2[3] = 70;
         } else {
-            globalCtx->envCtx.unk_E2.c[3] = 0x00;
+            globalCtx->envCtx.unk_E2[3] = 0;
         }
     } else {
-        globalCtx->envCtx.unk_E2.a = 0x00;
+        globalCtx->envCtx.unk_E2[3] = 0;
     }
 
     if (this->unk_150.x < 0x15) {

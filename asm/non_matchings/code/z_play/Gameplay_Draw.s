@@ -172,11 +172,11 @@ glabel Gameplay_Draw
 /* B361E8 800BF048 5160027A */  beql  $t3, $zero, .L800BFA34
 /* B361EC 800BF04C 8E1901DC */   lw    $t9, 0x1dc($s0)
 .L800BF050:
-/* B361F0 800BF050 0C02F228 */  jal   func_800BC8A0
+/* B361F0 800BF050 0C02F228 */  jal   Gameplay_SetFog
 /* B361F4 800BF054 8E2502C0 */   lw    $a1, 0x2c0($s1)
 /* B361F8 800BF058 AE2202C0 */  sw    $v0, 0x2c0($s1)
 /* B361FC 800BF05C 02002025 */  move  $a0, $s0
-/* B36200 800BF060 0C02F228 */  jal   func_800BC8A0
+/* B36200 800BF060 0C02F228 */  jal   Gameplay_SetFog
 /* B36204 800BF064 8E2502D0 */   lw    $a1, 0x2d0($s1)
 /* B36208 800BF068 AE2202D0 */  sw    $v0, 0x2d0($s1)
 /* B3620C 800BF06C 860C07B4 */  lh    $t4, 0x7b4($s0)

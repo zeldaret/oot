@@ -199,7 +199,7 @@ glabel BossDodongo_Draw
               
 /* 03D90 808C4F20 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03D94 808C4F24 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 03D98 808C4F28 0C02F228 */  jal     func_800BC8A0              
+/* 03D98 808C4F28 0C02F228 */  jal     Gameplay_SetFog              
 /* 03D9C 808C4F2C 8E2502C0 */  lw      $a1, 0x02C0($s1)           ## 000002C0
 /* 03DA0 808C4F30 AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
 /* 03DA4 808C4F34 3C06808D */  lui     $a2, %hi(D_808CA5F0)       ## $a2 = 808D0000

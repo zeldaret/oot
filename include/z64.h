@@ -917,12 +917,12 @@ typedef struct {
     /* 0xDF */ u8       lightning;
     /* 0xE0 */ u8       unk_E0;
     /* 0xE1 */ u8       unk_E1;
-    /* 0xE2 */ Color_RGBA8_n unk_E2;
+    /* 0xE2 */ u8       unk_E2[4]; // color 
     /* 0xE6 */ u8       unk_E6;
     /* 0xE7 */ u8       unk_E7;
     /* 0xE8 */ u8       unk_E8;
     /* 0xE9 */ u8       unk_E9;
-    /* 0xEA */ Color_RGBA8_n unk_EA;
+    /* 0xEA */ u8       unk_EA[4];  // color
     /* 0xEE */ u8       unk_EE[4];
     /* 0xF2 */ u8       unk_F2[4];
     /* 0xF6 */ char     unk_F6[0x06];

@@ -21,7 +21,7 @@ glabel func_80B0EEA4
 /* 03118 80B0EEC8 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 0311C 80B0EECC 8FAF0030 */  lw      $t7, 0x0030($sp)           
 /* 03120 80B0EED0 8FA40038 */  lw      $a0, 0x0038($sp)           
-/* 03124 80B0EED4 0C02F228 */  jal     func_800BC8A0              
+/* 03124 80B0EED4 0C02F228 */  jal     Gameplay_SetFog              
 /* 03128 80B0EED8 8DE502C0 */  lw      $a1, 0x02C0($t7)           ## 000002C0
 /* 0312C 80B0EEDC 8FB80030 */  lw      $t8, 0x0030($sp)           
 /* 03130 80B0EEE0 3C0680B1 */  lui     $a2, %hi(D_80B0F1F0)       ## $a2 = 80B10000

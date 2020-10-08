@@ -198,15 +198,15 @@ u8 func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYPE 
     envCtx->lightning = 0;
     envCtx->unk_E0 = 0;
     envCtx->unk_E1 = 0;
-    envCtx->unk_E2.r = 0;
-    envCtx->unk_E2.g = 0;
-    envCtx->unk_E2.b = 0;
-    envCtx->unk_E2.a = 0;
+    envCtx->unk_E2[0] = 0;
+    envCtx->unk_E2[1] = 0;
+    envCtx->unk_E2[2] = 0;
+    envCtx->unk_E2[3] = 0;
     envCtx->unk_E9 = 0;
-    envCtx->unk_EA.r = 0;
-    envCtx->unk_EA.g = 0;
-    envCtx->unk_EA.b = 0;
-    envCtx->unk_EA.a = 0;
+    envCtx->unk_EA[0] = 0;
+    envCtx->unk_EA[1] = 0;
+    envCtx->unk_EA[2] = 0;
+    envCtx->unk_EA[3] = 0;
     envCtx->unk_E6 = 0;
     envCtx->unk_E7 = 0;
     envCtx->unk_E8 = 0;
@@ -357,12 +357,15 @@ u8 func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYPE 
 
 f32 Kankyo_InvLerp_u16(u16 max, u16 min, u16 val) {
     f32 ret = max - min;
+
     if (ret != 0.0f) {
         ret = 1.0f - (max - val) / ret;
+
         if (true && !(ret >= 1.0f)) {
             return ret;
         }
     }
+
     return 1.0f;
 }
 
@@ -1006,7 +1009,7 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
                 alpha = 0.0f;
             }
 
-            fogAlpha = (996 - globalCtx->lightCtx.fogAlpha) / 50.0f;
+            fogAlpha = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
             if (fogAlpha > 1.0f) {
                 fogAlpha = 1.0f;
             }
@@ -1054,7 +1057,7 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
                     alpha = 0.0f;
                 }
 
-                fogAlpha = (996 - globalCtx->lightCtx.fogAlpha) / 50.0f;
+                fogAlpha = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
                 if (fogAlpha > 1.0f) {
                     fogAlpha = 1.0f;
                 }
@@ -1229,7 +1232,7 @@ void func_80074CE8(GlobalContext* globalCtx, u32 arg1) {
 }
 
 void func_80074D6C(GlobalContext* globalCtx) {
-    if ((globalCtx->skyboxId != 0 && globalCtx->lightCtx.fogAlpha < 980) || globalCtx->skyboxId == 29) {
+    if ((globalCtx->skyboxId != 0 && globalCtx->lightCtx.fogNear < 980) || globalCtx->skyboxId == 29) {
         f32 alpha;
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
@@ -1237,15 +1240,15 @@ void func_80074D6C(GlobalContext* globalCtx) {
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3032);
 
         func_800938B4(globalCtx->state.gfxCtx);
-        alpha = (1000 - globalCtx->lightCtx.fogAlpha) * 0.02f;
+        alpha = (1000 - globalCtx->lightCtx.fogNear) * 0.02f;
         if (globalCtx->skyboxId == 29) {
             alpha = 1.0f;
         }
         if (alpha > 1.0f) {
             alpha = 1.0f;
         }
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, globalCtx->lightCtx.fog.c[0], globalCtx->lightCtx.fog.c[1],
-                        globalCtx->lightCtx.fog.c[2], 255.0f * alpha);
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, globalCtx->lightCtx.fogColor[0], globalCtx->lightCtx.fogColor[1],
+                        globalCtx->lightCtx.fogColor[2], 255.0f * alpha);
         gDPFillRectangle(gfxCtx->polyOpa.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3043);
@@ -1258,8 +1261,8 @@ void func_80074D6C(GlobalContext* globalCtx) {
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3048);
 
         func_800938B4(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, globalCtx->envCtx.unk_EA.c[0], globalCtx->envCtx.unk_EA.c[1],
-                        globalCtx->envCtx.unk_EA.c[2], globalCtx->envCtx.unk_EA.c[3]);
+        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, globalCtx->envCtx.unk_EA[0], globalCtx->envCtx.unk_EA[1],
+                        globalCtx->envCtx.unk_EA[2], globalCtx->envCtx.unk_EA[3]);
         gDPFillRectangle(gfxCtx->polyOpa.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3056);
@@ -1624,10 +1627,10 @@ void func_800760F4(GlobalContext* globalCtx) {
         }
     } else {
         globalCtx->envCtx.unk_E1 = 1;
-        globalCtx->envCtx.unk_E2.c[0] = 0;
-        globalCtx->envCtx.unk_E2.c[1] = 0;
-        globalCtx->envCtx.unk_E2.c[2] = 0;
-        globalCtx->envCtx.unk_E2.c[3] = D_8015FDAE;
+        globalCtx->envCtx.unk_E2[0] = 0;
+        globalCtx->envCtx.unk_E2[1] = 0;
+        globalCtx->envCtx.unk_E2[2] = 0;
+        globalCtx->envCtx.unk_E2[3] = D_8015FDAE;
     }
 }
 
@@ -1661,10 +1664,10 @@ void func_800763A8(GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_9E = 0;
     } else {
         globalCtx->envCtx.unk_E1 = 1;
-        globalCtx->envCtx.unk_E2.c[0] = 0;
-        globalCtx->envCtx.unk_E2.c[1] = 0;
-        globalCtx->envCtx.unk_E2.c[2] = 0;
-        globalCtx->envCtx.unk_E2.c[3] = D_8015FDAE;
+        globalCtx->envCtx.unk_E2[0] = 0;
+        globalCtx->envCtx.unk_E2[1] = 0;
+        globalCtx->envCtx.unk_E2[2] = 0;
+        globalCtx->envCtx.unk_E2[3] = D_8015FDAE;
         if (D_8015FDAE == 0) {
             globalCtx->envCtx.unk_E1 = 0;
         }

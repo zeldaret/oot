@@ -769,7 +769,7 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
 
-    oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+    oGfxCtx->polyOpa.p = Gameplay_SetFog(globalCtx, oGfxCtx->polyOpa.p);
 
     if (this->actor.params == ITEM00_BOMBS_SPECIAL) {
         iconNb = 1;
