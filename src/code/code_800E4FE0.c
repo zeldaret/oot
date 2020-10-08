@@ -1,11 +1,4 @@
-// possibly external.c
 #include "global.h"
-
-typedef enum {
-    SEQUENCE_TABLE,
-    BANK_TABLE,
-    AUDIO_TABLE
-} AudioTableType;
 
 typedef enum {
     CHAN_UPD_UNK_0,             // 0
@@ -25,38 +18,14 @@ typedef enum {
     CHAN_UPD_REVERB_FLG         // 14
 } ChannelUpdateType;
 
-//extern s32 D_8014A6CC;
-extern u32 D_8014A6C8;
-extern u32 D_8014A6C4;
-extern f32 D_80149480;
-extern f32 D_80149484;
-extern f32 D_80149488;
-extern u8 gSequenceTable[];
-extern u8 gAudioBankTable[];
-extern u8 gAudioTable[];
-extern u8 D_80155340[];
-extern void(*D_801755D0)(void); // not sure about arguments yet.
-
-void func_800E3FB4(AsyncLoadReq *arg0, u32 size);
-void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
-void *func_800E27F8(s32 tableType);
-u32 func_800E2768(s32, u32);
-void *func_800E27A4(s32 poolIdx, s32 id);
-u32 func_800E2318(u32 arg0, u32 *arg1);
-u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2);
 void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1);
 void func_800E59AC(s32 playerIdx, s32 fadeTimer);
 void func_800E6818(void);
 AudioTask* func_800E5000(void);
-u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2);
-void func_800E2BCC(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_800E2AA8(u32 tableOffset, u8* addr, u32 size, u32 arg3);
-AsyncLoadReq *func_800E3AC8(s32 devAddr, void* ramAddr, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-AsyncLoadReq *func_800E3A44(char *arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4);
-u8* func_800E22C4(s32 seqId);
 void func_800E5D6C(u32);
 void func_800E6128(SequencePlayer *seqPlayer, unk_5C50_s *arg1);
+void func_800E5958(s32 playerIdx, s32 fadeTimer);
+s32 func_800E66C0(s32 arg0);
 
 // AudioMgr_Retrace
 AudioTask* func_800E4FE0(void) {
@@ -251,9 +220,6 @@ AudioTask *func_800E5000(void) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5000.s")
 #endif
 
-void func_800E2124(u8,u8, void*);
-void func_800E5958(s32 arg0, s32 arg1);
-
 void func_800E5584(unk_5C50_s *arg0) {
     s32 i;
     s32 pad;
@@ -421,6 +387,7 @@ void func_800E5A8C(u32 arg0, void **arg1) {
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5A8C.s")
+void func_800E5A8C(u32 arg0, void **arg1);
 #endif
 
 void func_800E5AD8(u32 arg0, f32 arg1) {
@@ -461,7 +428,6 @@ s32 func_800E5B80(void) {
     }
 }
 #else
-s32 func_800E5B80(void);
 s32 D_801304E8 = 0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5B80.s")
 #endif
@@ -549,8 +515,8 @@ u32 func_800E5E20(u32 *arg0) {
     return sp1C >> 0x18;
 }
 
-void func_800E5E84(s32 arg0, u32 *arg1) {
-    func_800E1F38(arg0, arg1);
+u8* func_800E5E84(s32 arg0, u32 *arg1) {
+    return func_800E1F38(arg0, arg1);
 }
 
 void func_800E5EA4(s32 arg0, u32 *arg1, u32 *arg2) {
@@ -571,8 +537,7 @@ s32 func_800E5EDC(void) {
     }
 }
 
-void func_800E5F34(void)
-{
+void func_800E5F34(void) {
     // probably a macro of some type? 
     s32 chk = -1; s32 sp28; do {} while (osRecvMesg(gAudioContext.unk_5BE4, &sp28, 0) != chk);
 }
@@ -827,8 +792,8 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E6590.s")
 #endif
 
-void func_800E6680(void) {
-    func_800E66C0(0);
+s32 func_800E6680(void) {
+    return func_800E66C0(0);
 }
 
 void func_800E66A0(void) {

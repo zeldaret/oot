@@ -824,6 +824,27 @@ typedef struct {
 } SampleDmaReq; // size = 0x10
 
 typedef struct {
+    s32 unk_00;
+    s32 unk_04;
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} unk_4C;
+
+typedef enum {
+    SEQUENCE_TABLE,
+    BANK_TABLE,
+    AUDIO_TABLE
+} AudioTableType;
+
+typedef struct {
+    Drum** drums;
+    AudioBankSound** sfx;
+    Instrument* instruments[1];
+} unk_ldr;
+
+typedef struct {
     /* 0x0000 */ char unk_0000;
     /* 0x0001 */ s8 gNumSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;

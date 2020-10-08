@@ -1,94 +1,31 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef struct {
-    Drum** drums;
-    AudioBankSound** sfx;
-    Instrument* instruments[1];
-} unk_ldr;
-
-#define AS_F32(x) (*(f32*)&(x)->unk_04)
-#define AS_U8(x) (*(u8*)&(x)->unk_04)
-#define AS_S8(x) (*(s8*)&(x)->unk_04)
-#define AS_U16(x) (*(u16*)&(x)->unk_04)
-#define AS_U32(x) (*(u32*)&(x)->unk_04)
-#define AS_S32(x) (*(s32*)&(x)->unk_04)
-
-typedef struct {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
-} unk_4C;
-
-typedef enum {
-    SEQUENCE_TABLE,
-    BANK_TABLE,
-    AUDIO_TABLE
-} AudioTableType;
-
-typedef enum {
-    CHAN_UPD_UNK_0,             // 0
-    CHAN_UPD_VOL_SCALE,         // 1
-    CHAN_UPD_VOL,               // 2
-    CHAN_UPD_PAN_SIGNED,        // 3
-    CHAN_UPD_FREQ_SCALE,        // 4
-    CHAN_UPD_REVERB,            // 5
-    CHAN_UPD_SCRIPT_IO,         // 6
-    CHAN_UPD_PAN_UNSIGNED,      // 7
-    CHAN_UPD_STOP_SOMETHING2,   // 8
-    CHAN_UPD_MUTE_BEHAVE,       // 9
-    CHAN_UPD_VIBE_X8,           // 10
-    CHAN_UPD_VIBE_X32,          // 11
-    CHAN_UPD_UNK_0F,            // 12
-    CHAN_UPD_UNK_20,            // 13
-    CHAN_UPD_REVERB_FLG         // 14
-} ChannelUpdateType;
-
-//extern s32 D_8014A6CC;
-extern u32 D_8014A6C8;
-extern u32 D_8014A6C4;
-extern f32 D_80149480;
-extern f32 D_80149484;
-extern f32 D_80149488;
-extern u8 gSequenceTable[];
-extern u8 gAudioBankTable[];
-extern u8 gAudioTable[];
-extern u8 D_80155340[];
-extern void(*D_801755D0)(void); // not sure about arguments yet.
-
-void func_800E3FB4(AsyncLoadReq *arg0, u32 size);
-void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
-void *func_800E27F8(s32 tableType);
-u32 func_800E2768(s32, u32);
-void *func_800E27A4(s32 poolIdx, s32 id);
-u32 func_800E2318(u32 arg0, u32 *arg1);
-u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2);
-void func_800E6300(SequenceChannel *channel, unk_5C50_s *arg1);
-void func_800E59AC(s32 playerIdx, u32 fadeTimer);
-void func_800E6818(void);
-AudioTask* func_800E5000(void);
-u8 *func_800E2558(u32 tableType, u32 bankId, s32 *arg2);
-void func_800E2BCC(u32 devAddr, u8* addr, u32 size, u32 handleType);
-void func_800E2AA8(u32 romAddr, u8* addr, u32 size, u32 arg3);
-AsyncLoadReq *func_800E3AC8(s32 devAddr, void* ramAddr, s32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue, s32 retMsg);
-AsyncLoadReq *func_800E3A44(s32 arg0, s32 devAddr, void *ramAddr, s32 size, s32 arg4, s32 nChunks, OSMesgQueue* retQueue, s32 retMsg);
-void* func_800E2CE0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *arg4);
-u8* func_800E22C4(s32 seqId);
-s32 func_800E1C78(AudioBankSample* sample, s32);
+/* forward declarations */
 s32 func_800E217C(s32 playerIdx, s32,s32);
-u8 *func_800E2454(u32 arg0);
+unk_ldr *func_800E2454(u32 arg0);
 AudioBankSample *func_800E35E0(s32 bankId, s32 sfxId);
 void func_800E3BEC(s32 arg0);
 void func_800E3D10(u32 arg0, s32 arg1);
 void func_800E3E58(AsyncLoadReq *arg0, s32 arg1);
 void func_800E4198(s32, unk_ldr*, unk_4C*, s32);
-void func_800E283C(s32,unk_ldr*,unk_4C*);
 void func_800E4058(AudioBankSound* sound, u32,unk_4C*);
-
-// like audio_load in sm64, but completely rewritten
+void func_800E202C(s32 arg0);
+u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2);
+u8 *func_800E2558(u32 tableType, u32 bankId, s32 *didAllocate);
+u32 func_800E2768(s32 tableType, u32 tableIdx);
+void *func_800E27A4(s32 tableType, s32 id);
+void *func_800E27F8(s32 tableType);
+void func_800E2AA8(u32 devAddr, u8* addr, u32 size, u32 handleType);
+void func_800E2BCC(u32 devAddr, u8* addr, u32 size, u32 handleType);
+s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue *reqQueue, s32 handleType, const char *dmaFuncType);
+void* func_800E2CE0(s32 tableType, s32 arg1, s32 arg2, s32 arg3, OSMesgQueue *retQueue);
+AudioBankSample *func_800E35E0(s32 bankId, s32 sfxId);
+AsyncLoadReq *func_800E3A44(s32 arg0, s32 devAddr, void *ramAddr, s32 size, s32 arg4, s32 nChunks, OSMesgQueue* retQueue, s32 retMsg);
+AsyncLoadReq *func_800E3AC8(s32 devAddr, void* ramAddr, s32 size, s32 arg3, s32 nChunks, OSMesgQueue* retQueue, s32 retMsg);
+void func_800E3FB4(AsyncLoadReq *req, u32 size);
+void func_800E4044(u32 devAddr, void* ramAddr, u32 size, s16 arg3);
+u8 *func_800E22C4(s32 seqId);
 
 void func_800E11F0(void) {
     s32 i;
@@ -121,7 +58,6 @@ void func_800E11F0(void) {
     gAudioContext.unk_2628 = 0;
 }
 
-s32 func_800E12DC(s32 arg0, s32 arg1, s32 arg2, u8 *arg3, s32 arg4);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E12DC.s")
 
 #ifdef NON_MATCHING
@@ -220,6 +156,7 @@ s32 Audio_IsSeqLoadComplete(s32 seqId) {
     }
 }
 
+// unused
 s32 func_800E19A0(s32 arg0) {
     if (arg0 == 0xFF) {
         return true;
@@ -276,10 +213,10 @@ void func_800E1B08(AudioTable *table, u32 romAddr, u16 arg2) {
     }
 }
 
-s32 func_800E1B68(s32 arg0, u32 *arg1) {
+unk_ldr* func_800E1B68(s32 arg0, u32 *arg1) {
     char pad[0x8];
     s32 phi_s0;
-    u32 sp28;
+    unk_ldr* sp28;
     s32 phi_s1;
     s32 phi_s2;
     s32 i;
@@ -343,6 +280,7 @@ s32 func_800E1C78(AudioBankSample *sample, s32 arg1) {
     }
 }
 #else
+s32 func_800E1C78(AudioBankSample *sample, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E1C78.s")
 #endif
 
@@ -406,7 +344,6 @@ u8* func_800E1F38(s32 arg0, u32 *arg1) {
     return &gAudioContext.unk_283Cb[temp_v1];
 }
 
-void func_800E202C(s32 arg0);
 void func_800E1F7C(s32 arg0) {
     s32 temp_s0;
     s32 phi_s1;
@@ -550,7 +487,7 @@ u32 func_800E2338(u32 arg0, u32 *arg1, s32 arg2) {
 }
 
 #ifdef NON_MATCHING
-u8 *func_800E2454(u32 arg0) {
+unk_ldr *func_800E2454(u32 arg0) {
     u8 *temp_v0_2;
     s32 sp3C;
     s32 didAllocate;
@@ -586,13 +523,12 @@ u8 *func_800E2454(u32 arg0) {
     if (didAllocate == 1) {
         func_800E4198(temp_v0, temp_v0_2, &sp20, 0);
     }
+
     return temp_v0_2;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E2454.s")
 #endif
-
-
 
 u8 *func_800E2558(u32 tableType, u32 bankId, s32 *didAllocate) {
     u32 size;
@@ -760,10 +696,10 @@ void func_800E283C(s32 arg0, unk_ldr *arg1, unk_4C *arg2) {
     if(arg1->drums != NULL && numDrums != 0){
         arg1->drums = (u32)arg1 + (u32)arg1->drums;
         for(i = 0; i < numDrums; i++){
-            drumP = arg1->drums[i]; // temp_s0 = arg1->drums + phi_s2
-            drumP = (u32)drumP + (u32)arg1; // temp_s0 = temp_s0 + arg1
-            if(drumP != NULL){ // should always be true
-                arg1->drums[i] = drumP; // *temp_v0_2 = temp_s0
+            drumP = arg1->drums[i];
+            drumP = (u32)drumP + (u32)arg1;
+            if(drumP != NULL){
+                arg1->drums[i] = drumP;
                 func_800E4058(&drumP->sound, arg1, arg2);
                 drumP->envelope = (u32)arg1 + (u32)drumP->envelope;
                 drumP->loaded = 1;
@@ -807,6 +743,7 @@ void func_800E283C(s32 arg0, unk_ldr *arg1, unk_4C *arg2) {
     gAudioContext.gCtlEntries[arg0].instruments = arg1->instruments;
 }
 #else
+void func_800E283C(s32 arg0, unk_ldr *arg1, unk_4C *arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E283C.s")
 #endif
 
@@ -841,7 +778,7 @@ void func_800E2BCC(u32 devAddr, u8* addr, u32 size, u32 handleType) {
 
 s32 (*sDmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction) = osEPiStartDma;
 
-s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue *reqQueue, s32 handleType, char *arg8) {
+s32 func_800E2BE0(OSIoMesg *mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, u32 size, OSMesgQueue *reqQueue, s32 handleType, const char *dmaFuncType) {
     OSPiHandle *handle;
 
     if (gAudioContext.unk_2984 > 0x10) {
@@ -1009,11 +946,13 @@ void func_800E3034(s32 arg0) {
 
 u32 D_801304D8 = 0;
 
+extern s32 D_8014A6C8;
+extern s32 D_8014A6CC;
+extern s32 D_8014A6C4;
+
 #ifdef NON_MATCHING
 // AudioContext_Init
 void func_800E3094(void *heap, u32 heapSize) {
-    static s32 D_8014A6CC = 48352;
-    static s32 D_8014A6C8 = 57568;
     s32 sp24;
     s16 temp_v1_2;
     s32 temp_s0;
@@ -1047,16 +986,16 @@ void func_800E3094(void *heap, u32 heapSize) {
 
     switch(osTvType){
         case 0:
-            gAudioContext.unk_2960 = D_80149480;
+            gAudioContext.unk_2960 = 20.03042f;
             gAudioContext.gRefreshRate = 50;
             break;
         case 2:
-            gAudioContext.unk_2960 = D_80149484;
+            gAudioContext.unk_2960 = 16.546f;
             gAudioContext.gRefreshRate = 60;
             break;
         case 1:
         default:
-            gAudioContext.unk_2960 = D_80149488;
+            gAudioContext.unk_2960 = 16.713f;
             gAudioContext.gRefreshRate = 60;
     }
 
@@ -1194,7 +1133,6 @@ s32 func_800E3414(s32 arg0, s32 arg1, u8 *arg2) {
     return 0;
 }
 #else
-s32 func_800E3414(s32 arg0, s32 arg1, u8* arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3414.s")
 #endif
 
@@ -1516,7 +1454,6 @@ void func_800E4058(AudioBankSound *sound, u32 arg1, unk_4C *arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4058.s")
 #endif
 
-extern u32 D_8016B780;
 #ifdef NON_MATCHING
 void func_800E4198(s32 arg0, unk_ldr *arg1, unk_4C *arg2, s32 arg3) {
     s32 sp4C;
@@ -1643,8 +1580,8 @@ void func_800E48C0(AudioBankSound *sound) {
 }
 
 // large
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4918.s")
 void func_800E4918(s32, s32, unk_4C*);
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4918.s")
 
 void func_800E4D94(void) {
     s32 pad;
@@ -1686,9 +1623,6 @@ void func_800E4EE4(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4EEC.s")
 
-extern u8* D_8016B738[];
-extern OSMesgQueue D_8016B6E0;
-extern OSMesg D_8016B6F8;
 void func_800E4F58(void) {
     u32 pad;
     u32 sp20;
