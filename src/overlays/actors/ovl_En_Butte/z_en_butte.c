@@ -46,7 +46,7 @@ const ActorInit En_Butte_InitVars = {
     (ActorFunc)EnButte_Draw,
 };
 
-typedef struct EnButteFlightParams {
+typedef struct {
     /* 0x00 */ s16 minTime;
     /* 0x02 */ s16 maxTime;
     /* 0x04 */ f32 speedXZTarget;
@@ -98,7 +98,6 @@ void EnButte_UpdateTransformationEffect(void) {
 
 void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     static Vec3f D_809CE3C4 = { 0.0f, 0.0f, -3.0f };
-
     Vec3f sp5C;
     s32 alpha;
     Vec3s camDir;
@@ -202,30 +201,30 @@ void EnButte_FlyAround(EnButte* this, GlobalContext* globalCtx) {
     EnButteFlightParams* flightParams = &sFlyAroundParams[this->flightParamsIdx];
     s16 yaw;
     Player* player = PLAYER;
-    f32 distFromHome;
-    f32 maxDistFromHome;
+    f32 distSqFromHome;
+    f32 maxDistSqFromHome;
     f32 minAnimSpeed;
     f32 animSpeed;
     s16 rotStep;
 
-    distFromHome = Math3D_Dist2DSq(this->actor.posRot.pos.x, this->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
-                                   this->actor.initPosRot.pos.z);
+    distSqFromHome = Math3D_Dist2DSq(this->actor.posRot.pos.x, this->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
+                                     this->actor.initPosRot.pos.z);
     func_809CD56C(this);
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, flightParams->speedXZTarget, flightParams->speedXZScale,
                             flightParams->speedXZStep, 0.0f);
 
     if (this->unk_257 == 1) {
-        maxDistFromHome = SQ(100.0f);
+        maxDistSqFromHome = SQ(100.0f);
         rotStep = 1000;
     } else {
-        maxDistFromHome = SQ(35.0f);
+        maxDistSqFromHome = SQ(35.0f);
         rotStep = 600;
     }
 
     minAnimSpeed = 0.0f;
     this->posYTarget = this->actor.initPosRot.pos.y;
 
-    if ((this->flightParamsIdx != 0) && ((distFromHome > maxDistFromHome) || (this->timer < 4))) {
+    if ((this->flightParamsIdx != 0) && ((distSqFromHome > maxDistSqFromHome) || (this->timer < 4))) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, flightParams->rotYStep) == 0) {
             minAnimSpeed = 0.5f;
@@ -275,14 +274,13 @@ void EnButte_SetupFollowLink(EnButte* this) {
 
 void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
     static s32 D_809CE410 = 1500;
-
     EnButteFlightParams* flightParams = &sFollowLinkParams[this->flightParamsIdx];
     Player* player = PLAYER;
-    f32 distFromHome;
+    f32 distSqFromHome;
     Vec3f swordTip;
     f32 animSpeed;
     f32 minAnimSpeed;
-    f32 distFromSword;
+    f32 distSqFromSword;
     s16 yaw;
 
     func_809CD634(this);
@@ -319,15 +317,15 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
         D_809CE410 = -D_809CE410;
     }
 
-    distFromHome = Math3D_Dist2DSq(this->actor.posRot.pos.x, this->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
-                                   this->actor.initPosRot.pos.z);
+    distSqFromHome = Math3D_Dist2DSq(this->actor.posRot.pos.x, this->actor.posRot.pos.z, this->actor.initPosRot.pos.x,
+                                     this->actor.initPosRot.pos.z);
     if (!((player->heldItemActionParam == 6) && (fabsf(player->actor.speedXZ) < 1.8f) && (this->swordDownTimer <= 0) &&
-          (distFromHome < SQ(320.0f)))) {
+          (distSqFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
-    } else if (distFromHome > SQ(240.0f)) {
-        distFromSword = Math3D_Dist2DSq(player->swordInfo[0].tip.x, player->swordInfo[0].tip.z,
-                                        this->actor.posRot.pos.x, this->actor.posRot.pos.z);
-        if (distFromSword < SQ(60.0f)) {
+    } else if (distSqFromHome > SQ(240.0f)) {
+        distSqFromSword = Math3D_Dist2DSq(player->swordInfo[0].tip.x, player->swordInfo[0].tip.z,
+                                          this->actor.posRot.pos.x, this->actor.posRot.pos.z);
+        if (distSqFromSword < SQ(60.0f)) {
             EnButte_SetupTransformIntoFairy(this);
         }
     }
