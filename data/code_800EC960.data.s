@@ -306,7 +306,7 @@ glabel D_80131BEC
 glabel D_80131BF0
     .incbin "baserom.z64", 0xBA8D90, 0x10
 
-glabel D_80131C00
+glabel sOcarinaSongs
     .incbin "baserom.z64", 0xBA8DA0, 0x80
 
 glabel D_80131C80

@@ -147,7 +147,7 @@ glabel D_8016BA2A
 glabel D_8016BA2B
     .space 0x1
 
-glabel D_8016BA2C
+glabel sOcarinaAvailSongs
     .space 0x2
 
 glabel D_8016BA2E

@@ -3176,8 +3176,8 @@ glabel L8010EC60
 /* B85E74 8010ECD4 14410093 */  bne   $v0, $at, .L8010EF24
 /* B85E78 8010ECD8 2529FA90 */   addiu $t1, %lo(gGameInfo) # addiu $t1, $t1, -0x570
 /* B85E7C 8010ECDC 960463F0 */  lhu   $a0, 0x63f0($s0)
-/* B85E80 8010ECE0 3C188013 */  lui   $t8, %hi(D_80131C00) # $t8, 0x8013
-/* B85E84 8010ECE4 27181C00 */  addiu $t8, %lo(D_80131C00) # addiu $t8, $t8, 0x1c00
+/* B85E80 8010ECE0 3C188013 */  lui   $t8, %hi(sOcarinaSongs) # $t8, 0x8013
+/* B85E84 8010ECE4 27181C00 */  addiu $t8, %lo(sOcarinaSongs) # addiu $t8, $t8, 0x1c00
 /* B85E88 8010ECE8 2484FFF1 */  addiu $a0, $a0, -0xf
 /* B85E8C 8010ECEC 00042400 */  sll   $a0, $a0, 0x10
 /* B85E90 8010ECF0 00042403 */  sra   $a0, $a0, 0x10

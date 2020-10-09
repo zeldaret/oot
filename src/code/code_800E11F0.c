@@ -129,9 +129,7 @@ s32 func_800E12DC(s32 arg0, s32 arg1, s32 arg2, u8 *arg3, s32 arg4) {
             *arg3 = i;
             return (sp48->ramAddr + arg0) - sp48->devAddr;
         }
-
-    }
-    
+    } 
     
     if (arg2 == 0) {
         for(i = 0, sp48 = &gAudioContext.sampleDmaReqs[*arg3]; i < gAudioContext.unk_2624; i++, sp48 = &gAudioContext.sampleDmaReqs[i]){
@@ -152,10 +150,12 @@ s32 func_800E12DC(s32 arg0, s32 arg1, s32 arg2, u8 *arg3, s32 arg4) {
                 return (sp48->ramAddr + arg0) - sp48->devAddr;
             }
         }
-    } else if (gAudioContext.unk_282F != gAudioContext.unk_282D && arg2 != 0) {
-        sp38 = gAudioContext.unk_272C[gAudioContext.unk_282D++];
-        phi_t3 = 1;
-        sp48 = &gAudioContext.sampleDmaReqs[sp38];
+    } else {
+        if (gAudioContext.unk_282F != gAudioContext.unk_282D && arg2 != 0) {
+            sp38 = gAudioContext.unk_272C[gAudioContext.unk_282D++];
+            phi_t3 = 1;
+            sp48 = &gAudioContext.sampleDmaReqs[sp38];
+        }
     }
 
 

@@ -7,10 +7,10 @@ glabel func_800ECB7C
 /* B63D30 800ECB90 25EF0F80 */  addiu $t7, %lo(D_80130F80) # addiu $t7, $t7, 0xf80
 /* B63D34 800ECB94 000E7140 */  sll   $t6, $t6, 5
 /* B63D38 800ECB98 3C088013 */  lui   $t0, %hi(D_80131BF0) # $t0, 0x8013
-/* B63D3C 800ECB9C 3C078013 */  lui   $a3, %hi(D_80131C00) # $a3, 0x8013
+/* B63D3C 800ECB9C 3C078013 */  lui   $a3, %hi(sOcarinaSongs) # $a3, 0x8013
 /* B63D40 800ECBA0 00001025 */  move  $v0, $zero
 /* B63D44 800ECBA4 00001825 */  move  $v1, $zero
-/* B63D48 800ECBA8 24E71C00 */  addiu $a3, %lo(D_80131C00) # addiu $a3, $a3, 0x1c00
+/* B63D48 800ECBA8 24E71C00 */  addiu $a3, %lo(sOcarinaSongs) # addiu $a3, $a3, 0x1c00
 /* B63D4C 800ECBAC 25081BF0 */  addiu $t0, %lo(D_80131BF0) # addiu $t0, $t0, 0x1bf0
 /* B63D50 800ECBB0 01CF2821 */  addu  $a1, $t6, $t7
 /* B63D54 800ECBB4 240600FF */  li    $a2, 255

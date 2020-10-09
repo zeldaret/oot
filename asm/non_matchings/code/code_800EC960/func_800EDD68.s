@@ -156,11 +156,11 @@ glabel func_800EDD68
 /* B65150 800EDFB0 A7A9001E */   sh    $t1, 0x1e($sp)
 /* B65154 800EDFB4 3C0D8013 */  lui   $t5, %hi(D_8013185C) # $t5, 0x8013
 /* B65158 800EDFB8 3C1F8013 */  lui   $ra, %hi(D_80131858) # $ra, 0x8013
-/* B6515C 800EDFBC 3C078013 */  lui   $a3, %hi(D_80131C00) # $a3, 0x8013
+/* B6515C 800EDFBC 3C078013 */  lui   $a3, %hi(sOcarinaSongs) # $a3, 0x8013
 /* B65160 800EDFC0 27FF1858 */  addiu $ra, %lo(D_80131858) # addiu $ra, $ra, 0x1858
 /* B65164 800EDFC4 25AD185C */  addiu $t5, %lo(D_8013185C) # addiu $t5, $t5, 0x185c
 /* B65168 800EDFC8 97A9001E */  lhu   $t1, 0x1e($sp)
-/* B6516C 800EDFCC 24E71C00 */  addiu $a3, %lo(D_80131C00) # addiu $a3, $a3, 0x1c00
+/* B6516C 800EDFCC 24E71C00 */  addiu $a3, %lo(sOcarinaSongs) # addiu $a3, $a3, 0x1c00
 /* B65170 800EDFD0 240C0009 */  li    $t4, 9
 /* B65174 800EDFD4 240B0009 */  li    $t3, 9
 .L800EDFD8:

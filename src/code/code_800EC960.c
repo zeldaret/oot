@@ -198,7 +198,12 @@ typedef struct {
     unk_s3_00 unk_00[20];    
 } unk_s3;
 extern unk_s3 D_80130F80[];
-extern u8 D_80131C00[];
+
+typedef struct {
+    u8 len;
+    u8 notes[8];
+} OcarinaSong;
+extern OcarinaSong sOcarinaSongs[]; // D_80131C00
 #ifdef NON_MATCHING
 void func_800ECB7C(u8 arg0) {
     u8 temp_a0;
@@ -211,7 +216,7 @@ void func_800ECB7C(u8 arg0) {
         temp_a0 = D_80130F80[arg0].unk_00[phi_v1].unk_00;
         phi_v1++;
         if (temp_a0 != 0xFF) {
-            D_80131C00[109 + phi_v0] = D_80131BF0[temp_a0];
+            sOcarinaSongs[109 + phi_v0] = D_80131BF0[temp_a0];
             phi_v0++;
         }
     }
@@ -223,7 +228,21 @@ void func_800ECB7C(u8 arg0) {
 extern u8 D_8013170C;
 extern u8 D_8016BA2A;
 extern u8 D_8016BA2B;
-extern u16 D_8016BA2C;
+/** bit field of songs that can be played 
+ * 0x0800 storms
+ * 0x0400 song of time
+ * 0x0200 suns
+ * 0x0100 lullaby
+ * 0x0080 epona
+ * 0x0040 sarias
+ * 0x0020 prelude
+ * 0x0010 nocturne
+ * 0x0008 requiem
+ * 0x0004 serenade
+ * 0x0002 bolero
+ * 0x0001 minuet
+*/
+extern u16 sOcarinaAvailSongs; // 8016BA2C
 extern u8 D_8013187C;
 extern u8 D_8016BA2E; // curSong append idx?
 extern u8 D_8016B9F9;
@@ -259,7 +278,7 @@ void func_800ECC04(u16 arg0) {
         if (arg0 != 0xA000) {
             D_8016BA2B--;
         }
-        D_8016BA2C = arg0 & 0x3FFF;
+        sOcarinaAvailSongs = arg0 & 0x3FFF;
         D_8013187C = 8;
         D_8016BA29 = 0;
         D_80131878 = 0;
@@ -302,18 +321,19 @@ void func_800ECDBC(void) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ECDF8.s")
 
 extern u16 D_80130F3E;
-extern u8 D_8016BA20[];
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ED200.s")
-#if 0
+extern u8 D_8016BA20[8];
+extern u8 D_80130F6C[8];
+
+//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ED200.s")
 void func_800ED200(void) {
     s32 temp_t3;
     s32 temp_t3_3;
     s32 temp_v0;
     s32 temp_v1_2;
     s8 temp_v1;
-    u8 *temp_t0;
+    OcarinaSong *temp_t0;
     u8 temp_a1;
-    u8 temp_a2;
+    s16 songLen;
     u8 temp_t3_2;
     u8 temp_t5;
     u8 temp_t6;
@@ -331,11 +351,15 @@ void func_800ED200(void) {
     s32 phi_a0_2;
     s32 phi_v1;
     s32 phi_a0_3;
-    s32 phi_a1;
+    u8 badNote;
     s32 phi_v1_2;
     s32 phi_v1_3;
     s32 phi_a1_2;
-    u8 i;
+    u8 i, j;
+    u8 correctNotes;
+    u16 val;
+    s32 cond;
+    u32 abs;
 
     temp_v0 = D_8016BA0C;
     if (((D_8016BA0C & 0x20) != 0) && ((D_8016BA0C & D_80130EFC) != 0)) {
@@ -344,14 +368,14 @@ void func_800ED200(void) {
     }
 
     func_800ECDBC();
+
     if (D_8016BA29 != 0) {
-        if ((sCurOcarinaBtnVal != D_80130F18) && (sCurOcarinaBtnVal != 0xFF)) {
+        if ((D_80130F18 != sCurOcarinaBtnVal) && (sCurOcarinaBtnVal != 0xFF)) {
             D_8016BA2E++;
             if (D_8016BA2E >= 9) {
                 D_8016BA2E = 1;
             }
 
-            temp_v0_2 = D_8016BA28;
             if (D_8016BA28 == 8) {
                 for(i = 0; i < 7; i++){
                     D_8016BA20[i] = D_8016BA20[i + 1];
@@ -359,74 +383,36 @@ void func_800ED200(void) {
             } else {
                 D_8016BA28++;
             }
-            
-            phi_ra = &D_8016BA20[D_8016BA28];
-            if (ABS(D_80130F2C) >= 0x15) {
-                phi_ra[-1] = 0xFF;
-            } else {
-                phi_ra[-1] = sCurOcarinaBtnVal;
-            }
 
-            temp_t3_2 = D_8016BA2A;
-            temp_t5 = D_8016BA2B;
+            phi_a1_2 = D_8016BA28;
+            phi_ra = &D_8016BA20[phi_a1_2];
+            phi_ra[-1] = ((D_80130F2C) < 0 ? -(D_80130F2C) : (D_80130F2C)) > 0x14 ? 0xFF : sCurOcarinaBtnVal;
             for(i = D_8016BA2A; i < D_8016BA2B; i++){
-                u16 mask = (1 << i);
-                phi_t4_2 = (s32) temp_t3_2;
-                phi_t3_2 = (s32) temp_t3_2;
-loop_20:
-                if (D_8016BA2C & mask) {
-                    temp_t0 = &D_80131C00[(phi_t3_2 * 8) + phi_t3_2];
-                    temp_a2 = *temp_t0;
-                    phi_v1_2 = 0;
-                    if ((s32) temp_a2 > 0) {
-                        phi_v1_2 = 0;
-                        if (phi_t2 >= (s32) temp_a2) {
-                            phi_a0_2 = 0;
-                            phi_v1 = 0;
-                            phi_a1_2 = 0;
-loop_24:
-                            if (*(phi_ra + -(s32) temp_a2 + phi_a0_2) == *(&D_80130F6C + (&temp_t0[phi_v1])[1])) {
-                                temp_v1_2 = (phi_v1 + 1) & 0xFF;
-                                phi_a0_3 = temp_v1_2;
-                                phi_a1 = phi_a1_2;
-                                phi_v1_3 = temp_v1_2;
-                            } else {
-                                phi_a0_3 = phi_a0_2;
-                                phi_a1 = (phi_a1_2 + 1) & 0xFF;
-                                phi_v1_3 = phi_v1;
-                            }
-                            phi_v1_2 = phi_v1_3;
-                            if (phi_a0_3 < (s32) temp_a2) {
-                                phi_v1_2 = phi_v1_3;
-                                if (phi_a1 == 0) {
-                                    phi_a0_2 = phi_a0_3;
-                                    phi_v1 = phi_v1_3;
-                                    phi_v1_2 = phi_v1_3;
-                                    phi_a1_2 = phi_a1;
-                                    if (phi_t2 >= (s32) temp_a2) {
-                                        goto loop_24;
-                                    }
-                                }
-                            }
+                cond = sOcarinaAvailSongs & (u16)(1 << i);
+                if (cond) {
+                    temp_t0 = &sOcarinaSongs[i];
+                    songLen = temp_t0->len;
+
+                    for(j = 0, correctNotes = 0, badNote = 0; j < songLen && badNote == 0 && phi_a1_2 >= songLen;){
+                        abs = -songLen;
+                        if (phi_ra[j + abs] == D_80130F6C[temp_t0->notes[correctNotes]]) {
+                            j = ++correctNotes;
+                        } else {
+                            badNote++;
                         }
                     }
-                    if (phi_v1_2 == temp_a2) {
-                        D_80131878 = (u8) (phi_t4_2 + 1);
-                        sOcarinaInpEnabled = (u8)0U;
+
+                    if (correctNotes == songLen) {
+                        D_80131878 = i + 1;
+                        sOcarinaInpEnabled = 0;
                         D_80130F3C = 0;
                     }
-                }
-                temp_t3_3 = (phi_t3_2 + 1) & 0xFF;
-                phi_t4_2 = temp_t3_3;
-                phi_t3_2 = temp_t3_3;
-                if (temp_t3_3 < (s32) temp_t5) {
-                    goto loop_20;
                 }
             }
         }
     }
 }
-#endif
+
 #define OCARINA_CUP (0xE)
 #define OCARINA_CDOWN (0x5)
 #define OCARINA_CLEFT (0xB)
