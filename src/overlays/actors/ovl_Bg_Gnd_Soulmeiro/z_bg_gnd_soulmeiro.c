@@ -113,7 +113,7 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
         this->actor.draw = NULL;
     }
 
-    // This should be this->unk_198 != 0, this is required to match
+    // This should be this->unk_198 == 0, this is required to match
     if (!this->unk_198) {
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         Actor_Kill(&this->actor);
