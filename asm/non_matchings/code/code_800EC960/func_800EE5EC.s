@@ -18,10 +18,10 @@ glabel func_800EE5EC
 /* B657C8 800EE628 3C068013 */  lui   $a2, %hi(D_80130F74) # $a2, 0x8013
 /* B657CC 800EE62C 24C60F74 */  addiu $a2, %lo(D_80130F74) # addiu $a2, $a2, 0xf74
 /* B657D0 800EE630 90C30000 */  lbu   $v1, ($a2)
-/* B657D4 800EE634 3C048013 */  lui   $a0, %hi(D_80130F6C) # $a0, 0x8013
+/* B657D4 800EE634 3C048013 */  lui   $a0, %hi(sOcarinaNoteValues) # $a0, 0x8013
 /* B657D8 800EE638 3C078013 */  lui   $a3, %hi(D_80130F80) # $a3, 0x8013
 /* B657DC 800EE63C 24E70F80 */  addiu $a3, %lo(D_80130F80) # addiu $a3, $a3, 0xf80
-/* B657E0 800EE640 24840F6C */  addiu $a0, %lo(D_80130F6C) # addiu $a0, $a0, 0xf6c
+/* B657E0 800EE640 24840F6C */  addiu $a0, %lo(sOcarinaNoteValues) # addiu $a0, $a0, 0xf6c
 /* B657E4 800EE644 0000C010 */  mfhi  $t8
 /* B657E8 800EE648 000348C0 */  sll   $t1, $v1, 3
 /* B657EC 800EE64C 0098C821 */  addu  $t9, $a0, $t8

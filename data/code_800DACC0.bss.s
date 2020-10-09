@@ -21,10 +21,10 @@ glabel D_8016B738
 glabel D_8016B780
     .space 0x20
 
-glabel D_8016B7A0
+glabel sOcarinaUpdateStartTime
     .space 0x4
 
-glabel D_8016B7A4
+glabel sOcarinaUpdateEndTime
     .space 0x4
 
 glabel D_8016B7A8
@@ -120,31 +120,31 @@ glabel D_8016BA08
 glabel D_8016BA09
     .space 0x3
 
-glabel D_8016BA0C
+glabel sCurOcarinaBtnPress
     .space 0x4
 
 glabel D_8016BA10
     .space 0x4
 
-glabel D_8016BA14
+glabel sPrevOcarinaBtnPress
     .space 0x4
 
 glabel D_8016BA18
     .space 0x8
 
-glabel D_8016BA20
+glabel sCurOcarinaSong
     .space 0x8
 
-glabel D_8016BA28
+glabel sOcarinaSongAppendPos
     .space 0x1
 
-glabel D_8016BA29
+glabel sOcarinaHasStartedSong
     .space 0x1
 
-glabel D_8016BA2A
+glabel sOcarinaSongStartIdx
     .space 0x1
 
-glabel D_8016BA2B
+glabel sOcarinaSongCnt
     .space 0x1
 
 glabel sOcarinaAvailSongs
@@ -177,16 +177,16 @@ glabel D_8016BAAC
 glabel D_8016BAB0
     .space 0x4
 
-glabel D_8016BAB4
+glabel sDebugPadPressRaw
     .space 0x4
 
-glabel D_8016BAB8
+glabel sDebugPadPress
     .space 0x4
 
-glabel D_8016BABC
+glabel sOcarinaUpdateTaskCntStart
     .space 0x4
 
-glabel D_8016BAC0
+glabel sOcarinaUpdateTaskCntEnd
     .space 0x10
 
 glabel D_8016BAD0
@@ -255,7 +255,7 @@ glabel D_8016E350
 glabel D_8016E750
     .space 0x990
 
-glabel D_8016F0E0
+glabel D_8016F0E0 # unused? 
     .space 0xA0
 
 glabel gAudioContext

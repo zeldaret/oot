@@ -910,7 +910,7 @@ typedef struct {
     /* 0x2894 */ s32 gMaxSimultaneousNotes; // (bad name)
     /* 0x2898 */ s16 gTempoInternalToExternal;
     /* 0x289A */ s8 gSoundMode;
-    /* 0x289C */ s32 unk_289C;
+    /* 0x289C */ s32 totalTaskCnt;
     /* 0x28A0 */ s32 sampleIoReqIdx;
     /* 0x28A4 */ s32 rspTaskIdx;
     /* 0x28A8 */ s32 curAIBufIdx;

@@ -371,7 +371,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gfxCtx->fbIdx++;
     }
 
-    func_800F3054();
+    OcarinaAudio_Update();
 
     {
         OSTime time = osGetTime();

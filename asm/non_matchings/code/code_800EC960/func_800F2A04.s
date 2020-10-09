@@ -5,13 +5,13 @@ glabel func_800F2A04
 /* B69BB0 800F2A10 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B69BB4 800F2A14 31CF0002 */  andi  $t7, $t6, 2
 /* B69BB8 800F2A18 11E00003 */  beqz  $t7, .L800F2A28
-/* B69BBC 800F2A1C 3C058017 */   lui   $a1, %hi(D_8016BAB8) # $a1, 0x8017
+/* B69BBC 800F2A1C 3C058017 */   lui   $a1, %hi(sDebugPadPress) # $a1, 0x8017
 /* B69BC0 800F2A20 10000002 */  b     .L800F2A2C
 /* B69BC4 800F2A24 24060008 */   li    $a2, 8
 .L800F2A28:
 /* B69BC8 800F2A28 24060001 */  li    $a2, 1
 .L800F2A2C:
-/* B69BCC 800F2A2C 8CA5BAB8 */  lw    $a1, %lo(D_8016BAB8)($a1)
+/* B69BCC 800F2A2C 8CA5BAB8 */  lw    $a1, %lo(sDebugPadPress)($a1)
 /* B69BD0 800F2A30 3C098013 */  lui   $t1, %hi(D_80131F18) # $t1, 0x8013
 /* B69BD4 800F2A34 25291F18 */  addiu $t1, %lo(D_80131F18) # addiu $t1, $t1, 0x1f18
 /* B69BD8 800F2A38 30B80800 */  andi  $t8, $a1, 0x800
@@ -84,13 +84,13 @@ glabel func_800F2A04
 /* B69CC8 800F2B28 018B6021 */  addu  $t4, $t4, $t3
 /* B69CCC 800F2B2C 8D8C331C */  lw    $t4, %lo(D_8013331C)($t4)
 /* B69CD0 800F2B30 000D7080 */  sll   $t6, $t5, 2
-/* B69CD4 800F2B34 3C058017 */  lui   $a1, %hi(D_8016BAB8) # $a1, 0x8017
+/* B69CD4 800F2B34 3C058017 */  lui   $a1, %hi(sDebugPadPress) # $a1, 0x8017
 /* B69CD8 800F2B38 018E1021 */  addu  $v0, $t4, $t6
 /* B69CDC 800F2B3C 904F0000 */  lbu   $t7, ($v0)
 /* B69CE0 800F2B40 01E6C023 */  subu  $t8, $t7, $a2
 /* B69CE4 800F2B44 A0580000 */  sb    $t8, ($v0)
 /* B69CE8 800F2B48 10000007 */  b     .L800F2B68
-/* B69CEC 800F2B4C 8CA5BAB8 */   lw    $a1, %lo(D_8016BAB8)($a1)
+/* B69CEC 800F2B4C 8CA5BAB8 */   lw    $a1, %lo(sDebugPadPress)($a1)
 .L800F2B50:
 /* B69CF0 800F2B50 3C0A8013 */  lui   $t2, %hi(D_80131F1C) # $t2, 0x8013
 /* B69CF4 800F2B54 254A1F1C */  addiu $t2, %lo(D_80131F1C) # addiu $t2, $t2, 0x1f1c
@@ -142,13 +142,13 @@ glabel func_800F2A04
 /* B69D9C 800F2BFC 0338C821 */  addu  $t9, $t9, $t8
 /* B69DA0 800F2C00 8F39331C */  lw    $t9, %lo(D_8013331C)($t9)
 /* B69DA4 800F2C04 000B6880 */  sll   $t5, $t3, 2
-/* B69DA8 800F2C08 3C058017 */  lui   $a1, %hi(D_8016BAB8) # $a1, 0x8017
+/* B69DA8 800F2C08 3C058017 */  lui   $a1, %hi(sDebugPadPress) # $a1, 0x8017
 /* B69DAC 800F2C0C 032D1021 */  addu  $v0, $t9, $t5
 /* B69DB0 800F2C10 904C0000 */  lbu   $t4, ($v0)
 /* B69DB4 800F2C14 01867021 */  addu  $t6, $t4, $a2
 /* B69DB8 800F2C18 A04E0000 */  sb    $t6, ($v0)
 /* B69DBC 800F2C1C 10000005 */  b     .L800F2C34
-/* B69DC0 800F2C20 8CA5BAB8 */   lw    $a1, %lo(D_8016BAB8)($a1)
+/* B69DC0 800F2C20 8CA5BAB8 */   lw    $a1, %lo(sDebugPadPress)($a1)
 /* B69DC4 800F2C24 914F0000 */  lbu   $t7, ($t2)
 .L800F2C28:
 /* B69DC8 800F2C28 25F80001 */  addiu $t8, $t7, 1
@@ -177,8 +177,8 @@ glabel func_800F2A04
 /* B69E20 800F2C80 3C088013 */  lui   $t0, %hi(D_80131F20) # $t0, 0x8013
 /* B69E24 800F2C84 3C098013 */  lui   $t1, %hi(D_80131F18) # $t1, 0x8013
 /* B69E28 800F2C88 3C0A8013 */  lui   $t2, %hi(D_80131F1C) # $t2, 0x8013
-/* B69E2C 800F2C8C 3C058017 */  lui   $a1, %hi(D_8016BAB8) # $a1, 0x8017
-/* B69E30 800F2C90 8CA5BAB8 */  lw    $a1, %lo(D_8016BAB8)($a1)
+/* B69E2C 800F2C8C 3C058017 */  lui   $a1, %hi(sDebugPadPress) # $a1, 0x8017
+/* B69E30 800F2C90 8CA5BAB8 */  lw    $a1, %lo(sDebugPadPress)($a1)
 /* B69E34 800F2C94 254A1F1C */  addiu $t2, %lo(D_80131F1C) # addiu $t2, $t2, 0x1f1c
 /* B69E38 800F2C98 25291F18 */  addiu $t1, %lo(D_80131F18) # addiu $t1, $t1, 0x1f18
 /* B69E3C 800F2C9C 25081F20 */  addiu $t0, %lo(D_80131F20) # addiu $t0, $t0, 0x1f20
@@ -191,8 +191,8 @@ glabel func_800F2A04
 /* B69E54 800F2CB4 3C088013 */  lui   $t0, %hi(D_80131F20) # $t0, 0x8013
 /* B69E58 800F2CB8 3C098013 */  lui   $t1, %hi(D_80131F18) # $t1, 0x8013
 /* B69E5C 800F2CBC 3C0A8013 */  lui   $t2, %hi(D_80131F1C) # $t2, 0x8013
-/* B69E60 800F2CC0 3C058017 */  lui   $a1, %hi(D_8016BAB8) # $a1, 0x8017
-/* B69E64 800F2CC4 8CA5BAB8 */  lw    $a1, %lo(D_8016BAB8)($a1)
+/* B69E60 800F2CC0 3C058017 */  lui   $a1, %hi(sDebugPadPress) # $a1, 0x8017
+/* B69E64 800F2CC4 8CA5BAB8 */  lw    $a1, %lo(sDebugPadPress)($a1)
 /* B69E68 800F2CC8 254A1F1C */  addiu $t2, %lo(D_80131F1C) # addiu $t2, $t2, 0x1f1c
 /* B69E6C 800F2CCC 25291F18 */  addiu $t1, %lo(D_80131F18) # addiu $t1, $t1, 0x1f18
 /* B69E70 800F2CD0 25081F20 */  addiu $t0, %lo(D_80131F20) # addiu $t0, $t0, 0x1f20
@@ -220,8 +220,8 @@ glabel func_800F2A04
 /* B69EC4 800F2D24 01B87804 */  sllv  $t7, $t8, $t5
 /* B69EC8 800F2D28 032F5826 */  xor   $t3, $t9, $t7
 /* B69ECC 800F2D2C A44B0002 */  sh    $t3, 2($v0)
-/* B69ED0 800F2D30 3C058017 */  lui   $a1, %hi(D_8016BAB8) # $a1, 0x8017
-/* B69ED4 800F2D34 8CA5BAB8 */  lw    $a1, %lo(D_8016BAB8)($a1)
+/* B69ED0 800F2D30 3C058017 */  lui   $a1, %hi(sDebugPadPress) # $a1, 0x8017
+/* B69ED4 800F2D34 8CA5BAB8 */  lw    $a1, %lo(sDebugPadPress)($a1)
 /* B69ED8 800F2D38 30AE0008 */  andi  $t6, $a1, 8
 .L800F2D3C:
 /* B69EDC 800F2D3C 51C00008 */  beql  $t6, $zero, .L800F2D60

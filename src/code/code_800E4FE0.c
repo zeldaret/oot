@@ -89,20 +89,20 @@ AudioTask *func_800E5000(void) {
     s32 phi_s0_5;
     s32 i;
 
-    gAudioContext.unk_289C++;
-    if (gAudioContext.unk_289C % (gAudioContext.gAudioBufferParameters.presetUnk4) != 0) {
+    gAudioContext.totalTaskCnt++;
+    if (gAudioContext.totalTaskCnt % (gAudioContext.gAudioBufferParameters.presetUnk4) != 0) {
         if (D_801755D0 != 0) {
             D_801755D0();
         }
 
-        if (gAudioContext.gAudioBufferParameters.presetUnk4 == ((gAudioContext.unk_289C % (gAudioContext.gAudioBufferParameters.presetUnk4)) + 1)) {
+        if (gAudioContext.gAudioBufferParameters.presetUnk4 == ((gAudioContext.totalTaskCnt % (gAudioContext.gAudioBufferParameters.presetUnk4)) + 1)) {
             return D_801304E4;
         } else {
             return NULL;
         }
     }
 
-    osSendMesg(gAudioContext.unk_5BE8, gAudioContext.unk_289C, 0);
+    osSendMesg(gAudioContext.unk_5BE8, gAudioContext.totalTaskCnt, 0);
     temp_t4 = gAudioContext.curAIBufIdx + 1;
     temp_t6 = (gAudioContext.curAIBufIdx + 1) % 3;
     gAudioContext.rspTaskIdx ^= 1;
@@ -183,8 +183,8 @@ AudioTask *func_800E5000(void) {
     }
 
     gAudioContext.currCmdBuff = func_800DB0C4(gAudioContext.currCmdBuff, &cmdCount, gAudioContext.aiBuffers[gAudioContext.curAIBufIdx], gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]);
-    gAudioContext.gAudioRandom = osGetCount() * (gAudioContext.gAudioRandom + gAudioContext.unk_289C);
-    gAudioContext.gAudioRandom = gAudioContext.aiBuffers[gAudioContext.curAIBufIdx][gAudioContext.unk_289C & 0xFF] + gAudioContext.gAudioRandom;;
+    gAudioContext.gAudioRandom = osGetCount() * (gAudioContext.gAudioRandom + gAudioContext.totalTaskCnt);
+    gAudioContext.gAudioRandom = gAudioContext.aiBuffers[gAudioContext.curAIBufIdx][gAudioContext.totalTaskCnt & 0xFF] + gAudioContext.gAudioRandom;;
     gWaveSamples[8] = (s16*)((((u8*)func_800E4FE0)) + (gAudioContext.gAudioRandom & 0xFFF0));
     gAudioContext.currTask->taskQueue = NULL;
     gAudioContext.currTask->unk_44 = NULL;
@@ -839,7 +839,7 @@ s32 func_800E66C0(s32 arg0) {
 u32 Audio_RandUInt(void) {
     static u32 audRand = 0x12345678;
 
-    audRand = ((osGetCount() + 0x1234567) * (audRand + gAudioContext.unk_289C));
+    audRand = ((osGetCount() + 0x1234567) * (audRand + gAudioContext.totalTaskCnt));
     audRand += gAudioContext.gAudioRandom;
     return audRand;
 }

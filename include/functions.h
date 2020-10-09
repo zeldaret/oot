@@ -2186,7 +2186,7 @@ void func_800ED858(u8);
 // ? func_800F2A04(?);
 // ? func_800F2D6C(?);
 // ? func_800F2E28(?);
-// ? func_800F3054(?);
+void OcarinaAudio_Update(void);
 // ? func_800F3188(?);
 // ? func_800F32F0(?);
 // ? func_800F3468(?);

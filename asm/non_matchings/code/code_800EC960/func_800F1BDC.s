@@ -69,8 +69,8 @@ glabel func_800F1BDC
 /* B68E1C 800F1C7C 002E0821 */  addu  $at, $at, $t6
 /* B68E20 800F1C80 A4201E08 */  sh    $zero, %lo(D_80131E08)($at)
 .L800F1C84:
-/* B68E24 800F1C84 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
-/* B68E28 800F1C88 8C84BAB8 */  lw    $a0, %lo(D_8016BAB8)($a0)
+/* B68E24 800F1C84 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
+/* B68E28 800F1C88 8C84BAB8 */  lw    $a0, %lo(sDebugPadPress)($a0)
 /* B68E2C 800F1C8C 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B68E30 800F1C90 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B68E34 800F1C94 3C0A8013 */  lui   $t2, %hi(D_80131E20) # $t2, 0x8013
@@ -189,8 +189,8 @@ glabel func_800F1BDC
 /* B68FCC 800F1E2C 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B68FD0 800F1E30 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 .L800F1E34:
-/* B68FD4 800F1E34 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
-/* B68FD8 800F1E38 8C84BAB8 */  lw    $a0, %lo(D_8016BAB8)($a0)
+/* B68FD4 800F1E34 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
+/* B68FD8 800F1E38 8C84BAB8 */  lw    $a0, %lo(sDebugPadPress)($a0)
 /* B68FDC 800F1E3C 308C8000 */  andi  $t4, $a0, 0x8000
 /* B68FE0 800F1E40 51800082 */  beql  $t4, $zero, .L800F204C
 /* B68FE4 800F1E44 308E4000 */   andi  $t6, $a0, 0x4000
@@ -211,13 +211,13 @@ glabel L800F1E70
 /* B6901C 800F1E7C 0003CE00 */  sll   $t9, $v1, 0x18
 /* B69020 800F1E80 0C03E803 */  jal   Audio_SetBGM
 /* B69024 800F1E84 03192025 */   or    $a0, $t8, $t9
-/* B69028 800F1E88 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B69028 800F1E88 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B6902C 800F1E8C 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B69030 800F1E90 3C088013 */  lui   $t0, %hi(D_80131E08) # $t0, 0x8013
 /* B69034 800F1E94 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B69038 800F1E98 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B6903C 800F1E9C 1000006A */  b     .L800F2048
-/* B69040 800F1EA0 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B69040 800F1EA0 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F1EA4
 /* B69044 800F1EA4 950D0004 */  lhu   $t5, 4($t0)
 /* B69048 800F1EA8 950C0006 */  lhu   $t4, 6($t0)
@@ -235,25 +235,25 @@ glabel L800F1EA4
 /* B69078 800F1ED8 AFA70010 */  sw    $a3, 0x10($sp)
 /* B6907C 800F1EDC 0C03DCE3 */  jal   Audio_PlaySoundGeneral
 /* B69080 800F1EE0 24060004 */   li    $a2, 4
-/* B69084 800F1EE4 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B69084 800F1EE4 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B69088 800F1EE8 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B6908C 800F1EEC 3C088013 */  lui   $t0, %hi(D_80131E08) # $t0, 0x8013
 /* B69090 800F1EF0 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B69094 800F1EF4 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B69098 800F1EF8 10000053 */  b     .L800F2048
-/* B6909C 800F1EFC 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B6909C 800F1EFC 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F1F00
 /* B690A0 800F1F00 0002C840 */  sll   $t9, $v0, 1
 /* B690A4 800F1F04 01196821 */  addu  $t5, $t0, $t9
 /* B690A8 800F1F08 0C03D9C0 */  jal   func_800F6700
 /* B690AC 800F1F0C 81A40001 */   lb    $a0, 1($t5)
-/* B690B0 800F1F10 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B690B0 800F1F10 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B690B4 800F1F14 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B690B8 800F1F18 3C088013 */  lui   $t0, %hi(D_80131E08) # $t0, 0x8013
 /* B690BC 800F1F1C 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B690C0 800F1F20 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B690C4 800F1F24 10000048 */  b     .L800F2048
-/* B690C8 800F1F28 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B690C8 800F1F28 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F1F2C
 /* B690CC 800F1F2C 00027040 */  sll   $t6, $v0, 1
 /* B690D0 800F1F30 010E6021 */  addu  $t4, $t0, $t6
@@ -262,13 +262,13 @@ glabel L800F1F2C
 /* B690DC 800F1F3C 34210100 */  ori   $at, (0xE0000100 & 0xFFFF) # ori $at, $at, 0x100
 /* B690E0 800F1F40 0C03E803 */  jal   Audio_SetBGM
 /* B690E4 800F1F44 00812025 */   or    $a0, $a0, $at
-/* B690E8 800F1F48 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B690E8 800F1F48 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B690EC 800F1F4C 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B690F0 800F1F50 3C088013 */  lui   $t0, %hi(D_80131E08) # $t0, 0x8013
 /* B690F4 800F1F54 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B690F8 800F1F58 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B690FC 800F1F5C 1000003A */  b     .L800F2048
-/* B69100 800F1F60 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B69100 800F1F60 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F1F64
 /* B69104 800F1F64 00027840 */  sll   $t7, $v0, 1
 /* B69108 800F1F68 010FC021 */  addu  $t8, $t0, $t7
@@ -298,23 +298,23 @@ glabel L800F1F64
 /* B69168 800F1FC8 256B1CA4 */   addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B6916C 800F1FCC A0820000 */  sb    $v0, ($a0)
 .L800F1FD0:
-/* B69170 800F1FD0 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B69170 800F1FD0 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B69174 800F1FD4 3C088013 */  lui   $t0, %hi(D_80131E08) # $t0, 0x8013
 /* B69178 800F1FD8 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B6917C 800F1FDC 1000001A */  b     .L800F2048
-/* B69180 800F1FE0 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B69180 800F1FE0 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F1FE4
 /* B69184 800F1FE4 00027840 */  sll   $t7, $v0, 1
 /* B69188 800F1FE8 010FC021 */  addu  $t8, $t0, $t7
 /* B6918C 800F1FEC 0C03DBED */  jal   func_800F6FB4
 /* B69190 800F1FF0 93040001 */   lbu   $a0, 1($t8)
-/* B69194 800F1FF4 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B69194 800F1FF4 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B69198 800F1FF8 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B6919C 800F1FFC 3C088013 */  lui   $t0, %hi(D_80131E08) # $t0, 0x8013
 /* B691A0 800F2000 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B691A4 800F2004 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B691A8 800F2008 1000000F */  b     .L800F2048
-/* B691AC 800F200C 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B691AC 800F200C 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F2010
 /* B691B0 800F2010 0002C840 */  sll   $t9, $v0, 1
 /* B691B4 800F2014 01196821 */  addu  $t5, $t0, $t9
@@ -324,12 +324,12 @@ glabel L800F2010
 /* B691C4 800F2024 00812023 */  subu  $a0, $a0, $at
 /* B691C8 800F2028 0C03DC98 */  jal   func_800F7260
 /* B691CC 800F202C 3084FFFF */   andi  $a0, $a0, 0xffff
-/* B691D0 800F2030 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B691D0 800F2030 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B691D4 800F2034 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B691D8 800F2038 3C088013 */  lui   $t0, %hi(D_80131E08) # $t0, 0x8013
 /* B691DC 800F203C 25081E08 */  addiu $t0, %lo(D_80131E08) # addiu $t0, $t0, 0x1e08
 /* B691E0 800F2040 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
-/* B691E4 800F2044 8C84BAB8 */  lw    $a0, %lo(D_8016BAB8)($a0)
+/* B691E4 800F2044 8C84BAB8 */  lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F2048
 .L800F2048:
 /* B691E8 800F2048 308E4000 */  andi  $t6, $a0, 0x4000
@@ -351,27 +351,27 @@ glabel L800F2078
 /* B69220 800F2080 00032600 */  sll   $a0, $v1, 0x18
 /* B69224 800F2084 0C03E803 */  jal   Audio_SetBGM
 /* B69228 800F2088 00812025 */   or    $a0, $a0, $at
-/* B6922C 800F208C 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B6922C 800F208C 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B69230 800F2090 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B69234 800F2094 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B69238 800F2098 1000000F */  b     .L800F20D8
-/* B6923C 800F209C 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B6923C 800F209C 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F20A0
 /* B69240 800F20A0 3C041000 */  lui   $a0, (0x100000FF >> 16) # lui $a0, 0x1000
 /* B69244 800F20A4 0C03E803 */  jal   Audio_SetBGM
 /* B69248 800F20A8 348400FF */   ori   $a0, (0x100000FF & 0xFFFF) # ori $a0, $a0, 0xff
-/* B6924C 800F20AC 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B6924C 800F20AC 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B69250 800F20B0 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B69254 800F20B4 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
 /* B69258 800F20B8 10000007 */  b     .L800F20D8
-/* B6925C 800F20BC 8C84BAB8 */   lw    $a0, %lo(D_8016BAB8)($a0)
+/* B6925C 800F20BC 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F20C0
 /* B69260 800F20C0 0C03E1E8 */  jal   func_800F87A0
 /* B69264 800F20C4 91040005 */   lbu   $a0, 5($t0)
-/* B69268 800F20C8 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B69268 800F20C8 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B6926C 800F20CC 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B69270 800F20D0 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
-/* B69274 800F20D4 8C84BAB8 */  lw    $a0, %lo(D_8016BAB8)($a0)
+/* B69274 800F20D4 8C84BAB8 */  lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F20D8
 .L800F20D8:
 /* B69278 800F20D8 308F0004 */  andi  $t7, $a0, 4
@@ -386,10 +386,10 @@ glabel L800F20D8
 /* B69298 800F20F8 03192821 */  addu  $a1, $t8, $t9
 /* B6929C 800F20FC 0C03D657 */  jal   func_800F595C
 /* B692A0 800F2100 94A40000 */   lhu   $a0, ($a1)
-/* B692A4 800F2104 3C048017 */  lui   $a0, %hi(D_8016BAB8) # $a0, 0x8017
+/* B692A4 800F2104 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B692A8 800F2108 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
 /* B692AC 800F210C 256B1CA4 */  addiu $t3, %lo(D_80131CA4) # addiu $t3, $t3, 0x1ca4
-/* B692B0 800F2110 8C84BAB8 */  lw    $a0, %lo(D_8016BAB8)($a0)
+/* B692B0 800F2110 8C84BAB8 */  lw    $a0, %lo(sDebugPadPress)($a0)
 .L800F2114:
 /* B692B4 800F2114 308D0001 */  andi  $t5, $a0, 1
 .L800F2118:

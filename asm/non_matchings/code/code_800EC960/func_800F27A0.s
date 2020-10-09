@@ -1,6 +1,6 @@
 glabel func_800F27A0
-/* B69940 800F27A0 3C028017 */  lui   $v0, %hi(D_8016BAB8) # $v0, 0x8017
-/* B69944 800F27A4 8C42BAB8 */  lw    $v0, %lo(D_8016BAB8)($v0)
+/* B69940 800F27A0 3C028017 */  lui   $v0, %hi(sDebugPadPress) # $v0, 0x8017
+/* B69944 800F27A4 8C42BAB8 */  lw    $v0, %lo(sDebugPadPress)($v0)
 /* B69948 800F27A8 3C048013 */  lui   $a0, %hi(D_80131F28) # $a0, 0x8013
 /* B6994C 800F27AC 24841F28 */  addiu $a0, %lo(D_80131F28) # addiu $a0, $a0, 0x1f28
 /* B69950 800F27B0 304E0400 */  andi  $t6, $v0, 0x400

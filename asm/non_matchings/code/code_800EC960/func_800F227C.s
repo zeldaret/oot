@@ -2,10 +2,10 @@ glabel func_800F227C
 /* B6941C 800F227C 3C068013 */  lui   $a2, %hi(D_80131EE4) # $a2, 0x8013
 /* B69420 800F2280 24C61EE4 */  addiu $a2, %lo(D_80131EE4) # addiu $a2, $a2, 0x1ee4
 /* B69424 800F2284 90CE0000 */  lbu   $t6, ($a2)
-/* B69428 800F2288 3C028017 */  lui   $v0, %hi(D_8016BAB8) # $v0, 0x8017
+/* B69428 800F2288 3C028017 */  lui   $v0, %hi(sDebugPadPress) # $v0, 0x8017
 /* B6942C 800F228C 11C0002C */  beqz  $t6, .L800F2340
 /* B69430 800F2290 00000000 */   nop   
-/* B69434 800F2294 8C42BAB8 */  lw    $v0, %lo(D_8016BAB8)($v0)
+/* B69434 800F2294 8C42BAB8 */  lw    $v0, %lo(sDebugPadPress)($v0)
 /* B69438 800F2298 3C038013 */  lui   $v1, %hi(D_80131EE0) # $v1, 0x8013
 /* B6943C 800F229C 24631EE0 */  addiu $v1, %lo(D_80131EE0) # addiu $v1, $v1, 0x1ee0
 /* B69440 800F22A0 304F0008 */  andi  $t7, $v0, 8
@@ -54,8 +54,8 @@ glabel func_800F227C
 /* B694D8 800F2338 3C018013 */  lui   $at, %hi(D_80131ED8) # $at, 0x8013
 /* B694DC 800F233C A0201ED8 */  sb    $zero, %lo(D_80131ED8)($at)
 .L800F2340:
-/* B694E0 800F2340 3C028017 */  lui   $v0, %hi(D_8016BAB8) # $v0, 0x8017
-/* B694E4 800F2344 8C42BAB8 */  lw    $v0, %lo(D_8016BAB8)($v0)
+/* B694E0 800F2340 3C028017 */  lui   $v0, %hi(sDebugPadPress) # $v0, 0x8017
+/* B694E4 800F2344 8C42BAB8 */  lw    $v0, %lo(sDebugPadPress)($v0)
 /* B694E8 800F2348 3C078013 */  lui   $a3, %hi(D_80131ED0) # $a3, 0x8013
 /* B694EC 800F234C 24E71ED0 */  addiu $a3, %lo(D_80131ED0) # addiu $a3, $a3, 0x1ed0
 /* B694F0 800F2350 304C0800 */  andi  $t4, $v0, 0x800

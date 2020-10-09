@@ -1124,7 +1124,7 @@ void func_800E3094(void *heap, u32 heapSize) {
         u2974p[0x14BA] = 0xA0;
     }
 
-    gAudioContext.unk_289C = 0;
+    gAudioContext.totalTaskCnt = 0;
     gAudioContext.rspTaskIdx = 0;
     gAudioContext.curAIBufIdx = 0;
     gAudioContext.gSoundMode = 0;
@@ -1186,7 +1186,7 @@ void func_800E3094(void *heap, u32 heapSize) {
 
     Audio_SoundAllocPoolInit(&gAudioContext.unk_2D50, temp_v0_3, D_8014A6CC);
     D_801304D8 = 1;
-    osSendMesg(gAudioContext.unk_5BE8, (void*)gAudioContext.unk_289C, 0);
+    osSendMesg(gAudioContext.unk_5BE8, (void*)gAudioContext.totalTaskCnt, 0);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E3094.s")

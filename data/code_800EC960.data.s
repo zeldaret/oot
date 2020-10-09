@@ -132,16 +132,16 @@ glabel D_801306C8
 glabel D_801306DC
     .incbin "baserom.z64", 0xBA787C, 0x820
 
-glabel D_80130EFC
+glabel sOcarinaAllowedBtnMask
     .incbin "baserom.z64", 0xBA809C, 0x4
 
-glabel D_80130F00
+glabel sOcarinaABtnMap
     .incbin "baserom.z64", 0xBA80A0, 0x4
 
-glabel D_80130F04
+glabel sOcarinaCUPBtnMap
     .incbin "baserom.z64", 0xBA80A4, 0x4
 
-glabel D_80130F08
+glabel sOcarinaCDownBtnMap
     .incbin "baserom.z64", 0xBA80A8, 0x4
 
 glabel sOcarinaInpEnabled
@@ -153,7 +153,7 @@ glabel D_80130F10
 glabel sCurOcarinaBtnVal
     .incbin "baserom.z64", 0xBA80B4, 0x4
 
-glabel D_80130F18
+glabel sPrevOcarinaNoteVal
     .incbin "baserom.z64", 0xBA80B8, 0x4
 
 glabel sCurOcarinaBtnIdx
@@ -219,7 +219,7 @@ glabel D_80130F64
 glabel D_80130F68
     .incbin "baserom.z64", 0xBA8108, 0x4
 
-glabel D_80130F6C
+glabel sOcarinaNoteValues
     .incbin "baserom.z64", 0xBA810C, 0x8
 
 glabel D_80130F74
@@ -232,19 +232,7 @@ glabel D_80130F7C
     .incbin "baserom.z64", 0xBA811C, 0x4
 
 glabel D_80130F80
-    .incbin "baserom.z64", 0xBA8120, 0x180
-
-glabel D_80131100
-    .incbin "baserom.z64", 0xBA82A0, 0x600
-
-glabel D_80131700
-    .incbin "baserom.z64", 0xBA88A0, 0xC
-
-glabel D_8013170C
-    .incbin "baserom.z64", 0xBA88AC, 0x94
-
-glabel D_801317A0
-    .incbin "baserom.z64", 0xBA8940, 0xA0
+    .incbin "baserom.z64", 0xBA8120, 0x8C0
 
 glabel D_80131840
     .word D_80130F80
@@ -289,19 +277,16 @@ glabel D_80131880
     .incbin "baserom.z64", 0xBA8A20, 0x4
 
 glabel D_80131884
-    .incbin "baserom.z64", 0xBA8A24, 0x8
-
-glabel D_8013188C
-    .incbin "baserom.z64", 0xBA8A2C, 0x358
+    .incbin "baserom.z64", 0xBA8A24, 0x360
 
 glabel D_80131BE4
     .word D_80131884
 
 glabel D_80131BE8
-    .word D_80131700
+    .word D_80130F80+0x780
 
 glabel D_80131BEC
-    .word D_801317A0
+    .word D_80130F80+0x820
 
 glabel D_80131BF0
     .incbin "baserom.z64", 0xBA8D90, 0x10
@@ -497,4 +482,3 @@ glabel D_8013331C
     .word D_80132FDC
     .word D_801330FC
     .word D_8013311C
-    .incbin "baserom.z64", 0xBAA4D8, 0x8
