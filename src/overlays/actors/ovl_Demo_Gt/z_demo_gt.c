@@ -148,6 +148,92 @@ void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E744.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
+// void func_8097E824(DemoGt* this, s32 arg1) {
+//     // f32 sp2C;
+//     // f32 sp28;
+//     // f32 sp24;
+//     // f32 sp20;
+//     // f32 sp1C;
+//     // Vec3s* sp18;
+
+//     // PosRot* temp_v0_10;
+//     // Vec3s* temp_v0_9;
+//     // f32 temp_f6;
+//     s32 pad[4];
+//     DemoGt** new_var;
+//     s32 phi_a1;
+//     s32 phi_a2;
+//     s32 phi_a3;
+//     f32 phi_f14;
+//     f32 phi_f12;
+//     f32 phi_f2;
+
+//     if (arg1 == 1) {
+//         phi_a1 = (s16)(kREG(19) + 0x8000);
+//         phi_a2 = (s16)(kREG(20) + 0x8000);
+//         phi_a3 = (s16)(kREG(21) + 0x8000);
+//         phi_f14 = (f32)kREG(16) * 0.1f;
+//         phi_f12 = ((f32)kREG(17) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(18) * 0.1f;
+//     } else if (arg1 == 2) {
+//         phi_a1 = (s16)(kREG(25) + 0x8000);
+//         phi_a2 = (s16)(kREG(26) + 0x8000);
+//         phi_a3 = (s16)(kREG(27) + 0x8000);
+//         phi_f14 = (f32)kREG(22) * 0.1f;
+//         phi_f12 = ((f32)kREG(23) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(24) * 0.1f;
+//     } else if (arg1 == 3) {
+//         phi_a1 = (s16)(kREG(31) + 0x8000);
+//         phi_a2 = (s16)(kREG(32) + 0x8000);
+//         phi_a3 = (s16)(kREG(33) + 0x8000);
+//         phi_f14 = (f32)kREG(28) * 0.1f;
+//         phi_f12 = ((f32)kREG(29) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(30) * 0.1f;
+//     } else if (arg1 == 4) {
+//         phi_a1 = (s16)(kREG(37) + 0x8000);
+//         phi_a2 = (s16)(kREG(38) + 0x8000);
+//         phi_a3 = (s16)(kREG(39) + 0x8000);
+//         phi_f14 = (f32)kREG(34) * 0.1f;
+//         phi_f12 = ((f32)kREG(35) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(36) * 0.1f;
+//     } else if (arg1 == 5) {
+//         phi_a1 = (s16)(kREG(43) + 0x8000);
+//         phi_a2 = (s16)(kREG(44) + 0x8000);
+//         phi_a3 = (s16)(kREG(45) + 0x8000);
+//         phi_f14 = (f32)kREG(40) * 0.1f;
+//         phi_f12 = ((f32)kREG(41) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(42) * 0.1f;
+//     } else if (arg1 == 6) {
+//         phi_a1 = (s16)(kREG(49) + 0x8000);
+//         phi_a2 = (s16)(kREG(50) + 0x8000);
+//         phi_a3 = (s16)(kREG(51) + 0x8000);
+//         phi_f14 = (f32)kREG(46) * 0.1f;
+//         phi_f12 = ((f32)kREG(47) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(48) * 0.1f;
+//     } else if (arg1 == 7) {
+//         phi_a1 = (s16)(kREG(85) + 0x8000);
+//         phi_a2 = (s16)(kREG(86) + 0x8000);
+//         phi_a3 = (s16)(kREG(87) + 0x8000);
+//         phi_f14 = (f32)kREG(82) * 0.1f;
+//         phi_f12 = ((f32)kREG(83) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(84) * 0.1f;
+//     } else {
+//         phi_a1 = (s16)(kREG(91) + 0x8000);
+//         phi_a2 = (s16)(kREG(92) + 0x8000);
+//         phi_a3 = (s16)(kREG(93) + 0x8000);
+//         phi_f14 = (f32)kREG(88) * 0.1f;
+//         phi_f12 = ((f32)kREG(89) * 0.1f) + 0.5f;
+//         phi_f2 = (f32)kREG(90) * 0.1f;
+//     }
+//     new_var = &this;
+//     (*new_var)->unk_16C.x = this->unk_16C.x + phi_a1;
+//     (*new_var)->unk_16C.y = this->unk_16C.y + phi_a2;
+//     (*new_var)->unk_16C.z = this->unk_16C.z + phi_a3;
+
+//     (*new_var)->dyna.actor.posRot.pos.x = this->dyna.actor.posRot.pos.x + Math_Coss((*new_var)->unk_16C.x) * phi_f2;
+//     (*new_var)->dyna.actor.posRot.pos.z += this->dyna.actor.posRot.pos.z + Math_Coss((*new_var)->unk_16C.z) * phi_f14;
+//     (*new_var)->dyna.actor.posRot.pos.y += this->dyna.actor.posRot.pos.y + Math_Coss((*new_var)->unk_16C.y) * phi_f12;
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097ED64.s")
 
@@ -196,47 +282,73 @@ void func_8097EEA8(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097EF00.s")
+void func_8097EF34(DemoGt* this, GlobalContext* globalCtx) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097EF34.s")
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097EF40.s")
 
+void func_8097F0AC(DemoGt* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F0AC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F19C.s")
+void func_8097F19C(DemoGt* this, GlobalContext* globalCtx) {
+    func_8097EF34(this, globalCtx);
+    func_8097EF40(this, globalCtx);
+    func_8097F0AC(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F1D8.s")
+// f32 func_8097F1D8(DemoGt* this) {
 
-// void func_8097F280(DemoGt *this, GlobalContext *globalCtx);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F280.s")
-void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
-    s32 temp_v0;
+//     this->unk_174 = kREG(72) + 10.0f + (this->unk_172 * (kREG(64) * 0.001f) + 0.048f);
+//     this->unk_172 += this->unk_174;
 
-    if (globalCtx->csCtx.frames < 160) {
-        VEC_SET(this->unk_178, 0x64, 0xFF, 0xC8);
-        VEC_SET(this->unk_188, 0xFF, 0x78, 0x64);
-        VEC_SET(this->unk_198, this->unk_198.x + 1, this->unk_198.y - 1, this->unk_198.z);
-        return;
-    }
+//     if ((kREG(73) + 0x250) < this->unk_172) {
+//         this->unk_172 = kREG(73) + 0x250;
+//     }
+//     return this->unk_172;
+// }
 
-    if (globalCtx->csCtx.frames < 170) {
-        temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
-        temp_v0 = ((temp_f0 * -155.0f) + 255.0f);
-        
-        this->unk_178.x = ((temp_f0 * -63.0f) + 163.0f);
-        this->unk_178.y = temp_v0;
-        this->unk_178.z = ((temp_f0 * -100.0f) + 200.0f);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F280.s")
+// void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
+//     f32 temp_f0;
+//     s32 temp_v0;
+//     Vec3i *currentVec;
+//     s32 i;
 
-        this->unk_188.z = 0x64;
-        this->unk_188.x = temp_v0;
-        this->unk_188.y = ((temp_f0 * -20.0f) + 120.0f);
-        return;
-    }
+//     if (globalCtx->csCtx.frames < 160) {
+//         this->unk_178.x = 0x64;
+//         this->unk_178.y = 0xFF;
+//         this->unk_178.z = 0xC8;
 
-    VEC_SET(this->unk_178, 0x64, 0x64, 0x64);
-    VEC_SET(this->unk_188, 0x64, 0x64, 0x64);
-}
+//         this->unk_188.x = 0xFF;
+//         this->unk_178.y = 0x78;
+//         this->unk_178.z = 0x64;
+
+//         this->unk_198.x++;
+//         this->unk_178.y--;
+//         this->unk_178.z = 0x64;
+
+//         return;
+//     }
+
+//     if (globalCtx->csCtx.frames < 170) {
+//         temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
+//         temp_v0 = ((temp_f0 * -155.0f) + 255.0f);
+
+//         this->unk_178.x = ((temp_f0 * -63.0f) + 163.0f);
+//         this->unk_178.y = temp_v0;
+//         this->unk_178.z = ((temp_f0 * -100.0f) + 200.0f);
+
+//         this->unk_188.z = 0x64;
+//         this->unk_188.x = temp_v0;
+//         this->unk_188.y = ((temp_f0 * -20.0f) + 120.0f);
+//         return;
+//     }
+
+//     VEC_SET(this->unk_178, 0x64, 0x64, 0x64);
+//     VEC_SET(this->unk_188, 0x64, 0x64, 0x64);
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F3EC.s")
 
