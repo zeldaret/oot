@@ -30,12 +30,25 @@ typedef struct {
 } unk_s5;
 extern unk_s5 D_8016BA00;
 
+extern s32 D_80130F40;
+extern u16 D_80130F44;
+extern u32 D_80131860;
+extern u8 D_8013186;
+extern u8 D_80131868;
+extern u8 D_8013186C;
+extern s8 D_80131870;
+extern u8 D_80131874;
+extern u8 D_8013185C;
+extern OcarinaNote D_8016BAA0;
+extern u8 D_80131864;
+extern s8 D_80130F30;
+
 extern unk_s5 D_8016B9FC;
 extern ScarecrowSong *D_80131840;
 extern ScarecrowSong D_80131884; // 
 extern u8 D_80130F50;
 extern unk_s5 D_8016B9F8;
-extern s32 D_8016BA04;
+extern u32 D_8016BA04;
 extern s32 D_80130F68;
 
 typedef struct {
@@ -63,7 +76,7 @@ void func_800F56A8(void);
 extern u8 D_80131880;
 extern u8 D_80131858;
 extern f32 D_80130F24;
-extern u8 D_80130F34;
+extern s8 D_80130F34;
 extern u32 D_80130F28;
 extern u8 D_80131F4C[];
 extern u32 sDebugPadPress; // 8016BAB8
@@ -114,7 +127,7 @@ extern u8       D_80130630;
 extern u8       D_80130658[];
 extern u8       D_80133418;
 extern u16      D_80130628;
-extern s8       D_80130F2C; // stick y value? 
+extern s8       D_80130F2C; // pitch? 
 
 extern f32      D_8016B7A8;
 extern f32      D_8016B7B0;
@@ -542,8 +555,6 @@ void func_800ED858(u8 arg0) {
     }
 }
 
-extern s32 D_80130F40;
-extern u16 D_80130F44;
 void func_800ED93C(s8 songIdx, s8 arg1) {
     s32 temp_a0;
     s32 temp_a0_2;
@@ -578,15 +589,12 @@ void func_800ED93C(s8 songIdx, s8 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EDD68.s")
 
-extern s32 D_80131860;
-extern u8 D_80131864;
-extern u8 D_80131868;
-extern u8 D_8013186C;
-extern u8 D_80131870;
-extern u8 D_80131874;
-extern u8 D_8013185C;
-extern OcarinaNote D_8016BAA0;
-
+// start custom song?
+/**
+ * arg0 = 1, start
+ * arg0 = 0, finish
+ * arg0 = 2, also start?
+*/
 void func_800EE170(u8 arg0) {
     if ((u32)arg0 == D_80131858) {
         return;
@@ -672,7 +680,44 @@ unk_s5 *func_800EE3F8(void) {
     return &D_8016B9FC;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE404.s")
+void func_800EE404(void) {
+    s32 noteChanged;
+
+    if ((D_80131858 != 0) && ((D_8016BA04 - D_80131860) >= 3)) {
+        noteChanged = false;
+        if (D_80131864 != sCurOcarinaBtnVal) {
+            if (sCurOcarinaBtnVal != 0xFF) {
+                D_8016BA00.unk_00 = sCurOcarinaBtnIdx & 0x3F;
+                D_8016BA2E++;
+            } else if ((D_80131858 == 2) && (D_8016BA2E == 8)) {
+                func_800EDD68(1);
+                return;
+            }
+
+            if (D_8016BA2E > 8) {
+                if (D_80131858 == 2) {
+                    // notes played are over 8 and in recording mode.
+                    func_800EDD68(1);
+                    return;
+                }
+                D_8016BA2E = true;
+            }
+
+            noteChanged = true;
+        } else if (D_80131868 != D_80130F30) {
+            noteChanged = true;
+        } else if (D_8013186C != D_80130F34) {
+            noteChanged = true;
+        } else if (D_80131870 != D_80130F2C) {
+            noteChanged = true;
+        }
+
+        if (noteChanged) {
+            func_800EDD68(0);
+            D_80131860 = D_8016BA04;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EE57C.s")
 
