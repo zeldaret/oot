@@ -9,7 +9,7 @@ struct EnMag;
 typedef struct EnMag {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x0004];
-    /* 0x0150 */ u8 unk_150[0xE188]; // kanfont struct/buffer
+    /* 0x0150 */ Font font;
     /* 0xE2D8 */ s16 effectFadeInState;
     /* 0xE2DA */ s16 effectFadeInTimer;
     /* 0xE2DC */ s16 globalState;

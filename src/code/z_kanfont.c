@@ -1,7 +1,54 @@
 #include "global.h"
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kanfont/func_8006EE60.s")
+// To be moved to message_data_static header
+#define MESSAGE_NEWLINE '\x01'
+#define MESSAGE_END '\x02'
+// message_data_static symbols
+extern const char D_07000000[]; // start of file
+extern const char D_070380D4[]; // charset message (id 0xFFFC)
+extern const char D_0703811C[]; // end marker of last message
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kanfont/func_8006EEBC.s")
+void func_8006EE50(Font* font, s16 arg1, s16 arg2) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kanfont/func_8006EF10.s")
+void Kanfont_LoadChar(u32 offset, u8 character, u16 codePointIndex) {
+    DmaMgr_SendRequest1(((u32)offset + codePointIndex) + 8,
+                        &_nes_font_staticSegmentRomStart[character * FONT_CHAR_TEX_SIZE], FONT_CHAR_TEX_SIZE,
+                        "../z_kanfont.c", 93);
+}
+
+void Kanfont_LoadMessageBoxEndIcon(Font* font, u16 icon) {
+    DmaMgr_SendRequest1(font->iconBuf, &_message_staticSegmentRomStart[4 * 0x1000 + icon * FONT_CHAR_TEX_SIZE],
+                        FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 100);
+}
+
+void Kanfont_LoadOrderedFont(Font* font) {
+    s32 size;
+    s32 jj;
+    s32 fontStatic;
+    u32 fontBuf;
+    s32 codePointIndex;
+    s32 fontBufIndex;
+    s32 off;
+
+    font->msgData.offset = D_070380D4 - D_07000000;
+    size = font->msgData.size = D_0703811C - D_070380D4;
+    DmaMgr_SendRequest1(font->msgBuf, &_nes_message_data_staticSegmentRomStart[font->msgData.offset], size,
+                        "../z_kanfont.c", 122);
+    osSyncPrintf("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgData.offset, font->msgData.size, jj = size);
+    size = jj;
+    for (fontBufIndex = 0, codePointIndex = 0; font->msgBuf[codePointIndex] != MESSAGE_END; codePointIndex++) {
+        if (codePointIndex > size) {
+            osSyncPrintf("ＥＲＲＯＲ！！  エラー！！！  error───！！！！\n");
+            return;
+        }
+        if (font->msgBuf[codePointIndex] != MESSAGE_NEWLINE) {
+            fontBuf = font->fontBuf + fontBufIndex * 8;
+            fontStatic = _nes_font_staticSegmentRomStart;
+            osSyncPrintf("nes_mes_buf[%d]=%d\n", codePointIndex, font->msgBuf[codePointIndex]);
+            off = (font->msgBuf[codePointIndex] - '\x20') * FONT_CHAR_TEX_SIZE;
+            DmaMgr_SendRequest1(fontBuf, fontStatic + off, FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 134);
+            fontBufIndex += 0x10;
+        }
+    }
+}
