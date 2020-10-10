@@ -222,20 +222,20 @@ glabel D_80130F68
 glabel sOcarinaNoteValues
     .incbin "baserom.z64", 0xBA810C, 0x8
 
-glabel D_80130F74
+glabel sOcaMinigameApndPos
     .incbin "baserom.z64", 0xBA8114, 0x4
 
-glabel D_80130F78
+glabel sOcaMinigameEndPos
     .incbin "baserom.z64", 0xBA8118, 0x4
 
-glabel D_80130F7C
+glabel sOcaMinigameNoteCnts
     .incbin "baserom.z64", 0xBA811C, 0x4
 
-glabel D_80130F80
+glabel sOcarinaSongs
     .incbin "baserom.z64", 0xBA8120, 0x8C0
 
 glabel D_80131840
-    .word D_80130F80
+    .word sOcarinaSongs
 
 glabel D_80131844
     .incbin "baserom.z64", 0xBA89E4, 0x10
@@ -283,15 +283,15 @@ glabel D_80131BE4
     .word D_80131884
 
 glabel D_80131BE8
-    .word D_80130F80+0x780
+    .word sOcarinaSongs+0x780
 
 glabel D_80131BEC
-    .word D_80130F80+0x820
+    .word sOcarinaSongs+0x820
 
 glabel D_80131BF0
     .incbin "baserom.z64", 0xBA8D90, 0x10
 
-glabel sOcarinaSongs
+glabel sOcarinaSongNotes
     .incbin "baserom.z64", 0xBA8DA0, 0x80
 
 glabel D_80131C80

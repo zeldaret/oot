@@ -1885,8 +1885,8 @@ glabel func_80813820
 /* 01AF8 80815318 00000000 */  nop
 .L8081531C:
 /* 01AFC 8081531C 86860264 */  lh      $a2, 0x0264($s4)           ## 00000264
-/* 01B00 80815320 3C0F8013 */  lui     $t7, %hi(sOcarinaSongs)
-/* 01B04 80815324 25EF1C00 */  addiu   $t7, %lo(sOcarinaSongs)
+/* 01B00 80815320 3C0F8013 */  lui     $t7, %hi(sOcarinaSongNotes)
+/* 01B04 80815324 25EF1C00 */  addiu   $t7, %lo(sOcarinaSongNotes)
 /* 01B08 80815328 0006C8C0 */  sll     $t9, $a2,  3               
 /* 01B0C 8081532C 0326C821 */  addu    $t9, $t9, $a2              
 /* 01B10 80815330 032FC021 */  addu    $t8, $t9, $t7              

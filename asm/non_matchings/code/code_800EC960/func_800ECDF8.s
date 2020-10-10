@@ -25,7 +25,7 @@ glabel func_800ECDF8
 .L800ECE54:
 /* B63FF4 800ECE54 28610015 */  slti  $at, $v1, 0x15
 /* B63FF8 800ECE58 14200004 */  bnez  $at, .L800ECE6C
-/* B63FFC 800ECE5C 3C1F8017 */   lui   $ra, %hi(sOcarinaSongStartIdx) # $ra, 0x8017
+/* B63FFC 800ECE5C 3C1F8017 */   lui   $ra, %hi(sOcarinaSongNotestartIdx) # $ra, 0x8017
 /* B64000 800ECE60 3C018013 */  lui   $at, %hi(D_80130F3C) # $at, 0x8013
 /* B64004 800ECE64 100000DD */  b     .L800ED1DC
 /* B64008 800ECE68 AC200F3C */   sw    $zero, %lo(D_80130F3C)($at)
@@ -43,14 +43,14 @@ glabel func_800ECDF8
 /* B64030 800ECE90 A3B9005B */  sb    $t9, 0x5b($sp)
 /* B64034 800ECE94 240D00FF */  li    $t5, 255
 .L800ECE98:
-/* B64038 800ECE98 93FFBA2A */  lbu   $ra, %lo(sOcarinaSongStartIdx)($ra)
+/* B64038 800ECE98 93FFBA2A */  lbu   $ra, %lo(sOcarinaSongNotestartIdx)($ra)
 /* B6403C 800ECE9C 91CEBA2B */  lbu   $t6, %lo(sOcarinaSongCnt)($t6)
 /* B64040 800ECEA0 3C108017 */  lui   $s0, %hi(sOcarinaAvailSongs) # $s0, 0x8017
 /* B64044 800ECEA4 03E03025 */  move  $a2, $ra
 /* B64048 800ECEA8 03EE082A */  slt   $at, $ra, $t6
 /* B6404C 800ECEAC 102000BE */  beqz  $at, .L800ED1A8
 /* B64050 800ECEB0 AFAE0034 */   sw    $t6, 0x34($sp)
-/* B64054 800ECEB4 3C148013 */  lui   $s4, %hi(D_80130F80) # $s4, 0x8013
+/* B64054 800ECEB4 3C148013 */  lui   $s4, %hi(sOcarinaSongs) # $s4, 0x8013
 /* B64058 800ECEB8 3C138017 */  lui   $s3, %hi(D_8016BA30) # $s3, 0x8017
 /* B6405C 800ECEBC 3C128013 */  lui   $s2, %hi(D_80130F20) # $s2, 0x8013
 /* B64060 800ECEC0 3C118017 */  lui   $s1, %hi(D_8016BA90) # $s1, 0x8017
@@ -59,7 +59,7 @@ glabel func_800ECDF8
 /* B6406C 800ECECC 2631BA90 */  addiu $s1, %lo(D_8016BA90) # addiu $s1, $s1, -0x4570
 /* B64070 800ECED0 26520F20 */  addiu $s2, %lo(D_80130F20) # addiu $s2, $s2, 0xf20
 /* B64074 800ECED4 2673BA30 */  addiu $s3, %lo(D_8016BA30) # addiu $s3, $s3, -0x45d0
-/* B64078 800ECED8 26940F80 */  addiu $s4, %lo(D_80130F80) # addiu $s4, $s4, 0xf80
+/* B64078 800ECED8 26940F80 */  addiu $s4, %lo(sOcarinaSongs) # addiu $s4, $s4, 0xf80
 /* B6407C 800ECEDC 9610BA2C */  lhu   $s0, %lo(sOcarinaAvailSongs)($s0)
 .L800ECEE0:
 /* B64080 800ECEE0 240F0001 */  li    $t7, 1

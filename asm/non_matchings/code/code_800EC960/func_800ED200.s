@@ -73,7 +73,7 @@ glabel func_800ED200
 .L800ED30C:
 /* B644AC 800ED30C 3C038013 */  lui   $v1, %hi(D_80130F2C) # $v1, 0x8013
 /* B644B0 800ED310 80630F2C */  lb    $v1, %lo(D_80130F2C)($v1)
-/* B644B4 800ED314 3C0B8017 */  lui   $t3, %hi(sOcarinaSongStartIdx) # $t3, 0x8017
+/* B644B4 800ED314 3C0B8017 */  lui   $t3, %hi(sOcarinaSongNotestartIdx) # $t3, 0x8017
 /* B644B8 800ED318 3C0D8017 */  lui   $t5, %hi(sOcarinaSongCnt) # $t5, 0x8017
 /* B644BC 800ED31C 04610003 */  bgez  $v1, .L800ED32C
 /* B644C0 800ED320 00602025 */   move  $a0, $v1
@@ -90,7 +90,7 @@ glabel func_800ED200
 .L800ED348:
 /* B644E8 800ED348 A3E5FFFF */  sb    $a1, -1($ra)
 .L800ED34C:
-/* B644EC 800ED34C 916BBA2A */  lbu   $t3, %lo(sOcarinaSongStartIdx)($t3)
+/* B644EC 800ED34C 916BBA2A */  lbu   $t3, %lo(sOcarinaSongNotestartIdx)($t3)
 /* B644F0 800ED350 91ADBA2B */  lbu   $t5, %lo(sOcarinaSongCnt)($t5)
 /* B644F4 800ED354 3C108017 */  lui   $s0, %hi(sOcarinaAvailSongs) # $s0, 0x8017
 /* B644F8 800ED358 3C098013 */  lui   $t1, %hi(sOcarinaNoteValues) # $t1, 0x8013
@@ -106,8 +106,8 @@ glabel func_800ED200
 /* B6451C 800ED37C 020E7824 */  and   $t7, $s0, $t6
 /* B64520 800ED380 11E0002B */  beqz  $t7, .L800ED430
 /* B64524 800ED384 000BC0C0 */   sll   $t8, $t3, 3
-/* B64528 800ED388 3C198013 */  lui   $t9, %hi(sOcarinaSongs) # $t9, 0x8013
-/* B6452C 800ED38C 27391C00 */  addiu $t9, %lo(sOcarinaSongs) # addiu $t9, $t9, 0x1c00
+/* B64528 800ED388 3C198013 */  lui   $t9, %hi(sOcarinaSongNotes) # $t9, 0x8013
+/* B6452C 800ED38C 27391C00 */  addiu $t9, %lo(sOcarinaSongNotes) # addiu $t9, $t9, 0x1c00
 /* B64530 800ED390 030BC021 */  addu  $t8, $t8, $t3
 /* B64534 800ED394 03194021 */  addu  $t0, $t8, $t9
 /* B64538 800ED398 91060000 */  lbu   $a2, ($t0)

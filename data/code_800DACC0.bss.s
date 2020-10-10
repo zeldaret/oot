@@ -141,7 +141,7 @@ glabel sOcarinaSongAppendPos
 glabel sOcarinaHasStartedSong
     .space 0x1
 
-glabel sOcarinaSongStartIdx
+glabel sOcarinaSongNotestartIdx
     .space 0x1
 
 glabel sOcarinaSongCnt
