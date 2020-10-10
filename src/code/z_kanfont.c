@@ -29,7 +29,7 @@ void Kanfont_LoadOrderedFont(Font* font) {
     u32 fontBuf;
     s32 codePointIndex;
     s32 fontBufIndex;
-    s32 off;
+    s32 offset;
 
     font->msgData.offset = D_070380D4 - D_07000000;
     size = font->msgData.size = D_0703811C - D_070380D4;
@@ -46,8 +46,8 @@ void Kanfont_LoadOrderedFont(Font* font) {
             fontBuf = font->fontBuf + fontBufIndex * 8;
             fontStatic = _nes_font_staticSegmentRomStart;
             osSyncPrintf("nes_mes_buf[%d]=%d\n", codePointIndex, font->msgBuf[codePointIndex]);
-            off = (font->msgBuf[codePointIndex] - '\x20') * FONT_CHAR_TEX_SIZE;
-            DmaMgr_SendRequest1(fontBuf, fontStatic + off, FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 134);
+            offset = (font->msgBuf[codePointIndex] - '\x20') * FONT_CHAR_TEX_SIZE;
+            DmaMgr_SendRequest1(fontBuf, fontStatic + offset, FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 134);
             fontBufIndex += 0x10;
         }
     }
