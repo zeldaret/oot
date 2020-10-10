@@ -71,12 +71,12 @@ void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
     Vec3f velocity;
     Vec3f position;
     f32 cosValue;
-    s32 i = 0;
+    s32 i;
     f32 randomValue;
     f32 sinValue;
-    s32 count = 2;
+    s32 count;
 
-    for (; i != count; i++) {
+    for (i = 0, count = 2; i != count; i++) {
         if (globalCtx) {}
         if (!(arg2 < Math_Rand_ZeroOne())) {
             D_808B85D0 += 0x7530;
@@ -114,13 +114,13 @@ static InitChainEntry sInitChain[] = {
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
     Actor* actor = &this->dyna.actor;
-    s32 temp = 0;
+    ColHeader* colHeader = NULL;
 
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK3);
     func_808B7710(this, globalCtx);
-    DynaPolyInfo_Alloc(&D_06002154, &temp);
+    DynaPolyInfo_Alloc(&D_06002154, &colHeader);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, actor, temp);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, actor, colHeader);
 
     Actor_ProcessInitChain(actor, sInitChain);
     ActorShape_Init(&actor->shape, 0.0f, ActorShadow_DrawFunc_Circle, 15.0f);
@@ -185,7 +185,7 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     f32 positionDiff;
     Actor* colliderBaseAc;
 
-    Math_ApproxS(&this->unk_210, 500, 30);
+    Math_ApproxS(&this->unk_210, 0x1F4, 0x1E);
 
     this->dyna.actor.shape.rot.y += this->unk_210;
 
@@ -227,9 +227,9 @@ void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx) {
     f32 tempValue;
 
     if (this->unk_216 > 120) {
-        Math_ApproxS(&this->unk_210, 1000, 50);
+        Math_ApproxS(&this->unk_210, 0x3E8, 0x32);
     } else {
-        Math_ApproxS(&this->unk_210, 3000, 100);
+        Math_ApproxS(&this->unk_210, 0xBB8, 0x64);
     }
 
     this->dyna.actor.shape.rot.y = this->dyna.actor.shape.rot.y + this->unk_210;
@@ -249,7 +249,7 @@ void func_808B7D50(BgSpot18Basket* this, GlobalContext* globalCtx) {
 
     this->unk_212 += 0xBB8;
 
-    Math_ApproxS(&this->unk_214, 1500, 30);
+    Math_ApproxS(&this->unk_214, 0x5DC, 0x1E);
 
     this->dyna.actor.shape.rot.x = Math_Coss(this->unk_212) * this->unk_214;
     this->dyna.actor.shape.rot.z = -Math_Sins(this->unk_212) * this->unk_214;
@@ -306,7 +306,7 @@ void func_808B7FC0(BgSpot18Basket* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.x = Math_Coss(this->unk_212) * this->unk_214;
     this->dyna.actor.shape.rot.z = -Math_Sins(this->unk_212) * this->unk_214;
 
-    Math_ApproxS(&this->unk_210, 500, 10);
+    Math_ApproxS(&this->unk_210, 0x1F4, 0xA);
     this->dyna.actor.shape.rot.y += this->unk_210;
 
     if (tempUnk214 != 0) {
@@ -338,7 +338,7 @@ void func_808B818C(BgSpot18Basket* this) {
     this->unk_216 = 0;
 }
 
-static s16 D_808B85E4[] = { 0xF060, 0x0320, 0x0FA0 };
+static s16 D_808B85E4[] = { -0x0FA0, 0x0320, 0x0FA0 };
 
 void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx) {
     s32 i;
