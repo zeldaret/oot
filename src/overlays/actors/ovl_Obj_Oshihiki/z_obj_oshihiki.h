@@ -15,17 +15,17 @@ typedef enum {
     /* 5 */ PUSHBLOCK_MEDIUM_START_OFF,
     /* 6 */ PUSHBLOCK_LARGE_START_OFF,
     /* 7 */ PUSHBLOCK_HUGE_START_OFF
-} PushBlockTypes;
+} PushBlockType;
 
-#define PUSHBLOCK_ON_SCENE       ( 1 << 0 )
-#define PUSHBLOCK_SETUP_ON_SCENE ( 1 << 1 )
-#define PUSHBLOCK_ON_ACTOR       ( 1 << 2 )
-#define PUSHBLOCK_SETUP_ON_ACTOR ( 1 << 3 )
-#define PUSHBLOCK_PUSH           ( 1 << 4 )
-#define PUSHBLOCK_SETUP_PUSH     ( 1 << 5 )
-#define PUSHBLOCK_FALL           ( 1 << 6 )
-#define PUSHBLOCK_SETUP_FALL     ( 1 << 7 )
-#define PUSHBLOCK_MOVE_UNDER     ( 1 << 8 )
+#define PUSHBLOCK_ON_SCENE       (1 << 0)
+#define PUSHBLOCK_SETUP_ON_SCENE (1 << 1)
+#define PUSHBLOCK_ON_ACTOR       (1 << 2)
+#define PUSHBLOCK_SETUP_ON_ACTOR (1 << 3)
+#define PUSHBLOCK_PUSH           (1 << 4)
+#define PUSHBLOCK_SETUP_PUSH     (1 << 5)
+#define PUSHBLOCK_FALL           (1 << 6)
+#define PUSHBLOCK_SETUP_FALL     (1 << 7)
+#define PUSHBLOCK_MOVE_UNDER     (1 << 8)
 
 typedef void (*ObjOshihikiActionFunc)(struct ObjOshihiki*, GlobalContext*);
 
@@ -47,7 +47,7 @@ typedef struct ObjOshihiki {
     /* 0x01C0 */ struct ObjOshihiki* blockUnder;
     /* 0x01C4 */ f32 underDistX;
     /* 0x01C8 */ f32 underDistZ;
-    /* 0x01CC */ UNK_PTR texture;
+    /* 0x01CC */ void* texture;
     /* 0x01D0 */ Color_RGB8 color;
 } ObjOshihiki; // size = 0x01D4
 
