@@ -701,7 +701,6 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ char   unk_128[0xE188];
     /* 0x0128 */ Font   font;
     /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x44];
