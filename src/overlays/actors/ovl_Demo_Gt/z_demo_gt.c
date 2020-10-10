@@ -102,6 +102,7 @@ const ActorInit Demo_Gt_InitVars = {
 
 extern UNK_TYPE D_06005CB8;
 extern UNK_TYPE D_060091E4;
+extern UNK_PTR D_60099700;
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
@@ -147,6 +148,7 @@ void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E744.s")
 
+void func_8097E824(DemoGt* this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
 // void func_8097E824(DemoGt* this, s32 arg1) {
 //     // f32 sp2C;
@@ -231,8 +233,10 @@ void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //     (*new_var)->unk_16C.z = this->unk_16C.z + phi_a3;
 
 //     (*new_var)->dyna.actor.posRot.pos.x = this->dyna.actor.posRot.pos.x + Math_Coss((*new_var)->unk_16C.x) * phi_f2;
-//     (*new_var)->dyna.actor.posRot.pos.z += this->dyna.actor.posRot.pos.z + Math_Coss((*new_var)->unk_16C.z) * phi_f14;
-//     (*new_var)->dyna.actor.posRot.pos.y += this->dyna.actor.posRot.pos.y + Math_Coss((*new_var)->unk_16C.y) * phi_f12;
+//     (*new_var)->dyna.actor.posRot.pos.z += this->dyna.actor.posRot.pos.z + Math_Coss((*new_var)->unk_16C.z) *
+//     phi_f14;
+//     (*new_var)->dyna.actor.posRot.pos.y += this->dyna.actor.posRot.pos.y + Math_Coss((*new_var)->unk_16C.y) *
+//     phi_f12;
 // }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097ED64.s")
@@ -283,7 +287,6 @@ void func_8097EEA8(DemoGt* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097EF00.s")
 void func_8097EF34(DemoGt* this, GlobalContext* globalCtx) {
-
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097EF40.s")
@@ -497,8 +500,12 @@ void func_809818A4(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 5, 6, NULL);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809818FC.s")
-
+void func_809818FC(DemoGt *this, GlobalContext *globalCtx) {
+    u16 frames = globalCtx->csCtx.frames;
+    if (frames == 845) {
+        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+    }
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981930.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981994.s")
@@ -516,7 +523,12 @@ void func_80981C94(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 6, 7, NULL);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981CEC.s")
+void func_80981CEC(DemoGt* this, GlobalContext* globalCtx) {
+    u16 frames = globalCtx->csCtx.frames;
+    if (frames == 183) {
+        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981D20.s")
 
@@ -527,6 +539,50 @@ void func_80981C94(DemoGt* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E44.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E84.s")
+// void func_80981E84(DemoGt* this, GlobalContext* globalCtx);
+// void func_80981E84(DemoGt* this, GlobalContext* globalCtx) {
+//     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+//     // s32 pad;
+//     Mtx* mtx;
+//     s16 sp6E;
+//     f32 sp68;
+//     f32 sp64;
+//     s16 sp62;
+//     s16 sp60;
+//     Vec3f sp50;
+//     Vec3f sp44;
+//     f32 sp40;
+//     s16 temp_t8;
+
+//     sp68 = fabsf(((f32)this->unk_172) * 0.0000958738f);
+//     sp64 = (f32)kREG(75);
+//     sp6E = this->unk_172;
+//     temp_t8 = kREG(74) + 0x7FEC;
+//     sp62 = temp_t8;
+//     sp60 = (s16)(temp_t8 + 0x4000);
+
+//     mtx = Graph_Alloc(gfxCtx, 0x40U);
+//     sp40 = 1.0f - Math_Coss(sp6E);
+
+//     OPEN_DISPS(gfxCtx, "../z_demo_gt_part5.c", 136);
+//     sp50.x = Math_Coss(sp60);
+//     sp50.y = 0.0f;
+//     sp50.z = Math_Sins(sp60);
+//     sp44.x = (Math_Coss(sp62) * sp64) * sp40;
+//     sp44.y = Math_Sins(sp6E) * sp64;
+//     sp44.z = (Math_Sins(sp62) * sp64) * sp40;
+
+//     Matrix_Push();
+//     func_800D23FC(sp68, &sp50, MTXMODE_APPLY);
+//     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
+//     Matrix_ToMtx(mtx, "../z_demo_gt_part5.c", 152);
+//     Matrix_Pull();
+//     func_80093D18(oGfxCtx);
+//     gSPMatrix(oGfxCtx->polyOpa.p++, mtx,  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+//     gSPDisplayList(oGfxCtx->polyOpa.p++, D_60099700);
+
+//     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part5.c", 160);
+// }
 
 void func_80982054(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
@@ -535,16 +591,28 @@ void func_80982054(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 7, 8, NULL);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809820AC.s")
+void func_809820AC(DemoGt *this, GlobalContext *globalCtx) {
+    u16 frames = globalCtx->csCtx.frames;
+    if (frames == 0x9A) {
+        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809820E0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80982188.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809821C4.s")
+void func_809821C4(DemoGt *this, GlobalContext *globalCtx) {
+    func_8097E824(this, 9);
+    func_809820AC(this, globalCtx);
+    func_80982188(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80982204.s")
-
+void func_80982204(DemoGt *this, GlobalContext *globalCtx) {
+    func_809820E0();
+    func_8097ED64(this, globalCtx, 9);
+    func_809820AC(this, globalCtx);
+}
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80982244.s")
 
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
