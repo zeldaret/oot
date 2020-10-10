@@ -199,8 +199,6 @@ void EnTorch2_Backflip(Player* this, Input* input, Actor* thisx) {
     sCounterState = 0;
 }
 
-// #define NON_MATCHING
-
 #ifdef NON_MATCHING
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -267,6 +265,13 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     sStaggerCount++;
                     sLastSwordAnim = this->swordAnimation;
                 }
+                /*! @bug
+                 *  This code is needed to reset sCounterState, and should run regardless
+                 *  of how much health Link has. Without it, sCounterState stays at 2 until
+                 *  something else resets it, preventing Dark Link from using his shield and
+                 *  creating a hole in his defenses. This also makes Dark Link harder at low
+                 *  health, while the other health checks are intended to make him easier.
+                 */
                 if ((gSaveContext.health < 0x50) && (sCounterState != 0)) {
                     sCounterState = 0;
                     sStaggerTimer = 50;
@@ -384,15 +389,15 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             /*
                              * Handles reactions to all other sword attacks
                              */
-                            
                             sStickAngle = this->actor.yawTowardsLink;
                             input->cur.button = BTN_B;
                             if (player->swordAnimation <= FORWARD_COMBO_2H) {
                                 sStickTilt = 0.0f;
+                                // sStickAngle = this->actor.yawTowardsLink;
                             } else if (player->swordAnimation <= RIGHT_COMBO_2H) {
                                 sStickTilt = 127.0f;
                                 sStickAngle += 0x4000;
-                            } else if (player->swordAnimation <= LEFT_COMBO_2H) {
+                            } else if (player->swordAnimation <= LEFT_COMBO_2H){
                                 sStickTilt = 127.0f;
                                 sStickAngle += -0x4000;
                             } else if (player->swordAnimation <= HAMMER_SIDE) {
@@ -430,8 +435,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 Math_SmoothScaleMaxMinS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                             }
                         } else if ((100.0f + sp50) < this->actor.xzDistFromLink) {
-                            if (!player->swordState || (player->swordAnimation < 0x18) ||
-                                (player->swordAnimation > 0x1B) || (280.0f <= this->actor.xzDistFromLink)) {
+                            if (!player->swordState || (player->swordAnimation < SPIN_ATTACK_1H) ||
+                                (player->swordAnimation > BIG_SPIN_2H) || (280.0f <= this->actor.xzDistFromLink)) {
                                 sStickTilt = 127.0f;
                                 sStickAngle = this->actor.yawTowardsLink;
                                 if (this->actor.unk_10C == 0) {
@@ -543,9 +548,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     /*
-     * Updates Dark Link's "controller". Works some magic to ensure he never presses R
-     * at the same time as either A or B, and to ignore R presses when he's attacking 
-     * or countering. This causes a bug described below.
+     * Updates Dark Link's "controller". The conditional seems to cause him to 
+     * stop targeting and hold shield if he's been holding it long enough.
      */
     
     phi_a2 = input->cur.button;
@@ -620,6 +624,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.colChkInfo.damage = 0;
         this->unk_8A0 = 0;
     }
+    /*
+     * Handles being frozen by a deku nut
+     */
     if ((this->actor.dmgEffectTimer == 0) || (this->actor.dmgEffectParams & 0x4000)) {
         this->stateFlags3 &= ~4;
     } else {
@@ -627,6 +634,11 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->stateFlags1 &= ~0x04000000;
         this->invincibilityTimer = 0;
         input->press.stick_x = input->press.stick_y = 0;
+        /*! @bug
+         *  Setting cur.button to 0 clears the Z-trigger, causing Dark Link to break his
+         *  lock on Link. If he presses A while not locked on, he'll put his sword away.
+         *  This clears his held item param permanently and makes him unable to attack.
+         */
         input->cur.button = 0;
         input->press.button = 0;
         this->linearVelocity = 0.0f;
@@ -668,11 +680,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
     /*
      * This ensures Dark Link's counter animation mirrors Link's exactly.
-     */
-    /*! @bug
-     *  The check for sCounterState == 1 should be in the else block so sCounterState
-     *  resets when Dark Link is no longer using his sword. This leaves a hole in Dark
-     *  Link's defense, as he cannot shield unless sCounterState is 0.
      */
     if ((sCounterState != 0) && (sCounterState == 1)) {
         if (!this->swordState) {
@@ -719,16 +726,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.posRot.pos.y += sSwordJumpHeight * 0.01f;
         sSwordJumpHeight = 0;
     }
-
-    /*! @bug
-     *  This code makes Dark Link not Z-target during his sword jump due to his negative
-     *  invincibility timer. The sword jump normally finishes with a backflip which sets
-     *  it to a positive value, but if for some reason it doesn't (like being frozen by 
-     *  a Deku nut), he's stuck not Z-targeting until he does an invincible action. If
-     *  Dark Link then presses A while not targeting, he puts away his sword, which sets
-     *  his held item parameter to 0. He cannot draw a sword with B because he is not
-     *  actually Link, so he cannot attack for the rest of the fight.
-     */
     if ((sActionState == ENTORCH2_WAIT) || (this->invincibilityTimer < 0)) {
         sZTargetFlag = false;
     } else {
