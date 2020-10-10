@@ -127,7 +127,7 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
-                if (gSaveContext.memory.information.sub_1C.rupees < 200) {
+                if (gSaveContext.rupees < 200) {
                     func_8010B720(globalCtx, 0x6075);
                     func_80A89008(this);
                 } else {

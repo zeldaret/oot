@@ -107,13 +107,13 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
     if (yawDiffNew < 0x4300) {
-        if (gSaveContext.memory.nightFlag == 0) {
+        if (gSaveContext.nightFlag == 0) {
             sightRange = 250.0f;
         } else {
             sightRange = 200.0f;
         }
     } else {
-        if (gSaveContext.memory.nightFlag == 0) {
+        if (gSaveContext.nightFlag == 0) {
             sightRange = 150.0f;
         } else {
             sightRange = 100.0f;
@@ -192,7 +192,7 @@ void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
 void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0) && (this->respawnFlag == 0)) {
-        gSaveContext.memory.information.eventChkInf[4] |= 0x4000;
+        gSaveContext.eventChkInf[4] |= 0x4000;
         globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
         globalCtx->sceneLoadFlag = 0x14;
         this->respawnFlag = 1;

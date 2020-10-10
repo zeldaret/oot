@@ -69,15 +69,15 @@ f32 func_800746DC() {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800773A8.s")
 
 s32 func_800775CC() {
-    return gSaveContext.memory.unk_18;
+    return gSaveContext.unk_18;
 }
 
 void func_800775D8() {
-    gSaveContext.memory.unk_18 = 0;
+    gSaveContext.unk_18 = 0;
 }
 
 s32 func_800775E4() {
-    return gSaveContext.memory.unk_14;
+    return gSaveContext.numDays;
 }
 
 void func_800775F0(u16 arg0) {

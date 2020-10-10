@@ -60,7 +60,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = 0.0f;
 
             // If you haven't won the diving game before, you will always get 5 rupees
-            if (!(gSaveContext.memory.information.eventChkInf[3] & 0x100)) {
+            if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->rupeeValue = 5;
                 this->unk_150 = 1;
             } else {
@@ -231,7 +231,7 @@ void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.posRot.pos.y = ((Math_Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
         temp_f2 = this->unk_15A * -50.0f;
-        if (!(gSaveContext.memory.information.eventChkInf[3] & 0x100)) {
+        if (!(gSaveContext.eventChkInf[3] & 0x100)) {
             temp_f2 += -500.0f;
             this->actor.posRot.pos.z = ((Math_Rand_ZeroOne() - 0.5f) * 80.0f) + temp_f2;
         } else {

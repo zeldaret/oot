@@ -134,7 +134,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009C78), 0, -10.0f);
     this->actor.flags |= 1;
     this->actor.textId = 0x7000;
-    if ((gSaveContext.memory.information.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
+    if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
     }
     switch (Player_GetMask(globalCtx)) {

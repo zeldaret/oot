@@ -107,7 +107,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 animFrameCount;
 
     animFrameStart = 0.0f;
-    animHeader = D_809CA800[((void)0, gSaveContext.memory.linkAge)];
+    animHeader = D_809CA800[((void)0, gSaveContext.linkAge)];
     dynaUnk = 0;
     animFrameCount = SkelAnime_GetFrameCount(&animHeader->genericHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -408,7 +408,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     this->alpha = 255;
     this->movementFlags |= ENBOX_MOVE_IMMOBILE;
     if (this->unk_1F4 != 0) { // unk_1F4 is modified by player code
-        linkAge = gSaveContext.memory.linkAge;
+        linkAge = gSaveContext.linkAge;
         anim = D_809CA800[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
         frameCount = SkelAnime_GetFrameCount(&anim->genericHeader);
         SkelAnime_ChangeAnim(&this->skelanime, anim, 1.5f, 0, frameCount, 2, 0.0f);

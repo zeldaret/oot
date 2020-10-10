@@ -77,7 +77,7 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
             //"☆☆☆☆☆ Yukigafuru You won't come (._.) ☆☆☆☆☆"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ゆきがふるー あなたはこないー (._.) ☆☆☆☆☆ \n" VT_RST);
 
-            if (gSaveContext.memory.information.eventChkInf[4] & 0x400) {
+            if (gSaveContext.eventChkInf[4] & 0x400) {
                 Actor_Kill(&this->actor);
             }
             EnWeatherTag_SetupAction(this, func_80B31850);
@@ -87,7 +87,7 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
             //"☆☆☆☆☆ Wow wa wa na wa saa ki ha (^o^) ☆☆☆☆☆"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n" VT_RST);
 
-            if (gSaveContext.memory.information.eventChkInf[4] & 0x400) {
+            if (gSaveContext.eventChkInf[4] & 0x400) {
                 Actor_Kill(&this->actor);
             }
             EnWeatherTag_SetupAction(this, func_80B31924);
@@ -96,7 +96,7 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("\n\n");
             //"☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" VT_RST);
-            if (gSaveContext.memory.information.eventChkInf[4] & 0x200) {
+            if (gSaveContext.eventChkInf[4] & 0x200) {
                 Actor_Kill(&this->actor);
             }
             EnWeatherTag_SetupAction(this, func_80B317A8);
@@ -106,7 +106,7 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
             //"☆☆☆☆☆ Cloudy Rain Thunder (;O;) Uo Melancholy ☆☆☆☆☆"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n" VT_RST);
 
-            temp_v0 = gSaveContext.memory.information.eventChkInf[4];
+            temp_v0 = gSaveContext.eventChkInf[4];
             if ((((temp_v0 & 0x100) == 0) || ((temp_v0 & 0x200) == 0) || ((temp_v0 & 0x400) == 0)) ||
                 CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                 Actor_Kill(&this->actor);
@@ -162,7 +162,7 @@ u8 func_80B312C8(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
             }
         } else {
             if (D_8011FB40 != 0) {
-                gSaveContext.memory.dayTime += 0x14;
+                gSaveContext.dayTime += 0x14;
             }
         }
     }
@@ -199,7 +199,7 @@ u8 func_80B3149C(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
             }
         } else {
             if (D_8011FB40 != 0) {
-                gSaveContext.memory.dayTime += 0x14;
+                gSaveContext.dayTime += 0x14;
             }
         }
     }

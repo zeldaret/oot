@@ -67,8 +67,8 @@ u8 gItemSlots[] = {
 };
 
 void Inventory_ChangeEquipment(s16 equipment, u16 value) {
-    gSaveContext.memory.information.equips.equipment &= gEquipNegMasks[equipment];
-    gSaveContext.memory.information.equips.equipment |= value << gEquipShifts[equipment];
+    gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
+    gSaveContext.equips.equipment |= value << gEquipShifts[equipment];
 }
 
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
@@ -76,7 +76,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
     s32 pad;
     u16 sp26;
 
-    sp26 = gSaveContext.memory.information.equips.equipment & gEquipMasks[equipment];
+    sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
 
     // Translates to: "Erasing equipment item = %d  zzz=%d"
     osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, sp26);
@@ -84,16 +84,16 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
     if (sp26) {
         sp26 >>= gEquipShifts[equipment];
 
-        gSaveContext.memory.information.equips.equipment &= gEquipNegMasks[equipment];
-        gSaveContext.memory.information.items.equipment ^= gBitFlags[sp26 - 1] << gEquipShifts[equipment];
+        gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
+        gSaveContext.inventory.equipment ^= gBitFlags[sp26 - 1] << gEquipShifts[equipment];
 
         if (equipment == EQUIP_TUNIC) {
-            gSaveContext.memory.information.equips.equipment |= 0x0100;
+            gSaveContext.equips.equipment |= 0x0100;
         }
 
         if (equipment == EQUIP_SWORD) {
-            gSaveContext.memory.information.equips.buttonItems[0] = ITEM_NONE;
-            gSaveContext.memory.information.infTable[29] = 1;
+            gSaveContext.equips.buttonItems[0] = ITEM_NONE;
+            gSaveContext.infTable[29] = 1;
         }
 
         Player_SetEquipmentData(globalCtx, player);
@@ -104,6 +104,6 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
 }
 
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value) {
-    gSaveContext.memory.information.items.upgrades &= gUpgradeNegMasks[upgrade];
-    gSaveContext.memory.information.items.upgrades |= value << gUpgradeShifts[upgrade];
+    gSaveContext.inventory.upgrades &= gUpgradeNegMasks[upgrade];
+    gSaveContext.inventory.upgrades |= value << gUpgradeShifts[upgrade];
 }

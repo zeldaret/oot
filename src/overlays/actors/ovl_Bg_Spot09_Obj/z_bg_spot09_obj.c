@@ -63,7 +63,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
         return thisx->params == 0;
     }
 
-    carpentersRescued = (gSaveContext.memory.information.eventChkInf[9] & 0xF) == 0xF;
+    carpentersRescued = (gSaveContext.eventChkInf[9] & 0xF) == 0xF;
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
         switch (thisx->params) {
@@ -140,7 +140,7 @@ void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot09Obj* this = THIS;
 
     osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", thisx->params,
-                 gSaveContext.memory.information.eventChkInf[9] & 0xF);
+                 gSaveContext.eventChkInf[9] & 0xF);
     thisx->params &= 0xFF;
     if ((thisx->params < 0) || (thisx->params >= 5)) {
         osSyncPrintf("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",

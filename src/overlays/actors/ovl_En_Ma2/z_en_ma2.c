@@ -72,13 +72,13 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     if (faceReaction != 0) {
         return faceReaction;
     }
-    if (gSaveContext.memory.information.eventChkInf[1] & 0x100) {
+    if (gSaveContext.eventChkInf[1] & 0x100) {
         return 0x2056;
     }
-    if (gSaveContext.memory.nightFlag == 1) {
-        if (gSaveContext.memory.information.infTable[8] & 0x1000) {
+    if (gSaveContext.nightFlag == 1) {
+        if (gSaveContext.infTable[8] & 0x1000) {
             return 0x2052;
-        } else if (gSaveContext.memory.information.infTable[8] & 0x4000) {
+        } else if (gSaveContext.infTable[8] & 0x4000) {
             return 0x2051;
         } else {
             return 0x2050;
@@ -94,11 +94,11 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
         case 2:
             switch (thisx->textId) {
                 case 0x2051:
-                    gSaveContext.memory.information.infTable[8] |= 0x1000;
+                    gSaveContext.infTable[8] |= 0x1000;
                     ret = 2;
                     break;
                 case 0x2053:
-                    gSaveContext.memory.information.infTable[8] |= 0x2000;
+                    gSaveContext.infTable[8] |= 0x2000;
                     ret = 0;
                     break;
                 default:
@@ -136,24 +136,24 @@ void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
-    if (gSaveContext.memory.linkAge == 1) {
+    if (gSaveContext.linkAge == 1) {
         return 0;
     }
-    if ((!(gSaveContext.memory.information.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&
-        (gSaveContext.memory.nightFlag == 0) && (this->actor.shape.rot.z == 5)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&
+        (gSaveContext.nightFlag == 0) && (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if ((!(gSaveContext.memory.information.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) &&
-        (gSaveContext.memory.nightFlag == 1) && (this->actor.shape.rot.z == 6)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) &&
+        (gSaveContext.nightFlag == 1) && (this->actor.shape.rot.z == 6)) {
         return 2;
     }
-    if ((!(gSaveContext.memory.information.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 7) && (gSaveContext.memory.nightFlag == 0)) {
+    if ((this->actor.shape.rot.z == 7) && (gSaveContext.nightFlag == 0)) {
         return 3;
     }
-    if ((this->actor.shape.rot.z == 8) && (gSaveContext.memory.nightFlag == 1)) {
+    if ((this->actor.shape.rot.z == 8) && (gSaveContext.nightFlag == 1)) {
         return 3;
     }
     return 0;
@@ -227,7 +227,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80AA204C;
             break;
         case 3:
-            if (gSaveContext.memory.information.infTable[8] & 0x2000) {
+            if (gSaveContext.infTable[8] & 0x2000) {
                 func_80AA1D44(this, 0);
             } else {
                 func_80AA1D44(this, 3);
@@ -281,7 +281,7 @@ void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
     } else if (globalCtx->msgCtx.unk_E3EE == 3) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->unk_208 = 0x1E;
-        gSaveContext.memory.information.infTable[8] |= 0x4000;
+        gSaveContext.infTable[8] |= 0x4000;
         this->actionFunc = func_80AA21C8;
         globalCtx->msgCtx.unk_E3EE = 4;
     } else {
