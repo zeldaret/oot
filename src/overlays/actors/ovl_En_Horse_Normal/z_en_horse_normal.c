@@ -26,7 +26,7 @@ typedef enum {
     /* 0x02 */ HORSE_WAIT,
     /* 0x03 */ HORSE_WAIT_CLONE,
     /* 0x04 */ HORSE_FOLLOW_PATH
-} EnHorseNormalType;
+} EnHorseNormalAction;
 
 void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx);
