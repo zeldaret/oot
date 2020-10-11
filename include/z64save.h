@@ -1,8 +1,7 @@
-#ifndef _Z64SRAM_H_
-#define _Z64SRAM_H_
+#ifndef _Z64SAVE_H_
+#define _Z64SAVE_H_
 
 #include "ultra64.h"
-#include "ultra64/gbi.h"
 #include "z64math.h"
 
 typedef struct {

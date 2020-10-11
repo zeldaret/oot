@@ -95,12 +95,12 @@ typedef struct {
 
 typedef struct OSScTask {
     /* 0x00 */ struct OSScTask* next;
-    /* 0x04 */ u32            state;
-    /* 0x08 */ u32            flags;
-    /* 0x0C */ CfbInfo*          framebuffer;
-    /* 0x10 */ OSTask         list;
-    /* 0x50 */ OSMesgQueue*   msgQ;
-    /* 0x54 */ OSMesg         msg;
+    /* 0x04 */ u32 state;
+    /* 0x08 */ u32 flags;
+    /* 0x0C */ CfbInfo* framebuffer;
+    /* 0x10 */ OSTask list;
+    /* 0x50 */ OSMesgQueue* msgQ;
+    /* 0x54 */ OSMesg msg;
 } OSScTask;
 
 typedef struct GraphicsContext {
@@ -855,8 +855,7 @@ typedef struct {
     /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
     /* 0x28C */ s32 colOcLineCount;
     /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
-
-} CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
+} CollisionCheckContext; // size = 0x29C
 
 typedef struct ListAlloc {
     /* 0x00 */ struct ListAlloc* prev;
@@ -932,6 +931,8 @@ typedef struct {
     /* 0x00 */ u8* readBuff;
 } Sram; // size = 0x4
 
+#define SRAM_SIZE 0x8000
+
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
     /* 0x04 */ struct GameAllocEntry* prev;
@@ -966,7 +967,7 @@ typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ void* staticSegment;
     /* 0x00A8 */ View view;
-    /* 0x01D0 */ Sram sram;
+    /* 0x01D0 */ Sram sramCtx;
     /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
     /* 0x01D6 */ s16 coverAlpha;
     /* 0x01D8 */ s16 addAlpha; // not used in mq dbg
@@ -1046,7 +1047,7 @@ typedef struct GlobalContext {
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
     /* 0x01DB4 */ SoundSource soundSources[16];
-    /* 0x01F74 */ Sram sram;
+    /* 0x01F74 */ Sram sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
@@ -1123,13 +1124,13 @@ typedef struct {
     /* 0x000AC */ void* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
     /* 0x000B8 */ View view;
-    /* 0x001E0 */ Sram sram;
+    /* 0x001E0 */ Sram sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
-    /* 0x001E8 */ SkyboxContext skybox;
+    /* 0x001E8 */ SkyboxContext skyboxCtx;
     /* 0x00338 */ char unk_338[0x10];
-    /* 0x00348 */ MessageContext messageCtx;
+    /* 0x00348 */ MessageContext msgCtx;
     /* 0x0E760 */ char kanfont[0xE188];
-    /* 0x1C8E8 */ EnvironmentContext kankyo;
+    /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
     /* 0x1C9E8 */ Vtx* allocVtx2;
     /* 0x1C9EC */ Vtx* allocVtx3;

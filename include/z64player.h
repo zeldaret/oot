@@ -6,14 +6,6 @@
 struct Player;
 
 typedef enum {
-    /* 0x00 */ PLAYER_SWORD_NONE,
-    /* 0x01 */ PLAYER_SWORD_KOKIRI,
-    /* 0x02 */ PLAYER_SWORD_MASTER,
-    /* 0x03 */ PLAYER_SWORD_LONG,
-    /* 0x04 */ PLAYER_SWORD_MAX
-} PlayerSword;
-
-typedef enum {
     /* 0x00 */ PLAYER_SHIELD_NONE,
     /* 0x01 */ PLAYER_SHIELD_DEKU,
     /* 0x02 */ PLAYER_SHIELD_HYLIAN,

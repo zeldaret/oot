@@ -234,7 +234,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     globalCtx->cameraPtrs[0]->uid = 0;
     globalCtx->activeCamera = 0;
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
-    Sram_Init(globalCtx, &globalCtx->sram);
+    Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
     func_80110450(globalCtx);

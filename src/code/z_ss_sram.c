@@ -1,19 +1,19 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
     /* 0x00 */ OSPiHandle piHandle;
     /* 0x74 */ OSIoMesg ioMesg;
     /* 0x8C */ OSMesgQueue mesgQ;
-} SsSramContext;
+} SsSramContext; // size = 0xA4
 
 SsSramContext sSsSramContext = { 0 };
 
 void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed) {
     u32 intDisabled;
-
     OSPiHandle* handle = &sSsSramContext.piHandle;
+
     if ((u32)OS_PHYSICAL_TO_K1(addr) != (*handle).baseAddress) {
         sSsSramContext.piHandle.type = handleType;
         (*handle).baseAddress = OS_PHYSICAL_TO_K1(addr);
@@ -48,6 +48,6 @@ void SsSram_Dma(void* dramAddr, size_t size, s32 direction) {
 
 void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction) {
     osSyncPrintf("ssSRAMReadWrite:%08x %08x %08x %d\n", addr, dramAddr, size, direction);
-    SsSram_Init(addr, DEVICE_TYPE_SRAM, 1, 5, 0xd, 2, 0xc, 0);
+    SsSram_Init(addr, DEVICE_TYPE_SRAM, 1, 5, 0xD, 2, 0xC, 0);
     SsSram_Dma(dramAddr, size, direction);
 }

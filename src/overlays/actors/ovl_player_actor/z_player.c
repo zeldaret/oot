@@ -9179,7 +9179,6 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (gSaveContext.entranceSound != 0) {
         entranceSound = gSaveContext.entranceSound;
-        // this appears to be bugged and doesnt play properly. not sure why yet
         Audio_PlayActorSound2(&this->actor, entranceSound);
         gSaveContext.entranceSound = 0;
     }
@@ -13702,7 +13701,7 @@ void func_80852648(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         this->heldItemId = ITEM_NONE;
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
         this->leftHandDLists = D_80125E08;
-        Inventory_ChangeEquipment(EQUIP_SWORD, PLAYER_SWORD_MASTER);
+        Inventory_ChangeEquipment(EQUIP_SWORD, 2);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(globalCtx, 0);
     }
