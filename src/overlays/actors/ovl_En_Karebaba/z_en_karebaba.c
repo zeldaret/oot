@@ -144,9 +144,7 @@ void EnKarebaba_SetupIdle(EnKarebaba* this) {
 }
 
 void EnKarebaba_SetupAwaken(EnKarebaba* this) {
-    AnimationHeader* anim = &D_060002B8;
-
-    SkelAnime_ChangeAnim(&this->skelAnime, anim, 4.0f, 0, SkelAnime_GetFrameCount(anim), 0, -3);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 4.0f, 0, SkelAnime_GetFrameCount(&D_060002B8), 0, -3);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnKarebaba_Awaken;
 }
@@ -196,17 +194,13 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba *this, GlobalContext *globalCtx) {
 }
 
 void EnKarebaba_SetupRetract(EnKarebaba* this) {
-    AnimationHeader* anim = &D_060002B8;
-
-    SkelAnime_ChangeAnim(&this->skelAnime, anim, -3.0f, SkelAnime_GetFrameCount(anim), 0.0f, 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, -3.0f, SkelAnime_GetFrameCount(&D_060002B8), 0.0f, 2, -3.0f);
     EnKarebaba_ResetCollider(this);
     this->actionFunc = EnKarebaba_Retract;
 }
 
 void EnKarebaba_SetupDead(EnKarebaba* this) {
-    AnimationHeader* anim = &D_060002B8;
-
-    SkelAnime_ChangeAnim(&this->skelAnime, anim, 0.0f, 0.0f, 0.0f, 2, 0.0f); // Anim Mode == STOP
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 0.0f, 0.0f, 0.0f, 2, 0.0f); // Anim Mode == STOP
     EnKarebaba_ResetCollider(this);
     this->actor.shape.rot.x = -0x4000;
     this->actor.params = 200;
@@ -288,7 +282,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (func_800A56C8(&this->skelAnime, 0.0f) || func_800A56C8(&this->skelAnime, 12.0f)) {
-        if (true) { } // Here for matching purposes only.
+        if (1) { } // Here for matching purposes only.
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
@@ -310,7 +304,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * thing) + this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * thing) + this->actor.initPosRot.pos.z;
 
-    if ((this->bodyCollider.base.acFlags & 2) != 0) {
+    if (this->bodyCollider.base.acFlags & 2) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
         return;
@@ -331,14 +325,14 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
+
         if (this->actor.scale.x > 0.005f && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
-            this->actor.scale.z = 0.0f;
-            this->actor.scale.y = 0.0f;
-            this->actor.scale.x = 0.0f;
+            this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~5;
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 15, -1, 10, 0);
         }
+
         if (this->actor.bgCheckFlags & 2) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             this->actor.params = 1;
@@ -354,7 +348,7 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
             position.x += rotation.x;
             position.y += rotation.z;
             position.z += rotation.y;
-        };
+        }
 
         func_800286CC(globalCtx, &this->actor.initPosRot.pos, &sVecZero1, &sVecZero1, 500, 100);
         EnKarebaba_SetupDeadItemDrop(this, globalCtx);
@@ -399,12 +393,12 @@ void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
-    f32 tmp;
+    f32 scaleFactor;
 
     this->actor.params++;
-    tmp = this->actor.params * 0.05f;
-    Actor_SetScale(&this->actor, 0.005f * tmp);
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + (14.0f * tmp);
+    scaleFactor = this->actor.params * 0.05f;
+    Actor_SetScale(&this->actor, 0.005f * scaleFactor);
+    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + (14.0f * scaleFactor);
 
     if (this->actor.params == 20) {
         this->actor.flags &= ~0x10;
@@ -416,8 +410,8 @@ void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
 
 void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
-    f32 temp;
-    s32 unused;
+    f32 height;
+    s32 pad;
 
     this->actionFunc(this, globalCtx);
 
@@ -438,9 +432,9 @@ void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider);
             Actor_SetHeight(&this->actor, (this->actor.scale.x * 10.0f) / 0.01f);
-            temp = this->actor.initPosRot.pos.y + 40.0f;
+            height = this->actor.initPosRot.pos.y + 40.0f;
             this->actor.posRot2.pos.x = this->actor.initPosRot.pos.x;
-            this->actor.posRot2.pos.y = CLAMP_MAX(this->actor.posRot2.pos.y, temp);
+            this->actor.posRot2.pos.y = CLAMP_MAX(this->actor.posRot2.pos.y, height);
             this->actor.posRot2.pos.z = this->actor.initPosRot.pos.z;
         }
     }
