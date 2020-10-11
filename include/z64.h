@@ -929,7 +929,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8* readBuff;
-} Sram; // size = 0x4
+} SramContext; // size = 0x4
 
 #define SRAM_SIZE 0x8000
 
@@ -967,7 +967,7 @@ typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ void* staticSegment;
     /* 0x00A8 */ View view;
-    /* 0x01D0 */ Sram sramCtx;
+    /* 0x01D0 */ SramContext sramCtx;
     /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
     /* 0x01D6 */ s16 coverAlpha;
     /* 0x01D8 */ s16 addAlpha; // not used in mq dbg
@@ -1047,7 +1047,7 @@ typedef struct GlobalContext {
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
     /* 0x01DB4 */ SoundSource soundSources[16];
-    /* 0x01F74 */ Sram sramCtx;
+    /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
@@ -1124,7 +1124,7 @@ typedef struct {
     /* 0x000AC */ void* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
     /* 0x000B8 */ View view;
-    /* 0x001E0 */ Sram sramCtx;
+    /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
     /* 0x00338 */ char unk_338[0x10];
