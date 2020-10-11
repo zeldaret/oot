@@ -2736,7 +2736,11 @@ endseg
 beginseg
     name "ovl_En_Mb"
     include "build/src/overlays/actors/ovl_En_Mb/z_en_mb.o"
+#ifdef NON_MATCHING
+	include "build/src/overlays/actors/ovl_En_Mb/ovl_En_Mb_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_mb.reloc.o"
+#endif
 endseg
 
 beginseg
