@@ -737,8 +737,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Soulmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/z_bg_gnd_soulmeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/ovl_Bg_Gnd_Soulmeiro_reloc.o"
 endseg
 
 beginseg
@@ -2051,8 +2050,7 @@ endseg
 beginseg
     name "ovl_En_Butte"
     include "build/src/overlays/actors/ovl_En_Butte/z_en_butte.o"
-    include "build/data/overlays/actors/z_en_butte.data.o"
-    include "build/data/overlays/actors/z_en_butte.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Butte/ovl_En_Butte_reloc.o"
 endseg
 
 beginseg
