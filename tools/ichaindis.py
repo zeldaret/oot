@@ -92,6 +92,8 @@ def main():
         t = (entry >> 27) & 0xF
         offset = ((entry) >> 16) & 0x7FF
         value = (entry) & 0xFFFF
+        if value >= 0x8000 and not ICHAIN_MACROS[t].startswith('ICHAIN_U'):
+            value -= 0x10000
 
         var_name = '{0:X}'.format(offset)
 

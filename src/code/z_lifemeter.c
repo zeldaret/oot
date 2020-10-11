@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 extern s16 D_8011FF10[3];
 extern s16 D_8011FF24[3];
@@ -205,7 +204,7 @@ void Health_Draw(GlobalContext* globalCtx) {
     f32 sp144 = interfaceCtx->unk_22A * 0.1f;
     s32 curCombineModeSet = 0;
     u8* curBgImgLoaded = NULL;
-    s32 ddHeartCountMinusOne = gSaveContext.defenseHearts - 1;
+    s32 ddHeartCountMinusOne = gSaveContext.inventory.defenseHearts - 1;
 
     OPEN_DISPS(gfxCtx, "../z_lifemeter.c", 353);
 

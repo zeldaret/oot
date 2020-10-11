@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void osYieldThread() {
     register u32 prevInt;
