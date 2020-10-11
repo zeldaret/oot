@@ -5,8 +5,7 @@
  */
 
 #include "z_demo_go.h"
-
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -142,7 +141,7 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         npcAction = csCtx->npcActions[func_8097C870(this)];
         if (npcAction != NULL) {
-            temp_ret = Kankyo_InvLerp_u16(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
+            temp_ret = Kankyo_InvLerp(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
             startPos.x = npcAction->startPos.x;
             startPos.y = npcAction->startPos.y;
             startPos.z = npcAction->startPos.z;

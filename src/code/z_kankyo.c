@@ -1,6 +1,6 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "ultra64.h"
+#include "vt.h"
 
 #define ENV_ROM_FILE(name) \
     { (u32) _vr_##name##_staticSegmentRomStart, (u32)_vr_##name##_staticSegmentRomEnd }
@@ -148,6 +148,7 @@ s32 func_8006F0A0(s32 a0) {
 
 u16 Kankyo_ZbufferGet(s32 x, s32 y) {
     u32 ret = gZBuffer[y][x];
+
     return ret;
 }
 
@@ -158,19 +159,19 @@ void func_8006F0FC(s32 a0, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // minor ordering, regalloc, implicit stack slots
-u8 func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYPE unused) {
-    s16 sDayTime;
+// jacob had this return a byte?
+void func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYPE unused) {
+    //s16 sDayTime;
+    s32 pad;
     u16 uDayTime;
     u8 i;
-    s32 pad[5];
-    (void)unused;
 
     gSaveContext.unk_1422 = 0;
-    uDayTime = gSaveContext.dayTime;
-    if (uDayTime > 0xC000 || uDayTime < 0x4555) {
-        gSaveContext.nightFlag = true;
+    
+    if ((0, gSaveContext.dayTime) > 0xC000 || (0, gSaveContext.dayTime) < 0x4555) {
+        (0, gSaveContext.nightFlag = true);
     } else {
-        gSaveContext.nightFlag = false;
+        (0,gSaveContext.nightFlag = false);
     }
 
     globalCtx->state.gfxCtx->callback = func_8006F0FC;
@@ -219,31 +220,22 @@ u8 func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYPE 
     D_8015FD70.unk_01.g = 0;
     D_8015FD70.unk_01.b = 0;
     D_8015FD7C = 0;
-    gSaveContext.unk_1410 = 0;
+    (0, gSaveContext.unk_1410 = 0);
 
-#if 1
+    envCtx->unk_8C[0][0] = 
+    envCtx->unk_8C[0][1] =
+    envCtx->unk_8C[0][2] = 
+    envCtx->unk_8C[1][0] = 
+    envCtx->unk_8C[1][1] =
+    envCtx->unk_8C[1][2] =
+    envCtx->unk_8C[2][0] =
+    envCtx->unk_8C[2][1] =
+    envCtx->unk_8C[2][2] =
+    envCtx->unk_9E =
     envCtx->unk_A0 = 0;
-    envCtx->unk_9E = envCtx->unk_A0;
-    envCtx->unk_8C[2][2] = envCtx->unk_A0;
-    envCtx->unk_8C[2][1] = envCtx->unk_A0;
-    envCtx->unk_8C[2][0] = envCtx->unk_A0;
-    envCtx->unk_8C[1][2] = envCtx->unk_A0;
-    envCtx->unk_8C[1][1] = envCtx->unk_A0;
-    envCtx->unk_8C[1][0] = envCtx->unk_A0;
-    envCtx->unk_8C[0][2] = envCtx->unk_A0;
-    envCtx->unk_8C[0][1] = envCtx->unk_A0;
-    envCtx->unk_8C[0][0] = envCtx->unk_A0;
-#else
-    envCtx->unk_8C[0][0] = envCtx->unk_8C[0][1] = envCtx->unk_8C[0][2] = envCtx->unk_8C[1][0] = envCtx->unk_8C[1][1] =
-        envCtx->unk_8C[1][2] = envCtx->unk_8C[2][0] = envCtx->unk_8C[2][1] = envCtx->unk_8C[2][2] = envCtx->unk_9E =
-            envCtx->unk_A0 = 0;
-#endif
-    sDayTime = gSaveContext.dayTime;
-    envCtx->unk_04.x = -(Math_Sins(sDayTime - 0x8000) * 120.0f) * 25.0f;
-    uDayTime = gSaveContext.dayTime;
-    envCtx->unk_04.y = +(Math_Coss(uDayTime - 0x8000) * 120.0f) * 25.0f;
-    uDayTime = gSaveContext.dayTime;
-    envCtx->unk_04.z = +(Math_Coss(uDayTime - 0x8000) * 20.0f) * 25.0f;
+    envCtx->unk_04.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->unk_04.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    envCtx->unk_04.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     envCtx->unk_A8.x = 80;
     envCtx->unk_A8.y = 80;
     envCtx->unk_A8.z = 80;
@@ -251,9 +243,9 @@ u8 func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYPE 
     envCtx->unk_BF = 0xFF;
     envCtx->unk_D6 = 0xFFFF;
     envCtx->unk_02 = 0;
-
     REG(15) = D_8011FB40 = 0;
     REG(9) = 1;
+
     if (CREG(3) != 0) {
         gSaveContext.chamberCutsceneNum = CREG(3) - 1;
     }
@@ -355,7 +347,7 @@ u8 func_8006F140(GlobalContext* globalCtx, EnvironmentContext* envCtx, UNK_TYPE 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F140.s")
 #endif
 
-f32 Kankyo_InvLerp_u16(u16 max, u16 min, u16 val) {
+f32 Kankyo_InvLerp(u16 max, u16 min, u16 val) {
     f32 ret = max - min;
 
     if (ret != 0.0f) {
@@ -496,7 +488,7 @@ void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx
             if (gSaveContext.environmentTime >= entry->minTime &&
                 (gSaveContext.environmentTime < entry->maxTime || entry->maxTime == 0xFFFF)) {
                 if (entry->unk_04 != 0) {
-                    envCtx->unk_13 = Kankyo_InvLerp_u16(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
+                    envCtx->unk_13 = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
                 } else {
                     envCtx->unk_13 = 0;
                 }
@@ -511,10 +503,10 @@ void func_8006FC88(u8 arg0, EnvironmentContext* envCtx, SkyboxContext* skyboxCtx
                 D_8011FB3C = entry->unk_04;
                 if (envCtx->gloomySky) {
                     entry = &D_8011FC1C[envCtx->gloomySky][i];
-                    sp58 = something = Kankyo_InvLerp_u16(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
+                    sp58 = something = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
                 } else {
                     entry = &D_8011FC1C[envCtx->gloomySky][i];
-                    something = Kankyo_InvLerp_u16(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
+                    something = Kankyo_InvLerp(entry->maxTime, entry->minTime, gSaveContext.environmentTime) * 255;
                     if (something < 0x80) {
                         sp58 = 0xFF;
                     } else {
@@ -635,19 +627,16 @@ void func_800706A0(GlobalContext* globalCtx) {
 
 void func_80070718(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint printer;
-    u32 unk_14;
-    u32 unk_18;
     u32 time;
+    s32 pad;
 
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *gfx);
 
     GfxPrint_SetPos(&printer, 22, 7);
     GfxPrint_SetColor(&printer, 155, 155, 255, 64);
-    // clang-format off
-    unk_14 = gSaveContext.unk_14; GfxPrint_Printf(&printer, "T%03d ", unk_14);
-    unk_18 = gSaveContext.unk_18; GfxPrint_Printf(&printer, "E%03d", unk_18);
-    // clang-format on
+    GfxPrint_Printf(&printer, "T%03d ", ((void)0, gSaveContext.unk_14));
+    GfxPrint_Printf(&printer, "E%03d", ((void)0, gSaveContext.unk_18));
 
     GfxPrint_SetColor(&printer, 255, 255, 55, 64);
     GfxPrint_SetPos(&printer, 22, 8);
@@ -656,11 +645,13 @@ void func_80070718(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
     time = gSaveContext.dayTime;
     GfxPrint_Printf(&printer, "%02d", (u8)(45.0f / 2048.0f * time / 60.0f));
+
     if ((gSaveContext.dayTime & 0x1F) >= 0x10 || D_8011FB40 >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
     } else {
         GfxPrint_Printf(&printer, "%s", " ");
     }
+
     time = gSaveContext.dayTime;
     GfxPrint_Printf(&printer, "%02d", (s16)(45.0f / 2048.0f * time) % 60);
 
@@ -671,20 +662,23 @@ void func_80070718(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_SetColor(&printer, 255, 255, 255, 64);
     time = gSaveContext.environmentTime;
     GfxPrint_Printf(&printer, "%02d", (u8)(45.0f / 2048.0f * time / 60.0f));
+
     if ((gSaveContext.environmentTime & 0x1F) >= 0x10 || D_8011FB40 >= 6) {
         GfxPrint_Printf(&printer, "%s", ":");
     } else {
         GfxPrint_Printf(&printer, "%s", " ");
     }
+
     time = gSaveContext.environmentTime;
     GfxPrint_Printf(&printer, "%02d", (s16)(45.0f / 2048.0f * time) % 60);
 
     GfxPrint_SetColor(&printer, 55, 255, 255, 64);
     GfxPrint_SetPos(&printer, 22, 6);
+
     if (gSaveContext.nightFlag) {
-        GfxPrint_Printf(&printer, "%s", "YORU");
+        GfxPrint_Printf(&printer, "%s", "YORU"); // night
     } else {
-        GfxPrint_Printf(&printer, "%s", "HIRU");
+        GfxPrint_Printf(&printer, "%s", "HIRU"); // day
     }
 
     *gfx = GfxPrint_Close(&printer);
@@ -769,134 +763,111 @@ void func_80070C24(GlobalContext* globalCtx, EnvironmentContext* envCtx, LightCo
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80070C24.s")
 #endif
 
+// draw sun and moon
 #ifdef NON_MATCHING
-// regalloc, implicit stack slots
-void func_800730DC(GlobalContext* globalCtx) {
-    f32 y;                                             // 84(sp)
-    f32 scale;                                         // 80(sp)
-    f32 color;                                         // 7c(sp)
-    f32 alpha;                                         // 78(sp)
-    u16 dayTime;                                       // 74(sp)
-
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx; // 70(sp)
-    Gfx* dispRefs[4];                                  // 60(sp)
+// float regalloc
+void Kankyo_DrawSunAndMoon(GlobalContext* globalCtx) {
+    f32 alpha;
+    f32 color;
+    f32 y;
+    f32 scale;
     s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 2266);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2266);
 
     if (globalCtx->csCtx.state != 0) {
-        dayTime = gSaveContext.dayTime;
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.x, -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f, 1.0f,
+        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.x, -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f,
                                 0.8f, 0.8f);
-        dayTime = gSaveContext.dayTime;
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.y, +(Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f, 1.0f,
+        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.y, (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f, 1.0f,
                                 0.8f, 0.8f);
         //! @bug This should be z.
-        dayTime = gSaveContext.dayTime;
-        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.y, +(Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f,
+        Math_SmoothScaleMaxMinF(&globalCtx->envCtx.unk_04.y, (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f, 1.0f, 0.8f,
                                 0.8f);
     } else {
-        dayTime = gSaveContext.dayTime;
-        globalCtx->envCtx.unk_04.x = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
-        dayTime = gSaveContext.dayTime;
-        globalCtx->envCtx.unk_04.y = +(Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
-        dayTime = gSaveContext.dayTime;
-        globalCtx->envCtx.unk_04.z = +(Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
+        globalCtx->envCtx.unk_04.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.unk_04.y = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+        globalCtx->envCtx.unk_04.z = +(Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     }
 
     if (gSaveContext.entranceIndex != 0xCD || gSaveContext.sceneSetupIndex != 5) {
         Matrix_Translate(globalCtx->view.eye.x + globalCtx->envCtx.unk_04.x,
                          globalCtx->view.eye.y + globalCtx->envCtx.unk_04.y,
                          globalCtx->view.eye.z + globalCtx->envCtx.unk_04.z, MTXMODE_NEW);
+
         y = globalCtx->envCtx.unk_04.y / 25.0f;
 
         alpha = y / 80.0f;
         alpha *= 255.0f;
+        
         if (alpha < 0.0f) {
             alpha = 0.0f;
         }
+
         if (alpha > 255.0f) {
             alpha = 255.0f;
         }
+
         alpha = 255.0f - alpha;
 
         color = y / 80.0f;
         if (color < 0.0f) {
             color = 0.0f;
         }
+
         if (color > 1.0f) {
             color = 1.0f;
         }
 
-#pragma _permuter sameline start
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, (u8)(color * 75.0f) + 180, (u8)(color * 155.0f) + 100, 255);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, 255, color * 255.0f, color * 255.0f, alpha);
-#pragma _permuter sameline end
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, (u8)(color * 75.0f) + 180, (u8)(color * 155.0f) + 100, 255);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, color * 255.0f, color * 255.0f, alpha);
 
-        scale = color + color + 10.0f;
+        scale = (color * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-#pragma _permuter sameline start
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2364), G_MTX_LOAD);
-#pragma _permuter sameline end
-
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2364), G_MTX_LOAD);
         func_80093AD0(globalCtx->state.gfxCtx);
-#pragma _permuter sameline start
-        gSPDisplayList(gfxCtx->polyOpa.p++, &D_0404D1C0);
-#pragma _permuter sameline end
+        gSPDisplayList(oGfxCtx->polyOpa.p++, &D_0404D1C0);
 
         Matrix_Translate(globalCtx->view.eye.x - globalCtx->envCtx.unk_04.x,
                          globalCtx->view.eye.y - globalCtx->envCtx.unk_04.y,
                          globalCtx->view.eye.z - globalCtx->envCtx.unk_04.z, MTXMODE_NEW);
+
         scale = -y / 120.0f;
+
         if (scale < 0.0f) {
             scale = 0.0f;
         }
+
         scale = -15.0f * scale + 25.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-        y = -y;
-        alpha = y / 80.0f;
+        alpha = -y / 80.0f;
+
         if (alpha > 1.0f) {
             alpha = 1.0f;
         }
-        if (alpha * 255.0f > 0.0f) {
-#pragma _permuter sameline start
-            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2406), G_MTX_LOAD);
-#pragma _permuter sameline end
-            func_8009398C(globalCtx->state.gfxCtx);
 
-#pragma _permuter sameline start
-            gDPPipeSync(gfxCtx->polyOpa.p++);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 240, 255, 180, alpha * 255.0f);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
-            gDPSetEnvColor(gfxCtx->polyOpa.p++, 80, 70, 20, alpha * 255.0f);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
-            gSPDisplayList(gfxCtx->polyOpa.p++, &D_04038F00);
-#pragma _permuter sameline end
+        if ((alpha * 255.0f) > 0.0f) {
+            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_kanyo.c", 2406), G_MTX_LOAD);
+            func_8009398C(globalCtx->state.gfxCtx);
+            gDPPipeSync(oGfxCtx->polyOpa.p++);
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 240, 255, 180, alpha * 255.0f);
+            gDPSetEnvColor(oGfxCtx->polyOpa.p++, 80, 70, 20, alpha * 255.0f);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, &D_04038F00);
         }
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 2429);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kankyo.c", 2429);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800730DC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_DrawSunAndMoon.s")
 #endif
 
+// lens flare
 void func_80073988(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx, Vec3f pos,
                    UNK_TYPE unused) {
-    u16 dayTime;
-    (void)unused;
-
-    if (globalCtx->envCtx.unk_EE[1] == 0 && globalCtx->envCtx.gloomySky == 0) {
-        dayTime = gSaveContext.dayTime;
+    if ((globalCtx->envCtx.unk_EE[1] == 0) && (globalCtx->envCtx.gloomySky == 0)) {
         func_80073A5C(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000, 370,
-                      Math_Coss(dayTime - 0x8000) * 120.0f, 400, 1);
+                      Math_Coss(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f, 400, 1);
     }
 }
 
@@ -987,7 +958,7 @@ void func_80073A5C(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* v
             Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
 
             if (arg9) {
-                temp = Kankyo_InvLerp_u16(60, 15, globalCtx->view.fovy);
+                temp = Kankyo_InvLerp(60, 15, globalCtx->view.fovy);
             }
 
             Matrix_Translate(-posDirX * i * dist, -posDirY * i * dist, -posDirZ * i * dist, MTXMODE_APPLY);
@@ -1146,12 +1117,8 @@ void func_80074704(GlobalContext* globalCtx, View* view, GraphicsContext* _gfxCt
     z280 = view->eye.z + norm.z * 280.0f;
 
     if (globalCtx->envCtx.unk_EE[1] != 0) {
-#pragma _permuter sameline start
         gDPPipeSync(gfxCtx->polyXlu.p++);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 150, 255, 255, 30);
-#pragma _permuter sameline end
         gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
     }
 
@@ -1165,33 +1132,23 @@ void func_80074704(GlobalContext* globalCtx, View* view, GraphicsContext* _gfxCt
         vec.y = globalCtx->envCtx.unk_A8.y;
         vec.z = globalCtx->envCtx.unk_A8.z;
         tempY = 500.0f + Math_Rand_ZeroOne() * 200.0f + vec.y;
-#pragma _permuter sameline start
         gSPMatrix(gfxCtx->polyXlu.p++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-#pragma _permuter sameline end
         rotX = atan2f(sqrtf(SQ(vec.x) + SQ(vec.z)), -tempY);
         rotY = atan2f(vec.z, vec.x);
         Matrix_RotateY(-rotY, MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);
         Matrix_Scale(0.4f, 1.2f, 0.4f, MTXMODE_APPLY);
-#pragma _permuter sameline start
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2887),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
         gSPDisplayList(gfxCtx->polyXlu.p++, &D_04048160);
-#pragma _permuter sameline end
     }
 
     if (actor->posRot.pos.y < view->eye.y) {
         for (i = 0, j = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
             if (j == 0) {
                 func_80093D84(gfxCtx);
-#pragma _permuter sameline start
                 gDPSetEnvColor(gfxCtx->polyXlu.p++, 155, 155, 155, 0);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
                 gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 120);
-#pragma _permuter sameline end
                 j++;
             }
             Matrix_Translate(func_800746DC() * 280.0f + x280, actor->posRot.pos.y + 2.0f,
@@ -1202,13 +1159,9 @@ void func_80074704(GlobalContext* globalCtx, View* view, GraphicsContext* _gfxCt
             } else {
                 Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
             }
-#pragma _permuter sameline start
             gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_kankyo.c", 2940),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
             gSPDisplayList(gfxCtx->polyXlu.p++, &D_0401A0B0);
-#pragma _permuter sameline end
         }
     }
 
@@ -1345,7 +1298,6 @@ void func_800750C0(GlobalContext* globalCtx) {
 void func_800753C4(GlobalContext* globalCtx, u8 max) {
     s16 count = 0;
     s16 i;
-    (void)globalCtx;
 
     for (i = 0; i < ARRAY_COUNT(D_8015FD10); i++) {
         if (D_8015FD10[i].unk_00 == 0xFF) {
@@ -1357,10 +1309,10 @@ void func_800753C4(GlobalContext* globalCtx, u8 max) {
     }
 }
 
+// draw lightning
 void func_8007542C(GlobalContext* globalCtx, UNK_TYPE unused) {
     static void* D_8011FEA0[] = { &D_04029F30, &D_0402A530, &D_0402AB30, &D_0402B130, &D_0402B730,
                                   &D_0402BD30, &D_0402C330, &D_0402C930, NULL };
-
     s16 i;
     f32 dx, dz, x, z;
     s32 pad[2];
@@ -1370,10 +1322,6 @@ void func_8007542C(GlobalContext* globalCtx, UNK_TYPE unused) {
     Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_kankyo.c", 3253);
-
-    (void)unused;
-    (void)unused_8011FE88;
-    (void)unused_8011FE94;
 
     for (i = 0; i < ARRAY_COUNT(D_8015FD10); i++) {
         switch (D_8015FD10[i].unk_00) {
@@ -1430,68 +1378,55 @@ void func_8007542C(GlobalContext* globalCtx, UNK_TYPE unused) {
 
 #ifdef NON_MATCHING
 // trivial register differences
+// using a tempm for seq index fixes things mostly but it looks fake
 void func_800758AC(GlobalContext* globalCtx) {
-    u16 temp;
-    u8 seqIndex;
 
     globalCtx->envCtx.unk_E0 = 0xFF;
-    if (gSaveContext.entranceIndex == 0x4DE || gSaveContext.entranceIndex == 0x5E0) {
+
+    // both lost woods exits on the bridge from kokiri to hyrule field
+    if ((0, gSaveContext.entranceIndex) == 0x4DE || (0, gSaveContext.entranceIndex) == 0x5E0) {
         func_800F6FB4(4);
-    } else if (gSaveContext.unk_140E != 0) {
+    } else if ((0, gSaveContext.unk_140E) != 0) {
         if (!func_80077600()) {
-            Audio_SetBGM(gSaveContext.unk_140E);
+            Audio_SetBGM((0, gSaveContext.unk_140E));
         }
         gSaveContext.unk_140E = 0;
     } else {
-        seqIndex = globalCtx->soundCtx.seqIndex;
         if (globalCtx->soundCtx.seqIndex == 0x7F) {
             if (globalCtx->soundCtx.nightSeqIndex == 19u) {
                 return;
             }
-            if (gSaveContext.nightSeqIndex != globalCtx->soundCtx.nightSeqIndex) {
-                func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
+            if ((0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
+                func_800F6FB4(globalCtx->soundCtx.nightSeqIndex);
             }
         } else if (globalCtx->soundCtx.nightSeqIndex == 19u) {
-            // clang-format off
-#pragma _permuter sameline start
-            do { temp = gSaveContext.seqIndex; osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", seqIndex, temp); } while (0); // BGM Configuration
-#pragma _permuter sameline end
-            // clang-format on
-            if (gSaveContext.seqIndex != globalCtx->soundCtx.seqIndex) {
+            osSyncPrintf("\n\n\nBGM設定game_play->sound_info.BGM=[%d] old_bgm=[%d]\n\n", globalCtx->soundCtx.seqIndex, (0, gSaveContext.seqIndex));// BGM Configuration
+
+            if ((0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
                 func_800F5550(globalCtx->soundCtx.seqIndex);
             }
-        } else if (gSaveContext.dayTime > 0x4AAA && gSaveContext.dayTime < 0xB71D) {
-            if (gSaveContext.seqIndex != seqIndex) {
+        } else if ((0, gSaveContext.dayTime) > 0x4AAA && (0, gSaveContext.dayTime) < 0xB71D) {
+            if ((0, gSaveContext.seqIndex) != globalCtx->soundCtx.seqIndex) {
                 func_800F5550(globalCtx->soundCtx.seqIndex);
             }
             globalCtx->envCtx.unk_E0 = 1;
         } else {
-            if (gSaveContext.nightSeqIndex != globalCtx->soundCtx.nightSeqIndex) {
+            if ((0, gSaveContext.nightSeqIndex) != globalCtx->soundCtx.nightSeqIndex) {
                 func_800F6FB4((s32)globalCtx->soundCtx.nightSeqIndex);
             }
-            if (gSaveContext.dayTime > 0xB71C && gSaveContext.dayTime < 0xCAAC) {
+            if ((0, gSaveContext.dayTime) > 0xB71C && (0, gSaveContext.dayTime) < 0xCAAC) {
                 globalCtx->envCtx.unk_E0 = 3;
-            } else if (gSaveContext.dayTime > 0xCAAC || gSaveContext.dayTime < 0x4555) {
+            } else if ((0, gSaveContext.dayTime) > 0xCAAC || (0, gSaveContext.dayTime) < 0x4555) {
                 globalCtx->envCtx.unk_E0 = 5;
             } else {
                 globalCtx->envCtx.unk_E0 = 7;
             }
         }
     }
-    // clang-format off
-#pragma _permuter sameline start
-    do { temp = gSaveContext.unk_140E; osSyncPrintf("\n-----------------\n", temp); } while (0);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
-    do { temp = gSaveContext.unk_140E; osSyncPrintf("\n 強制ＢＧＭ=[%d]", temp); } while (0); // Forced BGM
-#pragma _permuter sameline end
-#pragma _permuter sameline start
-    do { temp = globalCtx->soundCtx.seqIndex; osSyncPrintf("\n     ＢＧＭ=[%d]", temp); } while (0);
-#pragma _permuter sameline end
-#pragma _permuter sameline start
-    do { temp = globalCtx->soundCtx.nightSeqIndex; osSyncPrintf("\n     エンブ=[%d]", temp); } while (0); // Emblem?
-#pragma _permuter sameline end
-    // clang-format on
+    osSyncPrintf("\n-----------------\n", (0, gSaveContext.unk_140E));
+    osSyncPrintf("\n 強制ＢＧＭ=[%d]", (0, gSaveContext.unk_140E));// Forced BGM
+    osSyncPrintf("\n     ＢＧＭ=[%d]", globalCtx->soundCtx.seqIndex);
+    osSyncPrintf("\n     エンブ=[%d]", globalCtx->soundCtx.nightSeqIndex);// Emblem?
     osSyncPrintf("\n     status=[%d]", globalCtx->envCtx.unk_E0);
     func_800F66C0(globalCtx->roomCtx.curRoom.echo);
 }
@@ -1550,7 +1485,7 @@ void func_80075B44(GlobalContext* globalCtx) {
                 func_80078884(0x2813);
                 if ((Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
-                    globalCtx->csCtx.state == 0 && !func_8008E988(globalCtx)) {
+                    globalCtx->csCtx.state == 0 && !Player_InCsMode(globalCtx)) {
                     func_8010B680(globalCtx, 0x3066, NULL);
                 }
                 globalCtx->envCtx.unk_E0++;
@@ -1585,27 +1520,29 @@ void func_80075E68(GlobalContext* globalCtx) {
 
 void func_80075F14(GlobalContext* globalCtx) {
     s32 pad;
-    Actor* actor = globalCtx->actorCtx.actorList[2].first;
+    Player* player = PLAYER;
 
     D_8015FDAE = 0;
-    Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)actor->posRot.pos.x - 10.0f, (s16)actor->posRot.pos.y + 10.0f,
-                              (s16)actor->posRot.pos.z - 10.0f, 0, 0, 0, 0xFF);
+
+    Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)player->actor.posRot.pos.x - 10.0f, (s16)player->actor.posRot.pos.y + 10.0f,
+                              (s16)player->actor.posRot.pos.z - 10.0f, 0, 0, 0, 255);
     D_8015FD84 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &D_8015FD88);
-    Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)actor->posRot.pos.x + 10.0f, (s16)actor->posRot.pos.y + 10.0f,
-                              (s16)actor->posRot.pos.z + 10.0f, 0, 0, 0, 0xFF);
+
+    Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)player->actor.posRot.pos.x + 10.0f, (s16)player->actor.posRot.pos.y + 10.0f,
+                              (s16)player->actor.posRot.pos.z + 10.0f, 0, 0, 0, 0xFF);
     D_8015FD98 = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &D_8015FDA0);
 }
 
 void func_800760F4(GlobalContext* globalCtx) {
-    Actor* actor = globalCtx->actorCtx.actorList[2].first;
+    Player* player = PLAYER;
     s16 i;
 
-    Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)actor->posRot.pos.x - 10.0f, (s16)actor->posRot.pos.y + 10.0f,
-                              (s16)actor->posRot.pos.z - 10.0f, D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
-    Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)actor->posRot.pos.x + 10.0f, (s16)actor->posRot.pos.y + 10.0f,
-                              (s16)actor->posRot.pos.z + 10.0f, D_8015FDAE, D_8015FDAE, D_8015FDAE, 0xFF);
+    Lights_PointNoGlowSetInfo(&D_8015FD88, (s16)player->actor.posRot.pos.x - 10.0f, (s16)player->actor.posRot.pos.y + 10.0f,
+                              (s16)player->actor.posRot.pos.z - 10.0f, D_8015FDAE, D_8015FDAE, D_8015FDAE, 255);
+    Lights_PointNoGlowSetInfo(&D_8015FDA0, (s16)player->actor.posRot.pos.x + 10.0f, (s16)player->actor.posRot.pos.y + 10.0f,
+                              (s16)player->actor.posRot.pos.z + 10.0f, D_8015FDAE, D_8015FDAE, D_8015FDAE, 255);
 
-    if (D_8015FDAE < 0xFE) {
+    if (D_8015FDAE < 254) {
         D_8015FDAE += 2;
     }
 
@@ -1891,9 +1828,11 @@ void func_800775F0(u16 arg0) {
 
 s32 func_80077600(void) {
     s32 ret = false;
+
     if (gSaveContext.unk_140E == 0xFFFF) {
         ret = true;
     }
+    
     return ret;
 }
 

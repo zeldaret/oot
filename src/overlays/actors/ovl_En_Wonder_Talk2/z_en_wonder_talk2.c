@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wonder_talk2.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x08000009
 
@@ -167,7 +167,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
             }
 
             this->unk_158 = 0;
-            func_8002F1C4(&this->actor, globalCtx, this->unk_15C + 50.0f, 100.0f, 0);
+            func_8002F1C4(&this->actor, globalCtx, this->unk_15C + 50.0f, 100.0f, EXCH_ITEM_NONE);
         }
     }
 }

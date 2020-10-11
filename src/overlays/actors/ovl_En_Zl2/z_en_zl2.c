@@ -5,7 +5,7 @@
  */
 
 #include "z_en_zl2.h"
-#include <vt.h>
+#include "vt.h"
 
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
@@ -591,8 +591,8 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         {
             Player* player = PLAYER;
             Matrix_Push();
-            if (player->unk_15D == 0xFF) {
-                Matrix_Put(&player->mf_A20);
+            if (player->rightHandType == 0xFF) {
+                Matrix_Put(&player->shieldMf);
                 Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
                 Matrix_RotateRPY(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
                 Matrix_Scale(1.2f, 1.2f, 1.2f, MTXMODE_APPLY);
@@ -761,7 +761,7 @@ void func_80B501E8(EnZl2* this, GlobalContext* globalCtx) {
 
     if (npcAction != NULL) {
         this->actor.shape.unk_14 = this->alpha =
-            (1.0f - Kankyo_InvLerp_u16(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
+            (1.0f - Kankyo_InvLerp(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames)) * 255.0f;
         func_80B501C4(this, this->alpha);
     }
 }

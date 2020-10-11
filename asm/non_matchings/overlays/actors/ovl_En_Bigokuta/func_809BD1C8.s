@@ -48,7 +48,7 @@ glabel func_809BD1C8
 /* 00614 809BD274 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00618 809BD278 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0061C 809BD27C 460A4400 */  add.s   $f16, $f8, $f10            
-/* 00620 809BD280 0C00A527 */  jal     func_8002949C              
+/* 00620 809BD280 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00624 809BD284 E7B00050 */  swc1    $f16, 0x0050($sp)          
 /* 00628 809BD288 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0062C 809BD28C 5613FFE0 */  bnel    $s0, $s3, .L809BD210       

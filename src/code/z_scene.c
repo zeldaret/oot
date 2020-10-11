@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 RomFile sNaviMsgFiles[];
 
@@ -377,8 +376,6 @@ void func_80098D5C(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x10: Time Settings
 void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
-    u32 dayTime;
-
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
         gSaveContext.environmentTime = gSaveContext.dayTime =
             ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / 0.021972656f;
@@ -394,16 +391,13 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
         D_8011FB40 = globalCtx->envCtx.unk_02;
     }
 
-    dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.x = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.y = (Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.z = (Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.x = -(Math_Sins((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.y = (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.z = (Math_Coss((0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
 
     if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == 0x0604)) {
-        gSaveContext.environmentTime = gSaveContext.dayTime;
+        gSaveContext.environmentTime = (0, gSaveContext.dayTime);
         if ((gSaveContext.environmentTime >= 0x2AAC) && (gSaveContext.environmentTime < 0x4555)) {
             gSaveContext.environmentTime = 0x3556;
         } else if ((gSaveContext.environmentTime >= 0x4555) && (gSaveContext.environmentTime < 0x5556)) {

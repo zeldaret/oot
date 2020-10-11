@@ -1,5 +1,4 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
 s32 __osSiRawWriteIo(void* a0, u32 a1) {
     if (__osSiDeviceBusy()) {

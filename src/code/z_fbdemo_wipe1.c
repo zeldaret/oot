@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 Vtx sWipeVtx[] = {
     VTX(-1299, 750, 0, 13653, 2048, 0xAD, 0x30, 0xB8, 0xFF),  VTX(-750, 1299, 0, 15019, 2048, 0xD0, 0x53, 0xB8, 0xFF),

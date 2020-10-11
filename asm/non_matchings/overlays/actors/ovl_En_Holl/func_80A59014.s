@@ -36,7 +36,7 @@ glabel func_80A59014
 /* 0047C 80A5908C 44811000 */  mtc1    $at, $f2                   ## $f2 = 200.00
 /* 00480 80A59090 00000000 */  nop
 .L80A59094:
-/* 00484 80A59094 0C296306 */  jal     func_80A58C18              
+/* 00484 80A59094 0C296306 */  jal     EnHoll_IsKokiriSetup8              
 /* 00488 80A59098 E7A2003C */  swc1    $f2, 0x003C($sp)           
 /* 0048C 80A5909C 14400022 */  bne     $v0, $zero, .L80A59128     
 /* 00490 80A590A0 C7A2003C */  lwc1    $f2, 0x003C($sp)           
@@ -107,9 +107,9 @@ glabel func_80A59014
 /* 00588 80A59198 00E03025 */  or      $a2, $a3, $zero            ## $a2 = 00000000
 /* 0058C 80A5919C 10400004 */  beq     $v0, $zero, .L80A591B0     
 /* 00590 80A591A0 8FA40058 */  lw      $a0, 0x0058($sp)           
-/* 00594 80A591A4 3C0580A6 */  lui     $a1, %hi(func_80A59828)    ## $a1 = 80A60000
-/* 00598 80A591A8 0C296304 */  jal     func_80A58C10              
-/* 0059C 80A591AC 24A59828 */  addiu   $a1, $a1, %lo(func_80A59828) ## $a1 = 80A59828
+/* 00594 80A591A4 3C0580A6 */  lui     $a1, %hi(EnHoll_NextAction)    ## $a1 = 80A60000
+/* 00598 80A591A8 0C296304 */  jal     EnHoll_SetupAction              
+/* 0059C 80A591AC 24A59828 */  addiu   $a1, $a1, %lo(EnHoll_NextAction) ## $a1 = 80A59828
 .L80A591B0:
 /* 005A0 80A591B0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A591B4:

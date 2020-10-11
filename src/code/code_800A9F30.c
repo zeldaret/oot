@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 UnkRumbleStruct D_80160FD0;
 
@@ -27,7 +26,7 @@ void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
     }
 }
 
-void func_800AA000(float a, u8 b, u8 c, u8 d) {
+void func_800AA000(f32 a, u8 b, u8 c, u8 d) {
     s32 temp1;
     s32 temp2;
     s32 i;
