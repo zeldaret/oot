@@ -21,10 +21,10 @@ typedef struct {
 } EnHorseNormalUnkStruct2;
 
 typedef enum {
-    /* 0x00 */ HORSE_NULL, // Cycles through animations in sAnimations
+    /* 0x00 */ HORSE_CYCLE_ANIMATIONS,
     /* 0x01 */ HORSE_WANDER,
-    /* 0x02 */ HORSE_STATIC,
-    /* 0x03 */ HORSE_STATIC_CLONEABLE,
+    /* 0x02 */ HORSE_WAIT,
+    /* 0x03 */ HORSE_WAIT_CLONE,
     /* 0x04 */ HORSE_FOLLOW_PATH
 } EnHorseNormalType;
 
@@ -160,7 +160,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
-    this->action = HORSE_NULL;
+    this->action = HORSE_CYCLE_ANIMATIONS;
     this->animationIdx = 0;
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit1);
@@ -280,7 +280,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseNormal_NextAnimation(EnHorseNormal* this) {
-    this->action = HORSE_NULL;
+    this->action = HORSE_CYCLE_ANIMATIONS;
     this->animationIdx++;
 
     if (this->animationIdx >= ARRAY_COUNT(sAnimations)) {
@@ -445,7 +445,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6C4CC(EnHorseNormal* this) {
-    this->action = HORSE_STATIC;
+    this->action = HORSE_WAIT;
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -475,7 +475,7 @@ void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
 }
 
 void func_80A6C6B0(EnHorseNormal* this) {
-    this->action = HORSE_STATIC_CLONEABLE;
+    this->action = HORSE_WAIT_CLONE;
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
@@ -612,7 +612,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
 
-    if (this->action == HORSE_STATIC_CLONEABLE) {
+    if (this->action == HORSE_WAIT_CLONE) {
         MtxF skinMtx;
         Mtx* mtx1;
         Vec3f clonePos = { 0.0f, 0.0f, 0.0f };
