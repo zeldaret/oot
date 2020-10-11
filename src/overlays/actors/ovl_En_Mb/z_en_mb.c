@@ -21,101 +21,6 @@ const ActorInit En_Mb_InitVars = {
     (ActorFunc)EnMb_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-    { 20, 70, 0, { 0, 0, 0 } },
-};
-
-static ColliderTrisItemInit sTrisItemsInit[2] = {
-    {
-        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
-        { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
-    },
-    {
-        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
-        { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
-    },
-};
-
-static ColliderTrisInit sTrisInit = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
-    2,
-    sTrisItemsInit,
-};
-
-static ColliderQuadInit sQuadInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
-    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
-};
-
-static DamageTable sDamageTable[] = {
-    0x50, 0xF2, 0xF1, 0xF2, 0x10, 0xF2, 0xF2, 0xF2, 0xF1, 0xF2, 0xF4, 0xF2, 0x64, 0xF2, 0xF4, 0xF2,
-    0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
-};
-
-static DamageTable sDamageTable2[] = {
-    0x50, 0xF2, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x10, 0xF1, 0xF2, 0xF4, 0xF2, 0x64, 0xF2, 0xF4, 0xF2,
-    0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
-};
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 74, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
-};
-
-Vec3f D_80AA9D50 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
-
-Vec3f D_80AA9D5C = {
-    18.0f,
-    18.0f,
-    0.0f,
-};
-
-
-typedef struct {
-    /* 0x0 */ s16 unk_0;
-    /* 0x2 */ s16 unk_2;
-    /* 0x4 */ u16 unk_4;
-} struct_80AA9D68;
-
-struct_80AA9D68 D_80AA9D68 = {
-    0x0014,
-    0x0028,
-    0x0000,
-};
-
-typedef struct {
-    s16 unk_0;
-    s16 unk_2;
-    s16 unk_4;
-} struct_80AA9D70;
-
-struct_80AA9D70 D_80AA9D70 = {
-    0xF63C,
-    0x0000,
-    0x0DAC,
-};
-
-// ZeroVec
-static Vec3f D_80AA9D78 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
-
-static Vec3f D_80AA9D84 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
-
 extern SkeletonHeader D_06008F38;    // D_06008F38
 extern AnimationHeader animEnMbWait; // D_060028E0
 extern SkeletonHeader D_06014190;
@@ -164,6 +69,51 @@ void func_80AA8378(EnMb* this, GlobalContext* globalCtx);
 void EnMb_SetupAction(EnMb* this, EnMbActionFunc actionFunc) { // Setup Action Func
     this->actionFunc = actionFunc;
 }
+
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 20, 70, 0, { 0, 0, 0 } },
+};
+
+static ColliderTrisItemInit sTrisItemsInit[2] = {
+    {
+        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
+        { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
+    },
+    {
+        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
+        { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
+    },
+};
+
+static ColliderTrisInit sTrisInit = {
+    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
+    2,
+    sTrisItemsInit,
+};
+
+static ColliderQuadInit sQuadInit = {
+    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+static DamageTable sDamageTable[] = {
+    0x50, 0xF2, 0xF1, 0xF2, 0x10, 0xF2, 0xF2, 0xF2, 0xF1, 0xF2, 0xF4, 0xF2, 0x64, 0xF2, 0xF4, 0xF2,
+    0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
+};
+
+static DamageTable sDamageTable2[] = {
+    0x50, 0xF2, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x10, 0xF1, 0xF2, 0xF4, 0xF2, 0x64, 0xF2, 0xF4, 0xF2,
+    0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
+};
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_S8(naviEnemyId, 74, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
+};
 
 void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 phi_v1;
@@ -237,6 +187,8 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.flags &= -2;
     func_80AA68FC(this, globalCtx);
 }
+
+
 
 void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
@@ -508,8 +460,8 @@ void func_80AA6F04(EnMb* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600BE58, -4.0f);
     this->unk_320 = 1;
     this->actor.flags &= ~1;
-    this->collider1.dim.height = 0x50;
-    this->collider1.dim.radius = 0x5F;
+    this->collider1.dim.height = 80;
+    this->collider1.dim.radius = 95;
     this->unk_32A = 30;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
@@ -629,9 +581,10 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
                 this->unk_32E = 0x50;
                 this->soundTimer = this->unk_32E;
                 this->unk_32A = this->unk_32E;
-                return;
+
+            } else {
+                func_80AA68FC(this, globalCtx);
             }
-            func_80AA68FC(this, globalCtx);
         }
     }
 }
@@ -709,11 +662,9 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
     s16 playerInvincibilityTImer;
 
     playerInvincibilityTImer = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-
     if (playerInvincibilityTImer < 0) {
         playerInvincibilityTImer = -playerInvincibilityTImer;
     }
-
     currentFrame = this->skelAnime.animCurrentFrame;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &animEnMbCharge);
@@ -731,11 +682,47 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
-    if (playerInvincibilityTImer >= 0x1389) {
+    if (playerInvincibilityTImer > 0x1388) {
         this->attackParams = 0;
         func_80AA6CC0(this);
     }
 }
+
+Vec3f D_80AA9D50 = {
+    0.0f,
+    0.0f,
+    0.0f,
+};
+
+Vec3f D_80AA9D5C = {
+    18.0f,
+    18.0f,
+    0.0f,
+};
+
+typedef struct {
+    /* 0x0 */ s16 unk_0;
+    /* 0x2 */ s16 unk_2;
+    /* 0x4 */ u16 unk_4;
+} struct_80AA9D68;
+
+struct_80AA9D68 D_80AA9D68 = {
+    0x0014,
+    0x0028,
+    0x0000,
+};
+
+typedef struct {
+    s16 unk_0;
+    s16 unk_2;
+    s16 unk_4;
+} struct_80AA9D70;
+
+struct_80AA9D70 D_80AA9D70 = {
+    0xF63C,
+    0x0000,
+    0x0DAC,
+};
 
 // Weird Data issue
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
@@ -919,9 +906,9 @@ void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
             this->unk_32E = 0;
             func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
             func_8005AA1C(&globalCtx->mainCamera, 2, 25, 5);
-            return;
+        } else {
+            func_80AA6898(this);
         }
-        func_80AA6898(this);
     }
 }
 
@@ -949,6 +936,7 @@ void func_80AA840C(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
+    static Vec3f D_80AA9D78 = { 0.0f, 0.0f, 0.0f };
     Vec3f effPosition;
     Vec3f temp;
     Vec3f effZeroVector;
@@ -999,7 +987,6 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     if (yawDiff < 0) {
         yawDiff = -yawDiff;
     }
-
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
     this->skelAnime.animPlaybackSpeed = this->actor.speedXZ;
     currentFrame = this->skelAnime.animCurrentFrame;
@@ -1187,6 +1174,7 @@ void func_80AA8FC8(EnMb* this) {
 }
 
 void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
+    static Vec3f D_80AA9D84 = { 0.0f, 0.0f, 0.0f };
     s32 phi_s0;
     Vec3f zeroVec;
     Player* player = PLAYER;
@@ -1313,15 +1301,14 @@ void func_80AA94D8(EnMb* this, GlobalContext* globalCtx) {
     }
 }
 
-Vec3f D_80AA9DF0 = { 1100.0f, -700.0f, 0.0f };
-
-Vec3f D_80AA9DFC = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80AA9E08 = { 0.0f, -8000.0f, 0.0f };
+static Vec3f D_80AA9DF0 = { 1100.0f, -700.0f, 0.0f };
+static Vec3f D_80AA9DFC = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80AA9E08 = { 0.0f, -8000.0f, 0.0f };
 
 void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
     s32 pad;
+
     func_80AA94D8(this, globalCtx);
     if (thisx->colChkInfo.damageEffect != 5) {
         this->actionFunc(this, globalCtx);
@@ -1348,8 +1335,7 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// Post Limb Draw
-void func_80AA9870(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     static Vec3f D_80AA9E14 = { 0.0f, 0.0f, 0.0f };
     s32 phi_v1;
     EnMb* this = THIS;
@@ -1366,7 +1352,6 @@ void func_80AA9870(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         }
         func_8002BDB0(thisx, limbIndex, 0x16, &D_80AA9DFC, 0x1B, &D_80AA9DFC);
     }
-
     if (this->unk_328 != 0) {
         switch (limbIndex) {
             case 7:
@@ -1399,8 +1384,6 @@ void func_80AA9870(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             case 27:
                 phi_v1 = 9;
                 break;
-
-                // block_18:
         }
         if (phi_v1 >= 0) {
             Matrix_MultVec3f(&D_80AA9E14, &sp24);
@@ -1410,67 +1393,52 @@ void func_80AA9870(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         }
     }
 }
-Vec3f D_80AA9E20 = { 4000.0f, 7000.0f, 3500.0f };
-Vec3f D_80AA9E2C = { 4000.0f, 0.0f, 3500.0f };
-Vec3f D_80AA9E38 = { -4000.0f, 7000.0f, 3500.0f };
 
-Vec3f D_80AA9E44 = { -4000.0f, 7000.0f, 3500.0f };
-Vec3f D_80AA9E50 = { -4000.0f, 0.0f, 3500.0f };
-Vec3f D_80AA9E5C = { 4000.0f, 0.0f, 3500.0f };
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/EnMb_Draw.s")
-/*void EnMb_Draw(Actor* thisx, GlobalContext *globalCtx) {
-    ? spA4;
-    ? sp98;
-    ? sp8C;
-    ? sp80;
-    ? sp74;
-    ? sp68;
-
-
-    Vec3f *temp_s0;
-
-    Vec3f *phi_s1;
-    Vec3f *phi_s2;
-    Vec3f *phi_s3;
-    Vec3f *phi_s0;
+void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Vec3f D_80AA9E20[] = {
+        { 4000.0f, 7000.0f, 3500.0f },
+        { 4000.0f, 0.0f, 3500.0f },
+        { -4000.0f, 7000.0f, 3500.0f },
+    };
+    static Vec3f D_80AA9E44[] = {
+        { -4000.0f, 7000.0f, 3500.0f },
+        { -4000.0f, 0.0f, 3500.0f },
+        { 4000.0f, 0.0f, 3500.0f },
+    };
+    s32 i;
     f32 phi_f0;
+    Vec3f phi_s2[3];
+    Vec3f phi_s0[3];
+    s32 tempPosIndex;
     EnMb* this = THIS;
+
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, (s32) this->skelAnime.dListCount, 0, func_80AA9870, &this->actor);
-    if (this->actor.params != 0) {
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, 0,
+                     EnMb_PostLimbDraw, thisx);
+    if (thisx->params != 0) {
         if (this->attackParams > 0) {
-            func_80AA92B8(&this->actor, globalCtx);
+            func_80AA92B8(thisx, globalCtx);
         }
-        phi_s1 = &D_80AA9E20;
-        phi_s2 = (Vec3f *) &sp8C;
-        phi_s3 = &D_80AA9E44;
-        phi_s0 = (Vec3f *) &sp68;
-loop_4:
-        Matrix_MultVec3f(phi_s1, phi_s2);
-        Matrix_MultVec3f(phi_s3, phi_s0);
-        temp_s0 = phi_s0 + 0xC;
-        phi_s1 = phi_s1 + 0xC;
-        phi_s2 = phi_s2 + 0xC;
-        phi_s3 = phi_s3 + 0xC;
-        phi_s0 = temp_s0;
-        if (temp_s0 != &sp8C) {
-            goto loop_4;
+        for (i = 0; i < 3; i++) {
+            Matrix_MultVec3f(&D_80AA9E20[i], &phi_s2[i]);
+            Matrix_MultVec3f(&D_80AA9E44[i], &phi_s0[i]);
         }
-        func_800627A0(&this->collider3, 0, (Vec3f *) &sp8C, (Vec3f *) &sp98, &spA4);
-        func_800627A0(&this->collider3, 1, (Vec3f *) &sp68, (Vec3f *) &sp74, &sp80);
+        func_800627A0(&this->collider3, 0, &phi_s2[0], &phi_s2[1], &phi_s2[2]);
+        func_800627A0(&this->collider3, 1, &phi_s0[0], &phi_s0[1], &phi_s0[2]);
     }
     if (this->unk_328 != 0) {
-        this->actor.dmgEffectTimer += 1;
+        thisx->dmgEffectTimer += 1;
         if (this->unk_328 >= 0) {
-            this->unk_328 = this->unk_328 - 1;
+            this->unk_328--;
         }
-        if (( this->unk_328 & 3) == 0) {
+        if ((this->unk_328 & 3) == 0) {
             phi_f0 = 2.5f;
-            if (this->actor.params == 0) {
+            if (thisx->params == 0) {
                 phi_f0 = 4.0f;
             }
-            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, &this->actor, &this->unk_14C[(s32) this->unk_328 >> 2], 0x96, 0x96, 0x96, 0xFF, 0xF5, 0xEB, 0xFA, phi_f0);
+            tempPosIndex = this->unk_328 >> 2;
+            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->unk_14C[tempPosIndex], 0x96, 0x96, 0x96, 0xFA, 0xEB,
+                                           0xF5, 0xFF, phi_f0);
         }
     }
-}*/
+}
