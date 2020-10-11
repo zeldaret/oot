@@ -47,7 +47,6 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-
 Gfx* D_8087B578[] = { 0x06007C00, 0x06002320, 0x060035A0 };
 
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -124,7 +123,7 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    if ((this->unk_198 % 6) == 0) { 
+    if ((this->unk_198 % 6) == 0) {
         temp_2 = Math_Rand_ZeroOne() * (10922.0f); // This should be: 0x10000 / 6.0f
         vecA.y = 0.0f;
         vecB.y = this->actor.posRot.pos.y;
@@ -136,7 +135,7 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
             temp_4 = Math_Coss(temp_1);
             vecB.x = this2->actor.posRot.pos.x + (120.0f * temp_3);
             vecB.z = this2->actor.posRot.pos.z + (120.0f * temp_4);
-            distXZ = Math_Vec3f_DistXZ(&this2->actor.initPosRot.pos, &vecB) * (1.0f / 120.f); 
+            distXZ = Math_Vec3f_DistXZ(&this2->actor.initPosRot.pos, &vecB) * (1.0f / 120.f);
             if (distXZ < 0.7f) {
                 temp_3 = Math_Sins(temp_1 + 0x8000);
                 temp_4 = Math_Coss(temp_1 + 0x8000);
@@ -148,8 +147,8 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
             vecA.x = 4.0f * temp_3 * distXZ;
             vecA.y = 0.0f;
             vecA.z = 4.0f * temp_4 * distXZ;
-            EffectSsDeadDb_Spawn(globalCtx, &this->actor.initPosRot.pos, &vecA, &sZeroVec, 60, 6, 255, 255, 150,
-                                 170, 255, 0, 0, 1, 14, true);
+            EffectSsDeadDb_Spawn(globalCtx, &this->actor.initPosRot.pos, &vecA, &sZeroVec, 60, 6, 255, 255, 150, 170,
+                                 255, 0, 0, 1, 14, true);
             temp_2 += 0x2AAA;
         }
     }
