@@ -2009,7 +2009,7 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
             Flags_SetEventChkInf(entranceCutscene->flag);
             Cutscene_SetSegment(globalCtx, entranceCutscene->segAddr);
             gSaveContext.cutsceneTrigger = 2;
-            gSaveContext.unk_13C7 = 0;
+            gSaveContext.showTitleCard = false;
             break;
         }
     }

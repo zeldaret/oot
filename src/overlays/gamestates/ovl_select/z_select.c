@@ -19,7 +19,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
-        func_800A82C8();
+        Sram_InitDebugSave();
         gSaveContext.unk_13F6 = gSaveContext.magic;
         gSaveContext.magic = 0;
         gSaveContext.unk_13F4 = 0;
@@ -37,7 +37,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
     gSaveContext.seqIndex = 0xFF;
     gSaveContext.nightSeqIndex = 0xFF;
-    gSaveContext.unk_13C7 = 1;
+    gSaveContext.showTitleCard = true;
     D_8011FB30 = 0;
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
