@@ -117,13 +117,13 @@ glabel FileChoose_Init
 /* 0DDF8 80811B38 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
 /* 0DDFC 80811B3C 0C02A89E */  jal     View_Init
 /* 0DE00 80811B40 8E050000 */  lw      $a1, 0x0000($s0)           ## 00000000
-/* 0DE04 80811B44 3C0A8081 */  lui     $t2, %hi(func_80810DAC)    ## $t2 = 80810000
+/* 0DE04 80811B44 3C0A8081 */  lui     $t2, %hi(FileChoose_Main)    ## $t2 = 80810000
 /* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(FileChoose_Destroy)       ## $t3 = 80810000
-/* 0DE0C 80811B4C 254A0DAC */  addiu   $t2, $t2, %lo(func_80810DAC) ## $t2 = 80810DAC
+/* 0DE0C 80811B4C 254A0DAC */  addiu   $t2, $t2, %lo(FileChoose_Main) ## $t2 = 80810DAC
 /* 0DE10 80811B50 256B1A18 */  addiu   $t3, $t3, %lo(FileChoose_Destroy)  ## $t3 = 80811A18
 /* 0DE14 80811B54 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
 /* 0DE18 80811B58 AE0B0008 */  sw      $t3, 0x0008($s0)           ## 00000008
-/* 0DE1C 80811B5C 0C2044EA */  jal     func_808113A8
+/* 0DE1C 80811B5C 0C2044EA */  jal     FileChoose_InitContext
 /* 0DE20 80811B60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DE24 80811B64 3401E760 */  ori     $at, $zero, 0xE760         ## $at = 0000E760
 /* 0DE28 80811B68 0C01BBC4 */  jal     func_8006EF10

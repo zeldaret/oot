@@ -1949,10 +1949,10 @@ void func_800304B0(GlobalContext* globalCtx) {
 // Actor_InitContext
 void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry) {
     ActorOverlay* overlayEntry;
-    SaveSceneFlags* saveSceneFlags;
+    SavedSceneFlags* savedSceneFlags;
     s32 i;
 
-    saveSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
+    savedSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
 
     bzero(actorCtx, sizeof(*actorCtx));
 
@@ -1967,10 +1967,10 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
         overlayEntry++;
     }
 
-    actorCtx->flags.chest = saveSceneFlags->chest;
-    actorCtx->flags.swch = saveSceneFlags->swch;
-    actorCtx->flags.clear = saveSceneFlags->clear;
-    actorCtx->flags.collect = saveSceneFlags->collect;
+    actorCtx->flags.chest = savedSceneFlags->chest;
+    actorCtx->flags.swch = savedSceneFlags->swch;
+    actorCtx->flags.clear = savedSceneFlags->clear;
+    actorCtx->flags.collect = savedSceneFlags->collect;
 
     func_8002CDE4(globalCtx, &actorCtx->titleCtx);
 

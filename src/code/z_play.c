@@ -234,7 +234,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     globalCtx->cameraPtrs[0]->uid = 0;
     globalCtx->activeCamera = 0;
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
-    func_800A9D28(globalCtx, &globalCtx->sub_1F74);
+    Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
     func_80110450(globalCtx);
@@ -317,7 +317,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {
-            gSaveContext.unk_14++;
+            gSaveContext.numDays++;
             gSaveContext.unk_18++;
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
@@ -1724,12 +1724,12 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 }
 
 void Gameplay_SaveSceneFlags(GlobalContext* globalCtx) {
-    SaveSceneFlags* sceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
+    SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
 
-    sceneFlags->chest = globalCtx->actorCtx.flags.chest;
-    sceneFlags->swch = globalCtx->actorCtx.flags.swch;
-    sceneFlags->clear = globalCtx->actorCtx.flags.clear;
-    sceneFlags->collect = globalCtx->actorCtx.flags.collect;
+    savedSceneFlags->chest = globalCtx->actorCtx.flags.chest;
+    savedSceneFlags->swch = globalCtx->actorCtx.flags.swch;
+    savedSceneFlags->clear = globalCtx->actorCtx.flags.clear;
+    savedSceneFlags->collect = globalCtx->actorCtx.flags.collect;
 }
 
 void Gameplay_SetRespawnData(GlobalContext* globalCtx, s32 respawnMode, s16 entranceIndex, s32 roomIndex,

@@ -70,10 +70,8 @@ extern Gfx D_80812728[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808109B8.s")
 
-//void func_80810DAC(GameState* thisx);
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80810DAC.s")
-void func_80810DAC(FileChooseContext* this) {
-    s32 pad;
+void FileChoose_Main(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
     Input* controller1 = &this->state.input[0];
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2898);
@@ -157,13 +155,15 @@ void func_80810DAC(FileChooseContext* this) {
     if ((this->fileSelectStateIndex < 0x24) || (this->fileSelectStateIndex >= 0x28)) {
         func_800944C4(this->state.gfxCtx);
 
-        gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+                          PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0x64, 0xFF, 0xFF, this->bottomTextAlpha);
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0x00);
-        gDPLoadTextureBlock(oGfxCtx->polyOpa.p++, D_80812A50[gSaveContext.language], G_IM_FMT_IA,
-                            G_IM_SIZ_8b, 0x90, 0x10, 0, G_TX_NOMIRROR | G_TX_WRAP, 
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(oGfxCtx->polyOpa.p++, 0x0168, 0x0330, 0x03A8, 0x0370, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+        gDPLoadTextureBlock(oGfxCtx->polyOpa.p++, D_80812A50[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 0x90,
+                            0x10, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD);
+        gSPTextureRectangle(oGfxCtx->polyOpa.p++, 0x0168, 0x0330, 0x03A8, 0x0370, G_TX_RENDERTILE, 0, 0, 0x0400,
+                            0x0400);
     }
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
@@ -174,17 +174,12 @@ void func_80810DAC(FileChooseContext* this) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 3035);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808113A8.s")
-
-
-
-void func_808113A8(GameState* thisx) {
+void FileChoose_InitContext(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     EnvironmentContext* envCtx = &this->envCtx;
-    //Sram* sram = &this->sram;
-    //SkyboxContext* skyboxCtx = &this->skyboxCtx;
+    SramContext* sramCtx = &this->sramCtx;
 
-    func_800A9CD4(&this->state, &this->sram);
+    Sram_Alloc(&this->state, sramCtx);
 
     ZREG(7) = 0x20;
     ZREG(8) = 0x16;
@@ -261,12 +256,9 @@ void func_808113A8(GameState* thisx) {
 
     this->menuIndex = 0;
 
-    this->buttonIndex = 
-    this->openFileStateIndex = 
-    this->selectedFileIndex = 
-    this->copyDestFileIndex = 
-    this->openChoiceIndex = 0;
-    
+    this->buttonIndex = this->openFileStateIndex = this->selectedFileIndex = this->copyDestFileIndex =
+        this->openChoiceIndex = 0;
+
     this->unk_1CAAE[0] = 2;
     this->unk_1CAAE[1] = 3;
     this->titleTexIndex = 0;
@@ -287,48 +279,23 @@ void func_808113A8(GameState* thisx) {
     this->windowColor[0] = 100;
     this->windowColor[1] = 150;
     this->windowColor[2] = 255;
-    
-    this->windowAlpha = 
-    this->titleAlpha[0] = 
-    this->titleAlpha[1] = 
-    this->fileButtonAlpha[0] = 
-    this->fileButtonAlpha[1] = 
-    this->fileButtonAlpha[2] = 
-    this->nameBoxAlpha[0] = 
-    this->nameBoxAlpha[1] = 
-    this->nameBoxAlpha[2] = 
-    this->nameAlpha[0] = 
-    this->nameAlpha[1] = 
-    this->nameAlpha[2] = 
-    this->connectorAlpha[0] = 
-    this->connectorAlpha[1] = 
-    this->connectorAlpha[2] = 
-    this->fileInfoAlpha[0] = 
-    this->fileInfoAlpha[1] = 
-    this->fileInfoAlpha[2] = 
-    this->copyEraseAlpha[0] = 
-    this->copyEraseAlpha[1] = 
-    this->yesQuitAlpha[0] = 
-    this->yesQuitAlpha[1] = 
-    this->optionButtonAlpha = 
-    this->nameEntryBoxAlpha = 
-    this->bottomTextAlpha = 
-    this->emptyFileTextAlpha = 0;
+
+    this->windowAlpha = this->titleAlpha[0] = this->titleAlpha[1] = this->fileButtonAlpha[0] =
+        this->fileButtonAlpha[1] = this->fileButtonAlpha[2] = this->nameBoxAlpha[0] = this->nameBoxAlpha[1] =
+            this->nameBoxAlpha[2] = this->nameAlpha[0] = this->nameAlpha[1] = this->nameAlpha[2] =
+                this->connectorAlpha[0] = this->connectorAlpha[1] = this->connectorAlpha[2] = this->fileInfoAlpha[0] =
+                    this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->copyEraseAlpha[0] =
+                        this->copyEraseAlpha[1] = this->yesQuitAlpha[0] = this->yesQuitAlpha[1] =
+                            this->optionButtonAlpha = this->nameEntryBoxAlpha = this->bottomTextAlpha =
+                                this->emptyFileTextAlpha = 0;
 
     this->windowPosX = 6;
     this->actionTimer = 8;
     this->fileWarningTexIndex = -1;
-    
-    this->warningFileIndex = 
-    this->buttonsPosY[0] = 
-    this->buttonsPosY[1] = 
-    this->buttonsPosY[2] = 
-    this->buttonsPosY[3] = 
-    this->buttonsPosY[4] = 
-    this->buttonsPosY[5] = 
-    this->fileNamesY[0] = 
-    this->fileNamesY[1] = 
-    this->fileNamesY[2] = 0;
+
+    this->warningFileIndex = this->buttonsPosY[0] = this->buttonsPosY[1] = this->buttonsPosY[2] = this->buttonsPosY[3] =
+        this->buttonsPosY[4] = this->buttonsPosY[5] = this->fileNamesY[0] = this->fileNamesY[1] = this->fileNamesY[2] =
+            0;
 
     this->unk_1CAD6[0] = 0;
     this->unk_1CAD6[1] = 3;
@@ -363,24 +330,17 @@ void func_808113A8(GameState* thisx) {
 
     func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
 
-    gSaveContext.buttonStatus[0] =
-    gSaveContext.buttonStatus[1] = 
-    gSaveContext.buttonStatus[2] = 
-    gSaveContext.buttonStatus[3] = 
-    gSaveContext.buttonStatus[4] = 0;
+    gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
+        gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
-    this->n64ddFlags[0] = 
-    this->n64ddFlags[1] = 
-    this->n64ddFlags[2] = 
-    this->defense[0] = 
-    this->defense[1] = 
-    this->defense[2] = 0;
+    this->n64ddFlags[0] = this->n64ddFlags[1] = this->n64ddFlags[2] = this->defense[0] = this->defense[1] =
+        this->defense[2] = 0;
 
-    Sram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), this->sram.readBuff, SRAM_SIZE, OS_READ);
+    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
-    gSaveContext.language = this->sram.readBuff[2];
+    gSaveContext.language = sramCtx->readBuff[2];
     if (gSaveContext.language >= 3) {
-        this->sram.readBuff[2] = gSaveContext.language = 0;
+        sramCtx->readBuff[2] = gSaveContext.language = 0;
     }
 }
 
@@ -411,10 +371,10 @@ void FileChoose_Init(GameState* thisx) {
 
     Matrix_Init(&this->state);
     View_Init(&this->view, this->state.gfxCtx);
-    this->state.main = func_80810DAC;
+    this->state.main = FileChoose_Main;
     this->state.destroy = FileChoose_Destroy;
-    func_808113A8(this);
-    func_8006EF10(this->kanfont);
+    FileChoose_InitContext(this);
+    func_8006EF10(this->font);
     Audio_SetBGM(0xF000000A);
     func_800F5E18(0, 0x57, 0, 7, 1);
 }

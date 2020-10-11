@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "ultra64/gs2dex.h"
+#include "z64save.h"
 #include "z64light.h"
 #include "z64actor.h"
 #include "z64player.h"
@@ -56,178 +57,6 @@ typedef struct {
 } GameInfo; // size = 0x15D4
 
 typedef struct {
-    /* 0x00 */ u8    buttonItems[4];
-    /* 0x04 */ u8    cButtonSlots[3];
-    /* 0x08 */ u16   equipment;
-} ItemEquips; // size = 0x0A
-
-typedef struct {
-    /* 0x00 */ u32   chest;
-    /* 0x04 */ u32   swch;
-    /* 0x08 */ u32   clear;
-    /* 0x0C */ u32   collect;
-    /* 0x10 */ u32   unk;
-    /* 0x14 */ u32   rooms;
-    /* 0x18 */ u32   floors;
-} SaveSceneFlags; // size = 0x1C
-
-typedef struct {
-    /* 0x00 */ s16   scene;
-    /* 0x02 */ Vec3s pos;
-    /* 0x08 */ s16   angle;
-} HorseData; // size = 0x0A
-
-typedef struct {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ s16   yaw;
-    /* 0x0E */ s16   playerParams;
-    /* 0x10 */ s16   entranceIndex;
-    /* 0x12 */ u8    roomIndex;
-    /* 0x13 */ s8    data;
-    /* 0x14 */ u32   tempSwchFlags;
-    /* 0x18 */ u32   tempCollectFlags;
-} RespawnData; // size = 0x1C
-
-typedef enum {
-    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
-    /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
-    /* 0x02 */ RESPAWN_MODE_TOP     /* Farore's Wind */
-} RespawnMode;
-
-typedef enum {
-    /* 0x00 */ BTN_ENABLED,
-    /* 0xFF */ BTN_DISABLED = 0xFF
-} ButtonStatus;
-
-// Save Context (dbg ram start: 8015E660)
-typedef struct {
-    /* 0x0000 */ s32          entranceIndex;
-    /* 0x0004 */ s32          linkAge; // 0: Adult; 1: Child
-    /* 0x0008 */ s32          cutsceneIndex;
-    /* 0x000C */ u16          dayTime; // "zelda_time"
-    /* 0x0010 */ s32          nightFlag;
-    /* 0x0014 */ s32          unk_14;
-    /* 0x0018 */ s32          unk_18;
-    /* 0x001C */ char         newf[6]; // string "ZELDAZ"
-    /* 0x0022 */ s16          deaths;
-    /* 0x0024 */ char         playerName[8];
-    /* 0x002C */ s16          n64ddFlag;
-    /* 0x002E */ s16          healthCapacity; // "max_life"
-    /* 0x0030 */ s16          health; // "now_life"
-    /* 0x0032 */ s8           magicLevel;
-    /* 0x0033 */ s8           magic;
-    /* 0x0034 */ s16          rupees;
-    /* 0x0036 */ u16          swordHealth;
-    /* 0x0038 */ u16          naviTimer;
-    /* 0x003A */ u8           magicAcquired;
-    /* 0x003B */ char         unk_3B[0x0001];
-    /* 0x003C */ u8           doubleMagic;
-    /* 0x003D */ u8           doubleDefense;
-    /* 0x003E */ u8           bgsFlag;
-    /* 0x0040 */ ItemEquips   childEquips;
-    /* 0x004A */ ItemEquips   adultEquips;
-    /* 0x0054 */ char         unk_54[0x0014];
-    /* 0x0068 */ ItemEquips   equips;
-    /* 0x0072 */ char         unk_72[0x0002];
-    /* 0x0074 */ u8           items[24];
-    /* 0x008C */ s8           ammo[16];
-    /* 0x009C */ u16          equipment;
-    /* 0x00A0 */ u32          upgrades;
-    /* 0x00A4 */ u32          questItems;
-    /* 0x00A8 */ u8           dungeonItems[20];
-    /* 0x00BC */ s8           dungeonKeys[19];
-    /* 0x00CF */ s8           defenseHearts;
-    /* 0x00D0 */ s16          gsTokens;
-    /* 0x00D4 */ SaveSceneFlags sceneFlags[124];
-    struct {
-        /* 0x0E64 */ Vec3i pos;
-        /* 0x0E70 */ s32  yaw;
-        /* 0x0E74 */ s32  playerParams;
-        /* 0x0E78 */ s32  entranceIndex;
-        /* 0x0E7C */ s32  roomIndex;
-        /* 0x0E80 */ s32  set;
-        /* 0x0E84 */ s32  tempSwchFlags;
-        /* 0x0E88 */ s32  tempCollectFlags;
-    }                         fw;
-    /* 0x0E8C */ char         unk_E8C[0x0010];
-    /* 0x0E9C */ s32          gsFlags[6];
-    /* 0x0EB4 */ char         unk_EB4[0x0010];
-    /* 0x0EC4 */ s32          unk_EC4;
-    /* 0x0EC8 */ char         unk_EC8[0x000C];
-    /* 0x0ED4 */ u16          eventChkInf[14]; // "event_chk_inf"
-    /* 0x0EF0 */ u16          itemGetInf[4]; // "item_get_inf"
-    /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
-    /* 0x0F34 */ char         unk_F34[0x0004];
-    /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
-    /* 0x0F3C */ char         unk_F3C[0x0389];
-    /* 0x12C5 */ u8           unk_12C5;
-    /* 0x12C6 */ char         unk_12C6[0x0082];
-    /* 0x1348 */ HorseData    horseData;
-    /* 0x1352 */ u16          checksum; // "check_sum"
-    /* 0x1354 */ s32          fileNum; // "file_no"
-    /* 0x1358 */ char         unk_1358[0x0004];
-    /* 0x135C */ s32          gameMode;
-    /* 0x1360 */ s32          sceneSetupIndex;
-    /* 0x1364 */ s32          respawnFlag; // "restart_flag"
-    /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
-    /* 0x13BC */ f32          unk_13BC;
-    /* 0x13C0 */ u16          unk_13C0;
-    /* 0x13C2 */ char         unk_13C2[0x0001];
-    /* 0x13C3 */ u8           unk_13C3;
-    /* 0x13C4 */ s16          dogParams;
-    /* 0x13C6 */ u8           textTriggerFlags;
-    /* 0x13C7 */ u8           unk_13C7;
-    /* 0x13C8 */ s16          nayrusLoveTimer;
-    /* 0x13CA */ char         unk_13CA[0x0002];
-    /* 0x13CC */ s16          rupeeAccumulator;
-    /* 0x13CE */ s16          timer1State;
-    /* 0x13D0 */ s16          timer1Value;
-    /* 0x13D2 */ s16          timer2State;
-    /* 0x13D4 */ s16          timer2Value;
-    /* 0x13D6 */ s16          timerX[2];
-    /* 0x13DA */ s16          timerY[2];
-    /* 0x13DE */ char         unk_13DE[0x0002];
-    /* 0x13E0 */ u8           seqIndex;
-    /* 0x13E1 */ u8           nightSeqIndex;
-    /* 0x13E2 */ u8           buttonStatus[5];
-    /* 0x13E7 */ u8           unk_13E7;
-    /* 0x13E8 */ u16          unk_13E8; // alpha type?
-    /* 0x13EA */ u16          unk_13EA; // also alpha type?
-    /* 0x13EC */ u16          unk_13EC; // alpha type counter?
-    /* 0x13EE */ u16          unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16          unk_13F0;
-    /* 0x13F2 */ s16          unk_13F2;
-    /* 0x13F4 */ s16          unk_13F4;
-    /* 0x13F6 */ s16          unk_13F6;
-    /* 0x13F8 */ s16          unk_13F8;
-    /* 0x13FA */ u16          eventInf[4]; // "event_inf"
-    /* 0x1402 */ u16          mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
-    /* 0x1404 */ u16          minigameState;
-    /* 0x1406 */ u16          minigameScore; // "yabusame_total"
-    /* 0x1408 */ char         unk_1408[0x0001];
-    /* 0x1409 */ u8           language;
-    /* 0x140A */ u8           audioSetting;
-    /* 0x140B */ char         unk_140B[0x0001];
-    /* 0x140C */ u8           zTargetingSetting; // 0: Switch; 1: Hold
-    /* 0x140E */ u16          unk_140E; // bgm related
-    /* 0x1410 */ u8           unk_1410;
-    /* 0x1411 */ u8           unk_1411;
-    /* 0x1412 */ u16          nextCutsceneIndex;
-    /* 0x1414 */ u8           cutsceneTrigger;
-    /* 0x1415 */ u8           chamberCutsceneNum;
-    /* 0x1416 */ u16          nextDayTime; // "next_zelda_time"
-    /* 0x1418 */ u8           fadeDuration;
-    /* 0x1419 */ u8           unk_1419; // transition related
-    /* 0x141A */ u16          environmentTime;
-    /* 0x141C */ u8           dogIsLost;
-    /* 0x141D */ u8           nextTransition;
-    /* 0x141E */ char         unk_141E[0x0002];
-    /* 0x1420 */ s16          worldMapArea;
-    /* 0x1422 */ s16          unk_1422; // day time related
-    /* 0x1424 */ s16          healthAccumulator;
-} SaveContext; // size = 0x1428
-
-typedef struct {
     /* 0x00000 */ u16 headMagic; // 1234
     /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
     /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
@@ -266,12 +95,12 @@ typedef struct {
 
 typedef struct OSScTask {
     /* 0x00 */ struct OSScTask* next;
-    /* 0x04 */ u32            state;
-    /* 0x08 */ u32            flags;
-    /* 0x0C */ CfbInfo*          framebuffer;
-    /* 0x10 */ OSTask         list;
-    /* 0x50 */ OSMesgQueue*   msgQ;
-    /* 0x54 */ OSMesg         msg;
+    /* 0x04 */ u32 state;
+    /* 0x08 */ u32 flags;
+    /* 0x0C */ CfbInfo* framebuffer;
+    /* 0x10 */ OSTask list;
+    /* 0x50 */ OSMesgQueue* msgQ;
+    /* 0x54 */ OSMesg msg;
 } OSScTask;
 
 typedef struct GraphicsContext {
@@ -657,10 +486,6 @@ typedef struct {
 } SoundSource; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ char unk_0[0x4];
-} SubGlobalContext1F74; // size = 0x4
-
-typedef struct {
     /* 0x000 */ char unk_00[0x128];
     /* 0x128 */ void* staticSegments[3];
     /* 0x134 */ Gfx* dpList;
@@ -1041,8 +866,7 @@ typedef struct {
     /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
     /* 0x28C */ s32 colOcLineCount;
     /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
-
-} CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
+} CollisionCheckContext; // size = 0x29C
 
 typedef struct ListAlloc {
     /* 0x00 */ struct ListAlloc* prev;
@@ -1116,7 +940,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8* readBuff;
-} Sram; // size = 0x4
+} SramContext; // size = 0x4
+
+#define SRAM_SIZE 0x8000
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;
@@ -1152,7 +978,7 @@ typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ void* staticSegment;
     /* 0x00A8 */ View view;
-    /* 0x01D0 */ Sram sram;
+    /* 0x01D0 */ SramContext sramCtx;
     /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
     /* 0x01D6 */ s16 coverAlpha;
     /* 0x01D8 */ s16 addAlpha; // not used in mq dbg
@@ -1232,7 +1058,7 @@ typedef struct GlobalContext {
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
     /* 0x01DB4 */ SoundSource soundSources[16];
-    /* 0x01F74 */ SubGlobalContext1F74 sub_1F74;
+    /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
@@ -1309,12 +1135,12 @@ typedef struct {
     /* 0x000AC */ void* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
     /* 0x000B8 */ View view;
-    /* 0x001E0 */ Sram sram;
+    /* 0x001E0 */ SramContext sramCtx;
     /* 0x001E4 */ char unk_1E4[0x4];
     /* 0x001E8 */ SkyboxContext skyboxCtx;
     /* 0x00338 */ char unk_338[0x10];
-    /* 0x00348 */ MessageContext messageCtx;
-    /* 0x0E760 */ char kanfont[0xE188];
+    /* 0x00348 */ MessageContext msgCtx;
+    /* 0x0E760 */ char font[0xE188];
     /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
     /* 0x1C9E8 */ Vtx* allocVtx2;

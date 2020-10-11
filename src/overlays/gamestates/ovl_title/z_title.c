@@ -155,7 +155,7 @@ void Title_Main(TitleContext* this) {
 }
 
 void Title_Destroy(TitleContext* this) {
-    func_800A9AD0(this, &this->sram);
+    Sram_InitSram(this, &this->sramCtx);
 }
 
 void Title_Init(TitleContext* this) {
@@ -175,7 +175,7 @@ void Title_Init(TitleContext* this) {
     this->state.destroy = Title_Destroy;
     this->exit = false;
     gSaveContext.fileNum = 0xFF;
-    func_800A9CD4(&this->state, &this->sram);
+    Sram_Alloc(&this->state, &this->sramCtx);
     this->ult = 0;
     this->unk_1D4 = 0x14;
     this->coverAlpha = 255;

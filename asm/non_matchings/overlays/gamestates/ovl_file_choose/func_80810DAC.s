@@ -8,7 +8,7 @@ glabel D_80812F34
     .balign 4
     
 .text
-glabel func_80810DAC
+glabel FileChoose_Main
 /* 0D06C 80810DAC 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0D070 80810DB0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0D074 80810DB4 AFB00018 */  sw      $s0, 0x0018($sp)           
