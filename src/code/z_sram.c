@@ -296,7 +296,7 @@ void Sram_InitDebugSave(void) {
  */
 #ifdef NON_MATCHING
 // regalloc differences at the end
-void Sram_OpenSave(Sram* sramCtx) {
+void Sram_OpenSave(SramContext* sramCtx) {
     static s16 dungeonEntrances[] = {
         0x0000, 0x0004, 0x0028, 0x0169, 0x0165, 0x0010, 0x0082, 0x0037,
         0x0098, 0x0088, 0x041B, 0x0008, 0x0486, 0x0467, 0x0179, 0x056C,
@@ -512,7 +512,7 @@ void Sram_WriteSave(s32 unused) {
  */
 #ifdef NON_MATCHING
 // There's a problem with how "offset" is loaded
-void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, Sram* sramCtx) {
+void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     u16 slotNum; // 0x72
     u16 oldChecksum;
     u16 newChecksum;
@@ -692,7 +692,7 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, Sram* sramCtx)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sram/Sram_VerifyAndLoadAllSaves.s")
 #endif
 
-void Sram_InitSave(FileChooseContext* fileChooseCtx, Sram* sramCtx) {
+void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     u16 offset;
     u16 j;
     u16* ptr;
@@ -783,7 +783,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, Sram* sramCtx) {
     osSyncPrintf("now_life[%d]=%d\n", gSaveContext.fileNum, fileChooseCtx->nowLife[gSaveContext.fileNum]);
 }
 
-void Sram_EraseSave(FileChooseContext* fileChooseCtx, Sram* sramCtx) {
+void Sram_EraseSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     s32 offset;
 
     Sram_InitNewSave();
@@ -802,7 +802,7 @@ void Sram_EraseSave(FileChooseContext* fileChooseCtx, Sram* sramCtx) {
     osSyncPrintf("ＣＬＥＡＲ終了\n");
 }
 
-void Sram_CopySave(FileChooseContext* fileChooseCtx, Sram* sramCtx) {
+void Sram_CopySave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     s32 offset;
 
     osSyncPrintf("ＲＥＡＤ=%d(%x)  ＣＯＰＹ=%d(%x)\n", fileChooseCtx->selectedFileIdx,
@@ -842,11 +842,11 @@ void Sram_CopySave(FileChooseContext* fileChooseCtx, Sram* sramCtx) {
     osSyncPrintf("ＣＯＰＹ終了\n"); // Copy end
 }
 
-void Sram_Write16Bytes(Sram* sramCtx) {
+void Sram_Write16Bytes(SramContext* sramCtx) {
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 0x10, OS_WRITE);
 }
 
-void Sram_InitSram(GameState* gameState, Sram* sramCtx) {
+void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     u16 i;
 
     osSyncPrintf("sram_initialize( Game *game, Sram *sram )\n");
@@ -893,7 +893,7 @@ void Sram_InitSram(GameState* gameState, Sram* sramCtx) {
     func_800F6700(gSaveContext.audioSetting);
 }
 
-void Sram_Alloc(GameState* gameState, Sram* sramCtx) {
+void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     sramCtx->readBuff = GameState_Alloc(gameState, SRAM_SIZE, "../z_sram.c", 1294);
 
     if (!(sramCtx->readBuff != NULL)) {
@@ -901,5 +901,5 @@ void Sram_Alloc(GameState* gameState, Sram* sramCtx) {
     }
 }
 
-void Sram_Init(GlobalContext* globalCtx, Sram* sramCtx) {
+void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx) {
 }
