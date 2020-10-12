@@ -568,7 +568,7 @@ void Select_Draw(SelectContext* this) {
 
 void Select_Main(GameState* thisx) {
     SelectContext* this = (SelectContext*)thisx;
-    
+
     Select_UpdateMenu(this);
     Select_Draw(this);
 }
