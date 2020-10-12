@@ -70,8 +70,8 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
 
             pauseCtx->mode = (u16)(pauseCtx->kscpPos * 2) + 1; // cast required
             pauseCtx->state = 1;
-            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, (f64)pauseCtx->eye.x,
-                         (f64)pauseCtx->eye.z, pauseCtx->kscpPos);
+            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
+                         pauseCtx->eye.z, pauseCtx->kscpPos);
         }
 
         if (pauseCtx->state == 1) {
