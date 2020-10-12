@@ -2537,8 +2537,7 @@ endseg
 beginseg
     name "ovl_En_Horse_Normal"
     include "build/src/overlays/actors/ovl_En_Horse_Normal/z_en_horse_normal.o"
-    include "build/data/overlays/actors/z_en_horse_normal.data.o"
-    include "build/data/overlays/actors/z_en_horse_normal.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse_Normal/ovl_En_Horse_Normal_reloc.o"
 endseg
 
 beginseg

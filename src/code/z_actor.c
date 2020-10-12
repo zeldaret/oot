@@ -67,7 +67,7 @@ void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, Lights* lights, GlobalContex
 }
 
 void ActorShadow_DrawFunc_Squiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    func_8002B200(actor, lights, globalCtx, &D_04049AD0, NULL);
+    func_8002B200(actor, lights, globalCtx, D_04049AD0, NULL);
 }
 
 void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {

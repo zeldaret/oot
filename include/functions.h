@@ -1379,6 +1379,8 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 // ? func_800A5F60(?);
 // ? func_800A60D8(?);
 void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void* callback, s32);
+void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb*, s32, s32, s32, s32, s32);
+void func_800A6408(ColliderJntSphItem* collider, u8 joint, Vec3f*, Vec3f*);
 // ? func_800A6460(?);
 void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
 void func_800A6888(GlobalContext*, PSkinAwb*);
