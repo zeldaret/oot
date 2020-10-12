@@ -40,13 +40,13 @@ extern s16 D_80812814[];
 
 // 803F9644
 // void func_8080BFE4(FileChooseContext* this);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
 
 void func_8080BFE4(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
+    s16 alphaStep;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller3 = &this->state.input[2];
-    s16 alphaStep;
 
     if (CHECK_BTN_ALL(controller3->press.button, BTN_DLEFT)) {
         D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
