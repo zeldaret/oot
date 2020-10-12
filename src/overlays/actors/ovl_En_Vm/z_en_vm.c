@@ -429,7 +429,7 @@ s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         }
     }
 
-    return 0;
+    return false;
 }
 
 void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
