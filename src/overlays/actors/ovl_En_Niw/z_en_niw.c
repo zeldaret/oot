@@ -63,9 +63,9 @@ static s16 sKakarikoFlagList[] = {
     0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000,
 };
 
-static u8 sSpawnedVer1 = false;
+static u8 sSpawnedVer1 = 0;
 
-static u8 sSpawnedVer2 = false;
+static u8 sSpawnedVer2 = 0;
 
 static ColliderCylinderInit sCylinderInit1 = {
     { COLTYPE_UNK5, 0x00, 0x09, 0x01, 0x20, COLSHAPE_CYLINDER },
@@ -972,7 +972,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_2A8 = this->unk_294 = this->unk_298 = this->unk_2A6 = this->unk_29E = this->unk_2A0 = this->unk_2A2 =
             0;
 
-        for (i = 0; i < ARRAY_COUNT(this->unk_26C); i++) {
+        for (i = 0; 10 > i; i++) {
             this->unk_26C[i] = 0;
         }
 
@@ -1169,7 +1169,7 @@ void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx) {
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(particle->unk_30, MTXMODE_APPLY);
+            Matrix_RotateZ(particle->unk_30, 1);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
