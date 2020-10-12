@@ -105,7 +105,6 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n" VT_RST);
             return;
         }
-
         sSpawnedVer1 = true;
         this->actor.room = -1;
     }
@@ -115,7 +114,6 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n" VT_RST);
             return;
         }
-
         sSpawnedVer2 = true;
         this->actor.room = -1;
     }
@@ -132,7 +130,6 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
                 fabsf(this->actor.posRot.pos.z - posListEntry->z) < 40.0f) {
                 this->unk_2AA = i;
                 osSyncPrintf(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
-
                 if (gSaveContext.infTable[25] & sKakarikoFlagList[i]) {
                     this->actor.posRot.pos.x = 300.0f;
                     this->actor.posRot.pos.y = 100.0f;
@@ -282,7 +279,6 @@ void func_80AB5BF8(EnNiw* this, GlobalContext* globalCtx, s16 arg2) {
             case 5:
                 this->timer2 = 5;
                 this->unk_26C[7] = this->unk_26C[5] = 14000.0f;
-
                 if (this->unk_29C == 0) {
                     this->unk_26C[7] = this->unk_26C[5] = 10000.0f;
                 }
