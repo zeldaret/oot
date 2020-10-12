@@ -968,7 +968,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_2A8 = this->unk_294 = this->unk_298 = this->unk_2A6 = this->unk_29E = this->unk_2A0 = this->unk_2A2 =
             0;
 
-        for (i = 0; 10 > i; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->unk_26C); i++) {
             this->unk_26C[i] = 0;
         }
 
