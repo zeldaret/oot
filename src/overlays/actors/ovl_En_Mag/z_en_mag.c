@@ -98,7 +98,7 @@ void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.unk_1419 = 255;
     }
 
-    Kanfont_LoadOrderedFont(&this->font);
+    Font_LoadOrderedFont(&this->font);
 
     this->unk_E316 = 0;
     this->unk_E318 = 0;

@@ -11,19 +11,19 @@ extern const char D_0703811C[]; // end marker of last message
 void func_8006EE50(Font* font, s16 arg1, s16 arg2) {
 }
 
-void Kanfont_LoadChar(u32 offset, u8 character, u16 codePointIndex) {
+void Font_LoadChar(u32 offset, u8 character, u16 codePointIndex) {
     DmaMgr_SendRequest1(((u32)offset + codePointIndex) + 8,
                         &_nes_font_staticSegmentRomStart[character * FONT_CHAR_TEX_SIZE], FONT_CHAR_TEX_SIZE,
                         "../z_kanfont.c", 93);
 }
 
-void Kanfont_LoadMessageBoxEndIcon(Font* font, u16 icon) {
+void Font_LoadMessageBoxEndIcon(Font* font, u16 icon) {
     DmaMgr_SendRequest1(font->iconBuf, &_message_staticSegmentRomStart[4 * 0x1000 + icon * FONT_CHAR_TEX_SIZE],
                         FONT_CHAR_TEX_SIZE, "../z_kanfont.c", 100);
 }
 
-void Kanfont_LoadOrderedFont(Font* font) {
-    s32 size;
+void Font_LoadOrderedFont(Font* font) {
+    s32 len;
     s32 jj;
     s32 fontStatic;
     u32 fontBuf;
@@ -31,14 +31,14 @@ void Kanfont_LoadOrderedFont(Font* font) {
     s32 fontBufIndex;
     s32 offset;
 
-    font->msgData.offset = D_070380D4 - D_07000000;
-    size = font->msgData.size = D_0703811C - D_070380D4;
-    DmaMgr_SendRequest1(font->msgBuf, &_nes_message_data_staticSegmentRomStart[font->msgData.offset], size,
+    font->msgOffset = D_070380D4 - D_07000000;
+    len = font->msgLength = D_0703811C - D_070380D4;
+    DmaMgr_SendRequest1(font->msgBuf, &_nes_message_data_staticSegmentRomStart[font->msgOffset], len,
                         "../z_kanfont.c", 122);
-    osSyncPrintf("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgData.offset, font->msgData.size, jj = size);
-    size = jj;
+    osSyncPrintf("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgOffset, font->msgLength, jj = len);
+    len = jj;
     for (fontBufIndex = 0, codePointIndex = 0; font->msgBuf[codePointIndex] != MESSAGE_END; codePointIndex++) {
-        if (codePointIndex > size) {
+        if (codePointIndex > len) {
             osSyncPrintf("ＥＲＲＯＲ！！  エラー！！！  error───！！！！\n");
             return;
         }

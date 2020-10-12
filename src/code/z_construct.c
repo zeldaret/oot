@@ -199,7 +199,7 @@ void func_80110F68(GlobalContext* globalCtx) {
         __assert("message->fukidashiSegment != NULL", "../z_construct.c", 352);
     }
 
-    Kanfont_LoadOrderedFont(&globalCtx->msgCtx.font);
+    Font_LoadOrderedFont(&globalCtx->msgCtx.font);
 
     YREG(31) = 0;
 }

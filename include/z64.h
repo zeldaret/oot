@@ -676,27 +676,16 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
-typedef struct {
-    /* 0x0000 */ u32  offset;
-    /* 0x0004 */ u32  size;
-    /* 0x0008 */ u8   xy;
-} MessageData;
-
 #define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
 
 typedef struct {
-    /* 0x0000 */ MessageData msgData;
-    /* 0x000C */ char   unk_C[0x3BFC];
-    /* 0x3C08 */ u8     iconBuf[FONT_CHAR_TEX_SIZE];
-    /* 0x3C88 */ u8     fontBuf[FONT_CHAR_TEX_SIZE * 320]; // size possibly unconfirmed
-    /* 0xDC88 */ char   msgBuf[1064]; // size unconfirmed
-    /* 0xE0B0 */ s32    unk_E0B0;
-    /* 0xE0B4 */ u8     unk_E0B4;
-    /* 0xE0B5 */ char   unk_E0B5[0xC9];
-    /* 0xE17E */ u16    unk_E17E;
-    /* 0xE180 */ u16    unk_E180;
-    /* 0xE182 */ u16    unk_E182;
-    /* 0xE184 */ char   unk_E184[0x04];
+    /* 0x0000 */ u32   msgOffset;
+    /* 0x0004 */ u32   msgLength;
+    /* 0x0008 */ char  unk_8[0x3C00];
+    /* 0x3C08 */ u8    iconBuf[FONT_CHAR_TEX_SIZE];
+    /* 0x3C88 */ u8    fontBuf[FONT_CHAR_TEX_SIZE * 320]; // size possibly unconfirmed
+    /* 0xDC88 */ char  msgBuf[1064]; // size unconfirmed
+    /* 0xE0B0 */ char  unk_E0B0[0xD8];
 } Font; // size = 0xE188
 
 typedef struct {
