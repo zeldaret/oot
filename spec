@@ -346,8 +346,7 @@ beginseg
     include "build/src/code/z_skin_awb.o"
     include "build/src/code/z_skin_matrix.o"
     include "build/src/code/z_sram.o"
-    include "build/data/z_sram.data.o"
-    include "build/src/code/code_800A9D40.o"
+    include "build/src/code/z_ss_sram.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/z_text.data.o"
     include "build/src/code/z_view.o"
@@ -738,8 +737,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Soulmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/z_bg_gnd_soulmeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/ovl_Bg_Gnd_Soulmeiro_reloc.o"
 endseg
 
 beginseg
@@ -2052,8 +2050,7 @@ endseg
 beginseg
     name "ovl_En_Butte"
     include "build/src/overlays/actors/ovl_En_Butte/z_en_butte.o"
-    include "build/data/overlays/actors/z_en_butte.data.o"
-    include "build/data/overlays/actors/z_en_butte.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Butte/ovl_En_Butte_reloc.o"
 endseg
 
 beginseg

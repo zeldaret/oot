@@ -85,7 +85,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         sp26 >>= gEquipShifts[equipment];
 
         gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
-        gSaveContext.equipment ^= gBitFlags[sp26 - 1] << gEquipShifts[equipment];
+        gSaveContext.inventory.equipment ^= gBitFlags[sp26 - 1] << gEquipShifts[equipment];
 
         if (equipment == EQUIP_TUNIC) {
             gSaveContext.equips.equipment |= 0x0100;
@@ -104,6 +104,6 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
 }
 
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value) {
-    gSaveContext.upgrades &= gUpgradeNegMasks[upgrade];
-    gSaveContext.upgrades |= value << gUpgradeShifts[upgrade];
+    gSaveContext.inventory.upgrades &= gUpgradeNegMasks[upgrade];
+    gSaveContext.inventory.upgrades |= value << gUpgradeShifts[upgrade];
 }
