@@ -36,8 +36,7 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
 
 extern Gfx D_060088B0[];
 extern Gfx D_0600BEC0[];
-
-extern UNK_TYPE D_0600C080;
+extern ColHeader D_0600C080;
 
 void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) {
     if (this->actionFlags & 2) {
@@ -53,7 +52,7 @@ void BgGndDarkmeiro_ToggleBlock(BgGndDarkmeiro* this, GlobalContext* globalCtx) 
 
 void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
-    s32 local_c = 0;
+    ColHeader* colHeader = NULL;
     BgGndDarkmeiro* this = THIS;
 
     this->updateFunc = BgGndDarkmeiro_Noop;
@@ -64,9 +63,9 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.flags |= 0x80;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
-            DynaPolyInfo_Alloc(&D_0600C080, &local_c);
+            DynaPolyInfo_Alloc(&D_0600C080, &colHeader);
             this->dyna.dynaPolyId =
-                DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, local_c);
+                DynaPolyInfo_RegisterActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
             if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) {
                 this->updateFunc = BgGndDarkmeiro_UpdateStaticBlock;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
