@@ -230,7 +230,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         pitch = 0x1B91;
     }
 
-    if ((this->colliderQuad1.base.atFlags & 2) != 0) {
+    if (this->colliderQuad1.base.atFlags & 2) {
         this->colliderQuad1.base.atFlags &= 0xFFFD;
         this->timer = 0;
 
