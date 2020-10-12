@@ -971,7 +971,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Bombchuiwa"
     include "build/src/overlays/actors/ovl_Bg_Jya_Bombchuiwa/z_bg_jya_bombchuiwa.o"
-    include "build/data/overlays/actors/z_bg_jya_bombchuiwa.data.o"
+    //include "build/data/overlays/actors/z_bg_jya_bombchuiwa.data.o"
     include "build/data/overlays/actors/z_bg_jya_bombchuiwa.reloc.o"
 endseg
 
