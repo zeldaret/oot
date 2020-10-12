@@ -1193,8 +1193,8 @@ typedef struct {
     /* 0x1CAB4 */ s16 inputTimerY;
     /* 0x1CAB6 */ s16 xIndexOffset; // better name
     /* 0x1CAB8 */ s16 yIndexOffset; // better name
-    /* 0x1CABA */ s16 inputX;
-    /* 0x1CABC */ s16 inputY;
+    /* 0x1CABA */ s16 stickRelX;
+    /* 0x1CABC */ s16 stickRelY;
     /* 0x1CABE */ s16 nameEntryBoxPosX;
     /* 0x1CAC0 */ s16 windowPosX;
     /* 0x1CAC4 */ f32 windowRot;

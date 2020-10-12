@@ -36,6 +36,7 @@ extern Gfx D_80812728[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BF6C.s")
 
+void func_8080BFE4(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C2F4.s")
@@ -84,29 +85,29 @@ void FileChoose_Main(GameState* thisx) {
 
     func_80095248(this->state.gfxCtx, 0, 0, 0);
 
-    this->inputX = controller1->rel.stick_x;
-    this->inputY = controller1->rel.stick_y;
+    this->stickRelX = controller1->rel.stick_x;
+    this->stickRelY = controller1->rel.stick_y;
 
-    if (this->inputX < -30) {
+    if (this->stickRelX < -30) {
         if (this->xIndexOffset == -1) {
-            this->inputTimerX -= 1;
+            this->inputTimerX--;
             if (this->inputTimerX < 0) {
                 this->inputTimerX = 2;
             } else {
-                this->inputX = 0;
+                this->stickRelX = 0;
             }
         } else {
             this->inputTimerX = 10;
             this->xIndexOffset = -1;
         }
     } else {
-        if (this->inputX >= 31) {
+        if (this->stickRelX > 30) {
             if (this->xIndexOffset == 1) {
-                this->inputTimerX -= 1;
+                this->inputTimerX--;
                 if (this->inputTimerX < 0) {
                     this->inputTimerX = 2;
                 } else {
-                    this->inputX = 0;
+                    this->stickRelX = 0;
                 }
             } else {
                 this->inputTimerX = 10;
@@ -117,26 +118,26 @@ void FileChoose_Main(GameState* thisx) {
         }
     }
 
-    if (this->inputY < -30) {
+    if (this->stickRelY < -30) {
         if (this->yIndexOffset == -1) {
             this->inputTimerY -= 1;
             if (this->inputTimerY < 0) {
                 this->inputTimerY = 2;
             } else {
-                this->inputY = 0;
+                this->stickRelY = 0;
             }
         } else {
             this->inputTimerY = 10;
             this->yIndexOffset = -1;
         }
     } else {
-        if (this->inputY >= 31) {
+        if (this->stickRelY > 30) {
             if (this->yIndexOffset == 1) {
                 this->inputTimerY -= 1;
                 if (this->inputTimerY < 0) {
                     this->inputTimerY = 2;
                 } else {
-                    this->inputY = 0;
+                    this->stickRelY = 0;
                 }
             } else {
                 this->inputTimerY = 10;
@@ -148,6 +149,7 @@ void FileChoose_Main(GameState* thisx) {
     }
 
     this->emptyFileTextAlpha = 0;
+
     func_8080BFE4(this);
     D_80812A44[this->menuIndex](this);
     D_80812A38[this->menuIndex](this);
