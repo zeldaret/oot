@@ -30,6 +30,11 @@ void func_800E3874(unk_1D50_s *arg0, s32 size);
 void func_800E36EC(s32 resetStatus);
 void func_800E38F8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
+OSMesgQueue D_8016B6E0;
+u8 D_8016B6F8[0x40];
+u8* D_8016B738[0x12];
+u32 D_8016B780[8];
+
 void func_800E11F0(void) {
     s32 i;
 
@@ -1675,7 +1680,7 @@ void func_800E4198(s32 arg0, unk_ldr *arg1, unk_4C *arg2, s32 arg3) {
     if (gAudioContext.unk_176C != 0) {
         sp4C = 1;
     } else {
-        D_8016B780 = 0;
+        D_8016B780[0] = 0;
         sp4C = 0;
     }
 
@@ -1916,6 +1921,7 @@ void func_800E4EE4(void) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4EEC.s")
+
 
 void func_800E4F58(void) {
     u32 pad;

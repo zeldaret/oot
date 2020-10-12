@@ -2,11 +2,11 @@ glabel func_800F2D6C
 /* B69F0C 800F2D6C 3C078013 */  lui   $a3, %hi(D_80131ED4) # $a3, 0x8013
 /* B69F10 800F2D70 24E71ED4 */  addiu $a3, %lo(D_80131ED4) # addiu $a3, $a3, 0x1ed4
 /* B69F14 800F2D74 90E30000 */  lbu   $v1, ($a3)
-/* B69F18 800F2D78 3C018017 */  lui   $at, %hi(D_8016B7EE)
+/* B69F18 800F2D78 3C018017 */  lui   $at, %hi(D_8016B7E8)
 /* B69F1C 800F2D7C AFA50004 */  sw    $a1, 4($sp)
 /* B69F20 800F2D80 000370C0 */  sll   $t6, $v1, 3
 /* B69F24 800F2D84 002E0821 */  addu  $at, $at, $t6
-/* B69F28 800F2D88 A425B7EE */  sh    $a1, %lo(D_8016B7EE)($at)
+/* B69F28 800F2D88 A425B7EE */  sh    $a1, %lo(D_8016B7E8+0x6)($at)
 /* B69F2C 800F2D8C 808F0000 */  lb    $t7, ($a0)
 /* B69F30 800F2D90 00001025 */  move  $v0, $zero
 /* B69F34 800F2D94 3C198017 */  lui   $t9, %hi(D_8016B7E8) # $t9, 0x8017

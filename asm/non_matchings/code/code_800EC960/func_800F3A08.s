@@ -118,11 +118,11 @@ glabel L800F3AC4
 /* B6AD40 800F3BA0 A3AC003A */  sb    $t4, 0x3a($sp)
 /* B6AD44 800F3BA4 93AD0053 */  lbu   $t5, 0x53($sp)
 .L800F3BA8:
-/* B6AD48 800F3BA8 3C028017 */  lui   $v0, %hi(D_8016B8C2)
+/* B6AD48 800F3BA8 3C028017 */  lui   $v0, %hi(D_8016B8B8)
 /* B6AD4C 800F3BAC 93B8003A */  lbu   $t8, 0x3a($sp)
 /* B6AD50 800F3BB0 000D7100 */  sll   $t6, $t5, 4
 /* B6AD54 800F3BB4 004E1021 */  addu  $v0, $v0, $t6
-/* B6AD58 800F3BB8 8042B8C2 */  lb    $v0, %lo(D_8016B8C2)($v0)
+/* B6AD58 800F3BB8 8042B8C2 */  lb    $v0, %lo(D_8016B8B8+0xA)($v0)
 /* B6AD5C 800F3BBC 83A9003B */  lb    $t1, 0x3b($sp)
 /* B6AD60 800F3BC0 00584026 */  xor   $t0, $v0, $t8
 /* B6AD64 800F3BC4 31190010 */  andi  $t9, $t0, 0x10

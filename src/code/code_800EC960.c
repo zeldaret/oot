@@ -139,7 +139,6 @@ extern u8       D_8016B8B2;
 extern u8       D_8016B8B3;
 extern u8       D_8016B8B4;
 extern unk_s1   D_8016B8B8[];
-extern u8       D_8016B9D8;
 extern u8       D_8016B9F2;
 extern u8       D_8016B9F3;
 extern u8       D_8016B9F4;
@@ -153,6 +152,69 @@ extern s32      D_8016BA18; // prev button.
 extern u8       sOcarinaHasStartedSong; // 8016BA29
 extern u8       D_8016BAA8;
 extern f32      D_8016BAAC;
+
+/**
+ * BSS
+*/
+u32 sOcarinaUpdateStartTime; // 8016B7A0
+u32 sOcarinaUpdateEndTime;
+f32 D_8016B7A8;
+f32 D_8016B7AC; // maybe padding? 
+f32 D_8016B7B0;
+f32 D_8016B7B4;
+unk_s2 D_8016B7B8;
+unk_s2 D_8016B7C8;
+f32 D_8016B7D8;
+s8 D_8016B7DC;
+f32 D_8016B7E0;
+u16 D_8016B7E4;
+u8 D_8016B7E8[0xC8];
+u8 D_8016B8B0;
+u8 D_8016B8B1;
+u8 D_8016B8B2;
+u8 D_8016B8B3;
+u8 D_8016B8B4;
+unk_s1 D_8016B8B8[0x10];
+
+// maybe a struct?
+u8 D_8016B9B8[0x20];
+u8 D_8016B9D8[0x8]; // probably array.
+u8 D_8016B9E0[0x12];
+u8 D_8016B9F2;
+u8 D_8016B9F3;
+u8 D_8016B9F4;
+u16 D_8016B9F6;
+
+unk_s5 D_8016B9F8;
+unk_s5 D_8016B9FC;
+unk_s5 D_8016BA00;
+u32 D_8016BA04;
+s8 D_8016BA08;
+s8 D_8016BA09;
+u32 sCurOcarinaBtnPress;
+s32 D_8016BA10;
+u32 sPrevOcarinaBtnPress;
+s32 D_8016BA18;
+s32 D_8016BA1C;
+u8 sCurOcarinaSong[8];
+u8 sOcarinaSongAppendPos;
+u8 sOcarinaHasStartedSong;
+u8 sOcarinaSongNotestartIdx;
+u8 sOcarinaSongCnt;
+u16 sOcarinaAvailSongs;
+u8 D_8016BA2E;
+u16 D_8016BA30[0x10];
+u16 D_8016BA50[0x10];
+u16 D_8016BA70[0x10];
+u8 D_8016BA90[0x10];
+OcarinaNote D_8016BAA0;
+u8 D_8016BAA8;
+f32 D_8016BAAC;
+u32 D_8016BAB0;
+u32 sDebugPadPressRaw;
+u32 sDebugPadPress;
+s32 sOcarinaUpdateTaskCntStart;
+s32 sOcarinaUpdateTaskCntEnd;
 
 void func_800EC960(u8 custom) {
     if (!custom) {
@@ -277,6 +339,7 @@ extern u16 D_8016BA50[];
 extern u16 D_8016BA70[];
 extern u8 D_8016BA90[];
 extern u8 sOcarinaSongAppendPos; // 8016BA28
+unk_s5 D_8016B9F8;
 
 // start ocarina.
 void func_800ECC04(u16 arg0) {
@@ -306,7 +369,7 @@ void func_800ECC04(u16 arg0) {
         sOcarinaHasStartedSong = 0;
         D_80131878 = 0;
         D_8016BA2E = 0;
-        D_8016B9F9 = func_800ECAF0();
+        D_8016B9F8.unk_01 = func_800ECAF0();
         sOcarinaInpEnabled = 1;
         D_80130F4C = 0;
         for(i = 0; i < 0xE; i++){
@@ -1924,7 +1987,7 @@ void func_800F6C34(void) {
     D_8016B8B2 = 0;
     D_8016B8B3 = 0;
     D_8016B8B4 = 0xFF;
-    D_8016B9D8 = 0;
+    D_8016B9D8[0] = 0;
     D_80130610 = D_801306C8[D_80133414];
     D_80130608 = 0;
     D_80130628 = 0xFFFF;
