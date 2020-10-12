@@ -9,9 +9,11 @@
 
 #define ARG(x) x
 
+/* For use in message_data_static files */
+
 // while a control code, newlines are handled in the charmap conversion 
 // stage to allow normal newline \n usage
-//#define NEWLINE                 "\x01" 
+#define NEWLINE                 "\x01" 
 #define END                     "\x02"
 #define BOX_BREAK               "\x04"
 #define COLOR(x)                "\x05" ARG(x) // 1
@@ -41,6 +43,39 @@
 #define FISH_INFO               "\x1D"
 #define HIGHSCORE(x)            "\x1E" ARG(x) // 1
 #define TIME                    "\x1F"
+
+/* For use in code files */
+
+#define MESSAGE_NEWLINE                 '\x01' 
+#define MESSAGE_END                     '\x02'
+#define MESSAGE_BOX_BREAK               '\x04'
+#define MESSAGE_COLOR(x)                '\x05' ARG(x) // 1
+#define MESSAGE_SHIFT(x)                '\x06' ARG(x) // 1
+#define MESSAGE_TEXTID(x)               '\x07' ARG(x) // 2
+#define MESSAGE_QUICKTEXT_ENABLE        '\x08'
+#define MESSAGE_QUICKTEXT_DISABLE       '\x09'
+#define MESSAGE_PERSISTENT              '\x0A'
+#define MESSAGE_EVENT                   '\x0B'
+#define MESSAGE_BOX_BREAK_DELAYED(x)    '\x0C' ARG(x) // 1
+#define MESSAGE_AWAIT_BUTTON_PRESS      '\x0D'
+#define MESSAGE_FADE(x)                 '\x0E' ARG(x) // 1
+#define MESSAGE_NAME                    '\x0F'
+#define MESSAGE_OCARINA                 '\x10'
+#define MESSAGE_FADE2(x)                '\x11' ARG(x) // 2
+#define MESSAGE_SFX(x)                  '\x12' ARG(x) // 2
+#define MESSAGE_ITEM_ICON(x)            '\x13' ARG(x) // 1
+#define MESSAGE_TEXT_SPEED(x)           '\x14' ARG(x) // 1
+#define MESSAGE_BACKGROUND(x,y,z)       '\x15' ARG(x) ARG(y) ARG(z)
+#define MESSAGE_MARATHON_TIME           '\x16'
+#define MESSAGE_RACE_TIME               '\x17'
+#define MESSAGE_POINTS                  '\x18'
+#define MESSAGE_TOKENS                  '\x19'
+#define MESSAGE_UNSKIPPABLE             '\x1A'
+#define MESSAGE_TWO_CHOICE              '\x1B'
+#define MESSAGE_THREE_CHOICE            '\x1C'
+#define MESSAGE_FISH_INFO               '\x1D'
+#define MESSAGE_HIGHSCORE(x)            '\x1E' ARG(x) // 1
+#define MESSAGE_TIME                    '\x1F'
 
 /**********************************************\
  * 
