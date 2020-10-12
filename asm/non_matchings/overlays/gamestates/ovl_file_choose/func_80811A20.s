@@ -88,7 +88,7 @@ glabel func_80811A20
 /* 0DE1C 80811B5C 0C2044EA */  jal     func_808113A8
 /* 0DE20 80811B60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DE24 80811B64 3401E760 */  ori     $at, $zero, 0xE760         ## $at = 0000E760
-/* 0DE28 80811B68 0C01BBC4 */  jal     func_8006EF10
+/* 0DE28 80811B68 0C01BBC4 */  jal     Font_LoadOrderedFont
 /* 0DE2C 80811B6C 02012021 */  addu    $a0, $s0, $at
 /* 0DE30 80811B70 3C04F000 */  lui     $a0, 0xF000                ## $a0 = F0000000
 /* 0DE34 80811B74 0C03E803 */  jal     Audio_SetBGM
