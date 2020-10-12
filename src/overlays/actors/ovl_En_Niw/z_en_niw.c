@@ -1,3 +1,9 @@
+/*
+ * File: z_en_niw.c
+ * Overlay: ovl_En_Niw
+ * Description: Cucco
+ */
+
 #include <vt.h>
 #include "z_en_niw.h"
 #include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
