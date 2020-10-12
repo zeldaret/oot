@@ -154,7 +154,7 @@ typedef struct {
     /* 0x1404 */ u16 minigameState;
     /* 0x1406 */ u16 minigameScore; // "yabusame_total"
     /* 0x1408 */ char unk_1408[0x0001];
-    /* 0x1409 */ u8 language;
+    /* 0x1409 */ u8 language; // NTSC 0: Japanese; 1: English | PAL 0: English; 1: German; 2: French
     /* 0x140A */ u8 audioSetting;
     /* 0x140B */ char unk_140B[0x0001];
     /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
@@ -186,5 +186,16 @@ typedef enum {
     /* 0x00 */ BTN_ENABLED,
     /* 0xFF */ BTN_DISABLED = 0xFF
 } ButtonStatus;
+
+typedef enum {
+    /* 0x00 */ LANGUAGE_NTSC_JP,
+    /* 0x01 */ LANGUAGE_NTSC_ENG
+} LanguageNTSC;
+
+typedef enum {
+    /* 0x00 */ LANGUAGE_PAL_ENG,
+    /* 0x01 */ LANGUAGE_PAL_GER,
+    /* 0x02 */ LANGUAGE_PAL_FR,
+} LanguagePAL;
 
 #endif

@@ -943,6 +943,14 @@ typedef struct {
 } SramContext; // size = 0x4
 
 #define SRAM_SIZE 0x8000
+#define SRAM_HEADER_SIZE 0x10
+
+typedef enum {
+    /* 0x00 */ SRAM_HEADER_SOUND,
+    /* 0x01 */ SRAM_HEADER_ZTARGET,
+    /* 0x02 */ SRAM_HEADER_LANGUAGE,
+    /* 0x03 */ SRAM_HEADER_MAGIC // must be "\x98\x09\x10\x21ZELDA"  for save to be considered valid
+} SramHeaderFields;
 
 typedef struct GameAllocEntry {
     /* 0x00 */ struct GameAllocEntry* next;

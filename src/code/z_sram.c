@@ -82,7 +82,7 @@ typedef struct {
 #define DEFENSE OFFSETOF(SaveContext, inventory.defenseHearts)
 #define HEALTH OFFSETOF(SaveContext, health)
 
-#define SLOT_OFFSET(idx) (SLOT_SIZE * idx + 0x20)
+#define SLOT_OFFSET(index) (SRAM_HEADER_SIZE + 0x10 + (index * SLOT_SIZE))
 
 u16 gSramSlotOffsets[][3] = {
     {
@@ -842,8 +842,11 @@ void Sram_CopySave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     osSyncPrintf("ＣＯＰＹ終了\n"); // Copy end
 }
 
-void Sram_Write16Bytes(SramContext* sramCtx) {
-    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 0x10, OS_WRITE);
+/**
+ *  Write the first 16 bytes of the read buffer to the SRAM header
+ */
+void Sram_WriteSramHeader(SramContext* sramCtx) {
+    SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_HEADER_SIZE, OS_WRITE);
 }
 
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
@@ -853,24 +856,24 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
     for (i = 0; i < ARRAY_COUNTU(sZeldaMagic) - 3; i++) {
-        if (sZeldaMagic[i + 3] != sramCtx->readBuff[i + 3]) {
+        if (sZeldaMagic[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
             // SRAM destruction! ! ! ! ! !
             osSyncPrintf("ＳＲＡＭ破壊！！！！！！\n");
-            gSaveContext.language = sramCtx->readBuff[2];
+            gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
             MemCopy(sramCtx->readBuff, sZeldaMagic, sizeof(sZeldaMagic));
-            sramCtx->readBuff[2] = gSaveContext.language;
-            Sram_Write16Bytes(sramCtx);
+            sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
+            Sram_WriteSramHeader(sramCtx);
         }
     }
 
-    gSaveContext.audioSetting = sramCtx->readBuff[0] & 3;
-    gSaveContext.zTargetSetting = sramCtx->readBuff[1] & 1;
-    gSaveContext.language = sramCtx->readBuff[2];
+    gSaveContext.audioSetting = sramCtx->readBuff[SRAM_HEADER_SOUND] & 3;
+    gSaveContext.zTargetSetting = sramCtx->readBuff[SRAM_HEADER_ZTARGET] & 1;
+    gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
 
-    if (gSaveContext.language > 2) {
-        gSaveContext.language = 0;
-        sramCtx->readBuff[2] = gSaveContext.language;
-        Sram_Write16Bytes(sramCtx);
+    if (gSaveContext.language > LANGUAGE_PAL_FR) {
+        gSaveContext.language = LANGUAGE_PAL_ENG;
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
+        Sram_WriteSramHeader(sramCtx);
     }
 
     if (CHECK_BTN_ANY(gameState->input[2].cur.button, BTN_DRIGHT)) {

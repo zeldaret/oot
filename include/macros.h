@@ -10,6 +10,8 @@
 
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 
+#define OFFSETOF(structure, member) ((size_t)&(((structure*)0)->member))
+
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : ((x) -= 1))

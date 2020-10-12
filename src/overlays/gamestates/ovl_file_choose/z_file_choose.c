@@ -7,6 +7,8 @@ extern void (*D_80812A38[3])(FileChooseContext*);
 extern void (*D_80812A44[3])(FileChooseContext*);
 extern Gfx* D_80812A50[];
 extern Gfx D_80812728[];
+extern u8 D_80000002; // this is code in the very beginning of ram???
+extern s16 D_80812814[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AF50.s")
 
@@ -36,8 +38,71 @@ extern Gfx D_80812728[];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BF6C.s")
 
-void func_8080BFE4(FileChooseContext* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
+// 803F9644
+// void func_8080BFE4(FileChooseContext* this);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
+
+void func_8080BFE4(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    Input* controller3 = &this->state.input[2];
+    s16 alphaStep;
+
+    if (CHECK_BTN_ALL(controller3->press.button, BTN_DLEFT)) {
+        D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
+
+        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
+        osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
+                     sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
+                     sramCtx->readBuff[SRAM_HEADER_MAGIC]);
+
+        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+        osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
+                     sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
+                     sramCtx->readBuff[SRAM_HEADER_MAGIC]);
+
+    } else if (CHECK_BTN_ALL(controller3->press.button, BTN_DUP)) {
+        D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_GER;
+
+        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
+        osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
+                     sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
+                     sramCtx->readBuff[SRAM_HEADER_MAGIC]);
+        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+        osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
+                     sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
+                     sramCtx->readBuff[SRAM_HEADER_MAGIC]);
+
+    } else if (CHECK_BTN_ALL(controller3->press.button, BTN_DRIGHT)) {
+        D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_FR;
+
+        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, 3, OS_WRITE);
+        osSyncPrintf("1:read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
+                     sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
+                     sramCtx->readBuff[SRAM_HEADER_MAGIC]);
+
+        SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
+        osSyncPrintf("read_buff[]=%x, %x, %x, %x\n", sramCtx->readBuff[SRAM_HEADER_SOUND],
+                     sramCtx->readBuff[SRAM_HEADER_ZTARGET], sramCtx->readBuff[SRAM_HEADER_LANGUAGE],
+                     sramCtx->readBuff[SRAM_HEADER_MAGIC]);
+    }
+
+    alphaStep = ABS(this->highlightColor[3] - D_80812814[this->highlightFlashDir]) / XREG(35);
+
+    if (this->highlightColor[3] >= D_80812814[this->highlightFlashDir]) {
+        this->highlightColor[3] -= alphaStep;
+    } else {
+        this->highlightColor[3] += alphaStep;
+    }
+
+    XREG(35)--;
+
+    if (XREG(35) == 0) {
+        this->highlightColor[3] = D_80812814[this->highlightFlashDir];
+        XREG(35) = XREG(36 + this->highlightFlashDir);
+        this->highlightFlashDir ^= 1;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C2F4.s")
 
@@ -340,9 +405,9 @@ void FileChoose_InitContext(GameState* thisx) {
 
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_READ);
 
-    gSaveContext.language = sramCtx->readBuff[2];
-    if (gSaveContext.language >= 3) {
-        sramCtx->readBuff[2] = gSaveContext.language = 0;
+    gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
+    if (gSaveContext.language > LANGUAGE_PAL_FR) {
+        sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
     }
 }
 

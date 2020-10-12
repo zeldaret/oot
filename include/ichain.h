@@ -8,8 +8,6 @@ typedef struct {
     s32 value:  16;
 } InitChainEntry;
 
-#define OFFSETOF(structure, member) ((size_t)&(((structure*)0)->member))
-
 typedef enum {
     /* 0x0 */ ICHAINTYPE_U8,            // sets byte
     /* 0x1 */ ICHAINTYPE_S8,

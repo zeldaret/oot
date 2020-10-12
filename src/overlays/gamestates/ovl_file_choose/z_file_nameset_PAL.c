@@ -106,7 +106,7 @@ void* D_80812770[] = {
     func_808068F0, func_808069B4, func_80806C20, func_8080BE28, func_8080BE84, func_80809038, func_80808F84,
     func_8080BF6C, func_8080BEF8, func_8080969C, func_8080960C, func_8080BF6C, func_8080BE30,
 };
-s32 D_80812814[] = { 0x004600C8 };
+s16 D_80812814[] = { 0x0046, 0x00C8 }; // used for calculating alpha for the flashing cursor
 s32 D_80812818[] = { 0x001A000A, 0x000A000A };
 s32 D_80812820[] = { 0x0020000C, 0x000C000C };
 s32 D_80812828[] = { 0x0010000C, 0x000C000C };
