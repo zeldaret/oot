@@ -701,7 +701,7 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
             this->timer4 = 30;
             Math_Vec3f_Copy(&pos, &this->actor.posRot.pos);
             pos.y += this->actor.waterY;
-            func_80029444(globalCtx, &pos, 100, 500, 30);
+            EffectSsGRipple_Spawn(globalCtx, &pos, 100, 500, 30);
         }
         if (this->actor.bgCheckFlags & 8) {
             this->actor.velocity.y = 10.0f;
@@ -984,7 +984,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&pos, &this->actor.posRot);
         pos.y += this->actor.waterY;
         this->timer4 = 30;
-        func_8002949C(globalCtx, &pos, 0, 0, 0, 400);
+        EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
         this->timer5 = 0;
         osSyncPrintf("\n\n");
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n" VT_RST);
