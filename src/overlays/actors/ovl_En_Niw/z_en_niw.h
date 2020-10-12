@@ -8,7 +8,7 @@ struct EnNiw;
 
 typedef void (*EnNiwActionFunc)(struct EnNiw*, GlobalContext*);
 
-typedef struct EnNiwParticle {
+typedef struct EnNiwFeather {
     /* 0x0000 */ u8 type;
     /* 0x0004 */ Vec3f pos;
     /* 0x0010 */ Vec3f vel;
@@ -19,7 +19,7 @@ typedef struct EnNiwParticle {
     /* 0x0030 */ f32 unk_30;
     /* 0x0034 */ u8 timer;
     /* 0x0036 */ char unk_35[3];
-} EnNiwParticle; // size = 0x0038
+} EnNiwFeather; // size = 0x0038
 
 typedef struct EnNiw {
     /* 0x0000 */ Actor actor;
@@ -78,7 +78,7 @@ typedef struct EnNiw {
     /* 0x0304 */ f32 unk_304;
     /* 0x0308 */ u8 unk_308;
     /* 0x030C */ ColliderCylinder collider;
-    /* 0x0358 */ EnNiwParticle particle[20];
+    /* 0x0358 */ EnNiwFeather feather[20];
 } EnNiw; // size = 0x07B8
 
 extern const ActorInit En_Niw_InitVars;

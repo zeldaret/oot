@@ -25,9 +25,9 @@ void func_80AB714C(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7204(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7328(EnNiw* this, GlobalContext* globalCtx);
-void EnNiw_ParticleSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
-void EnNiw_ParticleUpdate(EnNiw* this, GlobalContext* globalCtx);
-void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
+void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx);
 
 static s16 D_80AB85E0 = 0;
 
@@ -92,8 +92,7 @@ extern Gfx D_06002428[];
 
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNiw* this = THIS;
-    s32 pad[3];
-    Vec3f* posListEntry;
+    s32 pad;
     s32 i;
 
     if (this->actor.params < 0) {
@@ -125,9 +124,9 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
                      this->transitionDrawTable, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
-        for (i = 0, posListEntry = sKakarikoPosList; i < ARRAY_COUNT(sKakarikoPosList); i++, posListEntry++) {
-            if (fabsf(this->actor.posRot.pos.x - posListEntry->x) < 40.0f &&
-                fabsf(this->actor.posRot.pos.z - posListEntry->z) < 40.0f) {
+        for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
+            if (fabsf(this->actor.posRot.pos.x - sKakarikoPosList[i].x) < 40.0f &&
+                fabsf(this->actor.posRot.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
                 osSyncPrintf(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
                 if (gSaveContext.infTable[25] & sKakarikoFlagList[i]) {
@@ -151,27 +150,27 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     switch (this->actor.params) {
-        case 0x2:
+        case 2:
             if (!(gSaveContext.nightFlag)) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 0x1:
+        case 1:
             if (gSaveContext.eventChkInf[1] & 0x10) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 0x3:
+        case 3:
             if (!(gSaveContext.eventChkInf[1] & 0x10)) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 0x5:
+        case 5:
             if (gSaveContext.eventChkInf[1] & 0x100) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case 0x7:
+        case 7:
             if (!(gSaveContext.eventChkInf[1] & 0x100)) {
                 Actor_Kill(&this->actor);
             }
@@ -182,7 +181,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.colChkInfo.mass = 0;
             this->actor.flags &= ~1;
             break;
-        case 0x4:
+        case 4:
             this->actor.gravity = 0.0f;
             break;
     }
@@ -216,9 +215,7 @@ void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AB5BF8(EnNiw* this, GlobalContext* globalCtx, s16 arg2) {
-    f32 factor;
-
-    factor = 1.0f;
+    f32 factor = 1.0f;
 
     if (this->actor.params == 0xD) {
         factor = 2.0f;
@@ -380,7 +377,7 @@ void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8), 0, -10.0f);
 
     switch (this->actor.params) {
-        case 0x4:
+        case 4:
             this->actionFunc = func_80AB6450;
             break;
         case 0xD:
@@ -424,9 +421,7 @@ void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
         this->timer6 = 100;
         this->actor.gravity = -2.0f;
         this->actionFunc = func_80AB7290;
-        return;
-    }
-    if (Actor_HasParent(&this->actor, globalCtx)) {
+    } else if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.gravity = -2.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHICKEN_CRY_M);
         this->sfxTimer1 = 30;
@@ -435,10 +430,10 @@ void func_80AB6450(EnNiw* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~1;
         this->actor.speedXZ = 0.0f;
         this->actionFunc = func_80AB6BF8;
-        return;
+    } else {
+        func_8002F434(&this->actor, globalCtx, 0, 25.0f, 10.0f);
+        func_80AB5BF8(this, globalCtx, 1);
     }
-    func_8002F434(&this->actor, globalCtx, 0, 25.0f, 10.0f);
-    func_80AB5BF8(this, globalCtx, 1);
 }
 
 void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
@@ -491,7 +486,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
         if (this->unk_29E >= 8) {
             this->timer5 = Math_Rand_ZeroFloat(30.0f);
             this->unk_29E = Math_Rand_ZeroFloat(3.99f);
-            if (this->actor.params != 0xA && this->actor.params != 0x8) {
+            if (this->actor.params != 0xA && this->actor.params != 8) {
                 if (posY < 0.0f) {
                     posY -= 100.0f;
                 } else {
@@ -808,7 +803,7 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         this->timer5 = this->timer4 = this->unk_29E = 0;
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speedXZ =
             this->unk_2FC = this->unk_300 = 0.0f;
-        if (this->actor.params == 0x4) {
+        if (this->actor.params == 4) {
             this->actor.params = 0;
         }
         this->actionFunc = EnNiw_ResetAction;
@@ -849,7 +844,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNiw* this = THIS;
     Player* player = PLAYER;
     s16 i;
-    s16 particleCount;
+    s16 featherCount;
     Vec3f zeroVec1 = { 0.0f, 0.0f, 0.0f };
     Vec3f zeroVec2 = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
@@ -868,13 +863,13 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_26C[9] = 0.0f;
     }
     if (this->unk_2A6) {
-        particleCount = 20;
+        featherCount = 20;
 
         if (this->unk_2A6 == 2) {
-            particleCount = 4;
+            featherCount = 4;
         }
 
-        for (i = 0; i < particleCount; i++) {
+        for (i = 0; i < featherCount; i++) {
             pos.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
             pos.y = Math_Rand_CenteredFloat(10.0f) + (this->actor.posRot.pos.y + this->unk_304);
             pos.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
@@ -893,13 +888,13 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             accel.x = 0.0f;
             accel.y = -0.15f;
             accel.z = 0.0f;
-            EnNiw_ParticleSpawn(this, &pos, &vel, &accel, scale);
+            EnNiw_FeatherSpawn(this, &pos, &vel, &accel, scale);
         }
 
         this->unk_2A6 = 0;
     }
 
-    EnNiw_ParticleUpdate(&this->actor, globalCtx);
+    EnNiw_FeatherUpdate(&this->actor, globalCtx);
     DECR(this->timer1);
     DECR(this->timer2);
     DECR(this->timer3);
@@ -1044,7 +1039,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
 
         if (this->actor.params != 0xA && this->actor.params != 0xD && this->actor.params != 0xE &&
-            this->actor.params != 0x4) {
+            this->actor.params != 4) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
         if (this->actionFunc != func_80AB6BF8 && this->actionFunc != func_80AB6D08 &&
@@ -1092,80 +1087,80 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80033C30(&this->actor.posRot.pos, &scale, 255, globalCtx);
     }
 
-    EnNiw_ParticleDraw(this, globalCtx);
+    EnNiw_FeatherDraw(this, globalCtx);
 }
 
-void EnNiw_ParticleSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
+void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
     s16 i;
-    EnNiwParticle* particle = this->particle;
+    EnNiwFeather* feather = this->feather;
 
-    for (i = 0; i < ARRAY_COUNT(this->particle); i++, particle++) {
-        if (particle->type == 0) {
-            particle->type = 1;
-            particle->pos = *pos;
-            particle->vel = *vel;
-            particle->accel = *accel;
-            particle->timer = 0;
-            particle->scale = scale / 1000.0f;
-            particle->lifespan = (s16)Math_Rand_ZeroFloat(20.0f) + 40;
-            particle->unk_2A = Math_Rand_ZeroFloat(1000.0f);
-            return;
+    for (i = 0; i < ARRAY_COUNT(this->feather); i++, feather++) {
+        if (feather->type == 0) {
+            feather->type = 1;
+            feather->pos = *pos;
+            feather->vel = *vel;
+            feather->accel = *accel;
+            feather->timer = 0;
+            feather->scale = scale / 1000.0f;
+            feather->lifespan = (s16)Math_Rand_ZeroFloat(20.0f) + 40;
+            feather->unk_2A = Math_Rand_ZeroFloat(1000.0f);
+            break;
         }
     }
 }
 
-void EnNiw_ParticleUpdate(EnNiw* this, GlobalContext* globalCtx) {
+void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
-    EnNiwParticle* particle = this->particle;
+    EnNiwFeather* feather = this->feather;
 
-    for (i = 0; i < ARRAY_COUNT(this->particle); i++, particle++) {
-        if (particle->type != 0) {
-            particle->timer++;
-            particle->pos.x += particle->vel.x;
-            particle->pos.y += particle->vel.y;
-            particle->pos.z += particle->vel.z;
-            particle->vel.x += particle->accel.x;
-            particle->vel.y += particle->accel.y;
-            particle->vel.z += particle->accel.z;
-            if (particle->type == 1) {
-                particle->unk_2A++;
-                Math_SmoothScaleMaxF(&particle->vel.x, 0.0f, 1.0f, 0.05f);
-                Math_SmoothScaleMaxF(&particle->vel.z, 0.0f, 1.0f, 0.05f);
-                if (particle->vel.y < -0.5f) {
-                    particle->vel.y = -0.5f;
+    for (i = 0; i < ARRAY_COUNT(this->feather); i++, feather++) {
+        if (feather->type != 0) {
+            feather->timer++;
+            feather->pos.x += feather->vel.x;
+            feather->pos.y += feather->vel.y;
+            feather->pos.z += feather->vel.z;
+            feather->vel.x += feather->accel.x;
+            feather->vel.y += feather->accel.y;
+            feather->vel.z += feather->accel.z;
+            if (feather->type == 1) {
+                feather->unk_2A++;
+                Math_SmoothScaleMaxF(&feather->vel.x, 0.0f, 1.0f, 0.05f);
+                Math_SmoothScaleMaxF(&feather->vel.z, 0.0f, 1.0f, 0.05f);
+                if (feather->vel.y < -0.5f) {
+                    feather->vel.y = -0.5f;
                 }
 
-                particle->unk_30 = Math_Sins(particle->unk_2A * 0xBB8) * M_PI * 0.2f;
+                feather->unk_30 = Math_Sins(feather->unk_2A * 0xBB8) * M_PI * 0.2f;
 
-                if (particle->lifespan < particle->timer) {
-                    particle->type = 0;
+                if (feather->lifespan < feather->timer) {
+                    feather->type = 0;
                 }
             }
         }
     }
 }
 
-void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx) {
+void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx) {
     u8 flag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    EnNiwParticle* particle = this->particle;
+    EnNiwFeather* feather = this->feather;
 
     OPEN_DISPS(gfxCtx, "../z_en_niw.c", 1897);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(this->particle); i++, particle++) {
-        if (particle->type == 1) {
+    for (i = 0; i < ARRAY_COUNT(this->feather); i++, feather++) {
+        if (feather->type == 1) {
             if (!flag) {
                 gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);
                 flag++;
             }
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_Translate(feather->pos.x, feather->pos.y, feather->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(particle->unk_30, MTXMODE_APPLY);
+            Matrix_Scale(feather->scale, feather->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(feather->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
