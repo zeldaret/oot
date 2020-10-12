@@ -1165,7 +1165,7 @@ void EnNiw_ParticleDraw(EnNiw* this, GlobalContext* globalCtx) {
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(particle->unk_30, 1);
+            Matrix_RotateZ(particle->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
