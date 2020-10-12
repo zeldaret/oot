@@ -11,44 +11,20 @@ typedef struct {
     u8 unk_01;
     u16 unk_02;
     u8 unk_04;
-    u8 unk_05[3];
+    u8 unk_05;
+    s8 unk_06;
+    u8 unk_07;
 } OcarinaNote;
 
 typedef struct {
     OcarinaNote notes[20];
 } OcarinaSong;
 
-extern OcarinaSong sOcarinaSongs[]; // 80130F80 // D_80131884
-
-extern OcarinaSongInfo sOcarinaSongNotes[]; // D_80131C00
-
 typedef struct {
     u8 unk_00;
     u8 unk_01;
     u8 unk_02;
 } unk_s5;
-extern unk_s5 D_8016BA00;
-
-extern s32 D_80130F40;
-extern u16 D_80130F44;
-extern u32 D_80131860;
-extern u8 D_8013186;
-extern u8 D_80131868;
-extern u8 D_8013186C;
-extern s8 D_80131870;
-extern u8 D_80131874;
-extern u8 D_8013185C;
-extern OcarinaNote D_8016BAA0;
-extern u8 D_80131864;
-extern s8 D_80130F30;
-
-extern unk_s5 D_8016B9FC;
-extern OcarinaSong *D_80131840;
-extern OcarinaSong D_80131884; // 
-extern u8 D_80130F50;
-extern unk_s5 D_8016B9F8;
-extern u32 D_8016BA04;
-extern s32 D_80130F68;
 
 typedef struct {
     f32 unk_00;
@@ -59,6 +35,7 @@ typedef struct {
     u8 unk_0B;
     u8 unk_0C;
 } unk_s1;
+
 typedef struct {
     f32 unk_00;
     f32 unk_04;
@@ -72,86 +49,121 @@ void func_800F5E18(u8 arg0, u16 arg1, u8 arg2, s8 arg3, s8 arg4);
 void func_800F4784(unk_s2 *arg0);
 void func_800F56A8(void);
 
+// stick float vals
+extern f32 D_8012F6B4[];
+extern s32 sOcarinaAllowedBtnMask; // 80130EFC 
+extern s32 sOcarinaABtnMap; // 80130F00
+extern s32 sOcarinaCUPBtnMap; // 80130F04
+extern s32 sOcarinaCDownBtnMap; // 80130F08
+extern u8 D_80131F64;
+extern u8 D_80133408;
+extern s8 D_8013060C;
+extern u8 D_80130604;
+extern s8 D_80130614;
+extern f32 D_80130620;
+extern s8 D_80130624;
+extern u8 D_80131878;
+extern u32 D_80130F3C;
+extern u8 sCurOcarinaBtnVal; // 80130F14
+extern u8 sPrevOcarinaNoteVal; // 80130F18
+extern u8 sCurOcarinaBtnIdx; // note index?
+extern u8 D_80130F20;
+extern u8 sOcarinaInpEnabled; // D_80130F0C
+extern u8 D_80130F38;
+extern u16 D_80130F48;
+extern s8 D_80130F10; // ocarina active?
+extern u8 D_80131BF0[];
+extern u8 D_80130618;
+extern u8 D_8013061C;
+extern u8 D_8013063C;
+extern u8 D_80130640;
+extern u8 D_80130644;
+extern u8 D_80130648;
+extern s8 D_801306C8[];
+extern u8 D_80133414;
+extern u8 D_80130610;
+extern u8 D_80130600;
+extern u8 D_801305F8[];
+extern s8 D_80130608;
+extern u8 D_801305FF;
+extern f32* D_8013064C;
+extern u8 D_801305CC;
+extern u8 D_8013062C;
+extern u8 D_80130630;
+extern u8 D_80130658[];
+extern u8 D_80133418;
+extern u16 D_80130628;
+extern s8 D_80130F2C; // pitch? 
+extern f32 D_80130650;
+extern f32* D_8013064C;
+extern s8 D_801305B8;
+extern s8 D_801305BC;
+extern s8 D_801305C0;
+extern f32 D_801305E4[];
+extern u8 D_801305E0;
+extern f32 D_801305F4;
+extern u32 D_801305B0;
+extern u32 D_801305B4;
+extern f32 D_80131C8C;
+extern u8 D_80131C98;
+extern u8 D_80131C9C;
+extern u8 D_80131CA0;
+extern u8 D_80131CA8;
+extern u16 D_80131E08[];
+extern u8 D_8013340C;
+extern u8 D_80131EEE;
+extern s8 D_80131EBC;
+extern s8 D_80131EC0;
+extern s8 D_80131EC4;
+extern s8 D_80131EC8[];
+extern s16 D_80131E20[];
+extern u8 D_80131CA4;
+extern u8 sOcaMinigameEndPos;
+extern u8 sOcaMinigameApndPos;
+extern u8 sOcaMinigameNoteCnts[];
+extern u16 D_80130F3E;
+extern u8 sOcarinaNoteValues[5];
+extern u8 D_8013170C;
+/** bit field of songs that can be played 
+ * 0x0800 storms
+ * 0x0400 song of time
+ * 0x0200 suns
+ * 0x0100 lullaby
+ * 0x0080 epona
+ * 0x0040 sarias
+ * 0x0020 prelude
+ * 0x0010 nocturne
+ * 0x0008 requiem
+ * 0x0004 serenade
+ * 0x0002 bolero
+ * 0x0001 minuet
+*/
+extern u8 D_8013187C;
+extern u16 D_80130F4C;
 extern u8 D_80131880;
 extern u8 D_80131858;
 extern f32 D_80130F24;
 extern s8 D_80130F34;
 extern u32 D_80130F28;
 extern u8 D_80131F4C[];
-extern u32 sDebugPadPress; // 8016BAB8
 extern u8 D_80131F50;
-
-// stick float vals
-extern f32      D_8012F6B4[];
-
-extern s32      sOcarinaAllowedBtnMask; // 80130EFC 
-extern s32      sOcarinaABtnMap; // 80130F00
-extern s32      sOcarinaCUPBtnMap; // 80130F04
-extern s32      sOcarinaCDownBtnMap; // 80130F08
-extern u8       D_80131F64;
-extern u8       D_80133408;
-extern s8       D_8013060C;
-extern u8       D_80130604;
-extern s8       D_80130614;
-extern f32      D_80130620;
-extern s8       D_80130624;
-extern u8       D_80131878;
-extern u32      D_80130F3C;
-extern u8       sCurOcarinaBtnVal; // 80130F14
-extern u8       sPrevOcarinaNoteVal; // 80130F18
-extern u8       sCurOcarinaBtnIdx; // note index?
-extern u8       D_80130F20;
-extern u8       sOcarinaInpEnabled; // D_80130F0C
-extern u8       D_80130F38;
-extern u16      D_80130F48;
-extern s8       D_80130F10; // ocarina active?
-extern u8       D_80131BF0[];
-extern u8       D_80130618;
-extern u8       D_8013061C;
-extern u8       D_8013063C;
-extern u8       D_80130640;
-extern u8       D_80130644;
-extern u8       D_80130648;
-extern s8       D_801306C8[];
-extern u8       D_80133414;
-extern u8       D_80130610;
-extern u8       D_80130600;
-extern u8       D_801305F8[];
-extern s8       D_80130608;
-extern u8       D_801305FF;
-extern f32*      D_8013064C;
-extern u8       D_801305CC;
-extern u8       D_8013062C;
-extern u8       D_80130630;
-extern u8       D_80130658[];
-extern u8       D_80133418;
-extern u16      D_80130628;
-extern s8       D_80130F2C; // pitch? 
-
-extern f32      D_8016B7A8;
-extern f32      D_8016B7B0;
-extern unk_s2   D_8016B7B8;
-extern unk_s2   D_8016B7C8;
-extern f32      D_8016B7D8;
-extern u8       D_8016B8B0;
-extern u8       D_8016B8B1;
-extern u8       D_8016B8B2;
-extern u8       D_8016B8B3;
-extern u8       D_8016B8B4;
-extern unk_s1   D_8016B8B8[];
-extern u8       D_8016B9F2;
-extern u8       D_8016B9F3;
-extern u8       D_8016B9F4;
-extern u16      D_8016B9F6;
-extern s8       D_8016BA08;
-extern s8       D_8016BA09;
-extern u32      sCurOcarinaBtnPress;  // 8016BA0C
-extern s32      D_8016BA10;
-extern u32      sPrevOcarinaBtnPress; // 8016BA14
-extern s32      D_8016BA18; // prev button.
-extern u8       sOcarinaHasStartedSong; // 8016BA29
-extern u8       D_8016BAA8;
-extern f32      D_8016BAAC;
+extern OcarinaSong sOcarinaSongs[]; // 80130F80
+extern OcarinaSongInfo sOcarinaSongNotes[]; // D_80131C00
+extern u32 D_80130F40;
+extern u16 D_80130F44;
+extern u32 D_80131860;
+extern u8 D_8013186;
+extern u8 D_80131868;
+extern u8 D_8013186C;
+extern s8 D_80131870;
+extern u8 D_80131874;
+extern u8 D_8013185C;
+extern u8 D_80131864;
+extern s8 D_80130F30;
+extern OcarinaSong *D_80131840;
+extern OcarinaSong D_80131884;
+extern u8 D_80130F50;
+extern s32 D_80130F68;
 
 /**
  * BSS
@@ -312,35 +324,6 @@ void func_800ECB7C(u8 arg0) {
     }
 }
 
-extern u8 D_8013170C;
-extern u8 sOcarinaSongNotestartIdx; // 8016BA2A always 0
-extern u8 sOcarinaSongCnt; // 8016BA2B 
-/** bit field of songs that can be played 
- * 0x0800 storms
- * 0x0400 song of time
- * 0x0200 suns
- * 0x0100 lullaby
- * 0x0080 epona
- * 0x0040 sarias
- * 0x0020 prelude
- * 0x0010 nocturne
- * 0x0008 requiem
- * 0x0004 serenade
- * 0x0002 bolero
- * 0x0001 minuet
-*/
-extern u16 sOcarinaAvailSongs; // 8016BA2C
-extern u8 D_8013187C;
-extern u8 D_8016BA2E; // curSong append idx?
-extern u8 D_8016B9F9;
-extern u16 D_80130F4C;
-extern u16 D_8016BA30[];
-extern u16 D_8016BA50[];
-extern u16 D_8016BA70[];
-extern u8 D_8016BA90[];
-extern u8 sOcarinaSongAppendPos; // 8016BA28
-unk_s5 D_8016B9F8;
-
 // start ocarina.
 void func_800ECC04(u16 arg0) {
     u8 i;
@@ -409,10 +392,6 @@ void func_800ECDBC(void) {
 // play specific song?
 void func_800ECDF8(void);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ECDF8.s")
-
-extern u16 D_80130F3E;
-extern u8 sCurOcarinaSong[8]; // 8016BA20
-extern u8 sOcarinaNoteValues[5];
 
 // play any song.
 #ifdef NON_MATCHING
@@ -646,8 +625,94 @@ void func_800ED93C(s8 songIdx, s8 arg1) {
         D_80130F44++;
     }
 }
+extern u8 D_80130F54;
+extern f32 D_80130F64;
+extern u8 D_80130F58;
+extern s8 D_80130F5C;
+extern f32 D_80130F60;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EDA3C.s")
+void func_800EDA3C(void) {
+    s32 sp20;
+    s32 phi_a0;
+
+    if (D_80130F38 != 0) {
+        if (D_80130F48 == 0) {
+            phi_a0 = 3;
+        } else {
+            phi_a0 = D_8016BA04 - D_80130F68;
+        }
+
+        if (phi_a0 < D_80130F40) {
+            D_80130F40 -= phi_a0;
+        } else {
+            sp20 = phi_a0 - D_80130F40;
+            D_80130F40 = 0;
+        }
+
+        if (D_80130F40 == 0) {
+
+            D_80130F40 = D_80131840->notes[D_80130F44].unk_02;
+
+            if (D_80130F44 == 1) {
+                D_80130F40++;
+            }
+
+
+            if (D_80130F40 == 0) {
+                D_80130F38--;
+                if (D_80130F38 != 0) {
+                    D_80130F44 = 0;
+                    D_80130F48 = 0;
+                    D_80130F50 = 0xFF;
+                } else {
+                    func_800F8D04(0x5800);
+                }
+                return;
+            } else {
+                D_80130F40 -= sp20;
+            }
+            
+            if (D_80130F54 != D_80131840->notes[D_80130F44].unk_04) {
+                D_80130F54 = D_80131840->notes[D_80130F44].unk_04;
+                D_80130F64 = D_80130F54 / 127.0f;
+            }
+
+
+            if (D_80130F58 != D_80131840->notes[D_80130F44].unk_05) {
+                D_80130F58 = D_80131840->notes[D_80130F44].unk_05;
+                func_800E5B20(0x6020D06U, D_80130F58);
+            }
+        
+            if (D_80130F5C !=D_80131840->notes[D_80130F44].unk_06) {
+                D_80130F5C = D_80131840->notes[D_80130F44].unk_06;
+                D_80130F60 = func_800ECA60(D_80130F5C);
+            }
+
+            if ((D_80131840->notes[D_80130F44].unk_04 == D_80131840->notes[D_80130F44 - 1].unk_04 && (D_80131840->notes[D_80130F44].unk_05 == D_80131840->notes[D_80130F44 - 1].unk_05) && (D_80131840->notes[D_80130F44].unk_06 == D_80131840->notes[D_80130F44 - 1].unk_06))) {
+                D_80130F50 = 0xFE;
+            }
+
+            if (D_80130F50 != D_80131840->notes[D_80130F44].noteIdx) {
+                u8 tmp =D_80131840->notes[D_80130F44].noteIdx;
+                if (tmp == 0xA) {
+                    D_80130F50 = tmp + D_80131840->notes[D_80130F44].unk_07;
+                } else {
+                    D_80130F50 = tmp;
+                }
+                
+                if (D_80130F50 != 0xFF) {
+                    D_80130F48++;
+                    func_800E5B20(0x6020D07U, D_80130F10 - 1);
+                    func_800E5B20(0x6020D05U, D_80130F50 & 0x3F);
+                    Audio_PlaySoundGeneral(0x5800, &D_801333D4, 4, &D_80130F60, &D_80130F64, &D_801333E8);
+                } else {
+                    func_800F8D04(0x5800);
+                }
+            }
+            D_80130F44++;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EDD68.s")
 
@@ -782,9 +847,6 @@ void func_800EE404(void) {
 }
 
 s32 func_800EE5EC(void);
-extern u8 sOcaMinigameEndPos;
-extern u8 sOcaMinigameApndPos;
-extern u8 sOcaMinigameNoteCnts[];
 
 void func_800EE57C(u8 minigameIdx) {
     u8 i;
@@ -820,8 +882,8 @@ s32 func_800EE5EC(void) {
     sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].noteIdx = rndNote;
     sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_02 = 0x2D;
     sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_04 = 0x50;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_05[0] = 0;
-    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_05[1] = 0;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_05 = 0;
+    sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos].unk_06 = 0;
 
     sOcaMinigameApndPos++;
 
@@ -886,8 +948,6 @@ void func_800EE930(void) {
     D_80131880 = 0;
 }
 
-extern u32 D_8016BAB0; // also raw? 
-extern u32 sDebugPadPressRaw; // 8016BAB4
 
 // DebugAudio_InputUpdate
 void func_800EE97C(void) {
@@ -901,7 +961,6 @@ void func_800EE97C(void) {
     sDebugPadPressRaw = btn;
 }
 
-extern u8 D_8016B9B8[];
 u8* func_800EE9D0(s32 arg0, u8 arg1) {
     s32 temp_a1;
     s32 temp_v1;
@@ -927,15 +986,8 @@ u8* func_800EE9D0(s32 arg0, u8 arg1) {
 // Debug
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EEA50.s")
 
-extern s16 D_80131E20[];
-extern u8 D_80131CA4;
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F1BDC.s")
 
-extern s8 D_80131EBC;
-extern s8 D_80131EC0;
-extern s8 D_80131EC4;
-extern s8 D_80131EC8[];
 void func_800F2150(void) {
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_CUP)) {
         D_80131EC0--;
@@ -1033,13 +1085,6 @@ void func_800F29FC(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F2D6C.s")
 
-extern u8 D_80131C98;
-extern u8 D_80131C9C;
-extern u8 D_80131CA0;
-extern u8 D_80131CA8;
-extern u16 D_80131E08[];
-extern u8 D_8013340C;
-extern u8 D_80131EEE;
 void func_800F1BDC(void);
 void func_800F2150(void);
 void func_800F227C(void);
@@ -1130,11 +1175,6 @@ void func_800F2E28(void) {
         D_8013340C = D_80131EEE;
     }
 }
-
-extern u32 sOcarinaUpdateStartTime; // 8016B7A0
-extern u32 sOcarinaUpdateEndTime; // 8016B7A4
-extern s32 sOcarinaUpdateTaskCntStart; // 8016BABC
-extern s32 sOcarinaUpdateTaskCntEnd; // 8016BAC0
 
 void func_800F50CC(void);
 void func_800F4A70(void);
@@ -1250,8 +1290,6 @@ f32 func_800F3F84(f32);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F3F84.s")
 #endif
 
-extern f32 D_8016B7AC;
-extern f32 D_80131C8C;
 void func_800F4010(Vec3f *arg0, u16 arg1, f32 arg2) {
     f32 sp24;
     f32 phi_f0;
@@ -1287,9 +1325,6 @@ void func_800F4138(Vec3f *pos, u16 sfxId, f32 arg2) {
     Audio_PlaySoundGeneral(sfxId, pos, 4U, &D_8016B7B0, &D_8016B7A8, &D_801333E8);
 }
 
-extern u32 D_801305B0;
-extern u32 D_801305B4;
-
 void func_800F4190(Vec3f *pos, u16 sfxId) {
     Audio_PlaySoundGeneral(sfxId, pos, 4, &D_801305B0, &D_801333E0, &D_801305B4);
 }
@@ -1298,9 +1333,6 @@ void func_800F41E0(Vec3f *pos, u16 baseSfx, u8 arg2) {
     Audio_PlaySoundGeneral(baseSfx + offset, pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-extern f32 D_801305E4[];
-extern u8 D_801305E0;
-extern f32 D_801305F4;
 void func_800F4254(Vec3f *pos, u8 arg1) {
     arg1 = arg1 & 3;
     if (arg1 != D_801305E0) {
@@ -1334,9 +1366,6 @@ void func_800F436C(Vec3f* pos, u16 sfxId, f32 arg2) {
     }
 }
 
-extern s8 D_801305B8;
-extern s8 D_801305BC;
-extern s8 D_801305C0;
 void func_800F4414(s32 *pos, u16 sfxId, f32 arg2) {
     D_801305B8--;
     if (D_801305B8 == 0) {
@@ -1357,9 +1386,6 @@ void func_800F44EC(s8 arg0, s8 arg1) {
     D_801305BC = arg1;
     D_801305C0 = arg0;
 }
-
-extern s8 D_8016B7DC;
-extern f32 D_8016B7E0;
 
 void func_800F4524(Vec3f *arg0, u16 arg1, s8 arg2) {
     D_8016B7DC = arg2;
@@ -1486,8 +1512,6 @@ void func_800F4BF4(Vec3f *arg0, u16 arg1, s8 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F4C58.s")
 
 #ifdef NON_MATCHING
-extern f32 D_80130650;
-extern f32* D_8013064C;
 void func_800F4E30(f32* arg0, f32 arg1) {
     f32 temp_f0;
     f32 temp_f2;
