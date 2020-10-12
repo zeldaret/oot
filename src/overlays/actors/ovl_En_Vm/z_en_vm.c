@@ -293,7 +293,7 @@ void EnVm_SetupStun(EnVm* this) {
 
 void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
-        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
             this->unk_25E++;
 
             if (this->unk_25E == 3) {
