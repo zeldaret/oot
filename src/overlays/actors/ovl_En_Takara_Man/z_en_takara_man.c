@@ -57,7 +57,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST,
                  globalCtx->actorCtx.flags.chest); // "Bun! %x" (needs a better translation)
     globalCtx->actorCtx.flags.chest = 0;
-    gSaveContext.dungeonKeys[gSaveContext.mapIndex] = -1;
+    gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl, this->transitionDrawTbl,
                      10);
     thisx->posRot2.pos = thisx->posRot.pos;

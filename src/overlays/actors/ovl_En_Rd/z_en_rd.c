@@ -682,42 +682,28 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
     }
 }
 
-// Regalloc..I can get the score lower by using permuter suggestions, but they all seem silly
-#ifdef NON_MATCHING
 void func_80AE3F9C(EnRd* this, GlobalContext* globalCtx) {
-    s16 unk_310;
-    s16 shapeRotY;
-    s16 yawTowardsLink;
-    s16 new_var;
-    s16 temp_v0;
-    s16 phi_a3;
-    s16 phi_v0;
+    s16 temp1;
+    s16 temp2;
+    s16 temp3;
 
-    unk_310 = this->unk_310;
-    shapeRotY = this->actor.shape.rot.y;
-    yawTowardsLink = this->actor.yawTowardsLink;
-    new_var = unk_310 + shapeRotY;
+    temp1 = this->actor.yawTowardsLink - (s16)(this->actor.shape.rot.y + this->unk_310);
+    temp2 = CLAMP(temp1, -500, 500);
 
-    temp_v0 = yawTowardsLink - new_var;
-    phi_a3 = CLAMP(temp_v0, -500, 500);
+    temp1 -= this->unk_30E;
+    temp3 = CLAMP(temp1, -500, 500);
 
-    temp_v0 -= this->unk_30E;
-    phi_v0 = CLAMP(temp_v0, -500, 500);
-
-    if ((s16)(yawTowardsLink - shapeRotY) >= 0) {
-        this->unk_310 += ABS(phi_a3);
-        this->unk_30E += ABS(phi_v0);
+    if ((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y) >= 0) {
+        this->unk_310 += ABS(temp2);
+        this->unk_30E += ABS(temp3);
     } else {
-        this->unk_310 -= ABS(phi_a3);
-        this->unk_30E -= ABS(phi_v0);
+        this->unk_310 -= ABS(temp2);
+        this->unk_30E -= ABS(temp3);
     }
 
     this->unk_310 = CLAMP(this->unk_310, -18783, 18783);
     this->unk_30E = CLAMP(this->unk_30E, -9583, 9583);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rd/func_80AE3F9C.s")
-#endif
 
 void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
