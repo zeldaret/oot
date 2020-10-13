@@ -43,7 +43,7 @@ glabel func_80AFEC3C
 /* 00A30 80AFECE0 E7B20038 */  swc1    $f18, 0x0038($sp)          
 /* 00A34 80AFECE4 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00A38 80AFECE8 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
-/* 00A3C 80AFECEC 0C00A729 */  jal     func_80029CA4              
+/* 00A3C 80AFECEC 0C00A729 */  jal     EffectSsHitMark_SpawnFixedScale              
 /* 00A40 80AFECF0 27A60030 */  addiu   $a2, $sp, 0x0030           ## $a2 = FFFFFFF0
 /* 00A44 80AFECF4 860B008A */  lh      $t3, 0x008A($s0)           ## 0000008A
 /* 00A48 80AFECF8 860C0032 */  lh      $t4, 0x0032($s0)           ## 00000032

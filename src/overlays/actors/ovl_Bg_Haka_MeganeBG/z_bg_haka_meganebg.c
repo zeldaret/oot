@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_haka_meganebg.c
+ * Overlay: ovl_Bg_Haka_MeganeBG
+ * Description:
+ */
+
 #include "z_bg_haka_meganebg.h"
 
 #define FLAGS 0x00000000
@@ -9,12 +15,15 @@ void BgHakaMeganeBG_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_8087DFF8(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+void func_8087E040(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+void func_8087E10C(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+void func_8087E1E0(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void func_8087E258(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void func_8087E288(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void func_8087E2D8(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void func_8087E34C(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit Bg_Haka_MeganeBG_InitVars = {
     ACTOR_BG_HAKA_MEGANEBG,
     ACTORTYPE_BG,
@@ -26,27 +35,193 @@ const ActorInit Bg_Haka_MeganeBG_InitVars = {
     (ActorFunc)BgHakaMeganeBG_Update,
     (ActorFunc)BgHakaMeganeBG_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/BgHakaMeganeBG_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/BgHakaMeganeBG_Destroy.s")
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087DFF8.s")
+// Unused
+static u32 D_8087E3FC[] = {
+    0x00000000, 0x00000000, 0x00000000, 0xC8C800FF, 0xFF0000FF,
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087E040.s")
+static Gfx* D_8087E410[] = {
+    0x06008EB0,
+    0x0600A1A0,
+    0x06005000,
+    0x06000040,
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087E10C.s")
+extern UNK_TYPE D_06000118;
+extern UNK_TYPE D_06005334;
+extern Gfx D_06008EB0[];
+extern UNK_TYPE D_06009168;
+extern UNK_TYPE D_0600A7F4;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087E1E0.s")
+void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    BgHakaMeganeBG* this = THIS;
+    s32 localC = 0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087E258.s")
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->unk_168 = (thisx->params >> 8) & 0xFF;
+    thisx->params &= 0xFF;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087E288.s")
+    if (thisx->params == 2) {
+        DynaPolyInfo_SetActorMove(&this->dyna, 3);
+        thisx->flags |= 0x10;
+        DynaPolyInfo_Alloc(&D_06005334, &localC);
+        this->actionFunc = func_8087E258;
+    } else {
+        DynaPolyInfo_SetActorMove(&this->dyna, 1);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087E2D8.s")
+        if (thisx->params == 0) {
+            DynaPolyInfo_Alloc(&D_06009168, &localC);
+            thisx->flags |= 0x80;
+            this->unk_16A = 20;
+            this->actionFunc = func_8087DFF8;
+        } else if (thisx->params == 3) {
+            DynaPolyInfo_Alloc(&D_06000118, &localC);
+            thisx->initPosRot.pos.y += 100.0f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/func_8087E34C.s")
+            if (Flags_GetSwitch(globalCtx, this->unk_168)) {
+                this->actionFunc = func_8087E34C;
+                thisx->posRot.pos.y = thisx->initPosRot.pos.y;
+            } else {
+                thisx->flags |= 0x10;
+                this->actionFunc = func_8087E288;
+            }
+        } else {
+            DynaPolyInfo_Alloc(&D_0600A7F4, &localC);
+            this->unk_16A = 80;
+            this->actionFunc = func_8087E10C;
+            thisx->uncullZoneScale = 3000.0f;
+            thisx->uncullZoneDownward = 3000.0f;
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/BgHakaMeganeBG_Update.s")
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_MeganeBG/BgHakaMeganeBG_Draw.s")
+void BgHakaMeganeBG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaMeganeBG* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+}
+
+void func_8087DFF8(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+    if (this->unk_16A != 0) {
+        this->unk_16A--;
+    }
+
+    if (this->unk_16A == 0) {
+        this->unk_16A = 40;
+        this->dyna.actor.posRot.rot.y += 0x8000;
+        this->actionFunc = func_8087E040;
+    }
+}
+
+void func_8087E040(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+    f32 xSub;
+
+    if (this->unk_16A != 0) {
+        this->unk_16A--;
+    }
+
+    xSub = (sinf(((this->unk_16A * 0.025f) + 0.5f) * M_PI) + 1.0f) * 160.0f;
+
+    if (this->dyna.actor.posRot.rot.y != this->dyna.actor.shape.rot.y) {
+        xSub = 320.0f - xSub;
+    }
+
+    this->dyna.actor.posRot.pos.x = this->dyna.actor.initPosRot.pos.x - xSub;
+
+    if (this->unk_16A == 0) {
+        this->unk_16A = 20;
+        this->actionFunc = func_8087DFF8;
+    }
+}
+
+void func_8087E10C(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+    this->dyna.actor.velocity.y += 1.0f;
+
+    if (this->dyna.actor.velocity.y > 20.0f) {
+        this->dyna.actor.velocity.y = 20.0f;
+    } else {
+        this->dyna.actor.velocity.y = this->dyna.actor.velocity.y;
+    }
+
+    if (this->unk_16A != 0) {
+        this->unk_16A--;
+    }
+
+    if (!Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 640.0f,
+                      this->dyna.actor.velocity.y)) {
+        func_8002F974(&this->dyna.actor, NA_SE_EV_CHINETRAP_DOWN - SFX_FLAG);
+    }
+
+    if (this->unk_16A == 0) {
+        this->unk_16A = 120;
+        this->actionFunc = func_8087E1E0;
+        this->dyna.actor.velocity.y = 0.0f;
+    }
+}
+
+void func_8087E1E0(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+    Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 16.0f / 3.0f);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
+
+    if (this->unk_16A != 0) {
+        this->unk_16A--;
+    }
+
+    if (this->unk_16A == 0) {
+        this->unk_16A = 80;
+        this->actionFunc = func_8087E10C;
+    }
+}
+
+void func_8087E258(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+    this->dyna.actor.shape.rot.y += 0x180;
+    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+}
+
+void func_8087E288(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+    if (Flags_GetSwitch(globalCtx, this->unk_168)) {
+        func_80080480(globalCtx, &this->dyna.actor);
+        this->actionFunc = func_8087E2D8;
+    }
+}
+
+void func_8087E2D8(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+    Math_ApproxF(&this->dyna.actor.speedXZ, 30.0f, 2.0f);
+
+    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.speedXZ)) {
+        Actor_SetHeight(&this->dyna.actor, 50.0f);
+        this->actionFunc = func_8087E34C;
+    } else {
+        func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+    }
+}
+
+void func_8087E34C(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
+}
+
+void BgHakaMeganeBG_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaMeganeBG* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+}
+
+void BgHakaMeganeBG_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaMeganeBG* this = THIS;
+    s16 params = this->dyna.actor.params;
+
+    if (params == 0) {
+        Gfx_DrawDListXlu(globalCtx, D_06008EB0);
+    } else {
+        Gfx_DrawDListOpa(globalCtx, D_8087E410[params]);
+    }
+}
