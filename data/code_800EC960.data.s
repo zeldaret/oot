@@ -279,10 +279,10 @@ glabel D_80131880
 glabel D_80131884
     .incbin "baserom.z64", 0xBA8A24, 0x360
 
-glabel D_80131BE4
+glabel gScarecrowCustomSongPtr
     .word D_80131884
 
-glabel D_80131BE8
+glabel gScarecrowSpawnSongPtr
     .word sOcarinaSongs+0x780
 
 glabel D_80131BEC
