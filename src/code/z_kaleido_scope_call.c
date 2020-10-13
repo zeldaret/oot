@@ -11,7 +11,9 @@ extern void KaleidoScope_Update(GlobalContext*);
 extern void KaleidoScope_Draw(GlobalContext*);
 
 void KaleidoScopeCall_LoadPlayer() {
-    if ((u32)gKaleidoMgrCurOvl != (u32)&gKaleidoMgrOverlayTable[KALEIDO_OVL_PLAYER_ACTOR]) {
+    KaleidoManagerOvl* playerActorOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_PLAYER_ACTOR];
+
+    if (gKaleidoMgrCurOvl != playerActorOvl) {
         if (gKaleidoMgrCurOvl) {
             osSyncPrintf(VT_FGCOL(GREEN));
             osSyncPrintf("カレイド領域 強制排除\n"); // Kaleido area forced exclusion
@@ -21,7 +23,7 @@ void KaleidoScopeCall_LoadPlayer() {
         osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("プレイヤーアクター搬入\n"); // Player actor import
         osSyncPrintf(VT_RST);
-        KaleidoManager_LoadOvl(&gKaleidoMgrOverlayTable[KALEIDO_OVL_PLAYER_ACTOR]);
+        KaleidoManager_LoadOvl(playerActorOvl);
     }
 }
 
@@ -44,13 +46,9 @@ void KaleidoScopeCall_Destroy(GlobalContext* globalCtx) {
     KaleidoSetup_Destroy(globalCtx);
 }
 
-// regalloc
-#ifdef NON_MATCHING
 void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
-    s32 pad;
-    PauseContext* pauseCtx;
-
-    pauseCtx = &globalCtx->pauseCtx;
+    KaleidoManagerOvl* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
+    PauseContext* pauseCtx = &globalCtx->pauseCtx;
 
     if (pauseCtx->state != 0 || pauseCtx->flag != 0) {
         if (pauseCtx->state == 1) {
@@ -60,7 +58,7 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
                 R_PAUSE_MENU_MODE = 1;
                 pauseCtx->unk_1E4 = 0;
                 pauseCtx->unk_1EC = 0;
-                pauseCtx->state++;
+                pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
             }
         } else if (pauseCtx->state == 8) {
             HREG(80) = 7;
@@ -68,15 +66,15 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
             R_PAUSE_MENU_MODE = 1;
             pauseCtx->unk_1E4 = 0;
             pauseCtx->unk_1EC = 0;
-            pauseCtx->state++;
+            pauseCtx->state = (pauseCtx->state & 0xFFFF) + 1;
         } else if (pauseCtx->state == 2 || pauseCtx->state == 9) {
             osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_MENU_MODE);
             if (R_PAUSE_MENU_MODE >= 3) {
                 pauseCtx->state++;
             }
         } else if (pauseCtx->state != 0) {
-            if (&gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE] != gKaleidoMgrCurOvl) {
-                if (gKaleidoMgrCurOvl) {
+            if (gKaleidoMgrCurOvl != kaleidoScopeOvl) {
+                if (gKaleidoMgrCurOvl != NULL) {
                     osSyncPrintf(VT_FGCOL(GREEN));
                     osSyncPrintf("カレイド領域 プレイヤー 強制排除\n"); // Kaleid Zone Player Forced Elimination
                     osSyncPrintf(VT_RST);
@@ -85,32 +83,29 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
                 osSyncPrintf(VT_FGCOL(GREEN));
                 osSyncPrintf("カレイド領域 カレイドスコープ搬入\n"); // Kaleid area Kaleidoscope loading
                 osSyncPrintf(VT_RST);
-                KaleidoManager_LoadOvl(&gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE]);
+                KaleidoManager_LoadOvl(kaleidoScopeOvl);
             }
-            if (&gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE] == gKaleidoMgrCurOvl) {
+
+            if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {
                 sKaleidoScopeUpdateFunc(globalCtx);
                 if (globalCtx->pauseCtx.state == 0 && globalCtx->pauseCtx.flag == 0) {
                     osSyncPrintf(VT_FGCOL(GREEN));
                     osSyncPrintf("カレイド領域 カレイドスコープ排出\n"); // Kaleid area Kaleidoscope emission
                     osSyncPrintf(VT_RST);
-                    KaleidoManager_ClearOvl(&gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE]);
+                    KaleidoManager_ClearOvl(kaleidoScopeOvl);
                     KaleidoScopeCall_LoadPlayer();
                 }
             }
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kaleido_scope_call/KaleidoScopeCall_Update.s")
-#endif
 
 void KaleidoScopeCall_Draw(GlobalContext* globalCtx) {
-    KaleidoManagerOvl* kaleidoScopeOvl;
+    KaleidoManagerOvl* kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
 
     if (R_PAUSE_MENU_MODE >= 3) {
         if ((globalCtx->pauseCtx.state >= 4 && globalCtx->pauseCtx.state < 8) ||
             (globalCtx->pauseCtx.state >= 11 && globalCtx->pauseCtx.state < 19)) {
-            kaleidoScopeOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_KALEIDO_SCOPE];
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) {
                 sKaleidoScopeDrawFunc(globalCtx);
             }

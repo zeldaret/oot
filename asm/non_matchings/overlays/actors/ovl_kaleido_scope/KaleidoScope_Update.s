@@ -1881,7 +1881,7 @@ glabel L80828198
 /* 14A40 80828260 3C098016 */  lui     $t1, %hi(gSaveContext)
 /* 14A44 80828264 2529E660 */  addiu   $t1, %lo(gSaveContext)
 /* 14A48 80828268 26241F74 */  addiu   $a0, $s1, 0x1F74           ## $a0 = 00001F74
-/* 14A4C 8082826C 0C02A235 */  jal     func_800A88D4              
+/* 14A4C 8082826C 0C02A235 */  jal     Sram_WriteSave              
 /* 14A50 80828270 A52E0066 */  sh      $t6, 0x0066($t1)           ## 8015E6C6
 /* 14A54 80828274 240F0004 */  addiu   $t7, $zero, 0x0004         ## $t7 = 00000004
 /* 14A58 80828278 A60F01EC */  sh      $t7, 0x01EC($s0)           ## 000001EC
@@ -2950,7 +2950,7 @@ glabel L808290DC
 /* 1596C 8082918C 3C098016 */  lui     $t1, %hi(gSaveContext)
 /* 15970 80829190 2529E660 */  addiu   $t1, %lo(gSaveContext)
 /* 15974 80829194 26241F74 */  addiu   $a0, $s1, 0x1F74           ## $a0 = 8082CB0C
-/* 15978 80829198 0C02A235 */  jal     func_800A88D4              
+/* 15978 80829198 0C02A235 */  jal     Sram_WriteSave              
 /* 1597C 8082919C A5390066 */  sh      $t9, 0x0066($t1)           ## 8015E6C6
 /* 15980 808291A0 240E000F */  addiu   $t6, $zero, 0x000F         ## $t6 = 0000000F
 /* 15984 808291A4 A60E01D4 */  sh      $t6, 0x01D4($s0)           ## 000001D4
