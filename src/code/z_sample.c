@@ -87,7 +87,7 @@ void Sample_LoadTitleStatic(SampleContext* this) {
 
 void Sample_Init(GameState* thisx) {
     SampleContext* this = (SampleContext*)thisx;
-    
+
     this->state.main = Sample_Main;
     this->state.destroy = Sample_Destroy;
     R_UPDATE_RATE = 1;

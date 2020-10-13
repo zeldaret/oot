@@ -1332,7 +1332,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
 void Gameplay_Main(GameState* thisx) {
     GlobalContext* globalCtx = (GlobalContext*)thisx;
-    
+
     D_8012D1F8 = &globalCtx->state.input[0];
 
     DebugDisplay_Init();
