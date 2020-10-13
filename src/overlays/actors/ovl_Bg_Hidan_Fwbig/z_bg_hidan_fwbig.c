@@ -9,14 +9,14 @@ void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFwbig_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808874B0(BgHidanFwbig* this);
+void BgHidanFwbig_UpdatePosition(BgHidanFwbig* this);
 
-void func_80887534(BgHidanFwbig* this, GlobalContext* globalCtx);
-void func_80887598(BgHidanFwbig* this, GlobalContext* globalCtx);
-void func_80887638(BgHidanFwbig* this, GlobalContext* globalCtx);
-void func_80887718(BgHidanFwbig* this, GlobalContext* globalCtx);
-void func_80887768(BgHidanFwbig* this, GlobalContext* globalCtx);
-void func_808877C4(BgHidanFwbig* this, GlobalContext* globalCtx);
+void BgHidanFwbig_WaitForSwitch(BgHidanFwbig* this, GlobalContext* globalCtx);
+void BgHidanFwbig_WaitForCs(BgHidanFwbig* this, GlobalContext* globalCtx);
+void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx);
+void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, GlobalContext* globalCtx);
+void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx);
+void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx);
 
 extern Gfx D_0600DB20[];
 extern Gfx D_040173D0[];
@@ -70,16 +70,16 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_Kill(&this->actor);
             return;
         }
-        func_808874B0(this);
+        BgHidanFwbig_UpdatePosition(this);
         Actor_SetScale(&this->actor, 0.15f);
         this->collider.dim.height = 230;
         this->actor.flags |= 0x10;
         this->moveState = 0;
-        this->actionFunc = func_80887768;
+        this->actionFunc = BgHidanFwbig_WaitForPlayer;
         this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - (2400.0f * this->actor.scale.y);
     } else {
         Actor_SetScale(&this->actor, 0.1f);
-        this->actionFunc = func_80887534;
+        this->actionFunc = BgHidanFwbig_WaitForSwitch;
     }
 }
 
@@ -90,7 +90,7 @@ void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_808874B0(BgHidanFwbig* this) {
+void BgHidanFwbig_UpdatePosition(BgHidanFwbig* this) {
     s16 startAngle;
 
     startAngle = this->actor.shape.rot.y + this->direction * -0x4000;
@@ -99,36 +99,36 @@ void func_808874B0(BgHidanFwbig* this) {
     this->actor.posRot.pos.z = (Math_Coss(startAngle) * 885.4f) + this->actor.initPosRot.pos.z;
 }
 
-void func_80887534(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_WaitForSwitch(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
-        this->actionFunc = func_80887598;
+        this->actionFunc = BgHidanFwbig_WaitForCs;
         func_800800F8(globalCtx, 0xD0C, -0x63, &this->actor, 0);
         this->timer = 35;
     }
 }
 
-void func_80887598(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_WaitForCs(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (this->timer-- == 0) {
-        this->actionFunc = func_80887638;
+        this->actionFunc = BgHidanFwbig_Lower;
     }
 }
 
-void func_808875C4(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_Rise(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 10.0f)) {
         if (this->direction == 0) {
             Flags_UnsetSwitch(globalCtx, this->actor.params);
-            this->actionFunc = func_80887534;
+            this->actionFunc = BgHidanFwbig_WaitForSwitch;
         } else {
-            this->actionFunc = func_808877C4;
+            this->actionFunc = BgHidanFwbig_Move;
         }
     }
 }
 
-void func_80887638(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y - (2400.0f * this->actor.scale.y),
                      10.0f)) {
         if (this->direction == 0) {
-            this->actionFunc = func_80887718;
+            this->actionFunc = BgHidanFwbig_WaitForTimer;
             this->timer = 150;
         } else if (this->moveState == 2) {
             Actor_Kill(&this->actor);
@@ -139,42 +139,42 @@ void func_80887638(BgHidanFwbig* this, GlobalContext* globalCtx) {
                 this->moveState = 0;
                 this->actor.shape.rot.y = this->actor.initPosRot.rot.y;
             }
-            func_808874B0(this);
-            this->actionFunc = func_808875C4;
+            BgHidanFwbig_UpdatePosition(this);
+            this->actionFunc = BgHidanFwbig_Rise;
         }
     }
 }
 
-void func_80887718(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, GlobalContext* globalCtx) {
     DECR(this->timer);
     if (this->timer == 0) {
-        this->actionFunc = func_808875C4;
+        this->actionFunc = BgHidanFwbig_Rise;
     }
     func_8002F994(&this->actor, this->timer);
 }
 
-void func_80887768(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->actor.posRot.pos.x < 1150.0f) {
-        this->actionFunc = func_808875C4;
+        this->actionFunc = BgHidanFwbig_Rise;
         func_800800F8(globalCtx, 0xCDA, -0x63, &this->actor, 0);
     }
 }
 
-void func_808877C4(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (!Player_InCsMode(globalCtx)) {
         if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
                                      this->actor.initPosRot.rot.y + (this->direction * 0x6390), 0x20)) {
             this->moveState = 1;
-            this->actionFunc = func_80887638;
+            this->actionFunc = BgHidanFwbig_Lower;
         } else {
-            func_808874B0(this);
+            BgHidanFwbig_UpdatePosition(this);
         }
     }
 }
 
-void func_80887864(BgHidanFwbig* this, GlobalContext* globalCtx) {
+void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f projPos;
     f32 cs;
@@ -206,12 +206,12 @@ void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.atFlags &= ~2;
         func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.posRot.rot.y, 1.0f);
         if (this->direction != 0) {
-            this->actionFunc = func_80887638;
+            this->actionFunc = BgHidanFwbig_Lower;
         }
     }
     if ((this->direction != 0) && (globalCtx->roomCtx.prevRoom.num == this->actor.room)) {
         this->moveState = 2;
-        this->actionFunc = func_80887638;
+        this->actionFunc = BgHidanFwbig_Lower;
     }
 
     this->actionFunc(this, globalCtx);
@@ -222,7 +222,7 @@ void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else if ((s16)this->actor.posRot.pos.x == -513) {
             func_8002F974(&this->actor, NA_SE_EV_FLAME_OF_FIRE - SFX_FLAG);
         }
-        func_80887864(this, globalCtx);
+        BgHidanFwbig_MoveCollider(this, globalCtx);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
