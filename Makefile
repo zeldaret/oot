@@ -131,8 +131,8 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 $(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS) $(TEXT_DIRS),build/$(dir)))
 
 # encode text headers at the start of the build
-$(shell	python3 tools/msgenc.py text/declare_messages.h text/declare_messages.inc.h)
-$(shell python3 tools/msgenc.py text/declare_messages_staff.h text/declare_messages_staff.inc.h)
+$(shell	python3 tools/msgenc.py text/declare_messages.h text/declare_messages.enc.h)
+$(shell python3 tools/msgenc.py text/declare_messages_staff.h text/declare_messages_staff.enc.h)
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2

@@ -4,4 +4,4 @@
     const char _message_##textId##_fra[sizeof(fraMessage)] = { fraMessage END };
 #define DECLARE_MESSAGE_END()
 
-#include "declare_messages.inc.h"
+#include "declare_messages.enc.h"

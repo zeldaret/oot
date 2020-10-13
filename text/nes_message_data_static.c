@@ -6,6 +6,6 @@
 
 #define DECLARE_MESSAGE_FFFC
 
-#include "declare_messages.inc.h"
+#include "declare_messages.enc.h"
 
 #undef DECLARE_MESSAGE_FFFC
