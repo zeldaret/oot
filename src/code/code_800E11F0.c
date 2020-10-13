@@ -1070,10 +1070,6 @@ void func_800E3034(s32 arg0) {
 
 u32 D_801304D8 = 0;
 
-extern s32 D_8014A6C8;
-extern s32 D_8014A6CC;
-extern s32 D_8014A6C4;
-
 #ifdef NON_MATCHING
 // AudioContext_Init
 void func_800E3094(void *heap, u32 heapSize) {
@@ -1146,7 +1142,7 @@ void func_800E3094(void *heap, u32 heapSize) {
 
     if (heap == NULL) {
         gAudioContext.gAudioHeap = gAudioHeap;
-        gAudioContext.gAudioHeapSize = D_8014A6C4;
+        gAudioContext.gAudioHeapSize = D_8014A6C4[0];
     } else {
         void** hp = &heap;
         gAudioContext.gAudioHeap = *hp;
@@ -1158,7 +1154,7 @@ void func_800E3094(void *heap, u32 heapSize) {
         ((u64*)gAudioContext.gAudioHeap)[i] = 0;
     }
 
-    Audio_InitMainPools(D_8014A6C8);
+    Audio_InitMainPools(D_8014A6C4[1]);
 
     for(i = 0; i < 3; i++){
         gAudioContext.aiBuffers[i] = Audio_AllocZeroed(&gAudioContext.gAudioInitPool, 0xB00);
@@ -1184,12 +1180,13 @@ void func_800E3094(void *heap, u32 heapSize) {
         func_800E3034(i);
     }
 
-    if (temp_v0_3 = Audio_Alloc(&gAudioContext.gAudioInitPool, D_8014A6CC), temp_v0_3 == NULL)
+    if (temp_v0_3 = Audio_Alloc(&gAudioContext.gAudioInitPool, D_8014A6C4[2]), temp_v0_3 == NULL)
     {
-        D_8014A6CC = 0;
+        // ???
+        //D_8014A6C4[2] = 0;
     }
 
-    Audio_SoundAllocPoolInit(&gAudioContext.unk_2D50, temp_v0_3, D_8014A6CC);
+    Audio_SoundAllocPoolInit(&gAudioContext.unk_2D50, temp_v0_3, D_8014A6C4[2]);
     D_801304D8 = 1;
     osSendMesg(gAudioContext.unk_5BE8, (void*)gAudioContext.totalTaskCnt, 0);
 }

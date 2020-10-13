@@ -181,4 +181,3 @@ void func_800FAEB4(void) {
     }
     func_800FADF8();
 }
-

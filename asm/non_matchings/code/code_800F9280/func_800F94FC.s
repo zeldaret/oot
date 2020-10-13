@@ -1,3 +1,24 @@
+
+.late_rodata
+glabel jtbl_8014A640
+    .word L800F9588
+    .word L800F95F4
+    .word L800F9614
+    .word L800F97E4
+    .word L800F9940
+    .word L800F9A00
+    .word L800F9BD8
+    .word L800F9CE4
+    .word L800F9D20
+    .word L800F9DB4
+    .word L800F9DE8
+    .word L800F9E84
+    .word L800F9EB8
+    .word L800F9B00
+    .word L800F9F68
+    .word L800F9FB8
+
+.text
 glabel func_800F94FC
 /* B7069C 800F94FC 3C0E8013 */  lui   $t6, %hi(D_8013340C) # $t6, 0x8013
 /* B706A0 800F9500 91CE340C */  lbu   $t6, %lo(D_8013340C)($t6)
