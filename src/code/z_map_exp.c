@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 MapData* gMapData;
 
@@ -47,7 +46,7 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
         interfaceCtx->unk_140[i + 16] = 0;
     }
 
-    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
         interfaceCtx->unk_140[30] = 0;
         interfaceCtx->unk_140[31] = 1;
     }
@@ -384,7 +383,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     gDPSetCombineLERP(oGfxCtx->overlay.p++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0,
                                       PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
 
-                    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
                         gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
                         gDPLoadTextureBlock_4b(oGfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
@@ -396,14 +395,14 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                                             0, 0, 1024, 1024);
                     }
 
-                    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_COMPASS]) {
+                    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_COMPASS]) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                         func_80094520(globalCtx->state.gfxCtx);
                         MapMark_DrawConditionally(globalCtx);
                     }
                 }
 
-                if (CHECK_PAD(globalCtx->state.input[0].press, L_TRIG) && !Gameplay_InCsMode(globalCtx)) {
+                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
                     osSyncPrintf("Game_play_demo_mode_check=%d\n", Gameplay_InCsMode(globalCtx));
                     // clang-format off
                     if (!R_MINIMAP_TOGGLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
@@ -484,7 +483,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                 }
 
-                if (CHECK_PAD(globalCtx->state.input[0].press, L_TRIG) && !Gameplay_InCsMode(globalCtx)) {
+                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
                     // clang-format off
                     if (!R_MINIMAP_TOGGLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
                                                                      &D_801333E0, &D_801333E0, &D_801333E8); }
@@ -526,7 +525,7 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
                 interfaceCtx->unk_140[30] = 0;
-                if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
                     interfaceCtx->unk_140[31] = 1;
                 } else {
                     interfaceCtx->unk_140[31] = 0;
