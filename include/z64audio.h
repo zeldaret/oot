@@ -30,6 +30,8 @@
 #define ADSR_GOTO -2
 #define ADSR_RESTART -3
 
+#define AIBUF_LEN 0xB00
+
 struct Note;
 struct NotePool;
 struct SequenceChannel;
@@ -994,24 +996,35 @@ typedef struct {
 } Reverb; // size >= 0x18
 
 typedef struct {
-    f32 unk_00;
-    char unk_04[8];
-    u16 unk_0C;
-    f32 unk_10;
-    char unk_14[8];
-    u16 unk_1C;
-} unk_50_s;
+    /* 0x0000 */ u32 heap;
+    /* 0x0004 */ u32 mainPool;
+    /* 0x0008 */ u32 initPool;
+} AudioContextInitSizes; // size = 0xC
 
 typedef struct {
     /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ char unk_04[0x8];
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
+    /* 0x000C */ u16 unk_0C;
+    /* 0x0010 */ f32 unk_10;
+    /* 0x0014 */ f32 unk_14;
+    /* 0x0018 */ f32 unk_18;
+    /* 0x001C */ u16 unk_1C;
+} unk_50_s; // size = 0x20
+
+typedef struct {
+    /* 0x0000 */ f32 unk_00;
+    /* 0x0004 */ f32 unk_04;
+    /* 0x0008 */ f32 unk_08;
     /* 0x000C */ u16 unk_0C;
     /* 0x000E */ u8 unk_0E[0x4];
-    /* 0x0012 */ char unk_12;
+    /* 0x0012 */ u8 unk_12;
     /* 0x0013 */ u8 unk_13;
     /* 0x0014 */ u32 unk_14;
     /* 0x0018 */ u16 unk_18;
-    /* 0x001A */ char unk_1C[0xE];
+    /* 0x001C */ f32 unk_1C;
+    /* 0x0020 */ f32 unk_20;
+    /* 0x0024 */ f32 unk_24;
     /* 0x0028 */ u16 unk_28;
     /* 0x002A */ char unk_2A[0x2];
     /* 0x002C */ u32 unk_2C[8];
@@ -1025,7 +1038,10 @@ typedef struct {
     /* 0x0254 */ u16 unk_254;
     /* 0x0256 */ u16 unk_256;
     /* 0x0258 */ u16 unk_258;
-    /* 0x025A */ char unk_25A[0xA];
+    /* 0x025A */ char unk_25A[0x2];
+    /* 0x025C */ u32 unk_25C;
+    /* 0x0260 */ u8 unk_260;
+    /* 0x0261 */ char unk_261[0x3];
 } unk_D_8016E750; // size = 0x264
 
 #endif

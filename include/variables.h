@@ -2971,10 +2971,7 @@ extern char D_80146238[];
 //extern ? D_8014A460;
 extern const u16 D_8014A6C0[];
 #define gTatumsPerBeat (D_8014A6C0[1])
-extern const u32 D_8014A6C4[];
-//extern ? D_8014A6C4;
-//extern ? D_8014A6C8;
-//extern ? D_8014A6CC;
+extern const AudioContextInitSizes D_8014A6C4;
 //extern ? D_8014A710;
 //extern ? D_8014A728;
 //extern ? D_8014A730;

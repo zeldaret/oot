@@ -180,7 +180,11 @@ f32 D_8016B7D8;
 s8 D_8016B7DC;
 f32 D_8016B7E0;
 u16 D_8016B7E4;
-u8 D_8016B7E8[0xC8];
+typedef struct {
+    s8 unk_00[6];
+    s16 unk_06;
+} unk_D_8016B7E8;
+unk_D_8016B7E8 D_8016B7E8[0x19];
 u8 D_8016B8B0;
 u8 D_8016B8B1;
 u8 D_8016B8B2;
@@ -1439,7 +1443,31 @@ void func_800F29FC(void) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F2A04.s")
 
+#ifdef NON_MATCHING
+void func_800F2D6C(s8 *arg0, u16 arg1) {
+    u8 i;
+
+    D_8016B7E8[D_80131ED4].unk_06 = arg1;
+    
+    i = 0;
+    while(arg0[i] != 0){
+        D_8016B7E8[D_80131ED4].unk_00[i] = arg0[i++];
+    }
+
+    while(i < 5){
+        D_8016B7E8[D_80131ED4].unk_00[i++] = 0;
+    }
+
+    if (D_80131ED4 < 0x18) {
+        D_80131ED4++;
+    } else {
+        D_80131ED4 = 0;
+        D_80131ED8 = 1;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F2D6C.s")
+#endif
 
 void func_800F1BDC(void);
 void func_800F2150(void);

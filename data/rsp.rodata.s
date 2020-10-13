@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel audioBankTable
+glabel gAudioBankTable
     .incbin "baserom.z64", 0xBCC270, 0x270
 
 glabel D_80155340

@@ -61,9 +61,9 @@ void __osInitialize_common(void) {
         bzero(osAppNmiBuffer, 0x40);
     }
 
-    if (osTvType == 0) {
+    if (osTvType == OS_TV_PAL) {
         osViClock = VI_PAL_CLOCK;
-    } else if (osTvType == 2) {
+    } else if (osTvType == OS_TV_MPAL) {
         osViClock = VI_MPAL_CLOCK;
     } else {
         osViClock = VI_NTSC_CLOCK;
