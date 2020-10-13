@@ -94,7 +94,7 @@ glabel D_80140CC4
     .balign 4
 
 .text
-glabel func_800A8A20
+glabel Sram_VerifyAndLoadAllSaves
 /* B1FBC0 800A8A20 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B1FBC4 800A8A24 AFA40078 */  sw    $a0, 0x78($sp)
 /* B1FBC8 800A8A28 AFBF004C */  sw    $ra, 0x4c($sp)
@@ -119,7 +119,7 @@ glabel func_800A8A20
 /* B1FC14 800A8A74 3C040800 */  lui   $a0, 0x800
 /* B1FC18 800A8A78 34068000 */  li    $a2, 32768
 /* B1FC1C 800A8A7C 00003825 */  move  $a3, $zero
-/* B1FC20 800A8A80 0C02A7A8 */  jal   Sram_ReadWrite
+/* B1FC20 800A8A80 0C02A7A8 */  jal   SsSram_ReadWrite
 /* B1FC24 800A8A84 8DE50000 */   lw    $a1, ($t7)
 /* B1FC28 800A8A88 3C148016 */  lui   $s4, %hi(gSaveContext) # $s4, 0x8016
 /* B1FC2C 800A8A8C 2694E660 */  addiu $s4, %lo(gSaveContext) # addiu $s4, $s4, -0x19a0
@@ -134,8 +134,8 @@ glabel func_800A8A20
 /* B1FC50 800A8AB0 A7B80066 */  sh    $t8, 0x66($sp)
 .L800A8AB4:
 /* B1FC54 800A8AB4 97B90072 */  lhu   $t9, 0x72($sp)
-/* B1FC58 800A8AB8 3C098013 */  lui   $t1, %hi(D_8012A4E0) # $t1, 0x8013
-/* B1FC5C 800A8ABC 2529A4E0 */  addiu $t1, %lo(D_8012A4E0) # addiu $t1, $t1, -0x5b20
+/* B1FC58 800A8AB8 3C098013 */  lui   $t1, %hi(gSramSlotOffsets) # $t1, 0x8013
+/* B1FC5C 800A8ABC 2529A4E0 */  addiu $t1, %lo(gSramSlotOffsets) # addiu $t1, $t1, -0x5b20
 /* B1FC60 800A8AC0 00194040 */  sll   $t0, $t9, 1
 /* B1FC64 800A8AC4 01091021 */  addu  $v0, $t0, $t1
 /* B1FC68 800A8AC8 94520000 */  lhu   $s2, ($v0)
@@ -189,8 +189,8 @@ glabel func_800A8A20
 /* B1FD24 800A8B84 95A50000 */   lhu   $a1, ($t5)
 /* B1FD28 800A8B88 8FAE005C */  lw    $t6, 0x5c($sp)
 /* B1FD2C 800A8B8C 8FB9007C */  lw    $t9, 0x7c($sp)
-/* B1FD30 800A8B90 3C188013 */  lui   $t8, %hi(D_8012A4E0) # $t8, 0x8013
-/* B1FD34 800A8B94 2718A4E0 */  addiu $t8, %lo(D_8012A4E0) # addiu $t8, $t8, -0x5b20
+/* B1FD30 800A8B90 3C188013 */  lui   $t8, %hi(gSramSlotOffsets) # $t8, 0x8013
+/* B1FD34 800A8B94 2718A4E0 */  addiu $t8, %lo(gSramSlotOffsets) # addiu $t8, $t8, -0x5b20
 /* B1FD38 800A8B98 000E7840 */  sll   $t7, $t6, 1
 /* B1FD3C 800A8B9C 01F81021 */  addu  $v0, $t7, $t8
 /* B1FD40 800A8BA0 94520006 */  lhu   $s2, 6($v0)
@@ -264,7 +264,7 @@ glabel func_800A8A20
 /* B1FE4C 800A8CAC 97AB0072 */  lhu   $t3, 0x72($sp)
 /* B1FE50 800A8CB0 1560001C */  bnez  $t3, .L800A8D24
 /* B1FE54 800A8CB4 00000000 */   nop   
-/* B1FE58 800A8CB8 0C02A0B2 */  jal   func_800A82C8
+/* B1FE58 800A8CB8 0C02A0B2 */  jal   Sram_InitDebugSave
 /* B1FE5C 800A8CBC 00000000 */   nop   
 /* B1FE60 800A8CC0 2402005A */  li    $v0, 90
 /* B1FE64 800A8CC4 240E0044 */  li    $t6, 68
@@ -292,7 +292,7 @@ glabel func_800A8A20
 /* B1FEBC 800A8D1C 10000003 */  b     .L800A8D2C
 /* B1FEC0 800A8D20 00000000 */   nop   
 .L800A8D24:
-/* B1FEC4 800A8D24 0C02A068 */  jal   func_800A81A0
+/* B1FEC4 800A8D24 0C02A068 */  jal   Sram_InitNewSave
 /* B1FEC8 800A8D28 00000000 */   nop   
 .L800A8D2C:
 /* B1FECC 800A8D2C 3C048014 */  lui   $a0, %hi(D_80140B74) # $a0, 0x8014
@@ -334,7 +334,7 @@ glabel func_800A8A20
 /* B1FF54 800A8DB4 95500006 */  lhu   $s0, 6($t2)
 /* B1FF58 800A8DB8 24061450 */  li    $a2, 5200
 /* B1FF5C 800A8DBC 24070001 */  li    $a3, 1
-/* B1FF60 800A8DC0 0C02A7A8 */  jal   Sram_ReadWrite
+/* B1FF60 800A8DC0 0C02A7A8 */  jal   SsSram_ReadWrite
 /* B1FF64 800A8DC4 02012021 */   addu  $a0, $s0, $at
 /* B1FF68 800A8DC8 928B001F */  lbu   $t3, 0x1f($s4)
 /* B1FF6C 800A8DCC 928C0020 */  lbu   $t4, 0x20($s4)
@@ -362,7 +362,7 @@ glabel func_800A8A20
 /* B1FFC0 800A8E20 95D00000 */  lhu   $s0, ($t6)
 /* B1FFC4 800A8E24 24061450 */  li    $a2, 5200
 /* B1FFC8 800A8E28 24070001 */  li    $a3, 1
-/* B1FFCC 800A8E2C 0C02A7A8 */  jal   Sram_ReadWrite
+/* B1FFCC 800A8E2C 0C02A7A8 */  jal   SsSram_ReadWrite
 /* B1FFD0 800A8E30 02012021 */   addu  $a0, $s0, $at
 /* B1FFD4 800A8E34 3C048014 */  lui   $a0, %hi(D_80140C14) # $a0, 0x8014
 /* B1FFD8 800A8E38 24840C14 */  addiu $a0, %lo(D_80140C14) # addiu $a0, $a0, 0xc14
@@ -392,7 +392,7 @@ glabel func_800A8A20
 /* B20030 800A8E90 3C040800 */  lui   $a0, 0x800
 /* B20034 800A8E94 34068000 */  li    $a2, 32768
 /* B20038 800A8E98 00003825 */  move  $a3, $zero
-/* B2003C 800A8E9C 0C02A7A8 */  jal   Sram_ReadWrite
+/* B2003C 800A8E9C 0C02A7A8 */  jal   SsSram_ReadWrite
 /* B20040 800A8EA0 8D050000 */   lw    $a1, ($t0)
 /* B20044 800A8EA4 97A90066 */  lhu   $t1, 0x66($sp)
 /* B20048 800A8EA8 3C048014 */  lui   $a0, %hi(D_80140C58) # $a0, 0x8014
