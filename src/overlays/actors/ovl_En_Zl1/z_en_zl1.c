@@ -122,7 +122,7 @@ void func_80B4AE18(EnZl1* this) {
             this->unk_1FC = Math_Rand_S16Offset(0x1E, 0xA);
         }
         this->unk_1FE = (this->unk_1FC < 4) ? this->unk_1FC : 0;
-        
+
         this->unk_1F4 = D_80B4E61C[this->unk_1FE];
         this->unk_1F8 = D_80B4E61C[this->unk_1FE];
         this->unk_1EC = D_80B4E62C[this->unk_1F2];
