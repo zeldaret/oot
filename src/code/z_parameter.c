@@ -2356,8 +2356,6 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-// this function still needs some work
 void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
     static s16 sMagicBorderColors[][3] = {
         { 0xFF, 0xFF, 0xFF },
@@ -2368,28 +2366,33 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
     static s16 sMagicBorderIndexes[] = { 0, 1, 1, 0 };
     static s16 sMagicBorderRatio = 2;
     static s16 sMagicBorderStep = 1;
-    s16* color;
-    s16 maxMagic;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
+    InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
+    s16 borderChangeR;
+    s16 borderChangeG;
+    s16 borderChangeB;
+    s16 temp;
 
     switch (gSaveContext.unk_13F0) {
         case 8:
-            maxMagic = gSaveContext.magicLevel * 0x30;
-            if (gSaveContext.unk_13F4 != maxMagic) {
-                if (gSaveContext.unk_13F4 < maxMagic) {
+            temp = gSaveContext.magicLevel * 0x30;
+            if (gSaveContext.unk_13F4 != temp) {
+                if (gSaveContext.unk_13F4 < temp) {
                     gSaveContext.unk_13F4 += 8;
-                    if (gSaveContext.unk_13F4 > maxMagic) {
-                        gSaveContext.unk_13F4 = maxMagic;
+                    if (gSaveContext.unk_13F4 > temp) {
+                        gSaveContext.unk_13F4 = temp;
                     }
                 } else {
                     gSaveContext.unk_13F4 -= 8;
-                    if (gSaveContext.unk_13F4 <= maxMagic) {
-                        gSaveContext.unk_13F4 = maxMagic;
+                    if (gSaveContext.unk_13F4 <= temp) {
+                        gSaveContext.unk_13F4 = temp;
                     }
                 }
             } else {
                 gSaveContext.unk_13F0 = 9;
             }
             break;
+
         case 9:
             gSaveContext.magic += 4;
 
@@ -2398,60 +2401,61 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                                        &D_801333E8);
             }
 
-            // Translates to: "Storage MAGIC_NOW=%d (%d)"
-            osSyncPrintf("蓄電 MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.unk_13F6);
+            // Translates to: "Storage  MAGIC_NOW=%d (%d)"
+            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.unk_13F6);
             if (gSaveContext.magic >= gSaveContext.unk_13F6) {
                 gSaveContext.magic = gSaveContext.unk_13F6;
                 gSaveContext.unk_13F0 = gSaveContext.unk_13F2;
                 gSaveContext.unk_13F2 = 0;
             }
             break;
+
         case 1:
             sMagicBorderRatio = 2;
             gSaveContext.unk_13F0 = 2;
             break;
+
         case 2:
             gSaveContext.magic -= 2;
             if (gSaveContext.magic <= 0) {
                 gSaveContext.magic = 0;
                 gSaveContext.unk_13F0 = 3;
-                sMagicBorderB = 255;
-                sMagicBorderG = 255;
-                sMagicBorderR = 255;
+                sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             } else if (gSaveContext.magic == gSaveContext.unk_13F8) {
                 gSaveContext.unk_13F0 = 3;
-                sMagicBorderB = 255;
-                sMagicBorderG = 255;
-                sMagicBorderR = 255;
+                sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             }
         case 3:
         case 4:
         case 6:
-            color = sMagicBorderColors[sMagicBorderIndexes[sMagicBorderStep]];
+            temp = sMagicBorderIndexes[sMagicBorderStep];
+            borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
+            borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
+            borderChangeB = ABS(sMagicBorderB - sMagicBorderColors[temp][2]) / sMagicBorderRatio;
 
-            if (sMagicBorderR >= color[0]) {
-                sMagicBorderR -= ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
+            if (sMagicBorderR >= sMagicBorderColors[temp][0]) {
+                sMagicBorderR -= borderChangeR;
             } else {
-                sMagicBorderR += ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
+                sMagicBorderR += borderChangeR;
             }
 
-            if (sMagicBorderG >= color[1]) {
-                sMagicBorderG -= ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
+            if (sMagicBorderG >= sMagicBorderColors[temp][1]) {
+                sMagicBorderG -= borderChangeG;
             } else {
-                sMagicBorderG += ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
+                sMagicBorderG += borderChangeG;
             }
 
-            if (sMagicBorderB >= color[2]) {
-                sMagicBorderB -= ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
+            if (sMagicBorderB >= sMagicBorderColors[temp][2]) {
+                sMagicBorderB -= borderChangeB;
             } else {
-                sMagicBorderB += ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
+                sMagicBorderB += borderChangeB;
             }
 
             sMagicBorderRatio--;
             if (sMagicBorderRatio == 0) {
-                sMagicBorderR = color[0];
-                sMagicBorderG = color[1];
-                sMagicBorderB = color[2];
+                sMagicBorderR = sMagicBorderColors[temp][0];
+                sMagicBorderG = sMagicBorderColors[temp][1];
+                sMagicBorderB = sMagicBorderColors[temp][2];
                 sMagicBorderRatio = YREG(40 + sMagicBorderStep);
                 sMagicBorderStep++;
                 if (sMagicBorderStep >= 4) {
@@ -2459,16 +2463,16 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                 }
             }
             break;
+
         case 5:
-            sMagicBorderB = 255;
-            sMagicBorderG = 255;
-            sMagicBorderR = 255;
+            sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             gSaveContext.unk_13F0 = 0;
             break;
+
         case 7:
-            if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-                (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->sceneLoadFlag == 0) &&
-                (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
+            if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
+                (globalCtx->unk_10A20 == 0) && (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) &&
+                !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -2482,38 +2486,41 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                     break;
                 }
 
-                globalCtx->interfaceCtx.unk_230--;
-                if (globalCtx->interfaceCtx.unk_230 == 0) {
+                interfaceCtx->unk_230--;
+                if (interfaceCtx->unk_230 == 0) {
                     gSaveContext.magic--;
-                    globalCtx->interfaceCtx.unk_230 = 80;
+                    interfaceCtx->unk_230 = 80;
                 }
             }
 
-            color = sMagicBorderColors[sMagicBorderIndexes[sMagicBorderStep]];
+            temp = sMagicBorderIndexes[sMagicBorderStep];
+            borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
+            borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
+            borderChangeB = ABS(sMagicBorderB - sMagicBorderColors[temp][2]) / sMagicBorderRatio;
 
-            if (sMagicBorderR >= color[0]) {
-                sMagicBorderR -= ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
+            if (sMagicBorderR >= sMagicBorderColors[temp][0]) {
+                sMagicBorderR -= borderChangeR;
             } else {
-                sMagicBorderR += ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
+                sMagicBorderR += borderChangeR;
             }
 
-            if (sMagicBorderG >= color[1]) {
-                sMagicBorderG -= ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
+            if (sMagicBorderG >= sMagicBorderColors[temp][1]) {
+                sMagicBorderG -= borderChangeG;
             } else {
-                sMagicBorderG += ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
+                sMagicBorderG += borderChangeG;
             }
 
-            if (sMagicBorderB >= color[2]) {
-                sMagicBorderB -= ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
+            if (sMagicBorderB >= sMagicBorderColors[temp][2]) {
+                sMagicBorderB -= borderChangeB;
             } else {
-                sMagicBorderB += ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
+                sMagicBorderB += borderChangeB;
             }
 
             sMagicBorderRatio--;
             if (sMagicBorderRatio == 0) {
-                sMagicBorderR = color[0];
-                sMagicBorderG = color[1];
-                sMagicBorderB = color[2];
+                sMagicBorderR = sMagicBorderColors[temp][0];
+                sMagicBorderG = sMagicBorderColors[temp][1];
+                sMagicBorderB = sMagicBorderColors[temp][2];
                 sMagicBorderRatio = YREG(40 + sMagicBorderStep);
                 sMagicBorderStep++;
                 if (sMagicBorderStep >= 4) {
@@ -2521,6 +2528,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                 }
             }
             break;
+
         case 10:
             gSaveContext.magic += 4;
             Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -2530,24 +2538,12 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                 gSaveContext.unk_13F2 = 0;
             }
             break;
+
         default:
             gSaveContext.unk_13F0 = 0;
             break;
     }
 }
-#else
-s16 sMagicBorderColors[][3] = {
-    { 0xFF, 0xFF, 0xFF },
-    { 0x96, 0x96, 0x96 },
-    { 0xFF, 0xFF, 0x96 },
-    { 0xFF, 0xFF, 0x32 },
-};
-s16 sMagicBorderIndexes[] = { 0, 1, 1, 0 };
-s16 sMagicBorderRatio = 2;
-s16 sMagicBorderStep = 1;
-void Interface_UpdateMagicBar(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_UpdateMagicBar.s")
-#endif
 
 void Interface_DrawMagicBar(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
@@ -2689,15 +2685,14 @@ u8* sCUpLabelTextures[] = { D_02002FC0, D_02002FC0, D_02002FC0 };
 
 s16 sStartButtonLeftPos[] = { 132, 130, 130 };
 
-#ifdef NON_MATCHING
-// regalloc and ordering differences
 void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = PLAYER;
-    f32 temp;
-    s16 i; // sp+0x14A
-    s16 cUpAlpha;
-    s32 pad;
+    PauseContext* pauseCtx = &globalCtx->pauseCtx;
+    s16 temp;
+    s16 dxdy;
+    s16 width;
+    s16 height;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 2900);
 
@@ -2734,7 +2729,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                         (R_ITEM_BTN_X(3) + R_ITEM_BTN_WIDTH(3)) << 2, (R_ITEM_BTN_Y(3) + R_ITEM_BTN_WIDTH(3)) << 2,
                         G_TX_RENDERTILE, 0, 0, R_ITEM_BTN_DD(3) * 2, R_ITEM_BTN_DD(3) * 2);
 
-    if ((globalCtx->pauseCtx.state < 8) || (globalCtx->pauseCtx.state >= 18)) {
+    if ((pauseCtx->state < 8) || (pauseCtx->state >= 18)) {
         if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
             // Start Button Texture, Color & Label
             gDPPipeSync(oGfxCtx->overlay.p++);
@@ -2761,12 +2756,13 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                        G_TX_NOLOD);
             gDPSetTileSize(oGfxCtx->overlay.p++, G_TX_RENDERTILE, 0, 0, 188, 60);
 
-            temp = R_START_LABEL_DD(gSaveContext.language) / 100.0f;
-            gSPTextureRectangle(oGfxCtx->overlay.p++, R_START_LABEL_X(gSaveContext.language) << 2,
-                                R_START_LABEL_Y(gSaveContext.language) << 2,
-                                (R_START_LABEL_X(gSaveContext.language) + (s16)(16.0f / temp)) << 2,
-                                (R_START_LABEL_Y(gSaveContext.language) + (s16)(48.0f / temp)) << 2, G_TX_RENDERTILE, 0,
-                                0, (s16)(1024.0f / temp), (s16)(1024.0f / temp));
+            dxdy = 1024.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            width = 48.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            height = 16.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
+            gSPTextureRectangle(
+                oGfxCtx->overlay.p++, R_START_LABEL_X(gSaveContext.language) << 2,
+                R_START_LABEL_Y(gSaveContext.language) << 2, (R_START_LABEL_X(gSaveContext.language) + width) << 2,
+                (R_START_LABEL_Y(gSaveContext.language) + height) << 2, G_TX_RENDERTILE, 0, 0, dxdy, dxdy);
         }
     }
 
@@ -2777,20 +2773,20 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gDPPipeSync(oGfxCtx->overlay.p++);
 
             if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
-                cUpAlpha = 0;
-            } else if ((player->stateFlags2 & 0x00200000) || (func_8008F2F8(globalCtx) == 4) ||
+                temp = 0;
+            } else if ((player->stateFlags1 & 0x00200000) || (func_8008F2F8(globalCtx) == 4) ||
                        (player->stateFlags2 & 0x00040000)) {
-                cUpAlpha = 70;
+                temp = 70;
             } else {
-                cUpAlpha = interfaceCtx->healthAlpha;
+                temp = interfaceCtx->healthAlpha;
             }
 
-            gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2), cUpAlpha);
+            gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2), temp);
             gDPSetCombineMode(oGfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             gSPTextureRectangle(oGfxCtx->overlay.p++, R_C_UP_BTN_X << 2, R_C_UP_BTN_Y << 2, (R_C_UP_BTN_X + 16) << 2,
                                 (R_C_UP_BTN_Y + 16) << 2, G_TX_RENDERTILE, 0, 0, 2048, 2048);
             gDPPipeSync(oGfxCtx->overlay.p++);
-            gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 255, 255, 255, cUpAlpha);
+            gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 255, 255, 255, temp);
             gDPSetEnvColor(oGfxCtx->overlay.p++, 0, 0, 0, 0);
             gDPSetCombineLERP(oGfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                               0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -2814,20 +2810,20 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
 
         sCUpTimer--;
         if (sCUpTimer == 0) {
-            sCUpTimer = 10;
             sCUpInvisible ^= 1;
+            sCUpTimer = 10;
         }
     }
 
     gDPPipeSync(oGfxCtx->overlay.p++);
 
     // Empty C Button Arrows
-    for (i = 1; i < 4; i++) {
-        if (gSaveContext.equips.buttonItems[i] > 0xF0) {
-            if (i == 1) {
+    for (temp = 1; temp < 4; temp++) {
+        if (gSaveContext.equips.buttonItems[temp] > 0xF0) {
+            if (temp == 1) {
                 gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                                 interfaceCtx->cLeftAlpha);
-            } else if (i == 2) {
+            } else if (temp == 2) {
                 gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                                 interfaceCtx->cDownAlpha);
             } else {
@@ -2835,18 +2831,14 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                                 interfaceCtx->cRightAlpha);
             }
 
-            oGfxCtx->overlay.p =
-                Gfx_TextureIA8(oGfxCtx->overlay.p, &D_02000A00[i + 1], 0x20, 0x20, R_ITEM_BTN_X(i), R_ITEM_BTN_Y(i),
-                               R_ITEM_BTN_WIDTH(i), R_ITEM_BTN_WIDTH(i), R_ITEM_BTN_DD(i) * 2, R_ITEM_BTN_DD(i) * 2);
+            oGfxCtx->overlay.p = Gfx_TextureIA8(
+                oGfxCtx->overlay.p, &D_02000A00[temp + 1], 0x20, 0x20, R_ITEM_BTN_X(temp), R_ITEM_BTN_Y(temp),
+                R_ITEM_BTN_WIDTH(temp), R_ITEM_BTN_WIDTH(temp), R_ITEM_BTN_DD(temp) * 2, R_ITEM_BTN_DD(temp) * 2);
         }
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3071);
 }
-#else
-void Interface_DrawItemButtons(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_parameter/Interface_DrawItemButtons.s")
-#endif
 
 void Interface_DrawItemIconTexture(GlobalContext* globalCtx, void* texture, s16 button) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3079);
