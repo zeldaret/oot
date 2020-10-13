@@ -67,7 +67,7 @@ void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, Lights* lights, GlobalContex
 }
 
 void ActorShadow_DrawFunc_Squiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    func_8002B200(actor, lights, globalCtx, &D_04049AD0, NULL);
+    func_8002B200(actor, lights, globalCtx, D_04049AD0, NULL);
 }
 
 void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
@@ -1949,10 +1949,10 @@ void func_800304B0(GlobalContext* globalCtx) {
 // Actor_InitContext
 void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry) {
     ActorOverlay* overlayEntry;
-    SaveSceneFlags* saveSceneFlags;
+    SavedSceneFlags* savedSceneFlags;
     s32 i;
 
-    saveSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
+    savedSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
 
     bzero(actorCtx, sizeof(*actorCtx));
 
@@ -1967,10 +1967,10 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
         overlayEntry++;
     }
 
-    actorCtx->flags.chest = saveSceneFlags->chest;
-    actorCtx->flags.swch = saveSceneFlags->swch;
-    actorCtx->flags.clear = saveSceneFlags->clear;
-    actorCtx->flags.collect = saveSceneFlags->collect;
+    actorCtx->flags.chest = savedSceneFlags->chest;
+    actorCtx->flags.swch = savedSceneFlags->swch;
+    actorCtx->flags.clear = savedSceneFlags->clear;
+    actorCtx->flags.collect = savedSceneFlags->collect;
 
     func_8002CDE4(globalCtx, &actorCtx->titleCtx);
 
