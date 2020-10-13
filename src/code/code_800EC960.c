@@ -2116,18 +2116,17 @@ void func_800F574C(f32 arg0, u8 arg2) {
 }
 
 void func_800F5918(void) {
-    if (func_800FA0B4(0) == 0x6C) {
-        if (func_800FA11C(0, 0xF0000000) != 0) {
-            Audio_SetBGM(0xB00500D2);
-        }
+    if (func_800FA0B4(0) == 0x6C && func_800FA11C(0, 0xF0000000)) {
+        Audio_SetBGM(0xB00500D2);
     }
 }
 
-#ifdef NON_MATCHING
 void func_800F595C(u16 arg0) {
-    if (D_80130658[(u8)arg0] & 2) {
+    u8 arg0b = arg0 & 0xFF;
+    
+    if (D_80130658[arg0b] & 2) {
         func_800F5C64(arg0);
-    } else if (D_80130658[(u8)arg0] & 4) {
+    } else if (D_80130658[arg0b] & 4) {
         Audio_SetBGM(0x1000000 | arg0);
         
     } else {
@@ -2135,53 +2134,40 @@ void func_800F595C(u16 arg0) {
         Audio_SetBGM(0x110000FF);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F595C.s")
-#endif
 
-#ifdef NON_MATCHING
-void func_800F59E8(u16 arg0x) {
-    u8 arg0 = arg0x;
-    if (D_80130658[arg0] & 2) {
+void func_800F59E8(u16 arg0) {
+    u8 arg0b = arg0 & 0xFF;
+
+    if (D_80130658[arg0b] & 2) {
         Audio_SetBGM(0x110000FF);
-    } else if (D_80130658[arg0] & 4) {
+    } else if (D_80130658[arg0b] & 4) {
         Audio_SetBGM(0x110000FF);
     } else {
         Audio_SetBGM(0x100000FF);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F59E8.s")
-#endif
 
-#ifdef NON_MATCHING
 s32 func_800F5A58(u8 arg0) {
-    s32 sp18;
-    s32 temp_v1;
-    u8 temp_v0;
-    u8 phi_a1;
-    u8 phi_return;
+    u8 phi_a1 = 0;
 
-    phi_a1 = !(D_80130658[arg0] & 2) || D_80130658[arg0] & 4 ? 1 : 0;
-
-    phi_return = 0;
-    if (func_800FA0B4(phi_a1) == arg0) {
-        phi_return = 1;
+    if (D_80130658[arg0 & 0xFF] & 2){
+        phi_a1 = 1;
+    } else if(D_80130658[arg0 & 0xFF] & 4) {
+        phi_a1 = 1;
     }
-    
-    return phi_return;
-}
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F5A58.s")
-#endif
 
-#ifdef NON_MATCHING
+    if (arg0 == (u8)func_800FA0B4(phi_a1)) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 void func_800F5ACC(u16 arg0) {
-    u8 temp_a0;
     u16 temp_v0;
 
-    temp_a0 = temp_v0 = func_800FA0B4(0);
-    if (temp_a0 != 0x2E && temp_a0 != 0x62 && arg0 != temp_v0) {
+    temp_v0 = func_800FA0B4(0);
+    if ((temp_v0 & 0xFF) != 0x2E && (temp_v0 & 0xFF) != 0x62 && temp_v0 != arg0) {
         func_800F5E90(3);
         if (temp_v0 != 0xFFFF) {
             D_80130628 = temp_v0;
@@ -2191,9 +2177,6 @@ void func_800F5ACC(u16 arg0) {
         Audio_SetBGM(arg0 & 0xFFFFFFFF);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F5ACC.s")
-#endif
 
 void func_800F5B58(void) {
     if ((func_800FA0B4(0) != 0xFFFF) && 
@@ -2384,51 +2367,7 @@ void func_800F64E0(u8 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
-void func_800F6584(u8 arg0) {
-    u16 sp34;
-    u32 sp28;
-    s32 temp_s0_2;
-    s32 temp_s1;
-    s32 temp_s1_2;
-    u32 temp_v0;
-    u32 temp_v0_2;
-    u8 temp_s0;
-    s32 phi_v1;
-
-    D_8016B9F2 = arg0;
-
-    if ((u8)func_800FA0B4(0) == 0x2F) {
-        sp34 = 0;
-        phi_v1 = 0;
-    } else if ((u8)func_800FA0B4(3) == 0x2F) {
-        sp34 = 0xFFFC;
-        phi_v1 = 3;
-    } else {
-        return;
-    }
-
-    if (D_8016B9F2 != 0) {
-        Audio_SetBGM((phi_v1 << 0x18) | 0x60000000 | 0x10000);
-        Audio_SetBGM((phi_v1 << 0x18) | 0x60000000 | 0x10000 | 0x100);
-        if (phi_v1 == 3) {
-            Audio_SetBGM((phi_v1 << 0x18) | 0xA0000000 | ((sp34 | 3) & 0xFFFF));
-        }
-    } else {
-        if (phi_v1 == 3) {
-            func_800F5E18(3, 0x2F, 0, 0, 0);
-        }
-        Audio_SetBGM((phi_v1 << 0x18) | 0x60000000 | 0x10000 | 0x7F);
-        Audio_SetBGM((phi_v1 << 0x18) | 0x60000000 | 0x10000 | 0x17F);
-        if (phi_v1 == 3) {
-            Audio_SetBGM((phi_v1 << 0x18) | 0xA0000000 | sp34);
-        }
-    }
-    
-}
-#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F6584.s")
-#endif
 
 void func_800F66C0(s8 arg0) {
     D_80130614 = arg0 & 0x7F;
@@ -2444,7 +2383,7 @@ void func_800F66DC(s8 arg0) {
 void func_800F6700(s8 arg0) {
     u8 sp1F;
 
-    switch(arg0){
+    switch((u32)arg0){
         case 0:
             sp1F = 0;
             D_80130604 = 0;
@@ -2461,9 +2400,9 @@ void func_800F6700(s8 arg0) {
             sp1F = 0;
             D_80130604 = 2;
             break;
-    }
 
-    Audio_SetBGM(sp1F | 0xE0000000);
+    }
+    Audio_SetBGM(0xE0000000 | sp1F);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F6700.s")

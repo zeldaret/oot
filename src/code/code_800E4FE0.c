@@ -174,7 +174,7 @@ AudioTask *func_800E5000(void) {
     if (gAudioContext.gAudioResetStatus == 0) {
         i = 0;
         while(osRecvMesg(gAudioContext.unk_5BEC, &sp4C, 0) != -1){
-            func_800E5D6C(sp4C);
+            func_800E5D6C(sp4C); 
             i++;
         }
         if ((i == 0) && (gAudioContext.unk_5BDA != 0)) {
@@ -219,6 +219,9 @@ AudioTask *func_800E5000(void) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E4FE0/func_800E5000.s")
 #endif
+
+#define ACMD_SND_MDE ((u32)0xF0000000)
+#define ACMD_MUTE ((u32)0xF1000000)
 
 void func_800E5584(unk_5C50_s *arg0) {
     s32 i;
@@ -390,14 +393,17 @@ void func_800E5A8C(u32 arg0, void **arg1) {
 void func_800E5A8C(u32 arg0, void **arg1);
 #endif
 
+// put f32
 void func_800E5AD8(u32 arg0, f32 arg1) {
     func_800E5A8C(arg0, &arg1);
 }
 
+// put u32
 void func_800E5AFC(u32 arg0, u32 arg1) {
     func_800E5A8C(arg0, &arg1);
 }
 
+// put s8
 void func_800E5B20(u32 arg0, s8 arg1) {
     u32 sp1C;
 
@@ -405,6 +411,7 @@ void func_800E5B20(u32 arg0, s8 arg1) {
     func_800E5A8C(arg0, &sp1C);
 }
 
+// put u16
 void func_800E5B50(u32 arg0, u16 arg1) {
     u32 sp1C = arg1 << 0x10;
     func_800E5A8C(arg0, &sp1C);

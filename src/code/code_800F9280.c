@@ -94,41 +94,33 @@ u16 func_800FA0B4(u8 playerIdx) {
     return D_8016E750[playerIdx].unk_254;
 }
 
-#ifdef NON_MATCHING
-s32 func_800FA11C(s32 arg0, s32 arg1) {
+s32 func_800FA11C(u32 arg0, u32 arg1) {
     u8 i;
 
-    for(i = D_80133400; i != D_80133404; i++){
-        if (arg0 == (D_8016E350[i] & arg1)) {
-            return 0;
+    for(i = D_80133404; i != D_80133400; i++){
+        if(arg0 == (D_8016E350[i] & arg1)){
+            return false;
         }
     }
 
-    return 1;
+    return true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800FA11C.s")
-s32 func_800FA11C(s32 arg0, s32 arg1);
-#endif
 
 void func_800FA174(u8 arg0) {
     D_8016E348[arg0] = 0;
 }
 
-#ifdef NON_MATCHING
-void func_800FA18C(u8 arg0, u32 arg1) {
+void func_800FA18C(u8 arg0, u8 arg1) {
     u8 i;
 
-    for(i = 0; i < D_8016E750[arg0].unk_4E; i++){
-        if ((((D_8016E750[arg0].unk_2C[i] & 0xF00000) >> 0x14) & 0xFF) == (arg1 & 0xFF)) {
+    for(i = 0; i < D_8016E750[arg0].unk_4D; i++){
+        u8 unkb  = (D_8016E750[arg0].unk_2C[i] & 0xF00000) >> 0x14;
+
+        if (unkb == arg1) {
             D_8016E750[arg0].unk_2C[i] = 0xFF000000;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800FA18C.s")
-void func_800FA18C(u8 arg0, u32 arg1);
-#endif
 
 void func_800FA240(u8 arg0, u8 arg1, u8 arg2, u8 arg3) {
     f32 phi_f0;

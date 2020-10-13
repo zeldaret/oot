@@ -2272,7 +2272,7 @@ s32 func_800F8FF4(u16);
 void Audio_SetBGM(u32 bgmID);
 // ? func_800FA034(?);
 u16 func_800FA0B4(u8 a0);
-UNK_TYPE func_800FA11C(UNK_TYPE, UNK_TYPE);
+s32 func_800FA11C(u32, u32);
 // ? func_800FA240(?);
 // ? func_800FA3DC(?);
 // ? func_800FAD34(?);
