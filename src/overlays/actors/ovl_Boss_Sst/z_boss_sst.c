@@ -2949,7 +2949,7 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
 
                 oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                        this->skelAnime.dListCount, BossSst_HandTrailOverride, NULL,
-                                                       &trail->posRot.pos, oGfxCtx->polyXlu.p);
+                                                       trail, oGfxCtx->polyXlu.p);
             }
             idx = (idx + 5) % 7;
             trail2 = trail;
