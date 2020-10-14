@@ -61,7 +61,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     colHeader = SEGMENTED_TO_VIRTUAL(&D_060194F8);
     colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
 
-    if (1) {} // Given the above, there's probably some macros afoot
+    if (1) {} // Needed to match
 
     if (func_80043590(&this->dyna) && (this->dyna.actor.yDistFromLink < 1000.0f)) {
         func_8005A77C(globalCtx->cameraPtrs[0], 0xC);

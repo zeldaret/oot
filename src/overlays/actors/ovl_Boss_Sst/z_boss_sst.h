@@ -43,9 +43,9 @@ typedef struct BossSst {
     /* 0x02B6 */ Vec3s transitionDrawTable[45];
     /* 0x03C4 */ f32 unk_3C4;
     /* 0x03C8 */ Vec3f unk_3C8;
-    /* 0x03D4 */ ColliderJntSph collider1;
+    /* 0x03D4 */ ColliderJntSph colliderJntSph;
     /* 0x03F4 */ ColliderJntSphItem colliderItems[11];
-    /* 0x06B4 */ ColliderCylinder collider2;
+    /* 0x06B4 */ ColliderCylinder colliderCyl;
     /* 0x0700 */ BossSstEffect effects[18];
     /* 0x09D0 */ s16 trailIndex;
     /* 0x09D2 */ s16 trailCount;
