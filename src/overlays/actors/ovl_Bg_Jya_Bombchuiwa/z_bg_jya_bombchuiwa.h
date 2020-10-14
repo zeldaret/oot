@@ -14,10 +14,9 @@ typedef struct BgJyaBombchuiwa {
     /* 0x014C */ BgJyaBombchuiwaActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph collider;
     /* 0x0170 */ ColliderJntSphItem colliderItems;
-    /* 0x01B0 */ f32 unk_1B0;
-    /* 0x01B4 */ s16 unk_1B4;
-    /* 0x01B6 */ u8 unk_1B6;
-    /* 0x01B7 */ s8 unk_1B7;
+    /* 0x01B0 */ f32 lightRayIntensity;
+    /* 0x01B4 */ s16 timer;
+    /* 0x01B6 */ u8 drawFlag; // Upper 3 bits are always 0. lower 4 bytes used to determine how the actor is drawn.
 } BgJyaBombchuiwa; // size = 0x01B8
 
 extern const ActorInit Bg_Jya_Bombchuiwa_InitVars;
