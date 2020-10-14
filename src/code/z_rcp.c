@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 Gfx sSetupDL[] = {
     /* 0x00 */
