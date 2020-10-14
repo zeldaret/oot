@@ -1347,8 +1347,7 @@ endseg
 beginseg
     name "ovl_Bg_Sst_Floor"
     include "build/src/overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.data.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Sst_Floor/ovl_Bg_Sst_Floor_reloc.o"
 endseg
 
 beginseg

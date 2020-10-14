@@ -367,7 +367,7 @@ typedef struct {
     /* 0x00 */ Vec3s     colAbsMin;
     /* 0x06 */ Vec3s     colAbsMax;
     /* 0x0C */ s16       nbVertices;
-    /* 0x10 */ void*     vertexArray;
+    /* 0x10 */ Vec3s*    vertexArray;
     /* 0x14 */ s16       nbPolygons;
     /* 0x18 */ void*     polygonArray;
     /* 0x1C */ void*     polygonTypes;

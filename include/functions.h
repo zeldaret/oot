@@ -628,6 +628,7 @@ void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, U
 u32 DynaPolyInfo_RegisterActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, UNK_TYPE arg3);
 DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, UNK_TYPE dynaPolyId);
 void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
+void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx);
 // ? func_8003EE80(?);
 // ? func_8003F8EC(?);
 // ? func_8003F984(?);
