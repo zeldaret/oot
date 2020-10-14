@@ -30,8 +30,7 @@ s16 D_808B2E10[][2] = {
     { 1260, 2040 }, { 1259, 1947 }, { 1135, 1860 }, { 1087, 1912 }, { 1173, 2044 },
 };
 
-// sInitChain
-static InitChainEntry D_808B2E24[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_CONTINUE),
@@ -81,7 +80,7 @@ s32 func_808B280C(GlobalContext* globalCtx) {
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Oasis* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_808B2E24);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808B2970(this);
     this->actor.posRot.pos.y = -100.0f;
     func_808B27F0(globalCtx, -100);
