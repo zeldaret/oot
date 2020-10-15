@@ -866,8 +866,11 @@ void func_80A77434(EnIk* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = 0xFF;
 }
 
-void func_80A77474(EnIk* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77474.s")
+void func_80A77474(EnIk* this, GlobalContext* globalCtx) {
+    this->action = 5;
+    this->drawMode = 0;
+    this->actor.shape.unk_14 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7748C.s")
 
@@ -979,8 +982,29 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
 }
 
-s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw1.s")
+void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos);
+
+s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+    EnIk* this = (EnIk*)actor;
+    f32 animCurrentFrame;
+
+    switch (limbIndex) {
+        case 0x11:
+            animCurrentFrame = this->skelAnime.animCurrentFrame;
+            if (animCurrentFrame < 120.0f) {
+                *dList = NULL;
+            } else {
+                func_80A76E2C(this, globalCtx, pos);
+            }
+            break;
+        case 0x1D:
+        case 0x1E:
+            *dList = NULL;
+            break;
+    }
+
+    return 0;
+}
 
 void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw1.s")
