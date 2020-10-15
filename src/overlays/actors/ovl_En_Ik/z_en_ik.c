@@ -67,6 +67,8 @@ extern AnimationHeader D_0600C114;
 extern AnimationHeader D_0600CD70;
 extern AnimationHeader D_0600DD50;
 extern AnimationHeader D_0600ED24;
+extern Gfx D_06018E78[];
+extern Gfx D_06019100[];
 extern SkeletonHeader D_0601E178;
 extern AnimationHeader D_060203D8;
 extern SkeletonHeader D_060205C0;
@@ -681,8 +683,28 @@ Gfx* func_80A761B0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
     return displayList;
 }
 
-s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw3.s")
+s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+    EnIk* this = (EnIk*)actor;
+
+    if (limbIndex == 0xC) {
+        if (this->actor.params != 0) {
+            *dList = D_06018E78;
+        }
+    } else if (limbIndex == 0xD) {
+        if (this->actor.params != 0) {
+            *dList = D_06019100;
+        }
+    } else if ((limbIndex == 0x1A) || (limbIndex == 0x1B)) {
+        if ((this->unk_2FA & 1)) {
+            *dList = NULL;
+        }
+    } else if ((limbIndex == 0x1C) || (limbIndex == 0x1D)) {
+        if (!(this->unk_2FA & 1)) {
+            *dList = NULL;
+        }
+    }
+    return 0;
+}
 
 void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw3.s")
@@ -748,11 +770,13 @@ void func_80A76C14(EnIk* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A76E2C.s")
 
-void func_80A77034(EnIk* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77034.s")
+void func_80A77034(EnIk* this, GlobalContext* globalCtx) {
+    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+}
 
-s32 func_80A7707C(EnIk* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A7707C.s")
+s32 func_80A7707C(EnIk* this) {
+    return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+}
 
 CsCmdActorAction* EnIk_GetNpcAction(GlobalContext* globalCtx, s32 actionIdx) {
     if (globalCtx->csCtx.state != 0) {
@@ -773,21 +797,44 @@ void func_80A770C0(EnIk* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77140.s")
+f32 EnIk_AnimCurrentFrame(EnIk* this) {
+    return this->skelAnime.animCurrentFrame;
+}
 
-void func_80A77148(EnIk* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77148.s")
+void func_80A77148(EnIk* this) {
+    this->action = 0;
+    this->drawMode = 0;
+    this->actor.shape.unk_14 = 0;
+}
 
-void func_80A77158(EnIk* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77158.s")
+void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114.genericHeader),
+                         2, 0.0f);
+    func_80A770C0(this, globalCtx, 4);
+    this->action = 1;
+    this->drawMode = 1;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-void func_80A771E4(EnIk* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A771E4.s")
+void func_80A771E4(EnIk* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114.genericHeader),
+                         2, 0.0f);
+    this->action = 2;
+    this->drawMode = 1;
+    this->unk_4D4 = 0;
+    this->actor.shape.unk_14 = 0xFF;
+}
 
-void func_80A77264(EnIk* this, GlobalContext* globalCtx, s32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77264.s")
+void func_80A77264(EnIk* this, GlobalContext* globalCtx, s32 arg2) {
+    if ((arg2 != 0) && (EnIk_GetNpcAction(globalCtx, 4) != NULL)) {
+        func_80A78160(this, globalCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A772A4.s")
+void func_80A772A4(EnIk* this) {
+    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                           &D_801333E8);
+}
 
 void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
     static Vec3f D_80A78FA0;
@@ -812,8 +859,12 @@ void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = 0xFF;
 }
 
-void func_80A77434(EnIk* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77434.s")
+void func_80A77434(EnIk* this, GlobalContext* globalCtx) {
+    this->action = 4;
+    this->drawMode = 2;
+    func_80A772A4(this);
+    this->actor.shape.unk_14 = 0xFF;
+}
 
 void func_80A77474(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A77474.s")
@@ -824,8 +875,17 @@ void func_80A77474(EnIk* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A774F8.s")
 
-s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_OverrideLimbDraw2.s")
+s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+    EnIk* this = (EnIk*)actor;
+
+    if ((limbIndex == 0xD) || (limbIndex == 0x1A) || (limbIndex == 0x1B)) {
+        if (EnIk_AnimCurrentFrame(this) >= 30.0f) {
+            *dList = NULL;
+        }
+    }
+
+    return 0;
+}
 
 void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw2.s")
@@ -901,7 +961,7 @@ void func_80A77B0C(EnIk* this, GlobalContext* globalCtx) {
 void func_80A77B3C(EnIk* this, GlobalContext* globalCtx) {
     s32 sp24;
 
-    sp24 = func_80A7707C(this, globalCtx);
+    sp24 = func_80A7707C(this);
     func_80A76C14(this);
     func_80A77034(this, globalCtx);
     func_80A779DC(this, globalCtx);
@@ -915,7 +975,7 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    
+
     sActionFuncs[this->action](this, globalCtx);
 }
 
@@ -954,7 +1014,7 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
-    
+
     sDrawFuncs[this->drawMode](this, globalCtx);
 }
 

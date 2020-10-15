@@ -15,12 +15,12 @@ typedef struct EnIk {
     /* 0x0244 */ Vec3s transitionDrawTable[30];
     /* 0x02F8 */ u8 unk_2F8;
     /* 0x02F9 */ u8 unk_2F9;
-    /* 0x02F9 */ char unk_2FA[0x01];
+    /* 0x02FA */ u8 unk_2FA;
     /* 0x02FB */ u8 unk_2FB;
     /* 0x02FC */ u8 unk_2FC;
     /* 0x02FD */ char unk_2FD[0x01];
     /* 0x02FE */ s8 unk_2FE;
-    /* 0x02FD */ s8 unk_2FF;
+    /* 0x02FF */ s8 unk_2FF;
     /* 0x0300 */ s16 unk_300;
     /* 0x0302 */ s16 switchFlags;
     /* 0x0304 */ EnIkActionFunc actionFunc;
@@ -33,7 +33,8 @@ typedef struct EnIk {
     /* 0x04C8 */ s32 action;
     /* 0x04CC */ s32 drawMode;
     /* 0x04D0 */ u32 npcAction;
-    /* 0x04D4 */ char unk_4D4[0x08];
+    /* 0x04D4 */ s32 unk_4D4;
+    /* 0x04D8 */ char unk_4D8[0x04];
 } EnIk; // size = 0x04DC
 
 extern const ActorInit En_Ik_InitVars;

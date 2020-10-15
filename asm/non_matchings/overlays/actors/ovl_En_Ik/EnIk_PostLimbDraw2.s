@@ -72,7 +72,7 @@ glabel EnIk_PostLimbDraw2
 /* 032E4 80A775F4 03000008 */  jr      $t8                        
 /* 032E8 80A775F8 00000000 */  nop
 glabel L80A775FC
-/* 032EC 80A775FC 0C29DC50 */  jal     func_80A77140              
+/* 032EC 80A775FC 0C29DC50 */  jal     EnIk_AnimCurrentFrame              
 /* 032F0 80A77600 8FA40080 */  lw      $a0, 0x0080($sp)           
 /* 032F4 80A77604 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 032F8 80A77608 44812000 */  mtc1    $at, $f4                   ## $f4 = 30.00
@@ -151,7 +151,7 @@ glabel L80A776D0
 /* 03414 80A77724 1000003C */  beq     $zero, $zero, .L80A77818   
 /* 03418 80A77728 AC4A0000 */  sw      $t2, 0x0000($v0)           ## 00000000
 glabel L80A7772C
-/* 0341C 80A7772C 0C29DC50 */  jal     func_80A77140              
+/* 0341C 80A7772C 0C29DC50 */  jal     EnIk_AnimCurrentFrame              
 /* 03420 80A77730 8FA40080 */  lw      $a0, 0x0080($sp)           
 /* 03424 80A77734 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 03428 80A77738 44813000 */  mtc1    $at, $f6                   ## $f6 = 30.00
@@ -182,7 +182,7 @@ glabel L80A7772C
 /* 0348C 80A7779C 1000001E */  beq     $zero, $zero, .L80A77818   
 /* 03490 80A777A0 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 glabel L80A777A4
-/* 03494 80A777A4 0C29DC50 */  jal     func_80A77140              
+/* 03494 80A777A4 0C29DC50 */  jal     EnIk_AnimCurrentFrame              
 /* 03498 80A777A8 8FA40080 */  lw      $a0, 0x0080($sp)           
 /* 0349C 80A777AC 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 034A0 80A777B0 44814000 */  mtc1    $at, $f8                   ## $f8 = 30.00

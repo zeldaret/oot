@@ -12,7 +12,7 @@ glabel EnIk_OverrideLimbDraw2
 /* 03248 80A77558 54A1000C */  bnel    $a1, $at, .L80A7758C       
 /* 0324C 80A7755C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A77560:
-/* 03250 80A77560 0C29DC50 */  jal     func_80A77140              
+/* 03250 80A77560 0C29DC50 */  jal     EnIk_AnimCurrentFrame              
 /* 03254 80A77564 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 03258 80A77568 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 0325C 80A7756C 44812000 */  mtc1    $at, $f4                   ## $f4 = 30.00
