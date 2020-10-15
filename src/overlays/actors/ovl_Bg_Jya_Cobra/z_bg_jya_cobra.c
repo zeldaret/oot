@@ -470,9 +470,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_8089593C(this, globalCtx, &D_0601167C, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, D_80897528);
     if (!(this->dyna.actor.params & 3) && Flags_GetSwitch(globalCtx, ((s32)this->dyna.actor.params >> 8) & 0x3F)) {
-        this->dyna.actor.shape.rot.y = 0;
-        this->dyna.actor.initPosRot.rot.y = this->dyna.actor.shape.rot.y;
-        this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y;
+        this->dyna.actor.posRot.rot.y = this->dyna.actor.initPosRot.rot.y = this->dyna.actor.shape.rot.y = 0;
     }
 
     if (!(this->dyna.actor.params & 3)) {
@@ -480,8 +478,6 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80896918(this, globalCtx);
-
-    if (this->dyna.actor.params) {}
 
     if ((this->dyna.actor.params & 3) == 1 || (this->dyna.actor.params & 3) == 2) {
         this->dyna.actor.room = -1;
