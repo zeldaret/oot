@@ -7,7 +7,65 @@ void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
 }
 
 // draw poly
+#ifdef NON_MATCHING
+// regalloc starting in the loop
+void func_8005B2AC(GraphicsContext *gfx, Vec3f *vA, Vec3f *vB, Vec3f *vC, u8 r, u8 g, u8 b) {
+    Vtx_tn* sp8C;
+    Vtx_tn* vtx;
+    f32 sp84;
+    f32 sp80;
+    f32 sp7C;
+    f32 sp78;
+
+    OPEN_DISPS(gfx, "../z_collision_check.c", 713);
+    
+    gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x00, 0xFF, r, g, b, 50);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
+    gSPTexture(oGfxCtx->polyOpa.p++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPSetCombineLERP(oGfxCtx->polyOpa.p++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
+    // if(1){Gfx* temp = oGfxCtx->polyOpa.p++;temp->words.w0 = 0xFC41C7FF;temp->words.w1 = 0xFFFFFE38;}
+    gSPClearGeometryMode(oGfxCtx->polyOpa.p++, G_CULL_BOTH);
+    gSPSetGeometryMode(oGfxCtx->polyOpa.p++, G_LIGHTING);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+
+    sp8C = (Vtx_tn*) Graph_Alloc(gfx, 3*sizeof(Vtx_tn));
+    if (sp8C == NULL) {
+        __assert("vtx_tbl != NULL", "../z_collision_check.c", 726);
+    }
+    
+    sp8C[0].ob[0] = vA->x;
+    sp8C[0].ob[1] = vA->y;
+    sp8C[0].ob[2] = vA->z;
+    sp8C[1].ob[0] = vB->x;
+    sp8C[1].ob[1] = vB->y;
+    sp8C[1].ob[2] = vB->z;
+    sp8C[2].ob[0] = vC->x;
+    sp8C[2].ob[1] = vC->y;
+    sp8C[2].ob[2] = vC->z;
+    
+    Math3D_DefPlane(vA, vB, vC, &sp84, &sp80, &sp7C, &sp78);
+    
+    for(vtx = sp8C; vtx < sp8C + 3; vtx++) {
+        vtx->flag = 0;
+        vtx->tc[0] = 0;
+        vtx->tc[1] = 0;
+        vtx->n[0] = sp84;
+        vtx->n[1] = sp80;
+        vtx->n[2] = sp7C;
+        vtx->a = 255;
+    }
+
+    gSPVertex(oGfxCtx->polyOpa.p++, sp8C, 3, 0);
+    gSP1Triangle(oGfxCtx->polyOpa.p++, 0, 1, 2, 0);
+
+    CLOSE_DISPS(gfx, "../z_collision_check.c", 757);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B2AC.s")
+#endif
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
     static Collider init = { NULL, NULL, NULL, NULL, 0, 0, 0, 0, COLTYPE_UNK3, COLSHAPE_INVALID };
@@ -856,7 +914,7 @@ s32 func_8005D378(UNK_TYPE arg0, OcLine* arg1, OcLine* arg2) {
 }
 
 s32 func_8005D3A4(GlobalContext* globalCtx, OcLine* line) {
-    line->unk_18 &= 0xFFFE;
+    line->unk_18 &= ~1;
     return 1;
 }
 
@@ -2094,35 +2152,33 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     Vec3f sp68;
     Vec3f sp5C;
 
-    if (left->count > 0 && left->list != NULL) {
-        if (func_8005DF50(&right->body) != 1) {
-            Math3D_TriNorm(&D_8015E440, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
-            Math3D_TriNorm(&D_8015E478, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
-            for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-                if (func_8005DF2C(&lItem->body) == 1) {
-                    continue;
-                }
-                if (func_8005DF74(&lItem->body, &right->body) == 1) {
-                    continue;
-                }
-                if (Math3D_TriVsTriIntersect(&D_8015E440, &lItem->dim, &D_8015E430) == 1 ||
-                    Math3D_TriVsTriIntersect(&D_8015E478, &lItem->dim, &D_8015E430) == 1) {
-                    sp68.x = (lItem->dim.vtx[0].x + lItem->dim.vtx[1].x + lItem->dim.vtx[2].x) * (1.0f / 3);
-                    sp68.y = (lItem->dim.vtx[0].y + lItem->dim.vtx[1].y + lItem->dim.vtx[2].y) * (1.0f / 3);
-                    sp68.z = (lItem->dim.vtx[0].z + lItem->dim.vtx[1].z + lItem->dim.vtx[2].z) * (1.0f / 3);
-                    sp5C.x = (right->dim.quad[0].x +
-                              (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) *
-                             (1.0f / 4);
-                    sp5C.y = (right->dim.quad[0].y +
-                              (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) *
-                             (1.0f / 4);
-                    sp5C.z = (right->dim.quad[0].z +
-                              (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) *
-                             (1.0f / 4);
-                    func_8005E81C(globalCtx, &left->base, &lItem->body, &sp68, &right->base, &right->body, &sp5C,
-                                  &D_8015E430);
-                    return;
-                }
+    if (left->count > 0 && left->list != NULL && func_8005DF50(&right->body) != 1) {
+        Math3D_TriNorm(&D_8015E440, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
+        Math3D_TriNorm(&D_8015E478, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
+        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+            if (func_8005DF2C(&lItem->body) == 1) {
+                continue;
+            }
+            if (func_8005DF74(&lItem->body, &right->body) == 1) {
+                continue;
+            }
+            if (Math3D_TriVsTriIntersect(&D_8015E440, &lItem->dim, &D_8015E430) == 1 ||
+                Math3D_TriVsTriIntersect(&D_8015E478, &lItem->dim, &D_8015E430) == 1) {
+                sp68.x = (lItem->dim.vtx[0].x + lItem->dim.vtx[1].x + lItem->dim.vtx[2].x) * (1.0f / 3);
+                sp68.y = (lItem->dim.vtx[0].y + lItem->dim.vtx[1].y + lItem->dim.vtx[2].y) * (1.0f / 3);
+                sp68.z = (lItem->dim.vtx[0].z + lItem->dim.vtx[1].z + lItem->dim.vtx[2].z) * (1.0f / 3);
+                sp5C.x = (right->dim.quad[0].x +
+                          (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) *
+                         (1.0f / 4);
+                sp5C.y = (right->dim.quad[0].y +
+                          (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) *
+                         (1.0f / 4);
+                sp5C.z = (right->dim.quad[0].z +
+                          (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) *
+                         (1.0f / 4);
+                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp68, &right->base, &right->body, &sp5C,
+                              &D_8015E430);
+                return;
             }
         }
     }
@@ -2140,36 +2196,34 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
     Vec3f sp68;
     Vec3f sp5C;
 
-    if (right->count > 0 && right->list != NULL) {
-        if (func_8005DF2C(&left->body) != 1) {
-            Math3D_TriNorm(&D_8015E4C0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
-            Math3D_TriNorm(&D_8015E4F8, &left->dim.quad[1], &left->dim.quad[0], &left->dim.quad[2]);
-            for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                if (func_8005DF50(&rItem->body) == 1) {
-                    continue;
-                }
-                if (func_8005DF74(&left->body, &rItem->body) == 1) {
-                    continue;
-                }
-                if (Math3D_TriVsTriIntersect(&D_8015E4C0, &rItem->dim, &D_8015E4B0) == 1 ||
-                    Math3D_TriVsTriIntersect(&D_8015E4F8, &rItem->dim, &D_8015E4B0) == 1) {
-                    if (func_8005D218(globalCtx, left, &D_8015E4B0) != 0) {
-                        sp5C.x = (rItem->dim.vtx[0].x + rItem->dim.vtx[1].x + rItem->dim.vtx[2].x) * (1.0f / 3);
-                        sp5C.y = (rItem->dim.vtx[0].y + rItem->dim.vtx[1].y + rItem->dim.vtx[2].y) * (1.0f / 3);
-                        sp5C.z = (rItem->dim.vtx[0].z + rItem->dim.vtx[1].z + rItem->dim.vtx[2].z) * (1.0f / 3);
-                        sp68.x = (left->dim.quad[0].x +
-                                  (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) *
-                                 (1.0f / 4);
-                        sp68.y = (left->dim.quad[0].y +
-                                  (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) *
-                                 (1.0f / 4);
-                        sp68.z = (left->dim.quad[0].z +
-                                  (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) *
-                                 (1.0f / 4);
-                        func_8005E81C(globalCtx, &left->base, &left->body, &sp68, &right->base, &rItem->body, &sp5C,
-                                      &D_8015E4B0);
-                        return;
-                    }
+    if (right->count > 0 && right->list != NULL && func_8005DF2C(&left->body) != 1) {
+        Math3D_TriNorm(&D_8015E4C0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
+        Math3D_TriNorm(&D_8015E4F8, &left->dim.quad[1], &left->dim.quad[0], &left->dim.quad[2]);
+        for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+            if (func_8005DF50(&rItem->body) == 1) {
+                continue;
+            }
+            if (func_8005DF74(&left->body, &rItem->body) == 1) {
+                continue;
+            }
+            if (Math3D_TriVsTriIntersect(&D_8015E4C0, &rItem->dim, &D_8015E4B0) == 1 ||
+                Math3D_TriVsTriIntersect(&D_8015E4F8, &rItem->dim, &D_8015E4B0) == 1) {
+                if (func_8005D218(globalCtx, left, &D_8015E4B0) != 0) {
+                    sp5C.x = (rItem->dim.vtx[0].x + rItem->dim.vtx[1].x + rItem->dim.vtx[2].x) * (1.0f / 3);
+                    sp5C.y = (rItem->dim.vtx[0].y + rItem->dim.vtx[1].y + rItem->dim.vtx[2].y) * (1.0f / 3);
+                    sp5C.z = (rItem->dim.vtx[0].z + rItem->dim.vtx[1].z + rItem->dim.vtx[2].z) * (1.0f / 3);
+                    sp68.x = (left->dim.quad[0].x +
+                              (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) *
+                             (1.0f / 4);
+                    sp68.y = (left->dim.quad[0].y +
+                              (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) *
+                             (1.0f / 4);
+                    sp68.z = (left->dim.quad[0].z +
+                              (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) *
+                             (1.0f / 4);
+                    func_8005E81C(globalCtx, &left->base, &left->body, &sp68, &right->base, &rItem->body, &sp5C,
+                                  &D_8015E4B0);
+                    return;
                 }
             }
         }
@@ -2205,7 +2259,7 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             if (Math3D_TriVsTriIntersect(&D_8015E5A8[j], &D_8015E530[i], &D_8015E598) == 1) {
-                if (func_8005D218(globalCtx, left, &D_8015E598) != 0) {
+                if (func_8005D218(globalCtx, left, &D_8015E598)) {
                     sp6C.x =
                         (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) *
                         (1.0f / 4);
@@ -2240,15 +2294,11 @@ void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     Vec3f sp24;
 
     for (item = col->list; item < col->list + col->count; item++) {
-        if (item->body.bumperFlags & 0x80) {
-            if (item->body.acHitItem != NULL) {
-                if (!(item->body.acHitItem->toucherFlags & 0x40)) {
-                    Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
-                    func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
-                    item->body.acHitItem->toucherFlags |= 0x40;
-                    return;
-                }
-            }
+        if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
+            Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
+            func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
+            item->body.acHitItem->toucherFlags |= 0x40;
+            return;
         }
     }
 }
@@ -2258,14 +2308,10 @@ void func_80060F94(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     ColliderCylinder* item = (ColliderCylinder*)collider;
     Vec3f sp28;
 
-    if (item->body.bumperFlags & 0x80) {
-        if (item->body.acHitItem != NULL) {
-            if (!(item->body.acHitItem->toucherFlags & 0x40)) {
-                Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
-                func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
-                item->body.acHitItem->toucherFlags |= 0x40;
-            }
-        }
+    if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
+        Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
+        func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
+        item->body.acHitItem->toucherFlags |= 0x40;
     }
 }
 
@@ -2276,15 +2322,11 @@ void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     Vec3f sp24;
 
     for (item = col->list; item < col->list + col->count; item++) {
-        if (item->body.bumperFlags & 0x80) {
-            if (item->body.acHitItem != NULL) {
-                if (!(item->body.acHitItem->toucherFlags & 0x40)) {
-                    Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
-                    func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
-                    item->body.acHitItem->toucherFlags |= 0x40;
-                    return;
-                }
-            }
+        if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
+            Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
+            func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
+            item->body.acHitItem->toucherFlags |= 0x40;
+            return;
         }
     }
 }
@@ -2294,14 +2336,10 @@ void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     ColliderQuad* item = (ColliderQuad*)collider;
     Vec3f sp28;
 
-    if (item->body.bumperFlags & 0x80) {
-        if (item->body.acHitItem != NULL) {
-            if (!(item->body.acHitItem->toucherFlags & 0x40)) {
-                Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
-                func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
-                item->body.acHitItem->toucherFlags |= 0x40;
-            }
-        }
+    if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
+        Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
+        func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
+        item->body.acHitItem->toucherFlags |= 0x40;
     }
 }
 
@@ -2318,12 +2356,8 @@ void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
 
     for (col = colChkCtx->colAc; col < colChkCtx->colAc + colChkCtx->colAcCount; col++) {
         temp = *col;
-        if (temp != NULL) {
-            if (temp->acFlags & 1) {
-                if (temp->actor == NULL || temp->actor->update != NULL) {
-                    (*D_8011DF5C[temp->shape])(globalCtx, colChkCtx, temp);
-                }
-            }
+        if ((temp != NULL) && (temp->acFlags & 1) && (temp->actor == NULL || temp->actor->update != NULL)) {
+            (*D_8011DF5C[temp->shape])(globalCtx, colChkCtx, temp);
         }
     }
 }
@@ -2344,19 +2378,15 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
     };
     for (col = colChkCtx->colAc; col < colChkCtx->colAc + colChkCtx->colAcCount; col++) {
         temp = *col;
-        if (temp == NULL) {
-            continue;
-        } else if (!(temp->acFlags & 1)) {
-            continue;
-        } else if (temp->actor != NULL && temp->actor->update == NULL) {
-            continue;
-        } else if (!((temp->acFlags & collider->atFlags) & 0x38)) {
-            continue;
-        } else if (collider == temp) {
+        
+        if ((temp == NULL) || !(temp->acFlags & 1) || (temp->actor != NULL && temp->actor->update == NULL)
+            || !(temp->acFlags & collider->atFlags & 0x38)) {
             continue;
         }
-
-        else if ((collider->atFlags & 0x40) || collider->actor == NULL || temp->actor != collider->actor) {
+        if (collider == temp) {
+            continue;
+        }
+        if ((collider->atFlags & 0x40) || collider->actor == NULL || temp->actor != collider->actor) {
             D_8011DF6C[collider->shape][temp->shape](globalCtx, colChkCtx, collider, temp);
         }
     }
@@ -2367,20 +2397,14 @@ void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** colAt;
     Collider* colliderAt;
 
-    if (colChkCtx->colAtCount != 0) {
-        if (colChkCtx->colAcCount != 0) {
-            for (colAt = colChkCtx->colAt; colAt < colChkCtx->colAt + colChkCtx->colAtCount; colAt++) {
-                colliderAt = *colAt;
-                if (colliderAt != NULL) {
-                    if (colliderAt->atFlags & 1) {
-                        if ((colliderAt->actor == NULL) || (colliderAt->actor->update != NULL)) {
-                            CollisionCheck_AC(globalCtx, colChkCtx, colliderAt);
-                        }
-                    }
-                }
+    if ((colChkCtx->colAtCount != 0) && (colChkCtx->colAcCount != 0)){
+        for (colAt = colChkCtx->colAt; colAt < colChkCtx->colAt + colChkCtx->colAtCount; colAt++) {
+            colliderAt = *colAt;
+            if ((colliderAt != NULL) && (colliderAt->atFlags & 1) && ((colliderAt->actor == NULL) || (colliderAt->actor->update != NULL))){
+                CollisionCheck_AC(globalCtx, colChkCtx, colliderAt);
             }
-            func_800611A0(globalCtx, colChkCtx);
         }
+        func_800611A0(globalCtx, colChkCtx);
     }
 }
 
@@ -2418,13 +2442,13 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     left->maskA |= 2;
     left->oc = rightActor;
     leftBody->ocFlags |= 2;
-    if ((right->maskB & 8) != 0) {
+    if (right->maskB & 8) {
         left->maskB |= 1;
     }
     right->oc = leftActor;
     right->maskA |= 2;
     rightBody->ocFlags |= 2;
-    if ((left->maskB & 8) != 0) {
+    if (left->maskB & 8) {
         right->maskB |= 1;
     }
     if (leftActor == NULL || rightActor == NULL || (left->maskA & 4) || (right->maskA & 4)) {
@@ -2526,13 +2550,7 @@ void CollisionCheck_OC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
     Vec3f sp6C;
     Vec3f sp60;
 
-    if (left->count > 0 && left->list != NULL) {
-        if (!(right->base.maskA & 1)) {
-            return;
-        }
-        if (!(right->body.ocFlags & 1)) {
-            return;
-        }
+    if (left->count > 0 && left->list != NULL && (right->base.maskA & 1) && (right->body.ocFlags & 1)) {
         for (lItem = left->list; lItem < left->list + left->count; lItem++) {
             if (!(lItem->body.ocFlags & 1)) {
                 continue;
@@ -2558,13 +2576,10 @@ void CollisionCheck_OC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
     Vec3f sp40;
     Vec3f sp34;
 
-    if (!(left->base.maskA & 1) || !(right->base.maskA & 1)) {
-        return;
-    }
-    if (!(left->body.ocFlags & 1) || !(right->body.ocFlags & 1)) {
-        return;
-    }
-    if (Math3D_CylOutsideCyl(&left->dim, &right->dim, &sp4C) == 1) {
+    if ((left->base.maskA & 1) && (right->base.maskA & 1) &&
+        (left->body.ocFlags & 1) && (right->body.ocFlags & 1) &&
+        (Math3D_CylOutsideCyl(&left->dim, &right->dim, &sp4C) == 1)) {
+            
         Math_Vec3s_ToVec3f(&sp40, &left->dim.pos);
         Math_Vec3s_ToVec3f(&sp34, &right->dim.pos);
         func_800614A4(&left->base, &left->body, &sp40, &right->base, &right->body, &sp34, sp4C);
@@ -2714,11 +2729,10 @@ void func_8006216C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     s32 i;
 
-    if (!(jntSph->count > 0) || jntSph->list == NULL) {
-        return;
-    }
-    for (i = 0; i < jntSph->count; i++) {
-        func_80061F64(globalCtx, colChkCtx, &jntSph->base, &jntSph->list[i].body);
+    if (jntSph->count > 0 && jntSph->list != NULL) {
+        for (i = 0; i < jntSph->count; i++) {
+            func_80061F64(globalCtx, colChkCtx, &jntSph->base, &jntSph->list[i].body);
+        }
     }
 }
 
@@ -3106,221 +3120,144 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
+#define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
+#define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
+
 #ifdef NON_EQUIVALENT
 // Incomplete, possibly not using the same logic
-s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_actor_pos, Vec3f* at_actor_pos,
-                  Vec3f* arg5, Vec3f* arg6, Vec3f* arg7) {
-    // arg5 = SP + 0xA8, unk input
-    // arg6 = SP + 0x90, unk output
-    // arg7 = SP + 0x84, unk output2
+s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
+                  Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2) {
+    // itemProjPos = SP + 0xA8, unk input
+    // out1 = SP + 0x90, unk output
+    // out2 = SP + 0x84, unk output2
     // sp -0x78
 
-    Vec3f delta_a3_a4_sp6C;
-    Vec3f delta_a3_a5_sp60;
-    Vec3f delta_a4_a5_sp54;
+    Vec3f actorToItem;
+    Vec3f actorToItemProj;
+    Vec3f itemStep;
     f32 sp50;
     f32 sp4C;
+    u32 phi_v0;
+    u32 phi_v1;
+    u32 phi_a1;
+    u32 phi_a2;
+    f32 sp38;
     f32 temp_f0;
-    f32 temp_f0_3;
     f32 temp_f12;
     f32 temp_f14;
-    f32 sp38;
-    f32 temp_f16_2;
     f32 temp_f2;
-    s32 phi_v0;
-    s32 phi_v1;
-    s32 phi_a0;
-    s32 phi_a1;
-    s32 phi_a2;
+    f32 temp_f0_2;
 
-    delta_a3_a4_sp6C.x = at_actor_pos->x - ac_actor_pos->x;
-    delta_a3_a4_sp6C.y = at_actor_pos->y - ac_actor_pos->y - arg2; // temp_f14
-    delta_a3_a4_sp6C.z = at_actor_pos->z - ac_actor_pos->z;
+    actorToItem.x = itemPos->x - actorPos->x;
+    actorToItem.y = itemPos->y - actorPos->y - offset;
+    actorToItem.z = itemPos->z - actorPos->z;
 
-    delta_a3_a5_sp60.x = arg5->x - ac_actor_pos->x;
-    delta_a3_a5_sp60.y = arg5->y - ac_actor_pos->y - arg2; // temp_f6
-    delta_a3_a5_sp60.z = arg5->z - ac_actor_pos->z;
+    actorToItemProj.x = itemProjPos->x - actorPos->x;
+    actorToItemProj.y = itemProjPos->y - actorPos->y - offset;
+    actorToItemProj.z = itemProjPos->z - actorPos->z;
 
-    delta_a4_a5_sp54.x = delta_a3_a5_sp60.x - delta_a3_a4_sp6C.x; // temp_f16;
-    delta_a4_a5_sp54.y = delta_a3_a5_sp60.y - delta_a3_a4_sp6C.y; // sp18; // temp_f8;
-    delta_a4_a5_sp54.z = delta_a3_a5_sp60.z - delta_a3_a4_sp6C.z; // temp_f18;
+    itemStep.x = actorToItemProj.x - actorToItem.x;
+    itemStep.y = actorToItemProj.y - actorToItem.y;
+    itemStep.z = actorToItemProj.z - actorToItem.z;
 
-    phi_v0 = 0;
-    // ada12c:    bc1f    0xada138 ~>
-    if (0.0f < delta_a3_a4_sp6C.y) {
-        phi_v0 = 1;
+    phi_v0 = actorToItem.y > 0.0f;
+    if (phi_v0 && (actorToItem.y < height) && (sqrtf(SQ(actorToItem.x) + SQ(actorToItem.z)) < radius)) {
+        return 3;
     }
-    // ada138:    beqzl   v0,0xada188 ~>
-    if (phi_v0 && delta_a3_a4_sp6C.y < actor_ac_98_12) {
-        if (sqrtf(SQ(delta_a3_a4_sp6C.x) + SQ(delta_a3_a4_sp6C.z)) < actor_ac_98_10) {
-            return 3;
-        }
+    phi_v1 = actorToItemProj.y > 0.0f;
+    if (phi_v1 && (actorToItemProj.y < height) && (sqrtf(SQ(actorToItemProj.x) + SQ(actorToItemProj.z)) < radius)){
+        return 3;
     }
 
-    phi_v1 = 0;
-    if (0.0f < delta_a3_a5_sp60.y) { // ada19c:    bc1f    0xada1a8 ~>
-        phi_v1 = 1;
-    }
-    // ada1a8:    beqzl   v1,0xada1f4 ~>
-    if (phi_v1 && delta_a3_a5_sp60.y < actor_ac_98_12) {
-        if (sqrtf(SQ(delta_a3_a5_sp60.x) + SQ(delta_a3_a5_sp60.z)) < actor_ac_98_10) {
-            return 3;
-        }
-    }
-
-    // ada1f4
-    sp38 = SQ(delta_a3_a4_sp6C.x) + SQ(delta_a3_a4_sp6C.z) - SQ(actor_ac_98_10); // temp_f12;
-    temp_f2 = SQ(delta_a4_a5_sp54.x) + SQ(delta_a4_a5_sp54.z);
-    if (!(fabsf(temp_f2) < 0.008f)) { // ada23c:    bc1t    0xada2f0 ~>
-        temp_f14 = (delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x +
-                   (delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z;
+    sp38 = SQXZ(actorToItem) - SQ(radius);
+    temp_f2 = SQXZ(itemStep);
+    if (!IS_ZERO(temp_f2)) {
+        temp_f14 = DOTXZ(2.0f * itemStep, actorToItem);
         temp_f0 = SQ(temp_f14);
         temp_f12 = (4.0f * temp_f2) * sp38;
-        if (temp_f0 < temp_f12) { // ada280:    bc1f    0xada290 ~>
+        if (temp_f0 < temp_f12) {
             return 0;
-        }
-        // ada290
-        temp_f16_2 = temp_f0 - temp_f12;
-        temp_f0 = sqrtf(temp_f16_2);
-        if (0.0f < temp_f16_2) {
-            phi_v0 = 1;
-            phi_v1 = 1;
         } else {
-            phi_v0 = 0;
+            temp_f0_2 = sqrtf(temp_f0 - temp_f12);
             phi_v1 = 1;
-        }
-
-        sp50 = (temp_f0 - temp_f14) / (temp_f2 + temp_f2); // temp_f16_3;
-        if (phi_v0 == 1) {
-            sp4C = (-temp_f14 - temp_f0) / (temp_f2 + temp_f2);
-        }
-    } else { // 0xada2f0
-        temp_f14 = ((delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x) +
-                   ((delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z);
-        if (!(fabsf(temp_f14) < 0.008f)) { // ada324
-            phi_v0 = 0;
-            sp50 = -sp38 / temp_f14;
-            phi_v1 = 1;
-        } // ada340:    b       0xada468
-        else {
-            if (sp38 <= 0.0f) { // ada358:    bc1f    0xada460
-                phi_a0 = phi_v0;
-                if (phi_v0 != 0) // ada360:    beqz    v0,0xada388 ~>
-                {
-                    phi_a0 = 0;
-                    // ada37C
-                    if (delta_a3_a4_sp6C.y < actor_ac_98_12) {
-                        phi_a0 = 1;
-                    }
-                }
-                phi_a1 = phi_a0;
-                // ada38C
-                phi_a0 = phi_v1;
-                if (phi_v1 != 0) {
-                    phi_a0 = 0;
-                    if (delta_a3_a5_sp60.y < actor_ac_98_12) {
-                        phi_a0 = 1;
-                    }
-                }
-                if (phi_a1) {     // ada3b4
-                    if (phi_a0) { // ada3bc
-                        *arg6 = delta_a3_a4_sp6C;
-                        *arg7 = delta_a3_a5_sp60;
-                        return 2;
-                    }
-                }
-                // ada408
-                if (phi_a1) {
-                    *arg6 = delta_a3_a4_sp6C;
-                    return 1;
-                }
-                // ada434
-                if (phi_a0) {
-                    *arg6 = delta_a3_a5_sp60;
-                    return 1;
-                }
+            phi_v0 = (temp_f0 - temp_f12 > 0.0f) ? 1 : 0;
+            
+            sp50 = (temp_f0_2 - temp_f14) / (2.0f * temp_f2);
+            if (phi_v0 == 1) {
+                sp4C = (-temp_f14 - temp_f0_2) / (2.0f * temp_f2);
             }
-            // ada460
-            return 0;
         }
+    } else if (!IS_ZERO(DOTXZ(2.0f * itemStep, actorToItem))) {
+        phi_v1 = 1;
+        phi_v0 = 0;
+        sp50 = -sp38 / DOTXZ(2.0f * itemStep, actorToItem);
+    } else {
+        if (sp38 <= 0.0f) {
+            phi_a1 = (0.0f < actorToItem.y) && (actorToItem.y < height);
+            phi_a2 = (0.0f < actorToItemProj.y) && (actorToItemProj.y < height);
+
+            if (phi_a1 && phi_a2) {
+                *out1 = actorToItem;
+                *out2 = actorToItemProj;
+                return 2;
+            }
+            if (phi_a1) {
+                *out1 = actorToItem;
+                return 1;
+            }
+            if (phi_a2) {
+                *out1 = actorToItemProj;
+                return 1;
+            }
+        }
+        return 0;
     }
-    // ada468 800632C8
-    if (phi_v0 == 0) { // ada468:    bnezl   v0,0xada4a4 ~>
+    if (phi_v0 == 0) {
         if (sp50 < 0.0f || 1.0f < sp50) {
             return 0;
         }
-    } else { // ada4a4
-        phi_a1 = 0;
-        if (sp50 < 0.0f) { // ada4ac
-            phi_a1 = 1;
+    } else {
+        phi_a1 = (sp50 < 0.0f || 1.0f < sp50);
+        phi_a2 = (sp4C < 0.0f || 1.0f < sp4C);
+        
+        if (phi_a1 && phi_a2) {
+            return 0;
         }
-        // ada4b8
-        phi_a0 = phi_a1;
-        if (phi_a1 == 0) {
-            phi_a1 = 0;
-            if (1.0f < sp50) {
-                phi_a1 = 1;
-            }
-        }
-        // ada4dc
-        phi_a2 = 0;
-        if (sp4C < 0.0f) {
-            phi_a2 = 1;
-        }
-        if (phi_a2 == 0) {
-            phi_a2 = 0;
-            if (1.0f < sp4C) {
-                phi_a2 = 1;
-            }
-        }
-        if (phi_a1 != 0) {
-            if (phi_a2 != 0) {
-                return 0;
-            }
-        }
-        if (phi_a1 != 0) {
+        if (phi_a1) {
             phi_v1 = 0;
         }
-        if (phi_a2 != 0) {
+        if (phi_a2) {
             phi_v0 = 0;
         }
     }
-    if (phi_v1 == 1) {
-        temp_f0_3 = sp50 * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y;
-        if (temp_f0_3 < 0.0f || actor_ac_98_12 < temp_f0_3) {
-            phi_v1 = 0;
-        }
+    if ((phi_v1 == 1) && ((sp50 * itemStep.y + actorToItem.y < 0.0f) || (height < sp50 * itemStep.y + actorToItem.y))) {
+        phi_v1 = 0;
     }
-    if (phi_v0 == 1) {
-        temp_f0_3 = sp4C * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y;
-        if (temp_f0_3 < 0.0f || actor_ac_98_12 < temp_f0_3) {
-            phi_v0 = 0;
-        }
+    if ((phi_v0 == 1) && ((sp4C * itemStep.y + actorToItem.y < 0.0f) || (height < sp4C * itemStep.y + actorToItem.y))) {
+        phi_v0 = 0;
     }
     if (phi_v1 == 0 && phi_v0 == 0) {
         return 0;
     }
-    if (phi_v1 == 1) {
-        if (phi_v0 == 1) {
-            arg6->x = sp50 * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
-            arg6->y = sp50 * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
-            arg6->z = sp50 * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
-            arg7->x = sp4C * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
-            arg7->y = sp4C * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
-            arg7->z = sp4C * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
-            return 2;
-        }
+    if ((phi_v1 == 1) && (phi_v0 == 1)) {
+        out1->x = sp50 * itemStep.x + actorToItem.x + actorPos->x;
+        out1->y = sp50 * itemStep.y + actorToItem.y + actorPos->y;
+        out1->z = sp50 * itemStep.z + actorToItem.z + actorPos->z;
+        out2->x = sp4C * itemStep.x + actorToItem.x + actorPos->x;
+        out2->y = sp4C * itemStep.y + actorToItem.y + actorPos->y;
+        out2->z = sp4C * itemStep.z + actorToItem.z + actorPos->z;
+        return 2;
     }
     if (phi_v1 == 1) {
-        arg6->x = sp50 * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
-        arg6->y = sp50 * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
-        arg6->z = sp50 * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
+        out1->x = sp50 * itemStep.x + actorToItem.x + actorPos->x;
+        out1->y = sp50 * itemStep.y + actorToItem.y + actorPos->y;
+        out1->z = sp50 * itemStep.z + actorToItem.z + actorPos->z;
         return 1;
     }
-    if (phi_v0 == 1) { // ada700
-        arg6->x = sp4C * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
-        arg6->y = sp4C * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
-        arg6->z = sp4C * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
+    if (phi_v0 == 1) {
+        out1->x = sp4C * itemStep.x + actorToItem.x + actorPos->x;
+        out1->y = sp4C * itemStep.y + actorToItem.y + actorPos->y;
+        out1->z = sp4C * itemStep.z + actorToItem.z + actorPos->z;
         return 1;
     }
     return 1;

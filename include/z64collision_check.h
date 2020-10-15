@@ -82,7 +82,7 @@ typedef struct {
     /* 0x00 */ u32 flags;  // Collision Exclusion Mask
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
-    /* 0x06 */ Vec3s unk_06;
+    /* 0x06 */ Vec3s unk_06; // Point of contact
 } ColliderBump; // size = 0x0C
 
 typedef struct {

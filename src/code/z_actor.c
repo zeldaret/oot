@@ -1430,18 +1430,21 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     return actor->xyzDistFromLinkSq;
 }
 
-typedef struct {
-    f32 unk_0, unk_4;
-} struct_80115FF8; // size = 0x8
+#define TARGET_RANGE(range, leash) \
+    { SQ(range), (f32)range / leash }
 
-struct_80115FF8 D_80115FF8[] = {
-    { 4900.0f, 0.5f },         { 28900.0f, 0.6666667f },   { 78400.0f, 0.05f },       { 122500.0f, 0.6666667f },
-    { 490000.0f, 0.6666667f }, { 1000000.0f, 0.6666667f }, { 10000.0f, 0.94905096f }, { 19600.0f, 0.85714287f },
-    { 57600.0f, 0.41666666f }, { 78400.0f, 0.001f },
+typedef struct {
+    f32 rangeSq, leashMod;
+} TargetRangeParams; // size = 0x8
+
+TargetRangeParams D_80115FF8[] = {
+    TARGET_RANGE(70, 140),   TARGET_RANGE(170, 255),    TARGET_RANGE(280, 5600),      TARGET_RANGE(350, 525),
+    TARGET_RANGE(700, 1050), TARGET_RANGE(1000, 1500),  TARGET_RANGE(100, 105.36842), TARGET_RANGE(140, 163.33333),
+    TARGET_RANGE(240, 576),  TARGET_RANGE(280, 280000),
 };
 
 u32 func_8002F090(Actor* actor, f32 arg1) {
-    return arg1 < D_80115FF8[actor->unk_1F].unk_0;
+    return arg1 < D_80115FF8[actor->unk_1F].rangeSq;
 }
 
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
@@ -1463,7 +1466,7 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
             dist = actor->xyzDistFromLinkSq;
         }
 
-        return !func_8002F090(actor, D_80115FF8[actor->unk_1F].unk_4 * dist);
+        return !func_8002F090(actor, D_80115FF8[actor->unk_1F].leashMod * dist);
     }
 
     return 0;
