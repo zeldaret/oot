@@ -274,8 +274,6 @@ void func_80895EF0(BgJyaCobra* this) {
     Vec3f spC8;
     Vec3f spBC;
     Vec3f* temp_s4;
-    Vec3f* temp_a0;
-    f32* temp_fp;
     s32 temp_f18;
     u8* temp_s2;
     s32 temp_t0;
@@ -305,22 +303,20 @@ void func_80895EF0(BgJyaCobra* this) {
     }
     Matrix_RotateY(phi_v0 * 0.0000958738f, (u8)1U);
     Matrix_Scale(0.9f, 0.9f, 0.9f, (u8)1U);
-    temp_fp = &spC8;
     phi_s7 = &D_808973B0;
     phi_s4 = &D_808973A4;
     do {
         Math_Vec3f_Diff(phi_s7, phi_s4, &spD4);
-        spD4.x = spD4.x * 0.5f;
-        spD4.y = spD4.y * 0.5f;
-        spD4.z = spD4.z * 0.5f;
+        spD4.x *= 0.5f;
+        spD4.y *= 0.5f;
+        spD4.z *= 0.5f;
         phi_s6 = 0;
         do {
-            temp_a0 = temp_fp;
             spC8.x = phi_s4->x + (spD4.x * phi_s6);
             spC8.y = phi_s4->y + (spD4.y * phi_s6);
             spC8.z = phi_s4->z + (spD4.z * phi_s6);
-            Matrix_MultVec3f(temp_a0, &spBC);
-            phi_s6 = phi_s6 + 1;
+            Matrix_MultVec3f(&spC8, &spBC);
+            phi_s6 += 1;
             temp_f18 = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
             phi_t3 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 5;
             phi_t1 = 0;
@@ -399,7 +395,7 @@ void func_80895EF0(BgJyaCobra* this) {
             spC8.x = phi_s5->x + (spD4.x * phi_s6);
             spC8.y = phi_s5->y + (spD4.y * phi_s6);
             spC8.z = phi_s5->z + (spD4.z * phi_s6);
-            Matrix_MultVec3f((Vec3f*)temp_fp, &spBC);
+            Matrix_MultVec3f(&spC8, &spBC);
             phi_s6 = phi_s6 + 1;
             phi_a1 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 1;
             phi_t1 = 0;
@@ -462,7 +458,123 @@ void func_80895EF0(BgJyaCobra* this) {
 }
 
 void func_80896518(BgJyaCobra* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
+void func_80896518(BgJyaCobra *this) {
+    // ???
+    f32 sp58[0x40];
+    f32 temp_f0;
+    f32 temp_f12;
+    f32 temp_f2;
+    s32 temp_a1;
+    u8* temp_s0;
+    s32 temp_t0;
+    s32 temp_v0;
+    u8 *temp_v0_6;
+    u8 *temp_v1;
+    s32 phi_t0;
+    f32 *phi_t1;
+    f32 *phi_a0;
+    f32 *phi_t1_2;
+    u8 *phi_a3;
+    s32 phi_v1;
+    s32 phi_t1_3;
+    s32 phi_a1;
+    s32 *phi_a0_2;
+    s32 phi_v0;
+
+    phi_t0 = 0;
+    phi_t1 = sp58;
+    do {
+        temp_t0 = phi_t0 + 1;
+        phi_t1++;
+        phi_t1[-1] = SQ(phi_t0 - 31.5f);
+        phi_t0 = temp_t0;
+    } while (temp_t0 < 0x40);
+    temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
+    Lib_MemSet(temp_s0, 0x1000U, (u8)0U);
+    phi_t1_2 = &sp58;
+    phi_a3 = temp_s0;
+    do {
+        temp_f12 = *phi_t1_2;
+        phi_a0 = &sp58;
+        do {
+            temp_f2 = (phi_a0[0] * 0.5f) + temp_f12;
+            if (temp_f2 < 300.0f) {
+                temp_v0 = 0x280 - (s32) (temp_f2 + temp_f2);
+                phi_v1 = temp_v0;
+                if (temp_v0 >= 0xA7) {
+                    phi_v1 = 0xA6;
+                }
+                *phi_a3 = (u8) (*phi_a3 | phi_v1);
+            }
+            phi_a3 = phi_a3 + 1;
+            temp_f0 = (phi_a0[1] * 0.5f) + temp_f12;
+            if (temp_f0 < 300.0f) {
+                temp_v0 = 0x280 - (s32) (temp_f0 + temp_f0);
+                phi_v1 = temp_v0;
+                if (temp_v0 >= 0xA7) {
+                    phi_v1 = 0xA6;
+                }
+                *phi_a3 = (u8) (*phi_a3 | phi_v1);
+            }
+            phi_a3 = phi_a3 + 1;
+            temp_f0 = (phi_a0[2] * 0.5f) + temp_f12;
+            if (temp_f0 < 300.0f) {
+                temp_v0 = 0x280 - (s32) (temp_f0 + temp_f0);
+                phi_v1 = temp_v0;
+                if (temp_v0 >= 0xA7) {
+                    phi_v1 = 0xA6;
+                }
+                *phi_a3 = (u8) (*phi_a3 | phi_v1);
+            }
+            phi_a3 = phi_a3 + 1;
+            temp_f0 = (phi_a0[3] * 0.5f) + temp_f12;
+            phi_a0 = phi_a0 + 0x10;
+            if (temp_f0 < 300.0f) {
+                temp_v0 = 0x280 - (s32) (temp_f0 + temp_f0);
+                phi_v1 = temp_v0;
+                if (temp_v0 >= 0xA7) {
+                    phi_v1 = 0xA6;
+                }
+                *phi_a3 = (u8) (*phi_a3 | phi_v1);
+            }
+            phi_a3 = phi_a3 + 1;
+        } while (phi_a0 != &sp58[0x40]);
+        phi_t1_2 = phi_t1_2 + 1;
+    } while (phi_t1_2 != &sp58[0x40]);
+    phi_t1_3 = 0x780;
+    phi_a0_2 = D_80897518;
+    do {
+        phi_a1 = 4;
+        do {
+            temp_v1 = temp_s0 + phi_t1_3 + phi_a1;
+            phi_v0 = *phi_a0_2;
+            temp_a1 = phi_a1 + 4;
+            if ((s32) temp_v1[0] < phi_v0) {
+                temp_v1[0] = (u8) phi_v0;
+                phi_v0 = *phi_a0_2;
+            }
+            if ((s32) temp_v1[1] < *phi_a0_2) {
+                temp_v1[1] = (u8) *phi_a0_2;
+                temp_v0 = *phi_a0_2;
+                phi_v0 = temp_v0;
+            }
+            if ((s32) temp_v1[2] < phi_v0) {
+                temp_v1[2] = (u8) phi_v0;
+                phi_v0 = temp_v0;
+            }
+            if ((s32) temp_v1[3] < phi_v0) {
+                temp_v1[3] = (u8) phi_v0;
+            }
+            phi_a1 = temp_a1;
+        } while (temp_a1 != 0x3C);
+        phi_a0_2 = phi_a0_2 + 1;
+        temp_v0_6 = temp_s0 + phi_t1_3;
+        temp_v0_6[0x3C] = (u8)0x20;
+        temp_v0_6[3] = (u8)0x20;
+        phi_t1_3 = phi_t1_3 + 0x40;
+    } while ((s32)phi_a0_2 != (s32)&D_80897528);
+}
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
