@@ -62,9 +62,9 @@ void BgJyaBombchuiwa_SetupCollider(BgJyaBombchuiwa* this, GlobalContext* globalC
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);
 }
 
-void BgJyaBombchuiwa_SetDrawFlag(BgJyaBombchuiwa* this, u8 arg1) {
-    this->drawFlag &= ~7;
-    this->drawFlag |= arg1;
+void BgJyaBombchuiwa_SetDrawFlags(BgJyaBombchuiwa* this, u8 drawFlags) {
+    this->drawFlags &= ~7;
+    this->drawFlags |= drawFlags;
 }
 
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -81,7 +81,7 @@ void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider); // THIS macro required to match
+    Collider_DestroyJntSph(globalCtx, &THIS->collider);
 }
 
 void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
@@ -101,17 +101,17 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
         velocity.y = Math_Rand_ZeroOne() * 18.0f;
         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
         scale = (s32)(Math_Rand_ZeroOne() * 20.0f) + 1;
-        if (scale >= 11) {
+        if (scale > 10) {
             arg5 = 5;
         } else {
             arg5 = 1;
         }
         if (Math_Rand_ZeroOne() < 0.4f) {
-            arg5 = (arg5 | 0x40);
+            arg5 |= 0x40;
             arg6 = 0xC;
             arg7 = 8;
         } else {
-            arg5 = arg5 | 0x20;
+            arg5 |= 0x20;
             arg6 = 0xC;
             arg7 = 8;
             if (scale < 8) {
@@ -127,7 +127,7 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
 
 void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     this->actionFunc = BgJyaBombchuiwa_WaitForExplosion;
-    BgJyaBombchuiwa_SetDrawFlag(this, 3);
+    BgJyaBombchuiwa_SetDrawFlags(this, 3);
     this->timer = 0;
 }
 
@@ -137,11 +137,10 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* glob
             func_800800F8(globalCtx, 3410, -99, &this->actor, 0);
         }
         this->timer++;
-        if (this->timer >= 11) {
+        if (this->timer > 10) {
             BgJyaBombchuiwa_Break(this, globalCtx);
             BgJyaBombchuiwa_CleanUpAfterExplosion(this, globalCtx);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
-            return;
         }
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -151,7 +150,7 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* glob
 
 void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808949B8;
-    BgJyaBombchuiwa_SetDrawFlag(this, 4);
+    BgJyaBombchuiwa_SetDrawFlags(this, 4);
     this->lightRayIntensity = 0.3f;
     this->timer = 0;
     this->actor.flags &= ~1;
@@ -170,7 +169,7 @@ void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
 void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     this->actionFunc = NULL;
     this->lightRayIntensity = 153.0f;
-    BgJyaBombchuiwa_SetDrawFlag(this, 4);
+    BgJyaBombchuiwa_SetDrawFlags(this, 4);
     if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                     this->actor.posRot.pos.z, 0, 0, 0, 0) == NULL) {
         // Occurrence failure
@@ -190,7 +189,7 @@ void BgJyaBombchuiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombchuiwa_DrawRock(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 436);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 0x1B7),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 439),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_060119B0);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 443);
@@ -211,26 +210,23 @@ void BgJyaBombchuiwa_DrawLight(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 472);
 }
 
-/* Uses drawFlags to determine how to draw the object.  If the first 2 bits are set it draws the rock.  If the 3rd bit
- * is set it will not draw the rock but will instead draw a beam of light
- */
 void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Vec3f D_80894F88 = { { -920.0f }, { 480.0f }, { -889.0f } };
+    static Vec3f D_80894F88 = { -920.0f, 480.0f, -889.0f };
     static Vec3s D_80894F94 = { 0, 0, 0 };
     BgJyaBombchuiwa* this = THIS;
 
-    if (this->drawFlag & 1) {
+    if (this->drawFlags & 1) {
         Gfx_DrawDListOpa(globalCtx, &D_0600E8D0);
         func_800628A4(0, &this->collider);
     }
 
-    if (this->drawFlag & 2) {
+    if (this->drawFlags & 2) {
         BgJyaBombchuiwa_DrawRock(globalCtx);
     }
-    if (this->drawFlag & 4) {
+    if (this->drawFlags & 4) {
         func_800D1694(D_80894F88.x, D_80894F88.y, D_80894F88.z, &D_80894F94);
-        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
-        if (this->drawFlag & 4) {
+        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+        if (this->drawFlags & 4) {
             BgJyaBombchuiwa_DrawLight(thisx, globalCtx);
         }
     }
