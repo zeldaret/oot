@@ -577,14 +577,12 @@ void func_8098016C(DemoGt* this, GlobalContext* globalCtx) {
 void func_80980178(DemoGt* this, GlobalContext* globalCtx) {
 }
 
-// VERY SIMILAR FUNCTIONS HERE
-
 void func_80980184(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
 
-    if ((globalCtx->csCtx.frames > 1027) && (globalCtx->csCtx.frames < 1031)) {
+    if (globalCtx->csCtx.frames > 1027 && globalCtx->csCtx.frames < 1031) {
         pos.x = this->dyna.actor.posRot.pos.x;
         pos.y = this->dyna.actor.posRot.pos.y + 247.0f;
         pos.z = this->dyna.actor.posRot.pos.z;
@@ -606,7 +604,7 @@ void func_80980218(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Actor* actor;
 
-    if (globalCtx->csCtx.frames > 0x3E5 && globalCtx->csCtx.frames < 0x3E9) {
+    if (globalCtx->csCtx.frames > 997 && globalCtx->csCtx.frames < 1001) {
         pos.x = this->dyna.actor.initPosRot.pos.x;
         pos.y = this->dyna.actor.initPosRot.pos.y + 38.0f;
         pos.z = this->dyna.actor.initPosRot.pos.z;
@@ -623,77 +621,68 @@ void func_80980218(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809802AC.s")
-// ALMOST MATCHED, REGALLOC, same issues as func_8098036C
-// void func_809802AC(DemoGt* this, GlobalContext* globalContext) {
-//     s32 pad[0x7];
-//     Vec3f sp50;
-//     Vec3f* posRot = &this->dyna.actor.posRot.pos;
-//     u16 frames = globalContext->csCtx.frames;
-//     Vec3f sp3C = D_80982664;
+void func_809802AC(DemoGt* this, GlobalContext* globalContext) {
+    Vec3f sp50[2];
+    u16 frames = globalContext->csCtx.frames;
+    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    Vec3f sp3C = D_80982664; 
+    s32 pad[3];
 
-//     if (frames > 0x6D && frames < 0x8C) {
+    if (frames > 109 && frames < 140) {
 
-//         sp50.x = posRot->x - 100.0f;
-//         sp50.y = posRot->y + 1260.0f;
-//         sp50.z = posRot->z - 323.0f;
-//         func_8097D7D8(globalContext, &sp50, &sp3C, 4.0f, 3, 0, 0x14);
-//     }
-// }
+        sp50[0].x = posRot->x - 100.0f;
+        sp50[0].y = posRot->y + 1260.0f;
+        sp50[0].z = posRot->z - 323.0f;
+        func_8097D7D8(globalContext, &sp50, &sp3C, 4.0f, 3, 0, 0x14);
+    }
+}
 
-// void func_8098036C(DemoGt* this, GlobalContext* globalContext);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8098036C.s")
-// ALMOST MATCHED, REGALLOC
-// void func_8098036C(DemoGt* this, GlobalContext* globalContext) {
-//     s32 pad[4];
-//     // GlobalContext* globalContext2 = globalContext;
-//     Vec3f* posRot = &this->dyna.actor.posRot.pos;
-//     Vec3f sp50;
-//     u16 frames = globalContext->csCtx.frames;
-//     Vec3f sp3C = D_80982670;
+void func_8098036C(DemoGt* this, GlobalContext* globalContext) {
+    Vec3f sp50[2];
+    u16 frames = globalContext->csCtx.frames;
+    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    Vec3f sp3C = D_80982670;
+    s32 pad[3];
+    
+    if ((frames > 284) && (frames < 0x1A5)) {
 
-//     if ((frames >= 0x11D) && (frames < 0x1A5)) {
+        sp50[0].x = posRot->x + 760.0f;
+        sp50[0].y = posRot->y - 40.0f;
+        sp50[0].z = posRot->z - 240.0f;
+        func_8097D7D8(globalContext, &sp50, &sp3C, 6.0f, 6, 1, 0x23);
+    }
+}
 
-//         sp50.x = posRot->x + 760.0f;
-//         sp50.y = posRot->y - 40.0f;
-//         sp50.z = posRot->z - 240.0f;
-//         func_8097D7D8(globalContext, &sp50, &sp3C, 6.0f, 6, 1, 0x23);
-//     }
-// }
+void func_80980430(DemoGt *this, GlobalContext *globalContext) {
+    Vec3f sp50[2];
+    s32 frames = globalContext->csCtx.frames;
+    PosRot* posRot = &this->dyna.actor.posRot;
+    Vec3f sp3C = D_8098267C;
+    s32 pad[3];
 
-// void func_80980430(DemoGt* this, GlobalContext* globalContext);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80980430.s")
-// void func_80980430(DemoGt *this, GlobalContext *globalContext) {
-//     s32 frames = globalContext->csCtx.frames;
-//     PosRot* posRot = &this->dyna.actor.posRot;
-//     Vec3f pos;
-//     Vec3f sp3C = D_8098267C;
+    if (frames > 709 || kREG(1) == 8) {
+        sp50[0].x = posRot->pos.x + 760.0f;
+        sp50[0].y = posRot->pos.y - 40.0f;
+        sp50[0].z = posRot->pos.z - 240.0f;
 
-//     if (frames > 0x2C5 || kREG(1) == 8) {
-//         pos.x = posRot->pos.x + 760.0f;
-//         pos.y = posRot->pos.y - 40.0f;
-//         pos.z = posRot->pos.z - 240.0f;
+        func_8097D7D8(globalContext, &sp50, &sp3C, 6.0f, 6, 1, 0x23);
+    }
+}
 
-//         func_8097D7D8(globalContext, &pos, &sp3C, 6.0f, 6, 1, 0x23);
-//     }
-// }
+void func_80980504(DemoGt *this, GlobalContext *globalContext) {
+    Vec3f sp50[2];
+    u16 frames = globalContext->csCtx.frames;
+    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    Vec3f sp3C = D_80982688;
+    s32 pad[3];
 
-// void func_80980504(DemoGt* this, GlobalContext* globalContext);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80980504.s")
-// void func_80980504(DemoGt *this, GlobalContext *globalContext) {
-//     s32 pad[4];
-//     u16 frames = globalContext->csCtx.frames;
-//     Vec3f sp3C = D_80982688;
-//     Vec3f* posRot = &this->dyna.actor.posRot.pos;
-//     Vec3f pos;
-
-//     if (frames > 0x2C0 || kREG(1) == 9) {
-//         pos.x = posRot->x + 830.0f;
-//         pos.y = posRot->y + 60.0f;
-//         pos.z = posRot->z + 390.0f;
-//         func_8097D7D8(globalContext, &pos, &sp3C, 6.0f, 6, 2, 0x23);
-//     }
-// }
+    if (frames > 0x2C0 || kREG(1) == 9) {
+        sp50[0].x = posRot->x + 830.0f;
+        sp50[0].y = posRot->y + 60.0f;
+        sp50[0].z = posRot->z + 390.0f;
+        func_8097D7D8(globalContext, &sp50, &sp3C, 6.0f, 6, 2, 0x23);
+    }
+}
 
 void func_809805D8(DemoGt* this, GlobalContext* globalContext);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809805D8.s")
@@ -781,8 +770,6 @@ void func_80980BFC(DemoGt* this, GlobalContext* globalContext) {
         func_8097D6F8(globalContext, &pos);
     }
 }
-
-// END VERY SIMILAR FUNCTIONS HERE (already decompiled a bit down below, not fully matching)
 
 // SPAWNS LOOOTS of doughnuts?
 void func_80980C90(DemoGt* this, GlobalContext* globalCtx) {
