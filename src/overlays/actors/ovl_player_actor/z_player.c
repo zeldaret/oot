@@ -3972,7 +3972,7 @@ s16 D_808544F8[] = {
     0x045B, 0x0482, 0x0340, 0x044B, 0x02A2, 0x0201, 0x03B8, 0x04EE, 0x03C0, 0x0463, 0x01CD, 0x0394, 0x0340, 0x057C,
 };
 
-u8 D_80854514[] = { 11, 9, 3, 5, 7 };
+u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
 
 s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u32 arg3) {
     s32 sp3C;
