@@ -46,6 +46,7 @@ extern Gfx D_06000870[];
 
 void func_808B27F0(GlobalContext* globalCtx, s16 arg1) {
     WaterBox* waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[0];
+
     waterBox->unk_02 = arg1;
 }
 
