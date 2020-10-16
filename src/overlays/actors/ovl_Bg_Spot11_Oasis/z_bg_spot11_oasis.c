@@ -6,7 +6,7 @@
 
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_808B2CA8(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot11Oasis_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808B2970(BgSpot11Oasis* this);
 void func_808B2980(BgSpot11Oasis* this, GlobalContext* globalCtx);
 void func_808B29E0(BgSpot11Oasis* this);
@@ -45,9 +45,8 @@ Vec3f D_808B2E34[] = {
 extern Gfx D_06000870[];
 
 void func_808B27F0(GlobalContext* globalCtx, s16 arg1) {
-    WaterBox* waterBoxes;
-    waterBoxes = globalCtx->colCtx.stat.colHeader->waterBoxes;
-    waterBoxes->unk_02 = arg1;
+    WaterBox* waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[0];
+    waterBox->unk_02 = arg1;
 }
 
 s32 func_808B280C(GlobalContext* globalCtx) {
@@ -108,7 +107,7 @@ void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx) {
                     this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 4);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
-    func_808B27F0(globalCtx, (s16)this->actor.posRot.pos.y);
+    func_808B27F0(globalCtx, this->actor.posRot.pos.y);
 }
 
 void func_808B2AA8(BgSpot11Oasis* this) {
@@ -129,7 +128,7 @@ void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.draw = NULL;
         return;
     }
-    this->actor.draw = func_808B2CA8;
+    this->actor.draw = BgSpot11Oasis_Draw;
     if (this->unk_150 && (this->actor.projectedPos.z < 400.0f) && (this->actor.projectedPos.z > -40.0f)) {
         gameplayFrames = globalCtx->gameplayFrames;
         if (gameplayFrames & 4) {
@@ -137,7 +136,6 @@ void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
             EffectSsBubble_Spawn(globalCtx, &sp30, 0.0f, 15.0f, 50.0f, (Math_Rand_ZeroOne() * 0.12f) + 0.02f);
             if (Math_Rand_ZeroOne() < 0.3f) {
                 this->unk_151 = Math_Rand_ZeroOne() * 4.9f;
-                return;
             }
         }
     } else {
@@ -145,7 +143,7 @@ void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_808B2CA8(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot11Oasis_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot11_oasis.c", 327);
