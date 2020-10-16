@@ -72,7 +72,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     this->collider.list->dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
-    func_80061ED4(&this->actor.colChkInfo, sDamageTable, sColChkInfoInit);
+    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     deathCount = 0;
     EnCrow_SetupWait(this);
