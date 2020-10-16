@@ -7,7 +7,7 @@ void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
 }
 
 // draw poly
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 // regalloc starting in the loop
 void func_8005B2AC(GraphicsContext *gfx, Vec3f *vA, Vec3f *vB, Vec3f *vC, u8 r, u8 g, u8 b) {
     Vtx_tn* sp8C;
@@ -57,7 +57,7 @@ void func_8005B2AC(GraphicsContext *gfx, Vec3f *vA, Vec3f *vB, Vec3f *vC, u8 r, 
         vtx->n[2] = sp7C;
         vtx->a = 255;
     }
-
+    
     gSPVertex(oGfxCtx->polyOpa.p++, sp8C, 3, 0);
     gSP1Triangle(oGfxCtx->polyOpa.p++, 0, 1, 2, 0);
 
@@ -3124,14 +3124,15 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
 #define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
 
 #ifdef NON_EQUIVALENT
-// Incomplete, possibly not using the same logic
+/* 
+    Determines if the line segment connecting itemPos and itemProjPos intersects
+    a cylinder with the given radius, height, and offset at actorPos. Returns 3
+    if either endpoint is in the cylinder, otherwise returns the number of points
+    of intersection with the side of the cylinder. The locations of those points
+    are put in out1 and out2.
+*/
 s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                   Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2) {
-    // itemProjPos = SP + 0xA8, unk input
-    // out1 = SP + 0x90, unk output
-    // out2 = SP + 0x84, unk output2
-    // sp -0x78
-
     Vec3f actorToItem;
     Vec3f actorToItemProj;
     Vec3f itemStep;
@@ -3160,12 +3161,10 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
     itemStep.y = actorToItemProj.y - actorToItem.y;
     itemStep.z = actorToItemProj.z - actorToItem.z;
 
-    phi_v0 = actorToItem.y > 0.0f;
-    if (phi_v0 && (actorToItem.y < height) && (sqrtf(SQ(actorToItem.x) + SQ(actorToItem.z)) < radius)) {
+    if ((actorToItem.y > 0.0f) && (actorToItem.y < height) && (sqrtf(SQ(actorToItem.x) + SQ(actorToItem.z)) < radius)) {
         return 3;
     }
-    phi_v1 = actorToItemProj.y > 0.0f;
-    if (phi_v1 && (actorToItemProj.y < height) && (sqrtf(SQ(actorToItemProj.x) + SQ(actorToItemProj.z)) < radius)){
+    if ((actorToItemProj.y > 0.0f) && (actorToItemProj.y < height) && (sqrtf(SQ(actorToItemProj.x) + SQ(actorToItemProj.z)) < radius)){
         return 3;
     }
 
@@ -3177,16 +3176,20 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
         temp_f12 = (4.0f * temp_f2) * sp38;
         if (temp_f0 < temp_f12) {
             return 0;
-        } else {
-            temp_f0_2 = sqrtf(temp_f0 - temp_f12);
-            phi_v1 = 1;
-            phi_v0 = (temp_f0 - temp_f12 > 0.0f) ? 1 : 0;
-            
-            sp50 = (temp_f0_2 - temp_f14) / (2.0f * temp_f2);
-            if (phi_v0 == 1) {
-                sp4C = (-temp_f14 - temp_f0_2) / (2.0f * temp_f2);
-            }
         }
+        temp_f0_2 = sqrtf(temp_f0 - temp_f12);
+        if(temp_f0 - temp_f12 > 0.0f) {
+            phi_v1 = 1;
+            phi_v0 = 1;
+        } else {
+            phi_v1 = 1;
+            phi_v0 = 0;
+        }
+        sp50 = (temp_f0_2 - temp_f14) / (2.0f * temp_f2);
+        if (phi_v0 == 1) {
+            sp4C = (-temp_f14 - temp_f0_2) / (2.0f * temp_f2);
+        }
+
     } else if (!IS_ZERO(DOTXZ(2.0f * itemStep, actorToItem))) {
         phi_v1 = 1;
         phi_v0 = 0;
@@ -3238,8 +3241,7 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
     }
     if (phi_v1 == 0 && phi_v0 == 0) {
         return 0;
-    }
-    if ((phi_v1 == 1) && (phi_v0 == 1)) {
+    } else if ((phi_v1 == 1) && (phi_v0 == 1)) {
         out1->x = sp50 * itemStep.x + actorToItem.x + actorPos->x;
         out1->y = sp50 * itemStep.y + actorToItem.y + actorPos->y;
         out1->z = sp50 * itemStep.z + actorToItem.z + actorPos->z;
