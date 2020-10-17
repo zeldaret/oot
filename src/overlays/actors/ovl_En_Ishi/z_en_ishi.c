@@ -234,7 +234,7 @@ void EnIshi_DropCollectible(EnIshi* this, GlobalContext* globalCtx) {
         if (dropParams >= 0xD) {
             dropParams = 0;
         }
-        
+
         Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, dropParams << 4);
     }
 }

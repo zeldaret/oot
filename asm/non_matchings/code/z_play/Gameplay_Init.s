@@ -116,7 +116,7 @@ glabel Gameplay_Init
 /* B33D2C 800BCB8C 0C016B12 */  jal   func_8005AC48
 /* B33D30 800BCB90 A62007A0 */   sh    $zero, 0x7a0($s1)
 /* B33D34 800BCB94 02202025 */  move  $a0, $s1
-/* B33D38 800BCB98 0C02A74A */  jal   func_800A9D28
+/* B33D38 800BCB98 0C02A74A */  jal   Sram_Init
 /* B33D3C 800BCB9C 26251F74 */   addiu $a1, $s1, 0x1f74
 /* B33D40 800BCBA0 0C044826 */  jal   func_80112098
 /* B33D44 800BCBA4 02202025 */   move  $a0, $s1

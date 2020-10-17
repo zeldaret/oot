@@ -426,7 +426,7 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
-    if ((gBitFlags[2] & gSaveContext.equipment) && !(gBitFlags[3] & gSaveContext.equipment)) {
+    if ((gBitFlags[2] & gSaveContext.inventory.equipment) && !(gBitFlags[3] & gSaveContext.inventory.equipment)) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -439,7 +439,7 @@ s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[5] & gSaveContext.equipment) {
+    if (gBitFlags[5] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -452,7 +452,7 @@ s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B040(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[4] & gSaveContext.equipment) {
+    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -468,7 +468,7 @@ s32 func_80A3B0BC(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[9] & gSaveContext.equipment) {
+    if (gBitFlags[9] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -484,7 +484,7 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[10] & gSaveContext.equipment) {
+    if (gBitFlags[10] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {

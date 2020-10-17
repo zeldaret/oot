@@ -117,7 +117,7 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     if ((this->switchFlag >= 0) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
         this->actor.flags &= ~1;
     } else {
-        if ((this->unk_152 != 6) || (gSaveContext.unk_12C5 != 0)) {
+        if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & 0x1000000) {
                 // "North! ! ! ! !"
                 osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistFromLink);
@@ -189,7 +189,7 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->unk_15A++;
-    if ((this->unk_152 != 6) || (gSaveContext.unk_12C5 != 0)) {
+    if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actor.flags &= ~1;
         } else if (((this->unk_150 != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&

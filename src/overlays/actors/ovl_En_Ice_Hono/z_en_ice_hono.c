@@ -327,7 +327,7 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
         intensity = (Math_Rand_ZeroOne() * 0.05f) + ((sin154 * 0.125f) + (sin156 * 0.1f)) + 0.425f;
         if ((intensity > 0.7f) || (intensity < 0.2f)) {
             // Translates to: "impossible value(ratio = %f)"
-            osSyncPrintf("ありえない値(ratio = %f)\n", (f64)intensity);
+            osSyncPrintf("ありえない値(ratio = %f)\n", intensity);
         }
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, (s16)this->actor.posRot.pos.y + 10,
                                   this->actor.posRot.pos.z, (s32)(155.0f * intensity), (s32)(210.0f * intensity),

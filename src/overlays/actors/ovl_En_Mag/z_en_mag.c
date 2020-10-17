@@ -98,7 +98,7 @@ void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.unk_1419 = 255;
     }
 
-    func_8006EF10(&this->unk_150);
+    Font_LoadOrderedFont(&this->font);
 
     this->unk_E316 = 0;
     this->unk_E318 = 0;
@@ -394,7 +394,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         0x06020000, 0x06020800, 0x06021000, 0x06021800, 0x06022000, 0x06022800, 0x06023000, 0x06023800, 0x06024000,
     };
     EnMag* this = THIS;
-    u8* buf = this->unk_150;
+    Font* font = &this->font;
     s32 pad;
     Gfx* gfx = *gfxp;
     u16 i, j, k;
@@ -496,7 +496,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
 
         rectLeft = VREG(19) + 1;
         for (i = 0; i < ARRAY_COUNT(noControllerFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+                                  YREG(10) + 172);
             rectLeft += VREG(21);
             if (i == 1) {
                 rectLeft += VREG(23);
@@ -509,7 +510,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
 
         rectLeft = VREG(19);
         for (i = 0; i < ARRAY_COUNT(noControllerFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (noControllerFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+                                  YREG(10) + 171);
             rectLeft += VREG(21);
             if (i == 1) {
                 rectLeft += VREG(23);
@@ -530,7 +532,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
 
         rectLeft = YREG(7) + 1;
         for (i = 0; i < ARRAY_COUNT(pressStartFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 172);
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+                                  YREG(10) + 172);
             rectLeft += YREG(8);
             if (i == 4) {
                 rectLeft += YREG(9);
@@ -543,7 +546,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
 
         rectLeft = YREG(7);
         for (i = 0; i < ARRAY_COUNT(pressStartFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, buf + 0x3C88 + (pressStartFontIndexes[i] * 0x80), rectLeft, YREG(10) + 171);
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+                                  YREG(10) + 171);
             rectLeft += YREG(8);
             if (i == 4) {
                 rectLeft += YREG(9);
