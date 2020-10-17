@@ -23,13 +23,13 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B38570(EnWonderItem* this, GlobalContext* globalCtx);
-void func_80B38788(EnWonderItem* this, GlobalContext* globalCtx);
-void func_80B387F0(EnWonderItem* this, GlobalContext* globalCtx);
-void func_80B38824(EnWonderItem* this, GlobalContext* globalCtx);
-void func_80B388AC(EnWonderItem* this, GlobalContext* globalCtx);
-void func_80B38AD8(EnWonderItem* this, GlobalContext* globalCtx);
-void func_80B38B78(EnWonderItem* this, GlobalContext* globalCtx);
+void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx);
+void EnWonderItem_ProximityDrop(EnWonderItem* this, GlobalContext* globalCtx);
+void EnWonderItem_InteractSwitch(EnWonderItem* this, GlobalContext* globalCtx);
+void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx);
+void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx);
+void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx);
+void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
@@ -61,7 +61,7 @@ void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B380A0(EnWonderItem* this, GlobalContext* globalCtx, s32 autoCollect) {
+void EnWonderItem_DropCollectible(EnWonderItem* this, GlobalContext* globalCtx, s32 autoCollect) {
     static s16 dropTable[] = {
         ITEM00_NUTS,        ITEM00_HEART_PIECE,  ITEM00_MAGIC_LARGE,   ITEM00_MAGIC_SMALL,
         ITEM00_HEART,       ITEM00_ARROWS_SMALL, ITEM00_ARROWS_MEDIUM, ITEM00_ARROWS_LARGE,
@@ -135,7 +135,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->numTagPoints = this->actor.posRot.rot.z - rotZover10 * 10;
             // i.e timerMod = rot.z / 10 seconds, numTagPoints = rot.z % 10
-            this->updateFunc = func_80B38570;
+            this->updateFunc = EnWonderItem_MultitagFree;
             break;
         case WONDERITEM_TAG_POINT_FREE:
             tagIndex = this->actor.posRot.rot.z & 0xFF;
@@ -144,7 +144,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case WONDERITEM_PROXIMITY_DROP:
             this->dropCount = this->actor.posRot.rot.z & 0xFF;
-            this->updateFunc = func_80B38788;
+            this->updateFunc = EnWonderItem_ProximityDrop;
             break;
         case WONDERITEM_INTERACT_SWITCH:
             colTypeIndex = this->actor.posRot.rot.z & 0xFF;
@@ -153,7 +153,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.body.bumper.flags = collisionTypes[colTypeIndex];
             this->collider.dim.radius = 20;
             this->collider.dim.height = 30;
-            this->updateFunc = func_80B387F0;
+            this->updateFunc = EnWonderItem_InteractSwitch;
             break;
         case WONDERITEM_UNUSED:
             break;
@@ -166,7 +166,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->numTagPoints = this->actor.posRot.rot.z - rotZover10 * 10;
             // i.e timerMod = rot.z / 10 seconds, numTagPoints = rot.z % 10
-            this->updateFunc = func_80B388AC;
+            this->updateFunc = EnWonderItem_MultitagOrdered;
             break;
         case WONDERITEM_TAG_POINT_ORDERED:
             tagIndex = this->actor.posRot.rot.z & 0xFF;
@@ -174,7 +174,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             break;
         case WONDERITEM_PROXIMITY_SWITCH:
-            this->updateFunc = func_80B38824;
+            this->updateFunc = EnWonderItem_ProximitySwitch;
             break;
         case WONDERITEM_BOMB_SOLDIER:
             Collider_InitCylinder(globalCtx, &this->collider);
@@ -183,11 +183,11 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unkPos = this->actor.posRot.pos;
             this->collider.dim.radius = 35;
             this->collider.dim.height = 75;
-            this->updateFunc = func_80B38AD8;
+            this->updateFunc = EnWonderItem_BombSoldier;
             break;
         case WONDERITEM_ROLL_DROP:
             this->dropCount = this->actor.posRot.rot.z & 0xFF;
-            this->updateFunc = func_80B38B78;
+            this->updateFunc = EnWonderItem_RollDrop;
             break;
         default:
             Actor_Kill(&this->actor);
@@ -195,7 +195,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B38570(EnWonderItem* this, GlobalContext* globalCtx) {
+void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
     s32 mask;
     s32 i;
     f32 dx;
@@ -230,27 +230,27 @@ void func_80B38570(EnWonderItem* this, GlobalContext* globalCtx) {
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(globalCtx, this->switchFlag);
         }
-        func_80B380A0(this, globalCtx, true);
+        EnWonderItem_DropCollectible(this, globalCtx, true);
     }
 }
 
-void func_80B38788(EnWonderItem* this, GlobalContext* globalCtx) {
+void EnWonderItem_ProximityDrop(EnWonderItem* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((this->actor.xzDistFromLink < 50.0f) &&
         (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
-        func_80B380A0(this, globalCtx, true);
+        EnWonderItem_DropCollectible(this, globalCtx, true);
     }
 }
 
-void func_80B387F0(EnWonderItem* this, GlobalContext* globalCtx) {
+void EnWonderItem_InteractSwitch(EnWonderItem* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
-        func_80B380A0(this, globalCtx, false);
+        EnWonderItem_DropCollectible(this, globalCtx, false);
     }
 }
 
-void func_80B38824(EnWonderItem* this, GlobalContext* globalCtx) {
+void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((this->actor.xzDistFromLink < 50.0f) &&
@@ -262,7 +262,7 @@ void func_80B38824(EnWonderItem* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B388AC(EnWonderItem* this, GlobalContext* globalCtx) {
+void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx) {
     f32 dx;
     f32 dy;
     f32 dz;
@@ -301,11 +301,11 @@ void func_80B388AC(EnWonderItem* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->tagCount == this->numTagPoints) {
-        func_80B380A0(this, globalCtx, true);
+        EnWonderItem_DropCollectible(this, globalCtx, true);
     }
 }
 
-void func_80B38AD8(EnWonderItem* this, GlobalContext* globalCtx) {
+void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HEISHI2, this->actor.posRot.pos.x,
@@ -321,12 +321,12 @@ void func_80B38AD8(EnWonderItem* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B38B78(EnWonderItem* this, GlobalContext* globalCtx) {
+void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((this->actor.xzDistFromLink < 50.0f) && (player->invincibilityTimer < 0) &&
         (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
-        func_80B380A0(this, globalCtx, 1);
+        EnWonderItem_DropCollectible(this, globalCtx, 1);
     }
 }
 
