@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wonder_item.h"
+#include "vt.h"
 
 #define FLAGS 0x00000000
 
@@ -109,7 +110,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("\n\n");
     // Mysterious mystery
-    osSyncPrintf("\x1b[32m☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n\x1b[m", this->actor.params);
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~1;
 
     this->wonderMode = (this->actor.params >> 0xB) & 0x1F;
@@ -120,7 +121,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actor.unk_1F = 1;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n\x1b[m", this->switchFlag);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         Actor_Kill(&this->actor);
         return;
     }
@@ -311,7 +312,7 @@ void func_80B38AD8(EnWonderItem* this, GlobalContext* globalCtx) {
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.yawTowardsLink, 0,
                         9) != NULL) {
             // Inadvertently complete the soldier set
-            osSyncPrintf("\x1b[33m☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n\x1b[m");
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
         }
         if (this->switchFlag >= 0) {
             Flags_SetSwitch(globalCtx, this->switchFlag);

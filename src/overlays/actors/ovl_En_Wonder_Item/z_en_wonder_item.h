@@ -23,7 +23,7 @@ typedef struct EnWonderItem {
     /* 0x0164 */ char unk_164[4];
     /* 0x0168 */ s16 nextTag;
     /* 0x016A */ s16 timerMod;
-    /* 0x016C */ Vec3f unkPos; // set to initial position by mode 8, then never used.
+    /* 0x016C */ Vec3f unkPos; // set to initial position by mode bomb soldier, then never used.
     /* 0x0178 */ char unk_178[8];
     /* 0x0180 */ ColliderCylinder collider;
     /* 0x01CC */ char unk_1CC[4];
