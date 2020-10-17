@@ -115,13 +115,13 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
         if (spawner->actor.update != NULL) {
 
-            if (spawner->unk_152 > 0) {
-                spawner->unk_152--;
+            if (spawner->curNumSpawn > 0) {
+                spawner->curNumSpawn--;
             }
 
             if (this->isBig) {
-                spawner->unk_16C = 0;
-                spawner->unk_164 = 0x258;
+                spawner->bigLeever = NULL;
+                spawner->timer = 600;
             }
         }
     }
@@ -458,12 +458,12 @@ void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx) {
 
                 if (spawner->actor.update != NULL) {
                     if (!this->isBig) {
-                        if (spawner->numLeeversDead < 10) {
-                            spawner->numLeeversDead++;
+                        if (spawner->killCount < 10) {
+                            spawner->killCount++;
                         }
                         // How many are dead?
                         osSyncPrintf("\n\n");
-                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n" VT_RST, spawner->numLeeversDead);
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n" VT_RST, spawner->killCount);
                         osSyncPrintf("\n\n");
                     }
                 }
