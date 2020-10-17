@@ -91,8 +91,6 @@ extern Gfx D_0400EE00[];
 extern AnimationHeader D_0400E758;
 extern SkeletonHeader D_0400FF78;
 
-#ifdef NON_MATCHING
-// Regalloc only
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad1;
@@ -126,7 +124,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->requiredObject = objIndex;
     this->displaylistIdx = objectInfo->displaylistIdx;
-    if (this->requiredObject == this->actor.objBankIndex) {
+    if (this->actor.objBankIndex == this->requiredObject) {
         EnDoor_SetupType(this, globalCtx);
     } else {
         this->actionFunc = EnDoor_SetupType;
@@ -150,9 +148,6 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetHeight(&this->actor, 70.0f);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Init.s")
-#endif
 
 void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry;
@@ -221,7 +216,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
         SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, D_809FCECC[this->unk_190],
                                          (player->stateFlags1 & 0x8000000) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
-            gSaveContext.dungeonKeys[gSaveContext.mapIndex]--;
+            gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
             Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
@@ -233,7 +228,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
             }
             if (ABS(phi_v0) < 0x3000) {
                 if (this->lockTimer != 0) {
-                    numKeys = gSaveContext.dungeonKeys[gSaveContext.mapIndex];
+                    numKeys = gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex];
                     if (numKeys <= 0) {
                         PLAYER->naviMessageId = -0x203;
                         return;
@@ -310,7 +305,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
             if (this->skelAnime.animPlaybackSpeed < 1.5f) {
                 numEffects = (s32)(Math_Rand_ZeroOne() * 30.0f) + 50;
                 for (i = 0; i < numEffects; i++) {
-                    func_800293E4(globalCtx, &this->actor.posRot.pos, 60.0f, 100.0f, 50.0f, 0.15f);
+                    EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }
             }
         } else if (func_800A56C8(&this->skelAnime, sDoorAnimCloseFrames[this->unk_190])) {
