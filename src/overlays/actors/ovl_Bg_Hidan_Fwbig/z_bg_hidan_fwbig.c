@@ -4,6 +4,12 @@
 
 #define THIS ((BgHidanFwbig*)thisx)
 
+typedef enum {
+    /* 0 */ FWBIG_MOVE,
+    /* 1 */ FWBIG_RESET,
+    /* 2 */ FWBIG_KILL
+} HidanFwbigMoveState;
+
 void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -60,12 +66,10 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.initPosRot.pos.z = 0.0f;
         if (player->actor.posRot.pos.z > 300.0f) {
             this->direction = -1;
-            this->actor.shape.rot.y = -0x4E38;
-            this->actor.initPosRot.rot.y = this->actor.shape.rot.y;
+            this->actor.initPosRot.rot.y = this->actor.shape.rot.y = -0x4E38;
         } else if (player->actor.posRot.pos.z < -300.0f) {
             this->direction = 1;
-            this->actor.shape.rot.y = -0x31C8;
-            this->actor.initPosRot.rot.y = this->actor.shape.rot.y;
+            this->actor.initPosRot.rot.y = this->actor.shape.rot.y = -0x31C8;
         } else {
             Actor_Kill(&this->actor);
             return;
@@ -74,7 +78,7 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_SetScale(&this->actor, 0.15f);
         this->collider.dim.height = 230;
         this->actor.flags |= 0x10;
-        this->moveState = 0;
+        this->moveState = FWBIG_MOVE;
         this->actionFunc = BgHidanFwbig_WaitForPlayer;
         this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - (2400.0f * this->actor.scale.y);
     } else {
@@ -130,13 +134,13 @@ void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx) {
         if (this->direction == 0) {
             this->actionFunc = BgHidanFwbig_WaitForTimer;
             this->timer = 150;
-        } else if (this->moveState == 2) {
+        } else if (this->moveState == FWBIG_KILL) {
             Actor_Kill(&this->actor);
         } else {
-            if (this->moveState == 0) {
+            if (this->moveState == FWBIG_MOVE) {
                 this->actor.shape.rot.y -= (this->direction * 0x1800);
             } else {
-                this->moveState = 0;
+                this->moveState = FWBIG_MOVE;
                 this->actor.shape.rot.y = this->actor.initPosRot.rot.y;
             }
             BgHidanFwbig_UpdatePosition(this);
@@ -166,7 +170,7 @@ void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (!Player_InCsMode(globalCtx)) {
         if (Math_ApproxUpdateScaledS(&this->actor.shape.rot.y,
                                      this->actor.initPosRot.rot.y + (this->direction * 0x6390), 0x20)) {
-            this->moveState = 1;
+            this->moveState = FWBIG_RESET;
             this->actionFunc = BgHidanFwbig_Lower;
         } else {
             BgHidanFwbig_UpdatePosition(this);
@@ -210,7 +214,7 @@ void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if ((this->direction != 0) && (globalCtx->roomCtx.prevRoom.num == this->actor.room)) {
-        this->moveState = 2;
+        this->moveState = FWBIG_KILL;
         this->actionFunc = BgHidanFwbig_Lower;
     }
 
