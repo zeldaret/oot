@@ -169,13 +169,13 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     this->unk_196 = 6;
     if (LINK_IS_CHILD) {
         this->unk_194 = false;
-        if (gSaveContext.unk_F3C[4] != 0) {
+        if (gSaveContext.scarecrowCustomSongSet) {
             this->actor.textId = 0x407A;
             this->unk_196 = 5;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.unk_F3C[4] != 0) {
+        if (gSaveContext.scarecrowCustomSongSet) {
             this->actor.textId = 0x4079;
             this->unk_196 = 5;
         }
@@ -335,7 +335,7 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");
         // flag!
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_F3C[4]);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowCustomSongSet);
     }
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, NULL,
