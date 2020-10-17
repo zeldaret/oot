@@ -233,7 +233,7 @@ glabel EnGeldB_Draw
 /* 04ACC 80A39DDC 24C6014C */  addiu   $a2, $a2, 0x014C           ## $a2 = 0000014C
 /* 04AD0 80A39DE0 8FA400DC */  lw      $a0, 0x00DC($sp)
 /* 04AD4 80A39DE4 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 04AD8 80A39DE8 0C00A877 */  jal     func_8002A1DC
+/* 04AD8 80A39DE8 0C00A877 */  jal     EffectSsEnIce_SpawnFlyingVec3s
 /* 04ADC 80A39DEC E7A80028 */  swc1    $f8, 0x0028($sp)
 .L80A39DF0:
 /* 04AE0 80A39DF0 8FAE00DC */  lw      $t6, 0x00DC($sp)

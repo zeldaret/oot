@@ -260,7 +260,7 @@ glabel func_80A049B4
 /* 03138 80A04D68 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 0313C 80A04D6C AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 03140 80A04D70 AFA80018 */  sw      $t0, 0x0018($sp)           
-/* 03144 80A04D74 0C00A2EC */  jal     func_80028BB0              
+/* 03144 80A04D74 0C00A2EC */  jal     EffectSsKiraKira_SpawnDispersed              
 /* 03148 80A04D78 AFA9001C */  sw      $t1, 0x001C($sp)           
 /* 0314C 80A04D7C 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 03150 80A04D80 8FB00028 */  lw      $s0, 0x0028($sp)           

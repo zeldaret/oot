@@ -16,6 +16,23 @@ endif
 
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
+MAKE = make
+CPPFLAGS = -P
+
+ifeq ($(OS),Windows_NT)
+    $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        DETECTED_OS=linux
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        DETECTED_OS=macos
+        MAKE=gmake
+        CPPFLAGS += -xc++
+    endif
+endif
+
 #### Tools ####
 ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
   MIPS_BINUTILS_PREFIX := mips-linux-gnu-
@@ -23,8 +40,8 @@ else
   $(error Please install or build mips-linux-gnu)
 endif
 
-CC       := tools/ido_recomp/linux/7.1/cc
-CC_OLD   := tools/ido_recomp/linux/5.3/cc
+CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
+CC_OLD   := tools/ido_recomp/$(DETECTED_OS)/5.3/cc
 
 # if ORIG_COMPILER is 1, check that either QEMU_IRIX is set or qemu-irix package installed
 ifeq ($(ORIG_COMPILER),1)
@@ -112,8 +129,15 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 # create build directories
 $(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),build/$(dir)))
 
+
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
+build/src/libultra_code_O1/%.o: OPTFLAGS := -O1
+build/src/libultra_code_O2/%.o: OPTFLAGS := -O2
+build/src/libultra_code_O2_g3/%.o: OPTFLAGS := -O2 -g3
+
+build/src/libultra_code_O1/llcvt.o: MIPS_VERSION := -mips3 -32
+
 build/src/code/fault.o: CFLAGS += -trapuv
 build/src/code/fault.o: OPTFLAGS := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
@@ -123,18 +147,12 @@ build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
 
-# Todo: split libultra_code into libultra_code_O1, etc..
-build/src/libultra_code/sqrt.o: OPTFLAGS := -O2 -g3
-build/src/libultra_code/absf.o: OPTFLAGS := -O2 -g3
-build/src/libultra_code/osSetTimer.o: OPTFLAGS := -O1
-build/src/libultra_code/osStopTimer.o: OPTFLAGS := -O1
-build/src/libultra_code/llcvt.o: OPTFLAGS := -O1
-build/src/libultra_code/llcvt.o: MIPS_VERSION := -mips3 -32
-
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
+build/src/libultra_code_O1/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code_O2/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code_O2_g3/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
-build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegdecoder.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
@@ -159,18 +177,18 @@ $(ELF): $(TEXTURE_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
-	$(CPP) -P $< > build/spec
+	$(CPP) $(CPPFLAGS) $< > build/spec
 	$(MKLDSCRIPT) build/spec $@
 
 build/undefined_syms.txt: undefined_syms.txt
-	$(CPP) -P $< > build/undefined_syms.txt
+	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
 
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
 setup:
 	git submodule update --init --recursive
-	make -C tools
+	$(MAKE) -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py
@@ -212,7 +230,7 @@ build/src/%.o: src/%.c
 	$(CC_CHECK) $^
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
-build/src/libultra_code/llcvt.o: src/libultra_code/llcvt.c
+build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
 	python3 tools/set_o32abi_bit.py $@

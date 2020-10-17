@@ -115,7 +115,7 @@ glabel func_80A20100
 /* 004C0 80A20280 AFB60010 */  sw      $s6, 0x0010($sp)           
 /* 004C4 80A20284 AFB70014 */  sw      $s7, 0x0014($sp)           
 /* 004C8 80A20288 AFBE0018 */  sw      $s8, 0x0018($sp)           
-/* 004CC 80A2028C 0C00A8A9 */  jal     func_8002A2A4              
+/* 004CC 80A2028C 0C00A8A9 */  jal     EffectSsEnIce_Spawn              
 /* 004D0 80A20290 AFB1001C */  sw      $s1, 0x001C($sp)           
 /* 004D4 80A20294 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 004D8 80A20298 1613FFD2 */  bne     $s0, $s3, .L80A201E4       

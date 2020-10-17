@@ -104,7 +104,7 @@ s32 func_80994750(DoorGerudo* this, GlobalContext* globalCtx) {
 void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
     if (this->unk_164 != 0) {
         this->actionFunc = func_8099496C;
-        gSaveContext.dungeonKeys[gSaveContext.mapIndex] -= 1;
+        gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] -= 1;
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
     } else {
@@ -113,7 +113,7 @@ void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
         if (direction != 0) {
             Player* player = PLAYER;
 
-            if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+            if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                 player->naviMessageId = -0x203;
             } else if (!Flags_GetCollectible(globalCtx, (this->dyna.actor.params >> 8) & 0x1F)) {
                 player->naviMessageId = -0x225;

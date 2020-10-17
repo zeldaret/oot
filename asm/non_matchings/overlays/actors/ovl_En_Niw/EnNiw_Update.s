@@ -590,7 +590,7 @@ glabel EnNiw_Update
 /* 02528 80AB7CA8 A62A025A */  sh      $t2, 0x025A($s1)           ## 0000025A
 /* 0252C 80AB7CAC AFAC0014 */  sw      $t4, 0x0014($sp)           
 /* 02530 80AB7CB0 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 02534 80AB7CB4 0C00A527 */  jal     func_8002949C              
+/* 02534 80AB7CB4 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 02538 80AB7CB8 8FA400E4 */  lw      $a0, 0x00E4($sp)           
 /* 0253C 80AB7CBC 3C0480AC */  lui     $a0, %hi(D_80AB89EC)       ## $a0 = 80AC0000
 /* 02540 80AB7CC0 A620025C */  sh      $zero, 0x025C($s1)         ## 0000025C

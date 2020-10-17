@@ -1,42 +1,131 @@
 /*
  * File: z_eff_ss_g_ripple.c
  * Overlay: ovl_Effect_Ss_G_Ripple
- * Description:
+ * Description: Water Ripple
  */
 
 #include "z_eff_ss_g_ripple.h"
 
-typedef enum {
-    /* 0x00 */ SS_G_RIPPLE_0,
-    /* 0x01 */ SS_G_RIPPLE_1,
-    /* 0x02 */ SS_G_RIPPLE_2,
-    /* 0x03 */ SS_G_RIPPLE_3,
-    /* 0x04 */ SS_G_RIPPLE_4,
-    /* 0x05 */ SS_G_RIPPLE_5,
-    /* 0x06 */ SS_G_RIPPLE_6,
-    /* 0x07 */ SS_G_RIPPLE_7,
-    /* 0x08 */ SS_G_RIPPLE_8,
-    /* 0x09 */ SS_G_RIPPLE_9,
-    /* 0x0A */ SS_G_RIPPLE_A,
-    /* 0x0B */ SS_G_RIPPLE_B,
-    /* 0x0C */ SS_G_RIPPLE_C,
-} EffectSsG_RippleRegs;
+#define rWaterBoxNum regs[0]
+#define rRadius regs[1]
+#define rRadiusMax regs[2]
+#define rPrimColorR regs[3]
+#define rPrimColorG regs[4]
+#define rPrimColorB regs[5]
+#define rPrimColorA regs[6]
+#define rEnvColorR regs[7]
+#define rEnvColorG regs[8]
+#define rEnvColorB regs[9]
+#define rEnvColorA regs[10]
+#define rLifespan regs[11]
 
 u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGRipple_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsGRipple_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_G_Ripple_InitVars = {
     EFFECT_SS_G_RIPPLE,
     EffectSsGRipple_Init,
 };
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Ripple/EffectSsGRipple_Init.s")
+extern Gfx D_040254B0[];
+extern Gfx D_040244B0[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Ripple/func_809A6AD8.s")
+u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    s32 pad;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    WaterBox* waterBox;
+    EffectSsGRippleInitParams* initParams = (EffectSsGRippleInitParams*)initParamsx;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Ripple/func_809A6D08.s")
+    waterBox = NULL;
+    this->velocity = this->accel = zeroVec;
+    this->pos = initParams->pos;
+    this->gfx = SEGMENTED_TO_VIRTUAL(D_040254B0);
+    this->life = initParams->life + 20;
+    this->flags = 0;
+    this->draw = EffectSsGRipple_Draw;
+    this->update = EffectSsGRipple_Update;
+    this->rRadius = initParams->radius;
+    this->rRadiusMax = initParams->radiusMax;
+    this->rLifespan = initParams->life;
+    this->rPrimColorR = 255;
+    this->rPrimColorG = 255;
+    this->rPrimColorB = 255;
+    this->rPrimColorA = 255;
+    this->rEnvColorR = 255;
+    this->rEnvColorG = 255;
+    this->rEnvColorB = 255;
+    this->rEnvColorA = 255;
+    this->rWaterBoxNum = func_8004239C(globalCtx, &globalCtx->colCtx, &initParams->pos, 3.0f, &waterBox);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Ripple/func_809A6D40.s")
+    return 1;
+}
+
+void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PTR segment) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    f32 radius;
+    s32 pad;
+    MtxF mfTrans;
+    MtxF mfScale;
+    MtxF mfResult;
+    Mtx* mtx;
+    f32 yPos;
+
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 199);
+
+    if (globalCtx) {}
+
+    radius = this->rRadius * 0.0025f;
+
+    if ((this->rWaterBoxNum != -1) && (this->rWaterBoxNum < globalCtx->colCtx.stat.colHeader->nbWaterBoxes)) {
+        yPos = (this->rWaterBoxNum + globalCtx->colCtx.stat.colHeader->waterBoxes)->unk_02;
+    } else {
+        yPos = this->pos.y;
+    }
+
+    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, yPos, this->pos.z);
+    SkinMatrix_SetScale(&mfScale, radius, radius, radius);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &mfScale, &mfResult);
+
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
+
+    if (mtx != NULL) {
+        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        func_80094BC4(gfxCtx);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                        this->rPrimColorA);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
+        gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_NOISE);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+    }
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_g_ripple.c", 247);
+}
+
+void EffectSsGRipple_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    if (this->rLifespan == 0) {
+        EffectSsGRipple_DrawRipple(globalCtx, this, D_040244B0);
+    }
+}
+
+void EffectSsGRipple_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    f32 radius;
+    f32 primAlpha;
+    f32 envAlpha;
+
+    if (DECR(this->rLifespan) == 0) {
+        radius = this->rRadius;
+        Math_SmoothScaleMaxMinF(&radius, this->rRadiusMax, 0.2f, 30.0f, 1.0f);
+        this->rRadius = radius;
+
+        primAlpha = this->rPrimColorA;
+        envAlpha = this->rEnvColorA;
+
+        Math_SmoothScaleMaxMinF(&primAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
+        Math_SmoothScaleMaxMinF(&envAlpha, 0.0f, 0.2f, 15.0f, 7.0f);
+
+        this->rPrimColorA = primAlpha;
+        this->rEnvColorA = envAlpha;
+    }
+}

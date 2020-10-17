@@ -109,7 +109,7 @@ glabel EnMb_Draw
 /* 03B50 80AA9BA0 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 03B54 80AA9BA4 24C6014C */  addiu   $a2, $a2, 0x014C           ## $a2 = 0000014C
 /* 03B58 80AA9BA8 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 03B5C 80AA9BAC 0C00A877 */  jal     func_8002A1DC
+/* 03B5C 80AA9BAC 0C00A877 */  jal     EffectSsEnIce_SpawnFlyingVec3s
 /* 03B60 80AA9BB0 E7A00028 */  swc1    $f0, 0x0028($sp)
 .L80AA9BB4:
 /* 03B64 80AA9BB4 8FBF004C */  lw      $ra, 0x004C($sp)

@@ -5,7 +5,7 @@
  */
 
 #include "z_oceff_wipe.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x02000010
 

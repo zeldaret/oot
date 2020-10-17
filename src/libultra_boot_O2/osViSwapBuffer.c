@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void osViSwapBuffer(void* vaddr) {
     u32 int_disabled = __osDisableInt();

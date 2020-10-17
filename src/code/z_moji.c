@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 u32 sFontColorRed = 255;
 u32 sFontColorGreen = 255;

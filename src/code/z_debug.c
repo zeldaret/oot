@@ -1,6 +1,4 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
-#include <global.h>
+#include "global.h"
 
 typedef struct {
     u8 x;
@@ -15,7 +13,7 @@ typedef struct {
 } InputCombo;
 
 GameInfo* gGameInfo;
-int D_8015FA94; // no known symbols
+s32 D_8015FA94; // no known symbols
 PrintTextBuffer D_8015FA98[0x16];
 
 s16 D_8011E0B0 = 0; // PrintTextBuffer index
@@ -25,14 +23,12 @@ Color_RGBA8 printTextColors[] = {
 };
 
 InputCombo inputCombos[REG_GROUPS] = {
-    { L_TRIG, U_CBUTTONS },       { L_TRIG, L_CBUTTONS },   { L_TRIG, D_CBUTTONS },     { L_TRIG, A_BUTTON },
-    { R_TRIG, D_CBUTTONS },       { L_TRIG, R_CBUTTONS },   { L_TRIG, R_TRIG },         { L_TRIG, L_JPAD },
-    { L_TRIG, R_JPAD },           { L_TRIG, U_JPAD },       { L_TRIG, B_BUTTON },       { L_TRIG, Z_TRIG },
-    { L_TRIG, D_JPAD },           { R_TRIG, A_BUTTON },     { R_TRIG, B_BUTTON },       { R_TRIG, Z_TRIG },
-    { R_TRIG, L_TRIG },           { R_TRIG, U_CBUTTONS },   { R_TRIG, R_CBUTTONS },     { R_TRIG, L_JPAD },
-    { R_TRIG, L_CBUTTONS },       { R_TRIG, START_BUTTON }, { L_TRIG, START_BUTTON },   { R_TRIG, R_JPAD },
-    { R_TRIG, U_JPAD },           { START_BUTTON, R_TRIG }, { START_BUTTON, A_BUTTON }, { START_BUTTON, B_BUTTON },
-    { START_BUTTON, R_CBUTTONS },
+    { BTN_L, BTN_CUP },    { BTN_L, BTN_CLEFT }, { BTN_L, BTN_CDOWN }, { BTN_L, BTN_A },          { BTN_R, BTN_CDOWN },
+    { BTN_L, BTN_CRIGHT }, { BTN_L, BTN_R },     { BTN_L, BTN_DLEFT }, { BTN_L, BTN_DRIGHT },     { BTN_L, BTN_DUP },
+    { BTN_L, BTN_B },      { BTN_L, BTN_Z },     { BTN_L, BTN_DDOWN }, { BTN_R, BTN_A },          { BTN_R, BTN_B },
+    { BTN_R, BTN_Z },      { BTN_R, BTN_L },     { BTN_R, BTN_CUP },   { BTN_R, BTN_CRIGHT },     { BTN_R, BTN_DLEFT },
+    { BTN_R, BTN_CLEFT },  { BTN_R, BTN_START }, { BTN_L, BTN_START }, { BTN_R, BTN_DRIGHT },     { BTN_R, BTN_DUP },
+    { BTN_START, BTN_R },  { BTN_START, BTN_A }, { BTN_START, BTN_B }, { BTN_START, BTN_CRIGHT },
 };
 
 char regChar[] = " SOPQMYDUIZCNKXcsiWAVHGmnBdkb";
@@ -114,11 +110,12 @@ void func_8006390C(Input* input) {
     s32 i;
 
     regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
-    dpad = input->cur.in.button & (U_JPAD | L_JPAD | R_JPAD | D_JPAD);
-    if (CHECK_PAD(input->cur, L_TRIG) || CHECK_PAD(input->cur, R_TRIG) || CHECK_PAD(input->cur, START_BUTTON)) {
+    dpad = input->cur.button & (BTN_DUP | BTN_DLEFT | BTN_DRIGHT | BTN_DDOWN);
+    if (CHECK_BTN_ALL(input->cur.button, BTN_L) || CHECK_BTN_ALL(input->cur.button, BTN_R) ||
+        CHECK_BTN_ALL(input->cur.button, BTN_START)) {
         input_combo = inputCombos;
         for (i = 0; i < REG_GROUPS; i++) {
-            if (~(~input_combo->push | input->cur.in.button) || ~(~input_combo->held | input->press.in.button)) {
+            if (~(~input_combo->push | input->cur.button) || ~(~input_combo->held | input->press.button)) {
                 input_combo++;
             } else {
                 break;
@@ -154,25 +151,27 @@ void func_8006390C(Input* input) {
                     gGameInfo->dpadLast = dpad;
                 }
 
-                increment =
-                    (dpad & R_JPAD)
-                        ? (CHECK_PAD(input->cur, A_BUTTON | B_BUTTON)
-                               ? 1000
-                               : CHECK_PAD(input->cur, A_BUTTON) ? 100 : CHECK_PAD(input->cur, B_BUTTON) ? 10 : 1)
-                        : (dpad & L_JPAD)
-                              ? (CHECK_PAD(input->cur, A_BUTTON | B_BUTTON)
-                                     ? -1000
-                                     : CHECK_PAD(input->cur, A_BUTTON) ? -100
-                                                                       : CHECK_PAD(input->cur, B_BUTTON) ? -10 : -1)
-                              : 0;
+                increment = (CHECK_BTN_ANY(dpad, BTN_DRIGHT))
+                                ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B)
+                                       ? 1000
+                                       : CHECK_BTN_ALL(input->cur.button, BTN_A)
+                                             ? 100
+                                             : CHECK_BTN_ALL(input->cur.button, BTN_B) ? 10 : 1)
+                                : (CHECK_BTN_ANY(dpad, BTN_DLEFT))
+                                      ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B)
+                                             ? -1000
+                                             : CHECK_BTN_ALL(input->cur.button, BTN_A)
+                                                   ? -100
+                                                   : CHECK_BTN_ALL(input->cur.button, BTN_B) ? -10 : -1)
+                                      : 0;
 
                 gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
-                if (dpad & U_JPAD) {
+                if (CHECK_BTN_ANY(dpad, BTN_DUP)) {
                     gGameInfo->regCur--;
                     if (gGameInfo->regCur < 0) {
                         gGameInfo->regCur = REG_PER_PAGE - 1;
                     }
-                } else if (dpad & D_JPAD) {
+                } else if (CHECK_BTN_ANY(dpad, BTN_DDOWN)) {
                     gGameInfo->regCur++;
                     if (gGameInfo->regCur >= REG_PER_PAGE) {
                         gGameInfo->regCur = 0;

@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 typedef struct {
     s16 val;
@@ -3328,19 +3327,19 @@ s32 func_80058D34(Camera* camera) {
 
     if (D_8011D394 == 0) {
         if (camera->globalCtx->activeCamera == 0) {
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, U_CBUTTONS)) {
+            if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CUP)) {
                 osSyncPrintf("attention sound URGENCY\n");
                 func_80078884(NA_SE_SY_ATTENTION_URGENCY);
             }
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, D_CBUTTONS)) {
+            if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CDOWN)) {
                 osSyncPrintf("attention sound NORMAL\n");
                 func_80078884(NA_SE_SY_ATTENTION_ON);
             }
 
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, R_CBUTTONS)) {
+            if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CRIGHT)) {
                 phi_a2 = 1;
             }
-            if (CHECK_PAD(D_8015BD7C->state.input[2].press, L_CBUTTONS)) {
+            if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CLEFT)) {
                 phi_a2 = -1;
             }
             if (phi_a2 != 0) {

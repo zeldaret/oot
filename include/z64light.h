@@ -1,10 +1,10 @@
 #ifndef _Z64LIGHT_H_
 #define _Z64LIGHT_H_
 
-#include <ultra64.h>
-#include <ultra64/gbi.h>
-#include <z64math.h>
-#include <color.h>
+#include "ultra64.h"
+#include "ultra64/gbi.h"
+#include "z64math.h"
+#include "color.h"
 
 typedef struct {
     /* 0x0 */ s16 x;
