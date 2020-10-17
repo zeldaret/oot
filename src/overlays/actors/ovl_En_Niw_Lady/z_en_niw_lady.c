@@ -91,16 +91,16 @@ void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80AB9D60.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80AB9F24.s")
-/*void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80AB9F24.s")
+void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
+    s32 pad;
     if ((Object_IsLoaded(&globalCtx->objectCtx, this->ObjectAneIndex) != 0) &&
         (Object_IsLoaded(&globalCtx->objectCtx, this->ObjectOsAnimeIndex) != 0)) {
-
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->ObjectAneIndex].segment);
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, &this->limbDrawTable,
                          &this->transitionDrawTable, 16);
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->ObjectOsAnimeIndex].segment);
-        this->unk_27E = (u16)1;
+        this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
         ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 20.0f);
@@ -109,26 +109,29 @@ void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_272 = 0;
         this->actor.unk_1F = 6;
         this->actor.draw = func_80ABB228;
-        if (this->unk_278 != 0) {
-            if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f,
-                                     (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_0600A630), 0, 0.0f);
-            } else {
+        switch (this->unk_278) {
+            case 0:
+                if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f,
+                                         (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_0600A630), 0, 0.0f);
+                } else {
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f,
+                                         (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
+                }
+                if (LINK_IS_ADULT) {
+                    this->actionFunc = func_80ABA778;
+                } else {
+                    this->actionFunc = func_80ABA21C;
+                }
+                break;
+            case 1:
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f,
                                      (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
-            }
-            if (LINK_IS_ADULT) {
-                this->actionFunc = func_80ABA778;
-            } else {
-                this->actionFunc = func_80ABA21C;
-            }
-        } else if (this->unk_278 != 1) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f,
-                                 (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
-            this->actionFunc = func_80ABAD38;
+                this->actionFunc = func_80ABAD38;
+                break;
         }
     }
-}*/
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA21C.s")
 
