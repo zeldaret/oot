@@ -1,5 +1,4 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
 typedef struct {
     u32 ins_00; // lui     k0, 0x8000

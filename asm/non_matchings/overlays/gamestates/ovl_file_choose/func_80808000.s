@@ -896,7 +896,7 @@ glabel func_80808000
 /* 05000 80808D40 260501E0 */  addiu   $a1, $s0, 0x01E0           ## $a1 = 000001E0
 /* 05004 80808D44 AC2EF9B4 */  sw      $t6, %lo(gSaveContext+0x1354)($at)
 /* 05008 80808D48 9718E66C */  lhu     $t8, %lo(gSaveContext+0xc)($t8)
-/* 0500C 80808D4C 0C02A496 */  jal     func_800A9258              
+/* 0500C 80808D4C 0C02A496 */  jal     Sram_InitSave              
 /* 05010 80808D50 A7B800DE */  sh      $t8, 0x00DE($sp)           
 /* 05014 80808D54 97AD00DE */  lhu     $t5, 0x00DE($sp)           
 /* 05018 80808D58 3C018016 */  lui     $at, %hi(gSaveContext+0xc)

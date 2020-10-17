@@ -7,8 +7,8 @@
  * Description: Withered Deku Baba enemies
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 extern const ActorInit En_Karebaba_InitVars;
 

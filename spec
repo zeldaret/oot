@@ -346,8 +346,7 @@ beginseg
     include "build/src/code/z_skin_awb.o"
     include "build/src/code/z_skin_matrix.o"
     include "build/src/code/z_sram.o"
-    include "build/data/z_sram.data.o"
-    include "build/src/code/code_800A9D40.o"
+    include "build/src/code/z_ss_sram.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/z_text.data.o"
     include "build/src/code/z_view.o"
@@ -411,8 +410,8 @@ beginseg
     include "build/src/code/code_800E11F0.o"
     include "build/data/code_800E11F0.data.o"
     include "build/data/code_800E11F0.rodata.o"
-    include "build/src/libultra_code/code_800E6840.o"
-    include "build/src/libultra_code/osAiSetNextBuffer.o"
+    include "build/src/libultra_code_O2/code_800E6840.o"
+    include "build/src/libultra_code_O2/osAiSetNextBuffer.o"
     include "build/src/code/audio_playback.o"
     include "build/src/code/audio_effects.o"
     include "build/data/audio_effects.data.o"
@@ -442,71 +441,71 @@ beginseg
     include "build/src/code/sleep.o"
     include "build/src/code/jpegutils.o"
     include "build/src/code/jpegdecoder.o"
-    include "build/src/libultra_code/osPfsFreeBlocks.o"
+    include "build/src/libultra_code_O2/osPfsFreeBlocks.o"
     include "build/asm/guScale.o"
-    include "build/src/libultra_code/sinf.o"
-    include "build/src/libultra_code/sins.o"
-    include "build/src/libultra_code/sptask.o"
-    include "build/src/libultra_code/osRumblePak.o"
-    include "build/src/libultra_code/__osSiCreateAccessQueue.o"
-    include "build/src/libultra_code/osContInit.o"
-    include "build/src/libultra_code/osContStartReadData.o"
-    include "build/src/libultra_code/guPerspectiveF.o"
-    include "build/src/libultra_code/__osSpRawStartDma.o"
-    include "build/src/libultra_code/__osSiRawStartDma.o"
-    include "build/src/libultra_code/osSpTaskYield.o"
-    include "build/src/libultra_code/pfsreadwritefile.o"
-    include "build/src/libultra_code/__osPfsGetStatus.o"
+    include "build/src/libultra_code_O2/sinf.o"
+    include "build/src/libultra_code_O2/sins.o"
+    include "build/src/libultra_code_O2/sptask.o"
+    include "build/src/libultra_code_O2/osRumblePak.o"
+    include "build/src/libultra_code_O2/__osSiCreateAccessQueue.o"
+    include "build/src/libultra_code_O2/osContInit.o"
+    include "build/src/libultra_code_O2/osContStartReadData.o"
+    include "build/src/libultra_code_O2/guPerspectiveF.o"
+    include "build/src/libultra_code_O2/__osSpRawStartDma.o"
+    include "build/src/libultra_code_O2/__osSiRawStartDma.o"
+    include "build/src/libultra_code_O2/osSpTaskYield.o"
+    include "build/src/libultra_code_O2/pfsreadwritefile.o"
+    include "build/src/libultra_code_O2/__osPfsGetStatus.o"
     include "build/asm/guMtxIdentF.o"
-    include "build/src/libultra_code/guLookAt.o"
-    include "build/src/libultra_code/pfsallocatefile.o"
-    include "build/src/libultra_code/osStopTimer.o"
-    include "build/src/libultra_code/contpfs.o"
-    include "build/src/libultra_code/code_80102FA0.o"
-    include "build/src/libultra_code/osPfsFindFile.o"
-    include "build/src/libultra_code/sqrtf.o"
-    include "build/src/libultra_code/osAfterPreNMI.o"
-    include "build/src/libultra_code/contquery.o"
-    include "build/src/libultra_code/guLookAtHilite.o"
-    include "build/src/libultra_code/sp.o"
+    include "build/src/libultra_code_O2/guLookAt.o"
+    include "build/src/libultra_code_O2/pfsallocatefile.o"
+    include "build/src/libultra_code_O1/osStopTimer.o"
+    include "build/src/libultra_code_O2/contpfs.o"
+    include "build/src/libultra_code_O2/code_80102FA0.o"
+    include "build/src/libultra_code_O2/osPfsFindFile.o"
+    include "build/src/libultra_code_O2/sqrtf.o"
+    include "build/src/libultra_code_O2/osAfterPreNMI.o"
+    include "build/src/libultra_code_O2/contquery.o"
+    include "build/src/libultra_code_O2/guLookAtHilite.o"
+    include "build/src/libultra_code_O2/sp.o"
     include "build/asm/guMtxIdent.o"
-    include "build/src/libultra_code/guPosition.o"
-    include "build/src/libultra_code/osSpTaskYielded.o"
-    include "build/src/libultra_code/rotate.o"
-    include "build/src/libultra_code/osAiSetFrequency.o"
-    include "build/src/libultra_code/__osGetActiveQueue.o"
+    include "build/src/libultra_code_O2/guPosition.o"
+    include "build/src/libultra_code_O2/osSpTaskYielded.o"
+    include "build/src/libultra_code_O2/rotate.o"
+    include "build/src/libultra_code_O2/osAiSetFrequency.o"
+    include "build/src/libultra_code_O2/__osGetActiveQueue.o"
     include "build/asm/guNormalize.o"
-    include "build/src/libultra_code/osDpGetStatus.o"
-    include "build/src/libultra_code/osDpSetStatus.o"
-    include "build/src/libultra_code/osPfsDeleteFile.o"
-    include "build/src/libultra_code/ortho.o"
-    include "build/src/libultra_code/cosf.o"
+    include "build/src/libultra_code_O2/osDpGetStatus.o"
+    include "build/src/libultra_code_O2/osDpSetStatus.o"
+    include "build/src/libultra_code_O2/osPfsDeleteFile.o"
+    include "build/src/libultra_code_O2/ortho.o"
+    include "build/src/libultra_code_O2/cosf.o"
     include "build/data/__libm_qnan_f.rodata.o"
-    include "build/src/libultra_code/coss.o"
-    include "build/src/libultra_code/osViSetEvent.o"
-    include "build/src/libultra_code/osPfsIsPlug.o"
-    include "build/src/libultra_code/guS2DInitBg.o"
-    include "build/src/libultra_code/__osPfsSelectBank.o"
-    include "build/src/libultra_code/osContSetCh.o"
-    include "build/src/libultra_code/code_80104D60.o"
-    include "build/src/libultra_code/pfsinitpak.o"
-    include "build/src/libultra_code/pfschecker.o"
-    include "build/src/libultra_code/osAiGetLength.o"
+    include "build/src/libultra_code_O2/coss.o"
+    include "build/src/libultra_code_O2/osViSetEvent.o"
+    include "build/src/libultra_code_O2/osPfsIsPlug.o"
+    include "build/src/libultra_code_O2/guS2DInitBg.o"
+    include "build/src/libultra_code_O2/__osPfsSelectBank.o"
+    include "build/src/libultra_code_O2/osContSetCh.o"
+    include "build/src/libultra_code_O2/code_80104D60.o"
+    include "build/src/libultra_code_O2/pfsinitpak.o"
+    include "build/src/libultra_code_O2/pfschecker.o"
+    include "build/src/libultra_code_O2/osAiGetLength.o"
     include "build/asm/guTranslate.o"
-    include "build/src/libultra_code/__osContRamWrite.o"
-    include "build/src/libultra_code/__osContRamRead.o"
-    include "build/src/libultra_code/__osContAddressCrc.o"
-    include "build/src/libultra_code/osSetTimer.o"
-    include "build/src/libultra_code/__osSpGetStatus.o"
-    include "build/src/libultra_code/__osSpSetStatus.o"
+    include "build/src/libultra_code_O2/__osContRamWrite.o"
+    include "build/src/libultra_code_O2/__osContRamRead.o"
+    include "build/src/libultra_code_O2/__osContAddressCrc.o"
+    include "build/src/libultra_code_O1/osSetTimer.o"
+    include "build/src/libultra_code_O2/__osSpGetStatus.o"
+    include "build/src/libultra_code_O2/__osSpSetStatus.o"
     include "build/asm/osWritebackDCacheAll.o"
-    include "build/src/libultra_code/__osGetCurrFaultedThread.o"
+    include "build/src/libultra_code_O2/__osGetCurrFaultedThread.o"
     include "build/asm/guMtxF2L.o"
-    include "build/src/libultra_code/llcvt.o"
-    include "build/src/libultra_code/osViGetCurrentFramebuffer.o"
-    include "build/src/libultra_code/__osSpSetPc.o"
-    include "build/src/libultra_code/sqrt.o"
-    include "build/src/libultra_code/absf.o"
+    include "build/src/libultra_code_O1/llcvt.o"
+    include "build/src/libultra_code_O2/osViGetCurrentFramebuffer.o"
+    include "build/src/libultra_code_O2/__osSpSetPc.o"
+    include "build/src/libultra_code_O2_g3/sqrt.o"
+    include "build/src/libultra_code_O2_g3/absf.o"
     include "build/src/code/code_801067F0.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
@@ -738,8 +737,7 @@ endseg
 beginseg
     name "ovl_Bg_Gnd_Soulmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/z_bg_gnd_soulmeiro.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/ovl_Bg_Gnd_Soulmeiro_reloc.o"
 endseg
 
 beginseg
@@ -772,8 +770,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_MeganeBG"
     include "build/src/overlays/actors/ovl_Bg_Haka_MeganeBG/z_bg_haka_meganebg.o"
-    include "build/data/overlays/actors/z_bg_haka_meganebg.data.o"
-    include "build/data/overlays/actors/z_bg_haka_meganebg.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_MeganeBG/ovl_Bg_Haka_MeganeBG_reloc.o"
 endseg
 
 beginseg
@@ -824,8 +821,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Curtain"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.o"
-    include "build/data/overlays/actors/z_bg_hidan_curtain.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_curtain.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Curtain/ovl_Bg_Hidan_Curtain_reloc.o"
 endseg
 
 beginseg
@@ -1032,8 +1028,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Zurerukabe"
     include "build/src/overlays/actors/ovl_Bg_Jya_Zurerukabe/z_bg_jya_zurerukabe.o"
-    include "build/data/overlays/actors/z_bg_jya_zurerukabe.data.o"
-    include "build/data/overlays/actors/z_bg_jya_zurerukabe.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Zurerukabe/ovl_Bg_Jya_Zurerukabe_reloc.o"
 endseg
 
 beginseg
@@ -1133,23 +1128,19 @@ endseg
 beginseg
     name "ovl_Bg_Mori_Kaitenkabe"
     include "build/src/overlays/actors/ovl_Bg_Mori_Kaitenkabe/z_bg_mori_kaitenkabe.o"
-    include "build/data/overlays/actors/z_bg_mori_kaitenkabe.data.o"
-    include "build/data/overlays/actors/z_bg_mori_kaitenkabe.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Kaitenkabe/ovl_Bg_Mori_Kaitenkabe_reloc.o"
 endseg
 
 beginseg
     name "ovl_Bg_Mori_Rakkatenjo"
     include "build/src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/z_bg_mori_rakkatenjo.o"
-    include "build/data/overlays/actors/z_bg_mori_rakkatenjo.data.o"
-    include "build/data/overlays/actors/z_bg_mori_rakkatenjo.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/ovl_Bg_Mori_Rakkatenjo_reloc.o"
 endseg
 
 beginseg
     name "ovl_Bg_Po_Event"
     include "build/src/overlays/actors/ovl_Bg_Po_Event/z_bg_po_event.o"
-    include "build/data/overlays/actors/z_bg_po_event.data.o"
-    include "build/data/overlays/actors/z_bg_po_event.bss.o"
-    include "build/data/overlays/actors/z_bg_po_event.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Po_Event/ovl_Bg_Po_Event_reloc.o"
 endseg
 
 beginseg
@@ -1224,8 +1215,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot03_Taki"
     include "build/src/overlays/actors/ovl_Bg_Spot03_Taki/z_bg_spot03_taki.o"
-    include "build/data/overlays/actors/z_bg_spot03_taki.data.o"
-    include "build/data/overlays/actors/z_bg_spot03_taki.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot03_Taki/ovl_Bg_Spot03_Taki_reloc.o"
 endseg
 
 beginseg
@@ -2039,9 +2029,7 @@ endseg
 beginseg
     name "ovl_En_Box"
     include "build/src/overlays/actors/ovl_En_Box/z_en_box.o"
-    include "build/data/overlays/actors/z_en_box.data.o"
-    include "build/data/overlays/actors/z_en_box.bss.o"
-    include "build/data/overlays/actors/z_en_box.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Box/ovl_En_Box_reloc.o"
 endseg
 
 beginseg
@@ -2061,8 +2049,7 @@ endseg
 beginseg
     name "ovl_En_Butte"
     include "build/src/overlays/actors/ovl_En_Butte/z_en_butte.o"
-    include "build/data/overlays/actors/z_en_butte.data.o"
-    include "build/data/overlays/actors/z_en_butte.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Butte/ovl_En_Butte_reloc.o"
 endseg
 
 beginseg
@@ -2505,8 +2492,11 @@ endseg
 beginseg
     name "ovl_En_Holl"
     include "build/src/overlays/actors/ovl_En_Holl/z_en_holl.o"
-    include "build/data/overlays/actors/z_en_holl.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Holl/ovl_En_Holl_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_holl.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2546,8 +2536,7 @@ endseg
 beginseg
     name "ovl_En_Horse_Normal"
     include "build/src/overlays/actors/ovl_En_Horse_Normal/z_en_horse_normal.o"
-    include "build/data/overlays/actors/z_en_horse_normal.data.o"
-    include "build/data/overlays/actors/z_en_horse_normal.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse_Normal/ovl_En_Horse_Normal_reloc.o"
 endseg
 
 beginseg
@@ -2567,8 +2556,7 @@ endseg
 beginseg
     name "ovl_En_Hs2"
     include "build/src/overlays/actors/ovl_En_Hs2/z_en_hs2.o"
-    include "build/data/overlays/actors/z_en_hs2.data.o"
-    include "build/data/overlays/actors/z_en_hs2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hs2/ovl_En_Hs2_reloc.o"
 endseg
 
 beginseg
@@ -2581,8 +2569,7 @@ endseg
 beginseg
     name "ovl_En_Ice_Hono"
     include "build/src/overlays/actors/ovl_En_Ice_Hono/z_en_ice_hono.o"
-    include "build/data/overlays/actors/z_en_ice_hono.data.o"
-    include "build/data/overlays/actors/z_en_ice_hono.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ice_Hono/ovl_En_Ice_Hono_reloc.o"
 endseg
 
 beginseg
@@ -2613,8 +2600,7 @@ endseg
 beginseg
     name "ovl_En_Ishi"
     include "build/src/overlays/actors/ovl_En_Ishi/z_en_ishi.o"
-    include "build/data/overlays/actors/z_en_ishi.data.o"
-    include "build/data/overlays/actors/z_en_ishi.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ishi/ovl_En_Ishi_reloc.o"
 endseg
 
 beginseg
@@ -2647,22 +2633,19 @@ endseg
 beginseg
     name "ovl_En_Kakasi"
     include "build/src/overlays/actors/ovl_En_Kakasi/z_en_kakasi.o"
-    include "build/data/overlays/actors/z_en_kakasi.data.o"
-    include "build/data/overlays/actors/z_en_kakasi.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Kakasi/ovl_En_Kakasi_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Kakasi2"
     include "build/src/overlays/actors/ovl_En_Kakasi2/z_en_kakasi2.o"
-    include "build/data/overlays/actors/z_en_kakasi2.data.o"
-    include "build/data/overlays/actors/z_en_kakasi2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Kakasi2/ovl_En_Kakasi2_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Kakasi3"
     include "build/src/overlays/actors/ovl_En_Kakasi3/z_en_kakasi3.o"
-    include "build/data/overlays/actors/z_en_kakasi3.data.o"
-    include "build/data/overlays/actors/z_en_kakasi3.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Kakasi3/ovl_En_Kakasi3_reloc.o"
 endseg
 
 beginseg
@@ -2884,8 +2867,7 @@ endseg
 beginseg
     name "ovl_En_Part"
     include "build/src/overlays/actors/ovl_En_Part/z_en_part.o"
-    include "build/data/overlays/actors/z_en_part.data.o"
-    include "build/data/overlays/actors/z_en_part.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Part/ovl_En_Part_reloc.o"
 endseg
 
 beginseg
@@ -2940,18 +2922,13 @@ endseg
 beginseg
     name "ovl_En_Rd"
     include "build/src/overlays/actors/ovl_En_Rd/z_en_rd.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Rd/ovl_En_Rd_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_rd.reloc.o"
-#endif
 endseg
 
 beginseg
     name "ovl_En_Reeba"
     include "build/src/overlays/actors/ovl_En_Reeba/z_en_reeba.o"
-    include "build/data/overlays/actors/z_en_reeba.data.o"
-    include "build/data/overlays/actors/z_en_reeba.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Reeba/ovl_En_Reeba_reloc.o"
 endseg
 
 beginseg
@@ -2964,8 +2941,7 @@ endseg
 beginseg
     name "ovl_En_Rl"
     include "build/src/overlays/actors/ovl_En_Rl/z_en_rl.o"
-    include "build/data/overlays/actors/z_en_rl.data.o"
-    include "build/data/overlays/actors/z_en_rl.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Rl/ovl_En_Rl_reloc.o"
 endseg
 
 beginseg
@@ -3505,8 +3481,7 @@ endseg
 beginseg
     name "ovl_Obj_Kibako"
     include "build/src/overlays/actors/ovl_Obj_Kibako/z_obj_kibako.o"
-    include "build/data/overlays/actors/z_obj_kibako.data.o"
-    include "build/data/overlays/actors/z_obj_kibako.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Kibako/ovl_Obj_Kibako_reloc.o"
 endseg
 
 beginseg
@@ -3585,9 +3560,7 @@ endseg
 beginseg
     name "ovl_Obj_Syokudai"
     include "build/src/overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.o"
-    include "build/data/overlays/actors/z_obj_syokudai.data.o"
-    include "build/data/overlays/actors/z_obj_syokudai.bss.o"
-    include "build/data/overlays/actors/z_obj_syokudai.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Syokudai/ovl_Obj_Syokudai_reloc.o"
 endseg
 
 beginseg

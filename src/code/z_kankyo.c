@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_8006F0A0.s")
 
@@ -78,7 +77,7 @@ void func_800775D8() {
 }
 
 s32 func_800775E4() {
-    return gSaveContext.unk_14;
+    return gSaveContext.numDays;
 }
 
 void func_800775F0(u16 arg0) {
