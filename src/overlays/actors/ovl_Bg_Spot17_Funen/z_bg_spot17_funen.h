@@ -1,8 +1,8 @@
 #ifndef _Z_BG_SPOT17_FUNEN_H_
 #define _Z_BG_SPOT17_FUNEN_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgSpot17Funen;
 

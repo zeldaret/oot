@@ -1,10 +1,9 @@
 #ifndef _Z64_ANIMATION_H
 #define _Z64_ANIMATION_H
 
-#include <ultra64.h>
-#include <ultra64/gbi.h>
-#include <z64dma.h>
-#include <z64math.h>
+#include "ultra64.h"
+#include "z64dma.h"
+#include "z64math.h"
 
 #define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
 #define LIMB_DONE 0xFF
@@ -200,7 +199,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u8* refIndex;
-    /* 0x0004 */ TransformData *transformData;
+    /* 0x0004 */ TransformData* transformData;
     /* 0x0008 */ s16* copyValues;
     /* 0x000C */ s16 unk_0C;
     /* 0x000E */ s16 unk_10;
@@ -226,7 +225,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ u8 limbCount;
     /* 0x0004 */ SkelCurveLimb** limbList;
-    /* 0x0008 */ TransformUpdateIndex *transUpdIdx;
+    /* 0x0008 */ TransformUpdateIndex* transUpdIdx;
     /* 0x000C */ f32 unk_0C; // seems to be unused
     /* 0x0010 */ f32 animFinalFrame;
     /* 0x0014 */ f32 animSpeed;

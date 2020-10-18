@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_cheap_proc.c", 214);

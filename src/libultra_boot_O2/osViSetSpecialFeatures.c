@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void osViSetSpecialFeatures(u32 func) {
     register u32 int_disabled = __osDisableInt();

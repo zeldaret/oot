@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSViMode osViModeNtscLan1 = {
     2, // type

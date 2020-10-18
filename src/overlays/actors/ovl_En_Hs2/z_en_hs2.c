@@ -5,8 +5,7 @@
  */
 
 #include "z_en_hs2.h"
-
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000009
 
