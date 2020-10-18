@@ -75,7 +75,6 @@ const ActorInit En_Torch2_InitVars = {
 /* static */ u8 sDeathFlag = false;
 
 /* static */ Input sInput;
-
 /* static */ u8 sSwordJumpState;
 /* static */ Vec3f sSpawnPoint;
 /* static */ u8 sJumpslashTimer;

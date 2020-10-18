@@ -229,12 +229,11 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
         this->actionfunc = func_80AE5688;
         return;
     }
-    
+
     if (this->unk_274 == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
         this->unk_274 = 10;
     }
-
 }
 
 void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
