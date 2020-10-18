@@ -62,10 +62,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 9, ICHAIN_STOP)
 };
 
-static Vec3f sVecZero1 = { 0.0f, 0.0f, 0.0f };
-
-static Color_RGBA8 sColorBlack = { 0, 0, 0, 0 };
-
 extern SkeletonHeader D_06002A40;
 extern AnimationHeader D_060002B8;
 
@@ -83,12 +79,6 @@ extern Gfx D_06001628[];
 
 // Display list for upper third of stem
 extern Gfx D_06001828[];
-
-static Gfx* sDisplayLists[] = {
-    D_06001330,
-    D_06001628,
-    D_06001828
-};
 
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
@@ -313,6 +303,8 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
+    static Vec3f sVecZero1 = { 0.0f, 0.0f, 0.0f };
+
     s32 i;
     Vec3f position;
     Vec3f rotation;
@@ -455,6 +447,10 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
 }
 
 void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Color_RGBA8 sColorBlack = { 0, 0, 0, 0 };
+    static Gfx* sDisplayLists[] = { D_06001330, D_06001628, D_06001828 };
+    static Vec3f sVecZero2 = { 0.0f, 0.0f, 0.0f };
+
     EnKarebaba* this = THIS;
     s32 i;
     s32 displayListTotal;
@@ -486,8 +482,6 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(oGfxCtx->polyOpa.p++, sDisplayLists[i]);
 
             if (i == 0 && this->actionFunc == EnKarebaba_Dying) {
-                static Vec3f sVecZero2 = { 0.0f, 0.0f, 0.0f };
-
                 Matrix_MultVec3f(&sVecZero2, &this->actor.posRot2.pos);
             }
         }
