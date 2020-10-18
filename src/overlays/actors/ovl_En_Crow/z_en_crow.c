@@ -276,7 +276,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer == 0 || Player_GetMask(globalCtx) == 2 || this->collider.base.atFlags & 2 ||
         this->actor.bgCheckFlags & 9 || player->stateFlags1 & 0x00800000 || this->actor.waterY > -40.0f) {
         if (this->collider.base.atFlags & 2) {
-            this->collider.base.atFlags &= 0xFFFD;
+            this->collider.base.atFlags &= ~2;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
         }
 
