@@ -17,7 +17,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx);
 void func_809E1004(EnCrow* this, GlobalContext* globalCtx);
 void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx);
 
-static Vec3f deathParticlePos = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
 const ActorInit En_Crow_InitVars = {
     ACTOR_EN_CROW,
@@ -31,15 +31,15 @@ const ActorInit En_Crow_InitVars = {
     (ActorFunc)EnCrow_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = { {
+static ColliderJntSphItemInit sJntSphItemsInit = {
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
     { 1, { { 0, 0, 0 }, 20 }, 100 },
-} };
+};
 
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    &sJntSphItemsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 0x000F, 0x001E, 30 };
@@ -49,7 +49,7 @@ static DamageTable sDamageTable = {
     0x02, 0x24, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
 };
 
-static u32 deathCount = 0;
+static u32 sDeathCount = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
@@ -58,7 +58,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 2000, ICHAIN_STOP),
 };
 
-static Vec3f limbDrawVec[] = { 2500.0f, 0.0f, 0.0f };
+static Vec3f sHeadVec[] = { 2500.0f, 0.0f, 0.0f };
 
 extern SkeletonHeader D_060010C0;
 extern AnimationHeader D_060000F0;
@@ -71,10 +71,10 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
                      &this->transitionDrawTable, 9);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
-    this->collider.list->dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
+    this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawFunc_Circle, 20.0f);
-    deathCount = 0;
+    sDeathCount = 0;
     EnCrow_SetupWait(this);
 }
 
@@ -161,13 +161,13 @@ void func_809E06E8(EnCrow* this) {
 }
 
 void func_809E0770(EnCrow* this) {
-    if (deathCount == 10) {
+    if (sDeathCount == 10) {
         this->actor.params = 1;
-        deathCount = 0;
-        this->collider.list->dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius * 0.03f * 100.0f;
+        sDeathCount = 0;
+        this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius * 0.03f * 100.0f;
     } else {
         this->actor.params = 0;
-        this->collider.list->dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
+        this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
     }
 
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060000F0);
@@ -203,9 +203,9 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
         var = func_8002DAC0(&this->actor, &this->actor.initPosRot) - this->actor.shape.rot.y;
         if (var > 0) {
-            this->aimRotY += 4096.0f + (4096.0f * Math_Rand_ZeroOne());
+            this->aimRotY += 0x1000 + (0x1000 * Math_Rand_ZeroOne());
         } else {
-            this->aimRotY -= 4096.0f + (4096.0f * Math_Rand_ZeroOne());
+            this->aimRotY -= 0x1000 + (0x1000 * Math_Rand_ZeroOne());
         }
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
@@ -215,18 +215,18 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         this->aimRotX = -0x1000;
     } else {
         if (this->actor.posRot.pos.y < this->actor.initPosRot.pos.y - 50.0f) {
-            this->aimRotX = -2048.0f - (Math_Rand_ZeroOne() * 2048.0f);
+            this->aimRotX = -0x800 - (Math_Rand_ZeroOne() * 0x800);
         } else if (this->actor.posRot.pos.y > this->actor.initPosRot.pos.y + 50.0f) {
-            this->aimRotX = 2048.0f + (Math_Rand_ZeroOne() * 2048.0f);
+            this->aimRotX = 0x800 + (Math_Rand_ZeroOne() * 0x800);
         }
     }
 
     if (Math_SmoothScaleMaxMinS(&this->actor.shape, this->aimRotX, 10, 0x100, 8) == 0 && skelanimeUpdated &&
         Math_Rand_ZeroOne() < 0.1f) {
         if (this->actor.initPosRot.pos.y < this->actor.posRot.pos.y) {
-            this->aimRotX -= (1024.0f * Math_Rand_ZeroOne()) + 1024.0f;
+            this->aimRotX -= (0x400 * Math_Rand_ZeroOne()) + 0x400;
         } else {
-            this->aimRotX += (1024.0f * Math_Rand_ZeroOne()) + 1024.0f;
+            this->aimRotX += (0x400 * Math_Rand_ZeroOne()) + 0x400;
         }
 
         this->aimRotX = CLAMP(this->aimRotX, -0x1000, 0x1000);
@@ -295,7 +295,7 @@ void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
         }
 
         if (this->actor.bgCheckFlags & 1 || this->actor.groundY == -32000.0f) {
-            EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot, &deathParticlePos, &deathParticlePos,
+            EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);
         }
@@ -313,7 +313,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
 
     if (Math_ApproxF(&this->actor.scale, 0.0f, step)) {
         if (this->actor.params == 0) {
-            deathCount++;
+            sDeathCount++;
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0);
         } else {
             Item_DropCollectible(globalCtx, &this->actor.posRot, ITEM00_RUPEE_RED);
@@ -322,8 +322,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
         func_809E0770(this);
     }
 
-    this->actor.scale.y = this->actor.scale.x;
-    this->actor.scale.z = this->actor.scale.x;
+    this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
 }
 
 void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
@@ -375,7 +374,7 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
 void func_809E1174(EnCrow* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.list->body, 1);
+        func_80035650(&this->actor, &this->collider.list[0].body, 1);
 
         if (this->actor.colChkInfo.damageEffect || this->actor.colChkInfo.damage) {
             if (this->actor.colChkInfo.damageEffect == 1) {
@@ -416,9 +415,9 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
         height = 0.0f;
     }
 
-    this->collider.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->collider.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + height;
-    this->collider.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->collider.list[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->collider.list[0].dim.worldSphere.center.y = this->actor.posRot.pos.y + height;
+    this->collider.list[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
 
     if (this->actionFunc == func_809E0C8C) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -445,9 +444,9 @@ s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
     if (this->actor.colChkInfo.health != 0) {
         if (limbIndex == 7) {
-            rot->y += 3072.0f * sinf(this->skelAnime.animCurrentFrame * 0.7853982f);
+            rot->y += 0xC00 * sinf(this->skelAnime.animCurrentFrame * (M_PI / 4));
         } else if (limbIndex == 8) {
-            rot->y += 5120.0f * sinf((this->skelAnime.animCurrentFrame + 2.5f) * 0.7853982f);
+            rot->y += 0x1400 * sinf((this->skelAnime.animCurrentFrame + 2.5f) * (M_PI / 4));
         }
     }
     return false;
@@ -458,11 +457,11 @@ void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     Vec3f* vec;
 
     if (limbIndex == 2) {
-        Matrix_MultVec3f(&limbDrawVec, &this->unk_14C[0]);
-        this->unk_14C[0].y -= 20.0f;
+        Matrix_MultVec3f(&sHeadVec, &this->firePos[0]);
+        this->firePos[0].y -= 20.0f;
     } else if (limbIndex == 4 || limbIndex == 6 || limbIndex == 8) {
-        vec = &this->unk_14C[(limbIndex >> 1) - 1];
-        Matrix_MultVec3f(&deathParticlePos, vec);
+        vec = &this->firePos[(limbIndex >> 1) - 1];
+        Matrix_MultVec3f(&sZeroVecAccel, vec);
         vec->y -= 20.0f;
     }
 }
