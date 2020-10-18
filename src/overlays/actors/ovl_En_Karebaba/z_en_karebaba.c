@@ -26,10 +26,12 @@ void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx);
 
+#define FLAGS 0x00000005
+
 const ActorInit En_Karebaba_InitVars = {
     ACTOR_EN_KAREBABA,
     ACTORTYPE_ENEMY,
-    5,
+    FLAGS,
     OBJECT_DEKUBABA,
     sizeof(EnKarebaba),
     (ActorFunc)EnKarebaba_Init,
@@ -38,20 +40,20 @@ const ActorInit En_Karebaba_InitVars = {
     (ActorFunc)EnKarebaba_Draw
 };
 
-static ColliderCylinderInit sBodyCollider = {
+static ColliderCylinderInit sBodyColliderInit = {
     { 0xC, 0, 9, 0, 0x10, COLSHAPE_CYLINDER },
     { 0, { 0x00000000, 0, 0 }, { ~0x00300000, 0, 0 }, 0, 1, 0 },
     { 7, 25, 0, { 0, 0, 0 } }
 };
 
-static ColliderCylinderInit sHeadCollider = {
+static ColliderCylinderInit sHeadColliderInit = {
     { 0x0C, 0x11, 0, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0, { ~0x00300000, 0, 8 }, { 0x00000000, 0, 0 }, 9, 0, 1 },
     { 4, 25, 0, { 0, 0, 0 }}
 };
 
-static CollisionCheckInfoInit sKarebabaCheckInfo = {
-    1, 15, 80, 254
+static CollisionCheckInfoInit sKarebabaCheckInfoInit = {
+    1, 15, 80, 0xFE
 };
 
 static InitChainEntry sInitChain[] = {
@@ -88,8 +90,6 @@ static Gfx* sDisplayLists[] = {
     D_06001828
 };
 
-static Vec3f sVecZero2 = { 0.0f, 0.0f, 0.0f };
-
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKarebaba* this = THIS;
 
@@ -97,12 +97,12 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 22.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, &this->limbDrawTable, &this->transitionDrawTable, 8);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
-    Collider_SetCylinder(globalCtx, &this->bodyCollider, this, &sBodyCollider);
+    Collider_SetCylinder(globalCtx, &this->bodyCollider, this, &sBodyColliderInit);
     Collider_CylinderUpdate(this, &this->bodyCollider);
     Collider_InitCylinder(globalCtx, &this->headCollider);
-    Collider_SetCylinder(globalCtx, &this->headCollider, this, &sHeadCollider);
+    Collider_SetCylinder(globalCtx, &this->headCollider, this, &sHeadColliderInit);
     Collider_CylinderUpdate(this, &this->headCollider);
-    func_80061ED4(&this->actor.colChkInfo, DamageTable_Get(1), &sKarebabaCheckInfo);
+    func_80061ED4(&this->actor.colChkInfo, DamageTable_Get(1), &sKarebabaCheckInfoInit);
 
     this->boundFloor = NULL;
 
@@ -213,7 +213,7 @@ void EnKarebaba_SetupDead(EnKarebaba* this) {
 void EnKarebaba_SetupRegrow(EnKarebaba* this) {
     this->actor.shape.unk_08 = 0.0f;
     this->actor.shape.unk_10 = 22.0f;
-    this->headCollider.dim.radius = sHeadCollider.dim.radius;
+    this->headCollider.dim.radius = sHeadColliderInit.dim.radius;
     Actor_SetScale(&this->actor, 0.0f);
     this->actionFunc = EnKarebaba_Regrow;
 }
@@ -294,9 +294,9 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
         value = 10;
     }
 
-    this->headCollider.dim.radius = sHeadCollider.dim.radius + (value * 2);
+    this->headCollider.dim.radius = sHeadColliderInit.dim.radius + (value * 2);
     this->actor.shape.rot.x = 0xC000 - (value * 0x100);
-    this->actor.shape.rot.y += value * 0x40 * 11;
+    this->actor.shape.rot.y += value * 0x2C0;
     this->actor.posRot.pos.y = (Math_Sins(this->actor.shape.rot.x) * -60.0f) + this->actor.initPosRot.pos.y;
 
     thing = Math_Coss(this->actor.shape.rot.x) * 60.0f;
@@ -307,10 +307,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     if (this->bodyCollider.base.acFlags & 2) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
-        return;
-    }
-
-    if (this->actor.params == 0) {
+    } else if (this->actor.params == 0) {
         EnKarebaba_SetupUpright(this);
     }
 }
@@ -489,6 +486,8 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(oGfxCtx->polyOpa.p++, sDisplayLists[i]);
 
             if (i == 0 && this->actionFunc == EnKarebaba_Dying) {
+                static Vec3f sVecZero2 = { 0.0f, 0.0f, 0.0f };
+
                 Matrix_MultVec3f(&sVecZero2, &this->actor.posRot2.pos);
             }
         }
