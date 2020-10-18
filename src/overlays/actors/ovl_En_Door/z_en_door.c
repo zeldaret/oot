@@ -70,14 +70,14 @@ static u8 sDoorAnimOpenFrames[] = {
     25,
     25,
     25,
-    25,
+    25
 };
 
 static u8 sDoorAnimCloseFrames[] = {
     60,
     70,
     60,
-    70,
+    70
 };
 
 static Gfx* D_809FCEE4[5][2] = {
@@ -91,15 +91,14 @@ extern Gfx D_0400EE00[];
 extern AnimationHeader D_0400E758;
 extern SkeletonHeader D_0400FF78;
 
-void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
-    s32 pad1;
+void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    EnDoor* this = THIS;
     EnDoorInfo* objectInfo;
     s32 i;
     s32 objIndex;
     f32 xOffset;
     f32 zOffset;
-    EnDoor* this = THIS;
 
     objectInfo = &D_809FCEA0[0];
     Actor_ProcessInitChain(&this->actor, D_809FCEC4);
@@ -112,7 +111,6 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (i >= ARRAY_COUNT(D_809FCEA0) - 2 && Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
         objectInfo++;
-        if (!globalCtx->sceneNum) {}
     }
 
     this->displaylistIdx = objectInfo->displaylistIdx;
@@ -335,7 +333,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnDoor* this = THIS;
 
     if (limbIndex == 4) {
-        temp_a2 = &D_809FCEE4[(s8)this->displaylistIdx];
+        temp_a2 = D_809FCEE4[(s8)this->displaylistIdx];
         transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.posRot.rot.y;
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
@@ -364,7 +362,7 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDoor_OverrideLimbDraw, NULL,
                        &this->actor);
         if (this->actor.posRot.rot.y != 0) {
-            if (!this) {}
+            if(1) {}
             if (this->actor.posRot.rot.y > 0) {
                 gSPDisplayList(oGfxCtx->polyOpa.p++, D_0400EE00);
             } else {
