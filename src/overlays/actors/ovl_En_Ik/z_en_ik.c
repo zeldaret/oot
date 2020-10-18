@@ -772,30 +772,31 @@ void func_80A76DDC(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
 
 void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
     s32 pad;
-    Vec3f spA8;
-    Vec3f sp9C;
+    Vec3f effectVelocity;
+    Vec3f effectAccel;
     s32 i;
-    Color_RGBA8 sp94;
-    Color_RGBA8 sp90;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
     s32 temp_v0;
-    Vec3f sp80;
+    Vec3f effectPos;
 
     if (this->unk_4D4 == 0) {
-        spA8 = D_80A784F4;
-        sp9C = D_80A78500;
+        effectVelocity = D_80A784F4;
+        effectAccel = D_80A78500;
 
         for (i = ARRAY_COUNT(D_80A78514) - 1; i >= 0; i--) {
-            sp94 = D_80A7850C;
-            sp90 = D_80A78510;
-            Matrix_MultVec3f(&D_80A78514[i], &sp80);
+            primColor = D_80A7850C;
+            envColor = D_80A78510;
+            Matrix_MultVec3f(&D_80A78514[i], &effectPos);
             temp_v0 = (Math_Rand_ZeroOne() * 20.0f) - 10.0f;
-            sp94.r += temp_v0;
-            sp94.g += temp_v0;
-            sp94.b += temp_v0;
-            sp90.r += temp_v0;
-            sp90.g += temp_v0;
-            sp90.b += temp_v0;
-            func_8002829C(globalCtx, &sp80, &spA8, &sp9C, &sp94, &sp90, (Math_Rand_ZeroOne() * 60.0f) + 300.0f, 0);
+            primColor.r += temp_v0;
+            primColor.g += temp_v0;
+            primColor.b += temp_v0;
+            envColor.r += temp_v0;
+            envColor.g += temp_v0;
+            envColor.b += temp_v0;
+            func_8002829C(globalCtx, &effectPos, &effectVelocity, &effectAccel, &primColor, &envColor,
+                          (Math_Rand_ZeroOne() * 60.0f) + 300.0f, 0);
         }
 
         this->unk_4D4 = 1;
