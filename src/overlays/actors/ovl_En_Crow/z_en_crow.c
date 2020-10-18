@@ -374,7 +374,7 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
 
 void func_809E1174(EnCrow* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= 0xFFFD;
+        this->collider.base.acFlags &= ~2;
         func_80035650(&this->actor, &this->collider.list->body, 1);
 
         if (this->actor.colChkInfo.damageEffect || this->actor.colChkInfo.damage) {
