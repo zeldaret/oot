@@ -1627,7 +1627,7 @@ void BossSst_HandSetupRetreat(BossSst* this) {
 
 void BossSst_HandRetreat(BossSst* this, GlobalContext* globalCtx) {
     f32 diff;
-    s32 moveFinish;
+    s32 inPosition;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actor.speedXZ = this->actor.speedXZ * 1.2f;
@@ -1647,11 +1647,11 @@ void BossSst_HandRetreat(BossSst* this, GlobalContext* globalCtx) {
             SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, D_8093784C[this->actor.params], 4.0f);
         }
     } else {
-        moveFinish = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x200);
-        moveFinish &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0x200);
-        moveFinish &= Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x800);
+        inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x200);
+        inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0x200);
+        inPosition &= Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x800);
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
-        if ((Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) && moveFinish &&
+        if ((Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, 250.0f, 0.5f, 70.0f, 5.0f) < 1.0f) && inPosition &&
             (diff < 10.0f)) {
             this->timer = 8;
         }
@@ -1752,17 +1752,17 @@ void BossSst_HandSetupReadySweep(BossSst* this) {
 }
 
 void BossSst_HandReadySweep(BossSst* this, GlobalContext* globalCtx) {
-    s32 moveFinish;
+    s32 inPosition;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    moveFinish = Math_ApproxF(&this->actor.posRot.pos.y, 50.0f, 4.0f);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->targetYaw, 0x400);
-    moveFinish &= (Math_SmoothScaleMaxMinF(&this->radius, sHead->actor.xzDistFromLink, 0.5f, 60.0f, 1.0f) < 10.0f);
+    inPosition = Math_ApproxF(&this->actor.posRot.pos.y, 50.0f, 4.0f);
+    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x200);
+    inPosition &= Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, this->targetYaw, 0x400);
+    inPosition &= (Math_SmoothScaleMaxMinF(&this->radius, sHead->actor.xzDistFromLink, 0.5f, 60.0f, 1.0f) < 10.0f);
 
     this->actor.posRot.pos.x = (Math_Sins(this->actor.posRot.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
     this->actor.posRot.pos.z = (Math_Coss(this->actor.posRot.rot.y) * this->radius) + sHead->actor.posRot.pos.z;
-    if (moveFinish) {
+    if (inPosition) {
         BossSst_HandSetupSweep(this);
     } else {
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
@@ -1821,9 +1821,9 @@ void BossSst_HandSetupReadyPunch(BossSst* this) {
 }
 
 void BossSst_HandReadyPunch(BossSst* this, GlobalContext* globalCtx) {
-    s32 moveFinish = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x400);
+    s32 inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x400);
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && moveFinish) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && inPosition) {
         BossSst_HandSetupPunch(this);
     }
 }
@@ -1992,14 +1992,14 @@ void BossSst_HandSetupReadyGrab(BossSst* this) {
 }
 
 void BossSst_HandReadyGrab(BossSst* this, GlobalContext* globalCtx) {
-    s32 moveFinish;
+    s32 inPosition;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    moveFinish = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->targetRoll, 4, 0x800, 0x100) == 0;
-    moveFinish &=
+    inPosition = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, this->targetRoll, 4, 0x800, 0x100) == 0;
+    inPosition &=
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + this->targetYaw, 0xA00);
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, 95.0f, 0.5f, 20.0f);
-    if (moveFinish) {
+    if (inPosition) {
         BossSst_HandSetupGrab(this);
     }
 }
@@ -2211,19 +2211,19 @@ void BossSst_HandSetupReadyShake(BossSst* this) {
 
 void BossSst_HandReadyShake(BossSst* this, GlobalContext* globalCtx) {
     f32 diff;
-    s32 moveFinish;
+    s32 inPosition;
 
     diff = Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.5f, 25.0f, 1.0f);
     diff += Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 0.5f, 25.0f, 1.0f);
     diff +=
         Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 200.0f, 0.2f, 30.0f, 1.0f);
-    moveFinish = Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4000, 0x400);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x1000);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x800);
-    moveFinish &= Math_ApproxS(&this->handZPosMod, -0x5DC, 0x1F4);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->handYRotMod, this->parity * -0x2000, 0x800);
+    inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4000, 0x400);
+    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x1000);
+    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 0x800);
+    inPosition &= Math_ApproxS(&this->handZPosMod, -0x5DC, 0x1F4);
+    inPosition &= Math_ApproxUpdateScaledS(&this->handYRotMod, this->parity * -0x2000, 0x800);
     this->actor.dmgEffectTimer = 200;
-    if ((diff < 30.0f) && moveFinish) {
+    if ((diff < 30.0f) && inPosition) {
         BossSst_HandSetupShake(this);
     } else {
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
@@ -2537,17 +2537,17 @@ void BossSst_HandSetupReadyBreakIce(BossSst* this) {
 }
 
 void BossSst_HandReadyBreakIce(BossSst* this, GlobalContext* globalCtx) {
-    s32 moveFinish;
+    s32 inPosition;
 
-    moveFinish = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x400);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x1000, 0x400);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x800);
-    moveFinish &= Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x400);
-    moveFinish &= Math_ApproxF(&this->actor.posRot.pos.y, OTHER_HAND->center.y + 200.0f, 50.0f);
-    moveFinish &= Math_ApproxF(&this->radius, 400.0f, 60.0f);
+    inPosition = Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->targetYaw, 0x400);
+    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x1000, 0x400);
+    inPosition &= Math_ApproxUpdateScaledS(&this->actor.shape.rot.z, 0, 0x800);
+    inPosition &= Math_ApproxUpdateScaledS(&this->handYRotMod, 0, 0x400);
+    inPosition &= Math_ApproxF(&this->actor.posRot.pos.y, OTHER_HAND->center.y + 200.0f, 50.0f);
+    inPosition &= Math_ApproxF(&this->radius, 400.0f, 60.0f);
     this->actor.posRot.pos.x = OTHER_HAND->center.x - (Math_Sins(this->targetYaw) * this->radius);
     this->actor.posRot.pos.z = OTHER_HAND->center.z - (Math_Coss(this->targetYaw) * this->radius);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && moveFinish) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && inPosition) {
         BossSst_HandSetupBreakIce(this);
     }
 }
