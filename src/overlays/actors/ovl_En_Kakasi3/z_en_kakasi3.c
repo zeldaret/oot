@@ -179,14 +179,14 @@ void func_80A91284(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (LINK_IS_CHILD) {
         this->unk_194 = false;
-        if (gSaveContext.unk_12C5 != 0) {
+        if (gSaveContext.scarecrowSpawnSongSet) {
             this->actor.textId = 0x40A0;
             this->dialogState = 5;
             this->unk_1A8 = 1;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.unk_12C5 != 0) {
+        if (gSaveContext.scarecrowSpawnSongSet) {
             if (this->unk_195) {
                 this->actor.textId = 0x40A2;
             } else {
@@ -238,7 +238,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
                 if (this->actor.xzDistFromLink < 80.0f) {
                     player->stateFlags2 |= 0x800000;
                 }
-            } else if (gSaveContext.unk_12C5 != 0 && !this->unk_195) {
+            } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
 
                 if (player->stateFlags2 & 0x1000000) {
                     this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
@@ -341,7 +341,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
     }
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         globalCtx->msgCtx.msgMode == 0) {
-            
+
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
         func_800803F0(globalCtx, this->camId);
@@ -405,7 +405,7 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(2) != 0) {
         osSyncPrintf("\n\n");
         // flag!
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.unk_12C5);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowSpawnSongSet);
     }
 
     this->unk_198++;
