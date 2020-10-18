@@ -50,7 +50,7 @@ typedef struct EnDoor {
     /* 0x0191 */ u8 unk_191;
     /* 0x0192 */ u8 unk_192;
     /* 0x0193 */ s8 requiredObject;
-    /* 0x0194 */ u8 displaylistIdx;
+    /* 0x0194 */ s8 displaylistIdx;
     /* 0x0196 */ s16 lockTimer;
     /* 0x0198 */ Vec3s limbDrawTable[5];
     /* 0x01B6 */ Vec3s transitionDrawTable[5];

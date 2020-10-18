@@ -44,7 +44,7 @@ const ActorInit En_Door_InitVars = {
 /**
  * Controls which object and display lists to use in a given scene
  */
-EnDoorInfo D_809FCEA0[] = {
+static EnDoorInfo sDoorInfo[] = {
     { SCENE_HIDAN, 1, OBJECT_HIDAN_OBJECTS },
     { SCENE_MIZUSIN, 2, OBJECT_MIZU_OBJECTS },
     { SCENE_HAKADAN, 3, OBJECT_HAKA_DOOR },
@@ -54,7 +54,7 @@ EnDoorInfo D_809FCEA0[] = {
     { -1, 4, OBJECT_GAMEPLAY_FIELD_KEEP },
 };
 
-InitChainEntry D_809FCEC4[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
@@ -66,19 +66,9 @@ AnimationHeader* D_809FCECC[] = {
     0x0400E6A0,
 };
 
-static u8 sDoorAnimOpenFrames[] = {
-    25,
-    25,
-    25,
-    25
-};
+static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 
-static u8 sDoorAnimCloseFrames[] = {
-    60,
-    70,
-    60,
-    70
-};
+static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
 
 static Gfx* D_809FCEE4[5][2] = {
     { 0x0400ECB8, 0x0400EE00 }, { 0x0600F998, 0x0600F938 }, { 0x06004958, 0x06004A10 },
@@ -100,16 +90,16 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
     f32 xOffset;
     f32 zOffset;
 
-    objectInfo = &D_809FCEA0[0];
-    Actor_ProcessInitChain(&this->actor, D_809FCEC4);
+    objectInfo = &sDoorInfo[0];
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_0400FF78, &D_0400E758, this->limbDrawTable,
                    this->transitionDrawTable, 5);
-    for (i = 0; i < ARRAY_COUNT(D_809FCEA0) - 2; i++, objectInfo++) {
+    for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
         if (globalCtx->sceneNum == objectInfo->sceneNum) {
             break;
         }
     }
-    if (i >= ARRAY_COUNT(D_809FCEA0) - 2 && Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
+    if (i >= ARRAY_COUNT(sDoorInfo) - 2 && Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
         objectInfo++;
     }
 
@@ -333,7 +323,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnDoor* this = THIS;
 
     if (limbIndex == 4) {
-        temp_a2 = D_809FCEE4[(s8)this->displaylistIdx];
+        temp_a2 = D_809FCEE4[this->displaylistIdx];
         transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.posRot.rot.y;
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
@@ -362,7 +352,7 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDoor_OverrideLimbDraw, NULL,
                        &this->actor);
         if (this->actor.posRot.rot.y != 0) {
-            if(1) {}
+            if (1) {}
             if (this->actor.posRot.rot.y > 0) {
                 gSPDisplayList(oGfxCtx->polyOpa.p++, D_0400EE00);
             } else {
