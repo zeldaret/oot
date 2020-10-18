@@ -108,7 +108,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
     scale = this->actor.scale.x * 100.0f;
     this->actor.posRot.pos.y += 20.0f * scale;
-    this->actor.bgCheckFlags &= 0xFFFE;
+    this->actor.bgCheckFlags &= ~1;
     this->actor.shape.unk_08 = 0.0f;
     this->actor.unk_4C = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_DEAD);
