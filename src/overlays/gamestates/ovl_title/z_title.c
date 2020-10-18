@@ -63,7 +63,6 @@ void Title_SetupView(TitleContext* this, f32 x, f32 y, f32 z) {
 
 void Title_Draw(TitleContext* this) {
     static s16 sTitleRotY = 0;
-    static u32 D_808009A4 = 0;
     static Lights1 sTitleLights = gdSPDefLights1(0x64, 0x64, 0x64, 0xFF, 0xFF, 0xFF, 0x45, 0x45, 0x45);
 
     u16 y;
@@ -124,8 +123,8 @@ void Title_Draw(TitleContext* this) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_title.c", 483);
 }
 
-void Title_Main(TitleContext* this) {
-    s32 pad;
+void Title_Main(GameState* thisx) {
+    TitleContext* this = (TitleContext*)thisx;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_title.c", 494);
 
@@ -154,13 +153,15 @@ void Title_Main(TitleContext* this) {
     CLOSE_DISPS(this->state.gfxCtx, "../z_title.c", 541);
 }
 
-void Title_Destroy(TitleContext* this) {
-    func_800A9AD0(this, &this->sram);
+void Title_Destroy(GameState* thisx) {
+    TitleContext* this = (TitleContext*)thisx;
+
+    Sram_InitSram(this, &this->sramCtx);
 }
 
-void Title_Init(TitleContext* this) {
+void Title_Init(GameState* thisx) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
-    s32 pad;
+    TitleContext* this = (TitleContext*)thisx;
 
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
@@ -175,7 +176,7 @@ void Title_Init(TitleContext* this) {
     this->state.destroy = Title_Destroy;
     this->exit = false;
     gSaveContext.fileNum = 0xFF;
-    func_800A9CD4(&this->state, &this->sram);
+    Sram_Alloc(&this->state, &this->sramCtx);
     this->ult = 0;
     this->unk_1D4 = 0x14;
     this->coverAlpha = 255;
