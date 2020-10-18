@@ -3280,8 +3280,8 @@ glabel L800F12F0
 /* B68560 800F13C0 24050003 */  li    $a1, 3
 /* B68564 800F13C4 0C03ED07 */  jal   GfxPrint_SetPos
 /* B68568 800F13C8 24060006 */   li    $a2, 6
-/* B6856C 800F13CC 3C148013 */  lui   $s4, %hi(D_80131BE8) # $s4, 0x8013
-/* B68570 800F13D0 26941BE8 */  addiu $s4, %lo(D_80131BE8) # addiu $s4, $s4, 0x1be8
+/* B6856C 800F13CC 3C148013 */  lui   $s4, %hi(gScarecrowSpawnSongPtr) # $s4, 0x8013
+/* B68570 800F13D0 26941BE8 */  addiu $s4, %lo(gScarecrowSpawnSongPtr) # addiu $s4, $s4, 0x1be8
 /* B68574 800F13D4 3C058015 */  lui   $a1, %hi(D_8014A2C0) # $a1, 0x8015
 /* B68578 800F13D8 24A5A2C0 */  addiu $a1, %lo(D_8014A2C0) # addiu $a1, $a1, -0x5d40
 /* B6857C 800F13DC 8E860000 */  lw    $a2, ($s4)
