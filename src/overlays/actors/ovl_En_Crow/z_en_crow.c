@@ -316,7 +316,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
             deathCount++;
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0);
         } else {
-            Item_DropCollectible(globalCtx, &this->actor.posRot, 2);
+            Item_DropCollectible(globalCtx, &this->actor.posRot, ITEM00_RUPEE_RED);
         }
 
         func_809E0770(this);
