@@ -362,7 +362,7 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
         if (Math_ApproxF(&this->actor.scale, target, target * 0.1f)) {
 
             this->actor.flags |= 1;
-            this->actor.flags &= -0x11;
+            this->actor.flags &= ~0x10;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupWait(this);
         }
