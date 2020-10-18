@@ -12,7 +12,7 @@ void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
 extern CollisionHeader D_060194F8;
 extern Gfx D_06019210[];
 
-s32 D_808B9E10[] = { 0, 0, 0 }; // Unused
+s32 sUnkValues[] = { 0, 0, 0 }; // Unused
 
 const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
@@ -91,7 +91,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        while (misc != NULL) {
+        for (misc ; misc != NULL; misc = misc->next) {
             if ((misc->id == ACTOR_EN_ITEM00) && (misc->posRot.pos.y == 0.0f)) {
                 xzDist = func_8002DB8C(&this->dyna.actor, misc);
                 distFromRim = 600.0f - xzDist;
@@ -103,7 +103,6 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
                     misc->velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
                 }
             }
-            misc = misc->next;
         }
     }
     this->drumHeight = sinf(this->drumPhase * (M_PI / 2)) * (-this->drumAmp);

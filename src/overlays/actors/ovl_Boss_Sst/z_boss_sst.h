@@ -41,8 +41,8 @@ typedef struct BossSst {
     /* 0x01A6 */ s16 targetRoll;
     /* 0x01A8 */ Vec3s limbDrawTable[45];
     /* 0x02B6 */ Vec3s transitionDrawTable[45];
-    /* 0x03C4 */ f32 unk_3C4;
-    /* 0x03C8 */ Vec3f unk_3C8;
+    /* 0x03C4 */ f32 radius;
+    /* 0x03C8 */ Vec3f center;
     /* 0x03D4 */ ColliderJntSph colliderJntSph;
     /* 0x03F4 */ ColliderJntSphItem colliderItems[11];
     /* 0x06B4 */ ColliderCylinder colliderCyl;
