@@ -382,7 +382,7 @@ void func_809E1174(EnCrow* this, GlobalContext* globalCtx) {
                 func_809E06E8(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
-                this->actor.flags &= -2;
+                this->actor.flags &= ~1;
                 func_80032C7C(globalCtx, &this->actor);
                 func_809E03B4(this, globalCtx);
             }
