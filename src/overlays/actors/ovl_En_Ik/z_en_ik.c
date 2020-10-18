@@ -918,7 +918,7 @@ void func_80A774BC(EnIk* this, GlobalContext* globalCtx) {
 
 void func_80A774F8(EnIk* this, GlobalContext* globalCtx) {
     if (EnIk_GetNpcAction(globalCtx, 4) == NULL) {
-        Actor_Kill(&this->action);
+        Actor_Kill(&this->actor);
     }
 }
 
