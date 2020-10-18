@@ -1,7 +1,7 @@
 #ifndef _Z64PLAYER_H_
 #define _Z64PLAYER_H_
 
-#include <z64actor.h>
+#include "z64actor.h"
 
 struct Player;
 

@@ -1,6 +1,4 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
-#include <global.h>
+#include "global.h"
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -98,14 +96,15 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Input* pad1 = &globalCtx->state.input[0];
 
-    if (CHECK_PAD(pad1->press, L_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.sceneSetupIndex >= 4)) {
+    if (CHECK_BTN_ALL(pad1->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
+        (gSaveContext.sceneSetupIndex >= 4)) {
         D_8015FCC8 = 0;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
 
-    if (CHECK_PAD(pad1->press, U_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.sceneSetupIndex >= 4) &&
-        (D_8011D394 == 0)) {
+    if (CHECK_BTN_ALL(pad1->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
+        (gSaveContext.sceneSetupIndex >= 4) && (D_8011D394 == 0)) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
@@ -442,15 +441,16 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
 
     if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
         (csCtx->frames > 20) &&
-        (CHECK_PAD(globalCtx->state.input[0].press, A_BUTTON) || CHECK_PAD(globalCtx->state.input[0].press, B_BUTTON) ||
-         CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON)) &&
+        (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
+         CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B) ||
+         CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START)) &&
         (gSaveContext.fileNum != 0xFEDC) && (globalCtx->sceneLoadFlag == 0)) {
         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         temp = 1;
     }
 
     if ((csCtx->frames == cmd->startFrame) || (temp != 0) ||
-        ((csCtx->frames > 20) && CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON) &&
+        ((csCtx->frames > 20) && CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
         func_800F68BC(0);
@@ -1522,7 +1522,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         return;
     }
 
-    if (CHECK_PAD(globalCtx->state.input[0].press, R_JPAD)) {
+    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
         return;
     }
@@ -2009,16 +2009,14 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
             Flags_SetEventChkInf(entranceCutscene->flag);
             Cutscene_SetSegment(globalCtx, entranceCutscene->segAddr);
             gSaveContext.cutsceneTrigger = 2;
-            gSaveContext.unk_13C7 = 0;
+            gSaveContext.showTitleCard = false;
             break;
         }
     }
 }
 
 void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
-    s32 temp; // inline temp needed to match regalloc
-
-    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", temp = gSaveContext.respawnFlag);
+    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.entranceIndex == 0x01E1) && !Flags_GetEventChkInf(0xAC)) {
@@ -2037,12 +2035,12 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(0xC4) &&
-                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_TOKINOMA)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(0xC4);
             gSaveContext.entranceIndex = 0x0053;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(0xC7) &&
-                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_GANON_DEMO)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(0xC7);
             gSaveContext.entranceIndex = 0x0517;
             gSaveContext.cutsceneIndex = 0xFFF0;

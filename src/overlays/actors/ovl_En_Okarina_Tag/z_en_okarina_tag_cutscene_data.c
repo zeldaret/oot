@@ -1,5 +1,5 @@
 #include "z_en_okarina_tag.h"
-#include <z64cutscene_commands.h>
+#include "z64cutscene_commands.h"
 
 // clang-format off
 CutsceneData D_80ABF9D0[] = {

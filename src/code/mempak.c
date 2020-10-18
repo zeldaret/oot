@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSPfs sMempakPfsHandle;
 s32 sMempakFreeBytes;

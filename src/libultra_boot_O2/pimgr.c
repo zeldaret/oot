@@ -1,4 +1,5 @@
-#include <global.h>
+#include "global.h"
+#include "ultra64/internal.h"
 
 OSMgrArgs __osPiDevMgr = { 0 };
 

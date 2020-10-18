@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_heavy_block.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000000
 
