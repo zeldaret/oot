@@ -138,7 +138,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
     }
 
-    this->collider.base.acFlags &= 0xFFFE;
+    this->collider.base.acFlags &= ~1;
     this->actor.flags |= 0x10;
 
     this->actionFunc = func_809E0E2C;
