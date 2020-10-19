@@ -114,67 +114,6 @@ static DamageTable sDamageTable = { {
     0xEF, 0x60, 0x60, 0x60, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0xFA, 0x00, 0xF4, 0x00,
 } };
 
-Vec3f D_80A78464 = { 0.0f, 0.5f, 0.0f };
-
-// unused
-Vec3f D_80A78470 = { 300.0f, 0.0f, 0.0f };
-
-Vec3f D_80A7847C = { 800.0f, -200.0f, -5200.0f };
-
-Vec3f D_80A78488 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80A78494 = { -200.0f, -2200.0f, -200.0f };
-
-Vec3f D_80A784A0 = { -6000.0f, 2000.0f, -3000.0f };
-
-Vec3f D_80A784AC[] = {
-    { -3000.0, -700.0, -5000.0 },
-    { -3000.0, -700.0, 2000.0 },
-    { 4000.0, -700.0, 2000.0 },
-};
-
-Vec3f D_80A784D0[] = {
-    { 4000.0, -700.0, 2000.0 },
-    { 4000.0, -700.0, -5000.0 },
-    { -3000.0, -700.0, -5000.0 },
-};
-
-Vec3f D_80A784F4 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80A78500 = { 0.0f, 0.3f, 0.0f };
-
-Color_RGBA8 D_80A7850C = { 200, 200, 200, 255 };
-
-Color_RGBA8 D_80A78510 = { 150, 150, 150, 0 };
-
-Vec3f D_80A78514[] = {
-    { 1000.0, -1000.0, 1000.0 },  { 0.0, -1000.0, 0.0 },        { -1000.0, -5000.0, -4000.0 },
-    { 1000.0, -5000.0, -3000.0 }, { -1000.0, 1000.0, -6000.0 }, { -1000.0, 3000.0, -5000.0 },
-    { -800.0, 1000.0, -3000.0 },  { 0.0, -4000.0, -2000.0 },    { -1000.0, -2000.0, -6000.0 },
-    { 1000.0, -3000.0, 0.0 },     { 2000.0, -2000.0, -4000.0 }, { -1000.0, 0.0, -6000.0 },
-    { 1000.0, -2000.0, -2000.0 }, { 0.0, -2000.0, 2100.0 },     { 0.0, 0.0, 0.0 },
-    { 1000.0, -1000.0, -6000.0 }, { 2000.0, 0.0, -3000.0 },     { -1000.0, -1000.0, -4000.0 },
-    { 900.0, -800.0, 2700.0 },    { 720.0f, 900.0f, 2500.0f },
-};
-
-static EnIkActionFunc sActionFuncs[] = {
-    func_80A77AEC, func_80A77B0C, func_80A77B3C, func_80A7748C, func_80A774BC, func_80A774F8,
-};
-
-static EnIkDrawFunc sDrawFuncs[] = { func_80A77ED0, func_80A77EDC, func_80A77844 };
-
-const ActorInit En_Ik_InitVars = {
-    ACTOR_EN_IK,
-    ACTORTYPE_BOSS,
-    FLAGS,
-    OBJECT_IK,
-    sizeof(EnIk),
-    (ActorFunc)EnIk_Init,
-    (ActorFunc)EnIk_Destroy,
-    (ActorFunc)EnIk_Update,
-    (ActorFunc)EnIk_Draw,
-};
-
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
 
@@ -640,6 +579,8 @@ void func_80A7598C(EnIk* this) {
     EnIk_SetupAction(this, func_80A75A38);
 }
 
+static Vec3f D_80A78464 = { 0.0f, 0.5f, 0.0f };
+
 void func_80A75A38(EnIk* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f pos;
@@ -837,6 +778,26 @@ s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
+// unused
+static Vec3f D_80A78470 = { 300.0f, 0.0f, 0.0f };
+
+static Vec3f D_80A7847C = { 800.0f, -200.0f, -5200.0f };
+static Vec3f D_80A78488 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80A78494 = { -200.0f, -2200.0f, -200.0f };
+static Vec3f D_80A784A0 = { -6000.0f, 2000.0f, -3000.0f };
+
+static Vec3f D_80A784AC[] = {
+    { -3000.0, -700.0, -5000.0 },
+    { -3000.0, -700.0, 2000.0 },
+    { 4000.0, -700.0, 2000.0 },
+};
+
+static Vec3f D_80A784D0[] = {
+    { 4000.0, -700.0, 2000.0 },
+    { 4000.0, -700.0, -5000.0 },
+    { -3000.0, -700.0, -5000.0 },
+};
+
 void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     Vec3f spF4;
     Vec3f spE8;
@@ -976,6 +937,22 @@ void func_80A76DDC(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
     Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                            &D_801333E8);
 }
+
+static Vec3f D_80A784F4 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80A78500 = { 0.0f, 0.3f, 0.0f };
+
+static Color_RGBA8 D_80A7850C = { 200, 200, 200, 255 };
+static Color_RGBA8 D_80A78510 = { 150, 150, 150, 0 };
+
+static Vec3f D_80A78514[] = {
+    { 1000.0, -1000.0, 1000.0 },  { 0.0, -1000.0, 0.0 },        { -1000.0, -5000.0, -4000.0 },
+    { 1000.0, -5000.0, -3000.0 }, { -1000.0, 1000.0, -6000.0 }, { -1000.0, 3000.0, -5000.0 },
+    { -800.0, 1000.0, -3000.0 },  { 0.0, -4000.0, -2000.0 },    { -1000.0, -2000.0, -6000.0 },
+    { 1000.0, -3000.0, 0.0 },     { 2000.0, -2000.0, -4000.0 }, { -1000.0, 0.0, -6000.0 },
+    { 1000.0, -2000.0, -2000.0 }, { 0.0, -2000.0, 2100.0 },     { 0.0, 0.0, 0.0 },
+    { 1000.0, -1000.0, -6000.0 }, { 2000.0, 0.0, -3000.0 },     { -1000.0, -1000.0, -4000.0 },
+    { 900.0, -800.0, 2700.0 },    { 720.0f, 900.0f, 2500.0f },
+};
 
 void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
     s32 pad;
@@ -1268,6 +1245,10 @@ void func_80A77B3C(EnIk* this, GlobalContext* globalCtx) {
     func_80A77264(this, globalCtx, sp24);
 }
 
+static EnIkActionFunc sActionFuncs[] = {
+    func_80A77AEC, func_80A77B0C, func_80A77B3C, func_80A7748C, func_80A774BC, func_80A774F8,
+};
+
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
 
@@ -1359,6 +1340,8 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 653);
 }
 
+static EnIkDrawFunc sDrawFuncs[] = { func_80A77ED0, func_80A77EDC, func_80A77844 };
+
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
 
@@ -1422,3 +1405,15 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80A780D0(this, globalCtx);
     }
 }
+
+const ActorInit En_Ik_InitVars = {
+    ACTOR_EN_IK,
+    ACTORTYPE_BOSS,
+    FLAGS,
+    OBJECT_IK,
+    sizeof(EnIk),
+    (ActorFunc)EnIk_Init,
+    (ActorFunc)EnIk_Destroy,
+    (ActorFunc)EnIk_Update,
+    (ActorFunc)EnIk_Draw,
+};
