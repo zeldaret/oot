@@ -198,7 +198,7 @@ void EnTorch2_Backflip(Player* this, Input* input, Actor* thisx) {
     sCounterState = 0;
 }
 
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     Player* player = PLAYER;
@@ -393,7 +393,6 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             if (player->swordAnimation <= FORWARD_COMBO_2H) {
                                 sStickTilt = 0.0f;
                             } else if (player->swordAnimation <= RIGHT_COMBO_2H) {
-                                // pad4C = 
                                 sStickTilt = 127.0f;
                                 sStickAngle += sStickAngle; // Not loaded from pointer
                             } else if (player->swordAnimation <= LEFT_COMBO_2H){
