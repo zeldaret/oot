@@ -19,10 +19,8 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor);
 void func_80A74714(EnIk* this);
 void func_80A747C0(EnIk* this, GlobalContext* globalCtx);
-void func_80A781CC(Actor* thisx, GlobalContext* globalCtx);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
 void func_80A74AAC(EnIk* this);
 void func_80A74BA4(EnIk* this, GlobalContext* globalCtx);
@@ -46,13 +44,14 @@ void func_80A7748C(EnIk* this, GlobalContext* globalCtx);
 void func_80A774BC(EnIk* this, GlobalContext* globalCtx);
 void func_80A774F8(EnIk* this, GlobalContext* globalCtx);
 void func_80A77844(EnIk* this, GlobalContext* globalCtx);
+void func_80A779DC(EnIk* this, GlobalContext* globalCtx);
 void func_80A77AEC(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B0C(EnIk* this, GlobalContext* globalCtx);
 void func_80A77B3C(EnIk* this, GlobalContext* globalCtx);
 void func_80A77ED0(EnIk* this, GlobalContext* globalCtx);
 void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
 void func_80A78160(EnIk* this, GlobalContext* globalCtx);
-void func_80A779DC(EnIk* this, GlobalContext* globalCtx);
+void func_80A781CC(Actor* thisx, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_02003F80;
 extern AnimationHeader D_06001C28;
