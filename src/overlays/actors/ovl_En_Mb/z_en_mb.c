@@ -1,5 +1,4 @@
 #include "z_en_mb.h"
-
 #define FLAGS 0x00000015
 
 #define THIS ((EnMb*)thisx)
@@ -202,19 +201,16 @@ void func_80AA6408(EnMb* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = yaw;
 }
 
-#ifdef NON_MATCHING
-// Very small regaloc
 void func_80AA6444(EnMb* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s* pathPos;
-    s8 temp;
 
     path = &globalCtx->setupPathList[this->unk_35D];
     if (this->unk_35C == 0) {
         this->unk_35E = 1;
     } else {
-        temp = (path->count - 1) & 0xFFFFFFFFFFFFFFFF;
-        if (temp == this->unk_35C) {
+
+        if (this->unk_35C == (s8)(path->count - 1)) {
             this->unk_35E = -1;
         }
     }
@@ -224,9 +220,6 @@ void func_80AA6444(EnMb* this, GlobalContext* globalCtx) {
     this->unk_344.y = pathPos->y;
     this->unk_344.z = pathPos->z;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA6444.s")
-#endif
 
 s32 func_80AA652C(EnMb* this, GlobalContext* globalCtx) {
     Player* player;
@@ -681,6 +674,80 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
     }
 }
 
+#ifdef NON_EQUIVILENT
+void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    Vec3f sp68 = {
+        0.0f,
+        0.0f,
+        0.0f,
+    };
+
+    Vec3f sp5C = {
+        18.0f,
+        18.0f,
+        0.0f,
+    };
+    s16 sp54[] = {
+        0x0014,
+        0x0028,
+        0x0000,
+    };
+    s16 sp4C[] = {
+        0xF63C,
+        0x0000,
+        0x0DAC,
+    };
+    u8 pad;
+    s32 pad2;
+    f32 tempDist;
+    Vec3f sp74;
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
+                            0);
+    if ((this->collider2.base.atFlags & 2) != 0) {
+        this->collider2.base.atFlags = this->collider2.base.atFlags & 0xFFFD;
+        if (&player->actor == this->collider2.base.at) {
+            pad = player->invincibilityTimer;
+            if (player->invincibilityTimer < 0) {
+                if (player->invincibilityTimer < -0x27) {
+                    player->invincibilityTimer = 0;
+                } else {
+                    player->invincibilityTimer = 0;
+                    globalCtx->damagePlayer(globalCtx, -8);
+                }
+            }
+            func_8002F71C(globalCtx, &this->actor, ((650.0f - this->actor.xzDistFromLink) * 0.04f) + 4.0f,
+                          this->actor.posRot.rot.y, 8.0f);
+            player->invincibilityTimer = pad;
+        }
+    }
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        this->unk_32E = this->unk_32E - 1;
+        if (this->unk_32E != 0) {
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600ABE0), 3,
+                                 0.0f);
+                                 
+        } else if(this->unk_32E == 0) {
+            sp74 = this->effSpawnPos;
+            tempDist = this->actor.xzDistFromLink;
+            Audio_PlayActorSound2(&this->actor, 0x39EF);
+            func_800AA000(tempDist, 0xFFU, 0x14U, 0x96U);
+            EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);
+            func_80033480(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
+            func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
+            func_800358DC(this, &sp74, &this->actor.posRot.rot, &sp5C, 0x14, &sp54, globalCtx, -1, 0);
+            func_80AA6DA4(this);
+        }
+    } else {
+        if ((this->unk_32E != 0) && (6.0f == this->skelAnime.animCurrentFrame)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_UP);
+
+        } else if ((this->unk_32E == 0) && (3.0f == this->skelAnime.animCurrentFrame)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_DOWN);
+        }
+    }
+}
+#else
 Vec3f D_80AA9D50 = {
     0.0f,
     0.0f,
@@ -693,42 +760,25 @@ Vec3f D_80AA9D5C = {
     0.0f,
 };
 
-typedef struct {
-    /* 0x0 */ s16 unk_0;
-    /* 0x2 */ s16 unk_2;
-    /* 0x4 */ u16 unk_4;
-} struct_80AA9D68;
-
-struct_80AA9D68 D_80AA9D68 = {
+s16 D_80AA9D68[] = {
     0x0014,
     0x0028,
     0x0000,
 };
 
-typedef struct {
-    s16 unk_0;
-    s16 unk_2;
-    s16 unk_4;
-} struct_80AA9D70;
-
-struct_80AA9D70 D_80AA9D70 = {
+s16 D_80AA9D70[] = {
     0xF63C,
     0x0000,
     0x0DAC,
 };
-
-// Weird Data issue
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
+#endif 
 
-#ifdef NON_MATCHING
-// Small stack
 void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
     Player* player;
     s32 currentFrame;
     s32 sp4C;
     s32 sp48;
-
-    f32 sp40;
 
     player = PLAYER;
     sp4C = 0;
@@ -776,13 +826,11 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     if (((player->stateFlags2 & 0x80) != 0) && (&this->actor == player->actor.parent)) {
-        sp40 = Math_Coss(this->actor.shape.rot.y);
-        player->actor.posRot.pos.x =
-            ((Math_Sins(this->actor.shape.rot.y) * 89.0f) + (this->actor.posRot.pos.x + (sp40 * 10.0f)));
+        player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_Coss(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_Sins(this->actor.shape.rot.y) * 89.0f);
         sp4C = 1;
-        sp40 = Math_Sins(this->actor.shape.rot.y);
-        player->actor.posRot.pos.z =
-            (Math_Coss(this->actor.shape.rot.y) * 89.0f + (this->actor.posRot.pos.z + (sp40 * 10.0f)));
+        player->actor.posRot.pos.z = this->actor.posRot.pos.z + (Math_Sins(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_Coss(this->actor.shape.rot.y) * 89.0f);
         player->unk_850 = 0;
         player->actor.speedXZ = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -802,18 +850,12 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
         func_80AA6D20(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7CAC.s")
-#endif
 
-#ifdef NON_MATCHING
-// Very small stack in the middle near Math_Coss
 void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
     Player* player;
     s32 currentFrame;
     s32 sp54;
     s32 sp50;
-    f32 sp48;
 
     player = PLAYER;
     sp54 = 0;
@@ -850,13 +892,11 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     if (((player->stateFlags2 & 0x80) != 0) && (&this->actor == player->actor.parent)) {
-        sp48 = Math_Coss(this->actor.shape.rot.y);
-        player->actor.posRot.pos.x =
-            Math_Sins(this->actor.shape.rot.y) * 89.0f + (this->actor.posRot.pos.x + sp48 * 10.0f);
+        player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_Coss(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_Sins(this->actor.shape.rot.y) * 89.0f);
         sp54 = 1;
-        sp48 = Math_Sins(this->actor.shape.rot.y);
-        player->actor.posRot.pos.z =
-            Math_Coss(this->actor.shape.rot.y) * 89.0f + (this->actor.posRot.pos.z + sp48 * 10.0f);
+        player->actor.posRot.pos.z = this->actor.posRot.pos.z + (Math_Sins(this->actor.shape.rot.y) * 10.0f) +
+                                     (Math_Coss(this->actor.shape.rot.y) * 89.0f);
         player->unk_850 = 0;
         player->actor.speedXZ = 0.0f;
         player->actor.velocity.y = 0.0f;
@@ -886,12 +926,8 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
         func_80AA6CC0(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA800C.s")
-#endif
 
 void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
-
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->unk_32E != 0) {
             SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600E18C);
