@@ -670,87 +670,87 @@ void func_80A75A38(EnIk* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_EQUIVALENT
+#ifdef NON_MATCHING
 void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
-    Vec3f sp38;
     f32 temp_f0;
-    s32 temp_v0_3;
     u8 temp_t7;
+    u8 pad;
     u8 prevHealth;
+    s32 temp_v0_3;
+    Vec3f sp38;
 
-    if ((this->unk_2F8 != 3) && (this->unk_2F8 != 2)) {
-        if (this->unk_3EC.base.acFlags & 0x80) {
-            temp_f0 = SkelAnime_GetFrameCount(&D_0600485C.genericHeader) - 2.0f;
-            if (this->skelAnime.animCurrentFrame < temp_f0) {
-                this->skelAnime.animCurrentFrame = temp_f0;
-            }
-            this->unk_3EC.base.acFlags &= ~0x80;
-            this->unk_320.base.acFlags &= ~0x2;
-            return;
+    if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
+        return;
+    }
+    if (this->unk_3EC.base.acFlags & 0x80) {
+        temp_f0 = SkelAnime_GetFrameCount(&D_0600485C.genericHeader) - 2.0f;
+        if (this->skelAnime.animCurrentFrame < temp_f0) {
+            this->skelAnime.animCurrentFrame = temp_f0;
         }
-        if (this->unk_320.base.acFlags & 2) {
-            sp38 = this->actor.posRot.pos;
-            sp38.y += 50.0f;
-            func_80035650(&this->actor, &this->unk_320.body, 1);
-            temp_t7 = this->actor.colChkInfo.damageEffect;
-            temp_v0_3 = temp_t7 & 0xFF;
-            this->unk_320.base.acFlags &= ~0x2;
-            this->unk_2FD = temp_t7;
+        this->unk_3EC.base.acFlags &= ~0x80;
+        this->unk_320.base.acFlags &= ~0x2;
+        return;
+    }
+    if (!(this->unk_320.base.acFlags & 2)) {
+        return;
+    }
+    sp38 = this->actor.posRot.pos;
+    sp38.y += 50.0f;
+    func_80035650(&this->actor, &this->unk_320.body, 1);
+    temp_t7 = this->actor.colChkInfo.damageEffect;
+    temp_v0_3 = temp_t7 & 0xFF;
+    this->unk_320.base.acFlags &= ~0x2;
+    this->unk_2FD = temp_t7;
 
-            if (((temp_v0_3 == 0) || (temp_v0_3 == 0xD)) || ((this->unk_2FB == 0) && (temp_v0_3 == 0xE))) {
-                if (temp_v0_3 != 0) {
-                    func_80062D60(globalCtx, &sp38);
-                }
-                return;
-            }
-            func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
-            prevHealth = this->actor.colChkInfo.health;
-            Actor_ApplyDamage(&this->actor);
-            if (this->actor.params != 0) {
-                if ((prevHealth >= 11) && (this->actor.colChkInfo.health < 11)) {
-                    this->unk_2FB = 1;
-                    func_80032E24(&this->unk_308, 3, globalCtx);
-                }
-            block_23:
-                if (this->actor.colChkInfo.health == 0) {
-                    func_80A7598C(this);
-                    func_80032C7C(globalCtx, &this->actor);
-                    return;
-                }
-                Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
-                if ((this->actor.params == 0) && (Math_Rand_ZeroOne() < 0.5f)) {
-                    if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) > 0x4000) {
-                        func_80A754A0(this);
-                    }
-                }
-                if ((this->actor.params != 0) && (this->unk_2FB != 0)) {
-                    if ((prevHealth >= 11) && (this->actor.colChkInfo.health < 11)) {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
-                    } else {
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
-                    }
-                    func_80A75790(this);
-                    return;
-                }
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-                func_80062CD4(globalCtx, &sp38);
-            } else if (this->actor.colChkInfo.health < 11) {
-                Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_BOSS);
-                Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_LAST_DAMAGE);
-                if (this->switchFlags != 0xFF) {
-                    Flags_SetSwitch(globalCtx, this->switchFlags);
-                    return;
-                }
-            } else {
-                if (prevHealth == 50) {
-                    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
-                }
-                goto block_23;
-            }
+    if ((temp_v0_3 == 0) || (temp_v0_3 == 0xD) || ((this->unk_2FB == 0) && (temp_v0_3 == 0xE))) {
+        if (temp_v0_3 != 0) {
+            func_80062D60(globalCtx, &sp38);
+        }
+        return;
+    }
+    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+    prevHealth = this->actor.colChkInfo.health;
+    Actor_ApplyDamage(&this->actor);
+    if (this->actor.params != 0) {
+        if ((prevHealth >= 11) && (this->actor.colChkInfo.health < 11)) {
+            this->unk_2FB = 1;
+            func_80032E24(&this->unk_308, 3, globalCtx);
+        }
+    } else if (this->actor.colChkInfo.health < 11) {
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_BOSS);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_LAST_DAMAGE);
+        if (this->switchFlags != 0xFF) {
+            Flags_SetSwitch(globalCtx, this->switchFlags);
+        }
+        return;
+    } else if (prevHealth == 50) {
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
+    }
+
+    if (this->actor.colChkInfo.health == 0) {
+        func_80A7598C(this);
+        func_80032C7C(globalCtx, &this->actor);
+        return;
+    }
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
+    if ((this->actor.params == 0) && (Math_Rand_ZeroOne() < 0.5f)) {
+        if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) > 0x4000) {
+            func_80A754A0(this);
         }
     }
+    if ((this->actor.params != 0) && (this->unk_2FB != 0)) {
+        if ((prevHealth >= 11) && (this->actor.colChkInfo.health < 11)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
+        } else {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
+        }
+        func_80A75790(this);
+        return;
+    }
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
+    func_80062CD4(globalCtx, &sp38);
 }
 #else
 void func_80A75C38(EnIk* this, GlobalContext* globalCtx);
