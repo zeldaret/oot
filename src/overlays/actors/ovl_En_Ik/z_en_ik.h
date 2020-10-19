@@ -18,7 +18,7 @@ typedef struct EnIk {
     /* 0x02FA */ u8 unk_2FA;
     /* 0x02FB */ u8 unk_2FB;
     /* 0x02FC */ u8 unk_2FC;
-    /* 0x02FD */ char unk_2FD[0x01];
+    /* 0x02FD */ u8 unk_2FD;
     /* 0x02FE */ s8 unk_2FE;
     /* 0x02FF */ s8 unk_2FF;
     /* 0x0300 */ s16 unk_300;
