@@ -755,7 +755,7 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
     s32 pad;
     Player* player = PLAYER;
-    u8 sp33;
+    u8 prevInvincibilityTimer;
 
     this->unk_2FA = this->unk_2FB;
     func_80A75C38(this, globalCtx);
@@ -764,10 +764,10 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     this->actionFunc(this, globalCtx);
-    if ((this->unk_36C.base.atFlags & 2)) {
-        this->unk_36C.base.atFlags &= 0xFFFD;
+    if (this->unk_36C.base.atFlags & 2) {
+        this->unk_36C.base.atFlags &= ~0x2;
         if (&player->actor == this->unk_36C.base.at) {
-            sp33 = player->invincibilityTimer;
+            prevInvincibilityTimer = player->invincibilityTimer;
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
@@ -778,7 +778,7 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
             func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsLink, 8.0f);
-            player->invincibilityTimer = sp33;
+            player->invincibilityTimer = prevInvincibilityTimer;
         }
     }
     Actor_MoveForward(&this->actor);
