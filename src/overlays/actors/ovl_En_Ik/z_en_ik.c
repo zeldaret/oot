@@ -22,6 +22,7 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor);
 void func_80A74714(EnIk* this);
 void func_80A747C0(EnIk* this, GlobalContext* globalCtx);
+void func_80A781CC(Actor* thisx, GlobalContext* globalCtx);
 void func_80A7492C(EnIk* this, GlobalContext* globalCtx);
 void func_80A74AAC(EnIk* this);
 void func_80A74BA4(EnIk* this, GlobalContext* globalCtx);
@@ -746,10 +747,56 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     }
 }
 #else
+void func_80A75C38(EnIk* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75C38.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75FA0.s")
+void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
+    EnIk* this = THIS;
+    s32 pad;
+    Player* player = PLAYER;
+    u8 sp33;
+
+    this->unk_2FA = this->unk_2FB;
+    func_80A75C38(this, globalCtx);
+    if ((this->actor.params == 0) && (this->actor.colChkInfo.health < 11)) {
+        func_80A781CC(&this->actor, globalCtx);
+        return;
+    }
+    this->actionFunc(this, globalCtx);
+    if ((this->unk_36C.base.atFlags & 2)) {
+        this->unk_36C.base.atFlags &= 0xFFFD;
+        if (&player->actor == this->unk_36C.base.at) {
+            sp33 = player->invincibilityTimer;
+            if (player->invincibilityTimer <= 0) {
+                if (player->invincibilityTimer < -39) {
+                    player->invincibilityTimer = 0;
+                } else {
+                    player->invincibilityTimer = 0;
+                    globalCtx->damagePlayer(globalCtx, -64);
+                    this->unk_2FE = 0;
+                }
+            }
+            func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsLink, 8.0f);
+            player->invincibilityTimer = sp33;
+        }
+    }
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 0x1D);
+    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.posRot2.pos.y += 45.0f;
+    Collider_CylinderUpdate(&this->actor, &this->unk_320);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_320.base);
+    if ((this->actor.colChkInfo.health > 0) && (this->actor.dmgEffectTimer == 0) && (this->unk_2F8 >= 2)) {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_320.base);
+    }
+    if (this->unk_2FE > 0) {
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk_36C.base);
+    }
+    if (this->unk_2F8 == 9) {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_3EC.base);
+    }
+}
 
 Gfx* func_80A761B0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
     Gfx* displayList;
