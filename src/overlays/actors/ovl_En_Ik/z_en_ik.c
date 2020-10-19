@@ -745,7 +745,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
                 }
             } else {
                 if (prevHealth == 50) {
-                    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 5);
+                    Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
                 }
                 goto block_23;
             }
