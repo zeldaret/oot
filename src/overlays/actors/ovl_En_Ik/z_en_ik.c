@@ -1309,37 +1309,37 @@ s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
-    OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 0x23B);
+    OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 571);
 
     switch (limbIndex) {
         case 0xC:
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 0x23F),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 575),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016D88);
             break;
         case 0x16:
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 0x245),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 581),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016F88);
             break;
         case 0x18:
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 0x24B),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 587),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016EE8);
             break;
         case 0x1A:
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 0x251),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 593),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016BE0);
             break;
         case 0x1B:
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 0x257),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 599),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016CD8);
             break;
     }
 
-    CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 0x25C);
+    CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 604);
 }
 
 void func_80A77ED0(EnIk* this, GlobalContext* globalCtx) {
