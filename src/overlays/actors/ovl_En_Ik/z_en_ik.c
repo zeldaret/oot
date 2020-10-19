@@ -778,10 +778,12 @@ s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 // unused
 static Vec3f D_80A78470 = { 300.0f, 0.0f, 0.0f };
 
-static Vec3f D_80A7847C = { 800.0f, -200.0f, -5200.0f };
-static Vec3f D_80A78488 = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_80A78494 = { -200.0f, -2200.0f, -200.0f };
-static Vec3f D_80A784A0 = { -6000.0f, 2000.0f, -3000.0f };
+static Vec3f D_80A7847C[] = {
+    { 800.0f, -200.0f, -5200.0f },
+    { 0.0f, 0.0f, 0.0f },
+    { -200.0f, -2200.0f, -200.0f },
+    { -6000.0f, 2000.0f, -3000.0f },
+};
 
 static Vec3f D_80A784AC[] = {
     { -3000.0, -700.0, -5000.0 },
@@ -818,14 +820,14 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Vec3f sp9C[3];
         Vec3f sp78[3];
 
-        Matrix_MultVec3f(&D_80A7847C, &this->unk_36C.dim.quad[1]);
-        Matrix_MultVec3f(&D_80A78488, &this->unk_36C.dim.quad[0]);
-        Matrix_MultVec3f(&D_80A78494, &this->unk_36C.dim.quad[3]);
-        Matrix_MultVec3f(&D_80A784A0, &this->unk_36C.dim.quad[2]);
+        Matrix_MultVec3f(&D_80A7847C[0], &this->unk_36C.dim.quad[1]);
+        Matrix_MultVec3f(&D_80A7847C[1], &this->unk_36C.dim.quad[0]);
+        Matrix_MultVec3f(&D_80A7847C[2], &this->unk_36C.dim.quad[3]);
+        Matrix_MultVec3f(&D_80A7847C[3], &this->unk_36C.dim.quad[2]);
         func_80062734(&this->unk_36C, &this->unk_36C.dim.quad[0], &this->unk_36C.dim.quad[1],
                       &this->unk_36C.dim.quad[2], &this->unk_36C.dim.quad[3]);
-        Matrix_MultVec3f(&D_80A7847C, &spF4);
-        Matrix_MultVec3f(&D_80A78488, &spE8);
+        Matrix_MultVec3f(&D_80A7847C[0], &spF4);
+        Matrix_MultVec3f(&D_80A7847C[1], &spE8);
         if (this->unk_2FE > 0) {
             EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &spF4, &spE8);
         } else if (this->unk_2FE == 0) {
