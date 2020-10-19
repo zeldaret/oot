@@ -106,6 +106,7 @@ extern UNK_TYPE D_060091E4;
 extern UNK_TYPE D_60099700;
 extern UNK_TYPE D_06007630;
 extern UNK_TYPE D_06004F90;
+extern UNK_TYPE D_06000EA0;
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
@@ -161,8 +162,45 @@ void func_8097DA78(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 }
 
 // Very similar methods
-void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* vec);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DAC8.s")
+// void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* vec);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DAC8.s")
+void func_8097DAC8(DemoGt* this, GlobalContext* arg1, Vec3f* arg2) {
+    Vec3f position;
+    Vec3f velocity;
+    f32 tempRand;
+    s16 counter = 0;
+    f32 gravity;
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+
+        position.x = Math_Sins(counter) * 30.0f;
+        position.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+        position.z = Math_Coss(counter) * 30.0f;
+
+        velocity.x = 0.0f;
+        velocity.y = Math_Rand_ZeroOne() * -4.0f;
+        velocity.z = position.z * 0.1f;
+
+        position.x += arg2->x;
+        position.y += arg2->y;
+        position.z += arg2->z;
+
+        tempRand = Math_Rand_ZeroOne();
+
+        if (tempRand < 0.1f) {
+            gravity = 0x60;
+        } else {
+            gravity = 0x20;
+            if (tempRand < 0.7f) {
+                gravity = 0x40;
+            }
+        }
+        EffectSsKakera_Spawn(arg1, &position, &velocity, arg2, -0xF7, gravity, 3, 0, 0,
+                             ((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 0x12C, 0.0f + 0x1E, -1, 0x186, D_06000EA0);
+        counter += 0x2000;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DD28.s")
 
@@ -743,14 +781,13 @@ void func_809806B8(DemoGt* this, GlobalContext* globalContext) {
     }
 }
 
-void func_8098078C(DemoGt *this, GlobalContext *globalContext) {
+void func_8098078C(DemoGt* this, GlobalContext* globalContext) {
     Vec3f sp50[2];
     u16 frames = globalContext->csCtx.frames;
     Vec3f* posRot = &this->dyna.actor.posRot.pos;
     Vec3f sp3C = D_809826AC;
     s32 pad[3];
 
-  
     if (frames > 939 || kREG(1) == 14) {
         sp50[0].x = posRot->x + 360.0f;
         sp50[0].y = posRot->y + 70.0f;
@@ -923,9 +960,12 @@ void func_809810E0(DemoGt* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981114.s")
 // void func_80981114(DemoGt* this, GlobalContext* globalCtx) {
 
-//   this->unk_174 = (this->unk_172 * ((kREG(64) * 0.001f) + 0.048f)) + (kREG(65) + 98.0f);
+//     if (this->unk_172) {}
+
+//     this->unk_174 = (this->unk_172 * ((kREG(64) * 0.001f)) + (kREG(65) + 98.0f) + this->unk_172 * 0.048f);
 //     this->unk_172 += this->unk_174;
-//     if (this->unk_172 >= 0x4001) {
+
+//     if (this->unk_172 > 0x4000) {
 //         this->unk_172 = 0x4000;
 //     }
 // }
@@ -949,7 +989,7 @@ void func_809813CC(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 4, 5, NULL);
 }
 
-void func_80981424(DemoGt *this, GlobalContext *globalCtx) {
+void func_80981424(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (frames == 789) {
@@ -995,16 +1035,14 @@ void func_809815C8(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809815FC.s")
-// void func_809815FC(DemoGt *this, GlobalContext *globalCtx) {
+// void func_809815FC(DemoGt* this, GlobalContext* globalCtx) {
 
-//      this->unk_174 =
-//        (kREG(67) + 50.00000000) +
-//                  ((float)this->unk_172 *
-//                  ((kREG(66) * 0.00100000) + 0.04800000));
-//   this->unk_172 += this->unk_174;
-//   if (this->unk_172 >= 0x4001) {
-//     this->unk_172 = 0x4000;
-//   }
+//     this->unk_174 = this->unk_172 * ((48.0f + kREG(66)) * 0.001f ) + (kREG(67) + 50.0f);
+
+//     this->unk_172 += this->unk_174;
+//     if (this->unk_172 > 0x4000) {
+//         this->unk_172 = 0x4000;
+//     }
 // }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981694.s")
@@ -1041,16 +1079,87 @@ void func_809819D4(DemoGt* this, GlobalContext* globalCtx) {
     func_809818FC(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981A08.s")
-// void func_80981A08(DemoGt *this, GlobalContext *globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981A08.s")
+void func_80981A08(DemoGt* this, GlobalContext* globalCtx) {
+    f32 temp2 = kREG(68) * 0.001f + 0.005f;
+    f32 temp1 = kREG(69) + 50.0f;
 
-//     this->unk_174 = (s16) (s32) ((f32) kREG(69) + 50.0f + ((f32) this->unk_172 * (((f32) kREG(68) * 0.001f) +
-//     0.005f))); this->unk_172 = (s16) (this->unk_172 + this->unk_174); if ((s32) this->unk_172 >= 0x4001) {
-//         this->unk_172 = (u16)0x4000;
-//     }
-// }
+    this->unk_174 = (this->unk_172 * (temp2)) + (temp1);
+
+    this->unk_172 += this->unk_174;
+
+    if (this->unk_172 > 0x4000) {
+        this->unk_172 = 0x4000;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981AA0.s")
+// void func_80981AA0(DemoGt *this, GlobalContext *globalCtx) {
+//     s16 sp7A;
+//     f32 sp74;
+//     f32 sp70;
+//     s16 sp6E;
+//     s16 sp6C;
+//     void *sp64;
+//     f32 sp60;
+//     f32 sp5C;
+//     f32 sp58;
+//     f32 sp54;
+//     f32 sp50;
+//     f32 sp4C;
+//     f32 sp48;
+//     Gfx *sp34;
+//     GameInfo *temp_v0;
+//     Gfx *temp_v0_2;
+//     Gfx *temp_v0_3;
+//     Gfx *temp_v0_4;
+//     GraphicsContext *temp_s0;
+//     s16 temp_a3;
+//     s16 temp_t8;
+
+//     temp_a3 = this->unk_172;
+//     temp_v0 = gGameInfo;
+//     sp74 = fabsf((f32) temp_a3 * 0.0000958738f);
+//     sp70 = (f32) temp_v0->unk14D2;
+//     temp_t8 = temp_v0->unk14CC + 0x4000;
+//     sp6E = temp_t8;
+//     sp6C = temp_t8 + 0x4000;
+//     temp_s0 = globalCtx->state.gfxCtx;
+//     sp7A = temp_a3;
+//     sp64 = Graph_Alloc(temp_s0, 0x40U);
+//     sp48 = 1.0f - Math_Coss(sp7A);
+
+//     Graph_OpenDisps(&sp34, temp_s0, (const char *) "../z_demo_gt_part4_3.c", 0x114);
+//     sp58 = Math_Coss(sp6C);
+//     sp5C = 0.0f;
+//     sp60 = Math_Sins(sp6C);
+//     sp4C = Math_Coss(sp6E) * sp70 * sp48;
+//     sp50 = Math_Sins(sp7A) * sp70;
+//     sp54 = Math_Sins(sp6E) * sp70 * sp48;
+
+//     Matrix_Push();
+//     func_800D23FC(sp74, (Vec3f *) &sp58, (u8)1U);
+//     Matrix_Translate(sp4C, sp50, (bitwise f32) (bitwise s32) sp54, (u8)1U);
+//     Matrix_ToMtx((Mtx *) sp64, (char *) "../z_demo_gt_part4_3.c", 0x123);
+//     Matrix_Pull();
+
+//     func_80093D18(temp_s0);
+//     temp_v0_2 = temp_s0->polyOpa.p;
+//     temp_s0->polyOpa.p = temp_v0_2 + 8;
+//     temp_v0_2->words.w0 = 0xDA380002;
+//     temp_v0_2->words.w1 = (u32) sp64;
+
+//     temp_v0_3 = temp_s0->polyOpa.p;
+//     temp_s0->polyOpa.p = temp_v0_3 + 8;
+//     temp_v0_3->words.w1 = 0x6009610;
+//     temp_v0_3->words.w0 = 0xDE000000;
+
+//     temp_v0_4 = temp_s0->polyOpa.p;
+//     temp_s0->polyOpa.p = temp_v0_4 + 8;
+//     temp_v0_4->words.w1 = 0x40;
+//     temp_v0_4->words.w0 = 0xD8380002;
+//     Graph_CloseDisps(&sp34, temp_s0, (const char *) "../z_demo_gt_part4_3.c", 0x133);
+// }
 
 void func_80981C94(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
@@ -1067,8 +1176,23 @@ void func_80981CEC(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981D20.s")
+// void func_80981D20(DemoGt* this) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981DC8.s")
+//     if (this->unk_172) {};
+
+//     this->unk_174 = (kREG(76) + 100.0f) + (this->unk_172 * ((kREG(64) * 0.001f)) + 0.048f);
+//     this->unk_172 += this->unk_174;
+
+//     if ((s16)(kREG(80) + 0x4000) < this->unk_172) {
+//         this->unk_172 = (kREG(80) + 0x4000);
+//     }
+// }
+
+void func_80981DC8(DemoGt* this, GlobalContext* globalCtx) {
+    if (func_8097E704(globalCtx, 2, 7)) {
+        this->unk_164 = 0xE;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E04.s")
 
@@ -1090,7 +1214,7 @@ void func_80981CEC(DemoGt* this, GlobalContext* globalCtx) {
 //     f32 sp40;
 //     s16 temp_t8;
 
-//     sp68 = fabsf(((f32)this->unk_172) * 0.0000958738f);
+//     sp68 = fabsf((this->unk_172) * 0.0000958738f);
 //     sp64 = (f32)kREG(75);
 //     sp6E = this->unk_172;
 //     temp_t8 = kREG(74) + 0x7FEC;
