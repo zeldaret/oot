@@ -579,16 +579,13 @@ void func_80A7598C(EnIk* this) {
     EnIk_SetupAction(this, func_80A75A38);
 }
 
-static Vec3f D_80A78464 = { 0.0f, 0.5f, 0.0f };
-
 void func_80A75A38(EnIk* this, GlobalContext* globalCtx) {
-    s32 i;
-    Vec3f pos;
-    Vec3f sp7C;
-
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if ((this->actor.colChkInfo.health == 0) && (this->unk_2F9 != 0)) {
-            sp7C = D_80A78464;
+            s32 i;
+            Vec3f pos;
+            Vec3f sp7C = { 0.0f, 0.5f, 0.0f };
+
             this->unk_2F9--;
 
             for (i = 0xC - (this->unk_2F9 >> 1); i >= 0; i--) {
