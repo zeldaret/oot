@@ -670,11 +670,10 @@ void func_80A75A38(EnIk* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     f32 temp_f0;
-    u8 temp_t7;
     u8 pad;
+    u8 pad2;
     u8 prevHealth;
     s32 temp_v0_3;
     Vec3f sp38;
@@ -697,13 +696,14 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     sp38 = this->actor.posRot.pos;
     sp38.y += 50.0f;
     func_80035650(&this->actor, &this->unk_320.body, 1);
-    temp_t7 = this->actor.colChkInfo.damageEffect;
-    temp_v0_3 = temp_t7 & 0xFF;
+    temp_v0_3 = this->actor.colChkInfo.damageEffect;
+    this->unk_2FD = temp_v0_3 & 0xFF;
     this->unk_320.base.acFlags &= ~0x2;
-    this->unk_2FD = temp_t7;
 
-    if ((temp_v0_3 == 0) || (temp_v0_3 == 0xD) || ((this->unk_2FB == 0) && (temp_v0_3 == 0xE))) {
-        if (temp_v0_3 != 0) {
+    if (1) {}
+
+    if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
+        if (this->unk_2FD != 0) {
             func_80062D60(globalCtx, &sp38);
         }
         return;
@@ -752,10 +752,6 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
     func_80062CD4(globalCtx, &sp38);
 }
-#else
-void func_80A75C38(EnIk* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A75C38.s")
-#endif
 
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
