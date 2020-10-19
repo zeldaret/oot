@@ -1043,7 +1043,9 @@ void func_80A770C0(EnIk* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-f32 EnIk_AnimCurrentFrame(EnIk* this) {
+f32 EnIk_AnimCurrentFrame(Actor* thisx) {
+    EnIk* this = THIS;
+
     return this->skelAnime.animCurrentFrame;
 }
 
@@ -1136,10 +1138,8 @@ void func_80A774F8(EnIk* this, GlobalContext* globalCtx) {
 }
 
 s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnIk* this = (EnIk*)actor;
-
     if ((limbIndex == 0xD) || (limbIndex == 0x1A) || (limbIndex == 0x1B)) {
-        if (EnIk_AnimCurrentFrame(this) >= 30.0f) {
+        if (EnIk_AnimCurrentFrame(actor) >= 30.0f) {
             *dList = NULL;
         }
     }
@@ -1147,8 +1147,53 @@ s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_PostLimbDraw2.s")
+void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+
+    OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 207);
+
+    switch (limbIndex) {
+        case 0xD:
+            if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
+                s32 pad;
+
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 267),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016D88);
+            }
+            break;
+        case 0x16:
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 274),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016F88);
+            break;
+        case 0x18:
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 280),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016EE8);
+            break;
+        case 0x1A:
+            if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
+                s32 pad;
+
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 288),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016BE0);
+            }
+            break;
+        case 0x1B:
+            if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
+                s32 pad;
+
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 297),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016CD8);
+            }
+            break;
+    }
+
+    CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 304);
+}
 
 void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
