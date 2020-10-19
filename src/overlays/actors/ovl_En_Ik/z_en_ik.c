@@ -847,13 +847,13 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Vec3f spE8;
     EnIk* this = (EnIk*)actor;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 0x4B1);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1201);
 
     if (this->unk_2FB & 1) {
         func_80032F54(&this->unk_308, limbIndex, 0x1A, 0x1B, 0x1C, dList, -1);
     }
     if (limbIndex == 0xC) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 0x4C1),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->actor.params != 0) {
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06019E08);
@@ -892,32 +892,32 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
     switch (limbIndex) {
         case 0x16:
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 0x4F6),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1270),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016F88);
             break;
         case 0x18:
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 0x4FB),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1275),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016EE8);
             break;
         case 0x1A:
             if (!(this->unk_2FA & 1)) {
-                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 0x501),
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016BE0);
             }
             break;
         case 0x1B:
             if (!(this->unk_2FA & 1)) {
-                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 0x508),
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(oGfxCtx->polyXlu.p++, D_06016CD8);
             }
             break;
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 0x50E);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1294);
 }
 
 void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
