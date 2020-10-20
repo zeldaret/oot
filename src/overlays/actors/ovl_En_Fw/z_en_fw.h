@@ -1,8 +1,8 @@
 #ifndef _Z_EN_FW_H_
 #define _Z_EN_FW_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 #include "../ovl_En_Fd/z_en_fd.h"
 
 struct EnFw;

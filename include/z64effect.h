@@ -1,7 +1,7 @@
 #ifndef _Z64EFFECT_H_
 #define _Z64EFFECT_H_
 
-#include <color.h>
+#include "color.h"
 
 struct GraphicsContext;
 struct GlobalContext;

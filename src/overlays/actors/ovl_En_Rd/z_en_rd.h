@@ -1,8 +1,8 @@
 #ifndef _Z_EN_RD_H_
 #define _Z_EN_RD_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnRd;
 

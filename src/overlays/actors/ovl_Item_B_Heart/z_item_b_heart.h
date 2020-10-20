@@ -1,8 +1,8 @@
 #ifndef _Z_ITEM_B_HEART_H_
 #define _Z_ITEM_B_HEART_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct ItemBHeart;
 

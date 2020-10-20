@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_8081F1F0.s")
 
@@ -47,8 +47,8 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 3188);
 
-    pauseCtx->inputX = input->rel.in.x;
-    pauseCtx->inputY = input->rel.in.y;
+    pauseCtx->inputX = input->rel.stick_x;
+    pauseCtx->inputY = input->rel.stick_y;
 
     gSPSegment(oGfxCtx->polyOpa.p++, 0x02, interfaceCtx->parameterSegment);
     gSPSegment(oGfxCtx->polyOpa.p++, 0x07, pauseCtx->unk_13C);

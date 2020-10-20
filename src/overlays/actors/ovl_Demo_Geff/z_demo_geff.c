@@ -5,8 +5,7 @@
  */
 
 #include "z_demo_geff.h"
-
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000030
 

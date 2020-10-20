@@ -12,7 +12,6 @@
 
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
-#define	ULTRA_ABS(x) ((x) > 0) ? (x) : -(x)
 #define DECR(x) ((x) == 0 ? 0 : ((x) -= 1))
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
@@ -31,19 +30,19 @@
 #define LINK_AGE_IN_YEARS (LINK_IS_CHILD ? YEARS_CHILD : YEARS_ADULT)
 
 #define SLOT(item) gItemSlots[item]
-#define INV_CONTENT(item) gSaveContext.items[SLOT(item)]
-#define AMMO(item) gSaveContext.ammo[SLOT(item)]
+#define INV_CONTENT(item) gSaveContext.inventory.items[SLOT(item)]
+#define AMMO(item) gSaveContext.inventory.ammo[SLOT(item)]
 #define BEANS_BOUGHT AMMO(ITEM_BEAN + 1)
 
-#define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
+#define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.inventory.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
 #define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
-#define CHECK_OWNED_EQUIP(equip, value) ((gBitFlags[value] << gEquipShifts[equip]) & gSaveContext.equipment)
+#define CHECK_OWNED_EQUIP(equip, value) ((gBitFlags[value] << gEquipShifts[equip]) & gSaveContext.inventory.equipment)
 
-#define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
+#define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
 
-#define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
+#define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.inventory.questItems)
 
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
@@ -55,7 +54,9 @@
                                 ? gSaveContext.equips.buttonItems[button + 1]       \
                                 : ITEM_NONE)
 
-#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
+#define CHECK_BTN_ALL(state, combo) (~((state) | ~(combo)) == 0)
+#define CHECK_BTN_ANY(state, combo) (((state) & (combo)) != 0)
+
 
 #define LOG(exp, value, format, file, line)         \
     do {                                            \

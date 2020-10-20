@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #define LIGHTS_BUFFER_SIZE 32
 
