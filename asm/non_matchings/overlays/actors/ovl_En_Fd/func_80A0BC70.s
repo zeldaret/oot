@@ -59,7 +59,7 @@ glabel func_80A0BC70
 /* 00680 80A0BD40 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00684 80A0BD44 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00688 80A0BD48 AFA90020 */  sw      $t1, 0x0020($sp)           
-/* 0068C 80A0BD4C 0C00F7A1 */  jal     func_8003DE84              
+/* 0068C 80A0BD4C 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 00690 80A0BD50 AFAA0024 */  sw      $t2, 0x0024($sp)           
 /* 00694 80A0BD54 50400004 */  beql    $v0, $zero, .L80A0BD68     
 /* 00698 80A0BD58 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001

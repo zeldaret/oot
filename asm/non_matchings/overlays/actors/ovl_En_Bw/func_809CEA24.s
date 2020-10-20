@@ -239,7 +239,7 @@ glabel func_809CEA24
 /* 0062C 809CED0C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00630 809CED10 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 00634 809CED14 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 00638 809CED18 0C00F83F */  jal     func_8003E0FC              
+/* 00638 809CED18 0C00F83F */  jal     BgCheck_AnyLineTest2              
 /* 0063C 809CED1C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00640 809CED20 14400004 */  bne     $v0, $zero, .L809CED34     
 /* 00644 809CED24 AFA20064 */  sw      $v0, 0x0064($sp)           
@@ -312,7 +312,7 @@ glabel func_809CEA24
 /* 00738 809CEE18 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 0073C 809CEE1C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00740 809CEE20 A7A30062 */  sh      $v1, 0x0062($sp)           
-/* 00744 809CEE24 0C00F83F */  jal     func_8003E0FC              
+/* 00744 809CEE24 0C00F83F */  jal     BgCheck_AnyLineTest2              
 /* 00748 809CEE28 AFA40040 */  sw      $a0, 0x0040($sp)           
 /* 0074C 809CEE2C 87A30062 */  lh      $v1, 0x0062($sp)           
 /* 00750 809CEE30 8FA40040 */  lw      $a0, 0x0040($sp)           
@@ -332,7 +332,7 @@ glabel func_809CEA24
 /* 00784 809CEE64 27A70068 */  addiu   $a3, $sp, 0x0068           ## $a3 = FFFFFFF0
 /* 00788 809CEE68 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 0078C 809CEE6C AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00790 809CEE70 0C00F83F */  jal     func_8003E0FC              
+/* 00790 809CEE70 0C00F83F */  jal     BgCheck_AnyLineTest2              
 /* 00794 809CEE74 A7A30062 */  sh      $v1, 0x0062($sp)           
 /* 00798 809CEE78 10400004 */  beq     $v0, $zero, .L809CEE8C     
 /* 0079C 809CEE7C 87A30062 */  lh      $v1, 0x0062($sp)           
@@ -522,7 +522,7 @@ glabel L809CEF9C
 /* 00A24 809CF104 27A70068 */  addiu   $a3, $sp, 0x0068           ## $a3 = FFFFFFF0
 /* 00A28 809CF108 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00A2C 809CF10C AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00A30 809CF110 0C00F83F */  jal     func_8003E0FC              
+/* 00A30 809CF110 0C00F83F */  jal     BgCheck_AnyLineTest2              
 /* 00A34 809CF114 24C60024 */  addiu   $a2, $a2, 0x0024           ## $a2 = 00000024
 /* 00A38 809CF118 10400031 */  beq     $v0, $zero, .L809CF1E0     
 /* 00A3C 809CF11C AFA20064 */  sw      $v0, 0x0064($sp)           

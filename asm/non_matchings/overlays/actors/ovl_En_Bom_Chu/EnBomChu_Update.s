@@ -186,7 +186,7 @@ glabel EnBomChu_Update
 /* 01058 809C6888 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 0105C 809C688C AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 01060 809C6890 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01064 809C6894 0C01084F */  jal     func_8004213C              
+/* 01064 809C6894 0C01084F */  jal     WaterBox_GetSurface1              
 /* 01068 809C6898 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 0106C 809C689C 10400032 */  beq     $v0, $zero, .L809C6968     
 /* 01070 809C68A0 C7A40040 */  lwc1    $f4, 0x0040($sp)           

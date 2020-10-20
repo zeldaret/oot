@@ -45,15 +45,15 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    func_80043480(&this->actor, DPM_UNK);
+    DynaPolyActor_Init(&this->actor, DPM_UNK);
 
     if (this->actor.params == 1) {
-        func_80041880(&D_06000AF0, &colHeader);
+        CollisionHeader_GetVirtual(&D_06000AF0, &colHeader);
     } else {
-        func_80041880(&D_06000908, &colHeader);
+        CollisionHeader_GetVirtual(&D_06000908, &colHeader);
     }
 
-    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 
     if (LINK_IS_CHILD) {
         Actor_Kill(&this->actor);
@@ -63,7 +63,7 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx) {

@@ -66,7 +66,7 @@ glabel func_80B9B8C8
 /* 00844 80B9B9C4 E7B60014 */  swc1    $f22, 0x0014($sp)          
 /* 00848 80B9B9C8 AFB50010 */  sw      $s5, 0x0010($sp)           
 /* 0084C 80B9B9CC 46043280 */  add.s   $f10, $f6, $f4             
-/* 00850 80B9B9D0 0C00F299 */  jal     func_8003CA64              
+/* 00850 80B9B9D0 0C00F299 */  jal     BgCheck_EntityRaycastFloor6              
 /* 00854 80B9B9D4 E7AA0088 */  swc1    $f10, 0x0088($sp)          
 /* 00858 80B9B9D8 2631000C */  addiu   $s1, $s1, 0x000C           ## $s1 = 80B9CA78
 /* 0085C 80B9B9DC 26520004 */  addiu   $s2, $s2, 0x0004           ## $s2 = 00000004

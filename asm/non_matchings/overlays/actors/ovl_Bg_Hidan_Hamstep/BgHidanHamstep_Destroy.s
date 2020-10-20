@@ -6,8 +6,8 @@ glabel BgHidanHamstep_Destroy
 /* 00444 80888484 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 00448 80888488 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0044C 8088848C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00450 80888490 0C00FB56 */  jal     func_8003ED58
-              ## func_8003ED58
+/* 00450 80888490 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00454 80888494 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00458 80888498 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 0045C 8088849C 8FA4001C */  lw      $a0, 0x001C($sp)           

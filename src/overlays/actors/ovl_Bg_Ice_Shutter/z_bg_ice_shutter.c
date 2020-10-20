@@ -59,11 +59,11 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80043480(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     sp28 = this->dyna.actor.params & 0xFF;
     this->dyna.actor.params = (this->dyna.actor.params >> 8) & 0xFF;
-    func_80041880(&D_06002854, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_06002854, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (sp28 == 2) {
         this->dyna.actor.shape.rot.x = -0x4000;
     }
@@ -97,7 +97,7 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgIceShutter* this = THIS;
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {

@@ -45,10 +45,10 @@ void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    func_80043480(thisx, DPM_PLAYER);
+    DynaPolyActor_Init(thisx, DPM_PLAYER);
     Actor_ProcessInitChain(thisx, sInitChain);
-    func_80041880(&D_06003C64, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    CollisionHeader_GetVirtual(&D_06003C64, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (LINK_IS_CHILD) {
         Actor_Kill(thisx);
     } else {
@@ -59,7 +59,7 @@ void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idosoko* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {

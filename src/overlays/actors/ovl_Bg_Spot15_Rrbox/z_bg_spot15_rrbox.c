@@ -57,10 +57,10 @@ void func_808B3960(BgSpot15Rrbox* this, GlobalContext* globalCtx, CollisionHeade
     CollisionHeader* colHeader = NULL;
     u32 pad2;
 
-    func_80043480(&this->dyna, flags);
-    func_80041880(collision, &colHeader);
+    DynaPolyActor_Init(&this->dyna, flags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
 
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 171,
@@ -79,7 +79,7 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 }
 
 s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    DynaPolyActor* dynaPolyActor = func_8003EB84(&globalCtx->colCtx, this->bgId);
+    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->bgId);
 
     if (dynaPolyActor != NULL &&
         Math3D_Dist2DSq(dynaPolyActor->actor.posRot.pos.x, dynaPolyActor->actor.posRot.pos.z,
@@ -134,7 +134,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     D_808B4590 = 0;
 }
 
@@ -155,8 +155,8 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
     actorPosition.y += this->dyna.actor.pos4.y;
     actorPosition.z += this->dyna.actor.posRot.pos.z;
 
-    this->dyna.actor.groundY = func_8003CA64(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
-                                             &this->dyna.actor, &actorPosition, chkDist);
+    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
+                                                           &this->dyna.actor, &actorPosition, chkDist);
 
     if ((this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) >= -0.001f) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
@@ -186,7 +186,7 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         position.y += actor->pos4.y;
         position.z += actor->posRot.pos.z;
 
-        yIntersect = func_8003CA64(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &position, 0);
+        yIntersect = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &position, 0);
 
         if (returnValue < yIntersect) {
             returnValue = yIntersect;

@@ -82,9 +82,9 @@ void BgHeavyBlock_SetupDynapoly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
     this->dyna.actor.flags |= 0x20030;
-    func_80043480(&this->dyna, DPM_UNK);
-    func_80041880(&D_0600169C, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_0600169C, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -162,7 +162,7 @@ void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         case HEAVYBLOCK_SMALL_PIECE:
             break;
         default:
-            func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
@@ -391,7 +391,8 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     pos.x = this->dyna.actor.initPosRot.pos.x;
     pos.y = this->dyna.actor.initPosRot.pos.y + 1000.0f;
     pos.z = this->dyna.actor.initPosRot.pos.z;
-    raycastResult = func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
+    raycastResult =
+        BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
     this->dyna.actor.groundY = raycastResult;
 
     if (this->dyna.actor.initPosRot.pos.y <= raycastResult) {

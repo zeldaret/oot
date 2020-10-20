@@ -58,9 +58,9 @@ void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, CollisionHeader* 
     CollisionHeader* colHeader = NULL;
     s32 pad2[2];
 
-    func_80043480(&this->dyna, moveFlags);
-    func_80041880(collision, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, moveFlags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_hsblock.c", 163,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -103,7 +103,7 @@ void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjHsblock* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80B93D90(ObjHsblock* this) {

@@ -142,7 +142,7 @@ glabel func_80875A0C
 /* 002A4 80875BC4 E7A60050 */  swc1    $f6, 0x0050($sp)           
 /* 002A8 80875BC8 C608002C */  lwc1    $f8, 0x002C($s0)           ## 0000002C
 /* 002AC 80875BCC 46089280 */  add.s   $f10, $f18, $f8            
-/* 002B0 80875BD0 0C00F8C3 */  jal     func_8003E30C              
+/* 002B0 80875BD0 0C00F8C3 */  jal     BgCheck_SphVsFirstPoly              
 /* 002B4 80875BD4 E7AA0054 */  swc1    $f10, 0x0054($sp)          
 /* 002B8 80875BD8 10400005 */  beq     $v0, $zero, .L80875BF0     
 /* 002BC 80875BDC 02D17021 */  addu    $t6, $s6, $s1              

@@ -45,7 +45,7 @@ glabel func_80044568
 .L800445EC:
 /* ABB78C 800445EC 02A02825 */  move  $a1, $s5
 /* ABB790 800445F0 02203025 */  move  $a2, $s1
-/* ABB794 800445F4 0C00F329 */  jal   func_8003CCA4
+/* ABB794 800445F4 0C00F329 */  jal   BgCheck_CameraRaycastFloor2
 /* ABB798 800445F8 02403825 */   move  $a3, $s2
 /* ABB79C 800445FC 461C0032 */  c.eq.s $f0, $f28
 /* ABB7A0 80044600 46000506 */  mov.s $f20, $f0

@@ -62,7 +62,7 @@ glabel func_80B9C5DC
 /* 01524 80B9C6A4 000C6880 */  sll     $t5, $t4,  2               
 /* 01528 80B9C6A8 020D1021 */  addu    $v0, $s0, $t5              
 /* 0152C 80B9C6AC 8C450194 */  lw      $a1, 0x0194($v0)           ## 00000194
-/* 01530 80B9C6B0 0C0107CD */  jal     func_80041F34              
+/* 01530 80B9C6B0 0C0107CD */  jal     SurfaceType_GetSfx              
 /* 01534 80B9C6B4 8C460180 */  lw      $a2, 0x0180($v0)           ## 00000180
 /* 01538 80B9C6B8 24450800 */  addiu   $a1, $v0, 0x0800           ## $a1 = 00000800
 /* 0153C 80B9C6BC 30A5FFFF */  andi    $a1, $a1, 0xFFFF           ## $a1 = 00000800

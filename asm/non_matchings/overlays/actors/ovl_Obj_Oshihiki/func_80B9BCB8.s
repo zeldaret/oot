@@ -123,7 +123,7 @@ glabel func_80B9BCB8
 /* 00D08 80B9BE88 E7A600D0 */  swc1    $f6, 0x00D0($sp)           
 /* 00D0C 80B9BE8C AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00D10 80B9BE90 AFAE0014 */  sw      $t6, 0x0014($sp)           
-/* 00D14 80B9BE94 0C00F7E8 */  jal     func_8003DFA0              
+/* 00D14 80B9BE94 0C00F7E8 */  jal     BgCheck_EntityLineTest3              
 /* 00D18 80B9BE98 AFBE0010 */  sw      $s8, 0x0010($sp)           
 /* 00D1C 80B9BE9C 10400003 */  beq     $v0, $zero, .L80B9BEAC     
 /* 00D20 80B9BEA0 26100008 */  addiu   $s0, $s0, 0x0008           ## $s0 = 80B9CAB0

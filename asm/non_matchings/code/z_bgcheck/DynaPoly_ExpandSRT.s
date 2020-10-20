@@ -47,7 +47,7 @@ glabel D_80138FA8
     .float -0.8  
   
 .text
-glabel func_8003EE80
+glabel DynaPoly_ExpandSRT
 /* AB6020 8003EE80 27BDFE98 */  addiu $sp, $sp, -0x168
 /* AB6024 8003EE84 8FAF0178 */  lw    $t7, 0x178($sp)
 /* AB6028 8003EE88 00067080 */  sll   $t6, $a2, 2
@@ -93,7 +93,7 @@ glabel func_8003EE80
 /* AB60C8 8003EF28 C7AA010C */  lwc1  $f10, 0x10c($sp)
 /* AB60CC 8003EF2C 46062202 */  mul.s $f8, $f4, $f6
 /* AB60D0 8003EF30 46085400 */  add.s $f16, $f10, $f8
-/* AB60D4 8003EF34 0C00F95A */  jal   func_8003E568
+/* AB60D4 8003EF34 0C00F95A */  jal   ScaleRotPos_SetValue
 /* AB60D8 8003EF38 E7B0010C */   swc1  $f16, 0x10c($sp)
 /* AB60DC 8003EF3C 00106040 */  sll   $t4, $s0, 1
 /* AB60E0 8003EF40 02ECB021 */  addu  $s6, $s7, $t4
@@ -180,7 +180,7 @@ glabel func_8003EE80
 /* AB6210 8003F070 312D0001 */  andi  $t5, $t1, 1
 /* AB6214 8003F074 55A00046 */  bnezl $t5, .L8003F190
 /* AB6218 8003F078 868E0044 */   lh    $t6, 0x44($s4)
-/* AB621C 8003F07C 0C00FA01 */  jal   func_8003E804
+/* AB621C 8003F07C 0C00FA01 */  jal   BgActor_HasTransformChanged
 /* AB6220 8003F080 26840004 */   addiu $a0, $s4, 4
 /* AB6224 8003F084 24010001 */  li    $at, 1
 /* AB6228 8003F088 14410040 */  bne   $v0, $at, .L8003F18C

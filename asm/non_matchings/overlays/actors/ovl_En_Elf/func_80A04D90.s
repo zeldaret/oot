@@ -10,7 +10,7 @@ glabel func_80A04D90
 /* 03180 80A04DB0 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 03184 80A04DB4 26060078 */  addiu   $a2, $s0, 0x0078           ## $a2 = 00000078
 /* 03188 80A04DB8 AFB00010 */  sw      $s0, 0x0010($sp)           
-/* 0318C 80A04DBC 0C00F283 */  jal     func_8003CA0C              
+/* 0318C 80A04DBC 0C00F283 */  jal     BgCheck_EntityRaycastFloor5              
 /* 03190 80A04DC0 27A70028 */  addiu   $a3, $sp, 0x0028           ## $a3 = FFFFFFF8
 /* 03194 80A04DC4 24180032 */  addiu   $t8, $zero, 0x0032         ## $t8 = 00000032
 /* 03198 80A04DC8 E6000080 */  swc1    $f0, 0x0080($s0)           ## 00000080

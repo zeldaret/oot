@@ -5,8 +5,8 @@ glabel BgHakaGate_Destroy
 /* 002D8 8087C0C8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 002DC 8087C0CC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002E0 8087C0D0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 002E4 8087C0D4 0C00FB56 */  jal     func_8003ED58
-              ## func_8003ED58
+/* 002E4 8087C0D4 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 002E8 8087C0D8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 002EC 8087C0DC 8FAF0018 */  lw      $t7, 0x0018($sp)           
 /* 002F0 8087C0E0 24190100 */  addiu   $t9, $zero, 0x0100         ## $t9 = 00000100

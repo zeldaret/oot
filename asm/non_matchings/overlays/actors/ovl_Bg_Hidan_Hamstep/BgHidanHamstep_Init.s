@@ -29,7 +29,7 @@ glabel BgHidanHamstep_Init
 /* 001AC 808881EC AFB20028 */  sw      $s2, 0x0028($sp)           
 /* 001B0 808881F0 AFB10024 */  sw      $s1, 0x0024($sp)           
 /* 001B4 808881F4 AFA0006C */  sw      $zero, 0x006C($sp)         
-/* 001B8 808881F8 0C010D20 */  jal     func_80043480
+/* 001B8 808881F8 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 001BC 808881FC 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 001C0 80888200 3C058089 */  lui     $a1, %hi(D_80888E40)       ## $a1 = 80890000
@@ -97,22 +97,22 @@ glabel BgHidanHamstep_Init
 /* 002A8 808882E8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 002AC 808882EC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 002B0 808882F0 2484DE44 */  addiu   $a0, $a0, 0xDE44           ## $a0 = 0600DE44
-/* 002B4 808882F4 0C010620 */  jal     func_80041880
+/* 002B4 808882F4 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 002B8 808882F8 27A5006C */  addiu   $a1, $sp, 0x006C           ## $a1 = FFFFFFF4
 /* 002BC 808882FC 10000005 */  beq     $zero, $zero, .L80888314   
 /* 002C0 80888300 8FA4007C */  lw      $a0, 0x007C($sp)           
 .L80888304:
 /* 002C4 80888304 2484DD1C */  addiu   $a0, $a0, 0xDD1C           ## $a0 = FFFFDD1C
-/* 002C8 80888308 0C010620 */  jal     func_80041880
+/* 002C8 80888308 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 002CC 8088830C 27A5006C */  addiu   $a1, $sp, 0x006C           ## $a1 = FFFFFFF4
 /* 002D0 80888310 8FA4007C */  lw      $a0, 0x007C($sp)           
 .L80888314:
 /* 002D4 80888314 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002D8 80888318 8FA7006C */  lw      $a3, 0x006C($sp)           
-/* 002DC 8088831C 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 002DC 8088831C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 002E0 80888320 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 002E4 80888324 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C
 /* 002E8 80888328 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

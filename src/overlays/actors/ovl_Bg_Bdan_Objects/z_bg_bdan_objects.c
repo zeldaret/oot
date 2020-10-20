@@ -102,7 +102,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(this, sInitChain);
-    func_80043480(this, DPM_PLAYER);
+    DynaPolyActor_Init(this, DPM_PLAYER);
     this->unk_168 = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
@@ -112,7 +112,7 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (thisx->params == 0) {
-        func_80041880(&D_06008CE0, &colHeader);
+        CollisionHeader_GetVirtual(&D_06008CE0, &colHeader);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, this, &sCylinderInit);
         thisx->posRot.pos.y = (f32)(thisx->posRot.pos.y + -79.0f);
@@ -137,12 +137,12 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == 1) {
-            func_80041880(&D_06005048, &colHeader);
+            CollisionHeader_GetVirtual(&D_06005048, &colHeader);
             this->unk_16A = 0x200;
             this->unk_168 = 0;
             this->actionFunc = func_8086C874;
         } else {
-            func_80041880(&D_06005580, &colHeader);
+            CollisionHeader_GetVirtual(&D_06005580, &colHeader);
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
                 this->actionFunc = BgBdanObjects_DoNothing;
                 thisx->posRot.pos.y = thisx->initPosRot.pos.y - 400.0f;
@@ -151,13 +151,13 @@ void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBdanObjects* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if (thisx->params == 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }

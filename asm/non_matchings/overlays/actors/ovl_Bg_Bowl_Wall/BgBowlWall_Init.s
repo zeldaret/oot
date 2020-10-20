@@ -15,7 +15,7 @@ glabel BgBowlWall_Init
 /* 0000C 8086F16C AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00010 8086F170 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 8086F174 AFA00028 */  sw      $zero, 0x0028($sp)         
-/* 00018 8086F178 0C010D20 */  jal     func_80043480
+/* 00018 8086F178 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 0001C 8086F17C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00020 8086F180 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -24,21 +24,21 @@ glabel BgBowlWall_Init
 /* 0002C 8086F18C 15C00006 */  bne     $t6, $zero, .L8086F1A8     
 /* 00030 8086F190 24841B00 */  addiu   $a0, $a0, 0x1B00           ## $a0 = 06001B00
 /* 00034 8086F194 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00038 8086F198 0C010620 */  jal     func_80041880
+/* 00038 8086F198 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0003C 8086F19C 24840CB8 */  addiu   $a0, $a0, 0x0CB8           ## $a0 = 06000CB8
 /* 00040 8086F1A0 10000004 */  beq     $zero, $zero, .L8086F1B4   
 /* 00044 8086F1A4 8FA4003C */  lw      $a0, 0x003C($sp)           
 .L8086F1A8:
-/* 00048 8086F1A8 0C010620 */  jal     func_80041880
+/* 00048 8086F1A8 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0004C 8086F1AC 27A50028 */  addiu   $a1, $sp, 0x0028           ## $a1 = FFFFFFF0
 /* 00050 8086F1B0 8FA4003C */  lw      $a0, 0x003C($sp)           
 .L8086F1B4:
 /* 00054 8086F1B4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00058 8086F1B8 8FA70028 */  lw      $a3, 0x0028($sp)           
-/* 0005C 8086F1BC 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 0005C 8086F1BC 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00060 8086F1C0 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00064 8086F1C4 8E180024 */  lw      $t8, 0x0024($s0)           ## 00000024
 /* 00068 8086F1C8 8E0F0028 */  lw      $t7, 0x0028($s0)           ## 00000028

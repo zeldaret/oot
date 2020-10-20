@@ -97,16 +97,16 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
 
         this->dyna.actor.objBankIndex = this->objBankIndex;
-        func_80043480(&this->dyna, DPM_PLAYER);
+        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
         switch (this->dyna.actor.params & 7) {
             case 4: // Shooting gallery
-                func_80041880(&D_06001A38, &colHeader);
-                this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+                CollisionHeader_GetVirtual(&D_06001A38, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 break;
             case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
-                func_80041880(&D_06001C58, &colHeader);
-                this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+                CollisionHeader_GetVirtual(&D_06001C58, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 if (gSaveContext.nightFlag == 0) {
                     func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,

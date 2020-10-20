@@ -16,7 +16,7 @@ glabel BgSpot18Basket_Update
 /* 00D5C 808B846C 262407C0 */  addiu   $a0, $s1, 0x07C0           ## $a0 = 000007C0
 /* 00D60 808B8470 26050078 */  addiu   $a1, $s0, 0x0078           ## $a1 = 00000078
 /* 00D64 808B8474 27A60034 */  addiu   $a2, $sp, 0x0034           ## $a2 = FFFFFFF4
-/* 00D68 808B8478 0C00F269 */  jal     func_8003C9A4              
+/* 00D68 808B8478 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00D6C 808B847C 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
 /* 00D70 808B8480 8E090204 */  lw      $t1, 0x0204($s0)           ## 00000204
 /* 00D74 808B8484 3C08808B */  lui     $t0, %hi(func_808B7AFC)    ## $t0 = 808B0000

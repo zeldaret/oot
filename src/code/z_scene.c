@@ -232,11 +232,11 @@ void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
     colHeader->polyList = SEGMENTED_TO_VIRTUAL(colHeader->polyList);
-    colHeader->polygonTypes = SEGMENTED_TO_VIRTUAL(colHeader->polygonTypes);
+    colHeader->surfaceTypeList = SEGMENTED_TO_VIRTUAL(colHeader->surfaceTypeList);
     colHeader->cameraDataList = SEGMENTED_TO_VIRTUAL(colHeader->cameraDataList);
     colHeader->waterBoxes = SEGMENTED_TO_VIRTUAL(colHeader->waterBoxes);
 
-    func_8003C078(&globalCtx->colCtx, globalCtx, colHeader);
+    BgCheck_Allocate(&globalCtx->colCtx, globalCtx, colHeader);
 }
 
 // Scene Command 0x04: Room List

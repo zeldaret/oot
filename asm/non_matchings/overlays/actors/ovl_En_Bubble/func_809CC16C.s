@@ -128,7 +128,7 @@ glabel func_809CC16C
 /* 0071C 809CC31C 46008102 */  mul.s   $f4, $f16, $f0             
 /* 00720 809CC320 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 00724 809CC324 46049180 */  add.s   $f6, $f18, $f4             
-/* 00728 809CC328 0C00F7A1 */  jal     func_8003DE84              
+/* 00728 809CC328 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 0072C 809CC32C E7A60074 */  swc1    $f6, 0x0074($sp)           
 /* 00730 809CC330 10400052 */  beq     $v0, $zero, .L809CC47C     
 /* 00734 809CC334 8FB80094 */  lw      $t8, 0x0094($sp)           

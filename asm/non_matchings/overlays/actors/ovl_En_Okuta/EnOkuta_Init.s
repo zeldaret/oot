@@ -65,7 +65,7 @@ glabel EnOkuta_Init
 /* 000E4 80AC0744 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 000E8 80AC0748 27A60034 */  addiu   $a2, $sp, 0x0034           ## $a2 = FFFFFFEC
 /* 000EC 80AC074C 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
-/* 000F0 80AC0750 0C00F269 */  jal     func_8003C9A4              
+/* 000F0 80AC0750 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 000F4 80AC0754 AFA40030 */  sw      $a0, 0x0030($sp)           
 /* 000F8 80AC0758 E6000080 */  swc1    $f0, 0x0080($s0)           ## 00000080
 /* 000FC 80AC075C 8E060024 */  lw      $a2, 0x0024($s0)           ## 00000024
@@ -75,7 +75,7 @@ glabel EnOkuta_Init
 /* 0010C 80AC076C AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 00110 80AC0770 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 00114 80AC0774 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 00118 80AC0778 0C010891 */  jal     func_80042244              
+/* 00118 80AC0778 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 0011C 80AC077C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00120 80AC0780 10400007 */  beq     $v0, $zero, .L80AC07A0     
 /* 00124 80AC0784 C7A60038 */  lwc1    $f6, 0x0038($sp)           

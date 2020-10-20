@@ -3,7 +3,7 @@ glabel D_80138FB0
     .float 0.008
     
 .text
-glabel func_8003FDDC
+glabel BgCheck_RaycastFloorDyna
 /* AB6F7C 8003FDDC 27BDFEE0 */  addiu $sp, $sp, -0x120
 /* AB6F80 8003FDE0 AFBF004C */  sw    $ra, 0x4c($sp)
 /* AB6F84 8003FDE4 AFB30048 */  sw    $s3, 0x48($sp)
@@ -61,7 +61,7 @@ glabel func_8003FDDC
 /* AB704C 8003FEAC 00D16021 */  addu  $t4, $a2, $s1
 /* AB7050 8003FEB0 258D0062 */  addiu $t5, $t4, 0x62
 /* AB7054 8003FEB4 AE0D002C */  sw    $t5, 0x2c($s0)
-/* AB7058 8003FEB8 0C00FEFD */  jal   func_8003FBF4
+/* AB7058 8003FEB8 0C00FEFD */  jal   BgCheck_RaycastFloorDynaList
 /* AB705C 8003FEBC 24050001 */   li    $a1, 1
 /* AB7060 8003FEC0 C6080010 */  lwc1  $f8, 0x10($s0)
 /* AB7064 8003FEC4 4600403C */  c.lt.s $f8, $f0
@@ -91,7 +91,7 @@ glabel func_8003FDDC
 /* AB70B8 8003FF18 24050002 */  li    $a1, 2
 /* AB70BC 8003FF1C 01B17021 */  addu  $t6, $t5, $s1
 /* AB70C0 8003FF20 25CF0060 */  addiu $t7, $t6, 0x60
-/* AB70C4 8003FF24 0C00FEFD */  jal   func_8003FBF4
+/* AB70C4 8003FF24 0C00FEFD */  jal   BgCheck_RaycastFloorDynaList
 /* AB70C8 8003FF28 AE0F002C */   sw    $t7, 0x2c($s0)
 /* AB70CC 8003FF2C C60A0010 */  lwc1  $f10, 0x10($s0)
 /* AB70D0 8003FF30 4600503C */  c.lt.s $f10, $f0
@@ -112,7 +112,7 @@ glabel func_8003FDDC
 /* AB7108 8003FF68 24050004 */  li    $a1, 4
 /* AB710C 8003FF6C 01B17021 */  addu  $t6, $t5, $s1
 /* AB7110 8003FF70 25CF005E */  addiu $t7, $t6, 0x5e
-/* AB7114 8003FF74 0C00FEFD */  jal   func_8003FBF4
+/* AB7114 8003FF74 0C00FEFD */  jal   BgCheck_RaycastFloorDynaList
 /* AB7118 8003FF78 AE0F002C */   sw    $t7, 0x2c($s0)
 /* AB711C 8003FF7C C6100010 */  lwc1  $f16, 0x10($s0)
 /* AB7120 8003FF80 4600803C */  c.lt.s $f16, $f0
@@ -132,7 +132,7 @@ glabel func_8003FDDC
 /* AB7150 8003FFB0 26730002 */   addiu $s3, $s3, 2
 /* AB7154 8003FFB4 8E190018 */  lw    $t9, 0x18($s0)
 /* AB7158 8003FFB8 00C02025 */  move  $a0, $a2
-/* AB715C 8003FFBC 0C00FAE1 */  jal   func_8003EB84
+/* AB715C 8003FFBC 0C00FAE1 */  jal   DynaPoly_GetActor
 /* AB7160 8003FFC0 8F250000 */   lw    $a1, ($t9)
 /* AB7164 8003FFC4 3C01C6FA */  li    $at, 0xC6FA0000 # 0.000000
 /* AB7168 8003FFC8 44819000 */  mtc1  $at, $f18

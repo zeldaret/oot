@@ -68,9 +68,9 @@ void func_8089B440(BgJyaZurerukabe* this, GlobalContext* globalCtx, CollisionHea
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    func_80043480(&this->dyna, flags);
-    func_80041880(collision, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, flags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_zurerukabe.c", 194,
@@ -139,7 +139,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaZurerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaZurerukabe* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     D_8089B9C0[this->unk_168] = 0.0f;
 }
 

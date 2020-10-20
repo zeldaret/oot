@@ -64,13 +64,13 @@ void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80043480(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         this->unk_164 = 0xFF;
         func_809C2060(this, func_809C22F4);
     } else {
-        func_80041880(&D_06007564, &colHeader);
-        this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        CollisionHeader_GetVirtual(&D_06007564, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         func_809C2060(this, func_809C2148);
     }
 }
@@ -78,7 +78,7 @@ void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBlkobj* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_809C2148(EnBlkobj* this, GlobalContext* globalCtx) {
@@ -117,7 +117,7 @@ void func_809C2218(EnBlkobj* this, GlobalContext* globalCtx) {
             if (this->unk_164 > 0xFF) {
                 this->unk_164 = 0xFF;
                 func_809C2060(this, func_809C22F4);
-                func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+                DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             }
         }
     }

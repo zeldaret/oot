@@ -43,9 +43,9 @@ void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBlock* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna, 0);
-    func_80041880(&D_05004E98, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, 0);
+    CollisionHeader_GetVirtual(&D_05004E98, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if ((LINK_AGE_IN_YEARS != YEARS_CHILD) || !Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
@@ -56,7 +56,7 @@ void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBlock* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx) {

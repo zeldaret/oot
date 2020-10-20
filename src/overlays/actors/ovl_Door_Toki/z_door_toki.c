@@ -38,15 +38,15 @@ void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    func_80043480(&this->actor, DPM_UNK);
-    func_80041880(&D_06007888, &colHeader);
-    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06007888, &colHeader);
+    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
 }
 
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx) {

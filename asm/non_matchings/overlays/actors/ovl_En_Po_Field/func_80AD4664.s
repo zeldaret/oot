@@ -132,7 +132,7 @@ glabel func_80AD4664
 /* 00D30 80AD4830 C6240028 */  lwc1    $f4, 0x0028($s1)           ## 00000028
 /* 00D34 80AD4834 461A2180 */  add.s   $f6, $f4, $f26             
 /* 00D38 80AD4838 E6060028 */  swc1    $f6, 0x0028($s0)           ## 00000028
-/* 00D3C 80AD483C 0C00F269 */  jal     func_8003C9A4              
+/* 00D3C 80AD483C 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00D40 80AD4840 AFB40010 */  sw      $s4, 0x0010($sp)           
 /* 00D44 80AD4844 461C0032 */  c.eq.s  $f0, $f28                  
 /* 00D48 80AD4848 E6000028 */  swc1    $f0, 0x0028($s0)           ## 00000028

@@ -26,7 +26,7 @@ glabel func_80ABC0F8
 /* 00078 80ABC158 27A5003C */  addiu   $a1, $sp, 0x003C           ## $a1 = FFFFFFEC
 /* 0007C 80ABC15C E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 00080 80ABC160 E7A80044 */  swc1    $f8, 0x0044($sp)           
-/* 00084 80ABC164 0C00F519 */  jal     func_8003D464              
+/* 00084 80ABC164 0C00F519 */  jal     BgCheck_EntitySphVsWall1              
 /* 00088 80ABC168 E7B00018 */  swc1    $f16, 0x0018($sp)          
 /* 0008C 80ABC16C 10400004 */  beq     $v0, $zero, .L80ABC180     
 /* 00090 80ABC170 8FA40034 */  lw      $a0, 0x0034($sp)           
@@ -36,7 +36,7 @@ glabel func_80ABC0F8
 .L80ABC180:
 /* 000A0 80ABC180 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFFC
 /* 000A4 80ABC184 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFF8
-/* 000A8 80ABC188 0C00F250 */  jal     func_8003C940              
+/* 000A8 80ABC188 0C00F250 */  jal     BgCheck_EntityRaycastFloor3              
 /* 000AC 80ABC18C 27A7003C */  addiu   $a3, $sp, 0x003C           ## $a3 = FFFFFFEC
 /* 000B0 80ABC190 C612000C */  lwc1    $f18, 0x000C($s0)          ## 0000000C
 /* 000B4 80ABC194 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

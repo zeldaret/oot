@@ -1,4 +1,4 @@
-glabel func_800396F0
+glabel BgCheck_RaycastFloorStaticList
 /* AB0890 800396F0 27BDFF78 */  addiu $sp, $sp, -0x88
 /* AB0894 800396F4 AFBF0054 */  sw    $ra, 0x54($sp)
 /* AB0898 800396F8 AFBE0050 */  sw    $fp, 0x50($sp)
@@ -102,7 +102,7 @@ glabel func_800396F0
 /* AB0A0C 8003986C 8E470008 */  lw    $a3, 8($s2)
 /* AB0A10 80039870 AFA9005C */  sw    $t1, 0x5c($sp)
 /* AB0A14 80039874 E7B60014 */  swc1  $f22, 0x14($sp)
-/* AB0A18 80039878 0C00E39E */  jal   func_80038E78
+/* AB0A18 80039878 0C00E39E */  jal   CollisionPoly_CheckYIntersect
 /* AB0A1C 8003987C AFBE0010 */   sw    $fp, 0x10($sp)
 /* AB0A20 80039880 24010001 */  li    $at, 1
 /* AB0A24 80039884 14410011 */  bne   $v0, $at, .L800398CC

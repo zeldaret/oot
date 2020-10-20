@@ -24,7 +24,7 @@ glabel EnOkuta_Update
 /* 019CC 80AC202C AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 019D0 80AC2030 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 019D4 80AC2034 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 019D8 80AC2038 0C010891 */  jal     func_80042244              
+/* 019D8 80AC2038 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 019DC 80AC203C 262507C0 */  addiu   $a1, $s1, 0x07C0           ## $a1 = 000007C0
 /* 019E0 80AC2040 10400007 */  beq     $v0, $zero, .L80AC2060     
 /* 019E4 80AC2044 C7A40044 */  lwc1    $f4, 0x0044($sp)           
@@ -102,7 +102,7 @@ glabel EnOkuta_Update
 /* 01AE8 80AC2148 5100000B */  beql    $t0, $zero, .L80AC2178     
 /* 01AEC 80AC214C 960B0088 */  lhu     $t3, 0x0088($s0)           ## 00000088
 /* 01AF0 80AC2150 8E050074 */  lw      $a1, 0x0074($s0)           ## 00000074
-/* 01AF4 80AC2154 0C010812 */  jal     func_80042048              
+/* 01AF4 80AC2154 0C010812 */  jal     SurfaceType_IsIgnoredByProjectiles              
 /* 01AF8 80AC2158 9206007C */  lbu     $a2, 0x007C($s0)           ## 0000007C
 /* 01AFC 80AC215C 10400005 */  beq     $v0, $zero, .L80AC2174     
 /* 01B00 80AC2160 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
@@ -118,7 +118,7 @@ glabel EnOkuta_Update
 /* 01B20 80AC2180 5180000B */  beql    $t4, $zero, .L80AC21B0     
 /* 01B24 80AC2184 8FB80034 */  lw      $t8, 0x0034($sp)           
 /* 01B28 80AC2188 8E050078 */  lw      $a1, 0x0078($s0)           ## 00000078
-/* 01B2C 80AC218C 0C010812 */  jal     func_80042048              
+/* 01B2C 80AC218C 0C010812 */  jal     SurfaceType_IsIgnoredByProjectiles              
 /* 01B30 80AC2190 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 01B34 80AC2194 10400005 */  beq     $v0, $zero, .L80AC21AC     
 /* 01B38 80AC2198 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001

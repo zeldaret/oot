@@ -114,8 +114,8 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (torchCount == 10) {
         torchCount = 24;
     }
-    if (func_80042244(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &waterSurface,
-                      &dummy) &&
+    if (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
+                                &waterSurface, &dummy) &&
         ((waterSurface - this->actor.posRot.pos.y) > 52.0f)) {
         this->litTimer = 0;
         if (torchType == 1) {

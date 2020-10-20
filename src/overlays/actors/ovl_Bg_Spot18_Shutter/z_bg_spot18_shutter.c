@@ -46,7 +46,7 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 param = (this->dyna.actor.params >> 8) & 1;
     CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     if (param == 0) {
@@ -75,14 +75,14 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    func_80041880(&D_06000534, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_06000534, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Shutter* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {

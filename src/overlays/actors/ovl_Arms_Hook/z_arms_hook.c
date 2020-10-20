@@ -258,7 +258,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         sp60.x = this->unk_1F4.x - (this->unk_1E8.x - this->unk_1F4.x);
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
-        if (func_8003DE84(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, 1, 1, 1, 1, &bgId) != 0) {
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, 1, 1, 1, 1, &bgId) != 0) {
             if (func_8002F9EC(globalCtx, &this->actor, poly, bgId, &sp78) == false) {
                 sp5C = COLPOLY_GET_NORMAL(poly->normal.x);
                 sp58 = COLPOLY_GET_NORMAL(poly->normal.z);
@@ -266,9 +266,9 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.x += 10.0f * sp5C;
                 this->actor.posRot.pos.z += 10.0f * sp58;
                 this->timer = 0;
-                if (func_80041FE8(&globalCtx->colCtx, poly, bgId) != 0) {
+                if (SurfaceType_IsHookshotSurface(&globalCtx->colCtx, poly, bgId) != 0) {
                     if (bgId != BGCHECK_SCENE) {
-                        dynaPolyActor = func_8003EB84(&globalCtx->colCtx, bgId);
+                        dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
                         if (dynaPolyActor != NULL) {
                             ArmsHook_AttachHookToActor(this, &dynaPolyActor->actor);
                         }

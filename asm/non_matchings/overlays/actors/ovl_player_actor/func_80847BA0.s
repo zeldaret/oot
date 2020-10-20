@@ -186,7 +186,7 @@ glabel func_80847BA0
 /* 15BD0 80847DE0 10000004 */  beq     $zero, $zero, .L80847DF4
 /* 15BD4 80847DE4 A60D089E */  sh      $t5, 0x089E($s0)           ## 0000089E
 .L80847DE8:
-/* 15BD8 80847DE8 0C0107CD */  jal     func_80041F34
+/* 15BD8 80847DE8 0C0107CD */  jal     SurfaceType_GetSfx
 /* 15BDC 80847DEC 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 15BE0 80847DF0 A602089E */  sh      $v0, 0x089E($s0)           ## 0000089E
 .L80847DF4:
@@ -195,7 +195,7 @@ glabel func_80847BA0
 /* 15BEC 80847DFC 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 15BF0 80847E00 15C10014 */  bne     $t6, $at, .L80847E54
 /* 15BF4 80847E04 8FA500C0 */  lw      $a1, 0x00C0($sp)
-/* 15BF8 80847E08 0C0107F1 */  jal     func_80041FC4
+/* 15BF8 80847E08 0C0107F1 */  jal     SurfaceType_GetEcho
 /* 15BFC 80847E0C 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 15C00 80847E10 00022600 */  sll     $a0, $v0, 24
 /* 15C04 80847E14 0C03D9B7 */  jal     func_800F66DC
@@ -205,7 +205,7 @@ glabel func_80847BA0
 /* 15C14 80847E24 8FA500C0 */  lw      $a1, 0x00C0($sp)
 /* 15C18 80847E28 14C10008 */  bne     $a2, $at, .L80847E4C
 /* 15C1C 80847E2C 8FA40030 */  lw      $a0, 0x0030($sp)
-/* 15C20 80847E30 0C0107E8 */  jal     func_80041FA0
+/* 15C20 80847E30 0C0107E8 */  jal     SurfaceType_GetLightSettingIndex
 /* 15C24 80847E34 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 15C28 80847E38 8FA400C8 */  lw      $a0, 0x00C8($sp)
 /* 15C2C 80847E3C 0C01D33A */  jal     func_80074CE8
@@ -219,7 +219,7 @@ glabel func_80847BA0
 /* 15C44 80847E54 8FA40030 */  lw      $a0, 0x0030($sp)
 .L80847E58:
 /* 15C48 80847E58 8FA500C0 */  lw      $a1, 0x00C0($sp)
-/* 15C4C 80847E5C 0C010830 */  jal     func_800420C0
+/* 15C4C 80847E5C 0C010830 */  jal     SurfaceType_GetConveyorSpeed
 /* 15C50 80847E60 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 15C54 80847E64 3C038085 */  lui     $v1, %hi(D_808535F4)       ## $v1 = 80850000
 /* 15C58 80847E68 246335F4 */  addiu   $v1, $v1, %lo(D_808535F4)  ## $v1 = 808535F4
@@ -227,7 +227,7 @@ glabel func_80847BA0
 /* 15C60 80847E70 AC620000 */  sw      $v0, 0x0000($v1)           ## 808535F4
 /* 15C64 80847E74 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 15C68 80847E78 8FA500C0 */  lw      $a1, 0x00C0($sp)
-/* 15C6C 80847E7C 0C010821 */  jal     func_80042084
+/* 15C6C 80847E7C 0C010821 */  jal     SurfaceType_IsConveyor
 /* 15C70 80847E80 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 15C74 80847E84 3C048085 */  lui     $a0, %hi(D_808535F8)       ## $a0 = 80850000
 /* 15C78 80847E88 248435F8 */  addiu   $a0, $a0, %lo(D_808535F8)  ## $a0 = 808535F8
@@ -256,7 +256,7 @@ glabel func_80847BA0
 /* 15CD0 80847EE0 8FA40030 */  lw      $a0, 0x0030($sp)
 .L80847EE4:
 /* 15CD4 80847EE4 8FA500C0 */  lw      $a1, 0x00C0($sp)
-/* 15CD8 80847EE8 0C010839 */  jal     func_800420E4
+/* 15CD8 80847EE8 0C010839 */  jal     SurfaceType_GetConveyorDirection
 /* 15CDC 80847EEC 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 15CE0 80847EF0 00024A80 */  sll     $t1, $v0, 10
 /* 15CE4 80847EF4 3C018085 */  lui     $at, %hi(D_808535FC)       ## $at = 80850000
@@ -484,7 +484,7 @@ glabel func_80847BA0
 /* 16024 80848234 C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028
 /* 16028 80848238 C50A000C */  lwc1    $f10, 0x000C($t0)          ## 0000000C
 /* 1602C 8084823C 460A4480 */  add.s   $f18, $f8, $f10
-/* 16030 80848240 0C00F224 */  jal     func_8003C890
+/* 16030 80848240 0C00F224 */  jal     BgCheck_EntityRaycastFloor1
 /* 16034 80848244 E7B2006C */  swc1    $f18, 0x006C($sp)
 /* 16038 80848248 C60C0028 */  lwc1    $f12, 0x0028($s0)          ## 00000028
 /* 1603C 8084824C 3C014190 */  lui     $at, 0x4190                ## $at = 41900000
@@ -508,7 +508,7 @@ glabel func_80847BA0
 /* 16084 80848294 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 16088 80848298 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 1608C 8084829C 44075000 */  mfc1    $a3, $f10
-/* 16090 808482A0 0C00F5E8 */  jal     func_8003D7A0
+/* 16090 808482A0 0C00F5E8 */  jal     BgCheck_EntityCheckCeiling
 /* 16094 808482A4 E7AE0064 */  swc1    $f14, 0x0064($sp)
 /* 16098 808482A8 10400005 */  beq     $v0, $zero, .L808482C0
 /* 1609C 808482AC C7AE0064 */  lwc1    $f14, 0x0064($sp)

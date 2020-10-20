@@ -63,12 +63,12 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80043480(&this->dyna.actor, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    func_80041880(&D_06004F30, &colHeader);
+    CollisionHeader_GetVirtual(&D_06004F30, &colHeader);
 
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
         BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
@@ -81,7 +81,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanKd* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 

@@ -26,7 +26,7 @@ glabel func_80B023FC
 /* 001EC 80B0245C AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 001F0 80B02460 26070544 */  addiu   $a3, $s0, 0x0544           ## $a3 = 00000544
 /* 001F4 80B02464 27A6003C */  addiu   $a2, $sp, 0x003C           ## $a2 = FFFFFFEC
-/* 001F8 80B02468 0C00F7A1 */  jal     func_8003DE84              
+/* 001F8 80B02468 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 001FC 80B0246C E7B00044 */  swc1    $f16, 0x0044($sp)          
 /* 00200 80B02470 14400003 */  bne     $v0, $zero, .L80B02480     
 /* 00204 80B02474 8FBF0034 */  lw      $ra, 0x0034($sp)           

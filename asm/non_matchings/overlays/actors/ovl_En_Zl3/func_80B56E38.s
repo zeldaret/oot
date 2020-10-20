@@ -21,7 +21,7 @@ glabel func_80B56E38
 /* 03AD0 80B56E80 11E00008 */  beq     $t7, $zero, .L80B56EA4     
 /* 03AD4 80B56E84 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 03AD8 80B56E88 8E050078 */  lw      $a1, 0x0078($s0)           ## 00000078
-/* 03ADC 80B56E8C 0C0107CD */  jal     func_80041F34              
+/* 03ADC 80B56E8C 0C0107CD */  jal     SurfaceType_GetSfx              
 /* 03AE0 80B56E90 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 03AE4 80B56E94 24430800 */  addiu   $v1, $v0, 0x0800           ## $v1 = 00000800
 /* 03AE8 80B56E98 3065FFFF */  andi    $a1, $v1, 0xFFFF           ## $a1 = 00000800

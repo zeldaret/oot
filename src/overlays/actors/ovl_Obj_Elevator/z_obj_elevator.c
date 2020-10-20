@@ -53,9 +53,9 @@ void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, CollisionHeader*
     s16 pad2;
     Actor* thisx = &this->dyna.actor;
 
-    func_80043480(thisx, flag);
-    func_80041880(collision, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(thisx, flag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
                      thisx->id, thisx->params);
@@ -78,7 +78,7 @@ void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjElevator* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80B92C5C(ObjElevator* this) {

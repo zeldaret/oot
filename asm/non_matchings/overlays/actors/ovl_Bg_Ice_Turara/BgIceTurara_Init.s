@@ -10,12 +10,12 @@ glabel BgIceTurara_Init
               
 /* 00020 80891F40 24A5266C */  addiu   $a1, $a1, %lo(D_8089266C)  ## $a1 = 8089266C
 /* 00024 80891F44 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00028 80891F48 0C010D20 */  jal     func_80043480
+/* 00028 80891F48 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 0002C 80891F4C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00030 80891F50 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00034 80891F54 24842594 */  addiu   $a0, $a0, 0x2594           ## $a0 = 06002594
-/* 00038 80891F58 0C010620 */  jal     func_80041880
+/* 00038 80891F58 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0003C 80891F5C 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 00040 80891F60 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
@@ -37,8 +37,8 @@ glabel BgIceTurara_Init
 /* 00074 80891F94 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00078 80891F98 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0007C 80891F9C 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00080 80891FA0 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 00080 80891FA0 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00084 80891FA4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00088 80891FA8 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
 /* 0008C 80891FAC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

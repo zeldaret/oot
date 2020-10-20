@@ -80,9 +80,9 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = func_808BEFF4;
     } else {
         items = &D_808BF300[1];
-        func_80043480(&this->dyna, DPM_UNK);
-        func_80041880(&D_060066A8, &colHeader);
-        this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(&D_060066A8, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
         thisx->initPosRot.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->unk_168)) {
             thisx->posRot.pos.y = thisx->initPosRot.pos.y;
@@ -115,7 +115,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyTris(globalCtx, &this->collider);
     if (thisx->params == 1) {
-        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 

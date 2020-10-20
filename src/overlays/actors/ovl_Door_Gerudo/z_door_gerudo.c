@@ -46,8 +46,8 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80041880(&D_06000170, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    CollisionHeader_GetVirtual(&D_06000170, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         this->actionFunc = func_8099485C;
@@ -61,7 +61,7 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DoorGerudo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorGerudo* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3, f32 arg4) {

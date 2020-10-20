@@ -59,7 +59,7 @@ glabel EnTite_Update
 /* 023F0 80B1AE70 8E070368 */  lw      $a3, 0x0368($s0)           ## 00000368
 /* 023F4 80B1AE74 27AF0038 */  addiu   $t7, $sp, 0x0038           ## $t7 = FFFFFFF0
 /* 023F8 80B1AE78 AFAF0014 */  sw      $t7, 0x0014($sp)           
-/* 023FC 80B1AE7C 0C010891 */  jal     func_80042244              
+/* 023FC 80B1AE7C 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 02400 80B1AE80 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 02404 80B1AE84 1040000C */  beq     $v0, $zero, .L80B1AEB8     
 /* 02408 80B1AE88 C7AA0034 */  lwc1    $f10, 0x0034($sp)          
@@ -97,7 +97,7 @@ glabel EnTite_Update
 .L80B1AF00:
 /* 02480 80B1AF00 8E070374 */  lw      $a3, 0x0374($s0)           ## 00000374
 /* 02484 80B1AF04 AFAC0014 */  sw      $t4, 0x0014($sp)           
-/* 02488 80B1AF08 0C010891 */  jal     func_80042244              
+/* 02488 80B1AF08 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 0248C 80B1AF0C AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 02490 80B1AF10 1040000C */  beq     $v0, $zero, .L80B1AF44     
 /* 02494 80B1AF14 C7A60034 */  lwc1    $f6, 0x0034($sp)           
@@ -135,7 +135,7 @@ glabel EnTite_Update
 .L80B1AF8C:
 /* 0250C 80B1AF8C 8E070350 */  lw      $a3, 0x0350($s0)           ## 00000350
 /* 02510 80B1AF90 AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 02514 80B1AF94 0C010891 */  jal     func_80042244              
+/* 02514 80B1AF94 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 02518 80B1AF98 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 0251C 80B1AF9C 1040000C */  beq     $v0, $zero, .L80B1AFD0     
 /* 02520 80B1AFA0 C7B20034 */  lwc1    $f18, 0x0034($sp)          
@@ -173,7 +173,7 @@ glabel EnTite_Update
 .L80B1B018:
 /* 02598 80B1B018 8E07035C */  lw      $a3, 0x035C($s0)           ## 0000035C
 /* 0259C 80B1B01C AFAE0014 */  sw      $t6, 0x0014($sp)           
-/* 025A0 80B1B020 0C010891 */  jal     func_80042244              
+/* 025A0 80B1B020 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 025A4 80B1B024 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 025A8 80B1B028 1040000C */  beq     $v0, $zero, .L80B1B05C     
 /* 025AC 80B1B02C C7B00034 */  lwc1    $f16, 0x0034($sp)          

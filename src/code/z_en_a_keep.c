@@ -152,15 +152,15 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->dyna.bgId != BGACTOR_NEG_ONE) {
-        func_80041880(D_8011546C[this->dyna.bgId], &colHeader);
-        this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        CollisionHeader_GetVirtual(D_8011546C[this->dyna.bgId], &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
 }
 
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAObj* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:

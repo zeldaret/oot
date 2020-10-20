@@ -146,7 +146,7 @@ void func_808AAF34(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Idohashira* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 s32 BgSpot01Idohashira_NotInCsMode(GlobalContext* globalCtx) {
@@ -301,10 +301,10 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80043480(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     colHeader = NULL;
-    func_80041880(&D_0600075C, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_0600075C, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (gSaveContext.sceneSetupIndex < 4) {
         if ((gSaveContext.eventChkInf[5] & 0x10) && LINK_IS_ADULT) {

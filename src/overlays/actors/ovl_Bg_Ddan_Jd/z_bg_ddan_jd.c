@@ -60,9 +60,9 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    func_80043480(thisx, DPM_PLAYER);
-    func_80041880(&D_06003CE0, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(thisx, DPM_PLAYER);
+    CollisionHeader_GetVirtual(&D_06003CE0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->idleTimer = IDLE_FRAMES;
     this->state = STATE_GO_BOTTOM;
 
@@ -80,7 +80,7 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgDdanJd* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {

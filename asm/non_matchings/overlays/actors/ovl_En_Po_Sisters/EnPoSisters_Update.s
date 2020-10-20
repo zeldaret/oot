@@ -71,7 +71,7 @@ glabel EnPoSisters_Update
 /* 0343C 80ADC3CC E7B0003C */  swc1    $f16, 0x003C($sp)          
 /* 03440 80ADC3D0 C612002C */  lwc1    $f18, 0x002C($s0)          ## 0000002C
 /* 03444 80ADC3D4 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 03448 80ADC3D8 0C00F269 */  jal     func_8003C9A4              
+/* 03448 80ADC3D8 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 0344C 80ADC3DC E7B20040 */  swc1    $f18, 0x0040($sp)          
 /* 03450 80ADC3E0 E6000080 */  swc1    $f0, 0x0080($s0)           ## 00000080
 /* 03454 80ADC3E4 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC

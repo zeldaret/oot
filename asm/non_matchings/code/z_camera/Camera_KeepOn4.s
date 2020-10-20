@@ -603,7 +603,7 @@ glabel L8004EB20
 /* AC5D64 8004EBC4 E426BD54 */  swc1  $f6, %lo(D_8015BD54)($at)
 /* AC5D68 8004EBC8 8E24008C */  lw    $a0, 0x8c($s1)
 /* AC5D6C 8004EBCC AFA30038 */  sw    $v1, 0x38($sp)
-/* AC5D70 8004EBD0 0C00F329 */  jal   func_8003CCA4
+/* AC5D70 8004EBD0 0C00F329 */  jal   BgCheck_CameraRaycastFloor2
 /* AC5D74 8004EBD4 248407C0 */   addiu $a0, $a0, 0x7c0
 /* AC5D78 8004EBD8 3C018016 */  lui   $at, %hi(D_8015BD54)
 /* AC5D7C 8004EBDC C428BD54 */  lwc1  $f8, %lo(D_8015BD54)($at)

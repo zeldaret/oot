@@ -70,7 +70,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Actor_SetHeight(thisx, 50.0f);
     osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
                  ((s32)thisx->params >> 8) & 0xFF);
@@ -80,8 +80,8 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("arg_data おかしい 【格子】\n");
     }
 
-    func_80041880(D_80889E70[thisx->params & 0xFF], &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    CollisionHeader_GetVirtual(D_80889E70[thisx->params & 0xFF], &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->posRot.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
         func_80889ACC(this);
@@ -93,7 +93,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80889ACC(BgHidanKousi* this) {

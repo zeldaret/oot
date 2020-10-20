@@ -1343,7 +1343,7 @@ void func_80AED8DC(EnRu1* this) {
 
 void func_80AEDAE0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    Actor* dyna = func_8003EB84(&globalCtx->colCtx, thisx->floorPolySource);
+    Actor* dyna = DynaPoly_GetActor(&globalCtx->colCtx, thisx->floorPolySource);
 
     if (dyna == NULL || dyna->id == ACTOR_EN_BOX) {
         thisx->bgCheckFlags &= ~0x19;
@@ -1363,7 +1363,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) {
         velocityY = &this->actor.velocity.y;
-        temp_dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
+        temp_dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorPolySource);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speedXZ;
             if (temp_dyna != NULL) {
@@ -1438,7 +1438,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEDEF4(EnRu1* this, GlobalContext* globalCtx) {
     f32* speedXZ = &this->actor.speedXZ;
-    Actor* dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
+    Actor* dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorPolySource);
 
     if (dyna != NULL && dyna->id == ACTOR_EN_BOX) {
         if (*speedXZ != 0.0f) {
@@ -1549,7 +1549,7 @@ void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
     s32 floorPolySource;
     if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != BGCHECK_SCENE)) {
         floorPolySource = this->actor.floorPolySource;
-        dyna = func_8003EB84(&globalCtx->colCtx, floorPolySource);
+        dyna = DynaPoly_GetActor(&globalCtx->colCtx, floorPolySource);
         if ((dyna != NULL) && (dyna->id == ACTOR_BG_BDAN_SWITCH)) {
             if (((dyna->params >> 8) & 0x3F) == 0x38) {
                 gSaveContext.infTable[20] |= 1;
@@ -1570,7 +1570,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
         colCtx = &globalCtx->colCtx;
         floorPolySource =
             this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
-        dynaActor = func_8003EB84(colCtx, floorPolySource);
+        dynaActor = DynaPoly_GetActor(colCtx, floorPolySource);
         if (dynaActor != NULL && dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS && dynaActor->actor.params == 0 &&
             !Player_InCsMode(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {
             func_80AEE02C(this);

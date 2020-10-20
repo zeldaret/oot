@@ -48,10 +48,10 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
     colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    func_80043480(&this->dyna, DPM_UNK);
-    func_80041880(&D_06000DB8, &colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000DB8, &colHeader);
 
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (gSaveContext.eventChkInf[4] & 0x2000) {
         this->actionFunc = func_808787A4;
@@ -65,7 +65,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgGjyoBridge* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx) {

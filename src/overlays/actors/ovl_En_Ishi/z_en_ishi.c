@@ -98,7 +98,7 @@ s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
     sp28.x = this->actor.posRot.pos.x;
     sp28.y = this->actor.posRot.pos.y + 30.0f;
     sp28.z = this->actor.posRot.pos.z;
-    temp_f0 = func_8003C9A4(&globalCtx->colCtx, &sp34, &sp24, &this->actor, &sp28);
+    temp_f0 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp34, &sp24, &this->actor, &sp28);
     if (temp_f0 > -32000.0f) {
         this->actor.posRot.pos.y = temp_f0 + arg2;
         Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);

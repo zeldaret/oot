@@ -94,7 +94,7 @@ glabel func_80B8D8A0
 /* 009BC 80B8DA0C E7A8007C */  swc1    $f8, 0x007C($sp)           
 /* 009C0 80B8DA10 46122200 */  add.s   $f8, $f4, $f18             
 /* 009C4 80B8DA14 E7A60080 */  swc1    $f6, 0x0080($sp)           
-/* 009C8 80B8DA18 0C00F82E */  jal     func_8003E0B8              
+/* 009C8 80B8DA18 0C00F82E */  jal     BgCheck_AnyLineTest1              
 /* 009CC 80B8DA1C E7A80084 */  swc1    $f8, 0x0084($sp)           
 /* 009D0 80B8DA20 10400004 */  beq     $v0, $zero, .L80B8DA34     
 /* 009D4 80B8DA24 2631000C */  addiu   $s1, $s1, 0x000C           ## $s1 = 0000000C

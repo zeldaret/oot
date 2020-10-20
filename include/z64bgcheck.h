@@ -5,37 +5,13 @@ struct GlobalContext;
 struct Actor;
 struct DynaPolyActor;
 
-#define SS_NULL 0xFFFF
-
-#define BGACTOR_NEG_ONE -1
-
-// bccFlags
-#define BGCHECK_CHECK_WALL (1 << 0)
-#define BGCHECK_CHECK_FLOOR (1 << 1)
-#define BGCHECK_CHECK_CEILING (1 << 2)
-#define BGCHECK_CHECK_ONE_FACE (1 << 3)
-#define BGCHECK_CHECK_DYNA (1 << 4)
-#define BGCHECK_CHECK_ALL (BGCHECK_CHECK_WALL | BGCHECK_CHECK_FLOOR | BGCHECK_CHECK_CEILING | BGCHECK_CHECK_ONE_FACE | BGCHECK_CHECK_DYNA) 
-
-// bciFlags
-#define BGCHECK_IGNORE_NONE 0
-#define BGCHECK_IGNORE_CEILING (1 << 0)
-#define BGCHECK_IGNORE_WALL (1 << 1)
-#define BGCHECK_IGNORE_FLOOR (1 << 2)
-
-// xpFlags
-#define COLPOLY_IGNORE_NONE 0
-#define COLPOLY_IGNORE_CAMERA (1 << 0)
-#define COLPOLY_IGNORE_ENTITY (1 << 1)
-#define COLPOLY_IGNORE_PROJECTILES (1 << 2)
-
 #define COLPOLY_NORMAL_FRAC (1.0f / SHT_MAX)
 #define COLPOLY_SNORMAL(x) ((s16)((x) * SHT_MAX))
 #define COLPOLY_GET_NORMAL(n) ((n)*COLPOLY_NORMAL_FRAC)
 #define COLPOLY_VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
 #define COLPOLY_VTX_INDEX(vI) ((vI)&0x1FFF)
 
-
+#define BGACTOR_NEG_ONE -1
 #define BG_ACTOR_MAX 50
 #define BGCHECK_SCENE BG_ACTOR_MAX
 #define BGCHECK_Y_MIN -32000.0f
@@ -100,13 +76,13 @@ typedef struct {
 } SurfaceType;
 
 typedef struct {
-    /* 0x00 */ Vec3s minBounds;
-    /* 0x06 */ Vec3s maxBounds;
+    /* 0x00 */ Vec3s minBounds; // minimum coordinates of poly bounding box
+    /* 0x06 */ Vec3s maxBounds; // maximum coordinates of poly bounding box
     /* 0x0C */ u16 nbVertices;
     /* 0x10 */ Vec3s* vtxList;
     /* 0x14 */ u16 nbPolygons;
     /* 0x18 */ CollisionPoly* polyList;
-    /* 0x1C */ SurfaceType* polygonTypes;
+    /* 0x1C */ SurfaceType* surfaceTypeList;
     /* 0x20 */ CamData* cameraDataList;
     /* 0x24 */ u16 nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
@@ -121,7 +97,7 @@ typedef struct {
     /* 0x00 */ u16 max;          // original name: short_slist_node_size
     /* 0x02 */ u16 count;        // original name: short_slist_node_last_index
     /* 0x04 */ SSNode* tbl;      // original name: short_slist_node_tbl
-    /* 0x08 */ u8* polyCheckTbl; // set to 1 if polygon has already been tested
+    /* 0x08 */ u8* polyCheckTbl; // points to an array of bytes, one per static poly. Zero initialized when starting a bg check, and set to 1 if that poly has already been tested.
 } SSNodeList;
 
 typedef struct {
@@ -169,12 +145,12 @@ typedef struct {
 
 typedef struct CollisionContext {
     /* 0x00 */ CollisionHeader* colHeader;
-    /* 0x04 */ Vec3f minBounds;
-    /* 0x10 */ Vec3f maxBounds;
+    /* 0x04 */ Vec3f minBounds; // minimum coordinates of collision bounding box
+    /* 0x10 */ Vec3f maxBounds; // maximum coordinates of collision bounding box
     /* 0x1C */ Vec3i subdivAmount;
     /* 0x28 */ Vec3f subdivLength;
     /* 0x34 */ Vec3f subdivSizeInv;
-    /* 0x40 */ StaticLookup* lookupTbl;
+    /* 0x40 */ StaticLookup* lookupTbl; //3d array of length subdivAmount
     /* 0x44 */ SSNodeList polyNodes;
     /* 0x50 */ DynaCollisionContext dyna;
     /* 0x1460 */ u32 memSize;

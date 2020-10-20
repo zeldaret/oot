@@ -176,7 +176,7 @@ glabel func_800591EC
 /* AD0518 80059378 8E04008C */  lw    $a0, 0x8c($s0)
 /* AD051C 8005937C AFAE0014 */  sw    $t6, 0x14($sp)
 /* AD0520 80059380 AFAD0010 */  sw    $t5, 0x10($sp)
-/* AD0524 80059384 0C00F283 */  jal   func_8003CA0C
+/* AD0524 80059384 0C00F283 */  jal   BgCheck_EntityRaycastFloor5
 /* AD0528 80059388 248507C0 */   addiu $a1, $a0, 0x7c0
 /* AD052C 8005938C 3C01C6FA */  li    $at, 0xC6FA0000 # 0.000000
 /* AD0530 80059390 44818000 */  mtc1  $at, $f16

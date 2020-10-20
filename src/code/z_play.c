@@ -1386,7 +1386,7 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
     f32 nz;
     s32 pad[5];
 
-    floorY = func_8003CB30(&globalCtx->colCtx, &poly, vec);
+    floorY = BgCheck_AnyRaycastFloor1(&globalCtx->colCtx, &poly, vec);
 
     if (floorY > BGCHECK_Y_MIN) {
         nx = COLPOLY_GET_NORMAL(poly.normal.x);
@@ -1831,10 +1831,10 @@ s32 func_800C0DB4(GlobalContext* globalCtx, Vec3f* pos) {
 
     waterSurfacePos = *pos;
 
-    if (func_8004213C(globalCtx, &globalCtx->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
-                      &waterBox) == true &&
+    if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, waterSurfacePos.x, waterSurfacePos.z, &waterSurfacePos.y,
+                             &waterBox) == true &&
         pos->y < waterSurfacePos.y &&
-        func_8003C940(&globalCtx->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
+        BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &poly, &bgId, &waterSurfacePos) != BGCHECK_Y_MIN) {
         return true;
     } else {
         return false;

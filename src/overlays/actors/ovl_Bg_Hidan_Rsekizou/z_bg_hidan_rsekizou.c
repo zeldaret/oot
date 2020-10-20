@@ -75,9 +75,9 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80043480(&this->dyna, DPM_UNK);
-    func_80041880(&D_0600D5C0, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_0600D5C0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
@@ -90,7 +90,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 

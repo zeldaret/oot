@@ -24,7 +24,7 @@ glabel func_8083F0C8
 /* 0CEFC 8083F10C 9205007C */  lbu     $a1, 0x007C($s0)           ## 0000007C
 /* 0CF00 8083F110 24C607C0 */  addiu   $a2, $a2, 0x07C0           ## $a2 = 000007C0
 /* 0CF04 8083F114 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFD8
-/* 0CF08 8083F118 0C00E31E */  jal     func_80038C78              
+/* 0CF08 8083F118 0C00E31E */  jal     CollisionPoly_GetVerticesByBgId              
 /* 0CF0C 8083F11C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0CF10 8083F120 C7A20050 */  lwc1    $f2, 0x0050($sp)           
 /* 0CF14 8083F124 C7AC0058 */  lwc1    $f12, 0x0058($sp)          

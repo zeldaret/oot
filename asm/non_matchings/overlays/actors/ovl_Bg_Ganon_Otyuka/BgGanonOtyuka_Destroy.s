@@ -19,8 +19,8 @@ glabel BgGanonOtyuka_Destroy
 /* 000A4 808759C4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 000A8 808759C8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 000AC 808759CC 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 000B0 808759D0 0C00FB56 */  jal     func_8003ED58
-              ## func_8003ED58
+/* 000B0 808759D0 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 000B4 808759D4 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 000B8 808759D8 3C048087 */  lui     $a0, %hi(D_80877EC0)       ## $a0 = 80870000
 /* 000BC 808759DC 0C00084C */  jal     osSyncPrintf

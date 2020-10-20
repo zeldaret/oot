@@ -186,7 +186,7 @@ glabel func_80A06E88
 /* 009D0 80A070F0 460A4400 */  add.s   $f16, $f8, $f10            
 /* 009D4 80A070F4 02203825 */  or      $a3, $s1, $zero            ## $a3 = 00000000
 /* 009D8 80A070F8 46100480 */  add.s   $f18, $f0, $f16            
-/* 009DC 80A070FC 0C00F269 */  jal     func_8003C9A4              
+/* 009DC 80A070FC 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 009E0 80A07100 E7B200A0 */  swc1    $f18, 0x00A0($sp)          
 /* 009E4 80A07104 461A003E */  c.le.s  $f0, $f26                  
 /* 009E8 80A07108 00000000 */  nop

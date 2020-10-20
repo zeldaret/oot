@@ -42,14 +42,14 @@ glabel func_8099670C
 /* 004FC 8099679C 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 00500 809967A0 24842FD0 */  addiu   $a0, $a0, 0x2FD0           ## $a0 = 06012FD0
 .L809967A4:
-/* 00504 809967A4 0C010620 */  jal     func_80041880
+/* 00504 809967A4 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00508 809967A8 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFFC
 /* 0050C 809967AC 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00510 809967B0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00514 809967B4 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 00518 809967B8 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 00518 809967B8 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 0051C 809967BC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00520 809967C0 9209016A */  lbu     $t1, 0x016A($s0)           ## 0000016A
 /* 00524 809967C4 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006

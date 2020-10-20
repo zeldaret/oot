@@ -155,7 +155,7 @@ glabel func_80A0693C
 /* 00400 80A06B20 27A60070 */  addiu   $a2, $sp, 0x0070           ## $a2 = FFFFFFD8
 /* 00404 80A06B24 460A4400 */  add.s   $f16, $f8, $f10            
 /* 00408 80A06B28 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
-/* 0040C 80A06B2C 0C00F269 */  jal     func_8003C9A4              
+/* 0040C 80A06B2C 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00410 80A06B30 E7B00080 */  swc1    $f16, 0x0080($sp)          
 /* 00414 80A06B34 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 00418 80A06B38 44819000 */  mtc1    $at, $f18                  ## $f18 = -32000.00

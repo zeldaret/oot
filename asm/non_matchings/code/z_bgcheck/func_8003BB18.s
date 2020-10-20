@@ -185,7 +185,7 @@ glabel func_8003BB18
 /* AB2F7C 8003BDDC 02402825 */  move  $a1, $s2
 /* AB2F80 8003BDE0 02A03025 */  move  $a2, $s5
 /* AB2F84 8003BDE4 02803825 */  move  $a3, $s4
-/* AB2F88 8003BDE8 0C00E597 */  jal   func_8003965C
+/* AB2F88 8003BDE8 0C00E597 */  jal   StaticLookup_AddPoly
 /* AB2F8C 8003BDEC AFB30010 */   sw    $s3, 0x10($sp)
 .L8003BDF0:
 /* AB2F90 8003BDF0 C7B000B8 */  lwc1  $f16, 0xb8($sp)

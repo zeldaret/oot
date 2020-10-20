@@ -199,7 +199,8 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.posRot.pos.y + 59.5f;
         pos.z = this->actor.posRot.pos.z;
-        this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
+        this->actor.groundY =
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
         func_80897970(this);
         if (this->collider.base.atFlags & 1) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

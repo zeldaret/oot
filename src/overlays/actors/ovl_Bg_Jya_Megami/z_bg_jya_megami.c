@@ -115,9 +115,9 @@ void BgJyaMegami_InitDynaPoly(BgJyaMegami* this, GlobalContext* globalCtx, Colli
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna, flags);
-    func_80041880(collision, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, flags);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgJyaMegami_InitCollider(BgJyaMegami* this, GlobalContext* globalCtx) {
@@ -174,7 +174,7 @@ void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaMegami* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 

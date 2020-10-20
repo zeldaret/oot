@@ -134,9 +134,9 @@ s32 func_808B8A98(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna.actor, DPM_UNK);
-    func_80041880(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_UNK);
+    CollisionHeader_GetVirtual(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;
 }
 
@@ -201,7 +201,7 @@ void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Obj* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808B8DC0(BgSpot18Obj* this) {

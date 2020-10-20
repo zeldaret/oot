@@ -72,12 +72,12 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         sp44.y = pos.y - this->velocity.y;
         sp44.z = pos.z - this->velocity.z;
 
-        if (func_8003D464(&globalCtx->colCtx, &this->pos, &pos, &sp44, 1.5f, &floorPoly, 1.0f)) {
+        if (BgCheck_EntitySphVsWall1(&globalCtx->colCtx, &this->pos, &pos, &sp44, 1.5f, &floorPoly, 1.0f)) {
             func_80038A28(floorPoly, this->pos.x, this->pos.y, this->pos.z, &mf);
             Matrix_Put(&mf);
         } else {
             pos.y++;
-            temp = func_8003C890(&globalCtx->colCtx, &floorPoly, &pos);
+            temp = BgCheck_EntityRaycastFloor1(&globalCtx->colCtx, &floorPoly, &pos);
 
             if (floorPoly != NULL) {
                 func_80038A28(floorPoly, this->pos.x, temp + 1.5f, this->pos.z, &mf);

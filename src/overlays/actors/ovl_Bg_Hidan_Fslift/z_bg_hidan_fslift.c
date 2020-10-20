@@ -48,9 +48,9 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    func_80043480(thisx, DPM_PLAYER);
-    func_80041880(&D_0600E1E8, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    DynaPolyActor_Init(thisx, DPM_PLAYER);
+    CollisionHeader_GetVirtual(&D_0600E1E8, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
                            thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
         Actor_Kill(thisx);
@@ -74,7 +74,7 @@ void func_80886F24(BgHidanFslift* this) {
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanFslift* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80886FB4(BgHidanFslift* this) {

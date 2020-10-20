@@ -80,7 +80,7 @@ glabel BgMizuBwall_Init
 /* 000B8 8089C538 8F39D82C */  lw      $t9, %lo(D_8089D82C)($t9)  
 /* 000BC 8089C53C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 000C0 8089C540 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
-/* 000C4 8089C544 0C010D20 */  jal     func_80043480
+/* 000C4 8089C544 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 000C8 8089C548 AE5902B8 */  sw      $t9, 0x02B8($s2)           ## 000002B8
 /* 000CC 8089C54C 9648001C */  lhu     $t0, 0x001C($s2)           ## 0000001C
@@ -89,15 +89,15 @@ glabel BgMizuBwall_Init
 /* 000D8 8089C558 3109000F */  andi    $t1, $t0, 0x000F           ## $t1 = 00000000
 /* 000DC 8089C55C 00095080 */  sll     $t2, $t1,  2               
 /* 000E0 8089C560 008A2021 */  addu    $a0, $a0, $t2              
-/* 000E4 8089C564 0C010620 */  jal     func_80041880
+/* 000E4 8089C564 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 000E8 8089C568 8C84D840 */  lw      $a0, %lo(D_8089D840)($a0)  
 /* 000EC 8089C56C 26110810 */  addiu   $s1, $s0, 0x0810           ## $s1 = 00000810
 /* 000F0 8089C570 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000810
 /* 000F4 8089C574 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000F8 8089C578 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 000FC 8089C57C 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 000FC 8089C57C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00100 8089C580 8FA701B4 */  lw      $a3, 0x01B4($sp)           
 /* 00104 8089C584 9643001C */  lhu     $v1, 0x001C($s2)           ## 0000001C
 /* 00108 8089C588 AE42014C */  sw      $v0, 0x014C($s2)           ## 0000014C

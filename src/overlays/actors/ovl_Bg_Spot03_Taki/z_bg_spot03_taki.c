@@ -58,9 +58,9 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     this->switchFlag = (this->dyna.actor.params & 0x3F);
-    func_80043480(&this->dyna, DPM_UNK);
-    func_80041880(&D_06000C98, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000C98, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->bufferIndex = 0;
     this->openingAlpha = 255.0f;
@@ -72,7 +72,7 @@ void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot03Taki* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {

@@ -8,7 +8,7 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     Vec3f pos;
     Vec3f tempPos;
 
-    if (func_8003E934(bgId)) {
+    if (DynaPoly_IsBgIdBgActor(bgId)) {
         SkinMatrix_SetScaleRotateYRPTranslate(
             &prevTransform, colCtx->dyna.bgActors[bgId].prevTransform.scale.x,
             colCtx->dyna.bgActors[bgId].prevTransform.scale.y, colCtx->dyna.bgActors[bgId].prevTransform.scale.z,
@@ -44,7 +44,7 @@ void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
  * Rotate actor
  */
 void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
-    if (func_8003E934(bgId)) {
+    if (DynaPoly_IsBgIdBgActor(bgId)) {
         s16 rot = colCtx->dyna.bgActors[bgId].curTransform.rot.y - colCtx->dyna.bgActors[bgId].prevTransform.rot.y;
 
         if (actor->id == ACTOR_PLAYER) {
@@ -57,8 +57,8 @@ void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
 }
 
 void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId) {
-    if (func_8003E934(bgId)) {
-        DynaPolyActor* dynaActor = func_8003EB84(colCtx, bgId);
+    if (DynaPoly_IsBgIdBgActor(bgId)) {
+        DynaPolyActor* dynaActor = DynaPoly_GetActor(colCtx, bgId);
         if (dynaActor != NULL) {
             func_800434A8(dynaActor);
 
@@ -77,7 +77,7 @@ s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     s32 result = false;
     DynaPolyActor* dynaActor;
 
-    if (func_8003E934(bgId) == false) {
+    if (DynaPoly_IsBgIdBgActor(bgId) == false) {
         return false;
     }
 
@@ -85,7 +85,7 @@ s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor) {
         return false;
     }
 
-    dynaActor = (DynaPolyActor*)func_8003EB84(colCtx, bgId);
+    dynaActor = (DynaPolyActor*)DynaPoly_GetActor(colCtx, bgId);
 
     if (dynaActor == NULL) {
         return false;

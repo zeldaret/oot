@@ -35,8 +35,8 @@ glabel func_80B9C14C
 /* 01038 80B9C1B8 1000005D */  beq     $zero, $zero, .L80B9C330   
 /* 0103C 80B9C1BC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B9C1C0:
-/* 01040 80B9C1C0 0C00FAE1 */  jal     func_8003EB84
-              ## func_8003EB84
+/* 01040 80B9C1C0 0C00FAE1 */  jal     DynaPoly_GetActor
+              ## DynaPoly_GetActor
 /* 01044 80B9C1C4 262407C0 */  addiu   $a0, $s1, 0x07C0           ## $a0 = 000007C0
 /* 01048 80B9C1C8 10400035 */  beq     $v0, $zero, .L80B9C2A0     
 /* 0104C 80B9C1CC 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
@@ -114,8 +114,8 @@ glabel func_80B9C14C
 /* 0115C 80B9C2DC 10000014 */  beq     $zero, $zero, .L80B9C330   
 /* 01160 80B9C2E0 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B9C2E4:
-/* 01164 80B9C2E4 0C00FAE1 */  jal     func_8003EB84
-              ## func_8003EB84
+/* 01164 80B9C2E4 0C00FAE1 */  jal     DynaPoly_GetActor
+              ## DynaPoly_GetActor
 /* 01168 80B9C2E8 262407C0 */  addiu   $a0, $s1, 0x07C0           ## $a0 = 000007C0
 /* 0116C 80B9C2EC 1040000C */  beq     $v0, $zero, .L80B9C320     
 /* 01170 80B9C2F0 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000

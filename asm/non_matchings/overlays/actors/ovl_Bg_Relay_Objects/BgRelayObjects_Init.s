@@ -17,7 +17,7 @@ glabel BgRelayObjects_Init
 /* 00038 808A8E88 31CF003F */  andi    $t7, $t6, 0x003F           ## $t7 = 00000000
 /* 0003C 808A8E8C A20F0168 */  sb      $t7, 0x0168($s0)           ## 00000168
 /* 00040 808A8E90 A608001C */  sh      $t0, 0x001C($s0)           ## 0000001C
-/* 00044 808A8E94 0C010D20 */  jal     func_80043480
+/* 00044 808A8E94 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00048 808A8E98 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 0004C 808A8E9C 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
@@ -26,7 +26,7 @@ glabel BgRelayObjects_Init
 /* 00058 808A8EA8 15200026 */  bne     $t1, $zero, .L808A8F44     
 /* 0005C 808A8EAC 248403C4 */  addiu   $a0, $a0, 0x03C4           ## $a0 = 060003C4
 /* 00060 808A8EB0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00064 808A8EB4 0C010620 */  jal     func_80041880
+/* 00064 808A8EB4 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00068 808A8EB8 248425FC */  addiu   $a0, $a0, 0x25FC           ## $a0 = 060025FC
 /* 0006C 808A8EBC 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xee0)
@@ -67,7 +67,7 @@ glabel BgRelayObjects_Init
 /* 000EC 808A8F3C 10000048 */  beq     $zero, $zero, .L808A9060   
 /* 000F0 808A8F40 AC239508 */  sw      $v1, %lo(D_808A9508)($at)  
 .L808A8F44:
-/* 000F4 808A8F44 0C010620 */  jal     func_80041880
+/* 000F4 808A8F44 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 000F8 808A8F48 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 000FC 808A8F4C 82020003 */  lb      $v0, 0x0003($s0)           ## 00000003
@@ -154,8 +154,8 @@ glabel BgRelayObjects_Init
 .L808A9064:
 /* 00214 808A9064 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00218 808A9068 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 0021C 808A906C 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 0021C 808A906C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00220 808A9070 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00224 808A9074 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00228 808A9078 8FBF001C */  lw      $ra, 0x001C($sp)           

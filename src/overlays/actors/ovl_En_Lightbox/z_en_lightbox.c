@@ -59,14 +59,14 @@ void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_15C = 0;
     thisx->unk_1F = 0;
     thisx->gravity = -2.0f;
-    func_80041880(&D_06001F10, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    CollisionHeader_GetVirtual(&D_06001F10, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnLightbox* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {

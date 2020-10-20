@@ -48,9 +48,9 @@ void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    func_80043480(&this->actor, flag);
-    func_80041880(collision, &colHeader);
-    this->bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    DynaPolyActor_Init(&this->actor, flag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
     if (this->bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
                      this->actor.id, this->actor.params);
@@ -73,7 +73,7 @@ void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaKanaami* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
 }
 
 void func_80899880(BgJyaKanaami* this) {

@@ -62,7 +62,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 t6;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80043480(&this->dyna.actor, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
 
     switchFlagParam = this->dyna.actor.params & 0x3F;
     t6 = this->dyna.actor.params & 0x4000;
@@ -110,7 +110,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHineri* this = THIS;
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
@@ -142,18 +142,18 @@ void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
             this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
             if (this->dyna.actor.params == 0) {
                 this->actionFunc = func_808A3C8C;
-                func_80041880(&D_060054B8, &colHeader);
+                CollisionHeader_GetVirtual(&D_060054B8, &colHeader);
             } else if (this->dyna.actor.params == 1) {
                 this->actionFunc = BgMoriHineri_SpawnBossKeyChest;
-                func_80041880(&D_06003490, &colHeader);
+                CollisionHeader_GetVirtual(&D_06003490, &colHeader);
             } else if (this->dyna.actor.params == 2) {
                 this->actionFunc = BgMoriHineri_DoNothing;
-                func_80041880(&D_060043D0, &colHeader);
+                CollisionHeader_GetVirtual(&D_060043D0, &colHeader);
             } else {
                 this->actionFunc = func_808A3C8C;
-                func_80041880(&D_06006078, &colHeader);
+                CollisionHeader_GetVirtual(&D_06006078, &colHeader);
             }
-            this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         }
     }
 }

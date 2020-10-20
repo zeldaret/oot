@@ -36,7 +36,7 @@ glabel func_80A6C8E0
 /* 016FC 80A6C94C 27A70028 */  addiu   $a3, $sp, 0x0028           ## $a3 = FFFFFFE8
 /* 01700 80A6C950 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 01704 80A6C954 460A4400 */  add.s   $f16, $f8, $f10            
-/* 01708 80A6C958 0C00F250 */  jal     func_8003C940              
+/* 01708 80A6C958 0C00F250 */  jal     BgCheck_EntityRaycastFloor3              
 /* 0170C 80A6C95C E7B00030 */  swc1    $f16, 0x0030($sp)          
 /* 01710 80A6C960 C6120028 */  lwc1    $f18, 0x0028($s0)          ## 00000028
 /* 01714 80A6C964 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

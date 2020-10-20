@@ -81,7 +81,7 @@ glabel func_80A06CD0
 /* 006A4 80A06DC4 27A60058 */  addiu   $a2, $sp, 0x0058           ## $a2 = FFFFFFF8
 /* 006A8 80A06DC8 E7B20050 */  swc1    $f18, 0x0050($sp)          
 /* 006AC 80A06DCC 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
-/* 006B0 80A06DD0 0C00F269 */  jal     func_8003C9A4              
+/* 006B0 80A06DD0 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 006B4 80A06DD4 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 006B8 80A06DD8 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 006BC 80A06DDC 44812000 */  mtc1    $at, $f4                   ## $f4 = -32000.00

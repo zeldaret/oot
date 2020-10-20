@@ -7,8 +7,8 @@ glabel BgIceTurara_Destroy
 /* 000EC 8089200C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 000F0 80892010 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 000F4 80892014 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 000F8 80892018 0C00FB56 */  jal     func_8003ED58
-              ## func_8003ED58
+/* 000F8 80892018 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 000FC 8089201C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00100 80892020 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00104 80892024 8FA4001C */  lw      $a0, 0x001C($sp)           

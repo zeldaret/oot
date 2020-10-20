@@ -185,8 +185,8 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             // Copy the position from the prevous frame to the boomerang to start the bounce back.
             Math_Vec3f_Copy(&this->actor.posRot.pos, &this->actor.pos4);
         } else {
-            collided = func_8003DE84(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos, &hitPoint,
-                                     &this->actor.wallPoly, 1, 1, 1, 1, &hitDynaID);
+            collided = BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos,
+                                               &hitPoint, &this->actor.wallPoly, 1, 1, 1, 1, &hitDynaID);
 
             if (collided) {
                 // If the boomerang collides with something and its is a Jabu Object actor with params equal to 0, then
@@ -194,7 +194,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 // Otherwise play a clank sound and keep collided set to bounce back.
                 if (func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
                     (hitDynaID != BGCHECK_SCENE &&
-                     ((hitActor = func_8003EB84(&globalCtx->colCtx, hitDynaID)) != NULL) &&
+                     ((hitActor = DynaPoly_GetActor(&globalCtx->colCtx, hitDynaID)) != NULL) &&
                      hitActor->id == ACTOR_BG_BDAN_OBJECTS && hitActor->params == 0)) {
                     collided = false;
                 } else {

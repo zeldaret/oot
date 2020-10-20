@@ -80,7 +80,7 @@ glabel func_8083EC18
 /* 0CAEC 8083ECFC AFA8008C */  sw      $t0, 0x008C($sp)           
 /* 0CAF0 8083ED00 AFA70044 */  sw      $a3, 0x0044($sp)           
 /* 0CAF4 8083ED04 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 0CAF8 8083ED08 0C00E31E */  jal     func_80038C78              
+/* 0CAF8 8083ED08 0C00E31E */  jal     CollisionPoly_GetVerticesByBgId              
 /* 0CAFC 8083ED0C 24C607C0 */  addiu   $a2, $a2, 0x07C0           ## $a2 = 000007C0
 /* 0CB00 8083ED10 C7AC0050 */  lwc1    $f12, 0x0050($sp)          
 /* 0CB04 8083ED14 C7AE0058 */  lwc1    $f14, 0x0058($sp)          

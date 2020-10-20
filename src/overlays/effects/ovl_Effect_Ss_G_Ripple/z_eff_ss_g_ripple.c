@@ -56,7 +56,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->rEnvColorG = 255;
     this->rEnvColorB = 255;
     this->rEnvColorA = 255;
-    this->rWaterBoxNum = func_8004239C(globalCtx, &globalCtx->colCtx, &initParams->pos, 3.0f, &waterBox);
+    this->rWaterBoxNum = WaterBox_GetSurface2(globalCtx, &globalCtx->colCtx, &initParams->pos, 3.0f, &waterBox);
 
     return 1;
 }

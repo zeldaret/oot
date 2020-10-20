@@ -46,9 +46,9 @@ void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 bgId;
     s32 pad;
 
-    if (func_8003DF10(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
-                      &this->actor.floorPoly, 0, 0, 1, 1, &bgId, &this->actor)) {
-        dynaActor = func_8003EB84(&globalCtx->colCtx, bgId);
+    if (BgCheck_EntityLineTest2(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
+                                &this->actor.floorPoly, 0, 0, 1, 1, &bgId, &this->actor)) {
+        dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 
         if (dynaActor != NULL && dynaActor->id == ACTOR_OBJ_OSHIHIKI) {
             if ((dynaActor->params & 0x000F) == 3 || (dynaActor->params & 0x000F) == 7) {

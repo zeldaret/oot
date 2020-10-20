@@ -52,16 +52,16 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    func_80043480(thisx, DPM_UNK);
+    DynaPolyActor_Init(thisx, DPM_UNK);
     if (thisx->params == 0) {
-        func_80041880(&D_06000918, &colHeader);
+        CollisionHeader_GetVirtual(&D_06000918, &colHeader);
         if (LINK_IS_ADULT) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5A8;
         }
     } else {
-        func_80041880(&D_060012C0, &colHeader);
+        CollisionHeader_GetVirtual(&D_060012C0, &colHeader);
         if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
             Actor_Kill(thisx);
         } else {
@@ -69,13 +69,13 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
             thisx->flags |= 0x10;
         }
     }
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot05Soko* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {

@@ -23,7 +23,7 @@ void func_8007C7F8(u32 uParm1, u32 uParm2) {
     u8 auStack4[4];
     u8 auStack8[4];
 
-    func_8003C940(uParm1, auStack4, auStack8, uParm2);
+    BgCheck_EntityRaycastFloor3(uParm1, auStack4, auStack8, uParm2);
 }
 
 void func_8007C820(struct_8007C820* puParm1, s16 uParm2, s16 uParm3, u32 uParm4, u32 param_5) {

@@ -143,8 +143,8 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     s32 bgId;
 
     this->dyna.actor.flags |= 0x30;
-    func_80041880(&D_06007860, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_06007860, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
         newBlock = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
                                       blockPosX[this->index], this->dyna.actor.posRot.pos.y, blockPosZ[this->index], 0,
@@ -169,8 +169,8 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
         }
     }
     this->dyna.actor.posRot.pos.y = 833.0f;
-    this->dyna.actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor,
-                                             &this->dyna.actor.posRot.pos);
+    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId,
+                                                           &this->dyna.actor, &this->dyna.actor.posRot.pos);
     this->actionFunc = BgPoEvent_BlockWait;
 }
 
@@ -196,7 +196,7 @@ void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
             BgPoEvent_InitPaintings(this, globalCtx);
         }
     } else {
-        func_80043480(&this->dyna, DPM_UNK);
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
         if (Flags_GetSwitch(globalCtx, thisx->params)) {
             Actor_Kill(thisx);
         } else {
@@ -212,7 +212,7 @@ void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type >= 2) {
         Collider_DestroyTris(globalCtx, &this->collider);
     } else {
-        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         if ((this->type == 1) && (gSaveContext.timer1Value > 0)) {
             gSaveContext.timer1State = 0xA;
         }

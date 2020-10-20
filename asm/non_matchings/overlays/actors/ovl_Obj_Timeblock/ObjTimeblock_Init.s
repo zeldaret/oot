@@ -11,7 +11,7 @@ glabel ObjTimeblock_Init
 /* 00180 80BA0120 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00184 80BA0124 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00188 80BA0128 AFA0002C */  sw      $zero, 0x002C($sp)         
-/* 0018C 80BA012C 0C010D20 */  jal     func_80043480
+/* 0018C 80BA012C 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00190 80BA0130 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00194 80BA0134 A60000B8 */  sh      $zero, 0x00B8($s0)         ## 000000B8
@@ -19,14 +19,14 @@ glabel ObjTimeblock_Init
 /* 0019C 80BA013C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 001A0 80BA0140 24840B30 */  addiu   $a0, $a0, 0x0B30           ## $a0 = 06000B30
 /* 001A4 80BA0144 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
-/* 001A8 80BA0148 0C010620 */  jal     func_80041880
+/* 001A8 80BA0148 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 001AC 80BA014C A60E0034 */  sh      $t6, 0x0034($s0)           ## 00000034
 /* 001B0 80BA0150 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 001B4 80BA0154 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001B8 80BA0158 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 001BC 80BA015C 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 001BC 80BA015C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 001C0 80BA0160 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 001C4 80BA0164 3C0580BA */  lui     $a1, %hi(D_80BA0B28)       ## $a1 = 80BA0000
 /* 001C8 80BA0168 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

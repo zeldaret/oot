@@ -24,7 +24,7 @@ glabel D_80138F98
 # 10^38
 
 .text
-glabel func_8003D7F0
+glabel BgCheck_LineTestImpl
 /* AB4990 8003D7F0 27BDFF20 */  addiu $sp, $sp, -0xe0
 /* AB4994 8003D7F4 AFB00040 */  sw    $s0, 0x40($sp)
 /* AB4998 8003D7F8 8FB000F0 */  lw    $s0, 0xf0($sp)
@@ -85,15 +85,15 @@ glabel func_8003D7F0
 /* AB4A6C 8003D8CC 8E490000 */  lw    $t1, ($s2)
 .L8003D8D0:
 /* AB4A70 8003D8D0 26440044 */  addiu $a0, $s2, 0x44
-/* AB4A74 8003D8D4 0C01065E */  jal   func_80041978
+/* AB4A74 8003D8D4 0C01065E */  jal   BgCheck_ResetPolyCheckTbl
 /* AB4A78 8003D8D8 95250014 */   lhu   $a1, 0x14($t1)
 /* AB4A7C 8003D8DC 02402025 */  move  $a0, $s2
 /* AB4A80 8003D8E0 02A02825 */  move  $a1, $s5
-/* AB4A84 8003D8E4 0C00EB72 */  jal   func_8003ADC8
+/* AB4A84 8003D8E4 0C00EB72 */  jal   BgCheck_GetStaticLookupIndicesFromPos
 /* AB4A88 8003D8E8 27A600CC */   addiu $a2, $sp, 0xcc
 /* AB4A8C 8003D8EC 02402025 */  move  $a0, $s2
 /* AB4A90 8003D8F0 02C02825 */  move  $a1, $s6
-/* AB4A94 8003D8F4 0C00EB72 */  jal   func_8003ADC8
+/* AB4A94 8003D8F4 0C00EB72 */  jal   BgCheck_GetStaticLookupIndicesFromPos
 /* AB4A98 8003D8F8 27A600C0 */   addiu $a2, $sp, 0xc0
 /* AB4A9C 8003D8FC 8FAA00F4 */  lw    $t2, 0xf4($sp)
 /* AB4AA0 8003D900 8E0C0000 */  lw    $t4, ($s0)
@@ -304,7 +304,7 @@ glabel func_8003D7F0
 /* AB4DB0 8003DC10 10000022 */  b     .L8003DC9C
 /* AB4DB4 8003DC14 C7B40104 */   lwc1  $f20, 0x104($sp)
 .L8003DC18:
-/* AB4DB8 8003DC18 0C00F157 */  jal   func_8003C55C
+/* AB4DB8 8003DC18 0C00F157 */  jal   BgCheck_PosInStaticBoundingBox
 /* AB4DBC 8003DC1C 02A02825 */   move  $a1, $s5
 /* AB4DC0 8003DC20 14400003 */  bnez  $v0, .L8003DC30
 /* AB4DC4 8003DC24 02402025 */   move  $a0, $s2
@@ -312,7 +312,7 @@ glabel func_8003D7F0
 /* AB4DCC 8003DC2C 00001025 */   move  $v0, $zero
 .L8003DC30:
 /* AB4DD0 8003DC30 02202825 */  move  $a1, $s1
-/* AB4DD4 8003DC34 0C00EB15 */  jal   func_8003AC54
+/* AB4DD4 8003DC34 0C00EB15 */  jal   BgCheck_GetNearestStaticLookup
 /* AB4DD8 8003DC38 02A03025 */   move  $a2, $s5
 /* AB4DDC 8003DC3C 8FB70108 */  lw    $s7, 0x108($sp)
 /* AB4DE0 8003DC40 C7B40104 */  lwc1  $f20, 0x104($sp)

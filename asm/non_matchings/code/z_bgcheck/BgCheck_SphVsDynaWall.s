@@ -1,4 +1,4 @@
-glabel func_800409A8
+glabel BgCheck_SphVsDynaWall
 /* AB7B48 800409A8 27BDFF60 */  addiu $sp, $sp, -0xa0
 /* AB7B4C 800409AC 8FAF00B0 */  lw    $t7, 0xb0($sp)
 /* AB7B50 800409B0 AFBF0064 */  sw    $ra, 0x64($sp)
@@ -118,7 +118,7 @@ glabel func_800409A8
 /* AB7D08 80040B68 26A60050 */  addiu $a2, $s5, 0x50
 /* AB7D0C 80040B6C 26670060 */  addiu $a3, $s3, 0x60
 /* AB7D10 80040B70 AFAB001C */  sw    $t3, 0x1c($sp)
-/* AB7D14 80040B74 0C0100A1 */  jal   func_80040284
+/* AB7D14 80040B74 0C0100A1 */  jal   BgCheck_SphVsDynaWallInBgActor
 /* AB7D18 80040B78 AFAA0018 */   sw    $t2, 0x18($sp)
 /* AB7D1C 80040B7C 50400008 */  beql  $v0, $zero, .L80040BA0
 /* AB7D20 80040B80 26940001 */   addiu $s4, $s4, 1

@@ -119,7 +119,7 @@ glabel func_80AE0A1C
 /* 02E6C 80AE0BBC E7AA0040 */  swc1    $f10, 0x0040($sp)          
 /* 02E70 80AE0BC0 C610002C */  lwc1    $f16, 0x002C($s0)          ## 0000002C
 /* 02E74 80AE0BC4 AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 02E78 80AE0BC8 0C00F269 */  jal     func_8003C9A4              
+/* 02E78 80AE0BC8 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 02E7C 80AE0BCC E7B00044 */  swc1    $f16, 0x0044($sp)          
 /* 02E80 80AE0BD0 E6000080 */  swc1    $f0, 0x0080($s0)           ## 00000080
 /* 02E84 80AE0BD4 0C2B8227 */  jal     func_80AE089C              

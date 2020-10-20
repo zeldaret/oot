@@ -54,7 +54,7 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriRakkatenjo* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     // Forest Temple obj. Falling Ceiling
     osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.initPosRot.pos.y);
     if ((fabsf(1991.0f - this->dyna.actor.initPosRot.pos.x) > 0.001f) ||
@@ -75,8 +75,8 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    func_80041880(&D_060087AC, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_060087AC, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     BgMoriRakkatenjo_SetupWaitForMoriTex(this);
     sCamSetting = 0;
 }
@@ -85,7 +85,7 @@ void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriRakkatenjo* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 s32 BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {

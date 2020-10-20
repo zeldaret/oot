@@ -1,4 +1,4 @@
-glabel func_80039448
+glabel StaticLookup_AddPolyToNodeList
 /* AB05E8 80039448 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AB05EC 8003944C AFBF001C */  sw    $ra, 0x1c($sp)
 /* AB05F0 80039450 AFB10018 */  sw    $s1, 0x18($sp)
@@ -19,7 +19,7 @@ glabel func_80039448
 /* AB0628 80039488 00E02825 */  move  $a1, $a3
 /* AB062C 8003948C AFA70034 */  sw    $a3, 0x34($sp)
 /* AB0630 80039490 0018C900 */  sll   $t9, $t8, 4
-/* AB0634 80039494 0C00E249 */  jal   func_80038924
+/* AB0634 80039494 0C00E249 */  jal   CollisionPoly_GetMinY
 /* AB0638 80039498 03302021 */   addu  $a0, $t9, $s0
 /* AB063C 8003949C 8FAD002C */  lw    $t5, 0x2c($sp)
 /* AB0640 800394A0 8E2A0048 */  lw    $t2, 0x48($s1)
@@ -71,14 +71,14 @@ glabel func_80039448
 /* AB06F4 80039554 1583000E */  bne   $t4, $v1, .L80039590
 /* AB06F8 80039558 0003C880 */   sll   $t9, $v1, 2
 /* AB06FC 8003955C 26240044 */  addiu $a0, $s1, 0x44
-/* AB0700 80039560 0C00F937 */  jal   func_8003E4DC
+/* AB0700 80039560 0C00F937 */  jal   SSNodeList_GetNextNodeIdx
 /* AB0704 80039564 AFA90024 */   sw    $t1, 0x24($sp)
 /* AB0708 80039568 8E2E0048 */  lw    $t6, 0x48($s1)
 /* AB070C 8003956C 0002C080 */  sll   $t8, $v0, 2
 /* AB0710 80039570 3050FFFF */  andi  $s0, $v0, 0xffff
 /* AB0714 80039574 27A5003A */  addiu $a1, $sp, 0x3a
 /* AB0718 80039578 3406FFFF */  li    $a2, 65535
-/* AB071C 8003957C 0C00E1C2 */  jal   func_80038708
+/* AB071C 8003957C 0C00E1C2 */  jal   SSNode_SetValue
 /* AB0720 80039580 01D82021 */   addu  $a0, $t6, $t8
 /* AB0724 80039584 8FA90024 */  lw    $t1, 0x24($sp)
 /* AB0728 80039588 1000002F */  b     .L80039648
@@ -115,7 +115,7 @@ glabel func_80039448
 /* AB07A0 80039600 1020000F */  beqz  $at, .L80039640
 /* AB07A4 80039604 00000000 */   nop   
 /* AB07A8 80039608 26240044 */  addiu $a0, $s1, 0x44
-/* AB07AC 8003960C 0C00F937 */  jal   func_8003E4DC
+/* AB07AC 8003960C 0C00F937 */  jal   SSNodeList_GetNextNodeIdx
 /* AB07B0 80039610 AFA90024 */   sw    $t1, 0x24($sp)
 /* AB07B4 80039614 8FA90024 */  lw    $t1, 0x24($sp)
 /* AB07B8 80039618 8E2F0048 */  lw    $t7, 0x48($s1)
@@ -123,7 +123,7 @@ glabel func_80039448
 /* AB07C0 80039620 3050FFFF */  andi  $s0, $v0, 0xffff
 /* AB07C4 80039624 27A5003A */  addiu $a1, $sp, 0x3a
 /* AB07C8 80039628 95260002 */  lhu   $a2, 2($t1)
-/* AB07CC 8003962C 0C00E1C2 */  jal   func_80038708
+/* AB07CC 8003962C 0C00E1C2 */  jal   SSNode_SetValue
 /* AB07D0 80039630 01ED2021 */   addu  $a0, $t7, $t5
 /* AB07D4 80039634 8FA90024 */  lw    $t1, 0x24($sp)
 /* AB07D8 80039638 10000003 */  b     .L80039648

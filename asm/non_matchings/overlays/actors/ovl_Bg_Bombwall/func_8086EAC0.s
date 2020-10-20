@@ -9,8 +9,8 @@ glabel func_8086EAC0
 /* 0030C 8086EADC 11C00009 */  beq     $t6, $zero, .L8086EB04     
 /* 00310 8086EAE0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00314 8086EAE4 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
-/* 00318 8086EAE8 0C00FB56 */  jal     func_8003ED58
-              ## func_8003ED58
+/* 00318 8086EAE8 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 0031C 8086EAEC AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00320 8086EAF0 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00324 8086EAF4 90F802A2 */  lbu     $t8, 0x02A2($a3)           ## 000002A2

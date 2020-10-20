@@ -49,9 +49,9 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
-    func_80043480(&this->dyna, DPM_UNK);
-    func_80041880(&D_060000C0, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_060000C0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->dyna.actor.uncullZoneScale = 500.0f;
     this->dyna.actor.uncullZoneDownward = 550.0f;
     this->dyna.actor.uncullZoneForward = 2200.0f;
@@ -64,7 +64,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
     SkelAnime_Free(&this->skelAnime, globalCtx);
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {

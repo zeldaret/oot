@@ -24,8 +24,8 @@ glabel func_80B9B300
 /* 001C4 80B9B344 00000000 */  nop
 /* 001C8 80B9B348 4502000C */  bc1fl   .L80B9B37C                 
 /* 001CC 80B9B34C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-/* 001D0 80B9B350 0C00FAE1 */  jal     func_8003EB84
-              ## func_8003EB84
+/* 001D0 80B9B350 0C00FAE1 */  jal     DynaPoly_GetActor
+              ## DynaPoly_GetActor
 /* 001D4 80B9B354 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 001D8 80B9B358 50400008 */  beql    $v0, $zero, .L80B9B37C     
 /* 001DC 80B9B35C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000

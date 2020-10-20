@@ -104,9 +104,9 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
                 sIsSpawned = 1;
                 this->dyna.actor.room = -1;
                 Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-                func_80043480(&this->dyna, DPM_PLAYER);
-                func_80041880(&D_060035F8, &colHeader);
-                this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+                DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+                CollisionHeader_GetVirtual(&D_060035F8, &colHeader);
+                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
                 BgMoriElevator_SetupWaitAfterInit(this);
                 break;
             case 1:
@@ -122,7 +122,7 @@ void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_172 == 0) {
         // Forest Temple elevator DT
         osSyncPrintf("森の神殿 elevator DT\n");
-        func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         sIsSpawned = 0;
     }
 }

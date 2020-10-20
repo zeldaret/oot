@@ -1883,7 +1883,7 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
     sp3C.r += 8.0f;
     func_80043C28(&sp5C, arg1, &sp3C);
 
-    if (func_8003DD6C(colCtx, arg1, &sp5C, &sp68, &arg2->unk_18, 1, 1, 1, -1, &arg2->unk_24) == 0) {
+    if (BgCheck_CameraLineTest1(colCtx, arg1, &sp5C, &sp68, &arg2->unk_18, 1, 1, 1, -1, &arg2->unk_24) == 0) {
         OLib_Vec3fDistNormalize(&sp50, arg1, &arg2->unk_00);
 
         arg2->unk_0C.x = -sp50.x;
@@ -1892,7 +1892,7 @@ s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
 
         sp68 = arg2->unk_00;
         sp68.y += 5.0f;
-        temp_ret = func_8003CCA4(colCtx, &sp48, &sp44, &sp68);
+        temp_ret = BgCheck_CameraRaycastFloor2(colCtx, &sp48, &sp44, &sp68);
 
         if ((arg2->unk_00.y - temp_ret) > 5.0f) {
             arg2->unk_00.x += arg2->unk_0C.x;
@@ -1947,7 +1947,8 @@ s32 func_800443A0(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
     colCtx = &camera->globalCtx->colCtx;
 
     sp34 = NULL;
-    if (func_8003DD6C(colCtx, arg1, arg2, &sp40, &sp34, 1, 1, 1, 0, &sp38) && (func_80038B7C(sp34, arg1) < 0.0f)) {
+    if (BgCheck_CameraLineTest1(colCtx, arg1, arg2, &sp40, &sp34, 1, 1, 1, 0, &sp38) &&
+        (CollisionPoly_GetPointDistanceFromPlane(sp34, arg1) < 0.0f)) {
         return true;
     }
 
@@ -1957,7 +1958,7 @@ s32 func_800443A0(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
 f32 func_80044434(Camera* camera, Vec3f* arg1, Vec3f* arg2, s32* arg3) {
     s32 sp2C; // unused
     CollisionPoly* sp28;
-    f32 temp_ret = func_8003C940(&camera->globalCtx->colCtx, &sp28, arg3, arg2);
+    f32 temp_ret = BgCheck_EntityRaycastFloor3(&camera->globalCtx->colCtx, &sp28, arg3, arg2);
 
     if (temp_ret == BGCHECK_Y_MIN) {
         arg1->x = 0.0f;
@@ -1999,7 +2000,7 @@ s32 func_8004479C(Camera* camera, s32* bgId, CollisionPoly* poly) {
     s32 ret;
 
     func_8002EF44(&sp20, &camera->player->actor);
-    temp_ret = func_80041A28(&camera->globalCtx->colCtx, poly, *bgId);
+    temp_ret = SurfaceType_GetCamDataIndex(&camera->globalCtx->colCtx, poly, *bgId);
 
     if (func_80041A4C(&camera->globalCtx->colCtx, temp_ret, *bgId) == 0) {
         ret = -1;
@@ -2017,11 +2018,11 @@ s32 func_8004481C(Camera* camera, s16* arg1) {
 
     func_8002EF44(&sp28, &camera->player->actor);
     sp28.pos.y += Player_GetCameraYOffset(camera->player);
-    if (func_8003C940(&camera->globalCtx->colCtx, &sp44, &sp3C, &sp28.pos) == BGCHECK_Y_MIN) {
+    if (BgCheck_EntityRaycastFloor3(&camera->globalCtx->colCtx, &sp44, &sp3C, &sp28.pos) == BGCHECK_Y_MIN) {
         return 0;
     }
-    *arg1 = func_80041B80(&camera->globalCtx->colCtx, sp44, sp3C);
-    return func_80041C98(&camera->globalCtx->colCtx, sp44, sp3C);
+    *arg1 = SurfaceType_GetNumCameras(&camera->globalCtx->colCtx, sp44, sp3C);
+    return SurfaceType_GetCamPosData(&camera->globalCtx->colCtx, sp44, sp3C);
 }
 
 s32 func_800448CC(Camera* camera, f32* arg1) {
@@ -2032,7 +2033,8 @@ s32 func_800448CC(Camera* camera, f32* arg1) {
     func_8002EF44(&sp34, &camera->player->actor);
     *arg1 = sp34.pos.y;
 
-    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, sp34.pos.x, sp34.pos.z, arg1, &waterBox) == 0) {
+    if (WaterBox_GetSurface1(camera->globalCtx, &camera->globalCtx->colCtx, sp34.pos.x, sp34.pos.z, arg1, &waterBox) ==
+        0) {
         *arg1 = BGCHECK_Y_MIN;
         return -1;
     }
@@ -2041,8 +2043,8 @@ s32 func_800448CC(Camera* camera, f32* arg1) {
         return -1;
     }
 
-    temp_ret = func_80042538(&camera->globalCtx->colCtx, waterBox);
-    if ((temp_ret <= 0) || (func_80042548(&camera->globalCtx->colCtx, waterBox) <= 0)) {
+    temp_ret = WaterBox_GetCamDataIndex(&camera->globalCtx->colCtx, waterBox);
+    if ((temp_ret <= 0) || (WaterBox_GetCameraSType(&camera->globalCtx->colCtx, waterBox) <= 0)) {
         return -2;
     }
 
@@ -2057,14 +2059,14 @@ f32 func_800449AC(Camera* camera, Vec3f* arg1, s32* arg2) {
     func_8002EF44(&sp2C, &camera->player->actor);
     sp28 = sp2C.pos.y;
 
-    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, arg1->x, arg1->z, &sp28, &waterBox) == 0) {
+    if (WaterBox_GetSurface1(camera->globalCtx, &camera->globalCtx->colCtx, arg1->x, arg1->z, &sp28, &waterBox) == 0) {
         return BGCHECK_Y_MIN;
     }
     if (sp28 < arg1->y) {
         return BGCHECK_Y_MIN;
     }
 
-    *arg2 = func_8004259C(&camera->globalCtx->colCtx, waterBox);
+    *arg2 = WaterBox_GetLightSettingIndex(&camera->globalCtx->colCtx, waterBox);
     return sp28;
 }
 

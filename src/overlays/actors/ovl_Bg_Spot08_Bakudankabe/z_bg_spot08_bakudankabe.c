@@ -137,21 +137,21 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    func_80043480(&this->dyna, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
     func_808B02D0(this, globalCtx);
-    func_80041880(&D_060039D4, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_060039D4, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Bakudankabe* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 

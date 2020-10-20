@@ -63,8 +63,8 @@ void BgGndDarkmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.flags |= 0x80;
             break;
         case DARKMEIRO_CLEAR_BLOCK:
-            func_80041880(&D_0600C080, &colHeader);
-            this->dyna.bgId = func_8003EA74(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
+            CollisionHeader_GetVirtual(&D_0600C080, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
             if (((this->dyna.actor.params >> 8) & 0x3F) == 0x3F) {
                 this->updateFunc = BgGndDarkmeiro_UpdateStaticBlock;
                 this->dyna.actor.draw = BgGndDarkmeiro_DrawStaticBlock;
@@ -107,7 +107,7 @@ void BgGndDarkmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->dyna.actor.params & 0xFF) == 1) {
         if (1) {}
-        func_8003ED58(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
     }
 }
 

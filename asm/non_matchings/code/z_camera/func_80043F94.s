@@ -43,7 +43,7 @@ glabel func_80043F94
 /* ABB1B8 80044018 8FA40084 */  lw    $a0, 0x84($sp)
 /* ABB1BC 8004401C 02202825 */  move  $a1, $s1
 /* ABB1C0 80044020 27A6006C */  addiu $a2, $sp, 0x6c
-/* ABB1C4 80044024 0C00F75B */  jal   func_8003DD6C
+/* ABB1C4 80044024 0C00F75B */  jal   BgCheck_CameraLineTest1
 /* ABB1C8 80044028 27A70078 */   addiu $a3, $sp, 0x78
 /* ABB1CC 8004402C 1440003A */  bnez  $v0, .L80044118
 /* ABB1D0 80044030 27A40060 */   addiu $a0, $sp, 0x60
@@ -73,7 +73,7 @@ glabel func_80043F94
 /* ABB230 80044090 C7AA007C */  lwc1  $f10, 0x7c($sp)
 /* ABB234 80044094 8FA40084 */  lw    $a0, 0x84($sp)
 /* ABB238 80044098 46105480 */  add.s $f18, $f10, $f16
-/* ABB23C 8004409C 0C00F329 */  jal   func_8003CCA4
+/* ABB23C 8004409C 0C00F329 */  jal   BgCheck_CameraRaycastFloor2
 /* ABB240 800440A0 E7B2007C */   swc1  $f18, 0x7c($sp)
 /* ABB244 800440A4 C6020004 */  lwc1  $f2, 4($s0)
 /* ABB248 800440A8 3C0140A0 */  li    $at, 0x40A00000 # 0.000000

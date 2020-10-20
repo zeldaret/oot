@@ -22,7 +22,7 @@ glabel func_80B3CF90
 /* 00DFC 80B3CFDC 8FA20018 */  lw      $v0, 0x0018($sp)           
 /* 00E00 80B3CFE0 24E407C0 */  addiu   $a0, $a3, 0x07C0           ## $a0 = 000007C0
 /* 00E04 80B3CFE4 8C450078 */  lw      $a1, 0x0078($v0)           ## 00000078
-/* 00E08 80B3CFE8 0C0107CD */  jal     func_80041F34              
+/* 00E08 80B3CFE8 0C0107CD */  jal     SurfaceType_GetSfx              
 /* 00E0C 80B3CFEC 9046007D */  lbu     $a2, 0x007D($v0)           ## 0000007D
 /* 00E10 80B3CFF0 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00E14 80B3CFF4 24430800 */  addiu   $v1, $v0, 0x0800           ## $v1 = 00000800

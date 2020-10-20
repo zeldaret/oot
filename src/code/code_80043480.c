@@ -1,6 +1,6 @@
 #include "global.h"
 
-void func_80043480(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
+void DynaPolyActor_Init(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
     dynaActor->bgId = -1;
     dynaActor->unk_15C = flags;
     dynaActor->unk_160 = 0;
@@ -21,7 +21,7 @@ void func_800434B8(DynaPolyActor* dynaActor) {
 }
 
 void func_800434C8(CollisionContext* colCtx, s32 floorPolySource) {
-    DynaPolyActor* dynaActor = (DynaPolyActor*)func_8003EB84(colCtx, floorPolySource);
+    DynaPolyActor* dynaActor = (DynaPolyActor*)DynaPoly_GetActor(colCtx, floorPolySource);
 
     if (dynaActor != NULL) {
         func_800434B8(dynaActor);
@@ -33,7 +33,7 @@ void func_800434F8(DynaPolyActor* dynaActor) {
 }
 
 void func_80043508(CollisionContext* colCtx, s32 floorPolySource) {
-    DynaPolyActor* dynaActor = (DynaPolyActor*)func_8003EB84(colCtx, floorPolySource);
+    DynaPolyActor* dynaActor = (DynaPolyActor*)DynaPoly_GetActor(colCtx, floorPolySource);
 
     if (dynaActor != NULL) {
         func_800434F8(dynaActor);
@@ -101,16 +101,16 @@ s32 func_800435D8(GlobalContext* globalCtx, DynaPolyActor* actor, s16 arg2, s16 
     posB.x = sign * a3 * sin + posA.x;
     posB.y = posA.y;
     posB.z = sign * a3 * cos + posA.z;
-    if (func_8003DFA0(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId, actor,
-                      0.0f)) {
+    if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId,
+                                actor, 0.0f)) {
         return false;
     }
     posA.x = (actor->actor.posRot.pos.x * 2) - posA.x;
     posA.z = (actor->actor.posRot.pos.z * 2) - posA.z;
     posB.x = sign * a3 * sin + posA.x;
     posB.z = sign * a3 * cos + posA.z;
-    if (func_8003DFA0(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId, actor,
-                      0.0f)) {
+    if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &posA, &posB, &posResult, &poly, true, false, false, true, &bgId,
+                                actor, 0.0f)) {
         return false;
     }
     return true;

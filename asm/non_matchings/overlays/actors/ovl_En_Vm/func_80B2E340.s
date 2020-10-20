@@ -85,7 +85,7 @@ glabel func_80B2E340
 /* 0100C 80B2E46C 8FA60044 */  lw      $a2, 0x0044($sp)           
 /* 01010 80B2E470 27A70058 */  addiu   $a3, $sp, 0x0058           ## $a3 = FFFFFFC8
 /* 01014 80B2E474 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 01018 80B2E478 0C00F7A1 */  jal     func_8003DE84              
+/* 01018 80B2E478 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 0101C 80B2E47C 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 01020 80B2E480 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 01024 80B2E484 14410011 */  bne     $v0, $at, .L80B2E4CC       

@@ -88,7 +88,7 @@ glabel func_809D5004
 /* 01B90 809D5140 C7A6006C */  lwc1    $f6, 0x006C($sp)           
 /* 01B94 809D5144 E7B00074 */  swc1    $f16, 0x0074($sp)          
 /* 01B98 809D5148 46083280 */  add.s   $f10, $f6, $f8             
-/* 01B9C 809D514C 0C00F8C3 */  jal     func_8003E30C              
+/* 01B9C 809D514C 0C00F8C3 */  jal     BgCheck_SphVsFirstPoly              
 /* 01BA0 809D5150 E7AA006C */  swc1    $f10, 0x006C($sp)          
 /* 01BA4 809D5154 10400019 */  beq     $v0, $zero, .L809D51BC     
 /* 01BA8 809D5158 C7B00074 */  lwc1    $f16, 0x0074($sp)          

@@ -11,8 +11,8 @@ glabel DemoGt_Destroy
 /* 00024 8097D694 14410003 */  bne     $v0, $at, .L8097D6A4       
 .L8097D698:
 /* 00028 8097D698 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 0002C 8097D69C 0C00FB56 */  jal     func_8003ED58
-              ## func_8003ED58
+/* 0002C 8097D69C 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00030 8097D6A0 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 .L8097D6A4:
 /* 00034 8097D6A4 8FBF0014 */  lw      $ra, 0x0014($sp)           

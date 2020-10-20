@@ -3795,9 +3795,9 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                 s32 sp48 = func_80838144(D_808535E4);
 
                 if (((this->actor.wallPoly != NULL) &&
-                     func_80042108(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) ||
+                     SurfaceType_IsWallDamage(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) ||
                     ((sp48 >= 0) &&
-                     func_80042108(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) &&
+                     SurfaceType_IsWallDamage(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) &&
                      (this->unk_A79 >= D_808544F4[sp48])) ||
                     ((sp48 >= 0) &&
                      ((this->currentTunic != PLAYER_TUNIC_GORON) || (this->unk_A79 >= D_808544F4[sp48])))) {
@@ -3988,7 +3988,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, s
 
         if (!(this->stateFlags1 & 0x80) && (globalCtx->sceneLoadFlag == 0) && (this->csMode == 0) &&
             !(this->stateFlags1 & 1) &&
-            (((poly != NULL) && (sp3C = func_80041D28(&globalCtx->colCtx, poly, bgId), sp3C != 0)) ||
+            (((poly != NULL) && (sp3C = SurfaceType_GetSceneExitIndex(&globalCtx->colCtx, poly, bgId), sp3C != 0)) ||
              (func_8083816C(D_808535E4) && (this->unk_A7A == 12)))) {
 
             sp34 = this->unk_A84 - (s32)this->actor.posRot.pos.y;
@@ -4013,7 +4013,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, s
                         D_808544F8[D_80854514[globalCtx->nextEntranceIndex - 0x7FF9] + globalCtx->curSpawn];
                     func_800994A0(globalCtx);
                 } else {
-                    if (func_80041F7C(&globalCtx->colCtx, poly, bgId) == 2) {
+                    if (SurfaceType_GetSlope(&globalCtx->colCtx, poly, bgId) == 2) {
                         gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = globalCtx->nextEntranceIndex;
                         Gameplay_TriggerVoidOut(globalCtx);
                         gSaveContext.respawnFlag = -2;
@@ -4121,7 +4121,7 @@ Actor* func_80839680(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f*
 f32 func_808396F4(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3, CollisionPoly** arg4, s32* arg5) {
     func_808395DC(this, &this->actor.posRot.pos, arg2, arg3);
 
-    func_8003C940(&globalCtx->colCtx, arg4, arg5, arg3);
+    BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, arg4, arg5, arg3);
 }
 
 f32 func_8083973C(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3) {
@@ -4141,7 +4141,7 @@ s32 func_80839768(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Collision
 
     func_808395DC(this, &this->actor.posRot.pos, arg2, &sp38);
 
-    return func_8003DE84(&globalCtx->colCtx, &sp44, &sp38, arg5, arg3, 1, 0, 0, 1, arg4);
+    return BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp38, arg5, arg3, 1, 0, 0, 1, arg4);
 }
 
 s32 func_80839800(Player* this, GlobalContext* globalCtx) {
@@ -4270,7 +4270,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         sp4C.y = doorActor->posRot.pos.y + 10.0f;
                         sp4C.z = doorActor->posRot.pos.z - (sp6C * sp78);
 
-                        func_8003C890(&globalCtx->colCtx, &sp58, &sp4C);
+                        BgCheck_EntityRaycastFloor1(&globalCtx->colCtx, &sp58, &sp4C);
 
                         if (func_80839034(globalCtx, this, sp58, BGCHECK_SCENE)) {
                             gSaveContext.unk_13BC = 2.0f;
@@ -4523,7 +4523,8 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
         sp74.y = this->actor.posRot.pos.y;
         sp74.z = this->actor.pos4.z + (sp74.z * temp1);
 
-        if (func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &sp74, &sp68, &sp84, 1, 0, 0, 1, &sp80) &&
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.posRot.pos, &sp74, &sp68, &sp84, 1, 0, 0, 1,
+                                    &sp80) &&
             (ABS(sp84->normal.y) < 600)) {
             f32 nx = COLPOLY_GET_NORMAL(sp84->normal.x);
             f32 ny = COLPOLY_GET_NORMAL(sp84->normal.y);
@@ -4622,7 +4623,7 @@ void func_8083AA10(Player* this, GlobalContext* globalCtx) {
                         sp40 = func_808396F4(globalCtx, this, &D_8085451C, &sp44, &sp58, &sp54);
                         sp3C = this->actor.posRot.pos.y;
 
-                        if (func_8004213C(globalCtx, &globalCtx->colCtx, sp44.x, sp44.z, &sp3C, &sp50) &&
+                        if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, sp44.x, sp44.z, &sp3C, &sp50) &&
                             ((sp3C - sp40) > 50.0f)) {
                             func_808389E8(this, &D_04003158, 6.0f, globalCtx);
                             func_80835C58(globalCtx, this, func_80844A44, 0);
@@ -5060,7 +5061,7 @@ s32 func_8083BDBC(Player* this, GlobalContext* globalCtx) {
 
     if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && (globalCtx->roomCtx.curRoom.unk_03 != 2) &&
         (D_808535E4 != 7) &&
-        (func_80041F7C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) != 1)) {
+        (SurfaceType_GetSlope(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) != 1)) {
         sp2C = this->unk_84B[this->unk_846];
 
         if (sp2C <= 0) {
@@ -5285,7 +5286,7 @@ s32 func_8083C6B8(GlobalContext* globalCtx, Player* this) {
             sp24.y += 50.0f;
 
             if (!(this->actor.bgCheckFlags & 1) || (this->actor.posRot.pos.z > 1300.0f) ||
-                func_8003E30C(&globalCtx->colCtx, &sp24, 20.0f)) {
+                BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &sp24, 20.0f)) {
                 func_80078884(NA_SE_SY_ERROR);
                 return 0;
             }
@@ -5329,8 +5330,8 @@ s32 func_8083C910(GlobalContext* globalCtx, Player* this, f32 arg2) {
     f32 sp28;
 
     sp28 = this->actor.posRot.pos.y;
-    if (func_8004213C(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &sp28,
-                      &sp2C) != 0) {
+    if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z, &sp28,
+                             &sp2C) != 0) {
         sp28 -= this->actor.posRot.pos.y;
         if (this->ageProperties->unk_24 <= sp28) {
             func_80835C58(globalCtx, this, func_8084D7C4, 0);
@@ -5464,7 +5465,7 @@ s32 func_8083CFA8(GlobalContext* globalCtx, Player* this, f32 arg2, s32 splashSc
         splashPos.x = this->bodyPartsPos[0].x;
         splashPos.z = this->bodyPartsPos[0].z;
         sp34 = this->actor.posRot.pos.y;
-        if (func_8004213C(globalCtx, &globalCtx->colCtx, splashPos.x, splashPos.z, &sp34, &sp38)) {
+        if (WaterBox_GetSurface1(globalCtx, &globalCtx->colCtx, splashPos.x, splashPos.z, &sp34, &sp38)) {
             if ((sp34 - this->actor.posRot.pos.y) < 100.0f) {
                 splashType = (sp3C <= 10.0f) ? 0 : 1;
                 splashPos.y = sp34;
@@ -5872,7 +5873,7 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2) {
     s16 temp3;
 
     if (!Player_InBlockingCsMode(globalCtx, this) && (func_8084F390 != this->func_674) &&
-        (func_80041F7C(&globalCtx->colCtx, arg2, this->actor.floorPolySource) == 1)) {
+        (SurfaceType_GetSlope(&globalCtx->colCtx, arg2, this->actor.floorPolySource) == 1)) {
         sp4A = atan2s(this->actor.velocity.z, this->actor.velocity.x);
         func_8083E298(arg2, &sp3C, &sp3A);
         temp3 = sp3A - sp4A;
@@ -6092,7 +6093,7 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     Vec3f* sp44 = &sp50[0];
                     s32 pad;
 
-                    func_80038C78(sp84, this->actor.wallPolySource, &globalCtx->colCtx, sp50);
+                    CollisionPoly_GetVerticesByBgId(sp84, this->actor.wallPolySource, &globalCtx->colCtx, sp50);
 
                     sp80 = phi_f12 = sp44->x;
                     sp7C = phi_f14 = sp44->z;
@@ -6196,7 +6197,7 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
     if (LINK_IS_CHILD && !(this->stateFlags1 & 0x8000000) && (arg2 & 0x30)) {
         wallPoly = this->actor.wallPoly;
-        func_80038C78(wallPoly, this->actor.wallPolySource, &globalCtx->colCtx, &sp50);
+        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallPolySource, &globalCtx->colCtx, &sp50);
 
         sp4C = phi_f2 = sp50[0].x;
         sp44 = phi_f12 = sp50[0].z;
@@ -6269,7 +6270,7 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
     sp60.z = this->actor.posRot.pos.z + (arg3 * yawCos);
     sp60.y = sp6C.y = this->actor.posRot.pos.y + arg1;
 
-    if (func_8003DE84(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, 1, 0, 0, 1, &sp78)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, 1, 0, 0, 1, &sp78)) {
         wallPoly = this->actor.wallPoly;
 
         this->actor.bgCheckFlags |= 0x200;
@@ -6363,7 +6364,7 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
             if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A)) {
 
                 if ((this->actor.wallPolySource != BGCHECK_SCENE) &&
-                    ((wallPolyActor = func_8003EB84(&globalCtx->colCtx, this->actor.wallPolySource)) != NULL)) {
+                    ((wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallPolySource)) != NULL)) {
 
                     if (wallPolyActor->actor.id == ACTOR_BG_HEAVY_BLOCK) {
                         if (Player_GetStrength() < PLAYER_STR_GOLD_G) {
@@ -6401,7 +6402,7 @@ s32 func_8083F9D0(GlobalContext* globalCtx, Player* this) {
         DynaPolyActor* wallPolyActor = NULL;
 
         if (this->actor.wallPolySource != BGCHECK_SCENE) {
-            wallPolyActor = func_8003EB84(&globalCtx->colCtx, this->actor.wallPolySource);
+            wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallPolySource);
         }
 
         if (&wallPolyActor->actor == this->unk_3C4) {
@@ -7581,9 +7582,9 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
                     sp68.y = this->swordInfo[0].tip.y + (sp50.y * phi_f2);
                     sp68.z = this->swordInfo[0].tip.z + (sp50.z * phi_f2);
 
-                    if ((func_8003DE84(&globalCtx->colCtx, &sp68, &this->swordInfo[0].tip, &sp5C, &sp78, 1, 0, 0, 1,
-                                       &sp74) != 0) &&
-                        (func_8004200C(&globalCtx->colCtx, sp78, sp74) == 0) &&
+                    if ((BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp68, &this->swordInfo[0].tip, &sp5C, &sp78, 1, 0,
+                                                 0, 1, &sp74) != 0) &&
+                        (SurfaceType_IsIgnoredByEntities(&globalCtx->colCtx, sp78, sp74) == 0) &&
                         (func_80041D4C(&globalCtx->colCtx, sp78, sp74) != 6) &&
                         (func_8002F9EC(globalCtx, &this->actor, sp78, sp74, &sp5C) == 0)) {
 
@@ -7915,7 +7916,7 @@ void func_80843CEC(Player* this, GlobalContext* globalCtx) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
         if ((globalCtx->roomCtx.curRoom.unk_02 == 3) || (D_808535E4 == 9) ||
             ((func_80838144(D_808535E4) >= 0) &&
-             !func_80042108(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource))) {
+             !SurfaceType_IsWallDamage(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource))) {
             func_8083821C(this);
         }
     }
@@ -8174,7 +8175,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
                     if (cylinderOc != NULL) {
                         cylinderOc->initPosRot.rot.y = 1;
                     } else if (this->actor.wallPolySource != BGCHECK_SCENE) {
-                        wallPolyActor = func_8003EB84(&globalCtx->colCtx, this->actor.wallPolySource);
+                        wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallPolySource);
                         if ((wallPolyActor != NULL) && (wallPolyActor->actor.id == ACTOR_OBJ_KIBAKO2)) {
                             wallPolyActor->actor.initPosRot.rot.z = 1;
                         }
@@ -9469,26 +9470,28 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             if (this->stateFlags2 & 0x200) {
                 this->unk_89E = 1;
             } else {
-                this->unk_89E = func_80041F34(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
+                this->unk_89E = SurfaceType_GetSfx(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
             }
         }
 
         if (this->actor.type == ACTORTYPE_PLAYER) {
-            func_800F66DC(func_80041FC4(&globalCtx->colCtx, spC0, this->actor.floorPolySource));
+            func_800F66DC(SurfaceType_GetEcho(&globalCtx->colCtx, spC0, this->actor.floorPolySource));
 
             if (this->actor.floorPolySource == BGCHECK_SCENE) {
-                func_80074CE8(globalCtx, func_80041FA0(&globalCtx->colCtx, spC0, this->actor.floorPolySource));
+                func_80074CE8(globalCtx,
+                              SurfaceType_GetLightSettingIndex(&globalCtx->colCtx, spC0, this->actor.floorPolySource));
             } else {
                 func_80043508(&globalCtx->colCtx, this->actor.floorPolySource);
             }
         }
 
-        D_808535F4 = func_800420C0(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
+        D_808535F4 = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
         if (D_808535F4 != 0) {
-            D_808535F8 = func_80042084(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
+            D_808535F8 = SurfaceType_IsConveyor(&globalCtx->colCtx, spC0, this->actor.floorPolySource);
             if (((D_808535F8 == 0) && (this->actor.waterY > 20.0f) && (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((D_808535F8 != 0) && (this->actor.bgCheckFlags & 1))) {
-                D_808535FC = func_800420E4(&globalCtx->colCtx, spC0, this->actor.floorPolySource) << 10;
+                D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, spC0, this->actor.floorPolySource)
+                             << 10;
             } else {
                 D_808535F4 = 0;
             }
@@ -9559,12 +9562,12 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
                 sp68.z = this->actor.posRot.pos.z - (temp2 * sp84);
                 sp68.y = this->actor.posRot.pos.y + this->ageProperties->unk_0C;
 
-                sp64 = func_8003C890(&globalCtx->colCtx, &sp7C, &sp68);
+                sp64 = BgCheck_EntityRaycastFloor1(&globalCtx->colCtx, &sp7C, &sp68);
                 this->wallHeight = sp64 - this->actor.posRot.pos.y;
 
                 if ((this->wallHeight < 18.0f) ||
-                    func_8003D7A0(&globalCtx->colCtx, &sp60, &this->actor.posRot.pos,
-                                  (sp64 - this->actor.posRot.pos.y) + 20.0f, &sp78, &sp74, &this->actor)) {
+                    BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp60, &this->actor.posRot.pos,
+                                               (sp64 - this->actor.posRot.pos.y) + 20.0f, &sp78, &sp74, &this->actor)) {
                     this->wallHeight = 399.96002f;
                 } else {
                     D_80854798.y = (sp64 + 5.0f) - this->actor.posRot.pos.y;
@@ -10800,7 +10803,7 @@ void func_8084B78C(Player* this, GlobalContext* globalCtx) {
 
 void func_8084B840(GlobalContext* globalCtx, Player* this, f32 arg2) {
     if (this->actor.wallPolySource != BGCHECK_SCENE) {
-        DynaPolyActor* dynaActor = func_8003EB84(&globalCtx->colCtx, this->actor.wallPolySource);
+        DynaPolyActor* dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallPolySource);
 
         if (dynaActor != NULL) {
             func_8002DFA4(dynaActor, arg2, this->actor.posRot.rot.y);
@@ -10903,7 +10906,7 @@ void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
             sp44.x = this->actor.posRot.pos.x;
             sp44.z = this->actor.posRot.pos.z;
             sp44.y = sp5C.y;
-            if (func_8003DE84(&globalCtx->colCtx, &sp44, &sp5C, &sp38, &sp54, 1, 0, 0, 1, &sp50) == 0) {
+            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp5C, &sp38, &sp54, 1, 0, 0, 1, &sp50) == 0) {
                 func_8084B840(globalCtx, this, -2.0f);
                 return;
             }
@@ -11033,7 +11036,7 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
 
     if (this->unk_850 >= 0) {
         if ((this->actor.wallPoly != NULL) && (this->actor.wallPolySource != BGCHECK_SCENE)) {
-            DynaPolyActor* wallPolyActor = func_8003EB84(&globalCtx->colCtx, this->actor.wallPolySource);
+            DynaPolyActor* wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallPolySource);
             if (wallPolyActor != NULL) {
                 Math_Vec3f_Diff(&wallPolyActor->actor.posRot.pos, &wallPolyActor->actor.pos4, &sp6C);
                 Math_Vec3f_Sum(&this->actor.posRot.pos, &sp6C, &this->actor.posRot.pos);
@@ -11176,7 +11179,7 @@ void func_8084C5F8(Player* this, GlobalContext* globalCtx) {
         sp24.x = this->actor.posRot.pos.x;
         sp24.y = this->actor.posRot.pos.y + 20.0f;
         sp24.z = this->actor.posRot.pos.z;
-        if (func_8003C940(&globalCtx->colCtx, &sp34, &sp30, &sp24) != 0.0f) {
+        if (BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &sp34, &sp30, &sp24) != 0.0f) {
             this->unk_89E = func_80041F10(&globalCtx->colCtx, sp34, sp30);
             func_808328A0(this);
         }
@@ -12361,7 +12364,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
         sp4C = (sp50 * sp50) * 0.015f;
         sp48 = sp38.y * 0.01f;
 
-        if (func_80041F7C(&globalCtx->colCtx, floorPoly, this->actor.floorPolySource) != 1) {
+        if (SurfaceType_GetSlope(&globalCtx->colCtx, floorPoly, this->actor.floorPolySource) != 1) {
             sp50 = 0;
             sp48 = sp38.y * 10.0f;
         }

@@ -92,7 +92,7 @@ void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
 
     pos = this->dyna.actor.posRot.pos;
     pos.y += 1.0f;
-    newY = func_8003C9A4(&globalCtx->colCtx, &a1, &a2, &this->dyna.actor, &pos);
+    newY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &a1, &a2, &this->dyna.actor, &pos);
     if (newY != -32000.0f) {
         this->dyna.actor.posRot.pos.y = newY;
     }
@@ -112,9 +112,9 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     animFrameCount = SkelAnime_GetFrameCount(&animHeader->genericHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    func_80043480(&this->dyna, DPM_UNK);
-    func_80041880(&D_06005FC8, &colHeader);
-    this->dyna.bgId = func_8003EA74(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06005FC8, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, &globalCtx2->colCtx.dyna, &this->dyna.actor, colHeader);
     func_8003ECA8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.bgId);
 
     this->movementFlags = 0;
@@ -200,7 +200,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBox* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnBox_RandomDustKinematic(EnBox* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {

@@ -16,7 +16,7 @@ glabel BgHakaGate_Init
 /* 00034 8087BE24 332800FF */  andi    $t0, $t9, 0x00FF           ## $t0 = 00000000
 /* 00038 8087BE28 A2180168 */  sb      $t8, 0x0168($s0)           ## 00000168
 /* 0003C 8087BE2C A608001C */  sh      $t0, 0x001C($s0)           ## 0000001C
-/* 00040 8087BE30 0C010D20 */  jal     func_80043480
+/* 00040 8087BE30 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00044 8087BE34 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00048 8087BE38 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -119,7 +119,7 @@ glabel BgHakaGate_Init
 /* 001A0 8087BF90 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 001A4 8087BF94 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 001A8 8087BF98 248431C4 */  addiu   $a0, $a0, 0x31C4           ## $a0 = 060131C4
-/* 001AC 8087BF9C 0C010620 */  jal     func_80041880
+/* 001AC 8087BF9C 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 001B0 8087BFA0 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 001B4 8087BFA4 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00
@@ -145,7 +145,7 @@ glabel BgHakaGate_Init
 /* 001F8 8087BFE8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 001FC 8087BFEC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 00200 8087BFF0 24840E10 */  addiu   $a0, $a0, 0x0E10           ## $a0 = 06010E10
-/* 00204 8087BFF4 0C010620 */  jal     func_80041880
+/* 00204 8087BFF4 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00208 8087BFF8 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 0020C 8087BFFC 8FA4003C */  lw      $a0, 0x003C($sp)           
@@ -164,7 +164,7 @@ glabel BgHakaGate_Init
 /* 00238 8087C028 AE190164 */  sw      $t9, 0x0164($s0)           ## 00000164
 .L8087C02C:
 /* 0023C 8087C02C 2484A938 */  addiu   $a0, $a0, 0xA938           ## $a0 = FFFFA938
-/* 00240 8087C030 0C010620 */  jal     func_80041880
+/* 00240 8087C030 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00244 8087C034 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 00248 8087C038 8FA4003C */  lw      $a0, 0x003C($sp)           
@@ -196,8 +196,8 @@ glabel BgHakaGate_Init
 /* 002A0 8087C090 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 002A4 8087C094 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002A8 8087C098 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 002AC 8087C09C 0C00FA9D */  jal     func_8003EA74
-              ## func_8003EA74
+/* 002AC 8087C09C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 002B0 8087C0A0 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 002B4 8087C0A4 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 .L8087C0A8:

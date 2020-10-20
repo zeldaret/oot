@@ -308,7 +308,7 @@ glabel L80B3B470
 /* 006F4 80B3B664 E6120028 */  swc1    $f18, 0x0028($s0)          ## 00000028
 /* 006F8 80B3B668 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 006FC 80B3B66C AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 00700 80B3B670 0C00F269 */  jal     func_8003C9A4              
+/* 00700 80B3B670 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 00704 80B3B674 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 00708 80B3B678 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 0070C 80B3B67C 44814000 */  mtc1    $at, $f8                   ## $f8 = -32000.00

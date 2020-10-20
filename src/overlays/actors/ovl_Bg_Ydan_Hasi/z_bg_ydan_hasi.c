@@ -55,7 +55,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_168 = ((thisx->params >> 8) & 0x3F);
     thisx->params = thisx->params & 0xFF;
     waterBox = globalCtx->colCtx.colHeader->waterBoxes + 0x1;
-    func_80043480(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (thisx->params == 1) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
         thisx->initPosRot.pos.y = (thisx->initPosRot.pos.y + -5.0f);
@@ -65,19 +65,19 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         if (thisx->params == 0) {
             // Moving platform on the water in B1
-            func_80041880(&D_06007798, &colHeader);
+            CollisionHeader_GetVirtual(&D_06007798, &colHeader);
             thisx->scale.z = 0.15f;
             thisx->scale.x = 0.15f;
             thisx->posRot.pos.y = (waterBox->ySurface + 20.0f);
             this->actionFunc = BgYdanHasi_UpdateFloatingBlock;
         } else {
             // 3 platforms on 2F
-            func_80041880(&D_06005780, &colHeader);
+            CollisionHeader_GetVirtual(&D_06005780, &colHeader);
             thisx->draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
             Actor_SetHeight(thisx, 40.0f);
         }
-        this->dyna.bgId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     }
     this->timer = 0;
 }
@@ -85,7 +85,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanHasi* this = THIS;
 
-    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {
