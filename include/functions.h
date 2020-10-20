@@ -540,7 +540,7 @@ u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList*);
 // ? func_800388A8(?);
 // ? func_800388E8(?);
 // ? func_800389D4(?);
-void func_80038A28(CollisionPoly* poly, f32 trx, f32 try, f32 trz, MtxF* dest);
+void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest);
 f32 CollisionPoly_GetPointDistanceFromPlane(CollisionPoly* poly, Vec3f* point);
 // ? func_80038BE0(?);
 // ? CollisionPoly_CheckYIntersectApprox1(?);

@@ -193,7 +193,7 @@ void CollisionPoly_GetNormalF(CollisionPoly* poly, f32* nx, f32* ny, f32* nz) {
 /**
  * Compute transform matrix mapping +y (up) to the collision poly's normal
  */
-void func_80038A28(CollisionPoly* poly, f32 trx, f32 try, f32 trz, MtxF* dest) {
+void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest) {
     f32 nx;
     f32 ny;
     f32 nz;
@@ -238,10 +238,9 @@ void func_80038A28(CollisionPoly* poly, f32 trx, f32 try, f32 trz, MtxF* dest) {
     dest->yw = 0.0f;
     dest->zx = 0.0f;
     dest->zw = 0.0f;
-    dest->wx = trx;
-    dest->wy = try
-        ;
-    dest->wz = trz;
+    dest->wx = tx;
+    dest->wy = ty;
+    dest->wz = tz;
     dest->ww = 1.0f;
 }
 
