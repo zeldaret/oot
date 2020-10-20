@@ -15,6 +15,7 @@ typedef struct DemoGt {
     /* 0x016C */ Vec3s unk_16C;
     /* 0x0172 */ s16 unk_172;
     /* 0x0174 */ s16 unk_174;
+    /* 0x0176 */ char unk_176[2];
     /* 0x0178 */ Color_RGB8 unk_178;
     /* 0x017B */ s16 unk_184[0x6];
     /* 0x0188 */ Vec3i unk_188;

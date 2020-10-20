@@ -1,6 +1,7 @@
 #include "z_demo_gt.h"
 #include "vt.h"
 #include "global.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000030
 
@@ -13,28 +14,27 @@ void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 Color_RGBA8 D_809825C0 = { 0x64, 0x50, 0x64, 0x00 };
 Color_RGBA8 D_809825C4 = { 0xFF, 0x6E, 0x60, 0x00 };
-s32 D_809825C8[] = { 0x00000000, 0x40C00000, 0x00000000 };
-s32 D_809825D4[] = { 0x00000000, 0x00000000, 0x00000000 };
+Vec3f D_809825C8 = { 0.0f, 6.0f, 0.0f };
+Vec3f D_809825D4 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809825E0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809825EC = { 0.0f, 0.0f, 0.0f };
 
-// s32 D_809825F8 = 0x48500064;
 InitChainEntry D_809825F8[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
 Vec3f D_809825FC = { 0.0f, -16.0f, 0.0f };
-s32 D_80982608[] = { 0x00000000, 0x3F99999A, 0x00000000 };
-s32 D_80982614 = 0x00000000;
+Vec3f D_80982608 = { 0.0f, 1.20000004768f, 0.0f };
+Actor* D_80982614 = NULL;
 Vec3f D_80982618 = { -12.0f, -17.0, 5.0 };
-s32 D_80982624 = 0x00000000;
-s32 D_80982628[] = { 0x3F800000, 0x00000000 };
-s32 D_80982630 = 0x00000000;
-s32 D_80982634[] = { 0x00000000, 0x00000000 };
-s32 D_8098263C = 0x438C0000;
-s32 D_80982640 = 0x41000000;
-s32 D_80982644 = 0x0000000B;
-s32 D_80982648 = 0x00000001;
+Vec3f* D_80982624 = NULL; // was 0x00000000; ??
+Vec2f D_80982628 = { 1.0f, 0.0f };
+Vec3f* D_80982630 = NULL; // was 0x00000000;
+Vec2f D_80982634 = { 0.0f, 0.0f };
+f32 D_8098263C = 280.0f;
+f32 D_80982640 = 8.0f;
+s32 D_80982644 = 0xB;
+s32 D_80982648 = 0x1;
 s32 D_8098264C = 0x00030000;
 Vec3f D_80982650 = { 5.0f, -16.0f, -16.0f };
 Actor* D_8098265C = NULL;
@@ -46,9 +46,9 @@ Vec3f D_80982688 = { 5.0f, -16.0f, -16.0f };
 Vec3f D_80982694 = { 15.0f, -26.0, 0.0f };
 Vec3f D_809826A0 = { 5.0f, -16.0f, -16.0f };
 Vec3f D_809826AC = { 5.0f, -16.0f, -16.0f };
-s32 D_809826B8[] = { 0x41A00000, 0x40C00000, 0x00000000 };
-s32 D_809826C4[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_809826D0[] = { 0x00000000, 0xC1880000, 0x00000000 };
+Vec3f D_809826B8 = { 20.0f, 6.0f, 0.0f };
+Vec3f D_809826C4 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_809826D0 = { 0.0f, -17.0f, 0.0f };
 Vec3f D_809826DC = { 0.0f, -30.0f, 0.0f };
 
 void func_8097F428(DemoGt* this, GlobalContext* globalCtx);
@@ -106,7 +106,7 @@ extern UNK_TYPE D_060091E4;
 extern UNK_TYPE D_60099700;
 extern UNK_TYPE D_06007630;
 extern UNK_TYPE D_06004F90;
-extern UNK_TYPE D_06000EA0;
+extern Gfx D_06000EA0[];
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
@@ -139,8 +139,33 @@ void func_8097D74C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
                   arg5, arg6);
 }
 
+// This prototype is very important for the rest to match!!!
 void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3, s32 arg4, s32 arg5, s16 arg6);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097D7D8.s")
+// void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3, s32 arg4, s32 arg5, s16 arg6) {
+
+//     if (func_800C0D28(globalCtx) == 0) {
+//         s32 gameplayFrames = globalCtx->gameplayFrames;
+//         if (ABS(gameplayFrames % arg4) == arg5) {
+//             Vec3f sp3C = D_809825C8;
+//             Vec3f sp30 = D_809825D4;
+
+//             sp3C.x *= arg3;
+//             sp3C.y *= arg3;
+//             sp3C.z *= arg3;
+
+//             sp3C.x *= arg3 + arg2->x;
+//             sp3C.y *= arg3 + arg2->y;
+//             sp3C.z *= arg3 + arg2->z;
+
+//             sp30.x *= arg3;
+//             sp30.y *= arg3;
+//             sp30.z *= arg3;
+
+//             func_8097D74C(globalCtx, arg1, &sp3C, &sp30, 300.0f * arg3, (s32)(15.0f * arg3), arg6);
+//         }
+//     }
+// }
 
 // TODO: Rename to Actor_spawn_ACTOR_BG_SPOT16_DOUGHNUT
 Actor* func_8097D964(GlobalContext* globalCtx, Vec3f* position, s16 params) {
@@ -163,44 +188,43 @@ void func_8097DA78(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 
 // Very similar methods
 // void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* vec);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DAC8.s")
-void func_8097DAC8(DemoGt* this, GlobalContext* arg1, Vec3f* arg2) {
-    Vec3f position;
-    Vec3f velocity;
-    f32 tempRand;
-    s16 counter = 0;
-    f32 gravity;
-    s32 i;
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DAC8.s")
+// void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* arg3) {
+//     Vec3f spC4;
+//     Vec3f spB8;
+//     s16 counter = 0;
+//     s32 i;
 
-    for (i = 0; i < 8; i++) {
+//     for (i = 0; i < 12; i++) {
+//         f32 scale;
+//         s32 temp;
+//         spC4.x = Math_Sins(counter) * 46.0f;
+//         spC4.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+//         spC4.z = Math_Coss(counter) * 46.0f;
 
-        position.x = Math_Sins(counter) * 30.0f;
-        position.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
-        position.z = Math_Coss(counter) * 30.0f;
+//         spB8.x = (spC4.x * 0.1f) + 20.0f;
+//         spB8.y = Math_Rand_ZeroOne() * 16.0f;
+//         spB8.z = spC4.z * 0.1f;
 
-        velocity.x = 0.0f;
-        velocity.y = Math_Rand_ZeroOne() * -4.0f;
-        velocity.z = position.z * 0.1f;
+//         spC4.x += arg3->x;
+//         spC4.y += arg3->y;
+//         spC4.z += arg3->z;
+//         scale = Math_Rand_ZeroOne();
+//         if (scale < 0.1f) {
+//             temp = 0x60;
+//         } else if (scale < 0.7f) {
+//             temp = 0x40;
+//         } else {
+//             temp = 0x20;
+//         }
 
-        position.x += arg2->x;
-        position.y += arg2->y;
-        position.z += arg2->z;
-
-        tempRand = Math_Rand_ZeroOne();
-
-        if (tempRand < 0.1f) {
-            gravity = 0x60;
-        } else {
-            gravity = 0x20;
-            if (tempRand < 0.7f) {
-                gravity = 0x40;
-            }
-        }
-        EffectSsKakera_Spawn(arg1, &position, &velocity, arg2, -0xF7, gravity, 3, 0, 0,
-                             ((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 0x12C, 0.0f + 0x1E, -1, 0x186, D_06000EA0);
-        counter += 0x2000;
-    }
-}
+//         scale = Math_Rand_ZeroOne();
+//         Math_Rand_ZeroOne();
+//         EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, arg3, -247, temp, 3, 0, 0, (scale * 10.0f) + 30.0f, 2, 300, 30,
+//                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+//         counter += 0x1555;
+//     }
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DD28.s")
 
@@ -209,8 +233,36 @@ void func_8097DAC8(DemoGt* this, GlobalContext* arg1, Vec3f* arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E1D4.s")
 // End of very similar methods
 
-// This one is huge
+void func_8097E454(GlobalContext* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6, s32 arg7,
+                   s16 arg8);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E454.s")
+// void func_8097E454(GlobalContext* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6, s32
+// arg7,
+//                    s16 arg8) {
+//     Vec3f sp7C;
+
+//     s16 phi_s0;
+//     s32 i;
+
+//     if ((func_800C0D28(arg0) == 0) && (arg7 > 0) && (arg6 > 0)) {
+
+//         if (ABS(arg0->gameplayFrames % arg7) < arg6) {
+//             phi_s0 = arg0->gameplayFrames / arg6;
+
+//             for (i = arg0->gameplayFrames; i < arg6; i += arg7) {
+
+//                 sp7C.x = (Math_Sins(phi_s0) * arg4) + arg1->x;
+//                 sp7C.y = arg1->y;
+//                 sp7C.z = (Math_Coss(phi_s0) * arg4) + arg1->z;
+//                 func_8097D74C(arg0, &sp7C, arg2, arg3, 300.0f * arg5, (15.0f * arg5), (s32)arg8);
+//                 if (Math_Rand_ZeroOne() <= 0.05f) {
+//                     func_8097E1D4(arg0, &sp7C, phi_s0);
+//                 }
+//                 phi_s0 = (s16)(phi_s0 + (s16)(0x10000 / arg6));
+//             }
+//         }
+//     }
+// }
 
 u8 func_8097E69C(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
@@ -250,10 +302,10 @@ u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
 //         floatVal = func_8006F9BC(cmdActorAction->endFrame, cmdActorAction->startFrame, globalCtx->csCtx.frames,
 //         (u16)8U, 0);
 
-//         this->dyna.actor.posRot.pos.x =  ((( cmdActorAction->endPos.x -  cmdActorAction->startPos.x) * floatVal) +
-//         cmdActorAction->startPos.x); this->dyna.actor.posRot.pos.y =  ((( cmdActorAction->endPos.y -
-//         cmdActorAction->startPos.y) * floatVal) +  cmdActorAction->startPos.y); this->dyna.actor.posRot.pos.z =  (((
-//         cmdActorAction->endPos.z -  cmdActorAction->startPos.z) * floatVal) +  cmdActorAction->startPos.z);
+//         this->dyna.actor.posRot.pos.x =  ((( cmdActorAction->endPos.x -  cmdActorAction->startPos.x) * floatVal)
+//         + cmdActorAction->startPos.x); this->dyna.actor.posRot.pos.y =  ((( cmdActorAction->endPos.y -
+//         cmdActorAction->startPos.y) * floatVal) +  cmdActorAction->startPos.y); this->dyna.actor.posRot.pos.z =
+//         ((( cmdActorAction->endPos.z -  cmdActorAction->startPos.z) * floatVal) +  cmdActorAction->startPos.z);
 //     }
 // }
 
@@ -341,7 +393,8 @@ void func_8097E824(DemoGt* this, s32 arg1);
 //     (*new_var)->unk_16C.y = this->unk_16C.y + phi_a2;
 //     (*new_var)->unk_16C.z = this->unk_16C.z + phi_a3;
 
-//     (*new_var)->dyna.actor.posRot.pos.x = this->dyna.actor.posRot.pos.x + Math_Coss((*new_var)->unk_16C.x) * phi_f2;
+//     (*new_var)->dyna.actor.posRot.pos.x = this->dyna.actor.posRot.pos.x + Math_Coss((*new_var)->unk_16C.x) *
+//     phi_f2;
 //     (*new_var)->dyna.actor.posRot.pos.z += this->dyna.actor.posRot.pos.z + Math_Coss((*new_var)->unk_16C.z) *
 //     phi_f14;
 //     (*new_var)->dyna.actor.posRot.pos.y += this->dyna.actor.posRot.pos.y + Math_Coss((*new_var)->unk_16C.y) *
@@ -397,15 +450,59 @@ void func_8097EEA8(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 0, 1, NULL);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097EF00.s")
+void func_8097EF00(DemoGt* this, GlobalContext* globalCtx) {
+    u16 frames = globalCtx->csCtx.frames;
+
+    if (frames == 527) {
+        func_800F3F3C(13);
+    }
+}
 
 void func_8097EF34(DemoGt* this, GlobalContext* globalCtx) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097EF40.s")
+void func_8097EF40(DemoGt* this, GlobalContext* globalCtx) {
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f sp4C[2];
+    Vec3f sp40 = D_809825FC;
+    Vec3f sp34 = D_80982608;
+    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    s32 pad;
 
-void func_8097F0AC(DemoGt* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F0AC.s")
+    if (kREG(1) == 0x14 || frames == 220) {
+
+        sp4C[0].x = posRot->x + 256.0f;
+        sp4C[0].y = posRot->y + 679.0f;
+        sp4C[0].z = posRot->z + 82.0f;
+        func_8097D74C(globalCtx, &sp4C, &sp40, &sp34, 1700.0f, 0xF, 0x1E);
+
+        sp4C[0].x = posRot->x + 256.0f;
+        sp4C[0].y = posRot->y + 679.0f;
+        sp4C[0].z = posRot->z - 60.0f;
+        func_8097D74C(globalCtx, &sp4C, &sp40, &sp34, 1700.0f, 0xF, 0x1E);
+    }
+}
+
+void func_8097F0AC(DemoGt* this, GlobalContext* globalCtx) {
+    Vec3f sp38[2];
+    s16 pad[3];
+    Vec3f sp24;
+    u16 frames = globalCtx->csCtx.frames;
+    s32 pad2;
+
+    if (frames == 140 || (kREG(1) == 0x13)) {
+        sp38[0].x = this->dyna.actor.posRot.pos.x + 260.0f;
+        sp38[0].y = this->dyna.actor.posRot.pos.y + 340.0f;
+        sp38[0].z = this->dyna.actor.posRot.pos.z + 45.0f;
+        func_8097D9C4(globalCtx, &sp38, 2.0f);
+    }
+    if (frames == 176) {
+        sp24.x = this->dyna.actor.posRot.pos.x + 260.0f;
+        sp24.y = this->dyna.actor.posRot.pos.y + 840.0f;
+        sp24.z = this->dyna.actor.posRot.pos.z + 45.0f;
+        func_8097D9C4(globalCtx, &sp24, 2.0f);
+    }
+}
 
 void func_8097F19C(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EF34(this, globalCtx);
@@ -413,61 +510,19 @@ void func_8097F19C(DemoGt* this, GlobalContext* globalCtx) {
     func_8097F0AC(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F1D8.s")
-// f32 func_8097F1D8(DemoGt* this) {
+void func_8097F1D8(DemoGt* this) {
+    f32 temp_v0 = this->unk_172;
 
-//     this->unk_174 = kREG(72) + 10.0f + (this->unk_172 * (kREG(64) * 0.001f) + 0.048f);
-//     this->unk_172 += this->unk_174;
+    this->unk_174 = (temp_v0 * ((kREG(64) * 0.001f) + 0.048f)) + (kREG(72) + 10.0f);
+    this->unk_172 += this->unk_174;
 
-//     if ((kREG(73) + 0x250) < this->unk_172) {
-//         this->unk_172 = kREG(73) + 0x250;
-//     }
-//     return this->unk_172;
-// }
+    if (this->unk_172 > (s16)(kREG(73) + 0x250)) {
+        this->unk_172 = kREG(73) + 0x250;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F280.s")
 // void func_8097F280(DemoGt* this, GlobalContext* globalCtx);
-// void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
-//     f32 temp_f0;
-//     s32 temp_v0;
-//     Vec3i *currentVec;
-//     s32 i;
-
-//     if (globalCtx->csCtx.frames < 160) {
-//         this->unk_178.r = 0x64;
-//         this->unk_178.g = 0xFF;
-//         this->unk_178.b = 0xC8;
-
-//         this->unk_188.x = 0xFF;
-//         this->unk_188.y = 0x78;
-//         this->unk_188.z = 0x64;
-
-//         this->unk_198.x++;
-//         this->unk_178.g--;
-//         this->unk_178.b = 0x64;
-
-//         return;
-//     }
-
-//     if (globalCtx->csCtx.frames < 170) {
-//         temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
-//         temp_v0 = ((temp_f0 * -155.0f) + 255.0f);
-
-//         this->unk_178.r = ((temp_f0 * -63.0f) + 163.0f);
-//         this->unk_178.g = temp_v0;
-//         this->unk_178.b = ((temp_f0 * -100.0f) + 200.0f);
-
-//         this->unk_188.z = 0x64;
-//         this->unk_188.x = temp_v0;
-//         this->unk_188.y = ((temp_f0 * -20.0f) + 120.0f);
-//         return;
-//     }
-
-//     this->unk_178.r = 0x64;
-//     this->unk_178.r = 0x64;
-//     this->unk_178.b = 0x64;
-//     VEC_SET(this->unk_188, 0x64, 0x64, 0x64);
-// }
 
 void func_8097F3EC(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2U, 1)) {
@@ -508,8 +563,28 @@ void func_8097F904(DemoGt* this, GlobalContext* globalCtx) {
 void func_8097F960(DemoGt* this, GlobalContext* globalCtx) {
 }
 
-// Short one, return *Actor
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F96C.s")
+void func_8097F96C(DemoGt* this, GlobalContext* globalCtx) {
+    s32 pad[4];
+    Vec3f pos;
+    Actor* actor;
+    u16 frames = globalCtx->csCtx.frames;
+
+    if ((frames > 1059) && (frames < 1062) || kREG(1) == 0x11) {
+        pos.x = this->dyna.actor.posRot.pos.x;
+        pos.y = this->dyna.actor.posRot.pos.y + 612.0f;
+        pos.z = this->dyna.actor.posRot.pos.z;
+
+        if (D_80982614 == NULL) {
+            D_80982614 = func_8097D964(globalCtx, &pos, 2);
+            return;
+        }
+
+        actor = D_80982614;
+        actor->posRot.pos.x = pos.x;
+        actor->posRot.pos.y = pos.y;
+        actor->posRot.pos.z = pos.z;
+    }
+}
 
 void func_8097FA1C(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f sp50[2];
@@ -518,7 +593,7 @@ void func_8097FA1C(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f sp3C = D_80982618;
     s32 pad[3];
 
-    if ((frames > 502) && !(frames >= 581) || (kREG(1) == 5)) {
+    if (((frames > 502) && !(frames >= 581)) || (kREG(1) == 5)) {
 
         sp50[0].x = posRot->x + 300.0f;
         sp50[0].y = posRot->y + 360.0f;
@@ -527,7 +602,26 @@ void func_8097FA1C(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097FAFC.s")
+void func_8097FAFC(DemoGt* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f sp38;
+    f32 new_var = -200.0;
+
+    if (((frames > 0x246) && (frames < 0x2AB)) || (kREG(1) == 6)) {
+        sp38 = this->dyna.actor.posRot.pos;
+        sp38.y += 680.0f;
+
+        if (frames == 0x2AA) {
+            D_80982628.x += new_var;
+        } else if (frames == 0x2A9) {
+            D_80982634.x += new_var;
+        }
+
+        func_8097E454(globalCtx, &sp38, &D_80982624, &D_80982630, D_8098263C, D_80982640, D_80982644, D_80982648,
+                      *((s16*)((&D_8098264C))));
+    }
+}
 
 void func_8097FC1C(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f sp50[2];
@@ -796,36 +890,54 @@ void func_8098078C(DemoGt* this, GlobalContext* globalContext) {
     }
 }
 
-// void func_8098085C(DemoGt* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8098085C.s")
-// void func_8098085C(DemoGt *this, GlobalContext *globalCtx) {
-//     Vec3f sp28;
+void func_8098085C(DemoGt* this, GlobalContext* globalCtx) {
+    Vec3f sp28[2];
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f* posRot = &this->dyna.actor.posRot.pos;
 
-//     if (globalCtx->csCtx.frames == 58 || kREG(1) == 1) {
-//         sp28.x = this->dyna.actor.posRot.pos.x + 900.0f;
-//         sp28.y = this->dyna.actor.posRot.pos.y - 50.0f;
-//         sp28.z = this->dyna.actor.posRot.pos.z + 93.0f;
-//         func_8097D9C4(globalCtx, &sp28, 2.0f);
-//         return;
-//     }
+    if (frames == 58 || kREG(1) == 1) {
+        sp28[0].x = posRot->x + 900.0f;
+        sp28[0].y = posRot->y - 50.0f;
+        sp28[0].z = posRot->z + 93.0f;
+        func_8097D9C4(globalCtx, &sp28, 2.0f);
+    } else if (frames == 80) {
+        sp28[0].x = posRot->x + 810.0f;
+        sp28[0].y = posRot->y + 200.0f;
+        sp28[0].z = posRot->z - 37.0f;
+        func_8097D9C4(globalCtx, &sp28, 0.899999976158f);
+        return;
+    } else if (frames == 90) {
+        sp28[0].x = posRot->x - 220.0f;
+        sp28[0].y = posRot->y + 1350.0f;
+        sp28[0].z = posRot->z - 287.0f;
+        func_8097D9C4(globalCtx, &sp28, 2.0f);
+    }
+}
 
-//     if (globalCtx->csCtx.frames == 80) {
-//         sp28.x = this->dyna.actor.posRot.pos.x + 810.0f;
-//         sp28.y = this->dyna.actor.posRot.pos.y + 200.0f;
-//         sp28.z = this->dyna.actor.posRot.pos.z - 37.0f;
-//         func_8097D9C4(globalCtx, &sp28, 0.899999976158f);
-//         return;
-//     }
-//     if (globalCtx->csCtx.frames == 90) {
-//         sp28.x = this->dyna.actor.posRot.pos.x - 220.0f;
-//         sp28.y = this->dyna.actor.posRot.pos.y + 1350.0f;
-//         sp28.z = this->dyna.actor.posRot.pos.z - 287.0f;
-//         func_8097D9C4(globalCtx, &sp28, 2.0f);
-//     }
-// }
+void func_809809C0(DemoGt* this, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
+    DemoGt* this2 = this;
+    s32 gameplayFrames = globalCtx2->gameplayFrames;
+    u16 frames = globalCtx2->csCtx.frames;
+    Vec3f sp54;
+    s16 pad[3];
+    Vec3f sp40;
+    Vec3f sp34;
+    s16 pad2[3];
 
-void func_809809C0(DemoGt* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809809C0.s")
+    if ((frames > 469 && frames < 481) || kREG(1) == 3) {
+
+        sp40 = D_809826B8;
+        sp34 = D_809826C4;
+        sp54.x = this2->dyna.actor.posRot.pos.x + 790.0f;
+        sp54.y = this2->dyna.actor.posRot.pos.y + 60.0f;
+        sp54.z = this2->dyna.actor.posRot.pos.z + 23.0f;
+
+        if (ABS(gameplayFrames % 12) == 0) {
+            func_8097DA78(globalCtx2, &sp54, &sp40, &sp34, 2.0f);
+        }
+    }
+}
 
 void func_80980AD4(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[4];
@@ -936,7 +1048,24 @@ void func_80980F58(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80980F8C.s")
+void func_80980F8C(DemoGt* this, GlobalContext* globalCtx) {
+    Vec3f sp58[2];
+    Vec3f sp4C;
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f sp3C;
+    s32 pad[3];
+
+    if (frames > 259 && frames < 289) {
+        sp3C = D_809826D0;
+
+        sp58[0].x = 640.0f;
+        sp58[0].y = 2100.0f;
+        sp58[0].z = -170.0f;
+
+        Matrix_MultVec3f(&sp58, &sp4C);
+        func_8097D7D8(globalCtx, &sp4C, &sp3C, 3.0f, 5, 0, 0x1E);
+    }
+}
 
 void func_8098103C(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 4)) {
@@ -957,27 +1086,16 @@ void func_809810E0(DemoGt* this, GlobalContext* globalCtx) {
     func_80980F58(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981114.s")
-// void func_80981114(DemoGt* this, GlobalContext* globalCtx) {
+void func_80981114(DemoGt* this, GlobalContext* globalCtx) {
+    f32 temp = this->unk_172;
 
-//     if (this->unk_172) {}
+    this->unk_174 = (temp * ((kREG(64) * 0.001f) + 0.048f)) + (kREG(65) + 98.0f);
 
-//     this->unk_174 = (this->unk_172 * ((kREG(64) * 0.001f)) + (kREG(65) + 98.0f) + this->unk_172 * 0.048f);
-//     this->unk_172 += this->unk_174;
-
-//     if (this->unk_172 > 0x4000) {
-//         this->unk_172 = 0x4000;
-//     }
-// }
-// void func_80981114(DemoGt* this, GlobalContext* globalCtx) {
-
-//     this->unk_174 = (this->unk_172 * ((kREG(64) * 1/100.0f) + 0.048f)) +
-//                (kREG(65) + 98.0f);
-//     this->unk_172 += this->unk_174;
-//     if (this->unk_172 > 0x4000) {
-//         this->unk_172 = 0x4000;
-//     }
-// }
+    this->unk_172 += this->unk_174;
+    if (this->unk_172 > 0x4000) {
+        this->unk_172 = 0x4000;
+    }
+}
 
 // GFX stuff
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809811AC.s")
@@ -997,23 +1115,24 @@ void func_80981424(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981458.s")
-// SP REGALLOC
-// void func_80981458(DemoGt* this, GlobalContext* globalCtx) {
-//     Vec3f vecA;
-//     Vec3f dest;
-//     Vec3f vecB;
+void func_80981458(DemoGt* this, GlobalContext* globalCtx) {
+    Vec3f sp58[2];
+    Vec3f sp4C;
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f sp3C;
+    s32 pad[3];
 
-//     if (((globalCtx->csCtx.frames >= 0x358) && (globalCtx->csCtx.frames < 0x37B)) ||
-//         (kREG(1) == 0xD)) {
-//         vecA = D_809826DC;
-//         vecB.x = 0.0f;
-//         vecB.y = 1170.0f;
-//         vecB.z = -1100.0f;
-//         Matrix_MultVec3f(&vecB, &dest);
-//         func_8097D7D8(globalCtx, &dest, &vecA, 0x40E33333, 5, 1, 0x1E);
-//     }
-// }
+    if ((frames > 0x357 && frames < 0x37B) || (kREG(1) == 13)) {
+        sp3C = D_809826DC;
+
+        sp58[0].x = 0.0f;
+        sp58[0].y = 1170.0f;
+        sp58[0].z = -1100.0f;
+
+        Matrix_MultVec3f(&sp58, &sp4C);
+        func_8097D7D8(globalCtx, &sp4C, &sp3C, 7.1, 5, 1, 0x1E);
+    }
+}
 
 void func_80981524(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 5)) {
@@ -1034,17 +1153,19 @@ void func_809815C8(DemoGt* this, GlobalContext* globalCtx) {
     func_80981424(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809815FC.s")
-// void func_809815FC(DemoGt* this, GlobalContext* globalCtx) {
+void func_809815FC(DemoGt* this, GlobalContext* globalCtx) {
+    f32 temp = this->unk_172;
 
-//     this->unk_174 = this->unk_172 * ((48.0f + kREG(66)) * 0.001f ) + (kREG(67) + 50.0f);
+    this->unk_174 = temp * ((kREG(66) * 0.001f) + 0.048f) + (kREG(67) + 50.0f);
 
-//     this->unk_172 += this->unk_174;
-//     if (this->unk_172 > 0x4000) {
-//         this->unk_172 = 0x4000;
-//     }
-// }
+    this->unk_172 += this->unk_174;
 
+    if (this->unk_172 > 0x4000) {
+        this->unk_172 = 0x4000;
+    }
+}
+
+// GFX stuff
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981694.s")
 
 void func_809818A4(DemoGt* this, GlobalContext* globalCtx) {
@@ -1073,18 +1194,15 @@ void func_80981994(DemoGt* this, GlobalContext* globalCtx) {
     func_80981930(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809819D4.s")
 void func_809819D4(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 6);
     func_809818FC(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981A08.s")
 void func_80981A08(DemoGt* this, GlobalContext* globalCtx) {
-    f32 temp2 = kREG(68) * 0.001f + 0.005f;
-    f32 temp1 = kREG(69) + 50.0f;
+    f32 temp = this->unk_172;
 
-    this->unk_174 = (this->unk_172 * (temp2)) + (temp1);
+    this->unk_174 = (temp * ((kREG(68) * 0.001f) + 0.005f)) + (kREG(69) + 50.0f);
 
     this->unk_172 += this->unk_174;
 
@@ -1175,18 +1293,16 @@ void func_80981CEC(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981D20.s")
-// void func_80981D20(DemoGt* this) {
+void func_80981D20(DemoGt* this) {
+    f32 temp = this->unk_172;
 
-//     if (this->unk_172) {};
+    this->unk_174 = temp * ((kREG(64) * 0.001f) + 0.048f) + (kREG(76) + 100.0f);
+    this->unk_172 += this->unk_174;
 
-//     this->unk_174 = (kREG(76) + 100.0f) + (this->unk_172 * ((kREG(64) * 0.001f)) + 0.048f);
-//     this->unk_172 += this->unk_174;
-
-//     if ((s16)(kREG(80) + 0x4000) < this->unk_172) {
-//         this->unk_172 = (kREG(80) + 0x4000);
-//     }
-// }
+    if (this->unk_172 > (s16)(kREG(80) + 0x4000)) {
+        this->unk_172 = kREG(80) + 0x4000;
+    }
+}
 
 void func_80981DC8(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 7)) {
@@ -1194,9 +1310,17 @@ void func_80981DC8(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E04.s")
+void func_80981E04(DemoGt* this, GlobalContext* globalCtx) {
+    func_8097E824(this, 7);
+    func_80981CEC(this, globalCtx);
+    func_80981DC8(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E44.s")
+void func_80981E44(DemoGt* this, GlobalContext* globalCtx) {
+    func_80981D20(this);
+    func_8097ED64(this, globalCtx, 7);
+    func_80981CEC(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E84.s")
 // void func_80981E84(DemoGt* this, GlobalContext* globalCtx);
@@ -1258,7 +1382,16 @@ void func_809820AC(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809820E0.s")
+void func_809820E0(DemoGt* this) {
+    f32 temp = this->unk_172;
+
+    this->unk_174 = (temp * ((kREG(64) * 0.001f) + 0.048f)) + (kREG(79) + 100.0f);
+    this->unk_172 += this->unk_174;
+
+    if (this->unk_172 > (s16)(kREG(81) + 0x4000)) {
+        this->unk_172 = kREG(81) + 0x4000;
+    }
+}
 
 void func_80982188(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 9) != 0) {
@@ -1273,11 +1406,12 @@ void func_809821C4(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_80982204(DemoGt* this, GlobalContext* globalCtx) {
-    func_809820E0();
+    func_809820E0(this);
     func_8097ED64(this, globalCtx, 9);
     func_809820AC(this, globalCtx);
 }
 
+// GFX
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80982244.s")
 
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
