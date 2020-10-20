@@ -96,7 +96,7 @@ glabel jtbl_80140FB8
     .word L800A85C0
 
 .text
-glabel func_800A8484
+glabel Sram_OpenSave
 /* B1F624 800A8484 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B1F628 800A8488 AFB00014 */  sw    $s0, 0x14($sp)
 /* B1F62C 800A848C 00808025 */  move  $s0, $a0
@@ -108,11 +108,11 @@ glabel func_800A8484
 /* B1F644 800A84A4 3C118016 */  lui   $s1, %hi(gSaveContext) # $s1, 0x8016
 /* B1F648 800A84A8 2631E660 */  addiu $s1, %lo(gSaveContext) # addiu $s1, $s1, -0x19a0
 /* B1F64C 800A84AC 8E261354 */  lw    $a2, 0x1354($s1)
-/* B1F650 800A84B0 3C078013 */  lui   $a3, %hi(D_8012A4E0)
+/* B1F650 800A84B0 3C078013 */  lui   $a3, %hi(gSramSlotOffsets)
 /* B1F654 800A84B4 3C048014 */  lui   $a0, %hi(D_80140864) # $a0, 0x8014
 /* B1F658 800A84B8 00067040 */  sll   $t6, $a2, 1
 /* B1F65C 800A84BC 00EE3821 */  addu  $a3, $a3, $t6
-/* B1F660 800A84C0 94E5A4E0 */  lhu   $a1, %lo(D_8012A4E0)($a3)
+/* B1F660 800A84C0 94E5A4E0 */  lhu   $a1, %lo(gSramSlotOffsets)($a3)
 /* B1F664 800A84C4 24840864 */  addiu $a0, %lo(D_80140864) # addiu $a0, $a0, 0x864
 /* B1F668 800A84C8 0C00084C */  jal   osSyncPrintf
 /* B1F66C 800A84CC A7A50026 */   sh    $a1, 0x26($sp)
@@ -151,9 +151,9 @@ glabel func_800A8484
 
 glabel L800A854C
 /* B1F6EC 800A854C 0002C840 */  sll   $t9, $v0, 1
-/* B1F6F0 800A8550 3C0C8013 */  lui   $t4, %hi(D_8012A670)
+/* B1F6F0 800A8550 3C0C8013 */  lui   $t4, %hi(dungeonEntrances)
 /* B1F6F4 800A8554 01996021 */  addu  $t4, $t4, $t9
-/* B1F6F8 800A8558 858CA670 */  lh    $t4, %lo(D_8012A670)($t4)
+/* B1F6F8 800A8558 858CA670 */  lh    $t4, %lo(dungeonEntrances)($t4)
 /* B1F6FC 800A855C 1000002C */  b     .L800A8610
 /* B1F700 800A8560 AE2C0000 */   sw    $t4, ($s1)
 
@@ -250,14 +250,14 @@ glabel L800A85CC
 /* B1F7FC 800A865C 3C048014 */  lui   $a0, %hi(D_801408C0) # $a0, 0x8014
 /* B1F800 800A8660 0C00084C */  jal   osSyncPrintf
 /* B1F804 800A8664 248408C0 */   addiu $a0, %lo(D_801408C0) # addiu $a0, $a0, 0x8c0
-/* B1F808 800A8668 3C048013 */  lui   $a0, %hi(D_80131BE4) # $a0, 0x8013
+/* B1F808 800A8668 3C048013 */  lui   $a0, %hi(gScarecrowCustomSongPtr) # $a0, 0x8013
 /* B1F80C 800A866C 3C058016 */  lui   $a1, %hi(gSaveContext+0xf41) # $a1, 0x8016
 /* B1F810 800A8670 24A5F5A1 */  addiu $a1, %lo(gSaveContext+0xf41) # addiu $a1, $a1, -0xa5f
-/* B1F814 800A8674 8C841BE4 */  lw    $a0, %lo(D_80131BE4)($a0)
+/* B1F814 800A8674 8C841BE4 */  lw    $a0, %lo(gScarecrowCustomSongPtr)($a0)
 /* B1F818 800A8678 0C01A508 */  jal   MemCopy
 /* B1F81C 800A867C 24060360 */   li    $a2, 864
-/* B1F820 800A8680 3C108013 */  lui   $s0, %hi(D_80131BE4) # $s0, 0x8013
-/* B1F824 800A8684 8E101BE4 */  lw    $s0, %lo(D_80131BE4)($s0)
+/* B1F820 800A8680 3C108013 */  lui   $s0, %hi(gScarecrowCustomSongPtr) # $s0, 0x8013
+/* B1F824 800A8684 8E101BE4 */  lw    $s0, %lo(gScarecrowCustomSongPtr)($s0)
 /* B1F828 800A8688 00003825 */  move  $a3, $zero
 .L800A868C:
 /* B1F82C 800A868C 3C048014 */  lui   $a0, %hi(D_80140908) # $a0, 0x8014
@@ -288,14 +288,14 @@ glabel L800A85CC
 /* B1F88C 800A86EC 3C048014 */  lui   $a0, %hi(D_80140964) # $a0, 0x8014
 /* B1F890 800A86F0 0C00084C */  jal   osSyncPrintf
 /* B1F894 800A86F4 24840964 */   addiu $a0, %lo(D_80140964) # addiu $a0, $a0, 0x964
-/* B1F898 800A86F8 3C048013 */  lui   $a0, %hi(D_80131BE8) # $a0, 0x8013
+/* B1F898 800A86F8 3C048013 */  lui   $a0, %hi(gScarecrowSpawnSongPtr) # $a0, 0x8013
 /* B1F89C 800A86FC 3C058016 */  lui   $a1, %hi(gSaveContext+0x12c6) # $a1, 0x8016
 /* B1F8A0 800A8700 24A5F926 */  addiu $a1, %lo(gSaveContext+0x12c6) # addiu $a1, $a1, -0x6da
-/* B1F8A4 800A8704 8C841BE8 */  lw    $a0, %lo(D_80131BE8)($a0)
+/* B1F8A4 800A8704 8C841BE8 */  lw    $a0, %lo(gScarecrowSpawnSongPtr)($a0)
 /* B1F8A8 800A8708 0C01A508 */  jal   MemCopy
 /* B1F8AC 800A870C 24060080 */   li    $a2, 128
-/* B1F8B0 800A8710 3C108013 */  lui   $s0, %hi(D_80131BE8) # $s0, 0x8013
-/* B1F8B4 800A8714 8E101BE8 */  lw    $s0, %lo(D_80131BE8)($s0)
+/* B1F8B0 800A8710 3C108013 */  lui   $s0, %hi(gScarecrowSpawnSongPtr) # $s0, 0x8013
+/* B1F8B4 800A8714 8E101BE8 */  lw    $s0, %lo(gScarecrowSpawnSongPtr)($s0)
 /* B1F8B8 800A8718 00003825 */  move  $a3, $zero
 .L800A871C:
 /* B1F8BC 800A871C 3C048014 */  lui   $a0, %hi(D_801409AC) # $a0, 0x8014
