@@ -3,7 +3,6 @@
 
 #include "ultra64.h"
 #include "global.h"
-#include "../ovl_En_Fd/z_en_fd.h"
 
 struct EnFw;
 

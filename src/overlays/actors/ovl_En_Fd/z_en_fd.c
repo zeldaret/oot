@@ -99,7 +99,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0x18, 0x0002, 0x0019, 0x0019, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, 0xFF };
 
 static struct_80034EC0_Entry sAnimations[] = { { 0x060010B4, 1.0f, 0.0f, -1.0f, 0x03, 0.0f },
                                                { 0x06005C64, 1.0f, 0.0f, -1.0f, 0x03, -10.0f },
@@ -134,7 +134,7 @@ void EnFd_SpawnChildFire(EnFd* this, GlobalContext* globalCtx, s16 fireCnt, s16 
     s32 i;
 
     for (i = 0; i < fireCnt; i++) {
-        s16 angle = (s16)((((i * 360.0f) / fireCnt) * 182.04445f)) + this->actor.yawTowardsLink;
+        s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsLink;
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FD_FIRE, this->actor.posRot.pos.x,
                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, angle, 0, (color << 0xF) | i);
     }
@@ -335,7 +335,7 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
     if (this->invincibilityTimer != 0) {
         Math_SmoothScaleMaxMinF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
         this->actor.shape.unk_14 = this->fadeAlpha;
-        if (!(0.9f <= this->fadeAlpha)) {
+        if (!(this->fadeAlpha >= 0.9f)) {
             this->invincibilityTimer = 0;
             this->spinTimer = 0;
             this->actionFunc = EnFd_WaitForCore;
@@ -414,7 +414,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
         this->spinTimer = Math_Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.posRot.rot.y = Math_atan2f(adjPos.x, adjPos.z) * 10430.378f;
+        this->actor.posRot.rot.y = Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI);
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -449,7 +449,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
         rotSpeed = 0.0f;
         tgtSpeed = fabsf(deceleration);
         deceleration /= tgtSpeed;
-        Math_SmoothScaleMaxF(&rotSpeed, tgtSpeed, 0.6f, 8192.0f);
+        Math_SmoothScaleMaxF(&rotSpeed, tgtSpeed, 0.6f, 0x2000);
         rotSpeed *= deceleration;
         this->actor.shape.rot.y += (s16)rotSpeed;
         rotSpeed = fabsf(rotSpeed);
