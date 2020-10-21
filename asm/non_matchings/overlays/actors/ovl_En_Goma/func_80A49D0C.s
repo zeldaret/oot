@@ -55,7 +55,7 @@ glabel func_80A49D0C
 /* 00EEC 80A49DAC AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 00EF0 80A49DB0 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00EF4 80A49DB4 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 00EF8 80A49DB8 0C00A76F */  jal     func_80029DBC              
+/* 00EF8 80A49DB8 0C00A76F */  jal     EffectSsKFire_Spawn              
 /* 00EFC 80A49DBC E7A60040 */  swc1    $f6, 0x0040($sp)           
 /* 00F00 80A49DC0 860202CC */  lh      $v0, 0x02CC($s0)           ## 000002CC
 .L80A49DC4:

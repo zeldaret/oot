@@ -1,8 +1,7 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
-#include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
+#include "global.h"
+#include "vt.h"
 
+#include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 
 void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3) {
@@ -68,7 +67,7 @@ void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, Lights* lights, GlobalContex
 }
 
 void ActorShadow_DrawFunc_Squiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    func_8002B200(actor, lights, globalCtx, &D_04049AD0, NULL);
+    func_8002B200(actor, lights, globalCtx, D_04049AD0, NULL);
 }
 
 void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
@@ -524,7 +523,7 @@ s32 Flags_GetSwitch(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
         return globalCtx->actorCtx.flags.swch & (1 << flag);
     } else {
-        return globalCtx->actorCtx.flags.tempSwch & (1 << flag);
+        return globalCtx->actorCtx.flags.tempSwch & (1 << (flag - 0x20));
     }
 }
 
@@ -535,7 +534,7 @@ void Flags_SetSwitch(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
         globalCtx->actorCtx.flags.swch |= (1 << flag);
     } else {
-        globalCtx->actorCtx.flags.tempSwch |= (1 << flag);
+        globalCtx->actorCtx.flags.tempSwch |= (1 << (flag - 0x20));
     }
 }
 
@@ -546,7 +545,7 @@ void Flags_UnsetSwitch(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
         globalCtx->actorCtx.flags.swch &= ~(1 << flag);
     } else {
-        globalCtx->actorCtx.flags.tempSwch &= ~(1 << flag);
+        globalCtx->actorCtx.flags.tempSwch &= ~(1 << (flag - 0x20));
     }
 }
 
@@ -557,7 +556,7 @@ s32 Flags_GetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
         return globalCtx->actorCtx.flags.unk0 & (1 << flag);
     } else {
-        return globalCtx->actorCtx.flags.unk1 & (1 << flag);
+        return globalCtx->actorCtx.flags.unk1 & (1 << (flag - 0x20));
     }
 }
 
@@ -568,7 +567,7 @@ void Flags_SetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
         globalCtx->actorCtx.flags.unk0 |= (1 << flag);
     } else {
-        globalCtx->actorCtx.flags.unk1 |= (1 << flag);
+        globalCtx->actorCtx.flags.unk1 |= (1 << (flag - 0x20));
     }
 }
 
@@ -579,7 +578,7 @@ void Flags_UnsetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
         globalCtx->actorCtx.flags.unk0 &= ~(1 << flag);
     } else {
-        globalCtx->actorCtx.flags.unk1 &= ~(1 << flag);
+        globalCtx->actorCtx.flags.unk1 &= ~(1 << (flag - 0x20));
     }
 }
 
@@ -629,7 +628,7 @@ s32 Flags_GetTempClear(GlobalContext* globalCtx, s32 flag) {
  * Sets current scene temp clear flag.
  */
 void Flags_SetTempClear(GlobalContext* globalCtx, s32 flag) {
-    globalCtx->actorCtx.flags.tempClear |= 1 << flag;
+    globalCtx->actorCtx.flags.tempClear |= (1 << flag);
 }
 
 /**
@@ -646,7 +645,7 @@ s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
         return globalCtx->actorCtx.flags.collect & (1 << flag);
     } else {
-        return globalCtx->actorCtx.flags.tempCollect & (1 << flag);
+        return globalCtx->actorCtx.flags.tempCollect & (1 << (flag - 0x20));
     }
 }
 
@@ -656,9 +655,9 @@ s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag) {
 void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag) {
     if (flag != 0) {
         if (flag < 0x20) {
-            globalCtx->actorCtx.flags.collect |= 1 << flag;
+            globalCtx->actorCtx.flags.collect |= (1 << flag);
         } else {
-            globalCtx->actorCtx.flags.tempCollect |= 1 << flag;
+            globalCtx->actorCtx.flags.tempCollect |= (1 << (flag - 0x20));
         }
     }
 }
@@ -1210,7 +1209,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
     f32 sp58;
     UNK_TYPE sp54;
     f32 sp50;
-    Vec3f sp44;
+    Vec3f ripplePos;
 
     sp74 = actor->posRot.pos.y - actor->pos4.y;
 
@@ -1258,12 +1257,12 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
                 if (!(actor->bgCheckFlags & 0x20)) {
                     actor->bgCheckFlags |= 0x40;
                     if (!(arg5 & 0x40)) {
-                        sp44.x = actor->posRot.pos.x;
-                        sp44.y = sp50;
-                        sp44.z = actor->posRot.pos.z;
-                        func_80029444(globalCtx, &sp44, 100, 500, 0);
-                        func_80029444(globalCtx, &sp44, 100, 500, 4);
-                        func_80029444(globalCtx, &sp44, 100, 500, 8);
+                        ripplePos.x = actor->posRot.pos.x;
+                        ripplePos.y = sp50;
+                        ripplePos.z = actor->posRot.pos.z;
+                        EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 0);
+                        EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 4);
+                        EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 8);
                     }
                 }
                 actor->bgCheckFlags |= 0x20;
@@ -1288,9 +1287,8 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
     *hilite = Graph_Alloc(gfxCtx, sizeof(Hilite));
 
     if (HREG(80) == 6) {
-        osSyncPrintf("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n",
-                     (f64)correctedEyeX, (f64)eye->x, (f64)eye->y, (f64)eye->z, (f64)object->x, (f64)object->y,
-                     (f64)object->z, (f64)lightDir->x, (f64)lightDir->y, (f64)lightDir->z);
+        osSyncPrintf("z_actor.c 3529 eye=[%f(%f) %f %f] object=[%f %f %f] light_direction=[%f %f %f]\n", correctedEyeX,
+                     eye->x, eye->y, eye->z, object->x, object->y, object->z, lightDir->x, lightDir->y, lightDir->z);
     }
 
     func_800ABE74(correctedEyeX, eye->y, eye->z);
@@ -1339,8 +1337,8 @@ void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     lightDir.z = globalCtx->envCtx.unk_2C;
 
     if (HREG(80) == 6) {
-        osSyncPrintf("z_actor.c 3637 game_play->view.eye=[%f(%f) %f %f]\n", (f64)globalCtx->view.eye.x,
-                     (f64)globalCtx->view.eye.y, (f64)globalCtx->view.eye.z);
+        osSyncPrintf("z_actor.c 3637 game_play->view.eye=[%f(%f) %f %f]\n", globalCtx->view.eye.x,
+                     globalCtx->view.eye.y, globalCtx->view.eye.z);
     }
 
     hilite = func_8002EABC(&actor->posRot.pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
@@ -1850,7 +1848,8 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             spA4.y = Math_Rand_ZeroOne() * 6.0f + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
             spA4.z = Math_Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
 
-            func_80028BB0(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000, 0x10);
+            EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
+                                            16);
 
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
@@ -1949,10 +1948,10 @@ void func_800304B0(GlobalContext* globalCtx) {
 // Actor_InitContext
 void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry) {
     ActorOverlay* overlayEntry;
-    SaveSceneFlags* saveSceneFlags;
+    SavedSceneFlags* savedSceneFlags;
     s32 i;
 
-    saveSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
+    savedSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
 
     bzero(actorCtx, sizeof(*actorCtx));
 
@@ -1967,10 +1966,10 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
         overlayEntry++;
     }
 
-    actorCtx->flags.chest = saveSceneFlags->chest;
-    actorCtx->flags.swch = saveSceneFlags->swch;
-    actorCtx->flags.clear = saveSceneFlags->clear;
-    actorCtx->flags.collect = saveSceneFlags->collect;
+    actorCtx->flags.chest = savedSceneFlags->chest;
+    actorCtx->flags.swch = savedSceneFlags->swch;
+    actorCtx->flags.clear = savedSceneFlags->clear;
+    actorCtx->flags.collect = savedSceneFlags->collect;
 
     func_8002CDE4(globalCtx, &actorCtx->titleCtx);
 
@@ -2184,8 +2183,8 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     gSPSegment(oGfxCtx->polyXlu.p++, 0x06, globalCtx->objectCtx.status[actor->objBankIndex].segment);
 
     if (actor->dmgEffectTimer != 0) {
-        // Must be inline data to match
         Color_RGBA8 sp2C = { 0, 0, 0, 255 };
+
         if (actor->dmgEffectParams & 0x8000) {
             sp2C.r = sp2C.g = sp2C.b = ((actor->dmgEffectParams & 0x1F00) >> 5) | 7;
         } else if (actor->dmgEffectParams & 0x4000) {
@@ -3127,7 +3126,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
                                                     mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
         if (spawnedEnPart != NULL) {
             func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
-            spawnedEnPart->unk_150 = arg1->unk_0C[arg1->unk_08];
+            spawnedEnPart->displayList = arg1->unk_0C[arg1->unk_08];
             spawnedEnPart->actor.scale = actor->scale;
         }
 
@@ -3966,7 +3965,7 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     color2.g = 90;
     color2.b = 50;
 
-    func_80028B74(globalCtx, arg1, arg2, arg3, &color1, &color2);
+    EffectSsKiraKira_SpawnSmall(globalCtx, arg1, arg2, arg3, &color1, &color2);
 }
 
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
@@ -4081,7 +4080,7 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
 /**
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
-EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, Vec3f* arg3, s32 arg4, s32 unused,
+EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 arg4, s32 unused,
                       GlobalContext* globalCtx, s16 params, s32 arg8) {
     EnPart* spawnedEnPart;
 
@@ -4090,12 +4089,12 @@ EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, Vec3f* arg
                                     spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
-        spawnedEnPart->actor.speedXZ = arg3->x;
-        spawnedEnPart->unk_150 = arg8;
-        spawnedEnPart->unk_14C = 2;
-        spawnedEnPart->unk_14E = arg4;
-        spawnedEnPart->unk_154 = arg3->y;
-        spawnedEnPart->unk_158 = arg3->z;
+        spawnedEnPart->actor.speedXZ = arg3[0];
+        spawnedEnPart->displayList = arg8;
+        spawnedEnPart->action = 2;
+        spawnedEnPart->timer = arg4;
+        spawnedEnPart->rotZ = arg3[1];
+        spawnedEnPart->rotZSpeed = arg3[2];
         return spawnedEnPart;
     }
 

@@ -215,7 +215,7 @@ glabel func_809B27D8
 /* 00544 809B2AE4 AFB20018 */  sw      $s2, 0x0018($sp)           
 /* 00548 809B2AE8 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 0054C 809B2AEC AFBE0010 */  sw      $s8, 0x0010($sp)           
-/* 00550 809B2AF0 0C00A2EC */  jal     func_80028BB0              
+/* 00550 809B2AF0 0C00A2EC */  jal     EffectSsKiraKira_SpawnDispersed              
 /* 00554 809B2AF4 E7AA00A0 */  swc1    $f10, 0x00A0($sp)          
 /* 00558 809B2AF8 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0055C 809B2AFC 1615FFE0 */  bne     $s0, $s5, .L809B2A80       

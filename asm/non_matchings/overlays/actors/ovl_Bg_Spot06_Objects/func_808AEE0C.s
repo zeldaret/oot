@@ -18,7 +18,7 @@ glabel func_808AEE0C
 /* 006C8 808AEE48 2406012C */  addiu   $a2, $zero, 0x012C         ## $a2 = 0000012C
 /* 006CC 808AEE4C 240702BC */  addiu   $a3, $zero, 0x02BC         ## $a3 = 000002BC
 /* 006D0 808AEE50 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 006D4 808AEE54 0C00A511 */  jal     func_80029444              
+/* 006D4 808AEE54 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 006D8 808AEE58 24A50008 */  addiu   $a1, $a1, 0x0008           ## $a1 = 00000008
 /* 006DC 808AEE5C 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L808AEE60:

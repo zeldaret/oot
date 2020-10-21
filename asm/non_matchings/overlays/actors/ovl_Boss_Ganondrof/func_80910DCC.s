@@ -102,7 +102,7 @@ glabel func_80910DCC
 /* 008DC 80910F1C 000E7C00 */  sll     $t7, $t6, 16
 /* 008E0 80910F20 000FC403 */  sra     $t8, $t7, 16
 /* 008E4 80910F24 27190005 */  addiu   $t9, $t8, 0x0005           ## $t9 = 00000005
-/* 008E8 80910F28 0C00A76F */  jal     func_80029DBC
+/* 008E8 80910F28 0C00A76F */  jal     EffectSsKFire_Spawn
 /* 008EC 80910F2C AFB90010 */  sw      $t9, 0x0010($sp)
 /* 008F0 80910F30 866201BE */  lh      $v0, 0x01BE($s3)           ## 000001BE
 .L80910F34:

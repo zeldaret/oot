@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #include "message_data_fmt.h"
 
@@ -351,22 +350,22 @@ void func_80106AA8(GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106BC8.s")
 u8 func_80106BC8(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
-    if (CHECK_PAD(curInput->press, A_BUTTON) || 
-        CHECK_PAD(curInput->press, B_BUTTON) || 
-        CHECK_PAD(curInput->press, U_CBUTTONS)) {
+    if (CHECK_BTN_ALL(curInput->press.button, BTN_A) || 
+        CHECK_BTN_ALL(curInput->press.button, BTN_B) || 
+        CHECK_BTN_ALL(curInput->press.button, BTN_CUP)) {
         Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_PASS, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
-    return CHECK_PAD(curInput->press, A_BUTTON) || 
-           CHECK_PAD(curInput->press, B_BUTTON) || 
-           CHECK_PAD(curInput->press, U_CBUTTONS);
+    return CHECK_BTN_ALL(curInput->press.button, BTN_A) || 
+           CHECK_BTN_ALL(curInput->press.button, BTN_B) || 
+           CHECK_BTN_ALL(curInput->press.button, BTN_CUP);
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106C88.s")
 u8 func_80106C88(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
-    return CHECK_PAD(curInput->press, A_BUTTON) || 
-           CHECK_PAD(curInput->press, B_BUTTON) || 
-           CHECK_PAD(curInput->press, U_CBUTTONS);
+    return CHECK_BTN_ALL(curInput->press.button, BTN_A) || 
+           CHECK_BTN_ALL(curInput->press.button, BTN_B) || 
+           CHECK_BTN_ALL(curInput->press.button, BTN_CUP);
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106CCC.s")
@@ -389,7 +388,7 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
     Input* curInput = &globalCtx->state.input[0];
 
     msgCtx = &globalCtx->msgCtx;
-    if (curInput->rel.in.y >= 0x1E && D_80153984 == 0) {
+    if (curInput->rel.stick_y >= 0x1E && D_80153984 == 0) {
         D_80153984 = 1;
         msgCtx->choiceIndex--;
         if (msgCtx->choiceIndex >= 0x81) {
@@ -397,7 +396,7 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
-    } else if (curInput->rel.in.y < -0x1D && D_80153984 == 0) {
+    } else if (curInput->rel.stick_y < -0x1D && D_80153984 == 0) {
         D_80153984 = 1;
         msgCtx->choiceIndex++;
         if (msgCtx->choiceIndex > arg1) {
@@ -405,7 +404,7 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
-    } else if (ABS(curInput->rel.in.y) < 0x1E) {
+    } else if (ABS(curInput->rel.stick_y) < 0x1E) {
         D_80153984 = 0;
     }
     msgCtx->unk_E3D8 = XREG(66);
@@ -512,24 +511,24 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
     s32 nextSeg;
     MessageTableEntry* messageTableEntry;
     u32* languageSegmentTable;
-    MessageData* data;
+    Font* font;
     u32 seg;
 
     messageTableEntry = D_801538F0;
     if (gSaveContext.language == 0) {
         seg = messageTableEntry->segment;
         while (messageTableEntry->textId != 0xFFFF) {
-            data = &globalCtx->msgCtx.font.msgData;
+            font = &globalCtx->msgCtx.font;
             if (messageTableEntry->textId == textId) {
                 foundSeg = messageTableEntry->segment;
-                data->xy = messageTableEntry->xy;
+                font->xy = messageTableEntry->xy;
                 messageTableEntry++;
                 nextSeg = messageTableEntry->segment;
-                data->offset = foundSeg - seg;
-                data->size = nextSeg - foundSeg;
+                font->msgOffset = foundSeg - seg;
+                font->msgLength = nextSeg - foundSeg;
                 // Message found!!!
                 osSyncPrintf(" メッセージが,見つかった！！！ = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n",
-                            textId, data->offset, data->size, foundSeg, seg, nextSeg);
+                            textId, font->msgOffset, font->msgLength, foundSeg, seg, nextSeg);
                 return;
             }
             messageTableEntry++;
@@ -538,17 +537,17 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
         languageSegmentTable = (gSaveContext.language == 1) ? D_801538F4 : D_801538F8;
         seg = messageTableEntry->segment;
         while (messageTableEntry->textId != 0xFFFF) {
-            data = &globalCtx->msgCtx.font.msgData;
+            font = &globalCtx->msgCtx.font;
             if (messageTableEntry->textId == textId) {
                 foundSeg = *languageSegmentTable;
-                data->xy = messageTableEntry->xy;
+                font->xy = messageTableEntry->xy;
                 languageSegmentTable++;
                 nextSeg = *languageSegmentTable;
-                data->offset = foundSeg - seg;
-                data->size = nextSeg - foundSeg;
+                font->msgOffset = foundSeg - seg;
+                font->msgLength = nextSeg - foundSeg;
                 // Message found!!!
                 osSyncPrintf(" メッセージが,見つかった！！！ = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n",
-                            textId, data->offset, data->size, foundSeg, seg, nextSeg);
+                            textId, font->msgOffset, font->msgLength, foundSeg, seg, nextSeg);
                 return;
             }
             messageTableEntry++;
@@ -557,22 +556,22 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
     }
     // Message not found!!!
     osSyncPrintf(" メッセージが,見つからなかった！！！ = %x\n", textId);
-    data = &globalCtx->msgCtx.font.msgData;
+    font = &globalCtx->msgCtx.font;
     messageTableEntry = D_801538F0;
     if (gSaveContext.language == 0) {
         foundSeg = messageTableEntry->segment;
-        data->xy = messageTableEntry->xy;
+        font->xy = messageTableEntry->xy;
         messageTableEntry++;
         nextSeg = messageTableEntry->segment;
     } else {
         languageSegmentTable = (gSaveContext.language == 1) ? D_801538F4 : D_801538F8;
         foundSeg = *languageSegmentTable;
-        data->xy = messageTableEntry->xy;
+        font->xy = messageTableEntry->xy;
         languageSegmentTable++;
         nextSeg = *languageSegmentTable;
     }
-    data->offset = foundSeg - seg;
-    data->size = nextSeg - foundSeg;
+    font->msgOffset = foundSeg - seg;
+    font->msgLength = nextSeg - foundSeg;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107628.s")
@@ -581,22 +580,22 @@ void func_80107628(GlobalContext* globalCtx, u16 textId) {
     u32 nextSeg;
     u32 seg;
     MessageTableEntry* messageTableEntry;
-    MessageData* data;
+    Font* font;
 
     messageTableEntry = D_801538FC;
     seg = messageTableEntry->segment;
     while (messageTableEntry->textId != 0xFFFF) {
-        data = &globalCtx->msgCtx.font.msgData;
+        font = &globalCtx->msgCtx.font;
         if (messageTableEntry->textId == textId) {
             foundSeg = messageTableEntry->segment;
-            data->xy = messageTableEntry->xy;
+            font->xy = messageTableEntry->xy;
             messageTableEntry++;
             nextSeg = messageTableEntry->segment;
-            data->offset = foundSeg - seg;
-            data->size = nextSeg - foundSeg;
+            font->msgOffset = foundSeg - seg;
+            font->msgLength = nextSeg - foundSeg;
             // Message found!!!
             osSyncPrintf(" メッセージが,見つかった！！！ = %x  (data=%x) (data0=%x) (data1=%x) (data2=%x) (data3=%x)\n", 
-                        textId, data->offset, data->size, foundSeg, seg, nextSeg);
+                        textId, font->msgOffset, font->msgLength, foundSeg, seg, nextSeg);
             return;
         }
         messageTableEntry++;
@@ -1279,7 +1278,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
                     phi_s0 = phi_s1 = temp_s1;
                 }
                 if (phi_s0 != '\x20') {
-                    func_8006EE60(font, phi_s0 - 0x20, phi_s5_8);
+                    Font_LoadChar(font, phi_s0 - 0x20, phi_s5_8);
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
                 }
                 osSyncPrintf("%x ", phi_s0);
@@ -1303,17 +1302,17 @@ void func_80109B3C(GlobalContext* globalCtx) {
             }
 
             for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
-                func_8006EE60(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
+                Font_LoadChar(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
                 phi_s5_8 += FONT_CHAR_TEX_SIZE;
                 msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                 phi_s6++;
                 if (phi_s3 == 1) {
-                    func_8006EE60(font->msgData.offset, 2, phi_s5_8);
+                    Font_LoadChar(font->msgData.offset, 2, phi_s5_8);
                     msgCtx->unk_E306[phi_s6] = 0x22;
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
                     phi_s6++;
                 } else if (phi_s3 == 3) {
-                    func_8006EE60(font->msgData.offset, 2, phi_s5_8);
+                    Font_LoadChar(font->msgData.offset, 2, phi_s5_8);
                     msgCtx->unk_E306[phi_s6] = 0x22;
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
                 }
@@ -1334,7 +1333,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
 
             for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
                 if (phi_s3 == 3 || sp7C[phi_s3] != 0) { // if the digit is 'ones' or the digit is nonzero
-                    func_8006EE60(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
+                    Font_LoadChar(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
                     msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
                     phi_s6++;
@@ -1354,7 +1353,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
 
             for (phi_s3 = 0; phi_s3 < 3; phi_s3++) {
                 if (phi_s3 == 2 || sp7C[phi_s3] != 0) { // if the digit is 'ones' or the digit is nonzero
-                    func_8006EE60(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
+                    Font_LoadChar(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
                     msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                     osSyncPrintf("%x(%x) ", sp7C[phi_s3] + 0x10, sp7C[phi_s3]);
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
@@ -1372,7 +1371,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
 
             for (phi_s3 = 0; phi_s3 < 2; phi_s3++) {
                 if (phi_s3 == 1 || sp7C[phi_s3] != 0) {
-                    func_8006EE60(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
+                    Font_LoadChar(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
                     msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                     osSyncPrintf("%x(%x) ", sp7C[phi_s3] + 0x10, sp7C[phi_s3]);
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
@@ -1413,7 +1412,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
 
                 for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
                     if (phi_s3 == 3 || sp7C[phi_s3] != 0) {
-                        func_8006EE60(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
+                        Font_LoadChar(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
                         msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                         phi_s5_8 += FONT_CHAR_TEX_SIZE;
                         phi_s6++;
@@ -1439,17 +1438,17 @@ void func_80109B3C(GlobalContext* globalCtx) {
                 sp7C[3] = phi_s0_3;
 
                 for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
-                    func_8006EE60(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
+                    Font_LoadChar(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
                     msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                     phi_s6++;
                     if (phi_s3 == 1) {
-                        func_8006EE60(font->msgData.offset, 2, phi_s5_8);
+                        Font_LoadChar(font->msgData.offset, 2, phi_s5_8);
                         msgCtx->unk_E306[phi_s6] = 0x22;
                         phi_s5_8 += FONT_CHAR_TEX_SIZE;
                         phi_s6++;
                     } else if (phi_s3 == 3) {
-                        func_8006EE60(font->msgData.offset, 2, phi_s5_8);
+                        Font_LoadChar(font->msgData.offset, 2, phi_s5_8);
                         msgCtx->unk_E306[phi_s6] = 0x22;
                         phi_s5_8 += FONT_CHAR_TEX_SIZE;
                     }
@@ -1471,12 +1470,12 @@ void func_80109B3C(GlobalContext* globalCtx) {
             sp7C[3] = temp_v0;
 
             for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
-                func_8006EE60(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
+                Font_LoadChar(font->msgData.offset, sp7C[phi_s3] + 0x10, phi_s5_8);
                 phi_s5_8 += FONT_CHAR_TEX_SIZE;
                 msgCtx->unk_E306[phi_s6] = sp7C[phi_s3] + 0x30;
                 phi_s6++;
                 if (phi_s3 == 1) {
-                    func_8006EE60(font->msgData.offset, 0x1A, phi_s5_8);
+                    Font_LoadChar(font->msgData.offset, 0x1A, phi_s5_8);
                     msgCtx->unk_E306[phi_s6] = 0x3A;
                     phi_s5_8 += FONT_CHAR_TEX_SIZE;
                     phi_s6++;
@@ -1544,7 +1543,7 @@ void func_80109B3C(GlobalContext* globalCtx) {
             } else if (character == MSG_CHR_THREE_CHOICE) {
                 msgCtx->unk_E3E6 = 3;
             } else if (character != 0x20) { // not space
-                func_8006EE60(font->msgData.offset, character - 0x20, phi_s5_8);
+                Font_LoadChar(font->msgData.offset, character - 0x20, phi_s5_8);
                 phi_s5_8 += FONT_CHAR_TEX_SIZE;
             }
         }
@@ -2056,7 +2055,7 @@ void func_8010F58C(GlobalContext* globalCtx) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         Gfx* dispRefs[4];
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_message_PAL.c", 3554);
-        sp4E = gSaveContext.unk_F40;
+        sp4E = gSaveContext.scarecrowCustomSongSet;
         func_8010F2CC(&sp4E, globalCtx->state.gfxCtx);
         if (BREG(0) != 0 && globalCtx->msgCtx.unk_E2F8 != 0) {
             polyOpaP = gfxCtx->polyOpa.p;

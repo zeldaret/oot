@@ -123,7 +123,7 @@ glabel EnWf_Draw
 /* 03B3C 80B377EC 2407004B */  addiu   $a3, $zero, 0x004B         ## $a3 = 0000004B
 /* 03B40 80B377F0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 03B44 80B377F4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 03B48 80B377F8 0C00A953 */  jal     func_8002A54C
+/* 03B48 80B377F8 0C00A953 */  jal     EffectSsEnFire_SpawnVec3s
 /* 03B4C 80B377FC AFA20018 */  sw      $v0, 0x0018($sp)
 .L80B37800:
 /* 03B50 80B37800 8FAF005C */  lw      $t7, 0x005C($sp)

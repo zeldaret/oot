@@ -1,8 +1,8 @@
 #ifndef _Z_DEMO_GEFF_H_
 #define _Z_DEMO_GEFF_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 #include "../ovl_Demo_Gt/z_demo_gt.h"
 

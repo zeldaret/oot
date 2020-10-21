@@ -157,7 +157,7 @@ glabel func_809B1A54
 /* 00B50 809B1C70 27A60040 */  addiu   $a2, $sp, 0x0040           ## $a2 = FFFFFFE0
 /* 00B54 809B1C74 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
 /* 00B58 809B1C78 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 00B5C 809B1C7C 0C00A935 */  jal     func_8002A4D4              
+/* 00B5C 809B1C7C 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 00B60 809B1C80 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 00B64 809B1C84 C7A8005C */  lwc1    $f8, 0x005C($sp)           
 /* 00B68 809B1C88 C606026C */  lwc1    $f6, 0x026C($s0)           ## 0000026C

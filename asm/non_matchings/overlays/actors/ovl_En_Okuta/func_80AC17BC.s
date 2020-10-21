@@ -97,7 +97,7 @@ glabel func_80AC17BC
 /* 0129C 80AC18FC 8FA4005C */  lw      $a0, 0x005C($sp)           
 /* 012A0 80AC1900 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 012A4 80AC1904 27A6004C */  addiu   $a2, $sp, 0x004C           ## $a2 = FFFFFFF4
-/* 012A8 80AC1908 0C00A850 */  jal     func_8002A140              
+/* 012A8 80AC1908 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 012AC 80AC190C 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
 .L80AC1910:
 /* 012B0 80AC1910 26040028 */  addiu   $a0, $s0, 0x0028           ## $a0 = 00000028

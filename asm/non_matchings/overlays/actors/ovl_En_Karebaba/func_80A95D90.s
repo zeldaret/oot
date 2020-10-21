@@ -49,7 +49,7 @@ glabel func_80A95D90
 /* 00AE0 80A95E30 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024
 /* 00AE4 80A95E34 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 00AE8 80A95E38 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00AEC 80A95E3C 0C00A5E9 */  jal     func_800297A4              
+/* 00AEC 80A95E3C 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 00AF0 80A95E40 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00AF4 80A95E44 3C0180A9 */  lui     $at, %hi(D_80A96B50)       ## $at = 80A90000
 /* 00AF8 80A95E48 C4246B50 */  lwc1    $f4, %lo(D_80A96B50)($at)  
@@ -87,7 +87,7 @@ glabel func_80A95D90
 /* 00B74 80A95EC4 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00B78 80A95EC8 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00B7C 80A95ECC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024
-/* 00B80 80A95ED0 0C00A5E9 */  jal     func_800297A4              
+/* 00B80 80A95ED0 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 00B84 80A95ED4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00B88 80A95ED8 96880088 */  lhu     $t0, 0x0088($s4)           ## 00000088
 .L80A95EDC:

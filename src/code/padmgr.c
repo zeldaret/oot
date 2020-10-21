@@ -1,7 +1,5 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 s32 D_8012D280 = 1;
 
@@ -206,7 +204,7 @@ void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlrRumbles) {
 void PadMgr_ProcessInputs(PadMgr* padmgr) {
     s32 i;
     Input* input;
-    PadState* padnow1; // original name
+    OSContPad* padnow1; // original name
     s32 buttonDiff;
 
     PadMgr_LockPadData(padmgr);
@@ -237,9 +235,9 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
                 osSyncPrintf(VT_RST);
                 break;
             case 8:
-                input->cur.in.button = 0;
-                input->cur.in.x = 0;
-                input->cur.in.y = 0;
+                input->cur.button = 0;
+                input->cur.stick_x = 0;
+                input->cur.stick_y = 0;
                 input->cur.errno = padnow1->errno;
                 if (padmgr->ctrlrIsConnected[i]) {
                     padmgr->ctrlrIsConnected[i] = false;
@@ -255,12 +253,12 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
                 Fault_AddHungupAndCrash("../padmgr.c", 397);
         }
 
-        buttonDiff = input->prev.in.button ^ input->cur.in.button;
-        input->press.in.button |= (u16)(buttonDiff & input->cur.in.button);
-        input->rel.in.button |= (u16)(buttonDiff & input->prev.in.button);
+        buttonDiff = input->prev.button ^ input->cur.button;
+        input->press.button |= (u16)(buttonDiff & input->cur.button);
+        input->rel.button |= (u16)(buttonDiff & input->prev.button);
         PadUtils_UpdateRelXY(input);
-        input->press.in.x += (s8)(input->cur.in.x - input->prev.in.x);
-        input->press.in.y += (s8)(input->cur.in.y - input->prev.in.y);
+        input->press.stick_x += (s8)(input->cur.stick_x - input->prev.stick_x);
+        input->press.stick_y += (s8)(input->cur.stick_y - input->prev.stick_y);
     }
 
     PadMgr_UnlockPadData(padmgr);
@@ -333,19 +331,19 @@ void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode) {
     for (i = 0; i < 4; i++) {
         if (mode != 0) {
             *newInput = *ogInput;
-            ogInput->press.in.button = 0;
-            ogInput->press.in.x = 0;
-            ogInput->press.in.y = 0;
-            ogInput->rel.in.button = 0;
+            ogInput->press.button = 0;
+            ogInput->press.stick_x = 0;
+            ogInput->press.stick_y = 0;
+            ogInput->rel.button = 0;
         } else {
             newInput->prev = newInput->cur;
             newInput->cur = ogInput->cur;
-            buttonDiff = newInput->prev.in.button ^ newInput->cur.in.button;
-            newInput->press.in.button = newInput->cur.in.button & buttonDiff;
-            newInput->rel.in.button = newInput->prev.in.button & buttonDiff;
+            buttonDiff = newInput->prev.button ^ newInput->cur.button;
+            newInput->press.button = newInput->cur.button & buttonDiff;
+            newInput->rel.button = newInput->prev.button & buttonDiff;
             PadUtils_UpdateRelXY(newInput);
-            newInput->press.in.x += (s8)(newInput->cur.in.x - newInput->prev.in.x);
-            newInput->press.in.y += (s8)(newInput->cur.in.y - newInput->prev.in.y);
+            newInput->press.stick_x += (s8)(newInput->cur.stick_x - newInput->prev.stick_x);
+            newInput->press.stick_y += (s8)(newInput->cur.stick_y - newInput->prev.stick_y);
         }
         ogInput++;
         newInput++;

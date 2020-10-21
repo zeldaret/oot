@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 // draw red poly
 void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
@@ -497,7 +496,7 @@ s32 Collider_DestroyTrisItemDim(GlobalContext* globalCtx, TriNorm* dim) {
 s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisItemDimInit* src) {
     Vec3f* d;
     Vec3f* s;
-    float nx, ny, nz, nd;
+    f32 nx, ny, nz, nd;
 
     d = dest->vtx;
     s = src->vtx;
@@ -1327,9 +1326,9 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 
-void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
-    func_800299AC(globalCtx, v);
-    func_80062B80(globalCtx, v);
+void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
+    EffectSsSibuki_SpawnBurst(globalCtx, pos);
+    func_80062B80(globalCtx, pos);
 }
 
 void func_8005E2A4(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
@@ -1345,7 +1344,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
 
     flags = colliderBody->toucherFlags & 0x18;
     if (flags == 0 && collider->type != COLTYPE_METAL_SHIELD) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1355,7 +1354,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 0) {
-        func_80029CA4(globalCtx, 3, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 3, arg3);
         if (collider->actor == NULL) {
             func_80062D60(globalCtx, arg3);
             return;
@@ -1364,7 +1363,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 8) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1374,7 +1373,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 0x10) {
-        func_80029CA4(globalCtx, 1, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 1, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1443,13 +1442,13 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
                 func_80062E14(globalCtx, arg5, &left->actor->projectedPos);
             }
         } else if (D_8011DF40[right->type].unk01 != 5) {
-            func_80029CA4(globalCtx, D_8011DF40[right->type].unk01, arg5);
+            EffectSsHitMark_SpawnFixedScale(globalCtx, D_8011DF40[right->type].unk01, arg5);
             if ((rightBody->bumperFlags & 0x20) == 0) {
                 func_8005E4F8(left, rightBody);
             }
         }
     } else {
-        func_80029CA4(globalCtx, 0, arg5);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg5);
         if (right->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -1981,6 +1980,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
 }
 
 static s8 sBssDummy1;
+static s8 sBssDummy2;
 
 static TriNorm D_8015E3A0;
 static TriNorm D_8015E3D8;
@@ -2032,10 +2032,10 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-static s8 sBssDummy2;
 static s8 sBssDummy3;
 static s8 sBssDummy4;
 static s8 sBssDummy5;
+static s8 sBssDummy6;
 
 static Vec3f D_8015E420;
 
@@ -2077,10 +2077,10 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-static s8 sBssDummy6;
 static s8 sBssDummy7;
 static s8 sBssDummy8;
 static s8 sBssDummy9;
+static s8 sBssDummy10;
 
 static Vec3f D_8015E430;
 static TriNorm D_8015E440;
@@ -2676,7 +2676,7 @@ void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     u32 flags;
     s32 i;
     f32 damage;
-    int tblLookup;
+    s32 tblLookup;
 
     if (collider->actor == NULL || !(collider->acFlags & 2)) {
         return;
@@ -2910,10 +2910,10 @@ void func_8006285C(GlobalContext* globalCtx, ColliderTris* collider, s32 index, 
 // In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
 // For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
 // by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
-static s8 sBssDummy10;
 static s8 sBssDummy11;
 static s8 sBssDummy12;
 static s8 sBssDummy13;
+static s8 sBssDummy14;
 
 void func_800628A4(s32 arg0, ColliderJntSph* collider) {
     static Vec3f D_8015E648;

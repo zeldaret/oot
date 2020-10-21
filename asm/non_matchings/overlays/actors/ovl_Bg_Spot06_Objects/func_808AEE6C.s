@@ -39,7 +39,7 @@ glabel func_808AEE6C
 /* 00758 808AEED8 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0075C 808AEEDC 24A50024 */  addiu   $a1, $a1, 0x0024           ## $a1 = 00000024
 /* 00760 808AEEE0 460A4400 */  add.s   $f16, $f8, $f10            
-/* 00764 808AEEE4 0C00A4F9 */  jal     func_800293E4              
+/* 00764 808AEEE4 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 00768 808AEEE8 E7B00014 */  swc1    $f16, 0x0014($sp)          
 /* 0076C 808AEEEC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L808AEEF0:

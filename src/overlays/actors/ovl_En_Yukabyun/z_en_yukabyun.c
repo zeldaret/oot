@@ -96,8 +96,9 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
-void func_80B43BCC(EnYukabyun* this, GlobalContext* globalCtx) {
-    func_800297A4(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 0x514, 0x12C, 0xF, 0x5F, 0xA, &D_06000A60);
+void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 1300, 300, 15, OBJECT_YUKABYUN, 10,
+                             &D_06000A60);
     Actor_Kill(&this->actor);
 }
 
@@ -113,13 +114,13 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.maskA &= ~0x2;
         this->actor.flags &= ~0x5;
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
-        this->actionfunc = func_80B43BCC;
+        this->actionfunc = EnYukabyun_Break;
     }
 
     this->actionfunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
 
-    if (!(this->actionfunc == func_80B43A94 || this->actionfunc == func_80B43BCC)) {
+    if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
         Collider_CylinderUpdate(&this->actor, &this->collider);
 
