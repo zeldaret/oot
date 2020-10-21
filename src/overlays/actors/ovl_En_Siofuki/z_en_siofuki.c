@@ -40,8 +40,8 @@ extern UNK_TYPE D_06000D78;
 
 void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSiofuki* this = THIS;
-    s32 param;
-    s32 localC = 0;
+    s32 type;
+    ColHeader* colHeader = NULL;
     s32 pad;
 
     if ((thisx->room == 10) && Flags_GetSwitch(globalCtx, 0x1E)) {
@@ -51,12 +51,12 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
-    DynaPolyInfo_Alloc(&D_06000D78, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    DynaPolyInfo_Alloc(&D_06000D78, &colHeader);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->sfxFlags |= 1;
 
-    param = ((u16)thisx->params >> 0xC) & 0xF;
-    if (!((param == 0) || (param == 1))) {
+    type = ((u16)thisx->params >> 0xC) & 0xF;
+    if (!((type == 0) || (type == 1))) {
         Actor_Kill(thisx);
         return;
     }
@@ -66,15 +66,15 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_170 = -6058.0f + this->unk_174;
 
     if (thisx->shape.rot.x != 0) {
-        this->unk_198 = thisx->shape.rot.x * 40.0f;
-        this->unk_180 = this->unk_198;
+        this->maxHeight = thisx->shape.rot.x * 40.0f;
+        this->currentHeight = this->maxHeight;
     }
-    this->initRotY = 0;
+    this->activeTime = 0;
     if (thisx->shape.rot.y != 0) {
-        this->initRotY = thisx->shape.rot.y;
+        this->activeTime = thisx->shape.rot.y;
     }
     if (thisx->shape.rot.z != 0) {
-        thisx->scale.x = thisx->shape.rot.z * (100.0f / (-6058 / -35)) * 0.1f;
+        thisx->scale.x = thisx->shape.rot.z * (1.0f / 1.73f) * 0.1f;
         thisx->scale.z = thisx->shape.rot.z * 0.5f * 0.1f;
     }
 
@@ -85,18 +85,18 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->shape.rot.y = 0;
     thisx->shape.rot.z = 0;
 
-    param = ((u16)thisx->params >> 0xC) & 0xF;
-    if (param == 0) {
-        this->unk_180 = 10.0f;
-        this->unk_17C = 10.0f;
+    type = ((u16)thisx->params >> 0xC) & 0xF;
+    if (type == RAISING) {
+        this->currentHeight = 10.0f;
+        this->targetHeight = 10.0f;
         this->actionFunc = func_80AFC34C;
-    } else if (param == 1) {
+    } else if (type == LOWERING) {
         if (Flags_GetTreasure(globalCtx, (u16)thisx->params & 0x3F)) {
-            this->unk_180 = -45.0f;
-            this->unk_17C = -45.0f;
+            this->currentHeight = -45.0f;
+            this->targetHeight = -45.0f;
             this->actionFunc = func_80AFC544;
         } else {
-            this->unk_17C = this->unk_180;
+            this->targetHeight = this->currentHeight;
             this->actionFunc = func_80AFC478;
         }
     }
@@ -109,10 +109,10 @@ void EnSiofuki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AFBDC8(EnSiofuki* this, GlobalContext* globalCtx) {
-    this->unk_178 = sinf((globalCtx->gameplayFrames & 0x1F) / 32.0f * M_PI * 2.0f) * 4.0f;
-    this->unk_170 = this->unk_174 * 10.0f + -6058.0f - this->unk_178 * 10.0f;
+    this->oscillation = sinf((globalCtx->gameplayFrames & 0x1F) / 32.0f * M_PI * 2.0f) * 4.0f;
+    this->unk_170 = this->unk_174 * 10.0f + -6058.0f - this->oscillation * 10.0f;
     this->unk_174 = 35.0f;
-    this->dyna.actor.posRot.pos.y = this->initPosY + this->unk_180 + this->unk_178;
+    this->dyna.actor.posRot.pos.y = this->initPosY + this->currentHeight + this->oscillation;
 }
 
 void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
@@ -146,7 +146,7 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
             dist2d = sqrtf(SQ(dX) + SQ(dZ));
             this->applySpeed = true;
             this->splashTimer = 0;
-            angle = Math_atan2f(dX, dZ) * (0x10000 / (M_PI * 2.0f));
+            angle = Math_atan2f(dX, dZ) * (0x8000 / M_PI);
             dAngle = (player->actor.posRot.rot.y ^ 0x8000) - angle;
             player->actor.gravity = 0.0f;
             player->actor.velocity.y = 0.0f;
@@ -183,7 +183,7 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFC1D0(EnSiofuki* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->unk_180, this->unk_17C, 0.8f, 3.0f, 0.01f);
+    Math_SmoothScaleMaxMinF(&this->currentHeight, this->targetHeight, 0.8f, 3.0f, 0.01f);
 }
 
 void func_80AFC218(EnSiofuki* this, GlobalContext* globalCtx) {
@@ -195,12 +195,12 @@ void func_80AFC218(EnSiofuki* this, GlobalContext* globalCtx) {
     if (this->timer < 0) {
         Flags_UnsetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F);
         switch (((u16)this->dyna.actor.params >> 0xC) & 0xF) {
-            case 0:
-                this->unk_17C = 10.0f;
+            case RAISING:
+                this->targetHeight = 10.0f;
                 this->actionFunc = func_80AFC34C;
                 break;
-            case 1:
-                this->unk_17C = this->unk_198;
+            case LOWERING:
+                this->targetHeight = this->maxHeight;
                 this->actionFunc = func_80AFC478;
                 break;
         }
@@ -208,10 +208,10 @@ void func_80AFC218(EnSiofuki* this, GlobalContext* globalCtx) {
         func_8002F994(&this->dyna.actor, this->timer);
     }
 
-    if (((((u16)this->dyna.actor.params >> 0xC) & 0xF) == 1) &&
+    if (((((u16)this->dyna.actor.params >> 0xC) & 0xF) == LOWERING) &&
         Flags_GetTreasure(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
-        this->unk_180 = -45.0f;
-        this->unk_17C = -45.0f;
+        this->currentHeight = -45.0f;
+        this->targetHeight = -45.0f;
         Flags_UnsetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F);
         this->actionFunc = func_80AFC544;
     }
@@ -223,7 +223,7 @@ void func_80AFC34C(EnSiofuki* this, GlobalContext* globalCtx) {
     func_80AFC1D0(this, globalCtx);
 
     if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F)) {
-        this->unk_17C = 400.0f;
+        this->targetHeight = 400.0f;
         this->timer = 300;
         this->actionFunc = func_80AFC218;
     }
@@ -236,14 +236,14 @@ void func_80AFC3C8(EnSiofuki* this, GlobalContext* globalCtx) {
 
     this->timer--;
     if (this->timer < 0) {
-        this->timer = this->initRotY * 20;
-        this->unk_17C = -45.0f;
+        this->timer = this->activeTime * 20;
+        this->targetHeight = -45.0f;
         this->actionFunc = func_80AFC218;
     }
 
     if (Flags_GetTreasure(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
-        this->unk_180 = -45.0f;
-        this->unk_17C = -45.0f;
+        this->currentHeight = -45.0f;
+        this->targetHeight = -45.0f;
         this->actionFunc = func_80AFC544;
     }
 }
@@ -253,7 +253,7 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx) {
     func_80AFBE8C(this, globalCtx);
     func_80AFC1D0(this, globalCtx);
 
-    if (((u16)this->dyna.actor.params >> 0xC & 0xF) == 1) {
+    if (((u16)this->dyna.actor.params >> 0xC & 0xF) == LOWERING) {
         if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F)) {
             this->timer = 20;
             this->actionFunc = func_80AFC3C8;
@@ -261,8 +261,8 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx) {
         }
 
         if (Flags_GetTreasure(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
-            this->unk_180 = -45.0f;
-            this->unk_17C = -45.0f;
+            this->currentHeight = -45.0f;
+            this->targetHeight = -45.0f;
             this->actionFunc = func_80AFC544;
         }
     }
@@ -298,16 +298,16 @@ void EnSiofuki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_siofuki.c", 674);
 
     if (this->sfxFlags & 1) {
-        f32 temp;
+        f32 heightRatio;
         switch (((u16)thisx->params >> 0xC) & 0xF) {
-            case 0:
-                temp = (this->unk_180 - 10.0f) / 390.0f;
-                func_800F436C(&thisx->projectedPos, NA_SE_EV_FOUNTAIN - SFX_FLAG, 1.0f + temp);
+            case RAISING:
+                heightRatio = (this->currentHeight - 10.0f) / (400.0f - 10.0f);
+                func_800F436C(&thisx->projectedPos, NA_SE_EV_FOUNTAIN - SFX_FLAG, 1.0f + heightRatio);
                 break;
-            case 1:
-                if (this->unk_180 > -35.0f) {
-                    temp = (this->unk_180 - -35.0f) / (this->unk_198 - -35.0f);
-                    func_800F436C(&thisx->projectedPos, NA_SE_EV_FOUNTAIN - SFX_FLAG, 1.0f + temp);
+            case LOWERING:
+                if (this->currentHeight > -35.0f) {
+                    heightRatio = (this->currentHeight - -35.0f) / (this->maxHeight - -35.0f);
+                    func_800F436C(&thisx->projectedPos, NA_SE_EV_FOUNTAIN - SFX_FLAG, 1.0f + heightRatio);
                 }
                 break;
         }
