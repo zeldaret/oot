@@ -194,8 +194,9 @@ s32 func_80A745E4(EnIk* this, GlobalContext* globalCtx) {
         (globalCtx->gameplayFrames & 1)) {
         func_80A755F0(this);
         return true;
+    } else {
+        return false;
     }
-    return false;
 }
 
 Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
