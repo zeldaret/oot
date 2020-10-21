@@ -41,7 +41,7 @@ void PreNMI_Draw(PreNMIContext* this) {
 
 void PreNMI_Main(GameState* thisx) {
     PreNMIContext* this = (PreNMIContext*)thisx;
-    
+
     PreNMI_Update(this);
     PreNMI_Draw(this);
 
