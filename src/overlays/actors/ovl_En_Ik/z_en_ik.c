@@ -121,9 +121,9 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         func_800F5B58();
     }
 
-    Collider_DestroyTris(globalCtx, &this->unk_3EC);
-    Collider_DestroyCylinder(globalCtx, &this->unk_320);
-    Collider_DestroyQuad(globalCtx, &this->unk_36C);
+    Collider_DestroyTris(globalCtx, &this->shieldCollider);
+    Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
+    Collider_DestroyQuad(globalCtx, &this->axeCollider);
 }
 
 void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
@@ -139,12 +139,12 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     thisx->draw = func_80A76798;
     thisx->flags |= 0x400;
 
-    Collider_InitCylinder(globalCtx, &this->unk_320);
-    Collider_SetCylinder(globalCtx, &this->unk_320, thisx, &sCylinderInit);
-    Collider_InitTris(globalCtx, &this->unk_3EC);
-    Collider_SetTris(globalCtx, &this->unk_3EC, thisx, &sTrisInit, this->unk_40C);
-    Collider_InitQuad(globalCtx, &this->unk_36C);
-    Collider_SetQuad(globalCtx, &this->unk_36C, thisx, &sQuadInit);
+    Collider_InitCylinder(globalCtx, &this->bodyCollider);
+    Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sCylinderInit);
+    Collider_InitTris(globalCtx, &this->shieldCollider);
+    Collider_SetTris(globalCtx, &this->shieldCollider, thisx, &sTrisInit, this->unk_40C);
+    Collider_InitQuad(globalCtx, &this->axeCollider);
+    Collider_SetQuad(globalCtx, &this->axeCollider, thisx, &sQuadInit);
 
     thisx->colChkInfo.damageTable = &sDamageTable;
     thisx->colChkInfo.mass = 0xFE;
@@ -234,7 +234,7 @@ void func_80A74714(EnIk* this) {
 void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
     Vec3f sp24;
 
-    if (this->unk_320.base.acFlags & 2) {
+    if (this->bodyCollider.base.acFlags & 2) {
         sp24 = this->actor.posRot.pos;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
         sp24.y += 30.0f;
@@ -516,7 +516,7 @@ void func_80A755F0(EnIk* this) {
 }
 
 void func_80A7567C(EnIk* this, GlobalContext* globalCtx) {
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_3EC.base);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->shieldCollider.base);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4000) &&
             (this->actor.xzDistFromLink < 100.0f) && (ABS(this->actor.yDistFromLink) < 150.0f)) {
@@ -535,7 +535,7 @@ void func_80A75790(EnIk* this) {
     s16 yaw;
     s16 yawDiff;
 
-    yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_320.base.ac->posRot.pos);
+    yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->bodyCollider.base.ac->posRot.pos);
     this->unk_2F8 = 0;
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
@@ -618,24 +618,24 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
         return;
     }
-    if (this->unk_3EC.base.acFlags & 0x80) {
+    if (this->shieldCollider.base.acFlags & 0x80) {
         temp_f0 = SkelAnime_GetFrameCount(&D_0600485C.genericHeader) - 2.0f;
         if (this->skelAnime.animCurrentFrame < temp_f0) {
             this->skelAnime.animCurrentFrame = temp_f0;
         }
-        this->unk_3EC.base.acFlags &= ~0x80;
-        this->unk_320.base.acFlags &= ~0x2;
+        this->shieldCollider.base.acFlags &= ~0x80;
+        this->bodyCollider.base.acFlags &= ~0x2;
         return;
     }
-    if (!(this->unk_320.base.acFlags & 2)) {
+    if (!(this->bodyCollider.base.acFlags & 2)) {
         return;
     }
     sp38 = this->actor.posRot.pos;
     sp38.y += 50.0f;
-    func_80035650(&this->actor, &this->unk_320.body, 1);
+    func_80035650(&this->actor, &this->bodyCollider.body, 1);
     temp_v0_3 = this->actor.colChkInfo.damageEffect;
     this->unk_2FD = temp_v0_3 & 0xFF;
-    this->unk_320.base.acFlags &= ~0x2;
+    this->bodyCollider.base.acFlags &= ~0x2;
 
     if (1) {}
 
@@ -703,9 +703,9 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     this->actionFunc(this, globalCtx);
-    if (this->unk_36C.base.atFlags & 2) {
-        this->unk_36C.base.atFlags &= ~0x2;
-        if (&player->actor == this->unk_36C.base.at) {
+    if (this->axeCollider.base.atFlags & 2) {
+        this->axeCollider.base.atFlags &= ~0x2;
+        if (&player->actor == this->axeCollider.base.at) {
             prevInvincibilityTimer = player->invincibilityTimer;
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer < -39) {
@@ -724,16 +724,16 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 0x1D);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 45.0f;
-    Collider_CylinderUpdate(&this->actor, &this->unk_320);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_320.base);
+    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if ((this->actor.colChkInfo.health > 0) && (this->actor.dmgEffectTimer == 0) && (this->unk_2F8 >= 2)) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_320.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     }
     if (this->unk_2FE > 0) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk_36C.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->axeCollider.base);
     }
     if (this->unk_2F8 == 9) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_3EC.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->shieldCollider.base);
     }
 }
 
@@ -820,12 +820,12 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Vec3f sp9C[3];
         Vec3f sp78[3];
 
-        Matrix_MultVec3f(&D_80A7847C[0], &this->unk_36C.dim.quad[1]);
-        Matrix_MultVec3f(&D_80A7847C[1], &this->unk_36C.dim.quad[0]);
-        Matrix_MultVec3f(&D_80A7847C[2], &this->unk_36C.dim.quad[3]);
-        Matrix_MultVec3f(&D_80A7847C[3], &this->unk_36C.dim.quad[2]);
-        func_80062734(&this->unk_36C, &this->unk_36C.dim.quad[0], &this->unk_36C.dim.quad[1],
-                      &this->unk_36C.dim.quad[2], &this->unk_36C.dim.quad[3]);
+        Matrix_MultVec3f(&D_80A7847C[0], &this->axeCollider.dim.quad[1]);
+        Matrix_MultVec3f(&D_80A7847C[1], &this->axeCollider.dim.quad[0]);
+        Matrix_MultVec3f(&D_80A7847C[2], &this->axeCollider.dim.quad[3]);
+        Matrix_MultVec3f(&D_80A7847C[3], &this->axeCollider.dim.quad[2]);
+        func_80062734(&this->axeCollider, &this->axeCollider.dim.quad[0], &this->axeCollider.dim.quad[1],
+                      &this->axeCollider.dim.quad[2], &this->axeCollider.dim.quad[3]);
         Matrix_MultVec3f(&D_80A7847C[0], &spF4);
         Matrix_MultVec3f(&D_80A7847C[1], &spE8);
         if (this->unk_2FE > 0) {
@@ -840,8 +840,8 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                 Matrix_MultVec3f(&D_80A784D0[i], &sp78[i]);
             }
 
-            func_800627A0(&this->unk_3EC, 0, &sp9C[0], &sp9C[1], &sp9C[2]);
-            func_800627A0(&this->unk_3EC, 1, &sp78[0], &sp78[1], &sp78[2]);
+            func_800627A0(&this->shieldCollider, 0, &sp9C[0], &sp9C[1], &sp9C[2]);
+            func_800627A0(&this->shieldCollider, 1, &sp78[0], &sp78[1], &sp78[2]);
         }
     }
 
