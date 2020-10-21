@@ -1997,9 +1997,9 @@ void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
 void func_8010F2CC(s16 *arg0, GraphicsContext* gfxCtx) {
     static s16 D_80153CF8 = 0;
     static s16 D_80153CFC = 0;
-    Gfx* dispRefs[6];
+    s32 pad[2];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_message_PAL.c", 0xD9D);
+    OPEN_DISPS(gfxCtx, "../z_message_PAL.c", 3485);
     if (D_80153CF8 != *arg0) {
         D_80153CF8 = *arg0;
         D_80153CFC = 0x1E;
@@ -2019,7 +2019,7 @@ void func_8010F2CC(s16 *arg0, GraphicsContext* gfxCtx) {
         gDPFillRectangle(gfxCtx->polyOpa.p++, 40, 120, 60, 140);
         gDPPipeSync(gfxCtx->polyOpa.p++);
     }
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_message_PAL.c", 0xDB9);
+    CLOSE_DISPS(gfxCtx, "../z_message_PAL.c", 35130);
 }
 #else
 void func_8010F2CC(s16 *arg0, GraphicsContext* gfxCtx);
@@ -2051,30 +2051,27 @@ void func_8010F58C(GlobalContext* globalCtx) {
     Gfx* plusOne;
     Gfx* polyOpaP;
     s16 sp4E;
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_message_PAL.c", 3554);
-        sp4E = gSaveContext.scarecrowCustomSongSet;
-        func_8010F2CC(&sp4E, globalCtx->state.gfxCtx);
-        if (BREG(0) != 0 && globalCtx->msgCtx.unk_E2F8 != 0) {
-            polyOpaP = gfxCtx->polyOpa.p;
-            plusOne = Graph_GfxPlusOne(polyOpaP);
-            gSPDisplayList(gfxCtx->overlay.p++, plusOne);
-            func_8010F494(globalCtx, &plusOne);
-            gSPEndDisplayList(plusOne++);
-            Graph_BranchDlist(polyOpaP, plusOne);
-            gfxCtx->polyOpa.p = plusOne;
-        }
-        polyOpaP = gfxCtx->polyOpa.p;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_message_PAL.c", 3554);
+    sp4E = gSaveContext.scarecrowCustomSongSet;
+    func_8010F2CC(&sp4E, globalCtx->state.gfxCtx);
+    if (BREG(0) != 0 && globalCtx->msgCtx.unk_E2F8 != 0) {
+        polyOpaP = oGfxCtx->polyOpa.p;
         plusOne = Graph_GfxPlusOne(polyOpaP);
-        gSPDisplayList(gfxCtx->overlay.p++, plusOne);
-        func_8010C39C(globalCtx, &plusOne);
+        gSPDisplayList(oGfxCtx->overlay.p++, plusOne);
+        func_8010F494(globalCtx, &plusOne);
         gSPEndDisplayList(plusOne++);
         Graph_BranchDlist(polyOpaP, plusOne);
-        gfxCtx->polyOpa.p = plusOne;
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_message_PAL.c", 3582);
+        oGfxCtx->polyOpa.p = plusOne;
     }
+    polyOpaP = oGfxCtx->polyOpa.p;
+    plusOne = Graph_GfxPlusOne(polyOpaP);
+    gSPDisplayList(oGfxCtx->overlay.p++, plusOne);
+    func_8010C39C(globalCtx, &plusOne);
+    gSPEndDisplayList(plusOne++);
+    Graph_BranchDlist(polyOpaP, plusOne);
+    oGfxCtx->polyOpa.p = plusOne;
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_message_PAL.c", 3582);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F58C.s")
