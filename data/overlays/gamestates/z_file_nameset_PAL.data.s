@@ -160,11 +160,11 @@ glabel D_80812A18
 .word func_80810440
 .word func_80810698
 .word func_808106F4
-glabel D_80812A38
+glabel gFileSelectDrawFuncs
 .word func_8080B224
 .word func_8080F560
 .word func_808109B8
-glabel D_80812A44
+glabel gFileSelectUpdateFuncs
  .word func_8080B1A8
 .word func_8080C2F4
 .word func_8081097C
