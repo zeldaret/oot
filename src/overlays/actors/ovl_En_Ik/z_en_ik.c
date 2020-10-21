@@ -142,7 +142,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sCylinderInit);
     Collider_InitTris(globalCtx, &this->shieldCollider);
-    Collider_SetTris(globalCtx, &this->shieldCollider, thisx, &sTrisInit, this->unk_40C);
+    Collider_SetTris(globalCtx, &this->shieldCollider, thisx, &sTrisInit, this->shieldColliderItems);
     Collider_InitQuad(globalCtx, &this->axeCollider);
     Collider_SetQuad(globalCtx, &this->axeCollider, thisx, &sQuadInit);
 
