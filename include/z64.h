@@ -596,8 +596,8 @@ typedef struct {
     /* 0xE408 */ Actor* unk_E408;
     /* 0xE40C */ u16    unk_E40C;
     /* 0xE40E */ s16    unk_E40E;
-    /* 0xE410 */ u8    unk_E410[2];
-    /* 0xE412 */ char   unk_E412[0x06];
+    /* 0xE410 */ u8     unk_E410;
+    /* 0xE411 */ char   unk_E412[0x07];
 } MessageContext; // size = 0xE418
 
 typedef struct {

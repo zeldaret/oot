@@ -8,7 +8,7 @@ extern const char D_07000000[]; // start of file
 extern const char D_070380D4[]; // charset message (id 0xFFFC)
 extern const char D_0703811C[]; // end marker of last message
 
-void func_8006EE50(Font* font, s16 arg1, s16 arg2) {
+void func_8006EE50(Font* font, u16 arg1, u16 arg2) {
 }
 
 void Font_LoadChar(u32 offset, u8 character, u16 codePointIndex) {

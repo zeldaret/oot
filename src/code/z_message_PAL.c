@@ -14,7 +14,7 @@ void func_800ED858(u8);
 SubMessageContext_E2B8* func_800EE3D4(void); // original name : Na_StopOcarinaMode
 SubMessageContext_E2B8* func_800EE3F8(void);
 
-void func_801069B0();
+void func_801069B0(void);
 void func_80106AA8(GlobalContext* globalCtx);
 u8 func_80106BC8(GlobalContext* globalCtx);
 u8 func_80106C88(GlobalContext* globalCtx);
@@ -292,7 +292,7 @@ s16 D_801759BE;
 extern UNK_TYPE D_02002E40;
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801069B0.s")
-void func_801069B0() {
+void func_801069B0(void) {
     s16* D_80153958_NonConst;
 
     VREG(45) = 0xBD;
@@ -1738,51 +1738,41 @@ void func_8010B720(GlobalContext* globalCtx, u16 textId) {
     msgCtx->unk_E406 = msgCtx->unk_E404;
 }
 
-void func_8010B820(GlobalContext*, u16);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B820.s")
-/* void func_8010B820(GlobalContext* globalCtx, u16 ocarinaActionId) {
-    static s16 D_8014B314 = 0;
-
+#ifdef NON_MATCHING
+// Matches but rodata unmigrated
+static const s16 D_8014B314[1] = {0};
+void func_8010B820(GlobalContext* globalCtx, u16 ocarinaActionId) {
     static const u16 D_80153C58[] = {
         0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x10, 0x80,
     };
 
-    s16 sp4E;
-    s16 sp4A;
-    MessageContext *msgCtx;
-    s16 temp_t6;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s0_3;
-    s32 temp_v0;
-    u16 temp_a1;
-    u16 phi_s0;
-    u16 phi_a1;
-    u16 *phi_v0;
-    u16 phi_a1_2;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
     s32 phi_s0_2;
-    s16 phi_v0_2;
-    s32 phi_s0_3;
     s16 phi_v0_3;
+    s16 phi_s0;
+    s16 sp4A;
+    s32 phi_s0_3;
 
-    msgCtx = &globalCtx->msgCtx;
     osSyncPrintf("\x1b[32m");
-    for (phi_s0 = 0, D_8014B31C = 0; phi_s0 < 0xC; phi_s0++) {
+    for (phi_s0 = D_8014B31C = 0; phi_s0 < 0xC; phi_s0++) {
         if (CHECK_QUEST_ITEM(phi_s0 + 0x6)) {
             osSyncPrintf("ocarina_check_bit[%d]=%x\n", phi_s0, D_80153C58[phi_s0]);
             D_8014B31C |= D_80153C58[phi_s0];
         }
     }
-    if (gSaveContext.unk_12C5 != 0) {
+    if (gSaveContext.scarecrowSpawnSongSet != 0) {
         D_8014B31C |= 0x1000;
     }
     osSyncPrintf("ocarina_bit = %x\n", D_8014B31C);
     osSyncPrintf("\x1b[m");
-    D_8014B314 = CHECK_QUEST_ITEM(QUEST_SONG_SUN);
+    NON_CONST(D_8014B314,s16) = CHECK_QUEST_ITEM(QUEST_SONG_SUN);
     msgCtx->unk_E2B8 = func_800EE3C8();
-    msgCtx->unk_E2B8->unk_2 = NON_CONST(D_8014B2FC,s16) = NON_CONST(D_8014B2F8,s16) = 0;
-    func_801069B0(&D_8014B2F8);
-    D_8014B310 = msgCtx->unk_E3F2 = msgCtx->unk_E410 = 0xFF;
+    msgCtx->unk_E2B8->unk_2 = NON_CONST(D_8014B2F8,s16) = 0;
+    NON_CONST(D_8014B2FC,s16) = 0;
+    func_801069B0();
+    msgCtx->unk_E410 = 0xFF;
+    D_8014B310 = msgCtx->unk_E3F2 = msgCtx->unk_E410;
+
     // ☆☆☆☆☆ Ocarina Number＝%d(%d) ☆☆☆☆☆
     osSyncPrintf("\x1b[31m☆☆☆☆☆ オカリナ番号＝%d(%d) ☆☆☆☆☆\n\x1b[m", ocarinaActionId, 2);
     sp4A = 0;
@@ -1864,7 +1854,7 @@ void func_8010B820(GlobalContext*, u16);
         msgCtx->unk_E2B8 = func_800EE3F8();
         NON_CONST(D_8014B2F8,s16) = NON_CONST(D_8014B2FC,s16) = 0;
         msgCtx->unk_E2B8->unk_2 = D_8014B2F8;
-        func_801069B0(&D_8014B2FC);
+        func_801069B0();
         msgCtx->unk_E3E7 = 3;
         msgCtx->msgMode = 0x23;
         func_800ED93C(0xF, 1);
@@ -1874,7 +1864,11 @@ void func_8010B820(GlobalContext*, u16);
     for (phi_s0_3 = 0, phi_v0_3 = 0; phi_v0_3 < 0x30; phi_v0_3++, phi_s0_3 += 0x80) {
         func_8006EE50(&globalCtx->msgCtx.font, 0x8140, phi_s0_3);
     }
-} */
+}
+#else
+void func_8010B820(GlobalContext*, u16);
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B820.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BD58.s")
 void func_8010BD58(GlobalContext* globalCtx, u16 arg1) {
