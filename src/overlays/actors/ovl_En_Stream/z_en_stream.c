@@ -35,13 +35,18 @@ InitChainEntry D_80B0BCC0[] = {
     ICHAIN_VEC3F_DIV1000(scale, 20, ICHAIN_STOP),
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B7A0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B7A0.s")
+void func_80B0B7A0(Actor* thisx, EnStreamActionFunc actionFunc) {
+    EnStream* this = THIS;
+
+    this->actionFunc = actionFunc;
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Init.s")
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnStream* this = THIS;
 
-    this->unk_150 = thisx->params & 0xFF;
+    this->unk_150 = (s32) (thisx->params & 0xFF);
     Actor_ProcessInitChain(thisx, &D_80B0BCC0);
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;
