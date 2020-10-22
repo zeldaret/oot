@@ -36,9 +36,7 @@ InitChainEntry D_80B0BCC0[] = {
 };
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B7A0.s")
-void func_80B0B7A0(Actor* thisx, EnStreamActionFunc actionFunc) {
-    EnStream* this = THIS;
-
+void func_80B0B7A0(EnStream* this, EnStreamActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -51,7 +49,7 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;
     }
-    func_80B0B7A0(thisx, &func_80B0BAC8);
+    func_80B0B7A0(this, &func_80B0BAC8);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Destroy.s")
