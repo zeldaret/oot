@@ -16,10 +16,11 @@ typedef struct EnNiwLady {
     /* 0x0250 */ EnNiwLadyActionFunc actionFunc;
     /* 0x0254 */ Vec3s unk_254;
     /* 0x025A */ Vec3s unk_25A;
-    /* 0x0260 */ char unk_260[0x2];
+    /* 0x0260 */ s16 unk_260;
     /* 0x0262 */ s16 unk_262;
-    /* 0x0264 */ char unk_264[0x4];
-    /* 0x0268 */ s16 unk_268;
+    /* 0x0264 */ s16 unk_264;
+    /* 0x0266 */ s16 unk_266;
+    /* 0x0268 */ s16 NiwInPen;
     /* 0x026A */ s16 unk_26A;
     /* 0x026C */ s16 unk_26C;
     /* 0x026E */ s16 unk_26E;
@@ -38,7 +39,7 @@ typedef struct EnNiwLady {
     /* 0x0281 */ s8 ObjectOsAnimeIndex;
     /* 0x0282 */ char unk_282[0x2];
     /* 0x0284 */ s32 unk_284;
-    /* 0x0286 */ char unk_288[0x28];
+    /* 0x0288 */ struct_80034A14_arg1 unk_struct;
     /* 0x02B0 */ ColliderCylinder collider;
 } EnNiwLady; // size = 0x02FC
 
