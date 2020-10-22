@@ -62,11 +62,11 @@ glabel func_80ABA778
 .L80ABA844:
 /* 00C04 80ABA844 84AB027A */  lh      $t3, 0x027A($a1)           ## 0000027A
 .L80ABA848:
-/* 00C08 80ABA848 3C0D80AC */  lui     $t5, %hi(D_80ABB3F0)       ## $t5 = 80AC0000
+/* 00C08 80ABA848 3C0D80AC */  lui     $t5, %hi(EnNiwLadyTradeItemText)       ## $t5 = 80AC0000
 /* 00C0C 80ABA84C 3C0E80AC */  lui     $t6, %hi(func_80ABA878)    ## $t6 = 80AC0000
 /* 00C10 80ABA850 000B6040 */  sll     $t4, $t3,  1               
 /* 00C14 80ABA854 01AC6821 */  addu    $t5, $t5, $t4              
-/* 00C18 80ABA858 85ADB3F0 */  lh      $t5, %lo(D_80ABB3F0)($t5)  
+/* 00C18 80ABA858 85ADB3F0 */  lh      $t5, %lo(EnNiwLadyTradeItemText)($t5)  
 /* 00C1C 80ABA85C 25CEA878 */  addiu   $t6, $t6, %lo(func_80ABA878) ## $t6 = 80ABA878
 /* 00C20 80ABA860 ACAE0250 */  sw      $t6, 0x0250($a1)           ## 00000250
 /* 00C24 80ABA864 A4AD010E */  sh      $t5, 0x010E($a1)           ## 0000010E

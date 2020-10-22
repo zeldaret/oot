@@ -20,7 +20,7 @@ glabel func_80ABA9B8
 /* 00DC0 80ABAA00 10400005 */  beq     $v0, $zero, .L80ABAA18     
 /* 00DC4 80ABAA04 00000000 */  nop
 /* 00DC8 80ABAA08 10410012 */  beq     $v0, $at, .L80ABAA54       
-/* 00DCC 80ABAA0C 3C1880AC */  lui     $t8, %hi(D_80ABB3F0 + 0x06)       ## $t8 = 80AC0000
+/* 00DCC 80ABAA0C 3C1880AC */  lui     $t8, %hi(EnNiwLadyTradeItemText + 0x06)       ## $t8 = 80AC0000
 /* 00DD0 80ABAA10 1000001E */  beq     $zero, $zero, .L80ABAA8C   
 /* 00DD4 80ABAA14 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80ABAA18:
@@ -41,7 +41,7 @@ glabel func_80ABA9B8
 /* 00E10 80ABAA50 AE0F0250 */  sw      $t7, 0x0250($s0)           ## 00000250
 .L80ABAA54:
 /* 00E14 80ABAA54 8619027A */  lh      $t9, 0x027A($s0)           ## 0000027A
-/* 00E18 80ABAA58 8718B3F6 */  lh      $t8, %lo(D_80ABB3F0+0x06)($t8)  
+/* 00E18 80ABAA58 8718B3F6 */  lh      $t8, %lo(EnNiwLadyTradeItemText+0x06)($t8)  
 /* 00E1C 80ABAA5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E20 80ABAA60 27280015 */  addiu   $t0, $t9, 0x0015           ## $t0 = 00000015
 /* 00E24 80ABAA64 A608026E */  sh      $t0, 0x026E($s0)           ## 0000026E

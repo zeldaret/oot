@@ -35,8 +35,8 @@ glabel func_80ABA878
 /* 00CB4 80ABA8F4 00000000 */  nop
 /* 00CB8 80ABA8F8 0C01E221 */  jal     func_80078884              
 /* 00CBC 80ABA8FC 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
-/* 00CC0 80ABA900 3C0880AC */  lui     $t0, %hi(D_80ABB3F0 + 0x0A)       ## $t0 = 80AC0000
-/* 00CC4 80ABA904 8508B3FA */  lh      $t0, %lo(D_80ABB3F0 + 0x0A)($t0)  
+/* 00CC0 80ABA900 3C0880AC */  lui     $t0, %hi(EnNiwLadyTradeItemText + 0x0A)       ## $t0 = 80AC0000
+/* 00CC4 80ABA904 8508B3FA */  lh      $t0, %lo(EnNiwLadyTradeItemText + 0x0A)($t0)  
 /* 00CC8 80ABA908 8FA9002C */  lw      $t1, 0x002C($sp)           
 /* 00CCC 80ABA90C 3C0D80AC */  lui     $t5, %hi(func_80ABAB08)    ## $t5 = 80AC0000
 /* 00CD0 80ABA910 240C0004 */  addiu   $t4, $zero, 0x0004         ## $t4 = 00000004
@@ -51,8 +51,8 @@ glabel func_80ABA878
 .L80ABA934:
 /* 00CF4 80ABA934 10400009 */  beq     $v0, $zero, .L80ABA95C     
 /* 00CF8 80ABA938 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001
-/* 00CFC 80ABA93C 3C0E80AC */  lui     $t6, %hi(D_80ABB3F0 + 0xE)       ## $t6 = 80AC0000
-/* 00D00 80ABA940 85CEB3FE */  lh      $t6, %lo(D_80ABB3F0 + 0xE)($t6)  
+/* 00CFC 80ABA93C 3C0E80AC */  lui     $t6, %hi(EnNiwLadyTradeItemText + 0xE)       ## $t6 = 80AC0000
+/* 00D00 80ABA940 85CEB3FE */  lh      $t6, %lo(EnNiwLadyTradeItemText + 0xE)($t6)  
 /* 00D04 80ABA944 8FAF002C */  lw      $t7, 0x002C($sp)           
 /* 00D08 80ABA948 A5EE010E */  sh      $t6, 0x010E($t7)           ## 0000010E
 /* 00D0C 80ABA94C 8618027A */  lh      $t8, 0x027A($s0)           ## 0000027A

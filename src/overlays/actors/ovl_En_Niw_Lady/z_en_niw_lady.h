@@ -11,14 +11,17 @@ typedef void (*EnNiwLadyActionFunc)(struct EnNiwLadyt*, GlobalContext*);
 typedef struct EnNiwLady {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[16];//char unk_190[0xC0];
+    /* 0x0190 */ Vec3s limbDrawTable[16];
     /* 0x01F0 */ Vec3s transitionDrawTable[16];
     /* 0x0250 */ EnNiwLadyActionFunc actionFunc;
     /* 0x0254 */ Vec3s unk_254;
     /* 0x025A */ Vec3s unk_25A;
     /* 0x0260 */ char unk_260[0x2];
-    /* 0x0262 */ u16 unk_262;
-    /* 0x0264 */ char unk_264[0xA];
+    /* 0x0262 */ s16 unk_262;
+    /* 0x0264 */ char unk_264[0x4];
+    /* 0x0268 */ s16 unk_268;
+    /* 0x026A */ s16 unk_26A;
+    /* 0x026C */ s16 unk_26C;
     /* 0x026E */ s16 unk_26E;
     /* 0x0270 */ char unk_270[2];
     /* 0x0272 */ u8 unk_272;
@@ -33,7 +36,9 @@ typedef struct EnNiwLady {
     /* 0x027E */ s16 unk_27E;
     /* 0x0280 */ s8 ObjectAneIndex;
     /* 0x0281 */ s8 ObjectOsAnimeIndex;
-    /* 0x0282 */ char unk_282[0x2E];
+    /* 0x0282 */ char unk_282[0x2];
+    /* 0x0284 */ s32 unk_284;
+    /* 0x0286 */ char unk_288[0x28];
     /* 0x02B0 */ ColliderCylinder collider;
 } EnNiwLady; // size = 0x02FC
 

@@ -1,4 +1,5 @@
 #include "z_en_niw_lady.h"
+#include "../ovl_En_Niw/z_en_niw.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
@@ -18,6 +19,13 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx);
+void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx);
+void func_80ABAA9C(EnNiwLady* this, GlobalContext* globalCtx);
+void func_80ABAA9C(EnNiwLady* this, GlobalContext* globalCtx);
+void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx);
+void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx);
+void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx);
+
 Gfx* func_80ABB0A0(GraphicsContext* gfxCtx);
 
 s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -35,15 +43,12 @@ const ActorInit En_Niw_Lady_InitVars = {
     NULL,
 };
 
-s32 D_80ABB3A0[] = {
-    0x50365070, 0x50725037, 0x50385039, 0x503A503B, 0x503D503C,
+s16 D_80ABB3A0[] = {
+    0x5036, 0x5070, 0x5072, 0x5037, 0x5038, 0x5039, 0x503A, 0x503B, 0x503D, 0x503C,
 };
 
-s32 D_80ABB3B4[] = {
-    0x02000400,
-    0x08001000,
-    0x20004000,
-    0x80000000,
+static s16 D_80ABB3B4[] = {
+    0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000, 0x0000,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -54,11 +59,6 @@ static ColliderCylinderInit sCylinderInit = {
 
 static s16 EnNiwLadyTradeItemText[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x5043,
                                         0x5044, 0x00CF, 0x5045, 0x5042, 0x5027, 0x0000 };
-
-// s32 D_80ABB400[] = {
-//    0x50455042,
-//    0x50270000,
-//};
 
 Gfx* D_80ABB408[] = {
     0x060008C8, 0x060010C8, 0x060018C8, 0x00000000, 0x00000000, 0x00000000,
@@ -139,11 +139,108 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA21C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA244.s")
+void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
+    EnNiw* firstNiw;
+    EnNiw* currentNiw;
+    s32 phi_s1;
+
+    this->unk_268 = 0;
+    firstNiw = (EnNiw*)globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    currentNiw = firstNiw;
+    while (currentNiw != NULL) {
+        if (currentNiw->actor.id == 0x19) {
+            if ((fabsf(currentNiw->actor.posRot.pos.x - 330.0f) < 90.0f) &&
+                (fabsf(currentNiw->actor.posRot.pos.z - 1610.0f) < 190.0f)) {
+                if (this->unk_26C == 0) {
+                    gSaveContext.infTable[0x19] |= D_80ABB3B4[currentNiw->unk_2AA];
+                    if (gGameInfo->data[0x961] != 0) {
+                        // GET inside the chicken fence!
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST, D_80ABB3B4[currentNiw->unk_2AA]);
+                    }
+                }
+                this->unk_268++;
+            } else if (this->unk_26C == 0) {
+                gSaveContext.infTable[0x19] &= ~D_80ABB3B4[currentNiw->unk_2AA];
+            }
+        }
+        currentNiw = currentNiw->actor.next;
+    }
+    if (gGameInfo->data[0x967] != 0) {
+        this->unk_268 = gGameInfo->data[0x967] - 1;
+    }
+    phi_s1 = this->unk_268;
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
+        this->unk_26E = 0x65;
+    }
+    if (this->unk_268 >= 7) {
+        phi_s1 = 8;
+        if ((this->unk_26C < 2) && (this->unk_26C == 0)) {
+            phi_s1 = 7;
+        }
+    }
+    if ((this->unk_26C != 0) && (phi_s1 < 7)) {
+        phi_s1 = 9;
+    }
+    this->actor.textId = D_80ABB3A0[phi_s1];
+    if (Text_GetFaceReaction(globalCtx, 8) != 0) {
+        this->actor.textId = Text_GetFaceReaction(globalCtx, 8);
+        this->unk_262 = 6;
+    }
+    if ((this->unk_26C != 0) && (phi_s1 != 9)) {
+        phi_s1 = 0xA;
+        this->unk_26E = 0xB;
+    }
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
+        osSyncPrintf("\n\n");
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n" VT_RST, this->unk_26A);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん今\t ☆☆☆☆ %d\n" VT_RST, this->unk_268);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n" VT_RST, this->actor.textId);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
+        osSyncPrintf("\n\n");
+        if (Text_GetFaceReaction(globalCtx, 8U) == 0) {
+            if (this->actor.textId == 0x503C) {
+                func_80078884(NA_SE_SY_ERROR);
+                this->unk_26C = 2;
+                this->unk_262 = 5;
+                this->actionFunc = func_80ABA654;
+                return;
+            }
+            this->unk_26E = phi_s1 + 1;
+            if (phi_s1 == 7) {
+                func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                this->unk_26C = 1;
+                this->unk_262 = 5;
+                this->unk_26A = this->unk_268;
+                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST, gSaveContext.infTable[0x19]);
+                gSaveContext.infTable[0x19] &= 0x1FF;
+                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST, gSaveContext.infTable[0x19]);
+                osSyncPrintf("\n\n");
+                this->actionFunc = &func_80ABA654;
+                return;
+            }
+            if (this->unk_26A != this->unk_268) {
+                if (this->unk_268 < this->unk_26A) {
+                    func_80078884(NA_SE_SY_ERROR);
+                } else {
+                    if (phi_s1 + 1 < 9) {
+                        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+                    }
+                }
+            }
+            if (this->unk_26A < this->unk_268) {
+                this->unk_26A = this->unk_268;
+                return;
+            }
+        }
+    } else {
+        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA654.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA778.s")
 void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
     //☆☆☆☆☆ Adult message check ☆☆☆☆☆
     osSyncPrintf("\x1b[32m☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n\x1b[m", this);
@@ -172,44 +269,9 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
         }
     }
     this->actor.textId = EnNiwLadyTradeItemText[this->unk_27A];
-    this->actionFunc = &func_80ABA878;
+    this->actionFunc = func_80ABA878;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA878.s")
-/*void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
-    s8 playerExchangeItemId;
-
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
-        this->unk_26E = 11;
-    }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        playerExchangeItemId = func_8002F368(globalCtx);
-        if ((playerExchangeItemId != 6) || (gSaveContext.eventChkInf[6] & 0x400) != 0) {
-            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            player->actor.textId = EnNiwLadyTradeItemText[0xA];
-            this->unk_262 = 4;
-            this->unk_26E = this->unk_27A + 0x15;
-            this->actionFunc = func_80ABAB08;
-            return;
-        }
-        if (playerExchangeItemId == 0) {
-            this->unk_274 = 1;
-            this->unk_26E = this->unk_27A + 0x15;
-            if (this->unk_273 != 0) {
-                this->actionFunc = func_80ABA9B8;
-                return;
-            }
-            this->actionFunc = func_80ABA778;
-            return;
-        }
-        player->actor.textId = EnNiwLadyTradeItemText[0xE];
-        ;
-        this->unk_26E = this->unk_27A + 0x15;
-        return;
-    }
-    func_8002F298(&this->actor, globalCtx, 50.0f, 6);
-}*/
 void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     Player* player;
     s8 playerExchangeItemId;
@@ -218,50 +280,104 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 11;
     }
-    if (func_8002F194((Actor*)this, globalCtx) == 0) {
-        goto block_12;
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
+        playerExchangeItemId = func_8002F368(globalCtx);
+        if (!((playerExchangeItemId != 6) || !(gSaveContext.eventChkInf[6] & 0x400))) {
+            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            player->actor.textId = EnNiwLadyTradeItemText[5];
+            this->unk_26E = this->unk_27A + 21;
+            this->unk_262 = 4;
+            this->actionFunc = func_80ABAB08;
+        } else if (playerExchangeItemId != 0) {
+            player->actor.textId = EnNiwLadyTradeItemText[7];
+            this->unk_26E = this->unk_27A + 21;
+        } else {
+            this->unk_274 = 1;
+            this->unk_26E = this->unk_27A + 21;
+            this->actionFunc = (!this->unk_273) ? func_80ABA778 : func_80ABA9B8;
+        }
+    } else {
+        func_8002F298(&this->actor, globalCtx, 50.0f, 6);
     }
-    playerExchangeItemId = func_8002F368(globalCtx);
-    if ((playerExchangeItemId != 6) || (gSaveContext.eventChkInf[6] & 0x400) != 0) {
-        func_80078884((u16)0x4807U);
-        player->actor.textId = EnNiwLadyTradeItemText[0xA];
-        this->unk_262 = 4;
-        this->unk_26E = this->unk_27A + 0x15;
-        this->actionFunc = &func_80ABAB08;
-        return;
-        // goto block_7;
-    }
-block_7:
-    if (playerExchangeItemId == 0) {
-        goto block_9;
-    }
-    player->actor.textId = EnNiwLadyTradeItemText[0xE];
-    this->unk_26E = this->unk_27A + 0x15;
-    return;
-block_9:
-    this->unk_274 = 1;
-    this->unk_26E = this->unk_27A + 0x15;
-    if (this->unk_273 != 0) {
-        goto block_11;
-    }
-    this->actionFunc = func_80ABA778;
-    return;
-block_11:
-    this->actionFunc = func_80ABA9B8;
-    return;
-block_12:
-    func_8002F298(&this->actor, globalCtx, 50.0f, 6);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA9B8.s")
+void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
+    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0:
+                func_80106CCC(globalCtx);
+                this->actor.parent = NULL;
+                func_8002F434((Actor*)this, globalCtx, 0x1D, 200.0f, 100.0f);
+                this->actionFunc = func_80ABAC00;
+                return;
+            case 1:
+                this->actor.textId = EnNiwLadyTradeItemText[3];
+                this->unk_26E = this->unk_27A + 0x15;
+                func_8010B720(globalCtx, this->actor.textId);
+                this->unk_262 = 5;
+                this->actionFunc = func_80ABAA9C;
+                return;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAA9C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAB08.s")
+void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx) {
+    if ((this->unk_262 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0:
+                func_80106CCC(globalCtx);
+                this->actor.parent = NULL;
+                func_8002F434(&this->actor, globalCtx, 0xE, 200.0f, 100.0f);
+                this->actionFunc = func_80ABAC00;
+                return;
+            case 1:
+                func_80106CCC(globalCtx);
+                this->unk_277 = 1;
+                this->actor.textId = EnNiwLadyTradeItemText[8];
+                this->unk_26E = (this->unk_27A + 21);
+                func_8010B720(globalCtx, this->actor.textId);
+                this->unk_262 = 5;
+                this->actionFunc = func_80ABAA9C;
+                return;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAC00.s")
+void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
+    s32 getItemID;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAC84.s")
+    if (Actor_HasParent(&this->actor, globalCtx) != 0) {
+        this->actionFunc = func_80ABAC84;
+    } else {
+        getItemID = this->unk_284;
+        if (LINK_IS_ADULT) {
+            getItemID = (!(gSaveContext.itemGetInf[2] & 0x1000)) ? GI_POCKET_EGG : GI_COJIRO;
+        }
+        func_8002F434(&this->actor, globalCtx, getItemID, 200.0f, 100.0f);
+    }
+}
+
+
+void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) != 6) || (func_80106BC8(globalCtx) == 0)) {
+        return;
+    }
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
+    if (gSaveContext.linkAge == 0) {
+        if ((gSaveContext.itemGetInf[2] & 0x1000) == 0) {
+            gSaveContext.itemGetInf[2] |= 0x1000;
+        } else {
+            gSaveContext.itemGetInf[2] |= 0x4000;
+        }
+        this->actionFunc = func_80ABA778;
+    } else {
+        gSaveContext.itemGetInf[0] = gSaveContext.itemGetInf[0] | 0x1000;
+        this->unk_262 = 6;
+        this->actionFunc = func_80ABA244;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAD38.s")
 
@@ -269,7 +385,6 @@ block_12:
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/EnNiwLady_Update.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABB0A0.s")
 Gfx* func_80ABB0A0(GraphicsContext* gfxCtx) {
     // Gfx* dListHead;
     Gfx* dList;
