@@ -24,7 +24,7 @@ typedef struct EnNiwLady {
     /* 0x026A */ s16 unk_26A;
     /* 0x026C */ s16 unk_26C;
     /* 0x026E */ s16 unk_26E;
-    /* 0x0270 */ char unk_270[2];
+    /* 0x0270 */ s16 unk_270;
     /* 0x0272 */ u8 unk_272;
     /* 0x0273 */ u8 unk_273;
     /* 0x0274 */ u8 unk_274;

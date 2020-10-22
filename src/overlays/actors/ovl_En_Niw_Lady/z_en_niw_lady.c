@@ -65,8 +65,10 @@ Gfx* D_80ABB408[] = {
 };
 
 extern AnimationHeader D_060000F0;
-extern SkeletonHeader D_0600A630;
+extern AnimationHeader D_0600A630;
 extern SkeletonHeader D_060007D0;
+extern AnimationHeader D_06009F94;
+extern AnimationHeader D_06000718;
 
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -98,6 +100,70 @@ void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80AB9D60.s")
+/*void func_80AB9D60(EnNiwLady* this, GlobalContext* globalCtx, s32 arg2) {
+   // s32 phi_a2;
+
+    //arg2 = arg2;
+    if (Text_GetFaceReaction(globalCtx, 8U) != 0) {
+        arg2 = 8;
+    }
+    if (arg2 == (s16)this->unk_270) {
+        return;
+    }
+    this->unk_275 = 0;
+    this->unk_276 = 1;
+    this->unk_270 = (s16)arg2;
+    if (arg2 < 0x1E) {
+        goto block_6;
+    }
+    if (arg2 == 0x64) {
+        // block_12:
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060007D0), 0,
+                             -10.0f);
+
+        this->unk_276 = 0;
+    }
+    return;
+block_6:
+
+    switch (arg2) {
+        case 9:
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A630), 0,
+                                 -10.0f);
+            return;
+        case 10:
+            this->unk_275 = 1;
+            return;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 8:
+        case 21:
+        case 22:
+        case 24:
+        case 29:
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_06000718, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000718), 0,
+                                 -10.0f);
+
+            return;
+        case 7:
+        case 20:
+        case 23:
+        case 25:
+        case 26:
+        case 27:
+        case 28:
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009F94), 0,
+                                 -10.0f);
+            return;
+        default:
+            return;
+    }
+}*/
 
 void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -412,8 +478,8 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAD7C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/EnNiwLady_Update.s")
-/*void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/EnNiwLady_Update.s")
+void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = THIS;
     Player* player = PLAYER;
@@ -434,7 +500,7 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
         if (this->unk_27E != 0) {
             if (this->unk_26E != 0) {
                 this->unk_26E--;
-                func_80AB9D60(this,this->unk_26E);               
+                func_80AB9D60(this, globalCtx, this->unk_26E);
                 this->unk_26E = 0;
             }
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -453,16 +519,17 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
                 this->unk_27C++;
                 if (this->unk_27C >= 3) {
                     this->unk_27C = 0;
-                    this->unk_266 = ((s32)Math_Rand_ZeroFloat(60.0f) + 0x14);
+                    this->unk_266 = ((s16)Math_Rand_ZeroFloat(60.0f) + 0x14);
                 }
             }
             func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
             Collider_CylinderUpdate(thisx, &this->collider);
+            if (1) {}
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
     }
 }
-*/
+
 Gfx* func_80ABB0A0(GraphicsContext* gfxCtx) {
     // Gfx* dListHead;
     Gfx* dList;
