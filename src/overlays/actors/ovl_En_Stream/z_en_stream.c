@@ -46,7 +46,7 @@ void func_80B0B7A0(Actor* thisx, EnStreamActionFunc actionFunc) {
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnStream* this = THIS;
 
-    this->unk_150 = (s32) (thisx->params & 0xFF);
+    this->unk_150 = (s32)(thisx->params & 0xFF);
     Actor_ProcessInitChain(thisx, &D_80B0BCC0);
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;
@@ -54,7 +54,9 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80B0B7A0(thisx, &func_80B0BAC8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Destroy.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Destroy.s")
+void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B81C.s")
 
