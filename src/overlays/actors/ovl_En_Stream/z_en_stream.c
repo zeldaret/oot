@@ -14,7 +14,7 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
-void func_80B0BAC8(EnStream* thisx, GlobalContext globalCtx);
+void func_80B0BAC8(EnStream* this, GlobalContext globalCtx);
 
 extern UNK_TYPE D_06000950;
 
@@ -64,6 +64,12 @@ void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0BAC8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Update.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Update.s")
+void EnStream_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnStream* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+    func_8002F948(thisx, NA_SE_EV_WHIRLPOOL - SFX_FLAG);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Draw.s")
