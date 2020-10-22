@@ -14,10 +14,10 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
+void func_80B0BAC8(EnStream* thisx, GlobalContext globalCtx);
 
 extern UNK_TYPE D_06000950;
 
-/*
 const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
     ACTORTYPE_BG,
@@ -29,10 +29,25 @@ const ActorInit En_Stream_InitVars = {
     (ActorFunc)EnStream_Update,
     (ActorFunc)EnStream_Draw,
 };
-*/
+
+// sInitChain
+InitChainEntry D_80B0BCC0[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 20, ICHAIN_STOP),
+};
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B7A0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Init.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Init.s")
+void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnStream* this = THIS;
+
+    this->unk_150 = thisx->params & 0xFF;
+    Actor_ProcessInitChain(thisx, &D_80B0BCC0);
+    if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
+        thisx->scale.y = 0.01f;
+    }
+    func_80B0B7A0(thisx, &func_80B0BAC8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Destroy.s")
 
