@@ -11,7 +11,7 @@ void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx);
-void func_80ABB228(Actor* thisx, GlobalContext* globalCtx);
+void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80ABA21C(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAD38(EnNiwLady* this, GlobalContext* globalCtx);
@@ -25,9 +25,8 @@ void func_80ABAA9C(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx);
-
+void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx);
 Gfx* func_80ABB0A0(GraphicsContext* gfxCtx);
-
 s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                Actor* thisx);
 
@@ -43,12 +42,12 @@ const ActorInit En_Niw_Lady_InitVars = {
     NULL,
 };
 
-s16 D_80ABB3A0[] = {
+static s16 EnNiwLadyMissingNiwTextIDs[] = {
     0x5036, 0x5070, 0x5072, 0x5037, 0x5038, 0x5039, 0x503A, 0x503B, 0x503D, 0x503C,
 };
 
 static s16 D_80ABB3B4[] = {
-    0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000, 0x0000,
+    0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -57,16 +56,9 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-static s16 EnNiwLadyTradeItemText[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x5043,
-                                        0x5044, 0x00CF, 0x5045, 0x5042, 0x5027, 0x0000 };
-
-Gfx* D_80ABB408[] = {
-    0x060008C8, 0x060010C8, 0x060018C8, 0x00000000, 0x00000000, 0x00000000,
-};
-
-extern AnimationHeader D_060000F0;
+extern SkeletonHeader D_060000F0;
 extern AnimationHeader D_0600A630;
-extern SkeletonHeader D_060007D0;
+extern AnimationHeader D_060007D0;
 extern AnimationHeader D_06009F94;
 extern AnimationHeader D_06000718;
 
@@ -99,74 +91,67 @@ void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80AB9D60.s")
-/*void func_80AB9D60(EnNiwLady* this, GlobalContext* globalCtx, s32 arg2) {
-   // s32 phi_a2;
+void func_80AB9D60(EnNiwLady* this, GlobalContext* globalCtx, s32 arg2) {
+    f32 frames;
 
-    //arg2 = arg2;
     if (Text_GetFaceReaction(globalCtx, 8U) != 0) {
         arg2 = 8;
     }
-    if (arg2 == (s16)this->unk_270) {
-        return;
-    }
-    this->unk_275 = 0;
-    this->unk_276 = 1;
-    this->unk_270 = (s16)arg2;
-    if (arg2 < 0x1E) {
-        goto block_6;
-    }
-    if (arg2 == 0x64) {
-        // block_12:
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060007D0), 0,
-                             -10.0f);
-
+    if (arg2 != this->unk_270) {
+        this->unk_275 = 0;
+        this->unk_276 = 1;
+        this->unk_270 = arg2;
+        if (arg2 >= 30) {
+            if (arg2 != 100) {
+                return;
+            }
+        } else {
+            switch (arg2) {
+                case 10:
+                    this->unk_275 = 1;
+                case 9:
+                    frames = SkelAnime_GetFrameCount(&D_060007D0);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
+                    break;
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 8:
+                case 21:
+                case 22:
+                case 24:
+                case 29:
+                    frames = SkelAnime_GetFrameCount(&D_06009F94);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
+                    break;
+                case 7:
+                case 20:
+                case 23:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                    frames = SkelAnime_GetFrameCount(&D_06000718);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
+                    break;
+                default:
+                    break;
+            }
+            return;
+        }
+        frames = SkelAnime_GetFrameCount(&D_0600A630);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
         this->unk_276 = 0;
     }
-    return;
-block_6:
-
-    switch (arg2) {
-        case 9:
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A630), 0,
-                                 -10.0f);
-            return;
-        case 10:
-            this->unk_275 = 1;
-            return;
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 8:
-        case 21:
-        case 22:
-        case 24:
-        case 29:
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06000718, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000718), 0,
-                                 -10.0f);
-
-            return;
-        case 7:
-        case 20:
-        case 23:
-        case 25:
-        case 26:
-        case 27:
-        case 28:
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009F94), 0,
-                                 -10.0f);
-            return;
-        default:
-            return;
-    }
-}*/
+}
 
 void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     s32 pad;
+
     if ((Object_IsLoaded(&globalCtx->objectCtx, this->ObjectAneIndex) != 0) &&
         (Object_IsLoaded(&globalCtx->objectCtx, this->ObjectOsAnimeIndex) != 0)) {
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->ObjectAneIndex].segment);
@@ -181,32 +166,36 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         this->unk_272 = 0;
         this->actor.unk_1F = 6;
-        this->actor.draw = func_80ABB228;
+        this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
                     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f,
-                                         (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_0600A630), 0, 0.0f);
+                                         (s16)(f32)SkelAnime_GetFrameCount(&D_0600A630), 0, 0.0f);
                 } else {
                     SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f,
-                                         (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
+                                         (s16)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
                 } else {
                     this->actionFunc = func_80ABA21C;
                 }
-                break;
+                return;
             case 1:
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f,
-                                     (f32)(s16)(s32)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
+                                     (s16)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
                 this->actionFunc = func_80ABAD38;
-                break;
+                return;
         }
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABA21C.s")
+void func_80ABA21C(EnNiwLady* this, GlobalContext* globalCtx) {
+    this->actor.textId = EnNiwLadyMissingNiwTextIDs[0];
+    this->unk_262 = 6;
+    this->actionFunc = func_80ABA244;
+}
 
 void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     EnNiw* firstNiw;
@@ -250,7 +239,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((this->unk_26C != 0) && (phi_s1 < 7)) {
         phi_s1 = 9;
     }
-    this->actor.textId = D_80ABB3A0[phi_s1];
+    this->actor.textId = EnNiwLadyMissingNiwTextIDs[phi_s1];
     if (Text_GetFaceReaction(globalCtx, 8) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 8);
         this->unk_262 = 6;
@@ -268,7 +257,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n" VT_RST, this->actor.textId);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
         osSyncPrintf("\n\n");
-        if (Text_GetFaceReaction(globalCtx, 8U) == 0) {
+        if (Text_GetFaceReaction(globalCtx, 8) == 0) {
             if (this->actor.textId == 0x503C) {
                 func_80078884(NA_SE_SY_ERROR);
                 this->unk_26C = 2;
@@ -292,10 +281,8 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
             if (this->unk_26A != this->NiwInPen) {
                 if (this->NiwInPen < this->unk_26A) {
                     func_80078884(NA_SE_SY_ERROR);
-                } else {
-                    if (phi_s1 + 1 < 9) {
-                        func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-                    }
+                } else if (phi_s1 + 1 < 9) {
+                    func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
             if (this->unk_26A < this->NiwInPen) {
@@ -331,6 +318,9 @@ void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
     }
 }
 
+static s16 EnNiwLadyTradeItemText[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x5043,
+                                        0x5044, 0x00CF, 0x5045, 0x5042, 0x5027, 0x0000 };
+
 void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
     //☆☆☆☆☆ Adult message check ☆☆☆☆☆
     osSyncPrintf("\x1b[32m☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n\x1b[m", this);
@@ -363,10 +353,10 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
-    Player* player;
+    Player* player = PLAYER;
     s8 playerExchangeItemId;
 
-    player = PLAYER;
+    //player = PLAYER;
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 11;
     }
@@ -474,18 +464,36 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAD38.s")
+void func_80ABAD38(EnNiwLady* this, GlobalContext* globalCtx) {
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 通常メッセージチェック ☆☆☆☆☆ \n" VT_RST);
+    this->unk_262 = 6;
+    this->actionFunc = func_80ABAD7C;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/func_80ABAD7C.s")
+void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
+    this->actor.textId = 0x503D;
+    if (Text_GetFaceReaction(globalCtx, 8U) != 0) {
+        this->actor.textId = Text_GetFaceReaction(globalCtx, 8U);
+    }
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
+        this->unk_26E = (u16)8;
+    }
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
+        this->unk_274 = 1;
+        this->unk_26E = this->unk_27A + 9;
+        this->actionFunc = func_80ABAD38;
+        return;
+    }
+    func_8002F2CC(&this->actor, globalCtx, 100.0f);
+}
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Niw_Lady/EnNiwLady_Update.s")
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = THIS;
     Player* player = PLAYER;
+
     Actor_SetHeight(thisx, 60.0f);
     this->unk_struct.unk_18 = player->actor.posRot.pos;
-
     if (LINK_IS_CHILD) {
         this->unk_struct.unk_18.y = player->actor.posRot.pos.y - 10.0f;
     }
@@ -531,7 +539,6 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 Gfx* func_80ABB0A0(GraphicsContext* gfxCtx) {
-    // Gfx* dListHead;
     Gfx* dList;
 
     dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
@@ -560,9 +567,11 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     return 0;
 }
 
-void func_80ABB228(Actor* thisx, GlobalContext* globalCtx) {
+void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Gfx* D_80ABB408[] = { 0x060008C8, 0x060010C8, 0x060018C8 };
     EnNiwLady* this = THIS;
     s32 pad;
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_lady.c", 1347);
     if (this->unk_27E != 0) {
         func_80093D18(globalCtx->state.gfxCtx);
