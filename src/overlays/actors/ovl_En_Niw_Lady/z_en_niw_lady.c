@@ -350,7 +350,6 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s8 playerExchangeItemId;
 
-    // player = PLAYER;
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 11;
     }
@@ -445,7 +444,7 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
     }
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
     if (gSaveContext.linkAge == 0) {
-        if ((gSaveContext.itemGetInf[2] & 0x1000) == 0) {
+        if (!(gSaveContext.itemGetInf[2] & 0x1000)) {
             gSaveContext.itemGetInf[2] |= 0x1000;
         } else {
             gSaveContext.itemGetInf[2] |= 0x4000;
