@@ -107,6 +107,7 @@ extern UNK_TYPE D_60099700;
 extern UNK_TYPE D_06007630;
 extern UNK_TYPE D_06004F90;
 extern Gfx D_06000EA0[];
+extern UNK_TYPE D_06009610;
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
@@ -323,7 +324,7 @@ void func_8097E824(DemoGt* this, s32 arg1);
 //     // Vec3s* temp_v0_9;
 //     // f32 temp_f6;
 //     s32 pad[4];
-//     DemoGt** new_var;
+//     DemoGt** sp76;
 //     s32 phi_a1;
 //     s32 phi_a2;
 //     s32 phi_a3;
@@ -1098,7 +1099,112 @@ void func_80981114(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 // GFX stuff
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809811AC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_809811AC.s")
+void func_809811AC(DemoGt* this, GlobalContext* globalCtx) {
+    DemoGt* this2 = this;
+    u16 frames = globalCtx->csCtx.frames;
+    GlobalContext* globalCtx2 = globalCtx;
+
+    s16 sp76;
+    
+    f32 sp70;
+    f32 sp6C;
+    
+    s16 sp6A;
+    s16 sp68;
+    
+    Mtx* sp60;
+    Vec3f sp54;
+    Vec3f sp48;
+    
+    f32 sp44;
+
+    if (frames < 301) {
+        GraphicsContext* gfxCtx;
+
+        sp76 = this2->unk_172;
+        sp70 = fabsf(sp76 * (M_PI / 0x8000));
+
+        sp6C = kREG(61);
+        sp68 = (kREG(58) + 0x4000); // this22 makes the bottom part match completely (the &)
+        sp6A = kREG(58);
+
+        gfxCtx = globalCtx2->state.gfxCtx;
+        sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+        sp44 = 1.0f - Math_Coss(sp76);
+
+        OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 217);
+
+        sp54.x = Math_Coss(sp68);
+        sp54.y = 0.0f;
+        sp54.z = Math_Sins(sp68);
+        sp48.x = (Math_Coss(sp6A) * sp6C) * sp44;
+        sp48.y = Math_Sins(sp76) * sp70;
+        sp48.z = (Math_Sins(sp6A) * sp70) * sp44;
+        
+        Matrix_Push();
+
+        func_800D23FC(sp6C, &sp54, 1);
+        Matrix_Translate(sp48.x, sp48.y, sp48.z, 1);
+        Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
+        
+        if (func_800C0D28(globalCtx2) == 0) {
+            func_80980F8C(this2, globalCtx2);
+        }
+
+        Matrix_Pull();
+        func_80093D18(gfxCtx);
+        gSPMatrix(oGfxCtx->polyOpa.p++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06009610);
+        gSPPopMatrixN(oGfxCtx->polyOpa.p++, G_MTX_MODELVIEW, 1);
+        
+        CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 246);
+    }
+}
+// void func_809811AC(DemoGt* this, GlobalContext* globalCtx) {
+//     GlobalContext* globalCtx2 = globalCtx;
+//     f32 sp70;
+//     f32 sp6C;
+//     s16 sp6A;
+//     s16 sp68;
+//     Mtx* sp60;
+//     Vec3f sp54;
+//     Vec3f sp48;
+//     f32 sp44;
+//     GraphicsContext* gfxCtx;
+
+//     if ((globalCtx2->csCtx.frames) < 301) {
+//         sp70 = fabsf((this->unk_172) * (M_PI / 0x8000));
+//         sp6C = kREG(61);
+//         sp68 = kREG(58) + 0x4000;
+//         sp6A = kREG(58);
+//         gfxCtx = globalCtx2->state.gfxCtx;
+
+//         sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+//         sp44 = 1.0f - Math_Coss(sp6A);
+//         OPEN_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 217);
+//         sp54.x = Math_Coss(sp68);
+//         sp54.y = 0.0f;
+//         sp54.z = Math_Sins(sp68);
+//         sp48.x = (Math_Coss(sp6A) * sp6C) * sp44;
+//         sp48.y = Math_Sins(sp6A) * sp6C;
+//         sp48.z = (Math_Sins(sp6A) * sp6C) * sp44;
+//         Matrix_Push();
+//         func_800D23FC(sp70, &sp54, 1);
+//         Matrix_Translate(sp48.x, sp48.y, sp48.z, 1);
+//         Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232 & 0xFFFFFFFF);
+//         if (func_800C0D28(globalCtx2) == 0) {
+//             func_80980F8C(this, globalCtx2);
+//         }
+
+//         Matrix_Pull();
+//         func_80093D18(gfxCtx);
+//         gSPMatrix(oGfxCtx->polyOpa.p++, sp60, (0x01 | 0x02) | 0x00);
+//         gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06009610);
+//         gSPPopMatrixN(oGfxCtx->polyOpa.p++, 0x00, 1);
+//         CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 246);
+//     }
+// }
 
 void func_809813CC(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
