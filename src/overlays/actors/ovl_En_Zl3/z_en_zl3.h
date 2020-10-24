@@ -1,8 +1,8 @@
 #ifndef _Z_EN_ZL3_H_
 #define _Z_EN_ZL3_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 #include "overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
 

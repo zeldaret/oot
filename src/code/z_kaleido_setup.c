@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s16 sKaleidoSetupKscpPos0[] = {
     2,
@@ -48,11 +48,11 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
         gSaveContext.unk_13F0 != 8 && gSaveContext.unk_13F0 != 9 &&
         (globalCtx->sceneNum != SCENE_BOWLING || !Flags_GetSwitch(globalCtx, 0x38))) {
 
-        if (CHECK_PAD(input->cur, L_TRIG) && CHECK_PAD(input->press, U_CBUTTONS)) {
+        if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
             if (BREG(0)) {
                 pauseCtx->flag = 3;
             }
-        } else if (CHECK_PAD(input->press, START_BUTTON)) {
+        } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
             gSaveContext.unk_13EE = gSaveContext.unk_13EA;
             WREG(16) = -0xAF;
             WREG(17) = 0x9B;

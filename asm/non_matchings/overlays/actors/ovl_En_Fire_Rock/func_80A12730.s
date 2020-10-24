@@ -54,7 +54,7 @@ glabel func_80A12730
 /* 00BCC 80A127EC AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 00BD0 80A127F0 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00BD4 80A127F4 87A70032 */  lh      $a3, 0x0032($sp)           
-/* 00BD8 80A127F8 0C00A935 */  jal     func_8002A4D4              
+/* 00BD8 80A127F8 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 00BDC 80A127FC 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00BE0 80A12800 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80A12804:

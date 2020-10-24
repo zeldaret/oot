@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 // like audio_load in sm64, but completely rewritten
 
@@ -9,15 +9,15 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E1618.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E18B0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/Audio_IsBankLoadComplete.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E1928.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/Audio_IsSeqLoadComplete.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E19A0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E1A18.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/Audio_SetBankLoadStatus.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E1A48.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/Audio_SetSeqLoadStatus.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E1A78.s")
 

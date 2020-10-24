@@ -1,6 +1,7 @@
 # Cache files
 __pycache__/
 .pyc
+.DS_Store
 
 # Text editor remnants
 .vscode/

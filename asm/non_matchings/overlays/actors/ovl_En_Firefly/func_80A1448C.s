@@ -18,7 +18,7 @@ glabel func_80A1448C
 /* 01458 80A144C8 24070028 */  addiu   $a3, $zero, 0x0028         ## $a3 = 00000028
 /* 0145C 80A144CC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01460 80A144D0 AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 01464 80A144D4 0C00A935 */  jal     func_8002A4D4              
+/* 01464 80A144D4 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 01468 80A144D8 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 0146C 80A144DC 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 01470 80A144E0 5614FFF7 */  bnel    $s0, $s4, .L80A144C0       

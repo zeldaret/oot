@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void __osDequeueThread(OSThread** queue, OSThread* thread) {
     register OSThread** a2;

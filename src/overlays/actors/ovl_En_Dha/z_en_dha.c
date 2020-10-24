@@ -146,7 +146,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         this->unk_1D6.x = this->unk_1D0.y;
         if (Math_Vec3f_DistXYZ(&playerPos, &this->unk_1DC) <= 12.0f) {
             if (this->unk_1CC == 0) {
-                if (globalCtx->unk_11D4C(globalCtx, player) != 0) {
+                if (globalCtx->grabPlayer(globalCtx, player) != 0) {
                     this->unk_1CA = 0;
                     this->unk_1CC++;
                     if (this->actor.parent != NULL) {

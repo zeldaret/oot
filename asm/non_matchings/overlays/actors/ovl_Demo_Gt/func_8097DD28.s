@@ -137,7 +137,7 @@ glabel func_8097DD28
 /* 0088C 8097DEFC AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00890 8097DF00 AFB40030 */  sw      $s4, 0x0030($sp)           
 /* 00894 8097DF04 AFBE003C */  sw      $s8, 0x003C($sp)           
-/* 00898 8097DF08 0C00A7A3 */  jal     func_80029E8C
+/* 00898 8097DF08 0C00A7A3 */  jal     EffectSsKakera_Spawn
               
 /* 0089C 8097DF0C AFA80024 */  sw      $t0, 0x0024($sp)           
 /* 008A0 8097DF10 26312000 */  addiu   $s1, $s1, 0x2000           ## $s1 = 00002000

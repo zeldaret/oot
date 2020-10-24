@@ -34,8 +34,8 @@ glabel func_800F491C
 /* B6BB34 800F4994 0C03E803 */  jal   Audio_SetBGM
 /* B6BB38 800F4998 00412025 */   or    $a0, $v0, $at
 /* B6BB3C 800F499C 3C128017 */  lui   $s2, %hi(gAudioContext) # $s2, 0x8017
-/* B6BB40 800F49A0 3C118017 */  lui   $s1, %hi(D_80174C30) # $s1, 0x8017
-/* B6BB44 800F49A4 26314C30 */  addiu $s1, %lo(D_80174C30) # addiu $s1, $s1, 0x4c30
+/* B6BB40 800F49A0 3C118017 */  lui   $s1, %hi(gAudioContext+0x5AB0) # $s1, 0x8017
+/* B6BB44 800F49A4 26314C30 */  addiu $s1, %lo(gAudioContext+0x5AB0) # addiu $s1, $s1, 0x4c30
 /* B6BB48 800F49A8 2652F180 */  addiu $s2, %lo(gAudioContext) # addiu $s2, $s2, -0xe80
 /* B6BB4C 800F49AC 00008025 */  move  $s0, $zero
 /* B6BB50 800F49B0 3C140500 */  lui   $s4, 0x500

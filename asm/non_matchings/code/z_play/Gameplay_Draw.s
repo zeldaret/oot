@@ -362,7 +362,7 @@ glabel Gameplay_Draw
 /* B364C4 800BF324 02012021 */  addu  $a0, $s0, $at
 /* B364C8 800BF328 8E2702DC */  lw    $a3, 0x2dc($s1)
 /* B364CC 800BF32C AFA4003C */  sw    $a0, 0x3c($sp)
-/* B364D0 800BF330 0C0303B6 */  jal   func_800C0ED8
+/* B364D0 800BF330 0C0303B6 */  jal   PreRender_SetValues
 /* B364D4 800BF334 AFAA0010 */   sw    $t2, 0x10($sp)
 /* B364D8 800BF338 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B364DC 800BF33C 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
@@ -372,7 +372,7 @@ glabel Gameplay_Draw
 /* B364EC 800BF34C 28610004 */   slti  $at, $v1, 4
 /* B364F0 800BF350 0C01EFC4 */  jal   MsgEvent_SendNullTask
 /* B364F4 800BF354 00000000 */   nop
-/* B364F8 800BF358 0C030DDC */  jal   func_800C3770
+/* B364F8 800BF358 0C030DDC */  jal   PreRender_Calc
 /* B364FC 800BF35C 8FA4003C */   lw    $a0, 0x3c($sp)
 /* B36500 800BF360 3C0C8016 */  lui   $t4, %hi(gGameInfo) # $t4, 0x8016
 /* B36504 800BF364 8D8CFA90 */  lw    $t4, %lo(gGameInfo)($t4)
@@ -530,15 +530,15 @@ glabel Gameplay_Draw
 /* B36728 800BF588 1160000E */  beqz  $t3, .L800BF5C4
 /* B3672C 800BF58C 260407A8 */   addiu $a0, $s0, 0x7a8
 .L800BF590:
-/* B36730 800BF590 0C01E9B1 */  jal   Lights_CreateMapper
+/* B36730 800BF590 0C01E9B1 */  jal   LightContext_NewLights
 /* B36734 800BF594 02202825 */   move  $a1, $s1
 /* B36738 800BF598 AFA20228 */  sw    $v0, 0x228($sp)
 /* B3673C 800BF59C 8E0507A8 */  lw    $a1, 0x7a8($s0)
 /* B36740 800BF5A0 00402025 */  move  $a0, $v0
-/* B36744 800BF5A4 0C01E91D */  jal   func_8007A474
+/* B36744 800BF5A4 0C01E91D */  jal   Lights_BindAll
 /* B36748 800BF5A8 00003025 */   move  $a2, $zero
 /* B3674C 800BF5AC 8FA40228 */  lw    $a0, 0x228($sp)
-/* B36750 800BF5B0 0C01E7BF */  jal   func_80079EFC
+/* B36750 800BF5B0 0C01E7BF */  jal   Lights_Draw
 /* B36754 800BF5B4 02202825 */   move  $a1, $s1
 /* B36758 800BF5B8 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B3675C 800BF5BC 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

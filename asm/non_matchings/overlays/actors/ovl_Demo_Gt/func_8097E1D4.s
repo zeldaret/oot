@@ -152,7 +152,7 @@ glabel func_8097E1D4
 /* 00D6C 8097E3DC AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00D70 8097E3E0 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00D74 8097E3E4 AFB50030 */  sw      $s5, 0x0030($sp)           
-/* 00D78 8097E3E8 0C00A7A3 */  jal     func_80029E8C
+/* 00D78 8097E3E8 0C00A7A3 */  jal     EffectSsKakera_Spawn
               
 /* 00D7C 8097E3EC AFA80024 */  sw      $t0, 0x0024($sp)           
 /* 00D80 8097E3F0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

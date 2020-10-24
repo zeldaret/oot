@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void func_80110990(GlobalContext* globalCtx) {
     Map_Destroy(globalCtx);

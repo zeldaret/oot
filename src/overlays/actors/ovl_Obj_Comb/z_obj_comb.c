@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_comb.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000000
 
@@ -57,14 +58,14 @@ extern Gfx D_05009940[];
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
-    Vec3f posSum;
-    Vec3f pos2;
+    Vec3f pos;
+    Vec3f velocity;
     Gfx** dlist = D_05009940;
     s16 scale;
     s16 angle = 0;
-    s16 gravityInfluence;
-    u8 u0;
-    u8 rotSpeed;
+    s16 gravity;
+    u8 arg5;
+    u8 arg6;
     f32 rand1;
     f32 rand2;
     s32 i;
@@ -77,40 +78,43 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         pos1.y = (i - 15) * 0.7f;
         pos1.z = Math_Coss(angle) * rand1;
 
-        Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &posSum);
+        Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &pos);
 
-        pos2.x = (Math_Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
-        pos2.y = (Math_Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
-        pos2.z = (Math_Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
+        velocity.x = (Math_Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
+        velocity.y = (Math_Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
+        velocity.z = (Math_Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
 
         scale = Math_Rand_ZeroOne() * 72.0f + 25.0f;
+
         if (scale < 40) {
-            gravityInfluence = -200;
-            rotSpeed = 40;
+            gravity = -200;
+            arg6 = 40;
         } else if (scale < 70) {
-            gravityInfluence = -280;
-            rotSpeed = 30;
+            gravity = -280;
+            arg6 = 30;
         } else {
-            gravityInfluence = -340;
-            rotSpeed = 20;
+            gravity = -340;
+            arg6 = 20;
         }
 
         rand2 = Math_Rand_ZeroOne();
+
         if (rand2 < 0.1f) {
-            u0 = 96;
+            arg5 = 96;
         } else if (rand2 < 0.8f) {
-            u0 = 64;
+            arg5 = 64;
         } else {
-            u0 = 32;
+            arg5 = 32;
         }
-        func_80029E8C(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80, -1, 2,
-                      dlist);
+
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, gravity, arg5, arg6, 4, 0, scale, 0, 0, 80,
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, dlist);
     }
 
-    posSum.x = this->actor.posRot.pos.x;
-    posSum.y = this->actor.posRot.pos.y - 10.0f;
-    posSum.z = this->actor.posRot.pos.z;
-    func_80033480(globalCtx, &posSum, 40.0f, 6, 70, 60, 1);
+    pos.x = this->actor.posRot.pos.x;
+    pos.y = this->actor.posRot.pos.y - 10.0f;
+    pos.z = this->actor.posRot.pos.z;
+    func_80033480(globalCtx, &pos, 40.0f, 6, 70, 60, 1);
 }
 
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {

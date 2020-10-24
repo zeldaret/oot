@@ -107,7 +107,7 @@ glabel func_80A4A6AC
 /* 01964 80A4A824 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 01968 80A4A828 26050038 */  addiu   $a1, $s0, 0x0038           ## $a1 = 00000038
 /* 0196C 80A4A82C A3A3002F */  sb      $v1, 0x002F($sp)           
-/* 01970 80A4A830 0C00A66B */  jal     func_800299AC              
+/* 01970 80A4A830 0C00A66B */  jal     EffectSsSibuki_SpawnBurst              
 /* 01974 80A4A834 AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 01978 80A4A838 93A3002F */  lbu     $v1, 0x002F($sp)           
 /* 0197C 80A4A83C 10000002 */  beq     $zero, $zero, .L80A4A848   

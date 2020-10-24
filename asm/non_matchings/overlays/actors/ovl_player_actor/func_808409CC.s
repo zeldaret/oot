@@ -1,6 +1,6 @@
 .late_rodata
 glabel D_8085540C
- .word 0x3F2AAAAB
+    .float 0.666666686535
 
 .text
 glabel func_808409CC
@@ -88,7 +88,7 @@ glabel func_808409CC
 /* 0E8E0 80840AF0 10410007 */  beq     $v0, $at, .L80840B10
 /* 0E8E4 80840AF4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0E8E8 80840AF8 AFA30034 */  sw      $v1, 0x0034($sp)
-/* 0E8EC 80840AFC 0C023C60 */  jal     func_8008F180
+/* 0E8EC 80840AFC 0C023C60 */  jal     Player_GetSwordHeld
 /* 0E8F0 80840B00 AFA50038 */  sw      $a1, 0x0038($sp)
 /* 0E8F4 80840B04 8FA30034 */  lw      $v1, 0x0034($sp)
 /* 0E8F8 80840B08 10400009 */  beq     $v0, $zero, .L80840B30
@@ -96,7 +96,7 @@ glabel func_808409CC
 .L80840B10:
 /* 0E900 80840B10 14600006 */  bne     $v1, $zero, .L80840B2C
 /* 0E904 80840B14 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0E908 80840B18 0C023C68 */  jal     func_8008F1A0
+/* 0E908 80840B18 0C023C68 */  jal     Player_HoldsTwoHandedWeapon
 /* 0E90C 80840B1C AFA30034 */  sw      $v1, 0x0034($sp)
 /* 0E910 80840B20 10400002 */  beq     $v0, $zero, .L80840B2C
 /* 0E914 80840B24 8FA30034 */  lw      $v1, 0x0034($sp)

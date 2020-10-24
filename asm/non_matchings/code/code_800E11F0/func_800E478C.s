@@ -1,7 +1,7 @@
 glabel func_800E478C
 /* B5B92C 800E478C 27BDFFC8 */  addiu $sp, $sp, -0x38
-/* B5B930 800E4790 3C0E8017 */  lui   $t6, %hi(D_801719C4) # $t6, 0x8017
-/* B5B934 800E4794 8DCE19C4 */  lw    $t6, %lo(D_801719C4)($t6)
+/* B5B930 800E4790 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x2844) # $t6, 0x8017
+/* B5B934 800E4794 8DCE19C4 */  lw    $t6, %lo(gAudioContext+0x2844)($t6)
 /* B5B938 800E4798 00047880 */  sll   $t7, $a0, 2
 /* B5B93C 800E479C 01E47821 */  addu  $t7, $t7, $a0
 /* B5B940 800E47A0 000F7880 */  sll   $t7, $t7, 2

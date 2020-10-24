@@ -186,7 +186,7 @@ glabel func_80ABE040
 /* 01708 80ABE2B8 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000000
 /* 0170C 80ABE2BC 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFBC
 /* 01710 80ABE2C0 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
-/* 01714 80ABE2C4 0C00A935 */  jal     func_8002A4D4              
+/* 01714 80ABE2C4 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 01718 80ABE2C8 E7B20084 */  swc1    $f18, 0x0084($sp)          
 .L80ABE2CC:
 /* 0171C 80ABE2CC 8FBF0064 */  lw      $ra, 0x0064($sp)           

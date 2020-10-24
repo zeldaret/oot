@@ -25,7 +25,7 @@ glabel func_808106F4
 /* 0CA0C 8081074C 3C018016 */  lui     $at, %hi(gSaveContext+0x1354)
 /* 0CA10 80810750 260401E0 */  addiu   $a0, $s0, 0x01E0           ## $a0 = 000001E0
 /* 0CA14 80810754 84584A38 */  lh      $t8, 0x4A38($v0)           ## 00004A38
-/* 0CA18 80810758 0C02A121 */  jal     func_800A8484              
+/* 0CA18 80810758 0C02A121 */  jal     Sram_OpenSave              
 /* 0CA1C 8081075C AC38F9B4 */  sw      $t8, %lo(gSaveContext+0x1354)($at)
 /* 0CA20 80810760 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 0CA24 80810764 2442E660 */  addiu   $v0, %lo(gSaveContext)
@@ -55,7 +55,7 @@ glabel func_808106F4
 /* 0CA7C 808107BC 3C018016 */  lui     $at, %hi(gSaveContext+0x1354)
 /* 0CA80 808107C0 260401E0 */  addiu   $a0, $s0, 0x01E0           ## $a0 = 000001E0
 /* 0CA84 808107C4 844A4A38 */  lh      $t2, 0x4A38($v0)           ## 00004A38
-/* 0CA88 808107C8 0C02A121 */  jal     func_800A8484              
+/* 0CA88 808107C8 0C02A121 */  jal     Sram_OpenSave              
 /* 0CA8C 808107CC AC2AF9B4 */  sw      $t2, %lo(gSaveContext+0x1354)($at)
 /* 0CA90 808107D0 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 0CA94 808107D4 2442E660 */  addiu   $v0, %lo(gSaveContext)

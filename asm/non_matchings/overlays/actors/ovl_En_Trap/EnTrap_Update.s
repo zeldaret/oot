@@ -103,7 +103,7 @@ glabel EnTrap_Update
 /* 00520 80B24B80 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00524 80B24B84 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFD4
 /* 00528 80B24B88 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 0052C 80B24B8C 0C00A850 */  jal     func_8002A140              
+/* 0052C 80B24B8C 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 00530 80B24B90 E7B00028 */  swc1    $f16, 0x0028($sp)          
 /* 00534 80B24B94 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 00538 80B24B98 44812000 */  mtc1    $at, $f4                   ## $f4 = 10.00
@@ -133,7 +133,7 @@ glabel EnTrap_Update
 /* 00598 80B24BF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0059C 80B24BFC 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFD4
 /* 005A0 80B24C00 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 005A4 80B24C04 0C00A850 */  jal     func_8002A140              
+/* 005A4 80B24C04 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 005A8 80B24C08 E7B20028 */  swc1    $f18, 0x0028($sp)          
 /* 005AC 80B24C0C 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 005B0 80B24C10 44813000 */  mtc1    $at, $f6                   ## $f6 = 20.00
@@ -158,7 +158,7 @@ glabel EnTrap_Update
 /* 005FC 80B24C5C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00600 80B24C60 27A6007C */  addiu   $a2, $sp, 0x007C           ## $a2 = FFFFFFD4
 /* 00604 80B24C64 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 00608 80B24C68 0C00A850 */  jal     func_8002A140              
+/* 00608 80B24C68 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 0060C 80B24C6C E7AA0028 */  swc1    $f10, 0x0028($sp)          
 /* 00610 80B24C70 87A8008A */  lh      $t0, 0x008A($sp)           
 /* 00614 80B24C74 87A90094 */  lh      $t1, 0x0094($sp)           

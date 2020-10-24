@@ -1,9 +1,9 @@
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 void (*sKaleidoScopeUpdateFunc)(GlobalContext*);
 void (*sKaleidoScopeDrawFunc)(GlobalContext*);
-float D_80161398;
+f32 D_80161398;
 u32 D_8016139C;
 void* D_801613A0;
 

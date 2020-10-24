@@ -73,7 +73,7 @@ glabel func_809E0C8C
 .L809E0D84:
 /* 00B44 809E0D84 5100001B */  beql    $t0, $zero, .L809E0DF4     
 /* 00B48 809E0D88 92020248 */  lbu     $v0, 0x0248($s0)           ## 00000248
-/* 00B4C 809E0D8C 0C023C20 */  jal     func_8008F080              
+/* 00B4C 809E0D8C 0C023C20 */  jal     Player_GetMask              
 /* 00B50 809E0D90 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00B54 809E0D94 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 00B58 809E0D98 50410016 */  beql    $v0, $at, .L809E0DF4       

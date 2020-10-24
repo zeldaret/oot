@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -9,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
 VisMono D_80161498;
-Color_RGBA8 D_801614B0;
+Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
 u64 D_801614D0[0xA00];
@@ -147,8 +146,8 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
                 globalCtx->lightCtx.unk_0A, 1000);
 }
 
-void Gameplay_Destroy(GlobalContext* globalCtx) {
-    s32 pad;
+void Gameplay_Destroy(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
     Player* player = PLAYER;
 
     globalCtx->state.gfxCtx->callback = NULL;
@@ -156,7 +155,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     SREG(91) = 0;
     R_PAUSE_MENU_MODE = 0;
 
-    func_800C0F08(&globalCtx->preRenderCtx);
+    PreRender_Destroy(&globalCtx->preRenderCtx);
     Effect_DeleteAll(globalCtx);
     EffectSs_ClearAll(globalCtx);
     CollisionCheck_DestroyContext(globalCtx, &globalCtx->colChkCtx);
@@ -178,7 +177,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
 
     if (gSaveContext.linkAge != globalCtx->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
-        func_8008ECAC(globalCtx, player);
+        Player_SetEquipmentData(globalCtx, player);
     }
 
     func_80031C3C(&globalCtx->actorCtx, globalCtx);
@@ -192,7 +191,8 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc and stack usage differences
 // also missing some extra duplicated instructions
-void Gameplay_Init(GlobalContext* globalCtx) {
+void Gameplay_Init(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
     GraphicsContext* gfxCtx;
     void* zAlloc; // 0x84
     void* zAllocAligned;
@@ -235,7 +235,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     globalCtx->cameraPtrs[0]->uid = 0;
     globalCtx->activeCamera = 0;
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
-    func_800A9D28(globalCtx, &globalCtx->sub_1F74);
+    Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
     func_80110450(globalCtx);
@@ -318,7 +318,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {
-            gSaveContext.unk_14++;
+            gSaveContext.numDays++;
             gSaveContext.unk_18++;
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
@@ -333,9 +333,9 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     SREG(91) = -1;
     R_PAUSE_MENU_MODE = 0;
-    func_800C0EA8(&globalCtx->preRenderCtx);
-    func_800C0E70(&globalCtx->preRenderCtx, 0x140, 0xF0, 0, 0, 0);
-    func_800C0ED8(&globalCtx->preRenderCtx, 0x140, 0xF0, 0, 0);
+    PreRender_Init(&globalCtx->preRenderCtx);
+    PreRender_SetValuesSave(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0);
+    PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
     func_8008E6A0(&globalCtx->sub_7B8);
@@ -921,11 +921,11 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if (globalCtx->unk_1242B != 0) {
-                if (CHECK_PAD(input[0].press, U_CBUTTONS)) {
+                if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
-                    } else if (func_8008E988(globalCtx)) {
+                    } else if (Player_InCsMode(globalCtx)) {
                         // Translates to: "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (YREG(15) == 0x10) {
@@ -1071,7 +1071,7 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 // regalloc, stack usage and minor ordering differences
 void Gameplay_Draw(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    LightMapper* sp228;
+    Lights* sp228;
     Vec3f sp21C;
 
     OPEN_DISPS(gfxCtx, "../z_play.c", 3907);
@@ -1158,11 +1158,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             oGfxCtx->polyOpa.p = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
-            func_800C0ED8(&globalCtx->preRenderCtx, 0x140, 0xF0, gfxCtx->curFrameBuffer, gZBuffer);
+            PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer,
+                                gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
                 MsgEvent_SendNullTask();
-                func_800C3770(&globalCtx->preRenderCtx);
+                PreRender_Calc(&globalCtx->preRenderCtx);
                 R_PAUSE_MENU_MODE = 3;
             } else if (R_PAUSE_MENU_MODE >= 4) {
                 R_PAUSE_MENU_MODE = 0;
@@ -1208,9 +1209,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
-                    sp228 = Lights_CreateMapper(&globalCtx->lightCtx, gfxCtx);
-                    func_8007A474(sp228, globalCtx->lightCtx.lightsHead, 0);
-                    func_80079EFC(sp228, gfxCtx);
+                    sp228 = LightContext_NewLights(&globalCtx->lightCtx, gfxCtx);
+                    Lights_BindAll(sp228, globalCtx->lightCtx.listHead, NULL);
+                    Lights_Draw(sp228, gfxCtx);
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
@@ -1286,19 +1287,19 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
-                    Gfx* sp70 = oGfxCtx->overlay.p;
-                    globalCtx->preRenderCtx.unk_10 = gfxCtx->curFrameBuffer;
-                    globalCtx->preRenderCtx.unk_14 = gZBuffer;
+                    Gfx* sp70 = gfxCtx->overlay.p;
+                    globalCtx->preRenderCtx.fbuf = gfxCtx->curFrameBuffer;
+                    globalCtx->preRenderCtx.fbufSave = gZBuffer;
                     func_800C1F20(&globalCtx->preRenderCtx, &sp70);
                     if (R_PAUSE_MENU_MODE == 1) {
-                        globalCtx->preRenderCtx.unk_18 = gfxCtx->curFrameBuffer;
+                        globalCtx->preRenderCtx.cvgSave = gfxCtx->curFrameBuffer;
                         func_800C20B4(&globalCtx->preRenderCtx, &sp70);
                         R_PAUSE_MENU_MODE = 2;
                     } else {
                         gTrnsnUnkState = 2;
                     }
-                    oGfxCtx->overlay.p = sp70;
-                    globalCtx->preRenderCtx.unk_A3 = 2;
+                    gfxCtx->overlay.p = sp70;
+                    globalCtx->unk_121C7 = 2;
                     SREG(33) |= 1;
                 } else {
                 Gameplay_Draw_DrawOverlayElements:
@@ -1329,7 +1330,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/Gameplay_Draw.s")
 #endif
 
-void Gameplay_Main(GlobalContext* globalCtx) {
+void Gameplay_Main(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
+    
     D_8012D1F8 = &globalCtx->state.input[0];
 
     DebugDisplay_Init();
@@ -1372,7 +1375,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
 
 // original name: "Game_play_demo_mode_check"
 s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
-    return (globalCtx->csCtx.state != 0) || func_8008E988(globalCtx);
+    return (globalCtx->csCtx.state != 0) || Player_InCsMode(globalCtx);
 }
 
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
@@ -1467,7 +1470,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->setupPathList = NULL;
     globalCtx->nbSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
-    func_8007A614(globalCtx, &globalCtx->lightCtx);
+    LightContext_Init(globalCtx, &globalCtx->lightCtx);
     func_80098CBC(globalCtx, &globalCtx->nbTransitionActors);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
     YREG(15) = 0;
@@ -1724,12 +1727,12 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 }
 
 void Gameplay_SaveSceneFlags(GlobalContext* globalCtx) {
-    SaveSceneFlags* sceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
+    SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
 
-    sceneFlags->chest = globalCtx->actorCtx.flags.chest;
-    sceneFlags->swch = globalCtx->actorCtx.flags.swch;
-    sceneFlags->clear = globalCtx->actorCtx.flags.clear;
-    sceneFlags->collect = globalCtx->actorCtx.flags.collect;
+    savedSceneFlags->chest = globalCtx->actorCtx.flags.chest;
+    savedSceneFlags->swch = globalCtx->actorCtx.flags.swch;
+    savedSceneFlags->clear = globalCtx->actorCtx.flags.clear;
+    savedSceneFlags->collect = globalCtx->actorCtx.flags.collect;
 }
 
 void Gameplay_SetRespawnData(GlobalContext* globalCtx, s32 respawnMode, s16 entranceIndex, s32 roomIndex,
@@ -1801,18 +1804,20 @@ s32 func_800C0D28(GlobalContext* globalCtx) {
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
     TransitionActorEntry* transitionActor;
+    s32 frontRoom;
 
     if (actor->type != ACTORTYPE_DOOR) {
         return 0;
     }
 
     transitionActor = &globalCtx->transitionActorList[(u16)actor->params >> 10];
+    frontRoom = transitionActor->sides[0].room;
 
-    if (transitionActor->backRoom == transitionActor->frontRoom) {
+    if (frontRoom == transitionActor->sides[1].room) {
         return 0;
     }
 
-    if (actor->room == transitionActor->frontRoom) {
+    if (frontRoom == actor->room) {
         *yaw = actor->shape.rot.y;
     } else {
         *yaw = actor->shape.rot.y + 0x8000;

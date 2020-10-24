@@ -1,8 +1,8 @@
 #ifndef _Z_BG_HIDAN_RSEKIZOU_H_
 #define _Z_BG_HIDAN_RSEKIZOU_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgHidanRsekizou;
 

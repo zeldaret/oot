@@ -596,7 +596,7 @@ glabel Fishing_Init
 /* 013B8 80B6AD58 35090009 */  ori     $t1, $t0, 0x0009           ## $t1 = 00000009
 /* 013BC 80B6AD5C AE490004 */  sw      $t1, 0x0004($s2)           ## 00000004
 /* 013C0 80B6AD60 266507A8 */  addiu   $a1, $s3, 0x07A8           ## $a1 = 000007A8
-/* 013C4 80B6AD64 0C01E9D9 */  jal     Lights_Insert
+/* 013C4 80B6AD64 0C01E9D9 */  jal     LightContext_InsertLight
 
 /* 013C8 80B6AD68 26460220 */  addiu   $a2, $s2, 0x0220           ## $a2 = 00000220
 /* 013CC 80B6AD6C 1000004A */  beq     $zero, $zero, .L80B6AE98

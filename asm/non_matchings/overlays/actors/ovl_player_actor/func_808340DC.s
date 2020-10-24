@@ -12,7 +12,7 @@ glabel func_808340DC
 /* 01ED4 808340E4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01ED8 808340E8 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 01EDC 808340EC AFA50054 */  sw      $a1, 0x0054($sp)
-/* 01EE0 808340F0 0C20CDC9 */  jal     func_80833724
+/* 01EE0 808340F0 0C20CDC9 */  jal     Player_ItemToActionParam
 /* 01EE4 808340F4 90840152 */  lbu     $a0, 0x0152($a0)           ## 00000152
 /* 01EE8 808340F8 3C058083 */  lui     $a1, %hi(func_80834A2C)    ## $a1 = 80830000
 /* 01EEC 808340FC 24A54A2C */  addiu   $a1, $a1, %lo(func_80834A2C) ## $a1 = 80834A2C
@@ -23,8 +23,8 @@ glabel func_808340DC
 /* 01F00 80834110 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
 /* 01F04 80834114 92190158 */  lbu     $t9, 0x0158($s0)           ## 00000158
 /* 01F08 80834118 01C50019 */  multu   $t6, $a1
-/* 01F0C 8083411C 3C048012 */  lui     $a0, %hi(D_80125C98)
-/* 01F10 80834120 24845C98 */  addiu   $a0, %lo(D_80125C98)
+/* 01F0C 8083411C 3C048012 */  lui     $a0, %hi(gPlayerModelTypes)
+/* 01F10 80834120 24845C98 */  addiu   $a0, %lo(gPlayerModelTypes)
 /* 01F14 80834124 83A70037 */  lb      $a3, 0x0037($sp)
 /* 01F18 80834128 3C038085 */  lui     $v1, %hi(D_80854164)       ## $v1 = 80850000
 /* 01F1C 8083412C 2406001E */  addiu   $a2, $zero, 0x001E         ## $a2 = 0000001E

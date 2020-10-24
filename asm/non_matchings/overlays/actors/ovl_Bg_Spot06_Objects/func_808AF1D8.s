@@ -122,7 +122,7 @@ glabel func_808AF1D8
 /* 00BD8 808AF358 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00BDC 808AF35C 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00BE0 808AF360 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00BE4 808AF364 0C00A527 */  jal     func_8002949C              
+/* 00BE4 808AF364 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00BE8 808AF368 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00BEC 808AF36C 10000034 */  beq     $zero, $zero, .L808AF440   
 /* 00BF0 808AF370 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -1,36 +1,9 @@
 #!/usr/bin/env python3
 import sys
-import re
-import os
-import ast
-import argparse
-import subprocess
-import collections
-import difflib
-import string
-import itertools
-import threading
-import queue
-import time
-
 
 def fail(msg):
     print(msg, file=sys.stderr)
     sys.exit(1)
-
-
-MISSING_PREREQUISITES = (
-    "Missing prerequisite python module {}. "
-    "Run `python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein cxxfilt` to install prerequisites (cxxfilt only needed with --source)."
-)
-
-try:
-    import attr
-    from colorama import Fore, Style, Back
-    import ansiwrap
-    import watchdog
-except ModuleNotFoundError as e:
-    fail(MISSING_PREREQUISITES.format(e.name))
 
 # Prefer to use diff_settings.py from the current working directory
 sys.path.insert(0, ".")
@@ -38,11 +11,61 @@ try:
     import diff_settings
 except ModuleNotFoundError:
     fail("Unable to find diff_settings.py in the same directory.")
+sys.path.pop(0)
 
-# ==== CONFIG ====
+# ==== COMMAND-LINE ====
+
+try:
+    import argcomplete  # type: ignore
+except ModuleNotFoundError:
+    argcomplete = None
+import argparse
 
 parser = argparse.ArgumentParser(description="Diff MIPS assembly.")
-parser.add_argument("start", help="Function name or address to start diffing from.")
+
+start_argument = parser.add_argument("start", help="Function name or address to start diffing from.")
+if argcomplete:
+    def complete_symbol(**kwargs):
+        prefix = kwargs["prefix"]
+        if prefix == "":
+            # skip reading the map file, which would
+            # result in a lot of useless completions
+            return []
+        parsed_args = kwargs["parsed_args"]
+        config = {}
+        diff_settings.apply(config, parsed_args)
+        mapfile = config.get("mapfile")
+        if not mapfile:
+            return []
+        completes = []
+        with open(mapfile) as f:
+            data = f.read()
+            # assume symbols are prefixed by a space character
+            search = f" {prefix}"
+            pos = data.find(search)
+            while pos != -1:
+                # skip the space character in the search string
+                pos += 1
+                # assume symbols are suffixed by either a space
+                # character or a (unix-style) line return
+                spacePos = data.find(" ", pos)
+                lineReturnPos = data.find("\n", pos)
+                if lineReturnPos == -1:
+                    endPos = spacePos
+                elif spacePos == -1:
+                    endPos = lineReturnPos
+                else:
+                    endPos = min(spacePos, lineReturnPos)
+                if endPos == -1:
+                    match = data[pos:]
+                    pos = -1
+                else:
+                    match = data[pos:endPos]
+                    pos = data.find(search, endPos)
+                completes.append(match)
+        return completes
+    start_argument.completer = complete_symbol
+
 parser.add_argument("end", nargs="?", help="Address to end diff at.")
 parser.add_argument(
     "-o",
@@ -52,6 +75,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "-e",
+    "--elf",
     dest="diff_elf_symbol",
     help="Diff a given function in two ELFs, one being stripped and the other one non-stripped. Requires objdump from binutils 2.33+.",
 )
@@ -133,6 +157,14 @@ parser.add_argument(
     "Recommended in combination with -m.",
 )
 parser.add_argument(
+    "-3",
+    "--threeway",
+    dest="threeway",
+    action="store_true",
+    help="Show a three-way diff between target asm, current asm, and asm "
+    "prior to -w rebuild. Requires -w.",
+)
+parser.add_argument(
     "--width",
     dest="column_width",
     type=int,
@@ -146,7 +178,6 @@ parser.add_argument(
     choices=["levenshtein", "difflib"],
     help="Diff algorithm to use.",
 )
-
 parser.add_argument(
     "--max-size",
     "--max-lines",
@@ -158,12 +189,44 @@ parser.add_argument(
 
 # Project-specific flags, e.g. different versions/make arguments.
 if hasattr(diff_settings, "add_custom_arguments"):
-    diff_settings.add_custom_arguments(parser)
+    diff_settings.add_custom_arguments(parser)  # type: ignore
+
+if argcomplete:
+    argcomplete.autocomplete(parser)
+
+# ==== IMPORTS ====
+
+import re
+import os
+import ast
+import subprocess
+import difflib
+import string
+import itertools
+import threading
+import queue
+import time
+from typing import Any, Dict, List, NamedTuple, Optional, Set, Tuple, Union
+
+
+MISSING_PREREQUISITES = (
+    "Missing prerequisite python module {}. "
+    "Run `python3 -m pip install --user colorama ansiwrap watchdog python-Levenshtein cxxfilt` to install prerequisites (cxxfilt only needed with --source)."
+)
+
+try:
+    from colorama import Fore, Style, Back  # type: ignore
+    import ansiwrap  # type: ignore
+    import watchdog  # type: ignore
+except ModuleNotFoundError as e:
+    fail(MISSING_PREREQUISITES.format(e.name))
+
+# ==== CONFIG ====
 
 args = parser.parse_args()
 
 # Set imgs, map file and make flags in a project-specific manner.
-config = {}
+config: Dict[str, Any] = {}
 diff_settings.apply(config, args)
 
 arch = config.get("arch", "mips")
@@ -199,13 +262,13 @@ FS_WATCH_EXTENSIONS = [".c", ".h"]
 
 if args.algorithm == "levenshtein":
     try:
-        import Levenshtein
+        import Levenshtein  # type: ignore
     except ModuleNotFoundError as e:
         fail(MISSING_PREREQUISITES.format(e.name))
 
 if args.source:
     try:
-        import cxxfilt
+        import cxxfilt  # type: ignore
     except ModuleNotFoundError as e:
         fail(MISSING_PREREQUISITES.format(e.name))
 
@@ -538,22 +601,21 @@ def process_mips_reloc(row, prev):
     return before + repl + after
 
 
-def cleanup_whitespace(line):
-    return "".join(f"{o:<8s}" for o in line.strip().split("\t"))
+def pad_mnemonic(line):
+    if "\t" not in line:
+        return line
+    mn, args = line.split("\t", 1)
+    return f"{mn:<7s} {args}"
 
 
-Line = collections.namedtuple(
-    "Line",
-    [
-        "mnemonic",
-        "diff_row",
-        "original",
-        "line_num",
-        "branch_target",
-        "source_lines",
-        "comment",
-    ],
-)
+class Line(NamedTuple):
+    mnemonic: str
+    diff_row: str
+    original: str
+    line_num: str
+    branch_target: Optional[str]
+    source_lines: List[str]
+    comment: Optional[str]
 
 
 def process(lines):
@@ -565,6 +627,7 @@ def process(lines):
             lines.pop()
 
     output = []
+    stop_after_delay_slot = False
     for row in lines:
         if args.diff_obj and (">:" in row or not row):
             continue
@@ -634,18 +697,15 @@ def process(lines):
         source_lines = []
 
         if args.stop_jrra and mnemonic == "jr" and row_parts[1].strip() == "ra":
+            stop_after_delay_slot = True
+        elif stop_after_delay_slot:
             break
-
-    # Cleanup whitespace, after relocation fixups have happened
-    output = [
-        line._replace(original=cleanup_whitespace(line.original)) for line in output
-    ]
 
     return output
 
 
 def format_single_line_diff(line1, line2, column_width):
-    return f"{ansi_ljust(line1,column_width)}{ansi_ljust(line2,column_width)}"
+    return f"{ansi_ljust(line1,column_width)}{line2}"
 
 
 class SymbolColorer:
@@ -743,11 +803,27 @@ def diff_sequences(seq1, seq2):
     return Levenshtein.opcodes(seq1, seq2)
 
 
-def do_diff(basedump, mydump):
-    output = []
+class OutputLine:
+    base: Optional[str]
+    fmt2: str
+    key2: str
 
-    # TODO: status line?
-    # output.append(sha1sum(mydump))
+    def __init__(self, base: Optional[str], fmt2: str, key2: str) -> None:
+        self.base = base
+        self.fmt2 = fmt2
+        self.key2 = key2
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, OutputLine):
+            return NotImplemented
+        return self.key2 == other.key2
+
+    def __hash__(self) -> int:
+        return hash(self.key2)
+
+
+def do_diff(basedump: str, mydump: str) -> List[OutputLine]:
+    output: List[OutputLine] = []
 
     lines1 = process(basedump.split("\n"))
     lines2 = process(mydump.split("\n"))
@@ -758,8 +834,8 @@ def do_diff(basedump, mydump):
     sc4 = SymbolColorer(4)
     sc5 = SymbolColorer(0)
     sc6 = SymbolColorer(0)
-    bts1 = set()
-    bts2 = set()
+    bts1: Set[str] = set()
+    bts2: Set[str] = set()
 
     if args.show_branches:
         for (lines, btset, sc) in [
@@ -856,40 +932,36 @@ def do_diff(basedump, mydump):
                 out2 = line2.original
             elif line1:
                 line_prefix = "<"
-                line_color1 = line_color2 = sym_color = Fore.RED
+                line_color1 = sym_color = Fore.RED
                 out1 = line1.original
                 out2 = ""
             elif line2:
                 line_prefix = ">"
-                line_color1 = line_color2 = sym_color = Fore.GREEN
+                line_color2 = sym_color = Fore.GREEN
                 out1 = ""
                 out2 = line2.original
-
-            in_arrow1 = "  "
-            in_arrow2 = "  "
-            out_arrow1 = ""
-            out_arrow2 = ""
-
-            if args.show_branches and line1:
-                if line1.line_num in bts1:
-                    in_arrow1 = sc5.color_symbol(line1.line_num, "~>") + line_color1
-                if line1.branch_target is not None:
-                    out_arrow1 = " " + sc5.color_symbol(line1.branch_target + ":", "~>")
-            if args.show_branches and line2:
-                if line2.line_num in bts2:
-                    in_arrow2 = sc6.color_symbol(line2.line_num, "~>") + line_color2
-                if line2.branch_target is not None:
-                    out_arrow2 = " " + sc6.color_symbol(line2.branch_target + ":", "~>")
 
             if args.source and line2 and line2.comment:
                 out2 += f" {line2.comment}"
 
-            line_num1 = line1.line_num if line1 else ""
-            line_num2 = line2.line_num if line2 else ""
+            def format_part(out: str, line: Optional[Line], line_color: str, btset: Set[str], sc: SymbolColorer) -> Optional[str]:
+                if line is None:
+                    return None
+                in_arrow = "  "
+                out_arrow = ""
+                if args.show_branches:
+                    if line.line_num in btset:
+                        in_arrow = sc.color_symbol(line.line_num, "~>") + line_color
+                    if line.branch_target is not None:
+                        out_arrow = " " + sc.color_symbol(line.branch_target + ":", "~>")
+                out = pad_mnemonic(out)
+                return f"{line_color}{line.line_num} {in_arrow} {out}{Style.RESET_ALL}{out_arrow}"
 
-            out1 = f"{line_color1}{line_num1} {in_arrow1} {out1}{Style.RESET_ALL}{out_arrow1}"
-            out2 = f"{line_color2}{line_num2} {in_arrow2} {out2}{Style.RESET_ALL}{out_arrow2}"
-            mid = f"{sym_color}{line_prefix} "
+            part1 = format_part(out1, line1, line_color1, bts1, sc5)
+            part2 = format_part(out2, line2, line_color2, bts2, sc6)
+            key2 = line2.original if line2 else ""
+
+            mid = f"{sym_color}{line_prefix}"
 
             if line2:
                 for source_line in line2.source_lines:
@@ -907,22 +979,82 @@ def do_diff(basedump, mydump):
                                 )
                             except:
                                 pass
-                    output.append(
-                        format_single_line_diff(
-                            "",
-                            f"  {color}{source_line}{Style.RESET_ALL}",
-                            args.column_width,
-                        )
-                    )
+                    output.append(OutputLine(None, f"  {color}{source_line}{Style.RESET_ALL}", source_line))
 
-            output.append(format_single_line_diff(out1, mid + out2, args.column_width))
+            fmt2 = mid + " " + (part2 or "")
+            output.append(OutputLine(part1, fmt2, key2))
 
-    return output[args.skip_lines :]
+    return output
+
+
+def chunk_diff(diff: List[OutputLine]) -> List[Union[List[OutputLine], OutputLine]]:
+    cur_right: List[OutputLine] = []
+    chunks: List[Union[List[OutputLine], OutputLine]] = []
+    for output_line in diff:
+        if output_line.base is not None:
+            chunks.append(cur_right)
+            chunks.append(output_line)
+            cur_right = []
+        else:
+            cur_right.append(output_line)
+    chunks.append(cur_right)
+    return chunks
+
+
+def format_diff(old_diff: List[OutputLine], new_diff: List[OutputLine]) -> Tuple[str, List[str]]:
+    old_chunks = chunk_diff(old_diff)
+    new_chunks = chunk_diff(new_diff)
+    output: List[Tuple[str, OutputLine, OutputLine]] = []
+    assert len(old_chunks) == len(new_chunks), "same target"
+    empty = OutputLine("", "", "")
+    for old_chunk, new_chunk in zip(old_chunks, new_chunks):
+        if isinstance(old_chunk, list):
+            assert isinstance(new_chunk, list)
+            if not old_chunk and not new_chunk:
+                # Most of the time lines sync up without insertions/deletions,
+                # and there's no interdiffing to be done.
+                continue
+            differ = difflib.SequenceMatcher(a=old_chunk, b=new_chunk, autojunk=False)
+            for (tag, i1, i2, j1, j2) in differ.get_opcodes():
+                if tag in ["equal", "replace"]:
+                    for i, j in zip(range(i1, i2), range(j1, j2)):
+                        output.append(("", old_chunk[i], new_chunk[j]))
+                elif tag == "insert":
+                    for j in range(j1, j2):
+                        output.append(("", empty, new_chunk[j]))
+                else:
+                    for i in range(i1, i2):
+                        output.append(("", old_chunk[i], empty))
+        else:
+            assert isinstance(new_chunk, OutputLine)
+            # old_chunk.base and new_chunk.base have the same text since
+            # both diffs are based on the same target, but they might
+            # differ in color. Use the new version.
+            output.append((new_chunk.base or "", old_chunk, new_chunk))
+
+    # TODO: status line, with e.g. approximate permuter score?
+    width = args.column_width
+    if args.threeway:
+        header_line = "TARGET".ljust(width) + "  CURRENT".ljust(width) + "  PREVIOUS"
+        diff_lines = [
+            ansi_ljust(base, width)
+            + ansi_ljust(new.fmt2, width)
+            + (old.fmt2 or "-" if old != new else "")
+            for (base, old, new) in output
+        ]
+    else:
+        header_line = ""
+        diff_lines = [
+            ansi_ljust(base, width) + new.fmt2
+            for (base, old, new) in output
+            if base or new.key2
+        ]
+    return header_line, diff_lines
 
 
 def debounced_fs_watch(targets, outq, debounce_delay):
-    import watchdog.events
-    import watchdog.observers
+    import watchdog.events  # type: ignore
+    import watchdog.observers  # type: ignore
 
     class WatchEventHandler(watchdog.events.FileSystemEventHandler):
         def __init__(self, queue, file_targets):
@@ -993,12 +1125,18 @@ class Display:
         self.basedump = basedump
         self.mydump = mydump
         self.emsg = None
+        self.last_diff_output = None
 
     def run_less(self):
         if self.emsg is not None:
             output = self.emsg
         else:
-            output = "\n".join(do_diff(self.basedump, self.mydump))
+            diff_output = do_diff(self.basedump, self.mydump)
+            last_diff_output = self.last_diff_output or diff_output
+            self.last_diff_output = diff_output
+            header, diff_lines = format_diff(last_diff_output, diff_output)
+            header_lines = [header] if header else []
+            output = "\n".join(header_lines + diff_lines[args.skip_lines :])
 
         # Pipe the output through 'tail' and only then to less, to ensure the
         # write call doesn't block. ('tail' has to buffer all its input before
