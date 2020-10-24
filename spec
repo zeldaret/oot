@@ -2672,7 +2672,7 @@ endseg
 beginseg
     name "ovl_En_Kusa"
     include "build/src/overlays/actors/ovl_En_Kusa/z_en_kusa.o"
-    include "build/data/overlays/actors/z_en_kusa.data.o"
+    //include "build/data/overlays/actors/z_en_kusa.data.o"
     include "build/data/overlays/actors/z_en_kusa.reloc.o"
 endseg
 
