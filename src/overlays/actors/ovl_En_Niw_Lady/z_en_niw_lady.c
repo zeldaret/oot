@@ -101,51 +101,45 @@ void func_80AB9D60(EnNiwLady* this, GlobalContext* globalCtx, s32 arg2) {
         this->unk_275 = 0;
         this->unk_276 = 1;
         this->unk_270 = arg2;
-        if (arg2 >= 30) {
-            if (arg2 != 100) {
-                return;
-            }
-        } else {
-            switch (arg2) {
-                case 10:
-                    this->unk_275 = 1;
-                case 9:
-                    frames = SkelAnime_GetFrameCount(&D_060007D0);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
-                    break;
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 8:
-                case 21:
-                case 22:
-                case 24:
-                case 29:
-                    frames = SkelAnime_GetFrameCount(&D_06009F94);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
-                    break;
-                case 7:
-                case 20:
-                case 23:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                    frames = SkelAnime_GetFrameCount(&D_06000718);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
-                    break;
-                default:
-                    break;
-            }
-            return;
+        switch (arg2) {
+            case 10:
+                this->unk_275 = 1;
+            case 9:
+                frames = SkelAnime_GetFrameCount(&D_060007D0);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
+                break;
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 8:
+            case 21:
+            case 22:
+            case 24:
+            case 29:
+                frames = SkelAnime_GetFrameCount(&D_06009F94);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
+                break;
+            case 7:
+            case 20:
+            case 23:
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+                frames = SkelAnime_GetFrameCount(&D_06000718);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
+                break;
+            case 100:
+                frames = SkelAnime_GetFrameCount(&D_0600A630);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
+                this->unk_276 = 0;
+                break;
         }
-        frames = SkelAnime_GetFrameCount(&D_0600A630);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
-        this->unk_276 = 0;
+        return;
     }
 }
 
