@@ -283,7 +283,7 @@ s32 func_80B537E8(EnZl3* this) {
     Math_SmoothScaleMaxMinS(unk_3D0, ABS((s16)(yawTowardsLink - *rotY)), 5, 6200, 100);
     Math_SmoothScaleMaxMinS(rotY, yawTowardsLink, 5, *unk_3D0, 100);
     this->actor.shape.rot.y = *rotY;
-    // no return statement besides being of type s32
+    // no return statement despite being of type s32
     // the function directly below needs this to not be void I guess
 }
 
@@ -316,9 +316,8 @@ void func_80B53974(EnZl3* this, u8 arg1) {
     this->unk_3C8 = arg1;
 }
 
-void func_80B53980(EnZl3* this, s16 y, s32 idx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
-/*void func_80B53980(EnZl3 *this, s16 y, s32 idx) {
+#ifdef NON_MATCHING
+void func_80B53980(EnZl3* this, s16 y, s32 idx) {
     SkelAnime* skelAnime = &this->skelAnime;
     s32 action = this->action;
     EnZl3* this2 = this;
@@ -326,7 +325,7 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx);
     s32 yTemp;
     f32 animCurrentFrame;
     f32 unk_3DC;
-    
+
     if (this->unk_2FC != 0) {
         s32 temp25C = this2->unk_25C[idx];
         s32 temp28C = (s16)(y + this2->unk_28C[idx]);
@@ -340,10 +339,8 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx);
             }
         }
 
-        if ((idx != 0) || (action != 4)) {
-            if (temp2BC != 0) {
-                temp25C += (temp2BC - temp25C) / 16;
-            }
+        if ((idx != 0 || action != 4) && (temp2BC != 0)) {
+            temp25C += (temp2BC - temp25C) / 16;
         }
 
         if (temp25C != 0) {
@@ -355,35 +352,29 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx);
         }
 
         temp28C += temp25C;
-        if ((this->unk_25C[idx] * temp25C) <= 0) {
-            if (((s16)(temp28C - y) > -0x64) && ((s16)(temp28C - y) < 0x64)) {
-                temp28C = y;
-                temp25C = 0;
-            }
+        if (((this->unk_25C[idx] * temp25C) <= 0) && (((s16)(temp28C - y) > -0x64) && ((s16)(temp28C - y) < 0x64))) {
+            temp28C = y;
+            temp25C = 0;
         }
 
-        if (idx == 0) {
-            if (action == 3) {
-                yTemp = y - 0x2AF8;
-
-                if (skelAnime->mode == 2) {
-                    animCurrentFrame = skelAnime->animCurrentFrame;
-                    unk_3DC = this->unk_3DC;
-                    if (1) { }
-
-                    yTemp = (s32)((animCurrentFrame / unk_3DC) * -11000.0f) + y;
-                    if (temp28C >= yTemp) {
-                        temp28C = yTemp;
-                        if (temp25C > 0) {
-                            temp25C /= -2;
-                        }
+        if (idx == 0 && action == 3) {
+            yTemp = y + -11000;
+            if (skelAnime->mode == 2) {
+                animCurrentFrame = skelAnime->animCurrentFrame;
+                unk_3DC = this->unk_3DC;
+                yTemp = (s32)((animCurrentFrame / unk_3DC) * -11000) + y;
+                if (0) {};
+                if (temp28C >= yTemp) {
+                    temp28C = yTemp;
+                    if (temp25C > 0) {
+                        temp25C /= -2;
                     }
-                } else {
-                    if (temp28C >= yTemp) {
-                        temp28C = yTemp;
-                        if (temp25C > 0) {
-                            temp25C /= -2;
-                        }
+                }
+            } else {
+                if (temp28C >= yTemp) {
+                    temp28C = yTemp;
+                    if (temp25C > 0) {
+                        temp25C /= -2;
                     }
                 }
             }
@@ -392,10 +383,351 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx);
         this->unk_28C[idx] = temp28C - y;
     }
     this->unk_2BC[idx] = y;
-}*/
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53980.s")
+#endif
 
-void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2);
+#ifdef NON_MATCHING
+void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2) {
+    SkelAnime* temp_v1_11;
+    SkelAnime* temp_v1_13;
+    SkelAnime* temp_v1_15;
+    SkelAnime* temp_v1_17;
+    SkelAnime* temp_v1_4;
+    SkelAnime* temp_v1_5;
+    SkelAnime* temp_v1_7;
+    SkelAnime* temp_v1_9;
+    f32 temp_f0;
+    f32 temp_f2;
+    f32 temp_f2_2;
+    s16 temp_t1;
+    s16 temp_t5;
+    s32 temp_a0;
+    s32 temp_a0_2;
+    s32 temp_a3;
+    s32 temp_a3_2;
+    s32 temp_a3_3;
+    s32 temp_a3_4;
+    s32 temp_a3_5;
+    s32 temp_a3_6;
+    s32 temp_a3_7;
+    s32 temp_a3_8;
+    s32 temp_v1;
+    s32 temp_v1_10;
+    s32 temp_v1_12;
+    s32 temp_v1_14;
+    s32 temp_v1_16;
+    s32 temp_v1_2;
+    s32 temp_v1_3;
+    s32 temp_v1_6;
+    s32 temp_v1_8;
+    s32 phi_t4;
+    s32 phi_v1;
+    s32 phi_v0;
+    s32 phi_a1;
+    s32 phi_v0_2;
+    s32 phi_a0;
+    s32 phi_v0_3;
+    s32 phi_v1_2;
+    s16 phi_v0_4;
+    s32 phi_a0_2;
+    s32 phi_v1_3;
+    s32 phi_t4_2;
+    s32 phi_v0_5;
+    s32 phi_at;
+
+    temp_a3 = this->action;
+    if (arg2 == 2) {
+        phi_t4 = 0;
+        phi_a1 = 0x3A98;
+    } else if (arg2 == 5) {
+        phi_t4 = 3;
+        phi_a1 = 0x32C8;
+    } else if (arg2 == 8) {
+        phi_t4 = 6;
+        phi_a1 = 0x2EE0;
+    } else if (arg2 == 0xB) {
+        phi_t4 = 9;
+        phi_a1 = 0x4000;
+    } else if (arg2 == 0xE) {
+        phi_t4 = 0xC;
+        phi_a1 = 0x4000;
+    } else if (arg2 == 0x11) {
+        phi_t4 = 0xF;
+        phi_a1 = 0x4000;
+    } else {
+        phi_t4 = 0x12;
+        phi_a1 = 0x4000;
+    }
+    if (this->unk_2FC != 0) {
+        temp_t1 = this->unk_25C[arg2];
+        temp_v1 = arg1 - this->unk_2BC[arg2];
+        temp_a0 = (s32)((this->unk_28C[arg2] + arg1) << 0x10) >> 0x10;
+        phi_v1_3 = temp_v1;
+        if ((s32)fabsf((f32)temp_v1) >= 0x8001) {
+            phi_at = 0x10000;
+            if ((s32)arg1 > 0) {
+                phi_at = 0xFFFF0000;
+            }
+            phi_v1_3 = temp_v1 + phi_at;
+        }
+        phi_v1 = phi_v1_3;
+        if (phi_t4 >= 0) {
+            temp_t5 = this->unk_25C[phi_t4];
+            phi_t4_2 = 0 - temp_t5;
+            if ((s32)temp_t5 >= 0) {
+                phi_t4_2 = (s32)temp_t5;
+            }
+            phi_v1 = phi_v1_3 + (phi_t4_2 / 3);
+        }
+        if (arg2 == 2) {
+            if ((temp_a3 == 5) || (temp_a3 == 0x18)) {
+                phi_v0 = (s32)temp_t1;
+                if (phi_v1 != 0) {
+                    phi_v0 = (s32)(temp_t1 - ((s32)(phi_v1 - temp_t1) / 0xA));
+                }
+            } else {
+            block_27:
+                if ((arg2 == 2) && (temp_a3 == 0x16) && (2 == this->skelAnime.mode)) {
+                    phi_v0 = (s32)temp_t1;
+                    if (phi_v1 != 0) {
+                        phi_v0 = (s32)(temp_t1 - ((s32)(phi_v1 - temp_t1) / 0xA));
+                    }
+                } else if (arg2 == 2) {
+                    if ((temp_a3 == 0x14) || (temp_a3 == 0x15)) {
+                        if (2 == this->skelAnime.mode) {
+                            phi_v0 = (s32)temp_t1;
+                            if (phi_v1 != 0) {
+                                phi_v0 = (s32)(temp_t1 - ((s32)(phi_v1 - temp_t1) / 0xA));
+                            }
+                        } else {
+                        block_38:
+                            phi_v0 = (s32)temp_t1;
+                            if (phi_v1 != 0) {
+                                phi_v0 = (s32)(temp_t1 + ((s32)(phi_v1 - temp_t1) / 0x10));
+                            }
+                        }
+                    } else {
+                        goto block_38;
+                    }
+                } else {
+                    goto block_38;
+                }
+            }
+        } else {
+            goto block_27;
+        }
+        phi_v0_5 = phi_v0;
+        if (phi_v0 != 0) {
+            phi_v0_5 = phi_v0 - (phi_v0 / 0xA);
+        }
+        temp_v1_2 = (s16)(temp_a0 - phi_a1);
+        phi_v0_2 = phi_v0_5;
+        if (temp_v1_2 != 0) {
+            phi_v0_2 = phi_v0_5 - (temp_v1_2 / 0x32);
+        }
+        temp_a0 = temp_a0 + phi_v0_2;
+        temp_v1_3 = (s16)(temp_a0 - phi_a1);
+        phi_a0 = temp_a0;
+        phi_v0_3 = phi_v0_2;
+        if ((temp_t1 * phi_v0_2) <= 0) {
+            if (temp_v1_3 >= -0x63) {
+                if (temp_v1_3 < 0x64) {
+                    phi_a0 = phi_a1;
+                    phi_v0_3 = 0;
+                }
+            }
+        }
+        if (arg2 == 2) {
+            if (temp_a3 == 4) {
+                temp_v1_4 = &this->skelAnime;
+                phi_v0_4 = (s16)phi_v0_3;
+                phi_a0_2 = phi_a0;
+                if (2 == temp_v1_4->mode) {
+                    temp_f2 = this->unk_3E0;
+                    temp_a3_2 = (s32)(((temp_f2 - temp_v1_4->animCurrentFrame) / temp_f2) * -2000.0f) + phi_a1;
+                    phi_a0_2 = phi_a0;
+                    if (temp_a3_2 >= phi_a0) {
+                        phi_a0_2 = temp_a3_2;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                }
+            } else if (temp_a3 == 5) {
+                temp_v1_5 = &this->skelAnime;
+                if (2 == temp_v1_5->mode) {
+                    temp_a3_3 = (s32)((temp_v1_5->animCurrentFrame / this->unk_3E4) * -2000.0f) + phi_a1;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (temp_a3_3 >= phi_a0) {
+                        phi_a0_2 = temp_a3_3;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                } else {
+                    temp_v1_6 = phi_a1 - 0x7D0;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (temp_v1_6 >= phi_a0) {
+                        phi_a0_2 = temp_v1_6;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                }
+            } else if ((temp_a3 == 0x14) || (temp_a3 == 0x15)) {
+                temp_v1_13 = &this->skelAnime;
+                if (2 == temp_v1_13->mode) {
+                    temp_f0 = temp_v1_13->animCurrentFrame;
+                    if (temp_f0 <= 42.0f) {
+                        phi_v1_2 = phi_a1 - 0x7D0;
+                    } else {
+                        phi_v1_2 = (s32)((((temp_f0 - 42.0f) * 6200.0f) / (this->unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
+                    }
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (phi_v1_2 >= phi_a0) {
+                        temp_a0_2 = phi_v1_2;
+                        phi_a0_2 = temp_a0_2;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                } else {
+                    temp_v1_14 = phi_a1 + 0x1068;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (temp_v1_14 >= phi_a0) {
+                        phi_a0_2 = temp_v1_14;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                }
+            } else if (temp_a3 == 0x16) {
+                temp_v1_7 = &this->skelAnime;
+                if (2 == temp_v1_7->mode) {
+                    temp_a3_4 = (s32)(((temp_v1_7->animCurrentFrame / this->unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (temp_a3_4 >= phi_a0) {
+                        phi_a0_2 = temp_a3_4;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                } else {
+                    temp_v1_8 = phi_a1 - 0x7D0;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (temp_v1_8 >= phi_a0) {
+                        phi_a0_2 = temp_v1_8;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                }
+            } else if (temp_a3 == 0x17) {
+                temp_v1_9 = &this->skelAnime;
+                if (2 == temp_v1_9->mode) {
+                    temp_a3_5 = (s32)(((temp_v1_9->animCurrentFrame / this->unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (temp_a3_5 >= phi_a0) {
+                        phi_a0_2 = temp_a3_5;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                } else {
+                    temp_v1_10 = phi_a1 - 0x2580;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (temp_v1_10 >= phi_a0) {
+                        phi_a0_2 = temp_v1_10;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                }
+            } else {
+                phi_v0_4 = (s16)phi_v0_3;
+                phi_a0_2 = phi_a0;
+                if (temp_a3 == 0x18) {
+                    temp_v1_11 = &this->skelAnime;
+                    if (2 == temp_v1_11->mode) {
+                        temp_a3_6 =
+                            (s32)(((temp_v1_11->animCurrentFrame / this->unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
+                        if (temp_a3_6 >= phi_a0) {
+                            phi_a0_2 = temp_a3_6;
+                            if (phi_v0_3 < 0) {
+                                phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            }
+                        }
+                    } else {
+                        temp_v1_12 = phi_a1 + 0x2C88;
+                        if (temp_v1_12 >= phi_a0) {
+                            phi_a0_2 = temp_v1_12;
+                            if (phi_v0_3 < 0) {
+                                phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            }
+                        }
+                    }
+                }
+            }
+        } else if ((arg2 == 0xB) || (phi_v0_4 = (s16)phi_v0_3, phi_a0_2 = phi_a0, (arg2 == 0x11))) {
+            if (temp_a3 == 4) {
+                temp_v1_15 = &this->skelAnime;
+                if (2 == temp_v1_15->mode) {
+                    temp_a3_7 = (s32)((temp_v1_15->animCurrentFrame / this->unk_3E0) * -7000.0f) + phi_a1;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (phi_a0 >= temp_a3_7) {
+                        phi_a0_2 = temp_a3_7;
+                        if (phi_v0_3 > 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                } else {
+                    temp_v1_16 = phi_a1 - 0x1B58;
+                    phi_v0_4 = (s16)phi_v0_3;
+                    phi_a0_2 = phi_a0;
+                    if (phi_a0 >= temp_v1_16) {
+                        phi_a0_2 = temp_v1_16;
+                        if (phi_v0_3 > 0) {
+                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                        }
+                    }
+                }
+            } else {
+                phi_v0_4 = (s16)phi_v0_3;
+                phi_a0_2 = phi_a0;
+                if (temp_a3 == 5) {
+                    temp_v1_17 = &this->skelAnime;
+                    if (2 == temp_v1_17->mode) {
+                        temp_f2_2 = this->unk_3E4;
+                        temp_a3_8 = (s32)(((temp_f2_2 - temp_v1_17->animCurrentFrame) / temp_f2_2) * -7000.0f) + phi_a1;
+                        if (phi_a0 >= temp_a3_8) {
+                            phi_a0_2 = temp_a3_8;
+                            if (phi_v0_3 > 0) {
+                                phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        this->unk_25C[arg2] = phi_v0_4;
+        this->unk_28C[arg2] = phi_a0_2 - arg1;
+    }
+    this->unk_2BC[arg2] = arg1;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53B64.s")
+#endif
 
 void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
     s32 temp_v1;
@@ -659,8 +991,8 @@ void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
         posY = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
         posZ = this->actor.posRot.pos.z;
 
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0,
-                            0x4000, 0, 3);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
+                           0, 3);
         this->unk_2F8 = 1;
     }
 }
@@ -1935,7 +2267,7 @@ void func_80B58014(EnZl3* this, GlobalContext* globalCtx) {
         this->action = 34;
         this->unk_3D0 = 0;
         func_80B57AE0(this, globalCtx);
-    } else if ((invincibilityTimer > 0) || (player->fallY >= 0x33)) {
+    } else if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
         func_80B54E14(this, &D_06007664, 0, -11.0f, 0);
         this->action = 30;
         func_80B537E8(this);
@@ -1958,7 +2290,7 @@ void func_80B58268(EnZl3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s8 invincibilityTimer = player->invincibilityTimer;
 
-    if ((invincibilityTimer <= 0) && (player->fallY < 0x33)) {
+    if ((invincibilityTimer <= 0) && (player->fallDistance < 0x33)) {
         func_80B54E14(this, &D_06009FBC, 0, -11.0f, 0);
         this->action = 28;
         this->unk_3D0 = 0;
@@ -2089,7 +2421,7 @@ s32 func_80B5899C(EnZl3* this, GlobalContext* globalCtx) {
         player = PLAYER;
         invincibilityTimer = player->invincibilityTimer;
 
-        if ((invincibilityTimer > 0) || (player->fallY >= 0x33)) {
+        if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
             func_80B54E14(this, &D_06007664, 2, -11.0f, 0);
             this->action = 35;
             func_80B56DC8(this);
@@ -2109,7 +2441,7 @@ void func_80B58A50(EnZl3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s8 invincibilityTimer = player->invincibilityTimer;
 
-    if ((invincibilityTimer <= 0) && (player->fallY < 0x33)) {
+    if ((invincibilityTimer <= 0) && (player->fallDistance < 0x33)) {
         func_80B54E14(this, &D_06009BE4, 0, -11.0f, 0);
         this->action = 34;
     }
@@ -2574,21 +2906,23 @@ void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
     s16 unk_248 = this->unk_248;
     SkelAnime* skelAnime = &this->skelAnime;
     u32 sp6C = D_80B5A45C[unk_248];
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad2;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2165);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2165);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
 
-    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2190);
+    oGfxCtx->polyOpa.p =
+        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2190);
 }
 
 void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
@@ -2598,21 +2932,23 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
     s16 unk_248 = this->unk_248;
     SkelAnime* skelAnime = &this->skelAnime;
     u32 sp6C = D_80B5A45C[unk_248];
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad2;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2205);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2205);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 0, 0, this->unk_258);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_258);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          EnZl3_OverrideLimbDraw, NULL, &this->actor, gfxCtx->polyXlu.p);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);
+    oGfxCtx->polyXlu.p =
+        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnZl3_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);
 }
 
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
