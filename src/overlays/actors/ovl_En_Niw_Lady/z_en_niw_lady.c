@@ -356,7 +356,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s8 playerExchangeItemId;
 
-    //player = PLAYER;
+    // player = PLAYER;
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 11;
     }
