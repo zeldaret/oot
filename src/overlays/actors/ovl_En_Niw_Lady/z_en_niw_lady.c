@@ -65,13 +65,13 @@ extern AnimationHeader D_06000718;
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = THIS;
+
     this->ObjectAneIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ANE);
     this->ObjectOsAnimeIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
     if ((this->ObjectOsAnimeIndex < 0) || (this->ObjectAneIndex < 0)) {
         Actor_Kill(thisx);
         return;
     }
-
     this->unk_278 = 0;
     if (globalCtx->sceneNum == SCENE_LABO) {
         this->unk_278 = 1;
@@ -88,6 +88,7 @@ void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwLady* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
