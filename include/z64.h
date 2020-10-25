@@ -513,6 +513,11 @@ typedef struct {
 //     /* 0x0008 */ u8 xy;
 // } MessageData;
 
+#define LANGUAGE_ENG 0
+#define LANGUAGE_GER 1
+#define LANGUAGE_FRA 2
+#define LANGUAGE_MAX LANGUAGE_FRA
+
 #define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
 
 typedef struct {
@@ -554,12 +559,13 @@ typedef struct {
     /* 0xE2FA */ u16    unk_E2FA;
     /* 0xE2FC */ u8     unk_E2FC; // original name : msg_disp_type
     /* 0xE2FD */ u8     unk_E2FD; // "text box type"
-    /* 0xE2FE */ u8     unk_E2FE;
+    /* 0xE2FE */ u8     unk_E2FE; // text box position
     /* 0xE2FF */ u8     unk_E2FF;
     /* 0xE300 */ s32    unk_E300; // original name : msg_data
     /* 0xE304 */ u8     msgMode;
     /* 0xE305 */ u8     unk_E305;
-    /* 0xE305 */ char   unk_E306[0xC8];
+    /* 0xE306 */ char   unk_E306[2]; // decoded message buffer, TODO size
+    /* 0xE308 */ char   unk_E308[0xC6];
     /* 0xE3CE */ u16    unk_E3CE; // original name : rdp
     /* 0xE3D0 */ u16    unk_E3D0;
     /* 0xE3D2 */ u16    unk_E3D2;

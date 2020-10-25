@@ -291,7 +291,6 @@ s16 D_801759BE;
 
 extern UNK_TYPE D_02002E40;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801069B0.s")
 void func_801069B0(void) {
     s16* D_80153958_NonConst;
 
@@ -325,7 +324,6 @@ void func_801069B0(void) {
     D_801759BC = 0xA;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106AA8.s")
 void func_80106AA8(GlobalContext* globalCtx) {
     MessageContext* msgCtx;
 
@@ -347,7 +345,6 @@ void func_80106AA8(GlobalContext* globalCtx) {
     func_801069B0();
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106BC8.s")
 u8 func_80106BC8(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
     if (CHECK_BTN_ALL(curInput->press.button, BTN_A) || 
@@ -360,7 +357,6 @@ u8 func_80106BC8(GlobalContext* globalCtx) {
            CHECK_BTN_ALL(curInput->press.button, BTN_CUP);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106C88.s")
 u8 func_80106C88(GlobalContext* globalCtx) {
     Input* curInput = &globalCtx->state.input[0];
     return CHECK_BTN_ALL(curInput->press.button, BTN_A) || 
@@ -368,7 +364,6 @@ u8 func_80106C88(GlobalContext* globalCtx) {
            CHECK_BTN_ALL(curInput->press.button, BTN_CUP);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106CCC.s")
 void func_80106CCC(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     if (msgCtx->unk_E300 != 0) {
@@ -414,7 +409,6 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106D40.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106F1C.s")
 void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
     MessageContext* msgCtx;
     Gfx* gfx;
@@ -456,40 +450,29 @@ void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
     *p = gfx;
 }
 
-void func_80107244(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107244.s")
-/* void func_80107244(MessageContext *msgCtx) {
+#ifdef NON_MATCHING
+// regalloc only, rodata unmigrated
+void func_80107244(MessageContext *msgCtx) {
     static const f32 D_80153988[] = {
         1.20000004768f, 1.5f, 1.79999995232f, 2.0f, 2.09999990463f, 2.20000004768f, 2.09999990463f, 2.0f,
     };
     static const f32 D_801539A8[] = {
         0.600000023842f, 0.75f, 0.899999976158f, 1.0f, 1.04999995232f, 1.10000002384f, 1.04999995232f, 1.0f,
     };
-
-    f32 sp0;
     f32 temp_f0;
-    f32 temp_f12;
-    f32 temp_f16;
     f32 temp_f18;
+    f32 temp_f14;
+    f32 temp_f4;
     f32 temp_f2;
-    s16 temp_a2;
-    s16 temp_t6;
-    s16 temp_t8;
-    s16 temp_t1;
-    s16 temp_t4;
-    s16 phi_t5;
-    s16 phi_t9;
-    s16 phi_t2;
-    s16 phi_t8;
+    f32 temp_f16;
 
     temp_f2 = D_80153988[msgCtx->unk_E3E7];
     temp_f16 = D_801539A8[msgCtx->unk_E3E7];
-    temp_f12 = temp_f2 + temp_f2;
-    temp_f0 = temp_f12 * XREG(74);
-    temp_f18 = XREG(76) / temp_f12;
-    sp0 = XREG(77) / temp_f16;
-    phi_t5 = (XREG(73) - (temp_f16 * XREG(73) + 0.5f)) / 2;
-    VREG(1) = phi_t5 + XREG(73);
+    temp_f0 = (temp_f2 + temp_f2) * XREG(74);
+    temp_f14 = temp_f16 * XREG(75);
+    temp_f18 = XREG(76) / (temp_f2 + temp_f2);
+    temp_f4 = XREG(77) / temp_f16;
+    VREG(1) = XREG(73) + (XREG(73) - (s16)(temp_f16 * XREG(73) + 0.5f)) / 2;
     msgCtx->unk_E406 += msgCtx->unk_E404 / 8;
     msgCtx->unk_E3E7++;
     if (msgCtx->unk_E3E7 == 8) {
@@ -498,14 +481,17 @@ void func_80107244(GlobalContext* globalCtx);
         msgCtx->msgMode = 3;
         msgCtx->unk_E406 = msgCtx->unk_E404;
     }
-    YREG(22) = (temp_f0 + 0.5f) / 2;
-    YREG(23) = temp_f16 * XREG(75) + 0.5f;
+    YREG(22) = (s16)(temp_f0 + 0.5f) / 2;
+    YREG(23) = (s16)(temp_f14 + 0.5f);
     YREG(16) = temp_f18 + 0.5f;
-    YREG(17) = sp0 + 0.5f;
-    VREG(0) = XREG(72) + XREG(74) - YREG(22) / 2;
-} */
+    YREG(17) = temp_f4 + 0.5f;
+    VREG(0) = (XREG(72) + XREG(74)) - (YREG(22) / 2);
+}
+#else
+void func_80107244(GlobalContext* globalCtx);
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107244.s")
+#endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107448.s")
 void func_80107448(GlobalContext* globalCtx, u16 textId) {
     s32 foundSeg;
     s32 nextSeg;
@@ -515,7 +501,7 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
     u32 seg;
 
     messageTableEntry = D_801538F0;
-    if (gSaveContext.language == 0) {
+    if (gSaveContext.language == LANGUAGE_ENG) {
         seg = messageTableEntry->segment;
         while (messageTableEntry->textId != 0xFFFF) {
             font = &globalCtx->msgCtx.font;
@@ -534,7 +520,7 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
             messageTableEntry++;
         }
     } else {
-        languageSegmentTable = (gSaveContext.language == 1) ? D_801538F4 : D_801538F8;
+        languageSegmentTable = (gSaveContext.language == LANGUAGE_GER) ? D_801538F4 : D_801538F8;
         seg = messageTableEntry->segment;
         while (messageTableEntry->textId != 0xFFFF) {
             font = &globalCtx->msgCtx.font;
@@ -558,13 +544,13 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
     osSyncPrintf(" メッセージが,見つからなかった！！！ = %x\n", textId);
     font = &globalCtx->msgCtx.font;
     messageTableEntry = D_801538F0;
-    if (gSaveContext.language == 0) {
+    if (gSaveContext.language == LANGUAGE_ENG) {
         foundSeg = messageTableEntry->segment;
         font->xy = messageTableEntry->xy;
         messageTableEntry++;
         nextSeg = messageTableEntry->segment;
     } else {
-        languageSegmentTable = (gSaveContext.language == 1) ? D_801538F4 : D_801538F8;
+        languageSegmentTable = (gSaveContext.language == LANGUAGE_GER) ? D_801538F4 : D_801538F8;
         foundSeg = *languageSegmentTable;
         font->xy = messageTableEntry->xy;
         languageSegmentTable++;
@@ -574,7 +560,6 @@ void func_80107448(GlobalContext* globalCtx, u16 textId) {
     font->msgLength = nextSeg - foundSeg;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107628.s")
 void func_80107628(GlobalContext* globalCtx, u16 textId) {
     u32 foundSeg;
     u32 nextSeg;
@@ -602,7 +587,6 @@ void func_80107628(GlobalContext* globalCtx, u16 textId) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801076CC.s")
 void func_801076CC(MessageContext* msgCtx, u16 textId) {
     switch (textId) {
         case 1:
@@ -689,8 +673,6 @@ void func_801076CC(MessageContext* msgCtx, u16 textId) {
     }
 }
 
-extern s16 D_8014B308;
-
 extern Vec3s D_801539C8[]; // struct array where each struct is 0x6 in size
 extern Vec3s D_801539D4[]; // struct array where each struct is 0x6 in size
 
@@ -698,7 +680,7 @@ extern s16 D_801539E0;
 extern s16 D_801539E4;
 extern s16 D_801539E8;
 
-extern u8 D_801539EC;
+extern s16 D_801539EC;
 
 extern s16 D_801539F0;
 
@@ -706,277 +688,122 @@ extern s16 D_801539F4;
 extern s16 D_801539F8;
 extern s16 D_801539FC;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107980.s")
-/* Gfx* func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
+extern s16 D_8014B308;
+
+#ifdef NON_EQUIVALENT
+// A lot
+void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3) {
     s16 sp60;
-    s32 spC;
-    s32 sp8;
-    s32 sp4;
-    s32 sp0;
-    GameInfo *temp_v1;
-    Gfx *gfx;
-    Gfx *temp_a1_3;
-    Gfx *temp_a1_4;
-    Gfx *temp_v0;
-    Gfx *temp_v0_2;
-    Gfx *temp_v1_2;
-    Gfx *temp_v1_3;
-    MessageContext *temp_v1_4;
-    s16 temp_a1;
+
+    Gfx* gfx;
+
     s16 temp_a2;
-    s16 temp_a2_2;
-    s16 temp_a3_3;
-    s16 temp_t0;
-    s16 temp_t1;
-    s16 temp_t1_3;
-    s16 temp_t2;
-    s16 temp_t2_3;
-    s16 temp_t3;
-    s16 temp_t3_2;
-    s16 temp_t4;
-    s16 temp_t4_2;
-    s16 temp_t5_2;
-    s16 temp_t9;
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    s32 temp_a1_5;
-    s32 temp_a2_3;
-    s32 temp_a3;
-    s32 temp_a3_2;
-    s32 temp_a3_4;
-    s32 temp_f18;
-    s32 temp_t0_2;
-    s32 temp_t1_2;
-    s32 temp_t2_2;
-    s32 temp_t5;
-    s32 temp_t6;
+
+    s16 temp_t5;
     Vec3s *temp_a0;
     Vec3s *temp_a1_2;
     s32 phi_v1;
-    s32 phi_t1;
-    s32 phi_t2;
     s16 phi_a3;
+
+    s16 temp_t1;
+    s16 temp_t2;
+    s16 temp_a3;
+
     s16 phi_t5;
-    s16 phi_t1_2;
-    s16 phi_t2_2;
-    Gfx *phi_return;
-    s32 phi_v1_2;
-    s32 phi_v1_3;
-    s32 phi_t5_2;
-    s32 phi_t1_3;
-    s32 phi_v1_4;
-    s32 phi_v1_5;
-    s32 phi_v1_6;
-
-    gfx = *p;
-    if (D_8014B308 == 0) {
-        temp_a0 = &D_801539C8[D_801539F0];
-        temp_t2 = D_801539E0;
-        temp_a1 = temp_a0->x;
-        phi_v1_2 = ABS(temp_t2 - temp_a1);
-
-        temp_t0 = D_801539EC;
-        temp_t1 = D_801539E4;
-        temp_t3 = temp_a0->y;
-        phi_v1 = ABS(temp_t1 - temp_t3);
-        temp_t5 = (s32) ((phi_v1_2 / (s32) temp_t0) << 0x10) >> 0x10;
-
-        temp_a3_3 = D_801539E8;
-        temp_t4 = temp_a0->z;
-        phi_v1_3 = ABS(temp_a3_3 - temp_t4);
-        sp60 = (s16) (phi_v1 / (s32) temp_t0);
-
-        if ((s32) temp_t2 >= (s32) temp_a1) {
-            temp_t2_2 = (s32) ((temp_t2 - temp_t5) << 0x10) >> 0x10;
-        } else {
-            temp_t2_2 = (s32) ((temp_t2 + temp_t5) << 0x10) >> 0x10;
-        }
-        if ((s32) temp_t1 >= (s32) temp_t3) {
-            temp_t1_2 = (s32) ((temp_t1 - sp60) << 0x10) >> 0x10;
-        } else {
-            temp_t1_2 = (s32) ((temp_t1 + sp60) << 0x10) >> 0x10;
-        }
-        if ((s32) temp_a3_3 >= (s32) temp_t4) {
-            phi_a3 = (s16) ((s32) ((temp_a3_3 - ((s32) ((phi_v1_3 / (s32) temp_t0) << 0x10) >> 0x10)) << 0x10) >> 0x10);
-        } else {
-            phi_a3 = (s16) ((s32) ((temp_a3_3 + ((s32) ((phi_v1_3 / (s32) temp_t0) << 0x10) >> 0x10)) << 0x10) >> 0x10);
-        }
-        spC = (s32) temp_a1;
-        temp_a1_2 = &D_801539D4[D_801539F0];
-        temp_t5_2 = D_801539F4;
-        temp_t9 = temp_a1_2->x;
-        temp_a0_2 = temp_t5_2 - temp_t9;
-        if (temp_a0_2 >= 0) {
-            D_801539E4 = (s16) temp_t1_2;
-            D_801539E4 = (s16) temp_t2_2;
-            phi_v1_4 = temp_a0_2;
-        } else {
-            D_801539E4 = (s16) temp_t1_2;
-            D_801539E0 = (s16) temp_t2_2;
-            phi_v1_4 = -temp_a0_2;
-        }
-        sp8 = (s32) temp_t3;
-        temp_t1_3 = D_801539F8;
-        temp_t3_2 = temp_a1_2->y;
-        temp_a0_3 = temp_t1_3 - temp_t3_2;
-        temp_a2_3 = (s32) ((phi_v1_4 / (s32) temp_t0) << 0x10) >> 0x10;
-        if (temp_a0_3 >= 0) {
-            D_801539E8 = phi_a3;
-            phi_v1_5 = temp_a0_3;
-        } else {
-            D_801539E8 = phi_a3;
-            phi_v1_5 = -temp_a0_3;
-        }
-        sp4 = (s32) temp_t4;
-        temp_t2_3 = D_801539FC;
-        temp_t4_2 = temp_a1_2->z;
-        temp_a0_4 = temp_t2_3 - temp_t4_2;
-        temp_a3_4 = (s32) ((phi_v1_5 / (s32) temp_t0) << 0x10) >> 0x10;
-        if (temp_a0_4 >= 0) {
-            phi_v1_6 = temp_a0_4;
-        } else {
-            phi_v1_6 = -temp_a0_4;
-        }
-        if ((s32) temp_t5_2 >= temp_t9) {
-            phi_t5_2 = (s32) ((temp_t5_2 - temp_a2_3) << 0x10);
-        } else {
-            phi_t5_2 = (s32) ((temp_t5_2 + temp_a2_3) << 0x10);
-        }
-        if ((s32) temp_t1_3 >= (s32) temp_t3_2) {
-            phi_t1_3 = (s32) ((temp_t1_3 - temp_a3_4) << 0x10);
-        } else {
-            phi_t1_3 = (s32) ((temp_t1_3 + temp_a3_4) << 0x10);
-        }
-        if ((s32) temp_t2_3 >= (s32) temp_t4_2) {
-            phi_t2_2 = (s16) ((s32) ((temp_t2_3 - ((s32) ((phi_v1_6 / (s32) temp_t0) << 0x10) >> 0x10)) << 0x10) >> 0x10);
-        } else {
-            phi_t2_2 = (s16) ((s32) ((temp_t2_3 + ((s32) ((phi_v1_6 / (s32) temp_t0) << 0x10) >> 0x10)) << 0x10) >> 0x10);
-        }
-        temp_t0_2 = (s32) ((temp_t0 - 1) << 0x10) >> 0x10;
-        D_801539EC = (s16) temp_t0_2;
-        phi_t5 = (s16) (phi_t5_2 >> 0x10);
-        phi_t1_2 = (s16) (phi_t1_3 >> 0x10);
-        if (temp_t0_2 == 0) {
-            D_801539E0 = (s16) spC;
-            D_801539E4 = (s16) sp8;
-            D_801539E8 = (s16) sp4;
-            D_801539F0 = (s16) (D_801539F0 ^ 1);
-            D_801539EC = (u16)0xC;
-            phi_t5 = (s16) ((s32) (sp0 << 0x10) >> 0x10);
-            phi_t1_2 = (s16) ((s32) (temp_t3_2 << 0x10) >> 0x10);
-            phi_t2_2 = (s16) ((s32) (temp_t4_2 << 0x10) >> 0x10);
-        }
-        gDPPipeSync(gfx++);
-        gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 
-                                PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(gfx++, 0, 0, D_801539E0, D_801539E4, D_801539E8, 0xFF);
-        gDPSetEnvColor(gfx++, D_801539F4, D_801539F8, D_801539FC, 0xFF);
-        gDPSetTextureImage(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (globalCtx + 0x5E08));
-        gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPLoadSync(gfx++);
-        gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 63, 2048);
-        gDPPipeSync(gfx++);
-        gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_4b, 1, 0x0000, G_TX_RENDERTILE, 0, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 0x003C, 0x003C);
-
-        D_801759A0 = (XREG(57) / 100.0f) * 16.0f;
-        D_801759A4 = 1024.0f / (XREG(57) / 100.0f);
-
-        gSPTextureRectangle(gfx++, arg2 * 4, arg3 * 4, (arg2 + D_801759A0) * 4, (arg3 + D_801759A0) * 4, 
-                        G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
-
-        globalCtx->msgCtx.unk_E3E7++;
-        *p = gfx;
-    }
-    return gfx;
-} */
-
-
-
-/* Gfx* func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
-    s16 sp60;
-    s32 spC;
-    s32 sp8;
-    s32 sp4;
-    s32 sp0;
-    s16 temp_a2;
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    s32 temp_a1_4;
-    s32 temp_a2_2;
-    s32 temp_a3;
-    s32 temp_a3_2;
-    s32 temp_a3_3;
-    s32 temp_f18;
-    s32 temp_t0;
-    s32 temp_t1;
-    s32 temp_t2;
-    s32 temp_t5;
-    s32 temp_t6;
-    s32 temp_v1_3;
-    Struct_80107980 *temp_a0;
-    Struct_80107980 *temp_a1;
-    s32 phi_v1;
-    s32 phi_t1;
+    s16 phi_t1;
     s16 phi_t2;
-    s16 phi_a3;
-    s16 phi_t5;
-    s16 phi_t1_2;
-    s16 phi_t2_2;
-    Gfx* gfx;
-    s32 phi_v1_2;
-    s32 phi_v1_3;
-    s32 phi_t5_2;
-    s32 phi_t1_3;
-    s32 phi_v1_4;
-    s32 phi_v1_5;
-    s32 phi_v1_6;
 
     gfx = *p;
     if (D_8014B308 == 0) {
         temp_a0 = &D_801539C8[D_801539F0];
 
-        phi_v1 = ABS(D_801539E0 - temp_a0->unk_0);
-        D_801539E0 = (D_801539E0 >= temp_a0->unk_0) ? (D_801539E0 - phi_v1 / D_801539EC) : (D_801539E0 + phi_v1 / D_801539EC);
+        temp_t2 = D_801539E0;
+        phi_v1 = ABS(temp_t2 - temp_a0->x);
+        temp_t5 = phi_v1 / D_801539EC;
 
-        phi_v1 = ABS(D_801539E4 - temp_a0->unk_2);
-        D_801539E4 = (D_801539E4 >= temp_a0->unk_2) ? (D_801539E4 - phi_v1 / D_801539EC) : (D_801539E4 + phi_v1 / D_801539EC);
+        temp_t1 = D_801539E4;
+        phi_v1 = ABS(temp_t1 - temp_a0->y);
+        sp60 = phi_v1 / D_801539EC;
+        
+        phi_a3 = D_801539E8;
+        phi_v1 = ABS(phi_a3 - temp_a0->z);
 
-        phi_v1 = ABS(D_801539E8 - temp_a0->unk_4);
-        D_801539E8 = (D_801539E8 >= temp_a0->unk_4) ? (D_801539E8 - phi_v1 / D_801539EC) : (D_801539E8 + phi_v1 / D_801539EC);
-
-        temp_a1 = &D_801539D4[D_801539F0];
-
-        phi_v1_4 = ABS(D_801539F4 - temp_a1->unk_0);
-        phi_v1_5 = ABS(D_801539F8 - temp_a1->unk_2);
-        phi_v1_6 = ABS(D_801539FC - temp_a1->unk_4);
-
-        D_801539F4 = (D_801539F4 >= temp_a1->unk_0) ? (D_801539F4 - phi_v1_4 / D_801539EC) : (D_801539F4 + phi_v1_4 / D_801539EC);
-        D_801539F8 = (D_801539F8 >= temp_a1->unk_2) ? (D_801539F8 - phi_v1_5 / D_801539EC) : (D_801539F8 + phi_v1_5 / D_801539EC);
-        D_801539FC = (D_801539FC >= temp_a1->unk_4) ? (D_801539FC - phi_v1_6 / D_801539EC) : (D_801539FC + phi_v1_6 / D_801539EC);
-
-        if (D_801539EC-- == 0) {
-            D_801539E0 = temp_a0->unk_0;
-            D_801539E4 = temp_a0->unk_2;
-            D_801539E8 = temp_a0->unk_4;
-            D_801539F0 ^= 1;
-            D_801539EC = 12;
-            D_801539F4 = temp_a1->unk_0;
-            D_801539F8 = temp_a1->unk_2;
-            D_801539FC = temp_a1->unk_4;
+        if (temp_t2 >= temp_a0->x) {
+            temp_t2 -= temp_t5;
+        } else {
+            temp_t2 += temp_t5;
         }
+
+        if (temp_t1 >= temp_a0->y) {
+            temp_t1 -= sp60;
+        } else {
+            temp_t1 += sp60;
+        }
+
+        if (phi_a3 >= temp_a0->z) {
+            phi_a3 -= phi_v1 / D_801539EC;
+        } else {
+            phi_a3 += phi_v1 / D_801539EC;
+        }
+        D_801539E0 = temp_t2;
+        D_801539E4 = temp_t1;
+        D_801539E8 = phi_a3;
+
+        temp_a1_2 = &D_801539D4[D_801539F0];
+
+        phi_t5 = D_801539F4;
+        phi_v1 = ABS(phi_t5 - temp_a1_2->x);
+
+        phi_t1 = D_801539F8;
+        temp_a2 = phi_v1 / D_801539EC;
+        phi_v1 = ABS(phi_t1 - temp_a1_2->y);
+
+        phi_t2 = D_801539FC;
+        temp_a3 = phi_v1 / D_801539EC;
+        phi_v1 = ABS(phi_t2 - temp_a1_2->z);
+
+        if (phi_t5 >= temp_a1_2->x) {
+            phi_t5 -= temp_a2;
+        } else {
+            phi_t5 += temp_a2;
+        }
+
+        if (phi_t1 >= temp_a1_2->y) {
+            phi_t1 -= temp_a3;
+        } else {
+            phi_t1 += temp_a3;
+        }
+
+        if (phi_t2 >= temp_a1_2->z) {
+            phi_t2 -= phi_v1 / D_801539EC;
+        } else {
+            phi_t2 += phi_v1 / D_801539EC;
+        }
+
+        D_801539EC--;
+        if (D_801539EC == 0) {
+            D_801539E0 = temp_a0->x;
+            D_801539E4 = temp_a0->y;
+            D_801539E8 = temp_a0->z;
+            D_801539F0 ^= 1;
+            D_801539EC = 0xC;
+            phi_t5 = temp_a1_2->x;
+            phi_t1 = temp_a1_2->y;
+            phi_t2 = temp_a1_2->z;
+        }
+
         gDPPipeSync(gfx++);
-        gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 
-                                PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(gfx++, 0, 0, D_801539E0, D_801539E4, D_801539E8, 0xFF);
-        gDPSetEnvColor(gfx++, D_801539F4, D_801539F8, D_801539FC, 0xFF);
-        gDPSetTextureImage(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (globalCtx + 0x5E08));
+        gDPSetCombineLERP(gfx++, 
+                        PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 
+                        PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(gfx++, 0, 0, D_801539E0, D_801539E4, D_801539E8, 255);
+        gDPSetEnvColor(gfx++, phi_t5, phi_t1, phi_t2, 255);
+
+        D_801539F4 = phi_t5;
+        D_801539F8 = phi_t1;
+        D_801539FC = phi_t2;
+
+        gDPSetTextureImage(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 1, globalCtx->msgCtx.font.iconBuf);
         gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, 
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, 
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
@@ -986,27 +813,26 @@ extern s16 D_801539FC;
         gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_4b, 1, 0x0000, G_TX_RENDERTILE, 0, 
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, 
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 0x003C, 0x003C);
+        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 60, 60);
 
         D_801759A0 = (XREG(57) / 100.0f) * 16.0f;
         D_801759A4 = 1024.0f / (XREG(57) / 100.0f);
 
-        gSPTextureRectangle(gfx++, arg2 * 4, arg3 * 4, (arg2 + D_801759A0) * 4, (arg3 + D_801759A0) * 4, 
-                        G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
+        gSPTextureRectangle(gfx++, arg2 * 4, arg3 * 4, (arg2 + D_801759A0) * 4, (arg3 + D_801759A0) * 4 , G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
 
         globalCtx->msgCtx.unk_E3E7++;
         *p = gfx;
     }
-    return gfx;
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107980.s")
+#endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801080B4.s")
 u16 func_801080B4(GlobalContext* globalCtx, u16 arg1, Gfx** p, u16 arg3) {
     s32 pad;
     Gfx *gfx;
-    MessageContext* msgCtx;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
 
-    msgCtx = &globalCtx->msgCtx;
     gfx = *p;
     // clang-format off
     // same line required to match
@@ -1056,22 +882,18 @@ u16 func_801080B4(GlobalContext* globalCtx, u16 arg1, Gfx** p, u16 arg3) {
     return arg3;
 }
 
-#ifdef NON_MATCHING
-// Stack size, unk_E3F0 loads into v1 instead of a1
 void func_801083F8(GlobalContext* globalCtx) {
-    u16 new_var2;
     MessageContext* msgCtx = &globalCtx->msgCtx;
 
     if (globalCtx->msgCtx.msgMode == 6) {
         globalCtx->msgCtx.unk_E3EE = 1;
-        new_var2 = msgCtx->unk_E3F0;
-        if (new_var2 == 0x2A) {
+        if (msgCtx->unk_E3F0 == 0x2A) {
             msgCtx->msgMode = 0x21;
             // Recording Start / Recording Start / Recording Start / Recording Start ->
-            osSyncPrintf("録音開始 録音開始 録音開始 録音開始  -> ", new_var2);
-        } else if (new_var2 == 0x2B) {
+            osSyncPrintf("録音開始 録音開始 録音開始 録音開始  -> ");
+        } else if (msgCtx->unk_E3F0 == 0x2B) {
             // Recording Playback / Recording Playback / Recording Playback / Recording Playback ->
-            osSyncPrintf("録音再生 録音再生 録音再生 録音再生  -> ", new_var2);
+            osSyncPrintf("録音再生 録音再生 録音再生 録音再生  -> ");
             func_800ED858(1);
             func_800ED858(1);
             msgCtx->unk_E2B8 = func_800EE3F8();
@@ -1081,13 +903,13 @@ void func_801083F8(GlobalContext* globalCtx) {
             msgCtx->unk_E3E7 = 3;
             msgCtx->msgMode = 0x23;
             func_800ED93C(0xF, 1);
-        } else if (new_var2 == 0x2C) {
+        } else if (msgCtx->unk_E3F0 == 0x2C) {
             msgCtx->msgMode = 0x24;
             // 8 Note Recording Start / 8 Note Recording Start / 8 Note Recording Start ->
-            osSyncPrintf("８音録音開始 ８音録音開始 ８音録音開始  -> ", new_var2);
-        } else if (new_var2 == 0x2D) {
+            osSyncPrintf("８音録音開始 ８音録音開始 ８音録音開始  -> ");
+        } else if (msgCtx->unk_E3F0 == 0x2D) {
             // 8 Note Playback / 8 Note Playback / 8 Note Playback ->
-            osSyncPrintf("８音再生 ８音再生 ８音再生  -> ", new_var2);
+            osSyncPrintf("８音再生 ８音再生 ８音再生  -> ");
             func_800ED858(1);
             func_800ED858(1);
             msgCtx->unk_E2B8 = func_800EE3F8();
@@ -1097,39 +919,412 @@ void func_801083F8(GlobalContext* globalCtx) {
             msgCtx->unk_E3E7 = 3;
             msgCtx->msgMode = 0x28;
             func_800ED93C(0xD, 1);
-        } else if (new_var2 == 0x2E) {
+        } else if (msgCtx->unk_E3F0 == 0x2E) {
             msgCtx->msgMode = 0x29;
             // Musical Round Start / Musical Round Start / Musical Round Start / Musical Round Start ->
-            osSyncPrintf("輪唱開始 輪唱開始 輪唱開始 輪唱開始  -> ", new_var2);
-        } else if (new_var2 == 0x2F) {
+            osSyncPrintf("輪唱開始 輪唱開始 輪唱開始 輪唱開始  -> ");
+        } else if (msgCtx->unk_E3F0 == 0x2F) {
             msgCtx->msgMode = 0x31;
             // Frog Chorus / Frog Chorus ->
-            osSyncPrintf("カエルの合唱 カエルの合唱  -> ", new_var2);
+            osSyncPrintf("カエルの合唱 カエルの合唱  -> ");
         } else {
             // Ocarina（%d）
             osSyncPrintf("オカリナ（%d） ", msgCtx->unk_E3F0);
-            new_var2 = msgCtx->unk_E3F0;
-            if (new_var2 == 0 || new_var2 == 1 || new_var2 >= 0x22) {
+            if (msgCtx->unk_E3F0 == 0 || msgCtx->unk_E3F0 == 1 || msgCtx->unk_E3F0 >= 0x22) {
                 msgCtx->msgMode = 9;
-                osSyncPrintf("000000000000  -> ", new_var2);
-            } else if (new_var2 >= 2 && new_var2 < 0xE) {
+                osSyncPrintf("000000000000  -> ");
+            } else if (msgCtx->unk_E3F0 >= 2 && msgCtx->unk_E3F0 < 0xE) {
                 msgCtx->msgMode = 0xA;
-                osSyncPrintf("111111111111  -> ", new_var2);
+                osSyncPrintf("111111111111  -> ");
             } else {
                 msgCtx->msgMode = 0xB;
-                osSyncPrintf("222222222222  -> ", new_var2);
+                osSyncPrintf("222222222222  -> ");
             }
         }
         osSyncPrintf("msg_mode=%d\n", msgCtx->msgMode);
     }
 }
+
+typedef struct {
+    s16 r,g,b;
+} ColorRBG16; // size = 0x6
+
+extern const ColorRBG16 D_80153930[];
+extern const ColorRBG16 D_80153900[];
+
+extern const s16 D_80153948[];
+extern const u32 D_80153980[];
+
+extern u8 D_8014B300;
+extern s16 D_8014B318;
+
+#ifdef NON_EQUIVALENT
+// Weirdness with the nested loop, somewhat ok otherwise
+void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
+    u16 sp128;
+    Gfx *sp120;
+    Font *sp58;
+    s32 sp50;
+    MessageContext *temp_s1;
+    s32 temp_a0;
+    u16 temp_a3;
+    s32 temp_s2;
+    s32 temp_t7_2;
+    s32 temp_v0_18;
+    s32 temp_v0_3;
+    s32 temp_v0_4;
+    s32 temp_v0_7;
+    u16 temp_v0_19;
+    u32 temp_t8;
+    u8 temp_a1;
+    u8 temp_v0;
+    u8 temp_v0_2;
+    u8 temp_v0_5;
+    u8 temp_v0_6;
+    u16 phi_s2;
+    u16 phi_a0;
+    s32 phi_t0;
+    s32 phi_t1;
+    s32 phi_t2;
+    s32 phi_t3;
+    s32 phi_t4;
+    s32 phi_t5;
+    s32 phi_v1;
+    ColorRBG16* temp_v0_8;
+    ColorRBG16* temp_v0_13;
+
+    sp120 = *gfxP;
+    globalCtx->msgCtx.unk_E3D8 = XREG(54);
+    temp_s1 = &globalCtx->msgCtx;
+    if (D_8014B308 == 0) {
+        temp_s1->unk_E3DA = XREG(55);
+    } else {
+        temp_s1->unk_E3DA = YREG(1);
+    }
+    if (temp_s1->unk_E2FD == 5) {
+        temp_s1->unk_E3DC = temp_s1->unk_E3DE = temp_s1->unk_E3E0 = 0;
+    } else {
+        temp_s1->unk_E3DC = temp_s1->unk_E3DE = temp_s1->unk_E3E0 = 0xFF;
+    }
+    temp_s1->unk_E3D0 = 0;
+    sp128 = 0;
+
+    for (phi_s2 = 0; phi_s2 < temp_s1->unk_E3D2; phi_s2++) {
+        phi_t0 = 9;
+        phi_t1 = 0xA;
+        phi_t2 = 0xB;
+        phi_t3 = 0xC;
+        phi_t4 = 0xD;
+        phi_t5 = 4;
+        temp_v0 = temp_s1->unk_E306[phi_s2];
+        temp_t8 = temp_v0 - 1;
+        switch(temp_t8) {
+        case 0:
+            temp_s1->unk_E3D8 = XREG(54);
+            if ((temp_s1->unk_E3E6 == 1) || (temp_s1->unk_E3E6 == 3)) {
+                temp_s1->unk_E3D8 += 0x20;
+            }
+            if ((temp_s1->unk_E3E6 == 2) && (temp_s1->unk_E3DA != XREG(55))) {
+                temp_s1->unk_E3D8 += 0x20;
+            }
+            temp_s1->unk_E3DA += XREG(56);
+            break;
+        case 4:
+            func_801076CC(temp_s1, temp_s1->unk_E306[++phi_s2] & 0xF);
+            phi_t0 = 9;
+            phi_t1 = 0xA;
+            phi_t2 = 0xB;
+            phi_t3 = 0xC;
+            phi_t4 = 0xD;
+            phi_t5 = 4;
+            break;
+        case 31:
+            temp_s1->unk_E3D8 += 6;
+            break;
+        case 3:
+            if (temp_s1->msgMode == 6) {
+                if ((u8) D_8014B300 == 0) {
+                    Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    temp_s1->msgMode = 0x34;
+                    Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 0);
+                } else {
+                    temp_s1->msgMode = 4;
+                    temp_s1->unk_E3D6 = 0;
+                    temp_s1->unk_E3CE = temp_s1->unk_E3CE + 1;
+                }
+            }
+            *gfxP = sp120;
+            return;
+        case 5:
+            temp_s1->unk_E3D8 += temp_s1->unk_E306[++phi_s2];
+            break;
+        case 6:
+            temp_s1->unk_E3E4 = 0x30;
+            if (temp_s1->msgMode == 6) {
+                Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                temp_s1->msgMode = 0x35;
+                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 0);
+            }
+            *gfxP = sp120;
+            return;
+        case 7:
+            if (temp_s1->unk_E3D2 == (phi_s2 + 1)) {
+                phi_a0 = phi_s2;
+                if (temp_s1->msgMode == 6 || (temp_s1->msgMode >= 9 && temp_s1->msgMode < 0x21)) {
+                    while (true) {
+                        temp_v0_6 = temp_s1->unk_E306[phi_a0];
+                        if (temp_v0_6 == 6) {
+                            phi_a0 += 2;
+                            continue;
+                        }
+                        if ((temp_v0_6 != phi_t0) && 
+                            (temp_v0_6 != phi_t1) && 
+                            (temp_v0_6 != phi_t2) && 
+                            (temp_v0_6 != phi_t3) && 
+                            (temp_v0_6 != phi_t4) && 
+                            (temp_v0_6 != phi_t5) && 
+                            (temp_v0_6 != 2)) {
+                            phi_a0++;
+                            continue;
+                        }
+                        break;
+                    }
+                    phi_a0--;
+                    temp_s1->unk_E3D2 = phi_a0 + 1;
+                    phi_s2 = phi_a0;
+                }
+            }
+        case 8:
+            break;
+        case 12:
+            if (temp_s1->unk_E3D2 == (phi_s2 + 1)) {
+                if (temp_s1->msgMode == 6) {
+                    temp_s1->msgMode = 7;
+                    Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 0);
+                }
+                *gfxP = sp120;
+                return;
+            }
+            break;
+        case 11:
+            if (temp_s1->msgMode == 6) {
+                temp_s1->msgMode = 8;
+                temp_s1->unk_E3E7 = temp_s1->unk_E306[phi_s2 + 1];
+            }
+            *gfxP = sp120;
+            return;
+        case 16:
+            if (temp_s1->msgMode == 6) {
+                temp_s1->msgMode = 0x35;
+                temp_s1->unk_E3E4 = 0x60;
+                osSyncPrintf("タイマー (%x) (%x)", temp_s1->unk_E306[phi_s2 + 1], temp_s1->unk_E306[phi_s2 + 2]); // timer
+                temp_v0_7 = phi_s2 + 1;
+                temp_a3 = temp_v0_7 + 1;
+                temp_s1->unk_E3E7 = temp_s1->unk_E306[temp_v0_7] << 8;
+                temp_s1->unk_E3E7 |= temp_s1->unk_E306[temp_a3];
+                temp_a1 = temp_s1->unk_E3E7;
+                osSyncPrintf("合計wct=%x(%d)\n", temp_a1, temp_a1); // total wct
+            }
+            *gfxP = sp120;
+            return;
+        case 17:
+            if ((temp_s1->msgMode == 6) && (D_8014B318 == 0)) {
+                D_8014B318 = 1;
+                osSyncPrintf("サウンド（ＳＥ）\n"); // sfx
+                Audio_PlaySoundGeneral((temp_s1->unk_E306[phi_s2 + 2] | (temp_s1->unk_E306[phi_s2 + 1] << 8)) & 0xFFFF, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                phi_t0 = 9;
+                phi_t1 = 0xA;
+                phi_t2 = 0xB;
+                phi_t3 = 0xC;
+                phi_t4 = 0xD;
+                phi_t5 = 4;
+            }
+            phi_s2 += 2;
+            break;
+        case 18:
+            phi_s2 = func_801080B4(globalCtx, temp_s1->unk_E306[phi_s2 + 1], &sp120, phi_s2);
+            phi_t0 = 9;
+            phi_t1 = 0xA;
+            phi_t2 = 0xB;
+            phi_t3 = 0xC;
+            phi_t4 = 0xD;
+            phi_t5 = 4;
+            break;
+        case 20:
+            if (temp_s1->msgMode == 6) {
+                Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                phi_t0 = 9;
+                phi_t1 = 0xA;
+                phi_t2 = 0xB;
+                phi_t3 = 0xC;
+                phi_t4 = 0xD;
+                phi_t5 = 4;
+            }
+            gDPPipeSync(sp120++);
+            gDPSetCombineMode(sp120++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+            temp_v0_8 = &D_80153930[temp_s1->unk_E3F9];
+            gDPSetPrimColor(sp120++, 0, 0, temp_v0_8->r, temp_v0_8->g, temp_v0_8->b, temp_s1->unk_E3E2);
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1000));
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPLoadSync(sp120++);
+            gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 343);
+            gDPPipeSync(sp120++);
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_4b, 6, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 380, 188);
+            gSPTextureRectangle(sp120++, 
+                            (temp_s1->unk_E3D8 + 1) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61)) * 4, 
+                            (temp_s1->unk_E3D8 + 0x61) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1900));
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPLoadSync(sp120++);
+            gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 342);
+            gDPPipeSync(sp120++);
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_4b, 6, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 0x017C, 0x00BC);
+            gSPTextureRectangle(sp120++, 
+                            (temp_s1->unk_E3D8 + 0x61) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61)) * 4, 
+                            (temp_s1->unk_E3D8 + 0xC2) * 4, (D_80153948[temp_s1->unk_E3FA] + XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+            gDPPipeSync(sp120++);
+            temp_v0_13 = &D_80153900[temp_s1->unk_E3F8];
+            gDPSetPrimColor(sp120++, 0, 0, temp_v0_13->r, temp_v0_13->g, temp_v0_13->b, temp_s1->unk_E3E2);
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1000));
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPLoadSync(sp120++);
+            gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 342);
+            gDPPipeSync(sp120++);
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_4b, 6, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 380, 188);
+            gSPTextureRectangle(sp120++, 
+                            temp_s1->unk_E3D8 * 4, XREG(61) * 4, 
+                            (temp_s1->unk_E3D8 + 0x60) * 4, (XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+            gDPSetTextureImage(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ((u32)temp_s1->textboxSegment + 0x1900));
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPLoadSync(sp120++);
+            gDPLoadBlock(sp120++, G_TX_LOADTILE, 0, 0, 1151, 342);
+            gDPPipeSync(sp120++);
+            gDPSetTile(sp120++, G_IM_FMT_I, G_IM_SIZ_4b, 6, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
+            gDPSetTileSize(sp120++, G_TX_RENDERTILE, 0, 0, 380, 188);
+            gSPTextureRectangle(sp120++, 
+                            (temp_s1->unk_E3D8 + 0x60) * 4, XREG(61) * 4, 
+                            (temp_s1->unk_E3D8 + 0xC0) * 4, (XREG(61) + 0x30) * 4, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+            gDPPipeSync(sp120++);
+            gDPSetCombineLERP(sp120++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
+
+            temp_s1->unk_E3D8 += 0x20;
+            break;
+        case 19:
+            temp_s1->unk_E3EA = temp_s1->unk_E306[++phi_s2];
+            break;
+        case 25:
+            temp_s1->unk_E3D6 = 1;
+            break;
+        case 26:
+            temp_s1->unk_E3E4 = 0x10;
+            if (temp_s1->msgMode == 6) {
+                temp_s1->unk_E3E7 = 4;
+                temp_s1->choiceIndex = 0;
+                temp_s1->unk_E2FA = temp_s1->unk_E2F8;
+                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 2);
+                phi_t0 = 9;
+                phi_t1 = 0xA;
+                phi_t2 = 0xB;
+                phi_t3 = 0xC;
+                phi_t4 = 0xD;
+                phi_t5 = 4;
+            }
+            break;
+        case 27:
+            temp_s1->unk_E3E4 = 0x20;
+            if (temp_s1->msgMode == 6) {
+                temp_s1->unk_E3E7 = 4;
+                temp_s1->choiceIndex = 0;
+                temp_s1->unk_E2FA = temp_s1->unk_E2F8;
+                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 2);
+                phi_t0 = 9;
+                phi_t1 = 0xA;
+                phi_t2 = 0xB;
+                phi_t3 = 0xC;
+                phi_t4 = 0xD;
+                phi_t5 = 4;
+            }
+            break;
+        case 1:
+            if (temp_s1->msgMode == 6) {
+                temp_s1->msgMode = 0x35;
+                if (temp_s1->unk_E3E4 == 0) {
+                    Audio_PlaySoundGeneral(0x482E, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 1);
+                    if (globalCtx->csCtx.state == 0) {
+                        Interface_SetDoAction(globalCtx, 3);
+                    }
+                }
+            }
+            *gfxP = sp120;
+            return;
+        case 15:
+            if (temp_s1->unk_E3D2 == (phi_s2 + 1)) {
+                func_801083F8(globalCtx);
+                *gfxP = sp120;
+                return;
+            }
+            break;
+        case 13:
+            if (temp_s1->msgMode == 6) {
+                temp_s1->msgMode = 0x35;
+                temp_s1->unk_E3E4 = 0x60;
+                temp_s1->unk_E3E7 = temp_s1->unk_E306[phi_s2 + 1];
+                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 1);
+                if (globalCtx->csCtx.state == 0) {
+                    Interface_SetDoAction(globalCtx, 3);
+                }
+            }
+            *gfxP = sp120;
+            return;
+        case 9:
+            if (temp_s1->msgMode == 6) {
+                Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                temp_s1->msgMode = 0x35;
+                temp_s1->unk_E3E4 = 0x40;
+            }
+            *gfxP = sp120;
+            return;
+        case 10:
+            if (temp_s1->msgMode == 6) {
+                temp_s1->msgMode = 0x35;
+                temp_s1->unk_E3E4 = 0x50;
+                Font_LoadMessageBoxEndIcon(&globalCtx->msgCtx.font, 0);
+                Audio_PlaySoundGeneral(0x482E, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            break;
+        default:
+            if ((temp_s1->msgMode == 6) && (temp_s1->unk_E3D2 == (phi_s2 + 1)) && (temp_s1->unk_E3EA == temp_s1->unk_E3E8)) {
+                Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            func_80106F1C(globalCtx, &globalCtx->msgCtx.font + sp128 + 8, &sp120);
+            sp128 += 128;
+            temp_s1->unk_E3D8 += D_80153980[temp_s1->unk_E306[phi_s2]] * (s32)(XREG(57) / 100.0f);
+            phi_t0 = 9;
+            phi_t1 = 0xA;
+            phi_t2 = 0xB;
+            phi_t3 = 0xC;
+            phi_t4 = 0xD;
+            phi_t5 = 4;
+            break;
+        }
+    }
+    if (temp_s1->unk_E3E8 == 0) {
+        temp_s1->unk_E3D2 = phi_s2 + 1;
+        temp_s1->unk_E3E8 = temp_s1->unk_E3EA;
+    } else {
+        temp_s1->unk_E3E8--;
+    }
+    *gfxP = sp120;
+}
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801083F8.s")
+void func_801086B0(GlobalContext* globalCtx, Gfx** gfxP);
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801086B0.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801086B0.s")
-
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80109968.s")
 void func_80109968(GlobalContext* globalCtx, u16 arg1, s16 arg2) {
     MessageContext* msgCtx;
     InterfaceContext* interfaceCtx;
@@ -1165,8 +1360,8 @@ void func_80109968(GlobalContext* globalCtx, u16 arg1, s16 arg2) {
 
 extern s16 D_8014B304;
 extern s16 D_8014B2F0;
-extern volatile s8 D_8014B300;
 
+// Message_ExpandControlCodes / Message_Decode
 #ifdef NON_EQUIVALENT
 // Plenty, but general structure seems good
 void func_80109B3C(GlobalContext* globalCtx) {
@@ -1557,42 +1752,29 @@ void func_80109B3C(GlobalContext* globalCtx);
 #endif
 
 extern volatile s8 D_8014B2F4;
-extern s16 D_8014B318;
 
-void func_8010B0C0(GlobalContext*, u16);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B0C0.s")
-/* void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
-    static const u16 D_80153C50[] = {
+#ifdef NON_MATCHING
+// (ro)data loads/stores at the start, rodata unmigrated
+void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
+    static const s16 D_80153C50[] = {
         0x0000, 0x0001, 0x0003, 0x0002,
     };
 
-    s16 sp3E;
-    MessageData* sp30;
-    u16 temp_v0_3;
-    s32 temp_v0;
-    u16 temp_a3;
-    u16 temp_a3_2;
-    u8 temp_v0_2;
-    s32 phi_a3;
-    u16 phi_a3_2;
-    u16 phi_a3_3;
-    MessageContext *msgCtx;
-    SaveContext *phi_a1;
-    s32 *phi_t0;
-    u16 phi_a3_4;
-    SaveContext *phi_a1_2;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
+    Font* sp30 = &msgCtx->font;
+    s16 tmp;
 
-    msgCtx = &globalCtx->msgCtx;
-    if (globalCtx->msgCtx.msgMode == 0) {
+    if (msgCtx->msgMode == 0) {
         gSaveContext.unk_13EE = gSaveContext.unk_13EA;
     }
     if (YREG(15) == 0x10) {
         Interface_ChangeAlpha(5);
     }
+
     D_8014B308 = 0;
-    D_8014B300 = D_8014B308;
-    D_8014B2F4 = D_8014B308;
+    D_8014B2F4 = D_8014B300 = D_8014B308;
     D_8014B318 = D_8014B308 & 0xFF;
+
     if (textId >= 0x0500 && textId < 0x0600) { // text ids 0500 to 0600 are reserved for credits
         D_8014B308 = 1;
         XREG(57) = 0x55;
@@ -1607,7 +1789,7 @@ void func_8010B0C0(GlobalContext*, u16);
     if (textId == 0xC2 || textId == 0xFA) { // C2 = One piece of heart , FA = WINNER One piece of heart
         // Increments text id based on piece of heart count, assumes the piece of heart text is all
         // in order and that you don't have more than the intended amount of heart pieces.
-        textId += (gSaveContext.questItems & 0xF0000000) >> 0x1C;
+        textId += (gSaveContext.inventory.questItems & 0xF0000000 & 0xF0000000) >> 0x1C;
     } else if (msgCtx->unk_E2F8 == 0xC && CHECK_OWNED_EQUIP(EQUIP_SWORD,2)) {
         textId = 0xB; // Traded Giant's Knife for Biggoron Sword
     } else if (msgCtx->unk_E2F8 == 0xB4 && (gSaveContext.eventChkInf[9] & 0x40)) {
@@ -1623,57 +1805,58 @@ void func_8010B0C0(GlobalContext*, u16);
     }
     msgCtx->unk_E2F8 = textId;
     if (textId == 0x2030) { // Talking to Ingo as adult in Lon Lon Ranch for the first time before freeing Epona
-        osSyncPrintf("\x1b[33m");
+        osSyncPrintf("\x1b[33m"); // VT_FGCOL(yellow)
         osSyncPrintf("？？？？？？？？？？？？？？？？  z_message.c  ？？？？？？？？？？？？？？？？？？\n");
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf("\x1b[m"); // VT_RST
         gSaveContext.eventInf[0] = gSaveContext.eventInf[1] =  gSaveContext.eventInf[2] = gSaveContext.eventInf[3] = 0;
     }
-    sp30 = &msgCtx->font.msgData;
+    
     if (D_8014B308 != 0) {
         func_80107628(globalCtx, textId);
-        msgCtx->unk_E300 = sp30->size;
-        DmaMgr_SendRequest1(globalCtx->msgCtx.font.msgBuf, 
-                        (u32)(_staff_message_data_staticSegmentRomStart + globalCtx->msgCtx.font.msgData.offset), 
-                        msgCtx->unk_E300, "../z_message_PAL.c", 1954);
+        msgCtx->unk_E300 = sp30->msgLength;
+        DmaMgr_SendRequest1((u32)sp30->msgBuf, 
+                        (u32)(_staff_message_data_staticSegmentRomStart + sp30->msgOffset), 
+                        sp30->msgLength, "../z_message_PAL.c", 1954);
     } else {
-        temp_v0_2 = gSaveContext.language;
-        if (temp_v0_2 == 0) {
-            func_80107628(globalCtx, textId);
-            msgCtx->unk_E300 = sp30->size;
-            DmaMgr_SendRequest1((u32)msgCtx->font.msgBuf, 
-                            (u32)(_nes_message_data_staticSegmentRomStart + sp30->offset), 
-                        sp30->size, "../z_message_PAL.c", 1966);
-        } else if (temp_v0_2 == 1) {
-            func_80107628(globalCtx, textId);
-            msgCtx->unk_E300 = sp30->size;
-            DmaMgr_SendRequest1((u32)msgCtx->font.msgBuf, 
-                            (u32)(_ger_message_data_staticSegmentRomStart + sp30->offset), 
-                            sp30->size, "../z_message_PAL.c", 1978);
+        if (gSaveContext.language == LANGUAGE_ENG) {
+            func_80107448(globalCtx, textId);
+            msgCtx->unk_E300 = sp30->msgLength;
+            DmaMgr_SendRequest1((u32)sp30->msgBuf, 
+                            (u32)(_nes_message_data_staticSegmentRomStart + sp30->msgOffset), 
+                            sp30->msgLength, "../z_message_PAL.c", 1966);
+        } else if (gSaveContext.language == LANGUAGE_GER) {
+            func_80107448(globalCtx, textId);
+            msgCtx->unk_E300 = sp30->msgLength;
+            DmaMgr_SendRequest1((u32)sp30->msgBuf, 
+                            (u32)(_ger_message_data_staticSegmentRomStart + sp30->msgOffset), 
+                            sp30->msgLength, "../z_message_PAL.c", 1978);
         } else {
-            func_80107628(globalCtx, textId);
-            msgCtx->unk_E300 = sp30->size;
-            DmaMgr_SendRequest1((u32)msgCtx->font.msgBuf, 
-                            (u32)(_fra_message_data_staticSegmentRomStart + sp30->offset), 
-                            sp30->size, "../z_message_PAL.c", 1990);
+            func_80107448(globalCtx, textId);
+            msgCtx->unk_E300 = sp30->msgLength;
+            DmaMgr_SendRequest1((u32)sp30->msgBuf, 
+                            (u32)(_fra_message_data_staticSegmentRomStart + sp30->msgOffset), 
+                            sp30->msgLength, "../z_message_PAL.c", 1990);
         }
     }
     msgCtx->unk_E2FC = sp30->xy;
     msgCtx->unk_E2FD = msgCtx->unk_E2FC >> 4;
     msgCtx->unk_E2FE = msgCtx->unk_E2FC & 0xF;
+    tmp = msgCtx->unk_E2FD;
     // Text Box Type＝%d
-    osSyncPrintf("吹き出し種類＝%d\n", msgCtx->unk_E2FD);
-    if (msgCtx->unk_E2FD < 4) {
-        temp_v0_3 = D_80153C50[msgCtx->unk_E2FD];
-        DmaMgr_SendRequest1(msgCtx->textboxSegment, (u32)(_message_staticSegmentRomStart + (temp_v0_3 * 0x1000)), 0x1000, "../z_message_PAL.c", 2006);
-        if (temp_v0_3 == D_80153C50[0]) {
+    osSyncPrintf("吹き出し種類＝%d\n",  msgCtx->unk_E2FD);
+    if (tmp < 4) {
+        DmaMgr_SendRequest1(msgCtx->textboxSegment, 
+                        (u32)(_message_staticSegmentRomStart + (D_80153C50[tmp] * 0x1000)), 
+                        0x1000, "../z_message_PAL.c", 2006);
+        if (tmp == 0) {
             msgCtx->unk_E3FE = 0;
             msgCtx->unk_E400 = 0;
             msgCtx->unk_E402 = 0;
-        } else if (temp_v0_3 == D_80153C50[1]) {
+        } else if (tmp == 1) {
             msgCtx->unk_E3FE = 0x46;
             msgCtx->unk_E400 = 0x32;
             msgCtx->unk_E402 = 0x1E;
-        } else if (temp_v0_3 == D_80153C50[2]) {
+        } else if (tmp == 2) {
             msgCtx->unk_E3FE = 0;
             msgCtx->unk_E400 = 0xA;
             msgCtx->unk_E402 = 0x32;
@@ -1682,9 +1865,9 @@ void func_8010B0C0(GlobalContext*, u16);
             msgCtx->unk_E400 = 0;
             msgCtx->unk_E402 = 0;
         }
-        if (temp_v0_3 == D_80153C50[1]) {
+        if (tmp == 1) {
             msgCtx->unk_E404 = 0xE6;
-        } else if (temp_v0_3 == D_80153C50[3]) {
+        } else if (tmp == 3) {
             msgCtx->unk_E404 = 0xB4;
         } else {
             msgCtx->unk_E404 = 0xAA;
@@ -1693,14 +1876,16 @@ void func_8010B0C0(GlobalContext*, u16);
     }
     msgCtx->unk_E3E6 = msgCtx->unk_E3D6 = msgCtx->unk_E3E4 = 0;
     msgCtx->unk_E3CE = msgCtx->unk_E3D0 = msgCtx->unk_E3D2 = 0;
-} */
+}
+#else
+void func_8010B0C0(GlobalContext*, u16);
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B0C0.s")
+#endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B680.s")
 // Message_Begin
 void func_8010B680(GlobalContext* globalCtx, u16 textId, Actor* actor) {
-    MessageContext* msgCtx;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
 
-    msgCtx = &globalCtx->msgCtx;
     osSyncPrintf("\x1b[34m");
     // Message＝%x(%d)
     osSyncPrintf("めっせーじ＝%x(%d)\n", textId, actor);
@@ -1714,12 +1899,10 @@ void func_8010B680(GlobalContext* globalCtx, u16 textId, Actor* actor) {
     globalCtx->msgCtx.unk_E3EE = 0;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B720.s")
 // Message_Continue
 void func_8010B720(GlobalContext* globalCtx, u16 textId) {
-    MessageContext* msgCtx;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
 
-    msgCtx = &globalCtx->msgCtx;
     osSyncPrintf("\x1b[32m");
     // Message＝%x message->msg_data
     osSyncPrintf("めっせーじ＝%x  message->msg_data\n", textId, msgCtx->unk_E300);
@@ -1870,13 +2053,11 @@ void func_8010B820(GlobalContext*, u16);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B820.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BD58.s")
 void func_8010BD58(GlobalContext* globalCtx, u16 arg1) {
     globalCtx->msgCtx.unk_E40E = 0;
     func_8010B820(globalCtx, arg1);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BD88.s")
 void func_8010BD88(GlobalContext* globalCtx, u16 arg1) {
     globalCtx->msgCtx.unk_E40E = 1;
     func_8010B820(globalCtx, arg1);
@@ -1977,18 +2158,20 @@ void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BED8.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010C358.s")
+// Message_SetView ?
 void func_8010C358(View* view) {
     SET_FULLSCREEN_VIEWPORT(view);
     func_800AB2C4(view);
 }
 
+// Message_DrawMain ?
 void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010C39C.s")
 
+// Message_DrawSetup ?
 #ifdef NON_MATCHING
 // Matches but it loads from data instead of rodata
-void func_8010F2CC(s16 *arg0, GraphicsContext* gfxCtx) {
+void func_8010F2CC(s16* arg0, GraphicsContext* gfxCtx) {
     static s16 D_80153CF8 = 0;
     static s16 D_80153CFC = 0;
     s32 pad[2];
@@ -2016,11 +2199,11 @@ void func_8010F2CC(s16 *arg0, GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_message_PAL.c", 35130);
 }
 #else
-void func_8010F2CC(s16 *arg0, GraphicsContext* gfxCtx);
+void func_8010F2CC(s16* arg0, GraphicsContext* gfxCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F2CC.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F494.s")
+// Message_DrawDebug ?
 void func_8010F494(GlobalContext* globalCtx, Gfx** p) {
     s32 pad;
     GfxPrint printer;
@@ -2039,8 +2222,7 @@ void func_8010F494(GlobalContext* globalCtx, Gfx** p) {
     GfxPrint_Destroy(&printer);
 }
 
-#ifdef NON_MATCHING
-// Saved regs and stack
+// Message_Draw ?
 void func_8010F58C(GlobalContext* globalCtx) {
     Gfx* plusOne;
     Gfx* polyOpaP;
@@ -2050,16 +2232,15 @@ void func_8010F58C(GlobalContext* globalCtx) {
     sp4E = gSaveContext.scarecrowCustomSongSet;
     func_8010F2CC(&sp4E, globalCtx->state.gfxCtx);
     if (BREG(0) != 0 && globalCtx->msgCtx.unk_E2F8 != 0) {
-        polyOpaP = oGfxCtx->polyOpa.p;
-        plusOne = Graph_GfxPlusOne(polyOpaP);
+        plusOne = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
         gSPDisplayList(oGfxCtx->overlay.p++, plusOne);
         func_8010F494(globalCtx, &plusOne);
         gSPEndDisplayList(plusOne++);
         Graph_BranchDlist(polyOpaP, plusOne);
         oGfxCtx->polyOpa.p = plusOne;
     }
-    polyOpaP = oGfxCtx->polyOpa.p;
-    plusOne = Graph_GfxPlusOne(polyOpaP);
+    if (1) {}
+    plusOne = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
     gSPDisplayList(oGfxCtx->overlay.p++, plusOne);
     func_8010C39C(globalCtx, &plusOne);
     gSPEndDisplayList(plusOne++);
@@ -2067,14 +2248,11 @@ void func_8010F58C(GlobalContext* globalCtx) {
     oGfxCtx->polyOpa.p = plusOne;
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_message_PAL.c", 3582);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F58C.s")
-#endif
 
+void func_8010F6F0(GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F6F0.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8011040C.s")
-void func_8011040C() {
+void func_8011040C(void) {
     NON_CONST(D_801538F0, MessageTableEntry*) = &D_8014B320;
     NON_CONST(D_801538F4, u32*) = &D_8014F548;
     NON_CONST(D_801538F8, u32*) = &D_80151658;

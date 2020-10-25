@@ -2061,11 +2061,11 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 a
         action = 0x0A;
     }
 
-    if (gSaveContext.language != 0) {
+    if (gSaveContext.language != LANGUAGE_ENG) {
         action += 0x1D;
     }
 
-    if (gSaveContext.language == 2) {
+    if (gSaveContext.language == LANGUAGE_FRA) {
         action += 0x1D;
     }
 
@@ -2121,11 +2121,11 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState) {
 void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
-    if (gSaveContext.language != 0) {
+    if (gSaveContext.language != LANGUAGE_ENG) {
         action += 0x1D;
     }
 
-    if (gSaveContext.language == 2) {
+    if (gSaveContext.language == LANGUAGE_FRA) {
         action += 0x1D;
     }
 
@@ -3914,13 +3914,13 @@ void Interface_Update(GlobalContext* globalCtx) {
     Input* input = &globalCtx->state.input[2];
 
     if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT)) {
-        gSaveContext.language = 0;
+        gSaveContext.language = LANGUAGE_ENG;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     } else if (CHECK_BTN_ALL(input->press.button, BTN_DUP)) {
-        gSaveContext.language = 1;
+        gSaveContext.language = LANGUAGE_GER;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     } else if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT)) {
-        gSaveContext.language = 2;
+        gSaveContext.language = LANGUAGE_FRA;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }
 
