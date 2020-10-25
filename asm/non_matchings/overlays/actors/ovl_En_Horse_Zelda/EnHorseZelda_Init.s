@@ -76,7 +76,7 @@ glabel EnHorseZelda_Init
 /* 00328 80A6DBF8 3C0680A7 */  lui     $a2, %hi(D_80A6E238)       ## $a2 = 80A70000
 /* 0032C 80A6DBFC 24C6E238 */  addiu   $a2, $a2, %lo(D_80A6E238)  ## $a2 = 80A6E238
 /* 00330 80A6DC00 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00334 80A6DC04 0C0187B5 */  jal     func_80061ED4
+/* 00334 80A6DC04 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable
 /* 00338 80A6DC08 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0033C 80A6DC0C AE000150 */  sw      $zero, 0x0150($s0)         ## 00000150
 /* 00340 80A6DC10 0C29B71F */  jal     func_80A6DC7C

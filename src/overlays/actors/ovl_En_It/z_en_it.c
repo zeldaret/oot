@@ -42,7 +42,7 @@ void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.params = 0x0D05;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, 0, &sColChkInfoInit);
 }
 
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx) {

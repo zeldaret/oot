@@ -103,7 +103,7 @@ glabel func_80B8DB7C
 /* 00CAC 80B8DCFC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00CB0 80B8DD00 46004282 */  mul.s   $f10, $f8, $f0             
 /* 00CB4 80B8DD04 46065400 */  add.s   $f16, $f10, $f6            
-/* 00CB8 80B8DD08 0C0189CD */  jal     func_80062734              
+/* 00CB8 80B8DD08 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 00CBC 80B8DD0C E7B000C8 */  swc1    $f16, 0x00C8($sp)          
 /* 00CC0 80B8DD10 3C014416 */  lui     $at, 0x4416                ## $at = 44160000
 /* 00CC4 80B8DD14 4481E000 */  mtc1    $at, $f28                  ## $f28 = 600.00

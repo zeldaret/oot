@@ -103,7 +103,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
                      &this->transitionDrawTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->zOffset = -1600;
     invisble = this->actor.params & SPAWN_INVISIBLE;
 

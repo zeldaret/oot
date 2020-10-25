@@ -178,7 +178,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
 
             this->hitboxPos = cylinderPos;
 
-            func_80062718(&this->collider, &cylinderPos);
+            Collider_SetCylinderPosition(&this->collider, &cylinderPos);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }

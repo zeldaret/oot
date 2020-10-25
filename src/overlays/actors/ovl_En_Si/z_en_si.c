@@ -47,7 +47,7 @@ void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &D_80AFBADC);
+    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, NULL, &D_80AFBADC);
     Actor_SetScale(&this->actor, 0.025f);
     this->unk_19C = 0;
     this->actionFunc = func_80AFB768;

@@ -91,7 +91,7 @@ glabel BgYdanSp_Init
 /* 00150 808BF560 8FA40030 */  lw      $a0, 0x0030($sp)           
 /* 00154 808BF564 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00158 808BF568 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFFD4
-/* 0015C 808BF56C 0C0189E8 */  jal     func_800627A0              
+/* 0015C 808BF56C 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 00160 808BF570 27A70060 */  addiu   $a3, $sp, 0x0060           ## $a3 = FFFFFFE0
 /* 00164 808BF574 C7B20054 */  lwc1    $f18, 0x0054($sp)          
 /* 00168 808BF578 C7A40074 */  lwc1    $f4, 0x0074($sp)           
@@ -102,7 +102,7 @@ glabel BgYdanSp_Init
 /* 0017C 808BF58C 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFFD4
 /* 00180 808BF590 27A7006C */  addiu   $a3, $sp, 0x006C           ## $a3 = FFFFFFEC
 /* 00184 808BF594 E7B20060 */  swc1    $f18, 0x0060($sp)          
-/* 00188 808BF598 0C0189E8 */  jal     func_800627A0              
+/* 00188 808BF598 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 0018C 808BF59C E7A40068 */  swc1    $f4, 0x0068($sp)           
 /* 00190 808BF5A0 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 00194 808BF5A4 10000080 */  beq     $zero, $zero, .L808BF7A8   
@@ -207,7 +207,7 @@ glabel BgYdanSp_Init
 /* 002FC 808BF70C E7A20040 */  swc1    $f2, 0x0040($sp)           
 /* 00300 808BF710 E7AC0044 */  swc1    $f12, 0x0044($sp)          
 /* 00304 808BF714 E7AE0038 */  swc1    $f14, 0x0038($sp)          
-/* 00308 808BF718 0C0189E8 */  jal     func_800627A0              
+/* 00308 808BF718 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 0030C 808BF71C E7B0003C */  swc1    $f16, 0x003C($sp)          
 /* 00310 808BF720 3C01808C */  lui     $at, %hi(D_808C0984)       ## $at = 808C0000
 /* 00314 808BF724 C7AC0044 */  lwc1    $f12, 0x0044($sp)          
@@ -241,7 +241,7 @@ glabel BgYdanSp_Init
 /* 00384 808BF794 46122201 */  sub.s   $f8, $f4, $f18             
 /* 00388 808BF798 460E3102 */  mul.s   $f4, $f6, $f14             
 /* 0038C 808BF79C 46082480 */  add.s   $f18, $f4, $f8             
-/* 00390 808BF7A0 0C0189E8 */  jal     func_800627A0              
+/* 00390 808BF7A0 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 00394 808BF7A4 E7B20068 */  swc1    $f18, 0x0068($sp)          
 .L808BF7A8:
 /* 00398 808BF7A8 8FA40084 */  lw      $a0, 0x0084($sp)           

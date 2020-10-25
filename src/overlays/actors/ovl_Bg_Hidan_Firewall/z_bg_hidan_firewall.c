@@ -67,7 +67,7 @@ void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->collider.dim.pos.y = this->actor.posRot.pos.y;
 
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     this->actionFunc = BgHidanFirewall_Wait;
 }

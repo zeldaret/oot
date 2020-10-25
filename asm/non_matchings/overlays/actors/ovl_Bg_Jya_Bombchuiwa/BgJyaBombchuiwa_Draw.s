@@ -13,7 +13,7 @@ glabel BgJyaBombchuiwa_Draw
               
 /* 009E8 80894E88 24A5E8D0 */  addiu   $a1, $a1, 0xE8D0           ## $a1 = 0600E8D0
 /* 009EC 80894E8C 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 009F0 80894E90 0C018A29 */  jal     func_800628A4              
+/* 009F0 80894E90 0C018A29 */  jal     Collider_UpdateSphJoint              
 /* 009F4 80894E94 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 009F8 80894E98 920201B6 */  lbu     $v0, 0x01B6($s0)           ## 000001B6
 .L80894E9C:

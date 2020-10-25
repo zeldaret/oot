@@ -86,7 +86,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 10);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+        CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Actor_SetTextWithPrefix(globalCtx, &this->actor, (this->actor.params >> 8) & 0xFF);
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;

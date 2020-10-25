@@ -94,7 +94,7 @@ glabel func_808DD20C
 /* 06AEC 808DD35C 2A41001E */  slti    $at, $s2, 0x001E           
 /* 06AF0 808DD360 1420FFE3 */  bne     $at, $zero, .L808DD2F0     
 /* 06AF4 808DD364 00000000 */  nop
-/* 06AF8 808DD368 0C018D74 */  jal     func_800635D0              
+/* 06AF8 808DD368 0C018D74 */  jal     CollisionCheck_GetSwordDamage              
 /* 06AFC 808DD36C 8E640000 */  lw      $a0, 0x0000($s3)           ## 00000000
 /* 06B00 808DD370 14400003 */  bne     $v0, $zero, .L808DD380     
 /* 06B04 808DD374 304300FF */  andi    $v1, $v0, 0x00FF           ## $v1 = 00000000

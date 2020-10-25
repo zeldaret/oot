@@ -101,13 +101,13 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
         sp4C[i].z = thisx->posRot.pos.z - (items->dim.vtx[i].x * sinRotY);
     }
 
-    func_800627A0(&this->collider, 0, &sp4C[0], &sp4C[1], &sp4C[2]);
+    Collider_SetTrisVertices(&this->collider, 0, &sp4C[0], &sp4C[1], &sp4C[2]);
 
     sp4C[1].x = (items->dim.vtx[2].x * cosRotY) + thisx->posRot.pos.x;
     sp4C[1].y = items->dim.vtx[0].y + thisx->posRot.pos.y;
     sp4C[1].z = thisx->posRot.pos.z - (items->dim.vtx[2].x * sinRotY);
 
-    func_800627A0(&this->collider, 1, &sp4C[0], &sp4C[2], &sp4C[1]);
+    Collider_SetTrisVertices(&this->collider, 1, &sp4C[0], &sp4C[2], &sp4C[1]);
 }
 
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {

@@ -40,7 +40,7 @@ glabel ObjHamishi_Init
 /* 00508 80B93498 3C0680B9 */  lui     $a2, %hi(D_80B9377C)       ## $a2 = 80B90000
 /* 0050C 80B9349C 24C6377C */  addiu   $a2, $a2, %lo(D_80B9377C)  ## $a2 = 80B9377C
 /* 00510 80B934A0 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00514 80B934A4 0C0187B5 */  jal     func_80061ED4              
+/* 00514 80B934A4 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 00518 80B934A8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0051C 80B934AC 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C
 /* 00520 80B934B0 8FA40024 */  lw      $a0, 0x0024($sp)           

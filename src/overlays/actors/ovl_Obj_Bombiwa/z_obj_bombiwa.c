@@ -71,7 +71,7 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((Flags_GetSwitch(globalCtx, thisx->params & 0x3F) != 0)) {
         Actor_Kill(thisx);
     } else {
-        func_80061ED4(&thisx->colChkInfo, NULL, &sColChkInfoInit);
+        CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, NULL, &sColChkInfoInit);
         if (thisx->shape.rot.y == 0) {
             s16 rand = (s16)Math_Rand_ZeroFloat(65536.0f);
             thisx->posRot.rot.y = rand;

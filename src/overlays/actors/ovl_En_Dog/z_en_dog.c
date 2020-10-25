@@ -241,7 +241,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;

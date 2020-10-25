@@ -7,7 +7,7 @@ glabel BgJyaHaheniron_Draw
 /* 00610 808986D0 24C50150 */  addiu   $a1, $a2, 0x0150           ## $a1 = 00000150
 /* 00614 808986D4 14400005 */  bne     $v0, $zero, .L808986EC     
 /* 00618 808986D8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 0061C 808986DC 0C018A29 */  jal     func_800628A4              
+/* 0061C 808986DC 0C018A29 */  jal     Collider_UpdateSphJoint              
 /* 00620 808986E0 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00624 808986E4 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 00628 808986E8 84C2001C */  lh      $v0, 0x001C($a2)           ## 0000001C

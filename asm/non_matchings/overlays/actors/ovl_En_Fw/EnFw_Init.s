@@ -47,7 +47,7 @@ glabel EnFw_Init
 /* 0064C 80A1EBEC 3C0680A2 */  lui     $a2, %hi(D_80A1FB94)       ## $a2 = 80A20000
 /* 00650 80A1EBF0 24C6FB94 */  addiu   $a2, $a2, %lo(D_80A1FB94)  ## $a2 = 80A1FB94
 /* 00654 80A1EBF4 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00658 80A1EBF8 0C0187BF */  jal     func_80061EFC
+/* 00658 80A1EBF8 0C0187BF */  jal     CollisionCheck_SetInfo2DamageTable
 /* 0065C 80A1EBFC 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 00660 80A1EC00 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
 /* 00664 80A1EC04 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A

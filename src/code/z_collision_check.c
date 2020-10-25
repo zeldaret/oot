@@ -1,15 +1,21 @@
 #include "global.h"
 #include "vt.h"
 
+void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_ShieldParticles(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2);
+void CollisionCheck_DrawPoly(GraphicsContext *gfx, Vec3f *vA, Vec3f *vB, Vec3f *vC, u8 r, u8 g, u8 b);
+
 // draw red poly
-void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
-    func_8005B2AC(gfx, vA, vB, vC, 255, 0, 0);
+void CollisionCheck_DrawRedPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
+    CollisionCheck_DrawPoly(gfx, vA, vB, vC, 255, 0, 0);
 }
 
 // draw poly
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 // regalloc starting in the loop
-void func_8005B2AC(GraphicsContext *gfx, Vec3f *vA, Vec3f *vB, Vec3f *vC, u8 r, u8 g, u8 b) {
+void CollisionCheck_DrawPoly(GraphicsContext *gfx, Vec3f *vA, Vec3f *vB, Vec3f *vC, u8 r, u8 g, u8 b) {
     Vtx_tn* sp8C;
     Vtx_tn* vtx;
     f32 sp84;
@@ -64,7 +70,7 @@ void func_8005B2AC(GraphicsContext *gfx, Vec3f *vA, Vec3f *vB, Vec3f *vC, u8 r, 
     CLOSE_DISPS(gfx, "../z_collision_check.c", 757);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B2AC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/CollisionCheck_DrawPoly.s")
 #endif
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
@@ -200,13 +206,13 @@ void Collider_BodySetAT(GlobalContext* globalCtx, ColliderBody* body) {
 }
 
 void Collider_BodySetAC(GlobalContext* globalCtx, ColliderBody* body) {
-    body->bumper.unk_06.z = 0;
+    body->bumper.hitPos.z = 0;
     body->bumperFlags &= ~0x2;
     body->bumperFlags &= ~0x80;
     body->acHit = NULL;
     body->acHitItem = NULL;
-    body->bumper.unk_06.y = body->bumper.unk_06.z;
-    body->bumper.unk_06.x = body->bumper.unk_06.z;
+    body->bumper.hitPos.y = body->bumper.hitPos.z;
+    body->bumper.hitPos.x = body->bumper.hitPos.z;
 }
 
 void Collider_BodySetOC(GlobalContext* globalCtx, ColliderBody* body) {
@@ -795,7 +801,7 @@ s32 func_8005CEC4(GlobalContext* globalCtx, ColliderQuadDim* dim) {
 }
 
 // ColliderQuadDim compute dc ba midpoints
-void func_8005CEDC(ColliderQuadDim* dim) {
+void Collider_SetMidpoints(ColliderQuadDim* dim) {
     dim->dcMid.x = (dim->quad[3].x + dim->quad[2].x) * 0.5f;
     dim->dcMid.y = (dim->quad[3].y + dim->quad[2].y) * 0.5f;
     dim->dcMid.z = (dim->quad[3].z + dim->quad[2].z) * 0.5f;
@@ -809,7 +815,7 @@ s32 Collider_SetQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dest, Collide
     dest->quad[1] = src->quad[1];
     dest->quad[2] = src->quad[2];
     dest->quad[3] = src->quad[3];
-    func_8005CEDC(dest);
+    Collider_SetMidpoints(dest);
     return 1;
 }
 
@@ -901,15 +907,15 @@ s32 Collider_DestroyOcLine(GlobalContext* globalCtx, OcLine* line) {
     return 1;
 }
 
-s32 func_8005D334(UNK_TYPE arg0, OcLine* arg1, Vec3f* arg2, Vec3f* arg3) {
+s32 Collider_SetOcLinePoints(UNK_TYPE arg0, OcLine* arg1, Vec3f* arg2, Vec3f* arg3) {
     Math_Vec3f_Copy(&arg1->line.a, arg2);
     Math_Vec3f_Copy(&arg1->line.b, arg3);
     return 1;
 }
 
-s32 func_8005D378(UNK_TYPE arg0, OcLine* arg1, OcLine* arg2) {
+s32 Collider_OcLineCopy(UNK_TYPE arg0, OcLine* arg1, OcLine* arg2) {
     arg1->unk_18 = arg2->unk_18;
-    func_8005D334(arg0, arg1, &arg2->line.a, &arg2->line.b);
+    Collider_SetOcLinePoints(arg0, arg1, &arg2->line.a, &arg2->line.b);
     return 1;
 }
 
@@ -918,7 +924,7 @@ s32 func_8005D3A4(GlobalContext* globalCtx, OcLine* line) {
     return 1;
 }
 
-void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_InitContextDrawColliders(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags = 0;
     CollisionCheck_InitContext(globalCtx, colChkCtx);
     AREG(21) = 1;
@@ -968,7 +974,7 @@ void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* 
 }
 
 // Draw Collider
-void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
+void CollisionCheck_DrawCollider(GlobalContext* globalCtx, Collider* collider) {
     ColliderJntSph* jntSph;
     ColliderCylinder* cylinder;
     ColliderTris* tris;
@@ -994,14 +1000,14 @@ void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
             tris = (ColliderTris*)collider;
             for (i = 0; i < tris->count; i++) {
                 trisItem = &tris->list[i];
-                func_8005B280(globalCtx->state.gfxCtx, &trisItem->dim.vtx[0], &trisItem->dim.vtx[1],
+                CollisionCheck_DrawRedPoly(globalCtx->state.gfxCtx, &trisItem->dim.vtx[0], &trisItem->dim.vtx[1],
                               &trisItem->dim.vtx[2]);
             }
             break;
         case COLSHAPE_QUAD:
             quad = (ColliderQuad*)collider;
-            func_8005B280(globalCtx->state.gfxCtx, &quad->dim.quad[2], &quad->dim.quad[3], &quad->dim.quad[1]);
-            func_8005B280(globalCtx->state.gfxCtx, &quad->dim.quad[1], &quad->dim.quad[0], &quad->dim.quad[2]);
+            CollisionCheck_DrawRedPoly(globalCtx->state.gfxCtx, &quad->dim.quad[2], &quad->dim.quad[3], &quad->dim.quad[1]);
+            CollisionCheck_DrawRedPoly(globalCtx->state.gfxCtx, &quad->dim.quad[1], &quad->dim.quad[0], &quad->dim.quad[2]);
             break;
     }
 }
@@ -1013,19 +1019,19 @@ void CollisionCheck_Draw(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (AREG(15)) {
         if (AREG(21)) {
             for (i = 0; i < colChkCtx->colAtCount; i++) {
-                func_8005D4DC(globalCtx, colChkCtx->colAt[i]);
+                CollisionCheck_DrawCollider(globalCtx, colChkCtx->colAt[i]);
             }
         }
         if (AREG(22)) {
             for (i = 0; i < colChkCtx->colAcCount; i++) {
-                func_8005D4DC(globalCtx, colChkCtx->colAc[i]);
+                CollisionCheck_DrawCollider(globalCtx, colChkCtx->colAc[i]);
             }
         }
         if (AREG(23)) {
             for (i = 0; i < colChkCtx->colOcCount; i++) {
                 collider = colChkCtx->colOc[i];
                 if (collider->maskA & 1) {
-                    func_8005D4DC(globalCtx, collider);
+                    CollisionCheck_DrawCollider(globalCtx, collider);
                 }
             }
         }
@@ -1048,7 +1054,7 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLSHAPE_INVALID)) {
+    if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
     }
     D_8011DEF8[collider->shape](globalCtx, collider);
@@ -1076,7 +1082,7 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChk
 s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
 
-    if (!(collider->shape < COLSHAPE_INVALID)) {
+    if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
     }
     if (func_800C0D28(globalCtx) == 1) {
@@ -1115,7 +1121,7 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLSHAPE_INVALID)) {
+    if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
     }
     D_8011DF08[collider->shape](globalCtx, collider);
@@ -1143,7 +1149,7 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChk
 s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
 
-    if (!(collider->shape < COLSHAPE_INVALID)) {
+    if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
     }
     if (func_800C0D28(globalCtx) == 1) {
@@ -1187,7 +1193,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLSHAPE_INVALID)) {
+    if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
     }
     D_8011DF18[collider->shape](globalCtx, collider);
@@ -1218,7 +1224,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLSHAPE_INVALID)) {
+    if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
     }
     D_8011DF18[collider->shape](globalCtx, collider);
@@ -1262,31 +1268,31 @@ s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* co
     return index;
 }
 
-s32 func_8005DF2C(ColliderBody* body) {
+s32 CollisionCheck_IgnoreAT(ColliderBody* body) {
     if (!(body->toucherFlags & 1)) {
         return 1;
     }
     return 0;
 }
 
-s32 func_8005DF50(ColliderBody* body) {
+s32 CollisionCheck_IgnoreAC(ColliderBody* body) {
     if (!(body->bumperFlags & 1)) {
         return 1;
     }
     return 0;
 }
 
-s32 func_8005DF74(ColliderBody* left, ColliderBody* right) {
+s32 CollisionCheck_NoSharedFlags(ColliderBody* left, ColliderBody* right) {
     if (!(left->toucher.flags & right->bumper.flags)) {
         return 1;
     }
     return 0;
 }
 
-void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+void CollisionCheck_NoBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 }
 
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015D8A0;
     s32 sp24;
 
@@ -1335,7 +1341,7 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 
-void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015DD68;
     s32 sp24;
 
@@ -1384,20 +1390,20 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 
-void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
+void CollisionCheck_WaterBurst(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
     EffectSsSibuki_SpawnBurst(globalCtx, pos);
-    func_80062B80(globalCtx, pos);
+    CollisionCheck_SpawnWaterDroplets(globalCtx, pos);
 }
 
-void func_8005E2A4(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
-    func_80062A28(globalCtx, v);
+void CollisionCheck_RedBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    CollisionCheck_SpawnRedBlood(globalCtx, v);
 }
 
-void func_8005E2C8(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
-    func_80062A28(globalCtx, v);
+void CollisionCheck_RedBloodUnused(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    CollisionCheck_SpawnRedBlood(globalCtx, v);
 }
 
-void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collider* collider, Vec3f* arg3) {
+void CollisionCheck_HitSolid(GlobalContext* globalCtx, ColliderBody* colliderBody, Collider* collider, Vec3f* arg3) {
     s32 flags;
 
     flags = colliderBody->toucherFlags & 0x18;
@@ -1405,44 +1411,37 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            return;
+        } else {
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
+                                    &D_801333E8);
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
-        return;
-    }
-    if (flags == 0) {
+    } else if (flags == 0) { // collider->type == COLTYPE_METAL_SHIELD
         EffectSsHitMark_SpawnFixedScale(globalCtx, 3, arg3);
         if (collider->actor == NULL) {
-            func_80062D60(globalCtx, arg3);
-            return;
+            CollisionCheck_ShieldParticlesMetal(globalCtx, arg3);
+        } else {
+            CollisionCheck_ShieldParticlesMetalSound(globalCtx, arg3, &collider->actor->projectedPos);
         }
-        func_80062DAC(globalCtx, arg3, &collider->actor->projectedPos);
-        return;
-    }
-    if (flags == 8) {
+    } else if (flags == 8) {
         EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            return;
-        }
-        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
+        } else {
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-        return;
-    }
-    if (flags == 0x10) {
+        }
+    } else if (flags == 0x10) {
         EffectSsHitMark_SpawnFixedScale(globalCtx, 1, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            return;
+        } else {
+            Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
+                                    &D_801333E8);
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
-        return;
     }
 }
 
-s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
+s32 CollisionCheck_SwordHitAudio(Collider* left, ColliderBody* rightBody) {
     if (left->actor != NULL) {
         if (ACTORTYPE_PLAYER == left->actor->type) {
             if (rightBody->flags == 0) {
@@ -1464,15 +1463,15 @@ s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
 }
 
 typedef struct {
-    u8 unk00;
-    u8 unk01;
+    u8 blood;
+    u8 effect;
 } D_8011DF40_s;
 
-void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBody, Collider* right,
+void CollisionCheck_HitEffects(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBody, Collider* right,
                    ColliderBody* rightBody, Vec3f* arg5) {
 
     static void (*D_8011DF28[])(GlobalContext*, Collider*, Vec3f*) = {
-        func_8005DF9C, func_8005DFAC, func_8005E10C, func_8005E26C, func_8005E2A4, func_8005E2C8,
+        CollisionCheck_NoBlood, CollisionCheck_BlueBlood, CollisionCheck_GreenBlood, CollisionCheck_WaterBurst, CollisionCheck_RedBlood, CollisionCheck_RedBloodUnused,
     };
 
     static D_8011DF40_s D_8011DF40[] = {
@@ -1487,22 +1486,22 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
         return;
     }
     if (right->actor != NULL) {
-        (*D_8011DF28[D_8011DF40[right->type].unk00])(globalCtx, right, arg5);
+        (*D_8011DF28[D_8011DF40[right->type].blood])(globalCtx, right, arg5);
     }
     if (right->actor != NULL) {
-        if (D_8011DF40[right->type].unk01 == 3) {
-            func_8005E2EC(globalCtx, leftBody, right, arg5);
-        } else if (D_8011DF40[right->type].unk01 == 4) {
+        if (D_8011DF40[right->type].effect == 3) {
+            CollisionCheck_HitSolid(globalCtx, leftBody, right, arg5);
+        } else if (D_8011DF40[right->type].effect == 4) {
             if (left->actor == NULL) {
-                func_80062CD4(globalCtx, arg5);
+                CollisionCheck_ShieldParticles(globalCtx, arg5);
                 Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
-                func_80062E14(globalCtx, arg5, &left->actor->projectedPos);
+                CollisionCheck_ShieldParticlesWood(globalCtx, arg5, &left->actor->projectedPos);
             }
-        } else if (D_8011DF40[right->type].unk01 != 5) {
-            EffectSsHitMark_SpawnFixedScale(globalCtx, D_8011DF40[right->type].unk01, arg5);
-            if ((rightBody->bumperFlags & 0x20) == 0) {
-                func_8005E4F8(left, rightBody);
+        } else if (D_8011DF40[right->type].effect != 5) {
+            EffectSsHitMark_SpawnFixedScale(globalCtx, D_8011DF40[right->type].effect, arg5);
+            if (!(rightBody->bumperFlags & 0x20)) {
+                CollisionCheck_SwordHitAudio(left, rightBody);
             }
         }
     } else {
@@ -1516,17 +1515,17 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
     }
 }
 
-void func_8005E800(Collider* left, Collider* right) {
+void CollisionCheck_SetBounce(Collider* left, Collider* right) {
     left->atFlags |= 4;
     right->acFlags |= 0x80;
 }
 
 // Set AT to AC collision
-s32 func_8005E81C(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collider* right,
+s32 CollisionCheck_SetATvsAC(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collider* right,
                   ColliderBody* rightBody, Vec3f* rightv, Vec3f* arg7) {
 
     if (right->acFlags & 4 && left->actor != NULL && right->actor != NULL) {
-        func_8005E800(left, right);
+        CollisionCheck_SetBounce(left, right);
     }
     if (!(rightBody->bumperFlags & 8)) {
         left->atFlags |= 2;
@@ -1546,14 +1545,14 @@ s32 func_8005E81C(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBo
     if (right->actor != NULL) {
         right->actor->colChkInfo.acHitEffect = leftBody->toucher.effect;
     }
-    rightBody->bumper.unk_06.x = (s16)arg7->x;
-    rightBody->bumper.unk_06.y = (s16)arg7->y;
-    rightBody->bumper.unk_06.z = (s16)arg7->z;
+    rightBody->bumper.hitPos.x = (s16)arg7->x;
+    rightBody->bumper.hitPos.y = (s16)arg7->y;
+    rightBody->bumper.hitPos.z = (s16)arg7->z;
     if (!(leftBody->toucherFlags & 0x20) && right->type != COLTYPE_METAL_SHIELD &&
         right->type != COLTYPE_WOODEN_SHIELD && right->type != COLTYPE_UNK12) {
         rightBody->bumperFlags |= 0x80;
     } else {
-        func_8005E604(globalCtx, left, leftBody, right, rightBody, arg7);
+        CollisionCheck_HitEffects(globalCtx, left, leftBody, right, rightBody, arg7);
         leftBody->toucherFlags |= 0x40;
     }
     return 1;
@@ -1578,14 +1577,14 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
         return;
     }
     for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-        if (func_8005DF2C(&lItem->body) == 1) {
+        if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
             continue;
         }
         for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-            if (func_8005DF50(&rItem->body) == 1) {
+            if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
                 continue;
             }
-            if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+            if (CollisionCheck_NoSharedFlags(&lItem->body, &rItem->body) == 1) {
                 continue;
             }
             if (Math3D_SphVsSphOverlapCenter(&lItem->dim.worldSphere, &rItem->dim.worldSphere, &sp8C, &sp88) == 1) {
@@ -1603,7 +1602,7 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
                 } else {
                     Math_Vec3f_Copy(&sp78, &sp6C);
                 }
-                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &rItem->body, &sp60, &sp78);
+                CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &rItem->body, &sp60, &sp78);
                 if (!(right->base.maskB & 0x40)) {
                     return;
                 }
@@ -1627,14 +1626,14 @@ void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
     if (left->count <= 0 || left->list == NULL || right->dim.radius <= 0 || right->dim.height <= 0) {
         return;
     }
-    if (func_8005DF50(&right->body) == 1) {
+    if (CollisionCheck_IgnoreAC(&right->body) == 1) {
         return;
     }
     for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-        if (func_8005DF2C(&lItem->body) == 1) {
+        if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
             continue;
         }
-        if (func_8005DF74(&lItem->body, &right->body) == 1) {
+        if (CollisionCheck_NoSharedFlags(&lItem->body, &right->body) == 1) {
             continue;
         }
         if (Math3D_SphVsCylOverlapCenterDist(&lItem->dim.worldSphere, &right->dim, &sp80, &sp7C) != 0) {
@@ -1656,7 +1655,7 @@ void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
             } else {
                 Math_Vec3f_Copy(&sp70, &sp64);
             }
-            func_8005E81C(globalCtx, &left->base, &lItem->body, &sp64, &right->base, &right->body, &sp58, &sp70);
+            CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp64, &right->base, &right->body, &sp58, &sp70);
             return;
         }
     }
@@ -1677,14 +1676,14 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
     if (right->count <= 0 || right->list == NULL || left->dim.radius <= 0 || left->dim.height <= 0) {
         return;
     }
-    if (func_8005DF2C(&left->body) == 1) {
+    if (CollisionCheck_IgnoreAT(&left->body) == 1) {
         return;
     }
     for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-        if (func_8005DF50(&rItem->body) == 1) {
+        if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
             continue;
         }
-        if (func_8005DF74(&left->body, &rItem->body) == 1) {
+        if (CollisionCheck_NoSharedFlags(&left->body, &rItem->body) == 1) {
             continue;
         }
         if (Math3D_SphVsCylOverlapCenterDist(&rItem->dim.worldSphere, &left->dim, &sp9C, &sp98) != 0) {
@@ -1706,7 +1705,7 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
             } else {
                 Math_Vec3f_Copy(&sp88, &sp7C);
             }
-            func_8005E81C(globalCtx, &left->base, &left->body, &sp7C, &right->base, &rItem->body, &sp70, &sp88);
+            CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp7C, &right->base, &rItem->body, &sp70, &sp88);
             if (!(right->base.maskB & 0x40)) {
                 break;
             }
@@ -1728,14 +1727,14 @@ void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckCont
         return;
     }
     for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-        if (func_8005DF2C(&lItem->body) == 1) {
+        if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
             continue;
         }
         for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-            if (func_8005DF50(&rItem->body) == 1) {
+            if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
                 continue;
             }
-            if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+            if (CollisionCheck_NoSharedFlags(&lItem->body, &rItem->body) == 1) {
                 continue;
             }
             if (Math3D_TriVsSphIntersect(&lItem->dim.worldSphere, &rItem->dim, &sp6C) == 1) {
@@ -1745,7 +1744,7 @@ void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckCont
                 sp54.x = (rItem->dim.vtx[0].x + rItem->dim.vtx[1].x + rItem->dim.vtx[2].x) * (1.0f / 3);
                 sp54.y = (rItem->dim.vtx[0].y + rItem->dim.vtx[1].y + rItem->dim.vtx[2].y) * (1.0f / 3);
                 sp54.z = (rItem->dim.vtx[0].z + rItem->dim.vtx[1].z + rItem->dim.vtx[2].z) * (1.0f / 3);
-                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &rItem->body, &sp54, &sp6C);
+                CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &rItem->body, &sp54, &sp6C);
                 return;
             }
         }
@@ -1765,14 +1764,14 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
     if (right->count > 0 && right->list != NULL) {
         if (left->count > 0 && left->list != NULL) {
             for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                if (func_8005DF50(&rItem->body) == 1) {
+                if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
                     continue;
                 }
                 for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-                    if (func_8005DF2C(&lItem->body) == 1) {
+                    if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
                         continue;
                     }
-                    if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+                    if (CollisionCheck_NoSharedFlags(&lItem->body, &rItem->body) == 1) {
                         continue;
                     }
                     if (Math3D_TriVsSphIntersect(&rItem->dim.worldSphere, &lItem->dim, &sp7C) == 1) {
@@ -1780,7 +1779,7 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                         sp70.x = (lItem->dim.vtx[0].x + lItem->dim.vtx[1].x + lItem->dim.vtx[2].x) * (1.0f / 3);
                         sp70.y = (lItem->dim.vtx[0].y + lItem->dim.vtx[1].y + lItem->dim.vtx[2].y) * (1.0f / 3);
                         sp70.z = (lItem->dim.vtx[0].z + lItem->dim.vtx[1].z + lItem->dim.vtx[2].z) * (1.0f / 3);
-                        func_8005E81C(globalCtx, &left->base, &lItem->body, &sp70, &right->base, &rItem->body, &sp64,
+                        CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp70, &right->base, &rItem->body, &sp64,
                                       &sp7C);
                         if (!(right->base.maskB & 0x40)) {
                             return;
@@ -1805,16 +1804,16 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
     Vec3f sp60;
 
     if (left->count > 0 && left->list != NULL) {
-        if (func_8005DF50(&right->body) == 1) {
+        if (CollisionCheck_IgnoreAC(&right->body) == 1) {
             return;
         }
         Math3D_TriNorm(&D_8015E230, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
         Math3D_TriNorm(&D_8015E268, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
         for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if (func_8005DF2C(&lItem->body) == 1) {
+            if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
                 continue;
             }
-            if (func_8005DF74(&lItem->body, &right->body) == 1) {
+            if (CollisionCheck_NoSharedFlags(&lItem->body, &right->body) == 1) {
                 continue;
             }
             if (Math3D_TriVsSphIntersect(&lItem->dim.worldSphere, &D_8015E230, &sp7C) == 1 ||
@@ -1830,7 +1829,7 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
                 sp60.z =
                     (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) *
                     (1.0f / 4);
-                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &right->body, &sp60, &sp7C);
+                CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &right->body, &sp60, &sp7C);
                 return;
             }
         }
@@ -1850,21 +1849,21 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
     Vec3f sp68;
 
     if (right->count > 0 && right->list != NULL) {
-        if (func_8005DF2C(&left->body) != 1) {
+        if (CollisionCheck_IgnoreAT(&left->body) != 1) {
             Math3D_TriNorm(&D_8015E2A0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
             Math3D_TriNorm(&D_8015E2D8, &left->dim.quad[2], &left->dim.quad[1], &left->dim.quad[0]);
             for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                if (func_8005DF50(&rItem->body) == 1) {
+                if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
                     continue;
                 }
-                if (func_8005DF74(&left->body, &rItem->body) == 1) {
+                if (CollisionCheck_NoSharedFlags(&left->body, &rItem->body) == 1) {
                     continue;
                 }
                 if (Math3D_TriVsSphIntersect(&rItem->dim.worldSphere, &D_8015E2A0, &sp88) != 1 &&
                     Math3D_TriVsSphIntersect(&rItem->dim.worldSphere, &D_8015E2D8, &sp88) != 1) {
                     continue;
                 }
-                if (func_8005D218(globalCtx, left, &sp88) != 0) {
+                if (func_8005D218(globalCtx, left, &sp88)) {
                     sp68.x = rItem->dim.worldSphere.center.x;
                     sp68.y = rItem->dim.worldSphere.center.y;
                     sp68.z = rItem->dim.worldSphere.center.z;
@@ -1878,7 +1877,7 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                     sp74.z =
                         (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) *
                         (1.0f / 4);
-                    func_8005E81C(globalCtx, &left->base, &left->body, &sp74, &right->base, &rItem->body, &sp68, &sp88);
+                    CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp74, &right->base, &rItem->body, &sp68, &sp88);
                     if ((right->base.maskB & 0x40) == 0) {
                         return;
                     }
@@ -1901,13 +1900,13 @@ void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
     if (left->dim.radius <= 0 || left->dim.height <= 0 || right->dim.radius <= 0 || right->dim.height <= 0) {
         return;
     }
-    if (func_8005DF50(&right->body) == 1) {
+    if (CollisionCheck_IgnoreAC(&right->body) == 1) {
         return;
     }
-    if (func_8005DF2C(&left->body) == 1) {
+    if (CollisionCheck_IgnoreAT(&left->body) == 1) {
         return;
     }
-    if (func_8005DF74(&left->body, &right->body) == 1) {
+    if (CollisionCheck_NoSharedFlags(&left->body, &right->body) == 1) {
         return;
     }
     if (Math3D_CylOutsideCylDist(&left->dim, &right->dim, &sp6C, &sp68) == 1) {
@@ -1921,7 +1920,7 @@ void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
         } else {
             Math_Vec3s_ToVec3f(&sp5C, &right->dim.pos);
         }
-        func_8005E81C(globalCtx, &left->base, &left->body, &sp50, &right->base, &right->body, &sp44, &sp5C);
+        CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp50, &right->base, &right->body, &sp44, &sp5C);
     }
 }
 
@@ -1934,14 +1933,14 @@ void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext
     Vec3f sp50;
 
     if (left->dim.radius > 0 && left->dim.height > 0 && right->count > 0 && right->list != NULL) {
-        if (func_8005DF2C(&left->body) == 1) {
+        if (CollisionCheck_IgnoreAT(&left->body) == 1) {
             return;
         }
         for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-            if (func_8005DF50(&rItem->body) == 1) {
+            if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
                 continue;
             }
-            if (func_8005DF74(&left->body, &rItem->body) == 1) {
+            if (CollisionCheck_NoSharedFlags(&left->body, &rItem->body) == 1) {
                 continue;
             }
             if (Math3D_CylTriVsIntersect(&left->dim, &rItem->dim, &sp68) == 1) {
@@ -1950,7 +1949,7 @@ void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext
                 sp50.x = (rItem->dim.vtx[0].x + rItem->dim.vtx[1].x + rItem->dim.vtx[2].x) * (1.0f / 3);
                 sp50.y = (rItem->dim.vtx[0].y + rItem->dim.vtx[1].y + rItem->dim.vtx[2].y) * (1.0f / 3);
                 sp50.z = (rItem->dim.vtx[0].z + rItem->dim.vtx[1].z + rItem->dim.vtx[2].z) * (1.0f / 3);
-                func_8005E81C(globalCtx, &left->base, &left->body, &sp5C, &right->base, &rItem->body, &sp50, &sp68);
+                CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp5C, &right->base, &rItem->body, &sp50, &sp68);
                 return;
             }
         }
@@ -1967,14 +1966,14 @@ void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     Vec3f sp54;
 
     if (right->dim.radius > 0 && right->dim.height > 0 && left->count > 0 && left->list != NULL) {
-        if (func_8005DF50(&right->body) == 1) {
+        if (CollisionCheck_IgnoreAC(&right->body) == 1) {
             return;
         }
         for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if (func_8005DF2C(&lItem->body) == 1) {
+            if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
                 continue;
             }
-            if (func_8005DF74(&lItem->body, &right->body) == 1) {
+            if (CollisionCheck_NoSharedFlags(&lItem->body, &right->body) == 1) {
                 continue;
             }
 
@@ -1983,7 +1982,7 @@ void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext
                 sp60.y = (lItem->dim.vtx[0].y + lItem->dim.vtx[1].y + lItem->dim.vtx[2].y) * (1.0f / 3);
                 sp60.z = (lItem->dim.vtx[0].z + lItem->dim.vtx[1].z + lItem->dim.vtx[2].z) * (1.0f / 3);
                 Math_Vec3s_ToVec3f(&sp54, &right->dim.pos);
-                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &right->body, &sp54,
+                CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &right->body, &sp54,
                               &D_8015E310);
                 return;
             }
@@ -2006,10 +2005,10 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
     if (left->dim.height <= 0 || left->dim.radius <= 0) {
         return;
     }
-    if (func_8005DF2C(&left->body) == 1 || func_8005DF50(&right->body) == 1) {
+    if (CollisionCheck_IgnoreAT(&left->body) == 1 || CollisionCheck_IgnoreAC(&right->body) == 1) {
         return;
     }
-    if (func_8005DF74(&left->body, &right->body) == 1) {
+    if (CollisionCheck_NoSharedFlags(&left->body, &right->body) == 1) {
         return;
     }
     Math3D_TriNorm(&D_8015E320, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
@@ -2022,7 +2021,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
             (right->dim.quad[0].y + (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) * 0.25f;
         sp58.z =
             (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) * 0.25f;
-        func_8005E81C(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E390);
+        CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E390);
         return;
     }
     if (Math3D_CylTriVsIntersect(&left->dim, &D_8015E358, &D_8015E390) == 1) {
@@ -2033,7 +2032,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
                  (1.0f / 4);
         sp40.z = (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) *
                  (1.0f / 4);
-        func_8005E81C(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E390);
+        CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E390);
     }
 }
 
@@ -2055,10 +2054,10 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     if (right->dim.height <= 0 || right->dim.radius <= 0) {
         return;
     }
-    if (func_8005DF50(&right->body) == 1 || func_8005DF2C(&left->body) == 1) {
+    if (CollisionCheck_IgnoreAC(&right->body) == 1 || CollisionCheck_IgnoreAT(&left->body) == 1) {
         return;
     }
-    if (func_8005DF74(&left->body, &right->body) == 1) {
+    if (CollisionCheck_NoSharedFlags(&left->body, &right->body) == 1) {
         return;
     }
     Math3D_TriNorm(&D_8015E3A0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
@@ -2072,7 +2071,7 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
             sp64.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) *
                      (1.0f / 4);
             Math_Vec3s_ToVec3f(&sp58, &right->dim.pos);
-            func_8005E81C(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E410);
+            CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E410);
             return;
         }
     }
@@ -2085,7 +2084,7 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
             sp4C.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) *
                      (1.0f / 4);
             Math_Vec3s_ToVec3f(&sp40, &right->dim.pos);
-            func_8005E81C(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E410);
+            CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E410);
         }
     }
 }
@@ -2109,14 +2108,14 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
 
     if (right->count > 0 && right->list != NULL && left->count > 0 && left->list != NULL) {
         for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-            if (func_8005DF50(&rItem->body) == 1) {
+            if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
                 continue;
             }
             for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-                if (func_8005DF2C(&lItem->body) == 1) {
+                if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
                     continue;
                 }
-                if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+                if (CollisionCheck_NoSharedFlags(&lItem->body, &rItem->body) == 1) {
                     continue;
                 }
                 if (Math3D_TriVsTriIntersect(&lItem->dim, &rItem->dim, &D_8015E420) == 1) {
@@ -2126,7 +2125,7 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
                     sp50.x = (rItem->dim.vtx[0].x + rItem->dim.vtx[1].x + rItem->dim.vtx[2].x) * (1.0f / 3);
                     sp50.y = (rItem->dim.vtx[0].y + rItem->dim.vtx[1].y + rItem->dim.vtx[2].y) * (1.0f / 3);
                     sp50.z = (rItem->dim.vtx[0].z + rItem->dim.vtx[1].z + rItem->dim.vtx[2].z) * (1.0f / 3);
-                    func_8005E81C(globalCtx, &left->base, &lItem->body, &sp5C, &right->base, &rItem->body, &sp50,
+                    CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp5C, &right->base, &rItem->body, &sp50,
                                   &D_8015E420);
                     return;
                 }
@@ -2152,14 +2151,14 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     Vec3f sp68;
     Vec3f sp5C;
 
-    if (left->count > 0 && left->list != NULL && func_8005DF50(&right->body) != 1) {
+    if (left->count > 0 && left->list != NULL && CollisionCheck_IgnoreAC(&right->body) != 1) {
         Math3D_TriNorm(&D_8015E440, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
         Math3D_TriNorm(&D_8015E478, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
         for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if (func_8005DF2C(&lItem->body) == 1) {
+            if (CollisionCheck_IgnoreAT(&lItem->body) == 1) {
                 continue;
             }
-            if (func_8005DF74(&lItem->body, &right->body) == 1) {
+            if (CollisionCheck_NoSharedFlags(&lItem->body, &right->body) == 1) {
                 continue;
             }
             if (Math3D_TriVsTriIntersect(&D_8015E440, &lItem->dim, &D_8015E430) == 1 ||
@@ -2176,7 +2175,7 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
                 sp5C.z = (right->dim.quad[0].z +
                           (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) *
                          (1.0f / 4);
-                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp68, &right->base, &right->body, &sp5C,
+                CollisionCheck_SetATvsAC(globalCtx, &left->base, &lItem->body, &sp68, &right->base, &right->body, &sp5C,
                               &D_8015E430);
                 return;
             }
@@ -2196,14 +2195,14 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
     Vec3f sp68;
     Vec3f sp5C;
 
-    if (right->count > 0 && right->list != NULL && func_8005DF2C(&left->body) != 1) {
+    if (right->count > 0 && right->list != NULL && CollisionCheck_IgnoreAT(&left->body) != 1) {
         Math3D_TriNorm(&D_8015E4C0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
         Math3D_TriNorm(&D_8015E4F8, &left->dim.quad[1], &left->dim.quad[0], &left->dim.quad[2]);
         for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-            if (func_8005DF50(&rItem->body) == 1) {
+            if (CollisionCheck_IgnoreAC(&rItem->body) == 1) {
                 continue;
             }
-            if (func_8005DF74(&left->body, &rItem->body) == 1) {
+            if (CollisionCheck_NoSharedFlags(&left->body, &rItem->body) == 1) {
                 continue;
             }
             if (Math3D_TriVsTriIntersect(&D_8015E4C0, &rItem->dim, &D_8015E4B0) == 1 ||
@@ -2221,7 +2220,7 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
                     sp68.z = (left->dim.quad[0].z +
                               (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) *
                              (1.0f / 4);
-                    func_8005E81C(globalCtx, &left->base, &left->body, &sp68, &right->base, &rItem->body, &sp5C,
+                    CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp68, &right->base, &rItem->body, &sp5C,
                                   &D_8015E4B0);
                     return;
                 }
@@ -2243,13 +2242,13 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     Vec3f sp6C;
     Vec3f sp60;
 
-    if (func_8005DF2C(&left->body) == 1) {
+    if (CollisionCheck_IgnoreAT(&left->body) == 1) {
         return;
     }
-    if (func_8005DF50(&right->body) == 1) {
+    if (CollisionCheck_IgnoreAC(&right->body) == 1) {
         return;
     }
-    if (func_8005DF74(&left->body, &right->body) == 1) {
+    if (CollisionCheck_NoSharedFlags(&left->body, &right->body) == 1) {
         return;
     }
     Math3D_TriNorm(&D_8015E5A8[0], &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
@@ -2278,7 +2277,7 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
                     sp60.z = (right->dim.quad[0].z +
                               (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) *
                              (1.0f / 4);
-                    func_8005E81C(globalCtx, &left->base, &left->body, &sp6C, &right->base, &right->body, &sp60,
+                    CollisionCheck_SetATvsAC(globalCtx, &left->base, &left->body, &sp6C, &right->base, &right->body, &sp60,
                                   &D_8015E598);
                     return;
                 }
@@ -2288,15 +2287,15 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
 }
 
 // D_8011DF5C ColliderJntSph
-void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyJntSphAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderJntSph* col = (ColliderJntSph*)collider;
     ColliderJntSphItem* item;
     Vec3f sp24;
 
     for (item = col->list; item < col->list + col->count; item++) {
         if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
-            Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
-            func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
+            Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.hitPos);
+            CollisionCheck_HitEffects(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
             item->body.acHitItem->toucherFlags |= 0x40;
             return;
         }
@@ -2304,27 +2303,27 @@ void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
 }
 
 // D_8011DF5C ColliderCylinder
-void func_80060F94(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyCylAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderCylinder* item = (ColliderCylinder*)collider;
     Vec3f sp28;
 
     if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
-        Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
-        func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
+        Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.hitPos);
+        CollisionCheck_HitEffects(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
         item->body.acHitItem->toucherFlags |= 0x40;
     }
 }
 
 // D_8011DF5C ColliderTris
-void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyTrisAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderTris* col = (ColliderTris*)collider;
     ColliderTrisItem* item;
     Vec3f sp24;
 
     for (item = col->list; item < col->list + col->count; item++) {
         if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
-            Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
-            func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
+            Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.hitPos);
+            CollisionCheck_HitEffects(globalCtx, item->body.acHit, item->body.acHitItem, &col->base, &item->body, &sp24);
             item->body.acHitItem->toucherFlags |= 0x40;
             return;
         }
@@ -2332,39 +2331,39 @@ void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
 }
 
 // D_8011DF5C ColliderQuad
-void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyQuadAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderQuad* item = (ColliderQuad*)collider;
     Vec3f sp28;
 
     if ((item->body.bumperFlags & 0x80) && (item->body.acHitItem != NULL) && !(item->body.acHitItem->toucherFlags & 0x40)) {
-        Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
-        func_8005E604(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
+        Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.hitPos);
+        CollisionCheck_HitEffects(globalCtx, item->body.acHit, item->body.acHitItem, &item->base, &item->body, &sp28);
         item->body.acHitItem->toucherFlags |= 0x40;
     }
 }
 
-void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_ApplyAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** col;
-    Collider* temp;
+    Collider* colAC;
 
     static void (*D_8011DF5C[4])(GlobalContext*, CollisionCheckContext*, Collider*) = {
-        func_80060EBC,
-        func_80060F94,
-        func_80061028,
-        func_8006110C,
+        CollisionCheck_ApplyJntSphAT,
+        CollisionCheck_ApplyCylAT,
+        CollisionCheck_ApplyTrisAT,
+        CollisionCheck_ApplyQuadAT,
     };
 
     for (col = colChkCtx->colAc; col < colChkCtx->colAc + colChkCtx->colAcCount; col++) {
-        temp = *col;
-        if ((temp != NULL) && (temp->acFlags & 1) && (temp->actor == NULL || temp->actor->update != NULL)) {
-            (*D_8011DF5C[temp->shape])(globalCtx, colChkCtx, temp);
+        colAC = *col;
+        if ((colAC != NULL) && (colAC->acFlags & 1) && (colAC->actor == NULL || colAC->actor->update != NULL)) {
+            (*D_8011DF5C[colAC->shape])(globalCtx, colChkCtx, colAC);
         }
     }
 }
 
-void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_AllAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT) {
     Collider** col;
-    Collider* temp;
+    Collider* colAC;
 
     static void (*D_8011DF6C[4][4])(GlobalContext*, CollisionCheckContext*, Collider*, Collider*) = {
         { CollisionCheck_AC_JntSphVsJntSph, CollisionCheck_AC_JntSphVsCyl, CollisionCheck_AC_JntSphVsTris,
@@ -2376,40 +2375,40 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
         { CollisionCheck_AC_QuadVsJntSph, CollisionCheck_AC_QuadVsCyl, CollisionCheck_AC_QuadVsTris,
           CollisionCheck_AC_QuadVsQuad },
     };
-    for (col = colChkCtx->colAc; col < colChkCtx->colAc + colChkCtx->colAcCount; col++) {
-        temp = *col;
-        
-        if ((temp == NULL) || !(temp->acFlags & 1) || (temp->actor != NULL && temp->actor->update == NULL)
-            || !(temp->acFlags & collider->atFlags & 0x38)) {
-            continue;
-        }
-        if (collider == temp) {
-            continue;
-        }
-        if ((collider->atFlags & 0x40) || collider->actor == NULL || temp->actor != collider->actor) {
-            D_8011DF6C[collider->shape][temp->shape](globalCtx, colChkCtx, collider, temp);
+    for (col = colChkCtx->colAc; col < colChkCtx->colAc + colChkCtx->colAcCount; col++) {    
+        colAC = *col;
+
+        if ((colAC != NULL) && (colAC->acFlags & 1) && (colAC->actor == NULL || colAC->actor->update != NULL)) {
+
+            if((colAC->acFlags & colAT->atFlags & 0x38) && (colAT != colAC)) {
+
+                if ((colAT->atFlags & 0x40) || colAT->actor == NULL || colAC->actor != colAT->actor) {
+
+                    D_8011DF6C[colAT->shape][colAC->shape](globalCtx, colChkCtx, colAT, colAC);
+                }
+            }
         }
     }
 }
 
 // Test Attack Collisions
-void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    Collider** colAt;
-    Collider* colliderAt;
+void CollisionCheck_AllAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+    Collider** col;
+    Collider* colAT;
 
     if ((colChkCtx->colAtCount != 0) && (colChkCtx->colAcCount != 0)){
-        for (colAt = colChkCtx->colAt; colAt < colChkCtx->colAt + colChkCtx->colAtCount; colAt++) {
-            colliderAt = *colAt;
-            if ((colliderAt != NULL) && (colliderAt->atFlags & 1) && ((colliderAt->actor == NULL) || (colliderAt->actor->update != NULL))){
-                CollisionCheck_AC(globalCtx, colChkCtx, colliderAt);
+        for (col = colChkCtx->colAt; col < colChkCtx->colAt + colChkCtx->colAtCount; col++) {
+            colAT = *col;
+            if ((colAT != NULL) && (colAT->atFlags & 1) && ((colAT->actor == NULL) || (colAT->actor->update != NULL))){
+                CollisionCheck_AllAC(globalCtx, colChkCtx, colAT);
             }
         }
-        func_800611A0(globalCtx, colChkCtx);
+        CollisionCheck_ApplyAT(globalCtx, colChkCtx);
     }
 }
 
 // Get mass type
-s32 func_8006146C(u8 mass) {
+s32 CollisionCheck_GetMassType(u8 mass) {
     if (mass == 0xFF) {
         return 0;
     }
@@ -2439,6 +2438,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
 
     leftActor = left->actor;
     rightActor = right->actor;
+    
     left->maskA |= 2;
     left->oc = rightActor;
     leftBody->ocFlags |= 2;
@@ -2454,8 +2454,8 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     if (leftActor == NULL || rightActor == NULL || (left->maskA & 4) || (right->maskA & 4)) {
         return;
     }
-    leftMassType = func_8006146C(leftActor->colChkInfo.mass);
-    rightMassType = func_8006146C(rightActor->colChkInfo.mass);
+    leftMassType = CollisionCheck_GetMassType(leftActor->colChkInfo.mass);
+    rightMassType = CollisionCheck_GetMassType(rightActor->colChkInfo.mass);
     leftMass = leftActor->colChkInfo.mass;
     rightMass = rightActor->colChkInfo.mass;
     totalMass = leftMass + rightMass;
@@ -2587,7 +2587,7 @@ void CollisionCheck_OC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
 }
 
 // CollisionCheck_OC test ?
-s32 func_80061BF4(Collider* collider) {
+s32 CollisionCheck_IgnoreOc(Collider* collider) {
     if (!(collider->maskA & 1)) {
         return 1;
     }
@@ -2595,8 +2595,8 @@ s32 func_80061BF4(Collider* collider) {
 }
 
 // CollisionCheck_OC test ?
-s32 func_80061C18(Collider* arg0, Collider* arg1) {
-    if (!((arg0->maskA & arg1->maskB) & 0x38) || !((arg0->maskB & arg1->maskA) & 0x38) ||
+s32 CollisionCheck_Incompatible(Collider* arg0, Collider* arg1) {
+    if (!(arg0->maskA & arg1->maskB & 0x38) || !(arg0->maskB & arg1->maskA & 0x38) ||
         ((arg0->maskB & 2) && (arg1->maskB & 4)) || ((arg1->maskB & 2) && (arg0->maskB & 4))) {
         return 1;
     }
@@ -2621,11 +2621,12 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
     };
 
     for (phi_s2 = colChkCtx->colOc; phi_s2 < colChkCtx->colOc + colChkCtx->colOcCount; phi_s2++) {
-        if (*phi_s2 == NULL || func_80061BF4(*phi_s2) == 1) {
+        if (*phi_s2 == NULL || CollisionCheck_IgnoreOc(*phi_s2) == 1) {
             continue;
         }
         for (phi_s0 = phi_s2 + 1; phi_s0 < colChkCtx->colOc + colChkCtx->colOcCount; phi_s0++) {
-            if (*phi_s0 == NULL || func_80061BF4(*phi_s0) == 1 || func_80061C18(*phi_s2, *phi_s0) == 1) {
+            if (*phi_s0 == NULL || CollisionCheck_IgnoreOc(*phi_s0) == 1
+                    || CollisionCheck_Incompatible(*phi_s2, *phi_s0) == 1) {
                 continue;
             }
             new_var2 = phi_s0;
@@ -2642,12 +2643,12 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
 }
 
 // Initialize CollisionCheckInfo
-void func_80061E48(CollisionCheckInfo* info) {
+void CollisionCheck_InfoInit(CollisionCheckInfo* info) {
     static CollisionCheckInfo init = { NULL, { 0, 0, 0 }, 10, 10, 0, 50, 8, 0, 0, 0, 0 };
     *info = init;
 }
 
-void func_80061E8C(CollisionCheckInfo* info) {
+void CollisionCheck_ClearInfo(CollisionCheckInfo* info) {
     info->damage = 0;
     info->damageEffect = 0;
     info->atHitEffect = 0;
@@ -2657,14 +2658,14 @@ void func_80061E8C(CollisionCheckInfo* info) {
     info->displacement.x = 0.0f;
 }
 
-void func_80061EB0(CollisionCheckInfo* info, CollisionCheckInfoInit* init) {
+void CollisionCheck_SetInfo(CollisionCheckInfo* info, CollisionCheckInfoInit* init) {
     info->health = init->health;
     info->unk_10 = init->unk_02;
     info->unk_12 = init->unk_04;
     info->mass = init->mass;
 }
 
-void func_80061ED4(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init) {
+void CollisionCheck_SetInfoDamageTable(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init) {
     info->health = init->health;
     info->damageTable = damageTable;
     info->unk_10 = init->unk_02;
@@ -2672,7 +2673,7 @@ void func_80061ED4(CollisionCheckInfo* info, DamageTable* damageTable, Collision
     info->mass = init->mass;
 }
 
-void func_80061EFC(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init) {
+void CollisionCheck_SetInfo2DamageTable(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init) {
     info->health = init->health;
     info->damageTable = damageTable;
     info->unk_10 = init->unk_02;
@@ -2681,12 +2682,12 @@ void func_80061EFC(CollisionCheckInfo* info, DamageTable* damageTable, Collision
     info->mass = init->mass;
 }
 
-void func_80061F2C(CollisionCheckInfo* info, s32 index, CollisionCheckInfoInit2* init) {
-    func_80061EFC(info, DamageTable_Get(index), init);
+void CollisionCheck_SetInfoGetDamageTable(CollisionCheckInfo* info, s32 index, CollisionCheckInfoInit2* init) {
+    CollisionCheck_SetInfo2DamageTable(info, DamageTable_Get(index), init);
 }
 
 // Apply AC damage effect
-void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, ColliderBody* body) {
+void CollisionCheck_ApplyDamage(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, ColliderBody* body) {
     DamageTable* tbl;
     u32 flags;
     s32 i;
@@ -2725,49 +2726,49 @@ void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
 }
 
 // Apply ColliderJntSph AC damage effect
-void func_8006216C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyDamageJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     s32 i;
 
     if (jntSph->count > 0 && jntSph->list != NULL) {
         for (i = 0; i < jntSph->count; i++) {
-            func_80061F64(globalCtx, colChkCtx, &jntSph->base, &jntSph->list[i].body);
+            CollisionCheck_ApplyDamage(globalCtx, colChkCtx, &jntSph->base, &jntSph->list[i].body);
         }
     }
 }
 
 // Apply ColliderCylinder AC damage effect
-void func_80062210(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyDamageCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
-    func_80061F64(globalCtx, colChkCtx, &cylinder->base, &cylinder->body);
+    CollisionCheck_ApplyDamage(globalCtx, colChkCtx, &cylinder->base, &cylinder->body);
 }
 
 // Apply ColliderTris AC damage effect
-void func_80062230(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyDamageTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderTris* tris = (ColliderTris*)collider;
     s32 i;
 
     for (i = 0; i < tris->count; i++) {
-        func_80061F64(globalCtx, colChkCtx, collider, &tris->list[i].body);
+        CollisionCheck_ApplyDamage(globalCtx, colChkCtx, collider, &tris->list[i].body);
     }
 }
 
 // Apply ColliderQuad AC damage effect
-void func_800622C4(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_ApplyDamageQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderQuad* quad = (ColliderQuad*)collider;
-    func_80061F64(globalCtx, colChkCtx, &quad->base, &quad->body);
+    CollisionCheck_ApplyDamage(globalCtx, colChkCtx, &quad->base, &quad->body);
 }
 
 // Apply all AC damage effects
-void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_ApplyDamageAll(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider* collider;
     s32 i;
 
     static void (*D_8011E008[4])(GlobalContext*, CollisionCheckContext*, Collider*) = {
-        func_8006216C,
-        func_80062210,
-        func_80062230,
-        func_800622C4,
+        CollisionCheck_ApplyDamageJntSph,
+        CollisionCheck_ApplyDamageCyl,
+        CollisionCheck_ApplyDamageTris,
+        CollisionCheck_ApplyDamageQuad,
     };
 
     for (i = 0; i < colChkCtx->colAcCount; i++) {
@@ -2784,7 +2785,7 @@ void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
 
 static Linef D_8015E610;
 
-s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
+s32 CollisionCheck_GeneralLineOcCheck_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                              Collider* collider, Vec3f* arg3, Vec3f* arg4) {
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     ColliderJntSphItem* item;
@@ -2806,7 +2807,7 @@ s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, Collision
 static Vec3f D_8015E628;
 static Vec3f D_8015E638;
 
-s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
+s32 CollisionCheck_GeneralLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                           Collider* collider, Vec3f* arg3, Vec3f* arg4) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
     if (!(cylinder->body.ocFlags & 1)) {
@@ -2828,15 +2829,15 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
     s32 result;
 
     static s32 (*D_8011E018[4])(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*) = {
-        CollisionCheck_generalLineOcCheck_JntSph,
-        CollisionCheck_generalLineOcCheck_Cyl,
+        CollisionCheck_GeneralLineOcCheck_JntSph,
+        CollisionCheck_GeneralLineOcCheck_Cyl,
         NULL,
         NULL,
     };
 
     result = 0;
     for (c = colChkCtx->colOc; c < colChkCtx->colOc + colChkCtx->colOcCount; c++) {
-        if (func_80061BF4(*c) == 1) {
+        if (CollisionCheck_IgnoreOc(*c) == 1) {
             continue;
         }
         test = 0;
@@ -2864,7 +2865,7 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
     return result;
 }
 
-s32 func_8006268C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* arg2, Vec3f* arg3) {
+s32 CollisionCheck_LineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* arg2, Vec3f* arg3) {
     CollisionCheck_GeneralLineOcCheck(globalCtx, colChkCtx, arg2, arg3, NULL, 0);
 }
 
@@ -2880,23 +2881,23 @@ void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider) {
 }
 
 // Set ColliderCylinder position
-void func_80062718(ColliderCylinder* collider, Vec3s* pos) {
+void Collider_SetCylinderPosition(ColliderCylinder* collider, Vec3s* pos) {
     collider->dim.pos.x = pos->x;
     collider->dim.pos.y = pos->y;
     collider->dim.pos.z = pos->z;
 }
 
 // Set ColliderQuad vertices
-void func_80062734(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d) {
+void Collider_SetQuadVertices(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d) {
     Math_Vec3f_Copy(&collider->dim.quad[2], c);
     Math_Vec3f_Copy(&collider->dim.quad[3], d);
     Math_Vec3f_Copy(&collider->dim.quad[0], a);
     Math_Vec3f_Copy(&collider->dim.quad[1], b);
-    func_8005CEDC(&collider->dim);
+    Collider_SetMidpoints(&collider->dim);
 }
 
 // Set ColliderTrisItem at index
-void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c) {
+void Collider_SetTrisVertices(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c) {
     ColliderTrisItem* item;
     f32 sp40;
     f32 sp3C;
@@ -2915,7 +2916,7 @@ void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f*
 }
 
 // Set ColliderTrisItem at index
-void func_8006285C(GlobalContext* globalCtx, ColliderTris* collider, s32 index, ColliderTrisItemDimInit* init) {
+void Collider_SetTrisItemIndex(GlobalContext* globalCtx, ColliderTris* collider, s32 index, ColliderTrisItemDimInit* init) {
     ColliderTrisItem* item = &collider->list[index];
     Collider_SetTrisItemDim(globalCtx, &item->dim, init);
 }
@@ -2929,7 +2930,7 @@ static s8 sBssDummy12;
 static s8 sBssDummy13;
 static s8 sBssDummy14;
 
-void func_800628A4(s32 arg0, ColliderJntSph* collider) {
+void Collider_UpdateSphJoint(s32 arg0, ColliderJntSph* collider) {
     static Vec3f D_8015E648;
     static Vec3f D_8015CF00; // bss ordering changes here
     s32 i;
@@ -2949,7 +2950,7 @@ void func_800628A4(s32 arg0, ColliderJntSph* collider) {
     }
 }
 
-void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
+void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015CF10;
     s32 sp24;
 
@@ -2998,7 +2999,7 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
 
-void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
+void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015D3D8;
     s32 sp24;
 
@@ -3047,7 +3048,7 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D3D8);
 }
 
-void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
+void CollisionCheck_ShieldParticles(GlobalContext* globalCtx, Vec3f* v) {
     static EffectShieldParticleInit init = {
         16,
         { 0.0f, 0.0f, 0.0f },
@@ -3076,21 +3077,21 @@ void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
 }
 
-void func_80062D60(GlobalContext* globalCtx, Vec3f* v) {
-    func_80062CD4(globalCtx, v);
+void CollisionCheck_ShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v) {
+    CollisionCheck_ShieldParticles(globalCtx, v);
     Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-void func_80062DAC(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
-    func_80062CD4(globalCtx, v);
+void CollisionCheck_ShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
+    CollisionCheck_ShieldParticles(globalCtx, v);
     Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-void func_80062DF4(GlobalContext* globalCtx, Vec3f* v) {
-    func_80062D60(globalCtx, v);
+void CollisionCheck_ShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v) {
+    CollisionCheck_ShieldParticlesMetal(globalCtx, v);
 }
 
-void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
+void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     static EffectShieldParticleInit init = {
         16,
         { 0.0f, 0.0f, 0.0f },
@@ -3131,7 +3132,7 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     of intersection with the side of the cylinder. The locations of those points
     are put in out1 and out2.
 */
-s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
+s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                   Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2) {
     Vec3f actorToItem;
     Vec3f actorToItemProj;
@@ -3265,23 +3266,23 @@ s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* it
     return 1;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062ECC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/CollisionCheck_CylSideVsLineSeg.s")
 #endif
 
-s32 func_800635D0(s32 arg0) {
-    s32 result;
+s32 CollisionCheck_GetSwordDamage(s32 flags) {
+    s32 damage;
 
-    result = 0;
-    if (arg0 & 0x00400100) {
-        result = 1;
-    } else if (arg0 & 0x03000242) {
-        result = 2;
-    } else if (arg0 & 0x48800400) {
-        result = 4;
-    } else if (arg0 & 0x04000000) {
-        result = 8;
+    damage = 0;
+    if (flags & 0x00400100) {
+        damage = 1;
+    } else if (flags & 0x03000242) {
+        damage = 2;
+    } else if (flags & 0x48800400) {
+        damage = 4;
+    } else if (flags & 0x04000000) {
+        damage = 8;
     }
 
-    KREG(7) = result;
-    return result;
+    KREG(7) = damage;
+    return damage;
 }

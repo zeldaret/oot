@@ -35,7 +35,7 @@ glabel func_80A59F08
 /* 00338 80A59F68 24C6B034 */  addiu   $a2, $a2, %lo(D_80A5B034)  ## $a2 = 80A5B034
 /* 0033C 80A59F6C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 00340 80A59F70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00344 80A59F74 0C0187B5 */  jal     func_80061ED4              
+/* 00344 80A59F74 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 00348 80A59F78 E6040070 */  swc1    $f4, 0x0070($s0)           ## 00000070
 /* 0034C 80A59F7C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00350 80A59F80 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

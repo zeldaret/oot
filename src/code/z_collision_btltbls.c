@@ -103,7 +103,7 @@ DamageTable* DamageTable_Get(s32 index) {
     return &D_8011DB20[index];
 }
 
-void func_8005B248(DamageTable* table) {
+void DamageTable_Clear(DamageTable* table) {
     s32 i;
     for (i = 0; i < 32; i++) {
         table->table[i] = 0;

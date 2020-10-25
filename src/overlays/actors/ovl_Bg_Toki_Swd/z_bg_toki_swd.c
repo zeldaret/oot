@@ -77,7 +77,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
     Collider_CylinderUpdate(thisx, &this->collider);
-    func_80061ED4(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, 0, &sColChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {

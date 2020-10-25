@@ -303,7 +303,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->actor.shape.unk_08 = D_80A7FA20[type];
     if (!((this->actor.params >> 5) & 1) && !EnIshi_SnapToFloor(this, globalCtx, 0.0f)) {
         Actor_Kill(&this->actor);

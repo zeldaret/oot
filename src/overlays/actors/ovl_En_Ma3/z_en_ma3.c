@@ -244,7 +244,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:

@@ -30,7 +30,7 @@ glabel EnBubble_Init
 /* 00CF4 809CC8F4 3C06809D */  lui     $a2, %hi(D_809CCE88)       ## $a2 = 809D0000
 /* 00CF8 809CC8F8 24C6CE88 */  addiu   $a2, $a2, %lo(D_809CCE88)  ## $a2 = 809CCE88
 /* 00CFC 809CC8FC 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00D00 809CC900 0C0187BF */  jal     func_80061EFC              
+/* 00D00 809CC900 0C0187BF */  jal     CollisionCheck_SetInfo2DamageTable              
 /* 00D04 809CC904 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 00D08 809CC908 240F0016 */  addiu   $t7, $zero, 0x0016         ## $t7 = 00000016
 /* 00D0C 809CC90C 0C03F66B */  jal     Math_Rand_ZeroOne

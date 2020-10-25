@@ -98,7 +98,7 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-    func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->switchFlag = (u8)(thisx->params >> 0x8);
     thisx->params = thisx->params & 0xFF;
 

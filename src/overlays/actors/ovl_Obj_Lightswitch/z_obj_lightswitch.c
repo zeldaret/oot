@@ -87,7 +87,7 @@ void ObjLightswitch_InitCollider(ObjLightswitch* this, GlobalContext* globalCtx)
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->actor.scale.y),
                   this->actor.posRot.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSphJoint(0, &this->collider);
 }
 
 void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx) {
@@ -187,7 +187,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     ObjLightswitch_InitCollider(this, globalCtx);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
+    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
     if (removeSelf) {
         Actor_Kill(&this->actor);
     }
@@ -475,7 +475,7 @@ void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 alpha = this->alpha >> 6 & 0xFF;
 
     if ((this->actor.params & 1) == 1) {
-        func_800628A4(0, &this->collider);
+        Collider_UpdateSphJoint(0, &this->collider);
     }
 
     if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_BURN && (alpha > 0 || alpha < 255)) {

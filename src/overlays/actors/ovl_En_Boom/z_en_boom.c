@@ -198,7 +198,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                      (hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (hitActor->actor.params == 0))) {
                     collided = 0;
                 } else {
-                    func_80062D60(globalCtx, &hitPoint);
+                    CollisionCheck_ShieldParticlesMetal(globalCtx, &hitPoint);
                 }
             }
         }

@@ -76,7 +76,7 @@ glabel EnHorseLinkChild_Init
 /* 003B0 80A69780 3C0680A7 */  lui     $a2, %hi(D_80A6AF54)       ## $a2 = 80A70000
 /* 003B4 80A69784 24C6AF54 */  addiu   $a2, $a2, %lo(D_80A6AF54)  ## $a2 = 80A6AF54
 /* 003B8 80A69788 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 003BC 80A6978C 0C0187B5 */  jal     func_80061ED4
+/* 003BC 80A6978C 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable
 /* 003C0 80A69790 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003C4 80A69794 AE0001F0 */  sw      $zero, 0x01F0($s0)         ## 000001F0
 /* 003C8 80A69798 A20001EC */  sb      $zero, 0x01EC($s0)         ## 000001EC

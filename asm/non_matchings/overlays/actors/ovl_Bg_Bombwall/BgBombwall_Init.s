@@ -118,7 +118,7 @@ glabel BgBombwall_Init
 /* 00264 8086EA34 02E02025 */  or      $a0, $s7, $zero            ## $a0 = 00000164
 /* 00268 8086EA38 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 0026C 8086EA3C 03C03025 */  or      $a2, $s8, $zero            ## $a2 = FFFFFFD4
-/* 00270 8086EA40 0C0189E8 */  jal     func_800627A0              
+/* 00270 8086EA40 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 00274 8086EA44 27A70098 */  addiu   $a3, $sp, 0x0098           ## $a3 = FFFFFFE0
 /* 00278 8086EA48 26520001 */  addiu   $s2, $s2, 0x0001           ## $s2 = 00000001
 /* 0027C 8086EA4C 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003

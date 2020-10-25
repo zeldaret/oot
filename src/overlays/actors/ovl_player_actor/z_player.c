@@ -7598,9 +7598,9 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
                             sp48 = func_80041F10(&globalCtx->colCtx, sp78, sp74);
 
                             if (sp48 == 0xA) {
-                                func_80062E14(globalCtx, &sp5C, &this->actor.projectedPos);
+                                CollisionCheck_ShieldParticlesWood(globalCtx, &sp5C, &this->actor.projectedPos);
                             } else {
-                                func_80062CD4(globalCtx, &sp5C);
+                                CollisionCheck_ShieldParticles(globalCtx, &sp5C);
                                 if (sp48 == 0xB) {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_SOFT);
                                 } else {

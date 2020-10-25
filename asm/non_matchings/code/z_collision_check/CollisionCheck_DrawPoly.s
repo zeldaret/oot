@@ -16,7 +16,7 @@ glabel D_8013A5F0
     .balign 4
 
 .text
-glabel func_8005B2AC
+glabel CollisionCheck_DrawPoly
 /* AD244C 8005B2AC 27BDFF70 */  addiu $sp, $sp, -0x90
 /* AD2450 8005B2B0 AFB00028 */  sw    $s0, 0x28($sp)
 /* AD2454 8005B2B4 AFA60098 */  sw    $a2, 0x98($sp)

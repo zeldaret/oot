@@ -165,16 +165,16 @@ void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
     Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[0], &pos0);
     Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[1], &pos1);
     Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[2], &pos2);
-    func_800627A0(&this->collider, 0, &pos0, &pos1, &pos2);
+    Collider_SetTrisVertices(&this->collider, 0, &pos0, &pos1, &pos2);
     Matrix_MultVec3f(&sTrisItemInit[1].dim.vtx[2], &pos1);
-    func_800627A0(&this->collider, 1, &pos0, &pos2, &pos1);
+    Collider_SetTrisVertices(&this->collider, 1, &pos0, &pos2, &pos1);
 
     Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[0], &pos0);
     Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[1], &pos1);
     Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[2], &pos2);
-    func_800627A0(&this->collider, 2, &pos0, &pos1, &pos2);
+    Collider_SetTrisVertices(&this->collider, 2, &pos0, &pos1, &pos2);
     Matrix_MultVec3f(&sTrisItemInit[3].dim.vtx[1], &pos2);
-    func_800627A0(&this->collider, 3, &pos0, &pos2, &pos1);
+    Collider_SetTrisVertices(&this->collider, 3, &pos0, &pos2, &pos1);
 }
 
 void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {

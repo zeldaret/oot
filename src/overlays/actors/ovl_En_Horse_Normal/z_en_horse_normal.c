@@ -168,7 +168,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderItems);
     Collider_InitCylinder(globalCtx, &this->cloneCollider);
     Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (globalCtx->sceneNum == SCENE_SPOT20) {
         if (this->actor.posRot.rot.z == 0 || gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);

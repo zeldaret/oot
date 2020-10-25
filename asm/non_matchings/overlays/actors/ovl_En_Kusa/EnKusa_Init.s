@@ -34,7 +34,7 @@ glabel EnKusa_Init
 /* 00738 80A9B6D8 3C0680AA */  lui     $a2, %hi(D_80A9C234)       ## $a2 = 80AA0000
 /* 0073C 80A9B6DC 24C6C234 */  addiu   $a2, $a2, %lo(D_80A9C234)  ## $a2 = 80A9C234
 /* 00740 80A9B6E0 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00744 80A9B6E4 0C0187B5 */  jal     func_80061ED4              
+/* 00744 80A9B6E4 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 00748 80A9B6E8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0074C 80A9B6EC 860F00B6 */  lh      $t7, 0x00B6($s0)           ## 000000B6
 /* 00750 80A9B6F0 3C014780 */  lui     $at, 0x4780                ## $at = 47800000

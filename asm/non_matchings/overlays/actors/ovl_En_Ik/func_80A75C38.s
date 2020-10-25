@@ -80,7 +80,7 @@ glabel func_80A75C38
 .L80A75D64:
 /* 01A54 80A75D64 10400089 */  beq     $v0, $zero, .L80A75F8C     
 /* 01A58 80A75D68 8FA40054 */  lw      $a0, 0x0054($sp)           
-/* 01A5C 80A75D6C 0C018B58 */  jal     func_80062D60              
+/* 01A5C 80A75D6C 0C018B58 */  jal     CollisionCheck_ShieldParticlesMetal              
 /* 01A60 80A75D70 27A50038 */  addiu   $a1, $sp, 0x0038           ## $a1 = FFFFFFE8
 /* 01A64 80A75D74 10000086 */  beq     $zero, $zero, .L80A75F90   
 /* 01A68 80A75D78 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -238,7 +238,7 @@ glabel func_80A75C38
               
 /* 01C6C 80A75F7C 240539BE */  addiu   $a1, $zero, 0x39BE         ## $a1 = 000039BE
 /* 01C70 80A75F80 8FA40054 */  lw      $a0, 0x0054($sp)           
-/* 01C74 80A75F84 0C018B35 */  jal     func_80062CD4              
+/* 01C74 80A75F84 0C018B35 */  jal     CollisionCheck_ShieldParticles              
 /* 01C78 80A75F88 27A50038 */  addiu   $a1, $sp, 0x0038           ## $a1 = FFFFFFE8
 .L80A75F8C:
 /* 01C7C 80A75F8C 8FBF0024 */  lw      $ra, 0x0024($sp)           

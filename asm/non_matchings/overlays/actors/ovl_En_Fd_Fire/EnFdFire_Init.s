@@ -34,7 +34,7 @@ glabel EnFdFire_Init
 /* 0018C 80A0E63C 3C0680A1 */  lui     $a2, %hi(D_80A0F05C)       ## $a2 = 80A10000
 /* 00190 80A0E640 24C6F05C */  addiu   $a2, $a2, %lo(D_80A0F05C)  ## $a2 = 80A0F05C
 /* 00194 80A0E644 24A5F068 */  addiu   $a1, $a1, %lo(D_80A0F068)  ## $a1 = 80A0F068
-/* 00198 80A0E648 0C0187BF */  jal     func_80061EFC              
+/* 00198 80A0E648 0C0187BF */  jal     CollisionCheck_SetInfo2DamageTable              
 /* 0019C 80A0E64C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 001A0 80A0E650 8E180004 */  lw      $t8, 0x0004($s0)           ## 00000004
 /* 001A4 80A0E654 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

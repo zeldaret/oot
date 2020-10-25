@@ -30,7 +30,7 @@ glabel func_80AA9440
 /* 03460 80AA94B0 260403B4 */  addiu   $a0, $s0, 0x03B4           ## $a0 = 000003B4
 /* 03464 80AA94B4 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 03468 80AA94B8 8FA60038 */  lw      $a2, 0x0038($sp)           
-/* 0346C 80AA94BC 0C0189CD */  jal     func_80062734              
+/* 0346C 80AA94BC 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 03470 80AA94C0 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 03474 80AA94C4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 03478 80AA94C8 8FB00020 */  lw      $s0, 0x0020($sp)           

@@ -56,14 +56,14 @@ glabel EnMb_Draw
 /* 03A88 80AA9AD8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000434
 /* 03A8C 80AA9ADC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 03A90 80AA9AE0 27A6008C */  addiu   $a2, $sp, 0x008C           ## $a2 = FFFFFFD4
-/* 03A94 80AA9AE4 0C0189E8 */  jal     func_800627A0
+/* 03A94 80AA9AE4 0C0189E8 */  jal     Collider_SetTrisVertices
 /* 03A98 80AA9AE8 27A70098 */  addiu   $a3, $sp, 0x0098           ## $a3 = FFFFFFE0
 /* 03A9C 80AA9AEC 27A90080 */  addiu   $t1, $sp, 0x0080           ## $t1 = FFFFFFC8
 /* 03AA0 80AA9AF0 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 03AA4 80AA9AF4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000434
 /* 03AA8 80AA9AF8 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 03AAC 80AA9AFC 27A60068 */  addiu   $a2, $sp, 0x0068           ## $a2 = FFFFFFB0
-/* 03AB0 80AA9B00 0C0189E8 */  jal     func_800627A0
+/* 03AB0 80AA9B00 0C0189E8 */  jal     Collider_SetTrisVertices
 /* 03AB4 80AA9B04 27A70074 */  addiu   $a3, $sp, 0x0074           ## $a3 = FFFFFFBC
 /* 03AB8 80AA9B08 86AA0328 */  lh      $t2, 0x0328($s5)           ## 00000328
 .L80AA9B0C:

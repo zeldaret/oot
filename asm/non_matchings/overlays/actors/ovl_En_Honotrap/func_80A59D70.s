@@ -82,7 +82,7 @@ glabel func_80A59D70
 /* 00268 80A59E98 02E02025 */  or      $a0, $s7, $zero            ## $a0 = 00000150
 /* 0026C 80A59E9C 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 00270 80A59EA0 02C03025 */  or      $a2, $s6, $zero            ## $a2 = FFFFFFC8
-/* 00274 80A59EA4 0C0189E8 */  jal     func_800627A0              
+/* 00274 80A59EA4 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 00278 80A59EA8 27A7007C */  addiu   $a3, $sp, 0x007C           ## $a3 = FFFFFFD4
 /* 0027C 80A59EAC 26520001 */  addiu   $s2, $s2, 0x0001           ## $s2 = 00000001
 /* 00280 80A59EB0 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002

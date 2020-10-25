@@ -6,7 +6,7 @@ glabel D_8013AD30
     .float 0.008
 
 .text
-glabel func_80062ECC
+glabel CollisionCheck_CylSideVsLineSeg
 /* ADA06C 80062ECC 27BDFF88 */  addiu $sp, $sp, -0x78
 /* ADA070 80062ED0 8FA40088 */  lw    $a0, 0x88($sp)
 /* ADA074 80062ED4 E7AC0078 */  swc1  $f12, 0x78($sp)

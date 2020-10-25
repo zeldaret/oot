@@ -89,7 +89,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.dim.radius = hcParams->radius;
     this->collider.dim.height = hcParams->height;
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    func_80061ED4(&thisx->colChkInfo, NULL, &sCcInfoInit);
+    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, NULL, &sCcInfoInit);
     if (this->type == 0) {
         this->actionFunc = BgHidanCurtain_WaitForClear;
     } else {

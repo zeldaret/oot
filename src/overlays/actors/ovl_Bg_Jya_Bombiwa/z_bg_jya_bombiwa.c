@@ -158,5 +158,5 @@ void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
     Gfx_DrawDListOpa(globalCtx, D_0600E490);
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSphJoint(0, &this->collider);
 }

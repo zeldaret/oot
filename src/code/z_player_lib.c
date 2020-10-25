@@ -961,7 +961,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
         return 0;
     } else {
         if (collider != NULL) {
-            func_80062734(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
+            Collider_SetQuadVertices(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -988,7 +988,7 @@ void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collide
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);
         Matrix_MultVec3f(&quadSrc[2], &quadDest[2]);
         Matrix_MultVec3f(&quadSrc[3], &quadDest[3]);
-        func_80062734(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
+        Collider_SetQuadVertices(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
 
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);

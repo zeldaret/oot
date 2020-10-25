@@ -60,7 +60,7 @@ glabel BgHakaSgami_Init
 /* 000D8 8087E5B8 A60E01A2 */  sh      $t6, 0x01A2($s0)           ## 000001A2
 /* 000DC 8087E5BC 44089000 */  mfc1    $t0, $f18                  
 /* 000E0 8087E5C0 A61801A4 */  sh      $t8, 0x01A4($s0)           ## 000001A4
-/* 000E4 8087E5C4 0C0187B5 */  jal     func_80061ED4              
+/* 000E4 8087E5C4 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 000E8 8087E5C8 A60801A6 */  sh      $t0, 0x01A6($s0)           ## 000001A6
 /* 000EC 8087E5CC 3C0D8088 */  lui     $t5, %hi(D_8087EFA1)       ## $t5 = 80880000
 /* 000F0 8087E5D0 3C0E8088 */  lui     $t6, %hi(D_8087EFA5)       ## $t6 = 80880000

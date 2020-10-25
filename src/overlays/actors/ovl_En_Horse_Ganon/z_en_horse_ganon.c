@@ -164,7 +164,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
     Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
 
-    func_80061ED4(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     func_80A68AC4(this);
 }
 

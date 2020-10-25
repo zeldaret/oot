@@ -27,7 +27,7 @@ glabel func_809EC1A0
 /* 014C4 809EC204 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 014C8 809EC208 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 014CC 809EC20C 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
-/* 014D0 809EC210 0C018A29 */  jal     func_800628A4              
+/* 014D0 809EC210 0C018A29 */  jal     Collider_UpdateSphJoint              
 /* 014D4 809EC214 24A502AC */  addiu   $a1, $a1, 0x02AC           ## $a1 = 000002AC
 /* 014D8 809EC218 0C034221 */  jal     Matrix_Pull              
 /* 014DC 809EC21C 00000000 */  nop

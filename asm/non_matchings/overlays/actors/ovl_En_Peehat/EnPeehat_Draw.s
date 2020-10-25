@@ -54,7 +54,7 @@ glabel EnPeehat_Draw
 /* 03250 80AD26F0 260403AC */  addiu   $a0, $s0, 0x03AC           ## $a0 = 000003AC
 /* 03254 80AD26F4 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 03258 80AD26F8 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 0325C 80AD26FC 0C0189CD */  jal     func_80062734              
+/* 0325C 80AD26FC 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 03260 80AD2700 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 03264 80AD2704 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80AD2708:

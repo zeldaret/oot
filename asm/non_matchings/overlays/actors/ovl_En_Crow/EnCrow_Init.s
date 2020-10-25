@@ -42,7 +42,7 @@ glabel EnCrow_Init
 /* 0009C 809E02DC 24C616A0 */  addiu   $a2, $a2, %lo(D_809E16A0)  ## $a2 = 809E16A0
 /* 000A0 809E02E0 24A516A8 */  addiu   $a1, $a1, %lo(D_809E16A8)  ## $a1 = 809E16A8
 /* 000A4 809E02E4 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 000A8 809E02E8 0C0187B5 */  jal     func_80061ED4
+/* 000A8 809E02E8 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable
 /* 000AC 809E02EC A5490036 */  sh      $t1, 0x0036($t2)           ## 00000036
 /* 000B0 809E02F0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 000B4 809E02F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

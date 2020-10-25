@@ -81,7 +81,7 @@ glabel EnPoSisters_Init
 /* 00120 80AD90B0 3C0680AE */  lui     $a2, %hi(D_80ADD75C)       ## $a2 = 80AE0000
 /* 00124 80AD90B4 24C6D75C */  addiu   $a2, $a2, %lo(D_80ADD75C)  ## $a2 = 80ADD75C
 /* 00128 80AD90B8 24A5D764 */  addiu   $a1, $a1, %lo(D_80ADD764)  ## $a1 = 80ADD764
-/* 0012C 80AD90BC 0C0187B5 */  jal     func_80061ED4              
+/* 0012C 80AD90BC 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 00130 80AD90C0 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 00134 80AD90C4 860B001C */  lh      $t3, 0x001C($s0)           ## 0000001C
 /* 00138 80AD90C8 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C

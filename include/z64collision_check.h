@@ -26,6 +26,21 @@ typedef enum {
     COLTYPE_UNK13
 } ColliderType;
 
+/* 0: Blue blood, white hitmark
+1: No blood, sand hitmark
+2: Green blood, sand hitmark
+3: No blood, white hitmark
+4: Water burst, no hitmark
+5: No blood, red hitmark
+6: Green blood, white hitmark
+7: Red blood, white hitmark
+8: Blue blood, red hitmark
+9: No blood, metal sounds, sword particles
+10: No blood, no hitmark
+11: No blood, deflection sounds
+12: No blood, deflection sounds
+13: No blood, wood sounds, sword particles */
+
 typedef enum {
     COLSHAPE_JNTSPH,
     COLSHAPE_CYLINDER,
@@ -41,8 +56,8 @@ typedef struct {
     /* 0x0C */ struct Actor* oc;
     /* 0x10 */ u8 atFlags; // Compared to acFlags
     /* 0x11 */ u8 acFlags; // Compared to atFlags
-    /* 0x12 */ u8 maskA;   // Bitwise-and compared to maskB
-    /* 0x13 */ u8 maskB;   // Bitwise-and compared to maskA
+    /* 0x12 */ union {u8 maskA; struct OCFlags {u8 active : 1; u8 hit : 1; u8 noOC : 1; u8 typeMask : 3;} ocF;};  // Bitwise-and compared to maskB
+    /* 0x13 */ union {u8 maskB; struct OTFlags {u8 hitPlayer : 1; u8 horseMask1 : 1; u8 horseMask2 : 1; u8 typeMask : 3; u8 multiHit : 1;} otF;};   // Bitwise-and compared to maskA
     /* 0x14 */ u8 type;
     /* 0x15 */ u8 shape; // ColliderShape
 } Collider; // size = 0x18
@@ -82,7 +97,7 @@ typedef struct {
     /* 0x00 */ u32 flags;  // Collision Exclusion Mask
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
-    /* 0x06 */ Vec3s unk_06; // Point of contact
+    /* 0x06 */ Vec3s hitPos; // Point of contact
 } ColliderBump; // size = 0x0C
 
 typedef struct {

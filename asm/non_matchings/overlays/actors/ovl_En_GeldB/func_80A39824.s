@@ -64,7 +64,7 @@ glabel func_80A39824
 /* 045A0 80A398B0 2604036C */  addiu   $a0, $s0, 0x036C           ## $a0 = 0000036C
 /* 045A4 80A398B4 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 045A8 80A398B8 8FA60030 */  lw      $a2, 0x0030($sp)           
-/* 045AC 80A398BC 0C0189CD */  jal     func_80062734              
+/* 045AC 80A398BC 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 045B0 80A398C0 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 045B4 80A398C4 3C0480A4 */  lui     $a0, %hi(D_80A3A128)       ## $a0 = 80A40000
 /* 045B8 80A398C8 2484A128 */  addiu   $a0, $a0, %lo(D_80A3A128)  ## $a0 = 80A3A128

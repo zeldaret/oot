@@ -98,7 +98,7 @@ void func_809D1D0C(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&D_809D254C, &sp38);
     Matrix_MultVec3f(&sp5C, &this->colliderQuad.dim.quad[1]);
     Matrix_MultVec3f(&sp50, &this->colliderQuad.dim.quad[0]);
-    func_80062734(&this->colliderQuad, &sp38, &sp44, &this->colliderQuad.dim.quad[0], &this->colliderQuad.dim.quad[1]);
+    Collider_SetQuadVertices(&this->colliderQuad, &sp38, &sp44, &this->colliderQuad.dim.quad[0], &this->colliderQuad.dim.quad[1]);
 }
 
 void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {

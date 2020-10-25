@@ -134,7 +134,7 @@ glabel Gameplay_Init
 /* B33D74 800BCBD4 3C010001 */  lui   $at, (0x00011E60 >> 16) # lui $at, 1
 /* B33D78 800BCBD8 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
 /* B33D7C 800BCBDC 02212821 */  addu  $a1, $s1, $at
-/* B33D80 800BCBE0 0C0174EF */  jal   func_8005D3BC
+/* B33D80 800BCBE0 0C0174EF */  jal   CollisionCheck_InitContextDrawColliders
 /* B33D84 800BCBE4 02202025 */   move  $a0, $s1
 /* B33D88 800BCBE8 3C010001 */  lui   $at, (0x00010B20 >> 16) # lui $at, 1
 /* B33D8C 800BCBEC 34210B20 */  ori   $at, (0x00010B20 & 0xFFFF) # ori $at, $at, 0xb20

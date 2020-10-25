@@ -6,10 +6,10 @@ glabel BgSpot18Basket_Draw
 /* 00DF4 808B8504 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00DF8 808B8508 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 00DFC 808B850C 24A50164 */  addiu   $a1, $a1, 0x0164           ## $a1 = 00000164
-/* 00E00 808B8510 0C018A29 */  jal     func_800628A4              
+/* 00E00 808B8510 0C018A29 */  jal     Collider_UpdateSphJoint              
 /* 00E04 808B8514 AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 00E08 808B8518 8FA50018 */  lw      $a1, 0x0018($sp)           
-/* 00E0C 808B851C 0C018A29 */  jal     func_800628A4              
+/* 00E0C 808B851C 0C018A29 */  jal     Collider_UpdateSphJoint              
 /* 00E10 808B8520 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 00E14 808B8524 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00E18 808B8528 24A518B0 */  addiu   $a1, $a1, 0x18B0           ## $a1 = 060018B0

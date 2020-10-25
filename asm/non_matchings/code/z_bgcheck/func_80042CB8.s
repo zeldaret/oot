@@ -137,7 +137,7 @@ glabel func_80042CB8
 /* ABA070 80042ED0 8DA40000 */  lw    $a0, ($t5)
 /* ABA074 80042ED4 AFAE0010 */  sw    $t6, 0x10($sp)
 /* ABA078 80042ED8 AFAC0014 */  sw    $t4, 0x14($sp)
-/* ABA07C 80042EDC 0C016CAB */  jal   func_8005B2AC
+/* ABA07C 80042EDC 0C016CAB */  jal   CollisionCheck_DrawPoly
 /* ABA080 80042EE0 AFAF0018 */   sw    $t7, 0x18($sp)
 /* ABA084 80042EE4 8FBF002C */  lw    $ra, 0x2c($sp)
 /* ABA088 80042EE8 8FB00028 */  lw    $s0, 0x28($sp)

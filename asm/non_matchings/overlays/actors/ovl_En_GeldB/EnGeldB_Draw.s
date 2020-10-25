@@ -188,14 +188,14 @@ glabel EnGeldB_Draw
 /* 04A1C 80A39D2C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000003EC
 /* 04A20 80A39D30 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 04A24 80A39D34 27A60090 */  addiu   $a2, $sp, 0x0090           ## $a2 = FFFFFFB8
-/* 04A28 80A39D38 0C0189E8 */  jal     func_800627A0
+/* 04A28 80A39D38 0C0189E8 */  jal     Collider_SetTrisVertices
 /* 04A2C 80A39D3C 27A7009C */  addiu   $a3, $sp, 0x009C           ## $a3 = FFFFFFC4
 /* 04A30 80A39D40 27AB0084 */  addiu   $t3, $sp, 0x0084           ## $t3 = FFFFFFAC
 /* 04A34 80A39D44 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 04A38 80A39D48 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000003EC
 /* 04A3C 80A39D4C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 04A40 80A39D50 27A6006C */  addiu   $a2, $sp, 0x006C           ## $a2 = FFFFFF94
-/* 04A44 80A39D54 0C0189E8 */  jal     func_800627A0
+/* 04A44 80A39D54 0C0189E8 */  jal     Collider_SetTrisVertices
 /* 04A48 80A39D58 27A70078 */  addiu   $a3, $sp, 0x0078           ## $a3 = FFFFFFA0
 .L80A39D5C:
 /* 04A4C 80A39D5C 868802FC */  lh      $t0, 0x02FC($s4)           ## 000002FC

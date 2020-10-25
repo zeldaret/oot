@@ -104,7 +104,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
             sp9C[i2].y = (vtxVec->y * scaleY) + this->dyna.actor.initPosRot.pos.y;
             sp9C[i2].z = this->dyna.actor.initPosRot.pos.z + (coss * vtxVec->z) - (vtxVec->x * sins);
         }
-        func_800627A0(&this->collider, i1, &sp9C[0], &sp9C[1], &sp9C[2]);
+        Collider_SetTrisVertices(&this->collider, i1, &sp9C[0], &sp9C[1], &sp9C[2]);
     }
     if ((this->type != 4) && (this->index != 2)) {
         phi_t2 = (this->type == 2) ? this->index : this->index + 2;

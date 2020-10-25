@@ -172,8 +172,8 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot08Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Bakudankabe* this = THIS;
 
-    func_800628A4(0, &this->collider);
-    func_800628A4(1, &this->collider);
-    func_800628A4(2, &this->collider);
+    Collider_UpdateSphJoint(0, &this->collider);
+    Collider_UpdateSphJoint(1, &this->collider);
+    Collider_UpdateSphJoint(2, &this->collider);
     Gfx_DrawDListOpa(globalCtx, D_06003898);
 }

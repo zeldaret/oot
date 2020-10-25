@@ -91,7 +91,7 @@ glabel func_809F9DC8
 /* 01CBC 809F9F0C 260403D4 */  addiu   $a0, $s0, 0x03D4           ## $a0 = 000003D4
 /* 01CC0 809F9F10 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 01CC4 809F9F14 8FA60030 */  lw      $a2, 0x0030($sp)           
-/* 01CC8 809F9F18 0C0189CD */  jal     func_80062734              
+/* 01CC8 809F9F18 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 01CCC 809F9F1C AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 01CD0 809F9F20 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 01CD4 809F9F24 8FB00020 */  lw      $s0, 0x0020($sp)           

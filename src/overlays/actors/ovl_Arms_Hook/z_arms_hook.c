@@ -278,7 +278,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                                            &D_801333E0, &D_801333E8);
                     return;
                 }
-                func_80062D60(globalCtx, &this->actor.posRot.pos);
+                CollisionCheck_ShieldParticlesMetal(globalCtx, &this->actor.posRot.pos);
                 Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
                 return;

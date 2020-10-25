@@ -92,7 +92,7 @@ void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.shape.rot.z;
     this->actor.shape.rot.x = this->actor.shape.rot.z;
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 595.0f, &ActorShadow_DrawFunc_Circle, 9.0f);
     this->actor.shape.unk_14 = 0x80;
     func_80897B1C(this);

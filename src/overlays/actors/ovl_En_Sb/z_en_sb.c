@@ -360,7 +360,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
                 hitByWindArrow = true;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.body.bumper.hitPos.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -378,7 +378,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.body.bumper.hitPos.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -402,10 +402,10 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
 
         // if player attack didn't do damage, play recoil sound and spawn sparks
         if (!tookDamage) {
-            hitPoint.x = this->collider.body.bumper.unk_06.x;
-            hitPoint.y = this->collider.body.bumper.unk_06.y;
-            hitPoint.z = this->collider.body.bumper.unk_06.z;
-            func_80062DF4(globalCtx, &hitPoint);
+            hitPoint.x = this->collider.body.bumper.hitPos.x;
+            hitPoint.y = this->collider.body.bumper.hitPos.y;
+            hitPoint.z = this->collider.body.bumper.hitPos.z;
+            CollisionCheck_ShieldParticlesMetal2(globalCtx, &hitPoint);
         }
     }
 

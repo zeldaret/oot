@@ -113,7 +113,7 @@ glabel EnToryo_Init
 /* 0018C 80B202FC 3C0680B2 */  lui     $a2, %hi(D_80B20C2C)       ## $a2 = 80B20000
 /* 00190 80B20300 24C60C2C */  addiu   $a2, $a2, %lo(D_80B20C2C)  ## $a2 = 80B20C2C
 /* 00194 80B20304 24A50C38 */  addiu   $a1, $a1, %lo(D_80B20C38)  ## $a1 = 80B20C38
-/* 00198 80B20308 0C0187BF */  jal     func_80061EFC
+/* 00198 80B20308 0C0187BF */  jal     CollisionCheck_SetInfo2DamageTable
 /* 0019C 80B2030C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 001A0 80B20310 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 001A4 80B20314 240B0004 */  addiu   $t3, $zero, 0x0004         ## $t3 = 00000004

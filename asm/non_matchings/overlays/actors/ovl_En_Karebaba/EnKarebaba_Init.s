@@ -68,7 +68,7 @@ glabel EnKarebaba_Init
 /* 000E0 80A95430 3C0680A9 */  lui     $a2, %hi(D_80A96A48)       ## $a2 = 80A90000
 /* 000E4 80A95434 24C66A48 */  addiu   $a2, $a2, %lo(D_80A96A48)  ## $a2 = 80A96A48
 /* 000E8 80A95438 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 000EC 80A9543C 0C0187B5 */  jal     func_80061ED4              
+/* 000EC 80A9543C 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 000F0 80A95440 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 000F4 80A95444 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 000F8 80A95448 AE0001F4 */  sw      $zero, 0x01F4($s0)         ## 000001F4

@@ -45,7 +45,7 @@ glabel EnFirefly_Init
 /* 00104 80A13174 3C0680A1 */  lui     $a2, %hi(D_80A14F64)       ## $a2 = 80A10000
 /* 00108 80A13178 24C64F64 */  addiu   $a2, $a2, %lo(D_80A14F64)  ## $a2 = 80A14F64
 /* 0010C 80A1317C 24A54F6C */  addiu   $a1, $a1, %lo(D_80A14F6C)  ## $a1 = 80A14F6C
-/* 00110 80A13180 0C0187B5 */  jal     func_80061ED4              
+/* 00110 80A13180 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 00114 80A13184 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 00118 80A13188 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 /* 0011C 80A1318C 3C0B80A1 */  lui     $t3, %hi(func_80A14E28)    ## $t3 = 80A10000

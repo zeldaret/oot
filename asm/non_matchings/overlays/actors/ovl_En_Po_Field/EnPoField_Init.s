@@ -95,7 +95,7 @@ glabel EnPoField_Init
 /* 00150 80AD3C50 3C0680AD */  lui     $a2, %hi(D_80AD70D8)       ## $a2 = 80AD0000
 /* 00154 80AD3C54 24C670D8 */  addiu   $a2, $a2, %lo(D_80AD70D8)  ## $a2 = 80AD70D8
 /* 00158 80AD3C58 24A570E0 */  addiu   $a1, $a1, %lo(D_80AD70E0)  ## $a1 = 80AD70E0
-/* 0015C 80AD3C5C 0C0187B5 */  jal     func_80061ED4              
+/* 0015C 80AD3C5C 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
 /* 00160 80AD3C60 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 00164 80AD3C64 26060234 */  addiu   $a2, $s0, 0x0234           ## $a2 = 00000234
 /* 00168 80AD3C68 AFA60034 */  sw      $a2, 0x0034($sp)           

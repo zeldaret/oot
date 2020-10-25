@@ -132,7 +132,7 @@ glabel BgHidanHrock_Init
 /* 001CC 808892FC 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 001D0 80889300 02803025 */  or      $a2, $s4, $zero            ## $a2 = FFFFFFD4
 /* 001D4 80889304 02A03825 */  or      $a3, $s5, $zero            ## $a3 = FFFFFFE0
-/* 001D8 80889308 0C0189E8 */  jal     func_800627A0              
+/* 001D8 80889308 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 001DC 8088930C AFB60010 */  sw      $s6, 0x0010($sp)           
 /* 001E0 80889310 26520001 */  addiu   $s2, $s2, 0x0001           ## $s2 = 00000001
 /* 001E4 80889314 1657FFC5 */  bne     $s2, $s7, .L8088922C       

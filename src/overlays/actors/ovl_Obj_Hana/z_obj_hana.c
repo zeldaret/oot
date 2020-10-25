@@ -70,7 +70,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         this->collider.dim.radius = params->radius;
         this->collider.dim.height = params->height;
-        func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+        CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
     if (type == 2 && (gSaveContext.eventChkInf[4] & 1)) {

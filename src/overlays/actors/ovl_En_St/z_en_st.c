@@ -254,7 +254,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
     this->colCylinder[2].body.flags = 2;
     this->colCylinder[2].body.bumper.flags = 0xFFCC0706;
 
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
+    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 
     Collider_InitJntSph(globalCtx, &this->colSph);
     Collider_SetJntSph(globalCtx, &this->colSph, &this->actor, &sJntSphInit, this->colSphItems);
@@ -1037,7 +1037,7 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
     EnSt* this = THIS;
 
-    func_800628A4(limbIndex, &this->colSph);
+    Collider_UpdateSphJoint(limbIndex, &this->colSph);
 }
 
 void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {

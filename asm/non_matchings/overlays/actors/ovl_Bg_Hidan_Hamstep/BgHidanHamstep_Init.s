@@ -84,7 +84,7 @@ glabel BgHidanHamstep_Init
 /* 00278 808882B8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000164
 /* 0027C 808882BC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00280 808882C0 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFD0
-/* 00284 808882C4 0C0189E8 */  jal     func_800627A0              
+/* 00284 808882C4 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 00288 808882C8 27A70054 */  addiu   $a3, $sp, 0x0054           ## $a3 = FFFFFFDC
 /* 0028C 808882CC 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 00290 808882D0 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002

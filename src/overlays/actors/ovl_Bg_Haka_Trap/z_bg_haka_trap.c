@@ -151,7 +151,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->uncullZoneScale = 500.0f;
     }
 
-    func_80061ED4(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, 0, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -478,10 +478,10 @@ void func_80880D68(BgHakaTrap* this) {
     Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[0], &vec1);
     Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[1], &vec2);
     Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[2], &vec3);
-    func_800627A0(&this->colliderSpikes, 0, &vec1, &vec2, &vec3);
+    Collider_SetTrisVertices(&this->colliderSpikes, 0, &vec1, &vec2, &vec3);
 
     Matrix_MultVec3f(&sTrisItemsInit[1].dim.vtx[2], &vec2);
-    func_800627A0(&this->colliderSpikes, 1, &vec1, &vec3, &vec2);
+    Collider_SetTrisVertices(&this->colliderSpikes, 1, &vec1, &vec3, &vec2);
 }
 
 void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {

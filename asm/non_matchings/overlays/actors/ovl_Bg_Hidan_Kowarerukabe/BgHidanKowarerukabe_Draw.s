@@ -57,7 +57,7 @@ glabel BgHidanKowarerukabe_Draw
 /* 00D80 8088ADA0 000C6880 */  sll     $t5, $t4,  2               
 /* 00D84 8088ADA4 01CD7021 */  addu    $t6, $t6, $t5              
 /* 00D88 8088ADA8 8DCEAE10 */  lw      $t6, %lo(D_8088AE10)($t6)  
-/* 00D8C 8088ADAC 0C018A29 */  jal     func_800628A4              
+/* 00D8C 8088ADAC 0C018A29 */  jal     Collider_UpdateSphJoint              
 /* 00D90 8088ADB0 AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
 /* 00D94 8088ADB4 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 00D98 8088ADB8 3C068089 */  lui     $a2, %hi(D_8088AF70)       ## $a2 = 80890000

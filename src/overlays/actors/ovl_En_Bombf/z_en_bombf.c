@@ -482,7 +482,7 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
                    SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(globalCtx->state.gfxCtx, globalCtx)));
         gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000408);
     } else {
-        func_800628A4(0, &this->explosionCollider);
+        Collider_UpdateSphJoint(0, &this->explosionCollider);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1063);

@@ -820,7 +820,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
     actor->uncullZoneDownward = 700.0f;
-    func_80061E48(&actor->colChkInfo);
+    CollisionCheck_InfoInit(&actor->colChkInfo);
     actor->floorPolySource = 0x32;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
     if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
@@ -1723,7 +1723,7 @@ void func_8002F994(Actor* actor, s32 arg1) {
 s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* arg2, u32 arg3, Vec3f* arg4) {
     if (func_80041D4C(&globalCtx->colCtx, arg2, arg3) == 8) {
         globalCtx->unk_11D30[0] = 1;
-        func_8005DFAC(globalCtx, 0, arg4);
+        CollisionCheck_BlueBlood(globalCtx, 0, arg4);
         Audio_PlayActorSound2(actor, NA_SE_IT_WALL_HIT_BUYO);
         return 1;
     }
@@ -2064,7 +2064,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
                        (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->naviActor) &&
                         (actor != player->heldActor) && (&player->actor != actor->parent))) {
-                func_80061E8C(&actor->colChkInfo);
+                CollisionCheck_ClearInfo(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
                 if (!actor->isDrawn) {
@@ -2101,7 +2101,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     func_8003F8EC(globalCtx, &globalCtx->colCtx.dyna, actor);
                 }
 
-                func_80061E8C(&actor->colChkInfo);
+                CollisionCheck_ClearInfo(&actor->colChkInfo);
 
                 actor = actor->next;
             }
@@ -3268,7 +3268,7 @@ Actor_80033780* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg
                 spA8.y = itemActor->actor.posRot.pos.y + deltaY;
                 spA8.z = itemActor->actor.posRot.pos.z + deltaZ;
 
-                if (func_80062ECC(refActor->colChkInfo.unk_10, refActor->colChkInfo.unk_12, 0.0f, &refActor->posRot.pos,
+                if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.unk_10, refActor->colChkInfo.unk_12, 0.0f, &refActor->posRot.pos,
                                   &itemActor->actor.posRot.pos, &spA8, &sp90, &sp84)) {
                     return itemActor;
                 } else {
@@ -3556,7 +3556,7 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
 }
 
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
-    func_80062D60(globalCtx, arg1);
+    CollisionCheck_ShieldParticlesMetal(globalCtx, arg1);
 }
 
 void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {

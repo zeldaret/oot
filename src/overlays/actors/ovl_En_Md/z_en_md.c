@@ -591,7 +591,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (!EnMd_ShouldSpawn(&this->actor, globalCtx)) {
         Actor_Kill(&this->actor);
         return;

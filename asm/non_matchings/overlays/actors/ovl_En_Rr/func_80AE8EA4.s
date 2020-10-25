@@ -63,7 +63,7 @@ glabel func_80AE8EA4
 /* 00AD4 80AE8F14 44898000 */  mtc1    $t1, $f16                  ## $f16 = 0.00
 /* 00AD8 80AE8F18 00000000 */  nop
 /* 00ADC 80AE8F1C 468084A0 */  cvt.s.w $f18, $f16                 
-/* 00AE0 80AE8F20 0C018B7D */  jal     func_80062DF4              
+/* 00AE0 80AE8F20 0C018B7D */  jal     CollisionCheck_ShieldParticlesMetal2              
 /* 00AE4 80AE8F24 E7B20044 */  swc1    $f18, 0x0044($sp)          
 /* 00AE8 80AE8F28 100000CC */  beq     $zero, $zero, .L80AE925C   
 /* 00AEC 80AE8F2C 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -95,7 +95,7 @@ glabel func_80AE8EA4
 /* 00B50 80AE8F90 448E8000 */  mtc1    $t6, $f16                  ## $f16 = 0.00
 /* 00B54 80AE8F94 00000000 */  nop
 /* 00B58 80AE8F98 468084A0 */  cvt.s.w $f18, $f16                 
-/* 00B5C 80AE8F9C 0C0177EB */  jal     func_8005DFAC              
+/* 00B5C 80AE8F9C 0C0177EB */  jal     CollisionCheck_BlueBlood              
 /* 00B60 80AE8FA0 E7B20044 */  swc1    $f18, 0x0044($sp)          
 /* 00B64 80AE8FA4 93A30037 */  lbu     $v1, 0x0037($sp)           
 /* 00B68 80AE8FA8 8FA70038 */  lw      $a3, 0x0038($sp)           

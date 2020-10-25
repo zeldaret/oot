@@ -158,7 +158,7 @@ glabel func_80B2E340
 /* 01120 80B2E580 260402B4 */  addiu   $a0, $s0, 0x02B4           ## $a0 = 000002B4
 /* 01124 80B2E584 8FA60044 */  lw      $a2, 0x0044($sp)           
 /* 01128 80B2E588 8FA70040 */  lw      $a3, 0x0040($sp)           
-/* 0112C 80B2E58C 0C0189CD */  jal     func_80062734              
+/* 0112C 80B2E58C 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 01130 80B2E590 AFB90010 */  sw      $t9, 0x0010($sp)           
 .L80B2E594:
 /* 01134 80B2E594 3C0480B3 */  lui     $a0, %hi(D_80B2EB34)       ## $a0 = 80B30000
@@ -187,7 +187,7 @@ glabel func_80B2E340
 /* 01190 80B2E5F0 26040334 */  addiu   $a0, $s0, 0x0334           ## $a0 = 00000334
 /* 01194 80B2E5F4 8FA50048 */  lw      $a1, 0x0048($sp)           
 /* 01198 80B2E5F8 8FA60044 */  lw      $a2, 0x0044($sp)           
-/* 0119C 80B2E5FC 0C0189CD */  jal     func_80062734              
+/* 0119C 80B2E5FC 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 011A0 80B2E600 AFA80010 */  sw      $t0, 0x0010($sp)           
 .L80B2E604:
 /* 011A4 80B2E604 8FBF0034 */  lw      $ra, 0x0034($sp)           
