@@ -746,7 +746,6 @@ void EnPoField_UpdateFlame(EnPoField* this, GlobalContext* globalCtx) {
     }
 }
 
-// Draw flame
 void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
     f32 sp4C;
     s32 pad;

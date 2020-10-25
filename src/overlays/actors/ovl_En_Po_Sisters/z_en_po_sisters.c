@@ -364,8 +364,8 @@ void func_80AD9A54(EnPoSisters* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80ADB17C;
 }
 
-// Meg spawning fakes
 void func_80AD9AA8(EnPoSisters* this, GlobalContext* globalCtx) {
+    // Meg spawning fakes
     Actor* actor1 = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.posRot.pos.x,
                          this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0x400);
     Actor* actor2 = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, this->actor.posRot.pos.x,
@@ -1277,7 +1277,6 @@ s32 EnPoSisters_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     return 0;
 }
 
-// PostLimbDraw2
 void EnPoSisters_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
                                Gfx** gfxP) {
     EnPoSisters* this = THIS;
