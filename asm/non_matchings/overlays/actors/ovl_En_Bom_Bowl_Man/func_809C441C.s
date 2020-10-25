@@ -107,7 +107,7 @@ glabel L809C44C8
 /* 00F40 809C4570 E7B20014 */  swc1    $f18, 0x0014($sp)          
 /* 00F44 809C4574 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 00F48 809C4578 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 00F4C 809C457C 0C00C916 */  jal     Actor_SpawnAttached
+/* 00F4C 809C457C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00F50 809C4580 AFAF0020 */  sw      $t7, 0x0020($sp)           
 /* 00F54 809C4584 86190232 */  lh      $t9, 0x0232($s0)           ## 00000232
@@ -128,7 +128,7 @@ glabel L809C44C8
 /* 00F90 809C45C0 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 00F94 809C45C4 E7B00014 */  swc1    $f16, 0x0014($sp)          
 /* 00F98 809C45C8 E7B20018 */  swc1    $f18, 0x0018($sp)          
-/* 00F9C 809C45CC 0C00C916 */  jal     Actor_SpawnAttached
+/* 00F9C 809C45CC 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00FA0 809C45D0 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 00FA4 809C45D4 10400007 */  beq     $v0, $zero, .L809C45F4     

@@ -261,7 +261,7 @@ glabel func_808E1EB4
 /* 0B9D4 808E2244 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 0B9D8 808E2248 240700E8 */  addiu   $a3, $zero, 0x00E8         ## $a3 = 000000E8
 /* 0B9DC 808E224C 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 0B9E0 808E2250 0C00C916 */  jal     Actor_SpawnAttached
+/* 0B9E0 808E2250 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0B9E4 808E2254 E7A80018 */  swc1    $f8, 0x0018($sp)           
 .L808E2258:

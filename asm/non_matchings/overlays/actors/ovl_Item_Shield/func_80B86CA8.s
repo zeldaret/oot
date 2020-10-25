@@ -115,7 +115,7 @@ glabel func_80B86CA8
 /* 004F8 80B86E18 E43271FC */  swc1    $f18, %lo(D_80B871FC)($at) 
 /* 004FC 80B86E1C C50A0000 */  lwc1    $f10, 0x0000($t0)          ## 00000000
 /* 00500 80B86E20 44073000 */  mfc1    $a3, $f6                   
-/* 00504 80B86E24 0C00A8F1 */  jal     func_8002A3C4              
+/* 00504 80B86E24 0C00A8F1 */  jal     EffectSsFireTail_SpawnFlame              
 /* 00508 80B86E28 E7AA0014 */  swc1    $f10, 0x0014($sp)          
 /* 0050C 80B86E2C 9222019E */  lbu     $v0, 0x019E($s1)           ## 0000019E
 /* 00510 80B86E30 10400003 */  beq     $v0, $zero, .L80B86E40     

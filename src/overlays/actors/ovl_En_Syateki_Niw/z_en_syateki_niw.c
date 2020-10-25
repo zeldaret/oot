@@ -5,7 +5,7 @@
  */
 
 #include "z_en_syateki_niw.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -212,8 +212,8 @@ void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     Vec3f dustVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f dustAccel = { 0.0f, 0.2f, 0.0f };
-    Color_RGBA8_n dustPrimColor = { 0, 0, 0, 255 };
-    Color_RGBA8_n dustEnvColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustPrimColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustEnvColor = { 0, 0, 0, 255 };
     Vec3f dustPos;
     f32 tmpf2;
     f32 sp4C;
@@ -335,7 +335,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
         dustVelocity.y = Math_Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
         dustPos = this->actor.posRot.pos;
-        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 0x258, 0x28, 0x1E);
+        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 600, 40, 30);
     }
 }
 
@@ -495,7 +495,7 @@ void func_80B128F8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
-        (sp26 < 0x140) && (sp24 > 0) && (sp24 < 0xF0)) {
+        (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
         this->actor.speedXZ = 5.0f;
         this->unk_298 = Math_Rand_ZeroFloat(1.99f);
         this->unk_2D8 = Math_Rand_CenteredFloat(8000.0f) + -10000.0f;
@@ -514,8 +514,8 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
-    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E >= 0x141) || (sp2C < 0) ||
-        (sp2C >= 0xF1)) {
+    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
+        (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -564,17 +564,19 @@ void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc in the switch, tmp in v1 rather than s0
 void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
-    s16 i;
-    s32 tmp;
     EnSyatekiNiw* this = THIS;
+    s32 pad;
+    s16 i;
     Vec3f sp90 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp78;
     Vec3f sp6C;
     Vec3f sp60;
+
+    if (1) {}
+    if (1) {}
+    if (1) {}
 
     func_80B132A8(this, globalCtx);
     this->unk_28C++;
@@ -640,30 +642,25 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    tmp = 0;
+    i = 0;
     switch (this->unk_29E) {
         case 0:
             if (globalCtx->unk_11E5C != 0) {
-                tmp = 1;
+                i = 1;
             }
             break;
 
         case 1:
-            tmp = 1;
+            i = 1;
             break;
     }
 
-    if (tmp) {
+    if (i != 0) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
-#else
-Vec3f D_80B136B8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B136C4 = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Niw/EnSyatekiNiw_Update.s")
-#endif
 
 s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 Actor* thisx) {
@@ -756,37 +753,33 @@ void func_80B132A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    s32 pad;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     EnSyatekiNiw_1* ptr = &this->unk_348[0];
     u8 flag = 0;
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
+    OPEN_DISPS(gfxCtx, "../z_en_syateki_niw.c", 1234);
 
-        Graph_OpenDisps(dispRefs, gfxCtx, "../z_en_syateki_niw.c", 1234);
-        func_80093D84(globalCtx->state.gfxCtx);
+    func_80093D84(globalCtx->state.gfxCtx);
 
-        for (i = 0; i < 5; i++, ptr++) {
-            if (ptr->unk_00 == 1) {
-                if (flag == 0) {
-                    gSPDisplayList(gfxCtx->polyXlu.p++, D_060023B0);
-                    flag++;
-                }
-
-                Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
-                func_800D1FD4(&globalCtx->mf_11DA0);
-                Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
-                Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
-                Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
-
-                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_06002428);
+    for (i = 0; i < 5; i++, ptr++) {
+        if (ptr->unk_00 == 1) {
+            if (flag == 0) {
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);
+                flag++;
             }
-        }
 
-        Graph_CloseDisps(dispRefs, gfxCtx, "../z_en_syateki_niw.c", 1257);
+            Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
+
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06002428);
+        }
     }
+
+    CLOSE_DISPS(gfxCtx, "../z_en_syateki_niw.c", 1257);
 }

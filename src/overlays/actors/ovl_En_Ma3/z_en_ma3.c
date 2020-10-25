@@ -83,13 +83,13 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
-        if ((gSaveContext.unk_EC4 == 0) || (gSaveContext.unk_EC4 >= 0xB4)) {
-            gSaveContext.unk_EC4 = 0xB4;
+        if ((gSaveContext.horseRaceRecord == 0) || (gSaveContext.horseRaceRecord >= 0xB4)) {
+            gSaveContext.horseRaceRecord = 0xB4;
             gSaveContext.timer1Value = *timer1ValuePtr;
         }
         if (!(gSaveContext.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
             return 0x208F;
-        } else if (gSaveContext.timer1Value < gSaveContext.unk_EC4) {
+        } else if (gSaveContext.timer1Value < gSaveContext.horseRaceRecord) {
             return 0x2012;
         } else {
             return 0x2004;
@@ -126,7 +126,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     if (gSaveContext.eventChkInf[1] & 0x4000) {
                         func_8010B720(globalCtx, 0x2091);
-                    } else if (gSaveContext.unk_EC4 == 0) {
+                    } else if (gSaveContext.horseRaceRecord == 0) {
                         func_8010B720(globalCtx, 0x2092);
                     } else {
                         func_8010B720(globalCtx, 0x2090);
@@ -144,8 +144,8 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.eventChkInf[1] |= 0x4000;
                 case 0x2004:
                 case 0x2012:
-                    if (gSaveContext.unk_EC4 > gSaveContext.timer1Value) {
-                        gSaveContext.unk_EC4 = gSaveContext.timer1Value;
+                    if (gSaveContext.horseRaceRecord > gSaveContext.timer1Value) {
+                        gSaveContext.horseRaceRecord = gSaveContext.timer1Value;
                     }
                 case 0x208E:
                     gSaveContext.eventInf[0] &= ~0x400;
@@ -331,38 +331,37 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     EnMa3* this = THIS;
     Vec3f vec = D_80AA3898;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
     if (limbIndex == 18) {
         Matrix_MultVec3f(&vec, &thisx->posRot2.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animCurrentSeg == &D_060093BC)) {
-        gSPDisplayList(gfxCtx->polyOpa.p++, &D_06005420);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06005420);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
 }
 
 void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMa3* this = THIS;
     Camera* camera;
     f32 someFloat;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
+
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
     someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);
 }

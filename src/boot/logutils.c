@@ -1,9 +1,8 @@
-#include <z64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
-float LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, float var1, const char* var2Name,
-                               float var2, const char* var3Name, float var3) {
+f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name, f32 var2,
+                             const char* var3Name, f32 var3) {
     if (var1 < var2 || var3 < var1) {
         osSyncPrintf("%s %d: range error %s(%f) < %s(%f) < %s(%f)\n", exp, arg1, var2Name, var2, var1Name, var1,
                      var3Name, var3);
@@ -90,7 +89,6 @@ void LogUtils_CheckNullPointer(const char* exp, void* ptr, const char* file, s32
     }
 }
 
-// check valid pointer
 void LogUtils_CheckValidPointer(const char* exp, void* ptr0, const char* file, s32 line) {
     u32 ptr = (u32)ptr0;
     if (!ptr || ptr < 0x80000000U || (0x80000000U + osMemSize) <= ptr) {

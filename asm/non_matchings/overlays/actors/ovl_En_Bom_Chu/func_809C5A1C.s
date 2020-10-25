@@ -53,7 +53,7 @@ glabel func_809C5A1C
 /* 002AC 809C5ADC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 002B0 809C5AE0 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000024
 /* 002B4 809C5AE4 E7B80010 */  swc1    $f24, 0x0010($sp)          
-/* 002B8 809C5AE8 0C00A4F9 */  jal     func_800293E4              
+/* 002B8 809C5AE8 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 002BC 809C5AEC E7BA0014 */  swc1    $f26, 0x0014($sp)          
 /* 002C0 809C5AF0 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 002C4 809C5AF4 5612FFF8 */  bnel    $s0, $s2, .L809C5AD8       

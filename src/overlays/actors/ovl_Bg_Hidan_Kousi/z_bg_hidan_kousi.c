@@ -152,15 +152,13 @@ void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanKousi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 350);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 350);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_80889E84[thisx->params & 0xFF]);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_80889E84[thisx->params & 0xFF]);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);
 }

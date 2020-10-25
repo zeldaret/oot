@@ -107,7 +107,7 @@ glabel func_809FC9DC
 /* 00974 809FCB44 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00978 809FCB48 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000024
 /* 0097C 809FCB4C E7B80010 */  swc1    $f24, 0x0010($sp)          
-/* 00980 809FCB50 0C00A4F9 */  jal     func_800293E4              
+/* 00980 809FCB50 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 00984 809FCB54 E7BA0014 */  swc1    $f26, 0x0014($sp)          
 /* 00988 809FCB58 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0098C 809FCB5C 0211082A */  slt     $at, $s0, $s1              

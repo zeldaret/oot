@@ -79,13 +79,14 @@ void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
+    s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 263);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 263);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 269),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 269),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000000);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06000000);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
 }

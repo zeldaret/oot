@@ -69,7 +69,7 @@ void func_80897970(BgJyaGoroiwa* this) {
 
 void func_808979C0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
     s32 pad;
-    
+
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     func_80897970(this);

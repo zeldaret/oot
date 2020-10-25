@@ -8,7 +8,7 @@ glabel func_80A96048
 /* 00D10 80A96060 A48E001C */  sh      $t6, 0x001C($a0)           ## 0000001C
 .L80A96064:
 /* 00D14 80A96064 8FA5001C */  lw      $a1, 0x001C($sp)           
-/* 00D18 80A96068 0C00BD04 */  jal     func_8002F410              
+/* 00D18 80A96068 0C00BD04 */  jal     Actor_HasParent              
 /* 00D1C 80A9606C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00D20 80A96070 14400005 */  bne     $v0, $zero, .L80A96088     
 /* 00D24 80A96074 8FA40018 */  lw      $a0, 0x0018($sp)           

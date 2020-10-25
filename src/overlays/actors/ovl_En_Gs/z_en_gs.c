@@ -143,9 +143,9 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19C = 2;
     } else {
         func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
-        if ((sp26 >= 0) && (sp26 < 0x141) && (sp24 >= 0) && (sp24 < 0xF1) && (this->unk_19C != 3)) {
+        if ((sp26 >= 0) && (sp26 <= SCREEN_WIDTH) && (sp24 >= 0) && (sp24 <= SCREEN_HEIGHT) && (this->unk_19C != 3)) {
             if (func_8002F2CC(&this->actor, globalCtx, 40.0f) == 1) {
-                if (func_8008F080(globalCtx) == 8) {
+                if (Player_GetMask(globalCtx) == PLAYER_MASK_TRUTH) {
                     this->actor.textId = 0x2054;
                 } else {
                     this->actor.textId = 0x2053;
@@ -310,7 +310,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         }
 
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
-        if ((this->unk_200++ < 0x28) ^ 1) {
+        if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
             this->actor.flags |= 0x10;
             this->actor.uncullZoneForward = 12000.0f;
@@ -524,12 +524,10 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGs* this = THIS;
     s32 tmp;
     u32 frames;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (!(this->unk_19E & 8)) {
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
+
         frames = globalCtx->gameplayFrames;
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
@@ -543,19 +541,19 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06000950);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000950);
 
         if (this->unk_19E & 4) {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
                             this->flashColor.a);
         } else {
-            gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
         }
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_060009D0);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06000A60);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_060009D0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000A60);
 
         Matrix_Pull();
         if (this->unk_19E & 2) {
@@ -563,15 +561,16 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(
-                gfxCtx->polyXlu.p++, 0x08,
+                oGfxCtx->polyXlu.p++, 0x08,
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_0404D4E0);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
         }
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);
     }
 }

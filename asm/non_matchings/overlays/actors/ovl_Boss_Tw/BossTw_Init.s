@@ -455,7 +455,7 @@ glabel BossTw_Init
 /* 01068 80939D38 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 0106C 80939D3C E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 01070 80939D40 E7A60014 */  swc1    $f6, 0x0014($sp)
-/* 01074 80939D44 0C00C916 */  jal     Actor_SpawnAttached
+/* 01074 80939D44 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 01078 80939D48 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 0107C 80939D4C 3C014366 */  lui     $at, 0x4366                ## $at = 43660000
@@ -490,7 +490,7 @@ glabel BossTw_Init
 /* 010E8 80939DB8 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 010EC 80939DBC AFA00020 */  sw      $zero, 0x0020($sp)
 /* 010F0 80939DC0 AFA0001C */  sw      $zero, 0x001C($sp)
-/* 010F4 80939DC4 0C00C916 */  jal     Actor_SpawnAttached
+/* 010F4 80939DC4 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 010F8 80939DC8 E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 010FC 80939DCC 3C018095 */  lui     $at, %hi(D_8094C844)       ## $at = 80950000
@@ -509,7 +509,7 @@ glabel BossTw_Init
 /* 01130 80939E00 AFA00020 */  sw      $zero, 0x0020($sp)
 /* 01134 80939E04 AFA0001C */  sw      $zero, 0x001C($sp)
 /* 01138 80939E08 240700DC */  addiu   $a3, $zero, 0x00DC         ## $a3 = 000000DC
-/* 0113C 80939E0C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0113C 80939E0C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 01140 80939E10 E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 01144 80939E14 3C048095 */  lui     $a0, %hi(D_8094C844)       ## $a0 = 80950000

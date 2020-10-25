@@ -64,7 +64,7 @@ glabel func_80AC6B3C
 /* 03F8C 80AC6C2C AFA0001C */  sw      $zero, 0x001C($sp)
 /* 03F90 80AC6C30 24070018 */  addiu   $a3, $zero, 0x0018         ## $a3 = 00000018
 /* 03F94 80AC6C34 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 03F98 80AC6C38 0C00C916 */  jal     Actor_SpawnAttached
+/* 03F98 80AC6C38 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 03F9C 80AC6C3C E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 03FA0 80AC6C40 8FBF003C */  lw      $ra, 0x003C($sp)

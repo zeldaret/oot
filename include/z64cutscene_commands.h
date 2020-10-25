@@ -1,8 +1,8 @@
 #ifndef _Z64CUTSCENE_CMMANDS_H_
 #define _Z64CUTSCENE_CMMANDS_H_
 
-#include <command_macros_base.h>
-#include <z64cutscene.h>
+#include "command_macros_base.h"
+#include "z64cutscene.h"
 
 /**
  * ARGS

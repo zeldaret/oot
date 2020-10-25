@@ -6,35 +6,77 @@
 
 #include "z_eff_ss_stone1.h"
 
-typedef enum {
-    /* 0x00 */ SS_STONE1_0,
-    /* 0x01 */ SS_STONE1_1,
-    /* 0x02 */ SS_STONE1_2,
-    /* 0x03 */ SS_STONE1_3,
-    /* 0x04 */ SS_STONE1_4,
-    /* 0x05 */ SS_STONE1_5,
-    /* 0x06 */ SS_STONE1_6,
-    /* 0x07 */ SS_STONE1_7,
-    /* 0x08 */ SS_STONE1_8,
-    /* 0x09 */ SS_STONE1_9,
-    /* 0x0A */ SS_STONE1_A,
-    /* 0x0B */ SS_STONE1_B,
-    /* 0x0C */ SS_STONE1_C,
-} EffectSsStone1Regs;
+#define rReg0 regs[0]
 
 u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsStone1_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_Stone1_InitVars = {
     EFFECT_SS_STONE1,
     EffectSsStone1_Init,
 };
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Stone1/EffectSsStone1_Init.s")
+typedef struct {
+    /* 0x00 */ void* texture;
+    /* 0x04 */ Color_RGBA8 primColor;
+    /* 0x08 */ Color_RGBA8 envColor;
+} EffStoneDrawInfo;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Stone1/func_809AC78C.s")
+static EffStoneDrawInfo sDrawInfo[] = {
+    { 0x04029A90, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
+    { 0x04029690, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
+    { 0x04029290, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
+    { 0x04028E90, { 255, 255, 0, 255 }, { 255, 0, 0, 255 } },
+    { 0x04028A90, { 255, 255, 150, 255 }, { 255, 150, 0, 255 } },
+    { 0x04028690, { 255, 255, 255, 255 }, { 255, 255, 0, 255 } },
+    { 0x04028290, { 255, 255, 255, 255 }, { 0, 255, 0, 255 } },
+    { 0x04027E90, { 255, 255, 255, 255 }, { 0, 255, 255, 255 } },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Stone1/func_809AC9C0.s")
+extern Gfx D_04029E90[];
+
+u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsStone1InitParams* initParams = (EffectSsStone1InitParams*)initParamsx;
+    Vec3f pos = initParams->pos;
+
+    this->pos = pos;
+    this->vec = pos;
+    this->life = 8;
+    this->rReg0 = initParams->unk_C;
+    this->draw = EffectSsStone1_Draw;
+    this->update = EffectSsStone1_Update;
+
+    return 1;
+}
+
+void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    EffStoneDrawInfo* drawParams = &sDrawInfo[this->life];
+    Vec3f mfVec;
+    f32 mfW;
+    f32 scale;
+
+    OPEN_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 154);
+
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &this->pos, &mfVec, &mfW);
+    scale = (mfW < 1500.0f) ? 3.0f : (mfW / 1500.0f) * 3.0f;
+    Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
+    Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stone1.c", 168),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    func_80094C50(gfxCtx);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(drawParams->texture));
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, drawParams->primColor.r, drawParams->primColor.g,
+                    drawParams->primColor.b, 255);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, drawParams->envColor.r, drawParams->envColor.g, drawParams->envColor.b, 255);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04029E90);
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 183);
+}
+
+void EffectSsStone1_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    if ((this->life == 6) && (this->rReg0 != 0)) {
+        iREG(50) = 0;
+    }
+}

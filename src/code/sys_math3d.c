@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 s32 Math3D_LineSegMakePerpLineSeg(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                   Vec3f* lineAIntersect, Vec3f* lineBIntersect);
@@ -47,13 +46,9 @@ s32 Math3D_PlaneVsLineSegClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32
 /**
  * Creates a line segment which is perpendicular to the line segments `lineAPointA`->`lineAPointB` and
  * `lineBPointA`->`lineBPointB`
- *
  */
 #ifdef NON_MATCHING
-/**
- * NON_MATCHING:
- * Lots of regalloc, but is functionally equivilent, some reordering.
- */
+// Lots of regalloc, but is functionally equivilent, some reordering.
 s32 Math3D_LineSegMakePerpLineSeg(Vec3f* lineAPointA, Vec3f* lineAPointB, Vec3f* lineBPointA, Vec3f* lineBPointB,
                                   Vec3f* lineAIntersect, Vec3f* lineBIntersect) {
     f32 sp5C;
@@ -216,7 +211,7 @@ s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC,
  * Finds a point on the line from starting point `v0`, and directional vector `dir`
  * which is `dist` length from the starting point.  Result is placed in `ret`
  */
-void Math3D_PointOnInfinteLine(Vec3f* v0, Vec3f* dir, f32 dist, Vec3f* ret) {
+void Math3D_PointOnInfiniteLine(Vec3f* v0, Vec3f* dir, f32 dist, Vec3f* ret) {
     ret->x = (dir->x * dist) + v0->x;
     ret->y = (dir->y * dist) + v0->y;
     ret->z = (dir->z * dist) + v0->z;
@@ -230,7 +225,7 @@ void Math3D_LineSplitRatio(Vec3f* v0, Vec3f* v1, f32 ratio, Vec3f* ret) {
     Vec3f diff;
 
     Math_Vec3f_Diff(v1, v0, &diff);
-    Math3D_PointOnInfinteLine(v0, &diff, ratio, ret);
+    Math3D_PointOnInfiniteLine(v0, &diff, ratio, ret);
 }
 
 /**
@@ -1926,8 +1921,8 @@ s32 Math3D_CylTriVsIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
         }
 
         radiusTodistFromCylYIntersectTov0v1 = cyl->radius / distFromCylYIntersectTov0v1;
-        Math3D_PointOnInfinteLine(&cylIntersectCenter, &diffMidpointIntersect, radiusTodistFromCylYIntersectTov0v1,
-                                  intersect);
+        Math3D_PointOnInfiniteLine(&cylIntersectCenter, &diffMidpointIntersect, radiusTodistFromCylYIntersectTov0v1,
+                                   intersect);
         return true;
     }
 

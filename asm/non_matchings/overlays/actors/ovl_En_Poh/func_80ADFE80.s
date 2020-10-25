@@ -144,7 +144,7 @@ glabel func_80ADFE80
 /* 02324 80AE0074 46125102 */  mul.s   $f4, $f10, $f18            
 /* 02328 80AE0078 4600218D */  trunc.w.s $f6, $f4                   
 /* 0232C 80AE007C 44193000 */  mfc1    $t9, $f6                   
-/* 02330 80AE0080 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 02330 80AE0080 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 02334 80AE0084 AFB9001C */  sw      $t9, 0x001C($sp)           
 .L80AE0088:

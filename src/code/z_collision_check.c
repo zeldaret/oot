@@ -1,8 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
-
-void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
+#include "global.h"
+#include "vt.h"
 
 // draw red poly
 void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
@@ -499,7 +496,7 @@ s32 Collider_DestroyTrisItemDim(GlobalContext* globalCtx, TriNorm* dim) {
 s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisItemDimInit* src) {
     Vec3f* d;
     Vec3f* s;
-    float nx, ny, nz, nd;
+    f32 nx, ny, nz, nd;
 
     d = dest->vtx;
     s = src->vtx;
@@ -1231,9 +1228,6 @@ s32 func_8005DF74(ColliderBody* left, ColliderBody* right) {
 void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 }
 
-#ifdef NON_MATCHING
-// Blue EffectSpark
-// .bss problems
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015D8A0;
     s32 sp24;
@@ -1282,14 +1276,7 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
-#else
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
-#endif // NON_MATCHING
 
-#ifdef NON_MATCHING
-// Green EffectSpark
-// .bss problems
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015DD68;
     s32 sp24;
@@ -1338,14 +1325,10 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
-#else
-void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
-#endif // NON_MATCHING
 
-void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
-    func_800299AC(globalCtx, v);
-    func_80062B80(globalCtx, v);
+void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
+    EffectSsSibuki_SpawnBurst(globalCtx, pos);
+    func_80062B80(globalCtx, pos);
 }
 
 void func_8005E2A4(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
@@ -1361,7 +1344,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
 
     flags = colliderBody->toucherFlags & 0x18;
     if (flags == 0 && collider->type != COLTYPE_METAL_SHIELD) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1371,7 +1354,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 0) {
-        func_80029CA4(globalCtx, 3, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 3, arg3);
         if (collider->actor == NULL) {
             func_80062D60(globalCtx, arg3);
             return;
@@ -1380,7 +1363,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 8) {
-        func_80029CA4(globalCtx, 0, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1390,7 +1373,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
         return;
     }
     if (flags == 0x10) {
-        func_80029CA4(globalCtx, 1, arg3);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 1, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
@@ -1459,13 +1442,13 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
                 func_80062E14(globalCtx, arg5, &left->actor->projectedPos);
             }
         } else if (D_8011DF40[right->type].unk01 != 5) {
-            func_80029CA4(globalCtx, D_8011DF40[right->type].unk01, arg5);
+            EffectSsHitMark_SpawnFixedScale(globalCtx, D_8011DF40[right->type].unk01, arg5);
             if ((rightBody->bumperFlags & 0x20) == 0) {
                 func_8005E4F8(left, rightBody);
             }
         }
     } else {
-        func_80029CA4(globalCtx, 0, arg5);
+        EffectSsHitMark_SpawnFixedScale(globalCtx, 0, arg5);
         if (right->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -1751,8 +1734,8 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
     }
 }
 
-extern TriNorm D_8015E230;
-extern TriNorm D_8015E268;
+static TriNorm D_8015E230;
+static TriNorm D_8015E268;
 
 void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
@@ -1796,8 +1779,8 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
     }
 }
 
-extern TriNorm D_8015E2A0;
-extern TriNorm D_8015E2D8;
+static TriNorm D_8015E2A0;
+static TriNorm D_8015E2D8;
 
 void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
@@ -1916,7 +1899,7 @@ void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern Vec3f D_8015E310;
+static Vec3f D_8015E310;
 
 void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderTris* left = (ColliderTris*)l;
@@ -1950,9 +1933,9 @@ void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern TriNorm D_8015E320;
-extern TriNorm D_8015E358;
-extern Vec3f D_8015E390;
+static TriNorm D_8015E320;
+static TriNorm D_8015E358;
+static Vec3f D_8015E390;
 
 void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
@@ -1996,9 +1979,12 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern TriNorm D_8015E3A0;
-extern TriNorm D_8015E3D8;
-extern Vec3f D_8015E410;
+static s8 sBssDummy1;
+static s8 sBssDummy2;
+
+static TriNorm D_8015E3A0;
+static TriNorm D_8015E3D8;
+static Vec3f D_8015E410;
 
 void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderQuad* left = (ColliderQuad*)l;
@@ -2046,7 +2032,12 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-extern Vec3f D_8015E420;
+static s8 sBssDummy3;
+static s8 sBssDummy4;
+static s8 sBssDummy5;
+static s8 sBssDummy6;
+
+static Vec3f D_8015E420;
 
 void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2086,9 +2077,14 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-extern Vec3f D_8015E430;
-extern TriNorm D_8015E440;
-extern TriNorm D_8015E478;
+static s8 sBssDummy7;
+static s8 sBssDummy8;
+static s8 sBssDummy9;
+static s8 sBssDummy10;
+
+static Vec3f D_8015E430;
+static TriNorm D_8015E440;
+static TriNorm D_8015E478;
 
 void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2132,9 +2128,9 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-extern Vec3f D_8015E4B0;
-extern TriNorm D_8015E4C0;
-extern TriNorm D_8015E4F8;
+static Vec3f D_8015E4B0;
+static TriNorm D_8015E4C0;
+static TriNorm D_8015E4F8;
 
 void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2180,9 +2176,9 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
     }
 }
 
-extern TriNorm D_8015E530[2];
-extern Vec3f D_8015E598;
-extern TriNorm D_8015E5A8[2];
+static TriNorm D_8015E530[2];
+static Vec3f D_8015E598;
+static TriNorm D_8015E5A8[2];
 
 void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
@@ -2680,7 +2676,7 @@ void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, C
     u32 flags;
     s32 i;
     f32 damage;
-    int tblLookup;
+    s32 tblLookup;
 
     if (collider->actor == NULL || !(collider->acFlags & 2)) {
         return;
@@ -2772,7 +2768,7 @@ void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     }
 }
 
-extern Linef D_8015E610;
+static Linef D_8015E610;
 
 s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                              Collider* collider, Vec3f* arg3, Vec3f* arg4) {
@@ -2793,8 +2789,8 @@ s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, Collision
     return 0;
 }
 
-extern Vec3f D_8015E628;
-extern Vec3f D_8015E638;
+static Vec3f D_8015E628;
+static Vec3f D_8015E638;
 
 s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                           Collider* collider, Vec3f* arg3, Vec3f* arg4) {
@@ -2910,35 +2906,35 @@ void func_8006285C(GlobalContext* globalCtx, ColliderTris* collider, s32 index, 
     Collider_SetTrisItemDim(globalCtx, &item->dim, init);
 }
 
-#ifdef NON_MATCHING
-// Codegen OK, .bss section problems
+// Due to an unknown reason, bss ordering changed between the 2 static Vec3f variables in the function below.
+// In order to reproduce this behavior, we need a specific number of bss variables in the file before that point.
+// For this, we introduce a certain amount of dummy variables throughout the file, which we fit inside padding added
+// by the compiler between structs like TriNorm and/or Vec3f, so they don't take space in bss.
+static s8 sBssDummy11;
+static s8 sBssDummy12;
+static s8 sBssDummy13;
+static s8 sBssDummy14;
+
 void func_800628A4(s32 arg0, ColliderJntSph* collider) {
-    s32 phi_s3;
-
-    static Vec3f D_8015CF00;
     static Vec3f D_8015E648;
+    static Vec3f D_8015CF00; // bss ordering changes here
+    s32 i;
 
-    for (phi_s3 = 0; phi_s3 < collider->count; phi_s3++) {
-        if (arg0 == collider->list[phi_s3].dim.joint) {
-            D_8015E648.x = collider->list[phi_s3].dim.modelSphere.center.x;
-            D_8015E648.y = collider->list[phi_s3].dim.modelSphere.center.y;
-            D_8015E648.z = collider->list[phi_s3].dim.modelSphere.center.z;
+    for (i = 0; i < collider->count; i++) {
+        if (arg0 == collider->list[i].dim.joint) {
+            D_8015E648.x = collider->list[i].dim.modelSphere.center.x;
+            D_8015E648.y = collider->list[i].dim.modelSphere.center.y;
+            D_8015E648.z = collider->list[i].dim.modelSphere.center.z;
             Matrix_MultVec3f(&D_8015E648, &D_8015CF00);
-            collider->list[phi_s3].dim.worldSphere.center.x = (s32)D_8015CF00.x;
-            collider->list[phi_s3].dim.worldSphere.center.y = (s32)D_8015CF00.y;
-            collider->list[phi_s3].dim.worldSphere.center.z = (s32)D_8015CF00.z;
-            collider->list[phi_s3].dim.worldSphere.radius =
-                (s32)((f32)collider->list[phi_s3].dim.modelSphere.radius * collider->list[phi_s3].dim.scale);
+            collider->list[i].dim.worldSphere.center.x = (s32)D_8015CF00.x;
+            collider->list[i].dim.worldSphere.center.y = (s32)D_8015CF00.y;
+            collider->list[i].dim.worldSphere.center.z = (s32)D_8015CF00.z;
+            collider->list[i].dim.worldSphere.radius =
+                (s32)((f32)collider->list[i].dim.modelSphere.radius * collider->list[i].dim.scale);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800628A4.s")
-#endif // NON_MATCHING
 
-#ifdef NON_MATCHING
-// Purple EffectSpark
-// .bss section problems
 void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015CF10;
     s32 sp24;
@@ -2987,13 +2983,7 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062A28.s")
-#endif // NON_MATCHING
 
-#ifdef NON_MATCHING
-// White EffectSpark (Bubbles?)
-// .bss section problems
 void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015D3D8;
     s32 sp24;
@@ -3042,9 +3032,6 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
 
     Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D3D8);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
-#endif // NON_MATCHING
 
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     static EffectShieldParticleInit init = {
@@ -3068,9 +3055,9 @@ void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     init.position.x = (s32)v->x;
     init.position.y = (s32)v->y;
     init.position.z = (s32)v->z;
-    init.lightParams.posX = init.position.x;
-    init.lightParams.posY = init.position.y;
-    init.lightParams.posZ = init.position.z;
+    init.lightPoint.x = init.position.x;
+    init.lightPoint.y = init.position.y;
+    init.lightPoint.z = init.position.z;
 
     Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
 }
@@ -3111,9 +3098,9 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     init.position.x = (s32)v->x;
     init.position.y = (s32)v->y;
     init.position.z = (s32)v->z;
-    init.lightParams.posX = init.position.x;
-    init.lightParams.posY = init.position.y;
-    init.lightParams.posZ = init.position.z;
+    init.lightPoint.x = init.position.x;
+    init.lightPoint.y = init.position.y;
+    init.lightPoint.z = init.position.z;
 
     Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);

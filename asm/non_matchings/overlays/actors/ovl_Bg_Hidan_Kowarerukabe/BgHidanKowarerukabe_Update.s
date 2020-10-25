@@ -8,7 +8,7 @@ glabel BgHidanKowarerukabe_Update
 /* 00C24 8088AC44 26260164 */  addiu   $a2, $s1, 0x0164           ## $a2 = 00000164
 /* 00C28 8088AC48 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00C2C 8088AC4C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000164
-/* 00C30 8088AC50 0C00CD90 */  jal     func_80033640              
+/* 00C30 8088AC50 0C00CD90 */  jal     Actor_GetCollidedExplosive              
 /* 00C34 8088AC54 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 00C38 8088AC58 1040001E */  beq     $v0, $zero, .L8088ACD4     
 /* 00C3C 8088AC5C 8FA60024 */  lw      $a2, 0x0024($sp)           

@@ -5,7 +5,8 @@
  */
 
 #include "z_en_fhg_fire.h"
-#include "../ovl_En_fHG/z_en_fhg.h"
+#include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
+#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 #define FLAGS 0x00000030
 
@@ -142,9 +143,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;
-        this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, (void*)(&this->unk_1A0));
-        Lights_InitType0PositionalLight(&this->unk_1A0, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
-                                        0xFF, 0xFF, 0xFF, 0xFF);
+        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 255,
+                                  255, 255, 0xFF);
     }
 }
 
@@ -156,15 +157,15 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 0x32) {
-        Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     }
 }
 
 void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
     Camera* camera;
     s32 pad;
-    Vec3f randVec;
-    Vec3f tmpVec;
+    Vec3f ballVelocity;
+    Vec3f ballAccel;
     s16 i;
     s16 randY;
     s16* tmp;
@@ -188,19 +189,20 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->unk_150.x = 0x25;
                 this->actor.posRot.pos.y -= 200.0f;
 
-                Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                    this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500,
-                                    0, 0, 0x24);
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                                   this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 500, 0,
+                                   0, 0x24);
 
-                tmpVec = D_80A117BC;
+                ballAccel = D_80A117BC;
 
                 for (i = 0; i < 35; i++) {
-                    randVec.x = Math_Rand_CenteredFloat(30.f);
-                    randVec.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
-                    randVec.z = Math_Rand_CenteredFloat(30.f);
-                    tmpVec.y = -0.2f;
-                    EffectSsFhgFlash_Spawn(globalCtx, &this->actor.posRot.pos, &randVec, &tmpVec,
-                                           (s16)(Math_Rand_ZeroOne() * 100.0f) + 240, 0);
+                    ballVelocity.x = Math_Rand_CenteredFloat(30.f);
+                    ballVelocity.y = Math_Rand_ZeroFloat(5.0f) + 3.0f;
+                    ballVelocity.z = Math_Rand_CenteredFloat(30.f);
+                    ballAccel.y = -0.2f;
+                    EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &ballVelocity, &ballAccel,
+                                                    (s16)(Math_Rand_ZeroOne() * 100.0f) + 240,
+                                                    FHGFLASH_LIGHTBALL_GREEN);
                 }
 
                 func_80033E88(&this->actor, globalCtx, 4, 10);
@@ -216,15 +218,15 @@ void func_80A0F6F8(EnFhgFire* this, GlobalContext* globalCtx) {
                 randY = (Math_Rand_ZeroOne() < 0.5f) ? 0x1000 : 0;
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                                        (i * 8192) + randY, 0x4000, i + 0x64);
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                       (i * 8192) + randY, 0x4000, i + 0x64);
                 }
 
                 for (i = 0; i < 8; i++) {
-                    Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
-                                        (i * 8192) + randY, 0, 0x23);
+                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
+                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                       (i * 8192) + randY, 0, 0x23);
                 }
             }
 
@@ -283,7 +285,7 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     if (Math_Rand_ZeroOne() < 0.5f) {
         pos = this->actor.posRot.pos;
         pos.y -= 20.0f;
-        EffectSsFhgFlash_Spawn2(globalCtx, &this->actor, &pos, 0xC8, 0);
+        EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &pos, 200, FHGFLASH_SHOCK_NO_ACTOR);
     }
 
     Actor_MoveForward(&this->actor);
@@ -369,12 +371,9 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
 void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
     EnfHG* horse;
     s16 i;
-    Vec3f sp6C;
-    Vec3f tmp;
-    Vec3f sp54;
 
     osSyncPrintf("yari hikari 1\n");
-    horse = (EnfHG*)this->actor.attachedA;
+    horse = (EnfHG*)this->actor.parent;
     if ((this->unk_156 % 2) != 0) {
         Actor_SetScale(&this->actor, 6.0f);
     } else {
@@ -386,17 +385,20 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("yari hikari 2\n");
     if (this->fireMode == 0) {
-        tmp = D_80A117C8;
-        sp54 = D_80A117D4;
+        Vec3f ballPos;
+        Vec3f ballVelocity = D_80A117C8;
+        Vec3f ballAccel = D_80A117D4;
+
         osSyncPrintf("FLASH !!\n");
 
         for (i = 0; i < 2; i++) {
-            sp6C.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-            sp6C.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
-            sp6C.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-            sp54.y = -0.08f;
+            ballPos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+            ballPos.y = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
+            ballPos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+            ballAccel.y = -0.08f;
 
-            EffectSsFhgFlash_Spawn(globalCtx, &sp6C, &tmp, &sp54, (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, 0);
+            EffectSsFhgFlash_SpawnLightBall(globalCtx, &ballPos, &ballVelocity, &ballAccel,
+                                            (s16)(Math_Rand_ZeroOne() * 80.0f) + 150, FHGFLASH_LIGHTBALL_GREEN);
         }
     }
 
@@ -408,7 +410,7 @@ void func_80A10008(EnFhgFire* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fhg_Fire/func_80A10220.s")
 
 void func_80A10F18(EnFhgFire* this, GlobalContext* globalCtx) {
-    EnfHG* horse = (EnfHG*)this->actor.attachedA;
+    EnfHG* horse = (EnfHG*)this->actor.parent;
     f32 phi_f0;
     s32 tmp;
 
@@ -465,58 +467,56 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFhgFire* this = THIS;
     s32 pad;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1723);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1723);
 
     if (thisx->params == 0x24) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
+        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
     } else if ((thisx->params == 0x26) || (thisx->params == 0x32)) {
         osSyncPrintf("yari hikari draw 1\n");
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
 
         if (this->fireMode > 0) {
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 255, 0);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 255, 0);
         } else {
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 165, 255, 75, 0);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
         }
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
         Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * 3.1416f, 1);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06012160);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06012160);
     } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (u8)this->unk_188);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (u8)this->unk_188);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40, 1,
                                     (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_0600FAA0);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600FAA0);
     } else {
         osSyncPrintf("FF DRAW 1\n");
         Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 255, 30, 0);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 30, 0);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_060105E0);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_060105E0);
         osSyncPrintf("FF DRAW 2\n");
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1900);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1900);
 }

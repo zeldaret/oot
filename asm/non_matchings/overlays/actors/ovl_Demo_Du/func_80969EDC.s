@@ -16,7 +16,7 @@ glabel func_80969EDC
 /* 00444 80969F14 2407005D */  addiu   $a3, $zero, 0x005D         ## $a3 = 0000005D
 /* 00448 80969F18 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 0044C 80969F1C E7A20014 */  swc1    $f2, 0x0014($sp)           
-/* 00450 80969F20 0C00C916 */  jal     Actor_SpawnAttached
+/* 00450 80969F20 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00454 80969F24 E7AC0018 */  swc1    $f12, 0x0018($sp)          
 /* 00458 80969F28 8FBF0034 */  lw      $ra, 0x0034($sp)           

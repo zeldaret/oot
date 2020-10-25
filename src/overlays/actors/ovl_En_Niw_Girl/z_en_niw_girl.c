@@ -5,7 +5,7 @@
  */
 
 #include "z_en_niw_girl.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000019
 
@@ -68,7 +68,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     vec1.x = vec1.y = 0.0f;
     vec1.z = 50.0;
     Matrix_MultVec3f(&vec1, &vec2);
-    this->chasedEnNiw = (EnNiw*)Actor_SpawnAttached(
+    this->chasedEnNiw = (EnNiw*)Actor_SpawnAsChild(
         &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_NIW, this->actor.posRot.pos.x + vec2.x,
         this->actor.posRot.pos.y + vec2.y, this->actor.posRot.pos.z + vec2.z, 0, this->actor.posRot.rot.y, 0, 0xA);
     if (this->chasedEnNiw != NULL) {
@@ -124,7 +124,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 
     // Only allow Link to talk to her when she is playing the jumping animation
-    if ((this->jumpTimer == 0) || (func_8008F080(globalCtx) != 0)) {
+    if ((this->jumpTimer == 0) || (Player_GetMask(globalCtx) != PLAYER_MASK_NONE)) {
         this->jumpTimer = 60;
         this->actionFunc = EnNiwGirl_Talk;
     }
@@ -137,21 +137,21 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
     }
-    switch (func_8008F080(globalCtx)) {
-        case 1:
+    switch (Player_GetMask(globalCtx)) {
+        case PLAYER_MASK_KEATON:
             this->actor.textId = 0x7118;
             break;
-        case 3:
+        case PLAYER_MASK_SPOOKY:
             this->actor.textId = 0x7119;
             break;
-        case 4:
-        case 6:
-        case 7:
+        case PLAYER_MASK_BUNNY:
+        case PLAYER_MASK_ZORA:
+        case PLAYER_MASK_GERUDO:
             this->actor.textId = 0x711A;
             break;
-        case 2:
-        case 5:
-        case 8:
+        case PLAYER_MASK_SKULL:
+        case PLAYER_MASK_GORON:
+        case PLAYER_MASK_TRUTH:
             this->actor.textId = 0x711B;
             break;
     }
@@ -240,14 +240,14 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwGirl* this = THIS;
     s32 pad;
     Vec3f sp4C = sConstVec3f;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 573);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 573);
+
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnNiwGirlOverrideLimbDraw, 0, &this->actor);
     func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);
 }

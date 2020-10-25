@@ -136,7 +136,7 @@ glabel func_80A13DE4
 .L80A13FBC:
 /* 00F4C 80A13FBC 11000006 */  beq     $t0, $zero, .L80A13FD8     
 /* 00F50 80A13FC0 00000000 */  nop
-/* 00F54 80A13FC4 0C023C20 */  jal     func_8008F080              
+/* 00F54 80A13FC4 0C023C20 */  jal     Player_GetMask              
 /* 00F58 80A13FC8 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 00F5C 80A13FCC 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 00F60 80A13FD0 54410004 */  bnel    $v0, $at, .L80A13FE4       

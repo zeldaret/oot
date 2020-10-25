@@ -92,7 +92,7 @@ glabel func_80B22F28
 /* 00388 80B23078 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0038C 80B2307C 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
 /* 00390 80B23080 240700F5 */  addiu   $a3, $zero, 0x00F5         ## $a3 = 000000F5
-/* 00394 80B23084 0C00C916 */  jal     Actor_SpawnAttached
+/* 00394 80B23084 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00398 80B23088 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 0039C 80B2308C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

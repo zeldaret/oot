@@ -153,7 +153,7 @@ glabel func_80AD4ED8
 /* 01600 80AD5100 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 01604 80AD5104 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 01608 80AD5108 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0160C 80AD510C 0C00A9AE */  jal     func_8002A6B8              
+/* 0160C 80AD510C 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 01610 80AD5110 27A5006C */  addiu   $a1, $sp, 0x006C           ## $a1 = FFFFFFF4
 /* 01614 80AD5114 C6000024 */  lwc1    $f0, 0x0024($s0)           ## 00000024
 /* 01618 80AD5118 C7A4006C */  lwc1    $f4, 0x006C($sp)           
@@ -195,7 +195,7 @@ glabel func_80AD4ED8
 /* 016A8 80AD51A8 AFAF0020 */  sw      $t7, 0x0020($sp)           
 /* 016AC 80AD51AC AFAE001C */  sw      $t6, 0x001C($sp)           
 /* 016B0 80AD51B0 AFAD0018 */  sw      $t5, 0x0018($sp)           
-/* 016B4 80AD51B4 0C00A9AE */  jal     func_8002A6B8              
+/* 016B4 80AD51B4 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 016B8 80AD51B8 AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 016BC 80AD51BC C6100024 */  lwc1    $f16, 0x0024($s0)          ## 00000024
 /* 016C0 80AD51C0 3C0680AD */  lui     $a2, %hi(D_80AD7114)       ## $a2 = 80AD0000
@@ -231,7 +231,7 @@ glabel func_80AD4ED8
 /* 01738 80AD5238 24E77120 */  addiu   $a3, $a3, %lo(D_80AD7120)  ## $a3 = 80AD7120
 /* 0173C 80AD523C 24C67114 */  addiu   $a2, $a2, %lo(D_80AD7114)  ## $a2 = 80AD7114
 /* 01740 80AD5240 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01744 80AD5244 0C00A9AE */  jal     func_8002A6B8              
+/* 01744 80AD5244 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 01748 80AD5248 27A5006C */  addiu   $a1, $sp, 0x006C           ## $a1 = FFFFFFF4
 /* 0174C 80AD524C 86020196 */  lh      $v0, 0x0196($s0)           ## 00000196
 /* 01750 80AD5250 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

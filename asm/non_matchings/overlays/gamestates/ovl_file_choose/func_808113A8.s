@@ -6,7 +6,7 @@ glabel func_808113A8
 /* 0D678 808113B8 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0D67C 808113BC 261201E0 */  addiu   $s2, $s0, 0x01E0           ## $s2 = 000001E0
 /* 0D680 808113C0 AFB1001C */  sw      $s1, 0x001C($sp)           
-/* 0D684 808113C4 0C02A735 */  jal     func_800A9CD4              
+/* 0D684 808113C4 0C02A735 */  jal     Sram_Alloc              
 /* 0D688 808113C8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 000001E0
 /* 0D68C 808113CC 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 0D690 808113D0 2442FA90 */  addiu   $v0, %lo(gGameInfo)
@@ -392,7 +392,7 @@ glabel func_808113A8
 /* 0DC80 808119C0 8E450000 */  lw      $a1, 0x0000($s2)           ## 000001E0
 /* 0DC84 808119C4 3C040800 */  lui     $a0, 0x0800                ## $a0 = 08000000
 /* 0DC88 808119C8 34068000 */  ori     $a2, $zero, 0x8000         ## $a2 = 00008000
-/* 0DC8C 808119CC 0C02A7A8 */  jal     Sram_ReadWrite
+/* 0DC8C 808119CC 0C02A7A8 */  jal     SsSram_ReadWrite
 /* 0DC90 808119D0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0DC94 808119D4 8E4F0000 */  lw      $t7, 0x0000($s2)           ## 000001E0
 /* 0DC98 808119D8 3C018016 */  lui     $at, %hi(gSaveContext+0x1409)

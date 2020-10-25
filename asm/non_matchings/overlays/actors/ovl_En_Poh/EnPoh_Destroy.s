@@ -7,7 +7,7 @@ glabel EnPoh_Destroy
 /* 00358 80ADE0A8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0035C 80ADE0AC 8DC602A8 */  lw      $a2, 0x02A8($t6)           ## 000002A8
 /* 00360 80ADE0B0 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00364 80ADE0B4 0C01E9F1 */  jal     Lights_Remove
+/* 00364 80ADE0B4 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00368 80ADE0B8 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 0036C 80ADE0BC 8FA50018 */  lw      $a1, 0x0018($sp)           

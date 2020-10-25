@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bom.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000030
 
@@ -94,8 +95,8 @@ void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
-    // if attached A is not null, the bomb hasnt been released yet
-    if (func_8002F410(&this->actor, globalCtx)) {
+    // if bomb has a parent actor, the bomb hasnt been released yet
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         EnBom_SetupAction(this, EnBom_WaitForRelease);
         this->actor.room = -1;
         return;
@@ -134,8 +135,8 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
 }
 
 void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx) {
-    // if attachedA is NULL bomb has been released
-    if (func_8002F5A0(&this->actor, globalCtx)) {
+    // if parent is NULL bomb has been released
+    if (Actor_HasNoParent(&this->actor, globalCtx)) {
         EnBom_SetupAction(this, EnBom_Move);
         EnBom_Move(this, globalCtx);
     }
@@ -183,7 +184,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
         player = PLAYER;
 
         if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
-            player->actor.attachedB = NULL;
+            player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
             player->stateFlags1 &= ~0x800;
@@ -199,7 +200,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
-    Color_RGBA8_n dustColor = { 255, 255, 255, 255 };
+    Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
     EnBom* this = THIS;
 
@@ -230,13 +231,13 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             effPos = thisx->posRot.pos;
             effPos.y += 17.0f;
             if ((globalCtx->gameplayFrames % 2) == 0) {
-                func_80029184(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
+                EffectSsGSpk_SpawnFuse(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
             effPos.y += 3.0f;
-            func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 0x32, 5);
+            func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
@@ -246,7 +247,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             // if a lit stick touches the bomb, set timer to 100
             // these bombs never have a timer over 70, so this isnt used
-            if ((this->timer > 100) && func_8008EF5C(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
+            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
@@ -275,7 +276,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             effPos = thisx->posRot.pos;
 
             effPos.y += 10.0f;
-            if (func_8002F410(thisx, globalCtx)) {
+            if (Actor_HasParent(thisx, globalCtx)) {
                 effPos.y += 30.0f;
             }
 
@@ -284,14 +285,14 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             effPos.y = thisx->groundY;
             if (thisx->groundY > -32000.0f) {
-                func_80029024(globalCtx, &effPos, &effVelocity, &effAccel);
+                EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
             if (globalCtx) {};
             globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
             globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
-            func_8005AA1C(&globalCtx->cameras[0], 2, 0xB, 8);
+            func_8005AA1C(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
             thisx->flags |= 0x20;
@@ -305,7 +306,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(thisx, &this->bombCollider);
 
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
-        if (!func_8002F410(thisx, globalCtx) && this->bumpOn) {
+        if (!Actor_HasParent(thisx, globalCtx) && this->bumpOn) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bombCollider.base);
         }
 
@@ -314,7 +315,8 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMB_EXPLOSION)) {
         if (thisx->waterY >= 20.0f) {
-            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 10);
+            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
+                                              DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);
             return;
         }
@@ -328,30 +330,28 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBom* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (1) {}
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 913);
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bom.c", 913);
 
     if (thisx->params == BOMB_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_8002EBCC(thisx, globalCtx, 0);
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_04007A50);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007A50);
         Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPPipeSync(gfxCtx->polyOpa.p++);
-        gDPSetEnvColor(gfxCtx->polyOpa.p++, (s16)this->flashIntensity, 0, 40, 255);
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_04007860);
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->flashIntensity, 0, 40, 255);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007860);
         func_800628A4(0, &this->explosionCollider);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bom.c", 951);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom.c", 951);
 }

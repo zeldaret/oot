@@ -7,7 +7,7 @@ glabel func_80B86AC8
               
 /* 001BC 80B86ADC AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 001C0 80B86AE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001C4 80B86AE4 0C00BD04 */  jal     func_8002F410              
+/* 001C4 80B86AE4 0C00BD04 */  jal     Actor_HasParent              
 /* 001C8 80B86AE8 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 001CC 80B86AEC 10400005 */  beq     $v0, $zero, .L80B86B04     
 /* 001D0 80B86AF0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

@@ -107,16 +107,14 @@ void BgIngate_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgIngate_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_ingate.c", 240);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 240);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 245),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 245),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_06001040);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_ingate.c", 250);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001040);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 250);
 }

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_heishi1.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -116,8 +116,8 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->path == 3) {
         for (i = 0; i < ARRAY_COUNT(sRupeePositions); i++) {
             rupeePos = sRupeePositions[i];
-            Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY, rupeePos.x,
-                                rupeePos.y, rupeePos.z, 0, 0, 0, 3);
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY, rupeePos.x, rupeePos.y,
+                               rupeePos.z, 0, 0, 0, 3);
         }
     }
 

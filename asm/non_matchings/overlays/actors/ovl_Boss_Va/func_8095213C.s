@@ -342,7 +342,7 @@ glabel func_8095213C
 /* 032FC 809525BC 86780034 */  lh      $t8, 0x0034($s3)           ## 00000034
 /* 03300 809525C0 AFB20028 */  sw      $s2, 0x0028($sp)           
 /* 03304 809525C4 01F8C821 */  addu    $t9, $t7, $t8              
-/* 03308 809525C8 0C00C916 */  jal     Actor_SpawnAttached
+/* 03308 809525C8 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 0330C 809525CC AFB90024 */  sw      $t9, 0x0024($sp)           
 /* 03310 809525D0 2652FFFF */  addiu   $s2, $s2, 0xFFFF           ## $s2 = 0000000E

@@ -123,7 +123,7 @@ glabel func_80873868
 /* 011E0 80873A10 AFA0001C */  sw      $zero, 0x001C($sp)
 /* 011E4 80873A14 AFA00020 */  sw      $zero, 0x0020($sp)
 /* 011E8 80873A18 AFA00024 */  sw      $zero, 0x0024($sp)
-/* 011EC 80873A1C 0C00C916 */  jal     Actor_SpawnAttached
+/* 011EC 80873A1C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 011F0 80873A20 AFA20028 */  sw      $v0, 0x0028($sp)
 /* 011F4 80873A24 AE020340 */  sw      $v0, 0x0340($s0)           ## 00000340

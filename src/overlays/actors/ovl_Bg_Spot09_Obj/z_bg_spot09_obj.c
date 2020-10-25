@@ -167,20 +167,17 @@ void BgSpot09Obj_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot09Obj* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[3];
-
     Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
+
     if (thisx->params == 3) {
-        gfxCtx = globalCtx->state.gfxCtx;
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
+
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfxCtx->polyXlu.p++, D_06008010);
+        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06008010);
 
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }
 }

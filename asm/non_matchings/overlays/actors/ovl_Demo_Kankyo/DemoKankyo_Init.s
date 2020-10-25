@@ -233,7 +233,7 @@ glabel L809890DC
 /* 002BC 8098913C AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 002C0 80989140 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 002C4 80989144 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 002C8 80989148 0C00C916 */  jal     Actor_SpawnAttached
+/* 002C8 80989148 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 002CC 8098914C E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 002D0 80989150 1000003D */  beq     $zero, $zero, .L80989248   

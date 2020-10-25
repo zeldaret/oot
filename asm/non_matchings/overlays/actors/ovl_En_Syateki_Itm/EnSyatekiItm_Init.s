@@ -38,7 +38,7 @@ glabel EnSyatekiItm_Init
 /* 00068 80B0F718 240700C1 */  addiu   $a3, $zero, 0x00C1         ## $a3 = 000000C1
 /* 0006C 80B0F71C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00070 80B0F720 E7A80018 */  swc1    $f8, 0x0018($sp)           
-/* 00074 80B0F724 0C00C916 */  jal     Actor_SpawnAttached
+/* 00074 80B0F724 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00078 80B0F728 E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 0007C 80B0F72C 14400008 */  bne     $v0, $zero, .L80B0F750     
@@ -75,7 +75,7 @@ glabel EnSyatekiItm_Init
 /* 000E8 80B0F798 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 000EC 80B0F79C E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 000F0 80B0F7A0 E7B00014 */  swc1    $f16, 0x0014($sp)          
-/* 000F4 80B0F7A4 0C00C916 */  jal     Actor_SpawnAttached
+/* 000F4 80B0F7A4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 000F8 80B0F7A8 E7B20018 */  swc1    $f18, 0x0018($sp)          
 /* 000FC 80B0F7AC 14400008 */  bne     $v0, $zero, .L80B0F7D0     

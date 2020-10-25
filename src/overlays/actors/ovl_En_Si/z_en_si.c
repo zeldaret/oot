@@ -77,7 +77,7 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, this->actor.scale.x);
         this->actor.shape.rot.y += 0x400;
 
-        if (func_8008E988(globalCtx) == 0) {
+        if (!Player_InCsMode(globalCtx)) {
             func_80AFB748(this, globalCtx);
 
             if (this->collider.base.maskB & 0x1) {

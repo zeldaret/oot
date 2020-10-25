@@ -988,7 +988,7 @@ glabel L80B7819C
 /* 0E7FC 80B7819C 3C0180B8 */  lui     $at, %hi(D_80B7A674)       ## $at = 80B80000
 /* 0E800 80B781A0 A020A674 */  sb      $zero, %lo(D_80B7A674)($at) 
 /* 0E804 80B781A4 8FA40038 */  lw      $a0, 0x0038($sp)           
-/* 0E808 80B781A8 0C00BD04 */  jal     func_8002F410              
+/* 0E808 80B781A8 0C00BD04 */  jal     Actor_HasParent              
 /* 0E80C 80B781AC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0E810 80B781B0 10400005 */  beq     $v0, $zero, .L80B781C8     
 /* 0E814 80B781B4 8FA40038 */  lw      $a0, 0x0038($sp)           

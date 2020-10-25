@@ -41,7 +41,7 @@ glabel MirRay_Draw
 /* 010D8 80B8E128 908F02AE */  lbu     $t7, 0x02AE($a0)           ## 000002AE
 /* 010DC 80B8E12C 55E000AD */  bnel    $t7, $zero, .L80B8E3E4     
 /* 010E0 80B8E130 8FBF0034 */  lw      $ra, 0x0034($sp)           
-/* 010E4 80B8E134 0C023C2B */  jal     func_8008F0AC              
+/* 010E4 80B8E134 0C023C2B */  jal     Player_HasMirrorShieldSetToDraw              
 /* 010E8 80B8E138 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 010EC 80B8E13C 104000A8 */  beq     $v0, $zero, .L80B8E3E0     
 /* 010F0 80B8E140 26040A20 */  addiu   $a0, $s0, 0x0A20           ## $a0 = 00000A20

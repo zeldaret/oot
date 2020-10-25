@@ -11,7 +11,7 @@ glabel func_80B2E034
 /* 00BE0 80B2E040 AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 00BE4 80B2E044 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00BE8 80B2E048 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00BEC 80B2E04C 0C00CD90 */  jal     func_80033640              
+/* 00BEC 80B2E04C 0C00CD90 */  jal     Actor_GetCollidedExplosive              
 /* 00BF0 80B2E050 26050268 */  addiu   $a1, $s0, 0x0268           ## $a1 = 00000268
 /* 00BF4 80B2E054 5040000B */  beql    $v0, $zero, .L80B2E084     
 /* 00BF8 80B2E058 92020345 */  lbu     $v0, 0x0345($s0)           ## 00000345

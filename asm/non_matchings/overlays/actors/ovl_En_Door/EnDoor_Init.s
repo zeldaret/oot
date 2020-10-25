@@ -125,7 +125,7 @@ glabel EnDoor_Init
 /* 001B8 809FC388 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
 /* 001BC 809FC38C 2401FFBF */  addiu   $at, $zero, 0xFFBF         ## $at = FFFFFFBF
 /* 001C0 809FC390 01215024 */  and     $t2, $t1, $at              
-/* 001C4 809FC394 0C00C916 */  jal     Actor_SpawnAttached
+/* 001C4 809FC394 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 001C8 809FC398 AFAA0028 */  sw      $t2, 0x0028($sp)           
 /* 001CC 809FC39C 10400002 */  beq     $v0, $zero, .L809FC3A8     

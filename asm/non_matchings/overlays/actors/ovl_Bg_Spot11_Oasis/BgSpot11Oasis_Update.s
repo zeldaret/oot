@@ -80,7 +80,7 @@ glabel BgSpot11Oasis_Update
 /* 003C8 808B2BB8 3C074170 */  lui     $a3, 0x4170                ## $a3 = 41700000
 /* 003CC 808B2BBC E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 003D0 808B2BC0 46128100 */  add.s   $f4, $f16, $f18            
-/* 003D4 808B2BC4 0C00A4F9 */  jal     func_800293E4              
+/* 003D4 808B2BC4 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 003D8 808B2BC8 E7A40014 */  swc1    $f4, 0x0014($sp)           
 /* 003DC 808B2BCC 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

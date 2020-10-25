@@ -190,7 +190,7 @@ glabel L80950024
 /* 00D9C 8095005C AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00DA0 80950060 E7A80014 */  swc1    $f8, 0x0014($sp)
 /* 00DA4 80950064 E7AA0018 */  swc1    $f10, 0x0018($sp)
-/* 00DA8 80950068 0C00C916 */  jal     Actor_SpawnAttached
+/* 00DA8 80950068 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00DAC 8095006C E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00DB0 80950070 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -368,7 +368,7 @@ glabel L80950024
 /* 01044 80950304 866B0034 */  lh      $t3, 0x0034($s3)           ## 00000034
 /* 01048 80950308 AFB20028 */  sw      $s2, 0x0028($sp)
 /* 0104C 8095030C 014B6021 */  addu    $t4, $t2, $t3
-/* 01050 80950310 0C00C916 */  jal     Actor_SpawnAttached
+/* 01050 80950310 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 01054 80950314 AFAC0024 */  sw      $t4, 0x0024($sp)
 /* 01058 80950318 2652FFFF */  addiu   $s2, $s2, 0xFFFF           ## $s2 = 0000000E
@@ -459,7 +459,7 @@ glabel L80950024
 /* 01198 80950458 866D0034 */  lh      $t5, 0x0034($s3)           ## 00000034
 /* 0119C 8095045C AFB20028 */  sw      $s2, 0x0028($sp)
 /* 011A0 80950460 018D7021 */  addu    $t6, $t4, $t5
-/* 011A4 80950464 0C00C916 */  jal     Actor_SpawnAttached
+/* 011A4 80950464 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 011A8 80950468 AFAE0024 */  sw      $t6, 0x0024($sp)
 /* 011AC 8095046C 2652FFFF */  addiu   $s2, $s2, 0xFFFF           ## $s2 = 00000004

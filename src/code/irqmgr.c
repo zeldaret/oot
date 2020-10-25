@@ -1,7 +1,7 @@
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
-volatile u32 gIrqMgrResetStatus = 0;
+vu32 gIrqMgrResetStatus = 0;
 volatile OSTime sIrqMgrResetTime = 0;
 volatile OSTime gIrqMgrRetraceTime = 0;
 u32 sIrqMgrRetraceCount = 0;
@@ -212,7 +212,7 @@ void IrqMgr_ThreadEntry(void* arg0) {
     osSyncPrintf("ＩＲＱマネージャスレッド実行終了\n"); // End of IRQ manager thread execution
 }
 
-void IrqMgr_Create(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount) {
+void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount) {
     LogUtils_CheckNullPointer("this", this, "../irqmgr.c", 346);
     LogUtils_CheckNullPointer("stack", stack, "../irqmgr.c", 347);
     this->clients = NULL;

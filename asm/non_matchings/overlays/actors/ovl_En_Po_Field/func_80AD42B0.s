@@ -22,7 +22,7 @@ glabel func_80AD42B0
 /* 00800 80AD4300 00052C00 */  sll     $a1, $a1, 16               
 /* 00804 80AD4304 00052C03 */  sra     $a1, $a1, 16               
 /* 00808 80AD4308 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 0080C 80AD430C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 0080C 80AD430C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 00810 80AD4310 24840234 */  addiu   $a0, $a0, 0x0234           ## $a0 = 00000234
 /* 00814 80AD4314 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

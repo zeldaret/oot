@@ -51,8 +51,8 @@ glabel func_80805524
 .L808055D0:
 /* 01890 808055D0 5420FFE0 */  bnel    $at, $zero, .L80805554     
 /* 01894 808055D4 00067040 */  sll     $t6, $a2,  1               
-/* 01898 808055D8 3C0C8013 */  lui     $t4, %hi(D_8012A4E0)
-/* 0189C 808055DC 258CA4E0 */  addiu   $t4, %lo(D_8012A4E0)
+/* 01898 808055D8 3C0C8013 */  lui     $t4, %hi(gSramSlotOffsets)
+/* 0189C 808055DC 258CA4E0 */  addiu   $t4, %lo(gSramSlotOffsets)
 /* 018A0 808055E0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 018A4 808055E4 24120041 */  addiu   $s2, $zero, 0x0041         ## $s2 = 00000041
 /* 018A8 808055E8 24110044 */  addiu   $s1, $zero, 0x0044         ## $s1 = 00000044
