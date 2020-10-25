@@ -16,10 +16,10 @@ typedef struct EnNiwLady {
     /* 0x0250 */ EnNiwLadyActionFunc actionFunc;
     /* 0x0254 */ Vec3s unk_254;
     /* 0x025A */ Vec3s unk_25A;
-    /* 0x0260 */ s16 unk_260;
+    /* 0x0260 */ s16 unkUpTimer; // Incriments by one every frame.  Unused
     /* 0x0262 */ s16 unk_262;
-    /* 0x0264 */ s16 unk_264;
-    /* 0x0266 */ s16 unk_266;
+    /* 0x0264 */ s16 unkDownTimer1;
+    /* 0x0266 */ s16 unkRandomDownTimer;
     /* 0x0268 */ s16 NiwInPen;
     /* 0x026A */ s16 unk_26A;
     /* 0x026C */ s16 unk_26C;
@@ -33,7 +33,7 @@ typedef struct EnNiwLady {
     /* 0x0277 */ u8 unk_277;
     /* 0x0278 */ s16 unk_278;
     /* 0x027A */ s16 unk_27A;
-    /* 0x027C */ s16 unk_27C;
+    /* 0x027C */ s16 faceState;
     /* 0x027E */ s16 unk_27E;
     /* 0x0280 */ s8 ObjectAneIndex;
     /* 0x0281 */ s8 ObjectOsAnimeIndex;

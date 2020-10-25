@@ -92,7 +92,7 @@ void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_80AB9D60(EnNiwLady* this, GlobalContext* globalCtx, s32 arg2) {
+void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg2) {
     f32 frames;
 
     if (Text_GetFaceReaction(globalCtx, 8U) != 0) {
@@ -502,7 +502,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_27E != 0) {
             if (this->unk_26E != 0) {
                 this->unk_26E--;
-                func_80AB9D60(this, globalCtx, this->unk_26E);
+                EnNiwLady_ChoseAnimation(this, globalCtx, this->unk_26E);
                 this->unk_26E = 0;
             }
             SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -510,18 +510,14 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->ObjectAneIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ANE);
         if (this->ObjectAneIndex >= 0) {
             this->actionFunc(this, globalCtx);
-            if (this->unk_264 != 0) {
-                this->unk_264 = this->unk_264 - 1;
-            }
-            if (this->unk_266 != 0) {
-                this->unk_266 = this->unk_266 - 1;
-            }
-            this->unk_260++;
-            if (this->unk_266 == 0) {
-                this->unk_27C++;
-                if (this->unk_27C >= 3) {
-                    this->unk_27C = 0;
-                    this->unk_266 = ((s16)Math_Rand_ZeroFloat(60.0f) + 0x14);
+            DECR(this->unkDownTimer1);
+            DECR(this->unkRandomDownTimer);
+            this->unkUpTimer++;
+            if (this->unkRandomDownTimer == 0) {
+                this->faceState++;
+                if (this->faceState >= 3) {
+                    this->faceState = 0;
+                    this->unkRandomDownTimer = ((s16)Math_Rand_ZeroFloat(60.0f) + 0x14);
                 }
             }
             func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
@@ -570,7 +566,7 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_27E != 0) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->unk_27C]));
+        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->faceState]));
         gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          EnNiwLady_OverrideLimbDraw, 0, thisx);
