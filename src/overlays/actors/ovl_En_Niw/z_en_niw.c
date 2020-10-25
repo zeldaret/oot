@@ -1098,9 +1098,9 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
     s16 i;
-    EnNiwFeather* feather = this->feather;
+    EnNiwFeather* feather = this->feathers;
 
-    for (i = 0; i < ARRAY_COUNT(this->feather); i++, feather++) {
+    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
         if (feather->type == 0) {
             feather->type = 1;
             feather->pos = *pos;
@@ -1117,9 +1117,9 @@ void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 s
 
 void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
-    EnNiwFeather* feather = this->feather;
+    EnNiwFeather* feather = this->feathers;
 
-    for (i = 0; i < ARRAY_COUNT(this->feather); i++, feather++) {
+    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
         if (feather->type != 0) {
             feather->timer++;
             feather->pos.x += feather->vel.x;
@@ -1151,13 +1151,13 @@ void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    EnNiwFeather* feather = this->feather;
+    EnNiwFeather* feather = this->feathers;
 
     OPEN_DISPS(gfxCtx, "../z_en_niw.c", 1897);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(this->feather); i++, feather++) {
+    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
         if (feather->type == 1) {
             if (!flag) {
                 gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);

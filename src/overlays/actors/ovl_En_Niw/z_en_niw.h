@@ -14,7 +14,7 @@ typedef struct {
     /* 0x0010 */ Vec3f vel;
     /* 0x001C */ Vec3f accel;
     /* 0x0028 */ s16 lifespan;
-    /* 0x002A */ s16 unk_2A; // variance timer?
+    /* 0x002A */ s16 unk_2A; // Variance timer?
     /* 0x002C */ f32 scale;
     /* 0x0030 */ f32 unk_30;
     /* 0x0034 */ u8 timer;
