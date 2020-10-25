@@ -930,7 +930,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         cam.x = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
         cam.y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
         cam.z = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
-        camResult = cam.y / sqrtf(((SQ(cam.x)) + (SQ(cam.y))) + (SQ(cam.z)));
+        camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.x);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.y);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.z);
