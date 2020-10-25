@@ -274,32 +274,8 @@ void func_8096D64C(DemoEc *this, GlobalContext *globalCtx) {
     SkelAnime_LoadAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D68C.s")
-void func_8096D68C(DemoEc *this, GlobalContext *globalCtx) {
-    s16 temp_v1;
-    s16 temp_v0;
-    s16 phi_v0;
-    s16 phi_v1;
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D68C.s")
 
-    phi_v1 = Math_Rand_S16Offset((u16)0x3C, (u16)0x3C);
-    temp_v0 = this->unk_190;
-    temp_v1 = this->unk_192;
-    if (this->unk_192 == 0) {
-        phi_v0 = 0;
-        phi_v1 = &this->unk_192;
-    } else {
-        temp_v1 = temp_v1 - 1;
-        phi_v0 = temp_v1;
-        phi_v1 = temp_v1;
-    }
-    if (phi_v0 == 0) {
-
-    }
-
-    if (temp_v0 >= 3) {
-        temp_v0 = (u16)0;
-    }
-}
 
 
 
