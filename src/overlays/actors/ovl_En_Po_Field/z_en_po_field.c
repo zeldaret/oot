@@ -126,8 +126,8 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->flameCollider);
     Collider_SetCylinder(globalCtx, &this->flameCollider, &this->actor, &D_80AD70AC);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &D_80AD70D8);
-    this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_InitType2PositionalLight(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0xFF, 0xFF, 0xFF, 0);
+    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0xFF, 0xFF, 0xFF, 0);
     this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     EnPoField_SetupWaitForSpawn(this, globalCtx);
 }
@@ -136,7 +136,7 @@ void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoField* this = THIS;
 
     if (this->actor.params != 0xFF) {
-        Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
         Collider_DestroyCylinder(globalCtx, &this->flameCollider);
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
@@ -146,7 +146,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     this->actor.update = EnPoField_Update;
     Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
     this->actor.shape.rot.x = 0;
-    Lights_SetPositionalLightColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
+    Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
     this->actionTimer = 200; // 10 seconds
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.flags &= ~0x00010001;
@@ -268,7 +268,7 @@ void EnPoField_SetupSoulIdle(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD42B0(EnPoField* this) {
-    Lights_InitType0PositionalLight(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
     this->actor.shape.rot.y = 0;
     this->lightColor.a = 0;
     this->actor.shape.rot.x = 0;
@@ -518,13 +518,13 @@ void EnPoField_Death(EnPoField* this, GlobalContext* globalCtx) {
             sp6C.x = Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
             sp6C.z = Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
         }
-        func_8002A6B8(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         sp6C.x = (this->actor.posRot.pos.x + this->actor.posRot.pos.x) - sp6C.x;
         sp6C.z = (this->actor.posRot.pos.z + this->actor.posRot.pos.z) - sp6C.z;
-        func_8002A6B8(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         sp6C.x = this->actor.posRot.pos.x;
         sp6C.z = this->actor.posRot.pos.z;
-        func_8002A6B8(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &sp6C, &D_80AD7114, &D_80AD7120, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         if (this->actionTimer == 1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
         }
@@ -560,7 +560,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     if (this->actor.bgCheckFlags & 1) {
-        func_800297A4(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 1, 1, 15, 109, 10, D_06004BA0);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 1, 1, 15, 109, 10, D_06004BA0);
         func_80AD42B0(this);
     } else if (this->actionTimer == 0) {
         EnPoField_SetupWaitForSpawn(this, globalCtx);
@@ -589,7 +589,7 @@ void EnPoField_SoulUpdateProperties(EnPoField* this, s32 arg1) {
     this->lightColor.r = info->lightColor.r * multiplier;
     this->lightColor.g = info->lightColor.g * multiplier;
     this->lightColor.b = info->lightColor.b * multiplier;
-    Lights_InitType0PositionalLight(&this->lightInfo, 
+    Lights_PointNoGlowSetInfo(&this->lightInfo, 
                 this->actor.posRot.pos.x, 
                 this->actor.posRot.pos.y, 
                 this->actor.posRot.pos.z, 
@@ -634,11 +634,11 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     }
     this->collider.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     Actor_SetHeight(&this->actor, -10.0f);
-    Lights_InitType0PositionalLight(&this->lightInfo, 
+    Lights_PointNoGlowSetInfo(&this->lightInfo, 
                 this->actor.posRot.pos.x, 
                 this->actor.posRot.pos.y, 
                 this->actor.posRot.pos.z, 
-                this->lightInfo.params.red, this->lightInfo.params.green, this->lightInfo.params.blue, this->lightColor.a * 0.78431374f);
+                this->lightInfo.params.point.color[0], this->lightInfo.params.point.color[1], this->lightInfo.params.point.color[2], this->lightColor.a * 0.78431374f);
 }
 
 void EnPoField_SoulDisappear(EnPoField* this, GlobalContext* globalCtx) {
@@ -708,9 +708,9 @@ void EnPoField_SpawnFlame(EnPoField* this) {
     // If a flame is already active, don't spawn a new one
     if (this->flameTimer == 0) {
         // Set the flame's initial position at the lantern
-        this->flamePosition.x = this->lightInfo.params.posX;
-        this->flamePosition.y = this->lightInfo.params.posY;
-        this->flamePosition.z = this->lightInfo.params.posZ;
+        this->flamePosition.x = this->lightInfo.params.point.x;
+        this->flamePosition.y = this->lightInfo.params.point.y;
+        this->flamePosition.z = this->lightInfo.params.point.z;
         this->flameTimer = 70;
         this->flameRotation = this->actor.shape.rot.y;
     }
@@ -878,7 +878,7 @@ void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             this->actor.posRot.pos.y = sLimb7Mtx.wy;
             this->actor.posRot.pos.z = sLimb7Mtx.wz;
         }
-        Lights_InitType2PositionalLight(&this->lightInfo, vec.x, vec.y, vec.z, this->soulColor.r, this->soulColor.g, this->soulColor.b, this->soulColor.a * 0.7843137383460999f);
+        Lights_PointGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->soulColor.r, this->soulColor.g, this->soulColor.b, this->soulColor.a * 0.7843137383460999f);
     }
 }
 
@@ -931,7 +931,7 @@ void EnPoField_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc == EnPoField_SoulIdle) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, Gfx_EnvColor(globalCtx->state.gfxCtx, info->envColor.r, info->envColor.g, info->envColor.b, 255));
-        Lights_InitType2PositionalLight(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
+        Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
                     this->soulColor.r, this->soulColor.g, this->soulColor.b, 200);
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->soulColor.r, this->soulColor.g, this->soulColor.b, 255);
         gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 2104), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

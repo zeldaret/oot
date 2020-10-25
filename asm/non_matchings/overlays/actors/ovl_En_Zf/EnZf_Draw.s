@@ -122,7 +122,7 @@ glabel EnZf_Draw
 /* 05A30 80B49A80 24C604FC */  addiu   $a2, $a2, 0x04FC           ## $a2 = 000004FC
 /* 05A34 80B49A84 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 05A38 80B49A88 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 05A3C 80B49A8C 0C00A850 */  jal     func_8002A140
+/* 05A3C 80B49A8C 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f
 /* 05A40 80B49A90 E7A40028 */  swc1    $f4, 0x0028($sp)
 /* 05A44 80B49A94 10000027 */  beq     $zero, $zero, .L80B49B34
 /* 05A48 80B49A98 8FAA0084 */  lw      $t2, 0x0084($sp)

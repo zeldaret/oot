@@ -115,7 +115,7 @@ glabel EnDivingGame_Update
 /* 014C0 809EED30 C7A80034 */  lwc1    $f8, 0x0034($sp)           
 /* 014C4 809EED34 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 014C8 809EED38 460A4400 */  add.s   $f16, $f8, $f10            
-/* 014CC 809EED3C 0C00A511 */  jal     func_80029444              
+/* 014CC 809EED3C 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 014D0 809EED40 E7B00034 */  swc1    $f16, 0x0034($sp)          
 /* 014D4 809EED44 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 014D8 809EED48 860E0290 */  lh      $t6, 0x0290($s0)           ## 00000290

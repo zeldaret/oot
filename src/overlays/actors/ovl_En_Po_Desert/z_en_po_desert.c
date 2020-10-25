@@ -63,8 +63,8 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.g = 255;
     this->lightColor.b = 210;
     this->lightColor.a = 255;
-    this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_InitType0PositionalLight(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 200);
+    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 200);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 37.0f);
     this->currentPathPoint = 1;
     this->actor.params = (this->actor.params >> 8) & 0xFF;
@@ -75,7 +75,7 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -249,7 +249,7 @@ void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, this->lightColor.r, this->lightColor.g , this->lightColor.b, this->lightColor.a);
         }
-        Lights_InitType0PositionalLight(&this->lightInfo, lightPos.x, lightPos.y, lightPos.z, color.r, color.g, color.b, 200);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, lightPos.x, lightPos.y, lightPos.z, color.r, color.g, color.b, 200);
     }
 }
 

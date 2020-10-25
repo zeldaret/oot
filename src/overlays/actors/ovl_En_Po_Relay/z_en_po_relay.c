@@ -105,8 +105,8 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->limbDrawTable, this->transitionDrawTable, 18);
     Collider_InitCylinder(globalCtx,  &this->collider);
     Collider_SetCylinder(globalCtx,  &this->collider, &this->actor, &D_80AD8CF8);
-    this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_InitType0PositionalLight(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 200);
+    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 200);
     this->lightColor.a = 255;
     temp = 1;
     if (D_80AD8D24 != 0) {
@@ -123,7 +123,7 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnPoRelay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoRelay* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -321,13 +321,13 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             vec.x = (Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.x;
             vec.z = (Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.z;
         }
-        func_8002A6B8(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         vec.x = (this->actor.posRot.pos.x + this->actor.posRot.pos.x) - vec.x;
         vec.z = (this->actor.posRot.pos.z + this->actor.posRot.pos.z) - vec.z;
-        func_8002A6B8(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         vec.x = this->actor.posRot.pos.x;
         vec.z = this->actor.posRot.pos.z;
-        func_8002A6B8(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         if (this->actionTimer == 1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
         }
@@ -337,8 +337,8 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             sp60.x = this->actor.posRot.pos.x;
             sp60.y = this->actor.groundY;
             sp60.z = this->actor.posRot.pos.z;
-            if (gSaveContext.timer1Value < gSaveContext.unk_ED0) {
-                gSaveContext.unk_ED0 = gSaveContext.timer1Value;
+            if (gSaveContext.timer1Value < gSaveContext.dampeRaceTime) {
+                gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
             }
             if (Flags_GetCollectible(globalCtx, this->actor.params) == 0 && gSaveContext.timer1Value <= 60) {
                 Item_DropCollectible2(globalCtx, &sp60, (this->actor.params << 8) + (0x4000 | ITEM00_HEART_PIECE));
@@ -347,7 +347,7 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             }
         } else {
             Flags_SetTempClear(globalCtx, 4);
-            gSaveContext.unk_ED0 = gSaveContext.timer1Value;
+            gSaveContext.dampeRaceTime = gSaveContext.timer1Value;
         }
         Actor_Kill(&this->actor);
     }
@@ -398,7 +398,7 @@ void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         if (1) {}
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 901);
         Matrix_MultVec3f(&D_80AD8D48, &vec);
-        Lights_InitType0PositionalLight(&this->lightInfo, vec.x, vec.y, vec.z, this->lightColor.r, this->lightColor.g, this->lightColor.b, 200);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->lightColor.r, this->lightColor.g, this->lightColor.b, 200);
     } else if (limbIndex == 8) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 916);
         gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 918), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

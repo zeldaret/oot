@@ -133,8 +133,8 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_194 = 0;
     this->unk_195 = 32;
     this->visibilityTimer = Math_Rand_S16Offset(700, 300);
-    this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_InitType2PositionalLight(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 0);
+    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 0);
     if (this->actor.params >= 4) {
         this->actor.params = EN_POH_NORMAL;
     }
@@ -179,7 +179,7 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
     Collider_DestroyJntSph(globalCtx, &this->colliderSph);
     Collider_DestroyCylinder(globalCtx, &this->colliderCyl);
     if (this->actor.params == EN_POH_RUPEE) {
@@ -317,7 +317,7 @@ void EnPoh_SetupDeath(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADE6D4(EnPoh* this) {
-    Lights_InitType0PositionalLight(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
     this->visibilityTimer = 0;
     this->actor.shape.rot.y = 0;
     this->lightColor.r = 0;
@@ -557,13 +557,13 @@ void func_80ADF15C(EnPoh* this, GlobalContext* globalCtx) {
             vec.x = Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
             vec.z = Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
         }
-        func_8002A6B8(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         vec.x = (this->actor.posRot.pos.x + this->actor.posRot.pos.x) - vec.x;
         vec.z = (this->actor.posRot.pos.z + this->actor.posRot.pos.z) - vec.z;
-        func_8002A6B8(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         vec.x = this->actor.posRot.pos.x;
         vec.z = this->actor.posRot.pos.z;
-        func_8002A6B8(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
         if (this->unk_198 == 1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
         }
@@ -652,7 +652,7 @@ void EnPoh_Death(EnPoh* this, GlobalContext* globalCtx) {
     }
     if (this->actor.bgCheckFlags & 1) {
         phi_v0 = (this->isComposer == true) ? 110 : 9;
-        func_800297A4(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 1, 1, 15, phi_v0, 10, this->info->unk_1C);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 1, 1, 15, phi_v0, 10, this->info->unk_1C);
         func_80ADE6D4(this);
     } else if (this->unk_198 == 0) {
         Actor_Kill(&this->actor);
@@ -681,7 +681,7 @@ void func_80ADFA90(EnPoh* this, s32 arg1) {
     this->lightColor.r = this->info->lightColor.r * multiplier;
     this->lightColor.g = this->info->lightColor.g * multiplier;
     this->lightColor.b = this->info->lightColor.b * multiplier;
-    Lights_InitType0PositionalLight(&this->lightInfo, 
+    Lights_PointNoGlowSetInfo(&this->lightInfo, 
                     this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
                     this->info->lightColor.r, this->info->lightColor.g, this->info->lightColor.b, this->lightColor.a * 0.78431373f);
 }
@@ -723,7 +723,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     }
     this->colliderCyl.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     Actor_SetHeight(&this->actor, -10.0f);
-    Lights_InitType0PositionalLight(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
                 this->info->lightColor.r, this->info->lightColor.g, this->info->lightColor.b, this->lightColor.a * 0.78431373f);
 }
 
@@ -989,7 +989,7 @@ void EnPoh_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
             this->actor.posRot.pos.y = this->unk_368.wy;
             this->actor.posRot.pos.z = this->unk_368.wz;
         }
-        Lights_InitType2PositionalLight(&this->lightInfo, 
+        Lights_PointGlowSetInfo(&this->lightInfo, 
                     this->colliderSph.list[0].dim.worldSphere.center.x, 
                     this->colliderSph.list[0].dim.worldSphere.center.y, 
                     this->colliderSph.list[0].dim.worldSphere.center.z, 
@@ -1086,7 +1086,7 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc == EnPoh_Death) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
-        Lights_InitType2PositionalLight(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
+        Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
                                         this->envColor.r, this->envColor.g, this->envColor.b, 200);
         gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2854), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyOpa.p++, this->info->unk_1C);

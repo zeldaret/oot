@@ -87,7 +87,7 @@ glabel func_80B274A0
 /* 00F10 80B275C0 02803025 */  or      $a2, $s4, $zero            ## $a2 = 80B28958
 /* 00F14 80B275C4 02A03825 */  or      $a3, $s5, $zero            ## $a3 = 80B28964
 /* 00F18 80B275C8 AFB00010 */  sw      $s0, 0x0010($sp)           
-/* 00F1C 80B275CC 0C00A586 */  jal     func_80029618              
+/* 00F1C 80B275CC 0C00A586 */  jal     EffectSsDtBubble_SpawnColorProfile              
 /* 00F20 80B275D0 AFB70018 */  sw      $s7, 0x0018($sp)           
 /* 00F24 80B275D4 10000009 */  beq     $zero, $zero, .L80B275FC   
 /* 00F28 80B275D8 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
@@ -97,7 +97,7 @@ glabel func_80B274A0
 /* 00F34 80B275E4 AFA8001C */  sw      $t0, 0x001C($sp)           
 /* 00F38 80B275E8 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 00F3C 80B275EC AFB00010 */  sw      $s0, 0x0010($sp)           
-/* 00F40 80B275F0 0C00A586 */  jal     func_80029618              
+/* 00F40 80B275F0 0C00A586 */  jal     EffectSsDtBubble_SpawnColorProfile              
 /* 00F44 80B275F4 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00F48 80B275F8 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000002
 .L80B275FC:

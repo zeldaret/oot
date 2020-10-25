@@ -140,7 +140,7 @@ glabel func_809E03B4
 /* 00354 809E0594 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00358 809E0598 02403025 */  or      $a2, $s2, $zero            ## $a2 = FFFFFFEC
 /* 0035C 809E059C E7A80028 */  swc1    $f8, 0x0028($sp)
-/* 00360 809E05A0 0C00A850 */  jal     func_8002A140
+/* 00360 809E05A0 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f
 /* 00364 809E05A4 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
 /* 00368 809E05A8 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 0036C 809E05AC 5613FFCD */  bnel    $s0, $s3, .L809E04E4
@@ -177,7 +177,7 @@ glabel func_809E03B4
 /* 003E0 809E0620 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000024
 /* 003E4 809E0624 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 003E8 809E0628 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 003EC 809E062C 0C00A935 */  jal     func_8002A4D4
+/* 003EC 809E062C 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f
 /* 003F0 809E0630 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 003F4 809E0634 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 003F8 809E0638 5614FFF6 */  bnel    $s0, $s4, .L809E0614

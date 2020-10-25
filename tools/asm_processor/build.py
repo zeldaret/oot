@@ -35,7 +35,7 @@ try:
     asmproc_flags = opt_flags + [in_file, '--input-enc', 'utf-8', '--output-enc', 'euc-jp']
     compile_cmdline = compiler + compile_args + ['-I', in_dir, '-o', out_file, preprocessed_file.name]
 
-    asm_processor.run(asmproc_flags, outfile=preprocessed_file)
+    functions = asm_processor.run(asmproc_flags, outfile=preprocessed_file)
     try:
         subprocess.check_call(compile_cmdline)
     except subprocess.CalledProcessError as e:
@@ -47,6 +47,6 @@ try:
         # To keep the preprocessed file:
         # os._exit(1)
 
-    asm_processor.run(asmproc_flags + ['--post-process', out_file, '--assembler', assembler_sh, '--asm-prelude', prelude])
+    asm_processor.run(asmproc_flags + ['--post-process', out_file, '--assembler', assembler_sh, '--asm-prelude', prelude], functions=functions)
 finally:
     os.remove(preprocessed_file.name)

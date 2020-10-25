@@ -1,8 +1,8 @@
 #ifndef _Z_EN_POH_H_
 #define _Z_EN_POH_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnPoh;
 
@@ -43,11 +43,11 @@ typedef struct EnPoh {
     /* 0x019C */ s16 unk_19C;
     /* 0x019E */ Vec3s limbDrawTable[21];
     /* 0x021C */ Vec3s transitionDrawTable[21];
-    /* 0x029A */ Color_RGBA8_n lightColor;
-    /* 0x029E */ Color_RGBA8_n envColor;
+    /* 0x029A */ Color_RGBA8 lightColor;
+    /* 0x029E */ Color_RGBA8 envColor;
     /* 0x02A4 */ EnPohInfo* info;
-    /* 0x02A8 */ z_Light* light;
-    /* 0x02AC */ LightInfoPositional lightInfo;
+    /* 0x02A8 */ LightNode* light;
+    /* 0x02AC */ LightInfo lightInfo;
     /* 0x02BC */ ColliderCylinder colliderCyl;
     /* 0x0308 */ ColliderJntSph colliderSph;
     /* 0x0328 */ ColliderJntSphItem colliderSphItem;

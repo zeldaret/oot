@@ -63,7 +63,7 @@ glabel D_801336F0
 glabel D_80133738
     .incbin "baserom.z64", 0xBAA8D8, 0x90
 
-glabel D_801337C8
+glabel gAudioSessionPresets
     .incbin "baserom.z64", 0xBAA968, 0x5
 
 glabel D_801337CD

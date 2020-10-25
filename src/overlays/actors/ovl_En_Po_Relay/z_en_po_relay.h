@@ -1,8 +1,8 @@
 #ifndef _Z_EN_PO_RELAY_H_
 #define _Z_EN_PO_RELAY_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnPoRelay;
 
@@ -21,9 +21,9 @@ typedef struct EnPoRelay {
     /* 0x019E */ u16 eyeImageIdx;
     /* 0x01A0 */ Vec3s limbDrawTable[18];
     /* 0x020C */ Vec3s transitionDrawTable[18];
-    /* 0x0278 */ Color_RGBA8_n lightColor;
-    /* 0x027C */ z_Light* light;
-    /* 0x0280 */ LightInfoPositional lightInfo;
+    /* 0x0278 */ Color_RGBA8 lightColor;
+    /* 0x027C */ LightNode* light;
+    /* 0x0280 */ LightInfo lightInfo;
     /* 0x0290 */ ColliderCylinder collider;
 } EnPoRelay; // size = 0x02DC
 

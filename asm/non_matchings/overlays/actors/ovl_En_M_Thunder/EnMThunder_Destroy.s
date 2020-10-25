@@ -21,7 +21,7 @@ glabel EnMThunder_Destroy
 /* 0030C 80A9F2EC 8FB80020 */  lw      $t8, 0x0020($sp)           
 /* 00310 80A9F2F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00314 80A9F2F4 260507A8 */  addiu   $a1, $s0, 0x07A8           ## $a1 = 000007A8
-/* 00318 80A9F2F8 0C01E9F1 */  jal     Lights_Remove
+/* 00318 80A9F2F8 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 0031C 80A9F2FC 8F060198 */  lw      $a2, 0x0198($t8)           ## 00000198
 /* 00320 80A9F300 8FBF001C */  lw      $ra, 0x001C($sp)           

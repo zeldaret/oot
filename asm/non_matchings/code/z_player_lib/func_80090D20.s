@@ -190,7 +190,7 @@ glabel func_80090D20
 /* B080A4 80090F04 820B0843 */  lb    $t3, 0x843($s0)
 /* B080A8 80090F08 5160001B */  beql  $t3, $zero, .L80090F78
 /* B080AC 80090F0C 8DAF0000 */   lw    $t7, ($t5)
-/* B080B0 80090F10 0C023C73 */  jal   func_8008F1CC
+/* B080B0 80090F10 0C023C73 */  jal   Player_HoldsBrokenKnife
 /* B080B4 80090F14 02002025 */   move  $a0, $s0
 /* B080B8 80090F18 10400005 */  beqz  $v0, .L80090F30
 /* B080BC 80090F1C 3C018014 */   lui   $at, %hi(D_8013E94C)
@@ -199,12 +199,12 @@ glabel func_80090D20
 /* B080C8 80090F28 10000009 */  b     .L80090F50
 /* B080CC 80090F2C E4246080 */   swc1  $f4, %lo(D_80126080)($at)
 .L80090F30:
-/* B080D0 80090F30 0C023C60 */  jal   func_8008F180
+/* B080D0 80090F30 0C023C60 */  jal   Player_GetSwordHeld
 /* B080D4 80090F34 02002025 */   move  $a0, $s0
 /* B080D8 80090F38 00026080 */  sll   $t4, $v0, 2
-/* B080DC 80090F3C 3C018012 */  lui   $at, %hi(D_801260E0)
+/* B080DC 80090F3C 3C018012 */  lui   $at, %hi(sSwordLengths)
 /* B080E0 80090F40 002C0821 */  addu  $at, $at, $t4
-/* B080E4 80090F44 C42660E0 */  lwc1  $f6, %lo(D_801260E0)($at)
+/* B080E4 80090F44 C42660E0 */  lwc1  $f6, %lo(sSwordLengths)($at)
 /* B080E8 80090F48 3C018012 */  lui   $at, %hi(D_80126080)
 /* B080EC 80090F4C E4266080 */  swc1  $f6, %lo(D_80126080)($at)
 .L80090F50:
@@ -225,13 +225,13 @@ glabel func_80090D20
 /* B08124 80090F84 24010007 */  li    $at, 7
 /* B08128 80090F88 55C10049 */  bnel  $t6, $at, .L800910B0
 /* B0812C 80090F8C 44804000 */   mtc1  $zero, $f8
-/* B08130 80090F90 0C023C89 */  jal   func_8008F224
+/* B08130 80090F90 0C023C89 */  jal   Player_ActionToBottle
 /* B08134 80090F94 02002025 */   move  $a0, $s0
 /* B08138 80090F98 8FAA0190 */  lw    $t2, 0x190($sp)
 /* B0813C 80090F9C 0002C080 */  sll   $t8, $v0, 2
-/* B08140 80090FA0 3C198012 */  lui   $t9, %hi(D_80126100) # $t9, 0x8012
+/* B08140 80090FA0 3C198012 */  lui   $t9, %hi(sBottleColors) # $t9, 0x8012
 /* B08144 80090FA4 8D450000 */  lw    $a1, ($t2)
-/* B08148 80090FA8 27396100 */  addiu $t9, %lo(D_80126100) # addiu $t9, $t9, 0x6100
+/* B08148 80090FA8 27396100 */  addiu $t9, %lo(sBottleColors) # addiu $t9, $t9, 0x6100
 /* B0814C 80090FAC 0302C023 */  subu  $t8, $t8, $v0
 /* B08150 80090FB0 03194821 */  addu  $t1, $t8, $t9
 /* B08154 80090FB4 3C068014 */  lui   $a2, %hi(D_8013E838) # $a2, 0x8014
@@ -284,11 +284,11 @@ glabel func_80090D20
 /* B08210 80091070 AD0C02D0 */  sw    $t4, 0x2d0($t0)
 /* B08214 80091074 AC4A0000 */  sw    $t2, ($v0)
 /* B08218 80091078 8D29E664 */  lw    $t1, %lo(gSaveContext+4)($t1)
-/* B0821C 8009107C 3C0E8012 */  lui   $t6, %hi(D_801260F8)
+/* B0821C 8009107C 3C0E8012 */  lui   $t6, %hi(sBottleDLists)
 /* B08220 80091080 24C6E860 */  addiu $a2, %lo(D_8013E860) # addiu $a2, $a2, -0x17a0
 /* B08224 80091084 00096880 */  sll   $t5, $t1, 2
 /* B08228 80091088 01CD7021 */  addu  $t6, $t6, $t5
-/* B0822C 8009108C 8DCE60F8 */  lw    $t6, %lo(D_801260F8)($t6)
+/* B0822C 8009108C 8DCE60F8 */  lw    $t6, %lo(sBottleDLists)($t6)
 /* B08230 80091090 27A400CC */  addiu $a0, $sp, 0xcc
 /* B08234 80091094 24070A9D */  li    $a3, 2717
 /* B08238 80091098 AC4E0004 */  sw    $t6, 4($v0)
@@ -304,7 +304,7 @@ glabel func_80090D20
 /* B08258 800910B8 00000000 */  nop
 /* B0825C 800910BC 4502019A */  bc1fl .L80091728
 /* B08260 800910C0 8FBF0024 */   lw    $ra, 0x24($sp)
-/* B08264 800910C4 0C023C41 */  jal   func_8008F104
+/* B08264 800910C4 0C023C41 */  jal   Player_HoldsHookshot
 /* B08268 800910C8 02002025 */   move  $a0, $s0
 /* B0826C 800910CC 1440003F */  bnez  $v0, .L800911CC
 /* B08270 800910D0 260409E0 */   addiu $a0, $s0, 0x9e0
@@ -405,9 +405,9 @@ glabel func_80090D20
 /* B083D8 80091238 C6000054 */   lwc1  $f0, 0x54($s0)
 .L8009123C:
 /* B083DC 8009123C 8D4AE664 */  lw    $t2, %lo(gSaveContext+4)($t2)
-/* B083E0 80091240 3C0E8012 */  lui   $t6, %hi(D_80126134) # $t6, 0x8012
+/* B083E0 80091240 3C0E8012 */  lui   $t6, %hi(sBowStringData) # $t6, 0x8012
 /* B083E4 80091244 8FAF0190 */  lw    $t7, 0x190($sp)
-/* B083E8 80091248 25CE6134 */  addiu $t6, %lo(D_80126134) # addiu $t6, $t6, 0x6134
+/* B083E8 80091248 25CE6134 */  addiu $t6, %lo(sBowStringData) # addiu $t6, $t6, 0x6134
 /* B083EC 8009124C 000A6900 */  sll   $t5, $t2, 4
 /* B083F0 80091250 01AEC021 */  addu  $t8, $t5, $t6
 /* B083F4 80091254 AFB800B0 */  sw    $t8, 0xb0($sp)
@@ -639,8 +639,8 @@ glabel func_80090D20
 /* B08744 800915A4 51E0000B */  beql  $t7, $zero, .L800915D4
 /* B08748 800915A8 C60809BC */   lwc1  $f8, 0x9bc($s0)
 /* B0874C 800915AC 820B0693 */  lb    $t3, 0x693($s0)
-/* B08750 800915B0 3C048016 */  lui   $a0, %hi(D_80160008) # $a0, 0x8016
-/* B08754 800915B4 24840008 */  addiu $a0, %lo(D_80160008) # addiu $a0, $a0, 8
+/* B08750 800915B0 3C048016 */  lui   $a0, %hi(sGetItemRefPos) # $a0, 0x8016
+/* B08754 800915B4 24840008 */  addiu $a0, %lo(sGetItemRefPos) # addiu $a0, $a0, 8
 /* B08758 800915B8 51600006 */  beql  $t3, $zero, .L800915D4
 /* B0875C 800915BC C60809BC */   lwc1  $f8, 0x9bc($s0)
 /* B08760 800915C0 0C01DF90 */  jal   Math_Vec3f_Copy
@@ -653,28 +653,28 @@ glabel func_80090D20
 /* B08778 800915D8 3C013F00 */  li    $at, 0x3F000000 # 0.000000
 /* B0877C 800915DC 44810000 */  mtc1  $at, $f0
 /* B08780 800915E0 460A4400 */  add.s $f16, $f8, $f10
-/* B08784 800915E4 3C018016 */  lui   $at, %hi(D_80160008)
+/* B08784 800915E4 3C018016 */  lui   $at, %hi(sGetItemRefPos)
 /* B08788 800915E8 46008482 */  mul.s $f18, $f16, $f0
-/* B0878C 800915EC E4320008 */  swc1  $f18, %lo(D_80160008)($at)
+/* B0878C 800915EC E4320008 */  swc1  $f18, %lo(sGetItemRefPos)($at)
 /* B08790 800915F0 C60603B4 */  lwc1  $f6, 0x3b4($s0)
 /* B08794 800915F4 C60409C0 */  lwc1  $f4, 0x9c0($s0)
 /* B08798 800915F8 46062200 */  add.s $f8, $f4, $f6
 /* B0879C 800915FC 46004282 */  mul.s $f10, $f8, $f0
-/* B087A0 80091600 E42A000C */  swc1  $f10, %lo(D_80160008+4)($at)
+/* B087A0 80091600 E42A000C */  swc1  $f10, %lo(sGetItemRefPos+4)($at)
 /* B087A4 80091604 C61203B8 */  lwc1  $f18, 0x3b8($s0)
 /* B087A8 80091608 C61009C4 */  lwc1  $f16, 0x9c4($s0)
-/* B087AC 8009160C 3C018016 */  lui   $at, %hi(D_80160010)
+/* B087AC 8009160C 3C018016 */  lui   $at, %hi(sGetItemRefPos+8)
 /* B087B0 80091610 46128100 */  add.s $f4, $f16, $f18
 /* B087B4 80091614 46002182 */  mul.s $f6, $f4, $f0
-/* B087B8 80091618 E4260010 */  swc1  $f6, %lo(D_80160010)($at)
+/* B087B8 80091618 E4260010 */  swc1  $f6, %lo(sGetItemRefPos+8)($at)
 /* B087BC 8009161C 82190862 */  lb    $t9, 0x862($s0)
 .L80091620:
 /* B087C0 80091620 8FA400B4 */  lw    $a0, 0xb4($sp)
-/* B087C4 80091624 3C058016 */  lui   $a1, %hi(D_80160008)
+/* B087C4 80091624 3C058016 */  lui   $a1, %hi(sGetItemRefPos)
 /* B087C8 80091628 1720003E */  bnez  $t9, .L80091724
 /* B087CC 8009162C 24840024 */   addiu $a0, $a0, 0x24
 /* B087D0 80091630 0C01DF90 */  jal   Math_Vec3f_Copy
-/* B087D4 80091634 24A50008 */   addiu $a1, %lo(D_80160008) # addiu $a1, $a1, 8
+/* B087D4 80091634 24A50008 */   addiu $a1, %lo(sGetItemRefPos) # addiu $a1, $a1, 8
 /* B087D8 80091638 1000003B */  b     .L80091728
 /* B087DC 8009163C 8FBF0024 */   lw    $ra, 0x24($sp)
 .L80091640:
@@ -694,7 +694,7 @@ glabel func_80090D20
 /* B08814 80091674 240100FF */   li    $at, 255
 /* B08818 80091678 5041002B */  beql  $v0, $at, .L80091728
 /* B0881C 8009167C 8FBF0024 */   lw    $ra, 0x24($sp)
-/* B08820 80091680 0C023A74 */  jal   func_8008E9D0
+/* B08820 80091680 0C023A74 */  jal   Player_IsChildWithHylianShield
 /* B08824 80091684 02002025 */   move  $a0, $s0
 /* B08828 80091688 10400006 */  beqz  $v0, .L800916A4
 /* B0882C 8009168C 8FA40190 */   lw    $a0, 0x190($sp)

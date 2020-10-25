@@ -1,6 +1,5 @@
-#include <z64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 StackEntry* sStackInfoListStart = NULL;
 StackEntry* sStackInfoListEnd = NULL;

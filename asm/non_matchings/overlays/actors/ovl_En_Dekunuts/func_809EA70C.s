@@ -32,7 +32,7 @@ glabel func_809EA70C
 /* 01220 809EA780 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 01224 809EA784 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01228 809EA788 26060024 */  addiu   $a2, $s0, 0x0024           ## $a2 = 00000024
-/* 0122C 809EA78C 0C00A997 */  jal     func_8002A65C              
+/* 0122C 809EA78C 0C00A997 */  jal     EffectSsFCircle_Spawn              
 /* 01230 809EA790 24070028 */  addiu   $a3, $zero, 0x0028         ## $a3 = 00000028
 .L809EA794:
 /* 01234 809EA794 0C27A676 */  jal     func_809E99D8              

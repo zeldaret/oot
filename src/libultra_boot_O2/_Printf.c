@@ -1,7 +1,4 @@
-#include <ultra64.h>
-#include <ultra64/printf.h>
-#include <stdarg.h>
-#include <string.h>
+#include "global.h"
 
 #define ATOI(i, a)                           \
     for (i = 0; *a >= '0' && *a <= '9'; a++) \
@@ -17,8 +14,8 @@
     }
 #define _PAD(m, src, extracond)      \
     if (extracond && m > 0) {        \
-        int i;                       \
-        int j;                       \
+        s32 i;                       \
+        s32 j;                       \
         for (j = m; j > 0; j -= i) { \
             if ((u32)j > 32)         \
                 i = 32;              \
@@ -203,7 +200,7 @@ void _Putfld(_Pft* px, va_list* pap, u8 code, u8* ac) {
             break;
 
         case 'p':
-            px->v.ll = (long)va_arg(*pap, void*);
+            px->v.ll = (s64)va_arg(*pap, void*);
             px->s = (char*)&ac[px->n0];
             _Litob(px, 'x');
             break;

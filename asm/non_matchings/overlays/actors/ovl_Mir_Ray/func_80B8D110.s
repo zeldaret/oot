@@ -88,7 +88,7 @@ glabel func_80B8D110
 /* 00204 80B8D254 922A001E */  lbu     $t2, 0x001E($s1)           ## 0000001E
 /* 00208 80B8D258 AFAA0018 */  sw      $t2, 0x0018($sp)           
 /* 0020C 80B8D25C 860B0298 */  lh      $t3, 0x0298($s0)           ## 00000298
-/* 00210 80B8D260 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 00210 80B8D260 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 00214 80B8D264 AFAB001C */  sw      $t3, 0x001C($sp)           
 /* 00218 80B8D268 1000000D */  beq     $zero, $zero, .L80B8D2A0   
@@ -104,7 +104,7 @@ glabel func_80B8D110
 /* 00238 80B8D288 9226001D */  lbu     $a2, 0x001D($s1)           ## 0000001D
 /* 0023C 80B8D28C 9227001E */  lbu     $a3, 0x001E($s1)           ## 0000001E
 /* 00240 80B8D290 260402A0 */  addiu   $a0, $s0, 0x02A0           ## $a0 = 000002A0
-/* 00244 80B8D294 0C01E796 */  jal     Lights_SetPositionalLightColorAndRadius
+/* 00244 80B8D294 0C01E796 */  jal     Lights_PointSetColorAndRadius
               
 /* 00248 80B8D298 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 0024C 80B8D29C 8FBF002C */  lw      $ra, 0x002C($sp)           

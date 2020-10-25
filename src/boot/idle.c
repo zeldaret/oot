@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 OSThread gMainThread;
 u8 sMainStack[0x900];
@@ -11,7 +10,7 @@ OSViMode gViConfigMode;
 u8 D_80013960;
 
 s8 D_80009430 = 1;
-u8 volatile gViConfigUseDefault = 1;
+vu8 gViConfigUseDefault = 1;
 u8 gViConfigAdditionalScanLines = 0;
 u32 gViConfigFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
 f32 gViConfigXScale = 1.0;
@@ -21,7 +20,7 @@ void Main_ThreadEntry(void* arg0) {
     OSTime var1;
 
     osSyncPrintf("mainx 実行開始\n");
-    DmaMgr_Start();
+    DmaMgr_Init();
     osSyncPrintf("codeセグメントロード中...");
     var1 = osGetTime();
     DmaMgr_SendRequest1(_codeSegmentStart, (u32)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
@@ -50,7 +49,7 @@ void Idle_ThreadEntry(void* a0) {
     osSyncPrintf("オーディオヒープのサイズは %d キロバイトです\n", ((s32)gSystemHeap - (s32)gAudioHeap) / 1024);
     osSyncPrintf(VT_RST);
 
-    osCreateViManager(0xFE);
+    osCreateViManager(OS_PRIORITY_VIMGR);
 
     gViConfigFeatures = 0x42;
     gViConfigXScale = 1.0f;
@@ -79,11 +78,11 @@ void Idle_ThreadEntry(void* a0) {
     ViConfig_UpdateVi(1);
     osViBlack(1);
     osViSwapBuffer(0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
-    osCreatePiManager(150, &gPiMgrCmdQ, sPiMgrCmdBuff, 50);
+    osCreatePiManager(OS_PRIORITY_PIMGR, &gPiMgrCmdQ, sPiMgrCmdBuff, 50);
     StackCheck_Init(&sMainStackInfo, sMainStack, sMainStack + sizeof(sMainStack), 0, 0x400, "main");
-    osCreateThread(&gMainThread, 3, Main_ThreadEntry, a0, sMainStack + sizeof(sMainStack), 10);
+    osCreateThread(&gMainThread, 3, Main_ThreadEntry, a0, sMainStack + sizeof(sMainStack), Z_PRIORITY_MAIN);
     osStartThread(&gMainThread);
-    osSetThreadPri(NULL, 0);
+    osSetThreadPri(NULL, OS_PRIORITY_IDLE);
 
     while (1) {
         ;

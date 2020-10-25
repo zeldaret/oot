@@ -16,10 +16,10 @@ glabel func_800F56A8
 /* B6C880 800F56E0 8FBF0014 */   lw    $ra, 0x14($sp)
 /* B6C884 800F56E4 90480000 */  lbu   $t0, ($v0)
 /* B6C888 800F56E8 240100C0 */  li    $at, 192
-/* B6C88C 800F56EC 3C098017 */  lui   $t1, %hi(D_8017280B) # $t1, 0x8017
+/* B6C88C 800F56EC 3C098017 */  lui   $t1, %hi(gAudioContext+0x368b) # $t1, 0x8017
 /* B6C890 800F56F0 51010005 */  beql  $t0, $at, .L800F5708
 /* B6C894 800F56F4 A0400000 */   sb    $zero, ($v0)
-/* B6C898 800F56F8 8129280B */  lb    $t1, %lo(D_8017280B)($t1)
+/* B6C898 800F56F8 8129280B */  lb    $t1, %lo(gAudioContext+0x368b)($t1)
 /* B6C89C 800F56FC 10000002 */  b     .L800F5708
 /* B6C8A0 800F5700 A0490000 */   sb    $t1, ($v0)
 /* B6C8A4 800F5704 A0400000 */  sb    $zero, ($v0)

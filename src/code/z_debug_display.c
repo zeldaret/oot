@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 typedef struct {
     /* 0x00 */ s16 drawType; // indicates which draw function to use when displaying the object

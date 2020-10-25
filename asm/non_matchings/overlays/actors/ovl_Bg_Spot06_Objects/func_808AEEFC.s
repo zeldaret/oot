@@ -90,7 +90,7 @@ glabel func_808AEEFC
 /* 008A8 808AF028 02602825 */  or      $a1, $s3, $zero            ## $a1 = FFFFFFE8
 /* 008AC 808AF02C E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 008B0 808AF030 461A3200 */  add.s   $f8, $f6, $f26             
-/* 008B4 808AF034 0C00A4F9 */  jal     func_800293E4              
+/* 008B4 808AF034 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 008B8 808AF038 E7A80014 */  swc1    $f8, 0x0014($sp)           
 /* 008BC 808AF03C 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 008C0 808AF040 1614FFF3 */  bne     $s0, $s4, .L808AF010       
@@ -102,7 +102,7 @@ glabel func_808AEEFC
 /* 008D8 808AF058 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 008DC 808AF05C 26250024 */  addiu   $a1, $s1, 0x0024           ## $a1 = 00000024
 /* 008E0 808AF060 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 008E4 808AF064 0C00A527 */  jal     func_8002949C              
+/* 008E4 808AF064 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 008E8 808AF068 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 008EC 808AF06C 8E2C018C */  lw      $t4, 0x018C($s1)           ## 0000018C
 /* 008F0 808AF070 240B002D */  addiu   $t3, $zero, 0x002D         ## $t3 = 0000002D

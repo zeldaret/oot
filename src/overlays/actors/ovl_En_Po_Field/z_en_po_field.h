@@ -1,8 +1,8 @@
 #ifndef _Z_EN_PO_FIELD_H_
 #define _Z_EN_PO_FIELD_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnPoField;
 
@@ -32,13 +32,13 @@ typedef struct EnPoField {
     /* 0x019A */ s16 flameTimer;
     /* 0x019C */ Vec3s limbDrawTable[10];
     /* 0x01D8 */ Vec3s transitionDrawTable[10];
-    /* 0x0214 */ Color_RGBA8_n lightColor;
-    /* 0x0214 */ Color_RGBA8_n soulColor;
+    /* 0x0214 */ Color_RGBA8 lightColor;
+    /* 0x0214 */ Color_RGBA8 soulColor;
     /* 0x021C */ f32 scaleModifier;
     /* 0x0220 */ f32 flameScale;
     /* 0x0224 */ Vec3f flamePosition;
-    /* 0x0230 */ z_Light* light;
-    /* 0x0234 */ LightInfoPositional lightInfo;
+    /* 0x0230 */ LightNode* light;
+    /* 0x0234 */ LightInfo lightInfo;
     /* 0x0244 */ ColliderCylinder collider;
     /* 0x0290 */ ColliderCylinder flameCollider;
 } EnPoField; // size = 0x02DC

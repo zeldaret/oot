@@ -247,12 +247,12 @@ glabel func_800E4198
 /* B5B6C0 800E4520 3421FFFF */  ori   $at, (0x00FFFFFF & 0xFFFF) # ori $at, $at, 0xffff
 /* B5B6C4 800E4524 8E030000 */  lw    $v1, ($s0)
 /* B5B6C8 800E4528 8C450D5C */  lw    $a1, 0xd5c($v0)
-/* B5B6CC 800E452C 3C0A8017 */  lui   $t2, %hi(D_80170FF8) # $t2, 0x8017
+/* B5B6CC 800E452C 3C0A8017 */  lui   $t2, %hi(gAudioContext+0x1e78) # $t2, 0x8017
 /* B5B6D0 800E4530 00613024 */  and   $a2, $v1, $at
 /* B5B6D4 800E4534 00064302 */  srl   $t0, $a2, 0xc
 /* B5B6D8 800E4538 8E040004 */  lw    $a0, 4($s0)
 /* B5B6DC 800E453C 25080001 */  addiu $t0, $t0, 1
-/* B5B6E0 800E4540 254A0FF8 */  addiu $t2, %lo(D_80170FF8) # addiu $t2, $t2, 0xff8
+/* B5B6E0 800E4540 254A0FF8 */  addiu $t2, %lo(gAudioContext+0x1e78) # addiu $t2, $t2, 0xff8
 /* B5B6E4 800E4544 AFAA0014 */  sw    $t2, 0x14($sp)
 /* B5B6E8 800E4548 AFA80010 */  sw    $t0, 0x10($sp)
 /* B5B6EC 800E454C 8C590D60 */  lw    $t9, 0xd60($v0)

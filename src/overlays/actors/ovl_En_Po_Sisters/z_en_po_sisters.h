@@ -1,8 +1,8 @@
 #ifndef _Z_EN_PO_SISTERS_H_
 #define _Z_EN_PO_SISTERS_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnPoSisters;
 
@@ -22,11 +22,11 @@ typedef struct EnPoSisters {
     /* 0x019A */ s16 unk_19C;
     /* 0x019E */ Vec3s limbDrawTable[12];
     /* 0x01E6 */ Vec3s transitionDrawTable[12];
-    /* 0x022E */ Color_RGBA8_n unk_22E;
+    /* 0x022E */ Color_RGBA8 unk_22E;
     /* 0x0234 */ Vec3f unk_234[8];
     /* 0x0294 */ f32 unk_294;
-    /* 0x0298 */ z_Light* light;
-    /* 0x029C */ LightInfoPositional lightInfo;
+    /* 0x0298 */ LightNode* light;
+    /* 0x029C */ LightInfo lightInfo;
     /* 0x02AC */ ColliderCylinder collider;
     /* 0x02F8 */ MtxF unk_2F8;
 } EnPoSisters; // size = 0x0338

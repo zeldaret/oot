@@ -52,6 +52,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EndTitle* this = THIS;
     s32 frameCount = globalCtx->csCtx.frames;
     Player* player = PLAYER;
+
     mf = &player->mf_9E0;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 403);

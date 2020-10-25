@@ -150,8 +150,8 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_22E.g = 255;
     this->unk_22E.b = 210;
     this->unk_22E.a = 255;
-    this->light = Lights_Insert(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_InitType2PositionalLight(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, 0);
+    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    Lights_PointGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80ADD730);
     func_80061ED4(&this->actor.colChkInfo, &D_80ADD764, &D_80ADD75C);
@@ -187,7 +187,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoSisters* this = THIS;
 
-    Lights_Remove(globalCtx, &globalCtx->lightCtx, this->light);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
     if (this->unk_194 == 0 && this->unk_195 == 0) {
         func_800F5B58();
     }
@@ -398,9 +398,9 @@ void func_80AD9C24(EnPoSisters* this, GlobalContext* globalCtx) {
         vec.x = this->actor.posRot.pos.x;
         vec.y = this->actor.posRot.pos.y + 45.0f;
         vec.z = this->actor.posRot.pos.z;
-        func_8002A6B8(globalCtx, &vec, &D_80ADD790, &D_80ADD790, 150, 0, 255, 255, 255, 155, 150, 150, 150, 1, 9, 0);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80ADD790, &D_80ADD790, 150, 0, 255, 255, 255, 155, 150, 150, 150, 1, 9, 0);
     }
-    Lights_SetPositionalLightColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
+    Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
     this->actionFunc = func_80ADB338;
 }
 
@@ -992,7 +992,7 @@ void func_80ADBBF4(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADBC88(EnPoSisters* this, GlobalContext* globalCtx) {
-    if (D_80ADD784 != 0 || func_8008E988(globalCtx) == 0) {
+    if (D_80ADD784 != 0 || Player_InCsMode(globalCtx) == 0) {
         if (this->unk_19A != 0) {
             this->unk_19A--;
         }
@@ -1274,18 +1274,18 @@ void EnPoSisters_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             f32 temp_f2 = Math_Rand_ZeroOne() * 0.3f + 0.7f;
 
             if (this->actionFunc == func_80ADB17C || this->actionFunc == func_80ADBD38 || this->actionFunc == func_80ADBEE8) {
-                Lights_InitType0PositionalLight(&this->lightInfo, 
+                Lights_PointNoGlowSetInfo(&this->lightInfo, 
                                 this->unk_234[0].x, this->unk_234[0].y + 15.0f, this->unk_234[0].z, 
                                 color->r * temp_f2, color->g * temp_f2, color->b * temp_f2, 
                                 200);
             } else {
-                Lights_InitType2PositionalLight(&this->lightInfo, 
+                Lights_PointGlowSetInfo(&this->lightInfo, 
                                 this->unk_234[0].x, this->unk_234[0].y + 15.0f, this->unk_234[0].z, 
                                 color->r * temp_f2, color->g * temp_f2, color->b * temp_f2, 
                                 200);
             }
         } else {
-            Lights_SetPositionalLightColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
+            Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
         }
         if (!(this->unk_199 & 0x80)) {
             Matrix_Get(&this->unk_2F8);

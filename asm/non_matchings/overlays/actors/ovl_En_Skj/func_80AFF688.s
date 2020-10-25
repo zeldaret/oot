@@ -66,7 +66,7 @@ glabel func_80AFF688
 /* 014C8 80AFF778 E7A20054 */  swc1    $f2, 0x0054($sp)           
 /* 014CC 80AFF77C E7A20068 */  swc1    $f2, 0x0068($sp)           
 /* 014D0 80AFF780 E7A20064 */  swc1    $f2, 0x0064($sp)           
-/* 014D4 80AFF784 0C00A9AE */  jal     func_8002A6B8              
+/* 014D4 80AFF784 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 014D8 80AFF788 E7A20060 */  swc1    $f2, 0x0060($sp)           
 /* 014DC 80AFF78C 8FBF004C */  lw      $ra, 0x004C($sp)           
 /* 014E0 80AFF790 8FB00048 */  lw      $s0, 0x0048($sp)           

@@ -148,9 +148,9 @@ ShopItemEntry D_80A3C674[] = {
       func_80A3BB6C },
     { 0x00DA, 0x0028, func_8002EBCC, 0x0064, 0x0001, 0x00AE, 0x0099, GI_WEIRD_EGG, func_80A3B2AC, func_80A3B968,
       func_80A3BB6C },
-    { 0x00DF, 0x002F, func_80A3C498, 0x2710, 0x0001, 0x00B4, 0x0085, GI_INVALID, func_80A3B308, func_80A3B9A4,
+    { 0x00DF, 0x002F, func_80A3C498, 0x2710, 0x0001, 0x00B4, 0x0085, GI_NONE, func_80A3B308, func_80A3B9A4,
       func_80A3BB6C },
-    { 0x00DA, 0x0028, func_8002EBCC, 0x2710, 0x0001, 0x00B5, 0x0085, GI_INVALID, func_80A3B318, func_80A3B9D4,
+    { 0x00DA, 0x0028, func_8002EBCC, 0x2710, 0x0001, 0x00B5, 0x0085, GI_NONE, func_80A3B318, func_80A3B9D4,
       func_80A3BB6C },
     { 0x00D9, 0x0027, func_8002EBCC, 0x0064, 0x000A, 0x00BC, 0x008C, GI_BOMBCHUS_10, func_80A3B328, NULL,
       func_80A3BC6C },
@@ -426,7 +426,7 @@ s32 func_80A3AEBC(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
-    if ((gBitFlags[2] & gSaveContext.equipment) && !(gBitFlags[3] & gSaveContext.equipment)) {
+    if ((gBitFlags[2] & gSaveContext.inventory.equipment) && !(gBitFlags[3] & gSaveContext.inventory.equipment)) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -439,7 +439,7 @@ s32 func_80A3AF30(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[5] & gSaveContext.equipment) {
+    if (gBitFlags[5] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -452,7 +452,7 @@ s32 func_80A3AFC4(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 func_80A3B040(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[4] & gSaveContext.equipment) {
+    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -468,7 +468,7 @@ s32 func_80A3B0BC(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[9] & gSaveContext.equipment) {
+    if (gBitFlags[9] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -484,7 +484,7 @@ s32 func_80A3B160(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 2;
     }
-    if (gBitFlags[10] & gSaveContext.equipment) {
+    if (gBitFlags[10] & gSaveContext.inventory.equipment) {
         return 2;
     }
     if (gSaveContext.rupees < this->unk_1C8) {
@@ -658,7 +658,7 @@ void func_80A3B780(GlobalContext* globalCtx, EnGirlA* this) {
 
 void func_80A3B7BC(GlobalContext* globalCtx, EnGirlA* this) {
     func_800849EC(globalCtx);
-    gSaveContext.bgsHitsLeft = 8;
+    gSaveContext.swordHealth = 8;
     Rupees_ChangeBy(-this->unk_1C8);
 }
 
@@ -868,7 +868,7 @@ s32 func_80A3BF54(EnGirlA* this, GlobalContext* globalCtx) {
 
     if ((this->actor.params >= 30) && (this->actor.params < 38)) {
         params = this->actor.params - 30;
-        if (INV_CONTENT(ITEM_WEIRD_EGG) == D_80A3C658[params]) {
+        if (INV_CONTENT(ITEM_TRADE_CHILD) == D_80A3C658[params]) {
             func_80A3BEAC(globalCtx, this);
         } else {
             func_80A3BD8C(globalCtx, this);
