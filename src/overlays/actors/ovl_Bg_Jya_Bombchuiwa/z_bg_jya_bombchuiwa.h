@@ -15,7 +15,7 @@ typedef struct BgJyaBombchuiwa {
     /* 0x0170 */ ColliderJntSphItem colliderItems;
     /* 0x01B0 */ f32 lightRayIntensity;
     /* 0x01B4 */ s16 timer;
-    /* 0x01B6 */ u8 drawFlags; //Used to determine how the actor is drawn.
+    /* 0x01B6 */ u8 drawFlags; // Used to determine how the actor is drawn.
 } BgJyaBombchuiwa; // size = 0x01B8
 
 extern const ActorInit Bg_Jya_Bombchuiwa_InitVars;
