@@ -13,7 +13,6 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx);
 void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx);
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80ABA21C(EnNiwLady* this, GlobalContext* globalCtx);
-void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAD38(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx);
@@ -21,14 +20,10 @@ void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAA9C(EnNiwLady* this, GlobalContext* globalCtx);
-void func_80ABAA9C(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx);
 void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx);
-Gfx* func_80ABB0A0(GraphicsContext* gfxCtx);
-s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx);
 
 const ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
@@ -57,10 +52,10 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 extern SkeletonHeader D_060000F0;
-extern AnimationHeader D_0600A630;
+extern AnimationHeader D_06000718;
 extern AnimationHeader D_060007D0;
 extern AnimationHeader D_06009F94;
-extern AnimationHeader D_06000718;
+extern AnimationHeader D_0600A630;
 
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
