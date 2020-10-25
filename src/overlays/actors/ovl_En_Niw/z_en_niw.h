@@ -77,7 +77,7 @@ typedef struct EnNiw {
     /* 0x0304 */ f32 unk_304;
     /* 0x0308 */ u8 unk_308;
     /* 0x030C */ ColliderCylinder collider;
-    /* 0x0358 */ EnNiwFeather feather[20];
+    /* 0x0358 */ EnNiwFeather feathers[20];
 } EnNiw; // size = 0x07B8
 
 extern const ActorInit En_Niw_InitVars;
