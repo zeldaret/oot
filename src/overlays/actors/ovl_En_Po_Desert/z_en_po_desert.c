@@ -55,16 +55,18 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->limbDrawTable, this->transitionDrawTable, 10);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->limbDrawTable,
+                   this->transitionDrawTable, 10);
     collider = &this->collider;
-    Collider_InitCylinder(globalCtx,collider);
+    Collider_InitCylinder(globalCtx, collider);
     Collider_SetCylinder(globalCtx, collider, &this->actor, &sColliderInit);
     this->lightColor.r = 255;
     this->lightColor.g = 255;
     this->lightColor.b = 210;
     this->lightColor.a = 255;
     this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 200);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
+                              this->actor.initPosRot.pos.z, 255, 255, 255, 200);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 37.0f);
     this->currentPathPoint = 1;
     this->actor.params = (this->actor.params >> 8) & 0xFF;
@@ -80,10 +82,9 @@ void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoDesert_SetNextPathPoint(EnPoDesert* this, GlobalContext* globalCtx) {
-    Path* path;
+    Path* path = &globalCtx->setupPathList[this->actor.params];
     Vec3s* pathPoint;
 
-    path = &globalCtx->setupPathList[this->actor.params];
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06001360, -6.0f);
     pathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPathPoint];
     // Sets initial position to the target path point
@@ -155,7 +156,7 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    temp_f20 = sinf(this->actionTimer * (M_PI/20.0f)) * 5.0f;
+    temp_f20 = sinf(this->actionTimer * (M_PI / 20.0f)) * 5.0f;
     this->actor.posRot.pos.x += temp_f20 * Math_Coss(this->actor.shape.rot.y);
     this->actor.posRot.pos.z += temp_f20 * Math_Sins(this->actor.shape.rot.y);
     if (this->actionTimer == 0) {
@@ -165,7 +166,7 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     temp_f20 = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
     this->actor.posRot.rot.y = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
-    this->actor.speedXZ = sinf(this->speedModifier * (M_PI/32.0f)) * 2.5f + 5.5f;
+    this->actor.speedXZ = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     // Sets the y value to oscillate about while traveling to the next point
     this->targetY = this->actor.initPosRot.pos.y - ((temp_f20 * this->yDiff) / this->initDistToNextPoint);
@@ -212,7 +213,8 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 Actor* thisx, Gfx** gfxP) {
     EnPoDesert* this = THIS;
     f32 mtxScale;
 
@@ -226,7 +228,8 @@ s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     return 0;
 }
 
-void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfxP) {
+void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
+                              Gfx** gfxP) {
     static Vec3f sBaseLightPos = { 0.0f, 1400.0f, 0.0f };
 
     EnPoDesert* this = THIS;
@@ -243,11 +246,12 @@ void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         if ((this->actor.flags & 0x80) == 0x80) {
             gDPPipeSync((*gfxP)++);
             gDPSetEnvColor((*gfxP)++, color.r, color.g, color.b, 255);
-            gSPMatrix((*gfxP)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 523), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix((*gfxP)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 523),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList((*gfxP)++, D_06004BA0);
             gSPDisplayList((*gfxP)++, D_06004CC0);
             gDPPipeSync((*gfxP)++);
-            gDPSetEnvColor((*gfxP)++, this->lightColor.r, this->lightColor.g , this->lightColor.b, this->lightColor.a);
+            gDPSetEnvColor((*gfxP)++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
         }
         Lights_PointNoGlowSetInfo(&this->lightInfo, lightPos.x, lightPos.y, lightPos.z, color.r, color.g, color.b, 200);
     }
@@ -259,12 +263,16 @@ void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 559);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, Gfx_EnvColor(globalCtx->state.gfxCtx, 255, 85, 0, 255));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g , this->lightColor.b, this->lightColor.a));
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+               Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
+                            this->lightColor.a));
     if (this->actionFunc == EnPoDesert_Disappear) {
         gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280);
     } else {
         gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280 + 2);
     }
-    oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoDesert_OverrideLimbDraw2, EnPoDesert_PostLimbDraw2, &this->actor, oGfxCtx->polyXlu.p);
+    oGfxCtx->polyXlu.p =
+        SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoDesert_OverrideLimbDraw2,
+                        EnPoDesert_PostLimbDraw2, &this->actor, oGfxCtx->polyXlu.p);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 597);
 }

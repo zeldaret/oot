@@ -21,38 +21,16 @@ void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_Talk2(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx);
-
 void EnPoRelay_SetupIdle(EnPoRelay* this);
 
 Vec3s D_80AD8C30[] = {
-    {0xFFC4, 0xFDEE, 0xF47A},
-    {0x0186, 0xFE0C, 0xF47A},
-    {0x0186, 0xFE0C, 0xF0F6},
-    {0x00D2, 0xFDEE, 0xF0F6},
-    {0x00D2, 0xFD9E, 0xEEDA},
-    {0x023A, 0xFDC6, 0xEEDA},
-    {0x023A, 0xFDC6, 0xED18},
-    {0x00D2, 0xFDC6, 0xED18},
-    {0x00D2, 0xFDC6, 0xEBCE},
-    {0x00D2, 0xFDC6, 0xEAA2},
-    {0x023A, 0xFDC6, 0xEAA2},
-    {0x023A, 0xFDC6, 0xEBB0},
-    {0x04EC, 0xFD9E, 0xEBB0},
-    {0x0672, 0xFD62, 0xED18},
-    {0x0672, 0xFD30, 0xEE80},
-    {0x07DA, 0xFD26, 0xEE80},
-    {0x07DA, 0xFD26, 0xEF70},
-    {0x07DA, 0xFD26, 0xF204},
-    {0x0672, 0xFD44, 0xF204},
-    {0x0672, 0xFD6C, 0xF3C6},
-    {0x088E, 0xFD6C, 0xF3C6},
-    {0x088E, 0xFDB2, 0xF5E2},
-    {0x099C, 0xFDD0, 0xF5E2},
-    {0x0B54, 0xFE66, 0xF772},
-    {0x0B4E, 0xFE66, 0xF87E},
-    {0x0B4A, 0xFE66, 0xF97A},
-    {0x0B4A, 0xFE98, 0xF9FC},
-    {0x0BAE, 0xFE98, 0xF9FC},
+    { 0xFFC4, 0xFDEE, 0xF47A }, { 0x0186, 0xFE0C, 0xF47A }, { 0x0186, 0xFE0C, 0xF0F6 }, { 0x00D2, 0xFDEE, 0xF0F6 },
+    { 0x00D2, 0xFD9E, 0xEEDA }, { 0x023A, 0xFDC6, 0xEEDA }, { 0x023A, 0xFDC6, 0xED18 }, { 0x00D2, 0xFDC6, 0xED18 },
+    { 0x00D2, 0xFDC6, 0xEBCE }, { 0x00D2, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEAA2 }, { 0x023A, 0xFDC6, 0xEBB0 },
+    { 0x04EC, 0xFD9E, 0xEBB0 }, { 0x0672, 0xFD62, 0xED18 }, { 0x0672, 0xFD30, 0xEE80 }, { 0x07DA, 0xFD26, 0xEE80 },
+    { 0x07DA, 0xFD26, 0xEF70 }, { 0x07DA, 0xFD26, 0xF204 }, { 0x0672, 0xFD44, 0xF204 }, { 0x0672, 0xFD6C, 0xF3C6 },
+    { 0x088E, 0xFD6C, 0xF3C6 }, { 0x088E, 0xFDB2, 0xF5E2 }, { 0x099C, 0xFDD0, 0xF5E2 }, { 0x0B54, 0xFE66, 0xF772 },
+    { 0x0B4E, 0xFE66, 0xF87E }, { 0x0B4A, 0xFE66, 0xF97A }, { 0x0B4A, 0xFE98, 0xF9FC }, { 0x0BAE, 0xFE98, 0xF9FC },
 };
 
 const ActorInit En_Po_Relay_InitVars = {
@@ -88,7 +66,9 @@ Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
 // sEyesSegments
 UNK_PTR D_80AD8D54[] = {
-    0x06003B40, 0x06004340, 0x06004B40,
+    0x06003B40,
+    0x06004340,
+    0x06004B40,
 };
 
 extern SkeletonHeader D_0600BE40;
@@ -102,11 +82,13 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, D_80AD8D28);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->limbDrawTable, this->transitionDrawTable, 18);
-    Collider_InitCylinder(globalCtx,  &this->collider);
-    Collider_SetCylinder(globalCtx,  &this->collider, &this->actor, &D_80AD8CF8);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->limbDrawTable,
+                     this->transitionDrawTable, 18);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AD8CF8);
     this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255, 255, 255, 200);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
+                              this->actor.initPosRot.pos.z, 255, 255, 255, 200);
     this->lightColor.a = 255;
     temp = 1;
     if (D_80AD8D24 != 0) {
@@ -164,7 +146,8 @@ void EnPoRelay_SetupEndRace(EnPoRelay* this) {
 }
 
 void EnPoRelay_CorrectY(EnPoRelay* this) {
-    Math_ApproxF(&this->actor.initPosRot.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f, 2.0f);
+    Math_ApproxF(&this->actor.initPosRot.pos.y, D_80AD8C30[(this->pathIndex >= 28) ? 27 : this->pathIndex].y + 45.0f,
+                 2.0f);
     this->actor.posRot.pos.y = Math_Sins(this->unk_195 * 0x800) * 8.0f + this->actor.initPosRot.pos.y;
 }
 
@@ -196,8 +179,8 @@ void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // Single stack difference
 void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
-    Player* player = PLAYER; // sp5C
-    Vec3f vec; // sp50
+    Player* player = PLAYER;                                     // sp5C
+    Vec3f vec;                                                   // sp50
     f32 rand;
     f32 multiplier; // sp48
     f32 speed;
@@ -216,20 +199,23 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
             } else {
                 multiplier = 0.0f;
             }
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP, 
-                        Math_Coss(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.x, 
-                        this->actor.posRot.pos.y, 
-                        Math_Sins(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.z, 
-                        0, (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP,
+                        Math_Coss(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.x,
+                        this->actor.posRot.pos.y,
+                        Math_Sins(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.z, 0,
+                        (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
         }
     }
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_19A, 2, 0x1000, 0x100);
     this->actor.shape.rot.y = this->actor.posRot.rot.y + (this->actionTimer * 0x800) + 0x8000;
     if (this->pathIndex < 23) {
         // If the player travels along a different path to Dampé that converges later
-        if ((Math3D_PointInSquare2D(660.0f, 840.0f, -4480.0f, -3760.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0) || 
-            (Math3D_PointInSquare2D(1560.0f, 1740.0f, -4030.0f, -3670.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0) || 
-            (Math3D_PointInSquare2D(1580.0f, 2090.0f, -3030.0f, -2500.0f, player->actor.posRot.pos.x, player->actor.posRot.pos.z) != 0)) {
+        if ((Math3D_PointInSquare2D(660.0f, 840.0f, -4480.0f, -3760.0f, player->actor.posRot.pos.x,
+                                    player->actor.posRot.pos.z) != 0) ||
+            (Math3D_PointInSquare2D(1560.0f, 1740.0f, -4030.0f, -3670.0f, player->actor.posRot.pos.x,
+                                    player->actor.posRot.pos.z) != 0) ||
+            (Math3D_PointInSquare2D(1580.0f, 2090.0f, -3030.0f, -2500.0f, player->actor.posRot.pos.x,
+                                    player->actor.posRot.pos.z) != 0)) {
             speed = (this->hookshotSlotFull) ? player->actor.speedXZ * 1.4f : player->actor.speedXZ * 1.2f;
         } else if (this->actor.xzDistFromLink < 150.0f) {
             speed = (this->hookshotSlotFull) ? player->actor.speedXZ * 1.2f : player->actor.speedXZ;
@@ -321,13 +307,16 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             vec.x = (Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.x;
             vec.z = (Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.z;
         }
-        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
+                             255, 0, 0, 255, 1, 9, 1);
         vec.x = (this->actor.posRot.pos.x + this->actor.posRot.pos.x) - vec.x;
         vec.z = (this->actor.posRot.pos.z + this->actor.posRot.pos.z) - vec.z;
-        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
+                             255, 0, 0, 255, 1, 9, 1);
         vec.x = this->actor.posRot.pos.x;
         vec.z = this->actor.posRot.pos.z;
-        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
+                             255, 0, 0, 255, 1, 9, 1);
         if (this->actionTimer == 1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
         }
@@ -398,10 +387,12 @@ void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         if (1) {}
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 901);
         Matrix_MultVec3f(&D_80AD8D48, &vec);
-        Lights_PointNoGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->lightColor.r, this->lightColor.g, this->lightColor.b, 200);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->lightColor.r, this->lightColor.g,
+                                  this->lightColor.b, 200);
     } else if (limbIndex == 8) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 916);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 918), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 918),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600BBA0);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 922);
     }
@@ -413,6 +404,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AD8D54[this->eyeImageIdx]));
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL, EnPoRelay_PostLimbDraw, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+                     EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);
 }
