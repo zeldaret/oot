@@ -406,6 +406,7 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
     msgCtx->unk_E3DA = (arg1 == 1) ? gGameInfo->data[msgCtx->choiceIndex + 0x584] : gGameInfo->data[msgCtx->choiceIndex + 0x583];
 }
 #else
+void func_80106D40(GlobalContext* globalCtx, u8 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80106D40.s")
 #endif
 
@@ -825,15 +826,15 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3) {
     }
 }
 #else
+void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107980.s")
 #endif
 
 u16 func_801080B4(GlobalContext* globalCtx, u16 arg1, Gfx** p, u16 arg3) {
     s32 pad;
-    Gfx *gfx;
+    Gfx* gfx = *p;
     MessageContext* msgCtx = &globalCtx->msgCtx;
 
-    gfx = *p;
     // clang-format off
     // same line required to match
     if (msgCtx->msgMode == 6) { Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8); }
@@ -2096,28 +2097,25 @@ u8 func_8010BDBC(MessageContext* msgCtx) {
     }
 }
 #else
+u8 func_8010BDBC(MessageContext* msgCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BDBC.s")
 #endif
 
 #ifdef NON_MATCHING
 // Very small reorderings, regalloc
 void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
-    MessageContext* msgCtx;
-    Gfx* gfx;
-
-    gfx = *p;
-    msgCtx = &globalCtx->msgCtx;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
+    Gfx* gfx = *p;
 
     gDPPipeSync(gfx++);
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->unk_E3FE, msgCtx->unk_E400, msgCtx->unk_E402, msgCtx->unk_E406);
+
     if (msgCtx->unk_E2FD == 0 || msgCtx->unk_E2FD == 2) {
         gDPSetTextureImage(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 1, (u32)msgCtx->textboxSegment);
         gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, 7, G_TX_NOLOD);
-        do {
-            gDPLoadSync(gfx++);
-            gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 2047, 256);
-            gDPPipeSync(gfx++);
-        } while (0);
+        gDPLoadSync(gfx++);
+        gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 2047, 256);
+        gDPPipeSync(gfx++);
         gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_4b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, 7, G_TX_NOLOD);
         gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 0x01FC, 0x00FC);
     } else {
@@ -2128,11 +2126,9 @@ void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
         }
         gDPSetTextureImage(gfx++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, (u32)msgCtx->textboxSegment);
         gDPSetTile(gfx++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, 7, G_TX_NOLOD);
-        do {
-            gDPLoadSync(gfx++);
-            gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 2047, 256);
-            gDPPipeSync(gfx++);
-        } while (0);
+        gDPLoadSync(gfx++);
+        gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 2047, 256);
+        gDPPipeSync(gfx++);
         gDPSetTile(gfx++, G_IM_FMT_IA, G_IM_SIZ_4b, 8, 0x0000, G_TX_RENDERTILE, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, 7, G_TX_NOLOD);
         gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 0x01FC, 0x00FC);
     }
@@ -2143,18 +2139,18 @@ void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
         gDPSetPrimColor(gfx++, 0, 0, 0xFF, 0x64, 0x00, 0xFF);
         gDPSetTextureImage(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 1, &D_02002E40);
         gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-        do {
-            gDPLoadSync(gfx++);
-            gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 127, 2048);
-            gDPPipeSync(gfx++);
-        } while (0);
+        if (1) {}
+        gDPLoadSync(gfx++);
+        gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 127, 2048);
+        gDPPipeSync(gfx++);
         gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_4b, 1, 0x0000, G_TX_RENDERTILE, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
         gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 0x003C, 0x007C);
-        gSPTextureRectangle(gfx++, VREG(7)*4, VREG(8)*4, (VREG(7) + 0x10&0xFFFF)*4, (VREG(8) + 0x20&0xFFFF)*4, 0, 0, 0, 0x0400, 0x0400);
+        gSPTextureRectangle(gfx++, VREG(7)*4, VREG(8)*4, (u16)(VREG(7) + 0x10)*4, (u16)(VREG(8) + 0x20)*4, 0, 0, 0, 0x0400, 0x0400);
     }
     *p = gfx;
 }
 #else
+void func_8010BED8(GlobalContext* globalCtx, Gfx** p);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BED8.s")
 #endif
 
@@ -2249,8 +2245,414 @@ void func_8010F58C(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_message_PAL.c", 3582);
 }
 
+extern u16 D_80153D78;
+
+// Message_Update ?
 void func_8010F6F0(GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010F6F0.s")
+/* void func_8010F6F0(GlobalContext *globalCtx) {
+    Player *sp4C;
+    s16 sp44;
+    s16 sp42;
+    s16 sp40;
+    s16 sp3E;
+    void *sp24;
+    Input *temp_v0;
+    InterfaceContext *temp_v0_6;
+    MessageContext *temp_t6;
+    const MessageTableEntry *temp_v0_2;
+    s16 temp_a1;
+    s16 temp_a1_2;
+    s16 temp_v0_11;
+    s16 temp_v0_13;
+    s32 temp_v0_14;
+    s32 temp_v0_15;
+    s32 temp_v0_16;
+    s32 temp_v0_17;
+    s32 temp_v0_18;
+    s32 temp_v0_19;
+    s32 temp_v0_20;
+    s32 temp_v0_21;
+    s32 temp_v0_22;
+    s32 temp_v0_5;
+    s8 temp_t4;
+    u16 temp_a0;
+    u16 temp_v0_3;
+    u16 temp_v0_4;
+    u16 temp_v0_9;
+    u16 temp_v1;
+    u16 temp_v1_2;
+    u32 temp_t2;
+    u32 temp_v0_7;
+    u8 temp_a1_3;
+    u8 temp_v0_10;
+    u8 temp_v0_12;
+    u8 temp_v0_23;
+    u8 temp_v1_3;
+    void *temp_a2_4;
+    void *temp_a2_5;
+    void *temp_a2_6;
+    void *temp_a2_7;
+    void *temp_a2_8;
+    void *temp_a2_9;
+    void *temp_t0;
+    void *temp_t0_2;
+    void *temp_v0_8;
+    u16 phi_v1;
+    s16 phi_a1;
+    const MessageTableEntry *phi_v0;
+    u16 phi_a0;
+    s32 phi_v1_2;
+    s32 phi_v0_2;
+
+    sp4C = PLAYER;
+    temp_v0 = globalCtx->state.input;
+    if (BREG(0) != 0) {
+        if (~(temp_v0->press.button | -0x401) == 0) {
+            if (~(temp_v0->cur.button | -0x21) == 0) {
+                osSyncPrintf("msgno=%d\n", D_80153D78);
+                func_8010B680(globalCtx, YREG(79), NULL);
+                D_80153D78 = (D_80153D78 + 1) % 10;
+            }
+        }
+        if (YREG(78) != 0) {
+            while (YREG(79) != 0x8000) {
+                phi_v0 = D_801538F0;
+                while (phi_v0->textId != 0xFFFD) {
+                    if (phi_v0->textId == YREG(79)) {
+                        // The message was found! !! !!
+                        osSyncPrintf(" メッセージが,見つかった！！！ = %x\n", YREG(79));
+                        func_8010B680(globalCtx, YREG(79), NULL);
+                        YREG(79)++;
+                        YREG(78) = 0;
+                        return;
+                    }
+                    phi_v0++;
+                }
+                YREG(79)++;
+            }
+        }
+    }
+    temp_t6 = &globalCtx->msgCtx;
+    if (temp_t6->unk_E300 != 0) {
+        temp_a1_3 = temp_t6->msgMode;
+        if (temp_a1_3 >= 0x36) {
+            if (temp_a1_3 != 0x36) {
+                if (temp_a1_3 != 0x37) {
+block_148:
+                    temp_t6->unk_E410 = 0xFF;
+                }
+            } else {
+                temp_t6->unk_E3E7 = temp_t6->unk_E3E7 - 1;
+                if (temp_t6->unk_E3E7 == 0) {
+                    temp_v0_3 = temp_t6->unk_E2F8;
+                    if (temp_v0_3 >= 0xC2) {
+                        if (temp_v0_3 >= 0xC7) {
+block_106:
+                            if (temp_v0_3 >= 0xFA) {
+                                if (temp_v0_3 < 0xFE) {
+block_108:
+                                    gSaveContext.healthAccumulator = 0x140;
+                                }
+                            }
+                        } else {
+                            goto block_108;
+                        }
+                    } else {
+                        goto block_106;
+                    }
+                    if ((temp_t6->unk_E2F8 == 0x301F) || (temp_t6->unk_E2F8 == 0xA) || (temp_t6->unk_E2F8 == 0xC) || (temp_t6->unk_E2F8 == 0xCF) || (temp_t6->unk_E2F8 == 0x21C) || (temp_t6->unk_E2F8 == 9) || (temp_t6->unk_E2F8 == 0x4078) || (temp_t6->unk_E2F8 == 0x2015) || (temp_t6->unk_E2F8 == 0x3040)) {
+                        gSaveContext.unk_13EE = 0x32;
+                    }
+                    if (globalCtx->csCtx.state == 0) {
+                        osSyncPrintf("\x1b[32m");
+                        osSyncPrintf("day_time=%x  active_camera=%d  ", gSaveContext.cutsceneIndex, globalCtx->activeCamera);
+                        temp_v0_4 = temp_t6->unk_E2F8;
+                        if ((temp_v0_4 != 0x2061) && (temp_v0_4 != 0x2025) && (temp_v0_4 != 0x208C)) {
+                            if ((temp_v0_4 < 0x88D) || (temp_v0_4 >= 0x893) || (temp_t6->choiceIndex != 0)) {
+                                if (temp_v0_4 != 0x3055) {
+                                    temp_v0_5 = gSaveContext.cutsceneIndex;
+                                    if (temp_v0_5 < 0xFFF0) {
+                                        osSyncPrintf("=== day_time=%x ", temp_v0_5);
+                                        if (globalCtx->activeCamera == 0) {
+                                            temp_a0 = gSaveContext.unk_13EE;
+                                            if ((temp_a0 == 0) || (temp_a0 == 1) || (phi_a0 = temp_a0, (temp_a0 == 2))) {
+                                                gSaveContext.unk_13EE = 0x32;
+                                                phi_a0 = 0x32 & 0xFFFF;
+                                            }
+                                            gSaveContext.unk_13EA = 0;
+                                            Interface_ChangeAlpha(phi_a0);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    osSyncPrintf("\x1b[m");
+                    temp_t6->unk_E300 = 0;
+                    temp_t6->msgMode = 0;
+                    temp_v0_6 = &globalCtx->interfaceCtx;
+                    temp_v0_6->unk_1FC = 0;
+                    temp_v0_6->unk_1FA = temp_v0_6->unk_1FC;
+                    temp_t6->unk_E3E7 = 0;
+                    temp_t6->unk_E2F8 = temp_t6->unk_E3E7;
+                    if (temp_t6->unk_E3E4 == 0x40) {
+                        temp_t6->unk_E3E4 = 0;
+                        globalCtx->msgCtx.unk_E3EE = 2;
+                    } else {
+                        temp_t6->unk_E3E4 = 0;
+                    }
+                    temp_v0_7 = gSaveContext.inventory.questItems;
+                    if ((temp_v0_7 & 0xF0000000) == 0x40000000) {
+                        gSaveContext.inventory.questItems = temp_v0_7 ^ 0x40000000;
+                        gSaveContext.healthCapacity = gSaveContext.healthCapacity + 0x10;
+                        gSaveContext.health = gSaveContext.health + 0x10;
+                    }
+                    if (temp_t6->unk_E3F0 != 0x31) {
+                        if (D_8014B310 == 6) {
+                            sp4C->naviMessageId = -0xE0;
+                            sp4C->naviActor->flags |= 0x10000;
+                        }
+                        if (temp_t6->unk_E3F0 == 0x29) {
+                            if (globalCtx->msgCtx.unk_E3EE == 1 || globalCtx->msgCtx.unk_E3EE == 0xB) {
+                                globalCtx->msgCtx.unk_E3EE = 4;
+                                if (temp_t6->unk_E3F2 == 9) {
+                                    globalCtx->msgCtx.unk_E3EE = 1;
+                                }
+                            }
+                        }
+                    }
+                    D_8014B310 = 0xFF;
+                    osSyncPrintf("OCARINA_MODE=%d   chk_ocarina_no=%d\n", globalCtx->msgCtx.unk_E3EE, temp_t6->unk_E3F2);
+                    return;
+                }
+            }
+        } else if (temp_a1_3 >= 0x35) {
+            if (temp_a1_3 != 0x35) {
+                goto block_148;
+            } else {
+                temp_v0_10 = temp_t6->unk_E3E4;
+                if (temp_v0_10 == 0x60) {
+                    temp_t6->unk_E3E7 = temp_t6->unk_E3E7 - 1;
+                    if (temp_t6->unk_E3E7 == 0) {
+                        func_80106CCC(globalCtx);
+                        return;
+                    }
+                } else if ((temp_v0_10 != 0x40) && (temp_v0_10 != 0x50) && (YREG(31) == 0)) {
+                    if ((temp_v0_10 == 0x10) && (globalCtx->msgCtx.unk_E3EE == 1)) {
+                        if (func_80106BC8(globalCtx) != 0) {
+                            osSyncPrintf("OCARINA_MODE=%d -> ", globalCtx->msgCtx.unk_E3EE);
+                            if (temp_t6->choiceIndex == 0) {
+                                globalCtx->msgCtx.unk_E3EE = 2;
+                            } else {
+                                globalCtx->msgCtx.unk_E3EE = 4;
+                            }
+                            osSyncPrintf("InRaceSeq=%d(%d) OCARINA_MODE=%d  -->  ", gSaveContext.eventInf[0] & 0xF, 1, globalCtx->msgCtx.unk_E3EE);
+                            func_80106CCC(globalCtx);
+                            osSyncPrintf("OCARINA_MODE=%d\n", globalCtx->msgCtx.unk_E3EE);
+                            return;
+                        }
+                    } else {
+                        if (func_80106C88(globalCtx) != 0) {
+                            osSyncPrintf("select=%d\n", temp_t6->unk_E3E4);
+                            if (temp_t6->unk_E3E4 != 0x30) {
+                                Audio_PlaySoundGeneral(0x4808, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                                func_80106CCC(globalCtx);
+                                return;
+                            }
+                            Audio_PlaySoundGeneral(0x4818, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                            func_8010B720(globalCtx, D_8014B304);
+                            return;
+                        }
+                    }
+                }
+            }
+        } else {
+            temp_t2 = temp_a1_3 - 1;
+            if (temp_a1_3 >= 9) {
+                if (temp_a1_3 != 0x34) {
+                    goto block_148;
+                } else {
+                    if (func_80106BC8(globalCtx) != 0) {
+                        temp_t6->msgMode = 4;
+                        temp_t6->unk_E3D6 = 0;
+                        temp_t6->unk_E3CE = temp_t6->unk_E3CE + 1;
+                        return;
+                    }
+                }
+            } else {
+                if (temp_t2 < 8) {
+                    goto **(&jtbl_80154CC4 + (temp_t2 * 4));
+                case 0:
+                    temp_t4 = D_8014B2F4 + 1;
+                    D_8014B2F4 = temp_t4;
+                    temp_v0_11 = YREG(15);
+                    if (temp_v0_11 == 0x40) {
+                        phi_v1_2 = 0;
+                        if ((temp_t4 & 0xFF) >= 4) {
+    block_33:
+                            phi_v1_2 = 1;
+                        }
+                    } else if ((temp_v0_11 != 0) || (globalCtx->sceneNum == 0x45)) {
+                        goto block_33;
+                    } else if ((D_8014B2F4 >= 4) || (phi_v1_2 = 0, (temp_t6->unk_E408 == 0))) {
+                        goto block_33;
+                    }
+                    if (phi_v1_2 != 0) {
+                        if (temp_t6->unk_E408 != 0) {
+                            func_8002F374(globalCtx, PLAYER, &sp44, &sp40);
+                            func_8002F374(globalCtx, temp_t6->unk_E408, &sp44, &sp3E);
+                            if (sp40 >= sp3E) {
+                                sp42 = ((sp40 - sp3E) / 2) + sp3E;
+                            } else {
+                                sp42 = ((sp3E - sp40) / 2) + sp40;
+                            }
+                            osSyncPrintf("dxpos=%d   dypos=%d  dypos1  dypos2=%d\n", sp44, sp42, sp40, sp3E);
+                        } else {
+                            VREG(0) = XREG(72);
+                            VREG(1) = XREG(73);
+                        }
+                        temp_v0_12 = temp_t6->unk_E2FE;
+                        temp_v1_3 = temp_t6->unk_E2FD;
+                        if (temp_v0_12 == 0) {
+                            if ((YREG(15) != 0) || (temp_v0_13 = globalCtx->sceneNum, (temp_v0_13 == 0x45))) {
+                                temp_v0_18 = temp_v1_3 * 2;
+                                if (sp42 < XREG(92)) {
+                                    temp_v0_19 = temp_v1_3 * 2;
+                                    XREG(73) = *(&D_80153D0C + temp_v0_19);
+                                    phi_v0_2 = temp_v0_19;
+                                } else {
+                                    XREG(73) = *(&D_80153D18 + temp_v0_18);
+                                    phi_v0_2 = temp_v0_18;
+                                }
+                            } else if ((temp_v0_13 == 0x20) || (temp_v0_13 == 0x21) || (temp_v0_13 == 0x22)) {
+                                temp_v0_16 = temp_v1_3 * 2;
+                                if (sp42 < XREG(93)) {
+                                    temp_v0_17 = temp_v1_3 * 2;
+                                    XREG(73) = *(&D_80153D0C + temp_v0_17);
+                                    phi_v0_2 = temp_v0_17;
+                                } else {
+                                    XREG(73) = *(&D_80153D18 + temp_v0_16);
+                                    phi_v0_2 = temp_v0_16;
+                                }
+                            } else {
+                                temp_v0_14 = temp_v1_3 * 2;
+                                if (sp42 < XREG(94)) {
+                                    temp_v0_15 = temp_v1_3 * 2;
+                                    XREG(73) = *(&D_80153D0C + temp_v0_15);
+                                    phi_v0_2 = temp_v0_15;
+                                } else {
+                                    XREG(73) = *(&D_80153D18 + temp_v0_14);
+                                    phi_v0_2 = temp_v0_14;
+                                }
+                            }
+                        } else if (temp_v0_12 == 1) {
+                            temp_v0_20 = temp_v1_3 * 2;
+                            XREG(73) = *(&D_80153D18 + temp_v0_20);
+                            phi_v0_2 = temp_v0_20;
+                        } else {
+                            temp_v0_21 = temp_v1_3 * 2;
+                            if (temp_v0_12 == 2) {
+                                temp_v0_22 = temp_v1_3 * 2;
+                                XREG(73) = *(&D_80153D24 + temp_v0_22);
+                                phi_v0_2 = temp_v0_22;
+                            } else {
+                                XREG(73) = *(&D_80153D0C + temp_v0_21);
+                                phi_v0_2 = temp_v0_21;
+                            }
+                        }
+                        XREG(72) = *(&D_80153D00 + phi_v0_2);
+                        XREG(65) = XREG(73) + *(&D_80153D30 + phi_v0_2);
+                        XREG(67) = XREG(73) + 0x14;
+                        XREG(68) = XREG(73) + 0x20;
+                        XREG(69) = XREG(73) + 0x2C;
+                        osSyncPrintf("message->msg_disp_type=%x\n", temp_t6->unk_E2FC & 0xF0, temp_a2_9);
+                        temp_v0_23 = temp_t6->unk_E2FD;
+                        if (temp_v0_23 != 4 && temp_v0_23 != 5) {
+                            func_80107244(globalCtx);
+                            func_800F691C(0);
+                            temp_t6->unk_E3E7 = 0;
+                            temp_t6->msgMode = 2;
+                        } else {
+                            temp_t6->msgMode = 3;
+                            VREG(0) = XREG(72);
+                            VREG(1) = XREG(73);
+                            YREG(22) = 0x100;
+                            YREG(23) = 0x40;
+                            YREG(16) = 0x200;
+                            YREG(17) = 0x200;
+                        }
+                        return;
+                    }
+                    return;
+                case 1:
+                    func_80107244(globalCtx);
+                    return;
+                case 2:
+                    temp_t6->msgMode = 4;
+                    if (YREG(31) != 0) {
+                        return;
+                    }
+                    Interface_SetDoAction(globalCtx, 0x10);
+                    return;
+                case 3:
+                    func_80109B3C(globalCtx);
+                    if (D_8014B2F0 != 0) {
+                        Interface_ChangeAlpha(1);
+                    }
+                    if (D_80153D74 == 0) {
+                        return;
+                    }
+                    temp_t6->unk_E3D2 = temp_t6->unk_E3D4;
+                    D_80153D74 = 0;
+                    return;
+                case 4:
+                    temp_t6->unk_E3E7 = temp_t6->unk_E3E7 - 1;
+                    if (temp_t6->unk_E3E7 != 0) {
+                        return;
+                    }
+                    func_80109B3C(globalCtx);
+                    return;
+                case 5:
+                    if (temp_t6->unk_E2FD == 4) {
+                        return;
+                    }
+                    if (YREG(31) != 0) {
+                        return;
+                    }
+                    if (~(globalCtx->unk20 | -0x4001) != 0) {
+                        return;
+                    }
+                    if (temp_t6->unk_E3D6 != 0) {
+                        return;
+                    }
+                    D_8014B300 = 1;
+                    temp_t6->unk_E3D2 = temp_t6->unk_E3D4;
+                    return;
+                case 6:
+                    if (YREG(31) != 0) {
+                        return;
+                    }
+                    if (func_80106BC8(globalCtx) == 0) {
+                        return;
+                    }
+                    temp_t6->msgMode = 6;
+                    temp_t6->unk_E3D2 = temp_t6->unk_E3D2 + 1;
+                    return;
+                case 7:
+                    temp_t6->unk_E3E7 = temp_t6->unk_E3E7 - 1;
+                    if (temp_t6->unk_E3E7 != 0) {
+                        return;
+                    }
+                    temp_t6->msgMode = 4;
+                    return;
+                } else {
+                    goto block_148;
+                }
+            }
+        }
+    }
+} */
 
 void func_8011040C(void) {
     NON_CONST(D_801538F0, MessageTableEntry*) = &D_8014B320;

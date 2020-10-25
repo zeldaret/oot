@@ -16,10 +16,9 @@ void func_80110460(GlobalContext* globalCtx) {
     }
 }
 
-// void func_801104C8(GlobalContext* globalCtx);
-// Needs jtbl
+void func_801104C8(GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_80110450/func_801104C8.s")
-/*void func_801104C8(GlobalContext* globalCtx) {
+/* void func_801104C8(GlobalContext* globalCtx) {
     static const s16 D_80153D80 = 0;
 
     s16 *temp_s1;
@@ -40,7 +39,8 @@ void func_80110460(GlobalContext* globalCtx) {
     u8 phi_v1_2;
     u8 phi_v0_2;
 
-    switch (globalCtx->unk_10A20 - 1) {
+    u16* temp_ptr = &globalCtx->unk_10A20;
+    switch (*temp_ptr - 1) {
         case 0:
             func_80106CCC(globalCtx);
             gSaveContext.timer1State = 0;
@@ -93,50 +93,54 @@ void func_80110460(GlobalContext* globalCtx) {
             phi_t0 = VREG(90);
             phi_v1 = VREG(91);
             phi_v0 = VREG(92);
-            func_800AA000(0.0f, (phi_t0 >= 0x65) ? 0xFF : (phi_t0 * 0x100 - phi_t0) / 0x64, 
-                            CLAMP_MAX(phi_v1 * 3, 0xFF), 
-                            (phi_v0 >= 0x65) ? 0xFF : (phi_v0 * 0x100 - phi_v0) / 0x64);
-            globalCtx->unk_10A20 = 2;
-            return;
+            func_800AA000(0.0f, (phi_t0 >= 0x65) ? 0xFF : (phi_t0 * 0x100U - phi_t0) / 100, 
+                            CLAMP_MAX(phi_v1 * 3, 0xFFU), 
+                            (phi_v0 >= 0x65) ? 0xFF : (phi_v0 * 0x100U - phi_v0) / 100);
+            *temp_ptr = 2;
+            break;
         case 2:
             NON_CONST(D_80153D80,s16)--;
             if (NON_CONST(D_80153D80,s16) == 0) {
                 globalCtx->pauseCtx.state = 8;
-                globalCtx->unk_10A20++;
+                (*temp_ptr)++;
                 func_800AA15C();
                 return;
             }
+            break;
         case 19:
             NON_CONST(D_80153D80,s16) = 0;
-            globalCtx->unk_10A20++;
+            (*temp_ptr)++;
             func_80075F14(globalCtx);
-            func_800B3840(0x20);
-            return;
+            ShrinkWindow_SetVal(0x20);
+            break;
         case 20:
             NON_CONST(D_80153D80,s16) = 50;
-            globalCtx->unk_10A20++;
-            func_800AA000(0.0f, (VREG(90) * 0xFF) / 0x64, VREG(91) * 3, (VREG(92) * 0xFF) / 0x64);
-            return;
+            (*temp_ptr)++;
+            func_800AA000(0.0f, (VREG(90) * 0xFF) / 0x64, CLAMP_MAX(VREG(91) * 3, 0xFF), (VREG(92) * 0xFF) / 0x64);
+            break;
         case 21:
             NON_CONST(D_80153D80,s16)--;
             if (NON_CONST(D_80153D80,s16) == 0) {
                 NON_CONST(D_80153D80,s16) = 64;
-                globalCtx->unk_10A20++;
+                (*temp_ptr)++;
                 return;
             }
+            break;
         case 22:
             NON_CONST(D_80153D80,s16)--;
             if (NON_CONST(D_80153D80,s16) == 0) {
                 NON_CONST(D_80153D80,s16) = 50;
-                globalCtx->unk_10A20++;
+                (*temp_ptr)++;
                 return;
             }
+            break;
         case 23:
             func_800763A8(globalCtx);
             NON_CONST(D_80153D80,s16)--;
             if (NON_CONST(D_80153D80,s16) == 0) {
-                globalCtx->unk_10A20 = 0;
+                *temp_ptr = 0;
                 return;
             }
+            break;
     }
-}*/
+} */
