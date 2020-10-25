@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 // original name: "spark"
 void EffectSpark_Init(void* thisx, void* initParamsx) {
@@ -129,14 +128,12 @@ s32 EffectSpark_Update(void* thisx) {
 }
 
 // original name: "EffectSparkInfo_disp"
-#ifdef NON_MATCHING
-// minor ordering and saved register usage differences
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     Vtx* vertices;
-    EffectSpark* this = (EffectSpark*)thisx; // sp1E0
-    EffectSparkElement* elem;
+    EffectSpark* this = (EffectSpark*)thisx;
     GlobalContext* globalCtx;
-    f32 ratio;
+    s32 i;
+    s32 j;
     u8 sp1D3;
     u8 sp1D2;
     u8 sp1D1;
@@ -153,36 +150,37 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     u8 sp1C6;
     u8 sp1C5;
     u8 sp1C4;
-    s32 i;
-    s32 j;
-    Gfx* dispRefs[4]; // sp1AC
+    f32 ratio;
 
     globalCtx = Effect_GetGlobalCtx();
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_eff_spark.c", 293);
+
+    if (1) {}
+
+    OPEN_DISPS(gfxCtx, "../z_eff_spark.c", 293);
 
     if (this != NULL) {
-        gSPMatrix(gfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x26);
-        gDPSetCycleType(gfxCtx->polyXlu.p++, G_CYC_2CYCLE);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+        gDPSetCycleType(oGfxCtx->polyXlu.p++, G_CYC_2CYCLE);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
 
-        gSPTexture(gfxCtx->polyXlu.p++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-        gDPLoadTextureBlock(gfxCtx->polyXlu.p++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+        gSPTexture(oGfxCtx->polyXlu.p++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+        gDPLoadTextureBlock(oGfxCtx->polyXlu.p++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-        gDPSetCombineMode(gfxCtx->polyXlu.p++, G_CC_SHADEDECALA, G_CC_PASS2);
-        gDPSetRenderMode(gfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-        gSPClearGeometryMode(gfxCtx->polyXlu.p++,
+        gDPSetCombineMode(oGfxCtx->polyXlu.p++, G_CC_SHADEDECALA, G_CC_PASS2);
+        gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
+        gSPClearGeometryMode(oGfxCtx->polyXlu.p++,
                              G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
-        gSPSetGeometryMode(gfxCtx->polyXlu.p++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gSPSetGeometryMode(oGfxCtx->polyXlu.p++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
 
         vertices = Graph_Alloc(gfxCtx, this->numElements * sizeof(Vtx[4]));
         if (vertices == NULL) {
             // Translates to: "Memory Allocation Failure graph_malloc"
             osSyncPrintf("EffectSparkInfo_disp():メモリー確保失敗 graph_malloc\n");
-            return;
+            goto end;
         }
 
         j = 0;
@@ -210,16 +208,17 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             MtxF spEC;
             MtxF spAC;
             MtxF sp6C;
+            EffectSparkElement* elem;
             Mtx* mtx;
             f32 temp;
 
             elem = &this->elements[i];
 
-            func_800A7A24(&spEC, elem->position.x, elem->position.y, elem->position.z);
+            SkinMatrix_SetTranslate(&spEC, elem->position.x, elem->position.y, elem->position.z);
             temp = ((Math_Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;
-            func_800A76A4(&spAC, temp, temp, 1.0f);
-            func_800A6FA0(&spEC, &globalCtx->mf_11DA0, &sp6C);
-            func_800A6FA0(&sp6C, &spAC, &sp12C);
+            SkinMatrix_SetScale(&spAC, temp, temp, 1.0f);
+            SkinMatrix_MtxFMtxFMult(&spEC, &globalCtx->mf_11DA0, &sp6C);
+            SkinMatrix_MtxFMtxFMult(&sp6C, &spAC, &sp12C);
 
             vertices[j].v.ob[0] = -32;
             vertices[j].v.ob[1] = -32;
@@ -267,23 +266,19 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
             j += 4;
 
-            if (this) {}
-
-            mtx = func_800A7E70(gfxCtx, &sp12C);
+            mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &sp12C);
             if (mtx == NULL) {
-                break;
+                goto end;
             }
 
-            gSPMatrix(gfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPVertex(gfxCtx->polyXlu.p++, &vertices[4 * i], 4, 0);
-            gSP2Triangles(gfxCtx->polyXlu.p++, 2, 0, 3, 0, 2, 3, 1, 0);
+            gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPVertex(oGfxCtx->polyXlu.p++, &vertices[4 * i], 4, 0);
+            gSP2Triangles(oGfxCtx->polyXlu.p++, 2, 0, 3, 0, 2, 3, 1, 0);
         }
 
-        gDPPipeSync(gfxCtx->polyXlu.p++);
+        gDPPipeSync(oGfxCtx->polyXlu.p++);
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_eff_spark.c", 498);
+end:
+    CLOSE_DISPS(gfxCtx, "../z_eff_spark.c", 498);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_eff_spark/EffectSpark_Draw.s")
-#endif

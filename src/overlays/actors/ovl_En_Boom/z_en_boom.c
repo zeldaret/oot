@@ -54,25 +54,25 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    trail.p1StartColor.r = 255;
-    trail.p1StartColor.g = 255;
-    trail.p1StartColor.b = 100;
-    trail.p1StartColor.a = 255;
+    trail.p1StartColor[0] = 255;
+    trail.p1StartColor[1] = 255;
+    trail.p1StartColor[2] = 100;
+    trail.p1StartColor[3] = 255;
 
-    trail.p2StartColor.r = 255;
-    trail.p2StartColor.g = 255;
-    trail.p2StartColor.b = 100;
-    trail.p2StartColor.a = 64;
+    trail.p2StartColor[0] = 255;
+    trail.p2StartColor[1] = 255;
+    trail.p2StartColor[2] = 100;
+    trail.p2StartColor[3] = 64;
 
-    trail.p1EndColor.r = 255;
-    trail.p1EndColor.g = 255;
-    trail.p1EndColor.b = 100;
-    trail.p1EndColor.a = 0;
+    trail.p1EndColor[0] = 255;
+    trail.p1EndColor[1] = 255;
+    trail.p1EndColor[2] = 100;
+    trail.p1EndColor[3] = 0;
 
-    trail.p2EndColor.r = 255;
-    trail.p2EndColor.g = 255;
-    trail.p2EndColor.b = 100;
-    trail.p2EndColor.a = 0;
+    trail.p2EndColor[0] = 255;
+    trail.p2EndColor[1] = 255;
+    trail.p2EndColor[2] = 100;
+    trail.p2EndColor[3] = 0;
 
     trail.elemDuration = 8;
     trail.unkFlag = 0;
@@ -242,27 +242,25 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = THIS;
     Vec3f vec1;
     Vec3f vec2;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_boom.c", 567);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_boom.c", 567);
+
     Matrix_RotateY(this->actor.posRot.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateZ(0.7669904f, MTXMODE_APPLY);
     Matrix_RotateX(this->actor.posRot.rot.x * 0.0000958738f, MTXMODE_APPLY);
     Matrix_MultVec3f(&sMultVec1, &vec1);
     Matrix_MultVec3f(&sMultVec2, &vec2);
 
-    if (func_80090480(globalCtx, &this->collider, &this->unk_1DC, &vec1, &vec2) != 0) {
+    if (func_80090480(globalCtx, &this->collider, &this->boomerangInfo, &vec1, &vec2) != 0) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &vec1, &vec2);
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_RotateY((this->activeTimer * 12000) * 0.0000958738f, MTXMODE_APPLY);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_0400C808);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_0400C808);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
 }

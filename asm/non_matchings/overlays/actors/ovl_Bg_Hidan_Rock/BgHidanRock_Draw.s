@@ -38,14 +38,14 @@ glabel BgHidanRock_Draw
 /* 00E84 8088BF04 26060170 */  addiu   $a2, $s0, 0x0170           ## $a2 = 00000170
 /* 00E88 8088BF08 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 00E8C 8088BF0C 24A5BF60 */  addiu   $a1, $a1, %lo(D_8088BF60)  ## $a1 = 8088BF60
-/* 00E90 8088BF10 0C029BBD */  jal     func_800A6EF4              
+/* 00E90 8088BF10 0C029BBD */  jal     SkinMatrix_Vec3fMtxFMultXYZ              
 /* 00E94 8088BF14 02212021 */  addu    $a0, $s1, $at              
 /* 00E98 8088BF18 10000006 */  beq     $zero, $zero, .L8088BF34   
 /* 00E9C 8088BF1C 8FA60024 */  lw      $a2, 0x0024($sp)           
 .L8088BF20:
 /* 00EA0 8088BF20 26060170 */  addiu   $a2, $s0, 0x0170           ## $a2 = 00000170
 /* 00EA4 8088BF24 AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 00EA8 8088BF28 0C029BBD */  jal     func_800A6EF4              
+/* 00EA8 8088BF28 0C029BBD */  jal     SkinMatrix_Vec3fMtxFMultXYZ              
 /* 00EAC 8088BF2C 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00EB0 8088BF30 8FA60024 */  lw      $a2, 0x0024($sp)           
 .L8088BF34:

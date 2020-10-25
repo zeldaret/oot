@@ -1,6 +1,6 @@
 .late_rodata
 glabel D_808553EC
- .word 0x38000100
+    .float 3.051851E-05
 
 .text
 glabel func_8083F0C8
@@ -99,10 +99,10 @@ glabel func_8083F0C8
 /* 0D010 8083F220 00000000 */  nop
 /* 0D014 8083F224 8E0A0680 */  lw      $t2, 0x0680($s0)           ## 00000680
 /* 0D018 8083F228 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 0D01C 8083F22C 3C0C8086 */  lui     $t4, %hi(D_80858AB4)       ## $t4 = 80860000
+/* 0D01C 8083F22C 3C0C8086 */  lui     $t4, %hi(sControlInput)       ## $t4 = 80860000
 /* 0D020 8083F230 01415825 */  or      $t3, $t2, $at              ## $t3 = 00010000
 /* 0D024 8083F234 AE0B0680 */  sw      $t3, 0x0680($s0)           ## 00000680
-/* 0D028 8083F238 8D8C8AB4 */  lw      $t4, %lo(D_80858AB4)($t4)  
+/* 0D028 8083F238 8D8C8AB4 */  lw      $t4, %lo(sControlInput)($t4)  
 /* 0D02C 8083F23C 3C01FFFF */  lui     $at, 0xFFFF                ## $at = FFFF0000
 /* 0D030 8083F240 34217FFF */  ori     $at, $at, 0x7FFF           ## $at = FFFF7FFF
 /* 0D034 8083F244 958D000C */  lhu     $t5, 0x000C($t4)           ## 8086000C

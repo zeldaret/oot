@@ -58,7 +58,7 @@ glabel func_80A06E88
 /* 00808 80A06F28 8F39E670 */  lw      $t9, %lo(gSaveContext+0x10)($t9)
 /* 0080C 80A06F2C 13200006 */  beq     $t9, $zero, .L80A06F48     
 /* 00810 80A06F30 00000000 */  nop
-/* 00814 80A06F34 0C023C20 */  jal     func_8008F080              
+/* 00814 80A06F34 0C023C20 */  jal     Player_GetMask              
 /* 00818 80A06F38 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 0081C 80A06F3C 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 00820 80A06F40 54410004 */  bnel    $v0, $at, .L80A06F54       
@@ -270,7 +270,7 @@ glabel func_80A06E88
 /* 00B00 80A07220 AFA80028 */  sw      $t0, 0x0028($sp)           
 /* 00B04 80A07224 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 00B08 80A07228 E7AA0014 */  swc1    $f10, 0x0014($sp)          
-/* 00B0C 80A0722C 0C00C916 */  jal     Actor_SpawnAttached
+/* 00B0C 80A0722C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00B10 80A07230 E7B00018 */  swc1    $f16, 0x0018($sp)          
 /* 00B14 80A07234 10400013 */  beq     $v0, $zero, .L80A07284     

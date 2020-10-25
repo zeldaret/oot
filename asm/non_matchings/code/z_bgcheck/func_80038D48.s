@@ -68,7 +68,7 @@ glabel func_80038D48
 /* AAFFF0 80038E50 E7AA0020 */  swc1  $f10, 0x20($sp)
 /* AAFFF4 80038E54 E7B00028 */  swc1  $f16, 0x28($sp)
 /* AAFFF8 80038E58 468021A0 */  cvt.s.w $f6, $f4
-/* AAFFFC 80038E5C 0C0333E6 */  jal   func_800CCF98
+/* AAFFFC 80038E5C 0C0333E6 */  jal   Math3D_TriChkPointParaYIntersectDist
 /* AB0000 80038E60 E7A60018 */   swc1  $f6, 0x18($sp)
 /* AB0004 80038E64 8FBF003C */  lw    $ra, 0x3c($sp)
 /* AB0008 80038E68 8FB00038 */  lw    $s0, 0x38($sp)

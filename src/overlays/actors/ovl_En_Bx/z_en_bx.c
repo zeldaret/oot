@@ -41,31 +41,13 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-Vec3f D_809D250C = { 0.015f, 0.015f, 0.015f };
-
-Vec3f D_809D2518 = { 0.0f, 0.0f, 0.0f };
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
-};
-
-Vec3f D_809D2528 = { 8000.0f, 15000.0f, 2500.0f };
-
-Vec3f D_809D2534 = { 8000.0f, 10000.0f, 2500.0f };
-
-Vec3f D_809D2540 = { -8000.0f, 15000.0f, 2500.0f };
-
-Vec3f D_809D254C = { -8000.0f, 10000.0f, 2500.0f };
-
-Color_RGBA8 D_809D2558 = { 255, 255, 255, 255 };
-Color_RGBA8 D_809D255C = { 200, 255, 255, 255 };
-
-UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
-
 void EnBx_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBx* this = THIS;
-    Vec3f sp48 = D_809D250C;
-    Vec3f sp3C = D_809D2518;
+    Vec3f sp48 = { 0.015f, 0.015f, 0.015f };
+    Vec3f sp3C = { 0.0f, 0.0f, 0.0f };
+    static InitChainEntry sInitChain[] = {
+        ICHAIN_F32(unk_4C, 5300, ICHAIN_STOP),
+    };
     s32 i;
     s32 pad;
 
@@ -104,8 +86,10 @@ void EnBx_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809D1D0C(Actor* thisx, GlobalContext* globalCtx) {
-    Vec3f sp5C = D_809D2528;
-    Vec3f sp50 = D_809D2534;
+    Vec3f sp5C = { 8000.0f, 15000.0f, 2500.0f };
+    Vec3f sp50 = { 8000.0f, 10000.0f, 2500.0f };
+    static Vec3f D_809D2540 = { -8000.0f, 15000.0f, 2500.0f };
+    static Vec3f D_809D254C = { -8000.0f, 10000.0f, 2500.0f };
     Vec3f sp44;
     Vec3f sp38;
     EnBx* this = THIS;
@@ -123,9 +107,6 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     s16 tmp32;
     s32 tmp33;
-    Vec3f sp58;
-    s16 tmp16;
-    u32 test;
 
     if ((thisx->xzDistFromLink <= 70.0f) || (this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
         (this->colliderQuad.base.atFlags & 2)) {
@@ -138,11 +119,11 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             if ((&player->actor != this->collider.base.at) && (&player->actor != this->collider.base.ac) &&
                 (&player->actor != this->colliderQuad.base.at) && (player->invincibilityTimer <= 0)) {
-                if (player->invincibilityTimer < -0x27) {
+                if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
                 } else {
                     player->invincibilityTimer = 0;
-                    globalCtx->unk_11D58(globalCtx, -4);
+                    globalCtx->damagePlayer(globalCtx, -4);
                 }
             }
             func_8002F71C(globalCtx, &this->actor, 6.0f, tmp32, 6.0f);
@@ -162,12 +143,17 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_14C--;
         for (i = 0; i < 4; i++) {
             if (!((this->unk_14C + (i << 1)) % 4)) {
-                tmp16 = (s32)Math_Rand_CenteredFloat(12288.0f);
-                tmp16 = (tmp16 + (i * 16384)) + 0x2000;
-                sp58.x = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
-                sp58.y = Math_Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
-                sp58.z = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
-                func_800295A0(globalCtx, &sp58, &D_809D2558, &D_809D255C, 0xE6, tmp16, 6, 0);
+                static Color_RGBA8 primColor = { 255, 255, 255, 255 };
+                static Color_RGBA8 envColor = { 200, 255, 255, 255 };
+                Vec3f pos;
+                s16 yaw;
+
+                yaw = (s32)Math_Rand_CenteredFloat(12288.0f);
+                yaw = (yaw + (i * 0x4000)) + 0x2000;
+                pos.x = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.x;
+                pos.y = Math_Rand_CenteredFloat(30.0f) + thisx->posRot.pos.y + 170.0f;
+                pos.z = Math_Rand_CenteredFloat(5.0f) + thisx->posRot.pos.z;
+                EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor, 230, yaw, 6, 0);
             }
         }
 
@@ -182,62 +168,48 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Issue with Gfx_TwoTexScroll I think
 void EnBx_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static UNK_PTR D_809D2560[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
     EnBx* this = THIS;
-    void* matrices = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
-    f32 tmpf1;
-    f32 tmpf2;
+    s32 pad;
+    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
+    s16 i;
 
-    {
-        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-        Gfx* dispRefs[4];
-        Mtx* matrix = &matrices[0];
-        s16 i;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bx.c", 464);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 464);
-        func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPSegment(gfxCtx->polyOpa.p++, 0x0C, matrices);
-        gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
-        gSPSegment(gfxCtx->polyOpa.p++, 0x09,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x10, 0x10, 1, 0,
-                                    (-globalCtx->gameplayFrames * 10) % 128, 0x20, 0x20));
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bx.c", 478),
-                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, mtx);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809D2560[this->actor.params & 0x7F]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0, (globalCtx->gameplayFrames * -10) % 128,
+                                32, 32));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bx.c", 478),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        if (this->actor.params & 0x80) {
-            func_809D1D0C(&this->actor, globalCtx);
-        }
-
-        this->unk_14E -= 0xBB8;
-        tmpf1 = Math_Coss(this->unk_14E);
-        tmpf1 = (tmpf1 * 0.0075f) + 0.015f;
-        thisx->scale.x = tmpf1;
-        thisx->scale.z = tmpf1;
-
-        for (i = 3; i >= 0; i--) {
-            tmpf2 = Math_Coss(this->unk_14E + ((i & 0xFF) * 8192));
-            tmpf2 = (tmpf2 * 0.0075f) + 0.015f;
-            this->unk_184[i].x = tmpf2;
-            this->unk_184[i].z = tmpf2;
-            this->unk_1B4[i].x = thisx->shape.rot.x;
-            this->unk_1B4[i].y = thisx->shape.rot.y;
-            this->unk_1B4[i].z = thisx->shape.rot.z;
-        }
-
-        for (i = 0; i < 4; i++, matrix++) {
-            Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
-            Matrix_RotateRPY(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
-            Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
-            Matrix_ToMtx(matrix, "../z_en_bx.c", 507);
-        }
-
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_060022F0);
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_bx.c", 511);
+    if (this->actor.params & 0x80) {
+        func_809D1D0C(&this->actor, globalCtx);
     }
+
+    this->unk_14E -= 0xBB8;
+    thisx->scale.z = thisx->scale.x = (Math_Coss(this->unk_14E) * 0.0075f) + 0.015f;
+
+    for (i = 3; i >= 0; i--) {
+        s16 off = (0x2000 * i);
+        this->unk_184[i].z = this->unk_184[i].x = (Math_Coss(this->unk_14E + off) * 0.0075f) + 0.015f;
+        this->unk_1B4[i].x = thisx->shape.rot.x;
+        this->unk_1B4[i].y = thisx->shape.rot.y;
+        this->unk_1B4[i].z = thisx->shape.rot.z;
+    }
+
+    for (i = 0; i < 4; i++, mtx++) {
+        Matrix_Translate(this->unk_154[i].x, this->unk_154[i].y, this->unk_154[i].z, MTXMODE_NEW);
+        Matrix_RotateRPY(this->unk_1B4[i].x, this->unk_1B4[i].y, this->unk_1B4[i].z, MTXMODE_APPLY);
+        Matrix_Scale(this->unk_184[i].x, this->unk_184[i].y, this->unk_184[i].z, MTXMODE_APPLY);
+        Matrix_ToMtx(mtx, "../z_en_bx.c", 507);
+    }
+
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_060022F0);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bx.c", 511);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bx/EnBx_Draw.s")
-#endif

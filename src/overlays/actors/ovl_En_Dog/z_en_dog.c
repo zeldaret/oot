@@ -451,18 +451,17 @@ void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDog* this = THIS;
     Color_RGBA8 colors[] = { { 255, 255, 200, 0 }, { 150, 100, 50, 0 } };
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPPipeSync(gfxCtx->polyOpa.p++);
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

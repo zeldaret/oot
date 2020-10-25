@@ -21,7 +21,7 @@ glabel Camera_Unique7
 /* AC9D68 80052BC8 00000000 */   nop
 .L80052BCC:
 /* AC9D6C 80052BCC 860F0142 */  lh    $t7, 0x142($s0)
-/* AC9D70 80052BD0 3C198012 */  lui   $t9, %hi(sCameraSettings)
+/* AC9D70 80052BD0 3C198012 */  lui   $t9, %hi(sCameraSettings+4)
 /* AC9D74 80052BD4 86080144 */  lh    $t0, 0x144($s0)
 /* AC9D78 80052BD8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC9D7C 80052BDC 0338C821 */  addu  $t9, $t9, $t8
@@ -71,7 +71,7 @@ glabel Camera_Unique7
 /* AC9E24 80052C84 AF090000 */  sw    $t1, ($t8)
 /* AC9E28 80052C88 9509000A */  lhu   $t1, 0xa($t0)
 /* AC9E2C 80052C8C A7090004 */  sh    $t1, 4($t8)
-/* AC9E30 80052C90 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC9E30 80052C90 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC9E34 80052C94 AFA50024 */   sw    $a1, 0x24($sp)
 /* AC9E38 80052C98 8FAA0044 */  lw    $t2, 0x44($sp)
 /* AC9E3C 80052C9C 2401FFFF */  li    $at, -1

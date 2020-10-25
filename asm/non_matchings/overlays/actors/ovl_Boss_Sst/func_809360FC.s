@@ -139,7 +139,7 @@ glabel func_809360FC
 /* 09D2C 809362FC AFA20030 */  sw      $v0, 0x0030($sp)           
 /* 09D30 80936300 AFA3001C */  sw      $v1, 0x001C($sp)           
 /* 09D34 80936304 AFA70038 */  sw      $a3, 0x0038($sp)           
-/* 09D38 80936308 0C029BBD */  jal     func_800A6EF4              
+/* 09D38 80936308 0C029BBD */  jal     SkinMatrix_Vec3fMtxFMultXYZ              
 /* 09D3C 8093630C 00812021 */  addu    $a0, $a0, $at              
 /* 09D40 80936310 8FA40038 */  lw      $a0, 0x0038($sp)           
 /* 09D44 80936314 0C24CF4B */  jal     func_80933D2C              

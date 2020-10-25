@@ -51,7 +51,7 @@ glabel func_808B280C
 /* 000DC 808B28CC E7B20048 */  swc1    $f18, 0x0048($sp)          
 /* 000E0 808B28D0 C6240024 */  lwc1    $f4, 0x0024($s1)           ## 00000024
 /* 000E4 808B28D4 8E27002C */  lw      $a3, 0x002C($s1)           ## 0000002C
-/* 000E8 808B28D8 0C0333D2 */  jal     func_800CCF48              
+/* 000E8 808B28D8 0C0333D2 */  jal     Math3D_TriChkPointParaYSlopedY              
 /* 000EC 808B28DC E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 000F0 808B28E0 10400003 */  beq     $v0, $zero, .L808B28F0     
 /* 000F4 808B28E4 26100004 */  addiu   $s0, $s0, 0x0004           ## $s0 = 808B2E18

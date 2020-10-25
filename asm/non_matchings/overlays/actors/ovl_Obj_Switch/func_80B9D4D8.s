@@ -22,7 +22,7 @@ glabel func_80B9D4D8
 /* 00318 80B9D528 00194203 */  sra     $t0, $t9,  8               
 /* 0031C 80B9D52C 3109003F */  andi    $t1, $t0, 0x003F           ## $t1 = 00000000
 /* 00320 80B9D530 00095200 */  sll     $t2, $t1,  8               
-/* 00324 80B9D534 0C00C916 */  jal     Actor_SpawnAttached
+/* 00324 80B9D534 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00328 80B9D538 AFAA0028 */  sw      $t2, 0x0028($sp)           
 /* 0032C 80B9D53C 8FBF0034 */  lw      $ra, 0x0034($sp)           

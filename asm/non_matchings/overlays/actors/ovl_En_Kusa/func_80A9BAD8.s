@@ -10,7 +10,7 @@ glabel func_80A9BAD8
 /* 00B3C 80A9BADC AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00B40 80A9BAE0 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 00B44 80A9BAE4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00B48 80A9BAE8 0C00BD68 */  jal     func_8002F5A0              
+/* 00B48 80A9BAE8 0C00BD68 */  jal     Actor_HasNoParent              
 /* 00B4C 80A9BAEC AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00B50 80A9BAF0 1040002A */  beq     $v0, $zero, .L80A9BB9C     
 /* 00B54 80A9BAF4 8FAE002C */  lw      $t6, 0x002C($sp)           

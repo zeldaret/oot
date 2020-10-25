@@ -212,7 +212,7 @@ glabel BgHakaShip_Draw
 /* 00968 8087FA68 00812021 */  addu    $a0, $a0, $at              
 /* 0096C 8087FA6C E7AA0030 */  swc1    $f10, 0x0030($sp)          
 /* 00970 8087FA70 C470002C */  lwc1    $f16, 0x002C($v1)          ## 0000002C
-/* 00974 8087FA74 0C029BBD */  jal     func_800A6EF4              
+/* 00974 8087FA74 0C029BBD */  jal     SkinMatrix_Vec3fMtxFMultXYZ              
 /* 00978 8087FA78 E7B00034 */  swc1    $f16, 0x0034($sp)          
 /* 0097C 8087FA7C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 0000016C
 /* 00980 8087FA80 0C01E245 */  jal     func_80078914              

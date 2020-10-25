@@ -8,7 +8,7 @@ glabel func_80B86BC8
 /* 002AC 80B86BCC AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 002B0 80B86BD0 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 002B4 80B86BD4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 002B8 80B86BD8 0C00BD04 */  jal     func_8002F410              
+/* 002B8 80B86BD8 0C00BD04 */  jal     Actor_HasParent              
 /* 002BC 80B86BDC AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 002C0 80B86BE0 10400005 */  beq     $v0, $zero, .L80B86BF8     
 /* 002C4 80B86BE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

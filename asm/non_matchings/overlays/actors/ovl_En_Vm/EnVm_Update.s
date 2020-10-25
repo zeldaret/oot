@@ -27,7 +27,7 @@ glabel EnVm_Update
 /* 00D34 80B2E194 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00D38 80B2E198 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
 /* 00D3C 80B2E19C 2407FFFF */  addiu   $a3, $zero, 0xFFFF         ## $a3 = FFFFFFFF
-/* 00D40 80B2E1A0 0C00AA43 */  jal     func_8002A90C              
+/* 00D40 80B2E1A0 0C00AA43 */  jal     EffectSsDeadDs_SpawnStationary              
 /* 00D44 80B2E1A4 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00D48 80B2E1A8 24080078 */  addiu   $t0, $zero, 0x0078         ## $t0 = 00000078
 /* 00D4C 80B2E1AC 24090014 */  addiu   $t1, $zero, 0x0014         ## $t1 = 00000014

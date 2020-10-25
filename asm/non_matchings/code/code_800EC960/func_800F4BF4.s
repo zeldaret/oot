@@ -3,7 +3,7 @@ glabel func_800F4BF4
 /* B6BD98 800F4BF8 AFA60028 */  sw    $a2, 0x28($sp)
 /* B6BD9C 800F4BFC 83AE002B */  lb    $t6, 0x2b($sp)
 /* B6BDA0 800F4C00 AFA50024 */  sw    $a1, 0x24($sp)
-/* B6BDA4 800F4C04 3C198013 */  lui   $t9, %hi(D_8012F8B4) # $t9, 0x8013
+/* B6BDA4 800F4C04 3C198013 */  lui   $t9, %hi(gNoteFrequencies) # $t9, 0x8013
 /* B6BDA8 800F4C08 3C088013 */  lui   $t0, %hi(D_801333E0) # $t0, 0x8013
 /* B6BDAC 800F4C0C 3C098013 */  lui   $t1, %hi(D_801333E8) # $t1, 0x8013
 /* B6BDB0 800F4C10 000E7880 */  sll   $t7, $t6, 2
@@ -13,7 +13,7 @@ glabel func_800F4BF4
 /* B6BDC0 800F4C20 25F8009C */  addiu $t8, $t7, 0x9c
 /* B6BDC4 800F4C24 252933E8 */  addiu $t1, %lo(D_801333E8) # addiu $t1, $t1, 0x33e8
 /* B6BDC8 800F4C28 250833E0 */  addiu $t0, %lo(D_801333E0) # addiu $t0, $t0, 0x33e0
-/* B6BDCC 800F4C2C 2739F8B4 */  addiu $t9, %lo(D_8012F8B4) # addiu $t9, $t9, -0x74c
+/* B6BDCC 800F4C2C 2739F8B4 */  addiu $t9, %lo(gNoteFrequencies) # addiu $t9, $t9, -0x74c
 /* B6BDD0 800F4C30 03193821 */  addu  $a3, $t8, $t9
 /* B6BDD4 800F4C34 AFA80010 */  sw    $t0, 0x10($sp)
 /* B6BDD8 800F4C38 AFA90014 */  sw    $t1, 0x14($sp)

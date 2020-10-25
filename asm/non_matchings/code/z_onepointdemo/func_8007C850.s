@@ -915,7 +915,7 @@ glabel func_8007C850
 /* AF3E70 8007CCD0 C64600D0 */  lwc1  $f6, 0xd0($s2)
 /* AF3E74 8007CCD4 27050050 */  addiu $a1, $t8, 0x50
 /* AF3E78 8007CCD8 2706005C */  addiu $a2, $t8, 0x5c
-/* AF3E7C 8007CCDC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AF3E7C 8007CCDC 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AF3E80 8007CCE0 E6060008 */   swc1  $f6, 8($s0)
 /* AF3E84 8007CCE4 87B900D6 */  lh    $t9, 0xd6($sp)
 /* AF3E88 8007CCE8 3C018014 */  lui   $at, %hi(D_8013D68C)
@@ -978,7 +978,7 @@ glabel func_8007C850
 /* AF3F68 8007CDC8 8FA600DC */  lw    $a2, 0xdc($sp)
 /* AF3F6C 8007CDCC E6020058 */  swc1  $f2, 0x58($s0)
 /* AF3F70 8007CDD0 E6020008 */  swc1  $f2, 8($s0)
-/* AF3F74 8007CDD4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AF3F74 8007CDD4 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AF3F78 8007CDD8 24C60050 */   addiu $a2, $a2, 0x50
 /* AF3F7C 8007CDDC 8FB900DC */  lw    $t9, 0xdc($sp)
 /* AF3F80 8007CDE0 3C048012 */  lui   $a0, %hi(D_801209F8) # $a0, 0x8012
@@ -1728,7 +1728,7 @@ glabel func_8007C850
 .L8007D904:
 /* AF4AA4 8007D904 27A400D0 */  addiu $a0, $sp, 0xd0
 /* AF4AA8 8007D908 26850024 */  addiu $a1, $s4, 0x24
-/* AF4AAC 8007D90C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AF4AAC 8007D90C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AF4AB0 8007D910 26260024 */   addiu $a2, $s1, 0x24
 /* AF4AB4 8007D914 87AF00D6 */  lh    $t7, 0xd6($sp)
 /* AF4AB8 8007D918 3C018014 */  lui   $at, %hi(D_8013D690)
@@ -2639,7 +2639,7 @@ glabel L8007E5DC
 /* AF585C 8007E6BC 02A03025 */  move  $a2, $s5
 /* AF5860 8007E6C0 E7B200C4 */  swc1  $f18, 0xc4($sp)
 /* AF5864 8007E6C4 E7B000C0 */  swc1  $f16, 0xc0($sp)
-/* AF5868 8007E6C8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AF5868 8007E6C8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AF586C 8007E6CC E7AA00C8 */   swc1  $f10, 0xc8($sp)
 /* AF5870 8007E6D0 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AF5874 8007E6D4 44812000 */  mtc1  $at, $f4
@@ -2750,7 +2750,7 @@ glabel L8007E824
 /* AF5A10 8007E870 02802825 */   move  $a1, $s4
 /* AF5A14 8007E874 27A400D0 */  addiu $a0, $sp, 0xd0
 /* AF5A18 8007E878 02202825 */  move  $a1, $s1
-/* AF5A1C 8007E87C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AF5A1C 8007E87C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AF5A20 8007E880 02003025 */   move  $a2, $s0
 /* AF5A24 8007E884 87AD00D6 */  lh    $t5, 0xd6($sp)
 /* AF5A28 8007E888 3C0143C8 */  li    $at, 0x43C80000 # 0.000000
@@ -3912,7 +3912,7 @@ glabel L8007F6E8
 /* AF6B7C 8007F9DC 8FA600DC */  lw    $a2, 0xdc($sp)
 /* AF6B80 8007F9E0 27A400D0 */  addiu $a0, $sp, 0xd0
 /* AF6B84 8007F9E4 02002825 */  move  $a1, $s0
-/* AF6B88 8007F9E8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AF6B88 8007F9E8 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AF6B8C 8007F9EC 24C60050 */   addiu $a2, $a2, 0x50
 /* AF6B90 8007F9F0 87B900D6 */  lh    $t9, 0xd6($sp)
 /* AF6B94 8007F9F4 87AD00AE */  lh    $t5, 0xae($sp)
@@ -3920,12 +3920,12 @@ glabel L8007F6E8
 /* AF6B9C 8007F9FC 2484323C */  addiu $a0, %lo(D_8012323C) # addiu $a0, $a0, 0x323c
 /* AF6BA0 8007FA00 032D7023 */  subu  $t6, $t9, $t5
 /* AF6BA4 8007FA04 A7AE00D6 */  sh    $t6, 0xd6($sp)
-/* AF6BA8 8007FA08 0C01F097 */  jal   OLib_VecSphRot90ToVec3f
+/* AF6BA8 8007FA08 0C01F097 */  jal   OLib_VecSphGeoToVec3f
 /* AF6BAC 8007FA0C 27A500D0 */   addiu $a1, $sp, 0xd0
 /* AF6BB0 8007FA10 8FA600DC */  lw    $a2, 0xdc($sp)
 /* AF6BB4 8007FA14 27A400D0 */  addiu $a0, $sp, 0xd0
 /* AF6BB8 8007FA18 02002825 */  move  $a1, $s0
-/* AF6BBC 8007FA1C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AF6BBC 8007FA1C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AF6BC0 8007FA20 24C6005C */   addiu $a2, $a2, 0x5c
 /* AF6BC4 8007FA24 87AF00D6 */  lh    $t7, 0xd6($sp)
 /* AF6BC8 8007FA28 87B800AE */  lh    $t8, 0xae($sp)
@@ -3933,7 +3933,7 @@ glabel L8007F6E8
 /* AF6BD0 8007FA30 24843248 */  addiu $a0, %lo(D_80123248) # addiu $a0, $a0, 0x3248
 /* AF6BD4 8007FA34 01F8C823 */  subu  $t9, $t7, $t8
 /* AF6BD8 8007FA38 A7B900D6 */  sh    $t9, 0xd6($sp)
-/* AF6BDC 8007FA3C 0C01F097 */  jal   OLib_VecSphRot90ToVec3f
+/* AF6BDC 8007FA3C 0C01F097 */  jal   OLib_VecSphGeoToVec3f
 /* AF6BE0 8007FA40 27A500D0 */   addiu $a1, $sp, 0xd0
 /* AF6BE4 8007FA44 8FAD00DC */  lw    $t5, 0xdc($sp)
 /* AF6BE8 8007FA48 87AE00FA */  lh    $t6, 0xfa($sp)

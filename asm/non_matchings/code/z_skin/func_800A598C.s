@@ -155,7 +155,7 @@ glabel func_800A598C
 /* B1CD54 800A5BB4 E7B200B4 */  swc1  $f18, 0xb4($sp)
 /* B1CD58 800A5BB8 92790000 */  lbu   $t9, ($s3)
 /* B1CD5C 800A5BBC 00197180 */  sll   $t6, $t9, 6
-/* B1CD60 800A5BC0 0C029BBD */  jal   func_800A6EF4
+/* B1CD60 800A5BC0 0C029BBD */  jal   SkinMatrix_Vec3fMtxFMultXYZ
 /* B1CD64 800A5BC4 024E2021 */   addu  $a0, $s2, $t6
 /* B1CD68 800A5BC8 1000005B */  b     .L800A5D38
 /* B1CD6C 800A5BCC 96CE0004 */   lhu   $t6, 4($s6)
@@ -188,7 +188,7 @@ glabel func_800A598C
 /* B1CDD4 800A5C34 E7B200A8 */  swc1  $f18, 0xa8($sp)
 /* B1CDD8 800A5C38 92190000 */  lbu   $t9, ($s0)
 /* B1CDDC 800A5C3C 00197180 */  sll   $t6, $t9, 6
-/* B1CDE0 800A5C40 0C029BBD */  jal   func_800A6EF4
+/* B1CDE0 800A5C40 0C029BBD */  jal   SkinMatrix_Vec3fMtxFMultXYZ
 /* B1CDE4 800A5C44 024E2021 */   addu  $a0, $s2, $t6
 /* B1CDE8 800A5C48 1000003B */  b     .L800A5D38
 /* B1CDEC 800A5C4C 96CE0004 */   lhu   $t6, 4($s6)
@@ -231,7 +231,7 @@ glabel func_800A598C
 /* B1CE74 800A5CD4 E7A60090 */  swc1  $f6, 0x90($sp)
 /* B1CE78 800A5CD8 920F0000 */  lbu   $t7, ($s0)
 /* B1CE7C 800A5CDC 000FC980 */  sll   $t9, $t7, 6
-/* B1CE80 800A5CE0 0C029BBD */  jal   func_800A6EF4
+/* B1CE80 800A5CE0 0C029BBD */  jal   SkinMatrix_Vec3fMtxFMultXYZ
 /* B1CE84 800A5CE4 02592021 */   addu  $a0, $s2, $t9
 /* B1CE88 800A5CE8 C7A000D0 */  lwc1  $f0, 0xd0($sp)
 /* B1CE8C 800A5CEC C7A200D4 */  lwc1  $f2, 0xd4($sp)

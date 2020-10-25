@@ -4,10 +4,10 @@
  * Description: Debug Scene Select Menu
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
-#include <alloca.h>
+#include "ultra64.h"
+#include "global.h"
+#include "vt.h"
+#include "alloca.h"
 
 void Select_LoadTitle(SelectContext* this) {
     this->state.running = false;
@@ -19,7 +19,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf("\n\n\nＦＩＬＥ＿ＮＯ＝%x\n\n\n", gSaveContext.fileNum);
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
-        func_800A82C8();
+        Sram_InitDebugSave();
         gSaveContext.unk_13F6 = gSaveContext.magic;
         gSaveContext.magic = 0;
         gSaveContext.unk_13F4 = 0;
@@ -37,10 +37,10 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
     gSaveContext.seqIndex = 0xFF;
     gSaveContext.nightSeqIndex = 0xFF;
-    gSaveContext.unk_13C7 = 1;
+    gSaveContext.showTitleCard = true;
     D_8011FB30 = 0;
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext)
+    SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }
 
 static SceneSelectEntry sScenes[] = {
@@ -181,14 +181,14 @@ void Select_UpdateMenu(SelectContext* this) {
 
     if (this->unk_21C == 0) {
 
-        if (CHECK_PAD(controller1->press, A_BUTTON) || CHECK_PAD(controller1->press, START_BUTTON)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_A) || CHECK_BTN_ALL(controller1->press.button, BTN_START)) {
             selectedScene = &this->scenes[this->currentScene];
             if (selectedScene->loadFunc != NULL) {
                 selectedScene->loadFunc(this, selectedScene->entranceIndex);
             }
         }
 
-        if (CHECK_PAD(controller1->press, B_BUTTON)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
                 gSaveContext.linkAge = 1;
             } else {
@@ -196,7 +196,7 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(controller1->press, Z_TRIG)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_Z)) {
             if (gSaveContext.cutsceneIndex == 0x8000) {
                 gSaveContext.cutsceneIndex = 0;
             } else if (gSaveContext.cutsceneIndex == 0) {
@@ -224,7 +224,7 @@ void Select_UpdateMenu(SelectContext* this) {
             } else if (gSaveContext.cutsceneIndex == 0xFFFA) {
                 gSaveContext.cutsceneIndex = 0x8000;
             }
-        } else if (CHECK_PAD(controller1->press, R_TRIG)) {
+        } else if (CHECK_BTN_ALL(controller1->press.button, BTN_R)) {
             if (gSaveContext.cutsceneIndex == 0x8000) {
                 gSaveContext.cutsceneIndex = 0xFFFA;
             } else if (gSaveContext.cutsceneIndex == 0) {
@@ -260,14 +260,14 @@ void Select_UpdateMenu(SelectContext* this) {
         }
 
         // user can change "opt", but it doesn't do anything
-        if (CHECK_PAD(controller1->press, U_CBUTTONS)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_CUP)) {
             this->opt--;
         }
-        if (CHECK_PAD(controller1->press, D_CBUTTONS)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_CDOWN)) {
             this->opt++;
         }
 
-        if (CHECK_PAD(controller1->press, U_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DUP)) {
             if (this->unk_22C == 1) {
                 this->unk_224 = 0;
             }
@@ -279,12 +279,12 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(controller1->cur, U_JPAD) && this->unk_224 == 0) {
+        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DUP) && this->unk_224 == 0) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30) * 3;
         }
 
-        if (CHECK_PAD(controller1->press, D_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DDOWN)) {
             if (this->unk_230 == 1) {
                 this->unk_228 = 0;
             }
@@ -296,23 +296,24 @@ void Select_UpdateMenu(SelectContext* this) {
             }
         }
 
-        if (CHECK_PAD(controller1->cur, D_JPAD) && (this->unk_228 == 0)) {
+        if (CHECK_BTN_ALL(controller1->cur.button, BTN_DDOWN) && (this->unk_228 == 0)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30) * 3;
         }
 
-        if (CHECK_PAD(controller1->press, L_JPAD) || CHECK_PAD(controller1->cur, L_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DLEFT) || CHECK_BTN_ALL(controller1->cur.button, BTN_DLEFT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = SREG(30);
         }
 
-        if (CHECK_PAD(controller1->press, R_JPAD) || CHECK_PAD(controller1->cur, R_JPAD)) {
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_DRIGHT) ||
+            CHECK_BTN_ALL(controller1->cur.button, BTN_DRIGHT)) {
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_220 = -SREG(30);
         }
     }
 
-    if (CHECK_PAD(controller1->press, L_TRIG)) {
+    if (CHECK_BTN_ALL(controller1->press.button, BTN_L)) {
         this->unk_1DC++;
         this->unk_1DC = (this->unk_1DC + 7) % 7;
         this->currentScene = this->unk_20C = this->unk_1E0[this->unk_1DC];
@@ -503,68 +504,57 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
 }
 
 void Select_DrawMenu(SelectContext* this) {
-    s32 arg;
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
     GfxPrint* printer;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = this->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 930);
+    OPEN_DISPS(gfxCtx, "../z_select.c", 930);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
-    SET_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, gfxCtx->polyOpa.p);
+    GfxPrint_Open(printer, oGfxCtx->polyOpa.p);
     Select_PrintMenu(this, printer);
-    arg = gSaveContext.linkAge;
-    Select_PrintAgeSetting(this, printer, arg);
-    arg = gSaveContext.cutsceneIndex;
-    Select_PrintCutsceneSetting(this, printer, arg);
-    gfxCtx->polyOpa.p = GfxPrint_Close(printer);
+    Select_PrintAgeSetting(this, printer, ((void)0, gSaveContext.linkAge));
+    Select_PrintCutsceneSetting(this, printer, ((void)0, gSaveContext.cutsceneIndex));
+    oGfxCtx->polyOpa.p = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_select.c", 966);
+    CLOSE_DISPS(gfxCtx, "../z_select.c", 966);
 }
 
 void Select_DrawLoadingScreen(SelectContext* this) {
-    s32 pad;
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
     GfxPrint* printer;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = this->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 977);
+    OPEN_DISPS(gfxCtx, "../z_select.c", 977);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
-    SET_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, gfxCtx->polyOpa.p);
+    GfxPrint_Open(printer, oGfxCtx->polyOpa.p);
     Select_PrintLoadingMessage(this, printer);
-    gfxCtx->polyOpa.p = GfxPrint_Close(printer);
+    oGfxCtx->polyOpa.p = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_select.c", 1006);
+    CLOSE_DISPS(gfxCtx, "../z_select.c", 1006);
 }
 
 void Select_Draw(SelectContext* this) {
-    s32 pad;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
 
-    gfxCtx = this->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_select.c", 1013);
+    OPEN_DISPS(gfxCtx, "../z_select.c", 1013);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
-    SET_FULLSCREEN_VIEWPORT(&this->view)
+    SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
 
     if (!this->state.running) {
@@ -573,23 +563,26 @@ void Select_Draw(SelectContext* this) {
         Select_DrawMenu(this);
     }
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_select.c", 1037);
+    CLOSE_DISPS(gfxCtx, "../z_select.c", 1037);
 }
 
-void Select_Main(SelectContext* this) {
+void Select_Main(GameState* thisx) {
+    SelectContext* this = (SelectContext*)thisx;
+
     Select_UpdateMenu(this);
     Select_Draw(this);
 }
 
-void Select_Destroy(SelectContext* this) {
+void Select_Destroy(GameState* thisx) {
     osSyncPrintf("%c", 7);
     // "view_cleanup will hang, so it won't be called"
     osSyncPrintf("*** view_cleanupはハングアップするので、呼ばない ***\n");
 }
 
-void Select_Init(SelectContext* this) {
+void Select_Init(GameState* thisx) {
+    SelectContext* this = (SelectContext*)thisx;
     u32 size;
-    s32 pad[2];
+    s32 pad;
 
     this->state.main = Select_Main;
     this->state.destroy = Select_Destroy;

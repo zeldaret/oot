@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s16 sKaleidoSetupKscpPos0[] = {
     2,
@@ -48,11 +48,11 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
         gSaveContext.unk_13F0 != 8 && gSaveContext.unk_13F0 != 9 &&
         (globalCtx->sceneNum != SCENE_BOWLING || !Flags_GetSwitch(globalCtx, 0x38))) {
 
-        if (CHECK_PAD(input->cur, L_TRIG) && CHECK_PAD(input->press, U_CBUTTONS)) {
+        if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
             if (BREG(0)) {
                 pauseCtx->flag = 3;
             }
-        } else if (CHECK_PAD(input->press, START_BUTTON)) {
+        } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
             gSaveContext.unk_13EE = gSaveContext.unk_13EA;
             WREG(16) = -0xAF;
             WREG(17) = 0x9B;
@@ -70,8 +70,8 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
 
             pauseCtx->mode = (u16)(pauseCtx->kscpPos * 2) + 1; // cast required
             pauseCtx->state = 1;
-            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, (f64)pauseCtx->eye.x,
-                         (f64)pauseCtx->eye.z, pauseCtx->kscpPos);
+            osSyncPrintf("Ｍｏｄｅ=%d  eye.x=%f,  eye.z=%f  kscp_pos=%d\n", pauseCtx->mode, pauseCtx->eye.x,
+                         pauseCtx->eye.z, pauseCtx->kscpPos);
         }
 
         if (pauseCtx->state == 1) {
@@ -86,11 +86,10 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// regalloc
+// regalloc differences
 void KaleidoSetup_Init(GlobalContext* globalCtx) {
-
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
-    s32 temp;
+
     pauseCtx->state = 0;
     pauseCtx->flag = 0;
     pauseCtx->unk_208 = 0;
@@ -110,7 +109,6 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     pauseCtx->unk_21A = VREG(30) + 3;
     pauseCtx->unk_21C = 0;
     pauseCtx->unk_21E = 1;
-    temp = pauseCtx->unk_21E;
     pauseCtx->unk_220 = 10;
     pauseCtx->unk_222 = 0;
     pauseCtx->unk_22C = 0;
@@ -125,15 +123,16 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     pauseCtx->unk_242 = 999;
     pauseCtx->unk_244 = 59;
     pauseCtx->unk_246 = 0;
-    pauseCtx->unk_248 = (VREG(30) + 3) & 0xFFFF;
+    pauseCtx->unk_248 = VREG(30) + 3;
     pauseCtx->unk_24A = 0;
+    pauseCtx->unk_24C = pauseCtx->unk_21E;
     pauseCtx->unk_25A = -40;
     pauseCtx->unk_25C = 0;
     pauseCtx->unk_25E = 0;
     pauseCtx->unk_260 = 4;
     pauseCtx->unk_264 = -1;
     pauseCtx->unk_238 = 0;
-    pauseCtx->unk_24C = temp;
+
     View_Init(&pauseCtx->view, globalCtx->state.gfxCtx);
 }
 #else
@@ -141,7 +140,4 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
 #endif
 
 void KaleidoSetup_Destroy(GlobalContext* globalCtx) {
-}
-
-void func_8006EE50(UNK_PTR arg0, s16 arg1, s16 arg2) {
 }

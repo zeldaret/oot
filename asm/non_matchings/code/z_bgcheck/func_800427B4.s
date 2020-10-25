@@ -38,7 +38,7 @@ glabel func_800427B4
 /* AB99E4 80042844 AFA80020 */  sw    $t0, 0x20($sp)
 /* AB99E8 80042848 AFA90024 */  sw    $t1, 0x24($sp)
 /* AB99EC 8004284C AFAA0028 */  sw    $t2, 0x28($sp)
-/* AB99F0 80042850 0C0329F4 */  jal   func_800CA7D0
+/* AB99F0 80042850 0C0329F4 */  jal   Math3D_PlaneVsLineSegClosestPoint
 /* AB99F4 80042854 E7B2001C */   swc1  $f18, 0x1c($sp)
 /* AB99F8 80042858 8FBF0034 */  lw    $ra, 0x34($sp)
 /* AB99FC 8004285C 27BD0058 */  addiu $sp, $sp, 0x58

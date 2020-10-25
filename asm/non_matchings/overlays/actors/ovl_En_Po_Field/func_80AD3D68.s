@@ -18,7 +18,7 @@ glabel func_80AD3D68
 /* 002A4 80AD3DA4 26040234 */  addiu   $a0, $s0, 0x0234           ## $a0 = 00000234
 /* 002A8 80AD3DA8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 002AC 80AD3DAC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 002B0 80AD3DB0 0C01E796 */  jal     Lights_SetPositionalLightColorAndRadius
+/* 002B0 80AD3DB0 0C01E796 */  jal     Lights_PointSetColorAndRadius
               
 /* 002B4 80AD3DB4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 002B8 80AD3DB8 241800C8 */  addiu   $t8, $zero, 0x00C8         ## $t8 = 000000C8

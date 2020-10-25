@@ -7,7 +7,7 @@ glabel func_8098AB68
 /* 01CFC 8098AB7C 0C262AB2 */  jal     func_8098AAC8
 /* 01D00 8098AB80 27A5001C */  addiu   $a1, $sp, 0x001C           ## $a1 = FFFFFFEC
 /* 01D04 8098AB84 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFFF8
-/* 01D08 8098AB88 0C01F0FD */  jal     OLib_Vec3fToVecSphRot90
+/* 01D08 8098AB88 0C01F0FD */  jal     OLib_Vec3fToVecSphGeo
 /* 01D0C 8098AB8C 27A5001C */  addiu   $a1, $sp, 0x001C           ## $a1 = FFFFFFEC
 /* 01D10 8098AB90 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 01D14 8098AB94 87AE002E */  lh      $t6, 0x002E($sp)

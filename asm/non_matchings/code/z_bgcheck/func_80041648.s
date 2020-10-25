@@ -54,7 +54,7 @@ glabel func_80041648
 /* AB88B4 80041714 A7AF006A */  sh    $t7, 0x6a($sp)
 /* AB88B8 80041718 4600848D */  trunc.w.s $f18, $f16
 /* AB88BC 8004171C 440D9000 */  mfc1  $t5, $f18
-/* AB88C0 80041720 0C033F1B */  jal   Math3D_SpheresTouching
+/* AB88C0 80041720 0C033F1B */  jal   Math3D_SphVsSph
 /* AB88C4 80041724 A7AD0068 */   sh    $t5, 0x68($sp)
 /* AB88C8 80041728 1040000C */  beqz  $v0, .L8004175C
 /* AB88CC 8004172C 02602025 */   move  $a0, $s3

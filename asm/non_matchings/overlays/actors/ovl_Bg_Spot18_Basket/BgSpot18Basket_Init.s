@@ -98,7 +98,7 @@ glabel BgSpot18Basket_Init
 /* 00328 808B7A38 AFB80020 */  sw      $t8, 0x0020($sp)           
 /* 0032C 808B7A3C 861900B8 */  lh      $t9, 0x00B8($s0)           ## 000000B8
 /* 00330 808B7A40 AFA80028 */  sw      $t0, 0x0028($sp)           
-/* 00334 808B7A44 0C00C916 */  jal     Actor_SpawnAttached
+/* 00334 808B7A44 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00338 808B7A48 AFB90024 */  sw      $t9, 0x0024($sp)           
 /* 0033C 808B7A4C 8E09011C */  lw      $t1, 0x011C($s0)           ## 0000011C

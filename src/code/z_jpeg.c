@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 #define MARKER_SOI 0xD8
 #define MARKER_SOF 0xC0
@@ -37,7 +36,7 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
     // clang-format on
 
     JpegWork* workBuf = ctx->workBuf;
-    u32 pad[2];
+    s32 pad[2];
 
     workBuf->taskData.address = PHYSICAL_TO_VIRTUAL(&workBuf->unk_6C0);
     workBuf->taskData.mode = ctx->mode;
@@ -234,7 +233,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     diff = time2 - time;
     if (1) {}
     // Wait for synchronization of fifo buffer
-    osSyncPrintf("*** fifoバッファの同期待ち time = %6.3f ms ***\n", (f64)(OS_CYCLES_TO_USEC(diff) / 1000.0f));
+    osSyncPrintf("*** fifoバッファの同期待ち time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     ctx.workBuf = workBuff;
     Jpeg_ParseMarkers(data, &ctx);
@@ -243,8 +242,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     diff = time - time2;
     if (1) {}
     // Check markers for each segment
-    osSyncPrintf("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n",
-                 (f64)(OS_CYCLES_TO_USEC(diff) / 1000.0f));
+    osSyncPrintf("*** 各セグメントのマーカーのチェック time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dqtCount) {
         case 1: {
@@ -271,7 +269,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     diff = time2 - time;
     if (1) {}
     // Create quantization table
-    osSyncPrintf("*** 量子化テーブル作成 time = %6.3f ms ***\n", (f64)(OS_CYCLES_TO_USEC(diff) / 1000.0f));
+    osSyncPrintf("*** 量子化テーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     switch (ctx.dhtCount) {
         case 1: {
@@ -308,7 +306,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     diff = time - time2;
     if (1) {}
     // Huffman table creation
-    osSyncPrintf("*** ハフマンテーブル作成 time = %6.3f ms ***\n", (f64)(OS_CYCLES_TO_USEC(diff) / 1000.0f));
+    osSyncPrintf("*** ハフマンテーブル作成 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     decoder.unk_05 = 2;
     decoder.hTablePtrs[0] = &hTables[0];
@@ -348,7 +346,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     diff = time2 - time;
     if (1) {}
     // Unfold & draw
-    osSyncPrintf("*** 展開 & 描画 time = %6.3f ms ***\n", (f64)(OS_CYCLES_TO_USEC(diff) / 1000.0f));
+    osSyncPrintf("*** 展開 & 描画 time = %6.3f ms ***\n", OS_CYCLES_TO_USEC(diff) / 1000.0f);
 
     return 0;
 }

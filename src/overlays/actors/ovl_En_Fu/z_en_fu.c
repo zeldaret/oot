@@ -298,15 +298,14 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnFu* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fu.c", 773);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 773);
+
     func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
     SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
                      EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
 }

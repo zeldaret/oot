@@ -163,7 +163,7 @@ glabel func_80AD7C64
 /* 00710 80AD7E50 AFA3005C */  sw      $v1, 0x005C($sp)           
 /* 00714 80AD7E54 3C06C58C */  lui     $a2, 0xC58C                ## $a2 = C58C0000
 /* 00718 80AD7E58 3C07C56B */  lui     $a3, 0xC56B                ## $a3 = C56B0000
-/* 0071C 80AD7E5C 0C032C66 */  jal     func_800CB198              
+/* 0071C 80AD7E5C 0C032C66 */  jal     Math3D_PointInSquare2D              
 /* 00720 80AD7E60 E7A80014 */  swc1    $f8, 0x0014($sp)           
 /* 00724 80AD7E64 14400021 */  bne     $v0, $zero, .L80AD7EEC     
 /* 00728 80AD7E68 8FA3005C */  lw      $v1, 0x005C($sp)           
@@ -179,7 +179,7 @@ glabel func_80AD7C64
 /* 00750 80AD7E90 34C6E000 */  ori     $a2, $a2, 0xE000           ## $a2 = C57BE000
 /* 00754 80AD7E94 C42E8DF0 */  lwc1    $f14, %lo(D_80AD8DF0)($at) 
 /* 00758 80AD7E98 AFA3005C */  sw      $v1, 0x005C($sp)           
-/* 0075C 80AD7E9C 0C032C66 */  jal     func_800CB198              
+/* 0075C 80AD7E9C 0C032C66 */  jal     Math3D_PointInSquare2D              
 /* 00760 80AD7EA0 E7AA0014 */  swc1    $f10, 0x0014($sp)          
 /* 00764 80AD7EA4 14400011 */  bne     $v0, $zero, .L80AD7EEC     
 /* 00768 80AD7EA8 8FA3005C */  lw      $v1, 0x005C($sp)           
@@ -195,7 +195,7 @@ glabel func_80AD7C64
 /* 00790 80AD7ED0 34C66000 */  ori     $a2, $a2, 0x6000           ## $a2 = C53D6000
 /* 00794 80AD7ED4 C42E8DF8 */  lwc1    $f14, %lo(D_80AD8DF8)($at) 
 /* 00798 80AD7ED8 AFA3005C */  sw      $v1, 0x005C($sp)           
-/* 0079C 80AD7EDC 0C032C66 */  jal     func_800CB198              
+/* 0079C 80AD7EDC 0C032C66 */  jal     Math3D_PointInSquare2D              
 /* 007A0 80AD7EE0 E7B20014 */  swc1    $f18, 0x0014($sp)          
 /* 007A4 80AD7EE4 10400011 */  beq     $v0, $zero, .L80AD7F2C     
 /* 007A8 80AD7EE8 8FA3005C */  lw      $v1, 0x005C($sp)           

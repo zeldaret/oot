@@ -200,7 +200,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881018 = 0;
     Player* player = PLAYER;
 
-    if ((D_80880F30 == 0) && (func_8008E988(globalCtx) == 0)) {
+    if ((D_80880F30 == 0) && (!Player_InCsMode(globalCtx))) {
         if (!Math_ApproxF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x, 0.5f)) {
             func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) {
@@ -223,7 +223,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
-    static Vec3f D_8088101C = { 0.0f, 0.0f, 0.0f };
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f vector;
     f32 xScale;
     s32 i;
@@ -243,8 +243,8 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
         vector.y = Math_Rand_ZeroOne() * 10.0f + this->dyna.actor.posRot.pos.y + 30.0f;
         vector.z = Math_Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
 
-        func_8002A6B8(globalCtx, &vector, &D_8088101C, &D_8088101C, 0x82, 0x14, 0xFF, 0xFF, 0x96, 0xAA, 0xFF, 0, 0, 1,
-                      9, 0);
+        EffectSsDeadDb_Spawn(globalCtx, &vector, &zeroVec, &zeroVec, 130, 20, 255, 255, 150, 170, 255, 0, 0, 1, 9,
+                             false);
     }
 
     if (this->timer == 0) {
@@ -403,9 +403,10 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
 
     func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.posRot.pos);
 
-    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) && (PLAYER->currentBoots != 1)) {
-        player->fanWindSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
-        player->fanWindDirection = this->dyna.actor.shape.rot.y;
+    if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
+        (PLAYER->currentBoots != PLAYER_BOOTS_IRON)) {
+        player->windSpeed = ((500.0f - sp18.z) * 0.06f + 5.0f) * arg2 * (1.0f / 14848.0f) * (2.0f / 3.0f);
+        player->windDirection = this->dyna.actor.shape.rot.y;
     }
 }
 
@@ -511,7 +512,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp2C.z = thisx->posRot.pos.z;
         sp2C.y = thisx->posRot.pos.y + 110.0f;
 
-        func_800A6EF4(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
+        SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
         func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);
     }
 }

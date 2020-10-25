@@ -6,7 +6,7 @@ glabel EnPoSisters_Destroy
 /* 00258 80AD91E8 8CE60298 */  lw      $a2, 0x0298($a3)           ## 00000298
 /* 0025C 80AD91EC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00260 80AD91F0 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
-/* 00264 80AD91F4 0C01E9F1 */  jal     Lights_Remove
+/* 00264 80AD91F4 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00268 80AD91F8 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 0026C 80AD91FC 8FA70018 */  lw      $a3, 0x0018($sp)           

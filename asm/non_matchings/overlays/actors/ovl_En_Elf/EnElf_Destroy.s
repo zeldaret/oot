@@ -8,13 +8,13 @@ glabel EnElf_Destroy
 /* 00DB8 80A029E8 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00DBC 80A029EC 8DC60274 */  lw      $a2, 0x0274($t6)           ## 00000274
 /* 00DC0 80A029F0 AFA7002C */  sw      $a3, 0x002C($sp)           
-/* 00DC4 80A029F4 0C01E9F1 */  jal     Lights_Remove
+/* 00DC4 80A029F4 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00DC8 80A029F8 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00DCC 80A029FC 8FAF0028 */  lw      $t7, 0x0028($sp)           
 /* 00DD0 80A02A00 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 00DD4 80A02A04 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00DD8 80A02A08 0C01E9F1 */  jal     Lights_Remove
+/* 00DD8 80A02A08 0C01E9F1 */  jal     LightContext_RemoveLight
               
 /* 00DDC 80A02A0C 8DE60288 */  lw      $a2, 0x0288($t7)           ## 00000288
 /* 00DE0 80A02A10 8FBF0014 */  lw      $ra, 0x0014($sp)           

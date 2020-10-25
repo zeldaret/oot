@@ -29,7 +29,7 @@ glabel func_80B9ACE4
 /* 0037C 80B9AD4C 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000150
 /* 00380 80B9AD50 50800012 */  beql    $a0, $zero, .L80B9AD9C     
 /* 00384 80B9AD54 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000002
-/* 00388 80B9AD58 0C00BD04 */  jal     func_8002F410              
+/* 00388 80B9AD58 0C00BD04 */  jal     Actor_HasParent              
 /* 0038C 80B9AD5C 02A02825 */  or      $a1, $s5, $zero            ## $a1 = 00000000
 /* 00390 80B9AD60 54400006 */  bnel    $v0, $zero, .L80B9AD7C     
 /* 00394 80B9AD64 964C016C */  lhu     $t4, 0x016C($s2)           ## 0000016C

@@ -39,7 +39,7 @@ glabel func_8003FDDC
 /* AB700C 8003FE6C 4503004E */  bc1tl .L8003FFA8
 /* AB7010 8003FE70 26520001 */   addiu $s2, $s2, 1
 /* AB7014 8003FE74 8C450000 */  lw    $a1, ($v0)
-/* AB7018 8003FE78 0C034120 */  jal   func_800D0480
+/* AB7018 8003FE78 0C034120 */  jal   Math3D_XZInSphere
 /* AB701C 8003FE7C 8C460008 */   lw    $a2, 8($v0)
 /* AB7020 8003FE80 54400004 */  bnezl $v0, .L8003FE94
 /* AB7024 8003FE84 8E060004 */   lw    $a2, 4($s0)
@@ -194,7 +194,8 @@ glabel func_8003FDDC
 /* AB7258 800400B8 C4460018 */  lwc1  $f6, 0x18($v0)
 /* AB725C 800400BC E7A60020 */  swc1  $f6, 0x20($sp)
 /* AB7260 800400C0 C448001C */  lwc1  $f8, 0x1c($v0)
-/* AB7264 800400C4 0C029EC1 */  jal   func_800A7B04
+/* AB7264 800400C4 0C029EC1 */  jal   SkinMatrix_SetScaleRotateYRPTranslate
+
 /* AB7268 800400C8 E7A80024 */   swc1  $f8, 0x24($sp)
 /* AB726C 800400CC 8E0D0018 */  lw    $t5, 0x18($s0)
 /* AB7270 800400D0 8E0C0028 */  lw    $t4, 0x28($s0)
@@ -223,7 +224,7 @@ glabel func_8003FDDC
 /* AB72C8 80040128 01822821 */   addu  $a1, $t4, $v0
 /* AB72CC 8004012C 27A4008C */  addiu $a0, $sp, 0x8c
 /* AB72D0 80040130 02602825 */  move  $a1, $s3
-/* AB72D4 80040134 0C029BBD */  jal   func_800A6EF4
+/* AB72D4 80040134 0C029BBD */  jal   SkinMatrix_Vec3fMtxFMultXYZ
 /* AB72D8 80040138 02203025 */   move  $a2, $s1
 /* AB72DC 8004013C 2631000C */  addiu $s1, $s1, 0xc
 /* AB72E0 80040140 27AF0104 */  addiu $t7, $sp, 0x104
@@ -284,7 +285,7 @@ glabel func_8003FDDC
 /* AB73BC 8004021C AFB80024 */  sw    $t8, 0x24($sp)
 /* AB73C0 80040220 E7B20020 */  swc1  $f18, 0x20($sp)
 /* AB73C4 80040224 C60A0024 */  lwc1  $f10, 0x24($s0)
-/* AB73C8 80040228 0C033411 */  jal   func_800CD044
+/* AB73C8 80040228 0C033411 */  jal   Math3D_TriChkPointParaYIntersectInsideTri
 /* AB73CC 8004022C E7AA0028 */   swc1  $f10, 0x28($sp)
 /* AB73D0 80040230 5040000C */  beql  $v0, $zero, .L80040264
 /* AB73D4 80040234 8FBF004C */   lw    $ra, 0x4c($sp)

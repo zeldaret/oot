@@ -2,9 +2,11 @@
 #define _ULTRA64_SPTASK_H_
 
 /* Task Types */
+#define M_NULTASK 0
 #define M_GFXTASK 1
 #define M_AUDTASK 2
 #define M_VIDTASK 3
+#define M_NJPEGTASK 4
 #define M_HVQTASK 6
 #define M_HVQMTASK 7
 
@@ -24,10 +26,7 @@
 
 #define OS_YIELD_DATA_SIZE 0xC00
 
-/* Types */
-
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 flags;
 
@@ -61,15 +60,8 @@ typedef union
 
 typedef u32 OSYieldResult;
 
-/* Functions */
-
 #define osSpTaskStart(p) \
     osSpTaskLoad(p);     \
     osSpTaskStartGo(p);
-
-void osSpTaskLoad(OSTask *task);
-void osSpTaskStartGo(OSTask *task);
-void osSpTaskYield(void);
-OSYieldResult osSpTaskYielded(OSTask *task);
 
 #endif

@@ -90,7 +90,7 @@ glabel EnDekunuts_Init
 /* 00140 809E96A0 86180032 */  lh      $t8, 0x0032($s0)           ## 00000032
 /* 00144 809E96A4 AFB90028 */  sw      $t9, 0x0028($sp)           
 /* 00148 809E96A8 AFA00024 */  sw      $zero, 0x0024($sp)         
-/* 0014C 809E96AC 0C00C916 */  jal     Actor_SpawnAttached
+/* 0014C 809E96AC 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00150 809E96B0 AFB80020 */  sw      $t8, 0x0020($sp)           
 .L809E96B4:

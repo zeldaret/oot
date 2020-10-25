@@ -13,7 +13,7 @@ glabel Fishing_Destroy
 /* 01548 80B6AEE8 24E507A8 */  addiu   $a1, $a3, 0x07A8           ## $a1 = 000007A8
 /* 0154C 80B6AEEC 54410006 */  bnel    $v0, $at, .L80B6AF08
 /* 01550 80B6AEF0 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 01554 80B6AEF4 0C01E9F1 */  jal     Lights_Remove
+/* 01554 80B6AEF4 0C01E9F1 */  jal     LightContext_RemoveLight
 
 /* 01558 80B6AEF8 8C66021C */  lw      $a2, 0x021C($v1)           ## 0000021C
 /* 0155C 80B6AEFC 10000007 */  beq     $zero, $zero, .L80B6AF1C

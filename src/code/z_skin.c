@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 extern MtxF D_801600C0[];
 
@@ -8,11 +7,6 @@ typedef struct {
     s32 unk_8;
     Gfx* unk_C;
 } Struct_800A5F60;
-
-typedef struct {
-    char unk_0[0x4];
-    MtxF unk_4;
-} Struct_800A6408;
 
 typedef struct {
     u16 unk_0;
@@ -284,9 +278,9 @@ void func_800A63CC(Actor* this, GlobalContext *globalCtx, PSkinAwb* arg2, SkinCa
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin/func_800A6408.s")
-void func_800A6408(Struct_800A6408* arg0, s32 arg1, Vec3f *arg2, Vec3f *arg3) {
+void func_800A6408(PSkinAwb* arg0, s32 arg1, Vec3f *arg2, Vec3f *arg3) {
     MtxF sp18;
 
-    func_800A6FA0(&arg0->unk_4, &D_801600C0[arg1], &sp18);
+    func_800A6FA0(&arg0->mtx, &D_801600C0[arg1], &sp18);
     func_800A6EF4(&sp18, arg2, arg3);
 }

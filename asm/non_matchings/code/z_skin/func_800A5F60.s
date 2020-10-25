@@ -63,7 +63,7 @@ glabel func_800A5F60
 /* B1D1C8 800A6028 252900C0 */  addiu $t1, %lo(D_801600C0) # addiu $t1, $t1, 0xc0
 /* B1D1CC 800A602C 0007C180 */  sll   $t8, $a3, 6
 /* B1D1D0 800A6030 03092821 */  addu  $a1, $t8, $t1
-/* B1D1D4 800A6034 0C029F9C */  jal   func_800A7E70
+/* B1D1D4 800A6034 0C029F9C */  jal   SkinMatrix_MtxFToNewMtx
 /* B1D1D8 800A6038 AFA80054 */   sw    $t0, 0x54($sp)
 /* B1D1DC 800A603C 1040001B */  beqz  $v0, .L800A60AC
 /* B1D1E0 800A6040 8FA80054 */   lw    $t0, 0x54($sp)

@@ -67,7 +67,7 @@ glabel func_80911CB0
 /* 01750 80911D90 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 01754 80911D94 AFA00020 */  sw      $zero, 0x0020($sp)
 /* 01758 80911D98 AFA2001C */  sw      $v0, 0x001C($sp)
-/* 0175C 80911D9C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0175C 80911D9C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 01760 80911DA0 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 01764 80911DA4 860C01A6 */  lh      $t4, 0x01A6($s0)           ## 000001A6

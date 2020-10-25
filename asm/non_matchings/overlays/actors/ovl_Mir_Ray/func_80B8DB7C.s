@@ -157,7 +157,7 @@ glabel func_80B8DB7C
 /* 00D80 80B8DDD0 AFBE0010 */  sw      $s8, 0x0010($sp)           
 /* 00D84 80B8DDD4 468031A0 */  cvt.s.w $f6, $f6                   
 /* 00D88 80B8DDD8 44073000 */  mfc1    $a3, $f6                   
-/* 00D8C 80B8DDDC 0C033857 */  jal     func_800CE15C              
+/* 00D8C 80B8DDDC 0C033857 */  jal     Math3D_LineSegVsPlane              
 /* 00D90 80B8DDE0 00000000 */  nop
 /* 00D94 80B8DDE4 104000A8 */  beq     $v0, $zero, .L80B8E088     
 /* 00D98 80B8DDE8 C7A40118 */  lwc1    $f4, 0x0118($sp)           
@@ -259,7 +259,7 @@ glabel func_80B8DB7C
 /* 00F10 80B8DF60 C7AE00E0 */  lwc1    $f14, 0x00E0($sp)          
 /* 00F14 80B8DF64 C7AC00DC */  lwc1    $f12, 0x00DC($sp)          
 /* 00F18 80B8DF68 44079000 */  mfc1    $a3, $f18                  
-/* 00F1C 80B8DF6C 0C033857 */  jal     func_800CE15C              
+/* 00F1C 80B8DF6C 0C033857 */  jal     Math3D_LineSegVsPlane              
 /* 00F20 80B8DF70 00000000 */  nop
 /* 00F24 80B8DF74 1040000C */  beq     $v0, $zero, .L80B8DFA8     
 /* 00F28 80B8DF78 C7B000F4 */  lwc1    $f16, 0x00F4($sp)          
@@ -315,7 +315,7 @@ glabel func_80B8DB7C
 /* 00FEC 80B8E03C AFB40010 */  sw      $s4, 0x0010($sp)           
 /* 00FF0 80B8E040 468052A0 */  cvt.s.w $f10, $f10                 
 /* 00FF4 80B8E044 44075000 */  mfc1    $a3, $f10                  
-/* 00FF8 80B8E048 0C033857 */  jal     func_800CE15C              
+/* 00FF8 80B8E048 0C033857 */  jal     Math3D_LineSegVsPlane              
 /* 00FFC 80B8E04C 00000000 */  nop
 /* 01000 80B8E050 1040000E */  beq     $v0, $zero, .L80B8E08C     
 /* 01004 80B8E054 C7B000F4 */  lwc1    $f16, 0x00F4($sp)          

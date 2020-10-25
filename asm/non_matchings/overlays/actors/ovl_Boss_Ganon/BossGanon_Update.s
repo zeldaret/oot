@@ -1298,7 +1298,7 @@ glabel L808DE3B0
 /* 07E74 808DE6E4 000D7400 */  sll     $t6, $t5, 16               
 /* 07E78 808DE6E8 000E7C03 */  sra     $t7, $t6, 16               
 /* 07E7C 808DE6EC 25F86000 */  addiu   $t8, $t7, 0x6000           ## $t8 = 00006000
-/* 07E80 808DE6F0 0C00C916 */  jal     Actor_SpawnAttached
+/* 07E80 808DE6F0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 07E84 808DE6F4 AFB80020 */  sw      $t8, 0x0020($sp)           
 /* 07E88 808DE6F8 A2A00274 */  sb      $zero, 0x0274($s5)         ## 00000274

@@ -101,61 +101,47 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     };
 
     EnTkEff* eff = this->eff;
-    GraphicsContext* gfxCtx;
-    s16 gfxSetup;
-    s16 i;
-    s16 alpha;
     s16 imageIdx;
-    Gfx* dispRefs[4];
+    s16 gfxSetup;
+    s16 alpha;
+    s16 i;
 
-    /*
-     *  This assignment always occurs before a call to Graph_OpenDisps which
-     *  makes me suspect that they're inside a macro where the function call
-     *  is present only for debug builds. Same for Graph_CloseDisps most likely.
-     */
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
 
     gfxSetup = 0;
 
-    /*
-     *  Same code is generated without the if,
-     *  but that would make the do...while redundant so there's probably an if.
-     */
-    do {
-        if (1) {
-            func_80093D84(globalCtx->state.gfxCtx);
-        }
-    } while (0);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    if (1) {}
 
     for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
-                gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BC90);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 60, 20, 0);
+                oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600BC90);
+                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 100, 60, 20, 0);
                 gfxSetup = 1;
             }
 
             alpha = eff->timeLeft * (255.f / eff->timeTotal);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, alpha);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, alpha);
 
-            gDPPipeSync(gfxCtx->polyXlu.p++);
+            gDPPipeSync(oGfxCtx->polyXlu.p++);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(eff->size, eff->size, 1.f, MTXMODE_APPLY);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(images) / eff->timeTotal);
-            gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
 
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BCA0);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600BCA0);
         }
         eff++;
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
 }
 
 s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth, f32 yAccelMax) {
@@ -695,15 +681,11 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B1D200(GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600ACE0);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_0600ACE0);
-
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
 s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
@@ -748,22 +730,19 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
         0x06004B40,
     };
     EnTk* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     Matrix_Push();
     EnTkEff_Draw(this, globalCtx);
     Matrix_Pull();
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
                      EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

@@ -73,11 +73,11 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnLightbox* this = THIS;
 
     if (this->dyna.unk_162 != 0) {
-        if (func_8002F5A0(thisx, globalCtx)) {
+        if (Actor_HasNoParent(thisx, globalCtx)) {
             this->dyna.unk_162 = 0;
         }
     } else {
-        if (func_8002F410(thisx, globalCtx)) {
+        if (Actor_HasParent(thisx, globalCtx)) {
             this->dyna.unk_162++;
         } else {
             if (thisx->speedXZ) {

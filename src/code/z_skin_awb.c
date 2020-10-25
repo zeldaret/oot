@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_awb/func_800A6460.s")
 /* u32 func_800A6460(GlobalContext* arg0, PSkinAwb *arg1, s32 arg2) {

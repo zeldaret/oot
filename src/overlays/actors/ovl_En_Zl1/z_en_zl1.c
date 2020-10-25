@@ -504,7 +504,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
         case 1:
             if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 this->actor.textId = 0xFFFF;
-                globalCtx->unk_11D5C(globalCtx, &this->actor);
+                globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
                 globalCtx->msgCtx.msgMode = 0x36;
                 globalCtx->msgCtx.unk_E3E7 = 4;
@@ -513,11 +513,11 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
                 break;
             }
         case 2:
-            if (func_8002F410(this, globalCtx) != 0) {
+            if (Actor_HasParent(this, globalCtx)) {
                 func_800C078C(globalCtx, 0, this->unk_1E8);
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
                 Gameplay_ClearCamera(globalCtx, this->unk_1E8);
-                this->actor.attachedA = NULL;
+                this->actor.parent = NULL;
                 this->unk_1E2 += 1;
             } else {
                 func_8002F434(this, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
@@ -609,17 +609,16 @@ void func_80B4C400(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 void EnZl1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnZl1* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_girlB.c", 2011);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_girlB.c", 2011);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(this->unk_1F4));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(this->unk_1F8));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(this->unk_1EC));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(this->unk_1F4));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(this->unk_1F8));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(this->unk_1EC));
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      func_80B4C340, func_80B4C400, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_girlB.c", 2046);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_girlB.c", 2046);
 }

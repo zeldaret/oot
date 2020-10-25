@@ -120,7 +120,7 @@ static ColliderJntSphInit{0} sJntSphInit =
 
 
 def GetTrisItems(data, off, count):
-    items = GetItems(data, off, count, sf_TrisItem, f_TrisItem, 0x24)
+    items = GetItems(data, off, count, sf_TrisItem, f_TrisItem, 0x3C)
     print('''
 static ColliderTrisItemInit sTrisItemsInit[{0}] = {{{1}
 }};

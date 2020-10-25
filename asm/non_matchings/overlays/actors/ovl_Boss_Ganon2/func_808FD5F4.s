@@ -169,7 +169,7 @@ glabel L808FD644
 /* 007C0 808FD700 24070179 */  addiu   $a3, $zero, 0x0179         ## $a3 = 00000179
 /* 007C4 808FD704 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 007C8 808FD708 E7A60014 */  swc1    $f6, 0x0014($sp)
-/* 007CC 808FD70C 0C00C916 */  jal     Actor_SpawnAttached
+/* 007CC 808FD70C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 007D0 808FD710 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 007D4 808FD714 3C018091 */  lui     $at, %hi(D_8090EB2C)       ## $at = 80910000

@@ -32,7 +32,7 @@ glabel func_80AB6450
 /* 00D48 80AB64C8 E492006C */  swc1    $f18, 0x006C($a0)          ## 0000006C
 /* 00D4C 80AB64CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80AB64D0:
-/* 00D50 80AB64D0 0C00BD04 */  jal     func_8002F410              
+/* 00D50 80AB64D0 0C00BD04 */  jal     Actor_HasParent              
 /* 00D54 80AB64D4 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00D58 80AB64D8 10400015 */  beq     $v0, $zero, .L80AB6530     
 /* 00D5C 80AB64DC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

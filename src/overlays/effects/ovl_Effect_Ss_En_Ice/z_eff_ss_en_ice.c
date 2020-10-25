@@ -1,42 +1,168 @@
 /*
  * File: z_eff_ss_en_ice.c
  * Overlay: ovl_Effect_Ss_En_Ice
- * Description:
+ * Description: Ice clumps
  */
 
 #include "z_eff_ss_en_ice.h"
 
-typedef enum {
-    /* 0x00 */ SS_EN_ICE_0,
-    /* 0x01 */ SS_EN_ICE_1,
-    /* 0x02 */ SS_EN_ICE_2,
-    /* 0x03 */ SS_EN_ICE_3,
-    /* 0x04 */ SS_EN_ICE_4,
-    /* 0x05 */ SS_EN_ICE_5,
-    /* 0x06 */ SS_EN_ICE_6,
-    /* 0x07 */ SS_EN_ICE_7,
-    /* 0x08 */ SS_EN_ICE_8,
-    /* 0x09 */ SS_EN_ICE_9,
-    /* 0x0A */ SS_EN_ICE_A,
-    /* 0x0B */ SS_EN_ICE_B,
-    /* 0x0C */ SS_EN_ICE_C,
-} EffectSsEn_IceRegs;
+#define rLifespan regs[0]
+#define rYaw regs[1]
+#define rPitch regs[2]
+#define rRotSpeed regs[3]
+#define rPrimColorR regs[4]
+#define rPrimColorG regs[5]
+#define rPrimColorB regs[6]
+#define rPrimColorA regs[7]
+#define rEnvColorR regs[8]
+#define rEnvColorG regs[9]
+#define rEnvColorB regs[10]
+#define rAlphaMode regs[11]
+#define rScale regs[12]
 
 u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsEnIce_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* this);
 
-/*
 EffectSsInit Effect_Ss_En_Ice_InitVars = {
     EFFECT_SS_EN_ICE,
     EffectSsEnIce_Init,
 };
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_En_Ice/EffectSsEnIce_Init.s")
+extern Gfx D_04033818[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_En_Ice/func_809A35DC.s")
+u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+    EffectSsEnIceInitParams* initParams = (EffectSsEnIceInitParams*)initParamsx;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_En_Ice/func_809A3988.s")
+    if (initParams->type == 0) {
+        Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_En_Ice/func_809A3B60.s")
+        this->pos = initParams->pos;
+        this->vec.x = this->pos.x - initParams->actor->posRot.pos.x;
+        this->vec.y = this->pos.y - initParams->actor->posRot.pos.y;
+        this->vec.z = this->pos.z - initParams->actor->posRot.pos.z;
+        this->velocity = zeroVec;
+        this->accel = zeroVec;
+        this->life = 10;
+        this->actor = initParams->actor;
+        this->draw = EffectSsEnIce_Draw;
+        this->update = EffectSsEnIce_UpdateFlying;
+        this->rScale = initParams->scale * 100.0f;
+        this->rPrimColorR = initParams->primColor.r;
+        this->rPrimColorG = initParams->primColor.g;
+        this->rPrimColorB = initParams->primColor.b;
+        this->rPrimColorA = initParams->primColor.a;
+        this->rEnvColorR = initParams->envColor.r;
+        this->rEnvColorG = initParams->envColor.g;
+        this->rEnvColorB = initParams->envColor.b;
+        this->rAlphaMode = 1;
+        this->rPitch = Math_Rand_CenteredFloat(65536.0f);
+    } else if (initParams->type == 1) {
+        this->pos = initParams->pos;
+        this->vec = initParams->pos;
+        this->velocity = initParams->velocity;
+        this->accel = initParams->accel;
+        this->life = initParams->life;
+        this->draw = EffectSsEnIce_Draw;
+        this->update = EffectSsEnIce_Update;
+        this->rLifespan = initParams->life;
+        this->rScale = initParams->scale * 100.0f;
+        this->rYaw = atan2s(initParams->velocity.z, initParams->velocity.x);
+        this->rPitch = 0;
+        this->rPrimColorR = initParams->primColor.r;
+        this->rPrimColorG = initParams->primColor.g;
+        this->rPrimColorB = initParams->primColor.b;
+        this->rPrimColorA = initParams->primColor.a;
+        this->rEnvColorR = initParams->envColor.r;
+        this->rEnvColorG = initParams->envColor.g;
+        this->rEnvColorB = initParams->envColor.b;
+        this->rAlphaMode = 0;
+    } else {
+        osSyncPrintf("Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n");
+        return 0;
+    }
+
+    return 1;
+}
+
+void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    s32 pad;
+    f32 scale;
+    Vec3f hiliteLightDir;
+    u32 gameplayFrames;
+    f32 alpha;
+
+    scale = this->rScale * 0.01f;
+    gameplayFrames = globalCtx->gameplayFrames;
+
+    OPEN_DISPS(gfxCtx, "../z_eff_en_ice.c", 235);
+
+    if (this->rAlphaMode != 0) {
+        alpha = this->life * 12;
+    } else {
+        if ((this->rLifespan > 0) && (this->life < (this->rLifespan >> 1))) {
+            alpha = ((this->life * 2.0f) / this->rLifespan);
+            alpha *= 255.0f;
+        } else {
+            alpha = 255.0f;
+        }
+    }
+
+    Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
+    Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+    Matrix_RotateY(this->rYaw * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateX(this->rPitch * 0.0000958738f, MTXMODE_APPLY);
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_en_ice.c", 261),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    hiliteLightDir.x = 89.8f;
+    hiliteLightDir.y = 0.0f;
+    hiliteLightDir.z = 89.8f;
+
+    func_80093D84(globalCtx->state.gfxCtx);
+    func_8002EB44(&this->pos, &globalCtx->view.eye, &hiliteLightDir, globalCtx->state.gfxCtx);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames & 0xFF, 0x20, 0x10, 1, 0,
+                                (gameplayFrames * 2) & 0xFF, 0x40, 0x20));
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                    this->rPrimColorA);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, (u32)alpha);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04033818);
+
+    CLOSE_DISPS(gfxCtx, "../z_eff_en_ice.c", 294);
+}
+
+void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    s16 rand;
+
+    if ((this->actor != NULL) && (this->actor->update != NULL)) {
+        if ((this->life >= 9) && (this->actor->dmgEffectTimer != 0) && (!(this->actor->dmgEffectParams & 0xC000))) {
+            this->pos.x = this->actor->posRot.pos.x + this->vec.x;
+            this->pos.y = this->actor->posRot.pos.y + this->vec.y;
+            this->pos.z = this->actor->posRot.pos.z + this->vec.z;
+            this->life++;
+        } else if (this->life == 9) {
+            this->accel.x =
+                Math_Sins(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
+            this->accel.z =
+                Math_Coss(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Math_Rand_ZeroOne() + 1.0f);
+            this->accel.y = -1.5f;
+            this->velocity.y = 5.0f;
+        }
+    } else {
+        if (this->life >= 9) {
+            rand = Math_Rand_CenteredFloat(65535.0f);
+            this->accel.x = Math_Sins(rand) * (Math_Rand_ZeroOne() + 1.0f);
+            this->accel.z = Math_Coss(rand) * (Math_Rand_ZeroOne() + 1.0f);
+            this->life = 8;
+            this->accel.y = -1.5f;
+            this->velocity.y = 5.0f;
+        }
+    }
+}
+
+void EffectSsEnIce_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+    this->rPitch += this->rRotSpeed; // rRotSpeed is not initialized so this does nothing
+}

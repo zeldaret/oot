@@ -333,7 +333,7 @@ glabel func_80B768FC
 /* 0D374 80B76D14 A60D0002 */  sh      $t5, 0x0002($s0)           ## 80B81FCA
 /* 0D378 80B76D18 24E7FEA4 */  addiu   $a3, $a3, %lo(D_80B7FEA4)  ## $a3 = 80B7FEA4
 /* 0D37C 80B76D1C 02A03025 */  or      $a2, $s5, $zero            ## $a2 = 80B81FE4
-/* 0D380 80B76D20 0C029B84 */  jal     func_800A6E10              
+/* 0D380 80B76D20 0C029B84 */  jal     SkinMatrix_Vec3fMtxFMultXYZW              
 /* 0D384 80B76D24 02802825 */  or      $a1, $s4, $zero            ## $a1 = 80B81FCC
 /* 0D388 80B76D28 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000
 /* 0D38C 80B76D2C 44818000 */  mtc1    $at, $f16                  ## $f16 = 400.00

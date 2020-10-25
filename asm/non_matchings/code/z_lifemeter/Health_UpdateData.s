@@ -195,7 +195,7 @@ glabel Health_UpdateData
 /* AEFEBC 80078D1C 46809120 */  cvt.s.w $f4, $f18
 /* AEFEC0 80078D20 46004282 */  mul.s $f10, $f8, $f0
 /* AEFEC4 80078D24 00031C00 */  sll   $v1, $v1, 0x10
-/* AEFEC8 80078D28 3C018016 */  lui   $at, %hi(D_8015FDE0+6) # $at, 0x8016
+/* AEFEC8 80078D28 3C018016 */  lui   $at, %hi(D_8015FDE0+8) # $at, 0x8016
 /* AEFECC 80078D2C 00031C03 */  sra   $v1, $v1, 0x10
 /* AEFED0 80078D30 246E00FF */  addiu $t6, $v1, 0xff
 /* AEFED4 80078D34 46002182 */  mul.s $f6, $f4, $f0

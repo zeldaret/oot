@@ -107,7 +107,7 @@ glabel func_80B8E404
 /* 01550 80B8E5A0 E7A40054 */  swc1    $f4, 0x0054($sp)
 /* 01554 80B8E5A4 C4E60008 */  lwc1    $f6, 0x0008($a3)           ## 00000008
 /* 01558 80B8E5A8 46064281 */  sub.s   $f10, $f8, $f6
-/* 0155C 80B8E5AC 0C032BFB */  jal     Math3D_DotProduct
+/* 0155C 80B8E5AC 0C032BFB */  jal     Math3D_Cos
 /* 01560 80B8E5B0 E7AA0058 */  swc1    $f10, 0x0058($sp)
 /* 01564 80B8E5B4 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 01568 80B8E5B8 C7A80090 */  lwc1    $f8, 0x0090($sp)
@@ -130,7 +130,7 @@ glabel func_80B8E404
 /* 015A8 80B8E5F8 E7A60048 */  swc1    $f6, 0x0048($sp)
 /* 015AC 80B8E5FC C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
 /* 015B0 80B8E600 46045201 */  sub.s   $f8, $f10, $f4
-/* 015B4 80B8E604 0C032BFB */  jal     Math3D_DotProduct
+/* 015B4 80B8E604 0C032BFB */  jal     Math3D_Cos
 /* 015B8 80B8E608 E7A8004C */  swc1    $f8, 0x004C($sp)
 /* 015BC 80B8E60C 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 015C0 80B8E610 00000000 */  nop

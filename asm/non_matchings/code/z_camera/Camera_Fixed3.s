@@ -19,7 +19,7 @@ glabel Camera_Fixed3
 /* AC6FA0 8004FE00 AFA60030 */  sw    $a2, 0x30($sp)
 /* AC6FA4 8004FE04 AFA50034 */  sw    $a1, 0x34($sp)
 /* AC6FA8 8004FE08 27A40048 */  addiu $a0, $sp, 0x48
-/* AC6FAC 8004FE0C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* AC6FAC 8004FE0C 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* AC6FB0 8004FE10 AFA20050 */   sw    $v0, 0x50($sp)
 /* AC6FB4 8004FE14 8603015E */  lh    $v1, 0x15e($s0)
 /* AC6FB8 8004FE18 8FA70050 */  lw    $a3, 0x50($sp)
@@ -37,7 +37,7 @@ glabel Camera_Fixed3
 .L8004FE48:
 /* AC6FE8 8004FE48 86180142 */  lh    $t8, 0x142($s0)
 .L8004FE4C:
-/* AC6FEC 8004FE4C 3C088012 */  lui   $t0, %hi(sCameraSettings)
+/* AC6FEC 8004FE4C 3C088012 */  lui   $t0, %hi(sCameraSettings+4)
 /* AC6FF0 8004FE50 86090144 */  lh    $t1, 0x144($s0)
 /* AC6FF4 8004FE54 0018C8C0 */  sll   $t9, $t8, 3
 /* AC6FF8 8004FE58 01194021 */  addu  $t0, $t0, $t9

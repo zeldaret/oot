@@ -1,15 +1,8 @@
 #ifndef _Z_EN_HORSE_GANON_H_
 #define _Z_EN_HORSE_GANON_H_
 
-#include <ultra64.h>
-#include <global.h>
-
-struct unk_D_80A69248;
-
-typedef struct unk_D_80A69248 {
-    /* 0x0 */ Vec3s unk_0;
-    /* 0x6 */ u8 unk_6;
-} unk_D_80A69248; // size = 0x8
+#include "ultra64.h"
+#include "global.h"
 
 struct EnHorseGanon;
 

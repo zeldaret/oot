@@ -96,7 +96,7 @@ glabel func_808DC14C
 /* 05A20 808DC290 AFA00020 */  sw      $zero, 0x0020($sp)
 /* 05A24 808DC294 AFA0001C */  sw      $zero, 0x001C($sp)
 /* 05A28 808DC298 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 05A2C 808DC29C 0C00C916 */  jal     Actor_SpawnAttached
+/* 05A2C 808DC29C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 05A30 808DC2A0 E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 05A34 808DC2A4 1000002E */  beq     $zero, $zero, .L808DC360

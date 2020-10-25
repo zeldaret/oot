@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 volatile OSTime D_8016A520;
 volatile OSTime D_8016A528;
@@ -43,7 +42,7 @@ void SpeedMeter_Destroy(SpeedMeter* this) {
 }
 
 void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
-    u32 pad[2];
+    s32 pad[2];
     u32 baseX = 32;
     s32 temp;
     s32 i;
@@ -52,14 +51,13 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     View view;
     u32 pad2[3];
     Gfx* gfx;
-    Gfx* dispRefs[5];
 
     uly = this->y;
     lry = this->y + 2;
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../speed_meter.c", 225);
+    OPEN_DISPS(gfxCtx, "../speed_meter.c", 225);
 
-    /*! @bug if gIrqMgrRetraceTime is 0, the function won't call Graph_CloseDisps */
+    /*! @bug if gIrqMgrRetraceTime is 0, CLOSE_DISPS will never be reached */
     if (gIrqMgrRetraceTime == 0) {
         return;
     }
@@ -76,7 +74,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
 
     SET_FULLSCREEN_VIEWPORT(&view);
 
-    gfx = gfxCtx->overlay.p;
+    gfx = oGfxCtx->overlay.p;
     func_800AB9EC(&view, 0xF, &gfx);
 
     gDPPipeSync(gfx++);
@@ -98,8 +96,9 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     }
     gDPPipeSync(gfx++);
 
-    gfxCtx->overlay.p = gfx;
-    Graph_CloseDisps(dispRefs, gfxCtx, "../speed_meter.c", 276);
+    oGfxCtx->overlay.p = gfx;
+
+    CLOSE_DISPS(gfxCtx, "../speed_meter.c", 276);
 }
 
 void SpeedMeter_InitAllocEntry(SpeedMeterAllocEntry* this, u32 maxval, u32 val, u16 backColor, u16 foreColor, u32 ulx,
@@ -118,21 +117,20 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
     s32 usedOff;
     View view;
     Gfx* gfx;
-    Gfx* dispRefs[5];
 
     if (this->maxval == 0) {
         osSyncPrintf(VT_FGCOL(RED));
         LOG_NUM("this->maxval", this->maxval, "../speed_meter.c", 313);
         osSyncPrintf(VT_RST);
     } else {
-        Graph_OpenDisps(dispRefs, gfxCtx, "../speed_meter.c", 318);
+        OPEN_DISPS(gfxCtx, "../speed_meter.c", 318);
 
         View_Init(&view, gfxCtx);
         view.flags = 0xA;
 
         SET_FULLSCREEN_VIEWPORT(&view);
 
-        gfx = gfxCtx->overlay.p;
+        gfx = oGfxCtx->overlay.p;
         func_800AB9EC(&view, 0xF, &gfx);
 
         gDPPipeSync(gfx++);
@@ -147,13 +145,13 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
 
         gDPPipeSync(gfx++);
 
-        gfxCtx->overlay.p = gfx;
-        Graph_CloseDisps(dispRefs, gfxCtx, "../speed_meter.c", 339);
+        oGfxCtx->overlay.p = gfx;
+        CLOSE_DISPS(gfxCtx, "../speed_meter.c", 339);
     }
 }
 
 void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state) {
-    u32 pad[2];
+    s32 pad[2];
     u32 ulx = 30;
     u32 lrx = 290;
     SpeedMeterAllocEntry entry;

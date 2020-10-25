@@ -44,7 +44,7 @@ glabel EnPoRelay_Init
 /* 00098 80AD77D8 26060280 */  addiu   $a2, $s0, 0x0280           ## $a2 = 00000280
 /* 0009C 80AD77DC AFA60034 */  sw      $a2, 0x0034($sp)
 /* 000A0 80AD77E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000A4 80AD77E4 0C01E9D9 */  jal     Lights_Insert
+/* 000A4 80AD77E4 0C01E9D9 */  jal     LightContext_InsertLight
 
 /* 000A8 80AD77E8 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 000AC 80AD77EC C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
@@ -71,7 +71,7 @@ glabel EnPoRelay_Init
 /* 00100 80AD7840 AFAC0018 */  sw      $t4, 0x0018($sp)
 /* 00104 80AD7844 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 00108 80AD7848 AFAA0010 */  sw      $t2, 0x0010($sp)
-/* 0010C 80AD784C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 0010C 80AD784C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 00110 80AD7850 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00114 80AD7854 240E00FF */  addiu   $t6, $zero, 0x00FF         ## $t6 = 000000FF

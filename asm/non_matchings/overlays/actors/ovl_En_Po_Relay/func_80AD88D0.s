@@ -125,7 +125,7 @@ glabel func_80AD88D0
 /* 01320 80AD8A60 00052C03 */  sra     $a1, $a1, 16               
 /* 01324 80AD8A64 AFB9001C */  sw      $t9, 0x001C($sp)           
 /* 01328 80AD8A68 25240280 */  addiu   $a0, $t1, 0x0280           ## $a0 = 00000280
-/* 0132C 80AD8A6C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 0132C 80AD8A6C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
               
 /* 01330 80AD8A70 AFAF0018 */  sw      $t7, 0x0018($sp)           
 /* 01334 80AD8A74 1000002D */  beq     $zero, $zero, .L80AD8B2C   

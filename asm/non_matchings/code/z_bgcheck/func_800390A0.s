@@ -105,7 +105,7 @@ glabel func_800390A0
 /* AB03C8 80039228 46029183 */  div.s $f6, $f18, $f2
 /* AB03CC 8003922C 8FA70048 */  lw    $a3, 0x48($sp)
 /* AB03D0 80039230 44063000 */  mfc1  $a2, $f6
-/* AB03D4 80039234 0C032BE8 */  jal   func_800CAFA0
+/* AB03D4 80039234 0C032BE8 */  jal   Math3D_LineSplitRatio
 /* AB03D8 80039238 00000000 */   nop   
 /* AB03DC 8003923C 3C018016 */  lui   $at, %hi(D_8015BCF8)
 /* AB03E0 80039240 C420BCF8 */  lwc1  $f0, %lo(D_8015BCF8)($at)
@@ -128,7 +128,7 @@ glabel func_800390A0
 /* AB0424 80039284 24E7BCF8 */  addiu $a3, %lo(D_8015BCF8) # addiu $a3, $a3, -0x4308
 /* AB0428 80039288 24C6BCE8 */  addiu $a2, %lo(D_8015BCE8) # addiu $a2, $a2, -0x4318
 /* AB042C 8003928C E7A60018 */  swc1  $f6, 0x18($sp)
-/* AB0430 80039290 0C033657 */  jal   func_800CD95C
+/* AB0430 80039290 0C033657 */  jal   Math3D_TriChkPointParaXDist
 /* AB0434 80039294 E7AA0014 */   swc1  $f10, 0x14($sp)
 /* AB0438 80039298 14400031 */  bnez  $v0, .L80039360
 /* AB043C 8003929C 8FA30048 */   lw    $v1, 0x48($sp)
@@ -153,7 +153,7 @@ glabel func_800390A0
 /* AB0484 800392E4 24E7BCF8 */  addiu $a3, %lo(D_8015BCF8) # addiu $a3, $a3, -0x4308
 /* AB0488 800392E8 24C6BCE8 */  addiu $a2, %lo(D_8015BCE8) # addiu $a2, $a2, -0x4318
 /* AB048C 800392EC E7A60018 */  swc1  $f6, 0x18($sp)
-/* AB0490 800392F0 0C0334B6 */  jal   func_800CD2D8
+/* AB0490 800392F0 0C0334B6 */  jal   Math3D_TriChkPointParaYDist
 /* AB0494 800392F4 E7AA0014 */   swc1  $f10, 0x14($sp)
 /* AB0498 800392F8 14400019 */  bnez  $v0, .L80039360
 /* AB049C 800392FC 8FA30048 */   lw    $v1, 0x48($sp)
@@ -178,7 +178,7 @@ glabel func_800390A0
 /* AB04E4 80039344 24E7BCF8 */  addiu $a3, %lo(D_8015BCF8) # addiu $a3, $a3, -0x4308
 /* AB04E8 80039348 24C6BCE8 */  addiu $a2, %lo(D_8015BCE8) # addiu $a2, $a2, -0x4318
 /* AB04EC 8003934C E7A60018 */  swc1  $f6, 0x18($sp)
-/* AB04F0 80039350 0C033804 */  jal   func_800CE010
+/* AB04F0 80039350 0C033804 */  jal   Math3D_TriChkLineSegParaZDist
 /* AB04F4 80039354 E7AA0014 */   swc1  $f10, 0x14($sp)
 /* AB04F8 80039358 50400004 */  beql  $v0, $zero, .L8003936C
 /* AB04FC 8003935C 00001025 */   move  $v0, $zero

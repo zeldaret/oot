@@ -75,7 +75,7 @@ glabel func_80AB6D08
 .L80AB6E20:
 /* 016A0 80AB6E20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80AB6E24:
-/* 016A4 80AB6E24 0C00BD04 */  jal     func_8002F410              
+/* 016A4 80AB6E24 0C00BD04 */  jal     Actor_HasParent              
 /* 016A8 80AB6E28 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 016AC 80AB6E2C 10400011 */  beq     $v0, $zero, .L80AB6E74     
 /* 016B0 80AB6E30 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

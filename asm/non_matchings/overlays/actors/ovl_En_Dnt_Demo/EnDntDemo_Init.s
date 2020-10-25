@@ -76,7 +76,7 @@ glabel EnDntDemo_Init
 /* 000C8 809F09A8 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 000CC 809F09AC AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 000D0 809F09B0 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 000D4 809F09B4 0C00C916 */  jal     Actor_SpawnAttached
+/* 000D4 809F09B4 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 000D8 809F09B8 E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 000DC 809F09BC 10400004 */  beq     $v0, $zero, .L809F09D0     
@@ -111,7 +111,7 @@ glabel EnDntDemo_Init
 /* 00148 809F0A28 240701A2 */  addiu   $a3, $zero, 0x01A2         ## $a3 = 000001A2
 /* 0014C 809F0A2C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00150 809F0A30 E7A20014 */  swc1    $f2, 0x0014($sp)           
-/* 00154 809F0A34 0C00C916 */  jal     Actor_SpawnAttached
+/* 00154 809F0A34 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00158 809F0A38 E7AC0018 */  swc1    $f12, 0x0018($sp)          
 /* 0015C 809F0A3C 10400005 */  beq     $v0, $zero, .L809F0A54     

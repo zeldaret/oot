@@ -1,6 +1,7 @@
 # Cache files
 __pycache__/
 .pyc
+.DS_Store
 
 # Text editor remnants
 .vscode/
@@ -12,6 +13,7 @@ venv/
 
 # Project-specific ignores
 build/
+expected/
 notes/
 baserom/
 docs/doxygen/
@@ -33,6 +35,7 @@ tools/disasm/output/*
 tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
 ctx.c
+tools/*dSYM/
 
 # Assets
 *.rgba32.png
