@@ -205,7 +205,8 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (BREG(0) != 0) {
         if (BREG(5) != 0) {
-            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistFromLink);
+            osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n" VT_RST,
+                         this->actor.xzDistFromLink);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n" VT_RST, this->maxSpawnDistance.x);
             osSyncPrintf("\n\n");
         }

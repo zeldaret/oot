@@ -19,8 +19,8 @@ glabel func_8080B52C
 /* 0782C 8080B56C 34218000 */  ori     $at, $at, 0x8000           ## $at = 00018000
 /* 07830 8080B570 02011821 */  addu    $v1, $s0, $at              
 /* 07834 8080B574 84654A38 */  lh      $a1, 0x4A38($v1)           ## 00004A38
-/* 07838 8080B578 3C098013 */  lui     $t1, %hi(D_8012A4E0)
-/* 0783C 8080B57C 2529A4E0 */  addiu   $t1, %lo(D_8012A4E0)
+/* 07838 8080B578 3C098013 */  lui     $t1, %hi(gSramSlotOffsets)
+/* 0783C 8080B57C 2529A4E0 */  addiu   $t1, %lo(gSramSlotOffsets)
 /* 07840 8080B580 28A10003 */  slti    $at, $a1, 0x0003           
 /* 07844 8080B584 102000A5 */  beq     $at, $zero, .L8080B81C     
 /* 07848 8080B588 260801E0 */  addiu   $t0, $s0, 0x01E0           ## $t0 = 000001E0
@@ -47,9 +47,9 @@ glabel func_8080B52C
 /* 07898 8080B5D8 AFAF001C */  sw      $t7, 0x001C($sp)           
 /* 0789C 8080B5DC 8FA30030 */  lw      $v1, 0x0030($sp)           
 /* 078A0 8080B5E0 8FA80034 */  lw      $t0, 0x0034($sp)           
-/* 078A4 8080B5E4 3C098013 */  lui     $t1, %hi(D_8012A4E0)
+/* 078A4 8080B5E4 3C098013 */  lui     $t1, %hi(gSramSlotOffsets)
 /* 078A8 8080B5E8 84644A38 */  lh      $a0, 0x4A38($v1)           ## 00004A38
-/* 078AC 8080B5EC 2529A4E0 */  addiu   $t1, %lo(D_8012A4E0)
+/* 078AC 8080B5EC 2529A4E0 */  addiu   $t1, %lo(gSramSlotOffsets)
 /* 078B0 8080B5F0 8D0D0000 */  lw      $t5, 0x0000($t0)           ## 00000000
 /* 078B4 8080B5F4 00042040 */  sll     $a0, $a0,  1               
 /* 078B8 8080B5F8 0124C021 */  addu    $t8, $t1, $a0              
@@ -343,10 +343,10 @@ glabel func_8080B52C
 .L8080BA30:
 /* 07CF0 8080BA30 84664A38 */  lh      $a2, 0x4A38($v1)           ## 00004A38
 /* 07CF4 8080BA34 24020003 */  addiu   $v0, $zero, 0x0003         ## $v0 = 00000003
-/* 07CF8 8080BA38 3C098013 */  lui     $t1, %hi(D_8012A4E0)
+/* 07CF8 8080BA38 3C098013 */  lui     $t1, %hi(gSramSlotOffsets)
 /* 07CFC 8080BA3C 1446009B */  bne     $v0, $a2, .L8080BCAC       
 /* 07D00 8080BA40 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
-/* 07D04 8080BA44 2529A4E0 */  addiu   $t1, %lo(D_8012A4E0)
+/* 07D04 8080BA44 2529A4E0 */  addiu   $t1, %lo(gSramSlotOffsets)
 /* 07D08 8080BA48 952E0000 */  lhu     $t6, 0x0000($t1)           ## 8012A4E0
 /* 07D0C 8080BA4C 8E0401E0 */  lw      $a0, 0x01E0($s0)           ## 000001E0
 /* 07D10 8080BA50 2405005A */  addiu   $a1, $zero, 0x005A         ## $a1 = 0000005A
@@ -510,8 +510,8 @@ glabel func_8080B52C
 .L8080BCAC:
 /* 07F6C 8080BCAC 14C10056 */  bne     $a2, $at, .L8080BE08       
 /* 07F70 8080BCB0 2418FFFF */  addiu   $t8, $zero, 0xFFFF         ## $t8 = FFFFFFFF
-/* 07F74 8080BCB4 3C098013 */  lui     $t1, %hi(D_8012A4E0)
-/* 07F78 8080BCB8 2529A4E0 */  addiu   $t1, %lo(D_8012A4E0)
+/* 07F74 8080BCB4 3C098013 */  lui     $t1, %hi(gSramSlotOffsets)
+/* 07F78 8080BCB8 2529A4E0 */  addiu   $t1, %lo(gSramSlotOffsets)
 /* 07F7C 8080BCBC 95390000 */  lhu     $t9, 0x0000($t1)           ## 8012A4E0
 /* 07F80 8080BCC0 8E0401E0 */  lw      $a0, 0x01E0($s0)           ## 000001E0
 /* 07F84 8080BCC4 2405005A */  addiu   $a1, $zero, 0x005A         ## $a1 = 0000005A
