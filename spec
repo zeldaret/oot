@@ -419,7 +419,6 @@ beginseg
     include "build/src/code/code_800EC960.o"
     include "build/data/code_800EC960.data.o"
     include "build/src/code/code_800F7260.o"
-    include "build/data/code_800F7260.data.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
     include "build/data/code_800F9280.rodata.o"
