@@ -3540,8 +3540,7 @@ endseg
 beginseg
     name "ovl_Obj_Oshihiki"
     include "build/src/overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.o"
-    include "build/data/overlays/actors/z_obj_oshihiki.data.o"
-    include "build/data/overlays/actors/z_obj_oshihiki.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Oshihiki/ovl_Obj_Oshihiki_reloc.o"
 endseg
 
 beginseg
