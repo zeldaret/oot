@@ -92,7 +92,7 @@ glabel func_80B214CC
 /* 00848 80B21628 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 0084C 80B2162C 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFDC
 /* 00850 80B21630 02003025 */  or      $a2, $s0, $zero            ## $a2 = FFFFFFE8
-/* 00854 80B21634 0C00A9AE */  jal     func_8002A6B8              
+/* 00854 80B21634 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 00858 80B21638 02003825 */  or      $a3, $s0, $zero            ## $a3 = FFFFFFE8
 /* 0085C 80B2163C 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float
@@ -146,7 +146,7 @@ glabel func_80B214CC
 /* 00914 80B216F4 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 00918 80B216F8 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFDC
 /* 0091C 80B216FC 02003025 */  or      $a2, $s0, $zero            ## $a2 = FFFFFFE8
-/* 00920 80B21700 0C00A9AE */  jal     func_8002A6B8              
+/* 00920 80B21700 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 00924 80B21704 02003825 */  or      $a3, $s0, $zero            ## $a3 = FFFFFFE8
 /* 00928 80B21708 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 0092C 80B2170C 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000

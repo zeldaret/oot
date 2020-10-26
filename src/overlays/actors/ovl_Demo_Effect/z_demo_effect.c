@@ -616,7 +616,7 @@ void func_80971A28(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
         ssPos.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
         ssPos.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
 
-        func_80028BB0(globalCtx, &ssPos, &vec1, &vec2, &color1, &color2, 0x03E8, 0x10);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &ssPos, &vec1, &vec2, &color1, &color2, 0x03E8, 0x10);
     }
 }
 
@@ -1410,7 +1410,7 @@ void func_8097414C(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
         unkVec1.x = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
         unkVec1.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
 
-        func_80028BB0(globalCtx, &this->actor.posRot.pos, &unkVec1, &unkVec2, &unkColor1, &unkColor2, 0xBB8, 0x10);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &unkVec1, &unkVec2, &unkColor1, &unkColor2, 0xBB8, 0x10);
 
         i++;
     }

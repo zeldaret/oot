@@ -147,7 +147,7 @@ glabel func_80B18E7C
 /* 0060C 80B1908C E6080060 */  swc1    $f8, 0x0060($s0)           ## 00000060
 /* 00610 80B19090 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00614 80B19094 8FA4005C */  lw      $a0, 0x005C($sp)
-/* 00618 80B19098 0C00A511 */  jal     func_80029444
+/* 00618 80B19098 0C00A511 */  jal     EffectSsGRipple_Spawn
 /* 0061C 80B1909C AFAB0050 */  sw      $t3, 0x0050($sp)
 /* 00620 80B190A0 10000006 */  beq     $zero, $zero, .L80B190BC
 /* 00624 80B190A4 860C00B6 */  lh      $t4, 0x00B6($s0)           ## 000000B6

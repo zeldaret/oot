@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void DynaPolyInfo_SetActorMove(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
     dynaActor->dynaPolyId = -1;

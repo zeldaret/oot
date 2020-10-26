@@ -1113,7 +1113,7 @@ glabel L808C5FE4
 /* 05294 808C6424 00197403 */  sra     $t6, $t9, 16
 /* 05298 808C6428 25CA0064 */  addiu   $t2, $t6, 0x0064           ## $t2 = 00000064
 /* 0529C 808C642C AFAA0018 */  sw      $t2, 0x0018($sp)
-/* 052A0 808C6430 0C00A6E4 */  jal     func_80029B90
+/* 052A0 808C6430 0C00A6E4 */  jal     EffectSsGMagma2_Spawn
 /* 052A4 808C6434 AFA30014 */  sw      $v1, 0x0014($sp)
 /* 052A8 808C6438 10000016 */  beq     $zero, $zero, .L808C6494
 /* 052AC 808C643C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -1699,7 +1699,7 @@ glabel L808C5FE4
 /* 05AE0 808C6C70 000DCC00 */  sll     $t9, $t5, 16
 /* 05AE4 808C6C74 00195403 */  sra     $t2, $t9, 16
 /* 05AE8 808C6C78 254E0032 */  addiu   $t6, $t2, 0x0032           ## $t6 = 00000032
-/* 05AEC 808C6C7C 0C00A6E4 */  jal     func_80029B90
+/* 05AEC 808C6C7C 0C00A6E4 */  jal     EffectSsGMagma2_Spawn
 /* 05AF0 808C6C80 AFAE0018 */  sw      $t6, 0x0018($sp)
 glabel L808C6C84
 .L808C6C84:

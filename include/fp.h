@@ -1,6 +1,6 @@
 #ifndef _FP_H_
 #define _FP_H_
-#include <ultra64.h>
+#include "ultra64.h"
 
 extern f32 qNaN0x3FFFFF;
 extern f32 qNaN0x10000;

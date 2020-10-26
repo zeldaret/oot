@@ -55,14 +55,14 @@ glabel func_80AD9C24
 /* 00D68 80AD9CF8 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 00D6C 80AD9CFC 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFFF4
 /* 00D70 80AD9D00 00C03825 */  or      $a3, $a2, $zero            ## $a3 = 80ADD790
-/* 00D74 80AD9D04 0C00A9AE */  jal     func_8002A6B8              
+/* 00D74 80AD9D04 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 00D78 80AD9D08 E7B0005C */  swc1    $f16, 0x005C($sp)          
 .L80AD9D0C:
 /* 00D7C 80AD9D0C 2604029C */  addiu   $a0, $s0, 0x029C           ## $a0 = 0000029C
 /* 00D80 80AD9D10 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00D84 80AD9D14 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00D88 80AD9D18 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00D8C 80AD9D1C 0C01E796 */  jal     Lights_SetPositionalLightColorAndRadius
+/* 00D8C 80AD9D1C 0C01E796 */  jal     Lights_PointSetColorAndRadius
               
 /* 00D90 80AD9D20 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00D94 80AD9D24 3C0C80AE */  lui     $t4, %hi(func_80ADB338)    ## $t4 = 80AE0000

@@ -839,7 +839,7 @@ glabel Fishing_Update
 /* 082F0 80B71C90 44074000 */  mfc1    $a3, $f8
 /* 082F4 80B71C94 00000000 */  nop
 /* 082F8 80B71C98 00073C00 */  sll     $a3, $a3, 16
-/* 082FC 80B71C9C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 082FC 80B71C9C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 08300 80B71CA0 00073C03 */  sra     $a3, $a3, 16
 /* 08304 80B71CA4 3C0180B8 */  lui     $at, %hi(D_80B7E078)       ## $at = 80B80000

@@ -61,7 +61,7 @@ u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     } else if (gSaveContext.eventChkInf[3] & 8) {
         return 0x401C;
     } else {
-        player->exchangeItemId = 0x1D;
+        player->exchangeItemId = EXCH_ITEM_LETTER_RUTO;
         return 0x401A;
     }
 }
@@ -80,7 +80,7 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
             return CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
         }
     } else {
-        player->exchangeItemId = 0xC;
+        player->exchangeItemId = EXCH_ITEM_PRESCRIPTION;
         return 0x4012;
     }
 }
@@ -219,8 +219,8 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0) != 0) {
-        if ((this->actor.textId == 0x401A) && (!(gSaveContext.eventChkInf[3] & 8))) {
-            if (func_8002F368(globalCtx) == 0x1D) {
+        if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
+            if (func_8002F368(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {
@@ -229,22 +229,25 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
             player->actor.textId = this->actor.textId;
             return;
         }
+
         if (LINK_IS_ADULT) {
-            if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) && (func_8002F368(globalCtx) == 0xC)) {
+            if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) &&
+                (func_8002F368(globalCtx) == EXCH_ITEM_PRESCRIPTION)) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;
                 this->isTrading = true;
                 return;
             }
+
             this->isTrading = false;
             if (gSaveContext.infTable[19] & 0x200) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
-                return;
+            } else {
+                this->actor.textId = CHECK_OWNED_EQUIP(EQUIP_TUNIC, 2) ? 0x401F : 0x4012;
+                player->actor.textId = this->actor.textId;
             }
-            this->actor.textId = CHECK_OWNED_EQUIP(EQUIP_TUNIC, 2) ? 0x401F : 0x4012;
-            player->actor.textId = this->actor.textId;
         }
     }
 }

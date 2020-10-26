@@ -7,7 +7,7 @@ glabel EnBdfire_Destroy
 /* 00250 809BC280 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00254 809BC284 05C10003 */  bgez    $t6, .L809BC294            
 /* 00258 809BC288 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
-/* 0025C 809BC28C 0C01E9F1 */  jal     Lights_Remove
+/* 0025C 809BC28C 0C01E9F1 */  jal     LightContext_RemoveLight
 /* 00260 809BC290 8CE601D0 */  lw      $a2, 0x01D0($a3)           ## 000001D0
 .L809BC294:
 /* 00264 809BC294 8FBF0014 */  lw      $ra, 0x0014($sp)           

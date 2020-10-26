@@ -1,9 +1,7 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
-#include <global.h>
+#include "global.h"
 
 void Sample_HandleStateChange(SampleContext* this) {
-    if (CHECK_PAD(this->state.input[0].press, START_BUTTON)) {
+    if (CHECK_BTN_ALL(this->state.input[0].press.button, BTN_START)) {
         SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
         this->state.running = false;
     }
@@ -40,12 +38,14 @@ void Sample_Draw(SampleContext* this) {
     CLOSE_DISPS(gfxCtx, "../z_sample.c", 111);
 }
 
-void Sample_Main(SampleContext* this) {
+void Sample_Main(GameState* thisx) {
+    SampleContext* this = (SampleContext*)thisx;
+
     Sample_Draw(this);
     Sample_HandleStateChange(this);
 }
 
-void Sample_Destroy(SampleContext* this) {
+void Sample_Destroy(GameState* thisx) {
 }
 
 void Sample_SetupView(SampleContext* this) {
@@ -85,7 +85,9 @@ void Sample_LoadTitleStatic(SampleContext* this) {
     DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
 }
 
-void Sample_Init(SampleContext* this) {
+void Sample_Init(GameState* thisx) {
+    SampleContext* this = (SampleContext*)thisx;
+
     this->state.main = Sample_Main;
     this->state.destroy = Sample_Destroy;
     R_UPDATE_RATE = 1;

@@ -4,8 +4,8 @@
  * Description: Death Mountain Trail Gate
  */
 
+#include "vt.h"
 #include "z_bg_gate_shutter.h"
-#include <vt.h>
 
 #define FLAGS 0x00000000
 

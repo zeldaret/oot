@@ -49,7 +49,7 @@ glabel func_80B32C2C
 /* 00A44 80B32CD4 240C0190 */  addiu   $t4, $zero, 0x0190         ## $t4 = 00000190
 /* 00A48 80B32CD8 AFAC0014 */  sw      $t4, 0x0014($sp)           
 /* 00A4C 80B32CDC AFAB0010 */  sw      $t3, 0x0010($sp)           
-/* 00A50 80B32CE0 0C00A527 */  jal     func_8002949C              
+/* 00A50 80B32CE0 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00A54 80B32CE4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00A58 80B32CE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A5C 80B32CEC 0C00BE0A */  jal     Audio_PlayActorSound2

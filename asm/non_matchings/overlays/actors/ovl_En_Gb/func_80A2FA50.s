@@ -26,7 +26,7 @@ glabel func_80A2FA50
 /* 0092C 80A2FAAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00930 80A2FAB0 8E051C44 */  lw      $a1, 0x1C44($s0)           ## 00001C44
 /* 00934 80A2FAB4 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
-/* 00938 80A2FAB8 0C023B67 */  jal     func_8008ED9C              
+/* 00938 80A2FAB8 0C023B67 */  jal     Player_UpdateBottleHeld              
 /* 0093C 80A2FABC 2407001E */  addiu   $a3, $zero, 0x001E         ## $a3 = 0000001E
 /* 00940 80A2FAC0 0C021CC3 */  jal     Rupees_ChangeBy              
 /* 00944 80A2FAC4 24040032 */  addiu   $a0, $zero, 0x0032         ## $a0 = 00000032
