@@ -95,9 +95,7 @@ void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_UpdatePosition(BgHidanFwbig* this) {
-    s16 startAngle;
-
-    startAngle = this->actor.shape.rot.y + this->direction * -0x4000;
+    s16 startAngle = this->actor.shape.rot.y + this->direction * -0x4000;
 
     this->actor.posRot.pos.x = (Math_Sins(startAngle) * 885.4f) + this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.z = (Math_Coss(startAngle) * 885.4f) + this->actor.initPosRot.pos.z;
@@ -150,7 +148,9 @@ void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    DECR(this->timer);
+    if(this->timer != 0) {
+        this->timer--;
+    }
     if (this->timer == 0) {
         this->actionFunc = BgHidanFwbig_Rise;
     }
@@ -196,7 +196,6 @@ void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, GlobalContext* globalCtx) {
     cs = Math_Coss(this->actor.shape.rot.y);
     this->collider.dim.pos.x = this->actor.posRot.pos.x + (projPos.x * cs) + (projPos.z * sn);
     this->collider.dim.pos.z = this->actor.posRot.pos.z - (projPos.x * sn) + (projPos.z * cs);
-
     this->collider.dim.pos.y = this->actor.posRot.pos.y;
 
     this->actor.posRot.rot.y = (projPos.z < 0.0f) ? this->actor.shape.rot.y : this->actor.shape.rot.y + 0x8000;
@@ -251,7 +250,7 @@ void BgHidanFwbig_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->gameplayFrames % 0x80, 0, 0x20, 0x40, 1, 0,
-                                (u8)(globalCtx->gameplayFrames * -0xF), 0x20, 0x40));
+                                (u8)(globalCtx->gameplayFrames * -15), 0x20, 0x40));
 
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_fwbig.c", 660),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
