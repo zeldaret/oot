@@ -131,7 +131,7 @@ void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AE861C(EnRr* this, f32 speed) {
     this->actor.speedXZ = speed;
-    Audio_PlayActorSound2(&this->actor, 0x3990);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_WALK);
 }
 
 void func_80AE8644(EnRr* this) {
@@ -148,7 +148,7 @@ void func_80AE8644(EnRr* this) {
         this->unk_224[i].unk_2C.z = 0.0f;
     }
     this->actionFunc = func_80AE9670;
-    Audio_PlayActorSound2(&this->actor, 0x3991);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_UNARI);
 }
 
 void func_80AE8744(EnRr* this) {
@@ -189,7 +189,7 @@ void func_80AE8810(EnRr* this, Player* player) {
         this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = 1.0f;
     }
     this->actionFunc = func_80AE978C;
-    Audio_PlayActorSound2(&this->actor, 0x3992);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DRINK);
 }
 
 u8 func_80AE8918(u8 shield, u8 tunic) {
@@ -248,7 +248,7 @@ void func_80AE8968(EnRr* this, GlobalContext* globalCtx) {
     func_8002F6D4(globalCtx, &this->actor, 4.0f, this->actor.shape.rot.y, 12.0f, 8);
     if (this->actor.dmgEffectTimer == 0) {
         this->actionFunc = func_80AE95B0;
-        Audio_PlayActorSound2(&this->actor, 0x3994);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_THROW);
     } else if (this->actor.colChkInfo.health != 0) {
         func_80AE8B78(this);
     } else {
@@ -271,7 +271,7 @@ void func_80AE8B78(EnRr* this) {
         this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = 1.0f;
     }
     this->actionFunc = func_80AE9880;
-    Audio_PlayActorSound2(&this->actor, 0x3995);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DAMAGE);
 }
 
 void func_80AE8C44(EnRr* this) {
@@ -301,7 +301,7 @@ void func_80AE8CF8(EnRr* this) {
         this->unk_224[i].unk_2C.x = this->unk_224[i].unk_2C.z = 0.0f;
     }
     this->actionFunc = func_80AE98F8;
-    Audio_PlayActorSound2(&this->actor, 0x3996);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DEAD);
     this->actor.flags &= ~1;
 }
 
@@ -411,7 +411,7 @@ void func_80AE8EA4(EnRr* this, GlobalContext* globalCtx) {
                     func_80AE8D9C(this);
                     return;
                 case 1:
-                    Audio_PlayActorSound2(&this->actor, 0x389E);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     func_80AE8D9C(this);
                     return;
@@ -540,7 +540,7 @@ void func_80AE978C(EnRr* this, GlobalContext* globalCtx) {
 
     func_800AA000(this->actor.xyzDistFromLinkSq, 0x78, 2, 0x78);
     if ((this->unk_1E8 % 8) == 0) {
-        Audio_PlayActorSound2(&this->actor, 0x3993);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
     this->unk_1F4 = 8;
     if ((this->unk_1EE == 0) || !(player->stateFlags2 & 0x80)) {
@@ -588,37 +588,37 @@ void func_80AE98F8(EnRr* this, GlobalContext* globalCtx) {
         sp9C.z = this->actor.posRot.pos.z;
         switch (this->unk_372) {
             case 1:
-                Item_DropCollectible(globalCtx, &sp9C, 0x15);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_SHIELD_DEKU);
                 break;
             case 2:
-                Item_DropCollectible(globalCtx, &sp9C, 0x16);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_SHIELD_HYLIAN);
                 break;
         }
         switch (this->unk_373) {
             case 2:
-                Item_DropCollectible(globalCtx, &sp9C, 0x18);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_TUNIC_GORON);
                 break;
             case 3:
-                Item_DropCollectible(globalCtx, &sp9C, 0x17);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_TUNIC_ZORA);
                 break;
         }
         // dropped
         osSyncPrintf("\x1b[32m「%s」が出た！！\x1b[m\n", sDropNames[this->unk_374]);
         switch (this->unk_374) {
             case 1:
-                Item_DropCollectible(globalCtx, &sp9C, 0xF);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_MAGIC_SMALL);
                 break;
             case 2:
-                Item_DropCollectible(globalCtx, &sp9C, 5);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_ARROWS_SINGLE);
                 break;
             case 3:
-                Item_DropCollectible(globalCtx, &sp9C, 0x12);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_FLEXIBLE);
                 break;
             case 4:
-                Item_DropCollectible(globalCtx, &sp9C, 0x14);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_RUPEE_PURPLE);
                 break;
             case 5:
-                Item_DropCollectible(globalCtx, &sp9C, 2);
+                Item_DropCollectible(globalCtx, &sp9C, ITEM00_RUPEE_RED);
                 break;
             case 0:
             default:
@@ -637,7 +637,7 @@ void func_80AE98F8(EnRr* this, GlobalContext* globalCtx) {
         sp78.y = 0.0f;
         sp78.z = 0.0f;
 
-        EffectSsDeadDb_Spawn(globalCtx, &sp90, &sp84, &sp78, 0x64, 0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &sp90, &sp84, &sp78, 100, 0, 255,255,255,255,255, 0, 0, 1, 9, 1);
     } else {
         Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0f, 1.0f, this->unk_368);
         Math_SmoothScaleMaxF(&this->unk_368, 0.001f, 1.0f, 0.00001f);
@@ -747,56 +747,53 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
+void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f spB8;
     EnRr* this = THIS;
     s32 i;
-    Mtx* temp_s4;
-    Vec3f spB8;
-
-    temp_s4 = Graph_Alloc(globalCtx->state.gfxCtx, 0x100);
-    if (1) {}
+    Mtx* temp_s4 = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));     
+    
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1478);
-
+    if (1) {}
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &temp_s4[0]);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, temp_s4);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 % 0x80, 0 % 0x40, 0x20, 0x10, 1, 0 % 0x40,
-                                (this->unk_1EC * -6) & 0x7F, 0x20, 0x10));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->unk_1EC * 0) & 0x7F, (this->unk_1EC * 0) & 0x3F, 32, 16, 1, (this->unk_1EC * 0) & 0x3F,
+                                (this->unk_1EC * -6) & 0x7F, 32, 16));                       
     Matrix_Push();
+    
     Matrix_Scale((1.0f + this->unk_224[0].unk_20.x) * this->unk_224[0].unk_08.x,
                  (1.0f + this->unk_224[0].unk_20.y) * this->unk_224[0].unk_08.y,
                  (1.0f + this->unk_224[0].unk_20.z) * this->unk_224[0].unk_08.z, 1);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_Pull();
-    spB8.x = 0.0f;
-    spB8.y = 0.0f;
-    spB8.z = 0.0f;
-
+    VEC_SET(spB8, 0.0f, 0.0f, 0.0f);
     for (i = 1; i < 5; i++) {
         Matrix_Translate(0.0f, this->unk_224[i].unk_00 + 1000.0f, 0.0f, 1);
+        
         Matrix_RotateRPY(this->unk_224[i].unk_38.x, this->unk_224[i].unk_38.y, this->unk_224[i].unk_38.z, 1);
         Matrix_Push();
         Matrix_Scale((1.0f + this->unk_224[i].unk_20.x) * this->unk_224[i].unk_08.x,
                      (1.0f + this->unk_224[i].unk_20.y) * this->unk_224[i].unk_08.y,
                      (1.0f + this->unk_224[i].unk_20.z) * this->unk_224[i].unk_08.z, 1);
-        Matrix_ToMtx(&temp_s4[i - 1], "../z_en_rr.c", 1527);
+        Matrix_ToMtx(temp_s4, "../z_en_rr.c", 1527);
         Matrix_Pull();
+        temp_s4++;
         Matrix_MultVec3f(&spB8, &this->unk_388[i]);
     }
     this->unk_388[0] = this->actor.posRot.pos;
     Matrix_MultVec3f(&spB8, &this->unk_37C);
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000470);
-
+    
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1551);
     if (this->unk_1F2 != 0) {
+        Vec3f sp7C;
         s16 temp_s0 = this->unk_1F2 - 1;
 
         this->actor.dmgEffectTimer++;
         if ((temp_s0 & 1) == 0) {
-            Vec3f sp7C;
             s32 temp1 = 4 - (temp_s0 >> 2);
             s32 temp2 = (temp_s0 >> 1) & 3;
 
@@ -804,14 +801,11 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx2) {
             sp7C.y = this->unk_388[temp1].y + D_80AEA6F0[temp2].y + Math_Rand_CenteredFloat(10.0f);
             sp7C.z = this->unk_388[temp1].z + D_80AEA6F0[temp2].z + Math_Rand_CenteredFloat(10.0f);
             if (this->actor.dmgEffectParams & 0x4000) {
-                EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &sp7C, 0x64, 0, 0, -1);
+                EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &sp7C, 100, 0, 0, -1);
             } else {
-                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp7C, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5, 0xFF,
+                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp7C, 150, 150, 150, 250, 235, 245, 255,
                                                3.0f);
             }
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rr/EnRr_Draw.s")
-#endif
