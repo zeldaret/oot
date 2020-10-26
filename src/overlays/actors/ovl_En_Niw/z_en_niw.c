@@ -125,7 +125,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags |= 1;
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 25.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
                      this->transitionDrawTable, 16);
 
@@ -1132,7 +1132,7 @@ void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 s
             feather->accel = *accel;
             feather->timer = 0;
             feather->scale = scale / 1000.0f;
-            feather->lifespan = (s16)Math_Rand_ZeroFloat(20.0f) + 40;
+            feather->life = (s16)Math_Rand_ZeroFloat(20.0f) + 40;
             feather->unk_2A = Math_Rand_ZeroFloat(1000.0f);
             break;
         }
@@ -1162,7 +1162,7 @@ void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx) {
 
                 feather->unk_30 = Math_Sins(feather->unk_2A * 0xBB8) * M_PI * 0.2f;
 
-                if (feather->lifespan < feather->timer) {
+                if (feather->life < feather->timer) {
                     feather->type = 0;
                 }
             }
@@ -1175,7 +1175,7 @@ void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    EnNiwFeather* feather = this->feathers;
+    EnNiwFeather* feather = &this->feathers[0];
 
     OPEN_DISPS(gfxCtx, "../z_en_niw.c", 1897);
 
