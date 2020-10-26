@@ -866,10 +866,6 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (1) {} // Required to match
     if (1) {}
     if (1) {}
-    if (1) {}
-    if (1) {}
-    if (1) {}
-    if (1) {}
 
     this->unk_294++;
 
@@ -884,9 +880,9 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         for (i = 0; i < featherCount; i++) {
-            pos.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-            pos.y = Math_Rand_CenteredFloat(10.0f) + (this->actor.posRot.pos.y + this->unk_304);
-            pos.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+            pos.x = Math_Rand_CenteredFloat(10.0f) + thisx->posRot.pos.x;
+            pos.y = Math_Rand_CenteredFloat(10.0f) + (thisx->posRot.pos.y + this->unk_304);
+            pos.z = Math_Rand_CenteredFloat(10.0f) + thisx->posRot.pos.z;
             scale = Math_Rand_ZeroFloat(6.0f) + 6.0f;
 
             if (this->unk_2A6 == 2 && this->unk_304 != 0) {
@@ -945,8 +941,8 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->timer9 != 0) {
         this->timer9--;
     }
-    this->actor.shape.rot = this->actor.posRot.rot;
-    this->actor.shape.unk_10 = 15.0f;
+    thisx->shape.rot = thisx->posRot.rot;
+    thisx->shape.unk_10 = 15.0f;
     this->actionFunc(this, globalCtx);
     Actor_SetHeight(&this->actor, this->unk_304);
     Actor_MoveForward(&this->actor);
@@ -957,34 +953,34 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT03) {
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 29);
     }
-    if (this->actor.groundY <= -32000.0f || this->actor.groundY >= 32000.0f) {
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, this->actor.groundY);
+    if (thisx->groundY <= -32000.0f || thisx->groundY >= 32000.0f) {
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->groundY);
         cam.x = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
         cam.y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
         cam.z = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
         camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
-        osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.x);
-        osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.y);
-        osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.z);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.initPosRot.pos.x);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.initPosRot.pos.y);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.initPosRot.pos.z);
-        this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-        this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
-        this->actor.posRot.pos.y = ((this->actor.initPosRot.pos.y + globalCtx->view.eye.y) + (camResult * 160.0f));
+        osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->posRot.pos.x);
+        osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->posRot.pos.y);
+        osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｚ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->posRot.pos.z);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＸ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->initPosRot.pos.x);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＹ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->initPosRot.pos.y);
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ セットＺ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->initPosRot.pos.z);
+        thisx->posRot.pos.x = thisx->initPosRot.pos.x;
+        thisx->posRot.pos.z = thisx->initPosRot.pos.z;
+        thisx->posRot.pos.y = ((thisx->initPosRot.pos.y + globalCtx->view.eye.y) + (camResult * 160.0f));
 
-        if (this->actor.posRot.pos.y < this->actor.initPosRot.pos.y) {
-            this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 300.0f;
+        if (thisx->posRot.pos.y < thisx->initPosRot.pos.y) {
+            thisx->posRot.pos.y = thisx->initPosRot.pos.y + 300.0f;
         }
 
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.x);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.y);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.posRot.pos.z);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->posRot.pos.x);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->posRot.pos.y);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 修整後Ｚ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->posRot.pos.z);
         osSyncPrintf("\n\n");
-        this->actor.speedXZ = 0.0f;
-        this->actor.gravity = -2.0f;
-        Math_Vec3f_Copy(&this->unk_2AC, &this->actor.initPosRot);
-        Math_Vec3f_Copy(&this->unk_2B8, &this->actor.initPosRot);
+        thisx->speedXZ = 0.0f;
+        thisx->gravity = -2.0f;
+        Math_Vec3f_Copy(&this->unk_2AC, &thisx->initPosRot);
+        Math_Vec3f_Copy(&this->unk_2B8, &thisx->initPosRot);
         this->unk_300 = 0.0f;
         this->unk_2FC = 0.0f;
         this->unk_2F0.z = 0.0f;
@@ -1010,12 +1006,12 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.bgCheckFlags & 0x20 && this->actor.waterY > 15.0f && this->actionFunc != func_80AB6F04 &&
-        this->actor.params != 0xD && this->actor.params != 0xE && this->actor.params != 0xA) {
-        this->actor.velocity.y = 0.0f;
-        this->actor.gravity = 0.0f;
-        Math_Vec3f_Copy(&pos, &this->actor.posRot);
-        pos.y += this->actor.waterY;
+    if (thisx->bgCheckFlags & 0x20 && thisx->waterY > 15.0f && this->actionFunc != func_80AB6F04 &&
+        thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
+        thisx->velocity.y = 0.0f;
+        thisx->gravity = 0.0f;
+        Math_Vec3f_Copy(&pos, &thisx->posRot);
+        pos.y += thisx->waterY;
         this->timer4 = 30;
         EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
         this->timer5 = 0;
@@ -1026,14 +1022,13 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (D_80AB85E0 == 0 && this->unk_2A4 <= 0 && this->actor.params != 0xD && this->actor.params != 0xE &&
-        this->actor.params != 0xA) {
+    if (D_80AB85E0 == 0 && this->unk_2A4 <= 0 && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         this->timer6 = 100;
 
-        if (this->actor.xzDistFromLink > 10.0f) {
+        if (thisx->xzDistFromLink > 10.0f) {
             D_80AB85E0 = 1;
             this->timer5 = this->timer4 = this->unk_29E = 0;
-            this->actor.speedXZ = 0.0f;
+            thisx->speedXZ = 0.0f;
             this->unk_2FC = 0.0f;
             this->unk_300 = 0.0f;
             this->unk_26C[7] = 0.0f;
@@ -1042,9 +1037,9 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_26C[8] = 0.0f;
             this->sfxTimer1 = 10000;
             this->unk_2A8 = 1;
-            this->unk_2AC = this->unk_2B8 = this->actor.posRot.pos.x;
-            this->unk_2B0 = this->unk_2BC = this->actor.posRot.pos.y;
-            this->unk_2B4 = this->unk_2C0 = this->actor.posRot.pos.z;
+            this->unk_2AC = this->unk_2B8 = thisx->posRot.pos.x;
+            this->unk_2B0 = this->unk_2BC = thisx->posRot.pos.y;
+            this->unk_2B4 = this->unk_2C0 = thisx->posRot.pos.z;
             this->actionFunc = func_80AB70A0;
             return;
         }
@@ -1052,8 +1047,8 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     dist = 20.0f;
 
-    if (this->unk_2A8 != 0 && this->actor.xyzDistFromLinkSq < SQ(dist) && player->invincibilityTimer == 0) {
-        func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
+    if (this->unk_2A8 != 0 && thisx->xyzDistFromLinkSq < SQ(dist) && player->invincibilityTimer == 0) {
+        func_8002F6D4(globalCtx, &this->actor, 2.0f, thisx->posRot.rot.y, 0.0f, 0x10);
     }
 
     func_80AB747C(&this->actor, globalCtx);
@@ -1074,8 +1069,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_2A8 == 0) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
 
-        if (this->actor.params != 0xA && this->actor.params != 0xD && this->actor.params != 0xE &&
-            this->actor.params != 4) {
+        if (thisx->params != 0xA && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 4) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
         if (this->actionFunc != func_80AB6BF8 && this->actionFunc != func_80AB6D08 &&
