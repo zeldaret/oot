@@ -171,7 +171,8 @@ void func_80970F50(DemoEffect* this, DemoEffectFunc updateFunc) {
 }
 
 f32 func_80970F58(GlobalContext* globalCtx, s32 arg1) {
-    f32 frameDivisor = func_8006F93C(globalCtx->csCtx.npcActions[arg1]->endFrame, globalCtx->csCtx.npcActions[arg1]->startFrame, globalCtx->csCtx.frames);
+    f32 frameDivisor = func_8006F93C(globalCtx->csCtx.npcActions[arg1]->endFrame,
+                                     globalCtx->csCtx.npcActions[arg1]->startFrame, globalCtx->csCtx.frames);
     if (frameDivisor > 1.0f) {
         frameDivisor = 1.0f;
     }
@@ -762,7 +763,7 @@ void func_809721D0(DemoEffect* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    
+
     if (this->unk_188 >= 0x65) {
         unk_1 = (0xFA - this->unk_188) * 0.0013333333190530539f;
         this->actor.scale.x = unk_1;
@@ -909,17 +910,23 @@ void func_80972868(DemoEffect* this, GlobalContext* globalCtx) {
         return;
     }
 
-    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Blue_Orb);
+    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
+                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
+                                      Demo_Effect_Blue_Orb);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.0f);
     }
 
-    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Light_Ring_1);
+    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
+                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
+                                      Demo_Effect_Light_Ring_1);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.1f);
     }
 
-    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Light_Ring_2);
+    effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
+                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
+                                      Demo_Effect_Light_Ring_2);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.2f);
     }
@@ -1319,8 +1326,10 @@ void func_80973CFC(f32 arg0, f32 arg1, Vec3f startPos, Vec3f endPos, f32 arg4, V
     this->actor.posRot.pos.z = arg4 * sinf(arg0 * (M_PI / 180));
 
     unk_1 = this->actor.posRot.pos.x;
-    unk_3 = (this->actor.posRot.pos.y * cosf(arg5.x * (M_PI / 32768))) - (sinf(arg5.x * (M_PI / 32768)) * this->actor.posRot.pos.z);
-    unk_4 = (this->actor.posRot.pos.z * cosf(arg5.x * (M_PI / 32768))) + (sinf(arg5.x * (M_PI / 32768)) * this->actor.posRot.pos.y);
+    unk_3 = (this->actor.posRot.pos.y * cosf(arg5.x * (M_PI / 32768))) -
+            (sinf(arg5.x * (M_PI / 32768)) * this->actor.posRot.pos.z);
+    unk_4 = (this->actor.posRot.pos.z * cosf(arg5.x * (M_PI / 32768))) +
+            (sinf(arg5.x * (M_PI / 32768)) * this->actor.posRot.pos.y);
 
     this->actor.posRot.pos.x = (unk_1 * cosf(arg5.y * (M_PI / 32768))) - (sinf(arg5.y * (M_PI / 32768)) * unk_4);
     this->actor.posRot.pos.y = unk_3;
@@ -1410,7 +1419,8 @@ void func_8097414C(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
         unkVec1.x = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
         unkVec1.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
 
-        EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &unkVec1, &unkVec2, &unkColor1, &unkColor2, 0xBB8, 0x10);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &unkVec1, &unkVec2, &unkColor1, &unkColor2,
+                                        0xBB8, 0x10);
 
         i++;
     }
@@ -1494,7 +1504,8 @@ void func_80974358(DemoEffect* this, GlobalContext* globalCtx) {
 void func_8097456C(DemoEffect* this, GlobalContext* globalCtx) {
     Vec3f pos, velocity, accel;
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C] && globalCtx->csCtx.npcActions[this->unk_18C]->action == 2) {
+    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C] &&
+        globalCtx->csCtx.npcActions[this->unk_18C]->action == 2) {
         pos = this->actor.posRot.pos;
 
         pos.y += 600.0f;
@@ -1504,7 +1515,7 @@ void func_8097456C(DemoEffect* this, GlobalContext* globalCtx) {
         velocity.z = 0.0f;
         velocity.x = 0.0f;
         velocity.y = -20.0f;
-        
+
         accel.z = 0.0f;
         accel.x = 0.0f;
         accel.y = 0.2f;
@@ -1933,8 +1944,11 @@ s32 func_80976254(GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIn
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 0xAA, 0xFF, 0xFF, 0xFF);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->unk_color_array_env[0], this->unk_color_array_env[1],
-                this->unk_color_array_env[2], 0xFF);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 0x06) % 0x0400, 0xFF - ((scroll * 0x10) % 0x0100), 0x0100, 0x40, 0x01, (scroll * 0x04) % 0x0200, 0x7F - ((scroll * 0x0C) % 0x80), 0x80, 0x20));
+                   this->unk_color_array_env[2], 0xFF);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 0x06) % 0x0400,
+                                0xFF - ((scroll * 0x10) % 0x0100), 0x0100, 0x40, 0x01, (scroll * 0x04) % 0x0200,
+                                0x7F - ((scroll * 0x0C) % 0x80), 0x80, 0x20));
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C64);
 
     if (limbIndex == 0x00) {
@@ -1953,7 +1967,7 @@ void func_80976404(DemoEffect* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx2 = globalCtx2->state.gfxCtx;
 
     if (effectType == Demo_Effect_TW_2 || effectType == Demo_Effect_TW_3 || Flags_GetEnv(globalCtx, 0x01) ||
-         gSaveContext.sceneSetupIndex >= 0x04 || gSaveContext.entranceIndex == 0x0324) {
+        gSaveContext.sceneSetupIndex >= 0x04 || gSaveContext.entranceIndex == 0x0324) {
         OPEN_DISPS(gfxCtx2, "../z_demo_effect.c", 0x0C81);
         oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x19);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
