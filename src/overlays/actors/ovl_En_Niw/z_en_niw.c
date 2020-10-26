@@ -863,6 +863,14 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 camResult;
     s32 pad3[10];
 
+    if (1) {} // Required to match
+    if (1) {}
+    if (1) {}
+    if (1) {}
+    if (1) {}
+    if (1) {}
+    if (1) {}
+
     this->unk_294++;
 
     if (this->actionFunc != func_80AB6570) {
@@ -901,18 +909,42 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     EnNiw_FeatherUpdate(&this->actor, globalCtx);
-    DECR(this->timer1);
-    DECR(this->timer2);
-    DECR(this->timer3);
-    DECR(this->timer4);
-    DECR(this->timer5);
-    DECR(this->timer7);
-    DECR(this->timer6);
-    DECR(this->sfxTimer1);
-    DECR(this->sfxTimer2);
-    DECR(this->sfxTimer3);
-    DECR(this->timer8);
-    DECR(this->timer9);
+    if (this->timer1 != 0) {
+        this->timer1--;
+    }
+    if (this->timer2 != 0) {
+        this->timer2--;
+    }
+    if (this->timer3 != 0) {
+        this->timer3--;
+    }
+    if (this->timer4 != 0) {
+        this->timer4--;
+    }
+    if (this->timer5 != 0) {
+        this->timer5--;
+    }
+    if (this->timer7 != 0) {
+        this->timer7--;
+    }
+    if (this->timer6 != 0) {
+        this->timer6--;
+    }
+    if (this->sfxTimer1 != 0) {
+        this->sfxTimer1--;
+    }
+    if (this->sfxTimer2 != 0) {
+        this->sfxTimer2--;
+    }
+    if (this->sfxTimer3 != 0) {
+        this->sfxTimer3--;
+    }
+    if (this->timer8 != 0) {
+        this->timer8--;
+    }
+    if (this->timer9 != 0) {
+        this->timer9--;
+    }
     this->actor.shape.rot = this->actor.posRot.rot;
     this->actor.shape.unk_10 = 15.0f;
     this->actionFunc(this, globalCtx);
@@ -996,8 +1028,6 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (D_80AB85E0 == 0 && this->unk_2A4 <= 0 && this->actor.params != 0xD && this->actor.params != 0xE &&
         this->actor.params != 0xA) {
-        if (!this->actor.groundY) {} // Required to match
-
         this->timer6 = 100;
 
         if (this->actor.xzDistFromLink > 10.0f) {
