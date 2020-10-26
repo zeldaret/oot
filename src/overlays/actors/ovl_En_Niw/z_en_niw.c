@@ -69,9 +69,9 @@ static s16 sKakarikoFlagList[] = {
     0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000,
 };
 
-static u8 sSpawnedVer1 = false;
+static u8 sLowerRiverSpawned = false;
 
-static u8 sSpawnedVer2 = false;
+static u8 sUpperRiverSpawned = false;
 
 static ColliderCylinderInit sCylinderInit1 = {
     { COLTYPE_UNK5, 0x00, 0x09, 0x01, 0x20, COLSHAPE_CYLINDER },
@@ -104,22 +104,26 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
+
+    // Cucco at at the very beginning of Zora's River
     if (this->actor.params == 0xB) {
-        if (sSpawnedVer1) {
+        if (sLowerRiverSpawned) {
             Actor_Kill(&this->actor);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.1 ☆☆☆☆☆ \n" VT_RST);
             return;
         }
-        sSpawnedVer1 = true;
+        sLowerRiverSpawned = true;
         this->actor.room = -1;
     }
+
+    // Cucco at tall platform in the first room of Zora's River
     if (this->actor.params == 0xC) {
-        if (sSpawnedVer2) {
+        if (sUpperRiverSpawned) {
             Actor_Kill(&this->actor);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もういてる原 Ver.2 ☆☆☆☆☆ \n" VT_RST);
             return;
         }
-        sSpawnedVer2 = true;
+        sUpperRiverSpawned = true;
         this->actor.room = -1;
     }
 
