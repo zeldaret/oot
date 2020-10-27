@@ -847,7 +847,7 @@ void func_809726AC(DemoEffect* this, GlobalContext* globalCtx) {
         this->unk_188 -= this->unk_184;
     }
 
-    if (this->unk_188 < 0x100) {
+    if (this->unk_188 < 0x0100) {
         if (this->unk_188 >= 0xE1) {
             this->unk_185 = (-this->unk_188 * 0x08) + 0x800;
         } else {
@@ -867,7 +867,7 @@ void func_8097273C(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->unk_188 >= 0xE1) {
         this->unk_185 = (-this->unk_188 * 0x08) + 0x0800;
     }
-    if (this->unk_188 >= 0x100) {
+    if (this->unk_188 >= 0x0100) {
         this->unk_188 = 0xFF;
         Actor_Kill(&this->actor);
         this->unk_188 = 0x00;
@@ -1761,14 +1761,14 @@ void func_80975494(DemoEffect* this, GlobalContext* globalCtx) {
                          ((this->unk_185 & 0x01) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_188 * 0.01745329238474369f, MTXMODE_APPLY);
+            Matrix_RotateZ(this->unk_188 * (M_PI / 180), MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B32),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             if (disp) {};
             gSPDisplayList(oGfxCtx->polyXlu.p++, disp);
             Matrix_Pull();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(-(f32)this->unk_188 * 0.01745329238474369f, MTXMODE_APPLY);
+            Matrix_RotateZ(-(f32)this->unk_188 * (M_PI / 180), MTXMODE_APPLY);
             gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B3A),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, disp);
@@ -1907,7 +1907,7 @@ void func_809761C4(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     if (func_809746B4(this, globalCtx, 0x01) == 0x00) {
         if (func_809746B4(this, globalCtx, 0x04) == 0x00) {
-            if (this->unk_185 == 0x00) {
+            if (!this->unk_185) {
                 this->unk_185 = 0x01;
                 return;
             }

@@ -12,17 +12,15 @@ typedef struct DemoEffect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnimeCurve skelCurve;
     /* 0x016C */ u8 initObjectBankIndex;
-    /* 0x016D */ //UNK_TYPE1 pad_16D[0x03];
     /* 0x0170 */ Gfx* jewelDisplayList;
     /* 0x0174 */ Gfx* jewelHolderDisplayList;
     /* 0x178 */ u8 primXluColor[3];
     /* 0x17B */ u8 envXluColor[3];
     /* 0x17E */ u8 primOpaColor[3];
     /* 0x181 */ u8 envOpaColor[3];
-    /* 0x0184 */ u8 unk_184;
-    /* 0x0185 */ u8 unk_185;
-    /* 0x0186 */ u8 unk_186;
-    /* 0x0187 */ u8 unk_187;
+    /* 0x0184 */ u8 unk_184; // ????
+    /* 0x0185 */ u8 unk_185; // ????
+    /* 0x0186 */ u8 unk_186; // getitem related. func_800694A0
     /* 0x0188 */ s16 unk_188;
     /* 0x018A */ s16 unk_18A;
     /* 0x018C */ s16 unk_18C;
@@ -32,7 +30,6 @@ typedef struct DemoEffect {
     /* 0x019C */ DemoEffectFunc updateFunc;
 } DemoEffect; // size = 0x01A0
 
-// TODO: OOT people are going to want all of this moved to the C file, if they don't just want it removed completely.
 // These names come from the objects that correspond to this actor type.
 typedef enum {
     /* 0x00 */ Demo_Effect_Crystal_Light,
