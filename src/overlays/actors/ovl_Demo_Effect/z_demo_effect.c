@@ -500,7 +500,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_color_array_env[0] = 0x00;
             this->unk_color_array_env[1] = 0x64;
             this->unk_color_array_env[2] = 0xFF;
-            SkelCurve_Clear(&this->unk_14C);
+            SkelCurve_Clear(&this->skelCurve);
             this->unk_188 = 0x00;
             break;
 
@@ -553,7 +553,7 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 effectType = GET_EFFECT_TYPE(thisx);
 
     if (effectType == Demo_Effect_TW_1 || effectType == Demo_Effect_TW_2 || effectType == Demo_Effect_TW_3) {
-        SkelCurve_Destroy(globalCtx, &THIS->unk_14C);
+        SkelCurve_Destroy(globalCtx, &THIS->skelCurve);
     }
 }
 
@@ -679,13 +679,13 @@ void func_80971BBC(DemoEffect* this, GlobalContext* globalCtx) {
 void func_80971DFC(DemoEffect* this, GlobalContext* globalCtx) {
     s32 actorType = GET_EFFECT_TYPE(&this->actor);
 
-    if (!SkelCurve_Init(globalCtx, &this->unk_14C, &D_060012E8, &D_06000050)) {
+    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &D_060012E8, &D_06000050)) {
         __assert("0", "../z_demo_effect.c", 0x0503);
     }
 
     if (actorType == Demo_Effect_TW_2 || actorType == Demo_Effect_TW_3) {
-        SkelCurve_SetAnim(&this->unk_14C, &D_06000050, 1.0f, 59.0f, 1.0f, 1.7f);
-        SkelCurve_Update(globalCtx, &this->unk_14C);
+        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.7f);
+        SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = &func_80972344;
 
         if (actorType == Demo_Effect_TW_2) {
@@ -699,15 +699,15 @@ void func_80971DFC(DemoEffect* this, GlobalContext* globalCtx) {
 
     if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
         (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[0x0C] & 0x0200)))) {
-        SkelCurve_SetAnim(&this->unk_14C, &D_06000050, 1.0f, 59.0f, 59.0f, 0.0f);
-        SkelCurve_Update(globalCtx, &this->unk_14C);
+        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 59.0f, 0.0f);
+        SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = &func_809721D0;
         osSyncPrintf("\x1b[36m 縮むバージョン \n\x1b[m");
         return;
     }
 
-    SkelCurve_SetAnim(&this->unk_14C, &D_06000050, 1.0f, 59.0f, 1.0f, 1.0f);
-    SkelCurve_Update(globalCtx, &this->unk_14C);
+    SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.0f);
+    SkelCurve_Update(globalCtx, &this->skelCurve);
     this->updateFunc = &func_80972008;
     osSyncPrintf("\x1b[36m 通常 バージョン \n\x1b[m");
     // Necessary to match
@@ -721,8 +721,8 @@ void func_80972008(DemoEffect* this, GlobalContext* globalCtx) {
             this->unk_18A |= 0x02;
         }
 
-        if (SkelCurve_Update(globalCtx, &this->unk_14C)) {
-            SkelCurve_SetAnim(&this->unk_14C, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
+        if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
+            SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
         }
     }
 }
@@ -798,8 +798,8 @@ void func_80972288(DemoEffect* this, GlobalContext* globalCtx) {
 void func_80972344(DemoEffect* this, GlobalContext* globalCtx) {
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 
-    if (SkelCurve_Update(globalCtx, &this->unk_14C)) {
-        SkelCurve_SetAnim(&this->unk_14C, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
+    if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
+        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
         this->updateFunc = &func_80972288;
         this->unk_188 = 0x00;
     }
@@ -1953,7 +1953,7 @@ void func_80976404(DemoEffect* this, GlobalContext* globalCtx) {
         OPEN_DISPS(gfxCtx2, "../z_demo_effect.c", 0x0C81);
         oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x19);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        SkelCurve_Draw(&this->actor, globalCtx2, &this->unk_14C, &func_80976254, (void*)0, 0x01, &this->actor);
+        SkelCurve_Draw(&this->actor, globalCtx2, &this->skelCurve, &func_80976254, (void*)0, 0x01, &this->actor);
         CLOSE_DISPS(gfxCtx2, "../z_demo_effect.c", 0x0C90);
     }
 }
