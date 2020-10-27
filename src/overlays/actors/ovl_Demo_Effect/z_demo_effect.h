@@ -27,8 +27,8 @@ typedef struct DemoEffect {
     /* 0x018A */ s16 unk_18A;
     /* 0x018C */ s16 unk_18C;
     /* 0x018E */ Vec3s unk_vec3s;
-    /* 0x0194 */ DemoEffectFunc actionFunc;
-    /* 0x0198 */ DemoEffectFunc drawFunc;
+    /* 0x0194 */ DemoEffectFunc initUpdateFunc;
+    /* 0x0198 */ DemoEffectFunc initDrawFunc;
     /* 0x019C */ DemoEffectFunc updateFunc;
 } DemoEffect; // size = 0x01A0
 

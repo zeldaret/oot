@@ -177,11 +177,11 @@ f32 func_80970F58(GlobalContext* globalCtx, s32 arg1) {
 }
 
 void func_80970FB4(GlobalContext* globalCtx, DemoEffect* this) {
-    this->drawFunc = &func_809746F8;
+    this->initDrawFunc = &func_809746F8;
     if (LINK_IS_CHILD) {
-        this->actionFunc = &func_80974358;
+        this->initUpdateFunc = &func_80974358;
     } else {
-        this->actionFunc = &func_80974314;
+        this->initUpdateFunc = &func_80974314;
     }
     if (globalCtx->sceneNum == SCENE_TOKINOMA) {
         Actor_SetScale(&this->actor, 0.35f);
@@ -200,8 +200,8 @@ void func_80970FB4(GlobalContext* globalCtx, DemoEffect* this) {
 void func_80971070(DemoEffect* this) {
     this->unk_184 = 0x00;
     this->unk_185 = 0x00;
-    this->drawFunc = &func_809761C4;
-    this->actionFunc = &func_80971BBC;
+    this->initDrawFunc = &func_809761C4;
+    this->initUpdateFunc = &func_80971BBC;
     Actor_SetScale(&this->actor, 0.25f);
     this->unk_18C = 0x06;
 }
@@ -236,19 +236,19 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (effectType) {
         case Demo_Effect_Crystal_Light:
-            this->drawFunc = &func_80974B80;
-            this->actionFunc = &func_809719F0;
+            this->initDrawFunc = &func_80974B80;
+            this->initUpdateFunc = &func_809719F0;
             break;
 
         case Demo_Effect_Fire_Ball:
-            this->drawFunc = &func_80974EB4;
-            this->actionFunc = &func_809719C0;
+            this->initDrawFunc = &func_80974EB4;
+            this->initUpdateFunc = &func_809719C0;
             Actor_SetScale(&this->actor, 0.1f);
             break;
 
         case Demo_Effect_Blue_Orb:
-            this->drawFunc = &func_8097571C;
-            this->actionFunc = &func_80972A6C;
+            this->initDrawFunc = &func_8097571C;
+            this->initUpdateFunc = &func_80972A6C;
             this->unk_184 = 0xFF;
             this->unk_185 = 0x05;
             this->unk_188 = 0x00;
@@ -262,8 +262,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Light_Particles:
-            this->drawFunc = &func_80975494;
-            this->actionFunc = &func_80972B4C;
+            this->initDrawFunc = &func_80975494;
+            this->initUpdateFunc = &func_80972B4C;
             this->unk_184 = 0xFF;
             this->unk_185 = 0x00;
             this->unk_186 = 0x00;
@@ -340,13 +340,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Lgt_Shower:
             this->unk_184 = 0xFF;
-            this->drawFunc = &func_8097587C;
-            this->actionFunc = &func_80972E3C;
+            this->initDrawFunc = &func_8097587C;
+            this->initUpdateFunc = &func_80972E3C;
             break;
 
         case Demo_Effect_God_Lgt_Din:
             Actor_SetScale(&this->actor, 0.1f);
-            this->drawFunc = &func_80975074;
+            this->initDrawFunc = &func_80975074;
             this->unk_color_array_prim[1] = 0xAA;
             this->unk_color_array_prim[0] = 0xFF;
             this->unk_color_array_prim[2] = 0xFF;
@@ -355,7 +355,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_color_array_env[1] = 0x00;
             this->unk_184 = 0x00;
             this->unk_186 = 0x00;
-            this->actionFunc = &func_80972EA8;
+            this->initUpdateFunc = &func_80972EA8;
             this->unk_18C = 0x00;
             break;
 
@@ -365,7 +365,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
             }
-            this->drawFunc = &func_80975074;
+            this->initDrawFunc = &func_80975074;
             this->unk_color_array_prim[0] = 0xAA;
             this->unk_color_array_prim[1] = 0xFF;
             this->unk_color_array_prim[2] = 0xFF;
@@ -376,7 +376,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_185 = 0x04;
             this->unk_186 = 0x00;
             this->unk_188 = 0x00;
-            this->actionFunc = &func_8097303C;
+            this->initUpdateFunc = &func_8097303C;
             this->unk_18C = 0x01;
             break;
 
@@ -386,7 +386,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
             }
-            this->drawFunc = &func_80975074;
+            this->initDrawFunc = &func_80975074;
             this->unk_color_array_prim[0] = 0xAA;
             this->unk_color_array_prim[2] = 0xAA;
             this->unk_color_array_prim[1] = 0xFF;
@@ -395,21 +395,21 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_color_array_env[2] = 0x00;
             this->unk_184 = 0x02;
             this->unk_186 = 0x00;
-            this->actionFunc = &func_8097322C;
+            this->initUpdateFunc = &func_8097322C;
             this->unk_18C = 0x02;
             break;
 
         case Demo_Effect_Light_Ring_1:
-            this->drawFunc = &func_80975A3C;
-            this->actionFunc = &func_8097273C;
+            this->initDrawFunc = &func_80975A3C;
+            this->initUpdateFunc = &func_8097273C;
             this->unk_188 = 0x14;
             this->unk_184 = 0x04;
             this->unk_185 = 0xFF;
             break;
 
         case Demo_Effect_Light_Ring_3:
-            this->drawFunc = &func_80975A3C;
-            this->actionFunc = &func_809727B0;
+            this->initDrawFunc = &func_80975A3C;
+            this->initUpdateFunc = &func_809727B0;
             this->unk_188 = 0x14;
             this->unk_184 = 0x04;
             this->unk_185 = 0x00;
@@ -417,16 +417,16 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Light_Ring_2:
-            this->drawFunc = &func_80975A3C;
-            this->actionFunc = &func_809726AC;
+            this->initDrawFunc = &func_80975A3C;
+            this->initUpdateFunc = &func_809726AC;
             this->unk_188 = 0x015F;
             this->unk_184 = 0x02;
             this->unk_185 = 0x00;
             break;
 
         case Demo_Effect_Triforce_Spot:
-            this->drawFunc = &func_80975BD4;
-            this->actionFunc = &func_809723C4;
+            this->initDrawFunc = &func_80975BD4;
+            this->initUpdateFunc = &func_809723C4;
             this->unk_186 = 0x00;
             this->unk_185 = 0x00;
             this->unk_184 = 0x00;
@@ -495,8 +495,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_TW_3:
             this->actor.flags |= 0x2000000;
         case Demo_Effect_TW_1:
-            this->drawFunc = &func_80976404;
-            this->actionFunc = &func_80971DFC;
+            this->initDrawFunc = &func_80976404;
+            this->initUpdateFunc = &func_80971DFC;
             this->unk_color_array_env[0] = 0x00;
             this->unk_color_array_env[1] = 0x64;
             this->unk_color_array_env[2] = 0xFF;
@@ -534,8 +534,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Arrow:
-            this->drawFunc = NULL;
-            this->actionFunc = &func_8097456C;
+            this->initDrawFunc = NULL;
+            this->initUpdateFunc = &func_8097456C;
             this->unk_184 = 0x00;
             this->unk_18C = 0x02;
             break;
@@ -560,8 +560,8 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80971960(DemoEffect* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->initObjectBankIndex)) {
         this->actor.objBankIndex = this->initObjectBankIndex;
-        this->actor.draw = (ActorFunc)this->drawFunc;
-        this->updateFunc = this->actionFunc;
+        this->actor.draw = (ActorFunc)this->initDrawFunc;
+        this->updateFunc = this->initUpdateFunc;
 
         osSyncPrintf("\x1b[36m 転送終了 move_wait \x1b[m");
     }
@@ -1073,7 +1073,7 @@ void func_80972EA8(DemoEffect* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Fire_Ball);
 
             if (fireBall) {
-                fireBall->actionFunc = &func_809729B8;
+                fireBall->initUpdateFunc = &func_809729B8;
                 Actor_SetScale(&fireBall->actor, 0.020f);
             }
         }
