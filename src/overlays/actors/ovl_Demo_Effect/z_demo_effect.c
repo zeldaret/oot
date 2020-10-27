@@ -4,8 +4,6 @@
 
 #define THIS ((DemoEffect*)thisx)
 
-// TODO: Clean up ugly floats
-
 /**
  * Basic Actor Functions
  */
@@ -437,7 +435,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_178 = 0x00;
             this->unk_18C = 0x03;
 
-            Actor_SetScale(&this->actor, 0.019999999552965164f);
+            Actor_SetScale(&this->actor, 0.020f);
 
             newActor1 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT,
                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
@@ -696,7 +694,7 @@ void func_80971DFC(DemoEffect* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Actor_SetScale(&this->actor, 0.08400000631809235f);
+        Actor_SetScale(&this->actor, 84 * 0.001f);
         return;
     }
 
@@ -764,7 +762,7 @@ void func_809721D0(DemoEffect* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_188 >= 0x65) {
-        unk_1 = (0xFA - this->unk_188) * 0.0013333333190530539f;
+        unk_1 = (0xFA - this->unk_188) * (1.0f / 750.0f);
         this->actor.scale.x = unk_1;
         this->actor.scale.z = unk_1;
         func_809720AC(unk_1 * 5.0f);
@@ -780,7 +778,7 @@ void func_80972288(DemoEffect* this, GlobalContext* globalCtx) {
     this->unk_188++;
 
     if (this->unk_188 < 0x65) {
-        unk_1 = (0x64 - this->unk_188) * 0.009999999776482582f; // TODO: ???
+        unk_1 = (0x64 - this->unk_188) * 0.010f;
         unk_2 = unk_1 * 0.14f;
 
         if (GET_EFFECT_TYPE(&this->actor) == Demo_Effect_TW_3) {
@@ -1077,7 +1075,7 @@ void func_80972EA8(DemoEffect* this, GlobalContext* globalCtx) {
 
             if (fireBall) {
                 fireBall->actionFunc = &func_809729B8;
-                Actor_SetScale(&fireBall->actor, 0.019999999553f);
+                Actor_SetScale(&fireBall->actor, 0.020f);
             }
         }
 
@@ -1382,7 +1380,7 @@ void func_80973EE0(DemoEffect* this, GlobalContext* globalCtx) {
 
     this->unk_192 += 0x0400;
 
-    unk4 += this->unk_192 * 0.0054931640625f;
+    unk4 += this->unk_192 * (45.0f / 8192.0f);
     func_80973CFC(unk4, unk1, startPos, endPos, unk2, this->unk_vec3s, this);
 }
 
@@ -1419,7 +1417,7 @@ void func_8097414C(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
         unkVec1.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &unkVec1, &unkVec2, &unkColor1, &unkColor2,
-                                        0xBB8, 0x10);
+                                        0x0BB8, 0x10);
 
         i++;
     }
@@ -1428,9 +1426,11 @@ void func_8097414C(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
 void func_809742B0(DemoEffect* this, GlobalContext* globalCtx) {
     if (!func_809746B4(this, globalCtx, 0x01)) {
         if (this->actor.params == D_80976810[0x00]) {
+            // TODO: Needs SFX ID
             func_8002F974(&this->actor, 0x206E);
         } else if (!D_80976810[0]) {
             D_80976810[0] = this->actor.params;
+            // TODO: Needs SFX ID
             func_8002F974(&this->actor, 0x206E);
         }
     }
@@ -1495,7 +1495,7 @@ void func_80974358(DemoEffect* this, GlobalContext* globalCtx) {
         }
     }
 
-    thisx->shape.rot.y += 0x400;
+    thisx->shape.rot.y += 0x0400;
     func_809742B0(this, globalCtx);
     this->unk_18A &= 0xFFFE;
 }
@@ -1632,23 +1632,23 @@ void func_80974B80(DemoEffect* this, GlobalContext* globalCtx) {
                                 0x200 - ((scroll * 0x02) % 0x0200) - 0x01, 0x00, 0x40, 0x40));
     Matrix_Push();
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
-    Matrix_RotateX(0.19198621809482574f, MTXMODE_APPLY);
+    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A65),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000980);
     Matrix_Pull();
     Matrix_Push();
-    Matrix_RotateY(2.094395160675049f, MTXMODE_APPLY);
-    Matrix_RotateX(0.19198621809482574f, MTXMODE_APPLY);
+    Matrix_RotateY((2.0f * M_PI) / 3.0f, MTXMODE_APPLY);
+    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A70),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000980);
     Matrix_Pull();
     Matrix_Push();
-    Matrix_RotateY(4.188790321350098f, MTXMODE_APPLY);
-    Matrix_RotateX(0.19198621809482574f, MTXMODE_APPLY);
+    Matrix_RotateY((4.0f * M_PI) / 3.0f, MTXMODE_APPLY);
+    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A7B),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1725,8 +1725,8 @@ void func_80975074(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        Matrix_RotateZ((((s32)this->unk_186) * 3.0f) * 0.01745329238474369f, MTXMODE_APPLY);
-        Matrix_RotateX(1.5707963705062866f, MTXMODE_APPLY);
+        Matrix_RotateZ((((s32)this->unk_186) * 3.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
+        Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -140.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
         gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B08),
@@ -1875,7 +1875,7 @@ void func_80975BD4(DemoEffect* this, GlobalContext* globalCtx) {
                 func_8002ED80(&this->actor, globalCtx, 0x00);
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
-                Matrix_RotateY(this->unk_188 * 0.0000958738019107841f, MTXMODE_APPLY);
+                Matrix_RotateY(this->unk_188 * (M_PI / 32768.0f), MTXMODE_APPLY);
                 gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BED),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
@@ -1888,7 +1888,7 @@ void func_80975BD4(DemoEffect* this, GlobalContext* globalCtx) {
                 func_8002EBCC(&this->actor, globalCtx, 0x00);
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
-                Matrix_RotateY(this->unk_188 * 0.0000958738019107841f, MTXMODE_APPLY);
+                Matrix_RotateY(this->unk_188 * (M_PI / 32768.0f), MTXMODE_APPLY);
                 gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C0D),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
@@ -1965,8 +1965,8 @@ void func_809764FC(DemoEffect* this, Vec3f startPos, Vec3f endPos) {
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = Math_atan2f(x, z) * 10430.3779296875f;
-    this->actor.shape.rot.x = Math_atan2f(-(endPos.y - startPos.y), xzDistance) * 10430.3779296875f;
+    this->actor.shape.rot.y = Math_atan2f(x, z) * (32768.0f / M_PI);
+    this->actor.shape.rot.x = Math_atan2f(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
 }
 
 void func_809765AC(DemoEffect* this, GlobalContext* globalCtx, s32 arg2, s32 arg3) {
