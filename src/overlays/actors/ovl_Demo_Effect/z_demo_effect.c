@@ -228,7 +228,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (objectIndex < 0x00) {
         __assert("0", "../z_demo_effect.c", 0x2D3);
     } else {
-        this->unk_16C = objectIndex;
+        this->initObjectBankIndex = objectIndex;
     }
 
     this->unk_18A = 0x00;
@@ -558,8 +558,8 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80971960(DemoEffect* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->unk_16C)) {
-        this->actor.objBankIndex = this->unk_16C;
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->initObjectBankIndex)) {
+        this->actor.objBankIndex = this->initObjectBankIndex;
         this->actor.draw = (ActorFunc)this->drawFunc;
         this->updateFunc = this->actionFunc;
 

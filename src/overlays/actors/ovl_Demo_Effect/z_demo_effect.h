@@ -10,8 +10,8 @@ typedef void (*DemoEffectFunc)(struct DemoEffect* this, GlobalContext* globalCtx
 
 typedef struct DemoEffect {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnimeCurve skelCurve; // TODO: generally called skelCurve
-    /* 0x016C */ u8 unk_16C; // Object bank index 
+    /* 0x014C */ SkelAnimeCurve skelCurve;
+    /* 0x016C */ u8 initObjectBankIndex;
     /* 0x016D */ UNK_TYPE1 pad_16D[0x03];
     /* 0x0170 */ Gfx* unk_170;
     /* 0x0174 */ Gfx* unk_174;
