@@ -1877,10 +1877,35 @@ typedef struct {
     /* 0x10D */ u8 unk_10D;
 } UnkRumbleStruct; // size = 0x10E
 
+
+
 typedef struct {
     u32 unk_0;
     u8  unk_4;
 } UnkPSkinAwb_0;
+
+typedef struct {
+    char unk_0[0x6];
+    /* 0x006 */ u8 unk_6;
+    /* 0x007 */ u8 unk_7;
+    /* 0x008 */ u8 unk_8;
+    /* 0x00C */ Gfx* unk_C;
+} Struct_800A5F60; // size = ?
+
+typedef struct {
+    char unk_0[0x2];
+    u16 unk_2;
+    u32  unk_4;
+    Gfx* unk_8;
+} Struct_800A5E28;
+
+typedef struct {
+    u16 unk_0;
+    u16 unk_2;
+    u16 unk_4;
+    s32 unk_8;
+    s32 unk_C;
+} Struct_800A598C; // size = 0x10
 
 typedef struct {
     s16 unk_0;
@@ -1899,15 +1924,17 @@ typedef struct {
 } SkinAvb; // size = 0xC
 
 typedef struct {
-    UnkPSkinAwb_0* unk_0;
+    UnkPSkinAwb_0* unk_0; // possibly SkeletonHeader*
     MtxF mtx;
-    char unk_44[0x04];
+    s32 avbCount;
     SkinAvb* avbTbl;
     SkelAnime skelAnime;
 } PSkinAwb; // size = 0x90
 
 typedef void (*SkinCallback)(Actor*, GlobalContext*, PSkinAwb*);
 typedef s32 (*SkinCallback2)(Actor*, GlobalContext*, s32, PSkinAwb*);
+
+
 
 typedef struct {
     /* 0x00 */ char unk_00[0x18];
