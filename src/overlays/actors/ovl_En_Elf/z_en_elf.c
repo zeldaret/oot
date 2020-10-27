@@ -204,11 +204,12 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 1.0f;
             this->skelAnime.animPlaybackSpeed = 1.0f;
+            break;
     }
 }
 
 s32 func_80A01F90(Vec3f* this, Vec3f* arg1, f32 arg2) {
-    return SQ(arg2) < SQ(arg1->x - this->x) + SQ(arg1->z - this->z);
+    return SQ(arg2) < (SQ(arg1->x - this->x) + SQ(arg1->z - this->z));
 }
 
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
@@ -1382,19 +1383,19 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnElf* this = THIS;
 
-    if (player->naviMessageId == 0) {
+    if (player->naviTextId == 0) {
         if (player->unk_664 == NULL) {
             if (((gSaveContext.naviTimer >= 600) && (gSaveContext.naviTimer <= 3000)) || (nREG(89) != 0)) {
-                player->naviMessageId = ElfMessage_GetCUpText(globalCtx);
+                player->naviTextId = ElfMessage_GetCUpText(globalCtx);
 
-                if (player->naviMessageId == 0x15F) {
-                    player->naviMessageId = 0;
+                if (player->naviTextId == 0x15F) {
+                    player->naviTextId = 0;
                 }
             }
         }
     } else {
         // trigger dialog instantly for negative message IDs
-        if (player->naviMessageId < 0) {
+        if (player->naviTextId < 0) {
             thisx->flags |= 0x10000;
         }
     }
@@ -1510,12 +1511,12 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 envAlpha;
     EnElf* this = THIS;
     s32 pad1;
-    Gfx* dList;
+    Gfx* dListHead;
     Player* player = PLAYER;
 
     if ((this->unk_2A8 != 8) && !(this->fairyFlags & 8)) {
         if (!(player->stateFlags1 & 0x100000) || (kREG(90) < this->actor.projectedPos.z)) {
-            dList = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Gfx) * 4);
+            dListHead = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Gfx) * 4);
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2730);
 
@@ -1526,18 +1527,18 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             alphaScale = this->disapearTimer < 0 ? (this->disapearTimer * (7.0f / 6000.0f)) + 1.0f : 1.0f;
 
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, dList);
-            gDPPipeSync(dList++);
-            gDPSetPrimColor(dList++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g, (u8)this->innerColor.b,
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, dListHead);
+            gDPPipeSync(dListHead++);
+            gDPSetPrimColor(dListHead++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g, (u8)this->innerColor.b,
                             (u8)(this->innerColor.a * alphaScale));
 
             if (this->fairyFlags & 4) {
-                gDPSetRenderMode(dList++, G_RM_PASS, G_RM_CLD_SURF2);
+                gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_CLD_SURF2);
             } else {
-                gDPSetRenderMode(dList++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
+                gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
             }
 
-            gSPEndDisplayList(dList++);
+            gSPEndDisplayList(dListHead++);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
             oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,

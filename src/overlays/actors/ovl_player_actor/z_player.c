@@ -1342,7 +1342,7 @@ void func_808326F0(Player* this) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        func_800F8D04(*entry + this->ageProperties->unk_92);
+        func_800F8D04((u16)(*entry + this->ageProperties->unk_92));
         entry++;
     }
 }
@@ -3057,7 +3057,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                     actorToTarget = &PLAYER->actor;
                 }
 
-                holdTarget = (gSaveContext.zTargetingSetting != 0) || (this->actor.type != ACTORTYPE_PLAYER);
+                holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.type != ACTORTYPE_PLAYER);
                 this->stateFlags1 |= 0x8000;
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
@@ -3973,7 +3973,7 @@ s16 D_808544F8[] = {
     0x045B, 0x0482, 0x0340, 0x044B, 0x02A2, 0x0201, 0x03B8, 0x04EE, 0x03C0, 0x0463, 0x01CD, 0x0394, 0x0340, 0x057C,
 };
 
-u8 D_80854514[] = { 11, 9, 3, 5, 7 };
+u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
 
 s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u32 arg3) {
     s32 sp3C;
@@ -4043,9 +4043,9 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u
                     }
 
                     if (linearVel > R_RUN_SPEED_LIMIT / 100.0f) {
-                        gSaveContext.unk_13BC = R_RUN_SPEED_LIMIT / 100.0f;
+                        gSaveContext.entranceSpeed = R_RUN_SPEED_LIMIT / 100.0f;
                     } else {
-                        gSaveContext.unk_13BC = linearVel;
+                        gSaveContext.entranceSpeed = linearVel;
                     }
 
                     if (D_808535F4 != 0) {
@@ -4274,8 +4274,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         func_8003C890(&globalCtx->colCtx, &sp58, &sp4C);
 
                         if (func_80839034(globalCtx, this, sp58, 50)) {
-                            gSaveContext.unk_13BC = 2.0f;
-                            gSaveContext.unk_13C0 = NA_SE_OC_DOOR_OPEN;
+                            gSaveContext.entranceSpeed = 2.0f;
+                            gSaveContext.entranceSound = NA_SE_OC_DOOR_OPEN;
                         }
                     } else {
                         func_8005AD40(Gameplay_GetCamera(globalCtx, 0), doorActor,
@@ -4892,8 +4892,8 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
     sp24 = (sp30 != NULL) && (((sp30->flags & 0x40001) == 0x40001) || (sp30->naviEnemyId != 0xFF));
 
-    if (sp24 || (this->naviMessageId != 0)) {
-        sp28 = (this->naviMessageId < 0) && ((ABS(this->naviMessageId) & 0xFF00) != 0x200);
+    if (sp24 || (this->naviTextId != 0)) {
+        sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
         if (sp28 || !sp24) {
             sp2C = this->naviActor;
             if (sp28) {
@@ -4935,10 +4935,10 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
                         this->targetActor = NULL;
 
                         if (sp28 || !sp24) {
-                            if (this->naviMessageId >= 0) {
-                                sp2C->textId = this->naviMessageId;
+                            if (this->naviTextId >= 0) {
+                                sp2C->textId = this->naviTextId;
                             } else {
-                                sp2C->textId = -this->naviMessageId;
+                                sp2C->textId = -this->naviTextId;
                             }
                         } else {
                             if (sp2C->naviEnemyId != 0xFF) {
@@ -4979,7 +4979,7 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_664 != NULL) &&
         (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
-    } else if ((this->naviMessageId == 0) && !func_8008E9C4(this) &&
+    } else if ((this->naviTextId == 0) && !func_8008E9C4(this) &&
                CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && (YREG(15) != 0x10) && (YREG(15) != 0x20) &&
                !func_8083B8F4(this, globalCtx)) {
         func_80078884(NA_SE_SY_ERROR);
@@ -5357,18 +5357,18 @@ void func_8083CA20(GlobalContext* globalCtx, Player* this) {
 
 void func_8083CA54(GlobalContext* globalCtx, Player* this) {
     this->linearVelocity = 2.0f;
-    gSaveContext.unk_13BC = 2.0f;
+    gSaveContext.entranceSpeed = 2.0f;
     if (func_8083C910(globalCtx, this, 120.0f)) {
         this->unk_850 = -15;
     }
 }
 
 void func_8083CA9C(GlobalContext* globalCtx, Player* this) {
-    if (gSaveContext.unk_13BC < 0.1f) {
-        gSaveContext.unk_13BC = 0.1f;
+    if (gSaveContext.entranceSpeed < 0.1f) {
+        gSaveContext.entranceSpeed = 0.1f;
     }
 
-    this->linearVelocity = gSaveContext.unk_13BC;
+    this->linearVelocity = gSaveContext.entranceSpeed;
 
     if (func_8083C910(globalCtx, this, 800.0f)) {
         this->unk_850 = -80 / this->linearVelocity;
@@ -8677,7 +8677,7 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
             sp30 = 20;
 
             if (this->stateFlags1 & 1) {
-                sp34 = gSaveContext.unk_13BC;
+                sp34 = gSaveContext.entranceSpeed;
 
                 if (D_808535F4 != 0) {
                     this->unk_450.x = (Math_Sins(D_808535FC) * 400.0f) + this->actor.posRot.pos.x;
@@ -8686,7 +8686,7 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
             } else if (this->unk_850 < 0) {
                 this->unk_850++;
 
-                sp34 = gSaveContext.unk_13BC;
+                sp34 = gSaveContext.entranceSpeed;
                 sp30 = -1;
             }
 
@@ -9072,7 +9072,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 sp4C;
     s32 initMode;
     s16 params;
-    u16 unk_13C0;
+    u16 entranceSound;
 
     globalCtx->unk_11E5C = globalCtx->bombchuBowlingAmmo = 0;
 
@@ -9126,7 +9126,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((sp50 == 0) || (sp50 < -1)) {
-        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && (gSaveContext.unk_13C7 != 0) &&
+        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && (gSaveContext.showTitleCard) &&
             (gSaveContext.sceneSetupIndex < 4) &&
             (gEntranceTable[gSaveContext.entranceIndex + gSaveContext.sceneSetupIndex].field & 0x4000) &&
             ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
@@ -9134,7 +9134,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
             TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 0xA0, 0x78, 0x90,
                                     0x18, 0x14);
         }
-        gSaveContext.unk_13C7 = 1;
+        gSaveContext.showTitleCard = true;
     }
 
     if (sp50 == 2) {
@@ -9178,10 +9178,10 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->stateFlags3 &= ~0x40;
     }
 
-    if (gSaveContext.unk_13C0 != 0) {
-        unk_13C0 = gSaveContext.unk_13C0;
-        Audio_PlayActorSound2(&this->actor, unk_13C0);
-        gSaveContext.unk_13C0 = 0;
+    if (gSaveContext.entranceSound != 0) {
+        entranceSound = gSaveContext.entranceSound;
+        Audio_PlayActorSound2(&this->actor, entranceSound);
+        gSaveContext.entranceSound = 0;
     }
 
     Map_SavePlayerInitialInfo(globalCtx);
@@ -10159,7 +10159,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_8083D6EC(globalCtx, this);
 
-        if ((this->unk_664 == NULL) && (this->naviMessageId == 0)) {
+        if ((this->unk_664 == NULL) && (this->naviTextId == 0)) {
             this->stateFlags2 &= ~0x200002;
         }
 
@@ -10210,7 +10210,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->rideActor = NULL;
         }
 
-        this->naviMessageId = 0;
+        this->naviTextId = 0;
 
         if (!(this->stateFlags2 & 0x2000000)) {
             this->unk_6A8 = NULL;
@@ -11819,7 +11819,8 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             Audio_PlaySoundGeneral(NA_SE_SY_GET_BOXITEM, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
-                ((this->getItemId == GI_HEART_PIECE) && ((gSaveContext.questItems & 0xF0000000) == 0x40000000))) {
+                ((this->getItemId == GI_HEART_PIECE) &&
+                 ((gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000))) {
                 temp1 = 0x924;
             } else {
                 temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? 0x39 : 0x922;
@@ -11909,9 +11910,9 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
             func_80853148(globalCtx, this->targetActor);
-        } else if (this->naviMessageId < 0) {
+        } else if (this->naviTextId < 0) {
             this->targetActor = this->naviActor;
-            this->naviActor->textId = -this->naviMessageId;
+            this->naviActor->textId = -this->naviTextId;
             func_80853148(globalCtx, this->targetActor);
         } else if (!func_8083B040(this, globalCtx)) {
             func_8083A098(this, &D_04003098, globalCtx);

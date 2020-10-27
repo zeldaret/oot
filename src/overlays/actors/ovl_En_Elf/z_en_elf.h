@@ -7,8 +7,8 @@
 
 struct EnElf;
 
-typedef void (*EnElfActionFunc)(struct EnElf*, struct GlobalContext*);
-typedef void (*EnElfUnkFunc)(struct EnElf*, struct GlobalContext*);
+typedef void (*EnElfActionFunc)(struct EnElf*, GlobalContext*);
+typedef void (*EnElfUnkFunc)(struct EnElf*, GlobalContext*);
 
 typedef struct EnElf {
     /* 0x0000 */ Actor actor;
