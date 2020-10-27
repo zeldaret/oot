@@ -1527,8 +1527,8 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             gSPSegment(oGfxCtx->polyXlu.p++, 0x08, dListHead);
             gDPPipeSync(dListHead++);
-            gDPSetPrimColor(dListHead++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g, (u8)this->innerColor.b,
-                            (u8)(this->innerColor.a * alphaScale));
+            gDPSetPrimColor(dListHead++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g,
+                            (u8)this->innerColor.b, (u8)(this->innerColor.a * alphaScale));
 
             if (this->fairyFlags & 4) {
                 gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_CLD_SURF2);
