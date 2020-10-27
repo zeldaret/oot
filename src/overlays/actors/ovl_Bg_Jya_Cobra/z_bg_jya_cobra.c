@@ -460,102 +460,47 @@ void func_80895EF0(BgJyaCobra* this);
 void func_80896518(BgJyaCobra* this);
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
 void func_80896518(BgJyaCobra *this) {
-    // ???
     f32 sp58[0x40];
-    f32 temp_f0;
     f32 temp_f12;
     f32 temp_f2;
-    s32 temp_a1;
     u8* temp_s0;
     s32 temp_t0;
-    u8 *temp_v0_6;
-    u8 *temp_v1;
     s32 phi_t0;
-    f32 *phi_t1;
-    f32 *phi_a0;
     u8 *phi_a3;
-    s32 phi_v1;
     s32 phi_t1_3;
-    s32 phi_a1;
-    s32 *phi_a0_2;
-    s32 phi_v0;
-    u8* temp_a2;
+    s32 i;
+    s32 j;
 
-    phi_t0 = 0;
-    phi_t1 = sp58;
-    do {
-        temp_t0 = phi_t0 + 1;
-        (*phi_t1++) = SQ(phi_t0 - 31.5f);
-        phi_t0 = temp_t0;
-    } while (temp_t0 < 0x40);
+    for (i = 0; i < 0x40; i++) {
+        sp58[i] = SQ(i - 31.5f);
+    }
+
     temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
-    Lib_MemSet(temp_s0, 0x1000U, (u8)0U);
-    phi_t1 = &sp58;
     phi_a3 = temp_s0;
-    do {
-        temp_f12 = *phi_t1;
-        phi_a0 = &sp58;
-        do {
-            temp_f2 = (phi_a0[0] * 0.5f) + temp_f12;
+    Lib_MemSet(temp_s0, 0x1000, 0);
+    
+    for (i = 0; i != 0x40; i++) {
+        temp_f12 = sp58[i];
+        for(j = 0; j != 0x40; j++) {
+            temp_f2 = (sp58[j] * 0.5f) + temp_f12;
             if (temp_f2 < 300.0f) {
-                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
+                *phi_a3 |= CLAMP_MAX(0x280 - (s32) (temp_f2 + temp_f2), 0xA6);
             }
             phi_a3 += 1;
-            temp_f0 = (phi_a0[1] * 0.5f) + temp_f12;
-            if (temp_f0 < 300.0f) {
-                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
-            }
-            phi_a3 += 1;
-            temp_f0 = (phi_a0[2] * 0.5f) + temp_f12;
-            if (temp_f0 < 300.0f) {
-                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
-            }
-            phi_a3 += 1;
-            temp_f0 = (phi_a0[3] * 0.5f) + temp_f12;
-            phi_a0 += 0x10;
-            if (temp_f0 < 300.0f) {
-                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
-            }
-            phi_a3 += 1;
-        } while (phi_a0 != &sp58[0x40]);
-        phi_t1 = phi_t1 + 1;
-    } while (phi_t1 != &sp58[0x40]);
-    phi_a0_2 = D_80897518;
-    phi_t1_3 = 0x780;
-    do {
+        }
+    }
+
+    for (i = 0, phi_t1_3 = 0x780; i != 4; i += 1, phi_t1_3 += 0x40) {
         phi_t0 = phi_t1_3;
-        phi_a1 = 4;
-        temp_a2 = temp_s0 + phi_t1_3;
-        do {
-            temp_v1 = temp_a2 + phi_a1;
-            phi_v0 = *phi_a0_2;
-            temp_a1 = phi_a1 + 4;
-            if ((s32) temp_v1[0] < phi_v0) {
-                temp_v1[0] = (u8) phi_v0;
-                phi_v0 = *phi_a0_2;
+        for (j = 4; j != 0x3C; j++)
+        {
+            if (temp_s0[phi_t1_3 + j] < D_80897518[i]) {
+                temp_s0[phi_t1_3 + j] = D_80897518[i];
             }
-            if ((s32) temp_v1[1] < *phi_a0_2) {
-                temp_v1[1] = (u8) *phi_a0_2;
-                phi_v0 = *phi_a0_2;
-            }
-            if ((s32) temp_v1[2] < phi_v0) {
-                temp_v1[2] = (u8) phi_v0;
-                phi_v0 = *phi_a0_2;
-            }
-            if ((s32) temp_v1[3] < phi_v0) {
-                temp_v1[3] = (u8) phi_v0;
-                // may not be needed, no change
-                phi_v0 = *phi_a0_2;
-            }
-            phi_a1 = temp_a1;
-            temp_v1 = temp_a2 + phi_a1;
-        } while (temp_a1 != 0x3C);
-        phi_a0_2 += 1;
-        temp_v0_6 = temp_s0 + phi_t0;
-        phi_t1_3 = phi_t1_3 + 0x40;
-        temp_v0_6[0x3C] = (u8)0x20;
-        temp_v0_6[3] = (u8)0x20;
-    } while ((s32)phi_a0_2 != (s32)&D_80897528);
+        }
+        temp_s0[phi_t0 + 0x3C] = 0x20;
+        temp_s0[phi_t0 + 0x3] = 0x20;
+    }
 }
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
