@@ -2529,7 +2529,7 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp);
 s32 __osGetId(OSPfs* pfs);
 s32 __osCheckId(OSPfs* pfs);
 s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank);
-// ? func_80102FA0(?);
+// ? guMtxL2F(?);
 s32 osPfsFindFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32* fileNo);
 s32 osAfterPreNMI(void);
 s32 osContStartQuery(OSMesgQueue* mq);
