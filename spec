@@ -419,7 +419,6 @@ beginseg
     include "build/src/code/code_800EC960.o"
     include "build/data/code_800EC960.data.o"
     include "build/src/code/code_800F7260.o"
-    include "build/data/code_800F7260.data.o"
     include "build/src/code/code_800F9280.o"
     include "build/data/code_800F9280.data.o"
     include "build/data/code_800F9280.rodata.o"
@@ -970,8 +969,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Bombchuiwa"
     include "build/src/overlays/actors/ovl_Bg_Jya_Bombchuiwa/z_bg_jya_bombchuiwa.o"
-    include "build/data/overlays/actors/z_bg_jya_bombchuiwa.data.o"
-    include "build/data/overlays/actors/z_bg_jya_bombchuiwa.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Bombchuiwa/ovl_Bg_Jya_Bombchuiwa_reloc.o"
 endseg
 
 beginseg
@@ -1267,8 +1265,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot11_Oasis"
     include "build/src/overlays/actors/ovl_Bg_Spot11_Oasis/z_bg_spot11_oasis.o"
-    include "build/data/overlays/actors/z_bg_spot11_oasis.data.o"
-    include "build/data/overlays/actors/z_bg_spot11_oasis.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot11_Oasis/ovl_Bg_Spot11_Oasis_reloc.o"
 endseg
 
 beginseg
@@ -3541,8 +3538,7 @@ endseg
 beginseg
     name "ovl_Obj_Oshihiki"
     include "build/src/overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.o"
-    include "build/data/overlays/actors/z_obj_oshihiki.data.o"
-    include "build/data/overlays/actors/z_obj_oshihiki.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Oshihiki/ovl_Obj_Oshihiki_reloc.o"
 endseg
 
 beginseg
