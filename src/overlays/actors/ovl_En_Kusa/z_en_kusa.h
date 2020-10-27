@@ -8,6 +8,7 @@ struct EnKusa;
 
 typedef struct EnKusa {
     /* 0x0000 */ Actor actor;
+    /* 0x012B */ s8 kusaTexObjIndex;
     /* 0x014C */ char unk_14C[0x54];
 } EnKusa; // size = 0x01A0
 
