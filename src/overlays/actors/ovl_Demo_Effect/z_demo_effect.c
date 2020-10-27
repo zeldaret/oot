@@ -4,7 +4,6 @@
 
 #define THIS ((DemoEffect*)thisx)
 
-// TODO: Open/Close disps macro
 // TODO: Clean up ugly floats
 
 /**
@@ -1613,24 +1612,21 @@ void func_80974B80(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     DemoEffect* parent;
     u32 scroll;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[0x04];
 
     parent = (DemoEffect*)this->actor.parent;
     scroll = globalCtx->gameplayFrames & 0xFFFF;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A4A);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A4A);
 
     if (parent) {
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, parent->unk_186);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, parent->unk_186);
     } else {
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, 0xFF);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, 0xFF);
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 0x02) % 0x0200,
                                 0x0200 - (scroll % 0x0200) - 0x01, 0x80, 0x80, 0x01,
                                 0x200 - ((scroll * 0x02) % 0x0200) - 0x01, 0x00, 0x40, 0x40));
@@ -1638,50 +1634,47 @@ void func_80974B80(DemoEffect* this, GlobalContext* globalCtx) {
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
     Matrix_RotateX(0.19198621809482574f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A65),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A65),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06000980);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000980);
     Matrix_Pull();
     Matrix_Push();
     Matrix_RotateY(2.094395160675049f, MTXMODE_APPLY);
     Matrix_RotateX(0.19198621809482574f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A70),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A70),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06000980);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000980);
     Matrix_Pull();
     Matrix_Push();
     Matrix_RotateY(4.188790321350098f, MTXMODE_APPLY);
     Matrix_RotateX(0.19198621809482574f, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A7B),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A7B),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06000980);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000980);
     Matrix_Pull();
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A80);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A80);
 }
 
 void func_80974EB4(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     u32 scroll;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[0x04];
 
     scroll = globalCtx->gameplayFrames;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A8D);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x40, 0x40, 0xFF, 0xC8, 0x00, 0xFF);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0xFF);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A8D);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x40, 0x40, 0xFF, 0xC8, 0x00, 0xFF);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0xFF);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A95),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A95),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPMatrix(gfxCtx->polyXlu.p++, globalCtx->unk_11DE0, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+    gSPMatrix(oGfxCtx->polyXlu.p++, globalCtx->unk_11DE0, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x00, 0x20, 0x20, 0x01, 0x00,
                                 0x80 - ((scroll * 0x14) % 0x80) - 0x01, 0x20, 0x20));
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_06000040);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0AA3);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000040);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0AA3);
 }
 
 void func_80975074(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1788,44 +1781,37 @@ void func_80975494(DemoEffect* this, GlobalContext* globalCtx) {
 void func_8097571C(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[0x04];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B4C);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xBC, 0xFF, 0xFF, this->unk_184);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, 0xFF);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B4C);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xBC, 0xFF, 0xFF, this->unk_184);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, 0xFF);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateZ(this->unk_188 * 0.0000958738019107841f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B55),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B55),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->unk_188 += 0x01F4;
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_04010130);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B5B);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04010130);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B5B);
 }
 
 void func_8097587C(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
     u32 scroll;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[0x04];
-
     scroll = globalCtx->gameplayFrames;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B69);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x40, 0x40, 0xFF, 0xFF, 0xA0, this->unk_184);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x32, 0xC8, 0x00, 0xFF);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B69);
+    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x40, 0x40, 0xFF, 0xFF, 0xA0, this->unk_184);
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x32, 0xC8, 0x00, 0xFF);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B6F),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B6F),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 0x05) % 0x0400, 0x00, 0x0100, 0x40, 0x01,
                                 (scroll * 0x0A) % 0x80, 0x200 - ((scroll * 0x32) % 0x0200), 0x20, 0x10));
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_060011D0);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B7E);
+    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060011D0);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B7E);
 }
 
 void func_80975A3C(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1854,14 +1840,11 @@ void func_80975BD4(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad2;
     Vtx* data;
     u32 scroll;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[0x04];
 
     data = (Vtx*)SEGMENTED_TO_VIRTUAL(D_06000000);
     scroll = globalCtx->gameplayFrames;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BB2);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BB2);
     if (gSaveContext.entranceIndex != 0x0400 || globalCtx->csCtx.frames < 0x0375) {
         func_80093D84(globalCtx->state.gfxCtx);
 
@@ -1869,55 +1852,55 @@ void func_80975BD4(DemoEffect* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_AURORA - SFX_FLAG);
             Matrix_Push();
             Matrix_Scale(1.0f, 2.4f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BC3),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BC3),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(gfxCtx->polyXlu.p++, 0x09,
+            gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x0100 - ((scroll * 0x04) % 0x0100) - 0x01,
                                         0x40, 0x40, 0x01, 0x00, 0x0100 - ((scroll * 0x02) % 0x0100) - 0x01, 0x40,
                                         0x20));
             (data + 0x56)->n.a = (data + 0x57)->n.a = (data + 0x58)->n.a = (data + 0x59)->n.a = (data + 0x5C)->n.a =
                 (data + 0x5D)->n.a = (data + 0x5E)->n.a = (data + 0x5F)->n.a = (s8)this->unk_185;
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xB4, 0xFF, 0xFF, this->unk_185);
-            gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0xFF, 0x96, 0xFF);
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_06000840);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xB4, 0xFF, 0xFF, this->unk_185);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0xFF, 0x96, 0xFF);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000840);
             Matrix_Pull();
         }
 
         if (this->unk_184) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRIFORCE - SFX_FLAG);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BE2),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BE2),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             if (this->unk_184 < 0xFA) {
                 func_8002ED80(&this->actor, globalCtx, 0x00);
                 func_80093D84(globalCtx->state.gfxCtx);
-                gDPSetRenderMode(gfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
+                gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
                 Matrix_RotateY(this->unk_188 * 0.0000958738019107841f, MTXMODE_APPLY);
-                gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BED),
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BED),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+                gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x00, 0x20, 0x10, 0x01, 0x00, 0x00,
                                             0x10, 0x08));
-                gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, this->unk_184);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xAA, 0x8C, 0x00, 0xFF);
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_06000600);
+                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, this->unk_184);
+                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xAA, 0x8C, 0x00, 0xFF);
+                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000600);
             } else {
                 func_8002EBCC(&this->actor, globalCtx, 0x00);
                 func_80093D18(globalCtx->state.gfxCtx);
-                gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
+                gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
                 Matrix_RotateY(this->unk_188 * 0.0000958738019107841f, MTXMODE_APPLY);
-                gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C0D),
+                gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C0D),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPSegment(gfxCtx->polyOpa.p++, 0x08,
+                gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x00, 0x20, 0x10, 0x01, 0x00, 0x00,
                                             0x10, 0x08));
-                gDPSetPrimColor(gfxCtx->polyOpa.p++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, 0xFF);
-                gDPSetEnvColor(gfxCtx->polyOpa.p++, 0xAA, 0x8C, 0x00, 0xFF);
-                gSPDisplayList(gfxCtx->polyOpa.p++, D_06000600);
+                gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, 0xFF);
+                gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xAA, 0x8C, 0x00, 0xFF);
+                gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000600);
             }
         }
     }
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C28);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C28);
 }
 
 void func_809761C4(DemoEffect* this, GlobalContext* globalCtx) {
