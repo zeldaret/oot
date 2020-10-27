@@ -13,8 +13,8 @@ typedef struct DemoEffect {
     /* 0x014C */ SkelAnimeCurve skelCurve;
     /* 0x016C */ u8 initObjectBankIndex;
     /* 0x016D */ UNK_TYPE1 pad_16D[0x03];
-    /* 0x0170 */ Gfx* unk_170;
-    /* 0x0174 */ Gfx* unk_174;
+    /* 0x0170 */ Gfx* jewelDisplayList;
+    /* 0x0174 */ Gfx* jewelHolderDisplayList;
     /* 0x178 */ u8 unk_color_array_prim[3];
     /* 0x17B */ u8 unk_color_array_env[3];
     /* 0x17E */ u8 unk_color_array_prim2[3];

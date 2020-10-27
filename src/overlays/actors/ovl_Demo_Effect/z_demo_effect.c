@@ -97,13 +97,13 @@ extern Gfx D_06000330[];
 extern Gfx D_06000600[];
 extern Gfx D_06000840[];
 extern Gfx D_06000980[];
-extern Gfx D_060010E0[];
+extern Gfx kokiriJewelHolder[];
 extern Gfx D_060011D0[];
-extern Gfx D_06001FB0[];
-extern Gfx D_06001240[];
-extern Gfx D_060020A0[];
-extern Gfx D_06003370[];
-extern Gfx D_06003530[];
+extern Gfx goronJewelHolder[];
+extern Gfx kokiriJewel[];
+extern Gfx goronJewel[];
+extern Gfx zoraJewelHolder[];
+extern Gfx zoraJewel[];
 extern Gfx D_06003C50[];
 
 const ActorInit Demo_Effect_InitVars = {
@@ -505,24 +505,24 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Jewel_Kokiri:
-            this->unk_170 = D_06001240;
-            this->unk_174 = D_060010E0;
+            this->jewelDisplayList = kokiriJewel;
+            this->jewelHolderDisplayList = kokiriJewelHolder;
             this->unk_184 = 0x13;
             this->unk_185 = 0x00;
             func_80970FB4(globalCtx, this);
             break;
 
         case Demo_Effect_Jewel_Goron:
-            this->unk_170 = D_060020A0;
-            this->unk_174 = D_06001FB0;
+            this->jewelDisplayList = goronJewel;
+            this->jewelHolderDisplayList = goronJewelHolder;
             this->unk_184 = 0x14;
             this->unk_185 = 0x00;
             func_80970FB4(globalCtx, this);
             break;
 
         case Demo_Effect_Jewel_Zora:
-            this->unk_170 = D_06003530;
-            this->unk_174 = D_06003370;
+            this->jewelDisplayList = zoraJewel;
+            this->jewelHolderDisplayList = zoraJewelHolder;
             this->unk_184 = 0x15;
             this->unk_185 = 0x00;
             func_80970FB4(globalCtx, this);
@@ -1593,14 +1593,14 @@ void func_809746F8(DemoEffect* this, GlobalContext* globalCtx) {
                             this->unk_color_array_prim[1], this->unk_color_array_prim[2], 0xFF);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->unk_color_array_env[0], this->unk_color_array_env[1],
                            this->unk_color_array_env[2], 0xFF);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, this->unk_170);
+            gSPDisplayList(oGfxCtx->polyXlu.p++, this->jewelDisplayList);
             func_80093D18(globalCtx->state.gfxCtx);
             func_8002EBCC(&this->actor, globalCtx, 0x00);
             gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x00, 0x80, this->unk_color_array_prim2[0],
                             this->unk_color_array_prim2[1], this->unk_color_array_prim2[2], 0xFF);
             gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->unk_color_array_env2[0], this->unk_color_array_env2[1],
                            this->unk_color_array_env2[2], 0xFF);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, this->unk_174);
+            gSPDisplayList(oGfxCtx->polyOpa.p++, this->jewelHolderDisplayList);
         }
     }
 
