@@ -1,10 +1,16 @@
+/*
+ * File: z_en_kusa.c
+ * Overlay: ovl_en_kusa
+ * Description: Grass Bush.
+ */
+
 #include "z_en_kusa.h"
 
 #define FLAGS 0x00800010
 
 #define THIS ((EnKusa*)thisx)
 
-void EnKusa_Init(EnKusa* thisx, GlobalContext* globalCtx);
+void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx);
 
@@ -29,9 +35,6 @@ const ActorInit En_Kusa_InitVars = {
 };
 
 s32 D_80A9C200[] = { 0x0002012B, 0x012B0000 };
-static s16 sObjectIds[] = {
-
-};
 
 // sCylinderInit
 static ColliderCylinderInit D_80A9C208 = {
@@ -60,7 +63,28 @@ s32 D_80A9C294[] = { 0x0500B9D0, 0x06000140, 0x06000140 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFA0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFAC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFAC.s")
+//Snap to floor?
+s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
+    CollisionPoly* sp38;
+    Vec3f sp28;
+    f32 temp_f0;
+
+    sp28.x = this->actor.posRot.pos.x;
+    sp28.y = this->actor.posRot.pos.y + 30.0f;
+    sp28.z = this->actor.posRot.pos.z;
+    temp_f0 = func_8003C9A4(&globalCtx->colCtx + 0x7C0, &sp38, &sp28, &this->actor, &sp28);
+    if (-32000.0f < temp_f0) {
+        this->actor.posRot.pos.y = temp_f0 + arg2;
+        Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+        return 1;
+    }
+    osSyncPrintf("\x1b[43;30m", this);
+    //Failure attaching to ground
+    osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
+    osSyncPrintf("\x1b[m");
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B07C.s")
 
@@ -74,20 +98,16 @@ s32 D_80A9C294[] = { 0x0500B9D0, 0x06000140, 0x06000140 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B574.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B630.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B630.s")
 // ColliderCylinder Init function from the looks of it
-// void func_80A9B630(Actor* arg0, GlobalContext* globalCtx) {
-//     ColliderCylinder* sp18;
-//     ColliderCylinder* temp_a1;
+void func_80A9B630(Actor* thisx, GlobalContext* globalCtx) {
+    EnKusa* this = THIS;
 
-//     // Cylinder is going to be at actor(arg0) + 0x150
-//     temp_a1 = arg0 + 0x150;
-//     sp18 = temp_a1;
-//     arg0 = arg0;
-//     Collider_InitCylinder(globalCtx, temp_a1);
-//     Collider_SetCylinder(globalCtx, temp_a1, arg0, &D_80A9C208);
-//     Collider_CylinderUpdate(arg0, temp_a1);
-// }
+    // Cylinder is going to be at actor(arg0) + 0x150
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A9C208);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/EnKusa_Init.s")
 void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx) {
@@ -97,7 +117,7 @@ void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward = this->actor.uncullZoneForward + 1000.0f;
     }
     // Init for the ColliderCylinder
-    func_80A9B630(this, globalCtx);
+    func_80A9B630(&this->actor, globalCtx);
 
     func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (this->actor.shape.rot.y == 0) {
@@ -107,7 +127,7 @@ void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx) {
         this->actor.initPosRot.rot.y = (s16)rand;
         this->actor.shape.rot.y = (s16)rand;
     }
-    // this checks to see if the bush is adhered to the ground/picked up I think
+
     if (func_80A9AFAC(this, globalCtx, 0) == 0) {
         Actor_Kill(&this->actor);
         return;
@@ -133,9 +153,26 @@ void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx) {
 //     Collider_DestroyCylinder(globalCtx, thisx + 0x150);
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B7EC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B7EC.s")
+void func_80A9B7EC(void) {
+    func_80A9AFA0(&func_80A9B810);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B810.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B810.s")
+void func_80A9B810(EnKusa *this, GlobalContext* globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx + 0x117A4, (s32) this->unk19E) != 0) {
+        if ((arg0->unk4 & 0x800) != 0) {
+            func_80A9BEAC(arg0);
+        } else {
+            func_80A9B89C(arg0);
+        }
+        this->unk134 = &func_80A9C164;
+        this->unk4 = (s32) (arg0->unk4 & -0x11);
+        this->unk1E = (s8) arg0->unk19E;
+    }
+}
+
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B89C.s")
 
