@@ -218,7 +218,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor* newActor1;
     Actor* newActor2;
 
-    effectType = GET_ACTOR_TYPE(&this->actor);
+    effectType = GET_EFFECT_TYPE(&this->actor);
     lightEffect = GET_LIGHT_EFFECT_COLOUR_PARAM(&this->actor);
 
     osSyncPrintf("\x1b[36m no = %d\n\x1b[m", effectType);
@@ -554,7 +554,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    s32 effectType = GET_ACTOR_TYPE(thisx);
+    s32 effectType = GET_EFFECT_TYPE(thisx);
 
     if (effectType == Demo_Effect_TW_1 || effectType == Demo_Effect_TW_2 || effectType == Demo_Effect_TW_3) {
         SkelCurve_Destroy(globalCtx, &THIS->unk_14C);
@@ -681,7 +681,7 @@ void func_80971BBC(DemoEffect* this, GlobalContext* globalCtx) {
 }
 
 void func_80971DFC(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 actorType = GET_ACTOR_TYPE(&this->actor);
+    s32 actorType = GET_EFFECT_TYPE(&this->actor);
 
     if (!SkelCurve_Init(globalCtx, &this->unk_14C, &D_060012E8, &D_06000050)) {
         __assert("0", "../z_demo_effect.c", 0x0503);
@@ -784,7 +784,7 @@ void func_80972288(DemoEffect* this, GlobalContext* globalCtx) {
         unk_1 = (0x64 - this->unk_188) * 0.009999999776482582f; // TODO: ???
         unk_2 = unk_1 * 0.14f;
 
-        if (GET_ACTOR_TYPE(&this->actor) == Demo_Effect_TW_3) {
+        if (GET_EFFECT_TYPE(&this->actor) == Demo_Effect_TW_3) {
             unk_2 *= 0.6f;
         }
 
@@ -1963,7 +1963,7 @@ s32 func_80976254(GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIn
 
 void func_80976404(DemoEffect* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
-    u8 effectType = GET_ACTOR_TYPE(&this->actor);
+    u8 effectType = GET_EFFECT_TYPE(&this->actor);
     GraphicsContext* gfxCtx2 = globalCtx2->state.gfxCtx;
 
     if (effectType == Demo_Effect_TW_2 || effectType == Demo_Effect_TW_3 || Flags_GetEnv(globalCtx, 0x01) ||

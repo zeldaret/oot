@@ -97,7 +97,7 @@ typedef enum {
     /* 0x1A */ Demo_Effect_Max_Effect_Type
 } Demo_Effect_Effect_Type;
 
-#define GET_ACTOR_TYPE(thisx) ((thisx)->params & 0x00FF)
+#define GET_EFFECT_TYPE(thisx) ((thisx)->params & 0x00FF)
 #define GET_LIGHT_EFFECT_COLOUR_PARAM(thisx) (((thisx)->params & 0xF000) >> 0x0C)
 #define GET_LIGHT_EFFECT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 0x08)
 
