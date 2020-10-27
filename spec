@@ -844,8 +844,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Fwbig"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Fwbig/z_bg_hidan_fwbig.o"
-    include "build/data/overlays/actors/z_bg_hidan_fwbig.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_fwbig.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Fwbig/ovl_Bg_Hidan_Fwbig_reloc.o"
 endseg
 
 beginseg
@@ -1265,8 +1264,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot11_Oasis"
     include "build/src/overlays/actors/ovl_Bg_Spot11_Oasis/z_bg_spot11_oasis.o"
-    include "build/data/overlays/actors/z_bg_spot11_oasis.data.o"
-    include "build/data/overlays/actors/z_bg_spot11_oasis.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot11_Oasis/ovl_Bg_Spot11_Oasis_reloc.o"
 endseg
 
 beginseg
