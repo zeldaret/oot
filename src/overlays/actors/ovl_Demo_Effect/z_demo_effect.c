@@ -191,9 +191,9 @@ void func_80970FB4(GlobalContext* globalCtx, DemoEffect* this) {
     this->unk_18C = 0x01;
     this->actor.shape.rot.x = 0x4000;
     func_80973424(this);
-    this->unk_192 = 0x00;
+    this->unk_vec3s.z = 0x00;
     this->unk_186 = 0x00;
-    this->unk_18E = this->unk_190 = this->unk_192;
+    this->unk_vec3s.x = this->unk_vec3s.y = this->unk_vec3s.z;
     D_80976810[0x00] = 0x00;
 }
 
@@ -253,12 +253,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_185 = 0x05;
             this->unk_188 = 0x00;
             Actor_SetScale(&this->actor, 0.05f);
-            this->unk_178 = 0xBC;
-            this->unk_179 = 0xFF;
-            this->unk_17A = 0xFF;
-            this->unk_17C = 0x64;
-            this->unk_17D = 0xFF;
-            this->unk_17B = 0x00;
+            this->unk_color_array_prim[0] = 0xBC;
+            this->unk_color_array_prim[1] = 0xFF;
+            this->unk_color_array_prim[2] = 0xFF;
+            this->unk_color_array_env[1] = 0x64;
+            this->unk_color_array_env[2] = 0xFF;
+            this->unk_color_array_env[0] = 0x00;
             break;
 
         case Demo_Effect_Light_Particles:
@@ -271,68 +271,67 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             // TODO: lightEffect enums
             switch (lightEffect) {
                 case 0x00:
-                    this->unk_178 = 0xFF;
-                    this->unk_179 = 0xFF;
-                    this->unk_17A = 0xFF;
-                    this->unk_17C = 0x32;
-                    this->unk_17B = 0xFF;
-                    this->unk_17D = 0x00;
+                    this->unk_color_array_prim[0] = 0xFF;
+                    this->unk_color_array_prim[1] = 0xFF;
+                    this->unk_color_array_prim[2] = 0xFF;
+                    this->unk_color_array_env[1] = 0x32;
+                    this->unk_color_array_env[0] = 0xFF;
+                    this->unk_color_array_env[2] = 0x00;
                     break;
 
                 case 0x01:
-                    this->unk_178 = 0xFF;
-                    this->unk_179 = 0xFF;
-                    this->unk_17A = 0xFF;
-                    this->unk_17C = 0x96;
-                    this->unk_17B = 0x00;
-                    this->unk_17D = 0xFF;
+                    this->unk_color_array_prim[0] = 0xFF;
+                    this->unk_color_array_prim[1] = 0xFF;
+                    this->unk_color_array_prim[2] = 0xFF;
+                    this->unk_color_array_env[1] = 0x96;
+                    this->unk_color_array_env[0] = 0x00;
+                    this->unk_color_array_env[2] = 0xFF;
                     break;
 
                 case 0x02:
-                    this->unk_178 = 0xFF;
-                    this->unk_179 = 0xFF;
-                    this->unk_17A = 0xFF;
-                    this->unk_17C = 0xC8;
-                    this->unk_17B = 0x00;
-                    this->unk_17D = 0x00;
+                    this->unk_color_array_prim[0] = 0xFF;
+                    this->unk_color_array_prim[1] = 0xFF;
+                    this->unk_color_array_prim[2] = 0xFF;
+                    this->unk_color_array_env[1] = 0xC8;
+                    this->unk_color_array_env[0] = 0x00;
+                    this->unk_color_array_env[2] = 0x00;
                     break;
 
                 case 0x03:
-                    this->unk_178 = 0xFF;
-                    this->unk_179 = 0xFF;
-                    this->unk_17A = 0xFF;
-                    this->unk_17C = 0x96;
-                    this->unk_17B = 0xFF;
-                    this->unk_17D = 0x00;
+                    this->unk_color_array_prim[0] = 0xFF;
+                    this->unk_color_array_prim[1] = 0xFF;
+                    this->unk_color_array_prim[2] = 0xFF;
+                    this->unk_color_array_env[1] = 0x96;
+                    this->unk_color_array_env[0] = 0xFF;
+                    this->unk_color_array_env[2] = 0x00;
                     break;
 
                 case 0x04:
-                    this->unk_178 = 0xFF;
-                    this->unk_179 = 0xFF;
-                    this->unk_17A = 0xFF;
-                    this->unk_17B = 0xC8;
-                    this->unk_17C = 0xFF;
-                    this->unk_17D = 0x00;
+                    this->unk_color_array_prim[0] = 0xFF;
+                    this->unk_color_array_prim[1] = 0xFF;
+                    this->unk_color_array_prim[2] = 0xFF;
+                    this->unk_color_array_env[0] = 0xC8;
+                    this->unk_color_array_env[1] = 0xFF;
+                    this->unk_color_array_env[2] = 0x00;
                     break;
 
                 case 0x05:
-                    this->unk_178 = 0xFF;
-                    this->unk_179 = 0xFF;
-                    this->unk_17A = 0xFF;
-                    // TODO: Sameline may be removable after array conversion.
+                    this->unk_color_array_prim[0] = 0xFF;
+                    this->unk_color_array_prim[1] = 0xFF;
+                    this->unk_color_array_prim[2] = 0xFF;
                     // clang-format off
-                    this->unk_17B = 0xC8;this->unk_17C = 0x32; // Sameline prevents reordering
+                    this->unk_color_array_env[0] = 0xC8;this->unk_color_array_env[1] = 0x32; // Sameline prevents reordering
                     // clang-format on
-                    this->unk_17D = 0xFF;
+                    this->unk_color_array_env[2] = 0xFF;
                     break;
 
                 case 0x06:
-                    this->unk_178 = 0xFF;
-                    this->unk_179 = 0xFF;
-                    this->unk_17A = 0xFF;
-                    this->unk_17C = 0xC8;
-                    this->unk_17B = 0x00;
-                    this->unk_17D = 0x00;
+                    this->unk_color_array_prim[0] = 0xFF;
+                    this->unk_color_array_prim[1] = 0xFF;
+                    this->unk_color_array_prim[2] = 0xFF;
+                    this->unk_color_array_env[1] = 0xC8;
+                    this->unk_color_array_env[0] = 0x00;
+                    this->unk_color_array_env[2] = 0x00;
                     break;
             }
             this->unk_18C = 0x07;
@@ -348,12 +347,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_God_Lgt_Din:
             Actor_SetScale(&this->actor, 0.1f);
             this->drawFunc = &func_80975074;
-            this->unk_179 = 0xAA;
-            this->unk_178 = 0xFF;
-            this->unk_17A = 0xFF;
-            this->unk_17B = 0xFF;
-            this->unk_17D = 0xFF;
-            this->unk_17C = 0x00;
+            this->unk_color_array_prim[1] = 0xAA;
+            this->unk_color_array_prim[0] = 0xFF;
+            this->unk_color_array_prim[2] = 0xFF;
+            this->unk_color_array_env[0] = 0xFF;
+            this->unk_color_array_env[2] = 0xFF;
+            this->unk_color_array_env[1] = 0x00;
             this->unk_184 = 0x00;
             this->unk_186 = 0x00;
             this->actionFunc = &func_80972EA8;
@@ -367,12 +366,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&this->actor, 0.1f);
             }
             this->drawFunc = &func_80975074;
-            this->unk_178 = 0xAA;
-            this->unk_179 = 0xFF;
-            this->unk_17A = 0xFF;
-            this->unk_17C = 0x28;
-            this->unk_17D = 0xFF;
-            this->unk_17B = 0x00;
+            this->unk_color_array_prim[0] = 0xAA;
+            this->unk_color_array_prim[1] = 0xFF;
+            this->unk_color_array_prim[2] = 0xFF;
+            this->unk_color_array_env[1] = 0x28;
+            this->unk_color_array_env[2] = 0xFF;
+            this->unk_color_array_env[0] = 0x00;
             this->unk_184 = 0x01;
             this->unk_185 = 0x04;
             this->unk_186 = 0x00;
@@ -388,12 +387,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&this->actor, 0.1f);
             }
             this->drawFunc = &func_80975074;
-            this->unk_178 = 0xAA;
-            this->unk_17A = 0xAA;
-            this->unk_179 = 0xFF;
-            this->unk_17C = 0xC8;
-            this->unk_17B = 0x00;
-            this->unk_17D = 0x00;
+            this->unk_color_array_prim[0] = 0xAA;
+            this->unk_color_array_prim[2] = 0xAA;
+            this->unk_color_array_prim[1] = 0xFF;
+            this->unk_color_array_env[1] = 0xC8;
+            this->unk_color_array_env[0] = 0x00;
+            this->unk_color_array_env[2] = 0x00;
             this->unk_184 = 0x02;
             this->unk_186 = 0x00;
             this->actionFunc = &func_8097322C;
@@ -432,7 +431,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_185 = 0x00;
             this->unk_184 = 0x00;
             this->unk_188 = 0x00;
-            this->unk_178 = 0x00;
+            this->unk_color_array_prim[0] = 0x00;
             this->unk_18C = 0x03;
 
             Actor_SetScale(&this->actor, 0.020f);
@@ -498,9 +497,9 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_TW_1:
             this->drawFunc = &func_80976404;
             this->actionFunc = &func_80971DFC;
-            this->unk_17B = 0x00;
-            this->unk_17C = 0x64;
-            this->unk_17D = 0xFF;
+            this->unk_color_array_env[0] = 0x00;
+            this->unk_color_array_env[1] = 0x64;
+            this->unk_color_array_env[2] = 0xFF;
             SkelCurve_Clear(&this->unk_14C);
             this->unk_188 = 0x00;
             break;
@@ -813,21 +812,21 @@ void func_809723C4(DemoEffect* this, GlobalContext* globalCtx) {
         func_809765AC(this, globalCtx, this->unk_18C, 0x00);
 
         if (globalCtx->csCtx.npcActions[this->unk_18C]->action == 0x02) {
-            if (this->unk_178 < 0x8C) {
-                this->unk_178++;
+            if (this->unk_color_array_prim[0] < 0x8C) {
+                this->unk_color_array_prim[0]++;
             }
 
-            if (this->unk_178 < 0x1E) {
-                this->unk_184 = ((s32)this->unk_178) * 8.5f;
+            if (this->unk_color_array_prim[0] < 0x1E) {
+                this->unk_184 = ((s32)this->unk_color_array_prim[0]) * 8.5f;
             } else {
                 this->unk_184 = 0xFF;
 
-                if (this->unk_178 < 0x3C) {
-                    this->unk_185 = (((s32)this->unk_178) - 0x1E) * 8.5f;
+                if (this->unk_color_array_prim[0] < 0x3C) {
+                    this->unk_185 = (((s32)this->unk_color_array_prim[0]) - 0x1E) * 8.5f;
                 } else {
-                    if (this->unk_178 < 0x8D) {
+                    if (this->unk_color_array_prim[0] < 0x8D) {
                         this->unk_185 = 0xFF;
-                        this->unk_186 = (((s32)this->unk_178) - 0x3C) * 3.1875f;
+                        this->unk_186 = (((s32)this->unk_color_array_prim[0]) - 0x3C) * 3.1875f;
                     }
                 }
             }
@@ -1228,48 +1227,48 @@ void func_80973424(DemoEffect* this) {
 
     switch (unk_184) {
         case 0x13:
-            this->unk_17A = 0xA0;
-            this->unk_178 = 0xFF;
-            this->unk_179 = 0xFF;
-            this->unk_17B = 0x00;
-            this->unk_17C = 0xFF;
-            this->unk_17D = 0x00;
-            this->unk_180 = 0xAA;
-            this->unk_17E = 0xFF;
-            this->unk_17F = 0xFF;
-            this->unk_182 = 0x78;
-            this->unk_181 = 0x96;
-            this->unk_183 = 0x00;
+            this->unk_color_array_prim[2] = 0xA0;
+            this->unk_color_array_prim[0] = 0xFF;
+            this->unk_color_array_prim[1] = 0xFF;
+            this->unk_color_array_env[0] = 0x00;
+            this->unk_color_array_env[1] = 0xFF;
+            this->unk_color_array_env[2] = 0x00;
+            this->unk_color_array_prim2[2] = 0xAA;
+            this->unk_color_array_prim2[0] = 0xFF;
+            this->unk_color_array_prim2[1] = 0xFF;
+            this->unk_color_array_env2[1] = 0x78;
+            this->unk_color_array_env2[0] = 0x96;
+            this->unk_color_array_env2[2] = 0x00;
             break;
 
         case 0x14:
-            this->unk_179 = 0xAA;
-            this->unk_178 = 0xFF;
-            this->unk_17A = 0xFF;
-            this->unk_17D = 0x64;
-            this->unk_17B = 0xFF;
-            this->unk_17C = 0x00;
-            this->unk_180 = 0xAA;
-            this->unk_17E = 0xFF;
-            this->unk_17F = 0xFF;
-            this->unk_182 = 0x78;
-            this->unk_181 = 0x96;
-            this->unk_183 = 0x00;
+            this->unk_color_array_prim[1] = 0xAA;
+            this->unk_color_array_prim[0] = 0xFF;
+            this->unk_color_array_prim[2] = 0xFF;
+            this->unk_color_array_env[2] = 0x64;
+            this->unk_color_array_env[0] = 0xFF;
+            this->unk_color_array_env[1] = 0x00;
+            this->unk_color_array_prim2[2] = 0xAA;
+            this->unk_color_array_prim2[0] = 0xFF;
+            this->unk_color_array_prim2[1] = 0xFF;
+            this->unk_color_array_env2[1] = 0x78;
+            this->unk_color_array_env2[0] = 0x96;
+            this->unk_color_array_env2[2] = 0x00;
             break;
 
         case 0x15:
-            this->unk_178 = 0x32;
-            this->unk_179 = 0xFF;
-            this->unk_17A = 0xFF;
-            this->unk_17D = 0x96;
-            this->unk_17B = 0x32;
-            this->unk_17C = 0x00;
-            this->unk_180 = 0xAA;
-            this->unk_17E = 0xFF;
-            this->unk_17F = 0xFF;
-            this->unk_182 = 0x78;
-            this->unk_181 = 0x96;
-            this->unk_183 = 0x00;
+            this->unk_color_array_prim[0] = 0x32;
+            this->unk_color_array_prim[1] = 0xFF;
+            this->unk_color_array_prim[2] = 0xFF;
+            this->unk_color_array_env[2] = 0x96;
+            this->unk_color_array_env[0] = 0x32;
+            this->unk_color_array_env[1] = 0x00;
+            this->unk_color_array_prim2[2] = 0xAA;
+            this->unk_color_array_prim2[0] = 0xFF;
+            this->unk_color_array_prim2[1] = 0xFF;
+            this->unk_color_array_env2[1] = 0x78;
+            this->unk_color_array_env2[0] = 0x96;
+            this->unk_color_array_env2[2] = 0x00;
             break;
     }
 }
@@ -1278,18 +1277,18 @@ void func_80973524(DemoEffect* this, f32 alpha) {
     func_80973424(this);
 
     // s32 casts needed to prevent u8s from casting to float
-    this->unk_178 = (((s32)this->unk_178) * alpha) + (255.0f * (1.0f - alpha));
-    this->unk_179 = (((s32)this->unk_179) * alpha) + (255.0f * (1.0f - alpha));
-    this->unk_17A = (((s32)this->unk_17A) * alpha) + (255.0f * (1.0f - alpha));
-    this->unk_17E = (((s32)this->unk_17E) * alpha) + (255.0f * (1.0f - alpha));
-    this->unk_17F = (((s32)this->unk_17F) * alpha) + (255.0f * (1.0f - alpha));
-    this->unk_180 = (((s32)this->unk_180) * alpha) + (255.0f * (1.0f - alpha));
-    this->unk_17B = ((s32)this->unk_17B) * alpha;
-    this->unk_17C = ((s32)this->unk_17C) * alpha;
-    this->unk_17D = ((s32)this->unk_17D) * alpha;
-    this->unk_181 = ((s32)this->unk_181) * alpha;
-    this->unk_182 = ((s32)this->unk_182) * alpha;
-    this->unk_183 = ((s32)this->unk_183) * alpha;
+    this->unk_color_array_prim[0] = (((s32)this->unk_color_array_prim[0]) * alpha) + (255.0f * (1.0f - alpha));
+    this->unk_color_array_prim[1] = (((s32)this->unk_color_array_prim[1]) * alpha) + (255.0f * (1.0f - alpha));
+    this->unk_color_array_prim[2] = (((s32)this->unk_color_array_prim[2]) * alpha) + (255.0f * (1.0f - alpha));
+    this->unk_color_array_prim2[0] = (((s32)this->unk_color_array_prim2[0]) * alpha) + (255.0f * (1.0f - alpha));
+    this->unk_color_array_prim2[1] = (((s32)this->unk_color_array_prim2[1]) * alpha) + (255.0f * (1.0f - alpha));
+    this->unk_color_array_prim2[2] = (((s32)this->unk_color_array_prim2[2]) * alpha) + (255.0f * (1.0f - alpha));
+    this->unk_color_array_env[0] = ((s32)this->unk_color_array_env[0]) * alpha;
+    this->unk_color_array_env[1] = ((s32)this->unk_color_array_env[1]) * alpha;
+    this->unk_color_array_env[2] = ((s32)this->unk_color_array_env[2]) * alpha;
+    this->unk_color_array_env2[0] = ((s32)this->unk_color_array_env2[0]) * alpha;
+    this->unk_color_array_env2[1] = ((s32)this->unk_color_array_env2[1]) * alpha;
+    this->unk_color_array_env2[2] = ((s32)this->unk_color_array_env2[2]) * alpha;
 }
 
 void func_80973CA0(PosRot* posRot, DemoEffect* this) {
@@ -1374,13 +1373,13 @@ void func_80973EE0(DemoEffect* this, GlobalContext* globalCtx) {
     }
 
     if (startPos.x != endPos.x || startPos.y != endPos.y || startPos.z != endPos.z) {
-        this->unk_18E = atan2f(endPos.z - startPos.z, -(endPos.x - startPos.x)) * 10430.3779296875f;
-        this->unk_190 = Math_Vec3f_Yaw(&startPos, &endPos);
+        this->unk_vec3s.x = atan2f(endPos.z - startPos.z, -(endPos.x - startPos.x)) * 10430.3779296875f;
+        this->unk_vec3s.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
-    this->unk_192 += 0x0400;
+    this->unk_vec3s.z += 0x0400;
 
-    unk4 += this->unk_192 * (45.0f / 8192.0f);
+    unk4 += this->unk_vec3s.z * (45.0f / 8192.0f);
     func_80973CFC(unk4, unk1, startPos, endPos, unk2, this->unk_vec3s, this);
 }
 
@@ -1753,10 +1752,10 @@ void func_80975494(DemoEffect* this, GlobalContext* globalCtx) {
             disp = (u32)D_04010130;
             unk_184 = &this->unk_184;
             func_80093D84(globalCtx->state.gfxCtx);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, this->unk_colour_178[0x00].r,
-                            this->unk_colour_178[0x00].g, this->unk_colour_178[0x00].b, *unk_184);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->unk_colour_178[0x01].r, this->unk_colour_178[0x01].g,
-                           this->unk_colour_178[0x01].b, 0xFF);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, this->unk_color_array_prim[0],
+                            this->unk_color_array_prim[1], this->unk_color_array_prim[2], *unk_184);
+            gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->unk_color_array_env[0], this->unk_color_array_env[1],
+                           this->unk_color_array_env[2], 0xFF);
             Matrix_Scale(((this->unk_185 & 0x01) * 0.05f) + 1.0f, ((this->unk_185 & 0x01) * 0.05f) + 1.0f,
                          ((this->unk_185 & 0x01) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
