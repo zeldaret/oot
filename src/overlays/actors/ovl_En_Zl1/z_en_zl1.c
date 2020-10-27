@@ -38,7 +38,7 @@ const ActorInit En_Zl1_InitVars = {
     (ActorFunc)EnZl1_Draw,
 };
 
-ColliderCylinderInit sCylinderInit = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x01, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 20, 46, 0, { 0, 0, 0 } },
