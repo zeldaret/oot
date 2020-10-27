@@ -36,7 +36,7 @@ typedef struct EnElf {
     /* 0x02BC */ s16 unk_2BC;
     /* 0x02BE */ u16 timer;
     /* 0x02C0 */ s16 unk_2C0;
-    /* 0x02C2 */ s16 disapearTimer;
+    /* 0x02C2 */ s16 disappearTimer;
     /* 0x02C4 */ u16 fairyFlags;
     /* 0x02C6 */ u8 unk_2C6;
     /* 0x02C7 */ u8 unk_2C7;

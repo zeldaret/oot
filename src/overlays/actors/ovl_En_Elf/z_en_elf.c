@@ -276,7 +276,7 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
             if (Math_Rand_ZeroOne() < xzDistFromLink) {
                 this->unk_2A8 = 3;
                 this->unk_2AC = 0x200;
-                this->unk_2B8 = (xzDistFromLink + xzDistFromLink) + 1.0f;
+                this->unk_2B8 = (xzDistFromLink * 2.0f) + 1.0f;
                 this->func_2C8 = func_80A01FE0;
                 this->unk_2C0 = (s16)Math_Rand_ZeroFloat(16.0f) + 0x10;
             } else {
@@ -337,7 +337,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightNodeNoGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
 
     this->fairyFlags = 0;
-    this->disapearTimer = 600;
+    this->disappearTimer = 600;
     this->unk_2A4 = 0.0f;
     colorConfig = 0;
 
@@ -391,7 +391,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->func_2C8 = func_80A0214C;
             func_80A0232C(this, globalCtx);
             this->unk_2C0 = 0;
-            this->disapearTimer = 240;
+            this->disappearTimer = 240;
             break;
         case FAIRY_KOKIRI:
             colorConfig = Math_Rand_ZeroFloat(11.99f) + 1.0f;
@@ -430,8 +430,8 @@ void func_80A0299C(EnElf* this, s32 arg1) {
 }
 
 void func_80A029A8(EnElf* this, s16 increment) {
-    if (this->disapearTimer < 600) {
-        this->disapearTimer += increment;
+    if (this->disappearTimer < 600) {
+        this->disappearTimer += increment;
     }
 }
 
@@ -637,7 +637,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         if ((heightDiff > 0.0f) && (heightDiff < 60.0f)) {
             if (!func_80A01F90(&this->actor.posRot.pos, &refActor->actor.posRot.pos, 10.0f)) {
                 Health_ChangeBy(globalCtx, 128);
-                if ((this->fairyFlags & FAIRY_FLAG_BIG)) {
+                if (this->fairyFlags & FAIRY_FLAG_BIG) {
                     Magic_Fill(globalCtx);
                 }
                 this->unk_2B8 = 50.0f;
@@ -652,13 +652,13 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
         }
 
         if (this->fairyFlags & FAIRY_FLAG_TIMED) {
-            if (this->disapearTimer > 0) {
-                this->disapearTimer--;
+            if (this->disappearTimer > 0) {
+                this->disappearTimer--;
             } else {
-                this->disapearTimer--;
+                this->disappearTimer--;
 
-                if (this->disapearTimer > -10) {
-                    Actor_SetScale(&this->actor, ((this->disapearTimer + 10) * 0.008f) * 0.1f);
+                if (this->disappearTimer > -10) {
+                    Actor_SetScale(&this->actor, ((this->disappearTimer + 10) * 0.008f) * 0.1f);
                 } else {
                     Actor_Kill(&this->actor);
                     return;
@@ -1216,7 +1216,7 @@ void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife)
 
 void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
     s32 pad;
-    s32* bgId;
+    s32 bgId;
 
     this->actor.groundY = func_8003CA0C(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId, &this->actor,
                                         &this->actor.posRot.pos);
@@ -1232,7 +1232,7 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
     if (this->fairyFlags & 0x10) {
         naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
 
-        if (((player->unk_664 == NULL) || (&player->actor == player->unk_664)) || (&this->actor == player->unk_664)) {
+        if ((player->unk_664 == NULL) || (&player->actor == player->unk_664) || (&this->actor == player->unk_664)) {
             naviRefPos.x = player->bodyPartsPos[7].x + (Math_Sins(player->actor.shape.rot.y) * 20.0f);
             naviRefPos.y = player->bodyPartsPos[7].y + 5.0f;
             naviRefPos.z = player->bodyPartsPos[7].z + (Math_Coss(player->actor.shape.rot.y) * 20.0f);
@@ -1271,7 +1271,7 @@ void func_80A05040(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 func_8010B720(globalCtx, ElfMessage_GetSariaText(globalCtx));
@@ -1322,7 +1322,7 @@ void func_80A05208(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A04DE4(this, globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 naviCUpText = ElfMessage_GetCUpText(globalCtx);
@@ -1393,11 +1393,9 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
         }
-    } else {
+    } else if (player->naviTextId < 0) {
         // trigger dialog instantly for negative message IDs
-        if (player->naviTextId < 0) {
-            thisx->flags |= 0x10000;
-        }
+        thisx->flags |= 0x10000;
     }
 
     if (func_8002F194(thisx, globalCtx)) {
@@ -1525,7 +1523,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             envAlpha = (this->timer * 50) & 0x1FF;
             envAlpha = (envAlpha > 255) ? 511 - envAlpha : envAlpha;
 
-            alphaScale = this->disapearTimer < 0 ? (this->disapearTimer * (7.0f / 6000.0f)) + 1.0f : 1.0f;
+            alphaScale = this->disappearTimer < 0 ? (this->disappearTimer * (7.0f / 6000.0f)) + 1.0f : 1.0f;
 
             gSPSegment(oGfxCtx->polyXlu.p++, 0x08, dListHead);
             gDPPipeSync(dListHead++);

@@ -180,7 +180,7 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y)) &&
         (fabsf(player->actor.posRot.pos.z - this->actor.posRot.pos.z) < (100.0f * this->actor.scale.z))) {
         player->naviTextId = ElfMsg_GetMessageId(this);
-        navi->elfMsg = &this->actor;
+        navi->elfMsg = this;
     }
 }
 
@@ -196,7 +196,7 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y))) {
         player->naviTextId = ElfMsg_GetMessageId(this);
-        navi->elfMsg = &this->actor;
+        navi->elfMsg = this;
     }
 }
 
