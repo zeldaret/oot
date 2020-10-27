@@ -473,7 +473,6 @@ void func_80896518(BgJyaCobra *this) {
     s32 phi_t0;
     f32 *phi_t1;
     f32 *phi_a0;
-    f32 *phi_t1_2;
     u8 *phi_a3;
     s32 phi_v1;
     s32 phi_t1_3;
@@ -491,58 +490,36 @@ void func_80896518(BgJyaCobra *this) {
     } while (temp_t0 < 0x40);
     temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
     Lib_MemSet(temp_s0, 0x1000U, (u8)0U);
-    phi_t1_2 = &sp58;
+    phi_t1 = &sp58;
     phi_a3 = temp_s0;
     do {
-        temp_f12 = *phi_t1_2;
+        temp_f12 = *phi_t1;
         phi_a0 = &sp58;
         do {
             temp_f2 = (phi_a0[0] * 0.5f) + temp_f12;
             if (temp_f2 < 300.0f) {
-                phi_v0 = 0x280 - (s32) (temp_f2 + temp_f2);
-                phi_v1 = phi_v0;
-                if (phi_v0 >= 0xA7) {
-                    phi_v1 = 0xA6;
-                }
-                *phi_a3 |= phi_v1;
+                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
             }
             phi_a3 += 1;
             temp_f0 = (phi_a0[1] * 0.5f) + temp_f12;
             if (temp_f0 < 300.0f) {
-                phi_v0 = 0x280 - (s32) (temp_f0 + temp_f0);
-                phi_v1 = phi_v0;
-                if (phi_v0 >= 0xA7) {
-                    phi_v1 = 0xA6;
-                }
-                *phi_a3 |= phi_v1;
+                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
             }
             phi_a3 += 1;
             temp_f0 = (phi_a0[2] * 0.5f) + temp_f12;
             if (temp_f0 < 300.0f) {
-                phi_v0 = 0x280 - (s32) (temp_f0 + temp_f0);
-                phi_v1 = phi_v0;
-                if (phi_v0 >= 0xA7) {
-                    phi_v1 = 0xA6;
-                } else {
-
-                }
-                *phi_a3 |= phi_v1;
+                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
             }
             phi_a3 += 1;
             temp_f0 = (phi_a0[3] * 0.5f) + temp_f12;
             phi_a0 += 0x10;
             if (temp_f0 < 300.0f) {
-                phi_v0 = 0x280 - (s32) (temp_f0 + temp_f0);
-                phi_v1 = phi_v0;
-                if (phi_v0 >= 0xA7) {
-                    phi_v1 = 0xA6;
-                }
-                *phi_a3 |= phi_v1;
+                *phi_a3 |= (0x280 - (s32) (temp_f2 + temp_f2)) >= 0xA7 ? 0xA6 : (0x280 - (s32) (temp_f2 + temp_f2));
             }
             phi_a3 += 1;
         } while (phi_a0 != &sp58[0x40]);
-        phi_t1_2 = phi_t1_2 + 1;
-    } while (phi_t1_2 != &sp58[0x40]);
+        phi_t1 = phi_t1 + 1;
+    } while (phi_t1 != &sp58[0x40]);
     phi_a0_2 = D_80897518;
     phi_t1_3 = 0x780;
     do {
