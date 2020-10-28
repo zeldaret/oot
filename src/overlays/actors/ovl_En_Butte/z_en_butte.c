@@ -5,6 +5,7 @@
  */
 
 #include "z_en_butte.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x00000000
 
@@ -347,7 +348,7 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
     } else if (this->timer == 4) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot2.pos.x, this->actor.posRot2.pos.y,
-                    this->actor.posRot2.pos.z, 0, this->actor.shape.rot.y, 0, 2);
+                    this->actor.posRot2.pos.z, 0, this->actor.shape.rot.y, 0, FAIRY_HEAL_TIMED);
         this->drawSkelAnime = false;
     } else if (this->timer <= 0) {
         EnButte_SetupWaitToDie(this);

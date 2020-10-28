@@ -148,7 +148,7 @@ void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, GlobalContext* globalCtx) {
-    if(this->timer != 0) {
+    if (this->timer != 0) {
         this->timer--;
     }
     if (this->timer == 0) {

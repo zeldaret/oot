@@ -1147,7 +1147,7 @@ u32 D_8015BBA4;
 
 s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3) {
     f32 sp34;
-    u32 sp30;
+    s32 sp30;
 
     arg2->y += 50.0f;
 

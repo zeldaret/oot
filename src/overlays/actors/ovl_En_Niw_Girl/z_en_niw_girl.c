@@ -108,13 +108,13 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     xDistBetween = this->chasedEnNiw->actor.posRot.pos.x - this->actor.posRot.pos.x;
     zDistBetween = this->chasedEnNiw->actor.posRot.pos.z - this->actor.posRot.pos.z;
     if (func_8010BDBC(&globalCtx->msgCtx) != 0) {
-        this->chasedEnNiw->unk_2E8 = 0;
+        this->chasedEnNiw->path = 0;
     }
     if (sqrtf(SQ(xDistBetween) + SQ(zDistBetween)) < 70.0f) {
-        this->chasedEnNiw->unk_2E8 = (this->path + 1);
+        this->chasedEnNiw->path = (this->path + 1);
         this->chasedEnNiw->unk_2EC = path->count;
     } else if (sqrtf(SQ(xDistBetween) + SQ(zDistBetween)) > 150.0f) {
-        this->chasedEnNiw->unk_2E8 = 0;
+        this->chasedEnNiw->path = 0;
     }
 
     // Change her angle so that she is always facing the cuckoo
@@ -162,7 +162,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
 void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx)) {
-        this->chasedEnNiw->unk_2E8 = 0;
+        this->chasedEnNiw->path = 0;
     }
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.8f, 0.2f);
     if (func_8002F194(&this->actor, globalCtx)) {

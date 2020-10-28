@@ -1,4 +1,5 @@
 #include "z_bg_spot11_oasis.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x00000010
 
@@ -105,7 +106,7 @@ void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx) {
     if (Math_ApproxF(&this->actor.posRot.pos.y, 0.0f, 0.7f)) {
         func_808B2AA8(this);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                    this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 4);
+                    this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_SPAWNER);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
     func_808B27F0(globalCtx, this->actor.posRot.pos.y);

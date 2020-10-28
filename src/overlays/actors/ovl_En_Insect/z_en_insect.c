@@ -774,7 +774,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if (!(this->unk_314 & 8) && D_80A7DEB4 < 4 && func_80A7BE6C(this, globalCtx) != 0 &&
-                func_8002F434(&this->actor, globalCtx, 0x7E, 60.0f, 30.0f) != 0) {
+                func_8002F434(&this->actor, globalCtx, GI_MAX, 60.0f, 30.0f) != 0) {
                 D_80A7DEB4++;
             }
         }
