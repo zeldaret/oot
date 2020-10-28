@@ -1175,10 +1175,10 @@ typedef struct {
     /* 0x1CA50 */ s16 actionTimer;
     /* 0x1CA52 */ s16 buttonsPosY[6]; // buttons on the first page
     /* 0x1CA5E */ s16 copyDestFileIndex;
-    /* 0x1CA60 */ s16 fileWarningTexIndex;
-    /* 0x1CA62 */ s16 warningFileIndex;
+    /* 0x1CA60 */ s16 warningLabel;
+    /* 0x1CA62 */ s16 warningButtonIndex;
     /* 0x1CA64 */ s16 titleTexIndex;
-    /* 0x1CA66 */ s16 nextTitleTexIndex;
+    /* 0x1CA66 */ s16 titleLabel;
     /* 0x1CA68 */ s16 windowColor[3];
     /* 0x1CA6E */ s16 titleAlpha[2];
     /* 0x1CA72 */ s16 windowAlpha;

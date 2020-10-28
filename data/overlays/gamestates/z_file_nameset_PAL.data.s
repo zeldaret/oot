@@ -55,7 +55,7 @@ glabel D_80812750
  .word 0x00240024, 0x00240024, 0x00180000
 glabel D_8081275C
  .word 0x00640096, 0x00FF0064, 0x00640064
-glabel D_80812768
+glabel sEmptyName
  .word 0x3E3E3E3E, 0x3E3E3E3E
 
 
