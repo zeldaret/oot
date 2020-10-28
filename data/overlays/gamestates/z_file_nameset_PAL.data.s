@@ -55,11 +55,11 @@ glabel D_80812750
  .word 0x00240024, 0x00240024, 0x00180000
 glabel D_8081275C
  .word 0x00640096, 0x00FF0064, 0x00640064
-glabel sEmptyName
+glabel gEmptyName
  .word 0x3E3E3E3E, 0x3E3E3E3E
 
 
-glabel D_80812770
+glabel gConfigModeUpdateFuncs
  .word func_8080B40C
 .word func_8080B494
 .word func_8080B52C
@@ -151,7 +151,7 @@ glabel D_80812A04
  .word 0x01045E00, 0x01046600, 0x01045E00
 glabel D_80812A10
  .word 0x00000010, 0x00200000
-glabel D_80812A18
+glabel gSelectModeUpdateFuncs
  .word func_8080FE2C
 .word func_8080FF98
 .word func_8081009C
@@ -161,13 +161,13 @@ glabel D_80812A18
 .word func_80810698
 .word func_808106F4
 glabel gFileSelectDrawFuncs
-.word func_8080B224
-.word func_8080F560
-.word func_808109B8
+.word FileChoose_InitModeDraw
+.word FileChoose_ConfigModeDraw
+.word FileChoose_SelectModeDraw
 glabel gFileSelectUpdateFuncs
- .word func_8080B1A8
-.word func_8080C2F4
-.word func_8081097C
+ .word FileChoose_InitModeUpdate
+.word FileChoose_ConfigModeUpdate
+.word FileChoose_SelectModeUpdate
 glabel D_80812A50
  .word 0x01033F00, 0x01034800, 0x01035100, 0x00000000
 

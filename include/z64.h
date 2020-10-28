@@ -1166,7 +1166,7 @@ typedef struct {
     /* 0x001E8 */ SkyboxContext skyboxCtx;
     /* 0x00338 */ char unk_338[0x10];
     /* 0x00348 */ MessageContext msgCtx;
-    /* 0x0E760 */ char font[0xE188];
+    /* 0x0E760 */ Font font;
     /* 0x1C8E8 */ EnvironmentContext envCtx;
     /* 0x1C9E4 */ char unk_1C9E4[0x4];
     /* 0x1C9E8 */ Vtx* allocVtx2;
@@ -1174,7 +1174,7 @@ typedef struct {
     /* 0x1C9F0 */ Vtx* allocVtx4;
     /* 0x1C9F4 */ u8 n64ddFlag;
     /* 0x1C9F6 */ u16 deaths[3];
-    /* 0x1C9FC */ u8 fileNames[3][8]; // flip?
+    /* 0x1C9FC */ u8 fileNames[3][8];
     /* 0x1CA14 */ u16 healthCapacities[3];
     /* 0x1CA1C */ u32 questItems[3];
     /* 0x1CA28 */ s16 n64ddFlags[3];
@@ -1182,11 +1182,11 @@ typedef struct {
     /* 0x1CA32 */ u16 health[3];
     /* 0x1CA38 */ s16 buttonIndex;
     /* 0x1CA3A */ s16 openChoiceIndex; // 0: yes, 1: quit
-    /* 0x1CA3C */ s16 menuIndex;
-    /* 0x1CA3E */ s16 fileSelectStateIndex;
-    /* 0x1CA40 */ s16 prevFileSelectStateIndex;
+    /* 0x1CA3C */ s16 menuMode;
+    /* 0x1CA3E */ s16 configMode;
+    /* 0x1CA40 */ s16 prevConfigureMode;
     /* 0x1CA42 */ s16 nextFileSelectStateIndex;
-    /* 0x1CA44 */ s16 openFileStateIndex;
+    /* 0x1CA44 */ s16 selectMode;
     /* 0x1CA46 */ s16 selectedFileIndex;
     /* 0x1CA48 */ char unk_1CA48[0x2];
     /* 0x1CA4A */ s16 fileNamesY[3];
@@ -1205,8 +1205,8 @@ typedef struct {
     /* 0x1CA80 */ s16 nameAlpha[3];
     /* 0x1CA86 */ s16 connectorAlpha[3];
     /* 0x1CA8C */ s16 fileInfoAlpha[3];
-    /* 0x1CA92 */ s16 copyEraseAlpha[2]; // array of 4?
-    /* 0x1CA96 */ s16 yesQuitAlpha[2];
+    /* 0x1CA92 */ s16 copyEraseAlpha[2];
+    /* 0x1CA96 */ s16 confirmButtonAlpha[2];
     /* 0x1CA9A */ s16 optionButtonAlpha;
     /* 0x1CA9C */ s16 nameEntryBoxAlpha;
     /* 0x1CA9E */ s16 bottomTextAlpha;

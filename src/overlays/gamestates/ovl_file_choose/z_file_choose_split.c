@@ -87,7 +87,7 @@ s32 D_808124AC[] = { 0x00000010, 0x00200000, 0x00000000, 0x00000000, 0x00000000 
 
 s16 D_80813800;
 
-// update func for fileSelectStateIndex 3
+// update func for configMode 3
 void func_80803D40(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 yPosStep;
@@ -106,7 +106,7 @@ void func_80803D40(FileChooseContext* thisx) {
     this->copyEraseAlpha[0] -= 25;
     this->copyEraseAlpha[1] -= 25;
     this->optionButtonAlpha -= 25;
-    this->yesQuitAlpha[1] += 25;
+    this->confirmButtonAlpha[BTN_CONFIRM_QUIT] += 25;
     this->titleAlpha[0] -= 31;
     this->titleAlpha[1] += 31;
     this->actionTimer--;
@@ -116,13 +116,13 @@ void func_80803D40(FileChooseContext* thisx) {
 
         this->copyEraseAlpha[0] = this->copyEraseAlpha[1] = this->optionButtonAlpha = 0;
 
-        this->yesQuitAlpha[1] = 200;
+        this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = 200;
         this->titleLabel = this->nextTitleLabel;
 
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
         this->buttonIndex = BTN_COPY_QUIT;
-        this->fileSelectStateIndex++;
+        this->configMode++;
     }
 }
 
@@ -136,7 +136,7 @@ void func_80803ED8(FileChooseContext* thisx) {
         this->actionTimer = 8;
         this->buttonIndex = BTN_COPY_QUIT;
         this->nextTitleLabel = TITLE_SELECT_FILE;
-        this->fileSelectStateIndex = 19;
+        this->configMode = 19;
         this->warningLabel = WARNING_NONE;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         return;
@@ -146,7 +146,7 @@ void func_80803ED8(FileChooseContext* thisx) {
         if (SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
             this->actionTimer = 8;
             this->selectedFileIndex = this->buttonIndex;
-            this->fileSelectStateIndex = 5;
+            this->configMode = 5;
             this->nextTitleLabel = TITLE_COPY_TO;
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
@@ -209,7 +209,7 @@ void func_80804248(FileChooseContext* thisx) {
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
         this->actionTimer = 8;
-        this->fileSelectStateIndex++;
+        this->configMode++;
     }
 }
 
@@ -224,7 +224,7 @@ void func_808043D8(FileChooseContext* this) {
         this->fileInfoAlpha[this->buttonIndex] = 200;
         this->buttonIndex = BTN_COPY_QUIT;
         this->actionTimer = 8;
-        this->fileSelectStateIndex = 7;
+        this->configMode = 7;
     }
 }
 
@@ -238,7 +238,7 @@ void func_808044A0(FileChooseContext* thisx) {
         this->buttonIndex = this->selectedFileIndex;
         this->nextTitleLabel = TITLE_COPY_FROM;
         this->actionTimer = 8;
-        this->fileSelectStateIndex = 8;
+        this->configMode = 8;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         return;
     }
@@ -248,7 +248,7 @@ void func_808044A0(FileChooseContext* thisx) {
             this->copyDestFileIndex = this->buttonIndex;
             this->nextTitleLabel = TITLE_COPY_CONFIRM;
             this->actionTimer = 8;
-            this->fileSelectStateIndex = 10;
+            this->configMode = 10;
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -305,7 +305,7 @@ void func_80804858(FileChooseContext* this) {
         this->nameBoxAlpha[this->buttonIndex] = 200;
         this->fileInfoAlpha[this->buttonIndex] = 0;
         this->actionTimer = 8;
-        this->fileSelectStateIndex++;
+        this->configMode++;
     }
 }
 
@@ -334,7 +334,7 @@ void func_80804924(FileChooseContext* thisx) {
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
         this->buttonIndex = 3;
-        this->fileSelectStateIndex = 4;
+        this->configMode = 4;
     }
 }
 
@@ -372,17 +372,17 @@ void func_80804A50(FileChooseContext* thisx) {
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
         this->actionTimer = 8;
-        this->fileSelectStateIndex++;
+        this->configMode++;
     }
 }
 
 void func_80804C74(FileChooseContext* this) {
-    this->yesQuitAlpha[0] += 25;
+    this->confirmButtonAlpha[BTN_CONFIRM_YES] += 25;
     this->actionTimer--;
 
     if (this->actionTimer == 0) {
-        this->fileSelectStateIndex = 12;
-        this->buttonIndex = BTN_QUIT;
+        this->configMode = 12;
+        this->buttonIndex = BTN_CONFIRM_QUIT;
     }
 }
 
@@ -392,11 +392,11 @@ void func_80804CD0(FileChooseContext* thisx) {
     Input* controller1 = &this->state.input[0];
     u16 dayTime;
 
-    if (((this->buttonIndex != BTN_YES) && CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) ||
+    if (((this->buttonIndex != BTN_CONFIRM_YES) && CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) ||
         CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
         this->actionTimer = 8;
         this->nextTitleLabel = TITLE_COPY_TO;
-        this->fileSelectStateIndex = 13;
+        this->configMode = 13;
         Audio_PlaySoundGeneral(0x483C, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) {
         dayTime = gSaveContext.dayTime;
@@ -405,7 +405,7 @@ void func_80804CD0(FileChooseContext* thisx) {
         this->fileInfoAlpha[this->copyDestFileIndex] = this->nameAlpha[this->copyDestFileIndex] = 0;
         this->nextTitleLabel = TITLE_COPY_COMPLETE;
         this->actionTimer = 8;
-        this->fileSelectStateIndex = 14;
+        this->configMode = 14;
         func_800AA000(300.0f, 0xB4, 0x14, 0x64);
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     } else if (ABS(this->stickRelY) >= 30) {
@@ -422,7 +422,7 @@ void func_80804ED8(FileChooseContext* thisx) {
 
     this->titleAlpha[0] -= 31;
     this->titleAlpha[1] += 31;
-    this->yesQuitAlpha[0] -= 25;
+    this->confirmButtonAlpha[BTN_CONFIRM_YES] -= 25;
 
     for (i = 0; i < 3; i++) {
         if ((i != this->copyDestFileIndex) && (i != this->selectedFileIndex)) {
@@ -451,20 +451,20 @@ void func_80804ED8(FileChooseContext* thisx) {
         this->titleAlpha[1] = 0;
         this->actionTimer = 8;
         this->buttonIndex = BTN_COPY_QUIT;
-        this->fileSelectStateIndex = 7;
+        this->configMode = 7;
     }
 }
 
 void func_8080510C(FileChooseContext* this) {
     this->titleAlpha[0] -= 31;
-    this->yesQuitAlpha[0] -= 25;
-    this->yesQuitAlpha[1] -= 25;
+    this->confirmButtonAlpha[BTN_CONFIRM_YES] -= 25;
+    this->confirmButtonAlpha[BTN_CONFIRM_QUIT] -= 25;
     this->actionTimer--;
 
     if (this->actionTimer == 0) {
         this->titleAlpha[0] = 0;
         this->actionTimer = 8;
-        this->fileSelectStateIndex++;
+        this->configMode++;
         osSyncPrintf("connect_alpha=%d  decision_alpha[%d]=%d\n", this->connectorAlpha[this->copyDestFileIndex],
                      this->copyDestFileIndex, this->fileInfoAlpha[this->copyDestFileIndex]);
     }
@@ -490,7 +490,7 @@ void func_808051C8(FileChooseContext* this) {
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
-        this->fileSelectStateIndex++;
+        this->configMode++;
     }
 }
 
@@ -509,7 +509,7 @@ void func_80805318(FileChooseContext* thisx) {
         if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_B | BTN_START) || (this->actionTimer == 0)) {
             this->actionTimer = 8;
             this->nextTitleLabel = TITLE_SELECT_FILE;
-            this->fileSelectStateIndex++;
+            this->configMode++;
             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
@@ -528,7 +528,7 @@ void func_80805434(FileChooseContext* this) {
         this->fileNamesY[this->copyDestFileIndex] = this->buttonsPosY[3] = 0;
         this->actionTimer = 8;
         this->titleAlpha[0] = 0;
-        this->fileSelectStateIndex++;
+        this->configMode++;
     }
 }
 
@@ -585,7 +585,7 @@ void func_80805524(FileChooseContext* thisx) {
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
-        this->fileSelectStateIndex = 2;
+        this->configMode = 2;
     }
 }
 

@@ -33,7 +33,7 @@ glabel D_80813014
     .float 0.78
     
 .text
-glabel func_8080F560
+glabel FileChoose_ConfigModeDraw
 /* 0B820 8080F560 27BDFEF0 */  addiu   $sp, $sp, 0xFEF0           ## $sp = FFFFFEF0
 /* 0B824 8080F564 AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 0B828 8080F568 AFB10028 */  sw      $s1, 0x0028($sp)           

@@ -20,6 +20,12 @@
      (NEWF_GET_Z2(sramCtx, slotNum) == 'Z'))
 
 typedef enum {
+    /* 0 */ MENU_MODE_INIT,
+    /* 1 */ MENU_MODE_CONFIG,
+    /* 2 */ MENU_MODE_SELECT
+} MenuMode;
+
+typedef enum {
     /* 0 */ TITLE_SELECT_FILE,   // "Please select a file."
     /* 1 */ TITLE_OPEN_FILE,     // "Open this file?"
     /* 2 */ TITLE_COPY_FROM,     // "Copy which file?"
@@ -57,11 +63,11 @@ typedef enum {
 } CopyMenuBtnIndex;
 
 typedef enum {
-    /* 0 */ BTN_YES,
-    /* 1 */ BTN_QUIT
+    /* 0 */ BTN_CONFIRM_YES,
+    /* 1 */ BTN_CONFIRM_QUIT
 } ConfirmBtnIndex;
 
-// update funcs for menuIndex 1 (D_80812770)
+// update funcs for menuMode 1 (gConfigModeUpdateFuncs)
 void func_8080B40C(FileChooseContext* this); // 00
 void func_8080B494(FileChooseContext* this); // 01
 void func_8080B52C(FileChooseContext* this); // 02
@@ -104,7 +110,7 @@ void func_8080960C(FileChooseContext* this); // 38
 void func_8080BF6C(FileChooseContext* this); // 39
 void func_8080BE30(FileChooseContext* this); // 40
 
-// update funcs for menuIndex 2 (D_80812A18)
+// update funcs for menuMode 2 (gSelectModeUpdateFuncs)
 void func_8080FE2C(FileChooseContext* this);
 void func_8080FF98(FileChooseContext* this);
 void func_8081009C(FileChooseContext* this);
@@ -115,13 +121,13 @@ void func_80810698(FileChooseContext* this);
 void func_808106F4(FileChooseContext* this);
 
 // draw funcs for each menu mode (gFileSelectDrawFuncs)
-void func_8080B224(GameState* thisx);
-void func_8080F560(GameState* thisx);
-void func_808109B8(GameState* thisx);
+void FileChoose_InitModeDraw(GameState* thisx);
+void FileChoose_ConfigModeDraw(GameState* thisx);
+void FileChoose_SelectModeDraw(GameState* thisx);
 
 // update funcs for each menu mode (gFileSelectUpdateFuncs)
-void func_8080B1A8(FileChooseContext* this);
-void func_8080C2F4(FileChooseContext* this);
-void func_8081097C(FileChooseContext* this);
+void FileChoose_InitModeUpdate(FileChooseContext* this);
+void FileChoose_ConfigModeUpdate(FileChooseContext* this);
+void FileChoose_SelectModeUpdate(FileChooseContext* this);
 
 #endif

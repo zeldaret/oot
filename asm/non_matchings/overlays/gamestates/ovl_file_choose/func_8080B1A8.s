@@ -8,7 +8,7 @@ glabel D_80812D1C
     .balign 4
     
 .text
-glabel func_8080B1A8
+glabel FileChoose_InitModeUpdate
 /* 07468 8080B1A8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0746C 8080B1AC 3C0E0002 */  lui     $t6, 0x0002                ## $t6 = 00020000
 /* 07470 8080B1B0 AFBF0014 */  sw      $ra, 0x0014($sp)           

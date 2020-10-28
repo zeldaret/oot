@@ -4,11 +4,11 @@ void func_80808000(FileChooseContext* this);
 extern s16 D_80812724;
 extern void (*gFileSelectDrawFuncs[])(FileChooseContext*);
 extern void (*gFileSelectUpdateFuncs[])(FileChooseContext*);
-extern void (*D_80812770[])(FileChooseContext*);
-extern void (*D_80812A18[])(FileChooseContext*);
+extern void (*gConfigModeUpdateFuncs[])(FileChooseContext*);
+extern void (*gSelectModeUpdateFuncs[])(FileChooseContext*);
 extern Gfx* D_80812A50[];
 extern Gfx D_80812728[];
-extern u8 sEmptyName[];
+extern u8 gEmptyName[];
 
 extern u8 D_80000002; // this is code in the very beginning of ram???
 extern s16 D_80812814[];
@@ -37,11 +37,10 @@ void func_8080AF50(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AFD0.s")
 
-// update func for menuIndex 0
-void func_8080B1A8(FileChooseContext* this) {
-    if (this->menuIndex == 0) {
-        this->menuIndex = 1;
-        this->fileSelectStateIndex = 0;
+void FileChoose_InitModeUpdate(FileChooseContext* this) {
+    if (this->menuMode == MENU_MODE_INIT) {
+        this->menuMode = MENU_MODE_CONFIG;
+        this->configMode = 0;
         this->nextTitleLabel = TITLE_OPEN_FILE;
         osSyncPrintf("Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  ");
         Sram_VerifyAndLoadAllSaves(this, &this->sramCtx);
@@ -49,8 +48,7 @@ void func_8080B1A8(FileChooseContext* this) {
     }
 }
 
-// draw func for menuIndex 0
-void func_8080B224(GameState* thisx) {
+void FileChoose_InitModeDraw(GameState* thisx) {
 }
 
 void func_8080B22C(FileChooseContext* this) {
@@ -65,8 +63,8 @@ void func_8080B22C(FileChooseContext* this) {
         if (SLOT_OCCUPIED(sramCtx, i)) {
             this->nameBoxAlpha[i] = this->nameAlpha[i] = this->windowAlpha;
             this->connectorAlpha[i] += VREG(1);
-            if (this->connectorAlpha[i] >= 0xFF) {
-                this->connectorAlpha[i] = 0xFF;
+            if (this->connectorAlpha[i] >= 255) {
+                this->connectorAlpha[i] = 255;
             }
         }
     }
@@ -76,7 +74,7 @@ void func_8080B22C(FileChooseContext* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B394.s")
 
-// update func for fileSelectStateIndex 0
+// update func for configMode 0
 void func_8080B40C(FileChooseContext* this) {
     func_8080B22C(this);
     D_80812724 -= 0x28;
@@ -84,12 +82,12 @@ void func_8080B40C(FileChooseContext* this) {
 
     if (this->windowPosX <= -94) {
         this->windowPosX = -94;
-        this->fileSelectStateIndex = 1;
+        this->configMode = 1;
         D_80812724 = 0;
     }
 }
 
-// update func for fileSelectStateIndex 1
+// update func for configMode 1
 void func_8080B494(FileChooseContext* this) {
     s32 pad;
 
@@ -100,11 +98,11 @@ void func_8080B494(FileChooseContext* this) {
         this->titleAlpha[0] = 255;
         this->bottomTextAlpha = 255;
         this->windowAlpha = 200;
-        this->fileSelectStateIndex = 2;
+        this->configMode = 2;
     }
 }
 
-// update func for fileSelectStateIndex 2
+// update func for configMode 2
 void func_8080B52C(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
@@ -119,7 +117,7 @@ void func_8080B52C(FileChooseContext* thisx) {
 
             if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->fileSelectStateIndex = 32;
+                this->configMode = 32;
                 this->kbdButtonIndex = 99;
                 this->charPage = 2;
                 this->kbdX = 0;
@@ -129,13 +127,13 @@ void func_8080B52C(FileChooseContext* thisx) {
                 this->newFileNameCharCount = 0;
                 this->nameEntryBoxPosX = 120;
                 this->nameEntryBoxAlpha = 0;
-                MemCopy(&this->fileNames[this->buttonIndex][0], &sEmptyName, 8);
+                MemCopy(&this->fileNames[this->buttonIndex][0], &gEmptyName, 8);
             } else if (this->n64ddFlags[this->buttonIndex] == this->n64ddFlag) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->actionTimer = 8;
-                this->openFileStateIndex = 0;
+                this->selectMode = 0;
                 this->selectedFileIndex = this->buttonIndex;
-                this->menuIndex = 2;
+                this->menuMode = MENU_MODE_SELECT;
                 this->nextTitleLabel = TITLE_OPEN_FILE;
             } else if (this->n64ddFlags[this->buttonIndex] == 0) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -143,16 +141,16 @@ void func_8080B52C(FileChooseContext* thisx) {
         } else {
             if (this->warningLabel == WARNING_NONE) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->prevFileSelectStateIndex = this->fileSelectStateIndex;
+                this->prevConfigureMode = this->configMode;
 
                 if (this->buttonIndex == BTN_MAIN_COPY) {
-                    this->fileSelectStateIndex = BTN_MAIN_COPY;
+                    this->configMode = 3;
                     this->nextTitleLabel = TITLE_COPY_FROM;
                 } else if (this->buttonIndex == BTN_MAIN_ERASE) {
-                    this->fileSelectStateIndex = 20;
+                    this->configMode = 20;
                     this->nextTitleLabel = TITLE_ERASE_FILE;
                 } else {
-                    this->fileSelectStateIndex = 36;
+                    this->configMode = 36;
                     this->kbdButtonIndex = 0;
                     this->kbdX = 0;
                     this->kbdY = 0;
@@ -287,9 +285,8 @@ void func_8080BFE4(GameState* thisx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
 #endif
 
-// update func for menuIndex 1
-void func_8080C2F4(FileChooseContext* this) {
-    D_80812770[this->fileSelectStateIndex](this);
+void FileChoose_ConfigModeUpdate(FileChooseContext* this) {
+    gConfigModeUpdateFuncs[this->configMode](this);
 }
 
 void func_8080C330(FileChooseContext* this);
@@ -303,8 +300,7 @@ void func_8080C60C(FileChooseContext* this);
 void func_8080E074(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080E074.s")
 
-// draw func for menuIndex 1
-void func_8080F560(GameState* thisx) {
+void FileChoose_ConfigModeDraw(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     f32 skyboxX;
     f32 skyboxY;
@@ -328,7 +324,7 @@ void func_8080F560(GameState* thisx) {
     func_8080C330(this);
     func_8080C60C(this);
 
-    if ((this->fileSelectStateIndex != 33) && (this->fileSelectStateIndex != 34)) {
+    if ((this->configMode != 33) && (this->configMode != 34)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -359,7 +355,7 @@ void func_8080F560(GameState* thisx) {
         func_8080E074(this);
     }
 
-    if ((this->fileSelectStateIndex >= 32) && (this->fileSelectStateIndex < 36)) {
+    if ((this->configMode >= 32) && (this->configMode < 36)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -386,7 +382,7 @@ void func_8080F560(GameState* thisx) {
         func_80808000(this);
     }
 
-    if ((this->fileSelectStateIndex >= 36) && (this->fileSelectStateIndex < 40)) {
+    if ((this->configMode >= 36) && (this->configMode < 40)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -435,13 +431,11 @@ void func_8080F560(GameState* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808106F4.s")
 
-// update func for menuIndex 2
-void func_8081097C(FileChooseContext* this) {
-    D_80812A18[this->openFileStateIndex](this);
+void FileChoose_SelectModeUpdate(FileChooseContext* this) {
+    gSelectModeUpdateFuncs[this->selectMode](this);
 }
 
-// draw func for menuIndex 2
-void func_808109B8(GameState* thisx) {
+void FileChoose_SelectModeDraw(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     f32 eyeX;
     f32 eyeY;
@@ -573,10 +567,11 @@ void FileChoose_Main(GameState* thisx) {
     this->emptyFileTextAlpha = 0;
 
     func_8080BFE4(this);
-    gFileSelectUpdateFuncs[this->menuIndex](this);
-    gFileSelectDrawFuncs[this->menuIndex](this);
+    gFileSelectUpdateFuncs[this->menuMode](this);
+    gFileSelectDrawFuncs[this->menuMode](this);
 
-    if ((this->fileSelectStateIndex < 0x24) || (this->fileSelectStateIndex >= 0x28)) {
+    // do not draw bottom text in the options menu
+    if ((this->configMode < 0x24) || (this->configMode >= 0x28)) {
         func_800944C4(this->state.gfxCtx);
 
         gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -678,9 +673,9 @@ void FileChoose_InitContext(GameState* thisx) {
     WREG(42) = 0xB;
     WREG(43) = 0xC;
 
-    this->menuIndex = 0;
+    this->menuMode = MENU_MODE_INIT;
 
-    this->buttonIndex = this->openFileStateIndex = this->selectedFileIndex = this->copyDestFileIndex =
+    this->buttonIndex = this->selectMode = this->selectedFileIndex = this->copyDestFileIndex =
         this->openChoiceIndex = 0;
 
     this->unk_1CAAE[0] = 2;
@@ -693,7 +688,7 @@ void FileChoose_InitContext(GameState* thisx) {
     this->highlightColor[1] = 255;
     this->highlightColor[2] = 255;
     this->highlightColor[3] = 70;
-    this->fileSelectStateIndex = 0;
+    this->configMode = 0;
     this->windowRot = 0.0f;
     this->xIndexOffset = this->inputTimerX = 0;
     this->yIndexOffset = this->inputTimerY = 0;
@@ -709,7 +704,7 @@ void FileChoose_InitContext(GameState* thisx) {
             this->nameBoxAlpha[2] = this->nameAlpha[0] = this->nameAlpha[1] = this->nameAlpha[2] =
                 this->connectorAlpha[0] = this->connectorAlpha[1] = this->connectorAlpha[2] = this->fileInfoAlpha[0] =
                     this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->copyEraseAlpha[0] =
-                        this->copyEraseAlpha[1] = this->yesQuitAlpha[0] = this->yesQuitAlpha[1] =
+                        this->copyEraseAlpha[1] = this->confirmButtonAlpha[BTN_CONFIRM_YES] = this->confirmButtonAlpha[BTN_CONFIRM_QUIT] =
                             this->optionButtonAlpha = this->nameEntryBoxAlpha = this->bottomTextAlpha =
                                 this->emptyFileTextAlpha = 0;
 
