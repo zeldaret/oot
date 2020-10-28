@@ -1685,7 +1685,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         return item;
     } else if (item == ITEM_MAGIC_SMALL) {
         if (gSaveContext.unk_13F0 != 10) {
-            func_80087680(globalCtx);
+            Magic_Fill(globalCtx);
         }
 
         func_80087708(globalCtx, 12, 5);
@@ -1698,7 +1698,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         return item;
     } else if (item == ITEM_MAGIC_LARGE) {
         if (gSaveContext.unk_13F0 != 10) {
-            func_80087680(globalCtx);
+            Magic_Fill(globalCtx);
         }
 
         func_80087708(globalCtx, 24, 5);
@@ -2256,7 +2256,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
     osSyncPrintf("合計 = (%d)\n", AMMO(item));
 }
 
-void func_80087680(GlobalContext* globalCtx) {
+void Magic_Fill(GlobalContext* globalCtx) {
     if (gSaveContext.magicAcquired) {
         gSaveContext.unk_13F2 = gSaveContext.unk_13F0;
         gSaveContext.unk_13F6 = (gSaveContext.doubleMagic * 0x30) + 0x30;
