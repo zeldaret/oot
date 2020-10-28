@@ -221,9 +221,9 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, GlobalContext* globalCtx) {
             break;
         default:
             // Error : type cannot be determined
-            osSyncPrintf("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n",
-                            "../z_obj_oshihiki.c", 444, this->dyna.actor.params);
-        break;
+            osSyncPrintf("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 444,
+                         this->dyna.actor.params);
+            break;
     }
 }
 
@@ -279,11 +279,10 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, GlobalContext* globalCtx) {
 void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     ObjOshihiki* this = THIS;
-    
+
     ObjOshihiki_CheckType(this, globalCtx);
-    
-    if ((((this->dyna.actor.params >> 8) & 0xFF) >= 0)
-        && (((this->dyna.actor.params >> 8) & 0xFF) <= 0x3F)) {
+
+    if ((((this->dyna.actor.params >> 8) & 0xFF) >= 0) && (((this->dyna.actor.params >> 8) & 0xFF) <= 0x3F)) {
         if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
             switch (this->dyna.actor.params & 0xF) {
                 case PUSHBLOCK_SMALL_START_ON:
