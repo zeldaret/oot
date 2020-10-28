@@ -211,15 +211,35 @@ void func_8080B52C(FileChooseContext* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE30.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE84.s")
+void func_8080BE84(FileChooseContext *this) {
+    this->windowRot += VREG(16);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BEF8.s")
+    if (this->windowRot >= 314.0f) {
+        this->windowRot = 314.0f;
+        this->configMode = 34;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BF6C.s")
+void func_8080BEF8(FileChooseContext *this) {
+    this->windowRot += VREG(16);
 
+    if (this->windowRot >= 314.0f) {
+        this->windowRot = 314.0f;
+        this->configMode = 38;
+    }
+}
+
+void func_8080BF6C(FileChooseContext* this) {
+    this->windowRot += VREG(16);
+
+    if (this->windowRot >= 628.0f) {
+        this->windowRot = 0.0f;
+        this->configMode = 2;
+    }
+}
 
 void func_8080BFE4(GameState* thisx);
- #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 void func_8080BFE4(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 alphaStep;
@@ -793,7 +813,7 @@ void FileChoose_Init(GameState* thisx) {
     this->state.main = FileChoose_Main;
     this->state.destroy = FileChoose_Destroy;
     FileChoose_InitContext(this);
-    Font_LoadOrderedFont(this->font);
+    Font_LoadOrderedFont(&this->font);
     Audio_SetBGM(0xF000000A);
     func_800F5E18(0, 0x57, 0, 7, 1);
 }

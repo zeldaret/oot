@@ -99,7 +99,7 @@ void* gFileSelectUpdateFuncs[] = {
 
 s32 D_80812A50[] = { 0x01033F00, 0x01034800, 0x01035100, 0x00000000 };
 
-u8 D_80813810;
+u8 gSelectedSetting;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80806DB0.s")
 
@@ -111,13 +111,103 @@ u8 D_80813810;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808F84.s")
+void func_80808F84(FileChooseContext *this) {
+    this->nameEntryBoxAlpha += 25;
+
+    if (this->nameEntryBoxAlpha >= 255) {
+        this->nameEntryBoxAlpha = 255;
+    }
+
+    this->nameEntryBoxPosX -= 30;
+
+    if (this->nameEntryBoxPosX <= 0) {
+        this->nameEntryBoxPosX = 0;
+        this->nameEntryBoxAlpha = 255;
+        this->kbdX = 0;
+        this->kbdY = 0;
+        this->kbdButtonIndex = 99;
+        this->configMode = 33;
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80809038.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080960C.s")
+void func_8080960C(FileChooseContext *this) {
+    this->nameEntryBoxAlpha += 25;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080969C.s")
+    if (this->nameEntryBoxAlpha >= 255) {
+        this->nameEntryBoxAlpha = 255;
+    }
+
+    this->nameEntryBoxPosX -= 30;
+
+    if (this->nameEntryBoxPosX <= 0) {
+        this->nameEntryBoxPosX = 0;
+        this->nameEntryBoxAlpha = 255;
+        this->configMode = 37;
+    }
+}
+
+void func_8080969C(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    Input* controller1 = &this->state.input[0];
+
+    if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        this->configMode = 39;
+        sramCtx->readBuff[0] = gSaveContext.audioSetting;
+        sramCtx->readBuff[1] = gSaveContext.zTargetSetting;
+        osSyncPrintf("ＳＡＶＥ");
+        Sram_WriteSramHeader(sramCtx);
+        osSyncPrintf(VT_FGCOL(YELLOW));
+        osSyncPrintf("sram->read_buff[2] = J_N = %x\n", sramCtx->readBuff[2]);
+        osSyncPrintf("sram->read_buff[2] = J_N = %x\n", &sramCtx->readBuff[2]);
+        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        osSyncPrintf("Na_SetSoundOutputMode = %d\n", gSaveContext.audioSetting);
+        osSyncPrintf(VT_RST);
+        func_800F6700(gSaveContext.audioSetting);
+        osSyncPrintf("終了\n");
+        return;
+    }
+    if (this->stickRelX < -30) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+        if (gSelectedSetting == SETTING_AUDIO) {
+            gSaveContext.audioSetting--;
+            
+            // because audio setting is unsigned, it cant check for < 0
+            if (gSaveContext.audioSetting > 0xF0) {
+                gSaveContext.audioSetting = AUDIO_SURROUND;
+            }
+        } else {
+            gSaveContext.zTargetSetting ^= 1;
+        }
+    } else if (this->stickRelX > 30) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+        if (gSelectedSetting == SETTING_AUDIO) {
+            gSaveContext.audioSetting++;
+
+            if (gSaveContext.audioSetting > AUDIO_SURROUND) {
+                gSaveContext.audioSetting = AUDIO_STEREO;
+            }
+        } else {
+            gSaveContext.zTargetSetting ^= 1;
+        }
+    }
+    
+    if ((this->stickRelY < -30) || (this->stickRelY > 30)) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        gSelectedSetting ^= 1;
+        return;
+    } else if (CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        gSelectedSetting ^= 1;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808099C8.s")
 

@@ -1,5 +1,6 @@
 #include "ultra64.h"
 #include "global.h"
+#include "vt.h"
 
 #ifndef _FILE_CHOOSE_H_
 #define _FILE_CHOOSE_H_
@@ -33,8 +34,8 @@ typedef enum {
     /* 4 */ TITLE_COPY_CONFIRM,  // "Are you sure?"
     /* 5 */ TITLE_COPY_COMPLETE, // "File copied."
     /* 6 */ TITLE_ERASE_FILE,    // "Erase which file?"
-    /* 4 */ TITLE_ERASE_CONFIRM, // "Are you sure?"
-    /* 5 */ TITLE_ERASE_COMPLETE // "File erased."
+    /* 7 */ TITLE_ERASE_CONFIRM, // "Are you sure?"
+    /* 8 */ TITLE_ERASE_COMPLETE // "File erased."
 } TitleLabel;
 
 typedef enum {
@@ -63,9 +64,28 @@ typedef enum {
 } CopyMenuBtnIndex;
 
 typedef enum {
+    /* 0 */ BTN_ERASE_FILE_1,
+    /* 1 */ BTN_ERASE_FILE_2,
+    /* 2 */ BTN_ERASE_FILE_3,
+    /* 3 */ BTN_ERASE_QUIT
+} EraseMenuBtnIndex;
+
+typedef enum {
     /* 0 */ BTN_CONFIRM_YES,
     /* 1 */ BTN_CONFIRM_QUIT
 } ConfirmBtnIndex;
+
+typedef enum {
+    /* 0 */ SETTING_AUDIO,
+    /* 1 */ SETTING_TARGET
+} SettingIndex;
+
+typedef enum {
+    /* 0 */ AUDIO_STEREO,
+    /* 1 */ AUDIO_MONO,
+    /* 2 */ AUDIO_HEADSET,
+    /* 3 */ AUDIO_SURROUND
+} AudioOptions;
 
 // update funcs for menuMode 1 (gConfigModeUpdateFuncs)
 void func_8080B40C(FileChooseContext* this); // 00
