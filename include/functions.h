@@ -2493,7 +2493,7 @@ s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes);
 void guScale(Mtx* m, f32 x, f32 y, f32 z);
 f32 sinf(f32);
 s16 sins(u16);
-// ? func_801004C0(?);
+OSTask* _VirtualToPhysicalTask(OSTask* intp);
 void osSpTaskLoad(OSTask* task);
 void osSpTaskStartGo(OSTask* task);
 s32 osSetRumble(OSPfs* pfs, u32 vibrate);
@@ -2518,7 +2518,7 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel);
 void __osPfsRequestOneChannel(s32 channel, u8 poll);
 void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData);
-// ? guMtxIdentF(?);
+void guMtxIdentF(f32 mf[4][4]);
 void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 void guLookAt(Mtx*, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 length, s32* fileNo);
@@ -2531,25 +2531,28 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp);
 s32 __osGetId(OSPfs* pfs);
 s32 __osCheckId(OSPfs* pfs);
 s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank);
-// ? func_80102FA0(?);
+void guMtxL2F(MtxF* m1, Mtx* m2);
 s32 osPfsFindFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32* fileNo);
 s32 osAfterPreNMI(void);
 s32 osContStartQuery(OSMesgQueue* mq);
 void osContGetQuery(OSContStatus* data);
-// ? guLookAtHiliteF(?);
+void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt,
+                     f32 xUp, f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1,
+                     f32 xl2, f32 yl2, f32 zl2,
+                     s32 hiliteWidth, s32 hiliteHeight);
 void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp,
                     f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
                     s32 hiliteHeight);
 u32 __osSpDeviceBusy();
-// ? guMtxIdent(?);
+void guMtxIdent(f32 m[4][4]);
 void guPositionF(f32 mf[4][4], f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f32 z);
 void guPosition(Mtx*, f32, f32, f32, f32, f32, f32, f32);
 OSYieldResult osSpTaskYielded(OSTask* task);
-// ? guRotateF(?);
+void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z);
 void guRotate(Mtx*, f32 angle, f32 x, f32 y, f32 z);
 s32 osAiSetFrequency(u32 frequency);
 OSThread* __osGetActiveQueue();
-// ? guNormalize(?);
+void guNormalize(f32* x, f32* y, f32* z);
 u32 osDpGetStatus(void);
 void osDpSetStatus(u32 status);
 s32 osPfsDeleteFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName);
@@ -2582,7 +2585,7 @@ u32 __osSpGetStatus();
 void __osSpSetStatus(u32 status);
 void osWritebackDCacheAll(void);
 OSThread* __osGetCurrFaultedThread();
-// ? guMtxF2L(?);
+void guMtxF2L(MtxF* m1, Mtx* m2);
 // ? __d_to_ll(?);
 // ? __f_to_ll(?);
 // ? __d_to_ull(?);
