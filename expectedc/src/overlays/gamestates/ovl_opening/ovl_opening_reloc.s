@@ -1,0 +1,13 @@
+.section .ovl
+.word _ovl_openingSegmentTextSize
+.word _ovl_openingSegmentDataSize
+.word _ovl_openingSegmentRoDataSize
+.word _ovl_openingSegmentBssSize
+.word 6
+.word 0x44000094
+.word 0x4400009C
+.word 0x450000F0
+.word 0x460000F8
+.word 0x450000F4
+.word 0x460000FC
+.word 0x00000030

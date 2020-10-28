@@ -1,0 +1,13 @@
+.section .ovl
+.word _ovl_Effect_Ss_Solder_Srch_BallSegmentTextSize
+.word _ovl_Effect_Ss_Solder_Srch_BallSegmentDataSize
+.word _ovl_Effect_Ss_Solder_Srch_BallSegmentRoDataSize
+.word _ovl_Effect_Ss_Solder_Srch_BallSegmentBssSize
+.word 3
+.word 0x4500000C
+.word 0x46000010
+.word 0x82000004
+.word 0
+.word 0
+.word 0
+.word 0x00000030

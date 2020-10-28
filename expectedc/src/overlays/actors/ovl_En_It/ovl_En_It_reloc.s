@@ -1,0 +1,17 @@
+.section .ovl
+.word _ovl_En_ItSegmentTextSize
+.word _ovl_En_ItSegmentDataSize
+.word _ovl_En_ItSegmentRoDataSize
+.word _ovl_En_ItSegmentBssSize
+.word 7
+.word 0x4500002C
+.word 0x46000034
+.word 0x45000044
+.word 0x46000048
+.word 0x82000048
+.word 0x8200004C
+.word 0x82000050
+.word 0
+.word 0
+.word 0
+.word 0x00000040

@@ -1,0 +1,17 @@
+.section .ovl
+.word _ovl_Bg_Mizu_UzuSegmentTextSize
+.word _ovl_Bg_Mizu_UzuSegmentDataSize
+.word _ovl_Bg_Mizu_UzuSegmentRoDataSize
+.word _ovl_Bg_Mizu_UzuSegmentBssSize
+.word 8
+.word 0x45000010
+.word 0x46000020
+.word 0x45000054
+.word 0x46000058
+.word 0x82000010
+.word 0x82000014
+.word 0x82000018
+.word 0x8200001C
+.word 0
+.word 0
+.word 0x00000040

@@ -1,0 +1,13 @@
+.section .ovl
+.word _ovl_En_Arow_TrapSegmentTextSize
+.word _ovl_En_Arow_TrapSegmentDataSize
+.word _ovl_En_Arow_TrapSegmentRoDataSize
+.word _ovl_En_Arow_TrapSegmentBssSize
+.word 3
+.word 0x82000010
+.word 0x82000014
+.word 0x82000018
+.word 0
+.word 0
+.word 0
+.word 0x00000030

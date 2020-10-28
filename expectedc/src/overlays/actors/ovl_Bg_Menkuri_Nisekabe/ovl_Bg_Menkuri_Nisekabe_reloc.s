@@ -1,0 +1,17 @@
+.section .ovl
+.word _ovl_Bg_Menkuri_NisekabeSegmentTextSize
+.word _ovl_Bg_Menkuri_NisekabeSegmentDataSize
+.word _ovl_Bg_Menkuri_NisekabeSegmentRoDataSize
+.word _ovl_Bg_Menkuri_NisekabeSegmentBssSize
+.word 8
+.word 0x45000090
+.word 0x460000A0
+.word 0x450000B0
+.word 0x460000B8
+.word 0x82000010
+.word 0x82000014
+.word 0x82000018
+.word 0x8200001C
+.word 0
+.word 0
+.word 0x00000040

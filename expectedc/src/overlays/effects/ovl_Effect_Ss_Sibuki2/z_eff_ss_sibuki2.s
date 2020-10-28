@@ -1,0 +1,201 @@
+
+build/src/overlays/effects/ovl_Effect_Ss_Sibuki2/z_eff_ss_sibuki2.o:     file format elf32-tradbigmips
+
+
+Disassembly of section .text:
+
+00000000 <EffectSsSibuki2_Init>:
+   0:	afa40000 	sw	a0,0(sp)
+   4:	afa50004 	sw	a1,4(sp)
+   8:	8cef0000 	lw	t7,0(a3)
+   c:	3c0b0000 	lui	t3,0x0
+  10:	3c0c0000 	lui	t4,0x0
+  14:	accf0000 	sw	t7,0(a2)
+  18:	8cee0004 	lw	t6,4(a3)
+  1c:	240a000a 	li	t2,10
+  20:	256b0000 	addiu	t3,t3,0
+  24:	acce0004 	sw	t6,4(a2)
+  28:	8cef0008 	lw	t7,8(a3)
+  2c:	258c0000 	addiu	t4,t4,0
+  30:	240300ff 	li	v1,255
+  34:	accf0008 	sw	t7,8(a2)
+  38:	8cf9000c 	lw	t9,12(a3)
+  3c:	24040064 	li	a0,100
+  40:	24020001 	li	v0,1
+  44:	acd9000c 	sw	t9,12(a2)
+  48:	8cf80010 	lw	t8,16(a3)
+  4c:	acd80010 	sw	t8,16(a2)
+  50:	8cf90014 	lw	t9,20(a3)
+  54:	acd90014 	sw	t9,20(a2)
+  58:	8ce90018 	lw	t1,24(a3)
+  5c:	acc90018 	sw	t1,24(a2)
+  60:	8ce8001c 	lw	t0,28(a3)
+  64:	acc8001c 	sw	t0,28(a2)
+  68:	8ce90020 	lw	t1,32(a3)
+  6c:	a4ca005c 	sh	t2,92(a2)
+  70:	accb0028 	sw	t3,40(a2)
+  74:	accc0024 	sw	t4,36(a2)
+  78:	acc90020 	sw	t1,32(a2)
+  7c:	84ed0024 	lh	t5,36(a3)
+  80:	a4c30040 	sh	v1,64(a2)
+  84:	a4c30042 	sh	v1,66(a2)
+  88:	a4c30044 	sh	v1,68(a2)
+  8c:	a4c30046 	sh	v1,70(a2)
+  90:	a4c40048 	sh	a0,72(a2)
+  94:	a4c4004a 	sh	a0,74(a2)
+  98:	a4c4004c 	sh	a0,76(a2)
+  9c:	a4c3004e 	sh	v1,78(a2)
+  a0:	a4c00050 	sh	zero,80(a2)
+  a4:	03e00008 	jr	ra
+  a8:	a4cd0052 	sh	t5,82(a2)
+
+000000ac <EffectSsSibuki2_Draw>:
+  ac:	27bdffa8 	addiu	sp,sp,-88
+  b0:	afbf001c 	sw	ra,28(sp)
+  b4:	afb10018 	sw	s1,24(sp)
+  b8:	afb00014 	sw	s0,20(sp)
+  bc:	afa40058 	sw	a0,88(sp)
+  c0:	afa5005c 	sw	a1,92(sp)
+  c4:	84cf0052 	lh	t7,82(a2)
+  c8:	3c0142c8 	lui	at,0x42c8
+  cc:	44814000 	mtc1	at,$f8
+  d0:	448f2000 	mtc1	t7,$f4
+  d4:	8c910000 	lw	s1,0(a0)
+  d8:	00c08025 	move	s0,a2
+  dc:	468021a0 	cvt.s.w	$f6,$f4
+  e0:	3c060000 	lui	a2,0x0
+  e4:	24c60000 	addiu	a2,a2,0
+  e8:	27a4003c 	addiu	a0,sp,60
+  ec:	2407009e 	li	a3,158
+  f0:	02202825 	move	a1,s1
+  f4:	46083283 	div.s	$f10,$f6,$f8
+  f8:	0c000000 	jal	0 <EffectSsSibuki2_Init>
+  fc:	e7aa0050 	swc1	$f10,80(sp)
+ 100:	c60c0000 	lwc1	$f12,0(s0)
+ 104:	c60e0004 	lwc1	$f14,4(s0)
+ 108:	8e060008 	lw	a2,8(s0)
+ 10c:	0c000000 	jal	0 <EffectSsSibuki2_Init>
+ 110:	00003825 	move	a3,zero
+ 114:	c7ac0050 	lwc1	$f12,80(sp)
+ 118:	24070001 	li	a3,1
+ 11c:	44066000 	mfc1	a2,$f12
+ 120:	0c000000 	jal	0 <EffectSsSibuki2_Init>
+ 124:	46006386 	mov.s	$f14,$f12
+ 128:	8e2202d0 	lw	v0,720(s1)
+ 12c:	3c19da38 	lui	t9,0xda38
+ 130:	37390003 	ori	t9,t9,0x3
+ 134:	24580008 	addiu	t8,v0,8
+ 138:	ae3802d0 	sw	t8,720(s1)
+ 13c:	3c050000 	lui	a1,0x0
+ 140:	ac590000 	sw	t9,0(v0)
+ 144:	24a50018 	addiu	a1,a1,24
+ 148:	02202025 	move	a0,s1
+ 14c:	240600ab 	li	a2,171
+ 150:	0c000000 	jal	0 <EffectSsSibuki2_Init>
+ 154:	afa20038 	sw	v0,56(sp)
+ 158:	8fa30038 	lw	v1,56(sp)
+ 15c:	02202025 	move	a0,s1
+ 160:	0c000000 	jal	0 <EffectSsSibuki2_Init>
+ 164:	ac620004 	sw	v0,4(v1)
+ 168:	8e2202d0 	lw	v0,720(s1)
+ 16c:	3c09fa00 	lui	t1,0xfa00
+ 170:	3c040000 	lui	a0,0x0
+ 174:	24480008 	addiu	t0,v0,8
+ 178:	ae2802d0 	sw	t0,720(s1)
+ 17c:	ac490000 	sw	t1,0(v0)
+ 180:	860a0046 	lh	t2,70(s0)
+ 184:	86180042 	lh	t8,66(s0)
+ 188:	860d0040 	lh	t5,64(s0)
+ 18c:	314b00ff 	andi	t3,t2,0xff
+ 190:	860a0044 	lh	t2,68(s0)
+ 194:	331900ff 	andi	t9,t8,0xff
+ 198:	000d7600 	sll	t6,t5,0x18
+ 19c:	016e7825 	or	t7,t3,t6
+ 1a0:	00194400 	sll	t0,t9,0x10
+ 1a4:	314c00ff 	andi	t4,t2,0xff
+ 1a8:	000c6a00 	sll	t5,t4,0x8
+ 1ac:	01e84825 	or	t1,t7,t0
+ 1b0:	012d5825 	or	t3,t1,t5
+ 1b4:	ac4b0004 	sw	t3,4(v0)
+ 1b8:	8e2202d0 	lw	v0,720(s1)
+ 1bc:	3c18fb00 	lui	t8,0xfb00
+ 1c0:	3c060000 	lui	a2,0x0
+ 1c4:	244e0008 	addiu	t6,v0,8
+ 1c8:	ae2e02d0 	sw	t6,720(s1)
+ 1cc:	ac580000 	sw	t8,0(v0)
+ 1d0:	8619004e 	lh	t9,78(s0)
+ 1d4:	860d004a 	lh	t5,74(s0)
+ 1d8:	860a0048 	lh	t2,72(s0)
+ 1dc:	332f00ff 	andi	t7,t9,0xff
+ 1e0:	8619004c 	lh	t9,76(s0)
+ 1e4:	31ab00ff 	andi	t3,t5,0xff
+ 1e8:	000a6600 	sll	t4,t2,0x18
+ 1ec:	01ec4825 	or	t1,t7,t4
+ 1f0:	000b7400 	sll	t6,t3,0x10
+ 1f4:	332800ff 	andi	t0,t9,0xff
+ 1f8:	00085200 	sll	t2,t0,0x8
+ 1fc:	012ec025 	or	t8,t1,t6
+ 200:	030a7825 	or	t7,t8,t2
+ 204:	ac4f0004 	sw	t7,4(v0)
+ 208:	8e2202d0 	lw	v0,720(s1)
+ 20c:	3c0ddb06 	lui	t5,0xdb06
+ 210:	35ad0020 	ori	t5,t5,0x20
+ 214:	244c0008 	addiu	t4,v0,8
+ 218:	ae2c02d0 	sw	t4,720(s1)
+ 21c:	ac4d0000 	sw	t5,0(v0)
+ 220:	860b0050 	lh	t3,80(s0)
+ 224:	24c60000 	addiu	a2,a2,0
+ 228:	3c0500ff 	lui	a1,0xff
+ 22c:	000b4880 	sll	t1,t3,0x2
+ 230:	00892021 	addu	a0,a0,t1
+ 234:	8c840008 	lw	a0,8(a0)
+ 238:	34a5ffff 	ori	a1,a1,0xffff
+ 23c:	3c078000 	lui	a3,0x8000
+ 240:	0004c900 	sll	t9,a0,0x4
+ 244:	00194702 	srl	t0,t9,0x1c
+ 248:	0008c080 	sll	t8,t0,0x2
+ 24c:	00d85021 	addu	t2,a2,t8
+ 250:	8d4f0000 	lw	t7,0(t2)
+ 254:	00857024 	and	t6,a0,a1
+ 258:	3c040000 	lui	a0,0x0
+ 25c:	01cf6021 	addu	t4,t6,t7
+ 260:	01876821 	addu	t5,t4,a3
+ 264:	ac4d0004 	sw	t5,4(v0)
+ 268:	8e2202d0 	lw	v0,720(s1)
+ 26c:	24840000 	addiu	a0,a0,0
+ 270:	0004c900 	sll	t9,a0,0x4
+ 274:	00194702 	srl	t0,t9,0x1c
+ 278:	244b0008 	addiu	t3,v0,8
+ 27c:	ae2b02d0 	sw	t3,720(s1)
+ 280:	0008c080 	sll	t8,t0,0x2
+ 284:	3c09de00 	lui	t1,0xde00
+ 288:	00d85021 	addu	t2,a2,t8
+ 28c:	ac490000 	sw	t1,0(v0)
+ 290:	8d4e0000 	lw	t6,0(t2)
+ 294:	00857824 	and	t7,a0,a1
+ 298:	3c060000 	lui	a2,0x0
+ 29c:	01cf6021 	addu	t4,t6,t7
+ 2a0:	01876821 	addu	t5,t4,a3
+ 2a4:	240700c6 	li	a3,198
+ 2a8:	24c60030 	addiu	a2,a2,48
+ 2ac:	02202825 	move	a1,s1
+ 2b0:	27a4003c 	addiu	a0,sp,60
+ 2b4:	0c000000 	jal	0 <EffectSsSibuki2_Init>
+ 2b8:	ac4d0004 	sw	t5,4(v0)
+ 2bc:	8fbf001c 	lw	ra,28(sp)
+ 2c0:	8fb00014 	lw	s0,20(sp)
+ 2c4:	8fb10018 	lw	s1,24(sp)
+ 2c8:	03e00008 	jr	ra
+ 2cc:	27bd0058 	addiu	sp,sp,88
+
+000002d0 <EffectSsSibuki2_Update>:
+ 2d0:	afa40000 	sw	a0,0(sp)
+ 2d4:	afa50004 	sw	a1,4(sp)
+ 2d8:	84c20050 	lh	v0,80(a2)
+ 2dc:	28410008 	slti	at,v0,8
+ 2e0:	10200002 	beqz	at,2ec <EffectSsSibuki2_Update+0x1c>
+ 2e4:	244e0001 	addiu	t6,v0,1
+ 2e8:	a4ce0050 	sh	t6,80(a2)
+ 2ec:	03e00008 	jr	ra
+ 2f0:	00000000 	nop
+	...

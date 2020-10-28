@@ -1,0 +1,13 @@
+.section .ovl
+.word _ovl_En_M_Fire1SegmentTextSize
+.word _ovl_En_M_Fire1SegmentDataSize
+.word _ovl_En_M_Fire1SegmentRoDataSize
+.word _ovl_En_M_Fire1SegmentBssSize
+.word 5
+.word 0x45000044
+.word 0x46000050
+.word 0x82000010
+.word 0x82000014
+.word 0x82000018
+.word 0
+.word 0x00000030

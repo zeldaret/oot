@@ -1,0 +1,17 @@
+.section .ovl
+.word _ovl_Bg_Gnd_NisekabeSegmentTextSize
+.word _ovl_Bg_Gnd_NisekabeSegmentDataSize
+.word _ovl_Bg_Gnd_NisekabeSegmentRoDataSize
+.word _ovl_Bg_Gnd_NisekabeSegmentBssSize
+.word 10
+.word 0x4500001C
+.word 0x46000020
+.word 0x450000A4
+.word 0x460000B4
+.word 0x450000C4
+.word 0x460000CC
+.word 0x82000010
+.word 0x82000014
+.word 0x82000018
+.word 0x8200001C
+.word 0x00000040

@@ -1,0 +1,299 @@
+
+build/src/overlays/effects/ovl_Effect_Ss_Dead_Db/z_eff_ss_dead_db.o:     file format elf32-tradbigmips
+
+
+Disassembly of section .text:
+
+00000000 <EffectSsDeadDb_Init>:
+   0:	afa40000 	sw	a0,0(sp)
+   4:	afa50004 	sw	a1,4(sp)
+   8:	8cef0000 	lw	t7,0(a3)
+   c:	3c020000 	lui	v0,0x0
+  10:	24420000 	addiu	v0,v0,0
+  14:	accf0000 	sw	t7,0(a2)
+  18:	8cee0004 	lw	t6,4(a3)
+  1c:	00025100 	sll	t2,v0,0x4
+  20:	000a5f02 	srl	t3,t2,0x1c
+  24:	acce0004 	sw	t6,4(a2)
+  28:	8cef0008 	lw	t7,8(a3)
+  2c:	000b6080 	sll	t4,t3,0x2
+  30:	3c0d0000 	lui	t5,0x0
+  34:	accf0008 	sw	t7,8(a2)
+  38:	8cf9000c 	lw	t9,12(a3)
+  3c:	01ac6821 	addu	t5,t5,t4
+  40:	3c0100ff 	lui	at,0xff
+  44:	acd9000c 	sw	t9,12(a2)
+  48:	8cf80010 	lw	t8,16(a3)
+  4c:	3421ffff 	ori	at,at,0xffff
+  50:	00417024 	and	t6,v0,at
+  54:	acd80010 	sw	t8,16(a2)
+  58:	8cf90014 	lw	t9,20(a3)
+  5c:	3c018000 	lui	at,0x8000
+  60:	3c0b0000 	lui	t3,0x0
+  64:	acd90014 	sw	t9,20(a2)
+  68:	8ce90018 	lw	t1,24(a3)
+  6c:	3c0c0000 	lui	t4,0x0
+  70:	256b0000 	addiu	t3,t3,0
+  74:	acc90018 	sw	t1,24(a2)
+  78:	8ce8001c 	lw	t0,28(a3)
+  7c:	258c0000 	addiu	t4,t4,0
+  80:	24020001 	li	v0,1
+  84:	acc8001c 	sw	t0,28(a2)
+  88:	8ce90020 	lw	t1,32(a3)
+  8c:	24080004 	li	t0,4
+  90:	acc90020 	sw	t1,32(a2)
+  94:	8dad0000 	lw	t5,0(t5)
+  98:	01ae7821 	addu	t7,t5,t6
+  9c:	01e1c021 	addu	t8,t7,at
+  a0:	acd80038 	sw	t8,56(a2)
+  a4:	8cf90034 	lw	t9,52(a3)
+  a8:	a4c8005a 	sh	t0,90(a2)
+  ac:	a4d9005c 	sh	t9,92(a2)
+  b0:	84e90026 	lh	t1,38(a3)
+  b4:	a4c90052 	sh	t1,82(a2)
+  b8:	8cea0034 	lw	t2,52(a3)
+  bc:	accb0028 	sw	t3,40(a2)
+  c0:	accc0024 	sw	t4,36(a2)
+  c4:	a4ca0056 	sh	t2,86(a2)
+  c8:	84ed0024 	lh	t5,36(a3)
+  cc:	a4c00042 	sh	zero,66(a2)
+  d0:	a4cd0040 	sh	t5,64(a2)
+  d4:	84ee0038 	lh	t6,56(a3)
+  d8:	a4ce0054 	sh	t6,84(a2)
+  dc:	90ef0028 	lbu	t7,40(a3)
+  e0:	a4cf0044 	sh	t7,68(a2)
+  e4:	90f80029 	lbu	t8,41(a3)
+  e8:	a4d80046 	sh	t8,70(a2)
+  ec:	90f9002a 	lbu	t9,42(a3)
+  f0:	a4d90048 	sh	t9,72(a2)
+  f4:	90e8002b 	lbu	t0,43(a3)
+  f8:	a4c8004a 	sh	t0,74(a2)
+  fc:	90e9002c 	lbu	t1,44(a3)
+ 100:	a4c9004c 	sh	t1,76(a2)
+ 104:	90ea002d 	lbu	t2,45(a3)
+ 108:	a4ca004e 	sh	t2,78(a2)
+ 10c:	90eb002e 	lbu	t3,46(a3)
+ 110:	03e00008 	jr	ra
+ 114:	a4cb0050 	sh	t3,80(a2)
+
+00000118 <EffectSsDeadDb_Draw>:
+ 118:	27bdfee8 	addiu	sp,sp,-280
+ 11c:	afb00014 	sw	s0,20(sp)
+ 120:	afbf001c 	sw	ra,28(sp)
+ 124:	afb10018 	sw	s1,24(sp)
+ 128:	afa40118 	sw	a0,280(sp)
+ 12c:	afa5011c 	sw	a1,284(sp)
+ 130:	8c910000 	lw	s1,0(a0)
+ 134:	00c08025 	move	s0,a2
+ 138:	3c060000 	lui	a2,0x0
+ 13c:	24c60000 	addiu	a2,a2,0
+ 140:	27a40038 	addiu	a0,sp,56
+ 144:	240700c9 	li	a3,201
+ 148:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 14c:	02202825 	move	a1,s1
+ 150:	860f0040 	lh	t7,64(s0)
+ 154:	3c010000 	lui	at,0x0
+ 158:	c4280030 	lwc1	$f8,48(at)
+ 15c:	448f2000 	mtc1	t7,$f4
+ 160:	8e050000 	lw	a1,0(s0)
+ 164:	8e060004 	lw	a2,4(s0)
+ 168:	468021a0 	cvt.s.w	$f6,$f4
+ 16c:	8e070008 	lw	a3,8(s0)
+ 170:	27a400d4 	addiu	a0,sp,212
+ 174:	46083002 	mul.s	$f0,$f6,$f8
+ 178:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 17c:	e7a0004c 	swc1	$f0,76(sp)
+ 180:	c7a0004c 	lwc1	$f0,76(sp)
+ 184:	27a40094 	addiu	a0,sp,148
+ 188:	44050000 	mfc1	a1,$f0
+ 18c:	44060000 	mfc1	a2,$f0
+ 190:	44070000 	mfc1	a3,$f0
+ 194:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 198:	00000000 	nop
+ 19c:	27a400d4 	addiu	a0,sp,212
+ 1a0:	27a50094 	addiu	a1,sp,148
+ 1a4:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 1a8:	27a60054 	addiu	a2,sp,84
+ 1ac:	02202025 	move	a0,s1
+ 1b0:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 1b4:	27a50054 	addiu	a1,sp,84
+ 1b8:	1040004b 	beqz	v0,2e8 <EffectSsDeadDb_Draw+0x1d0>
+ 1bc:	3c19da38 	lui	t9,0xda38
+ 1c0:	8e2302d0 	lw	v1,720(s1)
+ 1c4:	37390003 	ori	t9,t9,0x3
+ 1c8:	02202025 	move	a0,s1
+ 1cc:	24780008 	addiu	t8,v1,8
+ 1d0:	ae3802d0 	sw	t8,720(s1)
+ 1d4:	ac620004 	sw	v0,4(v1)
+ 1d8:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 1dc:	ac790000 	sw	t9,0(v1)
+ 1e0:	8e2302d0 	lw	v1,720(s1)
+ 1e4:	3c09fb00 	lui	t1,0xfb00
+ 1e8:	3c0dfa00 	lui	t5,0xfa00
+ 1ec:	24680008 	addiu	t0,v1,8
+ 1f0:	ae2802d0 	sw	t0,720(s1)
+ 1f4:	ac690000 	sw	t1,0(v1)
+ 1f8:	860a0050 	lh	t2,80(s0)
+ 1fc:	8619004e 	lh	t9,78(s0)
+ 200:	860e004c 	lh	t6,76(s0)
+ 204:	314b00ff 	andi	t3,t2,0xff
+ 208:	000b6200 	sll	t4,t3,0x8
+ 20c:	332800ff 	andi	t0,t9,0xff
+ 210:	000e7e00 	sll	t7,t6,0x18
+ 214:	018fc025 	or	t8,t4,t7
+ 218:	00084c00 	sll	t1,t0,0x10
+ 21c:	03095025 	or	t2,t8,t1
+ 220:	ac6a0004 	sw	t2,4(v1)
+ 224:	8e2302d0 	lw	v1,720(s1)
+ 228:	3c040000 	lui	a0,0x0
+ 22c:	3c0100ff 	lui	at,0xff
+ 230:	246b0008 	addiu	t3,v1,8
+ 234:	ae2b02d0 	sw	t3,720(s1)
+ 238:	ac6d0000 	sw	t5,0(v1)
+ 23c:	860e004a 	lh	t6,74(s0)
+ 240:	86090046 	lh	t1,70(s0)
+ 244:	86190044 	lh	t9,68(s0)
+ 248:	31cc00ff 	andi	t4,t6,0xff
+ 24c:	860e0048 	lh	t6,72(s0)
+ 250:	312a00ff 	andi	t2,t1,0xff
+ 254:	00194600 	sll	t0,t9,0x18
+ 258:	0188c025 	or	t8,t4,t0
+ 25c:	000a5c00 	sll	t3,t2,0x10
+ 260:	31cf00ff 	andi	t7,t6,0xff
+ 264:	000fca00 	sll	t9,t7,0x8
+ 268:	030b6825 	or	t5,t8,t3
+ 26c:	01b96025 	or	t4,t5,t9
+ 270:	ac6c0004 	sw	t4,4(v1)
+ 274:	8e2302d0 	lw	v1,720(s1)
+ 278:	3c09db06 	lui	t1,0xdb06
+ 27c:	35290020 	ori	t1,t1,0x20
+ 280:	24680008 	addiu	t0,v1,8
+ 284:	ae2802d0 	sw	t0,720(s1)
+ 288:	ac690000 	sw	t1,0(v1)
+ 28c:	860a0042 	lh	t2,66(s0)
+ 290:	3c190000 	lui	t9,0x0
+ 294:	3421ffff 	ori	at,at,0xffff
+ 298:	000ac080 	sll	t8,t2,0x2
+ 29c:	00982021 	addu	a0,a0,t8
+ 2a0:	8c840008 	lw	a0,8(a0)
+ 2a4:	3c0ade00 	lui	t2,0xde00
+ 2a8:	00047100 	sll	t6,a0,0x4
+ 2ac:	000e7f02 	srl	t7,t6,0x1c
+ 2b0:	000f6880 	sll	t5,t7,0x2
+ 2b4:	032dc821 	addu	t9,t9,t5
+ 2b8:	8f390000 	lw	t9,0(t9)
+ 2bc:	00815824 	and	t3,a0,at
+ 2c0:	3c018000 	lui	at,0x8000
+ 2c4:	01796021 	addu	t4,t3,t9
+ 2c8:	01814021 	addu	t0,t4,at
+ 2cc:	ac680004 	sw	t0,4(v1)
+ 2d0:	8e2302d0 	lw	v1,720(s1)
+ 2d4:	24690008 	addiu	t1,v1,8
+ 2d8:	ae2902d0 	sw	t1,720(s1)
+ 2dc:	ac6a0000 	sw	t2,0(v1)
+ 2e0:	8e180038 	lw	t8,56(s0)
+ 2e4:	ac780004 	sw	t8,4(v1)
+ 2e8:	3c060000 	lui	a2,0x0
+ 2ec:	24c60018 	addiu	a2,a2,24
+ 2f0:	27a40038 	addiu	a0,sp,56
+ 2f4:	02202825 	move	a1,s1
+ 2f8:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 2fc:	240700f7 	li	a3,247
+ 300:	8fbf001c 	lw	ra,28(sp)
+ 304:	8fb00014 	lw	s0,20(sp)
+ 308:	8fb10018 	lw	s1,24(sp)
+ 30c:	03e00008 	jr	ra
+ 310:	27bd0118 	addiu	sp,sp,280
+
+00000314 <EffectSsDeadDb_Update>:
+ 314:	27bdffd0 	addiu	sp,sp,-48
+ 318:	afbf001c 	sw	ra,28(sp)
+ 31c:	afa40030 	sw	a0,48(sp)
+ 320:	afa50034 	sw	a1,52(sp)
+ 324:	84ce005c 	lh	t6,92(a2)
+ 328:	84c20056 	lh	v0,86(a2)
+ 32c:	84cc0044 	lh	t4,68(a2)
+ 330:	84c90040 	lh	t1,64(a2)
+ 334:	004e7823 	subu	t7,v0,t6
+ 338:	000fc0c0 	sll	t8,t7,0x3
+ 33c:	030fc021 	addu	t8,t8,t7
+ 340:	44982000 	mtc1	t8,$f4
+ 344:	44824000 	mtc1	v0,$f8
+ 348:	258dfff6 	addiu	t5,t4,-10
+ 34c:	468021a0 	cvt.s.w	$f6,$f4
+ 350:	84ca0052 	lh	t2,82(a2)
+ 354:	a4cd0044 	sh	t5,68(a2)
+ 358:	84ce0044 	lh	t6,68(a2)
+ 35c:	012a5821 	addu	t3,t1,t2
+ 360:	468042a0 	cvt.s.w	$f10,$f8
+ 364:	00c02825 	move	a1,a2
+ 368:	a4cb0040 	sh	t3,64(a2)
+ 36c:	460a3403 	div.s	$f16,$f6,$f10
+ 370:	4600848d 	trunc.w.s	$f18,$f16
+ 374:	44089000 	mfc1	t0,$f18
+ 378:	05c10002 	bgez	t6,384 <EffectSsDeadDb_Update+0x70>
+ 37c:	a4c80042 	sh	t0,66(a2)
+ 380:	a4c00044 	sh	zero,68(a2)
+ 384:	84af0046 	lh	t7,70(a1)
+ 388:	25f8fff6 	addiu	t8,t7,-10
+ 38c:	a4b80046 	sh	t8,70(a1)
+ 390:	84b90046 	lh	t9,70(a1)
+ 394:	07230003 	bgezl	t9,3a4 <EffectSsDeadDb_Update+0x90>
+ 398:	84a80048 	lh	t0,72(a1)
+ 39c:	a4a00046 	sh	zero,70(a1)
+ 3a0:	84a80048 	lh	t0,72(a1)
+ 3a4:	2509fff6 	addiu	t1,t0,-10
+ 3a8:	a4a90048 	sh	t1,72(a1)
+ 3ac:	84aa0048 	lh	t2,72(a1)
+ 3b0:	05430003 	bgezl	t2,3c0 <EffectSsDeadDb_Update+0xac>
+ 3b4:	84ab004c 	lh	t3,76(a1)
+ 3b8:	a4a00048 	sh	zero,72(a1)
+ 3bc:	84ab004c 	lh	t3,76(a1)
+ 3c0:	256cfff6 	addiu	t4,t3,-10
+ 3c4:	a4ac004c 	sh	t4,76(a1)
+ 3c8:	84ad004c 	lh	t5,76(a1)
+ 3cc:	05a30003 	bgezl	t5,3dc <EffectSsDeadDb_Update+0xc8>
+ 3d0:	84ae004e 	lh	t6,78(a1)
+ 3d4:	a4a0004c 	sh	zero,76(a1)
+ 3d8:	84ae004e 	lh	t6,78(a1)
+ 3dc:	25cffff6 	addiu	t7,t6,-10
+ 3e0:	a4af004e 	sh	t7,78(a1)
+ 3e4:	84b8004e 	lh	t8,78(a1)
+ 3e8:	07030003 	bgezl	t8,3f8 <EffectSsDeadDb_Update+0xe4>
+ 3ec:	84b90050 	lh	t9,80(a1)
+ 3f0:	a4a0004e 	sh	zero,78(a1)
+ 3f4:	84b90050 	lh	t9,80(a1)
+ 3f8:	2728fff6 	addiu	t0,t9,-10
+ 3fc:	a4a80050 	sh	t0,80(a1)
+ 400:	84a90050 	lh	t1,80(a1)
+ 404:	05230003 	bgezl	t1,414 <EffectSsDeadDb_Update+0x100>
+ 408:	84aa0054 	lh	t2,84(a1)
+ 40c:	a4a00050 	sh	zero,80(a1)
+ 410:	84aa0054 	lh	t2,84(a1)
+ 414:	51400017 	beqzl	t2,474 <EffectSsDeadDb_Update+0x160>
+ 418:	8fbf001c 	lw	ra,28(sp)
+ 41c:	84ab0042 	lh	t3,66(a1)
+ 420:	24010001 	li	at,1
+ 424:	8fa40030 	lw	a0,48(sp)
+ 428:	15610011 	bne	t3,at,470 <EffectSsDeadDb_Update+0x15c>
+ 42c:	24a6002c 	addiu	a2,a1,44
+ 430:	3c010001 	lui	at,0x1
+ 434:	34211d60 	ori	at,at,0x1d60
+ 438:	00812021 	addu	a0,a0,at
+ 43c:	27a7002c 	addiu	a3,sp,44
+ 440:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 444:	afa60024 	sw	a2,36(sp)
+ 448:	3c070000 	lui	a3,0x0
+ 44c:	3c0c0000 	lui	t4,0x0
+ 450:	24e70000 	addiu	a3,a3,0
+ 454:	258c0000 	addiu	t4,t4,0
+ 458:	afac0014 	sw	t4,20(sp)
+ 45c:	afa70010 	sw	a3,16(sp)
+ 460:	24043878 	li	a0,14456
+ 464:	8fa50024 	lw	a1,36(sp)
+ 468:	0c000000 	jal	0 <EffectSsDeadDb_Init>
+ 46c:	24060004 	li	a2,4
+ 470:	8fbf001c 	lw	ra,28(sp)
+ 474:	27bd0030 	addiu	sp,sp,48
+ 478:	03e00008 	jr	ra
+ 47c:	00000000 	nop
