@@ -1195,8 +1195,8 @@ typedef struct {
     /* 0x1CA5E */ s16 copyDestFileIndex;
     /* 0x1CA60 */ s16 warningLabel;
     /* 0x1CA62 */ s16 warningButtonIndex;
-    /* 0x1CA64 */ s16 titleTexIndex;
-    /* 0x1CA66 */ s16 titleLabel;
+    /* 0x1CA64 */ s16 titleLabel;
+    /* 0x1CA66 */ s16 nextTitleLabel;
     /* 0x1CA68 */ s16 windowColor[3];
     /* 0x1CA6E */ s16 titleAlpha[2];
     /* 0x1CA72 */ s16 windowAlpha;
@@ -1206,7 +1206,7 @@ typedef struct {
     /* 0x1CA86 */ s16 connectorAlpha[3];
     /* 0x1CA8C */ s16 fileInfoAlpha[3];
     /* 0x1CA92 */ s16 copyEraseAlpha[2]; // array of 4?
-    /* 0x1CA92 */ s16 yesQuitAlpha[2];
+    /* 0x1CA96 */ s16 yesQuitAlpha[2];
     /* 0x1CA9A */ s16 optionButtonAlpha;
     /* 0x1CA9C */ s16 nameEntryBoxAlpha;
     /* 0x1CA9E */ s16 bottomTextAlpha;

@@ -195,7 +195,7 @@ typedef enum {
 typedef enum {
     /* 0x00 */ LANGUAGE_PAL_ENG,
     /* 0x01 */ LANGUAGE_PAL_GER,
-    /* 0x02 */ LANGUAGE_PAL_FR,
+    /* 0x02 */ LANGUAGE_PAL_FR
 } LanguagePAL;
 
 #endif

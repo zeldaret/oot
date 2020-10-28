@@ -1,5 +1,4 @@
-#include "ultra64.h"
-#include "global.h"
+#include "file_choose.h"
 
 s32 D_80811BB0[] = { 0xFFA20048, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFDA0048, 0x00000000, 0x07000000, 0xFFFFFFFF,
                      0xFFA20038, 0x00000000, 0x00000200, 0xFFFFFFFF, 0xFFDA0038, 0x00000000, 0x07000200, 0xFFFFFFFF,
@@ -72,45 +71,523 @@ s32 D_808123F0[] = { 0x000A000B, 0x000C000D, 0x000E000F, 0x00100011, 0x00120013,
                      0x002A002B, 0x002C002D, 0x002E002F, 0x00300031, 0x00320033, 0x00340035, 0x00360037, 0x00380039,
                      0x003A003B, 0x003C003D, 0x00010002, 0x00030004, 0x00050006, 0x00070008, 0x00090000, 0x0040003F,
                      0x003E0000, 0x00000000, 0x00000000, 0x00000000 };
-s32 D_80812480[] = { 0xFFD0FFD0, 0xFFD0FFE8, 0xFFE80000 };
-s32 D_8081248C[] = { 0x0000FFD0, 0xFFD0FFC0, 0x0010FFD0, 0xFFC0FFC0, 0x00200000 };
+s16 D_80812480[] = { -48, -48, -48, -24, -24, 0 }; // copy screen button y positions
+
+s16 D_8081248C[3][3] = {
+    { 0, -48, -48 },
+    { -64, 16, -48 },
+    { -64, -64, 32 },
+};
+
 s32 D_808124A0[] = { 0x000F0000 };
-s32 D_808124A4[] = { 0xFFC8FFD8, 0xFFE80000 };
+
+s16 D_808124A4[] = { -56, -40, -24, 0 };
+
 s32 D_808124AC[] = { 0x00000010, 0x00200000, 0x00000000, 0x00000000, 0x00000000 };
 
 s16 D_80813800;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803D40.s")
+// update func for fileSelectStateIndex 3
+void func_80803D40(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    s16 yPosStep;
+    s16 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80803ED8.s")
+    for (i = 0; i < 5; i++) {
+        yPosStep = (ABS(this->buttonsPosY[i] - D_80812480[i])) / this->actionTimer;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804248.s")
+        if (this->buttonsPosY[i] >= D_80812480[i]) {
+            this->buttonsPosY[i] -= yPosStep;
+        } else {
+            this->buttonsPosY[i] += yPosStep;
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808043D8.s")
+    this->copyEraseAlpha[0] -= 25;
+    this->copyEraseAlpha[1] -= 25;
+    this->optionButtonAlpha -= 25;
+    this->yesQuitAlpha[1] += 25;
+    this->titleAlpha[0] -= 31;
+    this->titleAlpha[1] += 31;
+    this->actionTimer--;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808044A0.s")
+    if (this->actionTimer == 0) {
+        this->actionTimer = 8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804858.s")
+        this->copyEraseAlpha[0] = this->copyEraseAlpha[1] = this->optionButtonAlpha = 0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804924.s")
+        this->yesQuitAlpha[1] = 200;
+        this->titleLabel = this->nextTitleLabel;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804A50.s")
+        this->titleAlpha[0] = 255;
+        this->titleAlpha[1] = 0;
+        this->buttonIndex = BTN_COPY_QUIT;
+        this->fileSelectStateIndex++;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804C74.s")
+void func_80803ED8(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    Input* controller1 = &this->state.input[0];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804CD0.s")
+    if (((this->buttonIndex == BTN_COPY_QUIT) && CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+        this->actionTimer = 8;
+        this->buttonIndex = BTN_COPY_QUIT;
+        this->nextTitleLabel = TITLE_SELECT_FILE;
+        this->fileSelectStateIndex = 19;
+        this->warningLabel = WARNING_NONE;
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80804ED8.s")
+    if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) {
+        if (SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
+            this->actionTimer = 8;
+            this->selectedFileIndex = this->buttonIndex;
+            this->fileSelectStateIndex = 5;
+            this->nextTitleLabel = TITLE_COPY_TO;
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        } else {
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
+        return;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080510C.s")
+    if (ABS(this->stickRelY) >= 30) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808051C8.s")
+        if (this->stickRelY >= 30) {
+            this->buttonIndex--;
+            if (this->buttonIndex < BTN_COPY_FILE_1) {
+                this->buttonIndex = BTN_COPY_QUIT;
+            }
+        } else {
+            this->buttonIndex++;
+            if (this->buttonIndex > BTN_COPY_QUIT) {
+                this->buttonIndex = BTN_COPY_FILE_1;
+            }
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805318.s")
+    if (this->buttonIndex != BTN_COPY_QUIT) {
+        if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
+            this->warningLabel = WARNING_FILE_EMPTY;
+            this->warningButtonIndex = this->buttonIndex;
+            this->emptyFileTextAlpha = 255;
+        } else {
+            this->warningLabel = WARNING_NONE;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805434.s")
+// move buttons to setup for copy decision
+void func_80804248(FileChooseContext* thisx) {
+    FileChooseContext* this = thisx;
+    s16 yPosStep;
+    s16 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805524.s")
+    for (i = 0; i < 3; i++) {
+        yPosStep = ABS(this->buttonsPosY[i] - D_8081248C[this->buttonIndex][i]) / this->actionTimer;
+
+        if (D_8081248C[this->buttonIndex][i] >= this->buttonsPosY[i]) {
+            this->buttonsPosY[i] += yPosStep;
+        } else {
+            this->buttonsPosY[i] -= yPosStep;
+        }
+    }
+
+    this->titleAlpha[0] -= 31;
+    this->titleAlpha[1] += 31;
+    this->nameBoxAlpha[this->buttonIndex] -= 25;
+
+    this->actionTimer--;
+    if (this->actionTimer == 0) {
+        this->buttonsPosY[this->buttonIndex] = D_8081248C[this->buttonIndex][this->buttonIndex];
+        this->titleLabel = this->nextTitleLabel;
+        this->titleAlpha[0] = 255;
+        this->titleAlpha[1] = 0;
+        this->actionTimer = 8;
+        this->fileSelectStateIndex++;
+    }
+}
+
+// show name and info box, put cursor on quit
+void func_808043D8(FileChooseContext* this) {
+    this->nameBoxAlpha[this->buttonIndex] -= 25;
+    this->fileInfoAlpha[this->buttonIndex] += 25;
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->nameBoxAlpha[this->buttonIndex] = 0;
+        this->fileInfoAlpha[this->buttonIndex] = 200;
+        this->buttonIndex = BTN_COPY_QUIT;
+        this->actionTimer = 8;
+        this->fileSelectStateIndex = 7;
+    }
+}
+
+void func_808044A0(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    Input* controller1 = &this->state.input[0];
+
+    if (((this->buttonIndex == BTN_COPY_QUIT) && CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+        this->buttonIndex = this->selectedFileIndex;
+        this->nextTitleLabel = TITLE_COPY_FROM;
+        this->actionTimer = 8;
+        this->fileSelectStateIndex = 8;
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+
+    if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) {
+        if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
+            this->copyDestFileIndex = this->buttonIndex;
+            this->nextTitleLabel = TITLE_COPY_CONFIRM;
+            this->actionTimer = 8;
+            this->fileSelectStateIndex = 10;
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        } else {
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
+        return;
+    }
+
+    if (ABS(this->stickRelY) >= 30) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+        if (this->stickRelY >= 30) {
+            this->buttonIndex--;
+
+            if ((this->buttonIndex == this->selectedFileIndex)) {
+                this->buttonIndex--;
+
+                if (this->buttonIndex < BTN_COPY_FILE_1)
+                    this->buttonIndex = BTN_COPY_QUIT;
+            } else {
+                if (this->buttonIndex < BTN_COPY_FILE_1)
+                    this->buttonIndex = BTN_COPY_QUIT;
+            }
+        } else {
+            this->buttonIndex++;
+
+            if (this->buttonIndex > BTN_COPY_QUIT) {
+                this->buttonIndex = BTN_COPY_FILE_1;
+            }
+
+            if (this->buttonIndex == this->selectedFileIndex) {
+                this->buttonIndex++;
+            }
+        }
+    }
+
+    if (this->buttonIndex != BTN_COPY_QUIT) {
+        if (SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
+            this->warningLabel = WARNING_FILE_IN_USE;
+            this->warningButtonIndex = this->buttonIndex;
+            this->emptyFileTextAlpha = 255;
+        } else {
+            this->warningLabel = WARNING_NONE;
+        }
+    }
+}
+
+void func_80804858(FileChooseContext* this) {
+    this->fileInfoAlpha[this->buttonIndex] -= 25;
+    this->nameBoxAlpha[this->buttonIndex] += 25;
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->nextTitleLabel = TITLE_COPY_FROM;
+        this->nameBoxAlpha[this->buttonIndex] = 200;
+        this->fileInfoAlpha[this->buttonIndex] = 0;
+        this->actionTimer = 8;
+        this->fileSelectStateIndex++;
+    }
+}
+
+void func_80804924(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    s16 i;
+    s16 yPosStep;
+
+    for (i = 0; i < 3; i++) {
+        yPosStep = ABS(this->buttonsPosY[i] - D_80812480[i]) / this->actionTimer;
+
+        if (this->buttonsPosY[i] >= D_80812480[i]) {
+            this->buttonsPosY[i] -= yPosStep;
+        } else {
+            this->buttonsPosY[i] += yPosStep;
+        }
+    }
+
+    this->titleAlpha[0] -= 31;
+    this->titleAlpha[1] += 31;
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->titleLabel = this->nextTitleLabel;
+        this->titleAlpha[0] = 255;
+        this->titleAlpha[1] = 0;
+        this->buttonIndex = 3;
+        this->fileSelectStateIndex = 4;
+    }
+}
+
+void func_80804A50(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    s16 i;
+    s16 yPosStep;
+
+    this->titleAlpha[0] -= 31;
+    this->titleAlpha[1] += 31;
+
+    for (i = 0; i < 3; i++) {
+        if ((i != this->copyDestFileIndex) && (i != this->selectedFileIndex)) {
+            this->fileButtonAlpha[i] -= 25;
+
+            if (SLOT_OCCUPIED(sramCtx, i)) {
+                this->connectorAlpha[i] -= 31;
+                this->nameBoxAlpha[i] = this->nameAlpha[i] = this->fileButtonAlpha[i];
+            }
+        } else {
+            if (this->copyDestFileIndex == i) {
+                yPosStep = ABS(this->buttonsPosY[i] - D_808124A4[i]) / this->actionTimer;
+                this->buttonsPosY[i] += yPosStep;
+
+                if (this->buttonsPosY[i] >= D_808124A4[i]) {
+                    this->buttonsPosY[i] = D_808124A4[i];
+                }
+            }
+        }
+    }
+    this->actionTimer--;
+    if (this->actionTimer == 0) {
+        this->titleLabel = this->nextTitleLabel;
+        this->titleAlpha[0] = 255;
+        this->titleAlpha[1] = 0;
+        this->actionTimer = 8;
+        this->fileSelectStateIndex++;
+    }
+}
+
+void func_80804C74(FileChooseContext* this) {
+    this->yesQuitAlpha[0] += 25;
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->fileSelectStateIndex = 12;
+        this->buttonIndex = BTN_QUIT;
+    }
+}
+
+void func_80804CD0(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    Input* controller1 = &this->state.input[0];
+    u16 dayTime;
+
+    if (((this->buttonIndex != BTN_YES) && CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) ||
+        CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
+        this->actionTimer = 8;
+        this->nextTitleLabel = TITLE_COPY_TO;
+        this->fileSelectStateIndex = 13;
+        Audio_PlaySoundGeneral(0x483C, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) {
+        dayTime = gSaveContext.dayTime;
+        Sram_CopySave(this, sramCtx);
+        gSaveContext.dayTime = dayTime;
+        this->fileInfoAlpha[this->copyDestFileIndex] = this->nameAlpha[this->copyDestFileIndex] = 0;
+        this->nextTitleLabel = TITLE_COPY_COMPLETE;
+        this->actionTimer = 8;
+        this->fileSelectStateIndex = 14;
+        func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (ABS(this->stickRelY) >= 30) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        this->buttonIndex ^= 1;
+    }
+}
+
+void func_80804ED8(FileChooseContext* thisx) {
+    FileChooseContext* this = thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    s16 i;
+    s16 yPosStep;
+
+    this->titleAlpha[0] -= 31;
+    this->titleAlpha[1] += 31;
+    this->yesQuitAlpha[0] -= 25;
+
+    for (i = 0; i < 3; i++) {
+        if ((i != this->copyDestFileIndex) && (i != this->selectedFileIndex)) {
+            this->fileButtonAlpha[i] += 0x19;
+
+            if (SLOT_OCCUPIED(sramCtx, i)) {
+                this->nameBoxAlpha[i] = this->nameAlpha[i] = this->fileButtonAlpha[i];
+                this->connectorAlpha[i] += 31;
+            }
+        }
+
+        yPosStep = ABS(this->buttonsPosY[i] - D_8081248C[this->selectedFileIndex][i]) / this->actionTimer;
+
+        if (D_8081248C[this->selectedFileIndex][i] >= this->buttonsPosY[i]) {
+            this->buttonsPosY[i] += yPosStep;
+        } else {
+            this->buttonsPosY[i] -= yPosStep;
+        }
+    }
+
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->titleLabel = this->nextTitleLabel;
+        this->titleAlpha[0] = 255;
+        this->titleAlpha[1] = 0;
+        this->actionTimer = 8;
+        this->buttonIndex = BTN_COPY_QUIT;
+        this->fileSelectStateIndex = 7;
+    }
+}
+
+void func_8080510C(FileChooseContext* this) {
+    this->titleAlpha[0] -= 31;
+    this->yesQuitAlpha[0] -= 25;
+    this->yesQuitAlpha[1] -= 25;
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->titleAlpha[0] = 0;
+        this->actionTimer = 8;
+        this->fileSelectStateIndex++;
+        osSyncPrintf("connect_alpha=%d  decision_alpha[%d]=%d\n", this->connectorAlpha[this->copyDestFileIndex],
+                     this->copyDestFileIndex, this->fileInfoAlpha[this->copyDestFileIndex]);
+    }
+}
+
+void func_808051C8(FileChooseContext* this) {
+    s16 yPosStep;
+
+    this->fileInfoAlpha[this->copyDestFileIndex] += 25;
+    this->nameAlpha[this->copyDestFileIndex] += 25;
+    this->titleAlpha[1] += 31;
+    yPosStep = ABS(this->fileNamesY[this->copyDestFileIndex] + 56) / this->actionTimer;
+    this->fileNamesY[this->copyDestFileIndex] -= yPosStep;
+
+    if (this->fileNamesY[this->copyDestFileIndex] <= -56) {
+        this->fileNamesY[this->copyDestFileIndex] = -56;
+    }
+
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->actionTimer = 90;
+        this->titleLabel = this->nextTitleLabel;
+        this->titleAlpha[0] = 255;
+        this->titleAlpha[1] = 0;
+        this->fileSelectStateIndex++;
+    }
+}
+
+void func_80805318(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    Input* controller1 = &this->state.input[0];
+
+    if (this->actionTimer == 75) {
+        this->connectorAlpha[this->copyDestFileIndex] = 255;
+        Audio_PlaySoundGeneral(NA_SE_EV_DIAMOND_SWITCH, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+
+    this->actionTimer--;
+
+    if (this->actionTimer < 74) {
+        if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_B | BTN_START) || (this->actionTimer == 0)) {
+            this->actionTimer = 8;
+            this->nextTitleLabel = TITLE_SELECT_FILE;
+            this->fileSelectStateIndex++;
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
+    }
+}
+
+// QuitCopyTo
+void func_80805434(FileChooseContext* this) {
+    this->fileInfoAlpha[this->selectedFileIndex] -= 25;
+    this->fileInfoAlpha[this->copyDestFileIndex] -= 25;
+    this->nameBoxAlpha[this->selectedFileIndex] += 25;
+    this->nameBoxAlpha[this->copyDestFileIndex] += 25;
+    this->titleAlpha[0] -= 31;
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        this->fileNamesY[this->copyDestFileIndex] = this->buttonsPosY[3] = 0;
+        this->actionTimer = 8;
+        this->titleAlpha[0] = 0;
+        this->fileSelectStateIndex++;
+    }
+}
+
+// QuitCopyFrom
+void func_80805524(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    s16 i;
+    s16 yPosStep;
+
+    for (i = 0; i < 5; i++) {
+        yPosStep = ABS(this->buttonsPosY[i]) / this->actionTimer;
+
+        if (this->buttonsPosY[i] >= 0) {
+            this->buttonsPosY[i] -= yPosStep;
+        } else {
+            this->buttonsPosY[i] += yPosStep;
+        }
+    }
+
+    for (i = 0; i < 3; i++) {
+        if (i != this->buttonIndex) {
+            this->fileButtonAlpha[i] += 25;
+
+            if (SLOT_OCCUPIED(sramCtx, i)) {
+                this->nameBoxAlpha[i] = this->nameAlpha[i] = this->fileButtonAlpha[i];
+                this->connectorAlpha[i] += 31;
+            }
+        }
+    }
+
+    this->copyEraseAlpha[0] += 25;
+    this->copyEraseAlpha[1] += 25;
+    this->optionButtonAlpha += 25;
+    this->titleAlpha[1] += 31;
+    this->actionTimer--;
+
+    if (this->actionTimer == 0) {
+        for (i = 0; i < 3; i++) {
+            this->connectorAlpha[i] = 0;
+            this->fileButtonAlpha[i] = 200;
+            this->nameBoxAlpha[i] = this->nameAlpha[i] = this->connectorAlpha[i];
+
+            if (SLOT_OCCUPIED(sramCtx, i)) {
+                this->connectorAlpha[i] = 255;
+                this->nameBoxAlpha[i] = this->nameAlpha[i] = this->fileButtonAlpha[i];
+            }
+        }
+
+        this->fileNamesY[this->selectedFileIndex] = 0;
+        this->highlightColor[3] = 70;
+        this->highlightFlashDir = 1;
+        XREG(35) = XREG(36);
+        this->titleLabel = this->nextTitleLabel;
+        this->titleAlpha[0] = 255;
+        this->titleAlpha[1] = 0;
+        this->fileSelectStateIndex = 2;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80805824.s")
 

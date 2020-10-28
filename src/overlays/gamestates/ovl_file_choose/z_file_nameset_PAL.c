@@ -1,64 +1,4 @@
-#include "ultra64.h"
-#include "global.h"
-
-void func_8080B40C(FileChooseContext* this);
-void func_8080B494(FileChooseContext* this);
-void func_8080B52C(FileChooseContext* this);
-void func_80803D40(FileChooseContext* this);
-void func_80803ED8(FileChooseContext* this);
-void func_80804248(FileChooseContext* this);
-void func_808043D8(FileChooseContext* this);
-void func_808044A0(FileChooseContext* this);
-void func_80804858(FileChooseContext* this);
-void func_80804924(FileChooseContext* this);
-void func_80804A50(FileChooseContext* this);
-void func_80804C74(FileChooseContext* this);
-void func_80804CD0(FileChooseContext* this);
-void func_80804ED8(FileChooseContext* this);
-void func_8080510C(FileChooseContext* this);
-void func_808051C8(FileChooseContext* this);
-void func_80805318(FileChooseContext* this);
-void func_80805434(FileChooseContext* this);
-void func_80805524(FileChooseContext* this);
-void func_80805824(FileChooseContext* this);
-void func_8080595C(FileChooseContext* this);
-void func_80805B2C(FileChooseContext* this);
-void func_80805EB8(FileChooseContext* this);
-void func_80806180(FileChooseContext* this);
-void func_8080625C(FileChooseContext* this);
-void func_80806444(FileChooseContext* this);
-void func_808064F4(FileChooseContext* this);
-void func_80806710(FileChooseContext* this);
-void func_808068F0(FileChooseContext* this);
-void func_808069B4(FileChooseContext* this);
-void func_80806C20(FileChooseContext* this);
-void func_8080BE28(FileChooseContext* this);
-void func_8080BE84(FileChooseContext* this);
-void func_80809038(FileChooseContext* this);
-void func_80808F84(FileChooseContext* this);
-void func_8080BF6C(FileChooseContext* this);
-void func_8080BEF8(FileChooseContext* this);
-void func_8080969C(FileChooseContext* this);
-void func_8080960C(FileChooseContext* this);
-void func_8080BF6C(FileChooseContext* this);
-void func_8080BE30(FileChooseContext* this);
-
-void func_8080FE2C(FileChooseContext* this);
-void func_8080FF98(FileChooseContext* this);
-void func_8081009C(FileChooseContext* this);
-void func_8081017C(FileChooseContext* this);
-void func_80810354(FileChooseContext* this);
-void func_80810440(FileChooseContext* this);
-void func_80810698(FileChooseContext* this);
-void func_808106F4(FileChooseContext* this);
-
-void func_8080B224(FileChooseContext* this);
-void func_8080F560(FileChooseContext* this);
-void func_808109B8(FileChooseContext* this);
-
-void func_8080B1A8(FileChooseContext* this);
-void func_8080C2F4(FileChooseContext* this);
-void func_8081097C(FileChooseContext* this);
+#include "file_choose.h"
 
 s32 D_808124C0[] = { 0x00020003, 0x00020002, 0x00020002, 0x00020002, 0x00020002, 0x00010002, 0x00000001,
                      0x00010002, 0x00010001, 0x00040002, 0x00020002, 0x00010001, 0x00000002, 0x00000001,
@@ -138,20 +78,24 @@ s32 D_808129D4[] = { 0x01035A00, 0x0103D200, 0x0103BA00, 0x0103EA00, 0x01036200,
                      0x0103C200, 0x0103F200, 0x01036A00, 0x0103E200, 0x0103CA00, 0x0103FA00 };
 s32 D_80812A04[] = { 0x01045E00, 0x01046600, 0x01045E00 };
 s32 D_80812A10[] = { 0x00000010, 0x00200000 };
+
 void* D_80812A18[] = {
     func_8080FE2C, func_8080FF98, func_8081009C, func_8081017C,
     func_80810354, func_80810440, func_80810698, func_808106F4,
 };
+
 void* gFileSelectDrawFuncs[] = {
     func_8080B224,
     func_8080F560,
     func_808109B8,
 };
+
 void* gFileSelectUpdateFuncs[] = {
     func_8080B1A8,
     func_8080C2F4,
     func_8081097C,
 };
+
 s32 D_80812A50[] = { 0x01033F00, 0x01034800, 0x01035100, 0x00000000 };
 
 u8 D_80813810;

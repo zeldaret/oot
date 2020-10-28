@@ -1,25 +1,6 @@
-#include "ultra64.h"
-#include "global.h"
-
-// clang-format off
-#define NEWF_GET_Z(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1C])
-#define NEWF_GET_E(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1D])
-#define NEWF_GET_L(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1E])
-#define NEWF_GET_D(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1F])
-#define NEWF_GET_A(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x20])
-#define NEWF_GET_Z2(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x21])
-
-#define SLOT_OCCUPIED(sramCtx, slotNum)                       \
-    ((NEWF_GET_Z(sramCtx, slotNum) == 'Z') || \
-     (NEWF_GET_E(sramCtx, slotNum) == 'E') || \
-     (NEWF_GET_L(sramCtx, slotNum) == 'L') || \
-     (NEWF_GET_D(sramCtx, slotNum) == 'D') || \
-     (NEWF_GET_A(sramCtx, slotNum) == 'A') || \
-     (NEWF_GET_Z2(sramCtx, slotNum) == 'Z'))
-// clang-format on
+#include "file_choose.h"
 
 void func_80808000(FileChooseContext* this);
-
 extern s16 D_80812724;
 extern void (*gFileSelectDrawFuncs[])(FileChooseContext*);
 extern void (*gFileSelectUpdateFuncs[])(FileChooseContext*);
@@ -27,12 +8,14 @@ extern void (*D_80812770[])(FileChooseContext*);
 extern void (*D_80812A18[])(FileChooseContext*);
 extern Gfx* D_80812A50[];
 extern Gfx D_80812728[];
+extern u8 sEmptyName[];
+
 extern u8 D_80000002; // this is code in the very beginning of ram???
 extern s16 D_80812814[];
 extern Gfx D_01046F00[];
 extern Gfx D_01047118[];
 extern Gfx D_01047328[];
-extern u8 sEmptyName[];
+
 
 void func_8080AF50(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
     Vec3f eye;
@@ -59,7 +42,7 @@ void func_8080B1A8(FileChooseContext* this) {
     if (this->menuIndex == 0) {
         this->menuIndex = 1;
         this->fileSelectStateIndex = 0;
-        this->titleLabel = 1;
+        this->nextTitleLabel = TITLE_OPEN_FILE;
         osSyncPrintf("Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  ");
         Sram_VerifyAndLoadAllSaves(this, &this->sramCtx);
         osSyncPrintf("終了！！！\n");
@@ -67,7 +50,7 @@ void func_8080B1A8(FileChooseContext* this) {
 }
 
 // draw func for menuIndex 0
-void func_8080B224(FileChooseContext* this) {
+void func_8080B224(GameState* thisx) {
 }
 
 void func_8080B22C(FileChooseContext* this) {
@@ -128,7 +111,7 @@ void func_8080B52C(FileChooseContext* thisx) {
     Input* controller1 = &this->state.input[0];
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_START) || CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
-        if (this->buttonIndex < 3) {
+        if (this->buttonIndex < BTN_MAIN_COPY) {
             osSyncPrintf("REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n", this->buttonIndex, NEWF_GET_Z(sramCtx, this->buttonIndex),
                          NEWF_GET_E(sramCtx, this->buttonIndex), NEWF_GET_L(sramCtx, this->buttonIndex),
                          NEWF_GET_D(sramCtx, this->buttonIndex), NEWF_GET_A(sramCtx, this->buttonIndex),
@@ -153,22 +136,22 @@ void func_8080B52C(FileChooseContext* thisx) {
                 this->openFileStateIndex = 0;
                 this->selectedFileIndex = this->buttonIndex;
                 this->menuIndex = 2;
-                this->titleLabel = 1;
+                this->nextTitleLabel = TITLE_OPEN_FILE;
             } else if (this->n64ddFlags[this->buttonIndex] == 0) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
         } else {
-            if (this->warningLabel == -1) {
+            if (this->warningLabel == WARNING_NONE) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 this->prevFileSelectStateIndex = this->fileSelectStateIndex;
 
-                if (this->buttonIndex == 3) { // copy
-                    this->fileSelectStateIndex = 3;
-                    this->titleLabel = 2;
-                } else if (this->buttonIndex == 4) { // erase
+                if (this->buttonIndex == BTN_MAIN_COPY) {
+                    this->fileSelectStateIndex = BTN_MAIN_COPY;
+                    this->nextTitleLabel = TITLE_COPY_FROM;
+                } else if (this->buttonIndex == BTN_MAIN_ERASE) {
                     this->fileSelectStateIndex = 20;
-                    this->titleLabel = 6;
-                } else { // options
+                    this->nextTitleLabel = TITLE_ERASE_FILE;
+                } else {
                     this->fileSelectStateIndex = 36;
                     this->kbdButtonIndex = 0;
                     this->kbdX = 0;
@@ -189,39 +172,39 @@ void func_8080B52C(FileChooseContext* thisx) {
 
             if (this->stickRelY > 30) {
                 this->buttonIndex--;
-                if (this->buttonIndex < 0) {
-                    this->buttonIndex = 5;
+                if (this->buttonIndex < BTN_MAIN_FILE_1) {
+                    this->buttonIndex = BTN_MAIN_OPTIONS;
                 }
             } else {
                 this->buttonIndex++;
-                if (this->buttonIndex > 5) {
-                    this->buttonIndex = 0;
+                if (this->buttonIndex > BTN_MAIN_OPTIONS) {
+                    this->buttonIndex = BTN_MAIN_FILE_1;
                 }
             }
         }
 
-        if (this->buttonIndex == 3) {
+        if (this->buttonIndex == BTN_MAIN_COPY) {
             if (!SLOT_OCCUPIED(sramCtx, 0) && !SLOT_OCCUPIED(sramCtx, 1) && !SLOT_OCCUPIED(sramCtx, 2)) {
                 this->warningButtonIndex = this->buttonIndex;
-                this->warningLabel = 0; // no files to copy warning
+                this->warningLabel = WARNING_NO_FILE_COPY;
                 this->emptyFileTextAlpha = 255;
             } else if (SLOT_OCCUPIED(sramCtx, 0) && SLOT_OCCUPIED(sramCtx, 1) && SLOT_OCCUPIED(sramCtx, 2)) {
                 this->warningButtonIndex = this->buttonIndex;
-                this->warningLabel = 2; // no slots to copy to warning
+                this->warningLabel = WARNING_NO_EMPTY_FILES;
                 this->emptyFileTextAlpha = 255;
             } else {
-                this->warningLabel = -1;
+                this->warningLabel = WARNING_NONE;
             }
-        } else if (this->buttonIndex == 4) {
+        } else if (this->buttonIndex == BTN_MAIN_ERASE) {
             if (!SLOT_OCCUPIED(sramCtx, 0) && !SLOT_OCCUPIED(sramCtx, 1) && !SLOT_OCCUPIED(sramCtx, 2)) {
                 this->warningButtonIndex = this->buttonIndex;
-                this->warningLabel = 1; // no files to erase warning
+                this->warningLabel = WARNING_NO_FILE_ERASE;
                 this->emptyFileTextAlpha = 255;
             } else {
-                this->warningLabel = -1;
+                this->warningLabel = WARNING_NONE;
             }
         } else {
-            this->warningLabel = -1;
+            this->warningLabel = WARNING_NONE;
         }
     }
 }
@@ -236,9 +219,9 @@ void func_8080B52C(FileChooseContext* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BF6C.s")
 
-// 803F9644
+
 void func_8080BFE4(GameState* thisx);
-#ifdef NON_MATCHING
+ #ifdef NON_MATCHING
 void func_8080BFE4(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 alphaStep;
@@ -702,8 +685,8 @@ void FileChoose_InitContext(GameState* thisx) {
 
     this->unk_1CAAE[0] = 2;
     this->unk_1CAAE[1] = 3;
-    this->titleTexIndex = 0;
-    this->titleLabel = 1;
+    this->titleLabel = TITLE_SELECT_FILE;
+    this->nextTitleLabel = TITLE_OPEN_FILE;
     this->highlightFlashDir = 1;
     this->unk_1CAAC = 0xC;
     this->highlightColor[0] = 155;
@@ -715,7 +698,7 @@ void FileChoose_InitContext(GameState* thisx) {
     this->xIndexOffset = this->inputTimerX = 0;
     this->yIndexOffset = this->inputTimerY = 0;
     this->kbdX = this->kbdY = this->charIndex = 0;
-    this->kbdButtonIndex = 0x63;
+    this->kbdButtonIndex = 99;
 
     this->windowColor[0] = 100;
     this->windowColor[1] = 150;
@@ -732,7 +715,7 @@ void FileChoose_InitContext(GameState* thisx) {
 
     this->windowPosX = 6;
     this->actionTimer = 8;
-    this->warningLabel = -1;
+    this->warningLabel = WARNING_NONE;
 
     this->warningButtonIndex = this->buttonsPosY[0] = this->buttonsPosY[1] = this->buttonsPosY[2] = this->buttonsPosY[3] =
         this->buttonsPosY[4] = this->buttonsPosY[5] = this->fileNamesY[0] = this->fileNamesY[1] = this->fileNamesY[2] =
@@ -815,7 +798,7 @@ void FileChoose_Init(GameState* thisx) {
     this->state.main = FileChoose_Main;
     this->state.destroy = FileChoose_Destroy;
     FileChoose_InitContext(this);
-    func_8006EF10(this->font);
+    Font_LoadOrderedFont(this->font);
     Audio_SetBGM(0xF000000A);
     func_800F5E18(0, 0x57, 0, 7, 1);
 }
