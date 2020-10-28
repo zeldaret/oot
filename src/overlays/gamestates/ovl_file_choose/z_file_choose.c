@@ -1,32 +1,230 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define SRAM_SIZE 0x8000
+// clang-format off
+#define NEWF_GET_Z(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1C])
+#define NEWF_GET_E(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1D])
+#define NEWF_GET_L(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1E])
+#define NEWF_GET_D(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x1F])
+#define NEWF_GET_A(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x20])
+#define NEWF_GET_Z2(sramCtx, slotNum) (sramCtx->readBuff[gSramSlotOffsets[0][slotNum] + 0x21])
+
+#define SLOT_OCCUPIED(sramCtx, slotNum)                       \
+    ((NEWF_GET_Z(sramCtx, slotNum) == 'Z') || \
+     (NEWF_GET_E(sramCtx, slotNum) == 'E') || \
+     (NEWF_GET_L(sramCtx, slotNum) == 'L') || \
+     (NEWF_GET_D(sramCtx, slotNum) == 'D') || \
+     (NEWF_GET_A(sramCtx, slotNum) == 'A') || \
+     (NEWF_GET_Z2(sramCtx, slotNum) == 'Z'))
+// clang-format on
+
+void func_80808000(FileChooseContext* this);
+
 extern s16 D_80812724;
-extern void (*D_80812A38[3])(FileChooseContext*);
-extern void (*D_80812A44[3])(FileChooseContext*);
+extern void (*gFileSelectDrawFuncs[])(FileChooseContext*);
+extern void (*gFileSelectUpdateFuncs[])(FileChooseContext*);
+extern void (*D_80812770[])(FileChooseContext*);
+extern void (*D_80812A18[])(FileChooseContext*);
 extern Gfx* D_80812A50[];
 extern Gfx D_80812728[];
 extern u8 D_80000002; // this is code in the very beginning of ram???
 extern s16 D_80812814[];
+extern Gfx D_01046F00[];
+extern Gfx D_01047118[];
+extern Gfx D_01047328[];
+extern u8 sEmptyName[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AF50.s")
+void func_8080AF50(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
+    Vec3f eye;
+    Vec3f lookAt;
+    Vec3f up;
+
+    lookAt.x = lookAt.y = lookAt.z = 0.0f;
+    up.x = up.z = 0.0f;
+
+    eye.x = eyeX;
+    eye.y = eyeY;
+    eye.z = eyeZ;
+
+    up.y = 1.0f;
+
+    func_800AA358(&this->view, &eye, &lookAt, &up);
+    func_800AAA50(&this->view, 0x7F);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AFD0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B1A8.s")
+// update func for menuIndex 0
+void func_8080B1A8(FileChooseContext* this) {
+    if (this->menuIndex == 0) {
+        this->menuIndex = 1;
+        this->fileSelectStateIndex = 0;
+        this->titleLabel = 1;
+        osSyncPrintf("Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  ");
+        Sram_VerifyAndLoadAllSaves(this, &this->sramCtx);
+        osSyncPrintf("終了！！！\n");
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B224.s")
+// draw func for menuIndex 0
+void func_8080B224(FileChooseContext* this) {
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B22C.s")
+void func_8080B22C(FileChooseContext* this) {
+    SramContext* sramCtx = &this->sramCtx;
+    s16 i;
+
+    this->titleAlpha[0] += VREG(1);
+    this->windowAlpha += VREG(2);
+
+    for (i = 0; i < 3; i++) {
+        this->fileButtonAlpha[i] = this->windowAlpha;
+        if (SLOT_OCCUPIED(sramCtx, i)) {
+            this->nameBoxAlpha[i] = this->nameAlpha[i] = this->windowAlpha;
+            this->connectorAlpha[i] += VREG(1);
+            if (this->connectorAlpha[i] >= 0xFF) {
+                this->connectorAlpha[i] = 0xFF;
+            }
+        }
+    }
+
+    this->copyEraseAlpha[0] = this->copyEraseAlpha[1] = this->optionButtonAlpha = this->windowAlpha;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B394.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B40C.s")
+// update func for fileSelectStateIndex 0
+void func_8080B40C(FileChooseContext* this) {
+    func_8080B22C(this);
+    D_80812724 -= 0x28;
+    this->windowPosX -= 20;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B494.s")
+    if (this->windowPosX <= -94) {
+        this->windowPosX = -94;
+        this->fileSelectStateIndex = 1;
+        D_80812724 = 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B52C.s")
+// update func for fileSelectStateIndex 1
+void func_8080B494(FileChooseContext* this) {
+    s32 pad;
+
+    this->bottomTextAlpha += VREG(1);
+    func_8080B22C(this);
+
+    if (this->titleAlpha[0] >= 255) {
+        this->titleAlpha[0] = 255;
+        this->bottomTextAlpha = 255;
+        this->windowAlpha = 200;
+        this->fileSelectStateIndex = 2;
+    }
+}
+
+// update func for fileSelectStateIndex 2
+void func_8080B52C(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    SramContext* sramCtx = &this->sramCtx;
+    Input* controller1 = &this->state.input[0];
+
+    if (CHECK_BTN_ALL(controller1->press.button, BTN_START) || CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
+        if (this->buttonIndex < 3) {
+            osSyncPrintf("REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n", this->buttonIndex, NEWF_GET_Z(sramCtx, this->buttonIndex),
+                         NEWF_GET_E(sramCtx, this->buttonIndex), NEWF_GET_L(sramCtx, this->buttonIndex),
+                         NEWF_GET_D(sramCtx, this->buttonIndex), NEWF_GET_A(sramCtx, this->buttonIndex),
+                         NEWF_GET_Z2(sramCtx, this->buttonIndex));
+
+            if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
+                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                this->fileSelectStateIndex = 32;
+                this->kbdButtonIndex = 99;
+                this->charPage = 2;
+                this->kbdX = 0;
+                this->kbdY = 0;
+                this->charIndex = 0;
+                this->charBgAlpha = 0;
+                this->newFileNameCharCount = 0;
+                this->nameEntryBoxPosX = 120;
+                this->nameEntryBoxAlpha = 0;
+                MemCopy(&this->fileNames[this->buttonIndex][0], &sEmptyName, 8);
+            } else if (this->n64ddFlags[this->buttonIndex] == this->n64ddFlag) {
+                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                this->actionTimer = 8;
+                this->openFileStateIndex = 0;
+                this->selectedFileIndex = this->buttonIndex;
+                this->menuIndex = 2;
+                this->titleLabel = 1;
+            } else if (this->n64ddFlags[this->buttonIndex] == 0) {
+                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+        } else {
+            if (this->warningLabel == -1) {
+                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                this->prevFileSelectStateIndex = this->fileSelectStateIndex;
+
+                if (this->buttonIndex == 3) { // copy
+                    this->fileSelectStateIndex = 3;
+                    this->titleLabel = 2;
+                } else if (this->buttonIndex == 4) { // erase
+                    this->fileSelectStateIndex = 20;
+                    this->titleLabel = 6;
+                } else { // options
+                    this->fileSelectStateIndex = 36;
+                    this->kbdButtonIndex = 0;
+                    this->kbdX = 0;
+                    this->kbdY = 0;
+                    this->charBgAlpha = 0;
+                    this->newFileNameCharCount = 0;
+                    this->nameEntryBoxPosX = 120;
+                }
+
+                this->actionTimer = 8;
+            } else {
+                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+        }
+    } else {
+        if (ABS(this->stickRelY) > 30) {
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+            if (this->stickRelY > 30) {
+                this->buttonIndex--;
+                if (this->buttonIndex < 0) {
+                    this->buttonIndex = 5;
+                }
+            } else {
+                this->buttonIndex++;
+                if (this->buttonIndex > 5) {
+                    this->buttonIndex = 0;
+                }
+            }
+        }
+
+        if (this->buttonIndex == 3) {
+            if (!SLOT_OCCUPIED(sramCtx, 0) && !SLOT_OCCUPIED(sramCtx, 1) && !SLOT_OCCUPIED(sramCtx, 2)) {
+                this->warningButtonIndex = this->buttonIndex;
+                this->warningLabel = 0; // no files to copy warning
+                this->emptyFileTextAlpha = 255;
+            } else if (SLOT_OCCUPIED(sramCtx, 0) && SLOT_OCCUPIED(sramCtx, 1) && SLOT_OCCUPIED(sramCtx, 2)) {
+                this->warningButtonIndex = this->buttonIndex;
+                this->warningLabel = 2; // no slots to copy to warning
+                this->emptyFileTextAlpha = 255;
+            } else {
+                this->warningLabel = -1;
+            }
+        } else if (this->buttonIndex == 4) {
+            if (!SLOT_OCCUPIED(sramCtx, 0) && !SLOT_OCCUPIED(sramCtx, 1) && !SLOT_OCCUPIED(sramCtx, 2)) {
+                this->warningButtonIndex = this->buttonIndex;
+                this->warningLabel = 1; // no files to erase warning
+                this->emptyFileTextAlpha = 255;
+            } else {
+                this->warningLabel = -1;
+            }
+        } else {
+            this->warningLabel = -1;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE28.s")
 
@@ -39,14 +237,13 @@ extern s16 D_80812814[];
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BF6C.s")
 
 // 803F9644
-// void func_8080BFE4(FileChooseContext* this);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
-
+void func_8080BFE4(GameState* thisx);
+#ifdef NON_MATCHING
 void func_8080BFE4(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
+    s16 alphaStep;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller3 = &this->state.input[2];
-    s16 alphaStep;
 
     if (CHECK_BTN_ALL(controller3->press.button, BTN_DLEFT)) {
         D_80000002 = sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language = LANGUAGE_PAL_ENG;
@@ -103,18 +300,141 @@ void func_8080BFE4(GameState* thisx) {
         this->highlightFlashDir ^= 1;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BFE4.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C2F4.s")
+// update func for menuIndex 1
+void func_8080C2F4(FileChooseContext* this) {
+    D_80812770[this->fileSelectStateIndex](this);
+}
 
+void func_8080C330(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C330.s")
 
+void func_8080C60C(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C60C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080D8CC.s")
 
+void func_8080E074(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080E074.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080F560.s")
+// draw func for menuIndex 1
+void func_8080F560(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    f32 skyboxX;
+    f32 skyboxY;
+    f32 skyboxZ;
+
+    OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2218);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+
+    skyboxX = (1000.0f * Math_Coss(ZREG(11))) - (1000.0f * Math_Sins(ZREG(11)));
+    skyboxY = ZREG(13);
+    skyboxZ = (1000.0f * Math_Sins(ZREG(11))) + (1000.0f * Math_Coss(ZREG(11)));
+
+    func_8080AF50(this, skyboxX, skyboxY, skyboxZ);
+    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, skyboxX, skyboxY, skyboxZ);
+    gDPSetTextureLUT(oGfxCtx->polyOpa.p++, G_TT_NONE);
+    ZREG(11) += ZREG(10);
+    func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    func_800949A8(this->state.gfxCtx);
+    func_8080AF50(this, 0.0f, 0.0f, 64.0f);
+    func_8080C330(this);
+    func_8080C60C(this);
+
+    if ((this->fileSelectStateIndex != 33) && (this->fileSelectStateIndex != 34)) {
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                        this->windowAlpha);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+
+        Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
+        Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
+
+        if (this->windowRot != 0) {
+            Matrix_RotateX(this->windowRot / 100.0f, 1);
+        }
+
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2282),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+
+        func_8080E074(this);
+    }
+
+    if ((this->fileSelectStateIndex >= 32) && (this->fileSelectStateIndex < 36)) {
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                        this->windowAlpha);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+
+        Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
+        Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
+        Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, 1);
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2316),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+
+        func_80808000(this);
+    }
+
+    if ((this->fileSelectStateIndex >= 36) && (this->fileSelectStateIndex < 40)) {
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                        this->windowAlpha);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+
+        Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
+        Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
+        Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, MTXMODE_APPLY);
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2337),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+
+        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
+        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+
+        gDPPipeSync(oGfxCtx->polyOpa.p++);
+
+        func_8080AF30(this);
+    }
+
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    func_8080AF50(this, 0.0f, 0.0f, 64.0f);
+
+    CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2352);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080FE2C.s")
 
@@ -132,9 +452,63 @@ void func_8080BFE4(GameState* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808106F4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8081097C.s")
+// update func for menuIndex 2
+void func_8081097C(FileChooseContext* this) {
+    D_80812A18[this->openFileStateIndex](this);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808109B8.s")
+// draw func for menuIndex 2
+void func_808109B8(GameState* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    f32 eyeX;
+    f32 eyeY;
+    f32 eyeZ;
+
+    OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2753);
+
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+
+    eyeX = (1000.0f * Math_Coss(ZREG(11))) - (1000.0f * Math_Sins(ZREG(11)));
+    eyeY = ZREG(13);
+    eyeZ = (1000.0f * Math_Sins(ZREG(11))) + (1000.0f * Math_Coss(ZREG(11)));
+
+    func_8080AF50(this, eyeX, eyeY, eyeZ);
+    SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, eyeX, eyeY, eyeZ);
+    gDPSetTextureLUT(oGfxCtx->polyOpa.p++, G_TT_NONE);
+    ZREG(11) += ZREG(10);
+    func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    func_800949A8(this->state.gfxCtx);
+    func_8080AF50(this, 0.0f, 0.0f, 64.0f);
+    func_8080C330(this);
+    func_8080C60C(this);
+
+    gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+                    this->windowAlpha);
+    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+
+    Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
+    Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
+    Matrix_RotateX(this->windowRot / 100.0f, MTXMODE_APPLY);
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2810),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+
+    gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+
+    gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+
+    func_8080E074(this);
+    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    func_8080AF50(this, 0.0f, 0.0f, 64.0f);
+
+    CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2834);
+}
 
 void FileChoose_Main(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
@@ -216,8 +590,8 @@ void FileChoose_Main(GameState* thisx) {
     this->emptyFileTextAlpha = 0;
 
     func_8080BFE4(this);
-    D_80812A44[this->menuIndex](this);
-    D_80812A38[this->menuIndex](this);
+    gFileSelectUpdateFuncs[this->menuIndex](this);
+    gFileSelectDrawFuncs[this->menuIndex](this);
 
     if ((this->fileSelectStateIndex < 0x24) || (this->fileSelectStateIndex >= 0x28)) {
         func_800944C4(this->state.gfxCtx);
@@ -329,7 +703,7 @@ void FileChoose_InitContext(GameState* thisx) {
     this->unk_1CAAE[0] = 2;
     this->unk_1CAAE[1] = 3;
     this->titleTexIndex = 0;
-    this->nextTitleTexIndex = 1;
+    this->titleLabel = 1;
     this->highlightFlashDir = 1;
     this->unk_1CAAC = 0xC;
     this->highlightColor[0] = 155;
@@ -358,9 +732,9 @@ void FileChoose_InitContext(GameState* thisx) {
 
     this->windowPosX = 6;
     this->actionTimer = 8;
-    this->fileWarningTexIndex = -1;
+    this->warningLabel = -1;
 
-    this->warningFileIndex = this->buttonsPosY[0] = this->buttonsPosY[1] = this->buttonsPosY[2] = this->buttonsPosY[3] =
+    this->warningButtonIndex = this->buttonsPosY[0] = this->buttonsPosY[1] = this->buttonsPosY[2] = this->buttonsPosY[3] =
         this->buttonsPosY[4] = this->buttonsPosY[5] = this->fileNamesY[0] = this->fileNamesY[1] = this->fileNamesY[2] =
             0;
 

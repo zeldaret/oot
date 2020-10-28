@@ -220,21 +220,21 @@ glabel FileChoose_Main
 /* 0D374 808110B4 0C202FF9 */  jal     func_8080BFE4              
 /* 0D378 808110B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0D37C 808110BC 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 0D380 808110C0 3C198081 */  lui     $t9, %hi(D_80812A44)       ## $t9 = 80810000
+/* 0D380 808110C0 3C198081 */  lui     $t9, %hi(gFileSelectUpdateFuncs)       ## $t9 = 80810000
 /* 0D384 808110C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0D388 808110C8 84AC4A3C */  lh      $t4, 0x4A3C($a1)           ## 00004A3C
 /* 0D38C 808110CC 000C6880 */  sll     $t5, $t4,  2               
 /* 0D390 808110D0 032DC821 */  addu    $t9, $t9, $t5              
-/* 0D394 808110D4 8F392A44 */  lw      $t9, %lo(D_80812A44)($t9)  
+/* 0D394 808110D4 8F392A44 */  lw      $t9, %lo(gFileSelectUpdateFuncs)($t9)  
 /* 0D398 808110D8 0320F809 */  jalr    $ra, $t9                   
 /* 0D39C 808110DC 00000000 */  nop
 /* 0D3A0 808110E0 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 0D3A4 808110E4 3C198081 */  lui     $t9, %hi(D_80812A38)       ## $t9 = 80810000
+/* 0D3A4 808110E4 3C198081 */  lui     $t9, %hi(gFileSelectDrawFuncs)       ## $t9 = 80810000
 /* 0D3A8 808110E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0D3AC 808110EC 84AE4A3C */  lh      $t6, 0x4A3C($a1)           ## 00004A3C
 /* 0D3B0 808110F0 000E7880 */  sll     $t7, $t6,  2               
 /* 0D3B4 808110F4 032FC821 */  addu    $t9, $t9, $t7              
-/* 0D3B8 808110F8 8F392A38 */  lw      $t9, %lo(D_80812A38)($t9)  
+/* 0D3B8 808110F8 8F392A38 */  lw      $t9, %lo(gFileSelectDrawFuncs)($t9)  
 /* 0D3BC 808110FC 0320F809 */  jalr    $ra, $t9                   
 /* 0D3C0 80811100 00000000 */  nop
 /* 0D3C4 80811104 8FA50028 */  lw      $a1, 0x0028($sp)           

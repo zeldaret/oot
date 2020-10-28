@@ -96,9 +96,9 @@ s32 D_80812728[] = { 0xE7000000, 0x00000000, 0xD9C0F9FA, 0x00000000, 0xEF802C30,
                      0x00504340, 0xFCFFFFFF, 0xFFFDF6FB, 0xDF000000, 0x00000000 };
 s32 D_80812750[] = { 0x00240024, 0x00240024, 0x00180000 };
 s32 D_8081275C[] = { 0x00640096, 0x00FF0064, 0x00640064 };
-s32 D_80812768[] = { 0x3E3E3E3E, 0x3E3E3E3E };
+u8 sEmptyName[] = { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E };
 
-void* D_80812770[] = {
+void* D_80812770[] = { // update funcs for menuIndex 1
     func_8080B40C, func_8080B494, func_8080B52C, func_80803D40, func_80803ED8, func_80804248, func_808043D8,
     func_808044A0, func_80804858, func_80804924, func_80804A50, func_80804C74, func_80804CD0, func_80804ED8,
     func_8080510C, func_808051C8, func_80805318, func_80805434, func_80805524, func_80805824, func_8080595C,
@@ -142,12 +142,12 @@ void* D_80812A18[] = {
     func_8080FE2C, func_8080FF98, func_8081009C, func_8081017C,
     func_80810354, func_80810440, func_80810698, func_808106F4,
 };
-void* D_80812A38[] = {
+void* gFileSelectDrawFuncs[] = {
     func_8080B224,
     func_8080F560,
     func_808109B8,
 };
-void* D_80812A44[] = {
+void* gFileSelectUpdateFuncs[] = {
     func_8080B1A8,
     func_8080C2F4,
     func_8081097C,
