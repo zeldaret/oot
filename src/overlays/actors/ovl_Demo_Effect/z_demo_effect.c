@@ -212,7 +212,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoEffect* lightRing;
 
     effectType = GET_EFFECT_TYPE(&this->actor);
-    lightEffect = GET_LIGHT_EFFECT_COLOUR_PARAM(&this->actor);
+    lightEffect = GET_LIGHT_EFFECT_COLOR_PARAM(&this->actor);
 
     osSyncPrintf("\x1b[36m no = %d\n\x1b[m", effectType);
 
@@ -490,7 +490,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_Timewarp_Timeblock_Large:
         case Demo_Effect_Timewarp_Timeblock_Small:
             this->actor.flags |= 0x2000000;
-        case Demo_Effect_Timewarp_MasterSword:
+        case Demo_Effect_Timewarp_Mastersword:
             this->initDrawFunc = &DemoEffect_DrawTimeWarp;
             this->initUpdateFunc = &DemoEffect_InitTimeWarp;
             this->envXluColor[0] = 0x00;
@@ -548,7 +548,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 effectType = GET_EFFECT_TYPE(thisx);
 
-    if (effectType == Demo_Effect_Timewarp_MasterSword || effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small) {
+    if (effectType == Demo_Effect_Timewarp_Mastersword || effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small) {
         SkelCurve_Destroy(globalCtx, &THIS->skelCurve);
     }
 }
@@ -1422,12 +1422,10 @@ void func_8097414C(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
 void func_809742B0(DemoEffect* this, GlobalContext* globalCtx) {
     if (!func_809746B4(this, globalCtx, 0x01)) {
         if (this->actor.params == D_80976810[0x00]) {
-            // TODO: Needs SFX ID
-            func_8002F974(&this->actor, 0x206E);
+            func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
         } else if (!D_80976810[0]) {
             D_80976810[0] = this->actor.params;
-            // TODO: Needs SFX ID
-            func_8002F974(&this->actor, 0x206E);
+            func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
         }
     }
 }

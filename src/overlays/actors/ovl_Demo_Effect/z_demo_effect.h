@@ -47,7 +47,7 @@ typedef enum {
     /* 0x0C */ Demo_Effect_Medal_Spirit,
     /* 0x0D */ Demo_Effect_Medal_Shadow,
     /* 0x0E */ Demo_Effect_Medal_Light,
-    /* 0x0F */ Demo_Effect_Timewarp_MasterSword,
+    /* 0x0F */ Demo_Effect_Timewarp_Mastersword,
     /* 0x10 */ Demo_Effect_Light_Ring_Shrinking,
     /* 0x11 */ Demo_Effect_Light_Ring_Triforce,
     /* 0x12 */ Demo_Effect_Light_Effect,
@@ -62,7 +62,7 @@ typedef enum {
 } Demo_Effect_Effect_Type;
 
 #define GET_EFFECT_TYPE(thisx) ((thisx)->params & 0x00FF)
-#define GET_LIGHT_EFFECT_COLOUR_PARAM(thisx) (((thisx)->params & 0xF000) >> 0x0C)
+#define GET_LIGHT_EFFECT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 0x0C)
 #define GET_LIGHT_EFFECT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 0x08)
 
 #endif
