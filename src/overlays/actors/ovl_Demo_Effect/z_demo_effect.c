@@ -14,46 +14,42 @@ void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 /**
  * Draw Functions
  */
-void func_809761C4(DemoEffect* this, GlobalContext* globalCtx);
-void func_80974B80(DemoEffect* this, GlobalContext* globalCtx);
-void func_80975BD4(DemoEffect* this, GlobalContext* globalCtx);
-void func_80974EB4(DemoEffect* this, GlobalContext* globalCtx);
-void func_8097571C(DemoEffect* this, GlobalContext* globalCtx);
-void func_8097587C(DemoEffect* this, GlobalContext* globalCtx);
-void func_80975494(DemoEffect* this, GlobalContext* globalCtx);
-void func_80975074(DemoEffect* this, GlobalContext* globalCtx);
-void func_809746F8(DemoEffect* this, GlobalContext* globalCtx);
-void func_80975A3C(DemoEffect* this, GlobalContext* globalCtx);
-void func_80976404(DemoEffect* this, GlobalContext* globalCtx);
-
-/**
- * Action Functions
- */
-void func_809729B8(DemoEffect* this, GlobalContext* globalCtx);
-void func_809723C4(DemoEffect* this, GlobalContext* globalCtx);
-void func_8097322C(DemoEffect* this, GlobalContext* globalCtx);
-void func_8097303C(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972EA8(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972B4C(DemoEffect* this, GlobalContext* globalCtx);
-void func_809727B0(DemoEffect* this, GlobalContext* globalCtx);
-void func_809726AC(DemoEffect* this, GlobalContext* globalCtx);
-void func_8097273C(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972E3C(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972A04(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972A6C(DemoEffect* this, GlobalContext* globalCtx);
-void func_809719C0(DemoEffect* this, GlobalContext* globalCtx);
-void func_809719F0(DemoEffect* this, GlobalContext* globalCtx);
-void func_80974314(DemoEffect* this, GlobalContext* globalCtx);
-void func_80974358(DemoEffect* this, GlobalContext* globalCtx);
-void func_80971BBC(DemoEffect* this, GlobalContext* globalCtx);
-void func_80971DFC(DemoEffect* this, GlobalContext* globalCtx);
-void func_8097456C(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972868(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawMedal(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
 
 /**
  * Update Functions
  */
-void func_80971960(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightRing3(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightRing2(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightRing1(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateFireBall(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateMedal(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateArrow(DemoEffect* this, GlobalContext* globalCtx);
+void func_80972868(DemoEffect* this, GlobalContext* globalCtx);
+void func_80972A04(DemoEffect* this, GlobalContext* globalCtx);
+void func_809729B8(DemoEffect* this, GlobalContext* globalCtx);
 void func_809721D0(DemoEffect* this, GlobalContext* globalCtx);
 void func_80972008(DemoEffect* this, GlobalContext* globalCtx);
 void func_80972344(DemoEffect* this, GlobalContext* globalCtx);
@@ -62,7 +58,7 @@ void func_80972288(DemoEffect* this, GlobalContext* globalCtx);
 /**
  * Misc Functions
  */
-void func_80970F50(DemoEffect* this, DemoEffectFunc updateFunc);
+void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc);
 void func_809742B0(DemoEffect* this, GlobalContext* globalCtx);
 void func_80970FB4(GlobalContext* globalCtx, DemoEffect* this);
 void func_8097414C(DemoEffect* this, GlobalContext* globalCtx, s32 arg2);
@@ -83,6 +79,13 @@ void func_809765AC(DemoEffect* this, GlobalContext* globalCtx, s32 arg2, s32 arg
 void func_809733C8(Vec3f arg0, DemoEffect* this, f32 arg2);
 
 // TODO: Document this data.
+extern Gfx kokiriJewel[];
+extern Gfx kokiriJewelHolder[];
+extern Gfx goronJewel[];
+extern Gfx goronJewelHolder[];
+extern Gfx zoraJewel[];
+extern Gfx zoraJewelHolder[];
+
 extern Gfx D_04010130[];
 
 extern Vtx D_06000000[];
@@ -97,13 +100,7 @@ extern Gfx D_06000330[];
 extern Gfx D_06000600[];
 extern Gfx D_06000840[];
 extern Gfx D_06000980[];
-extern Gfx kokiriJewelHolder[];
 extern Gfx D_060011D0[];
-extern Gfx goronJewelHolder[];
-extern Gfx kokiriJewel[];
-extern Gfx goronJewel[];
-extern Gfx zoraJewelHolder[];
-extern Gfx zoraJewel[];
 extern Gfx D_06003C50[];
 
 const ActorInit Demo_Effect_InitVars = {
@@ -163,7 +160,7 @@ Color_RGB8 D_80976860[5][2] = { { { 0xFF, 0xFF, 0xFF }, { 0x64, 0xFF, 0x00 } },
                                 { { 0x00, 0x00, 0x00 }, { 0x00, 0x00, 0x00 } },
                                 { { 0xDF, 0x00, 0x00 }, { 0x00, 0x00, 0x00 } } };
 
-void func_80970F50(DemoEffect* this, DemoEffectFunc updateFunc) {
+void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
     this->updateFunc = updateFunc;
 }
 
@@ -177,11 +174,11 @@ f32 func_80970F58(GlobalContext* globalCtx, s32 arg1) {
 }
 
 void func_80970FB4(GlobalContext* globalCtx, DemoEffect* this) {
-    this->initDrawFunc = &func_809746F8;
+    this->initDrawFunc = &DemoEffect_DrawJewel;
     if (LINK_IS_CHILD) {
-        this->initUpdateFunc = &func_80974358;
+        this->initUpdateFunc = &DemoEffect_UpdateJewelChild;
     } else {
-        this->initUpdateFunc = &func_80974314;
+        this->initUpdateFunc = &DemoEffect_UpdateJewelAdult;
     }
     if (globalCtx->sceneNum == SCENE_TOKINOMA) {
         Actor_SetScale(&this->actor, 0.35f);
@@ -200,8 +197,8 @@ void func_80970FB4(GlobalContext* globalCtx, DemoEffect* this) {
 void func_80971070(DemoEffect* this) {
     this->unk_184 = 0x00;
     this->unk_185 = 0x00;
-    this->initDrawFunc = &func_809761C4;
-    this->initUpdateFunc = &func_80971BBC;
+    this->initDrawFunc = &DemoEffect_DrawMedal;
+    this->initUpdateFunc = &DemoEffect_UpdateMedal;
     Actor_SetScale(&this->actor, 0.25f);
     this->unk_18C = 0x06;
 }
@@ -212,8 +209,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 effectType;
     s32 lightEffect;
     s32 objectIndex;
-    Actor* newActor1;
-    Actor* newActor2;
+    DemoEffect* crystalLight;
+    DemoEffect* lightRing;
 
     effectType = GET_EFFECT_TYPE(&this->actor);
     lightEffect = GET_LIGHT_EFFECT_COLOUR_PARAM(&this->actor);
@@ -236,19 +233,19 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (effectType) {
         case Demo_Effect_Crystal_Light:
-            this->initDrawFunc = &func_80974B80;
-            this->initUpdateFunc = &func_809719F0;
+            this->initDrawFunc = &DemoEffect_DrawCrystalLight;
+            this->initUpdateFunc = &DemoEffect_UpdateCrystalLight;
             break;
 
         case Demo_Effect_Fire_Ball:
-            this->initDrawFunc = &func_80974EB4;
-            this->initUpdateFunc = &func_809719C0;
+            this->initDrawFunc = &DemoEffect_DrawFireBall;
+            this->initUpdateFunc = &DemoEffect_UpdateFireBall;
             Actor_SetScale(&this->actor, 0.1f);
             break;
 
         case Demo_Effect_Blue_Orb:
-            this->initDrawFunc = &func_8097571C;
-            this->initUpdateFunc = &func_80972A6C;
+            this->initDrawFunc = &DemoEffect_DrawBlueOrb;
+            this->initUpdateFunc = &DemoEffect_UpdateBlueOrb;
             this->unk_184 = 0xFF;
             this->unk_185 = 0x05;
             this->unk_188 = 0x00;
@@ -261,9 +258,9 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[0] = 0x00;
             break;
 
-        case Demo_Effect_Light_Particles:
-            this->initDrawFunc = &func_80975494;
-            this->initUpdateFunc = &func_80972B4C;
+        case Demo_Effect_Light_Effect:
+            this->initDrawFunc = &DemoEffect_DrawLightEffect;
+            this->initUpdateFunc = &DemoEffect_UpdateLightEffect;
             this->unk_184 = 0xFF;
             this->unk_185 = 0x00;
             this->unk_186 = 0x00;
@@ -340,13 +337,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Lgt_Shower:
             this->unk_184 = 0xFF;
-            this->initDrawFunc = &func_8097587C;
-            this->initUpdateFunc = &func_80972E3C;
+            this->initDrawFunc = &DemoEffect_DrawLgtShower;
+            this->initUpdateFunc = &DemoEffect_UpdateLgtShower;
             break;
 
         case Demo_Effect_God_Lgt_Din:
             Actor_SetScale(&this->actor, 0.1f);
-            this->initDrawFunc = &func_80975074;
+            this->initDrawFunc = &DemoEffect_DrawGodLgt;
             this->primXluColor[1] = 0xAA;
             this->primXluColor[0] = 0xFF;
             this->primXluColor[2] = 0xFF;
@@ -355,7 +352,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 0x00;
             this->unk_184 = 0x00;
             this->unk_186 = 0x00;
-            this->initUpdateFunc = &func_80972EA8;
+            this->initUpdateFunc = &DemoEffect_UpdateGodLgtDin;
             this->unk_18C = 0x00;
             break;
 
@@ -365,7 +362,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
             }
-            this->initDrawFunc = &func_80975074;
+            this->initDrawFunc = &DemoEffect_DrawGodLgt;
             this->primXluColor[0] = 0xAA;
             this->primXluColor[1] = 0xFF;
             this->primXluColor[2] = 0xFF;
@@ -376,7 +373,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_185 = 0x04;
             this->unk_186 = 0x00;
             this->unk_188 = 0x00;
-            this->initUpdateFunc = &func_8097303C;
+            this->initUpdateFunc = &DemoEffect_UpdateGodLgtNayru;
             this->unk_18C = 0x01;
             break;
 
@@ -386,7 +383,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
             }
-            this->initDrawFunc = &func_80975074;
+            this->initDrawFunc = &DemoEffect_DrawGodLgt;
             this->primXluColor[0] = 0xAA;
             this->primXluColor[2] = 0xAA;
             this->primXluColor[1] = 0xFF;
@@ -395,21 +392,21 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[2] = 0x00;
             this->unk_184 = 0x02;
             this->unk_186 = 0x00;
-            this->initUpdateFunc = &func_8097322C;
+            this->initUpdateFunc = &DemoEffect_UpdateGodLgtFarore;
             this->unk_18C = 0x02;
             break;
 
         case Demo_Effect_Light_Ring_1:
-            this->initDrawFunc = &func_80975A3C;
-            this->initUpdateFunc = &func_8097273C;
+            this->initDrawFunc = &DemoEffect_DrawLightRing;
+            this->initUpdateFunc = &DemoEffect_UpdateLightRing1;
             this->unk_188 = 0x14;
             this->unk_184 = 0x04;
             this->unk_185 = 0xFF;
             break;
 
         case Demo_Effect_Light_Ring_3:
-            this->initDrawFunc = &func_80975A3C;
-            this->initUpdateFunc = &func_809727B0;
+            this->initDrawFunc = &DemoEffect_DrawLightRing;
+            this->initUpdateFunc = &DemoEffect_UpdateLightRing3;
             this->unk_188 = 0x14;
             this->unk_184 = 0x04;
             this->unk_185 = 0x00;
@@ -417,16 +414,16 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Light_Ring_2:
-            this->initDrawFunc = &func_80975A3C;
-            this->initUpdateFunc = &func_809726AC;
+            this->initDrawFunc = &DemoEffect_DrawLightRing;
+            this->initUpdateFunc = &DemoEffect_UpdateLightRing2;
             this->unk_188 = 0x015F;
             this->unk_184 = 0x02;
             this->unk_185 = 0x00;
             break;
 
         case Demo_Effect_Triforce_Spot:
-            this->initDrawFunc = &func_80975BD4;
-            this->initUpdateFunc = &func_809723C4;
+            this->initDrawFunc = &DemoEffect_DrawTriforceSpot;
+            this->initUpdateFunc = &DemoEffect_UpdateTriforceSpot;
             this->unk_186 = 0x00;
             this->unk_185 = 0x00;
             this->unk_184 = 0x00;
@@ -436,23 +433,23 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             Actor_SetScale(&this->actor, 0.020f);
 
-            newActor1 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT,
+            crystalLight = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT,
                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                           0x00, 0x00, 0x00, 0x00);
+                                           0x00, 0x00, 0x00, Demo_Effect_Crystal_Light);
 
-            if (newActor1) {
-                Actor_SetScale(newActor1, 0.6f);
+            if (crystalLight) {
+                Actor_SetScale(&crystalLight->actor, 0.6f);
             }
 
             // Necessary to match. Otherwise has function argument reordering.
             if (globalCtx) {}
 
-            newActor2 = Actor_SpawnAsChild(&globalCtx->actorCtx, newActor1, globalCtx, ACTOR_DEMO_EFFECT,
+            lightRing = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, crystalLight, globalCtx, ACTOR_DEMO_EFFECT,
                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                            0x00, 0x00, 0x00, Demo_Effect_Light_Ring_3);
 
-            if (newActor2) {
-                Actor_SetScale(newActor2, 0.4f);
+            if (lightRing) {
+                Actor_SetScale(&lightRing->actor, 0.4f);
             }
             break;
 
@@ -495,8 +492,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_TW_3:
             this->actor.flags |= 0x2000000;
         case Demo_Effect_TW_1:
-            this->initDrawFunc = &func_80976404;
-            this->initUpdateFunc = &func_80971DFC;
+            this->initDrawFunc = &DemoEffect_DrawTimeWarp;
+            this->initUpdateFunc = &DemoEffect_UpdateTimeWarp;
             this->envXluColor[0] = 0x00;
             this->envXluColor[1] = 0x64;
             this->envXluColor[2] = 0xFF;
@@ -535,18 +532,18 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Arrow:
             this->initDrawFunc = NULL;
-            this->initUpdateFunc = &func_8097456C;
+            this->initUpdateFunc = &DemoEffect_UpdateArrow;
             this->unk_184 = 0x00;
             this->unk_18C = 0x02;
             break;
 
         default:
-            __assert("0", "../z_demo_effect.c", 0x426);
+            __assert("0", "../z_demo_effect.c", 0x0426);
             break;
     }
 
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    func_80970F50(this, &func_80971960);
+    DemoEffect_SetupUpdate(this, &DemoEffect_Wait);
 }
 
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -557,7 +554,7 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80971960(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->initObjectBankIndex)) {
         this->actor.objBankIndex = this->initObjectBankIndex;
         this->actor.draw = (ActorFunc)this->initDrawFunc;
@@ -567,7 +564,7 @@ void func_80971960(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809719C0(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateFireBall(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->actor.parent) {
         // Struct copy affects regalloc
         this->actor.posRot.pos.x = this->actor.parent->posRot.pos.x;
@@ -576,8 +573,8 @@ void func_809719C0(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809719F0(DemoEffect* this, GlobalContext* globalCtx) {
-    func_809719C0(this, globalCtx);
+void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
+    DemoEffect_UpdateFireBall(this, globalCtx);
     this->actor.posRot.pos.y += 14.0f;
 }
 
@@ -617,7 +614,7 @@ void func_80971A28(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
     }
 }
 
-void func_80971BBC(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateMedal(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C]) {
@@ -676,7 +673,7 @@ void func_80971BBC(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80971DFC(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     s32 actorType = GET_EFFECT_TYPE(&this->actor);
 
     if (!SkelCurve_Init(globalCtx, &this->skelCurve, &D_060012E8, &D_06000050)) {
@@ -805,7 +802,7 @@ void func_80972344(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809723C4(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     this->unk_188 += 0x03E8;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C]) {
@@ -839,7 +836,7 @@ void func_809723C4(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809726AC(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateLightRing2(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->unk_188 < this->unk_184) {
         Actor_Kill(&this->actor);
         this->unk_188 = 0x00;
@@ -860,8 +857,8 @@ void func_809726AC(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097273C(DemoEffect* this, GlobalContext* globalCtx) {
-    func_809719C0(this, globalCtx);
+void DemoEffect_UpdateLightRing1(DemoEffect* this, GlobalContext* globalCtx) {
+    DemoEffect_UpdateFireBall(this, globalCtx);
     this->unk_188 += this->unk_184;
 
     if (this->unk_188 >= 0xE1) {
@@ -874,10 +871,10 @@ void func_8097273C(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809727B0(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateLightRing3(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* blueOrb;
 
-    func_809719C0(this, globalCtx);
+    DemoEffect_UpdateFireBall(this, globalCtx);
 
     if (globalCtx->csCtx.state) {
         if (globalCtx->csCtx.npcActions[this->unk_18C] && globalCtx->csCtx.npcActions[this->unk_18C]->action == 0x02) {
@@ -889,7 +886,7 @@ void func_809727B0(DemoEffect* this, GlobalContext* globalCtx) {
                 Actor_SetScale(&blueOrb->actor, 0.0f);
             }
 
-            this->updateFunc = &func_8097273C;
+            this->updateFunc = &DemoEffect_UpdateLightRing1;
             this->unk_185 = 0xFF;
         }
     }
@@ -951,7 +948,7 @@ void func_80972A04(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80972A6C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->actor.parent) {
         // s32 cast necessary to match codegen. Without the explicit cast to u32 the compiler generates complex cast of
         // u8 to float
@@ -968,7 +965,7 @@ void func_80972A6C(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80972B4C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     u16 action;
     s32 unkParam;
 
@@ -1034,7 +1031,7 @@ void func_80972B4C(DemoEffect* this, GlobalContext* globalCtx) {
         }
 
         if (globalCtx->sceneNum == SCENE_TOKINOMA && gSaveContext.sceneSetupIndex == 0x0E) {
-            // TODO: Is this do{}while(0); necessary to match?
+            // do {} while(0) necessary to match
             do {
                 if (globalCtx->csCtx.npcActions[this->unk_18C]->action == 0x02) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
@@ -1050,7 +1047,7 @@ void func_80972B4C(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80972E3C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->unk_184 >= 0x04) {
         this->unk_184 -= 0x03;
         this->actor.scale.x *= 1.05f;
@@ -1061,7 +1058,7 @@ void func_80972E3C(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80972EA8(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* fireBall;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C]) {
@@ -1108,7 +1105,7 @@ void func_80972EA8(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097303C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lightRing;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C]) {
@@ -1166,7 +1163,7 @@ void func_8097303C(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097322C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lgtShower;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C]) {
@@ -1436,14 +1433,14 @@ void func_809742B0(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80974314(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx) {
     this->unk_188++;
     this->actor.shape.rot.y += 0x0400;
     func_809742B0(this, globalCtx);
     func_80973524(this, 1.0f);
 }
 
-void func_80974358(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     s32 hasCmdAction;
     Actor* thisx = &this->actor;
 
@@ -1500,7 +1497,7 @@ void func_80974358(DemoEffect* this, GlobalContext* globalCtx) {
     this->unk_18A &= 0xFFFE;
 }
 
-void func_8097456C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateArrow(DemoEffect* this, GlobalContext* globalCtx) {
     Vec3f pos, velocity, accel;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C] &&
@@ -1539,7 +1536,7 @@ s32 func_809746B4(DemoEffect* this, GlobalContext* globalCtx, s32 arg2) {
     return 0x00;
 }
 
-void func_809746F8(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     GlobalContext* globalCtx2;
     u32 scroll = this->unk_188;
@@ -1608,7 +1605,7 @@ void func_809746F8(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A3C);
 }
 
-void func_80974B80(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     DemoEffect* parent;
     u32 scroll;
@@ -1657,7 +1654,7 @@ void func_80974B80(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A80);
 }
 
-void func_80974EB4(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     u32 scroll;
 
@@ -1677,7 +1674,7 @@ void func_80974EB4(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0AA3);
 }
 
-void func_80975074(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
     u32 scroll;
@@ -1737,7 +1734,7 @@ void func_80975074(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B0D);
 }
 
-void func_80975494(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     // TODO: This should be one of the last functions to document. Deduce if unk_184 is part of a struct first.
     s32 pad;
     u8* unk_184;
@@ -1778,7 +1775,7 @@ void func_80975494(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B41);
 }
 
-void func_8097571C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
 
@@ -1787,7 +1784,7 @@ void func_8097571C(DemoEffect* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, 0xFF);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateZ(this->unk_188 * 0.0000958738019107841f, MTXMODE_APPLY);
+    Matrix_RotateZ(this->unk_188 * (M_PI / 32768.0f), MTXMODE_APPLY);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B55),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->unk_188 += 0x01F4;
@@ -1795,7 +1792,7 @@ void func_8097571C(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B5B);
 }
 
-void func_8097587C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
     u32 scroll;
@@ -1814,7 +1811,7 @@ void func_8097587C(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B7E);
 }
 
-void func_80975A3C(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     GlobalContext* globalCtx2 = globalCtx;
     u32 scroll = this->unk_188;
@@ -1834,7 +1831,7 @@ void func_80975A3C(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 0x0BA2);
 }
 
-void func_80975BD4(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     // TODO: TRIFORCE DRAW FUNC
     s32 pad1;
     s32 pad2;
@@ -1903,7 +1900,7 @@ void func_80975BD4(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C28);
 }
 
-void func_809761C4(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawMedal(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     if (func_809746B4(this, globalCtx, 0x01) == 0x00) {
         if (func_809746B4(this, globalCtx, 0x04) == 0x00) {
@@ -1944,7 +1941,7 @@ s32 func_80976254(GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIn
     return 1;
 }
 
-void func_80976404(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     u8 effectType = GET_EFFECT_TYPE(&this->actor);
     GraphicsContext* gfxCtx2 = globalCtx2->state.gfxCtx;

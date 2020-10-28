@@ -21,10 +21,10 @@ typedef struct DemoEffect {
     /* 0x0184 */ u8 unk_184; // ????
     /* 0x0185 */ u8 unk_185; // ????
     /* 0x0186 */ u8 unk_186; // getitem related. func_800694A0
-    /* 0x0188 */ s16 unk_188;
-    /* 0x018A */ s16 unk_18A;
-    /* 0x018C */ s16 unk_18C;
-    /* 0x018E */ Vec3s unk_vec3s;
+    /* 0x0188 */ s16 unk_188; // Some kind of frame count??
+    /* 0x018A */ s16 unk_18A; // Some kind of bitfield flags
+    /* 0x018C */ s16 unk_18C; // generally an array index into npcActions for cutscenes
+    /* 0x018E */ Vec3s unk_vec3s; // Not really sure yet what this is. It's really only used in func_80973CFC
     /* 0x0194 */ DemoEffectFunc initUpdateFunc;
     /* 0x0198 */ DemoEffectFunc initDrawFunc;
     /* 0x019C */ DemoEffectFunc updateFunc;
@@ -50,7 +50,7 @@ typedef enum {
     /* 0x0F */ Demo_Effect_TW_1,
     /* 0x10 */ Demo_Effect_Light_Ring_2,
     /* 0x11 */ Demo_Effect_Light_Ring_3,
-    /* 0x12 */ Demo_Effect_Light_Particles,
+    /* 0x12 */ Demo_Effect_Light_Effect,
     /* 0x13 */ Demo_Effect_Jewel_Kokiri,
     /* 0x14 */ Demo_Effect_Jewel_Goron,
     /* 0x15 */ Demo_Effect_Jewel_Zora,
