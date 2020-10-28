@@ -217,7 +217,7 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawFlags & 1) {
         Gfx_DrawDListOpa(globalCtx, &D_0600E8D0);
-        func_800628A4(0, &this->collider);
+        Collider_UpdateSphJoint(0, &this->collider);
     }
 
     if (this->drawFlags & 2) {

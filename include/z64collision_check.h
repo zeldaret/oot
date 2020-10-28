@@ -176,6 +176,34 @@ typedef struct {
 } ColliderJntSphInit_Actor; // size = 0x10
 
 typedef struct {
+    /* 0x00 */ ColliderBody body;
+    /* 0x24 */ Cylinder16 dim;
+ } ColliderCylinderItem; // size = 0x34
+
+typedef struct {
+    /* 0x00 */ Collider base;
+    /* 0x18 */ ColliderCylinderItem item;
+} ColliderCylinder2; // size = 0x4C
+
+typedef struct {
+    /* 0x00 */ ColliderInit base;
+    /* 0x08 */ ColliderBodyInit body;
+    /* 0x20 */ Cylinder16 dim;
+} ColliderCylinder2Init; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ ColliderInit_Set3 base;
+    /* 0x08 */ ColliderBodyInit body;
+    /* 0x20 */ Cylinder16 dim;
+} ColliderCylinder2Init_Set3; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ ColliderInit_Actor base;
+    /* 0x08 */ ColliderBodyInit body;
+    /* 0x20 */ Cylinder16 dim;
+} ColliderCylinder2Init_Actor;
+
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderBody body;
     /* 0x40 */ Cylinder16 dim;
