@@ -14,46 +14,46 @@ void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 /**
  * Draw Functions
  */
-void DemoEffect_DrawMedal(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawMedal(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx);
 
 /**
  * Update Functions
  */
 void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateLightRing3(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateLightRing2(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateLightRing1(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateFireBall(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_InitCreationEffect(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightRingExpanding(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateMedal(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateArrow(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972868(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972A04(DemoEffect* this, GlobalContext* globalCtx);
-void func_809729B8(DemoEffect* this, GlobalContext* globalCtx);
-void func_809721D0(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972008(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972344(DemoEffect* this, GlobalContext* globalCtx);
-void func_80972288(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateCreationEffect(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateTimeWarpUnknown(DemoEffect* this, GlobalContext* globalCtx);
 
 /**
  * Misc Functions
@@ -78,21 +78,15 @@ void func_8097670C(DemoEffect* this, GlobalContext* globalCtx, s32 arg2, f32 arg
 void func_809765AC(DemoEffect* this, GlobalContext* globalCtx, s32 arg2, s32 arg3);
 void func_809733C8(Vec3f arg0, DemoEffect* this, f32 arg2);
 
-// TODO: Document this data.
+extern TransformUpdateIndex timewarpTransformUpdateIndex;
+extern SkelCurveLimbList timewarpLimbList;
+
 extern Gfx kokiriJewel[];
 extern Gfx kokiriJewelHolder[];
 extern Gfx goronJewel[];
 extern Gfx goronJewelHolder[];
 extern Gfx zoraJewel[];
 extern Gfx zoraJewelHolder[];
-
-extern Gfx D_04010130[];
-
-extern Vtx D_06000000[];
-extern Vtx D_06000060[];
-
-extern TransformUpdateIndex D_06000050;
-extern SkelCurveLimbList D_060012E8;
 
 extern Gfx D_06000040[];
 extern Gfx D_06000190[];
@@ -102,6 +96,11 @@ extern Gfx D_06000840[];
 extern Gfx D_06000980[];
 extern Gfx D_060011D0[];
 extern Gfx D_06003C50[];
+
+extern Gfx D_04010130[];
+
+extern Vtx D_06000000[];
+extern Vtx D_06000060[];
 
 const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
@@ -118,7 +117,7 @@ const ActorInit Demo_Effect_InitVars = {
 s16 D_80976810[] = { 0x0000, 0x0000 };
 
 // The object used by the effectType
-s16 D_80976814[] = {
+s16 effectObject[] = {
     /* 0x00 */ OBJECT_EFC_CRYSTAL_LIGHT,
     /* 0x01 */ OBJECT_EFC_FIRE_BALL,
     /* 0x02 */ OBJECT_GAMEPLAY_KEEP,
@@ -218,7 +217,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\x1b[36m no = %d\n\x1b[m", effectType);
 
     objectIndex =
-        D_80976814[effectType] == 0x01 ? 0x00 : Object_GetIndex(&globalCtx->objectCtx, D_80976814[effectType]);
+        effectObject[effectType] == 0x01 ? 0x00 : Object_GetIndex(&globalCtx->objectCtx, effectObject[effectType]);
 
     osSyncPrintf("\x1b[36m bank_ID = %d\n\x1b[m", objectIndex);
 
@@ -239,7 +238,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Fire_Ball:
             this->initDrawFunc = &DemoEffect_DrawFireBall;
-            this->initUpdateFunc = &DemoEffect_UpdateFireBall;
+            this->initUpdateFunc = &DemoEffect_UpdatePositionToParent;
             Actor_SetScale(&this->actor, 0.1f);
             break;
 
@@ -396,26 +395,26 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_18C = 0x02;
             break;
 
-        case Demo_Effect_Light_Ring_1:
+        case Demo_Effect_Light_Ring_Expanding:
             this->initDrawFunc = &DemoEffect_DrawLightRing;
-            this->initUpdateFunc = &DemoEffect_UpdateLightRing1;
+            this->initUpdateFunc = &DemoEffect_UpdateLightRingExpanding;
             this->unk_188 = 0x14;
             this->unk_184 = 0x04;
             this->unk_185 = 0xFF;
             break;
 
-        case Demo_Effect_Light_Ring_3:
+        case Demo_Effect_Light_Ring_Triforce:
             this->initDrawFunc = &DemoEffect_DrawLightRing;
-            this->initUpdateFunc = &DemoEffect_UpdateLightRing3;
+            this->initUpdateFunc = &DemoEffect_UpdateLightRingTriforce;
             this->unk_188 = 0x14;
             this->unk_184 = 0x04;
             this->unk_185 = 0x00;
             this->unk_18C = 0x04;
             break;
 
-        case Demo_Effect_Light_Ring_2:
+        case Demo_Effect_Light_Ring_Shrinking:
             this->initDrawFunc = &DemoEffect_DrawLightRing;
-            this->initUpdateFunc = &DemoEffect_UpdateLightRing2;
+            this->initUpdateFunc = &DemoEffect_UpdateLightRingShrinking;
             this->unk_188 = 0x015F;
             this->unk_184 = 0x02;
             this->unk_185 = 0x00;
@@ -444,9 +443,9 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Necessary to match. Otherwise has function argument reordering.
             if (globalCtx) {}
 
-            lightRing = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, crystalLight, globalCtx, ACTOR_DEMO_EFFECT,
+            lightRing = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, &crystalLight->actor, globalCtx, ACTOR_DEMO_EFFECT,
                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                           0x00, 0x00, 0x00, Demo_Effect_Light_Ring_3);
+                                           0x00, 0x00, 0x00, Demo_Effect_Light_Ring_Triforce);
 
             if (lightRing) {
                 Actor_SetScale(&lightRing->actor, 0.4f);
@@ -483,17 +482,17 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_186 = 0x10;
             break;
 
-        case Demo_Effect_Unknown:
+        case Demo_Effect_LightArrow:
             func_80971070(this);
             this->unk_186 = 0x61;
             break;
 
-        case Demo_Effect_TW_2:
-        case Demo_Effect_TW_3:
+        case Demo_Effect_Timewarp_Timeblock_Large:
+        case Demo_Effect_Timewarp_Timeblock_Small:
             this->actor.flags |= 0x2000000;
-        case Demo_Effect_TW_1:
+        case Demo_Effect_Timewarp_MasterSword:
             this->initDrawFunc = &DemoEffect_DrawTimeWarp;
-            this->initUpdateFunc = &DemoEffect_UpdateTimeWarp;
+            this->initUpdateFunc = &DemoEffect_InitTimeWarp;
             this->envXluColor[0] = 0x00;
             this->envXluColor[1] = 0x64;
             this->envXluColor[2] = 0xFF;
@@ -530,9 +529,9 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
 
-        case Demo_Effect_Arrow:
+        case Demo_Effect_Dust:
             this->initDrawFunc = NULL;
-            this->initUpdateFunc = &DemoEffect_UpdateArrow;
+            this->initUpdateFunc = &DemoEffect_UpdateDust;
             this->unk_184 = 0x00;
             this->unk_18C = 0x02;
             break;
@@ -549,7 +548,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 effectType = GET_EFFECT_TYPE(thisx);
 
-    if (effectType == Demo_Effect_TW_1 || effectType == Demo_Effect_TW_2 || effectType == Demo_Effect_TW_3) {
+    if (effectType == Demo_Effect_Timewarp_MasterSword || effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small) {
         SkelCurve_Destroy(globalCtx, &THIS->skelCurve);
     }
 }
@@ -564,7 +563,7 @@ void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoEffect_UpdateFireBall(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->actor.parent) {
         // Struct copy affects regalloc
         this->actor.posRot.pos.x = this->actor.parent->posRot.pos.x;
@@ -574,7 +573,7 @@ void DemoEffect_UpdateFireBall(DemoEffect* this, GlobalContext* globalCtx) {
 }
 
 void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
-    DemoEffect_UpdateFireBall(this, globalCtx);
+    DemoEffect_UpdatePositionToParent(this, globalCtx);
     this->actor.posRot.pos.y += 14.0f;
 }
 
@@ -673,19 +672,19 @@ void DemoEffect_UpdateMedal(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoEffect_UpdateTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 actorType = GET_EFFECT_TYPE(&this->actor);
+void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
+    s32 effectType = GET_EFFECT_TYPE(&this->actor);
 
-    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &D_060012E8, &D_06000050)) {
+    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &timewarpLimbList, &timewarpTransformUpdateIndex)) {
         __assert("0", "../z_demo_effect.c", 0x0503);
     }
 
-    if (actorType == Demo_Effect_TW_2 || actorType == Demo_Effect_TW_3) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.7f);
+    if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small) {
+        SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 1.0f, 1.7f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
-        this->updateFunc = &func_80972344;
+        this->updateFunc = &DemoEffect_InitTimeWarpTimeblock;
 
-        if (actorType == Demo_Effect_TW_2) {
+        if (effectType == Demo_Effect_Timewarp_Timeblock_Large) {
             Actor_SetScale(&this->actor, 0.14f);
             return;
         }
@@ -696,22 +695,22 @@ void DemoEffect_UpdateTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
 
     if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
         (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[0x0C] & 0x0200)))) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 59.0f, 0.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
-        this->updateFunc = &func_809721D0;
+        this->updateFunc = &DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
         osSyncPrintf("\x1b[36m 縮むバージョン \n\x1b[m");
         return;
     }
 
-    SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.0f);
+    SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 1.0f, 1.0f);
     SkelCurve_Update(globalCtx, &this->skelCurve);
-    this->updateFunc = &func_80972008;
+    this->updateFunc = &DemoEffect_UpdateTimeWarpPullMasterSword;
     osSyncPrintf("\x1b[36m 通常 バージョン \n\x1b[m");
     // Necessary to match
     if (1) {}
 }
 
-void func_80972008(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 0x01)) {
         if (!(this->unk_18A & 0x02)) {
             func_800F3F3C(0x00);
@@ -719,7 +718,7 @@ void func_80972008(DemoEffect* this, GlobalContext* globalCtx) {
         }
 
         if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
-            SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
+            SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 60.0f, 59.0f, 0.0f);
         }
     }
 }
@@ -743,7 +742,7 @@ void func_809720AC(f32 arg0) {
     }
 }
 
-void func_809721D0(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalContext* globalCtx) {
     f32 unk_1;
 
     this->unk_188++;
@@ -767,7 +766,7 @@ void func_809721D0(DemoEffect* this, GlobalContext* globalCtx) {
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 }
 
-void func_80972288(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateTimeWarpUnknown(DemoEffect* this, GlobalContext* globalCtx) {
     f32 unk_1;
     f32 unk_2;
 
@@ -777,7 +776,7 @@ void func_80972288(DemoEffect* this, GlobalContext* globalCtx) {
         unk_1 = (0x64 - this->unk_188) * 0.010f;
         unk_2 = unk_1 * 0.14f;
 
-        if (GET_EFFECT_TYPE(&this->actor) == Demo_Effect_TW_3) {
+        if (GET_EFFECT_TYPE(&this->actor) == Demo_Effect_Timewarp_Timeblock_Small) {
             unk_2 *= 0.6f;
         }
 
@@ -792,12 +791,12 @@ void func_80972288(DemoEffect* this, GlobalContext* globalCtx) {
     Actor_Kill(&this->actor);
 }
 
-void func_80972344(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx) {
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 
     if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
-        this->updateFunc = &func_80972288;
+        SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 60.0f, 59.0f, 0.0f);
+        this->updateFunc = &DemoEffect_UpdateTimeWarpUnknown;
         this->unk_188 = 0x00;
     }
 }
@@ -836,7 +835,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoEffect_UpdateLightRing2(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->unk_188 < this->unk_184) {
         Actor_Kill(&this->actor);
         this->unk_188 = 0x00;
@@ -857,8 +856,8 @@ void DemoEffect_UpdateLightRing2(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoEffect_UpdateLightRing1(DemoEffect* this, GlobalContext* globalCtx) {
-    DemoEffect_UpdateFireBall(this, globalCtx);
+void DemoEffect_UpdateLightRingExpanding(DemoEffect* this, GlobalContext* globalCtx) {
+    DemoEffect_UpdatePositionToParent(this, globalCtx);
     this->unk_188 += this->unk_184;
 
     if (this->unk_188 >= 0xE1) {
@@ -871,10 +870,10 @@ void DemoEffect_UpdateLightRing1(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoEffect_UpdateLightRing3(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* blueOrb;
 
-    DemoEffect_UpdateFireBall(this, globalCtx);
+    DemoEffect_UpdatePositionToParent(this, globalCtx);
 
     if (globalCtx->csCtx.state) {
         if (globalCtx->csCtx.npcActions[this->unk_18C] && globalCtx->csCtx.npcActions[this->unk_18C]->action == 0x02) {
@@ -886,13 +885,13 @@ void DemoEffect_UpdateLightRing3(DemoEffect* this, GlobalContext* globalCtx) {
                 Actor_SetScale(&blueOrb->actor, 0.0f);
             }
 
-            this->updateFunc = &DemoEffect_UpdateLightRing1;
+            this->updateFunc = &DemoEffect_UpdateLightRingExpanding;
             this->unk_185 = 0xFF;
         }
     }
 }
 
-void func_80972868(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateCreationEffect(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* effect;
 
     Actor_MoveForward(&this->actor);
@@ -912,14 +911,14 @@ void func_80972868(DemoEffect* this, GlobalContext* globalCtx) {
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
-                                      Demo_Effect_Light_Ring_1);
+                                      Demo_Effect_Light_Ring_Expanding);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.1f);
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
-                                      Demo_Effect_Light_Ring_2);
+                                      Demo_Effect_Light_Ring_Shrinking);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.2f);
     }
@@ -928,7 +927,7 @@ void func_80972868(DemoEffect* this, GlobalContext* globalCtx) {
     Actor_Kill(&this->actor);
 }
 
-void func_809729B8(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_InitCreationEffect(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* parent = this->actor.parent;
 
     this->actor.posRot.rot.y = parent->shape.rot.y;
@@ -936,10 +935,10 @@ void func_809729B8(DemoEffect* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 1.5f;
     this->actor.minVelocityY = -1.5f;
     this->actor.gravity = -0.03f;
-    this->updateFunc = &func_80972868;
+    this->updateFunc = &DemoEffect_UpdateCreationEffect;
 }
 
-void func_80972A04(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx) {
     this->unk_184 = this->unk_185 << 0x04;
     this->unk_185--;
     Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
@@ -961,7 +960,7 @@ void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
         this->unk_185--;
     } else {
         this->unk_185 = 0x0F;
-        this->updateFunc = &func_80972A04;
+        this->updateFunc = &DemoEffect_UpdateBlueOrbShrink;
     }
 }
 
@@ -1070,7 +1069,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Fire_Ball);
 
             if (fireBall) {
-                fireBall->initUpdateFunc = &func_809729B8;
+                fireBall->initUpdateFunc = &DemoEffect_InitCreationEffect;
                 Actor_SetScale(&fireBall->actor, 0.020f);
             }
         }
@@ -1119,7 +1118,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
                 lightRing = (DemoEffect*)Actor_Spawn(
                     &globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                     this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.posRot.rot.x + 0x4000,
-                    this->actor.posRot.rot.y, this->actor.posRot.rot.z, Demo_Effect_Light_Ring_1);
+                    this->actor.posRot.rot.y, this->actor.posRot.rot.z, Demo_Effect_Light_Ring_Expanding);
 
                 if (lightRing) {
                     Actor_SetScale(&lightRing->actor, 1.0f);
@@ -1497,7 +1496,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     this->unk_18A &= 0xFFFE;
 }
 
-void DemoEffect_UpdateArrow(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
     Vec3f pos, velocity, accel;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->unk_18C] &&
@@ -1902,8 +1901,8 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
 
 void DemoEffect_DrawMedal(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    if (func_809746B4(this, globalCtx, 0x01) == 0x00) {
-        if (func_809746B4(this, globalCtx, 0x04) == 0x00) {
+    if (!func_809746B4(this, globalCtx, 0x01)) {
+        if (!func_809746B4(this, globalCtx, 0x04)) {
             if (!this->unk_185) {
                 this->unk_185 = 0x01;
                 return;
@@ -1946,7 +1945,7 @@ void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     u8 effectType = GET_EFFECT_TYPE(&this->actor);
     GraphicsContext* gfxCtx2 = globalCtx2->state.gfxCtx;
 
-    if (effectType == Demo_Effect_TW_2 || effectType == Demo_Effect_TW_3 || Flags_GetEnv(globalCtx, 0x01) ||
+    if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small || Flags_GetEnv(globalCtx, 0x01) ||
         gSaveContext.sceneSetupIndex >= 0x04 || gSaveContext.entranceIndex == 0x0324) {
         OPEN_DISPS(gfxCtx2, "../z_demo_effect.c", 0x0C81);
         oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x19);

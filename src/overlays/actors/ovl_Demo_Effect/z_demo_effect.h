@@ -39,7 +39,7 @@ typedef enum {
     /* 0x04 */ Demo_Effect_God_Lgt_Din,
     /* 0x05 */ Demo_Effect_God_Lgt_Nayru,
     /* 0x06 */ Demo_Effect_God_Lgt_Farore,
-    /* 0x07 */ Demo_Effect_Light_Ring_1,
+    /* 0x07 */ Demo_Effect_Light_Ring_Expanding,
     /* 0x08 */ Demo_Effect_Triforce_Spot,
     /* 0x09 */ Demo_Effect_Medal_Fire,
     /* 0x0A */ Demo_Effect_Medal_Water,
@@ -47,17 +47,17 @@ typedef enum {
     /* 0x0C */ Demo_Effect_Medal_Spirit,
     /* 0x0D */ Demo_Effect_Medal_Shadow,
     /* 0x0E */ Demo_Effect_Medal_Light,
-    /* 0x0F */ Demo_Effect_TW_1,
-    /* 0x10 */ Demo_Effect_Light_Ring_2,
-    /* 0x11 */ Demo_Effect_Light_Ring_3,
+    /* 0x0F */ Demo_Effect_Timewarp_MasterSword,
+    /* 0x10 */ Demo_Effect_Light_Ring_Shrinking,
+    /* 0x11 */ Demo_Effect_Light_Ring_Triforce,
     /* 0x12 */ Demo_Effect_Light_Effect,
     /* 0x13 */ Demo_Effect_Jewel_Kokiri,
     /* 0x14 */ Demo_Effect_Jewel_Goron,
     /* 0x15 */ Demo_Effect_Jewel_Zora,
-    /* 0x16 */ Demo_Effect_Arrow,
-    /* 0x17 */ Demo_Effect_Unknown, // Object is in GAMEPLAY_KEEP. Used in Zelda's Courtyard.
-    /* 0x18 */ Demo_Effect_TW_2,
-    /* 0x19 */ Demo_Effect_TW_3,
+    /* 0x16 */ Demo_Effect_Dust, // Object is jewel, but this is really the dust in the ToT light arrow cutscene.
+    /* 0x17 */ Demo_Effect_LightArrow,
+    /* 0x18 */ Demo_Effect_Timewarp_Timeblock_Large,
+    /* 0x19 */ Demo_Effect_Timewarp_Timeblock_Small,
     /* 0x1A */ Demo_Effect_Max_Effect_Type
 } Demo_Effect_Effect_Type;
 
