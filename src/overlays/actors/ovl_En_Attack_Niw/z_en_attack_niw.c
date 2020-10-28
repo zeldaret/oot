@@ -359,9 +359,9 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
         cucco = (EnNiw*)this->actor.parent;
         if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
-            (cucco->unk_26A == 0) && (player->invincibilityTimer == 0)) {
+            (cucco->timer9 == 0) && (player->invincibilityTimer == 0)) {
             func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
-            cucco->unk_26A = 0x46;
+            cucco->timer9 = 0x46;
         }
     }
     if (this->unk_25E == 0) {
