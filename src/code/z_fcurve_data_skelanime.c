@@ -135,27 +135,27 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(oGfxCtx->polyOpa.p++,
+                gSPMatrix(POLY_OPA_DISP++,
                           Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 321),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, dList);
+                gSPDisplayList(POLY_OPA_DISP++, dList);
             }
         } else if (lod == 1) {
             s32 pad2;
 
             dList = limb->dList[0];
             if (dList != NULL) {
-                gSPMatrix(oGfxCtx->polyOpa.p++,
+                gSPMatrix(POLY_OPA_DISP++,
                           Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 332),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, dList);
+                gSPDisplayList(POLY_OPA_DISP++, dList);
             }
             dList = limb->dList[1];
             if (dList != NULL) {
-                gSPMatrix(oGfxCtx->polyXlu.p++,
+                gSPMatrix(POLY_XLU_DISP++,
                           Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 338),
                           G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, dList);
+                gSPDisplayList(POLY_XLU_DISP++, dList);
             }
         } else {
             // FcSkeletonInfo_draw_child (): Not supported

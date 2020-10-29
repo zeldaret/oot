@@ -1525,7 +1525,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             alphaScale = this->disappearTimer < 0 ? (this->disappearTimer * (7.0f / 6000.0f)) + 1.0f : 1.0f;
 
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, dListHead);
+            gSPSegment(POLY_XLU_DISP++, 0x08, dListHead);
             gDPPipeSync(dListHead++);
             gDPSetPrimColor(dListHead++, 0, 0x01, (u8)this->innerColor.r, (u8)this->innerColor.g,
                             (u8)this->innerColor.b, (u8)(this->innerColor.a * alphaScale));
@@ -1537,10 +1537,10 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             gSPEndDisplayList(dListHead++);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
+            gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
-            oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                                 EnElf_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
+            POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                                 EnElf_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
         }

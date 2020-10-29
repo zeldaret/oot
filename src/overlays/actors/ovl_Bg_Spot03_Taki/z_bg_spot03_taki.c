@@ -132,30 +132,30 @@ void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gameplayFrames = globalCtx->gameplayFrames;
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 325),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(
-        oGfxCtx->polyXlu.p++, 0x08,
+        POLY_XLU_DISP++, 0x08,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, gameplayFrames * 5, 64, 64, 1, 0, gameplayFrames * 5, 64, 64));
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000B20);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000B20);
 
     if (this->bufferIndex == 0) {
-        gSPVertex(oGfxCtx->polyXlu.p++, D_06000800, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, D_06000800, 25, 0);
     } else {
-        gSPVertex(oGfxCtx->polyXlu.p++, D_06000990, 25, 0);
+        gSPVertex(POLY_XLU_DISP++, D_06000990, 25, 0);
     }
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000BC0);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000BC0);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 1, gameplayFrames * 3, 64, 64, 1,
                                 -gameplayFrames, gameplayFrames * 3, 64, 64));
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06001580);
+    gSPDisplayList(POLY_XLU_DISP++, D_06001580);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot03_taki.c", 358);
 
