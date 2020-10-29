@@ -68,9 +68,6 @@ void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32
 void DemoEffect_MoveTowardTarget(Vec3f targetPos, DemoEffect* this, f32 speed);
 void DemoEffect_MoveMedalCs(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed);
 
-extern TransformUpdateIndex timewarpTransformUpdateIndex;
-extern SkelCurveLimbList timewarpLimbList;
-
 // gameplay_keep
 extern Gfx lightBall[];
 
@@ -92,6 +89,9 @@ extern Gfx lgtShower[];
 extern Vtx triforceLightColumnVertices[];
 extern Vtx timewarpVertices[];
 
+extern TransformUpdateIndex timewarpTransformUpdateIndex;
+extern SkelCurveLimbList timewarpLimbList;
+
 const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
     ACTORTYPE_BG,
@@ -104,10 +104,11 @@ const ActorInit Demo_Effect_InitVars = {
     NULL,
 };
 
-s16 D_80976810[] = { 0x0000, 0x0000 };
+// Code only matches when this is an array, but the second element isn't used. This variable assures only one jewel will play SFX
+s16 sfxJewelId[] = { 0x0000, 0x0000 };
 
 // The object used by the effectType
-s16 effectObject[] = {
+s16 effectTypeObjects[] = {
     /* 0x00 */ OBJECT_EFC_CRYSTAL_LIGHT,
     /* 0x01 */ OBJECT_EFC_FIRE_BALL,
     /* 0x02 */ OBJECT_GAMEPLAY_KEEP,
@@ -136,14 +137,12 @@ s16 effectObject[] = {
     /* 0x19 */ OBJECT_EFC_TW
 };
 
-// TODO: tw indices for DemoEffect_TimewarpShrink
-u8 D_80976848[] = {
+u8 timewarpVertexSizeIndices[] = {
     0x01, 0x01, 0x02, 0x00, 0x01, 0x01, 0x02, 0x00, 0x01, 0x02, 0x00, 0x02,
-    0x01, 0x00, 0x01, 0x00, 0x02, 0x00, 0x02, 0x02, 0x00, 0x00, 0x00, 0x00 // Likely alignment.
+    0x01, 0x00, 0x01, 0x00, 0x02, 0x00, 0x02, 0x02, 0x00
 };
 
-// TODO: jewel softsprite/particle related
-Color_RGB8 D_80976860[5][2] = { { { 0xFF, 0xFF, 0xFF }, { 0x64, 0xFF, 0x00 } },
+Color_RGB8 jewelSparkleColors[5][2] = { { { 0xFF, 0xFF, 0xFF }, { 0x64, 0xFF, 0x00 } },
                                 { { 0xFF, 0xFF, 0xFF }, { 0xC8, 0x00, 0x96 } },
                                 { { 0xFF, 0xFF, 0xFF }, { 0x00, 0x64, 0xFF } },
                                 { { 0x00, 0x00, 0x00 }, { 0x00, 0x00, 0x00 } },
@@ -174,13 +173,13 @@ void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
     } else {
         Actor_SetScale(&this->actor, 0.10f);
     }
-    this->csActionId = 0x01;
+    this->csActionId = 1;
     this->actor.shape.rot.x = 0x4000;
     DemoEffect_InitJewelColor(this);
-    this->unk_vec3s.z = 0x00;
-    this->unk_186 = 0x00;
+    this->unk_vec3s.z = 0;
+    this->unk_186 = 0;
     this->unk_vec3s.x = this->unk_vec3s.y = this->unk_vec3s.z;
-    D_80976810[0x00] = 0x00;
+    sfxJewelId[0] = 0;
 }
 
 void DemoEffect_InitMedal(DemoEffect* this) {
@@ -207,7 +206,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\x1b[36m no = %d\n\x1b[m", effectType);
 
     objectIndex =
-        effectObject[effectType] == 0x01 ? 0x00 : Object_GetIndex(&globalCtx->objectCtx, effectObject[effectType]);
+        effectTypeObjects[effectType] == 0x01 ? 0x00 : Object_GetIndex(&globalCtx->objectCtx, effectTypeObjects[effectType]);
 
     osSyncPrintf("\x1b[36m bank_ID = %d\n\x1b[m", objectIndex);
 
@@ -717,18 +716,18 @@ void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* g
 void DemoEffect_TimewarpShrink(f32 size) {
     Vtx* vertices;
     s32 i;
-    u8 unk[3];
+    u8 sizes[3];
 
     // This function uses the data in obj_efc_tw offset 0x0060 to 0x01B0
     vertices = (Vtx*)SEGMENTED_TO_VIRTUAL(timewarpVertices);
 
-    unk[0] = 0x00;
-    unk[1] = (s32)(202.0f * size);
-    unk[2] = (s32)(255.0f * size);
+    sizes[0] = 0;
+    sizes[1] = (s32)(202.0f * size);
+    sizes[2] = (s32)(255.0f * size);
 
-    for (i = 0; i < 0x15; i++) {
-        if (D_80976848[i]) {
-            (vertices + i)->v.cn[0x03] = unk[D_80976848[i]];
+    for (i = 0; i < 21; i++) {
+        if (timewarpVertexSizeIndices[i]) {
+            (vertices + i)->v.cn[3] = sizes[timewarpVertexSizeIndices[i]];
         }
     }
 }
@@ -1371,38 +1370,38 @@ void DemoEffect_MoveJewelCsActivateDoorOfTime(DemoEffect* this, GlobalContext* g
 }
 
 void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spawnerCount) {
-    Vec3f unkVec1;
-    Vec3f unkVec2;
-    Color_RGBA8 unkColor1;
-    Color_RGBA8 unkColor2;
-    Color_RGB8* ssColourData;
+    Vec3f velocity;
+    Vec3f accel;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
+    Color_RGB8* sparkleColors;
     s32 i;
 
     i = 0;
 
-    unkVec1.y = 0.0f;
+    velocity.y = 0.0f;
 
-    unkVec2.x = 0.0f;
-    unkVec2.y = -0.1f;
-    unkVec2.z = 0.0f;
+    accel.x = 0.0f;
+    accel.y = -0.1f;
+    accel.z = 0.0f;
 
     // TODO: This assignment gives compiler warning
-    ssColourData = &D_80976860[this->unk_184 - Demo_Effect_Jewel_Kokiri];
+    sparkleColors = &jewelSparkleColors[this->unk_184 - Demo_Effect_Jewel_Kokiri];
 
-    unkColor1.r = (ssColourData + 0x00)->r;
-    unkColor1.g = (ssColourData + 0x00)->g;
-    unkColor1.b = (ssColourData + 0x00)->b;
-    unkColor2.r = (ssColourData + 0x01)->r;
-    unkColor2.g = (ssColourData + 0x01)->g;
-    unkColor2.b = (ssColourData + 0x01)->b;
-    unkColor1.a = 0;
+    primColor.r = (sparkleColors + 0)->r;
+    primColor.g = (sparkleColors + 0)->g;
+    primColor.b = (sparkleColors + 0)->b;
+    envColor.r = (sparkleColors + 1)->r;
+    envColor.g = (sparkleColors + 1)->g;
+    envColor.b = (sparkleColors + 1)->b;
+    primColor.a = 0;
 
     while (i < spawnerCount) {
-        unkVec1.x = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
-        unkVec1.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
+        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
 
-        EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &unkVec1, &unkVec2, &unkColor1, &unkColor2,
-                                        0x0BB8, 0x10);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor, &envColor,
+                                        0x0BB8, 16);
 
         i++;
     }
@@ -1410,10 +1409,10 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
 
 void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx) {
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
-        if (this->actor.params == D_80976810[0]) {
+        if (this->actor.params == sfxJewelId[0]) {
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
-        } else if (!D_80976810[0]) {
-            D_80976810[0] = this->actor.params;
+        } else if (!sfxJewelId[0]) {
+            sfxJewelId[0] = this->actor.params;
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
         }
     }
@@ -1818,7 +1817,6 @@ void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
 }
 
 void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
-    // TODO: TRIFORCE DRAW FUNC
     s32 pad1;
     s32 pad2;
     Vtx* vertices;
