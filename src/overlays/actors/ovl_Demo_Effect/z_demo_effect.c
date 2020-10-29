@@ -739,7 +739,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
 
     this->unk_188++;
 
-    if (this->unk_188 >= 0xFB) {
+    if (this->unk_188 > 250) {
         if (gSaveContext.entranceIndex == 0x0324) {
             gSaveContext.eventChkInf[0x0C] |= 0x200;
         }
@@ -748,8 +748,8 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
         return;
     }
 
-    if (this->unk_188 >= 0x65) {
-        shrinkProgress = (0xFA - this->unk_188) * (1.0f / 750.0f);
+    if (this->unk_188 > 100) {
+        shrinkProgress = (250 - this->unk_188) * (1.0f / 750.0f);
         this->actor.scale.x = shrinkProgress;
         this->actor.scale.z = shrinkProgress;
         DemoEffect_TimewarpShrink(shrinkProgress * 5.0f);
@@ -764,8 +764,8 @@ void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalC
 
     this->unk_188++;
 
-    if (this->unk_188 < 0x65) {
-        shrinkProgress = (0x64 - this->unk_188) * 0.010f;
+    if (this->unk_188 <= 100) {
+        shrinkProgress = (100 - this->unk_188) * 0.010f;
         scale = shrinkProgress * 0.14f;
 
         if (GET_EFFECT_TYPE(&this->actor) == Demo_Effect_Timewarp_Timeblock_Small) {
@@ -789,7 +789,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
     if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 60.0f, 59.0f, 0.0f);
         this->updateFunc = &DemoEffect_UpdateTimeWarpTimeblock;
-        this->unk_188 = 0x00;
+        this->unk_188 = 0;
     }
 }
 
