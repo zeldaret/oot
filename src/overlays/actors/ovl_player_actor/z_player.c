@@ -12,6 +12,7 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
@@ -4110,7 +4111,7 @@ void func_808395DC(Player* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
     arg3->z = arg1->z + ((arg2->z * cos) - (arg2->x * sin));
 }
 
-Actor* func_80839680(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3, s32 type) {
+Actor* Player_SpawnFairy(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3, s32 type) {
     Vec3f pos;
 
     func_808395DC(this, arg2, arg3, &pos);
@@ -4891,8 +4892,8 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
     sp24 = (sp30 != NULL) && (((sp30->flags & 0x40001) == 0x40001) || (sp30->naviEnemyId != 0xFF));
 
-    if (sp24 || (this->naviMessageId != 0)) {
-        sp28 = (this->naviMessageId < 0) && ((ABS(this->naviMessageId) & 0xFF00) != 0x200);
+    if (sp24 || (this->naviTextId != 0)) {
+        sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
         if (sp28 || !sp24) {
             sp2C = this->naviActor;
             if (sp28) {
@@ -4934,10 +4935,10 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
                         this->targetActor = NULL;
 
                         if (sp28 || !sp24) {
-                            if (this->naviMessageId >= 0) {
-                                sp2C->textId = this->naviMessageId;
+                            if (this->naviTextId >= 0) {
+                                sp2C->textId = this->naviTextId;
                             } else {
-                                sp2C->textId = -this->naviMessageId;
+                                sp2C->textId = -this->naviTextId;
                             }
                         } else {
                             if (sp2C->naviEnemyId != 0xFF) {
@@ -4978,9 +4979,8 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_664 != NULL) &&
         (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
-    } else if ((this->naviMessageId == 0) && !func_8008E9C4(this) &&
-               CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && (YREG(15) != 0x10) && (YREG(15) != 0x20) &&
-               !func_8083B8F4(this, globalCtx)) {
+    } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
+               (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
         func_80078884(NA_SE_SY_ERROR);
     }
 
@@ -7896,7 +7896,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         }
     } else if (this->unk_84F != 0) {
         this->unk_850 = 60;
-        func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, 5);
+        Player_SpawnFairy(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
         func_800800F8(globalCtx, 0x26B4, 125, &this->actor, 0);
     } else if (globalCtx->unk_10A20 == 2) {
@@ -9164,7 +9164,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (initMode != 0) {
         if ((gSaveContext.gameMode == 0) || (gSaveContext.gameMode == 3)) {
-            this->naviActor = func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_80854778, 0);
+            this->naviActor = Player_SpawnFairy(globalCtx, this, &this->actor.posRot.pos, &D_80854778, FAIRY_NAVI);
             if (gSaveContext.dogParams != 0) {
                 gSaveContext.dogParams |= 0x8000;
             }
@@ -10158,7 +10158,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_8083D6EC(globalCtx, this);
 
-        if ((this->unk_664 == NULL) && (this->naviMessageId == 0)) {
+        if ((this->unk_664 == NULL) && (this->naviTextId == 0)) {
             this->stateFlags2 &= ~0x200002;
         }
 
@@ -10209,7 +10209,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->rideActor = NULL;
         }
 
-        this->naviMessageId = 0;
+        this->naviTextId = 0;
 
         if (!(this->stateFlags2 & 0x2000000)) {
             this->unk_6A8 = NULL;
@@ -11909,9 +11909,9 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
             func_80853148(globalCtx, this->targetActor);
-        } else if (this->naviMessageId < 0) {
+        } else if (this->naviTextId < 0) {
             this->targetActor = this->naviActor;
-            this->naviActor->textId = -this->naviMessageId;
+            this->naviActor->textId = -this->naviTextId;
             func_80853148(globalCtx, this->targetActor);
         } else if (!func_8083B040(this, globalCtx)) {
             func_8083A098(this, &D_04003098, globalCtx);
@@ -12099,7 +12099,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (sp28 & 2) {
-                    func_80087680(globalCtx);
+                    Magic_Fill(globalCtx);
                 }
 
                 if (sp28 & 4) {
@@ -12205,7 +12205,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
     }
 
     if (func_800A4530(&this->skelAnime, 37.0f)) {
-        func_80839680(globalCtx, this, &this->leftHandPos, &D_80854A1C, 1);
+        Player_SpawnFairy(globalCtx, this, &this->leftHandPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         func_8002F7DC(&this->actor, NA_SE_EV_BOTTLE_CAP_OPEN);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);

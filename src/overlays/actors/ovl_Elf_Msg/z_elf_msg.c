@@ -179,8 +179,8 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y)) &&
         (fabsf(player->actor.posRot.pos.z - this->actor.posRot.pos.z) < (100.0f * this->actor.scale.z))) {
-        player->naviMessageId = ElfMsg_GetMessageId(this);
-        navi->unk_298 = &this->actor;
+        player->naviTextId = ElfMsg_GetMessageId(this);
+        navi->elfMsg = this;
     }
 }
 
@@ -195,8 +195,8 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
     if (ElfMsg_WithinXZDistance(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y))) {
-        player->naviMessageId = ElfMsg_GetMessageId(this);
-        navi->unk_298 = &this->actor;
+        player->naviTextId = ElfMsg_GetMessageId(this);
+        navi->elfMsg = this;
     }
 }
 
