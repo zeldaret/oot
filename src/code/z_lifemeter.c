@@ -221,37 +221,37 @@ void Health_Draw(GlobalContext* globalCtx) {
             if (i < fullHeartCount) {
                 if (curColorSet != 0) {
                     curColorSet = 0;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, interfaceCtx->unk_20E[0], interfaceCtx->unk_20E[2],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_20E[0], interfaceCtx->unk_20E[2],
                                     interfaceCtx->unk_20E[4], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, interfaceCtx->unk_21A[0], interfaceCtx->unk_21A[2],
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_21A[0], interfaceCtx->unk_21A[2],
                                    interfaceCtx->unk_21A[4], 0xFF);
                 }
             } else if (i == fullHeartCount) {
                 if (curColorSet != 1) {
                     curColorSet = 1;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, interfaceCtx->unk_202[0], interfaceCtx->unk_202[1],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_202[0], interfaceCtx->unk_202[1],
                                     interfaceCtx->unk_202[2], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, interfaceCtx->unk_208[0], interfaceCtx->unk_208[1],
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_208[0], interfaceCtx->unk_208[1],
                                    interfaceCtx->unk_208[2], 0xFF);
                 }
             } else if (i > fullHeartCount) {
                 if (curColorSet != 2) {
                     curColorSet = 2;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, interfaceCtx->unk_20E[0], interfaceCtx->unk_20E[2],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_20E[0], interfaceCtx->unk_20E[2],
                                     interfaceCtx->unk_20E[4], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, interfaceCtx->unk_21A[0], interfaceCtx->unk_21A[2],
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_21A[0], interfaceCtx->unk_21A[2],
                                    interfaceCtx->unk_21A[4], 0xFF);
                 }
             } else {
                 if (curColorSet != 3) {
                     curColorSet = 3;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, interfaceCtx->unk_20E[1], interfaceCtx->unk_20E[3],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_20E[1], interfaceCtx->unk_20E[3],
                                     interfaceCtx->unk_20E[5], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, interfaceCtx->unk_21A[1], interfaceCtx->unk_21A[3],
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_21A[1], interfaceCtx->unk_21A[3],
                                    interfaceCtx->unk_21A[5], 0xFF);
                 }
             }
@@ -267,34 +267,34 @@ void Health_Draw(GlobalContext* globalCtx) {
             if (i < fullHeartCount) {
                 if (curColorSet != 4) {
                     curColorSet = 4;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, D_8015FDD0[0], D_8015FDD0[1], D_8015FDD0[2],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDD0[0], D_8015FDD0[1], D_8015FDD0[2],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 0xFF);
                 }
             } else if (i == fullHeartCount) {
                 if (curColorSet != 5) {
                     curColorSet = 5;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, D_8015FDC0[0], D_8015FDC0[1], D_8015FDC0[2],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDC0[0], D_8015FDC0[1], D_8015FDC0[2],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, D_8015FDC8[0], D_8015FDC8[1], D_8015FDC8[2], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDC8[0], D_8015FDC8[1], D_8015FDC8[2], 0xFF);
                 }
             } else if (i > fullHeartCount) {
                 if (curColorSet != 6) {
                     curColorSet = 6;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, D_8015FDD0[0], D_8015FDD0[1], D_8015FDD0[2],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDD0[0], D_8015FDD0[1], D_8015FDD0[2],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 0xFF);
                 }
             } else {
                 if (curColorSet != 7) {
                     curColorSet = 7;
-                    gDPPipeSync(oGfxCtx->overlay.p++);
-                    gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, D_8015FDD0[3], D_8015FDD0[4], D_8015FDD0[5],
+                    gDPPipeSync(OVERLAY_DISP++);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDD0[3], D_8015FDD0[4], D_8015FDD0[5],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(oGfxCtx->overlay.p++, D_8015FDE0[3], D_8015FDE0[4], D_8015FDE0[5], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[3], D_8015FDE0[4], D_8015FDE0[5], 0xFF);
                 }
             }
 
@@ -309,7 +309,7 @@ void Health_Draw(GlobalContext* globalCtx) {
 
         if (curBgImgLoaded != heartBgImg) {
             curBgImgLoaded = heartBgImg;
-            gDPLoadTextureBlock(oGfxCtx->overlay.p++, heartBgImg, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0,
+            gDPLoadTextureBlock(OVERLAY_DISP++, heartBgImg, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
         }
@@ -319,7 +319,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                 if (curCombineModeSet != 1) {
                     curCombineModeSet = 1;
                     func_80094520(gfxCtx);
-                    gDPSetCombineLERP(oGfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0,
+                    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0,
                                       PRIMITIVE, 0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                                       0);
                 }
@@ -327,7 +327,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                 if (curCombineModeSet != 3) {
                     curCombineModeSet = 3;
                     func_80094520(gfxCtx);
-                    gDPSetCombineLERP(oGfxCtx->overlay.p++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0,
+                    gDPSetCombineLERP(OVERLAY_DISP++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0,
                                       PRIMITIVE, 0, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
                 }
             }
@@ -339,7 +339,7 @@ void Health_Draw(GlobalContext* globalCtx) {
             temp4 *= 1024.0f;
             temp1 = 8.0f;
             temp1 *= 0.68f;
-            gSPTextureRectangle(oGfxCtx->overlay.p++, (s32)((temp2 - temp1) * 4), (s32)((temp3 - temp1) * 4),
+            gSPTextureRectangle(OVERLAY_DISP++, (s32)((temp2 - temp1) * 4), (s32)((temp3 - temp1) * 4),
                                 (s32)((temp2 + temp1) * 4), (s32)((temp3 + temp1) * 4), G_TX_RENDERTILE, 0, 0,
                                 (s32)temp4, (s32)temp4);
         } else {
@@ -347,7 +347,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                 if (curCombineModeSet != 2) {
                     curCombineModeSet = 2;
                     func_80094A14(gfxCtx);
-                    gDPSetCombineLERP(oGfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0,
+                    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0,
                                       PRIMITIVE, 0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
                                       0);
                 }
@@ -355,7 +355,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                 if (curCombineModeSet != 4) {
                     curCombineModeSet = 4;
                     func_80094A14(gfxCtx);
-                    gDPSetCombineLERP(oGfxCtx->overlay.p++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0,
+                    gDPSetCombineLERP(OVERLAY_DISP++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0,
                                       PRIMITIVE, 0, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
                 }
             }
@@ -364,9 +364,9 @@ void Health_Draw(GlobalContext* globalCtx) {
                 Mtx* matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
                 func_800D2CEC(matrix, 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144),
                               -130.0f + offsetX, 94.5f - offsetY, 0.0f);
-                gSPMatrix(oGfxCtx->overlay.p++, matrix, G_MTX_MODELVIEW | G_MTX_LOAD);
-                gSPVertex(oGfxCtx->overlay.p++, sp154, 4, 0);
-                gSP1Quadrangle(oGfxCtx->overlay.p++, 0, 2, 3, 1, 0);
+                gSPMatrix(OVERLAY_DISP++, matrix, G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPVertex(OVERLAY_DISP++, sp154, 4, 0);
+                gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
             }
         }
 

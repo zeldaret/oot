@@ -669,9 +669,9 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->stateFlags &= ~PUSHBLOCK_MOVE_UNDER;
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(this->texture));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(this->texture));
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (globalCtx->sceneNum) {
@@ -683,13 +683,13 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case SCENE_JYASINZOU:
         case SCENE_HAKADAN:
         case SCENE_MEN:
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->color.r, this->color.g, this->color.b, 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b, 255);
             break;
         default:
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, mREG(13), mREG(14), mREG(15), 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, mREG(13), mREG(14), mREG(15), 255);
             break;
     }
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_05004CD0);
+    gSPDisplayList(POLY_OPA_DISP++, &D_05004CD0);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1334);
 }
