@@ -111,7 +111,7 @@ u8 gSelectedSetting;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
 
-void func_80808F84(FileChooseContext *this) {
+void func_80808F84(FileChooseContext* this) {
     this->nameEntryBoxAlpha += 25;
 
     if (this->nameEntryBoxAlpha >= 255) {
@@ -130,10 +130,119 @@ void func_80808F84(FileChooseContext *this) {
     }
 }
 
+void func_80809038(FileChooseContext* thisx) {
+    FileChooseContext* this = (FileChooseContext*)thisx;
+    s16 prevKbdX;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80809038.s")
+    this->kbdButtonIndex = 99;
 
-void func_8080960C(FileChooseContext *this) {
+    if (this->kbdY != 5) {
+        if (this->stickRelX < -30) {
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            this->charIndex--;
+            this->kbdX--;
+            if (this->kbdX < 0) {
+                this->kbdX = 12;
+                this->charIndex = (this->kbdY * 13) + this->kbdX;
+            }
+        } else if (this->stickRelX > 30) {
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            this->charIndex++;
+            this->kbdX++;
+            if (this->kbdX > 12) {
+                this->kbdX = 0;
+                this->charIndex = (this->kbdY * 13) + this->kbdX;
+            }
+        }
+    } else {
+        if (this->stickRelX < -30) {
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            this->kbdX--;
+            if (this->kbdX < 3) {
+                this->kbdX = 4;
+            }
+        } else if (this->stickRelX > 30) {
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            this->kbdX++;
+            if (this->kbdX > 4) {
+                this->kbdX = 3;
+            }
+        }
+    }
+
+    if (this->stickRelY > 30) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        this->kbdY--;
+
+        if (this->kbdY < 0) {
+            // dont go to bottom row
+            if (this->kbdX < 8) {
+                this->kbdY = 4;
+                this->charIndex = (s32)(this->kbdX + 52);
+            } else {
+                this->kbdY = 5;
+                this->charIndex += 52;
+                prevKbdX = this->kbdX;
+
+                if (this->kbdX < 10) {
+                    this->kbdX = 3;
+                } else if (this->kbdX < 13) {
+                    this->kbdX = 4;
+                }
+
+                this->unk_1CAD6[this->kbdX] = prevKbdX;
+            }
+        } else {
+            this->charIndex -= 13;
+
+            if (this->kbdY == 4) {
+                this->charIndex = 52;
+                this->kbdX = this->unk_1CAD6[this->kbdX];
+                this->charIndex += this->kbdX;
+            }
+        }
+    } else if (this->stickRelY < -30) {
+        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        this->kbdY++;
+
+        if (this->kbdY > 5) {
+            this->kbdY = 0;
+            this->kbdX = this->unk_1CAD6[this->kbdX];
+            this->charIndex = this->kbdX;
+        } else {
+            this->charIndex += 13;
+
+            if (this->kbdY == 5) {
+                if (this->kbdX < 8) {
+                    this->kbdY = 0;
+                    this->charIndex = this->kbdX;
+                } else {
+                    prevKbdX = this->kbdX;
+
+                    if (this->kbdX < 3) {
+                        this->kbdX = 0;
+                    } else if (this->kbdX < 6) {
+                        this->kbdX = 1;
+                    } else if (this->kbdX < 8) {
+                        this->kbdX = 2;
+                    } else if (this->kbdX < 10) {
+                        this->kbdX = 3;
+                    } else if (this->kbdX < 13) {
+                        this->kbdX = 4;
+                    }
+
+                    this->unk_1CAD6[this->kbdX] = prevKbdX;
+                }
+            }
+        }
+    }
+
+    if (this->kbdY == 5) {
+        this->kbdButtonIndex = this->kbdX;
+    }
+}
+
+void func_8080960C(FileChooseContext* this) {
     this->nameEntryBoxAlpha += 25;
 
     if (this->nameEntryBoxAlpha >= 255) {
@@ -177,7 +286,7 @@ void func_8080969C(FileChooseContext* thisx) {
 
         if (gSelectedSetting == SETTING_AUDIO) {
             gSaveContext.audioSetting--;
-            
+
             // because audio setting is unsigned, it cant check for < 0
             if (gSaveContext.audioSetting > 0xF0) {
                 gSaveContext.audioSetting = AUDIO_SURROUND;
@@ -198,7 +307,7 @@ void func_8080969C(FileChooseContext* thisx) {
             gSaveContext.zTargetSetting ^= 1;
         }
     }
-    
+
     if ((this->stickRelY < -30) || (this->stickRelY > 30)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         gSelectedSetting ^= 1;
@@ -211,4 +320,6 @@ void func_8080969C(FileChooseContext* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_808099C8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080AF30.s")
+void func_8080AF30(FileChooseContext* this) {
+    func_808099C8(this);
+}

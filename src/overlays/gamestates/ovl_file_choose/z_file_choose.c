@@ -375,7 +375,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         func_8080E074(this);
     }
 
-    if ((this->configMode >= 32) && (this->configMode < 36)) {
+    if ((this->configMode >= 32) && (this->configMode <= 35)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -402,7 +402,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         func_80808000(this);
     }
 
-    if ((this->configMode >= 36) && (this->configMode < 40)) {
+    if ((this->configMode >= 36) && (this->configMode <= 39)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
