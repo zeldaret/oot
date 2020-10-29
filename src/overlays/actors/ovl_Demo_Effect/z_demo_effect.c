@@ -15,7 +15,7 @@ void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawMedal(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawGetItem(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx);
@@ -26,7 +26,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
 void DemoEffect_InitCreationEffect(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this);
 void DemoEffect_InitJewelColor(DemoEffect* this);
-void DemoEffect_InitMedal(DemoEffect* this);
+void DemoEffect_InitGetItem(DemoEffect* this);
 
 void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCtx);
@@ -37,7 +37,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateLightRingExpanding(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateMedal(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx);
@@ -182,11 +182,11 @@ void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
     sfxJewelId[0] = 0;
 }
 
-void DemoEffect_InitMedal(DemoEffect* this) {
+void DemoEffect_InitGetItem(DemoEffect* this) {
     this->unk_184 = 0x00;
     this->unk_185 = 0x00;
-    this->initDrawFunc = &DemoEffect_DrawMedal;
-    this->initUpdateFunc = &DemoEffect_UpdateMedal;
+    this->initDrawFunc = &DemoEffect_DrawGetItem;
+    this->initUpdateFunc = &DemoEffect_UpdateGetItem;
     Actor_SetScale(&this->actor, 0.25f);
     this->csActionId = 0x06;
 }
@@ -442,37 +442,37 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Medal_Fire:
-            DemoEffect_InitMedal(this);
+            DemoEffect_InitGetItem(this);
             this->unk_186 = 0x0C;
             break;
 
         case Demo_Effect_Medal_Water:
-            DemoEffect_InitMedal(this);
+            DemoEffect_InitGetItem(this);
             this->unk_186 = 0x0D;
             break;
 
         case Demo_Effect_Medal_Forest:
-            DemoEffect_InitMedal(this);
+            DemoEffect_InitGetItem(this);
             this->unk_186 = 0x0B;
             break;
 
         case Demo_Effect_Medal_Spirit:
-            DemoEffect_InitMedal(this);
+            DemoEffect_InitGetItem(this);
             this->unk_186 = 0x0E;
             break;
 
         case Demo_Effect_Medal_Shadow:
-            DemoEffect_InitMedal(this);
+            DemoEffect_InitGetItem(this);
             this->unk_186 = 0x0F;
             break;
 
         case Demo_Effect_Medal_Light:
-            DemoEffect_InitMedal(this);
+            DemoEffect_InitGetItem(this);
             this->unk_186 = 0x10;
             break;
 
         case Demo_Effect_LightArrow:
-            DemoEffect_InitMedal(this);
+            DemoEffect_InitGetItem(this);
             this->unk_186 = 0x61;
             break;
 
@@ -567,43 +567,45 @@ void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
 }
 
 void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 smallSpawner) {
-    // TODO: Variable names
-    Vec3f vec1, vec2, ssPos;
-    Color_RGBA8 color1, color2;
+    Vec3f velocity;
+    Vec3f accel;
+    Vec3f pos;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
 
     if (smallSpawner != 1 || (globalCtx->gameplayFrames & 1) == 0) {
-        color1.r = 0xFF;
-        color1.g = 0xFF;
-        color1.b = 0xFF;
-        color2.r = 0xFF;
-        color2.g = 0xFF;
-        color2.b = 0x64;
+        primColor.r = 0xFF;
+        primColor.g = 0xFF;
+        primColor.b = 0xFF;
+        envColor.r = 0xFF;
+        envColor.g = 0xFF;
+        envColor.b = 0x64;
         // Necessary to set color1.a after color2 to match
-        color1.a = 0x00;
+        primColor.a = 0x00;
 
-        vec1.y = 0.0f;
+        velocity.y = 0.0f;
 
-        vec2.x = 0.0f;
-        vec2.y = -0.1f;
-        vec2.z = 0.0f;
+        accel.x = 0.0f;
+        accel.y = -0.1f;
+        accel.z = 0.0f;
 
         if (smallSpawner) {
-            vec1.x = Math_Rand_ZeroOne() - 0.5f;
-            vec1.z = Math_Rand_ZeroOne() - 0.5f;
+            velocity.x = Math_Rand_ZeroOne() - 0.5f;
+            velocity.z = Math_Rand_ZeroOne() - 0.5f;
         } else {
-            vec1.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-            vec1.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
         }
 
-        ssPos.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-        ssPos.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-        ssPos.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+        pos.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
+        pos.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+        pos.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
 
-        EffectSsKiraKira_SpawnDispersed(globalCtx, &ssPos, &vec1, &vec2, &color1, &color2, 0x03E8, 0x10);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 0x03E8, 0x10);
     }
 }
 
-void DemoEffect_UpdateMedal(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
@@ -1884,7 +1886,7 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C28);
 }
 
-void DemoEffect_DrawMedal(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     if (!DemoEffect_CheckCsAction(this, globalCtx, 0x01)) {
         if (!DemoEffect_CheckCsAction(this, globalCtx, 0x04)) {
