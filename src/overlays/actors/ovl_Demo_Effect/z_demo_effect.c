@@ -30,7 +30,8 @@ void DemoEffect_InitGetItem(DemoEffect* this);
 
 void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx);
@@ -45,7 +46,6 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx);
@@ -233,7 +233,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Blue_Orb:
             this->initDrawFunc = &DemoEffect_DrawBlueOrb;
-            this->initUpdateFunc = &DemoEffect_UpdateBlueOrb;
+            this->initUpdateFunc = &DemoEffect_UpdateBlueOrbGrow;
             this->blueOrb.opacity = 255;
             this->blueOrb.scale = 5;
             this->blueOrb.rotation = 0;
@@ -937,7 +937,7 @@ void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx) 
     }
 }
 
-void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->actor.parent) {
         // s32 cast necessary to match codegen. Without the explicit cast to u32 the compiler generates complex cast of
         // u8 to float
