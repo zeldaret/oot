@@ -14,10 +14,10 @@ typedef struct DemoEffect {
     /* 0x016C */ u8 initObjectBankIndex;
     /* 0x0170 */ Gfx* jewelDisplayList;
     /* 0x0174 */ Gfx* jewelHolderDisplayList;
-    /* 0x178 */ u8 primXluColor[3];
-    /* 0x17B */ u8 envXluColor[3];
-    /* 0x17E */ u8 primOpaColor[3];
-    /* 0x181 */ u8 envOpaColor[3];
+    /* 0x0178 */ u8 primXluColor[3];
+    /* 0x017B */ u8 envXluColor[3];
+    /* 0x017E */ u8 primOpaColor[3];
+    /* 0x0181 */ u8 envOpaColor[3];
     /* 0x0184 */ union {
         struct {
             u8 timer;
