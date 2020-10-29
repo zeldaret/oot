@@ -105,7 +105,7 @@ const ActorInit Demo_Effect_InitVars = {
 };
 
 // Code only matches when this is an array, but the second element isn't used. This variable assures only one jewel will play SFX
-s16 sfxJewelId[] = { 0x0000, 0x0000 };
+s16 sfxJewelId[] = { 0, 0 };
 
 // The object used by the effectType
 s16 effectTypeObjects[] = {
@@ -138,8 +138,8 @@ s16 effectTypeObjects[] = {
 };
 
 u8 timewarpVertexSizeIndices[] = {
-    0x01, 0x01, 0x02, 0x00, 0x01, 0x01, 0x02, 0x00, 0x01, 0x02, 0x00, 0x02,
-    0x01, 0x00, 0x01, 0x00, 0x02, 0x00, 0x02, 0x02, 0x00
+    1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2,
+    1, 0, 1, 0, 2, 0, 2, 2, 0
 };
 
 Color_RGB8 jewelSparkleColors[5][2] = { { { 0xFF, 0xFF, 0xFF }, { 0x64, 0xFF, 0x00 } },
@@ -183,12 +183,12 @@ void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
 }
 
 void DemoEffect_InitGetItem(DemoEffect* this) {
-    this->unk_184 = 0x00;
-    this->unk_185 = 0x00;
+    this->unk_184 = 0;
+    this->unk_185 = 0;
     this->initDrawFunc = &DemoEffect_DrawGetItem;
     this->initUpdateFunc = &DemoEffect_UpdateGetItem;
     Actor_SetScale(&this->actor, 0.25f);
-    this->csActionId = 0x06;
+    this->csActionId = 6;
 }
 
 void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -206,17 +206,17 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\x1b[36m no = %d\n\x1b[m", effectType);
 
     objectIndex =
-        effectTypeObjects[effectType] == 0x01 ? 0x00 : Object_GetIndex(&globalCtx->objectCtx, effectTypeObjects[effectType]);
+        effectTypeObjects[effectType] == 1 ? 0 : Object_GetIndex(&globalCtx->objectCtx, effectTypeObjects[effectType]);
 
     osSyncPrintf("\x1b[36m bank_ID = %d\n\x1b[m", objectIndex);
 
-    if (objectIndex < 0x00) {
-        __assert("0", "../z_demo_effect.c", 0x2D3);
+    if (objectIndex < 0) {
+        __assert("0", "../z_demo_effect.c", 723);
     } else {
         this->initObjectBankIndex = objectIndex;
     }
 
-    this->unk_18A = 0x00;
+    this->unk_18A = 0;
     Actor_SetScale(&this->actor, 0.2f);
 
     switch (effectType) {
@@ -234,9 +234,9 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_Blue_Orb:
             this->initDrawFunc = &DemoEffect_DrawBlueOrb;
             this->initUpdateFunc = &DemoEffect_UpdateBlueOrb;
-            this->unk_184 = 0xFF;
-            this->unk_185 = 0x05;
-            this->unk_188 = 0x00;
+            this->unk_184 = 255;
+            this->unk_185 = 5;
+            this->unk_188 = 0;
             Actor_SetScale(&this->actor, 0.05f);
             this->primXluColor[0] = 0xBC;
             this->primXluColor[1] = 0xFF;
@@ -249,13 +249,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_Light_Effect:
             this->initDrawFunc = &DemoEffect_DrawLightEffect;
             this->initUpdateFunc = &DemoEffect_UpdateLightEffect;
-            this->unk_184 = 0xFF;
-            this->unk_185 = 0x00;
-            this->unk_186 = 0x00;
-            this->unk_188 = 0x00;
+            this->unk_184 = 255;
+            this->unk_185 = 0;
+            this->unk_186 = 0;
+            this->unk_188 = 0;
             // TODO: lightEffect enums
             switch (lightEffect) {
-                case 0x00:
+                case 0:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -264,7 +264,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 0x01:
+                case 1:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -273,7 +273,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0xFF;
                     break;
 
-                case 0x02:
+                case 2:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -282,7 +282,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 0x03:
+                case 3:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -291,7 +291,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 0x04:
+                case 4:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -300,7 +300,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 0x05:
+                case 5:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -310,7 +310,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0xFF;
                     break;
 
-                case 0x06:
+                case 6:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -319,12 +319,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
             }
-            this->csActionId = 0x07;
+            this->csActionId = 7;
             Actor_SetScale(thisx, 0.0f);
             break;
 
         case Demo_Effect_Lgt_Shower:
-            this->unk_184 = 0xFF;
+            this->unk_184 = 255;
             this->initDrawFunc = &DemoEffect_DrawLgtShower;
             this->initUpdateFunc = &DemoEffect_UpdateLgtShower;
             break;
@@ -338,10 +338,10 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[0] = 0xFF;
             this->envXluColor[2] = 0xFF;
             this->envXluColor[1] = 0x00;
-            this->unk_184 = 0x00;
-            this->unk_186 = 0x00;
+            this->unk_184 = 0;
+            this->unk_186 = 0;
             this->initUpdateFunc = &DemoEffect_UpdateGodLgtDin;
-            this->csActionId = 0x00;
+            this->csActionId = 0;
             break;
 
         case Demo_Effect_God_Lgt_Nayru:
@@ -357,16 +357,16 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 0x28;
             this->envXluColor[2] = 0xFF;
             this->envXluColor[0] = 0x00;
-            this->unk_184 = 0x01;
-            this->unk_185 = 0x04;
-            this->unk_186 = 0x00;
-            this->unk_188 = 0x00;
+            this->unk_184 = 1;
+            this->unk_185 = 4;
+            this->unk_186 = 0;
+            this->unk_188 = 0;
             this->initUpdateFunc = &DemoEffect_UpdateGodLgtNayru;
-            this->csActionId = 0x01;
+            this->csActionId = 1;
             break;
 
         case Demo_Effect_God_Lgt_Farore:
-            if (gSaveContext.entranceIndex == 0xEE) {
+            if (gSaveContext.entranceIndex == 0x00EE) {
                 Actor_SetScale(&this->actor, 2.4f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -378,52 +378,52 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 0xC8;
             this->envXluColor[0] = 0x00;
             this->envXluColor[2] = 0x00;
-            this->unk_184 = 0x02;
-            this->unk_186 = 0x00;
+            this->unk_184 = 2;
+            this->unk_186 = 0;
             this->initUpdateFunc = &DemoEffect_UpdateGodLgtFarore;
-            this->csActionId = 0x02;
+            this->csActionId = 2;
             break;
 
         case Demo_Effect_Light_Ring_Expanding:
             this->initDrawFunc = &DemoEffect_DrawLightRing;
             this->initUpdateFunc = &DemoEffect_UpdateLightRingExpanding;
-            this->unk_188 = 0x14;
-            this->unk_184 = 0x04;
-            this->unk_185 = 0xFF;
+            this->unk_188 = 20;
+            this->unk_184 = 4;
+            this->unk_185 = 255;
             break;
 
         case Demo_Effect_Light_Ring_Triforce:
             this->initDrawFunc = &DemoEffect_DrawLightRing;
             this->initUpdateFunc = &DemoEffect_UpdateLightRingTriforce;
-            this->unk_188 = 0x14;
-            this->unk_184 = 0x04;
-            this->unk_185 = 0x00;
-            this->csActionId = 0x04;
+            this->unk_188 = 20;
+            this->unk_184 = 4;
+            this->unk_185 = 0;
+            this->csActionId = 4;
             break;
 
         case Demo_Effect_Light_Ring_Shrinking:
             this->initDrawFunc = &DemoEffect_DrawLightRing;
             this->initUpdateFunc = &DemoEffect_UpdateLightRingShrinking;
-            this->unk_188 = 0x015F;
-            this->unk_184 = 0x02;
-            this->unk_185 = 0x00;
+            this->unk_188 = 351;
+            this->unk_184 = 2;
+            this->unk_185 = 0;
             break;
 
         case Demo_Effect_Triforce_Spot:
             this->initDrawFunc = &DemoEffect_DrawTriforceSpot;
             this->initUpdateFunc = &DemoEffect_UpdateTriforceSpot;
-            this->unk_186 = 0x00;
-            this->unk_185 = 0x00;
-            this->unk_184 = 0x00;
-            this->unk_188 = 0x00;
-            this->primXluColor[0] = 0x00;
-            this->csActionId = 0x03;
+            this->unk_186 = 0;
+            this->unk_185 = 0;
+            this->unk_184 = 0;
+            this->unk_188 = 0;
+            this->primXluColor[0] = 0;
+            this->csActionId = 3;
 
             Actor_SetScale(&this->actor, 0.020f);
 
             crystalLight = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT,
                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                           0x00, 0x00, 0x00, Demo_Effect_Crystal_Light);
+                                           0, 0, 0, Demo_Effect_Crystal_Light);
 
             if (crystalLight) {
                 Actor_SetScale(&crystalLight->actor, 0.6f);
@@ -434,7 +434,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             lightRing = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, &crystalLight->actor, globalCtx, ACTOR_DEMO_EFFECT,
                                            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                           0x00, 0x00, 0x00, Demo_Effect_Light_Ring_Triforce);
+                                           0, 0, 0, Demo_Effect_Light_Ring_Triforce);
 
             if (lightRing) {
                 Actor_SetScale(&lightRing->actor, 0.4f);
@@ -443,37 +443,37 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Medal_Fire:
             DemoEffect_InitGetItem(this);
-            this->unk_186 = 0x0C;
+            this->unk_186 = 12;
             break;
 
         case Demo_Effect_Medal_Water:
             DemoEffect_InitGetItem(this);
-            this->unk_186 = 0x0D;
+            this->unk_186 = 13;
             break;
 
         case Demo_Effect_Medal_Forest:
             DemoEffect_InitGetItem(this);
-            this->unk_186 = 0x0B;
+            this->unk_186 = 11;
             break;
 
         case Demo_Effect_Medal_Spirit:
             DemoEffect_InitGetItem(this);
-            this->unk_186 = 0x0E;
+            this->unk_186 = 14;
             break;
 
         case Demo_Effect_Medal_Shadow:
             DemoEffect_InitGetItem(this);
-            this->unk_186 = 0x0F;
+            this->unk_186 = 15;
             break;
 
         case Demo_Effect_Medal_Light:
             DemoEffect_InitGetItem(this);
-            this->unk_186 = 0x10;
+            this->unk_186 = 16;
             break;
 
         case Demo_Effect_LightArrow:
             DemoEffect_InitGetItem(this);
-            this->unk_186 = 0x61;
+            this->unk_186 = 97;
             break;
 
         case Demo_Effect_Timewarp_Timeblock_Large:
@@ -486,30 +486,30 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 0x64;
             this->envXluColor[2] = 0xFF;
             SkelCurve_Clear(&this->skelCurve);
-            this->unk_188 = 0x00;
+            this->unk_188 = 0;
             break;
 
         case Demo_Effect_Jewel_Kokiri:
             this->jewelDisplayList = kokiriJewel;
             this->jewelHolderDisplayList = kokiriJewelHolder;
-            this->unk_184 = 0x13;
-            this->unk_185 = 0x00;
+            this->unk_184 = 19;
+            this->unk_185 = 0;
             DemoEffect_InitJewel(globalCtx, this);
             break;
 
         case Demo_Effect_Jewel_Goron:
             this->jewelDisplayList = goronJewel;
             this->jewelHolderDisplayList = goronJewelHolder;
-            this->unk_184 = 0x14;
-            this->unk_185 = 0x00;
+            this->unk_184 = 20;
+            this->unk_185 = 0;
             DemoEffect_InitJewel(globalCtx, this);
             break;
 
         case Demo_Effect_Jewel_Zora:
             this->jewelDisplayList = zoraJewel;
             this->jewelHolderDisplayList = zoraJewelHolder;
-            this->unk_184 = 0x15;
-            this->unk_185 = 0x00;
+            this->unk_184 = 21;
+            this->unk_185 = 0;
             DemoEffect_InitJewel(globalCtx, this);
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
             if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & 0x20)) {
@@ -521,12 +521,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_Dust:
             this->initDrawFunc = NULL;
             this->initUpdateFunc = &DemoEffect_UpdateDust;
-            this->unk_184 = 0x00;
-            this->csActionId = 0x02;
+            this->unk_184 = 0;
+            this->csActionId = 2;
             break;
 
         default:
-            __assert("0", "../z_demo_effect.c", 0x0426);
+            __assert("0", "../z_demo_effect.c", 1062);
             break;
     }
 
@@ -580,8 +580,8 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 sma
         envColor.r = 0xFF;
         envColor.g = 0xFF;
         envColor.b = 0x64;
-        // Necessary to set color1.a after color2 to match
         primColor.a = 0x00;
+        // Necessary to set color1.a after color2 to match
 
         velocity.y = 0.0f;
 
@@ -613,51 +613,51 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
             DemoEffect_MoveMedalCs(this, globalCtx, this->csActionId, 0.1f);
         } else {
             DemoEffect_UpdatePositionFromCsAction(this, globalCtx, this->csActionId);
-            this->unk_184 = 0x01;
+            this->unk_184 = 1;
         }
 
-        if (this->unk_186 != 0x61) {
+        if (this->unk_186 != 97) {
             this->actor.shape.rot.x = -0x1F40;
         } else {
-            this->actor.shape.rot.y += 0x400;
+            this->actor.shape.rot.y += 0x0400;
         }
 
         Actor_SetScale(thisx, 0.20f);
 
-        if (gSaveContext.entranceIndex == 0x53) {
+        if (gSaveContext.entranceIndex == 0x0053) {
             switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
-                case 0x02:
-                    DemoEffect_MedalSparkle(this, globalCtx, 0x00);
+                case 2:
+                    DemoEffect_MedalSparkle(this, globalCtx, 0);
                     break;
-                case 0x03:
+                case 3:
                     DemoEffect_MedalSparkle(this, globalCtx, 0x01);
                     break;
             }
         }
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
-            case 0x02:
-                if (gSaveContext.entranceIndex == 0x53) {
+            case 2:
+                if (gSaveContext.entranceIndex == 0x0053) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
                 }
-                if (this->unk_186 != 0x61) {
+                if (this->unk_186 != 97) {
                     this->actor.shape.rot.y += 0x3E80;
                 }
-                this->unk_188 = 0x3E80;
+                this->unk_188 = 16000;
                 break;
-            case 0x03:
-                this->unk_188 -= (s16)((f32)(this->unk_188 - 0x3E8) * 0.10f);
-                if (this->unk_186 != 0x61) {
+            case 3:
+                this->unk_188 -= (s16)((f32)(this->unk_188 - 1000) * 0.10f);
+                if (this->unk_186 != 97) {
                     this->actor.shape.rot.y += this->unk_188;
                 }
-                if (gSaveContext.entranceIndex == 0x53) {
+                if (gSaveContext.entranceIndex == 0x0053) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
                 }
                 break;
-            case 0x04:
+            case 4:
                 Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
                 break;
         }
@@ -668,7 +668,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     s32 effectType = GET_EFFECT_TYPE(&this->actor);
 
     if (!SkelCurve_Init(globalCtx, &this->skelCurve, &timewarpLimbList, &timewarpTransformUpdateIndex)) {
-        __assert("0", "../z_demo_effect.c", 0x0503);
+        __assert("0", "../z_demo_effect.c", 1283);
     }
 
     if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small) {
@@ -686,7 +686,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
-        (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[0x0C] & 0x0200)))) {
+        (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & 512)))) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = &DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -703,10 +703,10 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
 }
 
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx) {
-    if (Flags_GetEnv(globalCtx, 0x01)) {
-        if (!(this->unk_18A & 0x02)) {
-            func_800F3F3C(0x00);
-            this->unk_18A |= 0x02;
+    if (Flags_GetEnv(globalCtx, 1)) {
+        if (!(this->unk_18A & 2)) {
+            func_800F3F3C(0);
+            this->unk_18A |= 2;
         }
 
         if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
@@ -741,7 +741,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
 
     if (this->unk_188 > 250) {
         if (gSaveContext.entranceIndex == 0x0324) {
-            gSaveContext.eventChkInf[0x0C] |= 0x200;
+            gSaveContext.eventChkInf[12] |= 512;
         }
 
         Actor_Kill(&this->actor);
@@ -794,34 +794,34 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
 }
 
 void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
-    this->unk_188 += 0x03E8;
+    this->unk_188 += 1000;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
-        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0x00);
+        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
 
-        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 0x02) {
-            if (this->primXluColor[0] < 0x8C) {
+        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
+            if (this->primXluColor[0] < 140) {
                 this->primXluColor[0]++;
             }
 
-            if (this->primXluColor[0] < 0x1E) {
+            if (this->primXluColor[0] < 30) {
                 this->unk_184 = ((s32)this->primXluColor[0]) * 8.5f;
             } else {
-                this->unk_184 = 0xFF;
+                this->unk_184 = 255;
 
                 if (this->primXluColor[0] < 0x3C) {
                     this->unk_185 = (((s32)this->primXluColor[0]) - 0x1E) * 8.5f;
                 } else {
                     if (this->primXluColor[0] < 0x8D) {
-                        this->unk_185 = 0xFF;
+                        this->unk_185 = 255;
                         this->unk_186 = (((s32)this->primXluColor[0]) - 0x3C) * 3.1875f;
                     }
                 }
             }
         }
 
-        if (gSaveContext.entranceIndex == 0xA0 && gSaveContext.sceneSetupIndex == 0x06 &&
-            globalCtx->csCtx.frames == 0x8F) {
+        if (gSaveContext.entranceIndex == 0x00A0 && gSaveContext.sceneSetupIndex == 6 &&
+            globalCtx->csCtx.frames == 143) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
     }
@@ -830,21 +830,21 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->unk_188 < this->unk_184) {
         Actor_Kill(&this->actor);
-        this->unk_188 = 0x00;
+        this->unk_188 = 0;
     } else {
         this->unk_188 -= this->unk_184;
     }
 
-    if (this->unk_188 < 0x0100) {
-        if (this->unk_188 >= 0xE1) {
-            this->unk_185 = (-this->unk_188 * 0x08) + 0x800;
+    if (this->unk_188 < 256) {
+        if (this->unk_188 >= 225) {
+            this->unk_185 = (-this->unk_188 * 8) + 2048;
         } else {
-            this->unk_185 = 0xFF;
+            this->unk_185 = 255;
         }
     }
 
-    if (this->unk_188 == 0xFF) {
-        func_800F3F3C(0x05);
+    if (this->unk_188 == 255) {
+        func_800F3F3C(5);
     }
 }
 
@@ -852,13 +852,13 @@ void DemoEffect_UpdateLightRingExpanding(DemoEffect* this, GlobalContext* global
     DemoEffect_UpdatePositionToParent(this, globalCtx);
     this->unk_188 += this->unk_184;
 
-    if (this->unk_188 >= 0xE1) {
-        this->unk_185 = (-this->unk_188 * 0x08) + 0x0800;
+    if (this->unk_188 >= 225) {
+        this->unk_185 = (-this->unk_188 * 8) + 2048;
     }
-    if (this->unk_188 >= 0x0100) {
-        this->unk_188 = 0xFF;
+    if (this->unk_188 > 255) {
+        this->unk_188 = 255;
         Actor_Kill(&this->actor);
-        this->unk_188 = 0x00;
+        this->unk_188 = 0;
     }
 }
 
@@ -868,17 +868,17 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
     DemoEffect_UpdatePositionToParent(this, globalCtx);
 
     if (globalCtx->csCtx.state) {
-        if (globalCtx->csCtx.npcActions[this->csActionId] && globalCtx->csCtx.npcActions[this->csActionId]->action == 0x02) {
+        if (globalCtx->csCtx.npcActions[this->csActionId] && globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
             blueOrb = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT,
                                                this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                               this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Blue_Orb);
+                                               this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Blue_Orb);
 
             if (blueOrb) {
                 Actor_SetScale(&blueOrb->actor, 0.0f);
             }
 
             this->updateFunc = &DemoEffect_UpdateLightRingExpanding;
-            this->unk_185 = 0xFF;
+            this->unk_185 = 255;
         }
     }
 }
@@ -895,21 +895,21 @@ void DemoEffect_UpdateCreationEffect(DemoEffect* this, GlobalContext* globalCtx)
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
+                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                       Demo_Effect_Blue_Orb);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.0f);
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
+                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                       Demo_Effect_Light_Ring_Expanding);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.1f);
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00,
+                                      this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                       Demo_Effect_Light_Ring_Shrinking);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.2f);
@@ -923,7 +923,7 @@ void DemoEffect_InitCreationEffect(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* parent = this->actor.parent;
 
     this->actor.posRot.rot.y = parent->shape.rot.y;
-    this->unk_184 = 0x32;
+    this->unk_184 = 50;
     this->actor.speedXZ = 1.5f;
     this->actor.minVelocityY = -1.5f;
     this->actor.gravity = -0.03f;
@@ -931,7 +931,7 @@ void DemoEffect_InitCreationEffect(DemoEffect* this, GlobalContext* globalCtx) {
 }
 
 void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx) {
-    this->unk_184 = this->unk_185 << 0x04;
+    this->unk_184 = this->unk_185 * 16;
     this->unk_185--;
     Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
     if (!this->unk_185) {
@@ -951,23 +951,23 @@ void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->unk_185) {
         this->unk_185--;
     } else {
-        this->unk_185 = 0x0F;
+        this->unk_185 = 15;
         this->updateFunc = &DemoEffect_UpdateBlueOrbShrink;
     }
 }
 
 void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     u16 action;
-    s32 unkParam;
+    s32 sizeParam;
 
-    unkParam = GET_LIGHT_EFFECT_SIZE_PARAM(&this->actor);
+    sizeParam = GET_LIGHT_EFFECT_SIZE_PARAM(&this->actor);
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
-        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0x00);
+        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
-            case 0x02:
-                if (this->unk_188 < 0xF0) {
-                    if (!unkParam) {
+            case 2:
+                if (this->unk_188 < 240) {
+                    if (!sizeParam) {
                         if (this->actor.scale.x < 0.23f) {
                             this->actor.scale.x += 0.001f;
                             Actor_SetScale(&this->actor, this->actor.scale.x);
@@ -979,11 +979,11 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                         }
                     }
                 }
-                this->unk_188 += 0x06;
-                this->unk_185 += 0x01;
+                this->unk_188 += 6;
+                this->unk_185 += 1;
                 break;
 
-            case 0x03:
+            case 3:
                 Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0f, 0.1f, 0.1f, 0.005f);
                 Actor_SetScale(&this->actor, this->actor.scale.x);
                 break;
@@ -992,16 +992,16 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        if (globalCtx->sceneNum == SCENE_SPOT04 && gSaveContext.sceneSetupIndex == 0x06 &&
-            globalCtx->csCtx.frames == 0xC5) {
+        if (globalCtx->sceneNum == SCENE_SPOT04 && gSaveContext.sceneSetupIndex == 6 &&
+            globalCtx->csCtx.frames == 197) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
         }
 
-        if (globalCtx->sceneNum == SCENE_SPOT16 && gSaveContext.sceneSetupIndex == 0x05) {
-            if (DemoEffect_CheckCsAction(this, globalCtx, 0x01) == 0x00) {
+        if (globalCtx->sceneNum == SCENE_SPOT16 && gSaveContext.sceneSetupIndex == 5) {
+            if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
-            if (globalCtx->csCtx.frames == 0x0280) {
+            if (globalCtx->csCtx.frames == 640) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
             }
 
@@ -1009,11 +1009,11 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
             if (0) {}
         }
 
-        if (globalCtx->sceneNum == SCENE_SPOT08 && gSaveContext.sceneSetupIndex == 0x04) {
-            if (DemoEffect_CheckCsAction(this, globalCtx, 0x01) == 0x00) {
+        if (globalCtx->sceneNum == SCENE_SPOT08 && gSaveContext.sceneSetupIndex == 4) {
+            if (DemoEffect_CheckCsAction(this, globalCtx, 1) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
-            if (globalCtx->csCtx.frames == 0x0288) {
+            if (globalCtx->csCtx.frames == 648) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
             }
 
@@ -1021,17 +1021,17 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
             if (0) {}
         }
 
-        if (globalCtx->sceneNum == SCENE_TOKINOMA && gSaveContext.sceneSetupIndex == 0x0E) {
+        if (globalCtx->sceneNum == SCENE_TOKINOMA && gSaveContext.sceneSetupIndex == 14) {
             // do {} while(0) necessary to match
             do {
-                if (globalCtx->csCtx.npcActions[this->csActionId]->action == 0x02) {
+                if (globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
                 }
             } while (0);
         }
 
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI || globalCtx->sceneNum == SCENE_YOUSEI_IZUMI_YOKO) {
-            if (globalCtx->csCtx.npcActions[this->csActionId]->action == 0x02) {
+            if (globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
         }
@@ -1039,8 +1039,8 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
 }
 
 void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
-    if (this->unk_184 >= 0x04) {
-        this->unk_184 -= 0x03;
+    if (this->unk_184 > 3) {
+        this->unk_184 -= 3;
         this->actor.scale.x *= 1.05f;
         this->actor.scale.y *= 1.05f;
         this->actor.scale.z *= 1.05f;
@@ -1053,12 +1053,12 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* fireBall;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
-        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0x01);
+        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
-        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 0x03) {
+        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
             fireBall = (DemoEffect*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Fire_Ball);
+                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Fire_Ball);
 
             if (fireBall) {
                 fireBall->initUpdateFunc = &DemoEffect_InitCreationEffect;
@@ -1066,25 +1066,25 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0xA0) {
+        if (gSaveContext.entranceIndex == 0x00A0) {
             switch (gSaveContext.sceneSetupIndex) {
-                case 0x04:
-                    if (globalCtx->csCtx.frames == 0x0120) {
+                case 4:
+                    if (globalCtx->csCtx.frames == 288) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
-                    if (globalCtx->csCtx.frames == 0x027B) {
+                    if (globalCtx->csCtx.frames == 635) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
-                case 0x06:
-                    if (globalCtx->csCtx.frames == 0x37) {
+                case 6:
+                    if (globalCtx->csCtx.frames == 55) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
-                case 0x0B:
-                    if (globalCtx->csCtx.frames == 0x015E) {
+                case 11:
+                    if (globalCtx->csCtx.frames == 350) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1100,9 +1100,9 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lightRing;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
-        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0x01);
+        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
-        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 0x03) {
+        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
             if (this->unk_188) {
                 this->unk_188--;
             } else {
@@ -1118,22 +1118,22 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0xA0) {
+        if (gSaveContext.entranceIndex == 0x00A0) {
             switch (gSaveContext.sceneSetupIndex) {
-                case 0x04:
-                    if (globalCtx->csCtx.frames == 0x012A) {
+                case 4:
+                    if (globalCtx->csCtx.frames == 298) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
-                case 0x06:
-                    if (globalCtx->csCtx.frames == 0x69) {
+                case 6:
+                    if (globalCtx->csCtx.frames == 105) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
-                case 0x0B:
-                    if (globalCtx->csCtx.frames == 0x0168) {
+                case 11:
+                    if (globalCtx->csCtx.frames == 360) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1143,12 +1143,12 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x013D && gSaveContext.sceneSetupIndex == 0x04) {
-            if (globalCtx->csCtx.frames == 0x48) {
+        if (gSaveContext.entranceIndex == 0x013D && gSaveContext.sceneSetupIndex == 4) {
+            if (globalCtx->csCtx.frames == 72) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
-            if (globalCtx->csCtx.frames == 0x50) {
-                func_800F3F3C(0x04);
+            if (globalCtx->csCtx.frames == 80) {
+                func_800F3F3C(4);
             }
         }
     }
@@ -1158,12 +1158,12 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lgtShower;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
-        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0x01);
+        DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
-        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 0x03) {
+        if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
             lgtShower = (DemoEffect*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y - 150.0f, this->actor.posRot.pos.z, 0x00, 0x00, 0x00, Demo_Effect_Lgt_Shower);
+                this->actor.posRot.pos.y - 150.0f, this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Lgt_Shower);
 
             if (lgtShower) {
                 lgtShower->actor.scale.x = 0.23f;
@@ -1172,25 +1172,25 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
             }
 
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
-            func_800F3F3C(0x03);
+            func_800F3F3C(3);
         }
 
-        if (gSaveContext.entranceIndex == 0xA0) {
+        if (gSaveContext.entranceIndex == 0x00A0) {
             switch (gSaveContext.sceneSetupIndex) {
-                case 0x04:
-                    if (globalCtx->csCtx.frames == 0x013B) {
+                case 4:
+                    if (globalCtx->csCtx.frames == 315) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_PASS);
                     }
                     break;
 
-                case 0x06:
-                    if (globalCtx->csCtx.frames == 0x50) {
+                case 6:
+                    if (globalCtx->csCtx.frames == 80) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
 
-                case 0x0B:
-                    if (globalCtx->csCtx.frames == 0x0172) {
+                case 11:
+                    if (globalCtx->csCtx.frames == 370) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
@@ -1213,9 +1213,8 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
     u8 unk_17F;
     u8 unk_183;
 
-    // TODO: Needs enums in the switch
     switch (unk_184) {
-        case 0x13:
+        case Demo_Effect_Jewel_Kokiri:
             this->primXluColor[2] = 0xA0;
             this->primXluColor[0] = 0xFF;
             this->primXluColor[1] = 0xFF;
@@ -1230,7 +1229,7 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
             this->envOpaColor[2] = 0x00;
             break;
 
-        case 0x14:
+        case Demo_Effect_Jewel_Goron:
             this->primXluColor[1] = 0xAA;
             this->primXluColor[0] = 0xFF;
             this->primXluColor[2] = 0xFF;
@@ -1245,7 +1244,7 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
             this->envOpaColor[2] = 0x00;
             break;
 
-        case 0x15:
+        case Demo_Effect_Jewel_Zora:
             this->primXluColor[0] = 0x32;
             this->primXluColor[1] = 0xFF;
             this->primXluColor[2] = 0xFF;
@@ -1305,19 +1304,19 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
 
     distance = frameDivisor * sqrtf(SQ(endPos.x - startPos.x) + SQ(endPos.y - startPos.y) + SQ(endPos.z - startPos.z));
 
-    this->actor.posRot.pos.x = radius * cosf(degrees * (M_PI / 180));
+    this->actor.posRot.pos.x = radius * cosf(degrees * (M_PI / 180.0f));
     this->actor.posRot.pos.y = distance;
-    this->actor.posRot.pos.z = radius * sinf(degrees * (M_PI / 180));
+    this->actor.posRot.pos.z = radius * sinf(degrees * (M_PI / 180.0f));
 
     xPos = this->actor.posRot.pos.x;
-    unk_3 = (this->actor.posRot.pos.y * cosf(arg5.x * (M_PI / 32768))) -
+    unk_3 = (this->actor.posRot.pos.y * cosf(arg5.x * (M_PI / 32768.0f))) -
             (sinf(arg5.x * (M_PI / 32768)) * this->actor.posRot.pos.z);
-    unk_4 = (this->actor.posRot.pos.z * cosf(arg5.x * (M_PI / 32768))) +
+    unk_4 = (this->actor.posRot.pos.z * cosf(arg5.x * (M_PI / 32768.0f))) +
             (sinf(arg5.x * (M_PI / 32768)) * this->actor.posRot.pos.y);
 
-    this->actor.posRot.pos.x = (xPos * cosf(arg5.y * (M_PI / 32768))) - (sinf(arg5.y * (M_PI / 32768)) * unk_4);
+    this->actor.posRot.pos.x = (xPos * cosf(arg5.y * (M_PI / 32768.0f))) - (sinf(arg5.y * (M_PI / 32768.0f)) * unk_4);
     this->actor.posRot.pos.y = unk_3;
-    this->actor.posRot.pos.z = (unk_4 * cosf(arg5.y * (M_PI / 32768))) + (sinf(arg5.y * (M_PI / 32768)) * xPos);
+    this->actor.posRot.pos.z = (unk_4 * cosf(arg5.y * (M_PI / 32768.0f))) + (sinf(arg5.y * (M_PI / 32768.0f)) * xPos);
 
     this->actor.posRot.pos.x += startPos.x;
     this->actor.posRot.pos.y += startPos.y;
@@ -1403,7 +1402,7 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor, &envColor,
-                                        0x0BB8, 16);
+                                        3000, 16);
 
         i++;
     }
@@ -1435,42 +1434,42 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
-            case 0x03:
-                if (gSaveContext.eventChkInf[4] & 0x0800) {
-                    gSaveContext.eventChkInf[4] |= 0x0800;
+            case 3:
+                if (gSaveContext.eventChkInf[4] & 2048) {
+                    gSaveContext.eventChkInf[4] |= 2048;
                 }
                 DemoEffect_MoveJewelCsActivateDoorOfTime(this, globalCtx);
-                if ((globalCtx->gameplayFrames & 0x01) == 0x00) {
-                    DemoEffect_JewelSparkle(this, globalCtx, 0x01);
+                if (!(globalCtx->gameplayFrames & 1)) {
+                    DemoEffect_JewelSparkle(this, globalCtx, 1);
                 }
                 break;
-            case 0x04:
+            case 4:
                 if (this->unk_185) {
-                    DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0x00);
+                    DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
                     DemoEffect_MoveJewelCs(&thisx->posRot, this);
-                    if (!(globalCtx->gameplayFrames & 0x01)) {
-                        DemoEffect_JewelSparkle(this, globalCtx, 0x01);
+                    if (!(globalCtx->gameplayFrames & 1)) {
+                        DemoEffect_JewelSparkle(this, globalCtx, 1);
                     }
                 } else {
                     DemoEffect_UpdatePositionFromCsAction(this, globalCtx, this->csActionId);
                     DemoEffect_MoveJewelCs(&thisx->posRot, this);
-                    this->unk_185 = 0x01;
+                    this->unk_185 = 1;
                 }
                 break;
-            case 0x06:
+            case 6:
                 Actor_Kill(thisx);
                 return;
             default:
-                DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0x00);
-                if (gSaveContext.entranceIndex == 0x53) {
+                DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
+                if (gSaveContext.entranceIndex == 0x0053) {
                     DemoEffect_MoveJewelCs(&thisx->posRot, this);
                 }
                 break;
         }
     }
 
-    if (gSaveContext.entranceIndex == 0x53) {
-        if ((gSaveContext.eventChkInf[4] & 0x800) == 0x00) {
+    if (gSaveContext.entranceIndex == 0x0053) {
+        if (!(gSaveContext.eventChkInf[4] & 2048)) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
                 this->unk_18A |= 1;
@@ -1481,7 +1480,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
 
     thisx->shape.rot.y += 0x0400;
     DemoEffect_PlayJewelSfx(this, globalCtx);
-    this->unk_18A &= 0xFFFE;
+    this->unk_18A &= 65534;
 }
 
 void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1503,7 +1502,7 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
         accel.x = 0.0f;
         accel.y = 0.2f;
 
-        func_8002873C(globalCtx, &pos, &velocity, &accel, 0x012C, 0x00, 0x1E);
+        func_8002873C(globalCtx, &pos, &velocity, &accel, 300, 0, 30);
 
         this->unk_184++;
     }
@@ -1528,60 +1527,60 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2;
     u32 scroll = this->unk_188;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x09EF);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2543);
 
-    if (!DemoEffect_CheckCsAction(this, globalCtx, 0x01)) {
+    if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
         // Necessary to match
         if (1) {}
 
-        if (!(this->unk_18A & 0x01)) {
+        if (!(this->unk_18A & 1)) {
             globalCtx2 = globalCtx;
 
             switch (this->unk_184) {
                 case Demo_Effect_Jewel_Kokiri:
-                    gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
-                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0x00, (scroll * 0x04) % 0x0100,
-                                                (0x0100 - ((scroll * 0x02) % 0x0100)) - 0x01, 0x40, 0x40, 0x01,
-                                                (scroll * 2) % 0x0100, (0x0100 - (scroll % 0x0100)) - 0x01, 0x10,
-                                                0x10));
+                    gSPSegment(oGfxCtx->polyXlu.p++, 9,
+                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (scroll * 4) % 256,
+                                                (256 - ((scroll * 2) % 256)) - 1, 64, 64, 1,
+                                                (scroll * 2) % 256, (256 - (scroll % 256)) - 1, 16,
+                                                16));
                     break;
 
                 case Demo_Effect_Jewel_Goron:
-                    gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
-                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0x00, (scroll * 0x04) % 0x80,
-                                                (0x0100 - ((scroll * 0x02) % 0x0100)) - 0x01, 0x20, 0x40, 0x01,
-                                                (scroll * 2) % 0x0100, (0x0100 - (scroll % 0x0100)) - 0x01, 0x10,
-                                                0x08));
+                    gSPSegment(oGfxCtx->polyXlu.p++, 9,
+                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (scroll * 4) % 128,
+                                                (256 - ((scroll * 2) % 256)) - 1, 32, 64, 1,
+                                                (scroll * 2) % 256, (256 - (scroll % 256)) - 1, 16,
+                                                8));
                     break;
 
                 case Demo_Effect_Jewel_Zora:
-                    gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
-                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0x00, (scroll * 0x04) % 0x0100,
-                                                (0x0100 - ((scroll * 0x02) % 0x0100)) - 0x01, 0x20, 0x20, 0x01,
-                                                (scroll * 2) % 0x0100, (0x0100 - (scroll % 0x0100)) - 0x01, 0x10,
-                                                0x10));
+                    gSPSegment(oGfxCtx->polyXlu.p++, 9,
+                               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (scroll * 4) % 256,
+                                                (256 - ((scroll * 2) % 256)) - 1, 32, 32, 1,
+                                                (scroll * 2) % 256, (256 - (scroll % 256)) - 1, 16,
+                                                16));
                     break;
             }
 
             // Necessary to match
             if (!scroll) {}
 
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
-                       Gfx_TexScroll(globalCtx->state.gfxCtx, (u8)scroll, (u8)scroll, 0x10, 0x10));
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A25),
+            gSPSegment(oGfxCtx->polyOpa.p++, 8,
+                       Gfx_TexScroll(globalCtx->state.gfxCtx, (u8)scroll, (u8)scroll, 16, 16));
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2597),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A27),
+            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2599),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_80093D84(globalCtx->state.gfxCtx);
-            func_8002ED80(&this->actor, globalCtx, 0x00);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, this->primXluColor[0],
+            func_8002ED80(&this->actor, globalCtx, 0);
+            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, this->primXluColor[0],
                             this->primXluColor[1], this->primXluColor[2], 0xFF);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->envXluColor[0], this->envXluColor[1],
                            this->envXluColor[2], 0xFF);
             gSPDisplayList(oGfxCtx->polyXlu.p++, this->jewelDisplayList);
             func_80093D18(globalCtx->state.gfxCtx);
-            func_8002EBCC(&this->actor, globalCtx, 0x00);
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x00, 0x80, this->primOpaColor[0],
+            func_8002EBCC(&this->actor, globalCtx, 0);
+            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0x80, this->primOpaColor[0],
                             this->primOpaColor[1], this->primOpaColor[2], 0xFF);
             gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->envOpaColor[0], this->envOpaColor[1],
                            this->envOpaColor[2], 0xFF);
@@ -1589,7 +1588,7 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
         }
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A3C);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2620);
 }
 
 void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1600,7 +1599,7 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     parent = (DemoEffect*)this->actor.parent;
     scroll = globalCtx->gameplayFrames & 0xFFFF;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A4A);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2634);
 
     if (parent) {
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, parent->unk_186);
@@ -1610,15 +1609,15 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 0x02) % 0x0200,
-                                0x0200 - (scroll % 0x0200) - 0x01, 0x80, 0x80, 0x01,
-                                0x200 - ((scroll * 0x02) % 0x0200) - 0x01, 0x00, 0x40, 0x40));
+    gSPSegment(oGfxCtx->polyXlu.p++, 8,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (scroll * 2) % 512,
+                                512 - (scroll % 512) - 1, 128, 128, 1,
+                                512 - ((scroll * 2) % 512) - 1, 0, 64, 64));
     Matrix_Push();
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY); // Doubles and not floats needed here
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A65),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2661),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, crystalLight);
     Matrix_Pull();
@@ -1626,7 +1625,7 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     Matrix_RotateY((2.0f * M_PI) / 3.0f, MTXMODE_APPLY);
     Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A70),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2672),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, crystalLight);
     Matrix_Pull();
@@ -1634,11 +1633,11 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     Matrix_RotateY((4.0f * M_PI) / 3.0f, MTXMODE_APPLY);
     Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A7B),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2683),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(oGfxCtx->polyXlu.p++, crystalLight);
     Matrix_Pull();
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A80);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2688);
 }
 
 void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1651,14 +1650,14 @@ void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x40, 0x40, 0xFF, 0xC8, 0x00, 0xFF);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0xFF);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0A95),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2709),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(oGfxCtx->polyXlu.p++, globalCtx->unk_11DE0, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x00, 0x20, 0x20, 0x01, 0x00,
-                                0x80 - ((scroll * 0x14) % 0x80) - 0x01, 0x20, 0x20));
+    gSPSegment(oGfxCtx->polyXlu.p++, 8,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0,
+                                128 - ((scroll * 20) % 128) - 1, 32, 32));
     gSPDisplayList(oGfxCtx->polyXlu.p++, fireBall);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0AA3);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2723);
 }
 
 void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1668,12 +1667,12 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
 
     scroll = globalCtx->gameplayFrames;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0AB1);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2737);
 
-    if (!DemoEffect_CheckCsAction(this, globalCtx, 0x02)) {
-        if (gSaveContext.entranceIndex == 0xA0) {
-            if (gSaveContext.sceneSetupIndex == 0x04) {
-                if (globalCtx->csCtx.frames < 0x02A9) {
+    if (!DemoEffect_CheckCsAction(this, globalCtx, 2)) {
+        if (gSaveContext.entranceIndex == 0x00A0) {
+            if (gSaveContext.sceneSetupIndex == 4) {
+                if (globalCtx->csCtx.frames < 681) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
                 }
             } else {
@@ -1683,29 +1682,30 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
             func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
         }
 
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 4) % 0x0200, 0x00, 0x80, 0x40, 0x01,
-                                    (scroll * 0x02) % 0x0100, 0x200 - ((scroll * 0x46) % 0x0200) - 0x01, 0x40, 0x20));
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x00, 0x10, 0x60, 0x01,
-                                    (scroll * 0x0A) % 0x0100, 0x0100 - ((scroll * 0x1E) % 0x0200) - 0x01, 0x08, 0x20));
+        gSPSegment(oGfxCtx->polyXlu.p++, 8,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (scroll * 4) % 512, 0, 128, 64, 1,
+                                    (scroll * 2) % 256, 512 - ((scroll * 70) % 512) - 1, 64, 32));
+        gSPSegment(oGfxCtx->polyXlu.p++, 9,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 96, 1,
+                                    (scroll * 10) % 256, 256 - ((scroll * 30) % 512) - 1, 8, 32));
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->primXluColor[0], this->primXluColor[1],
                         this->primXluColor[2], 0xFF);
         gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->envXluColor[0], this->envXluColor[1],
                        this->envXluColor[2], 0xFF);
         func_80093D84(globalCtx->state.gfxCtx);
         Matrix_Push();
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0AF1),
+        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyXlu.p++, godLgtTrail);
         func_80093D18(globalCtx->state.gfxCtx);
-        func_8002EBCC(&this->actor, globalCtx, 0x00);
+        func_8002EBCC(&this->actor, globalCtx, 0);
         Matrix_Pull();
 
         this->unk_186++;
-        if (this->unk_186 >= 0x79) {
+        if (this->unk_186 > 120) {
+            // if block necessary to match
             if (1) {
-                this->unk_186 = 0x00;
+                this->unk_186 = 0;
             }
         }
 
@@ -1713,12 +1713,12 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -140.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B08),
+        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2824),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(oGfxCtx->polyOpa.p++, godLgt);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B0D);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2829);
 }
 
 void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1727,12 +1727,12 @@ void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     u8* unk_184;
     u32 disp;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B1A);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2842);
 
-    if (!DemoEffect_CheckCsAction(this, globalCtx, 0x01)) {
+    if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
 
-        if (this->unk_186 == 0x00) {
-            this->unk_186 = 0x01;
+        if (this->unk_186 == 0) {
+            this->unk_186 = 1;
         } else {
             disp = (u32)lightBall;
             unk_184 = &this->unk_184;
@@ -1745,38 +1745,38 @@ void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                          ((this->unk_185 & 0x01) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_188 * (M_PI / 180), MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B32),
+            Matrix_RotateZ(this->unk_188 * (M_PI / 180.0f), MTXMODE_APPLY);
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             if (disp) {};
             gSPDisplayList(oGfxCtx->polyXlu.p++, disp);
             Matrix_Pull();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(-(f32)this->unk_188 * (M_PI / 180), MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B3A),
+            Matrix_RotateZ(-(f32)this->unk_188 * (M_PI / 180.0f), MTXMODE_APPLY);
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(oGfxCtx->polyXlu.p++, disp);
         }
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B41);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2881);
 }
 
 void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B4C);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2892);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xBC, 0xFF, 0xFF, this->unk_184);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, 0xFF);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateZ(this->unk_188 * (M_PI / 32768.0f), MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B55),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2901),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    this->unk_188 += 0x01F4;
+    this->unk_188 += 500;
     gSPDisplayList(oGfxCtx->polyXlu.p++, lightBall);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B5B);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2907);
 }
 
 void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1785,17 +1785,17 @@ void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     u32 scroll;
     scroll = globalCtx->gameplayFrames;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B69);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2921);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x40, 0x40, 0xFF, 0xFF, 0xA0, this->unk_184);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x32, 0xC8, 0x00, 0xFF);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B6F),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2927),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 0x05) % 0x0400, 0x00, 0x0100, 0x40, 0x01,
-                                (scroll * 0x0A) % 0x80, 0x200 - ((scroll * 0x32) % 0x0200), 0x20, 0x10));
+    gSPSegment(oGfxCtx->polyXlu.p++, 8,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (scroll * 5) % 1024, 0, 256, 64, 1,
+                                (scroll * 10) % 128, 512 - ((scroll * 50) % 512), 32, 16));
     gSPDisplayList(oGfxCtx->polyXlu.p++, lgtShower);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0B7E);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2942);
 }
 
 void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1803,19 +1803,19 @@ void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     u32 scroll = this->unk_188;
 
-    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 0x0B8C);
+    OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2956);
 
     func_80093D84(globalCtx2->state.gfxCtx);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xAA, 0xFF, 0xFF, this->unk_185);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, 0xFF);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 0x0B93),
+    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2963),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0x00, (scroll * 0x05) % 0x40, 0x1FF - ((scroll * 2) % 0x200),
-                                0x10, 0x80, 0x01, 0x00, 0x00, 0x08, 0x400));
+    gSPSegment(oGfxCtx->polyXlu.p++, 8,
+               Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (scroll * 5) % 64, 512 - ((scroll * 2) % 512) - 1,
+                                16, 128, 1, 0, 0, 8, 1024));
     gSPDisplayList(oGfxCtx->polyXlu.p++, lightRing);
 
-    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 0x0BA2);
+    CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2978);
 }
 
 void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1827,22 +1827,22 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     vertices = (Vtx*)SEGMENTED_TO_VIRTUAL(triforceLightColumnVertices);
     scroll = globalCtx->gameplayFrames;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BB2);
-    if (gSaveContext.entranceIndex != 0x0400 || globalCtx->csCtx.frames < 0x0375) {
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2994);
+    if (gSaveContext.entranceIndex != 0x0400 || globalCtx->csCtx.frames < 885) {
         func_80093D84(globalCtx->state.gfxCtx);
 
         if (this->unk_185 > 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_AURORA - SFX_FLAG);
             Matrix_Push();
             Matrix_Scale(1.0f, 2.4f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BC3),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3011),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x0100 - ((scroll * 0x04) % 0x0100) - 0x01,
-                                        0x40, 0x40, 0x01, 0x00, 0x0100 - ((scroll * 0x02) % 0x0100) - 0x01, 0x40,
-                                        0x20));
-            (vertices + 0x56)->n.a = (vertices + 0x57)->n.a = (vertices + 0x58)->n.a = (vertices + 0x59)->n.a = (vertices + 0x5C)->n.a =
-                (vertices + 0x5D)->n.a = (vertices + 0x5E)->n.a = (vertices + 0x5F)->n.a = (s8)this->unk_185;
+            gSPSegment(oGfxCtx->polyXlu.p++, 9,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 256 - ((scroll * 4) % 256) - 1,
+                                        64, 64, 1, 0, 256 - ((scroll * 2) % 256) - 1, 64,
+                                        32));
+            (vertices + 86)->n.a = (vertices + 87)->n.a = (vertices + 88)->n.a = (vertices + 89)->n.a = (vertices + 92)->n.a =
+                (vertices + 93)->n.a = (vertices + 94)->n.a = (vertices + 95)->n.a = (s8)this->unk_185;
             gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xB4, 0xFF, 0xFF, this->unk_185);
             gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0x00, 0xFF, 0x96, 0xFF);
             gSPDisplayList(oGfxCtx->polyXlu.p++, triforceLightColumn);
@@ -1851,51 +1851,51 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
 
         if (this->unk_184) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRIFORCE - SFX_FLAG);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BE2),
+            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3042),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             if (this->unk_184 < 0xFA) {
-                func_8002ED80(&this->actor, globalCtx, 0x00);
+                func_8002ED80(&this->actor, globalCtx, 0);
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
                 Matrix_RotateY(this->unk_188 * (M_PI / 32768.0f), MTXMODE_APPLY);
-                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0BED),
+                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3053),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x00, 0x20, 0x10, 0x01, 0x00, 0x00,
-                                            0x10, 0x08));
+                gSPSegment(oGfxCtx->polyXlu.p++, 8,
+                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0,
+                                            16, 8));
                 gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, this->unk_184);
                 gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0xAA, 0x8C, 0x00, 0xFF);
                 gSPDisplayList(oGfxCtx->polyXlu.p++, triforceSpot);
             } else {
-                func_8002EBCC(&this->actor, globalCtx, 0x00);
+                func_8002EBCC(&this->actor, globalCtx, 0);
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
                 Matrix_RotateY(this->unk_188 * (M_PI / 32768.0f), MTXMODE_APPLY);
-                gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C0D),
+                gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3085),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
-                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, 0x00, 0x00, 0x20, 0x10, 0x01, 0x00, 0x00,
-                                            0x10, 0x08));
+                gSPSegment(oGfxCtx->polyOpa.p++, 8,
+                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0,
+                                            16, 8));
                 gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, 0xFF);
                 gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0xAA, 0x8C, 0x00, 0xFF);
                 gSPDisplayList(oGfxCtx->polyOpa.p++, triforceSpot);
             }
         }
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C28);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3112);
 }
 
 void DemoEffect_DrawGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    if (!DemoEffect_CheckCsAction(this, globalCtx, 0x01)) {
-        if (!DemoEffect_CheckCsAction(this, globalCtx, 0x04)) {
+    if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
+        if (!DemoEffect_CheckCsAction(this, globalCtx, 4)) {
             if (!this->unk_185) {
-                this->unk_185 = 0x01;
+                this->unk_185 = 1;
                 return;
             }
-            func_8002EBCC(thisx, globalCtx, 0x00);
-            func_8002ED80(thisx, globalCtx, 0x00);
+            func_8002EBCC(thisx, globalCtx, 0);
+            func_8002ED80(thisx, globalCtx, 0);
             func_800694A0(globalCtx, this->unk_186);
         }
     }
@@ -1906,21 +1906,21 @@ s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelC
     DemoEffect* this = THIS;
     u32 scroll = globalCtx->gameplayFrames;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C52);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3154);
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 0xAA, 0xFF, 0xFF, 0xFF);
     gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->envXluColor[0], this->envXluColor[1],
                    this->envXluColor[2], 0xFF);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0x00, (scroll * 0x06) % 0x0400,
-                                0xFF - ((scroll * 0x10) % 0x0100), 0x0100, 0x40, 0x01, (scroll * 0x04) % 0x0200,
-                                0x7F - ((scroll * 0x0C) % 0x80), 0x80, 0x20));
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 0x0C64);
+    gSPSegment(oGfxCtx->polyXlu.p++, 8,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (scroll * 6) % 1024,
+                                256 - ((scroll * 16) % 256) - 1, 256, 64, 1, (scroll * 4) % 512,
+                                128 - ((scroll * 12) % 128) - 1, 128, 32));
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3172);
 
-    if (limbIndex == 0x00) {
+    if (limbIndex == 0) {
         LimbTransform* transforms = skelCuve->transforms;
-        transforms->scale.x = 0x0400;
-        transforms->scale.y = 0x0400;
+        transforms->scale.x = 1024;
+        transforms->scale.y = 1024;
         transforms->scale.z = transforms->scale.x;
     }
 
@@ -1932,13 +1932,13 @@ void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     u8 effectType = GET_EFFECT_TYPE(&this->actor);
     GraphicsContext* gfxCtx2 = globalCtx2->state.gfxCtx;
 
-    if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small || Flags_GetEnv(globalCtx, 0x01) ||
-        gSaveContext.sceneSetupIndex >= 0x04 || gSaveContext.entranceIndex == 0x0324) {
-        OPEN_DISPS(gfxCtx2, "../z_demo_effect.c", 0x0C81);
-        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x19);
+    if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small || Flags_GetEnv(globalCtx, 1) ||
+        gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == 0x0324) {
+        OPEN_DISPS(gfxCtx2, "../z_demo_effect.c", 3201);
+        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 25);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        SkelCurve_Draw(&this->actor, globalCtx2, &this->skelCurve, &DemoEffect_DrawTimewarpLimbs, (void*)0, 0x01, &this->actor);
-        CLOSE_DISPS(gfxCtx2, "../z_demo_effect.c", 0x0C90);
+        SkelCurve_Draw(&this->actor, globalCtx2, &this->skelCurve, &DemoEffect_DrawTimewarpLimbs, NULL, 1, &this->actor);
+        CLOSE_DISPS(gfxCtx2, "../z_demo_effect.c", 3216);
     }
 }
 
