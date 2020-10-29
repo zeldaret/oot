@@ -253,9 +253,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->lightEffect.scaleFlag = 0;
             this->lightEffect.flicker = 0;
             this->lightEffect.rotation = 0;
-            // TODO: lightEffect enums
             switch (lightEffect) {
-                case 0:
+                case Light_Effect_Color_Red:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -264,7 +263,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 1:
+                case Light_Effect_Color_Blue:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -273,7 +272,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0xFF;
                     break;
 
-                case 2:
+                case Light_Effect_Color_Green:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -282,7 +281,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 3:
+                case Light_Effect_Color_Orange:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -291,7 +290,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 4:
+                case Light_Effect_Color_Yellow:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -300,7 +299,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0x00;
                     break;
 
-                case 5:
+                case Light_Effect_Color_Purple:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -309,7 +308,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     // clang-format on
                     break;
 
-                case 6:
+                case Light_Effect_Color_Green2:
                     this->primXluColor[0] = 0xFF;
                     this->primXluColor[1] = 0xFF;
                     this->primXluColor[2] = 0xFF;
@@ -337,7 +336,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[0] = 0xFF;
             this->envXluColor[2] = 0xFF;
             this->envXluColor[1] = 0x00;
-            this->godLgt.type = 0;
+            this->godLgt.type = God_Lgt_Type_Din;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = &DemoEffect_UpdateGodLgtDin;
             this->csActionId = 0;
@@ -356,7 +355,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 0x28;
             this->envXluColor[2] = 0xFF;
             this->envXluColor[0] = 0x00;
-            this->godLgt.type = 1;
+            this->godLgt.type = God_Lgt_Type_Nayru;
             this->godLgt.lightRingSpawnDelay = 4;
             this->godLgt.rotation = 0;
             this->godLgt.lightRingSpawnTimer = 0;
@@ -377,7 +376,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 0xC8;
             this->envXluColor[0] = 0x00;
             this->envXluColor[2] = 0x00;
-            this->godLgt.type = 2;
+            this->godLgt.type = God_Lgt_Type_Farore;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = &DemoEffect_UpdateGodLgtFarore;
             this->csActionId = 2;
@@ -957,16 +956,16 @@ void DemoEffect_UpdateBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
 
 void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     u16 action;
-    s32 sizeParam;
+    s32 largeSize;
 
-    sizeParam = GET_LIGHT_EFFECT_SIZE_PARAM(&this->actor);
+    largeSize = GET_LIGHT_EFFECT_SIZE_PARAM(&this->actor);
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
                 if (this->lightEffect.rotation < 240) {
-                    if (!sizeParam) {
+                    if (!largeSize) {
                         if (this->actor.scale.x < 0.23f) {
                             this->actor.scale.x += 0.001f;
                             Actor_SetScale(&this->actor, this->actor.scale.x);

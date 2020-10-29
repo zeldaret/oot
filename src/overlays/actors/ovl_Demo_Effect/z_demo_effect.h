@@ -116,6 +116,22 @@ typedef enum Demo_Effect_Effect_Type {
     /* 0x1A */ Demo_Effect_Max_Effect_Type
 } Demo_Effect_Effect_Type;
 
+typedef enum Demo_Effect_Light_Effect_Color {
+    /* 0x00 */ Light_Effect_Color_Red,
+    /* 0x01 */ Light_Effect_Color_Blue,
+    /* 0x02 */ Light_Effect_Color_Green,
+    /* 0x03 */ Light_Effect_Color_Orange,
+    /* 0x04 */ Light_Effect_Color_Yellow,
+    /* 0x05 */ Light_Effect_Color_Purple,
+    /* 0x06 */ Light_Effect_Color_Green2
+} Demo_Effect_Light_Effect_Color;
+
+typedef enum DemoEffect_God_Lgt_Type {
+    /* 0x00 */ God_Lgt_Type_Din,
+    /* 0x01 */ God_Lgt_Type_Nayru,
+    /* 0x02 */ God_Lgt_Type_Farore
+} DemoEffect_God_Lgt_Type;
+
 #define GET_EFFECT_TYPE(thisx) ((thisx)->params & 0x00FF)
 #define GET_LIGHT_EFFECT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 12)
 #define GET_LIGHT_EFFECT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 8)
