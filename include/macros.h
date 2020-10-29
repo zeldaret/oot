@@ -94,7 +94,6 @@ extern GraphicsContext* __gfxCtx;
 
 // __gfxCtx shouldn't be used directly.
 // Use the DISP macros defined above when writing to display buffers.
-
 #define OPEN_DISPS(gfxCtx, file, line) \
     {                                  \
         GraphicsContext* __gfxCtx;     \
