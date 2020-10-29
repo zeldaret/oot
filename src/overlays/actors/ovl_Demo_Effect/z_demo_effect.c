@@ -52,7 +52,7 @@ void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalC
 
 void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc);
 void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spawnerCount);
-void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 arg2);
+void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isSmallSpawner);
 void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha);
 void DemoEffect_MoveJewelCs(PosRot* posRot, DemoEffect* this);
@@ -564,14 +564,14 @@ void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y += 14.0f;
 }
 
-void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 smallSpawner) {
+void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isSmallSpawner) {
     Vec3f velocity;
     Vec3f accel;
     Vec3f pos;
     Color_RGBA8 primColor;
     Color_RGBA8 envColor;
 
-    if (smallSpawner != 1 || (globalCtx->gameplayFrames & 1) == 0) {
+    if (isSmallSpawner != 1 || (globalCtx->gameplayFrames & 1) == 0) {
         primColor.r = 0xFF;
         primColor.g = 0xFF;
         primColor.b = 0xFF;
@@ -587,7 +587,7 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 sma
         accel.y = -0.1f;
         accel.z = 0.0f;
 
-        if (smallSpawner) {
+        if (isSmallSpawner) {
             velocity.x = Math_Rand_ZeroOne() - 0.5f;
             velocity.z = Math_Rand_ZeroOne() - 0.5f;
         } else {
