@@ -34,14 +34,18 @@ const ActorInit En_Kusa_InitVars = {
     NULL,
 };
 
-s32 D_80A9C200[] = { 0x0002012B, 0x012B0000 };
+// s16 D_80A9C200[] = { 0x0002012B, 0x012B0000 };
+
+s16 D_80A9C200[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 
 // sCylinderInit
-static ColliderCylinderInit D_80A9C208 = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x29, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC00758, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-    { 12, 44, 0, { 0, 0, 0 } },
-};
+// static ColliderCylinderInit D_80A9C208 = {
+//     { COLTYPE_UNK10, 0x00, 0x09, 0x29, 0x20, COLSHAPE_CYLINDER },
+//     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC00758, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+//     { 12, 44, 0, { 0, 0, 0 } },
+// };
+
+s32 D_80A9C208[]= {0x0A000929, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x4FC00758, 0x00000000, 0x00010100, 0x000C002C, 0x00000000, 0x00000000};
 
 // Collision Check data
 // sColChkInfoInit
@@ -52,7 +56,6 @@ s32 D_80A9C23C[] = { 0x00000000, 0x3F350481, 0x3F350481, 0x3F350481, 0x3F350481,
                      0x00000000, 0x3F350481, 0xBF350481, 0xBF350481, 0x3F350481, 0x00000000 };
 
 s32 D_80A9C26C[] = { 0x006C0066, 0x00600054, 0x00420037, 0x002A0026 };
-
 
 // sInitChain
 InitChainEntry D_80A9C27C[] = {
@@ -65,28 +68,28 @@ s32 D_80A9C294[] = { 0x0500B9D0, 0x06000140, 0x06000140 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFA0.s")
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFAC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFAC.s")
 // Snap to floor?
-s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
-    CollisionPoly* sp38;
-    Vec3f sp28;
-    f32 temp_f0;
+// s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
+//     CollisionPoly* sp38;
+//     Vec3f sp28;
+//     f32 temp_f0;
 
-    sp28.x = this->actor.posRot.pos.x;
-    sp28.y = this->actor.posRot.pos.y + 30.0f;
-    sp28.z = this->actor.posRot.pos.z;
-    temp_f0 = func_8003C9A4(&globalCtx->colCtx + 0x7C0, &sp38, &sp28, &this->actor, &sp28);
-    if (-32000.0f < temp_f0) {
-        this->actor.posRot.pos.y = temp_f0 + arg2;
-        Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
-        return 1;
-    }
-    osSyncPrintf("\x1b[43;30m", this);
-    //Failure attaching to ground
-    osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
-    osSyncPrintf("\x1b[m");
-    return 0;
-}
+//     sp28.x = this->actor.posRot.pos.x;
+//     sp28.y = this->actor.posRot.pos.y + 30.0f;
+//     sp28.z = this->actor.posRot.pos.z;
+//     temp_f0 = func_8003C9A4(&globalCtx->colCtx + 0x7C0, &sp38, &sp28, &this->actor, &sp28);
+//     if (-32000.0f < temp_f0) {
+//         this->actor.posRot.pos.y = temp_f0 + arg2;
+//         Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+//         return 1;
+//     }
+//     osSyncPrintf("\x1b[43;30m", this);
+//     // Failure attaching to ground
+//     osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
+//     osSyncPrintf("\x1b[m");
+//     return 0;
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B07C.s")
 
@@ -110,15 +113,17 @@ s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B574.s")
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B630.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B630.s")
 // ColliderCylinder Init function from the looks of it
-void func_80A9B630(EnKusa* this, GlobalContext* globalCtx) {
+// void func_80A9B630(EnKusa* this, GlobalContext* globalCtx) {
 
-    // Cylinder is going to be at actor(arg0) + 0x150
-    Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A9C208);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-}
+//     ColliderCylinder* collider = &this->collider;
+
+//     // Cylinder is going to be at actor(arg0) + 0x150
+//     Collider_InitCylinder(globalCtx, &this->collider);
+//     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A9C208);
+//     Collider_CylinderUpdate(&this->actor, &this->collider);
+// }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/EnKusa_Init.s")
 void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx) {
@@ -133,7 +138,7 @@ void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx) {
     func_80061ED4(&this->actor.colChkInfo, NULL, &D_80A9C234);
     if (this->actor.shape.rot.y == 0) {
         // Random value I think?
-        s32 rand = (s32) Math_Rand_ZeroFloat(65536.0f);
+        s32 rand = (s32)Math_Rand_ZeroFloat(65536.0f);
         this->actor.posRot.rot.y = (s16)rand;
         this->actor.initPosRot.rot.y = (s16)rand;
         this->actor.shape.rot.y = (s16)rand;
@@ -145,11 +150,11 @@ void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx) {
     }
     // Original Line
     // TODO: Something is wrong with this line...
-    this->collider.dim.pos.z = Object_GetIndex(&globalCtx->objectCtx, *(D_80A9C200 + ((this->actor.params & 3) * 2)));
+    this->kusaTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, D_80A9C200[this->actor.params & 3]);
 
-    if ((s8)this->collider.dim.pos.z < 0) {
+    if (this->kusaTexObjIndex < 0) {
         // Prints -> Bank danger!
-        osSyncPrintf((const char *)"Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_en_kusa.c", 0x231);
+        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_en_kusa.c", 561);
         Actor_Kill(&this->actor);
         return;
     }
