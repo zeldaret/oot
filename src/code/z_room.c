@@ -41,27 +41,27 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(globalCtx);
-        gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
     if (flags & 2) {
         func_8003435C(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
     polygon0 = &room->mesh->polygon0;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon0->start);
     for (i = 0; i < polygon0->num; i++) {
         if ((flags & 1) && (polygonDlist->opa != NULL)) {
-            gSPDisplayList(oGfxCtx->polyOpa.p++, polygonDlist->opa);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
 
         if ((flags & 2) && (polygonDlist->xlu != NULL)) {
-            gSPDisplayList(oGfxCtx->polyXlu.p++, polygonDlist->xlu);
+            gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
         }
 
         polygonDlist++;
@@ -108,16 +108,16 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
         func_80093C80(globalCtx);
-        gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
     if (flags & 2) {
         func_8003435C(&D_801270A0, globalCtx);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
     spA4 = &spB8[0];
@@ -193,20 +193,20 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
             if (((iREG(86) == 1) && (iREG(89) > sp9C)) || ((iREG(86) == 2) && (iREG(89) == sp9C))) {
                 if ((flags & 1) && (phi_s0->opa != NULL)) {
-                    gSPDisplayList(oGfxCtx->polyOpa.p++, phi_s0->opa);
+                    gSPDisplayList(POLY_OPA_DISP++, phi_s0->opa);
                 }
 
                 if ((flags & 2) && (phi_s0->xlu != NULL)) {
-                    gSPDisplayList(oGfxCtx->polyXlu.p++, phi_s0->xlu);
+                    gSPDisplayList(POLY_XLU_DISP++, phi_s0->xlu);
                 }
             }
         } else {
             if ((flags & 1) && (phi_s0->opa != NULL)) {
-                gSPDisplayList(oGfxCtx->polyOpa.p++, phi_s0->opa);
+                gSPDisplayList(POLY_OPA_DISP++, phi_s0->opa);
             }
 
             if ((flags & 2) && (phi_s0->xlu != NULL)) {
-                gSPDisplayList(oGfxCtx->polyXlu.p++, phi_s0->xlu);
+                gSPDisplayList(POLY_XLU_DISP++, phi_s0->xlu);
             }
         }
 
@@ -343,39 +343,39 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     sp90 = (flags & 2) && polygonDlist->xlu && !(SREG(25) & 4);
 
     if (sp94 || sp98) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (sp94) {
             func_80093D18(globalCtx->state.gfxCtx);
-            gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, polygonDlist->opa);
+            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
 
         if (sp98) {
-            // gSPLoadUcodeL(oGfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
+            // gSPLoadUcodeL(POLY_OPA_DISP++, rspS2DEX)?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             {
                 Vec3f sp60;
-                spA8 = oGfxCtx->polyOpa.p;
+                spA8 = POLY_OPA_DISP;
                 func_8005AFB4(&sp60, camera);
                 func_8009638C(&spA8, polygon1->single.source, polygon1->single.tlut, polygon1->single.width,
                               polygon1->single.height, polygon1->single.fmt, polygon1->single.siz,
                               polygon1->single.mode0, polygon1->single.tlutCount,
                               (sp60.x + sp60.z) * 1.2f + sp60.y * 0.6f, sp60.y * 2.4f + (sp60.x + sp60.z) * 0.3f);
-                oGfxCtx->polyOpa.p = spA8;
+                POLY_OPA_DISP = spA8;
             }
 
-            // gSPLoadUcode(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
+            // gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
         }
     }
 
     if (sp90) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, polygonDlist->xlu);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 691);
@@ -438,38 +438,38 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     sp8C = (flags & 2) && polygonDlist->xlu && !(SREG(25) & 4);
 
     if (sp90 || sp94) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x03, room->segment);
+        gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (sp90) {
             func_80093D18(globalCtx->state.gfxCtx);
-            gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, polygonDlist->opa);
+            gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+            gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
 
         if (sp94) {
-            // gSPLoadUcodeL(oGfxCtx->polyOpa.p++, rspS2DEX)?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
+            // gSPLoadUcodeL(POLY_OPA_DISP++, rspS2DEX)?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
 
             {
                 Vec3f sp5C;
-                spA8 = oGfxCtx->polyOpa.p;
+                spA8 = POLY_OPA_DISP;
                 func_8005AFB4(&sp5C, camera);
                 func_8009638C(&spA8, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height, bgImage->fmt,
                               bgImage->siz, bgImage->mode0, bgImage->tlutCount,
                               (sp5C.x + sp5C.z) * 1.2f + sp5C.y * 0.6f, sp5C.y * 2.4f + (sp5C.x + sp5C.z) * 0.3f);
-                oGfxCtx->polyOpa.p = spA8;
+                POLY_OPA_DISP = spA8;
             }
 
-            // gSPLoadUcode(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
-            gSPLoadUcodeEx(oGfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
+            // gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
+            gSPLoadUcodeEx(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
         }
     }
 
     if (sp8C) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x03, room->segment);
+        gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, polygonDlist->xlu);
+        gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
+        gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 819);

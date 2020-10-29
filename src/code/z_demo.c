@@ -1861,13 +1861,13 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         if (BREG(0) != 0) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4101);
 
-            prevDisplayList = oGfxCtx->polyOpa.p;
-            displayList = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
-            gSPDisplayList(oGfxCtx->overlay.p++, displayList);
+            prevDisplayList = POLY_OPA_DISP;
+            displayList = Graph_GfxPlusOne(POLY_OPA_DISP);
+            gSPDisplayList(OVERLAY_DISP++, displayList);
             Cutscene_DrawDebugInfo(globalCtx, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
             Graph_BranchDlist(prevDisplayList, displayList);
-            oGfxCtx->polyOpa.p = displayList;
+            POLY_OPA_DISP = displayList;
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4108);
         }

@@ -227,19 +227,19 @@ void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     if (thisx->params & 0x8000) {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
     } else {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
     }
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg.c", 448),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg.c", 448),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_809AD278);
+    gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
     if (thisx->params & 0x4000) {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_809AD4B8);
+        gSPDisplayList(POLY_XLU_DISP++, D_809AD4B8);
     } else {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_809AD3B8);
+        gSPDisplayList(POLY_XLU_DISP++, D_809AD3B8);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_elf_msg.c", 457);

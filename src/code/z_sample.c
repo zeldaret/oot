@@ -13,8 +13,8 @@ void Sample_Draw(SampleContext* this) {
 
     OPEN_DISPS(gfxCtx, "../z_sample.c", 62);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x01, this->staticSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x01, this->staticSegment);
 
     func_80095248(gfxCtx, 0, 0, 0);
 
@@ -24,16 +24,16 @@ void Sample_Draw(SampleContext* this) {
     {
         Mtx* mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
         guPosition(mtx, SREG(37), SREG(38), SREG(39), 1.0f, SREG(40), SREG(41), SREG(42));
-        gSPMatrix(oGfxCtx->polyOpa.p++, mtx, G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
     }
 
-    oGfxCtx->polyOpa.p = Gfx_SetFog2(oGfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0, 0);
+    POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 0xFF, 0xFF, 0xFF, 0, 0, 0);
     func_80093D18(gfxCtx);
 
-    gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_1CYCLE);
-    gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
-    gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 0, 0);
+    gDPSetCycleType(POLY_OPA_DISP++, G_CYC_1CYCLE);
+    gDPSetRenderMode(POLY_OPA_DISP++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
+    gDPSetCombineMode(POLY_OPA_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 0);
 
     CLOSE_DISPS(gfxCtx, "../z_sample.c", 111);
 }
