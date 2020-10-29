@@ -1,7 +1,7 @@
 #include "file_choose.h"
 
 void func_80808000(FileChooseContext* this);
-extern s16 D_80812724;
+extern s16 gScreenFillAlpha;
 extern void (*gFileSelectDrawFuncs[])(FileChooseContext*);
 extern void (*gFileSelectUpdateFuncs[])(FileChooseContext*);
 extern void (*gConfigModeUpdateFuncs[])(FileChooseContext*);
@@ -40,7 +40,7 @@ void func_8080AF50(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
 void FileChoose_InitModeUpdate(FileChooseContext* this) {
     if (this->menuMode == MENU_MODE_INIT) {
         this->menuMode = MENU_MODE_CONFIG;
-        this->configMode = 0;
+        this->configMode = CM_FADE_IN_START;
         this->nextTitleLabel = TITLE_OPEN_FILE;
         osSyncPrintf("Ｓｒａｍ Ｓｔａｒｔ─Ｌｏａｄ  》》》》》  ");
         Sram_VerifyAndLoadAllSaves(this, &this->sramCtx);
@@ -51,7 +51,12 @@ void FileChoose_InitModeUpdate(FileChooseContext* this) {
 void FileChoose_InitModeDraw(GameState* thisx) {
 }
 
-void func_8080B22C(FileChooseContext* this) {
+/**
+ * Fade in the menu window and title label.
+ * If a file is occupied fade in the name, name box, and connector.
+ * Fade in the copy erase and options button according to the window alpha.
+ */
+void FileChoose_FadeInMenuElements(FileChooseContext* this) {
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
 
@@ -74,36 +79,48 @@ void func_8080B22C(FileChooseContext* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B394.s")
 
-// update func for configMode 0
-void func_8080B40C(FileChooseContext* this) {
-    func_8080B22C(this);
-    D_80812724 -= 0x28;
+/**
+ * Reduce the alpha of the black screen fill to create a fade in effect.
+ * Additionally, slide the window from the right to the center of the screen
+ */
+void FileChoose_StartFadeIn(FileChooseContext* this) {
+    FileChoose_FadeInMenuElements(this);
+    gScreenFillAlpha -= 40;
     this->windowPosX -= 20;
 
     if (this->windowPosX <= -94) {
         this->windowPosX = -94;
-        this->configMode = 1;
-        D_80812724 = 0;
+        this->configMode = CM_FADE_IN_END;
+        gScreenFillAlpha = 0;
     }
 }
 
-// update func for configMode 1
-void func_8080B494(FileChooseContext* this) {
+/**
+ * Finish fading in the remaining menu elements.
+ * Fade in the controls text at the bottom of the screen.
+ */
+void FileChoose_FinishFadeIn(FileChooseContext* this) {
     s32 pad;
 
     this->controlsTextAlpha += VREG(1);
-    func_8080B22C(this);
+    FileChoose_FadeInMenuElements(this);
 
     if (this->titleAlpha[0] >= 255) {
         this->titleAlpha[0] = 255;
         this->controlsTextAlpha = 255;
         this->windowAlpha = 200;
-        this->configMode = 2;
+        this->configMode = CM_MAIN_MENU;
     }
 }
 
-// update func for configMode 2
-void func_8080B52C(FileChooseContext* thisx) {
+/**
+ * Update the cursor and wait for the player to select a button to change menus accordingly.
+ * If an empty file is selected, enter the name entry config mode.
+ * If an occupied file is selected, enter the `Select` menu mode.
+ * If copy, erase, or options is selected, set config mode accordingly.
+ * Lastly, set any warning labels if appropriate.
+ */
+void FileChoose_UpdateMainMenu(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
@@ -117,9 +134,9 @@ void func_8080B52C(FileChooseContext* thisx) {
 
             if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->configMode = 32;
+                this->configMode = CM_ROT_TO_NAME_ENTRY;
                 this->kbdButtonIndex = 99;
-                this->charPage = 2;
+                this->charPage = CHAR_PAGE_ENG;
                 this->kbdX = 0;
                 this->kbdY = 0;
                 this->charIndex = 0;
@@ -144,13 +161,13 @@ void func_8080B52C(FileChooseContext* thisx) {
                 this->prevConfigureMode = this->configMode;
 
                 if (this->buttonIndex == BTN_MAIN_COPY) {
-                    this->configMode = 3;
+                    this->configMode = CM_03;
                     this->nextTitleLabel = TITLE_COPY_FROM;
                 } else if (this->buttonIndex == BTN_MAIN_ERASE) {
-                    this->configMode = 20;
+                    this->configMode = CM_20;
                     this->nextTitleLabel = TITLE_ERASE_FILE;
                 } else {
-                    this->configMode = 36;
+                    this->configMode = CM_ROT_TO_OPTIONS;
                     this->kbdButtonIndex = 0;
                     this->kbdX = 0;
                     this->kbdY = 0;
@@ -211,30 +228,39 @@ void func_8080B52C(FileChooseContext* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080BE30.s")
 
-void func_8080BE84(FileChooseContext *this) {
+/**
+ * Rotate the window from the main menu to the name entry menu
+ */
+void FileChoose_RotateToNameEntry(FileChooseContext *this) {
     this->windowRot += VREG(16);
 
     if (this->windowRot >= 314.0f) {
         this->windowRot = 314.0f;
-        this->configMode = 34;
+        this->configMode = CM_START_NAME_ENTRY;
     }
 }
 
-void func_8080BEF8(FileChooseContext *this) {
+/**
+ * Rotate the window from the main menu to the options menu
+ */
+void FileChoose_RotateToOptions(FileChooseContext *this) {
     this->windowRot += VREG(16);
 
     if (this->windowRot >= 314.0f) {
         this->windowRot = 314.0f;
-        this->configMode = 38;
+        this->configMode = CM_START_OPTIONS;
     }
 }
 
-void func_8080BF6C(FileChooseContext* this) {
+/**
+ * Rotate the window from the options menu to the main menu
+ */
+void FileChoose_RotateFromOptions(FileChooseContext* this) {
     this->windowRot += VREG(16);
 
     if (this->windowRot >= 628.0f) {
         this->windowRot = 0.0f;
-        this->configMode = 2;
+        this->configMode = CM_MAIN_MENU;
     }
 }
 
@@ -344,8 +370,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     func_8080C330(this);
     func_8080C60C(this);
 
-    // keyboard
-    if ((this->configMode != 33) && (this->configMode != 34)) {
+    if ((this->configMode != CM_KEYBOARD_CURSOR) && (this->configMode != CM_START_NAME_ENTRY)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -376,8 +401,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         func_8080E074(this);
     }
 
-    // name entry
-    if ((this->configMode >= 32) && (this->configMode <= 35)) {
+    if ((this->configMode >= CM_ROT_TO_NAME_ENTRY) && (this->configMode <= CM_35)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -386,7 +410,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
         Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
         Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
-        Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, 1);
+        Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, MTXMODE_APPLY);
         gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2316),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -404,8 +428,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         func_80808000(this);
     }
 
-    // options menu
-    if ((this->configMode >= 36) && (this->configMode <= 39)) {
+    if ((this->configMode >= CM_ROT_TO_OPTIONS) && (this->configMode <= CM_ROT_FROM_OPTIONS)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
@@ -590,11 +613,11 @@ void FileChoose_Main(GameState* thisx) {
     this->emptyFileTextAlpha = 0;
 
     func_8080BFE4(this);
-    gFileSelectUpdateFuncs[this->menuMode](this);
+    gFileSelectUpdateFuncs[this->menuMode](this); // 803FE738
     gFileSelectDrawFuncs[this->menuMode](this);
 
     // do not draw controls text in the options menu
-    if ((this->configMode < 0x24) || (this->configMode >= 0x28)) {
+    if ((this->configMode <= 35) || (this->configMode >= 40)) {
         func_800944C4(this->state.gfxCtx);
 
         gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -610,7 +633,7 @@ void FileChoose_Main(GameState* thisx) {
 
     gDPPipeSync(oGfxCtx->polyOpa.p++);
     gSPDisplayList(oGfxCtx->polyOpa.p++, D_80812728);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0, 0, D_80812724);
+    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0, 0, gScreenFillAlpha);
     gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 3035);
@@ -623,28 +646,28 @@ void FileChoose_InitContext(GameState* thisx) {
 
     Sram_Alloc(&this->state, sramCtx);
 
-    ZREG(7) = 0x20;
-    ZREG(8) = 0x16;
-    ZREG(9) = 0x14;
-    ZREG(10) = -0xA;
+    ZREG(7) = 32;
+    ZREG(8) = 22;
+    ZREG(9) = 20;
+    ZREG(10) = -10;
     ZREG(11) = 0;
-    ZREG(12) = 0x3E8;
-    ZREG(13) = -0x2BC;
-    ZREG(14) = 0xA4;
-    ZREG(15) = 0x68;
-    ZREG(16) = 0xA0;
-    ZREG(17) = 0x64;
-    ZREG(18) = 0xA2;
-    ZREG(19) = 0x98;
-    ZREG(20) = 0xD6;
+    ZREG(12) = 1000;
+    ZREG(13) = -700;
+    ZREG(14) = 164;
+    ZREG(15) = 104;
+    ZREG(16) = 160;
+    ZREG(17) = 100;
+    ZREG(18) = 162;
+    ZREG(19) = 152;
+    ZREG(20) = 214;
 
-    XREG(13) = 0x244;
-    XREG(14) = 0x190;
-    XREG(35) = 0x14;
-    XREG(36) = 0x14;
-    XREG(37) = 0x14;
+    XREG(13) = 580;
+    XREG(14) = 400;
+    XREG(35) = 20;
+    XREG(36) = 20;
+    XREG(37) = 20;
     XREG(43) = 8;
-    XREG(44) = -0x4E;
+    XREG(44) = -78;
     XREG(45) = 0;
     XREG(46) = 0;
     XREG(47) = 0;
@@ -652,49 +675,49 @@ void FileChoose_InitContext(GameState* thisx) {
     XREG(49) = 3;
     XREG(50) = 8;
     XREG(51) = 8;
-    XREG(52) = 0xA;
+    XREG(52) = 10;
     XREG(73) = 0;
 
-    VREG(0) = 0xE;
+    VREG(0) = 14;
     VREG(1) = 5;
     VREG(2) = 4;
     VREG(4) = 1;
     VREG(5) = 6;
     VREG(6) = 2;
     VREG(7) = 6;
-    VREG(8) = 0x50;
+    VREG(8) = 80;
 
-    D_80812724 = 0xFF;
+    gScreenFillAlpha = 255;
 
-    VREG(10) = 0xA;
-    VREG(11) = 0x1E;
-    VREG(12) = -0x64;
-    VREG(13) = -0x55;
+    VREG(10) = 10;
+    VREG(11) = 30;
+    VREG(12) = -100;
+    VREG(13) = -85;
     VREG(14) = 4;
-    VREG(16) = 0x19;
+    VREG(16) = 25;
     VREG(17) = 1;
     VREG(18) = 1;
-    VREG(20) = 0x5C;
-    VREG(21) = 0xAB;
-    VREG(22) = 0xB;
-    VREG(23) = 0xA;
-    VREG(24) = 0x1A;
+    VREG(20) = 92;
+    VREG(21) = 171;
+    VREG(22) = 11;
+    VREG(23) = 10;
+    VREG(24) = 26;
     VREG(25) = 2;
     VREG(26) = 1;
     VREG(27) = 0;
     VREG(28) = 0;
-    VREG(29) = 0xA0;
-    VREG(30) = 0x40;
-    VREG(31) = 0x9A;
-    VREG(32) = 0x98;
-    VREG(33) = 0x6A;
+    VREG(29) = 160;
+    VREG(30) = 64;
+    VREG(31) = 154;
+    VREG(32) = 152;
+    VREG(33) = 106;
 
-    WREG(38) = 0x10;
+    WREG(38) = 16;
     WREG(39) = 9;
-    WREG(40) = 0xA;
-    WREG(41) = 0xE;
-    WREG(42) = 0xB;
-    WREG(43) = 0xC;
+    WREG(40) = 10;
+    WREG(41) = 14;
+    WREG(42) = 11;
+    WREG(43) = 12;
 
     this->menuMode = MENU_MODE_INIT;
 

@@ -54,26 +54,26 @@ typedef enum {
     /* 3 */ BTN_MAIN_COPY,
     /* 4 */ BTN_MAIN_ERASE,
     /* 5 */ BTN_MAIN_OPTIONS
-} MainMenuBtnIndex;
+} MainMenuButtonIndex;
 
 typedef enum {
     /* 0 */ BTN_COPY_FILE_1,
     /* 1 */ BTN_COPY_FILE_2,
     /* 2 */ BTN_COPY_FILE_3,
     /* 3 */ BTN_COPY_QUIT
-} CopyMenuBtnIndex;
+} CopyMenuButtonIndex;
 
 typedef enum {
     /* 0 */ BTN_ERASE_FILE_1,
     /* 1 */ BTN_ERASE_FILE_2,
     /* 2 */ BTN_ERASE_FILE_3,
     /* 3 */ BTN_ERASE_QUIT
-} EraseMenuBtnIndex;
+} EraseMenuButtonIndex;
 
 typedef enum {
     /* 0 */ BTN_CONFIRM_YES,
     /* 1 */ BTN_CONFIRM_QUIT
-} ConfirmBtnIndex;
+} ConfirmButtonIndex;
 
 typedef enum {
     /* 0 */ SETTING_AUDIO,
@@ -85,12 +85,62 @@ typedef enum {
     /* 1 */ AUDIO_MONO,
     /* 2 */ AUDIO_HEADSET,
     /* 3 */ AUDIO_SURROUND
-} AudioOptions;
+} AudioOption;
+
+typedef enum {
+    /* 0 */ CHAR_PAGE_HIRA,
+    /* 1 */ CHAR_PAGE_KATA,
+    /* 2 */ CHAR_PAGE_ENG,
+} CharPage;
+
+typedef enum {
+    /* 00 */ CM_FADE_IN_START,
+    /* 01 */ CM_FADE_IN_END,
+    /* 02 */ CM_MAIN_MENU,
+    /* 03 */ CM_03,
+    /* 04 */ CM_04,
+    /* 05 */ CM_05,
+    /* 06 */ CM_06,
+    /* 07 */ CM_07,
+    /* 08 */ CM_08,
+    /* 09 */ CM_09,
+    /* 10 */ CM_10,
+    /* 11 */ CM_11,
+    /* 12 */ CM_12,
+    /* 13 */ CM_13,
+    /* 14 */ CM_14,
+    /* 15 */ CM_15,
+    /* 16 */ CM_16,
+    /* 17 */ CM_17,
+    /* 18 */ CM_18,
+    /* 19 */ CM_19,
+    /* 20 */ CM_20,
+    /* 21 */ CM_21,
+    /* 22 */ CM_22,
+    /* 23 */ CM_23,
+    /* 24 */ CM_24,
+    /* 25 */ CM_25,
+    /* 26 */ CM_26,
+    /* 27 */ CM_27,
+    /* 28 */ CM_28,
+    /* 29 */ CM_29,
+    /* 30 */ CM_30,
+    /* 31 */ CM_31,
+    /* 32 */ CM_ROT_TO_NAME_ENTRY,
+    /* 33 */ CM_KEYBOARD_CURSOR,
+    /* 34 */ CM_START_NAME_ENTRY,
+    /* 35 */ CM_35,
+    /* 36 */ CM_ROT_TO_OPTIONS,
+    /* 37 */ CM_OPTIONS_MENU,
+    /* 38 */ CM_START_OPTIONS,
+    /* 39 */ CM_ROT_FROM_OPTIONS,
+    /* 40 */ CM_40
+} ConfigMode;
 
 // update funcs for menuMode 1 (gConfigModeUpdateFuncs)
-void func_8080B40C(FileChooseContext* this); // 00
-void func_8080B494(FileChooseContext* this); // 01
-void func_8080B52C(FileChooseContext* this); // 02
+void FileChoose_StartFadeIn(FileChooseContext* this); // 00
+void FileChoose_FinishFadeIn(FileChooseContext* this); // 01
+void FileChoose_UpdateMainMenu(FileChooseContext* this); // 02
 void func_80803D40(FileChooseContext* this); // 03
 void func_80803ED8(FileChooseContext* this); // 04
 void func_80804248(FileChooseContext* this); // 05
@@ -120,14 +170,14 @@ void func_808068F0(FileChooseContext* this); // 28
 void func_808069B4(FileChooseContext* this); // 29
 void func_80806C20(FileChooseContext* this); // 30
 void func_8080BE28(FileChooseContext* this); // 31
-void func_8080BE84(FileChooseContext* this); // 32
-void func_80809038(FileChooseContext* this); // 33
-void func_80808F84(FileChooseContext* this); // 34
-void func_8080BF6C(FileChooseContext* this); // 35
-void func_8080BEF8(FileChooseContext* this); // 36
-void func_8080969C(FileChooseContext* this); // 37
-void func_8080960C(FileChooseContext* this); // 38
-void func_8080BF6C(FileChooseContext* this); // 39
+void FileChoose_RotateToNameEntry(FileChooseContext* this); // 32
+void FileChoose_UpdateKeyboardCursor(FileChooseContext* this); // 33
+void FileChoose_StartNameEntry(FileChooseContext* this); // 34
+void FileChoose_RotateFromOptions(FileChooseContext* this); // 35
+void FileChoose_RotateToOptions(FileChooseContext* this); // 36
+void FileChoose_UpdateOptionsMenu(FileChooseContext* this); // 37
+void FileChoose_StartOptions(FileChooseContext* this); // 38
+void FileChoose_RotateFromOptions(FileChooseContext* this); // 39
 void func_8080BE30(FileChooseContext* this); // 40
 
 // update funcs for menuMode 2 (gSelectModeUpdateFuncs)

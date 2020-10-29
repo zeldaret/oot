@@ -85,7 +85,6 @@ s16 D_808124A4[] = { -56, -40, -24, 0 };
 
 s16 D_808124AC[] = { 0, 16, 32, 0, 0, 0, 0 };
 
-// s16 D_80813800;
 
 // update func for configMode 3
 void func_80803D40(FileChooseContext* thisx) {

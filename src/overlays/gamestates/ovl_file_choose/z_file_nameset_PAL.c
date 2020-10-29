@@ -31,7 +31,9 @@ s32 D_808126FC[] = { 0x00010000 };
 s32 D_80812700[] = { 0x00140000 };
 s32 D_80812704[] = { 0x00FF00FF, 0x00FF0000, 0x00FF00FF };
 s32 D_80812710[] = { 0x00000000, 0x00000000, 0x00960096, 0x00000000, 0x006A0000 };
-s16 D_80812724 = 0x00FF;
+
+s16 gScreenFillAlpha = 255;
+
 s32 D_80812728[] = { 0xE7000000, 0x00000000, 0xD9C0F9FA, 0x00000000, 0xEF802C30,
                      0x00504340, 0xFCFFFFFF, 0xFFFDF6FB, 0xDF000000, 0x00000000 };
 s32 D_80812750[] = { 0x00240024, 0x00240024, 0x00180000 };
@@ -40,12 +42,12 @@ s32 D_8081275C[] = { 0x00640096, 0x00FF0064, 0x00640064 };
 u8 gEmptyName[] = { 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E, 0x3E };
 
 void* gConfigModeUpdateFuncs[] = {
-    func_8080B40C, func_8080B494, func_8080B52C, func_80803D40, func_80803ED8, func_80804248, func_808043D8,
+    FileChoose_StartFadeIn, FileChoose_FinishFadeIn, FileChoose_UpdateMainMenu, func_80803D40, func_80803ED8, func_80804248, func_808043D8,
     func_808044A0, func_80804858, func_80804924, func_80804A50, func_80804C74, func_80804CD0, func_80804ED8,
     func_8080510C, func_808051C8, func_80805318, func_80805434, func_80805524, func_80805824, func_8080595C,
     func_80805B2C, func_80805EB8, func_80806180, func_8080625C, func_80806444, func_808064F4, func_80806710,
-    func_808068F0, func_808069B4, func_80806C20, func_8080BE28, func_8080BE84, func_80809038, func_80808F84,
-    func_8080BF6C, func_8080BEF8, func_8080969C, func_8080960C, func_8080BF6C, func_8080BE30,
+    func_808068F0, func_808069B4, func_80806C20, func_8080BE28, FileChoose_RotateToNameEntry, FileChoose_UpdateKeyboardCursor, FileChoose_StartNameEntry,
+    FileChoose_RotateFromOptions, FileChoose_RotateToOptions, FileChoose_UpdateOptionsMenu, FileChoose_StartOptions, FileChoose_RotateFromOptions, func_8080BE30,
 };
 s16 D_80812814[] = { 0x0046, 0x00C8 }; // used for calculating alpha for the flashing cursor
 s32 D_80812818[] = { 0x001A000A, 0x000A000A };
@@ -111,7 +113,11 @@ u8 gSelectedSetting;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
 
-void func_80808F84(FileChooseContext* this) {
+/**
+ * Fade in the name entry box and slide it to the center of the screen from the right side.
+ * After the name entry box is in place, init the keyboard/cursor and change modes
+ */
+void FileChoose_StartNameEntry(FileChooseContext* this) {
     this->nameEntryBoxAlpha += 25;
 
     if (this->nameEntryBoxAlpha >= 255) {
@@ -126,11 +132,16 @@ void func_80808F84(FileChooseContext* this) {
         this->kbdX = 0;
         this->kbdY = 0;
         this->kbdButtonIndex = 99;
-        this->configMode = 33;
+        this->configMode = CM_KEYBOARD_CURSOR;
     }
 }
 
-void func_80809038(FileChooseContext* thisx) {
+/**
+ * Update the keyboard cursor and play sounds at the appropriate times.
+ * There are many special cases for warping the cursor depending on where
+ * on the keyboard the cursor currently is.
+ */
+void FileChoose_UpdateKeyboardCursor(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     s16 prevKbdX;
 
@@ -242,7 +253,12 @@ void func_80809038(FileChooseContext* thisx) {
     }
 }
 
-void func_8080960C(FileChooseContext* this) {
+/**
+ * This function is mostly a copy paste of `FileChoose_StartNameEntry`.
+ * The name entry box fades and slides in even though it is not visible.
+ * After this is complete, change to the options menu mode
+ */
+void FileChoose_StartOptions(FileChooseContext* this) {
     this->nameEntryBoxAlpha += 25;
 
     if (this->nameEntryBoxAlpha >= 255) {
@@ -254,18 +270,23 @@ void func_8080960C(FileChooseContext* this) {
     if (this->nameEntryBoxPosX <= 0) {
         this->nameEntryBoxPosX = 0;
         this->nameEntryBoxAlpha = 255;
-        this->configMode = 37;
+        this->configMode = CM_OPTIONS_MENU;
     }
 }
 
-void func_8080969C(FileChooseContext* thisx) {
+/**
+ * Update the cursor and appropriate settings for the options menu
+ * If the player presses B, write the selected options to the SRAM header
+ * and set configMode to rotate back to the main menu
+ */
+void FileChoose_UpdateOptionsMenu(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
 
     if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        this->configMode = 39;
+        this->configMode = CM_ROT_FROM_OPTIONS;
         sramCtx->readBuff[0] = gSaveContext.audioSetting;
         sramCtx->readBuff[1] = gSaveContext.zTargetSetting;
         osSyncPrintf("ＳＡＶＥ");
@@ -281,13 +302,14 @@ void func_8080969C(FileChooseContext* thisx) {
         osSyncPrintf("終了\n");
         return;
     }
+
     if (this->stickRelX < -30) {
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
         if (gSelectedSetting == SETTING_AUDIO) {
             gSaveContext.audioSetting--;
 
-            // because audio setting is unsigned, it cant check for < 0
+            // because audio setting is unsigned, can't check for < 0
             if (gSaveContext.audioSetting > 0xF0) {
                 gSaveContext.audioSetting = AUDIO_SURROUND;
             }
