@@ -18,20 +18,75 @@ typedef struct DemoEffect {
     /* 0x17B */ u8 envXluColor[3];
     /* 0x17E */ u8 primOpaColor[3];
     /* 0x181 */ u8 envOpaColor[3];
-    /* 0x0184 */ u8 unk_184; // ????
-    /* 0x0185 */ u8 unk_185; // ????
-    /* 0x0186 */ u8 unk_186; // getitem related. func_800694A0 ... seems to do other things too
-    /* 0x0188 */ s16 unk_188; // Some kind of frame count??
-    /* 0x018A */ s16 unk_18A; // Some kind of bitfield flags
+    /* 0x0184 */ union {
+        struct {
+            u8 timer;
+        } fireBall;
+        struct {
+            u8 opacity;
+            u8 scale;
+            u8 pad;
+            s16 rotation;
+        } blueOrb;
+        struct {
+            u8 opacity;
+            u8 scaleFlag;
+            u8 flicker;
+            s16 rotation;
+        } lightEffect;
+        struct {
+            u8 opacity;
+        } lgtShower;
+        struct {
+            u8 type;
+            u8 lightRingSpawnDelay;
+            u8 rotation;
+            s16 lightRingSpawnTimer;
+        } godLgt;
+        struct {
+            u8 timerIncrement;
+            u8 opacity;
+            u8 pad;
+            s16 timer;
+        } lightRing;
+        struct {
+            u8 triforceSpotOpacity;
+            u8 lightColumnOpacity;
+            u8 unused;
+            s16 rotation;
+        } triforceSpot;
+        struct {
+            u8 isPositionInit;
+            u8 isLoaded;
+            u8 giIndex;
+            s16 rotation;
+        } getItem;
+        struct {
+            u8 pad;
+            u8 pad2;
+            u8 pad3;
+            s16 shrinkTimer;
+        } timeWarp;
+        struct {
+            u8 type;
+            u8 isPositionInit;
+            u8 opacity;
+            s16 timer;
+        } jewel;
+        struct {
+            u8 timer;
+        } dust;
+    };
+    /* 0x018A */ s16 effectFlags;
     /* 0x018C */ s16 csActionId;
-    /* 0x018E */ Vec3s unk_vec3s; // Not really sure yet what this is. It's really only used in func_80973CFC
+    /* 0x018E */ Vec3s jewelCsRotation;
     /* 0x0194 */ DemoEffectFunc initUpdateFunc;
     /* 0x0198 */ DemoEffectFunc initDrawFunc;
     /* 0x019C */ DemoEffectFunc updateFunc;
 } DemoEffect; // size = 0x01A0
 
 // These names come from the objects that correspond to this actor type.
-typedef enum {
+typedef enum Demo_Effect_Effect_Type {
     /* 0x00 */ Demo_Effect_Crystal_Light,
     /* 0x01 */ Demo_Effect_Fire_Ball,
     /* 0x02 */ Demo_Effect_Blue_Orb, // Object is in GAMEPLAY_KEEP. Not a name from object. It's a blue orb.
@@ -62,7 +117,7 @@ typedef enum {
 } Demo_Effect_Effect_Type;
 
 #define GET_EFFECT_TYPE(thisx) ((thisx)->params & 0x00FF)
-#define GET_LIGHT_EFFECT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 0x0C)
-#define GET_LIGHT_EFFECT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 0x08)
+#define GET_LIGHT_EFFECT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 12)
+#define GET_LIGHT_EFFECT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 8)
 
 #endif
