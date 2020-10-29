@@ -20,7 +20,7 @@ typedef struct DemoEffect {
     /* 0x181 */ u8 envOpaColor[3];
     /* 0x0184 */ u8 unk_184; // ????
     /* 0x0185 */ u8 unk_185; // ????
-    /* 0x0186 */ u8 unk_186; // getitem related. func_800694A0
+    /* 0x0186 */ u8 unk_186; // getitem related. func_800694A0 ... seems to do other things too
     /* 0x0188 */ s16 unk_188; // Some kind of frame count??
     /* 0x018A */ s16 unk_18A; // Some kind of bitfield flags
     /* 0x018C */ s16 csActionId;
