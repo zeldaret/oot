@@ -1382,8 +1382,7 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     accel.y = -0.1f;
     accel.z = 0.0f;
 
-    // TODO: This assignment gives compiler warning
-    sparkleColors = &jewelSparkleColors[this->jewel.type - Demo_Effect_Jewel_Kokiri];
+    sparkleColors = jewelSparkleColors[this->jewel.type - Demo_Effect_Jewel_Kokiri];
 
     primColor.r = (sparkleColors + 0)->r;
     primColor.g = (sparkleColors + 0)->g;
