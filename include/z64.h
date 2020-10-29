@@ -1209,7 +1209,7 @@ typedef struct {
     /* 0x1CA96 */ s16 confirmButtonAlpha[2];
     /* 0x1CA9A */ s16 optionButtonAlpha;
     /* 0x1CA9C */ s16 nameEntryBoxAlpha;
-    /* 0x1CA9E */ s16 bottomTextAlpha;
+    /* 0x1CA9E */ s16 controlsTextAlpha;
     /* 0x1CAA0 */ s16 emptyFileTextAlpha;
     /* 0x1CAA2 */ s16 highlightColor[4];
     /* 0x1CAAA */ s16 highlightFlashDir; // 0 decrease, 1 increase

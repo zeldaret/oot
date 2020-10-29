@@ -91,12 +91,12 @@ void func_8080B40C(FileChooseContext* this) {
 void func_8080B494(FileChooseContext* this) {
     s32 pad;
 
-    this->bottomTextAlpha += VREG(1);
+    this->controlsTextAlpha += VREG(1);
     func_8080B22C(this);
 
     if (this->titleAlpha[0] >= 255) {
         this->titleAlpha[0] = 255;
-        this->bottomTextAlpha = 255;
+        this->controlsTextAlpha = 255;
         this->windowAlpha = 200;
         this->configMode = 2;
     }
@@ -344,6 +344,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     func_8080C330(this);
     func_8080C60C(this);
 
+    // keyboard
     if ((this->configMode != 33) && (this->configMode != 34)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -375,6 +376,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         func_8080E074(this);
     }
 
+    // name entry
     if ((this->configMode >= 32) && (this->configMode <= 35)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -402,6 +404,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
         func_80808000(this);
     }
 
+    // options menu
     if ((this->configMode >= 36) && (this->configMode <= 39)) {
         gDPPipeSync(oGfxCtx->polyOpa.p++);
         gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -590,14 +593,14 @@ void FileChoose_Main(GameState* thisx) {
     gFileSelectUpdateFuncs[this->menuMode](this);
     gFileSelectDrawFuncs[this->menuMode](this);
 
-    // do not draw bottom text in the options menu
+    // do not draw controls text in the options menu
     if ((this->configMode < 0x24) || (this->configMode >= 0x28)) {
         func_800944C4(this->state.gfxCtx);
 
         gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0x64, 0xFF, 0xFF, this->bottomTextAlpha);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0x00);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 100, 255, 255, this->controlsTextAlpha);
+        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
         gDPLoadTextureBlock(oGfxCtx->polyOpa.p++, D_80812A50[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 0x90,
                             0x10, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
@@ -725,7 +728,7 @@ void FileChoose_InitContext(GameState* thisx) {
                 this->connectorAlpha[0] = this->connectorAlpha[1] = this->connectorAlpha[2] = this->fileInfoAlpha[0] =
                     this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->copyEraseAlpha[0] =
                         this->copyEraseAlpha[1] = this->confirmButtonAlpha[BTN_CONFIRM_YES] = this->confirmButtonAlpha[BTN_CONFIRM_QUIT] =
-                            this->optionButtonAlpha = this->nameEntryBoxAlpha = this->bottomTextAlpha =
+                            this->optionButtonAlpha = this->nameEntryBoxAlpha = this->controlsTextAlpha =
                                 this->emptyFileTextAlpha = 0;
 
     this->windowPosX = 6;
