@@ -52,7 +52,7 @@ typedef struct DemoEffect {
         struct {
             u8 triforceSpotOpacity;
             u8 lightColumnOpacity;
-            u8 unused;
+            u8 crystalLightOpacity;
             s16 rotation;
         } triforceSpot;
         struct {

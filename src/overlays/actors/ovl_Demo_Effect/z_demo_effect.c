@@ -411,7 +411,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_Triforce_Spot:
             this->initDrawFunc = &DemoEffect_DrawTriforceSpot;
             this->initUpdateFunc = &DemoEffect_UpdateTriforceSpot;
-            this->triforceSpot.unused = 0;
+            this->triforceSpot.crystalLightOpacity = 0;
             this->triforceSpot.lightColumnOpacity = 0;
             this->triforceSpot.triforceSpotOpacity = 0;
             this->triforceSpot.rotation = 0;
@@ -813,7 +813,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
                 } else {
                     if (this->primXluColor[0] < 0x8D) {
                         this->triforceSpot.lightColumnOpacity = 255;
-                        this->triforceSpot.unused = (((s32)this->primXluColor[0]) - 0x3C) * 3.1875f;
+                        this->triforceSpot.crystalLightOpacity = (((s32)this->primXluColor[0]) - 0x3C) * 3.1875f;
                     }
                 }
             }
@@ -1599,7 +1599,7 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2634);
 
     if (parent) {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, parent->jewel.opacity);
+        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, parent->triforceSpot.crystalLightOpacity);
     } else {
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, 0xFF);
     }
