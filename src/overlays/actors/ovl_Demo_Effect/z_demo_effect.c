@@ -55,8 +55,8 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
 void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isSmallSpawner);
 void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha);
-void DemoEffect_MoveJewelCs(PosRot* posRot, DemoEffect* this);
-void DemoEffect_MoveJewelCsActivateDoorOfTime(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_MoveJewelSplit(PosRot* posRot, DemoEffect* this);
+void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos, Vec3f endPos, f32 radius,
                                    Vec3s rotation, DemoEffect* this);
 void DemoEffect_TimewarpShrink(f32 size);
@@ -67,7 +67,7 @@ void DemoEffect_InitPositionFromCsAction(DemoEffect* this, GlobalContext* global
 void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos);
 void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, s32 shouldUpdateFacing);
 void DemoEffect_MoveTowardTarget(Vec3f targetPos, DemoEffect* this, f32 speed);
-void DemoEffect_MoveMedalCs(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed);
+void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed);
 
 // gameplay_keep
 extern Gfx lightBall[];
@@ -147,10 +147,16 @@ Color_RGB8 jewelSparkleColors[5][2] = { { { 0xFF, 0xFF, 0xFF }, { 0x64, 0xFF, 0x
                                         { { 0x00, 0x00, 0x00 }, { 0x00, 0x00, 0x00 } },
                                         { { 0xDF, 0x00, 0x00 }, { 0x00, 0x00, 0x00 } } };
 
+/**
+ * Sets up the update function.
+ */
 void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
     this->updateFunc = updateFunc;
 }
 
+/**
+ * Gives a number on the range of 0.0f - 1.0f representing current cutscene action completion percentage.
+ */
 f32 DemoEffect_InterpolateCsFrames(GlobalContext* globalCtx, s32 csActionId) {
     f32 interpolated = func_8006F93C(globalCtx->csCtx.npcActions[csActionId]->endFrame,
                                      globalCtx->csCtx.npcActions[csActionId]->startFrame, globalCtx->csCtx.frames);
@@ -160,6 +166,9 @@ f32 DemoEffect_InterpolateCsFrames(GlobalContext* globalCtx, s32 csActionId) {
     return interpolated;
 }
 
+/**
+ * Initializes information for Jewel/Spritual Stone actors.
+ */
 void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
     this->initDrawFunc = &DemoEffect_DrawJewel;
     if (LINK_IS_CHILD) {
@@ -181,6 +190,10 @@ void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
     sfxJewelId[0] = 0;
 }
 
+/**
+ * Initializes information for Get Item actors.
+ * These are the Medal and Light Arrow actors.
+ */
 void DemoEffect_InitGetItem(DemoEffect* this) {
     this->getItem.isPositionInit = 0;
     this->getItem.isLoaded = 0;
@@ -190,6 +203,9 @@ void DemoEffect_InitGetItem(DemoEffect* this) {
     this->csActionId = 6;
 }
 
+/**
+ * Main Actor Init function
+ */
 void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     DemoEffect* this = THIS;
@@ -531,6 +547,9 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoEffect_SetupUpdate(this, &DemoEffect_Wait);
 }
 
+/**
+ * Main Actor Destroy function
+ */
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 effectType = GET_EFFECT_TYPE(thisx);
 
@@ -540,6 +559,12 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * This update function waits until the associate object is loaded.
+ * Once the object is loaded, it will copy over the initUpdateFunc/initDrawFunc funcs to be active.
+ * They are copied to actor.draw and updateFunc.
+ * initUpdateFunc/initDrawFunc are set during initialization and are NOT executed.
+ */
 void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->initObjectBankIndex)) {
         this->actor.objBankIndex = this->initObjectBankIndex;
@@ -550,6 +575,9 @@ void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Copies the current Actor's position to the parent Actor's position.
+ */
 void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->actor.parent) {
         // Struct copy affects regalloc
@@ -559,11 +587,20 @@ void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCt
     }
 }
 
+/**
+ * Update function for the Crystal Light actor.
+ * The Crystal Light actor is the three beams of light under the Triforce that converge on it.
+ * The Crystal Light's position is set to the parent Actor (Triforce) each frame.
+ * If the Crystal Light has no parent Actor, then it will raise into the sky.
+ */
 void DemoEffect_UpdateCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect_UpdatePositionToParent(this, globalCtx);
     this->actor.posRot.pos.y += 14.0f;
 }
 
+/**
+ * Spawns sparkle effects for Medals
+ */
 void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isSmallSpawner) {
     Vec3f velocity;
     Vec3f accel;
@@ -603,12 +640,17 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
     }
 }
 
+/**
+ * Update function for the GetItem Actors.
+ * Medals and Light Arrows.
+ * It spawns Medal Sparkle Effects  and scales/moves the Actor based on the current Cutscene Action
+ */
 void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         if (this->getItem.isPositionInit) {
-            DemoEffect_MoveMedalCs(this, globalCtx, this->csActionId, 0.1f);
+            DemoEffect_MoveGetItem(this, globalCtx, this->csActionId, 0.1f);
         } else {
             DemoEffect_InitPositionFromCsAction(this, globalCtx, this->csActionId);
             this->getItem.isPositionInit = 1;
@@ -662,6 +704,14 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Initializes Timewarp Actors.
+ * This is an Update Function that is only ran for one frame.
+ * Timewarp actors are spawned when Link...
+ * 1) Pulls the Master Sword
+ * 2) Returns from the Chamber of Sages for the first time
+ * 3) Timeblock is cleared with the Song of Time (Large and Small have different versions of Timewarp)
+ */
 void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     s32 effectType = GET_EFFECT_TYPE(&this->actor);
 
@@ -700,6 +750,10 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     if (1) {}
 }
 
+/**
+ * Update function for the Timewarp Actor that is used when Link pulls the Mastersword
+ * It changes the Background Music and updates it's SkelCurve animation.
+ */
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 1)) {
         if (!(this->effectFlags & 2)) {
@@ -713,6 +767,10 @@ void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* g
     }
 }
 
+/**
+ * Shrinks the Timewarp object vertices.
+ * Used by the Chamber of Sages return timewarp and Timeblock clear timewarp.
+ */
 void DemoEffect_TimewarpShrink(f32 size) {
     Vtx* vertices;
     s32 i;
@@ -732,6 +790,10 @@ void DemoEffect_TimewarpShrink(f32 size) {
     }
 }
 
+/**
+ * Update function for the Timewarp Actor that is used when Link returns from the Chamber of Sages for the first time.
+ * It shrinks the timewarp vertices and scales the Actor.
+ */
 void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalContext* globalCtx) {
     f32 shrinkProgress;
 
@@ -756,6 +818,10 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 }
 
+/**
+ * Update function for the Timewarp Actor that is used when a Timeblock is cleared.
+ * It shrinks the timewarp vertices and scales the Actor.
+ */
 void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx) {
     f32 shrinkProgress;
     f32 scale;
@@ -781,6 +847,10 @@ void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalC
     Actor_Kill(&this->actor);
 }
 
+/**
+ * Initializes information for the Timewarp Actor used for the Timeblock clear effect.
+ * This is an Update Func that is only ran for one frame.
+ */
 void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx) {
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 
@@ -791,6 +861,10 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
     }
 }
 
+/**
+ * Update function for the Triforce Actor.
+ * It rotates and updates the opacity of the Triforce and child actors.
+ */
 void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     this->triforceSpot.rotation += 1000;
 
@@ -825,6 +899,10 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update function for the LightRing actor that shrinks.
+ * This is used in the creation cutscene when Din leaves a fireball that explodes into Death Mountain.
+ */
 void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->lightRing.timer < this->lightRing.timerIncrement) {
         Actor_Kill(&this->actor);
@@ -846,6 +924,11 @@ void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, GlobalContext* global
     }
 }
 
+/**
+ * Update function for the Lightring Actor that expands.
+ * These are spawned by Nayru.
+ * These are also used by Din in the creation cutscene when she leaves a fireball that explodes into Death Mountain.
+ */
 void DemoEffect_UpdateLightRingExpanding(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect_UpdatePositionToParent(this, globalCtx);
     this->lightRing.timer += this->lightRing.timerIncrement;
@@ -860,6 +943,11 @@ void DemoEffect_UpdateLightRingExpanding(DemoEffect* this, GlobalContext* global
     }
 }
 
+/**
+ * Update function for the Lightring Actor that expands. This is a special version for the Triforce Actor.
+ * This version spawns a blue orb when the cutscene action state is set to 2.
+ * Once the Blue Orb Actor is spawned the Update Function is changed to the regular Light Ring Expanding Update Func.
+ */
 void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* blueOrb;
 
@@ -882,6 +970,12 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
     }
 }
 
+/**
+ * Update function for the FireBall Actor.
+ * This is a special version that is used in the creation cutscene.
+ * It moves based on gravity and decrements a timer until zero. Once the timer is zero it will spawn other Actors:
+ * A Blue Orb Actor, and a Light Ring Expanding Actor, and a Light Ring Shrinking Actor.
+ */
 void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* effect;
 
@@ -918,6 +1012,11 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCt
     Actor_Kill(&this->actor);
 }
 
+/**
+ * Initialization function for the FireBall Actor.
+ * This is a special version that is used in the creation cutscene.
+ * It is an Update Function only executed for one frame. The Update Function is then changed to UpdateCreationFireball.
+ */
 void DemoEffect_InitCreationFireball(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* parent = this->actor.parent;
 
@@ -929,6 +1028,13 @@ void DemoEffect_InitCreationFireball(DemoEffect* this, GlobalContext* globalCtx)
     this->updateFunc = &DemoEffect_UpdateCreationFireball;
 }
 
+/**
+ * Update action for the Blue Orb Actor.
+ * This Update Function is run while the Blue Orb is Shrinking.
+ * The Blue Orb Actor is the blue light sparkle that is in Din's creation cutscene.
+ * It's spawned in the middle of the expanding Light Ring.
+ * The Blue Orb Actor shrinks after it grows to max size.
+ */
 void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx) {
     this->blueOrb.opacity = this->blueOrb.scale * 16;
     this->blueOrb.scale--;
@@ -938,6 +1044,13 @@ void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx) 
     }
 }
 
+/**
+ * Update action for the Blue Orb Actor.
+ * This Update Function is run while the Blue Orb is Growing.
+ * The Blue Orb Actor is the blue light sparkle that is in Din's creation cutscene.
+ * It's spawned in the middle of the expanding Light Ring.
+ * When the scale timer value reaches 0 the Blue Orb's Update Function changes to UpdateBlueOrbShrink.
+ */
 void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->actor.parent) {
         // s32 cast necessary to match codegen. Without the explicit cast to u32 the compiler generates complex cast of
@@ -956,18 +1069,23 @@ void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update action for the Light Effect Actor.
+ * The Light Effect has various use cases.
+ * This function updates the position and scale of the actor based on the current cutscene command.
+ */
 void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     u16 action;
-    s32 largeSize;
+    s32 isLargeSize;
 
-    largeSize = GET_LIGHT_EFFECT_SIZE_PARAM(&this->actor);
+    isLargeSize = GET_LIGHT_EFFECT_SIZE_PARAM(&this->actor);
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
                 if (this->lightEffect.rotation < 240) {
-                    if (!largeSize) {
+                    if (!isLargeSize) {
                         if (this->actor.scale.x < 0.23f) {
                             this->actor.scale.x += 0.001f;
                             Actor_SetScale(&this->actor, this->actor.scale.x);
@@ -1038,6 +1156,11 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update action for the Lgt Shower Actor.
+ * The Lgt Shower Actor is the green light effect spawned by Farore in the Kokiri Forst creation cutscene.
+ * This function updates the scale and opacity of the Actor.
+ */
 void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     if (this->lgtShower.opacity > 3) {
         this->lgtShower.opacity -= 3;
@@ -1049,6 +1172,13 @@ void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update action for the God Lgt Din Actor.
+ * This is the Goddess Din.
+ * This function moves God Lgt Din based on the current cutscene command.
+ * This function also spawns a Fireball Actor and sets it's update function to the special InitCreationFireball.
+ * The spawned Fireball Actor is also scaled to be smaller than regular by this function.
+ */
 void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* fireBall;
 
@@ -1096,6 +1226,12 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update action for the God Lgt Nayru Actor.
+ * This is the Goddess Nayru.
+ * This function moves God Lgt Nayure based on the current cutscene command.
+ * This function also spawns expanding light rings around Nayru in the creation cutscene
+ */
 void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lightRing;
 
@@ -1154,6 +1290,12 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update action for the God Lgt Farore Actor.
+ * This is the Goddess Farore.
+ * This function moves God Lgt Farore based on the current cutscene command.
+ * This function also spawns an Lgt Shower Actor during the Kokiri creation cutscene.
+ */
 void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lgtShower;
 
@@ -1202,12 +1344,18 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Moves this actor towards the target position with a given speed.
+ */
 void DemoEffect_MoveTowardTarget(Vec3f targetPos, DemoEffect* this, f32 speed) {
     this->actor.posRot.pos.x += (targetPos.x - this->actor.posRot.pos.x) * speed;
     this->actor.posRot.pos.y += (targetPos.y - this->actor.posRot.pos.y) * speed;
     this->actor.posRot.pos.z += (targetPos.z - this->actor.posRot.pos.z) * speed;
 }
 
+/**
+ * Initializes Jewel colors.
+ */
 void DemoEffect_InitJewelColor(DemoEffect* this) {
     u8 jewelType = this->jewel.type;
 
@@ -1259,6 +1407,11 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
     }
 }
 
+/**
+ * Sets the Jewel color based on the alpha variable.
+ * This function if a value of less than 1.0f is supplied will drain the color from the Jewels.
+ * This effect can be seen in prerelease screenshots.
+ */
 void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha) {
     DemoEffect_InitJewelColor(this);
 
@@ -1277,7 +1430,11 @@ void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha) {
     this->envOpaColor[2] = ((s32)this->envOpaColor[2]) * alpha;
 }
 
-void DemoEffect_MoveJewelCs(PosRot* posRot, DemoEffect* this) {
+/**
+ * Moves the Jewel Actor during the activation of the Door of Time cutscene.
+ * This is used once the Jewel Actor is done orbiting Link and split up to move into the pedastal slots.
+ */
+void DemoEffect_MoveJewelSplit(PosRot* posRot, DemoEffect* this) {
     switch (this->jewel.type) {
         case Demo_Effect_Jewel_Kokiri:
             posRot->pos.x -= 40.0f;
@@ -1292,6 +1449,11 @@ void DemoEffect_MoveJewelCs(PosRot* posRot, DemoEffect* this) {
     }
 }
 
+/**
+ * Moves the Jewel Actor spherically from startPos to endPos.
+ * This is used by the Jewel Actor during the Door of Time activation cutscene.
+ * This is run when the Jewels merge from Link and begin orbiting him.
+ */
 void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos, Vec3f endPos, f32 radius,
                                    Vec3s rotation, DemoEffect* this) {
     s32 pad;
@@ -1324,7 +1486,12 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
     this->actor.posRot.pos.z += startPos.z;
 }
 
-void DemoEffect_MoveJewelCsActivateDoorOfTime(DemoEffect* this, GlobalContext* globalCtx) {
+/**
+ * Moves the Jewel Actor spherically from startPos to endPos.
+ * This is used by the Jewel Actor during the Door of Time activation cutscene.
+ * This is run when the Jewels merge from Link and begin orbiting him.
+ */
+void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* globalCtx) {
     Vec3f startPos;
     Vec3f endPos;
     f32 frameDivisor;
@@ -1371,6 +1538,9 @@ void DemoEffect_MoveJewelCsActivateDoorOfTime(DemoEffect* this, GlobalContext* g
     DemoEffect_MoveJewelSpherical(degrees, frameDivisor, startPos, endPos, radius, this->jewelCsRotation, this);
 }
 
+/**
+ * Spawns Sparkle Effects for the Jewel Actor.
+ */
 void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spawnerCount) {
     Vec3f velocity;
     Vec3f accel;
@@ -1408,6 +1578,10 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     }
 }
 
+/**
+ * Plays Jewel sound effects.
+ * The sfxJewelId global variable is used to ensure only one Jewel Actor is playing SFX when all are spawned.
+ */
 void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx) {
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
         if (this->actor.params == sfxJewelId[0]) {
@@ -1419,6 +1593,13 @@ void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Update Function for the Jewel Actor that is run when Link is an adult.
+ * This rotates the Jewel and updates a timer that is used to scroll Jewel textures.
+ * There is a call SetJewelColor that does nothing since 1.0f is passed.
+ * If a value of less than 1.0f were passed to SetJewelColor, then it would appear to drain the Jewel's color.
+ * This can be seen in preprelease screenshots.
+ */
 void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx) {
     this->jewel.timer++;
     this->actor.shape.rot.y += 1024;
@@ -1426,6 +1607,11 @@ void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect_SetJewelColor(this, 1.0f);
 }
 
+/**
+ * Update Function for the Jewel Actor that is run when Link is a child.
+ * This rotates the Jewel and updates a timer that is used to scroll Jewel textures.
+ * This also updates the Jewel's position based on different cutscenes.
+ */
 void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     s32 hasCmdAction;
     Actor* thisx = &this->actor;
@@ -1438,7 +1624,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
                 if (gSaveContext.eventChkInf[4] & 2048) {
                     gSaveContext.eventChkInf[4] |= 2048;
                 }
-                DemoEffect_MoveJewelCsActivateDoorOfTime(this, globalCtx);
+                DemoEffect_MoveJewelActivateDoorOfTime(this, globalCtx);
                 if (!(globalCtx->gameplayFrames & 1)) {
                     DemoEffect_JewelSparkle(this, globalCtx, 1);
                 }
@@ -1446,13 +1632,13 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
             case 4:
                 if (this->jewel.isPositionInit) {
                     DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
-                    DemoEffect_MoveJewelCs(&thisx->posRot, this);
+                    DemoEffect_MoveJewelSplit(&thisx->posRot, this);
                     if (!(globalCtx->gameplayFrames & 1)) {
                         DemoEffect_JewelSparkle(this, globalCtx, 1);
                     }
                 } else {
                     DemoEffect_InitPositionFromCsAction(this, globalCtx, this->csActionId);
-                    DemoEffect_MoveJewelCs(&thisx->posRot, this);
+                    DemoEffect_MoveJewelSplit(&thisx->posRot, this);
                     this->jewel.isPositionInit = 1;
                 }
                 break;
@@ -1462,7 +1648,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
             default:
                 DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
                 if (gSaveContext.entranceIndex == 0x0053) {
-                    DemoEffect_MoveJewelCs(&thisx->posRot, this);
+                    DemoEffect_MoveJewelSplit(&thisx->posRot, this);
                 }
                 break;
         }
@@ -1483,6 +1669,11 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     this->effectFlags &= 65534;
 }
 
+/**
+ * Update Function for the Dust Actor.
+ * This is the dust that is spawned in the Temple of Time during the Light Arrows cutscene.
+ * This spawns the dust particles and increments a timer
+ */
 void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
     Vec3f pos, velocity, accel;
 
@@ -1508,11 +1699,17 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * This is the main Actor Update Function.
+ */
 void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoEffect* this = THIS;
     this->updateFunc(this, globalCtx);
 }
 
+/**
+ * Check if the current cutscene action matches the passed in cutscene action ID.
+ */
 s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csActionCompareId) {
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId] &&
         globalCtx->csCtx.npcActions[this->csActionId]->action == csActionCompareId) {
@@ -1522,6 +1719,9 @@ s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csA
     return 0;
 }
 
+/**
+ * Draw function for the Jewel Actor.
+ */
 void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     GlobalContext* globalCtx2;
@@ -1585,6 +1785,9 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2620);
 }
 
+/**
+ * Draw function for the Crystal Light Actor.
+ */
 void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     DemoEffect* parent;
@@ -1633,6 +1836,9 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2688);
 }
 
+/**
+ * Draw function for the Fire Ball Actor.
+ */
 void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     u32 scroll;
@@ -1653,6 +1859,10 @@ void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2723);
 }
 
+/**
+ * Draw function for the God Lgt Actors.
+ * This draws either Din, Nayru, or Farore based on the colors set in the DemoEffect struct.
+ */
 void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
@@ -1713,6 +1923,9 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2829);
 }
 
+/**
+ * Draw function for the Light Effect Actor.
+ */
 void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     u8* opacity;
@@ -1753,6 +1966,9 @@ void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2881);
 }
 
+/**
+ * Draw function for the Blue Orb Actor.
+ */
 void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
@@ -1770,6 +1986,9 @@ void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2907);
 }
 
+/**
+ * Draw function for the Lgt Shower Actor.
+ */
 void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
@@ -1789,6 +2008,9 @@ void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2942);
 }
 
+/**
+ * Draw function for the Light Ring Actor.
+ */
 void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
     GlobalContext* globalCtx2 = globalCtx;
@@ -1809,6 +2031,9 @@ void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2978);
 }
 
+/**
+ * Draw function for the Triforce Spot Actor.
+ */
 void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
@@ -1875,6 +2100,10 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3112);
 }
 
+/**
+ * Draw function for the Get Item Actors.
+ * This is either Medals or Light Arrows based on the giIndex.
+ */
 void DemoEffect_DrawGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1) && !DemoEffect_CheckCsAction(this, globalCtx, 4)) {
@@ -1888,6 +2117,9 @@ void DemoEffect_DrawGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Callback for the SkelCurve system to draw the animated limbs.
+ */
 s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, Actor* thisx) {
     s32 pad;
     DemoEffect* this = THIS;
@@ -1912,6 +2144,9 @@ s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelC
     return 1;
 }
 
+/**
+ * Draw function for the Time Warp Actors.
+ */
 void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     u8 effectType = GET_EFFECT_TYPE(&this->actor);
@@ -1928,6 +2163,9 @@ void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     }
 }
 
+/**
+ * Faces/rotates the Actor towards the current cutscene action end point.
+ */
 void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos) {
     s32 pad;
     f32 x = endPos.x - startPos.x;
@@ -1938,6 +2176,11 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     this->actor.shape.rot.x = Math_atan2f(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
 }
 
+/**
+ * Moves the Actor towards the current cutscene action end point.
+ * Will only update the Actor's facing/rotation if the shouldUpdateFacing argument is true.
+ * The speed is based on the current progress in the cutscene action.
+ */
 void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, s32 shouldUpdateFacing) {
     Vec3f startPos;
     Vec3f endPos;
@@ -1961,7 +2204,10 @@ void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32
     }
 }
 
-void DemoEffect_MoveMedalCs(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed) {
+/**
+ * Moves a GetItem actor towards the current cutscene action's endpoint.
+ */
+void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed) {
     Vec3f endPos;
     endPos.x = globalCtx->csCtx.npcActions[csActionId]->endPos.x;
     endPos.y = globalCtx->csCtx.npcActions[csActionId]->endPos.y;
@@ -1969,6 +2215,9 @@ void DemoEffect_MoveMedalCs(DemoEffect* this, GlobalContext* globalCtx, s32 csAc
     DemoEffect_MoveTowardTarget(endPos, this, speed);
 }
 
+/**
+ * Initializes the Actor's position to the current cutscene action's start point.
+ */
 void DemoEffect_InitPositionFromCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csActionIndex) {
     f32 x = globalCtx->csCtx.npcActions[csActionIndex]->startPos.x;
     f32 y = globalCtx->csCtx.npcActions[csActionIndex]->startPos.y;
