@@ -220,7 +220,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->data_ptr = (u64*)gfxCtx->workBuffer;
 
     OPEN_DISPS(gfxCtx, "../graph.c", 828);
-    task->data_size = (u32)oGfxCtx->work.p - (u32)gfxCtx->workBuffer;
+    task->data_size = (u32)WORK_DISP - (u32)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
     { s32 pad2; } // Necessary to match stack usage

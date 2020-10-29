@@ -189,9 +189,9 @@ void BgJyaBombchuiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgJyaBombchuiwa_DrawRock(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 436);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 439),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 439),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060119B0);
+    gSPDisplayList(POLY_XLU_DISP++, D_060119B0);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 443);
 }
 
@@ -200,13 +200,13 @@ void BgJyaBombchuiwa_DrawLight(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 453);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 457),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 153.0f), 153));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600DC40);
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 255.0f), 255));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600DB60);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 153.0f), 153));
+    gSPDisplayList(POLY_XLU_DISP++, D_0600DC40);
+    gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, CLAMP_MAX((u32)(this->lightRayIntensity * 255.0f), 255));
+    gSPDisplayList(POLY_XLU_DISP++, D_0600DB60);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bombchuiwa.c", 472);
 }
 
