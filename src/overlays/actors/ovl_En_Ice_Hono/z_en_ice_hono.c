@@ -346,20 +346,20 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 695);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (globalCtx->state.frames * -20) % 512,
                                 32, 128));
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 170, 255, 255, this->alpha);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 170, 255, 255, this->alpha);
 
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 150, 255, 0);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 0);
 
     Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
                    MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+    gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 722);
 }

@@ -87,6 +87,11 @@
 
 extern GraphicsContext* oGfxCtx;
 
+#define WORK_DISP       oGfxCtx->work.p
+#define POLY_OPA_DISP   oGfxCtx->polyOpa.p
+#define POLY_XLU_DISP   oGfxCtx->polyXlu.p
+#define OVERLAY_DISP    oGfxCtx->overlay.p
+
 #define OPEN_DISPS(gfxCtx, file, line) \
     {                                  \
         GraphicsContext* oGfxCtx;      \

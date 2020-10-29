@@ -542,19 +542,19 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000950);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000950);
 
         if (this->unk_19E & 4) {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
                             this->flashColor.a);
         } else {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_060009D0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000A60);
+        gSPDisplayList(POLY_OPA_DISP++, D_060009D0);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000A60);
 
         Matrix_Pull();
         if (this->unk_19E & 2) {
@@ -562,14 +562,14 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(
-                oGfxCtx->polyXlu.p++, 0x08,
+                POLY_XLU_DISP++, 0x08,
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 0, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+            gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);

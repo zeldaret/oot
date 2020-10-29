@@ -340,16 +340,16 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_8002EBCC(thisx, globalCtx, 0);
 
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007A50);
+        gSPDisplayList(POLY_OPA_DISP++, D_04007A50);
         Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->flashIntensity, 0, 40, 255);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007860);
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
+        gSPDisplayList(POLY_OPA_DISP++, D_04007860);
         func_800628A4(0, &this->explosionCollider);
     }
 

@@ -62,12 +62,12 @@ void func_808B7478(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) - thisx->shape.rot.y + 0x8000) * 9.58738019108e-05f, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 161),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 161),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (0 - globalCtx->gameplayFrames) & 0x7F, 0x20, 0x20, 1, 0,
                                 (0 - globalCtx->gameplayFrames) & 0x7F, 0x20, 0x20));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000B40);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000B40);
 
     if (1) {}
 
