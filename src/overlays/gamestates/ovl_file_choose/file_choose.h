@@ -76,6 +76,11 @@ typedef enum {
 } ConfirmButtonIndex;
 
 typedef enum {
+    /* 0 */ BTN_ACTION_COPY,
+    /* 1 */ BTN_ACTION_ERASE
+} ActionButtonIndex;
+
+typedef enum {
     /* 0 */ SETTING_AUDIO,
     /* 1 */ SETTING_TARGET
 } SettingIndex;
@@ -97,8 +102,8 @@ typedef enum {
     /* 00 */ CM_FADE_IN_START,
     /* 01 */ CM_FADE_IN_END,
     /* 02 */ CM_MAIN_MENU,
-    /* 03 */ CM_03,
-    /* 04 */ CM_04,
+    /* 03 */ CM_COPY_SOURCE_MENU,
+    /* 04 */ CM_SELECT_COPY_SOURCE,
     /* 05 */ CM_05,
     /* 06 */ CM_06,
     /* 07 */ CM_07,
@@ -113,7 +118,7 @@ typedef enum {
     /* 16 */ CM_16,
     /* 17 */ CM_17,
     /* 18 */ CM_18,
-    /* 19 */ CM_19,
+    /* 19 */ CM_COPY_RETURN_MAIN,
     /* 20 */ CM_20,
     /* 21 */ CM_21,
     /* 22 */ CM_22,
@@ -137,48 +142,48 @@ typedef enum {
     /* 40 */ CM_40
 } ConfigMode;
 
-// update funcs for menuMode 1 (gConfigModeUpdateFuncs)
-void FileChoose_StartFadeIn(FileChooseContext* this); // 00
-void FileChoose_FinishFadeIn(FileChooseContext* this); // 01
-void FileChoose_UpdateMainMenu(FileChooseContext* this); // 02
-void func_80803D40(FileChooseContext* this); // 03
-void func_80803ED8(FileChooseContext* this); // 04
-void func_80804248(FileChooseContext* this); // 05
-void func_808043D8(FileChooseContext* this); // 06
-void func_808044A0(FileChooseContext* this); // 07
-void func_80804858(FileChooseContext* this); // 08
-void func_80804924(FileChooseContext* this); // 09
-void func_80804A50(FileChooseContext* this); // 10
-void func_80804C74(FileChooseContext* this); // 11
-void func_80804CD0(FileChooseContext* this); // 12
-void func_80804ED8(FileChooseContext* this); // 13
-void func_8080510C(FileChooseContext* this); // 14
-void func_808051C8(FileChooseContext* this); // 15
-void func_80805318(FileChooseContext* this); // 16
-void func_80805434(FileChooseContext* this); // 17
-void func_80805524(FileChooseContext* this); // 18
-void func_80805824(FileChooseContext* this); // 19
-void func_8080595C(FileChooseContext* this); // 20
-void func_80805B2C(FileChooseContext* this); // 21
-void func_80805EB8(FileChooseContext* this); // 22
-void func_80806180(FileChooseContext* this); // 23
-void func_8080625C(FileChooseContext* this); // 24
-void func_80806444(FileChooseContext* this); // 25
-void func_808064F4(FileChooseContext* this); // 26
-void func_80806710(FileChooseContext* this); // 27
-void func_808068F0(FileChooseContext* this); // 28
-void func_808069B4(FileChooseContext* this); // 29
-void func_80806C20(FileChooseContext* this); // 30
-void func_8080BE28(FileChooseContext* this); // 31
-void FileChoose_RotateToNameEntry(FileChooseContext* this); // 32
-void FileChoose_UpdateKeyboardCursor(FileChooseContext* this); // 33
-void FileChoose_StartNameEntry(FileChooseContext* this); // 34
-void FileChoose_RotateFromOptions(FileChooseContext* this); // 35
-void FileChoose_RotateToOptions(FileChooseContext* this); // 36
-void FileChoose_UpdateOptionsMenu(FileChooseContext* this); // 37
-void FileChoose_StartOptions(FileChooseContext* this); // 38
-void FileChoose_RotateFromOptions(FileChooseContext* this); // 39
-void func_8080BE30(FileChooseContext* this); // 40
+// Config Mode Update Functions
+/* 00 */ void FileChoose_StartFadeIn(FileChooseContext* this);
+/* 01 */ void FileChoose_FinishFadeIn(FileChooseContext* this);
+/* 02 */ void FileChoose_UpdateMainMenu(FileChooseContext* this);
+/* 03 */ void FileCopy_SetupSourceSelect(FileChooseContext* this); 
+/* 04 */ void FileCopy_SelectSource(FileChooseContext* this); 
+/* 05 */ void func_80804248(FileChooseContext* this); 
+/* 06 */ void func_808043D8(FileChooseContext* this); 
+/* 07 */ void FileChoose_SelectCopyDest(FileChooseContext* this); 
+/* 08 */ void func_80804858(FileChooseContext* this); 
+/* 09 */ void func_80804924(FileChooseContext* this); 
+/* 10 */ void func_80804A50(FileChooseContext* this); 
+/* 11 */ void func_80804C74(FileChooseContext* this); 
+/* 12 */ void func_80804CD0(FileChooseContext* this); 
+/* 13 */ void func_80804ED8(FileChooseContext* this); 
+/* 14 */ void func_8080510C(FileChooseContext* this); 
+/* 15 */ void func_808051C8(FileChooseContext* this); 
+/* 16 */ void func_80805318(FileChooseContext* this); 
+/* 17 */ void func_80805434(FileChooseContext* this); 
+/* 18 */ void func_80805524(FileChooseContext* this); 
+/* 19 */ void FileCopy_SetupMainMenu(FileChooseContext* this); 
+/* 20 */ void func_8080595C(FileChooseContext* this); 
+/* 21 */ void func_80805B2C(FileChooseContext* this); 
+/* 22 */ void func_80805EB8(FileChooseContext* this); 
+/* 23 */ void func_80806180(FileChooseContext* this); 
+/* 24 */ void func_8080625C(FileChooseContext* this); 
+/* 25 */ void func_80806444(FileChooseContext* this); 
+/* 26 */ void func_808064F4(FileChooseContext* this); 
+/* 27 */ void func_80806710(FileChooseContext* this); 
+/* 28 */ void func_808068F0(FileChooseContext* this); 
+/* 29 */ void func_808069B4(FileChooseContext* this); 
+/* 30 */ void func_80806C20(FileChooseContext* this); 
+/* 31 */ void func_8080BE28(FileChooseContext* this); 
+/* 32 */ void FileChoose_RotateToNameEntry(FileChooseContext* this);
+/* 33 */ void FileChoose_UpdateKeyboardCursor(FileChooseContext* this);
+/* 34 */ void FileChoose_StartNameEntry(FileChooseContext* this);
+/* 35 */ void FileChoose_RotateFromOptions(FileChooseContext* this);
+/* 36 */ void FileChoose_RotateToOptions(FileChooseContext* this);
+/* 37 */ void FileChoose_UpdateOptionsMenu(FileChooseContext* this);
+/* 38 */ void FileChoose_StartOptions(FileChooseContext* this);
+/* 39 */ void FileChoose_RotateFromOptions(FileChooseContext* this);
+/* 40 */ void func_8080BE30(FileChooseContext* this);
 
 // update funcs for menuMode 2 (gSelectModeUpdateFuncs)
 void func_8080FE2C(FileChooseContext* this);

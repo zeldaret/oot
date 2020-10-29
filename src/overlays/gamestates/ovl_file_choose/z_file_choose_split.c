@@ -1,17 +1,38 @@
 #include "file_choose.h"
 
-s32 D_80811BB0[] = { 0xFFA20048, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFDA0048, 0x00000000, 0x07000000, 0xFFFFFFFF,
-                     0xFFA20038, 0x00000000, 0x00000200, 0xFFFFFFFF, 0xFFDA0038, 0x00000000, 0x07000200, 0xFFFFFFFF,
-                     0xFFA0FFD0, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFCCFFD0, 0x00000000, 0x05800000, 0xFFFFFFFF,
-                     0xFFA0FFC0, 0x00000000, 0x00000200, 0xFFFFFFFF, 0xFFCCFFC0, 0x00000000, 0x05800200, 0xFFFFFFFF,
-                     0xFFD0FFD0, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFCFFD0, 0x00000000, 0x05800000, 0xFFFFFFFF,
-                     0xFFD0FFC0, 0x00000000, 0x00000200, 0xFFFFFFFF, 0xFFFCFFC0, 0x00000000, 0x05800200, 0xFFFFFFFF,
-                     0x0000FFD0, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x001CFFD0, 0x00000000, 0x03800000, 0xFFFFFFFF,
-                     0x0000FFC0, 0x00000000, 0x00000200, 0xFFFFFFFF, 0x001CFFC0, 0x00000000, 0x03800200, 0xFFFFFFFF,
-                     0x0020FFD0, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x003CFFD0, 0x00000000, 0x03800000, 0xFFFFFFFF,
-                     0x0020FFC0, 0x00000000, 0x00000200, 0xFFFFFFFF, 0x003CFFC0, 0x00000000, 0x03800200, 0xFFFFFFFF,
-                     0x0040FFD0, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x006CFFD0, 0x00000000, 0x05800000, 0xFFFFFFFF,
-                     0x0040FFC0, 0x00000000, 0x00000200, 0xFFFFFFFF, 0x006CFFC0, 0x00000000, 0x05800200, 0xFFFFFFFF };
+s16 D_80811BB0[6][32] = {
+    {
+        0xFFA2, 0x0048, 0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFDA, 0x0048, 0x0000,
+        0x0000, 0x0700, 0x0000, 0xFFFF, 0xFFFF, 0xFFA2, 0x0038, 0x0000, 0x0000, 0x0000, 0x0200,
+        0xFFFF, 0xFFFF, 0xFFDA, 0x0038, 0x0000, 0x0000, 0x0700, 0x0200, 0xFFFF, 0xFFFF,
+    },
+    {
+        0xFFA0, 0xFFD0, 0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFCC, 0xFFD0, 0x0000,
+        0x0000, 0x0580, 0x0000, 0xFFFF, 0xFFFF, 0xFFA0, 0xFFC0, 0x0000, 0x0000, 0x0000, 0x0200,
+        0xFFFF, 0xFFFF, 0xFFCC, 0xFFC0, 0x0000, 0x0000, 0x0580, 0x0200, 0xFFFF, 0xFFFF,
+    },
+    {
+        0xFFD0, 0xFFD0, 0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFC, 0xFFD0, 0x0000,
+        0x0000, 0x0580, 0x0000, 0xFFFF, 0xFFFF, 0xFFD0, 0xFFC0, 0x0000, 0x0000, 0x0000, 0x0200,
+        0xFFFF, 0xFFFF, 0xFFFC, 0xFFC0, 0x0000, 0x0000, 0x0580, 0x0200, 0xFFFF, 0xFFFF,
+    },
+    {
+        0x0000, 0xFFD0, 0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0x001C, 0xFFD0, 0x0000,
+        0x0000, 0x0380, 0x0000, 0xFFFF, 0xFFFF, 0x0000, 0xFFC0, 0x0000, 0x0000, 0x0000, 0x0200,
+        0xFFFF, 0xFFFF, 0x001C, 0xFFC0, 0x0000, 0x0000, 0x0380, 0x0200, 0xFFFF, 0xFFFF,
+    },
+    {
+        0x0020, 0xFFD0, 0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0x003C, 0xFFD0, 0x0000,
+        0x0000, 0x0380, 0x0000, 0xFFFF, 0xFFFF, 0x0020, 0xFFC0, 0x0000, 0x0000, 0x0000, 0x0200,
+        0xFFFF, 0xFFFF, 0x003C, 0xFFC0, 0x0000, 0x0000, 0x0380, 0x0200, 0xFFFF, 0xFFFF,
+    },
+    {
+        0x0040, 0xFFD0, 0x0000, 0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0x006C, 0xFFD0, 0x0000,
+        0x0000, 0x0580, 0x0000, 0xFFFF, 0xFFFF, 0x0040, 0xFFC0, 0x0000, 0x0000, 0x0000, 0x0200,
+        0xFFFF, 0xFFFF, 0x006C, 0xFFC0, 0x0000, 0x0000, 0x0580, 0x0200, 0xFFFF, 0xFFFF,
+    },
+};
+
 s32 D_80811D30[] = { 0xFFA20048, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x00220048, 0x00000000, 0x10000000, 0xFFFFFFFF,
                      0xFFA20038, 0x00000000, 0x00000200, 0xFFFFFFFF, 0x00220038, 0x00000000, 0x10000200, 0xFFFFFFFF,
                      0xFF9C002C, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFDC002C, 0x00000000, 0x08000000, 0xFFFFFFFF,
@@ -66,12 +87,18 @@ s32 D_80812370[] = { 0xFF9CFFF4, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x009CFFF4,
                      0xFF9CFFF2, 0x00000000, 0x00000040, 0xFFFFFFFF, 0x009CFFF2, 0x00000000, 0x20000040, 0xFFFFFFFF };
 s32 D_808123B0[] = { 0xFF9CFFCC, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x009CFFCC, 0x00000000, 0x20000000, 0xFFFFFFFF,
                      0xFF9CFFCA, 0x00000000, 0x00000040, 0xFFFFFFFF, 0x009CFFCA, 0x00000000, 0x20000040, 0xFFFFFFFF };
-s32 D_808123F0[] = { 0x000A000B, 0x000C000D, 0x000E000F, 0x00100011, 0x00120013, 0x00140015, 0x00160017, 0x00180019,
-                     0x001A001B, 0x001C001D, 0x001E001F, 0x00200021, 0x00220023, 0x00240025, 0x00260027, 0x00280029,
-                     0x002A002B, 0x002C002D, 0x002E002F, 0x00300031, 0x00320033, 0x00340035, 0x00360037, 0x00380039,
-                     0x003A003B, 0x003C003D, 0x00010002, 0x00030004, 0x00050006, 0x00070008, 0x00090000, 0x0040003F,
-                     0x003E0000, 0x00000000, 0x00000000, 0x00000000 };
-s16 D_80812480[] = { -48, -48, -48, -24, -24, 0 }; // copy screen button y positions
+
+s16 D_808123F0[] = {
+    0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015,
+    0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F, 0x0020, 0x0021,
+    0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027, 0x0028, 0x0029, 0x002A, 0x002B, 0x002C, 0x002D,
+    0x002E, 0x002F, 0x0030, 0x0031, 0x0032, 0x0033, 0x0034, 0x0035, 0x0036, 0x0037, 0x0038, 0x0039,
+    0x003A, 0x003B, 0x003C, 0x003D, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
+    0x0009, 0x0000, 0x0040, 0x003F, 0x003E, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+};
+
+// when choosing a file to copy or erase, the 6 main menu buttons are placed at these offsets
+s16 sChooseFileYOffsets[] = { -48, -48, -48, -24, -24, 0 };
 
 s16 D_8081248C[3][3] = {
     { 0, -48, -48 },
@@ -85,25 +112,28 @@ s16 D_808124A4[] = { -56, -40, -24, 0 };
 
 s16 D_808124AC[] = { 0, 16, 32, 0, 0, 0, 0 };
 
-
-// update func for configMode 3
-void func_80803D40(FileChooseContext* thisx) {
+/**
+ * Start moving the main menu buttons toward their final positions indicated by `sChooseFileYOffsets`
+ * Fade out the copy/erase/options buttons and bring in the new title
+ * When action timer is 0 set the cursor to the quit button and move on to the next config mode
+ */
+void FileCopy_SetupSourceSelect(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    s16 yPosStep;
+    s16 yStep;
     s16 i;
 
     for (i = 0; i < 5; i++) {
-        yPosStep = (ABS(this->buttonsPosY[i] - D_80812480[i])) / this->actionTimer;
+        yStep = (ABS(this->buttonYOffsets[i] - sChooseFileYOffsets[i])) / this->actionTimer;
 
-        if (this->buttonsPosY[i] >= D_80812480[i]) {
-            this->buttonsPosY[i] -= yPosStep;
+        if (this->buttonYOffsets[i] >= sChooseFileYOffsets[i]) {
+            this->buttonYOffsets[i] -= yStep;
         } else {
-            this->buttonsPosY[i] += yPosStep;
+            this->buttonYOffsets[i] += yStep;
         }
     }
 
-    this->copyEraseAlpha[0] -= 25;
-    this->copyEraseAlpha[1] -= 25;
+    this->actionBtnAlpha[BTN_ACTION_COPY] -= 25;
+    this->actionBtnAlpha[BTN_ACTION_ERASE] -= 25;
     this->optionButtonAlpha -= 25;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] += 25;
     this->titleAlpha[0] -= 31;
@@ -113,7 +143,7 @@ void func_80803D40(FileChooseContext* thisx) {
     if (this->actionTimer == 0) {
         this->actionTimer = 8;
 
-        this->copyEraseAlpha[0] = this->copyEraseAlpha[1] = this->optionButtonAlpha = 0;
+        this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
 
         this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = 200;
         this->titleLabel = this->nextTitleLabel;
@@ -125,7 +155,7 @@ void func_80803D40(FileChooseContext* thisx) {
     }
 }
 
-void func_80803ED8(FileChooseContext* thisx) {
+void FileCopy_SelectSource(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
@@ -133,9 +163,9 @@ void func_80803ED8(FileChooseContext* thisx) {
     if (((this->buttonIndex == BTN_COPY_QUIT) && CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_START)) ||
         CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
         this->actionTimer = 8;
-        this->buttonIndex = BTN_COPY_QUIT;
+        this->buttonIndex = BTN_MAIN_COPY;
         this->nextTitleLabel = TITLE_SELECT_FILE;
-        this->configMode = 19;
+        this->configMode = CM_COPY_RETURN_MAIN;
         this->warningLabel = WARNING_NONE;
         Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CLOSE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         return;
@@ -186,16 +216,16 @@ void func_80803ED8(FileChooseContext* thisx) {
 // move buttons to setup for copy decision
 void func_80804248(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
-    s16 yPosStep;
+    s16 yStep;
     s16 i;
 
     for (i = 0; i < 3; i++) {
-        yPosStep = ABS(this->buttonsPosY[i] - D_8081248C[this->buttonIndex][i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i] - D_8081248C[this->buttonIndex][i]) / this->actionTimer;
 
-        if (D_8081248C[this->buttonIndex][i] >= this->buttonsPosY[i]) {
-            this->buttonsPosY[i] += yPosStep;
+        if (D_8081248C[this->buttonIndex][i] >= this->buttonYOffsets[i]) {
+            this->buttonYOffsets[i] += yStep;
         } else {
-            this->buttonsPosY[i] -= yPosStep;
+            this->buttonYOffsets[i] -= yStep;
         }
     }
 
@@ -205,7 +235,7 @@ void func_80804248(FileChooseContext* thisx) {
 
     this->actionTimer--;
     if (this->actionTimer == 0) {
-        this->buttonsPosY[this->buttonIndex] = D_8081248C[this->buttonIndex][this->buttonIndex];
+        this->buttonYOffsets[this->buttonIndex] = D_8081248C[this->buttonIndex][this->buttonIndex];
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
@@ -229,7 +259,7 @@ void func_808043D8(FileChooseContext* this) {
     }
 }
 
-void func_808044A0(FileChooseContext* thisx) {
+void FileChoose_SelectCopyDest(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     Input* controller1 = &this->state.input[0];
@@ -314,15 +344,15 @@ void func_80804924(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     for (i = 0; i < 3; i++) {
-        yPosStep = ABS(this->buttonsPosY[i] - D_80812480[i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i] - sChooseFileYOffsets[i]) / this->actionTimer;
 
-        if (this->buttonsPosY[i] >= D_80812480[i]) {
-            this->buttonsPosY[i] -= yPosStep;
+        if (this->buttonYOffsets[i] >= sChooseFileYOffsets[i]) {
+            this->buttonYOffsets[i] -= yStep;
         } else {
-            this->buttonsPosY[i] += yPosStep;
+            this->buttonYOffsets[i] += yStep;
         }
     }
 
@@ -343,7 +373,7 @@ void func_80804A50(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     this->titleAlpha[0] -= 31;
     this->titleAlpha[1] += 31;
@@ -358,11 +388,11 @@ void func_80804A50(FileChooseContext* thisx) {
             }
         } else {
             if (this->copyDestFileIndex == i) {
-                yPosStep = ABS(this->buttonsPosY[i] - D_808124A4[i]) / this->actionTimer;
-                this->buttonsPosY[i] += yPosStep;
+                yStep = ABS(this->buttonYOffsets[i] - D_808124A4[i]) / this->actionTimer;
+                this->buttonYOffsets[i] += yStep;
 
-                if (this->buttonsPosY[i] >= D_808124A4[i]) {
-                    this->buttonsPosY[i] = D_808124A4[i];
+                if (this->buttonYOffsets[i] >= D_808124A4[i]) {
+                    this->buttonYOffsets[i] = D_808124A4[i];
                 }
             }
         }
@@ -419,7 +449,7 @@ void func_80804ED8(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     this->titleAlpha[0] -= 31;
     this->titleAlpha[1] += 31;
@@ -427,7 +457,7 @@ void func_80804ED8(FileChooseContext* thisx) {
 
     for (i = 0; i < 3; i++) {
         if ((i != this->copyDestFileIndex) && (i != this->selectedFileIndex)) {
-            this->fileButtonAlpha[i] += 0x19;
+            this->fileButtonAlpha[i] += 25;
 
             if (SLOT_OCCUPIED(sramCtx, i)) {
                 this->nameBoxAlpha[i] = this->nameAlpha[i] = this->fileButtonAlpha[i];
@@ -435,12 +465,12 @@ void func_80804ED8(FileChooseContext* thisx) {
             }
         }
 
-        yPosStep = ABS(this->buttonsPosY[i] - D_8081248C[this->selectedFileIndex][i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i] - D_8081248C[this->selectedFileIndex][i]) / this->actionTimer;
 
-        if (D_8081248C[this->selectedFileIndex][i] >= this->buttonsPosY[i]) {
-            this->buttonsPosY[i] += yPosStep;
+        if (D_8081248C[this->selectedFileIndex][i] >= this->buttonYOffsets[i]) {
+            this->buttonYOffsets[i] += yStep;
         } else {
-            this->buttonsPosY[i] -= yPosStep;
+            this->buttonYOffsets[i] -= yStep;
         }
     }
 
@@ -472,13 +502,13 @@ void func_8080510C(FileChooseContext* this) {
 }
 
 void func_808051C8(FileChooseContext* this) {
-    s16 yPosStep;
+    s16 yStep;
 
     this->fileInfoAlpha[this->copyDestFileIndex] += 25;
     this->nameAlpha[this->copyDestFileIndex] += 25;
     this->titleAlpha[1] += 31;
-    yPosStep = ABS(this->fileNamesY[this->copyDestFileIndex] + 56) / this->actionTimer;
-    this->fileNamesY[this->copyDestFileIndex] -= yPosStep;
+    yStep = ABS(this->fileNamesY[this->copyDestFileIndex] + 56) / this->actionTimer;
+    this->fileNamesY[this->copyDestFileIndex] -= yStep;
 
     if (this->fileNamesY[this->copyDestFileIndex] <= -56) {
         this->fileNamesY[this->copyDestFileIndex] = -56;
@@ -526,7 +556,7 @@ void func_80805434(FileChooseContext* this) {
     this->actionTimer--;
 
     if (this->actionTimer == 0) {
-        this->fileNamesY[this->copyDestFileIndex] = this->buttonsPosY[3] = 0;
+        this->fileNamesY[this->copyDestFileIndex] = this->buttonYOffsets[3] = 0;
         this->actionTimer = 8;
         this->titleAlpha[0] = 0;
         this->configMode++;
@@ -538,15 +568,15 @@ void func_80805524(FileChooseContext* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     for (i = 0; i < 5; i++) {
-        yPosStep = ABS(this->buttonsPosY[i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i]) / this->actionTimer;
 
-        if (this->buttonsPosY[i] >= 0) {
-            this->buttonsPosY[i] -= yPosStep;
+        if (this->buttonYOffsets[i] >= 0) {
+            this->buttonYOffsets[i] -= yStep;
         } else {
-            this->buttonsPosY[i] += yPosStep;
+            this->buttonYOffsets[i] += yStep;
         }
     }
 
@@ -561,8 +591,8 @@ void func_80805524(FileChooseContext* thisx) {
         }
     }
 
-    this->copyEraseAlpha[0] += 25;
-    this->copyEraseAlpha[1] += 25;
+    this->actionBtnAlpha[BTN_ACTION_COPY] += 25;
+    this->actionBtnAlpha[BTN_ACTION_ERASE] += 25;
     this->optionButtonAlpha += 25;
     this->titleAlpha[1] += 31;
     this->actionTimer--;
@@ -590,61 +620,61 @@ void func_80805524(FileChooseContext* thisx) {
     }
 }
 
-void func_80805824(FileChooseContext* thisx) {
+void FileCopy_SetupMainMenu(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     for (i = 0; i < 5; i++) {
-        yPosStep = ABS(this->buttonsPosY[i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i]) / this->actionTimer;
 
-        if (this->buttonsPosY[i] >= 0) {
-            this->buttonsPosY[i] -= yPosStep;
+        if (this->buttonYOffsets[i] >= 0) {
+            this->buttonYOffsets[i] -= yStep;
         } else {
-            this->buttonsPosY[i] += yPosStep;
+            this->buttonYOffsets[i] += yStep;
         }
     }
 
-    this->copyEraseAlpha[0] += 25;
-    this->confirmButtonAlpha[1] -= 25;
+    this->actionBtnAlpha[BTN_ACTION_COPY] += 25;
+    this->confirmButtonAlpha[BTN_CONFIRM_QUIT] -= 25;
     this->titleAlpha[0] -= 31;
     this->titleAlpha[1] += 31;
     this->actionTimer--;
 
     if (this->actionTimer == 0) {
-        this->copyEraseAlpha[0] = 0xC8;
-        this->confirmButtonAlpha[1] = 0;
+        this->actionBtnAlpha[BTN_ACTION_COPY] = 200;
+        this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = 0;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
         this->titleAlpha[1] = 0;
-        this->configMode = 2;
+        this->configMode = CM_MAIN_MENU;
     }
 
-    this->optionButtonAlpha = this->copyEraseAlpha[1] = this->copyEraseAlpha[0];
+    this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
 }
 
 void func_8080595C(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     for (i = 0; i < 5; i++) {
-        yPosStep = ABS(this->buttonsPosY[i] - D_80812480[i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i] - sChooseFileYOffsets[i]) / this->actionTimer;
 
-        if (this->buttonsPosY[i] >= D_80812480[i]) {
-            this->buttonsPosY[i] -= yPosStep;
+        if (this->buttonYOffsets[i] >= sChooseFileYOffsets[i]) {
+            this->buttonYOffsets[i] -= yStep;
         } else {
-            this->buttonsPosY[i] += yPosStep;
+            this->buttonYOffsets[i] += yStep;
         }
     }
 
-    this->copyEraseAlpha[0] -= 50;
-    this->copyEraseAlpha[1] -= 50;
+    this->actionBtnAlpha[BTN_ACTION_COPY] -= 50;
+    this->actionBtnAlpha[BTN_ACTION_ERASE] -= 50;
     this->optionButtonAlpha -= 50;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] += 25;
 
-    if (this->copyEraseAlpha[0] <= 0) {
-        this->copyEraseAlpha[0] = this->copyEraseAlpha[1] = this->optionButtonAlpha = 0;
+    if (this->actionBtnAlpha[BTN_ACTION_COPY] <= 0) {
+        this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
     }
 
     this->titleAlpha[0] -= 31;
@@ -655,7 +685,7 @@ void func_8080595C(FileChooseContext* thisx) {
         this->highlightColor[3] = 70;
         this->highlightFlashDir = 1;
         XREG(35) = XREG(36);
-        this->copyEraseAlpha[0] = this->copyEraseAlpha[1] = this->optionButtonAlpha = 0;
+        this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = 0;
         this->confirmButtonAlpha[1] = 200;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
@@ -725,7 +755,7 @@ void func_80805EB8(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     for (i = 0; i < 3; i++) {
         if (i != this->buttonIndex) {
@@ -742,12 +772,12 @@ void func_80805EB8(FileChooseContext* thisx) {
     this->titleAlpha[0] -= 15;
     this->titleAlpha[1] += 15;
 
-    yPosStep = ABS(this->buttonsPosY[this->buttonIndex] - D_808124AC[this->buttonIndex]) / this->actionTimer;
+    yStep = ABS(this->buttonYOffsets[this->buttonIndex] - D_808124AC[this->buttonIndex]) / this->actionTimer;
 
-    if (this->buttonsPosY[this->buttonIndex] >= D_808124AC[this->buttonIndex]) {
-        this->buttonsPosY[this->buttonIndex] -= yPosStep;
+    if (this->buttonYOffsets[this->buttonIndex] >= D_808124AC[this->buttonIndex]) {
+        this->buttonYOffsets[this->buttonIndex] -= yStep;
     } else {
-        this->buttonsPosY[this->buttonIndex] += yPosStep;
+        this->buttonYOffsets[this->buttonIndex] += yStep;
     }
 
     this->actionTimer--;
@@ -766,7 +796,7 @@ void func_80805EB8(FileChooseContext* thisx) {
             }
         }
 
-        this->buttonsPosY[this->buttonIndex] = D_808124AC[this->buttonIndex];
+        this->buttonYOffsets[this->buttonIndex] = D_808124AC[this->buttonIndex];
         this->actionTimer = 8;
         this->configMode++;
     }
@@ -832,14 +862,14 @@ void func_808064F4(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
-    yPosStep = ABS(this->buttonsPosY[this->buttonIndex] - D_80812480[this->buttonIndex]) / this->actionTimer;
+    yStep = ABS(this->buttonYOffsets[this->buttonIndex] - sChooseFileYOffsets[this->buttonIndex]) / this->actionTimer;
 
-    if (this->buttonsPosY[this->buttonIndex] >= D_80812480[this->buttonIndex]) {
-        this->buttonsPosY[this->buttonIndex] -= yPosStep;
+    if (this->buttonYOffsets[this->buttonIndex] >= sChooseFileYOffsets[this->buttonIndex]) {
+        this->buttonYOffsets[this->buttonIndex] -= yStep;
     } else {
-        this->buttonsPosY[this->buttonIndex] += yPosStep;
+        this->buttonYOffsets[this->buttonIndex] += yStep;
     }
 
     for (i = 0; i < 3; i++) {
@@ -858,7 +888,7 @@ void func_808064F4(FileChooseContext* thisx) {
     this->actionTimer--;
 
     if (this->actionTimer == 0) {
-        this->buttonsPosY[this->buttonIndex] = D_80812480[this->buttonIndex];
+        this->buttonYOffsets[this->buttonIndex] = sChooseFileYOffsets[this->buttonIndex];
         this->actionTimer = 8;
         this->buttonIndex = BTN_ERASE_QUIT;
         this->titleLabel = this->nextTitleLabel;
@@ -916,7 +946,7 @@ void func_808068F0(FileChooseContext* thisx) {
     Input* controller1 = &this->state.input[0];
 
     if (CHECK_BTN_ANY(controller1->press.button, BTN_A | BTN_B | BTN_START) || (--this->actionTimer == 0)) {
-        this->buttonsPosY[3] = 0;
+        this->buttonYOffsets[3] = 0;
         this->actionTimer = 8;
         this->nextTitleLabel = TITLE_SELECT_FILE;
         this->configMode++;
@@ -928,15 +958,15 @@ void func_808069B4(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     SramContext* sramCtx = &this->sramCtx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     for (i = 0; i < 5; i++) {
-        yPosStep = ABS(this->buttonsPosY[i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i]) / this->actionTimer;
 
-        if (this->buttonsPosY[i] >= 0) {
-            this->buttonsPosY[i] -= yPosStep;
+        if (this->buttonYOffsets[i] >= 0) {
+            this->buttonYOffsets[i] -= yStep;
         } else {
-            this->buttonsPosY[i] += yPosStep;
+            this->buttonYOffsets[i] += yStep;
         }
     }
 
@@ -962,7 +992,7 @@ void func_808069B4(FileChooseContext* thisx) {
         this->highlightColor[3] = 70;
         this->highlightFlashDir = 1;
         XREG(35) = XREG(36);
-        this->copyEraseAlpha[0] = 200;
+        this->actionBtnAlpha[BTN_ACTION_COPY] = 200;
         this->confirmButtonAlpha[0] = this->confirmButtonAlpha[1] = 0;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
@@ -970,26 +1000,26 @@ void func_808069B4(FileChooseContext* thisx) {
         this->configMode = 2;
     }
 
-    this->optionButtonAlpha = this->copyEraseAlpha[1] = this->copyEraseAlpha[0];
+    this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
 }
 
 void func_80806C20(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     s16 i;
-    s16 yPosStep;
+    s16 yStep;
 
     for (i = 0; i < 5; i++) {
-        yPosStep = ABS(this->buttonsPosY[i]) / this->actionTimer;
+        yStep = ABS(this->buttonYOffsets[i]) / this->actionTimer;
 
-        if (this->buttonsPosY[i] >= 0) {
-            this->buttonsPosY[i] -= yPosStep;
+        if (this->buttonYOffsets[i] >= 0) {
+            this->buttonYOffsets[i] -= yStep;
         } else {
-            this->buttonsPosY[i] += yPosStep;
+            this->buttonYOffsets[i] += yStep;
         }
     }
 
-    this->copyEraseAlpha[0] += 25;
-    this->copyEraseAlpha[1] += 25;
+    this->actionBtnAlpha[BTN_ACTION_COPY] += 25;
+    this->actionBtnAlpha[BTN_ACTION_ERASE] += 25;
     this->optionButtonAlpha += 25;
     this->confirmButtonAlpha[BTN_CONFIRM_QUIT] -= 50;
 
@@ -1005,7 +1035,7 @@ void func_80806C20(FileChooseContext* thisx) {
         this->highlightColor[3] = 70;
         this->highlightFlashDir = 1;
         XREG(35) = XREG(36);
-        this->copyEraseAlpha[0] = 200;
+        this->actionBtnAlpha[BTN_ACTION_COPY] = 200;
         this->confirmButtonAlpha[BTN_CONFIRM_QUIT] = 0;
         this->titleLabel = this->nextTitleLabel;
         this->titleAlpha[0] = 255;
@@ -1013,5 +1043,5 @@ void func_80806C20(FileChooseContext* thisx) {
         this->configMode = 2;
     }
 
-    this->optionButtonAlpha = this->copyEraseAlpha[1] = this->copyEraseAlpha[0];
+    this->optionButtonAlpha = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->actionBtnAlpha[BTN_ACTION_COPY];
 }

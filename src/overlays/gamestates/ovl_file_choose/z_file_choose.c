@@ -74,7 +74,7 @@ void FileChoose_FadeInMenuElements(FileChooseContext* this) {
         }
     }
 
-    this->copyEraseAlpha[0] = this->copyEraseAlpha[1] = this->optionButtonAlpha = this->windowAlpha;
+    this->actionBtnAlpha[BTN_ACTION_COPY] = this->actionBtnAlpha[BTN_ACTION_ERASE] = this->optionButtonAlpha = this->windowAlpha;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080B394.s")
@@ -102,12 +102,12 @@ void FileChoose_StartFadeIn(FileChooseContext* this) {
 void FileChoose_FinishFadeIn(FileChooseContext* this) {
     s32 pad;
 
-    this->controlsTextAlpha += VREG(1);
+    this->controlsAlpha += VREG(1);
     FileChoose_FadeInMenuElements(this);
 
     if (this->titleAlpha[0] >= 255) {
         this->titleAlpha[0] = 255;
-        this->controlsTextAlpha = 255;
+        this->controlsAlpha = 255;
         this->windowAlpha = 200;
         this->configMode = CM_MAIN_MENU;
     }
@@ -161,7 +161,7 @@ void FileChoose_UpdateMainMenu(FileChooseContext* thisx) {
                 this->prevConfigureMode = this->configMode;
 
                 if (this->buttonIndex == BTN_MAIN_COPY) {
-                    this->configMode = CM_03;
+                    this->configMode = CM_COPY_SOURCE_MENU;
                     this->nextTitleLabel = TITLE_COPY_FROM;
                 } else if (this->buttonIndex == BTN_MAIN_ERASE) {
                     this->configMode = CM_20;
@@ -622,7 +622,7 @@ void FileChoose_Main(GameState* thisx) {
 
         gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 100, 255, 255, this->controlsTextAlpha);
+        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 100, 255, 255, this->controlsAlpha);
         gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
         gDPLoadTextureBlock(oGfxCtx->polyOpa.p++, D_80812A50[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 0x90,
                             0x10, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
@@ -749,17 +749,17 @@ void FileChoose_InitContext(GameState* thisx) {
         this->fileButtonAlpha[1] = this->fileButtonAlpha[2] = this->nameBoxAlpha[0] = this->nameBoxAlpha[1] =
             this->nameBoxAlpha[2] = this->nameAlpha[0] = this->nameAlpha[1] = this->nameAlpha[2] =
                 this->connectorAlpha[0] = this->connectorAlpha[1] = this->connectorAlpha[2] = this->fileInfoAlpha[0] =
-                    this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->copyEraseAlpha[0] =
-                        this->copyEraseAlpha[1] = this->confirmButtonAlpha[BTN_CONFIRM_YES] = this->confirmButtonAlpha[BTN_CONFIRM_QUIT] =
-                            this->optionButtonAlpha = this->nameEntryBoxAlpha = this->controlsTextAlpha =
+                    this->fileInfoAlpha[1] = this->fileInfoAlpha[2] = this->actionBtnAlpha[BTN_ACTION_COPY] =
+                        this->actionBtnAlpha[BTN_ACTION_ERASE] = this->confirmButtonAlpha[BTN_CONFIRM_YES] = this->confirmButtonAlpha[BTN_CONFIRM_QUIT] =
+                            this->optionButtonAlpha = this->nameEntryBoxAlpha = this->controlsAlpha =
                                 this->emptyFileTextAlpha = 0;
 
     this->windowPosX = 6;
     this->actionTimer = 8;
     this->warningLabel = WARNING_NONE;
 
-    this->warningButtonIndex = this->buttonsPosY[0] = this->buttonsPosY[1] = this->buttonsPosY[2] = this->buttonsPosY[3] =
-        this->buttonsPosY[4] = this->buttonsPosY[5] = this->fileNamesY[0] = this->fileNamesY[1] = this->fileNamesY[2] =
+    this->warningButtonIndex = this->buttonYOffsets[0] = this->buttonYOffsets[1] = this->buttonYOffsets[2] = this->buttonYOffsets[3] =
+        this->buttonYOffsets[4] = this->buttonYOffsets[5] = this->fileNamesY[0] = this->fileNamesY[1] = this->fileNamesY[2] =
             0;
 
     this->unk_1CAD6[0] = 0;

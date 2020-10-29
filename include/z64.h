@@ -1191,7 +1191,7 @@ typedef struct {
     /* 0x1CA48 */ char unk_1CA48[0x2];
     /* 0x1CA4A */ s16 fileNamesY[3];
     /* 0x1CA50 */ s16 actionTimer;
-    /* 0x1CA52 */ s16 buttonsPosY[6]; // buttons on the first page
+    /* 0x1CA52 */ s16 buttonYOffsets[6]; // buttons on the first page
     /* 0x1CA5E */ s16 copyDestFileIndex;
     /* 0x1CA60 */ s16 warningLabel;
     /* 0x1CA62 */ s16 warningButtonIndex;
@@ -1205,11 +1205,11 @@ typedef struct {
     /* 0x1CA80 */ s16 nameAlpha[3];
     /* 0x1CA86 */ s16 connectorAlpha[3];
     /* 0x1CA8C */ s16 fileInfoAlpha[3];
-    /* 0x1CA92 */ s16 copyEraseAlpha[2];
+    /* 0x1CA92 */ s16 actionBtnAlpha[2];
     /* 0x1CA96 */ s16 confirmButtonAlpha[2];
     /* 0x1CA9A */ s16 optionButtonAlpha;
     /* 0x1CA9C */ s16 nameEntryBoxAlpha;
-    /* 0x1CA9E */ s16 controlsTextAlpha;
+    /* 0x1CA9E */ s16 controlsAlpha;
     /* 0x1CAA0 */ s16 emptyFileTextAlpha;
     /* 0x1CAA2 */ s16 highlightColor[4];
     /* 0x1CAAA */ s16 highlightFlashDir; // 0 decrease, 1 increase
