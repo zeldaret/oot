@@ -15,7 +15,8 @@ typedef struct DemoEc {
     /* 0x0192 */ s16 unk_192;
     /* 0x0194 */ s32 unk_194;
     /* 0x0198 */ s32 unk_198;
-    /* 0x019C */ char unk_19C[0x08];
+    /* 0x019C */ char unk_19C[0x04];
+    /* 0x01A0 */ s32 unk_1A0;
     /* 0x01A4 */ s32 unk_1A4;
 } DemoEc; // size = 0x01A8
 
