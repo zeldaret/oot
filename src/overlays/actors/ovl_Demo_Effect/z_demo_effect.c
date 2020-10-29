@@ -48,7 +48,7 @@ void DemoEffect_UpdateCreationEffect(DemoEffect* this, GlobalContext* globalCtx)
 void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_UpdateTimeWarpUnknown(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx);
 
 void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc);
 void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spawnerCount);
@@ -735,7 +735,7 @@ void DemoEffect_TimewarpShrink(f32 size) {
 }
 
 void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalContext* globalCtx) {
-    f32 unk_1;
+    f32 shrinkProgress;
 
     this->unk_188++;
 
@@ -749,32 +749,32 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
     }
 
     if (this->unk_188 >= 0x65) {
-        unk_1 = (0xFA - this->unk_188) * (1.0f / 750.0f);
-        this->actor.scale.x = unk_1;
-        this->actor.scale.z = unk_1;
-        DemoEffect_TimewarpShrink(unk_1 * 5.0f);
+        shrinkProgress = (0xFA - this->unk_188) * (1.0f / 750.0f);
+        this->actor.scale.x = shrinkProgress;
+        this->actor.scale.z = shrinkProgress;
+        DemoEffect_TimewarpShrink(shrinkProgress * 5.0f);
     }
 
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 }
 
-void DemoEffect_UpdateTimeWarpUnknown(DemoEffect* this, GlobalContext* globalCtx) {
-    f32 unk_1;
-    f32 unk_2;
+void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx) {
+    f32 shrinkProgress;
+    f32 scale;
 
     this->unk_188++;
 
     if (this->unk_188 < 0x65) {
-        unk_1 = (0x64 - this->unk_188) * 0.010f;
-        unk_2 = unk_1 * 0.14f;
+        shrinkProgress = (0x64 - this->unk_188) * 0.010f;
+        scale = shrinkProgress * 0.14f;
 
         if (GET_EFFECT_TYPE(&this->actor) == Demo_Effect_Timewarp_Timeblock_Small) {
-            unk_2 *= 0.6f;
+            scale *= 0.6f;
         }
 
-        this->actor.scale.x = unk_2;
-        this->actor.scale.z = unk_2;
-        DemoEffect_TimewarpShrink(unk_1);
+        this->actor.scale.x = scale;
+        this->actor.scale.z = scale;
+        DemoEffect_TimewarpShrink(shrinkProgress);
         func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
         return;
     }
@@ -788,7 +788,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
 
     if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 60.0f, 59.0f, 0.0f);
-        this->updateFunc = &DemoEffect_UpdateTimeWarpUnknown;
+        this->updateFunc = &DemoEffect_UpdateTimeWarpTimeblock;
         this->unk_188 = 0x00;
     }
 }
