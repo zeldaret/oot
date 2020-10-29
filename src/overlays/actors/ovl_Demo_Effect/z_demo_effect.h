@@ -23,7 +23,7 @@ typedef struct DemoEffect {
     /* 0x0186 */ u8 unk_186; // getitem related. func_800694A0
     /* 0x0188 */ s16 unk_188; // Some kind of frame count??
     /* 0x018A */ s16 unk_18A; // Some kind of bitfield flags
-    /* 0x018C */ s16 unk_18C; // generally an array index into npcActions for cutscenes
+    /* 0x018C */ s16 csActionId;
     /* 0x018E */ Vec3s unk_vec3s; // Not really sure yet what this is. It's really only used in func_80973CFC
     /* 0x0194 */ DemoEffectFunc initUpdateFunc;
     /* 0x0198 */ DemoEffectFunc initDrawFunc;
