@@ -194,6 +194,7 @@ void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
 // void func_80808000(FileChooseContext* thisx) {
 //     FileChooseContext* this = thisx;
+//     Font* font = &this->font;
 //     Input* controller1 = &this->state.input[0];
 //     s16 i;
 //     s16 val;
