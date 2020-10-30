@@ -7,7 +7,7 @@ void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 113);
 
-    displayListHead = oGfxCtx->polyOpa.p;
+    displayListHead = POLY_OPA_DISP;
     cos = Math_Coss((0x8000 / arg3) * arg2);
     absCos = ABS(cos);
 
@@ -21,7 +21,7 @@ void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
 
     gSPFogPosition(displayListHead++, 0, (s16)(absCos * 3000.0f) + 1500);
 
-    oGfxCtx->polyOpa.p = displayListHead;
+    POLY_OPA_DISP = displayListHead;
 
     if (1) {} // Necessary to match
 
@@ -36,13 +36,13 @@ void func_80026400(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 141);
 
         cos = Math_Coss((0x4000 / arg3) * arg2);
-        displayListHead = oGfxCtx->polyOpa.p;
+        displayListHead = POLY_OPA_DISP;
 
         gDPPipeSync(displayListHead++);
         gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
         gSPFogPosition(displayListHead++, 0, (s16)(2800.0f * ABS(cos)) + 1700);
 
-        oGfxCtx->polyOpa.p = displayListHead;
+        POLY_OPA_DISP = displayListHead;
 
         if (1) {} // Necessary to match
 
@@ -55,8 +55,8 @@ void func_80026608(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 159);
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+    gDPPipeSync(POLY_OPA_DISP++);
+    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 164);
 }
@@ -68,7 +68,7 @@ void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 178);
 
-    displayListHead = oGfxCtx->polyXlu.p;
+    displayListHead = POLY_XLU_DISP;
     cos = Math_Coss((0x8000 / arg3) * arg2);
     absCos = ABS(cos);
 
@@ -82,7 +82,7 @@ void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
 
     gSPFogPosition(displayListHead++, 0, (s16)(absCos * 3000.0f) + 1500);
 
-    oGfxCtx->polyXlu.p = displayListHead;
+    POLY_XLU_DISP = displayListHead;
 
     if (1) {} // Necessary to match
 
@@ -95,14 +95,14 @@ void func_80026860(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 201);
 
-    displayListHead = oGfxCtx->polyXlu.p;
+    displayListHead = POLY_XLU_DISP;
     cos = Math_Coss((0x4000 / arg3) * arg2);
 
     gDPPipeSync(displayListHead++);
     gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);
     gSPFogPosition(displayListHead++, 0, (s16)(2800.0f * ABS(cos)) + 1700);
 
-    oGfxCtx->polyXlu.p = displayListHead;
+    POLY_XLU_DISP = displayListHead;
 
     if (1) {} // Necessary to match
 
@@ -114,8 +114,8 @@ void func_80026A6C(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 217);
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
-    oGfxCtx->polyXlu.p = func_800BC8A0(globalCtx, oGfxCtx->polyXlu.p);
+    gDPPipeSync(POLY_XLU_DISP++);
+    POLY_XLU_DISP = func_800BC8A0(globalCtx, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 222);
 }

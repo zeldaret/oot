@@ -179,8 +179,8 @@ void ElfMsg_CallNaviCuboid(ElfMsg* this, GlobalContext* globalCtx) {
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y)) &&
         (fabsf(player->actor.posRot.pos.z - this->actor.posRot.pos.z) < (100.0f * this->actor.scale.z))) {
-        player->naviMessageId = ElfMsg_GetMessageId(this);
-        navi->unk_298 = &this->actor;
+        player->naviTextId = ElfMsg_GetMessageId(this);
+        navi->elfMsg = this;
     }
 }
 
@@ -195,8 +195,8 @@ void ElfMsg_CallNaviCylinder(ElfMsg* this, GlobalContext* globalCtx) {
     if (ElfMsg_WithinXZDistance(&player->actor.posRot.pos, &this->actor.posRot.pos, this->actor.scale.x * 100.0f) &&
         (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) &&
         ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) < (100.0f * this->actor.scale.y))) {
-        player->naviMessageId = ElfMsg_GetMessageId(this);
-        navi->unk_298 = &this->actor;
+        player->naviTextId = ElfMsg_GetMessageId(this);
+        navi->elfMsg = this;
     }
 }
 
@@ -227,19 +227,19 @@ void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     if (thisx->params & 0x8000) {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
     } else {
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, R_NAVI_MSG_REGION_ALPHA);
     }
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg.c", 448),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg.c", 448),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_809AD278);
+    gSPDisplayList(POLY_XLU_DISP++, D_809AD278);
 
     if (thisx->params & 0x4000) {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_809AD4B8);
+        gSPDisplayList(POLY_XLU_DISP++, D_809AD4B8);
     } else {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_809AD3B8);
+        gSPDisplayList(POLY_XLU_DISP++, D_809AD3B8);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_elf_msg.c", 457);

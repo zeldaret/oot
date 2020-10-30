@@ -229,14 +229,14 @@ s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCur
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
 
     if (limbIndex == 1) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 8,
+        gSPSegment(POLY_XLU_DISP++, 8,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->state.frames * 9) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0xF) & 0xFF), 0x40, 0x40, 1,
                                     (globalCtx->state.frames * 0xF) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0x1E) & 0xFF), 0x40, 0x40));
 
     } else if (limbIndex == 2) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 9,
+        gSPSegment(POLY_XLU_DISP++, 9,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->state.frames * 3) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 5) & 0xFF), 0x40, 0x40, 1,
                                     (globalCtx->state.frames * 6) & 0xFF,
@@ -255,7 +255,7 @@ void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_magic_wind.c", 661);
 
     if (this->actionFunc != MagicWind_WaitForTimer) {
-        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 25);
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
         SkelCurve_Draw(thisx, globalCtx, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
     }
 

@@ -114,9 +114,9 @@ void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
             Player* player = PLAYER;
 
             if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
-                player->naviMessageId = -0x203;
+                player->naviTextId = -0x203;
             } else if (!Flags_GetCollectible(globalCtx, (this->dyna.actor.params >> 8) & 0x1F)) {
-                player->naviMessageId = -0x225;
+                player->naviTextId = -0x225;
             } else {
                 player->doorType = 2;
                 player->doorDirection = direction;
@@ -153,9 +153,9 @@ void DoorGerudo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_gerudo.c", 365),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000040);
+    gSPDisplayList(POLY_OPA_DISP++, D_06000040);
 
     if (this->unk_166 != 0) {
         Matrix_Scale(0.01f, 0.01f, 0.025f, MTXMODE_APPLY);
