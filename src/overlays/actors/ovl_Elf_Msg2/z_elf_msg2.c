@@ -187,11 +187,11 @@ void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 362),
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 362),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_809ADC38);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_809ADCF8);
+    gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
+    gSPDisplayList(POLY_XLU_DISP++, D_809ADCF8);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 367);
 }

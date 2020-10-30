@@ -76,7 +76,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) > -1) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
+        gSPSegment(POLY_XLU_DISP++, 0x06, object);
         scale = this->rScale / 100.0f;
         SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
         SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
@@ -86,14 +86,14 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
         if (mtx != NULL) {
-            gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_80094BC4(gfxCtx);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);
             gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
-            gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+            gSPDisplayList(POLY_XLU_DISP++, this->gfx);
         }
     }
 

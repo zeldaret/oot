@@ -30,11 +30,11 @@ void PreNMI_Draw(PreNMIContext* this) {
 
     OPEN_DISPS(gfxCtx, "../z_prenmi.c", 96);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     func_800940B0(gfxCtx);
-    gDPSetFillColor(oGfxCtx->polyOpa.p++, (GPACK_RGBA5551(255, 255, 255, 1) << 16) | GPACK_RGBA5551(255, 255, 255, 1));
-    gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, this->timer + 100, SCREEN_WIDTH - 1, this->timer + 100);
+    gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(255, 255, 255, 1) << 16) | GPACK_RGBA5551(255, 255, 255, 1));
+    gDPFillRectangle(POLY_OPA_DISP++, 0, this->timer + 100, SCREEN_WIDTH - 1, this->timer + 100);
 
     CLOSE_DISPS(gfxCtx, "../z_prenmi.c", 112);
 }
