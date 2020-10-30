@@ -43,8 +43,13 @@ const ActorInit En_Rd_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    { COLTYPE_UNK0, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK1,
+      { 0x00000000, 0x00, 0x00 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_OFF,
+      BUMP_HOOKABLE | BUMP_ON,
+      OCELEM_ON },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
@@ -715,8 +720,8 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
@@ -871,8 +876,8 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_314);
         gSPSegment(POLY_OPA_DISP++, 8, &D_80116280[2]);
         POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw,
-                                               &this->actor, POLY_OPA_DISP);
+                                          this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw,
+                                          &this->actor, POLY_OPA_DISP);
         func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
         if (this->unk_31A != 0) {
             this->actor.dmgEffectTimer++;
@@ -886,9 +891,9 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_314);
         gSPSegment(POLY_XLU_DISP++, 8, &D_80116280[0]);
-        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, &this->actor,
-                                               POLY_XLU_DISP);
+        POLY_XLU_DISP =
+            SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                              this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
         func_80033C30(&thisPos, &D_80AE4958, this->unk_314, globalCtx);
     }

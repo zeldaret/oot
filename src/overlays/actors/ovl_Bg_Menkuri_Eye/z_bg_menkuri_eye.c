@@ -32,13 +32,13 @@ s32 D_8089C1A0;
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { 1, { { 0, 0, 0 }, 14 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -85,9 +85,9 @@ void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    if ((this->collider.base.acFlags & 2) &&
+    if ((this->collider.base.acFlags & AC_HIT) &&
         (ABS((s16)(this->collider.base.ac->posRot.rot.y - this->actor.shape.rot.y)) > 0x5000)) {
-        this->collider.base.acFlags &= ~0x2;
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->framesUntilDisable == -1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_AMOS_DAMAGE);
             D_8089C1A0 += 1;

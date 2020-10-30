@@ -39,7 +39,7 @@ const ActorInit En_Sb_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, COLSHAPE_CYLINDER },
+    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
 };
@@ -344,16 +344,16 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
     u8 hitByWindArrow;
 
     // hit box collided, switch to cool down
-    if ((this->collider.base.atFlags & 2)) {
+    if ((this->collider.base.atFlags & AT_HIT)) {
         EnSb_SetupCooldown(this, 1);
         return 1;
     }
 
     // hurt box collided, take damage if appropriate
-    if ((this->collider.base.acFlags & 2)) {
+    if ((this->collider.base.acFlags & AC_HIT)) {
         hitByWindArrow = false;
         tookDamage = false;
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
 
         switch (this->actor.colChkInfo.damageEffect) {
             case 14: // wind arrow

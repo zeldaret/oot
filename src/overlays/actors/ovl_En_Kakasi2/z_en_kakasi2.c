@@ -12,8 +12,13 @@
 #define THIS ((EnKakasi2*)thisx)
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_OFF,
+      BUMP_HOOKABLE | BUMP_ON,
+      OCELEM_ON },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 

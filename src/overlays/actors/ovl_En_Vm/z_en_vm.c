@@ -27,6 +27,24 @@ const ActorInit En_Vm_InitVars = {
     (ActorFunc)EnVm_Update,
     (ActorFunc)EnVm_Draw,
 };
+
+static ColliderCylinderInit D_80B2EA20 = {
+    { COLTYPE_METAL_SHIELD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 25, 70, 0, { 0, 0, 0 } },
+};
+
+static ColliderQuadInit D_80B2EA4C = {
+    { COLTYPE_METAL_SHIELD, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0x00000000, 0x00, 0x00 }, TOUCH_UNK7 | TOUCH_ON, BUMP_OFF,
+OCELEM_OFF }, { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+static ColliderQuadInit D_80B2EA9C = {
+    { COLTYPE_METAL_SHIELD, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vm/func_80B2D460.s")
 

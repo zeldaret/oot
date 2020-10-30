@@ -33,8 +33,8 @@ const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00020800, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00020800, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 50, 20, 20, { 0, 0, 0 } },
 };
 
@@ -159,7 +159,7 @@ void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 
     if (!Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         this->actor.draw = BgGndSoulmeiro_Draw;
-        if (this->collider.base.acFlags & 2) {
+        if (this->collider.base.acFlags & AC_HIT) {
             Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             this->unk_198 = 40;
             this->actionFunc = func_8087AF38;

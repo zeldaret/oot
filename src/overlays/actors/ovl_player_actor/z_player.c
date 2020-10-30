@@ -3371,12 +3371,12 @@ s32 func_80837818(Player* this) {
 }
 
 void func_80837918(Player* this, s32 quadIndex, u32 flags) {
-    this->swordQuads[quadIndex].element.info.toucher.flags = flags;
+    this->swordQuads[quadIndex].element.info.toucher.dFlags = flags;
 
     if (flags == 2) {
-        this->swordQuads[quadIndex].element.info.toucherFlags = 0x15;
+        this->swordQuads[quadIndex].element.info.toucherFlags = TOUCH_SFX2 | TOUCH_NEAREST | TOUCH_ON;
     } else {
-        this->swordQuads[quadIndex].element.info.toucherFlags = 5;
+        this->swordQuads[quadIndex].element.info.toucherFlags = TOUCH_NEAREST | TOUCH_ON;
     }
 }
 
@@ -3714,13 +3714,13 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             this->actor.colChkInfo.damage += this->unk_8A0;
             func_80837C0C(globalCtx, this, sp5C[this->unk_8A1 - 1], this->unk_8A4, this->unk_8A8, this->unk_8A2, 20);
         } else {
-            sp64 = (this->shieldQuad.base.acFlags & 0x80) != 0;
+            sp64 = (this->shieldQuad.base.acFlags & AC_BOUNCED) != 0;
 
             // @bug The second set of conditions here seems intended as a way for Link to "block" hits by rolling.
             // However, `ColliderInfo.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
             // Additionally, `ColliderInfo.atHit` can never be set while already colliding as AC, so it's also bugged.
             // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
-            if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & 2) &&
+            if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
                          (this->cylinder.element.info.atHit != NULL) &&
                          (this->cylinder.element.info.atHit->atFlags & 0x20000000))) {
 
@@ -3763,12 +3763,12 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             }
 
             if ((this->unk_A87 != 0) || (this->invincibilityTimer > 0) || (this->stateFlags1 & 0x4000000) ||
-                (this->csMode != 0) || (this->swordQuads[0].base.atFlags & 2) ||
-                (this->swordQuads[1].base.atFlags & 2)) {
+                (this->csMode != 0) || (this->swordQuads[0].base.atFlags & AT_HIT) ||
+                (this->swordQuads[1].base.atFlags & AT_HIT)) {
                 return 0;
             }
 
-            if (this->cylinder.base.acFlags & 2) {
+            if (this->cylinder.base.acFlags & AC_HIT) {
                 Actor* ac = this->cylinder.base.ac;
                 s32 sp4C;
 
@@ -7570,7 +7570,7 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
 
     if (this->swordState > 0) {
         if (this->swordAnimation < 0x18) {
-            if (!(this->swordQuads[0].base.atFlags & 4) && !(this->swordQuads[1].base.atFlags & 4)) {
+            if (!(this->swordQuads[0].base.atFlags & AT_BOUNCED) && !(this->swordQuads[1].base.atFlags & AT_BOUNCED)) {
                 if (this->skelAnime.animCurrentFrame >= 2.0f) {
 
                     phi_f2 = Math_Vec3f_DistXYZAndStoreDiff(&this->swordInfo[0].tip, &this->swordInfo[0].base, &sp50);
@@ -7622,7 +7622,7 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
             }
         }
 
-        temp1 = (this->swordQuads[0].base.atFlags & 2) || (this->swordQuads[1].base.atFlags & 2);
+        temp1 = (this->swordQuads[0].base.atFlags & AT_HIT) || (this->swordQuads[1].base.atFlags & AT_HIT);
 
         if (temp1) {
             if (this->swordAnimation < 0x18) {
@@ -7807,7 +7807,7 @@ void func_8084377C(Player* this, GlobalContext* globalCtx) {
             if (this->unk_850 == 0) {
                 func_80853080(this, globalCtx);
             }
-        } else if ((this->stateFlags1 & 0x20000000) || (!(this->cylinder.base.acFlags & 2) && (this->unk_8A1 == 0))) {
+        } else if ((this->stateFlags1 & 0x20000000) || (!(this->cylinder.base.acFlags & AC_HIT) && (this->unk_8A1 == 0))) {
             if (this->stateFlags1 & 0x20000000) {
                 this->unk_850++;
             } else {
@@ -8167,7 +8167,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
         } else {
             if (this->linearVelocity >= 7.0f) {
                 if (((this->actor.bgCheckFlags & 0x200) && (D_8085360C < 0x2000)) ||
-                    ((this->cylinder.base.ocFlags & 2) &&
+                    ((this->cylinder.base.ocFlags & OC_HIT) &&
                      (cylinderOc = this->cylinder.base.oc,
                       ((cylinderOc->id == ACTOR_EN_WOOD02) &&
                        (ABS((s16)(this->actor.posRot.rot.y - cylinderOc->yawTowardsLink)) > 0x6000))))) {
@@ -8907,20 +8907,20 @@ void func_80846578(Player* this, GlobalContext* globalCtx) {
 }
 
 ColliderCylinderInit D_80854624 = {
-    { COLTYPE_UNK5, 0x00, 0x11, 0x39, 0x08, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { COLTYPE_UNK5, AT_OFF, AC_ENEMY | AC_ON, OC_ALL | OC_ON, OT_PLAYER, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
 ColliderQuadInit D_80854650 = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
-    { 0x02, { 0x00000100, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK2, { 0x00000100, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
 ColliderQuadInit D_808546A0 = {
-    { COLTYPE_METAL_SHIELD, 0x09, 0x15, 0x00, 0x08, COLSHAPE_QUAD },
-    { 0x02, { 0x00100000, 0x00, 0x00 }, { 0xDFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    { COLTYPE_METAL_SHIELD, AT_PLAYER | AT_ON, AC_ENEMY | AC_HARD | AC_ON, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK2, { 0x00100000, 0x00, 0x00 }, { 0xDFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -10445,8 +10445,8 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
-            POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0,
-                                             4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
+            POLY_OPA_DISP =
+                Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0, 4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
         }
 
         func_8002EBCC(&this->actor, globalCtx, 0);

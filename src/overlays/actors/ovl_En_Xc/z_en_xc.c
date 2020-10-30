@@ -27,6 +27,12 @@ const ActorInit En_Xc_InitVars = {
     (ActorFunc)EnXc_Update,
     (ActorFunc)EnXc_Draw,
 };
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK0, AT_OFF, AC_OFF, OC_PLAYER | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 25, 80, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3C1E0.s")
 

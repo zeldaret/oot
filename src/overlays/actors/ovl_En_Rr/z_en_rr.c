@@ -21,6 +21,18 @@ const ActorInit En_Rr_InitVars = {
     (ActorFunc)EnRr_Update,
     (ActorFunc)EnRr_Draw,
 };
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_HOOKABLE | BUMP_ON,
+OCELEM_ON }, { 30, 55, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_PLAYER | OC_NO_PUSH | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
+    { 20, 20, -10, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rr/EnRr_Init.s")
 

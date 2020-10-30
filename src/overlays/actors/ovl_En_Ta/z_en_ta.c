@@ -27,6 +27,12 @@ const ActorInit En_Ta_InitVars = {
     (ActorFunc)EnTa_Update,
     (ActorFunc)EnTa_Draw,
 };
+
+static ColliderCylinderInit D_80B16E50 = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000004, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 30, 40, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B13AA0.s")
 

@@ -20,6 +20,24 @@ const ActorInit En_Poh_InitVars = {
     (ActorFunc)EnPoh_Update,
     NULL,
 };
+
+static ColliderJntSphItemInit  D_80AE1AA0[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_ON },
+        { 18, { { 0, 1400, 0 }, 10 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80AE1AC4 = {
+    { COLTYPE_UNK3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    1, D_80AE1AA0,
+};
+
+static ColliderCylinderInit D_80AE1A74 = {
+    { COLTYPE_UNK3, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 20, 40, 20, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Poh/EnPoh_Init.s")
 

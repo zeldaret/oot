@@ -21,6 +21,12 @@ const ActorInit En_Dnt_Jiji_InitVars = {
     (ActorFunc)EnDntJiji_Update,
     (ActorFunc)EnDntJiji_Draw,
 };
+
+static ColliderCylinderInit D_809F2FA0 = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 30, 80, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Jiji/EnDntJiji_Init.s")
 

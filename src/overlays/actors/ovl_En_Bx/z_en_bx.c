@@ -30,14 +30,14 @@ const ActorInit En_Bx_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, 0x11, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x01, { 0xFFCFFFFF, 0x03, 0x04 }, { 0xFFCFFFFF, 0x01, 0x00 }, 0x01, 0x01, 0x00 },
+    { COLTYPE_UNK6, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK1, { 0xFFCFFFFF, 0x03, 0x04 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
     { 60, 100, 100, { 0, 0, 0 } },
 };
 
 static ColliderQuadInit sQuadInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0xFFCFFFFF, 0x03, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x03, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -109,8 +109,8 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 tmp32;
     s32 tmp33;
 
-    if ((thisx->xzDistFromLink <= 70.0f) || (this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
-        (this->colliderQuad.base.atFlags & 2)) {
+    if ((thisx->xzDistFromLink <= 70.0f) || (this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
+        (this->colliderQuad.base.atFlags & AT_HIT)) {
         if ((thisx->xzDistFromLink <= 70.0f) || (&player->actor == this->collider.base.at) ||
             (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
             tmp33 = player->invincibilityTimer & 0xFF;
@@ -131,9 +131,9 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
             player->invincibilityTimer = tmp33;
         }
 
-        this->collider.base.atFlags &= ~2;
-        this->collider.base.acFlags &= ~2;
-        this->colliderQuad.base.atFlags &= ~2;
+        this->collider.base.atFlags &= ~AT_HIT;
+        this->collider.base.acFlags &= ~AC_HIT;
+        this->colliderQuad.base.atFlags &= ~AT_HIT;
         this->colliderQuad.base.at = NULL;
         this->collider.base.ac = NULL;
         this->collider.base.at = NULL;

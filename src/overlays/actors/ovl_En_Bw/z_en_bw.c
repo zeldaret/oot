@@ -21,6 +21,18 @@ const ActorInit En_Bw_InitVars = {
     (ActorFunc)EnBw_Update,
     (ActorFunc)EnBw_Draw,
 };
+
+static ColliderCylinderInit D_809D1450 = {
+    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x01, 0x08 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
+    { 30, 65, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_809D147C = {
+    { COLTYPE_UNK0, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 30, 35, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bw/func_809CE6E0.s")
 

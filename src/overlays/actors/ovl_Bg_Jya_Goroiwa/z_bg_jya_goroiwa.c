@@ -39,13 +39,13 @@ extern Gfx D_060006B0[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        { ELEMTYPE_UNK0, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_ON },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x39, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -102,7 +102,7 @@ void BgJyaGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80897B1C(BgJyaGoroiwa* this) {
     this->actionFunc = func_80897B48;
-    this->collider.base.atFlags = this->collider.base.atFlags | 1;
+    this->collider.base.atFlags |= AT_ON;
     this->unk_1B4 = 0;
     this->unk_1B0 = 1.0f;
 }
@@ -133,8 +133,8 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
         thisx->posRot.pos.y = (0.38043478f * tmpf1) - 129.5f;
     }
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~3;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT & ~AT_ON;
 
         tmp16 = thisx->yawTowardsLink - thisx->posRot.rot.y;
         if ((tmp16 >= -0x3FFF) && (tmp16 < 0x4000)) {
@@ -197,7 +197,7 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         pos.z = this->actor.posRot.pos.z;
         this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
         func_80897970(this);
-        if (this->collider.base.atFlags & 1) {
+        if (this->collider.base.atFlags & AT_ON) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

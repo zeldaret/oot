@@ -20,6 +20,12 @@ const ActorInit En_Kusa_InitVars = {
     (ActorFunc)EnKusa_Update,
     NULL,
 };
+
+static ColliderCylinderInit D_80A9C208 = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_TYPE2 | OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x4FC00758, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 12, 44, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFA0.s")
 

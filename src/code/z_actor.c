@@ -24,8 +24,8 @@ void func_8002B200(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* 
 
             POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
 
-            gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0,
-                              0, 0, COMBINED);
+            gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
+                              COMBINED);
 
             temp1 = (temp1 < 0.0f) ? 0.0f : ((temp1 > 150.0f) ? 150.0f : temp1);
             temp2 = 1.0f - (temp1 * (1.f / 350));
@@ -374,8 +374,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                     Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
                     Matrix_Scale(var2, 0.15f, 1.0f, MTXMODE_APPLY);
 
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b,
-                                    (u8)spCE);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)spCE);
 
                     Matrix_RotateZ((targetCtx->unk_4B & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
 
@@ -741,14 +740,14 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1,
-                            G_TX_RENDERTILE, 0, 0, 1024, 1024);
+        gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
+                            0, 0, 1024, 1024);
 
         spC8 = titleCtx->unk_9 - spC8;
 
         if (spC8 > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
-                                spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+            gDPLoadTextureBlock(OVERLAY_DISP++, titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8,
+                                0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
@@ -2277,8 +2276,8 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL |
                             GBL_c1(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA));
-        gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC,
-                          0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
+        gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0,
+                          PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0xFF, 74, 74, 74, 74);
     }
 
@@ -3199,8 +3198,8 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
 }
 
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider) {
-    if ((collider->acFlags & 0x2) && (collider->ac->type == ACTORTYPE_EXPLOSIVES)) {
-        collider->acFlags &= ~0x2;
+    if ((collider->acFlags & AC_HIT) && (collider->ac->type == ACTORTYPE_EXPLOSIVES)) {
+        collider->acFlags &= ~AC_HIT;
         return collider->ac;
     }
 
@@ -3810,9 +3809,8 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gDPPipeSync(POLY_OPA_DISP++);
     gSPSegment(POLY_OPA_DISP++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
-    POLY_OPA_DISP =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          overrideLimbDraw, postLimbDraw, actor, POLY_OPA_DISP);
+    POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      overrideLimbDraw, postLimbDraw, actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
@@ -3827,9 +3825,8 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
-    POLY_XLU_DISP =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          overrideLimbDraw, postLimbDraw, actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      overrideLimbDraw, postLimbDraw, actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }
@@ -3989,7 +3986,7 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = PLAYER;
 
-    if ((collider->acFlags & 0x08) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
+    if ((collider->acFlags & AC_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
         return 1;
     } else {
         return 0;
@@ -4009,22 +4006,22 @@ u8 Actor_ApplyDamage(Actor* actor) {
 void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
         actor->unk_116 = 0x00;
-    } else if (freezeFlag && (colInfo->acHitInfo->toucher.flags & 0x10060000)) {
+    } else if (freezeFlag && (colInfo->acHitInfo->toucher.dFlags & 0x10060000)) {
         actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         actor->unk_116 = 0x00;
-    } else if (colInfo->acHitInfo->toucher.flags & 0x0800) {
+    } else if (colInfo->acHitInfo->toucher.dFlags & 0x0800) {
         actor->unk_116 = 0x01;
-    } else if (colInfo->acHitInfo->toucher.flags & 0x1000) {
+    } else if (colInfo->acHitInfo->toucher.dFlags & 0x1000) {
         actor->unk_116 = 0x02;
-    } else if (colInfo->acHitInfo->toucher.flags & 0x4000) {
+    } else if (colInfo->acHitInfo->toucher.dFlags & 0x4000) {
         actor->unk_116 = 0x04;
-    } else if (colInfo->acHitInfo->toucher.flags & 0x8000) {
+    } else if (colInfo->acHitInfo->toucher.dFlags & 0x8000) {
         actor->unk_116 = 0x08;
-    } else if (colInfo->acHitInfo->toucher.flags & 0x10000) {
+    } else if (colInfo->acHitInfo->toucher.dFlags & 0x10000) {
         actor->unk_116 = 0x10;
-    } else if (colInfo->acHitInfo->toucher.flags & 0x2000) {
+    } else if (colInfo->acHitInfo->toucher.dFlags & 0x2000) {
         actor->unk_116 = 0x20;
-    } else if (colInfo->acHitInfo->toucher.flags & 0x80000) {
+    } else if (colInfo->acHitInfo->toucher.dFlags & 0x80000) {
         if (freezeFlag) {
             actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         }
@@ -4045,22 +4042,22 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
         curColInfo = &jntSph->elements[i].info;
         if (curColInfo->acHitInfo == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColInfo->acHitInfo->toucher.flags & 0x10060000)) {
+        } else if (freezeFlag && (curColInfo->acHitInfo->toucher.dFlags & 0x10060000)) {
             actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             flag = 0x00;
-        } else if (curColInfo->acHitInfo->toucher.flags & 0x0800) {
+        } else if (curColInfo->acHitInfo->toucher.dFlags & 0x0800) {
             flag = 0x01;
-        } else if (curColInfo->acHitInfo->toucher.flags & 0x1000) {
+        } else if (curColInfo->acHitInfo->toucher.dFlags & 0x1000) {
             flag = 0x02;
-        } else if (curColInfo->acHitInfo->toucher.flags & 0x4000) {
+        } else if (curColInfo->acHitInfo->toucher.dFlags & 0x4000) {
             flag = 0x04;
-        } else if (curColInfo->acHitInfo->toucher.flags & 0x8000) {
+        } else if (curColInfo->acHitInfo->toucher.dFlags & 0x8000) {
             flag = 0x08;
-        } else if (curColInfo->acHitInfo->toucher.flags & 0x10000) {
+        } else if (curColInfo->acHitInfo->toucher.dFlags & 0x10000) {
             flag = 0x10;
-        } else if (curColInfo->acHitInfo->toucher.flags & 0x2000) {
+        } else if (curColInfo->acHitInfo->toucher.dFlags & 0x2000) {
             flag = 0x20;
-        } else if (curColInfo->acHitInfo->toucher.flags & 0x80000) {
+        } else if (curColInfo->acHitInfo->toucher.dFlags & 0x80000) {
             if (freezeFlag) {
                 actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             }

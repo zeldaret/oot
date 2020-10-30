@@ -32,7 +32,7 @@ const ActorInit En_Skjneedle_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK1, 0x11, 0x09, 0x00, COLSHAPE_CYLINDER },
+    { COLTYPE_UNK1, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 10, 4, -2, { 0, 0, 0 } },
 };
@@ -60,8 +60,8 @@ void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80B01F6C(EnSkjneedle* this) {
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         return 1;
     }
     return 0;

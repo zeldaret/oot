@@ -32,8 +32,14 @@ const ActorInit En_Yukabyun_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x3D, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
+    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1,
+      COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x04 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_SFX1 | TOUCH_ON,
+      BUMP_ON,
+      OCELEM_ON },
     { 28, 8, 0, { 0, 0, 0 } },
 };
 
@@ -106,12 +112,12 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnYukabyun* this = THIS;
     s32 pad;
 
-    if (((this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
-         ((this->collider.base.ocFlags & 2) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
+    if (((this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
+         ((this->collider.base.ocFlags & OC_HIT) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
         ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & 8))) {
-        this->collider.base.atFlags &= ~0x2;
-        this->collider.base.acFlags &= ~0x2;
-        this->collider.base.ocFlags &= ~0x2;
+        this->collider.base.atFlags &= ~AT_HIT;
+        this->collider.base.acFlags &= ~AC_HIT;
+        this->collider.base.ocFlags &= ~OC_HIT;
         this->actor.flags &= ~0x5;
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;

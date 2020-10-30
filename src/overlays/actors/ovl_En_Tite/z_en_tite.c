@@ -27,6 +27,18 @@ const ActorInit En_Tite_InitVars = {
     (ActorFunc)EnTite_Update,
     (ActorFunc)EnTite_Draw,
 };
+
+static ColliderJntSphItemInit  D_80B1B5D0[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_HOOKABLE |
+BUMP_ON, OCELEM_ON }, { 0, { { 0, 1500, 0 }, 20 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80B1B5F4 = {
+    { COLTYPE_UNK6, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    1, D_80B1B5D0,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tite/func_80B18A80.s")
 

@@ -21,6 +21,12 @@ const ActorInit En_Dns_InitVars = {
     (ActorFunc)EnDns_Update,
     (ActorFunc)EnDns_Draw,
 };
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 18, 32, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dns/EnDns_Init.s")
 

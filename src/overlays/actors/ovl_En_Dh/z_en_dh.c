@@ -21,6 +21,24 @@ const ActorInit En_Dh_InitVars = {
     (ActorFunc)EnDh_Update,
     (ActorFunc)EnDh_Draw,
 };
+
+static ColliderCylinderInit D_809EC5C0 = {
+    { COLTYPE_UNK0, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 35, 70, 0, { 0, 0, 0 } },
+};
+
+static ColliderJntSphItemInit  D_809EC5EC[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_UNK3 |
+OCELEM_ON }, { 1, { { 0, 0, 0 }, 20 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_809EC610 = {
+    { COLTYPE_UNK6, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    1, D_809EC5EC,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dh/func_809EAD40.s")
 

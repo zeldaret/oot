@@ -27,6 +27,24 @@ const ActorInit En_Horse_Link_Child_InitVars = {
     (ActorFunc)EnHorseLinkChild_Update,
     (ActorFunc)EnHorseLinkChild_Draw,
 };
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 20, 100, 0, { 0, 0, 0 } },
+};
+
+static ColliderJntSphItemInit  D_80A6AF20[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 13, { { 0, 0, 0 }, 10 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80A6AF44 = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
+    1, D_80A6AF20,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Link_Child/func_80A693D0.s")
 

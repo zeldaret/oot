@@ -27,6 +27,24 @@ const ActorInit En_Horse_Zelda_InitVars = {
     (ActorFunc)EnHorseZelda_Update,
     (ActorFunc)EnHorseZelda_Draw,
 };
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 40, 100, 0, { 0, 0, 0 } },
+};
+
+static ColliderJntSphItemInit  D_80A6E204[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 13, { { 0, 0, 0 }, 20 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80A6E228 = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
+    1, D_80A6E204,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Zelda/func_80A6D8D0.s")
 

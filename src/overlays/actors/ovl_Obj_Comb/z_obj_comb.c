@@ -35,13 +35,13 @@ const ActorInit Obj_Comb_InitVars = {
 
 ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-        { 0x00, { { 0, 0, 0 }, 15 }, 100 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
 ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -157,17 +157,17 @@ void ObjComb_SetupWait(ObjComb* this) {
 }
 
 void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
-    s32 toucherFlags;
+    s32 dFlags;
 
     this->unk_1B0 -= 50;
     if (this->unk_1B0 < 0) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.base.acFlags & 0x2) != 0) {
-        this->collider.base.acFlags &= ~0x2;
-        toucherFlags = this->collider.elements[0].info.acHitInfo->toucher.flags;
-        if (toucherFlags & 0x4001F866) {
+    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        dFlags = this->collider.elements[0].info.acHitInfo->toucher.dFlags;
+        if(dFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
             ObjComb_Break(this, globalCtx);

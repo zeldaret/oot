@@ -49,30 +49,30 @@ const ActorInit En_St_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    { COLTYPE_UNK6, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit2 sColChkInit = { 0x02, 0x0000, 0x0000, 0x0000, 0xFF };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { COLTYPE_UNK6, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 20, 60, -30, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[1] = {
+static ColliderJntSphElementInit sJntSphItemsInit[1] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_ON },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK6, 0x11, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK6, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
     1,
-    sJntSphElementsInit,
+    sJntSphItemsInit,
 };
 
 extern SkeletonHeader D_06005298;
@@ -247,12 +247,12 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].element.info.bumper.flags = 0x3F8F9;
-    this->colCylinder[1].element.info.bumper.flags = 0xFFC00706;
-    this->colCylinder[2].base.type = 9;
-    this->colCylinder[2].element.info.bumperFlags = 0xD;
-    this->colCylinder[2].element.info.swordSfx = 2;
-    this->colCylinder[2].element.info.bumper.flags = 0xFFCC0706;
+    this->colCylinder[0].element.info.bumper.dFlags = 0x3F8F9;
+    this->colCylinder[1].element.info.bumper.dFlags = 0xFFC00706;
+    this->colCylinder[2].base.colType = COLTYPE_METAL_SHIELD;
+    this->colCylinder[2].element.info.bumperFlags = BUMP_NO_AT_INFO | BUMP_HOOKABLE | BUMP_ON;
+    this->colCylinder[2].element.info.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].element.info.bumper.dFlags = 0xFFCC0706;
 
     CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 
@@ -265,13 +265,13 @@ void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
-        body->bumper.flags |= 2;
-        this->colCylinder[1].element.info.bumper.flags &= ~2;
-        this->colCylinder[2].element.info.bumper.flags &= ~2;
+        body->bumper.dFlags |= 2;
+        this->colCylinder[1].element.info.bumper.dFlags &= ~2;
+        this->colCylinder[2].element.info.bumper.dFlags &= ~2;
     } else {
-        body->bumper.flags &= ~2;
-        this->colCylinder[1].element.info.bumper.flags |= 2;
-        this->colCylinder[2].element.info.bumper.flags |= 2;
+        body->bumper.dFlags &= ~2;
+        this->colCylinder[1].element.info.bumper.dFlags |= 2;
+        this->colCylinder[2].element.info.bumper.dFlags |= 2;
     }
 }
 
@@ -342,10 +342,10 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0, hit = 0; i < 3; i++) {
-        if (((this->colCylinder[i + 3].base.ocType & 1) != 0) == 0) {
+        if (((this->colCylinder[i + 3].base.ocType & OT_HIT_PLAYER) != 0) == 0) {
             continue;
         }
-        this->colCylinder[i + 3].base.ocType &= ~0x1;
+        this->colCylinder[i + 3].base.ocType &= ~OT_HIT_PLAYER;
         hit = true;
     }
 
@@ -367,11 +367,11 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
 s32 EnSt_CheckHitFrontside(EnSt* this) {
     u8 acFlags = this->colCylinder[2].base.acFlags;
 
-    if (!!(acFlags & 2) == 0) {
+    if (!!(acFlags & AC_HIT) == 0) {
         // not hit
         return false;
     } else {
-        this->colCylinder[2].base.acFlags &= ~0x2;
+        this->colCylinder[2].base.acFlags &= ~AC_HIT;
         this->invulnerableTimer = 8;
         this->playSwayFlag = 0;
         this->swayTimer = 60;
@@ -384,17 +384,17 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     s32 flags = 0; // ac hit flags from colliders 0 and 1
     s32 hit = false;
 
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->element.info.acHitInfo->toucher.flags;
+        flags |= cyl->element.info.acHitInfo->toucher.dFlags;
     }
 
     cyl = &this->colCylinder[1];
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->element.info.acHitInfo->toucher.flags;
+        flags |= cyl->element.info.acHitInfo->toucher.dFlags;
     }
 
     if (!hit) {

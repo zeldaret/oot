@@ -35,8 +35,8 @@ const ActorInit En_Dog_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { COLTYPE_UNK6, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 16, 20, 0, { 0 } },
 };
 
@@ -157,8 +157,8 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 }
 
 s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         return 2;
     }
 
@@ -166,8 +166,8 @@ s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if (this->collider.base.ocType & 1) {
-        this->collider.base.ocType &= ~1;
+    if (this->collider.base.ocType & OT_HIT_PLAYER) {
+        this->collider.base.ocType &= ~OT_HIT_PLAYER;
         if (gSaveContext.dogParams != 0) {
             return 0;
         }

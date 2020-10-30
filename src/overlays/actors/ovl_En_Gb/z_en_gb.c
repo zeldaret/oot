@@ -21,6 +21,18 @@ const ActorInit En_Gb_InitVars = {
     (ActorFunc)EnGb_Update,
     (ActorFunc)EnGb_Draw,
 };
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 40, 75, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit_Set3 sCylinderInit = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 4, 20, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gb/func_80A2F180.s")
 

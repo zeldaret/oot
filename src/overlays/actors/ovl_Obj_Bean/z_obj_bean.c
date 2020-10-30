@@ -27,6 +27,12 @@ const ActorInit Obj_Bean_InitVars = {
     (ActorFunc)ObjBean_Update,
     (ActorFunc)ObjBean_Draw,
 };
+
+static ColliderCylinderInit D_80B90E54 = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 64, 30, -31, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8EA80.s")
 

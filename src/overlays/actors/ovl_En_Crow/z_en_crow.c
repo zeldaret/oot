@@ -21,6 +21,18 @@ const ActorInit En_Crow_InitVars = {
     (ActorFunc)EnCrow_Update,
     (ActorFunc)EnCrow_Draw,
 };
+
+static ColliderJntSphItemInit  D_809E166C[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX1 | TOUCH_ON, BUMP_ON,
+OCELEM_ON }, { 1, { { 0, 0, 0 }, 20 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_809E1690 = {
+    { COLTYPE_UNK3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    1, D_809E166C,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Crow/EnCrow_Init.s")
 

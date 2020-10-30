@@ -21,6 +21,12 @@ const ActorInit En_Hy_InitVars = {
     (ActorFunc)EnHy_Update,
     (ActorFunc)EnHy_Draw,
 };
+
+static ColliderCylinderInit D_80A71EC0 = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 20, 46, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Hy/func_80A6F5B0.s")
 

@@ -74,14 +74,14 @@ static u8 sLowerRiverSpawned = false;
 static u8 sUpperRiverSpawned = false;
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK5, 0x00, 0x09, 0x01, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { COLTYPE_UNK5, AT_OFF, AC_PLAYER | AC_ON, OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 15, 25, 4, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 15, 25, 4, { 0, 0, 0 } },
 };
 
@@ -835,8 +835,8 @@ void func_80AB7420(EnNiw* this, GlobalContext* globalCtx) {
 
 void func_80AB747C(EnNiw* this, GlobalContext* globalCtx) {
     if (this->unk_2A8 == 0 && this->actor.params != 0xA && this->actionFunc != func_80AB6450 &&
-        this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         this->sfxTimer1 = 30;
         if (this->unk_2A4 > 0 && D_80AB85E0 == 0) {
             this->unk_2A4--;

@@ -982,7 +982,7 @@ void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collide
     if (this->stateFlags1 & 0x400000) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.type = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colType = shieldColTypes[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);

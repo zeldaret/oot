@@ -33,7 +33,7 @@ const ActorInit En_Guest_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 60, 0, { 0, 0, 0 } },
 };

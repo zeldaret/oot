@@ -44,7 +44,7 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, COLSHAPE_CYLINDER },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 30, 100, 0, { 0 } },
 };
@@ -485,8 +485,8 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
-                                           skelAnime->dListCount, NULL, NULL, NULL, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }

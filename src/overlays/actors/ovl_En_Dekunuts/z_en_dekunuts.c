@@ -27,6 +27,12 @@ const ActorInit En_Dekunuts_InitVars = {
     (ActorFunc)EnDekunuts_Update,
     (ActorFunc)EnDekunuts_Draw,
 };
+
+static ColliderCylinderInit D_809EAB50 = {
+    { COLTYPE_UNK6, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 18, 32, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekunuts/EnDekunuts_Init.s")
 

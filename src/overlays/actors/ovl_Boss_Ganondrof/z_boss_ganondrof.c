@@ -21,6 +21,18 @@ const ActorInit Boss_Ganondrof_InitVars = {
     (ActorFunc)BossGanondrof_Update,
     (ActorFunc)BossGanondrof_Draw,
 };
+
+static ColliderCylinderInit D_80914CD0 = {
+    { COLTYPE_UNK3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFE, 0x00, 0x00 }, TOUCH_ON, BUMP_HOOKABLE | BUMP_ON,
+OCELEM_ON }, { 30, 90, -50, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_80914CFC = {
+    { COLTYPE_UNK3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
+    { 20, 30, -20, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80910640.s")
 

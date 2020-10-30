@@ -21,6 +21,18 @@ const ActorInit Bg_Spot06_Objects_InitVars = {
     (ActorFunc)BgSpot06Objects_Update,
     (ActorFunc)BgSpot06Objects_Draw,
 };
+
+static ColliderJntSphItemInit  D_808AF930[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, TOUCH_OFF, BUMP_HOOKABLE | BUMP_ON,
+OCELEM_ON }, { 1, { { 0, 0, -160 }, 18 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_808AF954 = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    1, D_808AF930,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot06_Objects/BgSpot06Objects_Init.s")
 

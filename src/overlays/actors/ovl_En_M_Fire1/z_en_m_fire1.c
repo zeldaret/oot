@@ -26,11 +26,15 @@ const ActorInit En_M_Fire1_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
-    { 200, 200, 0, { 0 } }
-};
+static ColliderCylinderInit sCylinderInit = { { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER,
+                                                COLSHAPE_CYLINDER },
+                                              { ELEMTYPE_UNK2,
+                                                { 0x00000001, 0x00, 0x00 },
+                                                { 0xFFCFFFFF, 0x00, 0x00 },
+                                                TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+                                                BUMP_OFF,
+                                                OCELEM_OFF },
+                                              { 200, 200, 0, { 0 } } };
 
 void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMFire1* this = THIS;

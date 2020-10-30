@@ -32,8 +32,8 @@ const ActorInit Obj_Bombiwa_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 55, 70, 0, { 0 } },
 };
 
@@ -115,8 +115,8 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (func_80033684(globalCtx, &this->actor) != NULL ||
-        ((this->collider.base.acFlags & 2) != 0 &&
-         (this->collider.element.info.acHitInfo->toucher.flags & 0x40000040) != 0)) {
+        ((this->collider.base.acFlags & AC_HIT) != 0 &&
+         (this->collider.element.info.acHitInfo->toucher.dFlags & 0x40000040) != 0)) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EV_WALL_BROKEN);
@@ -125,7 +125,7 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        this->collider.base.acFlags &= ~0x2;
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->actor.xzDistFromLink < 800.0f) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);

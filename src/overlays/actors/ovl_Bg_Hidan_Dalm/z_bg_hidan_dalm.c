@@ -32,25 +32,45 @@ const ActorInit Bg_Hidan_Dalm_InitVars = {
 
 static ColliderTrisElementInit sTrisElementInit[4] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        { ELEMTYPE_UNK0,
+          { 0x00000000, 0x00, 0x00 },
+          { 0x00000040, 0x00, 0x00 },
+          TOUCH_OFF,
+          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          OCELEM_OFF },
         { { { 305.0f, 0.0f, -300.0f }, { 305.0f, 600.0f, -300.0f }, { 305.0f, 600.0f, 300.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        { ELEMTYPE_UNK0,
+          { 0x00000000, 0x00, 0x00 },
+          { 0x00000040, 0x00, 0x00 },
+          TOUCH_OFF,
+          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          OCELEM_OFF },
         { { { 305.0f, 0.0f, -300.0f }, { 305.0f, 600.0f, 300.0f }, { 305.0f, 0.0f, 300.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        { ELEMTYPE_UNK0,
+          { 0x00000000, 0x00, 0x00 },
+          { 0x00000040, 0x00, 0x00 },
+          TOUCH_OFF,
+          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          OCELEM_OFF },
         { { { -305.0f, 0.0f, -300.0f }, { -305.0f, 600.0f, 300.0f }, { -305.0f, 600.0f, -300.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
+        { ELEMTYPE_UNK0,
+          { 0x00000000, 0x00, 0x00 },
+          { 0x00000040, 0x00, 0x00 },
+          TOUCH_OFF,
+          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          OCELEM_OFF },
         { { { -305.0f, 0.0f, -300.0f }, { -305.0f, 0.0f, 300.0f }, { -305.0f, 600.0f, 300.0f } } },
     },
 };
 
 ColliderTrisInit D_80886590 = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     4,
     sTrisElementInit,
 };
@@ -96,10 +116,10 @@ void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->collider.base.acFlags & 2) && !Player_InCsMode(globalCtx) &&
+    if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
-        this->collider.base.acFlags &= ~2;
-        if (this->collider.elements[0].info.bumperFlags & 2 || this->collider.elements[1].info.bumperFlags & 2) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        if (this->collider.elements[0].info.bumperFlags & BUMP_HIT || this->collider.elements[1].info.bumperFlags & BUMP_HIT) {
             this->dyna.actor.posRot.rot.y -= 0x4000;
         } else {
             this->dyna.actor.posRot.rot.y += 0x4000;

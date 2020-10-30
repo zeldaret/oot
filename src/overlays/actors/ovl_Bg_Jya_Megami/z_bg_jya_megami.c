@@ -41,13 +41,13 @@ const ActorInit Bg_Jya_Megami_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00200000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-        { 0x00, { { 0x0000, 0xFDA8, 0xFF38 }, 0x003C }, 0x0064 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00200000, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+        { 0, { { 0, -600, -200 }, 60 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -185,9 +185,9 @@ void BgJyaMegami_SetupDetectLight(BgJyaMegami* this) {
 }
 
 void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 0x2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->lightTimer++;
-        this->collider.base.acFlags &= ~0x2;
+        this->collider.base.acFlags &= ~AC_HIT;
         if (globalCtx->gameplayFrames % 4 == 0) {
             func_8089A41C(this, globalCtx, (this->crumbleIndex * 0.04f) + 0.05f);
         }

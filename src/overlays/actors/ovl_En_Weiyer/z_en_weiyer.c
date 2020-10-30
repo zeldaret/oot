@@ -27,6 +27,12 @@ const ActorInit En_Weiyer_InitVars = {
     (ActorFunc)EnWeiyer_Update,
     (ActorFunc)EnWeiyer_Draw,
 };
+
+static ColliderCylinderInit D_80B33A90 = {
+    { COLTYPE_UNK0, AT_ENEMY | AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX1 | TOUCH_ON, BUMP_ON,
+OCELEM_ON }, { 16, 10, -6, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Weiyer/EnWeiyer_Init.s")
 

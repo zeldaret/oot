@@ -27,6 +27,24 @@ const ActorInit Bg_Hidan_Hrock_InitVars = {
     (ActorFunc)BgHidanHrock_Update,
     (ActorFunc)BgHidanHrock_Draw,
 };
+
+static ColliderTrisItemInit  D_80889820[2] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, TOUCH_OFF, BUMP_NO_HITMARK |
+BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON, OCELEM_OFF }, { { { -40.0f, 3.0f, -40.0f }, {
+-40.0f, 3.0f, 40.0f }, { 40.0f, 3.0f, 40.0f } } },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, TOUCH_OFF, BUMP_NO_HITMARK |
+BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON, OCELEM_OFF }, { { { 40.0f, 3.0f, 40.0f }, {
+40.0f, 3.0f, -40.0f }, { -40.0f, 3.0f, -40.0f } } },
+    },
+};
+
+static ColliderTrisInit D_80889898 = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    2, D_80889820,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hrock/BgHidanHrock_Init.s")
 

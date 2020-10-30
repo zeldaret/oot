@@ -21,6 +21,22 @@ const ActorInit En_Bubble_InitVars = {
     (ActorFunc)EnBubble_Update,
     (ActorFunc)EnBubble_Draw,
 };
+
+static ColliderJntSphItemInit  D_809CCE30[2] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x04 }, { 0xFFCFD753, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 16 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00002824, 0x00, 0x00 }, TOUCH_OFF, BUMP_NO_HITMARK |
+BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON, OCELEM_OFF }, { 0, { { 0, 0, 0 }, 16 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_809CCE78 = {
+    { COLTYPE_UNK6, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    2, D_809CCE30,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bubble/func_809CBC00.s")
 

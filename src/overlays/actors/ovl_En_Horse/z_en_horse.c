@@ -21,6 +21,30 @@ const ActorInit En_Horse_InitVars = {
     (ActorFunc)EnHorse_Update,
     (ActorFunc)EnHorse_Draw,
 };
+
+static ColliderCylinderInit D_80A65EAC = {
+    { COLTYPE_UNK10, AT_PLAYER | AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000400, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+BUMP_OFF, OCELEM_ON }, { 20, 70, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_80A65ED8 = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 20, 70, 0, { 0, 0, 0 } },
+};
+
+static ColliderJntSphItemInit  D_80A65F04[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, TOUCH_OFF, BUMP_NO_HITMARK |
+BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON, OCELEM_ON }, { 13, { { 0, 0, 0 }, 20 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80A65F28 = {
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
+    1, D_80A65F04,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse/func_80A5B2F0.s")
 

@@ -27,6 +27,43 @@ const ActorInit En_Wf_InitVars = {
     (ActorFunc)EnWf_Update,
     (ActorFunc)EnWf_Draw,
 };
+
+
+static ColliderJntSphItemInit  D_80B37990[4] = {
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
+        { 15, { { 0, 0, 0 }, 15 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
+        { 21, { { 0, 0, 0 }, 15 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFC1FFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_HOOKABLE | BUMP_ON,
+OCELEM_ON }, { 17, { { 800, 0, 0 }, 25 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFC1FFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_HOOKABLE | BUMP_ON,
+OCELEM_ON }, { 12, { { 0, 0, 0 }, 30 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80B37A20 = {
+    { COLTYPE_METAL_SHIELD, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE1,
+COLSHAPE_JNTSPH }, 4, D_80B37990,
+};
+
+static ColliderCylinderInit D_80B37A30 = {
+    { COLTYPE_UNK5, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    { 20, 50, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_80B37A5C = {
+    { COLTYPE_UNK5, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    { 15, 20, -15, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B33CB0.s")
 

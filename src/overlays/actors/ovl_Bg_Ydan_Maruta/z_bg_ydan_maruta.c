@@ -35,17 +35,27 @@ const ActorInit Bg_Ydan_Maruta_InitVars = {
 
 ColliderTrisElementInit D_808BF300[2] = {
     {
-        { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000004, 0x00, 0x00 }, 0x11, 0x01, 0x00 },
+        { ELEMTYPE_UNK0,
+          { 0x20000000, 0x00, 0x04 },
+          { 0x00000004, 0x00, 0x00 },
+          TOUCH_SFX2 | TOUCH_ON,
+          BUMP_ON,
+          OCELEM_OFF },
         { { { 220.0f, -10.0f, 0.0f }, { 220.0f, 10.0f, 0.0f }, { -220.0f, 10.0f, 0.0f } } },
     },
     {
-        { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000004, 0x00, 0x00 }, 0x11, 0x01, 0x00 },
+        { ELEMTYPE_UNK0,
+          { 0x20000000, 0x00, 0x04 },
+          { 0x00000004, 0x00, 0x00 },
+          TOUCH_SFX2 | TOUCH_ON,
+          BUMP_ON,
+          OCELEM_OFF },
         { { { 16.0f, 0.0f, 0.0f }, { 16.0f, 135.0f, 0.0f }, { -16.0f, 135.0f, 0.0f } } },
     },
 };
 
 ColliderTrisInit D_808BF378 = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
+    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     D_808BF300,
 };
@@ -120,7 +130,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808BEFF4(BgYdanMaruta* this, GlobalContext* globalCtx) {
-    if (this->collider.base.atFlags & 2) {
+    if (this->collider.base.atFlags & AT_HIT) {
         func_8002F71C(globalCtx, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
     }
     this->dyna.actor.shape.rot.x += 0x360;
@@ -129,7 +139,7 @@ void func_808BEFF4(BgYdanMaruta* this, GlobalContext* globalCtx) {
 }
 
 void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->unk_16A = 20;
         Flags_SetSwitch(globalCtx, this->unk_168);
         func_80078884(NA_SE_SY_CORRECT_CHIME);

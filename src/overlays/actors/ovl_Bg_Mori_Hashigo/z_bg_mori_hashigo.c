@@ -43,13 +43,13 @@ const ActorInit Bg_Mori_Hashigo_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { 0, { { 0, 0, 0 }, 25 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -205,8 +205,8 @@ void BgMoriHashigo_SetupClasp(BgMoriHashigo* this) {
 
 void BgMoriHashigo_Clasp(BgMoriHashigo* this, GlobalContext* globalCtx) {
     if (this->hitTimer <= 0) {
-        if (this->collider.base.acFlags & 2) {
-            this->collider.base.acFlags &= ~2;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             this->hitTimer = 10;
         } else {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

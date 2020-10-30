@@ -27,6 +27,12 @@ const ActorInit Magic_Fire_InitVars = {
     (ActorFunc)MagicFire_Update,
     (ActorFunc)MagicFire_Draw,
 };
+
+static ColliderCylinderInit D_80B8AF50 = {
+    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00020000, 0x00, 0x01 }, { 0x00000000, 0x00, 0x00 }, TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+BUMP_OFF, OCELEM_OFF }, { 9, 9, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Fire/MagicFire_Init.s")
 

@@ -46,13 +46,13 @@ const ActorInit En_Goroiwa_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        { ELEMTYPE_UNK0, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_ON },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x39, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -556,8 +556,8 @@ void func_80A4D624(EnGoroiwa* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 temp_v1_2;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         this->unk_1D3 &= ~4;
         yawDiff = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
         if (yawDiff > -0x4000 && yawDiff < 0x4000) {
@@ -639,7 +639,7 @@ void func_80A4DA3C(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->waitTimer > 0) {
         this->waitTimer--;
     } else {
-        this->collider.base.atFlags &= ~2;
+        this->collider.base.atFlags &= ~AT_HIT;
         func_80A4D5E0(this);
     }
 }
@@ -652,8 +652,8 @@ void func_80A4DA7C(EnGoroiwa* this) {
 }
 
 void func_80A4DAD0(EnGoroiwa* this, GlobalContext* globalCtx) {
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {
@@ -677,8 +677,8 @@ void func_80A4DB90(EnGoroiwa* this) {
 }
 
 void func_80A4DC00(EnGoroiwa* this, GlobalContext* globalCtx) {
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f, 4);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         if ((this->actor.initPosRot.rot.z & 1) == 1) {

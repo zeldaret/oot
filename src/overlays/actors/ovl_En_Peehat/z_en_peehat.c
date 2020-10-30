@@ -21,6 +21,30 @@ const ActorInit En_Peehat_InitVars = {
     (ActorFunc)EnPeehat_Update,
     (ActorFunc)EnPeehat_Draw,
 };
+
+static ColliderCylinderInit D_80AD2740 = {
+    { COLTYPE_WOODEN_SHIELD, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_HOOKABLE | BUMP_ON,
+OCELEM_ON }, { 50, 160, -70, { 0, 0, 0 } },
+};
+
+static ColliderQuadInit D_80AD27A0 = {
+    { COLTYPE_METAL_SHIELD, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+static ColliderJntSphItemInit  D_80AD276C[1] = {
+    {
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 20 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80AD2790 = {
+    { COLTYPE_UNK6, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    1, D_80AD276C,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Peehat/func_80ACF4A0.s")
 

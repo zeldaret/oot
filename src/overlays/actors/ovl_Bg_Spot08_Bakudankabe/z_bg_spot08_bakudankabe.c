@@ -37,21 +37,21 @@ extern Gfx D_06003898[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { 0, { { 0, 50, 50 }, 70 }, 100 },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { 0, { { -100, 50, 50 }, 70 }, 100 },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { 0, { { 100, 50, 50 }, 70 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_JNTSPH },
     3,
     sJntSphElementsInit,
 };
@@ -158,7 +158,7 @@ void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot08Bakudankabe* this = THIS;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         func_808B0324(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);

@@ -43,24 +43,25 @@ const ActorInit Bg_Haka_Trap_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL_SHIELD, 0x11, 0x0D, 0x09, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    { COLTYPE_METAL_SHIELD, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2,
+      COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00020000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00020000, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00020000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00020000, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f }, { 1800.0f, 0.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     sTrisElementsInit,
 };
@@ -138,7 +139,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->colliderCylinder.element.dim.height = 115;
 
                 this->colliderCylinder.element.info.toucherFlags = this->colliderCylinder.element.info.toucherFlags;
-                this->colliderCylinder.element.info.toucherFlags |= 0x10;
+                this->colliderCylinder.element.info.toucherFlags |= TOUCH_SFX2;
 
                 this->actionFunc = func_808801B8;
             }
@@ -212,7 +213,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     func_8087FFC0(this, globalCtx);
 
-    if (this->colliderSpikes.base.acFlags & 2) {
+    if (this->colliderSpikes.base.acFlags & AC_HIT) {
         this->timer = 20;
         D_80880F30 = 1;
         this->actionFunc = func_808802D8;

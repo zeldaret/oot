@@ -61,13 +61,13 @@ extern Gfx D_06005A20[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xEFC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-        { 0x00, { { 0x0000, 0x0078, 0x0000 }, 370 }, 100 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xEFC1FFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+        { 0, { { 0, 120, 0 }, 370 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     &sJntSphElementsInit,
 };
@@ -397,14 +397,14 @@ void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx) {
         default:
             return;
         case YELLOW_TALL_1:
-            if (((this->collider.base.acFlags & 2) != 0) && this->unk_1D8 <= 0) {
+            if (((this->collider.base.acFlags & AC_HIT) != 0) && this->unk_1D8 <= 0) {
                 this->unk_1D8 = 0xA;
                 func_8086DC30(this);
                 func_8086D4B4(this, globalCtx);
             }
             break;
         case YELLOW_TALL_2:
-            if (((this->collider.base.acFlags & 2) != 0) && ((this->unk_1DC & 2) == 0) && this->unk_1D8 <= 0) {
+            if (((this->collider.base.acFlags & AC_HIT) != 0) && ((this->unk_1DC & 2) == 0) && this->unk_1D8 <= 0) {
                 this->unk_1D8 = 0xA;
                 func_8086DC30(this);
                 func_8086D4B4(this, globalCtx);
@@ -440,7 +440,7 @@ void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx) {
             }
             break;
         case YELLOW_TALL_2:
-            if (((this->collider.base.acFlags & 2) != 0) && ((this->unk_1DC & 2) == 0) && (this->unk_1D8 <= 0)) {
+            if (((this->collider.base.acFlags & AC_HIT) != 0) && ((this->unk_1DC & 2) == 0) && (this->unk_1D8 <= 0)) {
                 this->unk_1D8 = 0xA;
                 func_8086DDA8(this);
                 func_8086D548(this, globalCtx);
@@ -465,29 +465,29 @@ void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BgBdanSwitch* this = THIS;
     s32 type;
-    s32 temp;
 
     if (this->unk_1DA > 0) {
-        this->unk_1DA -= 1;
+        this->unk_1DA--;
     }
     this->actionFunc(this, globalCtx);
     func_8086D0EC(this);
     type = this->actor.params & 0xFF;
     if (type != 3 && type != 4) {
-        this->unk_1D8 -= 1;
-        return;
+        this->unk_1D8--;
+    } else {
+        if (!Player_InCsMode(globalCtx) && this->unk_1D8 > 0) {
+            this->unk_1D8--;
+        }
+        this->unk_1DC = this->collider.base.acFlags;
+        this->collider.base.acFlags &= ~AC_HIT;
+        //  temp;
+        this->collider.elements[0].dim.modelSphere.radius = this->unk_1D4 * 370.0f;
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
-    if (!Player_InCsMode(globalCtx) && this->unk_1D8 > 0) {
-        this->unk_1D8 -= 1;
-    }
-    temp = this->collider.base.acFlags;
-    this->collider.base.acFlags &= 0xFFFD;
-    this->unk_1DC = temp;
-    this->collider.elements[0].dim.modelSphere.radius = this->unk_1D4 * 370.0f;
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
 void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, Gfx* dlist) {

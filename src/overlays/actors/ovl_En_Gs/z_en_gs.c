@@ -39,8 +39,8 @@ const ActorInit En_Gs_InitVars = {
 };
 
 static ColliderCylinderInit D_80A4FDA0 = {
-    { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 21, 48, 0, { 0, 0, 0 } },
 };
 
@@ -481,9 +481,9 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx) {};
     if (!(this->unk_19E & 0x10)) {
         if (globalCtx) {};
-        if (this->unk_14C.base.acFlags & 2) {
+        if (this->unk_14C.base.acFlags & AC_HIT) {
             this->unk_19F = 0;
-            this->unk_14C.base.acFlags &= ~2;
+            this->unk_14C.base.acFlags &= ~AC_HIT;
 
             switch (this->actor.colChkInfo.damageEffect) {
                 case 15:

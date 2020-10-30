@@ -27,6 +27,12 @@ const ActorInit En_Tg_InitVars = {
     (ActorFunc)EnTg_Update,
     (ActorFunc)EnTg_Draw,
 };
+
+static ColliderCylinderInit D_80B18910 = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 20, 64, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tg/func_80B18360.s")
 

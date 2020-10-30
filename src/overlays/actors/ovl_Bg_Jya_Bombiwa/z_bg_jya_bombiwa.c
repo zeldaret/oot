@@ -25,12 +25,12 @@ const ActorInit Bg_Jya_Bombiwa_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
 };
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
     1,
     &sJntSphElementsInit,
 };
@@ -144,7 +144,7 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);

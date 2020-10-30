@@ -27,6 +27,12 @@ const ActorInit En_Wood02_InitVars = {
     (ActorFunc)EnWood02_Update,
     (ActorFunc)EnWood02_Draw,
 };
+
+static ColliderCylinderInit D_80B3BF00 = {
+    { COLTYPE_UNK13, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK5, { 0x00000000, 0x00, 0x00 }, { 0x0FC0074A, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
+    { 18, 60, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wood02/func_80B3AF70.s")
 

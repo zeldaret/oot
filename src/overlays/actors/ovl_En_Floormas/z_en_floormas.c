@@ -58,8 +58,13 @@ const ActorInit En_Floormas_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x04, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x05, 0x01 },
+    { COLTYPE_UNK0, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x04, 0x10 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_SFX1 | TOUCH_ON,
+      BUMP_HOOKABLE | BUMP_ON,
+      OCELEM_ON },
     { 25, 40, 0, { 0, 0, 0 } },
 };
 
@@ -153,15 +158,15 @@ void EnFloormas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_MakeInvulnerable(EnFloormas* this) {
-    this->collider.base.type = COLTYPE_UNK12;
-    this->collider.base.acFlags |= 4;
+    this->collider.base.colType = COLTYPE_UNK12;
+    this->collider.base.acFlags |= AC_HARD;
     this->actionTarget = 0x28;
 }
 
 void EnFloormas_MakeVulnerable(EnFloormas* this) {
-    this->collider.base.type = COLTYPE_UNK0;
+    this->collider.base.colType = COLTYPE_UNK0;
     this->actionTarget = 0;
-    this->collider.base.acFlags &= ~4;
+    this->collider.base.acFlags &= ~AC_HARD;
 }
 
 void EnFloormas_SetupBigDecideAction(EnFloormas* this) {
@@ -262,7 +267,7 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC), 2, 0.0f);
     this->collider.element.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.element.dim.height = sCylinderInit.dim.height * 0.6f;
-    this->collider.element.info.bumperFlags &= ~4;
+    this->collider.element.info.bumperFlags &= ~BUMP_HOOKABLE;
     this->actor.speedXZ = 4.0f;
     this->actor.velocity.y = 7.0f;
     // using div creates a signed check.
@@ -359,7 +364,7 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
-    if ((this->collider.element.info.acHitInfo->toucher.flags & 0x1F824) != 0) {
+    if ((this->collider.element.info.acHitInfo->toucher.dFlags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
@@ -721,7 +726,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
-    } else if ((this->actor.yDistFromLink < -10.0f) && (this->collider.base.ocFlags & 2) &&
+    } else if ((this->actor.yDistFromLink < -10.0f) && (this->collider.base.ocFlags & OC_HIT) &&
                (&player->actor == this->collider.base.oc)) {
         globalCtx->grabPlayer(globalCtx, player);
         EnFloormas_SetupGrabLink(this, player);
@@ -816,7 +821,7 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
                 (fabsf(this->actor.posRot.pos.x - primFloormas->posRot.pos.x) < 10.0f)) &&
                (fabsf(this->actor.posRot.pos.z - primFloormas->posRot.pos.z) < 10.0f)) {
         EnFloormas_SetupSmWait(this);
-        this->collider.base.ocFlags |= 1;
+        this->collider.base.ocFlags |= OC_ON;
     } else if (this->actor.bgCheckFlags & 2) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
@@ -884,7 +889,7 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~0x10;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
-            this->collider.element.info.bumperFlags |= 4;
+            this->collider.element.info.bumperFlags |= BUMP_HOOKABLE;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             EnFloormas_SetupStand(this);
         } else {
@@ -946,16 +951,16 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 isSmall;
 
-    if ((this->collider.base.acFlags & 2) != 0) {
-        this->collider.base.acFlags &= ~2;
+    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->collider.element.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-            if (this->collider.base.type != COLTYPE_UNK12) {
+            if (this->collider.base.colType != COLTYPE_UNK12) {
                 isSmall = 0;
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = 1;
                 }
-                if (isSmall && this->collider.element.info.acHitInfo->toucher.flags & 0x80) {
+                if (isSmall && this->collider.element.info.acHitInfo->toucher.dFlags & 0x80) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }
@@ -992,8 +997,8 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->actionFunc != EnFloormas_SmWait) {
-        if (this->collider.base.atFlags & 2) {
-            this->collider.base.atFlags &= ~2;
+        if (this->collider.base.atFlags & AT_HIT) {
+            this->collider.base.atFlags &= ~AT_HIT;
             this->actor.speedXZ *= -0.5f;
 
             if (-5.0f < this->actor.speedXZ) {
@@ -1036,7 +1041,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         Actor_SetHeight(&this->actor, this->actor.scale.x * 2500.0f);
 
-        if (this->collider.base.type == COLTYPE_UNK12) {
+        if (this->collider.base.colType == COLTYPE_UNK12) {
             if (this->actionTarget != 0) {
                 this->actionTarget--;
             }
@@ -1079,14 +1084,14 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2318);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    if (this->collider.base.type == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_UNK12) {
         func_80026230(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
 
     POLY_OPA_DISP =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                           EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, POLY_OPA_DISP);
-    if (this->collider.base.type == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_UNK12) {
         func_80026608(globalCtx);
     }
 
@@ -1099,13 +1104,13 @@ void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2352);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    if (this->collider.base.type == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_UNK12) {
         func_80026690(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
     POLY_XLU_DISP =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                           EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, POLY_XLU_DISP);
-    if (this->collider.base.type == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_UNK12) {
         func_80026A6C(globalCtx);
     }
 

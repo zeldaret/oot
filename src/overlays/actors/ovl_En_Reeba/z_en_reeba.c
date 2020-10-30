@@ -49,8 +49,13 @@ const ActorInit En_Reeba_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK5, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x08, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+    { COLTYPE_UNK5, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x08, 0x08 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_ON,
+      BUMP_HOOKABLE | BUMP_ON,
+      OCELEM_ON },
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
@@ -490,8 +495,8 @@ void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
 
         if ((this->actionfunc != func_80AE5C38) && (this->actionfunc != func_80AE5854)) {
             this->actor.shape.rot.z = 0;
@@ -583,8 +588,8 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx2, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
 
-    if (this->collider.base.atFlags & 4) {
-        this->collider.base.atFlags &= ~4;
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~AT_BOUNCED;
 
         if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
             this->actor.speedXZ = 8.0f;
@@ -595,8 +600,8 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if ((this->collider.base.at == &player->actor) && !this->isBig && (this->actionfunc != func_80AE56E0)) {
             this->actionfunc = func_80AE5688;
         }

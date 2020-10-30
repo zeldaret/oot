@@ -880,7 +880,7 @@ glabel L8004EB20
 /* AC617C 8004EFDC 24C6BD50 */  addiu $a2, %lo(D_8015BD50) # addiu $a2, $a2, -0x42b0
 /* AC6180 8004EFE0 02012821 */  addu  $a1, $s0, $at
 /* AC6184 8004EFE4 02002025 */  move  $a0, $s0
-/* AC6188 8004EFE8 0C0189AC */  jal   func_800626B0
+/* AC6188 8004EFE8 0C0189AC */  jal   CollisionCheck_LineOcCheck
 /* AC618C 8004EFEC AFAF0014 */   sw    $t7, 0x14($sp)
 /* AC6190 8004EFF0 14400008 */  bnez  $v0, .L8004F014
 /* AC6194 8004EFF4 02202025 */   move  $a0, $s1

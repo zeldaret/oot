@@ -53,8 +53,8 @@ const ActorInit En_Wallmas_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { COLTYPE_UNK0, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 30, 40, 0, { 0 } },
 };
 
@@ -194,7 +194,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
-    if ((this->collider.element.info.acHitInfo->toucher.flags & 0x1F824) != 0) {
+    if ((this->collider.element.info.acHitInfo->toucher.dFlags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
@@ -476,8 +476,8 @@ void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2) != 0) {
-        this->collider.base.acFlags &= ~2;
+    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->collider.element.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {

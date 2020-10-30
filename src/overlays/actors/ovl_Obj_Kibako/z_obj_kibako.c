@@ -39,8 +39,8 @@ const ActorInit Obj_Kibako_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x09, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000002, 0x00, 0x01 }, { 0x4FC00748, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000002, 0x00, 0x01 }, { 0x4FC00748, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
     { 12, 27, 0, { 0, 0, 0 } },
 };
 
@@ -183,7 +183,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
-    } else if (this->collider.base.acFlags & 2) {
+    } else if (this->collider.base.acFlags & AC_HIT) {
         ObjKibako_AirBreak(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
@@ -191,8 +191,8 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
-        if (!(this->collider.base.ocFlags & 8) && (this->actor.xzDistFromLink > 28.0f)) {
-            this->collider.base.ocFlags |= 8;
+        if (!(this->collider.base.ocFlags & OC_PLAYER) && (this->actor.xzDistFromLink > 28.0f)) {
+            this->collider.base.ocFlags |= OC_PLAYER;
         }
         if (this->actor.xzDistFromLink < 600.0f) {
             ColliderCylinder* collider = &this->collider;
@@ -212,7 +212,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
 void ObjKibako_SetupHeld(ObjKibako* this) {
     this->actionFunc = ObjKibako_Held;
     this->actor.room = -1;
-    func_8002F7DC(&this->actor, 0x878);
+    func_8002F7DC(&this->actor, NA_SE_PL_PULL_UP_WOODBOX);
 }
 
 void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
@@ -221,7 +221,7 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
         if (fabsf(this->actor.speedXZ) < 0.1f) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_PUT_DOWN_WOODBOX);
             ObjKibako_SetupIdle(this);
-            this->collider.base.ocFlags &= ~8;
+            this->collider.base.ocFlags &= ~OC_PLAYER;
         } else {
             ObjKibako_SetupThrown(this);
             ObjKibako_ApplyGravity(this);
@@ -241,7 +241,7 @@ void ObjKibako_SetupThrown(ObjKibako* this) {
 void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
-    if ((thisx->bgCheckFlags & 0xB) || (this->collider.base.atFlags & 2)) {
+    if ((thisx->bgCheckFlags & 0xB) || (this->collider.base.atFlags & AT_HIT)) {
         ObjKibako_AirBreak(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);

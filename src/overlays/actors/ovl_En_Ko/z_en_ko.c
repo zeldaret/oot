@@ -21,6 +21,12 @@ const ActorInit En_Ko_InitVars = {
     (ActorFunc)EnKo_Update,
     (ActorFunc)EnKo_Draw,
 };
+
+static ColliderCylinderInit D_80A9A100 = {
+    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+    { 20, 46, 0, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A96DB0.s")
 

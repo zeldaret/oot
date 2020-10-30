@@ -965,8 +965,8 @@ s32 CollisionCheck_GeneralLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionChe
                                           Collider* collider, Vec3f* a, Vec3f* b);
 s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a,
                                       Vec3f* b, Actor** exclusions, s32 numExclusions);
-s32 CollisionCheck_LineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b);
-s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
+s32 CollisionCheck_LineOcCheckAll(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b);
+s32 CollisionCheck_LineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
                   Actor** exclusions, s32 numExclusions);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 void Collider_SetCylinderPosition(ColliderCylinder* collider, Vec3s* pos);

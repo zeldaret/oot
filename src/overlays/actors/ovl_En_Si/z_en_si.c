@@ -21,8 +21,13 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx);
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x3D, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000090, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0x00000000, 0x00, 0x00 },
+      { 0x00000090, 0x00, 0x00 },
+      TOUCH_OFF,
+      BUMP_HOOKABLE | BUMP_ON,
+      OCELEM_ON },
     { 20, 18, 2, { 0, 0, 0 } },
 };
 
@@ -61,8 +66,8 @@ void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 0x2) {
-        this->collider.base.acFlags &= ~0x2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
     }
     return 0;
 }
@@ -80,8 +85,8 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
         if (!Player_InCsMode(globalCtx)) {
             func_80AFB748(this, globalCtx);
 
-            if (this->collider.base.ocType & 0x1) {
-                this->collider.base.ocType &= ~0x1;
+            if (this->collider.base.ocType & OT_HIT_PLAYER) {
+                this->collider.base.ocType &= ~OT_HIT_PLAYER;
                 Item_Give(globalCtx, ITEM_SKULL_TOKEN);
                 player->actor.freezeTimer = 10;
                 func_8010B680(globalCtx, 0xB4, 0);

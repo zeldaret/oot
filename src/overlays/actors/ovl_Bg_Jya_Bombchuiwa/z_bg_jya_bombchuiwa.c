@@ -30,13 +30,13 @@ const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
         { 0, { { -300, 0, 0 }, 40 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x21, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_TYPE2 | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -132,7 +132,7 @@ void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext*
 }
 
 void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2) || (this->timer > 0)) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->timer > 0)) {
         if (this->timer == 0) {
             func_800800F8(globalCtx, 3410, -99, &this->actor, 0);
         }

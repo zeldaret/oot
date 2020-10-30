@@ -21,6 +21,18 @@ const ActorInit En_Goma_InitVars = {
     (ActorFunc)EnGoma_Update,
     (ActorFunc)EnGoma_Draw,
 };
+
+static ColliderCylinderInit D_80A4B7A0 = {
+    { COLTYPE_UNK3, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFDFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_ON },
+    { 15, 30, 10, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_80A4B7CC = {
+    { COLTYPE_UNK3, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFDFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
+    { 15, 30, 10, { 0, 0, 0 } },
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Goma/EnGoma_Init.s")
 

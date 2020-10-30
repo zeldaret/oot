@@ -27,6 +27,62 @@ const ActorInit Fishing_InitVars = {
     (ActorFunc)Fishing_Update,
     (ActorFunc)Fishing_Draw,
 };
+
+static ColliderJntSphItemInit  D_80B7A6D8[12] = {
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+    {
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
+        { 0, { { 0, 0, 0 }, 30 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80B7A888 = {
+    { COLTYPE_UNK10, AT_ENEMY | AT_OFF, AC_PLAYER | AC_OFF, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    12, D_80B7A6D8,
+};
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B699A0.s")
 

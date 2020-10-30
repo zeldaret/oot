@@ -50,17 +50,17 @@ const ActorInit Bg_Po_Event_InitVars = {
 
 static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f } } },
     },
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f }, { 25.0f, -33.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     sTrisElementsInit,
 };
@@ -435,7 +435,7 @@ void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_AmyWait(BgPoEvent* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         sPuzzleState |= 0x20;
         this->timer = 5;
         func_8003426C(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
@@ -519,7 +519,7 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx) {
         this->timer = 0;
         Audio_PlayActorSound2(thisx, NA_SE_EN_PO_LAUGH);
         this->actionFunc = BgPoEvent_PaintingVanish;
-    } else if (this->collider.base.acFlags & 2) {
+    } else if (this->collider.base.acFlags & AC_HIT) {
         if (!BgPoEvent_NextPainting(this)) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->posRot.pos.x,
                         thisx->posRot.pos.y - 40.0f, thisx->posRot.pos.z, 0, thisx->shape.rot.y, 0,

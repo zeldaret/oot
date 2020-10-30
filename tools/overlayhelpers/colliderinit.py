@@ -30,17 +30,17 @@ SHAPE_ENUM = [
     "COLSHAPE_TRIS",
     "COLSHAPE_QUAD" ]
 
-SWORD_SFX_ENUM = [
-    "SWORD_SFX_0",
-    "SWORD_SFX_1",
-    "SWORD_SFX_2",
-    "SWORD_SFX_3",
-    "SWORD_SFX_4",
-    "SWORD_SFX_5",
-    "SWORD_SFX_6"]
+ELEMTYPE_UNKENUM = [
+    "ELEMTYPE_UNK0",
+    "ELEMTYPE_UNK1",
+    "ELEMTYPE_UNK2",
+    "ELEMTYPE_UNK3",
+    "ELEMTYPE_UNK4",
+    "ELEMTYPE_UNK5",
+    "ELEMTYPE_UNK6"]
 
 ATFLAGS_ENUM = [
-    "AT_ACTIVE",
+    "AT_ON",
     "AT_HIT",
     "AT_BOUNCED",
     "AT_PLAYER",
@@ -49,7 +49,7 @@ ATFLAGS_ENUM = [
     "AT_SELF"]
 
 ACFLAGS_ENUM = [
-    "AC_ACTIVE",
+    "AC_ON",
     "AC_HIT",
     "AC_HARD",
     "AC_PLAYER",
@@ -59,7 +59,7 @@ ACFLAGS_ENUM = [
     "AC_BOUNCED"]
 
 OCFLAGS_ENUM = [
-    "OC_ACTIVE",
+    "OC_ON",
     "OC_HIT",
     "OC_NO_PUSH",
     "OC_PLAYER",
@@ -76,7 +76,7 @@ OCTYPE_ENUM = [
     "OT_FIRST_ONLY"]
 
 TOUCHERFLAGS_ENUM = [
-    "TOUCH_ACTIVE",
+    "TOUCH_ON",
     "TOUCH_HIT",
     "TOUCH_NEAREST",
     "TOUCH_SFX1",
@@ -86,7 +86,7 @@ TOUCHERFLAGS_ENUM = [
     "TOUCH_UNK7"]
 
 BUMPERFLAGS_ENUM = [
-    "BUMP_ACTIVE",
+    "BUMP_ON",
     "BUMP_HIT",
     "BUMP_HOOKABLE",
     "BUMP_NO_AT_INFO",
@@ -96,7 +96,7 @@ BUMPERFLAGS_ENUM = [
     "BUMP_DRAW_HITMARK"]
 
 OCELEMFLAGS_ENUM = [
-    "OCELEM_ACTIVE",
+    "OCELEM_ON",
     "OCELEM_HIT"]
 
 sf_ColliderInit = ">BBBBBB"
@@ -122,33 +122,37 @@ f_TrisItem = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}
 f_Quad = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }}, {{ {9}f, {10}f, {11}f }} }} }}"
 
 def GetATflags(at):
-    output = ""
     for i, flag in enumerate(ATFLAGS_ENUM):
-        if(at & (1 << i)):
-            output = " | " + flag
-    if(output == ""):
-        return "AT_NONE"
-    return output.replace("AT_BOMB | AT_ENEMY | AT_PLAYER","AT_ALL").lstrip(" | ")
+        if(i == 0):
+            if(at & (1 << i)):
+                output = "AT_ON"
+            else:
+                output = "AT_OFF"
+        elif(at & (1 << i)):
+            output = flag + " | " + output
+    return output.replace("AT_BOMB | AT_ENEMY | AT_PLAYER","AT_ALL")
 
 def GetACflags(at):
-    output = ""
     for i, flag in enumerate(ACFLAGS_ENUM):
-        if(at & (1 << i)):
-            output = " | " + flag + output
-    if(output == ""):
-        return "AC_NONE"
-    else:
-        return output.replace("AC_BOMB | AC_ENEMY | AC_PLAYER","AC_ALL").strip(" | ")
+        if(i == 0):
+            if(at & (1 << i)):
+                output = "AC_ON"
+            else:
+                output = "AC_OFF"
+        elif(at & (1 << i)):
+            output = flag + " | " + output
+    return output.replace("AC_BOMB | AC_ENEMY | AC_PLAYER","AC_ALL")
 
 def GetOCflags(at):
-    output = ""
     for i, flag in enumerate(OCFLAGS_ENUM):
-        if(at & (1 << i)):
-            output = " | " + flag + output
-    if(output == ""):
-        return "OC_NONE"
-    else:
-        return output.replace("OC_TYPE2 | OC_TYPE1 | OC_PLAYER","OC_ALL").strip(" | ")
+        if(i == 0):
+            if(at & (1 << i)):
+                output = "OC_ON"
+            else:
+                output = "OC_OFF"
+        elif(at & (1 << i)):
+            output = flag + " | " + output
+    return output.replace("OC_TYPE2 | OC_TYPE1 | OC_PLAYER","OC_ALL")
 
 def GetOCtype(at):
     output = ""
@@ -161,34 +165,37 @@ def GetOCtype(at):
         return output.strip(" | ")
 
 def GetToucherFlags(at):
-    output = ""
     for i, flag in enumerate(TOUCHERFLAGS_ENUM):
-        if(at & (1 << i)):
-            output = " | " + flag + output
-    if(output == ""):
-        return "TOUCH_NONE"
-    else:
-        return output.strip(" | ")
+        if(i == 0):
+            if(at & (1 << i)):
+                output = "TOUCH_ON"
+            else:
+                output = "TOUCH_OFF"
+        elif(at & (1 << i)):
+            output = flag + " | " + output
+    return output
 
 def GetBumperFlags(at):
-    output = ""
     for i, flag in enumerate(BUMPERFLAGS_ENUM):
-        if(at & (1 << i)):
-            output = " | " + flag + output
-    if(output == ""):
-        return "BUMP_NONE"
-    else:
-        return output.strip(" | ")
+        if(i == 0):
+            if(at & (1 << i)):
+                output = "BUMP_ON"
+            else:
+                output = "BUMP_OFF"
+        elif(at & (1 << i)):
+            output = flag + " | " + output
+    return output
 
 def GetOcElemFlags(at):
-    output = ""
     for i, flag in enumerate(OCELEMFLAGS_ENUM):
-        if(at & (1 << i)):
-            output = " | " + flag + output
-    if(output == ""):
-        return "OCELEM_NONE"
-    else:
-        return output.strip(" | ")
+        if(i == 0):
+            if(at & (1 << i)):
+                output = "OCELEM_ON"
+            else:
+                output = "OCELEM_OFF"
+        elif(at & (1 << i)):
+            output = flag + " | " + output
+    return output
 
 def GetColliderFormat(type):
     if type == T_DEFAULT:
@@ -238,7 +245,7 @@ def GetItems(data, off, count, structf, fmt, size):
         cItem = struct.unpack_from(structf, data, off + 0x18 + ioff)
 
         if cBody[0] < 7:
-            cBody[0] = SWORD_SFX_ENUM[cBody[0]]
+            cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
         else:
             cBody[0] = '0x{0:02X}'.format(cBody[0])
 
@@ -286,7 +293,7 @@ def GetCylinder(data, off, type):
     cCyl16 = struct.unpack_from(sf_Cylinder16, data, off + 0x20)
 
     if cBody[0] < 7:
-        cBody[0] = SWORD_SFX_ENUM[cBody[0]]
+        cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
     else:
         cBody[0] = '0x{0:02X}'.format(cBody[0])
 
@@ -319,7 +326,7 @@ def GetQuad(data, off, type):
     cQuad = struct.unpack_from(sf_Quad, data, off + 0x20)
 
     if cBody[0] < 7:
-        cBody[0] = SWORD_SFX_ENUM[cBody[0]]
+        cBody[0] = ELEMTYPE_UNKENUM[cBody[0]]
     else:
         cBody[0] = '0x{0:02X}'.format(cBody[0])
 

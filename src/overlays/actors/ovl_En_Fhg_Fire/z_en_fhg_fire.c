@@ -277,8 +277,8 @@ void func_80A0FC48(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f pos;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags = this->collider.base.atFlags & ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 

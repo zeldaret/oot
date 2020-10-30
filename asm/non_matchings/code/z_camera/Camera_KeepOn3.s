@@ -479,7 +479,7 @@ glabel Camera_KeepOn3
 /* AC5240 8004E0A0 AFA90010 */  sw    $t1, 0x10($sp)
 /* AC5244 8004E0A4 02203025 */  move  $a2, $s1
 /* AC5248 8004E0A8 02403825 */  move  $a3, $s2
-/* AC524C 8004E0AC 0C0189AC */  jal   func_800626B0
+/* AC524C 8004E0AC 0C0189AC */  jal   CollisionCheck_LineOcCheck
 /* AC5250 8004E0B0 00812821 */   addu  $a1, $a0, $at
 /* AC5254 8004E0B4 14400005 */  bnez  $v0, .L8004E0CC
 /* AC5258 8004E0B8 02602025 */   move  $a0, $s3

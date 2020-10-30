@@ -32,8 +32,8 @@ const ActorInit Door_Ana_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0x00000048, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 50, 10, 0, { 0 } },
 };
 
@@ -91,7 +91,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
         }
     } else {
         // bombing/hammering open a grotto
-        if ((this->collider.base.acFlags & 2) != 0) {
+        if ((this->collider.base.acFlags & AC_HIT) != 0) {
             openGrotto = true;
             Collider_DestroyCylinder(globalCtx, &this->collider);
         } else {

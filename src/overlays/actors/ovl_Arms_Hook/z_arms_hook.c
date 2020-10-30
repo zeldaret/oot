@@ -25,8 +25,13 @@ const ActorInit Arms_Hook_InitVars = {
 };
 
 ColliderQuadInit sQuadInit = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
-    { 0x02, { 0x00000080, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x05, 0x00, 0x00 },
+    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK2,
+      { 0x00000080, 0x00, 0x01 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_NEAREST | TOUCH_ON,
+      BUMP_OFF,
+      OCELEM_OFF },
     { 0 },
 };
 
@@ -161,10 +166,10 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     ArmsHook_CheckForCancel(this);
 
     if (this->timer != 0) {
-        if ((this->collider.base.atFlags & 2) && (this->collider.element.info.atHitInfo->swordSfx != 4)) {
+        if ((this->collider.base.atFlags & AT_HIT) && (this->collider.element.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
             touchedActor = this->collider.base.at;
             if ((touchedActor->update != NULL) && (touchedActor->flags & 0x600)) {
-                if (this->collider.element.info.atHitInfo->bumperFlags & 4) {
+                if (this->collider.element.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                     ArmsHook_AttachHookToActor(this, touchedActor);
                     if ((touchedActor->flags & 0x400) == 0x400) {
                         func_80865044(this);

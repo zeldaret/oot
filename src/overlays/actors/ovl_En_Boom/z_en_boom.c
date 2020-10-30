@@ -30,8 +30,13 @@ const ActorInit En_Boom_InitVars = {
 };
 
 static ColliderQuadInit sQuadInit = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
-    { 0x02, { 0x00000010, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x05, 0x00, 0x00 },
+    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK2,
+      { 0x00000010, 0x00, 0x01 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_NEAREST | TOUCH_ON,
+      BUMP_OFF,
+      OCELEM_OFF },
     { 0 },
 };
 
@@ -142,7 +147,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     func_8002F974(this, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
-    collided = (this->collider.base.atFlags & 0x2);
+    collided = (this->collider.base.atFlags & AT_HIT);
     collided = (!!(collided));
     if (collided) {
         if (((this->collider.base.at->id == ACTOR_EN_ITEM00) || (this->collider.base.at->id == ACTOR_EN_SI))) {
@@ -179,7 +184,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        collided = (this->collider.base.atFlags & 0x2);
+        collided = (this->collider.base.atFlags & AT_HIT);
         collided = (!!(collided));
         if (collided) {
             // Copy the position from the prevous frame to the boomerang to start the bounce back.

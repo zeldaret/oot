@@ -38,20 +38,20 @@ s16 D_808B5DD8[][10] = {
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
         { 0, { { 0, 50, 0 }, 288 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_JNTSPH },
+    { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 190, 80, 0, { 10, 0, 50 } },
 };
 
@@ -412,8 +412,8 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     if (globalCtx) {}
 
-    if (this->colliderCylinder.base.acFlags & 2) {
-        this->colliderCylinder.base.acFlags &= ~2;
+    if (this->colliderCylinder.base.acFlags & AC_HIT) {
+        this->colliderCylinder.base.acFlags &= ~AC_HIT;
 
         func_808B561C(this, globalCtx);
 
