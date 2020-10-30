@@ -118,11 +118,11 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     func_800D1694(this->actor.posRot2.pos.x + sp5C.x, this->actor.posRot2.pos.y + sp5C.y,
                   this->actor.posRot2.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_choo.c", 317),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_choo.c", 317),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 200, 200, 180, alpha);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 200, 210, 255);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(&D_04010130));
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_04010130));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_choo.c", 326);
 }

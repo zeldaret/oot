@@ -46,9 +46,9 @@ void FlagSet_Update(GlobalContext* globalCtx) {
         GfxPrint printer;
         s32 pad;
 
-        polyOpa = oGfxCtx->polyOpa.p;
+        polyOpa = POLY_OPA_DISP;
         gfx = Graph_GfxPlusOne(polyOpa);
-        gSPDisplayList(oGfxCtx->overlay.p++, gfx);
+        gSPDisplayList(OVERLAY_DISP++, gfx);
 
         GfxPrint_Init(&printer);
         GfxPrint_Open(&printer, gfx);
@@ -141,7 +141,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
 
         gSPEndDisplayList(gfx++);
         Graph_BranchDlist(polyOpa, gfx);
-        oGfxCtx->polyOpa.p = gfx;
+        POLY_OPA_DISP = gfx;
     }
 
     if (CHECK_BTN_ALL(input->press.button, BTN_L)) {

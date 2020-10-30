@@ -223,9 +223,9 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_debug.c", 628);
 
     GfxPrint_Init(&gfxPrint);
-    sp78 = oGfxCtx->polyOpa.p;
-    tempRet = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
-    gSPDisplayList(oGfxCtx->overlay.p++, tempRet);
+    sp78 = POLY_OPA_DISP;
+    tempRet = Graph_GfxPlusOne(POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, tempRet);
     GfxPrint_Open(&gfxPrint, tempRet);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
@@ -240,7 +240,7 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     sp7C = GfxPrint_Close(&gfxPrint);
     gSPEndDisplayList(sp7C++);
     Graph_BranchDlist(sp78, sp7C);
-    oGfxCtx->polyOpa.p = sp7C;
+    POLY_OPA_DISP = sp7C;
 
     if (0) {}
 

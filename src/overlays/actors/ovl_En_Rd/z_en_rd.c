@@ -868,11 +868,11 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_314 == 0xFF) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, this->unk_314);
-        gSPSegment(oGfxCtx->polyOpa.p++, 8, &D_80116280[2]);
-        oGfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_314);
+        gSPSegment(POLY_OPA_DISP++, 8, &D_80116280[2]);
+        POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw,
-                                               &this->actor, oGfxCtx->polyOpa.p);
+                                               &this->actor, POLY_OPA_DISP);
         func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
         if (this->unk_31A != 0) {
             this->actor.dmgEffectTimer++;
@@ -884,11 +884,11 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_314);
-        gSPSegment(oGfxCtx->polyXlu.p++, 8, &D_80116280[0]);
-        oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_314);
+        gSPSegment(POLY_XLU_DISP++, 8, &D_80116280[0]);
+        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, &this->actor,
-                                               oGfxCtx->polyXlu.p);
+                                               POLY_XLU_DISP);
 
         func_80033C30(&thisPos, &D_80AE4958, this->unk_314, globalCtx);
     }

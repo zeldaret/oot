@@ -18,18 +18,18 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
 
     OPEN_DISPS(gfx, "../z_collision_check.c", 713);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x00, 0xFF, r, g, b, 50);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
-    gSPTexture(oGfxCtx->polyOpa.p++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gDPSetCombineLERP(oGfxCtx->polyOpa.p++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
+    gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0xFF, r, g, b, 50);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
+    gSPTexture(POLY_OPA_DISP++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineLERP(POLY_OPA_DISP++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                       COMBINED);
-    // if(1){Gfx* temp = oGfxCtx->polyOpa.p++;temp->words.w0 = 0xFC41C7FF;temp->words.w1 = 0xFFFFFE38;}
-    gSPClearGeometryMode(oGfxCtx->polyOpa.p++, G_CULL_BOTH);
-    gSPSetGeometryMode(oGfxCtx->polyOpa.p++, G_LIGHTING);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    // if(1){Gfx* temp = POLY_OPA_DISP++;temp->words.w0 = 0xFC41C7FF;temp->words.w1 = 0xFFFFFE38;}
+    gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
+    gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
+    gDPPipeSync(POLY_OPA_DISP++);
 
     sp8C = (Vtx_tn*)Graph_Alloc(gfx, 3 * sizeof(Vtx_tn));
     if (sp8C == NULL) {
@@ -58,8 +58,8 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
         vtx->a = 255;
     }
 
-    gSPVertex(oGfxCtx->polyOpa.p++, sp8C, 3, 0);
-    gSP1Triangle(oGfxCtx->polyOpa.p++, 0, 1, 2, 0);
+    gSPVertex(POLY_OPA_DISP++, sp8C, 3, 0);
+    gSP1Triangle(POLY_OPA_DISP++, 0, 1, 2, 0);
 
     CLOSE_DISPS(gfx, "../z_collision_check.c", 757);
 }
@@ -922,7 +922,7 @@ void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* 
 }
 
 // Draw Collider
-void CollisionCheck_DrawCollider(GlobalContext* globalCtx, Collider* collider) {
+void Collider_Draw(GlobalContext* globalCtx, Collider* collider) {
     ColliderJntSph* jntSph;
     ColliderCylinder* cylinder;
     ColliderTris* tris;
@@ -969,19 +969,19 @@ void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContex
     if (AREG(15)) {
         if (AREG(21)) {
             for (i = 0; i < colChkCtx->colAtCount; i++) {
-                CollisionCheck_DrawCollider(globalCtx, colChkCtx->colAt[i]);
+                Collider_Draw(globalCtx, colChkCtx->colAt[i]);
             }
         }
         if (AREG(22)) {
             for (i = 0; i < colChkCtx->colAcCount; i++) {
-                CollisionCheck_DrawCollider(globalCtx, colChkCtx->colAc[i]);
+                Collider_Draw(globalCtx, colChkCtx->colAc[i]);
             }
         }
         if (AREG(23)) {
             for (i = 0; i < colChkCtx->colOcCount; i++) {
                 collider = colChkCtx->colOc[i];
                 if (collider->ocFlags & OC_ACTIVE) {
-                    CollisionCheck_DrawCollider(globalCtx, collider);
+                    Collider_Draw(globalCtx, collider);
                 }
             }
         }

@@ -347,10 +347,10 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->planeAlpha != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_holl.c", 805);
         if (this->planeAlpha == 255) {
-            gfxP = oGfxCtx->polyOpa.p;
+            gfxP = POLY_OPA_DISP;
             setupDLIdx = 37;
         } else {
-            gfxP = oGfxCtx->polyXlu.p;
+            gfxP = POLY_XLU_DISP;
             setupDLIdx = 0;
         }
         gfxP = Gfx_CallSetupDL(gfxP, setupDLIdx);
@@ -364,9 +364,9 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(gfxP++, sPlaneDlist);
 
         if (this->planeAlpha == 255) {
-            oGfxCtx->polyOpa.p = gfxP;
+            POLY_OPA_DISP = gfxP;
         } else {
-            oGfxCtx->polyXlu.p = gfxP;
+            POLY_XLU_DISP = gfxP;
         }
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_holl.c", 831);
     }

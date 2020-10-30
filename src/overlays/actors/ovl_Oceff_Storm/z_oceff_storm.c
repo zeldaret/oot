@@ -130,18 +130,18 @@ void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 449);
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPPipeSync(POLY_XLU_DISP++);
 
     if (1) {}
 
-    oGfxCtx->polyXlu.p = func_80093F34(oGfxCtx->polyXlu.p);
-    gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
-    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_NOISE);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 200, 200, 150, this->primColorAlpha);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 8, scroll * 4, 64, 64, 1,
+    POLY_XLU_DISP = func_80093F34(POLY_XLU_DISP);
+    gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
+    gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 150, this->primColorAlpha);
+    gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 8, scroll * 4, 64, 64, 1,
                                                           scroll * 4, scroll * 4, 64, 64));
-    gSPTextureRectangle(oGfxCtx->polyXlu.p++, 0, 0, (SCREEN_WIDTH << 2), (SCREEN_HEIGHT << 2), G_TX_RENDERTILE, 0, 0,
+    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, (SCREEN_WIDTH << 2), (SCREEN_HEIGHT << 2), G_TX_RENDERTILE, 0, 0,
                         140, (1 << 15) | (31 << 10) | 884);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 477);
@@ -156,21 +156,21 @@ void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 200, 255);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 150, 150, 0, 128);
-    gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_NOISE);
-    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_NOISE);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 0, 128);
+    gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
+    gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
 
     vtxPtr[0].v.cn[3] = vtxPtr[6].v.cn[3] = vtxPtr[16].v.cn[3] = vtxPtr[25].v.cn[3] = this->vtxAlpha >> 1;
     vtxPtr[10].v.cn[3] = vtxPtr[22].v.cn[3] = this->vtxAlpha;
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 498),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 498),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sCylinderTexDl);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 4, (0 - scroll) * 8, 32,
+    gSPDisplayList(POLY_XLU_DISP++, sCylinderTexDl);
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 4, (0 - scroll) * 8, 32,
                                                           32, 1, scroll * 8, (0 - scroll) * 12, 32, 32));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sCylinderDl);
+    gSPDisplayList(POLY_XLU_DISP++, sCylinderDl);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 512);
 

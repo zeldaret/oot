@@ -635,9 +635,9 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if (this->isBig) {
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x0, 0x01, 155, 55, 255, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 155, 55, 255, 255);
     } else {
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x0, 0x01, 255, 255, 255, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 255, 255, 255, 255);
     }
 
     SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, &this->actor);
