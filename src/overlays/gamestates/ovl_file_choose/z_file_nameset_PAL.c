@@ -5,10 +5,15 @@ s32 D_808124C0[] = { 0x00020003, 0x00020002, 0x00020002, 0x00020002, 0x00020002,
                      0x00010001, 0x00010001, 0x00000001, 0x00010001, 0x00020002, 0x00020002, 0x00020003,
                      0x00020002, 0x00040003, 0x00020004, 0x00010002, 0x00020001, 0x00010002, 0x00020003,
                      0x00020002, 0x00000002, 0x00020002, 0x00000003, 0x00010000 };
-s32 D_80812544[] = { 0x00010002, 0x00000001, 0x00010002, 0x00010001, 0x00040002, 0x00020002, 0x00010001, 0x00000002,
-                     0x00000001, 0x00010001, 0x00010001, 0x00000001, 0x00010001, 0x00020002, 0x00020002, 0x00020003,
-                     0x00020002, 0x00040003, 0x00020004, 0x00010002, 0x00020001, 0x00010002, 0x00020003, 0x00020002,
-                     0x00000002, 0x00020002, 0x00030002, 0x00020002, 0x00020002, 0x00020002, 0x00020002, 0x00010003 };
+
+s16 D_80812544[] = {
+    0x0001, 0x0002, 0x0000, 0x0001, 0x0001, 0x0002, 0x0001, 0x0001, 0x0004, 0x0002, 0x0002, 0x0002, 0x0001,
+    0x0001, 0x0000, 0x0002, 0x0000, 0x0001, 0x0001, 0x0001, 0x0001, 0x0001, 0x0000, 0x0001, 0x0001, 0x0001,
+    0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0003, 0x0002, 0x0002, 0x0004, 0x0003, 0x0002, 0x0004, 0x0001,
+    0x0002, 0x0002, 0x0001, 0x0001, 0x0002, 0x0002, 0x0003, 0x0002, 0x0002, 0x0000, 0x0002, 0x0002, 0x0002,
+    0x0003, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0002, 0x0001, 0x0003,
+};
+
 s32 D_808125C4[] = { 0x01033480, 0x01033480, 0x01033B80 };
 s32 D_808125D0[] = { 0x01015280, 0x01014200, 0x01015280, 0x01014780, 0x01015280, 0x01014D00 };
 s32 D_808125E8[] = { 0x001C002C };
@@ -84,6 +89,7 @@ void* gConfigModeUpdateFuncs[] = {
     FileChoose_RotateFromOptions,
     func_8080BE30,
 };
+
 s16 D_80812814[] = { 0x0046, 0x00C8 }; // used for calculating alpha for the flashing cursor
 s32 D_80812818[] = { 0x001A000A, 0x000A000A };
 s32 D_80812820[] = { 0x0020000C, 0x000C000C };
@@ -115,11 +121,12 @@ s32 D_808129B0[] = { 0x01037200, 0x01037A00, 0x01038200, 0x01038A00, 0x01039200,
 s32 D_808129D4[] = { 0x01035A00, 0x0103D200, 0x0103BA00, 0x0103EA00, 0x01036200, 0x0103DA00,
                      0x0103C200, 0x0103F200, 0x01036A00, 0x0103E200, 0x0103CA00, 0x0103FA00 };
 s32 D_80812A04[] = { 0x01045E00, 0x01046600, 0x01045E00 };
-s32 D_80812A10[] = { 0x00000010, 0x00200000 };
+
+s16 gSelectFileYOffsets[] = { 0, 16, 32 };
 
 void* gSelectModeUpdateFuncs[] = {
-    func_8080FE2C, func_8080FF98, func_8081009C, func_8081017C,
-    func_80810354, func_80810440, func_80810698, func_808106F4,
+    func_8080FE2C, func_8080FF98, func_8081009C,      func_8081017C,
+    func_80810354, func_80810440, FileChoose_FadeOut, FileChoose_LoadGame,
 };
 
 void* gFileSelectDrawFuncs[] = {
@@ -134,7 +141,7 @@ void* gFileSelectUpdateFuncs[] = {
     FileChoose_SelectModeUpdate,
 };
 
-s32 D_80812A50[] = { 0x01033F00, 0x01034800, 0x01035100, 0x00000000 };
+s32 gControlsTexture[] = { 0x01033F00, 0x01034800, 0x01035100, 0x00000000 };
 
 u8 gSelectedSetting;
 
@@ -190,243 +197,227 @@ void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 347);
 }
+extern int PRIMITIVE;
+extern int TEXEL0;
+extern int TEXEL1;
+extern int G_IM_SIZ_8b_SHIFTL;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
-// void func_80808000(FileChooseContext* thisx) {
-//     FileChooseContext* this = thisx;
-//     Input* controller1 = &this->state.input[0];
-//     s16 i;
-//     s16 val;
-//     s16 tmp;
-//     s16 nameNotEmpty;
-//     u16 dayTime;
-//     s32 tmp32;
+void func_80808000(FileChooseContext* thisx) {
+    FileChooseContext* this = thisx;
+    Input* controller1 = &this->state.input[0];
+    s16 i;
+    s16 tmp;
+    //s16* temp2;
+    s16 nameNotEmpty;
+    u16 dayTime;
 
-//     OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 368);
+    OPEN_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 368);
 
-//     func_80806F34(this);
-//     func_8080723C(this);
-//     func_8080BFE4(this);
+    func_80806F34(this);
+    func_8080723C(this);
+    FileChoose_FlashCursor(this);
 
-//     tmp = (this->newFileNameCharCount * 4) + 4;
-//     val = this->allocVtx4[tmp].v.ob[0] - 6;
-//     this->allocVtx4[0x26].v.ob[0] = val;
-//     this->allocVtx4[0x24].v.ob[0] = val;
+    tmp = (this->newFileNameCharCount * 4) + 4;
+    this->allocVtx4[36].v.ob[0] = this->allocVtx4[38].v.ob[0] = this->allocVtx4[tmp].v.ob[0] - 6;
+    this->allocVtx4[37].v.ob[0] = this->allocVtx4[39].v.ob[0] = this->allocVtx4[36].v.ob[0] + 24;
+    this->allocVtx4[36].v.ob[1] = this->allocVtx4[37].v.ob[1] = this->allocVtx4[tmp].v.ob[1] + 7;
+    this->allocVtx4[38].v.ob[1] = this->allocVtx4[39].v.ob[1] = this->allocVtx4[36].v.ob[1] - 24;
 
-//     val = this->allocVtx4[0x24].v.ob[0] + 0x18;
-//     this->allocVtx4[0x27].v.ob[0] = val;
-//     this->allocVtx4[0x25].v.ob[0] = val;
+    if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
+        if (this->kbdX != this->kbdButton) {
+            osSyncPrintf("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
+        }
+        //temp2 = ;
+        this->allocVtx4[40].v.ob[0] = this->allocVtx4[42].v.ob[0] = D_80811BB0[this->kbdX][32] - 4;
+        this->allocVtx4[41].v.ob[0] = this->allocVtx4[43].v.ob[0] = this->allocVtx4[40].v.ob[0] + 52;
+        this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = D_80811BB0[this->kbdX][33] + 4;
 
-//     val = this->allocVtx4[tmp].v.ob[1] + 7;
-//     this->allocVtx4[0x25].v.ob[1] = val;
-//     this->allocVtx4[0x24].v.ob[1] = val;
+    } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
+        if (this->kbdX != this->kbdButton) {
+            osSyncPrintf("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
+        }
+        this->allocVtx4[40].v.ob[0] = this->allocVtx4[42].v.ob[0] = D_80811BB0[this->kbdX][32] - 4;
+        this->allocVtx4[41].v.ob[0] = this->allocVtx4[43].v.ob[0] = this->allocVtx4[40].v.ob[0] + 40;
+        this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = D_80811BB0[this->kbdX][33] + 4;
+    } else {
+        if (this->charIndex >= 65) {
+            osSyncPrintf("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
+                         this->kbdButton);
+        }
 
-//     val = this->allocVtx4[0x24].v.ob[1] - 0x18;
-//     this->allocVtx4[0x27].v.ob[1] = val;
-//     this->allocVtx4[0x26].v.ob[1] = val;
+        this->allocVtx4[40].v.ob[0] = this->allocVtx4[42].v.ob[0] =
+            this->allocVtx3[this->charIndex * 4].v.ob[0] - D_80812544[this->charIndex] - 6;
+        this->allocVtx4[41].v.ob[0] = this->allocVtx4[43].v.ob[0] = this->allocVtx4[40].v.ob[0] + 24;
+        this->allocVtx4[40].v.ob[1] = this->allocVtx4[41].v.ob[1] = this->allocVtx3[this->charIndex * 4].v.ob[1] + 6;
+    }
 
-//     if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
-//         if (this->kbdButton != this->kbdX) {
-//             osSyncPrintf("014 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
-//         }
+    this->allocVtx4[42].v.ob[1] = this->allocVtx4[43].v.ob[1] = this->allocVtx4[40].v.ob[1] - 24;
 
-//         val = D_80811BB0[this->kbdX][32] - 4;
-//         this->allocVtx4[0x2A].v.ob[0] = val;
-//         this->allocVtx4[0x28].v.ob[0] = val;
-//         val = this->allocVtx4[0x28].v.ob[0] + 0x34;
-//         this->allocVtx4[0x2B].v.ob[0] = val;
-//         this->allocVtx4[0x29].v.ob[0] = val;
-//         val = D_80811BB0[this->kbdX][33] + 4;
-//         this->allocVtx4[0x29].v.ob[1] = val;
-//         this->allocVtx4[0x28].v.ob[1] = val;
-//     } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
-//         if (this->kbdButton != this->kbdX) {
-//             osSyncPrintf("23 xpos=%d  contents=%d\n", this->kbdX, this->kbdButton);
-//         }
+    gSPVertex(POLY_OPA_DISP++, &this->allocVtx4[36], 8, 0);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
+                      PRIMITIVE, 0);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1], this->highlightColor[2],
+                    this->highlightColor[3]);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101BD40, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
-//         val = D_80811BB0[this->kbdX][32] - 4;
-//         this->allocVtx4[0x2A].v.ob[0] = val;
-//         this->allocVtx4[0x28].v.ob[0] = val;
-//         val = this->allocVtx4[0x28].v.ob[0] + 0x28;
-//         this->allocVtx4[0x2B].v.ob[0] = val;
-//         this->allocVtx4[0x29].v.ob[0] = val;
-//         val = D_80811BB0[this->kbdX][33] + 4;
-//         this->allocVtx4[0x29].v.ob[1] = val;
-//         this->allocVtx4[0x28].v.ob[1] = val;
-//     } else {
-//         if (this->charIndex >= 65) {
-//             osSyncPrintf("mjp=%d  xpos=%d  ypos=%d  name_contents=%d\n", this->charIndex, this->kbdX, this->kbdY,
-//                          this->kbdButton);
-//         }
+    if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101BF80, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-//         val = this->allocVtx3[this->charIndex * 4].v.ob[0] - D_80812544[this->charIndex] - 6;
-//         this->allocVtx4[0x2A].v.ob[0] = val;
-//         this->allocVtx4[0x28].v.ob[0] = val;
-//         val = this->allocVtx4[0x28].v.ob[0] + 0x18;
-//         this->allocVtx4[0x2B].v.ob[0] = val;
-//         this->allocVtx4[0x29].v.ob[0] = val;
-//         val = this->allocVtx3[this->charIndex * 4].v.ob[1] + 6;
-//         this->allocVtx4[0x29].v.ob[1] = val;
-//         this->allocVtx4[0x28].v.ob[1] = val;
-//     }
+    } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101C4C0, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    }
 
-//     val = this->allocVtx4[0x28].v.ob[1] - 0x18;
-//     this->allocVtx4[0x2B].v.ob[1] = val;
-//     this->allocVtx4[0x2A].v.ob[1] = val;
+    gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
 
-//     gSPVertex(POLY_OPA_DISP++, &this->allocVtx4[0x24], 8, 0);
-//     gDPPipeSync(POLY_OPA_DISP++);
-//     gDPSetCombineLERP(POLY_OPA_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0,
-//                       PRIMITIVE, 0);
-//     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->highlightColor[0], this->highlightColor[1], this->highlightColor[2],
-//                     this->highlightColor[3]);
-//     gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101BD40, G_IM_FMT_I, G_IM_SIZ_8b, 24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
-//                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-//     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
+    FileChoose_DrawKeyboard(this);
+    gDPPipeSync(POLY_OPA_DISP++);
+    func_800949A8(this->state.gfxCtx);
 
-//     if ((this->kbdButton == KBD_BTN_HIRA) || (this->kbdButton == KBD_BTN_KATA) || (this->kbdButton == KBD_BTN_END)) {
-//         gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101BF80, G_IM_FMT_I, G_IM_SIZ_8b, 56, 24, 0, G_TX_NOMIRROR |
-//         G_TX_WRAP,
-//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                      PRIMITIVE, 0);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
-//     } else if ((this->kbdButton == KBD_BTN_ENG) || (this->kbdButton == KBD_BTN_BACKSPACE)) {
-//         gDPLoadTextureBlock(POLY_OPA_DISP++, D_0101C4C0, G_IM_FMT_I, G_IM_SIZ_8b, 40, 24, 0, G_TX_NOMIRROR |
-//         G_TX_WRAP,
-//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-//     }
+    if (this->configMode == CM_KEYBOARD) {                         // 19AC
+        if (CHECK_BTN_ALL(controller1->press.button, BTN_START)) { // 19CC
+            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            // place cursor on END button
+            this->kbdY = 5;
+            this->kbdX = 4;
+            // b to 2170
+        } else {
+            if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) { // 1A2C                         // 1A3C && 1A68
+                if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
+                    for (i = this->newFileNameCharCount; i < 7; i++) {
+                        this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                    }
 
-//     gSP1Quadrangle(POLY_OPA_DISP++, 4, 6, 7, 5, 0);
+                    this->fileNames[this->buttonIndex][i] = 0x3E;
+                    Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
+                } else {
+                    this->newFileNameCharCount--;
 
-//     FileChoose_DrawKeyboard(this);
-//     gDPPipeSync(POLY_OPA_DISP++);
-//     func_800949A8(this->state.gfxCtx);
+                    if (this->newFileNameCharCount < 0) {
+                        this->newFileNameCharCount = 0;
+                        this->configMode = CM_KEYBOARD_TO_MAIN;
+                    } else {
+                        for (i = this->newFileNameCharCount; i < 7; i++) {
+                            this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                        }
 
-//     gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
-//                       PRIMITIVE, 0);
-//     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
+                        this->fileNames[this->buttonIndex][i] = 0x3E;
+                        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                               &D_801333E8);
+                    }
+                }
+            } else {
+                if (this->charPage < 3) {
+                    if (this->kbdY != 5) { // 1BC8 && 1BDC
+                        // draw the character the cursor is hovering over in yellow
+                        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
+                        gSPVertex(POLY_OPA_DISP++, &this->allocVtx3[this->charIndex * 4], 4, 0);
+                        // 1C58
+                        FileChoose_DrawCharacter(this->state.gfxCtx,
+                                                 this->font.fontBuf + D_808123F0[this->charIndex] * FONT_CHAR_TEX_SIZE,
+                                                 0);
 
-//     if (this->configMode == CM_KEYBOARD) {
-//         if (CHECK_BTN_ALL(controller1->press.button, BTN_START)) {
-//             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-//             // place cursor on END button
-//             this->kbdY = 5;
-//             this->kbdX = 4;
-//         } else if (CHECK_BTN_ALL(controller1->press.button, BTN_B)) {
-//             if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
-//                 for (i = this->newFileNameCharCount; i < 7; i++) {
-//                     this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
-//                 }
+                        if (CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
+                            Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                   &D_801333E8);
+                            this->fileNames[this->buttonIndex][this->newFileNameCharCount] =
+                                D_808123F0[this->charIndex];
+                            this->newFileNameCharCount++;
 
-//                 this->fileNames[this->buttonIndex][i] = 0x3E;
-//                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-//                 &D_801333E8);
-//             } else {
-//                 this->newFileNameCharCount--;
+                            if (this->newFileNameCharCount >= 8) {
+                                this->newFileNameCharCount = 7;
+                            }
+                        }
+                    } else if (CHECK_BTN_ALL(controller1->press.button, BTN_A) && (this->charPage !=this->kbdButton)) {
+                        if (this->kbdButton == KBD_BTN_BACKSPACE) {
+                            if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
+                                for (i = this->newFileNameCharCount; i < 7; i++) {
+                                    this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                                }
 
-//                 if (this->newFileNameCharCount < 0) {
-//                     this->newFileNameCharCount = 0;
-//                     this->configMode = CM_KEYBOARD_TO_MAIN;
-//                 } else {
-//                     for (i = this->newFileNameCharCount; i < 7; i++) {
-//                         this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
-//                     }
+                                this->fileNames[this->buttonIndex][i] = 0x3E;
+                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                       &D_801333E8);
+                            } else {
+                                this->newFileNameCharCount--;
 
-//                     this->fileNames[this->buttonIndex][i] = 0x3E;
-//                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-//                                            &D_801333E8);
-//                 }
-//             }
-//         } else if ((this->charPage < 3) && (this->kbdY != 5)) {
-//             // draw the character the cursor is hovering over in yellow
-//             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 0, 255);
-//             gSPVertex(POLY_OPA_DISP++, &this->allocVtx3[this->charIndex * 4], 4, 0);
-//             FileChoose_DrawCharacter(this->state.gfxCtx,
-//                                      this->font.fontBuf + D_808123F0[this->charIndex] * FONT_CHAR_TEX_SIZE, 0);
+                                if (this->newFileNameCharCount < 0) {
+                                    this->newFileNameCharCount = 0;
+                                }
 
-//             if (CHECK_BTN_ALL(controller1->press.button, BTN_A)) {
-//                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-//                 &D_801333E8); this->fileNames[this->buttonIndex][this->newFileNameCharCount] =
-//                 D_808123F0[this->charIndex]; this->newFileNameCharCount++;
+                                for (i = this->newFileNameCharCount; i < 7; i++) {
+                                    this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
+                                }
 
-//                 if (this->newFileNameCharCount >= 8) {
-//                     this->newFileNameCharCount = 7;
-//                 }
-//             }
-//         } else if (CHECK_BTN_ALL(controller1->press.button, BTN_A) && (this->kbdButton != this->charPage)) {
-//             if (this->kbdButton == KBD_BTN_BACKSPACE) {
-//                 if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
-//                     for (i = this->newFileNameCharCount; i < 7; i++) {
-//                         this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
-//                     }
+                                this->fileNames[this->buttonIndex][i] = 0x3E;
+                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                       &D_801333E8);
+                            }
+                        } else if (this->kbdButton == KBD_BTN_END) {
+                            nameNotEmpty = false;
 
-//                     this->fileNames[this->buttonIndex][i] = 0x3E;
-//                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-//                                            &D_801333E8);
-//                 } else {
-//                     this->newFileNameCharCount--;
+                            for (i = 0; i < 8; i++) {
+                                if (this->fileNames[this->buttonIndex][i] != 0x3E) {
+                                    nameNotEmpty = true;
+                                    break;
+                                }
+                            }
 
-//                     if (this->newFileNameCharCount < 0) {
-//                         this->newFileNameCharCount = 0;
-//                     }
+                            if (nameNotEmpty) {
+                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                       &D_801333E8);
+                                gSaveContext.fileNum = this->buttonIndex;
+                                dayTime = (0, gSaveContext.dayTime);
+                                Sram_InitSave(this, &this->sramCtx);
+                                gSaveContext.dayTime = dayTime;
+                                this->configMode = CM_KEYBOARD_TO_MAIN;
+                                this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
+                                this->connectorAlpha[this->buttonIndex] = 255;
+                                func_800AA000(300.0f, 0xB4, 0x14, 0x64);
+                            } else {
+                                Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                                       &D_801333E8);
+                            }
+                        }
+                    }
 
-//                     for (i = this->newFileNameCharCount; i < 7; i++) {
-//                         this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
-//                     }
+                    if (CHECK_BTN_ALL(controller1->press.button, BTN_CRIGHT)) { // 2080
+                        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                               &D_801333E8);
+                        this->newFileNameCharCount++;
 
-//                     this->fileNames[this->buttonIndex][i] = 0x3E;
-//                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_S, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-//                                            &D_801333E8);
-//                 }
-//             } else if (this->kbdButton == KBD_BTN_END) {
-//                 nameNotEmpty = false;
+                        if (this->newFileNameCharCount > 7) {
+                            this->newFileNameCharCount = 7;
+                        }
+                    } else if (CHECK_BTN_ALL(controller1->press.button, BTN_CLEFT)) {
+                        Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
+                                               &D_801333E8);
+                        this->newFileNameCharCount--;
 
-//                 for (i = 0; i < 8; i++) {
-//                     if (this->fileNames[this->buttonIndex][i] != 0x3E) {
-//                         nameNotEmpty = true;
-//                         break;
-//                     }
-//                 }
+                        if (this->newFileNameCharCount < 0) {
+                            this->newFileNameCharCount = 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // 2170
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
 
-//                 if (nameNotEmpty) {
-//                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-//                                            &D_801333E8);
-//                     gSaveContext.fileNum = this->buttonIndex;
-//                     dayTime = (0, gSaveContext.dayTime);
-//                     Sram_InitSave(this, &this->sramCtx);
-//                     gSaveContext.dayTime = dayTime;
-//                     this->configMode = CM_KEYBOARD_TO_MAIN;
-//                     this->nameBoxAlpha[this->buttonIndex] = this->nameAlpha[this->buttonIndex] = 200;
-//                     this->connectorAlpha[this->buttonIndex] = 255;
-//                     func_800AA000(300.0f, 0xB4, 0x14, 0x64);
-//                 } else {
-//                     Audio_PlaySoundGeneral(NA_SE_SY_FSEL_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-//                     &D_801333E8);
-//                 }
-//             }
-//         }
-
-//         if (CHECK_BTN_ALL(controller1->press.button, BTN_CRIGHT)) {
-//             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-//             this->newFileNameCharCount++;
-
-//             if (this->newFileNameCharCount > 7) {
-//                 this->newFileNameCharCount = 7;
-//             }
-//         } else if (CHECK_BTN_ALL(controller1->press.button, BTN_CLEFT)) {
-//             Audio_PlaySoundGeneral(NA_SE_SY_FSEL_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-//             this->newFileNameCharCount--;
-
-//             if (this->newFileNameCharCount < 0) {
-//                 this->newFileNameCharCount = 0;
-//             }
-//         }
-//     }
-
-//     gDPPipeSync(POLY_OPA_DISP++);
-//     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA);
-
-//     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 550);
-// }
+    CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 550);
+}
 
 /**
  * Fade in the name entry box and slide it to the center of the screen from the right side.
@@ -744,7 +735,8 @@ void FileChoose_UpdateOptionsMenu(FileChooseContext* thisx) {
 //     }
 
 //     gDPPipeSync(POLY_OPA_DISP++);
-//     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+//     gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+//     PRIMITIVE,
 //                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 //     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
 //     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
@@ -752,8 +744,8 @@ void FileChoose_UpdateOptionsMenu(FileChooseContext* thisx) {
 //     for (i = 0, vtx_cnt = 0; i < 4; i++, vtx_cnt += 4) {
 //         gDPLoadTextureBlock(POLY_OPA_DISP++, D_8081261C[i].gfx[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b,
 //                             D_8081261C[i].width[gSaveContext.language], D_8081261C[i].height, 0,
-//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-//                             G_TX_NOLOD);
+//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+//                             G_TX_NOLOD, G_TX_NOLOD);
 //         gSP1Quadrangle(POLY_OPA_DISP++, vtx_cnt, vtx_cnt + 2, vtx_cnt + 3, vtx_cnt + 1, 0);
 //     }
 
@@ -780,8 +772,8 @@ void FileChoose_UpdateOptionsMenu(FileChooseContext* thisx) {
 
 //         gDPLoadTextureBlock(POLY_OPA_DISP++, D_8081266C[i].gfx[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b,
 //                             D_8081266C[i].width[gSaveContext.language], D_8081261C[i].height, 0,
-//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-//                             G_TX_NOLOD);
+//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+//                             G_TX_NOLOD, G_TX_NOLOD);
 //         gSP1Quadrangle(POLY_OPA_DISP++, vtx_cnt, vtx_cnt + 2, vtx_cnt + 3, vtx_cnt + 1, 0);
 //     }
 
@@ -803,8 +795,8 @@ void FileChoose_UpdateOptionsMenu(FileChooseContext* thisx) {
 
 //         gDPLoadTextureBlock(POLY_OPA_DISP++, D_8081266C[i].gfx[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b,
 //                             D_8081266C[i].width[gSaveContext.language], D_8081261C[i].height, 0,
-//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-//                             G_TX_NOLOD);
+//                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+//                             G_TX_NOLOD, G_TX_NOLOD);
 //         gSP1Quadrangle(POLY_OPA_DISP++, vtx_cnt, vtx_cnt + 2, vtx_cnt + 3, vtx_cnt + 1, 0);
 //     }
 

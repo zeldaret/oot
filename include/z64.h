@@ -1181,11 +1181,11 @@ typedef struct {
     /* 0x1CA2E */ s8 defense[3];
     /* 0x1CA32 */ u16 health[3];
     /* 0x1CA38 */ s16 buttonIndex;
-    /* 0x1CA3A */ s16 openChoiceIndex; // 0: yes, 1: quit
+    /* 0x1CA3A */ s16 confirmButtonIndex; // 0: yes, 1: quit
     /* 0x1CA3C */ s16 menuMode;
     /* 0x1CA3E */ s16 configMode;
-    /* 0x1CA40 */ s16 prevConfigureMode;
-    /* 0x1CA42 */ s16 nextFileSelectStateIndex;
+    /* 0x1CA40 */ s16 prevConfigMode;
+    /* 0x1CA42 */ s16 nextConfigMode;
     /* 0x1CA44 */ s16 selectMode;
     /* 0x1CA46 */ s16 selectedFileIndex;
     /* 0x1CA48 */ char unk_1CA48[0x2];

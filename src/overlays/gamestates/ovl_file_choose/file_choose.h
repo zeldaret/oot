@@ -71,6 +71,14 @@ typedef enum {
 } EraseMenuButtonIndex;
 
 typedef enum {
+    /* 0 */ BTN_SELECT_FILE_1,
+    /* 1 */ BTN_SELECT_FILE_2,
+    /* 2 */ BTN_SELECT_FILE_3,
+    /* 3 */ BTN_SELECT_YES,
+    /* 4 */ BTN_SELECT_QUIT
+} SelectMenuButtonIndex;
+
+typedef enum {
     /* 0 */ BTN_CONFIRM_YES,
     /* 1 */ BTN_CONFIRM_QUIT
 } ConfirmButtonIndex;
@@ -95,7 +103,7 @@ typedef enum {
 typedef enum {
     /* 0 */ CHAR_PAGE_HIRA,
     /* 1 */ CHAR_PAGE_KATA,
-    /* 2 */ CHAR_PAGE_ENG,
+    /* 2 */ CHAR_PAGE_ENG
 } CharPage;
 
 typedef enum {
@@ -194,24 +202,36 @@ typedef enum {
 /* 39 */ void FileChoose_RotateFromOptions(FileChooseContext* this);
 /* 40 */ void func_8080BE30(FileChooseContext* this);
 
-// update funcs for menuMode 2 (gSelectModeUpdateFuncs)
+typedef enum {
+    /* 00 */ SM_00,
+    /* 01 */ SM_01,
+    /* 02 */ SM_02,
+    /* 03 */ SM_03,
+    /* 04 */ SM_04,
+    /* 05 */ SM_05,
+    /* 06 */ SM_FADE_OUT,
+    /* 07 */ SM_LOAD_GAME
+} SelectMode;
+
+// Select Mode Update Functions
 void func_8080FE2C(FileChooseContext* this);
 void func_8080FF98(FileChooseContext* this);
 void func_8081009C(FileChooseContext* this);
 void func_8081017C(FileChooseContext* this);
 void func_80810354(FileChooseContext* this);
 void func_80810440(FileChooseContext* this);
-void func_80810698(FileChooseContext* this);
-void func_808106F4(FileChooseContext* this);
+void FileChoose_FadeOut(FileChooseContext* this);
+void FileChoose_LoadGame(FileChooseContext* this);
 
-// draw funcs for each menu mode (gFileSelectDrawFuncs)
+void FileChoose_InitModeUpdate(FileChooseContext* this);
+void FileChoose_ConfigModeUpdate(FileChooseContext* this);
+void FileChoose_SelectModeUpdate(FileChooseContext* this);
+
 void FileChoose_InitModeDraw(GameState* thisx);
 void FileChoose_ConfigModeDraw(GameState* thisx);
 void FileChoose_SelectModeDraw(GameState* thisx);
 
-// update funcs for each menu mode (gFileSelectUpdateFuncs)
-void FileChoose_InitModeUpdate(FileChooseContext* this);
-void FileChoose_ConfigModeUpdate(FileChooseContext* this);
-void FileChoose_SelectModeUpdate(FileChooseContext* this);
+
+
 
 #endif
