@@ -44,7 +44,7 @@ const ActorInit En_Goroiwa_InitVars = {
     (ActorFunc)EnGoroiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
@@ -54,7 +54,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 254 };
@@ -67,7 +67,7 @@ extern Gfx D_060006B0[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
     static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
-    Sphere16* worldSphere = &this->collider.list[0].dim.worldSphere;
+    Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.posRot.pos.x;
     worldSphere->center.y = this->actor.posRot.pos.y + colliderHeightOffset[(this->actor.params >> 10) & 1];
@@ -80,7 +80,7 @@ void func_80A4BD04(EnGoroiwa* this, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     func_80A4BCA0(this);
-    this->collider.list[0].dim.worldSphere.radius = 58;
+    this->collider.elements[0].dim.worldSphere.radius = 58;
 }
 
 void func_80A4BD70(EnGoroiwa* this, u8 arg1) {

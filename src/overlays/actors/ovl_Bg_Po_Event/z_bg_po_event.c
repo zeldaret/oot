@@ -48,7 +48,7 @@ const ActorInit Bg_Po_Event_InitVars = {
     (ActorFunc)BgPoEvent_Draw,
 };
 
-static ColliderTrisItemInit sTrisItemsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f } } },
@@ -62,7 +62,7 @@ static ColliderTrisItemInit sTrisItemsInit[2] = {
 static ColliderTrisInit sTrisInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
     2,
-    sTrisItemsInit,
+    sTrisElementsInit,
 };
 
 static u8 sBlocksAtRest = 0;
@@ -75,7 +75,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
     static s16 paintingPosX[] = { -1302, -866, 1421, 985 };
     static s16 paintingPosY[] = { 1107, 1091 };
     static s16 paintingPosZ[] = { -3384, -3252 };
-    ColliderTrisItemInit* item;
+    ColliderTrisElementInit* item;
     Vec3f* vtxVec;
     s32 i1;
     s32 i2;
@@ -96,7 +96,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
         scaleY = 1.0f;
     }
     for (i1 = 0; i1 < sTrisInit.count; i1++) {
-        item = &sTrisInit.list[i1];
+        item = &sTrisInit.elements[i1];
         if (1) {} // This section looks like a macro of some sort.
         for (i2 = 0; i2 < 3; i2++) {
             vtxVec = &item->dim.vtx[i2];

@@ -242,7 +242,7 @@ void Gameplay_Init(GameState* thisx) {
     func_8006BA00(globalCtx);
     Effect_InitContext(globalCtx);
     EffectSs_InitInfo(globalCtx, 0x55);
-    CollisionCheck_InitContextDrawColliders(globalCtx, &globalCtx->colChkCtx);
+    CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
     SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
     func_8006450C(globalCtx, &globalCtx->csCtx);
 
@@ -844,7 +844,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3612);
                     }
 
-                    CollisionCheck_AllAT(globalCtx, &globalCtx->colChkCtx);
+                    CollisionCheck_AT(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3618);
@@ -856,13 +856,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3624);
                     }
 
-                    CollisionCheck_ApplyDamageAll(globalCtx, &globalCtx->colChkCtx);
+                    CollisionCheck_Damage(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3631);
                     }
 
-                    CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
+                    CollisionCheck_ClearContext(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3637);

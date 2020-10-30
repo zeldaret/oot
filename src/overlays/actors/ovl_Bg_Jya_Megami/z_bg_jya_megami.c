@@ -39,7 +39,7 @@ const ActorInit Bg_Jya_Megami_InitVars = {
     (ActorFunc)BgJyaMegami_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00200000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 0x00, { { 0x0000, 0xFDA8, 0xFF38 }, 0x003C }, 0x0064 },
@@ -49,7 +49,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static BgJyaMegamiPieceInit sPiecesInit[] = {

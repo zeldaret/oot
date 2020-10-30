@@ -40,7 +40,7 @@ static DamageTable sDamageTable = { {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF2, 0xF4, 0xF2, 0xF4, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
 } };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 1, { { 0, 0, 0 }, 12 }, 100 },
@@ -66,7 +66,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK6, 0x00, 0x09, 0x19, 0x10, COLSHAPE_JNTSPH },
     5,
-    &sJntSphItemsInit,
+    &sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {

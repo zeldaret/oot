@@ -30,7 +30,7 @@ const ActorInit Bg_Hidan_Dalm_InitVars = {
     (ActorFunc)BgHidanDalm_Draw,
 };
 
-static ColliderTrisItemInit sTrisItemInit[4] = {
+static ColliderTrisElementInit sTrisElementInit[4] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000040, 0x00, 0x00 }, 0x00, 0x79, 0x00 },
         { { { 305.0f, 0.0f, -300.0f }, { 305.0f, 600.0f, -300.0f }, { 305.0f, 600.0f, 300.0f } } },
@@ -52,7 +52,7 @@ static ColliderTrisItemInit sTrisItemInit[4] = {
 ColliderTrisInit D_80886590 = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
     4,
-    sTrisItemInit,
+    sTrisElementInit,
 };
 
 InitChainEntry D_808865A0[] = {
@@ -99,7 +99,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & 2) && !Player_InCsMode(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
         this->collider.base.acFlags &= ~2;
-        if (this->collider.list[0].body.bumperFlags & 2 || this->collider.list[1].body.bumperFlags & 2) {
+        if (this->collider.elements[0].info.bumperFlags & 2 || this->collider.elements[1].info.bumperFlags & 2) {
             this->dyna.actor.posRot.rot.y -= 0x4000;
         } else {
             this->dyna.actor.posRot.rot.y += 0x4000;
@@ -162,18 +162,18 @@ void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
     Vec3f pos1;
     Vec3f pos0;
 
-    Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[0], &pos0);
-    Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[1], &pos1);
-    Matrix_MultVec3f(&sTrisItemInit[0].dim.vtx[2], &pos2);
+    Matrix_MultVec3f(&sTrisElementInit[0].dim.vtx[0], &pos0);
+    Matrix_MultVec3f(&sTrisElementInit[0].dim.vtx[1], &pos1);
+    Matrix_MultVec3f(&sTrisElementInit[0].dim.vtx[2], &pos2);
     Collider_SetTrisVertices(&this->collider, 0, &pos0, &pos1, &pos2);
-    Matrix_MultVec3f(&sTrisItemInit[1].dim.vtx[2], &pos1);
+    Matrix_MultVec3f(&sTrisElementInit[1].dim.vtx[2], &pos1);
     Collider_SetTrisVertices(&this->collider, 1, &pos0, &pos2, &pos1);
 
-    Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[0], &pos0);
-    Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[1], &pos1);
-    Matrix_MultVec3f(&sTrisItemInit[2].dim.vtx[2], &pos2);
+    Matrix_MultVec3f(&sTrisElementInit[2].dim.vtx[0], &pos0);
+    Matrix_MultVec3f(&sTrisElementInit[2].dim.vtx[1], &pos1);
+    Matrix_MultVec3f(&sTrisElementInit[2].dim.vtx[2], &pos2);
     Collider_SetTrisVertices(&this->collider, 2, &pos0, &pos1, &pos2);
-    Matrix_MultVec3f(&sTrisItemInit[3].dim.vtx[1], &pos2);
+    Matrix_MultVec3f(&sTrisElementInit[3].dim.vtx[1], &pos2);
     Collider_SetTrisVertices(&this->collider, 3, &pos0, &pos2, &pos1);
 }
 

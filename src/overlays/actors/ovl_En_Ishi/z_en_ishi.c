@@ -332,7 +332,7 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
             EnIshi_SpawnBugs(this, globalCtx);
         }
     } else if (this->collider.base.acFlags & 2 && (type == ROCK_SMALL) &&
-               this->collider.body.acHitItem->toucher.flags & 0x40000048) {
+               this->collider.element.info.acHitInfo->toucher.flags & 0x40000048) {
         EnIshi_DropCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, sBreakSoundDurations[type], sBreakSounds[type]);
         sFragmentSpawnFuncs[type](this, globalCtx);

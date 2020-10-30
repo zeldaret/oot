@@ -80,8 +80,8 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
         if (!Player_InCsMode(globalCtx)) {
             func_80AFB748(this, globalCtx);
 
-            if (this->collider.base.maskB & 0x1) {
-                this->collider.base.maskB &= ~0x1;
+            if (this->collider.base.ocType & 0x1) {
+                this->collider.base.ocType &= ~0x1;
                 Item_Give(globalCtx, ITEM_SKULL_TOKEN);
                 player->actor.freezeTimer = 10;
                 func_8010B680(globalCtx, 0xB4, 0);

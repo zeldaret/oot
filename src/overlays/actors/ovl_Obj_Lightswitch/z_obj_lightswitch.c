@@ -55,7 +55,7 @@ const ActorInit Obj_Lightswitch_InitVars = {
     (ActorFunc)ObjLightswitch_Draw,
 };
 
-static ColliderJntSphItemInit sColliderJntSphItemInit[] = {
+static ColliderJntSphElementInit sColliderJntSphElementInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00200000, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0, { { 0, 0, 0 }, 19 }, 100 },
@@ -64,7 +64,7 @@ static ColliderJntSphItemInit sColliderJntSphItemInit[] = {
 static ColliderJntSphInit sColliderJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    sColliderJntSphItemInit,
+    sColliderJntSphElementInit,
 };
 static CollisionCheckInfoInit sCollisionCheckInfoInit = { 0, 0xC, 0x3C, 0xFF };
 

@@ -103,8 +103,8 @@ void EnIceHono_InitDroppedFlame(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitDroppedFlame);
     Collider_CylinderUpdate(&this->actor, &this->collider);
 
-    this->collider.dim.radius = this->actor.scale.x * 4000.4f;
-    this->collider.dim.height = this->actor.scale.y * 8000.2f;
+    this->collider.element.dim.radius = this->actor.scale.x * 4000.4f;
+    this->collider.element.dim.height = this->actor.scale.y * 8000.2f;
     this->actor.colChkInfo.mass = 253;
     EnIceHono_SetupActionDroppedFlame(this);
 }
@@ -218,8 +218,8 @@ void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 5);
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    this->collider.dim.radius = this->actor.scale.x * 4000.0f;
-    this->collider.dim.height = this->actor.scale.y * 8000.0f;
+    this->collider.element.dim.radius = this->actor.scale.x * 4000.0f;
+    this->collider.element.dim.height = this->actor.scale.y * 8000.0f;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     if (this->timer <= 0) {
@@ -251,8 +251,8 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
 
     if ((this->alpha > 100) && (this->timer < 40)) {
         Collider_CylinderUpdate(&this->actor, &this->collider);
-        this->collider.dim.radius = this->actor.scale.x * 6000.0f;
-        this->collider.dim.height = this->actor.scale.y * 8000.0f;
+        this->collider.element.dim.radius = this->actor.scale.x * 6000.0f;
+        this->collider.element.dim.height = this->actor.scale.y * 8000.0f;
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     if (this->timer == 46) {

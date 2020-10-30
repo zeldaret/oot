@@ -88,7 +88,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
     this->actor.initPosRot.rot.z += 0x2AA8;
 
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
-        (this->collider.base.acFlags & 2) || (this->collider.base.maskA & 2)) {
+        (this->collider.base.acFlags & 2) || (this->collider.base.ocFlags & 2)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
         if ((player->currentShield == PLAYER_SHIELD_DEKU) ||
@@ -98,7 +98,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
                 this->collider.base.atFlags &= ~0x16;
                 this->collider.base.atFlags |= 0x08;
 
-                this->collider.body.toucher.flags = 2;
+                this->collider.element.info.toucher.flags = 2;
                 func_800D20CC(&player->shieldMf, &sp4C, 0);
                 this->actor.posRot.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;

@@ -81,9 +81,9 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    this->collider.dim.pos.x = this->actor.posRot.pos.x;
-    this->collider.dim.pos.y = this->actor.posRot.pos.y;
-    this->collider.dim.pos.z = this->actor.posRot.pos.z;
+    this->collider.element.dim.pos.x = this->actor.posRot.pos.x;
+    this->collider.element.dim.pos.y = this->actor.posRot.pos.y;
+    this->collider.element.dim.pos.z = this->actor.posRot.pos.z;
 
     if (this->flameColor == POE_FLAME_PURPLE && Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_GREEN) &&
         Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_BLUE) &&

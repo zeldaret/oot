@@ -871,8 +871,8 @@ typedef struct {
     /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
     /* 0x1C0 */ s32 colOcCount;
     /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
-    /* 0x28C */ s32 colOcLineCount;
-    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+    /* 0x28C */ s32 colLineCount;
+    /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
 } CollisionCheckContext; // size = 0x29C
 
 typedef struct ListAlloc {

@@ -14,7 +14,7 @@ typedef struct EnSt {
     /* 0x0190 */ EnStActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder colCylinder[6];
     /* 0x035C */ ColliderJntSph colSph;
-    /* 0x037C */ ColliderJntSphItem colSphItems[1];
+    /* 0x037C */ ColliderJntSphElement colSphItems[1];
     /* 0x03BC */ s16 initalYaw;
     /* 0x03BE */ s16 deathYawTarget;
     /* 0x03C0 */ s16 groundBounces;

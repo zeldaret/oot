@@ -194,7 +194,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
-    if ((this->collider.body.acHitItem->toucher.flags & 0x1F824) != 0) {
+    if ((this->collider.element.info.acHitInfo->toucher.flags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
@@ -296,7 +296,7 @@ void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
 
     if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & 0x10) && (player->invincibilityTimer >= 0) &&
         (this->actor.xzDistFromLink < 30.0f) && (this->actor.yDistFromLink < -5.0f) &&
-        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistFromLink)) {
+        (-(f32)(player->cylinder.element.dim.height + 10) < this->actor.yDistFromLink)) {
         EnWallmas_SetupTakePlayer(this, globalCtx);
     }
 }
@@ -478,7 +478,7 @@ void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & 2) != 0) {
         this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.body, 1);
+        func_80035650(&this->actor, &this->collider.element.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 func_80032C7C(globalCtx, &this->actor);

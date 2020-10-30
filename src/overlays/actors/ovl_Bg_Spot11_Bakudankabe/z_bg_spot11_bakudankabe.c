@@ -46,9 +46,9 @@ void func_808B2180(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    this->collider.dim.pos.x += (s16)this->dyna.actor.posRot.pos.x;
-    this->collider.dim.pos.y += (s16)this->dyna.actor.posRot.pos.y;
-    this->collider.dim.pos.z += (s16)this->dyna.actor.posRot.pos.z;
+    this->collider.element.dim.pos.x += (s16)this->dyna.actor.posRot.pos.x;
+    this->collider.element.dim.pos.y += (s16)this->dyna.actor.posRot.pos.y;
+    this->collider.element.dim.pos.z += (s16)this->dyna.actor.posRot.pos.z;
 }
 
 void func_808B2218(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {

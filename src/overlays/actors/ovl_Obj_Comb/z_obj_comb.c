@@ -33,7 +33,7 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-ColliderJntSphItemInit sJntSphItemsInit[1] = {
+ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0, 0, 0 }, 15 }, 100 },
@@ -43,7 +43,7 @@ ColliderJntSphItemInit sJntSphItemsInit[1] = {
 ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
     1,
-    &sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -60,7 +60,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f pos;
     Vec3f velocity;
-    Gfx** dlist = D_05009940;
+    Gfx* dlist = D_05009940;
     s16 scale;
     s16 angle = 0;
     s16 gravity;
@@ -131,7 +131,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
             params = -1;
         }
         if (params >= 0) {
-            Item_DropCollectible(globalCtx, &this->actor.posRot, params);
+            Item_DropCollectible(globalCtx, &this->actor.posRot.pos, params);
         }
     }
 }
@@ -141,12 +141,15 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, this, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     ObjComb_SetupWait(this);
 }
 
-void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    ObjComb* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void ObjComb_SetupWait(ObjComb* this) {
@@ -163,20 +166,20 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
 
     if ((this->collider.base.acFlags & 0x2) != 0) {
         this->collider.base.acFlags &= ~0x2;
-        toucherFlags = this->collider.list->body.acHitItem->toucher.flags;
+        toucherFlags = this->collider.elements[0].info.acHitInfo->toucher.flags;
         if (toucherFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
             ObjComb_Break(this, globalCtx);
             ObjComb_ChooseItemDrop(this, globalCtx);
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
         }
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
     if (this->actor.update != NULL) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

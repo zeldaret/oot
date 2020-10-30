@@ -28,7 +28,7 @@ const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     (ActorFunc)BgJyaBombchuiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0, { { -300, 0, 0 }, 40 }, 100 },
@@ -38,7 +38,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x21, 0x20, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {

@@ -59,7 +59,7 @@ extern UNK_PTR D_06005CF8;
 extern Gfx D_060061A0[];
 extern Gfx D_06005A20[];
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xEFC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0x0000, 0x0078, 0x0000 }, 370 }, 100 },
@@ -69,7 +69,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    &sJntSphItemsInit,
+    &sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -485,7 +485,7 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     temp = this->collider.base.acFlags;
     this->collider.base.acFlags &= 0xFFFD;
     this->unk_1DC = temp;
-    this->collider.list[0].dim.modelSphere.radius = this->unk_1D4 * 370.0f;
+    this->collider.elements[0].dim.modelSphere.radius = this->unk_1D4 * 370.0f;
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }

@@ -94,9 +94,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_18C = tempf2 / 100.0f;
         tempf1 = tempf2 * 0.13f;
 
-        this->collider.dim.radius = tempf1;
-        this->collider.dim.height = tempf1;
-        this->collider.dim.yShift = 0;
+        this->collider.element.dim.radius = tempf1;
+        this->collider.element.dim.height = tempf1;
+        this->collider.element.dim.yShift = 0;
         return;
     }
 
@@ -140,9 +140,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->posRot.rot.y = Math_atan2f(tempf1, tempf3) * 10430.378f; // 65536/(2*M_PI)
         tempf0 = sqrtf(SQ(tempf1) + SQ(tempf3));
         thisx->posRot.rot.x = Math_atan2f(tempf2, tempf0) * 10430.378f; // 65536/(2*M_PI)
-        this->collider.dim.radius = 40;
-        this->collider.dim.height = 50;
-        this->collider.dim.yShift = -25;
+        this->collider.element.dim.radius = 40;
+        this->collider.element.dim.height = 50;
+        this->collider.element.dim.yShift = -25;
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         Lights_PointNoGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 255,
                                   255, 255, 0xFF);

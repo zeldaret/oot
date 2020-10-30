@@ -35,7 +35,7 @@ extern Gfx D_0500A880[];
 extern UNK_TYPE D_060039D4;
 extern Gfx D_06003898[];
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 0, { { 0, 50, 50 }, 70 }, 100 },
@@ -53,7 +53,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_JNTSPH },
     3,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 Vec3f D_808B08AC[] = {

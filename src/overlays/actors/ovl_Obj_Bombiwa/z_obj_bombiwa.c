@@ -115,7 +115,8 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (func_80033684(globalCtx, &this->actor) != NULL ||
-        ((this->collider.base.acFlags & 2) != 0 && (this->collider.body.acHitItem->toucher.flags & 0x40000040) != 0)) {
+        ((this->collider.base.acFlags & 2) != 0 &&
+         (this->collider.element.info.acHitInfo->toucher.flags & 0x40000040) != 0)) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EV_WALL_BROKEN);

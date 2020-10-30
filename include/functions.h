@@ -55,8 +55,8 @@ void StackCheck_Cleanup(StackEntry* entry);
 StackStatus StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll();
 u32 StackCheck_Check(StackEntry* entry);
-f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name,
-                               f32 var2, const char* var3Name, f32 var3);
+f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name, f32 var2,
+                             const char* var3Name, f32 var3);
 s32 LogUtils_CheckIntRange(const char* exp, s32 arg1, const char* var1Name, s32 var1, const char* var2Name, s32 var2,
                            const char* var3Name, s32 var3);
 void LogUtils_LogHexDump(void* ptr, s32 size0);
@@ -514,7 +514,7 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1);
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider);
 u8 Actor_ApplyDamage(Actor* actor);
-void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag);
+void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
 void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
@@ -666,7 +666,8 @@ s32 func_80041FA0(CollisionContext*, CollisionPoly*, u32);
 // ? func_80042108(?);
 s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, UNK_PTR);
 s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg2, f32 arg3, WaterBox** arg4);
-s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox);
+s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+                  WaterBox** outWaterBox);
 // ? func_80042538(?);
 // ? func_80042548(?);
 // ? func_8004259C(?);
@@ -780,38 +781,40 @@ void Camera_SetCameraData(Camera*, s16, CutsceneCameraPoint*, CutsceneCameraPoin
 s32 func_8005B198();
 s16 func_8005B1A4(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
-void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
-void CollisionCheck_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
+void DamageTable_Clear(DamageTable* table);
+void Collider_DrawRedPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
+void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_DestroyBase(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_SetBase_Actor(GlobalContext* globalCtx, Collider* collider, ColliderInit_Actor* src);
 s32 Collider_SetBase_Set3(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInit_Set3* src);
 s32 Collider_SetBase(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInit* src);
-void Collider_BaseSetAT(GlobalContext* globalCtx, Collider* collider);
-void Collider_BaseSetAC(GlobalContext* globalCtx, Collider* collider);
-void Collider_BaseSetOC(GlobalContext* globalCtx, Collider* collider);
+void Collider_ResetATBase(GlobalContext* globalCtx, Collider* collider);
+void Collider_ResetACBase(GlobalContext* globalCtx, Collider* collider);
+void Collider_ResetOCBase(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitTouch(GlobalContext* globalCtx, ColliderTouch* touch);
 s32 Collider_DestroyTouch(GlobalContext* globalCtx, ColliderTouch* touch);
 s32 Collider_SetTouch(GlobalContext* globalCtx, ColliderTouch* dest, ColliderTouch* src);
-void Collider_BodySetAT_Unk(GlobalContext* globalCtx, ColliderBody* body);
+void Collider_BodySetAT_Unk(GlobalContext* globalCtx, ColliderInfo* body);
 s32 Collider_InitBump(GlobalContext* globalCtx, ColliderBump* bump);
 s32 Collider_DestroyBump(GlobalContext* globalCtx, ColliderBump* bump);
 s32 Collider_SetBump(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit* init);
-s32 Collider_InitBody(GlobalContext* globalCtx, ColliderBody* body);
-s32 Collider_DestroyBody(GlobalContext* globalCtx, ColliderBody* body);
-s32 Collider_SetBody(GlobalContext* globalCtx, ColliderBody* body, ColliderBodyInit* bodyInit);
-void Collider_BodySetAT(GlobalContext* globalCtx, ColliderBody* body);
-void Collider_BodySetAC(GlobalContext* globalCtx, ColliderBody* body);
-void Collider_BodySetOC(GlobalContext* globalCtx, ColliderBody* body);
-s32 Collider_InitJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphItemDim* dim);
-s32 Collider_DestroyJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphItemDim* item);
-s32 Collider_SetJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphItemDim* dest, ColliderJntSphItemDimInit* src);
-s32 Collider_InitJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* item);
-s32 Collider_DestroyJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* item);
-s32 Collider_SetJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* dest, ColliderJntSphItemInit* src);
-s32 Collider_JntSphItemSetAT(GlobalContext* globalCtx, ColliderJntSphItem* collider);
-s32 Collider_JntSphItemSetAC(GlobalContext* globalCtx, ColliderJntSphItem* collider);
-s32 Collider_JntSphItemSetOC(GlobalContext* globalCtx, ColliderJntSphItem* collider);
+s32 Collider_InitInfo(GlobalContext* globalCtx, ColliderInfo* body);
+s32 Collider_DestroyInfo(GlobalContext* globalCtx, ColliderInfo* body);
+s32 Collider_SetInfo(GlobalContext* globalCtx, ColliderInfo* body, ColliderInfoInit* bodyInit);
+void Collider_ResetATInfo(GlobalContext* globalCtx, ColliderInfo* body);
+void Collider_ResetACInfo(GlobalContext* globalCtx, ColliderInfo* body);
+void Collider_ResetOCInfo(GlobalContext* globalCtx, ColliderInfo* body);
+s32 Collider_InitJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphElementDim* dim);
+s32 Collider_DestroyJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphElementDim* item);
+s32 Collider_SetJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphElementDim* dest,
+                              ColliderJntSphElementDimInit* src);
+s32 Collider_InitJntSphItem(GlobalContext* globalCtx, ColliderJntSphElement* item);
+s32 Collider_DestroyJntSphItem(GlobalContext* globalCtx, ColliderJntSphElement* item);
+s32 Collider_SetJntSphItem(GlobalContext* globalCtx, ColliderJntSphElement* dest, ColliderJntSphElementInit* src);
+s32 Collider_JntSphItemResetAT(GlobalContext* globalCtx, ColliderJntSphElement* collider);
+s32 Collider_JntSphItemResetAC(GlobalContext* globalCtx, ColliderJntSphElement* collider);
+s32 Collider_JntSphItemResetOC(GlobalContext* globalCtx, ColliderJntSphElement* collider);
 s32 Collider_InitJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_FreeJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
@@ -819,60 +822,63 @@ s32 Collider_SetJntSph_Set(GlobalContext* globalCtx, ColliderJntSph* dest, Colli
 s32 Collider_SetJntSph_Set3(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit_Set3* src);
 s32 Collider_SetJntSph_Set5(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
 s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
-                       ColliderJntSphItem* list);
+                       ColliderJntSphElement* list);
 s32 Collider_InitCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
 s32 Collider_DestroyCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
 s32 Collider_SetCylinderDim(GlobalContext* globalCtx, Cylinder16* dest, Cylinder16* src);
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
-s32 Collider_SetCylinder_Actor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInit_Actor* arg2);
+s32 Collider_SetCylinder_Actor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInit_Actor* src);
 s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
                               ColliderCylinderInit_Set3* src);
 s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor, ColliderCylinderInit* src);
-s32 Collider_CylinderSetAT(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_CylinderSetAC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_CylinderSetOC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_CylinderResetAT(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_CylinderResetAC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_CylinderResetOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitTrisItemDim(GlobalContext* globalCtx, TriNorm* dim);
 s32 Collider_DestroyTrisItemDim(GlobalContext* globalCtx, TriNorm* dim);
-s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisItemDimInit* src);
-s32 Collider_InitTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider);
-s32 Collider_DestroyTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider);
-s32 Collider_SetTrisItem(GlobalContext* globalCtx, ColliderTrisItem* dest, ColliderTrisItemInit* src);
-s32 Collider_TrisItemSetAT(GlobalContext* globalCtx, ColliderTrisItem* item);
-s32 Collider_TrisItemSetAC(GlobalContext* globalCtx, ColliderTrisItem* item);
-s32 Collider_TrisItemSetOC(GlobalContext* globalCtx, ColliderTrisItem* item);
+s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisElementDimInit* src);
+s32 Collider_InitTrisItem(GlobalContext* globalCtx, ColliderTrisElement* collider);
+s32 Collider_DestroyTrisItem(GlobalContext* globalCtx, ColliderTrisElement* collider);
+s32 Collider_SetTrisItem(GlobalContext* globalCtx, ColliderTrisElement* dest, ColliderTrisElementInit* src);
+s32 Collider_TrisItemResetAT(GlobalContext* globalCtx, ColliderTrisElement* item);
+s32 Collider_TrisItemResetAC(GlobalContext* globalCtx, ColliderTrisElement* item);
+s32 Collider_TrisItemResetOC(GlobalContext* globalCtx, ColliderTrisElement* item);
 s32 Collider_InitTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_FreeTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_SetTris_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src);
 s32 Collider_SetTris_Set5(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
 s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
-                     ColliderTrisItem* list);
-s32 Collider_TrisSetAT(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_TrisSetAC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_TrisSetOC(GlobalContext* globalCtx, Collider* collider);
+                     ColliderTrisElement* list);
+s32 Collider_TrisResetAT(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_TrisResetAC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_TrisResetOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim);
 s32 Collider_DestroyQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim);
-s32 func_8005CEC4(GlobalContext* globalCtx, ColliderQuadDim* dim);
-void Collider_SetMidpoints(ColliderQuadDim* dim);
+s32 Collider_QuadResetACDist(GlobalContext* globalCtx, ColliderQuadDim* dim);
+void Collider_SetQuadMidpoints(ColliderQuadDim* dim);
 s32 Collider_SetQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dest, ColliderQuadDimInit* src);
 s32 Collider_InitQuad(GlobalContext* globalCtx, ColliderQuad* collider);
 s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider);
 s32 Collider_SetQuad_Set3(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit_Set3* src);
 s32 Collider_SetQuad(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit* src);
-s32 Collider_QuadSetAT(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_QuadSetAC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_QuadResetAT(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_QuadResetAC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_QuadSetOC(GlobalContext* globalCtx, Collider* collider);
-s32 func_8005D218(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* arg2);
-s32 Collider_InitOcLine(GlobalContext* globalCtx, OcLine* line);
-s32 Collider_DestroyOcLine(GlobalContext* globalCtx, OcLine* line);
-void CollisionCheck_InitContextDrawColliders(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
-void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+s32 Collider_QuadSetACDist(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* hitPos);
+s32 Collider_InitLine(GlobalContext* globalCtx, OcLine* line);
+s32 Collider_DestroyLine(GlobalContext* globalCtx, OcLine* line);
+s32 Collider_SetLinePoints(GlobalContext* globalCtx, OcLine* ocLine, Vec3f* a, Vec3f* b);
+s32 Collider_CopyLine(GlobalContext* globalCtx, OcLine* dest, OcLine* src);
+s32 Collider_LineResetOC(GlobalContext* globalCtx, OcLine* line);
 void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_DrawCollider(GlobalContext* globalCtx, Collider* collider);
-void CollisionCheck_Draw(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
 s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
 s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
@@ -880,41 +886,102 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
 s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
 s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
 s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider);
+s32 CollisionCheck_SkipTouch(ColliderInfo* info);
+s32 CollisionCheck_SkipBump(ColliderInfo* info);
+s32 CollisionCheck_NoSharedFlags(ColliderInfo* left, ColliderInfo* right);
+void CollisionCheck_NoBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-// ? func_8005E4F8(?);
-// ? func_8005E604(?);
-// ? func_8005E800(?);
-// ? func_8005E81C(?);
-// ? func_800611A0(?);
-// ? func_80061274(?);
-void CollisionCheck_AllAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
-// ? func_8006146C(?);
-// ? func_800614A4(?);
-// ? func_80061BF4(?);
-// ? func_80061C18(?);
+void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void CollisionCheck_WaterBurst(GlobalContext* globalCtx, Collider* collider, Vec3f* pos);
+void CollisionCheck_RedBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void CollisionCheck_RedBloodUnused(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void CollisionCheck_HitSolid(GlobalContext* globalCtx, ColliderInfo* info, Collider* collider, Vec3f* hitPos);
+s32 CollisionCheck_SwordHitAudio(Collider* left, ColliderInfo* rightInfo);
+void CollisionCheck_HitEffects(GlobalContext* globalCtx, Collider* left, ColliderInfo* leftInfo, Collider* right,
+                               ColliderInfo* rightInfo, Vec3f* hitPos);
+void CollisionCheck_SetBounce(Collider* left, Collider* right);
+s32 CollisionCheck_SetATvsAC(GlobalContext* globalCtx, Collider* left, ColliderInfo* leftInfo, Vec3f* leftv,
+                             Collider* right, ColliderInfo* rightInfo, Vec3f* rightv, Vec3f* hitPos);
+void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                      Collider* r);
+void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                   Collider* r);
+void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                    Collider* r);
+void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                    Collider* r);
+void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                   Collider* r);
+void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                    Collider* r);
+void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                    Collider* r);
+void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+void CollisionCheck_ApplyJntSphAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_ApplyCylAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_ApplyTrisAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_ApplyQuadAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_ApplyAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT);
+void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+s32 CollisionCheck_GetMassType(u8 mass);
+void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* leftv, Collider* right, ColliderInfo* rightInfo,
+                   Vec3f* rightv, f32 overlap);
+void CollisionCheck_OC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                      Collider* r);
+void CollisionCheck_OC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                   Collider* r);
+void CollisionCheck_OC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
+                                   Collider* r);
+void CollisionCheck_OC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r);
+s32 CollisionCheck_SkipElement(Collider* collider);
+s32 CollisionCheck_Incompatible(Collider* left, Collider* right);
 void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
-// ? CollisionCheck_InfoInit(?);
+void CollisionCheck_InfoInit(CollisionCheckInfo* info);
 void CollisionCheck_ClearInfo(CollisionCheckInfo* info);
 void CollisionCheck_SetInfo(CollisionCheckInfo* info, CollisionCheckInfoInit* init);
-void CollisionCheck_SetInfoDamageTable(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init);
-void CollisionCheck_SetInfo2DamageTable(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init);
-// ? func_80061F64(?);
-// ? CollisionCheck_ApplyDamageAll(?);
-s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C,
-                                      Vec3f* arg3, Actor** arg4, s32 arg5);
-// ? func_800626B0(?);
+void CollisionCheck_SetInfoDamageTable(CollisionCheckInfo* info, DamageTable* damageTable,
+                                       CollisionCheckInfoInit* init);
+void CollisionCheck_SetInfo2DamageTable(CollisionCheckInfo* info, DamageTable* damageTable,
+                                        CollisionCheckInfoInit2* init);
+void CollisionCheck_ApplyDamage(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
+                                ColliderInfo* info);
+void CollisionCheck_ApplyDamageJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_ApplyDamageCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_ApplyDamageTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_ApplyDamageQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+s32 CollisionCheck_GeneralLineOcCheck_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
+                                             Collider* collider, Vec3f* a, Vec3f* b);
+s32 CollisionCheck_GeneralLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
+                                          Collider* collider, Vec3f* a, Vec3f* b);
+s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a,
+                                      Vec3f* b, Actor** exclusions, s32 numExclusions);
+s32 CollisionCheck_LineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b);
+s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
+                  Actor** exclusions, s32 numExclusions);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 void Collider_SetCylinderPosition(ColliderCylinder* collider, Vec3s* pos);
 void Collider_SetQuadVertices(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d);
 void Collider_SetTrisVertices(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
-void Collider_UpdateSphJoint(s32 arg0, ColliderJntSph* collider);
-void func_80062A28(GlobalContext*, Vec3f*);
-void func_80062B80(GlobalContext*, Vec3f*);
+void Collider_UpdateSphJoint(s32 joint, ColliderJntSph* collider);
+void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_ShieldParticles(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_ShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v);
-void CollisionCheck_ShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2);
-void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
-s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos, Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
+void CollisionCheck_ShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* actorPos);
+void CollisionCheck_ShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* b, Vec3f* actorPos);
+s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
+                                    Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
 void SaveContext_Init(void);
 // ? func_800636C0(?);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);
@@ -1382,7 +1449,7 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 // ? func_800A60D8(?);
 void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void* callback, s32);
 void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb*, s32, s32, s32, s32, s32);
-void func_800A6408(ColliderJntSphItem* collider, u8 joint, Vec3f*, Vec3f*);
+void func_800A6408(ColliderJntSphElement* collider, u8 joint, Vec3f*, Vec3f*);
 // ? func_800A6460(?);
 void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
 void func_800A6888(GlobalContext*, PSkinAwb*);
@@ -1413,7 +1480,8 @@ void Sram_Write16Bytes(SramContext* sramCtx);
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
 void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx);
-void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration, u8 handlePulse, u32 handleSpeed);
+void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
+                 u8 handlePulse, u32 handleSpeed);
 void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
 void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction);
 void func_800A9F30(PadMgr*, s32);
@@ -1633,7 +1701,7 @@ void func_800C2118(PreRenderContext* this, Gfx** gfxp);
 void func_800C213C(PreRenderContext* this, Gfx** gfxp);
 void func_800C24BC(PreRenderContext* this, Gfx** gfxp);
 void func_800C24E0(PreRenderContext* this, Gfx** gfxp);
-void func_800C2500(PreRenderContext *this, s32 x, s32 y);
+void func_800C2500(PreRenderContext* this, s32 x, s32 y);
 void func_800C2FE4(PreRenderContext* this);
 void PreRender_Calc(PreRenderContext* this);
 void THGA_Ct(TwoHeadGfxArena* thga, Gfx* start, u32 size);
@@ -2024,7 +2092,7 @@ void func_800DE238(void* mem, u32 size);
 void* func_800DE258(SoundAllocPool* pool, u32 size);
 void* func_800DE2B0(SoundAllocPool* pool, u32 size);
 void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size);
-void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size);
+void* Audio_AllocDmaMemoryZeroed(SoundAllocPool* pool, u32 size);
 void* Audio_AllocZeroed(SoundAllocPool* pool, u32 size);
 void* Audio_Alloc(SoundAllocPool* pool, u32 size);
 void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size);
@@ -2522,7 +2590,8 @@ void guMtxIdentF(f32 mf[4][4]);
 void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 void guLookAt(Mtx*, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 length, s32* fileNo);
-s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared, s32* finalPage);
+s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared,
+                       s32* finalPage);
 s32 osStopTimer(OSTimer* timer);
 u16 __osSumcalc(u8* ptr, s32 length);
 s32 __osIdCheckSum(u16* ptr, u16* csum, u16* icsum);
@@ -2537,9 +2606,8 @@ s32 osAfterPreNMI(void);
 s32 osContStartQuery(OSMesgQueue* mq);
 void osContGetQuery(OSContStatus* data);
 void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt,
-                     f32 xUp, f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1,
-                     f32 xl2, f32 yl2, f32 zl2,
-                     s32 hiliteWidth, s32 hiliteHeight);
+                     f32 xUp, f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
+                     s32 hiliteHeight);
 void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp,
                     f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
                     s32 hiliteHeight);

@@ -23,7 +23,7 @@ const ActorInit Bg_Jya_Bombiwa_InitVars = {
     (ActorFunc)BgJyaBombiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
@@ -32,7 +32,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
     1,
-    &sJntSphItemsInit,
+    &sJntSphElementsInit,
 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

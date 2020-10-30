@@ -77,13 +77,13 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->scale = 0.04f;
 
     if (this->isBig) {
-        this->collider.dim.radius = 35;
-        this->collider.dim.height = 45;
+        this->collider.element.dim.radius = 35;
+        this->collider.element.dim.height = 45;
         this->scale *= 1.5f;
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n" VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
-        this->collider.body.toucher.effect = 4;
-        this->collider.body.toucher.damage = 16;
+        this->collider.element.info.toucher.effect = 4;
+        this->collider.element.info.toucher.damage = 16;
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
     }
 

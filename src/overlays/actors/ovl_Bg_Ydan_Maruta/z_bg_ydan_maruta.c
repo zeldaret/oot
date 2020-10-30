@@ -33,7 +33,7 @@ const ActorInit Bg_Ydan_Maruta_InitVars = {
     (ActorFunc)BgYdanMaruta_Draw,
 };
 
-ColliderTrisItemInit D_808BF300[2] = {
+ColliderTrisElementInit D_808BF300[2] = {
     {
         { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000004, 0x00, 0x00 }, 0x11, 0x01, 0x00 },
         { { { 220.0f, -10.0f, 0.0f }, { 220.0f, 10.0f, 0.0f }, { -220.0f, 10.0f, 0.0f } } },
@@ -66,7 +66,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 sinRotY;
     f32 cosRotY;
     s32 localConst = 0;
-    ColliderTrisItemInit* items;
+    ColliderTrisElementInit* items;
 
     Actor_ProcessInitChain(thisx, D_808BF388);
     Collider_InitTris(globalCtx, &this->collider);

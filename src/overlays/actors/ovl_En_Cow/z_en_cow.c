@@ -71,17 +71,17 @@ void func_809DEE9C(EnCow* this) {
     vec.x = 0.0f;
     vec.z = 30.0f;
     func_809DEE00(&vec, this->actor.shape.rot.y);
-    this->colliders[0].dim.pos.x = this->actor.posRot.pos.x + vec.x;
-    this->colliders[0].dim.pos.y = this->actor.posRot.pos.y;
-    this->colliders[0].dim.pos.z = this->actor.posRot.pos.z + vec.z;
+    this->colliders[0].element.dim.pos.x = this->actor.posRot.pos.x + vec.x;
+    this->colliders[0].element.dim.pos.y = this->actor.posRot.pos.y;
+    this->colliders[0].element.dim.pos.z = this->actor.posRot.pos.z + vec.z;
 
     vec.x = 0.0f;
     vec.y = 0.0f;
     vec.z = -20.0f;
     func_809DEE00(&vec, this->actor.shape.rot.y);
-    this->colliders[1].dim.pos.x = this->actor.posRot.pos.x + vec.x;
-    this->colliders[1].dim.pos.y = this->actor.posRot.pos.y;
-    this->colliders[1].dim.pos.z = this->actor.posRot.pos.z + vec.z;
+    this->colliders[1].element.dim.pos.x = this->actor.posRot.pos.x + vec.x;
+    this->colliders[1].element.dim.pos.y = this->actor.posRot.pos.y;
+    this->colliders[1].element.dim.pos.z = this->actor.posRot.pos.z + vec.z;
 }
 
 void func_809DEF94(EnCow* this) {

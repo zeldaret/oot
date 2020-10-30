@@ -96,7 +96,7 @@ DamageTable D_8011DB20[] = {
 };
 
 DamageTable* DamageTable_Get(s32 index) {
-    if (index < 0 || index >= 23) {
+    if (!(0 <= index && index < ARRAY_COUNT(D_8011DB20))) {
         osSyncPrintf("CollisionBtlTbl_get():インデックスオーバー\n");
         return 0;
     }

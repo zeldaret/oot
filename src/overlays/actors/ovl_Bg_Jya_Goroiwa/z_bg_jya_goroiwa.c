@@ -37,7 +37,7 @@ const ActorInit Bg_Jya_Goroiwa_InitVars = {
 };
 extern Gfx D_060006B0[];
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
@@ -47,7 +47,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x11, 0x00, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0x01, 0xF, 0x0, 0xFE };
@@ -60,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void func_80897970(BgJyaGoroiwa* this) {
-    Sphere16* worldSphere = &this->collider.list->dim.worldSphere;
+    Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
     worldSphere->center.x = this->actor.posRot.pos.x;
     worldSphere->center.y = (s32)(this->actor.posRot.pos.y + 59.5f);
@@ -73,15 +73,13 @@ void func_808979C0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
     func_80897970(this);
-    this->collider.list->dim.worldSphere.radius = 0x3A;
+    this->collider.elements[0].dim.worldSphere.radius = 58;
 }
 
 void func_80897A2C(BgJyaGoroiwa* this) {
-    Actor* thisx = &this->actor;
-    f32 rotFactor = 175.30046f;
-    f32 posDiff = thisx->posRot.pos.x - thisx->pos4.x;
+    f32 posDiff = this->actor.posRot.pos.x - this->actor.pos4.x;
 
-    thisx->shape.rot.z -= rotFactor * posDiff;
+    this->actor.shape.rot.z -= 0x10000 / (119 * M_PI) * posDiff;
 }
 
 void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -89,9 +87,7 @@ void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808979C0(this, globalCtx);
-    this->actor.shape.rot.z = 0;
-    this->actor.shape.rot.y = this->actor.shape.rot.z;
-    this->actor.shape.rot.x = this->actor.shape.rot.z;
+    this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
     CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 595.0f, &ActorShadow_DrawFunc_Circle, 9.0f);
     this->actor.shape.unk_14 = 0x80;

@@ -79,7 +79,7 @@ static ColliderCylinderInit sCylinderInit2 = {
     { 60, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
         { 11, { { 0, 0, 0 }, 20 }, 100 },
@@ -88,8 +88,8 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
-    ARRAY_COUNT(sJntSphItemsInit),
-    sJntSphItemsInit,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, 0xFE };
@@ -364,8 +364,8 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 phi_t0 = 6;
             }
             if (Math_Rand_ZeroOne() < 0.1f ||
-                (this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->bodyCollider.base.maskA & 2 ||
-                                        this->headCollider.base.maskA & 2))) {
+                (this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->bodyCollider.base.ocFlags & 2 ||
+                                        this->headCollider.base.ocFlags & 2))) {
                 this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;
@@ -556,22 +556,22 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphElement* collider) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseNormal* this = THIS;
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
-        sp4C.x = this->headCollider.list[i].dim.modelSphere.center.x;
-        sp4C.y = this->headCollider.list[i].dim.modelSphere.center.y;
-        sp4C.z = this->headCollider.list[i].dim.modelSphere.center.z;
-        func_800A6408(collider, this->headCollider.list[i].dim.joint, &sp4C, &sp40);
-        this->headCollider.list[i].dim.worldSphere.center.x = sp40.x;
-        this->headCollider.list[i].dim.worldSphere.center.y = sp40.y;
-        this->headCollider.list[i].dim.worldSphere.center.z = sp40.z;
-        this->headCollider.list[i].dim.worldSphere.radius =
-            this->headCollider.list[i].dim.modelSphere.radius * this->headCollider.list[i].dim.scale;
+        sp4C.x = this->headCollider.elements[i].dim.modelSphere.center.x;
+        sp4C.y = this->headCollider.elements[i].dim.modelSphere.center.y;
+        sp4C.z = this->headCollider.elements[i].dim.modelSphere.center.z;
+        func_800A6408(collider, this->headCollider.elements[i].dim.joint, &sp4C, &sp40);
+        this->headCollider.elements[i].dim.worldSphere.center.x = sp40.x;
+        this->headCollider.elements[i].dim.worldSphere.center.y = sp40.y;
+        this->headCollider.elements[i].dim.worldSphere.center.z = sp40.z;
+        this->headCollider.elements[i].dim.worldSphere.radius =
+            this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
@@ -661,9 +661,9 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(oGfxCtx->polyOpa.p++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_800A63CC(&this->actor, globalCtx, &this->skin, 0, 0, 1, 0, 3);
-        this->cloneCollider.dim.pos.x = clonePos.x;
-        this->cloneCollider.dim.pos.y = clonePos.y;
-        this->cloneCollider.dim.pos.z = clonePos.z;
+        this->cloneCollider.element.dim.pos.x = clonePos.x;
+        this->cloneCollider.element.dim.pos.y = clonePos.y;
+        this->cloneCollider.element.dim.pos.z = clonePos.z;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cloneCollider.base);
         func_80094044(globalCtx->state.gfxCtx);
         gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);

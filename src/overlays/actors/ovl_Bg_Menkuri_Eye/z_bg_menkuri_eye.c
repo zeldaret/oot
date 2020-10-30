@@ -30,7 +30,7 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
 extern Gfx D_06002D20[];
 s32 D_8089C1A0;
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { 1, { { 0, 0, 0 }, 14 }, 100 },
@@ -40,7 +40,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -49,15 +49,15 @@ static InitChainEntry sInitChain[] = {
 
 void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriEye* this = THIS;
-    ColliderJntSphItem* colliderList;
+    ColliderJntSphElement* colliderList;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
-    this->collider.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->collider.list->dim.worldSphere.center.y = this->actor.posRot.pos.y;
-    this->collider.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
-    colliderList = this->collider.list;
+    this->collider.elements[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->collider.elements[0].dim.worldSphere.center.y = this->actor.posRot.pos.y;
+    this->collider.elements[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    colliderList = this->collider.elements;
     colliderList->dim.worldSphere.radius = colliderList->dim.modelSphere.radius;
     if (!Flags_GetSwitch(globalCtx, this->actor.params)) {
         D_8089C1A0 = 0;

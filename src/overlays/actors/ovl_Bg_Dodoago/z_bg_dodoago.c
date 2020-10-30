@@ -155,11 +155,11 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
             Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[2]);
-            this->colliders[0].dim.pos.z += 0xC8;
-            this->colliders[1].dim.pos.z += 0xD7;
-            this->colliders[1].dim.pos.x += 0x5A;
-            this->colliders[2].dim.pos.z += 0xD7;
-            this->colliders[2].dim.pos.x -= 0x5A;
+            this->colliders[0].element.dim.pos.z += 0xC8;
+            this->colliders[1].element.dim.pos.z += 0xD7;
+            this->colliders[1].element.dim.pos.x += 0x5A;
+            this->colliders[2].element.dim.pos.z += 0xD7;
+            this->colliders[2].element.dim.pos.x -= 0x5A;
 
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
@@ -239,15 +239,15 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (this->dyna.actor.parent == NULL) {
-        if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
+        if ((s32)(this->colliders[1].base.ocFlags & 2) || (this->colliders[2].base.ocFlags & 2)) {
 
-            if ((s32)(this->colliders[1].base.maskA & 2)) {
+            if ((s32)(this->colliders[1].base.ocFlags & 2)) {
                 bomb = (EnBom*)this->colliders[1].base.oc;
             } else {
                 bomb = (EnBom*)this->colliders[2].base.oc;
             }
-            this->colliders[1].base.maskA &= ~2;
-            this->colliders[2].base.maskA &= ~2;
+            this->colliders[1].base.ocFlags &= ~2;
+            this->colliders[2].base.ocFlags &= ~2;
             if (bomb->actor.type == ACTORTYPE_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;

@@ -45,7 +45,7 @@ const ActorInit En_Insect_InitVars = {
     (ActorFunc)EnInsect_Draw,
 };
 
-static ColliderJntSphItemInit sColliderItemInit[1] = {
+static ColliderJntSphElementInit sColliderItemInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
         { 0, { { 0, 0, 0 }, 5 }, 100 },

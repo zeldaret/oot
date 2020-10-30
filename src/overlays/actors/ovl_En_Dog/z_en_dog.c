@@ -166,8 +166,8 @@ s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if (this->collider.base.maskB & 1) {
-        this->collider.base.maskB &= ~1;
+    if (this->collider.base.ocType & 1) {
+        this->collider.base.ocType &= ~1;
         if (gSaveContext.dogParams != 0) {
             return 0;
         }
@@ -434,7 +434,8 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
+    func_8002E4B4(globalCtx, &this->actor, this->collider.element.dim.radius, this->collider.element.dim.height * 0.5f,
+                  0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     Collider_CylinderUpdate(&this->actor, &this->collider);

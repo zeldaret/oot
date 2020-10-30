@@ -946,7 +946,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                  Vec3f* newBase) {
     if (weaponInfo->active == 0) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_QuadResetAT(globalCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -956,7 +956,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
                (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_QuadResetAT(globalCtx, &collider->base);
         }
         return 0;
     } else {

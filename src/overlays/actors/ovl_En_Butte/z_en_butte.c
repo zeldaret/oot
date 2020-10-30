@@ -25,7 +25,7 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx);
 void EnButte_SetupWaitToDie(EnButte* this);
 void EnButte_WaitToDie(EnButte* this, GlobalContext* globalCtx);
 
-static ColliderJntSphItemInit sColliderItemInit[] = {
+static ColliderJntSphElementInit sColliderItemInit[] = {
     { { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x000, 0x00 }, 0x00, 0x00, 0x01 },
       { 0, { { 0, 0, 0 }, 5 }, 100 } }
 };

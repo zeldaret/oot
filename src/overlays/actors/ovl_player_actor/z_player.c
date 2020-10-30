@@ -3371,12 +3371,12 @@ s32 func_80837818(Player* this) {
 }
 
 void func_80837918(Player* this, s32 quadIndex, u32 flags) {
-    this->swordQuads[quadIndex].body.toucher.flags = flags;
+    this->swordQuads[quadIndex].element.info.toucher.flags = flags;
 
     if (flags == 2) {
-        this->swordQuads[quadIndex].body.toucherFlags = 0x15;
+        this->swordQuads[quadIndex].element.info.toucherFlags = 0x15;
     } else {
-        this->swordQuads[quadIndex].body.toucherFlags = 5;
+        this->swordQuads[quadIndex].element.info.toucherFlags = 5;
     }
 }
 
@@ -3717,11 +3717,12 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             sp64 = (this->shieldQuad.base.acFlags & 0x80) != 0;
 
             // @bug The second set of conditions here seems intended as a way for Link to "block" hits by rolling.
-            // However, `ColliderBody.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
-            // Additionally, `ColliderBody.atHit` can never be set while already colliding as AC, so it's also bugged.
+            // However, `ColliderInfo.atFlags` is a byte so the flag check at the end is incorrect and cannot work.
+            // Additionally, `ColliderInfo.atHit` can never be set while already colliding as AC, so it's also bugged.
             // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
             if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & 2) &&
-                         (this->cylinder.body.atHit != NULL) && (this->cylinder.body.atHit->atFlags & 0x20000000))) {
+                         (this->cylinder.element.info.atHit != NULL) &&
+                         (this->cylinder.element.info.atHit->atFlags & 0x20000000))) {
 
                 func_8083264C(this, 180, 20, 100, 0);
 
@@ -3754,7 +3755,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.body.acHitItem->toucher.effect == 1)) {
+                if (sp64 && (this->shieldQuad.element.info.acHitInfo->toucher.effect == 1)) {
                     func_8083819C(this, globalCtx);
                 }
 
@@ -8166,7 +8167,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
         } else {
             if (this->linearVelocity >= 7.0f) {
                 if (((this->actor.bgCheckFlags & 0x200) && (D_8085360C < 0x2000)) ||
-                    ((this->cylinder.base.maskA & 2) &&
+                    ((this->cylinder.base.ocFlags & 2) &&
                      (cylinderOc = this->cylinder.base.oc,
                       ((cylinderOc->id == ACTOR_EN_WOOD02) &&
                        (ABS((s16)(this->actor.posRot.rot.y - cylinderOc->yawTowardsLink)) > 0x6000))))) {
@@ -10227,17 +10228,17 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         phi_f12 = ((this->bodyPartsPos[6].y + this->bodyPartsPos[3].y) * 0.5f) + temp_f0;
         temp_f0 += this->bodyPartsPos[7].y + 10.0f;
 
-        this->cylinder.dim.height = temp_f0 - phi_f12;
+        this->cylinder.element.dim.height = temp_f0 - phi_f12;
 
-        if (this->cylinder.dim.height < 0) {
+        if (this->cylinder.element.dim.height < 0) {
             phi_f12 = temp_f0;
-            this->cylinder.dim.height = -this->cylinder.dim.height;
+            this->cylinder.element.dim.height = -this->cylinder.element.dim.height;
         }
 
-        this->cylinder.dim.yShift = phi_f12 - this->actor.posRot.pos.y;
+        this->cylinder.element.dim.yShift = phi_f12 - this->actor.posRot.pos.y;
 
         if (this->stateFlags1 & 0x400000) {
-            this->cylinder.dim.height = this->cylinder.dim.height * 0.8f;
+            this->cylinder.element.dim.height = this->cylinder.element.dim.height * 0.8f;
         }
 
         Collider_CylinderUpdate(&this->actor, &this->cylinder);
@@ -10270,13 +10271,13 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
     this->stateFlags3 &= ~4;
 
-    Collider_CylinderSetAC(globalCtx, &this->cylinder.base);
+    Collider_CylinderResetAC(globalCtx, &this->cylinder.base);
 
-    Collider_QuadSetAT(globalCtx, &this->swordQuads[0].base);
-    Collider_QuadSetAT(globalCtx, &this->swordQuads[1].base);
+    Collider_QuadResetAT(globalCtx, &this->swordQuads[0].base);
+    Collider_QuadResetAT(globalCtx, &this->swordQuads[1].base);
 
-    Collider_QuadSetAC(globalCtx, &this->shieldQuad.base);
-    Collider_QuadSetAT(globalCtx, &this->shieldQuad.base);
+    Collider_QuadResetAC(globalCtx, &this->shieldQuad.base);
+    Collider_QuadResetAT(globalCtx, &this->shieldQuad.base);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_UpdateCommon.s")

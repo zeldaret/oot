@@ -48,7 +48,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisItemInit sTrisItemsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00020000, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
         { { { 1800.0f, 1200.0f, 0.0f }, { -1800.0f, 1200.0f, 0.0f }, { -1800.0f, 0.0f, 0.0f } } },
@@ -62,7 +62,7 @@ static ColliderTrisItemInit sTrisItemsInit[2] = {
 static ColliderTrisInit sTrisInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
     2,
-    sTrisItemsInit,
+    sTrisElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0x00, 0x0050, 0x0064, 0xFF };
@@ -91,7 +91,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
             this->timer = 20;
-            this->colliderCylinder.dim.yShift = 10;
+            this->colliderCylinder.element.dim.yShift = 10;
             thisx->velocity.y = 0.1f;
 
             if (thisx->params == HAKA_TRAP_GUILLOTINE_FAST) {
@@ -120,8 +120,8 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 thisx->groundY = thisx->initPosRot.pos.y - 225.0f;
                 this->unk_16A = (thisx->groundY + 50.0f) - 25.0f;
 
-                this->colliderCylinder.dim.radius = 10;
-                this->colliderCylinder.dim.height = 40;
+                this->colliderCylinder.element.dim.radius = 10;
+                this->colliderCylinder.element.dim.height = 40;
             } else {
                 if (thisx->params == HAKA_TRAP_SPIKED_WALL) {
                     DynaPolyInfo_Alloc(&D_060081D0, &sp28);
@@ -134,11 +134,11 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Collider_InitTris(globalCtx, &this->colliderSpikes);
                 Collider_SetTris(globalCtx, &this->colliderSpikes, thisx, &sTrisInit, &this->colliderSpikesItem);
 
-                this->colliderCylinder.dim.radius = 18;
-                this->colliderCylinder.dim.height = 115;
+                this->colliderCylinder.element.dim.radius = 18;
+                this->colliderCylinder.element.dim.height = 115;
 
-                this->colliderCylinder.body.toucherFlags = this->colliderCylinder.body.toucherFlags;
-                this->colliderCylinder.body.toucherFlags |= 0x10;
+                this->colliderCylinder.element.info.toucherFlags = this->colliderCylinder.element.info.toucherFlags;
+                this->colliderCylinder.element.info.toucherFlags |= 0x10;
 
                 this->actionFunc = func_808801B8;
             }
@@ -192,8 +192,8 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
         sp28.z = zNonNegative * 15.0f;
     }
 
-    this->colliderCylinder.dim.pos.x = this->dyna.actor.posRot.pos.x + sp28.x * cosine + sp28.z * sine;
-    this->colliderCylinder.dim.pos.z = this->dyna.actor.posRot.pos.z + sp28.x * sine + sp28.z * cosine;
+    this->colliderCylinder.element.dim.pos.x = this->dyna.actor.posRot.pos.x + sp28.x * cosine + sp28.z * sine;
+    this->colliderCylinder.element.dim.pos.z = this->dyna.actor.posRot.pos.z + sp28.x * sine + sp28.z * cosine;
 }
 
 void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
@@ -455,7 +455,7 @@ void BgHakaTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if ((thisx->params != HAKA_TRAP_PROPELLER) && (thisx->params != HAKA_TRAP_SPIKED_BOX)) {
-        this->colliderCylinder.dim.pos.y = actorPos->y;
+        this->colliderCylinder.element.dim.pos.y = actorPos->y;
 
         if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
@@ -475,12 +475,12 @@ void func_80880D68(BgHakaTrap* this) {
     Vec3f vec2;
     Vec3f vec1;
 
-    Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[0], &vec1);
-    Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[1], &vec2);
-    Matrix_MultVec3f(&sTrisItemsInit[0].dim.vtx[2], &vec3);
+    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[0], &vec1);
+    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[1], &vec2);
+    Matrix_MultVec3f(&sTrisElementsInit[0].dim.vtx[2], &vec3);
     Collider_SetTrisVertices(&this->colliderSpikes, 0, &vec1, &vec2, &vec3);
 
-    Matrix_MultVec3f(&sTrisItemsInit[1].dim.vtx[2], &vec2);
+    Matrix_MultVec3f(&sTrisElementsInit[1].dim.vtx[2], &vec2);
     Collider_SetTrisVertices(&this->colliderSpikes, 1, &vec1, &vec3, &vec2);
 }
 

@@ -720,7 +720,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
-            func_80035650(&this->actor, &this->collider.body, 1);
+            func_80035650(&this->actor, &this->collider.element.info, 1);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }
@@ -860,8 +860,8 @@ void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnRd* this = THIS;
     s32 pad;
+    EnRd* this = THIS;
     Vec3f thisPos = this->actor.posRot.pos;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rd.c", 1679);

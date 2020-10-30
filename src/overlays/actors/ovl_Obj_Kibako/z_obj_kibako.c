@@ -191,8 +191,8 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
-        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistFromLink > 28.0f)) {
-            this->collider.base.maskA |= 8;
+        if (!(this->collider.base.ocFlags & 8) && (this->actor.xzDistFromLink > 28.0f)) {
+            this->collider.base.ocFlags |= 8;
         }
         if (this->actor.xzDistFromLink < 600.0f) {
             ColliderCylinder* collider = &this->collider;
@@ -221,7 +221,7 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
         if (fabsf(this->actor.speedXZ) < 0.1f) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_PUT_DOWN_WOODBOX);
             ObjKibako_SetupIdle(this);
-            this->collider.base.maskA &= ~8;
+            this->collider.base.ocFlags &= ~8;
         } else {
             ObjKibako_SetupThrown(this);
             ObjKibako_ApplyGravity(this);

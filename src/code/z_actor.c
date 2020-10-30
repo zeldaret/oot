@@ -2441,7 +2441,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
-        CollisionCheck_Draw(globalCtx, &globalCtx->colChkCtx);
+        CollisionCheck_DrawCollision(globalCtx, &globalCtx->colChkCtx);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 6563);
@@ -2499,7 +2499,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
     }
 
-    CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
+    CollisionCheck_ClearContext(globalCtx, &globalCtx->colChkCtx);
     actorCtx->flags.tempClear = 0;
     actorCtx->flags.tempSwch &= 0xFFFFFF;
     globalCtx->msgCtx.unk_E3F4 = 0;
@@ -3268,8 +3268,9 @@ Actor_80033780* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg
                 spA8.y = itemActor->actor.posRot.pos.y + deltaY;
                 spA8.z = itemActor->actor.posRot.pos.z + deltaZ;
 
-                if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.unk_10, refActor->colChkInfo.unk_12, 0.0f, &refActor->posRot.pos,
-                                  &itemActor->actor.posRot.pos, &spA8, &sp90, &sp84)) {
+                if (CollisionCheck_CylSideVsLineSeg(refActor->colChkInfo.unk_10, refActor->colChkInfo.unk_12, 0.0f,
+                                                    &refActor->posRot.pos, &itemActor->actor.posRot.pos, &spA8, &sp90,
+                                                    &sp84)) {
                     return itemActor;
                 } else {
                     actor = actor->next;
@@ -4005,27 +4006,27 @@ u8 Actor_ApplyDamage(Actor* actor) {
     return actor->colChkInfo.health;
 }
 
-void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
-    if (colBody->acHitItem == NULL) {
+void func_80035650(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
+    if (colInfo->acHitInfo == NULL) {
         actor->unk_116 = 0x00;
-    } else if (freezeFlag && (colBody->acHitItem->toucher.flags & 0x10060000)) {
-        actor->freezeTimer = colBody->acHitItem->toucher.damage;
+    } else if (freezeFlag && (colInfo->acHitInfo->toucher.flags & 0x10060000)) {
+        actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         actor->unk_116 = 0x00;
-    } else if (colBody->acHitItem->toucher.flags & 0x0800) {
+    } else if (colInfo->acHitInfo->toucher.flags & 0x0800) {
         actor->unk_116 = 0x01;
-    } else if (colBody->acHitItem->toucher.flags & 0x1000) {
+    } else if (colInfo->acHitInfo->toucher.flags & 0x1000) {
         actor->unk_116 = 0x02;
-    } else if (colBody->acHitItem->toucher.flags & 0x4000) {
+    } else if (colInfo->acHitInfo->toucher.flags & 0x4000) {
         actor->unk_116 = 0x04;
-    } else if (colBody->acHitItem->toucher.flags & 0x8000) {
+    } else if (colInfo->acHitInfo->toucher.flags & 0x8000) {
         actor->unk_116 = 0x08;
-    } else if (colBody->acHitItem->toucher.flags & 0x10000) {
+    } else if (colInfo->acHitInfo->toucher.flags & 0x10000) {
         actor->unk_116 = 0x10;
-    } else if (colBody->acHitItem->toucher.flags & 0x2000) {
+    } else if (colInfo->acHitInfo->toucher.flags & 0x2000) {
         actor->unk_116 = 0x20;
-    } else if (colBody->acHitItem->toucher.flags & 0x80000) {
+    } else if (colInfo->acHitInfo->toucher.flags & 0x80000) {
         if (freezeFlag) {
-            actor->freezeTimer = colBody->acHitItem->toucher.damage;
+            actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         }
         actor->unk_116 = 0x40;
     } else {
@@ -4034,34 +4035,34 @@ void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
 }
 
 void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
-    ColliderBody* curColBody;
+    ColliderInfo* curColInfo;
     s32 flag;
     s32 i;
 
     actor->unk_116 = 0x00;
 
     for (i = jntSph->count - 1; i >= 0; i--) {
-        curColBody = &jntSph->list[i].body;
-        if (curColBody->acHitItem == NULL) {
+        curColInfo = &jntSph->elements[i].info;
+        if (curColInfo->acHitInfo == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColBody->acHitItem->toucher.flags & 0x10060000)) {
-            actor->freezeTimer = curColBody->acHitItem->toucher.damage;
+        } else if (freezeFlag && (curColInfo->acHitInfo->toucher.flags & 0x10060000)) {
+            actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             flag = 0x00;
-        } else if (curColBody->acHitItem->toucher.flags & 0x0800) {
+        } else if (curColInfo->acHitInfo->toucher.flags & 0x0800) {
             flag = 0x01;
-        } else if (curColBody->acHitItem->toucher.flags & 0x1000) {
+        } else if (curColInfo->acHitInfo->toucher.flags & 0x1000) {
             flag = 0x02;
-        } else if (curColBody->acHitItem->toucher.flags & 0x4000) {
+        } else if (curColInfo->acHitInfo->toucher.flags & 0x4000) {
             flag = 0x04;
-        } else if (curColBody->acHitItem->toucher.flags & 0x8000) {
+        } else if (curColInfo->acHitInfo->toucher.flags & 0x8000) {
             flag = 0x08;
-        } else if (curColBody->acHitItem->toucher.flags & 0x10000) {
+        } else if (curColInfo->acHitInfo->toucher.flags & 0x10000) {
             flag = 0x10;
-        } else if (curColBody->acHitItem->toucher.flags & 0x2000) {
+        } else if (curColInfo->acHitInfo->toucher.flags & 0x2000) {
             flag = 0x20;
-        } else if (curColBody->acHitItem->toucher.flags & 0x80000) {
+        } else if (curColInfo->acHitInfo->toucher.flags & 0x80000) {
             if (freezeFlag) {
-                actor->freezeTimer = curColBody->acHitItem->toucher.damage;
+                actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             }
             flag = 0x40;
         } else {

@@ -30,6 +30,75 @@ SHAPE_ENUM = [
     "COLSHAPE_TRIS",
     "COLSHAPE_QUAD" ]
 
+SWORD_SFX_ENUM = [
+    "SWORD_SFX_0",
+    "SWORD_SFX_1",
+    "SWORD_SFX_2",
+    "SWORD_SFX_3",
+    "SWORD_SFX_4",
+    "SWORD_SFX_5",
+    "SWORD_SFX_6"]
+
+ATFLAGS_ENUM = [
+    "AT_ACTIVE",
+    "AT_HIT",
+    "AT_BOUNCED",
+    "AT_PLAYER",
+    "AT_ENEMY",
+    "AT_BOMB",
+    "AT_SELF"]
+
+ACFLAGS_ENUM = [
+    "AC_ACTIVE",
+    "AC_HIT",
+    "AC_HARD",
+    "AC_PLAYER",
+    "AC_ENEMY",
+    "AC_BOMB",
+    "AC_NO_DAMAGE",
+    "AC_BOUNCED"]
+
+OCFLAGS_ENUM = [
+    "OC_ACTIVE",
+    "OC_HIT",
+    "OC_NO_PUSH",
+    "OC_PLAYER",
+    "OC_TYPE1",
+    "OC_TYPE2"]
+
+OCTYPE_ENUM = [
+    "OT_HIT_PLAYER",
+    "OT_UNK1",
+    "OT_UNK2",
+    "OT_PLAYER",
+    "OT_TYPE1",
+    "OT_TYPE2",
+    "OT_FIRST_ONLY"]
+
+TOUCHERFLAGS_ENUM = [
+    "TOUCH_ACTIVE",
+    "TOUCH_HIT",
+    "TOUCH_NEAREST",
+    "TOUCH_SFX1",
+    "TOUCH_SFX2",
+    "TOUCH_AT_HITMARK",
+    "TOUCH_DREW_HITMARK",
+    "TOUCH_UNK7"]
+
+BUMPERFLAGS_ENUM = [
+    "BUMP_ACTIVE",
+    "BUMP_HIT",
+    "BUMP_HOOKABLE",
+    "BUMP_NO_AT_INFO",
+    "BUMP_NO_DAMAGE",
+    "BUMP_NO_SWORD_SFX",
+    "BUMP_NO_HITMARK",
+    "BUMP_DRAW_HITMARK"]
+
+OCELEMFLAGS_ENUM = [
+    "OCELEM_ACTIVE",
+    "OCELEM_HIT"]
+
 sf_ColliderInit = ">BBBBBB"
 sf_ColliderInit_Set3 = ">BBBBB"
 sf_ColliderInit_Actor = ">IBBBB"
@@ -41,16 +110,85 @@ sf_Tris = ">II"
 sf_TrisItem = ">9f"
 sf_Quad = ">12f"
 
-f_ColliderInit = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, 0x{4:02X}, {5} }}"
-f_ColliderInit_Set3 = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
-f_ColliderInit_Actor = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
-f_ColliderBodyInit = "{{ 0x{0:02X}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, 0x{7:02X}, 0x{8:02X}, 0x{9:02X} }}"
+f_ColliderInit = "{{ {0}, {1}, {2}, {3}, {4}, {5} }}"
+f_ColliderInit_Set3 = "{{ {0}, {1}, {2}, {3}, {4} }}"
+f_ColliderInit_Actor = "{{ {0}, {1}, {2}, {3}, {4} }}"
+f_ColliderBodyInit = "{{ {0}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, {7}, {8}, {9} }}"
 f_JntSph = "{0}, D_{1:08X}"
 f_JntSphItem = "{{ {0}, {{ {{ {1}, {2}, {3} }}, {4} }}, {5} }}"
 f_Cylinder16 = "{{ {0}, {1}, {2}, {{ {3}, {4}, {5} }} }}"
 f_Tris = "{0}, D_{1:08X}"
 f_TrisItem = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }} }} }}"
 f_Quad = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }}, {{ {9}f, {10}f, {11}f }} }} }}"
+
+def GetATflags(at):
+    output = ""
+    for i, flag in enumerate(ATFLAGS_ENUM):
+        if(at & (1 << i)):
+            output = " | " + flag
+    if(output == ""):
+        return "AT_NONE"
+    return output.replace("AT_BOMB | AT_ENEMY | AT_PLAYER","AT_ALL").lstrip(" | ")
+
+def GetACflags(at):
+    output = ""
+    for i, flag in enumerate(ACFLAGS_ENUM):
+        if(at & (1 << i)):
+            output = " | " + flag + output
+    if(output == ""):
+        return "AC_NONE"
+    else:
+        return output.replace("AC_BOMB | AC_ENEMY | AC_PLAYER","AC_ALL").strip(" | ")
+
+def GetOCflags(at):
+    output = ""
+    for i, flag in enumerate(OCFLAGS_ENUM):
+        if(at & (1 << i)):
+            output = " | " + flag + output
+    if(output == ""):
+        return "OC_NONE"
+    else:
+        return output.replace("OC_TYPE2 | OC_TYPE1 | OC_PLAYER","OC_ALL").strip(" | ")
+
+def GetOCtype(at):
+    output = ""
+    for i, flag in enumerate(OCTYPE_ENUM):
+        if(at & (1 << i)):
+            output = " | " + flag + output
+    if(output == ""):
+        return "OT_NONE"
+    else:
+        return output.strip(" | ")
+
+def GetToucherFlags(at):
+    output = ""
+    for i, flag in enumerate(TOUCHERFLAGS_ENUM):
+        if(at & (1 << i)):
+            output = " | " + flag + output
+    if(output == ""):
+        return "TOUCH_NONE"
+    else:
+        return output.strip(" | ")
+
+def GetBumperFlags(at):
+    output = ""
+    for i, flag in enumerate(BUMPERFLAGS_ENUM):
+        if(at & (1 << i)):
+            output = " | " + flag + output
+    if(output == ""):
+        return "BUMP_NONE"
+    else:
+        return output.strip(" | ")
+
+def GetOcElemFlags(at):
+    output = ""
+    for i, flag in enumerate(OCELEMFLAGS_ENUM):
+        if(at & (1 << i)):
+            output = " | " + flag + output
+    if(output == ""):
+        return "OCELEM_NONE"
+    else:
+        return output.strip(" | ")
 
 def GetColliderFormat(type):
     if type == T_DEFAULT:
@@ -75,9 +213,15 @@ def GetColliderStr(data, off, type):
         else:
             cBase[0] = '0x{0:02X}'.format(cBase[0])
 
-    i = 4
+    cBase[1] = GetATflags(cBase[1])
+    cBase[2] = GetACflags(cBase[2])
+    cBase[3] = GetOCflags(cBase[3])
+
     if type == T_DEFAULT:
+        cBase[4] = GetOCtype(cBase[4])
         i = 5
+    else:
+        i = 4
 
     if cBase[i] < 4:
         cBase[i] = SHAPE_ENUM[cBase[i]]
@@ -90,8 +234,18 @@ def GetItems(data, off, count, structf, fmt, size):
     result = ''
     for i in range(count):
         ioff =  (i * size)
-        cBody = struct.unpack_from(sf_ColliderBodyInit, data, off + ioff)
+        cBody = list(struct.unpack_from(sf_ColliderBodyInit, data, off + ioff))
         cItem = struct.unpack_from(structf, data, off + 0x18 + ioff)
+
+        if cBody[0] < 7:
+            cBody[0] = SWORD_SFX_ENUM[cBody[0]]
+        else:
+            cBody[0] = '0x{0:02X}'.format(cBody[0])
+
+        cBody[7] = GetToucherFlags(cBody[7])
+        cBody[8] = GetBumperFlags(cBody[8])
+        cBody[9] = GetOcElemFlags(cBody[9])
+
         result += '''
     {{
         {0},
@@ -101,7 +255,7 @@ def GetItems(data, off, count, structf, fmt, size):
 
 def GetJntSphItems(data, off, count):
     items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x24)
-    print('''
+    return('''
 static ColliderJntSphItemInit sJntSphItemsInit[{0}] = {{{1}
 }};
 '''.format(count, items))
@@ -110,18 +264,17 @@ def GetJntSph(data, off, type):
     sBase = GetColliderStr(data, off, type)
     cJntSph = struct.unpack_from(sf_JntSph, data, off + 8)
 
-    print('''
-static ColliderJntSphInit{0} sJntSphInit = 
-{{
+    return('''
+static ColliderJntSphInit{0} sJntSphInit = {{
     {1},
     {2},
 }};
-    '''.format(type, sBase, f_JntSph.format(*cJntSph)))
+'''.format(type, sBase, f_JntSph.format(*cJntSph)))
 
 
 def GetTrisItems(data, off, count):
     items = GetItems(data, off, count, sf_TrisItem, f_TrisItem, 0x3C)
-    print('''
+    return('''
 static ColliderTrisItemInit sTrisItemsInit[{0}] = {{{1}
 }};
 '''.format(count, items))
@@ -129,59 +282,117 @@ static ColliderTrisItemInit sTrisItemsInit[{0}] = {{{1}
 
 def GetCylinder(data, off, type):
     sBase = GetColliderStr(data, off, type)
-    cBody = struct.unpack_from(sf_ColliderBodyInit, data, off + 0x08)
+    cBody = list(struct.unpack_from(sf_ColliderBodyInit, data, off + 0x08))
     cCyl16 = struct.unpack_from(sf_Cylinder16, data, off + 0x20)
 
-    print('''
-static ColliderCylinderInit{0} sCylinderInit = 
-{{
+    if cBody[0] < 7:
+        cBody[0] = SWORD_SFX_ENUM[cBody[0]]
+    else:
+        cBody[0] = '0x{0:02X}'.format(cBody[0])
+
+    cBody[7] = GetToucherFlags(cBody[7])
+    cBody[8] = GetBumperFlags(cBody[8])
+    cBody[9] = GetOcElemFlags(cBody[9])
+
+    return('''
+static ColliderCylinderInit{0} sCylinderInit = {{
     {1},
     {2},
     {3},
 }};
-    '''.format(type, sBase, f_ColliderBodyInit.format(*cBody),f_Cylinder16.format(*cCyl16)))
+'''.format(type,sBase,f_ColliderBodyInit.format(*cBody),f_Cylinder16.format(*cCyl16)))
 
 def GetTris(data, off, type):
     sBase = GetColliderStr(data, off, type)
     cTris = struct.unpack_from(sf_Tris, data, off + 8)
 
-    print('''
-static ColliderTrisInit{0} sTrisInit = 
-{{
+    return('''
+static ColliderTrisInit{0} sTrisInit = {{
     {1},
     {2},
 }};
-    '''.format(type, sBase, f_Tris.format(*cTris)))
+'''.format(type, sBase, f_Tris.format(*cTris)))
 
 def GetQuad(data, off, type):
     sBase = GetColliderStr(data, off, type)
-    cBody = struct.unpack_from(sf_ColliderBodyInit, data, off + 0x08)
+    cBody = list(struct.unpack_from(sf_ColliderBodyInit, data, off + 0x08))
     cQuad = struct.unpack_from(sf_Quad, data, off + 0x20)
-    print('''
-static ColliderQuadInit{0} sQuadInit = 
-{{
+
+    if cBody[0] < 7:
+        cBody[0] = SWORD_SFX_ENUM[cBody[0]]
+    else:
+        cBody[0] = '0x{0:02X}'.format(cBody[0])
+
+    cBody[7] = GetToucherFlags(cBody[7])
+    cBody[8] = GetBumperFlags(cBody[8])
+    cBody[9] = GetOcElemFlags(cBody[9])
+
+    return('''
+static ColliderQuadInit{0} sQuadInit = {{
     {1},
     {2},
     {3},
 }};
-    '''.format(type, sBase, f_ColliderBodyInit.format(*cBody), f_Quad.format(*cQuad)))
+'''.format(type, sBase, f_ColliderBodyInit.format(*cBody), f_Quad.format(*cQuad)))
 
-TYPE_DICT = {
-    'ColliderJntSphInit' : (GetJntSph, 'Shape', T_DEFAULT),
-    'ColliderCylinderInit' : (GetCylinder, 'Shape', T_DEFAULT),
-    'ColliderTrisInit': (GetTris, 'Shape', T_DEFAULT),
-    'ColliderQuadInit': (GetQuad, 'Shape', T_DEFAULT),
-    'ColliderJntSphItemInit' : (GetJntSphItems, 'Item'),
-    'ColliderTrisItemInit' : (GetTrisItems, 'Item')
-}
+def GetColliderInit(address, type, num, path):
+    TYPE_DICT = {
+        'ColliderJntSphInit' : (GetJntSph, 'Shape', T_DEFAULT),
+        'ColliderCylinderInit' : (GetCylinder, 'Shape', T_DEFAULT),
+        'ColliderTrisInit': (GetTris, 'Shape', T_DEFAULT),
+        'ColliderQuadInit': (GetQuad, 'Shape', T_DEFAULT),
+        'ColliderJntSphItemInit' : (GetJntSphItems, 'Item'),
+        'ColliderTrisItemInit' : (GetTrisItems, 'Item')
+    }
 
-update = [(k, v[0]) for k,v in TYPE_DICT.items() if v[1] == 'Shape']
-for i in update:
-    for j in (T_SET3, T_ACTOR):
-        TYPE_DICT[i[0] + j] = (i[1], 'Shape', j)
-       
+    update = [(k, v[0]) for k,v in TYPE_DICT.items() if v[1] == 'Shape']
+    for i in update:
+        for j in (T_SET3, T_ACTOR):
+            TYPE_DICT[i[0] + j] = (i[1], 'Shape', j)
+
+    fileResult = None
+
+    if address >= 0x80000000:
+        fileResult = GetFromVRam(address)
+    else:
+        fileResult = GetFromRom(address)
+
+    if fileResult is None:
+        return("Invalid address")
+
+    print(fileResult)
+
+    selectedType = TYPE_DICT[type]
+    arg2 = None
+    if selectedType[1] == 'Shape':
+        arg2 = selectedType[2]
+    elif num > 0:
+        arg2 = num
+    else:
+        return("ItemInit type must specify number of elements")
+
+    ovlFile = open(path + "/baserom/" + fileResult.name, "rb")
+    ovlData = bytearray(ovlFile.read())
+    ovlFile.close()
+
+    return selectedType[0](ovlData, fileResult.offset, arg2)
+
+def GetColliderInitFull(address, type, path):
+    base = GetColliderInit(address, type, 0, path)
+
+    if(type.find('JntSph') != -1):
+        [num, address2, dummy] = base.split('\n')[3].split(',')
+        elements = GetColliderInit(int(address2.strip(' D_'),16), 'ColliderJntSphItemInit', int(num), path)
+        return elements + base.replace(address2,'sJntSphItemsInit')
+    elif(type.find('Tris') != -1):
+        [num, address2, dummy] = base.split('\n')[3].split(',')
+        elements = GetColliderInit(int(address2.strip(' D_'),16), 'ColliderTrisItemInit', int(num), path)
+        return elements + base.replace(address2,'sTrisItemsInit')
+    else:
+        return base
+
 #ovlName = 'ovl_Obj_Comb'
-#address = 0x000780 
+#address = 0x000780
 #inputType = 'ColliderJntSphItemInit'
 
 #ovlName = 'ovl_En_Boom'
@@ -200,31 +411,5 @@ parser.add_argument('num', nargs='?', default=0, type=HexParse, help="Number of 
 
 args = parser.parse_args()
 
-fileResult = None
-
-if args.address >= 0x80000000:
-    fileResult = GetFromVRam(args.address)
-else:
-    fileResult = GetFromRom(args.address)
-
-if fileResult is None:
-    print("Invalid address")
-    exit()
-
-print(fileResult)
-
-selectedType = TYPE_DICT[args.type]
-arg2 = None
-if selectedType[1] == 'Shape':
-    arg2 = selectedType[2]
-elif args.num > 0:
-    arg2 = args.num
-else:
-    print("ItemInit type must specify number of elements")
-    exit()
-
-ovlFile = open("../../baserom/" + fileResult.name, "rb")
-ovlData = bytearray(ovlFile.read())
-ovlFile.close()
-
-selectedType[0](ovlData, fileResult.offset, arg2)
+print(GetColliderInitFull(args.address, args.type, "../.."))
+# print(GetColliderInit(args.address, args.type, args.num, "../.."))

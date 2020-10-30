@@ -107,11 +107,11 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (((this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
-         ((this->collider.base.maskA & 2) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
+         ((this->collider.base.ocFlags & 2) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
         ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & 8))) {
         this->collider.base.atFlags &= ~0x2;
         this->collider.base.acFlags &= ~0x2;
-        this->collider.base.maskA &= ~0x2;
+        this->collider.base.ocFlags &= ~0x2;
         this->actor.flags &= ~0x5;
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;

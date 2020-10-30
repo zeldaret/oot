@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit2 = {
     { 20, 60, -30, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
@@ -72,7 +72,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK6, 0x11, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 extern SkeletonHeader D_06005298;
@@ -247,12 +247,12 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x3F8F9;
-    this->colCylinder[1].body.bumper.flags = 0xFFC00706;
+    this->colCylinder[0].element.info.bumper.flags = 0x3F8F9;
+    this->colCylinder[1].element.info.bumper.flags = 0xFFC00706;
     this->colCylinder[2].base.type = 9;
-    this->colCylinder[2].body.bumperFlags = 0xD;
-    this->colCylinder[2].body.flags = 2;
-    this->colCylinder[2].body.bumper.flags = 0xFFCC0706;
+    this->colCylinder[2].element.info.bumperFlags = 0xD;
+    this->colCylinder[2].element.info.swordSfx = 2;
+    this->colCylinder[2].element.info.bumper.flags = 0xFFCC0706;
 
     CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 
@@ -261,17 +261,17 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
-    ColliderBody* body = &this->colCylinder[0].body;
+    ColliderInfo* body = &this->colCylinder[0].element.info;
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
         body->bumper.flags |= 2;
-        this->colCylinder[1].body.bumper.flags &= ~2;
-        this->colCylinder[2].body.bumper.flags &= ~2;
+        this->colCylinder[1].element.info.bumper.flags &= ~2;
+        this->colCylinder[2].element.info.bumper.flags &= ~2;
     } else {
         body->bumper.flags &= ~2;
-        this->colCylinder[1].body.bumper.flags |= 2;
-        this->colCylinder[2].body.bumper.flags |= 2;
+        this->colCylinder[1].element.info.bumper.flags |= 2;
+        this->colCylinder[2].element.info.bumper.flags |= 2;
     }
 }
 
@@ -311,9 +311,9 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
         Matrix_RotateY((this->initalYaw / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pull();
-        this->colCylinder[i + 3].dim.pos.x = cylPos.x;
-        this->colCylinder[i + 3].dim.pos.y = cylPos.y;
-        this->colCylinder[i + 3].dim.pos.z = cylPos.z;
+        this->colCylinder[i + 3].element.dim.pos.x = cylPos.x;
+        this->colCylinder[i + 3].element.dim.pos.y = cylPos.y;
+        this->colCylinder[i + 3].element.dim.pos.z = cylPos.z;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[i + 3].base);
     }
 
@@ -342,10 +342,10 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0, hit = 0; i < 3; i++) {
-        if (((this->colCylinder[i + 3].base.maskB & 1) != 0) == 0) {
+        if (((this->colCylinder[i + 3].base.ocType & 1) != 0) == 0) {
             continue;
         }
-        this->colCylinder[i + 3].base.maskB &= ~0x1;
+        this->colCylinder[i + 3].base.ocType &= ~0x1;
         hit = true;
     }
 
@@ -387,14 +387,14 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     if (cyl->base.acFlags & 2) {
         cyl->base.acFlags &= ~2;
         hit = true;
-        flags |= cyl->body.acHitItem->toucher.flags;
+        flags |= cyl->element.info.acHitInfo->toucher.flags;
     }
 
     cyl = &this->colCylinder[1];
     if (cyl->base.acFlags & 2) {
         cyl->base.acFlags &= ~2;
         hit = true;
-        flags |= cyl->body.acHitItem->toucher.flags;
+        flags |= cyl->element.info.acHitInfo->toucher.flags;
     }
 
     if (!hit) {
@@ -475,21 +475,21 @@ void EnSt_SetColliderScale(EnSt* this) {
         scaleAmount = 1.4f;
     }
 
-    radius = this->colSph.list[0].dim.modelSphere.radius;
+    radius = this->colSph.elements[0].dim.modelSphere.radius;
     radius *= scaleAmount;
-    this->colSph.list[0].dim.modelSphere.radius = radius;
+    this->colSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
-        yShift = this->colCylinder[i].dim.yShift;
-        radius = this->colCylinder[i].dim.radius;
-        height = this->colCylinder[i].dim.height;
+        yShift = this->colCylinder[i].element.dim.yShift;
+        radius = this->colCylinder[i].element.dim.radius;
+        height = this->colCylinder[i].element.dim.height;
         yShift *= scaleAmount;
         radius *= scaleAmount;
         height *= scaleAmount;
 
-        this->colCylinder[i].dim.yShift = yShift;
-        this->colCylinder[i].dim.radius = radius;
-        this->colCylinder[i].dim.height = height;
+        this->colCylinder[i].element.dim.yShift = yShift;
+        this->colCylinder[i].element.dim.radius = radius;
+        this->colCylinder[i].element.dim.height = height;
     }
     Actor_SetScale(&this->actor, 0.04f * scaleAmount);
     this->colliderScale = scaleAmount;

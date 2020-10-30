@@ -37,7 +37,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 6, 11, 14, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         { 0x00, { 0x00000008, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
         { 0, { { 0, 0, 0 }, 0 }, 100 },
@@ -47,7 +47,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK0, 0x39, 0x00, 0x00, 0x00, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -77,7 +77,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->explosionCollider);
     Collider_SetCylinder(globalCtx, &this->bombCollider, thisx, &sCylinderInit);
     Collider_SetJntSph(globalCtx, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
-    this->explosionColliderItems[0].body.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
+    this->explosionColliderItems[0].info.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
 
     thisx->shape.rot.z &= 0xFF;
     if (thisx->shape.rot.z & 0x80) {
@@ -145,12 +145,12 @@ void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx) {
 void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
+    if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
         func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
     }
 
-    this->explosionCollider.list->dim.worldSphere.radius += this->actor.shape.rot.z + 8;
+    this->explosionCollider.elements[0].dim.worldSphere.radius += this->actor.shape.rot.z + 8;
 
     if (this->actor.params == BOMB_EXPLOSION) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
@@ -241,7 +241,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
+            ((this->bombCollider.base.ocFlags & 2) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
             this->timer = 0;
             thisx->shape.rot.z = 0;
         } else {

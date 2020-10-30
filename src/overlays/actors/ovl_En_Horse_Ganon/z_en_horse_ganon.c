@@ -46,7 +46,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
         { 13, { { 0, 0, 0 }, 20 }, 100 },
@@ -56,7 +56,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x12, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = {
@@ -274,25 +274,26 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem) {
+void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphElement* colliderSphereItem) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseGanon* this = THIS;
     s32 index;
 
     for (index = 0; index < this->colliderSphere.count; index++) {
-        sp4C.x = this->colliderSphere.list[index].dim.modelSphere.center.x;
-        sp4C.y = this->colliderSphere.list[index].dim.modelSphere.center.y;
-        sp4C.z = this->colliderSphere.list[index].dim.modelSphere.center.z;
+        sp4C.x = this->colliderSphere.elements[index].dim.modelSphere.center.x;
+        sp4C.y = this->colliderSphere.elements[index].dim.modelSphere.center.y;
+        sp4C.z = this->colliderSphere.elements[index].dim.modelSphere.center.z;
 
-        func_800A6408(colliderSphereItem, this->colliderSphere.list[index].dim.joint, &sp4C, &sp40);
+        func_800A6408(colliderSphereItem, this->colliderSphere.elements[index].dim.joint, &sp4C, &sp40);
 
-        this->colliderSphere.list[index].dim.worldSphere.center.x = sp40.x;
-        this->colliderSphere.list[index].dim.worldSphere.center.y = sp40.y;
-        this->colliderSphere.list[index].dim.worldSphere.center.z = sp40.z;
+        this->colliderSphere.elements[index].dim.worldSphere.center.x = sp40.x;
+        this->colliderSphere.elements[index].dim.worldSphere.center.y = sp40.y;
+        this->colliderSphere.elements[index].dim.worldSphere.center.z = sp40.z;
 
-        this->colliderSphere.list[index].dim.worldSphere.radius =
-            this->colliderSphere.list[index].dim.modelSphere.radius * this->colliderSphere.list[index].dim.scale;
+        this->colliderSphere.elements[index].dim.worldSphere.radius =
+            this->colliderSphere.elements[index].dim.modelSphere.radius *
+            this->colliderSphere.elements[index].dim.scale;
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
 }

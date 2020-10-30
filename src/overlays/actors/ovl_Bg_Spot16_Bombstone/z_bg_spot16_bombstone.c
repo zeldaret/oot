@@ -36,7 +36,7 @@ s16 D_808B5DD8[][10] = {
     { 0x0006, 0x0009, 0x0028, 0x0000, 0x0BB8, 0xD8F0, 0x001E, 0x0000, 0x0000, 0x0000 },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0, { { 0, 50, 0 }, 288 }, 100 },
@@ -46,7 +46,7 @@ static ColliderJntSphItemInit sJntSphItemsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK12, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_JNTSPH },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -127,11 +127,11 @@ void func_808B4C4C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderJntSphItems);
-    this->colliderJntSph.list->dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->colliderJntSph.list->dim.worldSphere.center.y = this->actor.posRot.pos.y + 50.0f;
-    this->colliderJntSph.list->dim.worldSphere.center.z = this->actor.posRot.pos.z;
-    this->colliderJntSph.list->dim.worldSphere.radius = 120;
+    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInit, this->colliderElements);
+    this->colliderJntSph.elements[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.y = this->actor.posRot.pos.y + 50.0f;
+    this->colliderJntSph.elements[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->colliderJntSph.elements[0].dim.worldSphere.radius = 120;
 }
 
 void func_808B4D04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
@@ -139,9 +139,9 @@ void func_808B4D04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
-    this->colliderCylinder.dim.pos.x += (s16)this->actor.posRot.pos.x;
-    this->colliderCylinder.dim.pos.y += (s16)this->actor.posRot.pos.y;
-    this->colliderCylinder.dim.pos.z += (s16)this->actor.posRot.pos.z;
+    this->colliderCylinder.element.dim.pos.x += (s16)this->actor.posRot.pos.x;
+    this->colliderCylinder.element.dim.pos.y += (s16)this->actor.posRot.pos.y;
+    this->colliderCylinder.element.dim.pos.z += (s16)this->actor.posRot.pos.z;
 }
 
 s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
@@ -214,7 +214,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->actor.params) {
         case 0xFF:
             // The boulder is intact
-            shouldLive = func_808B4D9C(thisx, globalCtx);
+            shouldLive = func_808B4D9C(this, globalCtx);
             break;
         case 0:
         case 1:
@@ -223,7 +223,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
         case 5:
             // The boulder is debris
-            shouldLive = func_808B4E58(thisx, globalCtx);
+            shouldLive = func_808B4E58(this, globalCtx);
             break;
         default:
             osSyncPrintf("Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot16_bombstone.c", 668,
@@ -233,7 +233,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (!shouldLive) {
-        Actor_Kill(thisx);
+        Actor_Kill(&this->actor);
         return;
     }
     osSyncPrintf("Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n", this->actor.scale.x, this->actor.params);
@@ -269,6 +269,8 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     Vec3f* actorPosition = &this->actor.posRot.pos;
 
     if (1) {}
+
+    // for(;this->unk_158 < ARRAY_COUNTU(D_808B5EB0); this->unk_158++)
 
     while (true) {
         if (this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158][0]) {
@@ -392,7 +394,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->type == ACTORTYPE_EXPLOSIVES &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
-            sPlayerBomb = playerHeldActor;
+            sPlayerBomb = (EnBombf*)playerHeldActor;
         }
     }
 }
@@ -422,9 +424,9 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
         func_808B5A78(this);
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
     }
 
     if (mREG(64) == 1) {
@@ -487,7 +489,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     if (actor->bgCheckFlags & 8 || (actor->bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
         BgSpot16Bombstone_SpawnFragments(this, globalCtx);
         BgSpot16Bombstone_SpawnDust(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &actor->posRot, 20, NA_SE_EV_ROCK_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &actor->posRot.pos, 20, NA_SE_EV_ROCK_BROKEN);
         Actor_Kill(actor);
         return;
     }
