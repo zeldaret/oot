@@ -1224,7 +1224,7 @@ typedef struct {
     /* 0x1CABE */ s16 nameEntryBoxPosX;
     /* 0x1CAC0 */ s16 windowPosX;
     /* 0x1CAC4 */ f32 windowRot;
-    /* 0x1CAC8 */ s16 kbdButtonIndex; // only for extra buttons, not characters
+    /* 0x1CAC8 */ s16 kbdButton; // only for extra buttons, not characters
     /* 0x1CACA */ s16 charPage; // 0: hiragana, 1: katakana, 2: alphabet
     /* 0x1CACC */ s16 charBgAlpha; // square shape the letter sits in
     /* 0x1CACE */ s16 charIndex; // 0 - 64, top left to bottom right

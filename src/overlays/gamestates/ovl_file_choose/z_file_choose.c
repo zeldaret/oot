@@ -134,8 +134,8 @@ void FileChoose_UpdateMainMenu(FileChooseContext* thisx) {
 
             if (!SLOT_OCCUPIED(sramCtx, this->buttonIndex)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->configMode = CM_ROT_TO_NAME_ENTRY;
-                this->kbdButtonIndex = 99;
+                this->configMode = CM_MAIN_TO_KEYBOARD;
+                this->kbdButton = 99;
                 this->charPage = CHAR_PAGE_ENG;
                 this->kbdX = 0;
                 this->kbdY = 0;
@@ -167,8 +167,8 @@ void FileChoose_UpdateMainMenu(FileChooseContext* thisx) {
                     this->configMode = CM_20;
                     this->nextTitleLabel = TITLE_ERASE_FILE;
                 } else {
-                    this->configMode = CM_ROT_TO_OPTIONS;
-                    this->kbdButtonIndex = 0;
+                    this->configMode = CM_MAIN_TO_OPTIONS;
+                    this->kbdButton = 0;
                     this->kbdX = 0;
                     this->kbdY = 0;
                     this->charBgAlpha = 0;
@@ -353,7 +353,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     f32 skyboxZ;
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2218);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
 
     skyboxX = (1000.0f * Math_Coss(ZREG(11))) - (1000.0f * Math_Sins(ZREG(11)));
     skyboxY = ZREG(13);
@@ -361,21 +361,21 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
 
     func_8080AF50(this, skyboxX, skyboxY, skyboxZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, skyboxX, skyboxY, skyboxZ);
-    gDPSetTextureLUT(oGfxCtx->polyOpa.p++, G_TT_NONE);
+    gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
     func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
     func_8080AF50(this, 0.0f, 0.0f, 64.0f);
     func_8080C330(this);
     func_8080C60C(this);
 
-    if ((this->configMode != CM_KEYBOARD_CURSOR) && (this->configMode != CM_START_NAME_ENTRY)) {
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+    if ((this->configMode != CM_KEYBOARD) && (this->configMode != CM_START_NAME_ENTRY)) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->windowAlpha);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
         Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
         Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
@@ -384,78 +384,79 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
             Matrix_RotateX(this->windowRot / 100.0f, 1);
         }
 
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2282),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2282),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[0], 32, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01046F00);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[32], 32, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01047118);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[64], 16, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01047328);
 
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPPipeSync(POLY_OPA_DISP++);
 
         func_8080E074(this);
     }
 
-    if ((this->configMode >= CM_ROT_TO_NAME_ENTRY) && (this->configMode <= CM_35)) {
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+    if ((this->configMode >= CM_MAIN_TO_KEYBOARD) && (this->configMode <= CM_KEYBOARD_TO_MAIN)) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->windowAlpha);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
         Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
         Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
         Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2316),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2316),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[0], 32, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01046F00);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[32], 32, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01047118);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[64], 16, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01047328);
 
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPPipeSync(POLY_OPA_DISP++);
 
         func_80808000(this);
     }
 
-    if ((this->configMode >= CM_ROT_TO_OPTIONS) && (this->configMode <= CM_ROT_FROM_OPTIONS)) {
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+    if ((this->configMode >= CM_MAIN_TO_OPTIONS) && (this->configMode <= CM_OPTIONS_TO_MAIN)) {
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                         this->windowAlpha);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
         Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
         Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
         Matrix_RotateX((this->windowRot - 314.0f) / 100.0f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2337),
+        
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2337),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[0], 32, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01046F00);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[32], 32, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01047118);
 
-        gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+        gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[64], 16, 0);
+        gSPDisplayList(POLY_OPA_DISP++, D_01047328);
 
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
+        gDPPipeSync(POLY_OPA_DISP++);
 
         func_8080AF30(this);
     }
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
     func_8080AF50(this, 0.0f, 0.0f, 64.0f);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2352);
@@ -489,7 +490,7 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
 
     OPEN_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2753);
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
 
     eyeX = (1000.0f * Math_Coss(ZREG(11))) - (1000.0f * Math_Sins(ZREG(11)));
     eyeY = ZREG(13);
@@ -497,37 +498,37 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
 
     func_8080AF50(this, eyeX, eyeY, eyeZ);
     SkyboxDraw_Draw(&this->skyboxCtx, this->state.gfxCtx, 1, this->envCtx.unk_13, eyeX, eyeY, eyeZ);
-    gDPSetTextureLUT(oGfxCtx->polyOpa.p++, G_TT_NONE);
+    gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_NONE);
     ZREG(11) += ZREG(10);
     func_8006FC88(1, &this->envCtx, &this->skyboxCtx);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
     func_800949A8(this->state.gfxCtx);
     func_8080AF50(this, 0.0f, 0.0f, 64.0f);
     func_8080C330(this);
     func_8080C60C(this);
 
-    gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
+    gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                     this->windowAlpha);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
     Matrix_Translate(0.0f, 0.0f, -93.6f, MTXMODE_NEW);
     Matrix_Scale(0.78f, 0.78f, 0.78f, MTXMODE_APPLY);
     Matrix_RotateX(this->windowRot / 100.0f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2810),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(this->state.gfxCtx, "../z_file_choose.c", 2810),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[0], 32, 0);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_01046F00);
+    gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[0], 32, 0);
+    gSPDisplayList(POLY_OPA_DISP++, D_01046F00);
 
-    gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[32], 32, 0);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047118);
+    gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[32], 32, 0);
+    gSPDisplayList(POLY_OPA_DISP++, D_01047118);
 
-    gSPVertex(oGfxCtx->polyOpa.p++, &this->allocVtx1[64], 16, 0);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_01047328);
+    gSPVertex(POLY_OPA_DISP++, &this->allocVtx1[64], 16, 0);
+    gSPDisplayList(POLY_OPA_DISP++, D_01047328);
 
     func_8080E074(this);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
     func_8080AF50(this, 0.0f, 0.0f, 64.0f);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 2834);
@@ -541,9 +542,9 @@ void FileChoose_Main(GameState* thisx) {
 
     this->n64ddFlag = 0;
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x01, this->staticSegment);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x02, this->parameterSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x01, this->staticSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x02, this->parameterSegment);
 
     func_80095248(this->state.gfxCtx, 0, 0, 0);
 
@@ -620,21 +621,21 @@ void FileChoose_Main(GameState* thisx) {
     if ((this->configMode <= 35) || (this->configMode >= 40)) {
         func_800944C4(this->state.gfxCtx);
 
-        gDPSetCombineLERP(oGfxCtx->polyOpa.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+        gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 100, 255, 255, this->controlsAlpha);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0);
-        gDPLoadTextureBlock(oGfxCtx->polyOpa.p++, D_80812A50[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 0x90,
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 100, 255, 255, this->controlsAlpha);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_80812A50[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 0x90,
                             0x10, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(oGfxCtx->polyOpa.p++, 0x0168, 0x0330, 0x03A8, 0x0370, G_TX_RENDERTILE, 0, 0, 0x0400,
+        gSPTextureRectangle(POLY_OPA_DISP++, 0x0168, 0x0330, 0x03A8, 0x0370, G_TX_RENDERTILE, 0, 0, 0x0400,
                             0x0400);
     }
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_80812728);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 0, 0, gScreenFillAlpha);
-    gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gSPDisplayList(POLY_OPA_DISP++, D_80812728);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, gScreenFillAlpha);
+    gDPFillRectangle(POLY_OPA_DISP++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_choose.c", 3035);
 }
@@ -739,7 +740,7 @@ void FileChoose_InitContext(GameState* thisx) {
     this->xIndexOffset = this->inputTimerX = 0;
     this->yIndexOffset = this->inputTimerY = 0;
     this->kbdX = this->kbdY = this->charIndex = 0;
-    this->kbdButtonIndex = 99;
+    this->kbdButton = 99;
 
     this->windowColor[0] = 100;
     this->windowColor[1] = 150;

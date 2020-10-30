@@ -696,7 +696,7 @@ glabel func_8080723C
 /* 03F74 80807CB4 01E32821 */  addu    $a1, $t7, $v1              
 /* 03F78 80807CB8 24A53C88 */  addiu   $a1, $a1, 0x3C88           ## $a1 = 00003C88
 /* 03F7C 80807CBC AFA70024 */  sw      $a3, 0x0024($sp)           
-/* 03F80 80807CC0 0C201B6C */  jal     func_80806DB0              
+/* 03F80 80807CC0 0C201B6C */  jal     FileChoose_DrawCharacter              
 /* 03F84 80807CC4 A7A20110 */  sh      $v0, 0x0110($sp)           
 /* 03F88 80807CC8 87A20110 */  lh      $v0, 0x0110($sp)           
 /* 03F8C 80807CCC 26100004 */  addiu   $s0, $s0, 0x0004           ## $s0 = 00000004

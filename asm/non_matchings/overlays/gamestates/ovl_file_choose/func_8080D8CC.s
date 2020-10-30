@@ -114,7 +114,7 @@ glabel func_8080D8CC
 /* 09D20 8080DA60 01422821 */  addu    $a1, $t2, $v0              
 /* 09D24 8080DA64 24A53C88 */  addiu   $a1, $a1, 0x3C88           ## $a1 = 00003C88
 /* 09D28 8080DA68 00063403 */  sra     $a2, $a2, 16               
-/* 09D2C 8080DA6C 0C201B6C */  jal     func_80806DB0              
+/* 09D2C 8080DA6C 0C201B6C */  jal     FileChoose_DrawCharacter              
 /* 09D30 8080DA70 8E840000 */  lw      $a0, 0x0000($s4)           ## 00000000
 /* 09D34 8080DA74 26520004 */  addiu   $s2, $s2, 0x0004           ## $s2 = 00000004
 /* 09D38 8080DA78 00129400 */  sll     $s2, $s2, 16               
@@ -198,7 +198,7 @@ glabel func_8080D8CC
 /* 09E64 8080DBA4 014B2821 */  addu    $a1, $t2, $t3              
 /* 09E68 8080DBA8 24A53C88 */  addiu   $a1, $a1, 0x3C88           ## $a1 = 00003C88
 /* 09E6C 8080DBAC 00063403 */  sra     $a2, $a2, 16               
-/* 09E70 8080DBB0 0C201B6C */  jal     func_80806DB0              
+/* 09E70 8080DBB0 0C201B6C */  jal     FileChoose_DrawCharacter              
 /* 09E74 8080DBB4 8E840000 */  lw      $a0, 0x0000($s4)           ## 00000000
 /* 09E78 8080DBB8 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 09E7C 8080DBBC 00108400 */  sll     $s0, $s0, 16               

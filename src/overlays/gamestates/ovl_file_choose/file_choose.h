@@ -99,6 +99,15 @@ typedef enum {
 } CharPage;
 
 typedef enum {
+    /* 00 */ KBD_BTN_HIRA,
+    /* 01 */ KBD_BTN_KATA,
+    /* 02 */ KBD_BTN_ENG,
+    /* 03 */ KBD_BTN_BACKSPACE,
+    /* 04 */ KBD_BTN_END,
+    /* 99 */ KBD_BTN_NONE = 99,
+} KeyboardButton;
+
+typedef enum {
     /* 00 */ CM_FADE_IN_START,
     /* 01 */ CM_FADE_IN_END,
     /* 02 */ CM_MAIN_MENU,
@@ -131,14 +140,14 @@ typedef enum {
     /* 29 */ CM_29,
     /* 30 */ CM_30,
     /* 31 */ CM_31,
-    /* 32 */ CM_ROT_TO_NAME_ENTRY,
-    /* 33 */ CM_KEYBOARD_CURSOR,
+    /* 32 */ CM_MAIN_TO_KEYBOARD,
+    /* 33 */ CM_KEYBOARD,
     /* 34 */ CM_START_NAME_ENTRY,
-    /* 35 */ CM_35,
-    /* 36 */ CM_ROT_TO_OPTIONS,
+    /* 35 */ CM_KEYBOARD_TO_MAIN,
+    /* 36 */ CM_MAIN_TO_OPTIONS,
     /* 37 */ CM_OPTIONS_MENU,
     /* 38 */ CM_START_OPTIONS,
-    /* 39 */ CM_ROT_FROM_OPTIONS,
+    /* 39 */ CM_OPTIONS_TO_MAIN,
     /* 40 */ CM_40
 } ConfigMode;
 
