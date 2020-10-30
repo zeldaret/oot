@@ -28,7 +28,7 @@ glabel func_80B59AD0
 /* 06784 80B59B34 24180140 */  addiu   $t8, $zero, 0x0140         ## $t8 = 00000140
 /* 06788 80B59B38 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
 /* 0678C 80B59B3C A438FA84 */  sh      $t8, %lo(gSaveContext+0x1424)($at)
-/* 06790 80B59B40 0C021DA0 */  jal     func_80087680              
+/* 06790 80B59B40 0C021DA0 */  jal     Magic_Fill              
 /* 06794 80B59B44 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 06798 80B59B48 2419001B */  addiu   $t9, $zero, 0x001B         ## $t9 = 0000001B
 /* 0679C 80B59B4C 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001

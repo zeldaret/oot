@@ -242,10 +242,10 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 707);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 714),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 714),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, displayLists[(u16)this->actor.params >> 0xC]);
+    gSPDisplayList(POLY_OPA_DISP++, displayLists[(u16)this->actor.params >> 0xC]);
 
     if (this->litTimer != 0) {
         f32 flameScale = 1.0f;
@@ -259,23 +259,23 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                     (this->flameTexScroll * -20) & 0x1FF, 0x20, 0x80));
 
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 0, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
 
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
         Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
                        MTXMODE_APPLY);
         Matrix_Scale(flameScale, flameScale, flameScale, MTXMODE_APPLY);
 
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 745),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 749);
 }

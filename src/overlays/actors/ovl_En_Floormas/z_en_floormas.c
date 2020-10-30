@@ -1083,9 +1083,9 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80026230(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
 
-    oGfxCtx->polyOpa.p =
+    POLY_OPA_DISP =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
+                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026608(globalCtx);
     }
@@ -1102,9 +1102,9 @@ void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026690(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
-    oGfxCtx->polyXlu.p =
+    POLY_XLU_DISP =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, oGfxCtx->polyXlu.p);
+                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026A6C(globalCtx);
     }
