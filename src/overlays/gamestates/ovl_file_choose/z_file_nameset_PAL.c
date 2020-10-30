@@ -197,12 +197,12 @@ void FileChoose_DrawKeyboard(FileChooseContext* thisx) {
 
     CLOSE_DISPS(this->state.gfxCtx, "../z_file_nameset_PAL.c", 347);
 }
-extern int PRIMITIVE;
-extern int TEXEL0;
-extern int TEXEL1;
-extern int G_IM_SIZ_8b_SHIFTL;
+// extern int PRIMITIVE;
+// extern int TEXEL0;
+// extern int TEXEL1;
+// extern int G_IM_SIZ_8b_SHIFTL;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_80808000.s")
 void func_80808000(FileChooseContext* thisx) {
     FileChooseContext* this = thisx;
     Input* controller1 = &this->state.input[0];
