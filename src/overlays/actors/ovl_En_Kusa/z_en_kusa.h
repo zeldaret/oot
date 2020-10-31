@@ -6,10 +6,12 @@
 
 struct EnKusa;
 
+typedef void (*EnKusaActionFunc)(struct EnKusa*, GlobalContext*);
+
 typedef struct EnKusa {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x52];
-    // /* 0x0150 */ ColliderCylinder collider;
+    /* 0x014C */ char unk_14C[0x4];
+    /* 0x0150 */ ColliderCylinder collider;
     /* 0x019E */ s8 kusaTexObjIndex;
 } EnKusa; // size = 0x01A0
 
