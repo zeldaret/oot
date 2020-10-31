@@ -70,9 +70,8 @@ u8 D_8089731C[] = { 0x00, 0x00, 0x20, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20, 0x00, 
 
 u8 D_80897398[] = { 0x20, 0x80, 0x20, 0x80, 0xA0, 0x80, 0x20, 0x80, 0x20, 0x00, 0x00, 0x00 };
 
-Vec3f D_808973A4 = { -6.0f, 100.0f, 7.6f };
-
-Vec3f D_808973B0[] = {
+Vec3f D_808973A4[] = {
+    { -6.0f, 100.0f, 7.6f },
     { -12.6f, 69.200005f, -10.0f }, { -9.0f, 43.0f, -1.0f }, { -3.0f, 15.0f, 8.6f },
     { -8.6f, 15.0f, 13.5f },        { -6.6f, 26.0f, 11.6f }, { -12.5f, 43.0f, 8.0f },
     { -17.2f, 70.0f, 0.6f },        { -8.0f, 100.0f, 7.6f }, { 6.0f, 100.0f, 7.6f },
@@ -268,240 +267,143 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx);
 // }
 
 void func_80895EF0(BgJyaCobra* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895EF0.s")
-// void func_80895EF0(BgJyaCobra* this) {
-//     Vec3f spD4;
-//     Vec3f spC8;
-//     Vec3f spBC;
-//     Vec3f* temp_s4;
-//     s32 temp_f18;
-//     u8* temp_s2;
-//     s32 temp_t0;
-//     s32 phi_t1;
-//     s32 temp_v1;
-//     u8* temp_v0;
-//     u8* temp_v1_2;
-//     s32 phi_v0;
-//     Vec3f* phi_s7;
-//     Vec3f* phi_s4;
-//     s32 phi_s6;
-//     s32 phi_t3;
-//     s32 phi_v1;
-//     s32 phi_a0;
-//     s32 phi_a1;
-//     s32 phi_a2;
-//     s32 phi_a3;
-//     Vec3f* phi_s5;
-
-//     temp_s2 = (u8*)ALIGN16((s32)(&this->unk_194));
-//     Lib_MemSet(temp_s2, 0x1000, 0);
-//     Matrix_RotateX(0.7853982f, (u8)0U);
-//     if ((this->dyna.actor.params & 3) == 0) {
-//         phi_v0 = (s16)(this->dyna.actor.shape.rot.y + 0x4000);
-//     } else {
-//         phi_v0 = (s16)(this->dyna.actor.shape.rot.y - 0x4000);
-//     }
-//     Matrix_RotateY(phi_v0 * 0.0000958738f, (u8)1U);
-//     Matrix_Scale(0.9f, 0.9f, 0.9f, (u8)1U);
-//     phi_s7 = &D_808973B0;
-//     phi_s4 = &D_808973A4;
-//     do {
-//         Math_Vec3f_Diff(phi_s7, phi_s4, &spD4);
-//         spD4.x *= 0.5f;
-//         spD4.y *= 0.5f;
-//         spD4.z *= 0.5f;
-//         phi_s6 = 0;
-//         do {
-//             spC8.x = phi_s4->x + (spD4.x * phi_s6);
-//             spC8.y = phi_s4->y + (spD4.y * phi_s6);
-//             spC8.z = phi_s4->z + (spD4.z * phi_s6);
-//             Matrix_MultVec3f(&spC8, &spBC);
-//             phi_s6 += 1;
-//             temp_f18 = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
-//             phi_t3 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 5;
-//             phi_t1 = 0;
-//             do {
-//                 temp_t0 = phi_t3 << 6;
-//                 if ((phi_t3 & ~0x3F) == 0) {
-//                     temp_v1 = temp_f18 - 5;
-//                     phi_a0 = temp_f18 - 3;
-//                     phi_a1 = temp_f18 - 4;
-//                     if ((temp_v1 & ~0x3F) == 0) {
-//                         temp_v0 = (temp_t0 + temp_v1) + temp_s2;
-//                         *temp_v0 = (u8)(*temp_v0 | *(D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1)));
-//                     }
-//                     if ((phi_a1 & ~0x3F) == 0) {
-//                         temp_v0 = (temp_t0 + phi_a1) + temp_s2;
-//                         *temp_v0 = (u8)(*temp_v0 | *(&(*(D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1))) + 1));
-//                     }
-//                     if ((phi_a0 & ~0x3F) == 0) {
-//                         temp_v0 = (temp_t0 + phi_a0) + temp_s2;
-//                         *temp_v0 = (u8)(*temp_v0 | *(&(*(D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1))) + 2));
-//                     }
-//                     phi_v0 = temp_f18 + 3;
-//                     phi_v1 = phi_v0 - 5;
-//                     phi_a0 = 3;
-//                     phi_a1 = phi_v0 - 4;
-//                     phi_a2 = phi_v0 - 3;
-//                     phi_a3 = phi_v0 - 2;
-//                     do {
-//                         if ((phi_v1 & ~0x3F) == 0) {
-//                             temp_v0 = (temp_t0 + phi_v1) + temp_s2;
-//                             *temp_v0 =
-//                                 (u8)(*temp_v0 | *((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1)) + phi_a0));
-//                         }
-//                         if ((phi_a1 & ~0x3F) == 0) {
-//                             temp_v0 = (temp_t0 + phi_a1) + temp_s2;
-//                             *temp_v0 =
-//                                 (u8)(*temp_v0 |
-//                                      *(&(*((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1)) + phi_a0)) + 1));
-//                         }
-//                         if ((phi_a2 & ~0x3F) == 0) {
-//                             temp_v0 = (temp_t0 + phi_a2) + temp_s2;
-//                             *temp_v0 =
-//                                 (u8)(*temp_v0 |
-//                                      *(&(*((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1)) + phi_a0)) + 2));
-//                         }
-//                         if ((phi_a3 & ~0x3F) == 0) {
-//                             temp_v0 = (temp_t0 + phi_a3) + temp_s2;
-//                             *temp_v0 =
-//                                 (u8)(*temp_v0 |
-//                                      *(&(*((D_8089731C + ((((phi_t1 * 4) - phi_t1) * 4) - phi_t1)) + phi_a0)) + 3));
-//                         }
-//                         phi_a0 = phi_a0 + 4;
-//                         phi_v1 = phi_v1 + 4;
-//                         phi_a1 = phi_a1 + 4;
-//                         phi_a2 = phi_a2 + 4;
-//                         phi_a3 = phi_a3 + 4;
-//                     } while (phi_a0 != 0xB);
-//                 }
-//                 phi_t1 = phi_t1 + 1;
-//                 phi_t3 = phi_t3 + 1;
-//             } while (phi_t1 != 0xB);
-//         } while (phi_s6 != 2);
-//         phi_s7++;
-//         phi_s4 = phi_s4 + 1;
-//     } while ((u32)phi_s7 < (u32)&D_808974DC);
-
-//     temp_s4 = &D_808974DC[1];
-//     phi_s5 = &D_808974DC;
-//     do {
-//         Math_Vec3f_Diff(temp_s4, phi_s5, &spD4);
-//         spD4.x = spD4.x * 0.2f;
-//         spD4.y = spD4.y * 0.2f;
-//         spD4.z = spD4.z * 0.2f;
-//         phi_s6 = 0;
-//         do {
-//             spC8.x = phi_s5->x + (spD4.x * phi_s6);
-//             spC8.y = phi_s5->y + (spD4.y * phi_s6);
-//             spC8.z = phi_s5->z + (spD4.z * phi_s6);
-//             Matrix_MultVec3f(&spC8, &spBC);
-//             phi_s6 = phi_s6 + 1;
-//             phi_a1 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 1;
-//             phi_t1 = 0;
-//             do {
-//                 if ((phi_a1 & ~0x3F) == 0) {
-//                     phi_v1 = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f) - 1;
-//                     phi_a0 = 0;
-//                     do {
-//                         if ((phi_v1 & ~0x3F) == 0) {
-//                             temp_v0 = ((phi_a1 << 6) + phi_v1) + temp_s2;
-//                             *temp_v0 = (u8)(*temp_v0 | *((D_80897398 + ((phi_t1 * 4) - phi_t1)) + phi_a0));
-//                         }
-//                         phi_a0 = phi_a0 + 1;
-//                         phi_v1 = phi_v1 + 1;
-//                         phi_a0 = phi_a0;
-//                     } while (phi_a0 != 3);
-//                 }
-//                 phi_t1 = phi_t1 + 1;
-//                 phi_a1 = phi_a1 + 1;
-//             } while (phi_t1 < 3);
-//         } while (phi_s6 < 5);
-
-//         temp_s4++;
-//         phi_s5++;
-//     } while (temp_s4 < &(D_808974DC[5]));
-
-//     phi_v0 = 0;
-//     do {
-//         temp_v1_2 = temp_s2 + phi_v0;
-//         phi_v0 += 4;
-//         *(temp_v1_2 + 0x1) = (u8)0;
-//         *(temp_v1_2 + 0xFC1) = (u8)0;
-//         *(temp_v1_2 + 0x2) = (u8)0;
-//         *(temp_v1_2 + 0xFC2) = (u8)0;
-//         *(temp_v1_2 + 0x3) = (u8)0;
-//         *(temp_v1_2 + 0xFC3) = (u8)0;
-//         *(temp_v1_2 + 0x0) = (u8)0;
-//         *(temp_v1_2 + 0xFC0) = (u8)0;
-//     } while (phi_v0 != 0x40);
-
-//     temp_v0 = temp_s2 + 0x40;
-//     *(temp_v0 + 0x0) = (u8)0;
-//     *(temp_v0 + 0x3F) = (u8)0;
-//     *(temp_v0 + 0x40) = (u8)0;
-//     *(temp_v0 + 0x7F) = (u8)0;
-
-//     phi_v1 = 0xC0;
-//     do {
-//         temp_v0 = temp_s2 + phi_v1;
-//         phi_v1 += 0x100;
-//         *(temp_v0 + 0x40) = (u8)0;
-//         *(temp_v0 + 0x7F) = (u8)0;
-//         *(temp_v0 + 0x80) = (u8)0;
-//         *(temp_v0 + 0xBF) = (u8)0;
-//         *(temp_v0 + 0xC0) = (u8)0;
-//         *(temp_v0 + 0xFF) = (u8)0;
-//         *(temp_v0 + 0x0) = (u8)0;
-//         *(temp_v0 + 0x3F) = (u8)0;
-//     } while (phi_v1 != 0xFC0);
-// }
-
-void func_80896518(BgJyaCobra* this);
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
-void func_80896518(BgJyaCobra *this) {
-    f32 sp58[0x40];
-    f32 temp_f12;
-    f32 temp_f2;
-    u8* temp_s0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80895EF0.s")
+void func_80895EF0(BgJyaCobra* this) {
+    Vec3f spD4;
+    Vec3f spC8;
+    Vec3f spBC;
+    s32 temp_f18;
+    u8* temp_s2;
     s32 temp_t0;
-    s32 phi_t0;
-    u8 *phi_a3;
-    s32 phi_t1_3;
+    s32 phi_t3;
+    s32 phi_v1;
+    s32 phi_a1;
     s32 i;
     s32 j;
+    s32 k;
+    s32 l;
 
-    for (i = 0; i < 0x40; i++) {
-        sp58[i] = SQ(i - 31.5f);
-    }
+    temp_s2 = (u8*)ALIGN16((s32)(&this->unk_194));
+    Lib_MemSet(temp_s2, 0x1000, 0);
 
-    temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
-    phi_a3 = temp_s0;
-    Lib_MemSet(temp_s0, 0x1000, 0);
-    
-    for (i = 0; i != 0x40; i++) {
-        temp_f12 = sp58[i];
-        for(j = 0; j != 0x40; j++) {
-            temp_f2 = (sp58[j] * 0.5f) + temp_f12;
-            if (temp_f2 < 300.0f) {
-                *phi_a3 |= CLAMP_MAX(0x280 - (s32) (temp_f2 + temp_f2), 0xA6);
+    Matrix_RotateX(0.7853982f, MTXMODE_NEW);
+    Matrix_RotateY((!(this->dyna.actor.params & 3) ? (s16)(this->dyna.actor.shape.rot.y + 0x4000) : (s16)(this->dyna.actor.shape.rot.y - 0x4000)) * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
+
+    for (i = 0; i + 1 < 26; i++) {
+        Math_Vec3f_Diff(&D_808973A4[i + 1], &D_808973A4[i], &spD4);
+        spD4.x *= 0.5f;
+        spD4.y *= 0.5f;
+        spD4.z *= 0.5f;
+        for (j = 0; j != 2; j++ ) {
+            spC8.x = D_808973A4[i].x + (spD4.x * j);
+            spC8.y = D_808973A4[i].y + (spD4.y * j);
+            spC8.z = D_808973A4[i].z + (spD4.z * j);
+            Matrix_MultVec3f(&spC8, &spBC);
+            temp_f18 = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
+            phi_t3 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 5;
+            temp_t0 = phi_t3 << 6;
+            for (k = 0; k != 0xB; k++) {
+                if ((phi_t3 & ~0x3F) == 0) {
+                    for (l = 0; l < 11; l++)
+                    {
+                        if (!((temp_f18 - 5 + l) & ~0x3F)) {
+                            temp_s2[temp_t0 + (temp_f18 - 5 + l)] |= D_8089731C[((((k * 4) - k) * 4) - k) + l];
+                        }
+                    }
+                    // temp_v1 = temp_f18 - 5;
+                    // if ((temp_v1 & ~0x3F) == 0) {
+                    //     temp_v0 = (temp_t0 + temp_v1) + temp_s2;
+                    //     *temp_v0 = (u8)(*temp_v0 | *(D_8089731C + ((((k * 4) - k) * 4) - k)));
+                    // }
+                }
+                phi_t3 = phi_t3 + 1;
             }
-            phi_a3 += 1;
         }
     }
 
-    for (i = 0, phi_t1_3 = 0x780; i != 4; i += 1, phi_t1_3 += 0x40) {
-        phi_t0 = phi_t1_3;
-        for (j = 4; j != 0x3C; j++)
-        {
-            if (temp_s0[phi_t1_3 + j] < D_80897518[i]) {
-                temp_s0[phi_t1_3 + j] = D_80897518[i];
+    for(i = 0; i + 1 < 5; i++) {
+        Math_Vec3f_Diff(&D_808974DC[i + 1], &D_808974DC[i], &spD4);
+        spD4.x = spD4.x * 0.2f;
+        spD4.y = spD4.y * 0.2f;
+        spD4.z = spD4.z * 0.2f;
+        for (j = 0; j < 5; j++) {
+            spC8.x = D_808974DC[i].x + (spD4.x * j);
+            spC8.y = D_808974DC[i].y + (spD4.y * j);
+            spC8.z = D_808974DC[i].z + (spD4.z * j);
+            Matrix_MultVec3f(&spC8, &spBC);
+            phi_v1 = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f) - 1;
+            phi_a1 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 1;
+            for (k = 0; k < 3; k++) {
+                temp_t0 = phi_a1 << 6;
+                if ((phi_a1 & ~0x3F) == 0) {
+                    for (l = 0; l != 3; l++) {
+                        if (!(phi_v1 & ~0x3F)) {
+                            temp_s2[temp_t0 + phi_v1] |= D_80897398[((k * 4) - k) + l];
+                        }
+                        phi_v1 = phi_v1 + 1;
+                    }
+                }
+                phi_a1 = phi_a1 + 1;
             }
         }
-        temp_s0[phi_t0 + 0x3C] = 0x20;
-        temp_s0[phi_t0 + 0x3] = 0x20;
+    }
+
+    for(j = 0; j != 0x40; j++) {
+        temp_s2[j] = 0;
+        temp_s2[j + 0xFC0] = 0;
+    }
+
+    for (i = 0x40; i != 0xFC0; i += 0x40) {
+        temp_s2[i + 0x0] = 0;
+        temp_s2[i + 0x3F] = 0;
     }
 }
+
+void func_80896518(BgJyaCobra* this);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/func_80896518.s")
+// void func_80896518(BgJyaCobra *this) {
+//     f32 sp58[0x40];
+//     f32 temp_f12;
+//     f32 temp_f2;
+//     u8* temp_s0;
+//     s32 phi_t0;
+//     u8 *phi_a3;
+//     s32 phi_t1_3;
+//     s32 i;
+//     s32 j;
+
+//     for (i = 0; i < 0x40; i++) {
+//         sp58[i] = SQ(i - 31.5f);
+//     }
+
+//     temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
+//     phi_a3 = temp_s0;
+//     Lib_MemSet(temp_s0, 0x1000, 0);
+    
+//     for (i = 0; i != 0x40; i++) {
+//         temp_f12 = sp58[i];
+//         for(j = 0; j != 0x40; j++) {
+//             temp_f2 = (sp58[j] * 0.5f) + temp_f12;
+//             if (temp_f2 < 300.0f) {
+//                 *phi_a3 |= CLAMP_MAX(640 - (s32) (temp_f2 + temp_f2), 166);
+//             }
+//             phi_a3 += 1;
+//         }
+//     }
+
+//     for (i = 0, phi_t1_3 = 0x780; i != 4; i += 1, phi_t1_3 += 0x40) {
+//         phi_t0 = phi_t1_3;
+//         for (j = 4; j != 0x3C; j++)
+//         {
+//             if (temp_s0[phi_t1_3 + j] < D_80897518[i]) {
+//                 temp_s0[phi_t1_3 + j] = D_80897518[i];
+//             }
+//         }
+//         temp_s0[phi_t0 + 0x3C] = 32;
+//         temp_s0[phi_t0 + 0x3] = 32;
+//     }
+// }
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
