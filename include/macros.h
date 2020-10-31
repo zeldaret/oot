@@ -85,13 +85,20 @@
     }                                      \
     (void)0
 
-extern GraphicsContext* oGfxCtx;
+extern GraphicsContext* __gfxCtx;
 
+#define WORK_DISP       __gfxCtx->work.p
+#define POLY_OPA_DISP   __gfxCtx->polyOpa.p
+#define POLY_XLU_DISP   __gfxCtx->polyXlu.p
+#define OVERLAY_DISP    __gfxCtx->overlay.p
+
+// __gfxCtx shouldn't be used directly.
+// Use the DISP macros defined above when writing to display buffers.
 #define OPEN_DISPS(gfxCtx, file, line) \
     {                                  \
-        GraphicsContext* oGfxCtx;      \
+        GraphicsContext* __gfxCtx;     \
         Gfx* dispRefs[4];              \
-        oGfxCtx = gfxCtx;              \
+        __gfxCtx = gfxCtx;             \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
 #define CLOSE_DISPS(gfxCtx, file, line)                 \
