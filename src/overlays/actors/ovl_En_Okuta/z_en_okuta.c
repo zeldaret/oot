@@ -28,8 +28,7 @@ const ActorInit En_Okuta_InitVars = {
 extern SkeletonHeader D_06003660;
 extern AnimationHeader D_06003C64;
 
-// sCylinderInit
-ColliderCylinderInit D_80AC2820 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
     { 13, 20, 0, { 0, 0, 0 } },
@@ -42,26 +41,23 @@ ColliderCylinderInit D_80AC284C = {
     { 20, 40, -30, { 0, 0, 0 } },
 };
 
-// sColChkInfoInit
-CollisionCheckInfoInit D_80AC2878 = { 1, 0xF, 0x3C, 0x64 };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 0xF, 0x3C, 0x64 };
 
-// sDamageTable
-DamageTable D_80AC2880 = {
+static DamageTable sDamageTable = {
     0x00, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0x02, 0x34, 0x02, 0x02, 0x02,
     0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
 };
 
-// sInitChain
-InitChainEntry D_80AC28A0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 66, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 6500, ICHAIN_STOP),
 };
 
-UNK_TYPE D_80AC28A8[] = { 0x00000000, 0x00000000, 0x00000000 };
+static Vec3f sAccel = { 0.0f, 0.0f, 0.0f };
 
-UNK_TYPE D_80AC28B4 = 0xFFFFFFFF;
+static Color_RGBA8 sPrimColor = { 255, 255, 255, 255 };
 
-UNK_TYPE D_80AC28B8 = 0x969696FF;
+static Color_RGBA8 sEnvColor = { 150, 150, 150, 255 };
 
 UNK_TYPE D_80AC28BC[] = { 0x00000000, 0xBF000000, 0x00000000 };
 
@@ -76,7 +72,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 ySurface;
     UNK_TYPE sp30;
 
-    Actor_ProcessInitChain(thisx, D_80AC28A0);
+    Actor_ProcessInitChain(thisx, sInitChain);
     this->unk_196 = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     if (thisx->params == 0) {
@@ -84,11 +80,11 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80AC284C);
-        func_80061ED4(&thisx->colChkInfo, &D_80AC2880, &D_80AC2878);
+        func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
         if ((this->unk_196 == 0xFF) || (this->unk_196 == 0)) {
             this->unk_196 = 1;
         }
-        thisx->groundY = func_8003C9A4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot);
+        thisx->groundY = func_8003C9A4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
         if (!func_80042244(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
                            &outWaterBox) ||
             (ySurface <= thisx->groundY)) {
@@ -102,7 +98,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags &= ~1;
         thisx->flags |= 0x10;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80AC2820);
+        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_PROP);
         this->unk_194 = 0x1E;
         thisx->shape.rot.y = 0;
@@ -119,7 +115,9 @@ void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0890.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC093C.s")
+void func_80AC093C(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* globalCtx) {
+    func_8002829C(globalCtx, pos, velocity, &sAccel, &sPrimColor, &sEnvColor, 0x190, scaleStep);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC09A4.s")
 
