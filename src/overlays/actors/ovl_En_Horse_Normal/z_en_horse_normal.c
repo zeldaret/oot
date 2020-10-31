@@ -68,13 +68,13 @@ static AnimationHeader* sAnimations[] = {
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 40, 100, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 60, 100, 0, { 0, 0, 0 } },
 };
@@ -87,7 +87,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
     ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
@@ -168,7 +168,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderItems);
     Collider_InitCylinder(globalCtx, &this->cloneCollider);
     Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
-    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (globalCtx->sceneNum == SCENE_SPOT20) {
         if (this->actor.posRot.rot.z == 0 || gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);
@@ -547,7 +547,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 70.0f;
     this->unk_204 = this->actor.projectedPos;
     this->unk_204.y += 120.0f;
-    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if (this->actor.speedXZ == 0.0f) {
         this->actor.colChkInfo.mass = 0xFF;

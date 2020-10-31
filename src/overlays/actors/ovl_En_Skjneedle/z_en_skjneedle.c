@@ -80,7 +80,7 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         globalCtx = preserve; // workaround
         Actor_SetScale(&this->actor, 0.01f);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         Actor_MoveForward(&this->actor);

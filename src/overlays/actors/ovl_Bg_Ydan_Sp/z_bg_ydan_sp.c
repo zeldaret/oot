@@ -22,7 +22,7 @@ const ActorInit Bg_Ydan_Sp_InitVars = {
     (ActorFunc)BgYdanSp_Draw,
 };
 
-static ColliderTrisItemInit  D_808C0930[2] = {
+static ColliderTrisElementInit  D_808C0930[2] = {
     {
         { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00020800, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, 75.0f }, { -75.0f, -8.0f, -75.0f } } },
@@ -34,7 +34,7 @@ static ColliderTrisItemInit  D_808C0930[2] = {
 };
 
 static ColliderTrisInit D_808C09A8 = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2, D_808C0930,
 };
 */

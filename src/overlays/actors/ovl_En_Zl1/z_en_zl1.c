@@ -145,7 +145,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
         func_8002F2F4(&this->actor, globalCtx);
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
@@ -553,7 +553,7 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80B4B8B4) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->actor.posRot.rot.x, 0xA, 0x3E8, 1);

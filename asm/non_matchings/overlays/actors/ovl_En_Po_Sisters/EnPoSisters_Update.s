@@ -77,7 +77,7 @@ glabel EnPoSisters_Update
 /* 03454 80ADC3E4 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC
 .L80ADC3E8:
 /* 03458 80ADC3E8 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 0345C 80ADC3EC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0345C 80ADC3EC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 03460 80ADC3F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03464 80ADC3F4 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190

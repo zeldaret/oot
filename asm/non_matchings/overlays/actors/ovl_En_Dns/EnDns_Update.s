@@ -50,7 +50,7 @@ glabel EnDns_Update
 /* 00FDC 809F032C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000026C
 /* 00FE0 809F0330 11600009 */  beq     $t3, $zero, .L809F0358     
 /* 00FE4 809F0334 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00FE8 809F0338 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00FE8 809F0338 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00FEC 809F033C AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 00FF0 809F0340 8FA4003C */  lw      $a0, 0x003C($sp)           

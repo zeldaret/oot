@@ -995,7 +995,7 @@ glabel Player_UpdateCommon
 /* 17B4C 80849D5C 00000000 */  nop
 /* 17B50 80849D60 A60904DA */  sh      $t1, 0x04DA($s0)           ## 000004DA
 .L80849D64:
-/* 17B54 80849D64 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 17B54 80849D64 0C0189B7 */  jal     Collider_UpdateCylinder
 
 /* 17B58 80849D68 AFA5002C */  sw      $a1, 0x002C($sp)
 /* 17B5C 80849D6C 8E0B0680 */  lw      $t3, 0x0680($s0)           ## 00000680
@@ -1067,20 +1067,20 @@ glabel Player_UpdateCommon
 /* 17C3C 80849E4C 31AEFFFB */  andi    $t6, $t5, 0xFFFB           ## $t6 = 00000000
 /* 17C40 80849E50 A20E0692 */  sb      $t6, 0x0692($s0)           ## 00000692
 /* 17C44 80849E54 8FA5002C */  lw      $a1, 0x002C($sp)
-/* 17C48 80849E58 0C017150 */  jal     Collider_CylinderResetAC
+/* 17C48 80849E58 0C017150 */  jal     Collider_ResetCylinderAC
 /* 17C4C 80849E5C 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17C50 80849E60 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 17C54 80849E64 0C017458 */  jal     Collider_QuadResetAT
+/* 17C54 80849E64 0C017458 */  jal     Collider_ResetQuadAT
 /* 17C58 80849E68 260504E4 */  addiu   $a1, $s0, 0x04E4           ## $a1 = 000004E4
 /* 17C5C 80849E6C 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 17C60 80849E70 0C017458 */  jal     Collider_QuadResetAT
+/* 17C60 80849E70 0C017458 */  jal     Collider_ResetQuadAT
 /* 17C64 80849E74 26050564 */  addiu   $a1, $s0, 0x0564           ## $a1 = 00000564
 /* 17C68 80849E78 260505E4 */  addiu   $a1, $s0, 0x05E4           ## $a1 = 000005E4
 /* 17C6C 80849E7C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 17C70 80849E80 0C01746A */  jal     Collider_QuadResetAC
+/* 17C70 80849E80 0C01746A */  jal     Collider_ResetQuadAC
 /* 17C74 80849E84 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17C78 80849E88 8FA50034 */  lw      $a1, 0x0034($sp)
-/* 17C7C 80849E8C 0C017458 */  jal     Collider_QuadResetAT
+/* 17C7C 80849E8C 0C017458 */  jal     Collider_ResetQuadAT
 /* 17C80 80849E90 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17C84 80849E94 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 17C88 80849E98 8FB00020 */  lw      $s0, 0x0020($sp)

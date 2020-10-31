@@ -85,7 +85,7 @@ glabel func_80A9B8D8
 /* 00A60 80A9BA00 00000000 */  nop
 /* 00A64 80A9BA04 45020020 */  bc1fl   .L80A9BA88                 
 /* 00A68 80A9BA08 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 00A6C 80A9BA0C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00A6C 80A9BA0C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00A70 80A9BA10 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00A74 80A9BA14 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

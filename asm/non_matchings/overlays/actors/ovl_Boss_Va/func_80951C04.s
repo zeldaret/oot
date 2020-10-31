@@ -313,7 +313,7 @@ glabel func_80951C04
 /* 02D80 80952040 46109180 */  add.s   $f6, $f18, $f16            
 /* 02D84 80952044 AE0D0040 */  sw      $t5, 0x0040($s0)           ## 00000040
 /* 02D88 80952048 E606003C */  swc1    $f6, 0x003C($s0)           ## 0000003C
-/* 02D8C 8095204C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02D8C 8095204C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02D90 80952050 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 02D94 80952054 8FA4005C */  lw      $a0, 0x005C($sp)           

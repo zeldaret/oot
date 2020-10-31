@@ -21,10 +21,10 @@ const ActorInit En_Poh_InitVars = {
     NULL,
 };
 
-static ColliderJntSphItemInit  D_80AE1AA0[1] = {
+static ColliderJntSphElementInit  D_80AE1AA0[1] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_ON },
-        { 18, { { 0, 1400, 0 }, 10 }, 100 },
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_OFF,
+OCELEM_ON }, { 18, { { 0, 1400, 0 }, 10 }, 100 },
     },
 };
 

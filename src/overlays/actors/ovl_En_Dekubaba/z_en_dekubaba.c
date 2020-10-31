@@ -22,9 +22,9 @@ const ActorInit En_Dekubaba_InitVars = {
     (ActorFunc)EnDekubaba_Draw,
 };
 
-static ColliderJntSphItemInit  D_809E8ECC[7] = {
+static ColliderJntSphElementInit  D_809E8ECC[7] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX1 | TOUCH_ON, BUMP_ON,
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_HARD | TOUCH_ON, BUMP_ON,
 OCELEM_ON }, { 1, { { 0, 100, 1000 }, 15 }, 100 },
     },
     {

@@ -90,7 +90,7 @@ glabel EnBili_Update
 /* 014D8 809C0D78 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 014DC 809C0D7C 260501D4 */  addiu   $a1, $s0, 0x01D4           ## $a1 = 000001D4
 /* 014E0 809C0D80 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 014E4 809C0D84 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 014E4 809C0D84 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 014E8 809C0D88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014EC 809C0D8C 920A01E4 */  lbu     $t2, 0x01E4($s0)           ## 000001E4

@@ -23,9 +23,9 @@ const ActorInit En_Fd_Fire_InitVars = {
 };
 
 static ColliderCylinderInit D_80A0F030 = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x01, 0x08 }, { 0x0D840008, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
-    { 12, 46, 0, { 0, 0, 0 } },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x01, 0x08 }, { 0x0D840008, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON }, { 12, 46, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fd_Fire/func_80A0E4B0.s")

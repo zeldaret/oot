@@ -38,7 +38,7 @@ const ActorInit Bg_Toki_Swd_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 10, 70, 0, { 0 } }
 };
@@ -76,8 +76,8 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-    Collider_CylinderUpdate(thisx, &this->collider);
-    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    Collider_UpdateCylinder(thisx, &this->collider);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {

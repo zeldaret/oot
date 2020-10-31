@@ -175,7 +175,7 @@ glabel EnWood02_Update
 /* 00A00 80B3B970 00000000 */  nop
 /* 00A04 80B3B974 45020079 */  bc1fl   .L80B3BB5C                 
 /* 00A08 80B3B978 8630014C */  lh      $s0, 0x014C($s1)           ## 0000014C
-/* 00A0C 80B3B97C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00A0C 80B3B97C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00A10 80B3B980 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000158
 /* 00A14 80B3B984 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

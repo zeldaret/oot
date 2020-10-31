@@ -28,7 +28,7 @@ static ColliderCylinderInit D_80A39FE0 = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisItemInit  D_80A3A00C[2] = {
+static ColliderTrisElementInit  D_80A3A00C[2] = {
     {
         { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0xFFC1FFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
@@ -40,14 +40,14 @@ static ColliderTrisItemInit  D_80A3A00C[2] = {
 };
 
 static ColliderTrisInit D_80A3A084 = {
-    { COLTYPE_METAL_SHIELD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_METAL, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     2, D_80A3A00C,
 };
 
 static ColliderQuadInit D_80A3A094 = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, TOUCH_UNK7 | TOUCH_ON, BUMP_OFF,
-OCELEM_OFF }, { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, TOUCH_UNK7 | TOUCH_SFX_NORMAL | TOUCH_ON,
+BUMP_OFF, OCELEM_OFF }, { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/func_80A35310.s")

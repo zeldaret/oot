@@ -956,7 +956,7 @@ glabel EnTrap_Update
 /* 01114 80B25774 260501A0 */  addiu   $a1, $s0, 0x01A0           ## $a1 = 000001A0
 .L80B25778:
 /* 01118 80B25778 AFA50048 */  sw      $a1, 0x0048($sp)           
-/* 0111C 80B2577C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0111C 80B2577C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01120 80B25780 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01124 80B25784 8FA400AC */  lw      $a0, 0x00AC($sp)           

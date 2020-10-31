@@ -34,13 +34,13 @@ const ActorInit Bg_Dodoago_InitVars = {
 };
 
 static ColliderCylinderInit sColCylinderInit0 = {
-    { COLTYPE_UNK10, AT_OFF, AC_ALL | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_ALL | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 80, 30, 80, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sColCylinderInit1 = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 50, 60, 280, { 0, 0, 0 } },
 };
@@ -152,9 +152,9 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
     } else {
 
         if (Flags_GetEventChkInf(0xB0)) {
-            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
-            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
-            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[2]);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[0]);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[1]);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[2]);
             this->colliders[0].element.dim.pos.z += 0xC8;
             this->colliders[1].element.dim.pos.z += 0xD7;
             this->colliders[1].element.dim.pos.x += 0x5A;

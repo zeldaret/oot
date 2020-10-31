@@ -119,7 +119,7 @@ glabel EnDaiku_Init
 /* 0024C 809E2D7C 3C06809E */  lui     $a2, %hi(D_809E408C)       ## $a2 = 809E0000
 /* 00250 809E2D80 24C6408C */  addiu   $a2, $a2, %lo(D_809E408C)  ## $a2 = 809E408C
 /* 00254 809E2D84 24A54098 */  addiu   $a1, $a1, %lo(D_809E4098)  ## $a1 = 809E4098
-/* 00258 809E2D88 0C0187BF */  jal     CollisionCheck_SetInfo2DamageTable
+/* 00258 809E2D88 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 0025C 809E2D8C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 00260 809E2D90 3C03809E */  lui     $v1, %hi(D_809E40B8)       ## $v1 = 809E0000
 /* 00264 809E2D94 246340B8 */  addiu   $v1, $v1, %lo(D_809E40B8)  ## $v1 = 809E40B8

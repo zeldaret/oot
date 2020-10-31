@@ -171,7 +171,7 @@ glabel EnZf_Update
 /* 05468 80B494B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0546C 80B494BC 15810024 */  bne     $t4, $at, .L80B49550       
 /* 05470 80B494C0 26050418 */  addiu   $a1, $s0, 0x0418           ## $a1 = 00000418
-/* 05474 80B494C4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 05474 80B494C4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 05478 80B494C8 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 0547C 80B494CC C6060080 */  lwc1    $f6, 0x0080($s0)           ## 00000080

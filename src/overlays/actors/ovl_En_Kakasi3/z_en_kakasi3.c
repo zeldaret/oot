@@ -28,7 +28,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx);
 void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x00 },
       { 0xFFCFFFFF, 0x00, 0x00 },
@@ -425,7 +425,7 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 

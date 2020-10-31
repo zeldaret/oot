@@ -28,7 +28,7 @@ glabel EnDaikuKakariko_Update
 .L809E4FA0:
 /* 00C80 809E4FA0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00C84 809E4FA4 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 00C88 809E4FA8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00C88 809E4FA8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00C8C 809E4FAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00C90 809E4FB0 96080200 */  lhu     $t0, 0x0200($s0)           ## 00000200

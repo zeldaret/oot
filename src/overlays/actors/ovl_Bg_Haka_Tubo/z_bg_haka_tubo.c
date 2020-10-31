@@ -31,17 +31,17 @@ const ActorInit Bg_Haka_Tubo_InitVars = {
 };
 
 static ColliderCylinderInit sPotColliderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 25, 60, 30, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sFlamesColliderInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x20000000, 0x01, 0x04 },
       { 0x00000008, 0x00, 0x00 },
-      TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+      TOUCH_SFX_NONE | TOUCH_ON,
       BUMP_OFF,
       OCELEM_ON },
     { 60, 45, 235, { 0, 0, 0 } },
@@ -117,8 +117,8 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             this->actionFunc = BgHakaTubo_DropCollectible;
         }
     } else {
-        Collider_CylinderUpdate(&this->dyna.actor, &this->flamesCollider);
-        Collider_CylinderUpdate(&this->dyna.actor, &this->potCollider);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->flamesCollider);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->potCollider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->potCollider.base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->flamesCollider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->flamesCollider.base);

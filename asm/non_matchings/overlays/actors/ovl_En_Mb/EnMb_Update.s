@@ -51,7 +51,7 @@ glabel EnMb_Update
 /* 036E8 80AA9738 00000000 */  nop
 /* 036EC 80AA973C 26050368 */  addiu   $a1, $s0, 0x0368           ## $a1 = 00000368
 /* 036F0 80AA9740 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 036F4 80AA9744 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 036F4 80AA9744 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 036F8 80AA9748 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 036FC 80AA974C 921800AF */  lbu     $t8, 0x00AF($s0)           ## 000000AF

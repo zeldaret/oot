@@ -34,7 +34,7 @@ glabel EnDekunuts_Update
 /* 01348 809EA8A8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0134C 809EA8AC 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 01350 809EA8B0 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 01354 809EA8B4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01354 809EA8B4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01358 809EA8B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0135C 809EA8BC 920902D9 */  lbu     $t1, 0x02D9($s0)           ## 000002D9

@@ -23,15 +23,15 @@ const ActorInit En_Clear_Tag_InitVars = {
 };
 
 static ColliderCylinderInit D_809D5C6C = {
-    { COLTYPE_METAL_SHIELD, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER
-}, { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFDFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON }, {
-15, 30, 10, { 0, 0, 0 } },
+    { COLTYPE_METAL, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER
+}, { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFDFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON }, { 15, 30, 10, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_809D5C40 = {
     { COLTYPE_UNK3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFDFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
-    { 15, 30, 10, { 0, 0, 0 } },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFDFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON }, { 15, 30, 10, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Clear_Tag/func_809D35B0.s")

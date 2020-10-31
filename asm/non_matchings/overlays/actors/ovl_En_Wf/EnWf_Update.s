@@ -85,7 +85,7 @@ glabel EnWf_Update
 /* 03674 80B37324 5560000D */  bnel    $t3, $zero, .L80B3735C     
 /* 03678 80B37328 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
 .L80B3732C:
-/* 0367C 80B3732C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0367C 80B3732C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 03680 80B37330 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 03684 80B37334 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

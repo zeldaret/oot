@@ -26,7 +26,7 @@ glabel func_80A59F08
               
 /* 0031C 80A59F4C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00320 80A59F50 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00324 80A59F54 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00324 80A59F54 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00328 80A59F58 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 0032C 80A59F5C 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000
@@ -35,7 +35,7 @@ glabel func_80A59F08
 /* 00338 80A59F68 24C6B034 */  addiu   $a2, $a2, %lo(D_80A5B034)  ## $a2 = 80A5B034
 /* 0033C 80A59F6C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 00340 80A59F70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00344 80A59F74 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
+/* 00344 80A59F74 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 00348 80A59F78 E6040070 */  swc1    $f4, 0x0070($s0)           ## 00000070
 /* 0034C 80A59F7C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00350 80A59F80 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

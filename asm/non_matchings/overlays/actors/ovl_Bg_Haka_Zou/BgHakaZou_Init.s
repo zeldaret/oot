@@ -133,7 +133,7 @@ glabel BgHakaZou_Init
               
 /* 001AC 8088276C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001B0 80882770 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001B4 80882774 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 001B4 80882774 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 001B8 80882778 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 001BC 8088277C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

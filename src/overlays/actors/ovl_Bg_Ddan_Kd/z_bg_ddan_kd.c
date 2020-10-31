@@ -32,7 +32,7 @@ const ActorInit Bg_Ddan_Kd_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_ALL | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_ALL | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 245, 180, -400, { 0, 0, 0 } },
 };
@@ -107,7 +107,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
                 this->prevExplosivePos = explosive->posRot.pos;
             }
         }
-        Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }

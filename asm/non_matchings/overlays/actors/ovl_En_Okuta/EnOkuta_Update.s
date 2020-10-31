@@ -143,7 +143,7 @@ glabel EnOkuta_Update
 /* 01B74 80AC21D4 26050370 */  addiu   $a1, $s0, 0x0370           ## $a1 = 00000370
 .L80AC21D8:
 /* 01B78 80AC21D8 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 01B7C 80AC21DC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01B7C 80AC21DC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01B80 80AC21E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01B84 80AC21E4 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190

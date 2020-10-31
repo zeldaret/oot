@@ -100,7 +100,7 @@ glabel EnAnubiceFire_Update
 /* 008B8 809B2E58 44189000 */  mfc1    $t8, $f18                  
 /* 008BC 809B2E5C 1120000E */  beq     $t1, $zero, .L809B2E98     
 /* 008C0 809B2E60 A61801EC */  sh      $t8, 0x01EC($s0)           ## 000001EC
-/* 008C4 809B2E64 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 008C4 809B2E64 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 008C8 809B2E68 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 008CC 809B2E6C 8FA4004C */  lw      $a0, 0x004C($sp)           

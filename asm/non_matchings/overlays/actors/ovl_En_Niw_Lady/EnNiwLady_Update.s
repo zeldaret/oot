@@ -150,7 +150,7 @@ glabel EnNiwLady_Update
 /* 01420 80ABB060 260602B0 */  addiu   $a2, $s0, 0x02B0           ## $a2 = 000002B0
 /* 01424 80ABB064 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000002B0
 /* 01428 80ABB068 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 0142C 80ABB06C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0142C 80ABB06C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01430 80ABB070 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01434 80ABB074 8FA4003C */  lw      $a0, 0x003C($sp)           

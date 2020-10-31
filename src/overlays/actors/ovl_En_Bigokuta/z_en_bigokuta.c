@@ -22,9 +22,9 @@ const ActorInit En_Bigokuta_InitVars = {
     (ActorFunc)EnBigokuta_Draw,
 };
 
-static ColliderJntSphItemInit  D_809BF3D4[1] = {
+static ColliderJntSphElementInit  D_809BF3D4[1] = {
     {
-        { ELEMTYPE_UNK1, { 0x20000000, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX1 | TOUCH_ON, BUMP_ON,
+        { ELEMTYPE_UNK1, { 0x20000000, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_HARD | TOUCH_ON, BUMP_ON,
 OCELEM_ON }, { 1, { { 0, 45, -30 }, 75 }, 100 },
     },
 };
@@ -35,8 +35,8 @@ static ColliderJntSphInit D_809BF3F8 = {
 };
 
 static ColliderCylinderInit D_809BF408 = {
-    { COLTYPE_UNK12, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE1,
-COLSHAPE_CYLINDER }, { ELEMTYPE_UNK1, { 0x20000000, 0x00, 0x08 }, { 0xFFCFFFE7, 0x00, 0x00 }, TOUCH_SFX1 | TOUCH_ON,
+    { COLTYPE_HARD, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE1,
+COLSHAPE_CYLINDER }, { ELEMTYPE_UNK1, { 0x20000000, 0x00, 0x08 }, { 0xFFCFFFE7, 0x00, 0x00 }, TOUCH_SFX_HARD | TOUCH_ON,
 BUMP_ON, OCELEM_ON }, { 50, 100, 0, { 30, 0, 12 } },
 };
 */

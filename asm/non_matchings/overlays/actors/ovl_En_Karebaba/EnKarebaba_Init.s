@@ -43,7 +43,7 @@ glabel EnKarebaba_Init
               
 /* 00094 80A953E4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00098 80A953E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0009C 80A953EC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0009C 80A953EC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 000A0 80A953F0 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 000A4 80A953F4 260501F8 */  addiu   $a1, $s0, 0x01F8           ## $a1 = 000001F8
@@ -59,7 +59,7 @@ glabel EnKarebaba_Init
               
 /* 000C8 80A95418 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000CC 80A9541C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000D0 80A95420 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 000D0 80A95420 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 000D4 80A95424 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 000D8 80A95428 0C016C80 */  jal     DamageTable_Get
@@ -68,7 +68,7 @@ glabel EnKarebaba_Init
 /* 000E0 80A95430 3C0680A9 */  lui     $a2, %hi(D_80A96A48)       ## $a2 = 80A90000
 /* 000E4 80A95434 24C66A48 */  addiu   $a2, $a2, %lo(D_80A96A48)  ## $a2 = 80A96A48
 /* 000E8 80A95438 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 000EC 80A9543C 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
+/* 000EC 80A9543C 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 000F0 80A95440 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 000F4 80A95444 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 000F8 80A95448 AE0001F4 */  sw      $zero, 0x01F4($s0)         ## 000001F4

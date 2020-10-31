@@ -45,7 +45,7 @@ glabel EnFdFire_Update
 /* 006DC 80A0EB8C 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 006E0 80A0EB90 514B000F */  beql    $t2, $t3, .L80A0EBD0       
 /* 006E4 80A0EB94 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 006E8 80A0EB98 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 006E8 80A0EB98 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 006EC 80A0EB9C AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 006F0 80A0EBA0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

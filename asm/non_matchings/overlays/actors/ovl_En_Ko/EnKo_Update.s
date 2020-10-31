@@ -82,7 +82,7 @@ glabel EnKo_Update
 /* 02A74 80A99824 26060198 */  addiu   $a2, $s0, 0x0198           ## $a2 = 00000198
 /* 02A78 80A99828 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000198
 /* 02A7C 80A9982C AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 02A80 80A99830 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02A80 80A99830 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02A84 80A99834 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A88 80A99838 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

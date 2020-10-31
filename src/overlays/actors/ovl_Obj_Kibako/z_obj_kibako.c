@@ -39,8 +39,13 @@ const ActorInit Obj_Kibako_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0x00000002, 0x00, 0x01 }, { 0x4FC00748, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
+    { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0x00000002, 0x00, 0x01 },
+      { 0x4FC00748, 0x00, 0x00 },
+      TOUCH_SFX_NORMAL | TOUCH_ON,
+      BUMP_ON,
+      OCELEM_ON },
     { 12, 27, 0, { 0, 0, 0 } },
 };
 
@@ -75,7 +80,7 @@ void ObjKibako_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -86,7 +91,7 @@ void ObjKibako_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = -1.2f;
     this->actor.minVelocityY = -13.0f;
     ObjKibako_InitCollider(&this->actor, globalCtx);
-    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sCCInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCCInfoInit);
     ObjKibako_SetupIdle(this);
     // wooden box
     osSyncPrintf("(dungeon keep 木箱)(arg_data 0x%04x)\n", this->actor.params);
@@ -197,7 +202,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistFromLink < 600.0f) {
             ColliderCylinder* collider = &this->collider;
 
-            Collider_CylinderUpdate(&this->actor, collider);
+            Collider_UpdateCylinder(&this->actor, collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
             if (this->actor.xzDistFromLink < 180.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
@@ -257,7 +262,7 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
         ObjKibako_ApplyGravity(this);
         func_8002D7EC(thisx);
         func_8002E4B4(globalCtx, thisx, 19.0f, 20.0f, 0.0f, 5);
-        Collider_CylinderUpdate(thisx, collider);
+        Collider_UpdateCylinder(thisx, collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
     }

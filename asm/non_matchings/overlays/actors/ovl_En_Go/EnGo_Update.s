@@ -7,7 +7,7 @@ glabel EnGo_Update
 /* 028F0 80A40E60 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 028F4 80A40E64 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 028F8 80A40E68 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 028FC 80A40E6C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 028FC 80A40E6C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02900 80A40E70 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 02904 80A40E74 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

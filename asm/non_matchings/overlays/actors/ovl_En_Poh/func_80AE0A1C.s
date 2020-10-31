@@ -54,7 +54,7 @@ glabel func_80AE0A1C
 /* 02D8C 80AE0ADC AFAD0030 */  sw      $t5, 0x0030($sp)           
 /* 02D90 80AE0AE0 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 02D94 80AE0AE4 AFAC0034 */  sw      $t4, 0x0034($sp)           
-/* 02D98 80AE0AE8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02D98 80AE0AE8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02D9C 80AE0AEC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02DA0 80AE0AF0 920E02CD */  lbu     $t6, 0x02CD($s0)           ## 000002CD

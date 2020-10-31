@@ -29,8 +29,8 @@ const ActorInit En_Arrow_InitVars = {
 };
 
 static ColliderQuadInit D_809B4D50 = {
-    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK2, { 0x00000020, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_NEAREST |
+    { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK2, { 0x00000020, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NONE | TOUCH_NEAREST |
 TOUCH_ON, BUMP_OFF, OCELEM_OFF }, { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f,
 0.0f, 0.0f } } },
 };

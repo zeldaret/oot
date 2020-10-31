@@ -34,7 +34,7 @@ const ActorInit En_Ma2_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 18, 46, 0, { 0, 0, 0 } },
 };
@@ -215,7 +215,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
 
     switch (func_80AA1B58(this, globalCtx)) {
         case 1:
@@ -309,7 +309,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMa2* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80AA1CC0(this);

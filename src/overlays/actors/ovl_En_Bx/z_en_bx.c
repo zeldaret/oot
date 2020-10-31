@@ -31,13 +31,23 @@ const ActorInit En_Bx_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK6, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK1, { 0xFFCFFFFF, 0x03, 0x04 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
+    { ELEMTYPE_UNK1,
+      { 0xFFCFFFFF, 0x03, 0x04 },
+      { 0xFFCFFFFF, 0x01, 0x00 },
+      TOUCH_SFX_NORMAL | TOUCH_ON,
+      BUMP_ON,
+      OCELEM_OFF },
     { 60, 100, 100, { 0, 0, 0 } },
 };
 
 static ColliderQuadInit sQuadInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x03, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x03, 0x04 },
+      { 0x00000000, 0x00, 0x00 },
+      TOUCH_SFX_NORMAL | TOUCH_ON,
+      BUMP_OFF,
+      OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -109,8 +119,8 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 tmp32;
     s32 tmp33;
 
-    if ((thisx->xzDistFromLink <= 70.0f) || (this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
-        (this->colliderQuad.base.atFlags & AT_HIT)) {
+    if ((thisx->xzDistFromLink <= 70.0f) || (this->collider.base.atFlags & AT_HIT) ||
+        (this->collider.base.acFlags & AC_HIT) || (this->colliderQuad.base.atFlags & AT_HIT)) {
         if ((thisx->xzDistFromLink <= 70.0f) || (&player->actor == this->collider.base.at) ||
             (&player->actor == this->collider.base.ac) || (&player->actor == this->colliderQuad.base.at)) {
             tmp33 = player->invincibilityTimer & 0xFF;
@@ -161,7 +171,7 @@ void EnBx_Update(Actor* thisx, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(thisx, NA_SE_EN_BIRI_SPARK - SFX_FLAG);
     }
     thisx->posRot2.pos = thisx->posRot.pos;
-    Collider_CylinderUpdate(thisx, &this->collider);
+    Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (thisx->params & 0x80) {

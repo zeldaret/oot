@@ -134,7 +134,7 @@ glabel EnDivingGame_Update
 /* 01508 809EED78 2606034C */  addiu   $a2, $s0, 0x034C           ## $a2 = 0000034C
 /* 0150C 809EED7C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000034C
 /* 01510 809EED80 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 01514 809EED84 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01514 809EED84 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01518 809EED88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0151C 809EED8C 8FA4004C */  lw      $a0, 0x004C($sp)           

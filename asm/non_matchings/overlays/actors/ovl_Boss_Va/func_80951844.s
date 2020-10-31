@@ -169,7 +169,7 @@ glabel func_80951844
 /* 027B8 80951A78 2605028C */  addiu   $a1, $s0, 0x028C           ## $a1 = 0000028C
 .L80951A7C:
 /* 027BC 80951A7C AFA50040 */  sw      $a1, 0x0040($sp)           
-/* 027C0 80951A80 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 027C0 80951A80 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 027C4 80951A84 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 027C8 80951A88 8FA4004C */  lw      $a0, 0x004C($sp)           

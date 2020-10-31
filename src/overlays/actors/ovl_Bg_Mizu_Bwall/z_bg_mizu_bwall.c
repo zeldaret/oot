@@ -22,7 +22,7 @@ const ActorInit Bg_Mizu_Bwall_InitVars = {
     (ActorFunc)BgMizuBwall_Draw,
 };
 
-static ColliderTrisItemInit  D_8089D6C0[2] = {
+static ColliderTrisElementInit  D_8089D6C0[2] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { -40.0f, 0.0f, -40.0f }, { -40.0f, 0.0f, 40.0f }, { 40.0f, 0.0f, 40.0f } } },
@@ -34,11 +34,11 @@ static ColliderTrisItemInit  D_8089D6C0[2] = {
 };
 
 static ColliderTrisInit D_8089D738 = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     2, D_8089D6C0,
 };
 
-static ColliderTrisItemInit  D_8089D748[1] = {
+static ColliderTrisElementInit  D_8089D748[1] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 0.0f, 116.0f, 0.0f }, { 0.0f, 0.0f, 70.0f }, { 0.0f, 0.0f, -70.0f } } },
@@ -46,11 +46,11 @@ static ColliderTrisItemInit  D_8089D748[1] = {
 };
 
 static ColliderTrisInit D_8089D784 = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     1, D_8089D748,
 };
 
-static ColliderTrisItemInit  D_8089D794[2] = {
+static ColliderTrisElementInit  D_8089D794[2] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 0.0f, 120.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 60.0f, 0.0f, 0.0f } } },
@@ -62,11 +62,11 @@ static ColliderTrisItemInit  D_8089D794[2] = {
 };
 
 static ColliderTrisInit D_8089D80C = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     2, D_8089D794,
 };
 
-static ColliderTrisItemInit  D_8089D794[2] = {
+static ColliderTrisElementInit  D_8089D794[2] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 0.0f, 120.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 60.0f, 0.0f, 0.0f } } },
@@ -78,7 +78,7 @@ static ColliderTrisItemInit  D_8089D794[2] = {
 };
 
 static ColliderTrisInit D_8089D81C = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     2, D_8089D794,
 };
 */

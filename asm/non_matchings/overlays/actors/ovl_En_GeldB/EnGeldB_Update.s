@@ -50,7 +50,7 @@ glabel EnGeldB_Update
 /* 0423C 80A3954C 26050320 */  addiu   $a1, $s0, 0x0320           ## $a1 = 00000320
 .L80A39550:
 /* 04240 80A39550 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 04244 80A39554 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 04244 80A39554 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 04248 80A39558 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0424C 80A3955C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

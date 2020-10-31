@@ -135,7 +135,7 @@ glabel EnDntJiji_Update
 /* 012D8 809F2DB8 2606025C */  addiu   $a2, $s0, 0x025C           ## $a2 = 0000025C
 /* 012DC 809F2DBC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000025C
 /* 012E0 809F2DC0 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 012E4 809F2DC4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 012E4 809F2DC4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 012E8 809F2DC8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012EC 809F2DCC 9208023C */  lbu     $t0, 0x023C($s0)           ## 0000023C

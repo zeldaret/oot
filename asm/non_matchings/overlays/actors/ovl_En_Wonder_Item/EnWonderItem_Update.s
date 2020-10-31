@@ -32,7 +32,7 @@ glabel EnWonderItem_Update
 .L80B38C58:
 /* 00BF8 80B38C58 26060180 */  addiu   $a2, $s0, 0x0180           ## $a2 = 00000180
 /* 00BFC 80B38C5C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000180
-/* 00C00 80B38C60 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00C00 80B38C60 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00C04 80B38C64 AFA60050 */  sw      $a2, 0x0050($sp)           
 /* 00C08 80B38C68 8FA40064 */  lw      $a0, 0x0064($sp)           

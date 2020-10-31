@@ -62,7 +62,7 @@ glabel EnCs_Update
 .L809E24F8:
 /* 00C48 809E24F8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00C4C 809E24FC AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 00C50 809E2500 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00C50 809E2500 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00C54 809E2504 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00C58 809E2508 8FA40034 */  lw      $a0, 0x0034($sp)           

@@ -23,7 +23,7 @@ glabel func_80B03400
 /* 011DC 80B0344C 24860394 */  addiu   $a2, $a0, 0x0394           ## $a2 = 00000394
 /* 011E0 80B03450 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000394
 /* 011E4 80B03454 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 011E8 80B03458 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 011E8 80B03458 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 011EC 80B0345C AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 011F0 80B03460 8FA40024 */  lw      $a0, 0x0024($sp)           
@@ -37,7 +37,7 @@ glabel func_80B03400
 /* 0120C 80B0347C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B03480:
 /* 01210 80B03480 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 01214 80B03484 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01214 80B03484 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01218 80B03488 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 0121C 80B0348C 8FA40024 */  lw      $a0, 0x0024($sp)           

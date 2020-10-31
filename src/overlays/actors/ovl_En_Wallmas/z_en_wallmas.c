@@ -98,7 +98,7 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->switchFlag = (u8)(thisx->params >> 0x8);
     thisx->params = thisx->params & 0xFF;
 
@@ -531,7 +531,7 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actionFunc != EnWallmas_Die) && (this->actionFunc != EnWallmas_Drop)) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 
         if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & 1) != 0 &&

@@ -38,7 +38,7 @@ ColliderTrisElementInit D_808BF300[2] = {
         { ELEMTYPE_UNK0,
           { 0x20000000, 0x00, 0x04 },
           { 0x00000004, 0x00, 0x00 },
-          TOUCH_SFX2 | TOUCH_ON,
+          TOUCH_SFX_WOOD | TOUCH_ON,
           BUMP_ON,
           OCELEM_OFF },
         { { { 220.0f, -10.0f, 0.0f }, { 220.0f, 10.0f, 0.0f }, { -220.0f, 10.0f, 0.0f } } },
@@ -47,7 +47,7 @@ ColliderTrisElementInit D_808BF300[2] = {
         { ELEMTYPE_UNK0,
           { 0x20000000, 0x00, 0x04 },
           { 0x00000004, 0x00, 0x00 },
-          TOUCH_SFX2 | TOUCH_ON,
+          TOUCH_SFX_WOOD | TOUCH_ON,
           BUMP_ON,
           OCELEM_OFF },
         { { { 16.0f, 0.0f, 0.0f }, { 16.0f, 135.0f, 0.0f }, { -16.0f, 135.0f, 0.0f } } },
@@ -55,7 +55,7 @@ ColliderTrisElementInit D_808BF300[2] = {
 };
 
 ColliderTrisInit D_808BF378 = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     D_808BF300,
 };

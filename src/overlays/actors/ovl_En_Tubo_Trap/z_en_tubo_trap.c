@@ -22,8 +22,13 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x04 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_SFX_NORMAL | TOUCH_ON,
+      BUMP_ON,
+      OCELEM_OFF },
     { 9, 23, 0, { 0 } },
 };
 
@@ -273,7 +278,7 @@ void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f, 0x1D);
     Actor_SetHeight(&this->actor, 0.0f);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }

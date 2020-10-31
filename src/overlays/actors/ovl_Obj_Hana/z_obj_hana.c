@@ -28,7 +28,7 @@ const ActorInit Obj_Hana_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 8, 10, 0, { 0, 0, 0 } },
 };
@@ -67,10 +67,10 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (params->radius >= 0) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         this->collider.element.dim.radius = params->radius;
         this->collider.element.dim.height = params->height;
-        CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
     if (type == 2 && (gSaveContext.eventChkInf[4] & 1)) {

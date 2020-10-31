@@ -31,7 +31,7 @@ glabel BgIceTurara_Init
               
 /* 00064 80891F84 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00068 80891F88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0006C 80891F8C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0006C 80891F8C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00070 80891F90 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00074 80891F94 8FA40034 */  lw      $a0, 0x0034($sp)           

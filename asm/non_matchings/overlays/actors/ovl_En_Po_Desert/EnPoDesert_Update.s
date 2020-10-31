@@ -35,7 +35,7 @@ glabel EnPoDesert_Update
 /* 007D8 80AD3488 26060238 */  addiu   $a2, $s0, 0x0238           ## $a2 = 00000238
 /* 007DC 80AD348C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000238
 /* 007E0 80AD3490 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 007E4 80AD3494 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 007E4 80AD3494 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 007E8 80AD3498 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 007EC 80AD349C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

@@ -34,7 +34,7 @@ const ActorInit En_A_Obj_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x39, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, 0x00, 0x39, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 25, 60, 0, { 0, 0, 0 } },
 };
@@ -312,7 +312,7 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }

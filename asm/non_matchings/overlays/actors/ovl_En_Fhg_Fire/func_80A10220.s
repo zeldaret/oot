@@ -883,7 +883,7 @@ glabel func_80A10220
 /* 01BC4 80A10E24 8FBF0044 */  lw      $ra, 0x0044($sp)           
 .L80A10E28:
 /* 01BC8 80A10E28 260501B0 */  addiu   $a1, $s0, 0x01B0           ## $a1 = 000001B0
-/* 01BCC 80A10E2C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01BCC 80A10E2C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01BD0 80A10E30 AFA50050 */  sw      $a1, 0x0050($sp)           
 /* 01BD4 80A10E34 3C0480A1 */  lui     $a0, %hi(D_80A118CC)       ## $a0 = 80A10000

@@ -43,10 +43,10 @@ glabel EnShopnuts_Init
 /* 00094 80AFA7B4 3C0680B0 */  lui     $a2, %hi(D_80AFB50C)       ## $a2 = 80B00000
 /* 00098 80AFA7B8 24C6B50C */  addiu   $a2, $a2, %lo(D_80AFB50C)  ## $a2 = 80AFB50C
 /* 0009C 80AFA7BC 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 000A0 80AFA7C0 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable
+/* 000A0 80AFA7C0 0C0187B5 */  jal     CollisionCheck_SetInfo
 /* 000A4 80AFA7C4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000A8 80AFA7C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000AC 80AFA7CC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 000AC 80AFA7CC 0C0189B7 */  jal     Collider_UpdateCylinder
 
 /* 000B0 80AFA7D0 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000B4 80AFA7D4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

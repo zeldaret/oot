@@ -819,7 +819,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
     actor->uncullZoneDownward = 700.0f;
-    CollisionCheck_InfoInit(&actor->colChkInfo);
+    CollisionCheck_InitInfo(&actor->colChkInfo);
     actor->floorPolySource = 0x32;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
     if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {

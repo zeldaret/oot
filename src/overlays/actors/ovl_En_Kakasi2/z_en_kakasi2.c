@@ -12,7 +12,7 @@
 #define THIS ((EnKakasi2*)thisx)
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x00 },
       { 0xFFCFFFFF, 0x00, 0x00 },
@@ -204,7 +204,7 @@ void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (this->actor.shape.unk_08 == 0.0f) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
     }

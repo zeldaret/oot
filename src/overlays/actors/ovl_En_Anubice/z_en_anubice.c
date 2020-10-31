@@ -29,7 +29,7 @@ const ActorInit En_Anubice_InitVars = {
 };
 
 static ColliderCylinderInit D_809B22D0 = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 29, 103, 0, { 0, 0, 0 } },
 };

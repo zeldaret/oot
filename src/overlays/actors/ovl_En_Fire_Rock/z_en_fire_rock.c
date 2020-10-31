@@ -23,15 +23,15 @@ const ActorInit En_Fire_Rock_InitVars = {
 };
 
 static ColliderCylinderInit D_80A12CCC = {
-    { COLTYPE_UNK12, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x01, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
-    { 30, 30, -10, { 0, 0, 0 } },
+    { COLTYPE_HARD, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x01, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_OFF }, { 30, 30, -10, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_80A12CA0 = {
-    { COLTYPE_UNK12, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x09, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
-    { 30, 30, -10, { 0, 0, 0 } },
+    { COLTYPE_HARD, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x09, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_OFF }, { 30, 30, -10, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/EnFireRock_Init.s")

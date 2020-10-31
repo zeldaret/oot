@@ -39,13 +39,18 @@ extern Gfx D_060006B0[];
 
 static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { ELEMTYPE_UNK0, { 0x20000000, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_ON },
+        { ELEMTYPE_UNK0,
+          { 0x20000000, 0x00, 0x04 },
+          { 0x00000000, 0x00, 0x00 },
+          TOUCH_SFX_NORMAL | TOUCH_ON,
+          BUMP_OFF,
+          OCELEM_ON },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -88,7 +93,7 @@ void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808979C0(this, globalCtx);
     this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
-    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 595.0f, &ActorShadow_DrawFunc_Circle, 9.0f);
     this->actor.shape.unk_14 = 0x80;
     func_80897B1C(this);

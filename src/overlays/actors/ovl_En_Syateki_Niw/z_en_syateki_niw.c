@@ -656,7 +656,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (i != 0) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }

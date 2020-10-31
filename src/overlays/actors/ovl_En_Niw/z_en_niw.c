@@ -80,7 +80,7 @@ static ColliderCylinderInit sCylinderInit1 = {
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 15, 25, 4, { 0, 0, 0 } },
 };
@@ -1071,7 +1071,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_2A8 == 0) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
 
         if (thisx->params != 0xA && thisx->params != 0xD && thisx->params != 0xE && thisx->params != 4) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);

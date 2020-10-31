@@ -25,7 +25,7 @@ glabel EnOwl_Update
 /* 02790 80ACC6B0 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 02794 80ACC6B4 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 02798 80ACC6B8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 0279C 80ACC6BC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0279C 80ACC6BC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 027A0 80ACC6C0 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 027A4 80ACC6C4 8FA40044 */  lw      $a0, 0x0044($sp)           

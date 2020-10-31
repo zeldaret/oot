@@ -258,7 +258,7 @@ glabel EnBw_Update
 /* 02534 809D0C14 26080024 */  addiu   $t0, $s0, 0x0024           ## $t0 = 00000024
 /* 02538 809D0C18 AFA80040 */  sw      $t0, 0x0040($sp)           
 /* 0253C 809D0C1C AFA50038 */  sw      $a1, 0x0038($sp)           
-/* 02540 809D0C20 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02540 809D0C20 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02544 809D0C24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02548 809D0C28 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -302,7 +302,7 @@ glabel EnBw_Update
 /* 025D0 809D0CB0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 025D4 809D0CB4 45020008 */  bc1fl   .L809D0CD8                 
 /* 025D8 809D0CB8 8FAF0040 */  lw      $t7, 0x0040($sp)           
-/* 025DC 809D0CBC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 025DC 809D0CBC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 025E0 809D0CC0 AFA60038 */  sw      $a2, 0x0038($sp)           
 /* 025E4 809D0CC4 8FA60038 */  lw      $a2, 0x0038($sp)           

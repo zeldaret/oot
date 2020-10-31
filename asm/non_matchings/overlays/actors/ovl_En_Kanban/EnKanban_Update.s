@@ -559,7 +559,7 @@ glabel L80A922CC
 /* 009AC 80A9294C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001A0
 /* 009B0 80A92950 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 009B4 80A92954 E626003C */  swc1    $f6, 0x003C($s1)           ## 0000003C
-/* 009B8 80A92958 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 009B8 80A92958 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 009BC 80A9295C AE2A0040 */  sw      $t2, 0x0040($s1)           ## 00000040
 /* 009C0 80A92960 8FA40104 */  lw      $a0, 0x0104($sp)           

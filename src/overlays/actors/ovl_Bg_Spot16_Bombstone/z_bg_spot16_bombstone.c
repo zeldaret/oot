@@ -44,13 +44,13 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    { COLTYPE_HARD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 190, 80, 0, { 10, 0, 50 } },
 };

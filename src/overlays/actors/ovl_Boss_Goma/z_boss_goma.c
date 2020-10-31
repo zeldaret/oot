@@ -22,57 +22,70 @@ const ActorInit Boss_Goma_InitVars = {
     (ActorFunc)BossGoma_Draw,
 };
 
-static ColliderJntSphItemInit  D_8091AE60[13] = {
+static ColliderJntSphElementInit  D_8091AE60[13] = {
     {
-        { ELEMTYPE_UNK3, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK3, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 5, { { 0, 0, 1200 }, 20 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 11, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 12, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 13, { { 0, 0, 0 }, 12 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 14, { { 0, 0, 0 }, 25 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 22, { { 0, 0, 0 }, 30 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 23, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 29, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 57, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 64, { { 0, 0, 0 }, 20 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 74, { { 0, 0, 0 }, 30 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 75, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
-        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON
+        { ELEMTYPE_UNK2, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_ON
 }, { 81, { { 0, 0, 0 }, 15 }, 100 },
     },
 };

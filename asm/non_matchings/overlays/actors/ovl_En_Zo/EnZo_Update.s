@@ -107,7 +107,7 @@ glabel EnZo_Update
 /* 01D54 80B61F74 00000000 */  nop
 /* 01D58 80B61F78 13000009 */  beq     $t8, $zero, .L80B61FA0     
 /* 01D5C 80B61F7C 00000000 */  nop
-/* 01D60 80B61F80 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01D60 80B61F80 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01D64 80B61F84 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01D68 80B61F88 8FA4004C */  lw      $a0, 0x004C($sp)           

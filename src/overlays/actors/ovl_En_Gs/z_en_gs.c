@@ -39,7 +39,7 @@ const ActorInit En_Gs_InitVars = {
 };
 
 static ColliderCylinderInit D_80A4FDA0 = {
-    { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HARD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 21, 48, 0, { 0, 0, 0 } },
 };
@@ -60,7 +60,7 @@ void EnGs_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitCylinder(globalCtx, &this->unk_14C);
     Collider_SetCylinder(globalCtx, &this->unk_14C, thisx, &D_80A4FDA0);
-    CollisionCheck_SetInfo2DamageTable(&thisx->colChkInfo, &D_80A4FDD8, &D_80A4FDCC);
+    CollisionCheck_SetInfo2(&thisx->colChkInfo, &D_80A4FDD8, &D_80A4FDCC);
 
     thisx->unk_1F = 6;
     this->unk_1D8 = thisx->posRot.pos;
@@ -513,7 +513,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
                     break;
             }
         }
-        Collider_CylinderUpdate(&this->actor, &this->unk_14C);
+        Collider_UpdateCylinder(&this->actor, &this->unk_14C);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_14C.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_14C.base);
     }

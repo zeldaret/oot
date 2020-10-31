@@ -46,7 +46,7 @@ glabel EnVali_Update
 /* 014B4 80B27B64 11E20028 */  beq     $t7, $v0, .L80B27C08       
 /* 014B8 80B27B68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014BC 80B27B6C 260503FC */  addiu   $a1, $s0, 0x03FC           ## $a1 = 000003FC
-/* 014C0 80B27B70 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 014C0 80B27B70 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 014C4 80B27B74 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 014C8 80B27B78 8E080190 */  lw      $t0, 0x0190($s0)           ## 00000190

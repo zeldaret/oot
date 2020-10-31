@@ -61,7 +61,7 @@ glabel func_80B025C0
 /* 0042C 80B0269C 3C0680B0 */  lui     $a2, %hi(D_80B0449C)       ## $a2 = 80B00000
 /* 00430 80B026A0 24C6449C */  addiu   $a2, $a2, %lo(D_80B0449C)  ## $a2 = 80B0449C
 /* 00434 80B026A4 26640098 */  addiu   $a0, $s3, 0x0098           ## $a0 = 00000098
-/* 00438 80B026A8 0C0187BF */  jal     CollisionCheck_SetInfo2DamageTable              
+/* 00438 80B026A8 0C0187BF */  jal     CollisionCheck_SetInfo2              
 /* 0043C 80B026AC 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 00440 80B026B0 267004C4 */  addiu   $s0, $s3, 0x04C4           ## $s0 = 000004C4
 /* 00444 80B026B4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000004C4

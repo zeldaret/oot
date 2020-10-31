@@ -40,7 +40,7 @@ glabel EnHorseZelda_Update
 /* 006C4 80A6DF94 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000001FC
 /* 006C8 80A6DF98 E610003C */  swc1    $f16, 0x003C($s0)          ## 0000003C
 /* 006CC 80A6DF9C AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 006D0 80A6DFA0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 006D0 80A6DFA0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 006D4 80A6DFA4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 006D8 80A6DFA8 8FA4003C */  lw      $a0, 0x003C($sp)           

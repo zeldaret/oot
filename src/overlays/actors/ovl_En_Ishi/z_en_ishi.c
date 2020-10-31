@@ -68,12 +68,12 @@ static EnIshiEffectSpawnFunc sDustSpawnFuncs[] = { EnIshi_SpawnDustSmall, EnIshi
 
 static ColliderCylinderInit sCylinderInits[] = {
     {
-        { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+        { COLTYPE_HARD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
         { 10, 18, -2, { 0, 0, 0 } },
     },
     {
-        { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+        { COLTYPE_HARD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 55, 70, 0, { 0, 0, 0 } },
     }
@@ -86,7 +86,7 @@ void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInits[this->actor.params & 1]);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
@@ -303,7 +303,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->actor.shape.unk_08 = D_80A7FA20[type];
     if (!((this->actor.params >> 5) & 1) && !EnIshi_SnapToFloor(this, globalCtx, 0.0f)) {
         Actor_Kill(&this->actor);
@@ -339,7 +339,7 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
     } else if (this->actor.xzDistFromLink < 600.0f) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         this->collider.base.acFlags &= ~AC_HIT;
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (this->actor.xzDistFromLink < 400.0f) {
@@ -441,7 +441,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x += sRotSpeedX;
     this->actor.shape.rot.y += sRotSpeedY;
     func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 

@@ -501,7 +501,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 
     if ((this->actor.params == ITEM00_SHIELD_DEKU) || (this->actor.params == ITEM00_SHIELD_HYLIAN) ||

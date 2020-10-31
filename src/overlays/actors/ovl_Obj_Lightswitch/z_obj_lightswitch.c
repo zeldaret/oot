@@ -62,7 +62,7 @@ static ColliderJntSphElementInit sColliderJntSphElementInit[] = {
     },
 };
 static ColliderJntSphInit sColliderJntSphInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sColliderJntSphElementInit,
 };
@@ -189,7 +189,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     ObjLightswitch_InitCollider(this, globalCtx);
-    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
     if (removeSelf) {
         Actor_Kill(&this->actor);
     }

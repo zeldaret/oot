@@ -946,7 +946,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                  Vec3f* newBase) {
     if (weaponInfo->active == 0) {
         if (collider != NULL) {
-            Collider_QuadResetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -956,7 +956,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
                (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
         if (collider != NULL) {
-            Collider_QuadResetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         return 0;
     } else {
@@ -973,10 +973,10 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
 
 void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
     static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_WOODEN_SHIELD,
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_METAL_SHIELD,
+        COLTYPE_METAL,
+        COLTYPE_WOOD,
+        COLTYPE_METAL,
+        COLTYPE_METAL,
     };
 
     if (this->stateFlags1 & 0x400000) {

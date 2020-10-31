@@ -80,7 +80,7 @@ glabel EnHorseLinkChild_Update
 /* 017E4 80A6ABB4 A20C01EC */  sb      $t4, 0x01EC($s0)           ## 000001EC
 /* 017E8 80A6ABB8 A20001EC */  sb      $zero, 0x01EC($s0)         ## 000001EC
 .L80A6ABBC:
-/* 017EC 80A6ABBC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 017EC 80A6ABBC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 017F0 80A6ABC0 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 017F4 80A6ABC4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

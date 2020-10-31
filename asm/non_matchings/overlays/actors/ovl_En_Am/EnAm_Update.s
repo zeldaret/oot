@@ -172,12 +172,12 @@ glabel EnAm_Update
 /* 01D34 809AFC54 26510274 */  addiu   $s1, $s2, 0x0274           ## $s1 = 00000274
 .L809AFC58:
 /* 01D38 809AFC58 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000274
-/* 01D3C 809AFC5C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01D3C 809AFC5C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01D40 809AFC60 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01D44 809AFC64 265002C0 */  addiu   $s0, $s2, 0x02C0           ## $s0 = 000002C0
 /* 01D48 809AFC68 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000002C0
-/* 01D4C 809AFC6C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01D4C 809AFC6C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01D50 809AFC70 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01D54 809AFC74 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

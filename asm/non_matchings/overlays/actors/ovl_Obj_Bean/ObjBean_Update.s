@@ -56,7 +56,7 @@ glabel ObjBean_Update
 /* 020E4 80B90B64 44093000 */  mfc1    $t1, $f6                   
 /* 020E8 80B90B68 00000000 */  nop
 /* 020EC 80B90B6C A60901A8 */  sh      $t1, 0x01A8($s0)           ## 000001A8
-/* 020F0 80B90B70 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 020F0 80B90B70 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 020F4 80B90B74 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 020F8 80B90B78 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

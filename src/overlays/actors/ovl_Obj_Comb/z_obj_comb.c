@@ -41,7 +41,7 @@ ColliderJntSphElementInit sJntSphElementsInit[1] = {
 };
 
 ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -167,7 +167,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         this->collider.base.acFlags &= ~AC_HIT;
         dFlags = this->collider.elements[0].info.acHitInfo->toucher.dFlags;
-        if(dFlags & 0x4001F866) {
+        if (dFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
             ObjComb_Break(this, globalCtx);

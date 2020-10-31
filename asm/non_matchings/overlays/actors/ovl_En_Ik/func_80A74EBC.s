@@ -66,7 +66,7 @@ glabel func_80A74EBC
 /* 00C98 80A74FA8 0C02A800 */  jal     func_800AA000              
 /* 00C9C 80A74FAC 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
 /* 00CA0 80A74FB0 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00CA4 80A74FB4 0C018B35 */  jal     CollisionCheck_ShieldParticles              
+/* 00CA4 80A74FB4 0C018B35 */  jal     CollisionCheck_SpawnShieldParticles              
 /* 00CA8 80A74FB8 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 00CAC 80A74FBC C6000164 */  lwc1    $f0, 0x0164($s0)           ## 00000164
 .L80A74FC0:

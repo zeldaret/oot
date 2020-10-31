@@ -32,7 +32,7 @@ const ActorInit Obj_Bombiwa_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK12, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HARD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 55, 70, 0, { 0 } },
 };
@@ -62,7 +62,7 @@ void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -71,7 +71,7 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((Flags_GetSwitch(globalCtx, thisx->params & 0x3F) != 0)) {
         Actor_Kill(thisx);
     } else {
-        CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, NULL, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
         if (thisx->shape.rot.y == 0) {
             s16 rand = (s16)Math_Rand_ZeroFloat(65536.0f);
             thisx->posRot.rot.y = rand;

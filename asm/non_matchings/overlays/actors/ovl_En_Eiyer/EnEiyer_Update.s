@@ -87,7 +87,7 @@ glabel EnEiyer_Update
 /* 01700 80A016A0 1483001F */  bne     $a0, $v1, .L80A01720       
 /* 01704 80A016A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80A016A8:
-/* 01708 80A016A8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01708 80A016A8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 0170C 80A016AC AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01710 80A016B0 92090298 */  lbu     $t1, 0x0298($s0)           ## 00000298

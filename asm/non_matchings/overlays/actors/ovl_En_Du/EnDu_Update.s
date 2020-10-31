@@ -7,7 +7,7 @@ glabel EnDu_Update
 /* 01100 809FED30 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01104 809FED34 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 01108 809FED38 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 0110C 809FED3C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0110C 809FED3C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01110 809FED40 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01114 809FED44 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

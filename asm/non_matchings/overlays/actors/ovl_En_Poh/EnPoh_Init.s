@@ -64,7 +64,7 @@ glabel EnPoh_Init
 /* 000E8 80ADDE38 3C0680AE */  lui     $a2, %hi(D_80AE1AD4)       ## $a2 = 80AE0000
 /* 000EC 80ADDE3C 24C61AD4 */  addiu   $a2, $a2, %lo(D_80AE1AD4)  ## $a2 = 80AE1AD4
 /* 000F0 80ADDE40 24A51ADC */  addiu   $a1, $a1, %lo(D_80AE1ADC)  ## $a1 = 80AE1ADC
-/* 000F4 80ADDE44 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
+/* 000F4 80ADDE44 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 000F8 80ADDE48 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 000FC 80ADDE4C 240F0020 */  addiu   $t7, $zero, 0x0020         ## $t7 = 00000020
 /* 00100 80ADDE50 A2000194 */  sb      $zero, 0x0194($s0)         ## 00000194

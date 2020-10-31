@@ -53,7 +53,7 @@ static ColliderCylinderInit sCylinderInit = {
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x08, 0x08 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_ON,
+      TOUCH_SFX_NORMAL | TOUCH_ON,
       BUMP_HOOKABLE | BUMP_ON,
       OCELEM_ON },
     { 20, 40, 0, { 0, 0, 0 } },
@@ -615,7 +615,7 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.posRot2.pos.y += 30.0f;
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if ((this->actor.shape.unk_08 >= -700.0f) && (this->actor.colChkInfo.health > 0) &&
         (this->actionfunc != func_80AE56E0)) {

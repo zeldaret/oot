@@ -159,7 +159,7 @@ void func_80AEAC10(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad[4];
     ColliderCylinder* collider = &this->collider;
 
-    Collider_CylinderUpdate(&this->actor, collider);
+    Collider_UpdateCylinder(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
 }
 
@@ -168,7 +168,7 @@ void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider2 = &this->collider2;
     s32 pad[3];
 
-    Collider_CylinderUpdate(thisx, collider2);
+    Collider_UpdateCylinder(thisx, collider2);
     if (this->unk_34C != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
     } else if (thisx->xzDistFromLink > 32.0f) {
@@ -180,7 +180,7 @@ void func_80AEACDC(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad[4];
     ColliderCylinder* collider2 = &this->collider2;
 
-    Collider_CylinderUpdate(&this->actor, collider2);
+    Collider_UpdateCylinder(&this->actor, collider2);
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, collider2);
 }
 

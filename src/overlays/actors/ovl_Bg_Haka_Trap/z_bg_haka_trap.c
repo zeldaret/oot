@@ -43,9 +43,13 @@ const ActorInit Bg_Haka_Trap_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL_SHIELD, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2,
-      COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_ON },
+    { COLTYPE_METAL, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x04 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_SFX_NORMAL | TOUCH_ON,
+      BUMP_ON,
+      OCELEM_ON },
     { 30, 90, 0, { 0, 0, 0 } },
 };
 
@@ -61,7 +65,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     sTrisElementsInit,
 };
@@ -139,7 +143,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->colliderCylinder.element.dim.height = 115;
 
                 this->colliderCylinder.element.info.toucherFlags = this->colliderCylinder.element.info.toucherFlags;
-                this->colliderCylinder.element.info.toucherFlags |= TOUCH_SFX2;
+                this->colliderCylinder.element.info.toucherFlags |= TOUCH_SFX_WOOD;
 
                 this->actionFunc = func_808801B8;
             }
@@ -152,7 +156,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->uncullZoneScale = 500.0f;
     }
 
-    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, 0, &sColChkInfoInit);
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {

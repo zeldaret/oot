@@ -56,7 +56,7 @@ glabel func_80A9F9B4
 /* 00A78 80A9FA58 44089000 */  mfc1    $t0, $f18                  
 /* 00A7C 80A9FA5C 00000000 */  nop
 /* 00A80 80A9FA60 A608018C */  sh      $t0, 0x018C($s0)           ## 0000018C
-/* 00A84 80A9FA64 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00A84 80A9FA64 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00A88 80A9FA68 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 00A8C 80A9FA6C 8FA40034 */  lw      $a0, 0x0034($sp)           

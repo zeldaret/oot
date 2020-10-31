@@ -15,7 +15,7 @@ void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Update(Actor* thisx, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 40, 10, 0, { 0 } },
 };
@@ -42,7 +42,7 @@ void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.params = 0x0D05;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, 0, &sColChkInfoInit);
 }
 
 void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -55,6 +55,6 @@ void EnIt_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnIt* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }

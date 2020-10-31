@@ -15,7 +15,7 @@ glabel EnToryo_Update
 /* 00820 80B20990 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 00824 80B20994 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00828 80B20998 AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 0082C 80B2099C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0082C 80B2099C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00830 80B209A0 AFAF002C */  sw      $t7, 0x002C($sp)           
 /* 00834 80B209A4 8FA4003C */  lw      $a0, 0x003C($sp)           

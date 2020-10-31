@@ -42,7 +42,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
         { ELEMTYPE_UNK0,
           { 0x00000008, 0x00, 0x08 },
           { 0x00000000, 0x00, 0x00 },
-          TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+          TOUCH_SFX_NONE | TOUCH_ON,
           BUMP_OFF,
           OCELEM_OFF },
         { 0, { { 0, 0, 0 }, 0 }, 100 },
@@ -308,7 +308,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(thisx, 20.0f);
 
     if (thisx->params <= BOMB_BODY) {
-        Collider_CylinderUpdate(thisx, &this->bombCollider);
+        Collider_UpdateCylinder(thisx, &this->bombCollider);
 
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
         if (!Actor_HasParent(thisx, globalCtx) && this->bumpOn) {

@@ -6,7 +6,7 @@ glabel func_80A3402C
 /* 0146C 80A3403C 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01470 80A34040 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01474 80A34044 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 01478 80A34048 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01478 80A34048 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 0147C 80A3404C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01480 80A34050 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

@@ -32,12 +32,11 @@ const ActorInit En_Yukabyun_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1,
-      COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x04 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX1 | TOUCH_ON,
+      TOUCH_SFX_HARD | TOUCH_ON,
       BUMP_ON,
       OCELEM_ON },
     { 28, 8, 0, { 0, 0, 0 } },
@@ -128,7 +127,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
 
         this->actor.flags |= 0x1000000;
 

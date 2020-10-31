@@ -132,7 +132,7 @@ glabel EnPeehat_Update
 /* 02AEC 80AD1F8C 26720300 */  addiu   $s2, $s3, 0x0300           ## $s2 = 00000300
 .L80AD1F90:
 /* 02AF0 80AD1F90 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000300
-/* 02AF4 80AD1F94 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02AF4 80AD1F94 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02AF8 80AD1F98 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 02AFC 80AD1F9C 926A00AF */  lbu     $t2, 0x00AF($s3)           ## 000000AF

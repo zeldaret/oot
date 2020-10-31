@@ -4,7 +4,7 @@ glabel func_80B033BC
 /* 01154 80B033C4 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 01158 80B033C8 248602FC */  addiu   $a2, $a0, 0x02FC           ## $a2 = 000002FC
 /* 0115C 80B033CC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000002FC
-/* 01160 80B033D0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01160 80B033D0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01164 80B033D4 AFA6001C */  sw      $a2, 0x001C($sp)           
 /* 01168 80B033D8 8FA40024 */  lw      $a0, 0x0024($sp)           

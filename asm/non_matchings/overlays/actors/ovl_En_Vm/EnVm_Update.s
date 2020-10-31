@@ -67,7 +67,7 @@ glabel EnVm_Update
 /* 00DC4 80B2E224 26050268 */  addiu   $a1, $s0, 0x0268           ## $a1 = 00000268
 .L80B2E228:
 /* 00DC8 80B2E228 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00DCC 80B2E22C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00DCC 80B2E22C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00DD0 80B2E230 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DD4 80B2E234 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

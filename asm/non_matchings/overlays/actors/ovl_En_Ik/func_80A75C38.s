@@ -238,7 +238,7 @@ glabel func_80A75C38
               
 /* 01C6C 80A75F7C 240539BE */  addiu   $a1, $zero, 0x39BE         ## $a1 = 000039BE
 /* 01C70 80A75F80 8FA40054 */  lw      $a0, 0x0054($sp)           
-/* 01C74 80A75F84 0C018B35 */  jal     CollisionCheck_ShieldParticles              
+/* 01C74 80A75F84 0C018B35 */  jal     CollisionCheck_SpawnShieldParticles              
 /* 01C78 80A75F88 27A50038 */  addiu   $a1, $sp, 0x0038           ## $a1 = FFFFFFE8
 .L80A75F8C:
 /* 01C7C 80A75F8C 8FBF0024 */  lw      $ra, 0x0024($sp)           

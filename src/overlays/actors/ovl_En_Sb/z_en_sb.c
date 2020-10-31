@@ -39,7 +39,7 @@ const ActorInit En_Sb_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
 };
@@ -437,7 +437,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
         EnSb_UpdateDamage(this, globalCtx);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

@@ -18,11 +18,11 @@ TYPE_ENUM = [
     "COLTYPE_UNK6",
     "COLTYPE_UNK7",
     "COLTYPE_UNK8",
-    "COLTYPE_METAL_SHIELD",
-    "COLTYPE_UNK10",
-    "COLTYPE_WOODEN_SHIELD",
-    "COLTYPE_UNK12",
-    "COLTYPE_UNK13"  ]
+    "COLTYPE_METAL",
+    "COLTYPE_NONE",
+    "COLTYPE_WOOD",
+    "COLTYPE_HARD",
+    "COLTYPE_TREE"  ]
 
 SHAPE_ENUM = [
     "COLSHAPE_JNTSPH",
@@ -79,8 +79,8 @@ TOUCHERFLAGS_ENUM = [
     "TOUCH_ON",
     "TOUCH_HIT",
     "TOUCH_NEAREST",
-    "TOUCH_SFX1",
-    "TOUCH_SFX2",
+    "TOUCH_SFX_HARD",
+    "TOUCH_SFX_WOOD",
     "TOUCH_AT_HITMARK",
     "TOUCH_DREW_HITMARK",
     "TOUCH_UNK7"]
@@ -101,24 +101,24 @@ OCELEMFLAGS_ENUM = [
 
 sf_ColliderInit = ">BBBBBB"
 sf_ColliderInit_Set3 = ">BBBBB"
-sf_ColliderInit_Actor = ">IBBBB"
+sf_ColliderInitToActor = ">IBBBB"
 sf_ColliderBodyInit = ">B3xIBB2xIBB2xBBB"
 sf_JntSph = ">II"
-sf_JntSphItem = ">Bx5h"
+sf_JntSphElement = ">Bx5h"
 sf_Cylinder16 = ">6h"
 sf_Tris = ">II"
-sf_TrisItem = ">9f"
+sf_TrisElement = ">9f"
 sf_Quad = ">12f"
 
 f_ColliderInit = "{{ {0}, {1}, {2}, {3}, {4}, {5} }}"
 f_ColliderInit_Set3 = "{{ {0}, {1}, {2}, {3}, {4} }}"
-f_ColliderInit_Actor = "{{ {0}, {1}, {2}, {3}, {4} }}"
+f_ColliderInitToActor = "{{ {0}, {1}, {2}, {3}, {4} }}"
 f_ColliderBodyInit = "{{ {0}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, {7}, {8}, {9} }}"
 f_JntSph = "{0}, D_{1:08X}"
-f_JntSphItem = "{{ {0}, {{ {{ {1}, {2}, {3} }}, {4} }}, {5} }}"
+f_JntSphElement = "{{ {0}, {{ {{ {1}, {2}, {3} }}, {4} }}, {5} }}"
 f_Cylinder16 = "{{ {0}, {1}, {2}, {{ {3}, {4}, {5} }} }}"
 f_Tris = "{0}, D_{1:08X}"
-f_TrisItem = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }} }} }}"
+f_TrisElement = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }} }} }}"
 f_Quad = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }}, {{ {9}f, {10}f, {11}f }} }} }}"
 
 def GetATflags(at):
@@ -173,7 +173,9 @@ def GetToucherFlags(at):
                 output = "TOUCH_OFF"
         elif(at & (1 << i)):
             output = flag + " | " + output
-    return output
+        if(i == 4 and output.find("SFX") == -1 and output.find("OFF") == -1):
+            output = "TOUCH_SFX_0 | " + output
+    return output.replace("TOUCH_SFX_2 | TOUCH_SFX_1", "TOUCH_SFX_3")
 
 def GetBumperFlags(at):
     for i, flag in enumerate(BUMPERFLAGS_ENUM):
@@ -203,7 +205,7 @@ def GetColliderFormat(type):
     if type == T_SET3:
         return (sf_ColliderInit_Set3, f_ColliderInit_Set3)
     if type == T_ACTOR:
-        return (sf_ColliderInit_Actor, f_ColliderInit_Actor)
+        return (sf_ColliderInitToActor, f_ColliderInitToActor)
     return None
 
 def GetColliderStr(data, off, type):
@@ -260,10 +262,10 @@ def GetItems(data, off, count, structf, fmt, size):
     }},'''.format(f_ColliderBodyInit.format(*cBody), fmt.format(*cItem))
     return result
 
-def GetJntSphItems(data, off, count):
-    items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x24)
+def GetJntSphElements(data, off, count):
+    items = GetItems(data, off, count, sf_JntSphElement, f_JntSphElement, 0x24)
     return('''
-static ColliderJntSphItemInit sJntSphItemsInit[{0}] = {{{1}
+static ColliderJntSphElementInit sJntSphElementsInit[{0}] = {{{1}
 }};
 '''.format(count, items))
 
@@ -279,10 +281,10 @@ static ColliderJntSphInit{0} sJntSphInit = {{
 '''.format(type, sBase, f_JntSph.format(*cJntSph)))
 
 
-def GetTrisItems(data, off, count):
-    items = GetItems(data, off, count, sf_TrisItem, f_TrisItem, 0x3C)
+def GetTrisElements(data, off, count):
+    items = GetItems(data, off, count, sf_TrisElement, f_TrisElement, 0x3C)
     return('''
-static ColliderTrisItemInit sTrisItemsInit[{0}] = {{{1}
+static ColliderTrisElementInit sTrisElementsInit[{0}] = {{{1}
 }};
 '''.format(count, items))
 
@@ -348,8 +350,8 @@ def GetColliderInit(address, type, num, path):
         'ColliderCylinderInit' : (GetCylinder, 'Shape', T_DEFAULT),
         'ColliderTrisInit': (GetTris, 'Shape', T_DEFAULT),
         'ColliderQuadInit': (GetQuad, 'Shape', T_DEFAULT),
-        'ColliderJntSphItemInit' : (GetJntSphItems, 'Item'),
-        'ColliderTrisItemInit' : (GetTrisItems, 'Item')
+        'ColliderJntSphElementInit' : (GetJntSphElements, 'Item'),
+        'ColliderTrisElementInit' : (GetTrisElements, 'Item')
     }
 
     update = [(k, v[0]) for k,v in TYPE_DICT.items() if v[1] == 'Shape']
@@ -389,18 +391,18 @@ def GetColliderInitFull(address, type, path):
 
     if(type.find('JntSph') != -1):
         [num, address2, dummy] = base.split('\n')[3].split(',')
-        elements = GetColliderInit(int(address2.strip(' D_'),16), 'ColliderJntSphItemInit', int(num), path)
-        return elements + base.replace(address2,'sJntSphItemsInit')
+        elements = GetColliderInit(int(address2.strip(' D_'),16), 'ColliderJntSphElementInit', int(num), path)
+        return elements + base.replace(address2,'sJntSphElementsInit')
     elif(type.find('Tris') != -1):
         [num, address2, dummy] = base.split('\n')[3].split(',')
-        elements = GetColliderInit(int(address2.strip(' D_'),16), 'ColliderTrisItemInit', int(num), path)
-        return elements + base.replace(address2,'sTrisItemsInit')
+        elements = GetColliderInit(int(address2.strip(' D_'),16), 'ColliderTrisElementInit', int(num), path)
+        return elements + base.replace(address2,'sTrisElementsInit')
     else:
         return base
 
 #ovlName = 'ovl_Obj_Comb'
 #address = 0x000780
-#inputType = 'ColliderJntSphItemInit'
+#inputType = 'ColliderJntSphElementInit'
 
 #ovlName = 'ovl_En_Boom'
 #address = 0x0007D0

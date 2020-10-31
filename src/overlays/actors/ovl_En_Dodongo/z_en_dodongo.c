@@ -23,12 +23,12 @@ const ActorInit En_Dodongo_InitVars = {
 };
 
 static ColliderQuadInit D_809FA98C = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK0, { 0x20000000, 0x01, 0x10 }, { 0x00000000, 0x00, 0x00 }, TOUCH_UNK7 | TOUCH_ON, BUMP_OFF,
-OCELEM_OFF }, { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0, { 0x20000000, 0x01, 0x10 }, { 0x00000000, 0x00, 0x00 }, TOUCH_UNK7 | TOUCH_SFX_NORMAL | TOUCH_ON,
+BUMP_OFF, OCELEM_OFF }, { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static ColliderTrisItemInit  D_809FA8C8[3] = {
+static ColliderTrisElementInit  D_809FA8C8[3] = {
     {
         { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0xF24BF96E, 0x00, 0x00 }, TOUCH_OFF, BUMP_NO_AT_INFO |
 BUMP_HOOKABLE | BUMP_ON, OCELEM_OFF }, { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f }
@@ -47,11 +47,11 @@ BUMP_HOOKABLE | BUMP_ON, OCELEM_OFF }, { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0
 };
 
 static ColliderTrisInit D_809FA97C = {
-    { COLTYPE_METAL_SHIELD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_METAL, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     3, D_809FA8C8,
 };
 
-static ColliderJntSphItemInit  D_809FA7E0[6] = {
+static ColliderJntSphElementInit  D_809FA7E0[6] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
         { 15, { { 0, 0, 0 }, 17 }, 100 },

@@ -26,12 +26,12 @@ const ActorInit En_M_Fire1_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit sCylinderInit = { { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER,
+static ColliderCylinderInit sCylinderInit = { { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER,
                                                 COLSHAPE_CYLINDER },
                                               { ELEMTYPE_UNK2,
                                                 { 0x00000001, 0x00, 0x00 },
                                                 { 0xFFCFFFFF, 0x00, 0x00 },
-                                                TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+                                                TOUCH_SFX_NONE | TOUCH_ON,
                                                 BUMP_OFF,
                                                 OCELEM_OFF },
                                               { 200, 200, 0, { 0 } } };
@@ -61,7 +61,7 @@ void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (Math_ApproxF(&this->unk_198, 1.0f, 0.2f)) {
         Actor_Kill(&this->actor);
     } else {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }

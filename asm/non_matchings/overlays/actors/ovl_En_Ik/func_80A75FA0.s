@@ -94,7 +94,7 @@ glabel func_80A75FA0
 /* 01DEC 80A760FC AE0F0040 */  sw      $t7, 0x0040($s0)           ## 00000040
 /* 01DF0 80A76100 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01DF4 80A76104 E608003C */  swc1    $f8, 0x003C($s0)           ## 0000003C
-/* 01DF8 80A76108 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01DF8 80A76108 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01DFC 80A7610C AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 01E00 80A76110 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

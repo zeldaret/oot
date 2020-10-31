@@ -31,7 +31,7 @@ const ActorInit Obj_Syokudai_InitVars = {
 };
 
 static ColliderCylinderInit sCylInitStand = {
-    { COLTYPE_METAL_SHIELD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_METAL, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2,
       { 0x00100000, 0x00, 0x00 },
       { 0xEE01FFFF, 0x00, 0x00 },
@@ -42,7 +42,7 @@ static ColliderCylinderInit sCylInitStand = {
 };
 
 static ColliderCylinderInit sCylInitFlame = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0x00020820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 15, 45, 45, { 0, 0, 0 } },
 };
@@ -209,12 +209,12 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
     colliderStand = &this->colliderStand;
-    Collider_CylinderUpdate(&this->actor, colliderStand);
+    Collider_UpdateCylinder(&this->actor, colliderStand);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
 
     colliderFlame = &this->colliderFlame;
-    Collider_CylinderUpdate(&this->actor, colliderFlame);
+    Collider_UpdateCylinder(&this->actor, colliderFlame);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderFlame->base);
 
     if (this->litTimer > 0) {

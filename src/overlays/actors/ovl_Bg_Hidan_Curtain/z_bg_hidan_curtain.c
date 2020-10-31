@@ -33,11 +33,11 @@ typedef struct {
 } BgHidanCurtainParams; // size = 0x10
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_OFF, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x20000000, 0x01, 0x04 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+      TOUCH_SFX_NONE | TOUCH_ON,
       BUMP_OFF,
       OCELEM_ON },
     { 81, 144, 0, { 0, 0, 0 } },
@@ -93,8 +93,8 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.element.dim.pos.z = this->actor.posRot.pos.z;
     this->collider.element.dim.radius = hcParams->radius;
     this->collider.element.dim.height = hcParams->height;
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetInfoDamageTable(&thisx->colChkInfo, NULL, &sCcInfoInit);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sCcInfoInit);
     if (this->type == 0) {
         this->actionFunc = BgHidanCurtain_WaitForClear;
     } else {

@@ -6,135 +6,8 @@
 #define COLLISION_CHECK_OC_MAX 50
 #define COLLISION_CHECK_OC_LINE_MAX 3
 
-#define AT_OFF 0
-#define AT_ON (1 << 0)
-#define AT_HIT (1 << 1)
-#define AT_BOUNCED (1 << 2)
-#define AT_PLAYER (1 << 3)
-#define AT_ENEMY (1 << 4)
-#define AT_BOMB (1 << 5)
-#define AT_SELF (1 << 6)
-#define AT_UNK7 (1 << 7) // Apparently unused
-#define AT_ALL (AT_PLAYER | AT_ENEMY | AT_BOMB)
-
-#define AC_OFF 0
-#define AC_ON (1 << 0)
-#define AC_HIT (1 << 1)
-#define AC_HARD (1 << 2)
-#define AC_PLAYER (1 << 3)
-#define AC_ENEMY (1 << 4)
-#define AC_BOMB (1 << 5)
-#define AC_NO_DAMAGE (1 << 6)
-#define AC_BOUNCED (1 << 7)
-#define AC_ALL (AC_PLAYER | AC_ENEMY | AC_BOMB)
-
-#define OC_OFF 0
-#define OC_ON (1 << 0)
-#define OC_HIT (1 << 1)
-#define OC_NO_PUSH (1 << 2)
-#define OC_PLAYER (1 << 3)
-#define OC_TYPE1 (1 << 4)
-#define OC_TYPE2 (1 << 5)
-#define OC_UNK6 (1 << 6) // Apparently unused
-#define OC_UNK7 (1 << 7) // Apparently unused
-#define OC_ALL (OC_PLAYER | OC_TYPE1 | OC_TYPE2)
-
-#define OT_NONE 0
-#define OT_HIT_PLAYER (1 << 0)
-#define OT_UNK1 (1 << 1)
-#define OT_UNK2 (1 << 2)
-#define OT_PLAYER (1 << 3)
-#define OT_TYPE1 (1 << 4)
-#define OT_TYPE2 (1 << 5)
-#define OT_FIRST_ONLY (1 << 6)
-#define OT_UNK7 (1 << 7) // Apparently unused
-
-#define TOUCH_OFF 0
-#define TOUCH_ON (1 << 0)
-#define TOUCH_HIT (1 << 1)
-#define TOUCH_NEAREST (1 << 2)
-#define TOUCH_SFX1 (1 << 3)
-#define TOUCH_SFX2 (1 << 4)
-#define TOUCH_AT_HITMARK (1 << 5)
-#define TOUCH_DREW_HITMARK (1 << 6)
-#define TOUCH_UNK7 (1 << 7)
-
-#define BUMP_OFF 0
-#define BUMP_ON (1 << 0)
-#define BUMP_HIT (1 << 1)
-#define BUMP_HOOKABLE (1 << 2)
-#define BUMP_NO_AT_INFO (1 << 3)
-#define BUMP_NO_DAMAGE (1 << 4)
-#define BUMP_NO_SWORD_SFX (1 << 5)
-#define BUMP_NO_HITMARK (1 << 6)
-#define BUMP_DRAW_HITMARK (1 << 7)
-
-#define OCELEM_OFF 0
-#define OCELEM_ON (1 << 0)
-#define OCELEM_HIT (1 << 1)
-#define OCELEM_UNK2 (1 << 2) // Apparently unused
-#define OCELEM_UNK3 (1 << 3)
-#define OCELEM_UNK4 (1 << 4) // Apparently unused
-#define OCELEM_UNK5 (1 << 5) // Apparently unused
-#define OCELEM_UNK6 (1 << 6) // Apparently unused
-#define OCELEM_UNK7 (1 << 7) // Apparently unused
-
-#define OCLINE_NONE 0
-#define OCLINE_HIT (1 << 0)
-
 // From z64.h
 struct Actor;
-
-typedef enum {
-    COLTYPE_UNK0,
-    COLTYPE_UNK1,
-    COLTYPE_UNK2,
-    COLTYPE_UNK3,
-    COLTYPE_UNK4,
-    COLTYPE_UNK5,
-    COLTYPE_UNK6,
-    COLTYPE_UNK7,
-    COLTYPE_UNK8,
-    COLTYPE_METAL_SHIELD,
-    COLTYPE_UNK10,
-    COLTYPE_WOODEN_SHIELD,
-    COLTYPE_UNK12,
-    COLTYPE_UNK13
-} ColliderType;
-
-/* 0: Blue blood, white hitmark
-1: No blood, sand hitmark
-2: Green blood, sand hitmark
-3: No blood, white hitmark
-4: Water burst, no hitmark
-5: No blood, red hitmark
-6: Green blood, white hitmark
-7: Red blood, white hitmark
-8: Blue blood, red hitmark
-9: No blood, metal sounds, sword particles
-10: No blood, no hitmark
-11: No blood, deflection sounds
-12: No blood, deflection sounds
-13: No blood, wood sounds, sword particles */
-
-typedef enum {
-    COLSHAPE_JNTSPH,
-    COLSHAPE_CYLINDER,
-    COLSHAPE_TRIS,
-    COLSHAPE_QUAD,
-    COLSHAPE_INVALID
-} ColliderShape;
-
-typedef enum {
-    ELEMTYPE_UNK0,
-    ELEMTYPE_UNK1,
-    ELEMTYPE_UNK2,
-    ELEMTYPE_UNK3,
-    ELEMTYPE_UNK4,
-    ELEMTYPE_UNK5,
-    ELEMTYPE_UNK6,
-    ELEMTYPE_UNK7
-} ElementType;
 
 typedef struct {
     /* 0x00 */ struct Actor* actor;
@@ -172,7 +45,7 @@ typedef struct {
     /* 0x05 */ u8 acFlags; // Compared to atFlags
     /* 0x06 */ u8 ocFlags;   // Bitwise-and compared to ocType
     /* 0x07 */ u8 shape;   // ColliderShape
-} ColliderInit_Actor; // size = 0x08
+} ColliderInitToActor; // size = 0x08
 
 typedef struct {
     /* 0x00 */ u32 dFlags; // Toucher Attack ID Flags
@@ -257,10 +130,10 @@ typedef struct {
 } ColliderJntSphInit_Set3; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ ColliderInit_Actor base;
+    /* 0x00 */ ColliderInitToActor base;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphElementInit* elements;
-} ColliderJntSphInit_Actor; // size = 0x10
+} ColliderJntSphInitToActor; // size = 0x10
 
 typedef struct {
     /* 0x00 */ ColliderInfo info;
@@ -285,10 +158,10 @@ typedef struct {
 } ColliderCylinderInit_Set3; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ ColliderInit_Actor base;
+    /* 0x00 */ ColliderInitToActor base;
     /* 0x08 */ ColliderInfoInit info;
     /* 0x20 */ Cylinder16 dim;
-} ColliderCylinderInit_Actor; // size = 0x2C
+} ColliderCylinderInitToActor; // size = 0x2C
 
 typedef struct {
     /* 0x00 */ Vec3f vtx[3];
@@ -359,5 +232,141 @@ typedef struct {
     /* 0x00 */ Linef line;
     /* 0x18 */ u16 ocFlags;
 } OcLine; // size = 0x1C
+
+typedef enum {
+    COLTYPE_UNK0,
+    COLTYPE_UNK1,
+    COLTYPE_UNK2,
+    COLTYPE_UNK3,
+    COLTYPE_UNK4,
+    COLTYPE_UNK5,
+    COLTYPE_UNK6,
+    COLTYPE_UNK7,
+    COLTYPE_UNK8,
+    COLTYPE_METAL,
+    COLTYPE_NONE,
+    COLTYPE_WOOD,
+    COLTYPE_HARD,
+    COLTYPE_TREE
+} ColliderType;
+
+/* 0: Blue blood, white hitmark
+ * 1: No blood, sand hitmark
+ * 2: Green blood, sand hitmark
+ * 3: No blood, white hitmark
+ * 4: Water burst, no hitmark
+ * 5: No blood, red hitmark
+ * 6: Green blood, white hitmark
+ * 7: Red blood, white hitmark
+ * 8: Blue blood, red hitmark
+ * 9: No blood, metal sounds, sword particles
+ * 10: No blood, no hitmark
+ * 11: No blood, deflection sounds
+ * 12: No blood, deflection sounds
+ * 13: No blood, wood sounds, sword particles
+ */
+
+typedef enum {
+    COLSHAPE_JNTSPH,
+    COLSHAPE_CYLINDER,
+    COLSHAPE_TRIS,
+    COLSHAPE_QUAD,
+    COLSHAPE_INVALID
+} ColliderShape;
+
+typedef enum {
+    ELEMTYPE_UNK0,
+    ELEMTYPE_UNK1,
+    ELEMTYPE_UNK2,
+    ELEMTYPE_UNK3,
+    ELEMTYPE_UNK4,
+    ELEMTYPE_UNK5,
+    ELEMTYPE_UNK6,
+    ELEMTYPE_UNK7
+} ElementType;
+
+/* Affects the sound Link's sword makes when hitting it, hookability,
+ * and possibly other things. It's definitely not flags, as all checks
+ * are == or !=. Will probably need more actors decomped to truly 
+ * understand what this is.
+ */
+
+#define AT_OFF 0
+#define AT_ON (1 << 0)
+#define AT_HIT (1 << 1)
+#define AT_BOUNCED (1 << 2)
+#define AT_PLAYER (1 << 3)
+#define AT_ENEMY (1 << 4)
+#define AT_BOMB (1 << 5)
+#define AT_SELF (1 << 6)
+#define AT_UNK7 (1 << 7) // Apparently unused
+#define AT_ALL (AT_PLAYER | AT_ENEMY | AT_BOMB)
+
+#define AC_OFF 0
+#define AC_ON (1 << 0)
+#define AC_HIT (1 << 1)
+#define AC_HARD (1 << 2)
+#define AC_PLAYER (1 << 3)
+#define AC_ENEMY (1 << 4)
+#define AC_BOMB (1 << 5)
+#define AC_NO_DAMAGE (1 << 6)
+#define AC_BOUNCED (1 << 7)
+#define AC_ALL (AC_PLAYER | AC_ENEMY | AC_BOMB)
+
+#define OC_OFF 0
+#define OC_ON (1 << 0)
+#define OC_HIT (1 << 1)
+#define OC_NO_PUSH (1 << 2)
+#define OC_PLAYER (1 << 3)
+#define OC_TYPE1 (1 << 4)
+#define OC_TYPE2 (1 << 5)
+#define OC_UNK6 (1 << 6) // Apparently unused
+#define OC_UNK7 (1 << 7) // Apparently unused
+#define OC_ALL (OC_PLAYER | OC_TYPE1 | OC_TYPE2)
+
+#define OT_NONE 0
+#define OT_HIT_PLAYER (1 << 0)
+#define OT_UNK1 (1 << 1) // Something to do with horses and toki_sword
+#define OT_UNK2 (1 << 2) // Something to do with horses and toki_sword
+#define OT_PLAYER (1 << 3)
+#define OT_TYPE1 (1 << 4)
+#define OT_TYPE2 (1 << 5)
+#define OT_FIRST_ONLY (1 << 6) // Only used by Ganon
+#define OT_UNK7 (1 << 7) // Apparently unused
+
+#define TOUCH_OFF 0
+#define TOUCH_ON (1 << 0)
+#define TOUCH_HIT (1 << 1)
+#define TOUCH_NEAREST (1 << 2)
+#define TOUCH_SFX_NORMAL (0 << 3)
+#define TOUCH_SFX_HARD (1 << 3)
+#define TOUCH_SFX_WOOD (2 << 3)
+#define TOUCH_SFX_NONE (3 << 3)
+#define TOUCH_AT_HITMARK (1 << 5)
+#define TOUCH_DREW_HITMARK (1 << 6)
+#define TOUCH_UNK7 (1 << 7) // Used by some enemy quads
+
+#define BUMP_OFF 0
+#define BUMP_ON (1 << 0)
+#define BUMP_HIT (1 << 1)
+#define BUMP_HOOKABLE (1 << 2)
+#define BUMP_NO_AT_INFO (1 << 3)
+#define BUMP_NO_DAMAGE (1 << 4)
+#define BUMP_NO_SWORD_SFX (1 << 5)
+#define BUMP_NO_HITMARK (1 << 6)
+#define BUMP_DRAW_HITMARK (1 << 7)
+
+#define OCELEM_OFF 0
+#define OCELEM_ON (1 << 0)
+#define OCELEM_HIT (1 << 1)
+#define OCELEM_UNK2 (1 << 2) // Apparently unused
+#define OCELEM_UNK3 (1 << 3) // Used by Dead Hand element 0 and Dodongo element 5
+#define OCELEM_UNK4 (1 << 4) // Apparently unused
+#define OCELEM_UNK5 (1 << 5) // Apparently unused
+#define OCELEM_UNK6 (1 << 6) // Apparently unused
+#define OCELEM_UNK7 (1 << 7) // Apparently unused
+
+#define OCLINE_NONE 0
+#define OCLINE_HIT (1 << 0)
 
 #endif

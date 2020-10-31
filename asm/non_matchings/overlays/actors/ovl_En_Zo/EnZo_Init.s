@@ -39,7 +39,7 @@ glabel EnZo_Init
 /* 01544 80B61764 3C0680B6 */  lui     $a2, %hi(D_80B624B8)       ## $a2 = 80B60000
 /* 01548 80B61768 24C624B8 */  addiu   $a2, $a2, %lo(D_80B624B8)  ## $a2 = 80B624B8
 /* 0154C 80B6176C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 01550 80B61770 0C0187BF */  jal     CollisionCheck_SetInfo2DamageTable
+/* 01550 80B61770 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 01554 80B61774 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01558 80B61778 3C198016 */  lui     $t9, %hi(gSaveContext+4)
 /* 0155C 80B6177C 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)

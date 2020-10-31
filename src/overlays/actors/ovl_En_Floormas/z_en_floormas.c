@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x04, 0x10 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX1 | TOUCH_ON,
+      TOUCH_SFX_HARD | TOUCH_ON,
       BUMP_HOOKABLE | BUMP_ON,
       OCELEM_ON },
     { 25, 40, 0, { 0, 0, 0 } },
@@ -108,7 +108,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
                      &this->transitionDrawTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->zOffset = -1600;
     invisble = this->actor.params & SPAWN_INVISIBLE;
 
@@ -158,7 +158,7 @@ void EnFloormas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_MakeInvulnerable(EnFloormas* this) {
-    this->collider.base.colType = COLTYPE_UNK12;
+    this->collider.base.colType = COLTYPE_HARD;
     this->collider.base.acFlags |= AC_HARD;
     this->actionTarget = 0x28;
 }
@@ -955,7 +955,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->collider.element.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-            if (this->collider.base.colType != COLTYPE_UNK12) {
+            if (this->collider.base.colType != COLTYPE_HARD) {
                 isSmall = 0;
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = 1;
@@ -1023,7 +1023,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         func_8002E4B4(globalCtx, &this->actor, 20.0f, this->actor.scale.x * 3000.0f, 0.0f, 0x1D);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == EnFloormas_Charge) {
             this->actor.flags |= 0x1000000;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -1041,7 +1041,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         Actor_SetHeight(&this->actor, this->actor.scale.x * 2500.0f);
 
-        if (this->collider.base.colType == COLTYPE_UNK12) {
+        if (this->collider.base.colType == COLTYPE_HARD) {
             if (this->actionTarget != 0) {
                 this->actionTarget--;
             }
@@ -1084,14 +1084,14 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2318);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    if (this->collider.base.colType == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_HARD) {
         func_80026230(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
 
     POLY_OPA_DISP =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                           EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, POLY_OPA_DISP);
-    if (this->collider.base.colType == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_HARD) {
         func_80026608(globalCtx);
     }
 
@@ -1104,13 +1104,13 @@ void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2352);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    if (this->collider.base.colType == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_HARD) {
         func_80026690(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
     POLY_XLU_DISP =
         SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                           EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, POLY_XLU_DISP);
-    if (this->collider.base.colType == COLTYPE_UNK12) {
+    if (this->collider.base.colType == COLTYPE_HARD) {
         func_80026A6C(globalCtx);
     }
 

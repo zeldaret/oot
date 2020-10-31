@@ -196,7 +196,7 @@ glabel L809F57B0
 /* 025E0 809F58A0 1000000C */  beq     $zero, $zero, .L809F58D4   
 /* 025E4 809F58A4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L809F58A8:
-/* 025E8 809F58A8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 025E8 809F58A8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 025EC 809F58AC AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 025F0 809F58B0 920B0218 */  lbu     $t3, 0x0218($s0)           ## 00000218

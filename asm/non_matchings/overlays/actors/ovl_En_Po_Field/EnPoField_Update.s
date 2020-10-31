@@ -54,7 +54,7 @@ glabel EnPoField_Update
 /* 02A64 80AD6564 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A68 80AD6568 26050244 */  addiu   $a1, $s0, 0x0244           ## $a1 = 00000244
 /* 02A6C 80AD656C AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 02A70 80AD6570 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02A70 80AD6570 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02A74 80AD6574 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A78 80AD6578 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

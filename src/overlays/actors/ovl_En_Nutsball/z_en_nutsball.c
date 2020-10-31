@@ -32,11 +32,11 @@ const ActorInit En_Nutsball_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x08 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX2 | TOUCH_ON,
+      TOUCH_SFX_WOOD | TOUCH_ON,
       BUMP_ON,
       OCELEM_ON },
     { 13, 13, 0, { 0 } },
@@ -135,7 +135,7 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height, 5);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
 
         this->actor.flags |= 0x1000000;
 

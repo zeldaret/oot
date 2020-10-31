@@ -60,7 +60,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     sTrisElementsInit,
 };

@@ -40,12 +40,12 @@ glabel EnFz_Update
 /* 01384 80A21144 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 01388 80A21148 5520001E */  bnel    $t1, $zero, .L80A211C4     
 /* 0138C 80A2114C 3C063E4C */  lui     $a2, 0x3E4C                ## $a2 = 3E4C0000
-/* 01390 80A21150 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01390 80A21150 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01394 80A21154 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 01398 80A21158 2605019C */  addiu   $a1, $s0, 0x019C           ## $a1 = 0000019C
 /* 0139C 80A2115C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 013A0 80A21160 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 013A0 80A21160 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 013A4 80A21164 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 013A8 80A21168 920A0248 */  lbu     $t2, 0x0248($s0)           ## 00000248

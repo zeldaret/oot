@@ -111,7 +111,7 @@ glabel EnRr_Update
 /* 01A8C 80AE9ECC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01A90 80AE9ED0 26330150 */  addiu   $s3, $s1, 0x0150           ## $s3 = 00000150
 /* 01A94 80AE9ED4 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000150
-/* 01A98 80AE9ED8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01A98 80AE9ED8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01A9C 80AE9EDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01AA0 80AE9EE0 C624037C */  lwc1    $f4, 0x037C($s1)           ## 0000037C

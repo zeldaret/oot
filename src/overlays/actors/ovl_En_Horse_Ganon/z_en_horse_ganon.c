@@ -41,7 +41,7 @@ static AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x0
 static f32 sAnimPlaybackSpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 40, 100, 0, { 0, 0, 0 } },
 };
@@ -54,7 +54,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -164,7 +164,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
     Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
 
-    CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     func_80A68AC4(this);
 }
 
@@ -270,7 +270,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
-    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
+    Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 

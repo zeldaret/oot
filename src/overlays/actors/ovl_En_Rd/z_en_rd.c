@@ -795,7 +795,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 50.0f;
 
     if ((this->actor.colChkInfo.health > 0) && (this->unk_31B != 8)) {
-        Collider_CylinderUpdate(&this->actor, collider);
+        Collider_UpdateCylinder(&this->actor, collider);
         CollisionCheck_SetOC(globalCtx, colChkCtx, &collider->base);
         if ((this->unk_31B != 9) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
             CollisionCheck_SetAC(globalCtx, colChkCtx, &collider->base);

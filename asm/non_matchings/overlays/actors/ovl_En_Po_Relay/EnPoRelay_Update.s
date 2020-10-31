@@ -30,7 +30,7 @@ glabel EnPoRelay_Update
 /* 01104 80AD8844 26060290 */  addiu   $a2, $s0, 0x0290           ## $a2 = 00000290
 /* 01108 80AD8848 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000290
 /* 0110C 80AD884C AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 01110 80AD8850 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01110 80AD8850 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01114 80AD8854 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01118 80AD8858 8FA4003C */  lw      $a0, 0x003C($sp)           

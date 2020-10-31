@@ -24,7 +24,7 @@ const ActorInit En_Bili_InitVars = {
 
 static ColliderCylinderInit D_809C1640 = {
     { COLTYPE_UNK8, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x03, 0x08 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_SFX2 | TOUCH_SFX1 | TOUCH_ON,
+    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x03, 0x08 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_SFX_NONE | TOUCH_ON,
 BUMP_ON, OCELEM_ON }, { 9, 28, -20, { 0, 0, 0 } },
 };
 */

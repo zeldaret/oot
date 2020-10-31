@@ -63,11 +63,11 @@ glabel ObjIcePoly_Init
               
 /* 000D8 80B94338 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000DC 80B9433C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000E0 80B94340 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 000E0 80B94340 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 000E4 80B94344 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000E8 80B94348 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000EC 80B9434C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 000EC 80B9434C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 000F0 80B94350 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 000F4 80B94354 860B0194 */  lh      $t3, 0x0194($s0)           ## 00000194

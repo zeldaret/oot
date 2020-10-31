@@ -21,7 +21,7 @@ glabel func_80890740
               
 /* 00048 80890788 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0004C 8089078C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00050 80890790 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00050 80890790 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00054 80890794 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00058 80890798 8FA40030 */  lw      $a0, 0x0030($sp)           
@@ -59,7 +59,7 @@ glabel func_80890740
               
 /* 000D0 80890810 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000D4 80890814 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000D8 80890818 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 000D8 80890818 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 000DC 8089081C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000E0 80890820 8FAD002C */  lw      $t5, 0x002C($sp)           

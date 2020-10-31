@@ -142,12 +142,12 @@ glabel EnGoma_Update
 /* 01D8C 80A4AC4C 2605030C */  addiu   $a1, $s0, 0x030C           ## $a1 = 0000030C
 /* 01D90 80A4AC50 55000017 */  bnel    $t0, $zero, .L80A4ACB0     
 /* 01D94 80A4AC54 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 01D98 80A4AC58 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01D98 80A4AC58 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01D9C 80A4AC5C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01DA0 80A4AC60 26050358 */  addiu   $a1, $s0, 0x0358           ## $a1 = 00000358
 /* 01DA4 80A4AC64 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 01DA8 80A4AC68 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01DA8 80A4AC68 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01DAC 80A4AC6C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01DB0 80A4AC70 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

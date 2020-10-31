@@ -34,7 +34,7 @@ const ActorInit En_Ms_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 22, 37, 0, { 0 } },
 };
@@ -175,7 +175,7 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 

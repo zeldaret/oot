@@ -86,7 +86,7 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
                        this->transitionDrawTable, 10);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        CollisionCheck_SetInfoDamageTable(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Actor_SetTextWithPrefix(globalCtx, &this->actor, (this->actor.params >> 8) & 0xFF);
         this->textIdCopy = this->actor.textId;
         this->actor.params &= 0xFF;
@@ -506,7 +506,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002E4B4(globalCtx, &this->actor, 20.0f, this->collider.element.dim.radius,
                           this->collider.element.dim.height, 0x1D);
         }
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }

@@ -241,7 +241,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, 0, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;
@@ -438,7 +438,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
                   0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 

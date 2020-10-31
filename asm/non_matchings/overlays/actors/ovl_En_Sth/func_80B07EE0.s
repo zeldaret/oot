@@ -6,7 +6,7 @@ glabel func_80B07EE0
 /* 009B0 80B07EF0 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 009B4 80B07EF4 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 009B8 80B07EF8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 009BC 80B07EFC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 009BC 80B07EFC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 009C0 80B07F00 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 009C4 80B07F04 8FA4003C */  lw      $a0, 0x003C($sp)           

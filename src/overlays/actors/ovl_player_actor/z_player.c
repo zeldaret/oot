@@ -3374,7 +3374,7 @@ void func_80837918(Player* this, s32 quadIndex, u32 flags) {
     this->swordQuads[quadIndex].element.info.toucher.dFlags = flags;
 
     if (flags == 2) {
-        this->swordQuads[quadIndex].element.info.toucherFlags = TOUCH_SFX2 | TOUCH_NEAREST | TOUCH_ON;
+        this->swordQuads[quadIndex].element.info.toucherFlags = TOUCH_SFX_WOOD | TOUCH_NEAREST | TOUCH_ON;
     } else {
         this->swordQuads[quadIndex].element.info.toucherFlags = TOUCH_NEAREST | TOUCH_ON;
     }
@@ -7601,7 +7601,7 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
                             if (sp48 == 0xA) {
                                 CollisionCheck_ShieldParticlesWood(globalCtx, &sp5C, &this->actor.projectedPos);
                             } else {
-                                CollisionCheck_ShieldParticles(globalCtx, &sp5C);
+                                CollisionCheck_SpawnShieldParticles(globalCtx, &sp5C);
                                 if (sp48 == 0xB) {
                                     func_8002F7DC(&this->actor, NA_SE_IT_WALL_HIT_SOFT);
                                 } else {
@@ -7807,7 +7807,8 @@ void func_8084377C(Player* this, GlobalContext* globalCtx) {
             if (this->unk_850 == 0) {
                 func_80853080(this, globalCtx);
             }
-        } else if ((this->stateFlags1 & 0x20000000) || (!(this->cylinder.base.acFlags & AC_HIT) && (this->unk_8A1 == 0))) {
+        } else if ((this->stateFlags1 & 0x20000000) ||
+                   (!(this->cylinder.base.acFlags & AC_HIT) && (this->unk_8A1 == 0))) {
             if (this->stateFlags1 & 0x20000000) {
                 this->unk_850++;
             } else {
@@ -8913,14 +8914,24 @@ ColliderCylinderInit D_80854624 = {
 };
 
 ColliderQuadInit D_80854650 = {
-    { COLTYPE_UNK10, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK2, { 0x00000100, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
+    { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK2,
+      { 0x00000100, 0x00, 0x01 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_SFX_NORMAL | TOUCH_ON,
+      BUMP_OFF,
+      OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
 ColliderQuadInit D_808546A0 = {
-    { COLTYPE_METAL_SHIELD, AT_PLAYER | AT_ON, AC_ENEMY | AC_HARD | AC_ON, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK2, { 0x00100000, 0x00, 0x00 }, { 0xDFCFFFFF, 0x00, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
+    { COLTYPE_METAL, AT_PLAYER | AT_ON, AC_ENEMY | AC_HARD | AC_ON, OC_OFF, OT_PLAYER, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK2,
+      { 0x00100000, 0x00, 0x00 },
+      { 0xDFCFFFFF, 0x00, 0x00 },
+      TOUCH_SFX_NORMAL | TOUCH_ON,
+      BUMP_ON,
+      OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -10241,7 +10252,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->cylinder.element.dim.height = this->cylinder.element.dim.height * 0.8f;
         }
 
-        Collider_CylinderUpdate(&this->actor, &this->cylinder);
+        Collider_UpdateCylinder(&this->actor, &this->cylinder);
 
         if (!(this->stateFlags2 & 0x4000)) {
             if (!(this->stateFlags1 & 0x806080)) {
@@ -10271,13 +10282,13 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
     this->stateFlags3 &= ~4;
 
-    Collider_CylinderResetAC(globalCtx, &this->cylinder.base);
+    Collider_ResetCylinderAC(globalCtx, &this->cylinder.base);
 
-    Collider_QuadResetAT(globalCtx, &this->swordQuads[0].base);
-    Collider_QuadResetAT(globalCtx, &this->swordQuads[1].base);
+    Collider_ResetQuadAT(globalCtx, &this->swordQuads[0].base);
+    Collider_ResetQuadAT(globalCtx, &this->swordQuads[1].base);
 
-    Collider_QuadResetAC(globalCtx, &this->shieldQuad.base);
-    Collider_QuadResetAT(globalCtx, &this->shieldQuad.base);
+    Collider_ResetQuadAC(globalCtx, &this->shieldQuad.base);
+    Collider_ResetQuadAT(globalCtx, &this->shieldQuad.base);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_UpdateCommon.s")

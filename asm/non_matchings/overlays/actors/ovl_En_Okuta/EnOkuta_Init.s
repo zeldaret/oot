@@ -49,7 +49,7 @@ glabel EnOkuta_Init
 /* 000AC 80AC070C 3C0680AC */  lui     $a2, %hi(D_80AC2878)       ## $a2 = 80AC0000
 /* 000B0 80AC0710 24C62878 */  addiu   $a2, $a2, %lo(D_80AC2878)  ## $a2 = 80AC2878
 /* 000B4 80AC0714 24A52880 */  addiu   $a1, $a1, %lo(D_80AC2880)  ## $a1 = 80AC2880
-/* 000B8 80AC0718 0C0187B5 */  jal     CollisionCheck_SetInfoDamageTable              
+/* 000B8 80AC0718 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 000BC 80AC071C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 000C0 80AC0720 86020196 */  lh      $v0, 0x0196($s0)           ## 00000196
 /* 000C4 80AC0724 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF

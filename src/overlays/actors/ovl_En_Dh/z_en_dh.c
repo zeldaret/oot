@@ -28,7 +28,7 @@ static ColliderCylinderInit D_809EC5C0 = {
     { 35, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit  D_809EC5EC[1] = {
+static ColliderJntSphElementInit  D_809EC5EC[1] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_UNK3 |
 OCELEM_ON }, { 1, { { 0, 0, 0 }, 20 }, 100 },

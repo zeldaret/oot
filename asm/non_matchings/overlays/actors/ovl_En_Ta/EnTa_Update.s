@@ -6,7 +6,7 @@ glabel EnTa_Update
 /* 02F00 80B169A0 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 02F04 80B169A4 26060264 */  addiu   $a2, $s0, 0x0264           ## $a2 = 00000264
 /* 02F08 80B169A8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000264
-/* 02F0C 80B169AC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02F0C 80B169AC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02F10 80B169B0 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 02F14 80B169B4 8FA40044 */  lw      $a0, 0x0044($sp)           

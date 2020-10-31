@@ -22,7 +22,7 @@ const ActorInit En_Fw_InitVars = {
     (ActorFunc)EnFw_Draw,
 };
 
-static ColliderJntSphItemInit  D_80A1FB60[1] = {
+static ColliderJntSphElementInit  D_80A1FB60[1] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x04 }, { 0xFFCFFFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_HOOKABLE | BUMP_ON,
 OCELEM_ON }, { 2, { { 1200, 0, 0 }, 16 }, 100 },

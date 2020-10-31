@@ -21,7 +21,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx);
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x00000000, 0x00, 0x00 },
       { 0x00000090, 0x00, 0x00 },
@@ -52,7 +52,7 @@ void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    CollisionCheck_SetInfo2DamageTable(&this->actor.colChkInfo, NULL, &D_80AFBADC);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AFBADC);
     Actor_SetScale(&this->actor, 0.025f);
     this->unk_19C = 0;
     this->actionFunc = func_80AFB768;
@@ -93,7 +93,7 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
                 func_800F5C64(0x39);
                 this->actionFunc = func_80AFB950;
             } else {
-                Collider_CylinderUpdate(&this->actor, &this->collider);
+                Collider_UpdateCylinder(&this->actor, &this->collider);
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
             }

@@ -22,10 +22,10 @@ const ActorInit En_Skb_InitVars = {
     (ActorFunc)EnSkb_Draw,
 };
 
-static ColliderJntSphItemInit  D_80AFE020[2] = {
+static ColliderJntSphElementInit  D_80AFE020[2] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_ON, BUMP_OFF, OCELEM_OFF },
-        { 15, { { 0, 0, 0 }, 10 }, 100 },
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_OFF,
+OCELEM_OFF }, { 15, { { 0, 0, 0 }, 10 }, 100 },
     },
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_HOOKABLE | BUMP_ON,

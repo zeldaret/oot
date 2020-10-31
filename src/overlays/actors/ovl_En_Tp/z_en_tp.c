@@ -28,10 +28,10 @@ const ActorInit En_Tp_InitVars = {
     (ActorFunc)EnTp_Draw,
 };
 
-static ColliderJntSphItemInit  D_80B22A90[1] = {
+static ColliderJntSphElementInit  D_80B22A90[1] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x03, 0x08 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_ON, BUMP_ON, OCELEM_OFF },
-        { 0, { { 0, 0, 0 }, 4 }, 100 },
+        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x03, 0x08 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
+OCELEM_OFF }, { 0, { { 0, 0, 0 }, 4 }, 100 },
     },
 };
 

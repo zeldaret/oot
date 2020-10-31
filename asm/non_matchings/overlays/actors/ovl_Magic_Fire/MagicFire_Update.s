@@ -60,7 +60,7 @@ glabel MagicFire_Update
 .L80B88F78:
 /* 00208 80B88F78 AFA6002C */  sw      $a2, 0x002C($sp)           
 .L80B88F7C:
-/* 0020C 80B88F7C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0020C 80B88F7C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00210 80B88F80 AFA7004C */  sw      $a3, 0x004C($sp)           
 /* 00214 80B88F84 3C0180B9 */  lui     $at, %hi(D_80B8AFFC)       ## $at = 80B90000

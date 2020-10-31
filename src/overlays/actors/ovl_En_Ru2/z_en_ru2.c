@@ -44,7 +44,7 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 30, 100, 0, { 0 } },
 };
@@ -105,7 +105,7 @@ void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     s32 pad2[2];
 
-    Collider_CylinderUpdate(thisx, collider);
+    Collider_UpdateCylinder(thisx, collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, collider);
 }
 
