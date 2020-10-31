@@ -386,7 +386,10 @@ def GetColliderInit(address, type, num, path):
 
     return selectedType[0](ovlData, fileResult.offset, arg2)
 
-def GetColliderInitFull(address, type, path):
+def GetColliderInitFull(address, type, num, path):
+    if(type.find('Element') != -1):
+        return GetColliderInit(address, type, num, path)
+    
     base = GetColliderInit(address, type, 0, path)
 
     if(type.find('JntSph') != -1):
@@ -420,5 +423,5 @@ parser.add_argument('num', nargs='?', default=0, type=HexParse, help="Number of 
 
 args = parser.parse_args()
 
-print(GetColliderInitFull(args.address, args.type, "../.."))
+print(GetColliderInitFull(args.address, args.type, args.num, "../.."))
 # print(GetColliderInit(args.address, args.type, args.num, "../.."))
