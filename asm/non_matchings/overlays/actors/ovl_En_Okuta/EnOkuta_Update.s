@@ -57,8 +57,8 @@ glabel EnOkuta_Update
 /* 01A40 80AC20A0 00000000 */  nop
 /* 01A44 80AC20A4 0C2B06E0 */  jal     func_80AC1B80              
 /* 01A48 80AC20A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01A4C 80AC20AC 3C0B80AC */  lui     $t3, %hi(D_80AC286E)       ## $t3 = 80AC0000
-/* 01A50 80AC20B0 856B286E */  lh      $t3, %lo(D_80AC286E)($t3)  
+/* 01A4C 80AC20AC 3C0B80AC */  lui     $t3, %hi(D_80AC284C+0x22)       ## $t3 = 80AC0000
+/* 01A50 80AC20B0 856B286E */  lh      $t3, %lo(D_80AC284C+0x22)($t3)  
 /* 01A54 80AC20B4 860C03B4 */  lh      $t4, 0x03B4($s0)           ## 000003B4
 /* 01A58 80AC20B8 C6120368 */  lwc1    $f18, 0x0368($s0)          ## 00000368
 /* 01A5C 80AC20BC 448B5000 */  mtc1    $t3, $f10                  ## $f10 = -0.00
@@ -159,7 +159,7 @@ glabel EnOkuta_Update
 /* 01BA8 80AC2208 C6060054 */  lwc1    $f6, 0x0054($s0)           ## 00000054
 /* 01BAC 80AC220C C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028
 /* 01BB0 80AC2210 856C0002 */  lh      $t4, 0x0002($t3)           ## 00000002
-/* 01BB4 80AC2214 3C0F80AC */  lui     $t7, %hi(D_80AC286C)       ## $t7 = 80AC0000
+/* 01BB4 80AC2214 3C0F80AC */  lui     $t7, %hi(D_80AC284C+0x20)       ## $t7 = 80AC0000
 /* 01BB8 80AC2218 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 01BBC 80AC221C 448C8000 */  mtc1    $t4, $f16                  ## $f16 = 0.00
 /* 01BC0 80AC2220 00000000 */  nop
@@ -172,7 +172,7 @@ glabel EnOkuta_Update
 /* 01BDC 80AC223C 440E8000 */  mfc1    $t6, $f16                  
 /* 01BE0 80AC2240 00000000 */  nop
 /* 01BE4 80AC2244 A60E03B8 */  sh      $t6, 0x03B8($s0)           ## 000003B8
-/* 01BE8 80AC2248 85EF286C */  lh      $t7, %lo(D_80AC286C)($t7)  
+/* 01BE8 80AC2248 85EF286C */  lh      $t7, %lo(D_80AC284C+0x20)($t7)  
 /* 01BEC 80AC224C 448F9000 */  mtc1    $t7, $f18                  ## $f18 = -0.00
 /* 01BF0 80AC2250 00000000 */  nop
 /* 01BF4 80AC2254 468091A0 */  cvt.s.w $f6, $f18                  

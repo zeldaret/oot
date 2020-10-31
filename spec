@@ -2845,7 +2845,6 @@ endseg
 beginseg
     name "ovl_En_Okuta"
     include "build/src/overlays/actors/ovl_En_Okuta/z_en_okuta.o"
-    include "build/data/overlays/actors/z_en_okuta.data.o"
     include "build/data/overlays/actors/z_en_okuta.reloc.o"
 endseg
 
