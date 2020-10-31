@@ -30,7 +30,7 @@ const ActorInit En_Bx_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT6, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK1,
       { 0xFFCFFFFF, 0x03, 0x04 },
       { 0xFFCFFFFF, 0x01, 0x00 },

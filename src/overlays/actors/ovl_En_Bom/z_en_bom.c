@@ -32,7 +32,7 @@ const ActorInit En_Bom_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, AT_OFF, AC_BOMB | AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_OFF, AC_BOMB | AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0x0003F828, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 6, 11, 14, { 0, 0, 0 } },
 };
@@ -50,7 +50,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK0, AT_ALL | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT0, AT_ALL | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };

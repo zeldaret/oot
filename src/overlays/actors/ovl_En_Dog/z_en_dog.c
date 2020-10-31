@@ -35,18 +35,12 @@ const ActorInit En_Dog_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT6, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 16, 20, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00,   // health
-    0x0000, // unk_10
-    0x0000, // unk_12
-    0x0000, // unk_14
-    0x32,   // mass
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 50 };
 
 static struct_80034EC0_Entry sAnimations[] = {
     { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },

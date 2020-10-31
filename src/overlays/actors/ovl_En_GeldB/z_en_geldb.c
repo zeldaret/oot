@@ -23,7 +23,7 @@ const ActorInit En_GeldB_InitVars = {
 };
 
 static ColliderCylinderInit D_80A39FE0 = {
-    { COLTYPE_UNK5, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT5, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 20, 50, 0, { 0, 0, 0 } },
 };

@@ -8908,7 +8908,7 @@ void func_80846578(Player* this, GlobalContext* globalCtx) {
 }
 
 ColliderCylinderInit D_80854624 = {
-    { COLTYPE_UNK5, AT_OFF, AC_ENEMY | AC_ON, OC_ALL | OC_ON, OT_PLAYER, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT5, AT_OFF, AC_ENEMY | AC_ON, OC_ALL | OC_ON, OT_PLAYER, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK1, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 12, 60, 0, { 0, 0, 0 } },
 };

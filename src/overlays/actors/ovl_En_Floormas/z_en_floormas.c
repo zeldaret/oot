@@ -58,7 +58,7 @@ const ActorInit En_Floormas_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x04, 0x10 },
       { 0xFFCFFFFF, 0x00, 0x00 },
@@ -164,7 +164,7 @@ void EnFloormas_MakeInvulnerable(EnFloormas* this) {
 }
 
 void EnFloormas_MakeVulnerable(EnFloormas* this) {
-    this->collider.base.colType = COLTYPE_UNK0;
+    this->collider.base.colType = COLTYPE_HIT0;
     this->actionTarget = 0;
     this->collider.base.acFlags &= ~AC_HARD;
 }

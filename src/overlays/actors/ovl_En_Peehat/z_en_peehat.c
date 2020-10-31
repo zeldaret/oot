@@ -42,7 +42,7 @@ static ColliderJntSphElementInit  D_80AD276C[1] = {
 };
 
 static ColliderJntSphInit D_80AD2790 = {
-    { COLTYPE_UNK6, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT6, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
     1, D_80AD276C,
 };
 */

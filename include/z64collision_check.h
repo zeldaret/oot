@@ -73,8 +73,8 @@ typedef struct ColliderInfo {
     /* 0x15 */ u8 toucherFlags;
     /* 0x16 */ u8 bumperFlags;
     /* 0x17 */ u8 ocElemFlags;
-    /* 0x18 */ Collider* atHit;                // object touching this object's AT collider
-    /* 0x1C */ Collider* acHit;                // object touching this object's AC collider
+    /* 0x18 */ Collider* atHit;                // object touching this element's AT collider
+    /* 0x1C */ Collider* acHit;                // object touching this element's AC collider
     /* 0x20 */ struct ColliderInfo* atHitInfo; // element that hit the AT collider
     /* 0x24 */ struct ColliderInfo* acHitInfo; // element that hit the AC collider
 } ColliderInfo; // size = 0x28
@@ -234,37 +234,21 @@ typedef struct {
 } OcLine; // size = 0x1C
 
 typedef enum {
-    COLTYPE_UNK0,
-    COLTYPE_UNK1,
-    COLTYPE_UNK2,
-    COLTYPE_UNK3,
-    COLTYPE_UNK4,
-    COLTYPE_UNK5,
-    COLTYPE_UNK6,
-    COLTYPE_UNK7,
-    COLTYPE_UNK8,
+    COLTYPE_HIT0, // Blue blood, white hitmark
+    COLTYPE_HIT1, // No blood, dust hitmark
+    COLTYPE_HIT2, // Green blood, dust hitmark
+    COLTYPE_HIT3, // No blood, white hitmark
+    COLTYPE_HIT4, // Water burst, no hitmark
+    COLTYPE_HIT5, // No blood, red hitmark
+    COLTYPE_HIT6, // Green blood, white hitmark
+    COLTYPE_HIT7, // Red blood, white hitmark
+    COLTYPE_HIT8, // Blue blood, red hitmark
     COLTYPE_METAL,
     COLTYPE_NONE,
     COLTYPE_WOOD,
     COLTYPE_HARD,
     COLTYPE_TREE
 } ColliderType;
-
-/* 0: Blue blood, white hitmark
- * 1: No blood, sand hitmark
- * 2: Green blood, sand hitmark
- * 3: No blood, white hitmark
- * 4: Water burst, no hitmark
- * 5: No blood, red hitmark
- * 6: Green blood, white hitmark
- * 7: Red blood, white hitmark
- * 8: Blue blood, red hitmark
- * 9: No blood, metal sounds, sword particles
- * 10: No blood, no hitmark
- * 11: No blood, deflection sounds
- * 12: No blood, deflection sounds
- * 13: No blood, wood sounds, sword particles
- */
 
 typedef enum {
     COLSHAPE_JNTSPH,
