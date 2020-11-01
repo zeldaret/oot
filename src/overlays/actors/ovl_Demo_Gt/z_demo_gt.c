@@ -108,6 +108,8 @@ extern UNK_TYPE D_06007630;
 extern UNK_TYPE D_06004F90;
 extern Gfx D_06000EA0[];
 extern UNK_TYPE D_06009610;
+extern UNK_TYPE D_06002910;
+extern UNK_TYPE D_060041A0;
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
@@ -234,32 +236,38 @@ void func_8097DA78(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E1D4.s")
 // End of very similar methods
 
-void func_8097E454(GlobalContext* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6, s32 arg7,
-                   s16 arg8);
+void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
+                   s32 arg7, s16 arg8);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E454.s")
-// void func_8097E454(GlobalContext* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6, s32
-// arg7,
-//                    s16 arg8) {
-//     Vec3f sp7C;
-
+// void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
+//                    s32 arg7, s16 arg8) {
 //     s16 phi_s0;
 //     s32 i;
+//     f32 temp;
+//     f32 temp2;
+//     Vec3f sp7C;
+//     s32 gameplayFrames;
 
-//     if ((func_800C0D28(arg0) == 0) && (arg7 > 0) && (arg6 > 0)) {
+//     if ((func_800C0D28(globalCtx) == 0) && (arg7 > 0) && (arg6 > 0)) {
+//         gameplayFrames = ABS(globalCtx->gameplayFrames) % arg7;
 
-//         if (ABS(arg0->gameplayFrames % arg7) < arg6) {
-//             phi_s0 = arg0->gameplayFrames / arg6;
+//         if (gameplayFrames < arg6) {
+//             phi_s0 = (gameplayFrames) / arg6;
+//             temp = (15.0f * arg5);
+//             temp2 = 300.0f * arg5;
 
-//             for (i = arg0->gameplayFrames; i < arg6; i += arg7) {
+//             for (i = gameplayFrames; i < arg6; i += arg7) {
 
 //                 sp7C.x = (Math_Sins(phi_s0) * arg4) + arg1->x;
 //                 sp7C.y = arg1->y;
 //                 sp7C.z = (Math_Coss(phi_s0) * arg4) + arg1->z;
-//                 func_8097D74C(arg0, &sp7C, arg2, arg3, 300.0f * arg5, (15.0f * arg5), (s32)arg8);
+
+//                 func_8097D74C(globalCtx, &sp7C, arg2, arg3, temp2, temp, arg8);
 //                 if (Math_Rand_ZeroOne() <= 0.05f) {
-//                     func_8097E1D4(arg0, &sp7C, phi_s0);
+//                     func_8097E1D4(globalCtx, &sp7C, phi_s0);
 //                 }
-//                 phi_s0 = (s16)(phi_s0 + (s16)(0x10000 / arg6));
+
+//                 phi_s0 += (s16)(0x10000 / arg6);
 //             }
 //         }
 //     }
@@ -272,7 +280,7 @@ u8 func_8097E69C(GlobalContext* globalCtx) {
     return false;
 }
 
-CsCmdActorAction* func_8097E6BC(GlobalContext* globalCtx, u32 actionIdx) {
+CsCmdActorAction* DemoGt_GetNpcAction(GlobalContext* globalCtx, u32 actionIdx) {
     s32 pad[2];
     CsCmdActorAction* ret = NULL;
 
@@ -285,30 +293,39 @@ CsCmdActorAction* func_8097E6BC(GlobalContext* globalCtx, u32 actionIdx) {
 u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
     CsCmdActorAction* action;
 
-    action = func_8097E6BC(globalCtx, arg2);
+    action = DemoGt_GetNpcAction(globalCtx, arg2);
     if (action != NULL && action->action == arg1) {
         return true;
     }
     return false;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E744.s")
-// void func_8097E744(DemoGt *this, GlobalContext *globalCtx, u32 actionIdx) {
-//     // CsCmdActorAction *sp3C;
-//     f32 floatVal;
-//     CsCmdActorAction *cmdActorAction;
+void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
+    CsCmdActorAction* npcAction = DemoGt_GetNpcAction(globalCtx, actionIdx);
+    Vec3f* thisPos = &this->dyna.actor.posRot.pos;
 
-//     cmdActorAction = func_8097E6BC(globalCtx, actionIdx);
-//     if (cmdActorAction != NULL) {
-//         floatVal = func_8006F9BC(cmdActorAction->endFrame, cmdActorAction->startFrame, globalCtx->csCtx.frames,
-//         (u16)8U, 0);
+    f32 startX;
+    f32 startY;
+    f32 startZ;
+    f32 endX;
+    f32 endY;
+    f32 endZ;
+    f32 someFloat;
 
-//         this->dyna.actor.posRot.pos.x =  ((( cmdActorAction->endPos.x -  cmdActorAction->startPos.x) * floatVal)
-//         + cmdActorAction->startPos.x); this->dyna.actor.posRot.pos.y =  ((( cmdActorAction->endPos.y -
-//         cmdActorAction->startPos.y) * floatVal) +  cmdActorAction->startPos.y); this->dyna.actor.posRot.pos.z =
-//         ((( cmdActorAction->endPos.z -  cmdActorAction->startPos.z) * floatVal) +  cmdActorAction->startPos.z);
-//     }
-// }
+    if (npcAction != NULL) {
+        someFloat = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 8, 0);
+        startX = npcAction->startPos.x;
+        startY = npcAction->startPos.y;
+        startZ = npcAction->startPos.z;
+        endX = npcAction->endPos.x;
+        endY = npcAction->endPos.y;
+        endZ = npcAction->endPos.z;
+
+        thisPos->x = ((endX - startX) * someFloat) + startX;
+        thisPos->y = ((endY - startY) * someFloat) + startY;
+        thisPos->z = ((endZ - startZ) * someFloat) + startZ;
+    }
+}
 
 void func_8097E824(DemoGt* this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
@@ -522,8 +539,8 @@ void func_8097F1D8(DemoGt* this) {
     }
 }
 
+void func_8097F280(DemoGt* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F280.s")
-// void func_8097F280(DemoGt* this, GlobalContext* globalCtx);
 
 void func_8097F3EC(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2U, 1)) {
@@ -551,8 +568,83 @@ void func_8097F498(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EF00(this, globalCtx);
 }
 
-// Lots of GFX stuff
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F508.s")
+void func_8097F508(DemoGt* this, GlobalContext* globalCtx) {
+    s32 pad;
+    GraphicsContext* gfxCtx =globalCtx->state.gfxCtx;
+    u32 gameplayFrames = globalCtx->gameplayFrames;
+    s16 pad2[2];
+    s16 spC6;
+    f32 spC0;
+    f32 spBC;
+    s16 spBA;
+    s16 spB8;
+    Mtx* spB4;
+
+    Vec3f spA8;
+    Vec3f sp9C;
+    f32 sp98;
+
+    Vec3i* tempVec198;
+    Vec3i* tempVec188;
+    Vec3i* tempVec178;
+
+    spC6 = this->unk_172;
+    spC0 = fabsf(spC6 * (M_PI / 0x8000));
+    spBC = kREG(71);
+
+    spB8 = (s16)((s32)kREG(70)) + 0x4000;
+    spBA = kREG(70);
+
+    spB4 = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sp98 = 1.0f - Math_Coss(spC6);
+
+    OPEN_DISPS(gfxCtx, "../z_demo_gt_part1.c", 458);
+
+    spA8.x = Math_Coss(spB8);
+    spA8.y = 0.0f;
+    spA8.z = Math_Sins(spB8);
+    sp9C.x = Math_Coss(spBA) * spBC * sp98;
+    sp9C.y = Math_Sins(spC6) * spBC;
+    sp9C.z = Math_Sins(spBA) * spBC * sp98;
+
+    Matrix_Push();
+    func_800D23FC(spC0, &spA8, 1);
+    Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, 1);
+    Matrix_ToMtx(spB4, "../z_demo_gt_part1.c", 474);
+    tempVec198 = &this->unk_198;
+    tempVec188 = &this->unk_188;
+    tempVec178 = &this->unk_178;
+
+    Matrix_Pull();
+
+    func_80093D18(gfxCtx);
+
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
+               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
+                                        tempVec178->x, tempVec178->y, tempVec178->z, 0x80));
+
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A,
+               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
+                                        tempVec188->x, tempVec188->y, tempVec188->z, 0x80));
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06002910);
+
+    func_80093D84(gfxCtx);
+
+    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 128, 128, 128, 128);
+
+    gSPSegment(
+        oGfxCtx->polyXlu.p++, 0x09,
+        Gfx_TwoTexScroll(gfxCtx, 0, 0U, gameplayFrames * 0x14, 0x10, 0x200, 1, 0, gameplayFrames * 0x1E, 0x10, 0x200));
+
+    gSPMatrix(oGfxCtx->polyXlu.p++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_060041A0);
+
+    CLOSE_DISPS(gfxCtx, "../z_demo_gt_part1.c", 557);
+}
 
 void func_8097F904(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
@@ -1242,7 +1334,7 @@ void func_80981694(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f sp54;
     Vec3f sp48;
     f32 sp44;
-    
+
     sp76 = this->unk_172;
     sp70 = fabsf(sp76 * (M_PI / 0x8000));
     sp6C = kREG(62);
