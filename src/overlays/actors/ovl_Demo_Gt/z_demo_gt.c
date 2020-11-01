@@ -1515,51 +1515,56 @@ void func_80981E44(DemoGt* this, GlobalContext* globalCtx) {
     func_80981CEC(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E84.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E84.s")
 // void func_80981E84(DemoGt* this, GlobalContext* globalCtx);
-// void func_80981E84(DemoGt* this, GlobalContext* globalCtx) {
-//     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-//     // s32 pad;
-//     Mtx* mtx;
-//     s16 sp6E;
-//     f32 sp68;
-//     f32 sp64;
-//     s16 sp62;
-//     s16 sp60;
-//     Vec3f sp50;
-//     Vec3f sp44;
-//     f32 sp40;
-//     s16 temp_t8;
+void func_80981E84(DemoGt* this, GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    // s32 pad;
+    Mtx* sp5C;
+    s16 sp6E;
+    f32 sp68;
+    f32 sp64;
+    s16 sp62;
+    s16 sp60;
+    Vec3f sp50;
+    Vec3f sp44;
+    f32 sp40;
+    // s16 temp_t8;
 
-//     sp68 = fabsf((this->unk_172) * 0.0000958738f);
-//     sp64 = (f32)kREG(75);
-//     sp6E = this->unk_172;
-//     temp_t8 = kREG(74) + 0x7FEC;
-//     sp62 = temp_t8;
-//     sp60 = (s16)(temp_t8 + 0x4000);
+    sp6E = this->unk_172;
+    sp68 = fabsf(sp6E * (M_PI / 0x8000));
+    sp64 = (f32)kREG(75);
+    
+    sp62 = (s16)((s32)kREG(74)) + 0x4000;
+    sp60 = (s16)((s32)kREG(74)) + 0x7FEC;
 
-//     mtx = Graph_Alloc(globalCtx->state.gfxCtx, 0x40);
-//     sp40 = 1.0f - Math_Coss(sp6E);
+    sp5C = Graph_Alloc(gfxCtx, 0x40);
+    sp40 = 1.0f - Math_Coss(sp6E);
 
-//     OPEN_DISPS(gfxCtx, "../z_demo_gt_part5.c", 136);
-//     sp50.x = Math_Coss(sp60);
-//     sp50.y = 0.0f;
-//     sp50.z = Math_Sins(sp60);
-//     sp44.x = (Math_Coss(sp62) * sp64) * sp40;
-//     sp44.y = Math_Sins(sp6E) * sp64;
-//     sp44.z = (Math_Sins(sp62) * sp64) * sp40;
+    OPEN_DISPS(gfxCtx, "../z_demo_gt_part5.c", 136);
 
-//     Matrix_Push();
-//     func_800D23FC(sp68, &sp50, MTXMODE_APPLY);
-//     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-//     Matrix_ToMtx(mtx, "../z_demo_gt_part5.c", 152);
-//     Matrix_Pull();
-//     func_80093D18(oGfxCtx);
-//     gSPMatrix(oGfxCtx->polyOpa.p++, mtx,  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-//     gSPDisplayList(oGfxCtx->polyOpa.p++, &D_60099700);
+    sp50.x = Math_Coss(sp60);
+    sp50.y = 0.0f;
+    sp50.z = Math_Sins(sp60);
 
-//     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part5.c", 160);
-// }
+    sp44.x = (Math_Coss(sp62) * sp64) * sp40;
+    sp44.y = Math_Sins(sp6E) * sp64;
+    sp44.z = (Math_Sins(sp62) * sp64) * sp40;
+
+    Matrix_Push();
+    func_800D23FC(sp68, &sp50, MTXMODE_APPLY);
+    Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
+
+    Matrix_ToMtx(sp5C, "../z_demo_gt_part5.c", 152);
+    Matrix_Pull();
+    func_80093D18(gfxCtx);
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, sp5C,  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_60099700);
+
+    CLOSE_DISPS(gfxCtx, "../z_demo_gt_part5.c", 160);
+}
 
 void func_80982054(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
