@@ -11,6 +11,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80AC0A88(Actor* thisx);
 void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx);
+void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx);
 
 const ActorInit En_Okuta_InitVars = {
@@ -101,7 +102,13 @@ void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0890.s")
+void func_80AC0890(EnOkuta* this, GlobalContext* globalCtx) {
+    s32 i;
+
+    for (i = 0; i < 10; i++) {
+        EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, -10.0f, 10.0f, 30.0f, 0.25f);
+    }
+}
 
 void func_80AC093C(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* globalCtx) {
     static Vec3f accel = { 0.0f, 0.0f, 0.0f };
@@ -111,11 +118,21 @@ void func_80AC093C(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* gl
     func_8002829C(globalCtx, pos, velocity, &accel, &primColor, &envColor, 0x190, scaleStep);
 }
 
-void func_80AC09A4(EnOkuta* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC09A4.s")
+void func_80AC09A4(EnOkuta* this, GlobalContext* globalCtx) {
+    EffectSsGSplash_Spawn(globalCtx, &this->actor.initPosRot.pos, NULL, NULL, 0, 1300);
+}
 
-void func_80AC09E8(EnOkuta* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC09E8.s")
+void func_80AC09E8(EnOkuta* this, GlobalContext* globalCtx) {
+    Vec3f pos;
+
+    pos.x = this->actor.posRot.pos.x;
+    pos.y = this->actor.initPosRot.pos.y;
+    pos.z = this->actor.posRot.pos.z;
+    if ((globalCtx->gameplayFrames % 7) == 0 &&
+        ((this->actionFunc != func_80AC12D8) || ((this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) < 50.0f))) {
+        EffectSsGRipple_Spawn(globalCtx, &pos, 250, 650, 0);
+    }
+}
 
 void func_80AC0A88(Actor* thisx) {
     EnOkuta* this = THIS;
@@ -153,7 +170,6 @@ void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC11A8.s")
 
-void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC12D8.s")
 
 void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
