@@ -98,16 +98,16 @@ void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectS
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, 0);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
+    gSPSegment(POLY_XLU_DISP++, 0x06, object);
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, this->rAlpha);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, sColors[this->rParam].r, sColors[this->rParam].g, sColors[this->rParam].b, 0);
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, sColors[this->rParam].r, sColors[this->rParam].g, sColors[this->rParam].b, 0);
+    gDPPipeSync(POLY_XLU_DISP++);
     func_800D1FD4(&globalCtx->mf_11DA0);
     Matrix_RotateZ((this->rXZRot / 32768.0f) * 3.1416f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 326),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 326),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+    gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 330);
 }
@@ -127,20 +127,20 @@ void EffectSsFhgFlash_DrawShock(GlobalContext* globalCtx, u32 index, EffectSs* t
     if (this->rParam != FHGFLASH_SHOCK_NO_ACTOR) {
         func_80094044(globalCtx->state.gfxCtx);
         Matrix_RotateX((this->rXZRot / 32768.0f) * 1.1416f, MTXMODE_APPLY);
-        gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2);
+        gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2);
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
         func_800D1FD4(&globalCtx->mf_11DA0);
-        gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
+        gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
     }
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, this->rAlpha);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 155, 0);
+    gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 155, 0);
     Matrix_RotateZ((this->rXZRot / 32768.0f) * 3.1416f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 395),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_fhg_flash.c", 395),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+    gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 399);
 }

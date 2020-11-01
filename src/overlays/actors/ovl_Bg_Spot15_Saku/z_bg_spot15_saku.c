@@ -99,9 +99,9 @@ void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060003C0);
+    gSPDisplayList(POLY_XLU_DISP++, D_060003C0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }
