@@ -520,7 +520,6 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
     if (this->actionFunc == func_80AC11A8) {
         arg2->x = arg2->z = 1.0f;
@@ -536,8 +535,8 @@ s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
             arg2->x = 2.0f - ((arg1 - 6.0f) * 0.0769f);
             arg2->y = arg2->z = 1.0f;
         }
-    } else {
-        if (this->actionFunc != func_80AC14A8 || arg1 >= 35.0f || arg1 < 25.0f) {
+    } else if (this->actionFunc == func_80AC14A8) {
+        if (arg1 >= 35.0f || arg1 < 25.0f) {
             return false;
         }
         if (arg1 < 27.0f) {
@@ -550,14 +549,12 @@ s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
             arg2->x = 2.0f - ((arg1 - 29.0f) * 0.2f);
             arg2->y = arg2->z = 1.0f;
         }
+    } else {
+        return false;
     }
 
     return true;
 }
-#else
-s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC2350.s")
-#endif
 
 s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              Actor* actor) {
