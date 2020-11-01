@@ -570,7 +570,7 @@ void func_8097F498(DemoGt* this, GlobalContext* globalCtx) {
 
 void func_8097F508(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad;
-    GraphicsContext* gfxCtx =globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u32 gameplayFrames = globalCtx->gameplayFrames;
     s16 pad2[2];
     s16 spC6;
@@ -774,48 +774,31 @@ void func_8097FF5C(DemoGt* this, GlobalContext* globalCtx) {
     func_8097FD70(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097FF9C.s")
-// void func_8097FF9C(DemoGt* this, GlobalContext* globalCtx) {
+void func_8097FF9C(DemoGt* this, GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Vec3i* tempVec198;
+    Vec3i* tempVec178;
+    s32 pad;
 
-//     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_gt_part2.c", 470);
+    OPEN_DISPS(gfxCtx, "../z_demo_gt_part2.c", 470);
 
-//     func_80093D18(oGfxCtx);
+    func_80093D18(gfxCtx);
+    tempVec198 = &this->unk_198;
+    tempVec178 = &this->unk_178;
 
-//     // temp_v0 = temp_s0->polyOpa.p;
-//     // temp_s0->polyOpa.p = (Gfx *) (temp_v0 + 8);
-//     // temp_v0->words.w0 = 0xDB060020U;
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
+               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0U, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
+                                        tempVec178->x, tempVec178->y, tempVec178->z, 0x80));
 
-//     // sp60 = temp_v0;
-//     // sp60->words.w1 = Gfx_TwoTexScrollEnvColor(temp_s0, 0, 0U, (u32) this->unk_198.x, 0x20, 0x40, 1, 0,
-//     // this->unk_198.y, 0x20, 0x40, this->unk_178.x, this->unk_178.y, this->unk_178.z, 0x80);
-//     gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
-//                Gfx_TwoTexScrollEnvColor(oGfxCtx, 0, 0U, this->unk_198.x, 0x20, 0x40, 1, 0, this->unk_198.y, 0x20,
-//                0x40,
-//                                         this->unk_178.r, this->unk_178.g, this->unk_178.b, 0x80));
+    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part2.c", 485),
+              G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-//     // temp_v0_2 = temp_s0->polyOpa.p;
-//     // temp_s0->polyOpa.p = (Gfx*)(temp_v0_2 + 8);
-//     // temp_v0_2->words.w0 = 0xDA380002U;
-//     // sp5C = temp_v0_2;
-//     // sp5C->words.w1 = Matrix_NewMtx(temp_s0, "../z_demo_gt_part2.c", 485);
-//     gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_gt_part2.c", 485),
-//               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06004F90);
 
-//     // temp_v0_3 = temp_s0->polyOpa.p;
-//     // temp_s0->polyOpa.p = (Gfx*)(temp_v0_3 + 8);
-//     // temp_v0_3->words.w1 = 0x6004F90U;
-//     // temp_v0_3->words.w0 = 0xDE000000U;
+    gSPPopMatrixN(oGfxCtx->polyOpa.p++, G_MTX_MODELVIEW, 1);
 
-//     gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06004F90);
-
-//     // temp_v0_4 = temp_s0->polyOpa.p;
-//     // temp_s0->polyOpa.p = (Gfx*)(temp_v0_4 + 8);
-//     // temp_v0_4->words.w1 = 0x40U;
-//     // temp_v0_4->words.w0 = 0xD8380002U;
-//     gSPPopMatrixN(oGfxCtx->polyOpa.p++, G_MTX_MODELVIEW, 0x100000);
-
-//     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_gt_part2.c", 489);
-// }
+    CLOSE_DISPS(gfxCtx, "../z_demo_gt_part2.c", 489);
+}
 
 void func_80980110(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
