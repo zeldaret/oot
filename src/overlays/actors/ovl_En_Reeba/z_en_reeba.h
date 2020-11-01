@@ -33,7 +33,7 @@ typedef struct EnReeba {
 typedef enum {
     /* 0 */ LEEVER_SMALL,
     /* 1 */ LEEVER_BIG
-} EnReebaParam;
+} LeeverParam;
 
 extern const ActorInit En_Reeba_InitVars;
 

@@ -1,5 +1,4 @@
 #include "z_en_encount1.h"
-#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
 #include "vt.h"
 
 #define FLAGS 0x08000010
@@ -13,8 +12,8 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx);
 void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx);
 void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCtx);
 
-s16 sLeeverAngle[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
-f32 sLeeverDist[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
+s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
+f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
 const ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
@@ -31,7 +30,7 @@ const ActorInit En_Encount1_InitVars = {
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnEncount1* this = THIS;
-    f32 temp;
+    f32 spawnRange;
 
     if (this->actor.params <= 0) {
         osSyncPrintf("\n\n");
@@ -50,8 +49,8 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->maxCurSpawns = (this->actor.params >> 6) & 0x1F;
     this->maxTotalSpawns = this->actor.params & 0x3F;
     this->curNumSpawn = this->totalNumSpawn = 0;
-    temp = 120.0f + (40.0f * this->actor.posRot.rot.z);
-    this->spawnRange = temp;
+    spawnRange = 120.0f + (40.0f * this->actor.posRot.rot.z);
+    this->spawnRange = spawnRange;
 
     osSyncPrintf("\n\n");
     // It's an enemy spawner!
@@ -92,17 +91,17 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
     s32 floorType;
-    f32 floorY;
     f32 spawnDist;
-    s32 spawnParam;
+    s32 spawnParams;
     s16 spawnLimit;
     s16 spawnAngle;
     Vec3f spawnPos;
     CollisionPoly* floorPoly;
-    s32* bgId;
+    s32 bgId;
+    f32 floorY;
     EnReeba* leever;
-    Player* player = PLAYER;
 
     this->outOfRangeTimer = 0;
     spawnPos = this->actor.posRot.pos;
@@ -118,15 +117,15 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                 spawnLimit = 3;
             }
             while ((this->curNumSpawn < this->maxCurSpawns) && (this->curNumSpawn < spawnLimit) && (this->timer == 0)) {
-                spawnDist = sLeeverDist[this->leeverIndex];
-                spawnAngle = sLeeverAngle[this->leeverIndex] + player->actor.shape.rot.y;
-                spawnParam = LEEVER_SMALL;
+                spawnDist = sLeeverDists[this->leeverIndex];
+                spawnAngle = sLeeverAngles[this->leeverIndex] + player->actor.shape.rot.y;
+                spawnParams = LEEVER_SMALL;
 
                 if ((this->killCount >= 10) && (this->bigLeever == NULL)) {
                     this->killCount = this->numLeeverSpawns = 0;
-                    spawnAngle = sLeeverAngle[0];
-                    spawnDist = sLeeverDist[2];
-                    spawnParam = LEEVER_BIG;
+                    spawnAngle = sLeeverAngles[0];
+                    spawnDist = sLeeverDists[2];
+                    spawnParams = LEEVER_BIG;
                 }
 
                 spawnPos.x = player->actor.posRot.pos.x + Math_Sins(spawnAngle) * spawnDist;
@@ -135,14 +134,14 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
 
                 floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= -32000.0f) {
-                    return;
+                    break;
                 }
                 spawnPos.y = floorY;
 
                 leever = (EnReeba*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_REEBA,
-                                                      spawnPos.x, spawnPos.y, spawnPos.z, 0, 0, 0, spawnParam);
-                if (1) {}
-                if (1) {}
+                                                      spawnPos.x, spawnPos.y, spawnPos.z, 0, 0, 0, spawnParams);
+
+                if (1) {} if (1) {}
                 if (leever != NULL) {
                     this->curNumSpawn++;
                     leever->unk_280 = this->leeverIndex++;
@@ -154,7 +153,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                         this->timer = 150;
                         this->numLeeverSpawns = 0;
                     }
-                    if (spawnParam != LEEVER_SMALL) {
+                    if (spawnParams != LEEVER_SMALL) {
                         this->timer = 300;
                         this->bigLeever = leever;
                     }
@@ -168,7 +167,7 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                    return;
+                    break;
                 }
             }
         }
@@ -176,11 +175,11 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
-    f32 floorY;
-    s32* bgId;
+    Player* player = PLAYER;
+    s32 bgId;
     CollisionPoly* floorPoly;
     Vec3f spawnPos;
-    Player* player = PLAYER;
+    f32 floorY;
 
     if (this->timer == 0) {
         this->timer = 10;
@@ -214,17 +213,17 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
 }
 
 void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCtx) {
-    s16 spawnAngle;
+    Player* player = PLAYER;
     f32 spawnDist;
-    f32 floorY;
+    s16 spawnAngle;
     s16 spawnId;
+    s16 spawnParams;
     s16 kcOver10;
-    s16 spawnParam;
     s16 tempmod;
     Vec3f spawnPos;
     CollisionPoly* floorPoly;
-    s32* bgId;
-    Player* player = PLAYER;
+    s32 bgId;
+    f32 floorY;
 
     if (globalCtx->sceneNum != SCENE_SPOT00) {
         if ((fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) > 100.0f) ||
@@ -232,7 +231,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
             this->outOfRangeTimer++;
             return;
         }
-    } else if (!gSaveContext.nightFlag || (Player_GetMask(globalCtx) == 4)) {
+    } else if (!gSaveContext.nightFlag || (Player_GetMask(globalCtx) == PLAYER_MASK_BUNNY)) {
         this->killCount = 0;
         return;
     }
@@ -246,14 +245,14 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                     !(player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x08000000)) {
 
                     this->fieldSpawnTimer = 60;
-                    return;
+                    break;
                 }
                 if (this->fieldSpawnTimer == 60) {
                     this->maxCurSpawns = 2;
                 }
                 if (this->fieldSpawnTimer != 0) {
                     this->fieldSpawnTimer--;
-                    return;
+                    break;
                 }
 
                 spawnDist = Math_Rand_CenteredFloat(40.0f) + 200.0f;
@@ -269,31 +268,32 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                     player->actor.posRot.pos.z + (Math_Coss(spawnAngle) * spawnDist) + Math_Rand_CenteredFloat(40.0f);
                 floorY = func_8003C9A4(&globalCtx->colCtx, &floorPoly, &bgId, &this->actor, &spawnPos);
                 if (floorY <= -32000.0f) {
-                    return;
+                    break;
                 }
                 if ((player->actor.waterY != -32000.0f) &&
                     (floorY < (player->actor.posRot.pos.y - player->actor.waterY))) {
-                    return;
+                    break;
                 }
                 spawnPos.y = floorY;
             }
             if (this->spawnType == SPAWNER_WOLFOS) {
                 spawnId = ACTOR_EN_WF;
-                spawnParam = (0xFF << 8) | 0x00;
+                spawnParams = (0xFF << 8) | 0x00;
             } else {
                 spawnId = ACTOR_EN_SKB;
+                spawnParams = 0;
+
                 kcOver10 = this->killCount / 10;
-                spawnParam = 0;
                 if (kcOver10 > 0) {
-                    tempmod = (this->killCount % 10);
+                    tempmod = this->killCount % 10;
                     if (tempmod == 0) {
-                        spawnParam = kcOver10 * 5;
+                        spawnParams = kcOver10 * 5;
                     }
                 }
                 this->killCount++;
             }
             if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, spawnId, spawnPos.x, spawnPos.y,
-                                   spawnPos.z, 0, 0, 0, spawnParam) != NULL) {
+                                   spawnPos.z, 0, 0, 0, spawnParams) != NULL) {
                 this->curNumSpawn++;
                 if (this->curNumSpawn >= this->maxCurSpawns) {
                     this->fieldSpawnTimer = 100;
@@ -306,7 +306,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n" VT_RST);
-                return;
+                break;
             }
         }
     }
@@ -316,7 +316,9 @@ void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnEncount1* this = THIS;
 
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
 
     this->updateFunc(this, globalCtx);
 

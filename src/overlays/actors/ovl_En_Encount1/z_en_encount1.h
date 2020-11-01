@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
 
 #define SPAWNER_PARAMS(type, number, total) ((type << 0xB) | (number << 0x6) | total)
 
@@ -26,7 +27,7 @@ typedef struct EnEncount1 {
     /* 0x0164 */ s16 timer;
     /* 0x0166 */ u8 reduceLeevers;
     /* 0x0168 */ f32 spawnRange;
-    /* 0x016C */ struct EnReeba* bigLeever;
+    /* 0x016C */ EnReeba* bigLeever;
 } EnEncount1; // size = 0x0170
 
 typedef enum {
@@ -34,7 +35,7 @@ typedef enum {
     /* 1 */ SPAWNER_TEKTITE,
     /* 2 */ SPAWNER_STALCHILDREN,
     /* 3 */ SPAWNER_WOLFOS
-} EnEncount1types;
+} EnEncount1type;
 
 extern const ActorInit En_Encount1_InitVars;
 
