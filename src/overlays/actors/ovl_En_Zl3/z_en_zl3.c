@@ -2756,7 +2756,7 @@ void func_80B59828(EnZl3* this, GlobalContext* globalCtx) {
         func_80088AA0(180);
         func_80B53468();
         gSaveContext.healthAccumulator = 320;
-        func_80087680(globalCtx);
+        Magic_Fill(globalCtx);
         if (Flags_GetSwitch(globalCtx, 0x20)) {
             Flags_UnsetSwitch(globalCtx, 0x20);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_ZG, -144.0f, 3544.0f, -43.0f, 0, 0x2000, 0, 0x2000);
@@ -2800,7 +2800,7 @@ void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
     gSaveContext.eventChkInf[12] &= ~0x80;
     func_80B56F10(this, globalCtx);
     gSaveContext.healthAccumulator = 320;
-    func_80087680(globalCtx);
+    Magic_Fill(globalCtx);
     this->action = 27;
     this->drawConfig = 1;
 }
@@ -2912,15 +2912,14 @@ void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0B, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(POLY_OPA_DISP++, 0x00, 0x00, 0x00, 0xFF);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
 
-    oGfxCtx->polyOpa.p =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
+    POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2190);
 }
@@ -2938,15 +2937,14 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_258);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0B, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_258);
+    gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
 
-    oGfxCtx->polyXlu.p =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnZl3_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
+    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      EnZl3_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);
 }

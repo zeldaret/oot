@@ -393,8 +393,8 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 809);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
-                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
+    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+                   (u8)(this->alpha >> 6));
     gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
     if ((this->actor.params & 1) == 1) {
@@ -443,8 +443,8 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 890);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
-                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+                   (u8)(this->alpha >> 6));
     gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
 
     sp68.x = this->actor.posRot.pos.x;
