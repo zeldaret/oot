@@ -288,11 +288,70 @@ void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC11A8.s")
+void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
+    s16 temp_v0_2;
+    s32 phi_v1;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC12D8.s")
+    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (func_800A56C8(&this->skelAnime, 0.0f)) {
+        if (this->unk_194 != 0) {
+            this->unk_194--;
+        }
+    }
+    if (func_800A56C8(&this->skelAnime, 0.5f)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
+    }
+    if (this->actor.xzDistFromLink < 160.0f || 560.0f < this->actor.xzDistFromLink) {
+        func_80AC0B24(this);
+        return;
+    }
+    temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
+    phi_v1 = ABS(temp_v0_2);
+    if ((phi_v1 < 0x38E) && (this->unk_194 == 0) && (this->actor.yDistFromLink < 200.0f)) {
+        func_80AC0BC0(this, globalCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1458.s")
+void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx) {
+    Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        if (this->unk_194 != 0) {
+            this->unk_194--;
+        }
+        if (this->unk_194 == 0) {
+            func_80AC0B60(this);
+        } else {
+            func_80AC0BC0(this, globalCtx);
+        }
+    } else {
+        f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
+
+        if (animCurrentFrame < 13.0f) {
+            this->actor.posRot.pos.y =
+                (sinf(0.2617889f * animCurrentFrame) * this->unk_360) + this->actor.initPosRot.pos.y;
+        }
+        if (func_800A56C8(&this->skelAnime, 6.0f)) {
+            func_80AC0DC8(this, globalCtx);
+        }
+        if ((this->unk_360 > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
+            func_80AC09A4(this, globalCtx);
+        }
+        if ((this->unk_360 > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
+        }
+    }
+    if (this->actor.xzDistFromLink < 160.0f) {
+        func_80AC0B24(this);
+    }
+}
+
+void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        func_80AC0D34(this);
+    }
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+}
 
 void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
     static Vec3f accel = { 0.0f, -0.5f, 0.0f };
@@ -347,15 +406,48 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC17BC.s")
+void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx) {
+    Vec3f pos;
+    s16 temp_v1;
+
+    if (this->unk_194 != 0) {
+        this->unk_194--;
+    }
+    if (this->unk_194 == 0) {
+        func_80AC0D34(this);
+    }
+    if ((this->unk_194 >= 0x40) && (this->unk_194 & 1)) {
+        temp_v1 = (this->unk_194 - 0x40) >> 1;
+        pos.y = (this->actor.posRot.pos.y - 32.0f) + (8.0f * (8 - temp_v1));
+        pos.x = this->actor.posRot.pos.x + ((temp_v1 & 2) ? 10.0f : -10.0f);
+        pos.z = this->actor.posRot.pos.z + ((temp_v1 & 1) ? 10.0f : -10.0f);
+        EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255,
+                                       (Math_Rand_ZeroOne() * 0.2f) + 1.9f);
+    }
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1938.s")
 
 void func_80AC1B80(EnOkuta* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1B80.s")
 
-void func_80AC1F28(EnOkuta* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1F28.s")
+void func_80AC1F28(EnOkuta* this, GlobalContext* globalCtx) {
+    if (this->collider.base.acFlags & 2) {
+        this->collider.base.acFlags &= ~2;
+        func_80035650(&this->actor, &this->collider.body, 1);
+        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
+            func_80032C7C(globalCtx, &this->actor);
+            this->actor.colChkInfo.health = 0;
+            this->actor.flags &= ~1;
+            if (this->actor.colChkInfo.damageEffect == 3) {
+                func_80AC0D7C(this);
+            } else {
+                func_80AC0CAC(this);
+            }
+        }
+    }
+}
 
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnOkuta* this = THIS;
