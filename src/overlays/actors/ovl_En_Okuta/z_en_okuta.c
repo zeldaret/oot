@@ -150,8 +150,10 @@ void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC10A8.s")
 
+void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC11A8.s")
 
+void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC12D8.s")
 
 void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
@@ -292,8 +294,44 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
+    if (this->actionFunc == func_80AC11A8) {
+        arg2->x = arg2->z = 1.0f;
+        arg2->y = (sinf(0.19634955f * arg1) * 0.4f) + 1.0f;
+    } else if (this->actionFunc == func_80AC12D8) {
+        if (arg1 < 5.0f) {
+            arg2->x = 1.0f;
+            arg2->y = arg2->z = (arg1 * 0.25f) + 1.0f;
+        } else if (arg1 < 7.0f) {
+            arg2->x = (arg1 - 4.0f) * 0.5f + 1.0f;
+            arg2->y = arg2->z = 2.0f - (arg1 - 4.0f) * 0.5f;
+        } else {
+            arg2->x = 2.0f - ((arg1 - 6.0f) * 0.0769f);
+            arg2->y = arg2->z = 1.0f;
+        }
+    } else {
+        if (this->actionFunc != func_80AC14A8 || arg1 >= 35.0f || arg1 < 25.0f) {
+            return false;
+        }
+        if (arg1 < 27.0f) {
+            arg2->x = 1.0f;
+            arg2->y = arg2->z = ((arg1 - 24.0f) * 0.5f) + 1.0f;
+        } else if (arg1 < 30.0f) {
+            arg2->x = (arg1 - 26.0f) * 0.333f + 1.0f;
+            arg2->y = arg2->z = 2.0f - (arg1 - 26.0f) * 0.333f;
+        } else {
+            arg2->x = 2.0f - ((arg1 - 29.0f) * 0.2f);
+            arg2->y = arg2->z = 1.0f;
+        }
+    }
+
+    return true;
+}
+#else
 s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC2350.s")
+#endif
 
 s32 func_80AC25D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     EnOkuta* this = (EnOkuta*)actor;
