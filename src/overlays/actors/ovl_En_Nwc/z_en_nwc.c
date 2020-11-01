@@ -52,11 +52,9 @@ const ActorInit En_Nwc_InitVars = {
     (ActorFunc)EnNwc_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphElementsInit[1] = {
-    {
-        { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-        { 0, { { 0, 0, 0 }, 10 }, 100 },
-    },
+static ColliderJntSphItemInit sJntSphElementInit = {
+    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 0, { { 0, 0, 0 }, 10 }, 100 },
 };
 
 static ColliderJntSphInit_Set3 sJntSphInit = {
@@ -208,7 +206,7 @@ void EnNwc_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     element = sJntSphInit.list = elementInits;
     for(i = 0; i < 16; i++, element++) {
-        *element = sJntSphElementsInit[0];
+        *element = sJntSphElementInit;
     }
 
     Collider_InitJntSph(globalCtx, &this->collider);
