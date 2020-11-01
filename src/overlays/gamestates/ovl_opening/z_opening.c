@@ -32,7 +32,7 @@ void Opening_Destroy(GameState* thisx) {
 
 void Opening_Init(GameState* thisx) {
     OpeningContext* this = (OpeningContext*)thisx;
-    
+
     R_UPDATE_RATE = 1;
     Matrix_Init(&this->state);
     View_Init(&this->view, this->state.gfxCtx);

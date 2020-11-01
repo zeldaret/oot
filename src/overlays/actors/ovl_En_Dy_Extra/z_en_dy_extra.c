@@ -114,17 +114,17 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_en_dy_extra.c", 294);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1,
                                 globalCtx->state.frames, globalCtx->state.frames * -8, 0x10, 0x10));
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
+    gDPPipeSync(POLY_XLU_DISP++);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dy_extra.c", 307),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b,
+    gDPSetEnvColor(POLY_XLU_DISP++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b,
                    128);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_0601C160);
+    gSPDisplayList(POLY_XLU_DISP++, D_0601C160);
 
     CLOSE_DISPS(gfxCtx, "../z_en_dy_extra.c", 325);
 }

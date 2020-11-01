@@ -1861,13 +1861,13 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         if (BREG(0) != 0) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4101);
 
-            prevDisplayList = oGfxCtx->polyOpa.p;
-            displayList = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
-            gSPDisplayList(oGfxCtx->overlay.p++, displayList);
+            prevDisplayList = POLY_OPA_DISP;
+            displayList = Graph_GfxPlusOne(POLY_OPA_DISP);
+            gSPDisplayList(OVERLAY_DISP++, displayList);
             Cutscene_DrawDebugInfo(globalCtx, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
             Graph_BranchDlist(prevDisplayList, displayList);
-            oGfxCtx->polyOpa.p = displayList;
+            POLY_OPA_DISP = displayList;
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4108);
         }
@@ -2016,9 +2016,7 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
 }
 
 void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
-    s32 temp; // inline temp needed to match regalloc
-
-    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", temp = gSaveContext.respawnFlag);
+    osSyncPrintf("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.entranceIndex == 0x01E1) && !Flags_GetEventChkInf(0xAC)) {
@@ -2037,12 +2035,12 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(0xC4) &&
-                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_TOKINOMA)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(0xC4);
             gSaveContext.entranceIndex = 0x0053;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(0xC7) &&
-                   (gEntranceTable[temp = gSaveContext.entranceIndex].scene == SCENE_GANON_DEMO)) {
+                   (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(0xC7);
             gSaveContext.entranceIndex = 0x0517;
             gSaveContext.cutsceneIndex = 0xFFF0;

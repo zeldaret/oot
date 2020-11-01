@@ -109,14 +109,14 @@ void func_809C2218(EnBlkobj* this, GlobalContext* globalCtx) {
             this->unk_166 += 1;
         }
     } else {
-        if ((this->unk_166++ < 0x65) ^ 1) {
-            temp = (this->unk_166 - 0x64) >> 2;
+        if (this->unk_166++ > 100) {
+            temp = (this->unk_166 - 100) >> 2;
             if (temp > 5) {
                 temp = 5;
             }
             this->unk_164 += temp;
-            if (this->unk_164 > 0xFF) {
-                this->unk_164 = 0xFF;
+            if (this->unk_164 > 255) {
+                this->unk_164 = 255;
                 func_809C2060(this, func_809C22F4);
                 DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             }
@@ -144,9 +144,9 @@ void func_809C2324(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
         segment = D_809C25A0;
     }
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, segment);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, alpha);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, dList);
+    gSPSegment(POLY_XLU_DISP++, 0x08, segment);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, alpha);
+    gSPDisplayList(POLY_XLU_DISP++, dList);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 330);
 }
@@ -163,15 +163,15 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gameplayFrames = globalCtx->gameplayFrames % 128;
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0D,
+    gSPSegment(POLY_XLU_DISP++, 0x0D,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, 0, 32, 32, 1, gameplayFrames, 0, 32, 32));
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 363),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 363),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->unk_164 != 0) {
         func_809C2324(globalCtx, D_060014E0, this->unk_164);
     }
-    temp_a3 = 0xFF - this->unk_164;
+    temp_a3 = 255 - this->unk_164;
     if (temp_a3 != 0) {
         func_809C2324(globalCtx, D_060053D0, temp_a3);
     }
