@@ -160,7 +160,55 @@ void func_80AC0A88(Actor* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1458.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC14A8.s")
+void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
+    Vec3f velocity;
+    Vec3f pos;
+    s32 i;
+
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        this->unk_194++;
+    }
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+    if (this->unk_194 == 5) {
+        pos.x = this->actor.posRot.pos.x;
+        pos.y = this->actor.posRot.pos.y + 40.0f;
+        pos.z = this->actor.posRot.pos.z;
+        velocity.x = 0.0f;
+        velocity.y = -0.5f;
+        velocity.z = 0.0f;
+        func_80AC093C(&pos, &velocity, -0x14, globalCtx);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
+    }
+    if (func_800A56C8(&this->skelAnime, 15.0f)) {
+        func_80AC09A4(this, globalCtx);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
+    }
+    if (this->unk_194 < 3) {
+        Actor_SetScale(&this->actor, ((this->unk_194 * 0.25f) + 1.0f) * 0.01f);
+        return;
+    }
+    if (this->unk_194 < 6) {
+        Actor_SetScale(&this->actor, (1.5f - ((this->unk_194 - 2) * 0.2333f)) * 0.01f);
+        return;
+    }
+    if (this->unk_194 < 0xB) {
+        Actor_SetScale(&this->actor, (((this->unk_194 - 5) * 0.04f) + 0.8f) * 0.01f);
+        return;
+    }
+    if (Math_ApproxF(&this->actor.scale.x, 0.0f, 0.0005f)) {
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x70);
+        for (i = 0; i < 20; i++) {
+            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
+            velocity.y = Math_Rand_ZeroOne() * 7.0f;
+            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
+            EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.posRot.pos, &velocity, &D_80AC28BC, &D_80AC28C8,
+                                              &D_80AC28CC, Math_Rand_S16Offset(100, 50), 25, 0);
+        }
+        Actor_Kill(&this->actor);
+    }
+    this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC17BC.s")
 
