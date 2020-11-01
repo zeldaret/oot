@@ -49,8 +49,8 @@ const ActorInit En_Wonder_Item_InitVars = {
     NULL,
 };
 
-Vec3f sTagPointsFree[9];
-Vec3f sTagPointsOrdered[9];
+static Vec3f sTagPointsFree[9];
+static Vec3f sTagPointsOrdered[9];
 
 void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -196,19 +196,17 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWonderItem_MultitagFree(EnWonderItem* this, GlobalContext* globalCtx) {
-    s32 mask;
-    s32 i;
-    f32 dx;
-    f32 dy;
-    f32 dz;
     Player* player = PLAYER;
     s32 prevTagFlags = this->tagFlags;
+    s32 i;
+    s32 mask;
 
     for (i = 0, mask = 1; i < this->numTagPoints; i++, mask <<= 1) {
         if (!(prevTagFlags & mask)) {
-            dx = player->actor.posRot.pos.x - sTagPointsFree[i].x;
-            dy = player->actor.posRot.pos.y - sTagPointsFree[i].y;
-            dz = player->actor.posRot.pos.z - sTagPointsFree[i].z;
+            f32 dx = player->actor.posRot.pos.x - sTagPointsFree[i].x;
+            f32 dy = player->actor.posRot.pos.y - sTagPointsFree[i].y;
+            f32 dz = player->actor.posRot.pos.z - sTagPointsFree[i].z;
+
             if (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 50.0f) {
                 this->tagFlags |= mask;
                 this->tagCount++;
@@ -263,19 +261,17 @@ void EnWonderItem_ProximitySwitch(EnWonderItem* this, GlobalContext* globalCtx) 
 }
 
 void EnWonderItem_MultitagOrdered(EnWonderItem* this, GlobalContext* globalCtx) {
-    f32 dx;
-    f32 dy;
-    f32 dz;
-    s32 mask;
-    s32 i;
     Player* player = PLAYER;
     s32 prevTagFlags = this->tagFlags;
+    s32 i;
+    s32 mask;
 
     for (i = 0, mask = 1; i < this->numTagPoints; i++, mask <<= 1) {
         if (!(prevTagFlags & mask)) {
-            dx = player->actor.posRot.pos.x - sTagPointsOrdered[i].x;
-            dy = player->actor.posRot.pos.y - sTagPointsOrdered[i].y;
-            dz = player->actor.posRot.pos.z - sTagPointsOrdered[i].z;
+            f32 dx = player->actor.posRot.pos.x - sTagPointsOrdered[i].x;
+            f32 dy = player->actor.posRot.pos.y - sTagPointsOrdered[i].y;
+            f32 dz = player->actor.posRot.pos.z - sTagPointsOrdered[i].z;
+
             if (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 50.0f) {
                 if (prevTagFlags & mask) {
                     return;
@@ -334,7 +330,7 @@ void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx) {
     static s16 debugTextColors[] = {
         255, 255, 0,   255, 0,   255, 0,   255, 255, 255, 0,   0, 0, 255, 0,   0, 0, 255, 128, 128,
         128, 128, 128, 0,   128, 0,   128, 0,   128, 0,   128, 0, 0, 0,   128, 0, 0, 0,   128,
-    }; // These seem to be mistyped.
+    }; // These seem to be mistyped. Logically they should be s16[13][3] and be indexed as [wonderIndex][i]
     s32 pad;
     EnWonderItem* this = THIS;
     s32 wonderIndex;
