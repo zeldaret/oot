@@ -247,7 +247,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx2);
         if (this->actor.params == 0) {
             func_80AC1B80(this);
-            this->collider.dim.height = (((sCylinderInit2.dim.height * this->unk_368) - this->collider.dim.yShift) *
+            this->collider.dim.height = (((sCylinderInit2.dim.height * this->unk_364.y) - this->collider.dim.yShift) *
                                          this->actor.scale.y * 100.0f);
         } else {
             sp34 = false;
@@ -292,10 +292,31 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC2350.s")
 
-s32 func_80AC25D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC25D8.s")
+s32 func_80AC25D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+    EnOkuta* this = (EnOkuta*)actor;
+    f32 phi_f0 = this->skelAnime.animCurrentFrame;
+    Vec3f scale;
+    s32 doScale = false;
+
+    if (this->actionFunc == func_80AC14A8) {
+        phi_f0 += this->unk_194;
+    }
+    if (limbIndex == 5) {
+        if ((this->unk_364.x != 1.0f) || (this->unk_364.y != 1.0f) || (this->unk_364.z != 1.0f)) {
+            scale = this->unk_364;
+            doScale = true;
+        }
+    } else if (limbIndex == 8) {
+        doScale = func_80AC2350(this, phi_f0, &scale);
+    }
+    if (doScale) {
+        Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
+    }
+    return 0;
+}
 
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnOkuta* this = THIS;

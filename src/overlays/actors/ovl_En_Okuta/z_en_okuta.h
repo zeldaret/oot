@@ -16,9 +16,8 @@ typedef struct EnOkuta {
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ Vec3s limbDrawTable[38];
     /* 0x027C */ Vec3s transitionDrawTable[38];
-    /* 0x0360 */ char unk_360[0x08];
-    /* 0x0368 */ f32 unk_368;
-    /* 0x036C */ char unk_36C[0x04];
+    /* 0x0360 */ char unk_360[0x04];
+    /* 0x0364 */ Vec3f unk_364;
     /* 0x0370 */ ColliderCylinder collider;
 } EnOkuta; // size = 0x03BC
 
