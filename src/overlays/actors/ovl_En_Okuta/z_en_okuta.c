@@ -333,7 +333,8 @@ s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC2350.s")
 #endif
 
-s32 func_80AC25D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                             Actor* actor) {
     EnOkuta* this = (EnOkuta*)actor;
     f32 phi_f0 = this->skelAnime.animCurrentFrame;
     Vec3f scale;
@@ -363,7 +364,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if (this->actor.params == 0) {
-        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80AC25D8, NULL,
+        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnOkuta_OverrideLimbDraw, NULL,
                        &this->actor);
         return;
     }
