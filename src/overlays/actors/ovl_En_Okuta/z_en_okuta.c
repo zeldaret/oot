@@ -15,6 +15,9 @@ void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
+void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
+void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx);
+void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx);
 
 const ActorInit En_Okuta_InitVars = {
@@ -30,10 +33,12 @@ const ActorInit En_Okuta_InitVars = {
 };
 
 extern AnimationHeader D_06000344;
+extern AnimationHeader D_060008FC;
 extern AnimationHeader D_06000AC0;
 extern AnimationHeader D_06000DDC;
 extern Gfx D_06003380[];
 extern SkeletonHeader D_06003660;
+extern AnimationHeader D_06003910;
 extern AnimationHeader D_06003C64;
 
 static ColliderCylinderInit sCylinderInit1 = {
@@ -189,25 +194,104 @@ void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80AC12D8;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0CAC.s")
+void func_80AC0CAC(EnOkuta* this) {
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003910, -5.0f);
+    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xB);
+    this->collider.base.acFlags &= ~2;
+    Actor_SetScale(&this->actor, 0.01f);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD1);
+    this->actionFunc = func_80AC1458;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0D34.s")
+void func_80AC0D34(EnOkuta* this) {
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060008FC, -3.0f);
+    this->unk_194 = 0;
+    this->actionFunc = func_80AC14A8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0D7C.s")
+void func_80AC0D7C(EnOkuta* this) {
+    this->unk_194 = 80;
+    func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+    this->actionFunc = func_80AC17BC;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0DC8.s")
+void func_80AC0DC8(EnOkuta* this, GlobalContext* globalCtx) {
+    Vec3f pos;
+    Vec3f velocity;
+    f32 sp3C = Math_Sins(this->actor.shape.rot.y);
+    f32 temp_f0 = Math_Coss(this->actor.shape.rot.y);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0F08.s")
+    pos.x = this->actor.posRot.pos.x + (25.0f * sp3C);
+    pos.y = this->actor.posRot.pos.y - 6.0f;
+    pos.z = this->actor.posRot.pos.z + (25.0f * temp_f0);
+    if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_OKUTA, pos.x, pos.y, pos.z, this->actor.shape.rot.x,
+                    this->actor.shape.rot.y, this->actor.shape.rot.z, 0x10) != NULL) {
+        pos.x = this->actor.posRot.pos.x + (40.0f * sp3C);
+        pos.z = this->actor.posRot.pos.z + (40.0f * temp_f0);
+        pos.y = this->actor.posRot.pos.y;
+        velocity.x = 1.5f * sp3C;
+        velocity.y = 0.0f;
+        velocity.z = 1.5f * temp_f0;
+        func_80AC093C(&pos, &velocity, 20, globalCtx);
+    }
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0F64.s")
+void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx) {
+    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
+    if ((this->actor.xzDistFromLink < 480.0f) && (200.0f < this->actor.xzDistFromLink)) {
+        func_80AC0AB4(this, globalCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC10A8.s")
+void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        if (this->actor.xzDistFromLink < 160.0f) {
+            func_80AC0B24(this);
+        } else {
+            func_80AC0B60(this);
+        }
+    } else if (this->skelAnime.animCurrentFrame <= 4.0f) {
+        Actor_SetScale(&this->actor, this->skelAnime.animCurrentFrame * 0.25f * 0.01f);
+    } else if (func_800A56C8(&this->skelAnime, 5.0f)) {
+        Actor_SetScale(&this->actor, 0.01f);
+    }
+    if (func_800A56C8(&this->skelAnime, 2.0f)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
+    }
+    if (func_800A56C8(&this->skelAnime, 12.0f)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
+    }
+    if (func_800A56C8(&this->skelAnime, 3.0f) || func_800A56C8(&this->skelAnime, 15.0f)) {
+        func_80AC09A4(this, globalCtx);
+    }
+}
+
+void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f);
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
+        func_80AC0890(this, globalCtx);
+        func_80AC0A88(&this->actor);
+    } else if (this->skelAnime.animCurrentFrame >= 4.0f) {
+        Actor_SetScale(&this->actor, (6.0f - this->skelAnime.animCurrentFrame) * 0.5f * 0.01f);
+    }
+    if (func_800A56C8(&this->skelAnime, 2.0f)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
+    }
+    if (func_800A56C8(&this->skelAnime, 4.0f)) {
+        func_80AC09A4(this, globalCtx);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC11A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC12D8.s")
 
-void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1458.s")
 
 void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
@@ -263,7 +347,6 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 
-void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC17BC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1938.s")
