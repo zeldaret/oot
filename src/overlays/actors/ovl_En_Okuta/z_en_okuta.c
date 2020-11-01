@@ -53,18 +53,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 6500, ICHAIN_STOP),
 };
 
-static Vec3f sAccel = { 0.0f, 0.0f, 0.0f };
-
-static Color_RGBA8 sPrimColor = { 255, 255, 255, 255 };
-
-static Color_RGBA8 sEnvColor = { 150, 150, 150, 255 };
-
-UNK_TYPE D_80AC28BC[] = { 0x00000000, 0xBF000000, 0x00000000 };
-
-UNK_TYPE D_80AC28C8 = 0xFFFFFFFF;
-
-UNK_TYPE D_80AC28CC = 0x96969600;
-
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnOkuta* this = THIS;
     s32 pad;
@@ -116,9 +104,14 @@ void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0890.s")
 
 void func_80AC093C(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* globalCtx) {
-    func_8002829C(globalCtx, pos, velocity, &sAccel, &sPrimColor, &sEnvColor, 0x190, scaleStep);
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 envColor = { 150, 150, 150, 255 };
+
+    func_8002829C(globalCtx, pos, velocity, &accel, &primColor, &envColor, 0x190, scaleStep);
 }
 
+void func_80AC09A4(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC09A4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC09E8.s")
@@ -161,6 +154,9 @@ void func_80AC0A88(Actor* thisx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1458.s")
 
 void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
+    static Vec3f accel = { 0.0f, -0.5f, 0.0f };
+    static Color_RGBA8 primColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 envColor = { 150, 150, 150, 0 };
     Vec3f velocity;
     Vec3f pos;
     s32 i;
@@ -202,8 +198,8 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
             velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
             velocity.y = Math_Rand_ZeroOne() * 7.0f;
             velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
-            EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.posRot.pos, &velocity, &D_80AC28BC, &D_80AC28C8,
-                                              &D_80AC28CC, Math_Rand_S16Offset(100, 50), 25, 0);
+            EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor,
+                                              &envColor, Math_Rand_S16Offset(100, 50), 25, 0);
         }
         Actor_Kill(&this->actor);
     }
