@@ -25,6 +25,7 @@ const ActorInit En_Okuta_InitVars = {
     (ActorFunc)EnOkuta_Draw,
 };
 
+extern Gfx D_06003380[];
 extern SkeletonHeader D_06003660;
 extern AnimationHeader D_06003C64;
 
@@ -293,6 +294,28 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC2350.s")
 
+s32 func_80AC25D8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC25D8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/EnOkuta_Draw.s")
+void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnOkuta* this = THIS;
+    s32 pad;
+
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    if (this->actor.params == 0) {
+        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80AC25D8, NULL,
+                       &this->actor);
+        return;
+    }
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);
+
+    Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+    Matrix_RotateZ(this->actor.initPosRot.rot.z * 0.0000958738f, MTXMODE_APPLY);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1657),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, D_06003380);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1662);
+}
