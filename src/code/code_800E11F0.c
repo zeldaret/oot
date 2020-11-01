@@ -229,6 +229,6 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E66C0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E67C0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/Audio_NextRandom.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E6818.s")

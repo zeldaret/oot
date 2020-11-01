@@ -1,4 +1,4 @@
-glabel func_800E67C0
+glabel Audio_NextRandom
 /* B5D960 800E67C0 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B5D964 800E67C4 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B5D968 800E67C8 0C001BA8 */  jal   osGetCount
