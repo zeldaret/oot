@@ -196,10 +196,9 @@ void func_80B53468(void) {
 }
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {
-    Actor* actorIt;
-
     if (this->unk_3D4 == NULL) {
-        actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_BOSS].first;
+        Actor* actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_BOSS].first;
+
         while (actorIt != NULL) {
             if (actorIt->id == ACTOR_BOSS_GANON2) {
                 this->unk_3D4 = (BossGanon2*)actorIt;
@@ -730,20 +729,15 @@ void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2) {
 #endif
 
 void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
-    s32 temp_v1;
-    s16 temp_t0;
-    s32 temp_t2;
-    s32 temp_t3;
-    s32 phi_v0;
-    s32 index25C;
-    s32 phi_t5;
-
     if (this->unk_2FC != 0) {
-        temp_v1 = this->unk_28C[arg2] - arg1;
-        temp_t0 = temp_v1;
-        temp_t2 = temp_t0;
-        temp_t3 = this->unk_25C[arg2];
-        phi_v0 = temp_t3;
+        s32 temp_v1 = this->unk_28C[arg2] - arg1;
+        s16 temp_t0 = temp_v1;
+        s32 temp_t2 = temp_t0;
+        s32 temp_t3 = this->unk_25C[arg2];
+        s32 phi_v0 = temp_t3;
+        s32 index25C;
+        s32 phi_t5;
+
         temp_t3 = arg1 - this->unk_2BC[arg2];
 
         if (arg2 == 1) {
@@ -982,14 +976,10 @@ void func_80B54EF4(EnZl3* this) {
 }
 
 void func_80B54F18(EnZl3* this, GlobalContext* globalCtx) {
-    f32 posX;
-    f32 posY;
-    f32 posZ;
-
     if (this->unk_2F8 == 0) {
-        posX = this->actor.posRot.pos.x;
-        posY = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
-        posZ = this->actor.posRot.pos.z;
+        f32 posX = this->actor.posRot.pos.x;
+        f32 posY = this->actor.posRot.pos.y + (kREG(5) + -26.0f);
+        f32 posZ = this->actor.posRot.pos.z;
 
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
                            0, 3);
@@ -1012,13 +1002,12 @@ void func_80B54FB4(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B55054(EnZl3* this) {
-    Actor* child;
-    f32* temp_v0;
-
     if (this->unk_328 != 0) {
-        child = this->actor.child;
+        Actor* child = this->actor.child;
+
         if (child != NULL) {
-            temp_v0 = &this->unk_2EC;
+            f32* temp_v0 = &this->unk_2EC;
+
             if (*temp_v0 < 19.0f) {
                 ((DoorWarp1*)child)->alpha = (20.0f - *temp_v0) * 12.75f;
                 *temp_v0 += 1.0f;
@@ -1042,6 +1031,7 @@ void func_80B550F0(EnZl3* this) {
 
 void func_80B55144(EnZl3* this) {
     f32* fl = &D_80B5A484;
+
     if (1) {
         ; // necessary to match
     }
@@ -1120,9 +1110,10 @@ void func_80B55408(EnZl3* this) {
 
 void func_80B55444(EnZl3* this, GlobalContext* globalCtx) {
     s32 temp_v0 = func_80B5396C(this);
-    s32 unk_2F0;
+
     if (temp_v0 >= 0) {
-        unk_2F0 = this->unk_2F0;
+        s32 unk_2F0 = this->unk_2F0;
+
         if (temp_v0 != unk_2F0) {
             switch (temp_v0) {
                 case 0:
@@ -1383,12 +1374,11 @@ void func_80B55F38(EnZl3* this, s32 arg1) {
 }
 
 void func_80B55F6C(EnZl3* this, GlobalContext* globalCtx) {
-    BossGanon2* bossGanon2;
-
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = 0x12;
     } else if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4300) {
-        bossGanon2 = func_80B53488(this, globalCtx);
+        BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
+        
         if ((bossGanon2 != NULL) && (bossGanon2->unk_324 <= 0.12345679104328156f)) {
             this->actor.flags |= 9;
             this->actor.flags |= 1;
@@ -1445,12 +1435,11 @@ void func_80B561E0(EnZl3* this, s32 arg1) {
 }
 
 void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
-    BossGanon2* bossGanon2;
-
     if (func_8002F194(&this->actor, globalCtx)) {
         this->action = 21;
     } else if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4300) {
-        bossGanon2 = func_80B53488(this, globalCtx);
+        BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
+
         if (bossGanon2 != NULL) {
             if (bossGanon2->unk_324 <= 0.12345679104328156f) {
                 this->actor.flags |= 9;
@@ -1509,7 +1498,6 @@ void func_80B56474(EnZl3* this, s32 arg1) {
 void func_80B564A8(EnZl3* this, GlobalContext* globalCtx) {
     s32 temp_v0;
     s32* val = &D_80B5A494;
-    s32 unk_2F0;
 
     temp_v0 = func_80B5396C(this);
 
@@ -1523,7 +1511,8 @@ void func_80B564A8(EnZl3* this, GlobalContext* globalCtx) {
     }
 
     if (temp_v0 >= 0) {
-        unk_2F0 = this->unk_2F0;
+        s32 unk_2F0 = this->unk_2F0;
+
         if (temp_v0 != unk_2F0) {
             switch (temp_v0) {
                 case 0:
@@ -1756,6 +1745,7 @@ void func_80B56DC8(EnZl3* this) {
 
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
+    
     if ((skelAnime->mode == 2) && func_800A56C8(skelAnime, 9.0f) != 0) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
@@ -1819,12 +1809,11 @@ Vec3s* func_80B56FAC(EnZl3* this, s32 arg1) {
 s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
     Vec3s* vec1 = func_80B56FAC(this, arg1);
     Vec3s* vec2 = func_80B56FAC(this, arg2);
-    f32 xDiff;
-    f32 zDiff;
 
     if ((vec2 != NULL) && (vec1 != NULL)) {
-        xDiff = vec2->x - vec1->x;
-        zDiff = vec2->z - vec1->z;
+        f32 xDiff = vec2->x - vec1->x;
+        f32 zDiff = vec2->z - vec1->z;
+
         return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(Math_atan2f(xDiff, zDiff) * 10430.3779296875f);
     }
     return 0;
@@ -1832,12 +1821,11 @@ s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
 
 s16 func_80B57104(EnZl3* this, s32 arg1) {
     Vec3s* point = func_80B56FAC(this, arg1);
-    f32 xDiff;
-    f32 zDiff;
 
     if (point != NULL) {
-        xDiff = point->x - this->actor.posRot.pos.x;
-        zDiff = point->z - this->actor.posRot.pos.z;
+        f32 xDiff = point->x - this->actor.posRot.pos.x;
+        f32 zDiff = point->z - this->actor.posRot.pos.z;
+
         if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
             return Math_atan2f(xDiff, zDiff) * 10430.3779296875f; // todo float
         }
@@ -1981,10 +1969,9 @@ s32 func_80B575D0(EnZl3* this, GlobalContext* globalCtx) {
 
 s32 func_80B575F0(EnZl3* this, GlobalContext* globalCtx) {
     s16 sceneNum = globalCtx->sceneNum;
-    s32 unk_314;
 
     if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
-        unk_314 = this->unk_314;
+        s32 unk_314 = this->unk_314;
         if (unk_314 == 1) {
             return 1;
         }
@@ -1994,10 +1981,9 @@ s32 func_80B575F0(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B5764C(EnZl3* this, GlobalContext* globalCtx) {
     s16 sceneNum = globalCtx->sceneNum;
-    s32 unk_314;
 
     if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
-        unk_314 = this->unk_314 + 1;
+        s32 unk_314 = this->unk_314 + 1;
         if (unk_314 == 1) {
             if (!Gameplay_InCsMode(globalCtx)) {
                 func_800800F8(globalCtx, 0x3E8, 0x28, &this->actor, 0);
@@ -2299,7 +2285,7 @@ void func_80B58268(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B582C8(EnZl3* this, GlobalContext* globalCtx) {
     f32* unk_3CC = &this->unk_3CC;
-    f32 temp_f2;
+    s32 pad;
 
     if (*unk_3CC == kREG(14) + 10.0f) {
         *unk_3CC += 1.0f;
@@ -2414,12 +2400,9 @@ s32 func_80B58938(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B5899C(EnZl3* this, GlobalContext* globalCtx) {
-    Player* player;
-    s8 invincibilityTimer;
-
     if ((this->actor.bgCheckFlags & 1)) {
-        player = PLAYER;
-        invincibilityTimer = player->invincibilityTimer;
+        Player* player = PLAYER;
+        s8 invincibilityTimer = player->invincibilityTimer;
 
         if ((invincibilityTimer > 0) || (player->fallDistance >= 0x33)) {
             func_80B54E14(this, &D_06007664, 2, -11.0f, 0);
@@ -2664,11 +2647,10 @@ void func_80B593D0(EnZl3* this, GlobalContext* globalCtx) {
 
 s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* thisx,
                   Gfx** gfx) {
-    Mtx* mtx;
-    Vec3s* vec = &thisx->unk_3F8.unk_08;
-
     if (limbIndex == 14) {
-        mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
+        Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
+        Vec3s* vec = &thisx->unk_3F8.unk_08;
+
         gSPSegment(gfx[0]++, 0x0C, mtx);
 
         rot->x += vec->y;
@@ -2705,10 +2687,9 @@ s32 func_80B59698(EnZl3* this, GlobalContext* globalCtx) {
     s32 cond = Flags_GetSwitch(globalCtx, 0x37) &&
                ((globalCtx->sceneNum == SCENE_GANON_DEMO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
                 (globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO));
-    u8 curSpawn;
 
     if (cond) {
-        curSpawn = globalCtx->curSpawn;
+        u8 curSpawn = globalCtx->curSpawn;
         if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) &&
             ((gSaveContext.timer2Value <= 0) || (gSaveContext.timer2State == 0))) {
             return 1;
@@ -2721,10 +2702,10 @@ s32 func_80B59768(EnZl3* this, GlobalContext* globalCtx) {
     s32 cond = Flags_GetSwitch(globalCtx, 0x37) &&
                ((globalCtx->sceneNum == SCENE_GANON_DEMO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
                 (globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO));
-    u8 curSpawn;
 
     if (cond) {
-        curSpawn = globalCtx->curSpawn;
+        u8 curSpawn = globalCtx->curSpawn;
+
         if ((func_80B54DB4(this) == 0x20) && (curSpawn == 0) && (gSaveContext.timer2Value <= 0)) {
             return 1;
         }
@@ -2733,12 +2714,11 @@ s32 func_80B59768(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B59828(EnZl3* this, GlobalContext* globalCtx) {
-    s16 newRotY;
-    s32 cond;
-
     if (func_80B59698(this, globalCtx) || (!func_80B56EE4(this, globalCtx) && func_80B57890(this, globalCtx))) {
+        s16 newRotY;
+        
         func_80B54E14(this, &D_06009FBC, 0, 0.0f, 0);
-        this->actor.flags = (u32)(this->actor.flags | 9);
+        this->actor.flags |= 9;
         func_80B56F10(this, globalCtx);
         newRotY = func_80B571A8(this);
         this->actor.shape.rot.y = newRotY;
@@ -2774,6 +2754,8 @@ void func_80B59828(EnZl3* this, GlobalContext* globalCtx) {
     }
 
     if (func_80B54DB4(this) == 0x20) {
+        s32 cond;
+
         func_80B54EA4(this, globalCtx);
         cond = Flags_GetSwitch(globalCtx, 0x37) &&
                ((globalCtx->sceneNum == SCENE_GANON_DEMO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
@@ -2912,11 +2894,11 @@ void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
-    gDPSetEnvColor(POLY_OPA_DISP++, 0x00, 0x00, 0x00, 0xFF);
-    gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 8, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_OPA_DISP++, 9, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_OPA_DISP++, 10, SEGMENTED_TO_VIRTUAL(sp6C));
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+    gSPSegment(POLY_OPA_DISP++, 11, &D_80116280[2]);
 
     POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, &this->actor, POLY_OPA_DISP);
@@ -2937,11 +2919,11 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp78));
-    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sp6C));
+    gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_XLU_DISP++, 9, SEGMENTED_TO_VIRTUAL(sp78));
+    gSPSegment(POLY_XLU_DISP++, 10, SEGMENTED_TO_VIRTUAL(sp6C));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_258);
-    gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 11, &D_80116280[0]);
 
     POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       EnZl3_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
