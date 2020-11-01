@@ -289,12 +289,12 @@ void EnSiofuki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Translate(0.0f, this->unk_170, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_siofuki.c", 662),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_siofuki.c", 662),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     x = gameplayFrames * 15;
     y = gameplayFrames * -15;
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, x, y, 64, 64, 1, x, y, 64, 64));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000B70);
+    gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, x, y, 64, 64, 1, x, y, 64, 64));
+    gSPDisplayList(POLY_XLU_DISP++, D_06000B70);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_siofuki.c", 674);
 
     if (this->sfxFlags & 1) {
