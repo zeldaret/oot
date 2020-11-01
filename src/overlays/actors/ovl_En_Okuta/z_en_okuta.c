@@ -28,14 +28,13 @@ const ActorInit En_Okuta_InitVars = {
 extern SkeletonHeader D_06003660;
 extern AnimationHeader D_06003C64;
 
-static ColliderCylinderInit sCylinderInit = {
+static ColliderCylinderInit sCylinderInit1 = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
     { 13, 20, 0, { 0, 0, 0 } },
 };
 
-// sCylinderInit
-ColliderCylinderInit D_80AC284C = {
+static ColliderCylinderInit sCylinderInit2 = {
     { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 40, -30, { 0, 0, 0 } },
@@ -67,7 +66,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->limbDrawTable,
                        this->transitionDrawTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80AC284C);
+        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit2);
         func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
         if ((this->unk_196 == 0xFF) || (this->unk_196 == 0)) {
             this->unk_196 = 1;
@@ -86,7 +85,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags &= ~1;
         thisx->flags |= 0x10;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
+        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit1);
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_PROP);
         this->unk_194 = 0x1E;
         thisx->shape.rot.y = 0;
@@ -114,6 +113,7 @@ void func_80AC093C(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* gl
 void func_80AC09A4(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC09A4.s")
 
+void func_80AC09E8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC09E8.s")
 
 void func_80AC0A88(Actor* thisx) {
@@ -143,14 +143,17 @@ void func_80AC0A88(Actor* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0F08.s")
 
+void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0F64.s")
 
+void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC10A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC11A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC12D8.s")
 
+void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1458.s")
 
 void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
@@ -206,15 +209,87 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 
+void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC17BC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1938.s")
 
+void func_80AC1B80(EnOkuta* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1B80.s")
 
+void func_80AC1F28(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1F28.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/EnOkuta_Update.s")
+void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnOkuta* this = THIS;
+    Player* player = PLAYER;
+    GlobalContext* globalCtx2 = globalCtx;
+    WaterBox* outWaterBox;
+    f32 ySurface;
+    Vec3f sp38;
+    s32 sp34;
+
+    if (!(player->stateFlags1 & 0x300000C0)) {
+        if (this->actor.params == 0) {
+            func_80AC1F28(this, globalCtx2);
+            if (!func_80042244(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
+                               &ySurface, &outWaterBox) ||
+                (ySurface < this->actor.groundY)) {
+                if (this->actor.colChkInfo.health != 0) {
+                    Actor_Kill(&this->actor);
+                    return;
+                }
+            } else {
+                this->actor.initPosRot.pos.y = ySurface;
+            }
+        }
+        this->actionFunc(this, globalCtx2);
+        if (this->actor.params == 0) {
+            func_80AC1B80(this);
+            this->collider.dim.height = (((sCylinderInit2.dim.height * this->unk_368) - this->collider.dim.yShift) *
+                                         this->actor.scale.y * 100.0f);
+        } else {
+            sp34 = false;
+            Actor_MoveForward(&this->actor);
+            Math_Vec3f_Copy(&sp38, &this->actor.posRot.pos);
+            func_8002E4B4(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
+            if ((this->actor.bgCheckFlags & 8) &&
+                func_80042048(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) {
+                sp34 = true;
+                this->actor.bgCheckFlags &= ~8;
+            }
+            if ((this->actor.bgCheckFlags & 1) &&
+                func_80042048(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorPolySource)) {
+                sp34 = true;
+                this->actor.bgCheckFlags &= ~1;
+            }
+            if (sp34 && !(this->actor.bgCheckFlags & 9)) {
+                Math_Vec3f_Copy(&this->actor.posRot.pos, &sp38);
+            }
+        }
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        if ((this->actionFunc == func_80AC0F64) || (this->actionFunc == func_80AC10A8)) {
+            this->collider.dim.pos.y =
+                this->actor.posRot.pos.y + (this->skelAnime.limbDrawTbl->y * this->actor.scale.y);
+            this->collider.dim.radius = sCylinderInit2.dim.radius * this->actor.scale.x * 100.0f;
+        }
+        if (this->actor.params == 0x10) {
+            this->actor.flags |= 0x1000000;
+            CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        }
+        if (this->actionFunc != func_80AC0F08) {
+            if ((this->actionFunc != func_80AC14A8) && (this->actionFunc != func_80AC1458) &&
+                (this->actionFunc != func_80AC17BC)) {
+                CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+            }
+            CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
+        }
+        Actor_SetHeight(&this->actor, 15.0f);
+        if ((this->actor.params == 0) && (this->actor.draw != NULL)) {
+            func_80AC09E8(this, globalCtx2);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC2350.s")
 
