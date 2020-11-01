@@ -100,9 +100,9 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
         if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
+            gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
         } else {
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
         }
     }
 
@@ -112,27 +112,27 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
     if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 268),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 268),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80093D84(globalCtx->state.gfxCtx);
 
         if (colorIdx >= 0) {
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
                             255);
         }
 
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     } else {
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 286),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_kakera.c", 286),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80093D18(globalCtx->state.gfxCtx);
 
         if (colorIdx >= 0) {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
                             255);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, this->gfx);
+        gSPDisplayList(POLY_OPA_DISP++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_kakera.c", 302);

@@ -459,10 +459,10 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_0500A3B8);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
+    gSPDisplayList(POLY_OPA_DISP++, D_0500A3B8);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }
