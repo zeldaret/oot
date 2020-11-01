@@ -11,6 +11,9 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80AC0A88(Actor* thisx);
 void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx);
+void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx);
+void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx);
+void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx);
 
@@ -26,6 +29,9 @@ const ActorInit En_Okuta_InitVars = {
     (ActorFunc)EnOkuta_Draw,
 };
 
+extern AnimationHeader D_06000344;
+extern AnimationHeader D_06000AC0;
+extern AnimationHeader D_06000DDC;
 extern Gfx D_06003380[];
 extern SkeletonHeader D_06003660;
 extern AnimationHeader D_06003C64;
@@ -143,13 +149,45 @@ void func_80AC0A88(Actor* thisx) {
     thisx->posRot.pos.y = thisx->initPosRot.pos.y;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0AB4.s")
+void func_80AC0AB4(EnOkuta* this, GlobalContext* globalCtx) {
+    this->actor.draw = EnOkuta_Draw;
+    this->actor.shape.rot.y = this->actor.yawTowardsLink;
+    this->actor.flags |= 1;
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06003C64);
+    func_80AC0890(this, globalCtx);
+    this->actionFunc = func_80AC0F64;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0B24.s")
+void func_80AC0B24(EnOkuta* this) {
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000AC0);
+    this->actionFunc = func_80AC10A8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0B60.s")
+void func_80AC0B60(EnOkuta* this) {
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000DDC);
+    if (this->actionFunc == func_80AC12D8) {
+        this->unk_194 = 2;
+    } else {
+        this->unk_194 = 0;
+    }
+    this->actionFunc = func_80AC11A8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0BC0.s")
+void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000344);
+    if (this->actionFunc != func_80AC12D8) {
+        this->unk_194 = this->unk_196;
+    }
+    this->unk_360 = this->actor.yDistFromLink + 20.0f;
+    this->unk_360 = CLAMP_MIN(this->unk_360, 10.0f);
+    if (this->unk_360 > 50.0f) {
+        func_80AC09A4(this, globalCtx);
+    }
+    if (this->unk_360 > 50.0f) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
+    }
+    this->actionFunc = func_80AC12D8;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0CAC.s")
 
@@ -161,13 +199,10 @@ void func_80AC0A88(Actor* thisx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0F08.s")
 
-void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC0F64.s")
 
-void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC10A8.s")
 
-void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC11A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC12D8.s")
