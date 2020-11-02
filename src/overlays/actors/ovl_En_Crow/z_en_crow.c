@@ -127,7 +127,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
     } else if (this->actor.colChkInfo.damageEffect == 2) {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
 
-        for (i = 0; i != 4; i++) {
+        for (i = 0; i < 4; i++) {
             EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.posRot, 50.0f * scale, 0, 0, i);
         }
     } else {
