@@ -265,9 +265,9 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     this->actor.posRot.pos = this->actor.parent->posRot.pos;
     this->actor.params = 0x10;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC), 2, 0.0f);
-    this->collider.element.dim.radius = sCylinderInit.dim.radius * 0.6f;
-    this->collider.element.dim.height = sCylinderInit.dim.height * 0.6f;
-    this->collider.element.info.bumperFlags &= ~BUMP_HOOKABLE;
+    this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
+    this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
+    this->collider.info.bumperFlags &= ~BUMP_HOOKABLE;
     this->actor.speedXZ = 4.0f;
     this->actor.velocity.y = 7.0f;
     // using div creates a signed check.
@@ -364,7 +364,7 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
-    if ((this->collider.element.info.acHitInfo->toucher.dFlags & 0x1F824) != 0) {
+    if ((this->collider.info.acHitInfo->toucher.dFlags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->collider.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->collider.base.ac) + 0x8000;
@@ -881,15 +881,15 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_EXPAND);
     }
 
-    this->collider.element.dim.radius = (sCylinderInit.dim.radius * 100.0f) * this->actor.scale.x;
-    this->collider.element.dim.height = (sCylinderInit.dim.height * 100.0f) * this->actor.scale.x;
+    this->collider.dim.radius = (sCylinderInit.dim.radius * 100.0f) * this->actor.scale.x;
+    this->collider.dim.height = (sCylinderInit.dim.height * 100.0f) * this->actor.scale.x;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->actor.scale.x >= 0.01f) {
             this->actor.flags &= ~0x10;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
-            this->collider.element.info.bumperFlags |= BUMP_HOOKABLE;
+            this->collider.info.bumperFlags |= BUMP_HOOKABLE;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             EnFloormas_SetupStand(this);
         } else {
@@ -953,14 +953,14 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
 
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.element.info, 1);
+        func_80035650(&this->actor, &this->collider.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->collider.base.colType != COLTYPE_HARD) {
                 isSmall = 0;
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = 1;
                 }
-                if (isSmall && this->collider.element.info.acHitInfo->toucher.dFlags & 0x80) {
+                if (isSmall && this->collider.info.acHitInfo->toucher.dFlags & 0x80) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }

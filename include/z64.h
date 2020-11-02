@@ -864,13 +864,13 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x000 */ s16 colAtCount;
+    /* 0x000 */ s16 colATcount;
     /* 0x002 */ u16 sacFlags;
-    /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
-    /* 0x0CC */ s32 colAcCount;
-    /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
-    /* 0x1C0 */ s32 colOcCount;
-    /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
+    /* 0x004 */ Collider* colAT[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colACcount;
+    /* 0x0D0 */ Collider* colAC[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOCcount;
+    /* 0x1C4 */ Collider* colOC[COLLISION_CHECK_OC_MAX];
     /* 0x28C */ s32 colLineCount;
     /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
 } CollisionCheckContext; // size = 0x29C

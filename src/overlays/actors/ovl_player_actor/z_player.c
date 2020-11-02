@@ -3371,12 +3371,12 @@ s32 func_80837818(Player* this) {
 }
 
 void func_80837918(Player* this, s32 quadIndex, u32 flags) {
-    this->swordQuads[quadIndex].element.info.toucher.dFlags = flags;
+    this->swordQuads[quadIndex].info.toucher.dFlags = flags;
 
     if (flags == 2) {
-        this->swordQuads[quadIndex].element.info.toucherFlags = TOUCH_SFX_WOOD | TOUCH_NEAREST | TOUCH_ON;
+        this->swordQuads[quadIndex].info.toucherFlags = TOUCH_SFX_WOOD | TOUCH_NEAREST | TOUCH_ON;
     } else {
-        this->swordQuads[quadIndex].element.info.toucherFlags = TOUCH_NEAREST | TOUCH_ON;
+        this->swordQuads[quadIndex].info.toucherFlags = TOUCH_NEAREST | TOUCH_ON;
     }
 }
 
@@ -3721,8 +3721,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             // Additionally, `ColliderInfo.atHit` can never be set while already colliding as AC, so it's also bugged.
             // This behavior was later fixed in MM, most likely by removing both the `atHit` and `atFlags` checks.
             if (sp64 || ((this->invincibilityTimer < 0) && (this->cylinder.base.acFlags & AC_HIT) &&
-                         (this->cylinder.element.info.atHit != NULL) &&
-                         (this->cylinder.element.info.atHit->atFlags & 0x20000000))) {
+                         (this->cylinder.info.atHit != NULL) && (this->cylinder.info.atHit->atFlags & 0x20000000))) {
 
                 func_8083264C(this, 180, 20, 100, 0);
 
@@ -3755,7 +3754,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                     }
                 }
 
-                if (sp64 && (this->shieldQuad.element.info.acHitInfo->toucher.effect == 1)) {
+                if (sp64 && (this->shieldQuad.info.acHitInfo->toucher.effect == 1)) {
                     func_8083819C(this, globalCtx);
                 }
 
@@ -10239,17 +10238,17 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         phi_f12 = ((this->bodyPartsPos[6].y + this->bodyPartsPos[3].y) * 0.5f) + temp_f0;
         temp_f0 += this->bodyPartsPos[7].y + 10.0f;
 
-        this->cylinder.element.dim.height = temp_f0 - phi_f12;
+        this->cylinder.dim.height = temp_f0 - phi_f12;
 
-        if (this->cylinder.element.dim.height < 0) {
+        if (this->cylinder.dim.height < 0) {
             phi_f12 = temp_f0;
-            this->cylinder.element.dim.height = -this->cylinder.element.dim.height;
+            this->cylinder.dim.height = -this->cylinder.dim.height;
         }
 
-        this->cylinder.element.dim.yShift = phi_f12 - this->actor.posRot.pos.y;
+        this->cylinder.dim.yShift = phi_f12 - this->actor.posRot.pos.y;
 
         if (this->stateFlags1 & 0x400000) {
-            this->cylinder.element.dim.height = this->cylinder.element.dim.height * 0.8f;
+            this->cylinder.dim.height = this->cylinder.dim.height * 0.8f;
         }
 
         Collider_UpdateCylinder(&this->actor, &this->cylinder);

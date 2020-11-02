@@ -139,9 +139,9 @@ void func_808B4D04(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
-    this->colliderCylinder.element.dim.pos.x += (s16)this->actor.posRot.pos.x;
-    this->colliderCylinder.element.dim.pos.y += (s16)this->actor.posRot.pos.y;
-    this->colliderCylinder.element.dim.pos.z += (s16)this->actor.posRot.pos.z;
+    this->colliderCylinder.dim.pos.x += (s16)this->actor.posRot.pos.x;
+    this->colliderCylinder.dim.pos.y += (s16)this->actor.posRot.pos.y;
+    this->colliderCylinder.dim.pos.z += (s16)this->actor.posRot.pos.z;
 }
 
 s32 func_808B4D9C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {

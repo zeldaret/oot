@@ -150,7 +150,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
-            dFlags = this->colliderFlame.element.info.acHitInfo->toucher.dFlags;
+            dFlags = this->colliderFlame.info.acHitInfo->toucher.dFlags;
             if (dFlags & 0x20820) {
                 interactionType = 1;
             }

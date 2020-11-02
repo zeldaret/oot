@@ -360,7 +360,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
                 hitByWindArrow = true;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.element.info.bumper.hitPos.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.info.bumper.hitPos.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -378,7 +378,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.element.info.bumper.hitPos.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.info.bumper.hitPos.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -402,9 +402,9 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
 
         // if player attack didn't do damage, play recoil sound and spawn sparks
         if (!tookDamage) {
-            hitPoint.x = this->collider.element.info.bumper.hitPos.x;
-            hitPoint.y = this->collider.element.info.bumper.hitPos.y;
-            hitPoint.z = this->collider.element.info.bumper.hitPos.z;
+            hitPoint.x = this->collider.info.bumper.hitPos.x;
+            hitPoint.y = this->collider.info.bumper.hitPos.y;
+            hitPoint.z = this->collider.info.bumper.hitPos.z;
             CollisionCheck_ShieldParticlesMetal2(globalCtx, &hitPoint);
         }
     }

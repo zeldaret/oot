@@ -166,11 +166,10 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     ArmsHook_CheckForCancel(this);
 
     if (this->timer != 0) {
-        if ((this->collider.base.atFlags & AT_HIT) &&
-            (this->collider.element.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
+        if ((this->collider.base.atFlags & AT_HIT) && (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
             touchedActor = this->collider.base.at;
             if ((touchedActor->update != NULL) && (touchedActor->flags & 0x600)) {
-                if (this->collider.element.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
+                if (this->collider.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                     ArmsHook_AttachHookToActor(this, touchedActor);
                     if ((touchedActor->flags & 0x400) == 0x400) {
                         func_80865044(this);

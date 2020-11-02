@@ -68,8 +68,8 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         Collider_UpdateCylinder(&this->actor, &this->collider);
-        this->collider.element.dim.radius = params->radius;
-        this->collider.element.dim.height = params->height;
+        this->collider.dim.radius = params->radius;
+        this->collider.dim.height = params->height;
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 

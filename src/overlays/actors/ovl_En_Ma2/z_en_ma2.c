@@ -267,7 +267,7 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
         player->stateFlags2 |= 0x2000000;
         func_8010BD58(globalCtx, 0x23);
         this->actionFunc = func_80AA20E4;
-    } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.element.dim.radius) {
+    } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.dim.radius) {
         player->stateFlags2 |= 0x800000;
     }
 }
@@ -317,7 +317,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AA1DB4(this, globalCtx);
     func_80AA1AE4(this, globalCtx);
     if (this->actionFunc != func_80AA20E4) {
-        func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.element.dim.radius + 30.0f,
+        func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 30.0f,
                       func_80AA19A0, func_80AA1A38);
     }
 }

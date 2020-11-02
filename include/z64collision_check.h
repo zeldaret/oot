@@ -136,13 +136,9 @@ typedef struct {
 } ColliderJntSphInitToActor; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ ColliderInfo info;
-    /* 0x24 */ Cylinder16 dim;
- } ColliderCylinderElement; // size = 0x34
-
-typedef struct {
     /* 0x00 */ Collider base;
-    /* 0x18 */ ColliderCylinderElement element;
+    /* 0x18 */ ColliderInfo info;
+    /* 0x40 */ Cylinder16 dim;
 } ColliderCylinder; // size = 0x4C
 
 typedef struct {
@@ -213,7 +209,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ Collider base;
-    /* 0x18 */ ColliderQuadElement element;
+    /* 0x18 */ ColliderInfo info;
+    /* 0x40 */ ColliderQuadDim dim;
 } ColliderQuad; // size = 0x80
 
 typedef struct {

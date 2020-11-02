@@ -88,11 +88,11 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, hcParams->scale);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->collider.element.dim.pos.x = this->actor.posRot.pos.x;
-    this->collider.element.dim.pos.y = this->actor.posRot.pos.y;
-    this->collider.element.dim.pos.z = this->actor.posRot.pos.z;
-    this->collider.element.dim.radius = hcParams->radius;
-    this->collider.element.dim.height = hcParams->height;
+    this->collider.dim.pos.x = this->actor.posRot.pos.x;
+    this->collider.dim.pos.y = this->actor.posRot.pos.y;
+    this->collider.dim.pos.z = this->actor.posRot.pos.z;
+    this->collider.dim.radius = hcParams->radius;
+    this->collider.dim.height = hcParams->height;
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sCcInfoInit);
     if (this->type == 0) {
@@ -222,7 +222,7 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
             (hcParams->riseDist - (this->actor.initPosRot.pos.y - this->actor.posRot.pos.y)) / hcParams->riseDist;
         this->alpha = 255.0f * riseProgress;
         if (this->alpha > 50) {
-            this->collider.element.dim.height = hcParams->height * riseProgress;
+            this->collider.dim.height = hcParams->height * riseProgress;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (gSaveContext.sceneSetupIndex <= 3) {

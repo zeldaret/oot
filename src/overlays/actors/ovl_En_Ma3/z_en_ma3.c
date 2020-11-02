@@ -289,7 +289,7 @@ void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AA2F80(this);
     this->actionFunc(this, globalCtx);
     func_80AA2E54(this, globalCtx);
-    func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.element.dim.radius + 150.0f,
+    func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f,
                   func_80AA2AA0, func_80AA2BD4);
     if (this->unk_1E0.unk_00 == 0) {
         if (this->unk_20A != 0) {

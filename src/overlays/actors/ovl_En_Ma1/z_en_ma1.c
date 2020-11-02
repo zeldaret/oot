@@ -342,7 +342,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;
-        } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.element.dim.radius) {
+        } else if (this->actor.xzDistFromLink < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -390,7 +390,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AA0A0C(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80AA11C8) {
-        func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.element.dim.radius + 30.0f,
+        func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f,
                       EnMa1_GetText, func_80AA0778);
     }
     func_80AA0B74(this);

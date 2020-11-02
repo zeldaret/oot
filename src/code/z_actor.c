@@ -2063,7 +2063,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
                        (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->naviActor) &&
                         (actor != player->heldActor) && (&player->actor != actor->parent))) {
-                CollisionCheck_ResetDamage(&actor->colChkInfo);
+                CollisionCheck_ResetInfo(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
                 if (!actor->isDrawn) {
@@ -2100,7 +2100,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     func_8003F8EC(globalCtx, &globalCtx->colCtx.dyna, actor);
                 }
 
-                CollisionCheck_ResetDamage(&actor->colChkInfo);
+                CollisionCheck_ResetInfo(&actor->colChkInfo);
 
                 actor = actor->next;
             }

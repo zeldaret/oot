@@ -122,7 +122,7 @@ void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, GlobalContext* globalCtx
 void EnHintnuts_SetupWait(EnHintnuts* this) {
     SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_06002B90, 0.0f);
     this->animFlagAndTimer = Math_Rand_S16Offset(100, 50);
-    this->collider.element.dim.height = 5;
+    this->collider.dim.height = 5;
     this->actor.posRot.pos = this->actor.initPosRot.pos;
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnHintnuts_Wait;
@@ -157,7 +157,7 @@ void EnHintnuts_SetupBurrow(EnHintnuts* this) {
 
 void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060026C4, -3.0f);
-    this->collider.element.dim.height = 0x25;
+    this->collider.dim.height = 0x25;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
 
@@ -246,7 +246,7 @@ void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
         }
         boundedCurrentFrame = boundedCurrentFrameTemp;
     }
-    this->collider.element.dim.height = (((boundedCurrentFrame - 9.0f) * 9.0f) + 5.0f);
+    this->collider.dim.height = (((boundedCurrentFrame - 9.0f) * 9.0f) + 5.0f);
     if (!hasSlowPlaybackSpeed && (this->actor.xzDistFromLink < 120.0f)) {
         EnHintnuts_SetupBurrow(this);
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
@@ -317,7 +317,7 @@ void EnHintnuts_Burrow(EnHintnuts* this, GlobalContext* globalCtx) {
         boundedCurrentFrame = this->skelAnime.animCurrentFrame < 1.0f
                                   ? 1.0f
                                   : this->skelAnime.animCurrentFrame > 3.0f ? 3.0f : this->skelAnime.animCurrentFrame;
-        this->collider.element.dim.height = (((3.0f - boundedCurrentFrame) * 12.0f) + 5.0f);
+        this->collider.dim.height = (((3.0f - boundedCurrentFrame) * 12.0f) + 5.0f);
     }
     if (func_800A56C8(&this->skelAnime, 4.0f) != 0) {
         this->collider.base.acFlags &= ~AC_ON;
@@ -481,7 +481,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_ColliderCheck(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        func_80035650(&this->actor, &this->collider.element.info, 1);
+        func_80035650(&this->actor, &this->collider.info, 1);
         if (this->collider.base.ac->id != ACTOR_EN_NUTSBALL) {
             EnHintnuts_SetupBurrow(this);
         } else {
@@ -503,8 +503,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         if (this->actionFunc != EnHintnuts_Freeze && this->actionFunc != EnHintnuts_BeginFreeze) {
             Actor_MoveForward(&this->actor);
-            func_8002E4B4(globalCtx, &this->actor, 20.0f, this->collider.element.dim.radius,
-                          this->collider.element.dim.height, 0x1D);
+            func_8002E4B4(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 0x1D);
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->collider.base.acFlags & AC_ON) {

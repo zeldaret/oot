@@ -518,7 +518,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
     func_80034A14(&this->actor, &this->unk_1E0, 2, temp);
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
-            func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, this->collider.element.dim.radius + 30.0f,
+            func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f,
                           EnMd_GetText, func_80AAAF04);
         }
     }
@@ -708,7 +708,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (this->actor.xzDistFromLink < (30.0f + this->collider.element.dim.radius)) {
+        if (this->actor.xzDistFromLink < (30.0f + this->collider.dim.radius)) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -723,7 +723,7 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
     } else if (globalCtx->msgCtx.unk_E3EE == 3) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->actor.textId = 0x1067;
-        func_8002F2CC(&this->actor, globalCtx, this->collider.element.dim.radius + 30.0f);
+        func_8002F2CC(&this->actor, globalCtx, this->collider.dim.radius + 30.0f);
 
         this->actionFunc = func_80AAB948;
         globalCtx->msgCtx.unk_E3EE = 4;

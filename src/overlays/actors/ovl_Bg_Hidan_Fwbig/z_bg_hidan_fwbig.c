@@ -81,7 +81,7 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
         BgHidanFwbig_UpdatePosition(this);
         Actor_SetScale(&this->actor, 0.15f);
-        this->collider.element.dim.height = 230;
+        this->collider.dim.height = 230;
         this->actor.flags |= 0x10;
         this->moveState = FWBIG_MOVE;
         this->actionFunc = BgHidanFwbig_WaitForPlayer;
@@ -199,9 +199,9 @@ void BgHidanFwbig_MoveCollider(BgHidanFwbig* this, GlobalContext* globalCtx) {
 
     sn = Math_Sins(this->actor.shape.rot.y);
     cs = Math_Coss(this->actor.shape.rot.y);
-    this->collider.element.dim.pos.x = this->actor.posRot.pos.x + (projPos.x * cs) + (projPos.z * sn);
-    this->collider.element.dim.pos.z = this->actor.posRot.pos.z - (projPos.x * sn) + (projPos.z * cs);
-    this->collider.element.dim.pos.y = this->actor.posRot.pos.y;
+    this->collider.dim.pos.x = this->actor.posRot.pos.x + (projPos.x * cs) + (projPos.z * sn);
+    this->collider.dim.pos.z = this->actor.posRot.pos.z - (projPos.x * sn) + (projPos.z * cs);
+    this->collider.dim.pos.y = this->actor.posRot.pos.y;
 
     this->actor.posRot.rot.y = (projPos.z < 0.0f) ? this->actor.shape.rot.y : this->actor.shape.rot.y + 0x8000;
 }

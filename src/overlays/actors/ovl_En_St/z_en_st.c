@@ -257,12 +257,12 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].element.info.bumper.dFlags = 0x3F8F9;
-    this->colCylinder[1].element.info.bumper.dFlags = 0xFFC00706;
+    this->colCylinder[0].info.bumper.dFlags = 0x3F8F9;
+    this->colCylinder[1].info.bumper.dFlags = 0xFFC00706;
     this->colCylinder[2].base.colType = COLTYPE_METAL;
-    this->colCylinder[2].element.info.bumperFlags = BUMP_NO_AT_INFO | BUMP_HOOKABLE | BUMP_ON;
-    this->colCylinder[2].element.info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].element.info.bumper.dFlags = 0xFFCC0706;
+    this->colCylinder[2].info.bumperFlags = BUMP_NO_AT_INFO | BUMP_HOOKABLE | BUMP_ON;
+    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].info.bumper.dFlags = 0xFFCC0706;
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 
@@ -271,17 +271,17 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
 }
 
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
-    ColliderInfo* body = &this->colCylinder[0].element.info;
+    ColliderInfo* body = &this->colCylinder[0].info;
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
         body->bumper.dFlags |= 2;
-        this->colCylinder[1].element.info.bumper.dFlags &= ~2;
-        this->colCylinder[2].element.info.bumper.dFlags &= ~2;
+        this->colCylinder[1].info.bumper.dFlags &= ~2;
+        this->colCylinder[2].info.bumper.dFlags &= ~2;
     } else {
         body->bumper.dFlags &= ~2;
-        this->colCylinder[1].element.info.bumper.dFlags |= 2;
-        this->colCylinder[2].element.info.bumper.dFlags |= 2;
+        this->colCylinder[1].info.bumper.dFlags |= 2;
+        this->colCylinder[2].info.bumper.dFlags |= 2;
     }
 }
 
@@ -321,9 +321,9 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
         Matrix_RotateY((this->initalYaw / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pull();
-        this->colCylinder[i + 3].element.dim.pos.x = cylPos.x;
-        this->colCylinder[i + 3].element.dim.pos.y = cylPos.y;
-        this->colCylinder[i + 3].element.dim.pos.z = cylPos.z;
+        this->colCylinder[i + 3].dim.pos.x = cylPos.x;
+        this->colCylinder[i + 3].dim.pos.y = cylPos.y;
+        this->colCylinder[i + 3].dim.pos.z = cylPos.z;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[i + 3].base);
     }
 
@@ -397,14 +397,14 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->element.info.acHitInfo->toucher.dFlags;
+        flags |= cyl->info.acHitInfo->toucher.dFlags;
     }
 
     cyl = &this->colCylinder[1];
     if (cyl->base.acFlags & AC_HIT) {
         cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->element.info.acHitInfo->toucher.dFlags;
+        flags |= cyl->info.acHitInfo->toucher.dFlags;
     }
 
     if (!hit) {
@@ -490,16 +490,16 @@ void EnSt_SetColliderScale(EnSt* this) {
     this->colSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
-        yShift = this->colCylinder[i].element.dim.yShift;
-        radius = this->colCylinder[i].element.dim.radius;
-        height = this->colCylinder[i].element.dim.height;
+        yShift = this->colCylinder[i].dim.yShift;
+        radius = this->colCylinder[i].dim.radius;
+        height = this->colCylinder[i].dim.height;
         yShift *= scaleAmount;
         radius *= scaleAmount;
         height *= scaleAmount;
 
-        this->colCylinder[i].element.dim.yShift = yShift;
-        this->colCylinder[i].element.dim.radius = radius;
-        this->colCylinder[i].element.dim.height = height;
+        this->colCylinder[i].dim.yShift = yShift;
+        this->colCylinder[i].dim.radius = radius;
+        this->colCylinder[i].dim.height = height;
     }
     Actor_SetScale(&this->actor, 0.04f * scaleAmount);
     this->colliderScale = scaleAmount;

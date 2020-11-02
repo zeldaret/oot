@@ -115,9 +115,9 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
         Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
-        this->collider.element.dim.yShift = 0;
-        this->collider.element.dim.radius = 0xF;
-        this->collider.element.dim.height = 0x46;
+        this->collider.dim.yShift = 0;
+        this->collider.dim.radius = 0xF;
+        this->collider.dim.height = 0x46;
         this->actor.unk_1F = 6;
 
         switch (this->initParams) {
@@ -154,7 +154,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = THIS;
 
-    if ((this->collider.element.dim.radius != 0) || (this->collider.element.dim.height != 0)) {
+    if ((this->collider.dim.radius != 0) || (this->collider.dim.height != 0)) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
