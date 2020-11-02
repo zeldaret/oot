@@ -227,17 +227,17 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sp84 = 0.1f;
     }
     Matrix_Scale(1.0f, sp84, 1.0f / sp84, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd_fire.c", 623),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd_fire.c", 623),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x8,
+    gSPSegment(POLY_XLU_DISP++, 0x8,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                 globalCtx->state.frames * this->tile2Y, 0x20, 0x80));
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 128, 128, primColors[FIRE_TYPE].r, primColors[FIRE_TYPE].g,
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[FIRE_TYPE].r, primColors[FIRE_TYPE].g,
                     primColors[FIRE_TYPE].b, primColors[FIRE_TYPE].a);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, envColors[FIRE_TYPE].r, envColors[FIRE_TYPE].g, envColors[FIRE_TYPE].b,
+    gDPSetEnvColor(POLY_XLU_DISP++, envColors[FIRE_TYPE].r, envColors[FIRE_TYPE].g, envColors[FIRE_TYPE].b,
                    envColors[FIRE_TYPE].a);
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_0404D4E0);
+    gDPPipeSync(POLY_XLU_DISP++);
+    gSPDisplayList(POLY_XLU_DISP++, &D_0404D4E0);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd_fire.c", 672);
 }

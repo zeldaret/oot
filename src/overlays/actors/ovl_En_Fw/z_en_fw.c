@@ -443,23 +443,23 @@ void EnFw_DustParticlesDraw(EnFw* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(this->particles); i++, part++) {
         if (part->used != 0) {
             if (!firstDone) {
-                oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0U);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06007928);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 100, 60, 20, 0);
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0U);
+                gSPDisplayList(POLY_XLU_DISP++, D_06007928);
+                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 firstDone = true;
             }
 
             alpha = part->timer * (255.0f / part->initialTimer);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, alpha);
-            gDPPipeSync(oGfxCtx->polyXlu.p++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
+            gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(part->pos.x, part->pos.y, part->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(part->scale, part->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fw.c", 1229),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fw.c", 1229),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             idx = part->timer * (8.0f / part->initialTimer);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A1FC18[idx]));
-            gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06007938);
+            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A1FC18[idx]));
+            gSPDisplayList(POLY_XLU_DISP++, &D_06007938);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fw.c", 1243);

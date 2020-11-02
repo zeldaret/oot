@@ -672,19 +672,19 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (1) {}
         func_80093D84(globalCtx->state.gfxCtx);
         clampedHealth = CLAMP(this->actor.colChkInfo.health - 1, 0, 0x17);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 128, primColors[clampedHealth / 8].r, primColors[clampedHealth / 8].g,
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth / 8].r, primColors[clampedHealth / 8].g,
                         primColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, envColors[clampedHealth / 8].r, envColors[clampedHealth / 8].g,
+        gDPSetEnvColor(POLY_XLU_DISP++, envColors[clampedHealth / 8].r, envColors[clampedHealth / 8].g,
                        envColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
         gSPSegment(
-            oGfxCtx->polyXlu.p++, 0x8,
+            POLY_XLU_DISP++, 0x8,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, 0xFF - (u8)(frames * 6), 8, 0x40));
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x9, D_80116280);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPSegment(POLY_XLU_DISP++, 0x9, D_80116280);
 
-        oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, &EnFd_OverrideLimbDraw, &EnFd_PostLimbDraw,
-                                               this, oGfxCtx->polyXlu.p);
+                                               this, POLY_XLU_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 1822);
 }
@@ -785,21 +785,21 @@ void EnFd_DrawFlameParticles(EnFd* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(this->particles); i++, part++) {
         if (part->type == FD_PART_FLAME) {
             if (!firstDone) {
-                oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06007928);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                gSPDisplayList(POLY_XLU_DISP++, D_06007928);
+                gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
                 firstDone = true;
             }
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
-            gDPPipeSync(oGfxCtx->polyXlu.p++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
+            gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(part->pos.x, part->pos.y, part->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(part->scale, part->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 0x7D6),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 0x7D6),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             idx = part->timer * (8.0f / part->initialTimer);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A0E0F8[idx]));
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06007938);
+            gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A0E0F8[idx]));
+            gSPDisplayList(POLY_XLU_DISP++, D_06007938);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 0x7E4);
@@ -817,19 +817,19 @@ void EnFd_DrawDotParticles(EnFd* this, GlobalContext* globalCtx) {
         if (part->type == FD_PART_DOT) {
             if (!firstDone) {
                 func_80093D84(globalCtx->state.gfxCtx);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_060079F8);
+                gSPDisplayList(POLY_XLU_DISP++, D_060079F8);
                 firstDone = true;
             }
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, part->color.r, part->color.g, part->color.b,
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, part->color.r, part->color.g, part->color.b,
                             (u8)(part->color.a * (this->fadeAlpha / 255.0f)));
-            gDPPipeSync(oGfxCtx->polyXlu.p++);
+            gDPPipeSync(POLY_XLU_DISP++);
             if (1) {}
             Matrix_Translate(part->pos.x, part->pos.y, part->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(part->scale, part->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 2064),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 2064),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06007A78);
+            gSPDisplayList(POLY_XLU_DISP++, D_06007A78);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 2071);
