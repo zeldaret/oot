@@ -825,7 +825,7 @@ s32 Collider_ResetQuadOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitLine(GlobalContext* globalCtx, OcLine* line);
 s32 Collider_DestroyLine(GlobalContext* globalCtx, OcLine* line);
 s32 Collider_SetLinePoints(GlobalContext* globalCtx, OcLine* ocLine, Vec3f* a, Vec3f* b);
-s32 Collider_CopyLine(GlobalContext* globalCtx, OcLine* dest, OcLine* src);
+s32 Collider_SetLine(GlobalContext* globalCtx, OcLine* dest, OcLine* src);
 s32 Collider_ResetLineOC(GlobalContext* globalCtx, OcLine* line);
 void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
@@ -845,7 +845,7 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
 void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_InitInfo(CollisionCheckInfo* info);
-void CollisionCheck_ClearInfo(CollisionCheckInfo* info);
+void CollisionCheck_ResetDamage(CollisionCheckInfo* info);
 void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionCheckInfoInit* init);
 void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init);
 void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init);
