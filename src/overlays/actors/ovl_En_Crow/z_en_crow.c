@@ -239,7 +239,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     DECR(this->timer);
 
     if (this->timer == 0 && this->actor.xzDistFromLink < 300.0f && !(player->stateFlags1 & 0x00800000) &&
-        this->actor.waterY < -40.0f && Player_GetMask(globalCtx) != 2) {
+        this->actor.waterY < -40.0f && Player_GetMask(globalCtx) != PLAYER_MASK_SKULL) {
         func_809E0384(this);
     }
 }
