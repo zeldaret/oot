@@ -233,7 +233,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.bgCheckFlags & 1) {
-        Math_ApproxUpdateScaledS(&this->actor.shape, -0x100, 0x400);
+        Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x100, 0x400);
     }
 
     DECR(this->timer);
