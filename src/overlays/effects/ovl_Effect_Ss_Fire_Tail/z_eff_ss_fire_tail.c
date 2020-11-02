@@ -119,19 +119,19 @@ void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 
     Matrix_Scale(1.0f, temp1, 1.0f / temp1, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_fire_tail.c", 238),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_fire_tail.c", 238),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, 0);
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
                                 (globalCtx->state.frames * -0x14) & 0x1FF, 32, 128));
 
     if (this->rType != 0) {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D5A0);
+        gSPDisplayList(POLY_XLU_DISP++, D_0404D5A0);
     } else {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fire_tail.c", 273);

@@ -472,49 +472,49 @@ void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == 0x24) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(POLY_XLU_DISP++, 165, 255, 75, 0);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0600FCF8));
     } else if ((thisx->params == 0x26) || (thisx->params == 0x32)) {
         osSyncPrintf("yari hikari draw 1\n");
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->unk_160);
 
         if (this->fireMode > 0) {
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 255, 0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 0);
         } else {
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 165, 255, 75, 0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 165, 255, 75, 0);
         }
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPPipeSync(POLY_XLU_DISP++);
         Matrix_RotateZ((thisx->shape.rot.z / 32768.0f) * 3.1416f, 1);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06012160);
+        gSPDisplayList(POLY_XLU_DISP++, D_06012160);
     } else if ((thisx->params == 0x27) || (thisx->params == 0x28) || (thisx->params == 0x29)) {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, (u8)this->unk_188);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (u8)this->unk_188);
+        gDPSetEnvColor(POLY_XLU_DISP++, 90, 50, 95, (s8)(this->unk_188 * 0.5f));
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1833),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->unk_174, (s16)this->unk_178, 0x40, 0x40, 1,
                                     (s16)this->unk_17C, (s16)this->unk_180, 0x40, 0x40));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600FAA0);
+        gSPDisplayList(POLY_XLU_DISP++, D_0600FAA0);
     } else {
         osSyncPrintf("FF DRAW 1\n");
         Matrix_Translate(0.0f, -100.0f, 0.0f, 1);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (s8)this->unk_160);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255, 30, 0);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s8)this->unk_160);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 30, 0);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fhg_fire.c", 1892),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_060105E0);
+        gSPDisplayList(POLY_XLU_DISP++, D_060105E0);
         osSyncPrintf("FF DRAW 2\n");
     }
 

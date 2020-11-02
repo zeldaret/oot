@@ -12,6 +12,7 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
@@ -1341,7 +1342,7 @@ void func_808326F0(Player* this) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        func_800F8D04(*entry + this->ageProperties->unk_92);
+        func_800F8D04((u16)(*entry + this->ageProperties->unk_92));
         entry++;
     }
 }
@@ -3972,7 +3973,7 @@ s16 D_808544F8[] = {
     0x045B, 0x0482, 0x0340, 0x044B, 0x02A2, 0x0201, 0x03B8, 0x04EE, 0x03C0, 0x0463, 0x01CD, 0x0394, 0x0340, 0x057C,
 };
 
-u8 D_80854514[] = { 11, 9, 3, 5, 7 };
+u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
 
 s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u32 arg3) {
     s32 sp3C;
@@ -4110,7 +4111,7 @@ void func_808395DC(Player* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
     arg3->z = arg1->z + ((arg2->z * cos) - (arg2->x * sin));
 }
 
-Actor* func_80839680(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3, s32 type) {
+Actor* Player_SpawnFairy(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3, s32 type) {
     Vec3f pos;
 
     func_808395DC(this, arg2, arg3, &pos);
@@ -4891,8 +4892,8 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
     sp24 = (sp30 != NULL) && (((sp30->flags & 0x40001) == 0x40001) || (sp30->naviEnemyId != 0xFF));
 
-    if (sp24 || (this->naviMessageId != 0)) {
-        sp28 = (this->naviMessageId < 0) && ((ABS(this->naviMessageId) & 0xFF00) != 0x200);
+    if (sp24 || (this->naviTextId != 0)) {
+        sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
         if (sp28 || !sp24) {
             sp2C = this->naviActor;
             if (sp28) {
@@ -4934,10 +4935,10 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
                         this->targetActor = NULL;
 
                         if (sp28 || !sp24) {
-                            if (this->naviMessageId >= 0) {
-                                sp2C->textId = this->naviMessageId;
+                            if (this->naviTextId >= 0) {
+                                sp2C->textId = this->naviTextId;
                             } else {
-                                sp2C->textId = -this->naviMessageId;
+                                sp2C->textId = -this->naviTextId;
                             }
                         } else {
                             if (sp2C->naviEnemyId != 0xFF) {
@@ -4978,9 +4979,8 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_664 != NULL) &&
         (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
-    } else if ((this->naviMessageId == 0) && !func_8008E9C4(this) &&
-               CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && (YREG(15) != 0x10) && (YREG(15) != 0x20) &&
-               !func_8083B8F4(this, globalCtx)) {
+    } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
+               (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
         func_80078884(NA_SE_SY_ERROR);
     }
 
@@ -7896,7 +7896,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         }
     } else if (this->unk_84F != 0) {
         this->unk_850 = 60;
-        func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, 5);
+        Player_SpawnFairy(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
         func_800800F8(globalCtx, 0x26B4, 125, &this->actor, 0);
     } else if (globalCtx->unk_10A20 == 2) {
@@ -9164,7 +9164,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (initMode != 0) {
         if ((gSaveContext.gameMode == 0) || (gSaveContext.gameMode == 3)) {
-            this->naviActor = func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_80854778, 0);
+            this->naviActor = Player_SpawnFairy(globalCtx, this, &this->actor.posRot.pos, &D_80854778, FAIRY_NAVI);
             if (gSaveContext.dogParams != 0) {
                 gSaveContext.dogParams |= 0x8000;
             }
@@ -10158,7 +10158,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_8083D6EC(globalCtx, this);
 
-        if ((this->unk_664 == NULL) && (this->naviMessageId == 0)) {
+        if ((this->unk_664 == NULL) && (this->naviTextId == 0)) {
             this->stateFlags2 &= ~0x200002;
         }
 
@@ -10209,7 +10209,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->rideActor = NULL;
         }
 
-        this->naviMessageId = 0;
+        this->naviTextId = 0;
 
         if (!(this->stateFlags2 & 0x2000000)) {
             this->unk_6A8 = NULL;
@@ -10350,8 +10350,8 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19228);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, cullDList);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, cullDList);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, cullDList);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
     func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, lod,
                   this->currentTunic, this->currentBoots, this->actor.shape.unk_06, overrideLimbDraw, func_80090D20,
@@ -10363,7 +10363,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             Vec3s sp68;
 
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x0B, sp70);
+            gSPSegment(POLY_OPA_DISP++, 0x0B, sp70);
 
             sp68.x = D_80858AC8[1] + 0x3E2;
             sp68.y = D_80858AC8[2] + 0xDBE;
@@ -10378,7 +10378,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_80854844[this->currentMask - 1]);
+        gSPDisplayList(POLY_OPA_DISP++, D_80854844[this->currentMask - 1]);
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) &&
@@ -10406,14 +10406,14 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                           &D_80854864);
             Matrix_Scale(4.0f, 4.0f, 4.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+            gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, 0,
                                         (globalCtx->gameplayFrames * -15) % 128, 16, 32));
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, D_8085486C);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 120, 90, 30, 128);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04037E30);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, D_8085486C);
+            gDPSetEnvColor(POLY_XLU_DISP++, 120, 90, 30, 128);
+            gSPDisplayList(POLY_XLU_DISP++, D_04037E30);
         }
     }
 
@@ -10444,7 +10444,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
-            oGfxCtx->polyOpa.p = Gfx_SetFog2(oGfxCtx->polyOpa.p, 255, 0, 0, 0, 0,
+            POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0,
                                              4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
         }
 
@@ -10485,27 +10485,27 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Pull();
         }
 
-        gSPClearGeometryMode(oGfxCtx->polyOpa.p++, G_CULL_BOTH);
-        gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_CULL_BOTH);
+        gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
+        gSPClearGeometryMode(POLY_XLU_DISP++, G_CULL_BOTH);
 
         func_8084A0E8(globalCtx, this, lod, gCullBackDList, overrideLimbDraw);
 
         if (this->invincibilityTimer > 0) {
-            oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+            POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
         }
 
         if (this->stateFlags2 & 0x4000) {
             f32 scale = (this->unk_84F >> 1) * 22.0f;
 
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+            gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (0 - globalCtx->gameplayFrames) % 128, 32, 32, 1,
                                         0, (globalCtx->gameplayFrames * -2) % 128, 32, 32));
 
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 50, 100, 255);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04033EE0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, 255);
+            gSPDisplayList(POLY_XLU_DISP++, D_04033EE0);
         }
 
         if (this->unk_862 > 0) {
@@ -11909,9 +11909,9 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
             func_80853148(globalCtx, this->targetActor);
-        } else if (this->naviMessageId < 0) {
+        } else if (this->naviTextId < 0) {
             this->targetActor = this->naviActor;
-            this->naviActor->textId = -this->naviMessageId;
+            this->naviActor->textId = -this->naviTextId;
             func_80853148(globalCtx, this->targetActor);
         } else if (!func_8083B040(this, globalCtx)) {
             func_8083A098(this, &D_04003098, globalCtx);
@@ -12099,7 +12099,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (sp28 & 2) {
-                    func_80087680(globalCtx);
+                    Magic_Fill(globalCtx);
                 }
 
                 if (sp28 & 4) {
@@ -12205,7 +12205,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
     }
 
     if (func_800A4530(&this->skelAnime, 37.0f)) {
-        func_80839680(globalCtx, this, &this->leftHandPos, &D_80854A1C, 1);
+        Player_SpawnFairy(globalCtx, this, &this->leftHandPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         func_8002F7DC(&this->actor, NA_SE_EV_BOTTLE_CAP_OPEN);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);

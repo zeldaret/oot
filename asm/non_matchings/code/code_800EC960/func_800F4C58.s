@@ -54,8 +54,8 @@ glabel func_800F4C58
 /* B6BEC0 800F4D20 000E70C0 */   sll   $t6, $t6, 3
 /* B6BEC4 800F4D24 3C0F8017 */  lui   $t7, %hi(D_8016E1B8) # $t7, 0x8017
 /* B6BEC8 800F4D28 25EFE1B8 */  addiu $t7, %lo(D_8016E1B8) # addiu $t7, $t7, -0x1e48
-/* B6BECC 800F4D2C 3C138013 */  lui   $s3, %hi(D_801333A8) # $s3, 0x8013
-/* B6BED0 800F4D30 267333A8 */  addiu $s3, %lo(D_801333A8) # addiu $s3, $s3, 0x33a8
+/* B6BECC 800F4D2C 3C138013 */  lui   $s3, %hi(gSoundBanks) # $s3, 0x8013
+/* B6BED0 800F4D30 267333A8 */  addiu $s3, %lo(gSoundBanks) # addiu $s3, $s3, 0x33a8
 /* B6BED4 800F4D34 01CFB021 */  addu  $s6, $t6, $t7
 /* B6BED8 800F4D38 3C150602 */  lui   $s5, 0x602
 /* B6BEDC 800F4D3C 24140030 */  li    $s4, 48

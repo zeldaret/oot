@@ -641,23 +641,23 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
     */
     if ((this->alpha == 255 && !(this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6)) ||
         ((this->dyna.actor.flags & 0x80) != 0x80 && (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6))) {
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, EnBox_EmptyDList(globalCtx->state.gfxCtx));
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnBox_EmptyDList(globalCtx->state.gfxCtx));
         func_80093D18(globalCtx->state.gfxCtx);
-        oGfxCtx->polyOpa.p = SkelAnime_Draw2(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
-                                             EnBox_PostLimbDraw, &this->dyna.actor, oGfxCtx->polyOpa.p);
+        POLY_OPA_DISP = SkelAnime_Draw2(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
+                                             EnBox_PostLimbDraw, &this->dyna.actor, POLY_OPA_DISP);
     } else if (this->alpha != 0) {
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPPipeSync(POLY_XLU_DISP++);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         if (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6) {
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, func_809CA518(globalCtx->state.gfxCtx));
+            gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA518(globalCtx->state.gfxCtx));
         } else {
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, func_809CA4A0(globalCtx->state.gfxCtx));
+            gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA4A0(globalCtx->state.gfxCtx));
         }
-        oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
-                                             EnBox_PostLimbDraw, &this->dyna.actor, oGfxCtx->polyXlu.p);
+        POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL,
+                                             EnBox_PostLimbDraw, &this->dyna.actor, POLY_XLU_DISP);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_box.c", 1639);
