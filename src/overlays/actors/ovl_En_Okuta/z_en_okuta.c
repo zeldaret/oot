@@ -113,7 +113,7 @@ void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_80AC0890(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_SpawnBubbles(EnOkuta* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 10; i++) {
@@ -121,7 +121,7 @@ void func_80AC0890(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC093C(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* globalCtx) {
+void EnOkuta_SpawnDust(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* globalCtx) {
     static Vec3f accel = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 primColor = { 255, 255, 255, 255 };
     static Color_RGBA8 envColor = { 150, 150, 150, 255 };
@@ -133,7 +133,7 @@ void EnOkuta_SpawnSplash(EnOkuta* this, GlobalContext* globalCtx) {
     EffectSsGSplash_Spawn(globalCtx, &this->actor.initPosRot.pos, NULL, NULL, 0, 1300);
 }
 
-void func_80AC09E8(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     pos.x = this->actor.posRot.pos.x;
@@ -159,7 +159,7 @@ void func_80AC0AB4(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.yawTowardsLink;
     this->actor.flags |= 1;
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06003C64);
-    func_80AC0890(this, globalCtx);
+    EnOkuta_SpawnBubbles(this, globalCtx);
     this->actionFunc = func_80AC0F64;
 }
 
@@ -232,7 +232,7 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
         velocity.x = 1.5f * sin;
         velocity.y = 0.0f;
         velocity.z = 1.5f * cos;
-        func_80AC093C(&pos, &velocity, 20, globalCtx);
+        EnOkuta_SpawnDust(&pos, &velocity, 20, globalCtx);
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
 }
@@ -275,7 +275,7 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
-        func_80AC0890(this, globalCtx);
+        EnOkuta_SpawnBubbles(this, globalCtx);
         func_80AC0A88(&this->actor);
     } else if (this->skelAnime.animCurrentFrame >= 4.0f) {
         Actor_SetScale(&this->actor, (6.0f - this->skelAnime.animCurrentFrame) * 0.5f * 0.01f);
@@ -372,7 +372,7 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
         velocity.x = 0.0f;
         velocity.y = -0.5f;
         velocity.z = 0.0f;
-        func_80AC093C(&pos, &velocity, -0x14, globalCtx);
+        EnOkuta_SpawnDust(&pos, &velocity, -0x14, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
     }
     if (func_800A56C8(&this->skelAnime, 15.0f)) {
@@ -593,7 +593,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         Actor_SetHeight(&this->actor, 15.0f);
         if ((this->actor.params == 0) && (this->actor.draw != NULL)) {
-            func_80AC09E8(this, globalCtx2);
+            EnOkuta_SpawnRipple(this, globalCtx2);
         }
     }
 }
