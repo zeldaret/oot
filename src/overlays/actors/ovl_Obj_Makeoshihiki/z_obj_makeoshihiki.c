@@ -1,14 +1,12 @@
 /*
  * File: z_obj_makeoshihiki.c
  * Overlay: ovl_Obj_Makeoshihiki
- * Description: Push Block (Hardcoded)
+ * Description: Push Block puzzle (Hardcoded)
  */
 
 #include "z_obj_makeoshihiki.h"
-
-#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
-
 #include "vt.h"
+#include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 
 #define FLAGS 0x00000020
 
@@ -26,8 +24,8 @@ const ActorInit Obj_Makeoshihiki_InitVars = {
 typedef struct {
     /* 0x00 */ Vec3f posVecs[3];
     /* 0x24 */ u8 unk_24[3];
-    /* 0x27 */ u8 paramVal1;
-    /* 0x28 */ u8 paramVal2;
+    /* 0x27 */ u8 color;
+    /* 0x28 */ u8 type;
     /* 0x2A */ s16 rotY;
 } BlockConfig; // size = 0x2C
 
@@ -37,14 +35,14 @@ static BlockConfig sBlocks[] = {
       0x00,
       0x03,
       0xFF,
-      0x02,
+      PUSHBLOCK_LARGE_START_ON,
       0x0000 },
     { { { -605.0f, -820.0f, -290.0f }, { -365.0f, -905.0f, -290.0f }, { -365.0f, -905.0f, -290.0f } },
       0x00,
       0x03,
       0x00,
       0xFF,
-      0x00,
+      PUSHBLOCK_SMALL_START_ON,
       0x0000 }
 };
 
@@ -69,7 +67,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_OSHIHIKI, spawnPos->x, spawnPos->y,
                            spawnPos->z, 0, block->rotY, 0,
-                           ((block->paramVal1 << 6) & 0xC0) | (block->paramVal2 & 0xF) | 0xFF00) == NULL) {
+                           ((block->color << 6) & 0xC0) | (block->type & 0xF) | 0xFF00) == NULL) {
         // Push-pull block failure
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n", "../z_obj_makeoshihiki.c", 194);
@@ -78,7 +76,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (block->unk_24[typeIdx] & 2) {
-        ((ObjOshihiki*)thisx->child)->unk_1BE = 1;
+        ((ObjOshihiki*)thisx->child)->cantMove = true;
     }
     thisx->posRot.rot.z = thisx->shape.rot.z = 0;
     osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params,
@@ -127,7 +125,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sFlagSwitchFuncs[sFlags[i][1]](globalCtx, (thisx->params >> 8) & 0x3F);
 
             if (block->unk_24[i] & 2) {
-                ((ObjOshihiki*)thisx->child)->unk_1BE = 1;
+                ((ObjOshihiki*)thisx->child)->cantMove = true;
             }
 
             break;
