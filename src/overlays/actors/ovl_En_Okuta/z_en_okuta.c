@@ -465,8 +465,50 @@ void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC1B80(EnOkuta* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1B80.s")
+void func_80AC1B80(EnOkuta* this) {
+    f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
+
+    if (this->actionFunc == func_80AC0F64) {
+        if (animCurrentFrame < 8.0f) {
+            this->unk_364.x = this->unk_364.y = this->unk_364.z = 1.0f;
+        } else if (animCurrentFrame < 10.0f) {
+            this->unk_364.x = this->unk_364.z = 1.0f;
+            this->unk_364.y = ((animCurrentFrame - 7.0f) * 0.4f) + 1.0f;
+        } else if (animCurrentFrame < 14.0f) {
+            this->unk_364.x = this->unk_364.z = ((animCurrentFrame - 9.0f) * 0.075f) + 1.0f;
+            this->unk_364.y = 1.8f - ((animCurrentFrame - 9.0f) * 0.25f);
+        } else {
+            this->unk_364.x = this->unk_364.z = 1.3f - ((animCurrentFrame - 13.0f) * 0.05f);
+            this->unk_364.y = ((animCurrentFrame - 13.0f) * 0.0333f) + 0.8f;
+        }
+    } else if (this->actionFunc == func_80AC10A8) {
+        if (animCurrentFrame < 3.0f) {
+            this->unk_364.y = 1.0f;
+        } else if (animCurrentFrame < 4.0f) {
+            this->unk_364.y = (animCurrentFrame - 2.0f) + 1.0f;
+        } else {
+            this->unk_364.y = 2.0f - ((animCurrentFrame - 3.0f) * 0.333f);
+        }
+        this->unk_364.x = this->unk_364.z = 1.0f;
+    } else if (this->actionFunc == func_80AC12D8) {
+        if (animCurrentFrame < 5.0f) {
+            this->unk_364.x = this->unk_364.y = this->unk_364.z = (animCurrentFrame * 0.125f) + 1.0f;
+        } else if (animCurrentFrame < 7.0f) {
+            this->unk_364.x = this->unk_364.y = this->unk_364.z = 1.5f - ((animCurrentFrame - 4.0f) * 0.35f);
+        } else if (animCurrentFrame < 17.0f) {
+            this->unk_364.x = this->unk_364.z = ((animCurrentFrame - 6.0f) * 0.05f) + 0.8f;
+            this->unk_364.y = 0.8f;
+        } else {
+            this->unk_364.x = this->unk_364.z = 1.3f - ((animCurrentFrame - 16.0f) * 0.1f);
+            this->unk_364.y = ((animCurrentFrame - 16.0f) * 0.0666f) + 0.8f;
+        }
+    } else if (this->actionFunc == func_80AC11A8) {
+        this->unk_364.x = this->unk_364.z = 1.0f;
+        this->unk_364.y = (sinf(0.19634955f * animCurrentFrame) * 0.2f) + 1.0f;
+    } else {
+        this->unk_364.x = this->unk_364.y = this->unk_364.z = 1.0f;
+    }
+}
 
 void func_80AC1F28(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
