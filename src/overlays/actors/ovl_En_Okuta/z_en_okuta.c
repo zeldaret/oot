@@ -427,7 +427,43 @@ void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1938.s")
+void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx) {
+    Vec3f pos;
+    Player* player = PLAYER;
+    Vec3s sp40;
+
+    this->unk_194--;
+    if (this->unk_194 == 0) {
+        this->actor.gravity = -1.0f;
+    }
+    this->actor.initPosRot.rot.z += 0x1554;
+    if (this->actor.bgCheckFlags & 0x20) {
+        this->actor.gravity = -1.0f;
+        this->actor.speedXZ -= 0.1f;
+        this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
+    }
+    if (this->actor.bgCheckFlags & 8 || this->actor.bgCheckFlags & 1 || this->collider.base.atFlags & 2 ||
+        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == -32000.0f) {
+        if ((player->currentShield == 1 || (player->currentShield == 2 && gSaveContext.linkAge == 0)) &&
+            this->collider.base.atFlags & 2 && this->collider.base.atFlags & 0x10 && this->collider.base.atFlags & 4) {
+            this->collider.base.atFlags &= ~0x16;
+            this->collider.base.atFlags |= 8;
+            this->collider.body.toucher.flags = 2;
+            func_800D20CC(&player->shieldMf, &sp40, 0);
+            this->actor.posRot.rot.y = sp40.y + 0x8000;
+            this->unk_194 = 0x1E;
+        } else {
+            pos.x = this->actor.posRot.pos.x;
+            pos.y = this->actor.posRot.pos.y + 11.0f;
+            pos.z = this->actor.posRot.pos.z;
+            EffectSsHahen_SpawnBurst(globalCtx, &pos, 6.0f, 0, 1, 2, 15, 7, 10, D_06003380);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
+            Actor_Kill(&this->actor);
+        }
+    } else if (this->unk_194 == -0x12C) {
+        Actor_Kill(&this->actor);
+    }
+}
 
 void func_80AC1B80(EnOkuta* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Okuta/func_80AC1B80.s")
