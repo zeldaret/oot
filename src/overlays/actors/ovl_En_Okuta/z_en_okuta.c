@@ -444,7 +444,7 @@ void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx) {
     }
     if (this->actor.bgCheckFlags & 8 || this->actor.bgCheckFlags & 1 || this->collider.base.atFlags & 2 ||
         this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == -32000.0f) {
-        if ((player->currentShield == 1 || (player->currentShield == 2 && gSaveContext.linkAge == 0)) &&
+        if ((player->currentShield == 1 || (player->currentShield == 2 && LINK_IS_ADULT)) &&
             this->collider.base.atFlags & 2 && this->collider.base.atFlags & 0x10 && this->collider.base.atFlags & 4) {
             this->collider.base.atFlags &= ~0x16;
             this->collider.base.atFlags |= 8;
