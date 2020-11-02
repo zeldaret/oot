@@ -11,7 +11,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80AC0A88(Actor* thisx);
 void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
@@ -154,13 +154,13 @@ void func_80AC0A88(Actor* thisx) {
     thisx->posRot.pos.y = thisx->initPosRot.pos.y;
 }
 
-void func_80AC0AB4(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_SetupAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.draw = EnOkuta_Draw;
     this->actor.shape.rot.y = this->actor.yawTowardsLink;
     this->actor.flags |= 1;
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06003C64);
     EnOkuta_SpawnBubbles(this, globalCtx);
-    this->actionFunc = func_80AC0F64;
+    this->actionFunc = EnOkuta_Appear;
 }
 
 void EnOkuta_SetupHide(EnOkuta* this) {
@@ -240,11 +240,11 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
 void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
     if ((this->actor.xzDistFromLink < 480.0f) && (200.0f < this->actor.xzDistFromLink)) {
-        func_80AC0AB4(this, globalCtx);
+        EnOkuta_SetupAppear(this, globalCtx);
     }
 }
 
-void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
@@ -468,7 +468,7 @@ void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx) {
 void func_80AC1B80(EnOkuta* this) {
     f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
 
-    if (this->actionFunc == func_80AC0F64) {
+    if (this->actionFunc == EnOkuta_Appear) {
         if (animCurrentFrame < 8.0f) {
             this->unk_364.x = this->unk_364.y = this->unk_364.z = 1.0f;
         } else if (animCurrentFrame < 10.0f) {
@@ -575,7 +575,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         Collider_CylinderUpdate(&this->actor, &this->collider);
-        if ((this->actionFunc == func_80AC0F64) || (this->actionFunc == EnOkuta_Hide)) {
+        if ((this->actionFunc == EnOkuta_Appear) || (this->actionFunc == EnOkuta_Hide)) {
             this->collider.dim.pos.y =
                 this->actor.posRot.pos.y + (this->skelAnime.limbDrawTbl->y * this->actor.scale.y);
             this->collider.dim.radius = sCylinderInit2.dim.radius * this->actor.scale.x * 100.0f;
