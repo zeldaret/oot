@@ -273,7 +273,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
     }
 
-    if (this->timer == 0 || Player_GetMask(globalCtx) == 2 || this->collider.base.atFlags & 2 ||
+    if (this->timer == 0 || Player_GetMask(globalCtx) == PLAYER_MASK_SKULL || this->collider.base.atFlags & 2 ||
         this->actor.bgCheckFlags & 9 || player->stateFlags1 & 0x00800000 || this->actor.waterY > -40.0f) {
         if (this->collider.base.atFlags & 2) {
             this->collider.base.atFlags &= ~2;
