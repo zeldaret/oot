@@ -512,16 +512,16 @@ void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1257),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == 0xFF) {
         // The boulder is intact
-        gSPDisplayList(oGfxCtx->polyOpa.p++, this->unk_150);
+        gSPDisplayList(POLY_OPA_DISP++, this->unk_150);
     } else {
         // The boulder is debris
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->bombiwaBankIndex].segment);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, this->unk_150);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->bombiwaBankIndex].segment);
+        gSPDisplayList(POLY_OPA_DISP++, this->unk_150);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1274);
