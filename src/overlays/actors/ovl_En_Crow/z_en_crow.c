@@ -116,7 +116,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
     if (this->actor.colChkInfo.damageEffect == 3) {
         func_8003426C(&this->actor, 0, 255, 0, 40);
 
-        for (i = 0; i != 8; i++) {
+        for (i = 0; i < 8; i++) {
             iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.x;
             iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.y;
             iceParticlePos.z = ((i & 4 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.z;
