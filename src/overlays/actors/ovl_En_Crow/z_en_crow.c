@@ -221,7 +221,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (Math_SmoothScaleMaxMinS(&this->actor.shape, this->aimRotX, 10, 0x100, 8) == 0 && skelanimeUpdated &&
+    if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0 && skelanimeUpdated &&
         Math_Rand_ZeroOne() < 0.1f) {
         if (this->actor.initPosRot.pos.y < this->actor.posRot.pos.y) {
             this->aimRotX -= (0x400 * Math_Rand_ZeroOne()) + 0x400;
