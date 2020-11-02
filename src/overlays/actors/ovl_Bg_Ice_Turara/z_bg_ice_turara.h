@@ -8,6 +8,12 @@ struct BgIceTurara;
 
 typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, struct GlobalContext*);
 
+typedef enum {
+    /* 0 */ STALAGMITE,
+    /* 1 */ STALACTITE,
+    /* 2 */ STALACTITE_REGROW
+} BgIceTuraraType;
+
 typedef struct BgIceTurara {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgIceTuraraActionFunc actionFunc;

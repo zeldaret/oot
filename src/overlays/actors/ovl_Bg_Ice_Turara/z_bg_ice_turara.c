@@ -15,11 +15,11 @@ void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80892220(BgIceTurara* this, GlobalContext* globalCtx);
-void func_80892280(BgIceTurara* this, GlobalContext* globalCtx);
+void BgIceTurara_Stalagmite(BgIceTurara* this, GlobalContext* globalCtx);
+void BgIceTurara_Wait(BgIceTurara* this, GlobalContext* globalCtx);
 void BgIceTurara_Shiver(BgIceTurara* this, GlobalContext* globalCtx);
-void func_80892424(BgIceTurara* this, GlobalContext* globalCtx);
-void func_80892574(BgIceTurara* this, GlobalContext* globalCtx);
+void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx);
+void BgIceTurara_Regrow(BgIceTurara* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
@@ -62,12 +62,12 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.actor.params == 0) {
-        this->actionFunc = func_80892220;
+    if (this->dyna.actor.params == STALAGMITE) {
+        this->actionFunc = BgIceTurara_Stalagmite;
     } else {
         this->dyna.actor.shape.rot.x = -0x8000;
         this->dyna.actor.shape.unk_08 = 1200.0f;
-        this->actionFunc = func_80892280;
+        this->actionFunc = BgIceTurara_Wait;
     }
 }
 
@@ -105,7 +105,7 @@ void BgIceTurara_Break(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     }
 }
 
-void func_80892220(BgIceTurara* this, GlobalContext* globalCtx) {
+void BgIceTurara_Stalagmite(BgIceTurara* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         BgIceTurara_Break(this, globalCtx, 50.0f);
         Actor_Kill(&this->dyna.actor);
@@ -114,7 +114,7 @@ void func_80892220(BgIceTurara* this, GlobalContext* globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-void func_80892280(BgIceTurara* this, GlobalContext* globalCtx) {
+void BgIceTurara_Wait(BgIceTurara* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.xzDistFromLink < 60.0f) {
         this->shiverTimer = 10;
         this->actionFunc = BgIceTurara_Shiver;
@@ -138,7 +138,7 @@ void BgIceTurara_Shiver(BgIceTurara* this, GlobalContext* globalCtx) {
         Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-        this->actionFunc = func_80892424;
+        this->actionFunc = BgIceTurara_Fall;
     } else {
         sp28 = Math_Rand_ZeroOne();
         phi_v0_2 = (Math_Rand_ZeroOne() < 0.5f ? -1 : 1);
@@ -149,8 +149,7 @@ void BgIceTurara_Shiver(BgIceTurara* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
-
+void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx) {
     if ((this->collider.base.atFlags & 2) || (this->dyna.actor.bgCheckFlags & 1)) {
         this->collider.base.atFlags &= ~2;
         this->dyna.actor.bgCheckFlags &= ~1;
@@ -158,10 +157,10 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
         }
         BgIceTurara_Break(this, globalCtx, 40.0f);
-        if (this->dyna.actor.params == 2) {
+        if (this->dyna.actor.params == STALACTITE_REGROW) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 120.0f;
             func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-            this->actionFunc = func_80892574;
+            this->actionFunc = BgIceTurara_Regrow;
         } else {
             Actor_Kill(&this->dyna.actor);
             return;
@@ -176,10 +175,9 @@ void func_80892424(BgIceTurara* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80892574(BgIceTurara* this, GlobalContext* globalCtx) {
-
+void BgIceTurara_Regrow(BgIceTurara* this, GlobalContext* globalCtx) {
     if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f)) {
-        this->actionFunc = func_80892280;
+        this->actionFunc = BgIceTurara_Wait;
         this->dyna.actor.velocity.y = 0.0f;
     }
 }
