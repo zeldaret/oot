@@ -129,7 +129,7 @@ void func_80AC093C(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext* gl
     func_8002829C(globalCtx, pos, velocity, &accel, &primColor, &envColor, 0x190, scaleStep);
 }
 
-void func_80AC09A4(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_SpawnSplash(EnOkuta* this, GlobalContext* globalCtx) {
     EffectSsGSplash_Spawn(globalCtx, &this->actor.initPosRot.pos, NULL, NULL, 0, 1300);
 }
 
@@ -186,7 +186,7 @@ void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     this->unk_360 = this->actor.yDistFromLink + 20.0f;
     this->unk_360 = CLAMP_MIN(this->unk_360, 10.0f);
     if (this->unk_360 > 50.0f) {
-        func_80AC09A4(this, globalCtx);
+        EnOkuta_SpawnSplash(this, globalCtx);
     }
     if (this->unk_360 > 50.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
@@ -265,7 +265,7 @@ void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }
     if (func_800A56C8(&this->skelAnime, 3.0f) || func_800A56C8(&this->skelAnime, 15.0f)) {
-        func_80AC09A4(this, globalCtx);
+        EnOkuta_SpawnSplash(this, globalCtx);
     }
 }
 
@@ -284,7 +284,7 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
     }
     if (func_800A56C8(&this->skelAnime, 4.0f)) {
-        func_80AC09A4(this, globalCtx);
+        EnOkuta_SpawnSplash(this, globalCtx);
     }
 }
 
@@ -335,7 +335,7 @@ void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx) {
             EnOkuta_SpawnProjectile(this, globalCtx);
         }
         if ((this->unk_360 > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
-            func_80AC09A4(this, globalCtx);
+            EnOkuta_SpawnSplash(this, globalCtx);
         }
         if ((this->unk_360 > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
@@ -376,7 +376,7 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
     }
     if (func_800A56C8(&this->skelAnime, 15.0f)) {
-        func_80AC09A4(this, globalCtx);
+        EnOkuta_SpawnSplash(this, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }
     if (this->unk_194 < 3) {
