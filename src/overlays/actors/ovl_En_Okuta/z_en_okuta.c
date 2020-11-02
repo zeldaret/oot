@@ -12,7 +12,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80AC0A88(Actor* thisx);
 void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
@@ -163,9 +163,9 @@ void func_80AC0AB4(EnOkuta* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80AC0F64;
 }
 
-void func_80AC0B24(EnOkuta* this) {
+void EnOkuta_SetupHide(EnOkuta* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000AC0);
-    this->actionFunc = func_80AC10A8;
+    this->actionFunc = EnOkuta_Hide;
 }
 
 void func_80AC0B60(EnOkuta* this) {
@@ -215,23 +215,23 @@ void func_80AC0D7C(EnOkuta* this) {
     this->actionFunc = func_80AC17BC;
 }
 
-void func_80AC0DC8(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Vec3f velocity;
-    f32 sp3C = Math_Sins(this->actor.shape.rot.y);
-    f32 temp_f0 = Math_Coss(this->actor.shape.rot.y);
+    f32 sin = Math_Sins(this->actor.shape.rot.y);
+    f32 cos = Math_Coss(this->actor.shape.rot.y);
 
-    pos.x = this->actor.posRot.pos.x + (25.0f * sp3C);
+    pos.x = this->actor.posRot.pos.x + (25.0f * sin);
     pos.y = this->actor.posRot.pos.y - 6.0f;
-    pos.z = this->actor.posRot.pos.z + (25.0f * temp_f0);
+    pos.z = this->actor.posRot.pos.z + (25.0f * cos);
     if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_OKUTA, pos.x, pos.y, pos.z, this->actor.shape.rot.x,
                     this->actor.shape.rot.y, this->actor.shape.rot.z, 0x10) != NULL) {
-        pos.x = this->actor.posRot.pos.x + (40.0f * sp3C);
-        pos.z = this->actor.posRot.pos.z + (40.0f * temp_f0);
+        pos.x = this->actor.posRot.pos.x + (40.0f * sin);
+        pos.z = this->actor.posRot.pos.z + (40.0f * cos);
         pos.y = this->actor.posRot.pos.y;
-        velocity.x = 1.5f * sp3C;
+        velocity.x = 1.5f * sin;
         velocity.y = 0.0f;
-        velocity.z = 1.5f * temp_f0;
+        velocity.z = 1.5f * cos;
         func_80AC093C(&pos, &velocity, 20, globalCtx);
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
@@ -249,7 +249,7 @@ void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->actor.xzDistFromLink < 160.0f) {
-            func_80AC0B24(this);
+            EnOkuta_SetupHide(this);
         } else {
             func_80AC0B60(this);
         }
@@ -269,7 +269,7 @@ void func_80AC0F64(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC10A8(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f);
@@ -303,7 +303,7 @@ void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
     }
     if (this->actor.xzDistFromLink < 160.0f || 560.0f < this->actor.xzDistFromLink) {
-        func_80AC0B24(this);
+        EnOkuta_SetupHide(this);
         return;
     }
     temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
@@ -332,7 +332,7 @@ void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx) {
                 (sinf(0.2617889f * animCurrentFrame) * this->unk_360) + this->actor.initPosRot.pos.y;
         }
         if (func_800A56C8(&this->skelAnime, 6.0f)) {
-            func_80AC0DC8(this, globalCtx);
+            EnOkuta_SpawnProjectile(this, globalCtx);
         }
         if ((this->unk_360 > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
             func_80AC09A4(this, globalCtx);
@@ -342,7 +342,7 @@ void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx) {
         }
     }
     if (this->actor.xzDistFromLink < 160.0f) {
-        func_80AC0B24(this);
+        EnOkuta_SetupHide(this);
     }
 }
 
@@ -481,7 +481,7 @@ void func_80AC1B80(EnOkuta* this) {
             this->unk_364.x = this->unk_364.z = 1.3f - ((animCurrentFrame - 13.0f) * 0.05f);
             this->unk_364.y = ((animCurrentFrame - 13.0f) * 0.0333f) + 0.8f;
         }
-    } else if (this->actionFunc == func_80AC10A8) {
+    } else if (this->actionFunc == EnOkuta_Hide) {
         if (animCurrentFrame < 3.0f) {
             this->unk_364.y = 1.0f;
         } else if (animCurrentFrame < 4.0f) {
@@ -575,7 +575,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         Collider_CylinderUpdate(&this->actor, &this->collider);
-        if ((this->actionFunc == func_80AC0F64) || (this->actionFunc == func_80AC10A8)) {
+        if ((this->actionFunc == func_80AC0F64) || (this->actionFunc == EnOkuta_Hide)) {
             this->collider.dim.pos.y =
                 this->actor.posRot.pos.y + (this->skelAnime.limbDrawTbl->y * this->actor.scale.y);
             this->collider.dim.radius = sCylinderInit2.dim.radius * this->actor.scale.x * 100.0f;
