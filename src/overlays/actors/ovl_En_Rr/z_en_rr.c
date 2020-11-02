@@ -1,37 +1,72 @@
+/*
+ * File: z_en_rr.c
+ * Overlay: ovl_En_Rr
+ * Description: Like Like
+ */
+
 #include "z_en_rr.h"
+#include "vt.h"
 
 #define FLAGS 0x00000435
 
 #define THIS ((EnRr*)thisx)
+
+#define RR_MESSAGE_SHIELD (1 << 0)
+#define RR_MESSAGE_TUNIC (1 << 1)
+#define RR_MOUTH 4
+#define RR_BASE 0
+
+typedef enum { REACH_NONE, REACH_EXTEND, REACH_STOP, REACH_OPEN, REACH_GAPE, REACH_CLOSE } EnRrReachState;
+
+typedef enum {
+    RR_DAMAGE_STUN = 1,
+    RR_DAMAGE_FIRE,
+    RR_DAMAGE_ICE,
+    RR_DAMAGE_LIGHT_MAGIC,
+    RR_DAMAGE_LIGHT_ARROW = 11,
+    RR_DAMAGE_UNK_ARROW_1,
+    RR_DAMAGE_UNK_ARROW_2,
+    RR_DAMAGE_UNK_ARROW_3,
+    RR_DAMAGE_NORMAL
+} EnRrDamageEffect;
+
+typedef enum {
+    RR_DROP_RANDOM_RUPEE,
+    RR_DROP_MAGIC,
+    RR_DROP_ARROW,
+    RR_DROP_FLEXIBLE,
+    RR_DROP_PURPLE_RUPEE,
+    RR_DROP_RED_RUPEE
+} EnRrDropType;
 
 void EnRr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRr_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AE861C(EnRr* this, f32 speed);
+// void EnRr_SetSpeed(EnRr* this, f32 speed);
 
-void func_80AE8644(EnRr* this);
-void func_80AE8744(EnRr* this);
-void func_80AE8810(EnRr* this, Player* player);
-u8 func_80AE8918(u8 shield, u8 tunic);
-void func_80AE8968(EnRr* this, GlobalContext* globalCtx);
-void func_80AE8B78(EnRr* this);
-void func_80AE8C44(EnRr* this);
-void func_80AE8CF8(EnRr* this);
-void func_80AE8D9C(EnRr* this);
+void EnRr_SetupReach(EnRr* this);
+void EnRr_SetupNeutral(EnRr* this);
+void EnRr_SetupGrabPlayer(EnRr* this, Player* player);
+// u8 EnRr_GetMessage(u8 shield, u8 tunic);
+void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx);
+void EnRr_SetupDamage(EnRr* this);
+void EnRr_SetupApproach(EnRr* this);
+void EnRr_SetupDeath(EnRr* this);
+void EnRr_SetupStunned(EnRr* this);
 
-void func_80AE8EA4(EnRr* this, GlobalContext* globalCtx);
-void func_80AE926C(EnRr* this, GlobalContext* globalCtx);
-void func_80AE942C(EnRr* this, GlobalContext* globalCtx);
+// void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx);
+void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx);
+// void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx);
 
-void func_80AE95B0(EnRr* this, GlobalContext* globalCtx);
-void func_80AE9670(EnRr* this, GlobalContext* globalCtx);
-void func_80AE978C(EnRr* this, GlobalContext* globalCtx);
-void func_80AE9880(EnRr* this, GlobalContext* globalCtx);
-void func_80AE98F8(EnRr* this, GlobalContext* globalCtx);
-void func_80AE9C88(EnRr* this, GlobalContext* globalCtx);
-void func_80AE9D1C(EnRr* this, GlobalContext* globalCtx);
+void EnRr_Approach(EnRr* this, GlobalContext* globalCtx);
+void EnRr_Reach(EnRr* this, GlobalContext* globalCtx);
+void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx);
+void EnRr_Damage(EnRr* this, GlobalContext* globalCtx);
+void EnRr_Death(EnRr* this, GlobalContext* globalCtx);
+void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx);
+void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx);
 
 extern Gfx D_06000470[];
 
@@ -75,15 +110,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
 };
 
-static f32 D_80AEA6DC[] = { 0.0f, 500.0f, 750.0f, 1000.0f, 1000.0f };
-
-Vec3f D_80AEA6F0[] = {
-    { 25.0f, 0.0f, 0.0f },
-    { -25.0f, 0.0f, 0.0f },
-    { 0.0f, 0.0f, 25.0f },
-    { 0.0f, 0.0f, -25.0f },
-};
-
 void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnRr* this = THIS;
@@ -102,23 +128,23 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.velocity.y = this->actor.speedXZ = 0.0f;
     this->actor.gravity = -0.4f;
-    this->unk_1EA = 0;
-    this->unk_372 = 0;
-    this->unk_373 = 0;
-    this->unk_375 = false;
-    this->unk_1EE = 0;
-    this->unk_1F0 = 0;
-    this->unk_1F2 = 0;
-    this->unk_378 = false;
-    this->unk_376 = false;
-    this->unk_1F4 = 0;
-    this->unk_370 = this->unk_371 = 0;
-    this->actionFunc = func_80AE95B0;
+    this->actionTimer = 0;
+    this->eatenShield = 0;
+    this->eatenTunic = 0;
+    this->retreat = false;
+    this->grabTimer = 0;
+    this->invincibilityTimer = 0;
+    this->effectTimer = 0;
+    this->hasPlayer = false;
+    this->stopScroll = false;
+    this->ocTimer = 0;
+    this->reachState = this->isDead = false;
+    this->actionFunc = EnRr_Approach;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_00 = this->unk_224[i].unk_04 = this->unk_224[i].unk_20.x = this->unk_224[i].unk_20.y =
-            this->unk_224[i].unk_20.z = 0.0f;
+        this->bodySegs[i].height = this->bodySegs[i].heightTarget = this->bodySegs[i].scaleMod.x =
+            this->bodySegs[i].scaleMod.y = this->bodySegs[i].scaleMod.z = 0.0f;
     }
-    func_80AE926C(this, globalCtx);
+    EnRr_InitBodySegments(this, globalCtx);
 }
 
 void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -129,544 +155,550 @@ void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider2);
 }
 
-void func_80AE861C(EnRr* this, f32 speed) {
+void EnRr_SetSpeed(EnRr* this, f32 speed) {
     this->actor.speedXZ = speed;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_WALK);
 }
 
-void func_80AE8644(EnRr* this) {
+void EnRr_SetupReach(EnRr* this) {
+    static f32 D_80AEA6DC[] = { 0.0f, 500.0f, 750.0f, 1000.0f, 1000.0f };
     s32 i;
 
-    this->unk_370 = 1;
-    this->unk_1EA = 20;
-    this->unk_1FC = 2500.0f;
+    this->reachState = 1;
+    this->actionTimer = 20;
+    this->phaseVelTarget = 2500.0f;
     this->unk_364 = 0.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_04 = D_80AEA6DC[i];
-        this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = 0.8f;
-        this->unk_224[i].unk_2C.x = 6000.0f;
-        this->unk_224[i].unk_2C.z = 0.0f;
+        this->bodySegs[i].heightTarget = D_80AEA6DC[i];
+        this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 0.8f;
+        this->bodySegs[i].rotTarget.x = 6000.0f;
+        this->bodySegs[i].rotTarget.z = 0.0f;
     }
-    this->actionFunc = func_80AE9670;
+    this->actionFunc = EnRr_Reach;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_UNARI);
 }
 
-void func_80AE8744(EnRr* this) {
+void EnRr_SetupNeutral(EnRr* this) {
     s32 i;
 
-    this->unk_370 = 0;
+    this->reachState = 0;
     this->unk_364 = 0.0f;
-    this->unk_1FC = 2500.0f;
+    this->phaseVelTarget = 2500.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_04 = 0.0f;
-        this->unk_224[i].unk_2C.x = this->unk_224[i].unk_2C.z = 0.0f;
-        this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = 1.0f;
+        this->bodySegs[i].heightTarget = 0.0f;
+        this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
+        this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
-    if (this->unk_375) {
-        this->unk_1EA = 100;
-        this->actionFunc = func_80AE9C88;
+    if (this->retreat) {
+        this->actionTimer = 100;
+        this->actionFunc = EnRr_Retreat;
     } else {
-        this->unk_1EA = 60;
-        this->actionFunc = func_80AE95B0;
+        this->actionTimer = 60;
+        this->actionFunc = EnRr_Approach;
     }
 }
 
-void func_80AE8810(EnRr* this, Player* player) {
+void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
     s32 i;
 
-    this->unk_1EE = 100;
+    this->grabTimer = 100;
     this->actor.flags &= ~1;
-    this->unk_1F4 = 8;
-    this->unk_378 = true;
-    this->unk_370 = 0;
-    this->unk_364 = this->unk_36C = this->actor.speedXZ = 0.0f;
-    this->unk_218 = 0.15f;
-    this->unk_1FC = 5000.0f;
-    this->unk_220 = 512.0f;
+    this->ocTimer = 8;
+    this->hasPlayer = true;
+    this->reachState = 0;
+    this->unk_364 = this->swallowOffset = this->actor.speedXZ = 0.0f;
+    this->pulseSizeTarget = 0.15f;
+    this->phaseVelTarget = 5000.0f;
+    this->wobbleSizeTarget = 512.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_04 = 0.0f;
-        this->unk_224[i].unk_2C.x = this->unk_224[i].unk_2C.z = 0.0f;
-        this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = 1.0f;
+        this->bodySegs[i].heightTarget = 0.0f;
+        this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
+        this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
-    this->actionFunc = func_80AE978C;
+    this->actionFunc = EnRr_GrabPlayer;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DRINK);
 }
 
-u8 func_80AE8918(u8 shield, u8 tunic) {
-    u8 phi_v1 = 0;
+u8 EnRr_GetMessage(u8 shield, u8 tunic) {
+    u8 messageIndex = 0;
 
-    if ((shield == 1) || (shield == 2)) {
-        phi_v1 = 1;
+    if ((shield == PLAYER_SHIELD_DEKU) || (shield == PLAYER_SHIELD_HYLIAN)) {
+        messageIndex = RR_MESSAGE_SHIELD;
     }
-    if ((tunic == 2) || (tunic == 3)) {
-        phi_v1 |= 2;
+    if ((tunic == (PLAYER_TUNIC_GORON + 1)) || (tunic == (PLAYER_TUNIC_ZORA + 1))) {
+        messageIndex |= RR_MESSAGE_TUNIC;
     }
 
-    return phi_v1;
+    return messageIndex;
 }
 
-void func_80AE8968(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    u8 sp2B;
-    u8 sp2A;
+    u8 shield;
+    u8 tunic;
 
     this->actor.flags |= 1;
-    this->unk_378 = false;
-    this->unk_1F4 = 110;
+    this->hasPlayer = false;
+    this->ocTimer = 110;
     this->unk_364 = 0.0f;
-    this->unk_1FC = 2500.0f;
-    this->unk_220 = 2048.0f;
-    sp2A = 0;
-    sp2B = 0;
-    if (((gSaveContext.equips.equipment & gEquipMasks[1]) >> gEquipShifts[1]) != 3) {
-        sp2B = Inventory_DeleteEquipment(globalCtx, 1);
-        if (sp2B != 0) {
-            this->unk_372 = sp2B;
-            this->unk_375 = true;
+    this->phaseVelTarget = 2500.0f;
+    this->wobbleSizeTarget = 2048.0f;
+    tunic = PLAYER_TUNIC_KOKIRI;
+    shield = PLAYER_SHIELD_NONE;
+    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != PLAYER_SHIELD_MIRROR) {
+        shield = Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
+        if (shield != PLAYER_SHIELD_NONE) {
+            this->eatenShield = shield;
+            this->retreat = true;
         }
     }
-    if (((gSaveContext.equips.equipment & gEquipMasks[2]) >> gEquipShifts[2]) != 1) {
-        sp2A = Inventory_DeleteEquipment(globalCtx, 2);
-        if (sp2A != 0) {
-            this->unk_373 = sp2A;
-            this->unk_375 = true;
+    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != PLAYER_TUNIC_KOKIRI + 1) {
+        tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TUNIC);
+        if (tunic != PLAYER_TUNIC_KOKIRI) {
+            this->eatenTunic = tunic;
+            this->retreat = true;
         }
     }
     player->actor.parent = NULL;
-    switch (func_80AE8918(sp2B, sp2A)) {
-        case 1:
+    switch (EnRr_GetMessage(shield, tunic)) {
+        case RR_MESSAGE_SHIELD:
             func_8010B680(globalCtx, 0x305F, NULL);
             break;
-        case 2:
+        case RR_MESSAGE_TUNIC:
             func_8010B680(globalCtx, 0x3060, NULL);
             break;
-        case 3:
+        case RR_MESSAGE_TUNIC | RR_MESSAGE_SHIELD:
             func_8010B680(globalCtx, 0x3061, NULL);
             break;
     }
-    osSyncPrintf("\x1b[33m%s[%d] : Rr_Catch_Cancel\x1b[m\n", "../z_en_rr.c", 650);
+    osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
     func_8002F6D4(globalCtx, &this->actor, 4.0f, this->actor.shape.rot.y, 12.0f, 8);
     if (this->actor.dmgEffectTimer == 0) {
-        this->actionFunc = func_80AE95B0;
+        this->actionFunc = EnRr_Approach;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_THROW);
     } else if (this->actor.colChkInfo.health != 0) {
-        func_80AE8B78(this);
+        EnRr_SetupDamage(this);
     } else {
-        func_80AE8CF8(this);
+        EnRr_SetupDeath(this);
     }
 }
 
-void func_80AE8B78(EnRr* this) {
+void EnRr_SetupDamage(EnRr* this) {
     s32 i;
 
-    this->unk_370 = 0;
-    this->unk_1EA = 20;
+    this->reachState = 0;
+    this->actionTimer = 20;
     this->unk_364 = 0.0f;
-    this->unk_1FC = 2500.0f;
-    this->unk_218 = 0.0f;
-    this->unk_220 = 0.0f;
+    this->phaseVelTarget = 2500.0f;
+    this->pulseSizeTarget = 0.0f;
+    this->wobbleSizeTarget = 0.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_04 = 0.0f;
-        this->unk_224[i].unk_2C.x = this->unk_224[i].unk_2C.z = 0.0f;
-        this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = 1.0f;
+        this->bodySegs[i].heightTarget = 0.0f;
+        this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
+        this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
-    this->actionFunc = func_80AE9880;
+    this->actionFunc = EnRr_Damage;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DAMAGE);
 }
 
-void func_80AE8C44(EnRr* this) {
+void EnRr_SetupApproach(EnRr* this) {
     s32 i;
 
     this->unk_364 = 0.0f;
-    this->unk_218 = 0.15f;
-    this->unk_1FC = 2500.0f;
-    this->unk_220 = 2048.0f;
+    this->pulseSizeTarget = 0.15f;
+    this->phaseVelTarget = 2500.0f;
+    this->wobbleSizeTarget = 2048.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_04 = 0.0f;
-        this->unk_224[i].unk_2C.x = this->unk_224[i].unk_2C.z = 0.0f;
-        this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = 1.0f;
+        this->bodySegs[i].heightTarget = 0.0f;
+        this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
+        this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
-    this->actionFunc = func_80AE95B0;
+    this->actionFunc = EnRr_Approach;
 }
 
-void func_80AE8CF8(EnRr* this) {
+void EnRr_SetupDeath(EnRr* this) {
     s32 i;
 
-    this->unk_371 = 1;
-    this->unk_1E8 = 0;
-    this->unk_368 = 0.0f;
+    this->isDead = true;
+    this->frameCount = 0;
+    this->shrinkRate = 0.0f;
     this->unk_364 = 0.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_04 = 0.0f;
-        this->unk_224[i].unk_2C.x = this->unk_224[i].unk_2C.z = 0.0f;
+        this->bodySegs[i].heightTarget = 0.0f;
+        this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
     }
-    this->actionFunc = func_80AE98F8;
+    this->actionFunc = EnRr_Death;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_DEAD);
     this->actor.flags &= ~1;
 }
 
-void func_80AE8D9C(EnRr* this) {
+void EnRr_SetupStunned(EnRr* this) {
     s32 i;
 
-    this->unk_376 = true;
-    this->unk_1F6 = 0;
-    this->unk_1F8 = 0.0f;
-    this->unk_1FC = 2500.0f;
-    this->unk_200 = 0.0f;
-    this->unk_204 = 0.0f;
-    this->unk_208 = 3.0f;
-    this->unk_20C = 0.0f;
-    this->unk_210 = 1.0f;
-    this->unk_214 = 0.0f;
-    this->unk_218 = 0.15f;
-    this->unk_21C = 0.0f;
-    this->unk_220 = 2048.0f;
+    this->stopScroll = true;
+    this->pulsePhase = 0;
+    this->pulsePhaseVel = 0.0f;
+    this->phaseVelTarget = 2500.0f;
+    this->pulseRate = 0.0f;
+    this->wobbleRateX = 0.0f;
+    this->wobbleRateXTarget = 3.0f;
+    this->wobbleRateZ = 0.0f;
+    this->wobbleRateZTarget = 1.0f;
+    this->pulseSize = 0.0f;
+    this->pulseSizeTarget = 0.15f;
+    this->wobbleSize = 0.0f;
+    this->wobbleSizeTarget = 2048.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_20.y = 0.0f;
-        this->unk_224[i].unk_2C.x = 0.0f;
-        this->unk_224[i].unk_2C.y = 0.0f;
-        this->unk_224[i].unk_2C.z = 0.0f;
-        this->unk_224[i].unk_08.x = this->unk_224[i].unk_08.y = this->unk_224[i].unk_08.z = this->unk_224[i].unk_14.x =
-            this->unk_224[i].unk_14.y = this->unk_224[i].unk_14.z = 1.0f;
+        this->bodySegs[i].scaleMod.y = 0.0f;
+        this->bodySegs[i].rotTarget.x = 0.0f;
+        this->bodySegs[i].rotTarget.y = 0.0f;
+        this->bodySegs[i].rotTarget.z = 0.0f;
+        this->bodySegs[i].scale.x = this->bodySegs[i].scale.y = this->bodySegs[i].scale.z =
+            this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.y = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
-    this->actionFunc = func_80AE9D1C;
+    this->actionFunc = EnRr_Stunned;
 }
 
-void func_80AE8EA4(EnRr* this, GlobalContext* globalCtx) {
-    Vec3f sp3C;
+void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
+    Vec3f hitPos;
     Player* player = PLAYER;
 
     if (this->collider2.base.acFlags & 2) {
         this->collider2.base.acFlags &= ~2;
         // Kakin (not sure what this means)
-        osSyncPrintf("\x1b[32mカキン(%d)！！\x1b[m\n", this->unk_1E8);
-        sp3C.x = this->collider2.body.bumper.unk_06.x;
-        sp3C.y = this->collider2.body.bumper.unk_06.y;
-        sp3C.z = this->collider2.body.bumper.unk_06.z;
-        func_80062DF4(globalCtx, &sp3C);
+        osSyncPrintf(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
+        hitPos.x = this->collider2.body.bumper.unk_06.x;
+        hitPos.y = this->collider2.body.bumper.unk_06.y;
+        hitPos.z = this->collider2.body.bumper.unk_06.z;
+        func_80062DF4(globalCtx, &hitPos);
     } else {
         if (this->collider1.base.acFlags & 2) {
-            u8 sp37 = 0;
+            u8 dropType = RR_DROP_RANDOM_RUPEE;
 
             this->collider1.base.acFlags &= ~2;
             if (this->actor.colChkInfo.damageEffect != 0) {
-                sp3C.x = this->collider1.body.bumper.unk_06.x;
-                sp3C.y = this->collider1.body.bumper.unk_06.y;
-                sp3C.z = this->collider1.body.bumper.unk_06.z;
-                func_8005DFAC(globalCtx, NULL, &sp3C);
+                hitPos.x = this->collider1.body.bumper.unk_06.x;
+                hitPos.y = this->collider1.body.bumper.unk_06.y;
+                hitPos.z = this->collider1.body.bumper.unk_06.z;
+                func_8005DFAC(globalCtx, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {
-                case 11:
-                    sp37++;
-                case 12:
-                    sp37++;
-                case 13:
-                    sp37++;
-                case 14:
-                    sp37++;
-                case 15:
+                case RR_DAMAGE_LIGHT_ARROW: // Light Arrow
+                    dropType++;             // purple rupee
+                case RR_DAMAGE_UNK_ARROW_1: // Unk Arrow 1
+                    dropType++;             // flexible
+                case RR_DAMAGE_UNK_ARROW_2: // Unk Arrow 2
+                    dropType++;             // arrow
+                case RR_DAMAGE_UNK_ARROW_3: // Unk Arrow 3 and Damage Unk 1
+                    dropType++;             // magic jar
+                case RR_DAMAGE_NORMAL:      // Normal
                     // ouch
-                    osSyncPrintf("\x1b[31mいてっ( %d : LIFE %d : DAMAGE %d : %x )！！\x1b[m\n", this->unk_1E8,
-                                 this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
+                    osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
+                                 this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
                                  this->actor.colChkInfo.damageEffect);
-                    this->unk_376 = false;
+                    this->stopScroll = false;
                     Actor_ApplyDamage(&this->actor);
-                    this->unk_1F0 = 40;
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, this->unk_1F0);
-                    if (this->unk_378) {
-                        func_80AE8968(this, globalCtx);
+                    this->invincibilityTimer = 40;
+                    func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, this->invincibilityTimer);
+                    if (this->hasPlayer) {
+                        EnRr_SetupReleasePlayer(this, globalCtx);
                     } else if (this->actor.colChkInfo.health != 0) {
-                        func_80AE8B78(this);
+                        EnRr_SetupDamage(this);
                     } else {
-                        this->unk_374 = sp37;
-                        func_80AE8CF8(this);
+                        this->dropType = dropType;
+                        EnRr_SetupDeath(this);
                     }
                     return;
-                case 2:
+                case RR_DAMAGE_FIRE: // Fire Arrow and Fire Magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
-                        this->unk_374 = 0;
+                        this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
                     func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
-                    this->unk_1F2 = 20;
-                    func_80AE8D9C(this);
+                    this->effectTimer = 20;
+                    EnRr_SetupStunned(this);
                     return;
-                case 3:
+                case RR_DAMAGE_ICE: // Ice Arrow and Unk Magic 1
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
-                        this->unk_374 = 0;
+                        this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
                     if (this->actor.dmgEffectTimer == 0) {
-                        this->unk_1F2 = 20;
+                        this->effectTimer = 20;
                         func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     }
-                    func_80AE8D9C(this);
+                    EnRr_SetupStunned(this);
                     return;
-                case 4:
+                case RR_DAMAGE_LIGHT_MAGIC: // Unk Magic 2
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
-                        this->unk_374 = 5;
+                        this->dropType = RR_DROP_RED_RUPEE;
                     }
                     func_8003426C(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
-                    func_80AE8D9C(this);
+                    EnRr_SetupStunned(this);
                     return;
-                case 1:
+                case RR_DAMAGE_STUN: // Boomerang and Hookshot
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
-                    func_80AE8D9C(this);
+                    EnRr_SetupStunned(this);
                     return;
             }
         }
-        if ((this->unk_1F4 == 0) && (this->actor.dmgEffectTimer == 0) && (player->invincibilityTimer == 0) &&
+        if ((this->ocTimer == 0) && (this->actor.dmgEffectTimer == 0) && (player->invincibilityTimer == 0) &&
             !(player->stateFlags2 & 0x80) && ((this->collider1.base.maskA & 2) || (this->collider2.base.maskA & 2))) {
             this->collider1.base.maskA &= ~2;
             this->collider2.base.maskA &= ~2;
             // catch
-            osSyncPrintf("\x1b[32mキャッチ(%d)！！\x1b[m\n", this->unk_1E8);
+            osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
             if (globalCtx->grabPlayer(globalCtx, player)) {
                 player->actor.parent = &this->actor;
-                this->unk_376 = false;
-                func_80AE8810(this, player);
+                this->stopScroll = false;
+                EnRr_SetupGrabPlayer(this, player);
             }
         }
     }
 }
 
-void func_80AE926C(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx) {
     s32 i;
 
-    this->unk_1F6 = 0;
-    this->unk_1F8 = 0.0f;
-    this->unk_1FC = 2500.0f;
-    this->unk_200 = 0.0f;
-    this->unk_204 = 0.0f;
-    this->unk_208 = 3.0f;
-    this->unk_20C = 0.0f;
-    this->unk_210 = 1.0f;
-    this->unk_214 = 0.0f;
-    this->unk_218 = 0.15f;
-    this->unk_21C = 0.0f;
-    this->unk_220 = 2048.0f;
+    this->pulsePhase = 0;
+    this->pulsePhaseVel = 0.0f;
+    this->phaseVelTarget = 2500.0f;
+    this->pulseRate = 0.0f;
+    this->wobbleRateX = 0.0f;
+    this->wobbleRateXTarget = 3.0f;
+    this->wobbleRateZ = 0.0f;
+    this->wobbleRateZTarget = 1.0f;
+    this->pulseSize = 0.0f;
+    this->pulseSizeTarget = 0.15f;
+    this->wobbleSize = 0.0f;
+    this->wobbleSizeTarget = 2048.0f;
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_20.y = 0.0f;
-        this->unk_224[i].unk_2C.x = 0.0f;
-        this->unk_224[i].unk_2C.y = 0.0f;
-        this->unk_224[i].unk_2C.z = 0.0f;
-        this->unk_224[i].unk_08.x = this->unk_224[i].unk_08.y = this->unk_224[i].unk_08.z = this->unk_224[i].unk_14.x =
-            this->unk_224[i].unk_14.y = this->unk_224[i].unk_14.z = 1.0f;
+        this->bodySegs[i].scaleMod.y = 0.0f;
+        this->bodySegs[i].rotTarget.x = 0.0f;
+        this->bodySegs[i].rotTarget.y = 0.0f;
+        this->bodySegs[i].rotTarget.z = 0.0f;
+        this->bodySegs[i].scale.x = this->bodySegs[i].scale.y = this->bodySegs[i].scale.z =
+            this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.y = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
     for (i = 0; i < 5; i++) {
-        this->unk_224[i].unk_20.x = this->unk_224[i].unk_20.z =
-            Math_Coss(i * (u32)(s16)this->unk_200 * 0x1000) * this->unk_214;
+        this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
+            Math_Coss(i * (u32)(s16)this->pulseRate * 0x1000) * this->pulseSize;
     }
     for (i = 1; i < 5; i++) {
-        this->unk_224[i].unk_2C.x = Math_Coss(i * (u32)(s16)this->unk_204 * 0x1000) * this->unk_21C;
-        this->unk_224[i].unk_2C.z = Math_Sins(i * (u32)(s16)this->unk_20C * 0x1000) * this->unk_21C;
+        this->bodySegs[i].rotTarget.x = Math_Coss(i * (u32)(s16)this->wobbleRateX * 0x1000) * this->wobbleSize;
+        this->bodySegs[i].rotTarget.z = Math_Sins(i * (u32)(s16)this->wobbleRateZ * 0x1000) * this->wobbleSize;
     }
 }
 
-void func_80AE942C(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
     s32 i;
-    s16 temp = this->unk_1F6;
+    s16 phase = this->pulsePhase;
 
-    if (this->unk_371 == 0) {
+    if (!this->isDead) {
         for (i = 0; i < 5; i++) {
-            this->unk_224[i].unk_20.x = this->unk_224[i].unk_20.z =
-                Math_Coss(temp + i * (s16)this->unk_200 * 0x1000) * this->unk_214;
+            this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
+                Math_Coss(phase + i * (s16)this->pulseRate * 0x1000) * this->pulseSize;
         }
-        temp = this->unk_1F6;
-        if ((this->unk_371 == 0) && (this->unk_370 == 0)) {
+        phase = this->pulsePhase;
+        if (!this->isDead && (this->reachState == 0)) {
             for (i = 1; i < 5; i++) {
-                this->unk_224[i].unk_2C.x = Math_Coss(temp + i * (s16)this->unk_204 * 0x1000) * this->unk_21C;
-                this->unk_224[i].unk_2C.z = Math_Sins(temp + i * (s16)this->unk_20C * 0x1000) * this->unk_21C;
+                this->bodySegs[i].rotTarget.x =
+                    Math_Coss(phase + i * (s16)this->wobbleRateX * 0x1000) * this->wobbleSize;
+                this->bodySegs[i].rotTarget.z =
+                    Math_Sins(phase + i * (s16)this->wobbleRateZ * 0x1000) * this->wobbleSize;
             }
         }
     }
-    if (!this->unk_376) {
-        this->unk_1F6 += (s16)this->unk_1F8;
+    if (!this->stopScroll) {
+        this->pulsePhase += (s16)this->pulsePhaseVel;
     }
 }
 
-void func_80AE95B0(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_Approach(EnRr* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if ((this->unk_1EA == 0) && (this->actor.xzDistFromLink < 160.0f)) {
-        func_80AE8644(this);
+    if ((this->actionTimer == 0) && (this->actor.xzDistFromLink < 160.0f)) {
+        EnRr_SetupReach(this);
     } else if ((this->actor.xzDistFromLink < 400.0f) && (this->actor.speedXZ == 0.0f)) {
-        func_80AE861C(this, 2.0f);
+        EnRr_SetSpeed(this, 2.0f);
     }
 }
 
-void func_80AE9670(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    switch (this->unk_370) {
-        case 1:
-            if (this->unk_1EA == 0) {
-                this->unk_370 = 2;
+    switch (this->reachState) {
+        case REACH_EXTEND:
+            if (this->actionTimer == 0) {
+                this->reachState = REACH_STOP;
             }
             break;
-        case 2:
-            if (this->unk_1EA == 0) {
-                this->unk_1EA = 5;
-                this->unk_224[4].unk_14.x = this->unk_224[4].unk_14.z = 1.5f;
-                this->unk_370 = 3;
+        case REACH_STOP:
+            if (this->actionTimer == 0) {
+                this->actionTimer = 5;
+                this->bodySegs[RR_MOUTH].scaleTarget.x = this->bodySegs[RR_MOUTH].scaleTarget.z = 1.5f;
+                this->reachState = REACH_OPEN;
             }
             break;
-        case 3:
-            if (this->unk_1EA == 0) {
-                this->unk_1EA = 2;
-                this->unk_224[4].unk_04 = 2000.0f;
-                this->unk_370 = 4;
+        case REACH_OPEN:
+            if (this->actionTimer == 0) {
+                this->actionTimer = 2;
+                this->bodySegs[RR_MOUTH].heightTarget = 2000.0f;
+                this->reachState = REACH_GAPE;
             }
             break;
-        case 4:
-            if (this->unk_1EA == 0) {
-                this->unk_1EA = 20;
-                this->unk_224[4].unk_14.x = this->unk_224[4].unk_14.z = 0.8f;
-                this->unk_370 = 5;
+        case REACH_GAPE:
+            if (this->actionTimer == 0) {
+                this->actionTimer = 20;
+                this->bodySegs[RR_MOUTH].scaleTarget.x = this->bodySegs[RR_MOUTH].scaleTarget.z = 0.8f;
+                this->reachState = REACH_CLOSE;
             }
             break;
-        case 5:
-            if (this->unk_1EA == 0) {
-                func_80AE8744(this);
+        case REACH_CLOSE:
+            if (this->actionTimer == 0) {
+                EnRr_SetupNeutral(this);
             }
             break;
     }
 }
 
-void func_80AE978C(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    func_800AA000(this->actor.xyzDistFromLinkSq, 0x78, 2, 0x78);
-    if ((this->unk_1E8 % 8) == 0) {
+    func_800AA000(this->actor.xyzDistFromLinkSq, 120, 2, 120);
+    if ((this->frameCount % 8) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
-    this->unk_1F4 = 8;
-    if ((this->unk_1EE == 0) || !(player->stateFlags2 & 0x80)) {
-        func_80AE8968(this, globalCtx);
+    this->ocTimer = 8;
+    if ((this->grabTimer == 0) || !(player->stateFlags2 & 0x80)) {
+        EnRr_SetupReleasePlayer(this, globalCtx);
     } else {
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.x, this->unk_37C.x, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.y, this->unk_37C.y + this->unk_36C, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&player->actor.posRot.pos.z, this->unk_37C.z, 1.0f, 30.0f);
-        Math_SmoothScaleMaxF(&this->unk_36C, -55.0f, 1.0f, 5.0f);
+        Math_SmoothScaleMaxF(&player->actor.posRot.pos.x, this->mouthPos.x, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&player->actor.posRot.pos.y, this->mouthPos.y + this->swallowOffset, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&player->actor.posRot.pos.z, this->mouthPos.z, 1.0f, 30.0f);
+        Math_SmoothScaleMaxF(&this->swallowOffset, -55.0f, 1.0f, 5.0f);
     }
 }
 
-void func_80AE9880(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_Damage(EnRr* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->actor.dmgEffectTimer == 0) {
-        func_80AE8C44(this);
+        EnRr_SetupApproach(this);
     } else if ((this->actor.dmgEffectTimer & 8) != 0) {
         for (i = 1; i < 5; i++) {
-            this->unk_224[i].unk_2C.z = 5000.0f;
+            this->bodySegs[i].rotTarget.z = 5000.0f;
         }
     } else {
         for (i = 1; i < 5; i++) {
-            this->unk_224[i].unk_2C.z = -5000.0f;
+            this->bodySegs[i].rotTarget.z = -5000.0f;
         }
     }
 }
 
-void func_80AE98F8(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 i;
-    Vec3f sp9C;
-    Vec3f sp90;
-    Vec3f sp84;
-    Vec3f sp78;
 
-    if (this->unk_1E8 < 40) {
+    if (this->frameCount < 40) {
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxF(&this->unk_224[i].unk_04, i + 59 - (this->unk_1E8 * 25.0f), 1.0f, 50.0f);
-            this->unk_224[i].unk_14.x = this->unk_224[i].unk_14.z = (SQ(4 - i) * (f32)this->unk_1E8 * 0.003f) + 1.0f;
+            Math_SmoothScaleMaxF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
+            this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z =
+                (SQ(4 - i) * (f32)this->frameCount * 0.003f) + 1.0f;
         }
-    } else if (this->unk_1E8 >= 95) {
-        sp9C.x = this->actor.posRot.pos.x;
-        sp9C.y = this->actor.posRot.pos.y;
-        sp9C.z = this->actor.posRot.pos.z;
-        switch (this->unk_372) {
-            case 1:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_SHIELD_DEKU);
+    } else if (this->frameCount >= 95) {
+        Vec3f dropPos;
+
+        dropPos.x = this->actor.posRot.pos.x;
+        dropPos.y = this->actor.posRot.pos.y;
+        dropPos.z = this->actor.posRot.pos.z;
+        switch (this->eatenShield) {
+            case PLAYER_SHIELD_DEKU:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_SHIELD_DEKU);
                 break;
-            case 2:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_SHIELD_HYLIAN);
+            case PLAYER_SHIELD_HYLIAN:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_SHIELD_HYLIAN);
                 break;
         }
-        switch (this->unk_373) {
-            case 2:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_TUNIC_GORON);
+        switch (this->eatenTunic) {
+            case PLAYER_TUNIC_GORON + 1:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_GORON);
                 break;
-            case 3:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_TUNIC_ZORA);
+            case PLAYER_TUNIC_ZORA + 1:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_TUNIC_ZORA);
                 break;
         }
         // dropped
-        osSyncPrintf("\x1b[32m「%s」が出た！！\x1b[m\n", sDropNames[this->unk_374]);
-        switch (this->unk_374) {
-            case 1:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_MAGIC_SMALL);
+        osSyncPrintf(VT_FGCOL(GREEN) "「%s」が出た！！" VT_RST "\n", sDropNames[this->dropType]);
+        switch (this->dropType) {
+            case RR_DROP_MAGIC:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_MAGIC_SMALL);
                 break;
-            case 2:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_ARROWS_SINGLE);
+            case RR_DROP_ARROW:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_ARROWS_SINGLE);
                 break;
-            case 3:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_FLEXIBLE);
+            case RR_DROP_FLEXIBLE:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_FLEXIBLE);
                 break;
-            case 4:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_RUPEE_PURPLE);
+            case RR_DROP_PURPLE_RUPEE:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_RUPEE_PURPLE);
                 break;
-            case 5:
-                Item_DropCollectible(globalCtx, &sp9C, ITEM00_RUPEE_RED);
+            case RR_DROP_RED_RUPEE:
+                Item_DropCollectible(globalCtx, &dropPos, ITEM00_RUPEE_RED);
                 break;
-            case 0:
+            case RR_DROP_RANDOM_RUPEE:
             default:
-                Item_DropCollectibleRandom(globalCtx, &this->actor, &sp9C, 0xC0);
+                Item_DropCollectibleRandom(globalCtx, &this->actor, &dropPos, 12 << 4);
                 break;
         }
         Actor_Kill(&this->actor);
-    } else if (this->unk_1E8 == 88) {
-        sp90.x = this->actor.posRot.pos.x;
-        sp90.y = this->actor.posRot.pos.y + 20.0f;
-        sp90.z = this->actor.posRot.pos.z;
-        sp84.x = 0.0f;
-        sp84.y = 0.0f;
-        sp84.z = 0.0f;
-        sp78.x = 0.0f;
-        sp78.y = 0.0f;
-        sp78.z = 0.0f;
+    } else if (this->frameCount == 88) {
+        Vec3f pos;
+        Vec3f vel;
+        Vec3f accel;
 
-        EffectSsDeadDb_Spawn(globalCtx, &sp90, &sp84, &sp78, 100, 0, 255,255,255,255,255, 0, 0, 1, 9, 1);
+        pos.x = this->actor.posRot.pos.x;
+        pos.y = this->actor.posRot.pos.y + 20.0f;
+        pos.z = this->actor.posRot.pos.z;
+        vel.x = 0.0f;
+        vel.y = 0.0f;
+        vel.z = 0.0f;
+        accel.x = 0.0f;
+        accel.y = 0.0f;
+        accel.z = 0.0f;
+
+        EffectSsDeadDb_Spawn(globalCtx, &pos, &vel, &accel, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
     } else {
-        Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0f, 1.0f, this->unk_368);
-        Math_SmoothScaleMaxF(&this->unk_368, 0.001f, 1.0f, 0.00001f);
+        Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0f, 1.0f, this->shrinkRate);
+        Math_SmoothScaleMaxF(&this->shrinkRate, 0.001f, 1.0f, 0.00001f);
         this->actor.scale.z = this->actor.scale.x;
     }
 }
 
-void func_80AE9C88(EnRr* this, GlobalContext* globalCtx) {
-    if (this->unk_1EA == 0) {
-        this->unk_375 = false;
-        this->actionFunc = func_80AE95B0;
+void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx) {
+    if (this->actionTimer == 0) {
+        this->retreat = false;
+        this->actionFunc = EnRr_Approach;
     } else {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0xA, 0x3E8, 0);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if (this->actor.speedXZ == 0.0f) {
-            func_80AE861C(this, 2.0f);
+            EnRr_SetSpeed(this, 2.0f);
         }
     }
 }
 
-void func_80AE9D1C(EnRr* this, GlobalContext* globalCtx) {
+void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx) {
     if (this->actor.dmgEffectTimer == 0) {
-        this->unk_376 = false;
-        if (this->unk_378) {
-            func_80AE8968(this, globalCtx);
+        this->stopScroll = false;
+        if (this->hasPlayer) {
+            EnRr_SetupReleasePlayer(this, globalCtx);
         } else if (this->actor.colChkInfo.health != 0) {
-            this->actionFunc = func_80AE95B0;
+            this->actionFunc = EnRr_Approach;
         } else {
-            func_80AE8CF8(this);
+            EnRr_SetupDeath(this);
         }
     }
 }
@@ -676,47 +708,47 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRr* this = THIS;
     s32 i;
 
-    this->unk_1E8++;
-    if (!this->unk_376) {
-        this->unk_1EC++;
+    this->frameCount++;
+    if (!this->stopScroll) {
+        this->scrollTimer++;
     }
-    if (this->unk_1EA != 0) {
-        this->unk_1EA--;
+    if (this->actionTimer != 0) {
+        this->actionTimer--;
     }
-    if (this->unk_1EE != 0) {
-        this->unk_1EE--;
+    if (this->grabTimer != 0) {
+        this->grabTimer--;
     }
-    if (this->unk_1F4 != 0) {
-        this->unk_1F4--;
+    if (this->ocTimer != 0) {
+        this->ocTimer--;
     }
-    if (this->unk_1F0 != 0) {
-        this->unk_1F0--;
+    if (this->invincibilityTimer != 0) {
+        this->invincibilityTimer--;
     }
-    if (this->unk_1F2 != 0) {
-        this->unk_1F2--;
+    if (this->effectTimer != 0) {
+        this->effectTimer--;
     }
 
     Actor_SetHeight(&this->actor, 30.0f);
-    func_80AE942C(this, globalCtx);
-    if ((this->unk_371 == 0) && ((this->actor.dmgEffectTimer == 0) || !(this->actor.dmgEffectParams & 0x4000))) {
-        func_80AE8EA4(this, globalCtx);
+    EnRr_UpdateBodySegments(this, globalCtx);
+    if (!this->isDead && ((this->actor.dmgEffectTimer == 0) || !(this->actor.dmgEffectParams & 0x4000))) {
+        EnRr_CollisionCheck(this, globalCtx);
     }
 
     this->actionFunc(this, globalCtx);
-    if (this->unk_378 == 0x3F80) {
+    if (this->hasPlayer == 0x3F80) {
         __assert("0", "../z_en_rr.c", 1355);
     }
 
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.1f);
     Actor_MoveForward(&this->actor);
     Collider_CylinderUpdate(&this->actor, &this->collider1);
-    this->collider2.dim.pos.x = this->unk_37C.x;
-    this->collider2.dim.pos.y = this->unk_37C.y;
-    this->collider2.dim.pos.z = this->unk_37C.z;
-    if ((this->unk_371 == 0) && (this->unk_1F0 == 0)) {
+    this->collider2.dim.pos.x = this->mouthPos.x;
+    this->collider2.dim.pos.y = this->mouthPos.y;
+    this->collider2.dim.pos.z = this->mouthPos.z;
+    if (!this->isDead && (this->invincibilityTimer == 0)) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
-        if (this->unk_1F4 == 0) {
+        if (this->ocTimer == 0) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
@@ -727,21 +759,23 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider1.base.acFlags &= ~2;
     }
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
-    if (!this->unk_376) {
-        Math_SmoothScaleMaxF(&this->unk_1F8, this->unk_1FC, 1.0f, 50.0f);
-        Math_SmoothScaleMaxF(&this->unk_200, 4.0f, 1.0f, 5.0f);
-        Math_SmoothScaleMaxF(&this->unk_204, this->unk_208, 1.0f, 0.04f);
-        Math_SmoothScaleMaxF(&this->unk_20C, this->unk_210, 1.0f, 0.01f);
-        Math_SmoothScaleMaxF(&this->unk_214, this->unk_218, 1.0f, 0.0015f);
-        Math_SmoothScaleMaxF(&this->unk_21C, this->unk_220, 1.0f, 20.0f);
+    if (!this->stopScroll) {
+        Math_SmoothScaleMaxF(&this->pulsePhaseVel, this->phaseVelTarget, 1.0f, 50.0f);
+        Math_SmoothScaleMaxF(&this->pulseRate, 4.0f, 1.0f, 5.0f);
+        Math_SmoothScaleMaxF(&this->wobbleRateX, this->wobbleRateXTarget, 1.0f, 0.04f);
+        Math_SmoothScaleMaxF(&this->wobbleRateZ, this->wobbleRateZTarget, 1.0f, 0.01f);
+        Math_SmoothScaleMaxF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
+        Math_SmoothScaleMaxF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxMinS(&this->unk_224[i].unk_38.x, this->unk_224[i].unk_2C.x, 5, this->unk_364 * 1000.0f,
+            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->unk_364 * 1000.0f,
                                     0);
-            Math_SmoothScaleMaxMinS(&this->unk_224[i].unk_38.z, this->unk_224[i].unk_2C.z, 5, this->unk_364 * 1000.0f,
+            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->unk_364 * 1000.0f,
                                     0);
-            Math_SmoothScaleMaxF(&this->unk_224[i].unk_08.x, this->unk_224[i].unk_14.x, 1.0f, this->unk_364 * 0.2f);
-            this->unk_224[i].unk_08.z = this->unk_224[i].unk_08.x;
-            Math_SmoothScaleMaxF(&this->unk_224[i].unk_00, this->unk_224[i].unk_04, 1.0f, this->unk_364 * 300.0f);
+            Math_SmoothScaleMaxF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
+                                 this->unk_364 * 0.2f);
+            this->bodySegs[i].scale.z = this->bodySegs[i].scale.x;
+            Math_SmoothScaleMaxF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
+                                 this->unk_364 * 300.0f);
         }
         Math_SmoothScaleMaxF(&this->unk_364, 1.0f, 1.0f, 0.2f);
     }
@@ -749,61 +783,68 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Vec3f spB8;
+    Vec3f zeroVec;
     EnRr* this = THIS;
     s32 i;
-    Mtx* temp_s4 = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));     
-    
+    Mtx* segMats = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
+
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1478);
     if (1) {}
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, temp_s4);
+    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, segMats);
     gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->unk_1EC * 0) & 0x7F, (this->unk_1EC * 0) & 0x3F, 32, 16, 1, (this->unk_1EC * 0) & 0x3F,
-                                (this->unk_1EC * -6) & 0x7F, 32, 16));                       
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->scrollTimer * 0) & 0x7F,
+                                (this->scrollTimer * 0) & 0x3F, 32, 16, 1, (this->scrollTimer * 0) & 0x3F,
+                                (this->scrollTimer * -6) & 0x7F, 32, 16));
     Matrix_Push();
-    
-    Matrix_Scale((1.0f + this->unk_224[0].unk_20.x) * this->unk_224[0].unk_08.x,
-                 (1.0f + this->unk_224[0].unk_20.y) * this->unk_224[0].unk_08.y,
-                 (1.0f + this->unk_224[0].unk_20.z) * this->unk_224[0].unk_08.z, 1);
+
+    Matrix_Scale((1.0f + this->bodySegs[RR_BASE].scaleMod.x) * this->bodySegs[RR_BASE].scale.x,
+                 (1.0f + this->bodySegs[RR_BASE].scaleMod.y) * this->bodySegs[RR_BASE].scale.y,
+                 (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, 1);
     gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_Pull();
-    VEC_SET(spB8, 0.0f, 0.0f, 0.0f);
+    VEC_SET(zeroVec, 0.0f, 0.0f, 0.0f);
     for (i = 1; i < 5; i++) {
-        Matrix_Translate(0.0f, this->unk_224[i].unk_00 + 1000.0f, 0.0f, 1);
-        
-        Matrix_RotateRPY(this->unk_224[i].unk_38.x, this->unk_224[i].unk_38.y, this->unk_224[i].unk_38.z, 1);
+        Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, 1);
+
+        Matrix_RotateRPY(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, 1);
         Matrix_Push();
-        Matrix_Scale((1.0f + this->unk_224[i].unk_20.x) * this->unk_224[i].unk_08.x,
-                     (1.0f + this->unk_224[i].unk_20.y) * this->unk_224[i].unk_08.y,
-                     (1.0f + this->unk_224[i].unk_20.z) * this->unk_224[i].unk_08.z, 1);
-        Matrix_ToMtx(temp_s4, "../z_en_rr.c", 1527);
+        Matrix_Scale((1.0f + this->bodySegs[i].scaleMod.x) * this->bodySegs[i].scale.x,
+                     (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
+                     (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, 1);
+        Matrix_ToMtx(segMats, "../z_en_rr.c", 1527);
         Matrix_Pull();
-        temp_s4++;
-        Matrix_MultVec3f(&spB8, &this->unk_388[i]);
+        segMats++;
+        Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }
-    this->unk_388[0] = this->actor.posRot.pos;
-    Matrix_MultVec3f(&spB8, &this->unk_37C);
+    this->effectPos[0] = this->actor.posRot.pos;
+    Matrix_MultVec3f(&zeroVec, &this->mouthPos);
     gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000470);
-    
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1551);
-    if (this->unk_1F2 != 0) {
-        Vec3f sp7C;
-        s16 temp_s0 = this->unk_1F2 - 1;
+    if (this->effectTimer != 0) {
+        static Vec3f effectOffsets[] = {
+            { 25.0f, 0.0f, 0.0f },
+            { -25.0f, 0.0f, 0.0f },
+            { 0.0f, 0.0f, 25.0f },
+            { 0.0f, 0.0f, -25.0f },
+        };
+        Vec3f effectPos;
+        s16 effectTimer = this->effectTimer - 1;
 
         this->actor.dmgEffectTimer++;
-        if ((temp_s0 & 1) == 0) {
-            s32 temp1 = 4 - (temp_s0 >> 2);
-            s32 temp2 = (temp_s0 >> 1) & 3;
+        if ((effectTimer & 1) == 0) {
+            s32 segIndex = 4 - (effectTimer >> 2);
+            s32 offIndex = (effectTimer >> 1) & 3;
 
-            sp7C.x = this->unk_388[temp1].x + D_80AEA6F0[temp2].x + Math_Rand_CenteredFloat(10.0f);
-            sp7C.y = this->unk_388[temp1].y + D_80AEA6F0[temp2].y + Math_Rand_CenteredFloat(10.0f);
-            sp7C.z = this->unk_388[temp1].z + D_80AEA6F0[temp2].z + Math_Rand_CenteredFloat(10.0f);
+            effectPos.x = this->effectPos[segIndex].x + effectOffsets[offIndex].x + Math_Rand_CenteredFloat(10.0f);
+            effectPos.y = this->effectPos[segIndex].y + effectOffsets[offIndex].y + Math_Rand_CenteredFloat(10.0f);
+            effectPos.z = this->effectPos[segIndex].z + effectOffsets[offIndex].z + Math_Rand_CenteredFloat(10.0f);
             if (this->actor.dmgEffectParams & 0x4000) {
-                EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &sp7C, 100, 0, 0, -1);
+                EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &effectPos, 100, 0, 0, -1);
             } else {
-                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp7C, 150, 150, 150, 250, 235, 245, 255,
+                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255,
                                                3.0f);
             }
         }
