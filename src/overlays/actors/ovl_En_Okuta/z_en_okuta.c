@@ -41,13 +41,13 @@ extern SkeletonHeader D_06003660;
 extern AnimationHeader D_06003910;
 extern AnimationHeader D_06003C64;
 
-static ColliderCylinderInit sCylinderInit1 = {
+static ColliderCylinderInit sProjectileColliderInit = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
     { 13, 20, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit sCylinderInit2 = {
+static ColliderCylinderInit sOctorockColliderInit = {
     { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 20, 40, -30, { 0, 0, 0 } },
@@ -79,7 +79,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->limbDrawTable,
                        this->transitionDrawTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit2);
+        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sOctorockColliderInit);
         func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
         if ((this->unk_196 == 0xFF) || (this->unk_196 == 0)) {
             this->unk_196 = 1;
@@ -98,7 +98,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags &= ~1;
         thisx->flags |= 0x10;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit1);
+        Collider_SetCylinder(globalCtx, &this->collider, thisx, &sProjectileColliderInit);
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_PROP);
         this->unk_194 = 0x1E;
         thisx->shape.rot.y = 0;
@@ -553,8 +553,9 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx2);
         if (this->actor.params == 0) {
             func_80AC1B80(this);
-            this->collider.dim.height = (((sCylinderInit2.dim.height * this->unk_364.y) - this->collider.dim.yShift) *
-                                         this->actor.scale.y * 100.0f);
+            this->collider.dim.height =
+                (((sOctorockColliderInit.dim.height * this->unk_364.y) - this->collider.dim.yShift) *
+                 this->actor.scale.y * 100.0f);
         } else {
             sp34 = false;
             Actor_MoveForward(&this->actor);
@@ -578,7 +579,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->actionFunc == EnOkuta_Appear) || (this->actionFunc == EnOkuta_Hide)) {
             this->collider.dim.pos.y =
                 this->actor.posRot.pos.y + (this->skelAnime.limbDrawTbl->y * this->actor.scale.y);
-            this->collider.dim.radius = sCylinderInit2.dim.radius * this->actor.scale.x * 100.0f;
+            this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;
         }
         if (this->actor.params == 0x10) {
             this->actor.flags |= 0x1000000;
