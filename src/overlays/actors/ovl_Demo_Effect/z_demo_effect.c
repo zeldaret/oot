@@ -1864,7 +1864,7 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
     if (!DemoEffect_CheckCsAction(this, globalCtx, 2)) {
         if (gSaveContext.entranceIndex == 0x00A0) {
             if (gSaveContext.sceneSetupIndex == 4) {
-                if (globalCtx->csCtx.frames < 681) {
+                if (globalCtx->csCtx.frames <= 680) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
                 }
             } else {
