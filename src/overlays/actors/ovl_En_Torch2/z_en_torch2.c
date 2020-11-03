@@ -756,21 +756,21 @@ void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_80093C80(globalCtx);
     func_80093D84(globalCtx->state.gfxCtx);
     if (sAlpha == 255) {
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 0, 0, sAlpha);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, D_80116280 + 2);
+        gDPSetEnvColor(POLY_OPA_DISP++, 255, 0, 0, sAlpha);
+        gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        oGfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, &EnTorch2_OverrideLimbDraw,
-                                               &EnTorch2_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
+                                               &EnTorch2_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, sAlpha);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, sAlpha);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, &EnTorch2_OverrideLimbDraw,
-                                               &EnTorch2_PostLimbDraw, &this->actor, oGfxCtx->polyXlu.p);
+                                               &EnTorch2_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_torch2.c", 1114);
 }
