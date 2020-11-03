@@ -657,9 +657,9 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
         }
 
         if (this->getItem.giIndex != 97) {
-            this->actor.shape.rot.x = -8000;
+            this->actor.shape.rot.x = 0xE0C0;
         } else {
-            this->actor.shape.rot.y += 1024;
+            this->actor.shape.rot.y += 0x0400;
         }
 
         Actor_SetScale(thisx, 0.20f);
@@ -682,12 +682,12 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
                 }
                 if (this->getItem.giIndex != 97) {
-                    this->actor.shape.rot.y += 16000;
+                    this->actor.shape.rot.y += 0x3E80;
                 }
-                this->getItem.rotation = 16000;
+                this->getItem.rotation = 0x3E80;
                 break;
             case 3:
-                this->getItem.rotation -= (s16)((f32)(this->getItem.rotation - 1000) * 0.10f);
+                this->getItem.rotation -= (s16)((f32)(this->getItem.rotation - 0x03E8) * 0.10f);
                 if (this->getItem.giIndex != 97) {
                     this->actor.shape.rot.y += this->getItem.rotation;
                 }
@@ -866,7 +866,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
  * It rotates and updates the opacity of the Triforce and child actors.
  */
 void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
-    this->triforceSpot.rotation += 1000;
+    this->triforceSpot.rotation += 0x03E8;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
@@ -1097,7 +1097,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                         }
                     }
                 }
-                this->lightEffect.rotation += 6;
+                this->lightEffect.rotation += 0x06;
                 this->lightEffect.scaleFlag += 1;
                 break;
 
@@ -1521,9 +1521,9 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
         this->jewelCsRotation.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
-    this->jewelCsRotation.z += 1024;
+    this->jewelCsRotation.z += 0x0400;
 
-    degrees += this->jewelCsRotation.z * (45.0f / 8192.0f);
+    degrees += this->jewelCsRotation.z * (360.0f / 65536.0f);
     DemoEffect_MoveJewelSpherical(degrees, frameDivisor, startPos, endPos, radius, this->jewelCsRotation, this);
 }
 
@@ -1591,7 +1591,7 @@ void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx) {
  */
 void DemoEffect_UpdateJewelAdult(DemoEffect* this, GlobalContext* globalCtx) {
     this->jewel.timer++;
-    this->actor.shape.rot.y += 1024;
+    this->actor.shape.rot.y += 0x0400;
     DemoEffect_PlayJewelSfx(this, globalCtx);
     DemoEffect_SetJewelColor(this, 1.0f);
 }
@@ -1653,7 +1653,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
         }
     }
 
-    thisx->shape.rot.y += 1024;
+    thisx->shape.rot.y += 0x0400;
     DemoEffect_PlayJewelSfx(this, globalCtx);
     this->effectFlags &= 65534;
 }
@@ -1970,7 +1970,7 @@ void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     Matrix_RotateZ(this->blueOrb.rotation * (M_PI / 32768.0f), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2901),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    this->blueOrb.rotation += 500;
+    this->blueOrb.rotation += 0x01F4;
     gSPDisplayList(POLY_XLU_DISP++, lightBall);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2907);
 }
