@@ -170,11 +170,11 @@ f32 DemoEffect_InterpolateCsFrames(GlobalContext* globalCtx, s32 csActionId) {
  * Initializes information for Jewel/Spritual Stone actors.
  */
 void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
-    this->initDrawFunc = &DemoEffect_DrawJewel;
+    this->initDrawFunc = DemoEffect_DrawJewel;
     if (LINK_IS_CHILD) {
-        this->initUpdateFunc = &DemoEffect_UpdateJewelChild;
+        this->initUpdateFunc = DemoEffect_UpdateJewelChild;
     } else {
-        this->initUpdateFunc = &DemoEffect_UpdateJewelAdult;
+        this->initUpdateFunc = DemoEffect_UpdateJewelAdult;
     }
     if (globalCtx->sceneNum == SCENE_TOKINOMA) {
         Actor_SetScale(&this->actor, 0.35f);
@@ -197,8 +197,8 @@ void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
 void DemoEffect_InitGetItem(DemoEffect* this) {
     this->getItem.isPositionInit = 0;
     this->getItem.isLoaded = 0;
-    this->initDrawFunc = &DemoEffect_DrawGetItem;
-    this->initUpdateFunc = &DemoEffect_UpdateGetItem;
+    this->initDrawFunc = DemoEffect_DrawGetItem;
+    this->initUpdateFunc = DemoEffect_UpdateGetItem;
     Actor_SetScale(&this->actor, 0.25f);
     this->csActionId = 6;
 }
@@ -236,19 +236,19 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (effectType) {
         case Demo_Effect_Crystal_Light:
-            this->initDrawFunc = &DemoEffect_DrawCrystalLight;
-            this->initUpdateFunc = &DemoEffect_UpdateCrystalLight;
+            this->initDrawFunc = DemoEffect_DrawCrystalLight;
+            this->initUpdateFunc = DemoEffect_UpdateCrystalLight;
             break;
 
         case Demo_Effect_Fire_Ball:
-            this->initDrawFunc = &DemoEffect_DrawFireBall;
-            this->initUpdateFunc = &DemoEffect_UpdatePositionToParent;
+            this->initDrawFunc = DemoEffect_DrawFireBall;
+            this->initUpdateFunc = DemoEffect_UpdatePositionToParent;
             Actor_SetScale(&this->actor, 0.1f);
             break;
 
         case Demo_Effect_Blue_Orb:
-            this->initDrawFunc = &DemoEffect_DrawBlueOrb;
-            this->initUpdateFunc = &DemoEffect_UpdateBlueOrbGrow;
+            this->initDrawFunc = DemoEffect_DrawBlueOrb;
+            this->initUpdateFunc = DemoEffect_UpdateBlueOrbGrow;
             this->blueOrb.opacity = 255;
             this->blueOrb.scale = 5;
             this->blueOrb.rotation = 0;
@@ -262,8 +262,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Light_Effect:
-            this->initDrawFunc = &DemoEffect_DrawLightEffect;
-            this->initUpdateFunc = &DemoEffect_UpdateLightEffect;
+            this->initDrawFunc = DemoEffect_DrawLightEffect;
+            this->initUpdateFunc = DemoEffect_UpdateLightEffect;
             this->lightEffect.opacity = 255;
             this->lightEffect.scaleFlag = 0;
             this->lightEffect.flicker = 0;
@@ -338,13 +338,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Lgt_Shower:
             this->lgtShower.opacity = 255;
-            this->initDrawFunc = &DemoEffect_DrawLgtShower;
-            this->initUpdateFunc = &DemoEffect_UpdateLgtShower;
+            this->initDrawFunc = DemoEffect_DrawLgtShower;
+            this->initUpdateFunc = DemoEffect_UpdateLgtShower;
             break;
 
         case Demo_Effect_God_Lgt_Din:
             Actor_SetScale(&this->actor, 0.1f);
-            this->initDrawFunc = &DemoEffect_DrawGodLgt;
+            this->initDrawFunc = DemoEffect_DrawGodLgt;
             this->primXluColor[1] = 0xAA;
             this->primXluColor[0] = 0xFF;
             this->primXluColor[2] = 0xFF;
@@ -353,7 +353,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 0x00;
             this->godLgt.type = God_Lgt_Type_Din;
             this->godLgt.rotation = 0;
-            this->initUpdateFunc = &DemoEffect_UpdateGodLgtDin;
+            this->initUpdateFunc = DemoEffect_UpdateGodLgtDin;
             this->csActionId = 0;
             break;
 
@@ -363,7 +363,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
             }
-            this->initDrawFunc = &DemoEffect_DrawGodLgt;
+            this->initDrawFunc = DemoEffect_DrawGodLgt;
             this->primXluColor[0] = 0xAA;
             this->primXluColor[1] = 0xFF;
             this->primXluColor[2] = 0xFF;
@@ -374,7 +374,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->godLgt.lightRingSpawnDelay = 4;
             this->godLgt.rotation = 0;
             this->godLgt.lightRingSpawnTimer = 0;
-            this->initUpdateFunc = &DemoEffect_UpdateGodLgtNayru;
+            this->initUpdateFunc = DemoEffect_UpdateGodLgtNayru;
             this->csActionId = 1;
             break;
 
@@ -384,7 +384,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
             }
-            this->initDrawFunc = &DemoEffect_DrawGodLgt;
+            this->initDrawFunc = DemoEffect_DrawGodLgt;
             this->primXluColor[0] = 0xAA;
             this->primXluColor[2] = 0xAA;
             this->primXluColor[1] = 0xFF;
@@ -393,21 +393,21 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[2] = 0x00;
             this->godLgt.type = God_Lgt_Type_Farore;
             this->godLgt.rotation = 0;
-            this->initUpdateFunc = &DemoEffect_UpdateGodLgtFarore;
+            this->initUpdateFunc = DemoEffect_UpdateGodLgtFarore;
             this->csActionId = 2;
             break;
 
         case Demo_Effect_Light_Ring_Expanding:
-            this->initDrawFunc = &DemoEffect_DrawLightRing;
-            this->initUpdateFunc = &DemoEffect_UpdateLightRingExpanding;
+            this->initDrawFunc = DemoEffect_DrawLightRing;
+            this->initUpdateFunc = DemoEffect_UpdateLightRingExpanding;
             this->lightRing.timer = 20;
             this->lightRing.timerIncrement = 4;
             this->lightRing.opacity = 255;
             break;
 
         case Demo_Effect_Light_Ring_Triforce:
-            this->initDrawFunc = &DemoEffect_DrawLightRing;
-            this->initUpdateFunc = &DemoEffect_UpdateLightRingTriforce;
+            this->initDrawFunc = DemoEffect_DrawLightRing;
+            this->initUpdateFunc = DemoEffect_UpdateLightRingTriforce;
             this->lightRing.timer = 20;
             this->lightRing.timerIncrement = 4;
             this->lightRing.opacity = 0;
@@ -415,16 +415,16 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case Demo_Effect_Light_Ring_Shrinking:
-            this->initDrawFunc = &DemoEffect_DrawLightRing;
-            this->initUpdateFunc = &DemoEffect_UpdateLightRingShrinking;
+            this->initDrawFunc = DemoEffect_DrawLightRing;
+            this->initUpdateFunc = DemoEffect_UpdateLightRingShrinking;
             this->lightRing.timer = 351;
             this->lightRing.timerIncrement = 2;
             this->lightRing.opacity = 0;
             break;
 
         case Demo_Effect_Triforce_Spot:
-            this->initDrawFunc = &DemoEffect_DrawTriforceSpot;
-            this->initUpdateFunc = &DemoEffect_UpdateTriforceSpot;
+            this->initDrawFunc = DemoEffect_DrawTriforceSpot;
+            this->initUpdateFunc = DemoEffect_UpdateTriforceSpot;
             this->triforceSpot.crystalLightOpacity = 0;
             this->triforceSpot.lightColumnOpacity = 0;
             this->triforceSpot.triforceSpotOpacity = 0;
@@ -493,8 +493,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_Timewarp_Timeblock_Small:
             this->actor.flags |= 0x2000000;
         case Demo_Effect_Timewarp_Mastersword:
-            this->initDrawFunc = &DemoEffect_DrawTimeWarp;
-            this->initUpdateFunc = &DemoEffect_InitTimeWarp;
+            this->initDrawFunc = DemoEffect_DrawTimeWarp;
+            this->initUpdateFunc = DemoEffect_InitTimeWarp;
             this->envXluColor[0] = 0x00;
             this->envXluColor[1] = 0x64;
             this->envXluColor[2] = 0xFF;
@@ -533,7 +533,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Dust:
             this->initDrawFunc = NULL;
-            this->initUpdateFunc = &DemoEffect_UpdateDust;
+            this->initUpdateFunc = DemoEffect_UpdateDust;
             this->dust.timer = 0;
             this->csActionId = 2;
             break;
@@ -722,7 +722,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 1.0f, 1.7f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
-        this->updateFunc = &DemoEffect_InitTimeWarpTimeblock;
+        this->updateFunc = DemoEffect_InitTimeWarpTimeblock;
 
         if (effectType == Demo_Effect_Timewarp_Timeblock_Large) {
             Actor_SetScale(&this->actor, 0.14f);
@@ -737,14 +737,14 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
         (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & 512)))) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
-        this->updateFunc = &DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
+        this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
         osSyncPrintf("\x1b[36m 縮むバージョン \n\x1b[m");
         return;
     }
 
     SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 1.0f, 1.0f);
     SkelCurve_Update(globalCtx, &this->skelCurve);
-    this->updateFunc = &DemoEffect_UpdateTimeWarpPullMasterSword;
+    this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
     osSyncPrintf("\x1b[36m 通常 バージョン \n\x1b[m");
     // Necessary to match
     if (1) {}
@@ -856,7 +856,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
 
     if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 60.0f, 59.0f, 0.0f);
-        this->updateFunc = &DemoEffect_UpdateTimeWarpTimeblock;
+        this->updateFunc = DemoEffect_UpdateTimeWarpTimeblock;
         this->timeWarp.shrinkTimer = 0;
     }
 }
@@ -964,7 +964,7 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
                 Actor_SetScale(&blueOrb->actor, 0.0f);
             }
 
-            this->updateFunc = &DemoEffect_UpdateLightRingExpanding;
+            this->updateFunc = DemoEffect_UpdateLightRingExpanding;
             this->lightRing.opacity = 255;
         }
     }
@@ -1025,7 +1025,7 @@ void DemoEffect_InitCreationFireball(DemoEffect* this, GlobalContext* globalCtx)
     this->actor.speedXZ = 1.5f;
     this->actor.minVelocityY = -1.5f;
     this->actor.gravity = -0.03f;
-    this->updateFunc = &DemoEffect_UpdateCreationFireball;
+    this->updateFunc = DemoEffect_UpdateCreationFireball;
 }
 
 /**
@@ -1065,7 +1065,7 @@ void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, GlobalContext* globalCtx) {
         this->blueOrb.scale--;
     } else {
         this->blueOrb.scale = 15;
-        this->updateFunc = &DemoEffect_UpdateBlueOrbShrink;
+        this->updateFunc = DemoEffect_UpdateBlueOrbShrink;
     }
 }
 
@@ -1191,7 +1191,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
                                                        this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Fire_Ball);
 
             if (fireBall) {
-                fireBall->initUpdateFunc = &DemoEffect_InitCreationFireball;
+                fireBall->initUpdateFunc = DemoEffect_InitCreationFireball;
                 Actor_SetScale(&fireBall->actor, 0.020f);
             }
         }
