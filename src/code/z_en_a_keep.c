@@ -329,12 +329,12 @@ void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == A_OBJ_KNOB) {
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 1, 60, 60, 60, 50);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 1, 60, 60, 60, 50);
     }
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_80115484[type]);
+    gSPDisplayList(POLY_OPA_DISP++, D_80115484[type]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
 }
