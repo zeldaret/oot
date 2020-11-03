@@ -107,10 +107,10 @@ const ActorInit Demo_Effect_InitVars = {
 
 // Code only matches when this is an array, but the second element isn't used. This variable assures only one jewel will
 // play SFX
-s16 sfxJewelId[] = { 0, 0 };
+static s16 sSfxJewelId[] = { 0 };
 
 // The object used by the effectType
-s16 effectTypeObjects[] = {
+static s16 sEffectTypeObjects[] = {
     /* 0x00 */ OBJECT_EFC_CRYSTAL_LIGHT,
     /* 0x01 */ OBJECT_EFC_FIRE_BALL,
     /* 0x02 */ OBJECT_GAMEPLAY_KEEP,
@@ -139,13 +139,13 @@ s16 effectTypeObjects[] = {
     /* 0x19 */ OBJECT_EFC_TW
 };
 
-u8 timewarpVertexSizeIndices[] = { 1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2, 1, 0, 1, 0, 2, 0, 2, 2, 0 };
+static u8 sTimewarpVertexSizeIndices[] = { 1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2, 1, 0, 1, 0, 2, 0, 2, 2, 0 };
 
-Color_RGB8 jewelSparkleColors[5][2] = { { { 0xFF, 0xFF, 0xFF }, { 0x64, 0xFF, 0x00 } },
-                                        { { 0xFF, 0xFF, 0xFF }, { 0xC8, 0x00, 0x96 } },
-                                        { { 0xFF, 0xFF, 0xFF }, { 0x00, 0x64, 0xFF } },
-                                        { { 0x00, 0x00, 0x00 }, { 0x00, 0x00, 0x00 } },
-                                        { { 0xDF, 0x00, 0x00 }, { 0x00, 0x00, 0x00 } } };
+Color_RGB8 sJewelSparkleColors[5][2] = { { { 255, 255, 255 }, { 100, 255, 0 } },
+                                        { { 255, 255, 255 }, { 200, 0, 150 } },
+                                        { { 255, 255, 255 }, { 0, 100, 255 } },
+                                        { { 0, 0, 0 }, { 0, 0, 0 } },
+                                        { { 223, 0, 0 }, { 0, 0, 0 } } };
 
 /**
  * Sets up the update function.
@@ -187,7 +187,7 @@ void DemoEffect_InitJewel(GlobalContext* globalCtx, DemoEffect* this) {
     this->jewelCsRotation.z = 0;
     this->jewel.opacity = 0;
     this->jewelCsRotation.x = this->jewelCsRotation.y = this->jewelCsRotation.z;
-    sfxJewelId[0] = 0;
+    sSfxJewelId[0] = 0;
 }
 
 /**
@@ -221,7 +221,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\x1b[36m no = %d\n\x1b[m", effectType);
 
     objectIndex =
-        effectTypeObjects[effectType] == 1 ? 0 : Object_GetIndex(&globalCtx->objectCtx, effectTypeObjects[effectType]);
+        sEffectTypeObjects[effectType] == 1 ? 0 : Object_GetIndex(&globalCtx->objectCtx, sEffectTypeObjects[effectType]);
 
     osSyncPrintf("\x1b[36m bank_ID = %d\n\x1b[m", objectIndex);
 
@@ -784,8 +784,8 @@ void DemoEffect_TimewarpShrink(f32 size) {
     sizes[2] = (s32)(255.0f * size);
 
     for (i = 0; i < 21; i++) {
-        if (timewarpVertexSizeIndices[i]) {
-            (vertices + i)->v.cn[3] = sizes[timewarpVertexSizeIndices[i]];
+        if (sTimewarpVertexSizeIndices[i]) {
+            (vertices + i)->v.cn[3] = sizes[sTimewarpVertexSizeIndices[i]];
         }
     }
 }
@@ -1557,7 +1557,7 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     accel.y = -0.1f;
     accel.z = 0.0f;
 
-    sparkleColors = jewelSparkleColors[this->jewel.type - Demo_Effect_Jewel_Kokiri];
+    sparkleColors = sJewelSparkleColors[this->jewel.type - Demo_Effect_Jewel_Kokiri];
 
     primColor.r = (sparkleColors + 0)->r;
     primColor.g = (sparkleColors + 0)->g;
@@ -1580,14 +1580,14 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
 
 /**
  * Plays Jewel sound effects.
- * The sfxJewelId global variable is used to ensure only one Jewel Actor is playing SFX when all are spawned.
+ * The sSfxJewelId global variable is used to ensure only one Jewel Actor is playing SFX when all are spawned.
  */
 void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx) {
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
-        if (this->actor.params == sfxJewelId[0]) {
+        if (this->actor.params == sSfxJewelId[0]) {
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
-        } else if (!sfxJewelId[0]) {
-            sfxJewelId[0] = this->actor.params;
+        } else if (!sSfxJewelId[0]) {
+            sSfxJewelId[0] = this->actor.params;
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
         }
     }
