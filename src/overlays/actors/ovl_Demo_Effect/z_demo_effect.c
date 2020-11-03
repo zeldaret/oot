@@ -1218,9 +1218,6 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
                     break;
-
-                default:
-                    break;
             }
         }
     }
@@ -1272,9 +1269,6 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
                     if (globalCtx->csCtx.frames == 360) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
-                    break;
-
-                default:
                     break;
             }
         }
@@ -1335,9 +1329,6 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
                     if (globalCtx->csCtx.frames == 370) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
                     }
-                    break;
-
-                default:
                     break;
             }
         }
@@ -1443,8 +1434,6 @@ void DemoEffect_MoveJewelSplit(PosRot* posRot, DemoEffect* this) {
             break;
         case Demo_Effect_Jewel_Zora:
             posRot->pos.x += 40.0f;
-            break;
-        default:
             break;
     }
 }
