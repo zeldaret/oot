@@ -1655,7 +1655,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
 
     thisx->shape.rot.y += 0x0400;
     DemoEffect_PlayJewelSfx(this, globalCtx);
-    this->effectFlags &= 65534;
+    this->effectFlags &= ~1;
 }
 
 /**
