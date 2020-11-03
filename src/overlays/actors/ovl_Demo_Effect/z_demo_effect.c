@@ -734,7 +734,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
-        (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & 512)))) {
+        (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & (1 << 9))))) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -801,7 +801,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
 
     if (this->timeWarp.shrinkTimer > 250) {
         if (gSaveContext.entranceIndex == 0x0324) {
-            gSaveContext.eventChkInf[12] |= 512;
+            gSaveContext.eventChkInf[12] |= 1 << 9;
         }
 
         Actor_Kill(&this->actor);
@@ -1610,8 +1610,8 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 3:
-                if (gSaveContext.eventChkInf[4] & 2048) {
-                    gSaveContext.eventChkInf[4] |= 2048;
+                if (gSaveContext.eventChkInf[4] & (1 << 11)) {
+                    gSaveContext.eventChkInf[4] |= 1 << 11;
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, globalCtx);
                 if (!(globalCtx->gameplayFrames & 1)) {
@@ -1644,7 +1644,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.entranceIndex == 0x0053) {
-        if (!(gSaveContext.eventChkInf[4] & 2048)) {
+        if (!(gSaveContext.eventChkInf[4] & (1 << 11))) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
                 this->effectFlags |= 1;
