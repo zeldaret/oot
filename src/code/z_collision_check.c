@@ -49,6 +49,7 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
     f32 ny;
     f32 nz;
     f32 originDist;
+    s32 i;
 
     OPEN_DISPS(gfx, "../z_collision_check.c", 713);
 
@@ -3224,7 +3225,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         temp_f14 = DOTXZ(2.0f * itemStep, actorToItem);
         temp_f0 = SQ(temp_f14);
         temp_f12 = (4.0f * temp_f2) * sp38;
-        if (temp_f0 < temp_f12) {
+        if (temp_f0 - temp_f12 < 0.0f ) {
             return 0;
         }
         temp_f0_2 = sqrtf(temp_f0 - temp_f12);
@@ -3299,14 +3300,12 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         out2->y = sp4C * itemStep.y + actorToItem.y + actorPos->y;
         out2->z = sp4C * itemStep.z + actorToItem.z + actorPos->z;
         return 2;
-    }
-    if (phi_v1 == 1) {
+    } else if (phi_v1 == 1) {
         out1->x = sp50 * itemStep.x + actorToItem.x + actorPos->x;
         out1->y = sp50 * itemStep.y + actorToItem.y + actorPos->y;
         out1->z = sp50 * itemStep.z + actorToItem.z + actorPos->z;
         return 1;
-    }
-    if (phi_v0 == 1) {
+    } else if (phi_v0 == 1) {
         out1->x = sp4C * itemStep.x + actorToItem.x + actorPos->x;
         out1->y = sp4C * itemStep.y + actorToItem.y + actorPos->y;
         out1->z = sp4C * itemStep.z + actorToItem.z + actorPos->z;
