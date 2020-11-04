@@ -110,6 +110,7 @@ extern Gfx D_06000EA0[];
 extern UNK_TYPE D_06009610;
 extern UNK_TYPE D_06002910;
 extern UNK_TYPE D_060041A0;
+extern UNK_TYPE D_06009B08;
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
@@ -1407,20 +1408,19 @@ void func_80981A08(DemoGt* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981AA0.s")
 // void func_80981AA0(DemoGt* this, GlobalContext* globalCtx) {
 //     DemoGt* this2 = this;
+//     GraphicsContext* gfxCtx;
 //     s16 sp7A;
 //     f32 sp74;
 //     f32 sp70;
 //     s16 sp6E;
 //     s16 sp6C;
-//     s32 pad;
 //     Mtx* sp64;
 //     Vec3f sp58;
 
 //     Vec3f sp4C;
 //     f32 sp48;
-//     GraphicsContext* gfxCtx;
 
-//     sp7A = this->unk_172;
+//     sp7A = this2->unk_172;
 //     sp74 = fabsf(sp7A * (M_PI / 0x8000));
 //     sp70 = kREG(63);
 
@@ -1525,7 +1525,7 @@ void func_80981E84(DemoGt* this, GlobalContext* globalCtx) {
     sp62 = kREG(74) + 0x7FEC;
     sp60 = kREG(74) + 0x7FEC;
     sp60 = sp60 + 0x4000;
-   
+
     sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_Coss(sp6E);
 
@@ -1597,8 +1597,57 @@ void func_80982204(DemoGt* this, GlobalContext* globalCtx) {
     func_809820AC(this, globalCtx);
 }
 
-// GFX
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80982244.s")
+void func_80982244(DemoGt *this, GlobalContext *globalCtx) {
+    DemoGt* this2 = this;
+    GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
+    s16 sp6E;
+    f32 sp68;
+    f32 sp64;
+    s16 sp62;
+    s16 sp60;
+    Mtx *sp5C;
+
+    Vec3f sp50;
+    Vec3f sp44;
+    f32 sp40;
+
+    sp6E = this2->unk_172;
+    sp68 = fabsf(sp6E * (0.0000958738f));
+    sp64 = kREG(78);
+
+    sp62 = kREG(77) + 0xBE80;
+    sp60 = kREG(77) + 0xBE80;
+    sp60 += 0x4000;
+
+    sp5C = Graph_Alloc(gfxCtx, 0x40U);
+    sp40 = 1.0f - Math_Coss(sp6E);
+
+    OPEN_DISPS(gfxCtx, "../z_demo_gt_part6.c", 0x89);
+
+    sp50.x = Math_Coss(sp60);
+    sp50.y = 0.0f;
+    sp50.z = Math_Sins(sp60);
+
+    sp44.x = Math_Coss(sp62) * sp64 * sp40;
+    sp44.y = Math_Sins(sp6E) * sp64;
+    sp44.z = Math_Sins(sp62) * sp64 * sp40;
+
+    Matrix_Push();
+    func_800D23FC(sp68, &sp50, 1);
+    Matrix_Translate(sp44.x, sp44.y, sp44.z, 1);
+
+    Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 0x99);
+
+    Matrix_Pull();
+    func_80093D18(gfxCtx);
+
+
+    gSPMatrix(oGfxCtx->polyOpa.p++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    
+    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06009B08);
+    
+    CLOSE_DISPS(gfxCtx, "../z_demo_gt_part6.c", 0xA3);
+}
 
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
