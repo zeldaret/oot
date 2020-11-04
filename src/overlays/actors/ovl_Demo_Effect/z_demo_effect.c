@@ -219,12 +219,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     effectType = GET_EFFECT_TYPE(&this->actor);
     lightEffect = GET_LIGHT_EFFECT_COLOR_PARAM(&this->actor);
 
-    osSyncPrintf(VT_SGR("36") " no = %d\n" VT_SGR(), effectType);
+    osSyncPrintf(VT_SGR("36") " no = %d\n" VT_SGR(""), effectType);
 
     objectIndex =
         sEffectTypeObjects[effectType] == 1 ? 0 : Object_GetIndex(&globalCtx->objectCtx, sEffectTypeObjects[effectType]);
 
-    osSyncPrintf(VT_SGR("36") " bank_ID = %d\n" VT_SGR(), objectIndex);
+    osSyncPrintf(VT_SGR("36") " bank_ID = %d\n" VT_SGR(""), objectIndex);
 
     if (objectIndex < 0) {
         __assert("0", "../z_demo_effect.c", 723);
@@ -254,12 +254,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->blueOrb.scale = 5;
             this->blueOrb.rotation = 0;
             Actor_SetScale(&this->actor, 0.05f);
-            this->primXluColor[0] = 0xBC;
-            this->primXluColor[1] = 0xFF;
-            this->primXluColor[2] = 0xFF;
-            this->envXluColor[1] = 0x64;
-            this->envXluColor[2] = 0xFF;
-            this->envXluColor[0] = 0x00;
+            this->primXluColor[0] = 188;
+            this->primXluColor[1] = 255;
+            this->primXluColor[2] = 255;
+            this->envXluColor[1] = 100;
+            this->envXluColor[2] = 255;
+            this->envXluColor[0] = 0;
             break;
 
         case Demo_Effect_Light_Effect:
@@ -271,66 +271,66 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->lightEffect.rotation = 0;
             switch (lightEffect) {
                 case Light_Effect_Color_Red:
-                    this->primXluColor[0] = 0xFF;
-                    this->primXluColor[1] = 0xFF;
-                    this->primXluColor[2] = 0xFF;
-                    this->envXluColor[1] = 0x32;
-                    this->envXluColor[0] = 0xFF;
-                    this->envXluColor[2] = 0x00;
+                    this->primXluColor[0] = 255;
+                    this->primXluColor[1] = 255;
+                    this->primXluColor[2] = 255;
+                    this->envXluColor[1] = 50;
+                    this->envXluColor[0] = 255;
+                    this->envXluColor[2] = 0;
                     break;
 
                 case Light_Effect_Color_Blue:
-                    this->primXluColor[0] = 0xFF;
-                    this->primXluColor[1] = 0xFF;
-                    this->primXluColor[2] = 0xFF;
-                    this->envXluColor[1] = 0x96;
-                    this->envXluColor[0] = 0x00;
-                    this->envXluColor[2] = 0xFF;
+                    this->primXluColor[0] = 255;
+                    this->primXluColor[1] = 255;
+                    this->primXluColor[2] = 255;
+                    this->envXluColor[1] = 150;
+                    this->envXluColor[0] = 0;
+                    this->envXluColor[2] = 255;
                     break;
 
                 case Light_Effect_Color_Green:
-                    this->primXluColor[0] = 0xFF;
-                    this->primXluColor[1] = 0xFF;
-                    this->primXluColor[2] = 0xFF;
-                    this->envXluColor[1] = 0xC8;
-                    this->envXluColor[0] = 0x00;
-                    this->envXluColor[2] = 0x00;
+                    this->primXluColor[0] = 255;
+                    this->primXluColor[1] = 255;
+                    this->primXluColor[2] = 255;
+                    this->envXluColor[1] = 200;
+                    this->envXluColor[0] = 0;
+                    this->envXluColor[2] = 0;
                     break;
 
                 case Light_Effect_Color_Orange:
-                    this->primXluColor[0] = 0xFF;
-                    this->primXluColor[1] = 0xFF;
-                    this->primXluColor[2] = 0xFF;
-                    this->envXluColor[1] = 0x96;
-                    this->envXluColor[0] = 0xFF;
-                    this->envXluColor[2] = 0x00;
+                    this->primXluColor[0] = 255;
+                    this->primXluColor[1] = 255;
+                    this->primXluColor[2] = 255;
+                    this->envXluColor[1] = 150;
+                    this->envXluColor[0] = 255;
+                    this->envXluColor[2] = 0;
                     break;
 
                 case Light_Effect_Color_Yellow:
-                    this->primXluColor[0] = 0xFF;
-                    this->primXluColor[1] = 0xFF;
-                    this->primXluColor[2] = 0xFF;
-                    this->envXluColor[0] = 0xC8;
-                    this->envXluColor[1] = 0xFF;
-                    this->envXluColor[2] = 0x00;
+                    this->primXluColor[0] = 255;
+                    this->primXluColor[1] = 255;
+                    this->primXluColor[2] = 255;
+                    this->envXluColor[0] = 200;
+                    this->envXluColor[1] = 255;
+                    this->envXluColor[2] = 0;
                     break;
 
                 case Light_Effect_Color_Purple:
-                    this->primXluColor[0] = 0xFF;
-                    this->primXluColor[1] = 0xFF;
-                    this->primXluColor[2] = 0xFF;
+                    this->primXluColor[0] = 255;
+                    this->primXluColor[1] = 255;
+                    this->primXluColor[2] = 255;
                     // clang-format off
-                    this->envXluColor[0] = 0xC8; this->envXluColor[1] = 0x32; this->envXluColor[2] = 0xFF; // Sameline prevents reordering
+                    this->envXluColor[0] = 200; this->envXluColor[1] = 50; this->envXluColor[2] = 255; // Sameline prevents reordering
                     // clang-format on
                     break;
 
                 case Light_Effect_Color_Green2:
-                    this->primXluColor[0] = 0xFF;
-                    this->primXluColor[1] = 0xFF;
-                    this->primXluColor[2] = 0xFF;
-                    this->envXluColor[1] = 0xC8;
-                    this->envXluColor[0] = 0x00;
-                    this->envXluColor[2] = 0x00;
+                    this->primXluColor[0] = 255;
+                    this->primXluColor[1] = 255;
+                    this->primXluColor[2] = 255;
+                    this->envXluColor[1] = 200;
+                    this->envXluColor[0] = 0;
+                    this->envXluColor[2] = 0;
                     break;
             }
             this->csActionId = 7;
@@ -346,12 +346,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case Demo_Effect_God_Lgt_Din:
             Actor_SetScale(&this->actor, 0.1f);
             this->initDrawFunc = DemoEffect_DrawGodLgt;
-            this->primXluColor[1] = 0xAA;
-            this->primXluColor[0] = 0xFF;
-            this->primXluColor[2] = 0xFF;
-            this->envXluColor[0] = 0xFF;
-            this->envXluColor[2] = 0xFF;
-            this->envXluColor[1] = 0x00;
+            this->primXluColor[1] = 170;
+            this->primXluColor[0] = 255;
+            this->primXluColor[2] = 255;
+            this->envXluColor[0] = 255;
+            this->envXluColor[2] = 255;
+            this->envXluColor[1] = 0;
             this->godLgt.type = God_Lgt_Type_Din;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = DemoEffect_UpdateGodLgtDin;
@@ -365,12 +365,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&this->actor, 0.1f);
             }
             this->initDrawFunc = DemoEffect_DrawGodLgt;
-            this->primXluColor[0] = 0xAA;
-            this->primXluColor[1] = 0xFF;
-            this->primXluColor[2] = 0xFF;
-            this->envXluColor[1] = 0x28;
-            this->envXluColor[2] = 0xFF;
-            this->envXluColor[0] = 0x00;
+            this->primXluColor[0] = 170;
+            this->primXluColor[1] = 255;
+            this->primXluColor[2] = 255;
+            this->envXluColor[1] = 40;
+            this->envXluColor[2] = 255;
+            this->envXluColor[0] = 0;
             this->godLgt.type = God_Lgt_Type_Nayru;
             this->godLgt.lightRingSpawnDelay = 4;
             this->godLgt.rotation = 0;
@@ -386,12 +386,12 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&this->actor, 0.1f);
             }
             this->initDrawFunc = DemoEffect_DrawGodLgt;
-            this->primXluColor[0] = 0xAA;
-            this->primXluColor[2] = 0xAA;
-            this->primXluColor[1] = 0xFF;
-            this->envXluColor[1] = 0xC8;
-            this->envXluColor[0] = 0x00;
-            this->envXluColor[2] = 0x00;
+            this->primXluColor[0] = 170;
+            this->primXluColor[2] = 170;
+            this->primXluColor[1] = 255;
+            this->envXluColor[1] = 200;
+            this->envXluColor[0] = 0;
+            this->envXluColor[2] = 0;
             this->godLgt.type = God_Lgt_Type_Farore;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = DemoEffect_UpdateGodLgtFarore;
@@ -492,13 +492,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case Demo_Effect_Timewarp_Timeblock_Large:
         case Demo_Effect_Timewarp_Timeblock_Small:
-            this->actor.flags |= 0x2000000;
+            this->actor.flags |= 1 << 25;
         case Demo_Effect_Timewarp_Mastersword:
             this->initDrawFunc = DemoEffect_DrawTimeWarp;
             this->initUpdateFunc = DemoEffect_InitTimeWarp;
-            this->envXluColor[0] = 0x00;
-            this->envXluColor[1] = 0x64;
-            this->envXluColor[2] = 0xFF;
+            this->envXluColor[0] = 0;
+            this->envXluColor[1] = 100;
+            this->envXluColor[2] = 255;
             SkelCurve_Clear(&this->skelCurve);
             this->timeWarp.shrinkTimer = 0;
             break;
@@ -572,7 +572,7 @@ void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
         this->actor.draw = (ActorFunc)this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 
-        osSyncPrintf(VT_SGR("36") " 転送終了 move_wait " VT_SGR());
+        osSyncPrintf(VT_SGR("36") " 転送終了 move_wait " VT_SGR(""));
     }
 }
 
@@ -610,13 +610,13 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
     Color_RGBA8 envColor;
 
     if (isSmallSpawner != 1 || (globalCtx->gameplayFrames & 1) == 0) {
-        primColor.r = 0xFF;
-        primColor.g = 0xFF;
-        primColor.b = 0xFF;
-        envColor.r = 0xFF;
-        envColor.g = 0xFF;
-        envColor.b = 0x64;
-        primColor.a = 0x00;
+        primColor.r = 255;
+        primColor.g = 255;
+        primColor.b = 255;
+        envColor.r = 255;
+        envColor.g = 255;
+        envColor.b = 100;
+        primColor.a = 0;
         // Necessary to set color1.a after color2 to match
 
         velocity.y = 0.0f;
@@ -739,14 +739,14 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
-        osSyncPrintf(VT_SGR("36") " 縮むバージョン \n" VT_SGR());
+        osSyncPrintf(VT_SGR("36") " 縮むバージョン \n" VT_SGR(""));
         return;
     }
 
     SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 1.0f, 1.0f);
     SkelCurve_Update(globalCtx, &this->skelCurve);
     this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
-    osSyncPrintf(VT_SGR("36") " 通常 バージョン \n" VT_SGR());
+    osSyncPrintf(VT_SGR("36") " 通常 バージョン \n" VT_SGR(""));
     // Necessary to match
     if (1) {}
 }
@@ -757,9 +757,9 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
  */
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 1)) {
-        if (!(this->effectFlags & 2)) {
+        if (!(this->effectFlags & (1 << 1))) {
             func_800F3F3C(0);
-            this->effectFlags |= 2;
+            this->effectFlags |= 1 << 1;
         }
 
         if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
@@ -882,12 +882,12 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
             } else {
                 this->triforceSpot.triforceSpotOpacity = 255;
 
-                if (this->primXluColor[0] < 0x3C) {
-                    this->triforceSpot.lightColumnOpacity = (((s32)this->primXluColor[0]) - 0x1E) * 8.5f;
+                if (this->primXluColor[0] < 60) {
+                    this->triforceSpot.lightColumnOpacity = (((s32)this->primXluColor[0]) - 30) * 8.5f;
                 } else {
-                    if (this->primXluColor[0] < 0x8D) {
+                    if (this->primXluColor[0] <= 140) {
                         this->triforceSpot.lightColumnOpacity = 255;
-                        this->triforceSpot.crystalLightOpacity = (((s32)this->primXluColor[0]) - 0x3C) * 3.1875f;
+                        this->triforceSpot.crystalLightOpacity = (((s32)this->primXluColor[0]) - 60) * 3.1875f;
                     }
                 }
             }
@@ -1098,7 +1098,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                         }
                     }
                 }
-                this->lightEffect.rotation += 0x06;
+                this->lightEffect.rotation += 0x0006;
                 this->lightEffect.scaleFlag += 1;
                 break;
 
@@ -1353,48 +1353,48 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
 
     switch (jewelType) {
         case Demo_Effect_Jewel_Kokiri:
-            this->primXluColor[2] = 0xA0;
-            this->primXluColor[0] = 0xFF;
-            this->primXluColor[1] = 0xFF;
-            this->envXluColor[0] = 0x00;
-            this->envXluColor[1] = 0xFF;
-            this->envXluColor[2] = 0x00;
-            this->primOpaColor[2] = 0xAA;
-            this->primOpaColor[0] = 0xFF;
-            this->primOpaColor[1] = 0xFF;
-            this->envOpaColor[1] = 0x78;
-            this->envOpaColor[0] = 0x96;
-            this->envOpaColor[2] = 0x00;
+            this->primXluColor[2] = 160;
+            this->primXluColor[0] = 255;
+            this->primXluColor[1] = 255;
+            this->envXluColor[0] = 0;
+            this->envXluColor[1] = 255;
+            this->envXluColor[2] = 0;
+            this->primOpaColor[2] = 170;
+            this->primOpaColor[0] = 255;
+            this->primOpaColor[1] = 255;
+            this->envOpaColor[1] = 120;
+            this->envOpaColor[0] = 150;
+            this->envOpaColor[2] = 0;
             break;
 
         case Demo_Effect_Jewel_Goron:
-            this->primXluColor[1] = 0xAA;
-            this->primXluColor[0] = 0xFF;
-            this->primXluColor[2] = 0xFF;
-            this->envXluColor[2] = 0x64;
-            this->envXluColor[0] = 0xFF;
-            this->envXluColor[1] = 0x00;
-            this->primOpaColor[2] = 0xAA;
-            this->primOpaColor[0] = 0xFF;
-            this->primOpaColor[1] = 0xFF;
-            this->envOpaColor[1] = 0x78;
-            this->envOpaColor[0] = 0x96;
-            this->envOpaColor[2] = 0x00;
+            this->primXluColor[1] = 170;
+            this->primXluColor[0] = 255;
+            this->primXluColor[2] = 255;
+            this->envXluColor[2] = 100;
+            this->envXluColor[0] = 255;
+            this->envXluColor[1] = 0;
+            this->primOpaColor[2] = 170;
+            this->primOpaColor[0] = 255;
+            this->primOpaColor[1] = 255;
+            this->envOpaColor[1] = 120;
+            this->envOpaColor[0] = 150;
+            this->envOpaColor[2] = 0;
             break;
 
         case Demo_Effect_Jewel_Zora:
-            this->primXluColor[0] = 0x32;
-            this->primXluColor[1] = 0xFF;
-            this->primXluColor[2] = 0xFF;
-            this->envXluColor[2] = 0x96;
-            this->envXluColor[0] = 0x32;
-            this->envXluColor[1] = 0x00;
-            this->primOpaColor[2] = 0xAA;
-            this->primOpaColor[0] = 0xFF;
-            this->primOpaColor[1] = 0xFF;
-            this->envOpaColor[1] = 0x78;
-            this->envOpaColor[0] = 0x96;
-            this->envOpaColor[2] = 0x00;
+            this->primXluColor[0] = 50;
+            this->primXluColor[1] = 255;
+            this->primXluColor[2] = 255;
+            this->envXluColor[2] = 150;
+            this->envXluColor[0] = 50;
+            this->envXluColor[1] = 0;
+            this->primOpaColor[2] = 170;
+            this->primOpaColor[0] = 255;
+            this->primOpaColor[1] = 255;
+            this->envOpaColor[1] = 120;
+            this->envOpaColor[0] = 150;
+            this->envOpaColor[2] = 0;
             break;
     }
 }
@@ -1615,7 +1615,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
                     gSaveContext.eventChkInf[4] |= 1 << 11;
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, globalCtx);
-                if (!(globalCtx->gameplayFrames & 1)) {
+                if (!(globalCtx->gameplayFrames & (1 << 0))) {
                     DemoEffect_JewelSparkle(this, globalCtx, 1);
                 }
                 break;
@@ -1623,7 +1623,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
                 if (this->jewel.isPositionInit) {
                     DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
                     DemoEffect_MoveJewelSplit(&thisx->posRot, this);
-                    if (!(globalCtx->gameplayFrames & 1)) {
+                    if (!(globalCtx->gameplayFrames & (1 << 0))) {
                         DemoEffect_JewelSparkle(this, globalCtx, 1);
                     }
                 } else {
@@ -1648,7 +1648,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
         if (!(gSaveContext.eventChkInf[4] & (1 << 11))) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
-                this->effectFlags |= 1;
+                this->effectFlags |= 1 << 0;
                 return;
             }
         }
@@ -1723,7 +1723,7 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
         // Necessary to match
         if (1) {}
 
-        if (!(this->effectFlags & 1)) {
+        if (!(this->effectFlags & (1 << 0))) {
             globalCtx2 = globalCtx;
 
             switch (this->jewel.type) {
@@ -1759,15 +1759,15 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_80093D84(globalCtx->state.gfxCtx);
             func_8002ED80(&this->actor, globalCtx, 0);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, this->primXluColor[0], this->primXluColor[1],
-                            this->primXluColor[2], 0xFF);
-            gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 0xFF);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
+                            this->primXluColor[2], 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
             gSPDisplayList(POLY_XLU_DISP++, this->jewelDisplayList);
             func_80093D18(globalCtx->state.gfxCtx);
             func_8002EBCC(&this->actor, globalCtx, 0);
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0x80, this->primOpaColor[0], this->primOpaColor[1],
-                            this->primOpaColor[2], 0xFF);
-            gDPSetEnvColor(POLY_OPA_DISP++, this->envOpaColor[0], this->envOpaColor[1], this->envOpaColor[2], 0xFF);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 128, this->primOpaColor[0], this->primOpaColor[1],
+                            this->primOpaColor[2], 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->envOpaColor[0], this->envOpaColor[1], this->envOpaColor[2], 255);
             gSPDisplayList(POLY_OPA_DISP++, this->jewelHolderDisplayList);
         }
     }
@@ -1789,9 +1789,9 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2634);
 
     if (parent) {
-        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, parent->triforceSpot.crystalLightOpacity);
+        gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 170, parent->triforceSpot.crystalLightOpacity);
     } else {
-        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xFF, 0xFF, 0xAA, 0xFF);
+        gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 170, 255);
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
@@ -1836,8 +1836,8 @@ void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
     scroll = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2701);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x40, 0x40, 0xFF, 0xC8, 0x00, 0xFF);
-    gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0xFF);
+    gDPSetPrimColor(POLY_XLU_DISP++, 64, 64, 255, 200, 0, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2709),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1881,9 +1881,9 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
         gSPSegment(POLY_XLU_DISP++, 9,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 96, 1, (scroll * 10) % 256,
                                     256 - ((scroll * 30) % 512) - 1, 8, 32));
-        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, this->primXluColor[0], this->primXluColor[1],
-                        this->primXluColor[2], 0xFF);
-        gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 0xFF);
+        gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, this->primXluColor[0], this->primXluColor[1],
+                        this->primXluColor[2], 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
         func_80093D84(globalCtx->state.gfxCtx);
         Matrix_Push();
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2801),
@@ -1931,9 +1931,9 @@ void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
             disp = (u32)lightBall;
             opacity = &this->lightEffect.opacity;
             func_80093D84(globalCtx->state.gfxCtx);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, this->primXluColor[0], this->primXluColor[1],
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
                             this->primXluColor[2], *opacity);
-            gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 0xFF);
+            gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
             Matrix_Scale(((this->lightEffect.scaleFlag & 1) * 0.05f) + 1.0f,
                          ((this->lightEffect.scaleFlag & 1) * 0.05f) + 1.0f,
                          ((this->lightEffect.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
@@ -1964,8 +1964,8 @@ void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2892);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xBC, 0xFF, 0xFF, this->blueOrb.opacity);
-    gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x64, 0xFF, 0xFF);
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 188, 255, 255, this->blueOrb.opacity);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 255);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateZ(this->blueOrb.rotation * (M_PI / 32768.0f), MTXMODE_APPLY);
@@ -1986,8 +1986,8 @@ void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
     scroll = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2921);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x40, 0x40, 0xFF, 0xFF, 0xA0, this->lgtShower.opacity);
-    gDPSetEnvColor(POLY_XLU_DISP++, 0x32, 0xC8, 0x00, 0xFF);
+    gDPSetPrimColor(POLY_XLU_DISP++, 64, 64, 255, 255, 160, this->lgtShower.opacity);
+    gDPSetEnvColor(POLY_XLU_DISP++, 50, 200, 0, 255);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2927),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -2009,8 +2009,8 @@ void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2956);
 
     func_80093D84(globalCtx2->state.gfxCtx);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xAA, 0xFF, 0xFF, this->lightRing.opacity);
-    gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x64, 0xFF, 0xFF);
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 170, 255, 255, this->lightRing.opacity);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 255);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2963),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 8,
@@ -2049,8 +2049,8 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
             (vertices + 86)->n.a = (vertices + 87)->n.a = (vertices + 88)->n.a = (vertices + 89)->n.a =
                 (vertices + 92)->n.a = (vertices + 93)->n.a = (vertices + 94)->n.a = (vertices + 95)->n.a =
                     (s8)this->triforceSpot.lightColumnOpacity;
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xB4, 0xFF, 0xFF, this->triforceSpot.lightColumnOpacity);
-            gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0xFF, 0x96, 0xFF);
+            gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 180, 255, 255, this->triforceSpot.lightColumnOpacity);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 150, 255);
             gSPDisplayList(POLY_XLU_DISP++, triforceLightColumn);
             Matrix_Pull();
         }
@@ -2069,8 +2069,8 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_XLU_DISP++, 8,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
-                gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, this->triforceSpot.triforceSpotOpacity);
-                gDPSetEnvColor(POLY_XLU_DISP++, 0xAA, 0x8C, 0x00, 0xFF);
+                gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 160, this->triforceSpot.triforceSpotOpacity);
+                gDPSetEnvColor(POLY_XLU_DISP++, 170, 140, 0, 255);
                 gSPDisplayList(POLY_XLU_DISP++, triforceSpot);
             } else {
                 func_8002EBCC(&this->actor, globalCtx, 0);
@@ -2081,8 +2081,8 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_OPA_DISP++, 8,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
-                gDPSetPrimColor(POLY_OPA_DISP++, 0x80, 0x80, 0xFF, 0xFF, 0xA0, 0xFF);
-                gDPSetEnvColor(POLY_OPA_DISP++, 0xAA, 0x8C, 0x00, 0xFF);
+                gDPSetPrimColor(POLY_OPA_DISP++, 128, 128, 255, 255, 160, 255);
+                gDPSetEnvColor(POLY_OPA_DISP++, 170, 140, 0, 255);
                 gSPDisplayList(POLY_OPA_DISP++, triforceSpot);
             }
         }
@@ -2117,8 +2117,8 @@ s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelC
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3154);
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 0xAA, 0xFF, 0xFF, 0xFF);
-    gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 0xFF);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 170, 255, 255, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (scroll * 6) % 1024, 256 - ((scroll * 16) % 256) - 1, 256,
                                 64, 1, (scroll * 4) % 512, 128 - ((scroll * 12) % 128) - 1, 128, 32));
