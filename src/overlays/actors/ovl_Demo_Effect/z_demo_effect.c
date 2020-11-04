@@ -1460,16 +1460,16 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
     this->actor.posRot.pos.z = radius * sinf(degrees * (M_PI / 180.0f));
 
     xPos = this->actor.posRot.pos.x;
-    ySpherical = (this->actor.posRot.pos.y * cosf(rotation.x * (M_PI / 32768.0f))) -
-                 (sinf(rotation.x * (M_PI / 32768.0f)) * this->actor.posRot.pos.z);
-    xzSpherical = (this->actor.posRot.pos.z * cosf(rotation.x * (M_PI / 32768.0f))) +
-                  (sinf(rotation.x * (M_PI / 32768.0f)) * this->actor.posRot.pos.y);
+    ySpherical = (this->actor.posRot.pos.y * cosf(rotation.x * (M_PI / 0x8000))) -
+                 (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.posRot.pos.z);
+    xzSpherical = (this->actor.posRot.pos.z * cosf(rotation.x * (M_PI / 0x8000))) +
+                  (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.posRot.pos.y);
 
     this->actor.posRot.pos.x =
-        (xPos * cosf(rotation.y * (M_PI / 32768.0f))) - (sinf(rotation.y * (M_PI / 32768.0f)) * xzSpherical);
+        (xPos * cosf(rotation.y * (M_PI / 0x8000))) - (sinf(rotation.y * (M_PI / 0x8000)) * xzSpherical);
     this->actor.posRot.pos.y = ySpherical;
     this->actor.posRot.pos.z =
-        (xzSpherical * cosf(rotation.y * (M_PI / 32768.0f))) + (sinf(rotation.y * (M_PI / 32768.0f)) * xPos);
+        (xzSpherical * cosf(rotation.y * (M_PI / 0x8000))) + (sinf(rotation.y * (M_PI / 0x8000)) * xPos);
 
     this->actor.posRot.pos.x += startPos.x;
     this->actor.posRot.pos.y += startPos.y;
@@ -1968,7 +1968,7 @@ void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 255);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateZ(this->blueOrb.rotation * (M_PI / 32768.0f), MTXMODE_APPLY);
+    Matrix_RotateZ(this->blueOrb.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2901),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->blueOrb.rotation += 0x01F4;
@@ -2064,7 +2064,7 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
                 func_8002ED80(&this->actor, globalCtx, 0);
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
-                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 32768.0f), MTXMODE_APPLY);
+                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3053),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_XLU_DISP++, 8,
@@ -2076,7 +2076,7 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
                 func_8002EBCC(&this->actor, globalCtx, 0);
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_OPA_DISP++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
-                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 32768.0f), MTXMODE_APPLY);
+                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3085),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_OPA_DISP++, 8,
