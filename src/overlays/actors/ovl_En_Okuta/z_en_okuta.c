@@ -15,8 +15,8 @@ void EnOkuta_SetupWaitToAppear(Actor* thisx);
 void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_WaitToDie(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx);
@@ -142,7 +142,7 @@ void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
     pos.y = this->actor.initPosRot.pos.y;
     pos.z = this->actor.posRot.pos.z;
     if ((globalCtx->gameplayFrames % 7) == 0 &&
-        ((this->actionFunc != func_80AC12D8) || ((this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) < 50.0f))) {
+        ((this->actionFunc != EnOkuta_Shoot) || ((this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) < 50.0f))) {
         EffectSsGRipple_Spawn(globalCtx, &pos, 250, 650, 0);
     }
 }
@@ -172,17 +172,17 @@ void EnOkuta_SetupHide(EnOkuta* this) {
 
 void func_80AC0B60(EnOkuta* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000DDC);
-    if (this->actionFunc == func_80AC12D8) {
+    if (this->actionFunc == EnOkuta_Shoot) {
         this->timer = 2;
     } else {
         this->timer = 0;
     }
-    this->actionFunc = func_80AC11A8;
+    this->actionFunc = EnOkuta_WaitToShoot;
 }
 
 void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000344);
-    if (this->actionFunc != func_80AC12D8) {
+    if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->unk_196;
     }
     this->unk_360 = this->actor.yDistFromLink + 20.0f;
@@ -193,7 +193,7 @@ void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->unk_360 > 50.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
     }
-    this->actionFunc = func_80AC12D8;
+    this->actionFunc = EnOkuta_Shoot;
 }
 
 void EnOkuta_SetupWaitToDie(EnOkuta* this) {
@@ -290,7 +290,7 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
     s16 temp_v0_2;
     s32 phi_v1;
 
@@ -315,7 +315,7 @@ void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->timer != 0) {
@@ -492,7 +492,7 @@ void func_80AC1B80(EnOkuta* this) {
             this->unk_364.y = 2.0f - ((animCurrentFrame - 3.0f) * 0.333f);
         }
         this->unk_364.x = this->unk_364.z = 1.0f;
-    } else if (this->actionFunc == func_80AC12D8) {
+    } else if (this->actionFunc == EnOkuta_Shoot) {
         if (animCurrentFrame < 5.0f) {
             this->unk_364.x = this->unk_364.y = this->unk_364.z = (animCurrentFrame * 0.125f) + 1.0f;
         } else if (animCurrentFrame < 7.0f) {
@@ -504,7 +504,7 @@ void func_80AC1B80(EnOkuta* this) {
             this->unk_364.x = this->unk_364.z = 1.3f - ((animCurrentFrame - 16.0f) * 0.1f);
             this->unk_364.y = ((animCurrentFrame - 16.0f) * 0.0666f) + 0.8f;
         }
-    } else if (this->actionFunc == func_80AC11A8) {
+    } else if (this->actionFunc == EnOkuta_WaitToShoot) {
         this->unk_364.x = this->unk_364.z = 1.0f;
         this->unk_364.y = (sinf(0.19634955f * animCurrentFrame) * 0.2f) + 1.0f;
     } else {
@@ -602,10 +602,10 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
-    if (this->actionFunc == func_80AC11A8) {
+    if (this->actionFunc == EnOkuta_WaitToShoot) {
         arg2->x = arg2->z = 1.0f;
         arg2->y = (sinf(0.19634955f * arg1) * 0.4f) + 1.0f;
-    } else if (this->actionFunc == func_80AC12D8) {
+    } else if (this->actionFunc == EnOkuta_Shoot) {
         if (arg1 < 5.0f) {
             arg2->x = 1.0f;
             arg2->y = arg2->z = (arg1 * 0.25f) + 1.0f;
