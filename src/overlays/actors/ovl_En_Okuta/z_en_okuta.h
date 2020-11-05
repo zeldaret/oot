@@ -12,7 +12,11 @@ typedef struct EnOkuta {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnOkutaActionFunc actionFunc;
-    /* 0x0194 */ s16 unk_194;
+    /* 0x0194 */
+    union {
+        s16 unk_194;
+        s16 flyTimer;
+    };
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ Vec3s limbDrawTable[38];
     /* 0x027C */ Vec3s transitionDrawTable[38];

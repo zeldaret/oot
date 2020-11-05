@@ -18,7 +18,7 @@ void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx);
 
 const ActorInit En_Okuta_InitVars = {
     ACTOR_EN_OKUTA,
@@ -100,9 +100,9 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sProjectileColliderInit);
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_PROP);
-        this->unk_194 = 0x1E;
+        this->flyTimer = 30;
         thisx->shape.rot.y = 0;
-        this->actionFunc = func_80AC1938;
+        this->actionFunc = EnOkuta_ProjectileFly;
         thisx->speedXZ = 10.0f;
     }
 }
@@ -427,13 +427,13 @@ void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
 }
 
-void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Player* player = PLAYER;
     Vec3s sp40;
 
-    this->unk_194--;
-    if (this->unk_194 == 0) {
+    this->flyTimer--;
+    if (this->flyTimer == 0) {
         this->actor.gravity = -1.0f;
     }
     this->actor.initPosRot.rot.z += 0x1554;
@@ -451,7 +451,7 @@ void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx) {
             this->collider.body.toucher.flags = 2;
             func_800D20CC(&player->shieldMf, &sp40, 0);
             this->actor.posRot.rot.y = sp40.y + 0x8000;
-            this->unk_194 = 0x1E;
+            this->flyTimer = 30;
         } else {
             pos.x = this->actor.posRot.pos.x;
             pos.y = this->actor.posRot.pos.y + 11.0f;
@@ -460,7 +460,7 @@ void func_80AC1938(EnOkuta* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
             Actor_Kill(&this->actor);
         }
-    } else if (this->unk_194 == -0x12C) {
+    } else if (this->flyTimer == -300) {
         Actor_Kill(&this->actor);
     }
 }
