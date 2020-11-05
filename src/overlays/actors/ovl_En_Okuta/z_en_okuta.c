@@ -239,7 +239,7 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
 
 void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
-    if ((this->actor.xzDistFromLink < 480.0f) && (200.0f < this->actor.xzDistFromLink)) {
+    if ((this->actor.xzDistFromLink < 480.0f) && (this->actor.xzDistFromLink > 200.0f)) {
         EnOkuta_SetupAppear(this, globalCtx);
     }
 }
