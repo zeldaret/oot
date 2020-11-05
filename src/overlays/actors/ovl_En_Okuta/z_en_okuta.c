@@ -11,8 +11,8 @@ void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnOkuta_SetupWaitAppear(Actor* thisx);
-void EnOkuta_WaitAppear(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_SetupWaitToAppear(Actor* thisx);
+void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
@@ -94,7 +94,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             thisx->initPosRot.pos.y = ySurface;
         }
-        EnOkuta_SetupWaitAppear(thisx);
+        EnOkuta_SetupWaitToAppear(thisx);
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawFunc_Circle, 18.0f);
         thisx->flags &= ~1;
@@ -147,12 +147,12 @@ void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnOkuta_SetupWaitAppear(Actor* thisx) {
+void EnOkuta_SetupWaitToAppear(Actor* thisx) {
     EnOkuta* this = THIS;
 
     thisx->draw = NULL;
     thisx->flags &= ~1;
-    this->actionFunc = EnOkuta_WaitAppear;
+    this->actionFunc = EnOkuta_WaitToAppear;
     thisx->posRot.pos.y = thisx->initPosRot.pos.y;
 }
 
@@ -239,7 +239,7 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
 }
 
-void EnOkuta_WaitAppear(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
     if ((this->actor.xzDistFromLink < 480.0f) && (this->actor.xzDistFromLink > 200.0f)) {
         EnOkuta_SetupAppear(this, globalCtx);
@@ -278,7 +278,7 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
         EnOkuta_SpawnBubbles(this, globalCtx);
-        EnOkuta_SetupWaitAppear(&this->actor);
+        EnOkuta_SetupWaitToAppear(&this->actor);
     } else if (this->skelAnime.animCurrentFrame >= 4.0f) {
         Actor_SetScale(&this->actor, (6.0f - this->skelAnime.animCurrentFrame) * 0.5f * 0.01f);
     }
@@ -587,7 +587,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.flags |= 0x1000000;
             CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         }
-        if (this->actionFunc != EnOkuta_WaitAppear) {
+        if (this->actionFunc != EnOkuta_WaitToAppear) {
             if ((this->actionFunc != EnOkuta_Die) && (this->actionFunc != EnOkuta_WaitToDie) &&
                 (this->actionFunc != EnOkuta_Freeze)) {
                 CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
