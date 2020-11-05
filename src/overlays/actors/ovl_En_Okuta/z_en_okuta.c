@@ -102,7 +102,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sProjectileColliderInit);
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_PROP);
-        this->flyTimer = 30;
+        this->timer = 30;
         thisx->shape.rot.y = 0;
         this->actionFunc = EnOkuta_ProjectileFly;
         thisx->speedXZ = 10.0f;
@@ -173,9 +173,9 @@ void EnOkuta_SetupHide(EnOkuta* this) {
 void func_80AC0B60(EnOkuta* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000DDC);
     if (this->actionFunc == func_80AC12D8) {
-        this->unk_194 = 2;
+        this->timer = 2;
     } else {
-        this->unk_194 = 0;
+        this->timer = 0;
     }
     this->actionFunc = func_80AC11A8;
 }
@@ -183,7 +183,7 @@ void func_80AC0B60(EnOkuta* this) {
 void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000344);
     if (this->actionFunc != func_80AC12D8) {
-        this->unk_194 = this->unk_196;
+        this->timer = this->unk_196;
     }
     this->unk_360 = this->actor.yDistFromLink + 20.0f;
     this->unk_360 = CLAMP_MIN(this->unk_360, 10.0f);
@@ -207,12 +207,12 @@ void EnOkuta_SetupWaitToDie(EnOkuta* this) {
 
 void EnOkuta_SetupDie(EnOkuta* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060008FC, -3.0f);
-    this->deathTimer = 0;
+    this->timer = 0;
     this->actionFunc = EnOkuta_Die;
 }
 
 void EnOkuta_SetupFreeze(EnOkuta* this) {
-    this->freezeTimer = 80;
+    this->timer = 80;
     func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
     this->actionFunc = EnOkuta_Freeze;
 }
@@ -297,8 +297,8 @@ void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_800A56C8(&this->skelAnime, 0.0f)) {
-        if (this->unk_194 != 0) {
-            this->unk_194--;
+        if (this->timer != 0) {
+            this->timer--;
         }
     }
     if (func_800A56C8(&this->skelAnime, 0.5f)) {
@@ -309,7 +309,7 @@ void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
     } else {
         temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
         phi_v1 = ABS(temp_v0_2);
-        if ((phi_v1 < 0x38E) && (this->unk_194 == 0) && (this->actor.yDistFromLink < 200.0f)) {
+        if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistFromLink < 200.0f)) {
             func_80AC0BC0(this, globalCtx);
         }
     }
@@ -318,10 +318,10 @@ void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
 void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        if (this->unk_194 != 0) {
-            this->unk_194--;
+        if (this->timer != 0) {
+            this->timer--;
         }
-        if (this->unk_194 == 0) {
+        if (this->timer == 0) {
             func_80AC0B60(this);
         } else {
             func_80AC0BC0(this, globalCtx);
@@ -364,10 +364,10 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        this->deathTimer++;
+        this->timer++;
     }
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
-    if (this->deathTimer == 5) {
+    if (this->timer == 5) {
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.posRot.pos.y + 40.0f;
         pos.z = this->actor.posRot.pos.z;
@@ -381,16 +381,16 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
         EnOkuta_SpawnSplash(this, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }
-    if (this->deathTimer < 3) {
-        Actor_SetScale(&this->actor, ((this->deathTimer * 0.25f) + 1.0f) * 0.01f);
+    if (this->timer < 3) {
+        Actor_SetScale(&this->actor, ((this->timer * 0.25f) + 1.0f) * 0.01f);
         return;
     }
-    if (this->deathTimer < 6) {
-        Actor_SetScale(&this->actor, (1.5f - ((this->deathTimer - 2) * 0.2333f)) * 0.01f);
+    if (this->timer < 6) {
+        Actor_SetScale(&this->actor, (1.5f - ((this->timer - 2) * 0.2333f)) * 0.01f);
         return;
     }
-    if (this->deathTimer < 11) {
-        Actor_SetScale(&this->actor, (((this->deathTimer - 5) * 0.04f) + 0.8f) * 0.01f);
+    if (this->timer < 11) {
+        Actor_SetScale(&this->actor, (((this->timer - 5) * 0.04f) + 0.8f) * 0.01f);
         return;
     }
     if (Math_ApproxF(&this->actor.scale.x, 0.0f, 0.0005f)) {
@@ -412,14 +412,14 @@ void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 temp_v1;
 
-    if (this->freezeTimer != 0) {
-        this->freezeTimer--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->freezeTimer == 0) {
+    if (this->timer == 0) {
         EnOkuta_SetupDie(this);
     }
-    if ((this->freezeTimer >= 64) && (this->freezeTimer & 1)) {
-        temp_v1 = (this->freezeTimer - 64) >> 1;
+    if ((this->timer >= 64) && (this->timer & 1)) {
+        temp_v1 = (this->timer - 64) >> 1;
         pos.y = (this->actor.posRot.pos.y - 32.0f) + (8.0f * (8 - temp_v1));
         pos.x = this->actor.posRot.pos.x + ((temp_v1 & 2) ? 10.0f : -10.0f);
         pos.z = this->actor.posRot.pos.z + ((temp_v1 & 1) ? 10.0f : -10.0f);
@@ -434,8 +434,8 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3s sp40;
 
-    this->flyTimer--;
-    if (this->flyTimer == 0) {
+    this->timer--;
+    if (this->timer == 0) {
         this->actor.gravity = -1.0f;
     }
     this->actor.initPosRot.rot.z += 0x1554;
@@ -453,7 +453,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
             this->collider.body.toucher.flags = 2;
             func_800D20CC(&player->shieldMf, &sp40, 0);
             this->actor.posRot.rot.y = sp40.y + 0x8000;
-            this->flyTimer = 30;
+            this->timer = 30;
         } else {
             pos.x = this->actor.posRot.pos.x;
             pos.y = this->actor.posRot.pos.y + 11.0f;
@@ -462,7 +462,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
             Actor_Kill(&this->actor);
         }
-    } else if (this->flyTimer == -300) {
+    } else if (this->timer == -300) {
         Actor_Kill(&this->actor);
     }
 }
@@ -645,7 +645,7 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     s32 doScale = false;
 
     if (this->actionFunc == EnOkuta_Die) {
-        phi_f0 += this->unk_194;
+        phi_f0 += this->timer;
     }
     if (limbIndex == 5) {
         if ((this->unk_364.x != 1.0f) || (this->unk_364.y != 1.0f) || (this->unk_364.z != 1.0f)) {
