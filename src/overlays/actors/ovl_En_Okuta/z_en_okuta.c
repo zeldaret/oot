@@ -302,7 +302,7 @@ void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
     if (func_800A56C8(&this->skelAnime, 0.5f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
     }
-    if (this->actor.xzDistFromLink < 160.0f || 560.0f < this->actor.xzDistFromLink) {
+    if (this->actor.xzDistFromLink < 160.0f || this->actor.xzDistFromLink > 560.0f) {
         EnOkuta_SetupHide(this);
     } else {
         temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
