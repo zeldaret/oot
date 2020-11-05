@@ -9,8 +9,8 @@ void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80AC0A88(Actor* thisx);
-void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_SetupWaitAppear(Actor* thisx);
+void EnOkuta_WaitAppear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
@@ -92,7 +92,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             thisx->initPosRot.pos.y = ySurface;
         }
-        func_80AC0A88(thisx);
+        EnOkuta_SetupWaitAppear(thisx);
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawFunc_Circle, 18.0f);
         thisx->flags &= ~1;
@@ -145,12 +145,12 @@ void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC0A88(Actor* thisx) {
+void EnOkuta_SetupWaitAppear(Actor* thisx) {
     EnOkuta* this = THIS;
 
     thisx->draw = NULL;
     thisx->flags &= ~1;
-    this->actionFunc = func_80AC0F08;
+    this->actionFunc = EnOkuta_WaitAppear;
     thisx->posRot.pos.y = thisx->initPosRot.pos.y;
 }
 
@@ -237,7 +237,7 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
 }
 
-void func_80AC0F08(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_WaitAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
     if ((this->actor.xzDistFromLink < 480.0f) && (this->actor.xzDistFromLink > 200.0f)) {
         EnOkuta_SetupAppear(this, globalCtx);
@@ -276,7 +276,7 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
         EnOkuta_SpawnBubbles(this, globalCtx);
-        func_80AC0A88(&this->actor);
+        EnOkuta_SetupWaitAppear(&this->actor);
     } else if (this->skelAnime.animCurrentFrame >= 4.0f) {
         Actor_SetScale(&this->actor, (6.0f - this->skelAnime.animCurrentFrame) * 0.5f * 0.01f);
     }
@@ -304,12 +304,12 @@ void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx) {
     }
     if (this->actor.xzDistFromLink < 160.0f || 560.0f < this->actor.xzDistFromLink) {
         EnOkuta_SetupHide(this);
-        return;
-    }
-    temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
-    phi_v1 = ABS(temp_v0_2);
-    if ((phi_v1 < 0x38E) && (this->unk_194 == 0) && (this->actor.yDistFromLink < 200.0f)) {
-        func_80AC0BC0(this, globalCtx);
+    } else {
+        temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
+        phi_v1 = ABS(temp_v0_2);
+        if ((phi_v1 < 0x38E) && (this->unk_194 == 0) && (this->actor.yDistFromLink < 200.0f)) {
+            func_80AC0BC0(this, globalCtx);
+        }
     }
 }
 
@@ -585,7 +585,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.flags |= 0x1000000;
             CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         }
-        if (this->actionFunc != func_80AC0F08) {
+        if (this->actionFunc != EnOkuta_WaitAppear) {
             if ((this->actionFunc != func_80AC14A8) && (this->actionFunc != func_80AC1458) &&
                 (this->actionFunc != func_80AC17BC)) {
                 CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
