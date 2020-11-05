@@ -387,7 +387,7 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, (1.5f - ((this->unk_194 - 2) * 0.2333f)) * 0.01f);
         return;
     }
-    if (this->unk_194 < 0xB) {
+    if (this->unk_194 < 11) {
         Actor_SetScale(&this->actor, (((this->unk_194 - 5) * 0.04f) + 0.8f) * 0.01f);
         return;
     }
@@ -416,8 +416,8 @@ void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->unk_194 == 0) {
         func_80AC0D34(this);
     }
-    if ((this->unk_194 >= 0x40) && (this->unk_194 & 1)) {
-        temp_v1 = (this->unk_194 - 0x40) >> 1;
+    if ((this->unk_194 >= 64) && (this->unk_194 & 1)) {
+        temp_v1 = (this->unk_194 - 64) >> 1;
         pos.y = (this->actor.posRot.pos.y - 32.0f) + (8.0f * (8 - temp_v1));
         pos.x = this->actor.posRot.pos.x + ((temp_v1 & 2) ? 10.0f : -10.0f);
         pos.z = this->actor.posRot.pos.z + ((temp_v1 & 1) ? 10.0f : -10.0f);
