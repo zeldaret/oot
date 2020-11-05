@@ -4,6 +4,8 @@
 
 #define THIS ((EnOkuta*)thisx)
 
+#define DAMAGE_EFFECT_FREEZE 3
+
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -15,9 +17,9 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC11A8(EnOkuta* this, GlobalContext* globalCtx);
 void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx);
-void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_WaitToDie(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx);
+void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx);
 
 const ActorInit En_Okuta_InitVars = {
@@ -194,25 +196,25 @@ void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80AC12D8;
 }
 
-void func_80AC0CAC(EnOkuta* this) {
+void EnOkuta_SetupWaitToDie(EnOkuta* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06003910, -5.0f);
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xB);
     this->collider.base.acFlags &= ~2;
     Actor_SetScale(&this->actor, 0.01f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD1);
-    this->actionFunc = func_80AC1458;
+    this->actionFunc = EnOkuta_WaitToDie;
 }
 
-void func_80AC0D34(EnOkuta* this) {
+void EnOkuta_SetupDie(EnOkuta* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060008FC, -3.0f);
-    this->unk_194 = 0;
-    this->actionFunc = func_80AC14A8;
+    this->deathTimer = 0;
+    this->actionFunc = EnOkuta_Die;
 }
 
-void func_80AC0D7C(EnOkuta* this) {
-    this->unk_194 = 80;
+void EnOkuta_SetupFreeze(EnOkuta* this) {
+    this->freezeTimer = 80;
     func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
-    this->actionFunc = func_80AC17BC;
+    this->actionFunc = EnOkuta_Freeze;
 }
 
 void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
@@ -346,14 +348,14 @@ void func_80AC12D8(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC1458(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_WaitToDie(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        func_80AC0D34(this);
+        EnOkuta_SetupDie(this);
     }
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
 }
 
-void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
     static Vec3f accel = { 0.0f, -0.5f, 0.0f };
     static Color_RGBA8 primColor = { 255, 255, 255, 255 };
     static Color_RGBA8 envColor = { 150, 150, 150, 0 };
@@ -362,10 +364,10 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        this->unk_194++;
+        this->deathTimer++;
     }
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
-    if (this->unk_194 == 5) {
+    if (this->deathTimer == 5) {
         pos.x = this->actor.posRot.pos.x;
         pos.y = this->actor.posRot.pos.y + 40.0f;
         pos.z = this->actor.posRot.pos.z;
@@ -379,16 +381,16 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
         EnOkuta_SpawnSplash(this, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }
-    if (this->unk_194 < 3) {
-        Actor_SetScale(&this->actor, ((this->unk_194 * 0.25f) + 1.0f) * 0.01f);
+    if (this->deathTimer < 3) {
+        Actor_SetScale(&this->actor, ((this->deathTimer * 0.25f) + 1.0f) * 0.01f);
         return;
     }
-    if (this->unk_194 < 6) {
-        Actor_SetScale(&this->actor, (1.5f - ((this->unk_194 - 2) * 0.2333f)) * 0.01f);
+    if (this->deathTimer < 6) {
+        Actor_SetScale(&this->actor, (1.5f - ((this->deathTimer - 2) * 0.2333f)) * 0.01f);
         return;
     }
-    if (this->unk_194 < 11) {
-        Actor_SetScale(&this->actor, (((this->unk_194 - 5) * 0.04f) + 0.8f) * 0.01f);
+    if (this->deathTimer < 11) {
+        Actor_SetScale(&this->actor, (((this->deathTimer - 5) * 0.04f) + 0.8f) * 0.01f);
         return;
     }
     if (Math_ApproxF(&this->actor.scale.x, 0.0f, 0.0005f)) {
@@ -406,18 +408,18 @@ void func_80AC14A8(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 
-void func_80AC17BC(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 temp_v1;
 
-    if (this->unk_194 != 0) {
-        this->unk_194--;
+    if (this->freezeTimer != 0) {
+        this->freezeTimer--;
     }
-    if (this->unk_194 == 0) {
-        func_80AC0D34(this);
+    if (this->freezeTimer == 0) {
+        EnOkuta_SetupDie(this);
     }
-    if ((this->unk_194 >= 64) && (this->unk_194 & 1)) {
-        temp_v1 = (this->unk_194 - 64) >> 1;
+    if ((this->freezeTimer >= 64) && (this->freezeTimer & 1)) {
+        temp_v1 = (this->freezeTimer - 64) >> 1;
         pos.y = (this->actor.posRot.pos.y - 32.0f) + (8.0f * (8 - temp_v1));
         pos.x = this->actor.posRot.pos.x + ((temp_v1 & 2) ? 10.0f : -10.0f);
         pos.z = this->actor.posRot.pos.z + ((temp_v1 & 1) ? 10.0f : -10.0f);
@@ -518,10 +520,10 @@ void func_80AC1F28(EnOkuta* this, GlobalContext* globalCtx) {
             func_80032C7C(globalCtx, &this->actor);
             this->actor.colChkInfo.health = 0;
             this->actor.flags &= ~1;
-            if (this->actor.colChkInfo.damageEffect == 3) {
-                func_80AC0D7C(this);
+            if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_FREEZE) {
+                EnOkuta_SetupFreeze(this);
             } else {
-                func_80AC0CAC(this);
+                EnOkuta_SetupWaitToDie(this);
             }
         }
     }
@@ -586,8 +588,8 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnOkuta_WaitAppear) {
-            if ((this->actionFunc != func_80AC14A8) && (this->actionFunc != func_80AC1458) &&
-                (this->actionFunc != func_80AC17BC)) {
+            if ((this->actionFunc != EnOkuta_Die) && (this->actionFunc != EnOkuta_WaitToDie) &&
+                (this->actionFunc != EnOkuta_Freeze)) {
                 CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
             }
             CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
@@ -614,7 +616,7 @@ s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
             arg2->x = 2.0f - ((arg1 - 6.0f) * 0.0769f);
             arg2->y = arg2->z = 1.0f;
         }
-    } else if (this->actionFunc == func_80AC14A8) {
+    } else if (this->actionFunc == EnOkuta_Die) {
         if (arg1 >= 35.0f || arg1 < 25.0f) {
             return false;
         }
@@ -642,7 +644,7 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     Vec3f scale;
     s32 doScale = false;
 
-    if (this->actionFunc == func_80AC14A8) {
+    if (this->actionFunc == EnOkuta_Die) {
         phi_f0 += this->unk_194;
     }
     if (limbIndex == 5) {

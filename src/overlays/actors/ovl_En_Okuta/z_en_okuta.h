@@ -15,6 +15,8 @@ typedef struct EnOkuta {
     /* 0x0194 */
     union {
         s16 unk_194;
+        s16 deathTimer;
+        s16 freezeTimer;
         s16 flyTimer;
     };
     /* 0x0196 */ s16 unk_196;
