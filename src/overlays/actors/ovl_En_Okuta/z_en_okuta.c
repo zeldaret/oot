@@ -11,7 +11,7 @@ void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnOkuta_SetupWaitToAppear(Actor* thisx);
+void EnOkuta_SetupWaitToAppear(EnOkuta* this);
 void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx);
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx);
@@ -94,7 +94,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             thisx->initPosRot.pos.y = ySurface;
         }
-        EnOkuta_SetupWaitToAppear(thisx);
+        EnOkuta_SetupWaitToAppear(this);
     } else {
         ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawFunc_Circle, 18.0f);
         thisx->flags &= ~1;
@@ -147,13 +147,11 @@ void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnOkuta_SetupWaitToAppear(Actor* thisx) {
-    EnOkuta* this = THIS;
-
-    thisx->draw = NULL;
-    thisx->flags &= ~1;
+void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
+    this->actor.draw = NULL;
+    this->actor.flags &= ~1;
     this->actionFunc = EnOkuta_WaitToAppear;
-    thisx->posRot.pos.y = thisx->initPosRot.pos.y;
+    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
 }
 
 void EnOkuta_SetupAppear(EnOkuta* this, GlobalContext* globalCtx) {
@@ -278,7 +276,7 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
         EnOkuta_SpawnBubbles(this, globalCtx);
-        EnOkuta_SetupWaitToAppear(&this->actor);
+        EnOkuta_SetupWaitToAppear(this);
     } else if (this->skelAnime.animCurrentFrame >= 4.0f) {
         Actor_SetScale(&this->actor, (6.0f - this->skelAnime.animCurrentFrame) * 0.5f * 0.01f);
     }
