@@ -21,6 +21,9 @@ const ActorInit En_Nwc_InitVars = {
     (ActorFunc)EnNwc_Update,
     (ActorFunc)EnNwc_Draw,
 };
+
+// I've got this one
+
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Nwc/func_80ABC0E0.s")
 

@@ -792,7 +792,7 @@ s32 Collider_SetJntSphAlloc_Set3(GlobalContext* globalCtx, ColliderJntSph* dest,
                                  ColliderJntSphInit_Set3* src);
 s32 Collider_SetJntSphAlloc(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
 s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
-                       ColliderJntSphElement* list);
+                       ColliderJntSphElement* elements);
 s32 Collider_ResetJntSphAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_ResetJntSphAC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_ResetJntSphOC(GlobalContext* globalCtx, Collider* collider);
@@ -811,7 +811,7 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_SetTrisAlloc_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src);
 s32 Collider_SetTrisAlloc(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
 s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
-                     ColliderTrisElement* list);
+                     ColliderTrisElement* elements);
 s32 Collider_ResetTrisAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_ResetTrisAC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_ResetTrisOC(GlobalContext* globalCtx, Collider* collider);
@@ -869,6 +869,7 @@ void CollisionCheck_ShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* b, Vec3f* actorPos);
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
+s32 CollisionCheck_GetSwordDamage(s32 dFlags);
 void SaveContext_Init(void);
 // ? func_800636C0(?);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);

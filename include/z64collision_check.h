@@ -13,7 +13,7 @@ typedef struct Collider {
     /* 0x00 */ struct Actor* actor; // Attached actor
     /* 0x04 */ struct Actor* at; // Actor attached to what it collided with as an AT collider.
     /* 0x08 */ struct Actor* ac; // Actor attached to what it collided with as an AC collider.
-    /* 0x0C */ struct Actor* oc; //Actor attached to what it collided with as an OC collider.
+    /* 0x0C */ struct Actor* oc; // Actor attached to what it collided with as an OC collider.
     /* 0x10 */ u8 atFlags; // Information flags for AT collisions. 
     /* 0x11 */ u8 acFlags; // Information flags for AC collisions.
     /* 0x12 */ u8 ocFlags; // Information flags for OC collisions.
@@ -34,16 +34,16 @@ typedef struct ColliderInit {
 typedef struct ColliderInit_Set3 {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
-    /* 0x02 */ u8 acFlags; // Information flags for OC collisions.
-    /* 0x03 */ u8 ocFlags; // Bitwise-And with ocType
+    /* 0x02 */ u8 acFlags; // Information flags for AC collisions.
+    /* 0x03 */ u8 ocFlags; // Information flags for OC collisions.
     /* 0x04 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } ColliderInit_Set3; // size = 0x05
 
 typedef struct ColliderInitToActor {
     /* 0x00 */ struct Actor* actor;
-    /* 0x04 */ u8 atFlags; // Compared to acFlags
-    /* 0x05 */ u8 acFlags; // Compared to atFlags
-    /* 0x06 */ u8 ocFlags;   // Bitwise-and compared to ocType
+    /* 0x04 */ u8 atFlags; // Information flags for AT collisions.
+    /* 0x05 */ u8 acFlags; // Information flags for AC collisions.
+    /* 0x06 */ u8 ocFlags; // Information flags for OC collisions.
     /* 0x07 */ u8 shape;   // JntSph, Cylinder, Tris, or Quad
 } ColliderInitToActor; // size = 0x08
 
@@ -69,7 +69,7 @@ typedef struct ColliderBumpInit {
 typedef struct ColliderInfo {
     /* 0x00 */ ColliderTouch toucher; // Damage properties when acting as an AT collider
     /* 0x08 */ ColliderBump bumper; // Damage properties when acting as an AC collider
-    /* 0x14 */ u8 elemType; // Unknown purpose. Affects sfx reaction when attacked by Link and hookability
+    /* 0x14 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
     /* 0x15 */ u8 toucherFlags; // Information flags for AT collisions
     /* 0x16 */ u8 bumperFlags; // Information flags for AC collisions
     /* 0x17 */ u8 ocElemFlags; // Information flags for OC collisions
@@ -80,7 +80,7 @@ typedef struct ColliderInfo {
 } ColliderInfo; // size = 0x28
 
 typedef struct ColliderInfoInit {
-    /* 0x00 */ u8 elemType; // Unknown purpose. Affects sfx reaction when attacked by Link and hookability
+    /* 0x00 */ u8 elemType; // Affects sfx reaction when attacked by Link and hookability. Full purpose unknown.
     /* 0x04 */ ColliderTouch toucher; // Damage properties when acting as an AT collider
     /* 0x0C */ ColliderBumpInit bumper; // Damage properties when acting as an AC collider
     /* 0x14 */ u8 toucherFlags; // Information flags for AT collisions
@@ -278,7 +278,7 @@ typedef enum ElementType {
 #define AT_BOUNCED (1 << 2) // Had an AT collision with an AC_HARD collider
 #define AT_PLAYER (1 << 3) // Has player-aligned damage
 #define AT_ENEMY (1 << 4) // Has enemy-aligned damage
-#define AT_BOMB (1 << 5) // Has bomb-type damage
+#define AT_BOMB (1 << 5) // Has bomb-aligned damage
 #define AT_SELF (1 << 6) // Can have AT collisions with colliders attached to the same actor
 #define AT_UNK7 (1 << 7) // Apparently unused
 #define AT_ALL (AT_PLAYER | AT_ENEMY | AT_BOMB) // Has all three damage alignments
@@ -289,7 +289,7 @@ typedef enum ElementType {
 #define AC_HARD (1 << 2) // Causes AT colliders to bounce off it
 #define AC_PLAYER (1 << 3) // Takes player-aligned damage
 #define AC_ENEMY (1 << 4) // Takes enemy-aligned damage
-#define AC_BOMB (1 << 5) // Takes bomb-type damage
+#define AC_BOMB (1 << 5) // Takes bomb-aligned damage
 #define AC_NO_DAMAGE (1 << 6) // Collider does not take damage
 #define AC_BOUNCED (1 << 7) // Caused an AT collider to bounce off it
 #define AC_ALL (AC_PLAYER | AC_ENEMY | AC_BOMB) // Takes damage from all three alignments
@@ -325,7 +325,7 @@ typedef enum ElementType {
 #define TOUCH_SFX_NONE (3 << 3) // No hit sound effect
 #define TOUCH_AT_HITMARK (1 << 5) // Draw hitmarks for every AT collision
 #define TOUCH_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
-#define TOUCH_UNK7 (1 << 7) // Used by some enemy quads
+#define TOUCH_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
 
 #define BUMP_OFF 0 // Cannot have AC collisions
 #define BUMP_ON (1 << 0) // Can have AC collisions
@@ -337,7 +337,7 @@ typedef enum ElementType {
 #define BUMP_NO_HITMARK (1 << 6) // Skips hit effects.
 #define BUMP_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
 
-#define OCELEM_OFF 0 // Canot have OC collisions
+#define OCELEM_OFF 0 // Cannot have OC collisions
 #define OCELEM_ON (1 << 0) // Can have OC collisions
 #define OCELEM_HIT (1 << 1) // Had an OC collision
 #define OCELEM_UNK2 (1 << 2) // Apparently unused

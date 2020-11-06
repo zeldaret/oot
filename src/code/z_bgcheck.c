@@ -1,5 +1,5 @@
 #include "global.h"
-
+// Remove this comment before commit
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80038600.s")
 
 void func_80038708(s16* puParm1, s16* puParm2, u16 uParm3) {

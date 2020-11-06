@@ -21,6 +21,9 @@ const ActorInit En_Ssh_InitVars = {
     (ActorFunc)EnSsh_Update,
     (ActorFunc)EnSsh_Draw,
 };
+
+// Collision data should be similar to En_St
+
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ssh/func_80B02270.s")
 

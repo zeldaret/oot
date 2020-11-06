@@ -28,6 +28,7 @@ const ActorInit En_Torch2_InitVars = {
     (ActorFunc)EnTorch2_Draw,
 };
 */
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Torch2/EnTorch2_Init.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Torch2/EnTorch2_Destroy.s")

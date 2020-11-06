@@ -1,6 +1,6 @@
 #include "global.h"
 #include "vt.h"
-
+// Remove this comment before commit
 typedef struct {
     s16 val;
     s16 param;
