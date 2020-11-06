@@ -143,33 +143,31 @@ void func_8097D74C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
                   arg5, arg6);
 }
 
-// This prototype is very important for the rest to match!!!
-void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3, s32 arg4, s32 arg5, s16 arg6);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097D7D8.s")
-// void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3, s32 arg4, s32 arg5, s16 arg6) {
+void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3, s32 arg4, s32 arg5, s16 arg6) {
+    s32 pad;
+    if (func_800C0D28(globalCtx) == 0) {
+        s32 frames = globalCtx->gameplayFrames;
 
-//     if (func_800C0D28(globalCtx) == 0) {
-//         s32 gameplayFrames = globalCtx->gameplayFrames;
-//         if (ABS(gameplayFrames % arg4) == arg5) {
-//             Vec3f sp3C = D_809825C8;
-//             Vec3f sp30 = D_809825D4;
+        if (ABS(frames % arg4) == arg5) {
+            s32 pad;
+            Vec3f* temp;
+            Vec3f sp3C = D_809825C8;
+            Vec3f sp30 = D_809825D4;
 
-//             sp3C.x *= arg3;
-//             sp3C.y *= arg3;
-//             sp3C.z *= arg3;
+            VEC_SET(sp3C, sp3C.x * arg3, sp3C.y * arg3, sp3C.z * arg3);
 
-//             sp3C.x *= arg3 + arg2->x;
-//             sp3C.y *= arg3 + arg2->y;
-//             sp3C.z *= arg3 + arg2->z;
+            temp = &sp3C;
 
-//             sp30.x *= arg3;
-//             sp30.y *= arg3;
-//             sp30.z *= arg3;
+            VEC_SET(sp3C, temp->x + arg2->x, temp->y + arg2->y, temp->z + arg2->z);
 
-//             func_8097D74C(globalCtx, arg1, &sp3C, &sp30, 300.0f * arg3, (s32)(15.0f * arg3), arg6);
-//         }
-//     }
-// }
+            if (0) {}
+
+            VEC_SET(sp30, sp30.x * arg3, sp30.y * arg3, sp30.z * arg3);
+
+            func_8097D74C(globalCtx, arg1, &sp3C, &sp30, 300.0f * arg3, 15.0f * arg3, arg6);
+        }
+    }
+}
 
 // TODO: Rename to Actor_spawn_ACTOR_BG_SPOT16_DOUGHNUT
 Actor* func_8097D964(GlobalContext* globalCtx, Vec3f* position, s16 params) {
@@ -808,7 +806,7 @@ void func_80980110(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 2, 3, &D_060091E4);
 }
 
-void func_8098016C(DemoGt* this, GlobalContext* globalCtx) {
+void func_DoesNothing(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_80980178(DemoGt* this, GlobalContext* globalCtx) {
@@ -1062,7 +1060,7 @@ void func_80980BFC(DemoGt* this, GlobalContext* globalCtx) {
 
 // SPAWNS LOOOTS of doughnuts?
 void func_80980C90(DemoGt* this, GlobalContext* globalCtx) {
-    func_8098016C(this, globalCtx);
+    func_DoesNothing(this, globalCtx);
     func_80980178(this, globalCtx);
     func_80980184(this, globalCtx);
     func_80980218(this, globalCtx);
@@ -1412,21 +1410,21 @@ void func_80981AA0(DemoGt* this, GlobalContext* globalCtx) {
     f32 sp70;
     s16 sp6E;
     s16 sp6C;
-    GraphicsContext *gfxCtx;
+    GraphicsContext* gfxCtx;
     Mtx* sp64;
 
     Vec3f sp58;
     Vec3f sp4C;
-    
+
     f32 sp48;
 
     sp74 = fabsf(sp78 * (M_PI / 0x8000));
     sp70 = kREG(63);
 
     sp6E = kREG(60) + 0x4000;
-    sp6C = kREG(60) + 0x4000; 
+    sp6C = kREG(60) + 0x4000;
     sp6C += 0x4000;
-    
+
     gfxCtx = globalCtx->state.gfxCtx;
     sp64 = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp48 = 1.0f - Math_Coss(sp78);
@@ -1502,8 +1500,6 @@ void func_80981E44(DemoGt* this, GlobalContext* globalCtx) {
     func_80981CEC(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_80981E84.s")
-// void func_80981E84(DemoGt* this, GlobalContext* globalCtx);
 void func_80981E84(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -1596,15 +1592,15 @@ void func_80982204(DemoGt* this, GlobalContext* globalCtx) {
     func_809820AC(this, globalCtx);
 }
 
-void func_80982244(DemoGt *this, GlobalContext *globalCtx) {
+void func_80982244(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
-    GraphicsContext *gfxCtx = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 sp6E;
     f32 sp68;
     f32 sp64;
     s16 sp62;
     s16 sp60;
-    Mtx *sp5C;
+    Mtx* sp5C;
 
     Vec3f sp50;
     Vec3f sp44;
@@ -1640,11 +1636,10 @@ void func_80982244(DemoGt *this, GlobalContext *globalCtx) {
     Matrix_Pull();
     func_80093D18(gfxCtx);
 
-
     gSPMatrix(oGfxCtx->polyOpa.p++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    
+
     gSPDisplayList(oGfxCtx->polyOpa.p++, &D_06009B08);
-    
+
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part6.c", 0xA3);
 }
 
