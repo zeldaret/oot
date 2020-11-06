@@ -7,7 +7,7 @@ typedef void (*ColChkApplyFunc)(GlobalContext*, CollisionCheckContext*, Collider
 typedef void (*ColChkVsFunc)(GlobalContext*, CollisionCheckContext*, Collider*, Collider*);
 typedef s32 (*ColChkLineFunc)(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
 
-typedef struct {
+typedef struct HitInfo {
     u8 blood;
     u8 effect;
 } HitInfo;
@@ -31,9 +31,9 @@ typedef enum HitTypes {
 } HitTypes;
 
 typedef enum ColChkMassTypes {
-    /* 0 */ MASS_IMMOBILE,
-    /* 1 */ MASS_HEAVY,
-    /* 2 */ MASS_NORMAL,
+    /* 0 */ MASSTYPE_IMMOBILE,
+    /* 1 */ MASSTYPE_HEAVY,
+    /* 2 */ MASSTYPE_NORMAL,
 } ColChkMassTypes;
 
 void Collider_DrawRedPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
@@ -303,6 +303,7 @@ s32 Collider_ResetJntSphElementOC(GlobalContext* globalCtx, ColliderJntSphElemen
     return 1;
 }
 
+// Initializes a ColliderJntSph to default values
 s32 Collider_InitJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
     Collider_InitBase(globalCtx, &collider->base);
     collider->count = 0;
@@ -310,7 +311,7 @@ s32 Collider_InitJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
     return 1;
 }
 
-// Destruct ColliderJntSph (malloc)
+// Destroys a dynamically allocated ColliderJntSph
 s32 Collider_FreeJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
     ColliderJntSphElement* element;
 
@@ -327,7 +328,7 @@ s32 Collider_FreeJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
     return 1;
 }
 
-// Destruct ColliderJntSph (no malloc)
+// Destroys a preallocated ColliderJntSph
 s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
     ColliderJntSphElement* element;
 
@@ -340,7 +341,8 @@ s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
     return 1;
 }
 
-// Sets collider to the specified actor. Uses default OT_TYPE1 and COLTYPE_HIT0. Unused.
+// Sets up the ColliderJntSph using the values in src, sets it to the actor specified in src, and dynamically allocates
+// the element array. Uses default OT_TYPE1 and COLTYPE_HIT0. Unused.
 s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInitToActor* src) {
     ColliderJntSphElement* destElem;
     ColliderJntSphElementInit* srcElem;
@@ -367,8 +369,8 @@ s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, Co
     return 1;
 }
 
-// Dynamically allocates the ColliderJntSph's element array. Uses default OT_TYPE1.
-// Only used by En_Nwc, an unused and unfinished actor.
+// Sets up the ColliderJntSph using the values in src and dynamically allocates the element array. Uses default
+// OT_TYPE1. Only used by En_Nwc, an unused and unfinished actor.
 s32 Collider_SetJntSphAlloc_Set3(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
                                  ColliderJntSphInit_Set3* src) {
     ColliderJntSphElement* destElem;
@@ -397,7 +399,8 @@ s32 Collider_SetJntSphAlloc_Set3(GlobalContext* globalCtx, ColliderJntSph* dest,
     return 1;
 }
 
-// Dynamically allocates the ColliderJntSph's element array
+// Sets up the ColliderJntSph using the values in src and dynamically allocates the element array.
+// Unused.
 s32 Collider_SetJntSphAlloc(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src) {
     ColliderJntSphElement* destElem;
     ColliderJntSphElementInit* srcElem;
@@ -425,6 +428,7 @@ s32 Collider_SetJntSphAlloc(GlobalContext* globalCtx, ColliderJntSph* dest, Acto
     return 1;
 }
 
+// Sets up the ColliderJntSph using the values in src, placing the element array in elements.
 s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
                        ColliderJntSphElement* elements) {
     ColliderJntSphElement* destElem;
@@ -449,6 +453,7 @@ s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* ac
     return 1;
 }
 
+// Resets the collider's AT collision flags.
 s32 Collider_ResetJntSphAT(GlobalContext* globalCtx, Collider* collider) {
     ColliderJntSphElement* element;
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
@@ -461,6 +466,7 @@ s32 Collider_ResetJntSphAT(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's AC collision flags.
 s32 Collider_ResetJntSphAC(GlobalContext* globalCtx, Collider* collider) {
     ColliderJntSphElement* element;
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
@@ -473,6 +479,7 @@ s32 Collider_ResetJntSphAC(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's OC collision flags.
 s32 Collider_ResetJntSphOC(GlobalContext* globalCtx, Collider* collider) {
     ColliderJntSphElement* element;
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
@@ -501,6 +508,7 @@ s32 Collider_SetCylinderDim(GlobalContext* globalCtx, Cylinder16* dest, Cylinder
     return 1;
 }
 
+// Initializes a ColliderCylinder to default values
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider) {
     Collider_InitBase(globalCtx, &collider->base);
     Collider_InitInfo(globalCtx, &collider->info);
@@ -508,6 +516,7 @@ s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider) 
     return 1;
 }
 
+// Destroys a ColliderCylinder
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collider) {
     Collider_DestroyBase(globalCtx, &collider->base);
     Collider_DestroyInfo(globalCtx, &collider->info);
@@ -515,8 +524,8 @@ s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collide
     return 1;
 }
 
-// Sets to a specified actor. Uses default OT_TYPE1 and COLTYPE_0.
-// Used only by DekuJr, who sets it to himself anyways.
+// Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default OT_TYPE1
+// and COLTYPE_0. Used only by DekuJr, who sets it to himself anyways.
 s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* collider,
                                 ColliderCylinderInitToActor* src) {
     Collider_SetBaseToActor(globalCtx, &collider->base, &src->base);
@@ -525,7 +534,7 @@ s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* coll
     return 1;
 }
 
-// Uses default OT_TYPE1
+// Sets up the ColliderCylinder using the values in src. Uses default OT_TYPE1
 s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
                               ColliderCylinderInit_Set3* src) {
     Collider_SetBase_Set3(globalCtx, &collider->base, actor, &src->base);
@@ -534,6 +543,7 @@ s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collid
     return 1;
 }
 
+// Sets up the ColliderCylinder using the values in src.
 s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
                          ColliderCylinderInit* src) {
     Collider_SetBase(globalCtx, &collider->base, actor, &src->base);
@@ -542,6 +552,7 @@ s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, A
     return 1;
 }
 
+// Resets the collider's AT collision flags.
 s32 Collider_ResetCylinderAT(GlobalContext* globalCtx, Collider* collider) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
 
@@ -550,6 +561,7 @@ s32 Collider_ResetCylinderAT(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's AC collision flags.
 s32 Collider_ResetCylinderAC(GlobalContext* globalCtx, Collider* collider) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
 
@@ -558,6 +570,7 @@ s32 Collider_ResetCylinderAC(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's OC collision flags.
 s32 Collider_ResetCylinderOC(GlobalContext* globalCtx, Collider* collider) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
 
@@ -628,6 +641,7 @@ s32 Collider_ResetTrisElementOC(GlobalContext* globalCtx, ColliderTrisElement* e
     return 1;
 }
 
+// Initializes a ColliderTris to default values
 s32 Collider_InitTris(GlobalContext* globalCtx, ColliderTris* tris) {
     Collider_InitBase(globalCtx, &tris->base);
     tris->count = 0;
@@ -635,7 +649,7 @@ s32 Collider_InitTris(GlobalContext* globalCtx, ColliderTris* tris) {
     return 1;
 }
 
-// zelda malloc
+// Destroys a dynamically allocated ColliderTris
 s32 Collider_FreeTris(GlobalContext* globalCtx, ColliderTris* tris) {
     ColliderTrisElement* element;
 
@@ -652,7 +666,7 @@ s32 Collider_FreeTris(GlobalContext* globalCtx, ColliderTris* tris) {
     return 1;
 }
 
-// no malloc
+// Destroys a preallocated ColliderTris
 s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris) {
     ColliderTrisElement* element;
 
@@ -666,7 +680,7 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris) {
     return 1;
 }
 
-// Dynamically allocates the ColliderTris' element array. Uses default OT_TYPE1
+// Sets up the ColliderTris using the values in src and dynamically allocates the element array. Uses default OT_TYPE1
 s32 Collider_SetTrisAlloc_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src) {
     ColliderTrisElement* destElem;
     ColliderTrisElementInit* srcElem;
@@ -689,7 +703,7 @@ s32 Collider_SetTrisAlloc_Set3(GlobalContext* globalCtx, ColliderTris* dest, Act
     return 1;
 }
 
-// Dynamically allocates the ColliderTris' element array
+// Sets up the ColliderTris using the values in src and dynamically allocates the element array.
 s32 Collider_SetTrisAlloc(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src) {
     ColliderTrisElement* destElem;
     ColliderTrisElementInit* srcElem;
@@ -714,6 +728,7 @@ s32 Collider_SetTrisAlloc(GlobalContext* globalCtx, ColliderTris* dest, Actor* a
     return 1;
 }
 
+// Sets up the ColliderTris using the values in src, placing the element array in elements.
 s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
                      ColliderTrisElement* elements) {
     ColliderTrisElement* destElem;
@@ -735,6 +750,7 @@ s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor,
     return 1;
 }
 
+// Resets the collider's AT collision flags.
 s32 Collider_ResetTrisAT(GlobalContext* globalCtx, Collider* collider) {
     ColliderTrisElement* element;
     ColliderTris* tris = (ColliderTris*)collider;
@@ -746,6 +762,7 @@ s32 Collider_ResetTrisAT(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's AC collision flags.
 s32 Collider_ResetTrisAC(GlobalContext* globalCtx, Collider* collider) {
     ColliderTrisElement* element;
     ColliderTris* tris = (ColliderTris*)collider;
@@ -757,6 +774,7 @@ s32 Collider_ResetTrisAC(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's OC collision flags.
 s32 Collider_ResetTrisOC(GlobalContext* globalCtx, Collider* collider) {
     ColliderTrisElement* element;
     ColliderTris* tris = (ColliderTris*)collider;
@@ -807,6 +825,7 @@ s32 Collider_SetQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dest, Collide
     return 1;
 }
 
+// Initializes a ColliderQuad to default values.
 s32 Collider_InitQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
     Collider_InitBase(globalCtx, &collider->base);
     Collider_InitInfo(globalCtx, &collider->info);
@@ -814,6 +833,7 @@ s32 Collider_InitQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
     return 1;
 }
 
+// Destroys a ColliderQuad.
 s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
     Collider_DestroyBase(globalCtx, &collider->base);
     Collider_DestroyInfo(globalCtx, &collider->info);
@@ -821,7 +841,7 @@ s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
     return 1;
 }
 
-// Uses default OT_TYPE1
+// Sets up the ColliderQuad using the values in src. Uses the default OT_TYPE1
 s32 Collider_SetQuad_Set3(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit_Set3* src) {
     Collider_SetBase_Set3(globalCtx, &collider->base, actor, &src->base);
     Collider_SetInfo(globalCtx, &collider->info, &src->info);
@@ -829,6 +849,7 @@ s32 Collider_SetQuad_Set3(GlobalContext* globalCtx, ColliderQuad* collider, Acto
     return 1;
 }
 
+// Sets up the ColliderQuad using the values in src.
 s32 Collider_SetQuad(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit* src) {
     Collider_SetBase(globalCtx, &collider->base, actor, &src->base);
     Collider_SetInfo(globalCtx, &collider->info, &src->info);
@@ -836,6 +857,7 @@ s32 Collider_SetQuad(GlobalContext* globalCtx, ColliderQuad* collider, Actor* ac
     return 1;
 }
 
+// Resets the collider's AT collision flags.
 s32 Collider_ResetQuadAT(GlobalContext* globalCtx, Collider* collider) {
     ColliderQuad* quad = (ColliderQuad*)collider;
 
@@ -845,6 +867,7 @@ s32 Collider_ResetQuadAT(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's AC collision flags.
 s32 Collider_ResetQuadAC(GlobalContext* globalCtx, Collider* collider) {
     ColliderQuad* quad = (ColliderQuad*)collider;
 
@@ -853,6 +876,7 @@ s32 Collider_ResetQuadAC(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
+// Resets the collider's OC collision flags.
 s32 Collider_ResetQuadOC(GlobalContext* globalCtx, Collider* collider) {
     ColliderQuad* quad = (ColliderQuad*)collider;
 
@@ -861,9 +885,8 @@ s32 Collider_ResetQuadOC(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
-// For quad colliders with AT_NEAREST, resets the previous AC collider it hit if the
-// current element is closer, otherwise returns false. Used on player AT colliders to
-// prevent multiple collisions from registering, though it's not clear why that matters.
+// For quad colliders with AT_NEAREST, resets the previous AC collider it hit if the current element is closer,
+// otherwise returns false. Used on player AT colliders to prevent multiple collisions from registering.
 s32 Collider_QuadSetNearest(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* hitPos) {
     f32 acDist;
     Vec3f dcMid;
@@ -886,6 +909,7 @@ s32 Collider_QuadSetNearest(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f*
     return false;
 }
 
+// Initializes an OcLine to default values
 s32 Collider_InitLine(GlobalContext* globalCtx, OcLine* line) {
     Vec3f init = { 0, 0, 0 };
 
@@ -894,40 +918,44 @@ s32 Collider_InitLine(GlobalContext* globalCtx, OcLine* line) {
     return 1;
 }
 
+// Destroys an OcLine
 s32 Collider_DestroyLine(GlobalContext* globalCtx, OcLine* line) {
     return 1;
 }
 
+// Sets up an OcLine with endpoints a and b
 s32 Collider_SetLinePoints(GlobalContext* GlobalContext, OcLine* ocLine, Vec3f* a, Vec3f* b) {
     Math_Vec3f_Copy(&ocLine->line.a, a);
     Math_Vec3f_Copy(&ocLine->line.b, b);
     return 1;
 }
 
+// Sets up an OcLine using the values in src
 s32 Collider_SetLine(GlobalContext* globalCtx, OcLine* dest, OcLine* src) {
     dest->ocFlags = src->ocFlags;
     Collider_SetLinePoints(globalCtx, dest, &src->line.a, &src->line.b);
     return 1;
 }
 
+// Resets the OcLine's collision flags
 s32 Collider_ResetLineOC(GlobalContext* globalCtx, OcLine* line) {
     line->ocFlags &= ~OCLINE_HIT;
     return 1;
 }
 
-// Initialize CollisionCheckContext
+// Initializes CollisionCheckContext. Clears all collider arrays, disables SAC, and sets flags for drawing colliders.
 void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags = 0;
     CollisionCheck_ClearContext(globalCtx, colChkCtx);
-    AREG(21) = 1;
-    AREG(22) = 1;
-    AREG(23) = 1;
+    AREG(21) = true;
+    AREG(22) = true;
+    AREG(23) = true;
 }
 
 void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
 }
 
-// Clear all collider lists in CollisionCheckContext
+// Clears all collider lists in CollisionCheckContext
 void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** col;
     OcLine** line;
@@ -955,12 +983,12 @@ void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext
     }
 }
 
-// Enables alternate AC mode that allows direct management of collider lists. Unused.
+// Enables alternate collision check mode that allows direct management of collider lists. Unused.
 void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags |= 1;
 }
 
-// Disables alternate AC mode that allows direct management of collider lists. Unused.
+// Disables alternate collision check mode that allows direct management of collider lists. Unused.
 void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     colChkCtx->sacFlags &= ~1;
 }
@@ -1003,8 +1031,8 @@ void Collider_Draw(GlobalContext* globalCtx, Collider* collider) {
     }
 }
 
-// Draws collision if AREG(15) and other AREGs are set. AREG(21) draws AT colliders, AREG(22) draws
-// AC colliders, AREG(23) draws OC colliders, AREG(24) draws dynapolys, and AREG(25) draws bg polys
+// Draws collision if AREG(15) and other AREGs are set. AREG(21) draws AT colliders, AREG(22) draws AC colliders,
+// AREG(23) draws OC colliders, AREG(24) draws dynapolys, and AREG(25) draws bg polys
 void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider* collider;
     s32 i;
@@ -1247,8 +1275,8 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     return index;
 }
 
-// Sets a line as an OC collider for this frame. OC lines are entirely unused, and do not even have
-// collision functions.
+// Sets a line as an OC collider for this frame.
+// OC lines are entirely unused, and do not even have collision check functions.
 s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider) {
     s32 index;
 
@@ -1289,11 +1317,13 @@ s32 CollisionCheck_NoSharedFlags(ColliderInfo* atInfo, ColliderInfo* acInfo) {
     return 0;
 }
 
-// Spawns no blood drops. Used by collider types HIT1, HIT3, HIT5, METAL, NONE, WOOD, HARD, and TREE
+// Spawns no blood drops.
+// Used by collider types HIT1, HIT3, HIT5, METAL, NONE, WOOD, HARD, and TREE
 void CollisionCheck_NoBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 }
 
-// Spawns blue blood drops. Used by collider types HIT0 and HIT8.
+// Spawns blue blood drops.
+// Used by collider types HIT0 and HIT8.
 void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015D8A0;
     s32 pIndex;
@@ -1343,7 +1373,8 @@ void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3
     Effect_Add(globalCtx, &pIndex, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 
-// Spawns green blood drops. Used by collider types HIT2 and HIT6. No actor has type HIT2.
+// Spawns green blood drops.
+// Used by collider types HIT2 and HIT6. No actor has type HIT2.
 void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     static EffectSparkInit D_8015DD68;
     s32 pIndex;
@@ -1393,18 +1424,21 @@ void CollisionCheck_GreenBlood(GlobalContext* globalCtx, Collider* collider, Vec
     Effect_Add(globalCtx, &pIndex, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 
-// Spawns a burst of water. Used by collider type HIT4, which no actor has.
+// Spawns a burst of water.
+// Used by collider type HIT4, which no actor has.
 void CollisionCheck_WaterBurst(GlobalContext* globalCtx, Collider* collider, Vec3f* pos) {
     EffectSsSibuki_SpawnBurst(globalCtx, pos);
     CollisionCheck_SpawnWaterDroplets(globalCtx, pos);
 }
 
-// Spawns red blood. Used by collider type HIT7, which no actor has.
+// Spawns red blood drops.
+// Used by collider type HIT7, which no actor has.
 void CollisionCheck_RedBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     CollisionCheck_SpawnRedBlood(globalCtx, v);
 }
 
-// Spawns red blood. Unused.
+// Spawns red blood drops.
+// Unused.
 void CollisionCheck_RedBloodUnused(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     CollisionCheck_SpawnRedBlood(globalCtx, v);
 }
@@ -1448,7 +1482,7 @@ void CollisionCheck_HitSolid(GlobalContext* globalCtx, ColliderInfo* info, Colli
     }
 }
 
-// Plays a hit sound effect based on the AC element's elemType.
+// Plays a hit sound effect for AT colliders attached to Player based on the AC element's elemType.
 s32 CollisionCheck_SwordHitAudio(Collider* at, ColliderInfo* acInfo) {
     if (at->actor != NULL && at->actor->type == ACTORTYPE_PLAYER) {
         if (acInfo->elemType == ELEMTYPE_UNK0) {
@@ -2286,7 +2320,7 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
 }
 
 // D_8011DF5C ColliderJntSph
-void CollisionCheck_ApplyJntSphAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_SetJntSphHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     ColliderJntSphElement* element;
     Vec3f hitPos;
@@ -2304,7 +2338,7 @@ void CollisionCheck_ApplyJntSphAT(GlobalContext* globalCtx, CollisionCheckContex
 }
 
 // D_8011DF5C ColliderCylinder
-void CollisionCheck_ApplyCylAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_SetCylHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
     Vec3f hitPos;
 
@@ -2318,7 +2352,7 @@ void CollisionCheck_ApplyCylAT(GlobalContext* globalCtx, CollisionCheckContext* 
 }
 
 // D_8011DF5C ColliderTris
-void CollisionCheck_ApplyTrisAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_SetTrisHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderTris* tris = (ColliderTris*)collider;
     ColliderTrisElement* element;
     Vec3f hitPos;
@@ -2336,7 +2370,7 @@ void CollisionCheck_ApplyTrisAT(GlobalContext* globalCtx, CollisionCheckContext*
 }
 
 // D_8011DF5C ColliderQuad
-void CollisionCheck_ApplyQuadAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
+void CollisionCheck_SetQuadHitFX(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderQuad* quad = (ColliderQuad*)collider;
     Vec3f hitPos;
 
@@ -2349,12 +2383,12 @@ void CollisionCheck_ApplyQuadAT(GlobalContext* globalCtx, CollisionCheckContext*
 }
 
 // Handles hit effects for each AC collider that had an AC collision. Spawns hitmarks and plays sound effects.
-void CollisionCheck_ApplyAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+void CollisionCheck_SetHitEffects(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     static ColChkApplyFunc D_8011DF5C[] = {
-        CollisionCheck_ApplyJntSphAT,
-        CollisionCheck_ApplyCylAT,
-        CollisionCheck_ApplyTrisAT,
-        CollisionCheck_ApplyQuadAT,
+        CollisionCheck_SetJntSphHitFX,
+        CollisionCheck_SetCylHitFX,
+        CollisionCheck_SetTrisHitFX,
+        CollisionCheck_SetQuadHitFX,
     };
     Collider** col;
     Collider* colAC;
@@ -2402,8 +2436,10 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
     }
 }
 
-// Iterates through all AT colliders, testing them for AC collisions with each AC collider.
-// Then spawns hitmarks and plays sound effects for each sucessful collision.
+// Iterates through all AT colliders, testing them for AC collisions with each AC collider, setting the info regarding
+// the collision for each AC and AT collider that collided. Then spawns hitmarks and plays sound effects for each
+// successful collision. To collide, an AT collider must share a type (PLAYER, ENEMY, or BOMB) with the AC collider and
+// the toucher and bumper elements that overlapped must share a dFlag.
 void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** col;
     Collider* colAT;
@@ -2418,20 +2454,19 @@ void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
                 CollisionCheck_AC(globalCtx, colChkCtx, colAT);
             }
         }
-        CollisionCheck_ApplyAT(globalCtx, colChkCtx);
+        CollisionCheck_SetHitEffects(globalCtx, colChkCtx);
     }
 }
 
-// Get mass type. Colliders with mass 0xFF cannot be pushed, while colliders with mass
-// 0xFE cannot be pushed by anything with less mass.
+// Get mass type. Immobile colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immobile colliders.
 s32 CollisionCheck_GetMassType(u8 mass) {
-    if (mass == 0xFF) {
-        return MASS_IMMOBILE;
+    if (mass == MASS_IMMOBILE) {
+        return MASSTYPE_IMMOBILE;
     }
-    if (mass == 0xFE) {
-        return MASS_HEAVY;
+    if (mass == MASS_HEAVY) {
+        return MASSTYPE_HEAVY;
     }
-    return MASS_NORMAL;
+    return MASSTYPE_NORMAL;
 }
 
 // Sets OC collision flags for OC collider overlaps. If both colliders are attached to actors and can push,
@@ -2481,18 +2516,18 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     zDelta = rightPos->z - leftPos->z;
     xzDist = sqrtf(SQ(xDelta) + SQ(zDelta));
 
-    if (rightMassType == MASS_IMMOBILE) {
-        if (leftMassType == MASS_IMMOBILE) {
+    if (rightMassType == MASSTYPE_IMMOBILE) {
+        if (leftMassType == MASSTYPE_IMMOBILE) {
             return;
         } else { // leftMassType == MASS_HEAVY | MASS_NORMAL
             leftDispRatio = 0;
             rightDispRatio = 1;
         }
-    } else if (rightMassType == MASS_HEAVY) {
-        if (leftMassType == MASS_IMMOBILE) {
+    } else if (rightMassType == MASSTYPE_HEAVY) {
+        if (leftMassType == MASSTYPE_IMMOBILE) {
             leftDispRatio = 1;
             rightDispRatio = 0;
-        } else if (leftMassType == MASS_HEAVY) {
+        } else if (leftMassType == MASSTYPE_HEAVY) {
             leftDispRatio = 0.5f;
             rightDispRatio = 0.5f;
         } else { // leftMassType == MASS_NORMAL
@@ -2500,7 +2535,7 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
             rightDispRatio = 1;
         }
     } else { // rightMassType == MASS_NORMAL
-        if (leftMassType == MASS_NORMAL) {
+        if (leftMassType == MASSTYPE_NORMAL) {
             inverseTotalMass = 1 / totalMass;
             leftDispRatio = rightMass * inverseTotalMass;
             rightDispRatio = leftMass * inverseTotalMass;
@@ -2639,11 +2674,11 @@ s32 CollisionCheck_Incompatible(Collider* left, Collider* right) {
     return 0;
 }
 
-/* Iterates through all OC colliders and collides them with all subsequent OC colliders on the list.
- * During an OC collision, overlapping colliders move away from each other so that their colliders no
- * longer overlap. The relative amount each collider is pushed is determined by the collider's mass.
- * Only JntSph and Cylinder colliders can collide, and additionally they must have compatible OC types.
- */
+// Iterates through all OC colliders and collides them with all subsequent OC colliders on the list. During an OC
+// collision, colliders with overlapping elements move away from each other so that their elements no longer overlap.
+// The relative amount each collider is pushed is determined by the collider's mass. Only JntSph and Cylinder colliders
+// can collide, and each collider must have the OC flag corresponding to the other's OC type. Additionally, OT_UNK1
+// cannot collide with OT_UNK2, nor can two colliders that share an actor.
 void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     static ColChkVsFunc D_8011DFAC[4][4] = {
         { CollisionCheck_OC_JntSphVsJntSph, CollisionCheck_OC_JntSphVsCyl, NULL, NULL },
@@ -2675,7 +2710,7 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
     }
 }
 
-// Initialize CollisionCheckInfo
+// Initializes CollisionCheckInfo to default values
 void CollisionCheck_InitInfo(CollisionCheckInfo* info) {
     static CollisionCheckInfo init = { NULL, { 0, 0, 0 }, 10, 10, 0, 50, 8, 0, 0, 0, 0 };
 
@@ -2691,8 +2726,8 @@ void CollisionCheck_ResetInfo(CollisionCheckInfo* info) {
     info->displacement.x = info->displacement.y = info->displacement.z = 0.0f;
 }
 
-// Set CollisionCheckInfo without a damage table or unused field unk_14. Unused, as all actors that
-// don't use a damage table set their CollisionCheckInfo manually
+// Sets up CollisionCheckInfo using the values in init. Does not set a damage table or unk_14.
+// Unused, as all actors that don't set a damage table set their CollisionCheckInfo manually
 void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionCheckInfoInit* init) {
     info->health = init->health;
     info->unk_10 = init->unk_02;
@@ -2700,7 +2735,7 @@ void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionChec
     info->mass = init->mass;
 }
 
-// Set CollisionCheckInfo without unused unk_14
+// Sets up CollisionCheckInfo using the values in init. Does not set unk_14.
 void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init) {
     info->health = init->health;
     info->damageTable = damageTable;
@@ -2709,7 +2744,7 @@ void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, 
     info->mass = init->mass;
 }
 
-// Set CollisionCheckInfo with unused unk_14
+// Sets up CollisionCheckInfo using the values in init.
 void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init) {
     info->health = init->health;
     info->damageTable = damageTable;
@@ -2719,8 +2754,8 @@ void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable,
     info->mass = init->mass;
 }
 
-// Set CollisionCheckInfo with unused unk_14 and a predetermined damage table. Unused, as all actors
-// that use a predetermined damage table set their CollisionCheckInfo manually.
+// Sets up CollisionCheckInfo using the values in Init and a preset damage table.
+// Unused, as all actors that use a preset damage table set their CollisionCheckInfo manually.
 void CollisionCheck_SetInfoGetDamageTable(CollisionCheckInfo* info, s32 index, CollisionCheckInfoInit2* init) {
     CollisionCheck_SetInfo2(info, DamageTable_Get(index), init);
 }
@@ -2797,8 +2832,8 @@ void CollisionCheck_ApplyDamageQuad(GlobalContext* globalCtx, CollisionCheckCont
     CollisionCheck_ApplyDamage(globalCtx, colChkCtx, &quad->base, &quad->info);
 }
 
-// For all AC colliders, sets any damage effects from collisions with AT colliders to
-// their corresponding actor.
+// For all AC colliders, sets any damage effects from collisions with AT colliders to their corresponding actor's
+// CollisionCheckInfo.
 void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     static ColChkApplyFunc D_8011E008[4] = {
         CollisionCheck_ApplyDamageJntSph,
@@ -2904,13 +2939,13 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
 }
 
 // Checks if the line segment ab intersects any OC colliders. Returns true if there are any intersections and false
-// otherwise.
+// otherwise. Unused.
 s32 CollisionCheck_LineOcCheckAll(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b) {
     CollisionCheck_GeneralLineOcCheck(globalCtx, colChkCtx, a, b, NULL, 0);
 }
 
-// Checks if the line segment ab intersects any OC colliders, excluding those attached to actors
-// on the exclusion list. Returns true if there are any intersections and false otherwise.
+// Checks if the line segment ab intersects any OC colliders, excluding those attached to actors on the exclusion list.
+// Returns true if there are any intersections and false otherwise.
 s32 CollisionCheck_LineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
                                Actor** exclusions, s32 numExclusions) {
     CollisionCheck_GeneralLineOcCheck(globalCtx, colChkCtx, a, b, exclusions, numExclusions);
@@ -2954,12 +2989,11 @@ void Collider_SetTrisVertices(ColliderTris* collider, s32 index, Vec3f* a, Vec3f
     element->dim.plane.originDist = originDist;
 }
 
-// Sets the specified ColliderTrisElement's dim
-void Collider_SetTrisDim(GlobalContext* globalCtx, ColliderTris* collider, s32 index,
-                         ColliderTrisElementDimInit* init) {
+// Sets the specified ColliderTrisElement's dim usig the values in src
+void Collider_SetTrisDim(GlobalContext* globalCtx, ColliderTris* collider, s32 index, ColliderTrisElementDimInit* src) {
     ColliderTrisElement* element = &collider->elements[index];
 
-    Collider_SetTrisElementDim(globalCtx, &element->dim, init);
+    Collider_SetTrisElementDim(globalCtx, &element->dim, src);
 }
 
 // Due to an unknown reason, bss ordering changed between the 2 static Vec3f variables in the function below.
@@ -2992,7 +3026,8 @@ void Collider_UpdateSphJoint(s32 joint, ColliderJntSph* collider) {
     }
 }
 
-// Spawns red blood droplets. No collision type with red blood is used.
+// Spawns red blood droplets.
+// No actor has a collision type that spawns red blood.
 void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015CF10;
     s32 pIndex;
@@ -3042,7 +3077,8 @@ void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v) {
     Effect_Add(globalCtx, &pIndex, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
 
-// Spawns water droplets. No collision type with water droplets is used.
+// Spawns water droplets.
+// No actor has a collision type that spawns water droplets.
 void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v) {
     static EffectSparkInit D_8015D3D8;
     s32 pIndex;
@@ -3225,7 +3261,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
         temp_f14 = DOTXZ(2.0f * itemStep, actorToItem);
         temp_f0 = SQ(temp_f14);
         temp_f12 = (4.0f * temp_f2) * sp38;
-        if (temp_f0 - temp_f12 < 0.0f ) {
+        if (temp_f0 - temp_f12 < 0.0f) {
             return 0;
         }
         temp_f0_2 = sqrtf(temp_f0 - temp_f12);

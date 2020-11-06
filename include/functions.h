@@ -841,7 +841,6 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
 s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
 s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
 s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider);
-void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT);
 void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_InitInfo(CollisionCheckInfo* info);
