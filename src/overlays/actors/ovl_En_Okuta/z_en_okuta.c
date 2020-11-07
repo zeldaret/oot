@@ -183,12 +183,12 @@ void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->unk_196;
     }
-    this->unk_360 = this->actor.yDistFromLink + 20.0f;
-    this->unk_360 = CLAMP_MIN(this->unk_360, 10.0f);
-    if (this->unk_360 > 50.0f) {
+    this->jumpHeight = this->actor.yDistFromLink + 20.0f;
+    this->jumpHeight = CLAMP_MIN(this->jumpHeight, 10.0f);
+    if (this->jumpHeight > 50.0f) {
         EnOkuta_SpawnSplash(this, globalCtx);
     }
-    if (this->unk_360 > 50.0f) {
+    if (this->jumpHeight > 50.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
     }
     this->actionFunc = EnOkuta_Shoot;
@@ -329,15 +329,15 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
 
         if (animCurrentFrame < 13.0f) {
             this->actor.posRot.pos.y =
-                (sinf(0.2617889f * animCurrentFrame) * this->unk_360) + this->actor.initPosRot.pos.y;
+                (sinf(0.2617889f * animCurrentFrame) * this->jumpHeight) + this->actor.initPosRot.pos.y;
         }
         if (func_800A56C8(&this->skelAnime, 6.0f)) {
             EnOkuta_SpawnProjectile(this, globalCtx);
         }
-        if ((this->unk_360 > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
+        if ((this->jumpHeight > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
             EnOkuta_SpawnSplash(this, globalCtx);
         }
-        if ((this->unk_360 > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
+        if ((this->jumpHeight > 50.0f) && func_800A56C8(&this->skelAnime, 13.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
         }
     }
