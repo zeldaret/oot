@@ -70,7 +70,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060010C0, &D_060000F0, &this->limbDrawTable,
                      &this->transitionDrawTable, 9);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItem);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);
     this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawFunc_Circle, 20.0f);
@@ -192,33 +192,27 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 8) {
         this->aimRotY = this->actor.wallPolyRot;
-    } else {
-        if (func_8002DBB0(&this->actor, &this->actor.initPosRot) > 300.0f) {
-            this->aimRotY = func_8002DAC0(&this->actor, &this->actor.initPosRot);
-        }
+    } else if (func_8002DBB0(&this->actor, &this->actor.initPosRot) > 300.0f) {
+        this->aimRotY = func_8002DAC0(&this->actor, &this->actor.initPosRot);
     }
 
     if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0 && skelanimeUpdated &&
         Math_Rand_ZeroOne() < 0.1f) {
-
         var = func_8002DAC0(&this->actor, &this->actor.initPosRot) - this->actor.shape.rot.y;
         if (var > 0) {
             this->aimRotY += 0x1000 + (0x1000 * Math_Rand_ZeroOne());
         } else {
             this->aimRotY -= 0x1000 + (0x1000 * Math_Rand_ZeroOne());
         }
-
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_CRY);
     }
 
     if (this->actor.waterY > -40.0f) {
         this->aimRotX = -0x1000;
-    } else {
-        if (this->actor.posRot.pos.y < this->actor.initPosRot.pos.y - 50.0f) {
-            this->aimRotX = -0x800 - (Math_Rand_ZeroOne() * 0x800);
-        } else if (this->actor.posRot.pos.y > this->actor.initPosRot.pos.y + 50.0f) {
-            this->aimRotX = 0x800 + (Math_Rand_ZeroOne() * 0x800);
-        }
+    } else if (this->actor.posRot.pos.y < this->actor.initPosRot.pos.y - 50.0f) {
+        this->aimRotX = -0x800 - (Math_Rand_ZeroOne() * 0x800);
+    } else if (this->actor.posRot.pos.y > this->actor.initPosRot.pos.y + 50.0f) {
+        this->aimRotX = 0x800 + (Math_Rand_ZeroOne() * 0x800);
     }
 
     if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0 && skelanimeUpdated &&
@@ -228,7 +222,6 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         } else {
             this->aimRotX += (0x400 * Math_Rand_ZeroOne()) + 0x400;
         }
-
         this->aimRotX = CLAMP(this->aimRotX, -0x1000, 0x1000);
     }
 
@@ -236,7 +229,9 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x100, 0x400);
     }
 
-    DECR(this->timer);
+    if (this->timer) {
+        this->timer--;
+    }
 
     if (this->timer == 0 && this->actor.xzDistFromLink < 300.0f && !(player->stateFlags1 & 0x00800000) &&
         this->actor.waterY < -40.0f && Player_GetMask(globalCtx) != PLAYER_MASK_SKULL) {
@@ -251,7 +246,10 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
     s16 target;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
+
     yaw = func_8002E084(&this->actor, 0x2800);
 
     if (yaw != 0) {
@@ -336,7 +334,10 @@ void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->aimRotY, 3, 0xC00);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.x, this->aimRotX, 5, 0x100);
-    DECR(this->timer);
+
+    if (this->timer != 0) {
+        this->timer--;
+    }
 
     if (this->timer == 0) {
         EnCrow_SetupWait(this);
@@ -346,7 +347,9 @@ void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
 void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
     f32 target;
 
-    DECR(this->timer);
+    if (this->timer) {
+        this->timer--;
+    }
 
     if (this->timer == 0) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -457,10 +460,10 @@ void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     Vec3f* vec;
 
     if (limbIndex == 2) {
-        Matrix_MultVec3f(&sHeadVec, &this->firePos[0]);
-        this->firePos[0].y -= 20.0f;
+        Matrix_MultVec3f(&sHeadVec, &this->bodyPartsPos[0]);
+        this->bodyPartsPos[0].y -= 20.0f;
     } else if (limbIndex == 4 || limbIndex == 6 || limbIndex == 8) {
-        vec = &this->firePos[(limbIndex >> 1) - 1];
+        vec = &this->bodyPartsPos[(limbIndex >> 1) - 1];
         Matrix_MultVec3f(&sZeroVecAccel, vec);
         vec->y -= 20.0f;
     }

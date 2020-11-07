@@ -10,7 +10,7 @@ typedef void (*EnCrowActionFunc)(struct EnCrow*, GlobalContext*);
 
 typedef struct EnCrow {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3f firePos[4];
+    /* 0x014C */ Vec3f bodyPartsPos[4];
     /* 0x017C */ SkelAnime skelAnime;
     /* 0x01C0 */ EnCrowActionFunc actionFunc;
     /* 0x01C4 */ s16 timer;
@@ -19,7 +19,7 @@ typedef struct EnCrow {
     /* 0x01CA */ Vec3s limbDrawTable[9];
     /* 0x0200 */ Vec3s transitionDrawTable[9];
     /* 0x0238 */ ColliderJntSph collider;
-    /* 0x0258 */ ColliderJntSphItem colliderItem[1];
+    /* 0x0258 */ ColliderJntSphItem colliderItems[1];
 } EnCrow; // size = 0x0298
 
 extern const ActorInit En_Crow_InitVars;
