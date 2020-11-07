@@ -349,7 +349,7 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
 void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
     EnBom* EnBom;
 
-    if (Actor_GetCollidedExplosive(globalCtx, &this->colliderCylinder) != 0) {
+    if (Actor_GetCollidedExplosive(globalCtx, &this->colliderCylinder) != NULL) {
         osSyncPrintf("hp down %d\n", --this->actor.colChkInfo.health);
     } else {
         if (!(this->colliderQuad2.base.acFlags & 2) || this->unk_21C == 2) {
