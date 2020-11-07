@@ -59,7 +59,7 @@ glabel func_80A03CF8
 /* 02120 80A03D50 53200053 */  beql    $t9, $zero, .L80A03EA0     
 /* 02124 80A03D54 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 02128 80A03D58 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFF4
-/* 0212C 80A03D5C 0C2817C4 */  jal     func_80A05F10              
+/* 0212C 80A03D5C 0C2817C4 */  jal     EnElf_GetCutsceneNextPos              
 /* 02130 80A03D60 01E02825 */  or      $a1, $t7, $zero            ## $a1 = 00000000
 /* 02134 80A03D64 8FA80064 */  lw      $t0, 0x0064($sp)           
 /* 02138 80A03D68 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
@@ -69,7 +69,7 @@ glabel func_80A03CF8
 /* 02148 80A03D78 952A0000 */  lhu     $t2, 0x0000($t1)           ## 00000000
 /* 0214C 80A03D7C 55410004 */  bnel    $t2, $at, .L80A03D90       
 /* 02150 80A03D80 8E0D0024 */  lw      $t5, 0x0024($s0)           ## 00000024
-/* 02154 80A03D84 0C28126D */  jal     func_80A049B4              
+/* 02154 80A03D84 0C28126D */  jal     EnElf_SpawnSparkles              
 /* 02158 80A03D88 24060010 */  addiu   $a2, $zero, 0x0010         ## $a2 = 00000010
 /* 0215C 80A03D8C 8E0D0024 */  lw      $t5, 0x0024($s0)           ## 00000024
 .L80A03D90:
@@ -229,7 +229,7 @@ glabel func_80A03CF8
 /* 0238C 80A03FBC C42A6208 */  lwc1    $f10, %lo(D_80A06208)($at) 
 /* 02390 80A03FC0 E7AA003C */  swc1    $f10, 0x003C($sp)          
 .L80A03FC4:
-/* 02394 80A03FC4 0C28126D */  jal     func_80A049B4              
+/* 02394 80A03FC4 0C28126D */  jal     EnElf_SpawnSparkles              
 /* 02398 80A03FC8 8FA50064 */  lw      $a1, 0x0064($sp)           
 /* 0239C 80A03FCC 100000D2 */  beq     $zero, $zero, .L80A04318   
 /* 023A0 80A03FD0 860202A8 */  lh      $v0, 0x02A8($s0)           ## 000002A8
@@ -272,7 +272,7 @@ glabel func_80A03CF8
 /* 0242C 80A0405C E7A60058 */  swc1    $f6, 0x0058($sp)           
 /* 02430 80A04060 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02434 80A04064 8FA50064 */  lw      $a1, 0x0064($sp)           
-/* 02438 80A04068 0C28126D */  jal     func_80A049B4              
+/* 02438 80A04068 0C28126D */  jal     EnElf_SpawnSparkles              
 /* 0243C 80A0406C 24060010 */  addiu   $a2, $zero, 0x0010         ## $a2 = 00000010
 /* 02440 80A04070 3C014198 */  lui     $at, 0x4198                ## $at = 41980000
 /* 02444 80A04074 44815000 */  mtc1    $at, $f10                  ## $f10 = 19.00
@@ -383,7 +383,7 @@ glabel func_80A03CF8
 /* 025D4 80A04204 00000000 */  nop
 /* 025D8 80A04208 45020043 */  bc1fl   .L80A04318                 
 /* 025DC 80A0420C 860202A8 */  lh      $v0, 0x02A8($s0)           ## 000002A8
-/* 025E0 80A04210 0C28126D */  jal     func_80A049B4              
+/* 025E0 80A04210 0C28126D */  jal     EnElf_SpawnSparkles              
 /* 025E4 80A04214 24060010 */  addiu   $a2, $zero, 0x0010         ## $a2 = 00000010
 /* 025E8 80A04218 1000003F */  beq     $zero, $zero, .L80A04318   
 /* 025EC 80A0421C 860202A8 */  lh      $v0, 0x02A8($s0)           ## 000002A8
@@ -425,7 +425,7 @@ glabel func_80A03CF8
 /* 0266C 80A0429C E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 02670 80A042A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02674 80A042A4 8FA50064 */  lw      $a1, 0x0064($sp)           
-/* 02678 80A042A8 0C28126D */  jal     func_80A049B4              
+/* 02678 80A042A8 0C28126D */  jal     EnElf_SpawnSparkles              
 /* 0267C 80A042AC 24060010 */  addiu   $a2, $zero, 0x0010         ## $a2 = 00000010
 /* 02680 80A042B0 10000019 */  beq     $zero, $zero, .L80A04318   
 /* 02684 80A042B4 860202A8 */  lh      $v0, 0x02A8($s0)           ## 000002A8
@@ -484,7 +484,7 @@ glabel func_80A03CF8
 /* 02738 80A04368 E7B20010 */  swc1    $f18, 0x0010($sp)          
 .L80A0436C:
 /* 0273C 80A0436C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 02740 80A04370 0C280ECA */  jal     func_80A03B28              
+/* 02740 80A04370 0C280ECA */  jal     EnElf_UpdateLights              
 /* 02744 80A04374 8FA50064 */  lw      $a1, 0x0064($sp)           
 /* 02748 80A04378 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 0274C 80A0437C 8FB00020 */  lw      $s0, 0x0020($sp)           

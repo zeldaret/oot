@@ -358,7 +358,7 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animCurrentSeg == &D_060093BC)) {
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06005420);
+        gSPDisplayList(POLY_OPA_DISP++, D_06005420);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 927);
@@ -377,8 +377,8 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA28B4[this->unk_210]));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA28C0[this->unk_20E]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA28B4[this->unk_210]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA28C0[this->unk_20E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, &this->actor);
