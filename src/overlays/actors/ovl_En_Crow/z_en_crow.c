@@ -115,7 +115,6 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.damageEffect == 3) {
         func_8003426C(&this->actor, 0, 255, 0, 40);
-
         for (i = 0; i < 8; i++) {
             iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.x;
             iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.posRot.pos.y;
@@ -123,7 +122,6 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
             EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
                                            ((Math_Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
-
     } else if (this->actor.colChkInfo.damageEffect == 2) {
         func_8003426C(&this->actor, 0x4000, 255, 0, 40);
 
@@ -257,11 +255,9 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         pos.y = player->actor.posRot.pos.y + 20.0f;
         pos.z = player->actor.posRot.pos.z;
         target = func_8002DB28(&this->actor, &pos);
-
         if (target > 0x3000) {
             target = 0x3000;
         }
-
         Math_SmoothScaleMaxS(&this->actor.shape.rot.x, target, 2, 0x400);
     } else {
         Math_SmoothScaleMaxS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
@@ -316,7 +312,6 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
         } else {
             Item_DropCollectible(globalCtx, &this->actor.posRot, ITEM00_RUPEE_RED);
         }
-
         func_809E0770(this);
     }
 
@@ -354,21 +349,17 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
         this->actor.draw = EnCrow_Draw;
-
         if (this->actor.params != 0) {
             target = 0.03f;
         } else {
             target = 0.01f;
         }
-
         if (Math_ApproxF(&this->actor.scale, target, target * 0.1f)) {
-
             this->actor.flags |= 1;
             this->actor.flags &= ~0x10;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupWait(this);
         }
-
         this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     }
 }
@@ -377,7 +368,6 @@ void func_809E1174(EnCrow* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
         func_80035650(&this->actor, &this->collider.list[0].body, 1);
-
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {
                 func_809E06E8(this);
@@ -411,7 +401,6 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
             height = 0.0f;
             Actor_MoveForward(&this->actor);
         }
-
         func_8002E4B4(globalCtx, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale, 7);
     } else {
         height = 0.0f;
