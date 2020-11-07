@@ -112,7 +112,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_809DEE9C(this);
             this->actionFunc = func_809DF96C;
             if (globalCtx->sceneNum == SCENE_LINK_HOME) {
-                if (gSaveContext.linkAge != 0) {
+                if (LINK_IS_CHILD) {
                     Actor_Kill(&this->actor);
                     return;
                 }

@@ -198,7 +198,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
             this->skelAnime.animPlaybackSpeed = 1.0f;
         } else {
             this->skelAnime.animCurrentFrame = 6.0f;
-            func_8002A770(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255, 255,
+            EffectSsDeadDd_Spawn(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255, 255,
                           16, 20);
             EnVm_SetupAttack(this);
         }
@@ -382,7 +382,7 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_260 == 4) {
-        func_8002A90C(globalCtx, &this->beamPos3, 20, -1, 255, 20);
+        EffectSsDeadDs_SpawnStationary(globalCtx, &this->beamPos3, 20, -1, 255, 20);
         func_80033480(globalCtx, &this->beamPos3, 6.0f, 1, 120, 20, 1);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_LAZER_GND - SFX_FLAG);
     }
@@ -487,26 +487,26 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_260 >= 3) {
         Matrix_Translate(this->beamPos3.x, this->beamPos3.y + 10.0f, this->beamPos3.z, MTXMODE_NEW);
         Matrix_Scale(0.8f, 0.8f, 0.8f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1033),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1033),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 168);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 168);
         func_80094BC4(globalCtx->state.gfxCtx);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 0);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[globalCtx2->gameplayFrames % 8]));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_04031FE0);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 0);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[globalCtx2->gameplayFrames % 8]));
+        gSPDisplayList(POLY_XLU_DISP++, D_04031FE0);
         Matrix_RotateY(32767.0f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1044),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1044),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(globalCtx2->gameplayFrames + 4) % 8]));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_04031FE0);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(globalCtx2->gameplayFrames + 4) % 8]));
+        gSPDisplayList(POLY_XLU_DISP++, D_04031FE0);
     }
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, this->beamTexScroll));
+    gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, this->beamTexScroll));
     Matrix_Translate(this->beamPos1.x, this->beamPos1.y, this->beamPos1.z, MTXMODE_NEW);
     Matrix_RotateRPY(this->beamRot.x, this->beamRot.y, this->beamRot.z, MTXMODE_APPLY);
     Matrix_Scale(this->beamScale.x * 0.1f, this->beamScale.x * 0.1f, this->beamScale.z * 0.0015f, 1);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1063),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1063),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06002728);
+    gSPDisplayList(POLY_OPA_DISP++, D_06002728);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vm.c", 1068);
 }

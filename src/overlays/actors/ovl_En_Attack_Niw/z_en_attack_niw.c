@@ -174,7 +174,8 @@ s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp1E, &sp1C);
-    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0) || (sp1C > SCREEN_HEIGHT)) {
+    if ((this->actor.projectedPos.z < -20.0f) || (sp1E < 0) || (sp1E > SCREEN_WIDTH) || (sp1C < 0) ||
+        (sp1C > SCREEN_HEIGHT)) {
         return 0;
     } else {
         return 1;
@@ -345,7 +346,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 0x20) && (this->actionFunc != func_809B5C18)) {
         Math_Vec3f_Copy(&sp30, &this->actor.posRot.pos);
         sp30.y += this->actor.waterY;
-        func_8002949C(globalCtx, &sp30, 0, 0, 0, 0x190);
+        EffectSsGSplash_Spawn(globalCtx, &sp30, 0, 0, 0, 0x190);
         this->unk_2DC = 0.0f;
         this->actor.gravity = 0.0f;
         this->unk_2E0 = 0.0f;
@@ -358,9 +359,9 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.xyzDistFromLinkSq < SQ(tmpf1)) {
         cucco = (EnNiw*)this->actor.parent;
         if ((this->actor.parent->update != NULL) && (this->actor.parent != NULL) && (cucco != NULL) &&
-            (cucco->unk_26A == 0) && (player->invincibilityTimer == 0)) {
+            (cucco->timer9 == 0) && (player->invincibilityTimer == 0)) {
             func_8002F6D4(globalCtx, &this->actor, 2.0f, this->actor.posRot.rot.y, 0.0f, 0x10);
-            cucco->unk_26A = 0x46;
+            cucco->timer9 = 0x46;
         }
     }
     if (this->unk_25E == 0) {

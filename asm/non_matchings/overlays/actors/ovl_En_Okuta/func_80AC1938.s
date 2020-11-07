@@ -136,7 +136,7 @@ glabel func_80AC1938
 /* 014BC 80AC1B1C 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFF4
 /* 014C0 80AC1B20 3C0640C0 */  lui     $a2, 0x40C0                ## $a2 = 40C00000
 /* 014C4 80AC1B24 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 014C8 80AC1B28 0C00A5E9 */  jal     func_800297A4              
+/* 014C8 80AC1B28 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 014CC 80AC1B2C E7B20054 */  swc1    $f18, 0x0054($sp)          
 /* 014D0 80AC1B30 8FA4005C */  lw      $a0, 0x005C($sp)           
 /* 014D4 80AC1B34 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024

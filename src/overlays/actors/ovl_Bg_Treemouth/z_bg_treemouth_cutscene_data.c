@@ -1,5 +1,5 @@
 #include "z_bg_treemouth.h"
-#include <z64cutscene_commands.h>
+#include "z64cutscene_commands.h"
 
 // clang-format off
 CutsceneData D_808BCE20[] = {

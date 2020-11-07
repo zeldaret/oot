@@ -1,8 +1,8 @@
 #ifndef _Z_BG_HAKA_TRAP_H_
 #define _Z_BG_HAKA_TRAP_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef enum {
     /* 0x00 */ HAKA_TRAP_GUILLOTINE_SLOW,

@@ -5,8 +5,7 @@
  */
 
 #include "z_en_ru1.h"
-
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x04000011
 
@@ -439,31 +438,28 @@ s32 func_80AEB480(GlobalContext* globalCtx, u16 action) {
     return func_80AEAFE0(globalCtx, action, 3);
 }
 
-void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
-    Vec3f sp24;
+void EnRu1_SpawnRipple(EnRu1* this, GlobalContext* globalCtx, s16 radiusMax, s16 life) {
+    Vec3f pos;
     Actor* thisx = &this->actor;
 
-    sp24.x = thisx->posRot.pos.x;
-    sp24.y = thisx->posRot.pos.y + thisx->waterY;
-    sp24.z = thisx->posRot.pos.z;
-    func_80029444(globalCtx, &sp24, 100, arg2, arg3);
+    pos.x = thisx->posRot.pos.x;
+    pos.y = thisx->posRot.pos.y + thisx->waterY;
+    pos.z = thisx->posRot.pos.z;
+    EffectSsGRipple_Spawn(globalCtx, &pos, 100, radiusMax, life);
 }
 
 void func_80AEB50C(EnRu1* this, GlobalContext* globalCtx) {
     this->unk_270 += 1.0f;
     if (this->unk_270 >= kREG(3) + 10.0f) {
-        func_80AEB4A8(this, globalCtx, kREG(1) + 500, 0);
+        EnRu1_SpawnRipple(this, globalCtx, kREG(1) + 500, 0);
         this->unk_270 = 0.0f;
     }
 }
 
 void func_80AEB59C(EnRu1* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
-
-    func_80AEB4A8(this, globalCtx, kREG(2) + 500, 0);
-    func_80AEB4A8(this, globalCtx, kREG(2) + 500, kREG(3) + 10.0f);
-    temp_f0 = kREG(3) + 10.0f;
-    func_80AEB4A8(this, globalCtx, kREG(2) + 500, temp_f0 + temp_f0);
+    EnRu1_SpawnRipple(this, globalCtx, kREG(2) + 500, 0);
+    EnRu1_SpawnRipple(this, globalCtx, kREG(2) + 500, kREG(3) + 10.0f);
+    EnRu1_SpawnRipple(this, globalCtx, kREG(2) + 500, (kREG(3) + 10.0f) * 2.0f);
 }
 
 void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
@@ -474,7 +470,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     pos.y = thisx->posRot.pos.y + thisx->waterY;
     pos.z = thisx->posRot.pos.z;
 
-    func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
+    EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 1, 0);
 }
 
 void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {
@@ -2364,15 +2360,15 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    oGfxCtx->polyOpa.p =
+    POLY_OPA_DISP =
         SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
+                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
@@ -2390,15 +2386,15 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_2A8);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_2A8);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
-    oGfxCtx->polyXlu.p =
+    POLY_XLU_DISP =
         SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnRu1_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
+                          EnRu1_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }

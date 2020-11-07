@@ -105,7 +105,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
             EffectSsBomb2_SpawnLayered(globalCtx, &pos, &sZeroVector, &sZeroVector, 100, 45);
             Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 50, NA_SE_EV_BOX_BREAK);
-            func_800297A4(globalCtx, &pos, 20.0f, 0, 350, 100, 50, 105, 40, &D_0400CD80);
+            EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40, &D_0400CD80);
             this->dropTimer = 5;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.0f);
@@ -205,14 +205,14 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
     Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_Scale(0.07f, 0.04f, 0.07f, MTXMODE_APPLY);
     if (1) {}
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0, 170, 255, 255);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 170, 255, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 255);
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->fireScroll & 127, 0, 32, 64, 1, 0,
                                 (this->fireScroll * -15) & 0xFF, 32, 64));
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_040184B0);
+    gSPDisplayList(POLY_XLU_DISP++, D_040184B0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 501);
 }

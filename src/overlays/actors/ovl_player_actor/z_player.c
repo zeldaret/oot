@@ -4,15 +4,17 @@
  * Description: Link
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "overlays/actors/ovl_En_Door/z_en_door.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 
 #define THIS ((Player*)thisx)
 
@@ -1008,7 +1010,7 @@ LinkAnimetionEntry* D_80854378[] = {
 u8 D_80854380[2] = { 0x18, 0x19 };
 u8 D_80854384[2] = { 0x1A, 0x1B };
 
-u16 D_80854388[] = { B_BUTTON, L_CBUTTONS, D_CBUTTONS, R_CBUTTONS };
+u16 D_80854388[] = { BTN_B, BTN_CLEFT, BTN_CDOWN, BTN_CRIGHT };
 
 u8 sMagicSpellCosts[] = { 12, 24, 24, 12, 24, 12 };
 
@@ -1308,7 +1310,7 @@ s32 func_80832594(Player* this, s32 arg1, s32 arg2) {
 
     this->unk_850 += arg1 + (s16)(ABS(temp) * fabsf(D_808535D4) * 2.5415802156203426e-06f);
 
-    if (sControlInput->press.in.button & (A_BUTTON | B_BUTTON)) {
+    if (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B)) {
         this->unk_850 += 5;
     }
 
@@ -1340,7 +1342,7 @@ void func_808326F0(Player* this) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        func_800F8D04(*entry + this->ageProperties->unk_92);
+        func_800F8D04((u16)(*entry + this->ageProperties->unk_92));
         entry++;
     }
 }
@@ -1948,7 +1950,7 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
         }
 
         for (i = 0; i < ARRAY_COUNT(D_80854388); i++) {
-            if (CHECK_PAD(sControlInput->press, D_80854388[i])) {
+            if (CHECK_BTN_ALL(sControlInput->press.button, D_80854388[i])) {
                 break;
             }
         }
@@ -1956,7 +1958,7 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
         item = func_80833CDC(globalCtx, i);
         if (item >= ITEM_NONE_FE) {
             for (i = 0; i < ARRAY_COUNT(D_80854388); i++) {
-                if (CHECK_PAD(sControlInput->cur, D_80854388[i])) {
+                if (CHECK_BTN_ALL(sControlInput->cur.button, D_80854388[i])) {
                     break;
                 }
             }
@@ -2148,7 +2150,8 @@ s32 func_80834758(GlobalContext* globalCtx, Player* this) {
 
     if (!(this->stateFlags1 & 0x20C00000) && (globalCtx->unk_11E5C == 0) &&
         (this->heldItemActionParam == this->itemActionParam) && (this->currentShield != PLAYER_SHIELD_NONE) &&
-        !Player_IsChildWithHylianShield(this) && func_80833BCC(this) && CHECK_PAD(sControlInput->cur, R_TRIG)) {
+        !Player_IsChildWithHylianShield(this) && func_80833BCC(this) &&
+        CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
 
         anim = func_808346C4(globalCtx, this);
         frame = SkelAnime_GetFrameCount(&anim->genericHeader);
@@ -2237,7 +2240,7 @@ s32 func_80834A2C(Player* this, GlobalContext* globalCtx) {
 s32 func_80834B5C(Player* this, GlobalContext* globalCtx) {
     func_800A3BC0(globalCtx, &this->skelAnime2);
 
-    if (!CHECK_PAD(sControlInput->cur, R_TRIG)) {
+    if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
         func_80834894(this);
         return 1;
     } else {
@@ -2307,13 +2310,13 @@ s32 func_80834D2C(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80834E44(GlobalContext* globalCtx) {
-    return (globalCtx->unk_11E5C > 0) && CHECK_PAD(sControlInput->press, B_BUTTON);
+    return (globalCtx->unk_11E5C > 0) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B);
 }
 
 s32 func_80834E7C(GlobalContext* globalCtx) {
     return (globalCtx->unk_11E5C != 0) &&
            ((globalCtx->unk_11E5C < 0) ||
-            (sControlInput->cur.in.button & (A_BUTTON | B_BUTTON | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)));
+            CHECK_BTN_ANY(sControlInput->cur.button, BTN_A | BTN_B | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN));
 }
 
 s32 func_80834EB8(Player* this, GlobalContext* globalCtx) {
@@ -3012,7 +3015,7 @@ s32 func_80836AB8(Player* this, s32 arg1) {
 
 void func_80836BEC(Player* this, GlobalContext* globalCtx) {
     s32 sp1C = 0;
-    s32 zTrigPressed = CHECK_PAD(sControlInput->cur, Z_TRIG);
+    s32 zTrigPressed = CHECK_BTN_ALL(sControlInput->cur.button, BTN_Z);
     Actor* actorToTarget;
     s32 pad;
     s32 holdTarget;
@@ -3046,7 +3049,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
         if (!cond) {
             if (!(this->stateFlags1 & 0x2000000) &&
                 ((this->heldItemActionParam != PLAYER_AP_FISHING_POLE) || (this->unk_860 == 0)) &&
-                CHECK_PAD(sControlInput->press, Z_TRIG)) {
+                CHECK_BTN_ALL(sControlInput->press.button, BTN_Z)) {
 
                 if (this->actor.type == ACTORTYPE_PLAYER) {
                     actorToTarget = globalCtx->actorCtx.targetCtx.arrowPointedActor;
@@ -3054,7 +3057,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                     actorToTarget = &PLAYER->actor;
                 }
 
-                holdTarget = (gSaveContext.zTargetingSetting != 0) || (this->actor.type != ACTORTYPE_PLAYER);
+                holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.type != ACTORTYPE_PLAYER);
                 this->stateFlags1 |= 0x8000;
 
                 if ((actorToTarget != NULL) && !(actorToTarget->flags & 0x8000000)) {
@@ -3862,11 +3865,11 @@ s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
         if ((this->actor.wallPolySource != 50) && (D_808535F0 & 0x40)) {
             if (this->unk_88D >= 6) {
                 this->stateFlags2 |= 4;
-                if (CHECK_PAD(sControlInput->press, A_BUTTON)) {
+                if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
                     sp3C = 1;
                 }
             }
-        } else if ((this->unk_88D >= 6) || CHECK_PAD(sControlInput->press, A_BUTTON)) {
+        } else if ((this->unk_88D >= 6) || CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
             sp3C = 1;
         }
 
@@ -3970,7 +3973,7 @@ s16 D_808544F8[] = {
     0x045B, 0x0482, 0x0340, 0x044B, 0x02A2, 0x0201, 0x03B8, 0x04EE, 0x03C0, 0x0463, 0x01CD, 0x0394, 0x0340, 0x057C,
 };
 
-u8 D_80854514[] = { 11, 9, 3, 5, 7 };
+u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
 
 s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u32 arg3) {
     s32 sp3C;
@@ -4040,9 +4043,9 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, u
                     }
 
                     if (linearVel > R_RUN_SPEED_LIMIT / 100.0f) {
-                        gSaveContext.unk_13BC = R_RUN_SPEED_LIMIT / 100.0f;
+                        gSaveContext.entranceSpeed = R_RUN_SPEED_LIMIT / 100.0f;
                     } else {
-                        gSaveContext.unk_13BC = linearVel;
+                        gSaveContext.entranceSpeed = linearVel;
                     }
 
                     if (D_808535F4 != 0) {
@@ -4108,7 +4111,7 @@ void func_808395DC(Player* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
     arg3->z = arg1->z + ((arg2->z * cos) - (arg2->x * sin));
 }
 
-Actor* func_80839680(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3, s32 type) {
+Actor* Player_SpawnFairy(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* arg3, s32 type) {
     Vec3f pos;
 
     func_808395DC(this, arg2, arg3, &pos);
@@ -4159,7 +4162,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
 
     if ((this->doorType != 0) &&
         (!(this->stateFlags1 & 0x800) || ((this->heldActor != NULL) && (this->heldActor->id == ACTOR_EN_RU1)))) {
-        if (CHECK_PAD(sControlInput->press, A_BUTTON) || (func_8084F9A0 == this->func_674)) {
+        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (func_8084F9A0 == this->func_674)) {
             doorActor = this->doorActor;
 
             if (this->doorType < 0) {
@@ -4271,8 +4274,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         func_8003C890(&globalCtx->colCtx, &sp58, &sp4C);
 
                         if (func_80839034(globalCtx, this, sp58, 50)) {
-                            gSaveContext.unk_13BC = 2.0f;
-                            gSaveContext.unk_13C0 = NA_SE_OC_DOOR_OPEN;
+                            gSaveContext.entranceSpeed = 2.0f;
+                            gSaveContext.entranceSound = NA_SE_OC_DOOR_OPEN;
                         }
                     } else {
                         func_8005AD40(Gameplay_GetCamera(globalCtx, 0), doorActor,
@@ -4889,8 +4892,8 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
     sp24 = (sp30 != NULL) && (((sp30->flags & 0x40001) == 0x40001) || (sp30->naviEnemyId != 0xFF));
 
-    if (sp24 || (this->naviMessageId != 0)) {
-        sp28 = (this->naviMessageId < 0) && ((ABS(this->naviMessageId) & 0xFF00) != 0x200);
+    if (sp24 || (this->naviTextId != 0)) {
+        sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
         if (sp28 || !sp24) {
             sp2C = this->naviActor;
             if (sp28) {
@@ -4912,7 +4915,7 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
                     if (sp34 != NULL) {
                         this->stateFlags2 |= 2;
-                        if (CHECK_PAD(sControlInput->press, A_BUTTON) || (sp34->flags & 0x10000)) {
+                        if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) || (sp34->flags & 0x10000)) {
                             sp2C = NULL;
                         } else if (sp2C == NULL) {
                             return 0;
@@ -4924,7 +4927,7 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
                             this->stateFlags2 |= 0x200000;
                         }
 
-                        if (!CHECK_PAD(sControlInput->press, U_CBUTTONS) && !sp28) {
+                        if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && !sp28) {
                             return 0;
                         }
 
@@ -4932,10 +4935,10 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
                         this->targetActor = NULL;
 
                         if (sp28 || !sp24) {
-                            if (this->naviMessageId >= 0) {
-                                sp2C->textId = this->naviMessageId;
+                            if (this->naviTextId >= 0) {
+                                sp2C->textId = this->naviTextId;
                             } else {
-                                sp2C->textId = -this->naviMessageId;
+                                sp2C->textId = -this->naviTextId;
                             }
                         } else {
                             if (sp2C->naviEnemyId != 0xFF) {
@@ -4976,7 +4979,7 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_664 != NULL) &&
         (((this->unk_664->flags & 0x40001) == 0x40001) || (this->unk_664->naviEnemyId != 0xFF))) {
         this->stateFlags2 |= 0x200000;
-    } else if ((this->naviMessageId == 0) && !func_8008E9C4(this) && CHECK_PAD(sControlInput->press, U_CBUTTONS) &&
+    } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
                (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
         func_80078884(NA_SE_SY_ERROR);
     }
@@ -5003,7 +5006,8 @@ void func_8083BA90(GlobalContext* globalCtx, Player* this, s32 arg2, f32 xzVeloc
 
 s32 func_8083BB20(Player* this) {
     if (!(this->stateFlags1 & 0x400000) && (Player_GetSwordHeld(this) != 0)) {
-        if (D_80853614 || ((this->actor.type != ACTORTYPE_PLAYER) && CHECK_PAD(sControlInput->press, B_BUTTON))) {
+        if (D_80853614 ||
+            ((this->actor.type != ACTORTYPE_PLAYER) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B))) {
             return 1;
         }
     }
@@ -5054,7 +5058,8 @@ void func_8083BCD0(Player* this, GlobalContext* globalCtx, s32 arg2) {
 s32 func_8083BDBC(Player* this, GlobalContext* globalCtx) {
     s32 sp2C;
 
-    if (CHECK_PAD(sControlInput->press, A_BUTTON) && (globalCtx->roomCtx.curRoom.unk_03 != 2) && (D_808535E4 != 7) &&
+    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && (globalCtx->roomCtx.curRoom.unk_03 != 2) &&
+        (D_808535E4 != 7) &&
         (func_80041F7C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) != 1)) {
         sp2C = this->unk_84B[this->unk_846];
 
@@ -5143,7 +5148,7 @@ void func_8083C148(Player* this, GlobalContext* globalCtx) {
 
 s32 func_8083C1DC(Player* this, GlobalContext* globalCtx) {
     if (!func_80833B54(this) && (D_808535E0 == 0) && !(this->stateFlags1 & 0x800000) &&
-        CHECK_PAD(sControlInput->press, A_BUTTON)) {
+        CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
         if (func_8083BC7C(this, globalCtx)) {
             return 1;
         }
@@ -5162,7 +5167,7 @@ s32 func_8083C2B0(Player* this, GlobalContext* globalCtx) {
     f32 frame;
 
     if ((globalCtx->unk_11E5C == 0) && (this->currentShield != PLAYER_SHIELD_NONE) &&
-        CHECK_PAD(sControlInput->cur, R_TRIG) &&
+        CHECK_BTN_ALL(sControlInput->cur.button, BTN_R) &&
         (Player_IsChildWithHylianShield(this) || (!func_80833B2C(this) && (this->unk_664 == NULL)))) {
 
         func_80832318(this);
@@ -5220,13 +5225,13 @@ s32 func_8083C484(Player* this, f32* arg1, s16* arg2) {
 }
 
 void func_8083C50C(Player* this) {
-    if ((this->unk_844 > 0) && !CHECK_PAD(sControlInput->cur, B_BUTTON)) {
+    if ((this->unk_844 > 0) && !CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
         this->unk_844 = -this->unk_844;
     }
 }
 
 s32 func_8083C544(Player* this, GlobalContext* globalCtx) {
-    if (CHECK_PAD(sControlInput->cur, B_BUTTON)) {
+    if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
         if (!(this->stateFlags1 & 0x400000) && (Player_GetSwordHeld(this) != 0) && (this->unk_844 == 1) &&
             (this->heldItemActionParam != PLAYER_AP_STICK)) {
             if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) || (gSaveContext.swordHealth > 0.0f)) {
@@ -5351,18 +5356,18 @@ void func_8083CA20(GlobalContext* globalCtx, Player* this) {
 
 void func_8083CA54(GlobalContext* globalCtx, Player* this) {
     this->linearVelocity = 2.0f;
-    gSaveContext.unk_13BC = 2.0f;
+    gSaveContext.entranceSpeed = 2.0f;
     if (func_8083C910(globalCtx, this, 120.0f)) {
         this->unk_850 = -15;
     }
 }
 
 void func_8083CA9C(GlobalContext* globalCtx, Player* this) {
-    if (gSaveContext.unk_13BC < 0.1f) {
-        gSaveContext.unk_13BC = 0.1f;
+    if (gSaveContext.entranceSpeed < 0.1f) {
+        gSaveContext.entranceSpeed = 0.1f;
     }
 
-    this->linearVelocity = gSaveContext.unk_13BC;
+    this->linearVelocity = gSaveContext.entranceSpeed;
 
     if (func_8083C910(globalCtx, this, 800.0f)) {
         this->unk_850 = -80 / this->linearVelocity;
@@ -5448,22 +5453,22 @@ void func_8083CF5C(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_8083CFA8(GlobalContext* globalCtx, Player* this, f32 arg2, s32 arg3) {
+s32 func_8083CFA8(GlobalContext* globalCtx, Player* this, f32 arg2, s32 splashScale) {
     f32 sp3C = fabsf(arg2);
     UNK_TYPE sp38;
     f32 sp34;
-    Vec3f sp28;
-    s32 temp;
+    Vec3f splashPos;
+    s32 splashType;
 
     if (sp3C > 2.0f) {
-        sp28.x = this->bodyPartsPos[0].x;
-        sp28.z = this->bodyPartsPos[0].z;
+        splashPos.x = this->bodyPartsPos[0].x;
+        splashPos.z = this->bodyPartsPos[0].z;
         sp34 = this->actor.posRot.pos.y;
-        if (func_8004213C(globalCtx, &globalCtx->colCtx, sp28.x, sp28.z, &sp34, &sp38)) {
+        if (func_8004213C(globalCtx, &globalCtx->colCtx, splashPos.x, splashPos.z, &sp34, &sp38)) {
             if ((sp34 - this->actor.posRot.pos.y) < 100.0f) {
-                temp = (sp3C <= 10.0f) ? 0 : 1;
-                sp28.y = sp34;
-                func_8002949C(globalCtx, &sp28, 0, 0, temp, arg3);
+                splashType = (sp3C <= 10.0f) ? 0 : 1;
+                splashPos.y = sp34;
+                EffectSsGSplash_Spawn(globalCtx, &splashPos, NULL, NULL, splashType, splashScale);
                 return 1;
             }
         }
@@ -5486,7 +5491,7 @@ void func_8083D0A8(GlobalContext* globalCtx, Player* this, f32 arg2) {
 
 s32 func_8083D12C(GlobalContext* globalCtx, Player* this, Input* arg2) {
     if (!(this->stateFlags1 & 0x400) && !(this->stateFlags2 & 0x400)) {
-        if ((arg2 == NULL) || (CHECK_PAD(arg2->press, A_BUTTON) && (ABS(this->unk_6C2) < 12000) &&
+        if ((arg2 == NULL) || (CHECK_BTN_ALL(arg2->press.button, BTN_A) && (ABS(this->unk_6C2) < 12000) &&
                                (this->currentBoots != PLAYER_BOOTS_IRON))) {
 
             func_80835C58(globalCtx, this, func_8084DC48, 0);
@@ -5609,7 +5614,7 @@ void func_8083D53C(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
-    Vec3f sp5C;
+    Vec3f ripplePos;
     f32 temp1;
     f32 temp2;
     f32 temp3;
@@ -5670,10 +5675,10 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
             if (this->unk_854 > 15.0f) {
                 this->unk_854 = 0.0f;
 
-                sp5C.x = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.x;
-                sp5C.y = this->actor.posRot.pos.y + this->actor.waterY;
-                sp5C.z = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.z;
-                func_80029444(globalCtx, &sp5C, 100, 500, 0);
+                ripplePos.x = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.x;
+                ripplePos.y = this->actor.posRot.pos.y + this->actor.waterY;
+                ripplePos.z = (Math_Rand_ZeroOne() * 10.0f) + this->actor.posRot.pos.z;
+                EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 0);
 
                 if ((this->linearVelocity > 4.0f) && !func_808332B8(this) &&
                     ((this->actor.posRot.pos.y + this->actor.waterY) < this->bodyPartsPos[0].y)) {
@@ -5684,19 +5689,19 @@ void func_8083D6EC(GlobalContext* globalCtx, Player* this) {
         }
 
         if (this->actor.waterY > 40.0f) {
-            s32 sp48 = 0;
+            s32 numBubbles = 0;
             s32 i;
 
             if ((this->actor.velocity.y > -1.0f) || (this->actor.bgCheckFlags & 1)) {
                 if (Math_Rand_ZeroOne() < 0.2f) {
-                    sp48 = 1;
+                    numBubbles = 1;
                 }
             } else {
-                sp48 = this->actor.velocity.y * -2.0f;
+                numBubbles = this->actor.velocity.y * -2.0f;
             }
 
-            for (i = 0; i < sp48; i++) {
-                func_800293E4(globalCtx, &this->actor.posRot.pos, 20.0f, 10.0f, 20.0f, 0.13f);
+            for (i = 0; i < numBubbles; i++) {
+                EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 20.0f, 10.0f, 20.0f, 0.13f);
             }
         }
     }
@@ -5807,7 +5812,7 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
     f32 sp34;
     s32 temp;
 
-    if ((rideActor != NULL) && CHECK_PAD(sControlInput->press, A_BUTTON)) {
+    if ((rideActor != NULL) && CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
         sp38 = Math_Coss(rideActor->actor.shape.rot.y);
         sp34 = Math_Sins(rideActor->actor.shape.rot.y);
 
@@ -5954,7 +5959,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                 func_8083E4C4(globalCtx, this, giEntry);
                 this->getItemId = GI_NONE;
             }
-        } else if (CHECK_PAD(sControlInput->press, A_BUTTON) && !(this->stateFlags1 & 0x800) &&
+        } else if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && !(this->stateFlags1 & 0x800) &&
                    !(this->stateFlags2 & 0x400)) {
             if (this->getItemId != GI_NONE) {
                 GetItemEntry* giEntry = &sGetItemTable[-this->getItemId - 1];
@@ -5972,10 +5977,10 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                 this->stateFlags1 |= 0x20000C00;
                 func_8083AE40(this, giEntry->objectId);
                 this->actor.posRot.pos.x =
-                    chest->actor.posRot.pos.x - (Math_Sins(chest->actor.shape.rot.y) * 29.434299469f);
+                    chest->dyna.actor.posRot.pos.x - (Math_Sins(chest->dyna.actor.shape.rot.y) * 29.434299469f);
                 this->actor.posRot.pos.z =
-                    chest->actor.posRot.pos.z - (Math_Coss(chest->actor.shape.rot.y) * 29.434299469f);
-                this->currentYaw = this->actor.shape.rot.y = chest->actor.shape.rot.y;
+                    chest->dyna.actor.posRot.pos.z - (Math_Coss(chest->dyna.actor.shape.rot.y) * 29.434299469f);
+                this->currentYaw = this->actor.shape.rot.y = chest->dyna.actor.shape.rot.y;
                 func_80832224(this);
 
                 if ((giEntry->itemId != ITEM_NONE) && (giEntry->gi >= 0) &&
@@ -6043,7 +6048,7 @@ s32 func_8083EAF0(Player* this, Actor* actor) {
 
 s32 func_8083EB44(Player* this, GlobalContext* globalCtx) {
     if ((this->stateFlags1 & 0x800) && (this->heldActor != NULL) &&
-        (sControlInput->press.in.button & (A_BUTTON | B_BUTTON | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS))) {
+        CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)) {
         if (!func_80835644(globalCtx, this, this->heldActor)) {
             if (!func_8083EAF0(this, this->heldActor)) {
                 func_80835C58(globalCtx, this, func_808464B0, 1);
@@ -6217,7 +6222,7 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
             this->stateFlags2 |= 0x10000;
 
-            if (CHECK_PAD(sControlInput->press, A_BUTTON)) {
+            if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
                 f32 sp38 = wallPoly->norm.x * (1.0f / 32767.0f);
                 f32 sp34 = wallPoly->norm.z * (1.0f / 32767.0f);
                 f32 sp30 = this->wallDistance;
@@ -6355,7 +6360,7 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
 
             this->stateFlags2 |= 1;
 
-            if (CHECK_PAD(sControlInput->cur, A_BUTTON)) {
+            if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A)) {
 
                 if ((this->actor.wallPolySource != 50) &&
                     ((wallPolyActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->actor.wallPolySource)) != NULL)) {
@@ -6391,7 +6396,8 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083F9D0(GlobalContext* globalCtx, Player* this) {
-    if ((this->actor.bgCheckFlags & 0x200) && ((this->stateFlags2 & 0x10) || CHECK_PAD(sControlInput->cur, A_BUTTON))) {
+    if ((this->actor.bgCheckFlags & 0x200) &&
+        ((this->stateFlags2 & 0x10) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
         DynaPolyActor* wallPolyActor = NULL;
 
         if (this->actor.wallPolySource != 50) {
@@ -6432,7 +6438,7 @@ void func_8083FB7C(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083FBC0(Player* this, GlobalContext* globalCtx) {
-    if (!CHECK_PAD(sControlInput->press, A_BUTTON) && (this->actor.bgCheckFlags & 0x200) &&
+    if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && (this->actor.bgCheckFlags & 0x200) &&
         ((D_808535F0 & 8) || (D_808535F0 & 2) ||
          func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallPolySource))) {
         return 0;
@@ -6478,7 +6484,7 @@ s32 func_8083FD78(Player* this, f32* arg1, s16* arg2, GlobalContext* globalCtx) 
         if (this->unk_664 != NULL) {
             func_8083DB98(this, 1);
         } else {
-            Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, sControlInput->rel.in.y * 240.0f, 14, 4000, 30);
+            Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, sControlInput->rel.stick_y * 240.0f, 14, 4000, 30);
             func_80836AB8(this, 1);
         }
     } else {
@@ -7489,7 +7495,7 @@ void func_80842A88(GlobalContext* globalCtx, Player* this) {
 s32 func_80842AC4(GlobalContext* globalCtx, Player* this) {
     if ((this->heldItemActionParam == PLAYER_AP_STICK) && (this->unk_85C > 0.5f)) {
         if (AMMO(ITEM_STICK) != 0) {
-            func_800298EC(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
+            EffectSsStick_Spawn(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
             this->unk_85C = 0.5f;
             func_80842A88(globalCtx, this);
             func_8002F7DC(&this->actor, NA_SE_IT_WOODSTICK_BROKEN);
@@ -7505,7 +7511,7 @@ s32 func_80842B7C(GlobalContext* globalCtx, Player* this) {
     if (this->heldItemActionParam == PLAYER_AP_SWORD_BGS) {
         if ((gSaveContext.bgsFlag == 0) && (gSaveContext.swordHealth > 0.0f)) {
             if ((gSaveContext.swordHealth -= 1.0f) <= 0.0f) {
-                func_800298EC(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
+                EffectSsStick_Spawn(globalCtx, &this->bodyPartsPos[15], this->actor.shape.rot.y + 0x8000);
                 func_800849EC(globalCtx);
                 func_8002F7DC(&this->actor, NA_SE_IT_MAJIN_SWORD_BROKEN);
             }
@@ -7668,8 +7674,8 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
     func_8083721C(this);
 
     if (this->unk_850 != 0) {
-        sp54 = sControlInput->rel.in.y * 100;
-        sp50 = sControlInput->rel.in.x * -120;
+        sp54 = sControlInput->rel.stick_y * 100;
+        sp50 = sControlInput->rel.stick_x * -120;
         sp4E = this->actor.shape.rot.y - func_8005A948(ACTIVE_CAM);
 
         sp40 = Math_Coss(sp4E);
@@ -7890,7 +7896,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         }
     } else if (this->unk_84F != 0) {
         this->unk_850 = 60;
-        func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, 5);
+        Player_SpawnFairy(globalCtx, this, &this->actor.posRot.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
         func_800800F8(globalCtx, 0x26B4, 125, &this->actor, 0);
     } else if (globalCtx->unk_10A20 == 2) {
@@ -8032,7 +8038,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
             Actor* heldActor = this->heldActor;
 
             if (!func_80835644(globalCtx, this, heldActor) && (heldActor->id == ACTOR_EN_NIW) &&
-                (sControlInput->press.in.button & (A_BUTTON | B_BUTTON | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS))) {
+                CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)) {
                 func_8084409C(globalCtx, this, this->linearVelocity + 2.0f, this->actor.velocity.y + 2.0f);
             }
         }
@@ -8258,7 +8264,7 @@ s32 func_80844BE4(Player* this, GlobalContext* globalCtx) {
     if (func_8083ADD4(globalCtx, this)) {
         this->stateFlags2 |= 0x20000;
     } else {
-        if (!CHECK_PAD(sControlInput->cur, B_BUTTON)) {
+        if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
             if ((this->unk_858 >= 0.85f) || func_808375D8(this)) {
                 temp = D_80854384[Player_HoldsTwoHandedWeapon(this)];
             } else {
@@ -8330,7 +8336,7 @@ void func_80844E68(Player* this, GlobalContext* globalCtx) {
             if (this->unk_858 >= 0.1f) {
                 this->unk_845 = 0;
                 this->unk_850 = 1;
-            } else if (!CHECK_PAD(sControlInput->cur, B_BUTTON)) {
+            } else if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
                 func_80844D68(this, globalCtx);
             }
         } else if (!func_80844BE4(this, globalCtx)) {
@@ -8670,7 +8676,7 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
             sp30 = 20;
 
             if (this->stateFlags1 & 1) {
-                sp34 = gSaveContext.unk_13BC;
+                sp34 = gSaveContext.entranceSpeed;
 
                 if (D_808535F4 != 0) {
                     this->unk_450.x = (Math_Sins(D_808535FC) * 400.0f) + this->actor.posRot.pos.x;
@@ -8679,7 +8685,7 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
             } else if (this->unk_850 < 0) {
                 this->unk_850++;
 
-                sp34 = gSaveContext.unk_13BC;
+                sp34 = gSaveContext.entranceSpeed;
                 sp30 = -1;
             }
 
@@ -8819,7 +8825,7 @@ void func_80846260(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-    } else if (sControlInput->press.in.button & (A_BUTTON | B_BUTTON | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)) {
+    } else if (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)) {
         func_80835C58(globalCtx, this, func_80846358, 1);
         func_80832264(globalCtx, this, &D_040032B8);
     }
@@ -9065,7 +9071,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 sp4C;
     s32 initMode;
     s16 params;
-    u16 unk_13C0;
+    u16 entranceSound;
 
     globalCtx->unk_11E5C = globalCtx->bombchuBowlingAmmo = 0;
 
@@ -9119,7 +9125,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((sp50 == 0) || (sp50 < -1)) {
-        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && (gSaveContext.unk_13C7 != 0) &&
+        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && (gSaveContext.showTitleCard) &&
             (gSaveContext.sceneSetupIndex < 4) &&
             (gEntranceTable[gSaveContext.entranceIndex + gSaveContext.sceneSetupIndex].field & 0x4000) &&
             ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
@@ -9127,7 +9133,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
             TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 0xA0, 0x78, 0x90,
                                     0x18, 0x14);
         }
-        gSaveContext.unk_13C7 = 1;
+        gSaveContext.showTitleCard = true;
     }
 
     if (sp50 == 2) {
@@ -9158,7 +9164,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (initMode != 0) {
         if ((gSaveContext.gameMode == 0) || (gSaveContext.gameMode == 3)) {
-            this->naviActor = func_80839680(globalCtx, this, &this->actor.posRot.pos, &D_80854778, 0);
+            this->naviActor = Player_SpawnFairy(globalCtx, this, &this->actor.posRot.pos, &D_80854778, FAIRY_NAVI);
             if (gSaveContext.dogParams != 0) {
                 gSaveContext.dogParams |= 0x8000;
             }
@@ -9171,10 +9177,10 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->stateFlags3 &= ~0x40;
     }
 
-    if (gSaveContext.unk_13C0 != 0) {
-        unk_13C0 = gSaveContext.unk_13C0;
-        Audio_PlayActorSound2(&this->actor, unk_13C0);
-        gSaveContext.unk_13C0 = 0;
+    if (gSaveContext.entranceSound != 0) {
+        entranceSound = gSaveContext.entranceSound;
+        Audio_PlayActorSound2(&this->actor, entranceSound);
+        gSaveContext.entranceSound = 0;
     }
 
     Map_SavePlayerInitialInfo(globalCtx);
@@ -9735,8 +9741,8 @@ void func_808486A8(GlobalContext* globalCtx, Player* this) {
 Vec3f D_808547A4 = { 0.0f, 0.5f, 0.0f };
 Vec3f D_808547B0 = { 0.0f, 0.5f, 0.0f };
 
-Color_RGBA8_n D_808547BC = { 255, 255, 100, 255 };
-Color_RGBA8_n D_808547C0 = { 255, 50, 0, 0 };
+Color_RGBA8 D_808547BC = { 255, 255, 100, 255 };
+Color_RGBA8 D_808547C0 = { 255, 50, 0, 0 };
 
 void func_80848A04(GlobalContext* globalCtx, Player* this) {
     f32 temp;
@@ -9764,28 +9770,27 @@ void func_80848A04(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_80848B44(GlobalContext* globalCtx, Player* this) {
-    Vec3f sp3C;
-    Vec3f* sp38;
-    s32 sp34;
+    Vec3f shockPos;
+    Vec3f* randBodyPart;
+    s32 shockScale;
 
     this->shockTimer--;
     this->unk_892 += this->shockTimer;
 
     if (this->unk_892 > 20) {
-        sp34 = this->shockTimer * 2;
-
+        shockScale = this->shockTimer * 2;
         this->unk_892 -= 20;
 
-        if (sp34 > 40) {
-            sp34 = 40;
+        if (shockScale > 40) {
+            shockScale = 40;
         }
 
-        sp38 = this->bodyPartsPos + (s32)Math_Rand_ZeroFloat(17.9f);
-        sp3C.x = (Math_Rand_CenteredFloat(5.0f) + sp38->x) - this->actor.posRot.pos.x;
-        sp3C.y = (Math_Rand_CenteredFloat(5.0f) + sp38->y) - this->actor.posRot.pos.y;
-        sp3C.z = (Math_Rand_CenteredFloat(5.0f) + sp38->z) - this->actor.posRot.pos.z;
+        randBodyPart = this->bodyPartsPos + (s32)Math_Rand_ZeroFloat(17.9f);
+        shockPos.x = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->x) - this->actor.posRot.pos.x;
+        shockPos.y = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->y) - this->actor.posRot.pos.y;
+        shockPos.z = (Math_Rand_CenteredFloat(5.0f) + randBodyPart->z) - this->actor.posRot.pos.z;
 
-        EffectSsFhgFlash_Spawn2(globalCtx, &this->actor, &sp3C, sp34, 1);
+        EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &shockPos, shockScale, FHGFLASH_SHOCK_PLAYER);
         func_8002F8F0(&this->actor, NA_SE_PL_SPARK - SFX_FLAG);
     }
 }
@@ -9836,7 +9841,7 @@ void func_80848C74(GlobalContext* globalCtx, Player* this) {
 
             flameIntensity = (*timerPtr - 25.0f) * 0.02f;
             flameIntensity = CLAMP(flameIntensity, 0.0f, 1.0f);
-            func_8002A484(globalCtx, flameScale, i, flameIntensity);
+            EffectSsFireTail_SpawnFlameOnPlayer(globalCtx, flameScale, i, flameIntensity);
         }
 
         if (1) {}
@@ -10115,7 +10120,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this) ? &D_04003310 : (this->shockTimer != 0) ? &D_04002F08 : &D_04002878);
+                                  func_808332B8(this) ? &D_04003310
+                                                      : (this->shockTimer != 0) ? &D_04002F08 : &D_04002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&
@@ -10152,7 +10158,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         func_8083D6EC(globalCtx, this);
 
-        if ((this->unk_664 == NULL) && (this->naviMessageId == 0)) {
+        if ((this->unk_664 == NULL) && (this->naviTextId == 0)) {
             this->stateFlags2 &= ~0x200002;
         }
 
@@ -10203,7 +10209,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             this->rideActor = NULL;
         }
 
-        this->naviMessageId = 0;
+        this->naviTextId = 0;
 
         if (!(this->stateFlags2 & 0x2000000)) {
             this->unk_6A8 = NULL;
@@ -10316,8 +10322,8 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             sp44 = globalCtx->state.input[0];
             if (this->unk_88E != 0) {
-                sp44.cur.in.button &= ~(A_BUTTON | B_BUTTON | U_CBUTTONS);
-                sp44.press.in.button &= ~(A_BUTTON | B_BUTTON | U_CBUTTONS);
+                sp44.cur.button &= ~(BTN_A | BTN_B | BTN_CUP);
+                sp44.press.button &= ~(BTN_A | BTN_B | BTN_CUP);
             }
         }
 
@@ -10344,8 +10350,8 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19228);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, cullDList);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, cullDList);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, cullDList);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, cullDList);
 
     func_8008F470(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, lod,
                   this->currentTunic, this->currentBoots, this->actor.shape.unk_06, overrideLimbDraw, func_80090D20,
@@ -10357,7 +10363,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
         if (this->currentMask == PLAYER_MASK_BUNNY) {
             Vec3s sp68;
 
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x0B, sp70);
+            gSPSegment(POLY_OPA_DISP++, 0x0B, sp70);
 
             sp68.x = D_80858AC8[1] + 0x3E2;
             sp68.y = D_80858AC8[2] + 0xDBE;
@@ -10372,7 +10378,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_80854844[this->currentMask - 1]);
+        gSPDisplayList(POLY_OPA_DISP++, D_80854844[this->currentMask - 1]);
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) &&
@@ -10400,14 +10406,14 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                           &D_80854864);
             Matrix_Scale(4.0f, 4.0f, 4.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+            gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, 0,
                                         (globalCtx->gameplayFrames * -15) % 128, 16, 32));
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, D_8085486C);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 120, 90, 30, 128);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04037E30);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, D_8085486C);
+            gDPSetEnvColor(POLY_XLU_DISP++, 120, 90, 30, 128);
+            gSPDisplayList(POLY_XLU_DISP++, D_04037E30);
         }
     }
 
@@ -10438,7 +10444,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
-            oGfxCtx->polyOpa.p = Gfx_SetFog2(oGfxCtx->polyOpa.p, 255, 0, 0, 0, 0,
+            POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0,
                                              4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
         }
 
@@ -10479,27 +10485,27 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Pull();
         }
 
-        gSPClearGeometryMode(oGfxCtx->polyOpa.p++, G_CULL_BOTH);
-        gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_CULL_BOTH);
+        gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
+        gSPClearGeometryMode(POLY_XLU_DISP++, G_CULL_BOTH);
 
         func_8084A0E8(globalCtx, this, lod, gCullBackDList, overrideLimbDraw);
 
         if (this->invincibilityTimer > 0) {
-            oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+            POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
         }
 
         if (this->stateFlags2 & 0x4000) {
             f32 scale = (this->unk_84F >> 1) * 22.0f;
 
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+            gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (0 - globalCtx->gameplayFrames) % 128, 32, 32, 1,
                                         0, (globalCtx->gameplayFrames * -2) % 128, 32, 32));
 
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 50, 100, 255);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04033EE0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, 255);
+            gSPDisplayList(POLY_XLU_DISP++, D_04033EE0);
         }
 
         if (this->unk_862 > 0) {
@@ -10532,22 +10538,22 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
     s16 temp2;
 
     if (!func_8002DD78(this) && !func_808334B4(this) && (arg2 == 0)) {
-        temp2 = sControlInput->rel.in.y * 240.0f;
+        temp2 = sControlInput->rel.stick_y * 240.0f;
         Math_SmoothScaleMaxMinS(&this->actor.posRot2.rot.x, temp2, 14, 4000, 30);
 
-        temp2 = sControlInput->rel.in.x * -16.0f;
+        temp2 = sControlInput->rel.stick_x * -16.0f;
         temp2 = CLAMP(temp2, -3000, 3000);
         this->actor.posRot2.rot.y += temp2;
     } else {
         temp1 = (this->stateFlags1 & 0x800000) ? 3500 : 14000;
-        this->actor.posRot2.rot.x += (s32)((1.0f - Math_Coss(sControlInput->rel.in.y * 200)) * 1500.0f) *
-                                     ((sControlInput->rel.in.y >= 0) ? 1 : -1);
+        this->actor.posRot2.rot.x += (s32)((1.0f - Math_Coss(sControlInput->rel.stick_y * 200)) * 1500.0f) *
+                                     ((sControlInput->rel.stick_y >= 0) ? 1 : -1);
         this->actor.posRot2.rot.x = CLAMP(this->actor.posRot2.rot.x, -temp1, temp1);
 
         temp1 = 19114;
         temp2 = this->actor.posRot2.rot.y - this->actor.shape.rot.y;
-        temp2 += (s32)((1.0f - Math_Coss(sControlInput->rel.in.x * 200)) * -1500.0f) *
-                 ((sControlInput->rel.in.x >= 0) ? 1 : -1);
+        temp2 += (s32)((1.0f - Math_Coss(sControlInput->rel.stick_x * 200)) * -1500.0f) *
+                 ((sControlInput->rel.stick_x >= 0) ? 1 : -1);
         this->actor.posRot2.rot.y = CLAMP(temp2, -temp1, temp1) + this->actor.shape.rot.y;
     }
 
@@ -10633,7 +10639,7 @@ void func_8084B000(Player* this) {
 void func_8084B158(GlobalContext* globalCtx, Player* this, Input* input, f32 arg3) {
     f32 temp;
 
-    if ((input != NULL) && (input->press.in.button & (A_BUTTON | B_BUTTON))) {
+    if ((input != NULL) && CHECK_BTN_ANY(input->press.button, BTN_A | BTN_B)) {
         temp = 1.0f;
     } else {
         temp = 0.5f;
@@ -10663,10 +10669,11 @@ void func_8084B1D8(Player* this, GlobalContext* globalCtx) {
 
     if ((this->csMode != 0) || (this->unk_6AD == 0) || (this->unk_6AD >= 4) || func_80833B54(this) ||
         (this->unk_664 != NULL) || !func_8083AD4C(globalCtx, this) ||
-        (((this->unk_6AD == 2) && ((sControlInput->press.in.button & (A_BUTTON | B_BUTTON | R_TRIG)) ||
+        (((this->unk_6AD == 2) && (CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_R) ||
                                    func_80833B2C(this) || (!func_8002DD78(this) && !func_808334B4(this)))) ||
-         ((this->unk_6AD == 1) && (sControlInput->press.in.button & (A_BUTTON | B_BUTTON | R_TRIG | U_CBUTTONS |
-                                                                     L_CBUTTONS | R_CBUTTONS | D_CBUTTONS))))) {
+         ((this->unk_6AD == 1) &&
+          CHECK_BTN_ANY(sControlInput->press.button,
+                        BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)))) {
         func_8083C148(this, globalCtx);
         func_80078884(NA_SE_SY_CAMERA_ZOOM_UP);
     } else if ((DECR(this->unk_850) == 0) || (this->unk_6AD != 2)) {
@@ -10947,7 +10954,7 @@ void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (CHECK_PAD(sControlInput->cur, A_BUTTON) || (this->actor.shape.unk_15 != 0)) {
+        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) || (this->actor.shape.unk_15 != 0)) {
             func_80837B60(this);
             if (this->unk_84F < 0) {
                 this->linearVelocity = -0.8f;
@@ -10995,8 +11002,8 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
     LinkAnimetionEntry* sp54;
     LinkAnimetionEntry* sp50;
 
-    sp84 = sControlInput->rel.in.y;
-    sp80 = sControlInput->rel.in.x;
+    sp84 = sControlInput->rel.stick_y;
+    sp80 = sControlInput->rel.stick_x;
 
     this->fallStartHeight = this->actor.posRot.pos.y;
     this->stateFlags2 |= 0x40;
@@ -11191,7 +11198,7 @@ void func_8084C760(Player* this, GlobalContext* globalCtx) {
             }
 
             if (!func_8083F570(this, globalCtx)) {
-                this->linearVelocity = sControlInput->rel.in.y * 0.03f;
+                this->linearVelocity = sControlInput->rel.stick_y * 0.03f;
             }
         }
         return;
@@ -11274,7 +11281,7 @@ s32 func_8084C9BC(Player* this, GlobalContext* globalCtx) {
             this->stateFlags2 |= 0x400000;
 
             if (EN_HORSE_CHECK_1(rideActor) ||
-                (EN_HORSE_CHECK_4(rideActor) && CHECK_PAD(sControlInput->press, A_BUTTON))) {
+                (EN_HORSE_CHECK_4(rideActor) && CHECK_BTN_ALL(sControlInput->press.button, BTN_A))) {
                 rideActor->actor.child = NULL;
                 func_80835DAC(globalCtx, this, func_8084D3E4, 0);
                 this->unk_878 = sp34 - rideActor->actor.posRot.pos.y;
@@ -11472,7 +11479,8 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
         }
 
         if (this->stateFlags1 & 0x100000) {
-            if (!func_8083AD4C(globalCtx, this) || (sControlInput->press.in.button & A_BUTTON) || func_80833BCC(this)) {
+            if (!func_8083AD4C(globalCtx, this) || CHECK_BTN_ANY(sControlInput->press.button, BTN_A) ||
+                func_80833BCC(this)) {
                 this->unk_6AD = 0;
                 this->stateFlags1 &= ~0x100000;
             } else {
@@ -11725,7 +11733,7 @@ void func_8084DC48(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F == 0) {
             if (this->unk_850 == 0) {
                 if (func_800A3BC0(globalCtx, &this->skelAnime) ||
-                    ((this->skelAnime.animCurrentFrame >= 22.0f) && !CHECK_PAD(sControlInput->cur, A_BUTTON))) {
+                    ((this->skelAnime.animCurrentFrame >= 22.0f) && !CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
                     func_8083D330(globalCtx, this);
                 } else if (func_800A4530(&this->skelAnime, 20.0f) != 0) {
                     this->actor.velocity.y = -2.0f;
@@ -11738,7 +11746,7 @@ void func_8084DC48(Player* this, GlobalContext* globalCtx) {
             func_8084B158(globalCtx, this, sControlInput, this->actor.velocity.y);
             this->unk_6C2 = 16000;
 
-            if (CHECK_PAD(sControlInput->cur, A_BUTTON) && !func_8083E5A8(this, globalCtx) &&
+            if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) && !func_8083E5A8(this, globalCtx) &&
                 !(this->actor.bgCheckFlags & 1) && (this->actor.waterY < D_80854784[CUR_UPG_VALUE(UPG_SCALE)])) {
                 func_8084DBC4(globalCtx, this, -2.0f);
             } else {
@@ -11810,7 +11818,8 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
             Audio_PlaySoundGeneral(NA_SE_SY_GET_BOXITEM, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
             if ((this->getItemId == GI_HEART_CONTAINER_2) || (this->getItemId == GI_HEART_CONTAINER) ||
-                ((this->getItemId == GI_HEART_PIECE) && ((gSaveContext.questItems & 0xF0000000) == 0x40000000))) {
+                ((this->getItemId == GI_HEART_PIECE) &&
+                 ((gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000))) {
                 temp1 = 0x924;
             } else {
                 temp1 = temp2 = (this->getItemId == GI_HEART_PIECE) ? 0x39 : 0x922;
@@ -11900,9 +11909,9 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
             func_80853148(globalCtx, this->targetActor);
-        } else if (this->naviMessageId < 0) {
+        } else if (this->naviTextId < 0) {
             this->targetActor = this->naviActor;
-            this->naviActor->textId = -this->naviMessageId;
+            this->naviActor->textId = -this->naviTextId;
             func_80853148(globalCtx, this->targetActor);
         } else if (!func_8083B040(this, globalCtx)) {
             func_8083A098(this, &D_04003098, globalCtx);
@@ -12090,7 +12099,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (sp28 & 2) {
-                    func_80087680(globalCtx);
+                    Magic_Fill(globalCtx);
                 }
 
                 if (sp28 & 4) {
@@ -12196,7 +12205,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
     }
 
     if (func_800A4530(&this->skelAnime, 37.0f)) {
-        func_80839680(globalCtx, this, &this->leftHandPos, &D_80854A1C, 1);
+        Player_SpawnFairy(globalCtx, this, &this->leftHandPos, &D_80854A1C, FAIRY_REVIVE_BOTTLE);
         Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
         func_8002F7DC(&this->actor, NA_SE_EV_BOTTLE_CAP_OPEN);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
@@ -12495,7 +12504,7 @@ void func_8084FB10(Player* this, GlobalContext* globalCtx) {
 
         if (func_80832594(this, 1, 100)) {
             this->unk_84F = -1;
-            func_80029FAC(globalCtx, &this->actor.posRot.pos, this->actor.scale.x);
+            EffectSsIcePiece_SpawnBurst(globalCtx, &this->actor.posRot.pos, this->actor.scale.x);
             func_8002F7DC(&this->actor, NA_SE_PL_ICE_BROKEN);
         } else {
             this->stateFlags2 |= 0x4000;
@@ -12529,8 +12538,9 @@ void func_8084FBF4(Player* this, GlobalContext* globalCtx) {
 s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
     sControlInput = &globalCtx->state.input[0];
 
-    if ((CHECK_PAD(sControlInput->cur, A_BUTTON | L_TRIG | R_TRIG) && CHECK_PAD(sControlInput->press, B_BUTTON)) ||
-        (CHECK_PAD(sControlInput->cur, L_TRIG) && CHECK_PAD(sControlInput->press, R_JPAD))) {
+    if ((CHECK_BTN_ALL(sControlInput->cur.button, BTN_A | BTN_L | BTN_R) &&
+         CHECK_BTN_ALL(sControlInput->press.button, BTN_B)) ||
+        (CHECK_BTN_ALL(sControlInput->cur.button, BTN_L) && CHECK_BTN_ALL(sControlInput->press.button, BTN_DRIGHT))) {
 
         D_808535D0 ^= 1;
 
@@ -12542,7 +12552,7 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
     if (D_808535D0) {
         f32 speed;
 
-        if (CHECK_PAD(sControlInput->cur, R_TRIG)) {
+        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
             speed = 100.0f;
         } else {
             speed = 20.0f;
@@ -12550,24 +12560,24 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
 
         func_8006375C(3, 2, "DEBUG MODE");
 
-        if (!CHECK_PAD(sControlInput->cur, L_TRIG)) {
-            if (CHECK_PAD(sControlInput->cur, B_BUTTON)) {
+        if (!CHECK_BTN_ALL(sControlInput->cur.button, BTN_L)) {
+            if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
                 this->actor.posRot.pos.y += speed;
-            } else if (CHECK_PAD(sControlInput->cur, A_BUTTON)) {
+            } else if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A)) {
                 this->actor.posRot.pos.y -= speed;
             }
 
-            if (sControlInput->cur.in.button & (U_JPAD | L_JPAD | D_JPAD | R_JPAD)) {
+            if (CHECK_BTN_ANY(sControlInput->cur.button, BTN_DUP | BTN_DLEFT | BTN_DDOWN | BTN_DRIGHT)) {
                 s16 angle;
                 s16 temp;
 
                 angle = temp = func_8005A948(ACTIVE_CAM);
 
-                if (CHECK_PAD(sControlInput->cur, D_JPAD)) {
+                if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_DDOWN)) {
                     angle = temp + 0x8000;
-                } else if (CHECK_PAD(sControlInput->cur, L_JPAD)) {
+                } else if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_DLEFT)) {
                     angle = temp + 0x4000;
-                } else if (CHECK_PAD(sControlInput->cur, R_JPAD)) {
+                } else if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_DRIGHT)) {
                     angle = temp - 0x4000;
                 }
 
@@ -12583,7 +12593,7 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.x = 0.0f;
 
-        if (CHECK_PAD(sControlInput->cur, L_TRIG) && CHECK_PAD(sControlInput->press, L_JPAD)) {
+        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_L) && CHECK_BTN_ALL(sControlInput->press.button, BTN_DLEFT)) {
             Flags_SetTempClear(globalCtx, globalCtx->roomCtx.curRoom.num);
         }
 
@@ -12675,7 +12685,6 @@ s32 func_80850224(Player* this, GlobalContext* globalCtx) {
 }
 
 Vec3f D_80854A40 = { 0.0f, 40.0f, 45.0f };
-Vec3f D_80854A4C = { 0.0f, 0.0f, 0.0f };
 
 void func_808502D0(Player* this, GlobalContext* globalCtx) {
     struct_80854190* sp44 = &D_80854190[this->swordAnimation];
@@ -12723,11 +12732,12 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
             }
         } else if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
             if ((this->swordAnimation == 0x16) || (this->swordAnimation == 0x13)) {
-                Vec3f sp30;
+                static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+                Vec3f shockwavePos;
                 f32 sp2C;
 
-                sp30.y = func_8083973C(globalCtx, this, &D_80854A40, &sp30);
-                sp2C = this->actor.posRot.pos.y - sp30.y;
+                shockwavePos.y = func_8083973C(globalCtx, this, &D_80854A40, &shockwavePos);
+                sp2C = this->actor.posRot.pos.y - shockwavePos.y;
 
                 Math_ApproxUpdateScaledS(&this->actor.posRot2.rot.x, atan2s(45.0f, sp2C), 800);
                 func_80836AB8(this, 1);
@@ -12736,7 +12746,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                      ((this->swordAnimation == 0x13) && func_800A4530(&this->skelAnime, 2.0f))) &&
                     (sp2C > -40.0f) && (sp2C < 40.0f)) {
                     func_80842A28(globalCtx, this);
-                    func_80029024(globalCtx, &sp30, &D_80854A4C, &D_80854A4C);
+                    EffectSsBlast_SpawnWhiteShockwave(globalCtx, &shockwavePos, &zeroVec, &zeroVec);
                 }
             }
         }
@@ -13644,7 +13654,7 @@ void func_808524B0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 }
 
 void func_808524D0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
-    sControlInput->press.in.button |= B_BUTTON;
+    sControlInput->press.button |= BTN_B;
 
     func_80844E68(this, globalCtx);
 }
@@ -13707,14 +13717,12 @@ Vec3s D_80855210[2][2] = {
     { { -200, 500, 0 }, { 600, 400, 600 } },
 };
 
-Vec3f D_80855228 = { 0.0f, 0.0f, 0.0f };
-
-Color_RGB8 D_80855234 = { 255, 255, 255 };
-Color_RGB8 D_80855238 = { 0, 128, 128 };
-
 void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    static Color_RGB8 primColor = { 255, 255, 255 };
+    static Color_RGB8 envColor = { 0, 128, 128 };
     s32 age = gSaveContext.linkAge;
-    Vec3f sp40;
+    Vec3f sparklePos;
     Vec3f sp34;
     Vec3s* ptr;
 
@@ -13731,9 +13739,9 @@ void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     sp34.y = ptr[0].y + Math_Rand_CenteredFloat(ptr[1].y);
     sp34.z = ptr[0].z + Math_Rand_CenteredFloat(ptr[1].z);
 
-    SkinMatrix_Vec3fMtxFMultXYZ(&this->shieldMf, &sp34, &sp40);
+    SkinMatrix_Vec3fMtxFMultXYZ(&this->shieldMf, &sp34, &sparklePos);
 
-    func_80028BB0(globalCtx, &sp40, &D_80855228, &D_80855228, &D_80855234, &D_80855238, 600, -10);
+    EffectSsKiraKira_SpawnDispersed(globalCtx, &sparklePos, &zeroVec, &zeroVec, &primColor, &envColor, 600, -10);
 }
 
 void func_8085283C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {

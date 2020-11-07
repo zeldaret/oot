@@ -1,5 +1,6 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000000
 
@@ -336,7 +337,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(10.0f);
         pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(10.0f);
         pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(10.0f);
-        func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -394,7 +395,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
         pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
-        func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
+        EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
@@ -749,12 +750,12 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
         }
     }
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562),
               G_MTX_MODELVIEW | G_MTX_LOAD);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115530[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115530[iconNb]));
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_04042440);
+    gSPDisplayList(POLY_OPA_DISP++, &D_04042440);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
 }
@@ -769,7 +770,7 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
 
-    oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
 
     if (this->actor.params == ITEM00_BOMBS_SPECIAL) {
         iconNb = 1;
@@ -777,13 +778,13 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
         iconNb -= 3;
     }
 
-    oGfxCtx->polyOpa.p = func_800946E4(oGfxCtx->polyOpa.p);
+    POLY_OPA_DISP = func_800946E4(POLY_OPA_DISP);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115544[iconNb]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115544[iconNb]));
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_0403F070);
+    gSPDisplayList(POLY_OPA_DISP++, &D_0403F070);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
 }
@@ -798,15 +799,15 @@ void func_8001F1F4(EnItem00* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1634),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1634),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_0403BBA0);
+    gSPDisplayList(POLY_OPA_DISP++, &D_0403BBA0);
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1644),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1644),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_0403BCD8);
+    gSPDisplayList(POLY_XLU_DISP++, &D_0403BCD8);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
 }
@@ -821,9 +822,9 @@ void func_8001F334(EnItem00* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1670),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1670),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, &D_0403B030);
+    gSPDisplayList(POLY_XLU_DISP++, &D_0403B030);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
 }
@@ -876,8 +877,9 @@ EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 pa
     if (((params & 0x00FF) == ITEM00_FLEXIBLE) && !param4000) {
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
         spawnedActor = (EnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
-                                              spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
-        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
+                                              spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, FAIRY_HEAL_TIMED);
+        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
+                                          DEADSOUND_REPEAT_MODE_OFF, 40);
     } else {
         if (!param8000) {
             params = func_8001F404(params & 0x00FF);
@@ -919,8 +921,9 @@ EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 p
     if (((params & 0x00FF) == ITEM00_FLEXIBLE) && !param4000) {
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
         spawnedActor = (EnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
-                                              spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
-        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
+                                              spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, FAIRY_HEAL_TIMED);
+        EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
+                                          DEADSOUND_REPEAT_MODE_OFF, 40);
     } else {
         params = func_8001F404(params & 0x00FF);
         if (params != -1) {
@@ -988,8 +991,9 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
     if (dropId == ITEM00_FLEXIBLE) {
         if (gSaveContext.health <= 0x10) { // 1 heart or less
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z, 0,
-                        0, 0, 0x0002);
-            EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, 1, 1, 40);
+                        0, 0, FAIRY_HEAL_TIMED);
+            EffectSsDeadSound_SpawnStationary(globalCtx, spawnPos, NA_SE_EV_BUTTERFRY_TO_FAIRY, true,
+                                              DEADSOUND_REPEAT_MODE_OFF, 40);
             return;
         } else if (gSaveContext.health <= 0x30) { // 3 hearts or less
             params = 0xB * 0x10;

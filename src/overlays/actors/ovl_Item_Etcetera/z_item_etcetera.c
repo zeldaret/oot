@@ -19,7 +19,7 @@ void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx);
 void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx);
 void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx);
-void func_80B8598C(ItemEtcetera* this, GlobalContext* globalCtx);
+void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx);
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx);
 void func_80B85B28(ItemEtcetera* this, GlobalContext* globalCtx);
 void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, GlobalContext* globalCtx);
@@ -139,36 +139,33 @@ void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
         if (0) {} // Necessary to match
         func_8002F434(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
         if ((globalCtx->gameplayFrames & 0xD) == 0) {
-            func_800293E4(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
     }
 }
 
-void func_80B8598C(ItemEtcetera* this, GlobalContext* globalCtx) {
+void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
+    static Vec3f velocity = { 0.0f, 0.2f, 0.0f };
+    static Vec3f accel = { 0.0f, 0.05f, 0.0f };
+    static Color_RGB8 primColor = { 255, 255, 255 };
+    static Color_RGB8 envColor = { 255, 50, 50 };
+    Vec3f pos;
 
-    static Vec3f D_80B85D74 = { 0.0f, 0.2f, 0.0f };
-    static Vec3f D_80B85D80 = { 0.0f, 0.05f, 0.0f };
-
-    static Color_RGB8 D_80B85D8C = { 255, 255, 255 };
-    static Color_RGB8 D_80B85D90 = { 255, 50, 50 };
-
-    Vec3f vec;
-
-    D_80B85D74.x = Math_Rand_CenteredFloat(3.0f);
-    D_80B85D74.z = Math_Rand_CenteredFloat(3.0f);
-    D_80B85D74.y = -0.05f;
-    D_80B85D80.y = -0.025f;
-    vec.x = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
-    vec.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
-    vec.z = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
-    func_80028BB0(globalCtx, &vec, &D_80B85D74, &D_80B85D80, &D_80B85D8C, &D_80B85D90, 0x1388, 0x10);
+    velocity.x = Math_Rand_CenteredFloat(3.0f);
+    velocity.z = Math_Rand_CenteredFloat(3.0f);
+    velocity.y = -0.05f;
+    accel.y = -0.025f;
+    pos.x = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
+    pos.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
+    pos.z = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
+    EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 5000, 16);
 }
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     if (!(this->actor.bgCheckFlags & 1)) {
-        func_80B8598C(this, globalCtx);
+        ItemEtcetera_SpawnSparkles(this, globalCtx);
     }
     this->actor.shape.rot.y += 0x400;
     func_80B85824(this, globalCtx);

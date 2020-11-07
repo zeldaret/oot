@@ -96,8 +96,9 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_YUKABYUN_FLY - SFX_FLAG);
 }
 
-void func_80B43BCC(EnYukabyun* this, GlobalContext* globalCtx) {
-    func_800297A4(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 0x514, 0x12C, 0xF, 0x5F, 0xA, &D_06000A60);
+void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 1300, 300, 15, OBJECT_YUKABYUN, 10,
+                             &D_06000A60);
     Actor_Kill(&this->actor);
 }
 
@@ -113,13 +114,13 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.maskA &= ~0x2;
         this->actor.flags &= ~0x5;
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
-        this->actionfunc = func_80B43BCC;
+        this->actionfunc = EnYukabyun_Break;
     }
 
     this->actionfunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
 
-    if (!(this->actionfunc == func_80B43A94 || this->actionfunc == func_80B43BCC)) {
+    if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
         Collider_CylinderUpdate(&this->actor, &this->collider);
 
@@ -138,10 +139,10 @@ void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 366);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373),
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B43F64[this->unk_152]));
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 373),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000970);
+    gSPDisplayList(POLY_OPA_DISP++, D_06000970);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_yukabyun.c", 378);
 }

@@ -214,7 +214,7 @@ glabel func_80AC14A8
 /* 010F8 80AC1758 AFB20010 */  sw      $s2, 0x0010($sp)           
 /* 010FC 80AC175C AFB30014 */  sw      $s3, 0x0014($sp)           
 /* 01100 80AC1760 AFA20018 */  sw      $v0, 0x0018($sp)           
-/* 01104 80AC1764 0C00A5A5 */  jal     func_80029694              
+/* 01104 80AC1764 0C00A5A5 */  jal     EffectSsDtBubble_SpawnCustomColor              
 /* 01108 80AC1768 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 0110C 80AC176C 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 01110 80AC1770 1614FFE3 */  bne     $s0, $s4, .L80AC1700       

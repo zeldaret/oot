@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
@@ -9,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
 VisMono D_80161498;
-Color_RGBA8 D_801614B0;
+Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
 u64 D_801614D0[0xA00];
@@ -147,8 +146,8 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx) {
                 globalCtx->lightCtx.unk_0A, 1000);
 }
 
-void Gameplay_Destroy(GlobalContext* globalCtx) {
-    s32 pad;
+void Gameplay_Destroy(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
     Player* player = PLAYER;
 
     globalCtx->state.gfxCtx->callback = NULL;
@@ -192,7 +191,8 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc and stack usage differences
 // also missing some extra duplicated instructions
-void Gameplay_Init(GlobalContext* globalCtx) {
+void Gameplay_Init(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
     GraphicsContext* gfxCtx;
     void* zAlloc; // 0x84
     void* zAllocAligned;
@@ -235,7 +235,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     globalCtx->cameraPtrs[0]->uid = 0;
     globalCtx->activeCamera = 0;
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
-    func_800A9D28(globalCtx, &globalCtx->sub_1F74);
+    Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
     func_80110450(globalCtx);
@@ -318,7 +318,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {
-            gSaveContext.unk_14++;
+            gSaveContext.numDays++;
             gSaveContext.unk_18++;
             gSaveContext.dogIsLost = true;
             if (Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
@@ -921,7 +921,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if (globalCtx->unk_1242B != 0) {
-                if (CHECK_PAD(input[0].press, U_CBUTTONS)) {
+                if (CHECK_BTN_ALL(input[0].press.button, BTN_CUP)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
@@ -1080,27 +1080,27 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
     gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x00, NULL);
-    gSPSegment(oGfxCtx->overlay.p++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
+    gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
+    gSPSegment(OVERLAY_DISP++, 0x00, NULL);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(oGfxCtx->overlay.p++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
+    gSPSegment(OVERLAY_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(oGfxCtx->overlay.p++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
+    gSPSegment(OVERLAY_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x02, globalCtx->sceneSegment);
-    gSPSegment(oGfxCtx->overlay.p++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(POLY_XLU_DISP++, 0x02, globalCtx->sceneSegment);
+    gSPSegment(OVERLAY_DISP++, 0x02, globalCtx->sceneSegment);
 
     func_80095248(gfxCtx, 0, 0, 0);
 
     if ((HREG(80) != 10) || (HREG(82) != 0)) {
-        oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
-        oGfxCtx->polyXlu.p = func_800BC8A0(globalCtx, oGfxCtx->polyXlu.p);
+        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
+        POLY_XLU_DISP = func_800BC8A0(globalCtx, POLY_XLU_DISP);
 
         func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
         func_800AAA50(&globalCtx->view, 15);
@@ -1120,12 +1120,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         globalCtx->unk_11DE0 = Matrix_MtxFToMtx(Matrix_CheckFloats(&globalCtx->mf_11DA0, "../z_play.c", 4005),
                                                 Graph_Alloc(gfxCtx, sizeof(Mtx)));
 
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x01, globalCtx->unk_11DE0);
+        gSPSegment(POLY_OPA_DISP++, 0x01, globalCtx->unk_11DE0);
 
         if ((HREG(80) != 10) || (HREG(92) != 0)) {
-            Gfx* sp1CC = oGfxCtx->polyOpa.p;
-            Gfx* gfxP = Graph_GfxPlusOne(oGfxCtx->polyOpa.p);
-            gSPDisplayList(oGfxCtx->overlay.p++, gfxP);
+            Gfx* sp1CC = POLY_OPA_DISP;
+            Gfx* gfxP = Graph_GfxPlusOne(POLY_OPA_DISP);
+            gSPDisplayList(OVERLAY_DISP++, gfxP);
 
             if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
@@ -1149,16 +1149,17 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             gSPEndDisplayList(gfxP++);
             Graph_BranchDlist(sp1CC, gfxP);
-            oGfxCtx->polyOpa.p = gfxP;
+            POLY_OPA_DISP = gfxP;
         }
 
         if (gTrnsnUnkState == 3) {
-            Gfx* sp88 = oGfxCtx->polyOpa.p;
+            Gfx* sp88 = POLY_OPA_DISP;
             TransitionUnk_Draw(&sTrnsnUnk, &sp88);
-            oGfxCtx->polyOpa.p = sp88;
+            POLY_OPA_DISP = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
-            PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
+            PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer,
+                                gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
                 MsgEvent_SendNullTask();
@@ -1169,9 +1170,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             }
 
             if (R_PAUSE_MENU_MODE == 3) {
-                Gfx* sp84 = oGfxCtx->polyOpa.p;
+                Gfx* sp84 = POLY_OPA_DISP;
                 func_800C24BC(&globalCtx->preRenderCtx, &sp84);
-                oGfxCtx->polyOpa.p = sp84;
+                POLY_OPA_DISP = sp84;
                 goto Gameplay_Draw_DrawOverlayElements;
             } else {
                 s32 sp80;
@@ -1329,7 +1330,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/Gameplay_Draw.s")
 #endif
 
-void Gameplay_Main(GlobalContext* globalCtx) {
+void Gameplay_Main(GameState* thisx) {
+    GlobalContext* globalCtx = (GlobalContext*)thisx;
+
     D_8012D1F8 = &globalCtx->state.input[0];
 
     DebugDisplay_Init();
@@ -1724,12 +1727,12 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 }
 
 void Gameplay_SaveSceneFlags(GlobalContext* globalCtx) {
-    SaveSceneFlags* sceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
+    SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
 
-    sceneFlags->chest = globalCtx->actorCtx.flags.chest;
-    sceneFlags->swch = globalCtx->actorCtx.flags.swch;
-    sceneFlags->clear = globalCtx->actorCtx.flags.clear;
-    sceneFlags->collect = globalCtx->actorCtx.flags.collect;
+    savedSceneFlags->chest = globalCtx->actorCtx.flags.chest;
+    savedSceneFlags->swch = globalCtx->actorCtx.flags.swch;
+    savedSceneFlags->clear = globalCtx->actorCtx.flags.clear;
+    savedSceneFlags->collect = globalCtx->actorCtx.flags.collect;
 }
 
 void Gameplay_SetRespawnData(GlobalContext* globalCtx, s32 respawnMode, s16 entranceIndex, s32 roomIndex,
