@@ -21,28 +21,18 @@ void func_8096E7CC(DemoEc* this, GlobalContext* globalCtx);
 void func_8096E8E4(DemoEc* this, GlobalContext* globalCtx);
 void func_8096E9E8(DemoEc* this, GlobalContext* globalCtx);
 void func_8096EAE8(DemoEc* this, GlobalContext* globalCtx);
-void func_8096EAE8(DemoEc* this, GlobalContext* globalCtx);
-void func_8096EAE8(DemoEc* this, GlobalContext* globalCtx);
-void func_8096EAE8(DemoEc* this, GlobalContext* globalCtx);
 void func_8096E244(DemoEc* this, GlobalContext* globalCtx);
 void func_8096E418(DemoEc* this, GlobalContext* globalCtx);
-void func_8096EDFC(DemoEc* this, GlobalContext* globalCtx);
-void func_8096EDFC(DemoEc* this, GlobalContext* globalCtx);
 void func_8096EDFC(DemoEc* this, GlobalContext* globalCtx);
 void func_8096F010(DemoEc* this, GlobalContext* globalCtx);
 void func_8096F12C(DemoEc* this, GlobalContext* globalCtx);
 void func_8096F454(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F6D8(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F6D8(DemoEc* this, GlobalContext* globalCtx);
 void func_8096F6D8(DemoEc* this, GlobalContext* globalCtx);
 void func_8096F808(DemoEc* this, GlobalContext* globalCtx);
 void func_8096F924(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FA40(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FB48(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FCEC(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FE08(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FE08(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FE08(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FE08(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FFBC(DemoEc* this, GlobalContext* globalCtx);
 void func_80970140(DemoEc* this, GlobalContext* globalCtx);
@@ -97,7 +87,7 @@ void func_8096FB18(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FCA8(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FDCC(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FF7C(DemoEc* this, GlobalContext* globalCtx);
-void func_8097009C(DemoEc* this, GlobalContext* globalCtx);
+ void func_8097009C(DemoEc* this, GlobalContext* globalCtx);
 
 static s16 D_80970350[] = { 0x00C0, 0x0088, 0x0133, 0x00FC, 0x00FD, 0x010C, 0x0107, 0x0115, 0x010D,
                             0x0121, 0x0122, 0x0122, 0x0122, 0x0122, 0x00FC, 0x00FD, 0x0116, 0x0116,
@@ -111,25 +101,25 @@ static s16 D_80970398[] = { 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x01
 static Color_RGBA8 D_809703E0 = { 00, 130, 70, 255 };
 static Color_RGBA8 D_809703E4 = { 110, 170, 20, 255 };
 static Gfx* D_809703E8[] = { 0x06000F4C, 0x06001A0C, 0x06001E0C };
-s32 D_809703F4 = 0x46BE3CFF;
-s32 D_809703F8 = 0x641E00FF;
+static Gfx* D_809703F4 = 0x46BE3CFF;
+static Gfx* D_809703F8 = 0x641E00FF;
 static Gfx* D_809703FC[] = { 0x060005FC, 0x060009FC, 0x06000DFC };
-s32 D_80970408 = 0x003264FF;
-s32 D_8097040C = 0x0032A0FF;
+static Color_RGBA8 D_80970408 = { 0, 50, 100, 255 };
+static Color_RGBA8 D_8097040C = { 0, 50, 160, 255 };
 static s32 D_80970410[] = { 0x0600057C, 0x0600067C, 0x0600077C };
-s32 D_8097041C = 0xFFFFFFFF;
-s32 D_80970420 = 0xFFFFFFFF;
-s32 D_80970424[] = { 0x060007C8, 0x06000FC8, 0x060017C8 };
-s32 D_80970430[] = { 0x06000708, 0x06000F08, 0x06001708 };
-s32 D_8097043C[] = { 0x06003E40, 0x06004640, 0x06004E40 };
-s32 D_80970448[] = { 0x06001470, 0x06001870, 0x06001C70, 0x06002070 };
-s32 D_80970458[] = { 0x06004FF0, 0x06005930, 0x06005D30, 0x06006130 };
-s32 D_80970468[] = { 0x060008C8, 0x060010C8, 0x060018C8 };
+static Color_RGBA8 D_8097041C = {255,255,255,255};
+static Color_RGBA8 D_80970420 = {255,255,255,255};
+static Gfx* D_80970424[] = { 0x060007C8, 0x06000FC8, 0x060017C8 };
+static Gfx* D_80970430[] = { 0x06000708, 0x06000F08, 0x06001708 };
+static Gfx* D_8097043C[] = { 0x06003E40, 0x06004640, 0x06004E40 };
+static Gfx* D_80970448[] = { 0x06001470, 0x06001870, 0x06001C70, 0x06002070 };
+static Gfx* D_80970458[] = { 0x06004FF0, 0x06005930, 0x06005D30, 0x06006130 };
+static Gfx* D_80970468[] = { 0x060008C8, 0x060010C8, 0x060018C8 };
 Gfx* D_80970474[] = { 0x060030D8, 0x060034D8, 0x060038D8 };
-s32 D_80970480[] = { 0x06009250, 0x06009650, 0x06009A50 };
-s32 D_8097048C[] = { 0x06003968, 0x06003D68, 0x06004168 };
-s32 D_80970498[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
-s32 D_809704A4[] = { 0x06002570, 0x06002C70, 0x06003070 };
+static Gfx* D_80970480[] = { 0x06009250, 0x06009650, 0x06009A50 };
+static Gfx* D_8097048C[] = { 0x06003968, 0x06003D68, 0x06004168 };
+static Gfx* D_80970498[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+static Gfx* D_809704A4[] = { 0x06002570, 0x06002C70, 0x06003070 };
 
 DemoEcActionFunc D_809704B0[] = {
     // Animate Funcs?
@@ -205,6 +195,17 @@ extern Gfx D_06007AC0[];
 extern AnimationHeader D_06005F20;
 extern Gfx D_06006920[];
 extern Gfx D_060004C8[];
+extern Gfx D_06005BD0[];
+extern Gfx D_06005AC0[];
+extern Gfx D_06005990[];
+extern Gfx D_06005880[];
+extern Gfx D_06009198[];
+extern Gfx D_06009430[];
+extern Gfx D_06009690[];
+extern Gfx D_060035D8[];
+extern Gfx D_060074C8[];
+extern Gfx D_0600DE80[];
+extern Gfx D_06003770[];
 
 const ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
@@ -218,7 +219,10 @@ const ActorInit Demo_Ec_InitVars = {
     (ActorFunc)DemoEc_Draw,
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/DemoEc_Destroy.s")
+void DemoEc_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    DemoEc* this = THIS;
+    SkelAnime_Free(&this->skelAnime, globalCtx);
+}
 
 void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoEc* this = THIS;
@@ -300,7 +304,6 @@ void func_8096D79C(DemoEc* this, AnimationHeader* animation, u8 arg2, f32 transi
     SkelAnime_ChangeAnim(&this->skelAnime, animationA, playbackSpeed, phi_f0, phi_f2, arg2, transitionRate);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096D858.s")
 Gfx* func_8096D858(GraphicsContext* gfxCtx, u8 colors[4]) {
     Gfx* dList;
 
@@ -443,7 +446,7 @@ void func_8096E034(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096E070(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D8C4(this, globalCtx, &D_060076C0, &D_06007AC0, 0, 0);
+    func_8096D8C4(this, globalCtx, &D_060076C0, &D_06007AC0, NULL, NULL);
 }
 
 void func_8096E0A4(DemoEc* this, GlobalContext* globalCtx) {
@@ -500,7 +503,7 @@ void func_8096E31C(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096E33C(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096DA80(this, globalCtx, NULL, NULL, &D_809703E0, &D_809703E4, 0, 0);
+    func_8096DA80(this, globalCtx, NULL, NULL, &D_809703E0, &D_809703E4, NULL, NULL);
 }
 
 void func_8096E380(DemoEc* this, GlobalContext* globalCtx) {
@@ -540,7 +543,7 @@ void func_8096E518(DemoEc* this, GlobalContext* globalCtx) {
     s32 temp2 = this->unk_190;
     Gfx* temp = D_809703E8[temp2];
 
-    func_8096DA80(this, globalCtx, temp, NULL, &D_809703F4, &D_809703F8, 0, 0);
+    func_8096DA80(this, globalCtx, temp, NULL, &D_809703F4, &D_809703F8, NULL, NULL);
 }
 void func_8096E56C(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -564,7 +567,7 @@ void func_8096E648(DemoEc* this, GlobalContext* globalCtx) {
     s32 temp2 = this->unk_190;
     Gfx* temp = D_809703FC[temp2];
 
-    func_8096DA80(this, globalCtx, temp, NULL, &D_80970408, &D_8097040C, 0, 0);
+    func_8096DA80(this, globalCtx, temp, NULL, &D_80970408, &D_8097040C, NULL, NULL);
 }
 
 void func_8096E69C(DemoEc* this, GlobalContext* globalCtx) {
@@ -589,7 +592,7 @@ void func_8096E778(DemoEc* this, GlobalContext* globalCtx) {
     s32 temp2 = this->unk_190;
     Gfx* temp = D_80970410[temp2];
 
-    func_8096DA80(this, globalCtx, temp, NULL, &D_8097041C, &D_80970420, 0, 0);
+    func_8096DA80(this, globalCtx, temp, NULL, &D_8097041C, &D_80970420, NULL, NULL);
 }
 
 void func_8096E7CC(DemoEc* this, GlobalContext* globalCtx) {
@@ -614,7 +617,7 @@ void func_8096E8A8(DemoEc* this, GlobalContext* globalCtx) {
     s32 temp2 = this->unk_190;
     Gfx* temp = D_80970424[temp2];
 
-    func_8096D8C4(this, globalCtx, temp, 0, 0, 0);
+    func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
 }
 
 void func_8096E8E4(DemoEc* this, GlobalContext* globalCtx) {
@@ -634,9 +637,8 @@ void func_8096E97C(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096E9B8.s")
 void func_8096E9B8(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D8C4(this, globalCtx, &D_060004C8, 0, 0, 0);
+    func_8096D8C4(this, globalCtx, &D_060004C8, NULL, NULL, NULL);
 }
 
 void func_8096E9E8(DemoEc* this, GlobalContext* globalCtx) {
@@ -657,7 +659,7 @@ void func_8096EA80(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096EABC(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D8C4(this, globalCtx, NULL, 0, 0, 0);
+    func_8096D8C4(this, globalCtx, NULL, NULL, NULL, NULL);
 }
 
 void func_8096EAE8(DemoEc* this, GlobalContext* globalCtx) {
@@ -677,106 +679,56 @@ void func_8096EB80(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-// Override limb draw
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096EBBC.s")
-s32 func_8096EBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
-                  Gfx** gfx) {
-
-    /*s16 temp_v0;
-    DemoEc* this = (DemoEc*)thisx;
+s32 DemoEc_overrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+                            Gfx** gfx) {
     if (limbIndex == 1) {
-
-        gDPPipeSync(*gfx++);
-        temp_v0 = this->actor.params;
-        if (this->actor.params == 0xA) {
-            goto block_6;
-        }
-        else if (this->actor.params == 0xB) {
-            goto block_7;
-        }
-        else if (this->actor.params == 0xC) {
-            goto block_8;
-        }
-        else if (this->actor.params == 0xD) {
-            goto block_9;
-        }
-        return 0;
-    block_6:
-        gDPSetEnvColor(*gfx+1, 170, 10, 70, 255);
-        return 0;
-    block_7:
-        gDPSetEnvColor(*gfx++, 170, 200, 255, 255);
-        return 0;
-    block_8:
-        gDPSetEnvColor(*gfx++, 0, 230, 70, 255);
-        return 0;
-    block_9:
-        gDPSetEnvColor(*gfx++, 200, 0, 150, 255);
-        return 0;
-    }
-}*/
-
-    s16 temp_v0;
-    if (limbIndex == 1) {
-        temp_v0 = thisx->params;
-        gDPPipeSync(*gfx++);
+        gDPPipeSync((*gfx)++);
         switch (thisx->params) {
             case 0xA:
-                gDPSetEnvColor(*gfx+1, 170, 10, 70, 255);
-                return 0;
+                gDPSetEnvColor((*gfx)++, 170, 10, 70, 255);
+                break;
             case 0xB:
-                gDPSetEnvColor(*gfx++, 170, 200, 255, 255);
-                return 0;
+                gDPSetEnvColor((*gfx)++, 170, 200, 255, 255);
+                break;
             case 0xC:
-                gDPSetEnvColor(*gfx++, 0, 230, 70, 255);
-                return 0;
+                gDPSetEnvColor((*gfx)++, 0, 230, 70, 255);
+                break;
             case 0xD:
-                gDPSetEnvColor(*gfx++, 200, 0, 150, 255);
-                return 0;
-            default:
-                return 0;
+                gDPSetEnvColor((*gfx)++, 200, 0, 150, 255);
+                break;
         }
-        return 0;
+    }
+    return 0;
+}
+
+Gfx* func_8096ECBC(Actor* thisx) {
+    switch (thisx->params) {
+        case 0xA:
+            return D_06005BD0;
+        case 0xB:
+            return D_06005AC0;
+        case 0xC:
+            return D_06005990;
+        case 0xD:
+            return D_06005880;
+        default:
+            osSyncPrintf("\x1b[31mかつらが無い!!!!!!!!!!!!!!!!\n\x1b[m");
+            return 0;
     }
 }
 
-/*s32 func_8096EBBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
-    if (limbIndex == 1) {
-        // temp_a0 = *arg6;
-        //*arg6 = (void *) (temp_a0 + 8);
-        // temp_a0->unk4 = 0;
-        // temp_a0->unk0 = 0xE7000000;
-        gDPPipeSync(dList++);
-        switch (thisx->params) {
-            case 0xA:
-                gDPSetEnvColor(dList++, 170, 10, 70, 255);
-                return 0;
-            case 0xB:
-                gDPSetEnvColor(dList++, 170, 200, 255, 255);
-                return 0;
-            case 0xC:
-                gDPSetEnvColor(dList++, 0, 230, 70, 255);
-                return 0;
-            case 0xD:
-                return 0;
-            default:
-                gDPSetEnvColor(dList++, 200, 0, 150, 255);
-                return 0;
+void DemoEc_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
+    s32 temp_v0;
 
+    if (limbIndex == 0xF) {
+        temp_v0 = func_8096ECBC(actor);
+        gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(temp_v0));
     }
-    return 0;
-}*/
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096ECBC.s")
-void func_8096ECBC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot,
-                   Actor* thisx); // Post LimbDraw
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096ED40.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096EDC0.s")
-// void func_8096EDC0(DemoEc *this, GlobalContext *globalCtx) {
-//    func_8096D8C4(this, globalCtx, NULL, 0, &func_8096EBBC, &func_8096ED40);
-//}
+void func_8096EDC0(DemoEc* this, GlobalContext* globalCtx) {
+    func_8096D8C4(this, globalCtx, NULL, 0, DemoEc_overrideLimbDraw, DemoEc_PostLimbDraw);
+}
 
 void func_8096EDFC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -796,11 +748,35 @@ void func_8096EE98(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096EEDC.s")
+Gfx* func_8096EEDC(Actor* thisx) {
+    switch (thisx->params) {
+        case 0x10:
+            return D_06009198;
+        case 0x11:
+            return D_06009430;
+        case 0x12:
+            return D_06009690;
+        default:
+            osSyncPrintf("\x1b[31mかつらが無い!!!!!!!!!!!!!!!!\n\x1b[m");
+            return 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096EF4C.s")
+void DemoEc_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
+    s32 temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096EFCC.s")
+    if (limbIndex == 0xF) {
+        temp_v0 = func_8096EEDC(actor);
+        gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(temp_v0));
+    }
+}
+
+void func_8096EFCC(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_80970430[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, NULL, NULL, DemoEc_PostLimbDraw2);
+}
 
 void func_8096F010(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -813,7 +789,6 @@ void func_8096F010(DemoEc* this, GlobalContext* globalCtx) {
     this->unk_198 = 13;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096F0AC.s")
 void func_8096F0AC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D52C(this);
     func_8096D594(this, globalCtx);
@@ -821,7 +796,12 @@ void func_8096F0AC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096F0F0.s")
+void func_8096F0F0(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_8097043C[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
+}
 
 void func_8096F12C(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -835,7 +815,15 @@ void func_8096F12C(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D714(this, 3);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096F1D4.s")
+void func_8096F1D4(DemoEc *this) {
+    f32 currentFrame = this->skelAnime.animCurrentFrame;
+
+    if (currentFrame <= 32.0f) {
+        func_8096D714(this, 3);
+    } else {
+    func_8096D68C(this);
+    }
+}
 
 void func_8096F224(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DDBC(this, globalCtx);
@@ -890,7 +878,12 @@ void func_8096F3D4(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096F418.s")
+void func_8096F418(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_80970448[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, NULL, 0, 0);
+}
 
 void func_8096F454(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -950,7 +943,12 @@ void func_8096F640(DemoEc* this, GlobalContext* globalCtx) {
     func_8096F544(this, sp24);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096F69C.s")
+void func_8096F69C(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_80970458[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
+}
 
 void func_8096F6D8(DemoEc* this, GlobalContext* globalCtx) {
     AnimationHeader* phi_a1;
@@ -978,7 +976,9 @@ void func_8096F7A0(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096F7DC.s")
+void func_8096F7DC(DemoEc* this, GlobalContext* globalCtx) {
+    func_8096D8C4(this, globalCtx, NULL, NULL, NULL, NULL);
+}
 
 void func_8096F808(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -998,7 +998,12 @@ void func_8096F8A4(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096F8E8.s")
+void func_8096F8E8(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_80970468[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
+}
 
 void func_8096F924(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -1020,6 +1025,7 @@ void func_8096F9C0(DemoEc* this, GlobalContext* globalCtx) {
 
 void func_8096FA04(DemoEc* this, GlobalContext* globalCtx) {
     s32 temp = this->unk_190;
+
     func_8096D8C4(this, globalCtx, D_80970474[temp], 0, 0, 0);
 }
 
@@ -1040,7 +1046,9 @@ void func_8096FADC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096FB18.s")
+void func_8096FB18(DemoEc* this, GlobalContext* globalCtx) {
+    func_8096D8C4(this, globalCtx, &D_060035D8, NULL, NULL, NULL);
+}
 
 void func_8096FB48(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -1060,9 +1068,18 @@ void func_8096FBE4(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096FC28.s")
+void DemoEc_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
+    if ((limbIndex == 8) && (!(gSaveContext.unk_EC0 & 0x1000))) {
+        gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(D_060074C8));
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096FCA8.s")
+void func_8096FCA8(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_80970480[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, NULL, NULL, DemoEc_PostLimbDraw3);
+}
 
 void func_8096FCEC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -1081,7 +1098,12 @@ void func_8096FD88(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
 }
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096FDCC.s")
+void func_8096FDCC(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_8097048C[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
+}
 
 #ifdef NON_MATCHING
 void func_8096FE08(DemoEc* this, GlobalContext* globalCtx) {
@@ -1132,7 +1154,12 @@ void func_8096FF38(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096FF7C.s")
+void func_8096FF7C(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_80970498[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, &D_0600DE80, 0, 0);
+}
 
 void func_8096FFBC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
@@ -1152,7 +1179,12 @@ void func_80970058(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D54C(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8097009C.s")
+void func_8097009C(DemoEc* this, GlobalContext* globalCtx) {
+    s32 temp2 = this->unk_190;
+    Gfx* temp = D_809704A4[temp2];
+
+    func_8096D8C4(this, globalCtx, temp, &D_06003770, 0, 0);
+}
 
 void func_809700DC(DemoEc* this, GlobalContext* globalCtx) {
     s16 params;
@@ -1217,4 +1249,21 @@ void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_809702B0(DemoEc* this, GlobalContext* globalCtx) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/DemoEc_Draw.s")
+void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    DemoEc* this = THIS;
+    DemoEcActionFunc* actionFunc;
+
+    if ((this->unk_198 < 0) || (this->unk_198 >= 24) ||
+        (actionFunc = D_809705B0 + this->unk_198, *actionFunc == NULL)) {
+        // The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        if (actionFunc != D_809705B0) {
+            func_8096DD0C(this, globalCtx);
+            (this, globalCtx);
+        }
+        (*actionFunc)(this, globalCtx);
+        if (D_809705B0) {}
+    }
+}
