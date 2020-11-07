@@ -75,7 +75,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     UNK_TYPE sp30;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk_196 = (thisx->params >> 8) & 0xFF;
+    this->numShots = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     if (thisx->params == 0) {
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->limbDrawTable,
@@ -83,8 +83,8 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sOctorockColliderInit);
         func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
-        if ((this->unk_196 == 0xFF) || (this->unk_196 == 0)) {
-            this->unk_196 = 1;
+        if ((this->numShots == 0xFF) || (this->numShots == 0)) {
+            this->numShots = 1;
         }
         thisx->groundY = func_8003C9A4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
         if (!func_80042244(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
@@ -181,7 +181,7 @@ void func_80AC0B60(EnOkuta* this) {
 void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000344);
     if (this->actionFunc != EnOkuta_Shoot) {
-        this->timer = this->unk_196;
+        this->timer = this->numShots;
     }
     this->jumpHeight = this->actor.yDistFromLink + 20.0f;
     this->jumpHeight = CLAMP_MIN(this->jumpHeight, 10.0f);
