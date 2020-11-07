@@ -369,8 +369,7 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
             EnCrow_SetupWait(this);
         }
 
-        this->actor.scale.y = this->actor.scale.x;
-        this->actor.scale.z = this->actor.scale.x;
+        this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
     }
 }
 
