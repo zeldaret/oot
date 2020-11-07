@@ -470,43 +470,43 @@ void func_80AC1B80(EnOkuta* this) {
 
     if (this->actionFunc == EnOkuta_Appear) {
         if (animCurrentFrame < 8.0f) {
-            this->unk_364.x = this->unk_364.y = this->unk_364.z = 1.0f;
+            this->scale.x = this->scale.y = this->scale.z = 1.0f;
         } else if (animCurrentFrame < 10.0f) {
-            this->unk_364.x = this->unk_364.z = 1.0f;
-            this->unk_364.y = ((animCurrentFrame - 7.0f) * 0.4f) + 1.0f;
+            this->scale.x = this->scale.z = 1.0f;
+            this->scale.y = ((animCurrentFrame - 7.0f) * 0.4f) + 1.0f;
         } else if (animCurrentFrame < 14.0f) {
-            this->unk_364.x = this->unk_364.z = ((animCurrentFrame - 9.0f) * 0.075f) + 1.0f;
-            this->unk_364.y = 1.8f - ((animCurrentFrame - 9.0f) * 0.25f);
+            this->scale.x = this->scale.z = ((animCurrentFrame - 9.0f) * 0.075f) + 1.0f;
+            this->scale.y = 1.8f - ((animCurrentFrame - 9.0f) * 0.25f);
         } else {
-            this->unk_364.x = this->unk_364.z = 1.3f - ((animCurrentFrame - 13.0f) * 0.05f);
-            this->unk_364.y = ((animCurrentFrame - 13.0f) * 0.0333f) + 0.8f;
+            this->scale.x = this->scale.z = 1.3f - ((animCurrentFrame - 13.0f) * 0.05f);
+            this->scale.y = ((animCurrentFrame - 13.0f) * 0.0333f) + 0.8f;
         }
     } else if (this->actionFunc == EnOkuta_Hide) {
         if (animCurrentFrame < 3.0f) {
-            this->unk_364.y = 1.0f;
+            this->scale.y = 1.0f;
         } else if (animCurrentFrame < 4.0f) {
-            this->unk_364.y = (animCurrentFrame - 2.0f) + 1.0f;
+            this->scale.y = (animCurrentFrame - 2.0f) + 1.0f;
         } else {
-            this->unk_364.y = 2.0f - ((animCurrentFrame - 3.0f) * 0.333f);
+            this->scale.y = 2.0f - ((animCurrentFrame - 3.0f) * 0.333f);
         }
-        this->unk_364.x = this->unk_364.z = 1.0f;
+        this->scale.x = this->scale.z = 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
         if (animCurrentFrame < 5.0f) {
-            this->unk_364.x = this->unk_364.y = this->unk_364.z = (animCurrentFrame * 0.125f) + 1.0f;
+            this->scale.x = this->scale.y = this->scale.z = (animCurrentFrame * 0.125f) + 1.0f;
         } else if (animCurrentFrame < 7.0f) {
-            this->unk_364.x = this->unk_364.y = this->unk_364.z = 1.5f - ((animCurrentFrame - 4.0f) * 0.35f);
+            this->scale.x = this->scale.y = this->scale.z = 1.5f - ((animCurrentFrame - 4.0f) * 0.35f);
         } else if (animCurrentFrame < 17.0f) {
-            this->unk_364.x = this->unk_364.z = ((animCurrentFrame - 6.0f) * 0.05f) + 0.8f;
-            this->unk_364.y = 0.8f;
+            this->scale.x = this->scale.z = ((animCurrentFrame - 6.0f) * 0.05f) + 0.8f;
+            this->scale.y = 0.8f;
         } else {
-            this->unk_364.x = this->unk_364.z = 1.3f - ((animCurrentFrame - 16.0f) * 0.1f);
-            this->unk_364.y = ((animCurrentFrame - 16.0f) * 0.0666f) + 0.8f;
+            this->scale.x = this->scale.z = 1.3f - ((animCurrentFrame - 16.0f) * 0.1f);
+            this->scale.y = ((animCurrentFrame - 16.0f) * 0.0666f) + 0.8f;
         }
     } else if (this->actionFunc == EnOkuta_WaitToShoot) {
-        this->unk_364.x = this->unk_364.z = 1.0f;
-        this->unk_364.y = (sinf(0.19634955f * animCurrentFrame) * 0.2f) + 1.0f;
+        this->scale.x = this->scale.z = 1.0f;
+        this->scale.y = (sinf(0.19634955f * animCurrentFrame) * 0.2f) + 1.0f;
     } else {
-        this->unk_364.x = this->unk_364.y = this->unk_364.z = 1.0f;
+        this->scale.x = this->scale.y = this->scale.z = 1.0f;
     }
 }
 
@@ -554,7 +554,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actor.params == 0) {
             func_80AC1B80(this);
             this->collider.dim.height =
-                (((sOctorockColliderInit.dim.height * this->unk_364.y) - this->collider.dim.yShift) *
+                (((sOctorockColliderInit.dim.height * this->scale.y) - this->collider.dim.yShift) *
                  this->actor.scale.y * 100.0f);
         } else {
             sp34 = false;
@@ -646,8 +646,8 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         phi_f0 += this->timer;
     }
     if (limbIndex == 5) {
-        if ((this->unk_364.x != 1.0f) || (this->unk_364.y != 1.0f) || (this->unk_364.z != 1.0f)) {
-            scale = this->unk_364;
+        if ((this->scale.x != 1.0f) || (this->scale.y != 1.0f) || (this->scale.z != 1.0f)) {
+            scale = this->scale;
             doScale = true;
         }
     } else if (limbIndex == 8) {
