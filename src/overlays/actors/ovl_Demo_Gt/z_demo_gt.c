@@ -188,52 +188,166 @@ void func_8097DA78(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     EffectSsBomb2_SpawnLayered(globalCtx, arg1, arg2, arg3, (100.0f * arg4), (25.0f * arg4));
 }
 
-// Very similar methods
-// void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* vec);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DAC8.s")
-// void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* arg3) {
-//     Vec3f spC4;
-//     Vec3f spB8;
-//     s16 counter = 0;
-//     s32 i;
+void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* arg3) {
+    Vec3f spC4;
+    Vec3f spB8;
+    f32 temp_f0;
 
-//     for (i = 0; i < 12; i++) {
-//         f32 scale;
-//         s32 temp;
-//         spC4.x = Math_Sins(counter) * 46.0f;
-//         spC4.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
-//         spC4.z = Math_Coss(counter) * 46.0f;
+    s16 rotation = 0;
+    s16 phi_s0;
+    s32 i;
 
-//         spB8.x = (spC4.x * 0.1f) + 20.0f;
-//         spB8.y = Math_Rand_ZeroOne() * 16.0f;
-//         spB8.z = spC4.z * 0.1f;
+    for (i = 0; i < 12; i++) {
 
-//         spC4.x += arg3->x;
-//         spC4.y += arg3->y;
-//         spC4.z += arg3->z;
-//         scale = Math_Rand_ZeroOne();
-//         if (scale < 0.1f) {
-//             temp = 0x60;
-//         } else if (scale < 0.7f) {
-//             temp = 0x40;
-//         } else {
-//             temp = 0x20;
-//         }
+        spC4.x = Math_Sins(rotation) * 46.0f;
+        spC4.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+        spC4.z = Math_Coss(rotation) * 46.0f;
 
-//         scale = Math_Rand_ZeroOne();
-//         Math_Rand_ZeroOne();
-//         EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, arg3, -247, temp, 3, 0, 0, (scale * 10.0f) + 30.0f, 2, 300, 30,
-//                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
-//         counter += 0x1555;
-//     }
-// }
+        spB8.x = (spC4.x * 0.1f) + 20.0f;
+        spB8.y = Math_Rand_ZeroOne() * 16.0f;
+        spB8.z = spC4.z * 0.1f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DD28.s")
+        spC4.x += arg3->x;
+        spC4.y += arg3->y;
+        spC4.z += arg3->z;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097DF70.s")
+        temp_f0 = Math_Rand_ZeroOne();
+        if (temp_f0 < 0.1f) {
+            phi_s0 = 0x60;
+        } else if (temp_f0 < 0.7f) {
+            phi_s0 = 0x40;
+        } else {
+            phi_s0 = 0x20;
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E1D4.s")
-// End of very similar methods
+        EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, arg3, -247, phi_s0, 3, 0, 0,
+                             (s32)(Math_Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Math_Rand_ZeroOne() * 0.0f) + 30,
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+        rotation += 0x1555;
+    }
+}
+
+void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* pos) {
+    Vec3f spC4;
+    Vec3f spB8;
+
+    f32 temp_f0;
+
+    s16 rotation = 0;
+    s16 phi_s0;
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+
+        spC4.x = Math_Sins(rotation) * 30.0f;
+        spC4.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+        spC4.z = Math_Coss(rotation) * 30.0f;
+
+        spB8.x = 0.0f;
+        spB8.y = Math_Rand_ZeroOne() * -4.0f;
+        spB8.z = spC4.z * 0.1f;
+
+        spC4.x += pos->x;
+        spC4.y += pos->y;
+        spC4.z += pos->z;
+
+        temp_f0 = Math_Rand_ZeroOne();
+
+        if (temp_f0 < 0.1f) {
+            phi_s0 = 0x60;
+        } else if (temp_f0 < 0.7f) {
+            phi_s0 = 0x40;
+        } else {
+            phi_s0 = 0x20;
+        }
+
+        EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, pos, -0xF7, phi_s0, 3, 0, 0,
+                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 0x12C,
+                             (s32)(Math_Rand_ZeroOne() * 0.0f) + 0x1E, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+
+        rotation += 0x2000;
+    }
+}
+
+void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* pos) {
+    Vec3f spC4;
+    Vec3f spB8;
+    f32 temp_f0;
+
+    s16 rotation = 0;
+    s16 phi_s0;
+    s32 i;
+
+    for (i = 0; i < 0xC; i++) {
+
+        spC4.x = Math_Sins(rotation) * 16.0f;
+        spC4.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        spC4.z = Math_Coss(rotation) * 16.0f;
+
+        spB8.x = spC4.x * 0.6f;
+        spB8.y = (Math_Rand_ZeroOne() * 36.0f) + 6.0f;
+        spB8.z = spC4.z * 0.6f;
+
+        spC4.x += pos->x;
+        spC4.y += pos->y;
+        spC4.z += pos->z;
+
+        temp_f0 = Math_Rand_ZeroOne();
+
+        if (temp_f0 < 0.1f) {
+            phi_s0 = 0x61;
+        } else if (temp_f0 < 0.7f) {
+            phi_s0 = 0x41;
+        } else {
+            phi_s0 = 0x21;
+        }
+
+        EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, pos, -0xC8, phi_s0, 10, 10, 0,
+                             Math_Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Math_Rand_ZeroOne() * 30.0f) + 30,
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+        rotation += 0x1555;
+    }
+}
+
+void func_8097E1D4(GlobalContext* arg0, Vec3f* arg1, s16 arg2) {
+    Vec3f spC4;
+    Vec3f spB8;
+
+    f32 temp_f0;
+    s16 rotation = 0;
+    s16 phi_s0;
+    s32 i;
+
+    for (i = 0; i < 1; i++) {
+
+        spC4.x = Math_Sins(rotation) * 46.0f;
+        spC4.y = (Math_Rand_ZeroOne() * 75.0f) - 28.0f;
+        spC4.z = Math_Coss(rotation) * 46.0f;
+
+        spB8.x = Math_Sins(arg2) * 3.0f;
+        spB8.y = (Math_Rand_ZeroOne() * -4.0f) + 10.0f;
+        spB8.z = Math_Coss(arg2) * 3.0f;
+
+        spC4.x += arg1->x;
+        spC4.y += arg1->y;
+        spC4.z += arg1->z;
+
+        temp_f0 = Math_Rand_ZeroOne();
+        if (temp_f0 < 0.1f) {
+            phi_s0 = 0x61;
+        } else if (temp_f0 < 0.7f) {
+            phi_s0 = 0x41;
+        } else {
+            phi_s0 = 0x21;
+        }
+
+        EffectSsKakera_Spawn(arg0, &spC4, &spB8, arg1, -0xF7, phi_s0, 3, 0, 0,
+                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 0x12C,
+                             (s32)(Math_Rand_ZeroOne() * 0.0f) + 30, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+
+        rotation += 0x10000;
+    }
+}
 
 void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
                    s32 arg7, s16 arg8);
@@ -540,6 +654,41 @@ void func_8097F1D8(DemoGt* this) {
 
 void func_8097F280(DemoGt* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F280.s")
+// void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
+
+//     f32 temp_f0;
+
+//     if (globalCtx->csCtx.frames < 0xA0) {
+//         this->unk_178.x = 0x64;
+//         this->unk_178.y = 0xFF;
+//         this->unk_178.z = 0xC8;
+
+//         this->unk_188.x = 0xFF;
+//         this->unk_188.y = 0x78;
+//         this->unk_188.z = 0x64;
+
+//         this->unk_198.x += 1;
+//         this->unk_198.y -= 1;
+//     } else if (globalCtx->csCtx.frames < 170) {
+//         temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
+
+//         this->unk_178.x = (temp_f0 * -63.0f) + 163.0f;
+//         this->unk_178.y = (temp_f0 * -155.0f) + 255.0f;
+//         this->unk_178.z = temp_f0 * -100.0f + 200.0f;
+
+//         this->unk_188.x = (temp_f0 * -155.0f) + 255.0f;
+//         this->unk_188.y = (temp_f0 * -20.0f) + 120.0f;
+//         this->unk_188.z = 0x64;
+//     } else {
+//         this->unk_178.x = 0x64;
+//         this->unk_178.y = 0x64;
+//         this->unk_178.z = 0x64;
+
+//         this->unk_188.x = 0x64;
+//         this->unk_188.y = 0x64;
+//         this->unk_188.z = 0x64;
+//     }
+// }
 
 void func_8097F3EC(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2U, 1)) {
