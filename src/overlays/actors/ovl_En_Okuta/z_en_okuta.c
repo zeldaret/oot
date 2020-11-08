@@ -504,7 +504,7 @@ void EnOkuta_HeadScaleUpdate(EnOkuta* this) {
         }
     } else if (this->actionFunc == EnOkuta_WaitToShoot) {
         this->headScale.x = this->headScale.z = 1.0f;
-        this->headScale.y = (sinf(0.19634955f * animCurrentFrame) * 0.2f) + 1.0f;
+        this->headScale.y = (sinf((M_PI / 16) * animCurrentFrame) * 0.2f) + 1.0f;
     } else {
         this->headScale.x = this->headScale.y = this->headScale.z = 1.0f;
     }
@@ -602,7 +602,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnOkuta_GetMouthScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* mouthScale) {
     if (this->actionFunc == EnOkuta_WaitToShoot) {
         mouthScale->x = mouthScale->z = 1.0f;
-        mouthScale->y = (sinf(0.19634955f * animCurrentFrame) * 0.4f) + 1.0f;
+        mouthScale->y = (sinf((M_PI / 16) * animCurrentFrame) * 0.4f) + 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
         if (animCurrentFrame < 5.0f) {
             mouthScale->x = 1.0f;
@@ -674,7 +674,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);
 
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateZ(this->actor.initPosRot.rot.z * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateZ(this->actor.initPosRot.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1657),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_06003380);
