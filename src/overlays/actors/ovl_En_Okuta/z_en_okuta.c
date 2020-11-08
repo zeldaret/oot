@@ -168,7 +168,7 @@ void EnOkuta_SetupHide(EnOkuta* this) {
     this->actionFunc = EnOkuta_Hide;
 }
 
-void func_80AC0B60(EnOkuta* this) {
+void EnOkuta_SetupWaitToShoot(EnOkuta* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000DDC);
     if (this->actionFunc == EnOkuta_Shoot) {
         this->timer = 2;
@@ -178,7 +178,7 @@ void func_80AC0B60(EnOkuta* this) {
     this->actionFunc = EnOkuta_WaitToShoot;
 }
 
-void func_80AC0BC0(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000344);
     if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->numShots;
@@ -251,7 +251,7 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistFromLink < 160.0f) {
             EnOkuta_SetupHide(this);
         } else {
-            func_80AC0B60(this);
+            EnOkuta_SetupWaitToShoot(this);
         }
     } else if (this->skelAnime.animCurrentFrame <= 4.0f) {
         Actor_SetScale(&this->actor, this->skelAnime.animCurrentFrame * 0.25f * 0.01f);
@@ -308,7 +308,7 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
         temp_v0_2 = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
         phi_v1 = ABS(temp_v0_2);
         if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistFromLink < 200.0f)) {
-            func_80AC0BC0(this, globalCtx);
+            EnOkuta_SetupShoot(this, globalCtx);
         }
     }
 }
@@ -320,9 +320,9 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
             this->timer--;
         }
         if (this->timer == 0) {
-            func_80AC0B60(this);
+            EnOkuta_SetupWaitToShoot(this);
         } else {
-            func_80AC0BC0(this, globalCtx);
+            EnOkuta_SetupShoot(this, globalCtx);
         }
     } else {
         f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
