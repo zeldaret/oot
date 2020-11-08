@@ -599,34 +599,34 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* snoutScale) {
+s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* scale) {
     if (this->actionFunc == EnOkuta_WaitToShoot) {
-        snoutScale->x = snoutScale->z = 1.0f;
-        snoutScale->y = (sinf((M_PI / 16) * animCurrentFrame) * 0.4f) + 1.0f;
+        scale->x = scale->z = 1.0f;
+        scale->y = (sinf((M_PI / 16) * animCurrentFrame) * 0.4f) + 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
         if (animCurrentFrame < 5.0f) {
-            snoutScale->x = 1.0f;
-            snoutScale->y = snoutScale->z = (animCurrentFrame * 0.25f) + 1.0f;
+            scale->x = 1.0f;
+            scale->y = scale->z = (animCurrentFrame * 0.25f) + 1.0f;
         } else if (animCurrentFrame < 7.0f) {
-            snoutScale->x = (animCurrentFrame - 4.0f) * 0.5f + 1.0f;
-            snoutScale->y = snoutScale->z = 2.0f - (animCurrentFrame - 4.0f) * 0.5f;
+            scale->x = (animCurrentFrame - 4.0f) * 0.5f + 1.0f;
+            scale->y = scale->z = 2.0f - (animCurrentFrame - 4.0f) * 0.5f;
         } else {
-            snoutScale->x = 2.0f - ((animCurrentFrame - 6.0f) * 0.0769f);
-            snoutScale->y = snoutScale->z = 1.0f;
+            scale->x = 2.0f - ((animCurrentFrame - 6.0f) * 0.0769f);
+            scale->y = scale->z = 1.0f;
         }
     } else if (this->actionFunc == EnOkuta_Die) {
         if (animCurrentFrame >= 35.0f || animCurrentFrame < 25.0f) {
             return false;
         }
         if (animCurrentFrame < 27.0f) {
-            snoutScale->x = 1.0f;
-            snoutScale->y = snoutScale->z = ((animCurrentFrame - 24.0f) * 0.5f) + 1.0f;
+            scale->x = 1.0f;
+            scale->y = scale->z = ((animCurrentFrame - 24.0f) * 0.5f) + 1.0f;
         } else if (animCurrentFrame < 30.0f) {
-            snoutScale->x = (animCurrentFrame - 26.0f) * 0.333f + 1.0f;
-            snoutScale->y = snoutScale->z = 2.0f - (animCurrentFrame - 26.0f) * 0.333f;
+            scale->x = (animCurrentFrame - 26.0f) * 0.333f + 1.0f;
+            scale->y = scale->z = 2.0f - (animCurrentFrame - 26.0f) * 0.333f;
         } else {
-            snoutScale->x = 2.0f - ((animCurrentFrame - 29.0f) * 0.2f);
-            snoutScale->y = snoutScale->z = 1.0f;
+            scale->x = 2.0f - ((animCurrentFrame - 29.0f) * 0.2f);
+            scale->y = scale->z = 1.0f;
         }
     } else {
         return false;
