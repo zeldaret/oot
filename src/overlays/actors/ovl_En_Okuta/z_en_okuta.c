@@ -510,7 +510,7 @@ void EnOkuta_HeadScaleUpdate(EnOkuta* this) {
     }
 }
 
-void func_80AC1F28(EnOkuta* this, GlobalContext* globalCtx) {
+void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
         func_80035650(&this->actor, &this->collider.body, 1);
@@ -538,7 +538,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->actor.params == 0) {
-            func_80AC1F28(this, globalCtx2);
+            EnOkuta_ColliderCheck(this, globalCtx2);
             if (!func_80042244(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
                                &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.groundY)) {
