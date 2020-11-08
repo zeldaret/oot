@@ -465,48 +465,48 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80AC1B80(EnOkuta* this) {
+void EnOkuta_HeadScaleUpdate(EnOkuta* this) {
     f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
 
     if (this->actionFunc == EnOkuta_Appear) {
         if (animCurrentFrame < 8.0f) {
-            this->scale.x = this->scale.y = this->scale.z = 1.0f;
+            this->headScale.x = this->headScale.y = this->headScale.z = 1.0f;
         } else if (animCurrentFrame < 10.0f) {
-            this->scale.x = this->scale.z = 1.0f;
-            this->scale.y = ((animCurrentFrame - 7.0f) * 0.4f) + 1.0f;
+            this->headScale.x = this->headScale.z = 1.0f;
+            this->headScale.y = ((animCurrentFrame - 7.0f) * 0.4f) + 1.0f;
         } else if (animCurrentFrame < 14.0f) {
-            this->scale.x = this->scale.z = ((animCurrentFrame - 9.0f) * 0.075f) + 1.0f;
-            this->scale.y = 1.8f - ((animCurrentFrame - 9.0f) * 0.25f);
+            this->headScale.x = this->headScale.z = ((animCurrentFrame - 9.0f) * 0.075f) + 1.0f;
+            this->headScale.y = 1.8f - ((animCurrentFrame - 9.0f) * 0.25f);
         } else {
-            this->scale.x = this->scale.z = 1.3f - ((animCurrentFrame - 13.0f) * 0.05f);
-            this->scale.y = ((animCurrentFrame - 13.0f) * 0.0333f) + 0.8f;
+            this->headScale.x = this->headScale.z = 1.3f - ((animCurrentFrame - 13.0f) * 0.05f);
+            this->headScale.y = ((animCurrentFrame - 13.0f) * 0.0333f) + 0.8f;
         }
     } else if (this->actionFunc == EnOkuta_Hide) {
         if (animCurrentFrame < 3.0f) {
-            this->scale.y = 1.0f;
+            this->headScale.y = 1.0f;
         } else if (animCurrentFrame < 4.0f) {
-            this->scale.y = (animCurrentFrame - 2.0f) + 1.0f;
+            this->headScale.y = (animCurrentFrame - 2.0f) + 1.0f;
         } else {
-            this->scale.y = 2.0f - ((animCurrentFrame - 3.0f) * 0.333f);
+            this->headScale.y = 2.0f - ((animCurrentFrame - 3.0f) * 0.333f);
         }
-        this->scale.x = this->scale.z = 1.0f;
+        this->headScale.x = this->headScale.z = 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
         if (animCurrentFrame < 5.0f) {
-            this->scale.x = this->scale.y = this->scale.z = (animCurrentFrame * 0.125f) + 1.0f;
+            this->headScale.x = this->headScale.y = this->headScale.z = (animCurrentFrame * 0.125f) + 1.0f;
         } else if (animCurrentFrame < 7.0f) {
-            this->scale.x = this->scale.y = this->scale.z = 1.5f - ((animCurrentFrame - 4.0f) * 0.35f);
+            this->headScale.x = this->headScale.y = this->headScale.z = 1.5f - ((animCurrentFrame - 4.0f) * 0.35f);
         } else if (animCurrentFrame < 17.0f) {
-            this->scale.x = this->scale.z = ((animCurrentFrame - 6.0f) * 0.05f) + 0.8f;
-            this->scale.y = 0.8f;
+            this->headScale.x = this->headScale.z = ((animCurrentFrame - 6.0f) * 0.05f) + 0.8f;
+            this->headScale.y = 0.8f;
         } else {
-            this->scale.x = this->scale.z = 1.3f - ((animCurrentFrame - 16.0f) * 0.1f);
-            this->scale.y = ((animCurrentFrame - 16.0f) * 0.0666f) + 0.8f;
+            this->headScale.x = this->headScale.z = 1.3f - ((animCurrentFrame - 16.0f) * 0.1f);
+            this->headScale.y = ((animCurrentFrame - 16.0f) * 0.0666f) + 0.8f;
         }
     } else if (this->actionFunc == EnOkuta_WaitToShoot) {
-        this->scale.x = this->scale.z = 1.0f;
-        this->scale.y = (sinf(0.19634955f * animCurrentFrame) * 0.2f) + 1.0f;
+        this->headScale.x = this->headScale.z = 1.0f;
+        this->headScale.y = (sinf(0.19634955f * animCurrentFrame) * 0.2f) + 1.0f;
     } else {
-        this->scale.x = this->scale.y = this->scale.z = 1.0f;
+        this->headScale.x = this->headScale.y = this->headScale.z = 1.0f;
     }
 }
 
@@ -552,9 +552,9 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->actionFunc(this, globalCtx2);
         if (this->actor.params == 0) {
-            func_80AC1B80(this);
+            EnOkuta_HeadScaleUpdate(this);
             this->collider.dim.height =
-                (((sOctorockColliderInit.dim.height * this->scale.y) - this->collider.dim.yShift) *
+                (((sOctorockColliderInit.dim.height * this->headScale.y) - this->collider.dim.yShift) *
                  this->actor.scale.y * 100.0f);
         } else {
             sp34 = false;
@@ -599,34 +599,34 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
+s32 EnOkuta_GetMouthScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* mouthScale) {
     if (this->actionFunc == EnOkuta_WaitToShoot) {
-        arg2->x = arg2->z = 1.0f;
-        arg2->y = (sinf(0.19634955f * arg1) * 0.4f) + 1.0f;
+        mouthScale->x = mouthScale->z = 1.0f;
+        mouthScale->y = (sinf(0.19634955f * animCurrentFrame) * 0.4f) + 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
-        if (arg1 < 5.0f) {
-            arg2->x = 1.0f;
-            arg2->y = arg2->z = (arg1 * 0.25f) + 1.0f;
-        } else if (arg1 < 7.0f) {
-            arg2->x = (arg1 - 4.0f) * 0.5f + 1.0f;
-            arg2->y = arg2->z = 2.0f - (arg1 - 4.0f) * 0.5f;
+        if (animCurrentFrame < 5.0f) {
+            mouthScale->x = 1.0f;
+            mouthScale->y = mouthScale->z = (animCurrentFrame * 0.25f) + 1.0f;
+        } else if (animCurrentFrame < 7.0f) {
+            mouthScale->x = (animCurrentFrame - 4.0f) * 0.5f + 1.0f;
+            mouthScale->y = mouthScale->z = 2.0f - (animCurrentFrame - 4.0f) * 0.5f;
         } else {
-            arg2->x = 2.0f - ((arg1 - 6.0f) * 0.0769f);
-            arg2->y = arg2->z = 1.0f;
+            mouthScale->x = 2.0f - ((animCurrentFrame - 6.0f) * 0.0769f);
+            mouthScale->y = mouthScale->z = 1.0f;
         }
     } else if (this->actionFunc == EnOkuta_Die) {
-        if (arg1 >= 35.0f || arg1 < 25.0f) {
+        if (animCurrentFrame >= 35.0f || animCurrentFrame < 25.0f) {
             return false;
         }
-        if (arg1 < 27.0f) {
-            arg2->x = 1.0f;
-            arg2->y = arg2->z = ((arg1 - 24.0f) * 0.5f) + 1.0f;
-        } else if (arg1 < 30.0f) {
-            arg2->x = (arg1 - 26.0f) * 0.333f + 1.0f;
-            arg2->y = arg2->z = 2.0f - (arg1 - 26.0f) * 0.333f;
+        if (animCurrentFrame < 27.0f) {
+            mouthScale->x = 1.0f;
+            mouthScale->y = mouthScale->z = ((animCurrentFrame - 24.0f) * 0.5f) + 1.0f;
+        } else if (animCurrentFrame < 30.0f) {
+            mouthScale->x = (animCurrentFrame - 26.0f) * 0.333f + 1.0f;
+            mouthScale->y = mouthScale->z = 2.0f - (animCurrentFrame - 26.0f) * 0.333f;
         } else {
-            arg2->x = 2.0f - ((arg1 - 29.0f) * 0.2f);
-            arg2->y = arg2->z = 1.0f;
+            mouthScale->x = 2.0f - ((animCurrentFrame - 29.0f) * 0.2f);
+            mouthScale->y = mouthScale->z = 1.0f;
         }
     } else {
         return false;
@@ -638,20 +638,20 @@ s32 func_80AC2350(EnOkuta* this, f32 arg1, Vec3f* arg2) {
 s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              Actor* actor) {
     EnOkuta* this = (EnOkuta*)actor;
-    f32 phi_f0 = this->skelAnime.animCurrentFrame;
+    f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
     Vec3f scale;
     s32 doScale = false;
 
     if (this->actionFunc == EnOkuta_Die) {
-        phi_f0 += this->timer;
+        animCurrentFrame += this->timer;
     }
     if (limbIndex == 5) {
-        if ((this->scale.x != 1.0f) || (this->scale.y != 1.0f) || (this->scale.z != 1.0f)) {
-            scale = this->scale;
+        if ((this->headScale.x != 1.0f) || (this->headScale.y != 1.0f) || (this->headScale.z != 1.0f)) {
+            scale = this->headScale;
             doScale = true;
         }
     } else if (limbIndex == 8) {
-        doScale = func_80AC2350(this, phi_f0, &scale);
+        doScale = EnOkuta_GetMouthScale(this, animCurrentFrame, &scale);
     }
     if (doScale) {
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
