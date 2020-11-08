@@ -599,34 +599,34 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnOkuta_GetMouthScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* mouthScale) {
+s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* snoutScale) {
     if (this->actionFunc == EnOkuta_WaitToShoot) {
-        mouthScale->x = mouthScale->z = 1.0f;
-        mouthScale->y = (sinf((M_PI / 16) * animCurrentFrame) * 0.4f) + 1.0f;
+        snoutScale->x = snoutScale->z = 1.0f;
+        snoutScale->y = (sinf((M_PI / 16) * animCurrentFrame) * 0.4f) + 1.0f;
     } else if (this->actionFunc == EnOkuta_Shoot) {
         if (animCurrentFrame < 5.0f) {
-            mouthScale->x = 1.0f;
-            mouthScale->y = mouthScale->z = (animCurrentFrame * 0.25f) + 1.0f;
+            snoutScale->x = 1.0f;
+            snoutScale->y = snoutScale->z = (animCurrentFrame * 0.25f) + 1.0f;
         } else if (animCurrentFrame < 7.0f) {
-            mouthScale->x = (animCurrentFrame - 4.0f) * 0.5f + 1.0f;
-            mouthScale->y = mouthScale->z = 2.0f - (animCurrentFrame - 4.0f) * 0.5f;
+            snoutScale->x = (animCurrentFrame - 4.0f) * 0.5f + 1.0f;
+            snoutScale->y = snoutScale->z = 2.0f - (animCurrentFrame - 4.0f) * 0.5f;
         } else {
-            mouthScale->x = 2.0f - ((animCurrentFrame - 6.0f) * 0.0769f);
-            mouthScale->y = mouthScale->z = 1.0f;
+            snoutScale->x = 2.0f - ((animCurrentFrame - 6.0f) * 0.0769f);
+            snoutScale->y = snoutScale->z = 1.0f;
         }
     } else if (this->actionFunc == EnOkuta_Die) {
         if (animCurrentFrame >= 35.0f || animCurrentFrame < 25.0f) {
             return false;
         }
         if (animCurrentFrame < 27.0f) {
-            mouthScale->x = 1.0f;
-            mouthScale->y = mouthScale->z = ((animCurrentFrame - 24.0f) * 0.5f) + 1.0f;
+            snoutScale->x = 1.0f;
+            snoutScale->y = snoutScale->z = ((animCurrentFrame - 24.0f) * 0.5f) + 1.0f;
         } else if (animCurrentFrame < 30.0f) {
-            mouthScale->x = (animCurrentFrame - 26.0f) * 0.333f + 1.0f;
-            mouthScale->y = mouthScale->z = 2.0f - (animCurrentFrame - 26.0f) * 0.333f;
+            snoutScale->x = (animCurrentFrame - 26.0f) * 0.333f + 1.0f;
+            snoutScale->y = snoutScale->z = 2.0f - (animCurrentFrame - 26.0f) * 0.333f;
         } else {
-            mouthScale->x = 2.0f - ((animCurrentFrame - 29.0f) * 0.2f);
-            mouthScale->y = mouthScale->z = 1.0f;
+            snoutScale->x = 2.0f - ((animCurrentFrame - 29.0f) * 0.2f);
+            snoutScale->y = snoutScale->z = 1.0f;
         }
     } else {
         return false;
@@ -651,7 +651,7 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
             doScale = true;
         }
     } else if (limbIndex == 8) {
-        doScale = EnOkuta_GetMouthScale(this, animCurrentFrame, &scale);
+        doScale = EnOkuta_GetSnoutScale(this, animCurrentFrame, &scale);
     }
     if (doScale) {
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
