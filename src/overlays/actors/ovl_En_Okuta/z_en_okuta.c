@@ -329,7 +329,7 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
 
         if (animCurrentFrame < 13.0f) {
             this->actor.posRot.pos.y =
-                (sinf(0.2617889f * animCurrentFrame) * this->jumpHeight) + this->actor.initPosRot.pos.y;
+                (sinf((0.08333f * M_PI) * animCurrentFrame) * this->jumpHeight) + this->actor.initPosRot.pos.y;
         }
         if (func_800A56C8(&this->skelAnime, 6.0f)) {
             EnOkuta_SpawnProjectile(this, globalCtx);
