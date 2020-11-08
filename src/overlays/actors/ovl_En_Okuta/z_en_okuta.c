@@ -465,7 +465,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnOkuta_HeadScaleUpdate(EnOkuta* this) {
+void EnOkuta_UpdateHeadScale(EnOkuta* this) {
     f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
 
     if (this->actionFunc == EnOkuta_Appear) {
@@ -552,7 +552,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->actionFunc(this, globalCtx2);
         if (this->actor.params == 0) {
-            EnOkuta_HeadScaleUpdate(this);
+            EnOkuta_UpdateHeadScale(this);
             this->collider.dim.height =
                 (((sOctorockColliderInit.dim.height * this->headScale.y) - this->collider.dim.yShift) *
                  this->actor.scale.y * 100.0f);
