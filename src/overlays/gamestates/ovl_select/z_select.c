@@ -509,18 +509,18 @@ void Select_DrawMenu(SelectContext* this) {
 
     OPEN_DISPS(gfxCtx, "../z_select.c", 930);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, oGfxCtx->polyOpa.p);
+    GfxPrint_Open(printer, POLY_OPA_DISP);
     Select_PrintMenu(this, printer);
     Select_PrintAgeSetting(this, printer, ((void)0, gSaveContext.linkAge));
     Select_PrintCutsceneSetting(this, printer, ((void)0, gSaveContext.cutsceneIndex));
-    oGfxCtx->polyOpa.p = GfxPrint_Close(printer);
+    POLY_OPA_DISP = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
     CLOSE_DISPS(gfxCtx, "../z_select.c", 966);
@@ -532,16 +532,16 @@ void Select_DrawLoadingScreen(SelectContext* this) {
 
     OPEN_DISPS(gfxCtx, "../z_select.c", 977);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
     func_80094140(gfxCtx);
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
-    GfxPrint_Open(printer, oGfxCtx->polyOpa.p);
+    GfxPrint_Open(printer, POLY_OPA_DISP);
     Select_PrintLoadingMessage(this, printer);
-    oGfxCtx->polyOpa.p = GfxPrint_Close(printer);
+    POLY_OPA_DISP = GfxPrint_Close(printer);
     GfxPrint_Destroy(printer);
 
     CLOSE_DISPS(gfxCtx, "../z_select.c", 1006);
@@ -552,7 +552,7 @@ void Select_Draw(SelectContext* this) {
 
     OPEN_DISPS(gfxCtx, "../z_select.c", 1013);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     func_800AAA50(&this->view, 0xF);
