@@ -1,4 +1,4 @@
-glabel func_8096FE08
+glabel DemoEc_SetupGorons
 /* 02958 8096FE08 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0295C 8096FE0C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 02960 8096FE10 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -8,7 +8,7 @@ glabel func_8096FE08
 /* 02970 8096FE20 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
 /* 02974 8096FE24 24C6FEF0 */  addiu   $a2, $a2, 0xFEF0           ## $a2 = 0600FEF0
 /* 02978 8096FE28 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0297C 8096FE2C 0C25B5CA */  jal     func_8096D728              
+/* 0297C 8096FE2C 0C25B5CA */  jal     DemoEc_SetupAnimation              
 /* 02980 8096FE30 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 02984 8096FE34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02988 8096FE38 0C25B76F */  jal     func_8096DDBC              
@@ -47,7 +47,7 @@ glabel func_8096FE08
 .L8096FEB0:
 /* 02A00 8096FEB0 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 02A04 8096FEB4 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 02A08 8096FEB8 0C25B5E7 */  jal     func_8096D79C              
+/* 02A08 8096FEB8 0C25B5E7 */  jal     DemoEc_ChangeAnimation              
 /* 02A0C 8096FEBC E7A00028 */  swc1    $f0, 0x0028($sp)           
 /* 02A10 8096FEC0 26020050 */  addiu   $v0, $s0, 0x0050           ## $v0 = 00000050
 /* 02A14 8096FEC4 C7A00028 */  lwc1    $f0, 0x0028($sp)           

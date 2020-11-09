@@ -10,31 +10,31 @@ void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8096DE94(DemoEc* this, GlobalContext* globalCtx);
-void func_8096DF9C(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E0A4(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E1AC(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E380(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E56C(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E69C(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E7CC(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E8E4(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E9E8(DemoEc* this, GlobalContext* globalCtx);
-void func_8096EAE8(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E244(DemoEc* this, GlobalContext* globalCtx);
-void func_8096E418(DemoEc* this, GlobalContext* globalCtx);
-void func_8096EDFC(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F010(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F12C(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F454(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F6D8(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F808(DemoEc* this, GlobalContext* globalCtx);
-void func_8096F924(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FA40(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FB48(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FCEC(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FE08(DemoEc* this, GlobalContext* globalCtx);
-void func_8096FFBC(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupIngo(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupTalon(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupWindmillMan(DemoEc* this, GlobalContext* globalCtx);
+void DemEc_SetupKokiriBoy(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupKokiriGirl(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupOldMan(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupBeardedMan(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupWoman(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupOldWoman(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupBossCarpenter(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupCarpenter(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupDancingKokiriBoy(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupDancingKokiriGirl(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupGerudo(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupDancingZora(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupKingZora(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupMido(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupCucco(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupCuccoLady(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupPotionShopOwner(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupMaskShopOwner(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupFishingPondOwner(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupBombchewShopOwner(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupGorons(DemoEc* this, GlobalContext* globalCtx);
+void DemoEc_SetupMalon(DemoEc* this, GlobalContext* globalCtx);
 void func_80970140(DemoEc* this, GlobalContext* globalCtx);
 void func_8096DF2C(DemoEc* this, GlobalContext* globalCtx);
 void func_8096E034(DemoEc* this, GlobalContext* globalCtx);
@@ -87,16 +87,21 @@ void func_8096FB18(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FCA8(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FDCC(DemoEc* this, GlobalContext* globalCtx);
 void func_8096FF7C(DemoEc* this, GlobalContext* globalCtx);
- void func_8097009C(DemoEc* this, GlobalContext* globalCtx);
+void func_8097009C(DemoEc* this, GlobalContext* globalCtx);
 
-static s16 D_80970350[] = { 0x00C0, 0x0088, 0x0133, 0x00FC, 0x00FD, 0x010C, 0x0107, 0x0115, 0x010D,
-                            0x0121, 0x0122, 0x0122, 0x0122, 0x0122, 0x00FC, 0x00FD, 0x0116, 0x0116,
-                            0x0116, 0x00FE, 0x00FF, 0x00FB, 0x0013, 0x0013, 0x0013, 0x0110, 0x0159,
-                            0x013E, 0x015B, 0x0165, 0x00C9, 0x00C9, 0x00C9, 0x00C9, 0x00D0 };
-static s16 D_80970398[] = { 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A,
-                            0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A,
-                            0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A,
-                            0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x015A, 0x0126, 0x00D0 };
+static s16 D_80970350[] = { OBJECT_IN,       OBJECT_TA,       OBJECT_FU,       OBJECT_KM1,      OBJECT_KW1,
+                            OBJECT_BJI,      OBJECT_AHG,      OBJECT_BOB,      OBJECT_BBA,      OBJECT_TORYO,
+                            OBJECT_DAIKU,    OBJECT_DAIKU,    OBJECT_DAIKU,    OBJECT_DAIKU,    OBJECT_KM1,
+                            OBJECT_KW1,      OBJECT_GE1,      OBJECT_GE1,      OBJECT_GE1,      OBJECT_ZO,
+                            OBJECT_KZ,       OBJECT_MD,       OBJECT_NIW,      OBJECT_NIW,      OBJECT_NIW,
+                            OBJECT_ANE,      OBJECT_DS2,      OBJECT_OS,       OBJECT_FISH,     OBJECT_RS,
+                            OBJECT_OF1D_MAP, OBJECT_OF1D_MAP, OBJECT_OF1D_MAP, OBJECT_OF1D_MAP, OBJECT_MA2 };
+
+static s16 D_80970398[] = { OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC,
+                            OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC,
+                            OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC,
+                            OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC,
+                            OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_EC, OBJECT_GM, OBJECT_MA2 };
 
 static Color_RGBA8 D_809703E0 = { 00, 130, 70, 255 };
 static Color_RGBA8 D_809703E4 = { 110, 170, 20, 255 };
@@ -107,8 +112,8 @@ static Gfx* D_809703FC[] = { 0x060005FC, 0x060009FC, 0x06000DFC };
 static Color_RGBA8 D_80970408 = { 0, 50, 100, 255 };
 static Color_RGBA8 D_8097040C = { 0, 50, 160, 255 };
 static s32 D_80970410[] = { 0x0600057C, 0x0600067C, 0x0600077C };
-static Color_RGBA8 D_8097041C = {255,255,255,255};
-static Color_RGBA8 D_80970420 = {255,255,255,255};
+static Color_RGBA8 D_8097041C = { 255, 255, 255, 255 };
+static Color_RGBA8 D_80970420 = { 255, 255, 255, 255 };
 static Gfx* D_80970424[] = { 0x060007C8, 0x06000FC8, 0x060017C8 };
 static Gfx* D_80970430[] = { 0x06000708, 0x06000F08, 0x06001708 };
 static Gfx* D_8097043C[] = { 0x06003E40, 0x06004640, 0x06004E40 };
@@ -121,23 +126,51 @@ static Gfx* D_8097048C[] = { 0x06003968, 0x06003D68, 0x06004168 };
 static Gfx* D_80970498[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
 static Gfx* D_809704A4[] = { 0x06002570, 0x06002C70, 0x06003070 };
 
-DemoEcActionFunc D_809704B0[] = {
-    // Animate Funcs?
-    func_8096DE94, func_8096DF9C, func_8096E0A4, func_8096E1AC, func_8096E380, func_8096E56C, func_8096E69C,
-    func_8096E7CC, func_8096E8E4, func_8096E9E8, func_8096EAE8, func_8096EAE8, func_8096EAE8, func_8096EAE8,
-    func_8096E244, func_8096E418, func_8096EDFC, func_8096EDFC, func_8096EDFC, func_8096F010, func_8096F12C,
-    func_8096F454, func_8096F6D8, func_8096F6D8, func_8096F6D8, func_8096F808, func_8096F924, func_8096FA40,
-    func_8096FB48, func_8096FCEC, func_8096FE08, func_8096FE08, func_8096FE08, func_8096FE08, func_8096FFBC,
+static DemoEcSetupFunc setupFuncs[] = {
+    DemoEc_SetupIngo,
+    DemoEc_SetupTalon,
+    DemoEc_SetupWindmillMan,
+    DemEc_SetupKokiriBoy,
+    DemoEc_SetupKokiriGirl,
+    DemoEc_SetupOldMan,
+    DemoEc_SetupBeardedMan,
+    DemoEc_SetupWoman,
+    DemoEc_SetupOldWoman,
+    DemoEc_SetupBossCarpenter,
+    DemoEc_SetupCarpenter,
+    DemoEc_SetupCarpenter,
+    DemoEc_SetupCarpenter,
+    DemoEc_SetupCarpenter,
+    DemoEc_SetupDancingKokiriBoy,
+    DemoEc_SetupDancingKokiriGirl,
+    DemoEc_SetupGerudo,
+    DemoEc_SetupGerudo,
+    DemoEc_SetupGerudo,
+    DemoEc_SetupDancingZora,
+    DemoEc_SetupKingZora,
+    DemoEc_SetupMido,
+    DemoEc_SetupCucco,
+    DemoEc_SetupCucco,
+    DemoEc_SetupCucco,
+    DemoEc_SetupCuccoLady,
+    DemoEc_SetupPotionShopOwner,
+    DemoEc_SetupMaskShopOwner,
+    DemoEc_SetupFishingPondOwner,
+    DemoEc_SetupBombchewShopOwner,
+    DemoEc_SetupGorons,
+    DemoEc_SetupGorons,
+    DemoEc_SetupGorons,
+    DemoEc_SetupGorons,
+    DemoEc_SetupMalon,
 };
-DemoEcActionFunc D_8097053C[] = {
-    // Called by update
+static DemoEcActionFunc actionFunc[] = {
     func_80970140, func_8096DF2C, func_8096E034, func_8096E13C, func_8096E2E0, func_8096E4B4,
     func_8096E604, func_8096E734, func_8096E864, func_8096E97C, func_8096EA80, func_8096EB80,
     func_8096E31C, func_8096E4F8, func_8096EE98, func_8096F0AC, func_8096F314, func_8096F378,
     func_8096F3D4, func_8096F5DC, func_8096F640, func_8096F7A0, func_8096F8A4, func_8096F9C0,
     func_8096FADC, func_8096FBE4, func_8096FD88, func_8096FF38, func_80970058,
 };
-DemoEcActionFunc D_809705B0[] = {
+static DemoEcDrawFunc drawFuncs[] = {
     func_809702B0, func_8096DF68, func_8096E070, func_8096E178, func_8096E33C, func_8096E518,
     func_8096E648, func_8096E778, func_8096E8A8, func_8096E9B8, func_8096EABC, func_8096EDC0,
     func_8096EFCC, func_8096F0F0, func_8096F418, func_8096F69C, func_8096F7DC, func_8096F8E8,
@@ -219,7 +252,7 @@ const ActorInit Demo_Ec_InitVars = {
     (ActorFunc)DemoEc_Draw,
 };
 
-void DemoEc_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoEc* this = THIS;
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -231,12 +264,12 @@ void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST, thisx);
         Actor_Kill(thisx);
     } else {
-        this->unk_194 = 0;
-        this->unk_198 = 0;
+        this->animationIndex = 0;
+        this->drawIndex = 0;
     }
 }
 
-s32 func_8096D52C(DemoEc* this) {
+s32 DemoEc_GetFrameUpdateMatrix(DemoEc* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
@@ -279,11 +312,11 @@ void func_8096D714(DemoEc* this, s16 arg1) {
     this->unk_190 = arg1;
 }
 
-void func_8096D728(DemoEc* this, GlobalContext* globalCtx, SkeletonHeader* header) {
+void DemoEc_SetupAnimation(DemoEc* this, GlobalContext* globalCtx, SkeletonHeader* header) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, SEGMENTED_TO_VIRTUAL(header), NULL, 0, 0, 0);
 }
 
-void func_8096D79C(DemoEc* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
+void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
     f32 phi_f2;
     f32 phi_f0;
     AnimationHeader* animationA;
@@ -407,19 +440,19 @@ void func_8096DE14(DemoEc* this, GlobalContext* globalCtx, s32 arg2) {
     }
 }
 
-void func_8096DE94(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupIngo(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06013B88);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06013B88);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_060048F4, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_060048F4, 0, 0.0f, 0);
     func_8096D64C(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 1;
-    this->unk_198 = 1;
+    this->animationIndex = ANIMATE_INGO;
+    this->drawIndex = DRAW_INGO;
 }
 
 void func_8096DF2C(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -428,19 +461,19 @@ void func_8096DF68(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, &D_06004390, &D_06004350, 0, 0);
 }
 
-void func_8096DF9C(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupTalon(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_0600B7B8);
+    DemoEc_SetupAnimation(this, globalCtx, &D_0600B7B8);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600BD38, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600BD38, 0, 0.0f, 0);
     func_8096D64C(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 2;
-    this->unk_198 = 2;
+    this->animationIndex = ANIMATE_TALON;
+    this->drawIndex = DRAW_TALON;
 }
 
 void func_8096E034(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -449,19 +482,19 @@ void func_8096E070(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, &D_060076C0, &D_06007AC0, NULL, NULL);
 }
 
-void func_8096E0A4(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06006C90);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06006C90);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600196C, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600196C, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 3;
-    this->unk_198 = 3;
+    this->animationIndex = ANIMATE_WINDMILL_MAN;
+    this->drawIndex = DRAW_WINDMILL_MAN;
 }
 
 void func_8096E13C(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -470,30 +503,30 @@ void func_8096E178(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, &D_06005F20, &D_06006920, 0, 0);
 }
 
-void func_8096E1AC(DemoEc* this, GlobalContext* globalCtx) {
+void DemEc_SetupKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06005670, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06005670, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 4;
-    this->unk_198 = 4;
+    this->animationIndex = ANIMATE_KOKIRI_BOY;
+    this->drawIndex = DRAW_KOKIRI_BOY;
 }
 
-void func_8096E244(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupDancingKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600513C, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600513C, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 0xC;
-    this->unk_198 = 4;
+    this->animationIndex = ANIMATE_DANCING_KOKIRI_BOY;
+    this->drawIndex = DRAW_KOKIRI_BOY;
 }
 
 void func_8096E2E0(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -506,30 +539,30 @@ void func_8096E33C(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DA80(this, globalCtx, NULL, NULL, &D_809703E0, &D_809703E4, NULL, NULL);
 }
 
-void func_8096E380(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06005670, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06005670, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 5;
-    this->unk_198 = 5;
+    this->animationIndex = ANIMATE_KOKIRI_GIRL;
+    this->drawIndex = DRAW_KOKIRI_GIRL;
 }
 
-void func_8096E418(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupDancingKokiriGirl(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600513C, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600513C, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 13;
-    this->unk_198 = 5;
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    this->animationIndex = ANIMATE_DANCING_KOKIRI_GIRL;
+    this->drawIndex = DRAW_KOKIRI_GIRL;
 }
 
 void func_8096E4B4(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -545,19 +578,19 @@ void func_8096E518(DemoEc* this, GlobalContext* globalCtx) {
 
     func_8096DA80(this, globalCtx, temp, NULL, &D_809703F4, &D_809703F8, NULL, NULL);
 }
-void func_8096E56C(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupOldMan(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06005EA8, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 6;
-    this->unk_198 = 6;
+    this->animationIndex = ANIMATE_OLD_MAN;
+    this->drawIndex = DRAW_OLD_MAN;
 }
 
 void func_8096E604(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -570,19 +603,19 @@ void func_8096E648(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DA80(this, globalCtx, temp, NULL, &D_80970408, &D_8097040C, NULL, NULL);
 }
 
-void func_8096E69C(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupBeardedMan(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06005EA8, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 7;
-    this->unk_198 = 7;
+    this->animationIndex = 7;
+    this->drawIndex = 7;
 }
 
 void func_8096E734(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -595,19 +628,19 @@ void func_8096E778(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DA80(this, globalCtx, temp, NULL, &D_8097041C, &D_80970420, NULL, NULL);
 }
 
-void func_8096E7CC(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupWoman(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06005EA8, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 8;
-    this->unk_198 = 8;
+    this->animationIndex = ANIMATE_WOMAN;
+    this->drawIndex = DRAW_WOMAN;
 }
 
 void func_8096E864(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -620,19 +653,19 @@ void func_8096E8A8(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
 }
 
-void func_8096E8E4(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupOldWoman(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06005EA8, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06005EA8, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 9;
-    this->unk_198 = 9;
+    this->animationIndex = ANIMATE_OLD_WOMAN;
+    this->drawIndex = DRAW_OLD_WOMAN;
 }
 
 void func_8096E97C(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -641,19 +674,19 @@ void func_8096E9B8(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, &D_060004C8, NULL, NULL, NULL);
 }
 
-void func_8096E9E8(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupBossCarpenter(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06007150);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06007150);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600164C, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600164C, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 10;
-    this->unk_198 = 10;
+    this->animationIndex = ANIMATE_BOSS_CARPENTER;
+    this->drawIndex = DRAW_BOSS_CARPENTER;
 }
 
 void func_8096EA80(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -662,19 +695,19 @@ void func_8096EABC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, NULL, NULL, NULL, NULL);
 }
 
-void func_8096EAE8(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupCarpenter(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06007958);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06007958);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600164C, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600164C, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 11;
-    this->unk_198 = 11;
+    this->animationIndex = ANIMATE_CARPENTER;
+    this->drawIndex = DRAW_CARPENTER;
 }
 
 void func_8096EB80(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -730,19 +763,19 @@ void func_8096EDC0(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, NULL, 0, DemoEc_overrideLimbDraw, DemoEc_PostLimbDraw);
 }
 
-void func_8096EDFC(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupGerudo(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06000330);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06000330);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06002254, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06002254, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 14;
-    this->unk_198 = 12;
+    this->animationIndex = ANIMATE_GERUDO;
+    this->drawIndex = DRAW_GERUDO;
 }
 
 void func_8096EE98(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -778,19 +811,19 @@ void func_8096EFCC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, NULL, NULL, DemoEc_PostLimbDraw2);
 }
 
-void func_8096F010(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupDancingZora(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_0600BFA8);
+    DemoEc_SetupAnimation(this, globalCtx, &D_0600BFA8);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600C918, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600C918, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 15;
-    this->unk_198 = 13;
+    this->animationIndex = ANIMATE_DANCING_ZORA;
+    this->drawIndex = DRAW_DANCING_ZORA;
 }
 
 void func_8096F0AC(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -803,38 +836,38 @@ void func_8096F0F0(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
 }
 
-void func_8096F12C(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupKingZora(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060086D0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060086D0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06006C40, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06006C40, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 16;
-    this->unk_198 = 14;
+    this->animationIndex = ANIMATE_KING_ZORA;
+    this->drawIndex = DRAW_KING_ZORA;
     func_8096D714(this, 3);
 }
 
-void func_8096F1D4(DemoEc *this) {
+void func_8096F1D4(DemoEc* this) {
     f32 currentFrame = this->skelAnime.animCurrentFrame;
 
     if (currentFrame <= 32.0f) {
         func_8096D714(this, 3);
     } else {
-    func_8096D68C(this);
+        func_8096D68C(this);
     }
 }
 
 void func_8096F224(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06006930, 2, -8.0f, 0);
-    this->unk_194 = 17;
+    DemoEc_ChangeAnimation(this, &D_06006930, 2, -8.0f, 0);
+    this->animationIndex = 17;
 }
 
 void func_8096F26C(DemoEc* this, s32 arg1) {
     if (arg1 != 0) {
-        func_8096D79C(this, &D_06006220, 0, 0.0f, 0);
-        this->unk_194 = 18;
+        DemoEc_ChangeAnimation(this, &D_06006220, 0, 0.0f, 0);
+        this->animationIndex = 18;
     }
 }
 
@@ -854,7 +887,7 @@ void func_8096F2B0(DemoEc* this, GlobalContext* globalCtx, s32 arg2) {
     }
 }
 void func_8096F314(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096DE14(this, globalCtx, 6);
     func_8096D54C(this, globalCtx);
@@ -864,7 +897,7 @@ void func_8096F314(DemoEc* this, GlobalContext* globalCtx) {
 void func_8096F378(DemoEc* this, GlobalContext* globalCtx) {
     s32 sp24;
 
-    sp24 = func_8096D52C(this);
+    sp24 = DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096F1D4(this);
     func_8096D54C(this, globalCtx);
@@ -872,7 +905,7 @@ void func_8096F378(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096F3D4(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -885,27 +918,27 @@ void func_8096F418(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, NULL, 0, 0);
 }
 
-void func_8096F454(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupMido(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06007FB8);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06007FB8);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_060095DC, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_060095DC, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 19;
-    this->unk_198 = 15;
+    this->animationIndex = ANIMATE_MIDO;
+    this->drawIndex = DRAW_MIDO;
     func_8096D714(this, 3);
 }
 
 void func_8096F4FC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06008D1C, 2, -8.0f, 0);
-    this->unk_194 = 20;
+    DemoEc_ChangeAnimation(this, &D_06008D1C, 2, -8.0f, 0);
+    this->animationIndex = 20;
 }
 
 void func_8096F544(DemoEc* this, s32 arg1) {
     if (arg1 != 0) {
-        func_8096D79C(this, &D_06009234, 0, 0.0f, 0);
+        DemoEc_ChangeAnimation(this, &D_06009234, 0, 0.0f, 0);
     }
 }
 
@@ -926,7 +959,7 @@ void func_8096F578(DemoEc* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void func_8096F5DC(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096DE14(this, globalCtx, 7);
     func_8096D54C(this, globalCtx);
@@ -936,7 +969,7 @@ void func_8096F5DC(DemoEc* this, GlobalContext* globalCtx) {
 void func_8096F640(DemoEc* this, GlobalContext* globalCtx) {
     s32 sp24;
 
-    sp24 = func_8096D52C(this);
+    sp24 = DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -950,28 +983,28 @@ void func_8096F69C(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
 }
 
-void func_8096F6D8(DemoEc* this, GlobalContext* globalCtx) {
-    AnimationHeader* phi_a1;
+void DemoEc_SetupCucco(DemoEc* this, GlobalContext* globalCtx) {
+    AnimationHeader* animation;
 
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06002530);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06002530);
     func_8096DDBC(this, globalCtx);
     if (this->actor.params == 22) {
-        phi_a1 = &D_06009BB4;
+        animation = &D_06009BB4;
     } else if (this->actor.params == 23) {
-        phi_a1 = &D_0600A07C;
+        animation = &D_0600A07C;
     } else {
-        phi_a1 = &D_0600A474;
+        animation = &D_0600A474;
     }
-    func_8096D79C(this, phi_a1, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, animation, 0, 0.0f, 0);
     func_8096D64C(this, globalCtx);
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 21;
-    this->unk_198 = 16;
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    this->animationIndex = ANIMATE_CUCCO;
+    this->drawIndex = DRAW_CUCCO;
 }
 
 void func_8096F7A0(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -980,19 +1013,19 @@ void func_8096F7DC(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, NULL, NULL, NULL, NULL);
 }
 
-void func_8096F808(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupCuccoLady(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060000F0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060000F0);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06000CD8, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06000CD8, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 22;
-    this->unk_198 = 17;
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    this->animationIndex = ANIMATE_CUCCO_LADY;
+    this->drawIndex = DRAW_CUCCO_LADY;
 }
 
 void func_8096F8A4(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -1005,19 +1038,19 @@ void func_8096F8E8(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, NULL, NULL, NULL);
 }
 
-void func_8096F924(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupPotionShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06004258);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06004258);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600AFE0, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 23;
-    this->unk_198 = 18;
+    this->animationIndex = ANIMATE_POTION_SHOP_OWNER;
+    this->drawIndex = DRAW_POTION_SHOP_OWNER;
 }
 
 void func_8096F9C0(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -1029,19 +1062,19 @@ void func_8096FA04(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, D_80970474[temp], 0, 0, 0);
 }
 
-void func_8096FA40(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupMaskShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06004658);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06004658);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600AFE0, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 24;
-    this->unk_198 = 19;
+    this->animationIndex = ANIMATE_MASK_SHOP_OWNER;
+    this->drawIndex = DRAW_MASK_SHOP_OWNER;
 }
 
 void func_8096FADC(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D54C(this, globalCtx);
 }
@@ -1050,19 +1083,19 @@ void func_8096FB18(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, &D_060035D8, NULL, NULL, NULL);
 }
 
-void func_8096FB48(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupFishingPondOwner(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_060085F8);
+    DemoEc_SetupAnimation(this, globalCtx, &D_060085F8);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600AFE0, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 25;
-    this->unk_198 = 20;
+    this->animationIndex = ANIMATE_FISHING_POND_OWNER;
+    this->drawIndex = DRAW_FISHING_POND_OWNER;
 }
 
 void func_8096FBE4(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -1081,19 +1114,19 @@ void func_8096FCA8(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, NULL, NULL, DemoEc_PostLimbDraw3);
 }
 
-void func_8096FCEC(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupBombchewShopOwner(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06004868);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06004868);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_0600AFE0, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_0600AFE0, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 26;
-    this->unk_198 = 21;
+    this->animationIndex = ANIMATE_BOMBCHEW_SHOP_OWNER;
+    this->drawIndex = DRAW_BOMBCHEW_SHOP_OWNER;
 }
 
 void func_8096FD88(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -1106,49 +1139,43 @@ void func_8096FDCC(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-void func_8096FE08(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupGorons(DemoEc* this, GlobalContext* globalCtx) {
     s32 pad;
-    // Vec3f* temp_v0_2;
     f32 phi_f0;
-    AnimationHeader* phi_a1;
+    AnimationHeader* animation;
 
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_0600FEF0);
+    DemoEc_SetupAnimation(this, globalCtx, &D_0600FEF0);
     func_8096DDBC(this, globalCtx);
     if (this->actor.params == 30) {
-        phi_a1 = &D_06002FA0;
+        animation = &D_06002FA0;
         phi_f0 = 1.0f;
     } else if (this->actor.params == 31) {
-        phi_a1 = &D_06003A98;
+        animation = &D_06003A98;
         phi_f0 = 1.0f;
     } else if (this->actor.params == 32) {
-        phi_a1 = &D_06002FA0;
+        animation = &D_06002FA0;
         phi_f0 = 15.0f;
     } else {
         phi_f0 = 5.0f;
-        phi_a1 = &D_060002B8;
+        animation = &D_060002B8;
     }
-    func_8096D79C(this, phi_a1, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, animation, 0, 0.0f, 0);
 
     this->actor.scale.x *= phi_f0;
     this->actor.scale.y *= phi_f0;
     this->actor.scale.z *= phi_f0;
-    // temp_v0_2 = &this->actor.scale;
-    // temp_f0 = phi_f0;
-    // temp_v0_2->x = temp_v0_2->x * phi_f0;
-    // temp_v0_2->y = temp_v0_2->y * phi_f0;
-    // temp_v0_2->z = temp_v0_2->z * phi_f0;
     func_8096D64C(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 27;
-    this->unk_198 = 22;
+    this->animationIndex = ANIMATE_GORON;
+    this->drawIndex = DRAW_GORON;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/func_8096FE08.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ec/DemoEc_SetupGorons.s")
 #endif
 
 void func_8096FF38(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -1161,19 +1188,19 @@ void func_8096FF7C(DemoEc* this, GlobalContext* globalCtx) {
     func_8096D8C4(this, globalCtx, temp, &D_0600DE80, 0, 0);
 }
 
-void func_8096FFBC(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_SetupMalon(DemoEc* this, GlobalContext* globalCtx) {
     func_8096DD0C(this, globalCtx);
-    func_8096D728(this, globalCtx, &D_06008D90);
+    DemoEc_SetupAnimation(this, globalCtx, &D_06008D90);
     func_8096DDBC(this, globalCtx);
-    func_8096D79C(this, &D_06009EE0, 0, 0.0f, 0);
+    DemoEc_ChangeAnimation(this, &D_06009EE0, 0, 0.0f, 0);
     func_8096D5D4(this, globalCtx);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
-    this->unk_194 = 0x1C;
-    this->unk_198 = 0x17;
+    this->animationIndex = ANIMATE_MALON;
+    this->drawIndex = DRAW_MALON;
 }
 
 void func_80970058(DemoEc* this, GlobalContext* globalCtx) {
-    func_8096D52C(this);
+    DemoEc_GetFrameUpdateMatrix(this);
     func_8096D594(this, globalCtx);
     func_8096D68C(this);
     func_8096D54C(this, globalCtx);
@@ -1188,17 +1215,17 @@ void func_8097009C(DemoEc* this, GlobalContext* globalCtx) {
 
 void func_809700DC(DemoEc* this, GlobalContext* globalCtx) {
     s16 params;
-    DemoEcActionFunc actionFunc;
+    DemoEcSetupFunc setupFunc;
 
     params = this->actor.params;
-    actionFunc = D_809704B0[params];
-    if (actionFunc == NULL) {
+    setupFunc = setupFuncs[params];
+    if (setupFunc == NULL) {
         // Demo_Ec_main_init: Initialization process is wrong arg_data
         osSyncPrintf(VT_FGCOL(RED) " Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
         Actor_Kill(&this->actor);
         return;
     }
-    actionFunc(this, globalCtx);
+    setupFunc(this, globalCtx);
 }
 
 void func_80970140(DemoEc* this, GlobalContext* globalCtx) {
@@ -1233,16 +1260,16 @@ void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoEc* this = THIS;
     DemoEcActionFunc* actionFunc;
 
-    if ((this->unk_194 < 0) || (this->unk_194 > 0x1C) ||
-        (actionFunc = D_8097053C + this->unk_194, *actionFunc == NULL)) {
+    if ((this->animationIndex < 0) || (this->animationIndex > 0x1C) ||
+        (actionFunc = actionFunc + this->animationIndex, *actionFunc == NULL)) {
         // The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        if (actionFunc != D_8097053C) {
+        if (actionFunc != actionFunc) {
             func_8096DDBC(this, globalCtx);
         }
         (*actionFunc)(this, globalCtx);
-        if (D_8097053C) {}
+        if (actionFunc) {}
     }
 }
 
@@ -1252,18 +1279,17 @@ void func_809702B0(DemoEc* this, GlobalContext* globalCtx) {
 void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     DemoEc* this = THIS;
-    DemoEcActionFunc* actionFunc;
+    DemoEcDrawFunc* drawFunc;
 
-    if ((this->unk_198 < 0) || (this->unk_198 >= 24) ||
-        (actionFunc = D_809705B0 + this->unk_198, *actionFunc == NULL)) {
+    if ((this->drawIndex < 0) || (this->drawIndex >= 24) ||
+        (drawFunc = drawFuncs + this->drawIndex, *drawFunc == NULL)) {
         // The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        if (actionFunc != D_809705B0) {
+        if (drawFunc != drawFuncs) {
             func_8096DD0C(this, globalCtx);
-            (this, globalCtx);
         }
-        (*actionFunc)(this, globalCtx);
-        if (D_809705B0) {}
+        (*drawFunc)(this, globalCtx);
+        if (drawFuncs) {}
     }
 }
