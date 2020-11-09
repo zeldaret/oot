@@ -516,7 +516,7 @@ void func_8097E824(DemoGt* this, s32 arg1);
 //         phi_f12 = (kREG(89) * 0.1f) + 0.5f;
 //         phi_f2 = kREG(90) * 0.1f;
 //     }
-   
+
 //     this->unk_16C.x += phi_a1;
 //     this->unk_16C.y += phi_a2;
 //     this->unk_16C.z += phi_a3;
@@ -897,7 +897,30 @@ void func_8097FD70(DemoGt* this, GlobalContext* globalCtx) {
     func_8097FCE4(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097FDDC.s")
+void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
+    Vec3i* unk178 = &this->unk_178;
+    Vec3i* unk198 = &this->unk_198;
+
+    if (globalCtx->csCtx.frames < 610) {
+        unk178->x = 0xA3;
+        unk178->y = 0xC1;
+        unk178->z = 0xC1;
+       
+        unk198->x++;
+        unk198->y--;
+    } else if (globalCtx->csCtx.frames < 620) {
+        f32 temp_f0 = func_8006F9BC(620, 610, globalCtx->csCtx.frames, 0, 0);
+        
+        unk178->x = (temp_f0 * (-13.0f)) + 163.0f;
+        unk178->y = (temp_f0 * (-43.0f)) + 193.0f;
+        unk178->z = (temp_f0 * (-43.0f)) + 193.0f;
+    } else {
+        unk178->x = 0x96;
+        unk178->y = 0x96;
+        unk178->z = 0x96;
+    }
+
+}
 
 void func_8097FED8(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 2)) {
@@ -906,14 +929,14 @@ void func_8097FED8(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_8097FF14(DemoGt* this, GlobalContext* globalCtx) {
-    func_8097FDDC();
+    func_8097FDDC(this, globalCtx);
     func_8097E824(this, 2);
     func_8097FD70(this, globalCtx);
     func_8097FED8(this, globalCtx);
 }
 
 void func_8097FF5C(DemoGt* this, GlobalContext* globalCtx) {
-    func_8097FDDC();
+    func_8097FDDC(this, globalCtx);
     func_8097ED64(this, globalCtx, 2);
     func_8097FD70(this, globalCtx);
 }
