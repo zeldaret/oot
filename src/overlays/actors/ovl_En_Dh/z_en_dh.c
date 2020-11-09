@@ -4,6 +4,16 @@
 
 #define THIS ((EnDh*)thisx)
 
+typedef enum {
+    ACTION_WAIT,
+    ACTION_RETREAT,
+    ACTION_BURROW,
+    ACTION_WALK,
+    ACTION_ATTACK,
+    ACTION_DEATH,
+    ACTION_DAMAGE
+} EnDhAction;
+
 void EnDh_Init(Actor* this, GlobalContext* globalCtx);
 void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDh_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -85,9 +95,9 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->limbDrawTable, this->unk_1F0, 16);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->limbDrawTable, this->limbRotTable, 16);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 64.0f);
-    this->actor.params = 0;
+    this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = (gSaveContext.linkAge == 0) ? 14 : 20;
     this->alpha = this->unk_258 = 255;
@@ -108,34 +118,34 @@ void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider2);
 }
 
-void EnDh_SpawnDirtWave(GlobalContext* globalCtx, EnDh* this, Vec3f* pos, f32 arg3, s32 arg4, f32 arg5, f32 arg6) {
-    Vec3f sp5C;
-    Vec3f sp50 = { 0.0f, 8.0f, 0.0f };
-    Vec3f sp44 = { 0.0f, -1.5f, 0.0f };
-    f32 sp40;
-    f32 pad;
+void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32 spread, s32 arg4, f32 accelXZ, f32 scale) {
+    Vec3f pos;
+    Vec3f vel = { 0.0f, 8.0f, 0.0f };
+    Vec3f accel = { 0.0f, -1.5f, 0.0f };
+    f32 spreadAngle;
+    f32 scaleMod;
 
-    sp40 = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
-    sp5C.y = this->actor.groundY;
-    sp5C.x = (func_800CA720(sp40) * arg3) + pos->x;
-    sp5C.z = (func_800CA774(sp40) * arg3) + pos->z;
-    sp44.x = (Math_Rand_ZeroOne() - 0.5f) * arg5;
-    sp44.z = (Math_Rand_ZeroOne() - 0.5f) * arg5;
-    sp50.y += (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-    pad = (Math_Rand_ZeroOne() * 5.0f) + 12.0f;
-    EffectSsHahen_Spawn(globalCtx, &sp5C, &sp50, &sp44, arg4, pad * arg6, -1, 0xA, 0);
+    spreadAngle = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
+    pos.y = this->actor.groundY;
+    pos.x = (func_800CA720(spreadAngle) * spread) + spawnPos->x;
+    pos.z = (func_800CA774(spreadAngle) * spread) + spawnPos->z;
+    accel.x = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
+    accel.z = (Math_Rand_ZeroOne() - 0.5f) * accelXZ;
+    vel.y += (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
+    scaleMod = (Math_Rand_ZeroOne() * 5.0f) + 12.0f;
+    EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, arg4, scaleMod * scale, -1, 10, NULL);
 }
 
 void EnDh_SetupWait(EnDh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06003A8C);
-    this->curAction = 0;
+    this->curAction = ACTION_WAIT;
     this->actor.posRot.pos.x = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.z = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.z;
     this->actor.shape.unk_08 = -15000.0f;
-    this->unk_318 = this->actor.speedXZ = 0.0f;
+    this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->actor.flags |= 0x80;
-    this->unk_25E = this->actionState = this->actor.params = 0;
+    this->dirtWavePhase = this->actionState = this->actor.params = ENDH_WAIT_UNDERGROUND;
     EnDh_SetupAction(this, EnDh_Wait);
 }
 
@@ -144,27 +154,27 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
         func_800F5ACC(0x38);
     }
     if (Actor_GetCollidedExplosive(globalCtx, &this->collider1.base)) {
-        this->actor.params = 5;
+        this->actor.params = ENDH_START_ATTACK_BOMB;
     }
-    if ((this->actor.params > 0) || (this->actor.params < -3)) {
+    if ((this->actor.params >= ENDH_START_ATTACK_GRAB) || (this->actor.params <= ENDH_HANDS_KILLED_4)) {
         switch (this->actionState) {
             case 0:
                 this->actor.flags |= 1;
                 this->actor.shape.rot.y = this->actor.yawTowardsLink;
                 this->actor.flags &= ~0x80;
                 this->actionState++;
-                this->unk_252++;
+                this->drawDirtWave++;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
             case 1:
-                this->unk_25E += 0x3A7;
-                Math_SmoothScaleMaxMinF(&this->unk_318, 300.0f, 1.0f, 5.0f, 0.0f);
-                this->unk_31C = Math_Sins(this->unk_25E) * 55.0f;
-                this->unk_320 = (s16)(Math_Sins(this->unk_25E) * 255.0f);
-                EnDh_SpawnDirtWave(globalCtx, this, &this->actor.posRot.pos, this->unk_318, 4, 2.05f, 1.2f);
+                this->dirtWavePhase += 0x3A7;
+                Math_SmoothScaleMaxMinF(&this->dirtWaveSpread, 300.0f, 1.0f, 5.0f, 0.0f);
+                this->dirtWaveHeight = Math_Sins(this->dirtWavePhase) * 55.0f;
+                this->dirtWaveAlpha = (s16)(Math_Sins(this->dirtWavePhase) * 255.0f);
+                EnDh_SpawnDebris(globalCtx, this, &this->actor.posRot.pos, this->dirtWaveSpread, 4, 2.05f, 1.2f);
                 if (this->actor.shape.unk_08 == 0.0f) {
-                    this->unk_252 = 0;
+                    this->drawDirtWave = false;
                     this->actionState++;
-                } else if (this->unk_25E > 0x12C0) {
+                } else if (this->dirtWavePhase > 0x12C0) {
                     this->actor.shape.unk_08 += 500.0f;
                 }
                 break;
@@ -174,7 +184,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
         }
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        if (this->actor.params != 5) {
+        if (this->actor.params != ENDH_START_ATTACK_BOMB) {
             func_8008EEAC(globalCtx, &this->actor);
         }
     }
@@ -183,7 +193,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 void EnDh_SetupWalk(EnDh* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f,
                          SkelAnime_GetFrameCount(&D_06003A8C.genericHeader) - 3.0f, 0, -6.0f);
-    this->curAction = 3;
+    this->curAction = ACTION_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
     EnDh_SetupAction(this, EnDh_Walk);
@@ -211,7 +221,7 @@ void EnDh_Walk(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupRetreat(EnDh* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06005880, -4.0f);
-    this->curAction = 1;
+    this->curAction = ACTION_RETREAT;
     this->timer = 70;
     this->actor.speedXZ = 1.0f;
     EnDh_SetupAction(this, EnDh_Retreat);
@@ -219,7 +229,7 @@ void EnDh_SetupRetreat(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_Retreat(EnDh* this, GlobalContext* globalCtx) {
     if (--this->timer == 0) {
-        this->unk_251 = 0;
+        this->retreat = false;
         EnDh_SetupBurrow(this);
     } else {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (s16)(this->actor.yawTowardsLink + 0x8000), 1, 0xBB8, 0);
@@ -231,7 +241,7 @@ void EnDh_Retreat(EnDh* this, GlobalContext* globalCtx) {
 void EnDh_SetupAttack(EnDh* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06004658, -6.0f);
     this->timer = this->actionState = 0;
-    this->curAction = 4;
+    this->curAction = ACTION_ATTACK;
     this->actor.speedXZ = 0.0f;
     EnDh_SetupAction(this, EnDh_Attack);
 }
@@ -251,7 +261,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
         case 1:
             SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06001A3C);
             this->actionState++;
-            Audio_PlayActorSound2(&this->actor, 0x3900);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_BITE);
         case 0:
             Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             break;
@@ -295,10 +305,10 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupBurrow(EnDh* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002148, -6.0f);
-    this->curAction = 2;
-    this->unk_318 = this->actor.speedXZ = 0.0f;
+    this->curAction = ACTION_BURROW;
+    this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    this->unk_25E = 0;
+    this->dirtWavePhase = 0;
     this->actionState = 0;
     this->actor.flags &= ~1;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
@@ -309,23 +319,23 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
     switch (this->actionState) {
         case 0:
             this->actionState++;
-            this->unk_252++;
+            this->drawDirtWave++;
             this->collider1.base.atFlags = this->collider1.body.toucherFlags = 0x11;
             this->collider1.body.toucher.flags = 0xFFCFFFFF;
             this->collider1.body.toucher.damage = 4;
         case 1:
-            this->unk_25E += 0x47E;
-            Math_SmoothScaleMaxMinF(&this->unk_318, 300.0f, 1.0f, 8.0f, 0.0f);
-            this->unk_31C = Math_Sins(this->unk_25E) * 55.0f;
-            this->unk_320 = (s16)(Math_Sins(this->unk_25E) * 255.0f);
-            EnDh_SpawnDirtWave(globalCtx, this, &this->actor.posRot.pos, this->unk_318, 4, 2.05f, 1.2f);
-            this->collider1.dim.radius = this->unk_318 * 0.6f;
+            this->dirtWavePhase += 0x47E;
+            Math_SmoothScaleMaxMinF(&this->dirtWaveSpread, 300.0f, 1.0f, 8.0f, 0.0f);
+            this->dirtWaveHeight = Math_Sins(this->dirtWavePhase) * 55.0f;
+            this->dirtWaveAlpha = (s16)(Math_Sins(this->dirtWavePhase) * 255.0f);
+            EnDh_SpawnDebris(globalCtx, this, &this->actor.posRot.pos, this->dirtWaveSpread, 4, 2.05f, 1.2f);
+            this->collider1.dim.radius = this->dirtWaveSpread * 0.6f;
             if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
                 this->actionState++;
             }
             break;
         case 2:
-            this->unk_252 = 0;
+            this->drawDirtWave = false;
             this->collider1.dim.radius = 35;
             this->collider1.base.atFlags = this->collider1.body.toucherFlags = 0;
             this->collider1.body.toucher.flags = this->collider1.body.toucher.damage = 0;
@@ -340,7 +350,7 @@ void EnDh_SetupDamage(EnDh* this) {
         this->actor.speedXZ = -1.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
-    this->curAction = 6;
+    this->curAction = ACTION_DAMAGE;
     EnDh_SetupAction(this, EnDh_Damage);
 }
 
@@ -353,7 +363,7 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        if (this->unk_251 != 0) {
+        if (this->retreat) {
             EnDh_SetupRetreat(this, globalCtx);
         } else if ((this->actor.xzDistFromLink <= 105.0f) && func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
             sp34 = SkelAnime_GetFrameCount(&D_06004658.genericHeader);
@@ -368,12 +378,12 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupDeath(EnDh* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060032BC, -1.0f);
-    this->curAction = 5;
+    this->curAction = ACTION_DEATH;
     this->timer = 300;
     this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
     func_800F5B58();
-    this->actor.params = 0xA;
+    this->actor.params = ENDH_DEATH;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DEAD);
     EnDh_SetupAction(this, EnDh_Death);
 }
@@ -393,11 +403,11 @@ void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        if (((s32)this->skelAnime.animCurrentFrame == 0x35) || ((s32)this->skelAnime.animCurrentFrame == 0x38) ||
-            ((s32)this->skelAnime.animCurrentFrame == 0x3D)) {
+        if (((s32)this->skelAnime.animCurrentFrame == 53) || ((s32)this->skelAnime.animCurrentFrame == 56) ||
+            ((s32)this->skelAnime.animCurrentFrame == 61)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
-        if ((s32)this->skelAnime.animCurrentFrame == 0x3D) {
+        if ((s32)this->skelAnime.animCurrentFrame == 61) {
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_PROP);
         }
     }
@@ -408,7 +418,7 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 sp2C;
 
-    if ((this->collider2.base.acFlags & 2) && (this->unk_251 == 0)) {
+    if ((this->collider2.base.acFlags & 2) && !this->retreat) {
         this->collider2.base.acFlags &= ~2;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
             this->collider2.base.atFlags = this->collider2.list[0].body.toucherFlags = 0;
@@ -426,7 +436,7 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
                     ((sp2C >= 9) && (this->actor.colChkInfo.health < 9)) ||
                     ((sp2C >= 3) && (this->actor.colChkInfo.health < 3))) {
 
-                    this->unk_251++;
+                    this->retreat++;
                 }
                 EnDh_SetupDamage(this);
             }
@@ -447,12 +457,12 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos = this->headPos;
     Collider_CylinderUpdate(&this->actor, &this->collider1);
     if (this->actor.colChkInfo.health > 0) {
-        if (this->curAction == 0) {
+        if (this->curAction == ACTION_WAIT) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         } else {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         }
-        if (((this->curAction != 6) && (this->actor.shape.unk_08 == 0.0f)) ||
+        if (((this->curAction != ACTION_DAMAGE) && (this->actor.shape.unk_08 == 0.0f)) ||
             ((player->unk_844 != 0) && (player->unk_845 != this->unk_258))) {
 
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
@@ -469,7 +479,7 @@ void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f sp1C = { 2000.0f, 1000.0f, 0.0f };
     EnDh* this = THIS;
 
-    if (limbIndex == 0xD) {
+    if (limbIndex == 13) {
         Matrix_MultVec3f(&sp1C, &this->headPos);
         Matrix_Push();
         Matrix_Translate(sp1C.x, sp1C.y, sp1C.z, MTXMODE_APPLY);
@@ -482,7 +492,7 @@ void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnDh* this = THIS;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dh.c", 0x44B);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dh.c", 1099);
     if (this->alpha == 255) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
@@ -497,20 +507,20 @@ void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                           this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
     }
-    if (this->unk_252 != 0) {
+    if (this->drawDirtWave) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 85, 55, 0, 130);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->state.frames * -3) % 0x80, 0, 0x20, 0x40, 1,
                                     (globalCtx->state.frames * -10) % 0x80, (globalCtx->state.frames * -20) % 0x100,
                                     0x20, 0x40));
-        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->unk_320);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->dirtWaveAlpha);
 
         Matrix_Translate(0.0f, -this->actor.shape.unk_08, 0.0f, MTXMODE_APPLY);
-        Matrix_Scale(this->unk_318 * 0.01f, this->unk_31C * 0.01f, this->unk_318 * 0.01f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dh.c", 0x488),
+        Matrix_Scale(this->dirtWaveSpread * 0.01f, this->dirtWaveHeight * 0.01f, this->dirtWaveSpread * 0.01f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dh.c", 1160),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_06007FC0);
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dh.c", 0x48E);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dh.c", 1166);
 }
