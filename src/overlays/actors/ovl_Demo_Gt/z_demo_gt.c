@@ -354,34 +354,33 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E454.s")
 // void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
 //                    s32 arg7, s16 arg8) {
-//     s16 phi_s0;
+//     s32 pad2[4];
+//     s16 increment;
+//     s32 frames;
 //     s32 i;
-//     f32 temp;
-//     f32 temp2;
+//     s16 phi_s0;
+//     s16 new_var = 15.0f * arg5;
+//     f32 new_var2 = 300.0f * arg5;
 //     Vec3f sp7C;
-//     s32 gameplayFrames;
 
-//     if ((func_800C0D28(globalCtx) == 0) && (arg7 > 0) && (arg6 > 0)) {
-//         gameplayFrames = ABS(globalCtx->gameplayFrames) % arg7;
+//     if (func_800C0D28(globalCtx) == 0 && arg7 > 0 && arg6 > 0) {
+//         frames = 0x10000 * (ABS((s32)globalCtx->gameplayFrames) % arg7);
+//         phi_s0 = frames / arg6;
+//         increment = 0x10000 / arg6;
 
-//         if (gameplayFrames < arg6) {
-//             phi_s0 = (gameplayFrames) / arg6;
-//             temp = (15.0f * arg5);
-//             temp2 = 300.0f * arg5;
+//         for (i = frames; i < arg6; i += arg7) {
 
-//             for (i = gameplayFrames; i < arg6; i += arg7) {
+//             sp7C.x = (Math_Sins(phi_s0) * arg4) + arg1->x;
+//             sp7C.y = arg1->y;
+//             sp7C.z = (Math_Coss(phi_s0) * arg4) + arg1->z;
 
-//                 sp7C.x = (Math_Sins(phi_s0) * arg4) + arg1->x;
-//                 sp7C.y = arg1->y;
-//                 sp7C.z = (Math_Coss(phi_s0) * arg4) + arg1->z;
+//             func_8097D74C(globalCtx, &sp7C, arg2, arg3, new_var2, new_var, arg8);
 
-//                 func_8097D74C(globalCtx, &sp7C, arg2, arg3, temp2, temp, arg8);
-//                 if (Math_Rand_ZeroOne() <= 0.05f) {
-//                     func_8097E1D4(globalCtx, &sp7C, phi_s0);
-//                 }
-
-//                 phi_s0 += (s16)(0x10000 / arg6);
+//             if (Math_Rand_ZeroOne() <= 0.05f) {
+//                 func_8097E1D4(globalCtx, &sp7C, phi_s0);
 //             }
+
+//             phi_s0 += increment;
 //         }
 //     }
 // }
@@ -393,7 +392,8 @@ u8 func_8097E69C(GlobalContext* globalCtx) {
     return false;
 }
 
-CsCmdActorAction* DemoGt_GetNpcAction(GlobalContext* globalCtx, u32 actionIdx) {
+// TODO: Rename to DemoGt_GetNpcAction
+CsCmdActorAction* func_8097E6BC(GlobalContext* globalCtx, u32 actionIdx) {
     s32 pad[2];
     CsCmdActorAction* ret = NULL;
 
@@ -406,7 +406,7 @@ CsCmdActorAction* DemoGt_GetNpcAction(GlobalContext* globalCtx, u32 actionIdx) {
 u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
     CsCmdActorAction* action;
 
-    action = DemoGt_GetNpcAction(globalCtx, arg2);
+    action = func_8097E6BC(globalCtx, arg2);
     if (action != NULL && action->action == arg1) {
         return true;
     }
@@ -414,7 +414,7 @@ u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
 }
 
 void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
-    CsCmdActorAction* npcAction = DemoGt_GetNpcAction(globalCtx, actionIdx);
+    CsCmdActorAction* npcAction = func_8097E6BC(globalCtx, actionIdx);
     Vec3f* thisPos = &this->dyna.actor.posRot.pos;
 
     f32 startX;
@@ -443,26 +443,25 @@ void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
 void func_8097E824(DemoGt* this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
 // void func_8097E824(DemoGt* this, s32 arg1) {
-//     // PosRot* temp_v0_10;
-//     // Vec3s* temp_v0_9;
-//     // f32 temp_f6;
-//     // s32 pad[4];
 //     s16 phi_a1;
 //     s16 phi_a2;
 //     s16 phi_a3;
 
-//     f32 phi_f14;
-//     f32 phi_f12;
-//     f32 phi_f2;
+//     f32 tempf1;
+//     f32 tempf2;
+//     f32 tempf3;
 
-//     f32 f1;
-//     f32 f2;
-//     f32 f3;
+//     f32 phi_f2;
+//     f32 phi_f12;
+//     f32 phi_f14;
+
+//     Vec3f* posRot = &this->dyna.actor.posRot.pos;
+//     Vec3s* unk16C = &this->unk_16C;
 
 //     if (arg1 == 1) {
-//         phi_a1 = (kREG(19) + 0x8000);
-//         phi_a2 = (kREG(20) + 0x8000);
-//         phi_a3 = (kREG(21) + 0x8000);
+//         phi_a1 = kREG(19) + 0x8000;
+//         phi_a2 = kREG(20) + 0x8000;
+//         phi_a3 = kREG(21) + 0x8000;
 //         phi_f14 = kREG(16) * 0.1f;
 //         phi_f12 = (kREG(17) * 0.1f) + 0.5f;
 //         phi_f2 = kREG(18) * 0.1f;
@@ -517,13 +516,17 @@ void func_8097E824(DemoGt* this, s32 arg1);
 //         phi_f2 = kREG(90) * 0.1f;
 //     }
 
-//     this->unk_16C.x += phi_a1;
-//     this->unk_16C.y += phi_a2;
-//     this->unk_16C.z += phi_a3;
+//     unk16C->x += phi_a1;
+//     unk16C->y += phi_a2;
+//     unk16C->z += phi_a3;
 
-//     this->dyna.actor.posRot.pos.x += Math_Coss(this->unk_16C.x) * phi_f2;
-//     this->dyna.actor.posRot.pos.y += Math_Coss(this->unk_16C.y) * phi_f12;
-//     this->dyna.actor.posRot.pos.z += Math_Coss(this->unk_16C.z) * phi_f14;
+//     tempf1 = Math_Coss(unk16C->x) * phi_f2;
+//     tempf2 = Math_Coss(unk16C->y) * phi_f12;
+//     tempf3 = Math_Coss(unk16C->z) * phi_f14;
+
+//     posRot->x = tempf1 + posRot->x;
+//     posRot->y = tempf2 + posRot->y;
+//     posRot->z = tempf3 + posRot->z;
 // }
 
 void func_8097ED64(DemoGt* this, GlobalContext* globalCtx, s32 arg0) {
@@ -905,12 +908,12 @@ void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
         unk178->x = 0xA3;
         unk178->y = 0xC1;
         unk178->z = 0xC1;
-       
+
         unk198->x++;
         unk198->y--;
     } else if (globalCtx->csCtx.frames < 620) {
         f32 temp_f0 = func_8006F9BC(620, 610, globalCtx->csCtx.frames, 0, 0);
-        
+
         unk178->x = (temp_f0 * (-13.0f)) + 163.0f;
         unk178->y = (temp_f0 * (-43.0f)) + 193.0f;
         unk178->z = (temp_f0 * (-43.0f)) + 193.0f;
@@ -919,7 +922,6 @@ void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
         unk178->y = 0x96;
         unk178->z = 0x96;
     }
-
 }
 
 void func_8097FED8(DemoGt* this, GlobalContext* globalCtx) {
