@@ -843,7 +843,7 @@ s32 func_800E66C0(s32 arg0) {
     return phi_v1;
 }
 
-u32 Audio_RandUInt(void) {
+u32 Audio_NextRandom(void) {
     static u32 audRand = 0x12345678;
 
     audRand = ((osGetCount() + 0x1234567) * (audRand + gAudioContext.totalTaskCnt));

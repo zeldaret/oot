@@ -1000,7 +1000,7 @@ s32 func_800EE5EC(void) {
         return 1;
     }
 
-    rnd = Audio_RandUInt();
+    rnd = Audio_NextRandom();
     rndNote = sOcarinaNoteValues[rnd % 5];
 
     if (sOcarinaSongs[OCA_MEMORYGAME_IDX].notes[sOcaMinigameApndPos - 1].noteIdx == rndNote) {
@@ -1650,9 +1650,8 @@ void func_800F3ED4(void) {
     D_80130618 = 0;
 }
 
-extern u8 D_8016E264;
 void func_800F3F3C(u8 arg0) {
-    if (D_8016E264 != 1) {
+    if (D_8016E264[0] != 1) {
         Audio_SetBGM(0x300006DU);
         Audio_SetBGM(arg0 | 0x83000000);
     }
@@ -1714,7 +1713,7 @@ void func_800F4190(Vec3f *pos, u16 sfxId) {
     Audio_PlaySoundGeneral(sfxId, pos, 4, &D_801305B0, &D_801333E0, &D_801305B4);
 }
 void func_800F41E0(Vec3f *pos, u16 baseSfx, u8 arg2) {
-    u8 offset = Audio_RandUInt() % arg2;
+    u8 offset = Audio_NextRandom() % arg2;
     Audio_PlaySoundGeneral(baseSfx + offset, pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 

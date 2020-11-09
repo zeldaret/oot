@@ -19,11 +19,6 @@ void func_800F9474(u8 arg0, u16 arg1) {
 }
 
 extern u32 D_8013340C;
-extern u32 D_80133390;
-extern u32 D_80133390;
-extern u32 D_80133398;
-
-void func_800F2D6C(u32*, u16);
 
 // big boi
 #ifdef NON_MATCHING
@@ -131,8 +126,8 @@ void func_800F94FC(u32 arg0) {
     u8 i;
 
     if ((D_8013340C != 0) && ((arg0 & 0xF0000000) != 0x70000000)) {
-        func_800F2D6C(&D_80133390, (arg0 >> 0x10));
-        func_800F2D6C(&D_80133398, arg0);
+        func_800F2D6C(D_80133390, (arg0 >> 0x10));
+        func_800F2D6C(D_80133398, arg0);
     }
 
     temp_a3 = arg0 & 0xF000000;
