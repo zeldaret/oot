@@ -48,7 +48,6 @@ static f32 sScale[] = {0.5f, 1.0f, 1.5f};
 static s16 sOffsetY[] = { -25, 0, -20 };
 static Color_RGBA8 sColorWhite = {250, 250, 250, 255};
 static Color_RGBA8 sColorGray = {180, 180, 180, 255};
-static Vec3f sZeroVec = {0.0f, 0.0f, 0.0f};
 
 void ObjIcePoly_Init(Actor *thisx, GlobalContext *globalCtx) {
     ObjIcePoly* this = THIS;
@@ -88,9 +87,9 @@ void ObjIcePoly_Destroy(Actor* thisx, GlobalContext *globalCtx) {
 }
 
 void ObjIcePoly_Idle(ObjIcePoly *this, GlobalContext *globalCtx) {
-    f32 pad;
+    static Vec3f zeroVec = {0.0f, 0.0f, 0.0f};
+    s32 pad;
     Vec3f pos;
-    
 
     if (this->colliderIce.base.acFlags & 2) {
         this->meltTimer = -this->colliderIce.body.acHitItem->toucher.damage;
@@ -110,7 +109,7 @@ void ObjIcePoly_Idle(ObjIcePoly *this, GlobalContext *globalCtx) {
     pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Math_Rand_S16Offset(10, 90);
     pos.z = this->actor.posRot.pos.z + this->actor.scale.z * (Math_Rand_S16Offset(15, 15) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
     if ((globalCtx->gameplayFrames % 7) == 0) {
-        EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &sZeroVec, &sZeroVec, &sColorWhite, &sColorGray, 0x7D0, 5);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &zeroVec, &zeroVec, &sColorWhite, &sColorGray, 0x7D0, 5);
     }
 }
 
