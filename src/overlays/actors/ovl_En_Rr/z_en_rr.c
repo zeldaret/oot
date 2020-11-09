@@ -161,7 +161,7 @@ void EnRr_SetSpeed(EnRr* this, f32 speed) {
 }
 
 void EnRr_SetupReach(EnRr* this) {
-    static f32 D_80AEA6DC[] = { 0.0f, 500.0f, 750.0f, 1000.0f, 1000.0f };
+    static f32 segmentHeights[] = { 0.0f, 500.0f, 750.0f, 1000.0f, 1000.0f };
     s32 i;
 
     this->reachState = 1;
@@ -169,7 +169,7 @@ void EnRr_SetupReach(EnRr* this) {
     this->phaseVelTarget = 2500.0f;
     this->unk_364 = 0.0f;
     for (i = 0; i < 5; i++) {
-        this->bodySegs[i].heightTarget = D_80AEA6DC[i];
+        this->bodySegs[i].heightTarget = segmentHeights[i];
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 0.8f;
         this->bodySegs[i].rotTarget.x = 6000.0f;
         this->bodySegs[i].rotTarget.z = 0.0f;
@@ -791,8 +791,8 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1478);
     if (1) {}
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, segMats);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x0C, segMats);
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->scrollTimer * 0) & 0x7F,
                                 (this->scrollTimer * 0) & 0x3F, 32, 16, 1, (this->scrollTimer * 0) & 0x3F,
                                 (this->scrollTimer * -6) & 0x7F, 32, 16));
@@ -801,7 +801,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Scale((1.0f + this->bodySegs[RR_BASE].scaleMod.x) * this->bodySegs[RR_BASE].scale.x,
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.y) * this->bodySegs[RR_BASE].scale.y,
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, 1);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_Pull();
     VEC_SET(zeroVec, 0.0f, 0.0f, 0.0f);
@@ -820,7 +820,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->effectPos[0] = this->actor.posRot.pos;
     Matrix_MultVec3f(&zeroVec, &this->mouthPos);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000470);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000470);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1551);
     if (this->effectTimer != 0) {
