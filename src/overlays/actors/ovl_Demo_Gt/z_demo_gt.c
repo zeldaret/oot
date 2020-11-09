@@ -443,93 +443,87 @@ void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
 void func_8097E824(DemoGt* this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
 // void func_8097E824(DemoGt* this, s32 arg1) {
-//     // f32 sp2C;
-//     // f32 sp28;
-//     // f32 sp24;
-//     // f32 sp20;
-//     // f32 sp1C;
-//     // Vec3s* sp18;
-
 //     // PosRot* temp_v0_10;
 //     // Vec3s* temp_v0_9;
 //     // f32 temp_f6;
-//     s32 pad[4];
-//     DemoGt** sp76;
-//     s32 phi_a1;
-//     s32 phi_a2;
-//     s32 phi_a3;
+//     // s32 pad[4];
+//     s16 phi_a1;
+//     s16 phi_a2;
+//     s16 phi_a3;
+
 //     f32 phi_f14;
 //     f32 phi_f12;
 //     f32 phi_f2;
 
-//     if (arg1 == 1) {
-//         phi_a1 = (s16)(kREG(19) + 0x8000);
-//         phi_a2 = (s16)(kREG(20) + 0x8000);
-//         phi_a3 = (s16)(kREG(21) + 0x8000);
-//         phi_f14 = (f32)kREG(16) * 0.1f;
-//         phi_f12 = ((f32)kREG(17) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(18) * 0.1f;
-//     } else if (arg1 == 2) {
-//         phi_a1 = (s16)(kREG(25) + 0x8000);
-//         phi_a2 = (s16)(kREG(26) + 0x8000);
-//         phi_a3 = (s16)(kREG(27) + 0x8000);
-//         phi_f14 = (f32)kREG(22) * 0.1f;
-//         phi_f12 = ((f32)kREG(23) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(24) * 0.1f;
-//     } else if (arg1 == 3) {
-//         phi_a1 = (s16)(kREG(31) + 0x8000);
-//         phi_a2 = (s16)(kREG(32) + 0x8000);
-//         phi_a3 = (s16)(kREG(33) + 0x8000);
-//         phi_f14 = (f32)kREG(28) * 0.1f;
-//         phi_f12 = ((f32)kREG(29) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(30) * 0.1f;
-//     } else if (arg1 == 4) {
-//         phi_a1 = (s16)(kREG(37) + 0x8000);
-//         phi_a2 = (s16)(kREG(38) + 0x8000);
-//         phi_a3 = (s16)(kREG(39) + 0x8000);
-//         phi_f14 = (f32)kREG(34) * 0.1f;
-//         phi_f12 = ((f32)kREG(35) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(36) * 0.1f;
-//     } else if (arg1 == 5) {
-//         phi_a1 = (s16)(kREG(43) + 0x8000);
-//         phi_a2 = (s16)(kREG(44) + 0x8000);
-//         phi_a3 = (s16)(kREG(45) + 0x8000);
-//         phi_f14 = (f32)kREG(40) * 0.1f;
-//         phi_f12 = ((f32)kREG(41) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(42) * 0.1f;
-//     } else if (arg1 == 6) {
-//         phi_a1 = (s16)(kREG(49) + 0x8000);
-//         phi_a2 = (s16)(kREG(50) + 0x8000);
-//         phi_a3 = (s16)(kREG(51) + 0x8000);
-//         phi_f14 = (f32)kREG(46) * 0.1f;
-//         phi_f12 = ((f32)kREG(47) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(48) * 0.1f;
-//     } else if (arg1 == 7) {
-//         phi_a1 = (s16)(kREG(85) + 0x8000);
-//         phi_a2 = (s16)(kREG(86) + 0x8000);
-//         phi_a3 = (s16)(kREG(87) + 0x8000);
-//         phi_f14 = (f32)kREG(82) * 0.1f;
-//         phi_f12 = ((f32)kREG(83) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(84) * 0.1f;
-//     } else {
-//         phi_a1 = (s16)(kREG(91) + 0x8000);
-//         phi_a2 = (s16)(kREG(92) + 0x8000);
-//         phi_a3 = (s16)(kREG(93) + 0x8000);
-//         phi_f14 = (f32)kREG(88) * 0.1f;
-//         phi_f12 = ((f32)kREG(89) * 0.1f) + 0.5f;
-//         phi_f2 = (f32)kREG(90) * 0.1f;
-//     }
-//     new_var = &this;
-//     (*new_var)->unk_16C.x = this->unk_16C.x + phi_a1;
-//     (*new_var)->unk_16C.y = this->unk_16C.y + phi_a2;
-//     (*new_var)->unk_16C.z = this->unk_16C.z + phi_a3;
+//     f32 f1;
+//     f32 f2;
+//     f32 f3;
 
-//     (*new_var)->dyna.actor.posRot.pos.x = this->dyna.actor.posRot.pos.x + Math_Coss((*new_var)->unk_16C.x) *
-//     phi_f2;
-//     (*new_var)->dyna.actor.posRot.pos.z += this->dyna.actor.posRot.pos.z + Math_Coss((*new_var)->unk_16C.z) *
-//     phi_f14;
-//     (*new_var)->dyna.actor.posRot.pos.y += this->dyna.actor.posRot.pos.y + Math_Coss((*new_var)->unk_16C.y) *
-//     phi_f12;
+//     if (arg1 == 1) {
+//         phi_a1 = (kREG(19) + 0x8000);
+//         phi_a2 = (kREG(20) + 0x8000);
+//         phi_a3 = (kREG(21) + 0x8000);
+//         phi_f14 = kREG(16) * 0.1f;
+//         phi_f12 = (kREG(17) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(18) * 0.1f;
+//     } else if (arg1 == 2) {
+//         phi_a1 = kREG(25) + 0x8000;
+//         phi_a2 = kREG(26) + 0x8000;
+//         phi_a3 = kREG(27) + 0x8000;
+//         phi_f14 = kREG(22) * 0.1f;
+//         phi_f12 = (kREG(23) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(24) * 0.1f;
+//     } else if (arg1 == 3) {
+//         phi_a1 = kREG(31) + 0x8000;
+//         phi_a2 = kREG(32) + 0x8000;
+//         phi_a3 = kREG(33) + 0x8000;
+//         phi_f14 = kREG(28) * 0.1f;
+//         phi_f12 = (kREG(29) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(30) * 0.1f;
+//     } else if (arg1 == 4) {
+//         phi_a1 = kREG(37) + 0x8000;
+//         phi_a2 = kREG(38) + 0x8000;
+//         phi_a3 = kREG(39) + 0x8000;
+//         phi_f14 = kREG(34) * 0.1f;
+//         phi_f12 = (kREG(35) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(36) * 0.1f;
+//     } else if (arg1 == 5) {
+//         phi_a1 = kREG(43) + 0x8000;
+//         phi_a2 = kREG(44) + 0x8000;
+//         phi_a3 = kREG(45) + 0x8000;
+//         phi_f14 = kREG(40) * 0.1f;
+//         phi_f12 = (kREG(41) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(42) * 0.1f;
+//     } else if (arg1 == 6) {
+//         phi_a1 = kREG(49) + 0x8000;
+//         phi_a2 = kREG(50) + 0x8000;
+//         phi_a3 = kREG(51) + 0x8000;
+//         phi_f14 = kREG(46) * 0.1f;
+//         phi_f12 = (kREG(47) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(48) * 0.1f;
+//     } else if (arg1 == 7) {
+//         phi_a1 = kREG(85) + 0x8000;
+//         phi_a2 = kREG(86) + 0x8000;
+//         phi_a3 = kREG(87) + 0x8000;
+//         phi_f14 = kREG(82) * 0.1f;
+//         phi_f12 = (kREG(83) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(84) * 0.1f;
+//     } else {
+//         phi_a1 = kREG(91) + 0x8000;
+//         phi_a2 = kREG(92) + 0x8000;
+//         phi_a3 = kREG(93) + 0x8000;
+//         phi_f14 = kREG(88) * 0.1f;
+//         phi_f12 = (kREG(89) * 0.1f) + 0.5f;
+//         phi_f2 = kREG(90) * 0.1f;
+//     }
+   
+//     this->unk_16C.x += phi_a1;
+//     this->unk_16C.y += phi_a2;
+//     this->unk_16C.z += phi_a3;
+
+//     this->dyna.actor.posRot.pos.x += Math_Coss(this->unk_16C.x) * phi_f2;
+//     this->dyna.actor.posRot.pos.y += Math_Coss(this->unk_16C.y) * phi_f12;
+//     this->dyna.actor.posRot.pos.z += Math_Coss(this->unk_16C.z) * phi_f14;
 // }
 
 void func_8097ED64(DemoGt* this, GlobalContext* globalCtx, s32 arg0) {
@@ -652,43 +646,45 @@ void func_8097F1D8(DemoGt* this) {
     }
 }
 
-void func_8097F280(DemoGt* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097F280.s")
-// void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
+void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
+    Vec3i* unk178 = &this->unk_178;
+    Vec3i* unk188 = &this->unk_188;
+    Vec3i* unk198 = &this->unk_198;
 
-//     f32 temp_f0;
+    f32 temp_f0;
 
-//     if (globalCtx->csCtx.frames < 0xA0) {
-//         this->unk_178.x = 0x64;
-//         this->unk_178.y = 0xFF;
-//         this->unk_178.z = 0xC8;
+    if (globalCtx->csCtx.frames < 0xA0) {
+        unk178->x = 0x64;
+        unk178->y = 0xFF;
+        unk178->z = 0xC8;
 
-//         this->unk_188.x = 0xFF;
-//         this->unk_188.y = 0x78;
-//         this->unk_188.z = 0x64;
+        unk188->x = 0xFF;
+        unk188->y = 0x78;
+        unk188->z = 0x64;
 
-//         this->unk_198.x += 1;
-//         this->unk_198.y -= 1;
-//     } else if (globalCtx->csCtx.frames < 170) {
-//         temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
+        unk198->x += 1;
+        unk198->y -= 1;
 
-//         this->unk_178.x = (temp_f0 * -63.0f) + 163.0f;
-//         this->unk_178.y = (temp_f0 * -155.0f) + 255.0f;
-//         this->unk_178.z = temp_f0 * -100.0f + 200.0f;
+    } else if (globalCtx->csCtx.frames < 170) {
+        temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
 
-//         this->unk_188.x = (temp_f0 * -155.0f) + 255.0f;
-//         this->unk_188.y = (temp_f0 * -20.0f) + 120.0f;
-//         this->unk_188.z = 0x64;
-//     } else {
-//         this->unk_178.x = 0x64;
-//         this->unk_178.y = 0x64;
-//         this->unk_178.z = 0x64;
+        unk178->x = (temp_f0 * -63.0f) + 163.0f;
+        unk178->y = (temp_f0 * -155.0f) + 255.0f;
+        unk178->z = temp_f0 * -100.0f + 200.0f;
 
-//         this->unk_188.x = 0x64;
-//         this->unk_188.y = 0x64;
-//         this->unk_188.z = 0x64;
-//     }
-// }
+        unk188->x = (temp_f0 * -155.0f) + 255.0f;
+        unk188->y = (temp_f0 * -20.0f) + 120.0f;
+        unk188->z = 0x64;
+    } else {
+        unk178->x = 0x64;
+        unk178->y = 0x64;
+        unk178->z = 0x64;
+
+        unk188->x = 0x64;
+        unk188->y = 0x64;
+        unk188->z = 0x64;
+    }
+}
 
 void func_8097F3EC(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2U, 1)) {
