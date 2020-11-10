@@ -1,4 +1,4 @@
-glabel func_80102FA0
+glabel guMtxL2F
 /* B7A140 80102FA0 3C013780 */  li    $at, 0x37800000 # 0.000000
 /* B7A144 80102FA4 44810000 */  mtc1  $at, $f0
 /* B7A148 80102FA8 3C19FFFF */  li    $t9, 0xFFFF0000 # 0.000000
