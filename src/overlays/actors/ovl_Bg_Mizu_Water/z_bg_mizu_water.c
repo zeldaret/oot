@@ -87,7 +87,7 @@ void BgMizuWater_SetWaterBoxesHeight(WaterBox* waterBoxes, s16 height) {
     u32 i;
 
     for (i = 0; i < 8; i++) {
-        waterBoxes[sWaterBoxIndexes[i]].unk_02 = height;
+        waterBoxes[sWaterBoxIndexes[i]].ySurface = height;
     }
 }
 
@@ -139,7 +139,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 this->actor.posRot.pos.y = this->baseY + 85.0f;
             }
-            waterBoxes[6].unk_02 = this->actor.posRot.pos.y;
+            waterBoxes[6].ySurface = this->actor.posRot.pos.y;
             break;
         case 3:
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -147,7 +147,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
                 if (1) {}
                 this->targetY = this->actor.posRot.pos.y;
             }
-            waterBoxes[8].unk_02 = this->actor.posRot.pos.y;
+            waterBoxes[8].ySurface = this->actor.posRot.pos.y;
             break;
         case 4:
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -155,7 +155,7 @@ void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx) {
                 if (1) {}
                 this->targetY = this->actor.posRot.pos.y;
             }
-            waterBoxes[16].unk_02 = this->actor.posRot.pos.y;
+            waterBoxes[16].ySurface = this->actor.posRot.pos.y;
             break;
     }
 
@@ -255,7 +255,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
                 globalCtx->unk_11D30[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
-            waterBoxes[6].unk_02 = this->actor.posRot.pos.y;
+            waterBoxes[6].ySurface = this->actor.posRot.pos.y;
             break;
         case 3:
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -267,7 +267,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
                 globalCtx->unk_11D30[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
-            waterBoxes[8].unk_02 = this->actor.posRot.pos.y;
+            waterBoxes[8].ySurface = this->actor.posRot.pos.y;
             break;
         case 4:
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -279,7 +279,7 @@ void BgMizuWater_ChangeWaterLevel(BgMizuWater* this, GlobalContext* globalCtx) {
                 globalCtx->unk_11D30[0] = 0;
                 this->actionFunc = BgMizuWater_WaitForAction;
             }
-            waterBoxes[16].unk_02 = this->actor.posRot.pos.y;
+            waterBoxes[16].ySurface = this->actor.posRot.pos.y;
             break;
     }
 

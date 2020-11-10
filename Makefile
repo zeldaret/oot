@@ -70,24 +70,23 @@ SPEC := spec
 
 SRC_DIRS := $(shell find src -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
-SCENE_DIRS := $(shell find scenes -type d -not -path "scenes/xml*")
-ASSET_DIRS := assets/objects assets/textures
+ASSET_DIRS := assets/objects assets/textures assets/scenes
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
-				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.c.inc),build/$f)
+				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f)
 
-TEXTURE_DIRS := assets/textures scenes/
+TEXTURE_DIRS := assets/textures assets/scenes assets/objects
 
 # source files
-C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS) $(SCENE_DIRS),$(wildcard $(dir)/*.c))
+C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
-TEXTURE_BIN_DIRS := $(shell find assets/objects/* assets/textures/* scenes/* -type d -not -path "assets/objects/xml*" -not -path "assets/textures/xml*" -not -path "scenes/xml*"\)
+TEXTURE_BIN_DIRS := $(shell find assets/objects/* assets/textures/* assets/scenes/* -type d -not -path "assets/objects/xml*" -not -path "assets/textures/xml*"\)
 
 TEXTURE_FILES_RGBA32 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.rgba32.png))
 TEXTURE_FILES_RGBA16 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.rgb5a1.png))
@@ -98,19 +97,19 @@ TEXTURE_FILES_GRAYA8 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ia
 TEXTURE_FILES_GRAYA16 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ia16.png))
 TEXTURE_FILES_CI4 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ci4.png))
 TEXTURE_FILES_CI8 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ci8.png))
-TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_RGBA32:.rgba32.png=.rgba32.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_RGBA16:.rgb5a1.png=.rgb5a1.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAY4:.i4.png=.i4.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAY8:.i8.png=.i8.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAYA4:.ia4.png=.ia4.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAYA8:.ia8.png=.ia8.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_GRAYA16:.ia16.png=.ia16.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_CI4:.ci4.png=.ci4.c.inc),build/$f) \
-					 $(foreach f,$(TEXTURE_FILES_CI8:.ci8.png=.ci8.c.inc),build/$f) \
+TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_RGBA32:.rgba32.png=.rgba32.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_RGBA16:.rgb5a1.png=.rgb5a1.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_GRAY4:.i4.png=.i4.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_GRAY8:.i8.png=.i8.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_GRAYA4:.ia4.png=.ia4.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_GRAYA8:.ia8.png=.ia8.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_GRAYA16:.ia16.png=.ia16.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_CI4:.ci4.png=.ci4.inc.c),build/$f) \
+					 $(foreach f,$(TEXTURE_FILES_CI8:.ci8.png=.ci8.inc.c),build/$f) \
 
 # create build directories
 $(shell mkdir -p build/baserom)
-$(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(ASSET_BIN_DIRS) $(SCENE_DIRS),$(shell mkdir -p build/$(dir)))
+$(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(ASSET_BIN_DIRS),$(shell mkdir -p build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
@@ -191,9 +190,9 @@ build/data/%.o: data/%.s
 #build/assets/%.c: assets/%.xml
 #	cp $(<:.c=.xml) $@
 
-build/scenes/%.o: scenes/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(OBJCOPY) -O binary $@ $@.bin
+#build/scenes/%.o: scenes/%.c
+#	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+#	$(OBJCOPY) -O binary $@ $@.bin
 
 build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
@@ -222,42 +221,42 @@ assets/%.c: assets/%.xml
 	$(ZAP2) bsf -eh -i $< -o $(dir $<)
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o build/$(@:.c=.o) $@
 
-build/%.rgba32.c.inc: %.rgba32.png
+build/%.rgba32.inc.c: %.rgba32.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt rgba32 -i $< -o $@
 
-build/%.rgb5a1.c.inc: %.rgb5a1.png
+build/%.rgb5a1.inc.c: %.rgb5a1.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt rgb5a1 -i $< -o $@
 
-build/%.i4.c.inc: %.i4.png
+build/%.i4.inc.c: %.i4.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt i4 -i $< -o $@
 
-build/%.i8.c.inc: %.i8.png
+build/%.i8.inc.c: %.i8.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt i8 -i $< -o $@
 
-build/%.ia4.c.inc: %.ia4.png
+build/%.ia4.inc.c: %.ia4.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt ia4 -i $< -o $@
 
-build/%.ia8.c.inc: %.ia8.png
+build/%.ia8.inc.c: %.ia8.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt ia8 -i $< -o $@
 
-build/%.ia16.c.inc: %.ia16.png
+build/%.ia16.inc.c: %.ia16.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt ia16 -i $< -o $@
 
-build/assets/%.ci4.c.inc: assets/%.ci4.png
+build/assets/%.ci4.inc.c: assets/%.ci4.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt ci4 -i $< -o $@
 
-build/%.ci8.c.inc: %.ci8.png
+build/%.ci8.inc.c: %.ci8.png
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) btex -tt ci8 -i $< -o $@
 
-build/assets/%.bin.c.inc: assets/%.bin
+build/assets/%.bin.inc.c: assets/%.bin
 	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAP2) bblb -i $< -o $@
