@@ -60,7 +60,7 @@ void func_80881D94(BgHakaWater* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 9; i++) {
-        globalCtx->colCtx.stat.colHeader->waterBoxes[i].unk_02 = (s16)this->actor.posRot.pos.y - 8;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[i].ySurface = (s16)this->actor.posRot.pos.y - 8;
     }
 }
 
