@@ -351,39 +351,42 @@ void func_8097E1D4(GlobalContext* arg0, Vec3f* arg1, s16 arg2) {
 
 void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
                    s32 arg7, s16 arg8);
+#ifdef NON_MATCHING
+void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
+                   s32 arg7, s16 arg8) {
+    s32 pad2[4];
+    s16 increment;
+    s32 frames;
+    s32 i;
+    s16 phi_s0;
+    s16 new_var = 15.0f * arg5;
+    f32 new_var2 = 300.0f * arg5;
+    Vec3f sp7C;
+
+    if (func_800C0D28(globalCtx) == 0 && arg7 > 0 && arg6 > 0) {
+        frames = 0x10000 * (ABS((s32)globalCtx->gameplayFrames) % arg7);
+        phi_s0 = frames / arg6;
+        increment = 0x10000 / arg6;
+
+        for (i = frames; i < arg6; i += arg7) {
+
+            sp7C.x = (Math_Sins(phi_s0) * arg4) + arg1->x;
+            sp7C.y = arg1->y;
+            sp7C.z = (Math_Coss(phi_s0) * arg4) + arg1->z;
+
+            func_8097D74C(globalCtx, &sp7C, arg2, arg3, new_var2, new_var, arg8);
+
+            if (Math_Rand_ZeroOne() <= 0.05f) {
+                func_8097E1D4(globalCtx, &sp7C, phi_s0);
+            }
+
+            phi_s0 += increment;
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E454.s")
-// void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
-//                    s32 arg7, s16 arg8) {
-//     s32 pad2[4];
-//     s16 increment;
-//     s32 frames;
-//     s32 i;
-//     s16 phi_s0;
-//     s16 new_var = 15.0f * arg5;
-//     f32 new_var2 = 300.0f * arg5;
-//     Vec3f sp7C;
-
-//     if (func_800C0D28(globalCtx) == 0 && arg7 > 0 && arg6 > 0) {
-//         frames = 0x10000 * (ABS((s32)globalCtx->gameplayFrames) % arg7);
-//         phi_s0 = frames / arg6;
-//         increment = 0x10000 / arg6;
-
-//         for (i = frames; i < arg6; i += arg7) {
-
-//             sp7C.x = (Math_Sins(phi_s0) * arg4) + arg1->x;
-//             sp7C.y = arg1->y;
-//             sp7C.z = (Math_Coss(phi_s0) * arg4) + arg1->z;
-
-//             func_8097D74C(globalCtx, &sp7C, arg2, arg3, new_var2, new_var, arg8);
-
-//             if (Math_Rand_ZeroOne() <= 0.05f) {
-//                 func_8097E1D4(globalCtx, &sp7C, phi_s0);
-//             }
-
-//             phi_s0 += increment;
-//         }
-//     }
-// }
+#endif
 
 u8 func_8097E69C(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
@@ -440,94 +443,97 @@ void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
     }
 }
 
-void func_8097E824(DemoGt* this, s32 arg1);
+// void func_8097E824(DemoGt* this, s32 arg1);
+#ifdef NON_MATCHING
+void func_8097E824(DemoGt* this, s32 arg1) {
+    s16 phi_a1;
+    s16 phi_a2;
+    s16 phi_a3;
+
+    f32 tempf1;
+    f32 tempf2;
+    f32 tempf3;
+
+    f32 phi_f2;
+    f32 phi_f12;
+    f32 phi_f14;
+
+    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    Vec3s* unk16C = &this->unk_16C;
+
+    if (arg1 == 1) {
+        phi_a1 = kREG(19) + 0x8000;
+        phi_a2 = kREG(20) + 0x8000;
+        phi_a3 = kREG(21) + 0x8000;
+        phi_f14 = kREG(16) * 0.1f;
+        phi_f12 = (kREG(17) * 0.1f) + 0.5f;
+        phi_f2 = kREG(18) * 0.1f;
+    } else if (arg1 == 2) {
+        phi_a1 = kREG(25) + 0x8000;
+        phi_a2 = kREG(26) + 0x8000;
+        phi_a3 = kREG(27) + 0x8000;
+        phi_f14 = kREG(22) * 0.1f;
+        phi_f12 = (kREG(23) * 0.1f) + 0.5f;
+        phi_f2 = kREG(24) * 0.1f;
+    } else if (arg1 == 3) {
+        phi_a1 = kREG(31) + 0x8000;
+        phi_a2 = kREG(32) + 0x8000;
+        phi_a3 = kREG(33) + 0x8000;
+        phi_f14 = kREG(28) * 0.1f;
+        phi_f12 = (kREG(29) * 0.1f) + 0.5f;
+        phi_f2 = kREG(30) * 0.1f;
+    } else if (arg1 == 4) {
+        phi_a1 = kREG(37) + 0x8000;
+        phi_a2 = kREG(38) + 0x8000;
+        phi_a3 = kREG(39) + 0x8000;
+        phi_f14 = kREG(34) * 0.1f;
+        phi_f12 = (kREG(35) * 0.1f) + 0.5f;
+        phi_f2 = kREG(36) * 0.1f;
+    } else if (arg1 == 5) {
+        phi_a1 = kREG(43) + 0x8000;
+        phi_a2 = kREG(44) + 0x8000;
+        phi_a3 = kREG(45) + 0x8000;
+        phi_f14 = kREG(40) * 0.1f;
+        phi_f12 = (kREG(41) * 0.1f) + 0.5f;
+        phi_f2 = kREG(42) * 0.1f;
+    } else if (arg1 == 6) {
+        phi_a1 = kREG(49) + 0x8000;
+        phi_a2 = kREG(50) + 0x8000;
+        phi_a3 = kREG(51) + 0x8000;
+        phi_f14 = kREG(46) * 0.1f;
+        phi_f12 = (kREG(47) * 0.1f) + 0.5f;
+        phi_f2 = kREG(48) * 0.1f;
+    } else if (arg1 == 7) {
+        phi_a1 = kREG(85) + 0x8000;
+        phi_a2 = kREG(86) + 0x8000;
+        phi_a3 = kREG(87) + 0x8000;
+        phi_f14 = kREG(82) * 0.1f;
+        phi_f12 = (kREG(83) * 0.1f) + 0.5f;
+        phi_f2 = kREG(84) * 0.1f;
+    } else {
+        phi_a1 = kREG(91) + 0x8000;
+        phi_a2 = kREG(92) + 0x8000;
+        phi_a3 = kREG(93) + 0x8000;
+        phi_f14 = kREG(88) * 0.1f;
+        phi_f12 = (kREG(89) * 0.1f) + 0.5f;
+        phi_f2 = kREG(90) * 0.1f;
+    }
+
+    unk16C->x += phi_a1;
+    unk16C->y += phi_a2;
+    unk16C->z += phi_a3;
+
+    tempf1 = Math_Coss(unk16C->x) * phi_f2;
+    tempf2 = Math_Coss(unk16C->y) * phi_f12;
+    tempf3 = Math_Coss(unk16C->z) * phi_f14;
+
+    posRot->x = tempf1 + posRot->x;
+    posRot->y = tempf2 + posRot->y;
+    posRot->z = tempf3 + posRot->z;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
-// void func_8097E824(DemoGt* this, s32 arg1) {
-//     s16 phi_a1;
-//     s16 phi_a2;
-//     s16 phi_a3;
-
-//     f32 tempf1;
-//     f32 tempf2;
-//     f32 tempf3;
-
-//     f32 phi_f2;
-//     f32 phi_f12;
-//     f32 phi_f14;
-
-//     Vec3f* posRot = &this->dyna.actor.posRot.pos;
-//     Vec3s* unk16C = &this->unk_16C;
-
-//     if (arg1 == 1) {
-//         phi_a1 = kREG(19) + 0x8000;
-//         phi_a2 = kREG(20) + 0x8000;
-//         phi_a3 = kREG(21) + 0x8000;
-//         phi_f14 = kREG(16) * 0.1f;
-//         phi_f12 = (kREG(17) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(18) * 0.1f;
-//     } else if (arg1 == 2) {
-//         phi_a1 = kREG(25) + 0x8000;
-//         phi_a2 = kREG(26) + 0x8000;
-//         phi_a3 = kREG(27) + 0x8000;
-//         phi_f14 = kREG(22) * 0.1f;
-//         phi_f12 = (kREG(23) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(24) * 0.1f;
-//     } else if (arg1 == 3) {
-//         phi_a1 = kREG(31) + 0x8000;
-//         phi_a2 = kREG(32) + 0x8000;
-//         phi_a3 = kREG(33) + 0x8000;
-//         phi_f14 = kREG(28) * 0.1f;
-//         phi_f12 = (kREG(29) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(30) * 0.1f;
-//     } else if (arg1 == 4) {
-//         phi_a1 = kREG(37) + 0x8000;
-//         phi_a2 = kREG(38) + 0x8000;
-//         phi_a3 = kREG(39) + 0x8000;
-//         phi_f14 = kREG(34) * 0.1f;
-//         phi_f12 = (kREG(35) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(36) * 0.1f;
-//     } else if (arg1 == 5) {
-//         phi_a1 = kREG(43) + 0x8000;
-//         phi_a2 = kREG(44) + 0x8000;
-//         phi_a3 = kREG(45) + 0x8000;
-//         phi_f14 = kREG(40) * 0.1f;
-//         phi_f12 = (kREG(41) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(42) * 0.1f;
-//     } else if (arg1 == 6) {
-//         phi_a1 = kREG(49) + 0x8000;
-//         phi_a2 = kREG(50) + 0x8000;
-//         phi_a3 = kREG(51) + 0x8000;
-//         phi_f14 = kREG(46) * 0.1f;
-//         phi_f12 = (kREG(47) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(48) * 0.1f;
-//     } else if (arg1 == 7) {
-//         phi_a1 = kREG(85) + 0x8000;
-//         phi_a2 = kREG(86) + 0x8000;
-//         phi_a3 = kREG(87) + 0x8000;
-//         phi_f14 = kREG(82) * 0.1f;
-//         phi_f12 = (kREG(83) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(84) * 0.1f;
-//     } else {
-//         phi_a1 = kREG(91) + 0x8000;
-//         phi_a2 = kREG(92) + 0x8000;
-//         phi_a3 = kREG(93) + 0x8000;
-//         phi_f14 = kREG(88) * 0.1f;
-//         phi_f12 = (kREG(89) * 0.1f) + 0.5f;
-//         phi_f2 = kREG(90) * 0.1f;
-//     }
-
-//     unk16C->x += phi_a1;
-//     unk16C->y += phi_a2;
-//     unk16C->z += phi_a3;
-
-//     tempf1 = Math_Coss(unk16C->x) * phi_f2;
-//     tempf2 = Math_Coss(unk16C->y) * phi_f12;
-//     tempf3 = Math_Coss(unk16C->z) * phi_f14;
-
-//     posRot->x = tempf1 + posRot->x;
-//     posRot->y = tempf2 + posRot->y;
-//     posRot->z = tempf3 + posRot->z;
-// }
+#endif
 
 void func_8097ED64(DemoGt* this, GlobalContext* globalCtx, s32 arg0) {
     func_8097E744(this, globalCtx, arg0);
