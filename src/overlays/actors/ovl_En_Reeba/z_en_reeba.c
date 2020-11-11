@@ -229,12 +229,11 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
         this->actionfunc = func_80AE5688;
         return;
     }
-    
+
     if (this->unk_274 == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
         this->unk_274 = 10;
     }
-
 }
 
 void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
@@ -636,9 +635,9 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if (this->isBig) {
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x0, 0x01, 155, 55, 255, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 155, 55, 255, 255);
     } else {
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0x0, 0x01, 255, 255, 255, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 255, 255, 255, 255);
     }
 
     SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, &this->actor);
