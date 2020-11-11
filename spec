@@ -1662,12 +1662,6 @@ endseg
 beginseg
     name "ovl_Door_Warp1"
     include "build/src/overlays/actors/ovl_Door_Warp1/z_door_warp1.o"
-    //include "build/data/overlays/actors/z_door_warp1.data.o"
-<<<<<<< HEAD
-=======
-    //include "build/data/overlays/actors/z_door_warp1.rodata.o"
->>>>>>> dfdae8df603e4833c6148b29b70e388b63929d1d
-    //include "build/data/overlays/actors/z_door_warp1.bss.o"
     include "build/data/overlays/actors/z_door_warp1.reloc.o"
 endseg
 

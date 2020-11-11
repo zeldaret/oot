@@ -47,11 +47,12 @@ const ActorInit Door_Warp1_InitVars = {
     (ActorFunc)DoorWarp1_Draw,
 };
 
-
-s32 D_8099C5A0[] = { // TODO 
-    0xC85003E8, 0xB0F40FA0, 0xB0F80320, 0x30FC0FA0
+InitChainEntry D_8099C5A0[] = { // TODO static
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 4000, ICHAIN_STOP),
 };
-
 
 s16 D_8099CCA0;
 s16 D_8099CCA2;
