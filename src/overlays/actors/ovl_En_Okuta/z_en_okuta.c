@@ -381,29 +381,25 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
     }
     if (this->timer < 3) {
         Actor_SetScale(&this->actor, ((this->timer * 0.25f) + 1.0f) * 0.01f);
-        return;
-    }
-    if (this->timer < 6) {
+    } else if (this->timer < 6) {
         Actor_SetScale(&this->actor, (1.5f - ((this->timer - 2) * 0.2333f)) * 0.01f);
-        return;
-    }
-    if (this->timer < 11) {
+    } else if (this->timer < 11) {
         Actor_SetScale(&this->actor, (((this->timer - 5) * 0.04f) + 0.8f) * 0.01f);
-        return;
-    }
-    if (Math_ApproxF(&this->actor.scale.x, 0.0f, 0.0005f)) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x70);
-        for (i = 0; i < 20; i++) {
-            velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
-            velocity.y = Math_Rand_ZeroOne() * 7.0f;
-            velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
-            EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor,
-                                              &envColor, Math_Rand_S16Offset(100, 50), 25, 0);
+    } else {
+        if (Math_ApproxF(&this->actor.scale.x, 0.0f, 0.0005f)) {
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x70);
+            for (i = 0; i < 20; i++) {
+                velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
+                velocity.y = Math_Rand_ZeroOne() * 7.0f;
+                velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 7.0f;
+                EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor,
+                                                  &envColor, Math_Rand_S16Offset(100, 50), 25, 0);
+            }
+            Actor_Kill(&this->actor);
         }
-        Actor_Kill(&this->actor);
+        this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     }
-    this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 
 void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
