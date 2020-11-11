@@ -61,13 +61,11 @@ extern AnimationHeader D_06001374;
 
 extern Gfx D_060001A0[];
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998780.s")
 // DoorWarp1_SetupAction
 void func_80998780(DoorWarp1* this, DoorWarp1ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Init.s")
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
     DoorWarp1* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
@@ -90,7 +88,6 @@ void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80999508(this, globalCtx2);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Destroy.s")
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     u8 i;
     DoorWarp1* this = THIS;
@@ -102,7 +99,6 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099898C.s")
 void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -197,7 +193,6 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998C90.s")
 void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, 0, 0, 0);
     SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 1.0f, 1.0f, 1.0f, 2, 40.0f, 1);
@@ -227,7 +222,6 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80998780(this, func_8099A3A4);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998E5C.s")
 void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
     s16 i;
 
@@ -300,7 +294,6 @@ void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998FF4.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999194.s")
 void func_80999194(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -310,7 +303,6 @@ void func_80999194(DoorWarp1* this, GlobalContext* globalCtx) {
     player->actor.posRot.pos.z = this->actor.posRot.pos.z;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_809991C8.s")
 void func_809991C8(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->unk_192 != 0) {
         this->unk_192--;
@@ -320,7 +312,6 @@ void func_809991C8(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80999194(this, globalCtx);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999214.s")
 void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 temp_f4;
     f32 phi_f0;
@@ -346,7 +337,6 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
 
 void func_80999410(DoorWarp1* this, GlobalContext* globalCtx);
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999348.s")
 void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -365,13 +355,11 @@ void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 0x320;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999410.s")
 void func_80999410(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     player->actor.gravity = -0.1f;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999428.s")
 void func_80999428(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->unk_192 != 0) {
         this->unk_192--;
@@ -382,7 +370,6 @@ void func_80999428(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999508.s")
 void func_80999508(DoorWarp1* this, GlobalContext* globalCtx) {
     switch (this->actor.params + 2) {
         case 2:
@@ -409,7 +396,6 @@ void func_80999508(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999580.s")
 void func_80999580(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->actor.room)) {
         this->unk_192 = 0xC8;
@@ -418,7 +404,6 @@ void func_80999580(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_809995D4.s")
 void func_809995D4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->unk_192 == 0) {
         if (this->actor.xzDistFromLink < 100.0f) {
@@ -441,7 +426,6 @@ void func_809995D4(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_192--;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999724.s")
 void func_80999724(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     Math_SmoothScaleMaxMinF(&this->unk_1A0, 255.0f, 0.4f, 10.0f, 0.01f);
@@ -477,7 +461,6 @@ void func_80999724(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80998780(this, func_809998A4);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_809998A4.s")
 void func_809998A4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->unk_1A0 != 0.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
@@ -486,7 +469,6 @@ void func_809998A4(DoorWarp1* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->unk_1A4, 0.0f, 0.1f, 2.0f, 0.01f);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999938.s")
 s32 func_80999938(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 ret = false;
@@ -501,7 +483,6 @@ s32 func_80999938(DoorWarp1* this, GlobalContext* globalCtx) {
     return ret;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_809999A0.s")
 void func_809999A0(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player;
 
@@ -518,7 +499,6 @@ void func_809999A0(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999A68.s")
 void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -580,7 +560,6 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999E64.s")
 void func_80999E64(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     if (this->unk_1EC != 0 && func_80999938(this, globalCtx) != 0) {
@@ -591,8 +570,6 @@ void func_80999E64(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999EE0.s")
 void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
     Vec3f sp34;
     Vec3f sp28;
@@ -617,7 +594,6 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999FE4.s")
 void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -629,7 +605,6 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A098.s")
 void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -667,7 +642,6 @@ void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A3A4.s")
 void func_8099A3A4(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
     Math_SmoothScaleMaxMinF(&this->unk_1A0, 255.0f, 0.2f, 2.0f, 0.1f);
@@ -685,7 +659,6 @@ void func_8099A3A4(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80998780(this, func_8099A46C);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A46C.s")
 void func_8099A46C(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player;
 
@@ -701,7 +674,6 @@ void func_8099A46C(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A508.s")
 void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -877,7 +849,6 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A5EC.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099AEE4.s")
 void func_8099AEE4(DoorWarp1* this, GlobalContext* globalCtx) {
     f32 phi_f0;
 
@@ -900,12 +871,10 @@ void func_8099AEE4(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B014.s")
 void func_8099B014(DoorWarp1* this, GlobalContext* globalCtx) {
 
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B020.s")
 void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->unk_1A0, 128.0f, 0.2f, 2.0f, 0.1f);
     Math_SmoothScaleMaxMinF(&this->unk_1A4, 128.0f, 0.2f, 2.0f, 0.1f);
@@ -916,7 +885,6 @@ void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_WARP_HOLE - SFX_FLAG);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Update.s")
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorWarp1* this = THIS;
 
@@ -961,12 +929,8 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-/* #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 // Regalloc, small reorderings near the end of the first switch
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
-#endif */
 void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 pad;
     u32 pad1;
@@ -1069,8 +1033,10 @@ void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2340);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
+#endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Draw.s")
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorWarp1* this = THIS;
 
