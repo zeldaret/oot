@@ -388,23 +388,11 @@ void func_80B53980(EnZl3* this, s16 y, s32 idx) {
 #endif
 
 #ifdef NON_MATCHING
-void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2) {
-    SkelAnime* temp_v1_11;
-    SkelAnime* temp_v1_13;
-    SkelAnime* temp_v1_15;
-    SkelAnime* temp_v1_17;
-    SkelAnime* temp_v1_4;
-    SkelAnime* temp_v1_5;
-    SkelAnime* temp_v1_7;
-    SkelAnime* temp_v1_9;
-    f32 temp_f0;
-    f32 temp_f2;
-    f32 temp_f2_2;
+void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
+    SkelAnime* skelAnime = &this->skelAnime;
     s16 temp_t1;
-    s16 temp_t5;
     s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_a3;
+    s32 action;
     s32 temp_a3_2;
     s32 temp_a3_3;
     s32 temp_a3_4;
@@ -412,99 +400,82 @@ void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2) {
     s32 temp_a3_6;
     s32 temp_a3_7;
     s32 temp_a3_8;
-    s32 temp_v1;
-    s32 temp_v1_10;
-    s32 temp_v1_12;
-    s32 temp_v1_14;
-    s32 temp_v1_16;
     s32 temp_v1_2;
     s32 temp_v1_3;
-    s32 temp_v1_6;
-    s32 temp_v1_8;
-    s32 phi_t4;
+    s32 idx25C;
     s32 phi_v1;
     s32 phi_v0;
     s32 phi_a1;
-    s32 phi_v0_2;
     s32 phi_a0;
     s32 phi_v0_3;
     s32 phi_v1_2;
-    s16 phi_v0_4;
-    s32 phi_a0_2;
-    s32 phi_v1_3;
-    s32 phi_t4_2;
-    s32 phi_v0_5;
-    s32 phi_at;
 
-    temp_a3 = this->action;
-    if (arg2 == 2) {
-        phi_t4 = 0;
-        phi_a1 = 0x3A98;
-    } else if (arg2 == 5) {
-        phi_t4 = 3;
-        phi_a1 = 0x32C8;
-    } else if (arg2 == 8) {
-        phi_t4 = 6;
-        phi_a1 = 0x2EE0;
-    } else if (arg2 == 0xB) {
-        phi_t4 = 9;
+    action = this->action;
+    if (idx == 2) {
+        idx25C = 0;
+        phi_a1 = 15000;
+    } else if (idx == 5) {
+        idx25C = 3;
+        phi_a1 = 13000;
+    } else if (idx == 8) {
+        idx25C = 6;
+        phi_a1 = 12000;
+    } else if (idx == 11) {
+        idx25C = 9;
         phi_a1 = 0x4000;
-    } else if (arg2 == 0xE) {
-        phi_t4 = 0xC;
+    } else if (idx == 14) {
+        idx25C = 12;
         phi_a1 = 0x4000;
-    } else if (arg2 == 0x11) {
-        phi_t4 = 0xF;
+    } else if (idx == 17) {
+        idx25C = 15;
         phi_a1 = 0x4000;
     } else {
-        phi_t4 = 0x12;
+        idx25C = 18;
         phi_a1 = 0x4000;
     }
+
     if (this->unk_2FC != 0) {
-        temp_t1 = this->unk_25C[arg2];
-        temp_v1 = arg1 - this->unk_2BC[arg2];
-        temp_a0 = (s32)((this->unk_28C[arg2] + arg1) << 0x10) >> 0x10;
-        phi_v1_3 = temp_v1;
-        if ((s32)fabsf((f32)temp_v1) >= 0x8001) {
-            phi_at = 0x10000;
-            if ((s32)arg1 > 0) {
-                phi_at = 0xFFFF0000;
+        temp_t1 = this->unk_25C[idx];
+        phi_v1 = z - this->unk_2BC[idx];
+        temp_a0 = (s16)(this->unk_28C[idx] + z);
+
+        if ((s32)fabsf(phi_v1) > 0x8000) {
+            if (z > 0) {
+                phi_v1 -= 0x10000;
+            } else {
+                phi_v1 += 0x10000;
             }
-            phi_v1_3 = temp_v1 + phi_at;
         }
-        phi_v1 = phi_v1_3;
-        if (phi_t4 >= 0) {
-            temp_t5 = this->unk_25C[phi_t4];
-            phi_t4_2 = 0 - temp_t5;
-            if ((s32)temp_t5 >= 0) {
-                phi_t4_2 = (s32)temp_t5;
-            }
-            phi_v1 = phi_v1_3 + (phi_t4_2 / 3);
+
+        if (idx25C >= 0) {
+            phi_v1 += (ABS(this->unk_25C[idx25C]) / 3);
         }
-        if (arg2 == 2) {
-            if ((temp_a3 == 5) || (temp_a3 == 0x18)) {
-                phi_v0 = (s32)temp_t1;
+
+        if (idx == 2) {
+            if ((action == 5) || (action == 24)) {
+                phi_v0 = temp_t1;
                 if (phi_v1 != 0) {
-                    phi_v0 = (s32)(temp_t1 - ((s32)(phi_v1 - temp_t1) / 0xA));
+                    phi_v0 -= (phi_v1 - temp_t1) / 10;
                 }
             } else {
             block_27:
-                if ((arg2 == 2) && (temp_a3 == 0x16) && (2 == this->skelAnime.mode)) {
-                    phi_v0 = (s32)temp_t1;
+                if ((idx == 2) && (action == 22) && (this->skelAnime.mode == 2)) {
+                    phi_v0 = temp_t1;
                     if (phi_v1 != 0) {
-                        phi_v0 = (s32)(temp_t1 - ((s32)(phi_v1 - temp_t1) / 0xA));
+                        phi_v0 -= (phi_v1 - temp_t1) / 10;
                     }
-                } else if (arg2 == 2) {
-                    if ((temp_a3 == 0x14) || (temp_a3 == 0x15)) {
-                        if (2 == this->skelAnime.mode) {
-                            phi_v0 = (s32)temp_t1;
+                } else if (idx == 2) {
+                    if (action == 20 || action == 21) {
+                        if (this->skelAnime.mode == 2) {
+                            phi_v0 = temp_t1;
                             if (phi_v1 != 0) {
-                                phi_v0 = (s32)(temp_t1 - ((s32)(phi_v1 - temp_t1) / 0xA));
+                                phi_v0 -= (phi_v1 - temp_t1) / 10;
                             }
                         } else {
                         block_38:
-                            phi_v0 = (s32)temp_t1;
+                            phi_v0 = temp_t1;
                             if (phi_v1 != 0) {
-                                phi_v0 = (s32)(temp_t1 + ((s32)(phi_v1 - temp_t1) / 0x10));
+                                phi_v0 += (phi_v1 - temp_t1) / 16;
                             }
                         }
                     } else {
@@ -517,212 +488,162 @@ void func_80B53B64(EnZl3* this, s16 arg1, s32 arg2) {
         } else {
             goto block_27;
         }
-        phi_v0_5 = phi_v0;
+
         if (phi_v0 != 0) {
-            phi_v0_5 = phi_v0 - (phi_v0 / 0xA);
+            phi_v0 -= phi_v0 / 10;
         }
+
         temp_v1_2 = (s16)(temp_a0 - phi_a1);
-        phi_v0_2 = phi_v0_5;
         if (temp_v1_2 != 0) {
-            phi_v0_2 = phi_v0_5 - (temp_v1_2 / 0x32);
+            phi_v0 -= temp_v1_2 / 50;
         }
-        temp_a0 = temp_a0 + phi_v0_2;
+
+        temp_a0 = temp_a0 + phi_v0;
         temp_v1_3 = (s16)(temp_a0 - phi_a1);
         phi_a0 = temp_a0;
-        phi_v0_3 = phi_v0_2;
-        if ((temp_t1 * phi_v0_2) <= 0) {
-            if (temp_v1_3 >= -0x63) {
-                if (temp_v1_3 < 0x64) {
-                    phi_a0 = phi_a1;
-                    phi_v0_3 = 0;
-                }
-            }
+        phi_v0_3 = phi_v0;
+
+        if (((temp_t1 * phi_v0) <= 0) && (temp_v1_3 > -100) && (temp_v1_3 < 100)) {
+            phi_a0 = phi_a1;
+            phi_v0_3 = 0;
         }
-        if (arg2 == 2) {
-            if (temp_a3 == 4) {
-                temp_v1_4 = &this->skelAnime;
-                phi_v0_4 = (s16)phi_v0_3;
-                phi_a0_2 = phi_a0;
-                if (2 == temp_v1_4->mode) {
-                    temp_f2 = this->unk_3E0;
-                    temp_a3_2 = (s32)(((temp_f2 - temp_v1_4->animCurrentFrame) / temp_f2) * -2000.0f) + phi_a1;
-                    phi_a0_2 = phi_a0;
+
+        if (idx == 2) {
+            if (action == 4) {
+                if (skelAnime->mode == 2) {
+                    temp_a3_2 = (s32)(((this->unk_3E0 - skelAnime->animCurrentFrame) / this->unk_3E0) * -2000.0f) + phi_a1;
                     if (temp_a3_2 >= phi_a0) {
-                        phi_a0_2 = temp_a3_2;
+                        phi_a0 = temp_a3_2;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
-            } else if (temp_a3 == 5) {
-                temp_v1_5 = &this->skelAnime;
-                if (2 == temp_v1_5->mode) {
-                    temp_a3_3 = (s32)((temp_v1_5->animCurrentFrame / this->unk_3E4) * -2000.0f) + phi_a1;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
+            } else if (action == 5) {
+                if (skelAnime->mode == 2) {
+                    temp_a3_3 = (s32)((skelAnime->animCurrentFrame / this->unk_3E4) * -2000.0f) + phi_a1;
                     if (temp_a3_3 >= phi_a0) {
-                        phi_a0_2 = temp_a3_3;
+                        phi_a0 = temp_a3_3;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 } else {
-                    temp_v1_6 = phi_a1 - 0x7D0;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
-                    if (temp_v1_6 >= phi_a0) {
-                        phi_a0_2 = temp_v1_6;
+                    if (phi_a1 - 2000 >= phi_a0) {
+                        phi_a0 = phi_a1 - 2000;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
-            } else if ((temp_a3 == 0x14) || (temp_a3 == 0x15)) {
-                temp_v1_13 = &this->skelAnime;
-                if (2 == temp_v1_13->mode) {
-                    temp_f0 = temp_v1_13->animCurrentFrame;
-                    if (temp_f0 <= 42.0f) {
-                        phi_v1_2 = phi_a1 - 0x7D0;
+            } else if ((action == 20) || (action == 21)) {
+                if (skelAnime->mode == 2) {
+                    if (skelAnime->animCurrentFrame <= 42.0f) {
+                        phi_v1_2 = phi_a1 - 2000;
                     } else {
-                        phi_v1_2 = (s32)((((temp_f0 - 42.0f) * 6200.0f) / (this->unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
+                        phi_v1_2 = (s32)((((skelAnime->animCurrentFrame - 42.0f) * 6200.0f) / (this->unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
                     }
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
+
                     if (phi_v1_2 >= phi_a0) {
-                        temp_a0_2 = phi_v1_2;
-                        phi_a0_2 = temp_a0_2;
+                        phi_a0 = phi_v1_2;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 } else {
-                    temp_v1_14 = phi_a1 + 0x1068;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
-                    if (temp_v1_14 >= phi_a0) {
-                        phi_a0_2 = temp_v1_14;
+                    if (phi_a1 + 4200 >= phi_a0) {
+                        phi_a0 = phi_a1 + 4200;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
-            } else if (temp_a3 == 0x16) {
-                temp_v1_7 = &this->skelAnime;
-                if (2 == temp_v1_7->mode) {
-                    temp_a3_4 = (s32)(((temp_v1_7->animCurrentFrame / this->unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
+            } else if (action == 22) {
+                if (skelAnime->mode == 2) {
+                    temp_a3_4 = (s32)(((skelAnime->animCurrentFrame / this->unk_3EC) * -5200.0f) + 4200.0f) + phi_a1;
                     if (temp_a3_4 >= phi_a0) {
-                        phi_a0_2 = temp_a3_4;
+                        phi_a0 = temp_a3_4;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 } else {
-                    temp_v1_8 = phi_a1 - 0x7D0;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
-                    if (temp_v1_8 >= phi_a0) {
-                        phi_a0_2 = temp_v1_8;
+                    if (phi_a1 - 2000 >= phi_a0) {
+                        phi_a0 = phi_a1 - 2000;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
-            } else if (temp_a3 == 0x17) {
-                temp_v1_9 = &this->skelAnime;
-                if (2 == temp_v1_9->mode) {
-                    temp_a3_5 = (s32)(((temp_v1_9->animCurrentFrame / this->unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
+            } else if (action == 23) {
+                if (skelAnime->mode == 2) {
+                    temp_a3_5 = (s32)(((skelAnime->animCurrentFrame / this->unk_3F0) * -7600.0f) + -2000.0f) + phi_a1;
                     if (temp_a3_5 >= phi_a0) {
-                        phi_a0_2 = temp_a3_5;
+                        phi_a0 = temp_a3_5;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 } else {
-                    temp_v1_10 = phi_a1 - 0x2580;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
-                    if (temp_v1_10 >= phi_a0) {
-                        phi_a0_2 = temp_v1_10;
+                    if (phi_a1 - 9600 >= phi_a0) {
+                        phi_a0 = phi_a1 - 9600;
                         if (phi_v0_3 < 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
-            } else {
-                phi_v0_4 = (s16)phi_v0_3;
-                phi_a0_2 = phi_a0;
-                if (temp_a3 == 0x18) {
-                    temp_v1_11 = &this->skelAnime;
-                    if (2 == temp_v1_11->mode) {
-                        temp_a3_6 =
-                            (s32)(((temp_v1_11->animCurrentFrame / this->unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
-                        if (temp_a3_6 >= phi_a0) {
-                            phi_a0_2 = temp_a3_6;
-                            if (phi_v0_3 < 0) {
-                                phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
-                            }
+            } else if (action == 24) {
+                if (skelAnime->mode == 2) {
+                    temp_a3_6 = (s32)(((skelAnime->animCurrentFrame / this->unk_3E8) * 21000.0f) + -9600.0f) + phi_a1;
+                    if (temp_a3_6 >= phi_a0) {
+                        phi_a0 = temp_a3_6;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_3 /= -2;
                         }
-                    } else {
-                        temp_v1_12 = phi_a1 + 0x2C88;
-                        if (temp_v1_12 >= phi_a0) {
-                            phi_a0_2 = temp_v1_12;
-                            if (phi_v0_3 < 0) {
-                                phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
-                            }
+                    }
+                } else {
+                    if (phi_a1 + 11400 >= phi_a0) {
+                        phi_a0 = phi_a1 + 11400;
+                        if (phi_v0_3 < 0) {
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
             }
-        } else if ((arg2 == 0xB) || (phi_v0_4 = (s16)phi_v0_3, phi_a0_2 = phi_a0, (arg2 == 0x11))) {
-            if (temp_a3 == 4) {
-                temp_v1_15 = &this->skelAnime;
-                if (2 == temp_v1_15->mode) {
-                    temp_a3_7 = (s32)((temp_v1_15->animCurrentFrame / this->unk_3E0) * -7000.0f) + phi_a1;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
+        } else if (idx == 11 || idx == 17) {
+            if (action == 4) {
+                if (skelAnime->mode == 2) {
+                    temp_a3_7 = (s32)((skelAnime->animCurrentFrame / this->unk_3E0) * -7000.0f) + phi_a1;
                     if (phi_a0 >= temp_a3_7) {
-                        phi_a0_2 = temp_a3_7;
+                        phi_a0 = temp_a3_7;
                         if (phi_v0_3 > 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 } else {
-                    temp_v1_16 = phi_a1 - 0x1B58;
-                    phi_v0_4 = (s16)phi_v0_3;
-                    phi_a0_2 = phi_a0;
-                    if (phi_a0 >= temp_v1_16) {
-                        phi_a0_2 = temp_v1_16;
+                    if (phi_a0 >= phi_a1 - 7000) {
+                        phi_a0 = phi_a1 - 7000;
                         if (phi_v0_3 > 0) {
-                            phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
-            } else {
-                phi_v0_4 = (s16)phi_v0_3;
-                phi_a0_2 = phi_a0;
-                if (temp_a3 == 5) {
-                    temp_v1_17 = &this->skelAnime;
-                    if (2 == temp_v1_17->mode) {
-                        temp_f2_2 = this->unk_3E4;
-                        temp_a3_8 = (s32)(((temp_f2_2 - temp_v1_17->animCurrentFrame) / temp_f2_2) * -7000.0f) + phi_a1;
-                        if (phi_a0 >= temp_a3_8) {
-                            phi_a0_2 = temp_a3_8;
-                            if (phi_v0_3 > 0) {
-                                phi_v0_4 = (s16)(0 - (phi_v0_3 / 2));
-                            }
+            } else if (action == 5) {
+                if (skelAnime->mode == 2) {
+                    temp_a3_8 = (s32)(((this->unk_3E4 - skelAnime->animCurrentFrame) / this->unk_3E4) * -7000.0f) + phi_a1;
+                    if (phi_a0 >= temp_a3_8) {
+                        phi_a0 = temp_a3_8;
+                        if (phi_v0_3 > 0) {
+                            phi_v0_3 /= -2;
                         }
                     }
                 }
             }
         }
-        this->unk_25C[arg2] = phi_v0_4;
-        this->unk_28C[arg2] = phi_a0_2 - arg1;
+        this->unk_25C[idx] = phi_v0_3;
+        this->unk_28C[idx] = phi_a0 - z;
     }
-    this->unk_2BC[arg2] = arg1;
+    this->unk_2BC[idx] = z;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl3/func_80B53B64.s")
