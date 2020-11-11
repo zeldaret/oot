@@ -1,7 +1,4 @@
-#include <global.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ultra64/printf.h>
+#include "global.h"
 
 #define BUFF_LEN 0x18
 

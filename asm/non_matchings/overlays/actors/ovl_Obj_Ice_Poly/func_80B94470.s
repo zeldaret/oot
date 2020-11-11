@@ -148,7 +148,7 @@ glabel func_80B94470
 /* 00418 80B94678 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 0041C 80B9467C AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00420 80B94680 AFAA0018 */  sw      $t2, 0x0018($sp)           
-/* 00424 80B94684 0C00A2EC */  jal     func_80028BB0              
+/* 00424 80B94684 0C00A2EC */  jal     EffectSsKiraKira_SpawnDispersed              
 /* 00428 80B94688 AFAB001C */  sw      $t3, 0x001C($sp)           
 /* 0042C 80B9468C 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80B94690:

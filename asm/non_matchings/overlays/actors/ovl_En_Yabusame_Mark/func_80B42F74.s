@@ -94,7 +94,7 @@ glabel func_80B42F74
 /* 0026C 80B4302C 44882000 */  mtc1    $t0, $f4                   ## $f4 = NaN
 /* 00270 80B43030 00000000 */  nop
 /* 00274 80B43034 468021A0 */  cvt.s.w $f6, $f4                   
-/* 00278 80B43038 0C00A732 */  jal     func_80029CC8              
+/* 00278 80B43038 0C00A732 */  jal     EffectSsHitMark_SpawnCustomScale              
 /* 0027C 80B4303C E7A6004C */  swc1    $f6, 0x004C($sp)           
 /* 00280 80B43040 8FA60068 */  lw      $a2, 0x0068($sp)           
 /* 00284 80B43044 3C1880B4 */  lui     $t8, %hi(D_80B435F0)       ## $t8 = 80B40000

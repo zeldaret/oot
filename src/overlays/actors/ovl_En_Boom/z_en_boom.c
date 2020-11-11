@@ -251,16 +251,16 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&sMultVec1, &vec1);
     Matrix_MultVec3f(&sMultVec2, &vec2);
 
-    if (func_80090480(globalCtx, &this->collider, &this->unk_1DC, &vec1, &vec2) != 0) {
+    if (func_80090480(globalCtx, &this->collider, &this->boomerangInfo, &vec1, &vec2) != 0) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &vec1, &vec2);
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_RotateY((this->activeTimer * 12000) * 0.0000958738f, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_0400C808);
+    gSPDisplayList(POLY_OPA_DISP++, D_0400C808);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
 }

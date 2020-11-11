@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_treemouth.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000030
 
@@ -119,7 +120,7 @@ void func_808BC6F8(BgTreemouth* this, GlobalContext* globalCtx) {
         sp34.x = (Math_Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Math_Rand_ZeroOne() * 2026.0f) + -2163.0f;
-        func_800297A4(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, -1, 10, 0);
+        EffectSsHahen_SpawnBurst(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
     }
 }
 
@@ -242,10 +243,10 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
         alpha = (globalCtx->unk_11D30[0] + 0x1F4);
     }
 
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 128, 128, 128, alpha * 0.1f);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
+    gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_060009D0);
+    gSPDisplayList(POLY_OPA_DISP++, &D_060009D0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
 }

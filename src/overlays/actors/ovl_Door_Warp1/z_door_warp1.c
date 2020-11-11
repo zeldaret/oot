@@ -30,10 +30,7 @@ void func_8099A46C(DoorWarp1* this, GlobalContext* globalCtx);
 void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx);
 void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx);
 void func_8099B014(DoorWarp1* this, GlobalContext* globalCtx);
-
-
 void func_80999508(DoorWarp1* this, GlobalContext* globalCtx);
-
 
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
@@ -47,20 +44,19 @@ const ActorInit Door_Warp1_InitVars = {
     (ActorFunc)DoorWarp1_Draw,
 };
 
-InitChainEntry D_8099C5A0[] = { // TODO static
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 4000, ICHAIN_STOP),
 };
 
-s16 D_8099CCA0;
-s16 D_8099CCA2;
-
-extern SkeletonHeader D_06002CA8;
-extern AnimationHeader D_06001374;
+s16 D_8099CCA0; // TODO static when matching
+static s16 D_8099CCA2;
 
 extern Gfx D_060001A0[];
+extern AnimationHeader D_06001374;
+extern SkeletonHeader D_06002CA8;
 
 // DoorWarp1_SetupAction
 void func_80998780(DoorWarp1* this, DoorWarp1ActionFunc actionFunc) {
@@ -73,7 +69,7 @@ void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_1B8 = 0;
     this->unk_1B4 = 0.0f;
-    Actor_ProcessInitChain(&this->actor, D_8099C5A0);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     if (this->actor.params != 2 && this->actor.params != -2 && this->actor.params != 4 && this->actor.params != 6) {
         Lights_PointNoGlowSetInfo(&this->unk_1C8, 
@@ -901,10 +897,10 @@ void func_8099B140(DoorWarp1* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2078);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 200, 255, 255, (u8)this->unk_1A8);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 100, 255, (u8)this->unk_1A8);
-    oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
-                                        NULL, NULL, &this->actor, oGfxCtx->polyXlu.p);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (u8)this->unk_1A8);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (u8)this->unk_1A8);
+    POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
+                                        NULL, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2098);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -921,10 +917,10 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002EB44(&this->actor.posRot.pos, &eye, &eye, globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, (u8)this->unk_1A8);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 150, 0, 100, (u8)this->unk_1A8);
-    oGfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
-                                        NULL, NULL, &this->actor, oGfxCtx->polyXlu.p);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)this->unk_1A8);
+    gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 100, (u8)this->unk_1A8);
+    POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
+                                        NULL, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2152);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -958,78 +954,78 @@ void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     switch (this->actor.params) {
         case 4:
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 255, 0, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 255);
             break;
         case 8:
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 150, 0, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 150, 0, 255);
             break;
         case 9:
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 200, 0, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 200, 0, 255);
             break;
         case 10:
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 50, 0, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 255);
             break;
         default:
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A4);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255 * temp_f0, 255, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A4);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255 * temp_f0, 255, 255);
             break;
     }
-    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_DISABLE);
-    gDPSetColorDither(oGfxCtx->polyXlu.p++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
+    gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
+    gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 1.0f, this->actor.posRot.pos.z, MTXMODE_NEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2247));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2247));
     Matrix_Push();
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+    gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
             spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100, 1, 
             spEC & 0xFF, -((s16)(this->unk_19C + this->unk_19C) & 511), 0x100, 0x100));
 
     Matrix_Translate(0.0f, this->unk_194 * 230.0f, 0.0f, MTXMODE_APPLY);
     temp_f12 = (((f32) this->unk_1AE * spE8) / 100.0f) + 1.0f;
     Matrix_Scale(temp_f12, 1.0f, temp_f12, MTXMODE_APPLY);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2267));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_060001A0);
+    gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2267));
+    gSPDisplayList(POLY_XLU_DISP++, D_060001A0);
     Matrix_Pull();
 
     if (this->unk_1A0 > 0.0f) {
         switch (this->actor.params) {
             case 4:
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 255, 0, 255);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 255);
                 break;
             case 8:
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 150, 0, 255);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(POLY_XLU_DISP++, 255, 150, 0, 255);
                 break;
             case 9:
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 200, 0, 255);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(POLY_XLU_DISP++, 0, 200, 0, 255);
                 break;
             case 10:
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 50, 0, 255);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, this->unk_1A4);
+                gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 255);
                 break;
             default:
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A0);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 255 * temp_f0, 255, 255);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255 * temp_f0, 255, 255, this->unk_1A0);
+                gDPSetEnvColor(POLY_XLU_DISP++, 0, 255 * temp_f0, 255, 255);
                 break;
         }
         spEC *= 2;
 
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
+        gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
                 spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100, 1, 
                 spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
 
         Matrix_Translate(0.0f, this->unk_198 * 60.0f, 0.0f, MTXMODE_APPLY);
         temp_f12 = (((f32) this->unk_1B0 * spE4) / 100.0f) + 1.0f;
         Matrix_Scale(temp_f12, 1.0f, temp_f12, MTXMODE_APPLY);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2336));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_060001A0);
+        gSPSegment(POLY_XLU_DISP++, 0x09, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2336));
+        gSPDisplayList(POLY_XLU_DISP++, D_060001A0);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2340);

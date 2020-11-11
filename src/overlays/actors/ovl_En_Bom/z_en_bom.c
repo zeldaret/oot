@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bom.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000030
 
@@ -199,7 +200,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
-    Color_RGBA8_n dustColor = { 255, 255, 255, 255 };
+    Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
     EnBom* this = THIS;
 
@@ -230,13 +231,13 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             effPos = thisx->posRot.pos;
             effPos.y += 17.0f;
             if ((globalCtx->gameplayFrames % 2) == 0) {
-                func_80029184(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
+                EffectSsGSpk_SpawnFuse(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
             effPos.y += 3.0f;
-            func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 0x32, 5);
+            func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
         if ((this->bombCollider.base.acFlags & 2) ||
@@ -246,7 +247,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             // if a lit stick touches the bomb, set timer to 100
             // these bombs never have a timer over 70, so this isnt used
-            if ((this->timer > 100) && func_8008EF5C(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
+            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
@@ -284,7 +285,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             effPos.y = thisx->groundY;
             if (thisx->groundY > -32000.0f) {
-                func_80029024(globalCtx, &effPos, &effVelocity, &effAccel);
+                EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
@@ -314,7 +315,8 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMB_EXPLOSION)) {
         if (thisx->waterY >= 20.0f) {
-            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 10);
+            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
+                                              DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);
             return;
         }
@@ -338,16 +340,16 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800D1FD4(&globalCtx->mf_11DA0);
         func_8002EBCC(thisx, globalCtx, 0);
 
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007A50);
+        gSPDisplayList(POLY_OPA_DISP++, D_04007A50);
         Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->flashIntensity, 0, 40, 255);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04007860);
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
+        gSPDisplayList(POLY_OPA_DISP++, D_04007860);
         func_800628A4(0, &this->explosionCollider);
     }
 
