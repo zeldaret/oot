@@ -1481,6 +1481,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
 
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     Scene* scene = &gSceneTable[sceneNum];
+    u32 roomSize;
 
     scene->unk_13 = 0;
     globalCtx->loadedScene = scene;
@@ -1497,8 +1498,8 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     Gameplay_InitScene(globalCtx, spawn);
-
-    osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(globalCtx, &globalCtx->roomCtx) * 0.0009765625f);
+    roomSize = func_80096FE8(globalCtx, &globalCtx->roomCtx);
+    osSyncPrintf("ROOM SIZE=%fK\n", roomSize * (1.0f / 1024.0f));
 }
 
 void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
