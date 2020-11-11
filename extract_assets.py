@@ -28,7 +28,7 @@ Extract("assets/xml/textures/icon_item_static.xml", "assets/textures/icon_item_s
 # Objects
 Extract("assets/xml/objects/object_vase.xml", "assets/objects/object_vase")
 Extract("assets/xml/objects/object_pu_box.xml", "assets/objects/object_pu_box")
-#Extract("assets/xml/objects/gameplay_keep.xml", "assets/objects/gameplay_keep")
+Extract("assets/xml/objects/gameplay_keep.xml", "assets/objects/gameplay_keep")
 #Extract("assets/xml/objects/object_sk2.xml", "assets/objects/object_sk2")
 
 
