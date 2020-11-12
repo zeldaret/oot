@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define GAMESTATE_OVERLAY(name, init, destroy, size)                                                         \
     {                                                                                                        \

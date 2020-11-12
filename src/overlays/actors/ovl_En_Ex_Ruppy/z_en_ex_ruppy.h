@@ -1,8 +1,8 @@
 #ifndef _Z_EN_EX_RUPPY_H_
 #define _Z_EN_EX_RUPPY_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnExRuppy;
 

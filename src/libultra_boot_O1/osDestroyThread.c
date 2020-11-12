@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void osDestroyThread(OSThread* thread) {
     register s32 int_disabled;
