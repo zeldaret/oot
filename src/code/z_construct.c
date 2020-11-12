@@ -23,7 +23,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     interfaceCtx->unk_228 = XREG(95);
     interfaceCtx->minimapAlpha = 0;
     interfaceCtx->unk_260 = 0;
-    interfaceCtx->unk_244 = interfaceCtx->aAlpha = interfaceCtx->bAlpha = interfaceCtx->cLeftAlpha =
+    interfaceCtx->screenFillAlpha = interfaceCtx->aAlpha = interfaceCtx->bAlpha = interfaceCtx->cLeftAlpha =
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
 

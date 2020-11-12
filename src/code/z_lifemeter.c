@@ -1,15 +1,46 @@
 #include "global.h"
 
-extern s16 D_8011FF10[3];
-extern s16 D_8011FF24[3];
-extern s16 D_8011FF38[3];
-extern s16 D_8011FF4C[3];
-extern s16 D_8011FF60[3];
-extern s16 D_8011FF74[3];
-extern s16 D_8011FF88[3];
-extern s16 D_8011FF9C[3];
-extern u8* D_8011FFB0[];
-extern u8* D_8011FFF0[];
+s16 D_8011FF10[] = {
+    255, 70, 50, 255, 190, 0, 100, 100, 255,
+};
+
+s16 D_8011FF24[] = {
+    50, 40, 60, 255, 0, 0, 0, 0, 255,
+};
+
+s16 D_8011FF38[] = {
+    0, 0, 0, 0, 120, -50, -155, 30, 205,
+};
+
+s16 D_8011FF4C[] = {
+    0, 0, 0, 205, -40, -60, -50, -40, 195,
+};
+
+s16 D_8011FF60[] = {
+    255, 255, 255, 255, 190, 0, 100, 100, 255,
+};
+
+s16 D_8011FF74[] = {
+    200, 0, 0, 255, 0, 0, 0, 0, 255,
+};
+
+s16 D_8011FF88[] = {
+    0, 0, 0, 0, -65, -255, -155, -155, 0,
+};
+
+s16 D_8011FF9C[] = {
+    0, 0, 0, 55, 0, 0, -200, 0, 255,
+};
+
+UNK_PTR* sHeartTextures[] = {
+    0x02000400, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000200, 0x02000200,
+    0x02000200, 0x02000200, 0x02000200, 0x02000300, 0x02000300, 0x02000300, 0x02000300, 0x02000300,
+};
+
+UNK_PTR* sHeartDoubleDefenseTextures[] = {
+    0x02000900, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000700, 0x02000700,
+    0x02000700, 0x02000700, 0x02000700, 0x02000800, 0x02000800, 0x02000800, 0x02000800, 0x02000800,
+};
 
 s16 D_8015FDC0[3];
 s16 D_8015FDC8[3];
@@ -24,19 +55,19 @@ void Health_InitData(GlobalContext* globalCtx) {
     interfaceCtx->unk_22A = interfaceCtx->unk_1FE = 0;
     interfaceCtx->unk_22C = interfaceCtx->unk_200 = 0;
 
-    interfaceCtx->unk_20E[0] = 255;
-    interfaceCtx->unk_20E[2] = 70;
-    interfaceCtx->unk_20E[4] = 50;
-    interfaceCtx->unk_21A[0] = 50;
-    interfaceCtx->unk_21A[2] = 40;
-    interfaceCtx->unk_21A[4] = 60;
+    interfaceCtx->heartColorR[0] = 255;
+    interfaceCtx->heartColorG[0] = 70;
+    interfaceCtx->heartColorB[0] = 50;
+    interfaceCtx->heartBgColorR[0] = 50;
+    interfaceCtx->heartBgColorG[0] = 40;
+    interfaceCtx->heartBgColorB[0] = 60;
 
-    interfaceCtx->unk_20E[1] = 255;
-    interfaceCtx->unk_20E[3] = 70;
-    interfaceCtx->unk_20E[5] = 50;
-    interfaceCtx->unk_21A[1] = 50;
-    interfaceCtx->unk_21A[3] = 40;
-    interfaceCtx->unk_21A[5] = 60;
+    interfaceCtx->heartColorR[1] = 255;
+    interfaceCtx->heartColorG[1] = 70;
+    interfaceCtx->heartColorB[1] = 50;
+    interfaceCtx->heartBgColorR[1] = 50;
+    interfaceCtx->heartBgColorG[1] = 40;
+    interfaceCtx->heartBgColorB[1] = 60;
 
     D_8015FDD0[0] = D_8015FDD0[3] = 255;
     D_8015FDD0[1] = D_8015FDD0[4] = 255;
@@ -69,45 +100,45 @@ void Health_UpdateData(GlobalContext* globalCtx) {
         }
     }
 
-    interfaceCtx->unk_20E[0] = 255;
-    interfaceCtx->unk_20E[2] = 70;
-    interfaceCtx->unk_20E[4] = 50;
+    interfaceCtx->heartColorR[0] = 255;
+    interfaceCtx->heartColorG[0] = 70;
+    interfaceCtx->heartColorB[0] = 50;
 
-    interfaceCtx->unk_21A[0] = 50;
-    interfaceCtx->unk_21A[2] = 40;
-    interfaceCtx->unk_21A[4] = 60;
+    interfaceCtx->heartBgColorR[0] = 50;
+    interfaceCtx->heartBgColorG[0] = 40;
+    interfaceCtx->heartBgColorB[0] = 60;
 
-    interfaceCtx->unk_20E[1] = D_8011FF10[0];
-    interfaceCtx->unk_20E[3] = D_8011FF10[1];
-    interfaceCtx->unk_20E[5] = D_8011FF10[2];
+    interfaceCtx->heartColorR[1] = D_8011FF10[0];
+    interfaceCtx->heartColorG[1] = D_8011FF10[1];
+    interfaceCtx->heartColorB[1] = D_8011FF10[2];
 
-    interfaceCtx->unk_21A[1] = D_8011FF24[0];
-    interfaceCtx->unk_21A[3] = D_8011FF24[1];
-    interfaceCtx->unk_21A[5] = D_8011FF24[2];
+    interfaceCtx->heartBgColorR[1] = D_8011FF24[0];
+    interfaceCtx->heartBgColorG[1] = D_8011FF24[1];
+    interfaceCtx->heartBgColorB[1] = D_8011FF24[2];
 
     temp1 = D_8011FF38[0];
     temp2 = D_8011FF38[1];
     temp3 = D_8011FF38[2];
     temp1 *= temp_f0;
-    interfaceCtx->unk_202[0] = (u8)(temp1 + 0xFF);
+    interfaceCtx->beatingHeartColor[0] = (u8)(temp1 + 255);
     temp2 *= temp_f0;
-    interfaceCtx->unk_202[1] = (u8)(temp2 + 0x46);
+    interfaceCtx->beatingHeartColor[1] = (u8)(temp2 + 70);
     temp3 *= temp_f0;
-    interfaceCtx->unk_202[2] = (u8)(temp3 + 0x32);
+    interfaceCtx->beatingHeartColor[2] = (u8)(temp3 + 50);
 
     temp1 = D_8011FF4C[0];
     temp2 = D_8011FF4C[1];
     temp3 = D_8011FF4C[2];
     temp1 *= temp_f0;
-    interfaceCtx->unk_208[0] = (u8)(temp1 + 0x32);
+    interfaceCtx->beatingHeartBgColor[0] = (u8)(temp1 + 50);
     temp2 *= temp_f0;
-    interfaceCtx->unk_208[1] = (u8)(temp2 + 0x28);
+    interfaceCtx->beatingHeartBgColor[1] = (u8)(temp2 + 40);
     temp3 *= temp_f0;
-    interfaceCtx->unk_208[2] = (u8)(temp3 + 0x3C);
+    interfaceCtx->beatingHeartBgColor[2] = (u8)(temp3 + 60);
 
-    D_8015FDD0[0] = 0xFF;
-    D_8015FDD0[1] = 0xFF;
-    D_8015FDD0[2] = 0xFF;
+    D_8015FDD0[0] = 255;
+    D_8015FDD0[1] = 255;
+    D_8015FDD0[2] = 255;
 
     D_8015FDE0[0] = 200;
     D_8015FDE0[1] = 0;
@@ -125,21 +156,21 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     temp2 = D_8011FF88[1];
     temp3 = D_8011FF88[2];
     temp1 *= temp_f0;
-    D_8015FDC0[0] = (u8)(temp1 + 0xFF);
+    D_8015FDC0[0] = (u8)(temp1 + 255);
     temp2 *= temp_f0;
-    D_8015FDC0[1] = (u8)(temp2 + 0xFF);
+    D_8015FDC0[1] = (u8)(temp2 + 255);
     temp3 *= temp_f0;
-    D_8015FDC0[2] = (u8)(temp3 + 0xFF);
+    D_8015FDC0[2] = (u8)(temp3 + 255);
 
     temp1 = D_8011FF9C[0];
     temp2 = D_8011FF9C[1];
     temp3 = D_8011FF9C[2];
     temp1 *= temp_f0;
-    D_8015FDC8[0] = (u8)(temp1 + 0xC8);
+    D_8015FDC8[0] = (u8)(temp1 + 200);
     temp2 *= temp_f0;
-    D_8015FDC8[1] = (u8)(temp2 + 0x00);
+    D_8015FDC8[1] = (u8)(temp2 + 0);
     temp3 *= temp_f0;
-    D_8015FDC8[2] = (u8)(temp3 + 0x00);
+    D_8015FDC8[2] = (u8)(temp3 + 0);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/Health_UpdateData.s")
@@ -196,7 +227,7 @@ void Health_Draw(GlobalContext* globalCtx) {
     f32 temp4;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Vtx* sp154 = interfaceCtx->vtx_12C;
+    Vtx* heartVtx = interfaceCtx->heartVtx;
     s32 curHeartFraction = gSaveContext.health % 0x10;
     s16 totalHeartCount = gSaveContext.healthCapacity / 0x10;
     s16 fullHeartCount = gSaveContext.health / 0x10;
@@ -222,44 +253,45 @@ void Health_Draw(GlobalContext* globalCtx) {
                 if (curColorSet != 0) {
                     curColorSet = 0;
                     gDPPipeSync(OVERLAY_DISP++);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_20E[0], interfaceCtx->unk_20E[2],
-                                    interfaceCtx->unk_20E[4], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_21A[0], interfaceCtx->unk_21A[2],
-                                   interfaceCtx->unk_21A[4], 0xFF);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->heartColorR[0], interfaceCtx->heartColorG[0],
+                                    interfaceCtx->heartColorB[0], interfaceCtx->healthAlpha);
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->heartBgColorR[0], interfaceCtx->heartBgColorG[0],
+                                   interfaceCtx->heartBgColorB[0], 0xFF);
                 }
             } else if (i == fullHeartCount) {
                 if (curColorSet != 1) {
                     curColorSet = 1;
                     gDPPipeSync(OVERLAY_DISP++);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_202[0], interfaceCtx->unk_202[1],
-                                    interfaceCtx->unk_202[2], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_208[0], interfaceCtx->unk_208[1],
-                                   interfaceCtx->unk_208[2], 0xFF);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->beatingHeartColor[0],
+                                    interfaceCtx->beatingHeartColor[1], interfaceCtx->beatingHeartColor[2],
+                                    interfaceCtx->healthAlpha);
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->beatingHeartBgColor[0],
+                                   interfaceCtx->beatingHeartBgColor[1], interfaceCtx->beatingHeartBgColor[2], 0xFF);
                 }
             } else if (i > fullHeartCount) {
                 if (curColorSet != 2) {
                     curColorSet = 2;
                     gDPPipeSync(OVERLAY_DISP++);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_20E[0], interfaceCtx->unk_20E[2],
-                                    interfaceCtx->unk_20E[4], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_21A[0], interfaceCtx->unk_21A[2],
-                                   interfaceCtx->unk_21A[4], 0xFF);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->heartColorR[0], interfaceCtx->heartColorG[0],
+                                    interfaceCtx->heartColorB[0], interfaceCtx->healthAlpha);
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->heartBgColorR[0], interfaceCtx->heartBgColorG[0],
+                                   interfaceCtx->heartBgColorB[0], 0xFF);
                 }
             } else {
                 if (curColorSet != 3) {
                     curColorSet = 3;
                     gDPPipeSync(OVERLAY_DISP++);
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->unk_20E[1], interfaceCtx->unk_20E[3],
-                                    interfaceCtx->unk_20E[5], interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->unk_21A[1], interfaceCtx->unk_21A[3],
-                                   interfaceCtx->unk_21A[5], 0xFF);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->heartColorR[1], interfaceCtx->heartColorG[1],
+                                    interfaceCtx->heartColorB[1], interfaceCtx->healthAlpha);
+                    gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->heartBgColorR[1], interfaceCtx->heartBgColorG[1],
+                                   interfaceCtx->heartBgColorB[1], 0xFF);
                 }
             }
 
             if (i < fullHeartCount) {
                 heartBgImg = D_02000400;
             } else if (i == fullHeartCount) {
-                heartBgImg = D_8011FFB0[curHeartFraction];
+                heartBgImg = sHeartTextures[curHeartFraction];
             } else {
                 heartBgImg = D_02000000;
             }
@@ -301,7 +333,7 @@ void Health_Draw(GlobalContext* globalCtx) {
             if (i < fullHeartCount) {
                 heartBgImg = D_02000900;
             } else if (i == fullHeartCount) {
-                heartBgImg = D_8011FFF0[curHeartFraction];
+                heartBgImg = sHeartDoubleDefenseTextures[curHeartFraction];
             } else {
                 heartBgImg = D_02000500;
             }
@@ -319,16 +351,15 @@ void Health_Draw(GlobalContext* globalCtx) {
                 if (curCombineModeSet != 1) {
                     curCombineModeSet = 1;
                     func_80094520(gfxCtx);
-                    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0,
-                                      PRIMITIVE, 0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
-                                      0);
+                    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
+                                      0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
                 }
             } else {
                 if (curCombineModeSet != 3) {
                     curCombineModeSet = 3;
                     func_80094520(gfxCtx);
-                    gDPSetCombineLERP(OVERLAY_DISP++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0,
-                                      PRIMITIVE, 0, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
+                    gDPSetCombineLERP(OVERLAY_DISP++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE,
+                                      0, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
                 }
             }
 
@@ -347,16 +378,15 @@ void Health_Draw(GlobalContext* globalCtx) {
                 if (curCombineModeSet != 2) {
                     curCombineModeSet = 2;
                     func_80094A14(gfxCtx);
-                    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0,
-                                      PRIMITIVE, 0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
-                                      0);
+                    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
+                                      0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
                 }
             } else {
                 if (curCombineModeSet != 4) {
                     curCombineModeSet = 4;
                     func_80094A14(gfxCtx);
-                    gDPSetCombineLERP(OVERLAY_DISP++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0,
-                                      PRIMITIVE, 0, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
+                    gDPSetCombineLERP(OVERLAY_DISP++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE,
+                                      0, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
                 }
             }
 
@@ -365,7 +395,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                 func_800D2CEC(matrix, 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144),
                               -130.0f + offsetX, 94.5f - offsetY, 0.0f);
                 gSPMatrix(OVERLAY_DISP++, matrix, G_MTX_MODELVIEW | G_MTX_LOAD);
-                gSPVertex(OVERLAY_DISP++, sp154, 4, 0);
+                gSPVertex(OVERLAY_DISP++, heartVtx, 4, 0);
                 gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
             }
         }
