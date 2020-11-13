@@ -1,6 +1,6 @@
 #include "global.h"
 
-// Red hearts prim Color
+// Red hearts prim color
 #define HEART_R_COL 255
 #define HEART_G_COL 70
 #define HEART_B_COL 50
