@@ -15,14 +15,31 @@
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx);
+void func_80A9C164(Actor* thisx, GlobalContext* globalCtx);
 
-u16 D_80A9C1D0[] = { 0x00000000 };
+void func_80A9B7EC(EnKusa* this);
+void func_80A9B810(EnKusa* this, GlobalContext* globalCtx);
+void func_80A9B89C(EnKusa* this);
+void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx);
+void func_80A9BA98(EnKusa* this);
+void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx);
+void func_80A9BBB0(EnKusa* this);
+void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx);
+void func_80A9BEAC(EnKusa* this);
+void func_80A9BEFC(EnKusa* this, GlobalContext* globalCtx);
+void func_80A9BF30(EnKusa* this, EnKusaActionFunc actionFunc);
+void func_80A9BF3C(EnKusa* this);
+void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx);
+void func_80A9C00C(EnKusa* this);
+void func_80A9C068(EnKusa* this, GlobalContext* globalCtx);
 
-u16 D_80A9C1D4[] = { 0x00000000 };
+s16 D_80A9C1D0[] = { 0x00000000 };
+
+s16 D_80A9C1D4[] = { 0x00000000 };
 
 s16 D_80A9C1D8[] = { 0x00000000 };
 
-u16 D_80A9C1DC[] = { 0x00000000 };
+s16 D_80A9C1DC[] = { 0x00000000 };
 
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
@@ -33,7 +50,7 @@ const ActorInit En_Kusa_InitVars = {
     (ActorFunc)EnKusa_Init,
     (ActorFunc)EnKusa_Destroy,
     (ActorFunc)EnKusa_Update,
-    // (ActorFunc)func_80A9C164
+    (ActorFunc)func_80A9C164,
 };
 
 s16 D_80A9C200[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
@@ -65,8 +82,8 @@ Gfx* D_80A9C294[] = { 0x0500B9D0, 0x06000140, 0x06000140, 0x60002E0 };
 
 extern Gfx D_060002E0[];
 
+// Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFA0.s")
-//TODO: Pick up from here figuring out why this breaks everything...
 void func_80A9AFA0(EnKusa* this, EnKusaActionFunc actionFunc) {
     this->unk_19C = 0;
     this->actionFunc = actionFunc;
@@ -119,10 +136,11 @@ void func_80A9B07C(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
+// Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B140.s")
 void func_80A9B140(EnKusa* this) {
+    this->actor.velocity.y += this->actor.gravity;
 
-    this->actor.velocity.y = (this->actor.velocity.y + this->actor.gravity);
     if (this->actor.velocity.y < this->actor.minVelocityY) {
         this->actor.velocity.y = this->actor.minVelocityY;
     }
@@ -135,8 +153,8 @@ void func_80A9B140(EnKusa* this) {
 //     this->z = this->z - this->z * arg1 + (((Math_Rand_ZeroOne() * 0.2f) - 0.1f) * arg1);
 // }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B1FC.s")
 // Matching!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B1FC.s")
 void func_80A9B1FC(EnKusa* this) {
     this->actor.scale.y = 0.16000001f;
     this->actor.scale.x = 0.120000005f;
@@ -160,26 +178,22 @@ void func_80A9B1FC(EnKusa* this) {
 //     temp_s4 = &spC4;
 //     phi_s1 = D_80A9C23C;
 // loop_1:
-//     spB8 = this->actor.posRot.pos.x + (phi_s1->unk0 * this->unk50 * 20.0f);
-//     spBC = this->actor.posRot.pos.y + (phi_s1->unk4 * this->unk54 * 20.0f) + 10.0f;
-//     spC0 = this->actor.posRot.pos.z + (phi_s1->unk8 * this->unk58 * 20.0f);
+//     spB8 = this->actor.posRot.pos.x + (phi_s1->unk0 * this->actor.scale.x * 20.0f);
+//     spBC = this->actor.posRot.pos.y + (phi_s1->unk4 * this->actor.scale.y * 20.0f) + 10.0f;
+//     spC0 = this->actor.posRot.pos.z + (phi_s1->unk8 * this->actor.scale.z * 20.0f);
 //     spC4 = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
 //     spC8 = Math_Rand_ZeroOne() * 10.0f;
 //     spCC = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-//     EffectSsKakera_Spawn(globalCtx, temp_s2, temp_s4, temp_s2, -0x64, 0x40, 0x28, 3, 0,
-//                          (f32) * (D_80A9C26C + (((Math_Rand_ZeroOne() * 111.1f) & 7) * 2)), 0, 0, 0x50, -1, 1,
-//                          0x40355E0);
-
-//     spB8 = this->actor.posRot.pos.x + (phi_s1->unk0 * this->unk50 * 40.0f);
-//     spBC = this->actor.posRot.pos.y + (phi_s1->unk4 * this->unk54 * 40.0f) + 10.0f;
-//     spC0 = this->actor.posRot.pos.z + (phi_s1->unk8 * this->unk58 * 40.0f);
+//     EffectSsKakera_Spawn(globalCtx, (Vec3f*)temp_s2, (Vec3f*)temp_s4, (Vec3f*)temp_s2, -0x64, 0x40, 0x28, 3, 0,
+//                          *(D_80A9C26C + (((Math_Rand_ZeroOne() * 111.1f) & 7) * 2)), 0, 0, 0x50, -1, 1, 0x40355E0);
+//     spB8 = this->actor.posRot.pos.x + (phi_s1->unk0 * this->actor.scale.x * 40.0f);
+//     spBC = this->actor.posRot.pos.y + (phi_s1->unk4 * this->actor.scale.y * 40.0f) + 10.0f;
+//     spC0 = this->actor.posRot.pos.z + (phi_s1->unk8 * this->actor.scale.z * 40.0f);
 //     spC4 = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
 //     spC8 = Math_Rand_ZeroOne() * 10.0f;
 //     spCC = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
 //     EffectSsKakera_Spawn(globalCtx, temp_s2, temp_s4, temp_s2, -0x64, 0x40, 0x28, 3, 0,
-//                          (f32) * (D_80A9C26C + (((Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 0x50, -1, 1,
-//                          0x40356A0);
-
+//                          *(D_80A9C26C + (((Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 0x50, -1, 1, 0x40356A0);
 //     temp_s1 = phi_s1 + 0xC;
 //     phi_s1 = temp_s1;
 //     if (temp_s1 != D_80A9C26C) {
@@ -211,10 +225,11 @@ void func_80A9B630(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, this, &D_80A9C208);
-    Collider_CylinderUpdate(this, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A9C208);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
 }
 
+// Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/EnKusa_Init.s")
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
@@ -235,7 +250,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.y = (s16)rand;
     }
 
-    if (func_80A9AFAC(&this->actor, globalCtx, 0.0f) == 0) {
+    if (func_80A9AFAC(this, globalCtx, 0.0f) == 0) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -259,11 +274,12 @@ void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &THIS->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B7EC.s")
+// Matches!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B7EC.s")
 // Is this SetupWait?
-// void func_80A9B7EC(EnKusa* this) {
-//     func_80A9AFA0(this, func_80A9B810);
-// }
+void func_80A9B7EC(EnKusa* this) {
+    func_80A9AFA0(this, func_80A9B810);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B810.s")
 // void func_80A9B810(EnKusa *this, GlobalContext *globalCtx) {
@@ -273,69 +289,67 @@ void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //         } else {
 //             func_80A9B89C(this);
 //         }
-//         this->actor.draw = func_80A9C164();
+//         this->actor.draw = func_80A9C164;
 //         this->actor.flags = this->actor.flags & -0x11;
 //         this->actor.objBankIndex = this->kusaTexObjIndex;
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B89C.s")
-// void func_80A9B89C(EnKusa *this) {
-//     func_80A9AFA0(&func_80A9B8D8);
-//     this->unk4 = (s32) (this->unk4 & -0x11);
-// }
+// Matching!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B89C.s")
+void func_80A9B89C(EnKusa* this) {
+    func_80A9AFA0(this, func_80A9B8D8);
+    this->actor.flags = this->actor.flags & -0x11;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B8D8.s")
 // void func_80A9B8D8(EnKusa *this, GlobalContext *globalCtx) {
-//     ColliderCylinder* collider = &this->collider;
-//     u8 temp_v0;
-//     u8 temp_v0_2;
 
-//     if (Actor_HasParent(this, globalCtx) != 0) {
+//     if (Actor_HasParent(&this->actor, globalCtx) != 0) {
 //         func_80A9BA98(this);
-//         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+//         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_PL_PULL_UP_PLANT);
 //         return;
 //     }
-//     temp_v0 = this->unk161;
-//     if ((temp_v0 & 2) != 0) {
-//         this->unk161 = (u8) (temp_v0 & 0xFFFD);
+//     if ((this->collider.base.acFlags & 2) != 0) {
+//         this->collider.base.acFlags = this->collider.base.acFlags & 0xFFFD;
 //         func_80A9B21C(this, globalCtx);
 //         func_80A9B07C(this, globalCtx);
-//         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
-//         if (((this->params >> 4) & 1) != 0) {
+//         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_EV_PLANT_BROKEN);
+//         if (((this->actor.params >> 4) & 1) != 0) {
 //             func_80A9B574(this, globalCtx);
 //         }
-//         if ((this->params & 3) != 0) {
+//         if ((this->actor.params & 3) != 0) {
 //             func_80A9BEAC(this);
-//             this->flags = this->flags | 0x800;
+//             this->actor.flags = this->actor.flags | 0x800;
 //             return;
 //         }
+
 //         Actor_Kill(&this->actor);
 //         return;
 //     }
-//     temp_v0_2 = this->unk162;
-//     if (((temp_v0_2 & 8) == 0) && (12.0f < this->actor.xzDistFromLink)) {
-//         this->unk162 = (u8) (temp_v0_2 | 8);
+//     if (((this->collider.base.maskA & 8) == 0) && (12.0f < this->actor.xzDistFromLink)) {
+//         this->collider.base.maskA = this->collider.base.maskA | 8;
 //     }
 //     if (this->actor.xzDistFromLink < 600.0f) {
-//         Collider_CylinderUpdate(this, &this->collider);
+//         Collider_CylinderUpdate(&this->actor, &this->collider);
 //         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 //         if (this->actor.xzDistFromLink < 400.0f) {
-//             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base;
+//             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 //             if (this->actor.xzDistFromLink < 100.0f) {
-//                 func_8002F580(this, globalCtx);
+//                 func_8002F580(&this->actor, globalCtx);
 //             }
 //         }
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BA98.s")
+// Matching
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BA98.s")
 // Possibly SetupLiftedUp? -> modeled after EnIshi_SetupLiftedUp
-// void func_80A9BA98(EnKusa* this) {
-//     func_80A9AFA0(this, func_80A9BAD8);
-//     this->actor.room = -1;
-//     this->actor.flags |= 0x10;
-// }
+void func_80A9BA98(EnKusa* this) {
+    func_80A9AFA0(this, func_80A9BAD8);
+    this->actor.room = -1;
+    this->actor.flags |= 0x10;
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BAD8.s")
 // Possibly LiftedUp?...
@@ -343,7 +357,7 @@ void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
     f32 cosine;
 
-    if (Actor_HasNoParent(this, globalCtx) != 0) {
+    if (Actor_HasNoParent(&this->actor, globalCtx) != 0) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
         func_80A9BBB0(&this->actor);
         this->actor.velocity.x = Math_Sins(this->actor.posRot.rot.y) * this->actor.speedXZ;
@@ -353,100 +367,100 @@ void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
         this->actor.gravity = -0.1f;
         func_80A9B140(this);
         func_80A9B174(&this->actor.velocity, 0x3BA3D70A);
-        func_8002D7EC(this);
-        func_8002E4B4(globalCtx, this, 7.5f, 35.0f, 0.0f, 0xC5);
+        func_8002D7EC(&this->actor);
+        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
         this->actor.gravity = -3.2f;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BBB0.s")
-// void func_80A9BBB0(EnKusa *this) {
-//     func_80A9AFA0(this, &func_80A9BC1C);
-//     *D_80A9C1D0 = (u16)-0xBB8U;
-//     *D_80A9C1D8 = (s16) ((Math_Rand_ZeroOne() - 0.5f) * 1600.0f);
-//     *D_80A9C1D4 = (u16)0U;
-//     *D_80A9C1DC = (u16)0U;
-// }
+// Matches!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BBB0.s")
+void func_80A9BBB0(EnKusa *this) {
+    func_80A9AFA0(this, func_80A9BC1C);
+    *D_80A9C1D0 = -0xBB8;
+    *D_80A9C1D8 = ((Math_Rand_ZeroOne() - 0.5f) * 1600.0f);
+    *D_80A9C1D4 = 0;
+    *D_80A9C1DC = 0;
+}
 
 // Water break
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BC1C.s")
-// void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
+// void func_80A9BC1C(EnKusa *this, GlobalContext *globalCtx) {
+//     Vec3f contactPos;
 
-//     ColliderCylinder* collider = &this->collider;
-//     Vec3f pos;
-//     s16 temp_v0_2;
-
-//     if ((this->actor.bgCheckFlags & 0xB) != 0) {
-//         if ((this->actor.bgCheckFlags & 0x20) == 0) {
-//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
+//     if (((this->actor.bgCheckFlags) & 0xB) != 0) {
+//         if (((this->actor.bgCheckFlags) & 0x20) == 0) {
+//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_EV_PLANT_BROKEN);
 //         }
 //         func_80A9B21C(this, globalCtx);
 //         func_80A9B07C(this, globalCtx);
-//         temp_v0_2 = this->actor.params & 3;
-//         if (temp_v0_2 == 0 || temp_v0_2 == 2) {
-//             Actor_Kill(this);
+//         if ((this->actor.params & 3) == 0) {
+// block_6:
+//             Actor_Kill(&this->actor);
 //             return;
 //         }
-//         if (temp_v0_2 == 1) {
+//         if ((this->actor.params & 3) == 1) {
 //             func_80A9BF3C(this);
+//             return;
+//         }
+//         if ((this->actor.params & 3) == 2) {
+//             goto block_6;
 //         }
 //     } else {
 //         if ((this->actor.bgCheckFlags & 0x40) != 0) {
-//             pos.x = this->actor.posRot.pos.x;
-//             pos.y = this->actor.posRot.pos.y + this->actor.waterY;
-//             pos.z = this->actor.posRot.pos.z;
-//             EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 0x190);
-//             EffectSsGRipple_Spawn(globalCtx, &pos, 0x96, 0x28A, 0);
-//             EffectSsGRipple_Spawn(globalCtx, &pos, 0x190, 0x320, 4);
-//             EffectSsGRipple_Spawn(globalCtx, &pos, 0x1F4, 0x44C, 8);
+//             contactPos.x = this->actor.posRot.pos.x;
+//             contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+//             contactPos.z = this->actor.posRot.pos.z;
+//             EffectSsGSplash_Spawn(globalCtx, &contactPos, NULL, NULL, 0, 0x190);
+//             EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);
+//             EffectSsGRipple_Spawn(globalCtx, &contactPos, 400, 800, 4);
+//             EffectSsGRipple_Spawn(globalCtx, &contactPos, 500, 1100, 8);
 //             this->actor.minVelocityY = -3.0f;
 //             *D_80A9C1D4 = (*D_80A9C1D4 >> 1);
 //             *D_80A9C1D0 = (*D_80A9C1D0 >> 1);
 //             *D_80A9C1DC = (*D_80A9C1DC >> 1);
 //             *D_80A9C1D8 = (*D_80A9C1D8 >> 1);
 //             this->actor.bgCheckFlags = this->actor.bgCheckFlags & 0xFFBF;
-//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 40, NA_SE_EV_DIVE_INTO_WATER_L);
 //         }
 //         func_80A9B140(this);
-//         Math_ApproxS(D_80A9C1D4, *D_80A9C1D0, 0x1F4);
-//         Math_ApproxS(D_80A9C1DC, *D_80A9C1D8, 0xAA);
+//         Math_ApproxS(D_80A9C1D4, (s16) *D_80A9C1D0, (u16)0x1F4);
+//         Math_ApproxS(D_80A9C1DC, *D_80A9C1D8, (u16)0xAA);
 //         this->actor.shape.rot.x = this->actor.shape.rot.x + *D_80A9C1D4;
 //         this->actor.shape.rot.y = this->actor.shape.rot.y + *D_80A9C1DC;
 //         func_80A9B174(&this->actor.velocity, 0x3D4CCCCD);
-//         func_8002D7EC(this);
+//         func_8002D7EC(&this->actor);
 //         func_8002E4B4(globalCtx, this, 7.5f, 35.0f, 0.0f, 0xC5);
 //         Collider_CylinderUpdate(&this->actor, &this->collider);
-//         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+//         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BEAC.s")
-// void func_80A9BEAC(EnKusa *this) {
-//     s16 temp_v0;
+// Matching!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BEAC.s")
+void func_80A9BEAC(EnKusa* this) {
 
-//     temp_v0 = this->actor.params & 3;
-//     if (temp_v0 != 1) {
-//         if (temp_v0 == 2) {
-//             // This function is blank
-//             func_80A9AFA0(this, func_80A9BF30);
-//             return;
-//         }
-//     } else {
-//         func_80A9AFA0(this, func_80A9BEFC());
-//     }
-// }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BEFC.s")
-// Matches!
-void func_80A9BEFC(EnKusa* this, GlobalContext* globalCtx) {
-    if ((s16)this->unk_19C >= 0x78) {
-        func_80A9C00C();
+    if ((this->actor.params & 3) != 1) {
+        if ((this->actor.params & 3) == 2) {
+            // This function is blank
+            func_80A9AFA0(this, func_80A9BF30);
+        }
+    } else {
+        func_80A9AFA0(this, func_80A9BEFC);
     }
 }
 
+// Matches!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BEFC.s")
+void func_80A9BEFC(EnKusa* this, GlobalContext* globalCtx) {
+    if (this->unk_19C >= 0x78) {
+        func_80A9C00C(this);
+    }
+}
+
+// Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BF30.s")
-// Done, its just...blank....
-void func_80A9BF30(s32 arg0, s32 arg1) {
+void func_80A9BF30(EnKusa* this, EnKusaActionFunc actionFunc) {
     // Function was intentionally left blank
 }
 
@@ -458,29 +472,29 @@ void func_80A9BF30(s32 arg0, s32 arg1) {
 //     func_80A9B1FC(this);
 //     this->actor.shape.rot.x = this->actor.initPosRot.rot.x;
 //     this->actor.shape.rot.z = this->actor.initPosRot.rot.z;
-//     func_80A9AFA0(this, func_80A9BFA8());
+//     func_80A9AFA0(this, func_80A9BFA8);
 // }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BFA8.s")
 // Matching!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BFA8.s")
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
 
-    if ((s16) this->unk_19C >= 0x79) {
+    if (this->unk_19C >= 0x79) {
         if ((Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f) != 0) &&
-            ((s16)this->unk_19C >= 0xAA)) {
+            (this->unk_19C >= 0xAA)) {
             func_80A9C00C(this);
         }
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C00C.s")
-// void func_80A9C00C(EnKusa *this) {
-//     func_80A9AFA0(func_80A9C068());
-//     func_80A9B1FC(this);
-//     this->actor.shape.rot.x = this->actor.initPosRot.rot.x;
-//     this->actor.flags = this->actor.flags & -0x801;
-//     this->actor.shape.rot.z = (s16) (u16) this->actor.initPosRot.rot.z;
-// }
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C00C.s")
+void func_80A9C00C(EnKusa *this) {
+    func_80A9AFA0(this, func_80A9C068);
+    func_80A9B1FC(this);
+    this->actor.shape.rot.x = this->actor.initPosRot.rot.x;
+    this->actor.shape.rot.z = this->actor.initPosRot.rot.z;
+    this->actor.flags = this->actor.flags & -0x801;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C068.s")
 // void func_80A9C068(EnKusa *this, GlobalContext *globalCtx) {
@@ -497,10 +511,10 @@ void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
 
 // Matching!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/EnKusa_Update.s")
-void EnKusa_Update(Actor *thisx, GlobalContext *globalCtx) {
+void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
-    
-    this->unk_19C = (s16)this->unk_19C + 1;
+
+    this->unk_19C = this->unk_19C + 1;
     this->actionFunc(this, globalCtx);
     if ((this->actor.flags & 0x800) != 0) {
         this->actor.shape.unk_08 = -6.25f;
@@ -511,7 +525,8 @@ void EnKusa_Update(Actor *thisx, GlobalContext *globalCtx) {
 
 // Matching!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C164.s")
-void func_80A9C164(EnKusa* this, GlobalContext* globalCtx) {
+void func_80A9C164(Actor* thisx, GlobalContext* globalCtx) {
+    EnKusa* this = THIS;
     if ((this->actor.flags & 0x800) != 0) {
         Gfx_DrawDListOpa(globalCtx, D_060002E0);
         return;
