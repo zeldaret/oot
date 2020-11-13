@@ -1,11 +1,51 @@
 #include "global.h"
 
-s16 D_8011FF10[] = {
-    255, 70, 50, 255, 190, 0, 100, 100, 255,
-};
+// Red hearts prim Color
+#define HEART_R_COL 255
+#define HEART_G_COL 70
+#define HEART_B_COL 50
+
+// Red hearts env color
+#define HEART_BG_R_COL 50
+#define HEART_BG_G_COL 40
+#define HEART_BG_B_COL 60
+
+// Double defense hearts prim color
+#define HEART_DD_R_COL 255
+#define HEART_DD_G_COL 255
+#define HEART_DD_B_COL 255
+
+// Double defense hearts env color
+#define HEART_DD_BG_R_COL 200
+#define HEART_DD_BG_G_COL 0
+#define HEART_DD_BG_B_COL 0
+
+// Unused orange hearts prim color
+#define HEART_ORANGE_R_COL 255
+#define HEART_ORANGE_G_COL 190
+#define HEART_ORANGE_B_COL 0
+
+// Unused orange hearts env color
+#define HEART_ORANGE_BG_R_COL 255
+#define HEART_ORANGE_BG_G_COL 0
+#define HEART_ORANGE_BG_B_COL 0
+
+// Unused blue hearts prim color
+#define HEART_BLUE_R_COL 100
+#define HEART_BLUE_G_COL 100
+#define HEART_BLUE_B_COL 255
+
+// Unused blue hearts env color
+#define HEART_BLUE_BG_R_COL 0
+#define HEART_BLUE_BG_G_COL 0
+#define HEART_BLUE_BG_B_COL 255
+
+s16 D_8011FF10[] = { HEART_R_COL,        HEART_G_COL,      HEART_B_COL,      HEART_ORANGE_R_COL, HEART_ORANGE_G_COL,
+                     HEART_ORANGE_B_COL, HEART_BLUE_R_COL, HEART_BLUE_G_COL, HEART_BLUE_B_COL };
 
 s16 D_8011FF24[] = {
-    50, 40, 60, 255, 0, 0, 0, 0, 255,
+    HEART_BG_R_COL,        HEART_BG_G_COL,      HEART_BG_B_COL,      HEART_ORANGE_BG_R_COL, HEART_ORANGE_BG_G_COL,
+    HEART_ORANGE_BG_B_COL, HEART_BLUE_BG_R_COL, HEART_BLUE_BG_G_COL, HEART_BLUE_BG_B_COL,
 };
 
 s16 D_8011FF38[] = {
@@ -55,26 +95,26 @@ void Health_InitData(GlobalContext* globalCtx) {
     interfaceCtx->unk_22A = interfaceCtx->unk_1FE = 0;
     interfaceCtx->unk_22C = interfaceCtx->unk_200 = 0;
 
-    interfaceCtx->heartColorR[0] = 255;
-    interfaceCtx->heartColorG[0] = 70;
-    interfaceCtx->heartColorB[0] = 50;
-    interfaceCtx->heartBgColorR[0] = 50;
-    interfaceCtx->heartBgColorG[0] = 40;
-    interfaceCtx->heartBgColorB[0] = 60;
+    interfaceCtx->heartColorR[0] = HEART_R_COL;
+    interfaceCtx->heartColorG[0] = HEART_G_COL;
+    interfaceCtx->heartColorB[0] = HEART_B_COL;
+    interfaceCtx->heartBgColorR[0] = HEART_BG_R_COL;
+    interfaceCtx->heartBgColorG[0] = HEART_BG_G_COL;
+    interfaceCtx->heartBgColorB[0] = HEART_BG_B_COL;
 
-    interfaceCtx->heartColorR[1] = 255;
-    interfaceCtx->heartColorG[1] = 70;
-    interfaceCtx->heartColorB[1] = 50;
-    interfaceCtx->heartBgColorR[1] = 50;
-    interfaceCtx->heartBgColorG[1] = 40;
-    interfaceCtx->heartBgColorB[1] = 60;
+    interfaceCtx->heartColorR[1] = HEART_R_COL;
+    interfaceCtx->heartColorG[1] = HEART_G_COL;
+    interfaceCtx->heartColorB[1] = HEART_B_COL;
+    interfaceCtx->heartBgColorR[1] = HEART_BG_R_COL;
+    interfaceCtx->heartBgColorG[1] = HEART_BG_G_COL;
+    interfaceCtx->heartBgColorB[1] = HEART_BG_B_COL;
 
-    D_8015FDD0[0] = D_8015FDD0[3] = 255;
-    D_8015FDD0[1] = D_8015FDD0[4] = 255;
-    D_8015FDD0[2] = D_8015FDD0[5] = 255;
-    D_8015FDE0[0] = D_8015FDE0[3] = 200;
-    D_8015FDE0[1] = D_8015FDE0[4] = 0;
-    D_8015FDE0[2] = D_8015FDE0[5] = 0;
+    D_8015FDD0[0] = D_8015FDD0[3] = HEART_DD_R_COL;
+    D_8015FDD0[1] = D_8015FDD0[4] = HEART_DD_G_COL;
+    D_8015FDD0[2] = D_8015FDD0[5] = HEART_DD_B_COL;
+    D_8015FDE0[0] = D_8015FDE0[3] = HEART_DD_BG_R_COL;
+    D_8015FDE0[1] = D_8015FDE0[4] = HEART_DD_BG_G_COL;
+    D_8015FDE0[2] = D_8015FDE0[5] = HEART_DD_BG_B_COL;
 }
 
 #ifdef NON_MATCHING
@@ -84,7 +124,7 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     f32 temp_f0 = interfaceCtx->unk_1FE * 0.1f;
     s16 temp1, temp2, temp3;
 
-    if (0) {}
+    if (1) {}
 
     if (interfaceCtx->unk_200 != 0) {
         interfaceCtx->unk_1FE--;
@@ -100,13 +140,13 @@ void Health_UpdateData(GlobalContext* globalCtx) {
         }
     }
 
-    interfaceCtx->heartColorR[0] = 255;
-    interfaceCtx->heartColorG[0] = 70;
-    interfaceCtx->heartColorB[0] = 50;
+    interfaceCtx->heartColorR[0] = HEART_R_COL;
+    interfaceCtx->heartColorG[0] = HEART_G_COL;
+    interfaceCtx->heartColorB[0] = HEART_B_COL;
 
-    interfaceCtx->heartBgColorR[0] = 50;
-    interfaceCtx->heartBgColorG[0] = 40;
-    interfaceCtx->heartBgColorB[0] = 60;
+    interfaceCtx->heartBgColorR[0] = HEART_BG_R_COL;
+    interfaceCtx->heartBgColorG[0] = HEART_BG_G_COL;
+    interfaceCtx->heartBgColorB[0] = HEART_BG_B_COL;
 
     interfaceCtx->heartColorR[1] = D_8011FF10[0];
     interfaceCtx->heartColorG[1] = D_8011FF10[1];
@@ -120,29 +160,29 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     temp2 = D_8011FF38[1];
     temp3 = D_8011FF38[2];
     temp1 *= temp_f0;
-    interfaceCtx->beatingHeartColor[0] = (u8)(temp1 + 255);
+    interfaceCtx->beatingHeartColor[0] = (u8)(temp1 + HEART_R_COL);
     temp2 *= temp_f0;
-    interfaceCtx->beatingHeartColor[1] = (u8)(temp2 + 70);
+    interfaceCtx->beatingHeartColor[1] = (u8)(temp2 + HEART_G_COL);
     temp3 *= temp_f0;
-    interfaceCtx->beatingHeartColor[2] = (u8)(temp3 + 50);
+    interfaceCtx->beatingHeartColor[2] = (u8)(temp3 + HEART_B_COL);
 
     temp1 = D_8011FF4C[0];
     temp2 = D_8011FF4C[1];
     temp3 = D_8011FF4C[2];
     temp1 *= temp_f0;
-    interfaceCtx->beatingHeartBgColor[0] = (u8)(temp1 + 50);
+    interfaceCtx->beatingHeartBgColor[0] = (u8)(temp1 + HEART_BG_R_COL);
     temp2 *= temp_f0;
-    interfaceCtx->beatingHeartBgColor[1] = (u8)(temp2 + 40);
+    interfaceCtx->beatingHeartBgColor[1] = (u8)(temp2 + HEART_BG_G_COL);
     temp3 *= temp_f0;
-    interfaceCtx->beatingHeartBgColor[2] = (u8)(temp3 + 60);
+    interfaceCtx->beatingHeartBgColor[2] = (u8)(temp3 + HEART_BG_B_COL);
 
-    D_8015FDD0[0] = 255;
-    D_8015FDD0[1] = 255;
-    D_8015FDD0[2] = 255;
+    D_8015FDD0[0] = HEART_DD_R_COL;
+    D_8015FDD0[1] = HEART_DD_G_COL;
+    D_8015FDD0[2] = HEART_DD_B_COL;
 
-    D_8015FDE0[0] = 200;
-    D_8015FDE0[1] = 0;
-    D_8015FDE0[2] = 0;
+    D_8015FDE0[0] = HEART_DD_BG_R_COL;
+    D_8015FDE0[1] = HEART_DD_BG_G_COL;
+    D_8015FDE0[2] = HEART_DD_BG_B_COL;
 
     D_8015FDD0[3] = D_8011FF60[0];
     D_8015FDD0[4] = D_8011FF60[1];
@@ -156,21 +196,21 @@ void Health_UpdateData(GlobalContext* globalCtx) {
     temp2 = D_8011FF88[1];
     temp3 = D_8011FF88[2];
     temp1 *= temp_f0;
-    D_8015FDC0[0] = (u8)(temp1 + 255);
+    D_8015FDC0[0] = (u8)(temp1 + HEART_DD_R_COL);
     temp2 *= temp_f0;
-    D_8015FDC0[1] = (u8)(temp2 + 255);
+    D_8015FDC0[1] = (u8)(temp2 + HEART_DD_G_COL);
     temp3 *= temp_f0;
-    D_8015FDC0[2] = (u8)(temp3 + 255);
+    D_8015FDC0[2] = (u8)(temp3 + HEART_DD_B_COL);
 
     temp1 = D_8011FF9C[0];
     temp2 = D_8011FF9C[1];
     temp3 = D_8011FF9C[2];
     temp1 *= temp_f0;
-    D_8015FDC8[0] = (u8)(temp1 + 200);
+    D_8015FDC8[0] = (u8)(temp1 + HEART_DD_BG_R_COL);
     temp2 *= temp_f0;
-    D_8015FDC8[1] = (u8)(temp2 + 0);
+    D_8015FDC8[1] = (u8)(temp2 + HEART_DD_BG_G_COL);
     temp3 *= temp_f0;
-    D_8015FDC8[2] = (u8)(temp3 + 0);
+    D_8015FDC8[2] = (u8)(temp3 + HEART_DD_BG_B_COL);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_lifemeter/Health_UpdateData.s")
@@ -256,7 +296,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->heartColorR[0], interfaceCtx->heartColorG[0],
                                     interfaceCtx->heartColorB[0], interfaceCtx->healthAlpha);
                     gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->heartBgColorR[0], interfaceCtx->heartBgColorG[0],
-                                   interfaceCtx->heartBgColorB[0], 0xFF);
+                                   interfaceCtx->heartBgColorB[0], 255);
                 }
             } else if (i == fullHeartCount) {
                 if (curColorSet != 1) {
@@ -266,7 +306,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                                     interfaceCtx->beatingHeartColor[1], interfaceCtx->beatingHeartColor[2],
                                     interfaceCtx->healthAlpha);
                     gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->beatingHeartBgColor[0],
-                                   interfaceCtx->beatingHeartBgColor[1], interfaceCtx->beatingHeartBgColor[2], 0xFF);
+                                   interfaceCtx->beatingHeartBgColor[1], interfaceCtx->beatingHeartBgColor[2], 255);
                 }
             } else if (i > fullHeartCount) {
                 if (curColorSet != 2) {
@@ -275,7 +315,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->heartColorR[0], interfaceCtx->heartColorG[0],
                                     interfaceCtx->heartColorB[0], interfaceCtx->healthAlpha);
                     gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->heartBgColorR[0], interfaceCtx->heartBgColorG[0],
-                                   interfaceCtx->heartBgColorB[0], 0xFF);
+                                   interfaceCtx->heartBgColorB[0], 255);
                 }
             } else {
                 if (curColorSet != 3) {
@@ -284,7 +324,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, interfaceCtx->heartColorR[1], interfaceCtx->heartColorG[1],
                                     interfaceCtx->heartColorB[1], interfaceCtx->healthAlpha);
                     gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->heartBgColorR[1], interfaceCtx->heartBgColorG[1],
-                                   interfaceCtx->heartBgColorB[1], 0xFF);
+                                   interfaceCtx->heartBgColorB[1], 255);
                 }
             }
 
@@ -302,7 +342,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDD0[0], D_8015FDD0[1], D_8015FDD0[2],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 255);
                 }
             } else if (i == fullHeartCount) {
                 if (curColorSet != 5) {
@@ -310,7 +350,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDC0[0], D_8015FDC0[1], D_8015FDC0[2],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDC8[0], D_8015FDC8[1], D_8015FDC8[2], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDC8[0], D_8015FDC8[1], D_8015FDC8[2], 255);
                 }
             } else if (i > fullHeartCount) {
                 if (curColorSet != 6) {
@@ -318,7 +358,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDD0[0], D_8015FDD0[1], D_8015FDD0[2],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[0], D_8015FDE0[1], D_8015FDE0[2], 255);
                 }
             } else {
                 if (curColorSet != 7) {
@@ -326,7 +366,7 @@ void Health_Draw(GlobalContext* globalCtx) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, D_8015FDD0[3], D_8015FDD0[4], D_8015FDD0[5],
                                     interfaceCtx->healthAlpha);
-                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[3], D_8015FDE0[4], D_8015FDE0[5], 0xFF);
+                    gDPSetEnvColor(OVERLAY_DISP++, D_8015FDE0[3], D_8015FDE0[4], D_8015FDE0[5], 255);
                 }
             }
 
@@ -392,8 +432,8 @@ void Health_Draw(GlobalContext* globalCtx) {
 
             {
                 Mtx* matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
-                func_800D2CEC(matrix, 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144),
-                              -130.0f + offsetX, 94.5f - offsetY, 0.0f);
+                func_800D2CEC(matrix, 1.0f - ((1.0f - 0.68f) * sp144), 1.0f - ((1.0f - 0.68f) * sp144),
+                              1.0f - ((1.0f - 0.68f) * sp144), -130.0f + offsetX, 94.5f - offsetY, 0.0f);
                 gSPMatrix(OVERLAY_DISP++, matrix, G_MTX_MODELVIEW | G_MTX_LOAD);
                 gSPVertex(OVERLAY_DISP++, heartVtx, 4, 0);
                 gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
