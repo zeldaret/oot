@@ -1410,7 +1410,7 @@ endseg
 beginseg
     name "ovl_Boss_Dodongo"
     include "build/src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.o"
-    include "build/data/overlays/actors/z_boss_dodongo.data.o"
+    //include "build/data/overlays/actors/z_boss_dodongo.data.o"
     include "build/data/overlays/actors/z_boss_dodongo.reloc.o"
 endseg
 
