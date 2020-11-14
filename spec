@@ -3034,7 +3034,7 @@ endseg
 beginseg
     name "ovl_En_Ssh"
     include "build/src/overlays/actors/ovl_En_Ssh/z_en_ssh.o"
-    include "build/data/overlays/actors/z_en_ssh.data.o"
+    //include "build/src/overlays/actors/ovl_En_Ssh/ovl_En_Ssh_reloc.o"
     include "build/data/overlays/actors/z_en_ssh.reloc.o"
 endseg
 

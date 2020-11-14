@@ -247,7 +247,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x3F8F9;
+    this->colCylinder[0].body.bumper.flags = 0x0003F8F9;
     this->colCylinder[1].body.bumper.flags = 0xFFC00706;
     this->colCylinder[2].base.type = 9;
     this->colCylinder[2].body.bumperFlags = 0xD;
