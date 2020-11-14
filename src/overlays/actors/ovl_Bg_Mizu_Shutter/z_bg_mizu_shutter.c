@@ -103,7 +103,7 @@ void func_8089F1BC(BgMizuShutter *this, GlobalContext *globalCtx) {
         Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->unk_184.x, 1.0f, 4.0f, 0.1f);
         Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->unk_184.y, 1.0f, 4.0f, 0.1f);
         Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->unk_184.z, 1.0f, 4.0f, 0.1f);
-        if ((this->unk_184.x == this->dyna.actor.posRot.pos.x) && (this->unk_184.y == this->dyna.actor.posRot.pos.y) && (this->unk_184.z == this->dyna.actor.posRot.pos.z)) {
+        if ((this->dyna.actor.posRot.pos.x == this->unk_184.x) && (this->dyna.actor.posRot.pos.y == this->unk_184.y) && (this->dyna.actor.posRot.pos.z == this->unk_184.z)) {
             this->unk_168 = this->unk_16C;
             this->actionFunc = func_8089F3A4;
         }
@@ -112,7 +112,7 @@ void func_8089F1BC(BgMizuShutter *this, GlobalContext *globalCtx) {
         Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->unk_178.x, 1.0f, this->unk_174, 0.1f);
         Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->unk_178.y, 1.0f, this->unk_174, 0.1f);
         Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->unk_178.z, 1.0f, this->unk_174, 0.1f);
-        if ((this->unk_178.x == this->dyna.actor.posRot.pos.x) && (this->unk_178.y == this->dyna.actor.posRot.pos.y) && (this->unk_178.z == this->dyna.actor.posRot.pos.z)) {
+        if ((this->dyna.actor.posRot.pos.x == this->unk_178.x) && (this->dyna.actor.posRot.pos.y == this->unk_178.y) && (this->dyna.actor.posRot.pos.z == this->unk_178.z)) {
             func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
             Audio_PlayActorSound2(this, 0x281D);
             this->actionFunc = func_8089F0DC;
