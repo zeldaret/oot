@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_ganon_otyuka.h"
+#include "vt.h"
 
 #define FLAGS 0x00000030
 
@@ -116,7 +117,14 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/BgGanonOtyuka_Destroy.s")
+void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgGanonOtyuka* this = THIS;
+
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    osSyncPrintf(VT_FGCOL(GREEN));
+    osSyncPrintf("WHY !!!!!!!!!!!!!!!!\n");
+    osSyncPrintf(VT_RST);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_80875A0C.s")
 
