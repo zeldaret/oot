@@ -689,7 +689,6 @@ endseg
 beginseg
     name "ovl_Bg_Ganon_Otyuka"
     include "build/src/overlays/actors/ovl_Bg_Ganon_Otyuka/z_bg_ganon_otyuka.o"
-    include "build/data/overlays/actors/z_bg_ganon_otyuka.data.o"
     include "build/data/overlays/actors/z_bg_ganon_otyuka.reloc.o"
 endseg
 
