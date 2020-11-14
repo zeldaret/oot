@@ -36,9 +36,7 @@ typedef struct EnIn {
     /* 0x0300 */ f32 unk_300;
     /* 0x0304 */ f32 unk_304;
     /* 0x0308 */ struct_80034A14_arg1 unk_308;
-    /* 0x0330 */ char unk_330[0x2];
-    /* 0x0332 */ Vec3s unk_332[UNK_SIZE]; // TODO determine size
-    /* 0x0338 */ char unk_338[0x70];
+    /* 0x0330 */ Vec3s unk_330[20];
 } EnIn; // size = 0x03A8
 
 extern const ActorInit En_In_InitVars;
