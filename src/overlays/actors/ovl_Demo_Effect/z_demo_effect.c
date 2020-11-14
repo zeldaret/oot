@@ -236,18 +236,18 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.2f);
 
     switch (effectType) {
-        case Demo_Effect_Crystal_Light:
+        case DEMO_EFFECT_CRYSTAL_LIGHT:
             this->initDrawFunc = DemoEffect_DrawCrystalLight;
             this->initUpdateFunc = DemoEffect_UpdateCrystalLight;
             break;
 
-        case Demo_Effect_Fire_Ball:
+        case DEMO_EFFECT_FIRE_BALL:
             this->initDrawFunc = DemoEffect_DrawFireBall;
             this->initUpdateFunc = DemoEffect_UpdatePositionToParent;
             Actor_SetScale(&this->actor, 0.1f);
             break;
 
-        case Demo_Effect_Blue_Orb:
+        case DEMO_EFFECT_BLUE_ORB:
             this->initDrawFunc = DemoEffect_DrawBlueOrb;
             this->initUpdateFunc = DemoEffect_UpdateBlueOrbGrow;
             this->blueOrb.opacity = 255;
@@ -262,7 +262,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[0] = 0;
             break;
 
-        case Demo_Effect_Light_Effect:
+        case DEMO_EFFECT_LIGHT:
             this->initDrawFunc = DemoEffect_DrawLightEffect;
             this->initUpdateFunc = DemoEffect_UpdateLightEffect;
             this->lightEffect.opacity = 255;
@@ -270,7 +270,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->lightEffect.flicker = 0;
             this->lightEffect.rotation = 0;
             switch (lightEffect) {
-                case Light_Effect_Color_Red:
+                case DEMO_EFFECT_LIGHT_RED:
                     this->primXluColor[0] = 255;
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
@@ -279,7 +279,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0;
                     break;
 
-                case Light_Effect_Color_Blue:
+                case DEMO_EFFECT_LIGHT_BLUE:
                     this->primXluColor[0] = 255;
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
@@ -288,7 +288,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 255;
                     break;
 
-                case Light_Effect_Color_Green:
+                case DEMO_EFFECT_LIGHT_GREEN:
                     this->primXluColor[0] = 255;
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
@@ -297,7 +297,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0;
                     break;
 
-                case Light_Effect_Color_Orange:
+                case DEMO_EFFECT_LIGHT_ORANGE:
                     this->primXluColor[0] = 255;
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
@@ -306,7 +306,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0;
                     break;
 
-                case Light_Effect_Color_Yellow:
+                case DEMO_EFFECT_LIGHT_YELLOW:
                     this->primXluColor[0] = 255;
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
@@ -315,7 +315,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->envXluColor[2] = 0;
                     break;
 
-                case Light_Effect_Color_Purple:
+                case DEMO_EFFECT_LIGHT_PURPLE:
                     this->primXluColor[0] = 255;
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
@@ -324,7 +324,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                     // clang-format on
                     break;
 
-                case Light_Effect_Color_Green2:
+                case DEMO_EFFECT_LIGHT_GREEN2:
                     this->primXluColor[0] = 255;
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
@@ -337,13 +337,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetScale(thisx, 0.0f);
             break;
 
-        case Demo_Effect_Lgt_Shower:
+        case DEMO_EFFECT_LGT_SHOWER:
             this->lgtShower.opacity = 255;
             this->initDrawFunc = DemoEffect_DrawLgtShower;
             this->initUpdateFunc = DemoEffect_UpdateLgtShower;
             break;
 
-        case Demo_Effect_God_Lgt_Din:
+        case DEMO_EFFECT_GOD_LGT_DIN:
             Actor_SetScale(&this->actor, 0.1f);
             this->initDrawFunc = DemoEffect_DrawGodLgt;
             this->primXluColor[1] = 170;
@@ -352,13 +352,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[0] = 255;
             this->envXluColor[2] = 255;
             this->envXluColor[1] = 0;
-            this->godLgt.type = God_Lgt_Type_Din;
+            this->godLgt.type = GOD_LGT_DIN;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = DemoEffect_UpdateGodLgtDin;
             this->csActionId = 0;
             break;
 
-        case Demo_Effect_God_Lgt_Nayru:
+        case DEMO_EFFECT_GOD_LGT_NAYRU:
             if (gSaveContext.entranceIndex == 0x013D) {
                 Actor_SetScale(&this->actor, 1.0f);
             } else {
@@ -371,7 +371,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 40;
             this->envXluColor[2] = 255;
             this->envXluColor[0] = 0;
-            this->godLgt.type = God_Lgt_Type_Nayru;
+            this->godLgt.type = GOD_LGT_NAYRU;
             this->godLgt.lightRingSpawnDelay = 4;
             this->godLgt.rotation = 0;
             this->godLgt.lightRingSpawnTimer = 0;
@@ -379,7 +379,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->csActionId = 1;
             break;
 
-        case Demo_Effect_God_Lgt_Farore:
+        case DEMO_EFFECT_GOD_LGT_FARORE:
             if (gSaveContext.entranceIndex == 0x00EE) {
                 Actor_SetScale(&this->actor, 2.4f);
             } else {
@@ -392,13 +392,13 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->envXluColor[1] = 200;
             this->envXluColor[0] = 0;
             this->envXluColor[2] = 0;
-            this->godLgt.type = God_Lgt_Type_Farore;
+            this->godLgt.type = GOD_LGT_FARORE;
             this->godLgt.rotation = 0;
             this->initUpdateFunc = DemoEffect_UpdateGodLgtFarore;
             this->csActionId = 2;
             break;
 
-        case Demo_Effect_Light_Ring_Expanding:
+        case DEMO_EFFECT_LIGHTRING_EXPANDING:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingExpanding;
             this->lightRing.timer = 20;
@@ -406,7 +406,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->lightRing.opacity = 255;
             break;
 
-        case Demo_Effect_Light_Ring_Triforce:
+        case DEMO_EFFECT_LIGHTRING_TRIFORCE:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingTriforce;
             this->lightRing.timer = 20;
@@ -415,7 +415,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->csActionId = 4;
             break;
 
-        case Demo_Effect_Light_Ring_Shrinking:
+        case DEMO_EFFECT_LIGHTRING_SHRINKING:
             this->initDrawFunc = DemoEffect_DrawLightRing;
             this->initUpdateFunc = DemoEffect_UpdateLightRingShrinking;
             this->lightRing.timer = 351;
@@ -423,7 +423,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->lightRing.opacity = 0;
             break;
 
-        case Demo_Effect_Triforce_Spot:
+        case DEMO_EFFECT_TRIFORCE_SPOT:
             this->initDrawFunc = DemoEffect_DrawTriforceSpot;
             this->initUpdateFunc = DemoEffect_UpdateTriforceSpot;
             this->triforceSpot.crystalLightOpacity = 0;
@@ -437,7 +437,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             crystalLight = (DemoEffect*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Crystal_Light);
+                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_CRYSTAL_LIGHT);
 
             if (crystalLight) {
                 Actor_SetScale(&crystalLight->actor, 0.6f);
@@ -448,52 +448,52 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             lightRing = (DemoEffect*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &crystalLight->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Light_Ring_Triforce);
+                this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_LIGHTRING_TRIFORCE);
 
             if (lightRing) {
                 Actor_SetScale(&lightRing->actor, 0.4f);
             }
             break;
 
-        case Demo_Effect_Medal_Fire:
+        case DEMO_EFFECT_MEDAL_FIRE:
             DemoEffect_InitGetItem(this);
             this->getItem.giIndex = 12;
             break;
 
-        case Demo_Effect_Medal_Water:
+        case DEMO_EFFECT_MEDAL_WATER:
             DemoEffect_InitGetItem(this);
             this->getItem.giIndex = 13;
             break;
 
-        case Demo_Effect_Medal_Forest:
+        case DEMO_EFFECT_MEDAL_FOREST:
             DemoEffect_InitGetItem(this);
             this->getItem.giIndex = 11;
             break;
 
-        case Demo_Effect_Medal_Spirit:
+        case DEMO_EFFECT_MEDAL_SPIRIT:
             DemoEffect_InitGetItem(this);
             this->getItem.giIndex = 14;
             break;
 
-        case Demo_Effect_Medal_Shadow:
+        case DEMO_EFFECT_MEDAL_SHADOW:
             DemoEffect_InitGetItem(this);
             this->getItem.giIndex = 15;
             break;
 
-        case Demo_Effect_Medal_Light:
+        case DEMO_EFFECT_MEDAL_LIGHT:
             DemoEffect_InitGetItem(this);
             this->getItem.giIndex = 16;
             break;
 
-        case Demo_Effect_LightArrow:
+        case DEMO_EFFECT_LIGHTARROW:
             DemoEffect_InitGetItem(this);
             this->getItem.giIndex = 97;
             break;
 
-        case Demo_Effect_Timewarp_Timeblock_Large:
-        case Demo_Effect_Timewarp_Timeblock_Small:
+        case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE:
+        case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL:
             this->actor.flags |= 1 << 25;
-        case Demo_Effect_Timewarp_Mastersword:
+        case DEMO_EFFECT_TIMEWARP_MASTERSWORD:
             this->initDrawFunc = DemoEffect_DrawTimeWarp;
             this->initUpdateFunc = DemoEffect_InitTimeWarp;
             this->envXluColor[0] = 0;
@@ -503,26 +503,26 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->timeWarp.shrinkTimer = 0;
             break;
 
-        case Demo_Effect_Jewel_Kokiri:
+        case DEMO_EFFECT_JEWEL_KOKIRI:
             this->jewelDisplayList = kokiriJewel;
             this->jewelHolderDisplayList = kokiriJewelHolder;
-            this->jewel.type = Demo_Effect_Jewel_Kokiri;
+            this->jewel.type = DEMO_EFFECT_JEWEL_KOKIRI;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             break;
 
-        case Demo_Effect_Jewel_Goron:
+        case DEMO_EFFECT_JEWEL_GORON:
             this->jewelDisplayList = goronJewel;
             this->jewelHolderDisplayList = goronJewelHolder;
-            this->jewel.type = Demo_Effect_Jewel_Goron;
+            this->jewel.type = DEMO_EFFECT_JEWEL_GORON;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             break;
 
-        case Demo_Effect_Jewel_Zora:
+        case DEMO_EFFECT_JEWEL_ZORA:
             this->jewelDisplayList = zoraJewel;
             this->jewelHolderDisplayList = zoraJewelHolder;
-            this->jewel.type = Demo_Effect_Jewel_Zora;
+            this->jewel.type = DEMO_EFFECT_JEWEL_ZORA;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
@@ -532,7 +532,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
 
-        case Demo_Effect_Dust:
+        case DEMO_EFFECT_DUST:
             this->initDrawFunc = NULL;
             this->initUpdateFunc = DemoEffect_UpdateDust;
             this->dust.timer = 0;
@@ -554,8 +554,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 effectType = GET_EFFECT_TYPE(thisx);
 
-    if (effectType == Demo_Effect_Timewarp_Mastersword || effectType == Demo_Effect_Timewarp_Timeblock_Large ||
-        effectType == Demo_Effect_Timewarp_Timeblock_Small) {
+    if (effectType == DEMO_EFFECT_TIMEWARP_MASTERSWORD || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE ||
+        effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
         SkelCurve_Destroy(globalCtx, &THIS->skelCurve);
     }
 }
@@ -720,12 +720,12 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
         __assert("0", "../z_demo_effect.c", 1283);
     }
 
-    if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small) {
+    if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
         SkelCurve_SetAnim(&this->skelCurve, &timewarpTransformUpdateIndex, 1.0f, 59.0f, 1.0f, 1.7f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_InitTimeWarpTimeblock;
 
-        if (effectType == Demo_Effect_Timewarp_Timeblock_Large) {
+        if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE) {
             Actor_SetScale(&this->actor, 0.14f);
             return;
         }
@@ -833,7 +833,7 @@ void DemoEffect_UpdateTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalC
         shrinkProgress = (100 - this->timeWarp.shrinkTimer) * 0.010f;
         scale = shrinkProgress * 0.14f;
 
-        if (GET_EFFECT_TYPE(&this->actor) == Demo_Effect_Timewarp_Timeblock_Small) {
+        if (GET_EFFECT_TYPE(&this->actor) == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
             scale *= 0.6f;
         }
 
@@ -959,7 +959,7 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
             globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
             blueOrb = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT,
                                                this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                               this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Blue_Orb);
+                                               this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
 
             if (blueOrb) {
                 Actor_SetScale(&blueOrb->actor, 0.0f);
@@ -990,21 +990,21 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCt
 
     effect =
         (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Blue_Orb);
+                                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.0f);
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
-                                      Demo_Effect_Light_Ring_Expanding);
+                                      DEMO_EFFECT_LIGHTRING_EXPANDING);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.1f);
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
-                                      Demo_Effect_Light_Ring_Shrinking);
+                                      DEMO_EFFECT_LIGHTRING_SHRINKING);
     if (effect) {
         Actor_SetScale(&effect->actor, 0.2f);
     }
@@ -1189,7 +1189,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
             fireBall = (DemoEffect*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT,
                                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                                       this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Fire_Ball);
+                                                       this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_FIRE_BALL);
 
             if (fireBall) {
                 fireBall->initUpdateFunc = DemoEffect_InitCreationFireball;
@@ -1244,7 +1244,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
                 lightRing = (DemoEffect*)Actor_Spawn(
                     &globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                     this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.posRot.rot.x + 0x4000,
-                    this->actor.posRot.rot.y, this->actor.posRot.rot.z, Demo_Effect_Light_Ring_Expanding);
+                    this->actor.posRot.rot.y, this->actor.posRot.rot.z, DEMO_EFFECT_LIGHTRING_EXPANDING);
 
                 if (lightRing) {
                     Actor_SetScale(&lightRing->actor, 1.0f);
@@ -1300,7 +1300,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
             lgtShower = (DemoEffect*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                this->actor.posRot.pos.y - 150.0f, this->actor.posRot.pos.z, 0, 0, 0, Demo_Effect_Lgt_Shower);
+                this->actor.posRot.pos.y - 150.0f, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_LGT_SHOWER);
 
             if (lgtShower) {
                 lgtShower->actor.scale.x = 0.23f;
@@ -1352,7 +1352,7 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
     u8 jewelType = this->jewel.type;
 
     switch (jewelType) {
-        case Demo_Effect_Jewel_Kokiri:
+        case DEMO_EFFECT_JEWEL_KOKIRI:
             this->primXluColor[2] = 160;
             this->primXluColor[0] = 255;
             this->primXluColor[1] = 255;
@@ -1367,7 +1367,7 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
             this->envOpaColor[2] = 0;
             break;
 
-        case Demo_Effect_Jewel_Goron:
+        case DEMO_EFFECT_JEWEL_GORON:
             this->primXluColor[1] = 170;
             this->primXluColor[0] = 255;
             this->primXluColor[2] = 255;
@@ -1382,7 +1382,7 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
             this->envOpaColor[2] = 0;
             break;
 
-        case Demo_Effect_Jewel_Zora:
+        case DEMO_EFFECT_JEWEL_ZORA:
             this->primXluColor[0] = 50;
             this->primXluColor[1] = 255;
             this->primXluColor[2] = 255;
@@ -1428,12 +1428,12 @@ void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha) {
  */
 void DemoEffect_MoveJewelSplit(PosRot* posRot, DemoEffect* this) {
     switch (this->jewel.type) {
-        case Demo_Effect_Jewel_Kokiri:
+        case DEMO_EFFECT_JEWEL_KOKIRI:
             posRot->pos.x -= 40.0f;
             break;
-        case Demo_Effect_Jewel_Goron:
+        case DEMO_EFFECT_JEWEL_GORON:
             break;
-        case Demo_Effect_Jewel_Zora:
+        case DEMO_EFFECT_JEWEL_ZORA:
             posRot->pos.x += 40.0f;
             break;
     }
@@ -1500,13 +1500,13 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     frameDivisor = DemoEffect_InterpolateCsFrames(globalCtx, csActionId);
 
     switch (this->jewel.type) {
-        case Demo_Effect_Jewel_Kokiri:
+        case DEMO_EFFECT_JEWEL_KOKIRI:
             degrees = 0.0f;
             break;
-        case Demo_Effect_Jewel_Goron:
+        case DEMO_EFFECT_JEWEL_GORON:
             degrees = 120.0f;
             break;
-        case Demo_Effect_Jewel_Zora:
+        case DEMO_EFFECT_JEWEL_ZORA:
             degrees = 240.0f;
             break;
     }
@@ -1547,7 +1547,7 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     accel.y = -0.1f;
     accel.z = 0.0f;
 
-    sparkleColors = sJewelSparkleColors[this->jewel.type - Demo_Effect_Jewel_Kokiri];
+    sparkleColors = sJewelSparkleColors[this->jewel.type - DEMO_EFFECT_JEWEL_KOKIRI];
 
     primColor.r = (sparkleColors + 0)->r;
     primColor.g = (sparkleColors + 0)->g;
@@ -1727,21 +1727,21 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
             globalCtx2 = globalCtx;
 
             switch (this->jewel.type) {
-                case Demo_Effect_Jewel_Kokiri:
+                case DEMO_EFFECT_JEWEL_KOKIRI:
                     gSPSegment(POLY_XLU_DISP++, 9,
                                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (scroll * 4) % 256,
                                                 (256 - ((scroll * 2) % 256)) - 1, 64, 64, 1, (scroll * 2) % 256,
                                                 (256 - (scroll % 256)) - 1, 16, 16));
                     break;
 
-                case Demo_Effect_Jewel_Goron:
+                case DEMO_EFFECT_JEWEL_GORON:
                     gSPSegment(POLY_XLU_DISP++, 9,
                                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (scroll * 4) % 128,
                                                 (256 - ((scroll * 2) % 256)) - 1, 32, 64, 1, (scroll * 2) % 256,
                                                 (256 - (scroll % 256)) - 1, 16, 8));
                     break;
 
-                case Demo_Effect_Jewel_Zora:
+                case DEMO_EFFECT_JEWEL_ZORA:
                     gSPSegment(POLY_XLU_DISP++, 9,
                                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (scroll * 4) % 256,
                                                 (256 - ((scroll * 2) % 256)) - 1, 32, 32, 1, (scroll * 2) % 256,
@@ -2142,7 +2142,7 @@ void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     u8 effectType = GET_EFFECT_TYPE(&this->actor);
     GraphicsContext* gfxCtx2 = globalCtx2->state.gfxCtx;
 
-    if (effectType == Demo_Effect_Timewarp_Timeblock_Large || effectType == Demo_Effect_Timewarp_Timeblock_Small ||
+    if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
         Flags_GetEnv(globalCtx, 1) || gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == 0x0324) {
         OPEN_DISPS(gfxCtx2, "../z_demo_effect.c", 3201);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);

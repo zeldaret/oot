@@ -86,51 +86,51 @@ typedef struct DemoEffect {
 } DemoEffect; // size = 0x01A0
 
 // These names come from the objects that correspond to this actor type.
-typedef enum Demo_Effect_Effect_Type {
-    /* 0x00 */ Demo_Effect_Crystal_Light,
-    /* 0x01 */ Demo_Effect_Fire_Ball,
-    /* 0x02 */ Demo_Effect_Blue_Orb, // Object is in GAMEPLAY_KEEP. Not a name from object. It's a blue orb.
-    /* 0x03 */ Demo_Effect_Lgt_Shower,
-    /* 0x04 */ Demo_Effect_God_Lgt_Din,
-    /* 0x05 */ Demo_Effect_God_Lgt_Nayru,
-    /* 0x06 */ Demo_Effect_God_Lgt_Farore,
-    /* 0x07 */ Demo_Effect_Light_Ring_Expanding,
-    /* 0x08 */ Demo_Effect_Triforce_Spot,
-    /* 0x09 */ Demo_Effect_Medal_Fire,
-    /* 0x0A */ Demo_Effect_Medal_Water,
-    /* 0x0B */ Demo_Effect_Medal_Forest,
-    /* 0x0C */ Demo_Effect_Medal_Spirit,
-    /* 0x0D */ Demo_Effect_Medal_Shadow,
-    /* 0x0E */ Demo_Effect_Medal_Light,
-    /* 0x0F */ Demo_Effect_Timewarp_Mastersword,
-    /* 0x10 */ Demo_Effect_Light_Ring_Shrinking,
-    /* 0x11 */ Demo_Effect_Light_Ring_Triforce,
-    /* 0x12 */ Demo_Effect_Light_Effect,
-    /* 0x13 */ Demo_Effect_Jewel_Kokiri,
-    /* 0x14 */ Demo_Effect_Jewel_Goron,
-    /* 0x15 */ Demo_Effect_Jewel_Zora,
-    /* 0x16 */ Demo_Effect_Dust, // Object is jewel, but this is really the dust in the ToT light arrow cutscene.
-    /* 0x17 */ Demo_Effect_LightArrow,
-    /* 0x18 */ Demo_Effect_Timewarp_Timeblock_Large,
-    /* 0x19 */ Demo_Effect_Timewarp_Timeblock_Small,
-    /* 0x1A */ Demo_Effect_Max_Effect_Type
-} Demo_Effect_Effect_Type;
+typedef enum DEMO_EFFECT_TYPE {
+    /* 0x00 */ DEMO_EFFECT_CRYSTAL_LIGHT,
+    /* 0x01 */ DEMO_EFFECT_FIRE_BALL,
+    /* 0x02 */ DEMO_EFFECT_BLUE_ORB, // Object is in GAMEPLAY_KEEP. Not a name from object. It's a blue orb.
+    /* 0x03 */ DEMO_EFFECT_LGT_SHOWER,
+    /* 0x04 */ DEMO_EFFECT_GOD_LGT_DIN,
+    /* 0x05 */ DEMO_EFFECT_GOD_LGT_NAYRU,
+    /* 0x06 */ DEMO_EFFECT_GOD_LGT_FARORE,
+    /* 0x07 */ DEMO_EFFECT_LIGHTRING_EXPANDING,
+    /* 0x08 */ DEMO_EFFECT_TRIFORCE_SPOT,
+    /* 0x09 */ DEMO_EFFECT_MEDAL_FIRE,
+    /* 0x0A */ DEMO_EFFECT_MEDAL_WATER,
+    /* 0x0B */ DEMO_EFFECT_MEDAL_FOREST,
+    /* 0x0C */ DEMO_EFFECT_MEDAL_SPIRIT,
+    /* 0x0D */ DEMO_EFFECT_MEDAL_SHADOW,
+    /* 0x0E */ DEMO_EFFECT_MEDAL_LIGHT,
+    /* 0x0F */ DEMO_EFFECT_TIMEWARP_MASTERSWORD,
+    /* 0x10 */ DEMO_EFFECT_LIGHTRING_SHRINKING,
+    /* 0x11 */ DEMO_EFFECT_LIGHTRING_TRIFORCE,
+    /* 0x12 */ DEMO_EFFECT_LIGHT,
+    /* 0x13 */ DEMO_EFFECT_JEWEL_KOKIRI,
+    /* 0x14 */ DEMO_EFFECT_JEWEL_GORON,
+    /* 0x15 */ DEMO_EFFECT_JEWEL_ZORA,
+    /* 0x16 */ DEMO_EFFECT_DUST, // Object is jewel, but this is really the dust in the ToT light arrow cutscene.
+    /* 0x17 */ DEMO_EFFECT_LIGHTARROW,
+    /* 0x18 */ DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE,
+    /* 0x19 */ DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL,
+    /* 0x1A */ DEMO_EFFECT_MAX_TYPE
+} DEMO_EFFECT_TYPE;
 
-typedef enum Demo_Effect_Light_Effect_Color {
-    /* 0x00 */ Light_Effect_Color_Red,
-    /* 0x01 */ Light_Effect_Color_Blue,
-    /* 0x02 */ Light_Effect_Color_Green,
-    /* 0x03 */ Light_Effect_Color_Orange,
-    /* 0x04 */ Light_Effect_Color_Yellow,
-    /* 0x05 */ Light_Effect_Color_Purple,
-    /* 0x06 */ Light_Effect_Color_Green2
-} Demo_Effect_Light_Effect_Color;
+typedef enum DEMO_EFFECT_LIGHT_COLOR {
+    /* 0x00 */ DEMO_EFFECT_LIGHT_RED,
+    /* 0x01 */ DEMO_EFFECT_LIGHT_BLUE,
+    /* 0x02 */ DEMO_EFFECT_LIGHT_GREEN,
+    /* 0x03 */ DEMO_EFFECT_LIGHT_ORANGE,
+    /* 0x04 */ DEMO_EFFECT_LIGHT_YELLOW,
+    /* 0x05 */ DEMO_EFFECT_LIGHT_PURPLE,
+    /* 0x06 */ DEMO_EFFECT_LIGHT_GREEN2
+} DEMO_EFFECT_LIGHT_COLOR;
 
-typedef enum DemoEffect_God_Lgt_Type {
-    /* 0x00 */ God_Lgt_Type_Din,
-    /* 0x01 */ God_Lgt_Type_Nayru,
-    /* 0x02 */ God_Lgt_Type_Farore
-} DemoEffect_God_Lgt_Type;
+typedef enum DEMO_EFFECT_GOD_LGT_TYPE {
+    /* 0x00 */ GOD_LGT_DIN,
+    /* 0x01 */ GOD_LGT_NAYRU,
+    /* 0x02 */ GOD_LGT_FARORE
+} DEMO_EFFECT_GOD_LGT_TYPE;
 
 #define GET_EFFECT_TYPE(thisx) ((thisx)->params & 0x00FF)
 #define GET_LIGHT_EFFECT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 12)
