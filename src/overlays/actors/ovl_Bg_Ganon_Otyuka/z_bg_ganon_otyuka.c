@@ -31,8 +31,7 @@ const ActorInit Bg_Ganon_Otyuka_InitVars = {
     (ActorFunc)BgGanonOtyuka_Draw,
 };
 
-// sInitChain
-InitChainEntry D_80876A60[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
@@ -67,19 +66,16 @@ UNK_TYPE D_80876AD0[] = {
 
 #include "z_bg_ganon_otyuka_gfx.c"
 
-// cameraDataList
-CamData D_80877DA8[] = { { 0, 0, 0 } };
+static CamData gCameraDataList[] = { { 0, 0, 0 } };
 
-// surfaceTypeList
-UNK_TYPE D_80877DB0[] = {
+static UNK_TYPE gSurfaceTypeList[] = {
     0x00000000,
     0x000007C0,
     0x00000000,
     0x000007C2,
 };
 
-// polyList
-CollisionPoly D_80877DC0[] = {
+static CollisionPoly gPolyList[] = {
     { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02 }, { 32767, 0, 0 }, -60 },
     { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03 }, { 32767, 0, 0 }, -60 },
     { { 0x00, 0x00, 0x00, 0x03, 0x00, 0x02, 0x00, 0x04 }, { 0, 0, -32767 }, -60 },
@@ -92,23 +88,14 @@ CollisionPoly D_80877DC0[] = {
     { { 0x00, 0x01, 0x00, 0x00, 0x00, 0x05, 0x00, 0x07 }, { 0, 32767, 0 }, 0 },
 };
 
-// vtxList
-Vec3s D_80877E60[] = {
+static Vec3s gVtxList[] = {
     { 60, 0, 60 },     { 60, -60, 60 }, { 60, -60, -60 }, { 60, 0, -60 },
     { -60, -60, -60 }, { -60, 0, -60 }, { -60, -60, 60 }, { -60, 0, 60 },
 };
 
-CollisionHeader D_80877E90 = {
-    { -60, -60, -60 },
-    { 60, 0, 60 },
-    ARRAY_COUNT(D_80877E60),
-    D_80877E60,
-    ARRAY_COUNT(D_80877DC0),
-    D_80877DC0,
-    D_80877DB0,
-    D_80877DA8,
-    0,
-    NULL,
+static CollisionHeader gColHeader = {
+    { -60, -60, -60 }, { 60, 0, 60 },    ARRAY_COUNT(gVtxList), gVtxList, ARRAY_COUNT(gPolyList),
+    gPolyList,         gSurfaceTypeList, gCameraDataList,       0,        NULL,
 };
 
 void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -116,9 +103,9 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(thisx, &D_80876A60);
+    Actor_ProcessInitChain(thisx, &sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_80877E90, &colHeader);
+    DynaPolyInfo_Alloc(&gColHeader, &colHeader);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (thisx->params != 0x23) {
         thisx->draw = NULL;
