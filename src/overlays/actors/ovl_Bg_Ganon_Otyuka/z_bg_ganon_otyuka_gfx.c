@@ -2,7 +2,7 @@
 
 extern Gfx D_08000000[];
 
-static UNK_TYPE D_80876AE0[] = {
+static UNK_TYPE gPlatformTexture[] = {
     0x19033187, 0x39C74207, 0x4A495247, 0x5A494A09, 0x498749C5, 0x5A476247, 0x62076287, 0x734F8393, 0x6A8B6A09,
     0x5A495207, 0x49C54A89, 0x4A895289, 0x5AC95A89, 0x5A4B5A8B, 0x5A896249, 0x52095207, 0x19033185, 0x420949C7,
     0x52095207, 0x5A075A45, 0x41C749C5, 0x62075207, 0x62896A49, 0x6B4F7B51, 0x62C75A49, 0x52095247, 0x4A475249,
@@ -65,7 +65,7 @@ static UNK_TYPE D_80876AE0[] = {
 // probably unused?
 static UNK_TYPE D_808772E0[] = { 0x00000000, 0x00000000 };
 
-static Vtx D_808772E8[] = {
+static Vtx gVertices1[] = {
     VTX(60, 0, 60, 2048, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(60, 0, -60, 0, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(-60, 0, -60, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -76,7 +76,7 @@ Gfx D_80877328[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(D_80876AE0, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_MIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(gPlatformTexture, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_MIRROR | G_TX_WRAP,
                          G_TX_MIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, 1, COMBINED, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED),
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
@@ -88,12 +88,12 @@ Gfx D_80877328[] = {
 };
 
 Gfx D_808773B0[] = {
-    gsSPVertex(D_808772E8, ARRAY_COUNT(D_808772E8), 0),
+    gsSPVertex(gVertices1, ARRAY_COUNT(gVertices1), 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
 };
 
-static Vtx D_808773C8[] = {
+static Vtx gVertices2[] = {
     VTX(60, -60, 60, 2048, -1024, 0x32, 0x32, 0x32, 0xFF),
     VTX(60, -60, -60, 0, -1024, 0x32, 0x32, 0x32, 0xFF),
     VTX(-60, -60, -60, 0, 1024, 0x32, 0x32, 0x32, 0xFF),
@@ -101,12 +101,12 @@ static Vtx D_808773C8[] = {
 };
 
 Gfx D_80877408[] = {
-    gsSPVertex(D_808773C8, ARRAY_COUNT(D_808773C8), 0),
+    gsSPVertex(gVertices2, ARRAY_COUNT(gVertices2), 0),
     gsSP2Triangles(0, 2, 1, 0, 0, 3, 2, 0),
     gsSPEndDisplayList(),
 };
 
-static Vtx D_80877420[] = {
+static Vtx gVertices3[] = {
     VTX(-60, 0, 0, 2048, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(-60, -60, 0, 2048, 1024, 0x32, 0x32, 0x32, 0xFF),
     VTX(60, -60, 0, 0, 1024, 0x32, 0x32, 0x32, 0xFF),
@@ -114,12 +114,12 @@ static Vtx D_80877420[] = {
 };
 
 Gfx D_80877460[] = {
-    gsSPVertex(D_80877420, ARRAY_COUNT(D_80877420), 0),
+    gsSPVertex(gVertices3, ARRAY_COUNT(gVertices3), 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
 };
 
-static UNK_TYPE D_80877478[] = {
+static UNK_TYPE gShockwaveTexture[] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000001, 0x00000000, 0x00000102, 0x01000001, 0x00000000, 0x00000000, 0x00010000, 0x00000000,
     0x00000001, 0x00000000, 0x00000204, 0x02000101, 0x00000000, 0x00000000, 0x00010101, 0x00000001, 0x00000001,
@@ -179,7 +179,7 @@ static UNK_TYPE D_80877478[] = {
     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
 };
 
-static Vtx D_80877C78[] = {
+static Vtx gVertices4[] = {
     VTX(-180, 300, 0, 256, 0, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(-360, 0, 0, 0, 2048, 0xFF, 0xFF, 0xFF, 0x00),
     VTX(-180, 0, 0, 256, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-360, 300, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0x00),
     VTX(180, 300, 0, 768, 0, 0xFF, 0xFF, 0xFF, 0xFF),   VTX(180, 0, 0, 768, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -190,7 +190,7 @@ Gfx D_80877CF8[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(D_80877478, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gsDPLoadTextureBlock(gShockwaveTexture, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_CLAMP, 5, 6, 15, 1),
     gsDPTileSync(),
     gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 4, 0x0000, 1, 0, G_TX_NOMIRROR | G_TX_CLAMP, 6, 14, G_TX_NOMIRROR | G_TX_WRAP,
@@ -201,7 +201,7 @@ Gfx D_80877CF8[] = {
     gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_SURF2),
     gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
     gsSPDisplayList(D_08000000),
-    gsSPVertex(D_80877C78, 8, 0),
+    gsSPVertex(gVertices4, 8, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
     gsSP2Triangles(4, 2, 5, 0, 4, 0, 2, 0),
     gsSP2Triangles(6, 4, 5, 0, 6, 7, 4, 0),
