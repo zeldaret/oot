@@ -107,6 +107,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&gColHeader, &colHeader);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+
     if (thisx->params != 0x23) {
         thisx->draw = NULL;
         this->actionFunc = func_80875A0C;
