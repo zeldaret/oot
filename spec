@@ -1514,7 +1514,7 @@ endseg
 beginseg
     name "ovl_Demo_Effect"
     include "build/src/overlays/actors/ovl_Demo_Effect/z_demo_effect.o"
-    include "build/data/overlays/actors/z_demo_effect.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Effect/ovl_Demo_Effect_reloc.o"
 endseg
 
 beginseg
