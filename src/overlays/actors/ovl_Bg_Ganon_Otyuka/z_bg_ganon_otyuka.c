@@ -33,7 +33,25 @@ const ActorInit Bg_Ganon_Otyuka_InitVars = {
 };
 */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/BgGanonOtyuka_Init.s")
+extern InitChainEntry D_80876A60;
+extern UNK_TYPE D_80877E90;
+
+void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgGanonOtyuka* this = THIS;
+    s32 pad;
+    UNK_TYPE sp24 = 0;
+
+    Actor_ProcessInitChain(thisx, &D_80876A60);
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyInfo_Alloc(&D_80877E90, &sp24);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
+    if (thisx->params != 0x23) {
+        thisx->draw = NULL;
+        this->actionFunc = func_80875A0C;
+    } else {
+        thisx->update = func_808760DC;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/BgGanonOtyuka_Destroy.s")
 
