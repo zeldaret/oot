@@ -376,10 +376,10 @@ void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         func_80093D18(globalCtx->state.gfxCtx);
         func_8002EBCC(thisx, globalCtx, 0);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->unk_150]));
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04042440);
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->unk_150]));
+        gSPDisplayList(POLY_OPA_DISP++, D_04042440);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 784);
     }

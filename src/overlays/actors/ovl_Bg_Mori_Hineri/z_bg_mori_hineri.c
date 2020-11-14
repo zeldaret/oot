@@ -235,10 +235,10 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 611);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIdx].segment);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
+    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIdx].segment);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists[this->dyna.actor.params]);
+    gSPDisplayList(POLY_OPA_DISP++, sDLists[this->dyna.actor.params]);
     if (this->boxObjIdx > 0) {
         Matrix_Get(&mtx);
     }
@@ -251,21 +251,21 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         }
         Matrix_RotateRPY(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_04049FE0);
+        gSPDisplayList(POLY_OPA_DISP++, D_04049FE0);
     }
     if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
         (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->boxObjIdx].segment);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->boxObjIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, MTXMODE_APPLY);
         Matrix_RotateY(1.5707964f, MTXMODE_APPLY);
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 689),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 689),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000AE8);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000AE8);
         Matrix_Put(&mtx);
         Matrix_Translate(167.0f, -218.0f, -453.0f, MTXMODE_APPLY);
         if (Flags_GetTreasure(globalCtx, 0xE)) {
@@ -274,9 +274,9 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(M_PI, MTXMODE_APPLY);
         }
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 703),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 703),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001678);
+        gSPDisplayList(POLY_OPA_DISP++, D_06001678);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 709);
