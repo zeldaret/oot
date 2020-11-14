@@ -4,55 +4,27 @@
 
 #define THIS ((EnSsh*)thisx)
 
+#define STATE_STUNNED (1 << 0)
+#define STATE_GROUND_START (1 << 2)
+#define STATE_ATTACKED (1 << 3)
+#define STATE_SPIN (1 << 4)
+
+typedef enum EnSshAnimation {
+    ANIM_UP = 1,
+    ANIM_WAIT,
+    ANIM_LAND,
+    ANIM_DROP
+} EnSshAnimation;
+
 void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSsh_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B02270(EnSsh* this, EnSshActionFunc actionFunc);
-void func_80B02278(EnSsh* this, GlobalContext* globalCtx);
-s32 func_80B02300(GlobalContext* globalCtx);
-s32 func_80B023FC(EnSsh* this, GlobalContext* globalCtx);
-void func_80B02490(EnSsh* this);
-void func_80B02598(EnSsh* this);
-void func_80B025C0(EnSsh* this, GlobalContext* globalCtx);
-f32 func_80B02700(EnSsh* this, s32 arg1);
-void func_80B02834(EnSsh* this);
-void func_80B02854(EnSsh* this);
-void func_80B02884(EnSsh* this);
-void func_80B028CC(EnSsh* this);
-void func_80B02920(EnSsh* this);
-void func_80B0294C(EnSsh* this, f32 arg1, f32 arg2);
-s32 func_80B02AC4(EnSsh* this);
-void func_80B02B9C(EnSsh* this, GlobalContext* globalCtx);
-void func_80B02C74(EnSsh* this, GlobalContext* globalCtx);
-void func_80B02D14(EnSsh* this, GlobalContext* globalCtx);
-void func_80B02D50(EnSsh* this, GlobalContext* globalCtx);
-s32 func_80B02DBC(EnSsh* this, GlobalContext* globalCtx);
-s32 func_80B02EA4(EnSsh* this);
-s32 func_80B02EDC(EnSsh* this);
-void func_80B02F1C(EnSsh* this);
-void func_80B03060(EnSsh* this, GlobalContext* globalCtx);
-s32 func_80B030D4(EnSsh* this, GlobalContext* globalCtx);
-s32 func_80B031DC(EnSsh* this);
-s32 func_80B03238(EnSsh* this, GlobalContext* globalCtx);
-s32 func_80B0330C(EnSsh* this, GlobalContext* globalCtx);
-void func_80B033BC(EnSsh* this, GlobalContext* globalCtx);
-void func_80B03400(EnSsh* this, GlobalContext* globalCtx);
-s32 func_80B034B4(EnSsh* this, GlobalContext* globalCtx);
-void func_80B0368C(EnSsh* this, GlobalContext* globalCtx);
-void func_80B03F48(EnSsh* this);
-
-void func_80B03968(EnSsh* this, GlobalContext* globalCtx);
-void func_80B039BC(EnSsh* this, GlobalContext* globalCtx);
-void func_80B03A00(EnSsh* this, GlobalContext* globalCtx);
-void func_80B03C8C(EnSsh* this, GlobalContext* globalCtx);
-void func_80B03D74(EnSsh* this, GlobalContext* globalCtx);
-void func_80B03E74(EnSsh* this, GlobalContext* globalCtx);
-void func_80B03FF0(EnSsh* this, GlobalContext* globalCtx);
-
-s32 func_80B04190(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* this);
-void func_80B04280(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this);
+void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx);
+void EnSsh_Drop(EnSsh* this, GlobalContext* globalCtx);
+void EnSsh_Return(EnSsh* this, GlobalContext* globalCtx);
+void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000304;
 extern SkeletonHeader D_060052E0;
@@ -60,7 +32,25 @@ extern Gfx D_060046C0[];
 extern Gfx D_06004080[];
 extern Gfx D_06004DE8[];
 
-s32 D_80B043C0[] = {0xFFFF0000, 0x00000000, 0x00000400, 0xFFFFFFFF, 0x00010000, 0x00000000, 0x04000400, 0xFFFFFFFF, 0x00010064, 0x00000000, 0x04000000, 0xFFFFFFFF, 0xFFFF0064, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xE7000000, 0x00000000, 0xD7000000, 0x00000000, 0xFCFFFFFF, 0xFFFFFEFB, 0xE200001C, 0xC8112078, 0xD9F1FBFF, 0x00000000, 0xFA000000, 0xFFFFFFFF, 0x01004008, (s32) D_80B043C0, 0x05000204, 0x00000000, 0x05000406, 0x00000000, 0xDF000000, 0x00000000,};
+static Vtx D_80B043C0[] = {
+    VTX(-1, 0, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(1, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(1, 100, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(-1, 100, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+};
+
+static Gfx D_80B04400[] = {
+    gsDPPipeSync(),
+    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
+    gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
+    gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
+    gsSPVertex(D_80B043C0, 4, 0),
+    gsSP1Triangle(0, 1, 2, 0),
+    gsSP1Triangle(0, 2, 3, 0),
+    gsSPEndDisplayList(),
+};
 
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
@@ -74,47 +64,48 @@ const ActorInit En_Ssh_InitVars = {
     (ActorFunc)EnSsh_Draw,
 };
 
-static ColliderCylinderInit D_80B04470 = {
+static ColliderCylinderInit sCylinderInit1 = {
     { COLTYPE_UNK6, 0x00, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 D_80B0449C = {1, 0, 0, 0, 0xFF};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, 0xFF };
 
-static ColliderCylinderInit D_80B044A8 = {
+static ColliderCylinderInit sCylinderInit2 = {
     { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 20, 60, -30, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit D_80B044D4[1] =  {
+static ColliderJntSphItemInit sJntSphElementInit[1] = {
     {
         { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
     },
 };
 
-static ColliderJntSphInit D_80B044F8 = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK6, 0x11, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
-    1, D_80B044D4,
+    1,
+    sJntSphElementInit,
 };
 
-void func_80B02270(EnSsh *this, EnSshActionFunc actionFunc) {
+void EnSsh_SetupAction(EnSsh* this, EnSshActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80B02278(EnSsh *this, GlobalContext* globalCtx) {
-    Vec3f sp34 = {0.0f, 0.0f, 0.0f};
-    Vec3f sp28;
+void EnSsh_SpawnShockwave(EnSsh* this, GlobalContext* globalCtx) {
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    Vec3f pos;
 
-    sp28.x = this->actor.posRot.pos.x;
-    sp28.y = this->actor.groundY;
-    sp28.z = this->actor.posRot.pos.z;
-    EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &sp28, &sp34, &sp34, 0x64, 0xDC, 8);
+    pos.x = this->actor.posRot.pos.x;
+    pos.y = this->actor.groundY;
+    pos.z = this->actor.posRot.pos.z;
+    EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &pos, &zeroVec, &zeroVec, 0x64, 0xDC, 8);
 }
 
-s32 func_80B02300(GlobalContext *globalCtx) {
+s32 EnSsh_CreateBlureEffect(GlobalContext* globalCtx) {
     EffectBlureInit1 blureInit;
     u8 p1StartColor[] = { 255, 255, 255, 75 };
     u8 p2StartColor[] = { 255, 255, 255, 75 };
@@ -138,7 +129,7 @@ s32 func_80B02300(GlobalContext *globalCtx) {
     return blureIdx;
 }
 
-s32 func_80B023FC(EnSsh *this, GlobalContext *globalCtx) {
+s32 EnSsh_CheckCeilingPos(EnSsh* this, GlobalContext* globalCtx) {
     CollisionPoly* sp4C;
     u32 sp48;
     Vec3f sp3C;
@@ -146,168 +137,168 @@ s32 func_80B023FC(EnSsh *this, GlobalContext *globalCtx) {
     sp3C.x = this->actor.posRot.pos.x;
     sp3C.y = this->actor.posRot.pos.y + 1000.0f;
     sp3C.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &sp3C, &this->unk_544, &sp4C, 0, 0, 1, 1, &sp48)) {
+    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &sp3C, &this->ceilingPos, &sp4C, 0, 0, 1, 1, &sp48)) {
         return false;
     } else {
         return true;
     }
 }
 
-void func_80B02490(EnSsh *this) {
-    Vec3f sp4C = {834.0f, 834.0f, 0.0f};
-    Vec3f sp40 = {834.0f, -584.0f, 0.0f};
-    Vec3f sp34;
-    Vec3f sp28;
+void EnSsh_AddBlureVertex(EnSsh* this) {
+    Vec3f p1base = { 834.0f, 834.0f, 0.0f };
+    Vec3f p2base = { 834.0f, -584.0f, 0.0f };
+    Vec3f p1;
+    Vec3f p2;
 
-    sp4C.x *= this->unk_53C;
-    sp4C.y *= this->unk_53C;
-    sp4C.z *=  this->unk_53C;
-    sp40.x *=  this->unk_53C;
-    sp40.y *=  this->unk_53C;
-    sp40.z *=  this->unk_53C;
+    p1base.x *= this->colliderScale;
+    p1base.y *= this->colliderScale;
+    p1base.z *= this->colliderScale;
+    p2base.x *= this->colliderScale;
+    p2base.y *= this->colliderScale;
+    p2base.z *= this->colliderScale;
     Matrix_Push();
-    Matrix_MultVec3f(&sp4C, &sp34);
-    Matrix_MultVec3f(&sp40, &sp28);
+    Matrix_MultVec3f(&p1base, &p1);
+    Matrix_MultVec3f(&p2base, &p2);
     Matrix_Pull();
-    EffectBlure_AddVertex(Effect_GetByIndex(this->unk_538), &sp34, &sp28);
+    EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &p1, &p2);
 }
 
-void func_80B02598(EnSsh *this) {
-    EffectBlure_AddSpace(Effect_GetByIndex(this->unk_538));
+void EnSsh_AddBlureSpace(EnSsh* this) {
+    EffectBlure_AddSpace(Effect_GetByIndex(this->blureIdx));
 }
 
-void func_80B025C0(EnSsh *this, GlobalContext *globalCtx) {
+void EnSsh_InitColliders(EnSsh* this, GlobalContext* globalCtx) {
     ColliderCylinderInit* cylinders[6] = {
-        &D_80B04470, &D_80B04470, &D_80B04470, &D_80B044A8, &D_80B044A8, &D_80B044A8,
+        &sCylinderInit1, &sCylinderInit1, &sCylinderInit1, &sCylinderInit2, &sCylinderInit2, &sCylinderInit2,
     };
     s32 i;
     s32 pad;
 
     for (i = 0; i < ARRAY_COUNT(cylinders); i++) {
-        Collider_InitCylinder(globalCtx, &this->collider1[i]);
-        Collider_SetCylinder(globalCtx, &this->collider1[i], &this->actor, cylinders[i]);
+        Collider_InitCylinder(globalCtx, &this->colCylinder[i]);
+        Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->collider1[0].body.bumper.flags = 0x0003F8E9;
-    this->collider1[1].body.bumper.flags = 0xFFC00716;
-    this->collider1[2].base.type = 9;
-    this->collider1[2].body.bumperFlags = 0xD;
-    this->collider1[2].body.flags = 2;
-    this->collider1[2].body.bumper.flags = 0xFFCC0716;
+    this->colCylinder[0].body.bumper.flags = 0x0003F8E9;
+    this->colCylinder[1].body.bumper.flags = 0xFFC00716;
+    this->colCylinder[2].base.type = 9;
+    this->colCylinder[2].body.bumperFlags = 0xD;
+    this->colCylinder[2].body.flags = 2;
+    this->colCylinder[2].body.bumper.flags = 0xFFCC0716;
 
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(2), &D_80B0449C);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
-    Collider_InitJntSph(globalCtx, &this->collider2);
-    Collider_SetJntSph(globalCtx, &this->collider2, &this->actor, &D_80B044F8, this->elements);
+    Collider_InitJntSph(globalCtx, &this->colSph);
+    Collider_SetJntSph(globalCtx, &this->colSph, &this->actor, &sJntSphInit, this->colSphElements);
 }
 
-f32 func_80B02700(EnSsh *this, s32 arg1) {
-    AnimationHeader* sp64[] = {0x06005BE8, 0x06000304, 0x06000304, 0x060055F8, 0x06000304, 0x06000304, 0x06005BE8};
-    f32 sp48[] = {1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f};
-    u8 sp40[] = {0x03,0x03,0x01,0x03,0x01,0x01,0x01};
-    f32 sp3C  = SkelAnime_GetFrameCount(&sp64[arg1]->genericHeader);
+f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
+    AnimationHeader* animation[] = { 0x06005BE8, 0x06000304, 0x06000304, 0x060055F8, 0x06000304, 0x06000304, 0x06005BE8 };
+    f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
+    u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
+    f32 frameCount = SkelAnime_GetFrameCount(&animation[animIndex]->genericHeader);
     s32 pad;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, sp64[arg1], sp48[arg1], 0.0f, sp3C, sp40[arg1], -6.0f);
-    
-    return sp3C;
+    SkelAnime_ChangeAnim(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount, mode[animIndex], -6.0f);
+
+    return frameCount;
 }
 
-void func_80B02834(EnSsh *this) {
-    func_80B02700(this, 2);
+void EnSsh_SetWaitAnimation(EnSsh* this) {
+    EnSsh_SetAnimation(this, ANIM_WAIT);
 }
 
-void func_80B02854(EnSsh *this) {
-    Audio_PlayActorSound2(&this->actor, 0x3869);
-    func_80B02700(this, 1);
+void EnSsh_SetReturnAnimation(EnSsh* this) {
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_UP);
+    EnSsh_SetAnimation(this, ANIM_UP);
 }
 
-void func_80B02884(EnSsh *this) {
-    this->actor.posRot.pos.y = this->unk_540 + this->actor.groundY;
-    this->unk_534 = func_80B02700(this, 3);
+void EnSsh_SetLandAnimation(EnSsh* this) {
+    this->actor.posRot.pos.y = this->groundYoffset + this->actor.groundY;
+    this->animTimer = EnSsh_SetAnimation(this, ANIM_LAND);
 }
 
-void func_80B028CC(EnSsh *this) {
-    if (this->unk_528 == 0) {
-        this->unk_534 = func_80B02700(this, 4);
+void EnSsh_SetDropAnimation(EnSsh* this) {
+    if (this->unkTimer == 0) {
+        this->animTimer = EnSsh_SetAnimation(this, ANIM_DROP);
     }
     this->actor.velocity.y = -10.0f;
 }
 
-void func_80B02920(EnSsh *this) {
-    if (this->unk_532 == 0) {
-        this->unk_5CA |= 8;
-        this->unk_532 = 120;
+void EnSsh_SetStunned(EnSsh* this) {
+    if (this->stunTimer == 0) {
+        this->stateFlags |= STATE_ATTACKED;
+        this->stunTimer = 120;
         this->actor.dmgEffectTimer = 0;
     }
 }
 
-void func_80B0294C(EnSsh *this, f32 arg1, f32 arg2) {
+void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
     f32 radius;
     f32 height;
     f32 yShift;
     s32 i;
 
-    radius = this->collider2.list[0].dim.modelSphere.radius;
-    radius *= arg1;
-    this->collider2.list[0].dim.modelSphere.radius = radius;
+    radius = this->colSph.list[0].dim.modelSphere.radius;
+    radius *= scale;
+    this->colSph.list[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
-        yShift = this->collider1[i].dim.yShift;
-        radius = this->collider1[i].dim.radius;
-        height = this->collider1[i].dim.height;
-        yShift *= arg1;
-        radius *= arg1 * arg2;
-        height *= arg1;
+        yShift = this->colCylinder[i].dim.yShift;
+        radius = this->colCylinder[i].dim.radius;
+        height = this->colCylinder[i].dim.height;
+        yShift *= scale;
+        radius *= scale * radiusMod;
+        height *= scale;
 
-        this->collider1[i].dim.yShift = yShift;
-        this->collider1[i].dim.radius = radius;
-        this->collider1[i].dim.height = height;
+        this->colCylinder[i].dim.yShift = yShift;
+        this->colCylinder[i].dim.radius = radius;
+        this->colCylinder[i].dim.height = height;
     }
-    Actor_SetScale(&this->actor, 0.04f * arg1);
-    this->unk_540 = 40.0f * arg1;
-    this->unk_53C = arg1 * 1.5f;
+    Actor_SetScale(&this->actor, 0.04f * scale);
+    this->groundYoffset = 40.0f * scale;
+    this->colliderScale = scale * 1.5f;
 }
 
-s32 func_80B02AC4(EnSsh *this) {
-    if ((this->unk_532 == 120) && (this->unk_5CA & 1)) {
-        func_8003426C(&this->actor, 0, 0xC8, 0, this->unk_532);
+s32 EnSsh_Damaged(EnSsh* this) {
+    if ((this->stunTimer == 120) && (this->stateFlags & STATE_STUNNED)) {
+        func_8003426C(&this->actor, 0, 0xC8, 0, this->stunTimer);
     }
-    if (DECR(this->unk_532) != 0) {
-        Math_SmoothScaleMaxMinS(&this->unk_526, 0x2710, 0xA, 0x3E8, 1);
+    if (DECR(this->stunTimer) != 0) {
+        Math_SmoothScaleMaxMinS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
         return false;
     } else {
-        this->unk_532 = 0;
-        this->unk_5CA &= ~1;
-        this->unk_52A = 0;
-        if (this->unk_536 == 0) {
-            this->unk_52A = 30;
+        this->stunTimer = 0;
+        this->stateFlags &= ~STATE_STUNNED;
+        this->spinTimer = 0;
+        if (this->swayTimer == 0) {
+            this->spinTimer = 30;
         }
-        Audio_PlayActorSound2(&this->actor, 0x3884);
-        Audio_PlayActorSound2(&this->actor, 0x6868);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_ROLL);
+        Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_ATTACK);
         return true;
     }
 }
 
-void func_80B02B9C(EnSsh *this, GlobalContext *globalCtx) {
-    if (this->unk_52C != 0) {
-        this->unk_52C--;
+void EnSsh_Turn(EnSsh* this, GlobalContext* globalCtx) {
+    if (this->hitTimer != 0) {
+        this->hitTimer--;
     }
-    if (DECR(this->unk_52A) != 0) {
-        this->actor.posRot.rot.y += 10000.0f * (this->unk_52A / 30.0f);
-    } else if ((this->unk_536 == 0) && (this->unk_532 == 0)) {
+    if (DECR(this->spinTimer) != 0) {
+        this->actor.posRot.rot.y += 10000.0f * (this->spinTimer / 30.0f);
+    } else if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 4, 0x2710, 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
-void func_80B02C74(EnSsh *this, GlobalContext *globalCtx) {
-    if ((this->unk_536 == 0) && (this->unk_532 == 0)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->unk_526, 1);
+void EnSsh_Stunned(EnSsh* this, GlobalContext* globalCtx) {
+    if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate, 1);
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    if (this->unk_532 < 30) {
-        if (this->unk_532 & 1) {
+    if (this->stunTimer < 30) {
+        if (this->stunTimer & 1) {
             this->actor.shape.rot.y += 0x7D0;
         } else {
             this->actor.shape.rot.y -= 0x7D0;
@@ -315,37 +306,37 @@ void func_80B02C74(EnSsh *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80B02D14(EnSsh *this, GlobalContext *globalCtx) {
-    if (this->unk_532 != 0) {
-        func_80B02C74(this, globalCtx);
+void EnSsh_UpdateYaw(EnSsh* this, GlobalContext* globalCtx) {
+    if (this->stunTimer != 0) {
+        EnSsh_Stunned(this, globalCtx);
     } else {
-        func_80B02B9C(this, globalCtx);
+        EnSsh_Turn(this, globalCtx);
     }
 }
 
-void func_80B02D50(EnSsh *this, GlobalContext *globalCtx) {
-    f32 phi_f0 = 0.5f;
+void EnSsh_Bob(EnSsh* this, GlobalContext* globalCtx) {
+    f32 bobVel = 0.5f;
 
     if ((globalCtx->state.frames & 8) != 0) {
-        phi_f0 *= -1.0f;
+        bobVel *= -1.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.velocity.y, phi_f0, 0.4f, 1000.0f, 0.0f);
+    Math_SmoothScaleMaxMinF(&this->actor.velocity.y, bobVel, 0.4f, 1000.0f, 0.0f);
 }
 
-s32 func_80B02DBC(EnSsh *this, GlobalContext *globalCtx) {
+s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 yDist;
 
-    if (this->unk_5CA & 4) {
+    if (this->stateFlags & STATE_GROUND_START) {
         return true;
     }
-    if (this->unk_528 != 0) {
+    if (this->unkTimer != 0) {
         return true;
     }
-    if (this->unk_536 != 0) {
+    if (this->swayTimer != 0) {
         return true;
     }
-    if (this->unk_534 != 0) {
+    if (this->animTimer != 0) {
         return true;
     }
 
@@ -368,184 +359,184 @@ s32 func_80B02DBC(EnSsh *this, GlobalContext *globalCtx) {
     return true;
 }
 
-s32 func_80B02EA4(EnSsh *this) {
-    f32 temp1 = this->actor.velocity.y;
-    f32 temp = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
+s32 EnSsh_IsCloseToHome(EnSsh* this) {
+    f32 vel = this->actor.velocity.y;
+    f32 nextY = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
 
-    if (temp >= this->actor.initPosRot.pos.y) {
+    if (nextY >= this->actor.initPosRot.pos.y) {
         return 1;
     }
     return 0;
 }
 
-s32 func_80B02EDC(EnSsh *this) {
-    f32 temp1 = this->actor.velocity.y;
-    f32 temp = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
+s32 EnSsh_IsCloseToGround(EnSsh* this) {
+    f32 vel = this->actor.velocity.y;
+    f32 nextY = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
 
-    if ((temp - this->actor.groundY) <= this->unk_540) {
+    if ((nextY - this->actor.groundY) <= this->groundYoffset) {
         return 1;
     }
     return 0;
 }
 
-void func_80B02F1C(EnSsh *this) {
-    Vec3f sp44;
-    Vec3f sp38;
-    f32 temp_f20;
-    s16 sp32;
+void EnSsh_Sway(EnSsh* this) {
+    Vec3f swayVecBase;
+    Vec3f swayVec;
+    f32 temp;
+    s16 swayAngle;
 
-    if (this->unk_536 != 0) {
-        this->unk_5C8 += 0x640;
-        this->unk_536--;
-        if (this->unk_536 == 0) {
-            this->unk_5C8 = 0;
+    if (this->swayTimer != 0) {
+        this->swayAngle += 0x640;
+        this->swayTimer--;
+        if (this->swayTimer == 0) {
+            this->swayAngle = 0;
         }
-        temp_f20 = this->unk_536 * 0.16666667f;
-        sp32 = temp_f20 * 182.04445f * Math_Sins(this->unk_5C8);
-        temp_f20 = this->actor.posRot.pos.y - this->unk_544.y;
-        sp44.x = Math_Sins(sp32) * temp_f20;
-        sp44.y = Math_Coss(sp32) * temp_f20;
-        sp44.z = 0.0f;
+        temp = this->swayTimer * (1.0f / 6);
+        swayAngle = temp * (0x10000 / 360.0f) * Math_Sins(this->swayAngle);
+        temp = this->actor.posRot.pos.y - this->ceilingPos.y;
+        swayVecBase.x = Math_Sins(swayAngle) * temp;
+        swayVecBase.y = Math_Coss(swayAngle) * temp;
+        swayVecBase.z = 0.0f;
         Matrix_Push();
-        Matrix_Translate(this->unk_544.x, this->unk_544.y, this->unk_544.z, 0);
-        Matrix_RotateY(this->actor.posRot.rot.y * 0.0000958738f, 1);
-        Matrix_MultVec3f(&sp44, &sp38);
+        Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
+        Matrix_RotateY(this->actor.posRot.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_MultVec3f(&swayVecBase, &swayVec);
         Matrix_Pull();
-        this->actor.shape.rot.z = -(sp32 * 2);
-        this->actor.posRot.pos.x = sp38.x;
-        this->actor.posRot.pos.z = sp38.z;
+        this->actor.shape.rot.z = -(swayAngle * 2);
+        this->actor.posRot.pos.x = swayVec.x;
+        this->actor.posRot.pos.z = swayVec.z;
     }
 }
 
-void func_80B03060(EnSsh *this, GlobalContext *globalCtx) {
-    ColliderBody* body = &this->collider1[0].body;
+void EnSsh_CheckBodyStickHit(EnSsh* this, GlobalContext* globalCtx) {
+    ColliderBody* body = &this->colCylinder[0].body;
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
         body->bumper.flags |= 2;
-        this->collider1[1].body.bumper.flags &= ~2;
-        this->collider1[2].body.bumper.flags &= ~2;
+        this->colCylinder[1].body.bumper.flags &= ~2;
+        this->colCylinder[2].body.bumper.flags &= ~2;
     } else {
         body->bumper.flags &= ~2;
-        this->collider1[1].body.bumper.flags |= 2;
-        this->collider1[2].body.bumper.flags |= 2;
+        this->colCylinder[1].body.bumper.flags |= 2;
+        this->colCylinder[2].body.bumper.flags |= 2;
     }
 }
 
-s32 func_80B030D4(EnSsh *this, GlobalContext *globalCtx) {
+s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
     s32 i;
-    s32 phi_a3 = 0;
+    s32 hit = false;
 
-    if ((this->unk_5CC == 0) && (this->unk_52A == 0)) {
-        return 0;
+    if ((this->hitCount == 0) && (this->spinTimer == 0)) {
+        return false;
     }
-    for(i = 0; i < 3; i++) {
-        if(this->collider1[i+3].base.maskB & 1) {
-            this->collider1[i+3].base.maskB &= ~1;
-            phi_a3 = 1;
+    for (i = 0; i < 3; i++) {
+        if (this->colCylinder[i + 3].base.maskB & 1) {
+            this->colCylinder[i + 3].base.maskB &= ~1;
+            hit = true;
         }
     }
-    if (phi_a3 == 0) {
-        return 0;
+    if (!hit) {
+        return false;
     }
-    this->unk_52C = 30;
-    if (this->unk_536 == 0) {
-        this->unk_52A = this->unk_52C;
+    this->hitTimer = 30;
+    if (this->swayTimer == 0) {
+        this->spinTimer = this->hitTimer;
     }
-    Audio_PlayActorSound2(&this->actor, 0x3884);
-    Audio_PlayActorSound2(&this->actor, 0x6868);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_ROLL);
+    Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_ATTACK);
     globalCtx->damagePlayer(globalCtx, -8);
     func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsLink, 6.0f);
-    this->unk_5CC--;
-    return 1;
+    this->hitCount--;
+    return true;
 }
 
-#ifdef NON_MATCHING
-s32 func_80B031DC(EnSsh *this) {
-    u8 acFlags = this->collider1[2].base.acFlags;
+s32 EnSsh_CheckHitFront(EnSsh* this) {
+    u32 acFlags;
+
+    if (this->colCylinder[2].base.acFlags) {} // Needed for matching
+    acFlags = this->colCylinder[2].base.acFlags;
 
     if (!!(acFlags & 2) == 0) {
         return 0;
     } else {
-        this->collider1[2].base.acFlags &= ~2;
-        this->unk_52E = 8;
-        if ((this->unk_536 == 0) && (this->unk_52C == 0) && (this->unk_532 == 0)) {
-            this->unk_536 = 60;
+        this->colCylinder[2].base.acFlags &= ~2;
+        this->invincibilityTimer = 8;
+        if ((this->swayTimer == 0) && (this->hitTimer == 0) && (this->stunTimer == 0)) {
+            this->swayTimer = 60;
         }
         return 1;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ssh/func_80B031DC.s")
-#endif
 
-s32 func_80B03238(EnSsh *this, GlobalContext *globalCtx) {
-    ColliderCylinder* cyl = &this->collider1[0];
-    s32 phi_v1 = 0;
+s32 EnSsh_CheckHitBack(EnSsh* this, GlobalContext* globalCtx) {
+    ColliderCylinder* cyl = &this->colCylinder[0];
+    s32 hit = false;
 
     if (cyl->base.acFlags & 2) {
         cyl->base.acFlags &= ~2;
-        phi_v1 = 1;
+        hit = true;
     }
-    cyl = &this->collider1[1];
+    cyl = &this->colCylinder[1];
     if (cyl->base.acFlags & 2) {
         cyl->base.acFlags &= ~2;
-        phi_v1 = 1;
+        hit = true;
     }
-    if (phi_v1 == 0) {
-        return 0;
+    if (!hit) {
+        return false;
     }
-    this->unk_52E = 8;
-    if (this->unk_5CC <= 0) {
-        this->unk_5CC++;
+    this->invincibilityTimer = 8;
+    if (this->hitCount <= 0) {
+        this->hitCount++;
     }
-    if (this->unk_532 == 0) {
-        Audio_PlayActorSound2(&this->actor, 0x389E);
-        Audio_PlayActorSound2(&this->actor, 0x6867);
+    if (this->stunTimer == 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+        Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_DAMAGE);
     }
-    func_80B02920(this);
-    this->unk_5CA |= 1;
-    return 0;
+    EnSsh_SetStunned(this);
+    this->stateFlags |= STATE_STUNNED;
+    return false;
 }
 
-s32 func_80B0330C(EnSsh *this, GlobalContext *globalCtx) {
-    if (this->unk_532 == 0) {
-        func_80B030D4(this, globalCtx);
+s32 EnSsh_CollisionCheck(EnSsh* this, GlobalContext* globalCtx) {
+    if (this->stunTimer == 0) {
+        EnSsh_CheckHitLink(this, globalCtx);
     }
-    if (func_80B031DC(this)) {
-        return 0;
+    if (EnSsh_CheckHitFront(this)) {
+        return false;
     } else if (globalCtx->actorCtx.unk_02 != 0) {
-        this->unk_52E = 8;
-        if (this->unk_532 == 0) {
-            Audio_PlayActorSound2(&this->actor, 0x389E);
-            Audio_PlayActorSound2(&this->actor, 0x6867);
+        this->invincibilityTimer = 8;
+        if (this->stunTimer == 0) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+            Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_DAMAGE);
         }
-        func_80B02920(this);
-        this->unk_5CA |= 1;
-        return 0;
+        EnSsh_SetStunned(this);
+        this->stateFlags |= STATE_STUNNED;
+        return false;
     } else {
-        return func_80B03238(this, globalCtx);
+        return EnSsh_CheckHitBack(this, globalCtx);
+        // Always returns false
     }
 }
 
-void func_80B033BC(EnSsh *this, GlobalContext *globalCtx) {
-    Collider_CylinderUpdate(&this->actor, &this->collider1[0]);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1[0].base);
+void EnSsh_SetBodyCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
+    Collider_CylinderUpdate(&this->actor, &this->colCylinder[0]);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[0].base);
 }
 
-void func_80B03400(EnSsh *this, GlobalContext *globalCtx) {
+void EnSsh_SetLegsCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
     s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
 
     if (angleTowardsLink < 90 * (0x10000 / 360)) {
-        Collider_CylinderUpdate(&this->actor, &this->collider1[2]);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1[2].base);
+        Collider_CylinderUpdate(&this->actor, &this->colCylinder[2]);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[2].base);
     } else {
-        Collider_CylinderUpdate(&this->actor, &this->collider1[1]);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1[1].base);
+        Collider_CylinderUpdate(&this->actor, &this->colCylinder[1]);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[1].base);
     }
 }
 
-s32 func_80B034B4(EnSsh *this, GlobalContext *globalCtx) {
+s32 EnSsh_SetCylinderOC(EnSsh* this, GlobalContext* globalCtx) {
     Vec3f cyloffsets[] = {
         { 40.0f, 0.0f, 0.0f },
         { 0.0f, 0.0f, 0.0f },
@@ -556,44 +547,44 @@ s32 func_80B034B4(EnSsh *this, GlobalContext *globalCtx) {
 
     for (i = 0; i < 3; i++) {
         cylPos = this->actor.posRot.pos;
-        cyloffsets[i].x *= this->unk_53C;
-        cyloffsets[i].y *= this->unk_53C;
-        cyloffsets[i].z *= this->unk_53C;
+        cyloffsets[i].x *= this->colliderScale;
+        cyloffsets[i].y *= this->colliderScale;
+        cyloffsets[i].z *= this->colliderScale;
         Matrix_Push();
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
-        Matrix_RotateY((this->unk_524 / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY((this->initialYaw / (f32)0x8000) * M_PI, MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pull();
-        this->collider1[i + 3].dim.pos.x = cylPos.x;
-        this->collider1[i + 3].dim.pos.y = cylPos.y;
-        this->collider1[i + 3].dim.pos.z = cylPos.z;
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1[i + 3].base);
+        this->colCylinder[i + 3].dim.pos.x = cylPos.x;
+        this->colCylinder[i + 3].dim.pos.y = cylPos.y;
+        this->colCylinder[i + 3].dim.pos.z = cylPos.z;
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[i + 3].base);
     }
     return 1;
 }
 
-void func_80B0368C(EnSsh *this, GlobalContext *globalCtx) {
+void EnSsh_SetColliders(EnSsh* this, GlobalContext* globalCtx) {
     if (this->actor.colChkInfo.health == 0) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colSph.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colSph.base);
     } else {
-        if (this->unk_52C == 0) {
-            func_80B034B4(this, globalCtx);
+        if (this->hitTimer == 0) {
+            EnSsh_SetCylinderOC(this, globalCtx);
         }
-        if (DECR(this->unk_52E) == 0) {
-            func_80B033BC(this, globalCtx);
-            func_80B03400(this, globalCtx);
+        if (DECR(this->invincibilityTimer) == 0) {
+            EnSsh_SetBodyCylinderAC(this, globalCtx);
+            EnSsh_SetLegsCylinderAC(this, globalCtx);
         }
     }
 }
 
-void EnSsh_Init(Actor *thisx, GlobalContext *globalCtx) {
-    f32 sp3C;
+void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
+    f32 frameCount;
     s32 pad;
     EnSsh* this = THIS;
 
-    sp3C = SkelAnime_GetFrameCount(&D_06000304.genericHeader);
-    if (this->actor.params == 0) {
+    frameCount = SkelAnime_GetFrameCount(&D_06000304.genericHeader);
+    if (this->actor.params == ENSSH_FATHER) {
         if (gSaveContext.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
             return;
@@ -604,83 +595,83 @@ void EnSsh_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->limbDrawTable, this->transDrawTable, 30);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000304, 1.0f, 0.0f, sp3C, 1, 0.0f);
-    this->unk_538 = func_80B02300(globalCtx);
-    func_80B025C0(this, globalCtx);
-    this->unk_5CA = 0;
-    this->unk_5CC = 0;
-    func_80B023FC(this, globalCtx);
-    if (this->actor.params != 0) {
-        func_80B0294C(this, 0.5f, 1.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
+    this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
+    EnSsh_InitColliders(this, globalCtx);
+    this->stateFlags = 0;
+    this->hitCount = 0;
+    EnSsh_CheckCeilingPos(this, globalCtx);
+    if (this->actor.params != ENSSH_FATHER) {
+        EnSsh_SetColliderScale(this, 0.5f, 1.0f);
     } else {
-        func_80B0294C(this, 0.75f, 1.0f);
+        EnSsh_SetColliderScale(this, 0.75f, 1.0f);
     }
     this->actor.gravity = 0.0f;
-    this->unk_524 = this->actor.posRot.rot.y;
-    func_80B02270(this, func_80B03FF0);
+    this->initialYaw = this->actor.posRot.rot.y;
+    EnSsh_SetupAction(this, EnSsh_Start);
 }
 
-void EnSsh_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+void EnSsh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSsh* this = THIS;
     s32 i;
 
-    Effect_Delete(globalCtx, this->unk_538);
-    for(i = 0; i < 6; i++) {
-        Collider_DestroyCylinder(globalCtx, &this->collider1[i]);
+    Effect_Delete(globalCtx, this->blureIdx);
+    for (i = 0; i < 6; i++) {
+        Collider_DestroyCylinder(globalCtx, &this->colCylinder[i]);
     }
-    Collider_DestroyJntSph(globalCtx, &this->collider2);
+    Collider_DestroyJntSph(globalCtx, &this->colSph);
 }
 
-void func_80B03968(EnSsh *this, GlobalContext *globalCtx) {
-    if (func_80B02DBC(this, globalCtx)) {
-        func_80B028CC(this);
-        func_80B02270(this, func_80B03D74);
+void EnSsh_Wait(EnSsh* this, GlobalContext* globalCtx) {
+    if (EnSsh_IsCloseToLink(this, globalCtx)) {
+        EnSsh_SetDropAnimation(this);
+        EnSsh_SetupAction(this, EnSsh_Drop);
     } else {
-        func_80B02D50(this, globalCtx);
+        EnSsh_Bob(this, globalCtx);
     }
 }
 
-void func_80B039BC(EnSsh *this, GlobalContext *globalCtx) {
-    func_80B02D50(this, globalCtx);
+void EnSsh_Talk(EnSsh* this, GlobalContext* globalCtx) {
+    EnSsh_Bob(this, globalCtx);
     if (func_8002F334(&this->actor, globalCtx)) {
-        this->actionFunc = func_80B03A00;
+        this->actionFunc = EnSsh_Idle;
     }
 }
 
-void func_80B03A00(EnSsh *this, GlobalContext *globalCtx) {
-    if(1){}
+void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx) {
+    if (1) {}
     if (func_8002F194(&this->actor, globalCtx)) {
-        this->actionFunc = func_80B039BC;
-        if (this->actor.params == 0) {
+        this->actionFunc = EnSsh_Talk;
+        if (this->actor.params == ENSSH_FATHER) {
             gSaveContext.eventChkInf[9] |= 0x40;
         }
         if ((this->actor.textId == 0x26) || (this->actor.textId == 0x27)) {
-            gSaveContext.infTable[25] |=  0x40;
+            gSaveContext.infTable[25] |= 0x40;
         }
         if ((this->actor.textId == 0x24) || (this->actor.textId == 0x25)) {
             gSaveContext.infTable[25] |= 0x80;
         }
     } else {
-        if((this->unk_528 != 0) && (DECR(this->unk_528) == 0)) {
-            func_80B02700(this, 2);
+        if ((this->unkTimer != 0) && (DECR(this->unkTimer) == 0)) {
+            EnSsh_SetAnimation(this, ANIM_WAIT);
         }
-        if((this->unk_534 != 0) && (DECR(this->unk_534) == 0)) {
-            func_80B02700(this, 2);
+        if ((this->animTimer != 0) && (DECR(this->animTimer) == 0)) {
+            EnSsh_SetAnimation(this, ANIM_WAIT);
         }
-        if (!func_80B02DBC(this, globalCtx)) {
-            func_80B02854(this);
-            func_80B02270(this, func_80B03E74);
+        if (!EnSsh_IsCloseToLink(this, globalCtx)) {
+            EnSsh_SetReturnAnimation(this);
+            EnSsh_SetupAction(this, EnSsh_Return);
         } else {
-            if(DECR(this->unk_530) == 0) {
-                Audio_PlayActorSound2(&this->actor, 0x386A);
-                this->unk_530 = 64;
+            if (DECR(this->sfxTimer) == 0) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_LAUGH);
+                this->sfxTimer = 64;
             }
-            func_80B02D50(this, globalCtx);
-            if ((this->unk_528 == 0) && (this->unk_534 == 0)) {
+            EnSsh_Bob(this, globalCtx);
+            if ((this->unkTimer == 0) && (this->animTimer == 0)) {
                 this->actor.textId = Text_GetFaceReaction(globalCtx, 0xD);
                 if (this->actor.textId == 0) {
-                    if (this->actor.params == 0) {
+                    if (this->actor.params == ENSSH_FATHER) {
                         if (gSaveContext.inventory.gsTokens >= 50) {
                             this->actor.textId = 0x29;
                         } else if (gSaveContext.inventory.gsTokens >= 10) {
@@ -706,144 +697,141 @@ void func_80B03A00(EnSsh *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80B03C8C(EnSsh *this, GlobalContext *globalCtx) {
-    s16 temp_v0;
-    s16 temp_v0_2;
-    s16 phi_v1;
-    s16 phi_v1_2;
-    if((this->unk_528 != 0) && (DECR(this->unk_528) == 0)) {
-        func_80B02700(this, 2);
+void EnSsh_Land(EnSsh* this, GlobalContext* globalCtx) {
+    if ((this->unkTimer != 0) && (DECR(this->unkTimer) == 0)) {
+        EnSsh_SetAnimation(this, ANIM_WAIT);
     }
-    if((this->unk_534 != 0) && (DECR(this->unk_534) == 0)) {
-        func_80B02700(this, 2);
+    if ((this->animTimer != 0) && (DECR(this->animTimer) == 0)) {
+        EnSsh_SetAnimation(this, ANIM_WAIT);
     }
-    if ((this->actor.groundY + this->unk_540) <= this->actor.posRot.pos.y) {
-        func_80B02270(this, &func_80B03A00);
+    if ((this->actor.groundY + this->groundYoffset) <= this->actor.posRot.pos.y) {
+        EnSsh_SetupAction(this, EnSsh_Idle);
     } else {
         Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
     }
 }
 
-void func_80B03D74(EnSsh *this, GlobalContext *globalCtx) {
-    if((this->unk_528 != 0) && (DECR(this->unk_528) == 0)) {
-        func_80B02700(this, 4);
+void EnSsh_Drop(EnSsh* this, GlobalContext* globalCtx) {
+    if ((this->unkTimer != 0) && (DECR(this->unkTimer) == 0)) {
+        EnSsh_SetAnimation(this, ANIM_DROP);
     }
-    if (!func_80B02DBC(this, globalCtx)) {
-        func_80B02854(this);
-        func_80B02270(this, func_80B03E74);
-    } else if (func_80B02EDC(this)) {
-        func_80B02278(this, globalCtx);
-        func_80B02884(this);
-        func_80B02270(this, func_80B03C8C);
-    } else if (DECR(this->unk_530) == 0) {
-        Audio_PlayActorSound2(&this->actor, 0x3868);
-        this->unk_530 = 3;
-    }
-}
-
-void func_80B03E74(EnSsh *this, GlobalContext *globalCtx) {
-    f32 sp24 = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
-
-    if (sp24 == 1.0f) {
-        func_80B02854(this);
-    }
-    if (func_80B02DBC(this, globalCtx)) {
-        func_80B028CC(this);
-        func_80B02270(this, func_80B03D74);
-    } else if (func_80B02EA4(this)) {
-        func_80B02834(this);
-        func_80B02270(this, func_80B03968);
-    } else { 
-        this->actor.velocity.y = 4.0f * sp24;
+    if (!EnSsh_IsCloseToLink(this, globalCtx)) {
+        EnSsh_SetReturnAnimation(this);
+        EnSsh_SetupAction(this, EnSsh_Return);
+    } else if (EnSsh_IsCloseToGround(this)) {
+        EnSsh_SpawnShockwave(this, globalCtx);
+        EnSsh_SetLandAnimation(this);
+        EnSsh_SetupAction(this, EnSsh_Land);
+    } else if (DECR(this->sfxTimer) == 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DOWN);
+        this->sfxTimer = 3;
     }
 }
 
-void func_80B03F48(EnSsh *this) {
-    if (this->unk_5CA & 0x10) {
-        if (this->unk_52A == 0) {
-            this->unk_5CA &= ~0x10;
-            if (this->actor.params != 0) {
-                func_80B0294C(this, 0.5f, 1.0f);
-            } else {
-                func_80B0294C(this, 0.75f, 1.0f);
-            }
-        }
-    } else { // !(this->unk_5CA & 0x10)
-        if (this->unk_52A != 0) {
-            this->unk_5CA |= 0x10;
-            if (this->actor.params != 0) {
-                func_80B0294C(this, 0.5f, 2.0f);
-            } else {
-                func_80B0294C(this, 0.75f, 2.0f);
-            }
-        }
-    }
-}
+void EnSsh_Return(EnSsh* this, GlobalContext* globalCtx) {
+    f32 frameRatio = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
 
-void func_80B03FF0(EnSsh *this, GlobalContext *globalCtx) {
-    if (!func_80B02EDC(this)) {
-        func_80B02270(this, func_80B03968);
-        func_80B03968(this, globalCtx);
+    if (frameRatio == 1.0f) {
+        EnSsh_SetReturnAnimation(this);
+    }
+    if (EnSsh_IsCloseToLink(this, globalCtx)) {
+        EnSsh_SetDropAnimation(this);
+        EnSsh_SetupAction(this, EnSsh_Drop);
+    } else if (EnSsh_IsCloseToHome(this)) {
+        EnSsh_SetWaitAnimation(this);
+        EnSsh_SetupAction(this, EnSsh_Wait);
     } else {
-        func_80B02884(this);
-        this->unk_5CA |= 4;
-        func_80B02270(this, func_80B03C8C);
-        func_80B03C8C(this, globalCtx);
+        this->actor.velocity.y = 4.0f * frameRatio;
     }
 }
 
-void EnSsh_Update(Actor* thisx, GlobalContext *globalCtx) {
+void EnSsh_UpdateColliderScale(EnSsh* this) {
+    if (this->stateFlags & STATE_SPIN) {
+        if (this->spinTimer == 0) {
+            this->stateFlags &= ~STATE_SPIN;
+            if (this->actor.params != ENSSH_FATHER) {
+                EnSsh_SetColliderScale(this, 0.5f, 1.0f);
+            } else {
+                EnSsh_SetColliderScale(this, 0.75f, 1.0f);
+            }
+        }
+    } else { // !(this->unk_5CA & STATE_SPIN)
+        if (this->spinTimer != 0) {
+            this->stateFlags |= STATE_SPIN;
+            if (this->actor.params != ENSSH_FATHER) {
+                EnSsh_SetColliderScale(this, 0.5f, 2.0f);
+            } else {
+                EnSsh_SetColliderScale(this, 0.75f, 2.0f);
+            }
+        }
+    }
+}
+
+void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx) {
+    if (!EnSsh_IsCloseToGround(this)) {
+        EnSsh_SetupAction(this, EnSsh_Wait);
+        EnSsh_Wait(this, globalCtx);
+    } else {
+        EnSsh_SetLandAnimation(this);
+        this->stateFlags |= 4;
+        EnSsh_SetupAction(this, EnSsh_Land);
+        EnSsh_Land(this, globalCtx);
+    }
+}
+
+void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSsh* this = THIS;
 
-    func_80B03F48(this);
-    if (!func_80B0330C(this, globalCtx)) {
-        if (this->unk_532 != 0) {
-            func_80B02AC4(this);
-        } else {
-            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-            func_8002D7EC(&this->actor);
-            func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-            this->actionFunc(this, globalCtx);
-        }
-        func_80B02D14(this, globalCtx);
-        if (DECR(this->unk_5D0) == 0) {
-            this->unk_5D0 = Math_Rand_S16Offset(0x3C, 0x3C);
-        }
-        this->unk_5CE = this->unk_5D0;
-        if (this->unk_5CE >= 3) {
-            this->unk_5CE = 0;
-        }
-        func_80B0368C(this, globalCtx);
-        Actor_SetHeight(&this->actor, 0.0f);
+    EnSsh_UpdateColliderScale(this);
+    if (EnSsh_CollisionCheck(this, globalCtx)) {
+        return; // EnSsh_CollisionCheck always returns false, so this never happens
+    } 
+    if (this->stunTimer != 0) {
+        EnSsh_Damaged(this);
+    } else {
+        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        func_8002D7EC(&this->actor);
+        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        this->actionFunc(this, globalCtx);
     }
+    EnSsh_UpdateYaw(this, globalCtx);
+    if (DECR(this->blinkTimer) == 0) {
+        this->blinkTimer = Math_Rand_S16Offset(60, 60);
+    }
+    this->blinkState = this->blinkTimer;
+    if (this->blinkState >= 3) {
+        this->blinkState = 0;
+    }
+    EnSsh_SetColliders(this, globalCtx);
+    Actor_SetHeight(&this->actor, 0.0f);
 }
 
-s32 func_80B04190(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *thisx) {
+s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnSsh* this = THIS;
 
-    switch(limbIndex){
+    switch (limbIndex) {
         case 1:
-            if ((this->unk_52A != 0) && (this->unk_536 == 0)) {
-                if (this->unk_52A >= 2) {
-                    func_80B02490(this);
+            if ((this->spinTimer != 0) && (this->swayTimer == 0)) {
+                if (this->spinTimer >= 2) {
+                    EnSsh_AddBlureVertex(this);
                 } else {
-                    func_80B02598(this);
+                    EnSsh_AddBlureSpace(this);
                 }
             }
             break;
         case 4:
-            if(this->actor.params == 0){
+            if (this->actor.params == ENSSH_FATHER) {
                 *dList = D_060046C0;
             }
             break;
         case 5:
-            if(this->actor.params == 0){
+            if (this->actor.params == ENSSH_FATHER) {
                 *dList = D_06004080;
             }
             break;
         case 8:
-            if(this->actor.params == 0){
+            if (this->actor.params == ENSSH_FATHER) {
                 *dList = D_06004DE8;
             }
             break;
@@ -851,21 +839,22 @@ s32 func_80B04190(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
     return 0;
 }
 
-void func_80B04280(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, Actor *thisx) {
+void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     EnSsh* this = THIS;
 
-    func_800628A4(limbIndex, &this->collider2);
+    func_800628A4(limbIndex, &this->colSph);
 }
 
-void EnSsh_Draw(Actor* thisx, GlobalContext *globalCtx) {
-    static Gfx* D_80B045B8[] = {0x060007E0, 0x06000C60, 0x06001060};
+void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static u32* blinkTex[] = { 0x060007E0, 0x06000C60, 0x06001060 };
     s32 pad;
     EnSsh* this = THIS;
 
-    func_80B03060(this, globalCtx);
-    func_80B02F1C(this);
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 0x91D);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B045B8[this->unk_5CE]));
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 0x920);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, func_80B04190, func_80B04280, &this->actor);
+    EnSsh_CheckBodyStickHit(this, globalCtx);
+    EnSsh_Sway(this);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2333);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->blinkState]));
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2336);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSsh_OverrideLimbDraw, EnSsh_PostLimbDraw,
+                   &this->actor);
 }
