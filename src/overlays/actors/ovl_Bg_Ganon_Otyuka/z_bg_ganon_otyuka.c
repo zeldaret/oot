@@ -19,7 +19,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx);
 void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx);
-void func_808760DC(Actor* thisx, GlobalContext* globalCtx);
+void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
@@ -37,22 +37,18 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-u8 D_80876A64[] = { 0x01, 0x02, 0x04, 0x08 };
+static u8 D_80876A64[] = { 1, 2, 4, 8 };
 
-Vec3f D_80876A68[] = {
+static Vec3f D_80876A68[] = {
     { 120.0f, 0.0f, 0.0f },
     { -120.0f, 0.0f, 0.0f },
     { 0.0f, 0.0f, 120.0f },
     { 0.0f, 0.0f, -120.0f },
 };
 
-UNK_TYPE D_80876A98[] = {
-    0x3C3C0000,
-};
+static Color_RGBA8 sDustPrimColor = { 60, 60, 0, 0 };
 
-UNK_TYPE D_80876A9C[] = {
-    0x32140000,
-};
+static Color_RGBA8 sDustEnvColor = { 50, 20, 0, 0 };
 
 static Vec3f D_80876AA0[] = {
     { 60.0f, 0.0f, 0.0f },
@@ -111,7 +107,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->draw = NULL;
         this->actionFunc = func_80875A0C;
     } else {
-        thisx->update = func_808760DC;
+        thisx->update = BgGanonOtyuka_DoNothing;
     }
 }
 
@@ -135,7 +131,7 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Vec3f center;
     s16 i;
 
-    if (this->unk_16A != 0 || (globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f)) {
+    if (this->unk_16A != 0 || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f))) {
         osSyncPrintf("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
@@ -238,7 +234,7 @@ void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                     pos.x = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.x;
                     pos.y = Math_Rand_ZeroFloat(60.0f) + -750.0f;
                     pos.z = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.z;
-                    func_8002836C(globalCtx, &pos, &velocity, &accel, D_80876A98, D_80876A9C,
+                    func_8002836C(globalCtx, &pos, &velocity, &accel, &sDustPrimColor, &sDustEnvColor,
                                   (s16)Math_Rand_ZeroFloat(100.0f) + 250, 5, (s16)Math_Rand_ZeroFloat(5.0f) + 15);
                 }
 
@@ -261,7 +257,7 @@ void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     osSyncPrintf("MODE DOWN END\n");
 }
 
-void func_808760DC(Actor* thisx, GlobalContext* globalCtx) {
+void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
