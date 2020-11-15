@@ -172,7 +172,7 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
 
         this->actionFunc = func_80875C88;
         this->unk_16A = 1;
-        this->unk_168 = 20;
+        this->dropTimer = 20;
         this->unk_16E = 1;
         this->unk_16D = 0;
         this->primColorR = 255.0f;
@@ -208,7 +208,7 @@ void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             this->unk_16E = 0;
         }
     }
-    if (this->unk_168 == 0) {
+    if (this->dropTimer == 0) {
         this->yScale = 0.0f;
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
@@ -244,7 +244,7 @@ void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->dyna.actor);
         }
     } else {
-        if (this->unk_168 == 1) {
+        if (this->dropTimer == 1) {
             Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
         } else {
@@ -265,7 +265,7 @@ void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     this->unk_16D++;
-    DECR(this->unk_168);
+    DECR(this->dropTimer);
 }
 
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
