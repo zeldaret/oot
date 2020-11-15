@@ -177,12 +177,12 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         this->unk_168 = 20;
         this->unk_16E = 1;
         this->unk_16D = 0;
-        this->primR = 255.0f;
-        this->primG = 255.0f;
-        this->primB = 255.0f;
-        this->envR = 255.0f;
-        this->envG = 255.0f;
-        this->envB = 0.0f;
+        this->primColorR = 255.0f;
+        this->primColorG = 255.0f;
+        this->primColorB = 255.0f;
+        this->envColorR = 255.0f;
+        this->envColorG = 255.0f;
+        this->envColorB = 0.0f;
     }
 }
 #else
@@ -295,8 +295,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, platform->unk_16D * 4, 0, 32, 64, 1,
                                             platform->unk_16D * 4, 0, 32, 64));
                 gDPPipeSync(POLY_XLU_DISP++);
-                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, platform->primR, platform->primG, platform->primB, 0);
-                gDPSetEnvColor(POLY_XLU_DISP++, platform->envR, platform->envG, platform->envB, 128);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, platform->primColorR, platform->primColorG, platform->primColorB,
+                                0);
+                gDPSetEnvColor(POLY_XLU_DISP++, platform->envColorR, platform->envColorG, platform->envColorB, 128);
                 Matrix_Translate(platform->dyna.actor.posRot.pos.x, 0.0f, platform->dyna.actor.posRot.pos.z,
                                  MTXMODE_NEW);
 
