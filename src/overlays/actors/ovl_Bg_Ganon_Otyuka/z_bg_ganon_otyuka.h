@@ -18,13 +18,13 @@ typedef struct BgGanonOtyuka {
     /* 0x016D */ u8 unk_16D;
     /* 0x016E */ u8 unk_16E;
     /* 0x016F */ char unk_16F[0x01];
-    /* 0x0170 */ f32 unk_170;
-    /* 0x0174 */ f32 unk_174;
-    /* 0x0178 */ f32 unk_178;
-    /* 0x017C */ f32 unk_17C;
-    /* 0x0180 */ f32 unk_180;
-    /* 0x0184 */ f32 unk_184;
-    /* 0x0188 */ f32 unk_188;
+    /* 0x0170 */ f32 yScale;
+    /* 0x0174 */ f32 primR;
+    /* 0x0178 */ f32 primG;
+    /* 0x017C */ f32 primB;
+    /* 0x0180 */ f32 envR;
+    /* 0x0184 */ f32 envG;
+    /* 0x0188 */ f32 envB;
 } BgGanonOtyuka; // size = 0x018C
 
 extern const ActorInit Bg_Ganon_Otyuka_InitVars;

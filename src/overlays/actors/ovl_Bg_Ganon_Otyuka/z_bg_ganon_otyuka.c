@@ -39,9 +39,11 @@ static InitChainEntry sInitChain[] = {
 
 u8 D_80876A64[] = { 0x01, 0x02, 0x04, 0x08 };
 
-UNK_TYPE D_80876A68[] = {
-    0x42F00000, 0x00000000, 0x00000000, 0xC2F00000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x42F00000, 0x00000000, 0x00000000, 0xC2F00000,
+Vec3f D_80876A68[] = {
+    { 120.0f, 0.0f, 0.0f },
+    { -120.0f, 0.0f, 0.0f },
+    { 0.0f, 0.0f, 120.0f },
+    { 0.0f, 0.0f, -120.0f },
 };
 
 UNK_TYPE D_80876A98[] = {
@@ -134,44 +136,18 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgGanonOtyuka* this = THIS;
-    Camera* camera;
-    f32 spBC;
-    Gfx* spA8;
-    Gfx* temp_s0;
-    Gfx* temp_s0_3;
-    Gfx* temp_s1;
-    Gfx* temp_s1_2;
-    Gfx* temp_v0_2;
-    Gfx* temp_v0_3;
-    Gfx* temp_v1;
-    Gfx* temp_v1_2;
-    Gfx* temp_v1_3;
-    Gfx* temp_v1_4;
-    Gfx* temp_v1_5;
-    Gfx* temp_v1_6;
-    GraphicsContext* gfxCtx;
-    GraphicsContext* temp_s3;
-    s16 temp_s0_2;
-    s16 temp_s0_4;
-    u8 temp_a2;
+    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    f32 spBC = -30.0f;
     Actor* boss;
     Actor* prop;
-    Actor* temp_s4_4;
-    Actor* temp_s4_5;
-    void* temp_s4_6;
     Gfx* phi_s2;
     Gfx* phi_s1;
-    s16 phi_s0;
-    BgGanonOtyuka* phi_s4_3;
-    s16 phi_s0_2;
+    s16 i;
 
-    camera = Gameplay_GetCamera(globalCtx, 0);
-    spBC = -30.0f;
-    gfxCtx = globalCtx->state.gfxCtx;
-    OPEN_DISPS(gfxCtx, "../z_bg_ganon_otyuka.c", 702);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 702);
     boss = globalCtx->actorCtx.actorList[ACTORTYPE_BOSS].first;
     if (boss != NULL) {
-        while (boss != NULL) {
+        while (boss->next != NULL) {
             if ((boss->id == ACTOR_BOSS_GANON) && (boss->params == 0)) {
                 BossGanon* ganon = (BossGanon*)boss;
 
@@ -189,90 +165,81 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_OPA_DISP++, D_80877328);
     prop = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
     if (prop != NULL) {
-    loop_8:
-        if ((prop->id == ACTOR_BG_GANON_OTYUKA) && (prop->projectedPos.z > spBC)) {
-            BgGanonOtyuka* otyuka = (BgGanonOtyuka*)prop;
+        while (prop->next != NULL) {
+            if ((prop->id == ACTOR_BG_GANON_OTYUKA) && (prop->projectedPos.z > spBC)) {
+                BgGanonOtyuka* otyuka = (BgGanonOtyuka*)prop;
 
-            phi_s2 = D_80877408;
-            if (camera->eye.y > prop->posRot.pos.y) {
-                phi_s2 = D_808773B0;
-            }
-            Matrix_Translate(prop->posRot.pos.x, prop->posRot.pos.y, prop->posRot.pos.z, MTXMODE_NEW);
-            phi_s1 = NULL;
-            if (otyuka->unk_16A != 0) {
-                Matrix_RotateX((prop->shape.rot.x / 32768.0f) * 3.1415927f, MTXMODE_APPLY);
-                Matrix_RotateZ((prop->shape.rot.z / 32768.0f) * 3.1415927f, MTXMODE_APPLY);
-                phi_s1 = D_808773B0;
+                phi_s2 = D_80877408;
                 if (camera->eye.y > prop->posRot.pos.y) {
-                    phi_s1 = D_80877408;
+                    phi_s2 = D_808773B0;
                 }
-            }
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
-                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, phi_s2);
-
-            phi_s0 = 0;
-            if (phi_s1 != NULL) {
-                gSPDisplayList(POLY_OPA_DISP++, phi_s1);
-                phi_s0 = 0;
-            }
-        loop_17:
-            if ((D_80876A64[phi_s0] & otyuka->unk_16C) != 0) {
-                Matrix_Push();
-                Matrix_Translate(D_80876AA0[phi_s0].x, 0.0f, D_80876AA0[phi_s0].z, MTXMODE_APPLY);
-                Matrix_RotateY(D_80876AD0[phi_s0], MTXMODE_APPLY);
-                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
+                Matrix_Translate(prop->posRot.pos.x, prop->posRot.pos.y, prop->posRot.pos.z, MTXMODE_NEW);
+                phi_s1 = NULL;
+                if (otyuka->unk_16A != 0) {
+                    Matrix_RotateX((prop->shape.rot.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+                    Matrix_RotateZ((prop->shape.rot.z / 32768.0f) * M_PI, MTXMODE_APPLY);
+                    phi_s1 = D_808773B0;
+                    if (camera->eye.y > prop->posRot.pos.y) {
+                        phi_s1 = D_80877408;
+                    }
+                }
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, D_80877460);
-                Matrix_Pull();
+                gSPDisplayList(POLY_OPA_DISP++, phi_s2);
+
+                if (phi_s1 != NULL) {
+                    gSPDisplayList(POLY_OPA_DISP++, phi_s1);
+                }
+
+                for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
+                    if ((D_80876A64[i] & otyuka->unk_16C) != 0) {
+                        Matrix_Push();
+                        Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
+                        Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
+                        gSPMatrix(POLY_OPA_DISP++,
+                                  Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
+                                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                        gSPDisplayList(POLY_OPA_DISP++, D_80877460);
+                        Matrix_Pull();
+                    }
+                }
+            } else {
+                prop = prop->next;
             }
-            temp_s0_2 = phi_s0 + 1;
-            phi_s0 = temp_s0_2;
-            if ((s32)temp_s0_2 < 4) {
-                goto loop_17;
-            }
-        }
-        prop = prop->next;
-        if (temp_s4_4 != NULL) {
-            goto loop_8;
         }
     }
     func_80093D84(globalCtx->state.gfxCtx);
-    temp_s4_5 = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
-    if (temp_s4_5 != 0) {
-        phi_s4_3 = temp_s4_5;
-    loop_23:
-        if ((temp_s4_5->id == ACTOR_BG_GANON_OTYUKA) && (temp_s4_5->projectedPos.z > -30.0f) &&
-            (phi_s4_3->unk_16E != 0)) {
-            gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, temp_a2, 0, 32, 64, 1, temp_a2, 0, 32, 64));
-            gDPPipeSync(POLY_XLU_DISP++);
-            temp_a2 = phi_s4_3->unk_16D * 4;
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, phi_s4_3->unk_174, phi_s4_3->unk_178, phi_s4_3->unk_17C, 0);
-            gDPSetEnvColor(POLY_XLU_DISP++, phi_s4_3->unk_180, phi_s4_3->unk_184, phi_s4_3->unk_188, 128);
-            Matrix_Translate(temp_s4_5->posRot.pos.x, 0.0f, temp_s4_5->posRot.pos.z, MTXMODE_NEW);
-            phi_s0_2 = (u16)0;
-        loop_27:
-            if ((D_80876A64[phi_s0_2] & phi_s4_3->unk_16B) != 0) {
-                Matrix_Push();
-                Matrix_Translate(D_80876AA0[phi_s0_2].x, 0.0f, D_80876AA0[phi_s0_2].z, MTXMODE_APPLY);
-                Matrix_RotateY(D_80876AD0[phi_s0_2], MTXMODE_APPLY);
-                Matrix_Scale(0.3f, phi_s4_3->unk_170 * 0.3f, 0.3f, MTXMODE_APPLY);
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, D_80877CF8);
-                Matrix_Pull();
+    prop = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    if (prop != NULL) {
+        BgGanonOtyuka* otyuka = (BgGanonOtyuka*)prop;
+
+        while (prop->next != NULL) {
+            if ((prop->id == ACTOR_BG_GANON_OTYUKA) && (prop->projectedPos.z > -30.0f) && (otyuka->unk_16E != 0)) {
+                gSPSegment(POLY_XLU_DISP++, 0x08,
+                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, otyuka->unk_16D * 4, 0, 32, 64, 1,
+                                            otyuka->unk_16D * 4, 0, 32, 64));
+                gDPPipeSync(POLY_XLU_DISP++);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, otyuka->primR, otyuka->primG, otyuka->primB, 0);
+                gDPSetEnvColor(POLY_XLU_DISP++, otyuka->envR, otyuka->envG, otyuka->envB, 128);
+                Matrix_Translate(prop->posRot.pos.x, 0.0f, prop->posRot.pos.z, MTXMODE_NEW);
+
+                for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
+                    if ((D_80876A64[i] & otyuka->unk_16B) != 0) {
+                        Matrix_Push();
+                        Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
+                        Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
+                        Matrix_Scale(0.3f, otyuka->yScale * 0.3f, 0.3f, MTXMODE_APPLY);
+                        gSPMatrix(POLY_XLU_DISP++,
+                                  Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
+                                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                        gSPDisplayList(POLY_OPA_DISP++, D_80877CF8);
+                        Matrix_Pull();
+                    }
+                }
+                break;
+            } else {
+                prop = prop->next;
             }
-            temp_s0_4 = phi_s0_2 + 1;
-            phi_s0_2 = temp_s0_4;
-            if ((s32)temp_s0_4 < 4) {
-                goto loop_27;
-            }
-        }
-        temp_s4_6 = temp_s4_5->next;
-        phi_s4_3 = temp_s4_6;
-        if (temp_s4_6 != NULL) {
-            goto loop_23;
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 857);
