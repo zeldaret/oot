@@ -157,9 +157,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             break;
-        } else {
-            actor = actor->next;
         }
+
+        actor = actor->next;
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
@@ -170,18 +170,20 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if ((actor->id == ACTOR_BG_GANON_OTYUKA) && (actor->projectedPos.z > spBC)) {
             otyuka = (BgGanonOtyuka*)actor;
 
-            phi_s2 = D_80877408;
             if (camera->eye.y > actor->posRot.pos.y) {
                 phi_s2 = D_808773B0;
+            } else {
+                phi_s2 = D_80877408;
             }
             Matrix_Translate(actor->posRot.pos.x, actor->posRot.pos.y, actor->posRot.pos.z, MTXMODE_NEW);
             phi_s1 = NULL;
             if (otyuka->unk_16A != 0) {
                 Matrix_RotateX((actor->shape.rot.x / 32768.0f) * M_PI, MTXMODE_APPLY);
                 Matrix_RotateZ((actor->shape.rot.z / 32768.0f) * M_PI, MTXMODE_APPLY);
-                phi_s1 = D_808773B0;
                 if (camera->eye.y > actor->posRot.pos.y) {
                     phi_s1 = D_80877408;
+                } else {
+                    phi_s1 = D_808773B0;
                 }
             }
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
@@ -203,9 +205,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     Matrix_Pull();
                 }
             }
-        } else {
-            actor = actor->next;
         }
+
+        actor = actor->next;
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
@@ -213,7 +215,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (actor != NULL) {
         otyuka = (BgGanonOtyuka*)actor;
 
-        while (actor->next != NULL) {
+        do {
             if ((actor->id == ACTOR_BG_GANON_OTYUKA) && (actor->projectedPos.z > -30.0f) && (otyuka->unk_16E != 0)) {
                 gSPSegment(POLY_XLU_DISP++, 0x08,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, otyuka->unk_16D * 4, 0, 32, 64, 1,
@@ -232,15 +234,15 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_OPA_DISP++, D_80877CF8);
+                        gSPDisplayList(POLY_XLU_DISP++, D_80877CF8);
                         Matrix_Pull();
                     }
                 }
                 break;
-            } else {
-                actor = actor->next;
             }
-        }
+
+            actor = actor->next;
+        } while (actor->next != NULL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 857);
