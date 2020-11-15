@@ -316,8 +316,8 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                  platform->dyna.actor.posRot.pos.z, MTXMODE_NEW);
                 phi_s1 = NULL;
                 if (platform->isFalling) {
-                    Matrix_RotateX(((f32)platform->dyna.actor.shape.rot.x / 0x8000) * M_PI, MTXMODE_APPLY);
-                    Matrix_RotateZ(((f32)platform->dyna.actor.shape.rot.z / 0x8000) * M_PI, MTXMODE_APPLY);
+                    Matrix_RotateX((platform->dyna.actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+                    Matrix_RotateZ((platform->dyna.actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
                     if (camera->eye.y > platform->dyna.actor.posRot.pos.y) {
                         phi_s1 = sPlatformBottomDList;
                     } else {
