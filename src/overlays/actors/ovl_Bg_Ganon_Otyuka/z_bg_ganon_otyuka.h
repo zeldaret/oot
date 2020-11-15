@@ -4,8 +4,10 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum { SIDE_WEST = 1, SIDE_EAST = 2, SIDE_NORTH = 4, SIDE_SOUTH = 8 } PlatformSides;
-
+#define SIDE_WEST 1
+#define SIDE_EAST 2
+#define SIDE_NORTH 4
+#define SIDE_SOUTH 8
 #define SIDE_ALL (SIDE_WEST | SIDE_EAST | SIDE_NORTH | SIDE_SOUTH)
 
 struct BgGanonOtyuka;
