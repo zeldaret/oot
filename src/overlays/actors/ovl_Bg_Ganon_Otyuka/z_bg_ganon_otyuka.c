@@ -189,7 +189,78 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_80875A0C.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_80875C88.s")
+void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    s16 i;
+    Vec3f pos;
+    Vec3f velocity;
+    Vec3f accel;
+
+    osSyncPrintf("MODE DOWN\n");
+    if (this->unk_16E == 1) {
+        Math_SmoothScaleMaxF(&this->primColorB, 170.0f, 1.0f, 8.5f);
+        Math_SmoothScaleMaxF(&this->envColorR, 120.0f, 1.0f, 13.5f);
+        Math_SmoothScaleMaxF(&this->yScale, 2.5f, 1.0f, 0.25f);
+        if (this->yScale == 2.5f) {
+            this->unk_16E = 2;
+        }
+    } else if (this->unk_16E == 2) {
+        Math_SmoothScaleMaxF(&this->primColorG, 0.0f, 1.0f, 25.5f);
+        Math_SmoothScaleMaxF(&this->envColorR, 0.0f, 1.0f, 12.0f);
+        Math_SmoothScaleMaxF(&this->envColorG, 0.0f, 1.0f, 25.5f);
+        Math_SmoothDownscaleMaxF(&this->yScale, 1.0f, 0.25f);
+        if (this->yScale == 0.0f) {
+            this->unk_16E = 0;
+        }
+    }
+    if (this->unk_168 == 0) {
+        this->yScale = 0.0f;
+        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
+        Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
+        if (!(this->unk_16B & 1)) {
+            this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
+        }
+        if (!(this->unk_16B & 2)) {
+            this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speedXZ * 30.0f);
+        }
+        if (!(this->unk_16B & 4)) {
+            this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speedXZ * 30.0f);
+        }
+        if (!(this->unk_16B & 8)) {
+            this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speedXZ * 30.0f);
+        }
+        if (this->dyna.actor.posRot.pos.y < -750.0f) {
+            if (player->actor.posRot.pos.y < -400.0f) {
+                accel.x = accel.z = 0.0f;
+                accel.y = 0.1f;
+                velocity.x = velocity.y = velocity.z = 0.0f;
+
+                for (i = 0; i < 30; i++) {
+                    pos.x = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.x;
+                    pos.y = Math_Rand_ZeroFloat(60.0f) + -750.0f;
+                    pos.z = Math_Rand_CenteredFloat(150.0f) + this->dyna.actor.posRot.pos.z;
+                    func_8002836C(globalCtx, &pos, &velocity, &accel, D_80876A98, D_80876A9C,
+                                  (s16)Math_Rand_ZeroFloat(100.0f) + 250, 5, (s16)Math_Rand_ZeroFloat(5.0f) + 15);
+                }
+
+                func_80033DB8(globalCtx, 10, 15);
+                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 0x28, 0x2839);
+            }
+            Actor_Kill(&this->dyna.actor);
+        }
+    } else {
+        if (this->unk_168 == 1) {
+            Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                                   &D_801333E8);
+        } else {
+            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
+                                   &D_801333E0, &D_801333E8);
+        }
+        Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
+        Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
+    }
+    osSyncPrintf("MODE DOWN END\n");
+}
 
 void func_808760DC(Actor* thisx, GlobalContext* globalCtx) {
 }
