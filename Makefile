@@ -84,7 +84,7 @@ CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mu
 ifeq ($(shell getconf LONG_BIT), 32)
   # Work around memory allocation bug in QEMU
   export QEMU_GUEST_BASE := 1
-else ($(DETECTED_ARCH),x86_64)
+else ifeq ($(DETECTED_ARCH),x86_64)
 # Ensure that gcc treats the code as 32-bit
     CC_CHECK += -m32
 endif
