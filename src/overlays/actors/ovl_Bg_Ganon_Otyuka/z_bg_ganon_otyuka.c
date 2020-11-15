@@ -125,14 +125,14 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_RST);
 }
 
-#ifdef NON_MATCHING
 void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
-    Vec3f sp4C;
+    Actor* thisx = &this->dyna.actor;
     Actor* prop;
     BgGanonOtyuka* platform;
     s16 i;
     f32 dx;
     f32 dy;
+    Vec3f sp4C;
     f32 dz;
 
     if (this->unk_16A != 0 || (globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f)) {
@@ -141,22 +141,23 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
             prop = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
             while (prop != NULL) {
-                if ((prop == &this->dyna.actor) || (prop->id != ACTOR_BG_GANON_OTYUKA)) {
+                if ((prop == thisx) || (prop->id != ACTOR_BG_GANON_OTYUKA)) {
                     prop = prop->next;
                     continue;
                 }
 
                 platform = (BgGanonOtyuka*)prop;
 
-                dx = platform->dyna.actor.posRot.pos.x - this->dyna.actor.posRot.pos.x;
-                dz = platform->dyna.actor.posRot.pos.z - this->dyna.actor.posRot.pos.z;
+                dx = platform->dyna.actor.posRot.pos.x - this->dyna.actor.posRot.pos.x + D_80876A68[i].x;
                 dy = platform->dyna.actor.posRot.pos.y - this->dyna.actor.posRot.pos.y;
-                if ((fabsf(dx + D_80876A68[i].x) < 10.0f) && (fabsf(dy) < 10.0f) &&
-                    (fabsf(dz + D_80876A68[i].z) < 10.0f)) {
-                    platform->unk_16C |= D_80876A64[i];
-                }
+                dz = platform->dyna.actor.posRot.pos.z - this->dyna.actor.posRot.pos.z + D_80876A68[i].z;
 
-                prop = prop->next;
+                if ((fabsf(dx) < 10.0f) && (fabsf(dy) < 10.0f) && (fabsf(dz) < 10.0f)) {
+                    platform->unk_16C |= D_80876A64[i];
+                    break;
+                } else {
+                    prop = prop->next;
+                }
             }
         }
 
@@ -172,6 +173,7 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         }
 
         osSyncPrintf("OTC O 3\n");
+
         this->actionFunc = func_80875C88;
         this->unk_16A = 1;
         this->unk_168 = 20;
@@ -185,9 +187,6 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         this->envColorB = 0.0f;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_80875A0C.s")
-#endif
 
 void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
