@@ -15,15 +15,15 @@ typedef struct BgGanonOtyuka {
     /* 0x016A */ u8 isFalling;
     /* 0x016B */ u8 unk_16B;
     /* 0x016C */ u8 unk_16C;
-    /* 0x016D */ u8 unk_16D;
+    /* 0x016D */ u8 flashTimer;
     /* 0x016E */ u8 unk_16E;
-    /* 0x0170 */ f32 yScale;
-    /* 0x0174 */ f32 primColorR;
-    /* 0x0178 */ f32 primColorG;
-    /* 0x017C */ f32 primColorB;
-    /* 0x0180 */ f32 envColorR;
-    /* 0x0184 */ f32 envColorG;
-    /* 0x0188 */ f32 envColorB;
+    /* 0x0170 */ f32 flashYScale;
+    /* 0x0174 */ f32 flashPrimColorR;
+    /* 0x0178 */ f32 flashPrimColorG;
+    /* 0x017C */ f32 flashPrimColorB;
+    /* 0x0180 */ f32 flashEnvColorR;
+    /* 0x0184 */ f32 flashEnvColorG;
+    /* 0x0188 */ f32 flashEnvColorB;
 } BgGanonOtyuka; // size = 0x018C
 
 extern const ActorInit Bg_Ganon_Otyuka_InitVars;

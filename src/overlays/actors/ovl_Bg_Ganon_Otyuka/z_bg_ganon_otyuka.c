@@ -17,8 +17,8 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx);
-void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx);
+void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx);
+void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx);
 void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ganon_Otyuka_InitVars = {
@@ -105,7 +105,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params != 0x23) {
         thisx->draw = NULL;
-        this->actionFunc = func_80875A0C;
+        this->actionFunc = BgGanonOtyuka_WaitToFall;
     } else {
         thisx->update = BgGanonOtyuka_DoNothing;
     }
@@ -121,7 +121,7 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_RST);
 }
 
-void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
+void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     Actor* prop;
     BgGanonOtyuka* platform;
@@ -170,21 +170,21 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
 
         osSyncPrintf("OTC O 3\n");
 
-        this->actionFunc = func_80875C88;
+        this->actionFunc = BgGanonOtyuka_Fall;
         this->isFalling = true;
         this->dropTimer = 20;
         this->unk_16E = 1;
-        this->unk_16D = 0;
-        this->primColorR = 255.0f;
-        this->primColorG = 255.0f;
-        this->primColorB = 255.0f;
-        this->envColorR = 255.0f;
-        this->envColorG = 255.0f;
-        this->envColorB = 0.0f;
+        this->flashTimer = 0;
+        this->flashPrimColorR = 255.0f;
+        this->flashPrimColorG = 255.0f;
+        this->flashPrimColorB = 255.0f;
+        this->flashEnvColorR = 255.0f;
+        this->flashEnvColorG = 255.0f;
+        this->flashEnvColorB = 0.0f;
     }
 }
 
-void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
+void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 i;
     Vec3f pos;
@@ -193,23 +193,23 @@ void func_80875C88(BgGanonOtyuka* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("MODE DOWN\n");
     if (this->unk_16E == 1) {
-        Math_SmoothScaleMaxF(&this->primColorB, 170.0f, 1.0f, 8.5f);
-        Math_SmoothScaleMaxF(&this->envColorR, 120.0f, 1.0f, 13.5f);
-        Math_SmoothScaleMaxF(&this->yScale, 2.5f, 1.0f, 0.25f);
-        if (this->yScale == 2.5f) {
+        Math_SmoothScaleMaxF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
+        Math_SmoothScaleMaxF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
+        Math_SmoothScaleMaxF(&this->flashYScale, 2.5f, 1.0f, 0.25f);
+        if (this->flashYScale == 2.5f) {
             this->unk_16E = 2;
         }
     } else if (this->unk_16E == 2) {
-        Math_SmoothScaleMaxF(&this->primColorG, 0.0f, 1.0f, 25.5f);
-        Math_SmoothScaleMaxF(&this->envColorR, 0.0f, 1.0f, 12.0f);
-        Math_SmoothScaleMaxF(&this->envColorG, 0.0f, 1.0f, 25.5f);
-        Math_SmoothDownscaleMaxF(&this->yScale, 1.0f, 0.25f);
-        if (this->yScale == 0.0f) {
+        Math_SmoothScaleMaxF(&this->flashPrimColorG, 0.0f, 1.0f, 25.5f);
+        Math_SmoothScaleMaxF(&this->flashEnvColorR, 0.0f, 1.0f, 12.0f);
+        Math_SmoothScaleMaxF(&this->flashEnvColorG, 0.0f, 1.0f, 25.5f);
+        Math_SmoothDownscaleMaxF(&this->flashYScale, 1.0f, 0.25f);
+        if (this->flashYScale == 0.0f) {
             this->unk_16E = 0;
         }
     }
     if (this->dropTimer == 0) {
-        this->yScale = 0.0f;
+        this->flashYScale = 0.0f;
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
         if (!(this->unk_16B & 1)) {
@@ -264,7 +264,7 @@ void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgGanonOtyuka* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    this->unk_16D++;
+    this->flashTimer++;
     DECR(this->dropTimer);
 }
 
@@ -358,12 +358,13 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             if ((platform->dyna.actor.projectedPos.z > -30.0f) && (platform->unk_16E != 0)) {
                 gSPSegment(POLY_XLU_DISP++, 0x08,
-                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, platform->unk_16D * 4, 0, 32, 64, 1,
-                                            platform->unk_16D * 4, 0, 32, 64));
+                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, platform->flashTimer * 4, 0, 32, 64, 1,
+                                            platform->flashTimer * 4, 0, 32, 64));
                 gDPPipeSync(POLY_XLU_DISP++);
-                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, platform->primColorR, platform->primColorG, platform->primColorB,
-                                0);
-                gDPSetEnvColor(POLY_XLU_DISP++, platform->envColorR, platform->envColorG, platform->envColorB, 128);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, platform->flashPrimColorR, platform->flashPrimColorG,
+                                platform->flashPrimColorB, 0);
+                gDPSetEnvColor(POLY_XLU_DISP++, platform->flashEnvColorR, platform->flashEnvColorG,
+                               platform->flashEnvColorB, 128);
                 Matrix_Translate(platform->dyna.actor.posRot.pos.x, 0.0f, platform->dyna.actor.posRot.pos.z,
                                  MTXMODE_NEW);
 
@@ -372,7 +373,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         Matrix_Push();
                         Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
-                        Matrix_Scale(0.3f, platform->yScale * 0.3f, 0.3f, MTXMODE_APPLY);
+                        Matrix_Scale(0.3f, platform->flashYScale * 0.3f, 0.3f, MTXMODE_APPLY);
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
