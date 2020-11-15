@@ -102,7 +102,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(thisx, &sInitChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&gColHeader, &colHeader);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
@@ -178,8 +178,8 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(actor->posRot.pos.x, actor->posRot.pos.y, actor->posRot.pos.z, MTXMODE_NEW);
             phi_s1 = NULL;
             if (otyuka->unk_16A != 0) {
-                Matrix_RotateX((actor->shape.rot.x / 32768.0f) * M_PI, MTXMODE_APPLY);
-                Matrix_RotateZ((actor->shape.rot.z / 32768.0f) * M_PI, MTXMODE_APPLY);
+                Matrix_RotateX(((f32)actor->shape.rot.x / 0x8000) * M_PI, MTXMODE_APPLY);
+                Matrix_RotateZ(((f32)actor->shape.rot.z / 0x8000) * M_PI, MTXMODE_APPLY);
                 if (camera->eye.y > actor->posRot.pos.y) {
                     phi_s1 = D_80877408;
                 } else {
