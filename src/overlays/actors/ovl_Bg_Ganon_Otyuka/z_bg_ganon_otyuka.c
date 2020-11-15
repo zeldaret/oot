@@ -131,7 +131,7 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Vec3f center;
     s16 i;
 
-    if (this->unk_16A != 0 || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f))) {
+    if (this->isFalling || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f))) {
         osSyncPrintf("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
@@ -171,7 +171,7 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         osSyncPrintf("OTC O 3\n");
 
         this->actionFunc = func_80875C88;
-        this->unk_16A = 1;
+        this->isFalling = true;
         this->dropTimer = 20;
         this->unk_16E = 1;
         this->unk_16D = 0;
@@ -315,7 +315,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_Translate(platform->dyna.actor.posRot.pos.x, platform->dyna.actor.posRot.pos.y,
                                  platform->dyna.actor.posRot.pos.z, MTXMODE_NEW);
                 phi_s1 = NULL;
-                if (platform->unk_16A != 0) {
+                if (platform->isFalling) {
                     Matrix_RotateX(((f32)platform->dyna.actor.shape.rot.x / 0x8000) * M_PI, MTXMODE_APPLY);
                     Matrix_RotateZ(((f32)platform->dyna.actor.shape.rot.z / 0x8000) * M_PI, MTXMODE_APPLY);
                     if (camera->eye.y > platform->dyna.actor.posRot.pos.y) {

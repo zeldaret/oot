@@ -12,7 +12,7 @@ typedef struct BgGanonOtyuka {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgGanonOtyukaActionFunc actionFunc;
     /* 0x0168 */ s16 dropTimer;
-    /* 0x016A */ u8 unk_16A;
+    /* 0x016A */ u8 isFalling;
     /* 0x016B */ u8 unk_16B;
     /* 0x016C */ u8 unk_16C;
     /* 0x016D */ u8 unk_16D;
