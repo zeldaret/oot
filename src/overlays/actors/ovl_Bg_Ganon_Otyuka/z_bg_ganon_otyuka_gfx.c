@@ -62,6 +62,9 @@ static UNK_TYPE sPlatformTexture[] = {
     0x11072105, 0x19031943, 0x190518C5, 0x214518C5, 0x21432145, 0x11032103, 0x19051905, 0x19031903,
 };
 
+// probably unused?
+static UNK_TYPE D_808772E0[] = { 0x00000000, 0x00000000 };
+
 static Vtx sPlatformTopVerts[] = {
     VTX(60, 0, 60, 2048, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(60, 0, -60, 0, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
