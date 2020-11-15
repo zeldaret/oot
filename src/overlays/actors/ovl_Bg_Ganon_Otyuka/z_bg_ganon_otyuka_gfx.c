@@ -87,7 +87,7 @@ static Gfx D_80877328[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx D_808773B0[] = {
+static Gfx sPlatformTopDList[] = {
     gsSPVertex(sVertices1, ARRAY_COUNT(sVertices1), 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
@@ -100,7 +100,7 @@ static Vtx sVertices2[] = {
     VTX(-60, -60, 60, 2048, 1024, 0x32, 0x32, 0x32, 0xFF),
 };
 
-static Gfx D_80877408[] = {
+static Gfx sPlatformBottomDList[] = {
     gsSPVertex(sVertices2, ARRAY_COUNT(sVertices2), 0),
     gsSP2Triangles(0, 2, 1, 0, 0, 3, 2, 0),
     gsSPEndDisplayList(),

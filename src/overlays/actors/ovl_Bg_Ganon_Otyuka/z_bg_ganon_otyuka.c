@@ -308,9 +308,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             if (platform->dyna.actor.projectedPos.z > spBC) {
                 if (camera->eye.y > platform->dyna.actor.posRot.pos.y) {
-                    phi_s2 = D_808773B0;
+                    phi_s2 = sPlatformTopDList;
                 } else {
-                    phi_s2 = D_80877408;
+                    phi_s2 = sPlatformBottomDList;
                 }
                 Matrix_Translate(platform->dyna.actor.posRot.pos.x, platform->dyna.actor.posRot.pos.y,
                                  platform->dyna.actor.posRot.pos.z, MTXMODE_NEW);
@@ -319,9 +319,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     Matrix_RotateX(((f32)platform->dyna.actor.shape.rot.x / 0x8000) * M_PI, MTXMODE_APPLY);
                     Matrix_RotateZ(((f32)platform->dyna.actor.shape.rot.z / 0x8000) * M_PI, MTXMODE_APPLY);
                     if (camera->eye.y > platform->dyna.actor.posRot.pos.y) {
-                        phi_s1 = D_80877408;
+                        phi_s1 = sPlatformBottomDList;
                     } else {
-                        phi_s1 = D_808773B0;
+                        phi_s1 = sPlatformTopDList;
                     }
                 }
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
