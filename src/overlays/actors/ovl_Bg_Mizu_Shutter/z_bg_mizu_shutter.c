@@ -4,15 +4,18 @@
 
 #define THIS ((BgMizuShutter*)thisx)
 
+#define SIZE_PARAM (((u16)this->dyna.actor.params >> 0xC) & 0xF)
+#define TIMER_PARAM (((u16)this->dyna.actor.params >> 6) & 0x3F)
+
 void BgMizuShutter_Init(BgMizuShutter* this, GlobalContext* globalCtx);
 void BgMizuShutter_Destroy(BgMizuShutter* this, GlobalContext* globalCtx);
 void BgMizuShutter_Update(BgMizuShutter* this, GlobalContext* globalCtx);
 void BgMizuShutter_Draw(BgMizuShutter* this, GlobalContext* globalCtx);
 
-void func_8089F3A4(BgMizuShutter* this, GlobalContext* globalCtx);
-void func_8089F0DC(BgMizuShutter* this, GlobalContext* globalCtx);
-void func_8089F1BC(BgMizuShutter* this, GlobalContext* globalCtx);
-void func_8089F170(BgMizuShutter* this, GlobalContext* globalCtx);
+void BgMizuShutter_WaitForTimer(BgMizuShutter* this, GlobalContext* globalCtx);
+void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, GlobalContext* globalCtx);
+void BgMizuShutter_Move(BgMizuShutter* this, GlobalContext* globalCtx);
+void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mizu_Shutter_InitVars = {
     ACTOR_BG_MIZU_SHUTTER,
@@ -26,13 +29,13 @@ const ActorInit Bg_Mizu_Shutter_InitVars = {
     (ActorFunc)BgMizuShutter_Draw,
 };
 
-static Gfx* D_8089F540[] = { 0x06007130, 0x060072D0 };
-static Gfx* D_8089F548[] = { 0x06007250, 0x060073F0 };
-static Vec3f D_8089F550[] = {
+static Gfx* sDisplayLists[] = { 0x06007130, 0x060072D0 };
+static CollisionHeader* sCollisionHeaders[] = { 0x06007250, 0x060073F0 };
+static Vec3f sDisplacements[] = {
     { 0.0f, 100.0f, 0.0f },
     { 0.0f, 140.0f, 0.0f },
 };
-static InitChainEntry D_8089F568[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
@@ -46,97 +49,100 @@ void BgMizuShutter_Init(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     CollisionHeader* sp30 = NULL;
     s32 pad3;
 
-    Actor_ProcessInitChain(this, D_8089F568);
-    this->unk_170 = D_8089F540[((u16)this->dyna.actor.params >> 0xC) & 0xF];
-    DynaPolyInfo_SetActorMove(this, 1);
-    DynaPolyInfo_Alloc(D_8089F548[((u16)this->dyna.actor.params >> 0xC) & 0xF], &sp30);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, this, sp30);
-    if (((((u16)this->dyna.actor.params >> 0xC) & 0xF) == 0) || ((((u16)this->dyna.actor.params >> 0xC) & 0xF) == 1)) {
-        this->unk_178 = this->dyna.actor.posRot.pos;
-        this->unk_168 = 0;
-        this->unk_16C = (((u16)this->dyna.actor.params >> 6) & 0x3F) * 0x14;
-        Matrix_RotateY(this->dyna.actor.posRot.rot.y * 0.0000958738f, 0);
-        Matrix_RotateX(this->dyna.actor.posRot.rot.x * 0.0000958738f, 1);
-        Matrix_RotateZ(this->dyna.actor.posRot.rot.z * 0.0000958738f, 1);
-        Matrix_MultVec3f(&D_8089F550[((u16)this->dyna.actor.params >> 0xC) & 0xF], &this->unk_184);
-        this->unk_184.x += this->dyna.actor.posRot.pos.x;
-        this->unk_184.y += this->dyna.actor.posRot.pos.y;
-        this->unk_184.z += this->dyna.actor.posRot.pos.z;
-        if (this->unk_16C != 0x4EC) {
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->displayList = sDisplayLists[SIZE_PARAM];
+    DynaPolyInfo_SetActorMove(&this->dyna, 1);
+    DynaPolyInfo_Alloc(sCollisionHeaders[SIZE_PARAM], &sp30);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
+    if ((SIZE_PARAM == BGMIZUSHUTTER_SMALL) || (SIZE_PARAM == BGMIZUSHUTTER_LARGE)) {
+        this->closedPos = this->dyna.actor.posRot.pos;
+        this->timer = 0;
+        this->timerMax = TIMER_PARAM * 20;
+        Matrix_RotateY(this->dyna.actor.posRot.rot.y * (M_PI / 0x8000), 0);
+        Matrix_RotateX(this->dyna.actor.posRot.rot.x * (M_PI / 0x8000), 1);
+        Matrix_RotateZ(this->dyna.actor.posRot.rot.z * (M_PI / 0x8000), 1);
+        Matrix_MultVec3f(&sDisplacements[SIZE_PARAM], &this->openPos);
+        this->openPos.x += this->dyna.actor.posRot.pos.x;
+        this->openPos.y += this->dyna.actor.posRot.pos.y;
+        this->openPos.z += this->dyna.actor.posRot.pos.z;
+        if (this->timerMax != 0x3F * 20) {
             Flags_UnsetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F);
-            this->dyna.actor.posRot.pos = this->unk_178;
+            this->dyna.actor.posRot.pos = this->closedPos;
         }
-        if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F) != 0) {
-            this->dyna.actor.posRot.pos = this->unk_184;
-            this->actionFunc = func_8089F3A4;
+        if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
+            this->dyna.actor.posRot.pos = this->openPos;
+            this->actionFunc = BgMizuShutter_WaitForTimer;
         } else {
-            this->actionFunc = func_8089F0DC;
+            this->actionFunc = BgMizuShutter_WaitForSwitch;
         }
     }
 }
 
 void BgMizuShutter_Destroy(BgMizuShutter* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BgMizuShutter* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void func_8089F0DC(BgMizuShutter* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F) != 0) {
-        if (ABS(this->dyna.actor.posRot.rot.x) >= 0x2C61) {
-            func_800800F8(globalCtx, 0x119E, -0x63, this, 0);
+void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, GlobalContext* globalCtx) {
+    if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
+        if (ABS(this->dyna.actor.posRot.rot.x) > 0x2C60) {
+            func_800800F8(globalCtx, 0x119E, -0x63, &this->dyna.actor, 0);
         } else {
-            func_80080480(globalCtx, this);
+            func_80080480(globalCtx, &this->dyna.actor);
         }
-        this->actionFunc = func_8089F170;
-        this->unk_168 = 0x1E;
+        this->actionFunc = BgMizuShutter_WaitForCutscene;
+        this->timer = 30;
     }
 }
 
-void func_8089F170(BgMizuShutter* this, GlobalContext* globalCtx) {
-    if (this->unk_168-- == 0) {
-        Audio_PlayActorSound2(this, 0x2859);
-        this->actionFunc = func_8089F1BC;
+void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, GlobalContext* globalCtx) {
+    if (this->timer-- == 0) {
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
+        this->actionFunc = BgMizuShutter_Move;
     }
 }
 
-void func_8089F1BC(BgMizuShutter* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F) != 0) {
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->unk_184.x, 1.0f, 4.0f, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->unk_184.y, 1.0f, 4.0f, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->unk_184.z, 1.0f, 4.0f, 0.1f);
-        if ((this->dyna.actor.posRot.pos.x == this->unk_184.x) && (this->dyna.actor.posRot.pos.y == this->unk_184.y) &&
-            (this->dyna.actor.posRot.pos.z == this->unk_184.z)) {
-            this->unk_168 = this->unk_16C;
-            this->actionFunc = func_8089F3A4;
+void BgMizuShutter_Move(BgMizuShutter* this, GlobalContext* globalCtx) {
+    if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
+        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
+        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
+        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
+        if ((this->dyna.actor.posRot.pos.x == this->openPos.x) && (this->dyna.actor.posRot.pos.y == this->openPos.y) &&
+            (this->dyna.actor.posRot.pos.z == this->openPos.z)) {
+            this->timer = this->timerMax;
+            this->actionFunc = BgMizuShutter_WaitForTimer;
         }
     } else {
-        Math_SmoothScaleMaxMinF(&this->unk_174, 20.0f, 1.0f, 3.0f, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->unk_178.x, 1.0f, this->unk_174, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->unk_178.y, 1.0f, this->unk_174, 0.1f);
-        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->unk_178.z, 1.0f, this->unk_174, 0.1f);
-        if ((this->dyna.actor.posRot.pos.x == this->unk_178.x) && (this->dyna.actor.posRot.pos.y == this->unk_178.y) &&
-            (this->dyna.actor.posRot.pos.z == this->unk_178.z)) {
+        Math_SmoothScaleMaxMinF(&this->maxSpeed, 20.0f, 1.0f, 3.0f, 0.1f);
+        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
+        if ((this->dyna.actor.posRot.pos.x == this->closedPos.x) &&
+            (this->dyna.actor.posRot.pos.y == this->closedPos.y) &&
+            (this->dyna.actor.posRot.pos.z == this->closedPos.z)) {
             func_800AA000(this->dyna.actor.xyzDistFromLinkSq, 0x78, 0x14, 0xA);
-            Audio_PlayActorSound2(this, 0x281D);
-            this->actionFunc = func_8089F0DC;
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
+            this->actionFunc = BgMizuShutter_WaitForSwitch;
         }
     }
 }
 
-void func_8089F3A4(BgMizuShutter* this, GlobalContext* globalCtx) {
-    if (this->unk_16C != 0x4EC) {
-        this->unk_168--;
-        func_8002F994(this, this->unk_168);
-        if (this->unk_168 == 0) {
-            Audio_PlayActorSound2(this, 0x285A);
+void BgMizuShutter_WaitForTimer(BgMizuShutter* this, GlobalContext* globalCtx) {
+    if (this->timerMax != 0x3F * 20) {
+        this->timer--;
+        func_8002F994(&this->dyna.actor, this->timer);
+        if (this->timer == 0) {
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_CLOSE);
             Flags_UnsetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F);
-            this->actionFunc = func_8089F1BC;
+            this->actionFunc = BgMizuShutter_Move;
         }
     }
 }
 
 void BgMizuShutter_Update(BgMizuShutter* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BgMizuShutter* this = THIS;
 
     this->actionFunc(this, globalCtx);
@@ -146,13 +152,13 @@ void BgMizuShutter_Draw(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMizuShutter* this = THIS;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_shutter.c", 0x19A);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_shutter.c", 410);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mizu_shutter.c", 0x19F),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mizu_shutter.c", 415),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->unk_170 != NULL) {
-        gSPDisplayList(POLY_OPA_DISP++, this->unk_170);
+    if (this->displayList != NULL) {
+        gSPDisplayList(POLY_OPA_DISP++, this->displayList);
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_shutter.c", 0x1A6);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_shutter.c", 422);
 }
