@@ -194,8 +194,8 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         this->aimRotY = func_8002DAC0(&this->actor, &this->actor.initPosRot);
     }
 
-    if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0 && skelanimeUpdated &&
-        Math_Rand_ZeroOne() < 0.1f) {
+    if ((Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->aimRotY, 5, 0x300, 0x10) == 0) && (skelanimeUpdated) &&
+        (Math_Rand_ZeroOne() < 0.1f)) {
         var = func_8002DAC0(&this->actor, &this->actor.initPosRot) - this->actor.shape.rot.y;
         if (var > 0) {
             this->aimRotY += 0x1000 + (0x1000 * Math_Rand_ZeroOne());
@@ -207,14 +207,14 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
 
     if (this->actor.waterY > -40.0f) {
         this->aimRotX = -0x1000;
-    } else if (this->actor.posRot.pos.y < this->actor.initPosRot.pos.y - 50.0f) {
+    } else if (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f)) {
         this->aimRotX = -0x800 - (Math_Rand_ZeroOne() * 0x800);
-    } else if (this->actor.posRot.pos.y > this->actor.initPosRot.pos.y + 50.0f) {
+    } else if (this->actor.posRot.pos.y > (this->actor.initPosRot.pos.y + 50.0f)) {
         this->aimRotX = 0x800 + (Math_Rand_ZeroOne() * 0x800);
     }
 
-    if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0 && skelanimeUpdated &&
-        Math_Rand_ZeroOne() < 0.1f) {
+    if ((Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && (skelanimeUpdated) &&
+        (Math_Rand_ZeroOne() < 0.1f)) {
         if (this->actor.initPosRot.pos.y < this->actor.posRot.pos.y) {
             this->aimRotX -= (0x400 * Math_Rand_ZeroOne()) + 0x400;
         } else {
@@ -231,8 +231,8 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (this->timer == 0 && this->actor.xzDistFromLink < 300.0f && !(player->stateFlags1 & 0x00800000) &&
-        this->actor.waterY < -40.0f && Player_GetMask(globalCtx) != PLAYER_MASK_SKULL) {
+    if ((this->timer == 0) && (this->actor.xzDistFromLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
+        (this->actor.waterY < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         func_809E0384(this);
     }
 }
@@ -263,12 +263,12 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxS(&this->actor.shape.rot.x, -0x1000, 2, 0x100);
     }
 
-    if (yaw != 0 || this->actor.xzDistFromLink > 80.0f) {
+    if ((yaw != 0) || (this->actor.xzDistFromLink > 80.0f)) {
         Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
     }
 
-    if (this->timer == 0 || Player_GetMask(globalCtx) == PLAYER_MASK_SKULL || this->collider.base.atFlags & 2 ||
-        this->actor.bgCheckFlags & 9 || player->stateFlags1 & 0x00800000 || this->actor.waterY > -40.0f) {
+    if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & 2) ||
+        (this->actor.bgCheckFlags & 9) || (player->stateFlags1 & 0x00800000) || (this->actor.waterY > -40.0f)) {
         if (this->collider.base.atFlags & 2) {
             this->collider.base.atFlags &= ~2;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
@@ -288,7 +288,7 @@ void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.z += 0x1780;
         }
 
-        if (this->actor.bgCheckFlags & 1 || this->actor.groundY == -32000.0f) {
+        if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
             EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);
@@ -450,7 +450,7 @@ void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     if (limbIndex == 2) {
         Matrix_MultVec3f(&sHeadVec, &this->bodyPartsPos[0]);
         this->bodyPartsPos[0].y -= 20.0f;
-    } else if (limbIndex == 4 || limbIndex == 6 || limbIndex == 8) {
+    } else if ((limbIndex == 4) || (limbIndex == 6) || (limbIndex == 8)) {
         vec = &this->bodyPartsPos[(limbIndex >> 1) - 1];
         Matrix_MultVec3f(&sZeroVecAccel, vec);
         vec->y -= 20.0f;
