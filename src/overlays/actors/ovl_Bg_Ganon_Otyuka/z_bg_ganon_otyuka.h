@@ -10,6 +10,8 @@
 #define SIDE_SOUTH 8
 #define SIDE_ALL (SIDE_WEST | SIDE_EAST | SIDE_NORTH | SIDE_SOUTH)
 
+typedef enum { FLASH_NONE, FLASH_GROW, FLASH_SHRINK } FlashState;
+
 struct BgGanonOtyuka;
 
 typedef void (*BgGanonOtyukaActionFunc)(struct BgGanonOtyuka*, GlobalContext*);
@@ -22,7 +24,7 @@ typedef struct BgGanonOtyuka {
     /* 0x016B */ u8 tiltSides;
     /* 0x016C */ u8 visibleSides;
     /* 0x016D */ u8 flashTimer;
-    /* 0x016E */ u8 unk_16E;
+    /* 0x016E */ u8 flashState;
     /* 0x0170 */ f32 flashYScale;
     /* 0x0174 */ f32 flashPrimColorR;
     /* 0x0178 */ f32 flashPrimColorG;

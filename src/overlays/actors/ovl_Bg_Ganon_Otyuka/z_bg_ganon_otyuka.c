@@ -173,7 +173,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         this->actionFunc = BgGanonOtyuka_Fall;
         this->isFalling = true;
         this->dropTimer = 20;
-        this->unk_16E = 1;
+        this->flashState = FLASH_GROW;
         this->flashTimer = 0;
         this->flashPrimColorR = 255.0f;
         this->flashPrimColorG = 255.0f;
@@ -192,20 +192,20 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Vec3f accel;
 
     osSyncPrintf("MODE DOWN\n");
-    if (this->unk_16E == 1) {
+    if (this->flashState == FLASH_GROW) {
         Math_SmoothScaleMaxF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
         Math_SmoothScaleMaxF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
         Math_SmoothScaleMaxF(&this->flashYScale, 2.5f, 1.0f, 0.25f);
         if (this->flashYScale == 2.5f) {
-            this->unk_16E = 2;
+            this->flashState = FLASH_SHRINK;
         }
-    } else if (this->unk_16E == 2) {
+    } else if (this->flashState == FLASH_SHRINK) {
         Math_SmoothScaleMaxF(&this->flashPrimColorG, 0.0f, 1.0f, 25.5f);
         Math_SmoothScaleMaxF(&this->flashEnvColorR, 0.0f, 1.0f, 12.0f);
         Math_SmoothScaleMaxF(&this->flashEnvColorG, 0.0f, 1.0f, 25.5f);
         Math_SmoothDownscaleMaxF(&this->flashYScale, 1.0f, 0.25f);
         if (this->flashYScale == 0.0f) {
-            this->unk_16E = 0;
+            this->flashState = FLASH_NONE;
         }
     }
     if (this->dropTimer == 0) {
@@ -356,7 +356,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {
             platform = (BgGanonOtyuka*)actor;
 
-            if ((platform->dyna.actor.projectedPos.z > -30.0f) && (platform->unk_16E != 0)) {
+            if ((platform->dyna.actor.projectedPos.z > -30.0f) && (platform->flashState != FLASH_NONE)) {
                 gSPSegment(POLY_XLU_DISP++, 0x08,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, platform->flashTimer * 4, 0, 32, 64, 1,
                                             platform->flashTimer * 4, 0, 32, 64));
