@@ -129,7 +129,8 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_80875C88.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_808760DC.s")
+void func_808760DC(Actor* thisx, GlobalContext* globalCtx) {
+}
 
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgGanonOtyuka* this = THIS;
