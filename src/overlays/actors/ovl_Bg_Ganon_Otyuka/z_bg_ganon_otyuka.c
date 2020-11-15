@@ -37,7 +37,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static u8 sSides[] = { SIDE_WEST, SIDE_EAST, SIDE_NORTH, SIDE_SOUTH };
+static u8 sSides[] = { SIDE_EAST, SIDE_WEST, SIDE_SOUTH, SIDE_NORTH };
 
 static Vec3f D_80876A68[] = {
     { 120.0f, 0.0f, 0.0f },
@@ -212,16 +212,16 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         this->flashYScale = 0.0f;
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
-        if (!(this->tiltSides & SIDE_WEST)) {
+        if (!(this->tiltSides & SIDE_EAST)) {
             this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->tiltSides & SIDE_EAST)) {
+        if (!(this->tiltSides & SIDE_WEST)) {
             this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->tiltSides & SIDE_NORTH)) {
+        if (!(this->tiltSides & SIDE_SOUTH)) {
             this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->tiltSides & SIDE_SOUTH)) {
+        if (!(this->tiltSides & SIDE_NORTH)) {
             this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
         if (this->dyna.actor.posRot.pos.y < -750.0f) {
