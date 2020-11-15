@@ -160,9 +160,9 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         osSyncPrintf("OTC O 2\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
-            center.x = D_80876A68[i].x + this->dyna.actor.posRot.pos.x;
+            center.x = this->dyna.actor.posRot.pos.x + D_80876A68[i].x;
             center.y = this->dyna.actor.posRot.pos.y;
-            center.z = D_80876A68[i].z + this->dyna.actor.posRot.pos.z;
+            center.z = this->dyna.actor.posRot.pos.z + D_80876A68[i].z;
             if (func_8003E30C(&globalCtx->colCtx, &center, 50.0f)) {
                 this->tiltSides |= sSides[i];
             }
