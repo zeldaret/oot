@@ -62,10 +62,7 @@ static UNK_TYPE sPlatformTexture[] = {
     0x11072105, 0x19031943, 0x190518C5, 0x214518C5, 0x21432145, 0x11032103, 0x19051905, 0x19031903,
 };
 
-// probably unused?
-static UNK_TYPE D_808772E0[] = { 0x00000000, 0x00000000 };
-
-static Vtx sVertices1[] = {
+static Vtx sPlatformTopVerts[] = {
     VTX(60, 0, 60, 2048, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(60, 0, -60, 0, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(-60, 0, -60, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -88,12 +85,12 @@ static Gfx D_80877328[] = {
 };
 
 static Gfx sPlatformTopDList[] = {
-    gsSPVertex(sVertices1, ARRAY_COUNT(sVertices1), 0),
+    gsSPVertex(sPlatformTopVerts, ARRAY_COUNT(sPlatformTopVerts), 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
 };
 
-static Vtx sVertices2[] = {
+static Vtx sPlatformBottomVerts[] = {
     VTX(60, -60, 60, 2048, -1024, 0x32, 0x32, 0x32, 0xFF),
     VTX(60, -60, -60, 0, -1024, 0x32, 0x32, 0x32, 0xFF),
     VTX(-60, -60, -60, 0, 1024, 0x32, 0x32, 0x32, 0xFF),
@@ -101,7 +98,7 @@ static Vtx sVertices2[] = {
 };
 
 static Gfx sPlatformBottomDList[] = {
-    gsSPVertex(sVertices2, ARRAY_COUNT(sVertices2), 0),
+    gsSPVertex(sPlatformBottomVerts, ARRAY_COUNT(sPlatformBottomVerts), 0),
     gsSP2Triangles(0, 2, 1, 0, 0, 3, 2, 0),
     gsSPEndDisplayList(),
 };
