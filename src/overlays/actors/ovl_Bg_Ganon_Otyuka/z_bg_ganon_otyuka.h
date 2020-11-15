@@ -14,7 +14,7 @@ typedef struct BgGanonOtyuka {
     /* 0x0168 */ s16 dropTimer;
     /* 0x016A */ u8 isFalling;
     /* 0x016B */ u8 unk_16B;
-    /* 0x016C */ u8 unk_16C;
+    /* 0x016C */ u8 visibleSides;
     /* 0x016D */ u8 flashTimer;
     /* 0x016E */ u8 unk_16E;
     /* 0x0170 */ f32 flashYScale;

@@ -12,6 +12,8 @@
 
 #define THIS ((BgGanonOtyuka*)thisx)
 
+typedef enum { SIDE_FRONT = 1, SIDE_BACK = 2, SIDE_RIGHT = 4, SIDE_LEFT = 8 } Side;
+
 void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +39,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static u8 D_80876A64[] = { 1, 2, 4, 8 };
+static u8 sSides[] = { SIDE_FRONT, SIDE_BACK, SIDE_RIGHT, SIDE_LEFT };
 
 static Vec3f D_80876A68[] = {
     { 120.0f, 0.0f, 0.0f },
@@ -50,14 +52,14 @@ static Color_RGBA8 sDustPrimColor = { 60, 60, 0, 0 };
 
 static Color_RGBA8 sDustEnvColor = { 50, 20, 0, 0 };
 
-static Vec3f D_80876AA0[] = {
+static Vec3f sSideCenters[] = {
     { 60.0f, 0.0f, 0.0f },
     { -60.0f, 0.0f, 0.0f },
     { 0.0f, 0.0f, 60.0f },
     { 0.0f, 0.0f, -60.0f },
 };
 
-static f32 D_80876AD0[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
+static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
 #include "z_bg_ganon_otyuka_gfx.c"
 
@@ -149,7 +151,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                 dz = platform->dyna.actor.posRot.pos.z - this->dyna.actor.posRot.pos.z + D_80876A68[i].z;
 
                 if ((fabsf(dx) < 10.0f) && (fabsf(dy) < 10.0f) && (fabsf(dz) < 10.0f)) {
-                    platform->unk_16C |= D_80876A64[i];
+                    platform->visibleSides |= sSides[i];
                     break;
                 } else {
                     prop = prop->next;
@@ -164,7 +166,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             center.y = this->dyna.actor.posRot.pos.y;
             center.z = D_80876A68[i].z + this->dyna.actor.posRot.pos.z;
             if (func_8003E30C(&globalCtx->colCtx, &center, 50.0f)) {
-                this->unk_16B |= D_80876A64[i];
+                this->unk_16B |= sSides[i];
             }
         }
 
@@ -332,11 +334,11 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     gSPDisplayList(POLY_OPA_DISP++, phi_s1);
                 }
 
-                for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
-                    if ((D_80876A64[i] & platform->unk_16C) != 0) {
+                for (i = 0; i < ARRAY_COUNT(sSides); i++) {
+                    if (platform->visibleSides & sSides[i]) {
                         Matrix_Push();
-                        Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
-                        Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
+                        Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
+                        Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
                         gSPMatrix(POLY_OPA_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -368,11 +370,11 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_Translate(platform->dyna.actor.posRot.pos.x, 0.0f, platform->dyna.actor.posRot.pos.z,
                                  MTXMODE_NEW);
 
-                for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
-                    if ((D_80876A64[i] & platform->unk_16B) != 0) {
+                for (i = 0; i < ARRAY_COUNT(sSides); i++) {
+                    if (platform->unk_16B & sSides[i]) {
                         Matrix_Push();
-                        Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
-                        Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
+                        Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
+                        Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
                         Matrix_Scale(0.3f, platform->flashYScale * 0.3f, 0.3f, MTXMODE_APPLY);
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
