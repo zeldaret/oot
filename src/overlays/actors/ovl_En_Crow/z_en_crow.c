@@ -342,7 +342,7 @@ void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
 void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
     f32 target;
 
-    if (this->timer) {
+    if (this->timer != 0) {
         this->timer--;
     }
 
