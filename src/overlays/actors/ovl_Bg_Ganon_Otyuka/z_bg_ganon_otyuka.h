@@ -4,6 +4,10 @@
 #include "ultra64.h"
 #include "global.h"
 
+typedef enum { SIDE_WEST = 1, SIDE_EAST = 2, SIDE_NORTH = 4, SIDE_SOUTH = 8 } PlatformSides;
+
+#define SIDES_ALL (SIDE_WEST | SIDE_EAST | SIDE_NORTH | SIDE_SOUTH)
+
 struct BgGanonOtyuka;
 
 typedef void (*BgGanonOtyukaActionFunc)(struct BgGanonOtyuka*, GlobalContext*);
@@ -13,7 +17,7 @@ typedef struct BgGanonOtyuka {
     /* 0x0164 */ BgGanonOtyukaActionFunc actionFunc;
     /* 0x0168 */ s16 dropTimer;
     /* 0x016A */ u8 isFalling;
-    /* 0x016B */ u8 unk_16B;
+    /* 0x016B */ u8 tiltSides;
     /* 0x016C */ u8 visibleSides;
     /* 0x016D */ u8 flashTimer;
     /* 0x016E */ u8 unk_16E;

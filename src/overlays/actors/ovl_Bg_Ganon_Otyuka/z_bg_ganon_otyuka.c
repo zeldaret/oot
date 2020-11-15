@@ -12,8 +12,6 @@
 
 #define THIS ((BgGanonOtyuka*)thisx)
 
-typedef enum { SIDE_WEST = 1, SIDE_EAST = 2, SIDE_NORTH = 4, SIDE_SOUTH = 8 } Side;
-
 void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -166,7 +164,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
             center.y = this->dyna.actor.posRot.pos.y;
             center.z = D_80876A68[i].z + this->dyna.actor.posRot.pos.z;
             if (func_8003E30C(&globalCtx->colCtx, &center, 50.0f)) {
-                this->unk_16B |= sSides[i];
+                this->tiltSides |= sSides[i];
             }
         }
 
@@ -214,16 +212,16 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         this->flashYScale = 0.0f;
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
-        if (!(this->unk_16B & SIDE_WEST)) {
+        if (!(this->tiltSides & SIDE_WEST)) {
             this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unk_16B & SIDE_EAST)) {
+        if (!(this->tiltSides & SIDE_EAST)) {
             this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unk_16B & SIDE_NORTH)) {
+        if (!(this->tiltSides & SIDE_NORTH)) {
             this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unk_16B & SIDE_SOUTH)) {
+        if (!(this->tiltSides & SIDE_SOUTH)) {
             this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
         if (this->dyna.actor.posRot.pos.y < -750.0f) {
@@ -371,7 +369,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                  MTXMODE_NEW);
 
                 for (i = 0; i < ARRAY_COUNT(sSides); i++) {
-                    if (platform->unk_16B & sSides[i]) {
+                    if (platform->tiltSides & sSides[i]) {
                         Matrix_Push();
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
