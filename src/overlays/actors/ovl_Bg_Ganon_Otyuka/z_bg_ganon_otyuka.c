@@ -214,16 +214,16 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         this->flashYScale = 0.0f;
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
-        if (!(this->unk_16B & 1)) {
+        if (!(this->unk_16B & SIDE_FRONT)) {
             this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unk_16B & 2)) {
+        if (!(this->unk_16B & SIDE_BACK)) {
             this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unk_16B & 4)) {
+        if (!(this->unk_16B & SIDE_RIGHT)) {
             this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unk_16B & 8)) {
+        if (!(this->unk_16B & SIDE_LEFT)) {
             this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
         if (this->dyna.actor.posRot.pos.y < -750.0f) {
