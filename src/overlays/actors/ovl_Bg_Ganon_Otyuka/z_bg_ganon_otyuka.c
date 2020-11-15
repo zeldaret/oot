@@ -65,16 +65,16 @@ f32 D_80876AD0[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
 #include "z_bg_ganon_otyuka_gfx.c"
 
-static CamData gCameraDataList[] = { { 0, 0, 0 } };
+static CamData sCameraDataList[] = { { 0, 0, 0 } };
 
-static UNK_TYPE gSurfaceTypeList[] = {
+static UNK_TYPE sSurfaceTypeList[] = {
     0x00000000,
     0x000007C0,
     0x00000000,
     0x000007C2,
 };
 
-static CollisionPoly gPolyList[] = {
+static CollisionPoly sPolyList[] = {
     { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x02 }, { 32767, 0, 0 }, -60 },
     { { 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03 }, { 32767, 0, 0 }, -60 },
     { { 0x00, 0x00, 0x00, 0x03, 0x00, 0x02, 0x00, 0x04 }, { 0, 0, -32767 }, -60 },
@@ -87,14 +87,14 @@ static CollisionPoly gPolyList[] = {
     { { 0x00, 0x01, 0x00, 0x00, 0x00, 0x05, 0x00, 0x07 }, { 0, 32767, 0 }, 0 },
 };
 
-static Vec3s gVtxList[] = {
+static Vec3s sVtxList[] = {
     { 60, 0, 60 },     { 60, -60, 60 }, { 60, -60, -60 }, { 60, 0, -60 },
     { -60, -60, -60 }, { -60, 0, -60 }, { -60, -60, 60 }, { -60, 0, 60 },
 };
 
-static CollisionHeader gColHeader = {
-    { -60, -60, -60 }, { 60, 0, 60 },    ARRAY_COUNT(gVtxList), gVtxList, ARRAY_COUNT(gPolyList),
-    gPolyList,         gSurfaceTypeList, gCameraDataList,       0,        NULL,
+static CollisionHeader sColHeader = {
+    { -60, -60, -60 }, { 60, 0, 60 },    ARRAY_COUNT(sVtxList), sVtxList, ARRAY_COUNT(sPolyList),
+    sPolyList,         sSurfaceTypeList, sCameraDataList,       0,        NULL,
 };
 
 void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -104,7 +104,7 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&gColHeader, &colHeader);
+    DynaPolyInfo_Alloc(&sColHeader, &colHeader);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (thisx->params != 0x23) {
@@ -147,7 +147,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* phi_s1;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
     Actor* actor;
-    BgGanonOtyuka* otyuka;
+    BgGanonOtyuka* platform;
     BossGanon* ganondorf;
     f32 spBC = -30.0f;
 
@@ -176,21 +176,21 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     actor = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
     while (actor != NULL) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {
-            otyuka = (BgGanonOtyuka*)actor;
+            platform = (BgGanonOtyuka*)actor;
 
-            if (otyuka->dyna.actor.projectedPos.z > spBC) {
-                if (camera->eye.y > otyuka->dyna.actor.posRot.pos.y) {
+            if (platform->dyna.actor.projectedPos.z > spBC) {
+                if (camera->eye.y > platform->dyna.actor.posRot.pos.y) {
                     phi_s2 = D_808773B0;
                 } else {
                     phi_s2 = D_80877408;
                 }
-                Matrix_Translate(otyuka->dyna.actor.posRot.pos.x, otyuka->dyna.actor.posRot.pos.y,
-                                 otyuka->dyna.actor.posRot.pos.z, MTXMODE_NEW);
+                Matrix_Translate(platform->dyna.actor.posRot.pos.x, platform->dyna.actor.posRot.pos.y,
+                                 platform->dyna.actor.posRot.pos.z, MTXMODE_NEW);
                 phi_s1 = NULL;
-                if (otyuka->unk_16A != 0) {
-                    Matrix_RotateX(((f32)otyuka->dyna.actor.shape.rot.x / 0x8000) * M_PI, MTXMODE_APPLY);
-                    Matrix_RotateZ(((f32)otyuka->dyna.actor.shape.rot.z / 0x8000) * M_PI, MTXMODE_APPLY);
-                    if (camera->eye.y > otyuka->dyna.actor.posRot.pos.y) {
+                if (platform->unk_16A != 0) {
+                    Matrix_RotateX(((f32)platform->dyna.actor.shape.rot.x / 0x8000) * M_PI, MTXMODE_APPLY);
+                    Matrix_RotateZ(((f32)platform->dyna.actor.shape.rot.z / 0x8000) * M_PI, MTXMODE_APPLY);
+                    if (camera->eye.y > platform->dyna.actor.posRot.pos.y) {
                         phi_s1 = D_80877408;
                     } else {
                         phi_s1 = D_808773B0;
@@ -205,7 +205,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
                 for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
-                    if ((D_80876A64[i] & otyuka->unk_16C) != 0) {
+                    if ((D_80876A64[i] & platform->unk_16C) != 0) {
                         Matrix_Push();
                         Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
@@ -226,23 +226,24 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     actor = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
     while (actor != NULL) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {
-            otyuka = (BgGanonOtyuka*)actor;
+            platform = (BgGanonOtyuka*)actor;
 
-            if ((otyuka->dyna.actor.projectedPos.z > -30.0f) && (otyuka->unk_16E != 0)) {
+            if ((platform->dyna.actor.projectedPos.z > -30.0f) && (platform->unk_16E != 0)) {
                 gSPSegment(POLY_XLU_DISP++, 0x08,
-                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, otyuka->unk_16D * 4, 0, 32, 64, 1,
-                                            otyuka->unk_16D * 4, 0, 32, 64));
+                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, platform->unk_16D * 4, 0, 32, 64, 1,
+                                            platform->unk_16D * 4, 0, 32, 64));
                 gDPPipeSync(POLY_XLU_DISP++);
-                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, otyuka->primR, otyuka->primG, otyuka->primB, 0);
-                gDPSetEnvColor(POLY_XLU_DISP++, otyuka->envR, otyuka->envG, otyuka->envB, 128);
-                Matrix_Translate(otyuka->dyna.actor.posRot.pos.x, 0.0f, otyuka->dyna.actor.posRot.pos.z, MTXMODE_NEW);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, platform->primR, platform->primG, platform->primB, 0);
+                gDPSetEnvColor(POLY_XLU_DISP++, platform->envR, platform->envG, platform->envB, 128);
+                Matrix_Translate(platform->dyna.actor.posRot.pos.x, 0.0f, platform->dyna.actor.posRot.pos.z,
+                                 MTXMODE_NEW);
 
                 for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
-                    if ((D_80876A64[i] & otyuka->unk_16B) != 0) {
+                    if ((D_80876A64[i] & platform->unk_16B) != 0) {
                         Matrix_Push();
                         Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
-                        Matrix_Scale(0.3f, otyuka->yScale * 0.3f, 0.3f, MTXMODE_APPLY);
+                        Matrix_Scale(0.3f, platform->yScale * 0.3f, 0.3f, MTXMODE_APPLY);
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
