@@ -21,7 +21,7 @@ typedef struct BgGanonOtyuka {
     /* 0x0164 */ BgGanonOtyukaActionFunc actionFunc;
     /* 0x0168 */ s16 dropTimer;
     /* 0x016A */ u8 isFalling;
-    /* 0x016B */ u8 tiltSides;
+    /* 0x016B */ u8 unwalledSides;
     /* 0x016C */ u8 visibleSides;
     /* 0x016D */ u8 flashTimer;
     /* 0x016E */ u8 flashState;
