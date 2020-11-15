@@ -340,7 +340,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         gSPMatrix(POLY_OPA_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_OPA_DISP++, D_80877460);
+                        gSPDisplayList(POLY_OPA_DISP++, sPlatformSideDList);
                         Matrix_Pull();
                     }
                 }

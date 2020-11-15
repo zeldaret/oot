@@ -106,15 +106,15 @@ static Gfx sPlatformBottomDList[] = {
     gsSPEndDisplayList(),
 };
 
-static Vtx sVertices3[] = {
+static Vtx sPlatformSideVerts[] = {
     VTX(-60, 0, 0, 2048, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(-60, -60, 0, 2048, 1024, 0x32, 0x32, 0x32, 0xFF),
     VTX(60, -60, 0, 0, 1024, 0x32, 0x32, 0x32, 0xFF),
     VTX(60, 0, 0, 0, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-static Gfx D_80877460[] = {
-    gsSPVertex(sVertices3, ARRAY_COUNT(sVertices3), 0),
+static Gfx sPlatformSideDList[] = {
+    gsSPVertex(sPlatformSideVerts, ARRAY_COUNT(sPlatformSideVerts), 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
 };
