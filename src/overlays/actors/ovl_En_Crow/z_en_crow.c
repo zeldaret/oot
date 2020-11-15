@@ -230,7 +230,6 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-
     if ((this->timer == 0) && (this->actor.xzDistFromLink < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
         (this->actor.waterY < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         func_809E0384(this);
@@ -287,7 +286,6 @@ void func_809E0E2C(EnCrow* this, GlobalContext* globalCtx) {
             Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
-
         if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
             EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
@@ -333,7 +331,6 @@ void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-
     if (this->timer == 0) {
         EnCrow_SetupWait(this);
     }
