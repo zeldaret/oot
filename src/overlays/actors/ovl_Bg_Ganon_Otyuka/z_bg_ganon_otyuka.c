@@ -133,7 +133,6 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/BgGanonOtyuka_Update.s")
 
-#ifdef NON_MATCHING
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgGanonOtyuka* this = THIS;
     s16 i;
@@ -195,7 +194,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
-                if ((D_80876A64[i] & otyuka->unk_16C) != 0) {
+                if ((D_80876A64[i] & ((BgGanonOtyuka*)actor)->unk_16C) != 0) {
                     Matrix_Push();
                     Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
                     Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
@@ -212,41 +211,35 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     actor = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
-    if (actor != NULL) {
-        otyuka = (BgGanonOtyuka*)actor;
+    while (actor != NULL) {
+        if ((actor->id == ACTOR_BG_GANON_OTYUKA) && (actor->projectedPos.z > -30.0f) &&
+            (((BgGanonOtyuka*)actor)->unk_16E != 0)) {
+            otyuka = (BgGanonOtyuka*)actor;
 
-        do {
-            if ((actor->id == ACTOR_BG_GANON_OTYUKA) && (actor->projectedPos.z > -30.0f) && (otyuka->unk_16E != 0)) {
-                gSPSegment(POLY_XLU_DISP++, 0x08,
-                           Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, otyuka->unk_16D * 4, 0, 32, 64, 1,
-                                            otyuka->unk_16D * 4, 0, 32, 64));
-                gDPPipeSync(POLY_XLU_DISP++);
-                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, otyuka->primR, otyuka->primG, otyuka->primB, 0);
-                gDPSetEnvColor(POLY_XLU_DISP++, otyuka->envR, otyuka->envG, otyuka->envB, 128);
-                Matrix_Translate(actor->posRot.pos.x, 0.0f, actor->posRot.pos.z, MTXMODE_NEW);
+            gSPSegment(POLY_XLU_DISP++, 0x08,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, otyuka->unk_16D * 4, 0, 32, 64, 1,
+                                        otyuka->unk_16D * 4, 0, 32, 64));
+            gDPPipeSync(POLY_XLU_DISP++);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, otyuka->primR, otyuka->primG, otyuka->primB, 0);
+            gDPSetEnvColor(POLY_XLU_DISP++, otyuka->envR, otyuka->envG, otyuka->envB, 128);
+            Matrix_Translate(actor->posRot.pos.x, 0.0f, actor->posRot.pos.z, MTXMODE_NEW);
 
-                for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
-                    if ((D_80876A64[i] & otyuka->unk_16B) != 0) {
-                        Matrix_Push();
-                        Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
-                        Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
-                        Matrix_Scale(0.3f, otyuka->yScale * 0.3f, 0.3f, MTXMODE_APPLY);
-                        gSPMatrix(POLY_XLU_DISP++,
-                                  Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
-                                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_XLU_DISP++, D_80877CF8);
-                        Matrix_Pull();
-                    }
+            for (i = 0; i < ARRAY_COUNT(D_80876A64); i++) {
+                if ((D_80876A64[i] & otyuka->unk_16B) != 0) {
+                    Matrix_Push();
+                    Matrix_Translate(D_80876AA0[i].x, 0.0f, D_80876AA0[i].z, MTXMODE_APPLY);
+                    Matrix_RotateY(D_80876AD0[i], MTXMODE_APPLY);
+                    Matrix_Scale(0.3f, otyuka->yScale * 0.3f, 0.3f, MTXMODE_APPLY);
+                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
+                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    gSPDisplayList(POLY_XLU_DISP++, D_80877CF8);
+                    Matrix_Pull();
                 }
-                break;
             }
+        }
 
-            actor = actor->next;
-        } while (actor->next != NULL);
+        actor = actor->next;
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 857);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/BgGanonOtyuka_Draw.s")
-#endif
