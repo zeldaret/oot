@@ -195,21 +195,21 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     if (this->flashState == FLASH_GROW) {
         Math_SmoothScaleMaxF(&this->flashPrimColorB, 170.0f, 1.0f, 8.5f);
         Math_SmoothScaleMaxF(&this->flashEnvColorR, 120.0f, 1.0f, 13.5f);
-        Math_SmoothScaleMaxF(&this->flashHeight, 2.5f, 1.0f, 0.25f);
-        if (this->flashHeight == 2.5f) {
+        Math_SmoothScaleMaxF(&this->flashYScale, 2.5f, 1.0f, 0.25f);
+        if (this->flashYScale == 2.5f) {
             this->flashState = FLASH_SHRINK;
         }
     } else if (this->flashState == FLASH_SHRINK) {
         Math_SmoothScaleMaxF(&this->flashPrimColorG, 0.0f, 1.0f, 25.5f);
         Math_SmoothScaleMaxF(&this->flashEnvColorR, 0.0f, 1.0f, 12.0f);
         Math_SmoothScaleMaxF(&this->flashEnvColorG, 0.0f, 1.0f, 25.5f);
-        Math_SmoothDownscaleMaxF(&this->flashHeight, 1.0f, 0.25f);
-        if (this->flashHeight == 0.0f) {
+        Math_SmoothDownscaleMaxF(&this->flashYScale, 1.0f, 0.25f);
+        if (this->flashYScale == 0.0f) {
             this->flashState = FLASH_NONE;
         }
     }
     if (this->dropTimer == 0) {
-        this->flashHeight = 0.0f;
+        this->flashYScale = 0.0f;
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
         if (!(this->tiltSides & SIDE_WEST)) {
@@ -373,7 +373,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         Matrix_Push();
                         Matrix_Translate(sSideCenters[i].x, 0.0f, sSideCenters[i].z, MTXMODE_APPLY);
                         Matrix_RotateY(sSideAngles[i], MTXMODE_APPLY);
-                        Matrix_Scale(0.3f, platform->flashHeight * 0.3f, 0.3f, MTXMODE_APPLY);
+                        Matrix_Scale(0.3f, platform->flashYScale * 0.3f, 0.3f, MTXMODE_APPLY);
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

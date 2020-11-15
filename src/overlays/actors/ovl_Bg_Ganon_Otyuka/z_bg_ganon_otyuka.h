@@ -25,7 +25,7 @@ typedef struct BgGanonOtyuka {
     /* 0x016C */ u8 visibleSides;
     /* 0x016D */ u8 flashTimer;
     /* 0x016E */ u8 flashState;
-    /* 0x0170 */ f32 flashHeight;
+    /* 0x0170 */ f32 flashYScale;
     /* 0x0174 */ f32 flashPrimColorR;
     /* 0x0178 */ f32 flashPrimColorG;
     /* 0x017C */ f32 flashPrimColorB;
