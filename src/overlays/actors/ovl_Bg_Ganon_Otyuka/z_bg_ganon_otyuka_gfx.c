@@ -179,7 +179,7 @@ static UNK_TYPE sFlashTexture[] = {
     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
 };
 
-static Vtx sVertices4[] = {
+static Vtx sFlashVerts[] = {
     VTX(-180, 300, 0, 256, 0, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(-360, 0, 0, 0, 2048, 0xFF, 0xFF, 0xFF, 0x00),
     VTX(-180, 0, 0, 256, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-360, 300, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0x00),
     VTX(180, 300, 0, 768, 0, 0xFF, 0xFF, 0xFF, 0xFF),   VTX(180, 0, 0, 768, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -201,7 +201,7 @@ static Gfx sFlashDList[] = {
     gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_SURF2),
     gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
     gsSPDisplayList(D_08000000),
-    gsSPVertex(sVertices4, 8, 0),
+    gsSPVertex(sFlashVerts, 8, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
     gsSP2Triangles(4, 2, 5, 0, 4, 0, 2, 0),
     gsSP2Triangles(6, 4, 5, 0, 6, 7, 4, 0),
