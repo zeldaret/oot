@@ -72,7 +72,7 @@ static Vtx sPlatformTopVerts[] = {
     VTX(-60, 0, 60, 2048, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-static Gfx D_80877328[] = {
+static Gfx sPlatformSetupDList[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -186,7 +186,7 @@ static Vtx sVertices4[] = {
     VTX(360, 0, 0, 1024, 2048, 0xFF, 0xFF, 0xFF, 0x00), VTX(360, 300, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0x00),
 };
 
-static Gfx D_80877CF8[] = {
+static Gfx sFlashDList[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),

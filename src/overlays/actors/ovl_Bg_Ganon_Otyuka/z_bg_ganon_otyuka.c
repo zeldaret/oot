@@ -299,7 +299,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPDisplayList(POLY_OPA_DISP++, D_80877328);
+    gSPDisplayList(POLY_OPA_DISP++, sPlatformSetupDList);
 
     actor = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
     while (actor != NULL) {
@@ -376,7 +376,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_XLU_DISP++, D_80877CF8);
+                        gSPDisplayList(POLY_XLU_DISP++, sFlashDList);
                         Matrix_Pull();
                     }
                 }
