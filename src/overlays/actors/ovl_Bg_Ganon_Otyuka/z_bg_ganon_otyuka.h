@@ -17,7 +17,6 @@ typedef struct BgGanonOtyuka {
     /* 0x016C */ u8 unk_16C;
     /* 0x016D */ u8 unk_16D;
     /* 0x016E */ u8 unk_16E;
-    /* 0x016F */ char unk_16F[0x01];
     /* 0x0170 */ f32 yScale;
     /* 0x0174 */ f32 primColorR;
     /* 0x0178 */ f32 primColorG;

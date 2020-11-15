@@ -129,11 +129,11 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     Actor* prop;
     BgGanonOtyuka* platform;
-    s16 i;
     f32 dx;
     f32 dy;
-    Vec3f sp4C;
     f32 dz;
+    Vec3f center;
+    s16 i;
 
     if (this->unk_16A != 0 || (globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f)) {
         osSyncPrintf("OTC O 1\n");
@@ -164,10 +164,10 @@ void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         osSyncPrintf("OTC O 2\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
-            sp4C.x = D_80876A68[i].x + this->dyna.actor.posRot.pos.x;
-            sp4C.y = this->dyna.actor.posRot.pos.y;
-            sp4C.z = D_80876A68[i].z + this->dyna.actor.posRot.pos.z;
-            if (func_8003E30C(&globalCtx->colCtx, &sp4C, 50.0f)) {
+            center.x = D_80876A68[i].x + this->dyna.actor.posRot.pos.x;
+            center.y = this->dyna.actor.posRot.pos.y;
+            center.z = D_80876A68[i].z + this->dyna.actor.posRot.pos.z;
+            if (func_8003E30C(&globalCtx->colCtx, &center, 50.0f)) {
                 this->unk_16B |= D_80876A64[i];
             }
         }
