@@ -72,7 +72,7 @@ static Vtx sVertices1[] = {
     VTX(-60, 0, 60, 2048, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-Gfx D_80877328[] = {
+static Gfx D_80877328[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -87,7 +87,7 @@ Gfx D_80877328[] = {
     gsSPEndDisplayList(),
 };
 
-Gfx D_808773B0[] = {
+static Gfx D_808773B0[] = {
     gsSPVertex(sVertices1, ARRAY_COUNT(sVertices1), 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
@@ -100,7 +100,7 @@ static Vtx sVertices2[] = {
     VTX(-60, -60, 60, 2048, 1024, 0x32, 0x32, 0x32, 0xFF),
 };
 
-Gfx D_80877408[] = {
+static Gfx D_80877408[] = {
     gsSPVertex(sVertices2, ARRAY_COUNT(sVertices2), 0),
     gsSP2Triangles(0, 2, 1, 0, 0, 3, 2, 0),
     gsSPEndDisplayList(),
@@ -113,7 +113,7 @@ static Vtx sVertices3[] = {
     VTX(60, 0, 0, 0, -1024, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-Gfx D_80877460[] = {
+static Gfx D_80877460[] = {
     gsSPVertex(sVertices3, ARRAY_COUNT(sVertices3), 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
@@ -186,7 +186,7 @@ static Vtx sVertices4[] = {
     VTX(360, 0, 0, 1024, 2048, 0xFF, 0xFF, 0xFF, 0x00), VTX(360, 300, 0, 1024, 0, 0xFF, 0xFF, 0xFF, 0x00),
 };
 
-Gfx D_80877CF8[] = {
+static Gfx D_80877CF8[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),

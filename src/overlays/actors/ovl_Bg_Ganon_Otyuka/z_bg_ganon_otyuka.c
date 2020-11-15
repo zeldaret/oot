@@ -54,14 +54,14 @@ UNK_TYPE D_80876A9C[] = {
     0x32140000,
 };
 
-Vec3f D_80876AA0[] = {
+static Vec3f D_80876AA0[] = {
     { 60.0f, 0.0f, 0.0f },
     { -60.0f, 0.0f, 0.0f },
     { 0.0f, 0.0f, 60.0f },
     { 0.0f, 0.0f, -60.0f },
 };
 
-f32 D_80876AD0[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
+static f32 D_80876AD0[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
 #include "z_bg_ganon_otyuka_gfx.c"
 
