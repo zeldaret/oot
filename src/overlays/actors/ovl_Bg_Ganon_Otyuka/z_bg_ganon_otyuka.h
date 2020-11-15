@@ -6,7 +6,7 @@
 
 typedef enum { SIDE_WEST = 1, SIDE_EAST = 2, SIDE_NORTH = 4, SIDE_SOUTH = 8 } PlatformSides;
 
-#define SIDES_ALL (SIDE_WEST | SIDE_EAST | SIDE_NORTH | SIDE_SOUTH)
+#define SIDE_ALL (SIDE_WEST | SIDE_EAST | SIDE_NORTH | SIDE_SOUTH)
 
 struct BgGanonOtyuka;
 
