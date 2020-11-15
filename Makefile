@@ -63,8 +63,10 @@ OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 
 # Check code syntax with host compiler
-# Unfortunately GCC on AARCH 64 does not support this yet
-ifeq ($(DETECTED_ARCH),x86_64)
+ifeq ($(DETECTED_ARCH),aarch64)
+    CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
+    CC_CHECK   := arm-linux-gnueabi-gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h $(CHECK_WARNINGS)
+else ifeq ($(DETECTED_ARCH),x86_64)
     CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
     CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h $(CHECK_WARNINGS)
 endif
@@ -84,9 +86,11 @@ CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mu
 ifeq ($(shell getconf LONG_BIT), 32)
   # Work around memory allocation bug in QEMU
   export QEMU_GUEST_BASE := 1
-else ifeq ($(DETECTED_ARCH),x86_64)
+else ifeq ($(DETECTED_ARCH),aarch64)
 # Ensure that gcc treats the code as 32-bit
-    CC_CHECK += -m32
+  CC_CHECK += -mbe32
+else
+  CC_CHECK += -m32
 endif
 
 #### Files ####
