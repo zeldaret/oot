@@ -125,7 +125,69 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_RST);
 }
 
+#ifdef NON_MATCHING
+void func_80875A0C(BgGanonOtyuka* this, GlobalContext* globalCtx) {
+    Vec3f sp4C;
+    Actor* prop;
+    BgGanonOtyuka* platform;
+    s16 i;
+    f32 dx;
+    f32 dy;
+    f32 dz;
+
+    if (this->unk_16A != 0 || (globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistFromLinkSq < 4900.0f)) {
+        osSyncPrintf("OTC O 1\n");
+
+        for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
+            prop = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+            while (prop != NULL) {
+                if ((prop == &this->dyna.actor) || (prop->id != ACTOR_BG_GANON_OTYUKA)) {
+                    prop = prop->next;
+                    continue;
+                }
+
+                platform = (BgGanonOtyuka*)prop;
+
+                dx = platform->dyna.actor.posRot.pos.x - this->dyna.actor.posRot.pos.x;
+                dz = platform->dyna.actor.posRot.pos.z - this->dyna.actor.posRot.pos.z;
+                dy = platform->dyna.actor.posRot.pos.y - this->dyna.actor.posRot.pos.y;
+                if ((fabsf(dx + D_80876A68[i].x) < 10.0f) && (fabsf(dy) < 10.0f) &&
+                    (fabsf(dz + D_80876A68[i].z) < 10.0f)) {
+                    platform->unk_16C |= D_80876A64[i];
+                }
+
+                prop = prop->next;
+            }
+        }
+
+        osSyncPrintf("OTC O 2\n");
+
+        for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
+            sp4C.x = D_80876A68[i].x + this->dyna.actor.posRot.pos.x;
+            sp4C.y = this->dyna.actor.posRot.pos.y;
+            sp4C.z = D_80876A68[i].z + this->dyna.actor.posRot.pos.z;
+            if (func_8003E30C(&globalCtx->colCtx, &sp4C, 50.0f)) {
+                this->unk_16B |= D_80876A64[i];
+            }
+        }
+
+        osSyncPrintf("OTC O 3\n");
+        this->actionFunc = func_80875C88;
+        this->unk_16A = 1;
+        this->unk_168 = 20;
+        this->unk_16E = 1;
+        this->unk_16D = 0;
+        this->primR = 255.0f;
+        this->primG = 255.0f;
+        this->primB = 255.0f;
+        this->envR = 255.0f;
+        this->envG = 255.0f;
+        this->envB = 0.0f;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_80875A0C.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_80875C88.s")
 
