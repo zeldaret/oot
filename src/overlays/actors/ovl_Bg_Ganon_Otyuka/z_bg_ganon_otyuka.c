@@ -131,7 +131,13 @@ void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/func_808760DC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ganon_Otyuka/BgGanonOtyuka_Update.s")
+void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgGanonOtyuka* this = THIS;
+
+    this->actionFunc(this, globalCtx);
+    this->unk_16D++;
+    DECR(this->unk_168);
+}
 
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgGanonOtyuka* this = THIS;
