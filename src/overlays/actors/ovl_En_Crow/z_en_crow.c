@@ -227,7 +227,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, -0x100, 0x400);
     }
 
-    if (this->timer) {
+    if (this->timer != 0) {
         this->timer--;
     }
 
