@@ -2085,8 +2085,7 @@ endseg
 beginseg
     name "ovl_En_Crow"
     include "build/src/overlays/actors/ovl_En_Crow/z_en_crow.o"
-    include "build/data/overlays/actors/z_en_crow.data.o"
-    include "build/data/overlays/actors/z_en_crow.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Crow/ovl_En_Crow_reloc.o"
 endseg
 
 beginseg
