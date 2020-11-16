@@ -5,6 +5,7 @@
  */
 
 #include "z_en_vm.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #define FLAGS 0x00000011
 
@@ -106,7 +107,7 @@ void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     thisx->naviEnemyId = 0x39;
 
-    if (thisx->params == BMT_LARGE) {
+    if (thisx->params == BEAMOS_LARGE) {
         thisx->colChkInfo.health = 2;
         Actor_SetScale(thisx, 0.014f);
     } else {
@@ -198,8 +199,8 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
             this->skelAnime.animPlaybackSpeed = 1.0f;
         } else {
             this->skelAnime.animCurrentFrame = 6.0f;
-            EffectSsDeadDd_Spawn(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255, 255,
-                          16, 20);
+            EffectSsDeadDd_Spawn(globalCtx, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255,
+                                 255, 16, 20);
             EnVm_SetupAttack(this);
         }
     }
@@ -327,18 +328,18 @@ void EnVm_SetupDie(EnVm* this) {
 }
 
 void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
-    EnBom* EnBom;
+    EnBom* bomb;
 
     this->beamRot.x += 0x5DC;
     this->headRotY += 0x9C4;
     Actor_MoveForward(&this->actor);
 
     if (--this->timer == 0) {
-        EnBom = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
-                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0x6FF, 0);
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
+                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0x6FF, BOMB_BODY);
 
-        if (EnBom != NULL) {
-            EnBom->timer = 0;
+        if (bomb != NULL) {
+            bomb->timer = 0;
         }
 
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot, 0xA0);
@@ -347,10 +348,11 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
 }
 
 void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
-    EnBom* EnBom;
+    EnBom* bomb;
 
     if (Actor_GetCollidedExplosive(globalCtx, &this->colliderCylinder) != NULL) {
-        osSyncPrintf("hp down %d\n", --this->actor.colChkInfo.health);
+        this->actor.colChkInfo.health--;
+        osSyncPrintf("hp down %d\n", this->actor.colChkInfo.health);
     } else {
         if (!(this->colliderQuad2.base.acFlags & 2) || this->unk_21C == 2) {
             return;
@@ -362,11 +364,11 @@ void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
         func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
         EnVm_SetupStun(this);
     } else {
-        EnBom = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
-                            this->actor.posRot.pos.y + 20.0f, this->actor.posRot.pos.z, 0, 0, 0x601, 0);
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
+                                   this->actor.posRot.pos.y + 20.0f, this->actor.posRot.pos.z, 0, 0, 0x601, BOMB_BODY);
 
-        if (EnBom != NULL) {
-            EnBom->timer = 0;
+        if (bomb != NULL) {
+            bomb->timer = 0;
         }
 
         EnVm_SetupDie(this);

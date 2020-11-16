@@ -1,14 +1,8 @@
 #ifndef _Z_EN_VM_H_
 #define _Z_EN_VM_H_
 
-#include <ultra64.h>
-#include <global.h>
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-
-typedef enum {
-    /* 0x00 */ BMT_LARGE,
-    /* 0x01 */ BMT_SMALL,
-} BeamosType;
+#include "ultra64.h"
+#include "global.h"
 
 struct EnVm;
 
@@ -37,6 +31,11 @@ typedef struct EnVm {
     /* 0x02B4 */ ColliderQuad colliderQuad1;
     /* 0x0334 */ ColliderQuad colliderQuad2;
 } EnVm; // size = 0x03B4
+
+typedef enum {
+    /* 0x00 */ BEAMOS_LARGE,
+    /* 0x01 */ BEAMOS_SMALL,
+} BeamosType;
 
 extern const ActorInit En_Vm_InitVars;
 
