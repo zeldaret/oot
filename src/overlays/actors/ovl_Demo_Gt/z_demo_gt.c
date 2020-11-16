@@ -27,9 +27,9 @@ Vec3f D_809825FC = { 0.0f, -16.0f, 0.0f };
 Vec3f D_80982608 = { 0.0f, 1.20000004768f, 0.0f };
 Actor* D_80982614 = NULL;
 Vec3f D_80982618 = { -12.0f, -17.0, 5.0 };
-Vec3f* D_80982624 = NULL; // was 0x00000000; ??
+Vec3f* D_80982624 = NULL;
 Vec2f D_80982628 = { 1.0f, 0.0f };
-Vec3f* D_80982630 = NULL; // was 0x00000000;
+Vec3f* D_80982630 = NULL;
 Vec2f D_80982634 = { 0.0f, 0.0f };
 f32 D_8098263C = 280.0f;
 f32 D_80982640 = 8.0f;
@@ -51,43 +51,43 @@ Vec3f D_809826C4 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_809826D0 = { 0.0f, -17.0f, 0.0f };
 Vec3f D_809826DC = { 0.0f, -30.0f, 0.0f };
 
-void func_8097F428(DemoGt* this, GlobalContext* globalCtx);
-void func_8097FF14(DemoGt* this, GlobalContext* globalCtx);
-void func_80980DB0(DemoGt* this, GlobalContext* globalCtx);
-void func_809810A0(DemoGt* this, GlobalContext* globalCtx);
-void func_80981588(DemoGt* this, GlobalContext* globalCtx);
-void func_80981994(DemoGt* this, GlobalContext* globalCtx);
-void func_80981E04(DemoGt* this, GlobalContext* globalCtx);
-void func_809821C4(DemoGt* this, GlobalContext* globalCtx);
-void func_8097F498(DemoGt* this, GlobalContext* globalCtx);
-void func_8097FF5C(DemoGt* this, GlobalContext* globalCtx);
-void func_80980DF0(DemoGt* this, GlobalContext* globalCtx);
-void func_809810E0(DemoGt* this, GlobalContext* globalCtx);
-void func_809815C8(DemoGt* this, GlobalContext* globalCtx);
-void func_809819D4(DemoGt* this, GlobalContext* globalCtx);
-void func_80981E44(DemoGt* this, GlobalContext* globalCtx);
-void func_80982204(DemoGt* this, GlobalContext* globalCtx);
-void func_80981114(DemoGt* this, GlobalContext* globalCtx);
-void func_809815FC(DemoGt* this, GlobalContext* globalCtx);
-void func_80981A08(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_0(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_1(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_2(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_3(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_4(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_5(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_6(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_7(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_8(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_9(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_10(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_11(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_12(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_13(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_14(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_15(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_16(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_17(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Update_18(DemoGt* this, GlobalContext* globalCtx);
 
-void DemoGt_DoNothing(DemoGt* this, GlobalContext* globalCtx);
-void func_8097F508(DemoGt* this, GlobalContext* globalCtx);
-void func_8097FF9C(DemoGt* this, GlobalContext* globalCtx);
-void func_80980E24(DemoGt* this, GlobalContext* globalCtx);
-void func_809811AC(DemoGt* this, GlobalContext* globalCtx);
-void func_80981694(DemoGt* this, GlobalContext* globalCtx);
-void func_80981AA0(DemoGt* this, GlobalContext* globalCtx);
-void func_80981E84(DemoGt* this, GlobalContext* globalCtx);
-void func_80982244(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_0(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_2(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_3(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_5(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_6(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_7(DemoGt* this, GlobalContext* globalCtx);
+void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx);
 
-DemoGtActionFunc D_809826E8[] = { func_8097F428, func_8097FF14, func_80980DB0, func_809810A0, func_80981588,
-                                  func_80981994, func_80981E04, func_809821C4, func_8097F498, func_8097FF5C,
-                                  func_80980DF0, func_809810E0, func_809815C8, func_809819D4, func_80981E44,
-                                  func_80982204, func_80981114, func_809815FC, func_80981A08 };
+DemoGtActionFunc D_809826E8[] = { Demo_Gt_Update_0, Demo_Gt_Update_1, Demo_Gt_Update_2, Demo_Gt_Update_3, Demo_Gt_Update_4,
+                                  Demo_Gt_Update_5, Demo_Gt_Update_6, Demo_Gt_Update_7, Demo_Gt_Update_8, Demo_Gt_Update_9,
+                                  Demo_Gt_Update_10, Demo_Gt_Update_11, Demo_Gt_Update_12, Demo_Gt_Update_13, Demo_Gt_Update_14,
+                                  Demo_Gt_Update_15, Demo_Gt_Update_16, Demo_Gt_Update_17, Demo_Gt_Update_18 };
 
-DemoGtActionFunc D_80982734[] = { DemoGt_DoNothing, func_8097F508, func_8097FF9C, func_80980E24, func_809811AC,
-                                  func_80981694,    func_80981AA0, func_80981E84, func_80982244 };
+DemoGtActionFunc D_80982734[] = { Demo_Gt_Draw_0, Demo_Gt_Draw_1, Demo_Gt_Draw_2, Demo_Gt_Draw_3, Demo_Gt_Draw_4,
+                                  Demo_Gt_Draw_5, Demo_Gt_Draw_6, Demo_Gt_Draw_7, Demo_Gt_Draw_8 };
 
 const ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
@@ -124,12 +124,10 @@ void func_8097D6B4() {
     func_800788CC(0x2098);
 }
 
-// Bomb_explosion
 void func_8097D6D4(GlobalContext* globalCtx, Vec3f* pos) {
     Audio_PlaySoundAtPosition(globalCtx, pos, 0x3C, NA_SE_IT_BOMB_EXPLOSION);
 }
 
-// Grave explosion
 void func_8097D6F8(GlobalContext* globalCtx, Vec3f* pos) {
     Audio_PlaySoundAtPosition(globalCtx, pos, 0x3C, NA_SE_EV_GRAVE_EXPLOSION);
 }
@@ -577,7 +575,7 @@ u8 func_8097EE44(DemoGt* this, GlobalContext* globalCtx, s32 arg0, s32 arg1, UNK
     }
 }
 
-void func_8097EEA8(DemoGt* this, GlobalContext* globalCtx) {
+void func_8097EEA8_Init0(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -701,7 +699,7 @@ void func_8097F3EC(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097F428(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_0(DemoGt* this, GlobalContext* globalCtx) {
     func_8097F280(this, globalCtx);
     func_8097E824(this, 1);
     func_8097F19C(this, globalCtx);
@@ -711,7 +709,7 @@ void func_8097F428(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EF00(this, globalCtx);
 }
 
-void func_8097F498(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_8(DemoGt* this, GlobalContext* globalCtx) {
     func_8097F280(this, globalCtx);
     func_8097F1D8(this);
     func_8097ED64(this, globalCtx, 1);
@@ -721,7 +719,7 @@ void func_8097F498(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EF00(this, globalCtx);
 }
 
-void func_8097F508(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u32 gameplayFrames = globalCtx->gameplayFrames;
@@ -799,7 +797,7 @@ void func_8097F508(DemoGt* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part1.c", 557);
 }
 
-void func_8097F904(DemoGt* this, GlobalContext* globalCtx) {
+void func_8097F904_Init1(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -936,20 +934,20 @@ void func_8097FED8(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097FF14(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_1(DemoGt* this, GlobalContext* globalCtx) {
     func_8097FDDC(this, globalCtx);
     func_8097E824(this, 2);
     func_8097FD70(this, globalCtx);
     func_8097FED8(this, globalCtx);
 }
 
-void func_8097FF5C(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_9(DemoGt* this, GlobalContext* globalCtx) {
     func_8097FDDC(this, globalCtx);
     func_8097ED64(this, globalCtx, 2);
     func_8097FD70(this, globalCtx);
 }
 
-void func_8097FF9C(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_2(DemoGt* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vec3i* tempVec198;
     Vec3i* tempVec178;
@@ -975,7 +973,7 @@ void func_8097FF9C(DemoGt* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part2.c", 489);
 }
 
-void func_80980110(DemoGt* this, GlobalContext* globalCtx) {
+void func_80980110_Init2(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -1260,18 +1258,18 @@ void func_80980D74(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80980DB0(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_2(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 3);
     func_80980C90(this, globalCtx);
     func_80980D74(this, globalCtx);
 }
 
-void func_80980DF0(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_10(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 3);
     func_80980C90(this, globalCtx);
 }
 
-void func_80980E24(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_3(DemoGt* this, GlobalContext* globalCtx) {
     GlobalContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1026);
@@ -1285,7 +1283,7 @@ void func_80980E24(DemoGt* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1032);
 }
 
-void func_80980F00(DemoGt* this, GlobalContext* globalCtx) {
+void func_80980F00_Init5(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -1326,18 +1324,18 @@ void func_8098103C(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809810A0(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_3(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 4);
     func_80980F58(this, globalCtx);
     func_8098103C(this, globalCtx);
 }
 
-void func_809810E0(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_11(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 4);
     func_80980F58(this, globalCtx);
 }
 
-void func_80981114(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_16(DemoGt* this, GlobalContext* globalCtx) {
     f32 temp = this->unk_172;
 
     this->unk_174 = (temp * ((kREG(64) * 0.001f) + 0.048f)) + (kREG(65) + 98.0f);
@@ -1348,7 +1346,7 @@ void func_80981114(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809811AC(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     GlobalContext* globalCtx2 = globalCtx;
     u16 frames = globalCtx->csCtx.frames;
@@ -1411,7 +1409,7 @@ void func_809811AC(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809813CC(DemoGt* this, GlobalContext* globalCtx) {
+void func_809813CC_Init6(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -1453,18 +1451,18 @@ void func_80981524(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80981588(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_4(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 5);
     func_80981424(this, globalCtx);
     func_80981524(this, globalCtx);
 }
 
-void func_809815C8(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_12(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 5);
     func_80981424(this, globalCtx);
 }
 
-void func_809815FC(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_17(DemoGt* this, GlobalContext* globalCtx) {
     f32 temp = this->unk_172;
 
     this->unk_174 = temp * ((kREG(66) * 0.001f) + 0.048f) + (kREG(67) + 50.0f);
@@ -1476,7 +1474,7 @@ void func_809815FC(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80981694(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_5(DemoGt* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     s32 pad;
     s16 sp76;
@@ -1536,7 +1534,7 @@ void func_80981694(DemoGt* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_2.c", 241);
 }
 
-void func_809818A4(DemoGt* this, GlobalContext* globalCtx) {
+void func_809818A4_Init7(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -1556,18 +1554,18 @@ void func_80981930(DemoGt* this, GlobalContext* globalCtx) {
         this->unk_164 = 18;
     }
 }
-void func_80981994(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_5(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 6);
     func_809818FC(this, globalCtx);
     func_80981930(this, globalCtx);
 }
 
-void func_809819D4(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_13(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 6);
     func_809818FC(this, globalCtx);
 }
 
-void func_80981A08(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_18(DemoGt* this, GlobalContext* globalCtx) {
     f32 temp = this->unk_172;
 
     this->unk_174 = (temp * ((kREG(68) * 0.001f) + 0.005f)) + (kREG(69) + 50.0f);
@@ -1579,7 +1577,7 @@ void func_80981A08(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80981AA0(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_6(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
     s16 sp78 = this2->unk_172;
     f32 sp74;
@@ -1633,7 +1631,7 @@ void func_80981AA0(DemoGt* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_3.c", 307);
 }
 
-void func_80981C94(DemoGt* this, GlobalContext* globalCtx) {
+void func_80981C94_Init23(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -1664,19 +1662,19 @@ void func_80981DC8(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80981E04(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_6(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 7);
     func_80981CEC(this, globalCtx);
     func_80981DC8(this, globalCtx);
 }
 
-void func_80981E44(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_14(DemoGt* this, GlobalContext* globalCtx) {
     func_80981D20(this);
     func_8097ED64(this, globalCtx, 7);
     func_80981CEC(this, globalCtx);
 }
 
-void func_80981E84(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_7(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 sp6E;
@@ -1725,7 +1723,7 @@ void func_80981E84(DemoGt* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part5.c", 160);
 }
 
-void func_80982054(DemoGt* this, GlobalContext* globalCtx) {
+void func_80982054_Init24(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
@@ -1756,19 +1754,19 @@ void func_80982188(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809821C4(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_7(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 9);
     func_809820AC(this, globalCtx);
     func_80982188(this, globalCtx);
 }
 
-void func_80982204(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Update_15(DemoGt* this, GlobalContext* globalCtx) {
     func_809820E0(this);
     func_8097ED64(this, globalCtx, 9);
     func_809820AC(this, globalCtx);
 }
 
-void func_80982244(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 sp6E;
@@ -1837,28 +1835,28 @@ void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params) {
         case 0:
-            func_8097EEA8(this, globalCtx);
+            func_8097EEA8_Init0(this, globalCtx);
             break;
         case 1:
-            func_8097F904(this, globalCtx);
+            func_8097F904_Init1(this, globalCtx);
             break;
         case 2:
-            func_80980110(this, globalCtx);
+            func_80980110_Init2(this, globalCtx);
             break;
         case 5:
-            func_80980F00(this, globalCtx);
+            func_80980F00_Init5(this, globalCtx);
             break;
         case 6:
-            func_809813CC(this, globalCtx);
+            func_809813CC_Init6(this, globalCtx);
             break;
         case 7:
-            func_809818A4(this, globalCtx);
+            func_809818A4_Init7(this, globalCtx);
             break;
         case 23:
-            func_80981C94(this, globalCtx);
+            func_80981C94_Init23(this, globalCtx);
             break;
         case 24:
-            func_80982054(this, globalCtx);
+            func_80982054_Init24(this, globalCtx);
             break;
         default:
             // Demo_Gt_Actor_ct There is no such argument !
@@ -1867,7 +1865,7 @@ void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void DemoGt_DoNothing(DemoGt* this, GlobalContext* globalCtx) {
+void Demo_Gt_Draw_0(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1880,5 +1878,5 @@ void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    function(thisx, globalCtx);
+    function(this, globalCtx);
 }
