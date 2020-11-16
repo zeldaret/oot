@@ -219,13 +219,13 @@ glabel L80959318
 /* 0A1D0 80959490 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 0A1D4 80959494 AFA20054 */  sw      $v0, 0x0054($sp)
 /* 0A1D8 80959498 8FA90054 */  lw      $t1, 0x0054($sp)
-/* 0A1DC 8095949C 3C0A8096 */  lui     $t2, %hi(func_80958150)    ## $t2 = 80960000
-/* 0A1E0 809594A0 254A8150 */  addiu   $t2, $t2, %lo(func_80958150) ## $t2 = 80958150
+/* 0A1DC 8095949C 3C0A8096 */  lui     $t2, %hi(BossVa_BodyPostLimbDraw)    ## $t2 = 80960000
+/* 0A1E0 809594A0 254A8150 */  addiu   $t2, $t2, %lo(BossVa_BodyPostLimbDraw) ## $t2 = 80958150
 /* 0A1E4 809594A4 AD220004 */  sw      $v0, 0x0004($t1)           ## 00000004
 /* 0A1E8 809594A8 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 0A1EC 809594AC 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
-/* 0A1F0 809594B0 3C078095 */  lui     $a3, %hi(func_80957F60)    ## $a3 = 80950000
-/* 0A1F4 809594B4 24E77F60 */  addiu   $a3, $a3, %lo(func_80957F60) ## $a3 = 80957F60
+/* 0A1F0 809594B0 3C078095 */  lui     $a3, %hi(BossVa_BodyOverrideLimbDraw)    ## $a3 = 80950000
+/* 0A1F4 809594B4 24E77F60 */  addiu   $a3, $a3, %lo(BossVa_BodyOverrideLimbDraw) ## $a3 = 80957F60
 /* 0A1F8 809594B8 AFB00014 */  sw      $s0, 0x0014($sp)
 /* 0A1FC 809594BC AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 0A200 809594C0 0C028572 */  jal     SkelAnime_Draw
@@ -235,15 +235,15 @@ glabel L80959318
 /* 0A20C 809594CC 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 glabel L809594D0
 /* 0A210 809594D0 920B0197 */  lbu     $t3, 0x0197($s0)           ## 00000197
-/* 0A214 809594D4 3C0C8096 */  lui     $t4, %hi(func_809586A4)    ## $t4 = 80960000
-/* 0A218 809594D8 258C86A4 */  addiu   $t4, $t4, %lo(func_809586A4) ## $t4 = 809586A4
+/* 0A214 809594D4 3C0C8096 */  lui     $t4, %hi(BossVa_SupportOverrideLimbDraw)    ## $t4 = 80960000
+/* 0A218 809594D8 258C86A4 */  addiu   $t4, $t4, %lo(BossVa_SupportOverrideLimbDraw) ## $t4 = 809586A4
 /* 0A21C 809594DC 156000AB */  bne     $t3, $zero, .L8095978C
 /* 0A220 809594E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0A224 809594E4 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
 /* 0A228 809594E8 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 0A22C 809594EC 9207014E */  lbu     $a3, 0x014E($s0)           ## 0000014E
-/* 0A230 809594F0 3C0D8096 */  lui     $t5, %hi(func_809586E4)    ## $t5 = 80960000
-/* 0A234 809594F4 25AD86E4 */  addiu   $t5, $t5, %lo(func_809586E4) ## $t5 = 809586E4
+/* 0A230 809594F0 3C0D8096 */  lui     $t5, %hi(BossVa_SupportPostLimbDraw)    ## $t5 = 80960000
+/* 0A234 809594F4 25AD86E4 */  addiu   $t5, $t5, %lo(BossVa_SupportPostLimbDraw) ## $t5 = 809586E4
 /* 0A238 809594F8 AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 0A23C 809594FC AFB00018 */  sw      $s0, 0x0018($sp)
 /* 0A240 80959500 0C0286B2 */  jal     SkelAnime_DrawSV
@@ -252,15 +252,15 @@ glabel L809594D0
 /* 0A24C 8095950C 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 glabel L80959510
 /* 0A250 80959510 920E0197 */  lbu     $t6, 0x0197($s0)           ## 00000197
-/* 0A254 80959514 3C0F8096 */  lui     $t7, %hi(func_80958934)    ## $t7 = 80960000
-/* 0A258 80959518 25EF8934 */  addiu   $t7, $t7, %lo(func_80958934) ## $t7 = 80958934
+/* 0A254 80959514 3C0F8096 */  lui     $t7, %hi(BossVa_ZapperOverrideLimbDraw)    ## $t7 = 80960000
+/* 0A258 80959518 25EF8934 */  addiu   $t7, $t7, %lo(BossVa_ZapperOverrideLimbDraw) ## $t7 = 80958934
 /* 0A25C 8095951C 15C0009B */  bne     $t6, $zero, .L8095978C
 /* 0A260 80959520 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0A264 80959524 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
 /* 0A268 80959528 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 0A26C 8095952C 9207014E */  lbu     $a3, 0x014E($s0)           ## 0000014E
-/* 0A270 80959530 3C198096 */  lui     $t9, %hi(func_80958B0C)    ## $t9 = 80960000
-/* 0A274 80959534 27398B0C */  addiu   $t9, $t9, %lo(func_80958B0C) ## $t9 = 80958B0C
+/* 0A270 80959530 3C198096 */  lui     $t9, %hi(BossVa_ZapperPostLimbDraw)    ## $t9 = 80960000
+/* 0A274 80959534 27398B0C */  addiu   $t9, $t9, %lo(BossVa_ZapperPostLimbDraw) ## $t9 = 80958B0C
 /* 0A278 80959538 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 0A27C 8095953C AFB00018 */  sw      $s0, 0x0018($sp)
 /* 0A280 80959540 0C0286B2 */  jal     SkelAnime_DrawSV
@@ -281,12 +281,12 @@ glabel L80959550
 glabel L80959578
 .L80959578:
 /* 0A2B8 80959578 92180197 */  lbu     $t8, 0x0197($s0)           ## 00000197
-/* 0A2BC 8095957C 3C078096 */  lui     $a3, %hi(func_80958F6C)    ## $a3 = 80960000
-/* 0A2C0 80959580 24E78F6C */  addiu   $a3, $a3, %lo(func_80958F6C) ## $a3 = 80958F6C
+/* 0A2BC 8095957C 3C078096 */  lui     $a3, %hi(BossVa_BariOverrideLimbDraw)    ## $a3 = 80960000
+/* 0A2C0 80959580 24E78F6C */  addiu   $a3, $a3, %lo(BossVa_BariOverrideLimbDraw) ## $a3 = 80958F6C
 /* 0A2C4 80959584 17000081 */  bne     $t8, $zero, .L8095978C
 /* 0A2C8 80959588 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0A2CC 8095958C 3C0A8096 */  lui     $t2, %hi(func_80958FFC)    ## $t2 = 80960000
-/* 0A2D0 80959590 254A8FFC */  addiu   $t2, $t2, %lo(func_80958FFC) ## $t2 = 80958FFC
+/* 0A2CC 8095958C 3C0A8096 */  lui     $t2, %hi(BossVa_BariPostLimbDraw)    ## $t2 = 80960000
+/* 0A2D0 80959590 254A8FFC */  addiu   $t2, $t2, %lo(BossVa_BariPostLimbDraw) ## $t2 = 80958FFC
 /* 0A2D4 80959594 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
 /* 0A2D8 80959598 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 0A2DC 8095959C AFB00014 */  sw      $s0, 0x0014($sp)
@@ -296,10 +296,10 @@ glabel L80959578
 /* 0A2E8 809595A8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 0A2EC 809595AC 0C018A29 */  jal     func_800628A4
 /* 0A2F0 809595B0 260502D8 */  addiu   $a1, $s0, 0x02D8           ## $a1 = 000002D8
-/* 0A2F4 809595B4 3C0B8096 */  lui     $t3, %hi(D_809668D2)       ## $t3 = 80960000
-/* 0A2F8 809595B8 816B68D2 */  lb      $t3, %lo(D_809668D2)($t3)
-/* 0A2FC 809595BC 3C048096 */  lui     $a0, %hi(D_8095C220)       ## $a0 = 80960000
-/* 0A300 809595C0 2484C220 */  addiu   $a0, $a0, %lo(D_8095C220)  ## $a0 = 8095C220
+/* 0A2F4 809595B4 3C0B8096 */  lui     $t3, %hi(sCsState)       ## $t3 = 80960000
+/* 0A2F8 809595B8 816B68D2 */  lb      $t3, %lo(sCsState)($t3)
+/* 0A2FC 809595BC 3C048096 */  lui     $a0, %hi(sZeroVec)       ## $a0 = 80960000
+/* 0A300 809595C0 2484C220 */  addiu   $a0, $a0, %lo(sZeroVec)  ## $a0 = 8095C220
 /* 0A304 809595C4 2961000D */  slti    $at, $t3, 0x000D
 /* 0A308 809595C8 5020000B */  beql    $at, $zero, .L809595F8
 /* 0A30C 809595CC 8E180118 */  lw      $t8, 0x0118($s0)           ## 00000118
@@ -422,10 +422,10 @@ glabel L8095978C
 /* 0A4CC 8095978C 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 .L80959790:
 /* 0A4D0 80959790 2401FFFF */  addiu   $at, $zero, 0xFFFF         ## $at = FFFFFFFF
-/* 0A4D4 80959794 3C048096 */  lui     $a0, %hi(D_8095DF50)       ## $a0 = 80960000
+/* 0A4D4 80959794 3C048096 */  lui     $a0, %hi(sEffects)       ## $a0 = 80960000
 /* 0A4D8 80959798 14410005 */  bne     $v0, $at, .L809597B0
-/* 0A4DC 8095979C 2484DF50 */  addiu   $a0, $a0, %lo(D_8095DF50)  ## $a0 = 8095DF50
-/* 0A4E0 809597A0 0C256862 */  jal     func_8095A188
+/* 0A4DC 8095979C 2484DF50 */  addiu   $a0, $a0, %lo(sEffects)  ## $a0 = 8095DF50
+/* 0A4E0 809597A0 0C256862 */  jal     BossVa_DrawEffects
 /* 0A4E4 809597A4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 0A4E8 809597A8 10000007 */  beq     $zero, $zero, .L809597C8
 /* 0A4EC 809597AC 00000000 */  nop
@@ -433,9 +433,9 @@ glabel L8095978C
 /* 0A4F0 809597B0 24010013 */  addiu   $at, $zero, 0x0013         ## $at = 00000013
 /* 0A4F4 809597B4 14410004 */  bne     $v0, $at, .L809597C8
 /* 0A4F8 809597B8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0A4FC 809597BC 3C058096 */  lui     $a1, %hi(D_80966934)       ## $a1 = 80960000
-/* 0A500 809597C0 0C256F49 */  jal     func_8095BD24
-/* 0A504 809597C4 84A56934 */  lh      $a1, %lo(D_80966934)($a1)
+/* 0A4FC 809597BC 3C058096 */  lui     $a1, %hi(sDoorState)       ## $a1 = 80960000
+/* 0A500 809597C0 0C256F49 */  jal     BossVa_DrawDoor
+/* 0A504 809597C4 84A56934 */  lh      $a1, %lo(sDoorState)($a1)
 .L809597C8:
 /* 0A508 809597C8 3C068096 */  lui     $a2, %hi(D_8095C480)       ## $a2 = 80960000
 /* 0A50C 809597CC 24C6C480 */  addiu   $a2, $a2, %lo(D_8095C480)  ## $a2 = 8095C480
