@@ -11,14 +11,6 @@
 
 #define THIS ((EnWonderItem*)thisx)
 
-#define WONDERITEM_DAMAGE_SLASH 0x702
-#define WONDERITEM_DAMAGE_ARROW 0x1F820
-#define WONDERITEM_DAMAGE_HOOKSHOT 0x80
-#define WONDERITEM_DAMAGE_BOOMERANG 0x10
-#define WONDERITEM_DAMAGE_SLINGSHOT 0x4
-#define WONDERITEM_DAMAGE_BOMB 0x8
-#define WONDERITEM_DAMAGE_HAMMER 0x40
-
 void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -99,8 +91,8 @@ void EnWonderItem_DropCollectible(EnWonderItem* this, GlobalContext* globalCtx, 
 
 void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u32 collisionTypes[] = {
-        WONDERITEM_DAMAGE_SLASH,     WONDERITEM_DAMAGE_ARROW,     WONDERITEM_DAMAGE_HAMMER,   WONDERITEM_DAMAGE_BOMB,
-        WONDERITEM_DAMAGE_SLINGSHOT, WONDERITEM_DAMAGE_BOOMERANG, WONDERITEM_DAMAGE_HOOKSHOT,
+        0x00000702 /* sword slash */, 0x0001F820 /* arrow */,     0x00000040 /* hammer */,   0x00000008 /* bomb */,
+        0x00000004 /* slingshot */,   0x00000010 /* boomerang */, 0x00000080 /* hookshot */,
     };
     s32 pad;
     s16 colTypeIndex;
@@ -179,7 +171,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
         case WONDERITEM_BOMB_SOLDIER:
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-            this->collider.body.bumper.flags = WONDERITEM_DAMAGE_SLINGSHOT;
+            this->collider.body.bumper.flags = 0x00000004; // slingshot
             this->unkPos = this->actor.posRot.pos;
             this->collider.dim.radius = 35;
             this->collider.dim.height = 75;
@@ -335,7 +327,9 @@ void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnWonderItem* this = THIS;
     s32 wonderIndex;
 
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
     this->updateFunc(this, globalCtx);
 
     if (this->wonderMode == WONDERITEM_UNUSED) {
