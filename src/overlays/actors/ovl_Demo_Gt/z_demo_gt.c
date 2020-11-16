@@ -81,10 +81,11 @@ void Demo_Gt_Draw_6(DemoGt* this, GlobalContext* globalCtx);
 void Demo_Gt_Draw_7(DemoGt* this, GlobalContext* globalCtx);
 void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx);
 
-DemoGtActionFunc D_809826E8[] = { Demo_Gt_Update_0, Demo_Gt_Update_1, Demo_Gt_Update_2, Demo_Gt_Update_3, Demo_Gt_Update_4,
-                                  Demo_Gt_Update_5, Demo_Gt_Update_6, Demo_Gt_Update_7, Demo_Gt_Update_8, Demo_Gt_Update_9,
-                                  Demo_Gt_Update_10, Demo_Gt_Update_11, Demo_Gt_Update_12, Demo_Gt_Update_13, Demo_Gt_Update_14,
-                                  Demo_Gt_Update_15, Demo_Gt_Update_16, Demo_Gt_Update_17, Demo_Gt_Update_18 };
+DemoGtActionFunc D_809826E8[] = { Demo_Gt_Update_0,  Demo_Gt_Update_1,  Demo_Gt_Update_2,  Demo_Gt_Update_3,
+                                  Demo_Gt_Update_4,  Demo_Gt_Update_5,  Demo_Gt_Update_6,  Demo_Gt_Update_7,
+                                  Demo_Gt_Update_8,  Demo_Gt_Update_9,  Demo_Gt_Update_10, Demo_Gt_Update_11,
+                                  Demo_Gt_Update_12, Demo_Gt_Update_13, Demo_Gt_Update_14, Demo_Gt_Update_15,
+                                  Demo_Gt_Update_16, Demo_Gt_Update_17, Demo_Gt_Update_18 };
 
 DemoGtActionFunc D_80982734[] = { Demo_Gt_Draw_0, Demo_Gt_Draw_1, Demo_Gt_Draw_2, Demo_Gt_Draw_3, Demo_Gt_Draw_4,
                                   Demo_Gt_Draw_5, Demo_Gt_Draw_6, Demo_Gt_Draw_7, Demo_Gt_Draw_8 };
@@ -143,6 +144,7 @@ void func_8097D74C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 
 void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3, s32 arg4, s32 arg5, s16 arg6) {
     s32 pad;
+
     if (func_800C0D28(globalCtx) == 0) {
         s32 frames = globalCtx->gameplayFrames;
 
@@ -167,8 +169,7 @@ void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3,
     }
 }
 
-// TODO: Rename to Actor_spawn_ACTOR_BG_SPOT16_DOUGHNUT
-Actor* func_8097D964(GlobalContext* globalCtx, Vec3f* position, s16 params) {
+Actor* Spawn_ACTOR_BG_SPOT16_DOUGHNUT(GlobalContext* globalCtx, Vec3f* position, s16 params) {
     return Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_DOUGHNUT, position->x, position->y, position->z,
                        0, 0, 0, params);
 }
@@ -190,7 +191,6 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* arg3) {
     Vec3f spC4;
     Vec3f spB8;
     f32 temp_f0;
-
     s16 rotation = 0;
     s16 phi_s0;
     s32 i;
@@ -228,9 +228,7 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* arg3) {
 void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* pos) {
     Vec3f spC4;
     Vec3f spB8;
-
     f32 temp_f0;
-
     s16 rotation = 0;
     s16 phi_s0;
     s32 i;
@@ -271,7 +269,6 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* pos) {
     Vec3f spC4;
     Vec3f spB8;
     f32 temp_f0;
-
     s16 rotation = 0;
     s16 phi_s0;
     s32 i;
@@ -310,7 +307,6 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* pos) {
 void func_8097E1D4(GlobalContext* arg0, Vec3f* arg1, s16 arg2) {
     Vec3f spC4;
     Vec3f spB8;
-
     f32 temp_f0;
     s16 rotation = 0;
     s16 phi_s0;
@@ -393,8 +389,7 @@ u8 func_8097E69C(GlobalContext* globalCtx) {
     return false;
 }
 
-// TODO: Rename to DemoGt_GetNpcAction
-CsCmdActorAction* func_8097E6BC(GlobalContext* globalCtx, u32 actionIdx) {
+CsCmdActorAction* DemoGt_GetNpcAction(GlobalContext* globalCtx, u32 actionIdx) {
     s32 pad[2];
     CsCmdActorAction* ret = NULL;
 
@@ -405,9 +400,8 @@ CsCmdActorAction* func_8097E6BC(GlobalContext* globalCtx, u32 actionIdx) {
 }
 
 u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
-    CsCmdActorAction* action;
+    CsCmdActorAction* action = DemoGt_GetNpcAction(globalCtx, arg2);
 
-    action = func_8097E6BC(globalCtx, arg2);
     if (action != NULL && action->action == arg1) {
         return true;
     }
@@ -415,9 +409,8 @@ u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
 }
 
 void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
-    CsCmdActorAction* npcAction = func_8097E6BC(globalCtx, actionIdx);
+    CsCmdActorAction* npcAction = DemoGt_GetNpcAction(globalCtx, actionIdx);
     Vec3f* thisPos = &this->dyna.actor.posRot.pos;
-
     f32 startX;
     f32 startY;
     f32 startZ;
@@ -541,11 +534,11 @@ void func_8097ED64(DemoGt* this, GlobalContext* globalCtx, s32 arg0) {
 u8 func_8097ED94() {
     if (kREG(2) != 0) {
         return true;
-    }
-    if (gSaveContext.sceneSetupIndex < 4) {
+    } else if (gSaveContext.sceneSetupIndex < 4) {
         return false;
+    } else {
+        return true;
     }
-    return true;
 }
 
 void func_8097EDD8(DemoGt* this, GlobalContext* globalCtx, UNK_PTR arg0) {
@@ -579,6 +572,7 @@ void func_8097EEA8_Init0(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
+
     func_8097EE44(this, globalCtx, 0, 1, NULL);
 }
 
@@ -819,7 +813,7 @@ void func_8097F96C(DemoGt* this, GlobalContext* globalCtx) {
         pos.z = this->dyna.actor.posRot.pos.z;
 
         if (D_80982614 == NULL) {
-            D_80982614 = func_8097D964(globalCtx, &pos, 2);
+            D_80982614 = Spawn_ACTOR_BG_SPOT16_DOUGHNUT(globalCtx, &pos, 2);
             return;
         }
 
@@ -997,7 +991,7 @@ void func_80980184(DemoGt* this, GlobalContext* globalCtx) {
         pos.z = this->dyna.actor.posRot.pos.z;
 
         if (D_8098265C == NULL) {
-            D_8098265C = func_8097D964(globalCtx, &pos, 3);
+            D_8098265C = Spawn_ACTOR_BG_SPOT16_DOUGHNUT(globalCtx, &pos, 3);
             return;
         }
 
@@ -1019,7 +1013,7 @@ void func_80980218(DemoGt* this, GlobalContext* globalCtx) {
         pos.z = this->dyna.actor.initPosRot.pos.z;
 
         if (D_80982660 == NULL) {
-            D_80982660 = func_8097D964(globalCtx, &pos, 4);
+            D_80982660 = Spawn_ACTOR_BG_SPOT16_DOUGHNUT(globalCtx, &pos, 4);
             return;
         }
 
@@ -1232,7 +1226,6 @@ void func_80980BFC(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-// SPAWNS LOOOTS of doughnuts?
 void func_80980C90(DemoGt* this, GlobalContext* globalCtx) {
     func_DoesNothing(this, globalCtx);
     func_80980178(this, globalCtx);
@@ -1287,11 +1280,13 @@ void func_80980F00_Init5(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
+
     func_8097EE44(this, globalCtx, 3, 4, NULL);
 }
 
 void func_80980F58(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
+
     if (frames == 244) {
         func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
     }
@@ -1358,7 +1353,7 @@ void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx) {
 
     s16 sp6A;
     s16 sp68;
-    s16 sp66_pad;
+    s16 pad2;
 
     Mtx* sp60;
 
@@ -1413,6 +1408,7 @@ void func_809813CC_Init6(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
+
     func_8097EE44(this, globalCtx, 4, 5, NULL);
 }
 
@@ -1538,11 +1534,13 @@ void func_809818A4_Init7(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
+
     func_8097EE44(this, globalCtx, 5, 6, NULL);
 }
 
 void func_809818FC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
+
     if (frames == 845) {
         func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
     }
@@ -1635,11 +1633,13 @@ void func_80981C94_Init23(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
+
     func_8097EE44(this, globalCtx, 6, 7, NULL);
 }
 
 void func_80981CEC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
+
     if (frames == 183) {
         func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
     }
@@ -1732,6 +1732,7 @@ void func_80982054_Init24(DemoGt* this, GlobalContext* globalCtx) {
 
 void func_809820AC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
+    
     if (frames == 0x9A) {
         func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
     }
