@@ -603,12 +603,12 @@ glabel L809505C4
 /* 013A4 80950664 29C10009 */  slti    $at, $t6, 0x0009
 /* 013A8 80950668 14200005 */  bne     $at, $zero, .L80950680
 /* 013AC 8095066C 00000000 */  nop
-/* 013B0 80950670 0C255B8E */  jal     BossVa_SetupBariPhase2Attack
+/* 013B0 80950670 0C255B8E */  jal     BossVa_SetupBariPhase3Attack
 /* 013B4 80950674 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 013B8 80950678 10000004 */  beq     $zero, $zero, .L8095068C
 /* 013BC 8095067C 8FBF004C */  lw      $ra, 0x004C($sp)
 .L80950680:
-/* 013C0 80950680 0C255CB7 */  jal     BossVa_SetupBariPhase1Attack
+/* 013C0 80950680 0C255CB7 */  jal     BossVa_SetupBariPhase2Attack
 /* 013C4 80950684 02802825 */  or      $a1, $s4, $zero            ## $a1 = 00000000
 .L80950688:
 /* 013C8 80950688 8FBF004C */  lw      $ra, 0x004C($sp)
