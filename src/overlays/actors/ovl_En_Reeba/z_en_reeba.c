@@ -125,10 +125,12 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
     f32 frames = SkelAnime_GetFrameCount(&D_060001E4.genericHeader);
     Player* player = PLAYER;
+    s16 playerSpeed;
 
     SkelAnime_ChangeAnim(&this->skelanime, &D_060001E4, 2.0f, 0.0f, frames, 0, -10.0f);
 
-    this->unk_278 = 20 - (2 * (s16)fabsf(player->linearVelocity));
+    playerSpeed = fabsf(player->linearVelocity);
+    this->unk_278 = 20 - playerSpeed * 2;
     if (this->unk_278 < 0) {
         this->unk_278 = 2;
     }
