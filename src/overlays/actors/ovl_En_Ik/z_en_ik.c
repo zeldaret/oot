@@ -382,7 +382,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
         func_80062CD4(globalCtx, &sp2C);
     }
 
-    if ((17.0f < this->skelAnime.animCurrentFrame) && (this->skelAnime.animCurrentFrame < 23.0f)) {
+    if ((this->skelAnime.animCurrentFrame > 17.0f) && (this->skelAnime.animCurrentFrame < 23.0f)) {
         this->unk_2FE = 1;
     } else {
         if ((this->unk_2FB != 0) && (this->skelAnime.animCurrentFrame < 10.0f)) {
@@ -445,8 +445,8 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame > 11.0f) {
         this->unk_2FF = 3;
     }
-    if (((1.0f < this->skelAnime.animCurrentFrame) && (this->skelAnime.animCurrentFrame < 9.0f)) ||
-        ((13.0f < this->skelAnime.animCurrentFrame) && (this->skelAnime.animCurrentFrame < 18.0f))) {
+    if (((this->skelAnime.animCurrentFrame > 1.0f) && (this->skelAnime.animCurrentFrame < 9.0f)) ||
+        ((this->skelAnime.animCurrentFrame > 13.0f) && (this->skelAnime.animCurrentFrame < 18.0f))) {
         if ((this->unk_2FC == 0) && (this->unk_2FB != 0) && (this->skelAnime.animCurrentFrame < 10.0f)) {
             Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.posRot.rot.y;
@@ -492,7 +492,7 @@ void func_80A754A0(EnIk* this) {
 void func_80A75530(EnIk* this, GlobalContext* globalCtx) {
     func_80077AF8(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0x7D0);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    if ((13.0f < this->skelAnime.animCurrentFrame) && (this->skelAnime.animCurrentFrame < 18.0f)) {
+    if ((this->skelAnime.animCurrentFrame > 13.0f) && (this->skelAnime.animCurrentFrame < 18.0f)) {
         if (this->unk_2FE < 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_SWING_AXE);
         }
@@ -650,11 +650,11 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     prevHealth = this->actor.colChkInfo.health;
     Actor_ApplyDamage(&this->actor);
     if (this->actor.params != 0) {
-        if ((prevHealth >= 11) && (this->actor.colChkInfo.health < 11)) {
+        if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
             this->unk_2FB = 1;
             func_80032E24(&this->unk_308, 3, globalCtx);
         }
-    } else if (this->actor.colChkInfo.health < 11) {
+    } else if (this->actor.colChkInfo.health <= 10) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_BOSS);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_LAST_DAMAGE);
         if (this->switchFlags != 0xFF) {
@@ -677,7 +677,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         }
     }
     if ((this->actor.params != 0) && (this->unk_2FB != 0)) {
-        if ((prevHealth >= 11) && (this->actor.colChkInfo.health < 11)) {
+        if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
         } else {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
@@ -699,7 +699,7 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_2FA = this->unk_2FB;
     func_80A75C38(this, globalCtx);
-    if ((this->actor.params == 0) && (this->actor.colChkInfo.health < 11)) {
+    if ((this->actor.params == 0) && (this->actor.colChkInfo.health <= 10)) {
         func_80A781CC(&this->actor, globalCtx);
         return;
     }
@@ -756,19 +756,19 @@ Gfx* func_80A761B0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
 s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     EnIk* this = (EnIk*)actor;
 
-    if (limbIndex == 0xC) {
+    if (limbIndex == 12) {
         if (this->actor.params != 0) {
             *dList = D_06018E78;
         }
-    } else if (limbIndex == 0xD) {
+    } else if (limbIndex == 13) {
         if (this->actor.params != 0) {
             *dList = D_06019100;
         }
-    } else if ((limbIndex == 0x1A) || (limbIndex == 0x1B)) {
+    } else if ((limbIndex == 26) || (limbIndex == 27)) {
         if ((this->unk_2FA & 1)) {
             *dList = NULL;
         }
-    } else if ((limbIndex == 0x1C) || (limbIndex == 0x1D)) {
+    } else if ((limbIndex == 28) || (limbIndex == 29)) {
         if (!(this->unk_2FA & 1)) {
             *dList = NULL;
         }
@@ -808,7 +808,7 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (this->unk_2FB & 1) {
         func_80032F54(&this->unk_308, limbIndex, 0x1A, 0x1B, 0x1C, dList, -1);
     }
-    if (limbIndex == 0xC) {
+    if (limbIndex == 12) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1217),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->actor.params != 0) {
@@ -816,7 +816,7 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         } else {
             gSPDisplayList(POLY_XLU_DISP++, D_06016D88);
         }
-    } else if (limbIndex == 0x11) {
+    } else if (limbIndex == 17) {
         s32 i;
         Vec3f sp9C[3];
         Vec3f sp78[3];
@@ -847,24 +847,24 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 
     switch (limbIndex) {
-        case 0x16:
+        case 22:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1270),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016F88);
             break;
-        case 0x18:
+        case 24:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1275),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016EE8);
             break;
-        case 0x1A:
+        case 26:
             if (!(this->unk_2FA & 1)) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1281),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
             }
             break;
-        case 0x1B:
+        case 27:
             if (!(this->unk_2FA & 1)) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1100,7 +1100,7 @@ void func_80A774F8(EnIk* this, GlobalContext* globalCtx) {
 }
 
 s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    if ((limbIndex == 0xD) || (limbIndex == 0x1A) || (limbIndex == 0x1B)) {
+    if ((limbIndex == 13) || (limbIndex == 26) || (limbIndex == 27)) {
         if (EnIk_AnimCurrentFrame(actor) >= 30.0f) {
             *dList = NULL;
         }
@@ -1115,7 +1115,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 207);
 
     switch (limbIndex) {
-        case 0xD:
+        case 13:
             if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
                 s32 pad;
 
@@ -1124,17 +1124,17 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                 gSPDisplayList(POLY_XLU_DISP++, D_06016D88);
             }
             break;
-        case 0x16:
+        case 22:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 274),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016F88);
             break;
-        case 0x18:
+        case 24:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 280),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016EE8);
             break;
-        case 0x1A:
+        case 26:
             if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
                 s32 pad;
 
@@ -1143,7 +1143,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                 gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
             }
             break;
-        case 0x1B:
+        case 27:
             if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
                 s32 pad;
 
@@ -1255,7 +1255,7 @@ s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     f32 animCurrentFrame;
 
     switch (limbIndex) {
-        case 0x11:
+        case 17:
             animCurrentFrame = this->skelAnime.animCurrentFrame;
             if (animCurrentFrame < 120.0f) {
                 *dList = NULL;
@@ -1263,8 +1263,8 @@ s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                 func_80A76E2C(this, globalCtx, pos);
             }
             break;
-        case 0x1D:
-        case 0x1E:
+        case 29:
+        case 30:
             *dList = NULL;
             break;
     }
@@ -1278,27 +1278,27 @@ void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 571);
 
     switch (limbIndex) {
-        case 0xC:
+        case 12:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 575),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016D88);
             break;
-        case 0x16:
+        case 22:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 581),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016F88);
             break;
-        case 0x18:
+        case 24:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 587),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016EE8);
             break;
-        case 0x1A:
+        case 26:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 593),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
             break;
-        case 0x1B:
+        case 27:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inConfrontion.c", 599),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016CD8);
