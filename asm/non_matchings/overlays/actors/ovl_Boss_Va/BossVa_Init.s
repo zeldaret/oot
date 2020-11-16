@@ -254,10 +254,10 @@ glabel L80950024
 /* 00E80 80950140 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
 /* 00E84 80950144 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
 /* 00E88 80950148 340EFFFF */  ori     $t6, $zero, 0xFFFF         ## $t6 = 0000FFFF
-/* 00E8C 8095014C 3C018096 */  lui     $at, %hi(D_8096693E)       ## $at = 80960000
+/* 00E8C 8095014C 3C018096 */  lui     $at, %hi(sPhase2Timer)       ## $at = 80960000
 /* 00E90 80950150 31F80040 */  andi    $t8, $t7, 0x0040           ## $t8 = 00000000
 /* 00E94 80950154 1300008F */  beq     $t8, $zero, .L80950394
-/* 00E98 80950158 A42E693E */  sh      $t6, %lo(D_8096693E)($at)
+/* 00E98 80950158 A42E693E */  sh      $t6, %lo(sPhase2Timer)($at)
 /* 00E9C 8095015C 24190008 */  addiu   $t9, $zero, 0x0008         ## $t9 = 00000008
 /* 00EA0 80950160 3C018096 */  lui     $at, %hi(sCsState)       ## $at = 80960000
 /* 00EA4 80950164 A03968D2 */  sb      $t9, %lo(sCsState)($at)

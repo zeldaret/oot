@@ -714,20 +714,46 @@ void func_800D1FD4(MtxF* mf) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp;
 
-    temp = sqrtf(SQ(cmf->xx) + SQ(cmf->xy) + SQ(cmf->xz));
+    temp = cmf->xx;
+    temp *= temp;
+    // temp = SQ(cmf->xx);
+    temp += SQ(cmf->xy);
+    temp += SQ(cmf->xz);
+    temp = sqrtf(temp);
+    // temp = sqrtf(SQ(cmf->xx) + SQ(cmf->xy) + SQ(cmf->xz));
     cmf->xx = mf->xx * temp;
     cmf->xy = mf->xy * temp;
     cmf->xz = mf->xz * temp;
 
-    temp = sqrtf(SQ(cmf->yx) + SQ(cmf->yy) + SQ(cmf->yz));
-    cmf->yx = mf->yx * temp;
-    cmf->yy = mf->yy * temp;
-    cmf->yz = mf->yz * temp;
+    temp = cmf->yx;
+    temp *= temp;
+    // temp = SQ(cmf->xx);
+    temp += SQ(cmf->yy);
+    temp += SQ(cmf->yz);
+    // temp = sqrtf(SQ(cmf->xx) + SQ(cmf->xy) + SQ(cmf->xz));
+    cmf->yx = mf->yx * sqrtf(temp);
+    cmf->yy = mf->yy * sqrtf(temp);
+    cmf->yz = mf->yz * sqrtf(temp);
 
-    temp = sqrtf(SQ(cmf->zx) + SQ(cmf->zy) + SQ(cmf->zz));
-    cmf->zx = mf->zx * temp;
-    cmf->zy = mf->zy * temp;
-    cmf->zz = mf->zz * temp;
+    temp = cmf->zx;
+    temp *= temp;
+    // temp = SQ(cmf->xx);
+    temp += SQ(cmf->zy);
+    temp += SQ(cmf->zz);
+    // temp = sqrtf(SQ(cmf->xx) + SQ(cmf->xy) + SQ(cmf->xz));
+    cmf->zx = mf->zx * sqrtf(temp);
+    cmf->zy = mf->zy * sqrtf(temp);
+    cmf->zz = mf->zz * sqrtf(temp);
+
+    // temp = sqrtf(SQ(cmf->yx) + SQ(cmf->yy) + SQ(cmf->yz));
+    // cmf->yx = mf->yx * temp;
+    // cmf->yy = mf->yy * temp;
+    // cmf->yz = mf->yz * temp;
+
+    // temp = sqrtf(SQ(cmf->zx) + SQ(cmf->zy) + SQ(cmf->zz));
+    // cmf->zx = mf->zx * temp;
+    // cmf->zy = mf->zy * temp;
+    // cmf->zz = mf->zz * temp;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D1FD4.s")
@@ -761,22 +787,41 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
 #ifdef NON_MATCHING
 // same differences as func_800D20CC
 void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
-    vec->y = Math_atan2f(-mf->xz, sqrtf(SQ(mf->xx) + SQ(mf->xy))) * (32768 / M_PI);
+    f32 temp;
+    f32 temp2;
+    f32 temp3;
+    f32 temp4;
+    f32 temp5;
+    f32 temp6;
+
+    temp2 = mf->xx;
+    temp2 *= temp2;
+    temp2 += SQ(mf->xy);
+    vec->y = Math_atan2f(-mf->xz, sqrtf(temp2)) * (32768 / M_PI);
 
     if ((vec->y == 0x4000) || (vec->y == -0x4000)) {
         vec->x = 0;
         vec->z = Math_atan2f(-mf->yx, mf->yy) * (32768 / M_PI);
-        return;
-    }
-
-    vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
-
-    if (!flag) {
-        vec->x = Math_atan2f(mf->yz, mf->zz) * (32768 / M_PI);
     } else {
-        vec->x = Math_atan2f(mf->yz / sqrtf(SQ(mf->yx) + SQ(mf->yy) + SQ(mf->yz)),
-                             mf->zz / sqrtf(SQ(mf->zx) + SQ(mf->zy) + SQ(mf->zz))) *
-                 (32768 / M_PI);
+
+        vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
+
+        if (!flag) {
+            vec->x = Math_atan2f(mf->yz, mf->zz) * (32768 / M_PI);
+        } else {
+            temp = mf->yx;
+            temp *= temp;
+            temp += SQ(mf->yy);
+            temp += SQ(mf->yz);
+            temp = mf->yz / sqrtf(temp);
+            if(1){}
+            temp2 = mf->zx;
+            temp2 *= temp2;
+            temp2 += SQ(mf->zy);
+            temp2 += SQ(mf->zz);
+            temp2 = mf->zz / sqrtf(temp2);
+            vec->x = Math_atan2f(temp, temp2) * (32768 / M_PI);
+        }
     }
 }
 #else

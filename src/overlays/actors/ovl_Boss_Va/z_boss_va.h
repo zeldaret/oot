@@ -21,7 +21,7 @@ typedef struct BossVaEffect{
     /* 0x40 */ f32 scale;
     /* 0x44 */ f32 unk_44;
     /* 0x48 */ Vec3f unk_48;
-    /* 0x54 */ struct BossVa* unk_54;
+    /* 0x54 */ struct BossVa* parent;
 } BossVaEffect; // size = 0x58
 
 typedef struct BossVa {
@@ -54,12 +54,12 @@ typedef struct BossVa {
     /* 0x01F2 */ s16 unk_1F2;
     /* 0x01F4 */ s16 unk_1F4;
     /* 0x01F6 */ Vec3s unk_1F6;
-    /* 0x01FC */ Vec3f unk_1FC[10];
+    /* 0x01FC */ Vec3f effectPos[10];
     /* 0x0274 */ Vec3f unk_274;
     /* 0x0280 */ Vec3f unk_280;
     /* 0x028C */ ColliderCylinder collider1;
     /* 0x02D8 */ ColliderJntSph collider2;
-    /* 0x02F8 */ ColliderJntSphItem unk_2F8[1];
+    /* 0x02F8 */ ColliderJntSphItem elements[1];
     /* 0x0338 */ ColliderQuad collider3;
 } BossVa; // size = 0x03B8
 
