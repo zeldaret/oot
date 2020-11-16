@@ -4,10 +4,10 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define SIDE_EAST 1
-#define SIDE_WEST 2
-#define SIDE_SOUTH 4
-#define SIDE_NORTH 8
+#define SIDE_EAST (1 << 0)
+#define SIDE_WEST (1 << 1)
+#define SIDE_SOUTH (1 << 2)
+#define SIDE_NORTH (1 << 3)
 #define SIDE_ALL (SIDE_EAST | SIDE_WEST | SIDE_SOUTH | SIDE_NORTH)
 
 typedef enum { FLASH_NONE, FLASH_GROW, FLASH_SHRINK } FlashState;

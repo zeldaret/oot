@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_ganon_otyuka.h"
-#include "../ovl_Boss_Ganon/z_boss_ganon.h"
+#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "vt.h"
 
 #define FLAGS 0x00000030
