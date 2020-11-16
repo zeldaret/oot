@@ -88,7 +88,7 @@ Vec3f D_808974DC[] = {
     { -30.0f, 21.3000011f, -2.5f }, { 12.0f, 21.3000011f, -2.5f },
 };
 
-UNK_TYPE D_80897518[] = { 0x00000080, 0x000000A0, 0x000000A0, 0x00000080 };
+s32 D_80897518[] = { 0x00000080, 0x000000A0, 0x000000A0, 0x00000080 };
 
 extern InitChainEntry D_80897528[];
 // D_80897528
@@ -272,12 +272,11 @@ void func_80895EF0(BgJyaCobra* this) {
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
-    s32 temp_f18;
     u8* temp_s2;
-    s32 temp_t0;
-    s32 phi_t3;
-    s32 phi_v1;
-    s32 phi_a1;
+    s32 temp_x;
+    s32 temp_z;
+    s32 x;
+    s32 z;
     s32 i;
     s32 j;
     s32 k;
@@ -300,24 +299,19 @@ void func_80895EF0(BgJyaCobra* this) {
             spC8.y = D_808973A4[i].y + (spD4.y * j);
             spC8.z = D_808973A4[i].z + (spD4.z * j);
             Matrix_MultVec3f(&spC8, &spBC);
-            temp_f18 = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
-            phi_t3 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 5;
-            temp_t0 = phi_t3 << 6;
-            for (k = 0; k != 0xB; k++) {
-                if ((phi_t3 & ~0x3F) == 0) {
-                    for (l = 0; l < 11; l++)
-                    {
-                        if (!((temp_f18 - 5 + l) & ~0x3F)) {
-                            temp_s2[temp_t0 + (temp_f18 - 5 + l)] |= D_8089731C[((((k * 4) - k) * 4) - k) + l];
+            x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
+            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 5;
+            temp_z = z << 6;
+            for (k = 0; k != 11; k++) {
+                if ((z & ~0x3F) == 0) {
+                    for (l = 0; l < 11; l++) {
+                        temp_x = (x - 5 + l);
+                        if (!(temp_x & ~0x3F)) {
+                            temp_s2[temp_z + temp_x] |= D_8089731C[((((k * 4) - k) * 4) - k) + l];
                         }
                     }
-                    // temp_v1 = temp_f18 - 5;
-                    // if ((temp_v1 & ~0x3F) == 0) {
-                    //     temp_v0 = (temp_t0 + temp_v1) + temp_s2;
-                    //     *temp_v0 = (u8)(*temp_v0 | *(D_8089731C + ((((k * 4) - k) * 4) - k)));
-                    // }
                 }
-                phi_t3 = phi_t3 + 1;
+                z = z + 1;
             }
         }
     }
@@ -332,31 +326,32 @@ void func_80895EF0(BgJyaCobra* this) {
             spC8.y = D_808974DC[i].y + (spD4.y * j);
             spC8.z = D_808974DC[i].z + (spD4.z * j);
             Matrix_MultVec3f(&spC8, &spBC);
-            phi_v1 = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f) - 1;
-            phi_a1 = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 1;
+            x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
+            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 1;
             for (k = 0; k < 3; k++) {
-                temp_t0 = phi_a1 << 6;
-                if ((phi_a1 & ~0x3F) == 0) {
+                if ((z & ~0x3F) == 0) {
+                    temp_z = z << 6;
+                    temp_x = x - 1;
                     for (l = 0; l != 3; l++) {
-                        if (!(phi_v1 & ~0x3F)) {
-                            temp_s2[temp_t0 + phi_v1] |= D_80897398[((k * 4) - k) + l];
+                        if (!(temp_x & ~0x3F)) {
+                            temp_s2[temp_z + temp_x] |= D_80897398[((k * 4) - k) + l];
                         }
-                        phi_v1 = phi_v1 + 1;
+                        temp_x++;
                     }
                 }
-                phi_a1 = phi_a1 + 1;
+                z = z + 1;
             }
         }
     }
 
-    for(j = 0; j != 0x40; j++) {
-        temp_s2[j] = 0;
-        temp_s2[j + 0xFC0] = 0;
+    for(i = 0; i != 0x40; i++) {
+        temp_s2[i] = 0;
+        temp_s2[i + 0xFC0] = 0;
     }
 
-    for (i = 0x40; i != 0xFC0; i += 0x40) {
-        temp_s2[i + 0x0] = 0;
-        temp_s2[i + 0x3F] = 0;
+    for (j = 0x40; j != 0xFC0; j += 0x40) {
+        temp_s2[j + 0x0] = 0;
+        temp_s2[j + 0x3F] = 0;
     }
 }
 
@@ -617,7 +612,7 @@ void func_80896EE4(BgJyaCobra* this, GlobalContext* globalCtx) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 120);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetTextureImage(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ALIGN16((s32)&this->unk_194));
+    gDPSetTextureImage(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, ALIGN16((s32) & this->unk_194));
     gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
     gDPLoadSync(POLY_XLU_DISP++);
