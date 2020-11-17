@@ -142,11 +142,11 @@ static s16 sEffectTypeObjects[] = {
 
 static u8 sTimewarpVertexSizeIndices[] = { 1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2, 1, 0, 1, 0, 2, 0, 2, 2, 0 };
 
-Color_RGB8 sJewelSparkleColors[5][2] = { { { 255, 255, 255 }, { 100, 255, 0 } },
-                                        { { 255, 255, 255 }, { 200, 0, 150 } },
-                                        { { 255, 255, 255 }, { 0, 100, 255 } },
-                                        { { 0, 0, 0 }, { 0, 0, 0 } },
-                                        { { 223, 0, 0 }, { 0, 0, 0 } } };
+Color_RGB8 sJewelSparkleColors[5][2] = {
+    { { 255, 255, 255 }, { 100, 255, 0 } }, { { 255, 255, 255 }, { 200, 0, 150 } },
+    { { 255, 255, 255 }, { 0, 100, 255 } }, { { 0, 0, 0 }, { 0, 0, 0 } },
+    { { 223, 0, 0 }, { 0, 0, 0 } },
+};
 
 /**
  * Sets up the update function.
@@ -221,8 +221,9 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf(VT_SGR("36") " no = %d\n" VT_SGR(""), effectType);
 
-    objectIndex =
-        sEffectTypeObjects[effectType] == 1 ? 0 : Object_GetIndex(&globalCtx->objectCtx, sEffectTypeObjects[effectType]);
+    objectIndex = sEffectTypeObjects[effectType] == 1
+                      ? 0
+                      : Object_GetIndex(&globalCtx->objectCtx, sEffectTypeObjects[effectType]);
 
     osSyncPrintf(VT_SGR("36") " bank_ID = %d\n" VT_SGR(""), objectIndex);
 
@@ -1881,8 +1882,8 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
         gSPSegment(POLY_XLU_DISP++, 9,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 96, 1, (scroll * 10) % 256,
                                     256 - ((scroll * 30) % 512) - 1, 8, 32));
-        gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, this->primXluColor[0], this->primXluColor[1],
-                        this->primXluColor[2], 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, this->primXluColor[0], this->primXluColor[1], this->primXluColor[2],
+                        255);
         gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
         func_80093D84(globalCtx->state.gfxCtx);
         Matrix_Push();
@@ -1934,8 +1935,7 @@ void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
                             this->primXluColor[2], *opacity);
             gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
-            Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
-                         ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
+            Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f, ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
                          ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
