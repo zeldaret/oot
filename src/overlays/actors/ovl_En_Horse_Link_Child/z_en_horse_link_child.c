@@ -53,8 +53,8 @@ extern SkeletonHeader D_06007B20;
 void func_80A693D0(EnHorseLinkChild* this) {
     static s32 D_80A6AF5C[] = { 1, 19 };
 
-    if ((D_80A6AF5C[this->unk_1F0] < this->skin.skelAnime.animCurrentFrame) &&
-        !((this->unk_1F0 == 0) && (D_80A6AF5C[1] < this->skin.skelAnime.animCurrentFrame))) {
+    if ((this->skin.skelAnime.animCurrentFrame > D_80A6AF5C[this->unk_1F0]) &&
+        !((this->unk_1F0 == 0) && (this->skin.skelAnime.animCurrentFrame > D_80A6AF5C[1]))) {
         Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         this->unk_1F0++;
@@ -510,8 +510,9 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     }
 }
 
-static EnHorseLinkChildActionFunc D_80A6AF7C[] = { func_80A698F4, func_80A69C18, func_80A699FC,
-                                                   func_80A6A068, func_80A6A7D0, func_80A6A5A4 };
+static EnHorseLinkChildActionFunc sActionFuncs[] = {
+    func_80A698F4, func_80A69C18, func_80A699FC, func_80A6A068, func_80A6A7D0, func_80A6A5A4,
+};
 static UNK_PTR D_80A6AF94[] = { 0x06001D28, 0x06001928, 0x06001B28 };
 static u8 D_80A6AFA0[] = { 0, 1, 2, 1 };
 
@@ -519,7 +520,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = THIS;
     s32 pad;
 
-    D_80A6AF7C[this->action](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
 
