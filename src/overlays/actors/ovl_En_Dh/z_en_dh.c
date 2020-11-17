@@ -203,7 +203,7 @@ void EnDh_Walk(EnDh* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if ((((s32)this->skelAnime.animCurrentFrame) % 8) == 0) {
+    if (((s32)this->skelAnime.animCurrentFrame % 8) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_WALK);
     }
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -228,7 +228,8 @@ void EnDh_SetupRetreat(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_Retreat(EnDh* this, GlobalContext* globalCtx) {
-    if (--this->timer == 0) {
+    this->timer--;
+    if (this->timer == 0) {
         this->retreat = false;
         EnDh_SetupBurrow(this);
     } else {
@@ -355,8 +356,6 @@ void EnDh_SetupDamage(EnDh* this) {
 }
 
 void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
-    f32 sp34;
-
     if (this->actor.speedXZ < 0.0f) {
         this->actor.speedXZ += 0.15f;
     }
@@ -366,9 +365,10 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
         if (this->retreat) {
             EnDh_SetupRetreat(this, globalCtx);
         } else if ((this->actor.xzDistFromLink <= 105.0f) && func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
-            sp34 = SkelAnime_GetFrameCount(&D_06004658.genericHeader);
+            f32 frames = SkelAnime_GetFrameCount(&D_06004658.genericHeader);
+
             EnDh_SetupAttack(this);
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f, sp34, 2, -6.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f, frames, 2, -6.0f);
         } else {
             EnDh_SetupWalk(this);
         }
@@ -393,7 +393,8 @@ void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
         if (this->timer == 300) {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600375C);
         }
-        if (--this->timer < 150) {
+        this->timer--;
+        if (this->timer < 150) {
             if (this->alpha != 0) {
                 this->actor.scale.y -= 0.000075f;
                 this->actor.shape.unk_14 = this->alpha -= 5;
@@ -416,7 +417,7 @@ void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
 void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
-    s32 sp2C;
+    s32 lastHealth;
 
     if ((this->collider2.base.acFlags & 2) && !this->retreat) {
         this->collider2.base.acFlags &= ~2;
@@ -427,14 +428,14 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
                 this->unk_258 = player->unk_845;
             }
             func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
-            sp2C = this->actor.colChkInfo.health;
+            lastHealth = this->actor.colChkInfo.health;
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDh_SetupDeath(this);
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x90);
             } else {
-                if (((sp2C >= 15) && (this->actor.colChkInfo.health < 15)) ||
-                    ((sp2C >= 9) && (this->actor.colChkInfo.health < 9)) ||
-                    ((sp2C >= 3) && (this->actor.colChkInfo.health < 3))) {
+                if (((lastHealth >= 15) && (this->actor.colChkInfo.health < 15)) ||
+                    ((lastHealth >= 9) && (this->actor.colChkInfo.health < 9)) ||
+                    ((lastHealth >= 3) && (this->actor.colChkInfo.health < 3))) {
 
                     this->retreat++;
                 }
@@ -476,13 +477,13 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
-    Vec3f sp1C = { 2000.0f, 1000.0f, 0.0f };
+    Vec3f headOffset = { 2000.0f, 1000.0f, 0.0f };
     EnDh* this = THIS;
 
     if (limbIndex == 13) {
-        Matrix_MultVec3f(&sp1C, &this->headPos);
+        Matrix_MultVec3f(&headOffset, &this->headPos);
         Matrix_Push();
-        Matrix_Translate(sp1C.x, sp1C.y, sp1C.z, MTXMODE_APPLY);
+        Matrix_Translate(headOffset.x, headOffset.y, headOffset.z, MTXMODE_APPLY);
         func_800628A4(1, &this->collider2);
         Matrix_Pull();
     }
