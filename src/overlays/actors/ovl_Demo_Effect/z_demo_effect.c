@@ -440,7 +440,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_CRYSTAL_LIGHT);
 
-            if (crystalLight) {
+            if (crystalLight != NULL) {
                 Actor_SetScale(&crystalLight->actor, 0.6f);
             }
 
@@ -448,7 +448,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 &globalCtx2->actorCtx, &crystalLight->actor, globalCtx2, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_LIGHTRING_TRIFORCE);
 
-            if (lightRing) {
+            if (lightRing != NULL) {
                 Actor_SetScale(&lightRing->actor, 0.4f);
             }
             break;
@@ -524,7 +524,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
-            if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & 32)) {
+            if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & (1 << 5))) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -578,7 +578,7 @@ void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
  * Copies the current Actor's position to the parent Actor's position.
  */
 void DemoEffect_UpdatePositionToParent(DemoEffect* this, GlobalContext* globalCtx) {
-    if (this->actor.parent) {
+    if (this->actor.parent != NULL) {
         // Struct copy affects regalloc
         this->actor.posRot.pos.x = this->actor.parent->posRot.pos.x;
         this->actor.posRot.pos.y = this->actor.parent->posRot.pos.y;
@@ -646,7 +646,7 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
 void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0) {
         if (this->getItem.isPositionInit) {
             DemoEffect_MoveGetItem(this, globalCtx, this->csActionId, 0.1f);
         } else {
@@ -744,7 +744,6 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     SkelCurve_Update(globalCtx, &this->skelCurve);
     this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
     osSyncPrintf(VT_SGR("36") " 通常 バージョン \n" VT_SGR(""));
-    // Necessary to match
     if (1) {}
 }
 
@@ -782,7 +781,7 @@ void DemoEffect_TimewarpShrink(f32 size) {
     sizes[2] = (s32)(255.0f * size);
 
     for (i = 0; i < 21; i++) {
-        if (sTimewarpVertexSizeIndices[i]) {
+        if (sTimewarpVertexSizeIndices[i] != 0) {
             (vertices + i)->v.cn[3] = sizes[sTimewarpVertexSizeIndices[i]];
         }
     }
@@ -866,7 +865,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
 void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
     this->triforceSpot.rotation += 0x03E8;
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
@@ -951,14 +950,14 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, GlobalContext* globalC
 
     DemoEffect_UpdatePositionToParent(this, globalCtx);
 
-    if (globalCtx->csCtx.state) {
-        if (globalCtx->csCtx.npcActions[this->csActionId] &&
+    if (globalCtx->csCtx.state != 0) {
+        if (globalCtx->csCtx.npcActions[this->csActionId] != 0 &&
             globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
             blueOrb = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT,
                                                this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                                this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
 
-            if (blueOrb) {
+            if (blueOrb != NULL) {
                 Actor_SetScale(&blueOrb->actor, 0.0f);
             }
 
@@ -980,7 +979,7 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCt
     Actor_MoveForward(&this->actor);
     this->actor.speedXZ = this->actor.speedXZ + (this->actor.gravity * 0.5f);
 
-    if (this->fireBall.timer) {
+    if (this->fireBall.timer != 0) {
         this->fireBall.timer--;
         return;
     }
@@ -988,21 +987,21 @@ void DemoEffect_UpdateCreationFireball(DemoEffect* this, GlobalContext* globalCt
     effect =
         (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                                  this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
-    if (effect) {
+    if (effect != NULL) {
         Actor_SetScale(&effect->actor, 0.0f);
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                       DEMO_EFFECT_LIGHTRING_EXPANDING);
-    if (effect) {
+    if (effect != NULL) {
         Actor_SetScale(&effect->actor, 0.1f);
     }
 
     effect = (DemoEffect*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
                                       DEMO_EFFECT_LIGHTRING_SHRINKING);
-    if (effect) {
+    if (effect != NULL) {
         Actor_SetScale(&effect->actor, 0.2f);
     }
 
@@ -1037,7 +1036,7 @@ void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx) 
     this->blueOrb.opacity = this->blueOrb.scale * 16;
     this->blueOrb.scale--;
     Actor_SetScale(&this->actor, this->actor.scale.x * 0.9f);
-    if (!this->blueOrb.scale) {
+    if (this->blueOrb.scale == 0) {
         Actor_Kill(&this->actor);
     }
 }
@@ -1050,7 +1049,7 @@ void DemoEffect_UpdateBlueOrbShrink(DemoEffect* this, GlobalContext* globalCtx) 
  * When the scale timer value reaches 0 the Blue Orb's Update Function changes to UpdateBlueOrbShrink.
  */
 void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, GlobalContext* globalCtx) {
-    if (this->actor.parent) {
+    if (this->actor.parent != NULL) {
         // s32 cast necessary to match codegen. Without the explicit cast to u32 the compiler generates complex cast of
         // u8 to float
         Actor_SetScale(&this->actor,
@@ -1059,7 +1058,7 @@ void DemoEffect_UpdateBlueOrbGrow(DemoEffect* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, (5.0f - (s32)this->blueOrb.scale) * 0.01f);
     }
 
-    if (this->blueOrb.scale) {
+    if (this->blueOrb.scale != 0) {
         this->blueOrb.scale--;
     } else {
         this->blueOrb.scale = 15;
@@ -1078,7 +1077,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
 
     isLargeSize = GET_LIGHT_SIZE_PARAM(&this->actor);
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
@@ -1121,12 +1120,11 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
             }
 
-            // Necessary to match
             if (0) {}
         }
 
         if (globalCtx->sceneNum == SCENE_SPOT08 && gSaveContext.sceneSetupIndex == 4) {
-            if (DemoEffect_CheckCsAction(this, globalCtx, 1) == 0) {
+            if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_LIGHT_GATHER - SFX_FLAG);
             }
             if (globalCtx->csCtx.frames == 648) {
@@ -1180,7 +1178,7 @@ void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* fireBall;
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
@@ -1188,7 +1186,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
                                                        this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                                        this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_FIRE_BALL);
 
-            if (fireBall) {
+            if (fireBall != NULL) {
                 fireBall->initUpdateFunc = DemoEffect_InitCreationFireball;
                 Actor_SetScale(&fireBall->actor, 0.020f);
             }
@@ -1230,11 +1228,11 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lightRing;
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
-            if (this->godLgt.lightRingSpawnTimer) {
+            if (this->godLgt.lightRingSpawnTimer != 0) {
                 this->godLgt.lightRingSpawnTimer--;
             } else {
                 this->godLgt.lightRingSpawnTimer = this->godLgt.lightRingSpawnDelay;
@@ -1243,7 +1241,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
                     this->actor.posRot.pos.y, this->actor.posRot.pos.z, this->actor.posRot.rot.x + 0x4000,
                     this->actor.posRot.rot.y, this->actor.posRot.rot.z, DEMO_EFFECT_LIGHTRING_EXPANDING);
 
-                if (lightRing) {
+                if (lightRing != NULL) {
                     Actor_SetScale(&lightRing->actor, 1.0f);
                 }
             }
@@ -1291,7 +1289,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
     DemoEffect* lgtShower;
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 1);
 
         if (globalCtx->csCtx.npcActions[this->csActionId]->action == 3) {
@@ -1299,7 +1297,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                 this->actor.posRot.pos.y - 150.0f, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_LGT_SHOWER);
 
-            if (lgtShower) {
+            if (lgtShower != NULL) {
                 lgtShower->actor.scale.x = 0.23f;
                 lgtShower->actor.scale.y = 0.15f;
                 lgtShower->actor.scale.z = 0.23f;
@@ -1567,7 +1565,7 @@ void DemoEffect_PlayJewelSfx(DemoEffect* this, GlobalContext* globalCtx) {
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
         if (this->actor.params == sSfxJewelId[0]) {
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
-        } else if (!sSfxJewelId[0]) {
+        } else if (sSfxJewelId[0] == 0) {
             sSfxJewelId[0] = this->actor.params;
             func_8002F974(&this->actor, NA_SE_EV_SPIRIT_STONE - SFX_FLAG);
         }
@@ -1660,7 +1658,7 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
     Vec3f velocity;
     Vec3f accel;
 
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId] &&
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0 &&
         globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
         pos = this->actor.posRot.pos;
 
@@ -1694,7 +1692,7 @@ void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx) {
  * Check if the current cutscene action matches the passed in cutscene action ID.
  */
 s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csActionCompareId) {
-    if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId] &&
+    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->csActionId] != 0 &&
         globalCtx->csCtx.npcActions[this->csActionId]->action == csActionCompareId) {
         return 1;
     }
@@ -1713,7 +1711,6 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2543);
 
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
-        // Necessary to match
         if (1) {}
 
         if (!(this->effectFlags & (1 << 0))) {
@@ -1740,7 +1737,6 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
                     break;
             }
 
-            // Necessary to match
             if (!scroll) {}
 
             gSPSegment(POLY_OPA_DISP++, 8, Gfx_TexScroll(globalCtx->state.gfxCtx, (u8)scroll, (u8)scroll, 16, 16));
@@ -1779,7 +1775,7 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2634);
 
-    if (parent) {
+    if (parent != NULL) {
         gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 170, parent->triforceSpot.crystalLightOpacity);
     } else {
         gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 170, 255);
@@ -2043,7 +2039,7 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
             Matrix_Pull();
         }
 
-        if (this->triforceSpot.triforceSpotOpacity) {
+        if (this->triforceSpot.triforceSpotOpacity != 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRIFORCE - SFX_FLAG);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3042),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
