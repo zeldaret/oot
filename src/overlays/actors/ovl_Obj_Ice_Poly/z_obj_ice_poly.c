@@ -44,14 +44,14 @@ static ColliderCylinderInit sCylinderInitHard = {
     { 50, 120, 0, { 0, 0, 0 } },
 };
 
-static f32 sScale[] = {0.5f, 1.0f, 1.5f};
+static f32 sScale[] = { 0.5f, 1.0f, 1.5f };
 static s16 sOffsetY[] = { -25, 0, -20 };
-static Color_RGBA8 sColorWhite = {250, 250, 250, 255};
-static Color_RGBA8 sColorGray = {180, 180, 180, 255};
+static Color_RGBA8 sColorWhite = { 250, 250, 250, 255 };
+static Color_RGBA8 sColorGray = { 180, 180, 180, 255 };
 
-void ObjIcePoly_Init(Actor *thisx, GlobalContext *globalCtx) {
+void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjIcePoly* this = THIS;
-    
+
     this->unk_151 = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     if (thisx->params < 0 || thisx->params >= 3) {
@@ -76,7 +76,7 @@ void ObjIcePoly_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->actionFunc = ObjIcePoly_Idle;
 }
 
-void ObjIcePoly_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjIcePoly* this = THIS;
 
@@ -86,8 +86,8 @@ void ObjIcePoly_Destroy(Actor* thisx, GlobalContext *globalCtx) {
     }
 }
 
-void ObjIcePoly_Idle(ObjIcePoly *this, GlobalContext *globalCtx) {
-    static Vec3f zeroVec = {0.0f, 0.0f, 0.0f};
+void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 pad;
     Vec3f pos;
 
@@ -105,15 +105,17 @@ void ObjIcePoly_Idle(ObjIcePoly *this, GlobalContext *globalCtx) {
     } else {
         Actor_Kill(&this->actor);
     }
-    pos.x = this->actor.posRot.pos.x + this->actor.scale.x * (Math_Rand_S16Offset(15, 15) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.x = this->actor.posRot.pos.x +
+            this->actor.scale.x * (Math_Rand_S16Offset(15, 15) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
     pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Math_Rand_S16Offset(10, 90);
-    pos.z = this->actor.posRot.pos.z + this->actor.scale.z * (Math_Rand_S16Offset(15, 15) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.z = this->actor.posRot.pos.z +
+            this->actor.scale.z * (Math_Rand_S16Offset(15, 15) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
     if ((globalCtx->gameplayFrames % 7) == 0) {
-        EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &zeroVec, &zeroVec, &sColorWhite, &sColorGray, 0x7D0, 5);
+        EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &zeroVec, &zeroVec, &sColorWhite, &sColorGray, 2000, 5);
     }
 }
 
-void ObjIcePoly_Melt(ObjIcePoly *this, GlobalContext *globalCtx) {
+void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx) {
     Vec3f accel;
     Vec3f vel;
     Vec3f pos;
@@ -126,11 +128,14 @@ void ObjIcePoly_Melt(ObjIcePoly *this, GlobalContext *globalCtx) {
     vel.y = this->actor.scale.y;
     vel.z = 0.0f;
 
-    for(i = 0; i < 2; i++) {
-        pos.x = this->actor.posRot.pos.x + this->actor.scale.x * (Math_Rand_S16Offset(20, 20) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
+    for (i = 0; i < 2; i++) {
+        pos.x = this->actor.posRot.pos.x +
+                this->actor.scale.x * (Math_Rand_S16Offset(20, 20) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
         pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Math_Rand_ZeroOne() * 50.0f;
-        pos.z = this->actor.posRot.pos.z + this->actor.scale.x * (Math_Rand_S16Offset(20, 20) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
-        func_8002829C(globalCtx, &pos, &vel, &accel, &sColorWhite, &sColorGray, Math_Rand_S16Offset(0x15E, 0x64) * this->actor.scale.x, this->actor.scale.x * 20.0f);
+        pos.z = this->actor.posRot.pos.z +
+                this->actor.scale.x * (Math_Rand_S16Offset(20, 20) * (Math_Rand_ZeroOne() < 0.5f ? -1 : 1));
+        func_8002829C(globalCtx, &pos, &vel, &accel, &sColorWhite, &sColorGray,
+                      Math_Rand_S16Offset(0x15E, 0x64) * this->actor.scale.x, this->actor.scale.x * 20.0f);
     }
     if (this->meltTimer < 0) {
         if (this->actor.parent != NULL) {
@@ -153,14 +158,14 @@ void ObjIcePoly_Melt(ObjIcePoly *this, GlobalContext *globalCtx) {
     }
 }
 
-void ObjIcePoly_Update(Actor* thisx, GlobalContext *globalCtx) {
+void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjIcePoly* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-void ObjIcePoly_Draw(ObjIcePoly *thisx, GlobalContext *globalCtx) {
+void ObjIcePoly_Draw(ObjIcePoly* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjIcePoly* this = THIS;
 
@@ -169,8 +174,11 @@ void ObjIcePoly_Draw(ObjIcePoly *thisx, GlobalContext *globalCtx) {
     func_8002ED80(&this->actor, globalCtx, 0);
     Matrix_RotateRPY(0x500, 0, -0x500, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 428), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(POLY_XLU_DISP++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->gameplayFrames % 0x100, 0x20, 0x10, 1, 0, (globalCtx->gameplayFrames * 2) % 0x100, 0x40, 0x20));
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 428),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->gameplayFrames % 0x100, 0x20, 0x10, 1, 0,
+                                (globalCtx->gameplayFrames * 2) % 0x100, 0x40, 0x20));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->alpha);
     gSPDisplayList(POLY_XLU_DISP++, D_04033EE0);
 
