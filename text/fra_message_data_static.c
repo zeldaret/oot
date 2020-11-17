@@ -1,7 +1,8 @@
+#define MESSAGE_DATA_STATIC
+
 #include "message_data_fmt.h"
 
 #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     const char _message_##textId##_fra[sizeof(fraMessage)] = { fraMessage END };
-#define DECLARE_MESSAGE_END()
 
 #include "declare_messages.enc.h"

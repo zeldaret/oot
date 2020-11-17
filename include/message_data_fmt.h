@@ -1,127 +1,140 @@
 #ifndef _MESSAGE_DATA_FMT_H_
 #define _MESSAGE_DATA_FMT_H_
 
-/**********************************************\
+/*
+ * Macros to create both a constant and a string literal from a magic value
+ *   The constants are used in code files when parsing text for various purposes
+ *   the strings are used in the message_data_static files themselves, as you can only concat strings with other strings
+ */
+
+#define GLUE(a, b) a##b
+
+#define STRINGIFY(s) #s
+#define EXPAND_AND_STRINGIFY(s) STRINGIFY(s)
+
+#define HEX(N) GLUE(0x, N)
+#define STR(N) EXPAND_AND_STRINGIFY(GLUE(\x, N))
+
+/*
+ * Text control codes
+ */
+
+// Control code magic values, in 2-digit hex without prefix
+
+#define MAGIC_NEWLINE                 01
+#define MAGIC_END                     02
+#define MAGIC_BOX_BREAK               04
+#define MAGIC_COLOR                   05
+#define MAGIC_SHIFT                   06
+#define MAGIC_TEXTID                  07
+#define MAGIC_QUICKTEXT_ENABLE        08
+#define MAGIC_QUICKTEXT_DISABLE       09
+#define MAGIC_PERSISTENT              0A
+#define MAGIC_EVENT                   0B
+#define MAGIC_BOX_BREAK_DELAYED       0C
+#define MAGIC_AWAIT_BUTTON_PRESS      0D
+#define MAGIC_FADE                    0E
+#define MAGIC_NAME                    0F
+#define MAGIC_OCARINA                 10
+#define MAGIC_FADE2                   11
+#define MAGIC_SFX                     12
+#define MAGIC_ITEM_ICON               13
+#define MAGIC_TEXT_SPEED              14
+#define MAGIC_BACKGROUND              15
+#define MAGIC_MARATHON_TIME           16
+#define MAGIC_RACE_TIME               17
+#define MAGIC_POINTS                  18
+#define MAGIC_TOKENS                  19
+#define MAGIC_UNSKIPPABLE             1A
+#define MAGIC_TWO_CHOICE              1B
+#define MAGIC_THREE_CHOICE            1C
+#define MAGIC_FISH_INFO               1D
+#define MAGIC_HIGHSCORE               1E
+#define MAGIC_TIME                    1F
+
+/*
+ *  Colors
+ * The "Type" refers to the MessageBoxType of the textbox
  * 
- *   Control Codes
- * 
-\**********************************************/ 
+ * PAL      Default                 Type 1                  Type 5
+ * 40       White       #FFFFFF                             Black   #000000
+ * 41       Red         #FF3C3C     Orange      #FF7800
+ * 42       Green       #46FF50     Green       #46FF50
+ * 43       Blue        #505AFF     Blue        #506EFF
+ * 44       Light Blue  #64B4FF     Light Blue  #5AB4FF
+ * 45       Pink        #FF96B4     Purple      #D264FF
+ * 46       Yellow      #E1FF32     Yellow      #FFFF1E
+ * 47       Black       #000000
+ */ 
+
+#define COLOR_STR(N) EXPAND_AND_STRINGIFY(GLUE(\x4, N))
+
+// Color magic values, in single-digit hex without prefix
+
+// Default
+#define MAGIC_WHITE     0
+#define MAGIC_RED       1
+#define MAGIC_GREEN     2
+#define MAGIC_BLUE      3
+#define MAGIC_LIGHTBLUE 4
+#define MAGIC_PINK      5
+#define MAGIC_YELLOW    6
+#define MAGIC_BLACK     7
+
+// MessageBoxType BOX_WOODEN
+#define MAGIC_TYPE1_ORANGE    1
+#define MAGIC_TYPE1_GREEN     2
+#define MAGIC_TYPE1_BLUE      3
+#define MAGIC_TYPE1_LIGHTBLUE 4
+#define MAGIC_TYPE1_PURPLE    5
+#define MAGIC_TYPE1_YELLOW    6
+
+// MessageBoxType BOX_NONE_NO_SHADOW
+#define MAGIC_TYPE5_BLACK 0
+
+
+#ifdef MESSAGE_DATA_STATIC
+// For use in message_data_static files
 
 #define ARG(x) x
 
-/* For use in message_data_static files */
-
 // while a control code, newlines are handled in the charmap conversion 
-// stage to allow normal newline \n usage
-#define NEWLINE                 "\x01" 
-#define END                     "\x02"
-#define BOX_BREAK               "\x04"
-#define COLOR(x)                "\x05" ARG(x) // 1
-#define SHIFT(x)                "\x06" ARG(x) // 1
-#define TEXTID(x)               "\x07" ARG(x) // 2
-#define QUICKTEXT_ENABLE        "\x08"
-#define QUICKTEXT_DISABLE       "\x09"
-#define PERSISTENT              "\x0A"
-#define EVENT                   "\x0B"
-#define BOX_BREAK_DELAYED(x)    "\x0C" ARG(x) // 1
-#define AWAIT_BUTTON_PRESS      "\x0D"
-#define FADE(x)                 "\x0E" ARG(x) // 1
-#define NAME                    "\x0F"
-#define OCARINA                 "\x10"
-#define FADE2(x)                "\x11" ARG(x) // 2
-#define SFX(x)                  "\x12" ARG(x) // 2
-#define ITEM_ICON(x)            "\x13" ARG(x) // 1
-#define TEXT_SPEED(x)           "\x14" ARG(x) // 1
-#define BACKGROUND(x,y,z)       "\x15" ARG(x) ARG(y) ARG(z)
-#define MARATHON_TIME           "\x16"
-#define RACE_TIME               "\x17"
-#define POINTS                  "\x18"
-#define TOKENS                  "\x19"
-#define UNSKIPPABLE             "\x1A"
-#define TWO_CHOICE              "\x1B"
-#define THREE_CHOICE            "\x1C"
-#define FISH_INFO               "\x1D"
-#define HIGHSCORE(x)            "\x1E" ARG(x) // 1
-#define TIME                    "\x1F"
+// stage to allow normal newline \n usage in message_data_static files
+#define NEWLINE                 STR(MAGIC_NEWLINE)
+#define END                     STR(MAGIC_END)
+#define BOX_BREAK               STR(MAGIC_BOX_BREAK)
+#define COLOR(x)                STR(MAGIC_COLOR)                ARG(x) // 1
+#define SHIFT(x)                STR(MAGIC_SHIFT)                ARG(x) // 1
+#define TEXTID(x)               STR(MAGIC_TEXTID)               ARG(x) // 2
+#define QUICKTEXT_ENABLE        STR(MAGIC_QUICKTEXT_ENABLE)
+#define QUICKTEXT_DISABLE       STR(MAGIC_QUICKTEXT_DISABLE)
+#define PERSISTENT              STR(MAGIC_PERSISTENT)
+#define EVENT                   STR(MAGIC_EVENT)
+#define BOX_BREAK_DELAYED(x)    STR(MAGIC_BOX_BREAK_DELAYED)    ARG(x) // 1
+#define AWAIT_BUTTON_PRESS      STR(MAGIC_AWAIT_BUTTON_PRESS)
+#define FADE(x)                 STR(MAGIC_FADE)                 ARG(x) // 1
+#define NAME                    STR(MAGIC_NAME)
+#define OCARINA                 STR(MAGIC_OCARINA)
+#define FADE2(x)                STR(MAGIC_FADE2)                ARG(x) // 2
+#define SFX(x)                  STR(MAGIC_SFX)                  ARG(x) // 2
+#define ITEM_ICON(x)            STR(MAGIC_ITEM_ICON)            ARG(x) // 1
+#define TEXT_SPEED(x)           STR(MAGIC_TEXT_SPEED)           ARG(x) // 1
+#define BACKGROUND(x,y,z)       STR(MAGIC_BACKGROUND)           ARG(x) ARG(y) ARG(z)
+#define MARATHON_TIME           STR(MAGIC_MARATHON_TIME)
+#define RACE_TIME               STR(MAGIC_RACE_TIME)
+#define POINTS                  STR(MAGIC_POINTS)
+#define TOKENS                  STR(MAGIC_TOKENS)
+#define UNSKIPPABLE             STR(MAGIC_UNSKIPPABLE)
+#define TWO_CHOICE              STR(MAGIC_TWO_CHOICE)
+#define THREE_CHOICE            STR(MAGIC_THREE_CHOICE)
+#define FISH_INFO               STR(MAGIC_FISH_INFO)
+#define HIGHSCORE(x)            STR(MAGIC_HIGHSCORE)            ARG(x) // 1
+#define TIME                    STR(MAGIC_TIME)
 
-/* For use in code files */
-
-#define MESSAGE_NEWLINE                 '\x01' 
-#define MESSAGE_END                     '\x02'
-#define MESSAGE_BOX_BREAK               '\x04'
-#define MESSAGE_COLOR(x)                '\x05' ARG(x) // 1
-#define MESSAGE_SHIFT(x)                '\x06' ARG(x) // 1
-#define MESSAGE_TEXTID(x)               '\x07' ARG(x) // 2
-#define MESSAGE_QUICKTEXT_ENABLE        '\x08'
-#define MESSAGE_QUICKTEXT_DISABLE       '\x09'
-#define MESSAGE_PERSISTENT              '\x0A'
-#define MESSAGE_EVENT                   '\x0B'
-#define MESSAGE_BOX_BREAK_DELAYED(x)    '\x0C' ARG(x) // 1
-#define MESSAGE_AWAIT_BUTTON_PRESS      '\x0D'
-#define MESSAGE_FADE(x)                 '\x0E' ARG(x) // 1
-#define MESSAGE_NAME                    '\x0F'
-#define MESSAGE_OCARINA                 '\x10'
-#define MESSAGE_FADE2(x)                '\x11' ARG(x) // 2
-#define MESSAGE_SFX(x)                  '\x12' ARG(x) // 2
-#define MESSAGE_ITEM_ICON(x)            '\x13' ARG(x) // 1
-#define MESSAGE_TEXT_SPEED(x)           '\x14' ARG(x) // 1
-#define MESSAGE_BACKGROUND(x,y,z)       '\x15' ARG(x) ARG(y) ARG(z)
-#define MESSAGE_MARATHON_TIME           '\x16'
-#define MESSAGE_RACE_TIME               '\x17'
-#define MESSAGE_POINTS                  '\x18'
-#define MESSAGE_TOKENS                  '\x19'
-#define MESSAGE_UNSKIPPABLE             '\x1A'
-#define MESSAGE_TWO_CHOICE              '\x1B'
-#define MESSAGE_THREE_CHOICE            '\x1C'
-#define MESSAGE_FISH_INFO               '\x1D'
-#define MESSAGE_HIGHSCORE(x)            '\x1E' ARG(x) // 1
-#define MESSAGE_TIME                    '\x1F'
-
-/**********************************************\
- * 
- *   Colors
- * The "Type" refers to the MessageBoxType of the textbox
- * 
- * US/PAL  JP      Default                 Type 1                  Type 5
- * 40      0C00    White       #FFFFFF                             Black   #000000
- * 41      0C01    Red         #FF3C3C     Orange      #FF7800 
- * 42      0C02    Green       #46FF50     Green       #46FF50 
- * 43      0C03    Blue        #505AFF     Blue        #506EFF 
- * 44      0C04    Light Blue  #64B4FF     Light Blue  #5AB4FF 
- * 45      0C05    Pink        #FF96B4     Purple      #D264FF 
- * 46      0C06    Yellow      #E1FF32     Yellow      #FFFF1E 
- * 47      0C07    Black       #000000     
-\**********************************************/ 
-
-/** Default Type Colors */
-
-#define WHITE     "\x40"
-#define RED       "\x41"
-#define GREEN     "\x42"
-#define BLUE      "\x43"
-#define LIGHTBLUE "\x44"
-#define PINK      "\x45"
-#define YELLOW    "\x46"
-#define BLACK     "\x47"
-
-/** Type 1 Colors */
-
-#define TYPE1_ORANGE    "\x41"
-#define TYPE1_GREEN     "\x42"
-#define TYPE1_BLUE      "\x43"
-#define TYPE1_LIGHTBLUE "\x44"
-#define TYPE1_PURPLE    "\x45"
-#define TYPE1_YELLOW    "\x46"
-
-/** Type 5 Colors */
-
-#define TYPE5_BLACK "\x40"
-
-/**********************************************\
- * 
- *   Highscores
- * 
-\**********************************************/ 
+/*
+ * Highscore values as strings, for code references the Highscores
+ * enum should be used.
+ */
 
 #define HIGHSCORE_HORSE_ARCHERY "\x00"
 #define HIGHSCORE_POE_POINTS    "\x01"
@@ -129,5 +142,61 @@
 #define HIGHSCORE_HORSE_RACE    "\x03"
 #define HIGHSCORE_MARATHON      "\x04"
 #define HIGHSCORE_DAMPE_RACE    "\x06"
+
+/*
+ * Color values as strings
+ */
+
+#define WHITE       COLOR_STR(MAGIC_WHITE)
+#define RED         COLOR_STR(MAGIC_RED)
+#define GREEN       COLOR_STR(MAGIC_GREEN)
+#define BLUE        COLOR_STR(MAGIC_BLUE)
+#define LIGHTBLUE   COLOR_STR(MAGIC_LIGHTBLUE)
+#define PINK        COLOR_STR(MAGIC_PINK)
+#define YELLOW      COLOR_STR(MAGIC_YELLOW)
+#define BLACK       COLOR_STR(MAGIC_BLACK)
+
+#define TYPE1_ORANGE    COLOR_STR(MAGIC_TYPE1_ORANGE)
+#define TYPE1_GREEN     COLOR_STR(MAGIC_TYPE1_GREEN)
+#define TYPE1_BLUE      COLOR_STR(MAGIC_TYPE1_BLUE)
+#define TYPE1_LIGHTBLUE COLOR_STR(MAGIC_TYPE1_LIGHTBLUE)
+#define TYPE1_PURPLE    COLOR_STR(MAGIC_TYPE1_PURPLE)
+#define TYPE1_YELLOW    COLOR_STR(MAGIC_TYPE1_YELLOW)
+
+#define TYPE5_BLACK COLOR_STR(MAGIC_TYPE5_BLACK)
+
+#else
+// For use in code files
+#define MESSAGE_NEWLINE                 HEX(MAGIC_NEWLINE)
+#define MESSAGE_END                     HEX(MAGIC_END)
+#define MESSAGE_BOX_BREAK               HEX(MAGIC_BOX_BREAK)
+#define MESSAGE_COLOR                   HEX(MAGIC_COLOR)
+#define MESSAGE_SHIFT                   HEX(MAGIC_SHIFT)
+#define MESSAGE_TEXTID                  HEX(MAGIC_TEXTID)
+#define MESSAGE_QUICKTEXT_ENABLE        HEX(MAGIC_QUICKTEXT_ENABLE)
+#define MESSAGE_QUICKTEXT_DISABLE       HEX(MAGIC_QUICKTEXT_DISABLE)
+#define MESSAGE_PERSISTENT              HEX(MAGIC_PERSISTENT)
+#define MESSAGE_EVENT                   HEX(MAGIC_EVENT)
+#define MESSAGE_BOX_BREAK_DELAYED       HEX(MAGIC_BOX_BREAK_DELAYED)
+#define MESSAGE_AWAIT_BUTTON_PRESS      HEX(MAGIC_AWAIT_BUTTON_PRESS)
+#define MESSAGE_FADE                    HEX(MAGIC_FADE)
+#define MESSAGE_NAME                    HEX(MAGIC_NAME)
+#define MESSAGE_OCARINA                 HEX(MAGIC_OCARINA)
+#define MESSAGE_FADE2                   HEX(MAGIC_FADE2)
+#define MESSAGE_SFX                     HEX(MAGIC_SFX)
+#define MESSAGE_ITEM_ICON               HEX(MAGIC_ITEM_ICON)
+#define MESSAGE_TEXT_SPEED              HEX(MAGIC_TEXT_SPEED)
+#define MESSAGE_BACKGROUND              HEX(MAGIC_BACKGROUND)
+#define MESSAGE_MARATHON_TIME           HEX(MAGIC_MARATHON_TIME)
+#define MESSAGE_RACE_TIME               HEX(MAGIC_RACE_TIME)
+#define MESSAGE_POINTS                  HEX(MAGIC_POINTS)
+#define MESSAGE_TOKENS                  HEX(MAGIC_TOKENS)
+#define MESSAGE_UNSKIPPABLE             HEX(MAGIC_UNSKIPPABLE)
+#define MESSAGE_TWO_CHOICE              HEX(MAGIC_TWO_CHOICE)
+#define MESSAGE_THREE_CHOICE            HEX(MAGIC_THREE_CHOICE)
+#define MESSAGE_FISH_INFO               HEX(MAGIC_FISH_INFO)
+#define MESSAGE_HIGHSCORE               HEX(MAGIC_HIGHSCORE)
+#define MESSAGE_TIME                    HEX(MAGIC_TIME)
+#endif
 
 #endif
