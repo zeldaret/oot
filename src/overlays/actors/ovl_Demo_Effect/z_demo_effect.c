@@ -208,7 +208,7 @@ void DemoEffect_InitGetItem(DemoEffect* this) {
  * Main Actor Init function
  */
 void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+    GlobalContext* globalCtx2 = globalCtx;
     DemoEffect* this = THIS;
     s32 effectType;
     s32 lightEffect;
@@ -217,7 +217,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoEffect* lightRing;
 
     effectType = GET_EFFECT_TYPE(&this->actor);
-    lightEffect = GET_LIGHT_EFFECT_COLOR_PARAM(&this->actor);
+    lightEffect = GET_LIGHT_COLOR_PARAM(&this->actor);
 
     osSyncPrintf(VT_SGR("36") " no = %d\n" VT_SGR(""), effectType);
 
@@ -444,11 +444,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&crystalLight->actor, 0.6f);
             }
 
-            // Necessary to match. Otherwise has function argument reordering.
-            if (globalCtx) {}
-
             lightRing = (DemoEffect*)Actor_SpawnAsChild(
-                &globalCtx->actorCtx, &crystalLight->actor, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
+                &globalCtx2->actorCtx, &crystalLight->actor, globalCtx2, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, DEMO_EFFECT_LIGHTRING_TRIFORCE);
 
             if (lightRing) {
@@ -1080,7 +1077,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
     u16 action;
     s32 isLargeSize;
 
-    isLargeSize = GET_LIGHT_EFFECT_SIZE_PARAM(&this->actor);
+    isLargeSize = GET_LIGHT_SIZE_PARAM(&this->actor);
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);

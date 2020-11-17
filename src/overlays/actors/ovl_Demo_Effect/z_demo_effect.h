@@ -155,8 +155,8 @@ typedef enum DEMO_EFFECT_GOD_LGT_TYPE {
 } DEMO_EFFECT_GOD_LGT_TYPE;
 
 #define GET_EFFECT_TYPE(thisx) ((thisx)->params & 0x00FF)
-#define GET_LIGHT_EFFECT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 8)
-#define GET_LIGHT_EFFECT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 12)
+#define GET_LIGHT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 8)
+#define GET_LIGHT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 12)
 #define DEMO_EFFECT_PARAM(effectType, lightSize, lightColor) (((effectType & 0x00FF) << 0) | ((lightSize & 0x000F) << 8) | ((lightColor & 0x000F) << 12))
 
 #endif
