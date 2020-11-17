@@ -30,20 +30,20 @@ typedef struct EnRr {
     /* 0x01F0 */ s16 invincibilityTimer;
     /* 0x01F2 */ s16 effectTimer;
     /* 0x01F4 */ s16 ocTimer;
-    /* 0x01F6 */ s16 pulsePhase;
-    /* 0x01F8 */ f32 pulsePhaseVel;
-    /* 0x01FC */ f32 phaseVelTarget;
-    /* 0x0200 */ f32 pulseRate;
-    /* 0x0204 */ f32 wobbleRateX;
-    /* 0x0208 */ f32 wobbleRateXTarget;
-    /* 0x020C */ f32 wobbleRateZ;
-    /* 0x0210 */ f32 wobbleRateZTarget;
-    /* 0x0214 */ f32 pulseSize;
+    /* 0x01F6 */ s16 segMovePhase; // phase angle for wobble and pulsing motion
+    /* 0x01F8 */ f32 segPhaseVel; // rate at which motion phase changes
+    /* 0x01FC */ f32 segPhaseVelTarget;
+    /* 0x0200 */ f32 segPulsePhaseDiff; // Phase diff between segment pulses. Affects how wave-y the pulse is.
+    /* 0x0204 */ f32 segWobblePhaseDiffX; // Phase diff between segment X rot. Affects how circular the wobble is.
+    /* 0x0208 */ f32 segWobbleXTarget;
+    /* 0x020C */ f32 segWobblePhaseDiffZ; // Phase diff between segment Z rot. Affects how circular the wobble is.
+    /* 0x0210 */ f32 segWobbleZTarget;
+    /* 0x0214 */ f32 pulseSize; // Amplitude of the scale pulsations
     /* 0x0218 */ f32 pulseSizeTarget;
-    /* 0x021C */ f32 wobbleSize;
+    /* 0x021C */ f32 wobbleSize; // Amplitude of the wobbling motion
     /* 0x0220 */ f32 wobbleSizeTarget;
     /* 0x0224 */ EnRrBodySegment bodySegs[5];
-    /* 0x0364 */ f32 unk_364;
+    /* 0x0364 */ f32 segMoveRate;
     /* 0x0368 */ f32 shrinkRate;
     /* 0x036C */ f32 swallowOffset;
     /* 0x0370 */ u8 reachState;

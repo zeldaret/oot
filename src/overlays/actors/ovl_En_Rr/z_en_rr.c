@@ -168,8 +168,8 @@ void EnRr_SetupReach(EnRr* this) {
 
     this->reachState = 1;
     this->actionTimer = 20;
-    this->phaseVelTarget = 2500.0f;
-    this->unk_364 = 0.0f;
+    this->segPhaseVelTarget = 2500.0f;
+    this->segMoveRate = 0.0f;
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = segmentHeights[i];
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 0.8f;
@@ -184,8 +184,8 @@ void EnRr_SetupNeutral(EnRr* this) {
     s32 i;
 
     this->reachState = 0;
-    this->unk_364 = 0.0f;
-    this->phaseVelTarget = 2500.0f;
+    this->segMoveRate = 0.0f;
+    this->segPhaseVelTarget = 2500.0f;
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
@@ -208,9 +208,9 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
     this->ocTimer = 8;
     this->hasPlayer = true;
     this->reachState = 0;
-    this->unk_364 = this->swallowOffset = this->actor.speedXZ = 0.0f;
+    this->segMoveRate = this->swallowOffset = this->actor.speedXZ = 0.0f;
     this->pulseSizeTarget = 0.15f;
-    this->phaseVelTarget = 5000.0f;
+    this->segPhaseVelTarget = 5000.0f;
     this->wobbleSizeTarget = 512.0f;
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
@@ -242,8 +242,8 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     this->actor.flags |= 1;
     this->hasPlayer = false;
     this->ocTimer = 110;
-    this->unk_364 = 0.0f;
-    this->phaseVelTarget = 2500.0f;
+    this->segMoveRate = 0.0f;
+    this->segPhaseVelTarget = 2500.0f;
     this->wobbleSizeTarget = 2048.0f;
     tunic = PLAYER_TUNIC_KOKIRI;
     shield = PLAYER_SHIELD_NONE;
@@ -290,8 +290,8 @@ void EnRr_SetupDamage(EnRr* this) {
 
     this->reachState = 0;
     this->actionTimer = 20;
-    this->unk_364 = 0.0f;
-    this->phaseVelTarget = 2500.0f;
+    this->segMoveRate = 0.0f;
+    this->segPhaseVelTarget = 2500.0f;
     this->pulseSizeTarget = 0.0f;
     this->wobbleSizeTarget = 0.0f;
     for (i = 0; i < 5; i++) {
@@ -306,9 +306,9 @@ void EnRr_SetupDamage(EnRr* this) {
 void EnRr_SetupApproach(EnRr* this) {
     s32 i;
 
-    this->unk_364 = 0.0f;
+    this->segMoveRate = 0.0f;
     this->pulseSizeTarget = 0.15f;
-    this->phaseVelTarget = 2500.0f;
+    this->segPhaseVelTarget = 2500.0f;
     this->wobbleSizeTarget = 2048.0f;
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
@@ -324,7 +324,7 @@ void EnRr_SetupDeath(EnRr* this) {
     this->isDead = true;
     this->frameCount = 0;
     this->shrinkRate = 0.0f;
-    this->unk_364 = 0.0f;
+    this->segMoveRate = 0.0f;
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
@@ -338,14 +338,14 @@ void EnRr_SetupStunned(EnRr* this) {
     s32 i;
 
     this->stopScroll = true;
-    this->pulsePhase = 0;
-    this->pulsePhaseVel = 0.0f;
-    this->phaseVelTarget = 2500.0f;
-    this->pulseRate = 0.0f;
-    this->wobbleRateX = 0.0f;
-    this->wobbleRateXTarget = 3.0f;
-    this->wobbleRateZ = 0.0f;
-    this->wobbleRateZTarget = 1.0f;
+    this->segMovePhase = 0;
+    this->segPhaseVel = 0.0f;
+    this->segPhaseVelTarget = 2500.0f;
+    this->segPulsePhaseDiff = 0.0f;
+    this->segWobblePhaseDiffX = 0.0f;
+    this->segWobbleXTarget = 3.0f;
+    this->segWobblePhaseDiffZ = 0.0f;
+    this->segWobbleZTarget = 1.0f;
     this->pulseSize = 0.0f;
     this->pulseSizeTarget = 0.15f;
     this->wobbleSize = 0.0f;
@@ -464,14 +464,14 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
 void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx) {
     s32 i;
 
-    this->pulsePhase = 0;
-    this->pulsePhaseVel = 0.0f;
-    this->phaseVelTarget = 2500.0f;
-    this->pulseRate = 0.0f;
-    this->wobbleRateX = 0.0f;
-    this->wobbleRateXTarget = 3.0f;
-    this->wobbleRateZ = 0.0f;
-    this->wobbleRateZTarget = 1.0f;
+    this->segMovePhase = 0;
+    this->segPhaseVel = 0.0f;
+    this->segPhaseVelTarget = 2500.0f;
+    this->segPulsePhaseDiff = 0.0f;
+    this->segWobblePhaseDiffX = 0.0f;
+    this->segWobbleXTarget = 3.0f;
+    this->segWobblePhaseDiffZ = 0.0f;
+    this->segWobbleZTarget = 1.0f;
     this->pulseSize = 0.0f;
     this->pulseSizeTarget = 0.15f;
     this->wobbleSize = 0.0f;
@@ -486,35 +486,35 @@ void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx) {
     }
     for (i = 0; i < 5; i++) {
         this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
-            Math_Coss(i * (u32)(s16)this->pulseRate * 0x1000) * this->pulseSize;
+            Math_Coss(i * (u32)(s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
     }
     for (i = 1; i < 5; i++) {
-        this->bodySegs[i].rotTarget.x = Math_Coss(i * (u32)(s16)this->wobbleRateX * 0x1000) * this->wobbleSize;
-        this->bodySegs[i].rotTarget.z = Math_Sins(i * (u32)(s16)this->wobbleRateZ * 0x1000) * this->wobbleSize;
+        this->bodySegs[i].rotTarget.x = Math_Coss(i * (u32)(s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
+        this->bodySegs[i].rotTarget.z = Math_Sins(i * (u32)(s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
     }
 }
 
 void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
     s32 i;
-    s16 phase = this->pulsePhase;
+    s16 phase = this->segMovePhase;
 
     if (!this->isDead) {
         for (i = 0; i < 5; i++) {
             this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
-                Math_Coss(phase + i * (s16)this->pulseRate * 0x1000) * this->pulseSize;
+                Math_Coss(phase + i * (s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
         }
-        phase = this->pulsePhase;
+        phase = this->segMovePhase;
         if (!this->isDead && (this->reachState == 0)) {
             for (i = 1; i < 5; i++) {
                 this->bodySegs[i].rotTarget.x =
-                    Math_Coss(phase + i * (s16)this->wobbleRateX * 0x1000) * this->wobbleSize;
+                    Math_Coss(phase + i * (s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
                 this->bodySegs[i].rotTarget.z =
-                    Math_Sins(phase + i * (s16)this->wobbleRateZ * 0x1000) * this->wobbleSize;
+                    Math_Sins(phase + i * (s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
             }
         }
     }
     if (!this->stopScroll) {
-        this->pulsePhase += (s16)this->pulsePhaseVel;
+        this->segMovePhase += (s16)this->segPhaseVel;
     }
 }
 
@@ -737,7 +737,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->actionFunc(this, globalCtx);
-    if (this->hasPlayer == 0x3F80) {
+    if (this->hasPlayer == 0x3F80) { // checks if hasPlayer is 1.0f
         __assert("0", "../z_en_rr.c", 1355);
     }
 
@@ -762,28 +762,28 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
     if (!this->stopScroll) {
-        Math_SmoothScaleMaxF(&this->pulsePhaseVel, this->phaseVelTarget, 1.0f, 50.0f);
-        Math_SmoothScaleMaxF(&this->pulseRate, 4.0f, 1.0f, 5.0f);
-        Math_SmoothScaleMaxF(&this->wobbleRateX, this->wobbleRateXTarget, 1.0f, 0.04f);
-        Math_SmoothScaleMaxF(&this->wobbleRateZ, this->wobbleRateZTarget, 1.0f, 0.01f);
+        Math_SmoothScaleMaxF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
+        Math_SmoothScaleMaxF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);
+        Math_SmoothScaleMaxF(&this->segWobblePhaseDiffX, this->segWobbleXTarget, 1.0f, 0.04f);
+        Math_SmoothScaleMaxF(&this->segWobblePhaseDiffZ, this->segWobbleZTarget, 1.0f, 0.01f);
         Math_SmoothScaleMaxF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
         Math_SmoothScaleMaxF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->unk_364 * 1000.0f,
+            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->segMoveRate * 1000.0f,
                                     0);
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->unk_364 * 1000.0f,
+            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->segMoveRate * 1000.0f,
                                     0);
             Math_SmoothScaleMaxF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
-                                 this->unk_364 * 0.2f);
+                                 this->segMoveRate * 0.2f);
             this->bodySegs[i].scale.z = this->bodySegs[i].scale.x;
             Math_SmoothScaleMaxF(&this->bodySegs[i].height, this->bodySegs[i].heightTarget, 1.0f,
-                                 this->unk_364 * 300.0f);
+                                 this->segMoveRate * 300.0f);
         }
-        Math_SmoothScaleMaxF(&this->unk_364, 1.0f, 1.0f, 0.2f);
+        Math_SmoothScaleMaxF(&this->segMoveRate, 1.0f, 1.0f, 0.2f);
     }
 }
 
-static Vec3f effectOffsets[] = {
+static Vec3f sEffectOffsets[] = {
     { 25.0f, 0.0f, 0.0f },
     { -25.0f, 0.0f, 0.0f },
     { 0.0f, 0.0f, 25.0f },
@@ -795,12 +795,12 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f zeroVec;
     EnRr* this = THIS;
     s32 i;
-    Mtx* segMats = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
+    Mtx* segMtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Mtx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1478);
     if (1) {}
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_XLU_DISP++, 0x0C, segMats);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, segMtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (this->scrollTimer * 0) & 0x7F,
                                 (this->scrollTimer * 0) & 0x3F, 32, 16, 1, (this->scrollTimer * 0) & 0x3F,
@@ -824,9 +824,9 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale((1.0f + this->bodySegs[i].scaleMod.x) * this->bodySegs[i].scale.x,
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
                      (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, 1);
-        Matrix_ToMtx(segMats, "../z_en_rr.c", 1527);
+        Matrix_ToMtx(segMtx, "../z_en_rr.c", 1527);
         Matrix_Pull();
-        segMats++;
+        segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }
     this->effectPos[0] = this->actor.posRot.pos;
@@ -843,9 +843,9 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
             s32 segIndex = 4 - (effectTimer >> 2);
             s32 offIndex = (effectTimer >> 1) & 3;
 
-            effectPos.x = this->effectPos[segIndex].x + effectOffsets[offIndex].x + Math_Rand_CenteredFloat(10.0f);
-            effectPos.y = this->effectPos[segIndex].y + effectOffsets[offIndex].y + Math_Rand_CenteredFloat(10.0f);
-            effectPos.z = this->effectPos[segIndex].z + effectOffsets[offIndex].z + Math_Rand_CenteredFloat(10.0f);
+            effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Math_Rand_CenteredFloat(10.0f);
+            effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Math_Rand_CenteredFloat(10.0f);
+            effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Math_Rand_CenteredFloat(10.0f);
             if (this->actor.dmgEffectParams & 0x4000) {
                 EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &effectPos, 100, 0, 0, -1);
             } else {
