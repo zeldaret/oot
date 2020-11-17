@@ -4,8 +4,6 @@
 
 #define THIS ((EnOkuta*)thisx)
 
-#define DAMAGE_EFFECT_FREEZE 3
-
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -170,11 +168,7 @@ void EnOkuta_SetupHide(EnOkuta* this) {
 
 void EnOkuta_SetupWaitToShoot(EnOkuta* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000DDC);
-    if (this->actionFunc == EnOkuta_Shoot) {
-        this->timer = 2;
-    } else {
-        this->timer = 0;
-    }
+    this->timer = (this->actionFunc == EnOkuta_Shoot) ? 2 : 0;
     this->actionFunc = EnOkuta_WaitToShoot;
 }
 
@@ -514,7 +508,7 @@ void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
             func_80032C7C(globalCtx, &this->actor);
             this->actor.colChkInfo.health = 0;
             this->actor.flags &= ~1;
-            if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_FREEZE) {
+            if (this->actor.colChkInfo.damageEffect == 3) {
                 EnOkuta_SetupFreeze(this);
             } else {
                 EnOkuta_SetupWaitToDie(this);
@@ -664,16 +658,15 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnOkuta_OverrideLimbDraw, NULL,
                        &this->actor);
-        return;
+    } else {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);
+
+        Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+        Matrix_RotateZ(this->actor.initPosRot.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1657),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_OPA_DISP++, D_06003380);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1662);
     }
-
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);
-
-    Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateZ(this->actor.initPosRot.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1657),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06003380);
-
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1662);
 }
