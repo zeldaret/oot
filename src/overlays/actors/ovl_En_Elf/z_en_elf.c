@@ -572,36 +572,35 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
-#ifdef NON_MATCHING
-// slight ordering and regalloc
 void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
     f32 xVelTarget;
     f32 zVelTarget;
     f32 xzVelocity;
     f32 clampedXZ;
+    f32 temp;
 
     xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg4;
     zVelTarget = ((arg1->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg4;
+    arg4 += 0.3f;
     arg3 += 30.0f;
 
-    func_80A02BD8(this, arg1, arg4 + 0.3f);
+    func_80A02BD8(this, arg1, arg4);
 
     xzVelocity = sqrtf(SQ(xVelTarget) + SQ(zVelTarget));
+    
     this->actor.speedXZ = clampedXZ = CLAMP(xzVelocity, arg2, arg3);
 
     if ((xzVelocity != clampedXZ) && (xzVelocity != 0.0f)) {
-        zVelTarget *= (clampedXZ / xzVelocity);
-        xVelTarget *= (clampedXZ / xzVelocity);
+        xzVelocity = clampedXZ / xzVelocity;
+        xVelTarget *= xzVelocity;
+        zVelTarget *= xzVelocity;
+        
     }
 
     Math_ApproxF(&this->actor.velocity.x, xVelTarget, 5.0f);
     Math_ApproxF(&this->actor.velocity.z, zVelTarget, 5.0f);
-    func_8002D7EC(this);
+    func_8002D7EC(&this->actor);
 }
-#else
-void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03148.s")
-#endif
 
 void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     Player* refActor = PLAYER;
@@ -1127,11 +1126,10 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
                     case 8:
                         temp = 8;
                         break;
-                    case 11:
+                    case 11:                
                         temp = this->unk_2A8;
                         if (this->unk_2C0 > 0) {
                             this->unk_2C0--;
-                            break;
                         } else {
                             temp = 0;
                         }
