@@ -2477,9 +2477,9 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
     sp110.z = globalCtx->envCtx.unk_2C;
     Matrix_Push();
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPPipeSync(POLY_XLU_DISP++);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, matrix);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, matrix);
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
     Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
@@ -2520,16 +2520,16 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_ToMtx(matrix, "../z_boss_mo.c", 6452);
 
-        gSPMatrix(oGfxCtx->polyXlu.p++, matrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_XLU_DISP++, matrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         if (i == 0) {
             func_8002EB44(&this->tentPos[i], &globalCtx->view.eye, &sp110, globalCtx->state.gfxCtx);
         }
 
         if (i == 0) {
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06007C00);
+            gSPDisplayList(POLY_XLU_DISP++, D_06007C00);
         } else {
-            gSPDisplayList(oGfxCtx->polyXlu.p++, sTentDLists[i]);
+            gSPDisplayList(POLY_XLU_DISP++, sTentDLists[i]);
         }
 
         Matrix_Pull();
@@ -2550,10 +2550,10 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(phi_f22, phi_f22, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6511),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6511),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000140);
+            gSPDisplayList(POLY_OPA_DISP++, D_06000140);
 
             Matrix_Pull();
         }
@@ -2598,21 +2598,21 @@ void BossMo_DrawWater(BossMo* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Translate(0.0f, WATER_LEVEL, 0.0f, MTXMODE_NEW);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0D,
+    gSPSegment(POLY_XLU_DISP++, 0x0D,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->waterTex1x, (s16)this->waterTex1y, 0x20, 0x20, 1,
                                 (s16)this->waterTex2x, (s16)this->waterTex2y, 0x20, 0x20));
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPPipeSync(POLY_XLU_DISP++);
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 200, 255, 255, (s8)sMorphaTent1->waterTexAlpha);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)sMorphaTent1->waterTexAlpha);
 
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 100, 255, 80);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 80);
 
     Matrix_Scale(0.5f, 1.0f, 0.5f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6675),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6675),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06004C50);
+    gSPDisplayList(POLY_XLU_DISP++, D_06004C50);
 
     Matrix_Pull();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6680);
@@ -2629,34 +2629,34 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
     if (this->drawActor) {
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, sMorphaTent1->rippleTimer * 3,
                                     sMorphaTent1->rippleTimer * 3, 0x20, 0x20, 1, sMorphaTent1->rippleTimer * -3,
                                     sMorphaTent1->rippleTimer * -3, 0x20, 0x20));
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x09,
+        gSPSegment(POLY_XLU_DISP++, 0x09,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, sMorphaTent1->rippleTimer * 5, 0, 0x20, 0x20, 1, 0,
                                     sMorphaTent1->rippleTimer * -10, 0x20, 0x20));
 
         Matrix_RotateX(this->movementTimer * 0.5f, MTXMODE_APPLY);
         Matrix_RotateZ(this->movementTimer * 0.8f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6735),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6735),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, (s8)this->baseAlpha);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, (s8)this->baseAlpha);
 
         func_8002ED80(&this->actor, globalCtx, 0);
 
-        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(&D_06006700));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_06006700));
 
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPPipeSync(POLY_XLU_DISP++);
 
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 220, 255, 128);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 220, 255, 128);
         if (this->damageFlashTimer & 1) {
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 60, 0, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 60, 0, 255);
         } else {
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 255, 255, 255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, 255);
         }
-        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(&D_06006838));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_06006838));
 
         if ((this->drawShadow && (this->actor.posRot.pos.y >= 0.0f)) || (this->actor.posRot.pos.y < WATER_LEVEL)) {
             f32 groundLevel;
@@ -2671,14 +2671,14 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
 
             func_80094044(globalCtx->state.gfxCtx);
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, shadowAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, shadowAlpha);
 
             Matrix_Translate(this->actor.posRot.pos.x, groundLevel, this->actor.posRot.pos.z, MTXMODE_NEW);
             Matrix_Scale(0.23f, 1.0f, 0.23f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6820),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6820),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(&D_04049210));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_04049210));
         }
     }
 
@@ -2698,10 +2698,10 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
 
         func_80093D84(globalCtx->state.gfxCtx);
 
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 200, 255, 255, (s8)this->introWaterTexAlpha);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 100, 255, (s8)this->introWaterTexAlpha);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)this->introWaterTexAlpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->introWaterTexAlpha);
 
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x0D,
+        gSPSegment(POLY_XLU_DISP++, 0x0D,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)sMorphaTent1->waterTex1x,
                                     (s16)sMorphaTent1->waterTex1y, 0x20, 0x20, 1, (s16)sMorphaTent1->waterTex2x,
                                     (s16)sMorphaTent1->waterTex2y, 0x20, 0x20));
@@ -2733,10 +2733,10 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Scale(0.05f, 1.0f, 0.05f, MTXMODE_APPLY);
 
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6941),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6941),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(oGfxCtx->polyXlu.p++, &D_06004C50);
+        gSPDisplayList(POLY_XLU_DISP++, &D_06004C50);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6945);
 
@@ -2751,17 +2751,17 @@ void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6958);
     if (1) {}
     func_80093D18(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, (s8)(this->baseAlpha * 1.5f));
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 150, 150, 150, 0);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, (s8)(this->baseAlpha * 1.5f));
+    gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->baseTex1x, this->baseTex1y, 0x20, 0x20, 1,
                                 this->baseTex2x, this->baseTex2y, 0x20, 0x20));
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0xFF, 0xFF, 200, 255, 255, (s8)((this->baseAlpha * 12.0f) / 10.0f));
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 100, 255, (s8)this->baseAlpha);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)((this->baseAlpha * 12.0f) / 10.0f));
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->baseAlpha);
     scroll = (s16)(Math_Sins(this->rippleTimer * 0xB00) * 30.0f) + 350;
-    gSPTexture(oGfxCtx->polyXlu.p++, scroll, scroll, 0, G_TX_RENDERTILE, G_ON);
+    gSPTexture(POLY_XLU_DISP++, scroll, scroll, 0, G_TX_RENDERTILE, G_ON);
 
     if (this->drawActor) {
         BossMo_DrawTentacle(this, globalCtx);
@@ -2935,19 +2935,19 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             if (flag == 0) {
                 func_80094BC4(gfxCtx);
 
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 155, 155, 255, 0);
+                gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, particle->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, particle->alpha);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             Matrix_Scale(particle->scale, 1.0f, particle->scale, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7294),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7294),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_040254B0);
+            gSPDisplayList(POLY_XLU_DISP++, D_040254B0);
         }
     }
 
@@ -2958,19 +2958,19 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             if (flag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
 
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 155, 155, 255, 0);
+                gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, particle->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, particle->alpha);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             Matrix_Scale(particle->scale, 1.0f, particle->scale, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7330),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7330),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0401A0B0);
+            gSPDisplayList(POLY_XLU_DISP++, D_0401A0B0);
         }
     }
 
@@ -2979,25 +2979,25 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
     for (i = 0; i < 300; i++, particle++) {
         if (((particle->type == MO_DROPLET) || (particle->type == MO_SPLASH)) || (particle->type == MO_SPLASH_TRAIL)) {
             if (flag == 0) {
-                oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
-                gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000F20);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 250, 250, 255, 0);
+                gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
+                gSPDisplayList(POLY_XLU_DISP++, D_06000F20);
+                gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s16)(*particle).shimmer, (s16)(*particle).shimmer, 255,
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)(*particle).shimmer, (s16)(*particle).shimmer, 255,
                             particle->alpha);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(particle->scale / particle->stretch, particle->stretch * particle->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7373),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000F70);
+            gSPDisplayList(POLY_XLU_DISP++, D_06000F70);
         }
     }
 
@@ -3008,22 +3008,22 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             if (flag == 0) {
                 func_80094044(gfxCtx);
 
-                gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 250, 250, 255, 0);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000F20);
+                gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
+                gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
+                gSPDisplayList(POLY_XLU_DISP++, D_06000F20);
 
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s16)(*particle).shimmer, (s16)(*particle).shimmer, 0xFF,
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)(*particle).shimmer, (s16)(*particle).shimmer, 0xFF,
                             particle->alpha);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             Matrix_Scale(particle->scale, 1.0f, particle->scale, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7441),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7441),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000FC8);
+            gSPDisplayList(POLY_XLU_DISP++, D_06000FC8);
         }
     }
 
@@ -3034,20 +3034,20 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             if (flag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
 
-                gDPSetEnvColor(oGfxCtx->polyOpa.p++, 150, 150, 150, 0);
+                gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);
 
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, particle->alpha);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, particle->alpha);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7476),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7476),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000140);
+            gSPDisplayList(POLY_OPA_DISP++, D_06000140);
         }
     }
 
