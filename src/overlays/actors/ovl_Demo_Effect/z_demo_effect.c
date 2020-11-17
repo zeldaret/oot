@@ -567,7 +567,7 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->initObjectBankIndex)) {
         this->actor.objBankIndex = this->initObjectBankIndex;
-        this->actor.draw = (ActorFunc)this->initDrawFunc;
+        this->actor.draw = this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 
         osSyncPrintf(VT_SGR("36") " 転送終了 move_wait " VT_SGR(""));
