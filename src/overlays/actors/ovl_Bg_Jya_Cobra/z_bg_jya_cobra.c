@@ -59,27 +59,50 @@ u8 D_80897310[] = { 1, 0, 1, 0 };
 
 s16 D_80897314[] = { -0x4000, 0000, 0x4000, 0000 };
 
-u8 D_8089731C[] = { 0x00, 0x00, 0x20, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20, 0x00, 0x00, 0x00, 0x20, 0x80, 0xA0, 0xA3,
-                    0xA3, 0xA3, 0xA0, 0x80, 0x20, 0x00, 0x20, 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80,
-                    0x20, 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80, 0x80, 0xA3, 0xA6, 0xA6,
-                    0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA3, 0x80, 0x80, 0xA3, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6,
-                    0xA3, 0x80, 0x80, 0xA3, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA3, 0x80, 0x80, 0xA0, 0xA5,
-                    0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80, 0x20, 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA5,
-                    0xA0, 0x80, 0x20, 0x00, 0x20, 0x80, 0xA0, 0xA3, 0xA3, 0xA3, 0xA0, 0x80, 0x20, 0x00, 0x00, 0x00,
-                    0x20, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00 };
+u8 D_8089731C[11][11] = { { 0x00, 0x00, 0x20, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20, 0x00, 0x00 },
+                          { 0x00, 0x20, 0x80, 0xA0, 0xA3, 0xA3, 0xA3, 0xA0, 0x80, 0x20, 0x00 },
+                          { 0x20, 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80, 0x20 },
+                          { 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80 },
+                          { 0x80, 0xA3, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA3, 0x80 },
+                          { 0x80, 0xA3, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA3, 0x80 },
+                          { 0x80, 0xA3, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA3, 0x80 },
+                          { 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80 },
+                          { 0x20, 0x80, 0xA0, 0xA5, 0xA6, 0xA6, 0xA6, 0xA5, 0xA0, 0x80, 0x20 },
+                          { 0x00, 0x20, 0x80, 0xA0, 0xA3, 0xA3, 0xA3, 0xA0, 0x80, 0x20, 0x00 },
+                          { 0x00, 0x00, 0x20, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20, 0x00, 0x00 } };
 
-u8 D_80897398[] = { 0x20, 0x80, 0x20, 0x80, 0xA0, 0x80, 0x20, 0x80, 0x20, 0x00, 0x00, 0x00 };
+u8 D_80897398[3][3] = {
+    { 0x20, 0x80, 0x20 },
+    { 0x80, 0xA0, 0x80 },
+    { 0x20, 0x80, 0x20 },
+};
 
 Vec3f D_808973A4[] = {
     { -6.0f, 100.0f, 7.6f },
-    { -12.6f, 69.200005f, -10.0f }, { -9.0f, 43.0f, -1.0f }, { -3.0f, 15.0f, 8.6f },
-    { -8.6f, 15.0f, 13.5f },        { -6.6f, 26.0f, 11.6f }, { -12.5f, 43.0f, 8.0f },
-    { -17.2f, 70.0f, 0.6f },        { -8.0f, 100.0f, 7.6f }, { 6.0f, 100.0f, 7.6f },
-    { 12.6f, 69.200005f, -10.0f },  { 9.0f, 43.0f, -1.0f },  { 3.0f, 15.0f, 8.6f },
-    { 8.6f, 15.0f, 13.5f },         { 6.6f, 26.0f, 11.6f },  { 12.5f, 43.0f, 8.0f },
-    { 17.2f, 70.0f, 0.6f },         { 8.0f, 100.0f, 7.6f },  { 0.0f, 70.0f, -11.3f },
-    { 0.0f, 44.6000023f, -2.0f },   { 0.0f, 15.0f, 10.6f },  { 0.0f, 15.0f, 0.3f },
-    { 0.0f, 26.0f, 11.6f },         { 0.0f, 88.4f, -1.4f },  { 0.0f, 95.700005f, 14.900001f },
+    { -12.6f, 69.200005f, -10.0f },
+    { -9.0f, 43.0f, -1.0f },
+    { -3.0f, 15.0f, 8.6f },
+    { -8.6f, 15.0f, 13.5f },
+    { -6.6f, 26.0f, 11.6f },
+    { -12.5f, 43.0f, 8.0f },
+    { -17.2f, 70.0f, 0.6f },
+    { -8.0f, 100.0f, 7.6f },
+    { 6.0f, 100.0f, 7.6f },
+    { 12.6f, 69.200005f, -10.0f },
+    { 9.0f, 43.0f, -1.0f },
+    { 3.0f, 15.0f, 8.6f },
+    { 8.6f, 15.0f, 13.5f },
+    { 6.6f, 26.0f, 11.6f },
+    { 12.5f, 43.0f, 8.0f },
+    { 17.2f, 70.0f, 0.6f },
+    { 8.0f, 100.0f, 7.6f },
+    { 0.0f, 70.0f, -11.3f },
+    { 0.0f, 44.6000023f, -2.0f },
+    { 0.0f, 15.0f, 10.6f },
+    { 0.0f, 15.0f, 0.3f },
+    { 0.0f, 26.0f, 11.6f },
+    { 0.0f, 88.4f, -1.4f },
+    { 0.0f, 95.700005f, 14.900001f },
     { 0.0f, 101.4f, 5.0f },
 };
 
@@ -272,7 +295,7 @@ void func_80895EF0(BgJyaCobra* this) {
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
-    u8* temp_s2;
+    u8(*temp_s2)[0x40][0x40];
     s32 temp_x;
     s32 temp_z;
     s32 x;
@@ -282,41 +305,44 @@ void func_80895EF0(BgJyaCobra* this) {
     s32 k;
     s32 l;
 
-    temp_s2 = (u8*)ALIGN16((s32)(&this->unk_194));
-    Lib_MemSet(temp_s2, 0x1000, 0);
+    temp_s2 = (u8(*)[0x40][0x40])ALIGN16((s32)(&this->unk_194));
+    Lib_MemSet((u8*)temp_s2, 0x1000, 0);
 
-    Matrix_RotateX(0.7853982f, MTXMODE_NEW);
-    Matrix_RotateY((!(this->dyna.actor.params & 3) ? (s16)(this->dyna.actor.shape.rot.y + 0x4000) : (s16)(this->dyna.actor.shape.rot.y - 0x4000)) * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
+    Matrix_RotateY((!(this->dyna.actor.params & 3) ? (s16)(this->dyna.actor.shape.rot.y + 0x4000)
+                                                   : (s16)(this->dyna.actor.shape.rot.y - 0x4000)) *
+                       (M_PI / 0x8000),
+                   MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
 
-    for (i = 0; i + 1 < 26; i++) {
+    for (i = 0; i < 25; i++) {
         Math_Vec3f_Diff(&D_808973A4[i + 1], &D_808973A4[i], &spD4);
         spD4.x *= 0.5f;
         spD4.y *= 0.5f;
         spD4.z *= 0.5f;
-        for (j = 0; j != 2; j++ ) {
+        for (j = 0; j < 2; j++) {
             spC8.x = D_808973A4[i].x + (spD4.x * j);
             spC8.y = D_808973A4[i].y + (spD4.y * j);
             spC8.z = D_808973A4[i].z + (spD4.z * j);
             Matrix_MultVec3f(&spC8, &spBC);
             x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
-            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 5;
-            temp_z = z << 6;
-            for (k = 0; k != 11; k++) {
-                if ((z & ~0x3F) == 0) {
+            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
+            temp_z = z - 5;
+            for (k = 0; k < 11; k++) {
+                if (!(temp_z & ~0x3F)) {
                     for (l = 0; l < 11; l++) {
                         temp_x = (x - 5 + l);
                         if (!(temp_x & ~0x3F)) {
-                            temp_s2[temp_z + temp_x] |= D_8089731C[((((k * 4) - k) * 4) - k) + l];
+                            (*temp_s2)[temp_z][temp_x] |= D_8089731C[k][l];
                         }
                     }
                 }
-                z = z + 1;
+                temp_z++;
             }
         }
     }
 
-    for(i = 0; i + 1 < 5; i++) {
+    for (i = 0; i < 4; i++) {
         Math_Vec3f_Diff(&D_808974DC[i + 1], &D_808974DC[i], &spD4);
         spD4.x = spD4.x * 0.2f;
         spD4.y = spD4.y * 0.2f;
@@ -327,31 +353,31 @@ void func_80895EF0(BgJyaCobra* this) {
             spC8.z = D_808974DC[i].z + (spD4.z * j);
             Matrix_MultVec3f(&spC8, &spBC);
             x = (s32)(((spBC.x + 50.0f) * 0.64f) + 0.5f);
-            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f) - 1;
+            z = (s32)(((88.0f - spBC.z) * 0.64f) + 0.5f);
+            temp_z = z - 1;
             for (k = 0; k < 3; k++) {
-                if ((z & ~0x3F) == 0) {
-                    temp_z = z << 6;
+                if (!(temp_z & ~0x3F)) {
                     temp_x = x - 1;
-                    for (l = 0; l != 3; l++) {
+                    for (l = 0; l < 3; l++) {
                         if (!(temp_x & ~0x3F)) {
-                            temp_s2[temp_z + temp_x] |= D_80897398[((k * 4) - k) + l];
+                            (*temp_s2)[temp_z][temp_x] |= D_80897398[k][l];
                         }
                         temp_x++;
                     }
                 }
-                z = z + 1;
+                temp_z++;
             }
         }
     }
 
-    for(i = 0; i != 0x40; i++) {
-        temp_s2[i] = 0;
-        temp_s2[i + 0xFC0] = 0;
+    for (i = 0; i < 0x40; i++) {
+        (*temp_s2)[0][i] = 0;
+        (*temp_s2)[0x3F][i] = 0;
     }
 
-    for (j = 0x40; j != 0xFC0; j += 0x40) {
-        temp_s2[j + 0x0] = 0;
-        temp_s2[j + 0x3F] = 0;
+    for (j = 1; j < 0x3F; j++) {
+        (*temp_s2)[j][0] = 0;
+        (*temp_s2)[j][0x3F] = 0;
     }
 }
 
@@ -364,7 +390,7 @@ void func_80896518(BgJyaCobra* this);
 //     u8* temp_s0;
 //     s32 phi_t0;
 //     u8 *phi_a3;
-//     s32 phi_t1_3;
+//     s32 temp;
 //     s32 i;
 //     s32 j;
 
@@ -375,10 +401,10 @@ void func_80896518(BgJyaCobra* this);
 //     temp_s0 = (u8*)ALIGN16((s32)(&this->unk_194));
 //     phi_a3 = temp_s0;
 //     Lib_MemSet(temp_s0, 0x1000, 0);
-    
+
 //     for (i = 0; i != 0x40; i++) {
 //         temp_f12 = sp58[i];
-//         for(j = 0; j != 0x40; j++) {
+//         for(j = 0; j < 0x40; j++) {
 //             temp_f2 = (sp58[j] * 0.5f) + temp_f12;
 //             if (temp_f2 < 300.0f) {
 //                 *phi_a3 |= CLAMP_MAX(640 - (s32) (temp_f2 + temp_f2), 166);
@@ -387,12 +413,12 @@ void func_80896518(BgJyaCobra* this);
 //         }
 //     }
 
-//     for (i = 0, phi_t1_3 = 0x780; i != 4; i += 1, phi_t1_3 += 0x40) {
-//         phi_t0 = phi_t1_3;
-//         for (j = 4; j != 0x3C; j++)
+//     for (temp = 0, i = 0x780; temp < 4; temp += 1, i += 0x40) {
+//         phi_t0 = i;
+//         for (j = 4; j < 0x3C; j++)
 //         {
-//             if (temp_s0[phi_t1_3 + j] < D_80897518[i]) {
-//                 temp_s0[phi_t1_3 + j] = D_80897518[i];
+//             if (temp_s0[i + j] < D_80897518[temp]) {
+//                 temp_s0[i + j] = D_80897518[temp];
 //             }
 //         }
 //         temp_s0[phi_t0 + 0x3C] = 32;
