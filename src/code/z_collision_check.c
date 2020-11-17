@@ -18,7 +18,7 @@ typedef enum BloodTypes {
     /* 2 */ GREEN_BLOOD,
     /* 3 */ WATER_BURST,
     /* 4 */ RED_BLOOD,
-    /* 5 */ RED_BLOOD2,
+    /* 5 */ RED_BLOOD2
 } BloodTypes;
 
 typedef enum HitTypes {
@@ -27,13 +27,13 @@ typedef enum HitTypes {
     /* 2 */ HIT_RED,
     /* 3 */ HIT_SOLID,
     /* 4 */ HIT_WOOD,
-    /* 5 */ HIT_NONE,
+    /* 5 */ HIT_NONE
 } HitTypes;
 
 typedef enum ColChkMassTypes {
     /* 0 */ MASSTYPE_IMMOBILE,
     /* 1 */ MASSTYPE_HEAVY,
-    /* 2 */ MASSTYPE_NORMAL,
+    /* 2 */ MASSTYPE_NORMAL
 } ColChkMassTypes;
 
 void Collider_DrawRedPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
@@ -1061,6 +1061,7 @@ static ColChkResetFunc D_8011DEF8[] = {
 };
 
 // Sets collider as an AT (attack) for the current frame, which will be checked against ACs (attack colliders)
+// The last argument takes a Collider, so pass collider.base rather than the raw collider.
 s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
@@ -1130,6 +1131,7 @@ static ColChkResetFunc D_8011DF08[] = {
 };
 
 // Sets collider as an AC (attack collider) for the current frame, allowing it to detect ATs (attacks)
+// The last argument takes a Collider, so pass collider.base rather than the raw collider.
 s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
@@ -1200,6 +1202,7 @@ static ColChkResetFunc D_8011DF18[] = {
 };
 
 // Sets collider as an OC (object collider) for the current frame, allowing it to detect other OCs
+// The last argument takes a Collider, so pass collider.base rather than the raw collider.
 s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
