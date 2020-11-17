@@ -615,7 +615,6 @@ void DemoEffect_MedalSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 isS
         envColor.g = 255;
         envColor.b = 100;
         primColor.a = 0;
-        // Necessary to set color1.a after color2 to match
 
         velocity.y = 0.0f;
 
