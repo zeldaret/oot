@@ -268,7 +268,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
     s16 sp34 = this->actor.params & 3;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 1.5f, 0.1f, 0.5f, 0.0f);
-    
+
     if (EnInsect_XZDistanceSquared(&this->actor.posRot.pos, &this->actor.initPosRot.pos) > 1600.0f ||
         (this->unk_31A < 4)) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
@@ -277,10 +277,10 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
         yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.child->posRot.pos);
         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000);
     }
-    
+
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.4f, 0.7f, 1.9f);
-    
+
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 
     if (this->unk_31A <= 0) {
@@ -295,7 +295,6 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
     } else if (this->actor.xzDistFromLink < 40.0f) {
         func_80A7C818(this);
     }
-    
 }
 
 void func_80A7C818(EnInsect* this) {

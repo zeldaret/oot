@@ -583,9 +583,9 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
     xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg4;
     zVelTarget = ((arg1->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg4;
     arg3 += 30.0f;
-    
+
     func_80A02BD8(this, arg1, arg4 + 0.3f);
-    
+
     xzVelocity = sqrtf(SQ(xVelTarget) + SQ(zVelTarget));
     this->actor.speedXZ = clampedXZ = CLAMP(xzVelocity, arg2, arg3);
 
@@ -895,14 +895,13 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
             case 7:
                 func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * 0.033333335f);
                 xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos);
-                    
 
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
                     xScale = 0.0f;
                 } else if (distFromLinksHead < 25.0f) {
-                    xScale = ( xScale - 5.0f) * 0.05f;
-                    xScale = 1.0f- xScale;
+                    xScale = (xScale - 5.0f) * 0.05f;
+                    xScale = 1.0f - xScale;
                     xScale = (1.0f - SQ(xScale)) * 0.008f;
                 } else {
                     xScale = 0.008f;
@@ -1132,7 +1131,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
                         temp = this->unk_2A8;
                         if (this->unk_2C0 > 0) {
                             this->unk_2C0--;
-                            break;                                
+                            break;
                         } else {
                             temp = 0;
                         }
@@ -1535,7 +1534,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
             POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                                 EnElf_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
+                                            EnElf_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
         }

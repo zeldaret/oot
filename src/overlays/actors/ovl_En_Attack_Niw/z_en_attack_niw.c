@@ -191,7 +191,7 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     f32 tmpf2;
     f32 tmpf3;
     Vec3f sp34;
-    
+
     this->actor.speedXZ = 10.0f;
 
     tmpf1 = (this->unk_298.x + globalCtx->view.lookAt.x) - globalCtx->view.eye.x;
@@ -201,16 +201,16 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     sp34.x = globalCtx->view.lookAt.x + tmpf1;
     sp34.y = globalCtx->view.lookAt.y + tmpf2;
     sp34.z = globalCtx->view.lookAt.z + tmpf3;
-    if(1){}
+    if (1) {}
     this->unk_2D4 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &sp34);
     this->unk_2D0 = Math_Vec3f_Pitch(&this->actor.posRot.pos, &sp34) * -1.0f;
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_2D4, 5, this->unk_2DC, 0);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, this->unk_2D0, 5, this->unk_2DC, 0);
     Math_SmoothScaleMaxF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
-    
+
     Actor_SetHeight(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp4E, &sp4C);
-    
+
     if (this->actor.bgCheckFlags & 8) {
         this->unk_2D4 = this->actor.yawTowardsLink;
         this->unk_2D0 = this->actor.posRot.rot.x - 3000.0f;

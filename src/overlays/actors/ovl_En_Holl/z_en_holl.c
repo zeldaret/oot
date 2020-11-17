@@ -83,7 +83,7 @@ static Vtx sVertices[] = {
 static Gfx sPlaneDlist[] = {
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
     // gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PASS2),
-    {0xFCFFFFFF, 0xFFFDF638},
+    { 0xFCFFFFFF, 0xFFFDF638 },
     gsSPVertex(sVertices, 4, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
@@ -185,7 +185,6 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     s32 transitionActorIdx;
     f32 absZ;
     s32 side;
-    
 
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &globalCtx->view.eye : &player->actor.posRot.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
