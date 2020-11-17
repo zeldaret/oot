@@ -26,10 +26,7 @@ void EnNwc_Idle(EnNwc* this, GlobalContext* globalCtx);
 #define CHICK_BG_FLOOR (1 << 0)
 #define CHICK_BG_WALL (1 << 1)
 
-typedef enum {
-    CHICK_NONE,
-    CHICK_NORMAL
-} ChickTypes;
+typedef enum { CHICK_NONE, CHICK_NORMAL } ChickTypes;
 
 extern Gfx D_06000840[];
 extern Gfx D_060008B0[];
@@ -59,18 +56,19 @@ static ColliderJntSphItemInit sJntSphElementInit = {
 
 static ColliderJntSphInit_Set3 sJntSphInit = {
     { COLTYPE_UNK3, 0x00, 0x09, 0x39, COLSHAPE_JNTSPH },
-    16, NULL,
+    16,
+    NULL,
 };
 
-void EnNwc_SetUpdate(EnNwc *this, EnNwcUpdateFunc updateFunc) {
+void EnNwc_SetUpdate(EnNwc* this, EnNwcUpdateFunc updateFunc) {
     this->updateFunc = updateFunc;
 }
 
-void EnNwc_ChickNoop(EnNwcChick *chick, EnNwc *this, GlobalContext *globalCtx) {
+void EnNwc_ChickNoop(EnNwcChick* chick, EnNwc* this, GlobalContext* globalCtx) {
 }
 
-void EnNwc_ChickBgCheck(EnNwcChick *chick, GlobalContext *globalCtx) {
-    CollisionPoly *outPoly;
+void EnNwc_ChickBgCheck(EnNwcChick* chick, GlobalContext* globalCtx) {
+    CollisionPoly* outPoly;
     s32 bgId;
     Vec3f outPos;
     f32 dy;
@@ -93,18 +91,18 @@ void EnNwc_ChickBgCheck(EnNwcChick *chick, GlobalContext *globalCtx) {
     }
 }
 
-void EnNwc_ChickFall(EnNwcChick *chick, EnNwc *this, GlobalContext *globalCtx) {
+void EnNwc_ChickFall(EnNwcChick* chick, EnNwc* this, GlobalContext* globalCtx) {
     chick->velY -= 0.1f;
     if (chick->velY < -10.0f) {
         chick->velY = -10.0f;
     }
     chick->pos.y += chick->velY;
     EnNwc_ChickBgCheck(chick, globalCtx);
-    if(chick){} // Needed for matching. Possibly from remnant of unfinished code? 
+    if (chick) {} // Needed for matching. Possibly from remnant of unfinished code?
 }
 
-void EnNwc_UpdateChicks(EnNwc *this, GlobalContext *globalCtx) {
-    static EnNwcChickFunc chickActionFuncs[] = {EnNwc_ChickNoop, EnNwc_ChickFall};
+void EnNwc_UpdateChicks(EnNwc* this, GlobalContext* globalCtx) {
+    static EnNwcChickFunc chickActionFuncs[] = { EnNwc_ChickNoop, EnNwc_ChickFall };
     EnNwcChick* chick = this->chicks;
     ColliderJntSphItem* element = this->collider.list;
     Vec3f prevChickPos;
@@ -112,7 +110,7 @@ void EnNwc_UpdateChicks(EnNwc *this, GlobalContext *globalCtx) {
     f32 test;
 
     prevChickPos.y = 99999.9f;
-    for( i = 0 ; i < this->count; i++, prevChickPos = chick->pos, chick++, element++) {
+    for (i = 0; i < this->count; i++, prevChickPos = chick->pos, chick++, element++) {
         Math_Vec3f_Copy(&chick->lastPos, &chick->pos);
 
         chickActionFuncs[chick->type](chick, this, globalCtx);
@@ -122,13 +120,13 @@ void EnNwc_UpdateChicks(EnNwc *this, GlobalContext *globalCtx) {
         element->dim.worldSphere.center.z = chick->pos.z;
 
         test = chick->pos.y - prevChickPos.y;
-        if(fabsf(test) < 10.0f) {
+        if (fabsf(test) < 10.0f) {
             f32 dx = chick->pos.x - prevChickPos.x;
             f32 dz = chick->pos.z - prevChickPos.z;
 
             test = SQ(dx) + SQ(dz);
-            if(test < SQ(10.0f)) {
-                if(test != 0) {
+            if (test < SQ(10.0f)) {
+                if (test != 0.0f) {
                     chick->pos.x += dx / sqrtf(test);
                     chick->pos.z += dz / sqrtf(test);
                 } else {
@@ -140,7 +138,7 @@ void EnNwc_UpdateChicks(EnNwc *this, GlobalContext *globalCtx) {
     }
 }
 
-void EnNwc_DrawChicks(EnNwc *this, GlobalContext *globalCtx) {
+void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
     s32 i;
     Gfx* dList1;
     Gfx* dList2;
@@ -160,19 +158,19 @@ void EnNwc_DrawChicks(EnNwc *this, GlobalContext *globalCtx) {
     gSPDisplayList(dList3++, D_06000C88);
 
     chick = this->chicks;
-    for(i = 0; i < this->count; i++, chick++) {
-        if(chick->type != CHICK_NONE) {
-            Mtx* tempMat;
+    for (i = 0; i < this->count; i++, chick++) {
+        if (chick->type != CHICK_NONE) {
+            Mtx* mtx;
 
             func_800D1694(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
             Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-            tempMat = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 346);
+            mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 346);
             gDPSetEnvColor(dList1++, 0, 100, 255, 255);
-            gSPMatrix(dList1++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(dList1++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(dList1++, D_060008B0);
-            gSPMatrix(dList2++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(dList2++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(dList2++, D_06000C68);
-            gSPMatrix(dList3++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(dList3++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(dList3++, D_06000CE0);
         }
     }
@@ -182,21 +180,21 @@ void EnNwc_DrawChicks(EnNwc *this, GlobalContext *globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
     gSPDisplayList(POLY_XLU_DISP++, D_06000D10);
 
-    
-    for(i = 0; i < this->count; i++, chick++) {
-        if((chick->type != CHICK_NONE) && (chick->floorPoly != NULL)){
+    for (i = 0; i < this->count; i++, chick++) {
+        if ((chick->type != CHICK_NONE) && (chick->floorPoly != NULL)) {
             func_80038A28(chick->floorPoly, chick->pos.x, chick->floorY, chick->pos.z, &floorMat);
             Matrix_Put(&floorMat);
             Matrix_RotateY(chick->rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 388), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 388),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06000D50);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nwc.c", 395);
 }
 
-void EnNwc_Init(Actor *thisx, GlobalContext *globalCtx) {
+void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNwc* this = THIS;
     ColliderJntSphItemInit elementInits[16];
@@ -205,7 +203,7 @@ void EnNwc_Init(Actor *thisx, GlobalContext *globalCtx) {
     s32 i;
 
     element = sJntSphInit.list = elementInits;
-    for(i = 0; i < 16; i++, element++) {
+    for (i = 0; i < 16; i++, element++) {
         *element = sJntSphElementInit;
     }
 
@@ -213,7 +211,7 @@ void EnNwc_Init(Actor *thisx, GlobalContext *globalCtx) {
     Collider_SetJntSph_Set3(globalCtx, &this->collider, &this->actor, &sJntSphInit);
     this->count = 16;
     chick = this->chicks;
-    for(i = 0; i < this->count; i++, chick++) {
+    for (i = 0; i < this->count; i++, chick++) {
         chick->type = CHICK_NORMAL;
         chick->pos.x = thisx->posRot.pos.x + ((Math_Rand_ZeroOne() * 100.0f) - 50.0f);
         chick->pos.y = thisx->posRot.pos.y + 20.0f;
@@ -223,18 +221,18 @@ void EnNwc_Init(Actor *thisx, GlobalContext *globalCtx) {
     EnNwc_SetUpdate(this, EnNwc_Idle);
 }
 
-void EnNwc_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+void EnNwc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNwc* this = THIS;
 
     Collider_FreeJntSph(globalCtx, &this->collider);
 }
 
-void EnNwc_Idle(EnNwc *this, GlobalContext *globalCtx) {
+void EnNwc_Idle(EnNwc* this, GlobalContext* globalCtx) {
     EnNwc_UpdateChicks(this, globalCtx);
 }
 
-void EnNwc_Update(Actor* thisx, GlobalContext *globalCtx) {
+void EnNwc_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNwc* this = THIS;
 
@@ -242,7 +240,7 @@ void EnNwc_Update(Actor* thisx, GlobalContext *globalCtx) {
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-void EnNwc_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void EnNwc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNwc* this = THIS;
 
