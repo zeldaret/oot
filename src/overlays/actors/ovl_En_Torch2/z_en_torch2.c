@@ -141,11 +141,11 @@ void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->shieldQuad);
 }
 
-Actor* EnTorch2_AttackItem(GlobalContext* globalCtx, Player* this) {
-    Actor* tempActor = func_80033780(globalCtx, &this->actor, 4000.0f);
+Actor* EnTorch2_GetAttackItem(GlobalContext* globalCtx, Player* this) {
+    Actor* rangedItem = func_80033780(globalCtx, &this->actor, 4000.0f);
 
-    if (tempActor != NULL) {
-        return tempActor;
+    if (rangedItem != NULL) {
+        return rangedItem;
     } else {
         return func_80033684(globalCtx, &this->actor);
     }
@@ -223,7 +223,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     sp5A = player->actor.shape.rot.y - this->actor.shape.rot.y;
     input->cur.button = 0;
     camera = Gameplay_GetCamera(globalCtx, 0);
-    attackItem = EnTorch2_AttackItem(globalCtx, this);
+    attackItem = EnTorch2_GetAttackItem(globalCtx, this);
     switch (sActionState) {
         case ENTORCH2_WAIT:
             this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;

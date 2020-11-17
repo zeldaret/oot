@@ -39,7 +39,7 @@ glabel EnTorch2_Update
 /* 0048C 80B1DE0C AFA20078 */  sw      $v0, 0x0078($sp)           
 /* 00490 80B1DE10 AFA20068 */  sw      $v0, 0x0068($sp)           
 /* 00494 80B1DE14 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 00498 80B1DE18 0C2C76E6 */  jal     EnTorch2_AttackItem              
+/* 00498 80B1DE18 0C2C76E6 */  jal     EnTorch2_GetAttackItem              
 /* 0049C 80B1DE1C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 004A0 80B1DE20 3C0380B2 */  lui     $v1, %hi(sActionState)       ## $v1 = 80B20000
 /* 004A4 80B1DE24 9063015E */  lbu     $v1, %lo(sActionState)($v1)  
