@@ -101,7 +101,7 @@ void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 tagIndex;
 
     osSyncPrintf("\n\n");
-    // Mysterious mystery
+    // Mysterious mystery, very mysterious
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 不思議不思議まか不思議 \t   ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
     this->actor.flags &= ~1;
 
@@ -299,7 +299,7 @@ void EnWonderItem_BombSoldier(EnWonderItem* this, GlobalContext* globalCtx) {
         if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HEISHI2, this->actor.posRot.pos.x,
                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.yawTowardsLink, 0,
                         9) != NULL) {
-            // Inadvertently complete the soldier set
+            // Careless soldier spawned
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n" VT_RST);
         }
         if (this->switchFlag >= 0) {
