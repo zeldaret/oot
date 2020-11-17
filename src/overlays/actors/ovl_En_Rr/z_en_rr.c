@@ -783,6 +783,13 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+static Vec3f effectOffsets[] = {
+    { 25.0f, 0.0f, 0.0f },
+    { -25.0f, 0.0f, 0.0f },
+    { 0.0f, 0.0f, 25.0f },
+    { 0.0f, 0.0f, -25.0f },
+};
+
 void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f zeroVec;
@@ -828,12 +835,6 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1551);
     if (this->effectTimer != 0) {
-        static Vec3f effectOffsets[] = {
-            { 25.0f, 0.0f, 0.0f },
-            { -25.0f, 0.0f, 0.0f },
-            { 0.0f, 0.0f, 25.0f },
-            { 0.0f, 0.0f, -25.0f },
-        };
         Vec3f effectPos;
         s16 effectTimer = this->effectTimer - 1;
 
