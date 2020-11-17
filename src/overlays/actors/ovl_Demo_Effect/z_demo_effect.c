@@ -1404,7 +1404,6 @@ void DemoEffect_InitJewelColor(DemoEffect* this) {
 void DemoEffect_SetJewelColor(DemoEffect* this, f32 alpha) {
     DemoEffect_InitJewelColor(this);
 
-    // s32 casts needed to prevent u8s from casting to float
     this->primXluColor[0] = (((s32)this->primXluColor[0]) * alpha) + (255.0f * (1.0f - alpha));
     this->primXluColor[1] = (((s32)this->primXluColor[1]) * alpha) + (255.0f * (1.0f - alpha));
     this->primXluColor[2] = (((s32)this->primXluColor[2]) * alpha) + (255.0f * (1.0f - alpha));
