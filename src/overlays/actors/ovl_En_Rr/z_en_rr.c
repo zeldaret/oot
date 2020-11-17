@@ -44,21 +44,16 @@ void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRr_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-// void EnRr_SetSpeed(EnRr* this, f32 speed);
-
 void EnRr_SetupReach(EnRr* this);
 void EnRr_SetupNeutral(EnRr* this);
 void EnRr_SetupGrabPlayer(EnRr* this, Player* player);
-// u8 EnRr_GetMessage(u8 shield, u8 tunic);
 void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx);
 void EnRr_SetupDamage(EnRr* this);
 void EnRr_SetupApproach(EnRr* this);
 void EnRr_SetupDeath(EnRr* this);
 void EnRr_SetupStunned(EnRr* this);
 
-// void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx);
 void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx);
-// void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx);
 
 void EnRr_Approach(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Reach(EnRr* this, GlobalContext* globalCtx);
@@ -383,15 +378,15 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                 func_8005DFAC(globalCtx, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {
-                case RR_DAMAGE_LIGHT_ARROW: // Light Arrow
+                case RR_DAMAGE_LIGHT_ARROW: 
                     dropType++;             // purple rupee
-                case RR_DAMAGE_UNK_ARROW_1: // Unk Arrow 1
+                case RR_DAMAGE_UNK_ARROW_1: 
                     dropType++;             // flexible
-                case RR_DAMAGE_UNK_ARROW_2: // Unk Arrow 2
+                case RR_DAMAGE_UNK_ARROW_2: 
                     dropType++;             // arrow
-                case RR_DAMAGE_UNK_ARROW_3: // Unk Arrow 3 and Damage Unk 1
+                case RR_DAMAGE_UNK_ARROW_3:
                     dropType++;             // magic jar
-                case RR_DAMAGE_NORMAL:      // Normal
+                case RR_DAMAGE_NORMAL:      
                     // ouch
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
                                  this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
@@ -409,7 +404,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                         EnRr_SetupDeath(this);
                     }
                     return;
-                case RR_DAMAGE_FIRE: // Fire Arrow and Fire Magic
+                case RR_DAMAGE_FIRE: // Fire Arrow and Din's Fire
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
@@ -418,7 +413,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     this->effectTimer = 20;
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_ICE: // Ice Arrow and Unk Magic 1
+                case RR_DAMAGE_ICE: // Ice Arrow and unused ice magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
@@ -429,7 +424,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     }
                     EnRr_SetupStunned(this);
                     return;
-                case RR_DAMAGE_LIGHT_MAGIC: // Unk Magic 2
+                case RR_DAMAGE_LIGHT_MAGIC: // Unused light magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RED_RUPEE;
@@ -804,7 +799,9 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_Pull();
-    VEC_SET(zeroVec, 0.0f, 0.0f, 0.0f);
+    zeroVec.x = 0.0f;
+    zeroVec.y = 0.0f;
+    zeroVec.z = 0.0f;
     for (i = 1; i < 5; i++) {
         Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, 1);
 
