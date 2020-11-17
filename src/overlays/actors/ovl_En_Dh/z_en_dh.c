@@ -95,7 +95,8 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->limbDrawTable, this->limbRotTable, 16);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->limbDrawTable, this->limbRotTable,
+                     16);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = 0xFE;
@@ -118,7 +119,8 @@ void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider2);
 }
 
-void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32 spread, s32 arg4, f32 accelXZ, f32 scale) {
+void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32 spread, s32 arg4, f32 accelXZ,
+                      f32 scale) {
     Vec3f pos;
     Vec3f vel = { 0.0f, 8.0f, 0.0f };
     Vec3f accel = { 0.0f, -1.5f, 0.0f };
@@ -518,7 +520,8 @@ void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->dirtWaveAlpha);
 
         Matrix_Translate(0.0f, -this->actor.shape.unk_08, 0.0f, MTXMODE_APPLY);
-        Matrix_Scale(this->dirtWaveSpread * 0.01f, this->dirtWaveHeight * 0.01f, this->dirtWaveSpread * 0.01f, MTXMODE_APPLY);
+        Matrix_Scale(this->dirtWaveSpread * 0.01f, this->dirtWaveHeight * 0.01f, this->dirtWaveSpread * 0.01f,
+                     MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dh.c", 1160),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_06007FC0);
