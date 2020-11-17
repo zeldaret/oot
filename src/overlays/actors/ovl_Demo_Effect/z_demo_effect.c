@@ -1508,7 +1508,6 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     }
 
     radius = 50.0f * frameDivisor;
-    // CLAMP_MAX macro is not OK
     if (radius > 30.0f) {
         radius = 30.0f;
     }
