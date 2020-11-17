@@ -1534,8 +1534,6 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     Color_RGB8* sparkleColors;
     s32 i;
 
-    i = 0;
-
     velocity.y = 0.0f;
 
     accel.x = 0.0f;
@@ -1552,14 +1550,12 @@ void DemoEffect_JewelSparkle(DemoEffect* this, GlobalContext* globalCtx, s32 spa
     envColor.b = (sparkleColors + 1)->b;
     primColor.a = 0;
 
-    while (i < spawnerCount) {
+    for (i = 0; i < spawnerCount; i++) {
         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 1.5f;
 
         EffectSsKiraKira_SpawnDispersed(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor, &envColor,
                                         3000, 16);
-
-        i++;
     }
 }
 
