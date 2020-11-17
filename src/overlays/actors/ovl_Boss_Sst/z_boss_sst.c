@@ -2906,13 +2906,13 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 0xFF);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 0xFF);
 
     if (!sBodyStatic) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
     } else {
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0x00);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, sBodyStaticDList);
+        gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0x00);
+        gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDList);
     }
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
@@ -2937,13 +2937,13 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
                 func_800D1694(trail->posRot.pos.x, trail->posRot.pos.y, trail->posRot.pos.z, &trail->posRot.rot);
                 Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
 
-                gSPSegment(oGfxCtx->polyXlu.p++, 0x08, sHandTrailDList);
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, ((3 - i) * 10) + 20, 0, ((3 - i) * 20) + 50,
+                gSPSegment(POLY_XLU_DISP++, 0x08, sHandTrailDList);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, ((3 - i) * 10) + 20, 0, ((3 - i) * 20) + 50,
                                 ((3 - i) * 30) + 70);
 
-                oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                        this->skelAnime.dListCount, BossSst_HandTrailOverride, NULL,
-                                                       trail, oGfxCtx->polyXlu.p);
+                                                       trail, POLY_XLU_DISP);
             }
             idx = (idx + 5) % 7;
             trail2 = trail;
@@ -3057,17 +3057,17 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.flags & 0x80) != 0x80) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
         if (!sBodyStatic) {
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x08, &D_80116280[2]);
+            gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         } else {
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0);
-            gSPSegment(oGfxCtx->polyOpa.p++, 0x08, sBodyStaticDList);
+            gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0);
+            gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDList);
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0x80, 255, 255, 255, 255);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, &D_80116280[2]);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 255, 255);
+        gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[2]);
     }
 
     if (this->actionFunc == BossSst_HeadThrash) {
@@ -3083,13 +3083,13 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.flags & 0x80) != 0x80) {
-        oGfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, BossSst_HeadOverride, BossSst_HeadPost,
-                                               &this->actor, oGfxCtx->polyOpa.p);
+                                               &this->actor, POLY_OPA_DISP);
     } else {
-        oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, BossSst_HeadOverride, BossSst_HeadPost,
-                                               &this->actor, oGfxCtx->polyXlu.p);
+                                               &this->actor, POLY_XLU_DISP);
     }
 
     if ((this->actionFunc == BossSst_HeadIntro) && (113 >= this->timer) && (this->timer > 20)) {
@@ -3098,7 +3098,7 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f vanishMaskOffset;
 
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 18, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 18, 255);
 
         yOffset = 113 * 8 - this->timer * 8;
         vanishMaskPos.x = 35.0f;
@@ -3113,9 +3113,9 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
                          this->actor.posRot.pos.z + vanishMaskOffset.z, MTXMODE_NEW);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
 
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6934),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, sIntroVanishDList);
+        gSPDisplayList(POLY_XLU_DISP++, sIntroVanishDList);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6941);
@@ -3352,11 +3352,11 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
 
         func_80093D84(globalCtx->state.gfxCtx);
         if (this->effectMode == BONGO_ICE) {
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+            gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->gameplayFrames % 256, 0x20, 0x10, 1,
                                         0, (globalCtx->gameplayFrames * 2) % 256, 0x40, 0x20));
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 50, 100, this->effects[0].alpha);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06017EE0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->effects[0].alpha);
+            gSPDisplayList(POLY_XLU_DISP++, D_06017EE0);
 
             for (i = 0; i < 18; i++) {
                 effect = &this->effects[i];
@@ -3373,16 +3373,16 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
                     Matrix_RotateRPY(effect->rot.x, effect->rot.y, effect->rot.z, 1);
                     Matrix_Scale(effect->scale * 0.001f, effect->scale * 0.001f, effect->scale * 0.001f, MTXMODE_APPLY);
 
-                    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7350),
+                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7350),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06017F80);
+                    gSPDisplayList(POLY_XLU_DISP++, D_06017F80);
                 }
             }
         } else if (this->effectMode == BONGO_SHOCKWAVE) {
             f32 scaleY = 0.005f;
 
-            gDPPipeSync(oGfxCtx->polyXlu.p++);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+            gDPPipeSync(POLY_XLU_DISP++);
+            gSPSegment(POLY_XLU_DISP++, 0x08,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->gameplayFrames % 128, 0, 0x20, 0x40, 1,
                                         0, (globalCtx->gameplayFrames * -15) % 256, 0x20, 0x40));
 
@@ -3393,26 +3393,26 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
                     Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, 0);
                     Matrix_Scale(effect->scale * 0.001f, scaleY, effect->scale * 0.001f, MTXMODE_APPLY);
 
-                    gDPPipeSync(oGfxCtx->polyXlu.p++);
-                    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 30, 0, 30, effect->alpha * effect->move);
-                    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 30, 0, 30, 0);
-                    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7396),
+                    gDPPipeSync(POLY_XLU_DISP++);
+                    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 30, 0, 30, effect->alpha * effect->move);
+                    gDPSetEnvColor(POLY_XLU_DISP++, 30, 0, 30, 0);
+                    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7396),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPDisplayList(oGfxCtx->polyXlu.p++, D_040184B0);
+                    gSPDisplayList(POLY_XLU_DISP++, D_040184B0);
                 }
             }
         } else if (this->effectMode == BONGO_SHADOW) {
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, 10, 10, 80, 0);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 10, 10, 10, this->effects[0].alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 10, 10, 80, 0);
+            gDPSetEnvColor(POLY_XLU_DISP++, 10, 10, 10, this->effects[0].alpha);
 
             effect = &this->effects[0];
             while (effect->status != -1) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, 0);
                 Matrix_Scale(effect->scale * 0.001f, 1.0f, effect->scale * 0.001f, MTXMODE_APPLY);
 
-                gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7423),
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7423),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, sShadowDList);
+                gSPDisplayList(POLY_XLU_DISP++, sShadowDList);
                 effect++;
             }
         }
