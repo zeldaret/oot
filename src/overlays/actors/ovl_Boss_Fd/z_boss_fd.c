@@ -1639,19 +1639,19 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
         if (particle->type == FD_EMBER) {
             if (!flag) {
                 func_80093D84(globalCtx->state.gfxCtx);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600A880);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600A880);
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, particle->color.r, particle->color.g, particle->color.b,
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, particle->color.r, particle->color.g, particle->color.b,
                             particle->alpha);
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4046),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4046),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600A900);
+            gSPDisplayList(POLY_XLU_DISP++, D_0600A900);
         }
     }
 
@@ -1661,7 +1661,7 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
         if (particle->type == FD_DEBRIS) {
             if (!flag) {
                 func_80093D18(globalCtx->state.gfxCtx);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600D3A0);
+                gSPDisplayList(POLY_OPA_DISP++, D_0600D3A0);
                 flag++;
             }
 
@@ -1670,9 +1670,9 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
             Matrix_RotateX(particle->xRot, MTXMODE_APPLY);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4068),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4068),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600D420);
+            gSPDisplayList(POLY_OPA_DISP++, D_0600D420);
         }
     }
 
@@ -1681,10 +1681,10 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
     for (i = 0; i < 180; i++, particle++) {
         if (particle->type == FD_DUST) {
             if (!flag) {
-                oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600B3A8);
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 90, 30, 0, 255);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 90, 30, 0, 0);
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600B3A8);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 90, 30, 0, 255);
+                gDPSetEnvColor(POLY_XLU_DISP++, 90, 30, 0, 0);
                 flag++;
             }
 
@@ -1692,10 +1692,10 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
             Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
             func_800D1FD4(&globalCtx->mf_11DA0);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4104),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(particleTex[particle->timer2]));
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600B3C8);
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(particleTex[particle->timer2]));
+            gSPDisplayList(POLY_XLU_DISP++, D_0600B3C8);
         }
     }
 
@@ -1704,21 +1704,21 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
     for (i = 0; i < 180; i++, particle++) {
         if (particle->type == FD_FIRE_BREATH) {
             if (!flag) {
-                oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600B3A8);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 10, 0, 255);
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600B3A8);
+                gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 255);
                 flag++;
             }
 
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 0, particle->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, particle->alpha);
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
             Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
             func_800D1FD4(&globalCtx->mf_11DA0);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4154),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4154),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(particleTex[particle->timer2]));
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600B3C8);
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(particleTex[particle->timer2]));
+            gSPDisplayList(POLY_XLU_DISP++, D_0600B3C8);
         }
     }
 
@@ -1728,7 +1728,7 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
         if (particle->type == FD_SKULL_PIECE) {
             if (!flag) {
                 func_80093D84(globalCtx->state.gfxCtx);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600D668);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600D668);
                 flag++;
             }
 
@@ -1737,9 +1737,9 @@ void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
             Matrix_RotateX(particle->xRot, MTXMODE_APPLY);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4192),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4192),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600D6E8);
+            gSPDisplayList(POLY_XLU_DISP++, D_0600D6E8);
         }
     }
 
@@ -1755,11 +1755,11 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4217);
         func_80093D18(globalCtx->state.gfxCtx);
         if (this->damageFlashTimer & 2) {
-            oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, 255, 255, 255, 0, 0x384, 0x44B);
+            POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 0x384, 0x44B);
         }
 
         BossFd_DrawBody(globalCtx, this);
-        oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+        POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4243);
     }
 
@@ -1874,9 +1874,9 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
         Matrix_Scale(maneScale[maneIndex] * (0.01f - (i * 0.0008f)), maneScale[maneIndex] * (0.01f - (i * 0.0008f)),
                      0.01f, 1);
         Matrix_RotateX(-M_PI / 2.0f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4480),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4480),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_060091E8);
+        gSPDisplayList(POLY_XLU_DISP++, D_060091E8);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4483);
@@ -1935,13 +1935,13 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4589);
     if (this->skinSegments != 0) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeDLists[this->eyeState]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sEyeDLists[this->eyeState]));
     }
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
+    gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s16)this->bodyTex1Scroll, (s16)this->bodyTex1Rot, 0x20,
                                 0x20, 1, (s16)this->bodyTex2Scroll, (s16)this->bodyTex2Rot, 0x20, 0x20));
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, (s8)this->bodyTex2Opacity);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
+    gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, (s8)this->bodyTex2Opacity);
 
     osSyncPrintf("LH\n");
     Matrix_Push();
@@ -1968,7 +1968,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                    &this->actor);
     Matrix_Pull();
     osSyncPrintf("BD\n");
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0D, tempMat);
+    gSPSegment(POLY_OPA_DISP++, 0x0D, tempMat);
 
     Matrix_Push();
     for (i1 = 0; i1 < 18; i1++, tempMat++) {
@@ -1985,8 +1985,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                          MTXMODE_APPLY);
             Matrix_RotateY(M_PI / 2.0f, MTXMODE_APPLY);
             Matrix_ToMtx(tempMat, "../z_boss_fd.c", 4719);
-            gSPMatrix(oGfxCtx->polyOpa.p++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, sBodyDLists[i1]);
+            gSPMatrix(POLY_OPA_DISP++, tempMat, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_OPA_DISP++, sBodyDLists[i1]);
         } else {
             MtxF spFC;
             Vec3f spF0 = { 0.0f, 0.0f, 0.0f };
@@ -2006,9 +2006,9 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                     temp_float = 0.1f * sp84;
                 }
                 Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-                gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4768),
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4768),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600B2F8);
+                gSPDisplayList(POLY_OPA_DISP++, D_0600B2F8);
 
                 if (this->bodyFallApart[i1] == 1) {
                     EnVbBall* bones;
@@ -2033,8 +2033,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_Pull();
     osSyncPrintf("BH\n");
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 255, 255, 255, (s8)this->headTex2Opacity);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, (s8)this->headTex2Opacity);
     Matrix_Push();
     temp_float = (this->actionState >= FD_SKULL_FALL) ? -20.0f : -10.0f - ((this->actor.speedXZ - 5.0f) * 10.0f);
     segIndex = (sBodyIndex[0] + this->leadBodySeg) % 100;
@@ -2058,18 +2058,18 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
         Vec3f spB0 = { 0.0f, 1700.0f, 7000.0f };
         Vec3f spA4 = { -1000.0f, 700.0f, 7000.0f };
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_06009168);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, this->centerManeColor, 0, 255);
+        gSPDisplayList(POLY_XLU_DISP++, D_06009168);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->centerManeColor, 0, 255);
         Matrix_Push();
         Matrix_MultVec3f(&spB0, &this->centerMane.head);
         BossFd_DrawMane(globalCtx, this, this->centerMane.pos, this->fireManeRot, this->centerMane.scale, 0);
         Matrix_Pull();
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, this->rightManeColor, 0, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->rightManeColor, 0, 255);
         Matrix_Push();
         Matrix_MultVec3f(&spA4, &this->rightMane.head);
         BossFd_DrawMane(globalCtx, this, this->rightMane.pos, this->fireManeRot, this->rightMane.scale, 1);
         Matrix_Pull();
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, this->leftManeColor, 0, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, this->leftManeColor, 0, 255);
         Matrix_Push();
         spA4.x *= -1.0f;
         Matrix_MultVec3f(&spA4, &this->leftMane.head);
