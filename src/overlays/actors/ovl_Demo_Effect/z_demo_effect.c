@@ -1513,7 +1513,7 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     }
 
     if (startPos.x != endPos.x || startPos.y != endPos.y || startPos.z != endPos.z) {
-        this->jewelCsRotation.x = atan2f(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (32768.0f / M_PI);
+        this->jewelCsRotation.x = atan2f(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (0x8000 / M_PI);
         this->jewelCsRotation.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
