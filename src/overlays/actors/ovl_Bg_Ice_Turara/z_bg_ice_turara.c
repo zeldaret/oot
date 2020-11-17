@@ -82,7 +82,6 @@ void BgIceTurara_Break(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     static Vec3f accel = { 0.0f, -1.0f, 0.0f };
     static Color_RGBA8 primColor = { 170, 255, 255, 255 };
     static Color_RGBA8 envColor = { 0, 50, 100, 255 };
-
     Vec3f vel;
     Vec3f pos;
     s32 j;
