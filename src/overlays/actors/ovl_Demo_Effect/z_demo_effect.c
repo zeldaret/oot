@@ -1707,7 +1707,7 @@ s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csA
  */
 void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
     s32 pad;
-    GlobalContext* globalCtx2;
+    GlobalContext* globalCtx2 = globalCtx;
     u32 scroll = this->jewel.timer;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2543);
@@ -1717,8 +1717,6 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
         if (1) {}
 
         if (!(this->effectFlags & (1 << 0))) {
-            globalCtx2 = globalCtx;
-
             switch (this->jewel.type) {
                 case DEMO_EFFECT_JEWEL_KOKIRI:
                     gSPSegment(POLY_XLU_DISP++, 9,
