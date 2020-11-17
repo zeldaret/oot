@@ -393,9 +393,9 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 809);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
+    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
                    (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
     if ((this->actor.params & 1) == 1) {
         child = this->actor.child;
@@ -411,26 +411,26 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
         pos.z = this->actor.posRot.pos.z;
     }
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 841),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 841),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(faceTextures[this->faceTextureIndex]));
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000260);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(faceTextures[this->faceTextureIndex]));
+    gSPDisplayList(POLY_OPA_DISP++, D_06000260);
 
     rot.x = this->actor.shape.rot.x;
     rot.y = this->actor.shape.rot.y;
     rot.z = this->actor.shape.rot.z + this->flameRingRot;
     func_800D1694(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 859),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 859),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000398);
+    gSPDisplayList(POLY_OPA_DISP++, D_06000398);
 
     rot.z = this->actor.shape.rot.z - this->flameRingRot;
     func_800D1694(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 873),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 873),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000408);
+    gSPDisplayList(POLY_OPA_DISP++, D_06000408);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 878);
 }
@@ -443,18 +443,18 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 890);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
                    (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
 
     sp68.x = this->actor.posRot.pos.x;
     sp68.y = this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->actor.scale.y);
     sp68.z = this->actor.posRot.pos.z;
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 912),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 912),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(faceTextures[this->faceTextureIndex]));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000260);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(faceTextures[this->faceTextureIndex]));
+    gSPDisplayList(POLY_XLU_DISP++, D_06000260);
 
     sp60.x = this->actor.shape.rot.x;
     sp60.y = this->actor.shape.rot.y;
@@ -462,16 +462,16 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
 
     func_800D1694(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 930),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 930),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000398);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000398);
 
     sp60.z = this->actor.shape.rot.z - this->flameRingRot;
     func_800D1694(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 944),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 944),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06000408);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000408);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 949);
 }

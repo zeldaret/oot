@@ -117,26 +117,26 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
-                oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600BC90);
-                gDPSetEnvColor(oGfxCtx->polyXlu.p++, 100, 60, 20, 0);
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600BC90);
+                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 gfxSetup = 1;
             }
 
             alpha = eff->timeLeft * (255.f / eff->timeTotal);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
 
-            gDPPipeSync(oGfxCtx->polyXlu.p++);
+            gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(eff->size, eff->size, 1.f, MTXMODE_APPLY);
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(images) / eff->timeTotal);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
 
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0600BCA0);
+            gSPDisplayList(POLY_XLU_DISP++, D_0600BCA0);
         }
         eff++;
     }
@@ -683,7 +683,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B1D200(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600ACE0);
+    gSPDisplayList(POLY_OPA_DISP++, D_0600ACE0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
@@ -739,7 +739,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
                      EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);
