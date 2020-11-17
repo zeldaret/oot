@@ -1656,7 +1656,9 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
  * This spawns the dust particles and increments a timer
  */
 void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
-    Vec3f pos, velocity, accel;
+    Vec3f pos;
+    Vec3f velocity;
+    Vec3f accel;
 
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId] &&
         globalCtx->csCtx.npcActions[this->csActionId]->action == 2) {
