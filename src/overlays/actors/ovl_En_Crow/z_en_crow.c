@@ -33,14 +33,20 @@ const ActorInit En_Crow_InitVars = {
 
 static ColliderJntSphElementInit sJntSphItemsInit[1] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_HARD | TOUCH_ON, BUMP_ON,
-OCELEM_ON }, { 1, { { 0, 0, 0 }, 20 }, 100 },
+        { ELEMTYPE_UNK0,
+          { 0xFFCFFFFF, 0x00, 0x08 },
+          { 0xFFCFFFFF, 0x00, 0x00 },
+          TOUCH_SFX_HARD | TOUCH_ON,
+          BUMP_ON,
+          OCELEM_ON },
+        { 1, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_HIT3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
-    1, sJntSphItemsInit,
+    1,
+    sJntSphItemsInit,
 };
 
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 0x000F, 0x001E, 30 };
@@ -87,7 +93,7 @@ void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnCrow_SetupWait(EnCrow* this) {
     this->timer = 100;
-    this->collider.base.acFlags |= 1;
+    this->collider.base.acFlags |= AC_ON;
     this->actionFunc = EnCrow_Wait;
     this->skelAnime.animPlaybackSpeed = 1.0f;
 }
@@ -137,7 +143,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
     }
 
-    this->collider.base.acFlags &= ~1;
+    this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= 0x10;
 
     this->actionFunc = func_809E0E2C;
@@ -163,7 +169,8 @@ void func_809E0770(EnCrow* this) {
     if (sDeathCount == 10) {
         this->actor.params = 1;
         sDeathCount = 0;
-        this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements->dim.modelSphere.radius * 0.03f * 100.0f;
+        this->collider.elements[0].dim.worldSphere.radius =
+            sJntSphInit.elements->dim.modelSphere.radius * 0.03f * 100.0f;
     } else {
         this->actor.params = 0;
         this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements->dim.modelSphere.radius;
@@ -267,10 +274,11 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 4, 0xC00);
     }
 
-    if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & 2) ||
-        (this->actor.bgCheckFlags & 9) || (player->stateFlags1 & 0x00800000) || (this->actor.waterY > -40.0f)) {
-        if (this->collider.base.atFlags & 2) {
-            this->collider.base.atFlags &= ~2;
+    if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) ||
+        (this->collider.base.atFlags & AT_HIT) || (this->actor.bgCheckFlags & 9) ||
+        (player->stateFlags1 & 0x00800000) || (this->actor.waterY > -40.0f)) {
+        if (this->collider.base.atFlags & AT_HIT) {
+            this->collider.base.atFlags &= ~AT_HIT;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
         }
 
@@ -363,8 +371,8 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void func_809E1174(EnCrow* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->collider.elements[0].info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {
@@ -412,7 +420,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
-    if (this->collider.base.acFlags & 1) {
+    if (this->collider.base.acFlags & AC_ON) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 

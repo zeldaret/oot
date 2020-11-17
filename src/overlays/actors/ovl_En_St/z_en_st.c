@@ -59,7 +59,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0x02, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, 0xFF };
 
 static ColliderCylinderInit sCylinderInit2 = {
     { COLTYPE_HIT6, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
