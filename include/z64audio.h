@@ -747,9 +747,9 @@ typedef struct {
     /* 0x04 */ f32*     posY;
     /* 0x08 */ f32*     posZ;
     /* 0x0C */ u8       unk_C;
-    /* 0x10 */ u32*     unk_10;
-    /* 0x14 */ u32*     unk_14;
-    /* 0x18 */ u32*     unk_18;
+    /* 0x10 */ f32*     unk_10;
+    /* 0x14 */ f32*     unk_14;
+    /* 0x18 */ f32*     unk_18;
     /* 0x1C */ f32      unk_1C;
     /* 0x20 */ u32      unk_20;
     /* 0x24 */ u8       unk_24; 
