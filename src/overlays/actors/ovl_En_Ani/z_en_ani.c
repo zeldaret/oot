@@ -319,7 +319,7 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, &this->actor);

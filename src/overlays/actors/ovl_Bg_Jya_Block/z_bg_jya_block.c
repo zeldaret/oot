@@ -72,11 +72,11 @@ void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_05004350));
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_block.c", 153),
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_05004350));
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_block.c", 153),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 232, 210, 176, 255);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_05004CD0);
+    gDPSetEnvColor(POLY_OPA_DISP++, 232, 210, 176, 255);
+    gSPDisplayList(POLY_OPA_DISP++, D_05004CD0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_block.c", 158);
 }

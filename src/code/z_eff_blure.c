@@ -399,7 +399,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
 void EffectBlure_SetupSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 809);
 
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 813);
 }
@@ -494,8 +494,8 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         vtx[3].v.cn[2] = sp78.b;
         vtx[3].v.cn[3] = sp78.a;
 
-        gSPVertex(oGfxCtx->polyXlu.p++, vtx, 4, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 2, 0, 0, 2, 3, 0);
+        gSPVertex(POLY_XLU_DISP++, vtx, 4, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 0, 1, 2, 0, 0, 2, 3, 0);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 932);
@@ -668,14 +668,14 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             vtx[j2].v.cn[3] = func_80027E84(sp1A0.a, sp198.a, temp_f28);
         }
 
-        gSPVertex(oGfxCtx->polyXlu.p++, vtx, 16, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 3, 0, 0, 3, 2, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 2, 3, 5, 0, 2, 5, 4, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 4, 5, 7, 0, 4, 7, 6, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 6, 7, 9, 0, 6, 9, 8, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 8, 9, 11, 0, 8, 11, 10, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 10, 11, 13, 0, 10, 13, 12, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 12, 13, 15, 0, 12, 15, 14, 0);
+        gSPVertex(POLY_XLU_DISP++, vtx, 16, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 2, 3, 5, 0, 2, 5, 4, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 4, 5, 7, 0, 4, 7, 6, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 6, 7, 9, 0, 6, 9, 8, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 8, 9, 11, 0, 8, 11, 10, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 10, 11, 13, 0, 10, 13, 12, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 12, 13, 15, 0, 12, 15, 14, 0);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1184);
@@ -721,7 +721,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
         return;
     }
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     for (i = 0, elem = &this->elements[0]; elem < &this->elements[this->numElements - 1]; elem++, i++) {
         if ((elem->state == 0) || ((elem + 1)->state == 0)) {
@@ -747,7 +747,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1280);
 
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1285);
 }
@@ -755,24 +755,24 @@ void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vt
 void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1294);
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+    gDPPipeSync(POLY_XLU_DISP++);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
 
-    gDPSetCycleType(oGfxCtx->polyXlu.p++, G_CYC_2CYCLE);
-    gDPSetTextureLUT(oGfxCtx->polyXlu.p++, G_TT_NONE);
-    gSPTexture(oGfxCtx->polyXlu.p++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPSetCycleType(POLY_XLU_DISP++, G_CYC_2CYCLE);
+    gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
+    gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
 
-    gDPLoadTextureBlock(oGfxCtx->polyXlu.p++, D_04006020, G_IM_FMT_I, G_IM_SIZ_8b, 64, 32, 0,
+    gDPLoadTextureBlock(POLY_XLU_DISP++, D_04006020, G_IM_FMT_I, G_IM_SIZ_8b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-    gDPSetCombineLERP(oGfxCtx->polyXlu.p++, TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL0, 0, PRIMITIVE, 0,
+    gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL0, 0, PRIMITIVE, 0,
                       PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, 0, 0, 0, COMBINED);
-    gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-    gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
-    gSPSetGeometryMode(oGfxCtx->polyXlu.p++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
+    gSPClearGeometryMode(POLY_XLU_DISP++, G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
+    gSPSetGeometryMode(POLY_XLU_DISP++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
+    gDPPipeSync(POLY_XLU_DISP++);
 
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->altEnvColor.r, this->altEnvColor.g, this->altEnvColor.b,
+    gDPSetEnvColor(POLY_XLU_DISP++, this->altEnvColor.r, this->altEnvColor.g, this->altEnvColor.b,
                    this->altEnvColor.a);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1329);
@@ -792,7 +792,7 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1356);
 
     sSetupHandlers[this->drawMode](gfxCtx, this, vtx);
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPPipeSync(POLY_XLU_DISP++);
 
     {
         Vec3f sp1B0;
@@ -812,15 +812,15 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
         for (i = 0; i < this->numElements - 1; i++) {
             if (this->drawMode == 1) {
                 alphaRatio = (f32)this->elements[i].timer / (f32)this->elemDuration;
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, this->altPrimColor.r, this->altPrimColor.g,
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, this->altPrimColor.r, this->altPrimColor.g,
                                 this->altPrimColor.b, this->altPrimColor.a * (1.0f - alphaRatio));
-                gDPPipeSync(oGfxCtx->polyXlu.p++);
+                gDPPipeSync(POLY_XLU_DISP++);
             }
 
             if (1) {} // Necessary to match
 
-            gSPVertex(oGfxCtx->polyXlu.p++, &vtx[j], 4, 0);
-            gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 3, 0, 0, 3, 2, 0);
+            gSPVertex(POLY_XLU_DISP++, &vtx[j], 4, 0);
+            gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
 
             if (this->flags & 4) {
                 sp1B0.x = ((f32)vtx[4 * i + 0].v.ob[0] + (f32)vtx[4 * i + 1].v.ob[0]) * 0.5f;
@@ -850,10 +850,10 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                         break;
                     }
 
-                    gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPVertex(oGfxCtx->polyXlu.p++, &vtx[j], 4, 0);
-                    gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 3, 0, 0, 3, 2, 0);
-                    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    gSPVertex(POLY_XLU_DISP++, &vtx[j], 4, 0);
+                    gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
+                    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 }
             }
 
@@ -993,12 +993,12 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1596);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->numElements != 0) {
         if (this->flags == 0) {
             func_800942F0(gfxCtx);
-            gDPPipeSync(oGfxCtx->polyXlu.p++);
+            gDPPipeSync(POLY_XLU_DISP++);
 
             vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[32]));
             if (vtx == NULL) {
@@ -1072,7 +1072,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
                 j = 0;
 
-                gSPVertex(oGfxCtx->polyXlu.p++, vtx, 32, 0);
+                gSPVertex(POLY_XLU_DISP++, vtx, 32, 0);
 
                 phi_t2 = 0;
                 for (i = 0; i < this->numElements; i++) {
@@ -1084,7 +1084,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
                         if (phi_t2 == 0) {
                             phi_t2 = 1;
                         } else {
-                            gSP1Quadrangle(oGfxCtx->polyXlu.p++, j - 2, j - 1, j + 1, j, 0);
+                            gSP1Quadrangle(POLY_XLU_DISP++, j - 2, j - 1, j + 1, j, 0);
 
                             if (1) {} // Necessary to match
 
