@@ -1886,10 +1886,8 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
 
         this->godLgt.rotation++;
         if (this->godLgt.rotation > 120) {
-            // if block necessary to match
-            if (1) {
-                this->godLgt.rotation = 0;
-            }
+            this->godLgt.rotation = 0;
+            if (1) {}
         }
 
         Matrix_RotateZ((((s32)this->godLgt.rotation) * 3.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
