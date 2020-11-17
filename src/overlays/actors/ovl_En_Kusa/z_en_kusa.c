@@ -44,13 +44,13 @@ void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9C00C(EnKusa* this);
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx);
 
-s16 D_80A9C1D0[] = { 0x00000000 };
+s16 D_80A9C1D0[] = { 0x0000 };
 
-s16 D_80A9C1D4[] = { 0x00000000 };
+s16 D_80A9C1D4[] = { 0x0000 };
 
-s16 D_80A9C1D8[] = { 0x00000000 };
+s16 D_80A9C1D8[] = { 0x0000 };
 
-s16 D_80A9C1DC[] = { 0x00000000 };
+s16 D_80A9C1DC[] = { 0x0000 };
 
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
@@ -77,8 +77,8 @@ static ColliderCylinderInit D_80A9C208 = {
 // sColChkInfoInit
 CollisionCheckInfoInit D_80A9C234 = { 0, 0xC, 0x1E, 0xFF };
 
-s32 D_80A9C23C[] = { 0x00000000, 0x3F350481, 0x3F350481, 0x3F350481, 0x3F350481, 0x00000000,
-                     0x00000000, 0x3F350481, 0xBF350481, 0xBF350481, 0x3F350481, 0x00000000 };
+f32 D_80A9C23C[] = { 0, 0.707099f, 0.707099f,  0.707099f,  0.707099f, 0,
+                     0, 0.707099f, -0.707099f, -0.707099f, 0.707099f, 0 };
 
 s32 D_80A9C26C[] = { 0x006C0066, 0x00600054, 0x00420037, 0x002A0026 };
 
@@ -92,6 +92,8 @@ InitChainEntry D_80A9C27C[] = {
 Gfx* D_80A9C294[] = { 0x0500B9D0, 0x06000140, 0x06000140, 0x60002E0 };
 
 extern Gfx D_060002E0[];
+extern Gfx D_040355E0[]; // bush fragments 1
+extern Gfx D_040356A0[]; // bush fragments 2
 
 // Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFA0.s")
@@ -181,40 +183,70 @@ void func_80A9B1FC(EnKusa* this) {
     this->actor.scale.z = 0.120000005f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B21C.s")
-void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
+//TODO: Finish this function
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B21C.s")
+// void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
+//     s32 pad;
+//     Vec3f pos;
+//     Vec3f velocity;
+//     s32 i;
+//     f32* phi_s1 = D_80A9C23C;
+    
 
-    s32* phi_s1;
-    s32 i;
+//     for (i = 0; i < ARRAY_COUNT(D_80A9C26C); i++) {
+//         pos.x += (phi_s1[i] * this->actor.scale.x * 20.0f);
+//         pos.y += (phi_s1[i] * this->actor.scale.y * 20.0f) + 10.0f;
+//         pos.z += (phi_s1[i] * this->actor.scale.z * 20.0f);
+//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
+//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
+//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
+//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
+//         pos.x += (phi_s1[i] * this->actor.scale.x * 40.0f);
+//         pos.y += (phi_s1[i] * this->actor.scale.y * 40.0f) + 10.0f;
+//         pos.z += (phi_s1[i] * this->actor.scale.z * 40.0f);
+//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
+//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
+//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
+//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
+//     }
+// }
 
-    Vec3f* breakPos = &this->actor.posRot.pos;
+// void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
 
-    Vec3f pos;
-    Vec3f velocity;
+//     s32 pad;
+//     Vec3f pos;
+//     Vec3f velocity;
+//     s32* phi_s1;
+//     Vec3f* breakPos = &this->actor.posRot.pos;
 
-    phi_s1 = D_80A9C23C;
-    for (i = 0; i < ARRAY_COUNT(D_80A9C26C); i++, phi_s1 += 0xC) {
-        pos.x = this->actor.posRot.pos.x + (breakPos->x * this->actor.scale.x * 20.0f);
-        pos.y = this->actor.posRot.pos.y + (breakPos->y * this->actor.scale.y * 20.0f) + 10.0f;
-        pos.z = this->actor.posRot.pos.z + (breakPos->z * this->actor.scale.z * 20.0f);
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        velocity.y = Math_Rand_ZeroOne() * 10.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
-                             *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, 0x40355E0);
-        pos.x = this->actor.posRot.pos.x + (breakPos->x * this->actor.scale.x * 40.0f);
-        pos.y = this->actor.posRot.pos.y + (breakPos->y * this->actor.scale.y * 40.0f) + 10.0f;
-        pos.z = this->actor.posRot.pos.z + (breakPos->z * this->actor.scale.z * 40.0f);
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-        velocity.y = Math_Rand_ZeroOne() * 10.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
-                             *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, 0x40356A0);
-        // phi_s1 += 0xC;
-    }
-}
+
+//     phi_s1 = D_80A9C23C; // This is float values...1/sqrt(2)
+//     do {
+//         pos.x = this->actor.posRot.pos.x + (breakPos->x * this->actor.scale.x * 20.0f);
+//         pos.y = this->actor.posRot.pos.y + (breakPos->y * this->actor.scale.y * 20.0f) + 10.0f;
+//         pos.z = this->actor.posRot.pos.z + (breakPos->z * this->actor.scale.z * 20.0f);
+//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
+//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
+//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
+//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
+//         pos.x = this->actor.posRot.pos.x + (breakPos->x * this->actor.scale.x * 40.0f);
+//         pos.y = this->actor.posRot.pos.y + (breakPos->y * this->actor.scale.y * 40.0f) + 10.0f;
+//         pos.z = this->actor.posRot.pos.z + (breakPos->z * this->actor.scale.z * 40.0f);
+//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
+//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
+//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
+//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
+//         phi_s1 += 0xC;
+//     } while(phi_s1 != D_80A9C26C);
+// }
 
 // Matching!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B574.s")
@@ -296,20 +328,20 @@ void func_80A9B7EC(EnKusa* this) {
     func_80A9AFA0(this, func_80A9B810);
 }
 
-// FeelsRegAlloc
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B810.s")
-// void func_80A9B810(EnKusa *this, GlobalContext *globalCtx) {
-//     if (Object_IsLoaded(&globalCtx->objectCtx, this->kusaTexObjIndex)) {
-//         if (this->actor.flags & 0x800) {
-//             func_80A9BEAC(this);
-//         } else {
-//             func_80A9B89C(this);
-//         }
-//         this->actor.objBankIndex = this->kusaTexObjIndex;
-//         this->actor.draw = func_80A9C164;
-//         this->actor.flags &= -0x11;
-//     }
-// }
+// Matches!
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B810.s")
+void func_80A9B810(EnKusa* this, GlobalContext* globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->kusaTexObjIndex)) {
+        if (this->actor.flags & 0x800) {
+            func_80A9BEAC(this);
+        } else {
+            func_80A9B89C(this);
+        }
+        this->actor.draw = func_80A9C164;
+        this->actor.objBankIndex = this->kusaTexObjIndex;
+        this->actor.flags &= -0x11;
+    }
+}
 
 // Matching!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B89C.s")
@@ -361,7 +393,7 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matching
+// Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BA98.s")
 // Possibly SetupLiftedUp? -> modeled after EnIshi_SetupLiftedUp
 void func_80A9BA98(EnKusa* this) {
@@ -399,58 +431,57 @@ void func_80A9BBB0(EnKusa* this) {
     *D_80A9C1DC = 0;
 }
 
+// Matches!
 // Water break
-// Close to being done
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BC1C.s")
-// void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
-//     Vec3f contactPos;
-//     s32 pad;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BC1C.s")
+void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
+    s32 pad; // padding to push the stack down
+    Vec3f contactPos;
 
-//     if (this->actor.bgCheckFlags & 11) {
-//         if ((this->actor.bgCheckFlags & 32) == 0) {
-//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_EV_PLANT_BROKEN);
-//         }
-//         func_80A9B21C(this, globalCtx);
-//         func_80A9B07C(this, globalCtx); // Drop collectible
-//         if ((this->actor.params & 3) == 0 || (this->actor.params & 3) == 2) {
-//             Actor_Kill(&this->actor);
-//             return;
-//         }
-//         else if ((this->actor.params & 3) != 1 ) {
-//             func_80A9BF3C(this);
-//         }
-//         // if ((this->actor.params & 3) == 2) {
-//         //     goto block_6;
-//         // }
-//     } else {
-//         if ((this->actor.bgCheckFlags & 0x40) != 0 ) {
-//             contactPos.x = this->actor.posRot.pos.x;
-//             contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
-//             contactPos.z = this->actor.posRot.pos.z;
-//             EffectSsGSplash_Spawn(globalCtx, &contactPos, 0, 0, 0, 400);
-//             EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);
-//             EffectSsGRipple_Spawn(globalCtx, &contactPos, 400, 800, 4);
-//             EffectSsGRipple_Spawn(globalCtx, &contactPos, 500, 1100, 8);
-//             this->actor.minVelocityY = -3.0f;
-//             *D_80A9C1D4 = (*D_80A9C1D4 >> 1);
-//             *D_80A9C1D0 = (*D_80A9C1D0 >> 1);
-//             *D_80A9C1DC = (*D_80A9C1DC >> 1);
-//             *D_80A9C1D8 = (*D_80A9C1D8 >> 1);
-//             this->actor.bgCheckFlags = this->actor.bgCheckFlags & 0xFFBF;
-//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 40, NA_SE_EV_DIVE_INTO_WATER_L);
-//         }
-//         func_80A9B140(this);
-//         Math_ApproxS(D_80A9C1D4, *D_80A9C1D0, 0x1F4);
-//         Math_ApproxS(D_80A9C1DC, *D_80A9C1D8, 0xAA);
-//         this->actor.shape.rot.x += *D_80A9C1D4;
-//         this->actor.shape.rot.y += *D_80A9C1DC;
-//         func_80A9B174(&this->actor.velocity, 0.05f);
-//         func_8002D7EC(&this->actor);
-//         func_8002E4B4(globalCtx, this, 7.5f, 35.0f, 0.0f, 0xC5);
-//         Collider_CylinderUpdate(&this->actor, &this->collider);
-//         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-//     }
-// }
+    if (this->actor.bgCheckFlags & 11) {
+        if ((this->actor.bgCheckFlags & 32) == 0) {
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_EV_PLANT_BROKEN);
+        }
+        func_80A9B21C(this, globalCtx);
+        func_80A9B07C(this, globalCtx); // Drop collectible
+        switch (this->actor.params & 3) {
+            case 0:
+            case 2:
+                Actor_Kill(&this->actor);
+                return;
+
+            case 1:
+                func_80A9BF3C(&this->actor);
+        }
+    } else {
+        if (this->actor.bgCheckFlags & 0x40) {
+            contactPos.x = this->actor.posRot.pos.x;
+            contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
+            contactPos.z = this->actor.posRot.pos.z;
+            EffectSsGSplash_Spawn(globalCtx, &contactPos, NULL, NULL, 0, 400);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 400, 800, 4);
+            EffectSsGRipple_Spawn(globalCtx, &contactPos, 500, 1100, 8);
+            this->actor.minVelocityY = -3.0f;
+            *D_80A9C1D4 = (*D_80A9C1D4 >> 1);
+            *D_80A9C1D0 = (*D_80A9C1D0 >> 1);
+            *D_80A9C1DC = (*D_80A9C1DC >> 1);
+            *D_80A9C1D8 = (*D_80A9C1D8 >> 1);
+            this->actor.bgCheckFlags = this->actor.bgCheckFlags & 0xFFBF;
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        }
+        func_80A9B140(&this->actor);
+        Math_ApproxS(D_80A9C1D4, *D_80A9C1D0, 0x1F4);
+        Math_ApproxS(D_80A9C1DC, *D_80A9C1D8, 0xAA);
+        this->actor.shape.rot.x += *D_80A9C1D4;
+        this->actor.shape.rot.y += *D_80A9C1DC;
+        func_80A9B174(&this->actor.velocity, 0.05f);
+        func_8002D7EC(&this->actor);
+        func_8002E4B4(globalCtx, this, 7.5f, 35.0f, 0.0f, 0xC5);
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    }
+}
 
 // Matching!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BEAC.s")
@@ -482,7 +513,7 @@ void func_80A9BF30(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 // Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BF3C.s")
-void func_80A9BF3C(EnKusa *this) {
+void func_80A9BF3C(EnKusa* this) {
     this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 9.0f;
     this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
@@ -514,12 +545,12 @@ void func_80A9C00C(EnKusa* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C068.s")
-void func_80A9C068(EnKusa *this, GlobalContext *globalCtx) {
+void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     s32 sp24;
 
     sp24 = Math_ApproxF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
     this->actor.scale.z = this->actor.scale.x;
-    if (((sp24) & Math_ApproxF(&this->actor.scale, 0.4f, 0.011f)) != 0) {
+    if (((sp24)&Math_ApproxF(&this->actor.scale, 0.4f, 0.011f)) != 0) {
         Actor_SetScale(this, 0.4f);
         func_80A9B89C(this);
         this->collider.base.maskA = this->collider.base.maskA & 0xFFF7;
