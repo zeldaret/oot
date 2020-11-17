@@ -265,10 +265,10 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DEMO_EFFECT_LIGHT:
             this->initDrawFunc = DemoEffect_DrawLightEffect;
             this->initUpdateFunc = DemoEffect_UpdateLightEffect;
-            this->lightEffect.opacity = 255;
-            this->lightEffect.scaleFlag = 0;
-            this->lightEffect.flicker = 0;
-            this->lightEffect.rotation = 0;
+            this->light.opacity = 255;
+            this->light.scaleFlag = 0;
+            this->light.flicker = 0;
+            this->light.rotation = 0;
             switch (lightEffect) {
                 case DEMO_EFFECT_LIGHT_RED:
                     this->primXluColor[0] = 255;
@@ -1085,7 +1085,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
         DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
-                if (this->lightEffect.rotation < 240) {
+                if (this->light.rotation < 240) {
                     if (!isLargeSize) {
                         if (this->actor.scale.x < 0.23f) {
                             this->actor.scale.x += 0.001f;
@@ -1098,8 +1098,8 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
                         }
                     }
                 }
-                this->lightEffect.rotation += 0x0006;
-                this->lightEffect.scaleFlag += 1;
+                this->light.rotation += 0x0006;
+                this->light.scaleFlag += 1;
                 break;
 
             case 3:
@@ -1925,28 +1925,28 @@ void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
 
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1)) {
 
-        if (this->lightEffect.flicker == 0) {
-            this->lightEffect.flicker = 1;
+        if (this->light.flicker == 0) {
+            this->light.flicker = 1;
         } else {
             disp = (u32)lightBall;
-            opacity = &this->lightEffect.opacity;
+            opacity = &this->light.opacity;
             func_80093D84(globalCtx->state.gfxCtx);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
                             this->primXluColor[2], *opacity);
             gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
-            Matrix_Scale(((this->lightEffect.scaleFlag & 1) * 0.05f) + 1.0f,
-                         ((this->lightEffect.scaleFlag & 1) * 0.05f) + 1.0f,
-                         ((this->lightEffect.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
+                         ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
+                         ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(this->lightEffect.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             if (disp) {};
             gSPDisplayList(POLY_XLU_DISP++, disp);
             Matrix_Pull();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(-(f32)this->lightEffect.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(-(f32)this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, disp);

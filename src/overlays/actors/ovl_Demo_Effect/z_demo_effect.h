@@ -8,6 +8,74 @@ struct DemoEffect;
 
 typedef void (*DemoEffectFunc)(struct DemoEffect* this, GlobalContext* globalCtx);
 
+typedef struct DemoEffectFireBall {
+    u8 timer;
+} DemoEffectFireBall;
+
+typedef struct DemoEffectBlueOrb {
+    u8 opacity;
+    u8 scale;
+    u8 pad;
+    s16 rotation;
+} DemoEffectBlueOrb;
+
+typedef struct DemoEffectLight {
+    u8 opacity;
+    u8 scaleFlag;
+    u8 flicker;
+    s16 rotation;
+} DemoEffectLight;
+
+typedef struct DemoEffectLgtShower {
+    u8 opacity;
+} DemoEffectLgtShower;
+
+typedef struct DemoEffectGodLgt {
+    u8 type;
+    u8 lightRingSpawnDelay;
+    u8 rotation;
+    s16 lightRingSpawnTimer;
+} DemoEffectGodLgt;
+
+typedef struct DemoEffectLightRing {
+    u8 timerIncrement;
+    u8 opacity;
+    u8 pad;
+    s16 timer;
+} DemoEffectLightRing;
+
+typedef struct DemoEffectTriforceSpot {
+    u8 triforceSpotOpacity;
+    u8 lightColumnOpacity;
+    u8 crystalLightOpacity;
+    s16 rotation;
+} DemoEffectTriforceSpot;
+
+typedef struct DemoEffectGetItem {
+    u8 isPositionInit;
+    u8 isLoaded;
+    u8 giIndex;
+    s16 rotation;
+} DemoEffectGetItem;
+
+typedef struct DemoEffectTimeWarp {
+    u8 pad;
+    u8 pad2;
+    u8 pad3;
+    s16 shrinkTimer;
+} DemoEffectTimeWarp;
+
+typedef struct DemoEffectJewel {
+    u8 type;
+    u8 isPositionInit;
+    u8 opacity;
+    s16 timer;
+} DemoEffectJewel;
+
+typedef struct DemoEffectDust {
+    u8 timer;
+} DemoEffectDust;
+
 typedef struct DemoEffect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnimeCurve skelCurve;
@@ -19,63 +87,17 @@ typedef struct DemoEffect {
     /* 0x017E */ u8 primOpaColor[3];
     /* 0x0181 */ u8 envOpaColor[3];
     /* 0x0184 */ union {
-        struct {
-            u8 timer;
-        } fireBall;
-        struct {
-            u8 opacity;
-            u8 scale;
-            u8 pad;
-            s16 rotation;
-        } blueOrb;
-        struct {
-            u8 opacity;
-            u8 scaleFlag;
-            u8 flicker;
-            s16 rotation;
-        } lightEffect;
-        struct {
-            u8 opacity;
-        } lgtShower;
-        struct {
-            u8 type;
-            u8 lightRingSpawnDelay;
-            u8 rotation;
-            s16 lightRingSpawnTimer;
-        } godLgt;
-        struct {
-            u8 timerIncrement;
-            u8 opacity;
-            u8 pad;
-            s16 timer;
-        } lightRing;
-        struct {
-            u8 triforceSpotOpacity;
-            u8 lightColumnOpacity;
-            u8 crystalLightOpacity;
-            s16 rotation;
-        } triforceSpot;
-        struct {
-            u8 isPositionInit;
-            u8 isLoaded;
-            u8 giIndex;
-            s16 rotation;
-        } getItem;
-        struct {
-            u8 pad;
-            u8 pad2;
-            u8 pad3;
-            s16 shrinkTimer;
-        } timeWarp;
-        struct {
-            u8 type;
-            u8 isPositionInit;
-            u8 opacity;
-            s16 timer;
-        } jewel;
-        struct {
-            u8 timer;
-        } dust;
+        DemoEffectFireBall fireBall;
+        DemoEffectBlueOrb blueOrb;
+        DemoEffectLight light;
+        DemoEffectLgtShower lgtShower;
+        DemoEffectGodLgt godLgt;
+        DemoEffectLightRing lightRing;
+        DemoEffectTriforceSpot triforceSpot;
+        DemoEffectGetItem getItem;
+        DemoEffectTimeWarp timeWarp;
+        DemoEffectJewel jewel;
+        DemoEffectDust dust;
     };
     /* 0x018A */ s16 effectFlags;
     /* 0x018C */ s16 csActionId;
