@@ -34,7 +34,7 @@ glabel func_80A1F544
 .L80A1F5C0:
 /* 01020 80A1F5C0 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 01024 80A1F5C4 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
-/* 01028 80A1F5C8 0C018A29 */  jal     Collider_UpdateSphJoint              
+/* 01028 80A1F5C8 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 0102C 80A1F5CC 24A50194 */  addiu   $a1, $a1, 0x0194           ## $a1 = 00000194
 /* 01030 80A1F5D0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 01034 80A1F5D4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

@@ -294,7 +294,7 @@ glabel L80959578
 
 /* 0A2E4 809595A4 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 0A2E8 809595A8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 0A2EC 809595AC 0C018A29 */  jal     Collider_UpdateSphJoint
+/* 0A2EC 809595AC 0C018A29 */  jal     Collider_UpdateSpheres
 /* 0A2F0 809595B0 260502D8 */  addiu   $a1, $s0, 0x02D8           ## $a1 = 000002D8
 /* 0A2F4 809595B4 3C0B8096 */  lui     $t3, %hi(D_809668D2)       ## $t3 = 80960000
 /* 0A2F8 809595B8 816B68D2 */  lb      $t3, %lo(D_809668D2)($t3)

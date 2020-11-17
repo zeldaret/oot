@@ -355,7 +355,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
         gSPDisplayList(POLY_OPA_DISP++, D_04007860);
-        Collider_UpdateSphJoint(0, &this->explosionCollider);
+        Collider_UpdateSpheres(0, &this->explosionCollider);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom.c", 951);

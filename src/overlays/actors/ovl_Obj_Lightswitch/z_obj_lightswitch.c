@@ -88,7 +88,7 @@ void ObjLightswitch_InitCollider(ObjLightswitch* this, GlobalContext* globalCtx)
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->actor.scale.y),
                   this->actor.posRot.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    Collider_UpdateSphJoint(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
 }
 
 void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx) {
@@ -481,7 +481,7 @@ void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 alpha = this->alpha >> 6 & 0xFF;
 
     if ((this->actor.params & 1) == 1) {
-        Collider_UpdateSphJoint(0, &this->collider);
+        Collider_UpdateSpheres(0, &this->collider);
     }
 
     if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_BURN && (alpha > 0 || alpha < 255)) {

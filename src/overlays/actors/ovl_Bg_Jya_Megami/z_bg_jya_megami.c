@@ -334,7 +334,7 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
 void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaMegami* this = THIS;
 
-    Collider_UpdateSphJoint(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
     if (this->actionFunc == BgJyaMegami_Explode) {
         BgJyaMegami_DrawExplode(this, globalCtx);
     } else {

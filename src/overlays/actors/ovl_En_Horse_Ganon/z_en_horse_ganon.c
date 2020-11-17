@@ -159,10 +159,10 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->currentAnimation = 0;
     SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A691B0[0]);
 
-    Collider_InitCylinder(globalCtx, &this->colliderCylinder);
-    Collider_SetCylinder(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
-    Collider_InitJntSph(globalCtx, &this->colliderSphere);
-    Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
+    Collider_InitCylinder(globalCtx, &this->colliderBody);
+    Collider_SetCylinder(globalCtx, &this->colliderBody, &this->actor, &sCylinderInit);
+    Collider_InitJntSph(globalCtx, &this->colliderHead);
+    Collider_SetJntSph(globalCtx, &this->colliderHead, &this->actor, &sJntSphInit, this->headElements);
 
     CollisionCheck_SetInfo(&this->actor.colChkInfo, 0, &sColChkInfoInit);
     func_80A68AC4(this);
@@ -172,8 +172,8 @@ void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGanon* this = THIS;
 
     func_800A6888(globalCtx, &this->skin);
-    Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
-    Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
+    Collider_DestroyCylinder(globalCtx, &this->colliderBody);
+    Collider_DestroyJntSph(globalCtx, &this->colliderHead);
 }
 
 void func_80A68AC4(EnHorseGanon* this) {
@@ -270,32 +270,32 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
-    Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
+    Collider_UpdateCylinder(&this->actor, &this->colliderBody);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
 }
 
-void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphElement* colliderSphereItem) {
+void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseGanon* this = THIS;
     s32 index;
 
-    for (index = 0; index < this->colliderSphere.count; index++) {
-        sp4C.x = this->colliderSphere.elements[index].dim.modelSphere.center.x;
-        sp4C.y = this->colliderSphere.elements[index].dim.modelSphere.center.y;
-        sp4C.z = this->colliderSphere.elements[index].dim.modelSphere.center.z;
+    for (index = 0; index < this->colliderHead.count; index++) {
+        sp4C.x = this->colliderHead.elements[index].dim.modelSphere.center.x;
+        sp4C.y = this->colliderHead.elements[index].dim.modelSphere.center.y;
+        sp4C.z = this->colliderHead.elements[index].dim.modelSphere.center.z;
 
-        func_800A6408(colliderSphereItem, this->colliderSphere.elements[index].dim.joint, &sp4C, &sp40);
+        func_800A6408(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
 
-        this->colliderSphere.elements[index].dim.worldSphere.center.x = sp40.x;
-        this->colliderSphere.elements[index].dim.worldSphere.center.y = sp40.y;
-        this->colliderSphere.elements[index].dim.worldSphere.center.z = sp40.z;
+        this->colliderHead.elements[index].dim.worldSphere.center.x = sp40.x;
+        this->colliderHead.elements[index].dim.worldSphere.center.y = sp40.y;
+        this->colliderHead.elements[index].dim.worldSphere.center.z = sp40.z;
 
-        this->colliderSphere.elements[index].dim.worldSphere.radius =
-            this->colliderSphere.elements[index].dim.modelSphere.radius *
-            this->colliderSphere.elements[index].dim.scale;
+        this->colliderHead.elements[index].dim.worldSphere.radius =
+            this->colliderHead.elements[index].dim.modelSphere.radius *
+            this->colliderHead.elements[index].dim.scale;
     }
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderHead.base);
 }
 
 void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {

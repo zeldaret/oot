@@ -265,7 +265,7 @@ s32 Collider_DestroyJntSphElementDim(GlobalContext* globalCtx, ColliderJntSphEle
 
 s32 Collider_SetJntSphElementDim(GlobalContext* globalCtx, ColliderJntSphElementDim* dest,
                                  ColliderJntSphElementDimInit* src) {
-    dest->joint = src->joint;
+    dest->limb = src->limb;
     dest->modelSphere = src->modelSphere;
     dest->scale = src->scale * 0.01f;
     return 1;
@@ -3003,14 +3003,14 @@ static s8 sBssDummy12;
 static s8 sBssDummy13;
 static s8 sBssDummy14;
 
-// Updates the world spheres for all of the collider's JntSph elements attached to the specified joint
-void Collider_UpdateSphJoint(s32 joint, ColliderJntSph* collider) {
+// Updates the world spheres for all of the collider's JntSph elements attached to the specified limb
+void Collider_UpdateSpheres(s32 limb, ColliderJntSph* collider) {
     static Vec3f D_8015E648;
     static Vec3f D_8015CF00; // bss ordering changes here
     s32 i;
 
     for (i = 0; i < collider->count; i++) {
-        if (joint == collider->elements[i].dim.joint) {
+        if (limb == collider->elements[i].dim.limb) {
             D_8015E648.x = collider->elements[i].dim.modelSphere.center.x;
             D_8015E648.y = collider->elements[i].dim.modelSphere.center.y;
             D_8015E648.z = collider->elements[i].dim.modelSphere.center.z;

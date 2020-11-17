@@ -208,7 +208,7 @@ glabel func_80A0CCF0
 /* 01908 80A0CFC8 02802025 */  or      $a0, $s4, $zero            ## $a0 = FFFFFFD8
 /* 0190C 80A0CFCC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 .L80A0CFD0:
-/* 01910 80A0CFD0 0C018A29 */  jal     Collider_UpdateSphJoint              
+/* 01910 80A0CFD0 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 01914 80A0CFD4 26A50194 */  addiu   $a1, $s5, 0x0194           ## $a1 = 00000194
 /* 01918 80A0CFD8 8FBF0074 */  lw      $ra, 0x0074($sp)           
 /* 0191C 80A0CFDC D7B40020 */  ldc1    $f20, 0x0020($sp)          

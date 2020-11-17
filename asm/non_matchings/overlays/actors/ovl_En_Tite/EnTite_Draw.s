@@ -25,7 +25,7 @@ glabel EnTite_Draw
 /* 0281C 80B1B29C 0C024F46 */  jal     func_80093D18              
 /* 02820 80B1B2A0 8DE40000 */  lw      $a0, 0x0000($t7)           ## 00000000
 /* 02824 80B1B2A4 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 02828 80B1B2A8 0C018A29 */  jal     Collider_UpdateSphJoint              
+/* 02828 80B1B2A8 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 0282C 80B1B2AC 260502E8 */  addiu   $a1, $s0, 0x02E8           ## $a1 = 000002E8
 /* 02830 80B1B2B0 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
 /* 02834 80B1B2B4 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

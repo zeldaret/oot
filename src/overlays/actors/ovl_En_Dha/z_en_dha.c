@@ -373,18 +373,18 @@ void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 1:
-            Collider_UpdateSphJoint(2, &this->collider);
-            Collider_UpdateSphJoint(3, &this->collider);
+            Collider_UpdateSpheres(2, &this->collider);
+            Collider_UpdateSpheres(3, &this->collider);
             break;
 
         case 2:
-            Collider_UpdateSphJoint(4, &this->collider);
-            Collider_UpdateSphJoint(5, &this->collider);
+            Collider_UpdateSpheres(4, &this->collider);
+            Collider_UpdateSpheres(5, &this->collider);
             Matrix_MultVec3f(&D_809ED770, &this->unk_1F4);
             break;
 
         case 3:
-            Collider_UpdateSphJoint(1, &this->collider);
+            Collider_UpdateSpheres(1, &this->collider);
             Matrix_MultVec3f(&D_809ED764, &this->unk_1DC);
             Matrix_MultVec3f(&D_809ED770, &this->unk_1E8);
             break;

@@ -21,7 +21,7 @@ glabel func_80AE0CE8
 /* 02FB0 80AE0D00 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 02FB4 80AE0D04 AFA60050 */  sw      $a2, 0x0050($sp)           
 /* 02FB8 80AE0D08 AFA70054 */  sw      $a3, 0x0054($sp)           
-/* 02FBC 80AE0D0C 0C018A29 */  jal     Collider_UpdateSphJoint              
+/* 02FBC 80AE0D0C 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 02FC0 80AE0D10 26050308 */  addiu   $a1, $s0, 0x0308           ## $a1 = 00000308
 /* 02FC4 80AE0D14 8E0E0190 */  lw      $t6, 0x0190($s0)           ## 00000190
 /* 02FC8 80AE0D18 3C0880AE */  lui     $t0, %hi(func_80ADF15C)    ## $t0 = 80AE0000

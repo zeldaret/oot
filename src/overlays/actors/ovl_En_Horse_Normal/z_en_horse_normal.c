@@ -165,7 +165,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit1);
     Collider_InitJntSph(globalCtx, &this->headCollider);
-    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderItems);
+    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
     Collider_InitCylinder(globalCtx, &this->cloneCollider);
     Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -556,7 +556,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphElement* collider) {
+void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseNormal* this = THIS;
@@ -566,7 +566,7 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphElement
         sp4C.x = this->headCollider.elements[i].dim.modelSphere.center.x;
         sp4C.y = this->headCollider.elements[i].dim.modelSphere.center.y;
         sp4C.z = this->headCollider.elements[i].dim.modelSphere.center.z;
-        func_800A6408(collider, this->headCollider.elements[i].dim.joint, &sp4C, &sp40);
+        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &sp4C, &sp40);
         this->headCollider.elements[i].dim.worldSphere.center.x = sp40.x;
         this->headCollider.elements[i].dim.worldSphere.center.y = sp40.y;
         this->headCollider.elements[i].dim.worldSphere.center.z = sp40.z;

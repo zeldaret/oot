@@ -859,7 +859,7 @@ void Collider_SetQuadVertices(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f*
 void Collider_SetTrisVertices(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
 void Collider_SetTrisDim(GlobalContext* globalCtx, ColliderTris* collider, s32 index,
                                   ColliderTrisElementDimInit* init);
-void Collider_UpdateSphJoint(s32 joint, ColliderJntSph* collider);
+void Collider_UpdateSpheres(s32 limb, ColliderJntSph* collider);
 void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v);
 void CollisionCheck_SpawnShieldParticles(GlobalContext* globalCtx, Vec3f* v);
@@ -1337,7 +1337,7 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 // ? func_800A60D8(?);
 void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void* callback, s32);
 void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb*, s32, s32, s32, s32, s32);
-void func_800A6408(ColliderJntSphElement* collider, u8 joint, Vec3f*, Vec3f*);
+void func_800A6408(PSkinAwb* skin, u8 limb, Vec3f*, Vec3f*);
 // ? func_800A6460(?);
 void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
 void func_800A6888(GlobalContext*, PSkinAwb*);

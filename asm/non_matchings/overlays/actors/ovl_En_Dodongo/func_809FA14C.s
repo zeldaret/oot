@@ -147,7 +147,7 @@ glabel func_809FA14C
 /* 02058 809FA2A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0205C 809FA2AC 26C50588 */  addiu   $a1, $s6, 0x0588           ## $a1 = 00000588
 /* 02060 809FA2B0 AD2C0004 */  sw      $t4, 0x0004($t1)           ## FFFFFEDC
-/* 02064 809FA2B4 0C018A29 */  jal     Collider_UpdateSphJoint              
+/* 02064 809FA2B4 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 02068 809FA2B8 AD2F0008 */  sw      $t7, 0x0008($t1)           ## FFFFFEE0
 /* 0206C 809FA2BC 260DFFFE */  addiu   $t5, $s0, 0xFFFE           ## $t5 = FFFFFFFE
 /* 02070 809FA2C0 2DA1001B */  sltiu   $at, $t5, 0x001B           

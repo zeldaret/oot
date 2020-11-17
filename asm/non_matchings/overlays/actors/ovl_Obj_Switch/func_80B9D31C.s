@@ -31,7 +31,7 @@ glabel func_80B9D31C
 /* 00180 80B9D390 0C0342A3 */  jal     Matrix_Scale              
 /* 00184 80B9D394 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00188 80B9D398 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 0018C 80B9D39C 0C018A29 */  jal     Collider_UpdateSphJoint              
+/* 0018C 80B9D39C 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 00190 80B9D3A0 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00194 80B9D3A4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00198 80B9D3A8 8FB00020 */  lw      $s0, 0x0020($sp)           

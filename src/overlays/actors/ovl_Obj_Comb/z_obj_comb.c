@@ -211,7 +211,7 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPDisplayList(POLY_OPA_DISP++, D_050095B0);
 
-    Collider_UpdateSphJoint(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

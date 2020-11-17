@@ -788,6 +788,6 @@ void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
-    Collider_UpdateSphJoint(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
     D_80A7DEB4 = 0;
 }

@@ -92,11 +92,11 @@ typedef struct ColliderJntSphElementDim {
     /* 0x00 */ Sphere16 modelSphere; // model space sphere
     /* 0x08 */ Sphere16 worldSphere; // world space sphere
     /* 0x10 */ f32 scale;          // world space sphere = model * scale * 0.01
-    /* 0x14 */ u8 joint;           // attached joint
+    /* 0x14 */ u8 limb;           // attached limb
 } ColliderJntSphElementDim; // size = 0x18
 
 typedef struct ColliderJntSphElementDimInit {
-    /* 0x00 */ u8 joint; // attached joint
+    /* 0x00 */ u8 limb; // attached limb
     /* 0x02 */ Sphere16 modelSphere; // model space sphere
     /* 0x0A */ s16 scale; // world space sphere = model * scale * 0.01
 } ColliderJntSphElementDimInit; // size = 0x0C

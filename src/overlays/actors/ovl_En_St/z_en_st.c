@@ -1047,7 +1047,7 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
     EnSt* this = THIS;
 
-    Collider_UpdateSphJoint(limbIndex, &this->colSph);
+    Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
 
 void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
