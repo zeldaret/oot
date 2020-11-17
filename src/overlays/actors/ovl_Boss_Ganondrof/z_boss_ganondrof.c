@@ -1485,27 +1485,27 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("YP %f\n", this->actor.posRot.pos.y);
     func_80093D18(globalCtx->state.gfxCtx);
     if (this->invincibilityTimer & 4) {
-        oGfxCtx->polyOpa.p = Gfx_SetFog(oGfxCtx->polyOpa.p, 255, 50, 0, 0, 900, 1099);
+        POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);
     } else {
-        oGfxCtx->polyOpa.p =
-            Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)horse->warpFogR, (u32)horse->warpFogG, (u32)horse->warpFogB, 0,
+        POLY_OPA_DISP =
+            Gfx_SetFog(POLY_OPA_DISP, (u32)horse->warpFogR, (u32)horse->warpFogG, (u32)horse->warpFogB, 0,
                        (s32)horse->warpFogUnk1 + 995, (s32)horse->warpFogUnk2 + 1000);
     }
 
     osSyncPrintf("DRAW 11\n");
     osSyncPrintf("EYE_COL %d\n", (s16)this->eyeBrightness);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->eyeBrightness, (s16)this->eyeBrightness, (s16)this->eyeBrightness,
+    gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->eyeBrightness, (s16)this->eyeBrightness, (s16)this->eyeBrightness,
                    (s16)(*this).eyeAlpha);
     if (this->bodyDecayFlag) {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, BossGanondrof_GetClearPixelDList(globalCtx->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x08, BossGanondrof_GetClearPixelDList(globalCtx->state.gfxCtx));
     } else {
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, BossGanondrof_GetNullDList(globalCtx->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x08, BossGanondrof_GetNullDList(globalCtx->state.gfxCtx));
     }
 
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossGanondrof_OverrideLimbDraw,
                    BossGanondrof_PostLimbDraw, &this->actor);
     osSyncPrintf("DRAW 22\n");
-    oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3814);
     osSyncPrintf("DRAW END %d\n", this->actor.params);
 }

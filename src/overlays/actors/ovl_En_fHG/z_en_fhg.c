@@ -703,12 +703,12 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2439);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    oGfxCtx->polyOpa.p =
+    POLY_OPA_DISP =
         ((bossFhg->invincibilityTimer & 4) && (bossFhg->flyMode == FHG_FLY_PAINTING))
-            ? Gfx_SetFog(oGfxCtx->polyOpa.p, 0xFF, 50, 0, 0, 900, 1099)
-            : Gfx_SetFog(oGfxCtx->polyOpa.p, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
+            ? Gfx_SetFog(POLY_OPA_DISP, 0xFF, 50, 0, 0, 900, 1099)
+            : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
                          (s32)this->warpFogUnk1 + 995, (s32)this->warpFogUnk2 + 1000);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);
-    oGfxCtx->polyOpa.p = func_800BC8A0(globalCtx, oGfxCtx->polyOpa.p);
+    POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);
 }
