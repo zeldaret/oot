@@ -16,7 +16,14 @@
 #define RR_MOUTH 4
 #define RR_BASE 0
 
-typedef enum { REACH_NONE, REACH_EXTEND, REACH_STOP, REACH_OPEN, REACH_GAPE, REACH_CLOSE } EnRrReachState;
+typedef enum EnRrReachState {
+    REACH_NONE,
+    REACH_EXTEND,
+    REACH_STOP,
+    REACH_OPEN,
+    REACH_GAPE,
+    REACH_CLOSE
+} EnRrReachState;
 
 typedef enum {
     RR_DAMAGE_STUN = 1,
@@ -378,15 +385,15 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                 func_8005DFAC(globalCtx, NULL, &hitPos);
             }
             switch (this->actor.colChkInfo.damageEffect) {
-                case RR_DAMAGE_LIGHT_ARROW: 
-                    dropType++;             // purple rupee
-                case RR_DAMAGE_UNK_ARROW_1: 
-                    dropType++;             // flexible
-                case RR_DAMAGE_UNK_ARROW_2: 
-                    dropType++;             // arrow
+                case RR_DAMAGE_LIGHT_ARROW:
+                    dropType++; // purple rupee
+                case RR_DAMAGE_UNK_ARROW_1:
+                    dropType++; // flexible
+                case RR_DAMAGE_UNK_ARROW_2:
+                    dropType++; // arrow
                 case RR_DAMAGE_UNK_ARROW_3:
-                    dropType++;             // magic jar
-                case RR_DAMAGE_NORMAL:      
+                    dropType++; // magic jar
+                case RR_DAMAGE_NORMAL:
                     // ouch
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",
                                  this->frameCount, this->actor.colChkInfo.health, this->actor.colChkInfo.damage,
