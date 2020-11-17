@@ -909,7 +909,7 @@ void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, GlobalContext* global
         this->lightRing.timer -= this->lightRing.timerIncrement;
     }
 
-    if (this->lightRing.timer < 256) {
+    if (this->lightRing.timer <= 255) {
         if (this->lightRing.timer >= 225) {
             this->lightRing.opacity = (-this->lightRing.timer * 8) + 2048;
         } else {
