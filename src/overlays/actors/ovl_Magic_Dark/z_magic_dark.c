@@ -203,6 +203,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
+// regalloc
 void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     Player* player;
