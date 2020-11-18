@@ -206,31 +206,36 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
 // regalloc
 void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
-    Player* player;
+    GlobalContext* globalCtx2 = globalCtx;
     u16 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 525);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    player = PLAYER;
-    this->actor.posRot.pos.x = player->bodyPartsPos[0].x;
-    this->actor.posRot.pos.z = player->bodyPartsPos[0].z;
-    if (player->bodyPartsPos[0].y - this->actor.posRot.pos.y < -2.0f) {
-        this->actor.posRot.pos.y = player->bodyPartsPos[0].y + 2.0f;
-    } else if (player->bodyPartsPos[0].y - this->actor.posRot.pos.y > 2.0f) {
-        this->actor.posRot.pos.y = player->bodyPartsPos[0].y - 2.0f;
+
+    {
+        Player* player = PLAYER;
+
+        this->actor.posRot.pos.x = player->bodyPartsPos[0].x;
+        this->actor.posRot.pos.z = player->bodyPartsPos[0].z;
+        if (player->bodyPartsPos[0].y - this->actor.posRot.pos.y < -2.0f) {
+            this->actor.posRot.pos.y = player->bodyPartsPos[0].y + 2.0f;
+        } else if (player->bodyPartsPos[0].y - this->actor.posRot.pos.y > 2.0f) {
+            this->actor.posRot.pos.y = player->bodyPartsPos[0].y - 2.0f;
+        }
+        Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
+        Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
+        Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 553),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (u8)(s32)(this->unk_14E * 0.6f));
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
+        gSPDisplayList(POLY_XLU_DISP++, D_80B88A20);
+        gSPDisplayList(POLY_XLU_DISP++,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2, gameplayFrames * -4, 32, 32, 1,
+                                        0, gameplayFrames * -16, 64, 32));
+        gSPDisplayList(POLY_XLU_DISP++, D_80B88AD0);
     }
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
-    Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-    Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 553),
-              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (u8)(s32)(this->unk_14E * 0.6f));
-    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
-    gSPDisplayList(POLY_XLU_DISP++, D_80B88A20);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2,
-                                                     gameplayFrames * -4, 32, 32, 1, 0, gameplayFrames * -16, 64, 32));
-    gSPDisplayList(POLY_XLU_DISP++, D_80B88AD0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
 }
