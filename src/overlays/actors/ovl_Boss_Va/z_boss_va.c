@@ -18,7 +18,7 @@
 #define vaCamRotMod headRot.x
 #define vaBodySpinRate headRot.y
 
-#define NON_MATCHING
+// #define NON_MATCHING
 
 #define PHASE_2 3
 #define PHASE_3 9
@@ -505,8 +505,6 @@ void BossVa_KillBari(BossVa* this, GlobalContext* globalCtx) {
     BossVa_SetupBariDeath(this);
 }
 
-#ifdef NON_MATCHING
-// regalloc
 void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BossVa* this = THIS;
@@ -672,9 +670,6 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Va/BossVa_Init.s")
-#endif
 
 void BossVa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BossVa* this = THIS;
@@ -693,8 +688,6 @@ void BossVa_SetupIntro(BossVa* this) {
     BossVa_SetupAction(this, BossVa_BodyIntro);
 }
 
-#ifdef NON_MATCHING
-// regalloc
 void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
     Player* player = PLAYER;
@@ -833,7 +826,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             this->timer--;
             if (this->timer == 0) {
                 sCsState++;
-                this->timer = 50;
+                this->timer = 40;
             }
             break;
         case INTRO_LOOK_SUPPORT:
@@ -916,7 +909,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_BL_SPARK - SFX_FLAG);
                 }
 
-                this->timer = 50;
+                this->timer = 40;
             } else {
                 sCameraEyeMaxVel.y = 1.6f;
                 sCameraNextEye.y = 5.0f;
@@ -929,7 +922,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             this->timer--;
             if (this->timer == 0) {
                 sCsState++;
-                this->timer = 50;
+                this->timer = 45;
             }
             break;
         case INTRO_BRIGHTEN:
@@ -977,9 +970,6 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
         func_800C04D8(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Va/func_80950780.s")
-#endif
 
 void BossVa_SetupBodyPhase1(BossVa* this) {
     f32 frames = SkelAnime_GetFrameCount(&D_06005184.genericHeader);
@@ -1457,8 +1447,6 @@ void BossVa_SetupDeath(BossVa* this, GlobalContext* globalCtx) {
     BossVa_SetupAction(this, BossVa_BodyDeath);
 }
 
-#ifdef NON_MATCHING
-// regalloc in struct copies
 void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
@@ -1618,9 +1606,6 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
     this->unk_1A0 = (Math_Coss(this->unk_1AC) * 0.1f) + 1.0f;
     this->unk_1A4 = (Math_Sins(this->unk_1AC) * 0.05f) + 1.0f;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Va/func_809533F4.s")
-#endif
 
 void BossVa_SetupSupportIntro(BossVa* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060166A8, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_060166A8.genericHeader),
@@ -3138,10 +3123,9 @@ void BossVa_BariPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4517);
 }
 
-#ifdef NON_MATCHING
-// If block in case BODY should jump to end, not to break.
 void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+    // GlobalContext* globalCtx = globalCtx2;
+    s16* newvar; // Yeah this is the fakest shit ever. I don't know.
     BossVa* this = THIS;
     Vec3f spBC;
     Vec3f spB0 = { 0.0f, 45.0f, 0.0f };
@@ -3151,12 +3135,14 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp80 = { 15.0f, 40.0f, 0.0f };
     Vec3f sp74 = { -15.0f, 40.0f, 0.0f };
     Color_RGBA8 sp70 = { 250, 250, 230, 200 };
+    
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4542);
 
     func_80093D18(globalCtx->state.gfxCtx);
+    newvar = &this->actor.params;
     func_80093D84(globalCtx->state.gfxCtx);
-
+    
     switch (this->actor.params) {
         case BOSSVA_BODY:
             if (globalCtx->envCtx.unk_9E != 0) {
@@ -3173,7 +3159,8 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
 
-            if (!this->isDead) { // should jump to end, not break
+            if (!this->isDead) { 
+                // should jump to end, not break
                 gSPSegment(POLY_OPA_DISP++, 0x08,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 8, 0x10, 1, 0,
                                             (globalCtx->gameplayFrames * -10) % 16, 0x10, 0x10));
@@ -3249,27 +3236,16 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->actor.params == BOSSVA_BODY) {
+    if (*newvar == BOSSVA_BODY) {
         BossVa_DrawEffects(sEffects, globalCtx);
-    } else if (this->actor.params == BOSSVA_DOOR) {
+    } else if (*newvar == BOSSVA_DOOR) {
         BossVa_DrawDoor(globalCtx, sDoorState);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4673);
 }
-#else
-Vec3f D_8095C2AC = { 0.0f, 45.0f, 0.0f };
-Vec3f D_8095C2B8 = { 0.4f, 0.4f, 0.4f };
-Vec3f D_8095C2C4 = { 15.0f, 40.0f, 0.0f };
-Vec3f D_8095C2D0 = { -15.0f, 40.0f, 0.0f };
-Vec3f D_8095C2DC = { 15.0f, 40.0f, 0.0f };
-Vec3f D_8095C2E8 = { -15.0f, 40.0f, 0.0f };
-Color_RGBA8 D_8095C2F4 = { 250, 250, 230, 200 };
-Color_RGBA8 D_8095C2F8 = { 0, 0, 255, 255 };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Va/BossVa_Draw.s")
-#endif
 
-static s32 D_8095C2FC = 0x009B0000; // Unreferenced? Probably another colour, func_80026860 doesn't use 2 though
+static s32 D_8095C2FC = 0x009B0000; // Unreferenced? Possibly a color
 
 #ifdef NON_MATCHING
 // Regalloc
@@ -3294,13 +3270,16 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
 
     for (i = 0; i < 400; i++, ptr++) {
         if (ptr->type != VA_NONE) {
+            ptr->timer--;
+
             ptr->pos.x += ptr->velocity.x;
             ptr->pos.y += ptr->velocity.y;
             ptr->pos.z += ptr->velocity.z;
-            ptr->timer--;
+            
             ptr->velocity.x += ptr->accel.x;
             ptr->velocity.y += ptr->accel.y;
             ptr->velocity.z += ptr->accel.z;
+
             if ((ptr->type == VA_EFFECT_1) || (ptr->type == VA_EFFECT_3)) {
                 refActor = ptr->parent;
 
@@ -3317,6 +3296,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                     pad78 = Math_Coss(-spAA);
                     ptr->pos.y = (ptr->offset.y * pad78) + refActor->actor.posRot.pos.y;
                 } else if ((ptr->mode == 2) || (ptr->mode == 5)) {
+                    if(1){}
                     ptr->pos.x = ptr->offset.x + refActor->actor.posRot.pos.x;
                     ptr->pos.y = ptr->offset.y + refActor->actor.posRot.pos.y;
                     ptr->pos.z = ptr->offset.z + refActor->actor.posRot.pos.z;
@@ -3337,7 +3317,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                 }
             }
 
-            if (ptr->type == VA_EFFECT_3) {
+            if (ptr->type == VA_EFFECT_2) {
                 ptr->rot.z += (s16)(Math_Rand_ZeroOne() * 20000.0f) + 0x4000;
                 if (ptr->timer < 100) {
                     ptr->primColor[3] -= 50;
@@ -3370,8 +3350,8 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
             }
 
             if (ptr->type == VA_ZAP_CHARGE) {
-                ptr->primColor[3] -= 20;
                 ptr->mode = (ptr->mode + 1) & 7;
+                ptr->primColor[3] -= 20;
                 if (ptr->primColor[3] <= 0) {
                     ptr->primColor[3] = 0;
                     ptr->timer = 0;
@@ -3397,16 +3377,16 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                             ptr->accel = ptr->velocity = sZeroVec;
                         }
                     }
-
                     if (ptr->timer == 0) {
                         ptr->type = VA_NONE;
                     }
-
-                } else if (ptr->timer < 20) {
-                    ptr->primColor[3] = ptr->timer * 10;
-                    ptr->envColor[3] = ptr->timer * 5;
-                } else if (ptr->timer >= 50000) {
-                    ptr->timer++;
+                } else {
+                    if (ptr->timer < 20) {
+                        ptr->envColor[3] = 5 * ptr->timer;
+                        ptr->primColor[3] = 10 * ptr->timer;
+                    } else if (ptr->timer > 50000) {
+                        ptr->timer++; 
+                    } 
                 }
 
                 if (ptr->timer == 0) {
@@ -3422,7 +3402,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                     tmpf1 = func_8003C890(&globalCtx->colCtx, &sp7C, &sp80);
                     if ((sp7C != NULL) && (ptr->pos.y <= tmpf1)) {
                         ptr->mode = 1;
-                        ptr->timer = 50;
+                        ptr->timer = 30;
                         ptr->pos.y = tmpf1 + 1.0f;
 
                         ptr->accel = ptr->velocity = sZeroVec;
@@ -3436,6 +3416,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                 } else if (ptr->mode == 2) {
                     if (ptr->timer == 0) {
                         ptr->type = VA_NONE;
+                        if(1){} 
                     }
 
                 } else {
@@ -3452,7 +3433,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                 refActor = ptr->parent;
 
                 ptr->rot.z += 0x157C;
-                ptr->envColor[3] = (s16)(Math_Sins(ptr->rot.z) * 50.0f) + 0x50;
+                ptr->envColor[3] = (s16)(Math_Sins(ptr->rot.z) * 50.0f) + 80;
                 Math_SmoothScaleMaxMinF(&ptr->scale, ptr->scaleMod, 1.0f, 0.01f, 0.005f);
                 ptr->pos.x = ptr->offset.x + refActor->actor.posRot.pos.x;
                 ptr->pos.y = ptr->offset.y + refActor->actor.posRot.pos.y;
