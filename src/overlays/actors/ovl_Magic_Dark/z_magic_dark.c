@@ -19,7 +19,6 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx);
 void func_80B8772C(GlobalContext* globalCtx, f32 a1);
 void func_80B87A18(Actor* thisx, GlobalContext* globalCtx);
 
-/*
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORTYPE_ITEMACTION,
@@ -31,7 +30,11 @@ const ActorInit Magic_Dark_InitVars = {
     (ActorFunc)MagicDark_Update,
     (ActorFunc)MagicDark_Draw,
 };
-*/
+
+#include "z_magic_dark_gfx.c"
+
+// probably unused?
+static UNK_TYPE D_80B88B10[] = { 0x326496C8, 0xFFC89664, 0x00000000, 0x00000000 };
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
