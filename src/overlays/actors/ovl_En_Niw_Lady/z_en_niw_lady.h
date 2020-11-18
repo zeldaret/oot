@@ -20,7 +20,7 @@ typedef struct EnNiwLady {
     /* 0x0262 */ s16 unk_262;
     /* 0x0264 */ s16 unkDownTimer1;
     /* 0x0266 */ s16 unkRandomDownTimer;
-    /* 0x0268 */ s16 NiwInPen;
+    /* 0x0268 */ s16 cuccosInPen;
     /* 0x026A */ s16 unk_26A;
     /* 0x026C */ s16 unk_26C;
     /* 0x026E */ s16 unk_26E;

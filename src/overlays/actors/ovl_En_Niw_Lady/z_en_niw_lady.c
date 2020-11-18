@@ -37,7 +37,7 @@ const ActorInit En_Niw_Lady_InitVars = {
     NULL,
 };
 
-static s16 EnNiwLadyMissingNiwTextIDs[] = {
+static s16 sMissingCuccoTextIds[] = {
     0x5036, 0x5070, 0x5072, 0x5037, 0x5038, 0x5039, 0x503A, 0x503B, 0x503D, 0x503C,
 };
 
@@ -90,7 +90,7 @@ void EnNiwLady_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg2) {
     f32 frames;
 
-    if (Text_GetFaceReaction(globalCtx, 8U) != 0) {
+    if (Text_GetFaceReaction(globalCtx, 8) != 0) {
         arg2 = 8;
     }
     if (arg2 != this->unk_270) {
@@ -140,10 +140,10 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
 }
 
 void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
-    s32 pad;
-
-    if ((Object_IsLoaded(&globalCtx->objectCtx, this->ObjectAneIndex) != 0) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->ObjectOsAnimeIndex) != 0)) {
+    f32 pad;
+    s32 pad1;
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->ObjectAneIndex) &&
+        Object_IsLoaded(&globalCtx->objectCtx, this->ObjectOsAnimeIndex)) {
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->ObjectAneIndex].segment);
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, &this->limbDrawTable,
                          &this->transitionDrawTable, 16);
@@ -160,11 +160,11 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f,
-                                         (s16)(f32)SkelAnime_GetFrameCount(&D_0600A630), 0, 0.0f);
+                    pad = SkelAnime_GetFrameCount(&D_0600A630);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)pad, 0, 0.0f);
                 } else {
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f,
-                                         (s16)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
+                    pad = SkelAnime_GetFrameCount(&D_060007D0);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)pad, 0, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -173,8 +173,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 }
                 return;
             case 1:
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f,
-                                     (s16)(f32)SkelAnime_GetFrameCount(&D_060007D0), 0, 0.0f);
+                pad = SkelAnime_GetFrameCount(&D_060007D0);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)pad, 0, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
@@ -182,45 +182,46 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
 }
 
 void func_80ABA21C(EnNiwLady* this, GlobalContext* globalCtx) {
-    this->actor.textId = EnNiwLadyMissingNiwTextIDs[0];
+    this->actor.textId = sMissingCuccoTextIds[0];
     this->unk_262 = 6;
     this->actionFunc = func_80ABA244;
 }
 
 void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
-    EnNiw* firstNiw;
-    EnNiw* currentNiw;
+    EnNiw* firstCucco;
+    EnNiw* currentCucco;
     s32 phi_s1;
 
-    this->NiwInPen = 0;
-    firstNiw = (EnNiw*)globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
-    currentNiw = firstNiw;
-    while (currentNiw != NULL) {
-        if (currentNiw->actor.id == 0x19) {
-            if ((fabsf(currentNiw->actor.posRot.pos.x - 330.0f) < 90.0f) &&
-                (fabsf(currentNiw->actor.posRot.pos.z - 1610.0f) < 190.0f)) {
+    this->cuccosInPen = 0;
+    firstCucco = (EnNiw*)globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    currentCucco = firstCucco;
+    while (currentCucco != NULL) {
+        if (currentCucco->actor.id == 0x19) {
+            if ((fabsf(currentCucco->actor.posRot.pos.x - 330.0f) < 90.0f) &&
+                (fabsf(currentCucco->actor.posRot.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
-                    gSaveContext.infTable[0x19] |= D_80ABB3B4[currentNiw->unk_2AA];
-                    if (gGameInfo->data[0x961] != 0) {
+                    gSaveContext.infTable[0x19] |= D_80ABB3B4[currentCucco->unk_2AA];
+                    if (BREG(1) != 0) {
                         // GET inside the chicken fence!
-                        osSyncPrintf(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST, D_80ABB3B4[currentNiw->unk_2AA]);
+                        osSyncPrintf(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST,
+                                     D_80ABB3B4[currentCucco->unk_2AA]);
                     }
                 }
-                this->NiwInPen++;
+                this->cuccosInPen++;
             } else if (this->unk_26C == 0) {
-                gSaveContext.infTable[0x19] &= ~D_80ABB3B4[currentNiw->unk_2AA];
+                gSaveContext.infTable[0x19] &= ~D_80ABB3B4[currentCucco->unk_2AA];
             }
         }
-        currentNiw = currentNiw->actor.next;
+        currentCucco = currentCucco->actor.next;
     }
-    if (gGameInfo->data[0x967] != 0) {
-        this->NiwInPen = gGameInfo->data[0x967] - 1;
+    if (BREG(7) != 0) {
+        this->cuccosInPen = BREG(7) - 1;
     }
-    phi_s1 = this->NiwInPen;
+    phi_s1 = this->cuccosInPen;
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
         this->unk_26E = 0x65;
     }
-    if (this->NiwInPen >= 7) {
+    if (this->cuccosInPen >= 7) {
         phi_s1 = 8;
         if ((this->unk_26C < 2) && (this->unk_26C == 0)) {
             phi_s1 = 7;
@@ -229,7 +230,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     if ((this->unk_26C != 0) && (phi_s1 < 7)) {
         phi_s1 = 9;
     }
-    this->actor.textId = EnNiwLadyMissingNiwTextIDs[phi_s1];
+    this->actor.textId = sMissingCuccoTextIds[phi_s1];
     if (Text_GetFaceReaction(globalCtx, 8) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 8);
         this->unk_262 = 6;
@@ -243,7 +244,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん選択\t ☆☆☆☆ %d\n" VT_RST, phi_s1);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n" VT_RST, this->unk_26C);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n" VT_RST, this->unk_26A);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん今\t ☆☆☆☆ %d\n" VT_RST, this->NiwInPen);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ねぇちゃん今\t ☆☆☆☆ %d\n" VT_RST, this->cuccosInPen);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n" VT_RST, this->actor.textId);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ this->message_end_code   ☆☆ %d\n" VT_RST, this->unk_262);
         osSyncPrintf("\n\n");
@@ -260,7 +261,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
                 func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 this->unk_26C = 1;
                 this->unk_262 = 5;
-                this->unk_26A = this->NiwInPen;
+                this->unk_26A = this->cuccosInPen;
                 osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST, gSaveContext.infTable[0x19]);
                 gSaveContext.infTable[0x19] &= 0x1FF;
                 osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST, gSaveContext.infTable[0x19]);
@@ -268,15 +269,15 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80ABA654;
                 return;
             }
-            if (this->unk_26A != this->NiwInPen) {
-                if (this->NiwInPen < this->unk_26A) {
+            if (this->unk_26A != this->cuccosInPen) {
+                if (this->cuccosInPen < this->unk_26A) {
                     func_80078884(NA_SE_SY_ERROR);
                 } else if (phi_s1 + 1 < 9) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
-            if (this->unk_26A < this->NiwInPen) {
-                this->unk_26A = this->NiwInPen;
+            if (this->unk_26A < this->cuccosInPen) {
+                this->unk_26A = this->cuccosInPen;
                 return;
             }
         }
@@ -308,8 +309,8 @@ void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
     }
 }
 
-static s16 EnNiwLadyTradeItemText[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x5043,
-                                        0x5044, 0x00CF, 0x5045, 0x5042, 0x5027, 0x0000 };
+static s16 sTradeItemTextIds[] = { 0x503E, 0x503F, 0x5047, 0x5040, 0x5042, 0x5043,
+                                   0x5044, 0x00CF, 0x5045, 0x5042, 0x5027, 0x0000 };
 
 void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
     //☆☆☆☆☆ Adult message check ☆☆☆☆☆
@@ -338,7 +339,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
             }
         }
     }
-    this->actor.textId = EnNiwLadyTradeItemText[this->unk_27A];
+    this->actor.textId = sTradeItemTextIds[this->unk_27A];
     this->actionFunc = func_80ABA878;
 }
 
@@ -353,12 +354,12 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
         playerExchangeItemId = func_8002F368(globalCtx);
         if (!((playerExchangeItemId != 6) || !(gSaveContext.eventChkInf[6] & 0x400))) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            player->actor.textId = EnNiwLadyTradeItemText[5];
+            player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;
             this->unk_262 = 4;
             this->actionFunc = func_80ABAB08;
         } else if (playerExchangeItemId != 0) {
-            player->actor.textId = EnNiwLadyTradeItemText[7];
+            player->actor.textId = sTradeItemTextIds[7];
             this->unk_26E = this->unk_27A + 21;
         } else {
             this->unk_274 = 1;
@@ -378,14 +379,14 @@ void func_80ABA9B8(EnNiwLady* this, GlobalContext* globalCtx) {
                 this->actor.parent = NULL;
                 func_8002F434(&this->actor, globalCtx, 0x1D, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
-                return;
+                break;
             case 1:
-                this->actor.textId = EnNiwLadyTradeItemText[3];
+                this->actor.textId = sTradeItemTextIds[3];
                 this->unk_26E = this->unk_27A + 21;
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_262 = 5;
                 this->actionFunc = func_80ABAA9C;
-                return;
+                break;
         }
     }
 }
@@ -406,31 +407,31 @@ void func_80ABAB08(EnNiwLady* this, GlobalContext* globalCtx) {
                 this->actor.parent = NULL;
                 func_8002F434(&this->actor, globalCtx, 0xE, 200.0f, 100.0f);
                 this->actionFunc = func_80ABAC00;
-                return;
+                break;
             case 1:
                 func_80106CCC(globalCtx);
                 this->unk_277 = 1;
-                this->actor.textId = EnNiwLadyTradeItemText[8];
+                this->actor.textId = sTradeItemTextIds[8];
                 this->unk_26E = (this->unk_27A + 21);
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_262 = 5;
                 this->actionFunc = func_80ABAA9C;
-                return;
+                break;
         }
     }
 }
 
 void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
-    s32 getItemID;
+    s32 getItemId;
 
-    if (Actor_HasParent(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80ABAC84;
     } else {
-        getItemID = this->unk_284;
+        getItemId = this->unk_284;
         if (LINK_IS_ADULT) {
-            getItemID = (!(gSaveContext.itemGetInf[2] & 0x1000)) ? GI_POCKET_EGG : GI_COJIRO;
+            getItemId = (!(gSaveContext.itemGetInf[2] & 0x1000)) ? GI_POCKET_EGG : GI_COJIRO;
         }
-        func_8002F434(&this->actor, globalCtx, getItemID, 200.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, getItemId, 200.0f, 100.0f);
     }
 }
 
@@ -439,7 +440,7 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
         return;
     }
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-    if (gSaveContext.linkAge == 0) {
+    if (LINK_IS_ADULT) {
         if (!(gSaveContext.itemGetInf[2] & 0x1000)) {
             gSaveContext.itemGetInf[2] |= 0x1000;
         } else {
@@ -447,7 +448,7 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = func_80ABA778;
     } else {
-        gSaveContext.itemGetInf[0] = gSaveContext.itemGetInf[0] | 0x1000;
+        gSaveContext.itemGetInf[0] |= 0x1000;
         this->unk_262 = 6;
         this->actionFunc = func_80ABA244;
     }
@@ -461,19 +462,19 @@ void func_80ABAD38(EnNiwLady* this, GlobalContext* globalCtx) {
 
 void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx) {
     this->actor.textId = 0x503D;
-    if (Text_GetFaceReaction(globalCtx, 8U) != 0) {
-        this->actor.textId = Text_GetFaceReaction(globalCtx, 8U);
+    if (Text_GetFaceReaction(globalCtx, 8) != 0) {
+        this->actor.textId = Text_GetFaceReaction(globalCtx, 8);
     }
     if ((func_8010BDBC(&globalCtx->msgCtx) == 0) || (func_8010BDBC(&globalCtx->msgCtx) == 6)) {
-        this->unk_26E = (u16)8;
+        this->unk_26E = 8;
     }
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->unk_274 = 1;
         this->unk_26E = this->unk_27A + 9;
         this->actionFunc = func_80ABAD38;
-        return;
+    } else {
+        func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
-    func_8002F2CC(&this->actor, globalCtx, 100.0f);
 }
 
 void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -559,7 +560,7 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_lady.c", 1347);
     if (this->unk_27E != 0) {
-         func_80093D18(globalCtx->state.gfxCtx);
+        func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
