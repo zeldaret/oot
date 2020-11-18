@@ -8,22 +8,6 @@ struct BossVa;
 
 typedef void (*BossVaActionFunc)(struct BossVa*, GlobalContext*);
 
-typedef struct BossVaEffect{
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
-    /* 0x24 */ u8 type;
-    /* 0x26 */ u16 timer;
-    /* 0x28 */ s16 mode;
-    /* 0x2A */ Vec3s rot;
-    /* 0x30 */ s16 primColor[4];
-    /* 0x38 */ s16 envColor[4];
-    /* 0x40 */ f32 scale;
-    /* 0x44 */ f32 scaleMod;
-    /* 0x48 */ Vec3f offset;
-    /* 0x54 */ struct BossVa* parent;
-} BossVaEffect; // size = 0x58
-
 typedef struct BossVa {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
@@ -62,6 +46,30 @@ typedef struct BossVa {
     /* 0x02F8 */ ColliderJntSphItem elements[1];
     /* 0x0338 */ ColliderQuad collider3;
 } BossVa; // size = 0x03B8
+
+typedef enum BossVaParam {
+    BOSSVA_BODY = -1,
+    BOSSVA_SUPPORT_1,
+    BOSSVA_SUPPORT_2,
+    BOSSVA_SUPPORT_3,
+    BOSSVA_ZAPPER_1,
+    BOSSVA_ZAPPER_2,
+    BOSSVA_ZAPPER_3,
+    BOSSVA_BARI_UPPER_1,
+    BOSSVA_BARI_UPPER_2,
+    BOSSVA_BARI_UPPER_3,
+    BOSSVA_BARI_UPPER_4,
+    BOSSVA_BARI_UPPER_5,
+    BOSSVA_BARI_LOWER_1,
+    BOSSVA_BARI_LOWER_2,
+    BOSSVA_BARI_LOWER_3,
+    BOSSVA_BARI_LOWER_4,
+    BOSSVA_BARI_LOWER_5,
+    BOSSVA_STUMP_1,
+    BOSSVA_STUMP_2,
+    BOSSVA_STUMP_3,
+    BOSSVA_DOOR
+} BossVaParam;
 
 extern const ActorInit Boss_Va_InitVars;
 

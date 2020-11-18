@@ -1485,8 +1485,7 @@ endseg
 beginseg
     name "ovl_Boss_Va"
     include "build/src/overlays/actors/ovl_Boss_Va/z_boss_va.o"
-    //include "build/src/overlays/actors/ovl_Boss_Va/ovl_Boss_Va_reloc.o"
-    include "build/data/overlays/actors/z_boss_va.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Va/ovl_Boss_Va_reloc.o"
 endseg
 
 beginseg
