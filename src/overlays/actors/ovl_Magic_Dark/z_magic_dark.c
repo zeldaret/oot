@@ -140,7 +140,39 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B8772C.s")
+void func_80B8772C(GlobalContext* globalCtx, f32 a1) {
+    s32 i;
+    f32 temp_f0;
+    f32 phi_f0;
+
+    if (globalCtx->roomCtx.curRoom.unk_03 != 5) {
+        if (a1 < 0.0f) {
+            a1 = 0.0f;
+        }
+        if (a1 > 1.0f) {
+            a1 = 1.0f;
+        }
+        phi_f0 = a1 - 0.2f;
+        if (a1 < 0.2f) {
+            phi_f0 = 0.0f;
+        }
+        globalCtx->envCtx.unk_9E = (850.0f - globalCtx->envCtx.unk_D2) * phi_f0;
+        if (a1 == 0.0f) {
+            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
+                globalCtx->envCtx.unk_8C[2][i] = 0;
+            }
+        } else {
+            temp_f0 = a1 * 5.0f;
+            if (temp_f0 > 1.0f) {
+                temp_f0 = 1.0f;
+            }
+
+            for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
+                globalCtx->envCtx.unk_8C[2][i] = -(s16)(globalCtx->envCtx.unk_CF[i] * temp_f0);
+            }
+        }
+    }
+}
 
 void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
