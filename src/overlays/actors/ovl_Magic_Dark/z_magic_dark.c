@@ -229,7 +229,7 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
     gSPDisplayList(POLY_XLU_DISP++, D_80B88A20);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2,
-                                                     -gameplayFrames * 4, 32, 32, 1, 0, -gameplayFrames * 16, 64, 32));
+                                                     gameplayFrames * -4, 32, 32, 1, 0, gameplayFrames * -16, 64, 32));
     gSPDisplayList(POLY_XLU_DISP++, D_80B88AD0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
