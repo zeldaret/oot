@@ -147,26 +147,22 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.colChkInfo.mass = 0xFF;
             this->actor.colChkInfo.damageTable = &sDamageTable2;
             Actor_SetScale(&this->actor, 0.02f);
-            this->collider1.dim.height = 0xAA;
-            this->collider1.dim.radius = 0x2D;
+            this->collider1.dim.height = 170;
+            this->collider1.dim.radius = 45;
             this->actor.uncullZoneForward = 4000.0f;
             this->actor.uncullZoneScale = 800.0f;
             this->actor.uncullZoneDownward = 1800.0f;
             this->unk_364 = 710.0f;
             this->collider2.body.toucher.flags = 0x20000000;
             temp_a0_2 = (this->actor.posRot.rot.y - Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->actor.posRot.pos));
-            if (temp_a0_2 >= 0) {
-                phi_v1 = temp_a0_2;
-            } else {
-                phi_v1 = 0 - temp_a0_2;
-            }
-            if (phi_v1 >= 0x4001) {
+            phi_v1 = ABS(temp_a0_2);
+            if (phi_v1 > 0x4000) {
                 this->actor.posRot.rot.y = thisx->posRot.rot.y + 0x8000;
                 this->actor.shape.rot.y = thisx->posRot.rot.y;
                 this->actor.posRot.pos.z = thisx->posRot.pos.z + 600.0f;
             }
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Teardrop, 90.0f);
-            this->actor.flags &= -2;
+            this->actor.flags &= ~1;
             this->actor.naviEnemyId++;
             func_80AA6898(this);
             return;
@@ -182,21 +178,21 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFE;
     this->unk_360 = 350.0f;
     this->unk_364 = 1750.0f;
-    this->actor.flags &= -2;
+    this->actor.flags &= ~1;
     func_80AA68FC(this, globalCtx);
 }
 
 void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
+
     Collider_DestroyTris(globalCtx, &this->collider3);
     Collider_DestroyCylinder(globalCtx, &this->collider1);
     Collider_DestroyQuad(globalCtx, &this->collider2);
 }
 
 void func_80AA6408(EnMb* this, GlobalContext* globalCtx) {
-    s16 yaw;
+    s16 yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344);
 
-    yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344);
     this->actor.shape.rot.y = yaw;
     this->actor.posRot.rot.y = yaw;
 }
@@ -244,11 +240,11 @@ s32 func_80AA652C(EnMb* this, GlobalContext* globalCtx) {
     }
     cosAngle = Math_Coss(phi_a2);
     sinAngle = Math_Sins(phi_a2);
-    cosAngle = (cosAngle >= 0) ? cosAngle : -cosAngle;
-    sinAngle = (sinAngle >= 0) ? sinAngle : -sinAngle;
+    cosAngle = ABS(cosAngle);
+    sinAngle = ABS(sinAngle);
     xDist = this->actor.posRot.pos.x - player->actor.posRot.pos.x;
     zDist = this->actor.posRot.pos.z - player->actor.posRot.pos.z;
-    xDistABS = (xDist >= 0) ? xDist : -xDist;
+    xDistABS = ABS(xDist);
     if (xDistABS < cosAngle * 37.0f + sinAngle * 400.0f) {
         if (0 <= zDist) {
             zDistABS = zDist;
@@ -279,7 +275,7 @@ void func_80AA66A0(EnMb* this, GlobalContext* globalCtx) {
         points.y = pointPath->y;
         points.z = pointPath->z;
         yawToPoints = Math_Vec3f_Yaw(&this->actor.posRot.pos, &points);
-        yawDiff = (yawToPoints) - this->actor.yawTowardsLink;
+        yawDiff = yawToPoints - this->actor.yawTowardsLink;
         yawDiffABS = (yawDiff >= 0) ? yawDiff : -yawDiff;
         if (yawDiffABS <= 0x1770) {
             this->actor.posRot.rot.y = yawToPoints;
@@ -473,7 +469,7 @@ void func_80AA702C(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
-        player->stateFlags2 &= -0x81;
+        player->stateFlags2 &= ~0x80;
         player->actor.parent = 0;
         player->unk_850 = 0xC8;
         func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
@@ -503,7 +499,7 @@ void func_80AA7134(EnMb* this, GlobalContext* globalCtx) {
     if (this->unk_32A == 0) {
         phi_v0 = 0;
     } else {
-        this->unk_32A = (this->unk_32A - 1);
+        this->unk_32A--;
         phi_v0 = this->unk_32A;
     }
     if (phi_v0 == 0) {
@@ -531,11 +527,11 @@ void func_80AA71AC(EnMb* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.initPosRot.rot.y, 1, 0x3E8, 0);
     }
     yDist = this->actor.yDistFromLink;
-    yDistAbs = (yDist >= 0.0f) ? yDist : -yDist;
-    if ((yDistAbs <= 20.0f) && (func_80AA652C(this, globalCtx) != 0)) {
+    yDistAbs = ABS(yDist);
+    if ((yDistAbs <= 20.0f) && func_80AA652C(this, globalCtx)) {
         yawDiff = this->actor.shape.rot.y - this->actor.yawTowardsLink;
-        yawDiffAbs = (yawDiff >= 0) ? yawDiff : -yawDiff;
-        if ((yawDiffAbs < 0x4001) || (func_8002DDE4(globalCtx) != 0) && (this->actor.xzDistFromLink < 160.0f)) {
+        yawDiffAbs = ABS(yawDiff);
+        if ((yawDiffAbs <= 0x4000) || (func_8002DDE4(globalCtx) != 0) && (this->actor.xzDistFromLink < 160.0f)) {
             func_80AA66A0(this, globalCtx);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             func_80AA6AC8(this);
@@ -547,12 +543,12 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.5f, 1.0f, 0.0f);
-    if (1.0f < this->actor.speedXZ) {
+    if (this->actor.speedXZ > 1.0f) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->unk_32A == 0) {
-            this->unk_32E = (this->unk_32E - 1);
+            this->unk_32E--;
             if (this->unk_32E == 0) {
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C10, -1.0f, SkelAnime_GetFrameCount(&D_06002C10), 0.0f,
                                      2, 0.0f);
@@ -586,8 +582,8 @@ void func_80AA7478(EnMb* this, GlobalContext* globalCtx) {
 // stack
 void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
     Player* player;
-    s16 yawToTarget;
     s16 yawDiff;
+    s16 pad;
 
     player = PLAYER;
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
@@ -629,9 +625,9 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
                 this->unk_32A = 1;
                 return;
             }
-            yawToTarget = (Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344) - this->actor.yawTowardsLink);
+            yawDiff = (Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344) - this->actor.yawTowardsLink);
 
-            if (ABS(yawToTarget) < 0x4001) {
+            if (ABS(yawDiff) <= 0x4000) {
                 func_80AA68FC(this, globalCtx);
                 return;
             }
@@ -643,7 +639,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA74BC.s")
 #endif
 
-void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
+void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) {
     s32 currentFrame;
     s16 playerInvincibilityTImer;
 
@@ -668,7 +664,7 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
-    if (playerInvincibilityTImer > 0x1388) {
+    if (playerInvincibilityTImer > 5000) {
         this->attackParams = 0;
         func_80AA6CC0(this);
     }
@@ -677,39 +673,23 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) { // Chase link
 #ifdef NON_EQUIVILENT
 void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3f sp68 = {
-        0.0f,
-        0.0f,
-        0.0f,
-    };
+    Vec3f sp68 = { 0.0f, 0.0f, 0.0f };
 
-    Vec3f sp5C = {
-        18.0f,
-        18.0f,
-        0.0f,
-    };
-    s16 sp54[] = {
-        0x0014,
-        0x0028,
-        0x0000,
-    };
-    s16 sp4C[] = {
-        0xF63C,
-        0x0000,
-        0x0DAC,
-    };
+    Vec3f sp5C = { 18.0f, 18.0f, 0.0f };
+    s16 sp54[] = { 0x0014, 0x0028, 0x0000 };
+    s16 sp4C[] = { 0xF63C, 0x0000, 0x0DAC };
     u8 pad;
     s32 pad2;
     f32 tempDist;
     Vec3f sp74;
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
                             0);
-    if ((this->collider2.base.atFlags & 2) != 0) {
-        this->collider2.base.atFlags = this->collider2.base.atFlags & 0xFFFD;
-        if (&player->actor == this->collider2.base.at) {
+    if (this->collider2.base.atFlags & 2) {
+        this->collider2.base.atFlags &= ~2;
+        if (this->collider2.base.at == &player->actor) {
             pad = player->invincibilityTimer;
             if (player->invincibilityTimer < 0) {
-                if (player->invincibilityTimer < -0x27) {
+                if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
                 } else {
                     player->invincibilityTimer = 0;
@@ -722,15 +702,15 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->unk_32E = this->unk_32E - 1;
+        this->unk_32E--;
         if (this->unk_32E != 0) {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600ABE0), 3,
                                  0.0f);
-                                 
-        } else if(this->unk_32E == 0) {
+
+        } else if (this->unk_32E == 0) {
             sp74 = this->effSpawnPos;
             tempDist = this->actor.xzDistFromLink;
-            Audio_PlayActorSound2(&this->actor, 0x39EF);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
             func_800AA000(tempDist, 0xFFU, 0x14U, 0x96U);
             EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);
             func_80033480(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
@@ -748,31 +728,15 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     }
 }
 #else
-Vec3f D_80AA9D50 = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
+Vec3f D_80AA9D50 = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80AA9D5C = {
-    18.0f,
-    18.0f,
-    0.0f,
-};
+Vec3f D_80AA9D5C = { 18.0f, 18.0f, 0.0f };
 
-s16 D_80AA9D68[] = {
-    0x0014,
-    0x0028,
-    0x0000,
-};
+s16 D_80AA9D68[] = { 0x0014, 0x0028, 0x0000 };
 
-s16 D_80AA9D70[] = {
-    0xF63C,
-    0x0000,
-    0x0DAC,
-};
+s16 D_80AA9D70[] = { 0xF63C, 0x0000, 0x0DAC };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mb/func_80AA7938.s")
-#endif 
+#endif
 
 void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
     Player* player;
@@ -803,10 +767,10 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     if ((this->collider2.base.atFlags & 2)) {
-        if (&player->actor == this->collider2.base.at) {
-            if ((sp48 == 0) && ((player->stateFlags2 & 0x80) == 0)) {
+        if (this->collider2.base.at == &player->actor) {
+            if ((sp48 == 0) && (!(player->stateFlags2 & 0x80))) {
                 if (player->invincibilityTimer < 0) {
-                    if (player->invincibilityTimer < -0x27) {
+                    if (player->invincibilityTimer < -39) {
                         player->invincibilityTimer = 0;
                     } else {
                         player->invincibilityTimer = 0;
@@ -822,10 +786,10 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
             }
             sp4C = 1;
         } else {
-            this->collider2.base.atFlags &= -3;
+            this->collider2.base.atFlags &= ~2;
         }
     }
-    if (((player->stateFlags2 & 0x80) != 0) && (&this->actor == player->actor.parent)) {
+    if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_Coss(this->actor.shape.rot.y) * 10.0f) +
                                      (Math_Sins(this->actor.shape.rot.y) * 89.0f);
         sp4C = 1;
@@ -836,10 +800,10 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
         player->actor.velocity.y = 0.0f;
     }
     if (sp48 != 0) {
-        if ((sp4C != 0) || ((player->stateFlags2 & 0x80) != 0)) {
-            this->collider2.base.atFlags &= -3;
-            if ((player->stateFlags2 & 0x80) != 0) {
-                player->stateFlags2 = (player->stateFlags2 & -0x81);
+        if ((sp4C != 0) || (player->stateFlags2 & 0x80)) {
+            this->collider2.base.atFlags &= ~2;
+            if (player->stateFlags2 & 0x80) {
+                player->stateFlags2 &= ~0x80;
                 player->actor.parent = NULL;
                 player->unk_850 = 0xC8;
                 func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
@@ -869,10 +833,10 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
         }
     }
     if ((this->collider2.base.atFlags & 2) != 0) {
-        if (&player->actor == this->collider2.base.at) {
-            if ((sp50 == 0) && ((player->stateFlags2 & 0x80) == 0)) {
+        if (this->collider2.base.at == &player->actor) {
+            if ((sp50 == 0) && (!(player->stateFlags2 & 0x80))) {
                 if (player->invincibilityTimer < 0) {
-                    if (player->invincibilityTimer < -0x27) {
+                    if (player->invincibilityTimer < -39) {
                         player->invincibilityTimer = 0;
                     } else {
                         player->invincibilityTimer = 0;
@@ -891,7 +855,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
             this->collider2.base.atFlags &= ~2;
         }
     }
-    if (((player->stateFlags2 & 0x80) != 0) && (&this->actor == player->actor.parent)) {
+    if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->actor.posRot.pos.x = this->actor.posRot.pos.x + (Math_Coss(this->actor.shape.rot.y) * 10.0f) +
                                      (Math_Sins(this->actor.shape.rot.y) * 89.0f);
         sp54 = 1;
@@ -902,10 +866,10 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
         player->actor.velocity.y = 0.0f;
     }
     if (sp50 != 0) {
-        if ((sp54 != 0) || ((player->stateFlags2 & 0x80) != 0)) {
+        if ((sp54 != 0) || (player->stateFlags2 & 0x80)) {
             this->collider2.base.atFlags &= ~2;
-            if ((player->stateFlags2 & 0x80) != 0) {
-                player->stateFlags2 &= -0x81;
+            if (player->stateFlags2 & 0x80) {
+                player->stateFlags2 &= ~0x80;
                 player->actor.parent = NULL;
                 player->unk_850 = 0xC8;
                 func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
@@ -928,7 +892,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->unk_32E != 0) {
             SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600E18C);
             this->unk_32E = 0;
@@ -943,9 +907,9 @@ void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA840C(EnMb* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->unk_32E != 0) {
-            this->unk_32E = (s16)(this->unk_32E - 1);
+            this->unk_32E--;
             if (this->unk_32E == 0) {
                 if (this->unk_32A == 0) {
                     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f,
@@ -986,14 +950,12 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
                 EffectSsDeadDb_Spawn(globalCtx, &effPosition, &effZeroVector, &effZeroVector, 0xE6, 7, 0xFF, 0xFF, 0xFF,
                                      0xFF, 0, 0xFF, 0, 1, 9, 1);
             }
-            return;
         } else {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &effPosition, 0xC0);
             Actor_Kill(&this->actor);
             return;
         }
-    }
-    if (((s32)this->skelAnime.animCurrentFrame == 15) || ((s32)this->skelAnime.animCurrentFrame == 22)) {
+    } else if (((s32)this->skelAnime.animCurrentFrame == 15) || ((s32)this->skelAnime.animCurrentFrame == 22)) {
         func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
         func_80033260(globalCtx, &this->actor, &effPosition, 50.0f, 0xA, 3.0f, 0x190, 0x3C, 0);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
@@ -1005,32 +967,22 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     s32 currentFrame;
     s32 sp48;
-    f32 playbackSpeed;
+    s32 pad2;
     s32 pad;
-    Player* player = PLAYER;
+    Player* player = (Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first;
     s16 yawDiff;
     f32 playbackSpeedABS;
 
     yawDiff = (this->actor.yawTowardsLink - this->actor.shape.rot.y);
-    if (yawDiff < 0) {
-        yawDiff = -yawDiff;
-    }
+    yawDiff = ABS(yawDiff);
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
     this->skelAnime.animPlaybackSpeed = this->actor.speedXZ;
     currentFrame = this->skelAnime.animCurrentFrame;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    playbackSpeed = this->skelAnime.animPlaybackSpeed;
-    if (0.0f <= playbackSpeed) {
-        playbackSpeedABS = playbackSpeed;
-    } else {
-        playbackSpeedABS = -playbackSpeed;
-    }
+    playbackSpeedABS = ABS(this->skelAnime.animPlaybackSpeed);
+
     sp48 = (this->skelAnime.animCurrentFrame - playbackSpeedABS);
-    if (0.0f <= playbackSpeed) {
-        playbackSpeedABS = playbackSpeed;
-    } else {
-        playbackSpeedABS = -playbackSpeed;
-    }
+    playbackSpeedABS = ABS(this->skelAnime.animPlaybackSpeed);
     if ((this->unk_32E == 0) &&
         (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->unk_364)) {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 750, 0);
@@ -1049,19 +1001,19 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
         } else {
         }
         if (this->soundTimer != 0) {
-            this->soundTimer = this->soundTimer - 1;
+            this->soundTimer--;
         }
         if (this->unk_32E != 0) {
-            this->unk_32E = this->unk_32E - 1;
+            this->unk_32E--;
         }
         if (this->soundTimer == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
         }
-        this->unk_32A = this->unk_32A - 1;
+        this->unk_32A--;
         if (this->unk_32A == 0) {
-            if (0.7f < Math_Rand_ZeroOne()) {
-                this->unk_32A = Math_Rand_S16Offset(0x32, 0x46);
-                this->soundTimer = Math_Rand_S16Offset(0xF, 0x28) & 0xFFFF;
+            if (Math_Rand_ZeroOne() > 0.7f) {
+                this->unk_32A = Math_Rand_S16Offset(50, 70);
+                this->soundTimer = Math_Rand_S16Offset(26, 40) & 0xFFFF;
             } else {
                 func_80AA6830(this);
             }
@@ -1095,25 +1047,27 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
         this->skelAnime.animPlaybackSpeed = (this->actor.speedXZ + this->actor.speedXZ);
     }
     this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_330, (u16)1, (u16)0x5DC, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_330, 1, 0x5DC, 0);
     yDistAbs = (this->actor.yDistFromLink >= 0.0f) ? this->actor.yDistFromLink : -this->actor.yDistFromLink;
     if (yDistAbs <= 20.0f && func_80AA652C(this, globalCtx) != 0) {
         yawDiff = (this->actor.shape.rot.y - this->actor.yawTowardsLink);
-        yawDiffAbs = (yawDiff >= 0) ? yawDiff : -yawDiff;
-        if (yawDiffAbs < 0x4001 || func_8002DDE4(globalCtx) != 0 && this->actor.xzDistFromLink < 160.0f) {
+        yawDiffAbs = ABS(yawDiff);
+        if (yawDiffAbs <= 0x4000 || func_8002DDE4(globalCtx) != 0 && this->actor.xzDistFromLink < 160.0f) {
             func_80AA66A0(this, globalCtx);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             func_80AA6AC8(this);
             return;
         }
     }
-    DECR(this->soundTimer);
+    if (this->soundTimer != 0) {
+        this->soundTimer--;
+    }
     if (this->unk_32E != 0) {
         this->unk_32E--;
     }
     if (this->soundTimer == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
-        this->soundTimer = Math_Rand_S16Offset(0x1E, 0x46);
+        this->soundTimer = Math_Rand_S16Offset(30, 70);
     }
     currentFrame = this->skelAnime.animCurrentFrame;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1141,7 +1095,7 @@ void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->unk_364) {
         if (!(player->stateFlags1 & 0x4000000)) {
-            yawDiffAbs = (yawDiff >= 0) ? yawDiff : -yawDiff;
+            yawDiffAbs = ABS(yawDiff);
             if (yawDiffAbs < 0x3E80) {
                 func_80AA6BF0(this);
             }
@@ -1154,7 +1108,7 @@ void func_80AA8E88(EnMb* this) {
     s32 yawDiffABS;
 
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    yawDiffABS = (yawDiff >= 0) ? yawDiff : -yawDiff;
+    yawDiffABS = ABS(yawDiff);
     if (yawDiffABS <= 0x4000) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06001950, -4.0f);
         this->actor.speedXZ = -8.0f;
@@ -1162,7 +1116,7 @@ void func_80AA8E88(EnMb* this) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600095C, -4.0f);
         this->actor.speedXZ = 8.0f;
     }
-    this->unk_32A = 0x1E;
+    this->unk_32A = 30;
     this->unk_320 = 0;
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
@@ -1185,8 +1139,8 @@ void func_80AA8FC8(EnMb* this) {
     s32 yawDiffAbs;
 
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    yawDiffAbs = (yawDiff >= 0) ? yawDiff : -yawDiff;
-    if (yawDiffAbs < 0x4001) {
+    yawDiffAbs = ABS(yawDiff);
+    if (yawDiffAbs <= 0x4000) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060016B4, -4.0f);
         this->actor.speedXZ = -8.0f;
     } else {
@@ -1194,15 +1148,15 @@ void func_80AA8FC8(EnMb* this) {
         this->actor.speedXZ = 8.0f;
     }
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    this->unk_32A = 0x1E;
+    this->unk_32A = 30;
     this->unk_320 = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DEAD);
-    this->actor.flags &= -2;
+    this->actor.flags &= ~1;
     EnMb_SetupAction(this, func_80AA90A0);
 }
 
 void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
-    static Vec3f D_80AA9D84 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
     s32 phi_s0;
     Vec3f zeroVec;
     Player* player = PLAYER;
@@ -1211,7 +1165,7 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.parent) {
-            player->stateFlags2 &= -0x81;
+            player->stateFlags2 &= ~0x80;
             player->actor.parent = 0;
             player->unk_850 = 0xC8;
             func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.posRot.rot.y, 4.0f);
@@ -1220,7 +1174,7 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->unk_32A > 0) {
-            zeroVec = D_80AA9D84;
+            zeroVec = sZeroVec;
             this->actor.shape.unk_10 = 0.0f;
             this->unk_32A--;
             phi_s0 = 4;
@@ -1232,10 +1186,10 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
                 EffectSsDeadDb_Spawn(globalCtx, &effPos, &zeroVec, &zeroVec, 0x64, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0xFF,
                                      0, 1, 9, 1);
             }
-            return;
+        } else {
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xE0);
+            Actor_Kill(&this->actor);
         }
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xE0);
-        Actor_Kill(&this->actor);
     }
 }
 
@@ -1291,7 +1245,7 @@ void func_80AA94D8(EnMb* this, GlobalContext* globalCtx) {
         this->collider1.base.acFlags &= ~2;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 5)) {
             if (player->stateFlags2 & 0x80 && &this->actor == player->actor.parent) {
-                player->stateFlags2 &= -0x81;
+                player->stateFlags2 &= ~0x80;
                 player->actor.parent = 0;
                 player->unk_850 = 0xC8;
                 func_8002F71C(globalCtx, &this->actor, 6.0f, this->actor.posRot.rot.y, 6.0f);
@@ -1311,19 +1265,13 @@ void func_80AA94D8(EnMb* this, GlobalContext* globalCtx) {
                 if (this->actor.params == 0) {
                     if (this->actor.colChkInfo.health == 0) {
                         func_80AA6F04(this);
-                        return;
-                    }
-                    if (this->unk_320 != 3) {
+                    } else if (this->unk_320 != 3) {
                         func_80AA6E1C(this);
-                        return;
                     }
-                } else {
-                    if (this->actor.colChkInfo.health == 0) {
-                        func_80AA8FC8(this);
-                        return;
-                    }
+                } else if (this->actor.colChkInfo.health == 0) {
+                    func_80AA8FC8(this);
+                } else
                     func_80AA8E88(this);
-                }
             }
         }
     }
@@ -1415,9 +1363,9 @@ void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         }
         if (phi_v1 >= 0) {
             Matrix_MultVec3f(&D_80AA9E14, &sp24);
-            this->unk_14C[phi_v1].x = sp24.x;
-            this->unk_14C[phi_v1].y = sp24.y;
-            this->unk_14C[phi_v1].z = sp24.z;
+            this->effectPos[phi_v1].x = sp24.x;
+            this->effectPos[phi_v1].y = sp24.y;
+            this->effectPos[phi_v1].z = sp24.z;
         }
     }
 }
@@ -1434,7 +1382,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
         { 4000.0f, 0.0f, 3500.0f },
     };
     s32 i;
-    f32 phi_f0;
+    f32 scale;
     Vec3f phi_s2[3];
     Vec3f phi_s0[3];
     s32 tempPosIndex;
@@ -1460,13 +1408,13 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_328--;
         }
         if ((this->unk_328 & 3) == 0) {
-            phi_f0 = 2.5f;
+            scale = 2.5f;
             if (thisx->params == 0) {
-                phi_f0 = 4.0f;
+                scale = 4.0f;
             }
             tempPosIndex = this->unk_328 >> 2;
-            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->unk_14C[tempPosIndex], 0x96, 0x96, 0x96, 0xFA, 0xEB,
-                                           0xF5, 0xFF, phi_f0);
+            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->effectPos[tempPosIndex], 0x96, 0x96, 0x96, 0xFA,
+                                           0xEB, 0xF5, 0xFF, scale);
         }
     }
 }

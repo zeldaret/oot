@@ -495,9 +495,27 @@ typedef struct {
     /* 0x144 */ Vec3f rot;
 } SkyboxContext; // size = 0x150
 
+typedef enum {
+    MESSAGE_ICON_TRIANGLE,
+    MESSAGE_ICON_SQUARE,
+    MESSAGE_ICON_ARROW
+} MessageBoxIcon;
+
+#define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
+
+typedef struct {
+    /* 0x0000 */ u32   msgOffset;
+    /* 0x0004 */ u32   msgLength;
+    /* 0x0008 */ char  unk_8[0x3C00];
+    /* 0x3C08 */ u8    iconBuf[FONT_CHAR_TEX_SIZE];
+    /* 0x3C88 */ u8    fontBuf[FONT_CHAR_TEX_SIZE * 320]; // size possibly unconfirmed
+    /* 0xDC88 */ char  msgBuf[1064]; // size unconfirmed
+    /* 0xE0B0 */ char  unk_E0B0[0xD8];
+} Font; // size = 0xE188
+
 typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ char   unk_128[0xE188];
+    /* 0x0128 */ Font   font;
     /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x44];
     /* 0xE2FA */ u16    unk_E2F8;

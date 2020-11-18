@@ -102,24 +102,24 @@ void MapMark_Draw(GlobalContext* globalCtx) {
             break;
         }
 
-        gDPPipeSync(oGfxCtx->overlay.p++);
-        gDPSetTextureLUT(oGfxCtx->overlay.p++, G_TT_NONE);
-        gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->minimapAlpha);
-        gDPSetEnvColor(oGfxCtx->overlay.p++, 0, 0, 0, interfaceCtx->minimapAlpha);
+        gDPPipeSync(OVERLAY_DISP++);
+        gDPSetTextureLUT(OVERLAY_DISP++, G_TT_NONE);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->minimapAlpha);
+        gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, interfaceCtx->minimapAlpha);
 
         markPoint = &mapMarkData->points[0];
         for (i = 0; i < mapMarkData->count; i++) {
             if ((mapMarkData->markType != 0) || !Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
                 markInfo = &sMapMarkInfoTable[mapMarkData->markType];
 
-                gDPPipeSync(oGfxCtx->overlay.p++);
-                gDPLoadTextureBlock(oGfxCtx->overlay.p++, markInfo->texture, markInfo->imageFormat, G_IM_SIZ_MARK,
+                gDPPipeSync(OVERLAY_DISP++);
+                gDPLoadTextureBlock(OVERLAY_DISP++, markInfo->texture, markInfo->imageFormat, G_IM_SIZ_MARK,
                                     markInfo->textureWidth, markInfo->textureHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                 rectLeft = (GREG(94) + markPoint->x + 204) << 2;
                 rectTop = (GREG(95) + markPoint->y + 140) << 2;
-                gSPTextureRectangle(oGfxCtx->overlay.p++, rectLeft, rectTop, markInfo->rectWidth + rectLeft,
+                gSPTextureRectangle(OVERLAY_DISP++, rectLeft, rectTop, markInfo->rectWidth + rectLeft,
                                     rectTop + markInfo->rectHeight, G_TX_RENDERTILE, 0, 0, markInfo->dsdx,
                                     markInfo->dtdy);
             }

@@ -2360,15 +2360,15 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    oGfxCtx->polyOpa.p =
+    POLY_OPA_DISP =
         SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
+                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
@@ -2386,15 +2386,15 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_2A8);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr1));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr2));
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_2A8);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
-    oGfxCtx->polyXlu.p =
+    POLY_XLU_DISP =
         SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnRu1_OverrideLimbDraw, NULL, &this->actor, oGfxCtx->polyXlu.p);
+                          EnRu1_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }
