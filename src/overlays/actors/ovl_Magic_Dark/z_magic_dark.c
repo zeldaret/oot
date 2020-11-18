@@ -170,7 +170,41 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_14C++;
 }
 
+#ifdef NON_MATCHING
+void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
+    MagicDark* this = THIS;
+    Player* player;
+    u16 gameplayFrames = globalCtx->gameplayFrames;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 525);
+
+    func_80093D84(globalCtx->state.gfxCtx);
+    player = PLAYER;
+    thisx->posRot.pos.x = player->bodyPartsPos[0].x;
+    thisx->posRot.pos.z = player->bodyPartsPos[0].z;
+    if (player->bodyPartsPos[0].y - thisx->posRot.pos.y < -2.0f) {
+        thisx->posRot.pos.y = player->bodyPartsPos[0].y + 2.0f;
+    } else if (player->bodyPartsPos[0].y - thisx->posRot.pos.y > 2.0f) {
+        thisx->posRot.pos.y = player->bodyPartsPos[0].y - 2.0f;
+    }
+    Matrix_Translate(thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, MTXMODE_NEW);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
+    Matrix_RotateY(thisx->shape.rot.y * (M_PI / 32), MTXMODE_APPLY);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 553),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, this->unk_14E * 0.6f);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
+    gSPDisplayList(POLY_XLU_DISP++, D_80B88A20);
+    gSPDisplayList(POLY_XLU_DISP++,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -gameplayFrames * 2, -gameplayFrames * 4, 0x20, 0x20, 1,
+                                    0, -gameplayFrames * 0x10, 0x40, 0x20));
+    gSPDisplayList(POLY_XLU_DISP++, D_80B88AD0);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B87A18.s")
+#endif
 
 void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
