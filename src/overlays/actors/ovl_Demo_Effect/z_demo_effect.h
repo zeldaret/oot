@@ -103,7 +103,7 @@ typedef struct DemoEffect {
     /* 0x018C */ s16 csActionId;
     /* 0x018E */ Vec3s jewelCsRotation;
     /* 0x0194 */ DemoEffectFunc initUpdateFunc;
-    /* 0x0198 */ DemoEffectFunc initDrawFunc;
+    /* 0x0198 */ ActorFunc initDrawFunc;
     /* 0x019C */ DemoEffectFunc updateFunc;
 } DemoEffect; // size = 0x01A0
 

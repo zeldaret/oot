@@ -9,17 +9,17 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawGetItem(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawFireBall(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawBlueOrb(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawLgtShower(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawGetItem(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawTimeWarp(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx);
 
 void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
@@ -1703,8 +1703,8 @@ s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csA
 /**
  * Draw function for the Jewel Actor.
  */
-void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad;
+void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
     u32 scroll = this->jewel.timer;
 
@@ -1765,8 +1765,8 @@ void DemoEffect_DrawJewel(DemoEffect* this, GlobalContext* globalCtx) {
 /**
  * Draw function for the Crystal Light Actor.
  */
-void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad;
+void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     DemoEffect* parent;
     u32 scroll;
 
@@ -1816,8 +1816,8 @@ void DemoEffect_DrawCrystalLight(DemoEffect* this, GlobalContext* globalCtx) {
 /**
  * Draw function for the Fire Ball Actor.
  */
-void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad;
+void DemoEffect_DrawFireBall(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     u32 scroll;
 
     scroll = globalCtx->gameplayFrames;
@@ -1840,9 +1840,9 @@ void DemoEffect_DrawFireBall(DemoEffect* this, GlobalContext* globalCtx) {
  * Draw function for the God Lgt Actors.
  * This draws either Din, Nayru, or Farore based on the colors set in the DemoEffect struct.
  */
-void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     s32 pad;
-    s32 pad2;
     u32 scroll;
 
     scroll = globalCtx->gameplayFrames;
@@ -1901,8 +1901,8 @@ void DemoEffect_DrawGodLgt(DemoEffect* this, GlobalContext* globalCtx) {
 /**
  * Draw function for the Light Effect Actor.
  */
-void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad;
+void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     u8* opacity;
     u32 disp;
 
@@ -1943,8 +1943,8 @@ void DemoEffect_DrawLightEffect(DemoEffect* this, GlobalContext* globalCtx) {
 /**
  * Draw function for the Blue Orb Actor.
  */
-void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad;
+void DemoEffect_DrawBlueOrb(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     s32 pad2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2892);
@@ -1963,9 +1963,9 @@ void DemoEffect_DrawBlueOrb(DemoEffect* this, GlobalContext* globalCtx) {
 /**
  * Draw function for the Lgt Shower Actor.
  */
-void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void DemoEffect_DrawLgtShower(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
+    s32 pad;
     u32 scroll;
     scroll = globalCtx->gameplayFrames;
 
@@ -1985,8 +1985,8 @@ void DemoEffect_DrawLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
 /**
  * Draw function for the Light Ring Actor.
  */
-void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad;
+void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
     u32 scroll = this->lightRing.timer;
 
@@ -2008,9 +2008,9 @@ void DemoEffect_DrawLightRing(DemoEffect* this, GlobalContext* globalCtx) {
 /**
  * Draw function for the Triforce Spot Actor.
  */
-void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
+    s32 pad;
     Vtx* vertices;
     u32 scroll;
 
@@ -2078,8 +2078,8 @@ void DemoEffect_DrawTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
  * Draw function for the Get Item Actors.
  * This is either Medals or Light Arrows based on the giIndex.
  */
-void DemoEffect_DrawGetItem(DemoEffect* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
+void DemoEffect_DrawGetItem(Actor* thisx, GlobalContext* globalCtx) {
+    DemoEffect* this = THIS;
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1) && !DemoEffect_CheckCsAction(this, globalCtx, 4)) {
         if (!this->getItem.isLoaded) {
             this->getItem.isLoaded = 1;
@@ -2121,9 +2121,9 @@ s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelC
 /**
  * Draw function for the Time Warp Actors.
  */
-void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
+void DemoEffect_DrawTimeWarp(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
-    u8 effectType = GET_EFFECT_TYPE(&this->actor);
+    u8 effectType = GET_EFFECT_TYPE(thisx);
     GraphicsContext* gfxCtx2 = globalCtx2->state.gfxCtx;
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
@@ -2131,8 +2131,8 @@ void DemoEffect_DrawTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
         OPEN_DISPS(gfxCtx2, "../z_demo_effect.c", 3201);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        SkelCurve_Draw(&this->actor, globalCtx2, &this->skelCurve, &DemoEffect_DrawTimewarpLimbs, NULL, 1,
-                       &this->actor);
+        SkelCurve_Draw(thisx, globalCtx2, &THIS->skelCurve, &DemoEffect_DrawTimewarpLimbs, NULL, 1,
+                       thisx);
         CLOSE_DISPS(gfxCtx2, "../z_demo_effect.c", 3216);
     }
 }
