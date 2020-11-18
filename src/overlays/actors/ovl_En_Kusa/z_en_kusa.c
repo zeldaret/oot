@@ -77,10 +77,10 @@ static ColliderCylinderInit D_80A9C208 = {
 // sColChkInfoInit
 CollisionCheckInfoInit D_80A9C234 = { 0, 0xC, 0x1E, 0xFF };
 
-f32 D_80A9C23C[] = { 0, 0.707099f, 0.707099f,  0.707099f,  0.707099f, 0,
-                     0, 0.707099f, -0.707099f, -0.707099f, 0.707099f, 0 };
+Vec3f D_80A9C23C[] = { 0, 0.707099f, 0.707099f,  0.707099f,  0.707099f, 0,
+                       0, 0.707099f, -0.707099f, -0.707099f, 0.707099f, 0 };
 
-s32 D_80A9C26C[] = { 0x006C0066, 0x00600054, 0x00420037, 0x002A0026 };
+s16 D_80A9C26C[] = { 0x006C, 0x0066, 0x0060, 0x0054, 0x0042, 0x0037, 0x002A, 0x0026 };
 
 // sInitChain
 InitChainEntry D_80A9C27C[] = {
@@ -183,46 +183,45 @@ void func_80A9B1FC(EnKusa* this) {
     this->actor.scale.z = 0.120000005f;
 }
 
-//TODO: Finish this function
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B21C.s")
+// TODO: Finish this function
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B21C.s")
+void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f pos;
+    Vec3f velocity;
+    u32 index;
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(D_80A9C26C); i++) {
+        pos.x = this->actor.posRot.pos.x + (D_80A9C23C[i].x * this->actor.scale.x * 20.0f);
+        pos.y = this->actor.posRot.pos.y + (D_80A9C23C[i].y * this->actor.scale.y * 20.0f) + 10.0f;
+        pos.z = this->actor.posRot.pos.z + (D_80A9C23C[i].z * this->actor.scale.z * 20.0f);
+        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        velocity.y = Math_Rand_ZeroOne() * 10.0f;
+        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        index = (s32)(Math_Rand_ZeroOne() * 111.1f) & 7;
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
+        pos.x = this->actor.posRot.pos.x + (D_80A9C23C[i].x * this->actor.scale.x * 40.0f);
+        pos.y = this->actor.posRot.pos.y + (D_80A9C23C[i].y * this->actor.scale.y * 40.0f) + 10.0f;
+        pos.z = this->actor.posRot.pos.z + (D_80A9C23C[i].z * this->actor.scale.z * 40.0f);
+        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+        velocity.y = Math_Rand_ZeroOne() * 10.0f;
+        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+        index = (s32)(Math_Rand_ZeroOne() * 111.1f) % 7;
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
+    }
+}
+
+// Old version
 // void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
 //     s32 pad;
 //     Vec3f pos;
 //     Vec3f velocity;
-//     s32 i;
-//     f32* phi_s1 = D_80A9C23C;
-    
-
-//     for (i = 0; i < ARRAY_COUNT(D_80A9C26C); i++) {
-//         pos.x += (phi_s1[i] * this->actor.scale.x * 20.0f);
-//         pos.y += (phi_s1[i] * this->actor.scale.y * 20.0f) + 10.0f;
-//         pos.z += (phi_s1[i] * this->actor.scale.z * 20.0f);
-//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
-//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
-//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
-//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
-//         pos.x += (phi_s1[i] * this->actor.scale.x * 40.0f);
-//         pos.y += (phi_s1[i] * this->actor.scale.y * 40.0f) + 10.0f;
-//         pos.z += (phi_s1[i] * this->actor.scale.z * 40.0f);
-//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
-//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
-//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
-//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
-//     }
-// }
-
-// void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
-
-//     s32 pad;
-//     Vec3f pos;
-//     Vec3f velocity;
-//     s32* phi_s1;
+//     s16* phi_s1;
+//     u32 index;
 //     Vec3f* breakPos = &this->actor.posRot.pos;
-
 
 //     phi_s1 = D_80A9C23C; // This is float values...1/sqrt(2)
 //     do {
@@ -232,8 +231,8 @@ void func_80A9B1FC(EnKusa* this) {
 //         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
 //         velocity.y = Math_Rand_ZeroOne() * 10.0f;
 //         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
-//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
+//         index = (s32)(Math_Rand_ZeroOne() * 111.1f) % 8;
+//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
 //                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
 //         pos.x = this->actor.posRot.pos.x + (breakPos->x * this->actor.scale.x * 40.0f);
 //         pos.y = this->actor.posRot.pos.y + (breakPos->y * this->actor.scale.y * 40.0f) + 10.0f;
@@ -241,11 +240,11 @@ void func_80A9B1FC(EnKusa* this) {
 //         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
 //         velocity.y = Math_Rand_ZeroOne() * 10.0f;
 //         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0,
-//                              *(D_80A9C26C + (((s32)(Math_Rand_ZeroOne() * 111.1f) % 7) * 2)), 0, 0, 80,
+//         index = (s32)(Math_Rand_ZeroOne() * 111.1f) % 7;
+//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
 //                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
 //         phi_s1 += 0xC;
-//     } while(phi_s1 != D_80A9C26C);
+//     } while (phi_s1 != D_80A9C26C);
 // }
 
 // Matching!
