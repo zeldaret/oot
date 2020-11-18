@@ -93,7 +93,7 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     player->invincibilityTimer = -100;
-    thisx->scale.x = thisx->scale.z = this->unk_15C; // same line?
+    thisx->scale.x = thisx->scale.z = this->unk_15C;
 
     if (this->unk_14C < 20) {
         thisx->scale.x = thisx->scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->unk_15C;
