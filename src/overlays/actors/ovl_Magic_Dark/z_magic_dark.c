@@ -224,12 +224,11 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_RotateY(thisx->shape.rot.y * (M_PI / 32), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 553),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, this->unk_14E * 0.6f);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s8)(this->unk_14E * 0.6f));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
     gSPDisplayList(POLY_XLU_DISP++, D_80B88A20);
-    gSPDisplayList(POLY_XLU_DISP++,
-                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -gameplayFrames * 2, -gameplayFrames * 4, 0x20, 0x20, 1,
-                                    0, -gameplayFrames * 0x10, 0x40, 0x20));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames * 2,
+                                                     -gameplayFrames * 4, 32, 32, 1, 0, -gameplayFrames * 16, 64, 32));
     gSPDisplayList(POLY_XLU_DISP++, D_80B88AD0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
