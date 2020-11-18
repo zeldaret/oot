@@ -221,7 +221,7 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     }
     Matrix_Translate(thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
-    Matrix_RotateY(thisx->shape.rot.y * (M_PI / 32), MTXMODE_APPLY);
+    Matrix_RotateY(thisx->shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 553),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s8)(this->unk_14E * 0.6f));
