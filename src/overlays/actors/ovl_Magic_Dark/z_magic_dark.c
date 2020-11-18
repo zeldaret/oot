@@ -85,7 +85,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, thisx->scale.x);
     } else if (this->unk_14C < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
-        Math_SmoothScaleMaxMinF(&this->unk_154, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
+        Math_SmoothScaleMaxMinF(&this->unk_150.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
         if (this->unk_14C >= 49) {
             func_80B8772C(globalCtx, (54 - this->unk_14C) * 0.2f);
         }
@@ -103,4 +103,49 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B87A18.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/MagicDark_Draw.s")
+void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    MagicDark* this = THIS;
+    Vec3f sp78;
+    Player* player = PLAYER;
+    s32 pad;
+    f32 sp6C = globalCtx->state.frames & 0x1F;
+
+    if (this->unk_14C < 32) {
+        sp78.x = (player->bodyPartsPos[12].x + player->bodyPartsPos[15].x) * 0.5f;
+        sp78.y = (player->bodyPartsPos[12].y + player->bodyPartsPos[15].y) * 0.5f;
+        sp78.z = (player->bodyPartsPos[12].z + player->bodyPartsPos[15].z) * 0.5f;
+        if (this->unk_14C > 20) {
+            sp78.y += (this->unk_14C - 20) * 1.4f;
+        }
+        this->unk_150 = sp78;
+    } else if (this->unk_14C < 130) {
+        sp78 = this->unk_150;
+    } else {
+        return;
+    }
+
+    sp78.x -= (thisx->scale.x * 300.0f * Math_Sins(func_8005A9F4(ACTIVE_CAM)) * Math_Coss(func_8005A9CC(ACTIVE_CAM)));
+    sp78.y -= (thisx->scale.x * 300.0f * Math_Sins(func_8005A9CC(ACTIVE_CAM)));
+    sp78.z -= (thisx->scale.x * 300.0f * Math_Coss(func_8005A9F4(ACTIVE_CAM)) * Math_Coss(func_8005A9CC(ACTIVE_CAM)));
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 619);
+
+    func_80093D84(globalCtx->state.gfxCtx);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 255);
+    Matrix_Translate(sp78.x, sp78.y, sp78.z, MTXMODE_NEW);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
+    Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+    Matrix_Push();
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 632),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    Matrix_RotateZ(sp6C * (M_PI / 32), MTXMODE_APPLY);
+    gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+    Matrix_Pull();
+    Matrix_RotateZ(-sp6C * (M_PI / 32), MTXMODE_APPLY);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 639),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_XLU_DISP++, D_04010130);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 643);
+}
