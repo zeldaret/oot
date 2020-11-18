@@ -69,7 +69,76 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B874E4.s")
+void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
+    MagicDark* this = THIS;
+    u8 phi_a0;
+    Player* player = PLAYER;
+    u8 temp;
+    s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
+    s32 msgMode = globalCtx->msgCtx.msgMode;
+    u8 temp2;
+
+    if (1) {}
+
+    if ((msgMode == 0xD) || (msgMode == 0x11)) {
+        Actor_Kill(thisx);
+        return;
+    }
+
+    if (nayrusLoveTimer >= 1200) {
+        player->invincibilityTimer = 0;
+        gSaveContext.nayrusLoveTimer = 0;
+        Actor_Kill(thisx);
+        return;
+    }
+
+    player->invincibilityTimer = -100;
+    thisx->scale.x = thisx->scale.z = this->unk_15C; // same line?
+
+    if (this->unk_14C < 20) {
+        thisx->scale.x = thisx->scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->unk_15C;
+        thisx->scale.y = ((this->unk_14C * 0.01f) + 0.8f) * this->unk_15C;
+    } else {
+        thisx->scale.x = thisx->scale.z = this->unk_15C;
+        thisx->scale.y = this->unk_15C;
+    }
+
+    thisx->scale.x *= 1.3f;
+    thisx->scale.z *= 1.3f;
+
+    phi_a0 = (this->unk_14C < 20) ? (this->unk_14C * 12) : 255;
+
+    if (nayrusLoveTimer >= 1180) {
+        this->unk_14E = 0x3CEB - (nayrusLoveTimer * 0xD);
+        if (nayrusLoveTimer & 1) {
+            temp2 = this->unk_14E;
+            this->unk_14E = (temp2 & 0xFF) >> 1;
+        }
+    } else {
+        if (nayrusLoveTimer >= 1100) {
+            temp = (nayrusLoveTimer << 7);
+            temp += 0x7F;
+            this->unk_14E = temp;
+        } else {
+            this->unk_14E = 0xFF;
+        }
+    }
+
+    if (phi_a0 < this->unk_14E) {
+        this->unk_14E = phi_a0;
+    }
+
+    thisx->posRot.rot.y += 0x3E8;
+    thisx->shape.rot.y = thisx->posRot.rot.y + func_8005A9F4(ACTIVE_CAM);
+    this->unk_14C++;
+    gSaveContext.nayrusLoveTimer = nayrusLoveTimer + 1;
+
+    if (nayrusLoveTimer < 1100) {
+        func_8002F974(thisx, NA_SE_PL_MAGIC_SOUL_NORMAL - SFX_FLAG);
+    } else {
+        func_8002F974(thisx, NA_SE_PL_MAGIC_SOUL_FLASH - SFX_FLAG);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B8772C.s")
 
