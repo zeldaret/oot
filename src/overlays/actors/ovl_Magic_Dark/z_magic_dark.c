@@ -94,7 +94,8 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_14C = 0;
         this->unk_14E = 0;
     }
-    this->unk_14C += 1;
+
+    this->unk_14C++;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B87A18.s")
