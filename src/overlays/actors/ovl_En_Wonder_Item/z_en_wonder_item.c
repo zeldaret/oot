@@ -68,14 +68,14 @@ void EnWonderItem_DropCollectible(EnWonderItem* this, GlobalContext* globalCtx, 
         this->dropCount++;
     }
     for (i = this->dropCount; i > 0; i--) {
-        if (this->itemDrop < WONDERITEM_RANDOM) {
-            if ((this->itemDrop == WONDERITEM_FLEXIBLE) || !autoCollect) {
+        if (this->itemDrop < WONDERITEM_DROP_RANDOM) {
+            if ((this->itemDrop == WONDERITEM_DROP_FLEXIBLE) || !autoCollect) {
                 Item_DropCollectible(globalCtx, &this->actor.posRot.pos, dropTable[this->itemDrop]);
             } else {
                 Item_DropCollectible(globalCtx, &this->actor.posRot.pos, dropTable[this->itemDrop] | 0x8000);
             }
         } else {
-            randomDrop = this->itemDrop - WONDERITEM_RANDOM;
+            randomDrop = this->itemDrop - WONDERITEM_DROP_RANDOM;
             if (!autoCollect) {
                 Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, randomDrop);
             } else {
@@ -314,18 +314,18 @@ void EnWonderItem_RollDrop(EnWonderItem* this, GlobalContext* globalCtx) {
 
     if ((this->actor.xzDistFromLink < 50.0f) && (player->invincibilityTimer < 0) &&
         (fabsf(this->actor.posRot.pos.y - player->actor.posRot.pos.y) < 30.0f)) {
-        EnWonderItem_DropCollectible(this, globalCtx, 1);
+        EnWonderItem_DropCollectible(this, globalCtx, true);
     }
 }
 
 void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static s16 debugTextColors[] = {
+    static s16 debugArrowColors[] = {
         255, 255, 0,   255, 0,   255, 0,   255, 255, 255, 0,   0, 0, 255, 0,   0, 0, 255, 128, 128,
         128, 128, 128, 0,   128, 0,   128, 0,   128, 0,   128, 0, 0, 0,   128, 0, 0, 0,   128,
-    }; // These seem to be mistyped. Logically they should be s16[13][3] and be indexed as [wonderIndex][i]
+    }; // These seem to be mistyped. Logically they should be s16[13][3] and be indexed as [colorIndex][i]
     s32 pad;
     EnWonderItem* this = THIS;
-    s32 wonderIndex;
+    s32 colorIndex;
 
     if (this->timer != 0) {
         this->timer--;
@@ -340,14 +340,14 @@ void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
-    wonderIndex = this->wonderMode;
+    colorIndex = this->wonderMode;
     if (this->wonderMode > 12) {
-        wonderIndex = 0;
+        colorIndex = 0;
     }
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
-                               1.0f, debugTextColors[wonderIndex], debugTextColors[wonderIndex + 1],
-                               debugTextColors[wonderIndex + 2], 255, 4, globalCtx->state.gfxCtx);
+                               1.0f, debugArrowColors[colorIndex], debugArrowColors[colorIndex + 1],
+                               debugArrowColors[colorIndex + 2], 255, 4, globalCtx->state.gfxCtx);
     }
 }
