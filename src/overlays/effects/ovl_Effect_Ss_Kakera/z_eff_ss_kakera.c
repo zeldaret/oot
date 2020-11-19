@@ -117,8 +117,7 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         func_80093D84(globalCtx->state.gfxCtx);
 
         if (colorIdx >= 0) {
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
-                            255);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b, 255);
         }
 
         gSPDisplayList(POLY_XLU_DISP++, this->gfx);
@@ -128,8 +127,7 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         func_80093D18(globalCtx->state.gfxCtx);
 
         if (colorIdx >= 0) {
-            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b,
-                            255);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, colors[colorIdx].r, colors[colorIdx].g, colors[colorIdx].b, 255);
         }
 
         gSPDisplayList(POLY_OPA_DISP++, this->gfx);

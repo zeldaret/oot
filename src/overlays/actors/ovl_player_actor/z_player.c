@@ -10444,8 +10444,8 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
-            POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0,
-                                             4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
+            POLY_OPA_DISP =
+                Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0, 4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
         }
 
         func_8002EBCC(&this->actor, globalCtx, 0);
