@@ -8,33 +8,33 @@
 void EnDodongo_Init(EnDodongo* this, GlobalContext* globalCtx);
 void EnDodongo_Destroy(EnDodongo* this, GlobalContext* globalCtx);
 void EnDodongo_Update(EnDodongo* this, GlobalContext* globalCtx);
-void EnDodongo_Draw(EnDodongo* this, GlobalContext* globalCtx);
+void EnDodongo_Draw(EnDodongo* this, GlobalContext* globalCtx); //
 
-void func_809FA674(s16 arg0, f32 arg1, Vec3f* arg2);
 s32 func_809FA0F8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnDodongo* this);
-void func_809FA14C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnDodongo* this);
-
-void func_809F9A80(EnDodongo* this, GlobalContext* globalCtx);
-void func_809F8258(EnDodongo* this, GlobalContext* globalCtx); //
-s32 func_809FA6D8(EnDodongo* this, GlobalContext* globalCtx);
+void func_809FA14C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnDodongo* this); ////
+void func_809F8258(EnDodongo* this, GlobalContext* globalCtx); ////
 void func_809F9CA0(EnDodongo* this, GlobalContext* globalCtx);
-void func_809F9DC8(EnDodongo* this, GlobalContext* globalCtx);
-
-void func_809F89CC(EnDodongo* this);
+void func_809F9DC8(EnDodongo* this, GlobalContext* globalCtx); ////
 void func_809F8A34(EnDodongo* this);
 void func_809F8AD8(EnDodongo* this);
 void func_809F8B2C(EnDodongo* this);
 void func_809F8B7C(EnDodongo* this);
 void func_809F8BFC(EnDodongo* this);
 void func_809F9760(EnDodongo* this);
+
+void func_809F9A80(EnDodongo* this, GlobalContext* globalCtx);
+void func_809FA674(s16 yaw, f32 radius, Vec3f* vec);
+s32 func_809FA6D8(EnDodongo* this, GlobalContext* globalCtx);
+void func_809F89CC(EnDodongo* this);
+
 void func_809F8C94(EnDodongo* this, GlobalContext* globalCtx);
 void func_809F8D0C(EnDodongo* this, GlobalContext* globalCtx);
 void func_809F8D58(EnDodongo* this, GlobalContext* globalCtx);
 void func_809F8F2C(EnDodongo* this, GlobalContext* globalCtx);
-void func_809F9424(EnDodongo* this, GlobalContext* globalCtx);
+void func_809F9424(EnDodongo* this, GlobalContext* globalCtx); //
 void func_809F9C3C(EnDodongo* this, GlobalContext* globalCtx);
 void func_809F9AF8(EnDodongo* this, GlobalContext* globalCtx);
-void func_809F97C0(EnDodongo* this, GlobalContext* globalCtx); //
+void func_809F97C0(EnDodongo* this, GlobalContext* globalCtx); ////
 
 extern SkeletonHeader D_06008318;
 extern AnimationHeader D_06003B14;
@@ -46,7 +46,6 @@ extern AnimationHeader D_06003088;
 extern AnimationHeader D_060013C4;
 extern AnimationHeader D_06001A44;
 
-/*
 const ActorInit En_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORTYPE_ENEMY,
@@ -58,34 +57,81 @@ const ActorInit En_Dodongo_InitVars = {
     (ActorFunc)EnDodongo_Update,
     (ActorFunc)EnDodongo_Draw,
 };
-*/
 
-extern ColliderJntSph D_809FA7E0[];
-// 0x00000000, 0x00000000, 0x00000000, 0xFFCFFFFF, 0x00000000, 0x00010100, 0x0F000000, 0x00000000, 0x00110064, 0x00000000, 0x00000000, 0x00000000, 0xFFCFFFFF, 0x00000000, 0x00010100, 0x0E000000, 0x00000000, 0x000F0064, 0x00000000, 0x00000000, 0x00000000, 0xFFCFFFFF, 0x00000000, 0x00010100, 0x0D000000, 0x00000000, 0x000A0064, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000100, 0x15000000, 0x00000000, 0x00140064, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000100, 0x1C000000, 0x00000000, 0x00140064, 0x00000000, 0x00000000, 0x00000000, 0x0D800691, 0x00000000, 0x00010900, 0x06000000, 0x00000000, 0x00230064
-extern ColliderJntSphInit D_809FA8B8;
-// 0x00110939, 0x10000000, 0x00000006, D_809FA7E0
-extern ColliderTrisItemInit D_809FA8C8[];
-// 0x02000000, 0x00000000, 0x00000000, 0xF24BF96E, 0x00000000, 0x000D0000, 0xC1200000, 0x41600000, 0x40000000, 0xC1200000, 0xC0C00000, 0x40000000, 0x41100000, 0x41600000, 0x40000000, 0x02000000, 0x00000000, 0x00000000, 0xFFCBF96E, 0x00000000, 0x000D0000, 0xC1200000, 0xC0C00000, 0x40000000, 0x41100000, 0xC0C00000, 0x40000000, 0x41100000, 0x41600000, 0x40000000, 0x02000000, 0x00000000, 0x00000000, 0xFFCBF96E, 0x00000000, 0x000D0000, 0xC1200000, 0xC0C00000, 0x40000000, 0x41100000, 0xC0C00000, 0x40000000, 0x41100000, 0x41600000, 0x40000000
-extern ColliderTrisInit D_809FA97C;
-// 0x09000D00, 0x00020000, 0x00000003, D_809FA8C8
-extern ColliderQuadInit D_809FA98C;
-// 0x0A110000, 0x00030000, 0x00000000, 0x20000000, 0x01100000, 0x00000000, 0x00000000, 0x81000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
-extern DamageTable D_809FA9DC;
-// 0x10020102, 0x10010210, 0x01020402, 0xF4020202, 0x0260F360, 0x00000104, 0x02020804, 0x00000400
+ColliderJntSphItemInit D_809FA7E0[6] = {
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { 15, { { 0, 0, 0 }, 17 }, 100 },
+    },
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { 14, { { 0, 0, 0 }, 15 }, 100 },
+    },
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { 13, { { 0, 0, 0 }, 10 }, 100 },
+    },
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        { 21, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        { 28, { { 0, 0, 0 }, 20 }, 100 },
+    },
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x0D800691, 0x00, 0x00 }, 0x00, 0x01, 0x09 },
+        { 6, { { 0, 0, 0 }, 35 }, 100 },
+    },
+};
+
+ColliderJntSphInit D_809FA8B8 = {
+    { COLTYPE_UNK0, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    6, D_809FA7E0,
+};
+
+ColliderTrisItemInit D_809FA8C8[3] = {
+    {
+        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xF24BF96E, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
+        { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
+    },
+    {
+        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCBF96E, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
+        { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
+    },
+    {
+        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCBF96E, 0x00, 0x00 }, 0x00, 0x0D, 0x00 },
+        { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
+    },
+};
+
+ColliderTrisInit D_809FA97C = {
+    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
+    3, D_809FA8C8,
+};
+
+ColliderQuadInit D_809FA98C = {
+    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
+    { 0x00, { 0x20000000, 0x01, 0x10 }, { 0x00000000, 0x00, 0x00 }, 0x81, 0x00, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
+
+DamageTable D_809FA9DC = {0x10,0x02,0x01,0x02, 0x10,0x01,0x02,0x10, 0x01,0x02,0x04,0x02, 0xF4,0x02,0x02,0x02, 0x02,0x60,0xF3,0x60, 0x00,0x00,0x01,0x04, 0x02,0x02,0x08,0x04, 0x00,0x00,0x04,0x00,};
 
 void func_809F8250(EnDodongo *this, EnDodongoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-extern Vec3f D_809FA9FC;
-// 0x00000000, 0x00000000, 0x00000000
-extern Vec3f D_809FAA08;
-// 0x00000000, 0x3E99999A, 0x00000000
+Vec3f D_809FA9FC = {0.0f, 0.0f, 0.0f};
+Vec3f D_809FAA08 = {0.0f, 0.3f, 0.0f};
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodongo/func_809F8258.s")
 
-extern InitChainEntry D_809FAA14[];
-// 0x8917000D, 0xB86CFC18, 0x304C0AF0
+InitChainEntry D_809FAA14[] = {
+    ICHAIN_S8(naviEnemyId, 13, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 2800, ICHAIN_STOP),
+};
 
 void EnDodongo_Init(EnDodongo *thisx, GlobalContext *globalCtx) {
     EnDodongo* this = THIS;
@@ -199,15 +245,10 @@ void func_809F8D0C(EnDodongo *this, GlobalContext *globalCtx) {
     }
 }
 
-extern Vec3f D_809FAA20;
-// 0x00000000, 0x00000000, 0x00000000
-extern Vec3f D_809FAA2C;
-// 0x00000000, 0x00000000, 0x00000000
-
 void func_809F8D58(EnDodongo *this, GlobalContext *globalCtx) {
     s32 pad;
-    Vec3f sp48 = D_809FAA20;
-    Vec3f sp3C = D_809FAA2C;
+    Vec3f sp48 = {0.0f, 0.0f, 0.0f};
+    Vec3f sp3C = {0.0f, 0.0f, 0.0f};
     Vec3f sp30;
     s16 pad2;
     s16 sp2C;
@@ -231,23 +272,12 @@ void func_809F8D58(EnDodongo *this, GlobalContext *globalCtx) {
     }
 }
 
-extern Vec3f D_809FAA38;
-// 0x00000000, 0x00000000, 0x00000000
-extern Vec3f D_809FAA44;
-// 0x00000000, 0x3F19999A, 0x00000000
-extern Color_RGBA8 D_809FAA50;
-// 0xFFFFFFFF
-extern Vec3f D_809FAA54;
-// 0x00000000, 0x00000000, 0x00000000
-extern Vec3f D_809FAA60;
-// 0x00000000, 0x3F800000, 0x00000000
-
 void func_809F8F2C(EnDodongo *this, GlobalContext *globalCtx) {
-    Vec3f sp9C = D_809FAA38;
-    Vec3f sp90 = D_809FAA44;
-    Color_RGBA8 sp8C = D_809FAA50;
-    Vec3f sp80 = D_809FAA54;
-    Vec3f sp74 = D_809FAA60;
+    Vec3f sp9C = {0.0f, 0.0f, 0.0f};
+    Vec3f sp90 = {0.0f, 0.6f, 0.0f};
+    Color_RGBA8 sp8C = {255, 255, 255, 255};
+    Vec3f sp80 = {0.0f, 0.0f, 0.0f};
+    Vec3f sp74 = {0.0f, 1.0f, 0.0f};
     s16 phi_s0;
     Vec3f sp64;
     s32 pad;
@@ -473,14 +503,10 @@ void func_809F9CA0(EnDodongo *this, GlobalContext *globalCtx) {
     }
 }
 
-extern Vec3f D_809FAA6C;
-// 0xC47A0000, 0xC4BB8000, 0x00000000
-extern Vec3f D_809FAA78;
-// 0xC47A0000, 0xC3480000, 0x44BB8000
-extern Vec3f D_809FAA84;
-// 0xC47A0000, 0xC3480000, 0xC4BB8000
-extern Vec3f D_809FAA90;
-// 0x00000000, 0x00000000, 0x00000000
+Vec3f D_809FAA6C = {-1000.0f, -1500.0f, 0.0f};
+Vec3f D_809FAA78 = {-1000.0f, -200.0f, 1500.0f};
+Vec3f D_809FAA84 = {-1000.0f, -200.0f, -1500.0f};
+Vec3f D_809FAA90 = {0.0f, 0.0f, 0.0f};
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodongo/func_809F9DC8.s")
 
@@ -522,26 +548,16 @@ s32 func_809FA0F8(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
     return 0;
 }
 
-extern Vec3f D_809FAA9C;
-// 0x453B8000, 0x00000000, 0x00000000
-extern Vec3f D_809FAAA8;
-// 0x00000000, 0x00000000, 0x00000000
-extern Vec3f D_809FAAB4[];
-// 0xC3960000, 0xC51C4000, 0x00000000, 0xC3960000, 0x44960000, 0xC528C000, 0x453B8000, 0x44960000, 0x00000000
-extern Vec3f D_809FAAD8[];
-// 0xC3960000, 0xC51C4000, 0x00000000, 0xC3960000, 0x44960000, 0x4528C000, 0x453B8000, 0x44960000, 0x00000000
-extern Vec3f D_809FAAFC[];
-// 0xC4160000, 0x44960000, 0xC52F0000, 0xC4160000, 0x44960000, 0x452F0000, 0x453B8000, 0x44960000, 0x00000000
-extern Vec3f D_809FAB20;
-// 0x44E10000, 0x44960000, 0x00000000
-extern Vec3f D_809FAB2C;
-// 0x44BB8000, 0x43960000, 0x00000000,
-extern Vec3f D_809FAB38; //unused
-// 0x44898000, 0xC42F0000, 0x00000000
-extern Vec3f D_809FAB44; // static
-// 0x00000000, 0x00000000, 0x00000000,
-extern Vec3f D_809FAB60; //unused
-// 0x4508E000, 0x00000000, 0x00000000
+Vec3f D_809FAA9C = {3000.0f, 0.0f, 0.0f};
+Vec3f D_809FAAA8 = {0.0f, 0.0f, 0.0f};
+Vec3f D_809FAAB4[] = {{-300.0f, -2500.0f, 0.0f}, {-300.0f, 1200.0f, -2700.0f}, {3000.0f, 1200.0f, 0.0f},};
+Vec3f D_809FAAD8[] = {{-300.0f, -2500.0f, 0.0f}, {-300.0f, 1200.0f, 2700.0f}, {3000.0f, 1200.0f, 0.0f},};
+Vec3f D_809FAAFC[] = {{-600.0f, 1200.0f, -2800.0f}, {-600.0f, 1200.0f, 2800.0f}, {3000.0f, 1200.0f, 0.0f},};
+Vec3f D_809FAB20 = {1800.0f, 1200.0f, 0.0f};
+Vec3f D_809FAB2C = {1500.0f, 300.0f, 0.0f};
+Vec3f D_809FAB38 = {1100.0f, -700.0f, 0.0f};
+Vec3f D_809FAB44 = {0.0f, 0.0f, 0.0f};
+Vec3f D_809FAB50 = {2190.0f, 0.0f, 0.0f};
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodongo/func_809FA14C.s")
 
@@ -565,9 +581,9 @@ void EnDodongo_Draw(EnDodongo *thisx, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dodongo/EnDodongo_Draw.s")
 #endif
 
-void func_809FA674(s16 arg0, f32 arg1, Vec3f *arg2) {
-    arg2->x += Math_Sins(arg0) * arg1;
-    arg2->z += Math_Coss(arg0) * arg1;
+void func_809FA674(s16 yaw, f32 radius, Vec3f *vec) {
+    vec->x += Math_Sins(yaw) * radius;
+    vec->z += Math_Coss(yaw) * radius;
 }
 
 s32 func_809FA6D8(EnDodongo *this, GlobalContext *globalCtx) {
