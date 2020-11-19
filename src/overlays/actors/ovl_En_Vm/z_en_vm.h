@@ -34,7 +34,7 @@ typedef struct EnVm {
 
 typedef enum {
     /* 0x00 */ BEAMOS_LARGE,
-    /* 0x01 */ BEAMOS_SMALL,
+    /* 0x01 */ BEAMOS_SMALL
 } BeamosType;
 
 extern const ActorInit En_Vm_InitVars;
