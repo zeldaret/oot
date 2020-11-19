@@ -586,14 +586,13 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
     func_80A02BD8(this, arg1, arg4);
 
     xzVelocity = sqrtf(SQ(xVelTarget) + SQ(zVelTarget));
-    
+
     this->actor.speedXZ = clampedXZ = CLAMP(xzVelocity, arg2, arg3);
 
     if ((xzVelocity != clampedXZ) && (xzVelocity != 0.0f)) {
         xzVelocity = clampedXZ / xzVelocity;
         xVelTarget *= xzVelocity;
         zVelTarget *= xzVelocity;
-        
     }
 
     Math_ApproxF(&this->actor.velocity.x, xVelTarget, 5.0f);
@@ -1125,7 +1124,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
                     case 8:
                         temp = 8;
                         break;
-                    case 11:                
+                    case 11:
                         temp = this->unk_2A8;
                         if (this->unk_2C0 > 0) {
                             this->unk_2C0--;
