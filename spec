@@ -2527,8 +2527,7 @@ endseg
 beginseg
     name "ovl_En_Horse_Link_Child"
     include "build/src/overlays/actors/ovl_En_Horse_Link_Child/z_en_horse_link_child.o"
-    include "build/data/overlays/actors/z_en_horse_link_child.data.o"
-    include "build/data/overlays/actors/z_en_horse_link_child.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse_Link_Child/ovl_En_Horse_Link_Child_reloc.o"
 endseg
 
 beginseg
