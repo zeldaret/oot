@@ -30,14 +30,8 @@ typedef struct EnDodongo {
     /* 0x0350 */ f32 unk_350;
     /* 0x0354 */ f32 unk_354;
     /* 0x0358 */ Vec3f unk_358[9];
-    /* 0x03C4 */ u8 unk_3C4;
-    /* 0x03C5 */ u8 unk_3C5;
-    /* 0x03C6 */ u8 unk_3C6;//
-    /* 0x03C7 */ u8 unk_3C7;
-    /* 0x03C8 */ u8 unk_3C8;
-    /* 0x03C9 */ u8 unk_3C9;
-    /* 0x03CA */ u8 unk_3CA;//
-    /* 0x03CB */ u8 unk_3CB;  
+    /* 0x03C4 */ Color_RGBA8 unk_3C4;
+    /* 0x03C8 */ Color_RGBA8 unk_3C8; 
     /* 0x03CC */ u8 unk_3CC;
     /* 0x03CD */ char unk_3CD[3];  
     /* 0x03D0 */ s32 blureIdx;
@@ -46,6 +40,12 @@ typedef struct EnDodongo {
     /* 0x0474 */ ColliderTrisItem trisElements[3];
     /* 0x0588 */ ColliderJntSph collider3;
     /* 0x05A8 */ ColliderJntSphItem sphElements[6];
+    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC0GQC;
+    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC1GQC;
+    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC2GQC;
+    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC3GQC;
+    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC4GQC;
+    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC5GQC;
 } EnDodongo; // size = 0x0728
 
 extern const ActorInit En_Dodongo_InitVars;
