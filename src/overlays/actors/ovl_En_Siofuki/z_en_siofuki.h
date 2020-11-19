@@ -5,8 +5,8 @@
 #include "global.h"
 
 typedef enum {
-    /* 0x00 */ RAISING,
-    /* 0x01 */ LOWERING
+    /* 0x00 */ EN_SIOFUKI_RAISING,
+    /* 0x01 */ EN_SIOFUKI_LOWERING
 } EnSiofukiType;
 
 struct EnSiofuki;

@@ -86,11 +86,11 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->shape.rot.z = 0;
 
     type = ((u16)thisx->params >> 0xC) & 0xF;
-    if (type == RAISING) {
+    if (type == EN_SIOFUKI_RAISING) {
         this->currentHeight = 10.0f;
         this->targetHeight = 10.0f;
         this->actionFunc = func_80AFC34C;
-    } else if (type == LOWERING) {
+    } else if (type == EN_SIOFUKI_LOWERING) {
         if (Flags_GetTreasure(globalCtx, (u16)thisx->params & 0x3F)) {
             this->currentHeight = -45.0f;
             this->targetHeight = -45.0f;
@@ -195,11 +195,11 @@ void func_80AFC218(EnSiofuki* this, GlobalContext* globalCtx) {
     if (this->timer < 0) {
         Flags_UnsetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F);
         switch (((u16)this->dyna.actor.params >> 0xC) & 0xF) {
-            case RAISING:
+            case EN_SIOFUKI_RAISING:
                 this->targetHeight = 10.0f;
                 this->actionFunc = func_80AFC34C;
                 break;
-            case LOWERING:
+            case EN_SIOFUKI_LOWERING:
                 this->targetHeight = this->maxHeight;
                 this->actionFunc = func_80AFC478;
                 break;
@@ -208,7 +208,7 @@ void func_80AFC218(EnSiofuki* this, GlobalContext* globalCtx) {
         func_8002F994(&this->dyna.actor, this->timer);
     }
 
-    if (((((u16)this->dyna.actor.params >> 0xC) & 0xF) == LOWERING) &&
+    if (((((u16)this->dyna.actor.params >> 0xC) & 0xF) == EN_SIOFUKI_LOWERING) &&
         Flags_GetTreasure(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
         this->currentHeight = -45.0f;
         this->targetHeight = -45.0f;
@@ -253,7 +253,7 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx) {
     func_80AFBE8C(this, globalCtx);
     func_80AFC1D0(this, globalCtx);
 
-    if (((u16)this->dyna.actor.params >> 0xC & 0xF) == LOWERING) {
+    if (((u16)this->dyna.actor.params >> 0xC & 0xF) == EN_SIOFUKI_LOWERING) {
         if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F)) {
             this->timer = 20;
             this->actionFunc = func_80AFC3C8;
@@ -300,11 +300,11 @@ void EnSiofuki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->sfxFlags & 1) {
         f32 heightRatio;
         switch (((u16)thisx->params >> 0xC) & 0xF) {
-            case RAISING:
+            case EN_SIOFUKI_RAISING:
                 heightRatio = (this->currentHeight - 10.0f) / (400.0f - 10.0f);
                 func_800F436C(&thisx->projectedPos, NA_SE_EV_FOUNTAIN - SFX_FLAG, 1.0f + heightRatio);
                 break;
-            case LOWERING:
+            case EN_SIOFUKI_LOWERING:
                 if (this->currentHeight > -35.0f) {
                     heightRatio = (this->currentHeight - -35.0f) / (this->maxHeight - -35.0f);
                     func_800F436C(&thisx->projectedPos, NA_SE_EV_FOUNTAIN - SFX_FLAG, 1.0f + heightRatio);
