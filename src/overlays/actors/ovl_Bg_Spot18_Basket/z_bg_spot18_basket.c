@@ -277,7 +277,7 @@ void func_808B7F74(BgSpot18Basket* this) {
     shapeRotY = this->dyna.actor.shape.rot.y;
     this->actionFunc = func_808B7FC0;
 
-    if ((shapeRotY < -11923) || (shapeRotY >= 31769)) {
+    if ((shapeRotY < -0x2E93) || (shapeRotY >= 0x7C19)) {
         this->unk_218 = 2;
     } else if (shapeRotY < 9922) {
         this->unk_218 = 1;
