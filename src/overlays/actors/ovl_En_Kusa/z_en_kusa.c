@@ -77,7 +77,7 @@ static ColliderCylinderInit D_80A9C208 = {
 CollisionCheckInfoInit D_80A9C234 = { 0, 0xC, 0x1E, 0xFF };
 
 Vec3f D_80A9C23C[] = {
-    { 0, 0.707099f, 0.707099f }, { 0.707099f, 0.707099f, 0 }, { 0, 0.707099f, -0.707099f }, { -0.707099f, 0.707099f, 0 }
+   {0x00000000, 0.707099974155, 0.707099974155}, {0.707099974155, 0.707099974155, 0x00000000}, {0x00000000, 0.707099974155, -0.707099974155}, {-0.707099974155, 0.707099974155, 0x00000000}
 };
 
 s16 D_80A9C26C[] = { 0x006C, 0x0066, 0x0060, 0x0054, 0x0042, 0x0037, 0x002A, 0x0026 };
@@ -193,7 +193,7 @@ void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
     Vec3f* new_var;
     s32 pad;
 
-    for (i = 0; i < ARRAY_COUNT(D_80A9C26C); i++) {
+    for (i = 0; i < ARRAY_COUNT(D_80A9C23C); i++) {
         new_var = &D_80A9C23C[i];
         effectPosition.x = this->actor.posRot.pos.x + (new_var->x * this->actor.scale.x * 20.0f);
         effectPosition.y = this->actor.posRot.pos.y + (new_var->y * this->actor.scale.y * 20.0f) + 10.0f;
