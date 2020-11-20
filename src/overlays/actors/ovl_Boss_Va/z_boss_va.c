@@ -314,7 +314,7 @@ static DamageTable sDamageTable[] = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 static u8 sKillBari = 0;
-static u8 sBodyBari[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static u8 sBodyBari[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static s16 sCsCamera = 0;
 
 static BossVaParticle sVaParticles[400];
@@ -870,7 +870,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             }
             break;
         case INTRO_ATTACH_BARI:
-            for (i = 10; i > 0; i--) {
+            for (i = 10; i >= 1; i--) {
                 if (sBodyBari[i - 1]) {
                     if (sBodyBari[i - 1] == 1) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_STICK);
