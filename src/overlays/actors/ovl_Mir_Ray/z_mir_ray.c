@@ -28,22 +28,33 @@ const ActorInit Mir_Ray_InitVars = {
     (ActorFunc)MirRay_Draw,
 };
 
-static ColliderJntSphElementInit  D_80B8E6C4[1] = {
+static ColliderJntSphElementInit D_80B8E6C4[1] = {
     {
-        { ELEMTYPE_UNK0, { 0x00200000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_OFF,
-OCELEM_OFF }, { 0, { { 0, 0, 0 }, 50 }, 100 },
+        { ELEMTYPE_UNK0,
+          { 0x00200000, 0x00, 0x00 },
+          { 0x00000000, 0x00, 0x00 },
+          TOUCH_ON | TOUCH_SFX_NORMAL,
+          BUMP_OFF,
+          OCELEM_OFF },
+        { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80B8E6E8 = {
-    { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
-    1, D_80B8E6C4,
+    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    1,
+    D_80B8E6C4,
 };
 
 static ColliderQuadInit D_80B8E674 = {
-    { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
-    { ELEMTYPE_UNK0, { 0x00200000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_OFF,
-OCELEM_OFF }, { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_QUAD },
+    { ELEMTYPE_UNK0,
+      { 0x00200000, 0x00, 0x00 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_OFF,
+      OCELEM_OFF },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Mir_Ray/func_80B8D050.s")

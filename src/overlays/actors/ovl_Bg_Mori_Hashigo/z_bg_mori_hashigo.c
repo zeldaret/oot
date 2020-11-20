@@ -49,7 +49,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };

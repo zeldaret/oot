@@ -15,14 +15,12 @@ void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIt_Update(Actor* thisx, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_NO_PUSH, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 40, 10, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 0xFF };
 
 const ActorInit En_It_InitVars = {
     ACTOR_EN_IT,
@@ -56,5 +54,5 @@ void EnIt_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

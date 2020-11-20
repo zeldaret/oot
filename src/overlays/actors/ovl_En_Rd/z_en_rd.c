@@ -43,12 +43,12 @@ const ActorInit En_Rd_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT0, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK1,
       { 0x00000000, 0x00, 0x00 },
       { 0xFFCFFFFF, 0x00, 0x00 },
       TOUCH_OFF,
-      BUMP_HOOKABLE | BUMP_ON,
+      BUMP_ON | BUMP_HOOKABLE,
       OCELEM_ON },
     { 20, 70, 0, { 0, 0, 0 } },
 };
@@ -321,7 +321,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     if ((this->unk_307 == 0) && (func_8002DB48(&this->actor, &player->actor) <= 45.0f) &&
         (func_8002E084(&this->actor, 0x38E3))) {
         player->actor.freezeTimer = 0;
-        if (globalCtx->grabPlayer(globalCtx, &player->actor) != 0) {
+        if (globalCtx->grabPlayer(globalCtx, player)) {
             this->actor.flags &= ~1;
             func_80AE33F0(this);
         }
@@ -761,10 +761,10 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     EnRd* this = THIS;
-    CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
     Player* player = PLAYER;
-    ColliderCylinder* collider = &this->collider;
+    s32 pad2;
 
     func_80AE4114(this, globalCtx);
 
@@ -795,10 +795,10 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 50.0f;
 
     if ((this->actor.colChkInfo.health > 0) && (this->unk_31B != 8)) {
-        Collider_UpdateCylinder(&this->actor, collider);
-        CollisionCheck_SetOC(globalCtx, colChkCtx, &collider->base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if ((this->unk_31B != 9) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
-            CollisionCheck_SetAC(globalCtx, colChkCtx, &collider->base);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }

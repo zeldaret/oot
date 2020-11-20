@@ -45,14 +45,14 @@ const ActorInit En_Syateki_Niw_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT5, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT5, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 10, 20, 4, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 

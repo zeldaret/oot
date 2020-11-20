@@ -60,7 +60,7 @@ UNK_PTR D_80987830[] = {
 u32 D_8098783C = 0;
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_HIT0, AT_OFF, AC_OFF, OC_PLAYER | OC_ON, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_OFF, AC_OFF, OC_ON | OC_PLAYER, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0, 0, 0 } },
 };

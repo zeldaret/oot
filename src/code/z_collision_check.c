@@ -56,12 +56,16 @@ void Collider_DrawPoly(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2);
     gSPTexture(POLY_OPA_DISP++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
     gDPPipeSync(POLY_OPA_DISP++);
-    #ifdef NON_MATCHING
-    do{Gfx* temp = POLY_OPA_DISP++;temp->words.w0 = 0xFC41C7FF;temp->words.w1 = 0xFFFFFE38;}while(0);
-    #else
+#ifdef NON_MATCHING
+    do {
+        Gfx* temp = POLY_OPA_DISP++;
+        temp->words.w0 = 0xFC41C7FF;
+        temp->words.w1 = 0xFFFFFE38;
+    } while (0);
+#else
     gDPSetCombineLERP(POLY_OPA_DISP++, SHADE, 0, PRIMITIVE, 0, SHADE, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                       COMBINED);
-    #endif
+#endif
     gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
     gSPSetGeometryMode(POLY_OPA_DISP++, G_LIGHTING);
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1007,8 +1011,8 @@ void Collider_Draw(GlobalContext* globalCtx, Collider* collider) {
         case COLSHAPE_TRIS:
             tris = (ColliderTris*)collider;
             for (i = 0; i < tris->count; i++) {
-                Collider_DrawRedPoly(globalCtx->state.gfxCtx, &tris->elements[i].dim.vtx[0], &tris->elements[i].dim.vtx[1],
-                                     &tris->elements[i].dim.vtx[2]);
+                Collider_DrawRedPoly(globalCtx->state.gfxCtx, &tris->elements[i].dim.vtx[0],
+                                     &tris->elements[i].dim.vtx[1], &tris->elements[i].dim.vtx[2]);
             }
             break;
         case COLSHAPE_QUAD:
@@ -1909,8 +1913,8 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                         (at->dim.quad[0].y + (at->dim.quad[1].y + (at->dim.quad[3].y + at->dim.quad[2].y))) / 4.0f;
                     atPos.z =
                         (at->dim.quad[0].z + (at->dim.quad[1].z + (at->dim.quad[3].z + at->dim.quad[2].z))) / 4.0f;
-                    CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info,
-                                                &acPos, &hitPos);
+                    CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info, &acPos,
+                                             &hitPos);
                     if ((ac->base.ocType & 0x40) == 0) {
                         return;
                     }
@@ -2183,8 +2187,8 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
     ColliderTrisElement* atItem;
     ColliderQuad* ac = (ColliderQuad*)colAC;
 
-    if (at->count > 0 && at->elements != NULL) { 
-        if(CollisionCheck_SkipBump(&ac->info) == 1) {
+    if (at->count > 0 && at->elements != NULL) {
+        if (CollisionCheck_SkipBump(&ac->info) == 1) {
             return;
         }
         Math3D_TriNorm(&D_8015E440, &ac->dim.quad[2], &ac->dim.quad[3], &ac->dim.quad[1]);
@@ -2454,7 +2458,8 @@ void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
     CollisionCheck_SetHitEffects(globalCtx, colChkCtx);
 }
 
-// Get mass type. Immobile colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immobile colliders.
+// Get mass type. Immobile colliders cannot be pushed, while heavy colliders can only be pushed by heavy and immobile
+// colliders.
 s32 CollisionCheck_GetMassType(u8 mass) {
     if (mass == MASS_IMMOBILE) {
         return MASSTYPE_IMMOBILE;
@@ -2839,7 +2844,6 @@ void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colC
         CollisionCheck_ApplyDamageQuad,
     };
     s32 i;
-    
 
     for (i = 0; i < colChkCtx->colACcount; i++) {
         Collider* collider = colChkCtx->colAC[i];
@@ -3209,7 +3213,10 @@ void CollisionCheck_ShieldParticlesWood(GlobalContext* globalCtx, Vec3f* v, Vec3
 #define SQXZ(vec) (SQ(vec.x) + SQ(vec.z))
 #define DOTXZ(vec1, vec2) ((vec1.x) * (vec2.x) + (vec1.z) * (vec2.z))
 
-// Determines if the line segment connecting itemPos and itemProjPos intersects a cylinder with the given radius, height, and offset at actorPos. Returns 3 if either endpoint is in the cylinder, otherwise returns the number of points of intersection with the side of the cylinder. The locations of those points, if any, are put in out1 and out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected. 
+// Determines if the line segment connecting itemPos and itemProjPos intersects a cylinder with the given radius,
+// height, and offset at actorPos. Returns 3 if either endpoint is in the cylinder, otherwise returns the number of
+// points of intersection with the side of the cylinder. The locations of those points, if any, are put in out1 and
+// out2, with out1 being closer to itemPos. Line segments that pass through both bases of the cylinder are not detected.
 s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2) {
     Vec3f actorToItem;

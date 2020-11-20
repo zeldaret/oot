@@ -31,18 +31,18 @@ const ActorInit Obj_Syokudai_InitVars = {
 };
 
 static ColliderCylinderInit sCylInitStand = {
-    { COLTYPE_METAL, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_METAL, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2,
       { 0x00100000, 0x00, 0x00 },
       { 0xEE01FFFF, 0x00, 0x00 },
       TOUCH_OFF,
-      BUMP_HOOKABLE | BUMP_ON,
+      BUMP_ON | BUMP_HOOKABLE,
       OCELEM_ON },
     { 12, 45, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylInitFlame = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0x00020820, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
     { 15, 45, 45, { 0, 0, 0 } },
 };
@@ -112,8 +112,8 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
     s32 interactionType;
     u32 dFlags;
     Vec3f tipToFlame;
-    ColliderCylinder* colliderStand;
-    ColliderCylinder* colliderFlame;
+    s32 pad;
+    s32 pad2;
 
     litTimeScale = torchCount;
     if (torchCount == 10) {
@@ -208,14 +208,13 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
     }
-    colliderStand = &this->colliderStand;
-    Collider_UpdateCylinder(&this->actor, colliderStand);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderStand->base);
 
-    colliderFlame = &this->colliderFlame;
-    Collider_UpdateCylinder(&this->actor, colliderFlame);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &colliderFlame->base);
+    Collider_UpdateCylinder(&this->actor, &this->colliderStand);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderStand.base);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderStand.base);
+
+    Collider_UpdateCylinder(&this->actor, &this->colliderFlame);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderFlame.base);
 
     if (this->litTimer > 0) {
         this->litTimer--;

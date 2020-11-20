@@ -29,9 +29,14 @@ const ActorInit En_Brob_InitVars = {
 };
 
 static ColliderCylinderInit D_809CBA80 = {
-    { COLTYPE_HIT0, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK1, { 0xFFCFFFFF, 0x03, 0x08 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_SFX_NONE | TOUCH_ON,
-BUMP_ON, OCELEM_ON }, { 8000, 11000, -5000, { 0, 0, 0 } },
+    { COLTYPE_HIT0, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK1,
+      { 0xFFCFFFFF, 0x03, 0x08 },
+      { 0xFFCFFFFF, 0x01, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NONE,
+      BUMP_ON,
+      OCELEM_ON },
+    { 8000, 11000, -5000, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Brob/EnBrob_Init.s")

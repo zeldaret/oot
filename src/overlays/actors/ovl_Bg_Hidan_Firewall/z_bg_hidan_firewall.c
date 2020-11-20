@@ -37,22 +37,17 @@ const ActorInit Bg_Hidan_Firewall_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_ON | OC_PLAYER, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x20000000, 0x01, 0x04 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX_NONE | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_NONE,
       BUMP_OFF,
       OCELEM_ON },
     { 30, 83, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = {
-    0x01,
-    0x0050,
-    0x0064,
-    0xFF,
-};
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, 0xFF };
 
 UNK_PTR D_80886D04[] = {
     0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
@@ -189,8 +184,8 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == BgHidanFirewall_Erupt) {
         BgHidanFirewall_ColliderFollowPlayer(this, globalCtx);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PLATE - SFX_FLAG);
     }
 }

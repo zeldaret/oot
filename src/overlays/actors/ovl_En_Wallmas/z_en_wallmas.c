@@ -53,17 +53,12 @@ const ActorInit En_Wallmas_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT0, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 30, 40, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = {
-    0x04,
-    0x001E,
-    0x0028,
-    0x96,
-};
+static CollisionCheckInfoInit sColChkInfoInit = { 4, 30, 40, 150 };
 
 static DamageTable sDamageTable = {
     0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x24, 0x02, 0x44, 0x04, 0x02,
@@ -73,7 +68,7 @@ static DamageTable sDamageTable = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x30, 1),
     ICHAIN_F32(unk_4C, 0x157C, 1),
-    ICHAIN_F32_DIV1000(gravity, 0xFA24, 0),
+    ICHAIN_F32_DIV1000(gravity, -1500, 0),
 };
 
 extern AnimationHeader D_06000EA4;
@@ -532,11 +527,11 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actionFunc != EnWallmas_Die) && (this->actionFunc != EnWallmas_Drop)) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
         if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & 1) != 0 &&
             (this->actor.freezeTimer == 0)) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 

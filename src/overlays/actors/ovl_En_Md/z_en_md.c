@@ -35,14 +35,12 @@ const ActorInit En_Md_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 36, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 0xFF };
 
 static struct_80034EC0_Entry sAnimations[] = {
     { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, -10.0f },
@@ -762,7 +760,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     EnMd_UpdateEyes(this);
     func_80AAB5A4(this, globalCtx);

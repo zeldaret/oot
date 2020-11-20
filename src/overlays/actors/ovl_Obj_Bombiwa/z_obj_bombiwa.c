@@ -32,17 +32,12 @@ const ActorInit Obj_Bombiwa_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HARD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HARD, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 55, 70, 0, { 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = {
-    0x00,
-    0x000C,
-    0x003C,
-    0xFF,
-};
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFF };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_CONTINUE),
@@ -127,8 +122,8 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->actor.xzDistFromLink < 800.0f) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }

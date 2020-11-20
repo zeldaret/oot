@@ -32,11 +32,11 @@ const ActorInit En_Yukabyun_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_NO_PUSH | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x04 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX_HARD | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_HARD,
       BUMP_ON,
       OCELEM_ON },
     { 28, 8, 0, { 0, 0, 0 } },

@@ -29,9 +29,9 @@ const ActorInit En_Trap_InitVars = {
 };
 
 static ColliderCylinderInit D_80B25830 = {
-    { COLTYPE_HIT0, AT_OFF, AC_PLAYER | AC_ON, OC_TYPE2 | OC_TYPE1 | OC_NO_PUSH | OC_ON, OT_TYPE1,
-COLSHAPE_CYLINDER }, { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON,
-OCELEM_ON }, { 30, 20, 0, { 0, 0, 0 } },
+    { COLTYPE_HIT0, AT_OFF, AC_ON | AC_PLAYER, OC_ON |  OC_NO_PUSH  |  OC_TYPE1  | OC_TYPE2, OT_TYPE1, COLSHAPE_CYLINDER
+}, { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON }, { 30, 20,
+0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Trap/EnTrap_Init.s")

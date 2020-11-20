@@ -38,17 +38,12 @@ const ActorInit Bg_Toki_Swd_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 10, 70, 0, { 0 } }
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = {
-    0x0A,
-    0x0023,
-    0x0064,
-    0xFF,
-};
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, 0xFF };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x19, ICHAIN_STOP),
@@ -149,7 +144,7 @@ void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgTokiSwd* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx) {

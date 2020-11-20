@@ -33,17 +33,17 @@ typedef struct {
 } BgHidanCurtainParams; // size = 0x10
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_ON | OC_PLAYER, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x20000000, 0x01, 0x04 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX_NONE | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_NONE,
       BUMP_OFF,
       OCELEM_ON },
     { 81, 144, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sCcInfoInit = { 1, 0x50, 0x64, 0xFF };
+static CollisionCheckInfoInit sCcInfoInit = { 1, 80, 100, 0xFF };
 
 static BgHidanCurtainParams sHCParams[] = { { 81, 144, 0.090f, 144.0f, 5.0f }, { 46, 88, 0.055f, 88.0f, 3.0f } };
 

@@ -22,16 +22,22 @@ const ActorInit En_Firefly_InitVars = {
     (ActorFunc)EnFirefly_Draw,
 };
 
-static ColliderJntSphElementInit  D_80A14F30[1] = {
+static ColliderJntSphElementInit D_80A14F30[1] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x01, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_HARD | TOUCH_ON, BUMP_ON,
-OCELEM_ON }, { 1, { { 0, 1000, 0 }, 15 }, 100 },
+        { ELEMTYPE_UNK0,
+          { 0xFFCFFFFF, 0x01, 0x08 },
+          { 0xFFCFFFFF, 0x00, 0x00 },
+          TOUCH_ON | TOUCH_SFX_HARD,
+          BUMP_ON,
+          OCELEM_ON },
+        { 1, { { 0, 1000, 0 }, 15 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80A14F54 = {
-    { COLTYPE_HIT3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
-    1, D_80A14F30,
+    { COLTYPE_HIT3, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
+    1,
+    D_80A14F30,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func_80A13070.s")

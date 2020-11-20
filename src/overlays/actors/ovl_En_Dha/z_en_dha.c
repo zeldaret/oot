@@ -64,7 +64,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_HIT6, AT_OFF, AC_PLAYER | AC_ON, OC_TYPE1 | OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT6, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER | OC_TYPE1, OT_TYPE1, COLSHAPE_JNTSPH },
     5,
     &sJntSphElementsInit,
 };
@@ -339,8 +339,8 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     EnDha_UpdateHealth(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    CollisionCheck_SetAC(globalCtx, colChkCtx, &this->collider);
-    CollisionCheck_SetOC(globalCtx, colChkCtx, &this->collider);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(globalCtx, colChkCtx, &this->collider.base);
 }
 
 s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {

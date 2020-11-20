@@ -68,13 +68,13 @@ static AnimationHeader* sAnimations[] = {
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 40, 100, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 60, 100, 0, { 0, 0, 0 } },
 };
@@ -87,7 +87,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
     ARRAY_COUNT(sJntSphElementsInit),
     sJntSphElementsInit,
 };
@@ -364,8 +364,8 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 phi_t0 = 6;
             }
             if (Math_Rand_ZeroOne() < 0.1f ||
-                (this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->bodyCollider.base.ocFlags & OC_HIT ||
-                                        this->headCollider.base.ocFlags & OC_HIT))) {
+                (this->unk_21E == 0 && ((this->actor.bgCheckFlags & 8) || (this->bodyCollider.base.ocFlags & OC_HIT) ||
+                                        (this->headCollider.base.ocFlags & OC_HIT)))) {
                 this->unk_21E += (Math_Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;

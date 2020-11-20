@@ -28,7 +28,7 @@ const ActorInit Obj_Switch_InitVars = {
     (ActorFunc)ObjSwitch_Draw,
 };
 
-static ColliderJntSphElementInit  D_80B9ED44[1] = {
+static ColliderJntSphElementInit D_80B9ED44[1] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xEFC1FFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
         { 0, { { 0, 300, 0 }, 20 }, 100 },
@@ -36,11 +36,12 @@ static ColliderJntSphElementInit  D_80B9ED44[1] = {
 };
 
 static ColliderJntSphInit D_80B9ED68 = {
-    { COLTYPE_METAL, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
-    1, D_80B9ED44,
+    { COLTYPE_METAL, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_JNTSPH },
+    1,
+    D_80B9ED44,
 };
 
-static ColliderTrisElementInit  D_80B9EC34[2] = {
+static ColliderTrisElementInit D_80B9EC34[2] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x40000040, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { -20.0f, 19.0f, -20.0f }, { -20.0f, 19.0f, 20.0f }, { 20.0f, 19.0f, 20.0f } } },
@@ -52,11 +53,12 @@ static ColliderTrisElementInit  D_80B9EC34[2] = {
 };
 
 static ColliderTrisInit D_80B9ECAC = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
-    2, D_80B9EC34,
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    2,
+    D_80B9EC34,
 };
 
-static ColliderTrisElementInit  D_80B9ECBC[2] = {
+static ColliderTrisElementInit D_80B9ECBC[2] = {
     {
         { ELEMTYPE_UNK4, { 0x00000000, 0x00, 0x00 }, { 0x0001F824, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_OFF },
         { { { 0.0f, 23.0f, 8.5f }, { -23.0f, 0.0f, 8.5f }, { 0.0f, -23.0f, 8.5f } } },
@@ -68,8 +70,9 @@ static ColliderTrisElementInit  D_80B9ECBC[2] = {
 };
 
 static ColliderTrisInit D_80B9ED34 = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_TRIS },
-    2, D_80B9ECBC,
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    2,
+    D_80B9ECBC,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Switch/func_80B9D210.s")

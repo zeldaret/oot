@@ -58,17 +58,17 @@ const ActorInit En_Floormas_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT0, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x04, 0x10 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX_HARD | TOUCH_ON,
-      BUMP_HOOKABLE | BUMP_ON,
+      TOUCH_ON | TOUCH_SFX_HARD,
+      BUMP_ON | BUMP_HOOKABLE,
       OCELEM_ON },
     { 25, 40, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x04, 0x001E, 0x0028, 0x96 };
+static CollisionCheckInfoInit sColChkInfoInit = { 4, 30, 40, 150 };
 
 static DamageTable sDamageTable = { {
     0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x24, 0x02, 0x44, 0x04, 0x02,
@@ -78,7 +78,7 @@ static DamageTable sDamageTable = { {
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x31, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 0x157C, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 0xFC18, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
 
 extern Gfx D_06008688[];
@@ -104,8 +104,8 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable,
-                     &this->transitionDrawTable, 25);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, this->limbDrawTable,
+                     this->transitionDrawTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -211,7 +211,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (rotDelta > 0) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002158, -3.0f);
     } else {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06002158, -1.0f, SkelAnime_GetFrameCount(&D_06002158), 0.0f, 2,
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06002158, -1.0f, SkelAnime_GetFrameCount(&D_06002158.genericHeader), 0.0f, 2,
                              -3.0f);
     }
 
@@ -225,7 +225,7 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
 }
 
 void EnFloormas_SetupHover(EnFloormas* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009520, 3.0f, 0, SkelAnime_GetFrameCount(&D_06009520), 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009520, 3.0f, 0, SkelAnime_GetFrameCount(&D_06009520.genericHeader), 2, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     EnFloormas_MakeInvulnerable(this);
@@ -264,7 +264,7 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     this->actor.shape.rot.y = this->actor.parent->shape.rot.y + 0x5555;
     this->actor.posRot.pos = this->actor.parent->posRot.pos;
     this->actor.params = 0x10;
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC.genericHeader), 2, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
     this->collider.info.bumperFlags &= ~BUMP_HOOKABLE;
@@ -555,7 +555,7 @@ void EnFloormas_Slide(EnFloormas* this, GlobalContext* globalCtx) {
 
     func_800286CC(globalCtx, &pos, &velocity, &accel, 450, 100);
 
-    func_8002F974(this, NA_SE_EN_FLOORMASTER_SLIDING);
+    func_8002F974(&this->actor, NA_SE_EN_FLOORMASTER_SLIDING);
 }
 
 void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx) {
@@ -620,7 +620,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
 
         if (this->actionTimer == 0 && isOnGround) {
             if (this->skelAnime.animFrameCount < 45.0f) {
-                this->skelAnime.animFrameCount = SkelAnime_GetFrameCount(&D_060019CC);
+                this->skelAnime.animFrameCount = SkelAnime_GetFrameCount(&D_060019CC.genericHeader);
             } else if (this->actor.params == MERGE_MASTER) {
                 EnFloormas_SetupMerge(this);
             } else {
@@ -766,8 +766,8 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
 
     // let go
     if (!(player->stateFlags2 & 0x80) || (player->invincibilityTimer < 0)) {
-        parent = this->actor.parent;
-        child = this->actor.child;
+        parent = (EnFloormas*) this->actor.parent;
+        child = (EnFloormas*) this->actor.child;
 
         if (((parent->actionFunc == EnFloormas_GrabLink) || parent->actionFunc == EnFloormas_SmWait) &&
             (child->actionFunc == EnFloormas_GrabLink || child->actionFunc == EnFloormas_SmWait)) {
@@ -845,8 +845,8 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
 
     DECR(this->smActionTimer);
 
-    parent = this->actor.parent;
-    child = this->actor.child;
+    parent = (EnFloormas*) this->actor.parent;
+    child = (EnFloormas*) this->actor.child;
 
     if (this->smActionTimer == 0) {
         if (parent->actionFunc != EnFloormas_SmWait) {
@@ -1026,16 +1026,16 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == EnFloormas_Charge) {
             this->actor.flags |= 0x1000000;
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnFloormas_GrabLink) {
             if (this->actionFunc != EnFloormas_Split && this->actionFunc != EnFloormas_TakeDamage &&
                 this->actor.freezeTimer == 0) {
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
 
             if ((this->actionFunc != EnFloormas_SmSlaveJumpAtMaster) || (this->skelAnime.animCurrentFrame < 20.0f)) {
-                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }
 

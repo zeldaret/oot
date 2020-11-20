@@ -36,7 +36,7 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
         { ELEMTYPE_UNK0,
           { 0xFFCFFFFF, 0x00, 0x08 },
           { 0xFFCFFFFF, 0x00, 0x00 },
-          TOUCH_SFX_HARD | TOUCH_ON,
+          TOUCH_ON | TOUCH_SFX_HARD,
           BUMP_ON,
           OCELEM_ON },
         { 1, { { 0, 0, 0 }, 20 }, 100 },
@@ -44,12 +44,12 @@ static ColliderJntSphElementInit sJntSphItemsInit[1] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_HIT3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT3, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
     1,
     sJntSphItemsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 1, 0x000F, 0x001E, 30 };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 15, 30, 30 };
 
 static DamageTable sDamageTable = {
     0x10, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0x24, 0x32, 0x02, 0x04, 0x02,
@@ -61,7 +61,7 @@ static u32 sDeathCount = 0;
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 88, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 65336, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 2000, ICHAIN_STOP),
 };
 

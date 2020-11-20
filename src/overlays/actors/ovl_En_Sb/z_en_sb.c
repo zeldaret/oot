@@ -39,7 +39,7 @@ const ActorInit En_Sb_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
 };

@@ -38,7 +38,7 @@ ColliderTrisElementInit D_808BF300[2] = {
         { ELEMTYPE_UNK0,
           { 0x20000000, 0x00, 0x04 },
           { 0x00000004, 0x00, 0x00 },
-          TOUCH_SFX_WOOD | TOUCH_ON,
+          TOUCH_ON | TOUCH_SFX_WOOD,
           BUMP_ON,
           OCELEM_OFF },
         { { { 220.0f, -10.0f, 0.0f }, { 220.0f, 10.0f, 0.0f }, { -220.0f, 10.0f, 0.0f } } },
@@ -47,7 +47,7 @@ ColliderTrisElementInit D_808BF300[2] = {
         { ELEMTYPE_UNK0,
           { 0x20000000, 0x00, 0x04 },
           { 0x00000004, 0x00, 0x00 },
-          TOUCH_SFX_WOOD | TOUCH_ON,
+          TOUCH_ON | TOUCH_SFX_WOOD,
           BUMP_ON,
           OCELEM_OFF },
         { { { 16.0f, 0.0f, 0.0f }, { 16.0f, 135.0f, 0.0f }, { -16.0f, 135.0f, 0.0f } } },
@@ -55,7 +55,7 @@ ColliderTrisElementInit D_808BF300[2] = {
 };
 
 ColliderTrisInit D_808BF378 = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     D_808BF300,
 };
@@ -134,7 +134,7 @@ void func_808BEFF4(BgYdanMaruta* this, GlobalContext* globalCtx) {
         func_8002F71C(globalCtx, &this->dyna.actor, 7.0f, this->dyna.actor.shape.rot.y, 6.0f);
     }
     this->dyna.actor.shape.rot.x += 0x360;
-    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     func_8002F974(&this->dyna.actor, NA_SE_EV_TOGE_STICK_ROLLING - SFX_FLAG);
 }
 
@@ -146,7 +146,7 @@ void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808BF108;
         func_800800F8(globalCtx, 0xBC2, 0x32, &this->dyna.actor, 0);
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

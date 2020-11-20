@@ -30,7 +30,7 @@ static ColliderJntSphElementInit sColliderItemInit[] = {
       { 0, { { 0, 0, 0 }, 5 }, 100 } }
 };
 static ColliderJntSphInit sColliderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_TYPE1 | OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_PLAYER | OC_TYPE1, OT_TYPE1, COLSHAPE_JNTSPH },
     1,
     sColliderItemInit,
 };

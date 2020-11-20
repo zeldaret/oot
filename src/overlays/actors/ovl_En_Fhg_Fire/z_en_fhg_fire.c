@@ -340,7 +340,7 @@ void func_80A0FD8C(EnFhgFire* this, GlobalContext* globalCtx) {
     if (3.0f < this->unk_18C) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (player->invincibilityTimer == 0) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, (Collider*)&this->collider);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 

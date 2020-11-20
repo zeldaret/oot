@@ -53,17 +53,12 @@ const ActorInit En_Hintnuts_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT6, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT6, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 18, 32, 0, { 0, 0, 0 } }
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = {
-    0x01,
-    0x0012,
-    0x0020,
-    0xFE,
-};
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 18, 32, 0xFE };
 
 static s16 sPuzzleCounter = 0;
 

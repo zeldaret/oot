@@ -29,9 +29,14 @@ const ActorInit Bg_Ice_Turara_InitVars = {
 };
 
 static ColliderCylinderInit D_80892620 = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x4FC007CA, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
-OCELEM_OFF }, { 13, 120, 0, { 0, 0, 0 } },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x04 },
+      { 0x4FC007CA, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_ON,
+      OCELEM_OFF },
+    { 13, 120, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Turara/BgIceTurara_Init.s")

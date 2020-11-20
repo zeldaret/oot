@@ -36,7 +36,7 @@ static ColliderTrisElementInit sTrisElementInit[4] = {
           { 0x00000000, 0x00, 0x00 },
           { 0x00000040, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
           OCELEM_OFF },
         { { { 305.0f, 0.0f, -300.0f }, { 305.0f, 600.0f, -300.0f }, { 305.0f, 600.0f, 300.0f } } },
     },
@@ -45,7 +45,7 @@ static ColliderTrisElementInit sTrisElementInit[4] = {
           { 0x00000000, 0x00, 0x00 },
           { 0x00000040, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
           OCELEM_OFF },
         { { { 305.0f, 0.0f, -300.0f }, { 305.0f, 600.0f, 300.0f }, { 305.0f, 0.0f, 300.0f } } },
     },
@@ -54,7 +54,7 @@ static ColliderTrisElementInit sTrisElementInit[4] = {
           { 0x00000000, 0x00, 0x00 },
           { 0x00000040, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
           OCELEM_OFF },
         { { { -305.0f, 0.0f, -300.0f }, { -305.0f, 600.0f, 300.0f }, { -305.0f, 600.0f, -300.0f } } },
     },
@@ -63,21 +63,21 @@ static ColliderTrisElementInit sTrisElementInit[4] = {
           { 0x00000000, 0x00, 0x00 },
           { 0x00000040, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_NO_HITMARK | BUMP_NO_SWORD_SFX | BUMP_NO_DAMAGE | BUMP_NO_AT_INFO | BUMP_ON,
+          BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
           OCELEM_OFF },
         { { { -305.0f, 0.0f, -300.0f }, { -305.0f, 0.0f, 300.0f }, { -305.0f, 600.0f, 300.0f } } },
     },
 };
 
 ColliderTrisInit D_80886590 = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     4,
     sTrisElementInit,
 };
 
 InitChainEntry D_808865A0[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 65336, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_STOP),
 };
 
 extern Gfx D_0600BBF0[];
@@ -119,8 +119,8 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(globalCtx) &&
         (player->swordAnimation == 22 || player->swordAnimation == 23)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        if (this->collider.elements[0].info.bumperFlags & BUMP_HIT ||
-            this->collider.elements[1].info.bumperFlags & BUMP_HIT) {
+        if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
+            (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
             this->dyna.actor.posRot.rot.y -= 0x4000;
         } else {
             this->dyna.actor.posRot.rot.y += 0x4000;

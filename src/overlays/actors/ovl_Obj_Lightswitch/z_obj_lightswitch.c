@@ -66,7 +66,8 @@ static ColliderJntSphInit sColliderJntSphInit = {
     1,
     sColliderJntSphElementInit,
 };
-static CollisionCheckInfoInit sCollisionCheckInfoInit = { 0, 0xC, 0x3C, 0xFF };
+
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFF };
 
 static UNK_PTR faceTextures[] = { D_06000C20, D_06000420, D_06001420 };
 
@@ -189,7 +190,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     ObjLightswitch_InitCollider(this, globalCtx);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sCollisionCheckInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (removeSelf) {
         Actor_Kill(&this->actor);
     }

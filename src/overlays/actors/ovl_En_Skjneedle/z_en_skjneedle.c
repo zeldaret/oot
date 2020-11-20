@@ -32,7 +32,7 @@ const ActorInit En_Skjneedle_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_HIT1, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT1, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 10, 4, -2, { 0, 0, 0 } },
 };

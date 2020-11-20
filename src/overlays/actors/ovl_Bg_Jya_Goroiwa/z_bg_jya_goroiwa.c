@@ -42,7 +42,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
         { ELEMTYPE_UNK0,
           { 0x20000000, 0x00, 0x04 },
           { 0x00000000, 0x00, 0x00 },
-          TOUCH_SFX_NORMAL | TOUCH_ON,
+          TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
           OCELEM_ON },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
@@ -50,12 +50,12 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x01, 0xF, 0x0, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 15, 0, 0xFE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

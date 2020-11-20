@@ -67,7 +67,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     &sJntSphElementsInit,
 };
@@ -485,8 +485,8 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         //  temp;
         this->collider.elements[0].dim.modelSphere.radius = this->unk_1D4 * 370.0f;
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

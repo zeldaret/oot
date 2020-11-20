@@ -43,11 +43,11 @@ const ActorInit Bg_Haka_Trap_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL, AT_ENEMY | AT_ON, AC_PLAYER | AC_HARD | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_METAL, AT_ON | AT_ENEMY, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x04 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX_NORMAL | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_NORMAL,
       BUMP_ON,
       OCELEM_ON },
     { 30, 90, 0, { 0, 0, 0 } },
@@ -65,12 +65,12 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE2, COLSHAPE_TRIS },
     2,
     sTrisElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x00, 0x0050, 0x0064, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 80, 100, 0xFF };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),

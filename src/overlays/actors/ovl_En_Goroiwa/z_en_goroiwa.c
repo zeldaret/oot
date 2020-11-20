@@ -49,7 +49,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
         { ELEMTYPE_UNK0,
           { 0x20000000, 0x00, 0x04 },
           { 0x00000000, 0x00, 0x00 },
-          TOUCH_SFX_NORMAL | TOUCH_ON,
+          TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
           OCELEM_ON },
         { 0, { { 0, 0, 0 }, 58 }, 100 },
@@ -57,12 +57,12 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 254 };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, 0xFE };
 
 // Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };

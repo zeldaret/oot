@@ -22,7 +22,7 @@ const ActorInit Bg_Spot18_Basket_InitVars = {
     (ActorFunc)BgSpot18Basket_Draw,
 };
 
-static ColliderJntSphElementInit  D_808B8570[2] = {
+static ColliderJntSphElementInit D_808B8570[2] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
         { 0, { { 0, 2040, 0 }, 54 }, 100 },
@@ -34,8 +34,9 @@ static ColliderJntSphElementInit  D_808B8570[2] = {
 };
 
 static ColliderJntSphInit D_808B85B8 = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
-    2, D_808B8570,
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE2, COLSHAPE_JNTSPH },
+    2,
+    D_808B8570,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Basket/func_808B7710.s")

@@ -30,7 +30,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
     },
 };
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
     1,
     &sJntSphElementsInit,
 };
@@ -150,7 +150,7 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

@@ -49,11 +49,11 @@ const ActorInit En_St_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT6, AT_OFF, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT6, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x00000000, 0x00, 0x00 },
       { 0x00000000, 0x00, 0x00 },
-      TOUCH_SFX_NORMAL | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_NORMAL,
       BUMP_ON,
       OCELEM_OFF },
     { 32, 50, -24, { 0, 0, 0 } },
@@ -62,7 +62,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, 0xFF };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_HIT6, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT6, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 20, 60, -30, { 0, 0, 0 } },
 };
@@ -72,7 +72,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
         { ELEMTYPE_UNK0,
           { 0xFFCFFFFF, 0x00, 0x04 },
           { 0x00000000, 0x00, 0x00 },
-          TOUCH_SFX_NORMAL | TOUCH_ON,
+          TOUCH_ON | TOUCH_SFX_NORMAL,
           BUMP_OFF,
           OCELEM_ON },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
@@ -80,7 +80,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_HIT6, AT_ENEMY | AT_ON, AC_OFF, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT6, AT_ON | AT_ENEMY, AC_OFF, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -260,7 +260,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
     this->colCylinder[0].info.bumper.dFlags = 0x3F8F9;
     this->colCylinder[1].info.bumper.dFlags = 0xFFC00706;
     this->colCylinder[2].base.colType = COLTYPE_METAL;
-    this->colCylinder[2].info.bumperFlags = BUMP_NO_AT_INFO | BUMP_HOOKABLE | BUMP_ON;
+    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
     this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
     this->colCylinder[2].info.bumper.dFlags = 0xFFCC0706;
 

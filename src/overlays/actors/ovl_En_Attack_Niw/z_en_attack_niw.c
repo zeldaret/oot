@@ -37,7 +37,7 @@ const ActorInit En_Attack_Niw_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 63536, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 

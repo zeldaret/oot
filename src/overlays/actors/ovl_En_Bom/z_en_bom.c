@@ -32,7 +32,7 @@ const ActorInit En_Bom_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT0, AT_OFF, AC_BOMB | AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_OFF, AC_ON | AC_PLAYER | AC_BOMB, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK2, { 0x00000000, 0x00, 0x00 }, { 0x0003F828, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 6, 11, 14, { 0, 0, 0 } },
 };
@@ -42,7 +42,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
         { ELEMTYPE_UNK0,
           { 0x00000008, 0x00, 0x08 },
           { 0x00000000, 0x00, 0x00 },
-          TOUCH_SFX_NONE | TOUCH_ON,
+          TOUCH_ON | TOUCH_SFX_NONE,
           BUMP_OFF,
           OCELEM_OFF },
         { 0, { { 0, 0, 0 }, 0 }, 100 },
@@ -50,7 +50,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_HIT0, AT_ALL | AT_ON, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    { COLTYPE_HIT0, AT_ON | AT_ALL, AC_OFF, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
@@ -58,7 +58,7 @@ static ColliderJntSphInit sJntSphInit = {
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 61536, ICHAIN_STOP),
+    ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_STOP),
 };
 
 extern Gfx D_04007A50[]; // gold fuse cap

@@ -23,15 +23,25 @@ const ActorInit En_Rr_InitVars = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_HOOKABLE
-| BUMP_ON, OCELEM_ON }, { 30, 55, 0, { 0, 0, 0 } },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x08 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_ON | BUMP_HOOKABLE,
+      OCELEM_ON },
+    { 30, 55, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_PLAYER | OC_NO_PUSH | OC_ON, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
-OCELEM_ON }, { 20, 20, -10, { 0, 0, 0 } },
+    { COLTYPE_NONE, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON |  OC_NO_PUSH  | OC_PLAYER, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x08 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_ON,
+      OCELEM_ON },
+    { 20, 20, -10, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rr/EnRr_Init.s")

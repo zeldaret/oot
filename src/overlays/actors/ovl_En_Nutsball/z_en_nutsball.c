@@ -32,11 +32,11 @@ const ActorInit En_Nutsball_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x08 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX_WOOD | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_WOOD,
       BUMP_ON,
       OCELEM_ON },
     { 13, 13, 0, { 0 } },
@@ -139,9 +139,9 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         this->actor.flags |= 0x1000000;
 
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

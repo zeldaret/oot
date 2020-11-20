@@ -41,7 +41,7 @@ static AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x0
 static f32 sAnimPlaybackSpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 40, 100, 0, { 0, 0, 0 } },
 };
@@ -54,17 +54,12 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
     1,
     sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = {
-    0x0A,
-    0x0023,
-    0x0064,
-    0xFE,
-};
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, 0xFE };
 
 static unk_D_80A69248 D_80A69248[] = {
     { 0x09B8, 0x0126, 0x0E2C, 0x07 }, { 0x0C11, 0x017A, 0x1269, 0x07 }, { 0x064E, 0xFEFB, 0x1DAC, 0x07 },
@@ -292,8 +287,7 @@ void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         this->colliderHead.elements[index].dim.worldSphere.center.z = sp40.z;
 
         this->colliderHead.elements[index].dim.worldSphere.radius =
-            this->colliderHead.elements[index].dim.modelSphere.radius *
-            this->colliderHead.elements[index].dim.scale;
+            this->colliderHead.elements[index].dim.modelSphere.radius * this->colliderHead.elements[index].dim.scale;
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderHead.base);
 }

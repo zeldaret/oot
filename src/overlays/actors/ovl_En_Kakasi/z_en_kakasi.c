@@ -24,12 +24,12 @@ void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx);
 void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x00000000, 0x00, 0x00 },
       { 0x00000000, 0x00, 0x00 },
       TOUCH_OFF,
-      BUMP_HOOKABLE | BUMP_OFF,
+      BUMP_OFF | BUMP_HOOKABLE,
       OCELEM_ON },
     { 20, 70, 0, { 0, 0, 0 } },
 };

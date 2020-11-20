@@ -23,9 +23,14 @@ const ActorInit En_M_Thunder_InitVars = {
 };
 
 static ColliderCylinderInit D_80AA0420 = {
-    { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_OFF, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK2, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_SFX_NONE | TOUCH_ON,
-BUMP_ON, OCELEM_ON }, { 200, 200, 0, { 0, 0, 0 } },
+    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_OFF, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK2,
+      { 0x00000001, 0x00, 0x00 },
+      { 0xFFCFFFFF, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NONE,
+      BUMP_ON,
+      OCELEM_ON },
+    { 200, 200, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_M_Thunder/func_80A9EFE0.s")

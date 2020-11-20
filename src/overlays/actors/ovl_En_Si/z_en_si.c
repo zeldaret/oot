@@ -1,7 +1,7 @@
 /*
  * File: z_en_si.c
  * Overlay: En_Si
- * Description:
+ * Description: Gold Skulltula token
  */
 
 #include "z_en_si.h"
@@ -21,19 +21,17 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx);
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_NO_PUSH | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_NO_PUSH | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x00000000, 0x00, 0x00 },
       { 0x00000090, 0x00, 0x00 },
       TOUCH_OFF,
-      BUMP_HOOKABLE | BUMP_ON,
+      BUMP_ON | BUMP_HOOKABLE,
       OCELEM_ON },
     { 20, 18, 2, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 D_80AFBADC = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 D_80AFBADC = { 0, 0, 0, 0, 0xFF };
 
 const ActorInit En_Si_InitVars = {
     ACTOR_EN_SI,
@@ -94,8 +92,8 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80AFB950;
             } else {
                 Collider_UpdateCylinder(&this->actor, &this->collider);
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }
     }

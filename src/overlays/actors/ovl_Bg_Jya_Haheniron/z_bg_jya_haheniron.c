@@ -28,16 +28,22 @@ const ActorInit Bg_Jya_Haheniron_InitVars = {
     (ActorFunc)BgJyaHaheniron_Draw,
 };
 
-static ColliderJntSphElementInit  D_80898740[1] = {
+static ColliderJntSphElementInit D_80898740[1] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_OFF,
-OCELEM_OFF }, { 0, { { 0, 0, 0 }, 10 }, 100 },
+        { ELEMTYPE_UNK0,
+          { 0xFFCFFFFF, 0x00, 0x04 },
+          { 0x00000000, 0x00, 0x00 },
+          TOUCH_ON | TOUCH_SFX_NORMAL,
+          BUMP_OFF,
+          OCELEM_OFF },
+        { 0, { { 0, 0, 0 }, 10 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80898764 = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_ON, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
-    1, D_80898740,
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_ON, OC_OFF, OT_NONE, COLSHAPE_JNTSPH },
+    1,
+    D_80898740,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Haheniron/func_808980C0.s")

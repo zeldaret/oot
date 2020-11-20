@@ -22,7 +22,7 @@ const ActorInit En_Bom_Chu_InitVars = {
     (ActorFunc)EnBomChu_Draw,
 };
 
-static ColliderJntSphElementInit  D_809C6D30[1] = {
+static ColliderJntSphElementInit D_809C6D30[1] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
         { 1, { { 0, 0, 0 }, 12 }, 100 },
@@ -30,8 +30,9 @@ static ColliderJntSphElementInit  D_809C6D30[1] = {
 };
 
 static ColliderJntSphInit D_809C6D54 = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_TYPE2 | OC_TYPE1 | OC_ON, OT_TYPE2, COLSHAPE_JNTSPH },
-    1, D_809C6D30,
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON |  OC_TYPE1  | OC_TYPE2, OT_TYPE2, COLSHAPE_JNTSPH },
+    1,
+    D_809C6D30,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Chu/EnBomChu_Init.s")

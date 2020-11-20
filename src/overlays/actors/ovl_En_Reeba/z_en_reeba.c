@@ -49,12 +49,12 @@ const ActorInit En_Reeba_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT5, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT5, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x08, 0x08 },
       { 0xFFCFFFFF, 0x00, 0x00 },
-      TOUCH_SFX_NORMAL | TOUCH_ON,
-      BUMP_HOOKABLE | BUMP_ON,
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_ON | BUMP_HOOKABLE,
       OCELEM_ON },
     { 20, 40, 0, { 0, 0, 0 } },
 };

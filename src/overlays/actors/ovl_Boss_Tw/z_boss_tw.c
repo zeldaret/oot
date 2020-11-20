@@ -23,21 +23,36 @@ const ActorInit Boss_Tw_InitVars = {
 };
 
 static ColliderCylinderInit D_8094A7E8 = {
-    { COLTYPE_NONE, AT_ALL | AT_ON, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x30 }, { 0x00100000, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
-OCELEM_ON }, { 25, 35, -17, { 0, 0, 0 } },
+    { COLTYPE_NONE, AT_ON | AT_ALL, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x30 },
+      { 0x00100000, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_ON,
+      OCELEM_ON },
+    { 25, 35, -17, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_8094A814 = {
-    { COLTYPE_HIT3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_PLAYER | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
-OCELEM_ON }, { 45, 120, -30, { 0, 0, 0 } },
+    { COLTYPE_HIT3, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x20 },
+      { 0xFFCDFFFE, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_ON,
+      OCELEM_ON },
+    { 45, 120, -30, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit D_8094A840 = {
-    { COLTYPE_HIT3, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_CYLINDER },
-    { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x00, 0x20 }, { 0xFFCDFFFE, 0x00, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_HOOKABLE
-| BUMP_ON, OCELEM_ON }, { 45, 120, -30, { 0, 0, 0 } },
+    { COLTYPE_HIT3, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
+    { ELEMTYPE_UNK0,
+      { 0xFFCFFFFF, 0x00, 0x20 },
+      { 0xFFCDFFFE, 0x00, 0x00 },
+      TOUCH_ON | TOUCH_SFX_NORMAL,
+      BUMP_ON | BUMP_HOOKABLE,
+      OCELEM_ON },
+    { 45, 120, -30, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80938CD0.s")

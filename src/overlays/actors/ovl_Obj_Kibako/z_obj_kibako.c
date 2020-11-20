@@ -39,17 +39,17 @@ const ActorInit Obj_Kibako_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_PLAYER | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_PLAYER, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x00000002, 0x00, 0x01 },
       { 0x4FC00748, 0x00, 0x00 },
-      TOUCH_SFX_NORMAL | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_NORMAL,
       BUMP_ON,
       OCELEM_ON },
     { 12, 27, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sCCInfoInit = { 0, 0xC, 0x3C, 0xFE };
+static CollisionCheckInfoInit sCCInfoInit = { 0, 12, 60, 0xFE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -181,6 +181,8 @@ void ObjKibako_SetupIdle(ObjKibako* this) {
 }
 
 void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
+    s32 pad;
+
     if (Actor_HasParent(&this->actor, globalCtx)) {
         ObjKibako_SetupHeld(this);
     } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.waterY > 19.0f)) {
@@ -200,12 +202,10 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
             this->collider.base.ocFlags |= OC_PLAYER;
         }
         if (this->actor.xzDistFromLink < 600.0f) {
-            ColliderCylinder* collider = &this->collider;
-
-            Collider_UpdateCylinder(&this->actor, collider);
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             if (this->actor.xzDistFromLink < 180.0f) {
-                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }
         if (this->actor.xzDistFromLink < 100.0f) {
@@ -244,27 +244,26 @@ void ObjKibako_SetupThrown(ObjKibako* this) {
 }
 
 void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
+    s32 pad;
+    s32 pad2;
 
-    if ((thisx->bgCheckFlags & 0xB) || (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->actor.bgCheckFlags & 0xB) || (this->collider.base.atFlags & AT_HIT)) {
         ObjKibako_AirBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
-        Actor_Kill(thisx);
+        Actor_Kill(&this->actor);
     } else if (this->actor.bgCheckFlags & 0x40) {
         ObjKibako_WaterBreak(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
-        Actor_Kill(thisx);
+        Actor_Kill(&this->actor);
     } else {
-        ColliderCylinder* collider = &this->collider;
-
         ObjKibako_ApplyGravity(this);
-        func_8002D7EC(thisx);
-        func_8002E4B4(globalCtx, thisx, 19.0f, 20.0f, 0.0f, 5);
-        Collider_UpdateCylinder(thisx, collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
+        func_8002D7EC(&this->actor);
+        func_8002E4B4(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

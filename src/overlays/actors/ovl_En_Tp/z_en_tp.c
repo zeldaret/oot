@@ -28,16 +28,22 @@ const ActorInit En_Tp_InitVars = {
     (ActorFunc)EnTp_Draw,
 };
 
-static ColliderJntSphElementInit  D_80B22A90[1] = {
+static ColliderJntSphElementInit D_80B22A90[1] = {
     {
-        { ELEMTYPE_UNK0, { 0xFFCFFFFF, 0x03, 0x08 }, { 0xFFCFFFFF, 0x01, 0x00 }, TOUCH_SFX_NORMAL | TOUCH_ON, BUMP_ON,
-OCELEM_OFF }, { 0, { { 0, 0, 0 }, 4 }, 100 },
+        { ELEMTYPE_UNK0,
+          { 0xFFCFFFFF, 0x03, 0x08 },
+          { 0xFFCFFFFF, 0x01, 0x00 },
+          TOUCH_ON | TOUCH_SFX_NORMAL,
+          BUMP_ON,
+          OCELEM_OFF },
+        { 0, { { 0, 0, 0 }, 4 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80B22AB4 = {
-    { COLTYPE_HIT1, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_OFF, OT_TYPE1, COLSHAPE_JNTSPH },
-    1, D_80B22A90,
+    { COLTYPE_HIT1, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE1, COLSHAPE_JNTSPH },
+    1,
+    D_80B22A90,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B20DE0.s")

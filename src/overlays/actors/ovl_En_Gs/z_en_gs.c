@@ -39,12 +39,12 @@ const ActorInit En_Gs_InitVars = {
 };
 
 static ColliderCylinderInit D_80A4FDA0 = {
-    { COLTYPE_HARD, AT_OFF, AC_PLAYER | AC_HARD | AC_ON, OC_ALL | OC_ON, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_HARD, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 21, 48, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80A4FDCC = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
+CollisionCheckInfoInit2 D_80A4FDCC = { 0, 0, 0, 0, 0xFF };
 
 DamageTable D_80A4FDD8 = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0, 0xF0, 0xF0,
                            0xB0, 0xB0, 0xB0, 0x00, 0x00, 0x00, 0xB0, 0xB0, 0xB0, 0x00, 0x00,

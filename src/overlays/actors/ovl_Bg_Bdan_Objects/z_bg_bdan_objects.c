@@ -45,11 +45,11 @@ const ActorInit Bg_Bdan_Objects_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_ENEMY | AT_ON, AC_OFF, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_ON | AT_ENEMY, AC_OFF, OC_OFF, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x04 },
       { 0x00000000, 0x00, 0x00 },
-      TOUCH_SFX_HARD | TOUCH_ON,
+      TOUCH_ON | TOUCH_SFX_HARD,
       BUMP_OFF,
       OCELEM_OFF },
     { 0x00BB, 0x0050, 0x0000, { 0 } },
@@ -304,7 +304,7 @@ void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx) {
 
 void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
-    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         Flags_SetSwitch(globalCtx, this->unk_168);
         this->dyna.actor.initPosRot.rot.y = (s16)(this->dyna.actor.shape.rot.y + 0x2000) & 0xC000;

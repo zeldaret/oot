@@ -22,16 +22,22 @@ const ActorInit En_Fw_InitVars = {
     (ActorFunc)EnFw_Draw,
 };
 
-static ColliderJntSphElementInit  D_80A1FB60[1] = {
+static ColliderJntSphElementInit D_80A1FB60[1] = {
     {
-        { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x04 }, { 0xFFCFFFFE, 0x00, 0x00 }, TOUCH_OFF, BUMP_HOOKABLE | BUMP_ON,
-OCELEM_ON }, { 2, { { 1200, 0, 0 }, 16 }, 100 },
+        { ELEMTYPE_UNK0,
+          { 0x00000000, 0x00, 0x04 },
+          { 0xFFCFFFFE, 0x00, 0x00 },
+          TOUCH_OFF,
+          BUMP_ON | BUMP_HOOKABLE,
+          OCELEM_ON },
+        { 2, { { 1200, 0, 0 }, 16 }, 100 },
     },
 };
 
 static ColliderJntSphInit D_80A1FB84 = {
-    { COLTYPE_HIT6, AT_ENEMY | AT_ON, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1, COLSHAPE_JNTSPH },
-    1, D_80A1FB60,
+    { COLTYPE_HIT6, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
+    1,
+    D_80A1FB60,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fw/func_80A1E5A0.s")

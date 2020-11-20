@@ -35,7 +35,7 @@ const ActorInit En_Horse_Link_Child_InitVars = {
 static AnimationHeader* sAnimations[] = { 0x060043E4, 0x06004B08, 0x060053F0, 0x0600360C, 0x06002F98 };
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ALL | OC_ON, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_ALL, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
     { 20, 100, 0, { 0, 0, 0 } },
 };
@@ -48,8 +48,9 @@ static ColliderJntSphElementInit sJntSphElementInit[1] = {
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
-    1, sJntSphElementInit,
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
+    1,
+    sJntSphElementInit,
 };
 
 static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, 0xFE };
