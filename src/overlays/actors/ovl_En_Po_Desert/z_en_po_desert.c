@@ -250,17 +250,17 @@ void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 559);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0A, Gfx_EnvColor(globalCtx->state.gfxCtx, 255, 85, 0, 255));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x0A, Gfx_EnvColor(globalCtx->state.gfxCtx, 255, 85, 0, 255));
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                             this->lightColor.a));
     if (this->actionFunc == EnPoDesert_Disappear) {
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
     } else {
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280 + 2);
+        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280 + 2);
     }
-    oGfxCtx->polyXlu.p =
+    POLY_XLU_DISP =
         SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoDesert_OverrideLimbDraw2,
-                        EnPoDesert_PostLimbDraw2, &this->actor, oGfxCtx->polyXlu.p);
+                        EnPoDesert_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 597);
 }

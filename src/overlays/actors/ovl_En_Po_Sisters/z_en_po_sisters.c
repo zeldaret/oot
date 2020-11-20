@@ -1319,28 +1319,28 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
     if (this->unk_22E.a == 255 || this->unk_22E.a == 0) {
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x09, D_80116280 + 2);
-        oGfxCtx->polyOpa.p =
+        gDPSetEnvColor(POLY_OPA_DISP++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
+        gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
+        POLY_OPA_DISP =
             SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                            EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, oGfxCtx->polyOpa.p);
+                            EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_OPA_DISP);
     } else {
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, this->unk_22E.a);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x09, D_80116280);
-        oGfxCtx->polyXlu.p =
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->unk_22E.a);
+        gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
+        POLY_XLU_DISP =
             SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                            EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, oGfxCtx->polyXlu.p);
+                            EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 3034),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 3034),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_060027B0);
+        gSPDisplayList(POLY_OPA_DISP++, D_060027B0);
     }
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                 (globalCtx->gameplayFrames * -20) % 512, 0x20, 0x80));
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, temp_s1->r, temp_s1->g, temp_s1->b, temp_s1->a);
+    gDPSetEnvColor(POLY_XLU_DISP++, temp_s1->r, temp_s1->g, temp_s1->b, temp_s1->a);
     if (this->actionFunc == func_80ADB17C) {
         if (this->unk_19A < 32) {
             phi_s5 = ((32 - this->unk_19A) * 255) / 32;
@@ -1368,8 +1368,8 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc != func_80ADBEE8) {
             phi_s5 = -i * 31 + 248;
         }
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, temp_s7->r, temp_s7->g, temp_s7->b, phi_s5);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, temp_s7->r, temp_s7->g, temp_s7->b, phi_s5);
         Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
         Matrix_RotateRPY(0, (s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000), 0, MTXMODE_APPLY);
         if (this->actionFunc == func_80ADAFC0) {
@@ -1377,9 +1377,9 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;
         }
         Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 3132),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 3132),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 3139);
 }

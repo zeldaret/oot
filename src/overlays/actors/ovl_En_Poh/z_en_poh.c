@@ -1025,25 +1025,25 @@ void EnPoh_DrawRegular(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
     if (this->lightColor.a == 255 || this->lightColor.a == 0) {
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->lightColor.r, this->lightColor.g, this->lightColor.b,
+        gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                        this->lightColor.a);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, D_80116280 + 2);
-        oGfxCtx->polyOpa.p =
+        gSPSegment(POLY_OPA_DISP++, 0x08, D_80116280 + 2);
+        POLY_OPA_DISP =
             SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoh_OverrideLimbDraw2,
-                            EnPoh_PostLimbDraw2, &this->actor, oGfxCtx->polyOpa.p);
+                            EnPoh_PostLimbDraw2, &this->actor, POLY_OPA_DISP);
     } else {
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, this->lightColor.a);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, D_80116280);
-        oGfxCtx->polyXlu.p =
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->lightColor.a);
+        gSPSegment(POLY_XLU_DISP++, 0x08, D_80116280);
+        POLY_XLU_DISP =
             SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoh_OverrideLimbDraw2,
-                            EnPoh_PostLimbDraw2, &this->actor, oGfxCtx->polyXlu.p);
+                            EnPoh_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
     }
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
     Matrix_Put(&this->unk_368);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2676),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2676),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, this->info->unk_1C);
+    gSPDisplayList(POLY_OPA_DISP++, this->info->unk_1C);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_poh.c", 2681);
 }
 
@@ -1063,42 +1063,42 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->lightColor.a == 255 || this->lightColor.a == 0) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
+        gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                                 this->lightColor.a));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0A,
+        gSPSegment(POLY_OPA_DISP++, 0x0A,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, sp90->r, sp90->g, sp90->b, this->lightColor.a));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0B,
+        gSPSegment(POLY_OPA_DISP++, 0x0B,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, D_80116280 + 2);
-        oGfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
+        POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, EnPoh_OverrideLimbDraw2, EnPoh_PostLimbDraw2,
-                                               &this->actor, oGfxCtx->polyOpa.p);
+                                               &this->actor, POLY_OPA_DISP);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                                 this->lightColor.a));
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x0A,
+        gSPSegment(POLY_XLU_DISP++, 0x0A,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, sp90->r, sp90->g, sp90->b, this->lightColor.a));
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x0B,
+        gSPSegment(POLY_XLU_DISP++, 0x0B,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280);
-        oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, EnPoh_OverrideLimbDraw2, EnPoh_PostLimbDraw2,
-                                               &this->actor, oGfxCtx->polyXlu.p);
+                                               &this->actor, POLY_XLU_DISP);
     }
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
     Matrix_Put(&this->unk_368);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2787),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2787),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, this->info->unk_1C);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06004498);
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, sp90->r, sp90->g, sp90->b, 255);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06004530);
+    gSPDisplayList(POLY_OPA_DISP++, this->info->unk_1C);
+    gSPDisplayList(POLY_OPA_DISP++, D_06004498);
+    gDPPipeSync(POLY_OPA_DISP++);
+    gDPSetEnvColor(POLY_OPA_DISP++, sp90->r, sp90->g, sp90->b, 255);
+    gSPDisplayList(POLY_OPA_DISP++, D_06004530);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_poh.c", 2802);
 }
 
@@ -1119,32 +1119,32 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc == EnPoh_Death) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
+        gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
         Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                 this->actor.posRot.pos.z, this->envColor.r, this->envColor.g, this->envColor.b, 200);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2854),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2854),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, this->info->unk_1C);
+        gSPDisplayList(POLY_OPA_DISP++, this->info->unk_1C);
         if (this->isComposer == true) {
             Color_RGBA8* envColor = (this->actor.params == EN_POH_SHARP) ? &D_80AE1B4C : &D_80AE1B50;
             s32 pad;
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06004498);
-            gDPPipeSync(oGfxCtx->polyOpa.p++);
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, envColor->r, envColor->g, envColor->b, 255);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06004530);
+            gSPDisplayList(POLY_OPA_DISP++, D_06004498);
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetEnvColor(POLY_OPA_DISP++, envColor->r, envColor->g, envColor->b, 255);
+            gSPDisplayList(POLY_OPA_DISP++, D_06004530);
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+        gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                     (this->visibilityTimer * this->info->unk_8) % 512U, 0x20, 0x80));
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, this->info->primColor.r, this->info->primColor.g,
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, this->info->primColor.r, this->info->primColor.g,
                         this->info->primColor.b, this->lightColor.a);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
         Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, 1);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2910),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2910),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->info->soulDisplayList);
+        gSPDisplayList(POLY_XLU_DISP++, this->info->soulDisplayList);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_poh.c", 2916);
 }

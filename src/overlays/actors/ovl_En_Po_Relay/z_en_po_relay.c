@@ -378,9 +378,9 @@ void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         this->lightColor.r = (s16)(rand * 30.0f) + 225;
         this->lightColor.g = (s16)(rand * 100.0f) + 155;
         this->lightColor.b = (s16)(rand * 160.0f) + 95;
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 128);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600B838);
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 128);
+        gSPDisplayList(POLY_OPA_DISP++, D_0600B838);
         if (1) {}
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 901);
         Matrix_MultVec3f(&D_80AD8D48, &vec);
@@ -388,9 +388,9 @@ void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
                                   this->lightColor.b, 200);
     } else if (limbIndex == 8) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 916);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 918),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 918),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_0600BBA0);
+        gSPDisplayList(POLY_OPA_DISP++, D_0600BBA0);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 922);
     }
 }
@@ -400,7 +400,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);
