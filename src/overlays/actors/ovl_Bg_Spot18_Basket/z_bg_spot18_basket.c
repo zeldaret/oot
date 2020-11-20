@@ -279,7 +279,7 @@ void func_808B7F74(BgSpot18Basket* this) {
 
     if ((shapeRotY < -0x2E93) || (shapeRotY >= 0x7C19)) {
         this->unk_218 = 2;
-    } else if (shapeRotY < 9922) {
+    } else if (shapeRotY < 0x26C2) {
         this->unk_218 = 1;
     } else {
         this->unk_218 = 0;
