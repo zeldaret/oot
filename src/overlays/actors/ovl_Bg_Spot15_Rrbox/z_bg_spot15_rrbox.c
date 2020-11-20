@@ -18,7 +18,7 @@ void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
-s16 D_808B4590 = 0;
+static s16 D_808B4590 = 0;
 
 extern UNK_TYPE D_06000348;
 extern Gfx D_06000180[];

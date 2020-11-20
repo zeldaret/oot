@@ -70,7 +70,7 @@ void BgDodoago_SpawnSparkles(Vec3f* vec, GlobalContext* globalCtx) {
     }
 }
 
-static InitChainEntry D_808725BC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 5000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
@@ -86,7 +86,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 localC = 0;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_808725BC);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06001DDC, &localC);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
