@@ -40,7 +40,7 @@ static ColliderCylinderInit_Set3 sCylinderInit = {
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphElementInit sJntSphItemInit[1] = {
+static ColliderJntSphElementInit sJntSphElementInit[1] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
         { 13, { { 0, 0, 0 }, 10 }, 100 },
@@ -49,7 +49,7 @@ static ColliderJntSphElementInit sJntSphItemInit[1] = {
 
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_NONE, AT_OFF, AC_PLAYER | AC_ON, OC_ALL | OC_ON, OT_TYPE1 | OT_UNK1, COLSHAPE_JNTSPH },
-    1, sJntSphItemInit,
+    1, sJntSphElementInit,
 };
 
 static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, 0xFE };
@@ -130,8 +130,8 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder_Set3(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->headCollider);
-    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderItems);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
+    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
     this->unk_1F0 = 0;
     this->unk_1EC = 0;
 
@@ -547,27 +547,27 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     func_80A6948C(this);
 }
 
-void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f center;
     Vec3f newCenter;
     EnHorseLinkChild* this = THIS;
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
-        center.x = this->headCollider.list[i].dim.modelSphere.center.x;
-        center.y = this->headCollider.list[i].dim.modelSphere.center.y;
-        center.z = this->headCollider.list[i].dim.modelSphere.center.z;
-        func_800A6408(collider, this->headCollider.list[i].dim.joint, &center, &newCenter);
-        this->headCollider.list[i].dim.worldSphere.center.x = newCenter.x;
-        this->headCollider.list[i].dim.worldSphere.center.y = newCenter.y;
-        this->headCollider.list[i].dim.worldSphere.center.z = newCenter.z;
-        this->headCollider.list[i].dim.worldSphere.radius =
-            this->headCollider.list[i].dim.modelSphere.radius * this->headCollider.list[i].dim.scale;
+        center.x = this->headCollider.elements[i].dim.modelSphere.center.x;
+        center.y = this->headCollider.elements[i].dim.modelSphere.center.y;
+        center.z = this->headCollider.elements[i].dim.modelSphere.center.z;
+        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &center, &newCenter);
+        this->headCollider.elements[i].dim.worldSphere.center.x = newCenter.x;
+        this->headCollider.elements[i].dim.worldSphere.center.y = newCenter.y;
+        this->headCollider.elements[i].dim.worldSphere.center.z = newCenter.z;
+        this->headCollider.elements[i].dim.worldSphere.radius =
+            this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);

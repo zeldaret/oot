@@ -918,6 +918,7 @@ void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skel
 // ? func_8006D0EC(?);
 // ? func_8006D684(?);
 void func_8006DC68(GlobalContext* globalCtx, Player* player);
+void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 u32 Jpeg_SendTask(JpegContext* ctx);
 void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y);
 u16 Jpeg_GetU16(u8* ptr);
@@ -1336,6 +1337,7 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 // ? func_800A5F60(?);
 // ? func_800A60D8(?);
 void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void* callback, s32);
+void func_800A6360(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void*, void*, s32);
 void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb*, s32, s32, s32, s32, s32);
 void func_800A6408(PSkinAwb* skin, u8 limb, Vec3f*, Vec3f*);
 // ? func_800A6460(?);
