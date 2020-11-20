@@ -82,7 +82,8 @@ static Vtx sVertices[] = {
 
 static Gfx sPlaneDlist[] = {
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PASS2),
+    // gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PASS2),
+    { 0xFCFFFFFF, 0xFFFDF638 },
     gsSPVertex(sVertices, 4, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),

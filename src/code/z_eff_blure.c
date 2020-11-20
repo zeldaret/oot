@@ -369,7 +369,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             break;
     }
     sp30 = sp30; // Optimized out but seems necessary to match stack usage
-    
+
     if (this->flags & 0x10) {
         color1->r = color1->g = color1->b = color1->a = color2->r = color2->g = color2->b = color2->a = 255;
     } else {

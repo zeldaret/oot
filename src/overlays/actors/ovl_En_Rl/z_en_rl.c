@@ -28,7 +28,7 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 
-UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
+static UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
 
 extern SkeletonHeader D_06007B38;
 extern AnimationHeader D_06000A3C;
@@ -322,7 +322,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 331);
 }
 
-EnRlActionFunc sActionFuncs[] = {
+static EnRlActionFunc sActionFuncs[] = {
     func_80AE7798, func_80AE77B8, func_80AE77F8, func_80AE7838,
     func_80AE7C64, func_80AE7C94, func_80AE7CE8, func_80AE7D40,
 };
@@ -370,7 +370,7 @@ void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 437);
 }
 
-EnRlDrawFunc sDrawFuncs[] = {
+static EnRlDrawFunc sDrawFuncs[] = {
     func_80AE7FD0,
     func_80AE7FDC,
     func_80AE7D94,

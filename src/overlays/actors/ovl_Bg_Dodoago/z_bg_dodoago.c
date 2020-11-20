@@ -45,7 +45,7 @@ static ColliderCylinderInit sColCylinderInit1 = {
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
-s16 sHasParent = false;
+static s16 sHasParent = false;
 
 extern Gfx D_60013500[];
 extern UNK_TYPE D_06001DDC;
@@ -77,9 +77,9 @@ static InitChainEntry D_808725BC[] = {
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
-u8 D_808727C0[100];
+static u8 D_808727C0[100];
 
-s32 D_80872824;
+static s32 D_80872824;
 
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
