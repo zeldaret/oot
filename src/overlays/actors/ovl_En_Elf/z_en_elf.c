@@ -572,8 +572,6 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
-#ifdef NON_MATCHING
-// slight ordering and regalloc
 void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
     f32 xVelTarget;
     f32 zVelTarget;
@@ -582,27 +580,25 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
 
     xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg4;
     zVelTarget = ((arg1->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg4;
+    arg4 += 0.3f;
     arg3 += 30.0f;
 
-    func_80A02BD8(this, arg1, arg4 + 0.3f);
+    func_80A02BD8(this, arg1, arg4);
 
     xzVelocity = sqrtf(SQ(xVelTarget) + SQ(zVelTarget));
-    clampedXZ = CLAMP(xzVelocity, arg2, arg3);
-    this->actor.speedXZ = clampedXZ;
+
+    this->actor.speedXZ = clampedXZ = CLAMP(xzVelocity, arg2, arg3);
 
     if ((xzVelocity != clampedXZ) && (xzVelocity != 0.0f)) {
-        zVelTarget *= (clampedXZ / xzVelocity);
-        xVelTarget *= (clampedXZ / xzVelocity);
+        xzVelocity = clampedXZ / xzVelocity;
+        xVelTarget *= xzVelocity;
+        zVelTarget *= xzVelocity;
     }
 
     Math_ApproxF(&this->actor.velocity.x, xVelTarget, 5.0f);
     Math_ApproxF(&this->actor.velocity.z, zVelTarget, 5.0f);
-    func_8002D7EC(this);
+    func_8002D7EC(&this->actor);
 }
-#else
-void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03148.s")
-#endif
 
 void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     Player* refActor = PLAYER;
@@ -839,8 +835,6 @@ void EnElf_UpdateLights(EnElf* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, this->actor.scale.x);
 }
 
-#ifdef NON_MATCHING
-// float regalloc
 void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     Vec3f nextPos;
     Vec3f prevPos;
@@ -897,13 +891,14 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
         switch (this->unk_2A8) {
             case 7:
                 func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * 0.033333335f);
-                xScale =
-                    1.0f - ((Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos) - 5.0f) * 0.05f);
+                xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos);
 
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
                     xScale = 0.0f;
                 } else if (distFromLinksHead < 25.0f) {
+                    xScale = (xScale - 5.0f) * 0.05f;
+                    xScale = 1.0f - xScale;
                     xScale = (1.0f - SQ(xScale)) * 0.008f;
                 } else {
                     xScale = 0.008f;
@@ -917,7 +912,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 break;
             case 11:
                 nextPos = player->bodyPartsPos[8];
-                nextPos.y += this->actor.scale.y * 1500.0f;
+                nextPos.y += 1500.0f * this->actor.scale.y;
                 func_80A02E30(this, &nextPos);
                 EnElf_SpawnSparkles(this, globalCtx, 16);
 
@@ -990,9 +985,6 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
     EnElf_UpdateLights(this, globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A03CF8.s")
-#endif
 
 void EnElf_ChangeColor(Color_RGBAf* dest, Color_RGBAf* newColor, Color_RGBAf* curColor, f32 rate) {
     Color_RGBAf rgbaDiff;
@@ -1097,54 +1089,52 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
         if ((player->stateFlags1 & 0x400) || ((YREG(15) & 0x10) && func_800BC56C(globalCtx, 2))) {
             temp = 12;
             this->unk_2C0 = 100;
-        } else {
-            if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->type == ACTORTYPE_NPC))) {
-                if (arrowPointedActor != NULL) {
-                    this->unk_2C0 = 100;
-                    player->stateFlags2 |= 0x100000;
-                    temp = 0;
-                } else {
-                    switch (this->unk_2A8) {
-                        case 0:
-                            if (this->unk_2C0 != 0) {
-                                this->unk_2C0--;
-                                temp = 0;
-                            } else {
-                                if (this->unk_2C7 == 0) {
-                                    Audio_PlayActorSound2(&this->actor, NA_SE_EV_NAVY_VANISH);
-                                }
-                                temp = 7;
-                            }
-                            break;
-                        case 7:
-                            if (this->unk_2C0 != 0) {
-                                if (this->unk_2AE > 0) {
-                                    this->unk_2AE--;
-                                    temp = 7;
-                                } else {
-                                    player->stateFlags2 |= 0x100000;
-                                    temp = 0;
-                                }
-                            } else {
-                                temp = 8;
-                                func_80A029A8(this, 10);
-                            }
-                            break;
-                        case 8:
-                            temp = 8;
-                            break;
-                        case 11:
-                            temp = this->unk_2A8;
-                            if (this->unk_2C0 > 0) {
-                                this->unk_2C0--;
-                            } else {
-                                temp = 0;
-                            }
-                            break;
-                        default:
+        } else if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->type == ACTORTYPE_NPC))) {
+            if (arrowPointedActor != NULL) {
+                this->unk_2C0 = 100;
+                player->stateFlags2 |= 0x100000;
+                temp = 0;
+            } else {
+                switch (this->unk_2A8) {
+                    case 0:
+                        if (this->unk_2C0 != 0) {
+                            this->unk_2C0--;
                             temp = 0;
-                            break;
-                    }
+                        } else {
+                            if (this->unk_2C7 == 0) {
+                                Audio_PlayActorSound2(&this->actor, NA_SE_EV_NAVY_VANISH);
+                            }
+                            temp = 7;
+                        }
+                        break;
+                    case 7:
+                        if (this->unk_2C0 != 0) {
+                            if (this->unk_2AE > 0) {
+                                this->unk_2AE--;
+                                temp = 7;
+                            } else {
+                                player->stateFlags2 |= 0x100000;
+                                temp = 0;
+                            }
+                        } else {
+                            temp = 8;
+                            func_80A029A8(this, 10);
+                        }
+                        break;
+                    case 8:
+                        temp = 8;
+                        break;
+                    case 11:
+                        temp = this->unk_2A8;
+                        if (this->unk_2C0 > 0) {
+                            this->unk_2C0--;
+                        } else {
+                            temp = 0;
+                        }
+                        break;
+                    default:
+                        temp = 0;
+                        break;
                 }
             }
         }
@@ -1540,7 +1530,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
             POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                                 EnElf_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
+                                            EnElf_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
         }

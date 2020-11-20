@@ -428,8 +428,8 @@ s32 func_800AB2C4(View* view) {
     view->vp = *vp;
 
     gDPPipeSync(OVERLAY_DISP++);
-    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY,
-                  view->viewport.rightX, view->viewport.bottomY);
+    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY, view->viewport.rightX,
+                  view->viewport.bottomY);
     gSPViewport(OVERLAY_DISP++, vp);
 
     projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
@@ -468,8 +468,8 @@ s32 func_800AB560(View* view) {
     view->vp = *vp;
 
     gDPPipeSync(OVERLAY_DISP++);
-    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY,
-                  view->viewport.rightX, view->viewport.bottomY);
+    gDPSetScissor(OVERLAY_DISP++, G_SC_NON_INTERLACE, view->viewport.leftX, view->viewport.topY, view->viewport.rightX,
+                  view->viewport.bottomY);
     gSPViewport(OVERLAY_DISP++, vp);
 
     projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
