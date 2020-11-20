@@ -664,7 +664,7 @@ void func_80ADA9E8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADAAA4(EnPoSisters* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0 && !(this->actor.flags & 0x8000)) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && !(this->actor.flags & 0x8000)) {
         if (this->actor.colChkInfo.health != 0) {
             if (this->unk_194 != 0) {
                 func_80AD96A4(this);
@@ -708,7 +708,7 @@ void func_80ADAC70(EnPoSisters* this, GlobalContext* globalCtx) {
 void func_80ADAD54(EnPoSisters* this, GlobalContext* globalCtx) {
     s32 animFrameCount;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->unk_22E.a = 0;
         this->collider.body.bumper.flags = 0x60001;
         func_80AD93C4(this);
