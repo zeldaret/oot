@@ -43,26 +43,25 @@ void func_80A9BF3C(EnKusa* this);
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9C00C(EnKusa* this);
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx);
+void func_80A9C164(Actor* thisx, GlobalContext* globalCtx);
 
-s16 D_80A9C1D0[] = { 0x0000 };
+s16 D_80A9C1D0[] = { 0x00000000 };
 
-s16 D_80A9C1D4[] = { 0x0000 };
+s16 D_80A9C1D4[] = { 0x00000000 };
 
-s16 D_80A9C1D8[] = { 0x0000 };
+s16 D_80A9C1D8[] = { 0x00000000 };
 
-s16 D_80A9C1DC[] = { 0x0000 };
+s16 D_80A9C1DC[] = { 0x00000000 };
 
-const ActorInit En_Kusa_InitVars = {
-    ACTOR_EN_KUSA,
-    ACTORTYPE_PROP,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(EnKusa),
-    (ActorFunc)EnKusa_Init,
-    (ActorFunc)EnKusa_Destroy,
-    (ActorFunc)EnKusa_Update,
-    (ActorFunc)func_80A9C164,
-};
+const ActorInit En_Kusa_InitVars = { ACTOR_EN_KUSA,
+                                     ACTORTYPE_PROP,
+                                     FLAGS,
+                                     OBJECT_GAMEPLAY_KEEP,
+                                     sizeof(EnKusa),
+                                     (ActorFunc)EnKusa_Init,
+                                     (ActorFunc)EnKusa_Destroy,
+                                     (ActorFunc)EnKusa_Update,
+                                     NULL };
 
 s16 D_80A9C200[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 
@@ -77,8 +76,9 @@ static ColliderCylinderInit D_80A9C208 = {
 // sColChkInfoInit
 CollisionCheckInfoInit D_80A9C234 = { 0, 0xC, 0x1E, 0xFF };
 
-Vec3f D_80A9C23C[] = { 0, 0.707099f, 0.707099f,  0.707099f,  0.707099f, 0,
-                       0, 0.707099f, -0.707099f, -0.707099f, 0.707099f, 0 };
+Vec3f D_80A9C23C[] = {
+    { 0, 0.707099f, 0.707099f }, { 0.707099f, 0.707099f, 0 }, { 0, 0.707099f, -0.707099f }, { -0.707099f, 0.707099f, 0 }
+};
 
 s16 D_80A9C26C[] = { 0x006C, 0x0066, 0x0060, 0x0054, 0x0042, 0x0037, 0x002A, 0x0026 };
 
@@ -89,7 +89,7 @@ InitChainEntry D_80A9C27C[] = {
     ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(uncullZoneDownward, 120, ICHAIN_STOP),
 };
 
-Gfx* D_80A9C294[] = { 0x0500B9D0, 0x06000140, 0x06000140, 0x60002E0 };
+s32 D_80A9C294[] = { 0x0500B9D0, 0x06000140, 0x06000140 };
 
 extern Gfx D_060002E0[];
 extern Gfx D_040355E0[]; // bush fragments 1
@@ -123,7 +123,7 @@ s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
     }
     osSyncPrintf(VT_COL(YELLOW, BLACK));
     // Translation: Failure attaching to ground
-    osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 323);
+    osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 0x143);
     osSyncPrintf(VT_RST);
     return false;
 }
@@ -183,69 +183,39 @@ void func_80A9B1FC(EnKusa* this) {
     this->actor.scale.z = 0.120000005f;
 }
 
-// TODO: Finish this function
+// // TODO: Finish this function
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B21C.s")
 void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
+    Vec3f fragmentVelocity;
+    Vec3f effectPosition;
+    u32 i;
+    s32 index;
+    Vec3f* new_var;
     s32 pad;
-    Vec3f pos;
-    Vec3f velocity;
-    u32 index;
-    s32 i;
 
     for (i = 0; i < ARRAY_COUNT(D_80A9C26C); i++) {
-        pos.x = this->actor.posRot.pos.x + (D_80A9C23C[i].x * this->actor.scale.x * 20.0f);
-        pos.y = this->actor.posRot.pos.y + (D_80A9C23C[i].y * this->actor.scale.y * 20.0f) + 10.0f;
-        pos.z = this->actor.posRot.pos.z + (D_80A9C23C[i].z * this->actor.scale.z * 20.0f);
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-        velocity.y = Math_Rand_ZeroOne() * 10.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        new_var = &D_80A9C23C[i];
+        effectPosition.x = this->actor.posRot.pos.x + (new_var->x * this->actor.scale.x * 20.0f);
+        effectPosition.y = this->actor.posRot.pos.y + (new_var->y * this->actor.scale.y * 20.0f) + 10.0f;
+        effectPosition.z = this->actor.posRot.pos.z + (new_var->z * this->actor.scale.z * 20.0f);
+        fragmentVelocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
+        fragmentVelocity.y = Math_Rand_ZeroOne() * 10.0f;
+        fragmentVelocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
         index = (s32)(Math_Rand_ZeroOne() * 111.1f) & 7;
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
-        pos.x = this->actor.posRot.pos.x + (D_80A9C23C[i].x * this->actor.scale.x * 40.0f);
-        pos.y = this->actor.posRot.pos.y + (D_80A9C23C[i].y * this->actor.scale.y * 40.0f) + 10.0f;
-        pos.z = this->actor.posRot.pos.z + (D_80A9C23C[i].z * this->actor.scale.z * 40.0f);
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-        velocity.y = Math_Rand_ZeroOne() * 10.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+        EffectSsKakera_Spawn(globalCtx, &effectPosition, &fragmentVelocity, &effectPosition, -100, 64, 40, 3, 0,
+                             D_80A9C26C[index], 0, 0, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
+        effectPosition.x = this->actor.posRot.pos.x + (new_var->x * this->actor.scale.x * 40.0f);
+        effectPosition.y = this->actor.posRot.pos.y + (new_var->y * this->actor.scale.y * 40.0f) + 10.0f;
+        effectPosition.z = this->actor.posRot.pos.z + (new_var->z * this->actor.scale.z * 40.0f);
+        fragmentVelocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
+        fragmentVelocity.y = Math_Rand_ZeroOne() * 10.0f;
+        fragmentVelocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
         index = (s32)(Math_Rand_ZeroOne() * 111.1f) % 7;
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
+        EffectSsKakera_Spawn(globalCtx, &effectPosition, &fragmentVelocity, &effectPosition, -100, 64, 40, 3, 0,
+                             D_80A9C26C[index], 0, 0, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
     }
 }
 
-// Old version
-// void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
-//     s32 pad;
-//     Vec3f pos;
-//     Vec3f velocity;
-//     s16* phi_s1;
-//     u32 index;
-//     Vec3f* breakPos = &this->actor.posRot.pos;
-
-//     phi_s1 = D_80A9C23C; // This is float values...1/sqrt(2)
-//     do {
-//         pos.x = this->actor.posRot.pos.x + (breakPos->x * this->actor.scale.x * 20.0f);
-//         pos.y = this->actor.posRot.pos.y + (breakPos->y * this->actor.scale.y * 20.0f) + 10.0f;
-//         pos.z = this->actor.posRot.pos.z + (breakPos->z * this->actor.scale.z * 20.0f);
-//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
-//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 8.0f;
-//         index = (s32)(Math_Rand_ZeroOne() * 111.1f) % 8;
-//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
-//         pos.x = this->actor.posRot.pos.x + (breakPos->x * this->actor.scale.x * 40.0f);
-//         pos.y = this->actor.posRot.pos.y + (breakPos->y * this->actor.scale.y * 40.0f) + 10.0f;
-//         pos.z = this->actor.posRot.pos.z + (breakPos->z * this->actor.scale.z * 40.0f);
-//         velocity.x = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-//         velocity.y = Math_Rand_ZeroOne() * 10.0f;
-//         velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 6.0f;
-//         index = (s32)(Math_Rand_ZeroOne() * 111.1f) % 7;
-//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-//                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
-//         phi_s1 += 0xC;
-//     } while (phi_s1 != D_80A9C26C);
-// }
 
 // Matching!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B574.s")
@@ -300,11 +270,11 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->kusaTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, D_80A9C200[this->actor.params & 3]);
+    this->kusaTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, D_80A9C200[thisx->params & 3]);
 
     if (this->kusaTexObjIndex < 0) {
         // Prints -> Bank danger!
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_en_kusa.c", 561);
+        osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, "../z_en_kusa.c", 0x231);
         Actor_Kill(&this->actor);
         return;
     }
@@ -537,7 +507,7 @@ void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
 // Matches!
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C00C.s")
 void func_80A9C00C(EnKusa* this) {
-    func_80A9AFA0(this, &func_80A9C068);
+    func_80A9AFA0(this, func_80A9C068);
     func_80A9B1FC(this);
     this->actor.shape.rot = this->actor.initPosRot.rot;
     this->actor.flags = this->actor.flags & -0x801;
@@ -548,8 +518,9 @@ void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     s32 sp24;
 
     sp24 = Math_ApproxF(&this->actor.scale.y, 0.4f, 0.014f) & 1;
+    sp24 &= Math_ApproxF(&this->actor.scale, 0.4f, 0.011f);
     this->actor.scale.z = this->actor.scale.x;
-    if (((sp24)&Math_ApproxF(&this->actor.scale, 0.4f, 0.011f)) != 0) {
+    if (sp24 != 0) {
         Actor_SetScale(this, 0.4f);
         func_80A9B89C(this);
         this->collider.base.maskA = this->collider.base.maskA & 0xFFF7;
@@ -578,6 +549,6 @@ void func_80A9C164(Actor* thisx, GlobalContext* globalCtx) {
         Gfx_DrawDListOpa(globalCtx, D_060002E0);
         return;
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_80A9C294[this->actor.params & 3]);
+        Gfx_DrawDListOpa(globalCtx, D_80A9C294[thisx->params & 3]);
     }
 }
