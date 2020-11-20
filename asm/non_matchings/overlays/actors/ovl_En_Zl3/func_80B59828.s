@@ -65,7 +65,7 @@ glabel func_80B59828
 /* 06550 80B59900 240A0140 */  addiu   $t2, $zero, 0x0140         ## $t2 = 00000140
 /* 06554 80B59904 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
 /* 06558 80B59908 A42AFA84 */  sh      $t2, %lo(gSaveContext+0x1424)($at)
-/* 0655C 80B5990C 0C021DA0 */  jal     func_80087680              
+/* 0655C 80B5990C 0C021DA0 */  jal     Magic_Fill              
 /* 06560 80B59910 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 06564 80B59914 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 06568 80B59918 0C00B2D0 */  jal     Flags_GetSwitch

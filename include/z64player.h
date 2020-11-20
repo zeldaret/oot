@@ -273,7 +273,7 @@ typedef struct Player {
     /* 0x0684 */ Actor*     unk_684;
     /* 0x0688 */ Actor*     boomerangActor;
     /* 0x068C */ Actor*     naviActor;
-    /* 0x0690 */ s16        naviMessageId;
+    /* 0x0690 */ s16        naviTextId;
     /* 0x0692 */ u8         stateFlags3;
     /* 0x0693 */ s8         exchangeItemId;
     /* 0x0694 */ Actor*     targetActor;

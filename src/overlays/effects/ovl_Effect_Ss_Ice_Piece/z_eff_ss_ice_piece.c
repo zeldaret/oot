@@ -66,15 +66,15 @@ void EffectSsIcePiece_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     Matrix_RotateY(this->rYaw * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateX(this->rPitch * 0.0000958738f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ice_piece.c", 185),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ice_piece.c", 185),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 50, 100, (s32)alpha & 0xFF);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, (s32)alpha & 0xFF);
     func_8003435C(&this->pos, globalCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (1 * frames) % 256, 0x20, 0x10, 1, 0, (2 * frames) % 256,
                                 0x40, 0x20));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04033720);
+    gSPDisplayList(POLY_XLU_DISP++, D_04033720);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ice_piece.c", 209);
 }
