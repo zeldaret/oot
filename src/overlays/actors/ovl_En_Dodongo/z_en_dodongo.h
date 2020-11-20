@@ -13,40 +13,38 @@ typedef struct EnDodongo {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[31];
     /* 0x024A */ Vec3s transitionDrawTable[31];
-    /* 0x0304 */ s32 unk_304;
+    /* 0x0304 */ s32 actionState;
     /* 0x0308 */ EnDodongoActionFunc actionFunc;
-    /* 0x030C */ s16 unk_30C;
-    /* 0x030E */ s16 unk_30E;
-    /* 0x0310 */ s16 unk_310;
-    /* 0x0312 */ s16 unk_312;
+    /* 0x030C */ s16 timer;
+    /* 0x030E */ s16 retreatTimer;
+    /* 0x0310 */ s16 tailSwipeSpeed;
+    /* 0x0312 */ s16 iceTimer;
     /* 0x0314 */ char unk_314[2];
-    /* 0x0316 */ s16 unk_316;
+    /* 0x0316 */ s16 rightFootStep;
     /* 0x0318 */ char unk_318[4];
-    /* 0x031C */ Vec3f unk_31C;
-    /* 0x0328 */ Vec3f unk_328;
-    /* 0x0334 */ Vec3f unk_334;
-    /* 0x0334 */ Vec3f unk_340;
-    /* 0x034C */ f32 unk_34C;
-    /* 0x0350 */ f32 unk_350;
-    /* 0x0354 */ f32 unk_354;
-    /* 0x0358 */ Vec3f unk_358[9];
-    /* 0x03C4 */ Color_RGBA8 unk_3C4;
-    /* 0x03C8 */ Color_RGBA8 unk_3C8; 
-    /* 0x03CC */ u8 unk_3CC;
+    /* 0x031C */ Vec3f leftFootPos;
+    /* 0x0328 */ Vec3f rightFootPos;
+    /* 0x0334 */ Vec3f mouthPos;
+    /* 0x0334 */ Vec3f headPos;
+    /* 0x034C */ Vec3f bodyScale;
+    /* 0x0358 */ Vec3f icePos[9];
+    /* 0x03C4 */ Color_RGBA8 deathFirePrimColor;
+    /* 0x03C8 */ Color_RGBA8 deathFireEnvColor; 
+    /* 0x03CC */ u8 damageEffect;
     /* 0x03CD */ char unk_3CD[3];  
     /* 0x03D0 */ s32 blureIdx;
-    /* 0x03D4 */ ColliderQuad collider1;
-    /* 0x0454 */ ColliderTris collider2;
+    /* 0x03D4 */ ColliderQuad colliderAT;
+    /* 0x0454 */ ColliderTris colliderHard;
     /* 0x0474 */ ColliderTrisItem trisElements[3];
-    /* 0x0588 */ ColliderJntSph collider3;
+    /* 0x0588 */ ColliderJntSph colliderBody;
     /* 0x05A8 */ ColliderJntSphItem sphElements[6];
-    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC0GQC;
-    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC1GQC;
-    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC2GQC;
-    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC3GQC;
-    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC4GQC;
-    // /* 0x05A8 */ ColliderJntSphItem sphElementsFQC5GQC;
 } EnDodongo; // size = 0x0728
+
+typedef enum EnDodongoParm{
+    EN_DODONGO_NORMAL = -1,
+    EN_DODONGO_SMOKE_DEATH
+}
+}
 
 extern const ActorInit En_Dodongo_InitVars;
 
