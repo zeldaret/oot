@@ -45,27 +45,26 @@ const ActorInit En_Po_Relay_InitVars = {
     (ActorFunc)EnPoRelay_Draw,
 };
 
-ColliderCylinderInit D_80AD8CF8 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 30, 52, 0, { 0, 0, 0 } },
 };
 
-s32 D_80AD8D24 = 0;
+static s32 D_80AD8D24 = 0;
 
-InitChainEntry D_80AD8D28[] = {
+static InitChainEntry sInitChain[2] = {
     ICHAIN_S8(naviEnemyId, 0x4F, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 1500, ICHAIN_STOP),
 };
 
-Vec3f D_80AD8D30 = { 0.0f, 1.5f, 0.0f };
+static Vec3f D_80AD8D30 = { 0.0f, 1.5f, 0.0f };
 
-Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
+static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
-// sEyesSegments
-UNK_PTR D_80AD8D54[] = {
+static UNK_PTR sEyesSegments[] = {
     0x06003B40,
     0x06004340,
     0x06004B40,
@@ -80,13 +79,13 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoRelay* this = THIS;
     s32 temp;
 
-    Actor_ProcessInitChain(&this->actor, D_80AD8D28);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->limbDrawTable,
                      this->transitionDrawTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AD8CF8);
-    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
                               this->actor.initPosRot.pos.z, 255, 255, 255, 200);
     this->lightColor.a = 255;
@@ -105,7 +104,7 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnPoRelay_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoRelay* this = THIS;
 
-    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -115,14 +114,14 @@ void EnPoRelay_SetupIdle(EnPoRelay* this) {
     this->actor.room = -1;
     this->actor.shape.rot.y = 0;
     this->actor.posRot.rot.y = -0x8000;
-    this->actor.colChkInfo.mass = 254;
+    this->actor.colChkInfo.mass = 0xFE;
     this->actionFunc = EnPoRelay_Idle;
 }
 
-void EnPoRelay_Vec3sToVec3f(Vec3f* dest, Vec3s* in) {
-    dest->x = in->x;
-    dest->y = in->y;
-    dest->z = in->z;
+void EnPoRelay_Vec3sToVec3f(Vec3f* dest, Vec3s* src) {
+    dest->x = src->x;
+    dest->y = src->y;
+    dest->z = src->z;
 }
 
 void EnPoRelay_SetupRace(EnPoRelay* this) {
@@ -154,11 +153,9 @@ void EnPoRelay_CorrectY(EnPoRelay* this) {
 void EnPoRelay_Idle(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0x100);
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        // Triggers the frame after link is in range
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnPoRelay_Talk;
     } else if (this->actor.xzDistFromLink < 250.0f) {
-        // Wait for link to get in range
         this->actor.flags |= 0x10000;
         this->actor.textId = this->textId;
         func_8002F2CC(&this->actor, globalCtx, 250.0f);
@@ -308,15 +305,15 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
             vec.z = (Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
-                             255, 0, 0, 255, 1, 9, 1);
+                             255, 0, 0, 255, 1, 9, true);
         vec.x = (this->actor.posRot.pos.x + this->actor.posRot.pos.x) - vec.x;
         vec.z = (this->actor.posRot.pos.z + this->actor.posRot.pos.z) - vec.z;
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
-                             255, 0, 0, 255, 1, 9, 1);
+                             255, 0, 0, 255, 1, 9, true);
         vec.x = this->actor.posRot.pos.x;
         vec.z = this->actor.posRot.pos.z;
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
-                             255, 0, 0, 255, 1, 9, 1);
+                             255, 0, 0, 255, 1, 9, true);
         if (this->actionTimer == 1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EXTINCT);
         }
@@ -403,7 +400,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AD8D54[this->eyeImageIdx]));
+    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);

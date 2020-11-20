@@ -21,7 +21,7 @@ typedef struct EnPoDesert {
     /* 0x01A8 */ Vec3s limbDrawTable[10];
     /* 0x01E4 */ Vec3s transitionDrawTable[10];
     /* 0x0220 */ Color_RGBA8 lightColor;
-    /* 0x0224 */ LightNode* light;
+    /* 0x0224 */ LightNode* lightNode;
     /* 0x0228 */ LightInfo lightInfo;
     /* 0x0238 */ ColliderCylinder collider;
 } EnPoDesert; // size = 0x0284

@@ -46,7 +46,7 @@ typedef struct EnPoh {
     /* 0x029A */ Color_RGBA8 lightColor;
     /* 0x029E */ Color_RGBA8 envColor;
     /* 0x02A4 */ EnPohInfo* info;
-    /* 0x02A8 */ LightNode* light;
+    /* 0x02A8 */ LightNode* lightNode;
     /* 0x02AC */ LightInfo lightInfo;
     /* 0x02BC */ ColliderCylinder colliderCyl;
     /* 0x0308 */ ColliderJntSph colliderSph;

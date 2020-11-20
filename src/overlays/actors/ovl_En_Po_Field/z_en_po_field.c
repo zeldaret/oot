@@ -125,7 +125,7 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->flameCollider);
     Collider_SetCylinder(globalCtx, &this->flameCollider, &this->actor, &D_80AD70AC);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &D_80AD70D8);
-    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
                             this->actor.initPosRot.pos.z, 255, 255, 255, 0);
     this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
@@ -136,7 +136,7 @@ void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoField* this = THIS;
 
     if (this->actor.params != 0xFF) {
-        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
+        LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
         Collider_DestroyCylinder(globalCtx, &this->flameCollider);
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
@@ -147,7 +147,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
     this->actor.shape.rot.x = 0;
     Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
-    this->actionTimer = 200; // 10 seconds
+    this->actionTimer = 200;
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.flags &= ~0x00010001;
     this->collider.base.acFlags &= ~1;
@@ -321,7 +321,6 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
     if (this->unk_194 != 0) {
         this->unk_194 -= 1;
     }
-    // If the actor moves over out of bounds, have it disappear
     if (this->actor.groundY == -32000.0f) {
         EnPoField_SetupDisappear(this);
         return;
@@ -335,7 +334,7 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
 
 f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 speed = ((s32)(player->stateFlags1 * 0x100) < 0 && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
+    f32 speed = ((player->stateFlags1 & 0x800000) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
 
     if (this->actor.xzDistFromLink < 300.0f) {
         this->actor.speedXZ = speed * 1.5f + 2.0f;
@@ -358,46 +357,37 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    // Do not allow a poe to spawn until 10 seconds after entering the scene
     if (this->actionTimer == 0) {
         for (i = 0; i < sNumSpawned; i++) {
-            // Check for player within spawn range
             if (fabsf(sSpawnPositions[i].x - player->actor.posRot.pos.x) < 150.0f &&
                 fabsf(sSpawnPositions[i].z - player->actor.posRot.pos.z) < 150.0f) {
-                // If the Big Poe is already caught, consider spawning a small Poe
                 if (Flags_GetSwitch(globalCtx, sSpawnSwitchFlags[i])) {
-                    // If the player is riding Epona, do not spawn a small poe
-                    if (player->stateFlags1 & 0x800000) {
+                    if (player->stateFlags1 & 0x800000) { // Player riding Epona
                         return;
                     } else {
                         this->actor.params = EN_PO_FIELD_SMALL;
                         spawnDist = 300.0f;
                     }
                 } else if (player->stateFlags1 & 0x800000 || Math_Rand_ZeroOne() < 0.4f) {
-                    // If the player is riding Epona or a 40% chance, elect to spawn a Big Poe
                     this->actor.params = EN_PO_FIELD_BIG;
                     this->spawnFlagIndex = i;
                     spawnDist = 480.0f;
                 } else {
-                    // Otherwise, spawn a Small Poe
                     this->actor.params = EN_PO_FIELD_SMALL;
                     spawnDist = 300.0f;
                 }
-                // Spawn the poe at distance spawnDist in front of the player
                 this->actor.posRot.pos.x =
                     Math_Sins(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.x;
                 this->actor.posRot.pos.z =
                     Math_Coss(player->actor.shape.rot.y) * spawnDist + player->actor.posRot.pos.z;
                 this->actor.posRot.pos.y = player->actor.posRot.pos.y + 1000.0f;
-                // Raycast down
                 this->actor.posRot.pos.y = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp88,
                                                          &this->actor, &this->actor.posRot.pos);
-                // If not over a void, spawn
                 if (this->actor.posRot.pos.y != -32000.0f) {
                     this->actor.shape.rot.y = func_8002DA78(&this->actor, &player->actor);
                     EnPoField_SetupAppear(this);
                 } else {
-                    return; // Since the intended spawn position is over a void, spawn nothing
+                    return;
                 }
             }
         }
@@ -405,7 +395,7 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_Appear(EnPoField* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->lightColor.a = 255;
         Actor_SetScale(&this->actor, this->scaleModifier);
         if (this->actor.params == EN_PO_FIELD_BIG) {
@@ -485,7 +475,6 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
     temp_f6 = Math_Sins(this->actionTimer * 0x800) * 3.0f;
     this->actor.posRot.pos.x -= temp_f6 * Math_Coss(this->actor.shape.rot.y);
     this->actor.posRot.pos.z += temp_f6 * Math_Sins(this->actor.shape.rot.y);
-    // once the actor is far enough or the action timer runs out, disappear
     if (this->actionTimer == 0 || this->actor.xzDistFromLink > 1500.0f) {
         EnPoField_SetupDisappear(this);
     } else {
@@ -496,7 +485,7 @@ void EnPoField_Flee(EnPoField* this, GlobalContext* globalCtx) {
 
 void EnPoField_Damage(EnPoField* this, GlobalContext* globalCtx) {
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->actor.colChkInfo.health == 0) {
             EnPoField_SetupDeath(this);
         } else if (this->actor.params == EN_PO_FIELD_BIG) {
@@ -571,7 +560,8 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     if (this->actor.bgCheckFlags & 1) {
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 1, 1, 15, 109, 10, D_06004BA0);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 1, 1, 15, OBJECT_PO_FIELD, 10,
+                                 D_06004BA0);
         func_80AD42B0(this);
     } else if (this->actionTimer == 0) {
         EnPoField_SetupWaitForSpawn(this, globalCtx);
@@ -708,9 +698,7 @@ void EnPoField_TestForDamage(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_SpawnFlame(EnPoField* this) {
-    // If a flame is already active, don't spawn a new one
     if (this->flameTimer == 0) {
-        // Set the flame's initial position at the lantern
         this->flamePosition.x = this->lightInfo.params.point.x;
         this->flamePosition.y = this->lightInfo.params.point.y;
         this->flamePosition.z = this->lightInfo.params.point.z;
@@ -724,13 +712,10 @@ void EnPoField_UpdateFlame(EnPoField* this, GlobalContext* globalCtx) {
         if (this->flameTimer != 0) {
             this->flameTimer--;
         }
-        // If the flame collides with something, reduce its lifetime
         if (this->flameCollider.base.atFlags & 2) {
             this->flameCollider.base.atFlags &= ~2;
             this->flameTimer = 19;
         }
-        // When the flame nears the end of its life, shrink it down and
-        // no longer subscribe its collider
         if (this->flameTimer < 20) {
             Math_ApproxF(&this->flameScale, 0.0f, 0.00015f);
             return;
@@ -776,7 +761,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD619C(EnPoField* this) {
-    s16 temp_var; // required for matching
+    s16 temp_var;
 
     if (this->actionFunc == EnPoField_Flee) {
         this->lightColor.r = CLAMP_MAX((s16)(this->lightColor.r + 5), 80);

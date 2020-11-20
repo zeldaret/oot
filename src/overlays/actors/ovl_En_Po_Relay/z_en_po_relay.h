@@ -22,7 +22,7 @@ typedef struct EnPoRelay {
     /* 0x01A0 */ Vec3s limbDrawTable[18];
     /* 0x020C */ Vec3s transitionDrawTable[18];
     /* 0x0278 */ Color_RGBA8 lightColor;
-    /* 0x027C */ LightNode* light;
+    /* 0x027C */ LightNode* lightNode;
     /* 0x0280 */ LightInfo lightInfo;
     /* 0x0290 */ ColliderCylinder collider;
 } EnPoRelay; // size = 0x02DC

@@ -25,7 +25,7 @@ typedef struct EnPoSisters {
     /* 0x022E */ Color_RGBA8 unk_22E;
     /* 0x0234 */ Vec3f unk_234[8];
     /* 0x0294 */ f32 unk_294;
-    /* 0x0298 */ LightNode* light;
+    /* 0x0298 */ LightNode* lightNode;
     /* 0x029C */ LightInfo lightInfo;
     /* 0x02AC */ ColliderCylinder collider;
     /* 0x02F8 */ MtxF unk_2F8;

@@ -37,7 +37,7 @@ typedef struct EnPoField {
     /* 0x021C */ f32 scaleModifier;
     /* 0x0220 */ f32 flameScale;
     /* 0x0224 */ Vec3f flamePosition;
-    /* 0x0230 */ LightNode* light;
+    /* 0x0230 */ LightNode* lightNode;
     /* 0x0234 */ LightInfo lightInfo;
     /* 0x0244 */ ColliderCylinder collider;
     /* 0x0290 */ ColliderCylinder flameCollider;

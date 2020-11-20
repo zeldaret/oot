@@ -32,6 +32,18 @@ const ActorInit En_Po_Desert_InitVars = {
     (ActorFunc)EnPoDesert_Draw,
 };
 
+static ColliderCylinderInit sColliderInit = {
+    { COLTYPE_UNK3, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 25, 50, 20, { 0, 0, 0 } },
+};
+
+static InitChainEntry sInitChain[3] = {
+    ICHAIN_S8(naviEnemyId, 0x5C, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
+};
+
 extern SkeletonHeader D_06006A30;
 extern AnimationHeader D_06000924;
 extern AnimationHeader D_06001360;
@@ -40,17 +52,6 @@ extern Gfx D_06004BA0[];
 extern Gfx D_06004CC0[];
 
 void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static ColliderCylinderInit sColliderInit = {
-        { COLTYPE_UNK3, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-        { 25, 50, 20, { 0, 0, 0 } },
-    };
-    static InitChainEntry sInitChain[3] = {
-        ICHAIN_S8(naviEnemyId, 0x5C, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
-        ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
-    };
-
     ColliderCylinder* collider;
     EnPoDesert* this = THIS;
 
@@ -64,7 +65,7 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.g = 255;
     this->lightColor.b = 210;
     this->lightColor.a = 255;
-    this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.initPosRot.pos.x, this->actor.initPosRot.pos.y,
                               this->actor.initPosRot.pos.z, 255, 255, 255, 200);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 37.0f);
@@ -77,7 +78,7 @@ void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this = THIS;
 
-    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
+    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -87,14 +88,11 @@ void EnPoDesert_SetNextPathPoint(EnPoDesert* this, GlobalContext* globalCtx) {
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06001360, -6.0f);
     pathPoint = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->currentPathPoint];
-    // Sets initial position to the target path point
     this->actor.initPosRot.pos.x = pathPoint->x;
     this->actor.initPosRot.pos.y = pathPoint->y;
     this->actor.initPosRot.pos.z = pathPoint->z;
-    // Set the distance to the next point from the previous
     this->initDistToNextPoint = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
     this->initDistToNextPoint = CLAMP_MIN(this->initDistToNextPoint, 1.0f);
-    // Increment to the next path point
     this->currentPathPoint++;
     this->yDiff = this->actor.initPosRot.pos.y - this->actor.posRot.pos.y;
     this->actor.speedXZ = 0.0f;
@@ -124,30 +122,23 @@ void EnPoDesert_UpdateSpeedModifier(EnPoDesert* this) {
     if (this->speedModifier != 0) {
         this->speedModifier--;
     }
-    // Oscillate about the target y by varying amounts depending on how much the speed should vary
     this->actor.posRot.pos.y = Math_Sins(this->speedModifier * 0x800) * 13.0f + this->targetY;
 }
 
 void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
-    // Wait for the player until within range
-    if (this->actor.xzDistFromLink < 200.0f) {
-        // Only continue if already moved from the first path point, or if lens is active
-        if (this->currentPathPoint != 2 || globalCtx->actorCtx.unk_03 != 0) {
-            // If the Poe has just started moving from the first path point, display text
-            // if not in a cutscene mode
-            if (this->currentPathPoint == 2) {
-                if (Gameplay_InCsMode(globalCtx) != 0) {
-                    this->actor.shape.rot.y += 0x800;
-                    return;
-                }
-                func_8010B680(globalCtx, 0x600B, NULL);
+    if (this->actor.xzDistFromLink < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.unk_03)) {
+        if (this->currentPathPoint == 2) {
+            if (Gameplay_InCsMode(globalCtx)) {
+                this->actor.shape.rot.y += 0x800;
+                return;
             }
-            EnPoDesert_SetupMoveToNextPoint(this);
-            return;
+            func_8010B680(globalCtx, 0x600B, NULL);
         }
+        EnPoDesert_SetupMoveToNextPoint(this);
+    } else {
+        this->actor.shape.rot.y += 0x800;
     }
-    this->actor.shape.rot.y += 0x800;
 }
 
 void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
@@ -162,17 +153,14 @@ void EnPoDesert_MoveToNextPoint(EnPoDesert* this, GlobalContext* globalCtx) {
     if (this->actionTimer == 0) {
         this->actionTimer = 40;
     }
-    // Calculates distance between the actor and the target path point
     temp_f20 = func_8002DBB0(&this->actor, &this->actor.initPosRot.pos);
     this->actor.posRot.rot.y = func_8002DAC0(&this->actor, &this->actor.initPosRot.pos);
     Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.posRot.rot.y + 0x8000, 5, 0x400);
     this->actor.speedXZ = sinf(this->speedModifier * (M_PI / 32.0f)) * 2.5f + 5.5f;
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
-    // Sets the y value to oscillate about while traveling to the next point
     this->targetY = this->actor.initPosRot.pos.y - ((temp_f20 * this->yDiff) / this->initDistToNextPoint);
-    // Arrived at next point
     if (temp_f20 < 40.0f) {
-        if (this->currentPathPoint != 0) { // If not at the end of the path
+        if (this->currentPathPoint != 0) {
             EnPoDesert_SetNextPathPoint(this, globalCtx);
         } else {
             EnPoDesert_SetupDisappear(this);
@@ -204,7 +192,7 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, 42.0f);
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    if (globalCtx->actorCtx.unk_03 != 0) {
+    if (globalCtx->actorCtx.unk_03) {
         this->actor.flags |= 0x81;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     } else {
@@ -230,7 +218,7 @@ s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
 void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
                               Gfx** gfxP) {
-    static Vec3f sBaseLightPos = { 0.0f, 1400.0f, 0.0f };
+    static Vec3f baseLightPos = { 0.0f, 1400.0f, 0.0f };
 
     EnPoDesert* this = THIS;
     f32 rand;
@@ -238,7 +226,7 @@ void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     Vec3f lightPos;
 
     if (limbIndex == 7) {
-        Matrix_MultVec3f(&sBaseLightPos, &lightPos);
+        Matrix_MultVec3f(&baseLightPos, &lightPos);
         rand = Math_Rand_ZeroOne();
         color.r = (s16)(rand * 30.0f) + 225;
         color.g = (s16)(rand * 100.0f) + 155;
