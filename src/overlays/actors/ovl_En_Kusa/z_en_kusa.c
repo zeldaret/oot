@@ -76,9 +76,10 @@ static ColliderCylinderInit D_80A9C208 = {
 // sColChkInfoInit
 CollisionCheckInfoInit D_80A9C234 = { 0, 0xC, 0x1E, 0xFF };
 
-Vec3f D_80A9C23C[] = {
-   {0x00000000, 0.707099974155, 0.707099974155}, {0.707099974155, 0.707099974155, 0x00000000}, {0x00000000, 0.707099974155, -0.707099974155}, {-0.707099974155, 0.707099974155, 0x00000000}
-};
+Vec3f D_80A9C23C[] = { { 0.0, 0.707099974155, 0.707099974155 },
+                       { 0.707099974155, 0.707099974155, 0.0 },
+                       { 0.0, 0.707099974155, -0.707099974155 },
+                       { -0.707099974155, 0.707099974155, 0.0 } };
 
 s16 D_80A9C26C[] = { 0x006C, 0x0066, 0x0060, 0x0054, 0x0042, 0x0037, 0x002A, 0x0026 };
 
@@ -95,15 +96,11 @@ extern Gfx D_060002E0[];
 extern Gfx D_040355E0[]; // bush fragments 1
 extern Gfx D_040356A0[]; // bush fragments 2
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFA0.s")
 void func_80A9AFA0(EnKusa* this, EnKusaActionFunc actionFunc) {
     this->unk_19C = 0;
     this->actionFunc = actionFunc;
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9AFAC.s")
 // Snap to floor
 s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
     CollisionPoly* sp34;
@@ -128,9 +125,7 @@ s32 func_80A9AFAC(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
     return false;
 }
 
-// Matches!
 // Spawn Collectible
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B07C.s")
 void func_80A9B07C(EnKusa* this, GlobalContext* globalCtx) {
     s16 dropParams;
     switch (this->actor.params & 3) {
@@ -154,8 +149,6 @@ void func_80A9B07C(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B140.s")
 void func_80A9B140(EnKusa* this) {
     this->actor.velocity.y += this->actor.gravity;
 
@@ -164,8 +157,6 @@ void func_80A9B140(EnKusa* this) {
     }
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B174.s")
 void func_80A9B174(Vec3f* this, f32 arg1) {
 
     arg1 += ((Math_Rand_ZeroOne() * 0.2f) - 0.1f) * arg1;
@@ -175,16 +166,14 @@ void func_80A9B174(Vec3f* this, f32 arg1) {
     this->z -= this->z * arg1;
 }
 
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B1FC.s")
+// Scale factor set/init?
 void func_80A9B1FC(EnKusa* this) {
     this->actor.scale.y = 0.16000001f;
     this->actor.scale.x = 0.120000005f;
     this->actor.scale.z = 0.120000005f;
 }
 
-// // TODO: Finish this function
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B21C.s")
+// Spawn effects
 void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
     Vec3f fragmentVelocity;
     Vec3f effectPosition;
@@ -216,9 +205,6 @@ void func_80A9B21C(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B574.s")
 // Spawn Bugs
 void func_80A9B574(EnKusa* this, GlobalContext* globalCtx) {
     s32 i;
@@ -234,8 +220,6 @@ void func_80A9B574(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B630.s")
 // EnKusa_InitCollider
 void func_80A9B630(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
@@ -245,8 +229,6 @@ void func_80A9B630(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, &this->collider);
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/EnKusa_Init.s")
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
 
@@ -282,23 +264,16 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80A9B7EC(this);
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/EnKusa_Destroy.s")
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
-    // TODO: I am going to need to fix the Collider in the EnKusa struct
     Collider_DestroyCylinder(globalCtx, &THIS->collider);
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B7EC.s")
-// Is this SetupWait?
+// SetupWait?
 void func_80A9B7EC(EnKusa* this) {
     func_80A9AFA0(this, func_80A9B810);
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B810.s")
 void func_80A9B810(EnKusa* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->kusaTexObjIndex)) {
         if (this->actor.flags & 0x800) {
@@ -312,15 +287,11 @@ void func_80A9B810(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B89C.s")
 void func_80A9B89C(EnKusa* this) {
     func_80A9AFA0(this, func_80A9B8D8);
     this->actor.flags = this->actor.flags & -0x11;
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9B8D8.s")
 void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx) != 0) {
         func_80A9BA98(this); // Lift up the plant
@@ -362,17 +333,13 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BA98.s")
-// Possibly SetupLiftedUp? -> modeled after EnIshi_SetupLiftedUp
+// SetupLiftedUp? 
 void func_80A9BA98(EnKusa* this) {
     func_80A9AFA0(this, func_80A9BAD8);
     this->actor.room = -1;
     this->actor.flags |= 0x10;
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BAD8.s")
 void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
 
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
@@ -390,8 +357,6 @@ void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BBB0.s")
 void func_80A9BBB0(EnKusa* this) {
     func_80A9AFA0(this, func_80A9BC1C);
     *D_80A9C1D0 = -0xBB8;
@@ -400,9 +365,7 @@ void func_80A9BBB0(EnKusa* this) {
     *D_80A9C1DC = 0;
 }
 
-// Matches!
 // Water break
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BC1C.s")
 void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
     s32 pad; // padding to push the stack down
     Vec3f contactPos;
@@ -452,8 +415,6 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BEAC.s")
 void func_80A9BEAC(EnKusa* this) {
 
     if ((this->actor.params & 3) != 1) {
@@ -466,22 +427,16 @@ void func_80A9BEAC(EnKusa* this) {
     }
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BEFC.s")
 void func_80A9BEFC(EnKusa* this, GlobalContext* globalCtx) {
     if (this->unk_19C >= 0x78) {
         func_80A9C00C(this);
     }
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BF30.s")
 void func_80A9BF30(EnKusa* this, EnKusaActionFunc actionFunc) {
-    // Function was intentionally left blank
+    // Function was intentionally left blank?...
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BF3C.s")
 void func_80A9BF3C(EnKusa* this) {
     this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 9.0f;
@@ -492,8 +447,6 @@ void func_80A9BF3C(EnKusa* this) {
     func_80A9AFA0(this, func_80A9BFA8);
 }
 
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9BFA8.s")
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
 
     if (this->unk_19C >= 0x79) {
@@ -504,8 +457,6 @@ void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matches!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C00C.s")
 void func_80A9C00C(EnKusa* this) {
     func_80A9AFA0(this, func_80A9C068);
     func_80A9B1FC(this);
@@ -513,7 +464,6 @@ void func_80A9C00C(EnKusa* this) {
     this->actor.flags = this->actor.flags & -0x801;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C068.s")
 void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     s32 sp24;
 
@@ -527,8 +477,6 @@ void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     }
 }
 
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/EnKusa_Update.s")
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
 
@@ -541,8 +489,6 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.unk_08 = 0.0f;
 }
 
-// Matching!
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kusa/func_80A9C164.s")
 void func_80A9C164(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
     if ((this->actor.flags & 0x800) != 0) {
