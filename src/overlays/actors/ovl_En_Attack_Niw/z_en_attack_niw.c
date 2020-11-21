@@ -183,12 +183,11 @@ s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Stack, every variable off by 4 bytes
+// &this->actor.posRot.pos stored at wrong place
 void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
-    Vec3f* pos = &this->actor.posRot.pos;
-    f32 tmpf1;
     s16 sp4E;
     s16 sp4C;
+    f32 tmpf1;
     f32 tmpf2;
     f32 tmpf3;
     Vec3f sp34;
@@ -203,13 +202,17 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     sp34.y = globalCtx->view.lookAt.y + tmpf2;
     sp34.z = globalCtx->view.lookAt.z + tmpf3;
 
-    this->unk_2D4 = Math_Vec3f_Yaw(pos, &sp34);
-    this->unk_2D0 = (Math_Vec3f_Pitch(pos, &sp34) * -1.0f);
+    if (1) {}
+    this->unk_2D4 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &sp34);
+    this->unk_2D0 = Math_Vec3f_Pitch(&this->actor.posRot.pos, &sp34) * -1.0f;
+
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_2D4, 5, this->unk_2DC, 0);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, this->unk_2D0, 5, this->unk_2DC, 0);
     Math_SmoothScaleMaxF(&this->unk_2DC, 5000.0f, 1.0f, 100.0f);
+
     Actor_SetHeight(&this->actor, this->unk_2E4);
     func_8002F374(globalCtx, &this->actor, &sp4E, &sp4C);
+
     if (this->actor.bgCheckFlags & 8) {
         this->unk_2D4 = this->actor.yawTowardsLink;
         this->unk_2D0 = this->actor.posRot.rot.x - 3000.0f;
@@ -224,10 +227,11 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
                 (fabsf(sp34.y - this->actor.posRot.pos.y) < 50.0f) &&
                 (fabsf(sp34.z - this->actor.posRot.pos.z) < 50.0f)) ||
                (this->actor.bgCheckFlags & 1)) {
-        this->unk_254 = this->unk_256 = this->unk_258 = this->unk_25A = 0;
-        this->unk_284 = this->unk_27C = this->unk_2DC = 0.0f;
+
         this->unk_2D4 = this->actor.yawTowardsLink;
         this->unk_2D0 = this->actor.posRot.rot.x - 2000.0f;
+        this->unk_284 = this->unk_27C = this->unk_2DC = 0.0f;
+        this->unk_254 = this->unk_256 = this->unk_258 = this->unk_25A = 0;
         this->actor.gravity = -0.2f;
         this->unk_2E0 = 5.0f;
         this->unk_288 = 0.0f;
