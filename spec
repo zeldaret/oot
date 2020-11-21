@@ -3002,8 +3002,7 @@ endseg
 beginseg
     name "ovl_En_Siofuki"
     include "build/src/overlays/actors/ovl_En_Siofuki/z_en_siofuki.o"
-    include "build/data/overlays/actors/z_en_siofuki.data.o"
-    include "build/data/overlays/actors/z_en_siofuki.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Siofuki/ovl_En_Siofuki_reloc.o"
 endseg
 
 beginseg
