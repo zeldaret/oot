@@ -624,55 +624,95 @@ Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
  */
 #ifdef NON_EQUIVALENT
 // I think this is functionally correct but I cannot be 100% sure of equivalence because diff output is not very close
-void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
-    f32 sin;
-    f32 cos;
-    f32 ct;
-    f32 xx;
-    f32 yy;
-    f32 zz;
-    f32 xy;
-    f32 xz;
-    f32 yz;
-    f32 sx;
-    f32 sy;
-    f32 sz;
+// void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
+//     f32 sin;
+//     f32 cos;
+//     f32 ct;
+//     f32 xx;
+//     f32 yy;
+//     f32 zz;
+//     f32 xy;
+//     f32 xz;
+//     f32 yz;
+//     f32 sx;
+//     f32 sy;
+//     f32 sz;
 
-    sin = Math_Sins(a);
-    cos = Math_Coss(a);
+//     sin = Math_Sins(a);
+//     cos = Math_Coss(a);
 
-    ct = 1.0f - cos;
-    sx = sin * x;
-    sy = sin * y;
-    sz = sin * z;
+//     ct = 1.0f - cos;
+//     sx = sin * x;
+//     sy = sin * y;
+//     sz = sin * z;
 
-    xx = x * x;
-    xy = x * y;
-    xz = x * z;
-    yy = y * y;
-    yz = y * z;
-    zz = z * z;
+//     xx = x * x;
+//     xy = x * y;
+//     xz = x * z;
+//     yy = y * y;
+//     yz = y * z;
+//     zz = z * z;
 
-    mf->xx = (f32)ct * xx + cos;
-    mf->xy = (f32)((ct * xy) + sz);
-    mf->xz = (f32)((ct * xz) - sy);
+//     mf->xx = (f32)ct * xx + cos;
+//     mf->xy = (f32)((ct * xy) + sz);
+//     mf->xz = (f32)((ct * xz) - sy);
+//     mf->xw = 0.0f;
+
+//     mf->yx = (f32)((ct * (xy)) - sz);
+//     mf->yy = (f32)ct * yy + cos;
+//     mf->yz = (f32)((ct * (yz)) + sx);
+//     mf->yw = 0.0f;
+
+//     mf->zx = (f32)((ct * (xz)) + sy);
+//     mf->zy = (f32)((ct * (yz)) - sx);
+//     mf->zz = (f32)ct * zz + cos;
+
+//     mf->zw = 0.0f;
+
+//     mf->wx = 0.0f;
+//     mf->wy = 0.0f;
+//     mf->wz = 0.0f;
+//     mf->ww = 1.0f;
+// }
+void func_800A7EC0(MtxF *mf, s16 a, f32 x, f32 y, f32 z) {
+    f32 sinA;
+    f32 cosA;
+    f32 vrsA;
+    f32 sp50;
+    f32 sp4C;
+    f32 sp48;
+    f32 temp1;
+    f32 temp2;
+    f32 temp3;
+
+    sinA = Math_Sins(a);
+    cosA = Math_Coss(a);
+    sp50 = x * y;
+    sp4C = y * z;
+    sp48 = x * z;
+    
+    // vrsA = ;
+
+    if(1){}
+
+    mf->xx = (1.0f - SQ(x)) * cosA + SQ(x);
+    mf->xy = (1.0f - cosA) * sp50 + z * sinA;
+    mf->xz = (1.0f - cosA) * sp48 - y * sinA;
     mf->xw = 0.0f;
-
-    mf->yx = (f32)((ct * (xy)) - sz);
-    mf->yy = (f32)ct * yy + cos;
-    mf->yz = (f32)((ct * (yz)) + sx);
+    // if(1){}
+    mf->yx = (1.0f - cosA) * sp50 - z * sinA;
+    mf->yy = (1.0f - SQ(y)) * cosA + SQ(y);
+    mf->yz = (1.0f - cosA) * sp4C + x * sinA;
     mf->yw = 0.0f;
-
-    mf->zx = (f32)((ct * (xz)) + sy);
-    mf->zy = (f32)((ct * (yz)) - sx);
-    mf->zz = (f32)ct * zz + cos;
-
-    mf->zw = 0.0f;
-
-    mf->wx = 0.0f;
-    mf->wy = 0.0f;
-    mf->wz = 0.0f;
+    // if(1){}
+    mf->zx = (1.0f - cosA) * sp48 + y * sinA;
+    mf->zy = (1.0f - cosA) * sp4C - x * sinA;
+    mf->zz = (1.0f - SQ(z)) * cosA + SQ(z);
+    // 0.0f;
+    // if(1){}
+    mf->zw = mf->wx = mf->wy = mf->wz = 0.0f;
     mf->ww = 1.0f;
+    
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7EC0.s")
