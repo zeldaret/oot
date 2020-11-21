@@ -146,12 +146,8 @@ void func_80B8772C(GlobalContext* globalCtx, f32 a1) {
     f32 phi_f0;
 
     if (globalCtx->roomCtx.curRoom.unk_03 != 5) {
-        if (a1 < 0.0f) {
-            a1 = 0.0f;
-        }
-        if (a1 > 1.0f) {
-            a1 = 1.0f;
-        }
+        a1 = CLAMP_MIN(a1, 0.0f);
+        a1 = CLAMP_MAX(a1, 1.0f);
         phi_f0 = a1 - 0.2f;
         if (a1 < 0.2f) {
             phi_f0 = 0.0f;
