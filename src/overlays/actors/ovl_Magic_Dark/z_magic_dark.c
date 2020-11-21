@@ -55,10 +55,10 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->draw = func_80B87A18;
         thisx->scale.x = thisx->scale.z = this->scale * 1.6f;
         thisx->scale.y = this->scale * 0.8f;
-        this->unk_14C = 0;
-        this->unk_14E = 0;
+        this->timer = 0;
+        this->primAlpha = 0;
     } else {
-        this->unk_14C = 0;
+        this->timer = 0;
         gSaveContext.nayrusLoveTimer = 0;
     }
 }
@@ -95,9 +95,9 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     player->invincibilityTimer = -100;
     thisx->scale.x = thisx->scale.z = this->scale;
 
-    if (this->unk_14C < 20) {
-        thisx->scale.x = thisx->scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->scale;
-        thisx->scale.y = ((this->unk_14C * 0.01f) + 0.8f) * this->scale;
+    if (this->timer < 20) {
+        thisx->scale.x = thisx->scale.z = (1.6f - (this->timer * 0.03f)) * this->scale;
+        thisx->scale.y = ((this->timer * 0.01f) + 0.8f) * this->scale;
     } else {
         thisx->scale.x = thisx->scale.z = this->scale;
         thisx->scale.y = this->scale;
@@ -106,31 +106,31 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     thisx->scale.x *= 1.3f;
     thisx->scale.z *= 1.3f;
 
-    phi_a0 = (this->unk_14C < 20) ? (this->unk_14C * 12) : 255;
+    phi_a0 = (this->timer < 20) ? (this->timer * 12) : 255;
 
     if (nayrusLoveTimer >= 1180) {
-        this->unk_14E = 15595 - (nayrusLoveTimer * 13);
+        this->primAlpha = 15595 - (nayrusLoveTimer * 13);
         if (nayrusLoveTimer & 1) {
-            temp2 = this->unk_14E;
-            this->unk_14E = (temp2 & 0xFF) >> 1;
+            temp2 = this->primAlpha;
+            this->primAlpha = (temp2 & 0xFF) >> 1;
         }
     } else {
         if (nayrusLoveTimer >= 1100) {
             temp = (nayrusLoveTimer << 7);
             temp += 127;
-            this->unk_14E = temp;
+            this->primAlpha = temp;
         } else {
-            this->unk_14E = 255;
+            this->primAlpha = 255;
         }
     }
 
-    if (this->unk_14E > phi_a0) {
-        this->unk_14E = phi_a0;
+    if (this->primAlpha > phi_a0) {
+        this->primAlpha = phi_a0;
     }
 
     thisx->posRot.rot.y += 0x3E8;
     thisx->shape.rot.y = thisx->posRot.rot.y + func_8005A9F4(ACTIVE_CAM);
-    this->unk_14C++;
+    this->timer++;
     gSaveContext.nayrusLoveTimer = nayrusLoveTimer + 1;
 
     if (nayrusLoveTimer < 1100) {
@@ -180,26 +180,26 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
-    if (this->unk_14C < 35) {
-        func_80B8772C(globalCtx, this->unk_14C * (1 / 45.0f));
+    if (this->timer < 35) {
+        func_80B8772C(globalCtx, this->timer * (1 / 45.0f));
         Math_SmoothScaleMaxMinF(&thisx->scale.x, this->scale * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
         Actor_SetScale(&this->actor, thisx->scale.x);
-    } else if (this->unk_14C < 55) {
+    } else if (this->timer < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
         Math_SmoothScaleMaxMinF(&this->unk_150.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
-        if (this->unk_14C >= 49) {
-            func_80B8772C(globalCtx, (54 - this->unk_14C) * 0.2f);
+        if (this->timer >= 49) {
+            func_80B8772C(globalCtx, (54 - this->timer) * 0.2f);
         }
     } else {
         thisx->update = func_80B874E4;
         thisx->draw = func_80B87A18;
         thisx->scale.x = thisx->scale.z = this->scale * 1.6f;
         thisx->scale.y = this->scale * 0.8f;
-        this->unk_14C = 0;
-        this->unk_14E = 0;
+        this->timer = 0;
+        this->primAlpha = 0;
     }
 
-    this->unk_14C++;
+    this->timer++;
 }
 
 void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
@@ -228,7 +228,7 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 553),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->unk_14E * 0.6f) & 0xFF);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 255, 255, (s32)(this->primAlpha * 0.6f) & 0xFF);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 128);
         gSPDisplayList(POLY_XLU_DISP++, D_80B88A20);
         gSPDisplayList(POLY_XLU_DISP++,
@@ -247,15 +247,15 @@ void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     f32 sp6C = globalCtx->state.frames & 0x1F;
 
-    if (this->unk_14C < 32) {
+    if (this->timer < 32) {
         sp78.x = (player->bodyPartsPos[12].x + player->bodyPartsPos[15].x) * 0.5f;
         sp78.y = (player->bodyPartsPos[12].y + player->bodyPartsPos[15].y) * 0.5f;
         sp78.z = (player->bodyPartsPos[12].z + player->bodyPartsPos[15].z) * 0.5f;
-        if (this->unk_14C > 20) {
-            sp78.y += (this->unk_14C - 20) * 1.4f;
+        if (this->timer > 20) {
+            sp78.y += (this->timer - 20) * 1.4f;
         }
         this->unk_150 = sp78;
-    } else if (this->unk_14C < 130) {
+    } else if (this->timer < 130) {
         sp78 = this->unk_150;
     } else {
         return;
