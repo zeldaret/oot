@@ -34,7 +34,7 @@ const ActorInit Magic_Dark_InitVars = {
 #include "z_magic_dark_gfx.c"
 
 // unused
-static UNK_TYPE D_80B88B10[] = { 0x326496C8, 0xFFC89664, 0x00000000, 0x00000000 };
+static Color_RGBA8 D_80B88B10[] = { { 50, 100, 150, 200 }, { 255, 200, 150, 100 } };
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
