@@ -204,7 +204,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    s32 pad;
     u16 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 525);
