@@ -764,33 +764,30 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
     SequencePlayer *seqPlayer;
 
     seqPlayer = &gAudioContext.gSequencePlayers[arg0];
-    if (seqPlayer->enabled) {
-        temp_v1 = seqPlayer->channels[arg1];
-        if (temp_v1->enabled) {
-            temp_v0 = temp_v1->layers[arg2];
-            if (temp_v0 == NULL) {
+    if (seqPlayer->enabled  &&seqPlayer->channels[arg1]->enabled) {
+        temp_v0 = seqPlayer->channels[arg1]->layers[arg2];
+        if (temp_v0 == NULL) {
+            return 0;
+        }
+
+        if (temp_v0->enabled) {
+            temp_a0_2 = temp_v0->note;
+            if (temp_a0_2 == NULL) {
                 return 0;
             }
 
-            if (temp_v0->enabled) {
-                temp_a0_2 = temp_v0->note;
-                if (temp_a0_2 == NULL) {
-                    return 0;
-                }
-
-                if (!temp_v0->bit3) {
-                    return 0;
-                }
-
-                if (temp_v0 == temp_a0_2->playbackState.parentLayer) {
-                    temp_a0 = temp_a0_2->noteSubEu.sound.audioBankSound;
-                    if (temp_a0 == 0) {
-                        return 0;
-                    }
-                    return temp_a0->sample->loop->end - temp_a0_2->synthesisState.samplePosInt;
-                }
+            if (!temp_v0->bit3) {
                 return 0;
             }
+
+            if (temp_v0 == temp_a0_2->playbackState.parentLayer) {
+                temp_a0 = temp_a0_2->noteSubEu.sound.audioBankSound;
+                if (temp_a0 == 0) {
+                    return 0;
+                }
+                return temp_a0->sample->loop->end - temp_a0_2->synthesisState.samplePosInt;
+            }
+            return 0;
         }
     }
     return 0;

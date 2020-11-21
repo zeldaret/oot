@@ -125,6 +125,19 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 unk_00;
+    /* 0x004 */ s32 unk_04;
+    /* 0x008 */ s32 unk_08;
+    /* 0x00C */ s32 unk_0C;
+    /* 0x010 */ s16* unk_10;
+    /* 0x014 */ s16* unk_14;
+    /* 0x018 */ void* unk_18;
+    /* 0x01C */ void* unk_1C;
+    /* 0x020 */ void* unk_20;
+    /* 0x024 */ void* unk_24;
+} ReverbUnk18; // size = 0x28
+
+typedef struct {
+    /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 useReverb;
     /* 0x002 */ u8 unk_02;
     /* 0x003 */ u8 unk_03;
@@ -139,16 +152,7 @@ typedef struct {
     /* 0x012 */ u16 unk_12;
     /* 0x014 */ u16 unk_14;
     /* 0x016 */ u16 unk_16;
-    /* 0x018 */ u8 unk_18;
-    /* 0x01C */ s32 unk_1C;
-    /* 0x020 */ s32 unk_20;
-    /* 0x024 */ s32 unk_24;
-    /* 0x028 */ s16* unk_28;
-    /* 0x02C */ s16* unk_2C;
-    /* 0x030 */ void* unk_30;
-    /* 0x034 */ void* unk_34;
-    /* 0x038 */ void* unk_38;
-    /* 0x03C */ void* unk_3C;
+    /* 0x018 */ ReverbUnk18 unk_18;
     /* 0x040 */ ReverbRingBufferItem items[2][5];
     /*?0x158 */ ReverbRingBufferItem items2[2][5];
     /* 0x270 */ s16* unk_270;
@@ -851,7 +855,8 @@ typedef struct {
     /* 0x0001 */ s8 gNumSynthesisReverbs;
     /* 0x0002 */ u16 unk_2;
     /* 0x0004 */ u16 unk_4;
-    /* 0x0006 */ char unk_0006[0x0e];
+    /* 0x0006 */ char unk_0006[0x0A];
+    /* 0x0000 */ s32 unk_0x10;
     /* 0x0014 */ NoteSubEu* gNoteSubsEu;
     /* 0x0018 */ SynthesisReverb gSynthesisReverbs[4];
     /* 0x0B38 */ char unk_0B38[0x30];

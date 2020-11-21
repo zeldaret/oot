@@ -1908,8 +1908,6 @@ void func_800E4EEC(s32 arg0, s32 arg1, u8 *arg2) {
         D_801304DC = 0;
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800E11F0/func_800E4EEC.s")
-
 
 void func_800E4F58(void) {
     u32 pad;
