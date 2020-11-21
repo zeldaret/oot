@@ -21,7 +21,8 @@ typedef struct BossDodongo {
     /* 0x01A0 */ s16 unk_1A0;
     /* 0x01A2 */ s16 unk_1A2;
     /* 0x01A4 */ s16 unk_1A4;
-    /* 0x01A6 */ char unk_1A6[0x4];
+    /* 0x01A6 */ s16 unk_1A6;
+    /* 0x01A8 */ s16 unk_1A8;
     /* 0x01AA */ s16 unk_1AA;
     /* 0x01AC */ s16 unk_1AC;
     /* 0x01AE */ s16 unk_1AE;
@@ -33,7 +34,9 @@ typedef struct BossDodongo {
     /* 0x01BC */ s16 unk_1BC;//u16 unk_1BC;
     /* 0x01BE */ char unk_1BE[0x6];
     /* 0x01C4 */ s16 unk_1C4;
-    /* 0x01C6 */ char unk_1C6[0x14];
+    /* 0x01C6 */ char unk_1C6[0x2];
+    /* 0x01C8 */ s16 unk_1C8;
+    /* 0x01CA */ char unk_1CA[0x10];
     /* 0x01DA */ s16 unk_1DA; //u16 unk_1DA;
     /* 0x01DC */ char unk_1DC[0x6];
     /* 0x01E2 */ s8 unk_1E2;
@@ -52,7 +55,9 @@ typedef struct BossDodongo {
     /* 0x0220 */ f32 unk_220;
     /* 0x0224 */ f32 unk_224;
     /* 0x0228 */ f32 unk_228;
-    /* 0x022C */ char unk_22C[0x1C0];
+    /* 0x022C */ char unk_22C[0x18];
+    /* 0x0244 */ f32 unk_244;
+    /* 0x0248 */ char unk_248[0x1A4];
     /* 0x03EC */ Vec3f unk_3EC;
     /* 0x03F8 */ char unk_3F8[0xC];//Vec3f?
     /* 0x0404 */ Vec3f unk_404;

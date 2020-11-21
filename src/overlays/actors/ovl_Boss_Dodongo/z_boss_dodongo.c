@@ -14,6 +14,9 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C3224(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx);
+void func_808C3704(BossDodongo* this, GlobalContext* globalCtx);
+void func_808C52E0(BossDodongo *this, GlobalContext *globalCtx, s16 arg2);
+
 
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
@@ -38,7 +41,7 @@ s16 D_808C7000[] = { 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0101, 0x0100, 0x0
                      0x0001, 0x0000, 0x0101, 0x0000, 0x0101, 0x0101, 0x0000, 0x0000, 0x0001, 0x0101, 0x0000, 0x0100,
                      0x0000, 0x0100, 0x0000, 0x0100, 0x0101, 0x0101, 0x0101, 0x0000, 0x0101, 0x0001, 0x0101, 0x0000,
                      0x0000, 0x0101, 0x0000, 0x0000, 0x0001, 0x0101, 0x0000 };
-                     
+
 static ColliderJntSphItemInit sJntSphItemsInit[19] = {
     {
         { 0x03, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
@@ -577,42 +580,7 @@ static InitChainEntry sInitChain[] = {
 
 s32 D_808CA3D8[] = { 0xFFFF00FF };
 s32 D_808CA3DC = { 0xFF0A00FF };
-s32 D_808CA3E0[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA3EC[] = { 0x00000000, 0x00000000, 0x00000000 };
-Vec3f D_808CA3F8[] = {
-    { -1390.0f, 0.0f, -3804.0f },
-    { -1390.0f, 0.0f, -2804.0f },
-    { -390.0f, 0.0f, -2804.0f },
-    { -390.0f, 0.0f, -3804.0f },
-};
-// move under func_808C32F4
-s32 D_808CA428[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA434[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA440[] = { 0xFFFF00FF, 0x00000096 };
-s32 D_808CA448[] = { 0xFF0000FF, 0x00000000 };
-s32 D_808CA450[] = { 0x459C4000, 0xC51C4000, 0x00000000 };
-s32 D_808CA45C[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA468[] = { 0x4633B000, 0xC53B8000, 0x00000000 };
-s32 D_808CA474[] = { 0x459C4000, 0xC4FA0000, 0x00000000 };
-s32 D_808CA480[] = { 0x45FA0000, 0x00000000, 0x00000000 };
-s32 D_808CA48C[] = { 0x45FA0000, 0x00000000, 0x00000000 };
-s32 D_808CA498[] = { 0xC3DC0000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56AA000,
-                     0xC4A78000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC5326000 };
-s32 D_808CA4C8[] = { 0xC45E8000, 0x00000000, 0xC5326000, 0xC3DC0000, 0x00000000, 0xC54E8000,
-                     0xC45E8000, 0x00000000, 0xC56AA000, 0xC4A78000, 0x00000000, 0xC54E8000 };
-s32 D_808CA4F8[] = { 0xFFFF00FF, 0x00000064 };
-s32 D_808CA500[] = { 0xFF0000FF, 0x00000000 };
-s32 D_808CA508[] = { 0xC3C30000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56DC000,
-                     0xC4ADC000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC52F4000 };
-s32 D_808CA538[] = { 0xC45E8000, 0x00000000, 0xC52F4000, 0xC3C30000, 0x00000000, 0xC54E8000,
-                     0xC45E8000, 0x00000000, 0xC56DC000, 0xC4ADC000, 0x00000000, 0xC54E8000 };
-s32 D_808CA568 = 0x00000064;
-s32 D_808CA56C = 0x00000000;
-s32 D_808CA570[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA57C[] = { 0x00000000, 0x3F800000, 0x00000000 };
-s32 D_808CA588 = 0xFFFF64FF;
-s32 D_808CA58C = 0xFF6400FF;
-s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
+
 extern SkeletonHeader D_0601B310;
 extern AnimationHeader D_0600F0D8;
 extern UNK_PTR D_030021D8;
@@ -621,6 +589,7 @@ extern UNK_TYPE D_06017410; // Title card
 extern AnimationHeader D_0601CAE0;
 extern AnimationHeader D_06008EEC;
 extern AnimationHeader D_060061D4;
+extern AnimationHeader D_0600DF38;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1190.s")
 
@@ -887,9 +856,15 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C29B0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2A40.s")
+void func_808C2A40(BossDodongo* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600DF38, 1.0f, 0.0f, 59.0f, 2, -5.0f);
+    this->actionFunc = &func_808C3704;
+    this->unk_1A8 = 0;
+    this->unk_1DA = 27;
+}
 
-void func_808C2AB0(BossDodongo *this) {
+
+void func_808C2AB0(BossDodongo* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_1E4 = 0.0f;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060061D4, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060061D4), 2, 0.0f);
@@ -898,11 +873,9 @@ void func_808C2AB0(BossDodongo *this) {
     this->unk_1AE = 0;
 }
 
-
 void func_808C2B38(BossDodongo* this) {
     this->actor.speedXZ = 0.0f;
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06008EEC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06008EEC), 2,
-                         -5.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06008EEC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06008EEC), 2, -5.0f);
     this->actionFunc = func_808C3224;
     this->unk_1DA = 100;
     this->unk_1AC = 0;
@@ -919,9 +892,65 @@ void func_808C2B38(BossDodongo* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C3094.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C30F4.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C30F4.s")
+void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx) { // Hit?
+    s32 pad;
+    Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
+    Vec3f unusedZeroVec2 = { 0.0f, 0.0f, 0.0f };
 
-void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { //Blow fire
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (func_800A56C8(&this->skelAnime, 12.0f) != 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_CRY);
+    }
+    if (func_800A56C8(&this->skelAnime, 17.0f) != 0) {
+        this->unk_1C8 = 28;
+    }
+    if ((this->skelAnime.animCurrentFrame > 17.0f) && (this->skelAnime.animCurrentFrame < 35.0f)) {
+        func_808C52E0(this, globalCtx, this->unk_1AE);
+        this->unk_1AE++;
+        Math_SmoothScaleMaxMinF(&this->unk_244, 0.0f, 1.0f, 8.0f, 0.0f);
+    }
+    if (this->unk_1DA == 0) {
+        func_808C2A40(this);
+    }
+}
+
+Vec3f D_808CA3F8[] = {
+    { -1390.0f, 0.0f, -3804.0f },
+    { -1390.0f, 0.0f, -2804.0f },
+    { -390.0f, 0.0f, -2804.0f },
+    { -390.0f, 0.0f, -3804.0f },
+};
+// move under func_808C32F4
+s32 D_808CA428[] = { 0x00000000, 0x00000000, 0x00000000 };
+s32 D_808CA434[] = { 0x00000000, 0x00000000, 0x00000000 };
+s32 D_808CA440[] = { 0xFFFF00FF, 0x00000096 };
+s32 D_808CA448[] = { 0xFF0000FF, 0x00000000 };
+s32 D_808CA450[] = { 0x459C4000, 0xC51C4000, 0x00000000 };
+s32 D_808CA45C[] = { 0x00000000, 0x00000000, 0x00000000 };
+s32 D_808CA468[] = { 0x4633B000, 0xC53B8000, 0x00000000 };
+s32 D_808CA474[] = { 0x459C4000, 0xC4FA0000, 0x00000000 };
+s32 D_808CA480[] = { 0x45FA0000, 0x00000000, 0x00000000 };
+s32 D_808CA48C[] = { 0x45FA0000, 0x00000000, 0x00000000 };
+s32 D_808CA498[] = { 0xC3DC0000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56AA000,
+                     0xC4A78000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC5326000 };
+s32 D_808CA4C8[] = { 0xC45E8000, 0x00000000, 0xC5326000, 0xC3DC0000, 0x00000000, 0xC54E8000,
+                     0xC45E8000, 0x00000000, 0xC56AA000, 0xC4A78000, 0x00000000, 0xC54E8000 };
+s32 D_808CA4F8[] = { 0xFFFF00FF, 0x00000064 };
+s32 D_808CA500[] = { 0xFF0000FF, 0x00000000 };
+s32 D_808CA508[] = { 0xC3C30000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56DC000,
+                     0xC4ADC000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC52F4000 };
+s32 D_808CA538[] = { 0xC45E8000, 0x00000000, 0xC52F4000, 0xC3C30000, 0x00000000, 0xC54E8000,
+                     0xC45E8000, 0x00000000, 0xC56DC000, 0xC4ADC000, 0x00000000, 0xC54E8000 };
+s32 D_808CA568 = 0x00000064;
+s32 D_808CA56C = 0x00000000;
+s32 D_808CA570[] = { 0x00000000, 0x00000000, 0x00000000 };
+s32 D_808CA57C[] = { 0x00000000, 0x3F800000, 0x00000000 };
+s32 D_808CA588 = 0xFFFF64FF;
+s32 D_808CA58C = 0xFF6400FF;
+s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
+
+void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { // Blow fire
     this->unk_1E2 = 1;
     if (this->unk_1AC >= 0x15) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
@@ -940,10 +969,10 @@ void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { //Blow fir
 }
 
 void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx) {
-
     Vec3f* sp4C;
     f32 sp48;
     f32 sp44;
+
     if (this->unk_1AA == 0) {
         if (func_800A56C8(&this->skelAnime, 14.0f) != 0) {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0601CAE0);
@@ -986,12 +1015,12 @@ void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx) {
         this->unk_1E8 = 0.0f;
         this->unk_1E4 = 0.0f;
         if (this->unk_1A2 == 0) {
-            this->unk_1A0 = this->unk_1A0 + 1;
+            this->unk_1A0++;
             if (this->unk_1A0 >= 4) {
                 this->unk_1A0 = 0;
             }
         } else {
-            this->unk_1A0 = this->unk_1A0 - 1;
+            this->unk_1A0--;
             if (this->unk_1A0 < 0) {
                 this->unk_1A0 = 3;
             }
@@ -1008,7 +1037,83 @@ void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C3704.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C3704.s")
+void func_808C3704(BossDodongo *this, GlobalContext *globalCtx) {
+    Vec3f *sp5C;
+    Vec3f sp50;
+    f32 sp4C;
+    f32 sp48;
+
+    this->actor.flags |= 0x1000000;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (this->unk_1DA == 10) {
+        this->actor.velocity.y = 15.0f;
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_CRY);
+    }
+    
+    if (this->unk_1DA == 1) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI2);
+    }
+    sp5C = &D_808CA3F8[this->unk_1A0];
+    this->unk_1EC = 3.0f;
+    if (this->unk_1DA == 0) {
+        Math_SmoothScaleMaxMinF(&this->unk_1E4, this->unk_1EC * 5.0f, 1.0f, this->unk_1EC * 0.25f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, sp5C->x, 1.0f, this->unk_1E4, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z,  sp5C->z, 1.0f, this->unk_1E4, 0.0f);
+        this->unk_1C4 += 2000;
+        if ((this->actor.bgCheckFlags & 1) != 0) {
+            this->unk_228 = 7700.0f;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL-SFX_FLAG);
+            if ((this->unk_19E & 7) == 0) {
+                func_8005AA1C(&globalCtx->mainCamera, 2, 1, 8);
+            }
+            if ((this->unk_19E & 1) == 0) {
+                func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
+            }
+        }
+    }
+    sp4C = sp5C->x - this->actor.posRot.pos.x;
+    sp48 = sp5C->z - this->actor.posRot.pos.z;
+    Math_SmoothScaleMaxMinF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(sp4C, sp48) * 10430.378f, 5, this->unk_1EC * this->unk_1E8, 0);
+    if (fabsf(sp4C) <= 15.0f && fabsf(sp48) <= 15.0f) {
+        this->unk_1A8++;
+        if (this->unk_1A8 >= 2) {
+            if (this->unk_1A6 != 0) {
+                this->unk_1A2 = 1 - this->unk_1A2;
+            }
+            this->unk_1E8 = 0.0f;
+            this->unk_1E4 = 0.0f;
+            func_808C29B0(this);
+            this->unk_228 = 9200.0f;
+            this->actor.velocity.y = 20.0f;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI);
+            func_8005AA1C(&globalCtx->mainCamera, 2, 6, 8);
+            sp50.x = this->actor.posRot.pos.x;
+            sp50.y = this->actor.posRot.pos.y + 60.0f;
+            sp50.z = this->actor.posRot.pos.z;
+            func_80033480(globalCtx, &sp50, 250.0f, 40, 800, 10, 0);
+            func_80033E88(&this->actor, globalCtx, 6, 15);
+        } else {
+            this->actor.velocity.y = 15.0f;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI2);
+        }
+        if (this->unk_1A2 == 0) {
+            this->unk_1A0++;
+            if (this->unk_1A0 >= 4) {
+                this->unk_1A0 = 0;
+            }
+        } else {
+            this->unk_1A0--;
+            if (this->unk_1A0 < 0) {
+                this->unk_1A0 = 3;
+            }
+        }
+    }
+}
+
+
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
 
@@ -1026,7 +1131,9 @@ void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C524C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C52E0.s")
+void func_808C52E0(BossDodongo *this, GlobalContext *globalCtx, s16 arg2) {
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BDFIRE, this->unk_3EC.x, this->unk_3EC.y - 20.0f, this->unk_3EC.z, 0, this->actor.shape.rot.y, 0, arg2);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5354.s")
 
