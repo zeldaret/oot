@@ -187,7 +187,7 @@ void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->timer < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
         Math_SmoothScaleMaxMinF(&this->orbOffset.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
-        if (this->timer >= 49) {
+        if (this->timer > 48) {
             func_80B8772C(globalCtx, (54 - this->timer) * 0.2f);
         }
     } else {
