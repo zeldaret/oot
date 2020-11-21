@@ -186,7 +186,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, thisx->scale.x);
     } else if (this->timer < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
-        Math_SmoothScaleMaxMinF(&this->unk_150.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
+        Math_SmoothScaleMaxMinF(&this->orbOffset.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
         if (this->timer >= 49) {
             func_80B8772C(globalCtx, (54 - this->timer) * 0.2f);
         }
@@ -242,29 +242,29 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
 
 void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
-    Vec3f sp78;
+    Vec3f pos;
     Player* player = PLAYER;
     s32 pad;
     f32 sp6C = globalCtx->state.frames & 0x1F;
 
     if (this->timer < 32) {
-        sp78.x = (player->bodyPartsPos[12].x + player->bodyPartsPos[15].x) * 0.5f;
-        sp78.y = (player->bodyPartsPos[12].y + player->bodyPartsPos[15].y) * 0.5f;
-        sp78.z = (player->bodyPartsPos[12].z + player->bodyPartsPos[15].z) * 0.5f;
+        pos.x = (player->bodyPartsPos[12].x + player->bodyPartsPos[15].x) * 0.5f;
+        pos.y = (player->bodyPartsPos[12].y + player->bodyPartsPos[15].y) * 0.5f;
+        pos.z = (player->bodyPartsPos[12].z + player->bodyPartsPos[15].z) * 0.5f;
         if (this->timer > 20) {
-            sp78.y += (this->timer - 20) * 1.4f;
+            pos.y += (this->timer - 20) * 1.4f;
         }
-        this->unk_150 = sp78;
+        this->orbOffset = pos;
     } else if (this->timer < 130) {
-        sp78 = this->unk_150;
+        pos = this->orbOffset;
     } else {
         return;
     }
 
-    sp78.x -=
+    pos.x -=
         (this->actor.scale.x * 300.0f * Math_Sins(func_8005A9F4(ACTIVE_CAM)) * Math_Coss(func_8005A9CC(ACTIVE_CAM)));
-    sp78.y -= (this->actor.scale.x * 300.0f * Math_Sins(func_8005A9CC(ACTIVE_CAM)));
-    sp78.z -=
+    pos.y -= (this->actor.scale.x * 300.0f * Math_Sins(func_8005A9CC(ACTIVE_CAM)));
+    pos.z -=
         (this->actor.scale.x * 300.0f * Math_Coss(func_8005A9F4(ACTIVE_CAM)) * Math_Coss(func_8005A9CC(ACTIVE_CAM)));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 619);
@@ -272,7 +272,7 @@ void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 255);
-    Matrix_Translate(sp78.x, sp78.y, sp78.z, MTXMODE_NEW);
+    Matrix_Translate(pos.x, pos.y, pos.z, MTXMODE_NEW);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_Push();
