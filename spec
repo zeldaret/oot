@@ -3245,9 +3245,7 @@ endseg
 beginseg
     name "ovl_En_Wonder_Item"
     include "build/src/overlays/actors/ovl_En_Wonder_Item/z_en_wonder_item.o"
-    include "build/data/overlays/actors/z_en_wonder_item.data.o"
-    include "build/data/overlays/actors/z_en_wonder_item.bss.o"
-    include "build/data/overlays/actors/z_en_wonder_item.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wonder_Item/ovl_En_Wonder_Item_reloc.o"
 endseg
 
 beginseg
