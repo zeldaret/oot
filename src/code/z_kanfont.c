@@ -33,8 +33,8 @@ void Font_LoadOrderedFont(Font* font) {
 
     font->msgOffset = D_070380D4 - D_07000000;
     len = font->msgLength = D_0703811C - D_070380D4;
-    DmaMgr_SendRequest1(font->msgBuf, &_nes_message_data_staticSegmentRomStart[font->msgOffset], len,
-                        "../z_kanfont.c", 122);
+    DmaMgr_SendRequest1(font->msgBuf, &_nes_message_data_staticSegmentRomStart[font->msgOffset], len, "../z_kanfont.c",
+                        122);
     osSyncPrintf("msg_data=%x,  msg_data0=%x   jj=%x\n", font->msgOffset, font->msgLength, jj = len);
     len = jj;
     for (fontBufIndex = 0, codePointIndex = 0; font->msgBuf[codePointIndex] != MESSAGE_END; codePointIndex++) {

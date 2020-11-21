@@ -66,15 +66,15 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
     if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPPipeSync(POLY_XLU_DISP++);
         func_80093D84(globalCtx->state.gfxCtx);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_060030A0));
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 195, 235, 235, this->rAlpha);
+        gSPSegment(POLY_XLU_DISP++, 0x06, object);
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_060030A0));
+        gDPPipeSync(POLY_XLU_DISP++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 235, 235, this->rAlpha);
         gSPSegment(
-            oGfxCtx->polyXlu.p++, 0x08,
+            POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->life * 3, this->life * 15, 32, 64, 1, 0, 0, 32, 32));
         Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
         func_800D1FD4(&globalCtx->mf_11DA0);
@@ -84,8 +84,8 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 196);
 
         if (mtx != NULL) {
-            gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_06003158));
+            gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_06003158));
         }
     } else {
         this->life = -1;
