@@ -16,7 +16,7 @@ void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx);
 
 void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx);
-void func_80B8772C(GlobalContext* globalCtx, f32 a1);
+void MagicDark_DimLighting(GlobalContext* globalCtx, f32 a1);
 void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Magic_Dark_InitVars = {
@@ -140,25 +140,25 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B8772C(GlobalContext* globalCtx, f32 a1) {
+void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity) {
     s32 i;
     f32 temp_f0;
     f32 phi_f0;
 
     if (globalCtx->roomCtx.curRoom.unk_03 != 5) {
-        a1 = CLAMP_MIN(a1, 0.0f);
-        a1 = CLAMP_MAX(a1, 1.0f);
-        phi_f0 = a1 - 0.2f;
-        if (a1 < 0.2f) {
+        intensity = CLAMP_MIN(intensity, 0.0f);
+        intensity = CLAMP_MAX(intensity, 1.0f);
+        phi_f0 = intensity - 0.2f;
+        if (intensity < 0.2f) {
             phi_f0 = 0.0f;
         }
         globalCtx->envCtx.unk_9E = (850.0f - globalCtx->envCtx.unk_D2) * phi_f0;
-        if (a1 == 0.0f) {
+        if (intensity == 0.0f) {
             for (i = 0; i < ARRAY_COUNT(globalCtx->envCtx.unk_8C[2]); i++) {
                 globalCtx->envCtx.unk_8C[2][i] = 0;
             }
         } else {
-            temp_f0 = a1 * 5.0f;
+            temp_f0 = intensity * 5.0f;
             if (temp_f0 > 1.0f) {
                 temp_f0 = 1.0f;
             }
@@ -177,14 +177,14 @@ void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
     if (this->timer < 35) {
-        func_80B8772C(globalCtx, this->timer * (1 / 45.0f));
+        MagicDark_DimLighting(globalCtx, this->timer * (1 / 45.0f));
         Math_SmoothScaleMaxMinF(&thisx->scale.x, this->scale * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
         Actor_SetScale(&this->actor, thisx->scale.x);
     } else if (this->timer < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
         Math_SmoothScaleMaxMinF(&this->orbOffset.y, player->bodyPartsPos[0].y, 0.5f, 3.0f, 1.0f);
         if (this->timer > 48) {
-            func_80B8772C(globalCtx, (54 - this->timer) * 0.2f);
+            MagicDark_DimLighting(globalCtx, (54 - this->timer) * 0.2f);
         }
     } else {
         thisx->update = MagicDark_DiamondUpdate;
