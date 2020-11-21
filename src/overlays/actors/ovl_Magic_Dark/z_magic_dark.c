@@ -12,12 +12,12 @@
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx);
-void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx);
+void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx);
+void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B874E4(Actor* thisx, GlobalContext* globalCtx);
+void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx);
 void func_80B8772C(GlobalContext* globalCtx, f32 a1);
-void func_80B87A18(Actor* thisx, GlobalContext* globalCtx);
+void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
@@ -27,8 +27,8 @@ const ActorInit Magic_Dark_InitVars = {
     sizeof(MagicDark),
     (ActorFunc)MagicDark_Init,
     (ActorFunc)MagicDark_Destroy,
-    (ActorFunc)MagicDark_Update,
-    (ActorFunc)MagicDark_Draw,
+    (ActorFunc)MagicDark_OrbUpdate,
+    (ActorFunc)MagicDark_OrbDraw,
 };
 
 #include "z_magic_dark_gfx.c"
@@ -51,8 +51,8 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->room = -1;
 
     if (gSaveContext.nayrusLoveTimer != 0) {
-        thisx->update = func_80B874E4;
-        thisx->draw = func_80B87A18;
+        thisx->update = MagicDark_DiamondUpdate;
+        thisx->draw = MagicDark_DiamondDraw;
         thisx->scale.x = thisx->scale.z = this->scale * 1.6f;
         thisx->scale.y = this->scale * 0.8f;
         this->timer = 0;
@@ -69,7 +69,7 @@ void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
+void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     u8 phi_a0;
     Player* player = PLAYER;
@@ -174,7 +174,7 @@ void func_80B8772C(GlobalContext* globalCtx, f32 a1) {
     }
 }
 
-void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
+void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     s32 pad;
     Player* player = PLAYER;
@@ -191,8 +191,8 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_80B8772C(globalCtx, (54 - this->timer) * 0.2f);
         }
     } else {
-        thisx->update = func_80B874E4;
-        thisx->draw = func_80B87A18;
+        thisx->update = MagicDark_DiamondUpdate;
+        thisx->draw = MagicDark_DiamondDraw;
         thisx->scale.x = thisx->scale.z = this->scale * 1.6f;
         thisx->scale.y = this->scale * 0.8f;
         this->timer = 0;
@@ -202,7 +202,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->timer++;
 }
 
-void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
+void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     s32 pad;
     u16 gameplayFrames = globalCtx->gameplayFrames;
@@ -240,7 +240,7 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
 }
 
-void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     Vec3f pos;
     Player* player = PLAYER;
