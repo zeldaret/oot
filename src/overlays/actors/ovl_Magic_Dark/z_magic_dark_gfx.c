@@ -2,7 +2,7 @@
 
 extern UNK_TYPE D_04032490[];
 
-static UNK_TYPE D_80B880E0[] = {
+static UNK_TYPE sDiamondTexture[] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000001, 0x00000000, 0x00000102, 0x01000001, 0x00000000, 0x00000000, 0x00010000, 0x00000000,
     0x00000001, 0x00000000, 0x00000204, 0x02000101, 0x00000000, 0x00000000, 0x00010101, 0x00000001, 0x00000001,
@@ -62,7 +62,7 @@ static UNK_TYPE D_80B880E0[] = {
     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF
 };
 
-static Vtx D_80B888E0[] = {
+static Vtx sDiamondVerts[] = {
     VTX(0, 0, 64, 1024, 512, 0x00, 0x00, 0x78, 0xFF),    VTX(55, 0, 32, 1707, 512, 0x67, 0x00, 0x3C, 0xFF),
     VTX(0, 108, 0, 1365, 0, 0x00, 0x78, 0x00, 0xFF),     VTX(55, 0, -32, 2389, 512, 0x67, 0x00, 0xC4, 0xFF),
     VTX(0, 108, 0, 2048, 0, 0x00, 0x78, 0x00, 0xFF),     VTX(0, 0, -64, 3072, 512, 0x00, 0x00, 0x88, 0xFF),
@@ -75,13 +75,13 @@ static Vtx D_80B888E0[] = {
     VTX(-55, 0, 32, 2389, 512, 0x98, 0x00, 0x3C, 0xFF),  VTX(-55, 0, -32, 1707, 512, 0x99, 0x00, 0xC4, 0xFF),
 };
 
-static Gfx D_80B88A20[] = {
+static Gfx sDiamondTextureDList[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsDPLoadTextureBlock(D_04032490, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, 1),
-    gsDPLoadMultiBlock(D_80B880E0, 0x0100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gsDPLoadMultiBlock(sDiamondTexture, 0x0100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                        G_TX_MIRROR | G_TX_WRAP, 5, 6, 13, 13),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, TEXEL1, TEXEL0, ENVIRONMENT, TEXEL0, PRIMITIVE,
                        ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0),
@@ -91,13 +91,9 @@ static Gfx D_80B88A20[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx D_80B88AD0[] = {
-    gsSPVertex(D_80B888E0, 20, 0),
-    gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
-    gsSP2Triangles(3, 5, 6, 0, 5, 7, 8, 0),
-    gsSP2Triangles(7, 9, 10, 0, 11, 0, 12, 0),
-    gsSP2Triangles(13, 0, 11, 0, 14, 7, 5, 0),
-    gsSP2Triangles(15, 5, 3, 0, 16, 3, 1, 0),
-    gsSP2Triangles(17, 1, 0, 0, 16, 18, 19, 0),
-    gsSPEndDisplayList(),
+static Gfx sDiamondVertsDList[] = {
+    gsSPVertex(sDiamondVerts, 20, 0),           gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
+    gsSP2Triangles(3, 5, 6, 0, 5, 7, 8, 0),     gsSP2Triangles(7, 9, 10, 0, 11, 0, 12, 0),
+    gsSP2Triangles(13, 0, 11, 0, 14, 7, 5, 0),  gsSP2Triangles(15, 5, 3, 0, 16, 3, 1, 0),
+    gsSP2Triangles(17, 1, 0, 0, 16, 18, 19, 0), gsSPEndDisplayList(),
 };
