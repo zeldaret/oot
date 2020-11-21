@@ -33,7 +33,7 @@ const ActorInit Magic_Dark_InitVars = {
 
 #include "z_magic_dark_gfx.c"
 
-// probably unused?
+// unused
 static UNK_TYPE D_80B88B10[] = { 0x326496C8, 0xFFC89664, 0x00000000, 0x00000000 };
 
 void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -109,7 +109,7 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     phi_a0 = (this->unk_14C < 20) ? (this->unk_14C * 12) : 255;
 
     if (nayrusLoveTimer >= 1180) {
-        this->unk_14E = 0x3CEB - (nayrusLoveTimer * 0xD);
+        this->unk_14E = 15595 - (nayrusLoveTimer * 13);
         if (nayrusLoveTimer & 1) {
             temp2 = this->unk_14E;
             this->unk_14E = (temp2 & 0xFF) >> 1;
@@ -117,14 +117,14 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         if (nayrusLoveTimer >= 1100) {
             temp = (nayrusLoveTimer << 7);
-            temp += 0x7F;
+            temp += 127;
             this->unk_14E = temp;
         } else {
-            this->unk_14E = 0xFF;
+            this->unk_14E = 255;
         }
     }
 
-    if (phi_a0 < this->unk_14E) {
+    if (this->unk_14E > phi_a0) {
         this->unk_14E = phi_a0;
     }
 
