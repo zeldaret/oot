@@ -16,7 +16,7 @@ void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx);
 
 void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx);
-void MagicDark_DimLighting(GlobalContext* globalCtx, f32 a1);
+void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity);
 void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Magic_Dark_InitVars = {
