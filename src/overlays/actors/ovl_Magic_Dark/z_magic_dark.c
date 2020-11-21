@@ -41,9 +41,9 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (LINK_IS_CHILD) {
-        this->unk_15C = 0.4f;
+        this->scale = 0.4f;
     } else {
-        this->unk_15C = 0.6f;
+        this->scale = 0.6f;
     }
 
     thisx->posRot.pos = player->actor.posRot.pos;
@@ -53,8 +53,8 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.nayrusLoveTimer != 0) {
         thisx->update = func_80B874E4;
         thisx->draw = func_80B87A18;
-        thisx->scale.x = thisx->scale.z = this->unk_15C * 1.6f;
-        thisx->scale.y = this->unk_15C * 0.8f;
+        thisx->scale.x = thisx->scale.z = this->scale * 1.6f;
+        thisx->scale.y = this->scale * 0.8f;
         this->unk_14C = 0;
         this->unk_14E = 0;
     } else {
@@ -93,14 +93,14 @@ void func_80B874E4(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     player->invincibilityTimer = -100;
-    thisx->scale.x = thisx->scale.z = this->unk_15C;
+    thisx->scale.x = thisx->scale.z = this->scale;
 
     if (this->unk_14C < 20) {
-        thisx->scale.x = thisx->scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->unk_15C;
-        thisx->scale.y = ((this->unk_14C * 0.01f) + 0.8f) * this->unk_15C;
+        thisx->scale.x = thisx->scale.z = (1.6f - (this->unk_14C * 0.03f)) * this->scale;
+        thisx->scale.y = ((this->unk_14C * 0.01f) + 0.8f) * this->scale;
     } else {
-        thisx->scale.x = thisx->scale.z = this->unk_15C;
-        thisx->scale.y = this->unk_15C;
+        thisx->scale.x = thisx->scale.z = this->scale;
+        thisx->scale.y = this->scale;
     }
 
     thisx->scale.x *= 1.3f;
@@ -182,7 +182,7 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_PL_MAGIC_SOUL_BALL - SFX_FLAG);
     if (this->unk_14C < 35) {
         func_80B8772C(globalCtx, this->unk_14C * (1 / 45.0f));
-        Math_SmoothScaleMaxMinF(&thisx->scale.x, this->unk_15C * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
+        Math_SmoothScaleMaxMinF(&thisx->scale.x, this->scale * (1 / 12.000001f), 0.05f, 0.01f, 0.0001f);
         Actor_SetScale(&this->actor, thisx->scale.x);
     } else if (this->unk_14C < 55) {
         Actor_SetScale(&this->actor, thisx->scale.x * 0.9f);
@@ -193,8 +193,8 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         thisx->update = func_80B874E4;
         thisx->draw = func_80B87A18;
-        thisx->scale.x = thisx->scale.z = this->unk_15C * 1.6f;
-        thisx->scale.y = this->unk_15C * 0.8f;
+        thisx->scale.x = thisx->scale.z = this->scale * 1.6f;
+        thisx->scale.y = this->scale * 0.8f;
         this->unk_14C = 0;
         this->unk_14E = 0;
     }
