@@ -75,7 +75,7 @@ static Vtx D_80B888E0[] = {
     VTX(-55, 0, 32, 2389, 512, 0x98, 0x00, 0x3C, 0xFF),  VTX(-55, 0, -32, 1707, 512, 0x99, 0x00, 0xC4, 0xFF),
 };
 
-/* static */ Gfx D_80B88A20[] = {
+static Gfx D_80B88A20[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
@@ -91,7 +91,7 @@ static Vtx D_80B888E0[] = {
     gsSPEndDisplayList(),
 };
 
-/* static */ Gfx D_80B88AD0[] = {
+static Gfx D_80B88AD0[] = {
     gsSPVertex(D_80B888E0, 20, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
     gsSP2Triangles(3, 5, 6, 0, 5, 7, 8, 0),
