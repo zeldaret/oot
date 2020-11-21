@@ -202,8 +202,6 @@ void MagicDark_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_14C++;
 }
 
-#ifdef NON_MATCHING
-// regalloc
 void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
@@ -215,12 +213,14 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
 
     {
         Player* player = PLAYER;
+        f32 heightDiff;
 
         this->actor.posRot.pos.x = player->bodyPartsPos[0].x;
         this->actor.posRot.pos.z = player->bodyPartsPos[0].z;
-        if (player->bodyPartsPos[0].y - this->actor.posRot.pos.y < -2.0f) {
+        heightDiff = player->bodyPartsPos[0].y - this->actor.posRot.pos.y;
+        if (heightDiff < -2.0f) {
             this->actor.posRot.pos.y = player->bodyPartsPos[0].y + 2.0f;
-        } else if (player->bodyPartsPos[0].y - this->actor.posRot.pos.y > 2.0f) {
+        } else if (heightDiff > 2.0f) {
             this->actor.posRot.pos.y = player->bodyPartsPos[0].y - 2.0f;
         }
         Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
@@ -239,9 +239,6 @@ void func_80B87A18(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 570);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Dark/func_80B87A18.s")
-#endif
 
 void MagicDark_Draw(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
