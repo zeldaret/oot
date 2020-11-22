@@ -43,7 +43,7 @@ const ActorInit Bg_Bowl_Wall_InitVars = {
 
 // D_ 8086FA40
 // position of spawned bullseye
-Vec3f sBullseyeOffset[] = {
+static Vec3f sBullseyeOffset[] = {
     { 0.0f, 210.0f, -20.0f },
     { 0.0f, 170.0f, -20.0f },
     { -170.0f, 0.0f, -20.0f },
