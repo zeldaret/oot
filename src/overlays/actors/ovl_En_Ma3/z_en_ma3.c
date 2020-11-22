@@ -180,7 +180,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animCurrentSeg == &D_06009EE0)) {
+    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.currentAnimSeg == &D_06009EE0)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -205,7 +205,7 @@ s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2F28(EnMa3* this) {
-    if (this->skelAnime.animCurrentSeg != &D_06009EE0) {
+    if (this->skelAnime.currentAnimSeg != &D_06009EE0) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
@@ -230,7 +230,7 @@ void func_80AA2F80(EnMa3* this) {
 }
 
 void func_80AA3004(EnMa3* this, s32 idx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_80AA3848[idx].animation->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(D_80AA3848[idx].animation);
 
     SkelAnime_ChangeAnim(&this->skelAnime, D_80AA3848[idx].animation, 1.0f, 0.0f, frameCount, D_80AA3848[idx].unk_08,
                          D_80AA3848[idx].transitionRate);
@@ -337,7 +337,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 18) {
         Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
-    if ((limbIndex == 14) && (this->skelAnime.animCurrentSeg == &D_060093BC)) {
+    if ((limbIndex == 14) && (this->skelAnime.currentAnimSeg == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, &D_06005420);
     }
 

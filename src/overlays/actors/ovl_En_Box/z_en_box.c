@@ -101,15 +101,15 @@ void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
 void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     EnBox* this = THIS;
-    AnimationHeader* genericHeader;
+    AnimationHeader* anim;
     s32 dynaUnk;
     f32 animFrameStart;
     f32 animFrameCount;
 
     animFrameStart = 0.0f;
-    genericHeader = D_809CA800[((void)0, gSaveContext.linkAge)];
+    anim = D_809CA800[((void)0, gSaveContext.linkAge)];
     dynaUnk = 0;
-    animFrameCount = SkelAnime_GetFrameCount(&genericHeader->genericHeader);
+    animFrameCount = SkelAnime_GetFrameCount(anim);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
@@ -180,9 +180,8 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.rot.y += 0x8000;
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, genericHeader, this->limbDrawTable,
-                   this->transitionDrawTable, 5);
-    SkelAnime_ChangeAnim(&this->skelanime, genericHeader, 1.5f, animFrameStart, animFrameCount, 2, 0.0f);
+    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, anim, this->limbDrawTable, this->transitionDrawTable, 5);
+    SkelAnime_ChangeAnim(&this->skelanime, anim, 1.5f, animFrameStart, animFrameCount, 2, 0.0f);
 
     switch (this->type) {
         case ENBOX_TYPE_SMALL:
@@ -410,7 +409,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     if (this->unk_1F4 != 0) { // unk_1F4 is modified by player code
         linkAge = gSaveContext.linkAge;
         anim = D_809CA800[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
-        frameCount = SkelAnime_GetFrameCount(&anim->genericHeader);
+        frameCount = SkelAnime_GetFrameCount(anim);
         SkelAnime_ChangeAnim(&this->skelanime, anim, 1.5f, 0, frameCount, 2, 0.0f);
         EnBox_SetupAction(this, EnBox_Open);
         if (this->unk_1F4 > 0) {

@@ -307,7 +307,7 @@ void func_80AAAA24(EnMd* this) {
                 }
                 break;
         }
-    } else if (this->skelAnime.animCurrentSeg != &D_060002C8) {
+    } else if (this->skelAnime.currentAnimSeg != &D_060002C8) {
         func_80034EC0(&this->skelAnime, sAnimations, 10);
         func_80AAA92C(this, 0);
     }
@@ -633,7 +633,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentSeg == &D_060002C8) {
+    if (this->skelAnime.currentAnimSeg == &D_060002C8) {
         func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
@@ -643,7 +643,7 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentSeg == &D_060002C8) {
+    if (this->skelAnime.currentAnimSeg == &D_060002C8) {
         func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
     }
     func_80AAA93C(this);
@@ -695,7 +695,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->skelAnime.animCurrentSeg == &D_060002C8) {
+    if (this->skelAnime.currentAnimSeg == &D_060002C8) {
         func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
     }
 

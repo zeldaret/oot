@@ -164,7 +164,7 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
 }
 
 void func_80A911F0(EnKakasi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000214);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A91284;

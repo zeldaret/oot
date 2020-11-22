@@ -87,8 +87,7 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
 
 void func_80A89008(EnJs* this) {
     En_Js_SetupAction(this, func_80A89304);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600045C.genericHeader),
-                         2, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600045C), 2, -4.0f);
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
@@ -144,8 +143,7 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
 
 void func_80A89294(EnJs* this) {
     En_Js_SetupAction(this, func_80A891C4);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600018C.genericHeader),
-                         2, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600018C), 2, -4.0f);
 }
 
 void func_80A89304(EnJs* this, GlobalContext* globalCtx) {

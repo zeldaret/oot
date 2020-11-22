@@ -219,7 +219,7 @@ void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 npcActionIdx) {
 }
 
 void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -310,8 +310,7 @@ void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[3];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 3) {
-            SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&animation->genericHeader), 2, 0.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2, 0.0f);
             this->action = 4;
         }
     }

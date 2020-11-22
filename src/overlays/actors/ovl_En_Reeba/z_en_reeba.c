@@ -123,7 +123,7 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060001E4.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060001E4);
     Player* player = PLAYER;
     s16 playerSpeed;
 

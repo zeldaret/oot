@@ -72,7 +72,7 @@ extern AnimationHeader D_06000278;
 
 void EnDog_PlayWalkSFX(EnDog* this) {
     AnimationHeader* walk = &D_06001368;
-    if (this->skelAnime.animCurrentSeg == walk) {
+    if (this->skelAnime.currentAnimSeg == walk) {
         if ((this->skelAnime.animCurrentFrame == 1.0f) || (this->skelAnime.animCurrentFrame == 7.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -81,7 +81,7 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 
 void EnDog_PlayRunSFX(EnDog* this) {
     AnimationHeader* run = &D_06000D78;
-    if (this->skelAnime.animCurrentSeg == run) {
+    if (this->skelAnime.currentAnimSeg == run) {
         if ((this->skelAnime.animCurrentFrame == 2.0f) || (this->skelAnime.animCurrentFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -90,7 +90,7 @@ void EnDog_PlayRunSFX(EnDog* this) {
 
 void EnDog_PlayBarkSFX(EnDog* this) {
     AnimationHeader* bark = &D_06000278;
-    if (this->skelAnime.animCurrentSeg == bark) {
+    if (this->skelAnime.currentAnimSeg == bark) {
         if ((this->skelAnime.animCurrentFrame == 13.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }

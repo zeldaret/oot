@@ -206,7 +206,7 @@ void func_80AA0A0C(EnMa1* this) {
 }
 
 void func_80AA0A84(EnMa1* this, UNK_TYPE idx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_80AA1678[idx].animation->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(D_80AA1678[idx].animation);
 
     SkelAnime_ChangeAnim(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].unk_08,
                          D_80AA1678[idx].transitionRate);
@@ -216,7 +216,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animCurrentSeg == &D_06008D64)) {
+    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.currentAnimSeg == &D_06008D64)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -229,7 +229,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0B74(EnMa1* this) {
-    if (this->skelAnime.animCurrentSeg == &D_06008D64) {
+    if (this->skelAnime.currentAnimSeg == &D_06008D64) {
         if (this->unk_1E8.unk_00 == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
@@ -282,11 +282,11 @@ void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.animCurrentSeg != &D_06000820) {
+        if (this->skelAnime.currentAnimSeg != &D_06000820) {
             func_80AA0A84(this, 1);
         }
     } else {
-        if (this->skelAnime.animCurrentSeg != &D_06008D64) {
+        if (this->skelAnime.currentAnimSeg != &D_06008D64) {
             func_80AA0A84(this, 3);
         }
     }
@@ -324,11 +324,11 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.animCurrentSeg != &D_06000820) {
+        if (this->skelAnime.currentAnimSeg != &D_06000820) {
             func_80AA0A84(this, 1);
         }
     } else {
-        if (this->skelAnime.animCurrentSeg != &D_06008D64) {
+        if (this->skelAnime.currentAnimSeg != &D_06008D64) {
             func_80AA0A84(this, 3);
         }
     }

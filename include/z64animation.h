@@ -25,18 +25,18 @@ typedef struct {
 typedef struct {
     /* 0x00 */ SkelLimb limb;
     /* 0x08 */ Gfx* displayList;
-} SkelLimbStandardEntry;
+} SkelLimbStandard;
 
 typedef struct {
     /* 0x00 */ SkelLimb limb;
     /* 0x08 */ Gfx* displayLists[2];
-} SkelLimbLODEntry;
+} SkelLimbLOD;
 
 typedef struct {
     /* 0x00 */ SkelLimb limb;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ UNK_PTR segAddress;
-} SkinLimbEntry;
+} SkelLimbSkin;
 
 typedef struct {
     /* 0x00 */ SkelLimb** skeletonSeg; // Segment address of SkelLimbIndex.
@@ -50,14 +50,6 @@ typedef struct {
     /* 0x04 */ u8 limbCount;
     /* 0x05 */ char unk_05[3];
 } SkeletonHeader;
-
-typedef s16 AnimationRotationValue;
-
-typedef struct {
-    /* 0x00 */ u16 x;
-    /* 0x02 */ u16 y;
-    /* 0x04 */ u16 z;
-} AnimationRotationIndex; // size = 0x06
 
 typedef struct {
     s16 frameCount;
@@ -75,6 +67,54 @@ typedef struct {
     GenericAnimationHeader genericHeader;
     u32 linkAnimSeg;
 } LinkAnimetionEntry;
+
+struct SkelAnime {
+    /* 0x00 */ u8 limbCount; // joint_Num
+    /* modes 0 and 1 repeat the animation indefinitely
+     * modes 2 and 3 play the animaton once then stop
+     * modes >= 4 play the animation once, and always start at frame 0.
+    */
+    /* 0x01 */ u8 mode;
+    /* 0x02 */ u8 dListCount;
+    /* 0x03 */ s8 unk_03;
+    /* 0x04 */ SkelLimb** skeleton;
+    /* 0x08 */ void* currentAnimSeg;
+    /* 0x0C */ f32 initialFrame;
+    /* 0x10 */ f32 animFrameCount;
+    /* 0x14 */ f32 totalFrames;
+    /* 0x18 */ f32 animCurrentFrame;
+    /* 0x1C */ f32 animPlaybackSpeed;
+    /* 0x20 */ Vec3s* limbDrawTbl; // now_joint
+    /* 0x24 */ Vec3s* transitionDrawTbl; // morf_joint
+    /* 0x28 */ f32 transCurrentFrame;
+    /* 0x2C */ f32 transitionStep;
+    /* 0x30 */ s32 (*animUpdate)();
+    /* 0x34 */ s8 initFlags;
+    /* 0x35 */ u8 flags;
+    /* 0x36 */ s16 prevFrameRot;
+    /* 0x38 */ Vec3s prevFramePos;
+    /* 0x3E */ Vec3s unk_3E;
+}; // size = 0x44
+
+typedef s32 (*OverrideLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+             Vec3f* pos, Vec3s* rot, void* data);
+
+typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+                                          Vec3s* rot, void* data);
+                                          
+typedef s32 (*OverrideLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+             Vec3f* pos, Vec3s* rot, void* data, Gfx** gfx);
+
+typedef void (*PostLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+                                          Vec3s* rot, void* data, Gfx** gfx);
+
+typedef s16 AnimationRotationValue;
+
+typedef struct {
+    /* 0x00 */ u16 x;
+    /* 0x02 */ u16 y;
+    /* 0x04 */ u16 z;
+} AnimationRotationIndex; // size = 0x06
 
 typedef enum {
     ANIMATION_LINKANIMETION,
@@ -133,20 +173,21 @@ typedef struct {
     /* 0x004 */ char raw[0x3C];
 } AnimationEntryRaw;
 
+typedef union {
+    AnimationEntryRaw data;
+    AnimationEntryType0 type0;
+    AnimationEntryType1 type1;
+    AnimationEntryType2 type2;
+    AnimationEntryType3 type3;
+    AnimationEntryType4 type4;
+    AnimationEntryType5 type5;
+} AnimationEntryData;
+
 typedef struct {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 unk_01;
     /* 0x02 */ char unk_02[2];
-    /* 0x04 */
-        union {
-            AnimationEntryRaw raw;
-            AnimationEntryType0 type0;
-            AnimationEntryType1 type1;
-            AnimationEntryType2 type2;
-            AnimationEntryType3 type3;
-            AnimationEntryType4 type4;
-            AnimationEntryType5 type5;
-        };
+    /* 0x04 */ AnimationEntryData data;
 } AnimationEntry; // size = 0x40
 
 typedef struct AnimationContext {
@@ -155,52 +196,7 @@ typedef struct AnimationContext {
     AnimationEntry entries[ANIMATION_ENTRY_MAX];
 } AnimationContext;
 
-struct SkelAnime {
-    /* 0x00 */ u8 limbCount; // joint_Num
-    /* modes 0 and 1 repeat the animation indefinitely
-     * modes 2 and 3 play the animaton once then stop
-     * modes >= 4 play the animation once, and always start at frame 0.
-    */
-    /* 0x01 */ u8 mode;
-    /* 0x02 */ u8 dListCount;
-    /* 0x03 */ s8 unk_03;
-    /* 0x04 */ SkelLimb** skeleton;
-    /* 0x08 */
-        union {
-            AnimationHeader* animCurrentSeg;
-            LinkAnimetionEntry* linkAnimetionSeg;
-            GenericAnimationHeader* animHeaderSeg;
-        };
-    /* 0x0C */ f32 initialFrame;
-    /* 0x10 */ f32 animFrameCount;
-    /* 0x14 */ f32 totalFrames;
-    /* 0x18 */ f32 animCurrentFrame;
-    /* 0x1C */ f32 animPlaybackSpeed;
-    /* 0x20 */ Vec3s* limbDrawTbl; // now_joint
-    /* 0x24 */ Vec3s* transitionDrawTbl; // morf_joint
-    /* 0x28 */ f32 transCurrentFrame;
-    /* 0x2C */ f32 transitionStep;
-    /* 0x30 */ s32 (*animUpdate)();
-    /* 0x34 */ s8 initFlags;
-    /* 0x35 */ u8 flags;
-    /* 0x36 */ s16 prevFrameRot;
-    /* 0x38 */ Vec3s prevFramePos;
-    /* 0x3E */ Vec3s unk_3E;
-}; // size = 0x44
-
-typedef s32 (*OverrideLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, void* data);
-
-typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-                                          Vec3s* rot, void* data);
-
-typedef s32 (*OverrideLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, void* data, Gfx** gfx);
-
-typedef void (*PostLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-                                          Vec3s* rot, void* data, Gfx** gfx);
-
-typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryRaw*);
+typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryData*);
 
 extern u32 link_animetion_segment;
 
