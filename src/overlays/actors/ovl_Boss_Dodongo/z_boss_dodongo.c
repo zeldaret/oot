@@ -16,6 +16,10 @@ void func_808C3224(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C3704(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C52E0(BossDodongo* this, GlobalContext* globalCtx, s16 arg2);
+void func_808C2C78(BossDodongo* this, GlobalContext* globalCtx);
+void func_808C2ECC(BossDodongo* this, GlobalContext* globalCtx);
+void func_808C2FAC(BossDodongo* this, GlobalContext* globalCtx);
+void func_808C3094(BossDodongo* this, GlobalContext* globalCtx);
 
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
@@ -577,8 +581,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 8200.0f, ICHAIN_STOP),
 };
 
-s32 D_808CA3D8[] = { 0xFFFF00FF };
-s32 D_808CA3DC = { 0xFF0A00FF };
+Color_RGBA8 dustPrimColor = { 255, 255, 0, 255 };
+Color_RGBA8 dustEnvColor = { 255, 10, 0, 255 };
 
 extern SkeletonHeader D_0601B310;
 extern AnimationHeader D_0600F0D8;
@@ -589,6 +593,10 @@ extern AnimationHeader D_0601CAE0;
 extern AnimationHeader D_06008EEC;
 extern AnimationHeader D_060061D4;
 extern AnimationHeader D_0600DF38;
+extern AnimationHeader D_0600E848;
+extern AnimationHeader D_06004E0C;
+extern AnimationHeader D_060042A8;
+extern AnimationHeader D_06009D10;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1190.s")
 
@@ -606,16 +614,16 @@ extern AnimationHeader D_0600DF38;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C17C8.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C18B0.s")
-s32 func_808C18B0(BossDodongo* this, GlobalContext* globalCtx) {
+s32 func_808C18B0(BossDodongo* this, GlobalContext* globalCtx) { // Eat Explosive
     f32 dx;
     f32 dy;
     f32 dz;
     Actor* currentExplosive;
     Actor* thisx = &this->actor;
+
     currentExplosive = globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
     while (currentExplosive != NULL) {
-        if (currentExplosive == thisx ) {
+        if (currentExplosive == thisx) {
             currentExplosive = currentExplosive->next;
             continue;
         }
@@ -874,9 +882,17 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C287C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C290C.s")
+void func_808C290C(BossDodongo* this) {
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E848, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600E848), 2, -5.0f);
+    this->actionFunc = func_808C2C78;
+    this->unk_1B0 = 10;
+    this->unk_1C0 = 2;
+    this->unk_1DA = 35;
+    this->unk_1FC = 50.0f;
+    this->unk_200 = 300.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C29B0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C29B0.s")//Start
 
 void func_808C2A40(BossDodongo* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600DF38, 1.0f, 0.0f, 59.0f, 2, -5.0f);
@@ -905,13 +921,71 @@ void func_808C2B38(BossDodongo* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2BC8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2C78.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2C78.s")
+void func_808C2C78(BossDodongo* this, GlobalContext* globalCtx) {//Spawn bomb explode effect
+    s16 pad;
+    Vec3f dustVel;
+    Vec3f dustAcell;
+    Vec3f dustPos;
+    s16 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2ECC.s")
+    Math_SmoothScaleMaxMinF(&this->unk_208, 0.05f, 1.0f, 0.005f, 0.0f);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (this->unk_1DA == 0) {
+        for (i = 0; i < 30; i++) {
+            dustVel.x = Math_Rand_CenteredFloat(20.0f);
+            dustVel.y = Math_Rand_CenteredFloat(20.0f);
+            dustVel.z = Math_Rand_CenteredFloat(20.0f);
+            dustAcell.x = dustVel.x * -0.1f;
+            dustAcell.y = dustVel.y * -0.1f;
+            dustAcell.z = dustVel.z * -0.1f;
+            dustPos.x = this->actor.posRot.pos.x + (dustVel.x * 3.0f);
+            dustPos.y = this->actor.posRot.pos.y + 90.0f + (dustVel.y * 3.0f);
+            dustPos.z = this->actor.posRot.pos.z + (dustVel.z * 3.0f);
+            func_8002836C(globalCtx, &dustPos, &dustVel, &dustAcell, &dustPrimColor, &dustEnvColor, 500, 10, 10);
+        }
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004E0C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004E0C), 2, -5.0f);
+        this->actionFunc = func_808C2ECC;
+        Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DAMAGE);
+        func_80033E88(&this->actor, globalCtx, 4, 10);
+        this->unk_194 -= 2;
+        if (this->unk_194 <= 0) {
+            this->unk_194 = 1;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2FAC.s")
+void func_808C2ECC(BossDodongo *this, GlobalContext *globalCtx) {
+    this->unk_1BE = 10;
+    Math_SmoothScaleMaxMinF(&this->unk_1F8, 1.3f, 1.0f, 0.1f, 0.001f);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_06004E0C)) != 0) {
+        SkelAnime_ChangeAnim( &this->skelAnime, &D_060042A8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042A8), 0, -5.0f);
+        this->actionFunc = &func_808C2FAC;
+        this->unk_1DA = 0x64;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C3094.s")
+void func_808C2FAC(BossDodongo *this, GlobalContext *globalCtx) {
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DOWN-SFX_FLAG);
+    this->unk_1BE = 10;
+    Math_SmoothScaleMaxMinF(&this->unk_1F8, 1.0f, 0.5f, 0.02f, 0.001f);
+    Math_SmoothScaleMaxMinF(&this->unk_208, 0.05f, 1.0f, 0.005f, 0.0f);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (this->unk_1DA == 0) {
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06009D10, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06009D10), 2, -5.0f);
+        this->actionFunc = &func_808C3094;
+    }
+}
+
+void func_808C3094(BossDodongo *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (func_800A56C8(&this->skelAnime, SkelAnime_GetFrameCount(&D_06009D10))) {
+        func_808C2A40(this);
+    }
+}
+
 
 void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx) { // Hit?
     s32 pad;
@@ -983,7 +1057,7 @@ void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { // Blow fi
         this->unk_1AC++;
         if ((this->unk_1AC >= 0x15) && (this->unk_1AC < 0x52) && (func_808C18B0(this, GlobalContext) != 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DRINK);
-            func_808C290C(this);
+            func_808C290C(this); // Start here
         }
     }
 }
