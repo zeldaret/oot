@@ -34,7 +34,6 @@ const ActorInit En_Wall_Tubo_InitVars = {
     NULL,
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/EnWallTubo_Init.s")
 void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnWallTubo* this = THIS;
 
@@ -44,11 +43,9 @@ void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = EnWallTubo_FindGirl;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/EnWallTubo_Destroy.s")
 void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/func_80B2EE5C.s")
 void EnWallTubo_FindGirl(EnWallTubo* this, GlobalContext* globalCtx) {
     Actor* lookForGirl;
 
@@ -64,7 +61,6 @@ void EnWallTubo_FindGirl(EnWallTubo* this, GlobalContext* globalCtx) {
     this->actionFunc = EnWallTubo_DetectChu;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/EnWallTubo_DetectChu.s")
 void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
     EnBomChu* chu;
     // EnBomBowlMan* temp_a2;
@@ -108,7 +104,6 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/func_80B2F0B8.s")
 void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
     BgBowlWall* wall;
     Vec3f effectAccel = { 0.0f, 0.1f, 0.0f }; // D_80B2F358
@@ -138,7 +133,6 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wall_Tubo/EnWallTubo_Update.s")
 void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnWallTubo* this = THIS;
 

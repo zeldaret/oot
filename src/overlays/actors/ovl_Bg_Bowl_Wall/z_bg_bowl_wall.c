@@ -54,7 +54,6 @@ Vec3f sBullseyeOffset[] = {
 // rotation of this actor (target texture)
 static s16 sTargetRot[] = { 0x0000, 0x0000, 0x3FFF, 0xC001 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/BgBowlWall_Init.s")
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = THIS;
 
@@ -77,14 +76,12 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x = this->dyna.actor.scale.y = this->dyna.actor.scale.z = 1.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/BgBowlWall_Destroy.s")
 void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/func_8086F260.s")
 void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
     s32 pad;
     EnWallTubo* bullseye;
@@ -124,14 +121,12 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/func_8086F440.s")
 void BgBowlWall_WaitForHit(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->isHit != 0) {
         this->actionFunc = BgBowlWall_FallDoEffects;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/func_8086F464.s")
 void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
     s16 pad;
     Vec3f effectAccel = { 0.0f, 0.1f, 0.0f }; // D_8086FA78
@@ -173,7 +168,6 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/func_8086F718.s")
 void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->timer >= 2) {
         if (this->dyna.actor.params == 0) {
@@ -189,7 +183,6 @@ void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/func_ 8086F7F8.s")
 void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->chuGirl->wallStatus[this->dyna.actor.params] != 2) {
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y, 0.3f, 50.0f);
@@ -201,7 +194,6 @@ void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/BgBowlWall_Update.s")
 void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = THIS;
 
@@ -211,7 +203,6 @@ void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bowl_Wall/BgBowlWall_Draw.s")
 void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     BgBowlWall* this = THIS;

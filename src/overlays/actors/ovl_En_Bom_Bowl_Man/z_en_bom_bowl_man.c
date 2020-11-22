@@ -62,7 +62,6 @@ static s16 sPrizeRot[] = { 0x4268, 0x4268, 0xFC18, 0x0000, 0x4268, 0x0000 };
 
 static UNK_PTR D_809C4AA8[] = { 0x06004110, 0x06004910, 0x06005110 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/EnBomBowlMan_Init.s")
 void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlMan* this = THIS;
 
@@ -97,11 +96,9 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = EnBomBowMan_SetupWaitAsleep;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/EnBomBowlMan_Destroy.s")
 void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C3820.s")
 void EnBomBowMan_SetupWaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->frameCount = (f32)SkelAnime_GetFrameCount(&D_06000710.genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000710, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -110,7 +107,6 @@ void EnBomBowMan_SetupWaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->actionFunc = EnBomBowMan_WaitAsleep;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C38A8.s")
 void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
@@ -125,7 +121,6 @@ void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C395C.s")
 void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->unk_22E) && (func_80106BC8(globalCtx) != 0)) {
@@ -134,7 +129,6 @@ void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C39D0.s")
 void EnBomBowMan_WakeUp(EnBomBowlMan* this, GlobalContext* globalCtx) { // start waking up
     this->frameCount = (f32)SkelAnime_GetFrameCount(&D_06000080.genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000080, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
@@ -142,7 +136,6 @@ void EnBomBowMan_WakeUp(EnBomBowlMan* this, GlobalContext* globalCtx) { // start
     this->actionFunc = EnBomBowMan_BlinkAwake;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C3A54.s")
 void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, GlobalContext* globalCtx) { // finish waking up
     f32 frameCount = this->skelAnime.animCurrentFrame;
 
@@ -170,7 +163,6 @@ void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, GlobalContext* globalCtx) { // f
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C3B50.s")
 void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) { // awake, wating
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->unk_22E) && (func_80106BC8(globalCtx) != 0)) {
@@ -194,7 +186,6 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) { /
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C3C7C.s")
 void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) { // loop if not beaten Dodongo's Cavern
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_8002F194(&this->actor, globalCtx) != 0) {
@@ -204,7 +195,6 @@ void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C3CD4.s")
 void EnBomBowMan_TalkNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->unk_22E) && (func_80106BC8(globalCtx) != 0)) {
@@ -213,7 +203,6 @@ void EnBomBowMan_TalkNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C3D40.s")
 void EnBomBowMan_SetupRunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->minigamePlayStatus == 0) {
@@ -234,7 +223,6 @@ void EnBomBowMan_SetupRunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     this->actionFunc = EnBomBowMan_RunGame;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C3DC4.s")
 void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
@@ -295,7 +283,6 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C4040.s")
 void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->unk_22E) && (func_80106BC8(globalCtx) != 0)) {
@@ -342,7 +329,6 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx)
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C41FC.s")
 void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->unk_22E) && (func_80106BC8(globalCtx) != 0)) {
@@ -368,7 +354,6 @@ void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C4318.s")
 void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
     Vec3f accel = sEffectAccel;
     Vec3f velocity = sEffectVelocity;
@@ -386,7 +371,6 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalC
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C441C.s")
 void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 prizeTemp;
     s32 pad;
@@ -447,7 +431,6 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C4664.s")
 void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->unk_22E) && (func_80106BC8(globalCtx) != 0)) {
@@ -464,7 +447,6 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/EnBomBowlMan_Update.s")
 void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlMan* this = THIS;
 
@@ -504,7 +486,6 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/func _809C48A8.s")
 s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   Actor* thisx) {
     EnBomBowlMan* this = THIS;
@@ -516,7 +497,6 @@ s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Man/EnBomBowlMan_Draw.s")
 void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlMan* this = THIS;
 

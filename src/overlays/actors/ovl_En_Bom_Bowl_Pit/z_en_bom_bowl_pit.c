@@ -33,18 +33,15 @@ const ActorInit En_Bom_Bowl_Pit_InitVars = {
     NULL,
 };
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/EnBomBowlPit_Init.s")
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlPit* this = THIS;
 
     this->actionFunc = EnBomBowlPit_SetupDetectHit;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/EnBomBowlPit_Destroy.s")
 void EnBomBowlPit_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C4E60.s")
 void EnBomBowlPit_SetupDetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->start != 0) {
         this->start = this->status = 0;
@@ -52,7 +49,6 @@ void EnBomBowlPit_SetupDetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C4E8C.s")
 void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     EnBomChu* chu;
     Vec3f dpos;
@@ -113,7 +109,6 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C5184.s")
 void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->camId != 0) {
         Math_SmoothScaleMaxF(&this->unk_180.x, this->unk_1BC.x, this->unk_1C8.x, this->unk_1D4.x);
@@ -136,7 +131,6 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C5360.s")
 void EnBomBowlPit_SpawnPrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
@@ -149,7 +143,6 @@ void EnBomBowlPit_SpawnPrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C53F0.s")
 void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->unk_156 != 0) {
         switch (this->prizeIndex) {
@@ -166,7 +159,6 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C54A8.s")
 void EnBomBowlPit_GivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -183,7 +175,6 @@ void EnBomBowlPit_GivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     this->actionFunc = EnBomBowlPit_WaitTillPrizeGiven;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C55B0.s")
 void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowlPit_Reset;
@@ -192,7 +183,6 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, GlobalContext* globalCt
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/func_809C5608.s")
 void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST); // Normal termination/completion
@@ -206,7 +196,6 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Bowl_Pit/EnBomBowlPit_Update.s")
 void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlPit* this = THIS;
 
