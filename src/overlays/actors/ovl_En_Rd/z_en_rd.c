@@ -73,7 +73,7 @@ static Vec3f D_80AE4940 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE4958 = { 0.25f, 0.25f, 0.25f };
 
-extern SkeletonHeader D_06003DD8;
+extern SkeletonHeaderSV D_06003DD8;
 extern AnimationHeader D_06004268;
 extern AnimationHeader D_060046F8;
 extern AnimationHeader D_06004ADC;
@@ -84,7 +84,7 @@ extern AnimationHeader D_06006E88;
 extern AnimationHeader D_060074F0;
 extern AnimationHeader D_06008040;
 extern AnimationHeader D_060087D0;
-extern SkeletonHeader D_0600E778;
+extern SkeletonHeaderSV D_0600E778;
 extern AnimationHeader D_0600EFDC;
 
 void EnRd_SetupAction(EnRd* this, EnRdActionFunc actionFunc) {
@@ -798,7 +798,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
     EnRd* this = THIS;
 
@@ -810,7 +810,7 @@ s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f sp2C = D_80AE4940;
     EnRd* this = THIS;
     s32 idx = -1;

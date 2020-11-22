@@ -75,7 +75,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
 
-extern SkeletonHeader D_06000BD8;
+extern SkeletonHeaderSV D_06000BD8;
 extern AnimationHeader D_060015B0;
 
 void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
@@ -343,7 +343,7 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, colChkCtx, &this->collider);
 }
 
-s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDha* this = THIS;
     s32 retVar;
 
@@ -365,7 +365,7 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return retVar;
 }
 
-void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f D_809ED764 = { 1100.0f, 0.0f, 0.0f };
     Vec3f D_809ED770 = { 0.0f, 0.0f, 0.0f };
 

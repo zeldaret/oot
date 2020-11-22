@@ -29,7 +29,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_060065B0;
+extern SkeletonHeaderSV D_060065B0;
 extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi_InitVars = {

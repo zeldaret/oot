@@ -7,8 +7,6 @@
 struct EnZl2;
 
 typedef void (*EnZl2ActionFunc)(struct EnZl2*, GlobalContext*);
-typedef s32 (*EnZl2PreLimbDrawFunc)(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                    Actor* thisx, Gfx** gfx);
 typedef void (*EnZl2DrawFunc)(struct EnZl2*, GlobalContext*);
 
 typedef struct EnZl2 {

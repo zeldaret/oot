@@ -101,7 +101,7 @@ extern AnimationHeader D_06000AFC;
 extern Gfx D_0600EDE8[];
 extern AnimationHeader D_060014E4;
 extern AnimationHeader D_06001868;
-extern SkeletonHeader D_0600F788;
+extern SkeletonHeaderSV D_0600F788;
 extern AnimationHeader D_0600FB10;
 extern AnimationHeader D_060101C8;
 extern AnimationHeader D_06010EE0;
@@ -281,8 +281,8 @@ void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void func_80985280(DemoIm* this, AnimationHeader* animationHeader, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
+void func_80985280(DemoIm* this, AnimationHeader* AnimationHeader, u8 arg2, f32 transitionRate, s32 arg4) {
+    f32 frameCount = SkelAnime_GetFrameCount(&AnimationHeader->genericHeader);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -297,7 +297,7 @@ void func_80985280(DemoIm* this, AnimationHeader* animationHeader, u8 arg2, f32 
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, AnimationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
@@ -1135,7 +1135,7 @@ void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_80984D4C(thisx, globalCtx);
 }
 
-s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     DemoIm* this = THIS;
     s32* unk_2D0 = &this->unk_2D0;
 
@@ -1163,20 +1163,20 @@ s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_809875C0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    s32 pad;
+void func_809875C0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    DemoIm * this = THIS;
 
     if (limbIndex == 0x10) {
         Vec3f sp28 = D_809887D8;
         Vec3f dest;
 
         Matrix_MultVec3f(&sp28, &dest);
-        thisx->posRot2.pos.x = dest.x;
-        thisx->posRot2.pos.y = dest.y;
-        thisx->posRot2.pos.z = dest.z;
-        thisx->posRot2.rot.x = thisx->posRot.rot.x;
-        thisx->posRot2.rot.y = thisx->posRot.rot.y;
-        thisx->posRot2.rot.z = thisx->posRot.rot.z;
+        this->actor.posRot2.pos.x = dest.x;
+        this->actor.posRot2.pos.y = dest.y;
+        this->actor.posRot2.pos.z = dest.z;
+        this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
+        this->actor.posRot2.rot.y = this->actor.posRot.rot.y;
+        this->actor.posRot2.rot.z = this->actor.posRot.rot.z;
     }
 }
 

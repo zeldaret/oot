@@ -1630,12 +1630,10 @@ s32 func_80833350(Player* this) {
     s32 i;
 
     if (func_80833338(this) != this->skelAnime.linkAnimetionSeg) {
-        entry = &D_80853D7C[0];
-        for (i = 0; i < 28; i++) {
+        for (i = 0, entry = &D_80853D7C[0]; i < 28; i++, entry++) {
             if (this->skelAnime.linkAnimetionSeg == *entry) {
                 return i + 1;
             }
-            entry++;
         }
         return 0;
     }
@@ -6857,7 +6855,6 @@ void func_80840BC8(Player* this, GlobalContext* globalCtx) {
 
             Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, sp3A, 1200);
             this->currentYaw = this->actor.shape.rot.y;
-
             if (func_80833338(this) == this->skelAnime.linkAnimetionSeg) {
                 func_8083DC54(this, globalCtx);
             }
@@ -10444,8 +10441,8 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);
-            POLY_OPA_DISP =
-                Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0, 4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
+            POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, 255, 0, 0, 0, 0,
+                                             4000 - (s32)(Math_Coss(this->unk_88F * 256) * 2000.0f));
         }
 
         func_8002EBCC(&this->actor, globalCtx, 0);

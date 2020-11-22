@@ -30,7 +30,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 
 UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
 
-extern SkeletonHeader D_06007B38;
+extern SkeletonHeaderSV D_06007B38;
 extern AnimationHeader D_06000A3C;
 extern AnimationHeader D_06000830;
 extern AnimationHeader D_0600040C;

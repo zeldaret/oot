@@ -37,7 +37,7 @@ const ActorInit En_Takara_Man_InitVars = {
 
 static u8 sTakaraIsInitialized = false;
 
-extern SkeletonHeader D_06004FE0;
+extern SkeletonHeaderSV D_06004FE0;
 extern AnimationHeader D_06000498;
 
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -202,7 +202,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 Actor* thisx) {
+                                 void* thisx) {
     EnTakaraMan* this = THIS;
 
     if (limbIndex == 1) {

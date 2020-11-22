@@ -55,7 +55,7 @@ static struct_80034EC0_Entry sAnimations[] = {
 };
 
 extern AnimationHeader D_060002C8;
-extern SkeletonHeader D_06007FB8;
+extern SkeletonHeaderSV D_06007FB8;
 
 void func_80AAA250(EnMd* this) {
     f32 initialFrame;
@@ -772,7 +772,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
     EnMd* this = THIS;
     Vec3s vec;
@@ -798,12 +798,12 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
-    s32 pad;
+void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+    EnMd* this = THIS;
     Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&vec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
 }
 

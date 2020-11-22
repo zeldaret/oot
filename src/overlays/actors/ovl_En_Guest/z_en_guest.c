@@ -49,7 +49,7 @@ UNK_PTR D_80A50BA4[] = {
     0x060007FC,
 };
 
-extern SkeletonHeader D_060000F0;
+extern SkeletonHeaderSV D_060000F0;
 extern AnimationHeader D_060042AC;
 extern Gfx D_060059B0[];
 
@@ -186,7 +186,7 @@ Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 }
 
 s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                             Actor* thisx) {
+                             void* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
 

@@ -42,7 +42,7 @@ static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
 Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
 
-extern SkeletonHeader D_06009948;
+extern SkeletonHeaderSV D_06009948;
 extern AnimationHeader D_06000378;
 extern AnimationHeader D_06009C78;
 
@@ -223,7 +223,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              Actor* thisx) {
+                              void* thisx) {
     EnNiwGirl* this = THIS;
 
     if (limbIndex == 3) {

@@ -522,7 +522,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHintnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx) {
+                                void* thisx) {
     Vec3f vec;
     f32 animCurrentFrame;
     EnHintnuts* this = THIS;

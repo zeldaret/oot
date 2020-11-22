@@ -70,7 +70,7 @@ typedef enum {
     /* 0x04 */ SHELLBLADE_BOUNCE,
 } ShellbladeBehavior;
 
-extern SkeletonHeader D_06002BF0;
+extern SkeletonHeaderSV D_06002BF0;
 extern AnimationHeader D_06000194;
 extern AnimationHeader D_0600004C;
 extern AnimationHeader D_06000124;
@@ -445,7 +445,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnSb* this = THIS;
 
     func_80032F54(&this->unk_1E0, limbIndex, 0, 6, 8, dList, -1);

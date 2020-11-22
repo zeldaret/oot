@@ -219,7 +219,7 @@ void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                               void* thisx) {
     EnHeishi3* this = THIS;
 
     if (limbIndex == 9) {

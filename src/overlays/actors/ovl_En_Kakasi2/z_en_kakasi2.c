@@ -28,7 +28,7 @@ void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_060065B0;
+extern SkeletonHeaderSV D_060065B0;
 extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi2_InitVars = {

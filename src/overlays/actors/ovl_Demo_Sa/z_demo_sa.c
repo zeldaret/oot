@@ -89,7 +89,7 @@ void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 extern AnimationHeader D_06001334;
 extern AnimationHeader D_060021D8;
 extern Gfx D_06007B80[];
-extern SkeletonHeader D_0600B1A0;
+extern SkeletonHeaderSV D_0600B1A0;
 extern AnimationHeader D_0600DF80;
 extern AnimationHeader D_0600E500;
 extern AnimationHeader D_0600F580;
@@ -191,9 +191,9 @@ void func_8098E6EC(DemoSa* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void func_8098E76C(DemoSa* this, AnimationHeader* animationHeader, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_8098E76C(DemoSa* this, AnimationHeader* AnimationHeader, u8 arg2, f32 transitionRate, s32 arg4) {
     s32 pad[2];
-    f32 frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&AnimationHeader->genericHeader);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -208,7 +208,7 @@ void func_8098E76C(DemoSa* this, AnimationHeader* animationHeader, u8 arg2, f32 
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, AnimationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 void func_8098E7FC(DemoSa* this, GlobalContext* globalCtx) {
@@ -777,7 +777,7 @@ void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            Actor* thisx) {
+                            void* thisx) {
     DemoSa* this = THIS;
 
     if ((limbIndex == 15) && (this->unk_1B0 != 0)) {

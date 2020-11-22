@@ -27,7 +27,7 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_060000F0;
+extern SkeletonHeaderSV D_060000F0;
 extern AnimationHeader D_060067B8;
 extern AnimationHeader D_060070F0;
 extern AnimationHeader D_060076EC;
@@ -208,25 +208,22 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 }
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
-    GenericAnimationHeader* objSegFrameCount = &D_060070F0.genericHeader;
-    AnimationHeader* objSegChangeAnime = &D_060070F0;
-
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount),
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060070F0.genericHeader),
                              2, -4.0f);
-        this->unk_2AA += 1;
+        this->unk_2AA++;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     }
 }
 
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->unk_2AA += 1;
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        this->unk_2AA++;
     }
 }
 
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
@@ -295,7 +292,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAni* this = THIS;
 
     if (limbIndex == 15) {
@@ -305,9 +302,11 @@ s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnAni* this = THIS;
+
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.posRot2.pos);
     }
 }
 

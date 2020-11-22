@@ -84,7 +84,7 @@ const ActorInit En_Ru2_InitVars = {
 };
 
 extern AnimationHeader D_060004CC;
-extern SkeletonHeader D_0600C700;
+extern SkeletonHeaderSV D_0600C700;
 extern AnimationHeader D_0600D3DC;
 extern AnimationHeader D_0600DCAC;
 extern AnimationHeader D_06000DE8;

@@ -101,15 +101,15 @@ void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
 void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     EnBox* this = THIS;
-    AnimationHeader* animHeader;
+    AnimationHeader* genericHeader;
     s32 dynaUnk;
     f32 animFrameStart;
     f32 animFrameCount;
 
     animFrameStart = 0.0f;
-    animHeader = D_809CA800[((void)0, gSaveContext.linkAge)];
+    genericHeader = D_809CA800[((void)0, gSaveContext.linkAge)];
     dynaUnk = 0;
-    animFrameCount = SkelAnime_GetFrameCount(&animHeader->genericHeader);
+    animFrameCount = SkelAnime_GetFrameCount(&genericHeader->genericHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
@@ -180,9 +180,9 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.rot.y += 0x8000;
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, animHeader, this->limbDrawTable,
+    SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, genericHeader, this->limbDrawTable,
                    this->transitionDrawTable, 5);
-    SkelAnime_ChangeAnim(&this->skelanime, animHeader, 1.5f, animFrameStart, animFrameCount, 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelanime, genericHeader, 1.5f, animFrameStart, animFrameCount, 2, 0.0f);
 
     switch (this->type) {
         case ENBOX_TYPE_SMALL:
@@ -552,7 +552,7 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnBox* this = THIS;
     s32 pad;
 

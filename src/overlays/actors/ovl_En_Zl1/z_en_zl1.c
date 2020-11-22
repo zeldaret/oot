@@ -50,7 +50,7 @@ UNK_PTR D_80B4E62C[] = { 0x06007608 };
 extern AnimationHeader D_06000438;
 extern UNK_TYPE D_06008848;
 extern UNK_TYPE D_06008C48;
-extern SkeletonHeader D_0600F5D8;
+extern SkeletonHeaderSV D_0600F5D8;
 extern AnimationHeader D_06010B38;
 extern AnimationHeader D_06011348;
 extern AnimationHeader D_060116E4;
@@ -152,7 +152,7 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad2;
-    AnimationHeader* animationHeader;
+    AnimationHeader* AnimationHeader;
     s32 pad;
     Vec3f vec1 = { -460.0f, 118.0f, 0.0f };
     Vec3f vec2 = { -406.0f, 110.0f, 0.0f };
@@ -160,9 +160,9 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     s16 rotDiff;
 
     if (func_8002F194(&this->actor, globalCtx)) {
-        animationHeader = &D_06010B38;
-        SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&animationHeader->genericHeader), 3, -10.0f);
+        AnimationHeader = &D_06010B38;
+        SkelAnime_ChangeAnim(&this->skelAnime, AnimationHeader, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&AnimationHeader->genericHeader), 3, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, 7);
@@ -198,7 +198,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     u8 sp54[] = { 0x00, 0x00, 0x02 };
     s32 pad2;
     Player* player = PLAYER;
-    AnimationHeader* animationHeader;
+    AnimationHeader* AnimationHeader;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     f32 frameCount;
     s32 sp3C = 0;
@@ -215,7 +215,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                     }
                     break;
                 case 64:
-                    animationHeader = &D_06011348;
+                    AnimationHeader = &D_06011348;
                     sp3C = 1;
                     this->actor.textId = 0x702E;
                     func_8010B680(globalCtx, this->actor.textId, NULL);
@@ -237,11 +237,11 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 2:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animationHeader = &D_06013F10;
+                    AnimationHeader = &D_06013F10;
                     sp3C = 2;
                     this->unk_1E2++;
                 } else {
-                    animationHeader = &D_060116E4;
+                    AnimationHeader = &D_060116E4;
                     sp3C = 2;
                     this->unk_1E2 = 6;
                 }
@@ -250,7 +250,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 3:
             frameCount = SkelAnime_GetFrameCount(&D_06013F10.genericHeader);
             if (this->skelAnime.animCurrentFrame == frameCount) {
-                animationHeader = &D_060143A8;
+                AnimationHeader = &D_060143A8;
                 sp3C = 1;
                 this->actor.textId = 0x7032;
                 func_8010B720(globalCtx, this->actor.textId);
@@ -260,7 +260,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 4:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animationHeader = &D_060132D8;
+                    AnimationHeader = &D_060132D8;
                     sp3C = 2;
                     this->unk_1E2 = 9;
                 } else {
@@ -280,7 +280,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 6:
             frameCount = SkelAnime_GetFrameCount(&D_060116E4.genericHeader);
             if (this->skelAnime.animCurrentFrame == frameCount) {
-                animationHeader = &D_06011B88;
+                AnimationHeader = &D_06011B88;
                 sp3C = 1;
                 this->actor.textId = 0x7031;
                 func_8010B720(globalCtx, this->actor.textId);
@@ -297,7 +297,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 8:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animationHeader = &D_060138E0;
+                    AnimationHeader = &D_060138E0;
                     sp3C = 2;
                     this->unk_1E2 = 3;
                 } else {
@@ -310,7 +310,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 9:
             frameCount = SkelAnime_GetFrameCount(&D_060132D8.genericHeader);
             if (this->skelAnime.animCurrentFrame == frameCount) {
-                animationHeader = &D_06000438;
+                AnimationHeader = &D_06000438;
                 sp3C = 1;
                 globalCtx->csCtx.segment = D_80B4C5D0;
                 gSaveContext.cutsceneTrigger = 1;
@@ -320,8 +320,8 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             break;
     }
     if (sp3C != 0) {
-        frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
-        SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f, frameCount, sp54[sp3C], -10.0f);
+        frameCount = SkelAnime_GetFrameCount(&AnimationHeader->genericHeader);
+        SkelAnime_ChangeAnim(&this->skelAnime, AnimationHeader, 1.0f, 0.0f, frameCount, sp54[sp3C], -10.0f);
     }
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.posRot2.pos);
 }
@@ -562,7 +562,7 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80B4AE18(this);
 }
 
-s32 func_80B4C340(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_80B4C340(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnZl1* this = THIS;
 
     if ((limbIndex == 4) || (limbIndex == 3) || (limbIndex == 6) || (limbIndex == 5)) {

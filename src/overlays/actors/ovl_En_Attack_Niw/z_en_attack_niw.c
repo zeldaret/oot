@@ -21,7 +21,7 @@ void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx);
 void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_060000E8;
-extern SkeletonHeader D_06002530;
+extern SkeletonHeaderSV D_06002530;
 
 const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
@@ -378,7 +378,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAttackNiw* this = THIS;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 

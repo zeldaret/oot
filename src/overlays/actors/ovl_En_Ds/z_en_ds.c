@@ -29,7 +29,7 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Draw,
 };
 
-extern SkeletonHeader D_06004768;
+extern SkeletonHeaderSV D_06004768;
 extern AnimationHeader D_0600039C;
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -254,7 +254,7 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDs* this = THIS;
 
     if (limbIndex == 5) {
@@ -264,11 +264,12 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
+    EnDs* this = THIS;
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.posRot2.pos);
     }
 }
 

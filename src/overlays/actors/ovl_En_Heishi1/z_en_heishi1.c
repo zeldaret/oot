@@ -482,7 +482,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                               void* thisx) {
     EnHeishi1* this = THIS;
 
     // turn the guards head to match the direction he is looking

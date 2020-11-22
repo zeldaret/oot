@@ -65,7 +65,7 @@ typedef enum {
     /* 0x06 */ DOG_BOW_2,
 } DogBehavior;
 
-extern SkeletonHeader D_06007290;
+extern SkeletonHeaderSV D_06007290;
 extern AnimationHeader D_06001368;
 extern AnimationHeader D_06000D78;
 extern AnimationHeader D_06000278;
@@ -441,11 +441,11 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     return 0;
 }
 
-void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
 
 void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {

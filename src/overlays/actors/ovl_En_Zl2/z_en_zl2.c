@@ -18,7 +18,7 @@ void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx);
 
 void func_80B50BBC(EnZl2* this, GlobalContext* globalCtx);
@@ -80,7 +80,7 @@ static EnZl2ActionFunc sActionFuncs[] = {
     func_80B51C0C, func_80B51C64, func_80B51CA8, func_80B52068, func_80B52098, func_80B52108,
 };
 
-static EnZl2PreLimbDrawFunc sOverrideLimbDrawFuncs[] = {
+static OverrideLimbDraw2 sOverrideLimbDrawFuncs[] = {
     func_80B4F45C,
 };
 
@@ -129,7 +129,7 @@ extern AnimationHeader D_0600AFE0;
 extern AnimationHeader D_0600B224;
 extern AnimationHeader D_0600B5FC;
 extern Gfx D_0600BAE8[];
-extern SkeletonHeader D_06010D70;
+extern SkeletonHeaderSV D_06010D70;
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnZl2* this = THIS;
@@ -479,7 +479,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     this->unk_20C[arg2] = arg1;
 }
 
-s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     s32 pad;
     EnZl2* this = THIS;
@@ -579,7 +579,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZl2* this = THIS;
     s32 pad[2];
 
@@ -1658,7 +1658,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
     EnZl2* this = THIS;
 

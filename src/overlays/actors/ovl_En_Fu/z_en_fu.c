@@ -64,7 +64,7 @@ static UNK_PTR sMouthSegments[] = {
 
 extern AnimationHeader D_0600057C;
 extern AnimationHeader D_06000B04;
-extern SkeletonHeader D_06006C90;
+extern SkeletonHeaderSV D_06006C90;
 extern CutsceneData D_0200E080[];
 
 typedef enum {
@@ -260,7 +260,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
     s32 pad1;
 
@@ -287,7 +287,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
 
     if (limbIndex == 14) {

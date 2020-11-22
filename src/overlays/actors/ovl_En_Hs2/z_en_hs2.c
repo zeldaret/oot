@@ -35,7 +35,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_06006260;
+extern SkeletonHeaderSV D_06006260;
 extern AnimationHeader D_060005C0;
 
 void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -118,7 +118,7 @@ void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, Actor* thisx) {
+s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
     EnHs2* this = THIS;
 
     switch (limbIndex) {
@@ -140,7 +140,7 @@ s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A6F4CC = { 300.0f, 1000.0f, 0.0f };
     EnHs2* this = THIS;
 

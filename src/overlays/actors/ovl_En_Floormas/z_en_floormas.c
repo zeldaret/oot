@@ -78,7 +78,7 @@ static InitChainEntry sInitChain[] = {
 
 extern Gfx D_06008688[];
 
-extern SkeletonHeader D_06008FB0;
+extern SkeletonHeaderSV D_06008FB0;
 
 extern AnimationHeader D_06009DB0;
 extern AnimationHeader D_060039B0;
@@ -1049,7 +1049,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnFloormas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx, Gfx** gfx) {
+                                void* thisx, Gfx** gfx) {
     EnFloormas* this = THIS;
     if (limbIndex == 1) {
         pos->z += this->zOffset;
@@ -1057,7 +1057,7 @@ s32 EnFloormas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     return 0;
 }
 
-void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
+void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                              Gfx** gfx) {
     if (limbIndex == 2) {
         Matrix_Push();

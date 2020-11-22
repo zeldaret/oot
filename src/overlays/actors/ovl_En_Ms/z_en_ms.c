@@ -53,7 +53,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern AnimationHeader D_060005EC;
-extern SkeletonHeader D_06003DC0;
+extern SkeletonHeaderSV D_06003DC0;
 
 void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
     this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1B);

@@ -35,7 +35,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_06005EA0;
+extern SkeletonHeaderSV D_06005EA0;
 extern AnimationHeader D_0600045C;
 extern AnimationHeader D_0600018C;
 
@@ -196,7 +196,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, Actor* thisx) {
+s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
     EnJs* this = THIS;
 
     if (limbIndex == 12) {
@@ -205,11 +205,12 @@ s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A896DC = { 0.0f, 0.0f, 0.0f };
+    EnJs* this = THIS;
 
     if (limbIndex == 12) {
-        Matrix_MultVec3f(&D_80A896DC, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&D_80A896DC, &this->actor.posRot2.pos);
     }
 }
 void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {

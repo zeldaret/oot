@@ -63,7 +63,7 @@ static UNK_PTR D_80AA28C0[] = {
 };
 
 extern Gfx D_06005420[];
-extern SkeletonHeader D_06008D90;
+extern SkeletonHeaderSV D_06008D90;
 extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
 
@@ -322,7 +322,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMa2* this = THIS;
     Vec3s vec;
 
@@ -348,7 +348,7 @@ s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa2* this = THIS;
     Vec3f vec = D_80AA28A8;
 

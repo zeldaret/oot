@@ -151,7 +151,7 @@ extern AnimationHeader D_06008100;
 extern AnimationHeader D_06008AA8;
 extern AnimationHeader D_06009060;
 extern AnimationHeader D_060097B8;
-extern SkeletonHeader D_06012700;
+extern SkeletonHeaderSV D_06012700;
 extern AnimationHeader D_06012E94;
 extern AnimationHeader D_06013A64;
 
@@ -376,8 +376,8 @@ void func_80AEB220(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEB264(EnRu1* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
     s32 pad[2];
-    AnimationHeader* animationHeader = SEGMENTED_TO_VIRTUAL(&animation->genericHeader);
-    f32 frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
+    AnimationHeader* AnimationHeader = SEGMENTED_TO_VIRTUAL(&animation->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&AnimationHeader->genericHeader);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -392,7 +392,7 @@ void func_80AEB264(EnRu1* this, AnimationHeader* animation, u8 arg2, f32 transit
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, AnimationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 s32 EnRu1_FrameUpdateMatrix(EnRu1* this) {
@@ -2327,7 +2327,7 @@ s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnRu1* this = THIS;
     Vec3f vec1;
     Vec3f vec2;
@@ -2335,12 +2335,12 @@ void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 15) {
         vec1 = sMultVec;
         Matrix_MultVec3f(&vec1, &vec2);
-        thisx->posRot2.pos.x = vec2.x;
-        thisx->posRot2.pos.y = vec2.y;
-        thisx->posRot2.pos.z = vec2.z;
-        thisx->posRot2.rot.x = thisx->posRot.rot.x;
-        thisx->posRot2.rot.y = thisx->posRot.rot.y;
-        thisx->posRot2.rot.z = thisx->posRot.rot.z;
+        this->actor.posRot2.pos.x = vec2.x;
+        this->actor.posRot2.pos.y = vec2.y;
+        this->actor.posRot2.pos.z = vec2.z;
+        this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
+        this->actor.posRot2.rot.y = this->actor.posRot.rot.y;
+        this->actor.posRot2.rot.z = this->actor.posRot.rot.z;
     }
 }
 
