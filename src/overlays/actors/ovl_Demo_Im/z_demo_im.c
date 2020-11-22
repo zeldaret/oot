@@ -1164,7 +1164,7 @@ s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 void func_809875C0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIm * this = THIS;
+    DemoIm* this = THIS;
 
     if (limbIndex == 0x10) {
         Vec3f sp28 = D_809887D8;

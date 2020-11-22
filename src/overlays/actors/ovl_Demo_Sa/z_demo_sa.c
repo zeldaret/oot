@@ -776,8 +776,7 @@ void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            void* thisx) {
+s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     DemoSa* this = THIS;
 
     if ((limbIndex == 15) && (this->unk_1B0 != 0)) {

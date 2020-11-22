@@ -426,8 +426,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            void* thisx) {
+s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCrow* this = THIS;
 
     if (this->actor.colChkInfo.health != 0) {

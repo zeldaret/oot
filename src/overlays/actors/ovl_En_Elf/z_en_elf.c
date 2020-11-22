@@ -1462,8 +1462,8 @@ void EnElf_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            void* thisx, Gfx** gfx) {
+s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                           Gfx** gfx) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 pad;
     f32 scale;

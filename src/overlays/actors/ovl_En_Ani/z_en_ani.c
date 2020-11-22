@@ -209,8 +209,8 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060070F0.genericHeader),
-                             2, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060070F0, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_060070F0.genericHeader), 2, -4.0f);
         this->unk_2AA++;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     }

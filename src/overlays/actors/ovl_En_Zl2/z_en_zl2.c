@@ -18,8 +18,7 @@ void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx);
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx);
 
 void func_80B50BBC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B50BEC(EnZl2* this, GlobalContext* globalCtx);

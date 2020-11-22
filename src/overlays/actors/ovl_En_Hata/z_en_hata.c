@@ -103,8 +103,7 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {
     THIS->skelAnime.animPlaybackSpeed = (Math_Rand_ZeroFloat(1.25f) + 2.75f) * (gblCtx->envCtx.unk_B0 / 255.0f);
 }
 
-s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            void* thisx) {
+s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHata* this = THIS;
     Vec3s* limbs;
 
