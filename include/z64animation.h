@@ -5,13 +5,14 @@
 #include "z64dma.h"
 #include "z64math.h"
 
-#define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
+#define LINK_ANIMATION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
 #define LIMB_DONE 0xFF
 #define ANIMATION_ENTRY_MAX 50
 
 #define ANIM_FLAG_UPDATEXZ 0x02
 #define ANIM_FLAG_UPDATEY  0x10
 
+extern u32 link_animetion_segment;
 struct GlobalContext;
 struct Actor;
 typedef struct SkelAnime SkelAnime;
@@ -66,7 +67,7 @@ typedef struct {
 typedef struct {
     GenericAnimationHeader genericHeader;
     u32 linkAnimSeg;
-} LinkAnimetionEntry;
+} LinkAnimationHeader;
 
 struct SkelAnime {
     /* 0x00 */ u8 limbCount; // joint_Num
@@ -117,7 +118,7 @@ typedef struct {
 } AnimationRotationIndex; // size = 0x06
 
 typedef enum {
-    ANIMATION_LINKANIMETION,
+    ANIMATION_LINK,
     ANIMATION_TYPE1,
     ANIMATION_TYPE2,
     ANIMATION_TYPE3,
@@ -197,8 +198,6 @@ typedef struct AnimationContext {
 } AnimationContext;
 
 typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryData*);
-
-extern u32 link_animetion_segment;
 
 // fcurve_skelanime structs
 typedef struct {

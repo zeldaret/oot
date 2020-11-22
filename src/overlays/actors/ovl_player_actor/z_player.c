@@ -73,27 +73,27 @@ typedef struct {
 } struct_808551A4; // size = 0x04
 
 typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* anim;
+    /* 0x00 */ LinkAnimationHeader* anim;
     /* 0x04 */ u8 unk_04;
 } struct_808540F4; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* unk_00;
-    /* 0x04 */ LinkAnimetionEntry* unk_04;
+    /* 0x00 */ LinkAnimationHeader* unk_00;
+    /* 0x04 */ LinkAnimationHeader* unk_04;
     /* 0x08 */ u8 unk_08;
     /* 0x09 */ u8 unk_09;
 } struct_80854554; // size = 0x0C
 
 typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* unk_00;
-    /* 0x04 */ LinkAnimetionEntry* unk_04;
-    /* 0x08 */ LinkAnimetionEntry* unk_08;
+    /* 0x00 */ LinkAnimationHeader* unk_00;
+    /* 0x04 */ LinkAnimationHeader* unk_04;
+    /* 0x08 */ LinkAnimationHeader* unk_08;
     /* 0x0C */ u8 unk_0C;
     /* 0x0D */ u8 unk_0D;
 } struct_80854190; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ LinkAnimetionEntry* anim;
+    /* 0x00 */ LinkAnimationHeader* anim;
     /* 0x04 */ f32 unk_04;
     /* 0x04 */ f32 unk_08;
 } struct_80854578; // size = 0x0C
@@ -602,194 +602,194 @@ GetItemEntry sGetItemTable[] = {
     { ITEM_NONE },
 };
 
-LinkAnimetionEntry* D_80853914[] = {
+LinkAnimationHeader* D_80853914[] = {
     0x04003240, 0x04003238, 0x04003238, 0x04002BE0, 0x04003240, 0x04003240,
 };
 
-LinkAnimetionEntry* D_8085392C[] = {
+LinkAnimationHeader* D_8085392C[] = {
     0x04003290, 0x04003268, 0x04003268, 0x04002BF8, 0x04003290, 0x04003290,
 };
 
-LinkAnimetionEntry* D_80853944[] = {
+LinkAnimationHeader* D_80853944[] = {
     0x04003140, 0x04002B38, 0x04003138, 0x04002B40, 0x04003140, 0x04003140,
 };
 
-LinkAnimetionEntry* D_8085395C[] = {
+LinkAnimationHeader* D_8085395C[] = {
     0x04002E98, 0x040029E8, 0x04002E98, 0x040029F0, 0x04002E98, 0x04002E98,
 };
 
-LinkAnimetionEntry* D_80853974[] = {
+LinkAnimationHeader* D_80853974[] = {
     0x04002FB0, 0x04002FA8, 0x04002FB0, 0x04002A40, 0x04002FB0, 0x04002FB0,
 };
 
-LinkAnimetionEntry* D_8085398C[] = {
+LinkAnimationHeader* D_8085398C[] = {
     0x04003220, 0x04002590, 0x04002590, 0x04002BC0, 0x04003220, 0x04003220,
 };
 
-LinkAnimetionEntry* D_808539A4[] = {
+LinkAnimationHeader* D_808539A4[] = {
     0x04003230, 0x040025D0, 0x040025D0, 0x04002BD0, 0x04003230, 0x04003230,
 };
 
-LinkAnimetionEntry* D_808539BC[] = {
+LinkAnimationHeader* D_808539BC[] = {
     0x04002BB0, 0x040031F8, 0x040031F8, 0x04002BB0, 0x04002BB0, 0x04002BB0,
 };
 
-LinkAnimetionEntry* D_808539D4[] = {
+LinkAnimationHeader* D_808539D4[] = {
     0x04003088, 0x04002A70, 0x04002A70, 0x04003088, 0x04003088, 0x04003088,
 };
 
-LinkAnimetionEntry* D_808539EC[] = {
+LinkAnimationHeader* D_808539EC[] = {
     0x04002750, 0x04002748, 0x04002748, 0x04002750, 0x04002750, 0x04002750,
 };
 
-LinkAnimetionEntry* D_80853A04[] = {
+LinkAnimationHeader* D_80853A04[] = {
     0x04002330, 0x04002330, 0x04002330, 0x04002330, 0x04002330, 0x04002330,
 };
 
-LinkAnimetionEntry* D_80853A1C[] = {
+LinkAnimationHeader* D_80853A1C[] = {
     0x04002760, 0x04002758, 0x04002758, 0x04002760, 0x04002760, 0x04002760,
 };
 
-LinkAnimetionEntry* D_80853A34[] = {
+LinkAnimationHeader* D_80853A34[] = {
     0x04002338, 0x04002338, 0x04002338, 0x04002338, 0x04002338, 0x04002338,
 };
 
-LinkAnimetionEntry* D_80853A4C[] = {
+LinkAnimationHeader* D_80853A4C[] = {
     0x04002E08, 0x04002E00, 0x04002E00, 0x04002E08, 0x04002E08, 0x04002E08,
 };
 
-LinkAnimetionEntry* D_80853A64[] = {
+LinkAnimationHeader* D_80853A64[] = {
     0x04003028, 0x04003020, 0x04003020, 0x04003028, 0x04003028, 0x04003028,
 };
 
-LinkAnimetionEntry* D_80853A7C[] = {
+LinkAnimationHeader* D_80853A7C[] = {
     0x04003170, 0x04003168, 0x04003168, 0x04003170, 0x04003170, 0x04003170,
 };
 
-LinkAnimetionEntry* D_80853A94[] = {
+LinkAnimationHeader* D_80853A94[] = {
     0x04003038, 0x04003030, 0x04003030, 0x04002A68, 0x04003038, 0x04003038,
 };
 
-LinkAnimetionEntry* D_80853AAC[] = {
+LinkAnimationHeader* D_80853AAC[] = {
     0x04002FC0, 0x04002FB8, 0x04002FB8, 0x04002FC8, 0x04002FC0, 0x04002FC0,
 };
 
-LinkAnimetionEntry* D_80853AC4[] = {
+LinkAnimationHeader* D_80853AC4[] = {
     0x04003278, 0x04003270, 0x04003270, 0x04002BE8, 0x04003278, 0x04003278,
 };
 
-LinkAnimetionEntry* D_80853ADC[] = {
+LinkAnimationHeader* D_80853ADC[] = {
     0x04003288, 0x04003280, 0x04003280, 0x04002BF0, 0x04003288, 0x04003288,
 };
 
-LinkAnimetionEntry* D_80853AF4[] = {
+LinkAnimationHeader* D_80853AF4[] = {
     0x04002EB8, 0x04002EA0, 0x04002EA0, 0x04002EB8, 0x040026C8, 0x04002EB8,
 };
 
-LinkAnimetionEntry* D_80853B0C[] = {
+LinkAnimationHeader* D_80853B0C[] = {
     0x04002ED8, 0x04002ED0, 0x04002ED0, 0x04002ED8, 0x040026D0, 0x04002ED8,
 };
 
-LinkAnimetionEntry* D_80853B24[] = {
+LinkAnimationHeader* D_80853B24[] = {
     0x04002EB0, 0x04002EA8, 0x04002EA8, 0x04002EB0, 0x04002EB0, 0x04002EB0,
 };
 
-LinkAnimetionEntry* D_80853B3C[] = {
+LinkAnimationHeader* D_80853B3C[] = {
     0x04003190, 0x04003188, 0x04003188, 0x04002B68, 0x04003190, 0x04003190,
 };
 
-LinkAnimetionEntry* D_80853B54[] = {
+LinkAnimationHeader* D_80853B54[] = {
     0x04003178, 0x04002568, 0x04002568, 0x04002B58, 0x04003178, 0x04003178,
 };
 
-LinkAnimetionEntry* D_80853B6C[] = {
+LinkAnimationHeader* D_80853B6C[] = {
     0x04003180, 0x04002570, 0x04002570, 0x04002B60, 0x04003180, 0x04003180,
 };
 
-LinkAnimetionEntry* D_80853B84[] = {
+LinkAnimationHeader* D_80853B84[] = {
     0x04002D60, 0x04002D58, 0x04002D58, 0x04002D60, 0x04002D60, 0x04002D60,
 };
 
-LinkAnimetionEntry* D_80853B9C[] = {
+LinkAnimationHeader* D_80853B9C[] = {
     0x04002BB8, 0x04003218, 0x04003218, 0x04002BB8, 0x04002BB8, 0x04002BB8,
 };
 
-LinkAnimetionEntry* D_80853BB4[] = {
+LinkAnimationHeader* D_80853BB4[] = {
     0x04002BC8, 0x04003228, 0x04003228, 0x04002BC8, 0x04002BC8, 0x04002BC8,
 };
 
-LinkAnimetionEntry* D_80853BCC[] = {
+LinkAnimationHeader* D_80853BCC[] = {
     0x040031C8, 0x040031C0, 0x040031C0, 0x040031C8, 0x040031C8, 0x040031C8,
 };
 
-LinkAnimetionEntry* D_80853BE4[] = {
+LinkAnimationHeader* D_80853BE4[] = {
     0x04003118, 0x04003110, 0x04003110, 0x04003118, 0x04003118, 0x04003118,
 };
 
-LinkAnimetionEntry* D_80853BFC[] = {
+LinkAnimationHeader* D_80853BFC[] = {
     0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8, 0x04002DE8,
 };
 
-LinkAnimetionEntry* D_80853C14[] = {
+LinkAnimationHeader* D_80853C14[] = {
     0x04002E30, 0x04002E18, 0x04002E18, 0x04002E30, 0x04002E30, 0x04002E30,
 };
 
-LinkAnimetionEntry* D_80853C2C[] = {
+LinkAnimationHeader* D_80853C2C[] = {
     0x04002E40, 0x04002E38, 0x04002E38, 0x04002E40, 0x04002E40, 0x04002E40,
 };
 
-LinkAnimetionEntry* D_80853C44[] = {
+LinkAnimationHeader* D_80853C44[] = {
     0x04002E28, 0x04002E20, 0x04002E20, 0x04002E28, 0x04002E28, 0x04002E28,
 };
 
-LinkAnimetionEntry* D_80853C5C[] = {
+LinkAnimationHeader* D_80853C5C[] = {
     0x040030C8, 0x040030C0, 0x040030C0, 0x040030C8, 0x040030C8, 0x040030C8,
 };
 
-LinkAnimetionEntry* D_80853C74[] = {
+LinkAnimationHeader* D_80853C74[] = {
     0x040030D8, 0x040030D0, 0x040030D0, 0x040030D8, 0x040030D8, 0x040030D8,
 };
 
-LinkAnimetionEntry* D_80853C8C[] = {
+LinkAnimationHeader* D_80853C8C[] = {
     0x040030B8, 0x040030B0, 0x040030B0, 0x040030B8, 0x040030B8, 0x040030B8,
 };
 
-LinkAnimetionEntry* D_80853CA4[] = {
+LinkAnimationHeader* D_80853CA4[] = {
     0x04002F20, 0x04002F18, 0x04002F18, 0x04002F20, 0x04002F20, 0x04002F20,
 };
 
-LinkAnimetionEntry* D_80853CBC[] = {
+LinkAnimationHeader* D_80853CBC[] = {
     0x04002FF0, 0x04002FE8, 0x04002FE8, 0x04002FF0, 0x04002FF0, 0x04002FF0,
 };
 
-LinkAnimetionEntry* D_80853CD4[] = {
+LinkAnimationHeader* D_80853CD4[] = {
     0x04003010, 0x04003008, 0x04003008, 0x04003010, 0x04003010, 0x04003010,
 };
 
-LinkAnimetionEntry* D_80853CEC[] = {
+LinkAnimationHeader* D_80853CEC[] = {
     0x04003000, 0x04002FF8, 0x04002FF8, 0x04003000, 0x04003000, 0x04003000,
 };
 
-LinkAnimetionEntry* D_80853D04[] = {
+LinkAnimationHeader* D_80853D04[] = {
     0x04002EF0, 0x04002EE8, 0x04002EE8, 0x04002EF8, 0x04002EF0, 0x04002EF0,
 };
 
-LinkAnimetionEntry* D_80853D1C[] = {
+LinkAnimationHeader* D_80853D1C[] = {
     0x040031E0, 0x040031D8, 0x040031D8, 0x040031E8, 0x040031E0, 0x040031E0,
 };
 
-LinkAnimetionEntry* D_80853D34[] = {
+LinkAnimationHeader* D_80853D34[] = {
     0x04003468, 0x04003438, 0x04003438, 0x04003468, 0x04003468, 0x04003468,
 };
 
-LinkAnimetionEntry* D_80853D4C[][3] = {
+LinkAnimationHeader* D_80853D4C[][3] = {
     { 0x04002A28, 0x04002A38, 0x04002A30 },
     { 0x04002950, 0x04002960, 0x04002958 },
     { 0x040029D0, 0x040029E0, 0x040029D8 },
     { 0x04002988, 0x04002998, 0x04002990 },
 };
 
-LinkAnimetionEntry* D_80853D7C[] = {
+LinkAnimationHeader* D_80853D7C[] = {
     0x04003248, 0x04003200, 0x04003258, 0x04003210, 0x04003250, 0x04003208, 0x04003250,
     0x04003208, 0x04003430, 0x040033F0, 0x04003430, 0x040033F0, 0x04003430, 0x040033F0,
     0x040033F8, 0x040033D0, 0x04003400, 0x040033D8, 0x04003420, 0x04003420, 0x04003408,
@@ -977,32 +977,32 @@ struct_80854190 D_80854190[] = {
     { 0x040029C0, 0x040029C8, 0x04002560, 0, 16 }, { 0x040029C0, 0x040029C8, 0x040024B8, 0, 16 },
 };
 
-LinkAnimetionEntry* D_80854350[] = {
+LinkAnimationHeader* D_80854350[] = {
     0x04002AE8,
     0x04002920,
 };
 
-LinkAnimetionEntry* D_80854358[] = {
+LinkAnimationHeader* D_80854358[] = {
     0x04002AE0,
     0x04002920,
 };
 
-LinkAnimetionEntry* D_80854360[] = {
+LinkAnimationHeader* D_80854360[] = {
     0x04002AF0,
     0x04002928,
 };
 
-LinkAnimetionEntry* D_80854368[] = {
+LinkAnimationHeader* D_80854368[] = {
     0x04002AF8,
     0x04002930,
 };
 
-LinkAnimetionEntry* D_80854370[] = {
+LinkAnimationHeader* D_80854370[] = {
     0x04002B00,
     0x04002938,
 };
 
-LinkAnimetionEntry* D_80854378[] = {
+LinkAnimationHeader* D_80854378[] = {
     0x04002AD8,
     0x04002918,
 };
@@ -1018,173 +1018,173 @@ u16 D_80854398[] = { NA_SE_IT_BOW_DRAW, NA_SE_IT_SLING_DRAW, NA_SE_IT_HOOKSHOT_R
 
 u8 sMagicArrowCosts[] = { 4, 4, 8 };
 
-LinkAnimetionEntry* D_808543A4[] = {
+LinkAnimationHeader* D_808543A4[] = {
     0x040025C0,
     0x040025C8,
 };
 
-LinkAnimetionEntry* D_808543AC[] = {
+LinkAnimationHeader* D_808543AC[] = {
     0x04002580,
     0x04002588,
 };
 
-LinkAnimetionEntry* D_808543B4[] = {
+LinkAnimationHeader* D_808543B4[] = {
     0x04002510,
     0x04002518,
 };
 
-LinkAnimetionEntry* D_808543BC[] = {
+LinkAnimationHeader* D_808543BC[] = {
     0x04002510,
     0x04002520,
 };
 
-LinkAnimetionEntry* D_808543C4[] = {
+LinkAnimationHeader* D_808543C4[] = {
     0x04002EC0,
     0x04002A08,
 };
 
-LinkAnimetionEntry* D_808543CC[] = {
+LinkAnimationHeader* D_808543CC[] = {
     0x040026F0,
     0x04002CC8,
 };
 
-LinkAnimetionEntry* D_808543D4[] = {
+LinkAnimationHeader* D_808543D4[] = {
     0x040026C0,
     0x04002CC0,
 };
 
 // external segments
-extern LinkAnimetionEntry D_04002340;
-extern LinkAnimetionEntry D_04002378;
-extern LinkAnimetionEntry D_04002400;
-extern LinkAnimetionEntry D_04002408;
-extern LinkAnimetionEntry D_04002420;
-extern LinkAnimetionEntry D_04002428;
-extern LinkAnimetionEntry D_04002430;
-extern LinkAnimetionEntry D_04002468;
-extern LinkAnimetionEntry D_040024E8;
-extern LinkAnimetionEntry D_040024F8;
-extern LinkAnimetionEntry D_04002538;
-extern LinkAnimetionEntry D_040025F8;
-extern LinkAnimetionEntry D_04002600;
-extern LinkAnimetionEntry D_04002608;
-extern LinkAnimetionEntry D_04002618;
-extern LinkAnimetionEntry D_04002620;
-extern LinkAnimetionEntry D_04002628;
-extern LinkAnimetionEntry D_04002630;
-extern LinkAnimetionEntry D_04002638;
-extern LinkAnimetionEntry D_04002650;
-extern LinkAnimetionEntry D_04002660;
-extern LinkAnimetionEntry D_04002668;
-extern LinkAnimetionEntry D_04002670;
-extern LinkAnimetionEntry D_04002688;
-extern LinkAnimetionEntry D_04002698;
-extern LinkAnimetionEntry D_040026A0;
-extern LinkAnimetionEntry D_040026B0;
-extern LinkAnimetionEntry D_040026B8;
-extern LinkAnimetionEntry D_040026E8;
-extern LinkAnimetionEntry D_04002700;
-extern LinkAnimetionEntry D_04002708;
-extern LinkAnimetionEntry D_04002770;
-extern LinkAnimetionEntry D_04002780;
-extern LinkAnimetionEntry D_04002788;
-extern LinkAnimetionEntry D_040027D0;
-extern LinkAnimetionEntry D_04002830;
-extern LinkAnimetionEntry D_04002838;
-extern LinkAnimetionEntry D_04002860;
-extern LinkAnimetionEntry D_04002878;
-extern LinkAnimetionEntry D_04002908;
-extern LinkAnimetionEntry D_04002AC8;
-extern LinkAnimetionEntry D_04002C00;
-extern LinkAnimetionEntry D_04002C08;
-extern LinkAnimetionEntry D_04002C10;
-extern LinkAnimetionEntry D_04002C18;
-extern LinkAnimetionEntry D_04002C20;
-extern LinkAnimetionEntry D_04002C28;
-extern LinkAnimetionEntry D_04002C30;
-extern LinkAnimetionEntry D_04002C38;
-extern LinkAnimetionEntry D_04002C90;
-extern LinkAnimetionEntry D_04002C98;
-extern LinkAnimetionEntry D_04002CA0;
-extern LinkAnimetionEntry D_04002D28;
-extern LinkAnimetionEntry D_04002D38;
-extern LinkAnimetionEntry D_04002D40;
-extern LinkAnimetionEntry D_04002D48;
-extern LinkAnimetionEntry D_04002D68;
-extern LinkAnimetionEntry D_04002D80;
-extern LinkAnimetionEntry D_04002D88;
-extern LinkAnimetionEntry D_04002DA0;
-extern LinkAnimetionEntry D_04002DA8;
-extern LinkAnimetionEntry D_04002DB0;
-extern LinkAnimetionEntry D_04002DB8;
-extern LinkAnimetionEntry D_04002DC0;
-extern LinkAnimetionEntry D_04002DD0;
-extern LinkAnimetionEntry D_04002DF0;
-extern LinkAnimetionEntry D_04002DF8;
-extern LinkAnimetionEntry D_04002E10;
-extern LinkAnimetionEntry D_04002E48;
-extern LinkAnimetionEntry D_04002E90;
-extern LinkAnimetionEntry D_04002EC8;
-extern LinkAnimetionEntry D_04002F00;
-extern LinkAnimetionEntry D_04002F08;
-extern LinkAnimetionEntry D_04002F10;
-extern LinkAnimetionEntry D_04002F28;
-extern LinkAnimetionEntry D_04002F30;
-extern LinkAnimetionEntry D_04002F40;
-extern LinkAnimetionEntry D_04002F58;
-extern LinkAnimetionEntry D_04002F60;
-extern LinkAnimetionEntry D_04002F68;
-extern LinkAnimetionEntry D_04002F98;
-extern LinkAnimetionEntry D_04002FA0;
-extern LinkAnimetionEntry D_04002FD0;
-extern LinkAnimetionEntry D_04002FE0;
-extern LinkAnimetionEntry D_04003000;
-extern LinkAnimetionEntry D_04003020;
-extern LinkAnimetionEntry D_04003040;
-extern LinkAnimetionEntry D_04003048;
-extern LinkAnimetionEntry D_04003050;
-extern LinkAnimetionEntry D_04003060;
-extern LinkAnimetionEntry D_04003068;
-extern LinkAnimetionEntry D_04003070;
-extern LinkAnimetionEntry D_04003098;
-extern LinkAnimetionEntry D_040030A0;
-extern LinkAnimetionEntry D_040030A8;
-extern LinkAnimetionEntry D_040030E0;
-extern LinkAnimetionEntry D_040030F0;
-extern LinkAnimetionEntry D_040030F8;
-extern LinkAnimetionEntry D_04003100;
-extern LinkAnimetionEntry D_04003108;
-extern LinkAnimetionEntry D_04003120;
-extern LinkAnimetionEntry D_04003128;
-extern LinkAnimetionEntry D_04003148;
-extern LinkAnimetionEntry D_04003150;
-extern LinkAnimetionEntry D_04003158;
-extern LinkAnimetionEntry D_04003160;
-extern LinkAnimetionEntry D_040031A0;
-extern LinkAnimetionEntry D_040031A8;
-extern LinkAnimetionEntry D_04003298;
-extern LinkAnimetionEntry D_040032B0;
-extern LinkAnimetionEntry D_040032B8;
-extern LinkAnimetionEntry D_040032C0;
-extern LinkAnimetionEntry D_040032C8;
-extern LinkAnimetionEntry D_040032D0;
-extern LinkAnimetionEntry D_040032D8;
-extern LinkAnimetionEntry D_040032E0;
-extern LinkAnimetionEntry D_040032E8;
-extern LinkAnimetionEntry D_040032F0;
-extern LinkAnimetionEntry D_04003300;
-extern LinkAnimetionEntry D_04003308;
-extern LinkAnimetionEntry D_04003310;
-extern LinkAnimetionEntry D_04003318;
-extern LinkAnimetionEntry D_04003320;
-extern LinkAnimetionEntry D_04003328;
-extern LinkAnimetionEntry D_04003330;
-extern LinkAnimetionEntry D_04003380;
-extern LinkAnimetionEntry D_04003390;
-extern LinkAnimetionEntry D_040033A0;
-extern LinkAnimetionEntry D_040033B0;
-extern LinkAnimetionEntry D_040033B8;
-extern LinkAnimetionEntry D_040033C8;
+extern LinkAnimationHeader D_04002340;
+extern LinkAnimationHeader D_04002378;
+extern LinkAnimationHeader D_04002400;
+extern LinkAnimationHeader D_04002408;
+extern LinkAnimationHeader D_04002420;
+extern LinkAnimationHeader D_04002428;
+extern LinkAnimationHeader D_04002430;
+extern LinkAnimationHeader D_04002468;
+extern LinkAnimationHeader D_040024E8;
+extern LinkAnimationHeader D_040024F8;
+extern LinkAnimationHeader D_04002538;
+extern LinkAnimationHeader D_040025F8;
+extern LinkAnimationHeader D_04002600;
+extern LinkAnimationHeader D_04002608;
+extern LinkAnimationHeader D_04002618;
+extern LinkAnimationHeader D_04002620;
+extern LinkAnimationHeader D_04002628;
+extern LinkAnimationHeader D_04002630;
+extern LinkAnimationHeader D_04002638;
+extern LinkAnimationHeader D_04002650;
+extern LinkAnimationHeader D_04002660;
+extern LinkAnimationHeader D_04002668;
+extern LinkAnimationHeader D_04002670;
+extern LinkAnimationHeader D_04002688;
+extern LinkAnimationHeader D_04002698;
+extern LinkAnimationHeader D_040026A0;
+extern LinkAnimationHeader D_040026B0;
+extern LinkAnimationHeader D_040026B8;
+extern LinkAnimationHeader D_040026E8;
+extern LinkAnimationHeader D_04002700;
+extern LinkAnimationHeader D_04002708;
+extern LinkAnimationHeader D_04002770;
+extern LinkAnimationHeader D_04002780;
+extern LinkAnimationHeader D_04002788;
+extern LinkAnimationHeader D_040027D0;
+extern LinkAnimationHeader D_04002830;
+extern LinkAnimationHeader D_04002838;
+extern LinkAnimationHeader D_04002860;
+extern LinkAnimationHeader D_04002878;
+extern LinkAnimationHeader D_04002908;
+extern LinkAnimationHeader D_04002AC8;
+extern LinkAnimationHeader D_04002C00;
+extern LinkAnimationHeader D_04002C08;
+extern LinkAnimationHeader D_04002C10;
+extern LinkAnimationHeader D_04002C18;
+extern LinkAnimationHeader D_04002C20;
+extern LinkAnimationHeader D_04002C28;
+extern LinkAnimationHeader D_04002C30;
+extern LinkAnimationHeader D_04002C38;
+extern LinkAnimationHeader D_04002C90;
+extern LinkAnimationHeader D_04002C98;
+extern LinkAnimationHeader D_04002CA0;
+extern LinkAnimationHeader D_04002D28;
+extern LinkAnimationHeader D_04002D38;
+extern LinkAnimationHeader D_04002D40;
+extern LinkAnimationHeader D_04002D48;
+extern LinkAnimationHeader D_04002D68;
+extern LinkAnimationHeader D_04002D80;
+extern LinkAnimationHeader D_04002D88;
+extern LinkAnimationHeader D_04002DA0;
+extern LinkAnimationHeader D_04002DA8;
+extern LinkAnimationHeader D_04002DB0;
+extern LinkAnimationHeader D_04002DB8;
+extern LinkAnimationHeader D_04002DC0;
+extern LinkAnimationHeader D_04002DD0;
+extern LinkAnimationHeader D_04002DF0;
+extern LinkAnimationHeader D_04002DF8;
+extern LinkAnimationHeader D_04002E10;
+extern LinkAnimationHeader D_04002E48;
+extern LinkAnimationHeader D_04002E90;
+extern LinkAnimationHeader D_04002EC8;
+extern LinkAnimationHeader D_04002F00;
+extern LinkAnimationHeader D_04002F08;
+extern LinkAnimationHeader D_04002F10;
+extern LinkAnimationHeader D_04002F28;
+extern LinkAnimationHeader D_04002F30;
+extern LinkAnimationHeader D_04002F40;
+extern LinkAnimationHeader D_04002F58;
+extern LinkAnimationHeader D_04002F60;
+extern LinkAnimationHeader D_04002F68;
+extern LinkAnimationHeader D_04002F98;
+extern LinkAnimationHeader D_04002FA0;
+extern LinkAnimationHeader D_04002FD0;
+extern LinkAnimationHeader D_04002FE0;
+extern LinkAnimationHeader D_04003000;
+extern LinkAnimationHeader D_04003020;
+extern LinkAnimationHeader D_04003040;
+extern LinkAnimationHeader D_04003048;
+extern LinkAnimationHeader D_04003050;
+extern LinkAnimationHeader D_04003060;
+extern LinkAnimationHeader D_04003068;
+extern LinkAnimationHeader D_04003070;
+extern LinkAnimationHeader D_04003098;
+extern LinkAnimationHeader D_040030A0;
+extern LinkAnimationHeader D_040030A8;
+extern LinkAnimationHeader D_040030E0;
+extern LinkAnimationHeader D_040030F0;
+extern LinkAnimationHeader D_040030F8;
+extern LinkAnimationHeader D_04003100;
+extern LinkAnimationHeader D_04003108;
+extern LinkAnimationHeader D_04003120;
+extern LinkAnimationHeader D_04003128;
+extern LinkAnimationHeader D_04003148;
+extern LinkAnimationHeader D_04003150;
+extern LinkAnimationHeader D_04003158;
+extern LinkAnimationHeader D_04003160;
+extern LinkAnimationHeader D_040031A0;
+extern LinkAnimationHeader D_040031A8;
+extern LinkAnimationHeader D_04003298;
+extern LinkAnimationHeader D_040032B0;
+extern LinkAnimationHeader D_040032B8;
+extern LinkAnimationHeader D_040032C0;
+extern LinkAnimationHeader D_040032C8;
+extern LinkAnimationHeader D_040032D0;
+extern LinkAnimationHeader D_040032D8;
+extern LinkAnimationHeader D_040032E0;
+extern LinkAnimationHeader D_040032E8;
+extern LinkAnimationHeader D_040032F0;
+extern LinkAnimationHeader D_04003300;
+extern LinkAnimationHeader D_04003308;
+extern LinkAnimationHeader D_04003310;
+extern LinkAnimationHeader D_04003318;
+extern LinkAnimationHeader D_04003320;
+extern LinkAnimationHeader D_04003328;
+extern LinkAnimationHeader D_04003330;
+extern LinkAnimationHeader D_04003380;
+extern LinkAnimationHeader D_04003390;
+extern LinkAnimationHeader D_040033A0;
+extern LinkAnimationHeader D_040033B0;
+extern LinkAnimationHeader D_040033B8;
+extern LinkAnimationHeader D_040033C8;
 extern Gfx D_04037E30[];
 extern Gfx D_04033EE0[];
 
@@ -1206,19 +1206,19 @@ s32 func_8083224C(GlobalContext* globalCtx) {
     return (this->actor.flags & 0x100) == 0x100;
 }
 
-void func_80832264(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80832264(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnimDefaultStop(globalCtx, &this->skelAnime, anim);
 }
 
-void func_80832284(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80832284(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnimDefaultRepeat(globalCtx, &this->skelAnime, anim);
 }
 
-void func_808322A4(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808322A4(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnimPlaybackRepeat(globalCtx, &this->skelAnime, anim, 2.0f / 3.0f);
 }
 
-void func_808322D0(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_808322D0(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnimPlaybackStop(globalCtx, &this->skelAnime, anim, 2.0f / 3.0f);
 }
 
@@ -1439,28 +1439,28 @@ void func_80832924(Player* this, struct_80832924* entry) {
     } while (cont);
 }
 
-void func_80832B0C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80832B0C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, SkelAnime_GetFrameCount(anim), 2, -6.0f);
 }
 
-void func_80832B78(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80832B78(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, 2.0f / 3.0f, 0.0f, SkelAnime_GetFrameCount(anim), 2,
                              -6.0f);
 }
 
-void func_80832BE8(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80832BE8(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, 0, -6.0f);
 }
 
-void func_80832C2C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80832C2C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, 2, 0.0f);
 }
 
-void func_80832C6C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80832C6C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, 1.0f, 0.0f, 0.0f, 0, -16.0f);
 }
 
-s32 func_80832CB0(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+s32 func_80832CB0(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         func_80832284(globalCtx, this, anim);
         return 1;
@@ -1543,37 +1543,37 @@ void func_80832F54(GlobalContext* globalCtx, Player* this, s32 flags) {
     func_800A3310(globalCtx);
 }
 
-void func_80832FFC(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, s32 flags, f32 playbackSpeed) {
+void func_80832FFC(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, s32 flags, f32 playbackSpeed) {
     SkelAnime_ChangeLinkAnimPlaybackStop(globalCtx, &this->skelAnime, anim, playbackSpeed);
     func_80832F54(globalCtx, this, flags);
 }
 
-void func_8083303C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, s32 flags) {
+void func_8083303C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, s32 flags) {
     func_80832FFC(globalCtx, this, anim, flags, 1.0f);
 }
 
-void func_80833064(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, s32 flags) {
+void func_80833064(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, s32 flags) {
     func_80832FFC(globalCtx, this, anim, flags, 2.0f / 3.0f);
 }
 
-void func_8083308C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_8083308C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     func_80833064(globalCtx, this, anim, 0x1C);
 }
 
-void func_808330AC(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, s32 flags, f32 playbackSpeed) {
+void func_808330AC(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, s32 flags, f32 playbackSpeed) {
     SkelAnime_ChangeLinkAnimPlaybackRepeat(globalCtx, &this->skelAnime, anim, playbackSpeed);
     func_80832F54(globalCtx, this, flags);
 }
 
-void func_808330EC(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, s32 flags) {
+void func_808330EC(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, s32 flags) {
     func_808330AC(globalCtx, this, anim, flags, 1.0f);
 }
 
-void func_80833114(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, s32 flags) {
+void func_80833114(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, s32 flags) {
     func_808330AC(globalCtx, this, anim, flags, 2.0f / 3.0f);
 }
 
-void func_8083313C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_8083313C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     func_80833114(globalCtx, this, anim, 0x1C);
 }
 
@@ -1602,7 +1602,7 @@ void func_8083315C(GlobalContext* globalCtx, Player* this) {
     this->unk_84B[this->unk_846] = phi_v0;
 }
 
-void func_8083328C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* linkAnim) {
+void func_8083328C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* linkAnim) {
     SkelAnime_ChangeLinkAnimPlaybackStop(globalCtx, &this->skelAnime, linkAnim, D_808535E8);
 }
 
@@ -1620,12 +1620,12 @@ void func_808332F4(Player* this, GlobalContext* globalCtx) {
     this->unk_862 = ABS(giEntry->gi);
 }
 
-LinkAnimetionEntry* func_80833338(Player* this) {
+LinkAnimationHeader* func_80833338(Player* this) {
     return D_80853914[this->modelAnimType];
 }
 
 s32 func_80833350(Player* this) {
-    LinkAnimetionEntry** entry;
+    LinkAnimationHeader** entry;
     s32 i;
 
     if (func_80833338(this) != this->skelAnime.currentAnimSeg) {
@@ -1646,7 +1646,7 @@ void func_808333FC(Player* this, s32 arg1) {
     }
 }
 
-LinkAnimetionEntry* func_80833438(Player* this) {
+LinkAnimationHeader* func_80833438(Player* this) {
     if (this->unk_890 != 0) {
         return D_8085395C[this->modelAnimType];
     } else if (!(this->stateFlags1 & 0x28000000) && (this->currentBoots == PLAYER_BOOTS_IRON)) {
@@ -1660,7 +1660,7 @@ s32 func_808334B4(Player* this) {
     return func_808332E4(this) && (this->unk_834 != 0);
 }
 
-LinkAnimetionEntry* func_808334E4(Player* this) {
+LinkAnimationHeader* func_808334E4(Player* this) {
     if (func_808334B4(this)) {
         return &D_04002638;
     } else {
@@ -1668,7 +1668,7 @@ LinkAnimetionEntry* func_808334E4(Player* this) {
     }
 }
 
-LinkAnimetionEntry* func_80833528(Player* this) {
+LinkAnimationHeader* func_80833528(Player* this) {
     if (func_808334B4(this)) {
         return &D_04002630;
     } else {
@@ -1676,7 +1676,7 @@ LinkAnimetionEntry* func_80833528(Player* this) {
     }
 }
 
-LinkAnimetionEntry* func_8083356C(Player* this) {
+LinkAnimationHeader* func_8083356C(Player* this) {
     if (func_8002DD78(this)) {
         return &D_040026E8;
     } else {
@@ -1684,7 +1684,7 @@ LinkAnimetionEntry* func_8083356C(Player* this) {
     }
 }
 
-LinkAnimetionEntry* func_808335B0(Player* this) {
+LinkAnimationHeader* func_808335B0(Player* this) {
     if (func_808334B4(this)) {
         return &D_04002620;
     } else {
@@ -1692,7 +1692,7 @@ LinkAnimetionEntry* func_808335B0(Player* this) {
     }
 }
 
-LinkAnimetionEntry* func_808335F4(Player* this) {
+LinkAnimationHeader* func_808335F4(Player* this) {
     if (func_808334B4(this)) {
         return &D_04002618;
     } else {
@@ -1708,8 +1708,8 @@ void func_80833638(Player* this, PlayerFunc82C arg1) {
 }
 
 void func_80833664(GlobalContext* globalCtx, Player* this, s8 actionParam) {
-    LinkAnimetionEntry* current = this->skelAnime.currentAnimSeg;
-    LinkAnimetionEntry** iter = &D_80853914[this->modelAnimType];
+    LinkAnimationHeader* current = this->skelAnime.currentAnimSeg;
+    LinkAnimationHeader** iter = &D_80853914[this->modelAnimType];
     u32 i;
 
     this->stateFlags1 &= ~0x1000008;
@@ -1974,7 +1974,7 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // ordering and deduplication differences
 void func_808340DC(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 phi_f2;
     f32 phi_f12;
     f32 phi_f14;
@@ -2130,7 +2130,7 @@ void func_80834644(GlobalContext* globalCtx, Player* this) {
     this->stateFlags1 &= ~0x100;
 }
 
-LinkAnimetionEntry* func_808346C4(GlobalContext* globalCtx, Player* this) {
+LinkAnimationHeader* func_808346C4(GlobalContext* globalCtx, Player* this) {
     func_80833638(this, func_80834B5C);
     func_808323B4(globalCtx, this);
 
@@ -2142,7 +2142,7 @@ LinkAnimetionEntry* func_808346C4(GlobalContext* globalCtx, Player* this) {
 }
 
 s32 func_80834758(GlobalContext* globalCtx, Player* this) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 frame;
 
     if (!(this->stateFlags1 & 0x20C00000) && (globalCtx->unk_11E5C == 0) &&
@@ -2248,7 +2248,7 @@ s32 func_80834B5C(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80834BD4(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 frame;
 
     if (func_800A3BC0(globalCtx, &this->skelAnime2)) {
@@ -2278,7 +2278,7 @@ s32 func_80834C74(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80834D2C(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
 
     if (this->heldItemActionParam != PLAYER_AP_BOOMERANG) {
         if (!func_8083442C(this, globalCtx)) {
@@ -2588,7 +2588,7 @@ s32 func_80835884(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_808358F0(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* animSeg = this->skelAnime.currentAnimSeg;
+    LinkAnimationHeader* animSeg = this->skelAnime.currentAnimSeg;
 
     if ((func_808334E4(this) == animSeg) || (func_80833528(this) == animSeg) || (func_808335B0(this) == animSeg) ||
         (func_808335F4(this) == animSeg)) {
@@ -2851,7 +2851,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
     }
 }
 
-void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     s32 cond = func_808332B8(this);
 
     func_80832564(globalCtx, this);
@@ -3304,7 +3304,7 @@ s32 func_808375D8(Player* this) {
 }
 
 void func_80837704(GlobalContext* globalCtx, Player* this) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
 
     if ((this->swordAnimation >= 4) && (this->swordAnimation < 8)) {
         anim = D_80854358[Player_HoldsTwoHandedWeapon(this)];
@@ -3462,13 +3462,13 @@ void func_80837B9C(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-LinkAnimetionEntry* D_808544B0[] = {
+LinkAnimationHeader* D_808544B0[] = {
     0x04002F80, 0x04002F78, 0x04002DE0, 0x04002DD8, 0x04002F70, 0x04002528, 0x04002DC8, 0x040024F0,
 };
 
 void func_80837C0C(GlobalContext* globalCtx, Player* this, s32 arg2, f32 arg3, f32 arg4, s16 arg5, s32 arg6) {
-    LinkAnimetionEntry* sp2C = NULL;
-    LinkAnimetionEntry** sp28;
+    LinkAnimationHeader* sp2C = NULL;
+    LinkAnimationHeader** sp28;
 
     if (this->stateFlags1 & 0x2000) {
         func_80837B60(this);
@@ -3723,7 +3723,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
 
                 if (!Player_IsChildWithHylianShield(this)) {
                     if (this->invincibilityTimer >= 0) {
-                        LinkAnimetionEntry* anim;
+                        LinkAnimationHeader* anim;
                         s32 sp54 = func_80843188 == this->func_674;
 
                         if (!func_808332B8(this)) {
@@ -3811,7 +3811,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
     return 1;
 }
 
-void func_80838940(Player* this, LinkAnimetionEntry* anim, f32 arg2, GlobalContext* globalCtx, u16 sfxId) {
+void func_80838940(Player* this, LinkAnimationHeader* anim, f32 arg2, GlobalContext* globalCtx, u16 sfxId) {
     func_80835C58(globalCtx, this, func_8084411C, 1);
 
     if (anim != NULL) {
@@ -3828,13 +3828,13 @@ void func_80838940(Player* this, LinkAnimetionEntry* anim, f32 arg2, GlobalConte
     this->stateFlags1 |= 0x40000;
 }
 
-void func_808389E8(Player* this, LinkAnimetionEntry* anim, f32 arg2, GlobalContext* globalCtx) {
+void func_808389E8(Player* this, LinkAnimationHeader* anim, f32 arg2, GlobalContext* globalCtx) {
     func_80838940(this, anim, arg2, globalCtx, NA_SE_VO_LI_SWORD_N);
 }
 
 s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
     s32 sp3C;
-    LinkAnimetionEntry* sp38;
+    LinkAnimationHeader* sp38;
     f32 sp34;
     f32 temp;
     f32 sp2C;
@@ -4152,7 +4152,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
     s32 pad3;
     s32 frontRoom;
     Actor* attachedActor;
-    LinkAnimetionEntry* sp5C;
+    LinkAnimationHeader* sp5C;
     CollisionPoly* sp58;
     Vec3f sp4C;
 
@@ -4305,7 +4305,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_80839E88(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
 
     func_80835C58(globalCtx, this, func_80840450, 1);
 
@@ -4359,7 +4359,7 @@ void func_8083A060(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8083A098(Player* this, LinkAnimetionEntry* anim, GlobalContext* globalCtx) {
+void func_8083A098(Player* this, LinkAnimationHeader* anim, GlobalContext* globalCtx) {
     func_8083A060(this, globalCtx);
     func_8083328C(globalCtx, this, anim);
 }
@@ -4378,7 +4378,7 @@ void func_8083A0F4(GlobalContext* globalCtx, Player* this) {
             func_80835C58(globalCtx, this, func_8084F608, 0);
             this->stateFlags1 |= 0x20000000;
         } else {
-            LinkAnimetionEntry* anim;
+            LinkAnimationHeader* anim;
 
             if (interactActorId == ACTOR_BG_HEAVY_BLOCK) {
                 func_80835C58(globalCtx, this, func_80846120, 0);
@@ -4459,7 +4459,7 @@ void func_8083A434(GlobalContext* globalCtx, Player* this) {
 
 s32 func_8083A4A8(Player* this, GlobalContext* globalCtx) {
     s16 yawDiff;
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 temp;
 
     yawDiff = this->currentYaw - this->actor.shape.rot.y;
@@ -4482,7 +4482,7 @@ s32 func_8083A4A8(Player* this, GlobalContext* globalCtx) {
     return 1;
 }
 
-void func_8083A5C4(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, f32 arg3, LinkAnimetionEntry* arg4) {
+void func_8083A5C4(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, f32 arg3, LinkAnimationHeader* arg4) {
     f32 sp24 = arg2->norm.x * (1.0f / 32767.0f);
     f32 sp20 = arg2->norm.z * (1.0f / 32767.0f);
 
@@ -4562,7 +4562,7 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_8083A9B8(Player* this, LinkAnimetionEntry* anim, GlobalContext* globalCtx) {
+void func_8083A9B8(Player* this, LinkAnimationHeader* anim, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_8084BDFC, 0);
     SkelAnime_ChangeLinkAnimPlaybackStop(globalCtx, &this->skelAnime, anim, 1.3f);
 }
@@ -4729,7 +4729,7 @@ u8 D_80854528[] = {
     GI_LETTER_RUTO,  GI_LETTER_RUTO,  GI_LETTER_RUTO, GI_LETTER_RUTO, GI_LETTER_RUTO,
 };
 
-LinkAnimetionEntry* D_80854548[] = {
+LinkAnimationHeader* D_80854548[] = {
     0x04002F88,
     0x04002690,
     0x04003198,
@@ -5086,7 +5086,7 @@ s32 func_8083BDBC(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_8083BF50(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 sp30;
 
     sp30 = this->unk_868 - 3.0f;
@@ -5159,7 +5159,7 @@ s32 func_8083C1DC(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083C2B0(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 frame;
 
     if ((globalCtx->unk_11E5C == 0) && (this->currentShield != PLAYER_SHIELD_NONE) &&
@@ -5413,7 +5413,7 @@ void func_8083CD54(GlobalContext* globalCtx, Player* this, s16 yaw) {
 }
 
 void func_8083CE0C(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
 
     func_80835C58(globalCtx, this, func_80840BC8, 1);
 
@@ -5853,7 +5853,7 @@ void func_8083E298(CollisionPoly* arg0, Vec3f* arg1, s16* arg2) {
     *arg2 = atan2s(arg1->z, arg1->x);
 }
 
-LinkAnimetionEntry* D_80854590[] = {
+LinkAnimationHeader* D_80854590[] = {
     0x04002EE0,
     0x040031D0,
 };
@@ -6127,7 +6127,7 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     f32 sp3C = sp84->norm.x * (1.0f / 32767.0f);
                     f32 sp38 = sp84->norm.z * (1.0f / 32767.0f);
                     f32 sp34 = this->wallDistance;
-                    LinkAnimetionEntry* sp30;
+                    LinkAnimationHeader* sp30;
 
                     func_80836898(globalCtx, this, func_8083A3B0);
                     this->stateFlags1 |= 0x200000;
@@ -6174,7 +6174,7 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8083EC18.s")
 #endif
 
-void func_8083F070(Player* this, LinkAnimetionEntry* anim, GlobalContext* globalCtx) {
+void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globalCtx) {
     func_80835DAC(globalCtx, this, func_8084C5F8, 0);
     SkelAnime_ChangeLinkAnimPlaybackStop(globalCtx, &this->skelAnime, anim, (4.0f / 3.0f));
 }
@@ -6330,7 +6330,7 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_8083F72C(Player* this, LinkAnimetionEntry* anim, GlobalContext* globalCtx) {
+void func_8083F72C(Player* this, LinkAnimationHeader* anim, GlobalContext* globalCtx) {
     if (!func_80836898(globalCtx, this, func_8083A388)) {
         func_80835C58(globalCtx, this, func_8084B78C, 0);
     }
@@ -6748,8 +6748,8 @@ void func_808407CC(Player* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // regalloc differences
 void func_808409CC(GlobalContext* globalCtx, Player* this) {
-    LinkAnimetionEntry* anim;
-    LinkAnimetionEntry** animPtr;
+    LinkAnimationHeader* anim;
+    LinkAnimationHeader** animPtr;
     s32 heathIsCritical;
     s32 sp38;
     s32 sp34;
@@ -7092,8 +7092,8 @@ void func_808417FC(Player* this, GlobalContext* globalCtx) {
 
 void func_80841860(GlobalContext* globalCtx, Player* this) {
     s32 pad;
-    LinkAnimetionEntry* sp38;
-    LinkAnimetionEntry* sp34;
+    LinkAnimationHeader* sp38;
+    LinkAnimationHeader* sp34;
     f32 frame;
 
     sp38 = D_80853914[this->modelAnimType + 144];
@@ -7177,7 +7177,7 @@ void func_80841BA8(Player* this, GlobalContext* globalCtx) {
     func_800A3BC0(globalCtx, &this->skelAnime);
 
     if (Player_HoldsTwoHandedWeapon(this)) {
-        SkelAnime_LoadLinkAnimetion(globalCtx, func_80833338(this), 0, this->skelAnime.limbCount,
+        SkelAnime_LoadLinkAnimation(globalCtx, func_80833338(this), 0, this->skelAnime.limbCount,
                                     this->skelAnime.transitionDrawTbl);
         SkelAnime_LoadAnimationType3(globalCtx, this->skelAnime.limbCount, this->skelAnime.limbDrawTbl,
                                      this->skelAnime.transitionDrawTbl, D_80853410);
@@ -7198,7 +7198,7 @@ void func_80841BA8(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_80841CC4(Player* this, s32 arg1, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     s16 target;
     f32 rate;
 
@@ -7523,7 +7523,7 @@ void func_80842CF0(GlobalContext* globalCtx, Player* this) {
     func_80842B7C(globalCtx, this);
 }
 
-LinkAnimetionEntry* D_808545CC[] = {
+LinkAnimationHeader* D_808545CC[] = {
     0x04002B10,
     0x04002B20,
     0x04002B08,
@@ -7740,7 +7740,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
 
 void func_808435C4(Player* this, GlobalContext* globalCtx) {
     s32 temp;
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 frames;
 
     func_8083721C(this);
@@ -8088,7 +8088,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        LinkAnimetionEntry* anim = D_80853A64[this->modelAnimType];
+        LinkAnimationHeader* anim = D_80853A64[this->modelAnimType];
         s32 sp3C;
 
         if (this->stateFlags2 & 0x80000) {
@@ -9026,10 +9026,10 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, SkeletonHeaderSV*
     this->currentYaw = this->actor.posRot.rot.y;
     func_80834644(globalCtx, this);
 
-    SkelAnime_InitLinkAnimetion(globalCtx, &this->skelAnime, skelHeader, D_80853914[this->modelAnimType], 9,
+    SkelAnime_InitLinkAnimation(globalCtx, &this->skelAnime, skelHeader, D_80853914[this->modelAnimType], 9,
                                 this->limbDrawTable, this->transitionDrawTable, PLAYER_LIMB_MAX);
     this->skelAnime.unk_3E = D_80854730;
-    SkelAnime_InitLinkAnimetion(globalCtx, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->limbDrawTable2,
+    SkelAnime_InitLinkAnimation(globalCtx, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->limbDrawTable2,
                                 this->transitionDrawTable2, PLAYER_LIMB_MAX);
     this->skelAnime2.unk_3E = D_80854730;
 
@@ -10851,7 +10851,7 @@ struct_80832924 D_80854878[] = {
 Vec3f D_80854880 = { 0.0f, 26.0f, -40.0f };
 
 void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 sp70;
     s16 sp6E;
     s32 temp1;
@@ -10909,7 +10909,7 @@ void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
 void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
     f32 sp3C;
     s16 sp3A;
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     f32 temp;
 
     this->stateFlags2 |= 0x40;
@@ -10994,8 +10994,8 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
     s32 sp68;
     Vec3f sp5C;
     f32 temp_f0;
-    LinkAnimetionEntry* anim1;
-    LinkAnimetionEntry* anim2;
+    LinkAnimationHeader* anim1;
+    LinkAnimationHeader* anim2;
 
     sp84 = sControlInput->rel.stick_y;
     sp80 = sControlInput->rel.stick_x;
@@ -11307,15 +11307,15 @@ void func_8084CBF4(Player* this, f32 arg1, f32 arg2) {
     }
 }
 
-LinkAnimetionEntry* D_80854944[] = {
+LinkAnimationHeader* D_80854944[] = {
     0x04003370, 0x04003368, 0x04003380, 0x04003358, 0x04003338, 0x04003348, 0x04003350, NULL, NULL,
 };
 
-LinkAnimetionEntry* D_80854968[] = {
+LinkAnimationHeader* D_80854968[] = {
     0x04003388, 0x04003388, 0x04003388, 0x04003360, 0x04003340, 0x04003340, 0x04003340, NULL, NULL,
 };
 
-LinkAnimetionEntry* D_8085498C[] = {
+LinkAnimationHeader* D_8085498C[] = {
     0x040033C8,
     0x040033B8,
     0x040033C0,
@@ -11454,7 +11454,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
                                                  this->skelAnime2.limbDrawTbl, D_80853410);
                 }
             } else {
-                LinkAnimetionEntry* anim = NULL;
+                LinkAnimationHeader* anim = NULL;
 
                 if (EN_HORSE_CHECK_3(rideActor)) {
                     anim = &D_040033B0;
@@ -11642,7 +11642,7 @@ void func_8084D84C(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8084D980(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
     s16 temp1;
     s32 temp2;
 
@@ -12364,7 +12364,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
         }
 
         if (func_80077C6C(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
-            LinkAnimetionEntry* anim;
+            LinkAnimationHeader* anim;
             if (this->unk_84F == 0) {
                 anim = D_80853D04[this->modelAnimType];
             } else {
@@ -12703,7 +12703,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
         if (func_800A3BC0(globalCtx, &this->skelAnime)) {
             if (!func_80850224(this, globalCtx)) {
                 u8 sp43 = this->skelAnime.flags;
-                LinkAnimetionEntry* sp3C;
+                LinkAnimationHeader* sp3C;
 
                 if (func_8008E9C4(this)) {
                     sp3C = sp44->unk_08;
@@ -12806,19 +12806,19 @@ void func_8085076C(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-LinkAnimetionEntry* D_80854A58[] = {
+LinkAnimationHeader* D_80854A58[] = {
     0x04002CF8,
     0x04002CE0,
     0x04002D10,
 };
 
-LinkAnimetionEntry* D_80854A64[] = {
+LinkAnimationHeader* D_80854A64[] = {
     0x04002D00,
     0x04002CE8,
     0x04002D18,
 };
 
-LinkAnimetionEntry* D_80854A70[] = {
+LinkAnimationHeader* D_80854A70[] = {
     0x04002D08,
     0x04002CF0,
     0x04002D20,
@@ -13057,20 +13057,20 @@ struct_80854B18 D_80854E50[] = {
     { 12, 0x040027F0 },    { 12, 0x04002808 },    { 12, 0x04002450 },
 };
 
-void func_80850ED8(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80850ED8(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     func_80832DB0(this);
     func_80832B0C(globalCtx, this, anim);
     func_80832210(this);
 }
 
-void func_80850F1C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80850F1C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     func_80832DB0(this);
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, SkelAnime_GetFrameCount(anim), 2,
                              -8.0f);
     func_80832210(this);
 }
 
-void func_80850F9C(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim) {
+void func_80850F9C(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim) {
     func_80832DB0(this);
     SkelAnime_ChangeLinkAnim(globalCtx, &this->skelAnime, anim, (2.0f / 3.0f), 0.0f, 0.0f, 0, -8.0f);
     func_80832210(this);
@@ -13231,7 +13231,7 @@ void func_8085157C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 }
 
 void func_808515A4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
-    LinkAnimetionEntry* anim;
+    LinkAnimationHeader* anim;
 
     if (func_808332B8(this)) {
         func_80851368(globalCtx, this, 0);
@@ -13345,7 +13345,7 @@ void func_808519C0(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 }
 
 // unused
-LinkAnimetionEntry* D_80855190[] = {
+LinkAnimationHeader* D_80855190[] = {
     0x04002720,
     0x04002360,
 };
@@ -13478,7 +13478,7 @@ void func_80851ECC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 }
 
-void func_80851F14(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, struct_80832924* arg3) {
+void func_80851F14(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, struct_80832924* arg3) {
     if (func_800A3BC0(globalCtx, &this->skelAnime)) {
         func_808322A4(globalCtx, this, anim);
         this->unk_850 = 1;
@@ -13618,7 +13618,7 @@ void func_80852388(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 }
 
-void func_80852414(GlobalContext* globalCtx, Player* this, LinkAnimetionEntry* anim, struct_80832924* arg3) {
+void func_80852414(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* anim, struct_80832924* arg3) {
     func_80851294(globalCtx, this, anim);
     if (this->unk_850 == 0) {
         func_80832924(this, arg3);
@@ -13700,7 +13700,7 @@ void func_80852648(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 }
 
-LinkAnimetionEntry* D_80855208[] = {
+LinkAnimationHeader* D_80855208[] = {
     0x040034B8,
     0x04003458,
 };

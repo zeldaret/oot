@@ -32,7 +32,7 @@ extern Vec3s D_040020D0[];
 extern Vec3s D_04002160[];
 extern Vec3s D_040021F0[];
 extern Vec3s D_04002280[];
-extern LinkAnimetionEntry D_04003238;
+extern LinkAnimationHeader D_04003238;
 extern u32 D_04004298;
 extern u8 D_04006020[];
 extern Gfx D_0400C820[];
