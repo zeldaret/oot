@@ -15,8 +15,7 @@ void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C3224(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C3704(BossDodongo* this, GlobalContext* globalCtx);
-void func_808C52E0(BossDodongo *this, GlobalContext *globalCtx, s16 arg2);
-
+void func_808C52E0(BossDodongo* this, GlobalContext* globalCtx, s16 arg2);
 
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
@@ -607,8 +606,31 @@ extern AnimationHeader D_0600DF38;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C17C8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C18B0.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C18B0.s")
+s32 func_808C18B0(BossDodongo* this, GlobalContext* globalCtx) {
+    f32 dx;
+    f32 dy;
+    f32 dz;
+    Actor* currentExplosive;
+    Actor* thisx = &this->actor;
+    currentExplosive = globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
+    while (currentExplosive != NULL) {
+        if (currentExplosive == thisx ) {
+            currentExplosive = currentExplosive->next;
+            continue;
+        }
+        dx = currentExplosive->posRot.pos.x - this->unk_41C.x;
+        dy = currentExplosive->posRot.pos.y - this->unk_41C.y;
+        dz = currentExplosive->posRot.pos.z - this->unk_41C.z;
+        if ((fabsf(dx) < 40.0f) && (fabsf(dy) < 40.0f) && (fabsf(dz) < 40.0f)) {
+            Actor_Kill(currentExplosive);
+            return 1;
+        }
 
+        currentExplosive = currentExplosive->next;
+    }
+    return 0;
+}
 void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     BossDodongo* this = THIS;
     s16 temp_v1;
@@ -863,7 +885,6 @@ void func_808C2A40(BossDodongo* this) {
     this->unk_1DA = 27;
 }
 
-
 void func_808C2AB0(BossDodongo* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_1E4 = 0.0f;
@@ -892,7 +913,6 @@ void func_808C2B38(BossDodongo* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C3094.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C30F4.s")
 void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx) { // Hit?
     s32 pad;
     Vec3f unusedZeroVec1 = { 0.0f, 0.0f, 0.0f };
@@ -962,7 +982,7 @@ void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { // Blow fi
     } else {
         this->unk_1AC++;
         if ((this->unk_1AC >= 0x15) && (this->unk_1AC < 0x52) && (func_808C18B0(this, GlobalContext) != 0)) {
-            Audio_PlayActorSound2((Actor*)this, (u16)0x3850U);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DRINK);
             func_808C290C(this);
         }
     }
@@ -1037,9 +1057,8 @@ void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C3704.s")
-void func_808C3704(BossDodongo *this, GlobalContext *globalCtx) {
-    Vec3f *sp5C;
+void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
+    Vec3f* sp5C;
     Vec3f sp50;
     f32 sp4C;
     f32 sp48;
@@ -1050,7 +1069,7 @@ void func_808C3704(BossDodongo *this, GlobalContext *globalCtx) {
         this->actor.velocity.y = 15.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_CRY);
     }
-    
+
     if (this->unk_1DA == 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI2);
     }
@@ -1059,11 +1078,11 @@ void func_808C3704(BossDodongo *this, GlobalContext *globalCtx) {
     if (this->unk_1DA == 0) {
         Math_SmoothScaleMaxMinF(&this->unk_1E4, this->unk_1EC * 5.0f, 1.0f, this->unk_1EC * 0.25f, 0.0f);
         Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, sp5C->x, 1.0f, this->unk_1E4, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z,  sp5C->z, 1.0f, this->unk_1E4, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, sp5C->z, 1.0f, this->unk_1E4, 0.0f);
         this->unk_1C4 += 2000;
         if ((this->actor.bgCheckFlags & 1) != 0) {
             this->unk_228 = 7700.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL-SFX_FLAG);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
             if ((this->unk_19E & 7) == 0) {
                 func_8005AA1C(&globalCtx->mainCamera, 2, 1, 8);
             }
@@ -1075,7 +1094,8 @@ void func_808C3704(BossDodongo *this, GlobalContext *globalCtx) {
     sp4C = sp5C->x - this->actor.posRot.pos.x;
     sp48 = sp5C->z - this->actor.posRot.pos.z;
     Math_SmoothScaleMaxMinF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(sp4C, sp48) * 10430.378f, 5, this->unk_1EC * this->unk_1E8, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(sp4C, sp48) * 10430.378f, 5,
+                            this->unk_1EC * this->unk_1E8, 0);
     if (fabsf(sp4C) <= 15.0f && fabsf(sp48) <= 15.0f) {
         this->unk_1A8++;
         if (this->unk_1A8 >= 2) {
@@ -1112,9 +1132,6 @@ void func_808C3704(BossDodongo *this, GlobalContext *globalCtx) {
     }
 }
 
-
-
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C4940.s")
@@ -1131,8 +1148,9 @@ void func_808C3704(BossDodongo *this, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C524C.s")
 
-void func_808C52E0(BossDodongo *this, GlobalContext *globalCtx, s16 arg2) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BDFIRE, this->unk_3EC.x, this->unk_3EC.y - 20.0f, this->unk_3EC.z, 0, this->actor.shape.rot.y, 0, arg2);
+void func_808C52E0(BossDodongo* this, GlobalContext* globalCtx, s16 arg2) {
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BDFIRE, this->unk_3EC.x,
+                       this->unk_3EC.y - 20.0f, this->unk_3EC.z, 0, this->actor.shape.rot.y, 0, arg2);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5354.s")
