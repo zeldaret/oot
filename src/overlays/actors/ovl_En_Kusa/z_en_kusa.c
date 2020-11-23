@@ -46,7 +46,7 @@ const ActorInit En_Kusa_InitVars = { ACTOR_EN_KUSA,
                                      (ActorFunc)EnKusa_Init,
                                      (ActorFunc)EnKusa_Destroy,
                                      (ActorFunc)EnKusa_Update,
-                                     NULL };
+                                     NULL, };
 
 static s16 D_80A9C200[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 
@@ -260,13 +260,13 @@ void func_80A9B810(EnKusa* this, GlobalContext* globalCtx) {
         }
         this->actor.draw = EnKusa_Draw;
         this->actor.objBankIndex = this->kusaTexObjIndex;
-        this->actor.flags &= -0x11;
+        this->actor.flags &= ~0x10;
     }
 }
 
 void func_80A9B89C(EnKusa* this) {
     EnKusa_SetupAction(this, func_80A9B8D8);
-    this->actor.flags = this->actor.flags & -0x11;
+    this->actor.flags = this->actor.flags & ~0x10;
 }
 
 void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
@@ -276,7 +276,7 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         return;
     }
     // If hit with a sword
-    if ((this->collider.base.acFlags & 2) != 0) {
+    if (!(this->collider.base.acFlags & 2)) {
         this->collider.base.acFlags &= ~2;
         EnKusa_SpawnFragments(this, globalCtx);  // Spawn fragments
         EnKusa_DropCollectible(this, globalCtx); // Drop collectable
