@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dns.h"
+#include "vt.h"
 
 #define FLAGS 0x00000009
 
@@ -14,8 +15,6 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDns_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-void EnDns_ChangeAnim(EnDns* this, u8 arg1);
 
 u32 func_809EF5A4(EnDns* this);
 u32 func_809EF658(EnDns* this);
@@ -64,31 +63,7 @@ static ColliderCylinderInit_Set3 sCylinderInit = {
 };
 
 u16 D_809F040C[] = {
-    0x10A0,
-    // "[sound 3882]I surrender! In return, I will sell  you Deku Nuts! 5 pieces 20 Rupees they are![goto 10A3]"
-    0x10A1,
-    // "[sound 3882]All right! You win! In return, I will sell you Deku Sticks! 1 piece 15 Rupees they are![goto 10A3]"
-    0x10A2,
-    // "[sound 3882]All right! You win! In return for sparing me, I will sell you a  Piece of Heart! 1 piece 10 Rupees
-    // it is![goto 10A3]"
-    0x10CA,
-    // "[sound 3882]All right! You win! In return, I will sell you Deku Seeds! 30 pieces 40 Rupees they are![goto 10A3]"
-    0x10CB,
-    // "[sound 3882]I give up! If you let me go, I will sell you a Deku Shield! It's 50 Rupees![goto 10A3]"
-    0x10CC,
-    // "[sound 3882]I quit! If you let me go, I'll sell  you some Bombs! 5 pieces 40 Rupees they are![goto 10A3]"
-    0x10CD,
-    // "[sound 3882]Knock it off! Leave me alone, and  I will sell you Arrows! 30 pieces 70 Rupees they are![goto 10A3]"
-    0x10CE,
-    // "[sound 3882]All right! You win! If you spare  me, I will sell you a Red Potion  for 40 Rupees![goto 10A3]"
-    0x10CF,
-    // "[sound 3882]All right! You win! Spare me, and I will sell you a Green Potion for  40 Rupees![goto 10A3]"
-    0x10DC,
-    // "[sound 3882]I surrender!  [sound 3880]To make your quest easier, I can enable you to pick up more Deku Sticks!
-    // But, it'll cost you 40 Rupees![goto 10A3]"
-    0x10DD,
-    // "[sound 3882]I surrender!  [sound 3880]To make your quest easier, I can enable you to pick up more Deku Nuts!
-    // But, it'll cost you 40 Rupees![goto 10A3]"
+    0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
 // Debug text: sells  { Deku Nuts, Deku Sticks, Piece of Heart, Deku Seeds,
@@ -153,16 +128,18 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
 
     if (this->actor.params < 0) {
-        osSyncPrintf("\x1b[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1b[m\n", this->actor.params);
+        osSyncPrintf(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
+        // FUNCTION ERROR (DEKU SALESMAN)
         Actor_Kill(&this->actor);
         return;
     }
-    if (this->actor.params == 0x0006) {
-        if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-            this->actor.params = 0x0003;
-        }
-    } // Sell Seeds instead of Arrows if Link is child
-    osSyncPrintf("\x1b[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1b[m\n", D_809F0424[this->actor.params], this->actor.params);
+    // Sell Seeds instead of Arrows if Link is child
+    if ((this->actor.params == 0x0006) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
+        this->actor.params = 0x0003;
+    }
+    osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
+                 this->actor.params);
+    // DEKU SALESMAN
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->limbDrawTable,
                      this->transitionDrawTable, 18);
@@ -285,7 +262,7 @@ u32 func_809EF8F4(EnDns* this) {
 }
 
 u32 func_809EF9A4(EnDns* this) {
-    if (Inventory_HasEmptyBottle() == 0) {
+    if (!Inventory_HasEmptyBottle()) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
@@ -339,15 +316,15 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
-        return;
-    }
-    if (((this->collider.base.maskA & 2) != 0) || (this->actor.unk_10C != 0)) {
-        this->actor.flags |= 0x10000;
     } else {
-        this->actor.flags &= 0xFFFEFFFF;
-    }
-    if (this->actor.xzDistFromLink < 130.0f) {
-        func_8002F2F4(&this->actor, globalCtx);
+        if (((this->collider.base.maskA & 2) != 0) || (this->actor.unk_10C != 0)) {
+            this->actor.flags |= 0x10000;
+        } else {
+            this->actor.flags &= ~0x10000;
+        }
+        if (this->actor.xzDistFromLink < 130.0f) {
+            func_8002F2F4(&this->actor, globalCtx);
+        }
     }
 }
 
@@ -358,30 +335,25 @@ void EnDns_Talk(EnDns* this, GlobalContext* globalCtx) {
                 switch (this->dnsItemEntry->purchaseableCheck(this)) {
                     case 0:
                         func_8010B720(globalCtx, 0x10A5);
-                        // "[sound 3882]Not enough Rupees!  Come back again!"
                         this->actionFunc = func_809F008C;
-                        return;
+                        break;
                     case 1:
                         func_8010B720(globalCtx, 0x10A6);
-                        // "[sound 3882]You can't have this now! Come back again!"
                         this->actionFunc = func_809F008C;
-                        return;
+                        break;
                     case 3:
                         func_8010B720(globalCtx, 0x10DE);
-                        // "[sound 3882]So sorry! You can't buy that right now!"
                         this->actionFunc = func_809F008C;
-                        return;
+                        break;
                     case 2:
                     case 4:
                         func_8010B720(globalCtx, 0x10A7);
-                        // "[sound 3880]Thank you very much!"
                         this->actionFunc = func_809EFEE8;
-                        return;
+                        break;
                 }
-                return;
+                break;
             case 1: // No way
                 func_8010B720(globalCtx, 0x10A4);
-                // "[sound 3882]YIKES!! I'm going home then!"
                 this->actionFunc = func_809F008C;
         }
     }
@@ -391,20 +363,20 @@ void func_809EFDD0(EnDns* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0x9) {
         if (CUR_UPG_VALUE(UPG_STICKS) < 2) {
             func_8002F434(&this->actor, globalCtx, GI_STICK_UPGRADE_20, 130.0f, 100.0f);
-            return;
+        } else {
+            func_8002F434(&this->actor, globalCtx, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
         }
-        func_8002F434(&this->actor, globalCtx, GI_STICK_UPGRADE_30, 130.0f, 100.0f);
-        return;
-    }
-    if (this->actor.params == 0xA) {
-        if (CUR_UPG_VALUE(UPG_NUTS) < 2) {
-            func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
-            return;
+    } else {
+        if (this->actor.params == 0xA) {
+            if (CUR_UPG_VALUE(UPG_NUTS) < 2) {
+                func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_30, 130.0f, 100.0f);
+            } else {
+                func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
+            }
+        } else {
+            func_8002F434(&this->actor, globalCtx, this->dnsItemEntry->getItemID, 130.0f, 100.0f);
         }
-        func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
-        return;
     }
-    func_8002F434(&this->actor, globalCtx, this->dnsItemEntry->getItemID, 130.0f, 100.0f);
 }
 
 void func_809EFEE8(EnDns* this, GlobalContext* globalCtx) {
@@ -416,23 +388,23 @@ void func_809EFEE8(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void func_809EFF50(EnDns* this, GlobalContext* globalCtx) {
-    if (Actor_HasParent(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
         this->actionFunc = func_809EFF98;
-        return;
+    } else {
+        func_809EFDD0(this, globalCtx);
     }
-    func_809EFDD0(this, globalCtx);
 }
 
 void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((player->stateFlags1 & 0x400) != 0) {
+    if ((player->stateFlags1 & 0x400)) {
         if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
             this->dnsItemEntry->setRupeesAndFlags(this);
             this->dropCollectible = 1;
             this->maintainCollider = 0;
-            this->actor.flags &= -2;
+            this->actor.flags &= ~1;
             EnDns_ChangeAnim(this, 1);
             this->actionFunc = EnDns_SetupBurrow;
         }
@@ -440,7 +412,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
         this->dnsItemEntry->setRupeesAndFlags(this);
         this->dropCollectible = 1;
         this->maintainCollider = 0;
-        this->actor.flags &= -2;
+        this->actor.flags &= ~1;
         EnDns_ChangeAnim(this, 1);
         this->actionFunc = EnDns_SetupBurrow;
     }
@@ -449,7 +421,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
 void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
         this->maintainCollider = 0;
-        this->actor.flags &= -2;
+        this->actor.flags &= ~1;
         EnDns_ChangeAnim(this, 1);
         this->actionFunc = EnDns_SetupBurrow;
     }
@@ -458,7 +430,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06004404);
 
-    if (frameCount == this->skelAnime.animCurrentFrame) {
+    if (this->skelAnime.animCurrentFrame == frameCount) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->actionFunc = EnDns_Burrow;
         this->standOnGround = 0;
@@ -479,7 +451,8 @@ void EnDns_Burrow(EnDns* this, GlobalContext* globalCtx) {
         func_80028990(globalCtx, 20.0f, &initPos);
     }
     this->actor.shape.rot.y += 0x2000;
-    if (400.0f < depth) {
+    // Drops only if you bought its item
+    if (depth > 400.0f) {
         if (this->dropCollectible) {
             initPos.x = this->actor.posRot.pos.x;
             initPos.y = this->yInitPos;
@@ -487,7 +460,7 @@ void EnDns_Burrow(EnDns* this, GlobalContext* globalCtx) {
             for (i = 0; i < 3; i++) {
                 Item_DropCollectible(globalCtx, &initPos, 3);
             }
-        } // Drops only if you bought its item
+        }
         Actor_Kill(&this->actor);
     }
 }
