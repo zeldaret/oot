@@ -187,12 +187,12 @@ glabel BossDodongo_Draw
 /* 03D60 808C4EF0 46083302 */  mul.s   $f12, $f6, $f8             
 /* 03D64 808C4EF4 0C0342DC */  jal     Matrix_RotateX              
 /* 03D68 808C4EF8 00000000 */  nop
-/* 03D6C 808C4EFC 3C0F808C */  lui     $t7, %hi(func_808C4B90)    ## $t7 = 808C0000
-/* 03D70 808C4F00 25EF4B90 */  addiu   $t7, $t7, %lo(func_808C4B90) ## $t7 = 808C4B90
+/* 03D6C 808C4EFC 3C0F808C */  lui     $t7, %hi(BossDodongo_PostLimbDraw)    ## $t7 = 808C0000
+/* 03D70 808C4F00 25EF4B90 */  addiu   $t7, $t7, %lo(BossDodongo_PostLimbDraw) ## $t7 = 808C4B90
 /* 03D74 808C4F04 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
 /* 03D78 808C4F08 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
-/* 03D7C 808C4F0C 3C07808C */  lui     $a3, %hi(func_808C4940)    ## $a3 = 808C0000
-/* 03D80 808C4F10 24E74940 */  addiu   $a3, $a3, %lo(func_808C4940) ## $a3 = 808C4940
+/* 03D7C 808C4F0C 3C07808C */  lui     $a3, %hi(BossDodongo_OverrideLimbDraw)    ## $a3 = 808C0000
+/* 03D80 808C4F10 24E74940 */  addiu   $a3, $a3, %lo(BossDodongo_OverrideLimbDraw) ## $a3 = 808C4940
 /* 03D84 808C4F14 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 03D88 808C4F18 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 03D8C 808C4F1C 0C028572 */  jal     SkelAnime_Draw

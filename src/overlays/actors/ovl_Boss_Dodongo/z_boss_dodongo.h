@@ -54,14 +54,20 @@ typedef struct BossDodongo {
     /* 0x0204 */ f32 unk_204;
     /* 0x0208 */ f32 unk_208;
     /* 0x020C */ f32 unk_20C;
-    /* 0x0210 */ char unk_210[0xC];
-    /* 0x021C */ f32 unk_21C;
-    /* 0x0220 */ f32 unk_220;
+    /* 0x0210 */ f32 fogR;
+    /* 0x0214 */ f32 fogG;
+    /* 0x0214 */ f32 fogB;
+    /* 0x021C */ f32 fogMin;
+    /* 0x0220 */ f32 fogMax;
     /* 0x0224 */ f32 unk_224;
     /* 0x0228 */ f32 unk_228;
-    /* 0x022C */ char unk_22C[0x18];
+    /* 0x022C */ char unk_22C[0x10];
+    /* 0x023C */ f32 unk_23C;
+    /* 0x0240 */ char unk_240[4];
     /* 0x0244 */ f32 unk_244;
-    /* 0x0248 */ char unk_248[0x1A4];
+    /* 0x0248 */ char unk_248[0x14];
+    /* 0x025C */ f32 unk_25C[49];
+    /* 0x0260 */ char unk_320[0xCC];
     /* 0x03EC */ Vec3f unk_3EC;
     /* 0x03F8 */ char unk_3F8[0xC];//Vec3f?
     /* 0x0404 */ Vec3f unk_404;

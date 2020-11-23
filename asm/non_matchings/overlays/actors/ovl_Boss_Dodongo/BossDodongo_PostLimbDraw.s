@@ -1,4 +1,4 @@
-glabel func_808C4B90
+glabel BossDodongo_PostLimbDraw
 /* 03A00 808C4B90 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 03A04 808C4B94 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 03A08 808C4B98 AFBF0014 */  sw      $ra, 0x0014($sp)           

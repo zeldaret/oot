@@ -28,7 +28,7 @@ glabel D_808CA73C
  .word 0x3DEB851F
 
 .text
-glabel func_808C4940
+glabel BossDodongo_OverrideLimbDraw
 /* 037B0 808C4940 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 037B4 808C4944 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 037B8 808C4948 AFBF0014 */  sw      $ra, 0x0014($sp)
