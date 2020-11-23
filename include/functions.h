@@ -472,6 +472,8 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorType);
 void func_80032C7C(GlobalContext* globalCtx, Actor* actor);
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx);
+void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6);
+s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params);
 void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
                    s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
@@ -2283,7 +2285,8 @@ void func_800F4C58(Vec3f*, u16, u8);
 void func_800F574C(f32 arg0, UNK_TYPE arg2);
 void func_800F595C(u16);
 void func_800F59E8(u16);
-// ? func_800F5ACC(?);
+void func_800F5ACC(u32 bgmID);
+void func_800F5B58(void);
 void func_800F5C64(u16);
 // ? func_800F5CF8(?);
 // ? func_800F5E18(?);

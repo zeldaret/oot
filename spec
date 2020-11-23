@@ -2569,9 +2569,7 @@ endseg
 beginseg
     name "ovl_En_Ik"
     include "build/src/overlays/actors/ovl_En_Ik/z_en_ik.o"
-    include "build/data/overlays/actors/z_en_ik.data.o"
-    include "build/data/overlays/actors/z_en_ik.bss.o"
-    include "build/data/overlays/actors/z_en_ik.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ik/ovl_En_Ik_reloc.o"
 endseg
 
 beginseg
