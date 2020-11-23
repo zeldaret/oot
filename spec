@@ -2392,7 +2392,6 @@ endseg
 beginseg
     name "ovl_En_GeldB"
     include "build/src/overlays/actors/ovl_En_GeldB/z_en_geldb.o"
-    include "build/data/overlays/actors/z_en_geldb.data.o"
     include "build/data/overlays/actors/z_en_geldb.reloc.o"
 endseg
 

@@ -22,7 +22,6 @@ glabel jtbl_80A3A274
 .word L80A39A24
 .word L80A39A20
 .word L80A39A10
-.word 0x00000000
 
 .text
 glabel func_80A39824

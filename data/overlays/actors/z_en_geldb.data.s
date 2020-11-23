@@ -9,12 +9,6 @@
 
 .balign 16
 
-glabel En_GeldB_InitVars
- .word 0x01970500, 0x00000015, 0x01690000, 0x000004E4
-.word EnGeldB_Init
-.word EnGeldB_Destroy
-.word EnGeldB_Update
-.word EnGeldB_Draw
 glabel D_80A39FE0
  .word 0x05000939, 0x10010000, 0x01000000, 0x00000000, 0x00000000, 0xFFCFFFFF, 0x00000000, 0x00010100, 0x00140032, 0x00000000, 0x00000000
 glabel D_80A3A00C

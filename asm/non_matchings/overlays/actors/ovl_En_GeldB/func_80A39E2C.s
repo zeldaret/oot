@@ -1,6 +1,8 @@
 .late_rodata
+glabel D_80A3A2C4
+    .word 0x00000000
 glabel D_80A3A2D0
- .word 0x4082C000, 0x00000000, 0x00000000, 0x00000000
+    .word 0x4082C000, 0x00000000, 0x00000000, 0x00000000
 
 .text
 glabel func_80A39E2C
