@@ -4,7 +4,7 @@
 /*
  * Macros to create both a constant and a string literal from a magic value
  *   The constants are used in code files when parsing text for various purposes
- *   the strings are used in the message_data_static files themselves, as you can only concat strings with other strings
+ *   The strings are used in the message_data_static files themselves, as you can only concat strings with other strings
  */
 
 #define GLUE(a, b) a##b

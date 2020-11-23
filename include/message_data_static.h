@@ -4,8 +4,6 @@
 #include "global.h"
 #include "message_data_fmt.h"
 
-/* For use in code files */
-
 #define TEXT_ID(bank, id) (_SHIFTL(bank, 8, 8) | _SHIFTL(id, 0, 8))
 
 typedef enum {
