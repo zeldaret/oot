@@ -360,9 +360,9 @@ void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_195 == 0) {
         this->unk_195 = 32;
     }
-    this->eyeImageIdx++;
-    if (this->eyeImageIdx == 3) {
-        this->eyeImageIdx = 0;
+    this->eyeTextureIdx++;
+    if (this->eyeTextureIdx == 3) {
+        this->eyeTextureIdx = 0;
     }
 }
 
@@ -400,7 +400,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);

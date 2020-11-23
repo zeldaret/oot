@@ -18,7 +18,7 @@ typedef struct EnPoRelay {
     /* 0x0198 */ s16 pathIndex;
     /* 0x019A */ s16 unk_19A;
     /* 0x019C */ u16 textId;
-    /* 0x019E */ u16 eyeImageIdx;
+    /* 0x019E */ u16 eyeTextureIdx;
     /* 0x01A0 */ Vec3s limbDrawTable[18];
     /* 0x020C */ Vec3s transitionDrawTable[18];
     /* 0x0278 */ Color_RGBA8 lightColor;

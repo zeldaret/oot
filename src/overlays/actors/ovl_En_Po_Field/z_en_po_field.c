@@ -30,7 +30,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD587C(EnPoField* this, GlobalContext* globalCtx);
 void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx);
 void EnPoField_SoulDisappear(EnPoField* this, GlobalContext* globalCtx);
-void EnPoField_InteractWithSoul(EnPoField* this, GlobalContext* globalCtx);
+void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx);
 void EnPoField_SpawnFlame(EnPoField* this);
 
 const ActorInit En_Po_Field_InitVars = {
@@ -308,7 +308,7 @@ void EnPoField_SetupSoulDisappear(EnPoField* this) {
 }
 
 void EnPoField_SetupInteractWithSoul(EnPoField* this) {
-    this->actionFunc = EnPoField_InteractWithSoul;
+    this->actionFunc = EnPoField_SoulInteract;
     this->actor.initPosRot.pos.y = this->actor.posRot.pos.y - 15.0f;
 }
 
@@ -646,7 +646,7 @@ void EnPoField_SoulDisappear(EnPoField* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnPoField_InteractWithSoul(EnPoField* this, GlobalContext* globalCtx) {
+void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actor.textId != 0x5005) {
         EnPoField_SoulUpdateProperties(this, -13);
     } else {
