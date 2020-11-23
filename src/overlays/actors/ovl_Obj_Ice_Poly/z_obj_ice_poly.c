@@ -165,7 +165,7 @@ void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void ObjIcePoly_Draw(ObjIcePoly* thisx, GlobalContext* globalCtx) {
+void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjIcePoly* this = THIS;
 
