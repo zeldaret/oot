@@ -62,7 +62,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    if (this->dyna.actor.params == STALAGMITE) {
+    if (this->dyna.actor.params == TURARA_STALAGMITE) {
         this->actionFunc = BgIceTurara_Stalagmite;
     } else {
         this->dyna.actor.shape.rot.x = -0x8000;
@@ -157,7 +157,7 @@ void BgIceTurara_Fall(BgIceTurara* this, GlobalContext* globalCtx) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
         }
         BgIceTurara_Break(this, globalCtx, 40.0f);
-        if (this->dyna.actor.params == STALACTITE_REGROW) {
+        if (this->dyna.actor.params == TURARA_STALACTITE_REGROW) {
             this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 120.0f;
             func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
             this->actionFunc = BgIceTurara_Regrow;

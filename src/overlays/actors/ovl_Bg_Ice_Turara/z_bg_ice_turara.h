@@ -6,12 +6,12 @@
 
 struct BgIceTurara;
 
-typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, struct GlobalContext*);
+typedef void (*BgIceTuraraActionFunc)(struct BgIceTurara*, GlobalContext*);
 
 typedef enum {
-    /* 0 */ STALAGMITE,
-    /* 1 */ STALACTITE,
-    /* 2 */ STALACTITE_REGROW
+    /* 0 */ TURARA_STALAGMITE,
+    /* 1 */ TURARA_STALACTITE,
+    /* 2 */ TURARA_STALACTITE_REGROW
 } BgIceTuraraType;
 
 typedef struct BgIceTurara {
