@@ -2977,7 +2977,7 @@ void BossVa_SupportPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   Actor* thisx) {
     BossVa* this = THIS;
-    MtxF sp2C;
+    MtxF zapperMtx;
     s32 pad;
 
     switch (limbIndex) {
@@ -2993,8 +2993,8 @@ s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
         case 7:
             Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
-            Matrix_Get(&sp2C);
-            func_800D2264(&sp2C, &sZapperRot, false);
+            Matrix_Get(&zapperMtx);
+            func_800D2264(&zapperMtx, &sZapperRot, false);
             Matrix_RotateX(-sZapperRot.x * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_RotateY(-sZapperRot.y * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_RotateZ(-sZapperRot.z * (M_PI / 0x8000), MTXMODE_APPLY);
@@ -3137,7 +3137,7 @@ void BossVa_BariPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     // GlobalContext* globalCtx = globalCtx2;
-    s16* newvar; // Yeah this is the fakest shit ever. I don't know.
+    s16* fakeParams; // Yeah this is the fakest shit ever. I don't know.
     BossVa* this = THIS;
     Vec3f spBC;
     Vec3f spB0 = { 0.0f, 45.0f, 0.0f };
@@ -3151,7 +3151,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4542);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    newvar = &this->actor.params;
+    fakeParams = &this->actor.params;
     func_80093D84(globalCtx->state.gfxCtx);
 
     switch (this->actor.params) {
@@ -3247,9 +3247,9 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    if (*newvar == BOSSVA_BODY) {
+    if (*fakeParams == BOSSVA_BODY) {
         BossVa_DrawParticles(sVaParticles, globalCtx);
-    } else if (*newvar == BOSSVA_DOOR) {
+    } else if (*fakeParams == BOSSVA_DOOR) {
         BossVa_DrawDoor(globalCtx, sDoorState);
     }
 
