@@ -40,11 +40,10 @@ typedef struct EnDodongo {
     /* 0x05A8 */ ColliderJntSphItem sphElements[6];
 } EnDodongo; // size = 0x0728
 
-typedef enum EnDodongoParm{
+typedef enum EnDodongoParam {
     EN_DODONGO_NORMAL = -1,
     EN_DODONGO_SMOKE_DEATH
-}
-}
+} EnDodongoParam;
 
 extern const ActorInit En_Dodongo_InitVars;
 
