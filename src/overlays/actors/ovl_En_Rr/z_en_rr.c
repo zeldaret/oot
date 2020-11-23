@@ -16,34 +16,34 @@
 #define RR_MOUTH 4
 #define RR_BASE 0
 
-typedef enum EnRrReachState {
-    REACH_NONE,
-    REACH_EXTEND,
-    REACH_STOP,
-    REACH_OPEN,
-    REACH_GAPE,
-    REACH_CLOSE
+typedef enum {
+    /* 0 */ REACH_NONE,
+    /* 1 */ REACH_EXTEND,
+    /* 2 */ REACH_STOP,
+    /* 3 */ REACH_OPEN,
+    /* 4 */ REACH_GAPE,
+    /* 5 */ REACH_CLOSE
 } EnRrReachState;
 
 typedef enum {
-    RR_DAMAGE_STUN = 1,
-    RR_DAMAGE_FIRE,
-    RR_DAMAGE_ICE,
-    RR_DAMAGE_LIGHT_MAGIC,
-    RR_DAMAGE_LIGHT_ARROW = 11,
-    RR_DAMAGE_UNK_ARROW_1,
-    RR_DAMAGE_UNK_ARROW_2,
-    RR_DAMAGE_UNK_ARROW_3,
-    RR_DAMAGE_NORMAL
+    /* 0x1 */ RR_DAMAGE_STUN = 1,
+    /* 0x2 */ RR_DAMAGE_FIRE,
+    /* 0x3 */ RR_DAMAGE_ICE,
+    /* 0x4 */ RR_DAMAGE_LIGHT_MAGIC,
+    /* 0xB */ RR_DAMAGE_LIGHT_ARROW = 11,
+    /* 0xC */ RR_DAMAGE_UNK_ARROW_1,
+    /* 0xD */ RR_DAMAGE_UNK_ARROW_2,
+    /* 0xE */ RR_DAMAGE_UNK_ARROW_3,
+    /* 0xF */ RR_DAMAGE_NORMAL
 } EnRrDamageEffect;
 
 typedef enum {
-    RR_DROP_RANDOM_RUPEE,
-    RR_DROP_MAGIC,
-    RR_DROP_ARROW,
-    RR_DROP_FLEXIBLE,
-    RR_DROP_PURPLE_RUPEE,
-    RR_DROP_RED_RUPEE
+    /* 0 */ RR_DROP_RANDOM_RUPEE,
+    /* 1 */ RR_DROP_MAGIC,
+    /* 2 */ RR_DROP_ARROW,
+    /* 3 */ RR_DROP_FLEXIBLE,
+    /* 4 */ RR_DROP_RUPEE_PURPLE,
+    /* 5 */ RR_DROP_RUPEE_RED
 } EnRrDropType;
 
 void EnRr_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -51,16 +51,10 @@ void EnRr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnRr_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnRr_SetupReach(EnRr* this);
-void EnRr_SetupNeutral(EnRr* this);
-void EnRr_SetupGrabPlayer(EnRr* this, Player* player);
-void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx);
-void EnRr_SetupDamage(EnRr* this);
-void EnRr_SetupApproach(EnRr* this);
-void EnRr_SetupDeath(EnRr* this);
-void EnRr_SetupStunned(EnRr* this);
-
 void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx);
+
+void EnRr_SetupDamage(EnRr* this);
+void EnRr_SetupDeath(EnRr* this);
 
 void EnRr_Approach(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Reach(EnRr* this, GlobalContext* globalCtx);
@@ -227,7 +221,7 @@ u8 EnRr_GetMessage(u8 shield, u8 tunic) {
     if ((shield == PLAYER_SHIELD_DEKU) || (shield == PLAYER_SHIELD_HYLIAN)) {
         messageIndex = RR_MESSAGE_SHIELD;
     }
-    if ((tunic == (PLAYER_TUNIC_GORON + 1)) || (tunic == (PLAYER_TUNIC_ZORA + 1))) {
+    if ((tunic == 2 /* Goron tunic */) || (tunic == 3 /* Zora tunic */)) {
         messageIndex |= RR_MESSAGE_TUNIC;
     }
 
@@ -245,7 +239,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     this->segMoveRate = 0.0f;
     this->segPhaseVelTarget = 2500.0f;
     this->wobbleSizeTarget = 2048.0f;
-    tunic = PLAYER_TUNIC_KOKIRI;
+    tunic = 0;
     shield = PLAYER_SHIELD_NONE;
     if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != PLAYER_SHIELD_MIRROR) {
         shield = Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
@@ -254,9 +248,9 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
             this->retreat = true;
         }
     }
-    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != PLAYER_TUNIC_KOKIRI + 1) {
+    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic*/) {
         tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TUNIC);
-        if (tunic != PLAYER_TUNIC_KOKIRI) {
+        if (tunic != 0) {
             this->eatenTunic = tunic;
             this->retreat = true;
         }
@@ -434,7 +428,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                 case RR_DAMAGE_LIGHT_MAGIC: // Unused light magic
                     Actor_ApplyDamage(&this->actor);
                     if (this->actor.colChkInfo.health == 0) {
-                        this->dropType = RR_DROP_RED_RUPEE;
+                        this->dropType = RR_DROP_RUPEE_RED;
                     }
                     func_8003426C(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);
@@ -644,10 +638,10 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
             case RR_DROP_FLEXIBLE:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_FLEXIBLE);
                 break;
-            case RR_DROP_PURPLE_RUPEE:
+            case RR_DROP_RUPEE_PURPLE:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_RUPEE_PURPLE);
                 break;
-            case RR_DROP_RED_RUPEE:
+            case RR_DROP_RUPEE_RED:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_RUPEE_RED);
                 break;
             case RR_DROP_RANDOM_RUPEE:
@@ -671,7 +665,7 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
         accel.y = 0.0f;
         accel.z = 0.0f;
 
-        EffectSsDeadDb_Spawn(globalCtx, &pos, &vel, &accel, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
+        EffectSsDeadDb_Spawn(globalCtx, &pos, &vel, &accel, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
     } else {
         Math_SmoothScaleMaxF(&this->actor.scale.x, 0.0f, 1.0f, this->shrinkRate);
         Math_SmoothScaleMaxF(&this->shrinkRate, 0.001f, 1.0f, 0.00001f);
@@ -769,10 +763,10 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
         Math_SmoothScaleMaxF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
         for (i = 0; i < 5; i++) {
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->segMoveRate * 1000.0f,
-                                    0);
-            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->segMoveRate * 1000.0f,
-                                    0);
+            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5,
+                                    this->segMoveRate * 1000.0f, 0);
+            Math_SmoothScaleMaxMinS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5,
+                                    this->segMoveRate * 1000.0f, 0);
             Math_SmoothScaleMaxF(&this->bodySegs[i].scale.x, this->bodySegs[i].scaleTarget.x, 1.0f,
                                  this->segMoveRate * 0.2f);
             this->bodySegs[i].scale.z = this->bodySegs[i].scale.x;
@@ -809,7 +803,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Scale((1.0f + this->bodySegs[RR_BASE].scaleMod.x) * this->bodySegs[RR_BASE].scale.x,
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.y) * this->bodySegs[RR_BASE].scale.y,
-                 (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, 1);
+                 (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     Matrix_Pull();
@@ -817,13 +811,13 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
     for (i = 1; i < 5; i++) {
-        Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, 1);
+        Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, MTXMODE_APPLY);
 
-        Matrix_RotateRPY(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, 1);
+        Matrix_RotateRPY(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, MTXMODE_APPLY);
         Matrix_Push();
         Matrix_Scale((1.0f + this->bodySegs[i].scaleMod.x) * this->bodySegs[i].scale.x,
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
-                     (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, 1);
+                     (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, MTXMODE_APPLY);
         Matrix_ToMtx(segMtx, "../z_en_rr.c", 1527);
         Matrix_Pull();
         segMtx++;

@@ -8,7 +8,7 @@ struct EnRr;
 
 typedef void (*EnRrActionFunc)(struct EnRr*, GlobalContext*);
 
-typedef struct EnRrBodySegment {
+typedef struct {
     /* 0x00 */ f32 height;
     /* 0x04 */ f32 heightTarget;
     /* 0x08 */ Vec3f scale;
