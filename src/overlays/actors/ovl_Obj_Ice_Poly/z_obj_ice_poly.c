@@ -13,7 +13,7 @@
 void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx);
-void ObjIcePoly_Draw(ObjIcePoly* this, GlobalContext* globalCtx);
+void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx);
 void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx);
