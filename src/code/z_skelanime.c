@@ -750,7 +750,7 @@ s32 func_800A29BC(s32 arg0, s32 arg1, Vec3s* arg2) {
     arg2++;
     temp_a3 += 6;
 
-    if(t & 1){}
+    if (t & 1) {}
 
     if (t > 0) {
         if (t & 1) {
