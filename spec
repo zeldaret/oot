@@ -1318,8 +1318,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot18_Basket"
     include "build/src/overlays/actors/ovl_Bg_Spot18_Basket/z_bg_spot18_basket.o"
-    include "build/data/overlays/actors/z_bg_spot18_basket.data.o"
-    include "build/data/overlays/actors/z_bg_spot18_basket.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot18_Basket/ovl_Bg_Spot18_Basket_reloc.o"
 endseg
 
 beginseg
@@ -3002,8 +3001,7 @@ endseg
 beginseg
     name "ovl_En_Siofuki"
     include "build/src/overlays/actors/ovl_En_Siofuki/z_en_siofuki.o"
-    include "build/data/overlays/actors/z_en_siofuki.data.o"
-    include "build/data/overlays/actors/z_en_siofuki.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Siofuki/ovl_En_Siofuki_reloc.o"
 endseg
 
 beginseg
@@ -3245,9 +3243,7 @@ endseg
 beginseg
     name "ovl_En_Wonder_Item"
     include "build/src/overlays/actors/ovl_En_Wonder_Item/z_en_wonder_item.o"
-    include "build/data/overlays/actors/z_en_wonder_item.data.o"
-    include "build/data/overlays/actors/z_en_wonder_item.bss.o"
-    include "build/data/overlays/actors/z_en_wonder_item.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wonder_Item/ovl_En_Wonder_Item_reloc.o"
 endseg
 
 beginseg
