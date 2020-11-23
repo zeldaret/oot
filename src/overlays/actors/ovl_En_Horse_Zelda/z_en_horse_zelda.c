@@ -94,7 +94,7 @@ void func_80A6D918(EnHorseZelda* this, GlobalContext* globalCtx) {
 
     func_80A6D8D0(D_80A6E240, this->unk_1EC, &sp28);
     if (Math3D_Vec3f_DistXYZ(&sp28, &this->actor.posRot.pos) <= 400.0f) {
-        this->unk_1EC += 1;
+        this->unk_1EC++;
         if (this->unk_1EC >= 14) {
             this->unk_1EC = 0;
             func_80A6D8D0(D_80A6E240, 0, &sp28);
@@ -132,7 +132,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actionIndex = 0;
+    this->action = 0;
     this->actor.posRot2.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06006B2C, &D_06007148);
     this->animationIndex = 0;
@@ -155,8 +155,8 @@ void EnHorseZelda_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A6DC7C(EnHorseZelda* this) {
-    this->actionIndex = 0;
-    this->animationIndex += 1;
+    this->action = 0;
+    this->animationIndex++;
     if (this->animationIndex > 0) {
         this->animationIndex = 0;
     }
@@ -173,7 +173,7 @@ void func_80A6DCCC(EnHorseZelda* this, GlobalContext* globalCtx) {
 void func_80A6DD14(EnHorseZelda* this) {
     f32 sp34;
 
-    this->actionIndex = 1;
+    this->action = 1;
     this->animationIndex = 0;
     sp34 = this->actor.speedXZ / 6.0f;
     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -207,7 +207,7 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseZelda* this = THIS;
     s32 pad;
 
-    sActionFuncs[this->actionIndex](this, globalCtx);
+    sActionFuncs[this->action](this, globalCtx);
     this->actor.speedXZ = 0.0f;
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
