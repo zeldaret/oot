@@ -28,8 +28,8 @@ typedef struct EnDodongo {
     /* 0x0334 */ Vec3f headPos;
     /* 0x034C */ Vec3f bodyScale;
     /* 0x0358 */ Vec3f icePos[9];
-    /* 0x03C4 */ Color_RGBA8 deathFirePrimColor;
-    /* 0x03C8 */ Color_RGBA8 deathFireEnvColor; 
+    /* 0x03C4 */ Color_RGBA8 bombSmokePrimColor;
+    /* 0x03C8 */ Color_RGBA8 bombSmokeEnvColor; 
     /* 0x03CC */ u8 damageEffect;
     /* 0x03CD */ char unk_3CD[3];  
     /* 0x03D0 */ s32 blureIdx;

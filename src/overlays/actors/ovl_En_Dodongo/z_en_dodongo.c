@@ -128,7 +128,7 @@ void EnDodongo_SetupAction(EnDodongo* this, EnDodongoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnDodongo_MouthFire(EnDodongo* this, GlobalContext* globalCtx) {
+void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.3f, 0.0f };
@@ -139,28 +139,29 @@ void EnDodongo_MouthFire(EnDodongo* this, GlobalContext* globalCtx) {
 
     randCos = Math_Coss(this->actor.shape.rot.y + randAngle);
     randSin = Math_Sins(this->actor.shape.rot.y + randAngle);
-    if (this->deathFirePrimColor.r > 30) {
-        this->deathFirePrimColor.r -= 16;
-        this->deathFirePrimColor.g -= 16;
+    if (this->bombSmokePrimColor.r > 30) {
+        this->bombSmokePrimColor.r -= 16;
+        this->bombSmokePrimColor.g -= 16;
     }
 
-    if (this->deathFirePrimColor.b < 30) {
-        this->deathFirePrimColor.b += 5;
-        this->deathFirePrimColor.a += 8;
-        this->deathFireEnvColor.a += 8;
+    if (this->bombSmokePrimColor.b < 30) {
+        this->bombSmokePrimColor.b += 5;
+        this->bombSmokePrimColor.a += 8;
+        this->bombSmokeEnvColor.a += 8;
     }
-    if (this->deathFireEnvColor.r != 0) {
-        this->deathFireEnvColor.r -= 15;
+    if (this->bombSmokeEnvColor.r != 0) {
+        this->bombSmokeEnvColor.r -= 15;
     }
-    if (this->deathFireEnvColor.g != 0) {
-        this->deathFireEnvColor.g--;
+    if (this->bombSmokeEnvColor.g != 0) {
+        this->bombSmokeEnvColor.g--;
     }
     velocity.x = randSin * 3.5f;
-    velocity.y = this->deathFireEnvColor.r * 0.02f;
+    velocity.y = this->bombSmokeEnvColor.r * 0.02f;
     velocity.z = randCos * 3.5f;
     accel.x = ((Math_Rand_ZeroOne() * 0.1f) + 0.15f) * -randSin;
     accel.z = ((Math_Rand_ZeroOne() * 0.1f) + 0.15f) * -randCos;
-    func_8002836C(globalCtx, &pos, &velocity, &accel, &this->deathFirePrimColor, &this->deathFireEnvColor, 0x64, 0x19, 0x14);
+    func_8002836C(globalCtx, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 0x64, 0x19,
+                  0x14);
 
     randAngle = Math_Rand_ZeroOne() * 0x2000;
     randCos = Math_Coss(this->actor.shape.rot.y + randAngle);
@@ -168,11 +169,12 @@ void EnDodongo_MouthFire(EnDodongo* this, GlobalContext* globalCtx) {
     pos.x -= randCos * 6.0f;
     pos.z += randSin * 6.0f;
     velocity.x = -randCos * 3.5f;
-    velocity.y = this->deathFireEnvColor.r * 0.02f;
+    velocity.y = this->bombSmokeEnvColor.r * 0.02f;
     velocity.z = randSin * 3.5f;
     accel.x = ((Math_Rand_ZeroOne() * 0.1f) + 0.15f) * randCos;
     accel.z = ((Math_Rand_ZeroOne() * 0.1f) + 0.15f) * -randSin;
-    func_8002836C(globalCtx, &pos, &velocity, &accel, &this->deathFirePrimColor, &this->deathFireEnvColor, 0x64, 0x19, 0x14);
+    func_8002836C(globalCtx, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 0x64, 0x19,
+                  0x14);
 
     randAngle = Math_Rand_ZeroOne() * 0x2000;
     randCos = Math_Coss(this->actor.shape.rot.y + randAngle);
@@ -181,11 +183,12 @@ void EnDodongo_MouthFire(EnDodongo* this, GlobalContext* globalCtx) {
     pos.x = this->headPos.x + (randCos * 6.0f);
     pos.z = this->headPos.z - (randSin * 6.0f);
     velocity.x = randCos * 3.5f;
-    velocity.y = this->deathFireEnvColor.r * 0.02f;
+    velocity.y = this->bombSmokeEnvColor.r * 0.02f;
     velocity.z = -randSin * 3.5f;
     accel.x = ((Math_Rand_ZeroOne() * 0.1f) + 0.15f) * -randCos;
     accel.z = ((Math_Rand_ZeroOne() * 0.1f) + 0.15f) * randSin;
-    func_8002836C(globalCtx, &pos, &velocity, &accel, &this->deathFirePrimColor, &this->deathFireEnvColor, 0x64, 0x19, 0x14);
+    func_8002836C(globalCtx, &pos, &velocity, &accel, &this->bombSmokePrimColor, &this->bombSmokeEnvColor, 0x64, 0x19,
+                  0x14);
 }
 
 static InitChainEntry sInitChain[] = {
@@ -200,9 +203,9 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.unk_1F = 3;
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->deathFirePrimColor.r = this->deathFirePrimColor.g = this->deathFireEnvColor.r = 255;
-    this->deathFirePrimColor.a = this->deathFireEnvColor.a = 200;
-    this->deathFireEnvColor.g = 10;
+    this->bombSmokePrimColor.r = this->bombSmokePrimColor.g = this->bombSmokeEnvColor.r = 255;
+    this->bombSmokePrimColor.a = this->bombSmokeEnvColor.a = 200;
+    this->bombSmokeEnvColor.g = 10;
     this->bodyScale.x = this->bodyScale.y = this->bodyScale.z = 1.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 48.0f);
     Actor_SetScale(&this->actor, 0.01875f);
@@ -218,9 +221,10 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetTris(globalCtx, &this->colliderHard, &this->actor, &sHardTrisInit, this->trisElements);
     Collider_SetJntSph(globalCtx, &this->colliderBody, &this->actor, &sBodyJntSphInit, this->sphElements);
 
-    blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p1StartColor[2] = blureInit.p1StartColor[3] = blureInit.p2StartColor[0] =
-        blureInit.p2StartColor[1] = blureInit.p2StartColor[2] = blureInit.p1EndColor[0] = blureInit.p1EndColor[1] = blureInit.p1EndColor[2] =
-            blureInit.p2EndColor[0] = blureInit.p2EndColor[1] = blureInit.p2EndColor[2] = 0xFF;
+    blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p1StartColor[2] = blureInit.p1StartColor[3] =
+        blureInit.p2StartColor[0] = blureInit.p2StartColor[1] = blureInit.p2StartColor[2] = blureInit.p1EndColor[0] =
+            blureInit.p1EndColor[1] = blureInit.p1EndColor[2] = blureInit.p2EndColor[0] = blureInit.p2EndColor[1] =
+                blureInit.p2EndColor[2] = 0xFF;
 
     blureInit.p1EndColor[3] = blureInit.p2EndColor[3] = 0;
     blureInit.p2StartColor[3] = 0x40;
@@ -381,7 +385,8 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
                     pos.x = this->sphElements[0].dim.worldSphere.center.x + deathFireVel.x;
                     pos.y = this->sphElements[0].dim.worldSphere.center.y + deathFireVel.y;
                     pos.z = this->sphElements[0].dim.worldSphere.center.z + deathFireVel.z;
-                    func_8002836C(globalCtx, &pos, &deathFireVel, &deathFireAccel, &this->deathFirePrimColor, &this->deathFireEnvColor, 400, 10, 10);
+                    func_8002836C(globalCtx, &pos, &deathFireVel, &deathFireAccel, &this->bombSmokePrimColor,
+                                  &this->bombSmokeEnvColor, 400, 10, 10);
                 }
                 Audio_PlayActorSound2(&this->actor, 0x180E);
                 func_8003426C(&this->actor, 0x4000, 0x78, 0, 8);
@@ -390,7 +395,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
     }
     if ((s32)this->skelAnime.animCurrentFrame < 28) {
         if (((s32)this->skelAnime.animCurrentFrame < 26) && (this->timer < 11)) {
-            EnDodongo_MouthFire(this, globalCtx);
+            EnDodongo_SpawnBombSmoke(this, globalCtx);
         } else {
             pos = this->headPos;
             func_8002829C(globalCtx, &pos, &smokeVel, &smokeAccel, &white, &white, 50, 5);
@@ -561,7 +566,7 @@ void EnDodongo_Death(EnDodongo* this, GlobalContext* globalCtx) {
 
     if (this->skelAnime.animCurrentFrame < 35.0f) {
         if (this->actor.params == EN_DODONGO_SMOKE_DEATH) {
-            EnDodongo_MouthFire(this, globalCtx);
+            EnDodongo_SpawnBombSmoke(this, globalCtx);
         }
     } else if (this->actor.dmgEffectTimer == 0) {
         func_8003426C(&this->actor, 0x4000, 0x78, 0, 4);
@@ -682,7 +687,8 @@ void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.z = this->actor.posRot.pos.z + Math_Coss(this->actor.shape.rot.y) * -30.0f;
 }
 
-s32 EnDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               Actor* thisx) {
     EnDodongo* this = THIS;
 
     if ((limbIndex == 0xF) || (limbIndex == 0x10)) {
@@ -805,8 +811,8 @@ void EnDodongo_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     s32 index;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDodongo_OverrideLimbDraw, EnDodongo_PostLimbDraw,
-                   &this->actor);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDodongo_OverrideLimbDraw,
+                   EnDodongo_PostLimbDraw, &this->actor);
 
     if (this->iceTimer != 0) {
         this->actor.dmgEffectTimer++;
@@ -814,8 +820,8 @@ void EnDodongo_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         this->iceTimer--;
         if ((this->iceTimer % 4) == 0) {
             index = this->iceTimer >> 2;
-            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &this->icePos[index], 0x96, 0x96, 0x96, 0xFA,
-                                           0xEB, 0xF5, 0xFF, 1.8f);
+            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &this->icePos[index], 0x96, 0x96, 0x96, 0xFA, 0xEB,
+                                           0xF5, 0xFF, 1.8f);
         }
     }
 }
