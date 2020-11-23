@@ -12,7 +12,7 @@ typedef struct EnKusa {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnKusaActionFunc actionFunc;
     /* 0x0150 */ ColliderCylinder collider;
-    /* 0x019C */ s16 unk_19C;
+    /* 0x019C */ s16 timer;
     /* 0x019E */ s8 kusaTexObjIndex;
 } EnKusa; // size = 0x01A0
 
