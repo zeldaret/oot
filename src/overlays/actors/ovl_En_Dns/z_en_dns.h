@@ -23,7 +23,7 @@ typedef struct EnDns {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[18];
     /* 0x01FC */ Vec3s transitionDrawTable[18];
-    /* 0x0268 */  EnDnsActionFunc actionFunc;
+    /* 0x0268 */ EnDnsActionFunc actionFunc;
     /* 0x026C */ ColliderCylinder collider;
     /* 0x02B8 */ s16 dustTimer;
     /* 0x02BA */ u8 unk_2BA;
