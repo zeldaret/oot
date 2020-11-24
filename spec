@@ -3453,8 +3453,7 @@ endseg
 beginseg
     name "ovl_Obj_Ice_Poly"
     include "build/src/overlays/actors/ovl_Obj_Ice_Poly/z_obj_ice_poly.o"
-    include "build/data/overlays/actors/z_obj_ice_poly.data.o"
-    include "build/data/overlays/actors/z_obj_ice_poly.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Ice_Poly/ovl_Obj_Ice_Poly_reloc.o"
 endseg
 
 beginseg

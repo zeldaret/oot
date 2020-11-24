@@ -1338,7 +1338,10 @@ D_06000A3C = 0x06000A3C;
 D_06000830 = 0x06000830;
 D_0600040C = 0x0600040C;
 
-//z_bg_jya_bombchuiwa
+// z_obj_ice_poly
+D_04033EE0 = 0x04033EE0;
+
+// z_bg_jya_bombchuiwa
 D_0600E8D0 = 0x0600E8D0;
 D_060119B0 = 0x060119B0;
 D_0600DC40 = 0x0600DC40;
