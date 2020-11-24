@@ -157,13 +157,15 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
                 this->actor.yDistFromLink <= 80.0f && this->actor.yDistFromLink >= -160.0f) {
                 Math_SmoothScaleMaxMinS(&this->beamRot, pitch, 10, 0xFA0, 0);
                 if (Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
-                                            (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460 &&
-                    --this->timer == 0) {
-                    this->unk_25E++;
-                    this->skelAnime.animCurrentFrame = 0.0f;
-                    this->skelAnime.initialFrame = 0.0f;
-                    this->skelAnime.animPlaybackSpeed = 2.0f;
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_AIM);
+                                            (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {
+                    this->timer--;
+                    if (this->timer == 0) {
+                        this->unk_25E++;
+                        this->skelAnime.animCurrentFrame = 0.0f;
+                        this->skelAnime.initialFrame = 0.0f;
+                        this->skelAnime.animPlaybackSpeed = 2.0f;
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_AIM);
+                    }
                 }
             } else {
                 this->headRotY -= 0x1F4;
@@ -293,15 +295,13 @@ void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
             this->unk_25E++;
             if (this->unk_25E == 3) {
                 EnVm_SetupWait(this);
+            } else if (this->unk_25E == 1) {
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000068), 2,
+                                     0.0f);
             } else {
-                if (this->unk_25E == 1) {
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000068, 1.0f, 0.0f,
-                                         SkelAnime_GetFrameCount(&D_06000068), 2, 0.0f);
-                } else {
-                    this->timer = 10;
-                    this->skelAnime.animCurrentFrame = 0.0f;
-                    this->skelAnime.animPlaybackSpeed = 2.0f;
-                }
+                this->timer = 10;
+                this->skelAnime.animCurrentFrame = 0.0f;
+                this->skelAnime.animPlaybackSpeed = 2.0f;
             }
         }
     } else {
