@@ -1926,11 +1926,7 @@ endseg
 beginseg
     name "ovl_En_Attack_Niw"
     include "build/src/overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Attack_Niw/ovl_En_Attack_Niw_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_attack_niw.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2581,11 +2577,7 @@ endseg
 beginseg
     name "ovl_En_Insect"
     include "build/src/overlays/actors/ovl_En_Insect/z_en_insect.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Insect/ovl_En_Insect_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_insect.reloc.o"
-#endif
 endseg
 
 beginseg

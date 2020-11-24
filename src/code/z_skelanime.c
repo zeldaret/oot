@@ -730,8 +730,6 @@ Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limb
     return gfx;
 }
 
-#ifdef NON_MATCHING
-// Function is unused.  This is functionally equivilent, misplace andi which caused regalloc
 s32 func_800A29BC(s32 arg0, s32 arg1, Vec3s* arg2) {
     s16* temp_t1;
     s16* temp_a3;
@@ -751,6 +749,8 @@ s32 func_800A29BC(s32 arg0, s32 arg1, Vec3s* arg2) {
     phi_v0 = 1;
     arg2++;
     temp_a3 += 6;
+
+    if (t & 1) {}
 
     if (t > 0) {
         if (t & 1) {
@@ -781,9 +781,6 @@ s32 func_800A29BC(s32 arg0, s32 arg1, Vec3s* arg2) {
 ret:
     return t;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A29BC.s")
-#endif
 
 s16 func_800A2DBC(GenericAnimationHeader* animationSeg) {
     GenericAnimationHeader* animation = SEGMENTED_TO_VIRTUAL(animationSeg);
