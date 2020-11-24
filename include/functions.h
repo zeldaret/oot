@@ -664,7 +664,7 @@ UNK_TYPE func_80041D4C(CollisionContext*, CollisionPoly*, CollisionPoly*);
 // ? func_80041F10(?);
 u16 func_80041F34(CollisionContext*, CollisionPoly*, u32);
 s32 func_80041FA0(CollisionContext*, CollisionPoly*, u32);
-// ? func_80042048(?);
+s32 func_80042048(CollisionContext*, CollisionPoly*, s32);
 // ? func_80042108(?);
 s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, UNK_PTR);
 s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg2, f32 arg3, WaterBox** arg4);
