@@ -21,7 +21,13 @@ void func_808C2ECC(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C2FAC(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C3094(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C29B0(BossDodongo* this);
-s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+void func_808C5578(BossDodongo* this, GlobalContext* globalCtx);
+
+f32 func_808C4F6C(BossDodongo* this,GlobalContext* globalCtx);
+f32 func_808C50A8(BossDodongo* this,GlobalContext* globalCtx);
+
+s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 Actor* thisx);
 void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
 
 const ActorInit Boss_Dodongo_InitVars = {
@@ -1017,13 +1023,6 @@ void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx) { // Hit?
     }
 }
 
-Vec3f D_808CA3F8[] = {
-    { -1390.0f, 0.0f, -3804.0f },
-    { -1390.0f, 0.0f, -2804.0f },
-    { -390.0f, 0.0f, -2804.0f },
-    { -390.0f, 0.0f, -3804.0f },
-};
-
 void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { // Blow fire
     this->unk_1E2 = 1;
     if (this->unk_1AC >= 0x15) {
@@ -1041,6 +1040,13 @@ void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { // Blow fi
         }
     }
 }
+
+Vec3f D_808CA3F8[] = {
+    { -1390.0f, 0.0f, -3804.0f },
+    { -1390.0f, 0.0f, -2804.0f },
+    { -390.0f, 0.0f, -2804.0f },
+    { -390.0f, 0.0f, -3804.0f },
+};
 
 void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx) {
     Vec3f* sp4C;
@@ -1110,35 +1116,6 @@ void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx) {
         }
     }
 }
-
-// move under func_808C32F4
-s32 D_808CA428[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA434[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA440[] = { 0xFFFF00FF, 0x00000096 };
-s32 D_808CA448[] = { 0xFF0000FF, 0x00000000 };
-s32 D_808CA450[] = { 0x459C4000, 0xC51C4000, 0x00000000 };
-s32 D_808CA45C[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA468[] = { 0x4633B000, 0xC53B8000, 0x00000000 };
-s32 D_808CA474[] = { 0x459C4000, 0xC4FA0000, 0x00000000 };
-s32 D_808CA480[] = { 0x45FA0000, 0x00000000, 0x00000000 };
-s32 D_808CA48C[] = { 0x45FA0000, 0x00000000, 0x00000000 };
-s32 D_808CA498[] = { 0xC3DC0000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56AA000,
-                     0xC4A78000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC5326000 };
-s32 D_808CA4C8[] = { 0xC45E8000, 0x00000000, 0xC5326000, 0xC3DC0000, 0x00000000, 0xC54E8000,
-                     0xC45E8000, 0x00000000, 0xC56AA000, 0xC4A78000, 0x00000000, 0xC54E8000 };
-s32 D_808CA4F8[] = { 0xFFFF00FF, 0x00000064 };
-s32 D_808CA500[] = { 0xFF0000FF, 0x00000000 };
-s32 D_808CA508[] = { 0xC3C30000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56DC000,
-                     0xC4ADC000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC52F4000 };
-s32 D_808CA538[] = { 0xC45E8000, 0x00000000, 0xC52F4000, 0xC3C30000, 0x00000000, 0xC54E8000,
-                     0xC45E8000, 0x00000000, 0xC56DC000, 0xC4ADC000, 0x00000000, 0xC54E8000 };
-s32 D_808CA568 = 0x00000064;
-s32 D_808CA56C = 0x00000000;
-s32 D_808CA570[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA57C[] = { 0x00000000, 0x3F800000, 0x00000000 };
-s32 D_808CA588 = 0xFFFF64FF;
-s32 D_808CA58C = 0xFF6400FF;
-s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
 
 void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
     Vec3f* sp5C;
@@ -1215,16 +1192,283 @@ void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
 
-
+Vec3f D_808CA428 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_808CA434 = { 0.0f, 0.0f, 0.0f };
+Color_RGBA8 magmaPrimColor[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 150 } };
+Color_RGBA8 magmaEnvColor[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
+s32 D_808CA450[] = { 0x459C4000, 0xC51C4000, 0x00000000 };
 
 #ifdef NON_MATCHING
-s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BossDodongo* this = THIS;
+    Player* player;
+    s16 sp90;
+    // s16 sp8E;
+    s16 magmaScale;
+    f32 sp88;
+    Vec3f sp84;
+    Vec3f sp6C;
+    Vec3f sp60;
+    Vec3f sp54;
+
+    f32 sp50;
+    f32 sp4C;
+
+    f32 temp_f0;
+    f32 temp_f10;
+    f32 temp_f10_2;
+    f32 temp_f12;
+    f32 temp_f12_2;
+    f32 temp_f12_3;
+    f32 temp_f16;
+    s16 i1;
+    s16 i2;
+    s16 i3;
+    s16 i4;
+    s16 i5;
+    f32 fogB;
+    f32 fogR;
+    f32 fogG;
+    s16 magma2DrawMode;
+    s32 temp_v0_8;
+    f32 phi_f0;
+    s32 phi_s0_3;
+    //s16 phi_v1;
+    s16 phi_a2;
+
+    player = PLAYER;
+
+    this->unk_1E2 = 0;
+    this->unk_19E++;
+    if (this->unk_1DA != 0) {
+        this->unk_1DA--;
+    }
+    if (this->unk_1DC != 0) {
+        this->unk_1DC--;
+    }
+    if (this->unk_1DE != 0) {
+        this->unk_1DE--;
+    }
+    if (this->unk_1C0 != 0) {
+        this->unk_1C0--;
+    }
+    if (this->unk_1C8 != 0) {
+        this->unk_1C8--;
+    }
+    //Turnarys?
+    temp_f0 = func_808C4F6C(this,globalCtx);
+    if (temp_f0 > 0.0f) {
+        this->unk_1A4 = temp_f0;
+    } else {
+        this->unk_1A4 = 0;
+    }
+    temp_f0 = func_808C50A8(this, globalCtx);
+    if (0.0f < temp_f0) {
+        this->unk_1A6 = temp_f0;
+    } else {
+        this->unk_1A6 = 0;
+    }
+    func_808C51F4(this, globalCtx);
+    func_808C524C(this, globalCtx);
+    this->actionFunc(this, globalCtx);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, this->unk_228, 1.0f, 100.0f, 0.0f);
+    Actor_MoveForward(thisx);
+    func_808C5354(this, globalCtx);
+    func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 20.0f, 4);
+    Math_SmoothScaleMaxMinF(&this->unk_208, 0.0f, 1.0f, 0.001f, 0.0f);
+    Math_SmoothScaleMaxMinF(&this->unk_20C, 0.0f, 1.0f, 0.001f, 0.0f);
+    if ((this->unk_19E & 0x7F) == 0) {
+        for (i1 = 0; i1 < 50; i1++) {
+            this->unk_324[i1] = (Math_Rand_ZeroOne() * 0.25f) + 0.5f;
+        }
+    }
+    //@Bug: loop itterates to 50 but temp_25C only goes up to 49
+    for (i2 = 0; i2 < 50; i2++) {
+        this->unk_25C[i2]  += this->unk_324[i2];
+    }
+
+    if (this->unk_1C8 != 0) {
+        if (this->unk_1C8 >= 11) {
+            if (this->unk_1C8 & 1) {
+                phi_f0 = 40.0f;
+            } else {
+                phi_f0 = 60.0f;
+            }
+            Math_SmoothScaleMaxMinF(&this->unk_240, phi_f0, 1.0f, 50.0f, 0.0f);
+        } else {
+            Math_SmoothScaleMaxMinF(&this->unk_240, 0.0f, 1.0f, 10.0f, 0.0f);
+        }
+        if ((globalCtx->envCtx.unk_8C[1][2] == 0) && (globalCtx->envCtx.unk_8C[0][2] == 0)) {
+            globalCtx->envCtx.unk_8C[1][1] = (u32)this->unk_240 & 0xFF;
+            globalCtx->envCtx.unk_8C[1][2] = (u32)(this->unk_240 * 0.1f) & 0xFF;
+            globalCtx->envCtx.unk_8C[0][0] = (u32)this->unk_240 & 0xFF;
+            globalCtx->envCtx.unk_8C[0][1] = (u32)(this->unk_240 * 0.1f) & 0xFF;
+        }
+    }
+    if (this->unk_1BE != 0) {
+        if (this->unk_1BE >= 0x3E8) {
+            Math_SmoothScaleMaxMinF(&this->fogR, 30.0f, 1.0f, 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->fogG, 10.0f, 1.0f, 20.0f, 0.0f);
+        } else {
+            this->unk_1BE--;
+            Math_SmoothScaleMaxMinF(&this->fogR, 255.0f, 1.0f, 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->fogG, 0.0f, 1.0f, 20.0f, 0.0f);
+        }
+        Math_SmoothScaleMaxMinF(&this->fogB, 0.0f, 1.0f, 20.0f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->fogMin, 900.0f, 1.0f, 10.0f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->fogMax, 1099.0f, 1.0f, 10.0f, 0.0f);
+    } else {
+        fogR = globalCtx->lightCtx.unk_07;
+        if (globalCtx->lightCtx.unk_07 < 0) {
+            fogR = globalCtx->lightCtx.unk_07 + 4294967296.0f;
+        }
+        Math_SmoothScaleMaxMinF(&this->fogR, fogR, 1.0f, 5.0f, 0.0f);
+        fogG = globalCtx->lightCtx.unk_08;
+        if (globalCtx->lightCtx.unk_08 < 0) {
+            fogG = globalCtx->lightCtx.unk_08 + 4294967296.0f;
+        }
+        Math_SmoothScaleMaxMinF(&this->fogG, fogG, 1.0f, 5.0f, 0.0f);
+        fogB = globalCtx->lightCtx.unk_09;
+        if (globalCtx->lightCtx.unk_09 < 0) {
+            fogB = globalCtx->lightCtx.unk_09 + 4294967296.0f;
+        }
+        Math_SmoothScaleMaxMinF(&this->fogB, fogB, 1.0f, 5.0f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->fogMin, globalCtx->lightCtx.unk_0A, 1.0f, 5.0f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->fogMax, 1000.0f, 1.0f, 5.0f, 0.0f);
+    }
+    if (player->actor.posRot.pos.y < -1000.0f) {
+        magmaScale = 0;
+        // temp_f0_3 = this->unk_224;
+        if (1.9f < this->unk_224) {
+            sp90 = 0;
+            magma2DrawMode = 0;
+            phi_s0_3 = 1;
+        } else if (1.7f < this->unk_224) {
+            sp90 = 1;
+            magma2DrawMode = 0;
+            phi_s0_3 = 3;
+        } else if (1.4f < this->unk_224) {
+            sp90 = 3;
+            magma2DrawMode = (Math_Rand_ZeroOne() * 1.9f);
+            phi_s0_3 = 7;
+        } else if (1.1f < this->unk_224) {
+            sp90 = 4095;
+            magma2DrawMode = (Math_Rand_ZeroOne() * 1.9f);
+            phi_s0_3 = 7;
+        } else {
+            sp90 = -1;
+            // sp8E = 1;
+            magmaScale = (Math_Rand_ZeroOne() * 50.0f) - 50;
+            magma2DrawMode = 1;
+            phi_s0_3 = 1;
+        }
+        if (player->csMode >= 10) {
+            phi_s0_3 = -1;
+        }
+        if ((this->unk_19E & phi_s0_3) == 0) {
+            // sp8E = phi_v1;
+            sp84.x = Math_Rand_ZeroOne() * 330.0f;
+            temp_f12 = Math_Rand_ZeroOne() * 6.28f;
+
+            temp_f10 = sinf(temp_f12) * sp84.x;
+            sp84.z = -1523.76f;
+            sp84.y = temp_f10 + -890.0f;
+            //magma2DrawMode = phi_v1;
+            sp88 = (cosf(temp_f12) * sp84.x) + -3304.0f;
+            EffectSsGMagma2_Spawn(globalCtx, &sp84, &magmaPrimColor[magma2DrawMode], &magmaEnvColor[magma2DrawMode],
+                                  0xA - (magma2DrawMode * 5), magma2DrawMode, magmaScale + 100);
+        }
+        phi_a2 = this->unk_19E;
+        if ((this->unk_19E & sp90) == 0) {
+            sp6C = D_808CA428;
+
+            sp60 = D_808CA434;
+
+            sp50 = Math_Rand_ZeroOne() * 330.0f;
+            temp_f12_2 = Math_Rand_ZeroOne() * 6.28f;
+            sp4C = temp_f12_2;
+            temp_f10_2 = sinf(temp_f12_2) * sp50;
+
+            sp54.y = -1523.76f;
+            sp54.x = temp_f10_2 + -890.0f;
+            sp54.z = (cosf(temp_f12_2) * sp50) + -3304.0f;
+            EffectSsGMagma_Spawn(globalCtx, &sp54);
+            for (i3 = 0; i3 < 4; i3++) {
+                sp60.y = 0.4f;
+                sp60.x = Math_Rand_CenteredFloat(0.5f);
+                sp60.z = Math_Rand_CenteredFloat(0.5f);
+
+                sp50 = Math_Rand_ZeroOne() * 330.0f;
+                temp_f12_3 = Math_Rand_ZeroOne() * 6.28f;
+                sp4C = temp_f12_3;
+                temp_f16 = sinf(temp_f12_3) * sp50;
+                sp54.y = -1513.76f;
+                sp54.x = temp_f16 + -890.0f;
+                sp54.z = (cosf(temp_f12_3) * sp50) + -3304.0f;
+                func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, Math_Rand_ZeroFloat(2.0f) + 6, 80);
+            }
+            phi_a2 = this->unk_19E;
+        }
+        func_808C1554(D_030021D8, D_808C73C8, phi_a2, this->unk_224);
+    }
+    if (this->unk_1C6 != 0) {
+        for (i4 = 0; i4 < 20; i4++) {
+            temp_v0_8 = (this->unk_1C2 & 0x7FF) * 2;
+            ((u16*)SEGMENTED_TO_VIRTUAL(D_808C73C8))[temp_v0_8] = ((u16*)SEGMENTED_TO_VIRTUAL(D_808C93C8))[temp_v0_8];
+
+            this->unk_1C2 += 37;
+        }
+        Math_SmoothScaleMaxMinF(&this->unk_224, 0.0f, 1.0f, 0.01f, 0.0f);
+    }
+    if (this->unk_1BC == 0) {
+        if (func_808C5578 != this->actionFunc) {
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        }
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        if (&func_808C3704 == this->actionFunc) {
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        }
+    }
+    if (&func_808C3224 == this->actionFunc) {
+        this->collider.list->dim.scale = 0.0f;
+    } else {
+        this->collider.list->dim.scale = 1.0f;
+    }
+
+    for (i5 = 6; i5 < 19; i5++) {
+        if (i5 != 0xC) {
+            if (&func_808C3704 == this->actionFunc) {
+                this->collider.list[i5].dim.scale = 0.0f;
+            } else {
+                this->collider.list[i5].dim.scale = 1.0f;
+            }
+        }
+    }
+
+    if (0.0f != this->unk_244) {
+        MREG(64) = 1;
+        MREG(65) = 0xFF;
+        MREG(66) = 0x50;
+        MREG(67) = 0;
+        MREG(68) = (this->unk_244);
+    } else {
+        MREG(64) = 0;
+    }
+    Math_SmoothScaleMaxMinF(&this->unk_244, 0.0f, 1.0f, 2.0f, 0.0f);
+    func_808C6CB4(globalCtx);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
+#endif 
+#ifdef NON_MATCHING
+// Very small stack difference
+s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 Actor* thisx) {
     f32 mtxScaleY;
     f32 mtxScaleZ;
     BossDodongo* this = THIS;
-    
 
     if ((limbIndex == 6) || (limbIndex == 7)) {
         if (this->unk_25C) {}
@@ -1265,8 +1509,44 @@ block_1:
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_OverrideLimbDraw.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_PostLimbDraw.s")
-// PLD
+void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    static Vec3f D_808CA45C = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_808CA468 = { 11500.0f, -3000.0f, 0.0f };
+    static Vec3f D_808CA474 = { 5000.0f, -2000.0f, 0.0f };
+    static Vec3f D_808CA480 = { 8000.0f, 0.0f, 0.0f };
+    static Vec3f D_808CA48C = { 8000.0f, 0.0f, 0.0f };
+    BossDodongo* this = THIS;
+
+    if (limbIndex == 6) {
+        Matrix_MultVec3f(&D_808CA45C, &this->unk_3EC);
+        Matrix_MultVec3f(&D_808CA450, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_808CA468, &this->unk_3F8);
+        Matrix_MultVec3f(&D_808CA474, &this->unk_41C);
+    } else if (limbIndex == 39) {
+        Matrix_MultVec3f(&D_808CA480, &this->unk_410);
+    } else if (limbIndex == 46) {
+        Matrix_MultVec3f(&D_808CA48C, &this->unk_404);
+    }
+    func_800628A4(limbIndex, &this->collider);
+}
+
+s32 D_808CA498[] = { 0xC3DC0000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56AA000,
+                     0xC4A78000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC5326000 };
+s32 D_808CA4C8[] = { 0xC45E8000, 0x00000000, 0xC5326000, 0xC3DC0000, 0x00000000, 0xC54E8000,
+                     0xC45E8000, 0x00000000, 0xC56AA000, 0xC4A78000, 0x00000000, 0xC54E8000 };
+s32 D_808CA4F8[] = { 0xFFFF00FF, 0x00000064 };
+s32 D_808CA500[] = { 0xFF0000FF, 0x00000000 };
+s32 D_808CA508[] = { 0xC3C30000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56DC000,
+                     0xC4ADC000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC52F4000 };
+s32 D_808CA538[] = { 0xC45E8000, 0x00000000, 0xC52F4000, 0xC3C30000, 0x00000000, 0xC54E8000,
+                     0xC45E8000, 0x00000000, 0xC56DC000, 0xC4ADC000, 0x00000000, 0xC54E8000 };
+s32 D_808CA568 = 0x00000064;
+s32 D_808CA56C = 0x00000000;
+s32 D_808CA570[] = { 0x00000000, 0x00000000, 0x00000000 };
+s32 D_808CA57C[] = { 0x00000000, 0x3F800000, 0x00000000 };
+s32 D_808CA588 = 0xFFFF64FF;
+s32 D_808CA58C = 0xFF6400FF;
+s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
 
 void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BossDodongo* this = THIS;
@@ -1282,12 +1562,14 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     Matrix_RotateZ(this->unk_23C, 1);
     Matrix_RotateX((this->unk_1C4 / 32768.0f) * 3.14159f, MTXMODE_APPLY);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossDodongo_OverrideLimbDraw, BossDodongo_PostLimbDraw,
-                   thisx);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossDodongo_OverrideLimbDraw,
+                   BossDodongo_PostLimbDraw, thisx);
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3981);
     func_808C6DE8(globalCtx);
 }
+
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C4F6C.s")
 

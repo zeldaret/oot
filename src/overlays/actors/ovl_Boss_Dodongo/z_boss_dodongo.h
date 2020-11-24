@@ -41,7 +41,9 @@ typedef struct BossDodongo {
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ char unk_1CA[0x10];
     /* 0x01DA */ s16 unk_1DA; //u16 unk_1DA;
-    /* 0x01DC */ char unk_1DC[0x6];
+    /* 0x01DC */ s16 unk_1DC;
+    /* 0x01DE */ s16 unk_1DE;
+    /* 0x01E0 */ s16 unk_1E0;
     /* 0x01E2 */ s8 unk_1E2;
     /* 0x01E3 */ s8 unk_1E3;
     /* 0x01E4 */ f32 unk_1E4;
@@ -63,16 +65,17 @@ typedef struct BossDodongo {
     /* 0x0228 */ f32 unk_228;
     /* 0x022C */ char unk_22C[0x10];
     /* 0x023C */ f32 unk_23C;
-    /* 0x0240 */ char unk_240[4];
+    /* 0x0240 */ f32 unk_240;
     /* 0x0244 */ f32 unk_244;
     /* 0x0248 */ char unk_248[0x14];
     /* 0x025C */ f32 unk_25C[49];
-    /* 0x0260 */ char unk_320[0xCC];
+    /* 0x0320 */ char unk_320[0x4];
+    /* 0x0324 */ f32 unk_324[50];
     /* 0x03EC */ Vec3f unk_3EC;
-    /* 0x03F8 */ char unk_3F8[0xC];//Vec3f?
+    /* 0x03F8 */ Vec3f unk_3F8;
     /* 0x0404 */ Vec3f unk_404;
     /* 0x0410 */ Vec3f unk_410;
-    /* 0x041C */ Vec3f unk_41C;//
+    /* 0x041C */ Vec3f unk_41C;
     /* 0x0428 */ Vec3f cameraEye;
     /* 0x0434 */ Vec3f cameraAt;
     /* 0x0440 */ ColliderJntSph collider;
