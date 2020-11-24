@@ -146,7 +146,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
                 return 0x2037;
             }
         case 3:
-            if (((gSaveContext.eventInf[0] & 0x40) != 0) || ((gSaveContext.eventInf[0] & 0x20) != 0)) {
+            if ((gSaveContext.eventInf[0] & 0x40) || (gSaveContext.eventInf[0] & 0x20)) {
                 return 0x203E;
             } else {
                 return 0x203D;
@@ -201,45 +201,46 @@ s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
 #ifdef NON_MATCHING
 // Reorderings in the final case
 s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
+    EnIn* this = THIS;
     s32 sp18 = 1;
 
-    switch (thisx->textId) {
+    switch (this->actor.textId) {
     case 0x2030:
     case 0x2031:
         if (globalCtx->msgCtx.choiceIndex == 1) {
-            thisx->textId = 0x2032;
+            this->actor.textId = 0x2032;
         } else if (gSaveContext.rupees < 10) {
-            thisx->textId = 0x2033;
+            this->actor.textId = 0x2033;
         } else {
-            thisx->textId = 0x2034;
+            this->actor.textId = 0x2034;
         }
-        func_8010B720(globalCtx, thisx->textId);
+        func_8010B720(globalCtx, this->actor.textId);
         gSaveContext.infTable[9] |= 0x400;
         break;
     case 0x2034:
         if (globalCtx->msgCtx.choiceIndex == 1) {
             Rupees_ChangeBy(-10);
-            thisx->textId = 0x205C;
+            this->actor.textId = 0x205C;
         } else {
-            thisx->textId = 0x2035;
+            this->actor.textId = 0x2035;
         }
-        func_8010B720(globalCtx, thisx->textId);
+        func_8010B720(globalCtx, this->actor.textId);
         break;
     case 0x2036:
     case 0x2037:
         if (globalCtx->msgCtx.choiceIndex == 1) {
             sp18 = 2;
         } else {
-            thisx->textId = 0x201F;
-            func_8010B720(globalCtx, thisx->textId);
+            this->actor.textId = 0x201F;
+            func_8010B720(globalCtx, this->actor.textId);
         }
         break;
     case 0x2038:
         if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
             sp18 = 2;
         } else {
-            thisx->textId = 0x2039;
-            func_8010B720(globalCtx, thisx->textId);
+            this->actor.textId = 0x2039;
+            func_8010B720(globalCtx, this->actor.textId);
             gSaveContext.infTable[10] |= 4;
         }
         break;
@@ -247,12 +248,12 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
         if (globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees >= 50) {
             sp18 = 2;
         } else {
-            thisx->textId = 0x2039;
-            func_8010B720(globalCtx, thisx->textId);
-            gSaveContext.eventInf[0] &= ~0xF;
-            gSaveContext.eventInf[0] &= ~0x20;
-            gSaveContext.eventInf[0] &= ~0x40;
-            THIS->actionFunc = func_80A7A4C8;
+            this->actor.textId = 0x2039;
+            func_8010B720(globalCtx, this->actor.textId);
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 0;
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x20) | 0;
+            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x40) | 0;
+            this->actionFunc = func_80A7A4C8;
         }
         break;
     }
@@ -479,8 +480,8 @@ s32 D_80A7B998 = 0;
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIn* this = THIS;
-    RespawnData *temp_t9 = gSaveContext.respawn;
-    Vec3f sp1C;
+    RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
+    Vec3f respawnPos;
 
     this->unk_1E4 = Object_GetIndex(&globalCtx->objectCtx, 0xC0);
     if (this->unk_1E4 < 0 && this->actor.params > 0) {
@@ -488,8 +489,8 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    sp1C = temp_t9->pos;
-    if (D_80A7B998 == 0 && sp1C.x == 1107.0f && sp1C.y == 0.0f && sp1C.z == -3740.0f) {
+    respawnPos = respawn->pos;
+    if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
         gSaveContext.eventInf[0] = 0;
         D_80A7B998 = 1;
     }
@@ -691,8 +692,6 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc only
 void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
         this->actor.flags |= 0x10000;
@@ -703,16 +702,13 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A7A848;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x0F) | 7;
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[0] |= 0x20;
+        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x20;
         if (!(gSaveContext.eventInf[0] & 0x40)) {
             globalCtx->msgCtx.unk_E3E7 = 4;
             globalCtx->msgCtx.msgMode = 0x36;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_In/func_80A7A770.s")
-#endif
 
 void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
@@ -732,8 +728,6 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc only
 void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
         this->actor.flags |= 0x10000;
@@ -753,15 +747,10 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.unk_E3E7 = 0;
         globalCtx->msgCtx.msgMode = 0x36;
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[0] |= 0x40;
+        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x40;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_In/func_80A7A940.s")
-#endif
 
-#ifdef NON_MATCHING
-// Regalloc only
 void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
     Vec3f D_80A7B99C = { 0.0f, 0.0f, 0.0f };
     Vec3f sp30;
@@ -800,10 +789,6 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
     Interface_ChangeAlpha(2);
     this->actionFunc = func_80A7ABD4;
 }
-#else
-Vec3f D_80A7B99C = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_In/func_80A7AA40.s")
-#endif
 
 void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
