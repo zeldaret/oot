@@ -38,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // Draw properties
-Gfx D_809AD278[] = {
+static Gfx D_809AD278[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
@@ -61,7 +61,7 @@ static Vtx sCylinderVertices[] = {
 };
 
 // Polygons for cylinder
-Gfx D_809AD3B8[] = {
+static Gfx D_809AD3B8[] = {
     gsSPVertex(sCylinderVertices, 16, 0),       gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0),     gsSP2Triangles(0, 5, 6, 0, 0, 6, 7, 0),
     gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0),  gsSP2Triangles(8, 11, 12, 0, 8, 12, 13, 0),
@@ -80,7 +80,7 @@ static Vtx sCuboidVertices[] = {
 };
 
 // Polygons for cuboid
-Gfx D_809AD4B8[] = {
+static Gfx D_809AD4B8[] = {
     gsSPVertex(sCuboidVertices, 8, 0),      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
     gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),

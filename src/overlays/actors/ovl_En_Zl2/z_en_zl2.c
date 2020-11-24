@@ -61,11 +61,11 @@ void func_80B523BC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B523C8(EnZl2* this, GlobalContext* globalCtx);
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx);
 
-UNK_TYPE D_80B52810[] = {
+static UNK_TYPE D_80B52810[] = {
     0x060030C8, 0x06003C48, 0x06004048, 0x06004548, 0x06004948, 0x06004D48, 0x06005148, 0x06005D48, 0x06006148,
 };
 
-UNK_TYPE D_80B52834[] = {
+static UNK_TYPE D_80B52834[] = {
     0x06003508,
     0x06005548,
     0x06005948,

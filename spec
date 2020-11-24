@@ -930,8 +930,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Turara"
     include "build/src/overlays/actors/ovl_Bg_Ice_Turara/z_bg_ice_turara.o"
-    include "build/data/overlays/actors/z_bg_ice_turara.data.o"
-    include "build/data/overlays/actors/z_bg_ice_turara.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Turara/ovl_Bg_Ice_Turara_reloc.o"
 endseg
 
 beginseg
@@ -1064,8 +1063,7 @@ endseg
 beginseg
     name "ovl_Bg_Mizu_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Mizu_Shutter/z_bg_mizu_shutter.o"
-    include "build/data/overlays/actors/z_bg_mizu_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_mizu_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Mizu_Shutter/ovl_Bg_Mizu_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -1928,11 +1926,7 @@ endseg
 beginseg
     name "ovl_En_Attack_Niw"
     include "build/src/overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Attack_Niw/ovl_En_Attack_Niw_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_attack_niw.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2537,8 +2531,7 @@ endseg
 beginseg
     name "ovl_En_Horse_Zelda"
     include "build/src/overlays/actors/ovl_En_Horse_Zelda/z_en_horse_zelda.o"
-    include "build/data/overlays/actors/z_en_horse_zelda.data.o"
-    include "build/data/overlays/actors/z_en_horse_zelda.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse_Zelda/ovl_En_Horse_Zelda_reloc.o"
 endseg
 
 beginseg
@@ -2570,9 +2563,7 @@ endseg
 beginseg
     name "ovl_En_Ik"
     include "build/src/overlays/actors/ovl_En_Ik/z_en_ik.o"
-    include "build/data/overlays/actors/z_en_ik.data.o"
-    include "build/data/overlays/actors/z_en_ik.bss.o"
-    include "build/data/overlays/actors/z_en_ik.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ik/ovl_En_Ik_reloc.o"
 endseg
 
 beginseg
@@ -2585,11 +2576,7 @@ endseg
 beginseg
     name "ovl_En_Insect"
     include "build/src/overlays/actors/ovl_En_Insect/z_en_insect.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Insect/ovl_En_Insect_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_insect.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2841,8 +2828,7 @@ endseg
 beginseg
     name "ovl_En_Okuta"
     include "build/src/overlays/actors/ovl_En_Okuta/z_en_okuta.o"
-    include "build/data/overlays/actors/z_en_okuta.data.o"
-    include "build/data/overlays/actors/z_en_okuta.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Okuta/ovl_En_Okuta_reloc.o"
 endseg
 
 beginseg
@@ -3466,8 +3452,7 @@ endseg
 beginseg
     name "ovl_Obj_Ice_Poly"
     include "build/src/overlays/actors/ovl_Obj_Ice_Poly/z_obj_ice_poly.o"
-    include "build/data/overlays/actors/z_obj_ice_poly.data.o"
-    include "build/data/overlays/actors/z_obj_ice_poly.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Ice_Poly/ovl_Obj_Ice_Poly_reloc.o"
 endseg
 
 beginseg
