@@ -140,7 +140,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
 }
 
 void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
-    f32 pad;
+    f32 frames;
     s32 pad1;
     if (Object_IsLoaded(&globalCtx->objectCtx, this->ObjectAneIndex) &&
         Object_IsLoaded(&globalCtx->objectCtx, this->ObjectOsAnimeIndex)) {
@@ -160,11 +160,11 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
-                    pad = SkelAnime_GetFrameCount(&D_0600A630);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)pad, 0, 0.0f);
+                    frames = SkelAnime_GetFrameCount(&D_0600A630);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
                 } else {
-                    pad = SkelAnime_GetFrameCount(&D_060007D0);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)pad, 0, 0.0f);
+                    frames = SkelAnime_GetFrameCount(&D_060007D0);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -173,8 +173,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 }
                 return;
             case 1:
-                pad = SkelAnime_GetFrameCount(&D_060007D0);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)pad, 0, 0.0f);
+                frames = SkelAnime_GetFrameCount(&D_060007D0);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
