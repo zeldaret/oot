@@ -10,7 +10,11 @@
 #define SIDE_NORTH (1 << 3)
 #define SIDE_ALL (SIDE_EAST | SIDE_WEST | SIDE_SOUTH | SIDE_NORTH)
 
-typedef enum { FLASH_NONE, FLASH_GROW, FLASH_SHRINK } FlashState;
+typedef enum {
+    /* 0x00 */ FLASH_NONE,
+    /* 0x01 */ FLASH_GROW,
+    /* 0x02 */ FLASH_SHRINK
+} FlashState;
 
 struct BgGanonOtyuka;
 
