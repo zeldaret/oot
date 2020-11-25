@@ -4,17 +4,11 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define SIDE_EAST (1 << 0)
-#define SIDE_WEST (1 << 1)
-#define SIDE_SOUTH (1 << 2)
-#define SIDE_NORTH (1 << 3)
-#define SIDE_ALL (SIDE_EAST | SIDE_WEST | SIDE_SOUTH | SIDE_NORTH)
-
-typedef enum {
-    /* 0x00 */ FLASH_NONE,
-    /* 0x01 */ FLASH_GROW,
-    /* 0x02 */ FLASH_SHRINK
-} FlashState;
+#define OTYUKA_SIDE_EAST (1 << 0)
+#define OTYUKA_SIDE_WEST (1 << 1)
+#define OTYUKA_SIDE_SOUTH (1 << 2)
+#define OTYUKA_SIDE_NORTH (1 << 3)
+#define OTYUKA_SIDE_ALL (OTYUKA_SIDE_EAST | OTYUKA_SIDE_WEST | OTYUKA_SIDE_SOUTH | OTYUKA_SIDE_NORTH)
 
 struct BgGanonOtyuka;
 

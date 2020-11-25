@@ -12,6 +12,12 @@
 
 #define THIS ((BgGanonOtyuka*)thisx)
 
+typedef enum {
+    /* 0x00 */ FLASH_NONE,
+    /* 0x01 */ FLASH_GROW,
+    /* 0x02 */ FLASH_SHRINK
+} FlashState;
+
 void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -37,7 +43,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static u8 sSides[] = { SIDE_EAST, SIDE_WEST, SIDE_SOUTH, SIDE_NORTH };
+static u8 sSides[] = { OTYUKA_SIDE_EAST, OTYUKA_SIDE_WEST, OTYUKA_SIDE_SOUTH, OTYUKA_SIDE_NORTH };
 
 static Vec3f D_80876A68[] = {
     { 120.0f, 0.0f, 0.0f },
@@ -212,16 +218,16 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         this->flashYScale = 0.0f;
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_SmoothScaleMaxF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 2.0f);
-        if (!(this->unwalledSides & SIDE_EAST)) {
+        if (!(this->unwalledSides & OTYUKA_SIDE_EAST)) {
             this->dyna.actor.shape.rot.z -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unwalledSides & SIDE_WEST)) {
+        if (!(this->unwalledSides & OTYUKA_SIDE_WEST)) {
             this->dyna.actor.shape.rot.z += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unwalledSides & SIDE_SOUTH)) {
+        if (!(this->unwalledSides & OTYUKA_SIDE_SOUTH)) {
             this->dyna.actor.shape.rot.x += (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
-        if (!(this->unwalledSides & SIDE_NORTH)) {
+        if (!(this->unwalledSides & OTYUKA_SIDE_NORTH)) {
             this->dyna.actor.shape.rot.x -= (s16)(this->dyna.actor.speedXZ * 30.0f);
         }
         if (this->dyna.actor.posRot.pos.y < -750.0f) {
