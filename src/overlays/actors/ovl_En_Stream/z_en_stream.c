@@ -15,6 +15,8 @@ void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000950;
+
 /*
 const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
