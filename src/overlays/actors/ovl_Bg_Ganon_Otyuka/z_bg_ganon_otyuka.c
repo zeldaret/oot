@@ -285,7 +285,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     actor = globalCtx->actorCtx.actorList[ACTORTYPE_BOSS].first;
     while (actor != NULL) {
-        if ((actor->id == ACTOR_BOSS_GANON)) {
+        if (actor->id == ACTOR_BOSS_GANON) {
             ganondorf = (BossGanon*)actor;
 
             if (ganondorf->actor.params == 0) {
