@@ -1161,7 +1161,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF sp14C;
-        Actor* hookedActor; // sp+0x148
+        Actor* hookedActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
 
@@ -1201,7 +1201,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             func_80090A28(this, spE4);
             func_800906D4(globalCtx, this, spE4);
         } else if ((*dList != NULL) && (this->leftHandType == 7)) {
-            Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)]; // sp+0xE0
+            Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2710);
 
@@ -1240,12 +1240,12 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             }
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-        Actor* heldActor = this->heldActor; // sp+0xB4
+        Actor* heldActor = this->heldActor;
 
         if (this->rightHandType == 0xFF) {
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == 11) || (this->rightHandType == 12)) {
-            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge]; // sp+0xB0
+            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
 
