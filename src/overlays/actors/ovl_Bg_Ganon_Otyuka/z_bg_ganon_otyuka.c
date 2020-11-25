@@ -265,7 +265,9 @@ void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     this->flashTimer++;
-    DECR(this->dropTimer);
+    if (this->dropTimer != 0) {
+        this->dropTimer--;
+    }
 }
 
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
