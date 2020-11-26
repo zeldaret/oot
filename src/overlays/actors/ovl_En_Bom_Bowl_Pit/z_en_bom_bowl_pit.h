@@ -19,8 +19,8 @@ typedef struct EnBomBowlPit {
     /* 0x0158 */ s16 timer;
     /* 0x015A */ s16 prizeIndex;
     /* 0x015C */ s16 start;
-    /* 0x015E */ char unk_15E[0x2];
-    /* 0x0160 */ s32 getItemId; // word-aligned
+    // /* 0x015E */ char unk_15E[0x2];
+    /* 0x0160 */ s32 getItemId;
     // /* 0x0162 */ char unk_162[0x2];
     /* 0x0164 */ u8 status;
     /* 0x0168 */ Vec3f unk_168; // set and not used?

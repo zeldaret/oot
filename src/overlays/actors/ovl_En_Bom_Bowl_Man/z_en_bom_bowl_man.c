@@ -72,11 +72,11 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitSV(globalCtx2, &this->skelAnime, &D_06006EB0, &D_06000710, this->limbDrawTable,
                      this->transitionDrawTable, 11);
+    // ☆ Man, my shoulders hurt~ ☆
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
-    // ☆ MAN, MY SHOULDERS HURT~ ☆
+    // ☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST,
                  globalCtx2->bombchuBowlingAmmo);
-    // ☆ ISN'T THERE SOME SORT OF JOB THAT WILL PAY BETTER AND BE MORE RELAXING? ☆ %d
     this->unk_248 = this->actor.posRot.pos;
     this->actor.shape.unk_08 = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
@@ -242,14 +242,14 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
         if ((this->wallStatus[0] != 1) && (this->wallStatus[1] != 1) && (this->bowlPit->status == 2)) {
             this->gameResult = 1; // Won
             this->bowlPit->status = 0;
+            // Center HIT!
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
-            // CENTER HIT!
         }
         if ((globalCtx->bombchuBowlingAmmo == -1) && (globalCtx->actorCtx.actorList[3].length == 0) &&
             (this->bowlPit->status == 0) && (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
-            // BOMBCHU LOST
+            // Bombchu lost
         }
     }
     if (this->gameResult != 0) { // won or lost
