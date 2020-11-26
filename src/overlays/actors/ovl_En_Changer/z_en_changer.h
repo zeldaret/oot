@@ -15,13 +15,13 @@ typedef struct EnChanger {
     /* 0x0150 */ EnBox* leftChest;
     /* 0x0154 */ EnBox* rightChest;
     /* 0x0158 */ EnBox* finalChest;
-    /* 0x015C */ s16 unk_15C;
-    /* 0x015E */ s16 unk_15E;
-    /* 0x0160 */ s16 unk_160;
-    /* 0x0162 */ s16 unk_162;
-    /* 0x0164 */ s16 unk_164;
-    /* 0x0164 */ s16 timer;
-    /* 0x0168 */ u16 unk_168; // To do with treasure flags
+    /* 0x015C */ s16 leftChestNum;
+    /* 0x015E */ s16 rightChestNum;
+    /* 0x0160 */ s16 leftChestGetItemId;
+    /* 0x0162 */ s16 rightChestGetItemId;
+    /* 0x0164 */ s16 openingRightChest;
+    /* 0x0166 */ s16 timer;
+    /* 0x0168 */ s16 roomChestsOpened;
     /* 0x016A */ char unk_16A[0x2];
 } EnChanger; // size = 0x016C
 
