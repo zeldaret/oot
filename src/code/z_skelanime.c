@@ -1654,8 +1654,8 @@ void func_800A54FC(SkelAnime* skelAnime, Vec3f* pos, s16 angle) {
         pos->x = 0.0f;
     } else {
         // `angle` rotation around y axis.
-        x = skelAnime->limbDrawTbl->x;
-        z = skelAnime->limbDrawTbl->z;
+        x = skelAnime->limbDrawTbl[0].x;
+        z = skelAnime->limbDrawTbl[0].z;
         sin = Math_Sins(angle);
         cos = Math_Coss(angle);
         pos->x = x * cos + z * sin;
@@ -1670,21 +1670,21 @@ void func_800A54FC(SkelAnime* skelAnime, Vec3f* pos, s16 angle) {
     }
 
     skelAnime->prevFrameRot = angle;
-    skelAnime->prevFramePos.x = skelAnime->limbDrawTbl->x;
-    skelAnime->limbDrawTbl->x = skelAnime->unk_3E.x;
-    skelAnime->prevFramePos.z = skelAnime->limbDrawTbl->z;
-    skelAnime->limbDrawTbl->z = skelAnime->unk_3E.z;
+    skelAnime->prevFramePos.x = skelAnime->limbDrawTbl[0].x;
+    skelAnime->limbDrawTbl[0].x = skelAnime->unk_3E.x;
+    skelAnime->prevFramePos.z = skelAnime->limbDrawTbl[0].z;
+    skelAnime->limbDrawTbl[0].z = skelAnime->unk_3E.z;
     if (skelAnime->flags & ANIM_FLAG_UPDATEXZ) {
         if (skelAnime->flags & ANIM_FLAG_UPDATEY) {
             pos->y = 0.0f;
         } else {
-            pos->y = skelAnime->limbDrawTbl->y - skelAnime->prevFramePos.y;
+            pos->y = skelAnime->limbDrawTbl[0].y - skelAnime->prevFramePos.y;
         }
-        skelAnime->prevFramePos.y = skelAnime->limbDrawTbl->y;
-        skelAnime->limbDrawTbl->y = skelAnime->unk_3E.y;
+        skelAnime->prevFramePos.y = skelAnime->limbDrawTbl[0].y;
+        skelAnime->limbDrawTbl[0].y = skelAnime->unk_3E.y;
     } else {
         pos->y = 0.0f;
-        skelAnime->prevFramePos.y = skelAnime->limbDrawTbl->y;
+        skelAnime->prevFramePos.y = skelAnime->limbDrawTbl[0].y;
     }
     skelAnime->flags &= ~ANIM_FLAG_UPDATEY;
 }
