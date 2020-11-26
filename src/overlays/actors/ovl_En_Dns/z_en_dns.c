@@ -128,8 +128,8 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
 
     if (this->actor.params < 0) {
+        // "Function Error (Deku Salesman)"
         osSyncPrintf(VT_FGCOL(RED) "引数エラー（売りナッツ）[ arg_data = %d ]" VT_RST "\n", this->actor.params);
-        // FUNCTION ERROR (DEKU SALESMAN)
         Actor_Kill(&this->actor);
         return;
     }
@@ -137,9 +137,9 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.params == 0x0006) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
         this->actor.params = 0x0003;
     }
+    // Deku Salesman
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
-    // DEKU SALESMAN
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->limbDrawTable,
                      this->transitionDrawTable, 18);
@@ -236,7 +236,7 @@ u32 func_809EF800(EnDns* this) {
 }
 
 u32 func_809EF854(EnDns* this) {
-    if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY) == 0) {
+    if (!CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 3;
     }
     if (AMMO(ITEM_BOMB) >= CUR_CAPACITY(UPG_BOMB_BAG)) {
@@ -317,7 +317,7 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
     } else {
-        if (((this->collider.base.maskA & 2) != 0) || (this->actor.unk_10C != 0)) {
+        if ((this->collider.base.maskA & 2) || (this->actor.unk_10C != 0)) {
             this->actor.flags |= 0x10000;
         } else {
             this->actor.flags &= ~0x10000;
@@ -399,7 +399,7 @@ void func_809EFF50(EnDns* this, GlobalContext* globalCtx) {
 void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((player->stateFlags1 & 0x400)) {
+    if (player->stateFlags1 & 0x400) {
         if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
             this->dnsItemEntry->setRupeesAndFlags(this);
             this->dropCollectible = 1;
@@ -458,7 +458,7 @@ void EnDns_Burrow(EnDns* this, GlobalContext* globalCtx) {
             initPos.y = this->yInitPos;
             initPos.z = this->actor.posRot.pos.z;
             for (i = 0; i < 3; i++) {
-                Item_DropCollectible(globalCtx, &initPos, 3);
+                Item_DropCollectible(globalCtx, &initPos, ITEM00_HEART);
             }
         }
         Actor_Kill(&this->actor);
