@@ -54,14 +54,12 @@ static s32 sLoserGetItemIds[] = {
 // D_809D3148
 static s32 sEnItemEtceteraOffsets[] = { 0x00000000, 0x00000008, 0x00000008, 0x00000009, 0x00000009, 0x0000000A };
 
-// D_809D3160
+// D_809D3160 and D_809D3174
 static s32 sTreasureFlagOffsets[] = { 0x00000000, 0x00000002, 0x00000004, 0x00000006, 0x00000008, 0x0000000A };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/EnChanger_Destroy.s")
 void EnChanger_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/EnChanger_Init.s")
 void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnChanger* this = THIS;
 
@@ -94,7 +92,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
     // Is it already a zombie?
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ もう、ゾンビ？\t     %d\n" VT_RST, this->roomChestsOpened);
     osSyncPrintf("\n\n");
-    minigameRoomNum *= 2; // Convert to handle chest numbers
+    minigameRoomNum *= 2; // Double to handle chest numbers
     // Spawn Heart Piece in chest (or Purple Rupee if won Heart Piece)
     if (globalCtx->roomCtx.curRoom.num >= 6) {
         displayHeartPieceOffset = ((gSaveContext.itemGetInf[1] & 0x800) ? (0x4EA0) : (0x4EC0));
@@ -142,10 +140,10 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->leftChestGetItemId = GI_DOOR_KEY;
         leftItemEtceteraOffset = 0xD;
     }
-    this->leftChest = (EnBox*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BOX,
-                                                 sLeftChestPoss[globalCtx->roomCtx.curRoom.num].x,
-                                                 sLeftChestPoss[globalCtx->roomCtx.curRoom.num].y,
-                                                 sLeftChestPoss[globalCtx->roomCtx.curRoom.num].z, 0, -0x3FFF, 0, leftChestParams);
+    this->leftChest = (EnBox*)Actor_SpawnAsChild(
+        &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_BOX, sLeftChestPoss[globalCtx->roomCtx.curRoom.num].x,
+        sLeftChestPoss[globalCtx->roomCtx.curRoom.num].y, sLeftChestPoss[globalCtx->roomCtx.curRoom.num].z, 0, -0x3FFF,
+        0, leftChestParams);
     if (this->leftChest != NULL) {
         // Left treasure generation (what does it contain?)
         osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" VT_RST, leftChestParams);
@@ -193,7 +191,6 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actionFunc = EnChanger_Wait;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/func_809D2CCC.s")
 void EnChanger_Wait(EnChanger* this, GlobalContext* globalCtx) {
     if (this->leftChest->unk_1F4 != 0) {
         this->timer = 80;
@@ -207,7 +204,6 @@ void EnChanger_Wait(EnChanger* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/func_809D2D70.s")
 // Spawns the EnExItem showing what was in the other chest
 void EnChanger_OpenChests(EnChanger* this, GlobalContext* globalCtx) {
     f32 zpos;
@@ -260,7 +256,6 @@ void EnChanger_OpenChests(EnChanger* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/func_809D2F74.s")
 void EnChanger_SetHeartPieceFlag(EnChanger* this, GlobalContext* globalCtx) {
     if (this->finalChest->unk_1F4 != 0) {
         if (!(gSaveContext.itemGetInf[1] & 0x800)) {
@@ -270,7 +265,6 @@ void EnChanger_SetHeartPieceFlag(EnChanger* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/EnChanger_Update.s")
 void EnChanger_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnChanger* this = THIS;
 
