@@ -9,6 +9,11 @@ void BossGanon2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx);
+void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx);
+
+extern SkeletonHeader D_060114E8;
+
 /*
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
@@ -22,25 +27,88 @@ const ActorInit Boss_Ganon2_InitVars = {
     (ActorFunc)BossGanon2_Draw,
 };
 */
+
+/*
+// sJntSphInit
+static ColliderJntSphInit D_80906FBC = {
+    { COLTYPE_METAL_SHIELD, 0x11, 0x09, 0x09, 0x50, COLSHAPE_JNTSPH },
+    16,
+    D_80906D7C,
+};
+
+// sJntSphInit
+static ColliderJntSphInit D_80907014 = {
+    { COLTYPE_METAL_SHIELD, 0x11, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
+    2,
+    D_80906FCC,
+};
+
+static SkelAnime D_8090EB38[100];
+*/
+
+extern ColliderJntSphInit D_80906FBC;
+extern ColliderJntSphInit D_80907014;
+extern SkelAnime D_8090EB38[100];
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FCF40.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FCF5C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD080.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD108.s")
+void func_808FD108(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 arg3) {
+    s32 pad;
+    s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
+
+    gSegments[6] = (u32)PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
+
+    if (arg3) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 790);
+
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objectIdx].segment);
+        gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[objectIdx].segment);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 799);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD210.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD27C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/BossGanon2_Init.s")
+void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BossGanon2* this = THIS;
+    s32 pad;
+    s16 i;
+
+    globalCtx->unk_11E10 = D_8090EB38;
+
+    for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++) {
+        D_8090EB38[i].limbCount = 0;
+    }
+
+    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.health = 0x1E;
+    Collider_InitJntSph(globalCtx, &this->unk_424);
+    Collider_SetJntSph(globalCtx, &this->unk_424, &this->actor, &D_80906FBC, this->unk_464);
+    Collider_InitJntSph(globalCtx, &this->unk_444);
+    Collider_SetJntSph(globalCtx, &this->unk_444, &this->actor, &D_80907014, this->unk_864);
+    func_808FD108(&this->actor, globalCtx, OBJECT_GANON, 0);
+    SkelAnime_InitSV(globalCtx, &this->unk_14C, &D_060114E8, NULL, 0, 0, 0);
+    func_808FD5C4(this, globalCtx);
+    this->actor.naviEnemyId = 0x3E;
+    this->actor.gravity = 0.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/BossGanon2_Destroy.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD4D4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5C4.s")
+void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
+    this->actionFunc = func_808FD5F4;
+    this->actor.flags &= ~1;
+    this->actor.posRot.pos.y = -3000.0f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5F4.s")
 
