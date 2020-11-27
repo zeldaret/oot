@@ -18,38 +18,38 @@ struct Actor;
 typedef struct SkelAnime SkelAnime;
 
 typedef struct {
-    /* 0x00 */ Vec3s translation;      // Translation relative to parent limb.  root limb is a tranlation for entire model.
-    /* 0x06 */ u8 firstChildIndex;     // The first child's index into the limb table.
-    /* 0x07 */ u8 nextLimbIndex;       // The parent limb's next limb index into the limb table.    
-} SkelLimb; // Size = 0x8
+    /* 0x00 */ Vec3s jntPos; // Position of joint relative to parent joint.  Root joint is relative to world.
+    /* 0x06 */ u8 childBone1;  // The first child bone's index in the skeleton.
+    /* 0x07 */ u8 childBone2;  // The second child bone's index in the skeleton.    
+} Bone; // Size = 0x8
 
 typedef struct {
-    /* 0x00 */ SkelLimb limb;
-    /* 0x08 */ Gfx* displayList;
-} SkelLimbStandard;
+    /* 0x00 */ Bone bone; // Bone attached to limb
+    /* 0x08 */ Gfx* displayList; // Display list for limb
+} StandardLimb;
 
 typedef struct {
-    /* 0x00 */ SkelLimb limb;
-    /* 0x08 */ Gfx* displayLists[2];
-} SkelLimbLOD;
+    /* 0x00 */ Bone bone; // Bone attached to limb
+    /* 0x08 */ Gfx* displayLists[2]; // Near and far display lists for limb
+} LodLimb;
 
 typedef struct {
-    /* 0x00 */ SkelLimb limb;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ UNK_PTR segAddress;
-} SkelLimbSkin;
+    /* 0x00 */ Bone bone; // Bone attached to limb
+    /* 0x08 */ s32 unk_08; // Type of info contained in segAddress
+    /* 0x0C */ UNK_PTR segAddress; // Segment address of info. Currently unclear what.
+} SkinLimb;
 
 typedef struct {
-    /* 0x00 */ SkelLimb** skeletonSeg; // Segment address of SkelLimbIndex.
-    /* 0x04 */ u8 limbCount;       // Number of limbs in the model.
-    /* 0x05 */ char unk_05[3];     // unknown, maybe padding?
+    /* 0x00 */ Bone** skeletonSeg; // Segment address of bone array.
+    /* 0x04 */ u8 boneCount;       // Number of bones in the model.
+    /* 0x05 */ char unk_05[3];     // probably padding
     /* 0x08 */ u8 dListCount;      // Number of display lists in the model.
 } SkeletonHeaderSV;  // Size = 0xC
 
 typedef struct {
-    /* 0x00 */ SkelLimb** skeletonSeg;
-    /* 0x04 */ u8 limbCount;
-    /* 0x05 */ char unk_05[3];
+    /* 0x00 */ Bone** skeletonSeg; // Segment address of bone array.
+    /* 0x04 */ u8 boneCount;       // number of bones in the model
+    /* 0x05 */ char unk_05[3];     // probably padding
 } SkeletonHeader;
 
 typedef struct {
@@ -70,7 +70,7 @@ typedef struct {
 } LinkAnimationHeader;
 
 struct SkelAnime {
-    /* 0x00 */ u8 limbCount; // joint_Num
+    /* 0x00 */ u8 boneCount; // joint_Num
     /* modes 0 and 1 repeat the animation indefinitely
      * modes 2 and 3 play the animaton once then stop
      * modes >= 4 play the animation once, and always start at frame 0.
@@ -78,8 +78,8 @@ struct SkelAnime {
     /* 0x01 */ u8 mode;
     /* 0x02 */ u8 dListCount;
     /* 0x03 */ s8 unk_03;
-    /* 0x04 */ SkelLimb** skeleton;
-    /* 0x08 */ void* currentAnimSeg;
+    /* 0x04 */ Bone** skeleton;
+    /* 0x08 */ void* currentAnimSeg; // Can be AnimationHeader or LinkAnimationHeader
     /* 0x0C */ f32 initialFrame;
     /* 0x10 */ f32 animFrameCount;
     /* 0x14 */ f32 totalFrames;
@@ -141,7 +141,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 unk_00;
-    /* 0x001 */ u8 limbCount;
+    /* 0x001 */ u8 boneCount;
     /* 0x004 */ Vec3s* unk_04;
     /* 0x008 */ Vec3s* unk_08;
     /* 0x00C */ f32 unk_0C;

@@ -625,7 +625,7 @@ Gfx* sBootDListGroups[][2] = {
     { 0x06025BA8, 0x06025DB0 },
 };
 
-void func_8008F470(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod,
+void func_8008F470(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod,
                    s32 tunic, s32 boots, s32 face, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw,
                    void* data) {
     Color_RGB8* color;
@@ -1420,7 +1420,7 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
     return 0;
 }
 
-void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80091A24_arg3* arg3, Vec3f* pos,
+void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* arg3, Vec3f* pos,
                    Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
                    Vec3f* eye, Vec3f* at, f32 fovy, void* img1, void* img2) {
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
@@ -1514,7 +1514,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
-    func_8008F470(globalCtx, arg3->skeleton, arg3->limbDrawTable, arg3->dListCount, 0, tunic, boots, 0, func_80091880,
+    func_8008F470(globalCtx, arg3->skeleton, arg3->limbDrawTbl, arg3->dListCount, 0, tunic, boots, 0, func_80091880,
                   NULL, &sp12C);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
@@ -1526,7 +1526,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 3288);
 }
 
-void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
+void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
                    s32 sword, s32 tunic, s32 shield, s32 boots) {
     static Vec3f eye = { 0.0f, 0.0f, -400.0f };
     static Vec3f at = { 0.0f, 0.0f, 0.0f };
@@ -1554,8 +1554,8 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* 
     }
 
     srcTable = SEGMENTED_TO_VIRTUAL(srcTable);
-    destTable = arg2->limbDrawTable;
-    for (i = 0; i < arg2->limbCount; i++) {
+    destTable = arg2->limbDrawTbl;
+    for (i = 0; i < arg2->boneCount; i++) {
         *destTable++ = *srcTable++;
     }
 

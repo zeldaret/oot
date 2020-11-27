@@ -1197,7 +1197,7 @@ s32 Player_ActionToExplosive(Player* player, s32 actionParam);
 s32 Player_GetExplosiveHeld(Player* player);
 s32 func_8008F2BC(Player* player, s32 actionParam);
 s32 func_8008F2F8(GlobalContext* globalCtx);
-void func_8008F470(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod,
+void func_8008F470(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod,
                    s32 tunic, s32 boots, s32 face, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw,
                    void* this);
 s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
@@ -1209,7 +1209,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
 void Player_DrawGetItem(GlobalContext* globalCtx, Player* player);
 void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* data);
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime);
-void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
+void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
                    s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
 Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2);
@@ -1298,31 +1298,31 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd);
 void func_80098CBC(GlobalContext* globalCtx, u8* nbTransitionActors);
 void func_800994A0(GlobalContext* globalCtx);
 void Scene_Draw(GlobalContext* globalCtx);
-void SkelAnime_LodDraw(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable,
+void SkelAnime_LodDraw(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable,
                        OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data, s32 dListIndex);
-void SkelAnime_LodDrawSV(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable, s32 dListCount,
+void SkelAnime_LodDrawSV(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable, s32 dListCount,
                          OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data, s32 dListIndex);
-void SkelAnime_Draw(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable,
+void SkelAnime_Draw(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable,
                     OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data);
-void SkelAnime_DrawSV(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable, s32 dListCount,
+void SkelAnime_DrawSV(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable, s32 dListCount,
                       OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data);
 s16 SkelAnime_GetTotalFrames(void* animationSeg);
 s16 SkelAnime_GetFrameCount(void* animationSeg);
 s16 func_800A2DBC(void* animationSeg);
 s16 SkelAnime_GetTotalFrames2(void* animationSeg);
 s16 SkelAnime_GetFrameCount2(void* animationSeg);
-Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable,
+Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable,
                      OverrideLimbDraw2 overrideLimbDraw, PostLimbDraw2 postLimbDraw, void* data, Gfx* gfx);
-Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, SkelLimb** skeleton, Vec3s* limbDrawTable, s32 dListCount,
+Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable, s32 dListCount,
                        OverrideLimbDraw2 overrideLimbDraw, PostLimbDraw2 postLimbDraw, void* data, Gfx* gfx);
 void SkelAnime_InterpolateVec3s(s32, Vec3s*, Vec3s*, Vec3s*, f32);
 void SkelAnime_AnimationCtxReset(AnimationContext* animationCtx);
 void func_800A32F4(GlobalContext* globalCtx);
 void func_800A3310(GlobalContext* globalCtx);
 void SkelAnime_LoadLinkAnimation(GlobalContext* globalCtx, LinkAnimationHeader* currentAnimSeg, s32 frame,
-                                 s32 limbCount, void* ram);
+                                 s32 boneCount, void* ram);
 void SkelAnime_LoadAnimationType1(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src);
-void SkelAnime_LoadAnimationType2(GlobalContext* globalCtx, s32 limbCount, Vec3s* arg2, Vec3s* arg3, f32 arg4);
+void SkelAnime_LoadAnimationType2(GlobalContext* globalCtx, s32 boneCount, Vec3s* arg2, Vec3s* arg3, f32 arg4);
 void SkelAnime_LoadAnimationType3(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* index);
 void SkelAnime_LoadAnimationType4(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* index);
 void SkelAnime_LoadAnimationType5(GlobalContext* globalCtx, Actor* actor, SkelAnime* skelAnime, f32 arg3);
@@ -1359,9 +1359,9 @@ void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimation
                    Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
 void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                    AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
+                    AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 boneCount);
 void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeaderSV* skeletonHeaderSeg,
-                      AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
+                      AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 boneCount);
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
