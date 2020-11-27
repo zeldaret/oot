@@ -188,78 +188,55 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderJntSph* temp_a2;
     ColliderJntSph* temp_a2_2;
     CollisionCheckContext* temp_s0_3;
-    PosRot* temp_v0_10;
     f32 temp_f10;
     f32 temp_f4;
-    s16 temp_s0;
-    s16 temp_s0_2;
     s16 temp_v0_11;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s16 temp_v0_5;
-    s16 temp_v0_6;
-    s16 temp_v0_7;
-    s16 temp_v0_8;
     s16 temp_v1;
     s32 temp_s0_4;
     s8 temp_v0_12;
     u32 temp_a0;
     u32 temp_a0_2;
     u32 temp_t5;
-    u8 temp_v0;
     u8 temp_v1_2;
     void* temp_v0_2;
-    s16 phi_s0;
-    s16 phi_s0_2;
+    s16 i;
     f32 phi_f2;
     s32 phi_s0_3;
 
-    temp_v0 = this->unk_337;
-    if ((temp_v0 == 0) || (temp_v0 == 2)) {
+    if ((this->unk_337 == 0) || (this->unk_337 == 2)) {
         func_808FD108(this, globalCtx, OBJECT_GANON_ANIME3, 0);
     } else {
         func_808FD108(this, globalCtx, OBJECT_GANON2, 0);
-        Math_SmoothDownscaleMaxF(this + 0x30C, 1.0f, 0.5f);
+        Math_SmoothDownscaleMaxF(&this->unk_30C, 1.0f, 0.5f);
     }
     func_808FFC84(this);
-    this->unk_312 = (u8)0;
-    this->unk_19C = (s16)(this->unk_19C + 1);
+    this->unk_312 = 0;
+    this->unk_19C++;
     Actor_SetScale(&this->actor, 0.01f);
     this->actionFunc(this, globalCtx);
-    phi_s0 = (u16)0;
-loop_5:
-    temp_v0_2 = this + (phi_s0 * 2);
-    temp_v1 = temp_v0_2->unk1A2;
-    temp_s0 = phi_s0 + 1;
-    if (temp_v1 != 0) {
-        temp_v0_2->unk1A2 = (s16)(temp_v1 - 1);
+    for (i = 0; i < ARRAY_COUNT(this->unk_1A2); i++) {
+        if (this->unk_1A2[i] != 0) {
+            this->unk_1A2[i]--;
+        }
     }
-    phi_s0 = temp_s0;
-    if ((s32)temp_s0 < 5) {
-        goto loop_5;
+    if (this->unk_316 != 0) {
+        this->unk_316--;
     }
-    temp_v0_3 = this->unk_316;
-    if (temp_v0_3 != 0) {
-        this->unk_316 = (s16)(temp_v0_3 - 1);
+    if (this->unk_342 != 0) {
+        this->unk_342--;
     }
-    temp_v0_4 = this->unk_342;
-    if (temp_v0_4 != 0) {
-        this->unk_342 = (s16)(temp_v0_4 - 1);
+    if (this->unk_390 != 0) {
+        this->unk_390--;
     }
-    temp_v0_5 = this->unk_390;
-    if (temp_v0_5 != 0) {
-        this->unk_390 = (s16)(temp_v0_5 - 1);
-    }
-    temp_v0_6 = this->unk_392;
-    if (temp_v0_6 != 0) {
-        this->unk_392 = (s16)(temp_v0_6 - 1);
+    if (this->unk_392 != 0) {
+        this->unk_392--;
     }
     Actor_MoveForward(&this->actor);
     this->actor.shape.rot.x = this->actor.posRot.rot.x;
     this->actor.shape.rot.z = this->actor.posRot.rot.z;
     if (this->unk_335 != 0) {
         func_8002E4B4(globalCtx, &this->actor, 60.0f, 60.0f, 100.0f, 5);
-        if ((this->actor.bgCheckFlags & 1) != 0) {
+        if (this->actor.bgCheckFlags & 1) {
             if (this->actor.velocity.y < -5.0f) {
                 func_80033E88(&this->actor, globalCtx, 5, 20);
                 func_80078884(NA_SE_IT_BOMB_EXPLOSION);
@@ -268,68 +245,60 @@ loop_5:
         }
     }
     if (((this->unk_19C & 0x1F) == 0) && (Math_Rand_ZeroOne() < 0.3f)) {
-        this->unk_318 = (u16)4;
+        this->unk_318 = 4;
     }
-    temp_v0_7 = this->unk_318;
-    this->unk_310 = (s8) * (&D_80907014 + (temp_v0_7 * 2));
-    if (temp_v0_7 != 0) {
-        this->unk_318 = (s16)(temp_v0_7 - 1);
+    this->unk_310 = (s8) * (&D_80907014 + (this->unk_318 * 2));
+    if (this->unk_318 != 0) {
+        this->unk_318--;
     }
-    temp_v0_8 = this->unk_344;
     this->unk_1B0 = (f32)((Math_Sins((s16)(this->unk_19C * 0x2AAA)) * 64.0f) + 191.0f);
-    if (temp_v0_8 != 0) {
-        this->unk_344 = (s16)(temp_v0_8 - 1);
-        Math_SmoothScaleMaxF(this + 0x360, 5000.0f, 0.5f, 3000.0f);
-        Math_SmoothScaleMaxF(this + 0x370, 5500.0f, 0.5f, 3000.0f);
-        Math_SmoothScaleMaxF(this + 0x368, 8000.0f, 0.1f, 4000.0f);
-        Math_SmoothScaleMaxF(this + 0x378, 8000.0f, 0.1f, 4000.0f);
-        Math_SmoothScaleMaxS(this + 0x346, (u16)0xFA0, (u16)0xA, (u16)0x7D0);
+    if (this->unk_344 != 0) {
+        this->unk_344--;
+        Math_SmoothScaleMaxF(&this->unk_360.x, 5000.0f, 0.5f, 3000.0f);
+        Math_SmoothScaleMaxF(&this->unk_370.x, 5500.0f, 0.5f, 3000.0f);
+        Math_SmoothScaleMaxF(&this->unk_360.z, 8000.0f, 0.1f, 4000.0f);
+        Math_SmoothScaleMaxF(&this->unk_370.z, 8000.0f, 0.1f, 4000.0f);
+        Math_SmoothScaleMaxS(&this->unk_346, 0xFA0, 0xA, 0x7D0);
     } else {
         this->unk_360.y = 14000.0f;
-        Math_SmoothScaleMaxF(this + 0x360, 2000.0f, 0.1f, 100.0f);
+        Math_SmoothScaleMaxF(&this->unk_360.x, 2000.0f, 0.1f, 100.0f);
         this->unk_370.y = 12000.0f;
-        Math_SmoothScaleMaxF(this + 0x370, 1500.0f, 0.1f, 100.0f);
+        Math_SmoothScaleMaxF(&this->unk_370.x, 1500.0f, 0.1f, 100.0f);
         if ((this->actionFunc == func_808FFEBC) || (this->actionFunc == func_808FFFE0) ||
             (this->actionFunc == func_80090014)) {
-            Math_SmoothScaleMaxF(this + 0x368, 1000.0f, 0.1f, 100.0f);
-            Math_SmoothScaleMaxF(this + 0x378, 1000.0f, 0.1f, 100.0f);
-            Math_SmoothScaleMaxS(this + 0x346, (u16)-0xFA0, (u16)0xA, (u16)0x64);
+            Math_SmoothScaleMaxF(&this->unk_360.z, 1000.0f, 0.1f, 100.0f);
+            Math_SmoothScaleMaxF(&this->unk_370.z, 1000.0f, 0.1f, 100.0f);
+            Math_SmoothScaleMaxS(&this->unk_346, -0xFA0, 0xA, 0x64);
         } else {
-            Math_SmoothScaleMaxF(this + 0x368, 5000.0f, 0.1f, 200.0f);
-            Math_SmoothScaleMaxF(this + 0x378, 5000.0f, 0.1f, 200.0f);
-            Math_SmoothScaleMaxS(this + 0x346, (u16)0, (u16)0xA, (u16)0x64);
+            Math_SmoothScaleMaxF(&this->unk_360.z, 5000.0f, 0.1f, 200.0f);
+            Math_SmoothScaleMaxF(&this->unk_370.z, 5000.0f, 0.1f, 200.0f);
+            Math_SmoothScaleMaxS(&this->unk_346, 0, 0xA, 0x64);
         }
     }
     if (this->unk_39C != 0x4B) {
         this->unk_35C += this->unk_360.x;
         this->unk_36C += this->unk_370.x;
     }
-    phi_s0_2 = (u16)0;
     if (this->unk_337 == 2) {
         this->unk_370.z = 0.0f;
         this->unk_360.z = 0.0f;
-        phi_s0_2 = (u16)0;
     }
-loop_37:
-    if (phi_s0_2 == 0) {
-        phi_f2 = 0.2f;
-    } else if (phi_s0_2 == 1) {
-        phi_f2 = 0.5f;
-    } else {
-        phi_f2 = 1.0f;
+
+    for (i = 0; i < ARRAY_COUNT(this->unk_348); i++) {
+        if (i == 0) {
+            phi_f2 = 0.2f;
+        } else if (i == 1) {
+            phi_f2 = 0.5f;
+        } else {
+            phi_f2 = 1.0f;
+        }
+
+        this->unk_348[i] = (s16)(s32)(Math_Sins((s16)((s32)this->unk_35C + (i * (s16)(s32)this->unk_360.y))) * phi_f2 *
+                                      this->unk_360.z);
+        this->unk_352[i] = (s16)(s32)(Math_Sins((s16)((s32)this->unk_36C + (i * (s16)(s32)this->unk_370.y))) * phi_f2 *
+                                      this->unk_370.z);
     }
-    sp68 = phi_f2;
-    temp_v0_10 = this + (phi_s0_2 * 2);
-    temp_v0_10->unk348 = (s16)(s32)(Math_Sins((s16)((s32)this->unk_35C + (phi_s0_2 * (s16)(s32)this->unk_360.y))) *
-                                    phi_f2 * this->unk_360.z);
-    sp38 = temp_v0_10;
-    temp_s0_2 = phi_s0_2 + 1;
-    temp_v0_10->unk352 = (s16)(s32)(Math_Sins((s16)((s32)this->unk_36C + (phi_s0_2 * (s16)(s32)this->unk_370.y))) *
-                                    phi_f2 * this->unk_370.z);
-    phi_s0_2 = temp_s0_2;
-    if ((s32)temp_s0_2 < 5) {
-        goto loop_37;
-    }
+
     func_808FF898(this, globalCtx);
     func_80902348(this, globalCtx);
     temp_s0_3 = &globalCtx->colChkCtx;
