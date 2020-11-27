@@ -10,7 +10,7 @@ typedef void (*BossGanon2ActionFunc)(struct BossGanon2*, GlobalContext*);
 
 typedef struct BossGanon2 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime unk_14C;
+    /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossGanon2ActionFunc actionFunc;
     /* 0x0194 */ char unk_194[0x290];
     /* 0x0424 */ ColliderJntSph unk_424;
