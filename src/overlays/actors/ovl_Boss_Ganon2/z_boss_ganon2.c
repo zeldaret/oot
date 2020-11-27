@@ -60,7 +60,7 @@ void func_808FD108(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 
     s32 pad;
     s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
 
-    gSegments[6] = (u32)PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
 
     if (arg3) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 790);
