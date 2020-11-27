@@ -30,7 +30,7 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
 void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx);
 void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx);
 
-s32 sPlayerIsCaught = false;
+static s32 sPlayerIsCaught = false;
 
 const ActorInit En_Heishi1_InitVars = {
     0,
@@ -44,25 +44,25 @@ const ActorInit En_Heishi1_InitVars = {
     (ActorFunc)EnHeishi1_Draw,
 };
 
-f32 sAnimParamsInit[][8] = {
+static f32 sAnimParamsInit[][8] = {
     { 1.0f, -10.0f, 3.0f, 0.5f, 1000.0f, 200.0f, 0.3f, 1000.0f },
     { 3.0f, -3.0f, 6.0f, 0.8f, 2000.0f, 400.0f, 0.5f, 2000.0f },
     { 1.0f, -10.0f, 3.0f, 0.5f, 1000.0f, 200.0f, 0.3f, 1000.0f },
     { 3.0f, -3.0f, 6.0f, 0.8f, 2000.0f, 400.0f, 0.5f, 2000.0f },
 };
 
-s16 sBaseHeadTimers[] = { 20, 10, 20, 10, 13, 0 };
+static s16 sBaseHeadTimers[] = { 20, 10, 20, 10, 13, 0 };
 
-Vec3f sRupeePositions[] = {
+static Vec3f sRupeePositions[] = {
     { 0.0f, 0.0f, 90.0f },  { -55.0f, 0.0f, 90.0f }, { -55.0f, 0.0f, 30.0f }, { -55.0f, 0.0f, -30.0f },
     { 0.0f, 0.0f, -30.0f }, { 55.0f, 0.0f, -30.0f }, { 55.0f, 0.0f, 30.0f },  { 55.0f, 0.0f, 90.0f },
 };
 
-s32 sCamDataIdxs[] = {
+static s32 sCamDataIdxs[] = {
     7, 7, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 4, 4, 5, 6,
 };
 
-s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
+static s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
 extern AnimationHeader D_06005880;
 extern AnimationHeader D_06005C30;

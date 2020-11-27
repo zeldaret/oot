@@ -37,7 +37,7 @@ const ActorInit En_Attack_Niw_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 63536, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 
@@ -182,8 +182,6 @@ s32 func_809B55EC(EnAttackNiw* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// &this->actor.posRot.pos stored at wrong place
 void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     s16 sp4E;
     s16 sp4C;
@@ -202,7 +200,6 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     sp34.y = globalCtx->view.lookAt.y + tmpf2;
     sp34.z = globalCtx->view.lookAt.z + tmpf3;
 
-    if (1) {}
     this->unk_2D4 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &sp34);
     this->unk_2D0 = Math_Vec3f_Pitch(&this->actor.posRot.pos, &sp34) * -1.0f;
 
@@ -216,7 +213,9 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         this->unk_2D4 = this->actor.yawTowardsLink;
         this->unk_2D0 = this->actor.posRot.rot.x - 3000.0f;
-        this->unk_2DC = this->unk_284 = this->unk_27C = 0.0f;
+        this->unk_2DC = 0.0f;
+        this->unk_284 = 0.0f;
+        this->unk_27C = 0.0f;
         this->unk_254 = this->unk_256 = this->unk_258 = this->unk_25A = 0;
         this->unk_25C = 0x64;
         this->actor.gravity = -0.2f;
@@ -230,7 +229,9 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
 
         this->unk_2D4 = this->actor.yawTowardsLink;
         this->unk_2D0 = this->actor.posRot.rot.x - 2000.0f;
-        this->unk_284 = this->unk_27C = this->unk_2DC = 0.0f;
+        this->unk_2DC = 0.0f;
+        this->unk_27C = 0.0f;
+        this->unk_284 = 0.0f;
         this->unk_254 = this->unk_256 = this->unk_258 = this->unk_25A = 0;
         this->actor.gravity = -0.2f;
         this->unk_2E0 = 5.0f;
@@ -243,9 +244,6 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
         func_809B5268(this, globalCtx, 2);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Attack_Niw/func_809B5670.s")
-#endif
 
 void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx) {
     if (!func_809B55EC(this, globalCtx)) {

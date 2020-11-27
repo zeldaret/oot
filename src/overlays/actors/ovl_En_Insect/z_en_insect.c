@@ -29,9 +29,9 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx);
 extern SkeletonHeader D_04035590;
 extern AnimationHeader D_040341FC;
 
-f32 D_80A7DEB0 = 0.0f;
-s16 D_80A7DEB4 = 0;
-s16 D_80A7DEB8 = 0;
+static f32 D_80A7DEB0 = 0.0f;
+static s16 D_80A7DEB4 = 0;
+static s16 D_80A7DEB8 = 0;
 
 const ActorInit En_Insect_InitVars = {
     ACTOR_EN_INSECT,
@@ -58,7 +58,7 @@ static ColliderJntSphInit sColliderInit = {
     sColliderItemInit,
 };
 
-u16 D_80A7DF10[] = { 0, 5, 7, 7 };
+static u16 D_80A7DF10[] = { 0, 5, 7, 7 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
@@ -304,11 +304,10 @@ void func_80A7C818(EnInsect* this) {
     this->unk_314 |= 0x100;
 }
 
-#ifdef NON_MATCHING
-// regalloc, minor reordering
 void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
-    s32 pad[2];
-    s16 pad2;
+    s32 pad1;
+    s32 pad2;
+    s16 pad3;
     s16 frames;
     s16 yaw;
     s16 sp38 = this->actor.xzDistFromLink < 40.0f;
@@ -332,10 +331,9 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
                 yaw -= 0x2000;
             }
         }
-
+        if (globalCtx) {}
         Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, yaw, 2000);
     }
-
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     this->skelAnime.animPlaybackSpeed = CLAMP(this->actor.speedXZ * 1.6f, 0.8f, 1.9f);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -346,9 +344,6 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
         func_80A7CE60(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Insect/func_80A7C86C.s")
-#endif
 
 void func_80A7CA64(EnInsect* this) {
     this->unk_31A = 200;

@@ -22,7 +22,7 @@ void func_80889C18(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx);
 
-f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
+static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
 const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
@@ -40,20 +40,20 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-UNK_PTR D_80889E70[] = {
+static UNK_PTR D_80889E70[] = {
     0x0600E2CC,
     0x0600E380,
     0x0600E430,
 };
 
-s16 D_80889E7C[] = {
+static s16 D_80889E7C[] = {
     0x4000,
     0xC000,
     0xC000,
     0x0000,
 };
 
-Gfx* D_80889E84[] = {
+static Gfx* D_80889E84[] = {
     0x0600C798,
     0x0600BFA8,
     0x0600BB58,

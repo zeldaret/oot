@@ -45,26 +45,26 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 sColChkInfoInit = {
+static CollisionCheckInfoInit2 sColChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
-struct_D_80AA1678 D_80AA1678[] = {
+static struct_D_80AA1678 D_80AA1678[] = {
     { 0x06000820, 1.0f, 0x00, 0.0f },
     { 0x06000820, 1.0f, 0x00, -10.0f },
     { 0x06008D64, 1.0f, 0x00, 0.0f },
     { 0x06008D64, 1.0f, 0x00, -10.0f },
 };
 
-Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
+static Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
 
-UNK_PTR D_80AA16C4[] = {
+static UNK_PTR D_80AA16C4[] = {
     0x06001F18,
     0x06002B18,
     0x06002F18,
 };
 
-UNK_PTR D_80AA16D0[] = {
+static UNK_PTR D_80AA16D0[] = {
     0x06001B18,
     0x06002318,
     0x06002718,

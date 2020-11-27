@@ -57,7 +57,7 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
 
-UNK_PTR D_809B0F80[] = {
+static UNK_PTR D_809B0F80[] = {
     0x06000408,
     0x06001518,
     0x06001D18,

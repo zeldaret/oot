@@ -22,7 +22,7 @@ void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
 void BgJyaLift_SetupMove(BgJyaLift* this);
 void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx);
 
-s16 D_8089A020 = 0;
+static s16 D_8089A020 = 0;
 
 const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
