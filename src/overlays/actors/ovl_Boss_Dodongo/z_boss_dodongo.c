@@ -23,8 +23,8 @@ void func_808C3094(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C29B0(BossDodongo* this);
 void func_808C5578(BossDodongo* this, GlobalContext* globalCtx);
 
-f32 func_808C4F6C(BossDodongo* this,GlobalContext* globalCtx);
-f32 func_808C50A8(BossDodongo* this,GlobalContext* globalCtx);
+f32 func_808C4F6C(BossDodongo* this, GlobalContext* globalCtx);
+f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx);
 
 s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  Actor* thisx);
@@ -616,9 +616,11 @@ extern AnimationHeader D_0601D934;
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1278.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C12C4.s")
+void func_808C1554(u16* D_030021D8, u16* D_808C73C8, s16 arg2, f32 arg3);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1554.s")
 
+void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C17C8.s")
 
 s32 func_808C18B0(BossDodongo* this, GlobalContext* globalCtx) { // Eat Explosive
@@ -1131,7 +1133,7 @@ void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1DA == 1) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI2);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI);
     }
     sp5C = &D_808CA3F8[this->unk_1A0];
     this->unk_1EC = 3.0f;
@@ -1176,7 +1178,7 @@ void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
             func_80033E88(&this->actor, globalCtx, 6, 15);
         } else {
             this->actor.velocity.y = 15.0f;
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI2);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI);
         }
         if (this->unk_1A2 == 0) {
             this->unk_1A0++;
@@ -1192,22 +1194,29 @@ void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
     }
 }
 
-
 Vec3f D_808CA428 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808CA434 = { 0.0f, 0.0f, 0.0f };
 Color_RGBA8 magmaPrimColor[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 150 } };
 Color_RGBA8 magmaEnvColor[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
 s32 D_808CA450[] = { 0x459C4000, 0xC51C4000, 0x00000000 };
 
-#ifdef NON_MATCHING
+//#ifdef NON_MATCHING
 void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossDodongo* this = THIS;
-    Player* player;
-    s16 sp90;
-    // s16 sp8E;
+    s16 new_var;
+    u16* ptr1;
+    u16* ptr2;
+    Player* player = PLAYER;
+    Player* player2 = PLAYER;
     s16 magmaScale;
-    f32 sp88;
+    s16 i1;
+    s16 phi_s0_3;
+    s16 sp90;
+    s16 magma2DrawMode;
     Vec3f sp84;
+
+    f32 temp_f12;
+    f32 temp_f10;
     Vec3f sp6C;
     Vec3f sp60;
     Vec3f sp54;
@@ -1216,28 +1225,10 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp4C;
 
     f32 temp_f0;
-    f32 temp_f10;
     f32 temp_f10_2;
-    f32 temp_f12;
     f32 temp_f12_2;
-    f32 temp_f12_3;
-    f32 temp_f16;
-    s16 i1;
-    s16 i2;
-    s16 i3;
-    s16 i4;
-    s16 i5;
-    f32 fogB;
-    f32 fogR;
-    f32 fogG;
-    s16 magma2DrawMode;
-    s32 temp_v0_8;
-    f32 phi_f0;
-    s32 phi_s0_3;
-    //s16 phi_v1;
-    s16 phi_a2;
 
-    player = PLAYER;
+
 
     this->unk_1E2 = 0;
     this->unk_19E++;
@@ -1256,15 +1247,15 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1C8 != 0) {
         this->unk_1C8--;
     }
-    //Turnarys?
-    temp_f0 = func_808C4F6C(this,globalCtx);
+    // Turnarys?
+    temp_f0 = func_808C4F6C(this, globalCtx);
     if (temp_f0 > 0.0f) {
         this->unk_1A4 = temp_f0;
     } else {
         this->unk_1A4 = 0;
     }
     temp_f0 = func_808C50A8(this, globalCtx);
-    if (0.0f < temp_f0) {
+    if (temp_f0 > 0.0f) {
         this->unk_1A6 = temp_f0;
     } else {
         this->unk_1A6 = 0;
@@ -1272,196 +1263,165 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_808C51F4(this, globalCtx);
     func_808C524C(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, this->unk_228, 1.0f, 100.0f, 0.0f);
+    thisx->shape.rot.y = thisx->posRot.rot.y;
+    Math_SmoothScaleMaxMinF(&thisx->shape.unk_08, this->unk_228, 1.0f, 100.0f, 0.0f);
     Actor_MoveForward(thisx);
     func_808C5354(this, globalCtx);
     func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 20.0f, 4);
-    Math_SmoothScaleMaxMinF(&this->unk_208, 0.0f, 1.0f, 0.001f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->unk_20C, 0.0f, 1.0f, 0.001f, 0.0f);
-    if ((this->unk_19E & 0x7F) == 0) {
+    Math_SmoothScaleMaxMinF(&this->unk_208, 0, 1, 0.001f, 0.0);
+    Math_SmoothScaleMaxMinF(&this->unk_20C, 0, 1, 0.001f, 0.0);
+    if ((this->unk_19E % 128) == 0) {
         for (i1 = 0; i1 < 50; i1++) {
             this->unk_324[i1] = (Math_Rand_ZeroOne() * 0.25f) + 0.5f;
         }
     }
     //@Bug: loop itterates to 50 but temp_25C only goes up to 49
-    for (i2 = 0; i2 < 50; i2++) {
-        this->unk_25C[i2]  += this->unk_324[i2];
+    for (i1 = 0; i1 < 50; i1++) {
+        this->unk_25C[i1] += this->unk_324[i1];
     }
 
     if (this->unk_1C8 != 0) {
         if (this->unk_1C8 >= 11) {
-            if (this->unk_1C8 & 1) {
-                phi_f0 = 40.0f;
-            } else {
-                phi_f0 = 60.0f;
-            }
-            Math_SmoothScaleMaxMinF(&this->unk_240, phi_f0, 1.0f, 50.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->unk_240, (this->unk_1C8 & 1) ? 40.0f : 60.0f, 1.0, 50.0f, 0.0);
         } else {
-            Math_SmoothScaleMaxMinF(&this->unk_240, 0.0f, 1.0f, 10.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->unk_240, 0.0, 1.0, 10.0f, 0.0);
         }
         if ((globalCtx->envCtx.unk_8C[1][2] == 0) && (globalCtx->envCtx.unk_8C[0][2] == 0)) {
-            globalCtx->envCtx.unk_8C[1][1] = (u32)this->unk_240 & 0xFF;
-            globalCtx->envCtx.unk_8C[1][2] = (u32)(this->unk_240 * 0.1f) & 0xFF;
-            globalCtx->envCtx.unk_8C[0][0] = (u32)this->unk_240 & 0xFF;
-            globalCtx->envCtx.unk_8C[0][1] = (u32)(this->unk_240 * 0.1f) & 0xFF;
+            globalCtx->envCtx.unk_8C[1][0] = (u8)this->unk_240;
+            globalCtx->envCtx.unk_8C[1][1] = (u8)(this->unk_240 * 0.1f);
+            globalCtx->envCtx.unk_8C[0][0] = (u8)this->unk_240;
+            globalCtx->envCtx.unk_8C[0][1] = (u8)(this->unk_240 * 0.1f);
         }
     }
     if (this->unk_1BE != 0) {
-        if (this->unk_1BE >= 0x3E8) {
-            Math_SmoothScaleMaxMinF(&this->fogR, 30.0f, 1.0f, 20.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->fogG, 10.0f, 1.0f, 20.0f, 0.0f);
+        if (this->unk_1BE >= 1000) {
+            Math_SmoothScaleMaxMinF(&this->fogR, 30.0f, 1, 20.0f, 0.0);
+            Math_SmoothScaleMaxMinF(&this->fogG, 10.0f, 1, 20.0f, 0.0);
         } else {
             this->unk_1BE--;
-            Math_SmoothScaleMaxMinF(&this->fogR, 255.0f, 1.0f, 20.0f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->fogG, 0.0f, 1.0f, 20.0f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->fogR, 255.0f, 1, 20.0f, 0.0);
+            Math_SmoothScaleMaxMinF(&this->fogG, 0.0f, 1, 20.0f, 0.0);
         }
-        Math_SmoothScaleMaxMinF(&this->fogB, 0.0f, 1.0f, 20.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->fogMin, 900.0f, 1.0f, 10.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->fogMax, 1099.0f, 1.0f, 10.0f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->fogB, 0.0f, 1, 20.0f, 0.0);
+        Math_SmoothScaleMaxMinF(&this->fogMin, 900.0f, 1, 10.0f, 0.0);
+        Math_SmoothScaleMaxMinF(&this->fogMax, 1099.0f, 1, 10.0f, 0.0);
     } else {
-        fogR = globalCtx->lightCtx.unk_07;
-        if (globalCtx->lightCtx.unk_07 < 0) {
-            fogR = globalCtx->lightCtx.unk_07 + 4294967296.0f;
-        }
-        Math_SmoothScaleMaxMinF(&this->fogR, fogR, 1.0f, 5.0f, 0.0f);
-        fogG = globalCtx->lightCtx.unk_08;
-        if (globalCtx->lightCtx.unk_08 < 0) {
-            fogG = globalCtx->lightCtx.unk_08 + 4294967296.0f;
-        }
-        Math_SmoothScaleMaxMinF(&this->fogG, fogG, 1.0f, 5.0f, 0.0f);
-        fogB = globalCtx->lightCtx.unk_09;
-        if (globalCtx->lightCtx.unk_09 < 0) {
-            fogB = globalCtx->lightCtx.unk_09 + 4294967296.0f;
-        }
-        Math_SmoothScaleMaxMinF(&this->fogB, fogB, 1.0f, 5.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->fogMin, globalCtx->lightCtx.unk_0A, 1.0f, 5.0f, 0.0f);
-        Math_SmoothScaleMaxMinF(&this->fogMax, 1000.0f, 1.0f, 5.0f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->fogR, globalCtx->lightCtx.unk_07, 1.0f, 5.0f, 0.0);
+        Math_SmoothScaleMaxMinF(&this->fogG, globalCtx->lightCtx.unk_08, 1.0f, 5.0f, 0.0);
+        Math_SmoothScaleMaxMinF(&this->fogB, globalCtx->lightCtx.unk_09, 1.0f, 5.0f, 0.0);
+        Math_SmoothScaleMaxMinF(&this->fogMin, globalCtx->lightCtx.unk_0A, 1.0, 5.0f, 0.0);
+        Math_SmoothScaleMaxMinF(&this->fogMax, 1000.0f, 1, 5.0f, 0.0);
     }
     if (player->actor.posRot.pos.y < -1000.0f) {
         magmaScale = 0;
-        // temp_f0_3 = this->unk_224;
-        if (1.9f < this->unk_224) {
-            sp90 = 0;
-            magma2DrawMode = 0;
+
+        if (this->unk_224 > 1.9f) {
             phi_s0_3 = 1;
-        } else if (1.7f < this->unk_224) {
+            magma2DrawMode = 0;
+            sp90 = 0;
+        } else if (this->unk_224 > 1.7f) {
+            phi_s0_3 = 3;
             sp90 = 1;
             magma2DrawMode = 0;
-            phi_s0_3 = 3;
-        } else if (1.4f < this->unk_224) {
+        } else if (this->unk_224 > 1.4f) {
+            phi_s0_3 = 7;
             sp90 = 3;
             magma2DrawMode = (Math_Rand_ZeroOne() * 1.9f);
+        } else if (this->unk_224 > 1.1f) {
             phi_s0_3 = 7;
-        } else if (1.1f < this->unk_224) {
             sp90 = 4095;
             magma2DrawMode = (Math_Rand_ZeroOne() * 1.9f);
-            phi_s0_3 = 7;
         } else {
-            sp90 = -1;
-            // sp8E = 1;
-            magmaScale = (Math_Rand_ZeroOne() * 50.0f) - 50;
-            magma2DrawMode = 1;
             phi_s0_3 = 1;
+            sp90 = 1;
+            magma2DrawMode = 1;
+            magmaScale = (s16)(Math_Rand_ZeroOne() * 50.0f) - 50;
         }
-        if (player->csMode >= 10) {
+        if (player2->csMode >= 10) {
             phi_s0_3 = -1;
         }
         if ((this->unk_19E & phi_s0_3) == 0) {
-            // sp8E = phi_v1;
-            sp84.x = Math_Rand_ZeroOne() * 330.0f;
-            temp_f12 = Math_Rand_ZeroOne() * 6.28f;
-
-            temp_f10 = sinf(temp_f12) * sp84.x;
-            sp84.z = -1523.76f;
-            sp84.y = temp_f10 + -890.0f;
-            //magma2DrawMode = phi_v1;
-            sp88 = (cosf(temp_f12) * sp84.x) + -3304.0f;
+            temp_f12 = Math_Rand_ZeroOne() * 330.0f;
+            temp_f10 = Math_Rand_ZeroOne() * 6.28f;
+            sp84.x = (sinf(temp_f10) * temp_f12) + -890.0f;
+            sp84.y = -1523.76f;
+            sp84.z = (cosf(temp_f10) * temp_f12) + -3304.0f;
             EffectSsGMagma2_Spawn(globalCtx, &sp84, &magmaPrimColor[magma2DrawMode], &magmaEnvColor[magma2DrawMode],
                                   0xA - (magma2DrawMode * 5), magma2DrawMode, magmaScale + 100);
         }
-        phi_a2 = this->unk_19E;
+
         if ((this->unk_19E & sp90) == 0) {
             sp6C = D_808CA428;
-
             sp60 = D_808CA434;
-
             sp50 = Math_Rand_ZeroOne() * 330.0f;
             temp_f12_2 = Math_Rand_ZeroOne() * 6.28f;
-            sp4C = temp_f12_2;
+
             temp_f10_2 = sinf(temp_f12_2) * sp50;
 
-            sp54.y = -1523.76f;
             sp54.x = temp_f10_2 + -890.0f;
+            sp54.y = -1523.76f;
             sp54.z = (cosf(temp_f12_2) * sp50) + -3304.0f;
             EffectSsGMagma_Spawn(globalCtx, &sp54);
-            for (i3 = 0; i3 < 4; i3++) {
+            for (i1 = 0; i1 < 4; i1++) {
                 sp60.y = 0.4f;
                 sp60.x = Math_Rand_CenteredFloat(0.5f);
                 sp60.z = Math_Rand_CenteredFloat(0.5f);
-
                 sp50 = Math_Rand_ZeroOne() * 330.0f;
-                temp_f12_3 = Math_Rand_ZeroOne() * 6.28f;
-                sp4C = temp_f12_3;
-                temp_f16 = sinf(temp_f12_3) * sp50;
+                sp4C = Math_Rand_ZeroOne() * 6.28f;
+
+                sp54.x = (sinf(sp4C) * sp50) + -890.0f;
                 sp54.y = -1513.76f;
-                sp54.x = temp_f16 + -890.0f;
-                sp54.z = (cosf(temp_f12_3) * sp50) + -3304.0f;
-                func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, Math_Rand_ZeroFloat(2.0f) + 6, 80);
+                sp54.z = (cosf(sp4C) * sp50) + -3304.0f;
+                func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, (s16)Math_Rand_ZeroFloat(2.0f) + 6, 0x50);
             }
-            phi_a2 = this->unk_19E;
+            // phi_a2 = this->unk_19E;
         }
-        func_808C1554(D_030021D8, D_808C73C8, phi_a2, this->unk_224);
+        func_808C1554(D_030021D8, D_808C73C8, this->unk_19E, this->unk_224);
     }
     if (this->unk_1C6 != 0) {
-        for (i4 = 0; i4 < 20; i4++) {
-            temp_v0_8 = (this->unk_1C2 & 0x7FF) * 2;
-            ((u16*)SEGMENTED_TO_VIRTUAL(D_808C73C8))[temp_v0_8] = ((u16*)SEGMENTED_TO_VIRTUAL(D_808C93C8))[temp_v0_8];
-
+        ptr1 = SEGMENTED_TO_VIRTUAL(D_808C73C8);
+        ptr2 = SEGMENTED_TO_VIRTUAL(D_808C93C8);
+        new_var = 20;
+        for (i1 = 0; i1 < new_var; i1++) {
+            //new_var = this->unk_1C2 & 0x7FF;
+            
+            ptr1[this->unk_1C2 & 0x7FF] = ptr2[this->unk_1C2 & 0x7FF];
             this->unk_1C2 += 37;
         }
-        Math_SmoothScaleMaxMinF(&this->unk_224, 0.0f, 1.0f, 0.01f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->unk_224, 0, 1, 0.01f, 0);
     }
     if (this->unk_1BC == 0) {
-        if (func_808C5578 != this->actionFunc) {
+        if (this->actionFunc != func_808C5578) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        if (&func_808C3704 == this->actionFunc) {
+        if (this->actionFunc == func_808C3704) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
     }
-    if (&func_808C3224 == this->actionFunc) {
-        this->collider.list->dim.scale = 0.0f;
-    } else {
-        this->collider.list->dim.scale = 1.0f;
-    }
-
-    for (i5 = 6; i5 < 19; i5++) {
-        if (i5 != 0xC) {
-            if (&func_808C3704 == this->actionFunc) {
-                this->collider.list[i5].dim.scale = 0.0f;
-            } else {
-                this->collider.list[i5].dim.scale = 1.0f;
-            }
+    this->collider.list[0].dim.scale = (this->actionFunc == func_808C3224) ? 0 : 1;
+    for (i1 = 6; i1 < 19; i1++) {
+        if (i1 != 12) {
+            this->collider.list[i1].dim.scale = (this->actionFunc == func_808C3704) ? 0 : 1;
         }
     }
 
-    if (0.0f != this->unk_244) {
+    if (this->unk_244 != 0) {
         MREG(64) = 1;
         MREG(65) = 0xFF;
         MREG(66) = 0x50;
         MREG(67) = 0;
-        MREG(68) = (this->unk_244);
+        MREG(68) = (u8)this->unk_244;
     } else {
         MREG(64) = 0;
     }
     Math_SmoothScaleMaxMinF(&this->unk_244, 0.0f, 1.0f, 2.0f, 0.0f);
     func_808C6CB4(globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
-#endif 
+//#else
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
+//#endif
+
 #ifdef NON_MATCHING
 // Very small stack difference
 s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -1568,8 +1528,6 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3981);
     func_808C6DE8(globalCtx);
 }
-
-
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C4F6C.s")
 
