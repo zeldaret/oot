@@ -22,7 +22,7 @@ typedef struct EnFirefly {
     /* 0x030E */ char unk_30E[0x2];
     /* 0x0310 */ f32 unk_310;
     /* 0x0314 */ ColliderJntSph collider;
-    /* 0x0344 */ ColliderJntSphItem colliderItem;
+    /* 0x0344 */ ColliderJntSphItem colliderItems[1];
 } EnFirefly; // size = 0x0374
 
 extern const ActorInit En_Firefly_InitVars;

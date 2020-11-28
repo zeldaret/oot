@@ -24,70 +24,70 @@ void func_80A14294(EnFirefly* this, GlobalContext* globalCtx);
 void func_80A142F4(EnFirefly* this, GlobalContext* globalCtx);
 void func_80A143B4(EnFirefly* this, GlobalContext* globalCtx);
 
-// const ActorInit En_Firefly_InitVars = {
-//     ACTOR_EN_FIREFLY,
-//     ACTORTYPE_ENEMY,
-//     FLAGS,
-//     OBJECT_FIREFLY,
-//     sizeof(EnFirefly),
-//     (ActorFunc)EnFirefly_Init,
-//     (ActorFunc)EnFirefly_Destroy,
-//     (ActorFunc)EnFirefly_Update,
-//     (ActorFunc)EnFirefly_Draw,
-// };
+const ActorInit En_Firefly_InitVars = {
+    ACTOR_EN_FIREFLY,
+    ACTORTYPE_ENEMY,
+    FLAGS,
+    OBJECT_FIREFLY,
+    sizeof(EnFirefly),
+    (ActorFunc)EnFirefly_Init,
+    (ActorFunc)EnFirefly_Destroy,
+    (ActorFunc)EnFirefly_Update,
+    (ActorFunc)EnFirefly_Draw,
+};
 
-extern ColliderJntSphItemInit D_80A14F30;
-// static ColliderJntSphItemInit sJntSphItemsInit = {
-//     { 0x00, { 0xFFCFFFFF, 0x01, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
-//     { 1, { { 0, 1000, 0 }, 15 }, 100 },
-// };
+// extern ColliderJntSphItemInit D_80A14F30;
+static ColliderJntSphItemInit sJntSphItemsInit[] = { {
+    { 0x00, { 0xFFCFFFFF, 0x01, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
+    { 1, { { 0, 1000, 0 }, 15 }, 100 },
+} };
 
-extern ColliderJntSphInit D_80A14F54;
-// static ColliderJntSphInit sJntSphInit = {
-//     { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
-//     1,
-//     &sJntSphItemsInit,
-// };
+// extern ColliderJntSphInit D_80A14F54;
+static ColliderJntSphInit sJntSphInit = {
+    { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    1,
+    &sJntSphItemsInit[0],
+};
 
-extern ColliderJntSphItemInit* D_80A14F60;
-// static ColliderJntSphItemInit* D_80A14F60 = &sJntSphItemsInit;
+// extern ColliderJntSphItemInit* D_80A14F60;
+// static ColliderJntSphItemInit* D_80A14F60 = &sJntSphItemsInit; // Fake symbol
 
-extern CollisionCheckInfoInit D_80A14F64;
-// static CollisionCheckInfoInit sColChkInfoInit = { 1, 10, 10, 30 };
+// extern CollisionCheckInfoInit D_80A14F64;
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 10, 10, 30 };
 
-extern DamageTable D_80A14F6C;
-// static DamageTable sDamageTable = {
-//     0x10, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0xF2, 0x34, 0x02, 0x02, 0x02,
-//     0x02, 0x20, 0x34, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
-// };
+// extern DamageTable D_80A14F6C;
+static DamageTable sDamageTable = {
+    0x10, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0xF2, 0x34, 0x02, 0x02, 0x02,
+    0x02, 0x20, 0x34, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+};
 
-extern InitChainEntry D_80A14F8C[];
-// static InitChainEntry sInitChain[] = {
-//     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
-//     ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),   ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-//     ICHAIN_F32(unk_4C, 4000, ICHAIN_STOP),
-// };
+// extern InitChainEntry D_80A14F8C[];
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
+    ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),   ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_4C, 4000, ICHAIN_STOP),
+};
 
-extern Color_RGBA8 D_80A14FA0;
-// static ColorRGBA8 D_80A14FA0 = { 255, 255, 100, 255 };
+// extern Color_RGBA8 D_80A14FA0;
+static Color_RGBA8 D_80A14FA0 = { 255, 255, 100, 255 };
 
-extern Color_RGBA8 D_80A14FA4;
-// static ColorRGBA8 D_80A14FA4 = { 255, 50, 0, 0 };
+// extern Color_RGBA8 D_80A14FA4;
+static Color_RGBA8 D_80A14FA4 = { 255, 50, 0, 0 };
 
-extern Color_RGBA8 D_80A14FA8;
-// static ColorRGB8 D_80A14FA8 = { 100, 200, 255 , 255 };
+// extern Color_RGBA8 D_80A14FA8;
+static Color_RGBA8 D_80A14FA8 = { 100, 200, 255, 255 };
 
-extern Color_RGBA8 D_80A14FAC;
-// static ColorRGB8 D_80A14FAC = { 0, 0, 255, 0 };
+// extern Color_RGBA8 D_80A14FAC;
+static Color_RGBA8 D_80A14FAC = { 0, 0, 255, 0 };
 
-extern Vec3f D_80A14FB0;
-// static Vec3f D_80A14FB0 = { 0.0f, 0.5f, 0.0f };
+// extern Vec3f D_80A14FB0;
+static Vec3f D_80A14FB0 = { 0.0f, 0.5f, 0.0f };
 
-extern Vec3f D_80A14FBC;
-// static Vec3f D_80A14FBC = { 0.0f, 0.5f, 0.0f };
+// extern Vec3f D_80A14FBC;
+static Vec3f D_80A14FBC = { 0.0f, 0.5f, 0.0f };
 
-extern Vec3f D_80A14FC8;
-// static Vec3f D_80A14FBC = { 0.0f, 0.0f, 0.0f };
+// extern Vec3f D_80A14FC8;
+static Vec3f D_80A14FC8 = { 0.0f, 0.0f, 0.0f };
 // glabel D_80A14FC8
 //  .word 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
 
@@ -121,13 +121,13 @@ void func_80A13098(EnFirefly* this) {
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFirefly* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80A14F8C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->limbDrawTable,
                    this->transitionDrawTable, 28);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80A14F54, &this->colliderItem);
-    func_80061ED4(&this->actor.colChkInfo, &D_80A14F6C, &D_80A14F64);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems[0]);
+    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     if ((this->actor.params & 0x8000) != 0) {
         this->actor.flags |= 0x80;
         if (1) {}
@@ -166,7 +166,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_1B8 = 0;
         }
     }
-    this->collider.list->dim.worldSphere.radius = D_80A14F60->dim.modelSphere.radius;
+    this->collider.list->dim.worldSphere.radius = sJntSphInit.list[0].dim.modelSphere.radius;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/EnFirefly_Destroy.s")
@@ -751,7 +751,8 @@ void func_80A149B4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     effPrimColor = &D_80A14FA8;
                     effEnvColor = &D_80A14FAC;
                 }
-                func_8002843C(globalCtx, &effPos, &D_80A14FB0, &D_80A14FBC, effPrimColor, effEnvColor, 250, effScaleStep, effLife);
+                func_8002843C(globalCtx, &effPos, &D_80A14FB0, &D_80A14FBC, effPrimColor, effEnvColor, 250,
+                              effScaleStep, effLife);
             }
         }
     }
