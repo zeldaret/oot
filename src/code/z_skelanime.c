@@ -641,11 +641,9 @@ Gfx* SkelAnime_DrawLimbSV2(GlobalContext* globalCtx, s32 limbIndex, Bone** skele
             gSPMatrix(gfx++, *mtx, G_MTX_LOAD);
             gSPDisplayList(gfx++, dList1);
             (*mtx)++;
-        } else {
-            if (dList2 != NULL) {
-                Matrix_ToMtx(*mtx, "../z_skelanime.c", 1630);
-                (*mtx)++;
-            }
+        } else if (dList2 != NULL) {
+            Matrix_ToMtx(*mtx, "../z_skelanime.c", 1630);
+            (*mtx)++;
         }
     }
     if (postLimbDraw != NULL) {
