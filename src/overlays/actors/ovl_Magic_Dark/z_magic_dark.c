@@ -14,10 +14,10 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_OrbUpdate(Actor* thisx, GlobalContext* globalCtx);
 void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx);
-
 void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx);
-void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity);
 void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx);
+
+void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity);
 
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
@@ -73,7 +73,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     u8 phi_a0;
     Player* player = PLAYER;
-    u8 temp;
+    s8 pad;
     s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
     s32 msgMode = globalCtx->msgCtx.msgMode;
     u8 temp2;
@@ -114,14 +114,10 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
             temp2 = this->primAlpha;
             this->primAlpha = (temp2 & 0xFF) >> 1;
         }
+    } else if (nayrusLoveTimer >= 1100) {
+        this->primAlpha = (u8)(nayrusLoveTimer << 7) + 127;
     } else {
-        if (nayrusLoveTimer >= 1100) {
-            temp = (nayrusLoveTimer << 7);
-            temp += 127;
-            this->primAlpha = temp;
-        } else {
-            this->primAlpha = 255;
-        }
+        this->primAlpha = 255;
     }
 
     if (this->primAlpha > phi_a0) {
