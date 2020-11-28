@@ -2978,19 +2978,16 @@ s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
                                   Actor* thisx) {
     BossVa* this = THIS;
     MtxF zapperMtx;
-    s32 pad;
 
     switch (limbIndex) {
         case 4:
             rot->y += this->unk_1E6;
             rot->z += this->unk_1E4;
             break;
-
         case 5:
             rot->y += this->unk_1EC;
             rot->z += this->unk_1EA;
             break;
-
         case 7:
             Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
             Matrix_Get(&zapperMtx);
@@ -3000,12 +2997,8 @@ s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
             Matrix_RotateZ(-sZapperRot.z * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_RotateY(this->unk_1F2 * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_RotateZ(this->unk_1F0 * (M_PI / 0x8000), MTXMODE_APPLY);
-            pos->z = 0.0f;
-            pos->y = 0.0f;
-            pos->x = 0.0f;
-            rot->z = 0;
-            rot->y = rot->z;
-            rot->x = rot->z;
+            pos->x = pos->y = pos->z = 0.0f;
+            rot->x = rot->y = rot->z = 0;
             break;
     }
     return 0;
@@ -3057,9 +3050,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             } else {
                 sp70.z = ((this->timer2 - 32) & 0xF) * 80.0f;
             }
-            sp70.z += 40.0f;
-            sp40.z = sp70.z;
-            sp4C.z = sp70.z;
+            sp4C.z = sp40.z = sp70.z += 40.0f;
             sp70.z += 50.0f;
             Matrix_MultVec3f(&sp70, &this->effectPos[4]);
             if (sFightProgress >= PHASE_4) {
@@ -3305,7 +3296,6 @@ void BossVa_UpdateParticles(GlobalContext* globalCtx) {
                     pad78 = Math_Coss(-pitch);
                     ptr->pos.y = (ptr->offset.y * pad78) + refActor->actor.posRot.pos.y;
                 } else if ((ptr->mode == SPARK_BARI) || (ptr->mode == SPARK_BODY)) {
-                    // if(1){}
                     ptr->pos.x = ptr->offset.x + refActor->actor.posRot.pos.x;
                     ptr->pos.y = ptr->offset.y + refActor->actor.posRot.pos.y;
                     ptr->pos.z = ptr->offset.z + refActor->actor.posRot.pos.z;
