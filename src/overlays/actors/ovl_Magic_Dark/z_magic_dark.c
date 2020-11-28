@@ -73,10 +73,9 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     MagicDark* this = THIS;
     u8 phi_a0;
     Player* player = PLAYER;
-    s8 pad;
+    s16 pad;
     s16 nayrusLoveTimer = gSaveContext.nayrusLoveTimer;
     s32 msgMode = globalCtx->msgCtx.msgMode;
-    u8 temp2;
 
     if (1) {}
 
@@ -111,8 +110,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     if (nayrusLoveTimer >= 1180) {
         this->primAlpha = 15595 - (nayrusLoveTimer * 13);
         if (nayrusLoveTimer & 1) {
-            temp2 = this->primAlpha;
-            this->primAlpha = (temp2 & 0xFF) >> 1;
+            this->primAlpha = (u8)(this->primAlpha >> 1);
         }
     } else if (nayrusLoveTimer >= 1100) {
         this->primAlpha = (u8)(nayrusLoveTimer << 7) + 127;
