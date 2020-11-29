@@ -41,17 +41,6 @@ typedef struct EnSsh {
 
 extern const ActorInit En_Ssh_InitVars;
 
-typedef enum EnSshParam {
-    ENSSH_FATHER,
-    ENSSH_CHILD_1,
-    ENSSH_CHILD_2,
-    ENSSH_CHILD_3,
-    ENSSH_CHILD_4,
-    ENSSH_CHILD_5,
-    ENSSH_CHILD_6,
-    ENSSH_CHILD_7,
-    ENSSH_CHILD_8,
-    ENSSH_CHILD_9
-} EnSshParam;
+#define ENSSH_FATHER 0
 
 #endif

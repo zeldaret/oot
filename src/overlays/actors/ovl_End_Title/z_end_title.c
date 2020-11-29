@@ -89,43 +89,43 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetRenderMode(OVERLAY_DISP++, G_RM_PASS, G_RM_XLU_SURF2);
     gSPClearGeometryMode(OVERLAY_DISP++,
                          G_TEXTURE_ENABLE | G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
-    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0,
-                      0, COMBINED, 0, 0, 0, COMBINED);
+    gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0,
+                      COMBINED, 0, 0, 0, COMBINED);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->endAlpha);
     gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 80, D_80B670E0);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 11, 0x0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-               0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
+    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 11, 0x0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0,
+               G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
     gDPLoadSync(OVERLAY_DISP++);
     gDPLoadTile(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, (80 << 2), (24 << 2));
     gDPPipeSync(OVERLAY_DISP++);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 11, 0x0, G_TX_RENDERTILE, 0,
-               G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
+    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 11, 0x0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0,
+               0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
     gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, (80 << 2), (24 << 2));
-    gSPTextureRectangle(OVERLAY_DISP++, (120 << 2), (90 << 2), (200 << 2), (113 << 2), G_TX_RENDERTILE, 0, 0,
-                        (32 << 5), (32 << 5));
+    gSPTextureRectangle(OVERLAY_DISP++, (120 << 2), (90 << 2), (200 << 2), (113 << 2), G_TX_RENDERTILE, 0, 0, (32 << 5),
+                        (32 << 5));
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->tlozAlpha);
     gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 120, D_80B65EA0);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 0x0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-               0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
+    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 0x0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0,
+               G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
     gDPLoadSync(OVERLAY_DISP++);
     gDPLoadTile(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, (120 << 2), (24 << 2));
     gDPPipeSync(OVERLAY_DISP++);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 0x0, G_TX_RENDERTILE, 0,
-               G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
+    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 0x0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0,
+               0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
     gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, (120 << 2), (24 << 2));
     gSPTextureRectangle(OVERLAY_DISP++, (100 << 2), (160 << 2), (220 << 2), (183 << 2), G_TX_RENDERTILE, 0, 0,
                         (32 << 5), (32 << 5));
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->ootAlpha);
     gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 112, D_80B669E0);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 15, 0x0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-               0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
+    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 15, 0x0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0,
+               G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
     gDPLoadSync(OVERLAY_DISP++);
     gDPLoadTile(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, (112 << 2), (16 << 2));
     gDPPipeSync(OVERLAY_DISP++);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 15, 0x0, G_TX_RENDERTILE, 0,
-               G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
+    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 15, 0x0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0,
+               0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
     gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, (112 << 2), (16 << 2));
     gSPTextureRectangle(OVERLAY_DISP++, (104 << 2), (177 << 2), (216 << 2), (192 << 2), G_TX_RENDERTILE, 0, 0,
                         (32 << 5), (32 << 5));
