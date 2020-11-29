@@ -51,13 +51,13 @@ void func_80987330(DemoIm* this, GlobalContext* globalCtx);
 void func_8098764C(DemoIm* this, GlobalContext* globalCtx);
 void func_80987658(DemoIm* this, GlobalContext* globalCtx);
 
-UNK_PTR D_80987830[] = {
+static UNK_PTR D_80987830[] = {
     0x06007210,
     0x06007D50,
     0x06008150,
 };
 
-u32 D_8098783C = 0;
+static u32 D_8098783C = 0;
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
@@ -75,7 +75,7 @@ static DemoImActionFunc sActionFuncs[] = {
     func_809872A8, func_809872F0, func_80987330,
 };
 
-Vec3f D_809887D8 = { 0.0f, 10.0f, 0.0f };
+static Vec3f D_809887D8 = { 0.0f, 10.0f, 0.0f };
 
 static DemoImDrawFunc sDrawFuncs[] = {
     func_8098764C,
