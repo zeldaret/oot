@@ -521,7 +521,9 @@ void func_80B53B64(EnZl3* this, s16 z, s32 idx) {
                     if (skelAnime->animCurrentFrame <= 42.0f) {
                         phi_v1_2 = phi_a1 - 2000;
                     } else {
-                        phi_v1_2 = (s32)((((skelAnime->animCurrentFrame - 42.0f) * 6200.0f) / (unk_3F4 - 42.0f)) + -2000.0f) + phi_a1;
+                        phi_v1_2 =
+                            (s32)((((skelAnime->animCurrentFrame - 42.0f) * 6200.0f) / (unk_3F4 - 42.0f)) + -2000.0f) +
+                            phi_a1;
                     }
 
                     if (phi_v1_2 >= phi_a1) {
@@ -844,7 +846,7 @@ s32 func_80B54DD4(EnZl3* this) {
 void func_80B54DE0(EnZl3* this, GlobalContext* globalCtx) {
     s32 idx = this->unk_318;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[idx].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[idx].segment);
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
@@ -935,9 +937,7 @@ void func_80B550F0(EnZl3* this) {
 void func_80B55144(EnZl3* this) {
     f32* fl = &D_80B5A484;
 
-    if (1) {
-        ; // necessary to match
-    }
+    if (1) {} // necessary to match
 
     if (*fl < 2.0f) {
         *fl += 1.0f;
@@ -1281,7 +1281,7 @@ void func_80B55F6C(EnZl3* this, GlobalContext* globalCtx) {
         this->action = 0x12;
     } else if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
-        
+
         if ((bossGanon2 != NULL) && (bossGanon2->unk_324 <= 0.12345679104328156f)) {
             this->actor.flags |= 9;
             this->actor.flags |= 1;
@@ -1648,7 +1648,7 @@ void func_80B56DC8(EnZl3* this) {
 
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
-    
+
     if ((skelAnime->mode == 2) && func_800A56C8(skelAnime, 9.0f) != 0) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
@@ -1730,7 +1730,7 @@ s16 func_80B57104(EnZl3* this, s32 arg1) {
         f32 zDiff = point->z - this->actor.posRot.pos.z;
 
         if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
-            return Math_atan2f(xDiff, zDiff) * 10430.3779296875f; // todo float
+            return Math_atan2f(xDiff, zDiff) * (0x8000 / M_PI);
         }
     }
     return 0;
@@ -2216,7 +2216,7 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     s8 invincibilityTimer = player->invincibilityTimer;
-    Actor* nearbyEnTest = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, 5, 8000.0f);
+    Actor* nearbyEnTest = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORTYPE_ENEMY, 8000.0f);
 
     if (D_80B5A4BC == 0) {
         if ((nearbyEnTest == NULL) && (!Gameplay_InCsMode(globalCtx))) {
@@ -2619,7 +2619,7 @@ s32 func_80B59768(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B59828(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B59698(this, globalCtx) || (!func_80B56EE4(this, globalCtx) && func_80B57890(this, globalCtx))) {
         s16 newRotY;
-        
+
         func_80B54E14(this, &D_06009FBC, 0, 0.0f, 0);
         this->actor.flags |= 9;
         func_80B56F10(this, globalCtx);

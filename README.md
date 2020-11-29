@@ -78,7 +78,6 @@ Download qemu-irix from the Releases section in the repository. Place it at a lo
 Open up your .bashrc file (~/.bashrc), scroll to the bottom, and add the following, replacing the paths as necessary:
 
 ```text
-export OOT_QEMU=y
 export QEMU_IRIX="path/to/your/qemu-irix"
 ```
 

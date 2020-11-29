@@ -21,7 +21,6 @@ typedef struct EnZl3 {
     /* 0x0244 */ s16 unk_244;
     /* 0x0246 */ s16 unk_246;
     /* 0x0248 */ s16 unk_248;
-    /* 0x024A */ char unk_24A[0x2];
     /* 0x024C */ s32 action;
     /* 0x0250 */ s32 drawConfig;
     /* 0x0254 */ char unk_254[0x4];
@@ -59,7 +58,6 @@ typedef struct EnZl3 {
     /* 0x03C8 */ u8 unk_3C8;
     /* 0x03CC */ f32 unk_3CC;
     /* 0x03D0 */ s16 unk_3D0;
-    /* 0x03D2 */ char unk_3D2[0x2];
     /* 0x03D4 */ BossGanon2* unk_3D4;
     /* 0x03D8 */ s32 unk_3D8;
     /* 0x03DC */ f32 unk_3DC;
