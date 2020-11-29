@@ -51,7 +51,7 @@ static struct_80034EC0_Entry sAnimations[] = {
     { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
 };
 
-extern SkeletonHeaderSV D_060086D0;
+extern FlexSkeletonHeader D_060086D0;
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
@@ -304,7 +304,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
                      12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -484,7 +484,7 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
                      EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);

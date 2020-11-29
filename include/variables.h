@@ -409,7 +409,7 @@ extern s16 D_80120130;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
-extern SkeletonHeaderSV* gPlayerSkelHeaders[2];
+extern FlexSkeletonHeader* gPlayerSkelHeaders[2];
 extern u8 gPlayerModelTypes[][5];
 extern Gfx* D_80125D68[];
 extern Gfx* D_80125DE8[];

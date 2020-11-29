@@ -35,7 +35,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeaderSV D_06005EA0;
+extern FlexSkeletonHeader D_06005EA0;
 extern AnimationHeader D_0600045C;
 extern AnimationHeader D_0600018C;
 
@@ -48,7 +48,7 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06005EA0, &D_0600045C, this->limbDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005EA0, &D_0600045C, this->limbDrawTable,
                      this->transitionDrawTable, 13);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600045C);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -215,6 +215,6 @@ void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnJs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnJs_OverrideLimbDraw, EnJs_PostLimbDraw, &this->actor);
 }

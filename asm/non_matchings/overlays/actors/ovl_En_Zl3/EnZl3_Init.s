@@ -41,7 +41,7 @@ glabel EnZl3_Init
 /* 06B58 80B59F08 24C60D70 */  addiu   $a2, $a2, 0x0D70           ## $a2 = 06010D70
 /* 06B5C 80B59F0C 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 06B60 80B59F10 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 06B64 80B59F14 0C0291BE */  jal     SkelAnime_InitSV
+/* 06B64 80B59F14 0C0291BE */  jal     SkelAnime_InitFlex
 /* 06B68 80B59F18 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 06B6C 80B59F1C 0C2D5375 */  jal     func_80B54DD4
 /* 06B70 80B59F20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

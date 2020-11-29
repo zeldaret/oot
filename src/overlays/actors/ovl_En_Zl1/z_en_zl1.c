@@ -50,7 +50,7 @@ static UNK_PTR D_80B4E62C[] = { 0x06007608 };
 extern AnimationHeader D_06000438;
 extern UNK_TYPE D_06008848;
 extern UNK_TYPE D_06008C48;
-extern SkeletonHeaderSV D_0600F5D8;
+extern FlexSkeletonHeader D_0600F5D8;
 extern AnimationHeader D_06010B38;
 extern AnimationHeader D_06011348;
 extern AnimationHeader D_060116E4;
@@ -72,7 +72,7 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnZl1* this = THIS;
 
     frameCount = SkelAnime_GetFrameCount(&D_06012118);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600F5D8, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F5D8, NULL, NULL, NULL, 0);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06012118, 1.0f, 0.0f, frameCount, 0, 0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -601,7 +601,7 @@ void EnZl1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(this->unk_1EC));
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      func_80B4C340, func_80B4C400, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_girlB.c", 2046);

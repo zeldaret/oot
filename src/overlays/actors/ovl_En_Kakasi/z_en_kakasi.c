@@ -29,7 +29,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeaderSV D_060065B0;
+extern FlexSkeletonHeader D_060065B0;
 extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi_InitVars = {
@@ -60,7 +60,7 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
 
     this->rot = this->actor.posRot.rot;
     this->actor.flags |= 0x400;
@@ -338,6 +338,6 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowCustomSongSet);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, NULL,
+    SkelAnime_DrawFlex(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount, NULL,
                      NULL, &this->actor);
 }

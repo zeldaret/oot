@@ -75,7 +75,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
 
-extern SkeletonHeaderSV D_06000BD8;
+extern FlexSkeletonHeader D_06000BD8;
 extern AnimationHeader D_060015B0;
 
 void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
@@ -87,7 +87,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
                      this->transitionDrawTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
@@ -395,6 +395,6 @@ void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, &this->actor);
 }

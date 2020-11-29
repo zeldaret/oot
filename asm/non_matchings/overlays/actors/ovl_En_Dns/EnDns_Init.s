@@ -112,7 +112,7 @@ glabel EnDns_Init
 /* 000C0 809EF410 24E709A0 */  addiu   $a3, $a3, 0x09A0           ## $a3 = 060009A0
 /* 000C4 809EF414 24C641A8 */  addiu   $a2, $a2, 0x41A8           ## $a2 = 060041A8
 /* 000C8 809EF418 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 000CC 809EF41C 0C0291BE */  jal     SkelAnime_InitSV
+/* 000CC 809EF41C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000D0 809EF420 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000D4 809EF424 2605026C */  addiu   $a1, $s0, 0x026C           ## $a1 = 0000026C
 /* 000D8 809EF428 AFA50034 */  sw      $a1, 0x0034($sp)

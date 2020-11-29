@@ -79,7 +79,7 @@ static InitChainEntry sInitChain[] = {
 extern AnimationHeader D_06000EA4;
 extern AnimationHeader D_06000590;
 extern AnimationHeader D_0600299C;
-extern SkeletonHeaderSV D_06008FB0;
+extern FlexSkeletonHeader D_06008FB0;
 extern AnimationHeader D_06009DB0;
 extern AnimationHeader D_060019CC;
 extern AnimationHeader D_06009520;
@@ -93,7 +93,7 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
                      25);
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -619,7 +619,7 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, &this->actor);
     }
 

@@ -40,7 +40,7 @@ glabel func_80AB9F24
 /* 00374 80AB9FB4 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 00378 80AB9FB8 24C600F0 */  addiu   $a2, $a2, 0x00F0           ## $a2 = 060000F0
 /* 0037C 80AB9FBC AFA50038 */  sw      $a1, 0x0038($sp)
-/* 00380 80AB9FC0 0C0291BE */  jal     SkelAnime_InitSV
+/* 00380 80AB9FC0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00384 80AB9FC4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00388 80AB9FC8 820D0281 */  lb      $t5, 0x0281($s0)           ## 00000281
 /* 0038C 80AB9FCC 8FAC004C */  lw      $t4, 0x004C($sp)

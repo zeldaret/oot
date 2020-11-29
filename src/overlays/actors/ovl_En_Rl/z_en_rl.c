@@ -30,7 +30,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 
 static UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
 
-extern SkeletonHeaderSV D_06007B38;
+extern FlexSkeletonHeader D_06007B38;
 extern AnimationHeader D_06000A3C;
 extern AnimationHeader D_06000830;
 extern AnimationHeader D_0600040C;
@@ -114,7 +114,7 @@ s32 func_80AE74FC(EnRl* this, GlobalContext* globalCtx, u16 arg2, s32 arg3) {
 }
 
 void func_80AE7544(EnRl* this, GlobalContext* globalCtx) {
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, 0, 0, 0);
 }
 
 void func_80AE7590(EnRl* this, GlobalContext* globalCtx) {
@@ -192,7 +192,7 @@ void func_80AE7838(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE7878(EnRl* this, GlobalContext* globalCtx) {
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007B38, &D_06000A3C, 0, 0, 0);
     this->action = 4;
     this->actor.shape.unk_14 = 0;
 }
@@ -312,7 +312,7 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 331);
@@ -361,7 +361,7 @@ void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
+    SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 437);
 }

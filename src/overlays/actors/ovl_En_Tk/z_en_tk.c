@@ -37,7 +37,7 @@ extern UNK_TYPE D_06004B40;
 extern Gfx D_0600ACE0[];
 extern Gfx D_0600BC90[];
 extern Gfx D_0600BCA0[];
-extern SkeletonHeaderSV D_0600BE40;
+extern FlexSkeletonHeader D_0600BE40;
 
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
@@ -487,7 +487,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
     SkelAnime_ChangeAnim(&this->skelAnim, &D_06002F84, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84), 0, 0.f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -740,7 +740,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
                      EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);

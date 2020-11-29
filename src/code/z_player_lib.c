@@ -10,7 +10,7 @@ typedef struct {
     /* 0x04 */ Vec3f pos;
 } BowStringData; // size = 0x10
 
-SkeletonHeaderSV* gPlayerSkelHeaders[] = { 0x060377F4, 0x0602CF6C };
+FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, 0x0602CF6C };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
     { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
@@ -651,7 +651,7 @@ void func_8008F470(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTab
 
     sDListsLodOffset = lod * 2;
 
-    SkelAnime_LodDrawSV(globalCtx, skeleton, limbDrawTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
+    SkelAnime_LodDrawFlex(globalCtx, skeleton, limbDrawTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
     if ((overrideLimbDraw != func_800902F0) && (overrideLimbDraw != func_80090440) && (gSaveContext.gameMode != 3)) {
         if (LINK_IS_ADULT) {

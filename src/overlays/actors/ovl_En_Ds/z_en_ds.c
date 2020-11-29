@@ -29,14 +29,14 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Draw,
 };
 
-extern SkeletonHeaderSV D_06004768;
+extern FlexSkeletonHeader D_06004768;
 extern AnimationHeader D_0600039C;
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
 
     this->actor.colChkInfo.mass = 0xFF;
@@ -277,6 +277,6 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

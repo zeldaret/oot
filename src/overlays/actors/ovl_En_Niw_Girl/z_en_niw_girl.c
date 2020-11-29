@@ -42,7 +42,7 @@ static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
 static Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
 
-extern SkeletonHeaderSV D_06009948;
+extern FlexSkeletonHeader D_06009948;
 extern AnimationHeader D_06000378;
 extern AnimationHeader D_06009C78;
 
@@ -53,7 +53,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
                      &this->transitionDrawTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -245,7 +245,7 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnNiwGirlOverrideLimbDraw, 0, &this->actor);
     func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
 

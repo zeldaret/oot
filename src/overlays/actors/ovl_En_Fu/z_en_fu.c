@@ -64,7 +64,7 @@ static UNK_PTR sMouthSegments[] = {
 
 extern AnimationHeader D_0600057C;
 extern AnimationHeader D_06000B04;
-extern SkeletonHeaderSV D_06006C90;
+extern FlexSkeletonHeader D_06006C90;
 extern CutsceneData D_0200E080[];
 
 typedef enum {
@@ -77,7 +77,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->limbDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->limbDrawTable,
                      this->transitionDrawTable, 16);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelanime, &D_06000B04);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -304,7 +304,7 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
                      EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 791);

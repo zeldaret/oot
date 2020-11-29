@@ -101,7 +101,7 @@ extern AnimationHeader D_06000AFC;
 extern Gfx D_0600EDE8[];
 extern AnimationHeader D_060014E4;
 extern AnimationHeader D_06001868;
-extern SkeletonHeaderSV D_0600F788;
+extern FlexSkeletonHeader D_0600F788;
 extern AnimationHeader D_0600FB10;
 extern AnimationHeader D_060101C8;
 extern AnimationHeader D_06010EE0;
@@ -531,7 +531,7 @@ void func_80985CE8(DemoIm* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_26C);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_im_inKenjyanomaDemo02.c", 308);
@@ -1095,7 +1095,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80984D00(thisx, globalCtx);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->limbDrawTable, this->transitionDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->limbDrawTable, this->transitionDrawTable,
                      17);
     thisx->flags &= ~1;
 
@@ -1187,7 +1187,7 @@ void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80987514,
+    SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80987514,
                      func_809875C0, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_im.c", 925);

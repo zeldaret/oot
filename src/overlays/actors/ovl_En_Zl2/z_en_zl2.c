@@ -128,7 +128,7 @@ extern AnimationHeader D_0600AFE0;
 extern AnimationHeader D_0600B224;
 extern AnimationHeader D_0600B5FC;
 extern Gfx D_0600BAE8[];
-extern SkeletonHeaderSV D_06010D70;
+extern FlexSkeletonHeader D_06010D70;
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnZl2* this = THIS;
@@ -1645,7 +1645,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(actorShape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     actorShape->unk_14 = 0;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06010D70, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, NULL, NULL, 0);
 
     switch (thisx->params) {
         case 1:
@@ -1693,7 +1693,7 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1648);
@@ -1718,7 +1718,7 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       EnZl2_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1692);

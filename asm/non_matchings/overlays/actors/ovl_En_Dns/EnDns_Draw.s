@@ -12,7 +12,7 @@ glabel EnDns_Draw
 /* 01044 809F0394 9047014E */  lbu     $a3, 0x014E($v0)           ## 0000014E
 /* 01048 809F0398 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 0104C 809F039C AFA00010 */  sw      $zero, 0x0010($sp)
-/* 01050 809F03A0 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 01050 809F03A0 0C0286B2 */  jal     SkelAnime_DrawFlex
 /* 01054 809F03A4 AFA20018 */  sw      $v0, 0x0018($sp)
 /* 01058 809F03A8 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 0105C 809F03AC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

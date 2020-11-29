@@ -19,8 +19,8 @@ typedef struct SkelAnime SkelAnime;
 
 typedef struct {
     /* 0x00 */ Vec3s jntPos; // Position of joint relative to parent joint.  Root joint is relative to world.
-    /* 0x06 */ u8 childBone1;  // The first child bone's index in the skeleton.
-    /* 0x07 */ u8 childBone2;  // The second child bone's index in the skeleton.    
+    /* 0x06 */ u8 nextBone1;  // The first child bone's index in the skeleton.
+    /* 0x07 */ u8 nextBone2;  // The second child bone's index in the skeleton.    
 } Bone; // Size = 0x8
 
 typedef struct {
@@ -44,7 +44,7 @@ typedef struct {
     /* 0x04 */ u8 boneCount;       // Number of bones in the model.
     /* 0x05 */ char unk_05[3];     // probably padding
     /* 0x08 */ u8 dListCount;      // Number of display lists in the model.
-} SkeletonHeaderSV;  // Size = 0xC
+} FlexSkeletonHeader;  // Size = 0xC
 
 typedef struct {
     /* 0x00 */ Bone** skeletonSeg; // Segment address of bone array.

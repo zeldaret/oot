@@ -53,7 +53,7 @@ const ActorInit Demo_Go_InitVars = {
 extern AnimationHeader D_060029A8;
 extern AnimationHeader D_06004930;
 extern UNK_TYPE D_0600E680;
-extern SkeletonHeaderSV D_0600FEF0;
+extern FlexSkeletonHeader D_0600FEF0;
 
 UNK_TYPE func_8097C870(DemoGo* this) {
     s32 ret;
@@ -318,7 +318,7 @@ void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_06004930;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
     SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2, 0.0f);
     this->action = 0;
 }
@@ -339,7 +339,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
+    SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 746);

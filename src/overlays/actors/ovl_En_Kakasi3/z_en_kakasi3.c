@@ -33,7 +33,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeaderSV D_060065B0;
+extern FlexSkeletonHeader D_060065B0;
 extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi3_InitVars = {
@@ -65,7 +65,7 @@ void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
     this->actor.flags |= 0x400;
     this->rot = this->actor.posRot.rot;
     this->actor.colChkInfo.mass = 0xFF;
@@ -428,6 +428,6 @@ void EnKakasi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi3* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      NULL, &this->actor);
 }

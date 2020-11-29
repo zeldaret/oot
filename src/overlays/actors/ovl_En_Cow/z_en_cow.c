@@ -47,10 +47,10 @@ static ColliderCylinderInit sCylinderInit = {
 static Vec3f D_809E010C = { 0.0f, -1300.0f, 1100.0f };
 
 extern AnimationHeader D_060001CC;
-extern SkeletonHeaderSV D_06004010;
+extern FlexSkeletonHeader D_06004010;
 extern AnimationHeader D_06004264;
 extern AnimationHeader D_06004348;
-extern SkeletonHeaderSV D_06004C30;
+extern FlexSkeletonHeader D_06004C30;
 extern AnimationHeader D_06004E98;
 
 void func_809DEE00(Vec3f* vec, s16 rotY) {
@@ -102,7 +102,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 72.0f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004010, NULL, this->limbDrawTable,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004010, NULL, this->limbDrawTable,
                              this->transitionDrawTable, 6);
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060001CC);
             Collider_InitCylinder(globalCtx, &this->colliders[0]);
@@ -129,7 +129,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             DREG(53) = 0;
             break;
         case 1:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->limbDrawTable,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->limbDrawTable,
                              this->transitionDrawTable, 6);
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06004348);
             this->actor.update = func_809DFE98;
@@ -377,7 +377,7 @@ void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, &this->actor);
 }
 
@@ -385,6 +385,6 @@ void func_809E0070(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      NULL, &this->actor);
 }

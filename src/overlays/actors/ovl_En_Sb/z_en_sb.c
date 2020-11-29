@@ -70,7 +70,7 @@ typedef enum {
     /* 0x04 */ SHELLBLADE_BOUNCE,
 } ShellbladeBehavior;
 
-extern SkeletonHeaderSV D_06002BF0;
+extern FlexSkeletonHeader D_06002BF0;
 extern AnimationHeader D_06000194;
 extern AnimationHeader D_0600004C;
 extern AnimationHeader D_06000124;
@@ -83,7 +83,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 2;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002BF0, &D_06000194, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002BF0, &D_06000194, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->isDead = false;
@@ -454,7 +454,7 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16 fireDecr;
 
     func_8002EBCC(&this->actor, globalCtx, 1);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      EnSb_PostLimbDraw, &this->actor);
     if (this->fire != 0) {
         this->actor.dmgEffectTimer++;

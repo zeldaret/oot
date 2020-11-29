@@ -55,7 +55,7 @@ static struct_80034EC0_Entry sAnimations[] = {
 };
 
 extern AnimationHeader D_060002C8;
-extern SkeletonHeaderSV D_06007FB8;
+extern FlexSkeletonHeader D_06007FB8;
 
 void func_80AAA250(EnMd* this) {
     f32 initialFrame;
@@ -593,7 +593,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->limbDrawTable, this->transitionDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->limbDrawTable, this->transitionDrawTable,
                      17);
 
     Collider_InitCylinder(globalCtx, &this->collider);

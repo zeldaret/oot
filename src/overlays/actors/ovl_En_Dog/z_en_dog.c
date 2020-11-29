@@ -65,7 +65,7 @@ typedef enum {
     /* 0x06 */ DOG_BOW_2,
 } DogBehavior;
 
-extern SkeletonHeaderSV D_06007290;
+extern FlexSkeletonHeader D_06007290;
 extern AnimationHeader D_06001368;
 extern AnimationHeader D_06000D78;
 extern AnimationHeader D_06000278;
@@ -226,7 +226,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -460,7 +460,7 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);

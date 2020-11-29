@@ -28,7 +28,7 @@ void func_80A904D8(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A90578(EnKakasi2* this, GlobalContext* globalCtx);
 void func_80A906C4(EnKakasi2* this, GlobalContext* globalCtx);
 
-extern SkeletonHeaderSV D_060065B0;
+extern FlexSkeletonHeader D_060065B0;
 extern AnimationHeader D_06000214;
 
 const ActorInit En_Kakasi2_InitVars = {
@@ -86,7 +86,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
         this->actionFunc = func_80A9062C;
     } else {
         this->actionFunc = func_80A90264;
@@ -112,7 +112,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
         this->actor.draw = func_80A90948;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
         func_80080480(globalCtx, this);
         this->actor.flags |= 0x8000001;
 
@@ -137,7 +137,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
             this->actor.draw = func_80A90948;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
             func_80080480(globalCtx, this);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 
@@ -230,6 +230,6 @@ void func_80A90948(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi2* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      NULL, &this->actor);
 }

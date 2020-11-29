@@ -91,7 +91,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 
-extern SkeletonHeaderSV D_06002530;
+extern FlexSkeletonHeader D_06002530;
 extern AnimationHeader D_060000E8;
 extern Gfx D_060023B0[];
 extern Gfx D_06002428[];
@@ -130,7 +130,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags |= 1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
                      this->transitionDrawTable, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
@@ -1114,7 +1114,7 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnNiw_OverrideLimbDraw, NULL, &this->actor);
 
     if (this->actionFunc == func_80AB6450) {

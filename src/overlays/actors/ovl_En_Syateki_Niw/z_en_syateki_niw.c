@@ -30,7 +30,7 @@ void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f3
 extern AnimationHeader D_060000E8;
 extern Gfx D_060023B0[];
 extern Gfx D_06002428[];
-extern SkeletonHeaderSV D_06002530;
+extern FlexSkeletonHeader D_06002530;
 
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
@@ -62,7 +62,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags &= ~1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
                      this->transitionDrawTable, 16);
 
     this->unk_29E = this->actor.params;
@@ -694,7 +694,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80026230(globalCtx, &sp30, 0, 0x14);
         }
 
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          SyatekiNiw_OverrideLimbDraw, NULL, &this->actor);
         func_80026608(globalCtx);
         func_80B13464(this, globalCtx);

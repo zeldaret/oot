@@ -151,7 +151,7 @@ extern AnimationHeader D_06008100;
 extern AnimationHeader D_06008AA8;
 extern AnimationHeader D_06009060;
 extern AnimationHeader D_060097B8;
-extern SkeletonHeaderSV D_06012700;
+extern FlexSkeletonHeader D_06012700;
 extern AnimationHeader D_06012E94;
 extern AnimationHeader D_06013A64;
 
@@ -2253,7 +2253,7 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, this->limbDrawTable, this->transitionDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06012700, NULL, this->limbDrawTable, this->transitionDrawTable,
                      17);
     func_80AEAD20(this, globalCtx);
     switch (func_80AEADF0(this)) {
@@ -2355,7 +2355,7 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
@@ -2380,7 +2380,7 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_2A8);
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
                                       EnRu1_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
