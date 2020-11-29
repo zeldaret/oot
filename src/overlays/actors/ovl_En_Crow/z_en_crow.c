@@ -68,7 +68,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060010C0, &D_060000F0, &this->limbDrawTable,
-                     &this->transitionDrawTable, 9);
+                       &this->transitionDrawTable, 9);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);
     this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
@@ -459,5 +459,5 @@ void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, &this->actor);
+                       EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, &this->actor);
 }

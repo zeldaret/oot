@@ -361,7 +361,7 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
 
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, &this->actor);
+                       EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);
 }

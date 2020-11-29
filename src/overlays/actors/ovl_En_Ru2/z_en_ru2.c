@@ -485,7 +485,7 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      NULL, NULL, NULL, POLY_XLU_DISP);
+                                        NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
@@ -770,7 +770,7 @@ void EnRu2_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80AF2550(thisx, globalCtx);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C700, NULL, &this->limbDrawTable, &this->transitionDrawTable,
-                     23);
+                       23);
 
     switch (func_80AF26A0(this)) {
         case 2:
@@ -810,7 +810,7 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
-                     &this->actor);
+                       &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }

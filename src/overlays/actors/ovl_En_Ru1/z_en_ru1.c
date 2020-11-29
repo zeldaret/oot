@@ -2254,7 +2254,7 @@ void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06012700, NULL, this->limbDrawTable, this->transitionDrawTable,
-                     17);
+                       17);
     func_80AEAD20(this, globalCtx);
     switch (func_80AEADF0(this)) {
         case 0:
@@ -2356,7 +2356,7 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
     POLY_OPA_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+                                        EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
@@ -2381,7 +2381,7 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      EnRu1_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
+                                        EnRu1_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }

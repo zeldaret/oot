@@ -88,7 +88,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
-                     this->transitionDrawTable, 4);
+                       this->transitionDrawTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 50.0f;
@@ -396,5 +396,5 @@ void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, &this->actor);
+                       EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, &this->actor);
 }

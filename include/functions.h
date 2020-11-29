@@ -1322,7 +1322,7 @@ void SkelAnime_AnimationCtxReset(AnimationContext* animationCtx);
 void func_800A32F4(GlobalContext* globalCtx);
 void func_800A3310(GlobalContext* globalCtx);
 void SkelAnime_LoadLinkAnimation(GlobalContext* globalCtx, LinkAnimationHeader* currentAnimSeg, s32 frame,
-                                 s32 boneCount, void* ram);
+                                 s32 boneCount, Vec3s* drawTbl);
 void SkelAnime_LoadAnimationType1(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src);
 void SkelAnime_LoadAnimationType2(GlobalContext* globalCtx, s32 boneCount, Vec3s* arg2, Vec3s* arg3, f32 arg4);
 void SkelAnime_LoadAnimationType3(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* index);

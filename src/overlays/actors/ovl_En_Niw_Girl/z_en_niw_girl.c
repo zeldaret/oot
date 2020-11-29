@@ -54,7 +54,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
-                     &this->transitionDrawTable, 17);
+                       &this->transitionDrawTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
@@ -246,7 +246,7 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnNiwGirlOverrideLimbDraw, 0, &this->actor);
+                       EnNiwGirlOverrideLimbDraw, 0, &this->actor);
     func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);

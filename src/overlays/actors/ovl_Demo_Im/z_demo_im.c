@@ -532,7 +532,7 @@ void func_80985CE8(DemoIm* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      NULL, NULL, NULL, POLY_XLU_DISP);
+                                        NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_im_inKenjyanomaDemo02.c", 308);
 }
@@ -1096,7 +1096,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80984D00(thisx, globalCtx);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->limbDrawTable, this->transitionDrawTable,
-                     17);
+                       17);
     thisx->flags &= ~1;
 
     switch (this->actor.params) {
@@ -1188,7 +1188,7 @@ void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80987514,
-                     func_809875C0, &this->actor);
+                       func_809875C0, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_im.c", 925);
 }

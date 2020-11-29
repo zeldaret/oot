@@ -74,7 +74,7 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->limbDrawTable,
-                     this->transitionDrawTable, 0x10);
+                       this->transitionDrawTable, 0x10);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060076EC);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -319,7 +319,7 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
 
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, &this->actor);
+                       EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
 }

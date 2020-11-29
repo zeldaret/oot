@@ -461,7 +461,7 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
+                       EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

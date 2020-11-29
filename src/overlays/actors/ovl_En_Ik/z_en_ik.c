@@ -902,7 +902,7 @@ void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
     }
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnIk_OverrideLimbDraw3, EnIk_PostLimbDraw3, &this->actor);
+                       EnIk_OverrideLimbDraw3, EnIk_PostLimbDraw3, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1351);
 }
@@ -1060,7 +1060,7 @@ void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     f32 frames = SkelAnime_GetFrameCount(&D_060203D8.genericHeader);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060205C0, NULL, this->limbDrawTable, this->transitionDrawTable,
-                     30);
+                       30);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060203D8, 1.0f, 0.0f, frames, 2, 0.0f);
     this->action = 3;
     this->drawMode = 2;
@@ -1171,7 +1171,7 @@ void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
     gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
     SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                     EnIk_OverrideLimbDraw2, EnIk_PostLimbDraw2, &this->actor);
+                       EnIk_OverrideLimbDraw2, EnIk_PostLimbDraw2, &this->actor);
 
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 345);
 }
@@ -1325,7 +1325,7 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
     gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
     SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                     EnIk_OverrideLimbDraw1, EnIk_PostLimbDraw1, &this->actor);
+                       EnIk_OverrideLimbDraw1, EnIk_PostLimbDraw1, &this->actor);
 
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 653);
 }
@@ -1390,7 +1390,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0601E178, &D_0600C114, this->limbDrawTable,
-                         this->transitionDrawTable, 30);
+                           this->transitionDrawTable, 30);
         func_80A74398(&this->actor, globalCtx);
         func_80A780D0(this, globalCtx);
     }

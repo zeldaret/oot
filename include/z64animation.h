@@ -26,19 +26,20 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Bone bone; // Bone attached to limb
     /* 0x08 */ Gfx* displayList; // Display list for limb
-} StandardLimb;
+} StandardLimb; // Size = 0xC
 
 typedef struct {
     /* 0x00 */ Bone bone; // Bone attached to limb
     /* 0x08 */ Gfx* displayLists[2]; // Near and far display lists for limb
-} LodLimb;
+} LodLimb; // Size = 0x10
 
 typedef struct {
     /* 0x00 */ Bone bone; // Bone attached to limb
     /* 0x08 */ s32 unk_08; // Type of info contained in segAddress
     /* 0x0C */ UNK_PTR segAddress; // Segment address of info. Currently unclear what.
-} SkinLimb;
+} SkinLimb; // Size = 0x10
 
+// Model has limbs with flexible meshes
 typedef struct {
     /* 0x00 */ Bone** skeletonSeg; // Segment address of bone array.
     /* 0x04 */ u8 boneCount;       // Number of bones in the model.
@@ -46,16 +47,17 @@ typedef struct {
     /* 0x08 */ u8 dListCount;      // Number of display lists in the model.
 } FlexSkeletonHeader;  // Size = 0xC
 
+// Model has limbs with only rigid meshes
 typedef struct {
     /* 0x00 */ Bone** skeletonSeg; // Segment address of bone array.
     /* 0x04 */ u8 boneCount;       // number of bones in the model
     /* 0x05 */ char unk_05[3];     // probably padding
-} SkeletonHeader;
+} SkeletonHeader; // Size = 0x8
 
 typedef struct {
     s16 frameCount;
     s16 unk_02;
-} GenericAnimationHeader;
+} GenericAnimationHeader; // Size = 0x4
 
 typedef struct {
     /* 0x00 */ GenericAnimationHeader genericHeader;
@@ -67,7 +69,7 @@ typedef struct {
 typedef struct {
     GenericAnimationHeader genericHeader;
     u32 linkAnimSeg;
-} LinkAnimationHeader;
+} LinkAnimationHeader; // size = 0x8
 
 struct SkelAnime {
     /* 0x00 */ u8 boneCount; // joint_Num

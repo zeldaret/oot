@@ -48,7 +48,7 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                     this->transitionDrawTable, 16);
+                       this->transitionDrawTable, 16);
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
@@ -404,5 +404,5 @@ void EnAttackNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_809B5F98, NULL, &this->actor);
+                       func_809B5F98, NULL, &this->actor);
 }

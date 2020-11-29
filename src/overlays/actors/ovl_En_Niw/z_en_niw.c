@@ -131,7 +131,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.flags |= 1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                     this->transitionDrawTable, 16);
+                       this->transitionDrawTable, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
@@ -1115,7 +1115,7 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnNiw_OverrideLimbDraw, NULL, &this->actor);
+                       EnNiw_OverrideLimbDraw, NULL, &this->actor);
 
     if (this->actionFunc == func_80AB6450) {
         func_80033C30(&this->actor.posRot.pos, &scale, 255, globalCtx);

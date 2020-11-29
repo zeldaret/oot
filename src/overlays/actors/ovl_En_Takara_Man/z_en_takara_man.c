@@ -58,8 +58,8 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
                  globalCtx->actorCtx.flags.chest); // "Bun! %x" (needs a better translation)
     globalCtx->actorCtx.flags.chest = 0;
     gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl, this->transitionDrawTbl,
-                     10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl,
+                       this->transitionDrawTbl, 10);
     thisx->posRot2.pos = thisx->posRot.pos;
     this->pos = thisx->posRot.pos;
     thisx->posRot.pos.x = 133.0f;
@@ -228,7 +228,7 @@ void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTakaraEyeTextures[this->eyeTextureIdx]));
     SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnTakaraMan_OverrideLimbDraw, NULL, &this->actor);
+                       EnTakaraMan_OverrideLimbDraw, NULL, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 544);
 }
