@@ -195,7 +195,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     this->cuccosInPen = 0;
     currentCucco = (EnNiw*)globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
     while (currentCucco != NULL) {
-        if (currentCucco->actor.id == 25) {
+        if (currentCucco->actor.id == ACTOR_EN_NIW) {
             if ((fabsf(currentCucco->actor.posRot.pos.x - 330.0f) < 90.0f) &&
                 (fabsf(currentCucco->actor.posRot.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
@@ -363,7 +363,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
         } else {
             this->unk_274 = 1;
             this->unk_26E = this->unk_27A + 21;
-            this->actionFunc = (!this->unk_273) ? func_80ABA778 : func_80ABA9B8;
+            this->actionFunc = !this->unk_273 ? func_80ABA778 : func_80ABA9B8;
         }
     } else {
         func_8002F298(&this->actor, globalCtx, 50.0f, 6);
