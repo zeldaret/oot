@@ -5,12 +5,13 @@
 #include "z64dma.h"
 #include "z64math.h"
 
-#define LINK_ANIMATION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
+#define LINK_ANIMATION_OFFSET(addr, offset) \
+    (((u32)&_link_animetionSegmentRomStart) + ((u32)addr) - ((u32)&link_animetion_segment) + ((u32)offset))
 #define LIMB_DONE 0xFF
 #define ANIMATION_ENTRY_MAX 50
 
-#define ANIM_FLAG_UPDATEXZ 0x02
-#define ANIM_FLAG_UPDATEY  0x10
+#define ANIM_FLAG_UPDATEXZ (1 << 1)
+#define ANIM_FLAG_UPDATEY (1 << 4)
 
 extern u32 link_animetion_segment;
 struct GlobalContext;
@@ -18,41 +19,41 @@ struct Actor;
 typedef struct SkelAnime SkelAnime;
 
 typedef struct {
-    /* 0x00 */ Vec3s jntPos; // Position of joint relative to parent joint.  Root joint is relative to world.
-    /* 0x06 */ u8 nextBone1;  // The first child bone's index in the skeleton.
-    /* 0x07 */ u8 nextBone2;  // The second child bone's index in the skeleton.    
-} Bone; // Size = 0x8
+    /* 0x00 */ Vec3s pos;     // Position relative to parent joint.  Root joint is relative to world.
+    /* 0x06 */ u8 childJoint; // The first child joint of this joint
+    /* 0x07 */ u8 nextJoint;  // The next child joint of the parent joint
+} Joint;                      // Size = 0x8
 
 typedef struct {
-    /* 0x00 */ Bone bone; // Bone attached to limb
+    /* 0x00 */ Joint joint;      // Joint attached to limb
     /* 0x08 */ Gfx* displayList; // Display list for limb
-} StandardLimb; // Size = 0xC
+} StandardLimb;                  // Size = 0xC
 
 typedef struct {
-    /* 0x00 */ Bone bone; // Bone attached to limb
+    /* 0x00 */ Joint joint;          // Joint attached to limb
     /* 0x08 */ Gfx* displayLists[2]; // Near and far display lists for limb
-} LodLimb; // Size = 0x10
+} LodLimb;                           // Size = 0x10
 
 typedef struct {
-    /* 0x00 */ Bone bone; // Bone attached to limb
-    /* 0x08 */ s32 unk_08; // Type of info contained in segAddress
-    /* 0x0C */ UNK_PTR segAddress; // Segment address of info. Currently unclear what.
-} SkinLimb; // Size = 0x10
+    /* 0x00 */ Joint joint;        // Joint attached to limb
+    /* 0x08 */ s32 unk_08;         // Type of data contained in segAddress
+    /* 0x0C */ UNK_PTR segAddress; // Segment address of data. Currently unclear what.
+} SkinLimb;                        // Size = 0x10
 
 // Model has limbs with flexible meshes
 typedef struct {
-    /* 0x00 */ Bone** skeletonSeg; // Segment address of bone array.
-    /* 0x04 */ u8 boneCount;       // Number of bones in the model.
-    /* 0x05 */ char unk_05[3];     // probably padding
-    /* 0x08 */ u8 dListCount;      // Number of display lists in the model.
-} FlexSkeletonHeader;  // Size = 0xC
+    /* 0x00 */ Joint** skeletonSeg; // Segment address of joint array.
+    /* 0x04 */ u8 jointCount;       // Number of joints in the model.
+    /* 0x05 */ char unk_05[3];      // probably padding
+    /* 0x08 */ u8 dListCount;       // Number of display lists in the model.
+} FlexSkeletonHeader;               // Size = 0xC
 
 // Model has limbs with only rigid meshes
 typedef struct {
-    /* 0x00 */ Bone** skeletonSeg; // Segment address of bone array.
-    /* 0x04 */ u8 boneCount;       // number of bones in the model
-    /* 0x05 */ char unk_05[3];     // probably padding
-} SkeletonHeader; // Size = 0x8
+    /* 0x00 */ Joint** skeletonSeg; // Segment address of joint array.
+    /* 0x04 */ u8 jointCount;       // number of joints in the model
+    /* 0x05 */ char unk_05[3];      // probably padding
+} SkeletonHeader;                   // Size = 0x8
 
 typedef struct {
     s16 frameCount;
@@ -72,22 +73,22 @@ typedef struct {
 } LinkAnimationHeader; // size = 0x8
 
 struct SkelAnime {
-    /* 0x00 */ u8 boneCount; // joint_Num
+    /* 0x00 */ u8 jointCount; // joint_Num
     /* modes 0 and 1 repeat the animation indefinitely
      * modes 2 and 3 play the animaton once then stop
      * modes >= 4 play the animation once, and always start at frame 0.
-    */
+     */
     /* 0x01 */ u8 mode;
     /* 0x02 */ u8 dListCount;
     /* 0x03 */ s8 unk_03;
-    /* 0x04 */ Bone** skeleton;
+    /* 0x04 */ Joint** skeleton;
     /* 0x08 */ void* currentAnimSeg; // Can be AnimationHeader or LinkAnimationHeader
     /* 0x0C */ f32 initialFrame;
     /* 0x10 */ f32 animFrameCount;
     /* 0x14 */ f32 totalFrames;
     /* 0x18 */ f32 animCurrentFrame;
     /* 0x1C */ f32 animPlaybackSpeed;
-    /* 0x20 */ Vec3s* limbDrawTbl; // now_joint
+    /* 0x20 */ Vec3s* limbDrawTbl;       // now_joint
     /* 0x24 */ Vec3s* transitionDrawTbl; // morf_joint
     /* 0x28 */ f32 transCurrentFrame;
     /* 0x2C */ f32 transitionStep;
@@ -99,17 +100,16 @@ struct SkelAnime {
     /* 0x3E */ Vec3s unk_3E;
 }; // size = 0x44
 
-typedef s32 (*OverrideLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, void* data);
+typedef s32 (*OverrideLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                void*);
 
-typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-                                          Vec3s* rot, void* data);
-                                          
-typedef s32 (*OverrideLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, void* data, Gfx** gfx);
+typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
-typedef void (*PostLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-                                          Vec3s* rot, void* data, Gfx** gfx);
+typedef s32 (*OverrideLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                 void*, Gfx** gfx);
+
+typedef void (*PostLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*,
+                              Gfx** gfx);
 
 typedef s16 AnimationRotationValue;
 
@@ -143,7 +143,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 unk_00;
-    /* 0x001 */ u8 boneCount;
+    /* 0x001 */ u8 jointCount;
     /* 0x004 */ Vec3s* unk_04;
     /* 0x008 */ Vec3s* unk_08;
     /* 0x00C */ f32 unk_0C;
@@ -210,7 +210,6 @@ typedef struct {
     /* 0x0008 */ f32 unk_08;
 } TransformData; // size = 0xC
 
-
 typedef struct {
     /* 0x0000 */ u8* refIndex;
     /* 0x0004 */ TransformData* transformData;
@@ -247,7 +246,7 @@ typedef struct {
     /* 0x001C */ LimbTransform* transforms;
 } SkelAnimeCurve; // size = 0x20
 
-typedef s32 (*OverrideCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void* data);
-typedef void (*PostCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void* data);
+typedef s32 (*OverrideCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void*);
+typedef void (*PostCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void*);
 
 #endif

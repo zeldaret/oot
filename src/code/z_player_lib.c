@@ -625,9 +625,8 @@ Gfx* sBootDListGroups[][2] = {
     { 0x06025BA8, 0x06025DB0 },
 };
 
-void func_8008F470(GlobalContext* globalCtx, Bone** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod,
-                   s32 tunic, s32 boots, s32 face, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw,
-                   void* data) {
+void func_8008F470(GlobalContext* globalCtx, Joint** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod, s32 tunic,
+                   s32 boots, s32 face, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data) {
     Color_RGB8* color;
     s32 eyeIndex = (limbDrawTable[22].x & 0xF) - 1;
     s32 mouthIndex = (limbDrawTable[22].x >> 4) - 1;
@@ -1415,9 +1414,9 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
     return 0;
 }
 
-void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* arg3, Vec3f* pos,
-                   Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
-                   Vec3f* eye, Vec3f* at, f32 fovy, void* img1, void* img2) {
+void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* arg3, Vec3f* pos, Vec3s* rot,
+                   f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height, Vec3f* eye, Vec3f* at,
+                   f32 fovy, void* img1, void* img2) {
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
@@ -1521,8 +1520,8 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 3288);
 }
 
-void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
-                   s32 sword, s32 tunic, s32 shield, s32 boots) {
+void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f* pos, Vec3s* rot, f32 scale, s32 sword,
+                   s32 tunic, s32 shield, s32 boots) {
     static Vec3f eye = { 0.0f, 0.0f, -400.0f };
     static Vec3f at = { 0.0f, 0.0f, 0.0f };
     Vec3s* destTable;
@@ -1550,7 +1549,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f
 
     srcTable = SEGMENTED_TO_VIRTUAL(srcTable);
     destTable = arg2->limbDrawTbl;
-    for (i = 0; i < arg2->boneCount; i++) {
+    for (i = 0; i < arg2->jointCount; i++) {
         *destTable++ = *srcTable++;
     }
 

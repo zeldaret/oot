@@ -2592,7 +2592,7 @@ s32 func_808358F0(Player* this, GlobalContext* globalCtx) {
 
     if ((func_808334E4(this) == animSeg) || (func_80833528(this) == animSeg) || (func_808335B0(this) == animSeg) ||
         (func_808335F4(this) == animSeg)) {
-        SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.boneCount, this->skelAnime2.limbDrawTbl,
+        SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.jointCount, this->skelAnime2.limbDrawTbl,
                                      this->skelAnime.limbDrawTbl);
     } else {
         func_800A3BC0(globalCtx, &this->skelAnime2);
@@ -2923,17 +2923,17 @@ s32 func_80836670(Player* this, GlobalContext* globalCtx) {
 
     if (this->unk_830 != 0.0f) {
         if ((func_80833350(this) == 0) || (this->linearVelocity != 0.0f)) {
-            SkelAnime_LoadAnimationType4(globalCtx, this->skelAnime.boneCount, this->skelAnime2.limbDrawTbl,
+            SkelAnime_LoadAnimationType4(globalCtx, this->skelAnime.jointCount, this->skelAnime2.limbDrawTbl,
                                          this->skelAnime.limbDrawTbl, D_80853410);
         }
         Math_ApproxF(&this->unk_830, 0.0f, 0.25f);
-        SkelAnime_LoadAnimationType2(globalCtx, this->skelAnime.boneCount, this->skelAnime.limbDrawTbl,
+        SkelAnime_LoadAnimationType2(globalCtx, this->skelAnime.jointCount, this->skelAnime.limbDrawTbl,
                                      this->skelAnime2.limbDrawTbl, 1.0f - this->unk_830);
     } else if ((func_80833350(this) == 0) || (this->linearVelocity != 0.0f)) {
-        SkelAnime_LoadAnimationType3(globalCtx, this->skelAnime.boneCount, this->skelAnime.limbDrawTbl,
+        SkelAnime_LoadAnimationType3(globalCtx, this->skelAnime.jointCount, this->skelAnime.limbDrawTbl,
                                      this->skelAnime2.limbDrawTbl, D_80853410);
     } else {
-        SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.boneCount, this->skelAnime.limbDrawTbl,
+        SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.jointCount, this->skelAnime.limbDrawTbl,
                                      this->skelAnime2.limbDrawTbl);
     }
 
@@ -7177,9 +7177,9 @@ void func_80841BA8(Player* this, GlobalContext* globalCtx) {
     func_800A3BC0(globalCtx, &this->skelAnime);
 
     if (Player_HoldsTwoHandedWeapon(this)) {
-        SkelAnime_LoadLinkAnimation(globalCtx, func_80833338(this), 0, this->skelAnime.boneCount,
+        SkelAnime_LoadLinkAnimation(globalCtx, func_80833338(this), 0, this->skelAnime.jointCount,
                                     this->skelAnime.transitionDrawTbl);
-        SkelAnime_LoadAnimationType3(globalCtx, this->skelAnime.boneCount, this->skelAnime.limbDrawTbl,
+        SkelAnime_LoadAnimationType3(globalCtx, this->skelAnime.jointCount, this->skelAnime.limbDrawTbl,
                                      this->skelAnime.transitionDrawTbl, D_80853410);
     }
 
@@ -11404,7 +11404,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
         func_800A3C9C(globalCtx, &this->skelAnime);
     }
 
-    SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.boneCount, this->skelAnime.transitionDrawTbl,
+    SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.jointCount, this->skelAnime.transitionDrawTbl,
                                  this->skelAnime.limbDrawTbl);
 
     if ((globalCtx->csCtx.state != 0) || (this->csMode != 0)) {
@@ -11442,7 +11442,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
                         func_80832698(this, NA_SE_VO_LI_LASH);
                     }
 
-                    SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.boneCount, this->skelAnime.limbDrawTbl,
+                    SkelAnime_LoadAnimationType1(globalCtx, this->skelAnime.jointCount, this->skelAnime.limbDrawTbl,
                                                  this->skelAnime2.limbDrawTbl);
                 } else {
                     if (func_800A4530(&this->skelAnime2, 10.0f)) {
@@ -11450,7 +11450,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
                         func_80832698(this, NA_SE_VO_LI_LASH);
                     }
 
-                    SkelAnime_LoadAnimationType3(globalCtx, this->skelAnime.boneCount, this->skelAnime.limbDrawTbl,
+                    SkelAnime_LoadAnimationType3(globalCtx, this->skelAnime.jointCount, this->skelAnime.limbDrawTbl,
                                                  this->skelAnime2.limbDrawTbl, D_80853410);
                 }
             } else {
