@@ -556,7 +556,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseNormal* this = THIS;
@@ -566,7 +566,7 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* c
         sp4C.x = this->headCollider.list[i].dim.modelSphere.center.x;
         sp4C.y = this->headCollider.list[i].dim.modelSphere.center.y;
         sp4C.z = this->headCollider.list[i].dim.modelSphere.center.z;
-        func_800A6408(collider, this->headCollider.list[i].dim.joint, &sp4C, &sp40);
+        func_800A6408(skin, this->headCollider.list[i].dim.joint, &sp4C, &sp40);
         this->headCollider.list[i].dim.worldSphere.center.x = sp40.x;
         this->headCollider.list[i].dim.worldSphere.center.y = sp40.y;
         this->headCollider.list[i].dim.worldSphere.center.z = sp40.z;
@@ -658,23 +658,23 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (mtx1 == NULL) {
             return;
         }
-        gSPMatrix(oGfxCtx->polyOpa.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPMatrix(oGfxCtx->polyOpa.p++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_OPA_DISP++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_800A63CC(&this->actor, globalCtx, &this->skin, 0, 0, 1, 0, 3);
         this->cloneCollider.dim.pos.x = clonePos.x;
         this->cloneCollider.dim.pos.y = clonePos.y;
         this->cloneCollider.dim.pos.z = clonePos.z;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cloneCollider.base);
         func_80094044(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
         Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, MTXMODE_NEW);
         temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.unk_10;
         Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
         Matrix_RotateY(cloneRotY * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
         mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
         if (mtx2 != NULL) {
-            gSPMatrix(oGfxCtx->polyXlu.p++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_04049AD0);
+            gSPMatrix(POLY_XLU_DISP++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, D_04049AD0);
         }
     }
 

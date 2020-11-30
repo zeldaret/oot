@@ -43,11 +43,11 @@ const ActorInit Obj_Oshihiki_InitVars = {
     (ActorFunc)ObjOshihiki_Draw,
 };
 
-f32 sScales[] = {
+static f32 sScales[] = {
     (1 / 10.0f), (1 / 6.0f), (1 / 5.0f), (1 / 3.0f), (1 / 10.0f), (1 / 6.0f), (1 / 5.0f), (1 / 3.0f),
 };
 
-Color_RGB8 sColors[][4] = {
+static Color_RGB8 sColors[][4] = {
     { { 110, 86, 40 }, { 110, 86, 40 }, { 110, 86, 40 }, { 110, 86, 40 } },         // deku tree
     { { 106, 120, 110 }, { 104, 80, 20 }, { 0, 0, 0 }, { 0, 0, 0 } },               // dodongos cavern
     { { 142, 99, 86 }, { 72, 118, 96 }, { 0, 0, 0 }, { 0, 0, 0 } },                 // forest temple
@@ -59,7 +59,7 @@ Color_RGB8 sColors[][4] = {
     { { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 } }, // gerudo training grounds
 };
 
-s16 sScenes[] = {
+static s16 sScenes[] = {
     SCENE_YDAN,      SCENE_DDAN,    SCENE_BMORI1, SCENE_HIDAN, SCENE_MIZUSIN,
     SCENE_JYASINZOU, SCENE_HAKADAN, SCENE_GANON,  SCENE_MEN,
 };
@@ -71,19 +71,19 @@ static InitChainEntry sInitChain[] = {
 };
 
 // The vertices and center of the bottom face
-Vec3f sColCheckPoints[5] = {
+static Vec3f sColCheckPoints[5] = {
     { 29.99f, 1.01f, -29.99f }, { -29.99f, 1.01f, -29.99f }, { -29.99f, 1.01f, 29.99f },
     { 29.99f, 1.01f, 29.99f },  { 0.0f, 1.01f, 0.0f },
 };
 
-Vec2f sFaceVtx[] = {
+static Vec2f sFaceVtx[] = {
     { -30.0f, 0.0f },
     { 30.0f, 0.0f },
     { -30.0f, 60.0f },
     { 30.0f, 60.0f },
 };
 
-Vec2f sFaceDirection[] = {
+static Vec2f sFaceDirection[] = {
     { 1.0f, 1.0f },
     { -1.0f, 1.0f },
     { 1.0f, -1.0f },
@@ -221,9 +221,9 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, GlobalContext* globalCtx) {
             break;
         default:
             // Error : type cannot be determined
-            osSyncPrintf("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n",
-                            "../z_obj_oshihiki.c", 444, this->dyna.actor.params);
-        break;
+            osSyncPrintf("Error : タイプが判別できない(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 444,
+                         this->dyna.actor.params);
+            break;
     }
 }
 
@@ -279,11 +279,10 @@ void ObjOshihiki_SetColor(ObjOshihiki* this, GlobalContext* globalCtx) {
 void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     ObjOshihiki* this = THIS;
-    
+
     ObjOshihiki_CheckType(this, globalCtx);
-    
-    if ((((this->dyna.actor.params >> 8) & 0xFF) >= 0)
-        && (((this->dyna.actor.params >> 8) & 0xFF) <= 0x3F)) {
+
+    if ((((this->dyna.actor.params >> 8) & 0xFF) >= 0) && (((this->dyna.actor.params >> 8) & 0xFF) <= 0x3F)) {
         if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
             switch (this->dyna.actor.params & 0xF) {
                 case PUSHBLOCK_SMALL_START_ON:
@@ -670,9 +669,9 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->stateFlags &= ~PUSHBLOCK_MOVE_UNDER;
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(this->texture));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(this->texture));
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1308),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     switch (globalCtx->sceneNum) {
@@ -684,13 +683,13 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case SCENE_JYASINZOU:
         case SCENE_HAKADAN:
         case SCENE_MEN:
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->color.r, this->color.g, this->color.b, 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->color.r, this->color.g, this->color.b, 255);
             break;
         default:
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, mREG(13), mREG(14), mREG(15), 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, mREG(13), mREG(14), mREG(15), 255);
             break;
     }
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, &D_05004CD0);
+    gSPDisplayList(POLY_OPA_DISP++, &D_05004CD0);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1334);
 }

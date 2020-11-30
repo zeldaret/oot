@@ -618,7 +618,7 @@ Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
     return Matrix_ToMtx(Graph_Alloc(gfxCtx, sizeof(Mtx)), file, line);
 }
 
-Mtx* Matrix_SkinMatrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
+Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, Graph_Alloc(gfxCtx, sizeof(Mtx)));
 }
 

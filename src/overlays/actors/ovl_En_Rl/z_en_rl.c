@@ -28,7 +28,7 @@ void func_80AE7FD0(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx);
 void func_80AE7D94(EnRl* this, GlobalContext* globalCtx);
 
-UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
+static UNK_PTR D_80AE81A0[] = { 0x06003620, 0x06003960, 0x06003B60 };
 
 extern SkeletonHeader D_06007B38;
 extern AnimationHeader D_06000A3C;
@@ -311,18 +311,18 @@ void func_80AE7D94(EnRl* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->alpha);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
-    oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
-                                           skelAnime->dListCount, NULL, NULL, NULL, oGfxCtx->polyXlu.p);
+    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl_inKenjyanomaDemo02.c", 331);
 }
 
-EnRlActionFunc sActionFuncs[] = {
+static EnRlActionFunc sActionFuncs[] = {
     func_80AE7798, func_80AE77B8, func_80AE77F8, func_80AE7838,
     func_80AE7C64, func_80AE7C94, func_80AE7CE8, func_80AE7D40,
 };
@@ -360,17 +360,17 @@ void func_80AE7FDC(EnRl* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rl.c", 437);
 }
 
-EnRlDrawFunc sDrawFuncs[] = {
+static EnRlDrawFunc sDrawFuncs[] = {
     func_80AE7FD0,
     func_80AE7FDC,
     func_80AE7D94,
