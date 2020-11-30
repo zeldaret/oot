@@ -43,7 +43,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
 };
 
-UNK_PTR D_80A50BA4[] = {
+static UNK_PTR D_80A50BA4[] = {
     0x060005FC,
     0x060006FC,
     0x060007FC,

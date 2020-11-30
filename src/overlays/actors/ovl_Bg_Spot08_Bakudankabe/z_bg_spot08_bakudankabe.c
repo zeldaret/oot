@@ -56,7 +56,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-Vec3f D_808B08AC[] = {
+static Vec3f D_808B08AC[] = {
     { 0.0f, 116.65f, 50.0f },
     { 115.0f, 95.0f, 10.0f },
     { -115.0f, 95.0f, 10.0f },
