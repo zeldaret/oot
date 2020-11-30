@@ -541,6 +541,9 @@ D_06003DD8 = 0x06003DD8;
 // z_eff_ss_extra
 D_06000DC0 = 0x06000DC0;
 
+// z_bg_ganon_otyuka
+D_08000000 = 0x08000000;
+
 // z_bg_gate_shutter
 D_06001CD0 = 0x06001CD0;
 D_06001DA8 = 0x06001DA8;
