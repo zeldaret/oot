@@ -2231,7 +2231,7 @@ void func_800F4C58(Vec3f*, u16, u8);
 void func_800F574C(f32 arg0, u8 arg2);
 void func_800F595C(u16);
 void func_800F59E8(u16);
-void func_800F5ACC(u32 bgmID);
+void func_800F5ACC(u16 bgmID);
 void func_800F5B58(void);
 void func_800F5C64(u16);
 // ? func_800F5CF8(?);
