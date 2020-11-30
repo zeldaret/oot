@@ -36,66 +36,34 @@ const ActorInit En_Firefly_InitVars = {
     (ActorFunc)EnFirefly_Draw,
 };
 
-// extern ColliderJntSphItemInit D_80A14F30;
 static ColliderJntSphItemInit sJntSphItemsInit[] = { {
     { 0x00, { 0xFFCFFFFF, 0x01, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
     { 1, { { 0, 1000, 0 }, 15 }, 100 },
 } };
 
-// extern ColliderJntSphInit D_80A14F54;
 static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
     1,
     &sJntSphItemsInit[0],
 };
 
-// extern ColliderJntSphItemInit* D_80A14F60;
-// static ColliderJntSphItemInit* D_80A14F60 = &sJntSphItemsInit; // Fake symbol
-
-// extern CollisionCheckInfoInit D_80A14F64;
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 10, 10, 30 };
 
-// extern DamageTable D_80A14F6C;
 static DamageTable sDamageTable = {
     0x10, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0xF2, 0x34, 0x02, 0x02, 0x02,
     0x02, 0x20, 0x34, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
 };
 
-// extern InitChainEntry D_80A14F8C[];
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(gravity, -500, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -4, ICHAIN_CONTINUE),   ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 4000, ICHAIN_STOP),
 };
 
-// extern Color_RGBA8 D_80A14FA0;
-static Color_RGBA8 D_80A14FA0 = { 255, 255, 100, 255 };
-
-// extern Color_RGBA8 D_80A14FA4;
-static Color_RGBA8 D_80A14FA4 = { 255, 50, 0, 0 };
-
-// extern Color_RGBA8 D_80A14FA8;
-static Color_RGBA8 D_80A14FA8 = { 100, 200, 255, 255 };
-
-// extern Color_RGBA8 D_80A14FAC;
-static Color_RGBA8 D_80A14FAC = { 0, 0, 255, 0 };
-
-// extern Vec3f D_80A14FB0;
-static Vec3f D_80A14FB0 = { 0.0f, 0.5f, 0.0f };
-
-// extern Vec3f D_80A14FBC;
-static Vec3f D_80A14FBC = { 0.0f, 0.5f, 0.0f };
-
-// extern Vec3f D_80A14FC8;
-static Vec3f D_80A14FC8 = { 0.0f, 0.0f, 0.0f };
-// glabel D_80A14FC8
-//  .word 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
-
 extern SkeletonHeader D_060018B8;
 extern AnimationHeader D_0600017C;
 extern Gfx D_06001678[];
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13070.s")
 // Turn Fire Keese into Keese
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
@@ -105,7 +73,6 @@ void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.naviEnemyId = 0x12; // Keese
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13098.s")
 // Turn Ice Keese and Keese into Fire Keese
 void EnFirefly_Ignite(EnFirefly* this) {
     if (this->actor.params == 4) {
@@ -119,7 +86,6 @@ void EnFirefly_Ignite(EnFirefly* this) {
     this->actor.naviEnemyId = 0x11; // Fire Keese
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/EnFirefly_Init.s")
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFirefly* this = THIS;
 
@@ -171,14 +137,12 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.list->dim.worldSphere.radius = sJntSphInit.list[0].dim.modelSphere.radius;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/EnFirefly_Destroy.s")
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFirefly* this = THIS;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A132F4.s")
 void EnFirefly_SetupWait(EnFirefly* this) {
     this->timer = Math_Rand_S16Offset(70, 100);
     this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
@@ -188,7 +152,6 @@ void EnFirefly_SetupWait(EnFirefly* this) {
     this->actionFunc = EnFirefly_Wait;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A133A0.s")
 void EnFirefly_SetupFall(EnFirefly* this) {
     this->timer = 40;
     this->actor.velocity.y = 0.0f;
@@ -199,14 +162,12 @@ void EnFirefly_SetupFall(EnFirefly* this) {
     this->actionFunc = EnFirefly_Fall;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13444.s")
 void EnFirefly_SetupDie(EnFirefly* this) {
     this->timer = 15;
     this->actor.speedXZ = 0.0f;
     this->actionFunc = EnFirefly_Die;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13464.s")
 // SetupKnockback
 void EnFirefly_SetupRebound(EnFirefly* this) {
     this->actor.posRot.rot.x = 0x7000;
@@ -216,7 +177,6 @@ void EnFirefly_SetupRebound(EnFirefly* this) {
     this->actionFunc = EnFirefly_Rebound;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A1349C.s")
 void EnFirefly_SetupDiveAttack(EnFirefly* this) {
     this->timer = Math_Rand_S16Offset(70, 100);
     this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -224,7 +184,6 @@ void EnFirefly_SetupDiveAttack(EnFirefly* this) {
     this->actionFunc = EnFirefly_DiveAttack;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A1350C.s")
 void EnFirefly_SetupFlyAway(EnFirefly* this) {
     this->timer = 150;
     this->skelAnime.animPlaybackSpeed = 1.0f;
@@ -232,7 +191,6 @@ void EnFirefly_SetupFlyAway(EnFirefly* this) {
     this->actionFunc = EnFirefly_FlyAway;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13538.s")
 void EnFirefly_SetupStunned(EnFirefly* this) {
     this->timer = 80;
     func_8003426C(&this->actor, 0, 0xFF, 0, 80);
@@ -243,7 +201,6 @@ void EnFirefly_SetupStunned(EnFirefly* this) {
     this->actionFunc = EnFirefly_Stunned;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A135A8.s")
 void EnFirefly_SetupFrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f iceParticlePos;
@@ -263,14 +220,12 @@ void EnFirefly_SetupFrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
     this->actionFunc = EnFirefly_FrozenFall;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13744.s")
 void EnFirefly_SetupPerch(EnFirefly* this) {
     this->timer = 1;
     this->actor.speedXZ = 0.0f;
     this->actionFunc = EnFirefly_Perch;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13764.s")
 void EnFirefly_SetupDisturbDiveAttack(EnFirefly* this) {
     this->skelAnime.animPlaybackSpeed = 3.0f;
     this->actor.shape.rot.x = 0x1554;
@@ -280,7 +235,6 @@ void EnFirefly_SetupDisturbDiveAttack(EnFirefly* this) {
     this->actionFunc = EnFirefly_DisturbDiveAttack;
 } // This matches in several orderings
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A1379C.s")
 s32 EnFirefly_ReturnToPerch(EnFirefly* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -308,7 +262,6 @@ s32 EnFirefly_ReturnToPerch(EnFirefly* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A138B8.s")
 // Find nearest torch and fly towards it
 s32 EnFirefly_SeekTorch(EnFirefly* this, GlobalContext* globalCtx) {
     ObjSyokudai* findTorch;
@@ -347,7 +300,6 @@ s32 EnFirefly_SeekTorch(EnFirefly* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13A08.s")
 void EnFirefly_Wait(EnFirefly* this, GlobalContext* globalCtx) {
     s32 skelanimeUpdated;
     f32 rand_f;
@@ -398,7 +350,6 @@ void EnFirefly_Wait(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13C98.s")
 // Fall to the ground after being hit
 void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
     if (func_800A56C8(&this->skelAnime, 6.0f) != 0) {
@@ -421,7 +372,6 @@ void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13D68.s")
 // Hit the ground or burn up, spawn drops
 void EnFirefly_Die(EnFirefly* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
@@ -435,7 +385,6 @@ void EnFirefly_Die(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13DE4.s")
 void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -480,7 +429,6 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A13FF4.s")
 // Knockback after hitting player
 void EnFirefly_Rebound(EnFirefly* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -496,7 +444,6 @@ void EnFirefly_Rebound(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A14088.s")
 void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->timer != 0) {
@@ -525,7 +472,6 @@ void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A141F0.s")
 void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
@@ -543,7 +489,6 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A14294.s")
 void EnFirefly_FrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 1) || (this->actor.groundY == -32000.0f)) {
         this->actor.dmgEffectTimer = 0;
@@ -554,7 +499,6 @@ void EnFirefly_FrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A142F4.s")
 // When perching, sit on collision and flap at random intervals
 void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x100);
@@ -571,7 +515,6 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A143B4.s")
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -594,7 +537,6 @@ void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A1448C.s")
 void EnFirefly_Combust(EnFirefly* this, GlobalContext* globalCtx) {
     s32 i;
 
@@ -604,7 +546,6 @@ void EnFirefly_Combust(EnFirefly* this, GlobalContext* globalCtx) {
     this->auraType = 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A1450C.s")
 // This really does seem to be all if-elses, not a switch
 void EnFirefly_HitByAttack(EnFirefly* this, GlobalContext* globalCtx) {
     u8 dmgEfct;
@@ -650,7 +591,6 @@ void EnFirefly_HitByAttack(EnFirefly* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/EnFirefly_Update.s")
 void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnFirefly* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
@@ -699,7 +639,6 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
         (10.0f * Math_Sins(this->actor.shape.rot.x) * Math_Coss(this->actor.shape.rot.y)) + this->actor.posRot.pos.z;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A14960.s")
 s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                Actor* thisx, Gfx** gfx) {
     EnFirefly* this = THIS;
@@ -708,13 +647,19 @@ s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     if ((this->actor.draw == EnFirefly_DrawInvisible) && (globalCtx->actorCtx.unk_03 == 0)) {
         *dList = NULL;
     } else if (limbIndex == 1) {
-        pos->y = pos->y + 2300.0f;
+        pos->y += 2300.0f;
     }
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A149B4.s")
 void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+    static Color_RGBA8 fireAuraPrimColor = { 255, 255, 100, 255 };
+    static Color_RGBA8 fireAuraEnvColor = { 255, 50, 0, 0 };
+    static Color_RGBA8 iceAuraPrimColor = { 100, 200, 255, 255 };
+    static Color_RGBA8 iceAuraEnvColor = { 0, 0, 255, 0 };
+    static Vec3f effVelocity = { 0.0f, 0.5f, 0.0f };
+    static Vec3f effAccel = { 0.0f, 0.5f, 0.0f };
+    static Vec3f limbSrc = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f* limbDest;
     void* effPrimColor;
@@ -751,14 +696,14 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
                 }
                 if (this->auraType == 1) {
                     // Orange
-                    effPrimColor = &D_80A14FA0;
-                    effEnvColor = &D_80A14FA4;
+                    effPrimColor = &fireAuraPrimColor;
+                    effEnvColor = &fireAuraEnvColor;
                 } else {
                     // Blue
-                    effPrimColor = &D_80A14FA8;
-                    effEnvColor = &D_80A14FAC;
+                    effPrimColor = &iceAuraPrimColor;
+                    effEnvColor = &iceAuraEnvColor;
                 }
-                func_8002843C(globalCtx, &effPos, &D_80A14FB0, &D_80A14FBC, effPrimColor, effEnvColor, 250,
+                func_8002843C(globalCtx, &effPos, &effVelocity, &effAccel, effPrimColor, effEnvColor, 250,
                               effScaleStep, effLife);
             }
         }
@@ -771,12 +716,11 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         } else {
             limbDest = &this->bodyPartsPos[2];
         }
-        Matrix_MultVec3f(&D_80A14FC8, limbDest);
+        Matrix_MultVec3f(&limbSrc, limbDest);
         limbDest->y -= 5.0f;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/EnFirefly_Draw.s")
 void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFirefly* this = THIS;
 
@@ -792,7 +736,6 @@ void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1763);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A14E28.s")
 void EnFirefly_DrawInvisible(Actor* thisx, GlobalContext* globalCtx) {
     EnFirefly* this = THIS;
 
