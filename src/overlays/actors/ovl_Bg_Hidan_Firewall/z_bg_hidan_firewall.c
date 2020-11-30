@@ -49,7 +49,7 @@ static CollisionCheckInfoInit sColChkInfoInit = {
     0xFF,
 };
 
-UNK_PTR D_80886D04[] = {
+static UNK_PTR D_80886D04[] = {
     0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
 };
 

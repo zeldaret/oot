@@ -110,8 +110,8 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         gDPPipeSync(POLY_XLU_DISP++);
 
         if (this->rDrawFlags & 1) {
-            gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0,
-                              0, COMBINED, 0, SHADE, 0, 0, 0, 0, COMBINED);
+            gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, 0,
+                              COMBINED, 0, SHADE, 0, 0, 0, 0, COMBINED);
             gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_ZB_CLD_SURF2);
             gSPSetGeometryMode(POLY_XLU_DISP++, G_FOG | G_LIGHTING);
         } else if (this->rDrawFlags & 2) {
