@@ -183,13 +183,12 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp54;
     f32 sp50;
     f32 sp4C;
-    f32 sp48;
+    f32 angle;
     f32 sp44;
     f32 temp_f10;
     f32 temp_f4;
     s32 temp_s0_4;
     u32 temp_a0;
-    u32 temp_a0_2;
     s16 i;
     f32 phi_f2;
     s32 phi_s0_3;
@@ -338,89 +337,85 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_DC = 2;
 
     switch (this->unk_339) {
-        case 55:
-            globalCtx->envCtx.unk_BE = (u8)2U;
-            globalCtx->envCtx.unk_BD = (u8)0;
-            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
-            break;
-        case 7:
-            globalCtx->envCtx.unk_BE = (u8)2U;
-            globalCtx->envCtx.unk_BD = (u8)8;
-            Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
-            temp_a0_2 = globalCtx->gameplayFrames;
-            globalCtx->envCtx.unk_D8 = (Math_Sins(temp_a0_2 * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
-            break;
-        case 8:
-            globalCtx->envCtx.unk_BE = (u8)0U;
-            globalCtx->envCtx.unk_BD = (u8)8;
-            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.02f);
-            break;
-        case 21:
-            globalCtx->envCtx.unk_BE = (u8)0U;
-            globalCtx->envCtx.unk_BD = (u8)9;
-            break;
-        case 22:
-            globalCtx->envCtx.unk_BE = (u8)0xAU;
-            globalCtx->envCtx.unk_BD = (u8)9;
-            break;
-        case 23:
-            globalCtx->envCtx.unk_BE = (u8)0xAU;
-            globalCtx->envCtx.unk_BD = (u8)0xB;
-            break;
-        case 24:
-            globalCtx->envCtx.unk_BE = (u8)9U;
-            globalCtx->envCtx.unk_BD = (u8)0xB;
-            break;
-        case 25:
-            globalCtx->envCtx.unk_BE = (u8)0U;
-            globalCtx->envCtx.unk_BD = (u8)0xC;
-            break;
         case 0:
             Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
             break;
         case 3:
-            globalCtx->envCtx.unk_BE = (u8)3U;
-            globalCtx->envCtx.unk_BD = (u8)4;
+            globalCtx->envCtx.unk_BE = 3;
+            globalCtx->envCtx.unk_BD = 4;
             Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
         case 4:
-            globalCtx->envCtx.unk_BE = (u8)5U;
-            globalCtx->envCtx.unk_BD = (u8)6;
+            globalCtx->envCtx.unk_BE = 5;
+            globalCtx->envCtx.unk_BD = 6;
             Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
         case 5:
-            globalCtx->envCtx.unk_BE = (u8)6U;
-            globalCtx->envCtx.unk_BD = (u8)7;
+            globalCtx->envCtx.unk_BE = 6;
+            globalCtx->envCtx.unk_BD = 7;
             Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
             temp_a0 = globalCtx->gameplayFrames;
             globalCtx->envCtx.unk_D8 =
                 (Math_Sins((s16)(((temp_a0 * 4) + temp_a0) << 0xC)) * 0.15f) + (0.15f + this->unk_33C);
             break;
+        case 7:
+            globalCtx->envCtx.unk_BE = 2;
+            globalCtx->envCtx.unk_BD = 8;
+            Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
+            globalCtx->envCtx.unk_D8 =
+                (Math_Sins(globalCtx->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
+            break;
+        case 8:
+            globalCtx->envCtx.unk_BE = 0;
+            globalCtx->envCtx.unk_BD = 8;
+            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.02f);
+            break;
+        case 21:
+            globalCtx->envCtx.unk_BE = 0;
+            globalCtx->envCtx.unk_BD = 9;
+            break;
+        case 22:
+            globalCtx->envCtx.unk_BE = 0xA;
+            globalCtx->envCtx.unk_BD = 9;
+            break;
+        case 23:
+            globalCtx->envCtx.unk_BE = 0xA;
+            globalCtx->envCtx.unk_BD = 0xB;
+            break;
+        case 24:
+            globalCtx->envCtx.unk_BE = 9;
+            globalCtx->envCtx.unk_BD = 0xB;
+            break;
+        case 25:
+            globalCtx->envCtx.unk_BE = 0;
+            globalCtx->envCtx.unk_BD = 0xC;
+            break;
+        case 55:
+            globalCtx->envCtx.unk_BE = 2;
+            globalCtx->envCtx.unk_BD = 0;
+            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            break;
     }
 
-    if ((s32)this->unk_339 >= 0) {
-        this->unk_339 = (u8)0;
+    if (this->unk_339 >= 0) {
+        this->unk_339 = 0;
     }
     if (D_80906D78 != 0) {
-        D_80906D78 = (u8)0U;
-        phi_s0_3 = 0;
-    loop_81:
-        sp48 = Math_Rand_ZeroFloat(6.2831855f);
-        sp44 = Math_Rand_ZeroFloat(40.0f) + 10.0f;
-        sp58 = this->actor.posRot.pos;
-        sp58.y = 1200.0f;
-        temp_f4 = cosf(sp48) * sp44;
-        sp4C = temp_f4;
-        sp54 = sinf(sp48) * sp44;
-        temp_f10 = temp_f4 * 10.0f * 0.1f;
-        sp50 = Math_Rand_ZeroFloat(15.0f) + 15.0f;
-        sp58.x += temp_f10;
-        sp58.z += (sp54 * 10.0f * 0.1f);
-        func_808FD27C(globalCtx, &sp58, &sp4C, Math_Rand_ZeroFloat(0.3f) + 0.2f);
-        temp_s0_4 = (phi_s0_3 + 1) & 0xFFFF;
-        phi_s0_3 = temp_s0_4;
-        if (temp_s0_4 < 100) {
-            goto loop_81;
+        D_80906D78 = 0;
+
+        for (i = 0; i < 100; i++) {
+            angle = Math_Rand_ZeroFloat(2 * M_PI);
+            sp44 = Math_Rand_ZeroFloat(40.0f) + 10.0f;
+            sp58 = this->actor.posRot.pos;
+            sp58.y = 1200.0f;
+            temp_f4 = cosf(angle) * sp44;
+            sp4C = temp_f4;
+            sp54 = sinf(angle) * sp44;
+            temp_f10 = temp_f4 * 10.0f * 0.1f;
+            sp50 = Math_Rand_ZeroFloat(15.0f) + 15.0f;
+            sp58.x += temp_f10;
+            sp58.z += (sp54 * 10.0f * 0.1f);
+            func_808FD27C(globalCtx, &sp58, &sp4C, Math_Rand_ZeroFloat(0.3f) + 0.2f);
         }
     }
     this->unk_388 += 0.15f;
