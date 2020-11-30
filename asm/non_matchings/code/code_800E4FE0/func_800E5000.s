@@ -295,7 +295,7 @@ glabel func_800E5000
 /* B5C5C0 800E5420 8E4428B4 */  lw    $a0, 0x28b4($s2)
 /* B5C5C4 800E5424 27A50068 */  addiu $a1, $sp, 0x68
 /* B5C5C8 800E5428 8FA60058 */  lw    $a2, 0x58($sp)
-/* B5C5CC 800E542C 0C036C31 */  jal   func_800DB0C4
+/* B5C5CC 800E542C 0C036C31 */  jal   AudioSynth_Update
 /* B5C5D0 800E5430 85072974 */   lh    $a3, 0x2974($t0)
 /* B5C5D4 800E5434 0C001BA8 */  jal   osGetCount
 /* B5C5D8 800E5438 AE4228B4 */   sw    $v0, 0x28b4($s2)

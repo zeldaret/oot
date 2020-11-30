@@ -182,7 +182,7 @@ AudioTask *func_800E5000(void) {
         }
     }
 
-    gAudioContext.currCmdBuff = func_800DB0C4(gAudioContext.currCmdBuff, &cmdCount, gAudioContext.aiBuffers[gAudioContext.curAIBufIdx], gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]);
+    gAudioContext.currCmdBuff = AudioSynth_Update(gAudioContext.currCmdBuff, &cmdCount, gAudioContext.aiBuffers[gAudioContext.curAIBufIdx], gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx]);
     gAudioContext.gAudioRandom = osGetCount() * (gAudioContext.gAudioRandom + gAudioContext.totalTaskCnt);
     gAudioContext.gAudioRandom = gAudioContext.aiBuffers[gAudioContext.curAIBufIdx][gAudioContext.totalTaskCnt & 0xFF] + gAudioContext.gAudioRandom;;
     gWaveSamples[8] = (s16*)((((u8*)func_800E4FE0)) + (gAudioContext.gAudioRandom & 0xFFF0));

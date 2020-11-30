@@ -120,39 +120,43 @@ typedef struct {
     /*?0x0C */ s32 startPos; // start pos in ring buffer
     /*?0x10 */ s16 lengthA; // first length in ring buffer (from startPos, at most until end)
     /*?0x12 */ s16 lengthB; // second length in ring buffer (from pos 0)
-    /* 0x14 */ u8 pad[8];
+    /* 0x14 */ u16 unk_14;
+    /* 0x16 */ u16 unk_16;
+    /* 0x18 */ u16 unk_18;
+    /* 0x1A */ char unk_1A[2];
 } ReverbRingBufferItem; // size = 0x1C
 
 typedef struct {
-    /* 0x000 */ u8 unk_00;
-    /* 0x004 */ s32 unk_04;
-    /* 0x008 */ s32 unk_08;
-    /* 0x00C */ s32 unk_0C;
-    /* 0x010 */ s16* unk_10;
-    /* 0x014 */ s16* unk_14;
-    /* 0x018 */ void* unk_18;
-    /* 0x01C */ void* unk_1C;
-    /* 0x020 */ void* unk_20;
-    /* 0x024 */ void* unk_24;
-} ReverbUnk18; // size = 0x28
-
-typedef struct {
-    /* 0x000 */ u8 unk_00;
+    /* 0x000 */ u8 resampleFlags;
     /* 0x001 */ u8 useReverb;
-    /* 0x002 */ u8 unk_02;
-    /* 0x003 */ u8 unk_03;
+    /* 0x002 */ u8 framesToIgnore;
+    /* 0x003 */ u8 curFrame;
     /* 0x004 */ u8 downsampleRate;
-    /* 0x005 */ u8 unk_05;
+    /* 0x005 */ s8 unk_05;
     /* 0x006 */ u16 windowSize;
-    /* 0x008 */ u16 unk_08;
-    /* 0x00A */ u16 unk_0A;
+    /* 0x008 */ s16 unk_08;
+    /* 0x00A */ s16 unk_0A;
     /* 0x00C */ u16 unk_0C;
     /* 0x00E */ u16 unk_0E;
-    /* 0x010 */ u16 unk_10;
-    /* 0x012 */ u16 unk_12;
+    /* 0x010 */ s16 unk_10;
+    /* 0x012 */ s16 unk_12;
     /* 0x014 */ u16 unk_14;
-    /* 0x016 */ u16 unk_16;
-    /* 0x018 */ ReverbUnk18 unk_18;
+    /* 0x016 */ s16 unk_16;
+
+    /* 0x000 */ u8 unk_18;
+    /* 0x001 */ u8 unk_19;
+    /* 0x002 */ u8 unk_1A;
+    /* 0x003 */ u8 unk_1B;
+    /* 0x004 */ s32 nextRingBufPos;
+    /* 0x008 */ s32 unk_20;
+    /* 0x00C */ s32 bufSizePerChan;
+    /* 0x010 */ s16* leftRingBuf;
+    /* 0x014 */ s16* rightRingBuf;
+    /* 0x018 */ void* unk_30;
+    /* 0x01C */ void* unk_34;
+    /* 0x020 */ void* unk_38;
+    /* 0x024 */ void* unk_3C;
+
     /* 0x040 */ ReverbRingBufferItem items[2][5];
     /*?0x158 */ ReverbRingBufferItem items2[2][5];
     /* 0x270 */ s16* unk_270;
@@ -419,25 +423,33 @@ typedef struct SequenceChannelLayer {
 } SequenceChannelLayer; // size = 0x80
 
 typedef struct {
-    /*?00 */ s16 adpcmdecState[0x10];
-    /*?00 */ s16 finalResampleState[0x10];
-    /*?00 */ s16 mixEnvelopeState[0x28];
-    /*?00 */ s16 panResampleState[0x10];
-    /*?00 */ s16 panSamplesBuffer[0x20];
-    /*?00 */ s16 dummyResampleState[0x10];
-} NoteSynthesisBuffers;
+    /* 0x0000 */ s16 adpcmdecState[0x10];
+    /* 0x0020 */ s16 finalResampleState[0x10];
+    /* 0x0040 */ s16 mixEnvelopeState[0x28];
+    /* 0x0090 */ s16 panResampleState[0x10];
+    /* 0x00B0 */ s16 panSamplesBuffer[0x20];
+    /* 0x00F0 */ s16 dummyResampleState[0x10];
+} NoteSynthesisBuffers; // size = 0x110
 
 typedef struct {
     /*?0x00 */ u8 restart;
     /*?0x01 */ u8 sampleDmaIndex;
     /*?0x02 */ u8 prevHeadsetPanRight;
     /*?0x03 */ u8 prevHeadsetPanLeft;
-    /*?0x04 */ u16 samplePosFrac;
+    /*?0x04 */ u8 samplePosFrac;
+    /* 0x05 */ u8 unk_05;
+    /* 0x06 */ u16 unk_06;
     /*?0x08 */ s32 samplePosInt;
     /* 0x0C */ NoteSynthesisBuffers* synthesisBuffers;
     /*?0x10 */ s16 curVolLeft;
     /*?0x12 */ s16 curVolRight;
-} NoteSynthesisState;
+    /* 0x14 */ u16 unk_14;
+    /* 0x16 */ u16 unk_16;
+    /* 0x18 */ u16 unk_18;
+    /* 0x1A */ u8 unk_1A;
+    /* 0x1C */ u16 unk_1C;
+    /* 0x1E */ u16 unk_1E;
+} NoteSynthesisState; // size = 0x20
 
 typedef struct {
     /* 0x00 */ struct SequenceChannel* seqChannel;
@@ -515,7 +527,6 @@ typedef struct {
 typedef struct Note {
     /* 0x00 */ AudioListItem listItem;
     /*?0x10 */ NoteSynthesisState synthesisState;
-    /* 0x24 */ char pad_24[0xC];
     /* 0x30 */ NotePlaybackState playbackState;
     /* 0x90 */ Portamento portamento;
     /* 0x9C */ VibratoState vibratoState;

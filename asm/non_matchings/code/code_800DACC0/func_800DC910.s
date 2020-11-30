@@ -519,13 +519,13 @@ glabel L800DCDA0
 /* B54200 800DD060 00196C03 */  sra   $t5, $t9, 0x10
 /* B54204 800DD064 00107840 */  sll   $t7, $s0, 1
 /* B54208 800DD068 AFAF0010 */  sw    $t7, 0x10($sp)
-/* B5420C 800DD06C 0C036F08 */  jal   func_800DBC20
+/* B5420C 800DD06C 0C036F08 */  jal   AudioSynth_SetBuffer
 /* B54210 800DD070 01A83021 */   addu  $a2, $t5, $t0
 /* B54214 800DD074 8FAB0168 */  lw    $t3, 0x168($sp)
 /* B54218 800DD078 02402025 */  move  $a0, $s2
 /* B5421C 800DD07C 26520008 */  addiu $s2, $s2, 8
 /* B54220 800DD080 8FA50138 */  lw    $a1, 0x138($sp)
-/* B54224 800DD084 0C036F65 */  jal   func_800DBD94
+/* B54224 800DD084 0C036F65 */  jal   AudioSynth_UnkCmd17
 /* B54228 800DD088 8D66000C */   lw    $a2, 0xc($t3)
 /* B5422C 800DD08C 8FA90104 */  lw    $t1, 0x104($sp)
 /* B54230 800DD090 8FAA00D4 */  lw    $t2, 0xd4($sp)
@@ -661,7 +661,7 @@ glabel L800DCDA0
 .L800DD25C:
 /* B543FC 800DD25C 2401FFF8 */  li    $at, -8
 /* B54400 800DD260 24E70007 */  addiu $a3, $a3, 7
-/* B54404 800DD264 0C036F2C */  jal   func_800DBCB0
+/* B54404 800DD264 0C036F2C */  jal   AudioSynth_InterL
 /* B54408 800DD268 00E13824 */   and   $a3, $a3, $at
 /* B5440C 800DD26C 8FAC0088 */  lw    $t4, 0x88($sp)
 /* B54410 800DD270 8FAA00D4 */  lw    $t2, 0xd4($sp)
@@ -693,7 +693,7 @@ glabel L800DCDA0
 .L800DD2D0:
 /* B54470 800DD2D0 2401FFF8 */  li    $at, -8
 /* B54474 800DD2D4 24E70007 */  addiu $a3, $a3, 7
-/* B54478 800DD2D8 0C036F2C */  jal   func_800DBCB0
+/* B54478 800DD2D8 0C036F2C */  jal   AudioSynth_InterL
 /* B5447C 800DD2DC 00E13824 */   and   $a3, $a3, $at
 /* B54480 800DD2E0 8FAA00D4 */  lw    $t2, 0xd4($sp)
 /* B54484 800DD2E4 8FAB0168 */  lw    $t3, 0x168($sp)
@@ -752,7 +752,7 @@ glabel L800DCDA0
 /* B54544 800DD3A4 240603C0 */  li    $a2, 960
 /* B54548 800DD3A8 02803825 */  move  $a3, $s4
 /* B5454C 800DD3AC AFA00010 */  sw    $zero, 0x10($sp)
-/* B54550 800DD3B0 0C036F79 */  jal   func_800DBDE4
+/* B54550 800DD3B0 0C036F79 */  jal   AudioSynth_UnkCmd19
 /* B54554 800DD3B4 24520008 */   addiu $s2, $v0, 8
 .L800DD3B8:
 /* B54558 800DD3B8 8FAC008C */  lw    $t4, 0x8c($sp)
@@ -762,7 +762,7 @@ glabel L800DCDA0
 /* B54568 800DD3C8 240503C0 */   li    $a1, 960
 /* B5456C 800DD3CC 240603C0 */  li    $a2, 960
 /* B54570 800DD3D0 02803825 */  move  $a3, $s4
-/* B54574 800DD3D4 0C036F8E */  jal   func_800DBE38
+/* B54574 800DD3D4 0C036F8E */  jal   AudioSynth_UnkCmd3
 /* B54578 800DD3D8 26520008 */   addiu $s2, $s2, 8
 .L800DD3DC:
 /* B5457C 800DD3DC 8FB60164 */  lw    $s6, 0x164($sp)
@@ -777,7 +777,7 @@ glabel L800DCDA0
 /* B545A0 800DD400 26520008 */   addiu $s2, $s2, 8
 /* B545A4 800DD404 24050010 */  li    $a1, 16
 .L800DD408:
-/* B545A8 800DD408 0C036F6C */  jal   func_800DBDB0
+/* B545A8 800DD408 0C036F6C */  jal   AudioSynth_HiLoGain
 /* B545AC 800DD40C AFAF0010 */   sw    $t7, 0x10($sp)
 /* B545B0 800DD410 8FB60164 */  lw    $s6, 0x164($sp)
 .L800DD414:
@@ -786,7 +786,7 @@ glabel L800DCDA0
 /* B545BC 800DD41C 02802825 */  move  $a1, $s4
 /* B545C0 800DD420 50C0000D */  beql  $a2, $zero, .L800DD458
 /* B545C4 800DD424 8FB10168 */   lw    $s1, 0x168($sp)
-/* B545C8 800DD428 0C036FA6 */  jal   func_800DBE98
+/* B545C8 800DD428 0C036FA6 */  jal   AudioSynth_SetFilterCount
 /* B545CC 800DD42C 26520008 */   addiu $s2, $s2, 8
 /* B545D0 800DD430 8FAE0168 */  lw    $t6, 0x168($sp)
 /* B545D4 800DD434 02402025 */  move  $a0, $s2
@@ -794,7 +794,7 @@ glabel L800DCDA0
 /* B545DC 800DD43C 8DC7000C */  lw    $a3, 0xc($t6)
 /* B545E0 800DD440 8FA50138 */  lw    $a1, 0x138($sp)
 /* B545E4 800DD444 240603C0 */  li    $a2, 960
-/* B545E8 800DD448 0C036F9D */  jal   func_800DBE74
+/* B545E8 800DD448 0C036F9D */  jal   AudioSynth_SetFilter
 /* B545EC 800DD44C 24E70040 */   addiu $a3, $a3, 0x40
 /* B545F0 800DD450 8FB60164 */  lw    $s6, 0x164($sp)
 /* B545F4 800DD454 8FB10168 */  lw    $s1, 0x168($sp)
@@ -811,7 +811,7 @@ glabel L800DCDA0
 /* B5461C 800DD47C 240503C0 */  li    $a1, 960
 /* B54620 800DD480 24060760 */  li    $a2, 1888
 /* B54624 800DD484 02803825 */  move  $a3, $s4
-/* B54628 800DD488 0C036F19 */  jal   func_800DBC64
+/* B54628 800DD488 0C036F19 */  jal   AudioSynth_DMemMove
 /* B5462C 800DD48C 26520008 */   addiu $s2, $s2, 8
 /* B54630 800DD490 8FB80168 */  lw    $t8, 0x168($sp)
 /* B54634 800DD494 240F0760 */  li    $t7, 1888
@@ -854,7 +854,7 @@ glabel L800DCDA0
 /* B546C0 800DD520 26520008 */  addiu $s2, $s2, 8
 /* B546C4 800DD524 02202825 */  move  $a1, $s1
 /* B546C8 800DD528 240603C0 */  li    $a2, 960
-/* B546CC 800DD52C 0C036F19 */  jal   func_800DBC64
+/* B546CC 800DD52C 0C036F19 */  jal   AudioSynth_DMemMove
 /* B546D0 800DD530 02803825 */   move  $a3, $s4
 /* B546D4 800DD534 8FB10168 */  lw    $s1, 0x168($sp)
 /* B546D8 800DD538 10000002 */  b     .L800DD544
