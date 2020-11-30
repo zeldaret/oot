@@ -555,7 +555,7 @@ void EnFirefly_FrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Firefly/func _80A142F4.s")
-// When roosting, sit on wall and flap at random intervals
+// When perching, sit on collision and flap at random intervals
 void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x100);
     if (this->timer != 0) {
