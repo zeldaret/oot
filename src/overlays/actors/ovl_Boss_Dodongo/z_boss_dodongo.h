@@ -12,7 +12,7 @@ typedef struct BossDodongo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossDodongoActionFunc actionFunc;
-    /* 0x0194 */ s16 unk_194;//u16
+    /* 0x0194 */ s16 health;//u16
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
@@ -39,7 +39,9 @@ typedef struct BossDodongo {
     /* 0x01C4 */ s16 unk_1C4;
     /* 0x01C6 */ s16 unk_1C6;
     /* 0x01C8 */ s16 unk_1C8;
-    /* 0x01CA */ char unk_1CA[0x10];
+    /* 0x01CA */ char unk_1CA[0x2];
+    /* 0x01CC */ s16 unk_1CC;
+    /* 0x01CE */ char unk_1CE[0xC];
     /* 0x01DA */ s16 unk_1DA; //u16 unk_1DA;
     /* 0x01DC */ s16 unk_1DC;
     /* 0x01DE */ s16 unk_1DE;
@@ -63,7 +65,10 @@ typedef struct BossDodongo {
     /* 0x0220 */ f32 fogMax;
     /* 0x0224 */ f32 unk_224;
     /* 0x0228 */ f32 unk_228;
-    /* 0x022C */ char unk_22C[0x10];
+    /* 0x022C */ f32 unk_22C;
+    /* 0x0230 */ f32 unk_230;
+    /* 0x0234 */ f32 unk_234;
+    /* 0x0238 */ f32 unk_238;
     /* 0x023C */ f32 unk_23C;
     /* 0x0240 */ f32 unk_240;
     /* 0x0244 */ f32 unk_244;
