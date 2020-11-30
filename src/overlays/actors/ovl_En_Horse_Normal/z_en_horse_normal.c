@@ -556,7 +556,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseNormal* this = THIS;
@@ -566,7 +566,7 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* c
         sp4C.x = this->headCollider.list[i].dim.modelSphere.center.x;
         sp4C.y = this->headCollider.list[i].dim.modelSphere.center.y;
         sp4C.z = this->headCollider.list[i].dim.modelSphere.center.z;
-        func_800A6408(collider, this->headCollider.list[i].dim.joint, &sp4C, &sp40);
+        func_800A6408(skin, this->headCollider.list[i].dim.joint, &sp4C, &sp40);
         this->headCollider.list[i].dim.worldSphere.center.x = sp40.x;
         this->headCollider.list[i].dim.worldSphere.center.y = sp40.y;
         this->headCollider.list[i].dim.worldSphere.center.z = sp40.z;

@@ -274,7 +274,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem) {
+void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseGanon* this = THIS;
@@ -285,7 +285,7 @@ void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, ColliderJntSphItem* c
         sp4C.y = this->colliderSphere.list[index].dim.modelSphere.center.y;
         sp4C.z = this->colliderSphere.list[index].dim.modelSphere.center.z;
 
-        func_800A6408(colliderSphereItem, this->colliderSphere.list[index].dim.joint, &sp4C, &sp40);
+        func_800A6408(skin, this->colliderSphere.list[index].dim.joint, &sp4C, &sp40);
 
         this->colliderSphere.list[index].dim.worldSphere.center.x = sp40.x;
         this->colliderSphere.list[index].dim.worldSphere.center.y = sp40.y;

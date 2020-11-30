@@ -1152,8 +1152,6 @@ Vec3f D_801261E0[] = {
     { 200.0f, 200.0f, 0.0f },
 };
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     Player* this = (Player*)actor;
 
@@ -1163,7 +1161,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF sp14C;
-        Actor* hookedActor; // sp+0x148
+        Actor* hookedActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
 
@@ -1203,14 +1201,14 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             func_80090A28(this, spE4);
             func_800906D4(globalCtx, this, spE4);
         } else if ((*dList != NULL) && (this->leftHandType == 7)) {
-            Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)]; // sp+0xE0
+            Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2710);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2712),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetEnvColor(POLY_XLU_DISP++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
-            gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[gSaveContext.linkAge]);
+            gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[(0, gSaveContext.linkAge)]);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2717);
         }
@@ -1242,12 +1240,12 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             }
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-        Actor* heldActor = this->heldActor; // sp+0xB4
+        Actor* heldActor = this->heldActor;
 
         if (this->rightHandType == 0xFF) {
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == 11) || (this->rightHandType == 12)) {
-            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge]; // sp+0xB0
+            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
 
@@ -1342,15 +1340,12 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
             Matrix_MultVec3f(&D_801260D4, &this->actor.posRot2.pos);
         } else {
-            Vec3f* vec = &D_801261E0[gSaveContext.linkAge];
+            Vec3f* vec = &D_801261E0[(0, gSaveContext.linkAge)];
 
             func_8002BDB0(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090D20.s")
-#endif
 
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     s16 linkObjectId;
