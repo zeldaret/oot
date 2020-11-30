@@ -745,16 +745,18 @@ void func_800D1FD4(MtxF* mf) {
 void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
     f32 temp;
     f32 temp2;
+    f32 temp3;
+    f32 temp4;
+    f32 temp5;
 
     temp = mf->zx;
     temp *= temp;
     temp += SQ(mf->zz);
     vec->x = Math_atan2f(-mf->zy, sqrtf(temp)) * (32768 / M_PI);
 
-    
     if ((vec->x == 0x4000) || (vec->x == -0x4000)) {
         vec->z = 0;
-        
+
         vec->y = Math_atan2f(-mf->xz, mf->xx) * (32768 / M_PI);
     } else {
         vec->y = Math_atan2f(mf->zx, mf->zz) * (32768 / M_PI);
@@ -763,18 +765,23 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
             vec->z = Math_atan2f(mf->xy, mf->yy) * (32768 / M_PI);
         } else {
             temp = mf->xx;
+            temp4 = mf->xz;
+            temp3 = mf->yz;
+
             temp *= temp;
-            temp += SQ(mf->xz);
-            temp += SQ(mf->xy);
+            temp += SQ(temp4);
+            temp2 = mf->xy;
+            temp += SQ(temp2);
             temp = sqrtf(temp);
-            temp =  mf->xy / temp;
+            temp = temp2 / temp;
 
             temp2 = mf->yx;
             temp2 *= temp2;
-            temp2 += SQ(mf->yy);
-            temp2 += SQ(mf->yz);
+            temp2 += SQ(temp3);
+            temp3 = mf->yy;
+            temp2 += SQ(temp3);
             temp2 = sqrtf(temp2);
-            temp2 = mf->yy / temp2;
+            temp2 = temp3 / temp2;
 
             vec->z = Math_atan2f(temp, temp2) * (32768 / M_PI);
         }
@@ -811,7 +818,7 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
         temp += SQ(mf->yy);
         temp += SQ(mf->yz);
         temp = sqrtf(temp);
-        temp =  mf->yz / temp;
+        temp = mf->yz / temp;
 
         temp2 = mf->zx;
         temp2 *= temp2;
@@ -834,10 +841,12 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
     f32 sin;
     f32 cos;
     f32 rCos;
+    f32 vrs;
     f32 temp1;
     f32 temp2;
     f32 temp3;
     f32 temp4;
+    f32 temp5;
 
     if (mode == MTXMODE_APPLY) {
         if (f != 0) {
@@ -897,12 +906,7 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
             cmf->yz = temp1 + temp2;
             cmf->zy = temp1 - temp2;
 
-            cmf->xw = 0.0f;
-            cmf->yw = 0.0f;
-            cmf->zw = 0.0f;
-            cmf->wx = 0.0f;
-            cmf->wy = 0.0f;
-            cmf->wz = 0.0f;
+            cmf->xw = cmf->yw = cmf->zw = cmf->wx = cmf->wy = cmf->wz = 0.0f;
             cmf->ww = 1.0f;
         } else {
             cmf->xy = 0.0f;
@@ -1079,36 +1083,34 @@ void func_800D2BD0(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
     m2[15] = 0;
 }
 
-#ifdef NON_MATCHING
-// minor ordering and regalloc differences
 void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    u16* m1 = (u16*)&mtx->m[0][0];
-    u16* m2 = (u16*)&mtx->m[2][0];
+    Mtx_t* m = &mtx->m;
+    u16* m1 = (u16*)(*m)[0];
+    u16* m2 = (u16*)(*m)[2];
     u32 temp;
 
-    mtx->m[0][1] = 0;
-    mtx->m[2][1] = 0;
-    mtx->m[0][3] = 0;
-    mtx->m[2][3] = 0;
-    mtx->m[0][4] = 0;
-
+    (*m)[0][1] = 0;
+    (*m)[2][1] = 0;
+    (*m)[0][3] = 0;
+    (*m)[2][3] = 0;
+    (*m)[0][4] = 0;
 
     temp = (s32)(arg1 * 65536.0f);
-    mtx->m[0][0] = temp;
-    m1[1] = 0;
-    mtx->m[2][0] = temp << 16;
-    
-    temp = (s32)(arg2 * 65536.0f);
-    mtx->m[0][2] = temp >> 16;
-    mtx->m[2][2] = temp & 0xFFFF;
+    (*m)[0][0] = temp;
 
+    m1[1] = 0;
+    (*m)[2][0] = temp << 16;
+
+    temp = (s32)(arg2 * 65536.0f);
+    (*m)[0][2] = temp >> 16;
+    (*m)[2][2] = temp & 0xFFFF;
 
     temp = (s32)(arg3 * 65536.0f);
-    mtx->m[1][1] = temp;
+    (*m)[1][1] = temp;
     m1[11] = 0;
-    mtx->m[3][1] = temp << 16;
-    
-    mtx->m[2][4] = 0;
+    (*m)[3][1] = temp << 16;
+
+    (*m)[2][4] = 0;
 
     temp = (s32)(arg4 * 65536.0f);
     m1[12] = (temp >> 16) & 0xFFFF;
@@ -1120,10 +1122,6 @@ void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
 
     temp = (s32)(arg6 * 65536.0f);
     m1[14] = (temp >> 16) & 0xFFFF;
-    mtx->m[3][3] = temp << 16;
-
     m1[15] = 1;
+    (*m)[3][3] = temp << 16;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D2CEC.s")
-#endif
