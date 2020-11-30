@@ -44,7 +44,7 @@ static ColliderJntSphInit D_80907014 = {
     D_80906FCC,
 };
 
-static SkelAnime D_8090EB38[100];
+static BossGanon2Effect D_8090EB38[100];
 */
 
 extern u8 D_80906D78;
@@ -52,7 +52,7 @@ extern ColliderJntSphInit D_80906FBC;
 extern ColliderJntSphInit D_80907014;
 extern s16 D_80907074[4];
 extern Vec3f D_8090EB20;
-extern SkelAnime D_8090EB38[100];
+extern BossGanon2Effect D_8090EB38[100];
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FCF40.s")
 
@@ -78,7 +78,26 @@ void func_808FD108(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD210.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD27C.s")
+void func_808FD27C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3) {
+    s16 i;
+    BossGanon2Effect* effect = (BossGanon2Effect*)globalCtx->unk_11E10;
+
+    for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++, effect++) {
+        if (effect->type == 0) {
+            effect->type = 2;
+            effect->position = *arg1;
+            effect->velocity = *arg2;
+            effect->accel.x = 0.0;
+            effect->accel.z = 0.0;
+            effect->accel.y = -1.0f;
+            effect->unk_38.z = Math_Rand_ZeroFloat(2 * M_PI);
+            effect->unk_38.y = Math_Rand_ZeroFloat(2 * M_PI);
+            effect->unk_38.x = Math_Rand_ZeroFloat(2 * M_PI);
+            effect->unk_34 = arg3;
+            break;
+        }
+    }
+}
 
 void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2* this = THIS;
@@ -88,7 +107,7 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->unk_11E10 = D_8090EB38;
 
     for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++) {
-        D_8090EB38[i].limbCount = 0;
+        D_8090EB38[i].type = 0;
     }
 
     this->actor.colChkInfo.mass = 0xFF;
