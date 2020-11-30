@@ -10,8 +10,6 @@ struct EnZl3;
 
 typedef void (*EnZl3ActionFunc)(struct EnZl3*, GlobalContext*);
 typedef void (*EnZl3DrawFunc)(struct EnZl3*, GlobalContext*);
-typedef s32 (*EnZl3OverrideLimbDraw2)(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot,
-                                      struct EnZl3 *thisx, Gfx **gfx);
 
 typedef struct EnZl3 {
     /* 0x0000 */ Actor actor;

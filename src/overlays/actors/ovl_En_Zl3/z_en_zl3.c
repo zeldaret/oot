@@ -18,56 +18,7 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-void func_80B533B0(Actor* thisx, GlobalContext* globalCtx);
-s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* thisx,
-                  Gfx** gfx);
-void func_80B55550(EnZl3* this, GlobalContext* globalCtx);
-void func_80B555A4(EnZl3* this, GlobalContext* globalCtx);
-void func_80B55604(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5566C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B556CC(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5572C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56658(EnZl3* this, GlobalContext* globalCtx);
-void func_80B566AC(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5670C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5676C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B567CC(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5682C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B568B4(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5691C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5697C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B569E4(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56A68(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56AE0(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56B54(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56BA8(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56C24(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56C84(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56CE4(EnZl3* this, GlobalContext* globalCtx);
-void func_80B56D44(EnZl3* this, GlobalContext* globalCtx);
-void func_80B58D50(EnZl3* this, GlobalContext* globalCtx);
-void func_80B58DB0(EnZl3* this, GlobalContext* globalCtx);
-void func_80B58E10(EnZl3* this, GlobalContext* globalCtx);
-void func_80B58E7C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B58EF4(EnZl3* this, GlobalContext* globalCtx);
-void func_80B58F6C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B58FDC(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5904C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B590BC(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5912C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B591BC(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5922C(EnZl3* this, GlobalContext* globalCtx);
-void func_80B592A8(EnZl3* this, GlobalContext* globalCtx);
-void func_80B59340(EnZl3* this, GlobalContext* globalCtx);
-void func_80B593D0(EnZl3* this, GlobalContext* globalCtx);
-s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* thisx,
-                  Gfx** gfx);
 void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx);
-void func_80B59DB8(EnZl3* this, GlobalContext* globalCtx);
-void func_80B59FE8(EnZl3* this, GlobalContext* globalCtx);
-void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx);
-void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
@@ -100,38 +51,6 @@ Vec3f D_80B5A4A4 = { -12.0f, 260.0f, -147.0f };
 Vec3f D_80B5A4B0 = { 42.0f, 260.0f, 13.0f };
 
 u32 D_80B5A4BC = 0;
-
-static EnZl3ActionFunc sActionFuncs[] = {
-    func_80B59DB8, func_80B55550, func_80B555A4, func_80B55604, func_80B5566C, func_80B556CC, func_80B5572C,
-    func_80B56658, func_80B566AC, func_80B5670C, func_80B5676C, func_80B567CC, func_80B5682C, func_80B568B4,
-    func_80B5691C, func_80B5697C, func_80B569E4, func_80B56A68, func_80B56AE0, func_80B56B54, func_80B56BA8,
-    func_80B56C24, func_80B56C84, func_80B56CE4, func_80B56D44, func_80B58D50, func_80B58DB0, func_80B58E10,
-    func_80B58E7C, func_80B58EF4, func_80B58F6C, func_80B58FDC, func_80B5904C, func_80B590BC, func_80B5912C,
-    func_80B591BC, func_80B5922C, func_80B592A8, func_80B59340, func_80B593D0,
-};
-
-static EnZl3OverrideLimbDraw2 sOverrideLimbDrawFuncs[] = {
-    func_80B5458C,
-    func_80B5944C,
-};
-
-static EnZl3DrawFunc sDrawFuncs[] = {
-    func_80B59FE8,
-    func_80B59FF4,
-    func_80B5A1D0,
-};
-
-const ActorInit En_Zl3_InitVars = {
-    ACTOR_EN_ZL3,
-    ACTORTYPE_NPC,
-    FLAGS,
-    OBJECT_ZL2,
-    sizeof(EnZl3),
-    (ActorFunc)EnZl3_Init,
-    (ActorFunc)EnZl3_Destroy,
-    (ActorFunc)EnZl3_Update,
-    (ActorFunc)EnZl3_Draw,
-};
 
 extern AnimationHeader D_060001D8;
 extern AnimationHeader D_060004F4;
@@ -699,9 +618,10 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
     this->unk_2BC[arg2] = arg1;
 }
 
-s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* this,
+s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                   Gfx** gfx) {
-    s32 pad[4];
+    s32 pad[3];
+    EnZl3* this = THIS;
     s16* unk_28C = this->unk_28C;
     Mtx* sp78;
     MtxF sp38;
@@ -2548,11 +2468,12 @@ void func_80B593D0(EnZl3* this, GlobalContext* globalCtx) {
     func_80B58C08(this, globalCtx);
 }
 
-s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnZl3* thisx,
+s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                   Gfx** gfx) {
     if (limbIndex == 14) {
         Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
-        Vec3s* vec = &thisx->unk_3F8.unk_08;
+        EnZl3* this = THIS;
+        Vec3s* vec = &this->unk_3F8.unk_08;
 
         gSPSegment(gfx[0]++, 0x0C, mtx);
 
@@ -2678,6 +2599,7 @@ void func_80B59A80(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
     // todo look into
     Actor* thisx = &this->actor; // unused, necessary to use 'this' first to fix regalloc
+
     Flags_SetSwitch(globalCtx, 0x36);
     func_80088AA0(180);
     func_80B54EA4(this, globalCtx);
@@ -2736,6 +2658,15 @@ void func_80B59DB8(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx) {
+    static EnZl3ActionFunc sActionFuncs[] = {
+        func_80B59DB8, func_80B55550, func_80B555A4, func_80B55604, func_80B5566C, func_80B556CC, func_80B5572C,
+        func_80B56658, func_80B566AC, func_80B5670C, func_80B5676C, func_80B567CC, func_80B5682C, func_80B568B4,
+        func_80B5691C, func_80B5697C, func_80B569E4, func_80B56A68, func_80B56AE0, func_80B56B54, func_80B56BA8,
+        func_80B56C24, func_80B56C84, func_80B56CE4, func_80B56D44, func_80B58D50, func_80B58DB0, func_80B58E10,
+        func_80B58E7C, func_80B58EF4, func_80B58F6C, func_80B58FDC, func_80B5904C, func_80B590BC, func_80B5912C,
+        func_80B591BC, func_80B5922C, func_80B592A8, func_80B59340, func_80B593D0,
+    };
+
     EnZl3* this = THIS;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
@@ -2771,6 +2702,10 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnZl3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                            Gfx** gfx) {
+    static OverrideLimbDraw2 sOverrideLimbDrawFuncs[] = {
+        func_80B5458C,
+        func_80B5944C,
+    };
     EnZl3* this = THIS;
 
     if (this->unk_308 < 0 || this->unk_308 >= ARRAY_COUNT(sOverrideLimbDrawFuncs) ||
@@ -2778,7 +2713,7 @@ s32 EnZl3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         osSyncPrintf(VT_FGCOL(RED) "描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return 0;
     }
-    return sOverrideLimbDrawFuncs[this->unk_308](globalCtx, limbIndex, dList, pos, rot, this, gfx);
+    return sOverrideLimbDrawFuncs[this->unk_308](globalCtx, limbIndex, dList, pos, rot, thisx, gfx);
 }
 
 void func_80B59FE8(EnZl3* this, GlobalContext* globalCtx) {
@@ -2835,6 +2770,11 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static EnZl3DrawFunc sDrawFuncs[] = {
+        func_80B59FE8,
+        func_80B59FF4,
+        func_80B5A1D0,
+    };
     EnZl3* this = THIS;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
@@ -2843,3 +2783,15 @@ void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     sDrawFuncs[this->drawConfig](this, globalCtx);
 }
+
+const ActorInit En_Zl3_InitVars = {
+    ACTOR_EN_ZL3,
+    ACTORTYPE_NPC,
+    FLAGS,
+    OBJECT_ZL2,
+    sizeof(EnZl3),
+    (ActorFunc)EnZl3_Init,
+    (ActorFunc)EnZl3_Destroy,
+    (ActorFunc)EnZl3_Update,
+    (ActorFunc)EnZl3_Draw,
+};
