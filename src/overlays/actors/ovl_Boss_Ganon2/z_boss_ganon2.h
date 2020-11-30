@@ -8,16 +8,6 @@ struct BossGanon2;
 
 typedef void (*BossGanon2ActionFunc)(struct BossGanon2*, GlobalContext*);
 
-typedef struct {
-    /* 0x00 */ u8 type;
-    /* 0x04 */ Vec3f position;
-    /* 0x10 */ Vec3f velocity;
-    /* 0x1C */ Vec3f accel;
-    /* 0x28 */ Vec3f unk_28;
-    /* 0x34 */ f32 unk_34;
-    /* 0x38 */ Vec3f unk_38;
-} BossGanon2Effect; // size = 0x44
-
 typedef struct BossGanon2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;

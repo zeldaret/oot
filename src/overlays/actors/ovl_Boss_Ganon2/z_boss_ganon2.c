@@ -4,6 +4,16 @@
 
 #define THIS ((BossGanon2*)thisx)
 
+typedef struct {
+    /* 0x00 */ u8 type;
+    /* 0x04 */ Vec3f position;
+    /* 0x10 */ Vec3f velocity;
+    /* 0x1C */ Vec3f accel;
+    /* 0x28 */ Vec3f unk_28;
+    /* 0x34 */ f32 unk_34;
+    /* 0x38 */ Vec3f unk_38;
+} BossGanon2Effect; // size = 0x44
+
 void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -78,18 +88,18 @@ void func_808FD108(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD210.s")
 
-void func_808FD27C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3) {
-    s16 i;
+void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 arg3) {
     BossGanon2Effect* effect = (BossGanon2Effect*)globalCtx->unk_11E10;
+    s16 i;
 
     for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++, effect++) {
         if (effect->type == 0) {
             effect->type = 2;
-            effect->position = *arg1;
-            effect->velocity = *arg2;
+            effect->position = *position;
+            effect->velocity = *velocity;
             effect->accel.x = 0.0;
-            effect->accel.z = 0.0;
             effect->accel.y = -1.0f;
+            effect->accel.z = 0.0;
             effect->unk_38.z = Math_Rand_ZeroFloat(2 * M_PI);
             effect->unk_38.y = Math_Rand_ZeroFloat(2 * M_PI);
             effect->unk_38.x = Math_Rand_ZeroFloat(2 * M_PI);
