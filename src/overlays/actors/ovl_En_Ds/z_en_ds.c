@@ -277,6 +277,6 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                       EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

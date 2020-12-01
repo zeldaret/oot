@@ -125,7 +125,7 @@ glabel func_8099B140
 /* 02B6C 8099B2EC 8E0A02D0 */  lw      $t2, 0x02D0($s0)           ## 000002D0
 /* 02B70 8099B2F0 44CFF800 */  ctc1    $t7, $31
 /* 02B74 8099B2F4 8FA4005C */  lw      $a0, 0x005C($sp)
-/* 02B78 8099B2F8 0C0288A2 */  jal     SkelAnime_Draw2
+/* 02B78 8099B2F8 0C0288A2 */  jal     SkelAnime_Draw
 /* 02B7C 8099B2FC AFAA0018 */  sw      $t2, 0x0018($sp)
 /* 02B80 8099B300 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 02B84 8099B304 8FAB005C */  lw      $t3, 0x005C($sp)

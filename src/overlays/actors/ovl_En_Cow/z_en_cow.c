@@ -165,7 +165,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
 
     if ((this->actor.xzDistFromLink < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
-        if (this->skelAnime.currentAnimSeg == &D_060001CC) {
+        if (this->skelAnime.animation == &D_060001CC) {
             this->unk_278 = 0;
         }
     }
@@ -282,7 +282,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     if ((this->actor.xzDistFromLink < 150.0f) &&
         (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
-        if (this->skelAnime.currentAnimSeg == &D_06004348) {
+        if (this->skelAnime.animation == &D_06004348) {
             this->unk_278 = 0;
         }
     }
@@ -301,7 +301,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        if (this->skelAnime.currentAnimSeg == &D_060001CC) {
+        if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004264, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004264), 2,
                                  1.0f);
@@ -341,7 +341,7 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        if (this->skelAnime.currentAnimSeg == &D_06004348) {
+        if (this->skelAnime.animation == &D_06004348) {
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004E98), 2,
                                  1.0f);
         } else {
@@ -377,14 +377,14 @@ void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                       EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, &this->actor);
 }
 
 void func_809E0070(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                       NULL, NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          NULL, NULL, &this->actor);
 }

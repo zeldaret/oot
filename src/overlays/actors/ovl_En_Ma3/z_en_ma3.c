@@ -180,7 +180,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.currentAnimSeg == &D_06009EE0)) {
+    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &D_06009EE0)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -205,7 +205,7 @@ s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA2F28(EnMa3* this) {
-    if (this->skelAnime.currentAnimSeg != &D_06009EE0) {
+    if (this->skelAnime.animation != &D_06009EE0) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
@@ -337,7 +337,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 18) {
         Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
-    if ((limbIndex == 14) && (this->skelAnime.currentAnimSeg == &D_060093BC)) {
+    if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, &D_06005420);
     }
 
@@ -360,8 +360,8 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
 
-    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                       EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);
 }

@@ -374,6 +374,6 @@ void EnHeishi4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi_OverrideLimbDraw, NULL,
-                   &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi_OverrideLimbDraw, NULL,
+                      &this->actor);
 }

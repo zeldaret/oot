@@ -625,8 +625,8 @@ Gfx* sBootDListGroups[][2] = {
     { 0x06025BA8, 0x06025DB0 },
 };
 
-void func_8008F470(GlobalContext* globalCtx, Joint** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod, s32 tunic,
-                   s32 boots, s32 face, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data) {
+void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod, s32 tunic,
+                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data) {
     Color_RGB8* color;
     s32 eyeIndex = (limbDrawTable[22].x & 0xF) - 1;
     s32 mouthIndex = (limbDrawTable[22].x >> 4) - 1;
@@ -650,7 +650,7 @@ void func_8008F470(GlobalContext* globalCtx, Joint** skeleton, Vec3s* limbDrawTa
 
     sDListsLodOffset = lod * 2;
 
-    SkelAnime_LodDrawFlex(globalCtx, skeleton, limbDrawTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
+    SkelAnime_DrawFlexLod(globalCtx, skeleton, limbDrawTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
     if ((overrideLimbDraw != func_800902F0) && (overrideLimbDraw != func_80090440) && (gSaveContext.gameMode != 3)) {
         if (LINK_IS_ADULT) {
@@ -1549,7 +1549,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f
 
     srcTable = SEGMENTED_TO_VIRTUAL(srcTable);
     destTable = arg2->limbDrawTbl;
-    for (i = 0; i < arg2->jointCount; i++) {
+    for (i = 0; i < arg2->limbCount; i++) {
         *destTable++ = *srcTable++;
     }
 

@@ -216,7 +216,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.currentAnimSeg == &D_06008D64)) {
+    if ((this->unk_1E8.unk_00 == 0) && (this->skelAnime.animation == &D_06008D64)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -229,7 +229,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0B74(EnMa1* this) {
-    if (this->skelAnime.currentAnimSeg == &D_06008D64) {
+    if (this->skelAnime.animation == &D_06008D64) {
         if (this->unk_1E8.unk_00 == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
@@ -282,11 +282,11 @@ void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.currentAnimSeg != &D_06000820) {
+        if (this->skelAnime.animation != &D_06000820) {
             func_80AA0A84(this, 1);
         }
     } else {
-        if (this->skelAnime.currentAnimSeg != &D_06008D64) {
+        if (this->skelAnime.animation != &D_06008D64) {
             func_80AA0A84(this, 3);
         }
     }
@@ -324,11 +324,11 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->unk_1E8.unk_00 != 0) {
-        if (this->skelAnime.currentAnimSeg != &D_06000820) {
+        if (this->skelAnime.animation != &D_06000820) {
             func_80AA0A84(this, 1);
         }
     } else {
-        if (this->skelAnime.currentAnimSeg != &D_06008D64) {
+        if (this->skelAnime.animation != &D_06008D64) {
             func_80AA0A84(this, 3);
         }
     }
@@ -444,8 +444,8 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA16C4[this->unk_1E6]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
 
-    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                       EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma1.c", 1261);
 }
