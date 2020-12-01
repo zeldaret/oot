@@ -172,7 +172,7 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (gSaveContext.entranceIndex == 0x157 && gSaveContext.sceneSetupIndex == 8) { // ride carpet if in credits
         Actor_MoveForward(&this->actor);
-        ("OOOHHHHHH %f\n", this->actor.velocity.y);
+        osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
     Collider_CylinderUpdate(&this->actor, &this->collider);
@@ -184,5 +184,5 @@ void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          NULL, NULL, &this->actor);
+                          NULL, NULL, this);
 }

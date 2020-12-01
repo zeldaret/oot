@@ -396,5 +396,5 @@ void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, &this->actor);
+                          EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, this);
 }

@@ -658,7 +658,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.params == 0) {
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnOkuta_OverrideLimbDraw,
-                          NULL, &this->actor);
+                          NULL, this);
     } else {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);
 

@@ -426,8 +426,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            Actor* thisx) {
+s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCrow* this = THIS;
 
     if (this->actor.colChkInfo.health != 0) {
@@ -440,7 +439,7 @@ s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     return false;
 }
 
-void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnCrow* this = THIS;
     Vec3f* vec;
 
@@ -459,5 +458,5 @@ void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, &this->actor);
+                          EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, this);
 }

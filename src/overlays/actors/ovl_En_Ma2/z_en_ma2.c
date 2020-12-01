@@ -381,7 +381,7 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA28C0[this->unk_20E]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, &this->actor);
+                          EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 990);
 }

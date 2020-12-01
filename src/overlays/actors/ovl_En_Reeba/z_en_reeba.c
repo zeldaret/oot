@@ -620,7 +620,7 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 255, 255, 255, 255);
     }
 
-    SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_reeba.c", 1088);
 

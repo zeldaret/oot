@@ -1115,7 +1115,7 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnNiw_OverrideLimbDraw, NULL, &this->actor);
+                          EnNiw_OverrideLimbDraw, NULL, this);
 
     if (this->actionFunc == func_80AB6450) {
         func_80033C30(&this->actor.posRot.pos, &scale, 255, globalCtx);

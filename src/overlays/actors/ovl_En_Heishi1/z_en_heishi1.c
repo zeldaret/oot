@@ -500,7 +500,7 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi1_OverrideLimbDraw,
-                      NULL, &this->actor);
+                      NULL, this);
     func_80033C30(&this->actor.posRot.pos, &matrixScale, 0xFF, globalCtx);
 
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {

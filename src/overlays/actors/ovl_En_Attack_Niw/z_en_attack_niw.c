@@ -404,5 +404,5 @@ void EnAttackNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          func_809B5F98, NULL, &this->actor);
+                          func_809B5F98, NULL, this);
 }

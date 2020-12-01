@@ -455,7 +455,7 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002EBCC(&this->actor, globalCtx, 1);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          NULL, EnSb_PostLimbDraw, &this->actor);
+                          NULL, EnSb_PostLimbDraw, this);
     if (this->fire != 0) {
         this->actor.dmgEffectTimer++;
         fireDecr = this->fire - 1;

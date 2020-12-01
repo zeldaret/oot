@@ -810,7 +810,7 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
-                          &this->actor);
+                          this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }

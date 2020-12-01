@@ -695,7 +695,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                              this->skelAnime.dListCount, SyatekiNiw_OverrideLimbDraw, NULL, &this->actor);
+                              this->skelAnime.dListCount, SyatekiNiw_OverrideLimbDraw, NULL, this);
         func_80026608(globalCtx);
         func_80B13464(this, globalCtx);
     }

@@ -51,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-extern SkeletonHeader D_060000F0;
+extern FlexSkeletonHeader D_060000F0;
 extern AnimationHeader D_06000718;
 extern AnimationHeader D_060007D0;
 extern AnimationHeader D_06009F94;
@@ -146,8 +146,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectAneIndex) &&
         Object_IsLoaded(&globalCtx->objectCtx, this->objectOsAnimeIndex)) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectAneIndex].segment);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, &this->limbDrawTable,
-                         &this->transitionDrawTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable,
+                           this->transitionDrawTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
@@ -211,7 +211,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
                 gSaveContext.infTable[25] &= ~D_80ABB3B4[currentCucco->unk_2AA];
             }
         }
-        currentCucco = currentCucco->actor.next;
+        currentCucco = (EnNiw*)currentCucco->actor.next;
     }
     if (BREG(7) != 0) {
         this->cuccosInPen = BREG(7) - 1;
@@ -522,7 +522,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
             Collider_CylinderUpdate(thisx, &this->collider);
             if (1) {}
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }
@@ -536,7 +536,7 @@ Gfx* func_80ABB0A0(GraphicsContext* gfxCtx) {
 }
 
 s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                               void* thisx) {
     EnNiwLady* this = THIS;
     s32 pad;
 
@@ -567,8 +567,8 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         EnNiwLady_OverrideLimbDraw, 0, thisx);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                              this->skelAnime.dListCount, EnNiwLady_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_lady.c", 1370);
 }

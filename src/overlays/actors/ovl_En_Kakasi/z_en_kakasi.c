@@ -339,5 +339,5 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
-                          NULL, NULL, &this->actor);
+                          NULL, NULL, this);
 }

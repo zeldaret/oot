@@ -340,7 +340,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
-                          &this->actor);
+                          this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
