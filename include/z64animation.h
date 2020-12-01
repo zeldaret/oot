@@ -19,46 +19,52 @@ struct Actor;
 typedef struct SkelAnime SkelAnime;
 
 typedef struct {
-    /* 0x00 */ Vec3s pos;     // Position relative to parent joint.  Root joint is relative to world.
-    /* 0x06 */ u8 childJoint; // The first child joint of this joint
-    /* 0x07 */ u8 nextJoint;  // The next child joint of the parent joint
-} Joint;                      // Size = 0x8
+    /* 0x00 */ Vec3s jointPos; // Root is relative to world, children are relative to parent
+    /* 0x06 */ u8 child;
+    /* 0x07 */ u8 sibling;
+    /* 0x08 */ Gfx* displayList;
+} StandardLimb; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ Joint joint;      // Joint attached to limb
-    /* 0x08 */ Gfx* displayList; // Display list for limb
-} StandardLimb;                  // Size = 0xC
+    /* 0x00 */ Vec3s jointPos; // Root is relative to world, children are relative to parent
+    /* 0x06 */ u8 child;
+    /* 0x07 */ u8 sibling;
+    /* 0x08 */ Gfx* displayLists[2]; // Near and far
+} LodLimb; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ Joint joint;          // Joint attached to limb
-    /* 0x08 */ Gfx* displayLists[2]; // Near and far display lists for limb
-} LodLimb;                           // Size = 0x10
-
-typedef struct {
-    /* 0x00 */ Joint joint;        // Joint attached to limb
-    /* 0x08 */ s32 unk_08;         // Type of data contained in segAddress
+    /* 0x00 */ Vec3s jointPos; // Root is relative to world, children are relative to parent
+    /* 0x06 */ u8 child;
+    /* 0x07 */ u8 sibling;
+    /* 0x08 */ s32 unk_08; // Type of data contained in segAddress
     /* 0x0C */ UNK_PTR segAddress; // Segment address of data. Currently unclear what.
-} SkinLimb;                        // Size = 0x10
+} SkinLimb; // size = 0x10
+
+typedef union {
+    StandardLimb standard;
+    LodLimb lod;
+    SkinLimb skin;
+} Limb;
 
 // Model has limbs with flexible meshes
 typedef struct {
-    /* 0x00 */ Joint** skeletonSeg; // Segment address of joint array.
-    /* 0x04 */ u8 jointCount;       // Number of joints in the model.
-    /* 0x05 */ char unk_05[3];      // probably padding
-    /* 0x08 */ u8 dListCount;       // Number of display lists in the model.
-} FlexSkeletonHeader;               // Size = 0xC
+    /* 0x00 */ Limb** skeletonSeg; // Segment address of joint array.
+    /* 0x04 */ u8 jointCount; // Number of joints in the model.
+    /* 0x05 */ char unk_05[3]; // probably padding
+    /* 0x08 */ u8 dListCount; // Number of display lists in the model.
+} FlexSkeletonHeader; // size = 0xC
 
 // Model has limbs with only rigid meshes
 typedef struct {
-    /* 0x00 */ Joint** skeletonSeg; // Segment address of joint array.
-    /* 0x04 */ u8 jointCount;       // number of joints in the model
-    /* 0x05 */ char unk_05[3];      // probably padding
-} SkeletonHeader;                   // Size = 0x8
+    /* 0x00 */ Limb** skeletonSeg; // Segment address of joint array.
+    /* 0x04 */ u8 jointCount; // number of joints in the model
+    /* 0x05 */ char unk_05[3]; // probably padding
+} SkeletonHeader; // size = 0x8
 
 typedef struct {
     s16 frameCount;
     s16 unk_02;
-} GenericAnimationHeader; // Size = 0x4
+} GenericAnimationHeader; // size = 0x4
 
 typedef struct {
     /* 0x00 */ GenericAnimationHeader genericHeader;
@@ -74,14 +80,10 @@ typedef struct {
 
 struct SkelAnime {
     /* 0x00 */ u8 jointCount; // joint_Num
-    /* modes 0 and 1 repeat the animation indefinitely
-     * modes 2 and 3 play the animaton once then stop
-     * modes >= 4 play the animation once, and always start at frame 0.
-     */
-    /* 0x01 */ u8 mode;
+    /* 0x01 */ u8 mode; // 0/1 repeat animation, 2/3 stop animation, >=4 starts on frame 0 and plays once
     /* 0x02 */ u8 dListCount;
     /* 0x03 */ s8 unk_03;
-    /* 0x04 */ Joint** skeleton;
+    /* 0x04 */ Limb** skeleton;
     /* 0x08 */ void* currentAnimSeg; // Can be AnimationHeader or LinkAnimationHeader
     /* 0x0C */ f32 initialFrame;
     /* 0x10 */ f32 animFrameCount;
