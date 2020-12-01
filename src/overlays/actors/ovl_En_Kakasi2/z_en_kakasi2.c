@@ -51,7 +51,7 @@ void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("\n\n");
     // Visit Umeda
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
+    (VT_FGCOL(GREEN) "☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n" VT_RST);
 
     this->switchFlag = this->actor.params & 0x3F;
     spawnRangeY = (this->actor.params >> 6) & 0xFF;

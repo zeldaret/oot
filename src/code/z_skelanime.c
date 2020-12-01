@@ -177,12 +177,8 @@ void SkelAnime_DrawFlexLimbLod(GlobalContext* globalCtx, s32 limbIndex, void** s
 
 /*
  * Draws all limbs of type `LodLimb` in a given flexible skeleton
- * 
- * Petrie, go into detail here about why this allows flexibility
- * We can probably remove the implementation details of dynamic allocation after explaining the flex part
- * -----
- * Matricies for the limbs are dynamically allocted from the graph arena.  
- * The dynamic allocation occurs because the Skeleton is too large to be supported by the normal matrix stack.
+ * Limbs in a flexible skeleton have meshes that can stretch to line up with other limbs.
+ * An array of matrices is dynamically allocated so each limb can access any transform to ensure its meshes line up.
  */
 void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount,
                            OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data, s32 lod) {
@@ -219,7 +215,7 @@ void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* lim
 
     if ((overrideLimbDraw == 0) || !overrideLimbDraw(globalCtx, 1, &newDList, &pos, &rot, data)) {
         Matrix_JointPosition(&pos, &rot);
-        if (newDList != NULL) {           
+        if (newDList != NULL) {
             Matrix_ToMtx(mtx, "../z_skelanime.c", 1033);
             gSPMatrix(POLY_OPA_DISP++, mtx, G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, newDList);
@@ -253,7 +249,6 @@ void SkelAnime_DrawLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skele
     Vec3f pos;
     Vec3s rot;
 
-    
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1076);
     Matrix_Push();
 
@@ -289,7 +284,6 @@ void SkelAnime_DrawLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skele
         SkelAnime_DrawLimbOpa(globalCtx, limb->sibling, skeleton, limbDrawTable, overrideLimbDraw, postLimbDraw, data);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1121);
-    
 }
 
 /*
@@ -373,7 +367,7 @@ void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** s
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &newDList, &pos, &rot, data)) {
         Matrix_JointPosition(&pos, &rot);
         if (newDList != NULL) {
-            Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 1242); 
+            Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 1242);
             gSPMatrix(POLY_OPA_DISP++, *limbMatricies, G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, newDList);
             (*limbMatricies)++;
@@ -403,12 +397,8 @@ void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** s
 
 /*
  * Draw all limbs of type `StandardLimb` in a given flexible skeleton to the polyOpa buffer
- * 
- * Petrie, go into detail here about why this allows flexibility
- * We can probably remove the implementation details of dynamic allocation after explaining the flex part
- * -----
- * Matricies for the limbs are dynamically allocted from the graph arena.  
- * The dynamic allocation occurs because the Skeleton is too large to be supported by the normal matrix stack.
+ * Limbs in a flexible skeleton have meshes that can stretch to line up with other limbs.
+ * An array of matrices is dynamically allocated so each limb can access any transform to ensure its meshes line up.
  */
 void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount,
                            OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data) {
@@ -616,8 +606,8 @@ Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTa
  * Draw a limb of type `StandardLimb` contained within a flexible skeleton to the specified display buffer
  */
 Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, s32 limbIndex, void** skeleton, Vec3s* limbDrawTable,
-                             OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data, Mtx** mtx,
-                             Gfx* gfx) {
+                            OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data, Mtx** mtx,
+                            Gfx* gfx) {
     StandardLimb* limb;
     Gfx* newDList;
     Gfx* limbDList;
@@ -652,14 +642,14 @@ Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, s32 limbIndex, void** skel
     }
     if (limb->child != LIMB_DONE) {
         gfx = SkelAnime_DrawFlexLimb(globalCtx, limb->child, skeleton, limbDrawTable, overrideLimbDraw, postLimbDraw,
-                                      data, mtx, gfx);
+                                     data, mtx, gfx);
     }
 
     Matrix_Pull();
 
     if (limb->sibling != LIMB_DONE) {
         gfx = SkelAnime_DrawFlexLimb(globalCtx, limb->sibling, skeleton, limbDrawTable, overrideLimbDraw, postLimbDraw,
-                                      data, mtx, gfx);
+                                     data, mtx, gfx);
     }
 
     return gfx;
@@ -667,15 +657,11 @@ Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, s32 limbIndex, void** skel
 
 /*
  * Draw all limbs of type `StandardLimb` in a given flexible skeleton to the specified display buffer
- * 
- * Petrie, go into detail here about why this allows flexibility
- * We can probably remove the implementation details of dynamic allocation after explaining the flex part
- * -----
- * Matricies for the limbs are dynamically allocted from the graph arena.  
- * The dynamic allocation occurs because the Skeleton is too large to be supported by the normal matrix stack.
+ * Limbs in a flexible skeleton have meshes that can stretch to line up with other limbs.
+ * An array of matrices is dynamically allocated so each limb can access any transform to ensure its meshes line up.
  */
 Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount,
-                         OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data, Gfx* gfx) {
+                        OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* data, Gfx* gfx) {
     StandardLimb* rootLimb;
     s32 pad;
     Gfx* newDList;
@@ -722,7 +708,7 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDr
     }
     if (rootLimb->child != LIMB_DONE) {
         gfx = SkelAnime_DrawFlexLimb(globalCtx, rootLimb->child, skeleton, limbDrawTable, overrideLimbDraw,
-                                      postLimbDraw, data, &mtx, gfx);
+                                     postLimbDraw, data, &mtx, gfx);
     }
 
     Matrix_Pull();
@@ -1204,14 +1190,12 @@ void SkelAnime_ChangeLinkAnimPlaybackRepeat(GlobalContext* globalCtx, SkelAnime*
 }
 
 void func_800A41FC(GlobalContext* globalCtx, SkelAnime* skelAnime) {
-    SkelAnime_LoadAnimationType1(globalCtx, skelAnime->limbCount, skelAnime->transitionDrawTbl,
-                                 skelAnime->limbDrawTbl);
+    SkelAnime_LoadAnimationType1(globalCtx, skelAnime->limbCount, skelAnime->transitionDrawTbl, skelAnime->limbDrawTbl);
 }
 
 // Unused
 void func_800A422C(GlobalContext* globalCtx, SkelAnime* skelAnime) {
-    SkelAnime_LoadAnimationType1(globalCtx, skelAnime->limbCount, skelAnime->limbDrawTbl,
-                                 skelAnime->transitionDrawTbl);
+    SkelAnime_LoadAnimationType1(globalCtx, skelAnime->limbCount, skelAnime->limbDrawTbl, skelAnime->transitionDrawTbl);
 }
 
 void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 frame) {
@@ -1231,8 +1215,7 @@ void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimation
                    LinkAnimationHeader* linkAnimSeg2, f32 frame, f32 transitionRate, Vec3s* limbDrawTbl) {
     Vec3s* alignedLimbDrawTbl;
 
-    SkelAnime_LoadLinkAnimation(globalCtx, segment, (s32)transitionFrame, skelAnime->limbCount,
-                                skelAnime->limbDrawTbl);
+    SkelAnime_LoadLinkAnimation(globalCtx, segment, (s32)transitionFrame, skelAnime->limbCount, skelAnime->limbDrawTbl);
 
     alignedLimbDrawTbl = (Vec3s*)ALIGN16((u32)limbDrawTbl);
 

@@ -10340,7 +10340,8 @@ Gfx* D_80854844[PLAYER_MASK_MAX - 1] = {
 
 Vec3s D_80854864 = { 0, 0, 0 };
 
-void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDList, OverrideLimbDrawOpa overrideLimbDraw) {
+void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDList,
+                   OverrideLimbDrawOpa overrideLimbDraw) {
     static s32 D_8085486C = 255;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player.c", 19228);

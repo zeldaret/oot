@@ -626,7 +626,8 @@ Gfx* sBootDListGroups[][2] = {
 };
 
 void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod, s32 tunic,
-                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* data) {
+                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
+                   void* data) {
     Color_RGB8* color;
     s32 eyeIndex = (limbDrawTable[22].x & 0xF) - 1;
     s32 mouthIndex = (limbDrawTable[22].x >> 4) - 1;

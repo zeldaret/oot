@@ -469,7 +469,7 @@ void func_8098F1C0(DemoSa* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                        NULL, NULL, NULL, POLY_XLU_DISP);
+                                       NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 325);
 }

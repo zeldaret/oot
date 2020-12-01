@@ -18,21 +18,21 @@ struct SkelAnime;
 #define ANIM_FLAG_UPDATEY (1 << 4)
 
 typedef struct {
-    /* 0x00 */ Vec3s jointPos; // Root is relative to world, children are relative to parent
+    /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ Gfx* dList;
 } StandardLimb; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ Vec3s jointPos; // Root is relative to world, children are relative to parent
+    /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ Gfx* dLists[2]; // Near and far
 } LodLimb; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ Vec3s jointPos; // Root is relative to world, children are relative to parent
+    /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ s32 unk_08; // Type of data contained in segment
@@ -69,14 +69,14 @@ typedef struct {
 } LinkAnimationHeader; // size = 0x8
 
 typedef s32 (*OverrideLimbDrawOpa)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                   void* data);
+                                   void*);
 
 typedef void (*PostLimbDrawOpa)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*);
 
 typedef s32 (*OverrideLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                void* data, Gfx** gfx);
+                                void*, Gfx** gfx);
 
-typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* data,
+typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*,
                              Gfx** gfx);
 
 typedef s16 AnimationRotationValue;
@@ -167,7 +167,7 @@ typedef struct AnimationContext {
     AnimationEntry entries[ANIMATION_ENTRY_MAX];
 } AnimationContext;
 
-typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryData*);
+typedef void (*AnimationEntryCallback)(struct GlobalContext* globalCtx, AnimationEntryData* data);
 
 // fcurve_skelanime structs
 typedef struct {

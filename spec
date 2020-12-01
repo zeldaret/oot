@@ -689,8 +689,7 @@ endseg
 beginseg
     name "ovl_Bg_Ganon_Otyuka"
     include "build/src/overlays/actors/ovl_Bg_Ganon_Otyuka/z_bg_ganon_otyuka.o"
-    include "build/data/overlays/actors/z_bg_ganon_otyuka.data.o"
-    include "build/data/overlays/actors/z_bg_ganon_otyuka.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka_reloc.o"
 endseg
 
 beginseg
@@ -2782,8 +2781,7 @@ endseg
 beginseg
     name "ovl_En_Niw_Lady"
     include "build/src/overlays/actors/ovl_En_Niw_Lady/z_en_niw_lady.o"
-    include "build/data/overlays/actors/z_en_niw_lady.data.o"
-    include "build/data/overlays/actors/z_en_niw_lady.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Niw_Lady/ovl_En_Niw_Lady_reloc.o"
 endseg
 
 beginseg

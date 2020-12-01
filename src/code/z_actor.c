@@ -3806,7 +3806,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gSPSegment(POLY_OPA_DISP++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
     POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                        overrideLimbDraw, postLimbDraw, actor, POLY_OPA_DISP);
+                                       overrideLimbDraw, postLimbDraw, actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
@@ -3822,7 +3822,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gSPSegment(POLY_XLU_DISP++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                        overrideLimbDraw, postLimbDraw, actor, POLY_XLU_DISP);
+                                       overrideLimbDraw, postLimbDraw, actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }
