@@ -61,11 +61,11 @@ void func_80B523BC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B523C8(EnZl2* this, GlobalContext* globalCtx);
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx);
 
-UNK_TYPE D_80B52810[] = {
+static UNK_TYPE D_80B52810[] = {
     0x060030C8, 0x06003C48, 0x06004048, 0x06004548, 0x06004948, 0x06004D48, 0x06005148, 0x06005D48, 0x06006148,
 };
 
-UNK_TYPE D_80B52834[] = {
+static UNK_TYPE D_80B52834[] = {
     0x06003508,
     0x06005548,
     0x06005948,
@@ -1694,9 +1694,8 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
 
-    POLY_OPA_DISP =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+    POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, &this->actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1648);
 }
@@ -1720,9 +1719,8 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
 
-    POLY_XLU_DISP =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          EnZl2_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      EnZl2_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1692);
 }
