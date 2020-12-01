@@ -643,7 +643,7 @@ endseg
 beginseg
     name "ovl_Bg_Bombwall"
     include "build/src/overlays/actors/ovl_Bg_Bombwall/z_bg_bombwall.o"
-    include "build/data/overlays/actors/z_bg_bombwall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Bombwall/ovl_Bg_Bombwall.reloc.o"
 endseg
 
 beginseg
