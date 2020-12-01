@@ -606,6 +606,7 @@ extern AnimationHeader D_060042A8;
 extern AnimationHeader D_06009D10;
 extern AnimationHeader D_0601D934;
 extern AnimationHeader D_06002D0C;
+extern AnimationHeader D_060042A8;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1190.s")
 
@@ -1667,6 +1668,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
 
     static Color_RGBA8 dustPrimColor = { 255, 255, 255, 255 };
     static Color_RGBA8 dustEnvColor = { 255, 100, 0, 255 };
+
     Vec3f* cornerPos;
     Player* player;
     Vec3f sp198;
@@ -1676,7 +1678,6 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
     Vec3f sp70;
     f32 sp50;
     Camera* camera;
-    Camera* camera2;
     f32 distToCorner;
     f32 temp_f10;
     f32 xDistToCorner;
@@ -1684,7 +1685,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
     f32 zDistToCorner;
     f32 zDistToCamera;
     f32 temp_f2;
-    s16 temp_v1_3;
+    // s16 temp_v1_3;
     s32 colorIndex;
     f32 phi_f2;
     s16 i;
@@ -1720,13 +1721,9 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxMinF(&this->unk_208, 0.07f, 1.0f, 0.005f, 0.0f);
             tempSin = Math_Sins(this->actor.posRot.rot.y) * 230.0f;
             tempCos = Math_Coss(this->actor.posRot.rot.y) * 230.0f;
-            Math_SmoothScaleMaxMinF(&this->cameraEye.x,
-                                    this->actor.posRot.pos.x + tempSin, 0.2f,
-                                    50.0f, 0.1f);
+            Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->actor.posRot.pos.x + tempSin, 0.2f, 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.1f);
-            Math_SmoothScaleMaxMinF(&this->cameraEye.z,
-                                    this->actor.posRot.pos.z + tempCos, 0.2f,
-                                    50.0f, 0.1f);
+            Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->actor.posRot.pos.z + tempCos, 0.2f, 50.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.2f, 30.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->cameraAt.y, this->actor.posRot2.pos.y - 70.0f, 0.2f, 30.0f, 0.1f);
             Math_SmoothScaleMaxMinF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.2f, 30.0f, 0.1f);
@@ -1828,8 +1825,8 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
         case 8:
         case 9:
             if (this->unk_1DA == 854) {
-                SkelAnime_ChangeAnim(&this->skelAnime, (void*)0x60042A8, 1.0f, 0.0f,
-                                     (f32)SkelAnime_GetFrameCount((void*)0x60042A8), 0, -20.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_060042A8, 1.0f, 0.0f,
+                                     (f32)SkelAnime_GetFrameCount(&D_060042A8), 0, -20.0f);
                 xDistToCamera = this->cameraEye.x - this->actor.posRot.pos.x;
                 zDistToCamera = this->cameraEye.z - this->actor.posRot.pos.z;
                 this->unk_22C = sqrtf(SQ(xDistToCamera) + SQ(zDistToCamera));
@@ -1838,29 +1835,30 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 this->unk_19C = 9;
             }
             if (this->unk_1DA < 854) {
-                // loop_35:
                 for (i = 0; i < 2; i++) {
                     func_808C12C4(D_808C7000, this->unk_1CC);
-                    if (this->unk_1CC < 0x100) {
+                    if (this->unk_1CC < 256) {
                         this->unk_1CC++;
                     }
                 }
             }
-            if (this->unk_1DA < 0x3D8) {
+            if (this->unk_1DA < 984) {
                 Math_SmoothScaleMaxMinS(&this->unk_1C4, -0x4000, 0xA, 0x12C, 0);
-            } else if (this->unk_1DA == 904) {
+            }
+            if (this->unk_1DA == 904) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_END);
-            } else if (this->unk_1DA < 854) {
+            }
+            if (this->unk_1DA < 854) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_LAST - SFX_FLAG);
-            } else if (this->unk_1DA == 960) {
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_LAVA - SFX_FLAG);
-            } else if (this->unk_1DA < 960) {
+            }
+            if (this->unk_1DA == 960) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_LAVA);
+            }
+            if (this->unk_1DA < 960) {
                 Math_SmoothScaleMaxMinF(&this->actor.shape.unk_10, 0.0f, 1.0f, 10.0f, 0.0f);
-                temp_v1_3 = this->unk_1DA;
-                if (temp_v1_3 >= 710) {
-                    Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
-                    Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
-                    if (temp_v1_3 == 710) {
+                if (this->unk_1DA >= 710) {
+
+                    if (this->unk_1DA == 710) {
                         Vec3f D_808CA498[] = {
                             { -440.0f, 0.0f, -3304.0f },
                             { -890.0f, 0.0f, -3574.0f },
@@ -1883,24 +1881,27 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                         player->actor.posRot.pos.z = phi_v0_2->z;
                         this->unk_204 = 0.0f;
                     }
-                    if ((s32)this->unk_1DA >= 0x375) {
+                    if (this->unk_1DA >= 0x375) {
                         Math_SmoothScaleMaxMinF(&this->unk_228, 200.0f, 0.2f, 100.0f, 0.0f);
                     } else {
                         Math_SmoothScaleMaxMinF(&this->unk_228, -6600.0f, 0.2f, 30.0f, 0.0f);
                     }
-
-                    effectPos.x = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.x;
-                    effectPos.y = Math_Rand_ZeroFloat(50.0f) + this->actor.posRot.pos.y;
-                    effectPos.z = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.z;
-                    func_8002836C(globalCtx, &effectPos, &dustVel, &dustAcell, &dustPrimColor, &dustEnvColor, 0x1F4,
-                                  0xA, 0xA);
-                    effectPos.x = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.x;
-                    effectPos.y = -1498.76f;
-                    effectPos.z = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.z;
-                    colorIndex = (Math_Rand_ZeroOne() * 1.9f);
-                    EffectSsGMagma2_Spawn(globalCtx, &effectPos, &magmaPrimColor[colorIndex],
-                                          &magmaEnvColor[colorIndex], 0xA - (colorIndex * 5), colorIndex,
-                                          (Math_Rand_ZeroOne() * 100.0f) + 100);
+                    { // Scope seems to be required because of how its loaded
+                        Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
+                        Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
+                        effectPos.x = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.x;
+                        effectPos.y = Math_Rand_ZeroFloat(50.0f) + this->actor.posRot.pos.y;
+                        effectPos.z = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.z;
+                        func_8002836C(globalCtx, &effectPos, &dustVel, &dustAcell, &dustPrimColor, &dustEnvColor, 0x1F4,
+                                      0xA, 0xA);
+                        effectPos.x = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.x;
+                        effectPos.y = -1498.76f;
+                        effectPos.z = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.z;
+                        colorIndex = (Math_Rand_ZeroOne() * 1.9f);
+                        EffectSsGMagma2_Spawn(globalCtx, &effectPos, &magmaPrimColor[colorIndex],
+                                              &magmaEnvColor[colorIndex], 0xA - (colorIndex * 5), colorIndex,
+                                              (Math_Rand_ZeroOne() * 100.0f) + 100);
+                    }
                 }
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL);
@@ -1909,7 +1910,6 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 }
             }
             Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.2f, 0.1f, 0.0f);
-            // temp_f2 = this->unk238;
             this->actor.posRot.rot.y = this->actor.posRot.rot.y + this->unk_238;
             this->unk_1C4 = this->unk_1C4 + (s32)this->unk_234;
             if (this->unk_1DA >= 0x367) {
@@ -1928,7 +1928,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxMinF(&this->cameraAt.y, (this->actor.posRot.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.2f, 30.0f, 0.0f);
             if (this->unk_19C == 9) {
-                if ((s32)this->unk_1DA < 0x2C6) {
+                if (this->unk_1DA < 0x2C6) {
                     Vec3f D_808CA508[] = { { -390.0f, 0.0f, -3304.0f },
                                            { -890.0f, 0.0f, -3804.0f },
                                            { -1390.0f, 0.0f, -3304.0f },
@@ -1977,35 +1977,27 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             }
             if (this->unk_1DA == 820) {
                 Audio_SetBGM(0x21);
-                // sp50 = Math_Sins(this->actor.shape.rot.y);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
                             (Math_Sins(this->actor.shape.rot.y) * -50.0f) + this->actor.posRot.pos.x,
                             this->actor.posRot.pos.y,
                             (Math_Coss(this->actor.shape.rot.y) * -50.0f) + this->actor.posRot.pos.z, 0, 0, 0, 0);
             }
-            if (this->unk_1DA == 0x258) {
-                camera2 = Gameplay_GetCamera(globalCtx, 0);
-                camera2->eye.x = this->cameraEye.x;
-                camera2->eye.y = this->cameraEye.y;
-                camera2->eye.z = this->cameraEye.z;
-                camera2->eyeNext.x = this->cameraEye.x;
-                camera2->eyeNext.y = this->cameraEye.y;
-                camera2->eyeNext.z = this->cameraEye.z;
-                camera2->at.x = this->actor.posRot.pos.x;
-                camera2->at.y = this->actor.posRot.pos.y;
-                camera2->at.z = this->actor.posRot.pos.z;
+            if (this->unk_1DA == 600) {
+                camera = Gameplay_GetCamera(globalCtx, 0);
+                camera->eye = this->cameraEye;
+                camera->eyeNext = this->cameraEye;
+                camera->at = this->actor.posRot.pos;
                 func_800C08AC(globalCtx, this->cutsceneCamera, 0);
                 this->unk_1BC = 0;
                 this->cutsceneCamera = 0;
-                this->unk_19C = 0x64;
+                this->unk_19C = 100;
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
-                Actor_SpawnAsChild(&globalCtx->actorCtx, (Actor*)this, globalCtx, ACTOR_DOOR_WARP1, -890.0f, -1523.76f,
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, -890.0f, -1523.76f,
                                    -3304.0f, 0, 0, 0, 0);
                 this->skelAnime.animPlaybackSpeed = 0.0f;
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
-                break;
             }
         case 100:
             if ((this->unk_1DA < 0x2C6) && (Math_Rand_ZeroOne() < 0.5f)) {
@@ -2015,9 +2007,8 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 sp70.y = (Math_Rand_ZeroOne() * 50.0f) + -1498.76f;
                 sp70.z = Math_Rand_CenteredFloat(60.0f) + this->actor.posRot2.pos.z;
                 EffectSsGMagma2_Spawn(globalCtx, &sp70, &D_808CA568, &D_808CA56C, 5, 1,
-                                      (s16)(s32)(Math_Rand_ZeroOne() * 50.0f) + 50);
+                                      (s16)(Math_Rand_ZeroOne() * 50.0f) + 50);
             }
-            break;
         default:
             if (this->cutsceneCamera != 0) {
                 func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
