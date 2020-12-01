@@ -113,7 +113,7 @@ void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B4AE18(EnZl1* this) {
-    if ((this->skelAnime.currentAnimSeg == &D_06010B38) && (this->skelAnime.animCurrentFrame < 26.0f)) {
+    if ((this->skelAnime.animation == &D_06010B38) && (this->skelAnime.animCurrentFrame < 26.0f)) {
         this->unk_1F4 = &D_06008C48;
         this->unk_1F8 = &D_06008848;
         this->unk_1FC = 2;
@@ -432,7 +432,7 @@ void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 frameCount;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (this->skelAnime.currentAnimSeg == &D_06010B38)) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (this->skelAnime.animation == &D_06010B38)) {
         frameCount = SkelAnime_GetFrameCount(&D_06011348);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06011348, 1.0f, 0.0f, frameCount, 0, -10.0f);
     }
@@ -601,8 +601,8 @@ void EnZl1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(this->unk_1EC));
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                       func_80B4C340, func_80B4C400, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          func_80B4C340, func_80B4C400, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_girlB.c", 2046);
 }

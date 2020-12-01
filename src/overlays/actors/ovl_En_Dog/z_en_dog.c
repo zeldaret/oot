@@ -72,7 +72,7 @@ extern AnimationHeader D_06000278;
 
 void EnDog_PlayWalkSFX(EnDog* this) {
     AnimationHeader* walk = &D_06001368;
-    if (this->skelAnime.currentAnimSeg == walk) {
+    if (this->skelAnime.animation == walk) {
         if ((this->skelAnime.animCurrentFrame == 1.0f) || (this->skelAnime.animCurrentFrame == 7.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -81,7 +81,7 @@ void EnDog_PlayWalkSFX(EnDog* this) {
 
 void EnDog_PlayRunSFX(EnDog* this) {
     AnimationHeader* run = &D_06000D78;
-    if (this->skelAnime.currentAnimSeg == run) {
+    if (this->skelAnime.animation == run) {
         if ((this->skelAnime.animCurrentFrame == 2.0f) || (this->skelAnime.animCurrentFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -90,7 +90,7 @@ void EnDog_PlayRunSFX(EnDog* this) {
 
 void EnDog_PlayBarkSFX(EnDog* this) {
     AnimationHeader* bark = &D_06000278;
-    if (this->skelAnime.currentAnimSeg == bark) {
+    if (this->skelAnime.animation == bark) {
         if ((this->skelAnime.animCurrentFrame == 13.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }
@@ -460,8 +460,8 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                       EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

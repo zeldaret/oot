@@ -80,7 +80,7 @@ glabel func_80ABB228
 /* 016F8 80ABB338 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 016FC 80ABB33C AFA00014 */  sw      $zero, 0x0014($sp)
 /* 01700 80ABB340 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 01704 80ABB344 0C0286B2 */  jal     SkelAnime_DrawFlex
+/* 01704 80ABB344 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 01708 80ABB348 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80ABB34C:
 /* 0170C 80ABB34C 3C0680AC */  lui     $a2, %hi(D_80ABB730)       ## $a2 = 80AC0000

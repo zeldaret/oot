@@ -125,7 +125,7 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->behaviorFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
-        if (this->skelanime.currentAnimSeg == &D_0600057C) {
+        if (this->skelanime.animation == &D_0600057C) {
             SkelAnime_ChangeAnim(&this->skelanime, &D_06000B04, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000B04), 2,
                                  -4.0f);
         }
@@ -245,8 +245,8 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_FrameUpdateMatrix(&this->skelanime) != 0)) {
-        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.currentAnimSeg, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(this->skelanime.currentAnimSeg), 2, 0.0f);
+        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(this->skelanime.animation), 2, 0.0f);
     }
     this->actionFunc(this, globalCtx);
     if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
@@ -304,8 +304,8 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
-    SkelAnime_DrawFlex(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
-                       EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+                          EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
 }

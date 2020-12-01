@@ -40,7 +40,7 @@ glabel func_809F5C98
 /* 02A28 809F5CE8 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 02A2C 809F5CEC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 02A30 809F5CF0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 02A34 809F5CF4 0C028572 */  jal     SkelAnime_Draw
+/* 02A34 809F5CF4 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 02A38 809F5CF8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 02A3C 809F5CFC C60C021C */  lwc1    $f12, 0x021C($s0)          ## 0000021C

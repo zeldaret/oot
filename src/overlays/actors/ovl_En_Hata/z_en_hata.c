@@ -123,6 +123,6 @@ void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
     func_800943C8(globalCtx->state.gfxCtx);
     Matrix_Scale(1.0f, 1.1f, 1.0f, MTXMODE_APPLY);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHata_OverrideLimbDraw,
-                   EnHata_PostLimbDraw, &this->dyna.actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHata_OverrideLimbDraw,
+                      EnHata_PostLimbDraw, &this->dyna.actor);
 }

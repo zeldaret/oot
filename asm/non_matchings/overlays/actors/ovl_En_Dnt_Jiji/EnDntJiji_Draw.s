@@ -63,7 +63,7 @@ glabel EnDntJiji_Draw
 /* 013D0 809F2EB0 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 013D4 809F2EB4 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 013D8 809F2EB8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 013DC 809F2EBC 0C028572 */  jal     SkelAnime_Draw
+/* 013DC 809F2EBC 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 013E0 809F2EC0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 013E4 809F2EC4 0C034221 */  jal     Matrix_Pull              
