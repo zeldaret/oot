@@ -28,7 +28,7 @@ void func_80A9B7EC(EnKusa* this);
 void func_80A9B810(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9B89C(EnKusa* this);
 void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx);
-void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx);
+void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9BBB0(EnKusa* this);
 void func_80A9BEAC(EnKusa* this);
 void func_80A9BEFC(EnKusa* this, GlobalContext* globalCtx);
@@ -60,16 +60,14 @@ const ActorInit En_Kusa_InitVars = {
 
 static s16 D_80A9C200[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 
-// sCylinderInit
-static ColliderCylinderInit D_80A9C208 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x29, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC00758, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 12, 44, 0, { 0, 0, 0 } },
 };
 
 // Collision Check data
-// sColChkInfoInit
-CollisionCheckInfoInit D_80A9C234 = { 0, 12, 30, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, 0xFF };
 
 static Vec3f D_80A9C23C[] = {
     { 0.0f, 0.7071f, 0.7071f },
@@ -80,8 +78,7 @@ static Vec3f D_80A9C23C[] = {
 
 s16 D_80A9C26C[] = { 108, 102, 96, 84, 66, 55, 42, 38 };
 
-// sInitChain
-InitChainEntry D_80A9C27C[] = {
+InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 400, ICHAIN_CONTINUE),         ICHAIN_F32_DIV1000(gravity, -3200, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(minVelocityY, -17000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),         ICHAIN_F32(uncullZoneDownward, 120, ICHAIN_STOP),
@@ -104,22 +101,23 @@ s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 arg2) {
     CollisionPoly* sp28;
     Vec3f pos;
     UNK_TYPE sp24;
-    f32 temp_f0;
+    f32 yPosShift;
 
     pos.x = this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 30.0f;
     pos.z = this->actor.posRot.pos.z;
-    temp_f0 = func_8003C9A4(&globalCtx->colCtx, &sp28, &sp24, &this->actor, &pos);
-    if (-32000.0f < temp_f0) {
-        this->actor.posRot.pos.y = temp_f0 + arg2;
+    yPosShift = func_8003C9A4(&globalCtx->colCtx, &sp28, &sp24, &this->actor, &pos);
+    if (-32000.0f < yPosShift) {
+        this->actor.posRot.pos.y = yPosShift + arg2;
         Math_Vec3f_Copy(&this->actor.initPosRot, &this->actor.posRot);
         return true;
+    } else {
+        osSyncPrintf(VT_COL(YELLOW, BLACK));
+        // Translation: Failure attaching to ground
+        osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 0x143);
+        osSyncPrintf(VT_RST);
+        return false;
     }
-    osSyncPrintf(VT_COL(YELLOW, BLACK));
-    // Translation: Failure attaching to ground
-    osSyncPrintf("地面に付着失敗(%s %d)\n", "../z_en_kusa.c", 0x143);
-    osSyncPrintf(VT_RST);
-    return false;
 }
 
 // Spawn Collectible
@@ -221,7 +219,7 @@ void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A9C208);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     Collider_CylinderUpdate(&this->actor, &this->collider);
 }
 
@@ -229,14 +227,14 @@ void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKusa* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80A9C27C);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     if (globalCtx->csCtx.state != 0) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     // Init for the ColliderCylinder
     EnKusa_InitCollider(thisx, globalCtx);
 
-    func_80061ED4(&this->actor.colChkInfo, NULL, &D_80A9C234);
+    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (this->actor.shape.rot.y == 0) {
         // Random value I think?
         s32 rand = (s32)Math_Rand_ZeroFloat(0x10000);
@@ -298,7 +296,7 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
     // If hit with a sword
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
-        EnKusa_SpawnFragments(this, globalCtx); // Spawn fragments
+        EnKusa_SpawnFragments(this, globalCtx);  // Spawn fragments
         EnKusa_DropCollectible(this, globalCtx); // Drop collectable
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_EV_PLANT_BROKEN);
         if ((this->actor.params >> 4) & 1) {
@@ -331,12 +329,12 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_SetupLiftedUp(EnKusa* this) {
-    EnKusa_SetupAction(this, func_80A9BAD8);
+    EnKusa_SetupAction(this, EnKusa_LiftedUp);
     this->actor.room = -1;
     this->actor.flags |= 0x10;
 }
 
-void func_80A9BAD8(EnKusa* this, GlobalContext* globalCtx) {
+void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
 
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
@@ -437,14 +435,12 @@ void func_80A9BF3C(EnKusa* this) {
     this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 9.0f;
     this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
-    // Set scale factors
     EnKusa_SetScale(this);
     this->actor.shape.rot = this->actor.initPosRot.rot;
     EnKusa_SetupAction(this, func_80A9BFA8);
 }
 
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
-
     if (this->timer >= 121) {
         if ((Math_ApproxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f) != 0) &&
             (this->timer >= 170)) {
