@@ -2,9 +2,6 @@
 #include "message_data_static.h"
 
 /* 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const.rodata.s")
-
-
 const MessageTableEntry D_8014B320[] = {
     #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
         { textId, (_SHIFTL(type, 4, 8) | _SHIFTL(yPos, 0, 8)), _message_##textId##_nes },
@@ -39,14 +36,10 @@ const MessageTableEntry D_80153768[] = {
     { 0xFFFF, 0, NULL },
 };
 
-
 const MessageTableEntry* D_801538F0[] = { &D_8014B320[0] };
 const char* D_801538F4[] = { &D_8014F548[0] };
 const char* D_801538F8[] = { &D_80151658[0] };
 const MessageTableEntry* D_801538FC[] = { &D_80153768[0] };
-
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/const2.rodata.s")
  */
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801069B0.s")
