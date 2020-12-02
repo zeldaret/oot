@@ -45,7 +45,7 @@ extern AnimationHeader D_0600AE90;
 extern AnimationHeader D_0600B7A4;
 extern AnimationHeader D_0600C1D0;
 extern AnimationHeader D_0600C8EC;
-extern SkeletonHeader D_06011A78;
+extern FlexSkeletonHeader D_06011A78;
 
 typedef enum {
     /* 0 */ DEATH_START,
@@ -227,7 +227,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.0069999993f);
     this->actor.posRot.pos.y = -850.0f;
     ActorShape_Init(&this->actor.shape, -580.0f / this->actor.scale.y, NULL, 0.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06011A78, &D_0600C8EC, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011A78, &D_0600C8EC, 0, 0, 0);
     if (this->actor.params == 0) {
         BossFd2_SetupEmerge(this, globalCtx);
     } else {
@@ -1036,7 +1036,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                             Actor* thisx) {
+                             void* thisx) {
     BossFd2* this = THIS;
     BossFd* bossFd = BOSSFD;
 
@@ -1074,7 +1074,7 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     return 0;
 }
 
-void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f targetMod = { 4500.0f, 0.0f, 0.0f };
     static Vec3f headMod = { 4000.0f, 0.0f, 0.0f };
     static Vec3f centerManeMod = { 4000.0f, -2900.0, 2000.0f };
@@ -1243,7 +1243,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 128);
 
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
         POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);

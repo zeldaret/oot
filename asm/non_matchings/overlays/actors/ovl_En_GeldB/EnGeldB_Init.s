@@ -51,7 +51,7 @@ glabel EnGeldB_Init
 /* 000C4 80A353D4 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 000C8 80A353D8 AFAA0018 */  sw      $t2, 0x0018($sp)
 /* 000CC 80A353DC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000D0 80A353E0 0C0291BE */  jal     SkelAnime_InitSV
+/* 000D0 80A353E0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000D4 80A353E4 26050188 */  addiu   $a1, $s0, 0x0188           ## $a1 = 00000188
 /* 000D8 80A353E8 26050320 */  addiu   $a1, $s0, 0x0320           ## $a1 = 00000320
 /* 000DC 80A353EC AFA50030 */  sw      $a1, 0x0030($sp)

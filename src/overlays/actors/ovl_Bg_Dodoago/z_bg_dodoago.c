@@ -45,7 +45,7 @@ static ColliderCylinderInit sColCylinderInit1 = {
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
-s16 sHasParent = false;
+static s16 sHasParent = false;
 
 extern Gfx D_60013500[];
 extern UNK_TYPE D_06001DDC;
@@ -70,23 +70,23 @@ void BgDodoago_SpawnSparkles(Vec3f* vec, GlobalContext* globalCtx) {
     }
 }
 
-static InitChainEntry D_808725BC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 5000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
-u8 D_808727C0[100];
+static u8 D_808727C0[100];
 
-s32 D_80872824;
+static s32 D_80872824;
 
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
     s32 pad;
     s32 localC = 0;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_808725BC);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06001DDC, &localC);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);

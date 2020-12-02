@@ -27,7 +27,7 @@ glabel EnPoRelay_Init
 /* 0005C 80AD779C 24E73768 */  addiu   $a3, $a3, 0x3768           ## $a3 = 06003768
 /* 00060 80AD77A0 24C6BE40 */  addiu   $a2, $a2, 0xBE40           ## $a2 = 0600BE40
 /* 00064 80AD77A4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00068 80AD77A8 0C0291BE */  jal     SkelAnime_InitSV
+/* 00068 80AD77A8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0006C 80AD77AC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80AD77B0 26050290 */  addiu   $a1, $s0, 0x0290           ## $a1 = 00000290
 /* 00074 80AD77B4 AFA50034 */  sw      $a1, 0x0034($sp)

@@ -1769,7 +1769,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx) {
+                                void* thisx) {
     BossFd* this = THIS;
 
     switch (limbIndex) {
@@ -1792,7 +1792,7 @@ s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                              void* thisx) {
     BossFd* this = THIS;
 
     switch (limbIndex) {
@@ -1883,7 +1883,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
 }
 
 s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            Actor* thisx) {
+                            void* thisx) {
     BossFd* this = THIS;
 
     switch (limbIndex) {
@@ -1910,7 +1910,7 @@ s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     return 0;
 }
 
-void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f targetMod = { 4500.0f, 0.0f, 0.0f };
     static Vec3f headMod = { 4000.0f, 0.0f, 0.0f };
     BossFd* this = THIS;
@@ -1952,8 +1952,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
     Matrix_Translate(-13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_Draw(globalCtx, this->skelAnime2.skeleton, this->skelAnime2.limbDrawTbl, BossFd_OverrideRightArmDraw,
-                   NULL, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime2.skeleton, this->skelAnime2.limbDrawTbl, BossFd_OverrideRightArmDraw,
+                   NULL, this);
     Matrix_Pull();
     osSyncPrintf("RH\n");
     Matrix_Push();
@@ -1964,8 +1964,8 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
     Matrix_Translate(13.0f, -5.0f, 13.0f, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_Draw(globalCtx, this->skelAnime3.skeleton, this->skelAnime3.limbDrawTbl, BossFd_OverrideLeftArmDraw, NULL,
-                   &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime3.skeleton, this->skelAnime3.limbDrawTbl, BossFd_OverrideLeftArmDraw, NULL,
+                   this);
     Matrix_Pull();
     osSyncPrintf("BD\n");
     gSPSegment(POLY_OPA_DISP++, 0x0D, tempMat);
@@ -2051,7 +2051,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
     Matrix_Pull();
     osSyncPrintf("BHCE\n");
     Matrix_Scale(this->actor.scale.x * 0.1f, this->actor.scale.y * 0.1f, this->actor.scale.z * 0.1f, MTXMODE_APPLY);
-    SkelAnime_Draw(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl, BossFd_OverrideHeadDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime1.skeleton, this->skelAnime1.limbDrawTbl, BossFd_OverrideHeadDraw,
                    BossFd_PostHeadDraw, &this->actor);
     osSyncPrintf("SK\n");
     {

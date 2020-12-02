@@ -180,7 +180,7 @@ glabel L80A71E38
 /* 028A4 80A71E54 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 028A8 80A71E58 AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 028AC 80A71E5C AFB00018 */  sw      $s0, 0x0018($sp)
-/* 028B0 80A71E60 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 028B0 80A71E60 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 028B4 80A71E64 8FA4006C */  lw      $a0, 0x006C($sp)
 .L80A71E68:
 /* 028B8 80A71E68 8FAB006C */  lw      $t3, 0x006C($sp)

@@ -43,8 +43,8 @@ typedef struct EnTk {
     /* 0x0224 */ s16        blinkCountdown;
     /* 0x0226 */ s16        headRot;
     /* 0x0228 */ s16        currentWaypoint;
-    /* 0x022A */ u16        hz_22A[54];
-    /* 0x022A */ u16        hz_296[55];
+    /* 0x022A */ Vec3s      hz_22A[18];
+    /* 0x0296 */ Vec3s      hz_296[18];
     /* 0x0304 */ Vec3f      v3f_304;
     /* 0x0310 */ EnTkEff    eff[20];
 } EnTk; // size = 0x0770

@@ -3,20 +3,39 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "overlays/actors/ovl_En_Reeba/z_en_reeba.h"
+
+#define SPAWNER_PARAMS(type, number, total) ((type << 0xB) | (number << 0x6) | total)
 
 struct EnEncount1;
 
+typedef void (*EnEncount1UpdateFunc)(struct EnEncount1*, GlobalContext*);
+
 typedef struct EnEncount1 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x6];
-    /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ char unk_154[0xA];
-    /* 0x015E */ s16 numLeeversDead;
-    /* 0x0160 */ char unk_160[0x4];
-    /* 0x0164 */ s16 unk_164;
-    /* 0x0166 */ char unk_166[0x6];
-    /* 0x016C */ UNK_TYPE unk_16C;
+    /* 0x014C */ EnEncount1UpdateFunc updateFunc;
+    /* 0x0150 */ s16 maxCurSpawns;
+    /* 0x0152 */ s16 curNumSpawn;
+    /* 0x0154 */ s16 spawnType;
+    /* 0x0156 */ s16 maxTotalSpawns;
+    /* 0x0158 */ s16 totalNumSpawn;
+    /* 0x015A */ s16 outOfRangeTimer;
+    /* 0x015C */ s16 fieldSpawnTimer;
+    /* 0x015E */ s16 killCount;
+    /* 0x0160 */ s16 numLeeverSpawns;
+    /* 0x0162 */ s16 leeverIndex;
+    /* 0x0164 */ s16 timer;
+    /* 0x0166 */ u8 reduceLeevers;
+    /* 0x0168 */ f32 spawnRange;
+    /* 0x016C */ EnReeba* bigLeever;
 } EnEncount1; // size = 0x0170
+
+typedef enum {
+    /* 0 */ SPAWNER_LEEVER,
+    /* 1 */ SPAWNER_TEKTITE,
+    /* 2 */ SPAWNER_STALCHILDREN,
+    /* 3 */ SPAWNER_WOLFOS
+} EnEncount1type;
 
 extern const ActorInit En_Encount1_InitVars;
 
