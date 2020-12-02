@@ -24,10 +24,6 @@ void func_8086EDFC(BgBombwall* this, GlobalContext* globalCtx);
 void func_8086EE40(BgBombwall* this, GlobalContext* globalCtx);
 void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_05003FC0;
-extern UNK_TYPE D_05004088;
-extern UNK_TYPE D_050041B0;
-
 /*
 const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,

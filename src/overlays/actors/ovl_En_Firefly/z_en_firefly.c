@@ -9,10 +9,6 @@ void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0600017C;
-extern UNK_TYPE D_06001678;
-extern UNK_TYPE D_060018B8;
-
 /*
 const ActorInit En_Firefly_InitVars = {
     ACTOR_EN_FIREFLY,

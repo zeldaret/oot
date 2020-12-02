@@ -725,7 +725,10 @@ typedef struct {
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ char     unk_BC[0x03];
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x16];
+    /* 0xC0 */ char     unk_C0[0x0F];
+    /* 0xCF */ u8       unk_CF[3];
+    /* 0xD2 */ s16      unk_D2;
+    /* 0xD4 */ char     unk_D4[0x02];
     /* 0xD6 */ s16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
