@@ -71,7 +71,7 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
         __assert("0", "../z_en_gm.c", 145);
     }
 
-    this->actionFunc = func_80A3D838;
+    this->updateFunc = func_80A3D838;
 }
 
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -106,11 +106,11 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
         this->actor.colChkInfo.mass = 0xFF;
-        this->eyeIndex = 0;
-        this->eyeTimer = 20;
+        this->eyeTexIndex = 0;
+        this->blinkTimer = 20;
         this->actor.textId = 0x3049;
-        this->actionFunc = func_80A3DFBC;
-        this->subActionFunc = func_80A3DB04;
+        this->updateFunc = func_80A3DFBC;
+        this->actionFunc = func_80A3DB04;
         this->actor.speedXZ = 0.0f;
         this->actor.gravity = -1.0f;
         this->actor.velocity.y = 0.0f;
@@ -118,11 +118,15 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void EnGm_UpdateEye(EnGm* this) {
-    if (this->eyeTimer != 0) {
-        this->eyeTimer--;
-    } else if ((u8)(++this->eyeIndex) >= 3) {
-        this->eyeIndex = 0;
-        this->eyeTimer = Math_Rand_ZeroFloat(60.0f) + 20.0f;
+    if (this->blinkTimer != 0) {
+        this->blinkTimer--;
+    } else {
+        this->eyeTexIndex++;
+
+        if (this->eyeTexIndex >= 3) {
+            this->eyeTexIndex = 0;
+            this->blinkTimer = Math_Rand_ZeroFloat(60.0f) + 20.0f;
+        }
     }
 }
 
@@ -161,9 +165,9 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
 
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         EnGm_SetTextID(this);
-        this->subActionFunc = func_80A3DC44;
+        this->actionFunc = func_80A3DC44;
     } else if (func_8002F194(&this->actor, globalCtx)) {
-        this->subActionFunc = func_80A3DBF4;
+        this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.maskA & 2) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~2;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
@@ -172,7 +176,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
 
 void func_80A3DBF4(EnGm* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
-        this->subActionFunc = func_80A3DB04;
+        this->actionFunc = func_80A3DB04;
     }
 }
 
@@ -192,30 +196,30 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
             case 0:
                 gSaveContext.infTable[11] |= 1;
             case 3:
-                this->subActionFunc = func_80A3DD7C;
+                this->actionFunc = func_80A3DD7C;
                 return;
             case 1:
                 gSaveContext.infTable[11] |= 2;
             case 2:
-                this->subActionFunc = EnGm_ProcessChoiceIndex;
+                this->actionFunc = EnGm_ProcessChoiceIndex;
             default:
                 return;
         }
 
-        this->subActionFunc = EnGm_ProcessChoiceIndex;
+        this->actionFunc = EnGm_ProcessChoiceIndex;
     }
-    if ((this->collider.base.maskA & 2) || (SQ(dx) + SQ(dz)) < 10000.0f) {
+    if ((this->collider.base.maskA & 2) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~2;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
 }
 
 void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx) {
-    u8 flag = func_8010BDBC(&globalCtx->msgCtx);
+    u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
-    if ((flag == 6 || flag == 5) && func_80106BC8(globalCtx)) {
-        this->subActionFunc = func_80A3DC44;
-        if (flag == 5) {
+    if ((dialogState == 6 || dialogState == 5) && func_80106BC8(globalCtx)) {
+        this->actionFunc = func_80A3DC44;
+        if (dialogState == 5) {
             globalCtx->msgCtx.msgMode = 0x36;
             globalCtx->msgCtx.unk_E3E7 = 4;
         }
@@ -228,15 +232,15 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
                     func_8010B720(globalCtx, 0xC8);
-                    this->subActionFunc = func_80A3DD7C;
+                    this->actionFunc = func_80A3DD7C;
                 } else {
                     func_8002F434(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
-                    this->subActionFunc = func_80A3DF00;
+                    this->actionFunc = func_80A3DF00;
                 }
                 break;
             case 1: // no
                 func_8010B720(globalCtx, 0x3050);
-                this->subActionFunc = func_80A3DD7C;
+                this->actionFunc = func_80A3DD7C;
                 break;
         }
     }
@@ -245,7 +249,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
 void func_80A3DF00(EnGm* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-        this->subActionFunc = func_80A3DF60;
+        this->actionFunc = func_80A3DF60;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
     }
@@ -254,14 +258,14 @@ void func_80A3DF00(EnGm* this, GlobalContext* globalCtx) {
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         Rupees_ChangeBy(-200);
-        this->subActionFunc = func_80A3DC44;
+        this->actionFunc = func_80A3DC44;
     }
 }
 
 void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
     this->timer++;
-    this->subActionFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx);
     this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
     this->actor.posRot2.rot.y = this->actor.posRot.rot.y;
     this->actor.posRot2.rot.z = this->actor.posRot.rot.z;
@@ -273,7 +277,7 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGm* this = THIS;
 
-    this->actionFunc(this, globalCtx);
+    this->updateFunc(this, globalCtx);
 }
 
 void func_80A3E090(EnGm* this) {
@@ -310,7 +314,7 @@ void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gm.c", 613);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                           NULL, NULL, &this->actor);
