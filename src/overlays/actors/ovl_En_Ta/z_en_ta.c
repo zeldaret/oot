@@ -15,6 +15,17 @@ void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060017E8;
+extern UNK_TYPE D_06001C94;
+extern UNK_TYPE D_06006DC0;
+extern UNK_TYPE D_0600B7B8;
+extern UNK_TYPE D_0600BF38;
+extern UNK_TYPE D_0600C48C;
+extern UNK_TYPE D_0600C858;
+extern UNK_TYPE D_0600CD50;
+extern UNK_TYPE D_0600CF28;
+extern UNK_TYPE D_0600E3D8;
+
 /*
 const ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,

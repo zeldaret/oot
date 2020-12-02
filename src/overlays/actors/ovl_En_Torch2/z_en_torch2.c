@@ -53,7 +53,7 @@ void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_06004764;
+extern FlexSkeletonHeader D_06004764;
 
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
@@ -739,12 +739,16 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 #endif
 
 s32 EnTorch2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              Actor* thisx, Gfx** gfx) {
-    return func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx);
+                              void* thisx, Gfx** gfx) {
+    Player* this = THIS;
+
+    return func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, &this->actor);
 }
 
-void EnTorch2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
-    func_80090D20(globalCtx, limbIndex, dList, rot, thisx);
+void EnTorch2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+    Player* this = THIS;
+
+    func_80090D20(globalCtx, limbIndex, dList, rot, &this->actor);
 }
 
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
@@ -760,17 +764,17 @@ void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, &EnTorch2_OverrideLimbDraw,
-                                               &EnTorch2_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                               this->skelAnime.dListCount, EnTorch2_OverrideLimbDraw,
+                                               EnTorch2_PostLimbDraw, this, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, sAlpha);
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, &EnTorch2_OverrideLimbDraw,
-                                               &EnTorch2_PostLimbDraw, &this->actor, POLY_XLU_DISP);
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                               this->skelAnime.dListCount, EnTorch2_OverrideLimbDraw,
+                                               EnTorch2_PostLimbDraw, this, POLY_XLU_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_torch2.c", 1114);
 }

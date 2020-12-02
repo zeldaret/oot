@@ -26,7 +26,7 @@ glabel EnShopnuts_Init
 /* 00058 80AFA778 24E74574 */  addiu   $a3, $a3, 0x4574           ## $a3 = 06004574
 /* 0005C 80AFA77C 24C641A8 */  addiu   $a2, $a2, 0x41A8           ## $a2 = 060041A8
 /* 00060 80AFA780 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 00064 80AFA784 0C0291BE */  jal     SkelAnime_InitSV
+/* 00064 80AFA784 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00068 80AFA788 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 80AFA78C 26050270 */  addiu   $a1, $s0, 0x0270           ## $a1 = 00000270
 /* 00070 80AFA790 AFA50030 */  sw      $a1, 0x0030($sp)

@@ -21,7 +21,7 @@ glabel EnDekunuts_Draw
 /* 015A8 809EAB08 3C07809F */  lui     $a3, %hi(func_809EA98C)    ## $a3 = 809F0000
 /* 015AC 809EAB0C 24E7A98C */  addiu   $a3, $a3, %lo(func_809EA98C) ## $a3 = 809EA98C
 /* 015B0 809EAB10 AFB80014 */  sw      $t8, 0x0014($sp)           
-/* 015B4 809EAB14 0C028572 */  jal     SkelAnime_Draw
+/* 015B4 809EAB14 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 015B8 809EAB18 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 015BC 809EAB1C 8FBF001C */  lw      $ra, 0x001C($sp)           

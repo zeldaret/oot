@@ -26,7 +26,7 @@ glabel EnBrob_Init
 /* 0003C 809CAB4C 24C615D8 */  addiu   $a2, $a2, 0x15D8           ## $a2 = 060015D8
 /* 00040 809CAB50 26050164 */  addiu   $a1, $s0, 0x0164           ## $a1 = 00000164
 /* 00044 809CAB54 AFAF0014 */  sw      $t7, 0x0014($sp)
-/* 00048 809CAB58 0C0291BE */  jal     SkelAnime_InitSV
+/* 00048 809CAB58 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0004C 809CAB5C AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00050 809CAB60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00054 809CAB64 0C010D20 */  jal     DynaPolyInfo_SetActorMove

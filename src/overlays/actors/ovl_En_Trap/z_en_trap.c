@@ -15,6 +15,8 @@ void EnTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06001400;
+
 /*
 const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
