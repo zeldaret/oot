@@ -79,7 +79,7 @@ glabel BossGanon_Draw
 /* 0A56C 808E0DDC AFA80014 */  sw      $t0, 0x0014($sp)
 /* 0A570 808E0DE0 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 0A574 808E0DE4 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0A578 808E0DE8 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0A578 808E0DE8 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0A57C 808E0DEC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0A580 808E0DF0 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 0A584 808E0DF4 44814000 */  mtc1    $at, $f8                   ## $f8 = 30.00

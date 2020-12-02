@@ -123,7 +123,7 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060001E4.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060001E4);
     Player* player = PLAYER;
     s16 playerSpeed;
 
@@ -620,7 +620,7 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 255, 255, 255, 255);
     }
 
-    SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, NULL, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_reeba.c", 1088);
 

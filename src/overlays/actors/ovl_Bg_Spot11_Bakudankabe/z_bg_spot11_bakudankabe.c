@@ -34,8 +34,8 @@ static ColliderCylinderInit sCylinderInit = {
     { 40, 80, 0, { 2259, 108, -1580 } },
 };
 
-Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
-Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
+static Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
+static Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
 
 extern UNK_TYPE D_06001A58;
 extern Gfx D_06001980[];

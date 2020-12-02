@@ -109,7 +109,7 @@ glabel EnKarebaba_Draw
 /* 01334 80A96684 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 01338 80A96688 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0133C 80A9668C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 01340 80A96690 0C028572 */  jal     SkelAnime_Draw
+/* 01340 80A96690 0C028572 */  jal     SkelAnime_DrawOpa
 
 /* 01344 80A96694 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01348 80A96698 C66C0024 */  lwc1    $f12, 0x0024($s3)          ## 00000024

@@ -33,7 +33,7 @@ const ActorInit En_Wonder_Talk2_InitVars = {
     NULL,
 };
 
-s16 D_80B3A8E0[] = { 6, 0, 1, 2, 3, 4, 5 };
+static s16 D_80B3A8E0[] = { 6, 0, 1, 2, 3, 4, 5 };
 
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }

@@ -9,6 +9,19 @@ void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000800;
+extern UNK_TYPE D_06000D00;
+extern UNK_TYPE D_06001D70;
+extern UNK_TYPE D_06002374;
+extern UNK_TYPE D_0600288C;
+extern UNK_TYPE D_06005458;
+extern UNK_TYPE D_06006104;
+extern UNK_TYPE D_060067CC;
+extern UNK_TYPE D_06006EB0;
+extern UNK_TYPE D_06007FC0;
+extern UNK_TYPE D_06011CA8;
+extern UNK_TYPE D_06012014;
+
 /*
 const ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,

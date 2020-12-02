@@ -72,7 +72,7 @@ glabel BossSst_Init
 /* 000E4 8092C6B4 24E7E7B8 */  addiu   $a3, $a3, 0xE7B8           ## $a3 = 0600E7B8
 /* 000E8 8092C6B8 24C67C40 */  addiu   $a2, $a2, 0x7C40           ## $a2 = 06017C40
 /* 000EC 8092C6BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000F0 8092C6C0 0C0291BE */  jal     SkelAnime_InitSV
+/* 000F0 8092C6C0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000F4 8092C6C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000F8 8092C6C8 3C054788 */  lui     $a1, 0x4788                ## $a1 = 47880000
 /* 000FC 8092C6CC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
@@ -268,7 +268,7 @@ glabel BossSst_Init
 /* 003C4 8092C994 24E702E8 */  addiu   $a3, $a3, 0x02E8           ## $a3 = 060002E8
 /* 003C8 8092C998 24C64DE0 */  addiu   $a2, $a2, 0x4DE0           ## $a2 = 06004DE0
 /* 003CC 8092C99C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 003D0 8092C9A0 0C0291BE */  jal     SkelAnime_InitSV
+/* 003D0 8092C9A0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 003D4 8092C9A4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 003D8 8092C9A8 8E0303F0 */  lw      $v1, 0x03F0($s0)           ## 000003F0
 /* 003DC 8092C9AC 2404FFFF */  addiu   $a0, $zero, 0xFFFF         ## $a0 = FFFFFFFF
@@ -288,7 +288,7 @@ glabel BossSst_Init
 /* 00410 8092C9E0 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 00414 8092C9E4 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 00418 8092C9E8 24E75860 */  addiu   $a3, $a3, 0x5860           ## $a3 = 06005860
-/* 0041C 8092C9EC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0041C 8092C9EC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00420 8092C9F0 24C6A350 */  addiu   $a2, $a2, 0xA350           ## $a2 = FFFFA350
 /* 00424 8092C9F4 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
 /* 00428 8092C9F8 A20D0194 */  sb      $t5, 0x0194($s0)           ## 00000194

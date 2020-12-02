@@ -14,7 +14,7 @@ glabel EnAnubice_Draw
 /* 01164 809B2284 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 01168 809B2288 24E72104 */  addiu   $a3, $a3, %lo(func_809B2104) ## $a3 = 809B2104
 /* 0116C 809B228C 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01170 809B2290 0C028572 */  jal     SkelAnime_Draw
+/* 01170 809B2290 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 01174 809B2294 AFA20014 */  sw      $v0, 0x0014($sp)           
 /* 01178 809B2298 8FBF001C */  lw      $ra, 0x001C($sp)           
