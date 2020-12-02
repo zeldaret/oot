@@ -3367,8 +3367,7 @@ endseg
 beginseg
     name "ovl_Magic_Dark"
     include "build/src/overlays/actors/ovl_Magic_Dark/z_magic_dark.o"
-    include "build/data/overlays/actors/z_magic_dark.data.o"
-    include "build/data/overlays/actors/z_magic_dark.reloc.o"
+    include "build/src/overlays/actors/ovl_Magic_Dark/ovl_Magic_Dark_reloc.o"
 endseg
 
 beginseg
