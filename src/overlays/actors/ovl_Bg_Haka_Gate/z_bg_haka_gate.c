@@ -27,6 +27,13 @@ void func_8087C73C(BgHakaGate* this, GlobalContext* globalCtx);
 void func_8087C794(BgHakaGate* this, GlobalContext* globalCtx);
 void func_8087C85C(BgHakaGate* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0404D4E0;
+extern UNK_TYPE D_0600F1B0;
+extern UNK_TYPE D_06010A10;
+extern UNK_TYPE D_06010C10;
+extern UNK_TYPE D_06010E10;
+extern UNK_TYPE D_060131C4;
+
 /*
 const ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,

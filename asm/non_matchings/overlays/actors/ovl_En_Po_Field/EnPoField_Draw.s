@@ -100,7 +100,7 @@ glabel EnPoField_Draw
 /* 02F30 80AD6A30 3C0780AD */  lui     $a3, %hi(func_80AD65C8)    ## $a3 = 80AD0000
 /* 02F34 80AD6A34 24E765C8 */  addiu   $a3, $a3, %lo(func_80AD65C8) ## $a3 = 80AD65C8
 /* 02F38 80AD6A38 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 02F3C 80AD6A3C 0C0288A2 */  jal     SkelAnime_Draw2
+/* 02F3C 80AD6A3C 0C0288A2 */  jal     SkelAnime_Draw
 /* 02F40 80AD6A40 AFAB0018 */  sw      $t3, 0x0018($sp)
 /* 02F44 80AD6A44 10000027 */  beq     $zero, $zero, .L80AD6AE4
 /* 02F48 80AD6A48 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
@@ -140,7 +140,7 @@ glabel EnPoField_Draw
 /* 02FCC 80AD6ACC 3C0780AD */  lui     $a3, %hi(func_80AD65C8)    ## $a3 = 80AD0000
 /* 02FD0 80AD6AD0 24E765C8 */  addiu   $a3, $a3, %lo(func_80AD65C8) ## $a3 = 80AD65C8
 /* 02FD4 80AD6AD4 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 02FD8 80AD6AD8 0C0288A2 */  jal     SkelAnime_Draw2
+/* 02FD8 80AD6AD8 0C0288A2 */  jal     SkelAnime_Draw
 /* 02FDC 80AD6ADC AFAA0018 */  sw      $t2, 0x0018($sp)
 /* 02FE0 80AD6AE0 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L80AD6AE4:

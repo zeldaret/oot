@@ -15,6 +15,50 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_01000000;
+extern UNK_TYPE D_0404D4E0;
+extern UNK_TYPE D_06000450;
+extern UNK_TYPE D_060005B4;
+extern UNK_TYPE D_060008A0;
+extern UNK_TYPE D_06000BC8;
+extern UNK_TYPE D_06000F54;
+extern UNK_TYPE D_06001410;
+extern UNK_TYPE D_060014F4;
+extern UNK_TYPE D_06001D28;
+extern UNK_TYPE D_06002574;
+extern UNK_TYPE D_06002650;
+extern UNK_TYPE D_06002928;
+extern UNK_TYPE D_060029CC;
+extern UNK_TYPE D_06002EF0;
+extern UNK_TYPE D_06003284;
+extern UNK_TYPE D_060032F0;
+extern UNK_TYPE D_06003428;
+extern UNK_TYPE D_060036F0;
+extern UNK_TYPE D_06003858;
+extern UNK_TYPE D_06003D84;
+extern UNK_TYPE D_06003EF0;
+extern UNK_TYPE D_0600420C;
+extern UNK_TYPE D_060042F0;
+extern UNK_TYPE D_06004534;
+extern UNK_TYPE D_060048B0;
+extern UNK_TYPE D_060048FC;
+extern UNK_TYPE D_06004AA4;
+extern UNK_TYPE D_06004EF0;
+extern UNK_TYPE D_0600504C;
+extern UNK_TYPE D_060050A8;
+extern UNK_TYPE D_060052F0;
+extern UNK_TYPE D_06007210;
+extern UNK_TYPE D_0600A4E0;
+extern UNK_TYPE D_0600BE90;
+extern UNK_TYPE D_0600C410;
+extern UNK_TYPE D_0600D0D8;
+extern UNK_TYPE D_0600DE08;
+extern UNK_TYPE D_0600E1A8;
+extern UNK_TYPE D_0600F178;
+extern UNK_TYPE D_0600F378;
+extern UNK_TYPE D_0600F578;
+extern UNK_TYPE D_0600F778;
+
 /*
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,

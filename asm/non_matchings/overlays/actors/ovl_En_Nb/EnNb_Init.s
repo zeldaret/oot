@@ -35,7 +35,7 @@ glabel EnNb_Init
 /* 03194 80AB3F24 24C681C8 */  addiu   $a2, $a2, 0x81C8           ## $a2 = 060181C8
 /* 03198 80AB3F28 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0319C 80AB3F2C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 031A0 80AB3F30 0C0291BE */  jal     SkelAnime_InitSV
+/* 031A0 80AB3F30 0C0291BE */  jal     SkelAnime_InitFlex
 /* 031A4 80AB3F34 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 031A8 80AB3F38 0C2AC368 */  jal     func_80AB0DA0
 /* 031AC 80AB3F3C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

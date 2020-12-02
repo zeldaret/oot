@@ -25,7 +25,7 @@ glabel EnFw_Draw
 /* 0109C 80A1F63C AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 010A0 80A1F640 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 010A4 80A1F644 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 010A8 80A1F648 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 010A8 80A1F648 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 010AC 80A1F64C 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 010B0 80A1F650 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 010B4 80A1F654 8FB00028 */  lw      $s0, 0x0028($sp)

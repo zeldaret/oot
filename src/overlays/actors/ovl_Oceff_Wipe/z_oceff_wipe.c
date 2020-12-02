@@ -120,8 +120,8 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32,
-                                                          1, 0 - scroll, scroll * (-2), 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32, 1,
+                                                     0 - scroll, scroll * (-2), 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sFrustrumDl);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 398);

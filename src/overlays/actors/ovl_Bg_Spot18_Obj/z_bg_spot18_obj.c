@@ -42,24 +42,24 @@ const ActorInit Bg_Spot18_Obj_InitVars = {
     (ActorFunc)BgSpot18Obj_Draw,
 };
 
-u8 D_808B90F0[2][2] = { { 0x01, 0x01 }, { 0x01, 0x00 } };
+static u8 D_808B90F0[2][2] = { { 0x01, 0x01 }, { 0x01, 0x00 } };
 
-f32 D_808B90F4[] = {
+static f32 D_808B90F4[] = {
     0.1f,
     0.1f,
 };
 
-UNK_TYPE D_808B90FC[] = {
+static UNK_TYPE D_808B90FC[] = {
     0x06002FE4,
     0x0600261C,
 };
 
-u32 D_808B9104[] = {
+static u32 D_808B9104[] = {
     0,
     0,
 };
 
-BgSpot18ObjInitFunc D_808B910C[] = {
+static BgSpot18ObjInitFunc D_808B910C[] = {
     func_808B8A98,
     func_808B8910,
     func_808B8A5C,
@@ -78,7 +78,7 @@ static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
 };
 
-BgSpot18ObjInitFunc D_808B913C[] = {
+static BgSpot18ObjInitFunc D_808B913C[] = {
     func_808B8BB4,
     func_808B8C90,
 };

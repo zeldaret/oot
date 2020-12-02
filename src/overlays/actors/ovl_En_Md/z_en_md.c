@@ -55,7 +55,7 @@ static struct_80034EC0_Entry sAnimations[] = {
 };
 
 extern AnimationHeader D_060002C8;
-extern SkeletonHeader D_06007FB8;
+extern FlexSkeletonHeader D_06007FB8;
 
 void func_80AAA250(EnMd* this) {
     f32 initialFrame;
@@ -307,7 +307,7 @@ void func_80AAAA24(EnMd* this) {
                 }
                 break;
         }
-    } else if (this->skelAnime.animCurrentSeg != &D_060002C8) {
+    } else if (this->skelAnime.animation != &D_060002C8) {
         func_80034EC0(&this->skelAnime, sAnimations, 10);
         func_80AAA92C(this, 0);
     }
@@ -593,8 +593,8 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->limbDrawTable, this->transitionDrawTable,
-                     17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->limbDrawTable, this->transitionDrawTable,
+                       17);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -633,7 +633,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentSeg == &D_060002C8) {
+    if (this->skelAnime.animation == &D_060002C8) {
         func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
@@ -643,7 +643,7 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentSeg == &D_060002C8) {
+    if (this->skelAnime.animation == &D_060002C8) {
         func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
     }
     func_80AAA93C(this);
@@ -695,7 +695,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->skelAnime.animCurrentSeg == &D_060002C8) {
+    if (this->skelAnime.animation == &D_060002C8) {
         func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
     }
 
@@ -772,7 +772,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
     EnMd* this = THIS;
     Vec3s vec;
@@ -798,12 +798,12 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
-    s32 pad;
+void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+    EnMd* this = THIS;
     Vec3f vec = { 400.0f, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&vec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
 }
 

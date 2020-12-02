@@ -46,7 +46,7 @@ glabel EnFr_Update
 /* 00330 80A1ACD0 24E71534 */  addiu   $a3, $a3, 0x1534           ## $a3 = 06001534
 /* 00334 80A1ACD4 24C6B498 */  addiu   $a2, $a2, 0xB498           ## $a2 = 0600B498
 /* 00338 80A1ACD8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0033C 80A1ACDC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0033C 80A1ACDC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00340 80A1ACE0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00344 80A1ACE4 3C060500 */  lui     $a2, 0x0500                ## $a2 = 05000000
 /* 00348 80A1ACE8 3C070500 */  lui     $a3, 0x0500                ## $a3 = 05000000
