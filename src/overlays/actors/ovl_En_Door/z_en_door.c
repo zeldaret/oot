@@ -59,12 +59,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-AnimationHeader* D_809FCECC[] = {
-    0x0400E758,
-    0x0400E5B4,
-    0x04010038,
-    0x0400E6A0,
-};
+AnimationHeader* D_809FCECC[] = { 0x0400E758, 0x0400E5B4, 0x04010038, 0x0400E6A0 };
 
 static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 
@@ -120,16 +115,16 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Double doors
     if (this->actor.params & 0x40) {
-        EnDoor* attached;
+        EnDoor* other;
 
         xOffset = Math_Coss(this->actor.shape.rot.y) * 30.0f;
         zOffset = Math_Sins(this->actor.shape.rot.y) * 30.0f;
-        attached = (EnDoor*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DOOR,
-                                               this->actor.posRot.pos.x + xOffset, this->actor.posRot.pos.y,
-                                               this->actor.posRot.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000,
-                                               0, this->actor.params & ~0x40);
-        if (attached != NULL) {
-            attached->unk_192 = 1;
+        other = (EnDoor*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DOOR,
+                                            this->actor.posRot.pos.x + xOffset, this->actor.posRot.pos.y,
+                                            this->actor.posRot.pos.z - zOffset, 0, this->actor.shape.rot.y + 0x8000, 0,
+                                            this->actor.params & ~0x40);
+        if (other != NULL) {
+            other->unk_192 = 1;
         }
         this->actor.posRot.pos.x -= xOffset;
         this->actor.posRot.pos.z += zOffset;
@@ -218,7 +213,7 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
                 if (this->lockTimer != 0) {
                     numKeys = gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex];
                     if (numKeys <= 0) {
-                        PLAYER->naviMessageId = -0x203;
+                        PLAYER->naviTextId = -0x203;
                         return;
                     } else {
                         player->doorTimer = 10;
@@ -229,7 +224,6 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
                 player->doorActor = &this->actor;
             }
         } else if (doorType == DOOR_AJAR && this->actor.xzDistFromLink > DOOR_AJAR_OPEN_RANGE) {
-            // Once the player moves sufficiently far, have the door open slightly again
             this->actionFunc = EnDoor_AjarOpen;
         }
     }
@@ -239,17 +233,15 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
 #endif
 
 void EnDoor_WaitForCheck(EnDoor* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) { // if actor is checked
+    if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnDoor_Check;
     } else {
-        // allows the player to "check" the door if within 40 units
         func_8002F2CC(&this->actor, globalCtx, DOOR_CHECK_RANGE);
     }
 }
 
 void EnDoor_Check(EnDoor* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
-        // Return to waiting to be checked once text is dismissed
         this->actionFunc = EnDoor_WaitForCheck;
     }
 }
@@ -278,13 +270,11 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
     s32 i;
     s32 numEffects;
 
-    if (DECR(this->lockTimer) == 0) { // Wait for the lock to finish if applicable
+    if (DECR(this->lockTimer) == 0) {
         if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-            // If done, return to the idle action and free the player
             this->actionFunc = EnDoor_Idle;
             this->unk_191 = 0;
         } else if (func_800A56C8(&this->skelAnime, sDoorAnimOpenFrames[this->unk_190])) {
-            // Play the appropriate sound on open
             Audio_PlayActorSound2(&this->actor,
                                   (globalCtx->sceneNum == SCENE_HAKADAN || globalCtx->sceneNum == SCENE_HAKADANCH ||
                                    globalCtx->sceneNum == SCENE_HIDAN)
@@ -297,7 +287,6 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
                 }
             }
         } else if (func_800A56C8(&this->skelAnime, sDoorAnimCloseFrames[this->unk_190])) {
-            // Play the appropriate sound on close
             Audio_PlayActorSound2(&this->actor,
                                   (globalCtx->sceneNum == SCENE_HAKADAN || globalCtx->sceneNum == SCENE_HAKADANCH ||
                                    globalCtx->sceneNum == SCENE_HIDAN)
@@ -312,8 +301,7 @@ void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            void* thisx) {
+s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
     TransitionActorEntry* transitionEntry;
     Gfx** temp_a2;
@@ -349,8 +337,8 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 910);
 
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDoor_OverrideLimbDraw, NULL,
-                       &this->actor);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDoor_OverrideLimbDraw,
+                          NULL, &this->actor);
         if (this->actor.posRot.rot.y != 0) {
             if (1) {}
             if (this->actor.posRot.rot.y > 0) {
@@ -359,7 +347,6 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 gSPDisplayList(POLY_OPA_DISP++, D_0400ECB8);
             }
         }
-        // Draws the lock and chains if applicable
         if (this->lockTimer != 0) {
             Actor_DrawDoorLock(globalCtx, this->lockTimer, 0);
         }
