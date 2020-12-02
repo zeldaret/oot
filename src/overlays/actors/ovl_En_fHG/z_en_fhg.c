@@ -93,8 +93,8 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.posRot2.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_0600B098, &D_0600B4C8);
 
-    if (this->actor.params >= 0xA) {
-        EnfHG_SetupApproach(this, globalCtx, this->actor.params - 0xA);
+    if (this->actor.params >= 10) {
+        EnfHG_SetupApproach(this, globalCtx, this->actor.params - 10);
     } else {
         EnfHG_SetupIntro(this, globalCtx);
     }

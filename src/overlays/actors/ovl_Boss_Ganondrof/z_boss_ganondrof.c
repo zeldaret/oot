@@ -1359,7 +1359,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                   Actor* thisx) {
+                                   void* thisx) {
     BossGanondrof* this = THIS;
 
     switch (limbIndex) {
@@ -1428,7 +1428,7 @@ s32 BossGanondrof_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
     return 0;
 }
 
-void BossGanondrof_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossGanondrof_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Vec3f spearVec = { 0.0f, 0.0f, 6000.0f };
 
@@ -1502,8 +1502,8 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, BossGanondrof_GetNullDList(globalCtx->state.gfxCtx));
     }
 
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossGanondrof_OverrideLimbDraw,
-                   BossGanondrof_PostLimbDraw, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossGanondrof_OverrideLimbDraw,
+                   BossGanondrof_PostLimbDraw, this);
     osSyncPrintf("DRAW 22\n");
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3814);

@@ -24,7 +24,7 @@ glabel EnTest_Draw
 /* 04A4C 8086409C 8E05018C */  lw      $a1, 0x018C($s0)           ## 0000018C
 /* 04A50 808640A0 8E0601A8 */  lw      $a2, 0x01A8($s0)           ## 000001A8
 /* 04A54 808640A4 AFB00014 */  sw      $s0, 0x0014($sp)           
-/* 04A58 808640A8 0C028572 */  jal     SkelAnime_Draw
+/* 04A58 808640A8 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 04A5C 808640AC AFB90010 */  sw      $t9, 0x0010($sp)           
 .L808640B0:

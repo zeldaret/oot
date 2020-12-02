@@ -12,7 +12,7 @@ glabel func_80AC6C54
 /* 03FDC 80AC6C7C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 03FE0 80AC6C80 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 03FE4 80AC6C84 AFA00018 */  sw      $zero, 0x0018($sp)
-/* 03FE8 80AC6C88 0C0291BE */  jal     SkelAnime_InitSV
+/* 03FE8 80AC6C88 0C0291BE */  jal     SkelAnime_InitFlex
 /* 03FEC 80AC6C8C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 03FF0 80AC6C90 8FAF0030 */  lw      $t7, 0x0030($sp)
 /* 03FF4 80AC6C94 8FAE0034 */  lw      $t6, 0x0034($sp)

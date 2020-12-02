@@ -8,6 +8,8 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_Update(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06001BC8;
+
 /*
 const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,

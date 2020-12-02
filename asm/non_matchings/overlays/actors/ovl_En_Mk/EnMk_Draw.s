@@ -16,7 +16,7 @@ glabel EnMk_Draw
 /* 00CD4 80AAD5D4 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 00CD8 80AAD5D8 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 00CDC 80AAD5DC 8FA4002C */  lw      $a0, 0x002C($sp)
-/* 00CE0 80AAD5E0 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00CE0 80AAD5E0 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00CE4 80AAD5E4 AFA20018 */  sw      $v0, 0x0018($sp)
 /* 00CE8 80AAD5E8 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 00CEC 80AAD5EC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

@@ -92,7 +92,7 @@ glabel EnPoDesert_Draw
 /* 00C7C 80AD392C AFB10014 */  sw      $s1, 0x0014($sp)
 /* 00C80 80AD3930 8E0902D0 */  lw      $t1, 0x02D0($s0)           ## 000002D0
 /* 00C84 80AD3934 24E73504 */  addiu   $a3, $a3, %lo(func_80AD3504) ## $a3 = 80AD3504
-/* 00C88 80AD3938 0C0288A2 */  jal     SkelAnime_Draw2
+/* 00C88 80AD3938 0C0288A2 */  jal     SkelAnime_Draw
 /* 00C8C 80AD393C AFA90018 */  sw      $t1, 0x0018($sp)
 /* 00C90 80AD3940 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00C94 80AD3944 3C0680AD */  lui     $a2, %hi(D_80AD3A18)       ## $a2 = 80AD0000

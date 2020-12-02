@@ -22,7 +22,7 @@ glabel func_8096D728
 /* 002C8 8096D778 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 002CC 8096D77C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 002D0 8096D780 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 002D4 8096D784 0C0291BE */  jal     SkelAnime_InitSV
+/* 002D4 8096D784 0C0291BE */  jal     SkelAnime_InitFlex
 /* 002D8 8096D788 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 002DC 8096D78C 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 002E0 8096D790 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
