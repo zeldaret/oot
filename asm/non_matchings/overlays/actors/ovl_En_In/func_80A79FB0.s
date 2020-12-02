@@ -54,7 +54,7 @@ glabel func_80A79FB0
 /* 01070 80A7A020 24C63B88 */  addiu   $a2, $a2, 0x3B88           ## $a2 = 06013B88
 /* 01074 80A7A024 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 01078 80A7A028 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 0107C 80A7A02C 0C0291BE */  jal     SkelAnime_InitSV
+/* 0107C 80A7A02C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 01080 80A7A030 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01084 80A7A034 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 01088 80A7A038 AFA50034 */  sw      $a1, 0x0034($sp)

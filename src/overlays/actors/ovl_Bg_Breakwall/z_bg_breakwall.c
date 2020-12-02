@@ -19,6 +19,8 @@ void func_80870394(BgBreakwall* this, GlobalContext* globalCtx);
 void func_80870564(BgBreakwall* this, GlobalContext* globalCtx);
 void func_808705D8(BgBreakwall* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_02014F80;
+
 /*
 const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,

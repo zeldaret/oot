@@ -8,6 +8,13 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFr_Update(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_05002470;
+extern UNK_TYPE D_050036F0;
+extern UNK_TYPE D_060007BC;
+extern UNK_TYPE D_060011C0;
+extern UNK_TYPE D_06001534;
+extern UNK_TYPE D_0600B498;
+
 /*
 const ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,

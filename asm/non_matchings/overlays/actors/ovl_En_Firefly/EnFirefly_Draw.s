@@ -54,7 +54,7 @@ glabel EnFirefly_Draw
 /* 01D70 80A14DE0 AFAD0010 */  sw      $t5, 0x0010($sp)
 /* 01D74 80A14DE4 8E0E02C0 */  lw      $t6, 0x02C0($s0)           ## 000002C0
 /* 01D78 80A14DE8 8FA4005C */  lw      $a0, 0x005C($sp)
-/* 01D7C 80A14DEC 0C0288A2 */  jal     SkelAnime_Draw2
+/* 01D7C 80A14DEC 0C0288A2 */  jal     SkelAnime_Draw
 /* 01D80 80A14DF0 AFAE0018 */  sw      $t6, 0x0018($sp)
 /* 01D84 80A14DF4 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
 /* 01D88 80A14DF8 8FAF005C */  lw      $t7, 0x005C($sp)
