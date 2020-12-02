@@ -73,7 +73,7 @@ static Vec3f D_80AE4940 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE4958 = { 0.25f, 0.25f, 0.25f };
 
-extern SkeletonHeader D_06003DD8;
+extern FlexSkeletonHeader D_06003DD8;
 extern AnimationHeader D_06004268;
 extern AnimationHeader D_060046F8;
 extern AnimationHeader D_06004ADC;
@@ -84,7 +84,7 @@ extern AnimationHeader D_06006E88;
 extern AnimationHeader D_060074F0;
 extern AnimationHeader D_06008040;
 extern AnimationHeader D_060087D0;
-extern SkeletonHeader D_0600E778;
+extern FlexSkeletonHeader D_0600E778;
 extern AnimationHeader D_0600EFDC;
 
 void EnRd_SetupAction(EnRd* this, EnRdActionFunc actionFunc) {
@@ -113,12 +113,12 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params >= -1) {
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->limbDrawTable,
-                         this->transitionDrawTable, 26);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->limbDrawTable,
+                           this->transitionDrawTable, 26);
         thisx->naviEnemyId = 42;
     } else {
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->limbDrawTable,
-                         this->transitionDrawTable, 26);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->limbDrawTable,
+                           this->transitionDrawTable, 26);
         thisx->naviEnemyId = 45;
     }
 
@@ -231,8 +231,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2970(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060087D0, 0, 0, SkelAnime_GetFrameCount(&D_060087D0.genericHeader), 0,
-                         -6.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060087D0, 0, 0, SkelAnime_GetFrameCount(&D_060087D0), 0, -6.0f);
     this->unk_31B = 0xB;
     this->unk_30C = 6;
     this->actor.shape.rot.x = -0x4000;
@@ -268,8 +267,7 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2B90(EnRd* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader),
-                         1, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, SkelAnime_GetFrameCount(&D_0600EFDC), 1, -4.0f);
     this->actor.speedXZ = 0.4f;
     this->unk_31B = 4;
     EnRd_SetupAction(this, func_80AE2C1C);
@@ -336,8 +334,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2F50(EnRd* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader), 1,
-                         -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC), 1, -4.0f);
     this->unk_31B = 2;
     EnRd_SetupAction(this, func_80AE2FD0);
 }
@@ -385,8 +382,7 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE31DC(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC.genericHeader), 1,
-                         -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600EFDC, 0.5f, 0, SkelAnime_GetFrameCount(&D_0600EFDC), 1, -4.0f);
     this->unk_31B = 3;
     this->unk_305 = 1;
     EnRd_SetupAction(this, func_80AE3260);
@@ -459,8 +455,8 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxMinS(&this->unk_310, 0, 1, 0x5DC, 0);
         case 2:
             if (!(player->stateFlags2 & 0x80)) {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_060046F8, 0.5f, 0.0f,
-                                     SkelAnime_GetFrameCount(&D_060046F8.genericHeader), 3, 0.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_060046F8), 3,
+                                     0.0f);
                 this->unk_304++;
                 this->unk_31B = 4;
                 return;
@@ -510,8 +506,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE37BC(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004F94.genericHeader),
-                         2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004F94), 2, 0.0f);
     this->unk_31B = 7;
     EnRd_SetupAction(this, func_80AE3834);
 }
@@ -551,8 +546,7 @@ void func_80AE3978(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE39D4(EnRd* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06008040, -1.0f, SkelAnime_GetFrameCount(&D_06008040.genericHeader), 0.0f,
-                         2, -4.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06008040, -1.0f, SkelAnime_GetFrameCount(&D_06008040), 0.0f, 2, -4.0f);
     this->unk_31B = 6;
     EnRd_SetupAction(this, func_80AE3A54);
 }
@@ -682,42 +676,28 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
     }
 }
 
-// Regalloc..I can get the score lower by using permuter suggestions, but they all seem silly
-#ifdef NON_MATCHING
 void func_80AE3F9C(EnRd* this, GlobalContext* globalCtx) {
-    s16 unk_310;
-    s16 shapeRotY;
-    s16 yawTowardsLink;
-    s16 new_var;
-    s16 temp_v0;
-    s16 phi_a3;
-    s16 phi_v0;
+    s16 temp1;
+    s16 temp2;
+    s16 temp3;
 
-    unk_310 = this->unk_310;
-    shapeRotY = this->actor.shape.rot.y;
-    yawTowardsLink = this->actor.yawTowardsLink;
-    new_var = unk_310 + shapeRotY;
+    temp1 = this->actor.yawTowardsLink - (s16)(this->actor.shape.rot.y + this->unk_310);
+    temp2 = CLAMP(temp1, -500, 500);
 
-    temp_v0 = yawTowardsLink - new_var;
-    phi_a3 = CLAMP(temp_v0, -500, 500);
+    temp1 -= this->unk_30E;
+    temp3 = CLAMP(temp1, -500, 500);
 
-    temp_v0 -= this->unk_30E;
-    phi_v0 = CLAMP(temp_v0, -500, 500);
-
-    if ((s16)(yawTowardsLink - shapeRotY) >= 0) {
-        this->unk_310 += ABS(phi_a3);
-        this->unk_30E += ABS(phi_v0);
+    if ((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y) >= 0) {
+        this->unk_310 += ABS(temp2);
+        this->unk_30E += ABS(temp3);
     } else {
-        this->unk_310 -= ABS(phi_a3);
-        this->unk_30E -= ABS(phi_v0);
+        this->unk_310 -= ABS(temp2);
+        this->unk_30E -= ABS(temp3);
     }
 
     this->unk_310 = CLAMP(this->unk_310, -18783, 18783);
     this->unk_30E = CLAMP(this->unk_30E, -9583, 9583);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Rd/func_80AE3F9C.s")
-#endif
 
 void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -812,7 +792,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
     EnRd* this = THIS;
 
@@ -824,7 +804,7 @@ s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f sp2C = D_80AE4940;
     EnRd* this = THIS;
     s32 idx = -1;
@@ -882,11 +862,11 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_314 == 0xFF) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, this->unk_314);
-        gSPSegment(oGfxCtx->polyOpa.p++, 8, &D_80116280[2]);
-        oGfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw,
-                                               &this->actor, oGfxCtx->polyOpa.p);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_314);
+        gSPSegment(POLY_OPA_DISP++, 8, &D_80116280[2]);
+        POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                           this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw, this,
+                                           POLY_OPA_DISP);
         func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
         if (this->unk_31A != 0) {
             this->actor.dmgEffectTimer++;
@@ -898,11 +878,11 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, this->unk_314);
-        gSPSegment(oGfxCtx->polyXlu.p++, 8, &D_80116280[0]);
-        oGfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, &this->actor,
-                                               oGfxCtx->polyXlu.p);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_314);
+        gSPSegment(POLY_XLU_DISP++, 8, &D_80116280[0]);
+        POLY_XLU_DISP =
+            SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                               this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
         func_80033C30(&thisPos, &D_80AE4958, this->unk_314, globalCtx);
     }

@@ -5,6 +5,7 @@
  */
 
 #include "z_shot_sun.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "vt.h"
 
 #define FLAGS 0x00000009
@@ -72,7 +73,7 @@ void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
     s32 params = this->actor.params & 0xFF;
-    s32 fairyParams;
+    s32 fairyType;
 
     if (this->timer > 0) {
         this->timer--;
@@ -81,16 +82,16 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
 
     switch (params) {
         case 0x40:
-            fairyParams = 7;
+            fairyType = FAIRY_HEAL_BIG;
             break;
         case 0x41:
-            fairyParams = 7;
+            fairyType = FAIRY_HEAL_BIG;
             break;
     }
 
-    // UB: fairyParams may be uninitialized
+    //! @bug fairyType may be uninitialized
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.initPosRot.pos.x,
-                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyParams);
+                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyType);
 
     Actor_Kill(&this->actor);
 }

@@ -38,6 +38,27 @@ void func_80874BE0(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_80874EAC(BgDyYoseizo* this, GlobalContext* globalCtx);
 void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_02000130;
+extern UNK_TYPE D_02000160;
+extern UNK_TYPE D_02001020;
+extern UNK_TYPE D_020013E0;
+extern UNK_TYPE D_02001F40;
+extern UNK_TYPE D_020025D0;
+extern UNK_TYPE D_0600092C;
+extern UNK_TYPE D_06001DF0;
+extern UNK_TYPE D_060031C0;
+extern UNK_TYPE D_06004344;
+extern UNK_TYPE D_06005810;
+extern UNK_TYPE D_06005860;
+extern UNK_TYPE D_06005868;
+extern UNK_TYPE D_060058D8;
+extern UNK_TYPE D_06005E60;
+extern UNK_TYPE D_060069E8;
+extern UNK_TYPE D_06007CA8;
+extern UNK_TYPE D_06008698;
+extern UNK_TYPE D_0601C450;
+extern UNK_TYPE D_0601D514;
+
 /*
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,

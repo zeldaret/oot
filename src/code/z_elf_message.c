@@ -32,7 +32,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                 case 0x10:
                     return ((msg->byte0 & 1) == 1) ==
                            (((gBitFlags[msg->byte3 - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) &
-                             gSaveContext.equipment) != 0);
+                             gSaveContext.inventory.equipment) != 0);
                 case 0x20:
                     return ((msg->byte0 & 1) == 1) ==
                            ((CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET)) != 0);
