@@ -10,7 +10,7 @@ struct EnNwcChick;
 typedef void (*EnNwcUpdateFunc)(struct EnNwc*, GlobalContext*);
 typedef void (*EnNwcChickFunc)(struct EnNwcChick*, struct EnNwc*, GlobalContext*);
 
-typedef struct EnNwcChick{
+typedef struct EnNwcChick {
     /* 0x00 */ s8 type;
     /* 0x01 */ u8 bgFlags;
     /* 0x04 */ f32 floorY;
