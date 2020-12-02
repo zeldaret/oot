@@ -104,7 +104,7 @@ glabel func_80874BE0
 /* 02520 80874D50 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 02524 80874D54 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 02528 80874D58 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0252C 80874D5C 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0252C 80874D5C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 02530 80874D60 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80874D64:
 /* 02534 80874D64 3C068087 */  lui     $a2, %hi(D_80875620)       ## $a2 = 80870000

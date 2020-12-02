@@ -40,7 +40,7 @@ glabel EnSyatekiMan_Init
 /* 00064 80B108D4 24E70338 */  addiu   $a3, $a3, 0x0338           ## $a3 = 06000338
 /* 00068 80B108D8 24C69B38 */  addiu   $a2, $a2, 0x9B38           ## $a2 = 06009B38
 /* 0006C 80B108DC 8FA40034 */  lw      $a0, 0x0034($sp)
-/* 00070 80B108E0 0C0291BE */  jal     SkelAnime_InitSV
+/* 00070 80B108E0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00074 80B108E4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00078 80B108E8 3C088016 */  lui     $t0, %hi(gSaveContext+4)
 /* 0007C 80B108EC 8D08E664 */  lw      $t0, %lo(gSaveContext+4)($t0)

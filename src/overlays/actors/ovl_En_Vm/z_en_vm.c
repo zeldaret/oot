@@ -408,7 +408,7 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += (6500.0f + this->actor.shape.unk_08) * this->actor.scale.y;
 }
 
-s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnVm* this = THIS;
 
     if (limbIndex == 2) {
@@ -423,7 +423,7 @@ s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnVm* this = THIS;
     Vec3f sp80 = D_80B2EAF8;
     Vec3f sp74 = D_80B2EB04;
@@ -481,8 +481,8 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnVm_OverrideLimbDraw,
-                   EnVm_PostLimbDraw, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnVm_OverrideLimbDraw,
+                      EnVm_PostLimbDraw, this);
     actorPos = this->actor.posRot.pos;
     func_80033C30(&actorPos, &D_80B2EB7C, 255, globalCtx);
 

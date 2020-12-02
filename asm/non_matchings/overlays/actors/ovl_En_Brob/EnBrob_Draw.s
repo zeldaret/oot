@@ -21,7 +21,7 @@ glabel EnBrob_Draw
 /* 00F1C 809CBA2C AFB80014 */  sw      $t8, 0x0014($sp)
 /* 00F20 809CBA30 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 00F24 809CBA34 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00F28 809CBA38 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00F28 809CBA38 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00F2C 809CBA3C 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00F30 809CBA40 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 00F34 809CBA44 8FB00028 */  lw      $s0, 0x0028($sp)

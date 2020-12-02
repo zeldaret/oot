@@ -28,7 +28,7 @@ glabel EnFish_Init
 /* 00230 80A154B0 24E7909C */  addiu   $a3, $a3, 0x909C           ## $a3 = 0401909C
 /* 00234 80A154B4 24C68FE0 */  addiu   $a2, $a2, 0x8FE0           ## $a2 = 04018FE0
 /* 00238 80A154B8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0023C 80A154BC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0023C 80A154BC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00240 80A154C0 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
 /* 00244 80A154C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00248 80A154C8 AFA50034 */  sw      $a1, 0x0034($sp)
