@@ -16,7 +16,7 @@ glabel EnToryo_Draw
 /* 00970 80B20AE0 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 00974 80B20AE4 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 00978 80B20AE8 8FA4002C */  lw      $a0, 0x002C($sp)
-/* 0097C 80B20AEC 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0097C 80B20AEC 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00980 80B20AF0 AFA20018 */  sw      $v0, 0x0018($sp)
 /* 00984 80B20AF4 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 00988 80B20AF8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

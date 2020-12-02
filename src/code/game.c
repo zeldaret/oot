@@ -151,8 +151,8 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 746);
 
-    newDList = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
-    gSPDisplayList(oGfxCtx->overlay.p++, newDList);
+    newDList = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, newDList);
 
     if (R_ENABLE_FB_FILTER == 1) {
         GameState_SetFBFilter(&newDList);
@@ -186,7 +186,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     gSPEndDisplayList(newDList++);
     Graph_BranchDlist(polyOpaP, newDList);
-    oGfxCtx->polyOpa.p = newDList;
+    POLY_OPA_DISP = newDList;
 
     if (1) {}
 
@@ -203,15 +203,15 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../game.c", 814);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0, 0);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0xE, gZBuffer);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0, 0);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0xE, gZBuffer);
-    gSPSegment(oGfxCtx->overlay.p++, 0, 0);
-    gSPSegment(oGfxCtx->overlay.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(oGfxCtx->overlay.p++, 0xE, gZBuffer);
+    gSPSegment(POLY_OPA_DISP++, 0, 0);
+    gSPSegment(POLY_OPA_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_OPA_DISP++, 0xE, gZBuffer);
+    gSPSegment(POLY_XLU_DISP++, 0, 0);
+    gSPSegment(POLY_XLU_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_XLU_DISP++, 0xE, gZBuffer);
+    gSPSegment(OVERLAY_DISP++, 0, 0);
+    gSPSegment(OVERLAY_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(OVERLAY_DISP++, 0xE, gZBuffer);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 838);
 }
@@ -222,12 +222,12 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 846);
 
-    newDlist = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
-    gSPDisplayList(oGfxCtx->overlay.p++, newDlist);
+    newDlist = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, newDlist);
 
     gSPEndDisplayList(newDlist++);
     Graph_BranchDlist(polyOpaP, newDlist);
-    oGfxCtx->polyOpa.p = newDlist;
+    POLY_OPA_DISP = newDlist;
 
     if (1) {}
 

@@ -313,7 +313,7 @@ void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            Actor* thisx) {
+                            void* thisx) {
     s32 pad;
     TransitionActorEntry* transitionEntry;
     Gfx** temp_a2;
@@ -349,14 +349,14 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 910);
 
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDoor_OverrideLimbDraw, NULL,
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDoor_OverrideLimbDraw, NULL,
                        &this->actor);
         if (this->actor.posRot.rot.y != 0) {
             if (1) {}
             if (this->actor.posRot.rot.y > 0) {
-                gSPDisplayList(oGfxCtx->polyOpa.p++, D_0400EE00);
+                gSPDisplayList(POLY_OPA_DISP++, D_0400EE00);
             } else {
-                gSPDisplayList(oGfxCtx->polyOpa.p++, D_0400ECB8);
+                gSPDisplayList(POLY_OPA_DISP++, D_0400ECB8);
             }
         }
         // Draws the lock and chains if applicable

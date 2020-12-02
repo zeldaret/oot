@@ -205,14 +205,14 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
     Matrix_RotateY(this->dyna.actor.shape.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_Scale(0.07f, 0.04f, 0.07f, MTXMODE_APPLY);
     if (1) {}
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 0, 170, 255, 255);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08,
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 170, 255, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 255);
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->fireScroll & 127, 0, 32, 64, 1, 0,
                                 (this->fireScroll * -15) & 0xFF, 32, 64));
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_040184B0);
+    gSPDisplayList(POLY_XLU_DISP++, D_040184B0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 501);
 }

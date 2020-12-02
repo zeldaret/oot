@@ -38,7 +38,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // Draw properties
-Gfx D_809ADC38[] = {
+static Gfx D_809ADC38[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
@@ -57,7 +57,7 @@ static Vtx sCuboidVertices[] = {
 };
 
 // Cuboid polygons
-Gfx D_809ADCF8[] = {
+static Gfx D_809ADCF8[] = {
     gsSPVertex(sCuboidVertices, 8, 0),      gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), gsSP2Triangles(0, 1, 4, 0, 1, 4, 5, 0),
     gsSP2Triangles(1, 2, 5, 0, 2, 5, 6, 0), gsSP2Triangles(2, 3, 6, 0, 3, 6, 7, 0),
@@ -187,11 +187,11 @@ void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 362),
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 100, 255, R_NAVI_MSG_REGION_ALPHA);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 362),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_809ADC38);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_809ADCF8);
+    gSPDisplayList(POLY_XLU_DISP++, D_809ADC38);
+    gSPDisplayList(POLY_XLU_DISP++, D_809ADCF8);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_elf_msg2.c", 367);
 }

@@ -39,12 +39,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
-Gfx D_809C2590[] = {
+static Gfx D_809C2590[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
     gsSPEndDisplayList(),
 };
 
-Gfx D_809C25A0[] = {
+static Gfx D_809C25A0[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2),
     gsSPEndDisplayList(),
 };
@@ -144,9 +144,9 @@ void func_809C2324(GlobalContext* globalCtx, Gfx* dList, s32 alpha) {
         segment = D_809C25A0;
     }
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, segment);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 0, 0, 0, alpha);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, dList);
+    gSPSegment(POLY_XLU_DISP++, 0x08, segment);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, alpha);
+    gSPDisplayList(POLY_XLU_DISP++, dList);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 330);
 }
@@ -163,9 +163,9 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gameplayFrames = globalCtx->gameplayFrames % 128;
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0D,
+    gSPSegment(POLY_XLU_DISP++, 0x0D,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, gameplayFrames, 0, 32, 32, 1, gameplayFrames, 0, 32, 32));
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 363),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 363),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->unk_164 != 0) {

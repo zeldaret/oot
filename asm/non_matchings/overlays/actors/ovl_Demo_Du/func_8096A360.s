@@ -11,7 +11,7 @@ glabel func_8096A360
 /* 008B4 8096A384 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 008B8 8096A388 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 008BC 8096A38C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 008C0 8096A390 0C0291BE */  jal     SkelAnime_InitSV
+/* 008C0 8096A390 0C0291BE */  jal     SkelAnime_InitFlex
 /* 008C4 8096A394 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 008C8 8096A398 8FAF0028 */  lw      $t7, 0x0028($sp)
 /* 008CC 8096A39C 240E0007 */  addiu   $t6, $zero, 0x0007         ## $t6 = 00000007

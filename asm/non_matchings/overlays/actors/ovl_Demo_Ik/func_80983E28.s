@@ -46,7 +46,7 @@ glabel func_80983E28
 /* 00BC4 80983EC4 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 00BC8 80983EC8 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00BCC 80983ECC AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00BD0 80983ED0 0C0291BE */  jal     SkelAnime_InitSV
+/* 00BD0 80983ED0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00BD4 80983ED4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00BD8 80983ED8 0C028800 */  jal     SkelAnime_GetFrameCount
 

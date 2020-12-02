@@ -72,7 +72,7 @@ glabel EnTorch2_Draw
 /* 01F68 80B1F8E8 AFB10018 */  sw      $s1, 0x0018($sp)
 /* 01F6C 80B1F8EC 8E0F02C0 */  lw      $t7, 0x02C0($s0)           ## 000002C0
 /* 01F70 80B1F8F0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 01F74 80B1F8F4 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 01F74 80B1F8F4 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 01F78 80B1F8F8 AFAF001C */  sw      $t7, 0x001C($sp)
 /* 01F7C 80B1F8FC 10000028 */  beq     $zero, $zero, .L80B1F9A0
 /* 01F80 80B1F900 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
@@ -113,7 +113,7 @@ glabel EnTorch2_Draw
 /* 02008 80B1F988 AFB10018 */  sw      $s1, 0x0018($sp)
 /* 0200C 80B1F98C 8E1802D0 */  lw      $t8, 0x02D0($s0)           ## 000002D0
 /* 02010 80B1F990 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 02014 80B1F994 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 02014 80B1F994 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 02018 80B1F998 AFB8001C */  sw      $t8, 0x001C($sp)
 /* 0201C 80B1F99C AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L80B1F9A0:

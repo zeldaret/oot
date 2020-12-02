@@ -133,7 +133,7 @@ glabel EnBigokuta_Draw
 /* 025D4 809BF234 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 025D8 809BF238 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 025DC 809BF23C AFA00014 */  sw      $zero, 0x0014($sp)
-/* 025E0 809BF240 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 025E0 809BF240 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 025E4 809BF244 8FA40074 */  lw      $a0, 0x0074($sp)
 /* 025E8 809BF248 10000048 */  beq     $zero, $zero, .L809BF36C
 /* 025EC 809BF24C 8FAB0074 */  lw      $t3, 0x0074($sp)
@@ -207,7 +207,7 @@ glabel EnBigokuta_Draw
 /* 026EC 809BF34C 44D8F800 */  ctc1    $t8, $31
 /* 026F0 809BF350 AFA80068 */  sw      $t0, 0x0068($sp)
 /* 026F4 809BF354 8FA40074 */  lw      $a0, 0x0074($sp)
-/* 026F8 809BF358 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 026F8 809BF358 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 026FC 809BF35C AFAA001C */  sw      $t2, 0x001C($sp)
 /* 02700 809BF360 8FA80068 */  lw      $t0, 0x0068($sp)
 /* 02704 809BF364 AD0202D0 */  sw      $v0, 0x02D0($t0)           ## 000002D0

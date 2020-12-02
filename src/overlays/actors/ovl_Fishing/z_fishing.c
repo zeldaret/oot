@@ -15,6 +15,49 @@ void Fishing_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void Fishing_Update(Actor* thisx, GlobalContext* globalCtx);
 void Fishing_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600007C;
+extern UNK_TYPE D_060029C0;
+extern UNK_TYPE D_06003230;
+extern UNK_TYPE D_06003460;
+extern UNK_TYPE D_060034C0;
+extern UNK_TYPE D_06003610;
+extern UNK_TYPE D_06003680;
+extern UNK_TYPE D_06003710;
+extern UNK_TYPE D_06003760;
+extern UNK_TYPE D_060039A8;
+extern UNK_TYPE D_06003A18;
+extern UNK_TYPE D_0600453C;
+extern UNK_TYPE D_06007350;
+extern UNK_TYPE D_060074C8;
+extern UNK_TYPE D_060085F8;
+extern UNK_TYPE D_06008610;
+extern UNK_TYPE D_06008678;
+extern UNK_TYPE D_060088C0;
+extern UNK_TYPE D_06008970;
+extern UNK_TYPE D_0600B950;
+extern UNK_TYPE D_0600B9C0;
+extern UNK_TYPE D_0600C220;
+extern UNK_TYPE D_0600C298;
+extern UNK_TYPE D_0600CFE0;
+extern UNK_TYPE D_06011058;
+extern UNK_TYPE D_06011170;
+extern UNK_TYPE D_06011270;
+extern UNK_TYPE D_060113D0;
+extern UNK_TYPE D_06011410;
+extern UNK_TYPE D_06012160;
+extern UNK_TYPE D_060121F0;
+extern UNK_TYPE D_060122E0;
+extern UNK_TYPE D_06013330;
+extern UNK_TYPE D_060133B0;
+extern UNK_TYPE D_06013590;
+extern UNK_TYPE D_06013610;
+extern UNK_TYPE D_06013F50;
+extern UNK_TYPE D_06013FD0;
+extern UNK_TYPE D_06014030;
+extern UNK_TYPE D_060140B0;
+extern UNK_TYPE D_060153D0;
+extern UNK_TYPE D_06015470;
+
 /*
 const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
