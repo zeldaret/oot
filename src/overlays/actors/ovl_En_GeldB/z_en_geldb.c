@@ -4,47 +4,65 @@
 
 #define THIS ((EnGeldB*)thisx)
 
+typedef enum {
+    GELDB_WAIT,
+    GELDB_DEFEAT,
+    GELDB_DAMAGED,
+    GELDB_SLASH,
+    GELDB_ROLL_BACK,
+    GELDB_READY,
+    GELDB_BLOCK,
+    GELDB_SLASH,
+    GELDB_ADVANCE,
+    GELDB_PIVOT,
+    GELDB_CIRCLE,
+    GELDB_UNUSED,
+    GELDB_SPIN_ATTACK,
+    GELDB_SIDESTEP,
+    GELDB_ROLL_FORWARD,
+    GELDB_STUNNED,
+    GELDB_SPIN_DODGE
+} EnGeldBActionState;
+
 void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGeldB_Update(Actor* this, GlobalContext* globalCtx);
 void EnGeldB_Draw(Actor* this, GlobalContext* globalCtx);
 
-s32 func_80A39E2C(GlobalContext* globalCtx, EnGeldB* this);
+s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this);
 
-void func_80A35974(EnGeldB* this);
-void func_80A35A08(EnGeldB* this, GlobalContext* globalCtx);
-// void func_80A35B8C(EnGeldB* this);
-void func_80A35C24(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A35D48(EnGeldB* this);
-void func_80A35DD0(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A360B0(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A36130(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A365DC(EnGeldB* this);
-void func_80A36690(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A367E4(EnGeldB* this);
-void func_80A36830(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A36A10(EnGeldB* this);
-void func_80A36AE4(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A370BC(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A37224(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A37670(EnGeldB* this);
-void func_80A376E0(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A3792C(EnGeldB* this);
-void func_80A379C0(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A37D70(EnGeldB* this);
-void func_80A37DEC(EnGeldB* this, GlobalContext* globalCtx);
-// void func_80A37EF0(EnGeldB* this);
-void func_80A37F98(EnGeldB* this, GlobalContext* globalCtx);
-// void func_80A38054(EnGeldB* this);
-void func_80A380EC(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A38290(EnGeldB* this);
-void func_80A38348(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A38430(EnGeldB* this);
-void func_80A384E8(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A387D0(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A38960(EnGeldB* this, GlobalContext* globalCtx);
-void func_80A3907C(EnGeldB* this);
-void func_80A39120(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_SetupWait(EnGeldB* this);
+void EnGeldB_SetupReady(EnGeldB* this);
+void EnGeldB_SetupAdvance(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_SetupPivot(EnGeldB* this);
+void EnGeldB_SetupRollForward(EnGeldB* this);
+void EnGeldB_SetupCircle(EnGeldB* this);
+void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_SetupSlash(EnGeldB* this);
+void EnGeldB_SetupSpinAttack(EnGeldB* this);
+void EnGeldB_SetupRollBack(EnGeldB* this);
+void EnGeldB_SetupJump(EnGeldB* this);
+void EnGeldB_SetupBlock(EnGeldB* this);
+void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_SetupDefeated(EnGeldB* this);
+
+void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_RollBack(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Stunned(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Jump(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx);
+void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_0600A458;
 extern AnimationHeader D_0600ADF8;
@@ -111,13 +129,15 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
 
-void func_80A35310(EnGeldB* this, EnGeldBActionFunc actionFunc) {
+static Vec3f sUnusedOffset = { 1100.0f, -700.0f, 0.0f };
+
+void EnGeldB_SetupAction(EnGeldB* this, EnGeldBActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EffectBlureInit1 sp44;
+    EffectBlureInit1 blureInit;
     EnGeldB* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -140,18 +160,18 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetTris(globalCtx, &this->colliderBlock, thisx, &sBlockTrisInit, this->blockElements);
     Collider_InitQuad(globalCtx, &this->colliderSword);
     Collider_SetQuad(globalCtx, &this->colliderSword, thisx, &sSwordQuadinit);
-    sp44.p1StartColor[0] = sp44.p1StartColor[1] = sp44.p1StartColor[2] = sp44.p1StartColor[3] = sp44.p2StartColor[0] =
-        sp44.p2StartColor[1] = sp44.p2StartColor[2] = sp44.p1EndColor[0] = sp44.p1EndColor[1] = sp44.p1EndColor[2] =
-            sp44.p2EndColor[0] = sp44.p2EndColor[1] = sp44.p2EndColor[2] = 255;
-    sp44.p2StartColor[3] = 64;
-    sp44.p1EndColor[3] = sp44.p2EndColor[3] = 0;
-    sp44.elemDuration = 8;
-    sp44.unkFlag = 0;
-    sp44.calcMode = 2;
+    blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p1StartColor[2] = blureInit.p1StartColor[3] = blureInit.p2StartColor[0] =
+        blureInit.p2StartColor[1] = blureInit.p2StartColor[2] = blureInit.p1EndColor[0] = blureInit.p1EndColor[1] = blureInit.p1EndColor[2] =
+            blureInit.p2EndColor[0] = blureInit.p2EndColor[1] = blureInit.p2EndColor[2] = 255;
+    blureInit.p2StartColor[3] = 64;
+    blureInit.p1EndColor[3] = blureInit.p2EndColor[3] = 0;
+    blureInit.elemDuration = 8;
+    blureInit.unkFlag = 0;
+    blureInit.calcMode = 2;
 
-    Effect_Add(globalCtx, &this->blureIdx, 1, 0, 0, &sp44);
+    Effect_Add(globalCtx, &this->blureIdx, 1, 0, 0, &blureInit);
     Actor_SetScale(thisx, 0.012499999f);
-    func_80A35974(this);
+    EnGeldB_SetupWait(this);
     if ((this->keyFlag != 0) && Flags_GetCollectible(globalCtx, this->keyFlag >> 8)) {
         Actor_Kill(thisx);
     }
@@ -168,7 +188,7 @@ void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->colliderSword);
 }
 
-s32 func_80A3559C(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
+s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
     Player* player = PLAYER;
     Actor* thisx = &this->actor;
     s16 sp36;
@@ -181,26 +201,26 @@ s32 func_80A3559C(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
 
     if (func_800354B4(globalCtx, thisx, 100.0f, 0x2710, 0x3E80, thisx->shape.rot.y)) {
         if (player->swordAnimation == 0x11) {
-            func_80A370BC(this, globalCtx);
+            EnGeldB_SetupSpinDodge(this, globalCtx);
             return true;
         } else if (globalCtx->gameplayFrames & 1) {
-            func_80A38430(this);
+            EnGeldB_SetupBlock(this);
             return true;
         }
     }
     if (func_800354B4(globalCtx, thisx, 100.0f, 0x5DC0, 0x2AA8, thisx->shape.rot.y)) {
         thisx->shape.rot.y = thisx->posRot.rot.y = thisx->yawTowardsLink;
         if ((thisx->bgCheckFlags & 8) && (ABS(sp36) < 0x2EE0) && (thisx->xzDistFromLink < 90.0f)) {
-            func_80A38290(this);
+            EnGeldB_SetupJump(this);
             return true;
         } else if (player->swordAnimation == 0x11) {
-            func_80A370BC(this, globalCtx);
+            EnGeldB_SetupSpinDodge(this, globalCtx);
             return true;
         } else if ((thisx->xzDistFromLink < 90.0f) && (globalCtx->gameplayFrames & 1)) {
-            func_80A38430(this);
+            EnGeldB_SetupBlock(this);
             return true;
         } else {
-            func_80A37D70(this);
+            EnGeldB_SetupRollBack(this);
             return true;
         }
     } else {
@@ -211,29 +231,29 @@ s32 func_80A3559C(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
             if (((thisx->bgCheckFlags & 8) && (sp36 < 0x2EE0)) || (bomb->id == ACTOR_EN_BOM_CHU)) {
                 if ((bomb->id == ACTOR_EN_BOM_CHU) && (func_8002DB48(thisx, bomb) < 80.0f) &&
                     ((s16)(thisx->shape.rot.y - (bomb->posRot.rot.y - 0x8000)) < 0x3E80)) {
-                    func_80A38290(this);
+                    EnGeldB_SetupJump(this);
                     return true;
                 } else {
-                    func_80A387D0(this, globalCtx);
+                    EnGeldB_SetupSidestep(this, globalCtx);
                     return true;
                 }
             } else {
-                func_80A37D70(this);
+                EnGeldB_SetupRollBack(this);
                 return true;
             }
         } else if (arg2) {
             if (sp34 >= 0x1B58) {
-                func_80A387D0(this, globalCtx);
+                EnGeldB_SetupSidestep(this, globalCtx);
                 return true;
             } else {
                 s16 sp2E = player->actor.shape.rot.y - thisx->shape.rot.y;
 
                 if ((thisx->xzDistFromLink <= 45.0f) && !func_80033AB8(globalCtx, thisx) &&
                     ((globalCtx->gameplayFrames & 7) || (ABS(sp2E) < 0x38E0))) {
-                    func_80A37670(this);
+                    EnGeldB_SetupSlash(this);
                     return true;
                 } else {
-                    func_80A36A10(this);
+                    EnGeldB_SetupCircle(this);
                     return true;
                 }
             }
@@ -242,19 +262,19 @@ s32 func_80A3559C(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
     return false;
 }
 
-void func_80A35974(EnGeldB* this) {
+void EnGeldB_SetupWait(EnGeldB* this) {
     SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_0600ADF8, 0.0f);
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 120.0f;
     this->timer = 10;
     this->invisible = true;
-    this->actionState = 0;
+    this->actionState = GELDB_WAIT;
     this->actor.bgCheckFlags &= ~3;
     this->actor.gravity = -2.0f;
     this->actor.flags &= ~1;
-    func_80A35310(this, func_80A35A08);
+    EnGeldB_SetupAction(this, EnGeldB_Wait);
 }
 
-void func_80A35A08(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
     if ((this->invisible && !Flags_GetSwitch(globalCtx, this->actor.initPosRot.rot.z)) ||
         this->actor.xzDistFromLink > 300.0f) {
         this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
@@ -276,20 +296,20 @@ void func_80A35A08(EnGeldB* this, GlobalContext* globalCtx) {
         func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        func_80A35D48(this);
+        EnGeldB_SetupReady(this);
     }
 }
 
-void func_80A35B8C(EnGeldB* this) {
+void EnGeldB_SetupFlee(EnGeldB* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ADF8, -2.0f, SkelAnime_GetFrameCount(&D_0600ADF8), 0.0f, 3, -4.0f);
     this->timer = 20;
     this->invisible = false;
-    this->actionState = 0;
+    this->actionState = GELDB_WAIT;
     this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-    func_80A35310(this, func_80A35C24);
+    EnGeldB_SetupAction(this, EnGeldB_Flee);
 }
 
-void func_80A35C24(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame == 10.0f) {
         Audio_PlayActorSound2(&this->actor, 0x386C);
     }
@@ -306,62 +326,62 @@ void func_80A35C24(EnGeldB* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A35D48(EnGeldB* this) {
+void EnGeldB_SetupReady(EnGeldB* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600B6D4, -4.0f);
-    this->actionState = 5;
+    this->actionState = GELDB_READY;
     this->timer = Math_Rand_ZeroOne() * 10.0f + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    func_80A35310(this, func_80A35DD0);
+    EnGeldB_SetupAction(this, EnGeldB_Ready);
 }
 
-void func_80A35DD0(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad;
     s16 sp26;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (this->unk_2FA != 0) {
+    if (this->lookTimer != 0) {
         sp26 = this->actor.yawTowardsLink - this->actor.shape.rot.y - this->headRot.y;
         if (ABS(sp26) > 0x2000) {
-            this->unk_2FA--;
+            this->lookTimer--;
             return;
         }
-        this->unk_2FA = 0;
+        this->lookTimer = 0;
     }
     sp26 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if (!func_80A39E2C(globalCtx, this)) {
-        if (this->unk_2F8 != 0) {
-            this->unk_2F8--;
+    if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
+        if (this->unkTimer != 0) {
+            this->unkTimer--;
 
             if (ABS(sp26) >= 0x1FFE) {
                 return;
             }
-            this->unk_2F8 = 0;
-        } else if (func_80A3559C(globalCtx, this, 0)) {
+            this->unkTimer = 0;
+        } else if (EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
             return;
         }
         sp26 = player->actor.shape.rot.y - this->actor.shape.rot.y;
         if ((this->actor.xzDistFromLink < 100.0f) && (player->swordState != 0) && (ABS(sp26) >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-            func_80A36A10(this);
+            EnGeldB_SetupCircle(this);
         } else if (--this->timer == 0) {
             if (func_8002E084(&this->actor, 0x1555)) {
                 if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
                     (Math_Rand_ZeroOne() < 0.3f)) {
                     if (func_80033AB8(globalCtx, &this->actor) || (Math_Rand_ZeroOne() > 0.5f) ||
                         (ABS(sp26) < 0x38E0)) {
-                        func_80A365DC(this);
+                        EnGeldB_SetupRollForward(this);
                     } else {
-                        func_80A3792C(this);
+                        EnGeldB_SetupSpinAttack(this);
                     }
                 } else if (Math_Rand_ZeroOne() > 0.3f) {
-                    func_80A360B0(this, globalCtx);
+                    EnGeldB_SetupAdvance(this, globalCtx);
                 } else {
-                    func_80A36A10(this);
+                    EnGeldB_SetupCircle(this);
                 }
             } else {
-                func_80A367E4(this);
+                EnGeldB_SetupPivot(this);
             }
             if ((globalCtx->gameplayFrames & 0x5F) == 0) {
                 Audio_PlayActorSound2(&this->actor, 0x39C6);
@@ -370,13 +390,13 @@ void func_80A35DD0(EnGeldB* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A360B0(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_SetupAdvance(EnGeldB* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060024E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060024E8), 1, -4.0f);
-    this->actionState = 8;
-    func_80A35310(this, &func_80A36130);
+    this->actionState = GELDB_ADVANCE;
+    EnGeldB_SetupAction(this, EnGeldB_Advance);
 }
 
-void func_80A36130(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
     s32 sp44;
     s32 sp40;
     s32 pad3C;
@@ -386,7 +406,7 @@ void func_80A36130(EnGeldB* this, GlobalContext* globalCtx) {
     s32 pad2C;
     f32 sp28;
 
-    if (!func_80A39E2C(globalCtx, this)) {
+    if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x2EE, 0);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if (this->actor.xzDistFromLink <= 40.0f) {
@@ -402,7 +422,7 @@ void func_80A36130(EnGeldB* this, GlobalContext* globalCtx) {
         if ((this->actor.xzDistFromLink < 150.0f) && (player->swordState != 0) && (sp3A >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
             if (Math_Rand_ZeroOne() > 0.7f) {
-                func_80A36A10(this);
+                EnGeldB_SetupCircle(this);
                 return;
             }
         }
@@ -413,31 +433,31 @@ void func_80A36130(EnGeldB* this, GlobalContext* globalCtx) {
         sp28 = ABS(this->skelAnime.animPlaybackSpeed); // yes it does this twice.
         if (!func_8002E084(&this->actor, 0x11C7)) {
             if (0.5f < Math_Rand_ZeroOne()) {
-                func_80A36A10(this);
+                EnGeldB_SetupCircle(this);
             } else {
-                func_80A35D48(this);
+                EnGeldB_SetupReady(this);
             }
         } else if (this->actor.xzDistFromLink < 90.0f) {
             if (!func_80033AB8(globalCtx, &this->actor) &&
                 (Math_Rand_ZeroOne() > 0.03f || (this->actor.xzDistFromLink <= 45.0f && sp3A < 0x38E0))) {
-                func_80A37670(this);
+                EnGeldB_SetupSlash(this);
             } else if (func_80033AB8(globalCtx, &this->actor) && (Math_Rand_ZeroOne() > 0.5f)) {
-                func_80A37D70(this);
+                EnGeldB_SetupRollBack(this);
             } else {
-                func_80A36A10(this);
+                EnGeldB_SetupCircle(this);
             }
         }
-        if (!func_80A3559C(globalCtx, this, 0)) {
+        if (!EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
             if ((this->actor.xzDistFromLink < 210.0f) && (150.0f < this->actor.xzDistFromLink) &&
                 (func_8002E084(&this->actor, 0x71C) != 0)) {
                 if (func_80033A84(globalCtx, &this->actor)) {
                     if (Math_Rand_ZeroOne() > 0.5f) {
-                        func_80A365DC(this);
+                        EnGeldB_SetupRollForward(this);
                     } else {
-                        func_80A3792C(this);
+                        EnGeldB_SetupSpinAttack(this);
                     }
                 } else {
-                    func_80A36A10(this);
+                    EnGeldB_SetupCircle(this);
                     return;
                 }
             }
@@ -452,18 +472,18 @@ void func_80A36130(EnGeldB* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A365DC(EnGeldB* this) {
+void EnGeldB_SetupRollForward(EnGeldB* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06001390, -1.0f, SkelAnime_GetFrameCount(&D_06001390), 0.0f, 2, -3.0f);
     this->timer = 0;
     this->invisible = true;
-    this->actionState = 14;
+    this->actionState = GELDB_ROLL_FORWARD;
     this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
     this->actor.speedXZ = 10.0f;
     Audio_PlayActorSound2(&this->actor, 0x386C);
-    func_80A35310(this, func_80A36690);
+    EnGeldB_SetupAction(this, EnGeldB_RollForward);
 }
 
-void func_80A36690(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 sp22 = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
@@ -471,15 +491,15 @@ void func_80A36690(EnGeldB* this, GlobalContext* globalCtx) {
         this->invisible = false;
         this->actor.speedXZ = 0.0f;
         if (func_8002E084(&this->actor, 0x1554) == 0) {
-            func_80A35D48(this);
+            EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
             if (ABS(sp22) < 0x38E0) {
-                this->unk_2FA = 20;
+                this->lookTimer = 20;
             }
         } else if (!func_80033AB8(globalCtx, &this->actor) && (Math_Rand_ZeroOne() > 0.5f || (ABS(sp22) < 0x3FFC))) {
-            func_80A37670(this);
+            EnGeldB_SetupSlash(this);
         } else {
-            func_80A360B0(this, globalCtx);
+            EnGeldB_SetupAdvance(this, globalCtx);
         }
     }
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -487,18 +507,18 @@ void func_80A36690(EnGeldB* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A367E4(EnGeldB* this) {
+void EnGeldB_SetupPivot(EnGeldB* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600A814, -4.0f);
-    this->actionState = 9;
-    func_80A35310(this, func_80A36830);
+    this->actionState = GELDB_PIVOT;
+    EnGeldB_SetupAction(this, EnGeldB_Pivot);
 }
 
-void func_80A36830(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
     s16 temp_v0;
     s16 phi_v1;
     f32 phi_f2;
 
-    if ((func_80A39E2C(globalCtx, this) == 0) && (func_80A3559C(globalCtx, this, 0) == 0)) {
+    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         temp_v0 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         phi_v1 = (temp_v0 > 0) ? ((temp_v0 * 0.25f) + 2000.0f) : ((temp_v0 * 0.25f) - 2000.0f);
         this->actor.posRot.rot.y = this->actor.shape.rot.y += phi_v1;
@@ -513,9 +533,9 @@ void func_80A36830(EnGeldB* this, GlobalContext* globalCtx) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
         if (func_8002E084(&this->actor, 0x1555)) {
             if (Math_Rand_ZeroOne() > 0.8f) {
-                func_80A36A10(this);
+                EnGeldB_SetupCircle(this);
             } else {
-                func_80A360B0(this, globalCtx);
+                EnGeldB_SetupAdvance(this, globalCtx);
             }
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -524,18 +544,18 @@ void func_80A36830(EnGeldB* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A36A10(EnGeldB* this) {
+void EnGeldB_SetupCircle(EnGeldB* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A814, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600A814), 1, 0.0f);
     this->actor.speedXZ = Math_Rand_CenteredFloat(12.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
     this->timer = Math_Rand_ZeroOne() * 30.0f + 30.0f;
-    this->actionState = 10;
-    this->unk_304 = 0.0f;
-    func_80A35310(this, func_80A36AE4);
+    this->actionState = GELDB_CIRCLE;
+    this->approachRate = 0.0f;
+    EnGeldB_SetupAction(this, EnGeldB_Circle);
 }
 
-void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
+void EnGeldB_Circle(EnGeldB *this, GlobalContext *globalCtx) {
     s16 sp3E;
     s16 phi_v0_2;
     s32 pad38;
@@ -545,7 +565,7 @@ void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
-    if (!func_80A39E2C(globalCtx, this) && !func_80A3559C(globalCtx, this, 0)) {
+    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3A98;
         sp3E = player->actor.shape.rot.y + 0x8000;
         if (0.0f <= Math_Sins(sp3E - this->actor.shape.rot.y)) {
@@ -581,20 +601,20 @@ void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
             }
         }
         if (this->actor.xzDistFromLink <= 45.0f) {
-            Math_SmoothScaleMaxMinF(&this->unk_304, -4.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->approachRate, -4.0f, 1.0f, 1.5f, 0.0f);
         } else if (40.0f < this->actor.xzDistFromLink) {
-            Math_SmoothScaleMaxMinF(&this->unk_304, 4.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->approachRate, 4.0f, 1.0f, 1.5f, 0.0f);
         } else {
-            Math_SmoothScaleMaxMinF(&this->unk_304, 0.0f, 1.0f, 6.65f, 0.0f);
+            Math_SmoothScaleMaxMinF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
         }
-        if (0.0f != this->unk_304) {
-            this->actor.posRot.pos.x += Math_Sins(this->actor.shape.rot.y) * this->unk_304;
-            this->actor.posRot.pos.z += Math_Coss(this->actor.shape.rot.y) * this->unk_304;
+        if (0.0f != this->approachRate) {
+            this->actor.posRot.pos.x += Math_Sins(this->actor.shape.rot.y) * this->approachRate;
+            this->actor.posRot.pos.z += Math_Coss(this->actor.shape.rot.y) * this->approachRate;
         }
-        if (ABS(this->unk_304) < ABS(this->actor.speedXZ)) {
+        if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
             this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
         } else {
-            this->skelAnime.animPlaybackSpeed = -this->unk_304 * 0.5f;
+            this->skelAnime.animPlaybackSpeed = -this->approachRate * 0.5f;
         }
         this->skelAnime.animPlaybackSpeed = CLAMP(this->skelAnime.animPlaybackSpeed, -3.0f, 3.0f);
         
@@ -610,18 +630,18 @@ void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
             Audio_PlayActorSound2(&this->actor, 0x39C6);
         }
         if ((Math_Coss(sp3E - this->actor.shape.rot.y) < -0.85f) && !func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 45.0f)) {
-            func_80A37670(this);
+            EnGeldB_SetupSlash(this);
         } else if (--this->timer == 0) {
             if (func_80033AB8(globalCtx, &this->actor) && ( Math_Rand_ZeroOne() > 0.5f)) {
-                func_80A37D70(this);
+                EnGeldB_SetupRollBack(this);
             } else {
-                func_80A35D48(this);
+                EnGeldB_SetupReady(this);
             }
         }
     }
 }
 
-void func_80A370BC(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     s16 sp3E;
     Player* player = PLAYER;
 
@@ -639,14 +659,14 @@ void func_80A370BC(EnGeldB* this, GlobalContext* globalCtx) {
     this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->timer = 6;
-    this->unk_304 = 0.0f;
+    this->approachRate = 0.0f;
     this->unkFloat = 0.0f;
-    this->actionState = 16;
+    this->actionState = GELDB_SPIN_DODGE;
 
-    func_80A35310(this, func_80A37224);
+    EnGeldB_SetupAction(this, EnGeldB_SpinDodge);
 }
 
-void func_80A37224(EnGeldB *this, GlobalContext *globalCtx) {
+void EnGeldB_SpinDodge(EnGeldB *this, GlobalContext *globalCtx) {
     s16 phi_v0_2;
     s32 sp28;    
     s32 pad;
@@ -667,25 +687,25 @@ void func_80A37224(EnGeldB *this, GlobalContext *globalCtx) {
             phi_v0_2 = 0;
         }
         if (ABS(phi_v0_2) > 0x4000) {
-            func_80A38290(this);
+            EnGeldB_SetupJump(this);
             return;
         }
     }
     if (this->actor.xzDistFromLink <= 45.0f) {
-        Math_SmoothScaleMaxMinF(&this->unk_304, -4.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->approachRate, -4.0f, 1.0f, 1.5f, 0.0f);
     } else if (40.0f < this->actor.xzDistFromLink) {
-        Math_SmoothScaleMaxMinF(&this->unk_304, 4.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->approachRate, 4.0f, 1.0f, 1.5f, 0.0f);
     } else {
-        Math_SmoothScaleMaxMinF(&this->unk_304, 0.0f, 1.0f, 6.65f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
     }
-    if (0.0f != this->unk_304) {
-        this->actor.posRot.pos.x += Math_Sins(this->actor.yawTowardsLink) * this->unk_304;
-        this->actor.posRot.pos.z += Math_Coss(this->actor.yawTowardsLink) * this->unk_304;
+    if (0.0f != this->approachRate) {
+        this->actor.posRot.pos.x += Math_Sins(this->actor.yawTowardsLink) * this->approachRate;
+        this->actor.posRot.pos.z += Math_Coss(this->actor.yawTowardsLink) * this->approachRate;
     }
-    if (ABS(this->unk_304) < ABS(this->actor.speedXZ)) {
+    if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
         this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
     } else {
-        this->skelAnime.animPlaybackSpeed = -this->unk_304 * 0.5f;
+        this->skelAnime.animPlaybackSpeed = -this->approachRate * 0.5f;
     }
     this->skelAnime.animPlaybackSpeed = CLAMP(this->skelAnime.animPlaybackSpeed, -3.0f, 3.0f);
     sp28 = this->skelAnime.animCurrentFrame;
@@ -700,11 +720,11 @@ void func_80A37224(EnGeldB *this, GlobalContext *globalCtx) {
     }
     if (--this->timer == 0) {
         this->actor.shape.rot.y = this->actor.yawTowardsLink;
-        if (!func_80A39E2C(globalCtx, this)) {
+        if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
             if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 70.0f)) {
-                func_80A37670(this);
+                EnGeldB_SetupSlash(this);
             } else {
-                func_80A37D70(this);
+                EnGeldB_SetupRollBack(this);
             }          
         }
     } else {
@@ -716,17 +736,17 @@ void func_80A37224(EnGeldB *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A37670(EnGeldB* this) {
+void EnGeldB_SetupSlash(EnGeldB* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060003CC);
     this->colliderSword.base.atFlags &= ~4;
-    this->actionState = 7;
+    this->actionState = GELDB_SLASH;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
     func_800F8A44(&this->actor.projectedPos, 0x39C6);
-    func_80A35310(this, func_80A376E0);
+    EnGeldB_SetupAction(this, EnGeldB_Slash);
 }
 
-void func_80A376E0(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 sp22 = player->actor.shape.rot.y - this->actor.shape.rot.y;
     s16 sp20 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
@@ -744,45 +764,45 @@ void func_80A376E0(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->colliderSword.base.atFlags & 4) {
         this->swordState = -1;
         this->colliderSword.base.atFlags &= ~6;
-        func_80A37D70(this);
+        EnGeldB_SetupRollBack(this);
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (!func_8002E084(&this->actor, 0x1554)) {
-            func_80A35D48(this);
+            EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
             if (sp20 > 0x4000) {
-                this->unk_2FA = 20;
+                this->lookTimer = 20;
             }
         } else if (0.7f < Math_Rand_ZeroOne() || (120.0f <= this->actor.xzDistFromLink)) {
-            func_80A35D48(this);
+            EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
             this->actor.posRot.rot.y = this->actor.yawTowardsLink;
             if (0.7f < Math_Rand_ZeroOne()) {
-                func_80A387D0(this, globalCtx);
+                EnGeldB_SetupSidestep(this, globalCtx);
             } else if (sp22 <= 0x2710) {
                 if (sp20 > 0x3E80) {
                     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-                    func_80A36A10(this);
+                    EnGeldB_SetupCircle(this);
                 } else {
-                    func_80A3559C(globalCtx, this, 1);
+                    EnGeldB_ReactToPlayer(globalCtx, this, 1);
                 }
             } else {
-                func_80A36A10(this);
+                EnGeldB_SetupCircle(this);
             }
         }
     }
 }
 
-void func_80A3792C(EnGeldB* this) {
+void EnGeldB_SetupSpinAttack(EnGeldB* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000F5C), 3, 0.0f);
     this->colliderSword.base.atFlags &= ~6;
-    this->actionState = 12;
+    this->actionState = GELDB_SPIN_ATTACK;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
-    func_80A35310(this, func_80A379C0);
+    EnGeldB_SetupAction(this, EnGeldB_SpinAttack);
 }
 
-void func_80A379C0(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 temp1;
     s16 temp2;
@@ -821,18 +841,18 @@ void func_80A379C0(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (this->spinAttackState < 2)) {
         if (func_8002E084(&this->actor, 0x1554) == 0) {
-            func_80A35D48(this);
+            EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
-            this->unk_2FA = 46;
+            this->lookTimer = 46;
         } else if (this->spinAttackState != 0) {
-            func_80A37D70(this);
+            EnGeldB_SetupRollBack(this);
         } else if (0.7f < Math_Rand_ZeroOne() || (120.0f <= this->actor.xzDistFromLink)) {
-            func_80A35D48(this);
+            EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
             this->actor.posRot.rot.y = this->actor.yawTowardsLink;
             if (0.7f < Math_Rand_ZeroOne()) {
-                func_80A387D0(this, globalCtx);
+                EnGeldB_SetupSidestep(this, globalCtx);
             } else {
                 temp1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
                 temp1 = ABS(temp1);
@@ -841,38 +861,38 @@ void func_80A379C0(EnGeldB* this, GlobalContext* globalCtx) {
                     temp2 = ABS(temp2);
                     if (temp2 > 0x3E80) {
                         this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-                        func_80A36A10(this);
+                        EnGeldB_SetupCircle(this);
                     } else {
-                        func_80A3559C(globalCtx, this, 1);
+                        EnGeldB_ReactToPlayer(globalCtx, this, 1);
                     }
                 } else {
-                    func_80A36A10(this);
+                    EnGeldB_SetupCircle(this);
                 }
             }
         }
     }
 }
 
-void func_80A37D70(EnGeldB* this) {
+void EnGeldB_SetupRollBack(EnGeldB* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06001390, -3.0f);
     this->timer = 0;
     this->invisible = true;
-    this->actionState = 4;
+    this->actionState = GELDB_ROLL_BACK;
     this->actor.speedXZ = -8.0f;
     Audio_PlayActorSound2(&this->actor, 0x386C);
     this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-    func_80A35310(this, func_80A37DEC);
+    EnGeldB_SetupAction(this, EnGeldB_RollBack);
 }
 
-void func_80A37DEC(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_RollBack(EnGeldB* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink < 170.0f) &&
             (140.0f < this->actor.xzDistFromLink) && (Math_Rand_ZeroOne() < 0.2f)) {
-            func_80A3792C(this);
+            EnGeldB_SetupSpinAttack(this);
         } else if (globalCtx->gameplayFrames & 1) {
-            func_80A387D0(this, globalCtx);
+            EnGeldB_SetupSidestep(this, globalCtx);
         } else {
-            func_80A35D48(this);
+            EnGeldB_SetupReady(this);
         }
     }
     if ((globalCtx->state.frames & 0x5F) == 0) {
@@ -880,22 +900,22 @@ void func_80A37DEC(EnGeldB* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A37EF0(EnGeldB* this) {
+void EnGeldB_SetupStunned(EnGeldB* this) {
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = 0.0f;
     }
-    if ((this->damageEffect != 15) || (this->actionState == 12)) {
+    if ((this->damageEffect != 0xF) || (this->actionState == GELDB_SPIN_ATTACK)) {
         SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_06002280, 0.0f);
     }
-    if (this->damageEffect == 15) {
-        this->effectTimer = 36;
+    if (this->damageEffect == 0xF) {
+        this->iceTimer = 36;
     }
     Audio_PlayActorSound2(&this->actor, 0x389E);
-    this->actionState = 15;
-    func_80A35310(this, func_80A37F98);
+    this->actionState = GELDB_STUNNED;
+    EnGeldB_SetupAction(this, EnGeldB_Stunned);
 }
 
-void func_80A37F98(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Stunned(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 2) {
         this->actor.speedXZ = 0.0f;
     }
@@ -907,29 +927,29 @@ void func_80A37F98(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if ((this->actor.dmgEffectTimer == 0) && (this->actor.bgCheckFlags & 1)) {
         if (this->actor.colChkInfo.health == 0) {
-            func_80A3907C(this);
+            EnGeldB_SetupDefeated(this);
         } else {
-            func_80A3559C(globalCtx, this, 1);
+            EnGeldB_ReactToPlayer(globalCtx, this, 1);
         }
     }
 }
 
-void func_80A38054(EnGeldB* this) {
+void EnGeldB_SetupDamaged(EnGeldB* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002280, -4.0f);
-    if ((this->actor.bgCheckFlags & 1) != 0) {
+    if (this->actor.bgCheckFlags & 1) {
         this->invisible = false;
         this->actor.speedXZ = -4.0f;
     } else {
         this->invisible = true;
     }
-    this->unk_2FA = 0;
+    this->lookTimer = 0;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     Audio_PlayActorSound2(&this->actor, 0x3999);
-    this->actionState = 2;
-    func_80A35310(this, func_80A380EC);
+    this->actionState = GELDB_DAMAGED;
+    EnGeldB_SetupAction(this, EnGeldB_Damaged);
 }
 
-void func_80A380EC(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx) {
     s16 temp_v1;
 
     if (this->actor.bgCheckFlags & 2) {
@@ -942,35 +962,35 @@ void func_80A380EC(EnGeldB* this, GlobalContext* globalCtx) {
         this->invisible = false;
     }
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x1194, 0);
-    if (!func_80A39E2C(globalCtx, this) && !func_80A3559C(globalCtx, this, 0) &&
+    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0) &&
         SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (this->actor.bgCheckFlags & 1)) {
         temp_v1 = this->actor.wallPolyRot - this->actor.shape.rot.y;
         if ((this->actor.bgCheckFlags & 8) && (ABS(temp_v1) < 0x2EE0) && (this->actor.xzDistFromLink < 90.0f)) {
-            func_80A38290(this);
-        } else if (!func_80A39E2C(globalCtx, this)) {
+            EnGeldB_SetupJump(this);
+        } else if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
             if ((this->actor.xzDistFromLink <= 45.0f) && !func_80033AB8(globalCtx, &this->actor) &&
                 (globalCtx->gameplayFrames & 7)) {
-                func_80A37670(this);
+                EnGeldB_SetupSlash(this);
             } else {
-                func_80A37D70(this);
+                EnGeldB_SetupRollBack(this);
             }
         }
     }
 }
 
-void func_80A38290(EnGeldB* this) {
+void EnGeldB_SetupJump(EnGeldB* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06001390, -1.0f, SkelAnime_GetFrameCount(&D_06001390), 0.0f, 2, -3.0f);
     this->timer = 0;
     this->invisible = false;
-    this->actionState = 3;
+    this->actionState = GELDB_SLASH;
     this->actor.speedXZ = 6.5f;
     this->actor.velocity.y = 15.0f;
     Audio_PlayActorSound2(&this->actor, 0x386C);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    func_80A35310(this, func_80A38348);
+    EnGeldB_SetupAction(this, EnGeldB_Jump);
 }
 
-void func_80A38348(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Jump(EnGeldB* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
     if (this->actor.velocity.y >= 5.0f) {
         func_800355B8(globalCtx, &this->rightFootPos);
@@ -983,14 +1003,14 @@ void func_80A38348(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 0.0f;
         this->actor.posRot.pos.y = this->actor.groundY;
         if (!func_80033AB8(globalCtx, &this->actor)) {
-            func_80A37670(this);
+            EnGeldB_SetupSlash(this);
         } else {
-            func_80A35D48(this);
+            EnGeldB_SetupReady(this);
         }
     }
 }
 
-void func_80A38430(EnGeldB* this) {
+void EnGeldB_SetupBlock(EnGeldB* this) {
     f32 sp34;
     f32 temp_f14;
 
@@ -999,13 +1019,13 @@ void func_80A38430(EnGeldB* this) {
         this->swordState = -1;
     }
     this->actor.speedXZ = 0.0f;
-    this->actionState = 6;
+    this->actionState = GELDB_BLOCK;
     this->timer = (s32)Math_Rand_CenteredFloat(10.0f) + 10;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06001578, 0.0f, 0.0f, sp34, 2, 0.0f);
-    func_80A35310(this, func_80A384E8);
+    EnGeldB_SetupAction(this, EnGeldB_Block);
 }
 
-void func_80A384E8(EnGeldB *this, GlobalContext *globalCtx) {
+void EnGeldB_Block(EnGeldB *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     s32 pad;
     s16 temp_v0_2;
@@ -1022,41 +1042,41 @@ void func_80A384E8(EnGeldB *this, GlobalContext *globalCtx) {
         if ((ABS(temp_v0_2) <= 0x4000) && (this->actor.xzDistFromLink < 40.0f) && (ABS(this->actor.yDistFromLink) < 50.0f)) {
             if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
                 if (player->swordAnimation == 0x11) {
-                    func_80A370BC(this, globalCtx);
+                    EnGeldB_SetupSpinDodge(this, globalCtx);
                 } else if (globalCtx->gameplayFrames & 1) {
-                    func_80A38430(this);
+                    EnGeldB_SetupBlock(this);
                 } else {
-                    func_80A37D70(this);
+                    EnGeldB_SetupRollBack(this);
                 }
             } else {
                 sp2C = player->actor.shape.rot.y - this->actor.shape.rot.y;
                 if (!func_80033AB8(globalCtx, &this->actor) && ((globalCtx->gameplayFrames & 1) || (ABS(sp2C) < 0x38E0))) {
-                    func_80A37670(this);
+                    EnGeldB_SetupSlash(this);
                 } else {
-                    func_80A36A10(this);
+                    EnGeldB_SetupCircle(this);
                 }
             }
         } else {
-            func_80A36A10(this);
+            EnGeldB_SetupCircle(this);
         }
     } else if ((this->timer == 0) && func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
         if (player->swordAnimation == 0x11) {
-            func_80A370BC(this, globalCtx);
-        } else if (!func_80A39E2C(globalCtx, this)) {
+            EnGeldB_SetupSpinDodge(this, globalCtx);
+        } else if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
             if ((globalCtx->gameplayFrames & 1)) {
                 if ((this->actor.xzDistFromLink < 100.0f) && (0.7f < Math_Rand_ZeroOne())) {
-                    func_80A38290(this);
+                    EnGeldB_SetupJump(this);
                 } else {
-                    func_80A37D70(this);
+                    EnGeldB_SetupRollBack(this);
                 }
             } else {
-                func_80A38430(this);
+                EnGeldB_SetupBlock(this);
             }
         }
     }
 }
 
-void func_80A387D0(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_SetupSidestep(EnGeldB* this, GlobalContext* globalCtx) {
     s16 sp36;
     Player* player;
 
@@ -1072,14 +1092,14 @@ void func_80A387D0(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = Math_Rand_CenteredFloat(12.0f);
     }
     this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
-    this->unk_304 = 0.0f;
+    this->approachRate = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3FFF;
     this->timer = Math_Rand_ZeroOne() * 10.0f + 5.0f;
-    this->actionState = 13;
-    func_80A35310(this, func_80A38960);
+    this->actionState = GELDB_SIDESTEP;
+    EnGeldB_SetupAction(this, EnGeldB_Sidestep);
 }
 
-void func_80A38960(EnGeldB *this, GlobalContext *globalCtx) {
+void EnGeldB_Sidestep(EnGeldB *this, GlobalContext *globalCtx) {
     s16 sp56;
     Player *player = PLAYER;
     s32 sp4C;
@@ -1123,20 +1143,20 @@ void func_80A38960(EnGeldB *this, GlobalContext *globalCtx) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y - 0x3E80;
     }
     if (this->actor.xzDistFromLink <= 45.0f) {
-        Math_SmoothScaleMaxMinF(&this->unk_304, -4.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->approachRate, -4.0f, 1.0f, 1.5f, 0.0f);
     } else if (40.0f < this->actor.xzDistFromLink) {
-        Math_SmoothScaleMaxMinF(&this->unk_304, 4.0f, 1.0f, 1.5f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->approachRate, 4.0f, 1.0f, 1.5f, 0.0f);
     } else {
-        Math_SmoothScaleMaxMinF(&this->unk_304, 0.0f, 1.0f, 6.65f, 0.0f);
+        Math_SmoothScaleMaxMinF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
     }
-    if (0.0f != this->unk_304) {
-        this->actor.posRot.pos.x += Math_Sins(this->actor.shape.rot.y) * this->unk_304;
-        this->actor.posRot.pos.z += Math_Coss(this->actor.shape.rot.y) * this->unk_304;
+    if (0.0f != this->approachRate) {
+        this->actor.posRot.pos.x += Math_Sins(this->actor.shape.rot.y) * this->approachRate;
+        this->actor.posRot.pos.z += Math_Coss(this->actor.shape.rot.y) * this->approachRate;
     }
-    if (ABS(this->unk_304) < ABS(this->actor.speedXZ)) {
+    if (ABS(this->approachRate) < ABS(this->actor.speedXZ)) {
         this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
     } else {
-        this->skelAnime.animPlaybackSpeed = -this->unk_304 * 0.5f;
+        this->skelAnime.animPlaybackSpeed = -this->approachRate * 0.5f;
     }
     this->skelAnime.animPlaybackSpeed = CLAMP(this->skelAnime.animPlaybackSpeed, -3.0f, 3.0f);
     sp4C = this->skelAnime.animCurrentFrame;
@@ -1145,13 +1165,13 @@ void func_80A38960(EnGeldB *this, GlobalContext *globalCtx) {
     
     sp30 = (0,ABS(this->skelAnime.animPlaybackSpeed));
     
-    if (!func_80A39E2C(globalCtx, this) && !func_80A3559C(globalCtx, this, 0)) {
+    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {
             s16 temp_v0_2 = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
             temp_v0_2 = ABS(temp_v0_2);
             if (temp_v0_2 >= 0x3A98) {
-                func_80A35D48(this);
+                EnGeldB_SetupReady(this);
                 this->timer = (Math_Rand_ZeroOne() * 5.0f) + 1.0f;
             } else {
                 Player* player2 = PLAYER;
@@ -1159,15 +1179,15 @@ void func_80A38960(EnGeldB *this, GlobalContext *globalCtx) {
 
                 this->actor.posRot.rot.y = this->actor.shape.rot.y;
                 if ((this->actor.xzDistFromLink <= 45.0f) && (!func_80033AB8(globalCtx, &this->actor)) && (!(globalCtx->gameplayFrames & 3) || (ABS(sp3A) < 0x38E0))) {
-                    func_80A37670(this);
+                    EnGeldB_SetupSlash(this);
                 } else if ((this->actor.xzDistFromLink < 210.0f) && (150.0f < this->actor.xzDistFromLink) && !(globalCtx->gameplayFrames & 1)) {
                     if (func_80033AB8(globalCtx, &this->actor) || (0.5f < Math_Rand_ZeroOne()) || (ABS(sp3A) < 0x38E0)) {
-                        func_80A365DC(this);
+                        EnGeldB_SetupRollForward(this);
                     } else {
-                        func_80A3792C(this);
+                        EnGeldB_SetupSpinAttack(this);
                     }
                 } else {
-                    func_80A360B0(this, globalCtx);
+                    EnGeldB_SetupAdvance(this, globalCtx);
                 }
             }
         }
@@ -1180,7 +1200,7 @@ void func_80A38960(EnGeldB *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A3907C(EnGeldB* this) {
+void EnGeldB_SetupDefeated(EnGeldB* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06001E10, -4.0f);
     this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
     if ((this->actor.bgCheckFlags & 1) != 0) {
@@ -1189,13 +1209,13 @@ void func_80A3907C(EnGeldB* this) {
     } else {
         this->invisible = true;
     }
-    this->actionState = 1;
+    this->actionState = GELDB_DEFEAT;
     this->actor.flags &= ~1;
     Audio_PlayActorSound2(&this->actor, 0x399A);
-    func_80A35310(this, &func_80A39120);
+    EnGeldB_SetupAction(this, &EnGeldB_Defeated);
 }
 
-void func_80A39120(EnGeldB* this, GlobalContext* globalCtx) {
+void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 2) {
         this->actor.speedXZ = 0.0f;
     }
@@ -1204,7 +1224,7 @@ void func_80A39120(EnGeldB* this, GlobalContext* globalCtx) {
         this->invisible = false;
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
-        func_80A35B8C(this);
+        EnGeldB_SetupFlee(this);
     } else if ((s32)this->skelAnime.animCurrentFrame == 0xA) {
         Audio_PlayActorSound2(&this->actor, 0x387A);
         func_800F5B58();
@@ -1212,10 +1232,10 @@ void func_80A39120(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void func_80A391D8(EnGeldB* this, GlobalContext* globalCtx) {
-    if ((this->actionState == 5) && (this->unk_2FA != 0)) {
-        this->headRot.y = Math_Sins(this->unk_2FA * 0x1068) * 8920.0f;
-    } else if (this->actionState != 15) {
-        if ((this->actionState != 7) && (this->actionState != 12)) {
+    if ((this->actionState == GELDB_READY) && (this->lookTimer != 0)) {
+        this->headRot.y = Math_Sins(this->lookTimer * 0x1068) * 8920.0f;
+    } else if (this->actionState != GELDB_STUNNED) {
+        if ((this->actionState != GELDB_SLASH) && (this->actionState != GELDB_SPIN_ATTACK)) {
             Math_SmoothScaleMaxMinS(&this->headRot.y, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F4,
                                     0);
             this->headRot.y = CLAMP(this->headRot.y, -0x256F, 0x256F);
@@ -1227,39 +1247,39 @@ void func_80A391D8(EnGeldB* this, GlobalContext* globalCtx) {
 
 void func_80A392D8(EnGeldB* this, GlobalContext* globalCtx) {
     s32 pad;
-    EnItem00* sp28;
+    EnItem00* key;
 
     if (this->colliderBlock.base.acFlags & 0x80) {
         this->colliderBlock.base.acFlags &= ~0x80;
         this->colliderBody.base.acFlags &= ~2;
-    } else if ((this->colliderBody.base.acFlags & 2) && (this->actionState >= 5) && (this->spinAttackState < 2)) {
+    } else if ((this->colliderBody.base.acFlags & 2) && (this->actionState >= GELDB_READY) && (this->spinAttackState < 2)) {
         this->colliderBody.base.acFlags &= ~2;
         if (this->actor.colChkInfo.damageEffect != 6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             func_80035650(&this->actor, &this->colliderBody.body, 1);
             func_800F8A44(&this->actor.projectedPos, 0x39C6);
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
-                if (this->actionState != 0xF) {
+                if (this->actionState != GELDB_STUNNED) {
                     func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(&this->actor);
-                    func_80A37EF0(this);
+                    EnGeldB_SetupStunned(this);
                 }
             } else {
                 func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     if (this->keyFlag != 0) {
-                        sp28 = Item_DropCollectible(globalCtx, &this->actor.posRot.pos, this->keyFlag | 0x11);
-                        if (sp28 != NULL) {
-                            sp28->actor.posRot.rot.y =
-                                Math_Vec3f_Yaw(&sp28->actor.posRot.pos, &this->actor.initPosRot.pos);
-                            sp28->actor.speedXZ = 6.0f;
+                        key = Item_DropCollectible(globalCtx, &this->actor.posRot.pos, this->keyFlag | ITEM00_SMALL_KEY);
+                        if (key != NULL) {
+                            key->actor.posRot.rot.y =
+                                Math_Vec3f_Yaw(&key->actor.posRot.pos, &this->actor.initPosRot.pos);
+                            key->actor.speedXZ = 6.0f;
                             Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         }
                     }
-                    func_80A3907C(this);
+                    EnGeldB_SetupDefeated(this);
                     func_80032C7C(globalCtx, &this->actor);
                 } else {
-                    func_80A38054(this);
+                    EnGeldB_SetupDamaged(this);
                 }
             }
         }
@@ -1281,11 +1301,11 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     Collider_CylinderUpdate(&this->actor, &this->colliderBody);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
-    if ((this->actionState >= 5) && (this->spinAttackState < 2) &&
+    if ((this->actionState >= GELDB_READY) && (this->spinAttackState < 2) &&
         ((this->actor.dmgEffectTimer == 0) || !(this->actor.dmgEffectParams & 0x4000))) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     }
-    if ((this->actionState == 6) && (this->skelAnime.animCurrentFrame == 0.0f)) {
+    if ((this->actionState == GELDB_BLOCK) && (this->skelAnime.animCurrentFrame == 0.0f)) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBlock.base);
     }
     if (this->swordState > 0) {
@@ -1324,100 +1344,99 @@ s32 EnGeldB_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f D_80A3A110 = { 1100.0f, -700.0f, 0.0f };
-    static Vec3f D_80A3A11C = { 300.0f, 0.0f, 0.0f };
-    static Vec3f D_80A3A128 = { 0.0f, -3000.0f, 0.0f };
-    static Vec3f D_80A3A134 = { 400.0f, 0.0f, 0.0f };
-    static Vec3f D_80A3A140 = { 1600.0f, -4000.0f, 0.0f };
-    static Vec3f D_80A3A14C = { -3000.0f, -2000.0f, 1300.0f };
-    static Vec3f D_80A3A158 = { -3000.0f, -2000.0f, -1300.0f };
-    static Vec3f D_80A3A164 = { 1000.0f, 1000.0f, 0.0f };
-    static Vec3f D_80A3A170 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f footOffset = { 300.0f, 0.0f, 0.0f };
+    static Vec3f swordTipOffset = { 0.0f, -3000.0f, 0.0f };
+    static Vec3f swordHiltOffset = { 400.0f, 0.0f, 0.0f };
+    static Vec3f swordQuadOffset1 = { 1600.0f, -4000.0f, 0.0f };
+    static Vec3f swordQuadOffset0 = { -3000.0f, -2000.0f, 1300.0f };
+    static Vec3f swordQuadOffset3 = { -3000.0f, -2000.0f, -1300.0f };
+    static Vec3f swordQuadOffset2 = { 1000.0f, 1000.0f, 0.0f };
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
-    Vec3f sp5C;
-    Vec3f sp50;
+    Vec3f swordTip;
+    Vec3f swordHilt;
     EnGeldB* this = THIS;
-    s32 phi_s1 = -1;
+    s32 effectIndex = -1;
 
     if (limbIndex == 11) {
-        Matrix_MultVec3f(&D_80A3A140, &this->colliderSword.dim.quad[1]);
-        Matrix_MultVec3f(&D_80A3A14C, &this->colliderSword.dim.quad[0]);
-        Matrix_MultVec3f(&D_80A3A158, &this->colliderSword.dim.quad[3]);
-        Matrix_MultVec3f(&D_80A3A164, &this->colliderSword.dim.quad[2]);
+        Matrix_MultVec3f(&swordQuadOffset1, &this->colliderSword.dim.quad[1]);
+        Matrix_MultVec3f(&swordQuadOffset0, &this->colliderSword.dim.quad[0]);
+        Matrix_MultVec3f(&swordQuadOffset3, &this->colliderSword.dim.quad[3]);
+        Matrix_MultVec3f(&swordQuadOffset2, &this->colliderSword.dim.quad[2]);
         func_80062734(&this->colliderSword, &this->colliderSword.dim.quad[0], &this->colliderSword.dim.quad[1],
                       &this->colliderSword.dim.quad[2], &this->colliderSword.dim.quad[3]);
-        Matrix_MultVec3f(&D_80A3A128, &sp5C);
-        Matrix_MultVec3f(&D_80A3A134, &sp50);
+        Matrix_MultVec3f(&swordTipOffset, &swordTip);
+        Matrix_MultVec3f(&swordHiltOffset, &swordHilt);
 
-        if ((this->swordState < 0) || ((this->actionState != 7) && (this->actionState != 12))) {
+        if ((this->swordState < 0) || ((this->actionState != GELDB_SLASH) && (this->actionState != GELDB_SPIN_ATTACK))) {
             EffectBlure_AddSpace(Effect_GetByIndex(this->blureIdx));
             this->swordState = 0;
         } else if (this->swordState > 0) {
-            EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &sp5C, &sp50);
+            EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &swordTip, &swordHilt);
         }
     } else {
-        func_8002BDB0(&this->actor, limbIndex, 19, &D_80A3A11C, 22, &D_80A3A11C);
+        func_8002BDB0(&this->actor, limbIndex, 19, &footOffset, 22, &footOffset);
     }
     if (limbIndex == 19) {
-        Matrix_MultVec3f(&D_80A3A11C, &this->rightFootPos);
+        Matrix_MultVec3f(&footOffset, &this->rightFootPos);
     } else if (limbIndex == 22) {
-        Matrix_MultVec3f(&D_80A3A11C, &this->leftFootPos);
+        Matrix_MultVec3f(&footOffset, &this->leftFootPos);
     }
-    if (this->effectTimer != 0) {
+    if (this->iceTimer != 0) {
         switch (limbIndex) {
             case 3:
-                phi_s1 = 0;
+                effectIndex = 0;
                 break;
             case 16:
-                phi_s1 = 1;
+                effectIndex = 1;
                 break;
             case 11:
-                phi_s1 = 2;
+                effectIndex = 2;
                 break;
             case 12:
-                phi_s1 = 3;
+                effectIndex = 3;
                 break;
             case 7:
-                phi_s1 = 4;
+                effectIndex = 4;
                 break;
             case 2:
-                phi_s1 = 5;
+                effectIndex = 5;
                 break;
             case 23:
-                phi_s1 = 6;
+                effectIndex = 6;
                 break;
             case 19:
-                phi_s1 = 7;
+                effectIndex = 7;
                 break;
             case 22:
-                phi_s1 = 8;
+                effectIndex = 8;
                 break;
             default:
                 break;
         }
-        if (phi_s1 >= 0) {
-            Vec3f sp3C;
+        if (effectIndex >= 0) {
+            Vec3f limbPos;
 
-            Matrix_MultVec3f(&D_80A3A170, &sp3C);
-            this->effectPos[phi_s1].x = sp3C.x;
-            this->effectPos[phi_s1].y = sp3C.y;
-            this->effectPos[phi_s1].z = sp3C.z;
+            Matrix_MultVec3f(&zeroVec, &limbPos);
+            this->effectPos[effectIndex].x = limbPos.x;
+            this->effectPos[effectIndex].y = limbPos.y;
+            this->effectPos[effectIndex].z = limbPos.z;
         }
     }
 }
 
 void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Vec3f D_80A3A17C[3] = {
+    static Vec3f blockTrisOffsets0[3] = {
         { -3000.0f, 6000.0f, 1600.0f },
         { -3000.0f, 0.0f, 1600.0f },
         { 3000.0f, 6000.0f, 1600.0f },
     };
-    static Vec3f D_80A3A1A0[3] = {
+    static Vec3f blockTrisOffsets1[3] = {
         { -3000.0f, 0.0f, 1600.0f },
         { 3000.0f, 0.0f, 1600.0f },
         { 3000.0f, 6000.0f, 1600.0f },
     };
-    static Gfx* D_80A3A1C4[4] = { 0x06005FE8, 0x060065A8, 0x06006D28, 0x060065A8 };
+    static Gfx* eyeDLists[4] = { 0x06005FE8, 0x060065A8, 0x06006D28, 0x060065A8 };
     s32 pad;
     EnGeldB* this = THIS;
 
@@ -1446,31 +1465,31 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actionState != 0) || !this->invisible) {
+    if ((this->actionState != GELDB_WAIT) || !this->invisible) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A3A1C4[this->blinkState]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeDLists[this->blinkState]));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);
-        if (this->actionState == 6) {
+        if (this->actionState == GELDB_BLOCK) {
             s32 i;
-            Vec3f sp90[3];
-            Vec3f sp6C[3];
+            Vec3f blockTrisVtx0[3];
+            Vec3f blockTrisVtx1[3];
 
             for (i = 0; i < 3; i++) {
-                Matrix_MultVec3f(&D_80A3A17C[i], &sp90[i]);
-                Matrix_MultVec3f(&D_80A3A1A0[i], &sp6C[i]);
+                Matrix_MultVec3f(&blockTrisOffsets0[i], &blockTrisVtx0[i]);
+                Matrix_MultVec3f(&blockTrisOffsets1[i], &blockTrisVtx1[i]);
             }
-            func_800627A0(&this->colliderBlock, 0, &sp90[0], &sp90[1], &sp90[2]);
-            func_800627A0(&this->colliderBlock, 1, &sp6C[0], &sp6C[1], &sp6C[2]);
+            func_800627A0(&this->colliderBlock, 0, &blockTrisVtx0[0], &blockTrisVtx0[1], &blockTrisVtx0[2]);
+            func_800627A0(&this->colliderBlock, 1, &blockTrisVtx1[0], &blockTrisVtx1[1], &blockTrisVtx1[2]);
         }
 
-        if (this->effectTimer != 0) {
+        if (this->iceTimer != 0) {
             thisx->dmgEffectTimer++;
-            this->effectTimer--;
-            if (!(this->effectTimer & 3)) {
-                s32 temp = this->effectTimer >> 2;
+            this->iceTimer--;
+            if (this->iceTimer % 4 == 0) {
+                s32 iceIndex = this->iceTimer / 4;
 
-                EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->effectPos[temp], 0x96, 0x96, 0x96, 0xFA, 0xEB,
+                EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->effectPos[iceIndex], 0x96, 0x96, 0x96, 0xFA, 0xEB,
                                                0xF5, 0xFF, 1.5f);
             }
         }
@@ -1478,9 +1497,9 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_geldB.c", 2744);
 }
 
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 // regalloc
-s32 func_80A39E2C(GlobalContext* globalCtx, EnGeldB* this) {
+s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this) {
     Actor* actor = func_80033780(globalCtx, &this->actor, 800.0f);
 
     if (actor != NULL) {
@@ -1493,17 +1512,17 @@ s32 func_80A39E2C(GlobalContext* globalCtx, EnGeldB* this) {
         temp = func_8002DB6C(&this->actor, &actor->posRot.pos);
         if ((ABS(sp1A) < 0x2EE0) && (sqrt(temp) < 600.0)) {
             if (actor->id == ACTOR_ARMS_HOOK) {
-                func_80A38290(this);
+                EnGeldB_SetupJump(this);
             } else {
-                func_80A38430(this);
+                EnGeldB_SetupBlock(this);
             }
         } else {
             this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3FFF;
             if ((ABS(sp1A) < 0x2000) || (ABS(sp1A) > 0x5FFF)) {
-                func_80A387D0(this, globalCtx);
+                EnGeldB_SetupSidestep(this, globalCtx);
                 this->actor.speedXZ *= 3.0f;
             } else if (ABS(sp1A) < 0x5FFF) {
-                func_80A37D70(this);
+                EnGeldB_SetupRollBack(this);
             }
         }
         return true;

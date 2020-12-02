@@ -16,12 +16,12 @@ typedef struct EnGeldB {
     /* 0x02EC */ s32 actionState;
     /* 0x02F0 */ char unk_2F0[4];
     /* 0x02F4 */ EnGeldBActionFunc actionFunc;
-    /* 0x02F8 */ s16 unk_2F8;
-    /* 0x02FA */ s16 unk_2FA;
-    /* 0x02FC */ s16 effectTimer;
+    /* 0x02F8 */ s16 unkTimer;
+    /* 0x02FA */ s16 lookTimer;
+    /* 0x02FC */ s16 iceTimer;
     /* 0x02FE */ u8 damageEffect;
     /* 0x0300 */ s32 timer;
-    /* 0x0304 */ f32 unk_304;
+    /* 0x0304 */ f32 approachRate;
     /* 0x0308 */ char unk_308[4];
     /* 0x030C */ f32 unkFloat;
     /* 0x0310 */ s16 swordState;
@@ -38,7 +38,6 @@ typedef struct EnGeldB {
     /* 0x04C4 */ Vec3f leftFootPos;
     /* 0x04D0 */ Vec3f rightFootPos;
     /* 0x04DC */ Vec3s headRot;
-    /* 0x04E0 */ char unk_4E2[2];
 } EnGeldB; // size = 0x04E4
 
 extern const ActorInit En_Geldb_InitVars;
