@@ -106,7 +106,7 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_1BC = 1.0f;
     this->unk_1A0 = 0.0f;
     this->unk_1A4 = 0.0f;
-    this->unk_1A8 = 0.0f;
+    this->alpha = 0.0f;
 
     switch (this->actor.params - 4) {
         case 0:
@@ -204,7 +204,7 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_198 = 0.3f;
     this->unk_1A0 = 0.0f;
     this->unk_1A4 = 0.0f;
-    this->unk_1A8 = 0.0f;
+    this->alpha = 0.0f;
     this->unk_19C = 0.0f;
     Lights_PointNoGlowSetInfo(&this->unk_1C8,
             this->actor.posRot.pos.x,
@@ -235,7 +235,7 @@ void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_198 = 0.3f;
     this->unk_1A0 = 0.0f;
     this->unk_1A4 = 0.0f;
-    this->unk_1A8 = 0.0f;
+    this->alpha = 0.0f;
     this->unk_19C = 0.0f;
     this->unk_1BC = 1.0f;
     this->actor.shape.unk_08 = 800.0f;
@@ -272,7 +272,7 @@ void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_198 = 0.3f;
     this->unk_1A0 = 0.0f;
     this->unk_1A4 = 0.0f;
-    this->unk_1A8 = 0.0f;
+    this->alpha = 0.0f;
     this->unk_19C = 0.0f;
     this->unk_1BC = 1.f;
     this->actor.shape.unk_08 = 800.0f;
@@ -280,7 +280,7 @@ void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
         this->actor.scale.x = 0.0499f;
         this->actor.scale.y = 0.077f;
         this->actor.scale.z = 0.09f;
-        this->unk_1A8 = 255.0f;
+        this->alpha = 255.0f;
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_SHUT_BY_CRYSTAL);
     }
@@ -314,7 +314,7 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
     f32 phi_f0;
     s16 phi_v1;
 
-    Math_SmoothScaleMaxMinF(&this->unk_1A8, 255.0f, 0.2f, 5.0f, 0.1f);
+    Math_SmoothScaleMaxMinF(&this->alpha, 255.0f, 0.2f, 5.0f, 0.1f);
     phi_f0 = (f32)(0x28 - this->unk_192) / 40.0f;
     phi_f0 = CLAMP_MIN(phi_f0, 0);
 
@@ -339,11 +339,11 @@ void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
 
     func_80999194(this, globalCtx);
     if (this->unk_192 == 0) {
-        Math_SmoothScaleMaxMinF(&this->unk_1A8, 0.0f, 0.1f, 4.0f, 1.0f);
-        if (this->unk_1A8 <= 150.0f) {
+        Math_SmoothScaleMaxMinF(&this->alpha, 0.0f, 0.1f, 4.0f, 1.0f);
+        if (this->alpha <= 150.0f) {
             player->actor.gravity = -0.1f;
         }
-        if (this->unk_1A8 <= 0.0f) {
+        if (this->alpha <= 0.0f) {
             func_80998780(this, func_80999410);
         }
     } else {
@@ -363,7 +363,7 @@ void func_80999428(DoorWarp1* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0499f, 0.2f, 0.05f, 0.001f);
         Math_SmoothScaleMaxMinF(&this->actor.scale.y, 0.077f, 0.2f, 0.05f, 0.001f);
         Math_SmoothScaleMaxMinF(&this->actor.scale.z, 0.09f, 0.2f, 0.05f, 0.001f);
-        Math_SmoothScaleMaxMinF(&this->unk_1A8, 255.0f, 0.2f, 5.0f, 0.1f);
+        Math_SmoothScaleMaxMinF(&this->alpha, 255.0f, 0.2f, 5.0f, 0.1f);
     }
 }
 
@@ -825,7 +825,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     Math_ApproxF(&this->unk_198, 10.0f, 0.006f);
     Math_SmoothScaleMaxMinF(&this->unk_1A0, 0.0f, 0.2f, 3.0f, 0.01f);
     Math_SmoothScaleMaxMinF(&this->unk_1A4, 0.0f, 0.2f, 2.0f, 0.01f);
-    Math_SmoothScaleMaxMinF(&this->unk_1A8, 255.0f, 0.1f, 1.0f, 0.01f);
+    Math_SmoothScaleMaxMinF(&this->alpha, 255.0f, 0.1f, 1.0f, 0.01f);
 
     temp_f0_2 = 1.0f - (f32)(D_8099CCA0 - this->unk_192) / (D_8099CCA0 - (D_8099CCA0 - 100));
     if (temp_f0_2 > 0.0f) {
@@ -897,9 +897,9 @@ void func_8099B140(DoorWarp1* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2078);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (u8)this->unk_1A8);
-    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (u8)this->unk_1A8);
-    POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
+    gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (u8)this->alpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (u8)this->alpha);
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
                                         NULL, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2098);
@@ -917,9 +917,9 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002EB44(&this->actor.posRot.pos, &eye, &eye, globalCtx->state.gfxCtx);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)this->unk_1A8);
-    gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 100, (u8)this->unk_1A8);
-    POLY_XLU_DISP = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)this->alpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 100, (u8)this->alpha);
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
                                         NULL, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2152);

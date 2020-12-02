@@ -18,7 +18,7 @@ typedef struct DoorWarp1 {
     /* 0x019C */ f32 unk_19C;
     /* 0x01A0 */ f32 unk_1A0;
     /* 0x01A4 */ f32 unk_1A4;
-    /* 0x01A8 */ f32 unk_1A8; // alpha
+    /* 0x01A8 */ f32 alpha;
     /* 0x01AC */ s16 unk_1AC;
     /* 0x01AE */ s16 unk_1AE;
     /* 0x01B0 */ s16 unk_1B0;
