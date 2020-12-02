@@ -27,7 +27,7 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_060000F0;
+extern FlexSkeletonHeader D_060000F0;
 extern AnimationHeader D_060067B8;
 extern AnimationHeader D_060070F0;
 extern AnimationHeader D_060076EC;
@@ -73,8 +73,8 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->limbDrawTable,
-                     this->transitionDrawTable, 0x10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->limbDrawTable,
+                       this->transitionDrawTable, 0x10);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060076EC);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -208,30 +208,25 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 }
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
-    GenericAnimationHeader* objSegFrameCount = &D_060070F0.genericHeader;
-    AnimationHeader* objSegChangeAnime = &D_060070F0;
-
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount),
-                             2, -4.0f);
-        this->unk_2AA += 1;
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060070F0), 2, -4.0f);
+        this->unk_2AA++;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     }
 }
 
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->unk_2AA += 1;
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+        this->unk_2AA++;
     }
 }
 
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060067B8, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060067B8.genericHeader), 2, 0.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060067B8), 2, 0.0f);
         this->actor.shape.shadowDrawFunc = NULL;
         this->unk_2AA++;
     }
@@ -295,7 +290,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAni* this = THIS;
 
     if (limbIndex == 15) {
@@ -305,9 +300,11 @@ s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnAni* this = THIS;
+
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.posRot2.pos);
     }
 }
 
@@ -321,8 +318,8 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
 }

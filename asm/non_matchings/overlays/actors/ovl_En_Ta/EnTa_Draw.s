@@ -77,7 +77,7 @@ glabel EnTa_Draw
 /* 03344 80B16DE4 AFAC0010 */  sw      $t4, 0x0010($sp)
 /* 03348 80B16DE8 AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 0334C 80B16DEC AFB00018 */  sw      $s0, 0x0018($sp)
-/* 03350 80B16DF0 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 03350 80B16DF0 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 03354 80B16DF4 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 03358 80B16DF8 8FAE005C */  lw      $t6, 0x005C($sp)
 /* 0335C 80B16DFC 3C0680B1 */  lui     $a2, %hi(D_80B16F3C)       ## $a2 = 80B10000

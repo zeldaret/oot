@@ -19,7 +19,7 @@ glabel EnDodongo_Draw
 /* 02368 809FA5B8 24E7A0F8 */  addiu   $a3, $a3, %lo(func_809FA0F8) ## $a3 = 809FA0F8
 /* 0236C 809FA5BC AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 02370 809FA5C0 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 02374 809FA5C4 0C028572 */  jal     SkelAnime_Draw
+/* 02374 809FA5C4 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 02378 809FA5C8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0237C 809FA5CC 86180312 */  lh      $t8, 0x0312($s0)           ## 00000312

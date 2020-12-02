@@ -43,6 +43,24 @@ void func_80863044(EnTest* this, GlobalContext* globalCtx);
 void func_8086318C(EnTest* this, GlobalContext* globalCtx);
 void func_80863294(EnTest* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000444;
+extern UNK_TYPE D_06001420;
+extern UNK_TYPE D_06001978;
+extern UNK_TYPE D_06001C20;
+extern UNK_TYPE D_060026D4;
+extern UNK_TYPE D_0600316C;
+extern UNK_TYPE D_06007C28;
+extern UNK_TYPE D_060081B4;
+extern UNK_TYPE D_06008604;
+extern UNK_TYPE D_06009A90;
+extern UNK_TYPE D_0600A324;
+extern UNK_TYPE D_0600A99C;
+extern UNK_TYPE D_0600B00C;
+extern UNK_TYPE D_0600B4E4;
+extern UNK_TYPE D_0600BE4C;
+extern UNK_TYPE D_0600C438;
+extern UNK_TYPE D_0600E2B0;
+
 /*
 const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,

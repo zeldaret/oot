@@ -127,7 +127,7 @@ glabel EnZl4_Draw
 /* 02F68 80B5E718 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 02F6C 80B5E71C AFAC0014 */  sw      $t4, 0x0014($sp)
 /* 02F70 80B5E720 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 02F74 80B5E724 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 02F74 80B5E724 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 02F78 80B5E728 8FA4008C */  lw      $a0, 0x008C($sp)
 /* 02F7C 80B5E72C 8FAA008C */  lw      $t2, 0x008C($sp)
 /* 02F80 80B5E730 3C0680B6 */  lui     $a2, %hi(D_80B5FB90)       ## $a2 = 80B60000

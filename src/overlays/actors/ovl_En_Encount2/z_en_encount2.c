@@ -8,6 +8,8 @@ void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000DE0;
+
 /*
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
