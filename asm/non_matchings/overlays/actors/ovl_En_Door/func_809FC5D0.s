@@ -67,7 +67,7 @@ glabel func_809FC5D0
 /* 004F4 809FC6C4 8FBF0014 */  lw      $ra, 0x0014($sp)
 .L809FC6C8:
 /* 004F8 809FC6C8 AFA70040 */  sw      $a3, 0x0040($sp)
-/* 004FC 809FC6CC 0C023A62 */  jal     func_8008E988
+/* 004FC 809FC6CC 0C023A62 */  jal     Player_InCsMode
 /* 00500 809FC6D0 AFA8003C */  sw      $t0, 0x003C($sp)
 /* 00504 809FC6D4 8FA70040 */  lw      $a3, 0x0040($sp)
 /* 00508 809FC6D8 14400063 */  bne     $v0, $zero, .L809FC868

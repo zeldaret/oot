@@ -453,9 +453,9 @@ glabel func_800FA3DC
 .L800FAA38:
 /* B71BD8 800FAA38 01F57823 */  subu  $t7, $t7, $s5
 /* B71BDC 800FAA3C 000F7940 */  sll   $t7, $t7, 5
-/* B71BE0 800FAA40 3C0E8017 */  lui   $t6, %hi(D_801726B0)
+/* B71BE0 800FAA40 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x3530)
 /* B71BE4 800FAA44 01CF7021 */  addu  $t6, $t6, $t7
-/* B71BE8 800FAA48 8DCE26B0 */  lw    $t6, %lo(D_801726B0)($t6)
+/* B71BE8 800FAA48 8DCE26B0 */  lw    $t6, %lo(gAudioContext+0x3530)($t6)
 /* B71BEC 800FAA4C 000ECFC2 */  srl   $t9, $t6, 0x1f
 /* B71BF0 800FAA50 572000A7 */  bnezl $t9, .L800FACF0
 /* B71BF4 800FAA54 26B50001 */   addiu $s5, $s5, 1

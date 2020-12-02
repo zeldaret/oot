@@ -9,6 +9,10 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060001A0;
+extern UNK_TYPE D_06001374;
+extern UNK_TYPE D_06002CA8;
+
 /*
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,

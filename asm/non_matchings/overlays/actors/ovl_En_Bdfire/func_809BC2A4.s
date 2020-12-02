@@ -205,7 +205,7 @@ glabel func_809BC2A4
 .L809BC574:
 /* 00544 809BC574 44CAF800 */  ctc1    $t2, $31
 /* 00548 809BC578 30C600FF */  andi    $a2, $a2, 0x00FF           ## $a2 = 000000FF
-/* 0054C 809BC57C 0C01E796 */  jal     Lights_SetPositionalLightColorAndRadius
+/* 0054C 809BC57C 0C01E796 */  jal     Lights_PointSetColorAndRadius
 /* 00550 809BC580 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 00554 809BC584 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L809BC588:

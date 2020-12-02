@@ -84,7 +84,7 @@ glabel func_80998C90
 /* 00640 80998DC0 AFAE0018 */  sw      $t6, 0x0018($sp)
 /* 00644 80998DC4 AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 00648 80998DC8 AFAC0010 */  sw      $t4, 0x0010($sp)
-/* 0064C 80998DCC 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 0064C 80998DCC 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 00650 80998DD0 260401C8 */  addiu   $a0, $s0, 0x01C8           ## $a0 = 000001C8
 /* 00654 80998DD4 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
@@ -110,7 +110,7 @@ glabel func_80998C90
 /* 006A4 80998E24 AFAB0018 */  sw      $t3, 0x0018($sp)
 /* 006A8 80998E28 AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 006AC 80998E2C AFA90010 */  sw      $t1, 0x0010($sp)
-/* 006B0 80998E30 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 006B0 80998E30 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 006B4 80998E34 260401DC */  addiu   $a0, $s0, 0x01DC           ## $a0 = 000001DC
 /* 006B8 80998E38 3C05809A */  lui     $a1, %hi(func_8099A3A4)    ## $a1 = 809A0000

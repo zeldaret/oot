@@ -118,7 +118,7 @@ glabel func_80AA90A0
 /* 03204 80AA9254 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 03208 80AA9258 02602825 */  or      $a1, $s3, $zero            ## $a1 = FFFFFFE0
 /* 0320C 80AA925C 02403025 */  or      $a2, $s2, $zero            ## $a2 = FFFFFFF0
-/* 03210 80AA9260 0C00A9AE */  jal     func_8002A6B8              
+/* 03210 80AA9260 0C00A9AE */  jal     EffectSsDeadDb_Spawn              
 /* 03214 80AA9264 02403825 */  or      $a3, $s2, $zero            ## $a3 = FFFFFFF0
 /* 03218 80AA9268 2610FFFF */  addiu   $s0, $s0, 0xFFFF           ## $s0 = 00000003
 /* 0321C 80AA926C 0601FFD3 */  bgez    $s0, .L80AA91BC            

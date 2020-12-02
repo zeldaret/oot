@@ -86,7 +86,7 @@ glabel EnMb_Init
 /* 00120 80AA6170 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 00124 80AA6174 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00128 80AA6178 24E728E0 */  addiu   $a3, $a3, 0x28E0           ## $a3 = 060028E0
-/* 0012C 80AA617C 0C0291BE */  jal     SkelAnime_InitSV
+/* 0012C 80AA617C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00130 80AA6180 24C68F38 */  addiu   $a2, $a2, 0x8F38           ## $a2 = 06008F38
 /* 00134 80AA6184 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 00138 80AA6188 44812000 */  mtc1    $at, $f4                   ## $f4 = 1000.00
@@ -113,7 +113,7 @@ glabel EnMb_Init
 /* 00188 80AA61D8 AFAD0010 */  sw      $t5, 0x0010($sp)
 /* 0018C 80AA61DC 24E7EBE4 */  addiu   $a3, $a3, 0xEBE4           ## $a3 = 0600EBE4
 /* 00190 80AA61E0 24C64190 */  addiu   $a2, $a2, 0x4190           ## $a2 = 06014190
-/* 00194 80AA61E4 0C0291BE */  jal     SkelAnime_InitSV
+/* 00194 80AA61E4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00198 80AA61E8 2605018C */  addiu   $a1, $s0, 0x018C           ## $a1 = 0000018C
 /* 0019C 80AA61EC 3C0880AB */  lui     $t0, %hi(D_80AA9D24)       ## $t0 = 80AB0000
 /* 001A0 80AA61F0 24180006 */  addiu   $t8, $zero, 0x0006         ## $t8 = 00000006
@@ -202,7 +202,7 @@ glabel EnMb_Init
 /* 002D0 80AA6320 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 002D4 80AA6324 24E728E0 */  addiu   $a3, $a3, 0x28E0           ## $a3 = 060028E0
 /* 002D8 80AA6328 24C68F38 */  addiu   $a2, $a2, 0x8F38           ## $a2 = 06008F38
-/* 002DC 80AA632C 0C0291BE */  jal     SkelAnime_InitSV
+/* 002DC 80AA632C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 002E0 80AA6330 2605018C */  addiu   $a1, $s0, 0x018C           ## $a1 = 0000018C
 /* 002E4 80AA6334 3C053C65 */  lui     $a1, 0x3C65                ## $a1 = 3C650000
 /* 002E8 80AA6338 34A56042 */  ori     $a1, $a1, 0x6042           ## $a1 = 3C656042

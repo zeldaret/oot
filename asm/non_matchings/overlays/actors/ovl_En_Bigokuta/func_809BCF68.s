@@ -84,7 +84,7 @@ glabel func_809BCF68
 /* 00434 809BD094 C608000C */  lwc1    $f8, 0x000C($s0)           ## 0000000C
 /* 00438 809BD098 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0043C 809BD09C 460A4480 */  add.s   $f18, $f8, $f10            
-/* 00440 809BD0A0 0C00A511 */  jal     func_80029444              
+/* 00440 809BD0A0 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 00444 809BD0A4 E7B20040 */  swc1    $f18, 0x0040($sp)          
 /* 00448 809BD0A8 10000033 */  beq     $zero, $zero, .L809BD178   
 /* 0044C 809BD0AC 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
@@ -141,7 +141,7 @@ glabel func_809BCF68
 /* 00500 809BD160 C610000C */  lwc1    $f16, 0x000C($s0)          ## 0000000C
 /* 00504 809BD164 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00508 809BD168 46048480 */  add.s   $f18, $f16, $f4            
-/* 0050C 809BD16C 0C00A511 */  jal     func_80029444              
+/* 0050C 809BD16C 0C00A511 */  jal     EffectSsGRipple_Spawn              
 /* 00510 809BD170 E7B20040 */  swc1    $f18, 0x0040($sp)          
 .L809BD174:
 /* 00514 809BD174 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
@@ -152,7 +152,7 @@ glabel func_809BCF68
 /* 00524 809BD184 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 00528 809BD188 27A5003C */  addiu   $a1, $sp, 0x003C           ## $a1 = FFFFFFF4
 /* 0052C 809BD18C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00530 809BD190 0C00A527 */  jal     func_8002949C              
+/* 00530 809BD190 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 00534 809BD194 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00538 809BD198 8FAB0030 */  lw      $t3, 0x0030($sp)           
 /* 0053C 809BD19C 8E0A0190 */  lw      $t2, 0x0190($s0)           ## 00000190

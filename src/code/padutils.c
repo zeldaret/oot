@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void PadUtils_Init(Input* input) {
     bzero(input, sizeof(Input));
@@ -8,53 +8,53 @@ void func_800FCB70() {
 }
 
 void PadUtils_ResetPressRel(Input* input) {
-    input->press.in.button = 0;
-    input->rel.in.button = 0;
+    input->press.button = 0;
+    input->rel.button = 0;
 }
 
 u32 PadUtils_CheckCurExact(Input* input, u16 value) {
-    return value == input->cur.in.button;
+    return value == input->cur.button;
 }
 
 u32 PadUtils_CheckCur(Input* input, u16 key) {
-    return key == (input->cur.in.button & key);
+    return key == (input->cur.button & key);
 }
 
 u32 PadUtils_CheckPressed(Input* input, u16 key) {
-    return key == (input->press.in.button & key);
+    return key == (input->press.button & key);
 }
 
 u32 PadUtils_CheckReleased(Input* input, u16 key) {
-    return key == (input->rel.in.button & key);
+    return key == (input->rel.button & key);
 }
 
 u16 PadUtils_GetCurButton(Input* input) {
-    return input->cur.in.button;
+    return input->cur.button;
 }
 
 u16 PadUtils_GetPressButton(Input* input) {
-    return input->press.in.button;
+    return input->press.button;
 }
 
 s8 PadUtils_GetCurX(Input* input) {
-    return input->cur.in.x;
+    return input->cur.stick_x;
 }
 
 s8 PadUtils_GetCurY(Input* input) {
-    return input->cur.in.y;
+    return input->cur.stick_y;
 }
 
 void PadUtils_SetRelXY(Input* input, s32 x, s32 y) {
-    input->rel.in.x = x;
-    input->rel.in.y = y;
+    input->rel.stick_x = x;
+    input->rel.stick_y = y;
 }
 
 s8 PadUtils_GetRelXImpl(Input* input) {
-    return input->rel.in.x;
+    return input->rel.stick_x;
 }
 
 s8 PadUtils_GetRelYImpl(Input* input) {
-    return input->rel.in.y;
+    return input->rel.stick_y;
 }
 
 s8 PadUtils_GetRelX(Input* input) {

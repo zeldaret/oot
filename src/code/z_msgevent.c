@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void MsgEvent_SendNullTask() {
     s32 pad[4];

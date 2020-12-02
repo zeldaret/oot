@@ -5,7 +5,7 @@
  */
 
 #include "z_en_niw_girl.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000019
 
@@ -40,9 +40,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f sConstVec3f = { 0.2f, 0.2f, 0.2f };
 
-Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
+static Gfx* D_80AB99D8[] = { 0x06004178, 0x06004978, 0x06005178 };
 
-extern SkeletonHeader D_06009948;
+extern FlexSkeletonHeader D_06009948;
 extern AnimationHeader D_06000378;
 extern AnimationHeader D_06009C78;
 
@@ -53,8 +53,8 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
-                     &this->transitionDrawTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->limbDrawTable,
+                       &this->transitionDrawTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
@@ -108,13 +108,13 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     xDistBetween = this->chasedEnNiw->actor.posRot.pos.x - this->actor.posRot.pos.x;
     zDistBetween = this->chasedEnNiw->actor.posRot.pos.z - this->actor.posRot.pos.z;
     if (func_8010BDBC(&globalCtx->msgCtx) != 0) {
-        this->chasedEnNiw->unk_2E8 = 0;
+        this->chasedEnNiw->path = 0;
     }
     if (sqrtf(SQ(xDistBetween) + SQ(zDistBetween)) < 70.0f) {
-        this->chasedEnNiw->unk_2E8 = (this->path + 1);
+        this->chasedEnNiw->path = (this->path + 1);
         this->chasedEnNiw->unk_2EC = path->count;
     } else if (sqrtf(SQ(xDistBetween) + SQ(zDistBetween)) > 150.0f) {
-        this->chasedEnNiw->unk_2E8 = 0;
+        this->chasedEnNiw->path = 0;
     }
 
     // Change her angle so that she is always facing the cuckoo
@@ -124,7 +124,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
 
     // Only allow Link to talk to her when she is playing the jumping animation
-    if ((this->jumpTimer == 0) || (func_8008F080(globalCtx) != 0)) {
+    if ((this->jumpTimer == 0) || (Player_GetMask(globalCtx) != PLAYER_MASK_NONE)) {
         this->jumpTimer = 60;
         this->actionFunc = EnNiwGirl_Talk;
     }
@@ -137,21 +137,21 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
     }
-    switch (func_8008F080(globalCtx)) {
-        case 1:
+    switch (Player_GetMask(globalCtx)) {
+        case PLAYER_MASK_KEATON:
             this->actor.textId = 0x7118;
             break;
-        case 3:
+        case PLAYER_MASK_SPOOKY:
             this->actor.textId = 0x7119;
             break;
-        case 4:
-        case 6:
-        case 7:
+        case PLAYER_MASK_BUNNY:
+        case PLAYER_MASK_ZORA:
+        case PLAYER_MASK_GERUDO:
             this->actor.textId = 0x711A;
             break;
-        case 2:
-        case 5:
-        case 8:
+        case PLAYER_MASK_SKULL:
+        case PLAYER_MASK_GORON:
+        case PLAYER_MASK_TRUTH:
             this->actor.textId = 0x711B;
             break;
     }
@@ -162,7 +162,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
 void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx)) {
-        this->chasedEnNiw->unk_2E8 = 0;
+        this->chasedEnNiw->path = 0;
     }
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.8f, 0.2f);
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -223,7 +223,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              Actor* thisx) {
+                              void* thisx) {
     EnNiwGirl* this = THIS;
 
     if (limbIndex == 3) {
@@ -244,9 +244,9 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 573);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnNiwGirlOverrideLimbDraw, 0, &this->actor);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnNiwGirlOverrideLimbDraw, 0, this);
     func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);
