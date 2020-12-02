@@ -56,7 +56,7 @@ glabel func_80A3334C
 /* 0084C 80A3341C AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 00850 80A33420 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 00854 80A33424 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 00858 80A33428 0C00A2EC */  jal     func_80028BB0              
+/* 00858 80A33428 0C00A2EC */  jal     EffectSsKiraKira_SpawnDispersed              
 /* 0085C 80A3342C 27A50038 */  addiu   $a1, $sp, 0x0038           ## $a1 = FFFFFFF0
 .L80A33430:
 /* 00860 80A33430 8FBF002C */  lw      $ra, 0x002C($sp)           

@@ -1884,7 +1884,7 @@ glabel L808CCDF0
 /* 02250 808CD010 000D7403 */  sra     $t6, $t5, 16               
 /* 02254 808CD014 25CF0028 */  addiu   $t7, $t6, 0x0028           ## $t7 = 00000028
 /* 02258 808CD018 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 0225C 808CD01C 0C00A76F */  jal     func_80029DBC              
+/* 0225C 808CD01C 0C00A76F */  jal     EffectSsKFire_Spawn              
 /* 02260 808CD020 27A70164 */  addiu   $a3, $sp, 0x0164           ## $a3 = FFFFFF94
 /* 02264 808CD024 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
 .L808CD028:
@@ -2228,7 +2228,7 @@ glabel L808CD3A8
 /* 02730 808CD4F0 000C6C00 */  sll     $t5, $t4, 16               
 /* 02734 808CD4F4 000D7403 */  sra     $t6, $t5, 16               
 /* 02738 808CD4F8 25CF001E */  addiu   $t7, $t6, 0x001E           ## $t7 = 0000001E
-/* 0273C 808CD4FC 0C00A76F */  jal     func_80029DBC              
+/* 0273C 808CD4FC 0C00A76F */  jal     EffectSsKFire_Spawn              
 /* 02740 808CD500 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 02744 808CD504 86C30248 */  lh      $v1, 0x0248($s6)           ## 00000248
 .L808CD508:

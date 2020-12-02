@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bombf.h"
+#include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
 #define FLAGS 0x00000011
 
@@ -158,7 +159,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            if (func_8008EF5C(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
+            if (Player_IsBurningStickInRange(globalCtx, &this->actor.posRot.pos, 30.0f, 50.0f)) {
                 bombFlower =
                     (EnBombf*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOMBF, this->actor.posRot.pos.x,
                                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
@@ -294,7 +295,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f effAccel = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f dustAccel = { 0.0f, 0.6f, 0.0f };
-    Color_RGBA8_n dustColor = { 255, 255, 255, 255 };
+    Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad[2];
     EnBombf* this = THIS;
 
@@ -347,7 +348,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->timer = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
-            if ((this->timer > 100) && func_8008EF5C(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
+            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
@@ -359,7 +360,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (this->timer < 127) {
                 // spawn spark effect on even frames
                 if ((globalCtx->gameplayFrames % 2) == 0) {
-                    func_80029184(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
+                    EffectSsGSpk_SpawnFuse(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
                 }
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_IGNIT - SFX_FLAG);
 
@@ -395,7 +396,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 effPos.y = thisx->groundY;
                 if (thisx->groundY > -32000.0f) {
-                    func_80029024(globalCtx, &effPos, &effVelocity, &effAccel);
+                    EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
                 }
 
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
@@ -426,7 +427,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMBFLOWER_EXPLOSION)) {
         if (thisx->waterY >= 20.0f) {
-            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, 1, 1, 10);
+            EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
+                                              DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);
             return;
         }
@@ -462,23 +464,23 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
 
         if (thisx->params != BOMBFLOWER_BODY) {
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1041),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1041),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000340);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000530);
+            gSPDisplayList(POLY_OPA_DISP++, D_06000340);
+            gSPDisplayList(POLY_OPA_DISP++, D_06000530);
 
             Matrix_Translate(0.0f, 1000.0f, 0.0f, MTXMODE_APPLY);
             Matrix_Scale(this->flowerBombScale, this->flowerBombScale, this->flowerBombScale, MTXMODE_APPLY);
         }
 
-        gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 200, 255, 200, 255);
-        gDPPipeSync(oGfxCtx->polyOpa.p++);
-        gDPSetEnvColor(oGfxCtx->polyOpa.p++, (s16)this->flashIntensity, 20, 10, 0);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1054),
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 200, 255, 200, 255);
+        gDPPipeSync(POLY_OPA_DISP++);
+        gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 20, 10, 0);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1054),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
+        gSPSegment(POLY_OPA_DISP++, 0x08,
                    SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(globalCtx->state.gfxCtx, globalCtx)));
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000408);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000408);
     } else {
         func_800628A4(0, &this->explosionCollider);
     }

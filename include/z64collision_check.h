@@ -73,20 +73,20 @@ typedef struct {
 } ColliderInit_Actor; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ s32 flags; // Toucher Attack ID Flags
+    /* 0x00 */ u32 flags; // Toucher Attack ID Flags
     /* 0x04 */ u8 effect;
     /* 0x05 */ u8 damage; // Damage or Stun Timer
 } ColliderTouch; // size = 0x08
 
 typedef struct {
-    /* 0x00 */ s32 flags;  // Collision Exclusion Mask
+    /* 0x00 */ u32 flags;  // Collision Exclusion Mask
     /* 0x04 */ u8 effect;  // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense; // Damage Resistance
     /* 0x06 */ Vec3s unk_06;
 } ColliderBump; // size = 0x0C
 
 typedef struct {
-    /* 0x00 */ s32 flags; // Collision Exclusion Mask
+    /* 0x00 */ u32 flags; // Collision Exclusion Mask
     /* 0x04 */ u8 effect; // Damage Effect (Knockback, Fire, etc.)
     /* 0x05 */ u8 defense;
 } ColliderBumpInit; // size = 0x08
@@ -116,7 +116,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Sphere16 modelSphere; // model space sphere
     /* 0x08 */ Sphere16 worldSphere; // world space sphere
-    /* 0x10 */ float scale;          // world space sphere = model * scale * 0.01
+    /* 0x10 */ f32 scale;          // world space sphere = model * scale * 0.01
     /* 0x14 */ u8 joint;
 } ColliderJntSphItemDim; // size = 0x18
 

@@ -27,7 +27,7 @@ glabel func_80A3D838
 /* 001B8 80A3D898 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 001BC 80A3D89C 24C6FEF0 */  addiu   $a2, $a2, 0xFEF0           ## $a2 = 0600FEF0
 /* 001C0 80A3D8A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001C4 80A3D8A4 0C0291BE */  jal     SkelAnime_InitSV
+/* 001C4 80A3D8A4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 001C8 80A3D8A8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 001CC 80A3D8AC 820902BC */  lb      $t1, 0x02BC($s0)           ## 000002BC
 /* 001D0 80A3D8B0 3C0C0001 */  lui     $t4, 0x0001                ## $t4 = 00010000

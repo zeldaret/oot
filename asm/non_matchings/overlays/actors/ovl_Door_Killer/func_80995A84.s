@@ -78,7 +78,7 @@ glabel func_80995A84
 /* 00F50 80995BA0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80995BA4:
 /* 00F54 80995BA4 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00F58 80995BA8 0C023A62 */  jal     func_8008E988              
+/* 00F58 80995BA8 0C023A62 */  jal     Player_InCsMode              
 /* 00F5C 80995BAC AFA7003C */  sw      $a3, 0x003C($sp)           
 /* 00F60 80995BB0 14400042 */  bne     $v0, $zero, .L80995CBC     
 /* 00F64 80995BB4 8FA7003C */  lw      $a3, 0x003C($sp)           

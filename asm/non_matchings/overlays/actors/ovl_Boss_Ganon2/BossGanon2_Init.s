@@ -62,7 +62,7 @@ glabel BossGanon2_Init
 /* 00508 808FD448 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0050C 808FD44C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00510 808FD450 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00514 808FD454 0C0291BE */  jal     SkelAnime_InitSV
+/* 00514 808FD454 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00518 808FD458 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0051C 808FD45C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00520 808FD460 0C23F571 */  jal     func_808FD5C4

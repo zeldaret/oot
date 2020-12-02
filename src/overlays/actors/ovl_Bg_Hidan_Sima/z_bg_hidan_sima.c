@@ -9,6 +9,12 @@ void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600C338;
+extern UNK_TYPE D_0600C470;
+extern UNK_TYPE D_0600DC30;
+extern UNK_TYPE D_0600FAE8;
+extern UNK_TYPE D_060120E8;
+
 /*
 const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,

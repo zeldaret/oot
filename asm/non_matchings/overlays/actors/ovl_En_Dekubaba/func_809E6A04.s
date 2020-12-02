@@ -276,7 +276,7 @@ glabel func_809E6A04
 /* 015C0 809E6D90 440A3000 */  mfc1    $t2, $f6                   
 /* 015C4 809E6D94 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 015C8 809E6D98 AFA00024 */  sw      $zero, 0x0024($sp)         
-/* 015CC 809E6D9C 0C00A5E9 */  jal     func_800297A4              
+/* 015CC 809E6D9C 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 015D0 809E6DA0 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 015D4 809E6DA4 860E01C6 */  lh      $t6, 0x01C6($s0)           ## 000001C6
 /* 015D8 809E6DA8 55C00004 */  bnel    $t6, $zero, .L809E6DBC     

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 s32 PadSetup_Init(OSMesgQueue* mq, u8* outMask, OSContStatus* status) {
     s32 ret;

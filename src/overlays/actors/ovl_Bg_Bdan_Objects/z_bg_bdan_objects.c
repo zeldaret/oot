@@ -363,7 +363,7 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             do {
             } while (0);
-            func_8005A77C(globalCtx->cameraPtrs[0], (s16)this->unk_1B8);
+            func_8005A77C(globalCtx->cameraPtrs[0], this->unk_1B8);
             func_8005ACFC(globalCtx->cameraPtrs[0], 4);
         }
     }

@@ -91,7 +91,7 @@ glabel func_80B2F0B8
 /* 003CC 80B2F1BC 27A50038 */  addiu   $a1, $sp, 0x0038           ## $a1 = FFFFFFD8
 /* 003D0 80B2F1C0 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 003D4 80B2F1C4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 003D8 80B2F1C8 0C00A5E9 */  jal     func_800297A4              
+/* 003D8 80B2F1C8 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 003DC 80B2F1CC AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 003E0 80B2F1D0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 003E4 80B2F1D4 0C00BE0A */  jal     Audio_PlayActorSound2

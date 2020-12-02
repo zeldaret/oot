@@ -1,28 +1,17 @@
 #ifndef _ULTRA64_TIME_H_
 #define _ULTRA64_TIME_H_
 
-#include <ultra64/os_message.h>
-
-/* Types */
+#include "ultra64/message.h"
 
 typedef u64 OSTime;
 
-typedef struct OSTimer_s
-{
-	struct OSTimer_s *next;
-	struct OSTimer_s *prev;
-	OSTime interval;
-	OSTime value;
-	OSMesgQueue *mq;
-	OSMesg msg;
-} OSTimer;
-
-
-/* Functions */
-
-OSTime osGetTime(void);
-
-int osSetTimer(OSTimer *timer, OSTime countdown, OSTime interval, OSMesgQueue *mq, OSMesg msg);
-s32 osStopTimer(OSTimer *timer);
+typedef struct OSTimer {
+    /* 0x00 */ struct OSTimer* next;
+    /* 0x04 */ struct OSTimer* prev;
+    /* 0x08 */ OSTime interval;
+    /* 0x10 */ OSTime value;
+    /* 0x18 */ OSMesgQueue* mq;
+    /* 0x1C */ OSMesg msg;
+} OSTimer; // size = 0x20
 
 #endif

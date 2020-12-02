@@ -40,7 +40,7 @@ glabel BossFd2_Init
 /* 004A8 808D2B18 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 004AC 808D2B1C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 004B0 808D2B20 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 004B4 808D2B24 0C0291BE */  jal     SkelAnime_InitSV
+/* 004B4 808D2B24 0C0291BE */  jal     SkelAnime_InitFlex
 /* 004B8 808D2B28 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 004BC 808D2B2C 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 004C0 808D2B30 3C0F808D */  lui     $t7, %hi(func_808D4748)    ## $t7 = 808D0000
