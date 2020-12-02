@@ -2265,6 +2265,7 @@ void func_800F3A08(u8, u8, u8);
 void func_800F3F3C(u8);
 // ? func_800F3F84(?);
 void func_800F4010(Vec3f*, u16, f32);
+void func_800F41E0(Vec3f*, u16, u8);
 void func_800F4138(Vec3f*, u16, f32);
 void func_800F4190(Vec3f*, u16);
 void func_800F436C(UNK_TYPE arg0, s16 arg1, f32 arg2);

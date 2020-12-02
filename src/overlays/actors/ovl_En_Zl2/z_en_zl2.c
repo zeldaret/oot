@@ -272,7 +272,7 @@ void func_80B4EE38(EnZl2* this, s16 arg1, s32 arg2) {
         phi_a3 = arg1 - this->unk_20C[phi_v0];
         phi_v0 = this->unk_1AC[phi_v0];
 
-        if ((s32)fabsf((f32)phi_a3) >= 0x8001) {
+        if ((s32)fabsf((f32)phi_a3) > 0x8000) {
             if (arg1 > 0) {
                 phi_a3 -= 0x10000;
             } else {
@@ -289,7 +289,7 @@ void func_80B4EE38(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 -= ((s16)(temp_v1 - arg1) / 50);
         }
         temp_v1 += phi_v0;
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - arg1) >= -0x63) &&
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - arg1) > -0x64) &&
             ((s16)(temp_v1 - arg1) < 0x64)) {
             temp_v1 = arg1;
             phi_v0 = 0;
@@ -340,7 +340,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         temp_t2 = arg1 - this->unk_20C[temp_t0];
         phi_v0 = this->unk_1AC[temp_t0];
 
-        if ((s32)fabsf((f32)temp_t2) >= 0x8001) {
+        if ((s32)fabsf((f32)temp_t2) > 0x8000) {
             if (arg1 > 0) {
                 temp_t2 -= 0x10000;
             } else {
@@ -361,7 +361,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         }
         temp_v1 += phi_v0;
 
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - phi_a0) >= -0x63) &&
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && ((s16)(temp_v1 - phi_a0) > -0x64) &&
             ((s16)(temp_v1 - phi_a0) < 0x64)) {
             temp_v1 = phi_a0;
             phi_v0 = 0;
@@ -412,7 +412,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     s32 temp_t2;
     s32 temp_t3;
     s32 phi_v0;
-    s32 temp_1AC;
     s32 index1AC;
     s32 phi_t5;
 
@@ -422,7 +421,6 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
         temp_t2 = temp_t0;
         temp_t3 = this->unk_1AC[arg2];
         phi_v0 = temp_t3;
-        temp_1AC = phi_v0;
         temp_t3 = arg1 - this->unk_20C[arg2];
 
         if (arg2 == 1) {
@@ -469,7 +467,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 -= temp_t0 / 50;
         }
         temp_v1 += phi_v0;
-        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && (temp_t2 >= -0x63) && (temp_t2 < 0x64)) {
+        if (((this->unk_1AC[arg2] * phi_v0) <= 0) && (temp_t2 > -0x64) && (temp_t2 < 0x64)) {
             temp_v1 = 0;
             phi_v0 = 0;
         }
@@ -489,7 +487,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     s16 pad2;
     s16* unk_1DC = this->unk_1DC;
 
-    if (limbIndex == 0xE) {
+    if (limbIndex == 14) {
         sp74 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 7);
         gSPSegment((*gfx)++, 0x0C, sp74);
 
@@ -500,7 +498,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 0);
             func_80B4F230(this, sp2C.x, 1);
             func_80B4EF64(this, sp2C.z, 2);
@@ -510,7 +508,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[0], "../z_en_zl2.c", 1056);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 3);
             func_80B4F230(this, sp2C.x, 4);
         }
@@ -519,7 +517,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[1], "../z_en_zl2.c", 1100);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 6);
             func_80B4F230(this, sp2C.x, 7);
         }
@@ -531,7 +529,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 9);
             func_80B4F230(this, sp2C.x, 10);
             func_80B4EF64(this, sp2C.z, 11);
@@ -541,7 +539,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[3], "../z_en_zl2.c", 1145);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 12);
             func_80B4F230(this, sp2C.x, 13);
             func_80B4EF64(this, sp2C.z, 14);
@@ -554,7 +552,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 15);
             func_80B4F230(this, sp2C.x, 16);
             func_80B4EF64(this, sp2C.z, 17);
@@ -564,7 +562,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp74[5], "../z_en_zl2.c", 1189);
         Matrix_Get(&sp34);
         func_800D20CC(&sp34, &sp2C, 0);
-        if (func_800C0D28(globalCtx) == 0) {
+        if (!func_800C0D28(globalCtx)) {
             func_80B4EE38(this, sp2C.y, 18);
             func_80B4F230(this, sp2C.x, 19);
             func_80B4EF64(this, sp2C.z, 20);
