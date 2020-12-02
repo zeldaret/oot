@@ -24,8 +24,6 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx);
 void func_80A7AA40(EnIn* this, GlobalContext* globalCtx);
 void func_80A7A4BC(EnIn* this, GlobalContext *globalCtx);
 
-void func_800F41E0(Vec3f*, u16, s32);
-
 typedef struct {
     /* 0x000 */ Actor actor;
     /* 0x14C */ char unk_14C[0xC];
@@ -95,7 +93,7 @@ extern AnimationHeader D_06014CA8;
 extern AnimationHeader D_06015814;
 extern AnimationHeader D_0601646C;
 extern AnimationHeader D_06018C38;
-extern SkeletonHeader D_06013B88;
+extern FlexSkeletonHeader D_06013B88;
 extern UNK_TYPE D_060034D0;
 extern Gfx D_06007A20[];
 extern Gfx D_06007BF8[];
@@ -295,7 +293,7 @@ s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
             break;
         case 5:
             if (func_80106BC8(globalCtx) != 0) {
-                sp1E = func_80A7949C(globalCtx, THIS);
+                sp1E = func_80A7949C(globalCtx, thisx);
             }
             break;
         case 6:
@@ -311,9 +309,9 @@ void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if (this->skelAnime.animCurrentSeg == &D_060003B4 || 
-        this->skelAnime.animCurrentSeg == &D_06001BE0 || 
-        this->skelAnime.animCurrentSeg == &D_06013D60) {
+    if (this->skelAnime.animation == &D_060003B4 || 
+        this->skelAnime.animation == &D_06001BE0 || 
+        this->skelAnime.animation == &D_06013D60) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -414,7 +412,7 @@ void func_80A79AB4(EnIn *this, GlobalContext *globalCtx) {
     s32 j;
     u32 phi_v0 = 0;
 
-    if (this->skelAnime.animCurrentSeg != &D_06014CA8) {
+    if (this->skelAnime.animation != &D_06014CA8) {
         phi_v0 = globalCtx->gameplayFrames;
     }
     for (j = 0; j < ARRAY_COUNT(this->unk_330); j++) {
@@ -510,7 +508,7 @@ void func_80A79FB0(EnIn *this, GlobalContext *globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->unk_1E4) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06013B88, NULL, this->unk_1FE, this->unk_276, 20);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06013B88, NULL, this->unk_1FE, this->unk_276, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A7B840);
         func_80061EFC(&this->actor.colChkInfo, NULL, &D_80A7B86C);
@@ -609,12 +607,12 @@ void func_80A79FB0(EnIn *this, GlobalContext *globalCtx) {
 }
 
 void func_80A7A304(EnIn* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentSeg == &D_06015814 || this->skelAnime.animCurrentSeg == &D_0601646C) {
+    if (this->skelAnime.animation == &D_06015814 || this->skelAnime.animation == &D_0601646C) {
         if (this->skelAnime.animCurrentFrame == 8.0f) {
             func_800F41E0(&this->actor.projectedPos, NA_SE_VO_IN_LASH_0, 2);
         }
     }
-    if (this->skelAnime.animCurrentSeg == &D_06018C38 && this->skelAnime.animCurrentFrame == 20.0f) {
+    if (this->skelAnime.animation == &D_06018C38 && this->skelAnime.animCurrentFrame == 20.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_IN_CRY_0);
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
@@ -913,7 +911,7 @@ void EnIn_Update(Actor *thisx, GlobalContext *globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        if (this->skelAnime.animCurrentSeg == &D_06001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
+        if (this->skelAnime.animation == &D_06001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
@@ -939,7 +937,7 @@ void EnIn_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-s32 func_80A7B320(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_80A7B320(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnIn* this = THIS;
     Vec3s sp2C;
 
@@ -967,7 +965,7 @@ s32 func_80A7B320(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80A7B570(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void func_80A7B570(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnIn* this = THIS;
     Vec3f D_80A7B9A8 = { 1600.0, 0.0f, 0.0f };
 
@@ -976,10 +974,10 @@ void func_80A7B570(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_MultVec3f(&D_80A7B9A8, &this->actor.posRot2.pos);
         this->actor.posRot2.rot = this->actor.posRot.rot;
     }
-    if (limbIndex == 12 && this->skelAnime.animCurrentSeg == &D_06014CA8) {
+    if (limbIndex == 12 && this->skelAnime.animation == &D_06014CA8) {
         gSPDisplayList(POLY_OPA_DISP++, D_06007A20);
     }
-    if (limbIndex == 15 && this->skelAnime.animCurrentSeg == &D_06014CA8) {
+    if (limbIndex == 15 && this->skelAnime.animation == &D_06014CA8) {
         gSPDisplayList(POLY_OPA_DISP++, D_06007BF8);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2365);
@@ -996,7 +994,7 @@ void EnIn_Draw(Actor* thisx, GlobalContext *globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A7B9B4[this->unk_1EE]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_060034D0));
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80A7B320, func_80A7B570, &this->actor);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80A7B320, func_80A7B570, &this->actor);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2416);
 }
