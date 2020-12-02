@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void* MemCopy(void* dest, void* src, s32 size) {
     u8* destu = (u8*)dest;

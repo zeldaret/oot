@@ -33,7 +33,7 @@ glabel EnDoor_Draw
 /* 00BF0 809FCDC0 24E7CC3C */  addiu   $a3, $a3, %lo(func_809FCC3C) ## $a3 = 809FCC3C
 /* 00BF4 809FCDC4 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 00BF8 809FCDC8 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 00BFC 809FCDCC 0C028572 */  jal     SkelAnime_Draw
+/* 00BFC 809FCDCC 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 00C00 809FCDD0 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00C04 809FCDD4 86020032 */  lh      $v0, 0x0032($s0)           ## 00000032

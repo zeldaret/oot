@@ -63,7 +63,7 @@ glabel EnCs_Draw
 /* 00DA0 809E2650 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 00DA4 809E2654 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 00DA8 809E2658 AFB20018 */  sw      $s2, 0x0018($sp)
-/* 00DAC 809E265C 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00DAC 809E265C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00DB0 809E2660 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DB4 809E2664 3C198016 */  lui     $t9, %hi(gSaveContext+0xef6)
 /* 00DB8 809E2668 9739F556 */  lhu     $t9, %lo(gSaveContext+0xef6)($t9)

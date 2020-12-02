@@ -23,7 +23,7 @@ glabel EnDh_Init
 /* 00058 809EAD98 24E75880 */  addiu   $a3, $a3, 0x5880           ## $a3 = 06005880
 /* 0005C 809EAD9C 24C67E88 */  addiu   $a2, $a2, 0x7E88           ## $a2 = 06007E88
 /* 00060 809EADA0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00064 809EADA4 0C0291BE */  jal     SkelAnime_InitSV
+/* 00064 809EADA4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00068 809EADA8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 809EADAC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00070 809EADB0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

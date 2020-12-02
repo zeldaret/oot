@@ -9,6 +9,10 @@ void EnKanban_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0403C050;
+extern UNK_TYPE D_06000C30;
+extern UNK_TYPE D_06001630;
+
 /*
 const ActorInit En_Kanban_InitVars = {
     ACTOR_EN_KANBAN,

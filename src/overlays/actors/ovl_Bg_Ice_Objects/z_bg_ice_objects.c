@@ -15,6 +15,9 @@ void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceObjects_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgIceObjects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000190;
+extern UNK_TYPE D_060003F0;
+
 /*
 const ActorInit Bg_Ice_Objects_InitVars = {
     ACTOR_BG_ICE_OBJECTS,

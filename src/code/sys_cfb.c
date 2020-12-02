@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u32 sSysCfbFbPtr[2];
 u32 sSysCfbEnd;

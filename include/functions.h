@@ -3,11 +3,11 @@
 
 #include "z64.h"
 
-float fabsf(float f);
+f32 fabsf(f32 f);
 #pragma intrinsic(fabsf)
-float sqrtf(float f);
+f32 sqrtf(f32 f);
 #pragma intrinsic(sqrtf)
-double sqrt(double d);
+f64 sqrt(f64 d);
 #pragma intrinsic(sqrt)
 
 void cleararena(void);
@@ -27,7 +27,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req);
 void DmaMgr_ThreadEntry(void* arg0);
 s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
 s32 DmaMgr_SendRequest0(u32 ram, u32 vrom, u32 size);
-void DmaMgr_Start();
+void DmaMgr_Init();
 s32 DmaMgr_SendRequest2(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
                         const char* file, s32 line);
 s32 DmaMgr_SendRequest1(void* ram0, u32 vrom, u32 size, const char* file, s32 line);
@@ -55,8 +55,8 @@ void StackCheck_Cleanup(StackEntry* entry);
 StackStatus StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll();
 u32 StackCheck_Check(StackEntry* entry);
-float LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, float var1, const char* var2Name,
-                               float var2, const char* var3Name, float var3);
+f32 LogUtils_CheckFloatRange(const char* exp, s32 arg1, const char* var1Name, f32 var1, const char* var2Name, f32 var2,
+                             const char* var3Name, f32 var3);
 s32 LogUtils_CheckIntRange(const char* exp, s32 arg1, const char* var1Name, s32 var1, const char* var2Name, s32 var2,
                            const char* var3Name, s32 var3);
 void LogUtils_LogHexDump(void* ptr, s32 size0);
@@ -98,7 +98,7 @@ void osWritebackDCache(void* vaddr, s32 nbytes);
 void* osViGetNextFramebuffer();
 void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgCnt);
 void __osDevMgrMain(void* arg);
-s32 __osPiRawStartDma(s32 dir, u32 cart_addr, void* dram_addr, size_t size);
+s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size);
 u32 osVirtualToPhysical(void* vaddr);
 void osViBlack(u8 active);
 s32 __osSiRawReadIo(void* a0, u32* a1);
@@ -118,6 +118,7 @@ void osInvalICache(void* vaddr, s32 nbytes);
 void osCreateMesgQueue(OSMesgQueue* mq, OSMesg* msg, s32 count);
 void osInvalDCache(void* vaddr, s32 nbytes);
 s32 __osSiDeviceBusy();
+s32 osJamMesg(OSMesgQueue* mq, OSMesg mesg, s32 flag);
 void osSetThreadPri(OSThread* thread, OSPri pri);
 OSPri osGetThreadPri(OSThread* thread);
 s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
@@ -146,13 +147,19 @@ void __osSetFpcCsr(u32);
 u32 __osGetFpcCsr();
 s32 osEPiWriteIo(OSPiHandle* handle, u32 devAddr, u32 data);
 void osMapTLBRdb(void);
+void osYieldThread();
 u32 __osGetCause();
 s32 __osEPiRawWriteIo(OSPiHandle* handle, u32 devAddr, u32 data);
+void _Litob(_Pft* args, u8 type);
+ldiv_t ldiv(s32 num, s32 denom);
+lldiv_t lldiv(s64 num, s64 denom);
+void _Ldtob(_Pft* args, u8 type);
+s32 __osSiRawWriteIo(void* a0, u32 a1);
 void osCreateViManager(OSPri pri);
 void viMgrMain(void* vargs);
 OSViContext* __osViGetCurrentContext();
 void osStartThread(OSThread* thread);
-void osViSetYScale(float scale);
+void osViSetYScale(f32 scale);
 void osViSetXScale(f32 value);
 void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg);
 void __osGetHWIntrRoutine(s32 idx, OSMesgQueue** outQueue, OSMesg* outMsg);
@@ -465,6 +472,8 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorType);
 void func_80032C7C(GlobalContext* globalCtx, Actor* actor);
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx);
+void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6);
+s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params);
 void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
                    s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
@@ -491,10 +500,10 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u
                   s16 (*unkFunc2)(GlobalContext*, Actor*));
 s16 func_800347E8(s16 arg0);
 void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
-void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
-                   PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
-void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
-                   PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
+void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
+                   PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
+void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
+                   PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3);
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
@@ -574,7 +583,8 @@ f32 func_8003C890(CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
 f32 func_8003C9A4(CollisionContext*, CollisionPoly**, UNK_PTR, Actor*, Vec3f*);
-f32 func_8003CA0C(GlobalContext*, CollisionContext*, CollisionPoly**, u32*, Actor*, Vec3f*);
+f32 func_8003CA0C(GlobalContext* globalCtx, CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
+                  Vec3f* pos);
 f32 func_8003CA64(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos, f32 chkDist);
 f32 func_8003CB30(CollisionContext*, CollisionPoly*, Vec3f*, MtxF*);
 f32 func_8003CCA4(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
@@ -590,9 +600,9 @@ s32 func_8003D7A0(CollisionContext*, f32*, Vec3f*, f32, UNK_PTR, u32*, Actor*);
 // ? func_8003DD6C(?);
 s32 func_8003DE84(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*);
 s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*);
-// ? func_8003DFA0(?);
+s32 func_8003DFA0(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*, f32);
 // ? func_8003E0FC(?);
-// ? func_8003E188(?);
+s32 func_8003E188(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, f32*);
 // ? func_8003E214(?);
 s32 func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius);
 // ? func_8003E398(?);
@@ -617,6 +627,7 @@ s32 func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius);
 // ? func_8003E9A0(?);
 void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
 void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
+void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
 u32 DynaPolyInfo_RegisterActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, UNK_TYPE arg3);
 DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, UNK_TYPE dynaPolyId);
 void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
@@ -646,18 +657,19 @@ void DynaPolyInfo_Alloc(UNK_PTR arg0, UNK_PTR arg1);
 // ? func_80041B80(?);
 struct_80041C10_ret* func_80041C10(CollisionContext* colCtx, s32, s32);
 // ? func_80041C98(?);
-// ? func_80041D4C(?);
+UNK_TYPE func_80041D4C(CollisionContext*, CollisionPoly*, CollisionPoly*);
 // ? func_80041D94(?);
 // ? func_80041DB8(?);
 // ? func_80041EC8(?);
 // ? func_80041F10(?);
-u16 func_80041F34(CollisionContext*, CollisionPoly*, u8);
+u16 func_80041F34(CollisionContext*, CollisionPoly*, u32);
 s32 func_80041FA0(CollisionContext*, CollisionPoly*, u32);
-// ? func_80042048(?);
-// ? func_80042108(?);
+s32 func_80042048(CollisionContext*, CollisionPoly*, s32);
+s32 func_80042108(CollisionContext*, CollisionPoly*, u32);
 s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, UNK_PTR);
 s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg2, f32 arg3, WaterBox** arg4);
-s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface, WaterBox** outWaterBox);
+s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+                  WaterBox** outWaterBox);
 // ? func_80042538(?);
 // ? func_80042548(?);
 // ? func_8004259C(?);
@@ -757,6 +769,7 @@ s32 func_8005A77C(Camera* camera, s16 button);
 // ? func_8005A8C4(?);
 s16 func_8005A948(Camera* camera);
 Vec3s* func_8005A970(Vec3s*, Camera*);
+s16 func_8005A9CC(s32 arg0);
 s16 func_8005A9F4(Camera* camera);
 s32 func_8005AA1C(Camera* camera, s32, s16, s32);
 s32 Camera_SetParam(Camera*, s32, void*);
@@ -947,7 +960,7 @@ void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpd
                        f32 animCurFrame, f32 animSpeed);
 s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
 void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
-                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor2);
+                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
 // ? func_8006CFC0(?);
 // ? func_8006D074(?);
 // ? func_8006D0AC(?);
@@ -962,10 +975,10 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize);
 void KaleidoSetup_Update(GlobalContext* globalCtx);
 void KaleidoSetup_Init(GlobalContext* globalCtx);
 void KaleidoSetup_Destroy(GlobalContext* globalCtx);
-// ? func_8006EE50(?);
-// ? func_8006EE60(?);
-// ? func_8006EEBC(?);
-// ? func_8006EF10(?);
+void func_8006EE50(Font* font, s16 arg1, s16 arg2);
+void Font_LoadChar(u32 offset, u8 character, u16 codePointIndex);
+void Font_LoadMessageBoxEndIcon(Font* font, u16 icon);
+void Font_LoadOrderedFont(Font* font);
 s32 func_8006F0A0(s32 arg0);
 // ? func_8006F0D4(?);
 // ? func_8006F0FC(?);
@@ -1107,8 +1120,9 @@ Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b);
 // ? func_80080024(?);
 s16 func_800800F8(GlobalContext* globalCtx, s16 arg1, s16 arg2, Actor* actor, s16 arg4);
 void func_800803F0(GlobalContext* globalCtx, s16 camId);
-// ? func_80080480(?);
+s16 func_80080480(GlobalContext* globalCtx, Actor* actor);
 UNK_TYPE func_800806BC(GlobalContext* globalCtx, Actor* actor, UNK_TYPE);
+UNK_TYPE func_80080728(GlobalContext* globalCtx, u8 actorType);
 void func_80080788(UNK_TYPE, UNK_TYPE);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor);
@@ -1140,7 +1154,7 @@ void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action);
 s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange);
 void Rupees_ChangeBy(s16 rupeeChange);
 void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
-void func_80087680(GlobalContext* globalCtx);
+void Magic_Fill(GlobalContext* globalCtx);
 void func_800876C8(GlobalContext* globalCtx);
 s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2);
 void func_80088AA0(s16 seconds);
@@ -1187,21 +1201,20 @@ s32 Player_ActionToExplosive(Player* player, s32 actionParam);
 s32 Player_GetExplosiveHeld(Player* player);
 s32 func_8008F2BC(Player* player, s32 actionParam);
 s32 func_8008F2F8(GlobalContext* globalCtx);
-void func_8008F470(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod,
-                   s32 tunic, s32 boots, s32 face, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw,
-                   void* arg);
-s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor);
-s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod, s32 tunic,
+                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* this);
+s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
+s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
+s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
+s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
 u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponDim, Vec3f* newTip,
                  Vec3f* newBase);
 void Player_DrawGetItem(GlobalContext* globalCtx, Player* player);
+void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* data);
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime);
-void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
-                   s32 sword, s32 tunic, s32 shield, s32 boots);
-void PreNMI_Init(PreNMIContext* prenmiCtx);
+void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f* pos, Vec3s* rot, f32 scale, s32 sword,
+                   s32 tunic, s32 shield, s32 boots);
+void PreNMI_Init(GameState* thisx);
 Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2);
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x);
 s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake);
@@ -1253,6 +1266,7 @@ void func_80094678(GraphicsContext* gfxCtx);
 Gfx* func_800946E4(Gfx* gfx);
 Gfx* func_800947AC(Gfx* gfx);
 void func_80094A14(GraphicsContext* gfxCtx);
+void func_80094B58(GraphicsContext* gfxCtx);
 void func_80094BC4(GraphicsContext* gfxCtx);
 void func_80094C50(GraphicsContext* gfxCtx);
 void func_80094D28(Gfx** gfxp);
@@ -1273,8 +1287,8 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum);
 s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx);
 void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags);
 void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx);
-void Sample_Destroy(SampleContext* this);
-void Sample_Init(SampleContext* this);
+void Sample_Destroy(GameState* thisx);
+void Sample_Init(GameState* thisx);
 void Inventory_ChangeEquipment(s16 equipment, u16 value);
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment);
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
@@ -1287,72 +1301,73 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd);
 void func_80098CBC(GlobalContext* globalCtx, u8* nbTransitionActors);
 void func_800994A0(GlobalContext* globalCtx);
 void Scene_Draw(GlobalContext* globalCtx);
-void SkelAnime_LodDraw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable,
-                       OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, Actor* actor, s32 dListIndex);
-void SkelAnime_LodDrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable, s32 dListCount,
-                         OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, Actor* actor, s32 dListIndex);
-void SkelAnime_Draw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable,
-                    OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, Actor* actor);
-void SkelAnime_DrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable, s32 dListCount,
-                      OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, Actor* actor);
-s16 SkelAnime_GetFrameCount(GenericAnimationHeader* animationSeg);
-Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable,
-                     OverrideLimbDraw2 overrideLimbDraw, PostLimbDraw2 postLimbDraw, Actor* actor, Gfx* gfx);
-Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable, s32 dListCount,
-                       OverrideLimbDraw2 overrideLimbDraw, PostLimbDraw2 postLimbDraw, Actor* actor, Gfx* gfx);
+void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable,
+                       OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, s32 dListIndex);
+void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount,
+                           OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg,
+                           s32 dListIndex);
+void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable,
+                       OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
+void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount,
+                           OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
+s16 SkelAnime_GetTotalFrames(void* animationSeg);
+s16 SkelAnime_GetFrameCount(void* animationSeg);
+s16 func_800A2DBC(void* animationSeg);
+s16 SkelAnime_GetTotalFrames2(void* animationSeg);
+s16 SkelAnime_GetFrameCount2(void* animationSeg);
+Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, OverrideLimbDraw overrideLimbDraw,
+                    PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
+Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* limbDrawTable, s32 dListCount,
+                        OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
 void SkelAnime_InterpolateVec3s(s32, Vec3s*, Vec3s*, Vec3s*, f32);
 void SkelAnime_AnimationCtxReset(AnimationContext* animationCtx);
 void func_800A32F4(GlobalContext* globalCtx);
 void func_800A3310(GlobalContext* globalCtx);
-void SkelAnime_LoadLinkAnimetion(GlobalContext* globalCtx, LinkAnimetionEntry* linkAnimetionSeg, s32 frame,
-                                 s32 limbCount, void* ram);
+void SkelAnime_LoadLinkAnimation(GlobalContext* globalCtx, LinkAnimationHeader* animation, s32 frame, s32 limbCount,
+                                 Vec3s* drawTbl);
 void SkelAnime_LoadAnimationType1(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src);
 void SkelAnime_LoadAnimationType2(GlobalContext* globalCtx, s32 limbCount, Vec3s* arg2, Vec3s* arg3, f32 arg4);
 void SkelAnime_LoadAnimationType3(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* index);
 void SkelAnime_LoadAnimationType4(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* index);
 void SkelAnime_LoadAnimationType5(GlobalContext* globalCtx, Actor* actor, SkelAnime* skelAnime, f32 arg3);
 void func_800A390C(GlobalContext* globalCtx, AnimationContext* animationCtx);
-void SkelAnime_InitLinkAnimetion(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                                 LinkAnimetionEntry* linkAnimetionEntrySeg, s32 flags, Vec3s* limbDrawTable,
+void SkelAnime_InitLinkAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+                                 LinkAnimationHeader* segment, s32 flags, Vec3s* limbDrawTable,
                                  Vec3s* transitionDrawTbl, s32 limbBufCount);
 void func_800A3B8C(SkelAnime* skelAnime);
 s32 func_800A3BC0(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void SkelAnime_SetTransition(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 transitionRate);
-void SkelAnime_ChangeLinkAnim(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+void SkelAnime_ChangeLinkAnim(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment,
                               f32 playbackSpeed, f32 frame, f32 frameCount, u8 arg6, f32 transitionRate);
-void SkelAnime_ChangeLinkAnimDefaultStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                         LinkAnimetionEntry* linkAnimetionEntrySeg);
-void SkelAnime_ChangeLinkAnimPlaybackStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                          LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
+void SkelAnime_ChangeLinkAnimDefaultStop(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment);
+void SkelAnime_ChangeLinkAnimPlaybackStop(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment,
+                                          f32 playbackSpeed);
 void SkelAnime_ChangeLinkAnimDefaultRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                           LinkAnimetionEntry* linkAnimetionEntrySeg);
+                                           LinkAnimationHeader* segment);
 void SkelAnime_ChangeLinkAnimPlaybackRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                            LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
+                                            LinkAnimationHeader* segment, f32 playbackSpeed);
 void func_800A41FC(GlobalContext* globalCtx, SkelAnime* skelAnime);
-void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 frame);
-void func_800A42A0(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 frame);
+void func_800A422C(GlobalContext* globalCtx, SkelAnime* skelAnime);
+void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 frame);
+void func_800A42A0(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 frame);
 void func_800A42E4(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 frame);
-void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 transitionFrame, LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 frame, f32 transitionRate,
-                   Vec3s* limbDrawTable);
-void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 transitionFrame, LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 frame, f32 transitionRate,
-                   Vec3s* arg7);
+void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 transitionFrame,
+                   LinkAnimationHeader* linkAnimSeg2, f32 frame, f32 transitionRate, Vec3s* limbDrawTable);
+void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 transitionFrame,
+                   LinkAnimationHeader* linkAnimSeg2, f32 frame, f32 transitionRate, Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
 void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
-void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                      AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
+void SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+                        AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
 void SkelAnime_ChangeAnimImpl(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 frame,
                               f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2);
-void SkelAnime_ChangeAnim(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 unk0,
-                          f32 frameCount, u8 unk1, f32 transitionRate);
+void SkelAnime_ChangeAnim(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 frame,
+                          f32 frameCount, u8 mode, f32 transitionRate);
 void SkelAnime_ChangeAnimDefaultStop(SkelAnime* skelAnime, AnimationHeader* animationseg);
 void SkelAnime_ChangeAnimTransitionStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 transitionRate);
 void SkelAnime_ChangeAnimPlaybackStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed);
@@ -1370,6 +1385,8 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 // ? func_800A5F60(?);
 // ? func_800A60D8(?);
 void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*, void* callback, s32);
+void func_800A63CC(Actor* this, GlobalContext* globalCtx, PSkinAwb*, s32, s32, s32, s32, s32);
+void func_800A6408(PSkinAwb* skin, u8 joint, Vec3f*, Vec3f*);
 // ? func_800A6460(?);
 void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
 void func_800A6888(GlobalContext*, PSkinAwb*);
@@ -1388,14 +1405,22 @@ void SkinMatrix_SetScaleRotateYRPTranslate(MtxF* mf, f32 scaleX, f32 scaleY, f32
                                            f32 dx, f32 dy, f32 dz);
 Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src);
 void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z);
-// ? func_800A81A0(?);
-// ? func_800A82C8(?);
-// ? func_800A9A9C(?);
-// ? func_800A9D28(?);
-void func_800A9D40(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
-                   u8 handlePulse, u32 handleSpeed);
-void func_800A9E14(UNK_PTR dramAddr, size_t size, UNK_TYPE arg2);
-void Sram_ReadWrite(UNK_TYPE arg0, UNK_PTR dramAddr, size_t size, UNK_TYPE arg3);
+void Sram_InitNewSave(void);
+void Sram_InitDebugSave(void);
+void Sram_OpenSave(SramContext* sramCtx);
+void Sram_WriteSave(s32 unused);
+void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChoose, SramContext* sramCtx);
+void Sram_InitSave(FileChooseContext* fileChoose, SramContext* sramCtx);
+void Sram_EraseSave(FileChooseContext* fileChoose, SramContext* sramCtx);
+void Sram_CopySave(FileChooseContext* fileChoose, SramContext* sramCtx);
+void Sram_Write16Bytes(SramContext* sramCtx);
+void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
+void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
+void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx);
+void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
+                 u8 handlePulse, u32 handleSpeed);
+void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
+void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction);
 void func_800A9F30(PadMgr*, s32);
 void func_800A9F6C(f32, u8, u8, u8);
 void func_800AA000(f32, u8, u8, u8);
@@ -1567,9 +1592,9 @@ s32 func_800BC56C(GlobalContext* globalCtx, s16 arg1);
 void func_800BC590(GlobalContext* globalCtx);
 void func_800BC5E0(GlobalContext* globalCtx, s32 arg1);
 Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx);
-void Gameplay_Destroy(GlobalContext* globalCtx);
-void Gameplay_Init(GlobalContext* globalCtx);
-void Gameplay_Main(GlobalContext* globalCtx);
+void Gameplay_Destroy(GameState* thisx);
+void Gameplay_Init(GameState* thisx);
+void Gameplay_Main(GameState* thisx);
 s32 Gameplay_InCsMode(GlobalContext* globalCtx);
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec);
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file);
@@ -1577,7 +1602,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn);
 void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest);
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx);
 s16 Gameplay_GetActiveCamId(GlobalContext* globalCtx);
-void Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status);
+s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status);
 void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId);
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx);
 Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId);
@@ -1613,7 +1638,7 @@ void func_800C2118(PreRenderContext* this, Gfx** gfxp);
 void func_800C213C(PreRenderContext* this, Gfx** gfxp);
 void func_800C24BC(PreRenderContext* this, Gfx** gfxp);
 void func_800C24E0(PreRenderContext* this, Gfx** gfxp);
-void func_800C2500(PreRenderContext *this, s32 x, s32 y);
+void func_800C2500(PreRenderContext* this, s32 x, s32 y);
 void func_800C2FE4(PreRenderContext* this);
 void PreRender_Calc(PreRenderContext* this);
 void THGA_Ct(TwoHeadGfxArena* thga, Gfx* start, u32 size);
@@ -1651,7 +1676,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr);
 void AudioMgr_HandlePRENMI(AudioMgr* audioMgr);
 void AudioMgr_ThreadEntry(void* arg0);
 void AudioMgr_Unlock(AudioMgr* audioMgr);
-void AudioMgr_Start(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
+void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
 void TitleSetup_InitImpl(GameState* gameState);
 void TitleSetup_Destroy(GameState* gameState);
 void TitleSetup_Init(GameState* gameState);
@@ -1707,7 +1732,7 @@ void PadMgr_UnlockPadData(PadMgr* padmgr);
 void PadMgr_RumbleControl(PadMgr* padmgr);
 void PadMgr_RumbleStop(PadMgr* padmgr);
 void PadMgr_RumbleReset(PadMgr* padmgr);
-void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles);
+void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlrRumbles);
 void PadMgr_ProcessInputs(PadMgr* padmgr);
 void PadMgr_HandleRetraceMsg(PadMgr* padmgr);
 void PadMgr_HandlePreNMI(PadMgr* padmgr);
@@ -1832,7 +1857,7 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
 Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line);
-Mtx* Matrix_SkinMatrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx);
+Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx);
 void Matrix_MultVec3f(Vec3f* src, Vec3f* dest);
 void Matrix_MtxFCopy(MtxF* dest, MtxF* src);
 void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
@@ -1864,7 +1889,7 @@ void IrqMgr_HandlePRENMI480(IrqMgr* this);
 void IrqMgr_HandlePRENMI500(IrqMgr* this);
 void IrqMgr_HandleRetrace(IrqMgr* this);
 void IrqMgr_ThreadEntry(void* arg0);
-void IrqMgr_Create(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount);
+void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount);
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* DebugArena_Malloc(u32 size);
 void* DebugArena_MallocDebug(u32 size, const char* file, s32 line);
@@ -1919,7 +1944,7 @@ void Fault_ProcessClients();
 void Fault_UpdatePad();
 void Fault_ThreadEntry(void*);
 void Fault_SetFB(void*, u16, u16);
-void Fault_Start(void);
+void Fault_Init(void);
 void Fault_HangupFaultClient(const char*, const char*);
 void Fault_AddHungupAndCrashImpl(const char*, const char*);
 void Fault_AddHungupAndCrash(const char*, u32);
@@ -2004,7 +2029,7 @@ void func_800DE238(void* mem, u32 size);
 void* func_800DE258(SoundAllocPool* pool, u32 size);
 void* func_800DE2B0(SoundAllocPool* pool, u32 size);
 void* Audio_AllocDmaMemory(SoundAllocPool* pool, u32 size);
-void* Audio_AllocDmaMemoryZeroed(SoundAllocPool *pool, u32 size);
+void* Audio_AllocDmaMemoryZeroed(SoundAllocPool* pool, u32 size);
 void* Audio_AllocZeroed(SoundAllocPool* pool, u32 size);
 void* Audio_Alloc(SoundAllocPool* pool, u32 size);
 void Audio_SoundAllocPoolInit(SoundAllocPool* pool, void* memAddr, u32 size);
@@ -2118,7 +2143,7 @@ void func_800E4FB0(void);
 // ? func_800E5A8C(?);
 // ? func_800E5AD8(?);
 // ? func_800E5AFC(?);
-// ? func_800E5B20(?);
+void func_800E5B20(u32, s8);
 // ? func_800E5B50(?);
 // ? func_800E5B80(?);
 // ? func_800E5C10(?);
@@ -2134,7 +2159,7 @@ void func_800E4FB0(void);
 // ? func_800E6300(?);
 // ? func_800E6680(?);
 // ? func_800E66C0(?);
-// ? func_800E67C0(?);
+s32 Audio_NextRandom(void);
 // ? func_800E6818(?);
 // ? func_800E6840(?);
 void func_800E6880(void* mem, s32 size);
@@ -2229,7 +2254,7 @@ void func_800ED858(u8);
 // ? func_800F28B4(?);
 // ? func_800F29FC(?);
 // ? func_800F2A04(?);
-// ? func_800F2D6C(?);
+void func_800F2D6C(u8*, u16);
 // ? func_800F2E28(?);
 // ? func_800F3054(?);
 // ? func_800F3188(?);
@@ -2238,16 +2263,18 @@ void func_800ED858(u8);
 // ? func_800F35EC(?);
 // ? func_800F37B8(?);
 // ? func_800F3990(?);
-// ? func_800F3A08(?);
+void func_800F3A08(u8, u8, u8);
 // ? func_800F3ED4(?);
 void func_800F3F3C(u8);
 // ? func_800F3F84(?);
 void func_800F4010(Vec3f*, u16, f32);
+void func_800F41E0(Vec3f*, u16, u8);
 void func_800F4138(Vec3f*, u16, f32);
 void func_800F4190(Vec3f*, u16);
 void func_800F436C(UNK_TYPE arg0, s16 arg1, f32 arg2);
 // ? func_800F4414(?);
-// ? func_800F4524(?);
+void func_800F4524(Vec3f*, u16, u8);
+void func_800F46E0(Vec3f* pos, f32 arg0);
 // ? func_800F4784(?);
 void func_800F47BC(void);
 void func_800F47FC(void);
@@ -2262,7 +2289,8 @@ void func_800F4C58(Vec3f*, u16, u8);
 void func_800F574C(f32 arg0, UNK_TYPE arg2);
 void func_800F595C(u16);
 void func_800F59E8(u16);
-// ? func_800F5ACC(?);
+void func_800F5ACC(u32 bgmID);
+void func_800F5B58(void);
 void func_800F5C64(u16);
 // ? func_800F5CF8(?);
 // ? func_800F5E18(?);
@@ -2274,7 +2302,7 @@ void func_800F6584(UNK_TYPE);
 void func_800F6584(UNK_TYPE);
 // ? func_800F66C0(?);
 void func_800F66DC(s8);
-// ? func_800F6700(?);
+void func_800F6700(s8 outputMode);
 void func_800F67A0(u8);
 // ? func_800F6828(?);
 void func_800F68BC(s8);
@@ -2294,36 +2322,41 @@ void func_800F711C();
 // ? func_800F7170(?);
 // ? func_800F71BC(?);
 void func_800F7260(u16);
-// ? func_800F72B8(?);
-// ? func_800F731C(?);
-void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u32 a2, u32* a3, u32* a4, u32* a5);
+void func_800F72B8(u8);
+void func_800F731C(u8);
+void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, f32* a5);
 // ? func_800F74E0(?);
-// ? func_800F7680(?);
-// ? func_800F7B54(?);
-// ? func_800F7CEC(?);
-// ? func_800F8480(?);
-// ? func_800F87A0(?);
-// ? func_800F8884(?);
+void func_800F7680(void);
+void func_800F7B54(u8, u8);
+void func_800F7CEC(u8);
+void func_800F8480(u8);
+void func_800F87A0(u8);
+void func_800F8884(u8, Vec3f*);
+void func_800F89A0(u8, Vec3f*);
 void func_800F89E8(Vec3f*);
-void func_800F8D04(u16 arg0);
-// ? func_800F8D04(?);
-// ? func_800F8E3C(?);
-// ? func_800F8F34(?);
-// ? func_800F8F88(?);
-// ? func_800F8FF4(?);
-// ? func_800F905C(?);
+void func_800F8A44(Vec3f*, u16);
+void func_800F8BA0(u8, u16);
+void func_800F8D04(u32 sfxId);
+void func_800F8E3C(void);
+void func_800F8EA0(u8, u8, u16);
+void func_800F8F34(u8);
+void func_800F8F88(void);
+u8 func_800F8FF4(u32 sfxId);
+void func_800F905C(void);
 // ? func_800F9280(?);
-// ? func_800F9474(?);
-// ? func_800F94FC(?);
-void Audio_SetBGM(u32 bgmID);
-// ? func_800FA034(?);
-u16 func_800FA0B4(s32 a0);
-// ? func_800FA11C(?);
-// ? func_800FA240(?);
-// ? func_800FA3DC(?);
-// ? func_800FAD34(?);
-// ? func_800FADF8(?);
-// ? func_800FAEB4(?);
+void func_800F9474(u8, u16);
+void func_800F94FC(u32);
+void Audio_SetBGM(u32 bgmId);
+void func_800FA034(void);
+u16 func_800FA0B4(u8 a0);
+s32 func_800FA11C(u32, s32);
+void func_800FA174(u8);
+void func_800FA18C(u8, u8);
+void func_800FA240(u8, u8, u8, u8);
+void func_800FA3DC(void);
+u8 func_800FAD34(void);
+void func_800FADF8(void);
+void func_800FAEB4(void);
 void GfxPrint_InitDlist(GfxPrint*);
 void GfxPrint_SetColor(GfxPrint*, u32, u32, u32, u32);
 void GfxPrint_SetPosPx(GfxPrint*, s32, s32);
@@ -2467,9 +2500,9 @@ s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes);
 void guScale(Mtx* m, f32 x, f32 y, f32 z);
 f32 sinf(f32);
 s16 sins(u16);
-// ? func_801004C0(?);
-// ? osSpTaskLoad(?);
-// ? osSpTaskStartGo(?);
+OSTask* _VirtualToPhysicalTask(OSTask* intp);
+void osSpTaskLoad(OSTask* task);
+void osSpTaskStartGo(OSTask* task);
 s32 osSetRumble(OSPfs* pfs, u32 vibrate);
 void osSetUpMempakWrite(s32 channel, OSPifRam* buf);
 s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, OSPfs* pfs, u32 channel);
@@ -2482,24 +2515,23 @@ void __osPackRequestData(u8 poll);
 s32 osContStartReadData(OSMesgQueue* mq);
 void osContGetReadData(OSContPad* pad);
 void __osPackReadData();
-// ? guPerspectiveF(?);
-// ? guPerspective(?);
-// ? __osSpRawStartDma(?);
+void guPerspectiveF(f32 mf[4][4], u16* perspNorm, f32 fovy, f32 aspect, f32 near, f32 far, f32 scale);
+void guPerspective(Mtx* m, u16* perspNorm, f32 fovy, f32 aspect, f32 near, f32 far, f32 scale);
+s32 __osSpRawStartDma(s32 direction, void* devAddr, void* dramAddr, u32 size);
 s32 __osSiRawStartDma(s32 dir, void* addr);
-// ? osSpTaskYield(?);
+void osSpTaskYield(void);
 s32 __osPfsGetNextPage(OSPfs* pfs, u8* bank, __OSInode* inode, __OSInodeUnit* page);
 s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8* data);
 s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel);
 void __osPfsRequestOneChannel(s32 channel, u8 poll);
 void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData);
-// ? guMtxIdentF(?);
-void guLookAtF(float mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
+void guMtxIdentF(f32 mf[4][4]);
+void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
 void guLookAt(Mtx*, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp);
-s32 osPfsAllocateFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name, s32 length,
-                      s32* file_no);
+s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 length, s32* fileNo);
 s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared,
                        s32* finalPage);
-// ? osStopTimer(?);
+s32 osStopTimer(OSTimer* timer);
 u16 __osSumcalc(u8* ptr, s32 length);
 s32 __osIdCheckSum(u16* ptr, u16* csum, u16* icsum);
 s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid);
@@ -2507,28 +2539,30 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* temp);
 s32 __osGetId(OSPfs* pfs);
 s32 __osCheckId(OSPfs* pfs);
 s32 __osPfsRWInode(OSPfs* pfs, __OSInode* inode, u8 flag, u8 bank);
-// ? func_80102FA0(?);
+void guMtxL2F(MtxF* m1, Mtx* m2);
 s32 osPfsFindFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32* fileNo);
-// ? osAfterPreNMI(?);
-// ? osContStartQuery(?);
+s32 osAfterPreNMI(void);
+s32 osContStartQuery(OSMesgQueue* mq);
 void osContGetQuery(OSContStatus* data);
-// ? guLookAtHiliteF(?);
+void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt,
+                     f32 xUp, f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
+                     s32 hiliteHeight);
 void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp,
                     f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
                     s32 hiliteHeight);
-// ? __osSpDeviceBusy(?);
-// ? guMtxIdent(?);
-// ? guPositionF(?);
+u32 __osSpDeviceBusy();
+void guMtxIdent(f32 m[4][4]);
+void guPositionF(f32 mf[4][4], f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f32 z);
 void guPosition(Mtx*, f32, f32, f32, f32, f32, f32, f32);
-// ? osSpTaskYielded(?);
-// ? guRotateF(?);
+OSYieldResult osSpTaskYielded(OSTask* task);
+void guRotateF(f32 m[4][4], f32 a, f32 x, f32 y, f32 z);
 void guRotate(Mtx*, f32 angle, f32 x, f32 y, f32 z);
 s32 osAiSetFrequency(u32 frequency);
-// ? __osGetActiveQueue(?);
-// ? guNormalize(?);
+OSThread* __osGetActiveQueue();
+void guNormalize(f32* x, f32* y, f32* z);
 u32 osDpGetStatus(void);
 void osDpSetStatus(u32 status);
-s32 osPfsDeleteFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name);
+s32 osPfsDeleteFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName);
 s32 __osPfsReleasePages(OSPfs* pfs, __OSInode* inode, u8 initialPage, u8 bank, __OSInodeUnit* finalPage);
 void guOrthoF(f32[4][4], f32, f32, f32, f32, f32, f32, f32);
 void guOrtho(Mtx*, f32, f32, f32, f32, f32, f32, f32);
@@ -2541,23 +2575,24 @@ void __osPfsGetInitData(u8* pattern, OSContStatus* contData);
 void guS2DInitBg(uObjBg* bg);
 s32 __osPfsSelectBank(OSPfs* pfs, u8 bank);
 s32 osContSetCh(u8 ch);
-s32 osPfsFileState(OSPfs* pfs, s32 file_no, OSPfsState* state);
+s32 osPfsFileState(OSPfs* pfs, s32 fileNo, OSPfsState* state);
 s32 osPfsInitPak(OSMesgQueue* mq, OSPfs* pfs, s32 channel);
 s32 __osPfsCheckRamArea(OSPfs* pfs);
 s32 osPfsChecker(OSPfs* pfs);
 s32 func_80105788(OSPfs* pfs, __OSInodeCache* cache);
 s32 func_80105A60(OSPfs* pfs, __OSInodeUnit fpage, __OSInodeCache* cache);
-// ? osAiGetLength(?);
+u32 osAiGetLength(void);
 void guTranslate(Mtx* m, f32 x, f32 y, f32 z);
 s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 force);
 s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data);
 u8 __osContAddressCrc(u16 addr);
 u8 __osContDataCrc(u8* data);
+s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* mq, OSMesg msg);
 u32 __osSpGetStatus();
 void __osSpSetStatus(u32 status);
 void osWritebackDCacheAll(void);
 OSThread* __osGetCurrFaultedThread();
-// ? guMtxF2L(?);
+void guMtxF2L(MtxF* m1, Mtx* m2);
 // ? __d_to_ll(?);
 // ? __f_to_ll(?);
 // ? __d_to_ull(?);
@@ -2567,7 +2602,7 @@ OSThread* __osGetCurrFaultedThread();
 // ? __ull_to_d(?);
 // ? __ull_to_f(?);
 u32* osViGetCurrentFramebuffer(void);
-// ? __osSpSetPc(?);
+s32 __osSpSetPc(void* pc);
 f32 absf(f32);
 void* func_80106860(void* ptr, s32 val, size_t size);
 void* func_801068B0(void* dst, void* src, size_t size);
@@ -2610,14 +2645,14 @@ void func_801109B0(GlobalContext* globalCtx);
 void func_80110F68(GlobalContext* globalCtx);
 void func_80112098(GlobalContext* globalCtx);
 
-void Title_Init(TitleContext*);
-void Title_Destroy(TitleContext* this);
-void Select_Init(SelectContext*);
-void Select_Destroy(SelectContext*);
-void Opening_Init(OpeningContext* this);
-void Opening_Destroy(OpeningContext* this);
-void func_80811A20(GameState*); // FileChoose_Init
-void func_80811A18(GameState*); // FileChoose_Destroy
+void Title_Init(GameState* thisx);
+void Title_Destroy(GameState* thisx);
+void Select_Init(GameState* thisx);
+void Select_Destroy(GameState* thisx);
+void Opening_Init(GameState* thisx);
+void Opening_Destroy(GameState* thisx);
+void func_80811A20(GameState* thisx); // FileChoose_Init
+void func_80811A18(GameState* thisx); // FileChoose_Destroy
 
 void func_80823994(PauseContext*, f32, f32, f32);
 void func_800949A8(GraphicsContext*);

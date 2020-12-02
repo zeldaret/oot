@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSTime osGetTime(void) {
     u32 sp34;

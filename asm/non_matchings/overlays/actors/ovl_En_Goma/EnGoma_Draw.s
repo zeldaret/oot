@@ -171,7 +171,7 @@ glabel EnGoma_Draw
 /* 021D0 80A4B090 24E7ACC0 */  addiu   $a3, $a3, %lo(func_80A4ACC0) ## $a3 = 80A4ACC0
 /* 021D4 80A4B094 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 021D8 80A4B098 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 021DC 80A4B09C 0C028572 */  jal     SkelAnime_Draw
+/* 021DC 80A4B09C 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 021E0 80A4B0A0 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 021E4 80A4B0A4 100000B6 */  beq     $zero, $zero, .L80A4B380   

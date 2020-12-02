@@ -1026,8 +1026,8 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
             break;
         case 4:
             // teeth
-            gDPPipeSync(oGfxCtx->polyOpa.p++);
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->teethR, this->teethG, this->teethB, 0);
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->teethR, this->teethG, this->teethB, 0);
             break;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2295);
@@ -1045,6 +1045,6 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
-                   EnSt_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
+                      EnSt_PostLimbDraw, this);
 }

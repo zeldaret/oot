@@ -1,8 +1,8 @@
 #ifndef _Z_EN_GM_H_
 #define _Z_EN_GM_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnGm;
 
@@ -17,7 +17,7 @@ typedef struct EnGm {
     /* 0x026C */ EnGmActionFunc subActionFunc;
     /* 0x0270 */ ColliderCylinder collider;
     /* 0x02BC */ s8 objGmBankIndex;
-    /* 0x02BE */ s16 counter;
+    /* 0x02BE */ s16 timer;
     /* 0x02C0 */ s16 eyeTimer;
     /* 0x02C2 */ u8 eyeIndex;
     /* 0x02C4 */ Vec3f talkPos;

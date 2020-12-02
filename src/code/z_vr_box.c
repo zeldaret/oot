@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/func_800ADBB0.s")
 

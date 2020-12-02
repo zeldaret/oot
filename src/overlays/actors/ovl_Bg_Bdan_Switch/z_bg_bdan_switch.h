@@ -1,8 +1,8 @@
 #ifndef _Z_BG_BDAN_SWITCH_H_
 #define _Z_BG_BDAN_SWITCH_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 // BgBdanSwitch.actor.params & 0xFF
 typedef enum {

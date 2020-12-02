@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B3B50.s")
 

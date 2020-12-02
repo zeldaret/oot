@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 // The latest generated random number, used to generate the next number in the sequence.
 static u32 sRandInt = 1;
