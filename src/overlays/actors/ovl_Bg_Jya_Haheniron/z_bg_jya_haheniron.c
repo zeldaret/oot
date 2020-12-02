@@ -15,6 +15,8 @@ void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000880;
+
 /*
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,

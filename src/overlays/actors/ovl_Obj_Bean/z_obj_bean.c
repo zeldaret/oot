@@ -15,6 +15,12 @@ void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000090;
+extern UNK_TYPE D_060001B0;
+extern UNK_TYPE D_060003F0;
+extern UNK_TYPE D_060005DC;
+extern UNK_TYPE D_06000650;
+
 /*
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,

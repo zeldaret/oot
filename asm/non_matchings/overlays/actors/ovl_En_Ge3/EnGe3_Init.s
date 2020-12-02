@@ -22,7 +22,7 @@ glabel EnGe3_Init
 /* 000F0 80A34710 24C6A458 */  addiu   $a2, $a2, 0xA458           ## $a2 = 0600A458
 /* 000F4 80A34714 AFA50034 */  sw      $a1, 0x0034($sp)
 /* 000F8 80A34718 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 000FC 80A3471C 0C0291BE */  jal     SkelAnime_InitSV
+/* 000FC 80A3471C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00100 80A34720 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00104 80A34724 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00108 80A34728 24A5B07C */  addiu   $a1, $a1, 0xB07C           ## $a1 = 0600B07C

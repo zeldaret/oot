@@ -63,7 +63,7 @@ glabel EnGe2_Draw
 /* 016DC 80A342AC AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 016E0 80A342B0 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 016E4 80A342B4 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 016E8 80A342B8 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 016E8 80A342B8 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 016EC 80A342BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 016F0 80A342C0 3C0680A3 */  lui     $a2, %hi(D_80A3442C)       ## $a2 = 80A30000
 /* 016F4 80A342C4 24C6442C */  addiu   $a2, $a2, %lo(D_80A3442C)  ## $a2 = 80A3442C

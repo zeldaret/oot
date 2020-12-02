@@ -140,7 +140,7 @@ void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, this->animSpeed, 0.0f, (s16)frameCount, 0,
                          this->transitionRate);
@@ -224,7 +224,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005880);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005880, 3.0f, 0.0f, (s16)frameCount, 0, -3.0f);
     this->bodyTurnSpeed = 0.0f;
@@ -252,7 +252,7 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
 
 void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 rand;
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, (s16)frameCount, 0,
                          this->transitionRate);
@@ -322,7 +322,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->kickTimer = 30;
@@ -344,7 +344,7 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = EnHeishi1_Kick;
@@ -370,7 +370,7 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = EnHeishi1_WaitNight;
@@ -482,7 +482,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                               void* thisx) {
     EnHeishi1* this = THIS;
 
     // turn the guards head to match the direction he is looking
@@ -499,8 +499,8 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi1_OverrideLimbDraw, NULL,
-                   &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi1_OverrideLimbDraw,
+                      NULL, this);
     func_80033C30(&this->actor.posRot.pos, &matrixScale, 0xFF, globalCtx);
 
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {

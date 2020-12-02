@@ -41,7 +41,7 @@ glabel func_80954454
 /* 05228 809544E8 8FA5003C */  lw      $a1, 0x003C($sp)
 /* 0522C 809544EC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 05230 809544F0 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 05234 809544F4 0C0291BE */  jal     SkelAnime_InitSV
+/* 05234 809544F4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 05238 809544F8 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0523C 809544FC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 05240 80954500 C7B20048 */  lwc1    $f18, 0x0048($sp)
