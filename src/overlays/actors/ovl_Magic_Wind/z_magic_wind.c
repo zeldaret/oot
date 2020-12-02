@@ -35,17 +35,17 @@ const ActorInit Magic_Wind_InitVars = {
 
 #include "z_magic_wind_gfx.c"
 
-u8 sTransformRefIdx[] = {
+static u8 sTransformRefIdx[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-s16 sCopyValues[] = {
+static s16 sCopyValues[] = {
     0x0400, 0x0400, 0x0400, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0200, 0x0200, 0x0000, 0x0000,
     0x0000, 0x0000, 0x0000, 0x0000, 0x02CD, 0x02CD, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 };
 
-TransformData sTransformData[] = {
+static TransformData sTransformData[] = {
     {
         0x000C,
         0x0001,
@@ -76,11 +76,11 @@ TransformData sTransformData[] = {
     },
 };
 
-TransformUpdateIndex sTransformUpdIdx = {
+static TransformUpdateIndex sTransformUpdIdx = {
     sTransformRefIdx, sTransformData, sCopyValues, 0x0001, 0x0003C,
 };
 
-SkelCurveLimb sRootLimb = {
+static SkelCurveLimb sRootLimb = {
     0x01,
     0xFF,
     {
@@ -89,7 +89,7 @@ SkelCurveLimb sRootLimb = {
     },
 };
 
-SkelCurveLimb sInnerCylinder = {
+static SkelCurveLimb sInnerCylinder = {
     0xFF,
     0x02,
     {
@@ -98,7 +98,7 @@ SkelCurveLimb sInnerCylinder = {
     },
 };
 
-SkelCurveLimb sOuterCylinder = {
+static SkelCurveLimb sOuterCylinder = {
     0xFF,
     0xFF,
     {
@@ -107,18 +107,18 @@ SkelCurveLimb sOuterCylinder = {
     },
 };
 
-SkelCurveLimb* sLimbs[] = {
+static SkelCurveLimb* sLimbs[] = {
     &sRootLimb,
     &sInnerCylinder,
     &sOuterCylinder,
 };
 
-SkelCurveLimbList sLimbList = {
+static SkelCurveLimbList sLimbList = {
     sLimbs,
     0x03,
 };
 
-u8 sAlphaUpdVals[] = {
+static u8 sAlphaUpdVals[] = {
     0x00, 0x03, 0x04, 0x07, 0x09, 0x0A, 0x0D, 0x0F, 0x11, 0x12, 0x15, 0x16, 0x19, 0x1B, 0x1C, 0x1F, 0x21, 0x23,
 };
 

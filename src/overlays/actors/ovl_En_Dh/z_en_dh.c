@@ -5,13 +5,13 @@
 #define THIS ((EnDh*)thisx)
 
 typedef enum {
-    ACTION_WAIT,
-    ACTION_RETREAT,
-    ACTION_BURROW,
-    ACTION_WALK,
-    ACTION_ATTACK,
-    ACTION_DEATH,
-    ACTION_DAMAGE
+    DH_WAIT,
+    DH_RETREAT,
+    DH_BURROW,
+    DH_WALK,
+    DH_ATTACK,
+    DH_DEATH,
+    DH_DAMAGE
 } EnDhAction;
 
 void EnDh_Init(Actor* this, GlobalContext* globalCtx);
@@ -140,7 +140,7 @@ void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32
 
 void EnDh_SetupWait(EnDh* this) {
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06003A8C);
-    this->curAction = ACTION_WAIT;
+    this->curAction = DH_WAIT;
     this->actor.posRot.pos.x = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.z = Math_Rand_CenteredFloat(600.0f) + this->actor.initPosRot.pos.z;
     this->actor.shape.unk_08 = -15000.0f;
@@ -195,7 +195,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 void EnDh_SetupWalk(EnDh* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f,
                          SkelAnime_GetFrameCount(&D_06003A8C.genericHeader) - 3.0f, 0, -6.0f);
-    this->curAction = ACTION_WALK;
+    this->curAction = DH_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
     EnDh_SetupAction(this, EnDh_Walk);
@@ -223,7 +223,7 @@ void EnDh_Walk(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupRetreat(EnDh* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06005880, -4.0f);
-    this->curAction = ACTION_RETREAT;
+    this->curAction = DH_RETREAT;
     this->timer = 70;
     this->actor.speedXZ = 1.0f;
     EnDh_SetupAction(this, EnDh_Retreat);
@@ -244,7 +244,7 @@ void EnDh_Retreat(EnDh* this, GlobalContext* globalCtx) {
 void EnDh_SetupAttack(EnDh* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06004658, -6.0f);
     this->timer = this->actionState = 0;
-    this->curAction = ACTION_ATTACK;
+    this->curAction = DH_ATTACK;
     this->actor.speedXZ = 0.0f;
     EnDh_SetupAction(this, EnDh_Attack);
 }
@@ -308,7 +308,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupBurrow(EnDh* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002148, -6.0f);
-    this->curAction = ACTION_BURROW;
+    this->curAction = DH_BURROW;
     this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     this->dirtWavePhase = 0;
@@ -353,7 +353,7 @@ void EnDh_SetupDamage(EnDh* this) {
         this->actor.speedXZ = -1.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
-    this->curAction = ACTION_DAMAGE;
+    this->curAction = DH_DAMAGE;
     EnDh_SetupAction(this, EnDh_Damage);
 }
 
@@ -380,7 +380,7 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupDeath(EnDh* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060032BC, -1.0f);
-    this->curAction = ACTION_DEATH;
+    this->curAction = DH_DEATH;
     this->timer = 300;
     this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
@@ -460,12 +460,12 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos = this->headPos;
     Collider_CylinderUpdate(&this->actor, &this->collider1);
     if (this->actor.colChkInfo.health > 0) {
-        if (this->curAction == ACTION_WAIT) {
+        if (this->curAction == DH_WAIT) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         } else {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         }
-        if (((this->curAction != ACTION_DAMAGE) && (this->actor.shape.unk_08 == 0.0f)) ||
+        if (((this->curAction != DH_DAMAGE) && (this->actor.shape.unk_08 == 0.0f)) ||
             ((player->unk_844 != 0) && (player->unk_845 != this->unk_258))) {
 
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
@@ -478,7 +478,7 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f headOffset = { 2000.0f, 1000.0f, 0.0f };
     EnDh* this = THIS;
 

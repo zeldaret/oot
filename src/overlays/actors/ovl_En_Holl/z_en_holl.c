@@ -179,22 +179,22 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     TransitionActorEntry* transitionEntry;
     f32 planeHalfWidth;
     s32 pad2;
+    Player* player = PLAYER;
     s32 useViewEye = D_8011D394 != 0 || globalCtx->csCtx.state != 0;
     s32 transitionActorIdx;
     f32 absZ;
     s32 side;
-    Player* player = PLAYER;
 
     func_8002DBD0(&this->actor, &vec, (useViewEye) ? &globalCtx->view.eye : &player->actor.posRot.pos);
     planeHalfWidth = (((this->actor.params >> 6) & 7) == 6) ? PLANE_HALFWIDTH : PLANE_HALFWIDTH_2;
     if (EnHoll_IsKokiriSetup8() || (vec.y > PLANE_Y_MIN && vec.y < PLANE_Y_MAX && fabsf(vec.x) < planeHalfWidth &&
-                                    (absZ = fabsf(vec.z), (absZ < 100.0f && absZ > 50.0f)))) {
+                                    fabsf(vec.z) < 100.0f && fabsf(vec.z) > 50.0f)) {
         transitionActorIdx = (u16)this->actor.params >> 0xA;
         side = (vec.z < 0.0f) ? 0 : 1;
         transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
         this->actor.room = transitionEntry->sides[side].room;
         if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
-            func_8009728C(globalCtx, &globalCtx->roomCtx, (u32)this->actor.room) != 0) {
+            func_8009728C(globalCtx, &globalCtx->roomCtx, (u32)this->actor.room)) {
             EnHoll_SetupAction(this, EnHoll_NextAction);
         }
     }

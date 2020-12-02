@@ -28,7 +28,7 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
 };
 
 extern Gfx D_06002D20[];
-s32 D_8089C1A0;
+static s32 D_8089C1A0;
 
 static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
