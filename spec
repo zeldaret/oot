@@ -2138,8 +2138,7 @@ endseg
 beginseg
     name "ovl_En_Dns"
     include "build/src/overlays/actors/ovl_En_Dns/z_en_dns.o"
-    include "build/data/overlays/actors/z_en_dns.data.o"
-    include "build/data/overlays/actors/z_en_dns.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dns/ovl_En_Dns_reloc.o"
 endseg
 
 beginseg
