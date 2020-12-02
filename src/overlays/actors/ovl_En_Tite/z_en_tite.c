@@ -15,6 +15,18 @@ void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTite_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600083C;
+extern UNK_TYPE D_06000A14;
+extern UNK_TYPE D_06000C70;
+extern UNK_TYPE D_060012E4;
+extern UNK_TYPE D_06001300;
+extern UNK_TYPE D_06001700;
+extern UNK_TYPE D_06001900;
+extern UNK_TYPE D_06001B00;
+extern UNK_TYPE D_06001F00;
+extern UNK_TYPE D_06002100;
+extern UNK_TYPE D_06003A20;
+
 /*
 const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,

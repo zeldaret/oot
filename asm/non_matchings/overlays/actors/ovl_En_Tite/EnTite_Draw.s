@@ -153,7 +153,7 @@ glabel EnTite_Draw
 /* 02A14 80B1B494 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 02A18 80B1B498 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 02A1C 80B1B49C 8FA4008C */  lw      $a0, 0x008C($sp)           
-/* 02A20 80B1B4A0 0C028572 */  jal     SkelAnime_Draw
+/* 02A20 80B1B4A0 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 02A24 80B1B4A4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 02A28 80B1B4A8 8FAF008C */  lw      $t7, 0x008C($sp)           

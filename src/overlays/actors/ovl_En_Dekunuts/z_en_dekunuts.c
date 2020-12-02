@@ -15,6 +15,19 @@ void EnDekunuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDekunuts_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060001C4;
+extern UNK_TYPE D_06000368;
+extern UNK_TYPE D_060004D8;
+extern UNK_TYPE D_060006B0;
+extern UNK_TYPE D_060008C4;
+extern UNK_TYPE D_06000AF0;
+extern UNK_TYPE D_06000D1C;
+extern UNK_TYPE D_06000E6C;
+extern UNK_TYPE D_06001024;
+extern UNK_TYPE D_06002298;
+extern UNK_TYPE D_06003268;
+extern UNK_TYPE D_06003650;
+
 /*
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,

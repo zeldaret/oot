@@ -65,7 +65,7 @@ glabel EnSsh_Draw
 /* 0211C 80B0438C 24E74190 */  addiu   $a3, $a3, %lo(func_80B04190) ## $a3 = 80B04190
 /* 02120 80B04390 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 02124 80B04394 AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 02128 80B04398 0C028572 */  jal     SkelAnime_Draw
+/* 02128 80B04398 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 0212C 80B0439C 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 02130 80B043A0 8FBF0024 */  lw      $ra, 0x0024($sp)           

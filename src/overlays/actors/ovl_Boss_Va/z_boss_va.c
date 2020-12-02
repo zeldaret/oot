@@ -9,6 +9,44 @@ void BossVa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossVa_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_04055DB0;
+extern UNK_TYPE D_06000024;
+extern UNK_TYPE D_06000FA0;
+extern UNK_TYPE D_06001230;
+extern UNK_TYPE D_06004E70;
+extern UNK_TYPE D_06005184;
+extern UNK_TYPE D_06008BB8;
+extern UNK_TYPE D_06008D70;
+extern UNK_TYPE D_06008F08;
+extern UNK_TYPE D_06008F70;
+extern UNK_TYPE D_06009430;
+extern UNK_TYPE D_06009468;
+extern UNK_TYPE D_0600948C;
+extern UNK_TYPE D_06011738;
+extern UNK_TYPE D_06011768;
+extern UNK_TYPE D_060128B8;
+extern UNK_TYPE D_06012948;
+extern UNK_TYPE D_06012BA0;
+extern UNK_TYPE D_06012C50;
+extern UNK_TYPE D_060135B0;
+extern UNK_TYPE D_06013638;
+extern UNK_TYPE D_060156A0;
+extern UNK_TYPE D_06015710;
+extern UNK_TYPE D_06015B18;
+extern UNK_TYPE D_060162AC;
+extern UNK_TYPE D_060164B0;
+extern UNK_TYPE D_060166A8;
+extern UNK_TYPE D_06017498;
+extern UNK_TYPE D_06017694;
+extern UNK_TYPE D_060177F4;
+extern UNK_TYPE D_06017FC8;
+extern UNK_TYPE D_06018150;
+extern UNK_TYPE D_06018870;
+extern UNK_TYPE D_06018A68;
+extern UNK_TYPE D_06018B90;
+extern UNK_TYPE D_06018D18;
+extern UNK_TYPE D_060199A0;
+
 /*
 const ActorInit Boss_Va_InitVars = {
     ACTOR_BOSS_VA,

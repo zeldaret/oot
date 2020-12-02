@@ -64,7 +64,7 @@ static UNK_PTR sMouthSegments[] = {
 
 extern AnimationHeader D_0600057C;
 extern AnimationHeader D_06000B04;
-extern SkeletonHeader D_06006C90;
+extern FlexSkeletonHeader D_06006C90;
 extern CutsceneData D_0200E080[];
 
 typedef enum {
@@ -77,8 +77,8 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->limbDrawTable,
-                     this->transitionDrawTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->limbDrawTable,
+                       this->transitionDrawTable, 16);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelanime, &D_06000B04);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -125,7 +125,7 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->behaviorFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
-        if (this->skelanime.animCurrentSeg == &D_0600057C) {
+        if (this->skelanime.animation == &D_0600057C) {
             SkelAnime_ChangeAnim(&this->skelanime, &D_06000B04, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000B04), 2,
                                  -4.0f);
         }
@@ -245,8 +245,8 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_FrameUpdateMatrix(&this->skelanime) != 0)) {
-        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.animCurrentSeg, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(this->skelanime.animCurrentSeg), 2, 0.0f);
+        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(this->skelanime.animation), 2, 0.0f);
     }
     this->actionFunc(this, globalCtx);
     if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
@@ -260,7 +260,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
     s32 pad1;
 
@@ -287,7 +287,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
 
     if (limbIndex == 14) {
@@ -304,8 +304,8 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
-                     EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+                          EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
 }

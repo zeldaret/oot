@@ -9,6 +9,12 @@ void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06003850;
+extern UNK_TYPE D_06005F40;
+extern UNK_TYPE D_06006050;
+extern UNK_TYPE D_060061B0;
+extern UNK_TYPE D_06006460;
+
 /*
 const ActorInit Bg_Ydan_Sp_InitVars = {
     ACTOR_BG_YDAN_SP,

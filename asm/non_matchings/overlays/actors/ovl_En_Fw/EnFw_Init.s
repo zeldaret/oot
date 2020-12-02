@@ -15,7 +15,7 @@ glabel EnFw_Init
 /* 005D4 80A1EB74 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 005D8 80A1EB78 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 005DC 80A1EB7C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 005E0 80A1EB80 0C0291BE */  jal     SkelAnime_InitSV
+/* 005E0 80A1EB80 0C0291BE */  jal     SkelAnime_InitFlex
 /* 005E4 80A1EB84 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 005E8 80A1EB88 3C0580A2 */  lui     $a1, %hi(D_80A1FBA0)       ## $a1 = 80A20000
 /* 005EC 80A1EB8C 24A5FBA0 */  addiu   $a1, $a1, %lo(D_80A1FBA0)  ## $a1 = 80A1FBA0

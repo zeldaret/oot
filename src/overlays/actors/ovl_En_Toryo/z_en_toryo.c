@@ -15,6 +15,8 @@ void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06007150;
+
 /*
 const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,

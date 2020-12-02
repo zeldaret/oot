@@ -9,6 +9,8 @@ void BgJyaIronobj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaIronobj_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaIronobj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000880;
+
 /*
 const ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,

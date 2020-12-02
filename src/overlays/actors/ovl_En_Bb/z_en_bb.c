@@ -15,6 +15,11 @@ void EnBb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBb_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0404D4E0;
+extern UNK_TYPE D_06000184;
+extern UNK_TYPE D_06000444;
+extern UNK_TYPE D_06001A30;
+
 /*
 const ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,

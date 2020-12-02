@@ -8,6 +8,9 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060017C0;
+extern UNK_TYPE D_06001960;
+
 /*
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,

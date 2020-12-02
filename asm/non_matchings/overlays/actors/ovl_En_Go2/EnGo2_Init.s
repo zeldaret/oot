@@ -59,7 +59,7 @@ glabel EnGo2_Init
 /* 037E8 80A46518 24C6FEF0 */  addiu   $a2, $a2, 0xFEF0           ## $a2 = 0600FEF0
 /* 037EC 80A4651C AFA50034 */  sw      $a1, 0x0034($sp)
 /* 037F0 80A46520 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 037F4 80A46524 0C0291BE */  jal     SkelAnime_InitSV
+/* 037F4 80A46524 0C0291BE */  jal     SkelAnime_InitFlex
 /* 037F8 80A46528 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 037FC 80A4652C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 03800 80A46530 AFA50030 */  sw      $a1, 0x0030($sp)

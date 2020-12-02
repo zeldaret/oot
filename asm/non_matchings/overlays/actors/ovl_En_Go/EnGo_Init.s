@@ -36,7 +36,7 @@ glabel EnGo_Init
 /* 01640 80A3FBB0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01644 80A3FBB4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01648 80A3FBB8 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0164C 80A3FBBC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0164C 80A3FBBC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 01650 80A3FBC0 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01654 80A3FBC4 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 01658 80A3FBC8 AFA50030 */  sw      $a1, 0x0030($sp)

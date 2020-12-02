@@ -9,6 +9,11 @@ void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000024;
+extern UNK_TYPE D_06000064;
+extern UNK_TYPE D_060000A4;
+extern UNK_TYPE D_06005848;
+
 /*
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,

@@ -9,6 +9,16 @@ void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06004930;
+extern UNK_TYPE D_0600BD80;
+extern UNK_TYPE D_0600C140;
+extern UNK_TYPE D_0600CE80;
+extern UNK_TYPE D_0600DE80;
+extern UNK_TYPE D_0600FD40;
+extern UNK_TYPE D_0600FD50;
+extern UNK_TYPE D_0600FEF0;
+extern UNK_TYPE D_06010590;
+
 /*
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,

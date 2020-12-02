@@ -9,6 +9,18 @@ void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060003CC;
+extern UNK_TYPE D_06000F5C;
+extern UNK_TYPE D_06001390;
+extern UNK_TYPE D_06001578;
+extern UNK_TYPE D_06001E10;
+extern UNK_TYPE D_06002280;
+extern UNK_TYPE D_060024E8;
+extern UNK_TYPE D_0600A458;
+extern UNK_TYPE D_0600A814;
+extern UNK_TYPE D_0600ADF8;
+extern UNK_TYPE D_0600B6D4;
+
 /*
 const ActorInit En_GeldB_InitVars = {
     ACTOR_EN_GELDB,

@@ -25,14 +25,14 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx);
 void EnButte_SetupWaitToDie(EnButte* this);
 void EnButte_WaitToDie(EnButte* this, GlobalContext* globalCtx);
 
-static ColliderJntSphElementInit sColliderItemInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     { { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x000, 0x00 }, TOUCH_OFF, BUMP_OFF, OCELEM_ON },
       { 0, { { 0, 0, 0 }, 5 }, 100 } }
 };
 static ColliderJntSphInit sColliderInit = {
     { COLTYPE_NONE, AT_OFF, AC_OFF, OC_ON | OC_PLAYER | OC_TYPE1, OT_TYPE1, COLSHAPE_JNTSPH },
     1,
-    sColliderItemInit,
+    sJntSphElementsInit,
 };
 
 const ActorInit En_Butte_InitVars = {
@@ -409,7 +409,7 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
         Collider_UpdateSpheres(0, &this->collider);
     }
 

@@ -9,6 +9,13 @@ void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000444;
+extern UNK_TYPE D_06000A74;
+extern UNK_TYPE D_06000D1C;
+extern UNK_TYPE D_060014B8;
+extern UNK_TYPE D_06001CA4;
+extern UNK_TYPE D_06006BC0;
+
 /*
 const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,

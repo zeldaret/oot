@@ -9,6 +9,13 @@ void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDodojr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060004A0;
+extern UNK_TYPE D_060005F0;
+extern UNK_TYPE D_06000724;
+extern UNK_TYPE D_06000860;
+extern UNK_TYPE D_060009D4;
+extern UNK_TYPE D_060020E0;
+
 /*
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,

@@ -9,6 +9,8 @@ void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06001000;
+
 /*
 const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,

@@ -9,6 +9,14 @@ void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000BFC;
+extern UNK_TYPE D_06000FE4;
+extern UNK_TYPE D_060012E8;
+extern UNK_TYPE D_06002160;
+extern UNK_TYPE D_0600265C;
+extern UNK_TYPE D_060033B4;
+extern UNK_TYPE D_06005BC8;
+
 /*
 const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,

@@ -15,6 +15,13 @@ void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBrob_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000290;
+extern UNK_TYPE D_060015D8;
+extern UNK_TYPE D_06001678;
+extern UNK_TYPE D_06001750;
+extern UNK_TYPE D_06001958;
+extern UNK_TYPE D_06001A70;
+
 /*
 const ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,

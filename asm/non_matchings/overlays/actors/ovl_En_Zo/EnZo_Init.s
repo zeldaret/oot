@@ -22,7 +22,7 @@ glabel EnZo_Init
 /* 01508 80B61728 24C6BFA8 */  addiu   $a2, $a2, 0xBFA8           ## $a2 = 0600BFA8
 /* 0150C 80B6172C AFA50038 */  sw      $a1, 0x0038($sp)
 /* 01510 80B61730 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 01514 80B61734 0C0291BE */  jal     SkelAnime_InitSV
+/* 01514 80B61734 0C0291BE */  jal     SkelAnime_InitFlex
 /* 01518 80B61738 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0151C 80B6173C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 01520 80B61740 AFA50034 */  sw      $a1, 0x0034($sp)

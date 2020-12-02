@@ -9,6 +9,10 @@ void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06001DD0;
+extern UNK_TYPE D_06001EA8;
+extern UNK_TYPE D_06001FC8;
+
 /*
 const ActorInit En_Ny_InitVars = {
     ACTOR_EN_NY,

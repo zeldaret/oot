@@ -23,6 +23,12 @@ void func_8087F5C8(BgHakaShip* this, GlobalContext* globalCtx);
 void func_8087F624(BgHakaShip* this, GlobalContext* globalCtx);
 void func_8087F6B4(BgHakaShip* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06005A70;
+extern UNK_TYPE D_0600D330;
+extern UNK_TYPE D_0600E408;
+extern UNK_TYPE D_0600E910;
+extern UNK_TYPE D_0600ED7C;
+
 /*
 const ActorInit Bg_Haka_Ship_InitVars = {
     ACTOR_BG_HAKA_SHIP,

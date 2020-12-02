@@ -95,7 +95,7 @@ glabel EnToryo_Init
 /* 0014C 80B202BC 24C67150 */  addiu   $a2, $a2, 0x7150           ## $a2 = 06007150
 /* 00150 80B202C0 AFA50038 */  sw      $a1, 0x0038($sp)
 /* 00154 80B202C4 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 00158 80B202C8 0C0291BE */  jal     SkelAnime_InitSV
+/* 00158 80B202C8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0015C 80B202CC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00160 80B202D0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00164 80B202D4 AFA50034 */  sw      $a1, 0x0034($sp)

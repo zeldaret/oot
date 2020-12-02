@@ -9,6 +9,16 @@ void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000560;
+extern UNK_TYPE D_06000944;
+extern UNK_TYPE D_06000A70;
+extern UNK_TYPE D_06000BD0;
+extern UNK_TYPE D_06000DF8;
+extern UNK_TYPE D_060012B0;
+extern UNK_TYPE D_06002310;
+extern UNK_TYPE D_060033E0;
+extern UNK_TYPE D_060037C0;
+
 /*
 const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,

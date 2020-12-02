@@ -15,6 +15,9 @@ void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Update(Actor* thisx, GlobalContext* globalCtx);
 void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060000B0;
+extern UNK_TYPE D_06000C50;
+
 /*
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,

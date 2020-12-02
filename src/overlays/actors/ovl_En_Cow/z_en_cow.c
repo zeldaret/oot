@@ -47,10 +47,10 @@ static ColliderCylinderInit sCylinderInit = {
 static Vec3f D_809E010C = { 0.0f, -1300.0f, 1100.0f };
 
 extern AnimationHeader D_060001CC;
-extern SkeletonHeader D_06004010;
+extern FlexSkeletonHeader D_06004010;
 extern AnimationHeader D_06004264;
 extern AnimationHeader D_06004348;
-extern SkeletonHeader D_06004C30;
+extern FlexSkeletonHeader D_06004C30;
 extern AnimationHeader D_06004E98;
 
 void func_809DEE00(Vec3f* vec, s16 rotY) {
@@ -102,8 +102,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 72.0f);
     switch (this->actor.params) {
         case 0:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004010, NULL, this->limbDrawTable,
-                             this->transitionDrawTable, 6);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004010, NULL, this->limbDrawTable,
+                               this->transitionDrawTable, 6);
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060001CC);
             Collider_InitCylinder(globalCtx, &this->colliders[0]);
             Collider_SetCylinder(globalCtx, &this->colliders[0], &this->actor, &sCylinderInit);
@@ -129,8 +129,8 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             DREG(53) = 0;
             break;
         case 1:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->limbDrawTable,
-                             this->transitionDrawTable, 6);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004C30, NULL, this->limbDrawTable,
+                               this->transitionDrawTable, 6);
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06004348);
             this->actor.update = func_809DFE98;
             this->actor.draw = func_809E0070;
@@ -160,12 +160,12 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Math_Rand_ZeroFloat(500.0f) + 40.0f;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.animCurrentFrame,
-                             SkelAnime_GetFrameCount(&D_060001CC.genericHeader), 2, 1.0f);
+                             SkelAnime_GetFrameCount(&D_060001CC), 2, 1.0f);
     }
 
     if ((this->actor.xzDistFromLink < 150.0f) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
-        if (this->skelAnime.animCurrentSeg == &D_060001CC) {
+        if (this->skelAnime.animation == &D_060001CC) {
             this->unk_278 = 0;
         }
     }
@@ -276,13 +276,13 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Math_Rand_ZeroFloat(200.0f) + 40.0f;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.animCurrentFrame,
-                             SkelAnime_GetFrameCount(&D_06004348.genericHeader), 2, 1.0f);
+                             SkelAnime_GetFrameCount(&D_06004348), 2, 1.0f);
     }
 
     if ((this->actor.xzDistFromLink < 150.0f) &&
         (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
         this->unk_276 |= 2;
-        if (this->skelAnime.animCurrentSeg == &D_06004348) {
+        if (this->skelAnime.animation == &D_06004348) {
             this->unk_278 = 0;
         }
     }
@@ -301,13 +301,13 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        if (this->skelAnime.animCurrentSeg == &D_060001CC) {
+        if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004264, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_06004264.genericHeader), 2, 1.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004264, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004264), 2,
+                                 1.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_060001CC.genericHeader), 0, 1.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060001CC), 0,
+                                 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
@@ -341,18 +341,18 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        if (this->skelAnime.animCurrentSeg == &D_06004348) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004E98, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_06004E98.genericHeader), 2, 1.0f);
+        if (this->skelAnime.animation == &D_06004348) {
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004E98), 2,
+                                 1.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_06004348.genericHeader), 0, 1.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004348, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06004348), 0,
+                                 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnCow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnCow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCow* this = THIS;
 
     if (limbIndex == 2) {
@@ -365,9 +365,11 @@ s32 EnCow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnCow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnCow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnCow* this = THIS;
+
     if (limbIndex == 2) {
-        Matrix_MultVec3f(&D_809E010C, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&D_809E010C, &this->actor.posRot2.pos);
     }
 }
 
@@ -375,14 +377,14 @@ void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, this);
 }
 
 void func_809E0070(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
-                     NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          NULL, NULL, this);
 }

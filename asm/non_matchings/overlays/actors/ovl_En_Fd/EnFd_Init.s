@@ -14,7 +14,7 @@ glabel EnFd_Init
 /* 00B1C 80A0C1DC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00B20 80A0C1E0 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 00B24 80A0C1E4 AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 00B28 80A0C1E8 0C0291BE */  jal     SkelAnime_InitSV
+/* 00B28 80A0C1E8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00B2C 80A0C1EC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00B30 80A0C1F0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00B34 80A0C1F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

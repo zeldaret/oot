@@ -9,6 +9,8 @@ void EnDaiku_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06007958;
+
 /*
 const ActorInit En_Daiku_InitVars = {
     ACTOR_EN_DAIKU,

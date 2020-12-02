@@ -9,6 +9,12 @@ void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600C100;
+extern UNK_TYPE D_0600C1F0;
+extern UNK_TYPE D_0600CA10;
+extern UNK_TYPE D_0600CB80;
+extern UNK_TYPE D_0600DF78;
+
 /*
 const ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,

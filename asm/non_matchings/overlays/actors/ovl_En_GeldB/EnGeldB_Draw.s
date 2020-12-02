@@ -158,7 +158,7 @@ glabel EnGeldB_Draw
 /* 049A8 80A39CB8 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 049AC 80A39CBC AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 049B0 80A39CC0 AFB40018 */  sw      $s4, 0x0018($sp)
-/* 049B4 80A39CC4 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 049B4 80A39CC4 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 049B8 80A39CC8 8FA400DC */  lw      $a0, 0x00DC($sp)
 /* 049BC 80A39CCC 8E9902EC */  lw      $t9, 0x02EC($s4)           ## 000002EC
 /* 049C0 80A39CD0 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006

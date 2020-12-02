@@ -15,6 +15,9 @@ void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06005040;
+extern UNK_TYPE D_0600AE40;
+
 /*
 const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,

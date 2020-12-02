@@ -9,6 +9,18 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_05000530;
+extern UNK_TYPE D_0600017C;
+extern UNK_TYPE D_06000334;
+extern UNK_TYPE D_06000544;
+extern UNK_TYPE D_06000838;
+extern UNK_TYPE D_06000B78;
+extern UNK_TYPE D_06000E4C;
+extern UNK_TYPE D_06001548;
+extern UNK_TYPE D_06002A70;
+extern UNK_TYPE D_06003B40;
+extern UNK_TYPE D_06003D78;
+
 /*
 const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,

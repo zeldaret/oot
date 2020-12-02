@@ -9,6 +9,12 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060006F0;
+extern UNK_TYPE D_060012A0;
+extern UNK_TYPE D_06001C1C;
+extern UNK_TYPE D_06002640;
+extern UNK_TYPE D_06002920;
+
 /*
 const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,

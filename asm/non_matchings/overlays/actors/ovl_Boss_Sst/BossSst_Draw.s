@@ -106,7 +106,7 @@ glabel BossSst_Draw
 /* 081F8 809347C8 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 081FC 809347CC AFAC0014 */  sw      $t4, 0x0014($sp)
 /* 08200 809347D0 AFB30018 */  sw      $s3, 0x0018($sp)
-/* 08204 809347D4 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 08204 809347D4 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 08208 809347D8 8FA400CC */  lw      $a0, 0x00CC($sp)
 /* 0820C 809347DC 866D09D2 */  lh      $t5, 0x09D2($s3)           ## 000009D2
 /* 08210 809347E0 8FAF00CC */  lw      $t7, 0x00CC($sp)
@@ -226,7 +226,7 @@ glabel BossSst_Draw
 /* 083C4 80934994 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 083C8 80934998 8E8A02D0 */  lw      $t2, 0x02D0($s4)           ## 000002D0
 /* 083CC 8093499C 8FA400CC */  lw      $a0, 0x00CC($sp)
-/* 083D0 809349A0 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 083D0 809349A0 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 083D4 809349A4 AFAA001C */  sw      $t2, 0x001C($sp)
 /* 083D8 809349A8 AE8202D0 */  sw      $v0, 0x02D0($s4)           ## 000002D0
 .L809349AC:

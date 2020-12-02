@@ -251,7 +251,7 @@ glabel func_808D08F8
 /* 05DE8 808D0BA8 24E700A4 */  addiu   $a3, $a3, %lo(func_808D00A4) ## $a3 = 808D00A4
 /* 05DEC 808D0BAC AFB30014 */  sw      $s3, 0x0014($sp)           
 /* 05DF0 808D0BB0 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 05DF4 808D0BB4 0C028572 */  jal     SkelAnime_Draw
+/* 05DF4 808D0BB4 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 05DF8 808D0BB8 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 05DFC 808D0BBC 0C034221 */  jal     Matrix_Pull              
@@ -309,7 +309,7 @@ glabel func_808D08F8
 /* 05EC8 808D0C88 24E701C0 */  addiu   $a3, $a3, %lo(func_808D01C0) ## $a3 = 808D01C0
 /* 05ECC 808D0C8C AFB30014 */  sw      $s3, 0x0014($sp)           
 /* 05ED0 808D0C90 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 05ED4 808D0C94 0C028572 */  jal     SkelAnime_Draw
+/* 05ED4 808D0C94 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 05ED8 808D0C98 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 05EDC 808D0C9C 0C034221 */  jal     Matrix_Pull              
@@ -707,7 +707,7 @@ glabel func_808D08F8
 /* 064C4 808D1284 24E707A4 */  addiu   $a3, $a3, %lo(func_808D07A4) ## $a3 = 808D07A4
 /* 064C8 808D1288 AFB30014 */  sw      $s3, 0x0014($sp)           
 /* 064CC 808D128C AFAC0010 */  sw      $t4, 0x0010($sp)           
-/* 064D0 808D1290 0C028572 */  jal     SkelAnime_Draw
+/* 064D0 808D1290 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 064D4 808D1294 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 064D8 808D1298 3C04808D */  lui     $a0, %hi(D_808D1E2C)       ## $a0 = 808D0000

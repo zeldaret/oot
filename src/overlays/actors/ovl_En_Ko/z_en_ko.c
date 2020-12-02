@@ -9,6 +9,12 @@ void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKo_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06006A60;
+extern UNK_TYPE D_06007830;
+extern UNK_TYPE D_06007D94;
+extern UNK_TYPE D_0600879C;
+extern UNK_TYPE D_06008F6C;
+
 /*
 const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,

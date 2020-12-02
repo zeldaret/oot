@@ -509,7 +509,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetHeight(&this->actor, this->skelAnime.animCurrentFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
             Actor_SetHeight(&this->actor, 20.0f - ((this->skelAnime.animCurrentFrame * 20.0f) /
-                                                   SkelAnime_GetFrameCount(&D_060024CC.genericHeader)));
+                                                   SkelAnime_GetFrameCount(&D_060024CC)));
         } else {
             Actor_SetHeight(&this->actor, 20.0f);
         }
@@ -517,7 +517,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHintnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx) {
+                                void* thisx) {
     Vec3f vec;
     f32 animCurrentFrame;
     EnHintnuts* this = THIS;
@@ -550,7 +550,7 @@ void EnHintnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 0xA) {
         Gfx_DrawDListOpa(globalCtx, D_060014E0);
     } else {
-        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHintnuts_OverrideLimbDraw,
-                       NULL, &this->actor);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHintnuts_OverrideLimbDraw,
+                          NULL, this);
     }
 }

@@ -9,6 +9,35 @@ void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_030021D8;
+extern UNK_TYPE D_06001074;
+extern UNK_TYPE D_06002D0C;
+extern UNK_TYPE D_06003CF8;
+extern UNK_TYPE D_060042A8;
+extern UNK_TYPE D_06004E0C;
+extern UNK_TYPE D_060061D4;
+extern UNK_TYPE D_06008EEC;
+extern UNK_TYPE D_06009D10;
+extern UNK_TYPE D_06009D50;
+extern UNK_TYPE D_06009DD0;
+extern UNK_TYPE D_0600DF38;
+extern UNK_TYPE D_0600E848;
+extern UNK_TYPE D_0600F0D8;
+extern UNK_TYPE D_06015890;
+extern UNK_TYPE D_06015990;
+extern UNK_TYPE D_06015D90;
+extern UNK_TYPE D_06015F90;
+extern UNK_TYPE D_06016390;
+extern UNK_TYPE D_06016590;
+extern UNK_TYPE D_06016790;
+extern UNK_TYPE D_06016990;
+extern UNK_TYPE D_06016E10;
+extern UNK_TYPE D_06017210;
+extern UNK_TYPE D_06017410;
+extern UNK_TYPE D_0601B310;
+extern UNK_TYPE D_0601CAE0;
+extern UNK_TYPE D_0601D934;
+
 /*
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,

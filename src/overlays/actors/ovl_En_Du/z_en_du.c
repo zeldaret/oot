@@ -9,6 +9,12 @@ void EnDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_020059E0;
+extern UNK_TYPE D_02006930;
+extern UNK_TYPE D_02007DE0;
+extern UNK_TYPE D_060041F4;
+extern UNK_TYPE D_06011CA8;
+
 /*
 const ActorInit En_Du_InitVars = {
     ACTOR_EN_DU,

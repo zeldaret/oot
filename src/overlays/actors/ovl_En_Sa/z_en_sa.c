@@ -9,6 +9,15 @@ void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_02005730;
+extern UNK_TYPE D_02010E20;
+extern UNK_TYPE D_06001D50;
+extern UNK_TYPE D_06007B80;
+extern UNK_TYPE D_0600B1A0;
+extern UNK_TYPE D_0600BAEC;
+extern UNK_TYPE D_0600C500;
+extern UNK_TYPE D_06012100;
+
 /*
 const ActorInit En_Sa_InitVars = {
     ACTOR_EN_SA,

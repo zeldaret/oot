@@ -31,7 +31,7 @@ glabel EnCs_Init
 /* 00188 809E1A38 24C68540 */  addiu   $a2, $a2, 0x8540           ## $a2 = 06008540
 /* 0018C 809E1A3C AFA50038 */  sw      $a1, 0x0038($sp)
 /* 00190 809E1A40 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 00194 809E1A44 0C0291BE */  jal     SkelAnime_InitSV
+/* 00194 809E1A44 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00198 809E1A48 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0019C 809E1A4C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001A0 809E1A50 AFA50034 */  sw      $a1, 0x0034($sp)

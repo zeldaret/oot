@@ -19,7 +19,7 @@ glabel EnMu_Init
 /* 0024C 80AB066C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00250 80AB0670 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00254 80AB0674 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00258 80AB0678 0C0291BE */  jal     SkelAnime_InitSV
+/* 00258 80AB0678 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0025C 80AB067C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00260 80AB0680 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00264 80AB0684 AFA50034 */  sw      $a1, 0x0034($sp)

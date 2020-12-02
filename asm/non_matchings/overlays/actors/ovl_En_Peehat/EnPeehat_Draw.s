@@ -14,7 +14,7 @@ glabel EnPeehat_Draw
 /* 031B8 80AD2658 24E72224 */  addiu   $a3, $a3, %lo(func_80AD2224) ## $a3 = 80AD2224
 /* 031BC 80AD265C AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 031C0 80AD2660 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 031C4 80AD2664 0C028572 */  jal     SkelAnime_Draw
+/* 031C4 80AD2664 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 031C8 80AD2668 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 031CC 80AD266C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

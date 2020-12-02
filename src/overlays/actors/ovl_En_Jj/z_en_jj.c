@@ -15,6 +15,12 @@ void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000A1C;
+extern UNK_TYPE D_06001830;
+extern UNK_TYPE D_06001F4C;
+extern UNK_TYPE D_0600B9A8;
+extern UNK_TYPE D_0600BA8C;
+
 /*
 const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,

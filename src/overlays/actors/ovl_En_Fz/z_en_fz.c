@@ -9,6 +9,11 @@ void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060030A0;
+extern UNK_TYPE D_060030A8;
+extern UNK_TYPE D_06003158;
+extern UNK_TYPE D_06003160;
+
 /*
 const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,

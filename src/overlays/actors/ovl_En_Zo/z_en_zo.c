@@ -15,6 +15,16 @@ void EnZo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZo_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000598;
+extern UNK_TYPE D_06000D48;
+extern UNK_TYPE D_060022F0;
+extern UNK_TYPE D_06002350;
+extern UNK_TYPE D_060024A0;
+extern UNK_TYPE D_06002510;
+extern UNK_TYPE D_0600BFA8;
+extern UNK_TYPE D_0600BFC0;
+extern UNK_TYPE D_0600C028;
+
 /*
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,

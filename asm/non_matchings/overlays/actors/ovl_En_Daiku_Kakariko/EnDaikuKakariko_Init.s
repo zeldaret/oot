@@ -90,7 +90,7 @@ glabel EnDaikuKakariko_Init
 /* 001E8 809E4508 24C67958 */  addiu   $a2, $a2, 0x7958           ## $a2 = 06007958
 /* 001EC 809E450C AFA50034 */  sw      $a1, 0x0034($sp)
 /* 001F0 809E4510 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 001F4 809E4514 0C0291BE */  jal     SkelAnime_InitSV
+/* 001F4 809E4514 0C0291BE */  jal     SkelAnime_InitFlex
 /* 001F8 809E4518 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 001FC 809E451C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00200 809E4520 AFA50030 */  sw      $a1, 0x0030($sp)

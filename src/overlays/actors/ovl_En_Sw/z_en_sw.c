@@ -9,6 +9,19 @@ void EnSw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSw_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000304;
+extern UNK_TYPE D_06003FB0;
+extern UNK_TYPE D_060043D8;
+extern UNK_TYPE D_060045C0;
+extern UNK_TYPE D_06004658;
+extern UNK_TYPE D_060046F0;
+extern UNK_TYPE D_06004788;
+extern UNK_TYPE D_06004820;
+extern UNK_TYPE D_060048B8;
+extern UNK_TYPE D_06004950;
+extern UNK_TYPE D_060049E8;
+extern UNK_TYPE D_06005298;
+
 /*
 const ActorInit En_Sw_InitVars = {
     ACTOR_EN_SW,

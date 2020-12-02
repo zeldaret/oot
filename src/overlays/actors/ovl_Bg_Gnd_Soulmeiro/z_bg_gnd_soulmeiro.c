@@ -47,7 +47,7 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-Gfx* D_8087B578[] = { 0x06007C00, 0x06002320, 0x060035A0 };
+static Gfx* D_8087B578[] = { 0x06007C00, 0x06002320, 0x060035A0 };
 
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGndSoulmeiro* this = THIS;

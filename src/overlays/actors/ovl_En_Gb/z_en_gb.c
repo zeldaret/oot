@@ -9,6 +9,12 @@ void EnGb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGb_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600049C;
+extern UNK_TYPE D_0600C0B0;
+extern UNK_TYPE D_0600C220;
+extern UNK_TYPE D_0600C2D0;
+extern UNK_TYPE D_0600C8EC;
+
 /*
 const ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,

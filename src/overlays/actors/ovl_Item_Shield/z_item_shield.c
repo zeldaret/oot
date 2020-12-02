@@ -15,6 +15,8 @@ void ItemShield_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ItemShield_Update(Actor* thisx, GlobalContext* globalCtx);
 void ItemShield_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060224F8;
+
 /*
 const ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,

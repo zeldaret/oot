@@ -9,6 +9,18 @@ void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060003B4;
+extern UNK_TYPE D_06001BE0;
+extern UNK_TYPE D_060034D0;
+extern UNK_TYPE D_06007A20;
+extern UNK_TYPE D_06007BF8;
+extern UNK_TYPE D_06013B88;
+extern UNK_TYPE D_06013D60;
+extern UNK_TYPE D_06014CA8;
+extern UNK_TYPE D_06015814;
+extern UNK_TYPE D_0601646C;
+extern UNK_TYPE D_06018C38;
+
 /*
 const ActorInit En_In_InitVars = {
     ACTOR_EN_IN,

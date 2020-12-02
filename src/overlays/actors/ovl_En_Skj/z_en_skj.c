@@ -8,6 +8,14 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx);
+extern UNK_TYPE D_060007A4;
+extern UNK_TYPE D_06000E10;
+extern UNK_TYPE D_060014C8;
+extern UNK_TYPE D_06005F40;
+extern UNK_TYPE D_06006A98;
+extern UNK_TYPE D_06006D84;
+extern UNK_TYPE D_06007128;
+
 /*
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,

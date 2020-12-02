@@ -9,6 +9,9 @@ void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06008968;
+extern UNK_TYPE D_06009ED4;
+
 /*
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,

@@ -9,6 +9,8 @@ void EnFireRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFireRock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000DE0;
+
 /*
 const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,

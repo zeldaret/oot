@@ -1637,7 +1637,7 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
                     }
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &atItem->info, &atPos, &ac->base, &acElem->info,
                                              &acPos, &hitPos);
-                    if (!(ac->base.ocType & 0x40)) {
+                    if (!(ac->base.ocType & OT_FIRST_ONLY)) {
                         return;
                     }
                 }
@@ -1744,7 +1744,7 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
                 }
                 CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info, &acPos,
                                          &hitPos);
-                if (!(ac->base.ocType & 0x40)) {
+                if (!(ac->base.ocType & OT_FIRST_ONLY)) {
                     break;
                 }
             }
@@ -1823,7 +1823,7 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                     atPos.z = (atItem->dim.vtx[0].z + atItem->dim.vtx[1].z + atItem->dim.vtx[2].z) * (1.0f / 3);
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &atItem->info, &atPos, &ac->base, &acElem->info,
                                              &acPos, &hitPos);
-                    if (!(ac->base.ocType & 0x40)) {
+                    if (!(ac->base.ocType & OT_FIRST_ONLY)) {
                         return;
                     }
                 }
@@ -1915,7 +1915,7 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                         (at->dim.quad[0].z + (at->dim.quad[1].z + (at->dim.quad[3].z + at->dim.quad[2].z))) / 4.0f;
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info, &acPos,
                                              &hitPos);
-                    if ((ac->base.ocType & 0x40) == 0) {
+                    if ((ac->base.ocType & OT_FIRST_ONLY) == 0) {
                         return;
                     }
                 }

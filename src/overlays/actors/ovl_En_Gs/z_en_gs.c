@@ -38,17 +38,17 @@ const ActorInit En_Gs_InitVars = {
     (ActorFunc)EnGs_Draw,
 };
 
-static ColliderCylinderInit D_80A4FDA0 = {
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_HARD, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE2, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 21, 48, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80A4FDCC = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 0xFF };
 
-DamageTable D_80A4FDD8 = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0, 0xF0, 0xF0,
-                           0xB0, 0xB0, 0xB0, 0x00, 0x00, 0x00, 0xB0, 0xB0, 0xB0, 0x00, 0x00,
-                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static DamageTable sDamageTable = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0, 0xF0, 0xF0,
+                                  0xB0, 0xB0, 0xB0, 0x00, 0x00, 0x00, 0xB0, 0xB0, 0xB0, 0x00, 0x00,
+                                  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
@@ -58,9 +58,9 @@ void EnGs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGs* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    Collider_InitCylinder(globalCtx, &this->unk_14C);
-    Collider_SetCylinder(globalCtx, &this->unk_14C, thisx, &D_80A4FDA0);
-    CollisionCheck_SetInfo2(&thisx->colChkInfo, &D_80A4FDD8, &D_80A4FDCC);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
+    CollisionCheck_SetInfo2(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     thisx->unk_1F = 6;
     this->unk_1D8 = thisx->posRot.pos;
@@ -481,9 +481,9 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx) {};
     if (!(this->unk_19E & 0x10)) {
         if (globalCtx) {};
-        if (this->unk_14C.base.acFlags & AC_HIT) {
+        if (this->collider.base.acFlags & AC_HIT) {
             this->unk_19F = 0;
-            this->unk_14C.base.acFlags &= ~AC_HIT;
+            this->collider.base.acFlags &= ~AC_HIT;
 
             switch (this->actor.colChkInfo.damageEffect) {
                 case 15:
@@ -513,9 +513,9 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
                     break;
             }
         }
-        Collider_UpdateCylinder(&this->actor, &this->unk_14C);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_14C.base);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_14C.base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     this->actionFunc(this, globalCtx);
     func_80A4E648(this, globalCtx);

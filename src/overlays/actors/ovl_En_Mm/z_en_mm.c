@@ -9,6 +9,9 @@ void EnMm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMm_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06005E18;
+extern UNK_TYPE D_0602CA38;
+
 /*
 const ActorInit En_Mm_InitVars = {
     ACTOR_EN_MM,

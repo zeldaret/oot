@@ -9,6 +9,16 @@ void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0201B0C0;
+extern UNK_TYPE D_0201E6A0;
+extern UNK_TYPE D_06001168;
+extern UNK_TYPE D_060015CC;
+extern UNK_TYPE D_0600C0E8;
+extern UNK_TYPE D_0600C1C4;
+extern UNK_TYPE D_0600C684;
+extern UNK_TYPE D_0600C8A0;
+extern UNK_TYPE D_060100B0;
+
 /*
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,

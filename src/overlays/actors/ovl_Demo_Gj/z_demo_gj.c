@@ -9,6 +9,24 @@ void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000DC0;
+extern UNK_TYPE D_06000EA0;
+extern UNK_TYPE D_06001B70;
+extern UNK_TYPE D_06001D20;
+extern UNK_TYPE D_06001F70;
+extern UNK_TYPE D_06002160;
+extern UNK_TYPE D_06002448;
+extern UNK_TYPE D_06002600;
+extern UNK_TYPE D_06002850;
+extern UNK_TYPE D_06002A40;
+extern UNK_TYPE D_06002D28;
+extern UNK_TYPE D_06002E80;
+extern UNK_TYPE D_06002FE4;
+extern UNK_TYPE D_06003190;
+extern UNK_TYPE D_060033E0;
+extern UNK_TYPE D_06003710;
+extern UNK_TYPE D_06003AF0;
+
 /*
 const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,

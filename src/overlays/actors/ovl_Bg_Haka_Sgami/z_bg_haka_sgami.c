@@ -18,6 +18,8 @@ void func_8087E7E4(BgHakaSgami* this, GlobalContext* globalCtx);
 void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx);
 void func_8087EDC0(BgHakaSgami* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600BF20;
+
 /*
 const ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,

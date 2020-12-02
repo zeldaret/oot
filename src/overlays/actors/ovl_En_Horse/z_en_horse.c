@@ -9,6 +9,10 @@ void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_02000230;
+extern UNK_TYPE D_02002AC0;
+extern UNK_TYPE D_06006530;
+
 /*
 const ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
