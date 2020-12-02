@@ -98,7 +98,7 @@ glabel EnWf_Draw
 /* 03AD8 80B37788 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 03ADC 80B3778C AFB80014 */  sw      $t8, 0x0014($sp)
 /* 03AE0 80B37790 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 03AE4 80B37794 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 03AE4 80B37794 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 03AE8 80B37798 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 03AEC 80B3779C 860E02E4 */  lh      $t6, 0x02E4($s0)           ## 000002E4
 /* 03AF0 80B377A0 51C00018 */  beql    $t6, $zero, .L80B37804

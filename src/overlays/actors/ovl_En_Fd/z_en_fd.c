@@ -347,7 +347,7 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFd* this = THIS;
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06005810, NULL, this->limbDrawTable, this->transDrawTable, 27);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005810, NULL, this->limbDrawTable, this->transDrawTable, 27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
@@ -682,7 +682,7 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_XLU_DISP++, 0x9, D_80116280);
 
-        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                                this->skelAnime.dListCount, &EnFd_OverrideLimbDraw, &EnFd_PostLimbDraw,
                                                this, POLY_XLU_DISP);
     }

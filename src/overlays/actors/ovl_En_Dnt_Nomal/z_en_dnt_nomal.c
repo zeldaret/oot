@@ -8,6 +8,21 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000168;
+extern UNK_TYPE D_0600031C;
+extern UNK_TYPE D_06000430;
+extern UNK_TYPE D_060006CC;
+extern UNK_TYPE D_06000894;
+extern UNK_TYPE D_06000B70;
+extern UNK_TYPE D_060014E0;
+extern UNK_TYPE D_06001B00;
+extern UNK_TYPE D_060023B8;
+extern UNK_TYPE D_060024CC;
+extern UNK_TYPE D_060026C4;
+extern UNK_TYPE D_06002E1C;
+extern UNK_TYPE D_06002E84;
+extern UNK_TYPE D_06003128;
+
 /*
 const ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,

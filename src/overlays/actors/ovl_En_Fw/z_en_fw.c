@@ -169,7 +169,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleSpeed, s32 dustCnt,
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->limbDrawTable, this->transDrawTable, 11);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->limbDrawTable, this->transDrawTable, 11);
     func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -201,7 +201,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     Actor* flareDancer;
 
     Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
-    if (this->skelAnime.animCurrentSeg == &D_06006CF8) {
+    if (this->skelAnime.animation == &D_06006CF8) {
         if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.parent->posRot.pos);
             func_80034EC0(&this->skelAnime, D_80A1FBA0, 2);
@@ -381,7 +381,7 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw_DustParticlesDraw(this, globalCtx);
     Matrix_Pull();
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
 }
 

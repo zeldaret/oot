@@ -28,7 +28,7 @@ glabel EnBigokuta_Init
 /* 00050 809BCCB0 24E714B8 */  addiu   $a3, $a3, 0x14B8           ## $a3 = 060014B8
 /* 00054 809BCCB4 24C66BC0 */  addiu   $a2, $a2, 0x6BC0           ## $a2 = 06006BC0
 /* 00058 809BCCB8 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 0005C 809BCCBC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0005C 809BCCBC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00060 809BCCC0 2645014C */  addiu   $a1, $s2, 0x014C           ## $a1 = 0000014C
 /* 00064 809BCCC4 2650028C */  addiu   $s0, $s2, 0x028C           ## $s0 = 0000028C
 /* 00068 809BCCC8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000028C

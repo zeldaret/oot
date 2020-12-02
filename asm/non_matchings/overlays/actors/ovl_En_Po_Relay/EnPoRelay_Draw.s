@@ -57,7 +57,7 @@ glabel EnPoRelay_Draw
 /* 014AC 80AD8BEC AFB00018 */  sw      $s0, 0x0018($sp)
 /* 014B0 80AD8BF0 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 014B4 80AD8BF4 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 014B8 80AD8BF8 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 014B8 80AD8BF8 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 014BC 80AD8BFC 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 014C0 80AD8C00 8FA80054 */  lw      $t0, 0x0054($sp)
 /* 014C4 80AD8C04 3C0680AE */  lui     $a2, %hi(D_80AD8DD8)       ## $a2 = 80AE0000

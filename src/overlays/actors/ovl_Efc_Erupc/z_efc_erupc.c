@@ -9,6 +9,11 @@ void EfcErupc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EfcErupc_Update(Actor* thisx, GlobalContext* globalCtx);
 void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06001720;
+extern UNK_TYPE D_06002570;
+extern UNK_TYPE D_06002760;
+extern UNK_TYPE D_060027D8;
+
 /*
 const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
