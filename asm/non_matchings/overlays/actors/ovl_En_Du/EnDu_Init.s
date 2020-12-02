@@ -19,7 +19,7 @@ glabel EnDu_Init
 /* 005BC 809FE1EC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 005C0 809FE1F0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 005C4 809FE1F4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 005C8 809FE1F8 0C0291BE */  jal     SkelAnime_InitSV
+/* 005C8 809FE1F8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 005CC 809FE1FC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 005D0 809FE200 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 005D4 809FE204 AFA50034 */  sw      $a1, 0x0034($sp)

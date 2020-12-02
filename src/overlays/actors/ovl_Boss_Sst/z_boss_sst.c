@@ -181,15 +181,15 @@ void BossSst_IceShatter(BossSst* this);
 extern UNK_TYPE D_06013D80;
 
 // Left hand
-extern SkeletonHeader D_06004DE0;
+extern FlexSkeletonHeader D_06004DE0;
 extern AnimationHeader D_060002E8;
 
 // Right hand
-extern SkeletonHeader D_0600A350;
+extern FlexSkeletonHeader D_0600A350;
 extern AnimationHeader D_06005860;
 
 // Head
-extern SkeletonHeader D_06017C40;
+extern FlexSkeletonHeader D_06017C40;
 extern AnimationHeader D_0600ACD4;
 extern AnimationHeader D_0600B0D8;
 extern AnimationHeader D_0600B6FC;
@@ -408,8 +408,8 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.params == BONGO_HEAD) {
         sFloor = (BgSstFloor*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SST_FLOOR, sRoomCenter.x,
                                           sRoomCenter.y, sRoomCenter.z, 0, 0, 0, 0);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06017C40, &D_0600E7B8, this->limbDrawTable,
-                         this->transitionDrawTable, 45);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06017C40, &D_0600E7B8, this->limbDrawTable,
+                           this->transitionDrawTable, 45);
         ActorShape_Init(&this->actor.shape, 70000.0f, ActorShadow_DrawFunc_Circle, 95.0f);
         Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInitHead, this->colliderItems);
         Collider_SetCylinder(globalCtx, &this->colliderCyl, &this->actor, &sCylinderInitHead);
@@ -447,13 +447,13 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->actor, &sJntSphInitHand, this->colliderItems);
         Collider_SetCylinder(globalCtx, &this->colliderCyl, &this->actor, &sCylinderInitHand);
         if (this->actor.params == BONGO_LEFT_HAND) {
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004DE0, &D_060002E8, this->limbDrawTable,
-                             this->transitionDrawTable, 27);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004DE0, &D_060002E8, this->limbDrawTable,
+                               this->transitionDrawTable, 27);
             this->parity = -1;
             this->colliderJntSph.list[0].dim.modelSphere.center.z *= -1;
         } else {
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600A350, &D_06005860, this->limbDrawTable,
-                             this->transitionDrawTable, 27);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A350, &D_06005860, this->limbDrawTable,
+                               this->transitionDrawTable, 27);
             this->parity = 1;
         }
 
@@ -746,7 +746,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
 }
 
 void BossSst_HeadSetupWait(BossSst* this) {
-    if (this->skelAnime.animCurrentSeg != &D_0600DC2C) {
+    if (this->skelAnime.animation != &D_0600DC2C) {
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600DC2C, -5.0f);
     }
     this->actionFunc = BossSst_HeadWait;
@@ -806,7 +806,7 @@ void BossSst_HeadDamagedHand(BossSst* this, GlobalContext* globalCtx) {
             BossSst_HeadSetupReadyCharge(this);
         } else if ((HAND_STATE(sHand[LEFT]) == HAND_FROZEN) || (HAND_STATE(sHand[RIGHT]) == HAND_FROZEN)) {
             BossSst_HeadSetupFrozenHand(this);
-        } else if (this->skelAnime.animCurrentSeg == &D_0600C9BC) {
+        } else if (this->skelAnime.animation == &D_0600C9BC) {
             BossSst_HeadSetupUnfreezeHand(this);
         } else {
             BossSst_HeadSetupWait(this);
@@ -832,8 +832,7 @@ void BossSst_HeadReadyCharge(BossSst* this, GlobalContext* globalCtx) {
 }
 
 void BossSst_HeadSetupCharge(BossSst* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600B0D8, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600B0D8.genericHeader),
-                         3, -5.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600B0D8, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600B0D8), 3, -5.0f);
     BossSst_HandSetDamage(sHand[LEFT], 0x20);
     BossSst_HandSetDamage(sHand[RIGHT], 0x20);
     this->colliderJntSph.base.atFlags |= 1;
@@ -935,7 +934,7 @@ void BossSst_HeadUnfreezeHand(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HeadSetupStunned(BossSst* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600B6FC, -5.0f);
-    func_8003426C(&this->actor, 0, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600B6FC.genericHeader));
+    func_8003426C(&this->actor, 0, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600B6FC));
     this->colliderJntSph.base.atFlags &= ~3;
     this->colliderCyl.base.acFlags &= ~1;
     this->vanish = false;
@@ -1024,9 +1023,9 @@ void BossSst_HeadVulnerable(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HeadSetupDamage(BossSst* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_0600CC6C, -3.0f);
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600CC6C.genericHeader));
-    func_8003426C(&sHand[LEFT]->actor, 0x4000, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600CC6C.genericHeader));
-    func_8003426C(&sHand[RIGHT]->actor, 0x4000, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600CC6C.genericHeader));
+    func_8003426C(&this->actor, 0x4000, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600CC6C));
+    func_8003426C(&sHand[LEFT]->actor, 0x4000, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600CC6C));
+    func_8003426C(&sHand[RIGHT]->actor, 0x4000, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600CC6C));
     this->colliderCyl.base.acFlags &= ~1;
     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DAMAGE);
     this->actionFunc = BossSst_HeadDamage;
@@ -2171,7 +2170,7 @@ void BossSst_HandSetupStunned(BossSst* hand) {
     hand->colliderJntSph.base.atFlags &= ~3;
     hand->colliderJntSph.base.acFlags |= 1;
     BossSst_HandSetInvulnerable(hand, true);
-    func_8003426C(&hand->actor, 0, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600B6FC.genericHeader));
+    func_8003426C(&hand->actor, 0, 0xFF, 0, SkelAnime_GetFrameCount(&D_0600B6FC));
     hand->actionFunc = BossSst_HandStunned;
 }
 
@@ -2749,7 +2748,7 @@ void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
     BossSst_UpdateEffect(&this->actor, globalCtx);
 }
 
-s32 BossSst_HandOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 BossSst_HandOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossSst* this = THIS;
 
     if (limbIndex == 1) {
@@ -2759,7 +2758,7 @@ s32 BossSst_HandOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     return 0;
 }
 
-void BossSst_HandPost(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossSst_HandPost(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossSst* this = THIS;
 
     func_800628A4(limbIndex, &this->colliderJntSph);
@@ -2792,8 +2791,8 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDList);
     }
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     BossSst_HandOverride, BossSst_HandPost, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          BossSst_HandOverride, BossSst_HandPost, this);
     if (this->trailCount >= 2) {
         BossSstHandTrail* trail;
         BossSstHandTrail* trail2;
@@ -2818,9 +2817,9 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, ((3 - i) * 10) + 20, 0, ((3 - i) * 20) + 50,
                                 ((3 - i) * 30) + 70);
 
-                POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                                       this->skelAnime.dListCount, BossSst_HandTrailOverride, NULL,
-                                                       trail, POLY_XLU_DISP);
+                POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                                   this->skelAnime.dListCount, BossSst_HandTrailOverride, NULL, trail,
+                                                   POLY_XLU_DISP);
             }
             idx = (idx + 5) % 7;
             trail2 = trail;
@@ -2833,7 +2832,7 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
     BossSst_DrawEffect(&this->actor, globalCtx);
 }
 
-s32 BossSst_HeadOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 BossSst_HeadOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                          Gfx** gfx) {
     BossSst* this = THIS;
     s32 shakeAmp;
@@ -2909,7 +2908,7 @@ s32 BossSst_HeadOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     return 0;
 }
 
-void BossSst_HeadPost(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void BossSst_HeadPost(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Vec3f headVec = { 1000.0f, 0.0f, 0.0f };
     BossSst* this = THIS;
@@ -2960,13 +2959,13 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.flags & 0x80) != 0x80) {
-        POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, BossSst_HeadOverride, BossSst_HeadPost,
-                                               &this->actor, POLY_OPA_DISP);
+        POLY_OPA_DISP =
+            SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                               this->skelAnime.dListCount, BossSst_HeadOverride, BossSst_HeadPost, this, POLY_OPA_DISP);
     } else {
-        POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                               this->skelAnime.dListCount, BossSst_HeadOverride, BossSst_HeadPost,
-                                               &this->actor, POLY_XLU_DISP);
+        POLY_XLU_DISP =
+            SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                               this->skelAnime.dListCount, BossSst_HeadOverride, BossSst_HeadPost, this, POLY_XLU_DISP);
     }
 
     if ((this->actionFunc == BossSst_HeadIntro) && (113 >= this->timer) && (this->timer > 20)) {

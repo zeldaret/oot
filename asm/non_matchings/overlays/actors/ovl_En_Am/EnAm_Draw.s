@@ -43,7 +43,7 @@ glabel EnAm_Draw
 /* 01F30 809AFE50 8E060184 */  lw      $a2, 0x0184($s0)           ## 00000184
 /* 01F34 809AFE54 8E050168 */  lw      $a1, 0x0168($s0)           ## 00000168
 /* 01F38 809AFE58 AFB00014 */  sw      $s0, 0x0014($sp)           
-/* 01F3C 809AFE5C 0C028572 */  jal     SkelAnime_Draw
+/* 01F3C 809AFE5C 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 01F40 809AFE60 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 01F44 809AFE64 860A025E */  lh      $t2, 0x025E($s0)           ## 0000025E

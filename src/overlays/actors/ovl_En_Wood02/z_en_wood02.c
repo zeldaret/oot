@@ -15,6 +15,8 @@ void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000700;
+
 /*
 const ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,

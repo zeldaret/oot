@@ -48,7 +48,7 @@ glabel EnDivingGame_Init
 /* 00058 809ED8C8 24E72FE8 */  addiu   $a3, $a3, 0x2FE8           ## $a3 = 06002FE8
 /* 0005C 809ED8CC 24C6BFA8 */  addiu   $a2, $a2, 0xBFA8           ## $a2 = 0600BFA8
 /* 00060 809ED8D0 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 00064 809ED8D4 0C0291BE */  jal     SkelAnime_InitSV
+/* 00064 809ED8D4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00068 809ED8D8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 809ED8DC 2605034C */  addiu   $a1, $s0, 0x034C           ## $a1 = 0000034C
 /* 00070 809ED8E0 AFA50030 */  sw      $a1, 0x0030($sp)

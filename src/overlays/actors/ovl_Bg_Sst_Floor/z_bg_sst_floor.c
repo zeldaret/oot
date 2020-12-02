@@ -91,7 +91,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        for (misc ; misc != NULL; misc = misc->next) {
+        for (misc; misc != NULL; misc = misc->next) {
             if ((misc->id == ACTOR_EN_ITEM00) && (misc->posRot.pos.y == 0.0f)) {
                 xzDist = func_8002DB8C(&this->dyna.actor, misc);
                 distFromRim = 600.0f - xzDist;

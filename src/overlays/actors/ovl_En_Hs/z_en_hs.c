@@ -9,6 +9,11 @@ void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHs_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000304;
+extern UNK_TYPE D_06000528;
+extern UNK_TYPE D_060005C0;
+extern UNK_TYPE D_06006260;
+
 /*
 const ActorInit En_Hs_InitVars = {
     ACTOR_EN_HS,
