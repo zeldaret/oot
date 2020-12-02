@@ -63,7 +63,7 @@ glabel EnDh_Draw
 /* 0159C 809EC2DC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 015A0 809EC2E0 8E0E02C0 */  lw      $t6, 0x02C0($s0)           ## 000002C0
 /* 015A4 809EC2E4 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 015A8 809EC2E8 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 015A8 809EC2E8 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 015AC 809EC2EC AFAE001C */  sw      $t6, 0x001C($sp)
 /* 015B0 809EC2F0 1000001E */  beq     $zero, $zero, .L809EC36C
 /* 015B4 809EC2F4 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
@@ -94,7 +94,7 @@ glabel EnDh_Draw
 /* 01614 809EC354 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 01618 809EC358 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0161C 809EC35C 8E0D02D0 */  lw      $t5, 0x02D0($s0)           ## 000002D0
-/* 01620 809EC360 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 01620 809EC360 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 01624 809EC364 AFAD001C */  sw      $t5, 0x001C($sp)
 /* 01628 809EC368 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L809EC36C:

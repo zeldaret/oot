@@ -75,7 +75,7 @@ glabel EnDivingGame_Draw
 /* 017D0 809EF040 AFB10018 */  sw      $s1, 0x0018($sp)
 /* 017D4 809EF044 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 017D8 809EF048 AFAA0010 */  sw      $t2, 0x0010($sp)
-/* 017DC 809EF04C 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 017DC 809EF04C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 017E0 809EF050 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 017E4 809EF054 3C06809F */  lui     $a2, %hi(D_809EF194)       ## $a2 = 809F0000
 /* 017E8 809EF058 24C6F194 */  addiu   $a2, $a2, %lo(D_809EF194)  ## $a2 = 809EF194

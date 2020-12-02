@@ -84,7 +84,7 @@ glabel EnDaiku_Draw
 /* 01388 809E3EB8 AFAC0010 */  sw      $t4, 0x0010($sp)
 /* 0138C 809E3EBC AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 01390 809E3EC0 AFA90018 */  sw      $t1, 0x0018($sp)
-/* 01394 809E3EC4 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 01394 809E3EC4 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 01398 809E3EC8 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 0139C 809E3ECC 8FAE005C */  lw      $t6, 0x005C($sp)
 /* 013A0 809E3ED0 3C06809E */  lui     $a2, %hi(D_809E4180)       ## $a2 = 809E0000

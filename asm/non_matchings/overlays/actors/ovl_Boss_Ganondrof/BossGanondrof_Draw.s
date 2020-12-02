@@ -315,7 +315,7 @@ glabel BossGanondrof_Draw
 /* 045F4 80914C34 24E742E0 */  addiu   $a3, $a3, %lo(func_809142E0) ## $a3 = 809142E0
 /* 045F8 80914C38 AFB10014 */  sw      $s1, 0x0014($sp)           
 /* 045FC 80914C3C AFAD0010 */  sw      $t5, 0x0010($sp)           
-/* 04600 80914C40 0C028572 */  jal     SkelAnime_Draw
+/* 04600 80914C40 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 04604 80914C44 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 04608 80914C48 3C048091 */  lui     $a0, %hi(D_809153D8)       ## $a0 = 80910000

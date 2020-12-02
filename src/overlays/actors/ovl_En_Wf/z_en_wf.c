@@ -15,6 +15,16 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06004638;
+extern UNK_TYPE D_06004AD0;
+extern UNK_TYPE D_06004CA4;
+extern UNK_TYPE D_06005430;
+extern UNK_TYPE D_060057A0;
+extern UNK_TYPE D_06009690;
+extern UNK_TYPE D_060098C8;
+extern UNK_TYPE D_06009B20;
+extern UNK_TYPE D_0600A4AC;
+
 /*
 const ActorInit En_Wf_InitVars = {
     ACTOR_EN_WF,

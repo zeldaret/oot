@@ -92,7 +92,7 @@ glabel EnDaiku_Init
 /* 001F0 809E2D20 24C67958 */  addiu   $a2, $a2, 0x7958           ## $a2 = 06007958
 /* 001F4 809E2D24 AFA50038 */  sw      $a1, 0x0038($sp)
 /* 001F8 809E2D28 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 001FC 809E2D2C 0C0291BE */  jal     SkelAnime_InitSV
+/* 001FC 809E2D2C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00200 809E2D30 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00204 809E2D34 8FA80044 */  lw      $t0, 0x0044($sp)
 /* 00208 809E2D38 8FA40054 */  lw      $a0, 0x0054($sp)
