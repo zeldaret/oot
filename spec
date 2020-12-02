@@ -2118,8 +2118,7 @@ endseg
 beginseg
     name "ovl_En_Dh"
     include "build/src/overlays/actors/ovl_En_Dh/z_en_dh.o"
-    include "build/data/overlays/actors/z_en_dh.data.o"
-    include "build/data/overlays/actors/z_en_dh.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dh/ovl_En_Dh_reloc.o"
 endseg
 
 beginseg
@@ -2397,8 +2396,7 @@ endseg
 beginseg
     name "ovl_En_Gm"
     include "build/src/overlays/actors/ovl_En_Gm/z_en_gm.o"
-    include "build/data/overlays/actors/z_en_gm.data.o"
-    include "build/data/overlays/actors/z_en_gm.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Gm/ovl_En_Gm_reloc.o"
 endseg
 
 beginseg
@@ -2761,8 +2759,7 @@ endseg
 beginseg
     name "ovl_En_Nb"
     include "build/src/overlays/actors/ovl_En_Nb/z_en_nb.o"
-    include "build/data/overlays/actors/z_en_nb.data.o"
-    include "build/data/overlays/actors/z_en_nb.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Nb/ovl_En_Nb_reloc.o"
 endseg
 
 beginseg
@@ -2924,8 +2921,7 @@ endseg
 beginseg
     name "ovl_En_Rr"
     include "build/src/overlays/actors/ovl_En_Rr/z_en_rr.o"
-    include "build/data/overlays/actors/z_en_rr.data.o"
-    include "build/data/overlays/actors/z_en_rr.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Rr/ovl_En_Rr_reloc.o"
 endseg
 
 beginseg
@@ -3011,8 +3007,7 @@ endseg
 beginseg
     name "ovl_En_Ssh"
     include "build/src/overlays/actors/ovl_En_Ssh/z_en_ssh.o"
-    include "build/data/overlays/actors/z_en_ssh.data.o"
-    include "build/data/overlays/actors/z_en_ssh.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ssh/ovl_En_Ssh_reloc.o"
 endseg
 
 beginseg

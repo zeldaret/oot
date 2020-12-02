@@ -627,8 +627,8 @@ s32 EnOkuta_GetSnoutScale(EnOkuta* this, f32 animCurrentFrame, Vec3f* scale) {
 }
 
 s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                             Actor* actor) {
-    EnOkuta* this = (EnOkuta*)actor;
+                             void* thisx) {
+    EnOkuta* this = THIS;
     f32 animCurrentFrame = this->skelAnime.animCurrentFrame;
     Vec3f scale;
     s32 doScale = false;
