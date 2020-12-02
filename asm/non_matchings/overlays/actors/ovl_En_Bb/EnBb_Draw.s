@@ -78,7 +78,7 @@ glabel EnBb_Draw
 /* 0333C 809BB61C AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 03340 809BB620 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 03344 809BB624 8FA400CC */  lw      $a0, 0x00CC($sp)           
-/* 03348 809BB628 0C028572 */  jal     SkelAnime_Draw
+/* 03348 809BB628 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 0334C 809BB62C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 03350 809BB630 860D02A8 */  lh      $t5, 0x02A8($s0)           ## 000002A8

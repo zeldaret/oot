@@ -15,6 +15,12 @@ void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAm_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000118;
+extern UNK_TYPE D_06000238;
+extern UNK_TYPE D_0600033C;
+extern UNK_TYPE D_06005948;
+extern UNK_TYPE D_06005B3C;
+
 /*
 const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,

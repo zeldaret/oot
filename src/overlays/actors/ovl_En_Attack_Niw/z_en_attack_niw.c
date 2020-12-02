@@ -21,7 +21,7 @@ void func_809B5C18(EnAttackNiw* this, GlobalContext* globalCtx);
 void func_809B59B0(EnAttackNiw* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_060000E8;
-extern SkeletonHeader D_06002530;
+extern FlexSkeletonHeader D_06002530;
 
 const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
@@ -47,8 +47,8 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                     this->transitionDrawTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
+                       this->transitionDrawTable, 16);
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
@@ -376,7 +376,7 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAttackNiw* this = THIS;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
@@ -403,6 +403,6 @@ void EnAttackNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAttackNiw* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_809B5F98, NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          func_809B5F98, NULL, this);
 }
