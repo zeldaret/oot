@@ -39,12 +39,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
-Gfx D_809C2590[] = {
+static Gfx D_809C2590[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_OPA_SURF2),
     gsSPEndDisplayList(),
 };
 
-Gfx D_809C25A0[] = {
+static Gfx D_809C25A0[] = {
     gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2),
     gsSPEndDisplayList(),
 };

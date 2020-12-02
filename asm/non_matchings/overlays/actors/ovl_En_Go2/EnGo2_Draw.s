@@ -142,7 +142,7 @@ glabel EnGo2_Draw
 /* 0535C 80A4808C AFAE0014 */  sw      $t6, 0x0014($sp)
 /* 05360 80A48090 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 05364 80A48094 AFB90010 */  sw      $t9, 0x0010($sp)
-/* 05368 80A48098 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 05368 80A48098 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0536C 80A4809C 8FA40074 */  lw      $a0, 0x0074($sp)
 /* 05370 80A480A0 8FAA0074 */  lw      $t2, 0x0074($sp)
 /* 05374 80A480A4 3C0680A5 */  lui     $a2, %hi(D_80A4863C)       ## $a2 = 80A50000

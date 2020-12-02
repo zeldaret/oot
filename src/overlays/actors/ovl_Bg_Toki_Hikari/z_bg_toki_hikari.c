@@ -9,6 +9,13 @@ void BgTokiHikari_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiHikari_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiHikari_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000880;
+extern UNK_TYPE D_060009C0;
+extern UNK_TYPE D_06000A10;
+extern UNK_TYPE D_06007E20;
+extern UNK_TYPE D_06007EE0;
+extern UNK_TYPE D_06008190;
+
 /*
 const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
