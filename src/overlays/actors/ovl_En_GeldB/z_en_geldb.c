@@ -536,7 +536,96 @@ void func_80A36A10(EnGeldB* this) {
     func_80A35310(this, func_80A36AE4);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/func_80A36AE4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/func_80A36AE4.s")
+
+void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
+    s16 sp3E;
+    s16 phi_v0_2;
+    s32 pad38;
+    s32 sp34;
+    f32 phi_f2_4;
+    s32 temp_f6;
+    Player* player = PLAYER;
+    
+    
+
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
+    if (!func_80A39E2C(globalCtx, this) && !func_80A3559C(globalCtx, this, 0)) {
+        this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3A98;
+        sp3E = player->actor.shape.rot.y + 0x8000;
+        if (0.0f <= Math_Sins(sp3E - this->actor.shape.rot.y)) {
+            this->actor.speedXZ -= 0.25f;
+            if (this->actor.speedXZ < -8.0f) {
+                this->actor.speedXZ = -8.0f;
+            }
+        } else if (Math_Sins(sp3E - this->actor.shape.rot.y) < 0.0f) {
+            this->actor.speedXZ += 0.25f;
+            if (this->actor.speedXZ > 8.0f) {
+                this->actor.speedXZ = 8.0f;
+            }
+        }
+        if ((this->actor.bgCheckFlags & 8) || !func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
+            if (this->actor.bgCheckFlags & 8) {
+                if(this->actor.speedXZ >= 0.0f) {
+                    phi_v0_2 = this->actor.shape.rot.y + 0x3E80;
+                } else {
+                    phi_v0_2 = this->actor.shape.rot.y - 0x3E80;
+                }
+                phi_v0_2 = this->actor.wallPolyRot - phi_v0_2;
+            } else {
+                this->actor.speedXZ *= -0.8f;
+                phi_v0_2 = 0;
+            }
+            if (ABS(phi_v0_2) > 0x4000) {
+                this->actor.speedXZ *= -0.8f;
+                if (this->actor.speedXZ< 0.0f) {
+                    this->actor.speedXZ -= 0.5f;
+                } else {
+                    this->actor.speedXZ += 0.5f;
+                }
+            }
+        }
+        if (this->actor.xzDistFromLink <= 45.0f) {
+            Math_SmoothScaleMaxMinF(&this->unk_304, -4.0f, 1.0f, 1.5f, 0.0f);
+        } else if (40.0f < this->actor.xzDistFromLink) {
+            Math_SmoothScaleMaxMinF(&this->unk_304, 4.0f, 1.0f, 1.5f, 0.0f);
+        } else {
+            Math_SmoothScaleMaxMinF(&this->unk_304, 0.0f, 1.0f, 6.65f, 0.0f);
+        }
+        if (0.0f != this->unk_304) {
+            this->actor.posRot.pos.x += Math_Sins(this->actor.shape.rot.y) * this->unk_304;
+            this->actor.posRot.pos.z += Math_Coss(this->actor.shape.rot.y) * this->unk_304;
+        }
+        if (ABS(this->unk_304) < ABS(this->actor.speedXZ)) {
+            this->skelAnime.animPlaybackSpeed = -this->actor.speedXZ * 0.5f;
+        } else {
+            this->skelAnime.animPlaybackSpeed = -this->unk_304 * 0.5f;
+        }
+        this->skelAnime.animPlaybackSpeed = CLAMP(this->skelAnime.animPlaybackSpeed, -3.0f, 3.0f);
+        
+        sp34 = this->skelAnime.animCurrentFrame;
+        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+
+        temp_f6 = this->skelAnime.animCurrentFrame - ABS(this->skelAnime.animPlaybackSpeed);
+        phi_f2_4 = ABS(this->skelAnime.animPlaybackSpeed);
+        pad38 = (s32)phi_f2_4 + sp34;
+        if ((sp34 != (s32)this->skelAnime.animCurrentFrame) && ((temp_f6 < 0 && 0 < pad38) || (temp_f6 < 5 && 5 < pad38))) {
+            Audio_PlayActorSound2(this, 0x39A0);
+        }
+        if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+            Audio_PlayActorSound2(this, 0x39C6);
+        }
+        if ((Math_Coss(sp3E - this->actor.shape.rot.y) < -0.85f) && !func_80033AB8(globalCtx, this) && (this->actor.xzDistFromLink <= 45.0f)) {
+            func_80A37670(this);
+        } else if (--this->unk_300 == 0) {
+            if (func_80033AB8(globalCtx, this) && ( Math_Rand_ZeroOne() > 0.5f)) {
+                func_80A37D70(this);
+            } else {
+                func_80A35D48(this);
+            }
+        }
+    }
+}
 
 void func_80A370BC(EnGeldB* this, GlobalContext* globalCtx) {
     s16 sp3E;
