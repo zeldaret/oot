@@ -49,8 +49,7 @@ void SkelAnime_LodDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Skeleton* sk
     if ((overrideLimbDraw == NULL) || (overrideLimbDraw(globalCtx, limbIndex, &dList, &pos, &rot, actor) == 0)) {
         Matrix_JointPosition(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 805),
-                      G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 805), G_MTX_LOAD);
 
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
@@ -110,8 +109,7 @@ void SkelAnime_LodDraw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limb
     if ((overrideLimbDraw == NULL) || (overrideLimbDraw(globalCtx, 1, &dList, &pos, &rot, actor) == 0)) {
         Matrix_JointPosition(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 881),
-                      G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 881), G_MTX_LOAD);
 
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
@@ -275,8 +273,7 @@ void SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, Skeleton* skele
     if ((overrideLimbDraw == NULL) || (overrideLimbDraw(globalCtx, limbIndex, &dList, &pos, &rot, actor) == 0)) {
         Matrix_JointPosition(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1103),
-                      G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1103), G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -332,8 +329,7 @@ void SkelAnime_Draw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDra
     if ((overrideLimbDraw == NULL) || (overrideLimbDraw(globalCtx, 1, &dList, &pos, &rot, actor) == 0)) {
         Matrix_JointPosition(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1176),
-                      G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1176), G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, dList);
         }
     }
@@ -734,8 +730,6 @@ Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limb
     return gfx;
 }
 
-#ifdef NON_MATCHING
-// Function is unused.  This is functionally equivilent, misplace andi which caused regalloc
 s32 func_800A29BC(s32 arg0, s32 arg1, Vec3s* arg2) {
     s16* temp_t1;
     s16* temp_a3;
@@ -755,6 +749,8 @@ s32 func_800A29BC(s32 arg0, s32 arg1, Vec3s* arg2) {
     phi_v0 = 1;
     arg2++;
     temp_a3 += 6;
+
+    if (t & 1) {}
 
     if (t > 0) {
         if (t & 1) {
@@ -785,9 +781,6 @@ s32 func_800A29BC(s32 arg0, s32 arg1, Vec3s* arg2) {
 ret:
     return t;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A29BC.s")
-#endif
 
 s16 func_800A2DBC(GenericAnimationHeader* animationSeg) {
     GenericAnimationHeader* animation = SEGMENTED_TO_VIRTUAL(animationSeg);

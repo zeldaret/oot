@@ -44,15 +44,15 @@ void func_8098FEA8(DemoSa* this, GlobalContext* globalCtx);
 void func_8098FEB4(DemoSa* this, GlobalContext* globalCtx);
 void func_8098F1C0(DemoSa* this, GlobalContext* globalCtx);
 
-UNK_PTR D_809900E0[] = {
+static UNK_PTR D_809900E0[] = {
     0x06002F48, 0x06003C48, 0x06003848, 0x06004848, 0x06004E48,
 };
 
-UNK_PTR D_809900F4[] = {
+static UNK_PTR D_809900F4[] = {
     0x06003588, 0x06004C48, 0x06003348, 0x06004448, 0x06004648,
 };
 
-u32 D_80990108 = 0;
+static u32 D_80990108 = 0;
 
 #include "z_demo_sa_cutscene_data.c" EARLY
 
@@ -469,8 +469,8 @@ void func_8098F1C0(DemoSa* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl,
-                                           skelAnime->dListCount, NULL, NULL, NULL, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                      NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 325);
 }
