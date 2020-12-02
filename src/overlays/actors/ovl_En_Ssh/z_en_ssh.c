@@ -9,7 +9,15 @@
 #define SSH_STATE_ATTACKED (1 << 3)
 #define SSH_STATE_SPIN (1 << 4)
 
-typedef enum { SSH_ANIM_UP = 1, SSH_ANIM_WAIT, SSH_ANIM_LAND, SSH_ANIM_DROP } EnSshAnimation;
+typedef enum {
+    SSH_ANIM_UNK0, // Unused animation. Possibly being knocked back?
+    SSH_ANIM_UP,
+    SSH_ANIM_WAIT,
+    SSH_ANIM_LAND,
+    SSH_ANIM_DROP,
+    SSH_ANIM_UNK5, // Slower version of ANIM_DROP
+    SSH_ANIM_UNK6  // Faster repeating version of ANIM_UNK0
+} EnSshAnimation;
 
 void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSsh_Destroy(Actor* thisx, GlobalContext* globalCtx);
