@@ -811,7 +811,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, 0.0f);
 }
 
-s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSsh* this = THIS;
 
     switch (limbIndex) {
@@ -843,7 +843,7 @@ s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSsh* this = THIS;
 
     func_800628A4(limbIndex, &this->colSph);
