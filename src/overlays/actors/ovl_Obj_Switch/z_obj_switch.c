@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_switch.h"
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -13,7 +14,7 @@
 // type:        (this->dyna.actor.params & 7)
 // subtype:     (this->dyna.actor.params >> 4 & 7)
 // switch flag: (this->dyna.actor.params >> 8 & 0x3F)
-// frozen:      (this->dyna.actor.params >> 7 & 1)
+// frozen:      this->dyna.actor.params >> 7 & 1
 
 void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -201,9 +202,9 @@ void ObjSwitch_SetOn(ObjSwitch* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F));
 
         if (subType == 0 || subType == 4) {
-            func_800806BC(globalCtx, &this->dyna.actor, 0x4802);
+            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
         } else {
-            func_800806BC(globalCtx, &this->dyna.actor, 0x4807);
+            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
 
         this->cooldownOn = true;
@@ -217,7 +218,7 @@ void ObjSwitch_SetOff(ObjSwitch* this, GlobalContext* globalCtx) {
         Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8 & 0x3F));
 
         if ((this->dyna.actor.params >> 4 & 7) == 1) {
-            func_800806BC(globalCtx, &this->dyna.actor, 0x4807);
+            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
             this->cooldownOn = true;
         }
     }
@@ -265,16 +266,14 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dyna.actor.colChkInfo.mass = 0xFF;
 
-    if ((this->dyna.actor.params >> 7 & 1)) {
-        if (ObjSwitch_SpawnIce(this, globalCtx) == NULL) {
-            osSyncPrintf("\x1b[31m");
-            osSyncPrintf("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
-            osSyncPrintf("\x1b[m");
-            this->dyna.actor.params &= ~0x80;
-        }
+    if ((this->dyna.actor.params >> 7 & 1) && (ObjSwitch_SpawnIce(this, globalCtx) == NULL)) {
+        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf("Error : 氷発生失敗 (%s %d)\n", "../z_obj_switch.c", 732);
+        osSyncPrintf(VT_RST);
+        this->dyna.actor.params &= ~0x80;
     }
 
-    if ((this->dyna.actor.params >> 7 & 1)) {
+    if (this->dyna.actor.params >> 7 & 1) {
         ObjSwitch_EyeFrozenInit(this);
     } else if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
         if (switchFlagSet) {
@@ -427,7 +426,7 @@ void ObjSwitch_FloorReleaseInit(ObjSwitch* this) {
 void ObjSwitch_FloorRelease(ObjSwitch* this, GlobalContext* globalCtx) {
     s16 subType = (this->dyna.actor.params >> 4 & 7);
 
-    if (!(subType == OBJSWITCH_SUBTYPE_FLOOR_1 || subType == OBJSWITCH_SUBTYPE_FLOOR_3) || !this->cooldownOn ||
+    if (((subType != OBJSWITCH_SUBTYPE_FLOOR_1) && (subType != OBJSWITCH_SUBTYPE_FLOOR_3)) || !this->cooldownOn ||
         func_8005B198() == this->dyna.actor.type || this->cooldownTimer <= 0) {
         this->dyna.actor.scale.y += 99.0f / 2000.0f;
         if (this->dyna.actor.scale.y >= 33.0f / 200.0f) {
@@ -561,8 +560,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, GlobalContext* globalCtx) {
             }
             break;
         case OBJSWITCH_SUBTYPE_CRYSTAL_1:
-            if ((this->jntSph.col.base.acFlags & 2) && !(this->unk_17F & 2) &&
-                this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & 2) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, globalCtx);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -604,8 +602,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx) {
             }
             break;
         case OBJSWITCH_SUBTYPE_CRYSTAL_1:
-            if ((this->jntSph.col.base.acFlags & 2) && !(this->unk_17F & 2) &&
-                this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & 2) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 globalCtx = globalCtx;
                 ObjSwitch_CrystalTurnOffInit(this);
