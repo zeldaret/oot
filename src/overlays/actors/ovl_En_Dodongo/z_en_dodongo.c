@@ -36,15 +36,15 @@ extern AnimationHeader D_060013C4;
 extern AnimationHeader D_06001A44;
 
 typedef enum EnDodongoActionState {
-    ACTION_SWEEP_TAIL,
-    ACTION_SWALLOW_BOMB,
-    ACTION_DEATH,
-    ACTION_BREATHE_FIRE,
-    ACTION_IDLE,
-    ACTION_END_BREATHE_FIRE,
-    ACTION_UNUSED,
-    ACTION_STUNNED,
-    ACTION_WALK
+    DODONGO_SWEEP_TAIL,
+    DODONGO_SWALLOW_BOMB,
+    DODONGO_DEATH,
+    DODONGO_BREATHE_FIRE,
+    DODONGO_IDLE,
+    DODONGO_END_BREATHE_FIRE,
+    DODONGO_UNUSED,
+    DODONGO_STUNNED,
+    DODONGO_WALK
 } EnDodongoActionState;
 
 const ActorInit En_Dodongo_InitVars = {
@@ -251,7 +251,7 @@ void EnDodongo_SetupIdle(EnDodongo* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06004C20, -4.0f);
     this->actor.speedXZ = 0.0f;
     this->timer = Math_Rand_S16Offset(30, 50);
-    this->actionState = ACTION_IDLE;
+    this->actionState = DODONGO_IDLE;
     EnDodongo_SetupAction(this, EnDodongo_Idle);
 }
 
@@ -262,27 +262,27 @@ void EnDodongo_SetupWalk(EnDodongo* this) {
     this->actor.speedXZ = 1.5f;
     this->timer = Math_Rand_S16Offset(50, 70);
     this->rightFootStep = true;
-    this->actionState = ACTION_WALK;
+    this->actionState = DODONGO_WALK;
     EnDodongo_SetupAction(this, EnDodongo_Walk);
 }
 
 void EnDodongo_SetupBreatheFire(EnDodongo* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060028F0, -4.0f);
-    this->actionState = ACTION_BREATHE_FIRE;
+    this->actionState = DODONGO_BREATHE_FIRE;
     this->actor.speedXZ = 0.0f;
     EnDodongo_SetupAction(this, EnDodongo_BreatheFire);
 }
 
 void EnDodongo_SetupEndBreatheFire(EnDodongo* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06003088);
-    this->actionState = ACTION_END_BREATHE_FIRE;
+    this->actionState = DODONGO_END_BREATHE_FIRE;
     this->actor.speedXZ = 0.0f;
     EnDodongo_SetupAction(this, EnDodongo_EndBreatheFire);
 }
 
 void EnDodongo_SetupSwallowBomb(EnDodongo* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060028F0, -1.0f, 35.0f, 0.0f, 2, -4.0f);
-    this->actionState = ACTION_SWALLOW_BOMB;
+    this->actionState = DODONGO_SWALLOW_BOMB;
     this->timer = 25;
     this->actor.speedXZ = 0.0f;
     EnDodongo_SetupAction(this, EnDodongo_SwallowBomb);
@@ -290,7 +290,7 @@ void EnDodongo_SetupSwallowBomb(EnDodongo* this) {
 
 void EnDodongo_SetupStunned(EnDodongo* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060028F0, 0.0f, 25.0f, 0.0f, 2, -4.0f);
-    this->actionState = ACTION_STUNNED;
+    this->actionState = DODONGO_STUNNED;
     this->actor.speedXZ = 0.0f;
     if (this->damageEffect == 0xF) {
         this->iceTimer = 36;
@@ -487,7 +487,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
 void EnDodongo_SetupSweepTail(EnDodongo* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06001A44, -4.0f);
     Audio_PlayActorSound2(&this->actor, 0x3803);
-    this->actionState = ACTION_SWEEP_TAIL;
+    this->actionState = DODONGO_SWEEP_TAIL;
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
     EnDodongo_SetupAction(this, EnDodongo_SweepTail);
@@ -555,7 +555,7 @@ void EnDodongo_SetupDeath(EnDodongo* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060013C4, -8.0f);
     this->timer = 0;
     Audio_PlayActorSound2(&this->actor, 0x3804);
-    this->actionState = ACTION_DEATH;
+    this->actionState = DODONGO_DEATH;
     this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
     EnDodongo_SetupAction(this, EnDodongo_Death);
@@ -607,13 +607,13 @@ void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
     if (this->colliderHard.base.acFlags & 0x80) {
         this->colliderHard.base.acFlags &= ~0x80;
         this->colliderBody.base.acFlags &= ~2;
-    } else if ((this->colliderBody.base.acFlags & 2) && (this->actionState > ACTION_DEATH)) {
+    } else if ((this->colliderBody.base.acFlags & 2) && (this->actionState > DODONGO_DEATH)) {
         this->colliderBody.base.acFlags &= ~2;
         func_8003573C(&this->actor, &this->colliderBody, 0);
         if (this->actor.colChkInfo.damageEffect != 0xE) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
-                if (this->actionState != ACTION_STUNNED) {
+                if (this->actionState != DODONGO_STUNNED) {
                     func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(&this->actor);
                     EnDodongo_SetupStunned(this);
@@ -669,16 +669,16 @@ void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
-    if (this->actionState != ACTION_DEATH) {
+    if (this->actionState != DODONGO_DEATH) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderHard.base);
     }
-    if (this->actionState > ACTION_DEATH) {
+    if (this->actionState > DODONGO_DEATH) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     }
-    if ((this->actionState >= ACTION_IDLE) && EnDodongo_AteBomb(this, globalCtx)) {
+    if ((this->actionState >= DODONGO_IDLE) && EnDodongo_AteBomb(this, globalCtx)) {
         EnDodongo_SetupSwallowBomb(this);
     }
-    if ((this->actionState == ACTION_BREATHE_FIRE) && (29.0f < this->skelAnime.animCurrentFrame) &&
+    if ((this->actionState == DODONGO_BREATHE_FIRE) && (29.0f < this->skelAnime.animCurrentFrame) &&
         (this->skelAnime.animCurrentFrame < 43.0f)) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderAT.base);
     }
@@ -734,7 +734,7 @@ void EnDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
     switch (limbIndex) {
         case 2:
-            if ((this->actionState == ACTION_BREATHE_FIRE) && (29.0f < this->skelAnime.animCurrentFrame) &&
+            if ((this->actionState == DODONGO_BREATHE_FIRE) && (29.0f < this->skelAnime.animCurrentFrame) &&
                 (this->skelAnime.animCurrentFrame < 43.0f)) {
                 EnDodongo_UpdateQuad(this, globalCtx);
             }
@@ -752,11 +752,11 @@ void EnDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             Matrix_MultVec3f(&headOffset, &this->headPos);
             break;
         case 15:
-            if ((this->actionState == ACTION_SWEEP_TAIL) && (this->timer >= 2)) {
+            if ((this->actionState == DODONGO_SWEEP_TAIL) && (this->timer >= 2)) {
                 Matrix_MultVec3f(&tailTipOffset, &tailTip);
                 Matrix_MultVec3f(&baseOffset, &tailBase);
                 EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &tailTip, &tailBase);
-            } else if ((this->actionState == ACTION_SWEEP_TAIL) && (this->timer != 0)) {
+            } else if ((this->actionState == DODONGO_SWEEP_TAIL) && (this->timer != 0)) {
                 EffectBlure_AddSpace(Effect_GetByIndex(this->blureIdx));
             }
             break;
@@ -811,7 +811,7 @@ void EnDodongo_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     s32 index;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDodongo_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnDodongo_OverrideLimbDraw,
                    EnDodongo_PostLimbDraw, &this->actor);
 
     if (this->iceTimer != 0) {
