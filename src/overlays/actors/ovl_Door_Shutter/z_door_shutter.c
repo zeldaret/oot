@@ -82,8 +82,8 @@ typedef struct {
 static ShutterInfo D_80998134[] = {
     { 0x060067A0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06006910, 0x0404B0D0, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 }, { 0x06000590, 0x06006460, 0, 110, 50, 15 },
-    { 0x06012AB0, 0x00000000, 130, 12, 50, 15 }, { 0x0601EC20, 0x00000000, 130, 12, 50, 15 },
-    { 0x06000100, 0x060001F0, 240, 14, 50, 15 }, { 0x060010C0, 0x00000000, 130, 12, 50, 15 },
+    { 0x06012AB0, NULL, 130, 12, 50, 15 },       { 0x0601EC20, NULL, 130, 12, 50, 15 },
+    { 0x06000100, 0x060001F0, 240, 14, 50, 15 }, { 0x060010C0, NULL, 130, 12, 50, 15 },
     { 0x04049FE0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06010CB0, 0x0404B0D0, 130, 12, 20, 15 },
     { 0x06011F20, 0x0404B0D0, 130, 12, 20, 15 }, { 0x060000C0, 0x0404B0D0, 130, 12, 20, 15 },
     { 0x06005D90, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06007000, 0x0404B0D0, 130, 12, 20, 15 },
@@ -157,7 +157,6 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
     ShutterObjectInfo* temp_t0 = &D_809980F0[this->unk_16B];
 
     if (doorType != SHUTTER_KEY_LOCKED) {
-        // if front room equals back room (no room transition)
         if (frontRoom == transitionEntry->sides[1].room) {
             if (ABS((s16)(this->dyna.actor.shape.rot.y - this->dyna.actor.yawTowardsLink)) < 0x4000) {
                 frontRoom = -1;
@@ -167,7 +166,6 @@ s32 DoorShutter_SetupDoor(DoorShutter* this, GlobalContext* globalCtx) {
             if (doorType == SHUTTER_FRONT_SWITCH_BACK_CLEAR) { // Swap the back clear to the front clear
                 doorType = SHUTTER_FRONT_CLEAR;
             } else {
-                // boss doors aren't 2 way but others can be
                 doorType = (doorType == SHUTTER_BOSS) ? SHUTTER_BACK_LOCKED : SHUTTER;
             }
         }
@@ -276,7 +274,6 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
             this->dyna.dynaPolyId =
                 DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
-                // Set gravity for the block to fall
                 this->dyna.actor.velocity.y = 0.0f;
                 this->dyna.actor.gravity = -2.0f;
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
@@ -331,7 +328,6 @@ s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, this->dyna.actor.room) || Flags_GetTempClear(globalCtx, this->dyna.actor.room)) {
-        // open bars when flag is set
         Flags_SetClear(globalCtx, this->dyna.actor.room);
         DoorShutter_SetupAction(this, func_80997150);
         func_80080480(globalCtx, &this->dyna.actor);
@@ -340,7 +336,7 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
     } else if (func_809968D4(this, globalCtx) != 0) {
         Player* player = PLAYER;
 
-        player->naviMessageId = -0x202;
+        player->naviTextId = -0x202;
     }
 }
 
@@ -352,14 +348,11 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
         DoorShutter_SetupAction(this, func_80997004);
         this->dyna.actor.velocity.y = 0.0f;
         if (this->unk_16E != 0) {
-            // Door unlocking
             Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
             if (this->doorType != SHUTTER_BOSS) {
-                // Remove a key if not boss door
-                gSaveContext.dungeonKeys[gSaveContext.mapIndex]--;
+                gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
             } else {
-                // Only play sound if boss door
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
             }
         }
@@ -372,11 +365,11 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
             if (this->unk_16E != 0) {
                 if (this->doorType == SHUTTER_BOSS) {
                     if (!CHECK_DUNGEON_ITEM(DUNGEON_KEY_BOSS, gSaveContext.mapIndex)) {
-                        player->naviMessageId = -0x204;
+                        player->naviTextId = -0x204;
                         return;
                     }
-                } else if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] <= 0) {
-                    player->naviMessageId = -0x203;
+                } else if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+                    player->naviTextId = -0x203;
                     return;
                 }
                 player->doorTimer = 10;
@@ -457,9 +450,8 @@ void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx) {
             this->unk_16F = -100;
         } else if (func_809968D4(this, globalCtx)) {
             Player* player = PLAYER;
-
             // Jabu navi text for switch doors is different
-            player->naviMessageId = (globalCtx->sceneNum == SCENE_BDAN) ? -0x20B : -0x202;
+            player->naviTextId = (globalCtx->sceneNum == SCENE_BDAN) ? -0x20B : -0x202;
         }
     }
 }
@@ -474,7 +466,6 @@ void func_80996F98(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_80997004(DoorShutter* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_16E) == 0 && globalCtx->roomCtx.status == 0 && func_80996D14(this, globalCtx) != 0) {
-        // Close the door once sufficiently far away
         if (((this->doorType == SHUTTER_BOSS) ? 20.0f : 50.0f) < this->dyna.actor.xzDistFromLink) {
             if (DoorShutter_SetupDoor(this, globalCtx)) {
                 this->dyna.actor.velocity.y = 30.0f;
@@ -582,9 +573,8 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     func_8002E4B4(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
     if (this->dyna.actor.bgCheckFlags & 1) {
-        // Once the block hits the floor
         DoorShutter_SetupAction(this, func_809976B8);
-        if (!(gSaveContext.eventChkInf[7] & 1)) { // not began Gohma fight
+        if (!(gSaveContext.eventChkInf[7] & 1)) {
             BossGoma* parent = (BossGoma*)this->dyna.actor.parent;
 
             this->unk_164 = 10;
@@ -682,17 +672,17 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2048);
         func_80093D18(globalCtx->state.gfxCtx);
         if (this->unk_16C == 3) {
-            oGfxCtx->polyOpa.p = func_80997838(globalCtx, this, oGfxCtx->polyOpa.p);
+            POLY_OPA_DISP = func_80997838(globalCtx, this, POLY_OPA_DISP);
             if (this->unk_170 != 0.0f) {
                 f32 sp58 = (this->unk_166 * 0.01f) * this->unk_170;
 
                 func_80093D18(globalCtx->state.gfxCtx);
-                gDPSetEnvColor(oGfxCtx->polyOpa.p++, 0, 0, 0, 255.0f * sp58);
+                gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255.0f * sp58);
                 Matrix_Translate(0, 0, sp70->translateZ, MTXMODE_APPLY);
                 Matrix_Scale(sp58, sp58, sp58, MTXMODE_APPLY);
-                gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2069),
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2069),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, sp70->b);
+                gSPDisplayList(POLY_OPA_DISP++, sp70->b);
             }
         } else {
             if (sp70->b != NULL) {
@@ -710,16 +700,16 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     Matrix_RotateY(M_PI, MTXMODE_APPLY);
                 }
             } else if (this->doorType == SHUTTER_BOSS) {
-                gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809982D4[this->unk_168]));
+                gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809982D4[this->unk_168]));
             }
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2109),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2109),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, sp70->a);
+            gSPDisplayList(POLY_OPA_DISP++, sp70->a);
             if (this->unk_170 != 0.0f && sp70->b != NULL) {
                 Matrix_Translate(0, sp70->c * (1.0f - this->unk_170), sp70->translateZ, MTXMODE_APPLY);
-                gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2119),
+                gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 2119),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, sp70->b);
+                gSPDisplayList(POLY_OPA_DISP++, sp70->b);
             }
         }
         if (this->unk_16E != 0) {
