@@ -118,7 +118,7 @@ glabel EnPoSisters_Draw
 /* 041DC 80ADD16C 8E6D02C0 */  lw      $t5, 0x02C0($s3)           ## 000002C0
 /* 041E0 80ADD170 24E7C77C */  addiu   $a3, $a3, %lo(func_80ADC77C) ## $a3 = 80ADC77C
 /* 041E4 80ADD174 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
-/* 041E8 80ADD178 0C0288A2 */  jal     SkelAnime_Draw2
+/* 041E8 80ADD178 0C0288A2 */  jal     SkelAnime_Draw
 /* 041EC 80ADD17C AFAD0018 */  sw      $t5, 0x0018($sp)
 /* 041F0 80ADD180 1000001F */  beq     $zero, $zero, .L80ADD200
 /* 041F4 80ADD184 AE6202C0 */  sw      $v0, 0x02C0($s3)           ## 000002C0
@@ -150,7 +150,7 @@ glabel EnPoSisters_Draw
 /* 04258 80ADD1E8 3C0780AE */  lui     $a3, %hi(func_80ADC77C)    ## $a3 = 80AE0000
 /* 0425C 80ADD1EC 24E7C77C */  addiu   $a3, $a3, %lo(func_80ADC77C) ## $a3 = 80ADC77C
 /* 04260 80ADD1F0 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
-/* 04264 80ADD1F4 0C0288A2 */  jal     SkelAnime_Draw2
+/* 04264 80ADD1F4 0C0288A2 */  jal     SkelAnime_Draw
 /* 04268 80ADD1F8 AFAF0018 */  sw      $t7, 0x0018($sp)
 /* 0426C 80ADD1FC AE6202D0 */  sw      $v0, 0x02D0($s3)           ## 000002D0
 .L80ADD200:

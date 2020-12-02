@@ -12,7 +12,7 @@ glabel EnFish_Draw
 /* 01D54 80A16FD4 904701AE */  lbu     $a3, 0x01AE($v0)           ## 000001AE
 /* 01D58 80A16FD8 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01D5C 80A16FDC AFA00014 */  sw      $zero, 0x0014($sp)
-/* 01D60 80A16FE0 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 01D60 80A16FE0 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 01D64 80A16FE4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01D68 80A16FE8 8FA20028 */  lw      $v0, 0x0028($sp)
 /* 01D6C 80A16FEC 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000

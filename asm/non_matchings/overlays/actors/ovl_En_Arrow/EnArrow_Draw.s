@@ -51,7 +51,7 @@ glabel EnArrow_Draw
 /* 010B8 809B49D8 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 010BC 809B49DC AFA20018 */  sw      $v0, 0x0018($sp)
 /* 010C0 809B49E0 AFB00014 */  sw      $s0, 0x0014($sp)
-/* 010C4 809B49E4 0C0282D0 */  jal     SkelAnime_LodDraw
+/* 010C4 809B49E4 0C0282D0 */  jal     SkelAnime_DrawLod
 /* 010C8 809B49E8 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 010CC 809B49EC 100000C9 */  beq     $zero, $zero, .L809B4D14
 /* 010D0 809B49F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

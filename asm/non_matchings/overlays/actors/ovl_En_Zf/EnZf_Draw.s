@@ -84,7 +84,7 @@ glabel EnZf_Draw
 /* 05998 80B499E8 3C0780B5 */  lui     $a3, %hi(func_80B495FC)    ## $a3 = 80B50000
 /* 0599C 80B499EC 24E795FC */  addiu   $a3, $a3, %lo(func_80B495FC) ## $a3 = 80B495FC
 /* 059A0 80B499F0 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 059A4 80B499F4 0C0288A2 */  jal     SkelAnime_Draw2
+/* 059A4 80B499F4 0C0288A2 */  jal     SkelAnime_Draw
 /* 059A8 80B499F8 AFAE0018 */  sw      $t6, 0x0018($sp)
 /* 059AC 80B499FC AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
 /* 059B0 80B49A00 860F03F6 */  lh      $t7, 0x03F6($s0)           ## 000003F6
@@ -161,7 +161,7 @@ glabel EnZf_Draw
 /* 05AC8 80B49B18 3C0780B5 */  lui     $a3, %hi(func_80B495FC)    ## $a3 = 80B50000
 /* 05ACC 80B49B1C 24E795FC */  addiu   $a3, $a3, %lo(func_80B495FC) ## $a3 = 80B495FC
 /* 05AD0 80B49B20 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 05AD4 80B49B24 0C0288A2 */  jal     SkelAnime_Draw2
+/* 05AD4 80B49B24 0C0288A2 */  jal     SkelAnime_Draw
 /* 05AD8 80B49B28 AFB90018 */  sw      $t9, 0x0018($sp)
 /* 05ADC 80B49B2C AE2202D0 */  sw      $v0, 0x02D0($s1)           ## 000002D0
 .L80B49B30:

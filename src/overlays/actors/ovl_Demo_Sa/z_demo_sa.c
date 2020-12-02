@@ -89,7 +89,7 @@ void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 extern AnimationHeader D_06001334;
 extern AnimationHeader D_060021D8;
 extern Gfx D_06007B80[];
-extern SkeletonHeader D_0600B1A0;
+extern FlexSkeletonHeader D_0600B1A0;
 extern AnimationHeader D_0600DF80;
 extern AnimationHeader D_0600E500;
 extern AnimationHeader D_0600F580;
@@ -191,9 +191,9 @@ void func_8098E6EC(DemoSa* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void func_8098E76C(DemoSa* this, AnimationHeader* animationHeader, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 transitionRate, s32 arg4) {
     s32 pad[2];
-    f32 frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(animHeaderSeg);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -208,11 +208,11 @@ void func_8098E76C(DemoSa* this, AnimationHeader* animationHeader, u8 arg2, f32 
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, playbackSpeed, unk0, fc, arg2, transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, animHeaderSeg, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 void func_8098E7FC(DemoSa* this, GlobalContext* globalCtx) {
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600B1A0, &D_060021D8, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B1A0, &D_060021D8, NULL, NULL, 0);
     this->actor.shape.unk_08 = -10000.0f;
     func_8098E508(this, 1);
     func_8098E51C(this, 0);
@@ -282,8 +282,8 @@ void func_8098EA68(DemoSa* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[4];
         if ((npcAction != NULL) && (npcAction->action == 3)) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600DF80.genericHeader, 1.0f, 0.0f,
-                                 SkelAnime_GetFrameCount(&D_0600DF80.genericHeader), 2, -4.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600DF80, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600DF80), 2,
+                                 -4.0f);
             this->action = 4;
         }
     }
@@ -291,8 +291,7 @@ void func_8098EA68(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098EB00(DemoSa* this, s32 arg1) {
     if (arg1 != 0) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E500, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_0600E500.genericHeader), 0, 0.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E500, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600E500), 0, 0.0f);
         this->action = 5;
     }
 }
@@ -348,9 +347,9 @@ void func_8098ECCC(DemoSa* this, GlobalContext* globalCtx) {
 void func_8098ECF4(DemoSa* this, GlobalContext* globalCtx) {
     s32 pad[2];
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06001334.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06001334);
 
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_0600B1A0, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, skelAnime, &D_0600B1A0, NULL, NULL, NULL, 0);
     SkelAnime_ChangeAnim(skelAnime, &D_06001334, 1.0f, 0.0f, frameCount, 2, 0.0f);
     this->action = 7;
     this->actor.shape.unk_14 = 0;
@@ -469,14 +468,14 @@ void func_8098F1C0(DemoSa* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      NULL, NULL, NULL, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                       NULL, NULL, NULL, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa_inKenjyanomaDemo02.c", 325);
 }
 
 void func_8098F390(DemoSa* this, GlobalContext* globalCtx) {
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600B1A0, &D_060021D8, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B1A0, &D_060021D8, NULL, NULL, 0);
     this->action = 10;
     this->drawConfig = 1;
 }
@@ -488,7 +487,7 @@ void func_8098F3F0(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098F420(DemoSa* this, GlobalContext* globalCtx) {
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600B1A0, &D_0600FFD4, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B1A0, &D_0600FFD4, NULL, NULL, 0);
     this->action = 11;
     this->drawConfig = 0;
     this->actor.shape.unk_14 = 0;
@@ -604,7 +603,7 @@ void func_8098F7FC(DemoSa* this, GlobalContext* globalCtx) {
 void func_8098F83C(DemoSa* this, GlobalContext* globalCtx) {
     Vec3f* thisPos = &this->actor.posRot.pos;
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600B1A0, &D_0601113C, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B1A0, &D_0601113C, NULL, NULL, 0);
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, thisPos->x, thisPos->y, thisPos->z,
                        0, 0, 0, FAIRY_KOKIRI);
     this->action = 16;
@@ -776,8 +775,7 @@ void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                            Actor* thisx) {
+s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     DemoSa* this = THIS;
 
     if ((limbIndex == 15) && (this->unk_1B0 != 0)) {
@@ -808,8 +806,8 @@ void func_8098FEB4(DemoSa* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                     DemoSa_OverrideLimbDraw, NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          DemoSa_OverrideLimbDraw, NULL, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_sa.c", 626);
 }

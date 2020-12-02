@@ -1949,13 +1949,4 @@ typedef struct {
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
 
-typedef struct {
-    /* 0x00 */ u8 limbCount;
-    /* 0x01 */ char unk_01[0x01];
-    /* 0x02 */ u8 dListCount;
-    /* 0x04 */ Skeleton* skeleton;
-    /* 0x08 */ char unk_08[0x18];
-    /* 0x20 */ Vec3s* limbDrawTable;
-} struct_80091A24_arg3; // size >= 0x24
-
 #endif

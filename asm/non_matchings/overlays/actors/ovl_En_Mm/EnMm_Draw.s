@@ -77,7 +77,7 @@ glabel EnMm_Draw
 /* 00FF8 80AAE768 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 00FFC 80AAE76C AFB80010 */  sw      $t8, 0x0010($sp)
 /* 01000 80AAE770 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01004 80AAE774 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 01004 80AAE774 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 01008 80AAE778 AFA80018 */  sw      $t0, 0x0018($sp)
 /* 0100C 80AAE77C 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xef6)
 /* 01010 80AAE780 954AF556 */  lhu     $t2, %lo(gSaveContext+0xef6)($t2)

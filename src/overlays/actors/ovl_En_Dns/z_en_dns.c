@@ -120,9 +120,9 @@ DnsAnimInfo D_809F0538[] = {
     { 0x060009A0, 0x02, 0.0f },
 };
 
+extern FlexSkeletonHeader D_060041A8;
 extern AnimationHeader D_060009A0;
-extern SkeletonHeader D_060041A8;
-extern GenericAnimationHeader D_06004404;
+extern AnimationHeader D_06004404;
 
 void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
@@ -141,8 +141,8 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->limbDrawTable,
-                     this->transitionDrawTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->limbDrawTable,
+                       this->transitionDrawTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 35.0f);
@@ -168,7 +168,7 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDns_ChangeAnim(EnDns* this, u8 arg1) {
     s16 frameCount;
 
-    frameCount = SkelAnime_GetFrameCount(&D_809F0538[arg1].anim->genericHeader);
+    frameCount = SkelAnime_GetFrameCount(D_809F0538[arg1].anim);
     this->unk_2BA = arg1; // Not used anywhere else?
     SkelAnime_ChangeAnim(&this->skelAnime, D_809F0538[arg1].anim, 1.0f, 0.0f, (f32)frameCount, D_809F0538[arg1].mode,
                          D_809F0538[arg1].transitionRate);
@@ -487,6 +487,6 @@ void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, 0, 0,
-                     &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          NULL, NULL, &this->actor);
 }

@@ -18,8 +18,7 @@ void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
-                  Gfx** gfx);
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx);
 
 void func_80B50BBC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B50BEC(EnZl2* this, GlobalContext* globalCtx);
@@ -80,7 +79,7 @@ static EnZl2ActionFunc sActionFuncs[] = {
     func_80B51C0C, func_80B51C64, func_80B51CA8, func_80B52068, func_80B52098, func_80B52108,
 };
 
-static EnZl2PreLimbDrawFunc sOverrideLimbDrawFuncs[] = {
+static OverrideLimbDraw sOverrideLimbDrawFuncs[] = {
     func_80B4F45C,
 };
 
@@ -129,7 +128,7 @@ extern AnimationHeader D_0600AFE0;
 extern AnimationHeader D_0600B224;
 extern AnimationHeader D_0600B5FC;
 extern Gfx D_0600BAE8[];
-extern SkeletonHeader D_06010D70;
+extern FlexSkeletonHeader D_06010D70;
 
 void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnZl2* this = THIS;
@@ -477,7 +476,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     this->unk_20C[arg2] = arg1;
 }
 
-s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     s32 pad;
     EnZl2* this = THIS;
@@ -577,7 +576,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZl2* this = THIS;
     s32 pad[2];
 
@@ -610,7 +609,7 @@ void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -1622,7 +1621,7 @@ void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(objectCtx, bankIndex)) {
         this->unk_274 = bankIndex;
         func_80B4FCCC(this, globalCtx);
-        this->unk_278 = SkelAnime_GetFrameCount(&D_060022D0.genericHeader);
+        this->unk_278 = SkelAnime_GetFrameCount(&D_060022D0);
         func_80B52114(this, globalCtx);
     }
 }
@@ -1644,7 +1643,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(actorShape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     actorShape->unk_14 = 0;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06010D70, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, NULL, NULL, 0);
 
     switch (thisx->params) {
         case 1:
@@ -1656,7 +1655,7 @@ void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
+s32 EnZl2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                            Gfx** gfx) {
     EnZl2* this = THIS;
 
@@ -1692,8 +1691,8 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                       EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, this, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1648);
 }
@@ -1717,8 +1716,8 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      EnZl2_OverrideLimbDraw, NULL, &this->actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                       EnZl2_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1692);
 }
