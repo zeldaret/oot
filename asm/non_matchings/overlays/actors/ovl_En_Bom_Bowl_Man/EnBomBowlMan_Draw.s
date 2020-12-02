@@ -57,7 +57,7 @@ glabel EnBomBowlMan_Draw
 /* 01370 809C49A0 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 01374 809C49A4 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 01378 809C49A8 AFB90010 */  sw      $t9, 0x0010($sp)
-/* 0137C 809C49AC 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0137C 809C49AC 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 01380 809C49B0 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 01384 809C49B4 8FA80054 */  lw      $t0, 0x0054($sp)
 /* 01388 809C49B8 3C06809C */  lui     $a2, %hi(D_809C4C5C)       ## $a2 = 809C0000

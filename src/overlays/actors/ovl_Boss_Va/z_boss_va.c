@@ -179,10 +179,11 @@ void BossVa_Tumor(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, 
                   f32 range, u8 fixed);
 
 extern SkeletonHeader D_06015B18;
-extern SkeletonHeader D_06017498;
-extern SkeletonHeader D_060199A0;
-extern SkeletonHeader D_06018870;
+extern FlexSkeletonHeader D_06017498;
+extern FlexSkeletonHeader D_060199A0;
+extern FlexSkeletonHeader D_06018870;
 extern SkeletonHeader D_06004E70;
+extern FlexSkeletonHeader D_06017FC8;
 extern AnimationHeader D_06005184;
 extern AnimationHeader D_060166A8;
 extern AnimationHeader D_06018D18;
@@ -192,7 +193,6 @@ extern AnimationHeader D_060162AC;
 extern AnimationHeader D_060164B0;
 extern AnimationHeader D_06017694;
 extern AnimationHeader D_060177F4;
-extern SkeletonHeader D_06017FC8;
 extern AnimationHeader D_06018A68;
 extern AnimationHeader D_06018B90;
 extern Gfx D_06008D70[];
@@ -533,17 +533,17 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
         case BOSSVA_SUPPORT_1:
         case BOSSVA_SUPPORT_2:
         case BOSSVA_SUPPORT_3:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06017498, &D_060166A8, NULL, NULL, 0);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06017498, &D_060166A8, NULL, NULL, 0);
             break;
         case BOSSVA_ZAPPER_1:
         case BOSSVA_ZAPPER_2:
         case BOSSVA_ZAPPER_3:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060199A0, &D_06018D18, NULL, NULL, 0);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060199A0, &D_06018D18, NULL, NULL, 0);
             break;
         case BOSSVA_STUMP_1:
         case BOSSVA_STUMP_2:
         case BOSSVA_STUMP_3:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06018870, &D_06018150, NULL, NULL, 0);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06018870, &D_06018150, NULL, NULL, 0);
             break;
         default:
             this->actor.flags |= 0x1000000;
@@ -1711,7 +1711,7 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
         this->onCeiling = false;
         this->timer = (s32)(Math_Rand_ZeroOne() * 10.0f) + 5;
         SkelAnime_Free(&this->skelAnime, globalCtx);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06017FC8, &D_06017694, 0, 0, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06017FC8, &D_06017694, 0, 0, 0);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06017694, 1.0f, 0.0f, frames, 2, 0.0f);
         sBodyState = 0;
         BODY->actor.shape.unk_08 -= 60.0f;
@@ -2821,7 +2821,7 @@ void BossVa_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 s32 BossVa_BodyOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx) {
+                                void* thisx) {
     BossVa* this = THIS;
     s32 pad;
 
@@ -2849,7 +2849,7 @@ s32 BossVa_BodyOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     return 0;
 }
 
-void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = THIS;
     Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
     s32 pad;
@@ -2892,7 +2892,7 @@ void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, *dList);
     } else if ((limbIndex == 24) && (sCsState < DEATH_START)) {
-        sp78.x = (thisx->shape.unk_08 + 450.0f) + -140.0f;
+        sp78.x = (this->actor.shape.unk_08 + 450.0f) + -140.0f;
         Matrix_MultVec3f(&sp78, &this->unk_280);
         sp78.x = 200.0f;
         Matrix_MultVec3f(&sp78, &this->unk_274);
@@ -2921,7 +2921,7 @@ void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 s32 BossVa_SupportOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                   Actor* thisx) {
+                                   void* thisx) {
     BossVa* this = THIS;
 
     if (!this->onCeiling && (limbIndex == 4)) {
@@ -2930,7 +2930,7 @@ s32 BossVa_SupportOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
     return 0;
 }
 
-void BossVa_SupportPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossVa_SupportPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = THIS;
     Vec3f sp20 = { 0.0f, 0.0f, 0.0f };
     s32 pad;
@@ -2975,7 +2975,7 @@ void BossVa_SupportPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  Actor* thisx) {
+                                  void* thisx) {
     BossVa* this = THIS;
     MtxF zapperMtx;
 
@@ -3004,7 +3004,7 @@ s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     return 0;
 }
 
-void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = THIS;
     Vec3f sp70 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp64 = { 15.0f, 0.0f, 0.0f };
@@ -3088,7 +3088,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 s32 BossVa_BariOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx) {
+                                void* thisx) {
     BossVa* this = THIS;
 
     switch (limbIndex) {
@@ -3105,7 +3105,7 @@ s32 BossVa_BariOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     return 0;
 }
 
-void BossVa_BariPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossVa_BariPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossVa* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4494);
@@ -3168,38 +3168,38 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 gSPSegment(POLY_OPA_DISP++, 0x09,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (globalCtx->gameplayFrames * -10) % 32, 0x10,
                                             0x20, 1, 0, (globalCtx->gameplayFrames * -5) % 32, 0x10, 0x20));
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                               BossVa_BodyOverrideLimbDraw, BossVa_BodyPostLimbDraw, &this->actor);
+                SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                               BossVa_BodyOverrideLimbDraw, BossVa_BodyPostLimbDraw, this);
             }
             break;
         case BOSSVA_SUPPORT_1:
         case BOSSVA_SUPPORT_2:
         case BOSSVA_SUPPORT_3:
             if (!this->isDead) {
-                SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                  this->skelAnime.dListCount, BossVa_SupportOverrideLimbDraw, BossVa_SupportPostLimbDraw,
-                                 &this->actor);
+                                 this);
             }
             break;
         case BOSSVA_ZAPPER_1:
         case BOSSVA_ZAPPER_2:
         case BOSSVA_ZAPPER_3:
             if (!this->isDead) {
-                SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                  this->skelAnime.dListCount, BossVa_ZapperOverrideLimbDraw, BossVa_ZapperPostLimbDraw,
-                                 &this->actor);
+                                 this);
             }
             break;
         case BOSSVA_STUMP_1:
         case BOSSVA_STUMP_2:
         case BOSSVA_STUMP_3:
-            SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+            SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                              this->skelAnime.dListCount, NULL, NULL, NULL);
             break;
         default:
             if (!this->isDead) {
-                SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                               BossVa_BariOverrideLimbDraw, BossVa_BariPostLimbDraw, &this->actor);
+                SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                               BossVa_BariOverrideLimbDraw, BossVa_BariPostLimbDraw, this);
                 func_800628A4(0, &this->colliderSph);
                 if (sCsState < BOSSVA_BATTLE) {
                     spBC = BODY->actor.posRot.pos;

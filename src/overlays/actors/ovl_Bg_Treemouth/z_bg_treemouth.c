@@ -48,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // unused
-f32 D_808BD9C4[] = {
+static f32 D_808BD9C4[] = {
     -2746.0f, 545.0f, 4694.0f, -2654.0f, 146.0f, 4534.0f,
 };
 

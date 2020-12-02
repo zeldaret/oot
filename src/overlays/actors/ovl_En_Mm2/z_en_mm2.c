@@ -9,6 +9,8 @@ void EnMm2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMm2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMm2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06005E18;
+
 /*
 const ActorInit En_Mm2_InitVars = {
     ACTOR_EN_MM2,
