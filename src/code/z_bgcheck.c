@@ -417,7 +417,7 @@ u32 func_80041F10(u32 a0, u32 a1, u32 a2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800420E4.s")
 
-u32 func_80042108(u32 a0, u32 a1, u32 a2) {
+s32 func_80042108(CollisionContext* a0, CollisionPoly* a1, u32 a2) {
     u32 result;
     s32 var1;
 

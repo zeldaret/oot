@@ -9,6 +9,10 @@ void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600219C;
+extern UNK_TYPE D_06002FE8;
+extern UNK_TYPE D_0600BFA8;
+
 /*
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,

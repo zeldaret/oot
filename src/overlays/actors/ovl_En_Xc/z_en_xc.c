@@ -15,6 +15,37 @@ void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_02000330;
+extern UNK_TYPE D_02003F80;
+extern UNK_TYPE D_020045D0;
+extern UNK_TYPE D_020046F0;
+extern UNK_TYPE D_02006D20;
+extern UNK_TYPE D_06000B6C;
+extern UNK_TYPE D_06001A08;
+extern UNK_TYPE D_06001D14;
+extern UNK_TYPE D_0600289C;
+extern UNK_TYPE D_060035C8;
+extern UNK_TYPE D_06004570;
+extern UNK_TYPE D_06004828;
+extern UNK_TYPE D_060058C0;
+extern UNK_TYPE D_06011150;
+extern UNK_TYPE D_06011620;
+extern UNK_TYPE D_06012970;
+extern UNK_TYPE D_06012AF0;
+extern UNK_TYPE D_06012FD0;
+extern UNK_TYPE D_06013AA4;
+extern UNK_TYPE D_060149E4;
+extern UNK_TYPE D_060169E8;
+extern UNK_TYPE D_060177F8;
+extern UNK_TYPE D_06017C54;
+extern UNK_TYPE D_06018B00;
+extern UNK_TYPE D_06019598;
+extern UNK_TYPE D_06019C30;
+extern UNK_TYPE D_06019F78;
+extern UNK_TYPE D_0601A048;
+extern UNK_TYPE D_0601B19C;
+extern UNK_TYPE D_0601C0E8;
+
 /*
 const ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,

@@ -76,7 +76,7 @@ glabel EnTr_Draw
 /* 012AC 80B23F9C AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 012B0 80B23FA0 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 012B4 80B23FA4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 012B8 80B23FA8 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 012B8 80B23FA8 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 012BC 80B23FAC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 012C0 80B23FB0 3C0680B2 */  lui     $a2, %hi(D_80B24424)       ## $a2 = 80B20000
 /* 012C4 80B23FB4 24C64424 */  addiu   $a2, $a2, %lo(D_80B24424)  ## $a2 = 80B24424
