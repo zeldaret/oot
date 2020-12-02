@@ -9,6 +9,8 @@ void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_05000530;
+
 /*
 const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,

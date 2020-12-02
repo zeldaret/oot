@@ -9,6 +9,15 @@ void EnShopnuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnShopnuts_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060001EC;
+extern UNK_TYPE D_0600039C;
+extern UNK_TYPE D_06000764;
+extern UNK_TYPE D_06000BA0;
+extern UNK_TYPE D_0600139C;
+extern UNK_TYPE D_06003B68;
+extern UNK_TYPE D_060041A8;
+extern UNK_TYPE D_06004574;
+
 /*
 const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,

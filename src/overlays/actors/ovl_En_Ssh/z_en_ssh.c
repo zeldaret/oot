@@ -859,6 +859,6 @@ void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2333);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->blinkState]));
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2336);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSsh_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSsh_OverrideLimbDraw,
                    EnSsh_PostLimbDraw, &this->actor);
 }

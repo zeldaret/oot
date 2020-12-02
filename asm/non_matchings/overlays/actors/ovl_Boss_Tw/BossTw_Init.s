@@ -281,7 +281,7 @@ glabel BossTw_Init
 /* 00DE4 80939AB4 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00DE8 80939AB8 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00DEC 80939ABC AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00DF0 80939AC0 0C0291BE */  jal     SkelAnime_InitSV
+/* 00DF0 80939AC0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00DF4 80939AC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DF8 80939AC8 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
 /* 00DFC 80939ACC 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
@@ -337,7 +337,7 @@ glabel BossTw_Init
 /* 00EB0 80939B80 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00EB4 80939B84 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00EB8 80939B88 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00EBC 80939B8C 0C0291BE */  jal     SkelAnime_InitSV
+/* 00EBC 80939B8C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00EC0 80939B90 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00EC4 80939B94 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
 /* 00EC8 80939B98 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
@@ -394,7 +394,7 @@ glabel BossTw_Init
 /* 00F84 80939C54 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00F88 80939C58 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00F8C 80939C5C AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00F90 80939C60 0C0291BE */  jal     SkelAnime_InitSV
+/* 00F90 80939C60 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00F94 80939C64 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00F98 80939C68 3C050602 */  lui     $a1, 0x0602                ## $a1 = 06020000
 /* 00F9C 80939C6C 24A544B4 */  addiu   $a1, $a1, 0x44B4           ## $a1 = 060244B4

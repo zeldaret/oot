@@ -260,7 +260,7 @@ glabel EnFd_Draw
 /* 01D04 80A0D3C4 AFB10018 */  sw      $s1, 0x0018($sp)
 /* 01D08 80A0D3C8 8E1902D0 */  lw      $t9, 0x02D0($s0)           ## 000002D0
 /* 01D0C 80A0D3CC 8FA400A4 */  lw      $a0, 0x00A4($sp)
-/* 01D10 80A0D3D0 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 01D10 80A0D3D0 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 01D14 80A0D3D4 AFB9001C */  sw      $t9, 0x001C($sp)
 /* 01D18 80A0D3D8 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L80A0D3DC:

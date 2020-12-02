@@ -76,9 +76,9 @@ extern Gfx D_06016F88[];
 extern Gfx D_06018E78[];
 extern Gfx D_06019100[];
 extern Gfx D_06019E08[];
-extern SkeletonHeader D_0601E178;
+extern FlexSkeletonHeader D_0601E178;
 extern AnimationHeader D_060203D8;
-extern SkeletonHeader D_060205C0;
+extern FlexSkeletonHeader D_060205C0;
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -217,7 +217,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
 }
 
 void func_80A74714(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600CD70.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_0600CD70);
     f32 frame;
 
     if (this->actor.params >= 2) {
@@ -253,7 +253,7 @@ void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7489C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600DD50.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_0600DD50);
 
     this->actor.flags |= 5;
     this->unk_2F8 = 4;
@@ -286,11 +286,11 @@ void func_80A74AAC(EnIk* this) {
     this->unk_2F8 = 5;
     if (this->unk_2FB == 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ED24, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_0600ED24.genericHeader), 0, -4.0f);
+                             SkelAnime_GetFrameCount(&D_0600ED24), 0, -4.0f);
         this->actor.speedXZ = 0.9f;
     } else {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06006734, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06006734.genericHeader), 0, -4.0f);
+                             SkelAnime_GetFrameCount(&D_06006734), 0, -4.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
@@ -358,7 +358,7 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A74E2C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06001C28.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_06001C28);
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
@@ -398,7 +398,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7506C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060029FC.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060029FC);
 
     this->unk_2FE = 0;
     this->unk_2F9 = (s8)frames;
@@ -416,7 +416,7 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx) {
         if (this->unk_2F8 == 8) {
             func_80A7489C(this);
         } else {
-            frames = SkelAnime_GetFrameCount(&D_06002538.genericHeader);
+            frames = SkelAnime_GetFrameCount(&D_06002538);
             this->unk_2F8 = 8;
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06002538, 1.5f, 0.0f, frames, 3, -4.0f);
         }
@@ -424,7 +424,7 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A751C8(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060033C4.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060033C4);
 
     this->unk_2FF = 2;
     this->unk_300 = 0;
@@ -464,7 +464,7 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A753D0(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06003DBC.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_06003DBC);
 
     this->unk_2FF = this->unk_2FE = 0;
     this->unk_2F8 = 8;
@@ -480,7 +480,7 @@ void func_80A7545C(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A754A0(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060033C4.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060033C4);
 
     this->unk_2F8 = 1;
     this->unk_2FF = 3;
@@ -507,7 +507,7 @@ void func_80A75530(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A755F0(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600485C.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_0600485C);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 9;
@@ -541,11 +541,11 @@ void func_80A75790(EnIk* this) {
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06006194, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06006194.genericHeader), 2, -4.0f);
+                             SkelAnime_GetFrameCount(&D_06006194), 2, -4.0f);
         this->actor.speedXZ = -6.0f;
     } else {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060045BC, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060045BC.genericHeader), 2, -4.0f);
+                             SkelAnime_GetFrameCount(&D_060045BC), 2, -4.0f);
         this->actor.speedXZ = 6.0f;
     }
     this->unk_2FE = 0;
@@ -568,7 +568,7 @@ void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7598C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005944.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_06005944);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 2;
@@ -620,7 +620,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->shieldCollider.base.acFlags & 0x80) {
-        temp_f0 = SkelAnime_GetFrameCount(&D_0600485C.genericHeader) - 2.0f;
+        temp_f0 = SkelAnime_GetFrameCount(&D_0600485C) - 2.0f;
         if (this->skelAnime.animCurrentFrame < temp_f0) {
             this->skelAnime.animCurrentFrame = temp_f0;
         }
@@ -753,8 +753,8 @@ Gfx* func_80A761B0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
     return displayList;
 }
 
-s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnIk* this = (EnIk*)actor;
+s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnIk* this = THIS;
 
     if (limbIndex == 12) {
         if (this->actor.params != 0) {
@@ -798,10 +798,10 @@ static Vec3f D_80A784D0[] = {
     { -3000.0, -700.0, -5000.0 },
 };
 
-void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f spF4;
     Vec3f spE8;
-    EnIk* this = (EnIk*)actor;
+    EnIk* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1201);
 
@@ -901,8 +901,8 @@ void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80A761B0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
     }
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnIk_OverrideLimbDraw3, EnIk_PostLimbDraw3, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnIk_OverrideLimbDraw3, EnIk_PostLimbDraw3, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1351);
 }
@@ -1018,7 +1018,7 @@ void func_80A77148(EnIk* this) {
 }
 
 void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114.genericHeader),
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114),
                          2, 0.0f);
     func_80A770C0(this, globalCtx, 4);
     this->action = 1;
@@ -1027,7 +1027,7 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A771E4(EnIk* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114.genericHeader),
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114),
                          2, 0.0f);
     this->action = 2;
     this->drawMode = 1;
@@ -1057,10 +1057,10 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
 
 void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frames = SkelAnime_GetFrameCount(&D_060203D8.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060203D8);
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060205C0, NULL, this->limbDrawTable, this->transitionDrawTable,
-                     30);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060205C0, NULL, this->limbDrawTable, this->transitionDrawTable,
+                       30);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060203D8, 1.0f, 0.0f, frames, 2, 0.0f);
     this->action = 3;
     this->drawMode = 2;
@@ -1099,9 +1099,11 @@ void func_80A774F8(EnIk* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnIk* this = THIS;
+
     if ((limbIndex == 13) || (limbIndex == 26) || (limbIndex == 27)) {
-        if (EnIk_AnimCurrentFrame(actor) >= 30.0f) {
+        if (EnIk_AnimCurrentFrame(&this->actor) >= 30.0f) {
             *dList = NULL;
         }
     }
@@ -1109,21 +1111,20 @@ s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 207);
 
     switch (limbIndex) {
-        case 13:
-            if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
-                s32 pad;
-
+        case 13: {
+            EnIk* this = THIS;
+            if (EnIk_AnimCurrentFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 267),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016D88);
             }
-            break;
+        } break;
         case 22:
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 274),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1134,26 +1135,27 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, D_06016EE8);
             break;
-        case 26:
-            if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
-                s32 pad;
+        case 26: {
+            EnIk* this = THIS;
+            if (EnIk_AnimCurrentFrame(&this->actor) < 30.0f) {
+                // s32 pad;
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
             }
-            break;
-        case 27:
-            if (EnIk_AnimCurrentFrame(actor) < 30.0f) {
-                s32 pad;
+        } break;
+        case 27: {
+            EnIk* this = THIS;
+            if (EnIk_AnimCurrentFrame(&this->actor) < 30.0f) {
+                // s32 pad;
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 297),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016CD8);
             }
-            break;
+        } break;
     }
-
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 304);
 }
 
@@ -1170,8 +1172,8 @@ void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
     gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                     EnIk_OverrideLimbDraw2, EnIk_PostLimbDraw2, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnIk_OverrideLimbDraw2, EnIk_PostLimbDraw2, this);
 
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 345);
 }
@@ -1250,8 +1252,8 @@ void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
 }
 
-s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnIk* this = (EnIk*)actor;
+s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    EnIk* this = THIS;
     f32 animCurrentFrame;
 
     switch (limbIndex) {
@@ -1272,7 +1274,7 @@ s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 571);
@@ -1324,8 +1326,8 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
     gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                     EnIk_OverrideLimbDraw1, EnIk_PostLimbDraw1, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                          EnIk_OverrideLimbDraw1, EnIk_PostLimbDraw1, this);
 
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 653);
 }
@@ -1389,8 +1391,8 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0601E178, &D_0600C114, this->limbDrawTable,
-                         this->transitionDrawTable, 30);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0601E178, &D_0600C114, this->limbDrawTable,
+                           this->transitionDrawTable, 30);
         func_80A74398(&this->actor, globalCtx);
         func_80A780D0(this, globalCtx);
     }
