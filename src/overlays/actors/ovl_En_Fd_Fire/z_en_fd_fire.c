@@ -4,8 +4,6 @@
 
 #define THIS ((EnFdFire*)thisx)
 
-#define FIRE_TYPE (((this->actor.params & 0x8000) >> 0xF))
-
 void EnFdFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFdFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 12, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0x01, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 1, 0, 0, 0, 0xFF };
 
 static DamageTable sDamageTable = { {
     0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -44,12 +42,10 @@ static DamageTable sDamageTable = { {
 
 void EnFdFire_UpdatePos(EnFdFire* this, Vec3f* targetPos) {
     f32 dist;
-    f32 xDiff;
-    f32 yDiff;
-    f32 zDiff;
-    xDiff = targetPos->x - this->actor.posRot.pos.x;
-    yDiff = targetPos->y - this->actor.posRot.pos.y;
-    zDiff = targetPos->z - this->actor.posRot.pos.z;
+    f32 xDiff = targetPos->x - this->actor.posRot.pos.x;
+    f32 yDiff = targetPos->y - this->actor.posRot.pos.y;
+    f32 zDiff = targetPos->z - this->actor.posRot.pos.z;
+
     dist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
     if (fabsf(dist) > fabsf(this->actor.speedXZ)) {
         this->actor.velocity.x = (xDiff / dist) * this->actor.speedXZ;
@@ -142,7 +138,7 @@ void EnFdFire_DanceTowardsPlayer(EnFdFire* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 idx;
 
-    idx = ((globalCtx->state.frames / 10) + (this->actor.params & 0x7FFF)) % 0xC;
+    idx = ((globalCtx->state.frames / 10) + (this->actor.params & 0x7FFF)) % ARRAY_COUNT(angles);
     pos = player->actor.posRot.pos;
     pos.x += 120.0f * sinf(angles[idx]);
     pos.z += 120.0f * cosf(angles[idx]);
@@ -209,7 +205,8 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp84;
     f32 sp80;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fd_fire.c", 0x23C);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fd_fire.c", 572);
+
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
     sp8E = Math_Vec3f_Yaw(&scale, &this->actor.velocity) - func_8005A9F4(ACTIVE_CAM);
     sp84 = fabsf(Math_Coss(sp8E));
@@ -218,11 +215,11 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (1) {}
     if (1) {}
     if (1) {}
-    Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * (M_PI / 32768.0f), MTXMODE_APPLY);
+    Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_RotateZ(((sp88 * -10.0f) * sp80) * (M_PI / 180.0f), MTXMODE_APPLY);
     scale.x = scale.y = scale.z = this->scale * 0.001f;
     Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
-    sp84 = sp80 * (-0.14999999f * sp84) + 1.0f;
+    sp84 = sp80 * ((0.01f * -15.0f) * sp84) + 1.0f;
     if (sp84 < 0.1f) {
         sp84 = 0.1f;
     }
@@ -233,11 +230,16 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x8,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                 globalCtx->state.frames * this->tile2Y, 0x20, 0x80));
-    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[FIRE_TYPE].r, primColors[FIRE_TYPE].g,
-                    primColors[FIRE_TYPE].b, primColors[FIRE_TYPE].a);
-    gDPSetEnvColor(POLY_XLU_DISP++, envColors[FIRE_TYPE].r, envColors[FIRE_TYPE].g, envColors[FIRE_TYPE].b,
-                   envColors[FIRE_TYPE].a);
+    gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, primColors[((this->actor.params & 0x8000) >> 0xF)].r,
+                    primColors[((this->actor.params & 0x8000) >> 0xF)].g,
+                    primColors[((this->actor.params & 0x8000) >> 0xF)].b,
+                    primColors[((this->actor.params & 0x8000) >> 0xF)].a);
+    gDPSetEnvColor(POLY_XLU_DISP++, envColors[((this->actor.params & 0x8000) >> 0xF)].r,
+                   envColors[((this->actor.params & 0x8000) >> 0xF)].g,
+                   envColors[((this->actor.params & 0x8000) >> 0xF)].b,
+                   envColors[((this->actor.params & 0x8000) >> 0xF)].a);
     gDPPipeSync(POLY_XLU_DISP++);
     gSPDisplayList(POLY_XLU_DISP++, &D_0404D4E0);
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd_fire.c", 672);
 }

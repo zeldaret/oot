@@ -9,17 +9,17 @@ struct EnFw;
 typedef void (*EnFwActionFunc)(struct EnFw* this, GlobalContext* globalCtx);
 
 typedef struct {
-    /* 0x0000 */ u8 used;
+    /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 timer;
     /* 0x0002 */ u8 initialTimer;
     /* 0x0004 */ f32 scale;
-    /* 0x0008 */ f32 scaleSpeed;
+    /* 0x0008 */ f32 scaleStep;
     /* 0x000C */ Color_RGBA8 color;
     /* 0x0010 */ char unk_10[4];
     /* 0x0014 */ Vec3f pos;
-    /* 0x0020 */ Vec3f speed;
+    /* 0x0020 */ Vec3f velocity;
     /* 0x002C */ Vec3f accel;
-} EnFwPart;
+} EnFwEffect;
 
 typedef struct EnFw {
     /* 0x0000 */ Actor actor;
@@ -31,18 +31,18 @@ typedef struct EnFw {
     /* 0x0200 */ u8 lastDmgHook;
     /* 0x0202 */ s16 runDirection;
     /* 0x0204 */ s16 bounceCnt;
-    /* 0x0206 */ s16 unk_206; // unused.
+    /* 0x0206 */ char unk_206[0x2];
     /* 0x0208 */ s16 damageTimer;
     /* 0x020A */ s16 explosionTimer;
-    /* 0x020C */ s16 unk_20C; // unused
+    /* 0x020C */ char unk_20C[0x2];
     /* 0x020E */ s16 slideTimer;
     /* 0x0210 */ s16 slideSfxTimer;
     /* 0x0212 */ s16 returnToParentTimer;
     /* 0x0214 */ s16 turnAround;
     /* 0x0218 */ f32 runRadius;
     /* 0x021C */ Vec3s limbDrawTable[11];
-    /* 0x025E */ Vec3s transDrawTable[11];
-    /* 0x02A0 */ EnFwPart particles[20];
+    /* 0x025E */ Vec3s transitionDrawTable[11];
+    /* 0x02A0 */ EnFwEffect effects[20];
 } EnFw; // size = 0x0700
 
 extern const ActorInit En_Fw_InitVars;

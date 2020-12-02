@@ -97,7 +97,7 @@ void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
 void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (globalCtx->actorCtx.lensActive != 0) {
+    if (globalCtx->actorCtx.unk_03 != 0) {
         thisx->flags |= 0x80;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     } else {

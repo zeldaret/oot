@@ -1938,8 +1938,8 @@ void func_80030488(GlobalContext* globalCtx) {
 }
 
 void func_800304B0(GlobalContext* globalCtx) {
-    if (globalCtx->actorCtx.lensActive != 0) {
-        globalCtx->actorCtx.lensActive = 0;
+    if (globalCtx->actorCtx.unk_03 != 0) {
+        globalCtx->actorCtx.unk_03 = 0;
         func_800876C8(globalCtx);
     }
 }
@@ -2389,7 +2389,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & 0x60)) {
                     if ((actor->flags & 0x80) &&
-                        ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.lensActive != 0) ||
+                        ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
                         if (invisibleActorCounter >= INVISIBLE_ACTOR_MAX) {
                             __assert("invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
@@ -2418,7 +2418,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
-        if (globalCtx->actorCtx.lensActive != 0) {
+        if (globalCtx->actorCtx.unk_03 != 0) {
             func_8003115C(globalCtx, invisibleActorCounter, invisibleActors);
             if ((globalCtx->csCtx.state != 0) || Player_InCsMode(globalCtx)) {
                 func_800304B0(globalCtx);

@@ -201,7 +201,7 @@ void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = THIS;
-    if (globalCtx->actorCtx.lensActive != 0) {
+    if (globalCtx->actorCtx.unk_03 != 0) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
         func_800694A0(globalCtx, this->drawId);

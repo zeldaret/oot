@@ -9,10 +9,10 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx);
-void EnFw_DustParticlesUpdate(EnFw* this);
-void EnFw_DustParticlesDraw(EnFw* this, GlobalContext* globalCtx);
-void EnFw_DustParticleAdd(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
-                          f32 scaleSpeed);
+void EnFw_UpdateDust(EnFw* this);
+void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx);
+void EnFw_AddDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
+                  f32 scaleStep);
 void EnFw_Bounce(EnFw* this, GlobalContext* globalCtx);
 void EnFw_Run(EnFw* this, GlobalContext* globalCtx);
 void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx);
@@ -43,7 +43,7 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphItemsInit,
 };
 
-static CollisionCheckInfoInit2 D_80A1FB94 = { 0x08, 0x0002, 0x0019, 0x0019, 0xFF };
+static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, 0xFF };
 
 static struct_80034EC0_Entry D_80A1FBA0[] = {
     { 0x06006CF8, 0.0f, 0.0f, -1.0f, 0x03, 0.0f },
@@ -51,7 +51,7 @@ static struct_80034EC0_Entry D_80A1FBA0[] = {
     { 0x06007DC8, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
 };
 
-extern SkeletonHeader D_06007C30;
+extern FlexSkeletonHeader D_06007C30;
 extern Gfx D_06007928[];
 extern Gfx D_06007938[];
 extern AnimationHeader D_06006CF8;
@@ -59,7 +59,7 @@ extern AnimationHeader D_06006CF8;
 s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
     s16 temp_v1;
 
-    if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0.0f) {
+    if (!(this->actor.bgCheckFlags & 1) || (this->actor.velocity.y > 0.0f)) {
         // not on the ground or moving upwards.
         return false;
     }
@@ -89,7 +89,7 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (ABS((s16)((f32)this->actor.yawTowardsLink - (f32)this->actor.shape.rot.y)) >= 0x1C71) {
+    if (ABS((s16)((f32)this->actor.yawTowardsLink - (f32)this->actor.shape.rot.y)) > 0x1C70) {
         return false;
     }
 
@@ -120,7 +120,7 @@ s32 EnFw_CheckCollider(EnFw* this, GlobalContext* globalCtx) {
     s32 phi_return;
 
     if (this->collider.base.acFlags & 2) {
-        body = &this->collider.list[0];
+        body = &this->collider.list[0].body;
         if (body->acHitItem->toucher.flags & 0x80) {
             this->lastDmgHook = true;
         } else {
@@ -142,16 +142,16 @@ s32 EnFw_CheckCollider(EnFw* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleSpeed, s32 dustCnt, f32 radius, f32 xzAccel, f32 yAccel) {
+s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, f32 radius, f32 xzAccel, f32 yAccel) {
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
-    Vec3f speed = { 0.0f, 0.0f, 0.0f };
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     s16 angle;
     s32 i;
 
     pos = this->actor.posRot.pos;
     pos.y = this->actor.groundY + 2.0f;
-    angle = ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
+    angle = ((Math_Rand_ZeroOne() - 0.5f) * 0x10000);
     i = dustCnt;
     while (i >= 0) {
         accel.x = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
@@ -159,7 +159,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleSpeed, s32 dustCnt,
         accel.z = (Math_Rand_ZeroOne() - 0.5f) * xzAccel;
         pos.x = (Math_Sins(angle) * radius) + this->actor.posRot.pos.x;
         pos.z = (Math_Coss(angle) * radius) + this->actor.posRot.pos.z;
-        EnFw_DustParticleAdd(this, &pos, &speed, &accel, timer, scale, scaleSpeed);
+        EnFw_AddDust(this, &pos, &velocity, &accel, timer, scale, scaleStep);
         angle += (s16)(0x10000 / dustCnt);
         i--;
     }
@@ -169,7 +169,8 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleSpeed, s32 dustCnt,
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->limbDrawTable, this->transDrawTable, 11);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->limbDrawTable, this->transitionDrawTable,
+                       11);
     func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -267,14 +268,15 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             facingDir = this->actor.shape.rot.y;
             tmpAngle = Math_SmoothScaleMaxMinF(&facingDir, tmpAngle, 0.1f, 10000.0f, 0.0f);
             this->actor.shape.rot.y = facingDir;
-            if (tmpAngle > 5460.0f) {
+            if (tmpAngle > 0x1554) {
                 return;
             }
             this->turnAround = false;
         } else {
             Vec3f sp48;
             EnFw_GetPosAdjAroundCircle(&sp48, this, this->runRadius, this->runDirection);
-            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(sp48.x, sp48.z) * 10430.378f), 4, 0xFA0, 1);
+            Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (Math_atan2f(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0,
+                                    1);
         }
 
         this->actor.posRot.rot = this->actor.shape.rot;
@@ -353,7 +355,7 @@ void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnFw_OverrideLimbDraw(GlobalContext* globalContext, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                           void* thisx) {
-    return false;
+    return 0;
 }
 
 void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -376,72 +378,74 @@ void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
 
-    EnFw_DustParticlesUpdate(this);
+    EnFw_UpdateDust(this);
     Matrix_Push();
-    EnFw_DustParticlesDraw(this, globalCtx);
+    EnFw_DrawDust(this, globalCtx);
     Matrix_Pull();
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
+                          EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
 }
 
-void EnFw_DustParticleAdd(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
-                          f32 scaleSpeed) {
-    EnFwPart* part = this->particles;
+void EnFw_AddDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
+                  f32 scaleStep) {
+    EnFwEffect* eff = this->effects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->particles); i++, part++) {
-        if (part->used != 1) {
-            part->scale = scale;
-            part->scaleSpeed = scaleSpeed;
-            part->initialTimer = part->timer = initialTimer;
-            part->used = 1;
-            part->pos = *initialPos;
-            part->accel = *accel;
-            part->speed = *initialSpeed;
+    for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
+        if (eff->type != 1) {
+            eff->scale = scale;
+            eff->scaleStep = scaleStep;
+            eff->initialTimer = eff->timer = initialTimer;
+            eff->type = 1;
+            eff->pos = *initialPos;
+            eff->accel = *accel;
+            eff->velocity = *initialSpeed;
             return;
         }
     }
 }
 
-void EnFw_DustParticlesUpdate(EnFw* this) {
-    EnFwPart* part = this->particles;
+void EnFw_UpdateDust(EnFw* this) {
+    EnFwEffect* eff = this->effects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->particles); i++, part++) {
-        if (part->used != 0) {
-            if ((--part->timer) == 0) {
-                part->used = 0;
+    for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
+        if (eff->type != 0) {
+            if ((--eff->timer) == 0) {
+                eff->type = 0;
             }
-            part->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            part->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            part->pos.x += part->speed.x;
-            part->pos.y += part->speed.y;
-            part->pos.z += part->speed.z;
-            part->speed.x += part->accel.x;
-            part->speed.y += part->accel.y;
-            part->speed.z += part->accel.z;
-            part->scale += part->scaleSpeed;
+            eff->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->pos.x += eff->velocity.x;
+            eff->pos.y += eff->velocity.y;
+            eff->pos.z += eff->velocity.z;
+            eff->velocity.x += eff->accel.x;
+            eff->velocity.y += eff->accel.y;
+            eff->velocity.z += eff->accel.z;
+            eff->scale += eff->scaleStep;
         }
     }
 }
 
-void EnFw_DustParticlesDraw(EnFw* this, GlobalContext* globalCtx) {
+void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
     static Gfx* D_80A1FC18[] = {
         0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0,
     };
-    EnFwPart* part = this->particles;
+    EnFwEffect* eff = this->effects;
     s16 firstDone;
     s16 alpha;
     s16 i;
     s16 idx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fw.c", 1191);
+
     firstDone = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
-    for (i = 0; i < ARRAY_COUNT(this->particles); i++, part++) {
-        if (part->used != 0) {
+
+    for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
+        if (eff->type != 0) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0U);
                 gSPDisplayList(POLY_XLU_DISP++, D_06007928);
@@ -449,18 +453,19 @@ void EnFw_DustParticlesDraw(EnFw* this, GlobalContext* globalCtx) {
                 firstDone = true;
             }
 
-            alpha = part->timer * (255.0f / part->initialTimer);
+            alpha = eff->timer * (255.0f / eff->initialTimer);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(part->pos.x, part->pos.y, part->pos.z, MTXMODE_NEW);
+            Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
-            Matrix_Scale(part->scale, part->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fw.c", 1229),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            idx = part->timer * (8.0f / part->initialTimer);
+            idx = eff->timer * (8.0f / eff->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A1FC18[idx]));
             gSPDisplayList(POLY_XLU_DISP++, &D_06007938);
         }
     }
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fw.c", 1243);
 }

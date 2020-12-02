@@ -8,24 +8,24 @@ struct EnFd;
 
 typedef void (*EnFdActionFunc)(struct EnFd* this, GlobalContext* globalCtx);
 
-enum FDPartType {
-    FD_PART_NONE,
-    FD_PART_FLAME,
-    FD_PART_DOT
-};
+typedef enum {
+    FD_EFFECT_NONE,
+    FD_EFFECT_FLAME,
+    FD_EFFECT_DOT
+} FDEffectType;
 
 typedef struct {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 timer;
     /* 0x0002 */ u8 initialTimer;
     /* 0x0004 */ f32 scale;
-    /* 0x0008 */ f32 scaleSpeed;
+    /* 0x0008 */ f32 scaleStep;
     /* 0x000C */ Color_RGBA8 color;
     /* 0x0010 */ char unk_10[4];
     /* 0x0014 */ Vec3f pos;
-    /* 0x0020 */ Vec3f speed;
+    /* 0x0020 */ Vec3f velocity;
     /* 0x002C */ Vec3f accel;
-} EnFdPart; // size = 0x38
+} EnFdEffect; // size = 0x38
 
 typedef struct EnFd {
     /* 0x0000 */ Actor actor;
@@ -46,8 +46,8 @@ typedef struct EnFd {
     /* 0x04CC */ f32 fadeAlpha;
     /* 0x04D0 */ Vec3f corePos;
     /* 0x04DC */ Vec3s limbDrawTable[27];
-    /* 0x057E */ Vec3s transDrawTable[27];
-    /* 0x0620 */ EnFdPart particles[0xC8];
+    /* 0x057E */ Vec3s transitionDrawTable[27];
+    /* 0x0620 */ EnFdEffect effects[200];
 } EnFd; // size = 0x31E0
 
 extern const ActorInit En_Fd_InitVars;
