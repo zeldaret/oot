@@ -15,6 +15,11 @@ void BgRelayObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgRelayObjects_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgRelayObjects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060001A0;
+extern UNK_TYPE D_060003C4;
+extern UNK_TYPE D_06001AB0;
+extern UNK_TYPE D_060025FC;
+
 /*
 const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,

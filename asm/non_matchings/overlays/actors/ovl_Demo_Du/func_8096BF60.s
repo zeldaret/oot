@@ -114,7 +114,7 @@ glabel func_8096BF60
 /* 02628 8096C0F8 90470002 */  lbu     $a3, 0x0002($v0)           ## 0000014E
 /* 0262C 8096C0FC AFA00014 */  sw      $zero, 0x0014($sp)
 /* 02630 8096C100 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 02634 8096C104 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 02634 8096C104 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 02638 8096C108 AFA30018 */  sw      $v1, 0x0018($sp)
 /* 0263C 8096C10C 8FAC007C */  lw      $t4, 0x007C($sp)
 /* 02640 8096C110 3C068097 */  lui     $a2, %hi(D_8096D0A0)       ## $a2 = 80970000

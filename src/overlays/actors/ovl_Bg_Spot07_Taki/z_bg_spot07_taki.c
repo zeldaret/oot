@@ -15,6 +15,15 @@ void BgSpot07Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot07Taki_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000460;
+extern UNK_TYPE D_06000BE0;
+extern UNK_TYPE D_06001CF0;
+extern UNK_TYPE D_06001F68;
+extern UNK_TYPE D_06002590;
+extern UNK_TYPE D_06003210;
+extern UNK_TYPE D_060032D8;
+extern UNK_TYPE D_060038FC;
+
 /*
 const ActorInit Bg_Spot07_Taki_InitVars = {
     ACTOR_BG_SPOT07_TAKI,

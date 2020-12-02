@@ -133,7 +133,7 @@ glabel func_80AE1148
 /* 035C0 80AE1310 AFB10018 */  sw      $s1, 0x0018($sp)
 /* 035C4 80AE1314 8E0C02C0 */  lw      $t4, 0x02C0($s0)           ## 000002C0
 /* 035C8 80AE1318 8FA4009C */  lw      $a0, 0x009C($sp)
-/* 035CC 80AE131C 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 035CC 80AE131C 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 035D0 80AE1320 AFAC001C */  sw      $t4, 0x001C($sp)
 /* 035D4 80AE1324 10000058 */  beq     $zero, $zero, .L80AE1488
 /* 035D8 80AE1328 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
@@ -222,7 +222,7 @@ glabel func_80AE1148
 /* 03720 80AE1470 AFB10018 */  sw      $s1, 0x0018($sp)
 /* 03724 80AE1474 8E1902D0 */  lw      $t9, 0x02D0($s0)           ## 000002D0
 /* 03728 80AE1478 8FA4009C */  lw      $a0, 0x009C($sp)
-/* 0372C 80AE147C 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 0372C 80AE147C 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 03730 80AE1480 AFB9001C */  sw      $t9, 0x001C($sp)
 /* 03734 80AE1484 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L80AE1488:

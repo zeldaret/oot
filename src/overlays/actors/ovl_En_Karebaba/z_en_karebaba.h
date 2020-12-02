@@ -1,12 +1,6 @@
 #ifndef _Z_EN_KAREBABA_H_
 #define _Z_EN_KAREBABA_H_
 
-/**
- * File: z_en_karebaba.h
- * Overlay: ovl_En_Karebaba
- * Description: Withered Deku Baba enemies
- */
-
 #include "ultra64.h"
 #include "global.h"
 
