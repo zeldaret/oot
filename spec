@@ -689,8 +689,7 @@ endseg
 beginseg
     name "ovl_Bg_Ganon_Otyuka"
     include "build/src/overlays/actors/ovl_Bg_Ganon_Otyuka/z_bg_ganon_otyuka.o"
-    include "build/data/overlays/actors/z_bg_ganon_otyuka.data.o"
-    include "build/data/overlays/actors/z_bg_ganon_otyuka.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka_reloc.o"
 endseg
 
 beginseg
@@ -2139,8 +2138,7 @@ endseg
 beginseg
     name "ovl_En_Dns"
     include "build/src/overlays/actors/ovl_En_Dns/z_en_dns.o"
-    include "build/data/overlays/actors/z_en_dns.data.o"
-    include "build/data/overlays/actors/z_en_dns.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dns/ovl_En_Dns_reloc.o"
 endseg
 
 beginseg
@@ -2782,8 +2780,7 @@ endseg
 beginseg
     name "ovl_En_Niw_Lady"
     include "build/src/overlays/actors/ovl_En_Niw_Lady/z_en_niw_lady.o"
-    include "build/data/overlays/actors/z_en_niw_lady.data.o"
-    include "build/data/overlays/actors/z_en_niw_lady.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Niw_Lady/ovl_En_Niw_Lady_reloc.o"
 endseg
 
 beginseg
@@ -3295,8 +3292,11 @@ endseg
 beginseg
     name "ovl_En_Zl3"
     include "build/src/overlays/actors/ovl_En_Zl3/z_en_zl3.o"
-    include "build/data/overlays/actors/z_en_zl3.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Zl3/ovl_En_Zl3_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_zl3.reloc.o"
+#endif
 endseg
 
 beginseg
