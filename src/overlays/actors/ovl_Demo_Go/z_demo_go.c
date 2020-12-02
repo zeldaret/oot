@@ -27,13 +27,13 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D290(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
 
-UNK_PTR D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+static UNK_PTR D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
 
-DemoGoActionFunc D_8097D44C[] = {
+static DemoGoActionFunc D_8097D44C[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
 };
 
-DemoGoDrawFunc D_8097D468[] = {
+static DemoGoDrawFunc D_8097D468[] = {
     func_8097D290,
     func_8097D29C,
 };

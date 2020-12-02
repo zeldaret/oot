@@ -81,7 +81,7 @@ const ActorInit En_GirlA_InitVars = {
     NULL,
 };
 
-char* D_80A3C590[] = {
+static char* D_80A3C590[] = {
     "デクの実×5   ",  "矢×30        ",  "矢×50        ",  "爆弾×5       ",  "デクの実×10  ",  "デクの棒      ",
     "爆弾×10      ",  "さかな        ", "赤クスリ      ", "緑クスリ      ", "青クスリ      ", "巨人のナイフ  ",
     "ハイリアの盾  ", "デクの盾      ", "ゴロンの服    ", "ゾ─ラの服    ",  "回復のハート  ", "ロンロン牛乳  ",
@@ -93,10 +93,10 @@ char* D_80A3C590[] = {
     "赤クスリ      ", "赤クスリ      ",
 };
 
-s16 D_80A3C658[8] = { ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
-                      ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO };
+static s16 D_80A3C658[8] = { ITEM_MASK_KEATON, ITEM_MASK_SPOOKY, ITEM_MASK_SKULL, ITEM_MASK_BUNNY,
+                             ITEM_MASK_TRUTH,  ITEM_MASK_ZORA,   ITEM_MASK_GORON, ITEM_MASK_GERUDO };
 
-u16 D_80A3C668[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
+static u16 D_80A3C668[5] = { 0x70B6, 0x70B5, 0x70B4, 0x70B7, 0x70BB };
 
 typedef struct {
     /* 0x00 */ s16 objID;
@@ -112,7 +112,7 @@ typedef struct {
     /* 0x1C */ void (*unk_1C)(GlobalContext*, EnGirlA*);
 } ShopItemEntry; // size = 0x20
 
-ShopItemEntry D_80A3C674[] = {
+static ShopItemEntry D_80A3C674[] = {
     { 0x00BB, 0x0011, func_8002ED80, 0x000F, 0x0005, 0x00B2, 0x007F, GI_NUTS_5_2, func_80A3ABF8, func_80A3B714,
       func_80A3BB6C },
     { 0x00D8, 0x0025, func_8002EBCC, 0x003C, 0x001E, 0x00C1, 0x009B, GI_ARROWS_MEDIUM, func_80A3AAA8, func_80A3B634,
@@ -210,7 +210,7 @@ ShopItemEntry D_80A3C674[] = {
       func_80A3BB6C },
 };
 
-s16 D_80A3CCB4[8] = { 0x0005, 0x000A, 0x000F, 0x0014, 0x0019, 0x001E, 0x0023, 0x0028 };
+static s16 D_80A3CCB4[8] = { 0x0005, 0x000A, 0x000F, 0x0014, 0x0019, 0x001E, 0x0023, 0x0028 };
 
 void func_80A3A750(EnGirlA* this, EnGirlAActionFunc func) {
     this->actionFunc = func;
