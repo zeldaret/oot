@@ -63,7 +63,7 @@ static UNK_PTR D_80AA28C0[] = {
 };
 
 extern Gfx D_06005420[];
-extern SkeletonHeader D_06008D90;
+extern FlexSkeletonHeader D_06008D90;
 extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
 
@@ -123,7 +123,7 @@ void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
-    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animCurrentSeg == &D_06009EE0)) {
+    if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animation == &D_06009EE0)) {
         phi_a3 = 1;
     } else {
         phi_a3 = 0;
@@ -160,7 +160,7 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AA1C68(EnMa2* this) {
-    if (this->skelAnime.animCurrentSeg != &D_06009EE0) {
+    if (this->skelAnime.animation != &D_06009EE0) {
         return 0;
     }
     if (this->unk_1E0.unk_00 != 0) {
@@ -185,14 +185,14 @@ void func_80AA1CC0(EnMa2* this) {
 }
 
 void func_80AA1D44(EnMa2* this, s32 idx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_80AA2858[idx].animation->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(D_80AA2858[idx].animation);
 
     SkelAnime_ChangeAnim(&this->skelAnime, D_80AA2858[idx].animation, 1.0f, 0.0f, frameCount, D_80AA2858[idx].unk_08,
                          D_80AA2858[idx].transitionRate);
 }
 
 void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentSeg == &D_06009EE0) {
+    if (this->skelAnime.animation == &D_06009EE0) {
         if (this->unk_1E0.unk_00 == 0) {
             if (this->unk_20A != 0) {
                 func_800F6584(0);
@@ -212,7 +212,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -322,7 +322,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMa2* this = THIS;
     Vec3s vec;
 
@@ -348,7 +348,7 @@ s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
-void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnMa2* this = THIS;
     Vec3f vec = D_80AA28A8;
 
@@ -357,7 +357,7 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     if (limbIndex == 18) {
         Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
-    if ((limbIndex == 14) && (this->skelAnime.animCurrentSeg == &D_060093BC)) {
+    if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, D_06005420);
     }
 
@@ -380,8 +380,8 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA28B4[this->unk_210]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA28C0[this->unk_20E]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 990);
 }

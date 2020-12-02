@@ -46,7 +46,7 @@ void func_80A38960(EnGeldB* this, GlobalContext* globalCtx);
 void func_80A3907C(EnGeldB* this);
 void func_80A39120(EnGeldB* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_0600A458; // FlexSkeletonHeader
+extern FlexSkeletonHeader D_0600A458;
 extern AnimationHeader D_0600ADF8;
 extern AnimationHeader D_0600B6D4;
 extern AnimationHeader D_0600A814;
@@ -132,7 +132,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     this->unk_31A = 0;
     this->unk_30C = 10.0f;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->limbDrawTbl,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->limbDrawTbl,
                      this->limbTransitionTable, 24);
     Collider_InitCylinder(globalCtx, &this->colliderBody);
     Collider_SetCylinder(globalCtx, &this->colliderBody, thisx, &sBodyCylInit);
@@ -536,8 +536,6 @@ void func_80A36A10(EnGeldB* this) {
     func_80A35310(this, func_80A36AE4);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/func_80A36AE4.s")
-
 void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
     s16 sp3E;
     s16 phi_v0_2;
@@ -547,8 +545,6 @@ void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
     s32 temp_f6;
     Player* player = PLAYER;
     
-    
-
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
     if (!func_80A39E2C(globalCtx, this) && !func_80A3559C(globalCtx, this, 0)) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3A98;
@@ -564,7 +560,7 @@ void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
                 this->actor.speedXZ = 8.0f;
             }
         }
-        if ((this->actor.bgCheckFlags & 8) || !func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
+        if ((this->actor.bgCheckFlags & 8) || !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
             if (this->actor.bgCheckFlags & 8) {
                 if(this->actor.speedXZ >= 0.0f) {
                     phi_v0_2 = this->actor.shape.rot.y + 0x3E80;
@@ -610,15 +606,15 @@ void func_80A36AE4(EnGeldB *this, GlobalContext *globalCtx) {
         phi_f2_4 = ABS(this->skelAnime.animPlaybackSpeed);
         pad38 = (s32)phi_f2_4 + sp34;
         if ((sp34 != (s32)this->skelAnime.animCurrentFrame) && ((temp_f6 < 0 && 0 < pad38) || (temp_f6 < 5 && 5 < pad38))) {
-            Audio_PlayActorSound2(this, 0x39A0);
+            Audio_PlayActorSound2(&this->actor, 0x39A0);
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(this, 0x39C6);
+            Audio_PlayActorSound2(&this->actor, 0x39C6);
         }
-        if ((Math_Coss(sp3E - this->actor.shape.rot.y) < -0.85f) && !func_80033AB8(globalCtx, this) && (this->actor.xzDistFromLink <= 45.0f)) {
+        if ((Math_Coss(sp3E - this->actor.shape.rot.y) < -0.85f) && !func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 45.0f)) {
             func_80A37670(this);
         } else if (--this->unk_300 == 0) {
-            if (func_80033AB8(globalCtx, this) && ( Math_Rand_ZeroOne() > 0.5f)) {
+            if (func_80033AB8(globalCtx, &this->actor) && ( Math_Rand_ZeroOne() > 0.5f)) {
                 func_80A37D70(this);
             } else {
                 func_80A35D48(this);
@@ -1239,7 +1235,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->unk_2EC != 0) || (this->unk_318 == 0)) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A3A1C4[this->unk_31A]));
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          func_80A39688, func_80A39824, this);
         if (this->unk_2EC == 6) {
             s32 i;

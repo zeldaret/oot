@@ -523,7 +523,7 @@ s32 func_800AB944(View* view) {
 }
 
 #ifdef NON_MATCHING
-// regalloc differences
+// regalloc differences, skips a t register at arg1's assignment
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     GraphicsContext* gfxCtx = view->gfxCtx;

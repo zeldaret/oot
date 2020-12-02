@@ -43,7 +43,7 @@ glabel EnXc_Init
 /* 05770 80B41950 24E74828 */  addiu   $a3, $a3, 0x4828           ## $a3 = 06004828
 /* 05774 80B41954 24C62AF0 */  addiu   $a2, $a2, 0x2AF0           ## $a2 = 06012AF0
 /* 05778 80B41958 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0577C 80B4195C 0C0291BE */  jal     SkelAnime_InitSV
+/* 0577C 80B4195C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 05780 80B41960 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 05784 80B41964 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 05788 80B41968 0C2CF078 */  jal     func_80B3C1E0

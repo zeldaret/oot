@@ -15,6 +15,12 @@ void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000368;
+extern UNK_TYPE D_06000724;
+extern UNK_TYPE D_06000AC0;
+extern UNK_TYPE D_06000D88;
+extern UNK_TYPE D_06005DF0;
+
 /*
 const ActorInit En_Mk_InitVars = {
     ACTOR_EN_MK,
