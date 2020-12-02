@@ -20,6 +20,7 @@ void func_8087A184(BgGndIceblock* this, GlobalContext* globalCtx);
 void func_8087A248(BgGndIceblock* this, GlobalContext* globalCtx);
 void func_8087A300(BgGndIceblock* this, GlobalContext* globalCtx);
 void func_8087A39C(BgGndIceblock* this, GlobalContext* globalCtx);
+
 extern UNK_TYPE D_06004420;
 extern UNK_TYPE D_06004618;
 
