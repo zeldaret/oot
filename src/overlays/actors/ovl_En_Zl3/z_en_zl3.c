@@ -111,7 +111,7 @@ void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B53468(void) {
-    Audio_SetBGM(NA_SE_PL_DUMMY_98 - SFX_FLAG);
+    Audio_SetBGM(0x62);
 }
 
 BossGanon2* func_80B53488(EnZl3* this, GlobalContext* globalCtx) {
@@ -1719,7 +1719,7 @@ s32 func_80B57324(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B57350(EnZl3* this, GlobalContext* globalCtx) {
     s16 temp_v0 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-    if (ABS(temp_v0) < 0x4301) {
+    if (ABS(temp_v0) <= 0x4300) {
         this->actor.flags |= 9;
         this->actor.textId = func_80B572F0(globalCtx);
         func_8002F2F4(&this->actor, globalCtx);
@@ -2099,7 +2099,7 @@ void func_80B58268(EnZl3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s8 invincibilityTimer = player->invincibilityTimer;
 
-    if ((invincibilityTimer <= 0) && (player->fallDistance < 0x33)) {
+    if ((invincibilityTimer <= 0) && (player->fallDistance <= 50)) {
         func_80B54E14(this, &D_06009FBC, 0, -11.0f, 0);
         this->action = 28;
         this->unk_3D0 = 0;
@@ -2247,7 +2247,7 @@ void func_80B58A50(EnZl3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s8 invincibilityTimer = player->invincibilityTimer;
 
-    if ((invincibilityTimer <= 0) && (player->fallDistance < 0x33)) {
+    if ((invincibilityTimer <= 0) && (player->fallDistance <= 50)) {
         func_80B54E14(this, &D_06009BE4, 0, -11.0f, 0);
         this->action = 34;
     }
@@ -2657,16 +2657,16 @@ void func_80B59DB8(EnZl3* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static EnZl3ActionFunc sActionFuncs[] = {
-        func_80B59DB8, func_80B55550, func_80B555A4, func_80B55604, func_80B5566C, func_80B556CC, func_80B5572C,
-        func_80B56658, func_80B566AC, func_80B5670C, func_80B5676C, func_80B567CC, func_80B5682C, func_80B568B4,
-        func_80B5691C, func_80B5697C, func_80B569E4, func_80B56A68, func_80B56AE0, func_80B56B54, func_80B56BA8,
-        func_80B56C24, func_80B56C84, func_80B56CE4, func_80B56D44, func_80B58D50, func_80B58DB0, func_80B58E10,
-        func_80B58E7C, func_80B58EF4, func_80B58F6C, func_80B58FDC, func_80B5904C, func_80B590BC, func_80B5912C,
-        func_80B591BC, func_80B5922C, func_80B592A8, func_80B59340, func_80B593D0,
-    };
+static EnZl3ActionFunc sActionFuncs[] = {
+    func_80B59DB8, func_80B55550, func_80B555A4, func_80B55604, func_80B5566C, func_80B556CC, func_80B5572C,
+    func_80B56658, func_80B566AC, func_80B5670C, func_80B5676C, func_80B567CC, func_80B5682C, func_80B568B4,
+    func_80B5691C, func_80B5697C, func_80B569E4, func_80B56A68, func_80B56AE0, func_80B56B54, func_80B56BA8,
+    func_80B56C24, func_80B56C84, func_80B56CE4, func_80B56D44, func_80B58D50, func_80B58DB0, func_80B58E10,
+    func_80B58E7C, func_80B58EF4, func_80B58F6C, func_80B58FDC, func_80B5904C, func_80B590BC, func_80B5912C,
+    func_80B591BC, func_80B5922C, func_80B592A8, func_80B59340, func_80B593D0,
+};
 
+void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnZl3* this = THIS;
 
     if (this->action < 0 || this->action >= ARRAY_COUNT(sActionFuncs) || sActionFuncs[this->action] == NULL) {
@@ -2700,12 +2700,13 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("ゼルダ姫のEn_Zl3_Actor_ctは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 }
 
+static OverrideLimbDraw2 sOverrideLimbDrawFuncs[] = {
+    func_80B5458C,
+    func_80B5944C,
+};
+
 s32 EnZl3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx,
                            Gfx** gfx) {
-    static OverrideLimbDraw2 sOverrideLimbDrawFuncs[] = {
-        func_80B5458C,
-        func_80B5944C,
-    };
     EnZl3* this = THIS;
 
     if (this->unk_308 < 0 || this->unk_308 >= ARRAY_COUNT(sOverrideLimbDrawFuncs) ||
@@ -2769,12 +2770,13 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);
 }
 
+static EnZl3DrawFunc sDrawFuncs[] = {
+    func_80B59FE8,
+    func_80B59FF4,
+    func_80B5A1D0,
+};
+
 void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static EnZl3DrawFunc sDrawFuncs[] = {
-        func_80B59FE8,
-        func_80B59FF4,
-        func_80B5A1D0,
-    };
     EnZl3* this = THIS;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
