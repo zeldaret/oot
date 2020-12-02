@@ -14,6 +14,10 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000A10;
+extern UNK_TYPE D_06005E30;
+extern UNK_TYPE D_06006F70;
+
 /*
 const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,

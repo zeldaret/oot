@@ -15,6 +15,12 @@ void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000348;
+extern UNK_TYPE D_0600078C;
+extern UNK_TYPE D_06000F74;
+extern UNK_TYPE D_06003468;
+extern UNK_TYPE D_06003990;
+
 /*
 const ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,

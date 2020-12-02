@@ -15,6 +15,9 @@ void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjHamishi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0500A3B8;
+extern UNK_TYPE D_0500A5E8;
+
 /*
 const ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,

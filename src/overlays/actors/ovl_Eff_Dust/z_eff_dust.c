@@ -9,6 +9,8 @@ void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_04037880;
+
 /*
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
