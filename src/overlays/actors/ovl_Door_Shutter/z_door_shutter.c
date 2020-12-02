@@ -319,7 +319,7 @@ s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
                 phi_v0 = 0x8000 - phi_v0;
             }
             if (ABS(phi_v0) < 0x3000) {
-                return (0.0f <= temp_f2) ? 1.0f : -1.0f;
+                return (temp_f2 >= 0.0f) ? 1.0f : -1.0f;
             }
         }
     }
