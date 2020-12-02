@@ -1181,6 +1181,7 @@ void Player_SetEquipmentData(GlobalContext* globalCtx, Player* player);
 void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* player, s32 item, s32 actionParam);
 void func_8008EDF0(Player* player);
 void func_8008EE08(Player* player);
+void func_8008EEAC(GlobalContext* globalCtx, Actor* actor);
 s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo);
 s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 arg3);
 s32 Player_GetStrength(void);
