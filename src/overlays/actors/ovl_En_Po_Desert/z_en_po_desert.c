@@ -202,7 +202,7 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 Actor* thisx, Gfx** gfxP) {
+                                 void* thisx, Gfx** gfxP) {
     EnPoDesert* this = THIS;
     f32 mtxScale;
 
@@ -216,7 +216,7 @@ s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     return 0;
 }
 
-void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
+void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                               Gfx** gfxP) {
     static Vec3f baseLightPos = { 0.0f, 1400.0f, 0.0f };
 
@@ -259,8 +259,7 @@ void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280 + 2);
     }
-    POLY_XLU_DISP =
-        SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnPoDesert_OverrideLimbDraw2,
-                        EnPoDesert_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                                   EnPoDesert_OverrideLimbDraw2, EnPoDesert_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 597);
 }

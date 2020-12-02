@@ -1200,17 +1200,17 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80ADC55C(EnPoSisters* this) {
     s16 temp_var;
 
-    if (this->skelAnime.animCurrentSeg == &D_06000114) {
+    if (this->skelAnime.animation == &D_06000114) {
         this->unk_22E.r = CLAMP_MAX((s16)(this->unk_22E.r + 5), 255);
         this->unk_22E.g = CLAMP_MIN((s16)(this->unk_22E.g - 5), 50);
         temp_var = this->unk_22E.b - 5;
         this->unk_22E.b = CLAMP_MIN(temp_var, 0);
-    } else if (this->skelAnime.animCurrentSeg == &D_06000A54) {
+    } else if (this->skelAnime.animation == &D_06000A54) {
         this->unk_22E.r = CLAMP_MAX((s16)(this->unk_22E.r + 5), 80);
         this->unk_22E.g = CLAMP_MAX((s16)(this->unk_22E.g + 5), 255);
         temp_var = this->unk_22E.b + 5;
         this->unk_22E.b = CLAMP_MAX(temp_var, 225);
-    } else if (this->skelAnime.animCurrentSeg == &D_060008C0) {
+    } else if (this->skelAnime.animation == &D_060008C0) {
         if (this->actor.dmgEffectTimer & 2) {
             this->unk_22E.r = 0;
             this->unk_22E.g = 0;
@@ -1234,7 +1234,7 @@ void func_80ADC55C(EnPoSisters* this) {
 }
 
 s32 EnPoSisters_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  Actor* thisx, Gfx** gfxP) {
+                                  void* thisx, Gfx** gfxP) {
     EnPoSisters* this = THIS;
     Color_RGBA8* color;
 
@@ -1261,7 +1261,7 @@ s32 EnPoSisters_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     return 0;
 }
 
-void EnPoSisters_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
+void EnPoSisters_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                                Gfx** gfxP) {
     EnPoSisters* this = THIS;
     s32 i;
@@ -1322,14 +1322,14 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->unk_22E.r, this->unk_22E.g, this->unk_22E.b, this->unk_22E.a);
         gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
         POLY_OPA_DISP =
-            SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                            EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_OPA_DISP);
+            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                           EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->unk_22E.a);
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
         POLY_XLU_DISP =
-            SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                            EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
+            SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                           EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);

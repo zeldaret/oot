@@ -70,7 +70,7 @@ static UNK_PTR sEyesSegments[] = {
     0x06004B40,
 };
 
-extern SkeletonHeader D_0600BE40;
+extern FlexSkeletonHeader D_0600BE40;
 extern AnimationHeader D_06003768;
 extern Gfx D_0600B838[];
 extern Gfx D_0600BBA0[];
@@ -81,8 +81,8 @@ void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 42.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->limbDrawTable,
-                     this->transitionDrawTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, &D_06003768, this->limbDrawTable,
+                       this->transitionDrawTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
@@ -366,7 +366,7 @@ void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnPoRelay_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnPoRelay* this = THIS;
 
     if (limbIndex == 14) {
@@ -401,7 +401,7 @@ void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 940);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
-                     EnPoRelay_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          NULL, EnPoRelay_PostLimbDraw, &this->actor);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_relay.c", 954);
 }
