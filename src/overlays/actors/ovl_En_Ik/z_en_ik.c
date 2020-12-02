@@ -76,9 +76,9 @@ extern Gfx D_06016F88[];
 extern Gfx D_06018E78[];
 extern Gfx D_06019100[];
 extern Gfx D_06019E08[];
-extern SkeletonHeader D_0601E178;
+extern FlexSkeletonHeader D_0601E178;
 extern AnimationHeader D_060203D8;
-extern SkeletonHeader D_060205C0;
+extern FlexSkeletonHeader D_060205C0;
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
@@ -217,7 +217,7 @@ Actor* func_80A74674(GlobalContext* globalCtx, Actor* actor) {
 }
 
 void func_80A74714(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600CD70.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_0600CD70);
     f32 frame;
 
     if (this->actor.params >= 2) {
@@ -253,7 +253,7 @@ void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7489C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600DD50.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_0600DD50);
 
     this->actor.flags |= 5;
     this->unk_2F8 = 4;
@@ -286,11 +286,11 @@ void func_80A74AAC(EnIk* this) {
     this->unk_2F8 = 5;
     if (this->unk_2FB == 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ED24, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_0600ED24.genericHeader), 0, -4.0f);
+                             SkelAnime_GetFrameCount(&D_0600ED24), 0, -4.0f);
         this->actor.speedXZ = 0.9f;
     } else {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06006734, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06006734.genericHeader), 0, -4.0f);
+                             SkelAnime_GetFrameCount(&D_06006734), 0, -4.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
@@ -358,7 +358,7 @@ void func_80A74BA4(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A74E2C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06001C28.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_06001C28);
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
@@ -398,7 +398,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7506C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060029FC.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060029FC);
 
     this->unk_2FE = 0;
     this->unk_2F9 = (s8)frames;
@@ -416,7 +416,7 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx) {
         if (this->unk_2F8 == 8) {
             func_80A7489C(this);
         } else {
-            frames = SkelAnime_GetFrameCount(&D_06002538.genericHeader);
+            frames = SkelAnime_GetFrameCount(&D_06002538);
             this->unk_2F8 = 8;
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06002538, 1.5f, 0.0f, frames, 3, -4.0f);
         }
@@ -424,7 +424,7 @@ void func_80A7510C(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A751C8(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060033C4.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060033C4);
 
     this->unk_2FF = 2;
     this->unk_300 = 0;
@@ -464,7 +464,7 @@ void func_80A75260(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A753D0(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06003DBC.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_06003DBC);
 
     this->unk_2FF = this->unk_2FE = 0;
     this->unk_2F8 = 8;
@@ -480,7 +480,7 @@ void func_80A7545C(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A754A0(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_060033C4.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060033C4);
 
     this->unk_2F8 = 1;
     this->unk_2FF = 3;
@@ -507,7 +507,7 @@ void func_80A75530(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A755F0(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600485C.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_0600485C);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 9;
@@ -541,11 +541,11 @@ void func_80A75790(EnIk* this) {
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06006194, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06006194.genericHeader), 2, -4.0f);
+                             SkelAnime_GetFrameCount(&D_06006194), 2, -4.0f);
         this->actor.speedXZ = -6.0f;
     } else {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060045BC, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060045BC.genericHeader), 2, -4.0f);
+                             SkelAnime_GetFrameCount(&D_060045BC), 2, -4.0f);
         this->actor.speedXZ = 6.0f;
     }
     this->unk_2FE = 0;
@@ -568,7 +568,7 @@ void func_80A758B0(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7598C(EnIk* this) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005944.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_06005944);
 
     this->unk_2FE = 0;
     this->unk_2F8 = 2;
@@ -620,7 +620,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
         return;
     }
     if (this->shieldCollider.base.acFlags & 0x80) {
-        temp_f0 = SkelAnime_GetFrameCount(&D_0600485C.genericHeader) - 2.0f;
+        temp_f0 = SkelAnime_GetFrameCount(&D_0600485C) - 2.0f;
         if (this->skelAnime.animCurrentFrame < temp_f0) {
             this->skelAnime.animCurrentFrame = temp_f0;
         }
@@ -1018,7 +1018,7 @@ void func_80A77148(EnIk* this) {
 }
 
 void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114.genericHeader),
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114),
                          2, 0.0f);
     func_80A770C0(this, globalCtx, 4);
     this->action = 1;
@@ -1027,7 +1027,7 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A771E4(EnIk* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114.genericHeader),
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114),
                          2, 0.0f);
     this->action = 2;
     this->drawMode = 1;
@@ -1057,7 +1057,7 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
 
 void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frames = SkelAnime_GetFrameCount(&D_060203D8.genericHeader);
+    f32 frames = SkelAnime_GetFrameCount(&D_060203D8);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060205C0, NULL, this->limbDrawTable, this->transitionDrawTable,
                        30);

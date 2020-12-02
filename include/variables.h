@@ -37,7 +37,7 @@ extern u32 D_04004298;
 extern u8 D_04006020[];
 extern Gfx D_0400C820[];
 extern u32 D_0400CB70;
-extern u32 D_04010130;
+extern Gfx D_04010130[];
 extern Gfx D_04015720[];
 extern Gfx D_04015760[];
 //extern ? D_0401A0B0;

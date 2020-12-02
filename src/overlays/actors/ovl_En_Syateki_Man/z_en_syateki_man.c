@@ -9,6 +9,10 @@ void EnSyatekiMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000338;
+extern UNK_TYPE D_06007E28;
+extern UNK_TYPE D_06009B38;
+
 /*
 const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
