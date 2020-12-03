@@ -202,7 +202,7 @@ f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
     };
     f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
     u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
-    f32 frameCount = SkelAnime_GetFrameCount(&animation[animIndex]->genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(animation[animIndex]);
     s32 pad;
 
     SkelAnime_ChangeAnim(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount,
@@ -587,7 +587,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSsh* this = THIS;
 
-    frameCount = SkelAnime_GetFrameCount(&D_06000304.genericHeader);
+    frameCount = SkelAnime_GetFrameCount(&D_06000304);
     if (this->actor.params == ENSSH_FATHER) {
         if (gSaveContext.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);

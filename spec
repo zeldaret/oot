@@ -1616,8 +1616,7 @@ endseg
 beginseg
     name "ovl_Door_Shutter"
     include "build/src/overlays/actors/ovl_Door_Shutter/z_door_shutter.o"
-    include "build/data/overlays/actors/z_door_shutter.data.o"
-    include "build/data/overlays/actors/z_door_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Door_Shutter/ovl_Door_Shutter_reloc.o"
 endseg
 
 beginseg
@@ -2187,8 +2186,11 @@ endseg
 beginseg
     name "ovl_En_Door"
     include "build/src/overlays/actors/ovl_En_Door/z_en_door.o"
-    include "build/data/overlays/actors/z_en_door.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Door/ovl_En_Door_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_door.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2536,8 +2538,7 @@ endseg
 beginseg
     name "ovl_En_Hs"
     include "build/src/overlays/actors/ovl_En_Hs/z_en_hs.o"
-    include "build/data/overlays/actors/z_en_hs.data.o"
-    include "build/data/overlays/actors/z_en_hs.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hs/ovl_En_Hs_reloc.o"
 endseg
 
 beginseg
@@ -2639,8 +2640,7 @@ endseg
 beginseg
     name "ovl_En_Karebaba"
     include "build/src/overlays/actors/ovl_En_Karebaba/z_en_karebaba.o"
-    include "build/data/overlays/actors/z_en_karebaba.data.o"
-    include "build/data/overlays/actors/z_en_karebaba.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Karebaba/ovl_En_Karebaba_reloc.o"
 endseg
 
 beginseg
@@ -3524,8 +3524,7 @@ endseg
 beginseg
     name "ovl_Obj_Switch"
     include "build/src/overlays/actors/ovl_Obj_Switch/z_obj_switch.o"
-    include "build/data/overlays/actors/z_obj_switch.data.o"
-    include "build/data/overlays/actors/z_obj_switch.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Switch/ovl_Obj_Switch_reloc.o"
 endseg
 
 beginseg
@@ -3537,8 +3536,7 @@ endseg
 beginseg
     name "ovl_Obj_Timeblock"
     include "build/src/overlays/actors/ovl_Obj_Timeblock/z_obj_timeblock.o"
-    include "build/data/overlays/actors/z_obj_timeblock.data.o"
-    include "build/data/overlays/actors/z_obj_timeblock.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Timeblock/ovl_Obj_Timeblock_reloc.o"
 endseg
 
 beginseg
