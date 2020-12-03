@@ -44,7 +44,7 @@ glabel EnBomBowlMan_Init
 /* 0006C 809C369C 24E70710 */  addiu   $a3, $a3, 0x0710           ## $a3 = 06000710
 /* 00070 809C36A0 24C66EB0 */  addiu   $a2, $a2, 0x6EB0           ## $a2 = 06006EB0
 /* 00074 809C36A4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00078 809C36A8 0C0291BE */  jal     SkelAnime_InitSV
+/* 00078 809C36A8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0007C 809C36AC 27C5014C */  addiu   $a1, $s8, 0x014C           ## $a1 = 0000014C
 /* 00080 809C36B0 3C04809C */  lui     $a0, %hi(D_809C4AC0)       ## $a0 = 809C0000
 /* 00084 809C36B4 0C00084C */  jal     osSyncPrintf

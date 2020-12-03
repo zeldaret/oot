@@ -10,7 +10,7 @@ typedef void (*EnMbActionFunc)(struct EnMb*, GlobalContext*);
 
 typedef struct EnMb {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3s effectPos[0xA];
+    /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ u8 unk_188;
     /* 0x0189 */ char unk_189[3];
     /* 0x018C */ SkelAnime skelAnime;
@@ -27,11 +27,11 @@ typedef struct EnMb {
     /* 0x0334 */ s16 attackParams;
     /* 0x0336 */ char unk_336[2];
     /* 0x0338 */ Vec3f effSpawnPos; 
-    /* 0x0344 */ Vec3f unk_344;
+    /* 0x0344 */ Vec3f waypointPos;
     /* 0x0350 */ char unk_34A[0xC];
-    /* 0x035C */ s8 unk_35C;
-    /* 0x035D */ s8 unk_35D;
-    /* 0x035E */ s8 unk_35E;
+    /* 0x035C */ s8 waypoint;
+    /* 0x035D */ s8 path;
+    /* 0x035E */ s8 direction;
     /* 0x035F */ s8 unk_35F;
     /* 0x0360 */ f32 unk_360;
     /* 0x0364 */ f32 unk_364;

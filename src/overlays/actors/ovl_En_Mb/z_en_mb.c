@@ -20,9 +20,9 @@ const ActorInit En_Mb_InitVars = {
     (ActorFunc)EnMb_Draw,
 };
 
-extern SkeletonHeader D_06008F38;
+extern FlexSkeletonHeader D_06008F38;
+extern FlexSkeletonHeader D_06014190;
 extern AnimationHeader D_060028E0;
-extern SkeletonHeader D_06014190;
 extern AnimationHeader D_0600EBE4;
 extern AnimationHeader D_060041A8;
 extern AnimationHeader D_06009FC0;
@@ -102,7 +102,7 @@ static DamageTable sDamageTable[] = {
     0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
 };
 
-static DamageTable sDamageTable2[] = {
+static DamageTable sBigMoblinDamageTable[] = {
     0x50, 0xF2, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x10, 0xF1, 0xF2, 0xF4, 0xF2, 0x64, 0xF2, 0xF4, 0xF2,
     0xF2, 0x50, 0x63, 0x50, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x50, 0x00, 0xF4, 0x00,
 };
@@ -114,8 +114,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 phi_v1;
-    s16 temp_a0_2;
+    s32 temp;
+    s16 yawDiff;
     Player* player = PLAYER;
     EnMb* this = THIS;
 
@@ -129,23 +129,23 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetTris(globalCtx, &this->collider3, &this->actor, &sTrisInit, this->collider3Items);
     Collider_InitQuad(globalCtx, &this->collider2);
     Collider_SetQuad(globalCtx, &this->collider2, &this->actor, &sQuadInit);
-    phi_v1 = this->actor.params;
-    switch (phi_v1 + 1) {
-        case 0:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, &this->limbDrawTable,
-                             &this->transitionDrawTable, 28);
+    temp = this->actor.params;
+    switch (temp) {
+        case -1:
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->limbDrawTable,
+                               this->transitionDrawTable, 28);
             this->actor.colChkInfo.health = 2;
             this->actor.colChkInfo.mass = 0xFE;
             this->unk_360 = 1000.0f;
             this->unk_364 = 1750.0f;
             func_80AA6830(this);
             return;
-        case 1:
-            SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, &this->limbDrawTable,
-                             &this->transitionDrawTable, 28);
+        case 0:
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->limbDrawTable,
+                               this->transitionDrawTable, 28);
             this->actor.colChkInfo.health = 6;
             this->actor.colChkInfo.mass = 0xFF;
-            this->actor.colChkInfo.damageTable = &sDamageTable2;
+            this->actor.colChkInfo.damageTable = sBigMoblinDamageTable;
             Actor_SetScale(&this->actor, 0.02f);
             this->collider1.dim.height = 170;
             this->collider1.dim.radius = 45;
@@ -154,9 +154,9 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.uncullZoneDownward = 1800.0f;
             this->unk_364 = 710.0f;
             this->collider2.body.toucher.flags = 0x20000000;
-            temp_a0_2 = (this->actor.posRot.rot.y - Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->actor.posRot.pos));
-            phi_v1 = ABS(temp_a0_2);
-            if (phi_v1 > 0x4000) {
+            yawDiff = (this->actor.posRot.rot.y - Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->actor.posRot.pos));
+            temp = ABS(yawDiff);
+            if (temp > 0x4000) {
                 this->actor.posRot.rot.y = thisx->posRot.rot.y + 0x8000;
                 this->actor.shape.rot.y = thisx->posRot.rot.y;
                 this->actor.posRot.pos.z = thisx->posRot.pos.z + 600.0f;
@@ -168,12 +168,12 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
     }
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, &this->limbDrawTable,
-                     &this->transitionDrawTable, 28);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->limbDrawTable,
+                       this->transitionDrawTable, 28);
     Actor_SetScale(&this->actor, 0.014f);
-    this->unk_35D = (thisx->params & 0xFF00) >> 8;
+    this->path = (thisx->params & 0xFF00) >> 8;
     this->actor.params = 1;
-    this->unk_35C = 0;
+    this->waypoint = 0;
     this->actor.colChkInfo.health = 1;
     this->actor.colChkInfo.mass = 0xFE;
     this->unk_360 = 350.0f;
@@ -191,7 +191,7 @@ void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AA6408(EnMb* this, GlobalContext* globalCtx) {
-    s16 yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344);
+    s16 yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos);
 
     this->actor.shape.rot.y = yaw;
     this->actor.posRot.rot.y = yaw;
@@ -201,20 +201,21 @@ void func_80AA6444(EnMb* this, GlobalContext* globalCtx) {
     Path* path;
     Vec3s* pathPos;
 
-    path = &globalCtx->setupPathList[this->unk_35D];
-    if (this->unk_35C == 0) {
-        this->unk_35E = 1;
+    path = &globalCtx->setupPathList[this->path];
+
+    if (this->waypoint == 0) {
+        this->direction = 1;
     } else {
 
-        if (this->unk_35C == (s8)(path->count - 1)) {
-            this->unk_35E = -1;
+        if (this->waypoint == (s8)(path->count - 1)) {
+            this->direction = -1;
         }
     }
-    this->unk_35C += this->unk_35E;
-    pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->unk_35C];
-    this->unk_344.x = pathPos->x;
-    this->unk_344.y = pathPos->y;
-    this->unk_344.z = pathPos->z;
+    this->waypoint += this->direction;
+    pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
+    this->waypointPos.x = pathPos->x;
+    this->waypointPos.y = pathPos->y;
+    this->waypointPos.z = pathPos->z;
 }
 
 s32 func_80AA652C(EnMb* this, GlobalContext* globalCtx) {
@@ -268,7 +269,7 @@ void func_80AA66A0(EnMb* this, GlobalContext* globalCtx) {
     s32 pathIndex;
     s32 yawDiffABS;
 
-    path = &globalCtx->setupPathList[this->unk_35D];
+    path = &globalCtx->setupPathList[this->path];
     for (pathIndex = 0, pathCount = path->count - 1; pathCount >= 0; pathCount--, pathIndex++) {
         pointPath = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[pathIndex];
         points.x = pointPath->x;
@@ -279,11 +280,11 @@ void func_80AA66A0(EnMb* this, GlobalContext* globalCtx) {
         yawDiffABS = (yawDiff >= 0) ? yawDiff : -yawDiff;
         if (yawDiffABS <= 0x1770) {
             this->actor.posRot.rot.y = yawToPoints;
-            if (pathIndex == this->unk_35C) {
-                this->unk_35E = -this->unk_35E;
+            if (pathIndex == this->waypoint) {
+                this->direction = -this->direction;
             }
-            this->unk_344 = points;
-            this->unk_35C = pathIndex;
+            this->waypointPos = points;
+            this->waypoint = pathIndex;
             return;
         }
     }
@@ -517,7 +518,7 @@ void func_80AA71AC(EnMb* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_32A == 0) {
-        this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344);
+        this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos);
         if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_330, 1, 0x3E8, 0) == 0) {
             this->actor.posRot.rot.y = this->actor.shape.rot.y;
             func_80AA6A18(this);
@@ -625,7 +626,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
                 this->unk_32A = 1;
                 return;
             }
-            yawDiff = (Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344) - this->actor.yawTowardsLink);
+            yawDiff = (Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos) - this->actor.yawTowardsLink);
 
             if (ABS(yawDiff) <= 0x4000) {
                 func_80AA68FC(this, globalCtx);
@@ -674,7 +675,6 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f sp68 = { 0.0f, 0.0f, 0.0f };
-
     Vec3f sp5C = { 18.0f, 18.0f, 0.0f };
     s16 sp54[] = { 0x0014, 0x0028, 0x0000 };
     s16 sp4C[] = { 0xF63C, 0x0000, 0x0DAC };
@@ -969,7 +969,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     s32 sp48;
     s32 pad2;
     s32 pad;
-    Player* player = (Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first;
+    Player* player = PLAYER;
     s16 yawDiff;
     f32 playbackSpeedABS;
 
@@ -997,7 +997,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
         if ((this->unk_360 < Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos)) ||
             (this->soundTimer != 0)) {
             Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y,
-                                    Math_Vec3f_Yaw(&this->actor.posRot, &this->actor.initPosRot), 1, 750, 0);
+                                    Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot), 1, 750, 0);
         } else {
         }
         if (this->soundTimer != 0) {
@@ -1039,14 +1039,14 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     s32 yawDiffAbs;
     f32 playbackSpeedABS;
 
-    if (Math_Vec3f_DistXZ(&this->unk_344, &this->actor.posRot.pos) <= 8.0f ||
+    if (Math_Vec3f_DistXZ(&this->waypointPos, &this->actor.posRot.pos) <= 8.0f ||
         Math_Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &this->actor.posRot.pos) <= 4.0f) {
         func_80AA68FC(this, globalCtx);
     } else {
         Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
         this->skelAnime.animPlaybackSpeed = (this->actor.speedXZ + this->actor.speedXZ);
     }
-    this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->unk_344);
+    this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_330, 1, 0x5DC, 0);
     yDistAbs = (this->actor.yDistFromLink >= 0.0f) ? this->actor.yDistFromLink : -this->actor.yDistFromLink;
     if (yDistAbs <= 20.0f && func_80AA652C(this, globalCtx) != 0) {
@@ -1156,12 +1156,8 @@ void func_80AA8FC8(EnMb* this) {
 }
 
 void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
-    static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
-    s32 phi_s0;
-    Vec3f zeroVec;
     Player* player = PLAYER;
-    Vec3f effPos;
-
+    
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.parent) {
@@ -1174,11 +1170,13 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->unk_32A > 0) {
-            zeroVec = sZeroVec;
+            Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+            s32 i;
+            Vec3f effPos;
+            
             this->actor.shape.unk_10 = 0.0f;
             this->unk_32A--;
-            phi_s0 = 4;
-            for (phi_s0; phi_s0 >= 0; phi_s0--) {
+            for (i = 4; i >= 0; i--) {
                 effPos.x = Math_Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.x;
                 effPos.y = Math_Rand_CenteredFloat(15.0f) + (this->actor.posRot.pos.y + 20.0f);
                 effPos.z = Math_Rand_CenteredFloat(110.0f) + this->actor.posRot.pos.z;
@@ -1277,10 +1275,6 @@ void func_80AA94D8(EnMb* this, GlobalContext* globalCtx) {
     }
 }
 
-static Vec3f D_80AA9DF0 = { 1100.0f, -700.0f, 0.0f };
-static Vec3f D_80AA9DFC = { 0.0f, 0.0f, 0.0f };
-static Vec3f D_80AA9E08 = { 0.0f, -8000.0f, 0.0f };
-
 void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
     s32 pad;
@@ -1296,76 +1290,79 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->collider1.dim.pos.x += (Math_Sins(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y));
             this->collider1.dim.pos.z += (Math_Coss(thisx->shape.rot.y) * (-4400.0f * thisx->scale.y));
         }
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         if (this->unk_320 >= 5) {
             if ((thisx->params == 0) || (this->unk_320 != 0xA)) {
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
             }
         }
         if (this->unk_320 >= 6) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider3);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider3.base);
         }
         if (this->attackParams > 0) {
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
         }
     }
 }
 
-void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f D_80AA9DF0 = { 1100.0f, -700.0f, 0.0f };
+    static Vec3f D_80AA9DFC = { 0.0f, 0.0f, 0.0f };
+    static Vec3f D_80AA9E08 = { 0.0f, -8000.0f, 0.0f };
     static Vec3f D_80AA9E14 = { 0.0f, 0.0f, 0.0f };
-    s32 phi_v1;
+    s32 bodyPart;
     EnMb* this = THIS;
     Vec3f sp24;
     s32 sp34;
 
-    phi_v1 = -1;
-    if (thisx->params == 0) {
+    bodyPart = -1;
+    if (this->actor.params == 0) {
         if (limbIndex == 12) {
             Matrix_MultVec3f(&D_80AA9E08, &this->effSpawnPos);
             if (this->attackParams > 0) {
-                func_80AA9440(thisx, globalCtx);
+                func_80AA9440(&this->actor, globalCtx);
             }
         }
-        func_8002BDB0(thisx, limbIndex, 0x16, &D_80AA9DFC, 0x1B, &D_80AA9DFC);
+        func_8002BDB0(&this->actor, limbIndex, 0x16, &D_80AA9DFC, 0x1B, &D_80AA9DFC);
     }
     if (this->unk_328 != 0) {
         switch (limbIndex) {
             case 7:
-                phi_v1 = 0;
+                bodyPart = 0;
                 break;
             case 12:
-                phi_v1 = 1;
+                bodyPart = 1;
                 break;
             case 17:
-                phi_v1 = 2;
+                bodyPart = 2;
                 break;
             case 9:
-                phi_v1 = 3;
+                bodyPart = 3;
                 break;
             case 14:
-                phi_v1 = 4;
+                bodyPart = 4;
                 break;
             case 6:
-                phi_v1 = 5;
+                bodyPart = 5;
                 break;
             case 20:
-                phi_v1 = 6;
+                bodyPart = 6;
                 break;
             case 25:
-                phi_v1 = 7;
+                bodyPart = 7;
                 break;
             case 22:
-                phi_v1 = 8;
+                bodyPart = 8;
                 break;
             case 27:
-                phi_v1 = 9;
+                bodyPart = 9;
                 break;
         }
-        if (phi_v1 >= 0) {
+        if (bodyPart >= 0) {
             Matrix_MultVec3f(&D_80AA9E14, &sp24);
-            this->effectPos[phi_v1].x = sp24.x;
-            this->effectPos[phi_v1].y = sp24.y;
-            this->effectPos[phi_v1].z = sp24.z;
+            this->bodyPartsPos[bodyPart].x = sp24.x;
+            this->bodyPartsPos[bodyPart].y = sp24.y;
+            this->bodyPartsPos[bodyPart].z = sp24.z;
         }
     }
 }
@@ -1389,8 +1386,8 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, 0,
-                     EnMb_PostLimbDraw, thisx);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          NULL, EnMb_PostLimbDraw, thisx);
     if (thisx->params != 0) {
         if (this->attackParams > 0) {
             func_80AA92B8(thisx, globalCtx);
@@ -1413,7 +1410,7 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 scale = 4.0f;
             }
             tempPosIndex = this->unk_328 >> 2;
-            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->effectPos[tempPosIndex], 0x96, 0x96, 0x96, 0xFA,
+            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->bodyPartsPos[tempPosIndex], 0x96, 0x96, 0x96, 0xFA,
                                            0xEB, 0xF5, 0xFF, scale);
         }
     }

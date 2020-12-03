@@ -1,7 +1,7 @@
 import struct
 
-ROM_ADDR = 0xE5FD74
-COUNT = 8
+ROM_ADDR = 0xDA3210
+COUNT = 1
 
 rom = open("../../baserom.z64", "rb")
 rom.seek(ROM_ADDR)

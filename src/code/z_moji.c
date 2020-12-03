@@ -49,9 +49,8 @@ void func_8007B9A4(GraphicsContext* gfxCtx, u8 arg1) {
         D_8015FFC0 = arg1 & 3;
     }
 
-    gSPTextureRectangle(POLY_OPA_DISP++, D_80120120 << 2, D_80120124 << 2, (D_80120120 + 8) << 2,
-                        (D_80120124 + 8) << 2, G_TX_RENDERTILE, (u16)(arg1 & 4) * 64, (u16)(arg1 >> 3) * 256, 1024,
-                        1024);
+    gSPTextureRectangle(POLY_OPA_DISP++, D_80120120 << 2, D_80120124 << 2, (D_80120120 + 8) << 2, (D_80120124 + 8) << 2,
+                        G_TX_RENDERTILE, (u16)(arg1 & 4) * 64, (u16)(arg1 >> 3) * 256, 1024, 1024);
 
     CLOSE_DISPS(gfxCtx, "../z_moji.c", 123);
 }

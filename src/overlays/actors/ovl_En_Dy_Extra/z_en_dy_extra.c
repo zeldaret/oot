@@ -122,8 +122,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, primColors[this->type].r, primColors[this->type].g,
                     primColors[this->type].b, 255);
-    gDPSetEnvColor(POLY_XLU_DISP++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b,
-                   128);
+    gDPSetEnvColor(POLY_XLU_DISP++, envColors[this->type].r, envColors[this->type].g, envColors[this->type].b, 128);
     gSPDisplayList(POLY_XLU_DISP++, D_0601C160);
 
     CLOSE_DISPS(gfxCtx, "../z_en_dy_extra.c", 325);
