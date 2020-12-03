@@ -292,7 +292,7 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
         func_800F5ACC(0x38);
     }
     if (this->actor.bgCheckFlags & 2) {
-        Audio_PlayActorSound2(&this->actor, 0x387A);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         this->skelAnime.animPlaybackSpeed = 1.0f;
         this->actor.posRot.pos.y = this->actor.groundY;
         this->actor.flags |= 1;
@@ -318,7 +318,7 @@ void EnGeldB_SetupFlee(EnGeldB* this) {
 
 void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentFrame == 10.0f) {
-        Audio_PlayActorSound2(&this->actor, 0x386C);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     }
     if (this->skelAnime.animCurrentFrame == 2.0f) {
         this->actor.gravity = 0.0f;
@@ -391,7 +391,7 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
                 EnGeldB_SetupPivot(this);
             }
             if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-                Audio_PlayActorSound2(&this->actor, 0x39C6);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
             }
         }
     }
@@ -469,11 +469,11 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
                 }
             }
             if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-                Audio_PlayActorSound2(&this->actor, 0x39C6);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
             }
             if ((sp44 != (s32)this->skelAnime.animCurrentFrame) &&
                 ((sp40 < 0 && (s32)sp28 + sp44 > 0) || (sp40 < 4 && (s32)sp28 + sp44 > 4))) {
-                Audio_PlayActorSound2(&this->actor, 0x39A0);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
             }
         }
     }
@@ -486,7 +486,7 @@ void EnGeldB_SetupRollForward(EnGeldB* this) {
     this->actionState = GELDB_ROLL_FORWARD;
     this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
     this->actor.speedXZ = 10.0f;
-    Audio_PlayActorSound2(&this->actor, 0x386C);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     EnGeldB_SetupAction(this, EnGeldB_RollForward);
 }
 
@@ -510,7 +510,7 @@ void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx) {
         }
     }
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSound2(&this->actor, 0x39C6);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
     }
 }
 
@@ -546,7 +546,7 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
             }
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(&this->actor, 0x39C6);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
     }
 }
@@ -633,10 +633,10 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
         pad38 = (s32)ABS(this->skelAnime.animPlaybackSpeed) + sp34;
         if ((sp34 != (s32)this->skelAnime.animCurrentFrame) &&
             ((temp_f6 < 0 && 0 < pad38) || (temp_f6 < 5 && 5 < pad38))) {
-            Audio_PlayActorSound2(&this->actor, 0x39A0);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(&this->actor, 0x39C6);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
         if ((Math_Coss(sp3E - this->actor.shape.rot.y) < -0.85f) && !func_80033AB8(globalCtx, &this->actor) &&
             (this->actor.xzDistFromLink <= 45.0f)) {
@@ -724,10 +724,10 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     temp_f6 = this->skelAnime.animCurrentFrame - ABS(this->skelAnime.animPlaybackSpeed);
     pad38 = (s32)ABS(this->skelAnime.animPlaybackSpeed) + sp28;
     if ((sp28 != (s32)this->skelAnime.animCurrentFrame) && ((temp_f6 < 0 && 0 < pad38) || (temp_f6 < 5 && 5 < pad38))) {
-        Audio_PlayActorSound2(&this->actor, 0x39A0);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
     }
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-        Audio_PlayActorSound2(&this->actor, 0x39C6);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
     }
     if (--this->timer == 0) {
         this->actor.shape.rot.y = this->actor.yawTowardsLink;
@@ -753,7 +753,7 @@ void EnGeldB_SetupSlash(EnGeldB* this) {
     this->actionState = GELDB_SLASH;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
-    func_800F8A44(&this->actor.projectedPos, 0x39C6);
+    func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
     EnGeldB_SetupAction(this, EnGeldB_Slash);
 }
 
@@ -767,7 +767,7 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = 0.0f;
     if ((s32)this->skelAnime.animCurrentFrame == 1) {
-        Audio_PlayActorSound2(&this->actor, 0x3998);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_ATTACK);
         this->swordState = 1;
     } else if ((s32)this->skelAnime.animCurrentFrame == 6) {
         this->swordState = -1;
@@ -832,7 +832,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
                 func_8010B680(globalCtx, 0x6003, &this->actor);
                 this->timer = 30;
                 this->actor.speedXZ = 0.0f;
-                Audio_PlayActorSound2(&this->actor, 0x39B9);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_YOUNG_LAUGH);
                 return;
             }
         }
@@ -844,7 +844,7 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
         func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
         this->swordState = 1;
         this->actor.speedXZ = 10.0f;
-        Audio_PlayActorSound2(&this->actor, 0x3998);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_ATTACK);
     } else if ((s32)this->skelAnime.animCurrentFrame == 21) {
         this->actor.speedXZ = 0.0f;
     } else if ((s32)this->skelAnime.animCurrentFrame == 24) {
@@ -890,7 +890,7 @@ void EnGeldB_SetupRollBack(EnGeldB* this) {
     this->invisible = true;
     this->actionState = GELDB_ROLL_BACK;
     this->actor.speedXZ = -8.0f;
-    Audio_PlayActorSound2(&this->actor, 0x386C);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     EnGeldB_SetupAction(this, EnGeldB_RollBack);
 }
@@ -907,7 +907,7 @@ void EnGeldB_RollBack(EnGeldB* this, GlobalContext* globalCtx) {
         }
     }
     if ((globalCtx->state.frames & 0x5F) == 0) {
-        Audio_PlayActorSound2(&this->actor, 0x39C6);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
     }
 }
 
@@ -921,7 +921,7 @@ void EnGeldB_SetupStunned(EnGeldB* this) {
     if (this->damageEffect == GELDB_DAMAGE_FREEZE) {
         this->iceTimer = 36;
     }
-    Audio_PlayActorSound2(&this->actor, 0x389E);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionState = GELDB_STUNNED;
     EnGeldB_SetupAction(this, EnGeldB_Stunned);
 }
@@ -955,7 +955,7 @@ void EnGeldB_SetupDamaged(EnGeldB* this) {
     }
     this->lookTimer = 0;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-    Audio_PlayActorSound2(&this->actor, 0x3999);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_DAMAGE);
     this->actionState = GELDB_DAMAGED;
     EnGeldB_SetupAction(this, EnGeldB_Damaged);
 }
@@ -996,7 +996,7 @@ void EnGeldB_SetupJump(EnGeldB* this) {
     this->actionState = GELDB_JUMP;
     this->actor.speedXZ = 6.5f;
     this->actor.velocity.y = 15.0f;
-    Audio_PlayActorSound2(&this->actor, 0x386C);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
     EnGeldB_SetupAction(this, EnGeldB_Jump);
 }
@@ -1209,10 +1209,10 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
         }
         if ((sp4C != (s32)this->skelAnime.animCurrentFrame) &&
             (((sp48 < 0) && (((s32)sp30 + sp4C) > 0)) || ((sp48 < 5) && (((s32)sp30 + sp4C) > 5)))) {
-            Audio_PlayActorSound2(&this->actor, 0x39A0);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
-            Audio_PlayActorSound2(&this->actor, 0x39C6);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
     }
 }
@@ -1228,7 +1228,7 @@ void EnGeldB_SetupDefeated(EnGeldB* this) {
     }
     this->actionState = GELDB_DEFEAT;
     this->actor.flags &= ~1;
-    Audio_PlayActorSound2(&this->actor, 0x399A);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_DEAD);
     EnGeldB_SetupAction(this, &EnGeldB_Defeated);
 }
 
@@ -1243,7 +1243,7 @@ void EnGeldB_Defeated(EnGeldB* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         EnGeldB_SetupFlee(this);
     } else if ((s32)this->skelAnime.animCurrentFrame == 0xA) {
-        Audio_PlayActorSound2(&this->actor, 0x387A);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         func_800F5B58();
     }
 }
@@ -1275,7 +1275,7 @@ void func_80A392D8(EnGeldB* this, GlobalContext* globalCtx) {
         if (this->actor.colChkInfo.damageEffect != GELDB_DAMAGE_UNK6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             func_80035650(&this->actor, &this->colliderBody.body, 1);
-            func_800F8A44(&this->actor.projectedPos, 0x39C6);
+            func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
             if ((this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_FREEZE)) {
                 if (this->actionState != GELDB_STUNNED) {
@@ -1293,7 +1293,7 @@ void func_80A392D8(EnGeldB* this, GlobalContext* globalCtx) {
                             key->actor.posRot.rot.y =
                                 Math_Vec3f_Yaw(&key->actor.posRot.pos, &this->actor.initPosRot.pos);
                             key->actor.speedXZ = 6.0f;
-                            Audio_PlaySoundGeneral(0x4807, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                            Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         }
                     }
                     EnGeldB_SetupDefeated(this);
