@@ -21,7 +21,7 @@ void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc);
 s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 arg2);
 void EnKusa_SetupLiftedUp(EnKusa* this);
-void EnKusa_CollideWater(EnKusa* this, GlobalContext* globalCtx);
+void EnKusa_CollisionSetup(EnKusa* this, GlobalContext* globalCtx);
 void func_80A9B174(Vec3f* this, f32 arg1);
 
 void func_80A9B7EC(EnKusa* this);
@@ -289,18 +289,18 @@ void func_80A9B89C(EnKusa* this) {
 
 void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx) != 0) {
-        EnKusa_SetupLiftedUp(this); // Lift up the plant
+        EnKusa_SetupLiftedUp(this);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_PL_PULL_UP_PLANT);
         return;
     }
     // If hit with a sword
     if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
-        EnKusa_SpawnFragments(this, globalCtx);  // Spawn fragments
-        EnKusa_DropCollectible(this, globalCtx); // Drop collectable
+        EnKusa_SpawnFragments(this, globalCtx);
+        EnKusa_DropCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_EV_PLANT_BROKEN);
         if ((this->actor.params >> 4) & 1) {
-            EnKusa_SpawnBugs(this, globalCtx); // Spawn bugs
+            EnKusa_SpawnBugs(this, globalCtx); 
         }
         if ((this->actor.params & 3) == 0) {
             Actor_Kill(&this->actor);
@@ -352,16 +352,15 @@ void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9BBB0(EnKusa* this) {
-    EnKusa_SetupAction(this, EnKusa_CollideWater);
+    EnKusa_SetupAction(this, EnKusa_CollisionSetup);
     *D_80A9C1D0 = -0xBB8;
     *D_80A9C1D8 = ((Math_Rand_ZeroOne() - 0.5f) * 1600.0f);
     *D_80A9C1D4 = 0;
     *D_80A9C1DC = 0;
 }
 
-// Water break
-void EnKusa_CollideWater(EnKusa* this, GlobalContext* globalCtx) {
-    s32 pad; // padding to push the stack down
+void EnKusa_CollisionSetup(EnKusa* this, GlobalContext* globalCtx) {
+    s32 pad; 
     Vec3f contactPos;
 
     if (this->actor.bgCheckFlags & 11) {
@@ -369,7 +368,7 @@ void EnKusa_CollideWater(EnKusa* this, GlobalContext* globalCtx) {
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 20, NA_SE_EV_PLANT_BROKEN);
         }
         EnKusa_SpawnFragments(this, globalCtx);
-        EnKusa_DropCollectible(this, globalCtx); // Drop collectible
+        EnKusa_DropCollectible(this, globalCtx);
         switch (this->actor.params & 3) {
             case 0:
             case 2:
@@ -413,7 +412,7 @@ void func_80A9BEAC(EnKusa* this) {
 
     if ((this->actor.params & 3) != 1) {
         if ((this->actor.params & 3) == 2) {
-            // This function is blank
+            // function func_80A9BF30 is blank
             EnKusa_SetupAction(this, func_80A9BF30);
         }
     } else {
@@ -428,9 +427,10 @@ void func_80A9BEFC(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9BF30(EnKusa* this, EnKusaActionFunc actionFunc) {
-    // Function was intentionally left blank
+    // Function was left blank
 }
 
+// Possibly respawn/growback? This function is putting the actor at its initial position
 void func_80A9BF3C(EnKusa* this) {
     this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 9.0f;
