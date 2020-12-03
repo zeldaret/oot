@@ -917,6 +917,7 @@ void func_80062B80(GlobalContext*, Vec3f*);
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v);
 void func_80062D60(GlobalContext* globalCtx, Vec3f* v);
 void func_80062DAC(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2);
+void func_80062DF4(GlobalContext* globalCtx, Vec3f* v);
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
 s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 void SaveContext_Init(void);
@@ -1181,6 +1182,7 @@ void Player_SetEquipmentData(GlobalContext* globalCtx, Player* player);
 void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* player, s32 item, s32 actionParam);
 void func_8008EDF0(Player* player);
 void func_8008EE08(Player* player);
+void func_8008EEAC(GlobalContext* globalCtx, Actor* actor);
 s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo);
 s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 arg3);
 s32 Player_GetStrength(void);
@@ -1357,7 +1359,7 @@ void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimation
 void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 transitionFrame,
                    LinkAnimationHeader* linkAnimSeg2, f32 frame, f32 transitionRate, Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 void SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
