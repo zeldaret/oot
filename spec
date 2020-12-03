@@ -3534,8 +3534,7 @@ endseg
 beginseg
     name "ovl_Obj_Timeblock"
     include "build/src/overlays/actors/ovl_Obj_Timeblock/z_obj_timeblock.o"
-    include "build/data/overlays/actors/z_obj_timeblock.data.o"
-    include "build/data/overlays/actors/z_obj_timeblock.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Timeblock/ovl_Obj_Timeblock_reloc.o"
 endseg
 
 beginseg

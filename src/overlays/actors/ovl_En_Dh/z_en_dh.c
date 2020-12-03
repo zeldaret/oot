@@ -5,13 +5,13 @@
 #define THIS ((EnDh*)thisx)
 
 typedef enum {
-    DH_WAIT,
-    DH_RETREAT,
-    DH_BURROW,
-    DH_WALK,
-    DH_ATTACK,
-    DH_DEATH,
-    DH_DAMAGE
+    /* 0 */ DH_WAIT,
+    /* 1 */ DH_RETREAT,
+    /* 2 */ DH_BURROW,
+    /* 3 */ DH_WALK,
+    /* 4 */ DH_ATTACK,
+    /* 5 */ DH_DEATH,
+    /* 6 */ DH_DAMAGE
 } EnDhAction;
 
 void EnDh_Init(Actor* this, GlobalContext* globalCtx);
@@ -96,7 +96,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->limbDrawTable, this->limbRotTable,
-                     16);
+                       16);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = 0xFE;
@@ -502,13 +502,13 @@ void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         POLY_OPA_DISP =
             SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                              this->skelAnime.dListCount, NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+                               this->skelAnime.dListCount, NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
         POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                          this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
+                                           this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
     }
     if (this->drawDirtWave) {
         func_80093D84(globalCtx->state.gfxCtx);
