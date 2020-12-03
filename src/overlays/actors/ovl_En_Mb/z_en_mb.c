@@ -671,23 +671,25 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_EQUIVILENT
+#ifdef NON_MATCHING
 void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
+    s32 pad;
+    Vec3f sp74;
     Vec3f sp68 = { 0.0f, 0.0f, 0.0f };
     Vec3f sp5C = { 18.0f, 18.0f, 0.0f };
     s16 sp54[] = { 0x0014, 0x0028, 0x0000 };
     s16 sp4C[] = { 0xF63C, 0x0000, 0x0DAC };
-    u8 pad;
-    s32 pad2;
+    u8 oldInvincibilityTimer;
     f32 tempDist;
-    Vec3f sp74;
+
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
                             0);
     if (this->collider2.base.atFlags & 2) {
         this->collider2.base.atFlags &= ~2;
         if (this->collider2.base.at == &player->actor) {
-            pad = player->invincibilityTimer;
+            oldInvincibilityTimer = player->invincibilityTimer;
+
             if (player->invincibilityTimer < 0) {
                 if (player->invincibilityTimer < -39) {
                     player->invincibilityTimer = 0;
@@ -696,22 +698,24 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
                     globalCtx->damagePlayer(globalCtx, -8);
                 }
             }
+
             func_8002F71C(globalCtx, &this->actor, ((650.0f - this->actor.xzDistFromLink) * 0.04f) + 4.0f,
                           this->actor.posRot.rot.y, 8.0f);
-            player->invincibilityTimer = pad;
+            player->invincibilityTimer = oldInvincibilityTimer;
         }
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->unk_32E--;
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (this->unk_32E != 0) {
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600ABE0), 3,
-                                 0.0f);
-
-        } else if (this->unk_32E == 0) {
+            this->unk_32E--;
+            if (this->unk_32E == 0) {
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600ABE0), 3,
+                                     0.0f);
+            }
+        } else {
             sp74 = this->effSpawnPos;
             tempDist = this->actor.xzDistFromLink;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_HAM_LAND);
-            func_800AA000(tempDist, 0xFFU, 0x14U, 0x96U);
+            func_800AA000(tempDist, 0xFF, 0x14, 0x96);
             EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);
             func_80033480(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
             func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
@@ -1157,7 +1161,7 @@ void func_80AA8FC8(EnMb* this) {
 
 void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    
+
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.parent) {
@@ -1173,7 +1177,7 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
             Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
             s32 i;
             Vec3f effPos;
-            
+
             this->actor.shape.unk_10 = 0.0f;
             this->unk_32A--;
             for (i = 4; i >= 0; i--) {
