@@ -81,7 +81,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnDoor* this = THIS;
     EnDoorInfo* objectInfo;
     s32 i;
-    s32 objIndex;
+    s32 objBankIndex;
     f32 xOffset;
     f32 zOffset;
 
@@ -98,16 +98,16 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
         objectInfo++;
     }
 
-    this->displaylistIdx = objectInfo->displaylistIdx;
-    objIndex = Object_GetIndex(&globalCtx->objectCtx, objectInfo->objectId);
-    if (objIndex < 0) {
+    this->dListIndex = objectInfo->dListIndex;
+    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectInfo->objectId);
+    if (objBankIndex < 0) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    this->requiredObject = objIndex;
-    this->displaylistIdx = objectInfo->displaylistIdx;
-    if (this->actor.objBankIndex == this->requiredObject) {
+    this->requiredObjBankIndex = objBankIndex;
+    this->dListIndex = objectInfo->dListIndex;
+    if (this->actor.objBankIndex == this->requiredObjBankIndex) {
         EnDoor_SetupType(this, globalCtx);
     } else {
         this->actionFunc = EnDoor_SetupType;
@@ -145,10 +145,10 @@ void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
     s32 doorType;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObject)) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
         doorType = this->actor.params >> 7 & 7;
         this->actor.flags &= ~0x10;
-        this->actor.objBankIndex = this->requiredObject;
+        this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
             doorType =
@@ -311,7 +311,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnDoor* this = THIS;
 
     if (limbIndex == 4) {
-        temp_a2 = D_809FCEE4[this->displaylistIdx];
+        temp_a2 = D_809FCEE4[this->dListIndex];
         transitionEntry = &globalCtx->transitionActorList[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.posRot.rot.y;
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
@@ -327,13 +327,13 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             *dList = temp_a2[phi_v0];
         }
     }
-    return false;
+    return 0;
 }
 
 void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDoor* this = THIS;
 
-    if (this->actor.objBankIndex == this->requiredObject) {
+    if (this->actor.objBankIndex == this->requiredObjBankIndex) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 910);
 
         func_80093D18(globalCtx->state.gfxCtx);
