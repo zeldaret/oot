@@ -8,7 +8,7 @@ glabel DemoEc_SetupGorons
 /* 02970 8096FE20 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
 /* 02974 8096FE24 24C6FEF0 */  addiu   $a2, $a2, 0xFEF0           ## $a2 = 0600FEF0
 /* 02978 8096FE28 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0297C 8096FE2C 0C25B5CA */  jal     DemoEc_SetupAnimation              
+/* 0297C 8096FE2C 0C25B5CA */  jal     DemoEc_InitSkelanime              
 /* 02980 8096FE30 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 02984 8096FE34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02988 8096FE38 0C25B76F */  jal     func_8096DDBC              

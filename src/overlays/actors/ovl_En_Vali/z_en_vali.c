@@ -15,6 +15,15 @@ void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000710;
+extern UNK_TYPE D_06000854;
+extern UNK_TYPE D_06000B34;
+extern UNK_TYPE D_060014AC;
+extern UNK_TYPE D_06002610;
+extern UNK_TYPE D_06002740;
+extern UNK_TYPE D_060027D8;
+extern UNK_TYPE D_06004848;
+
 /*
 const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,

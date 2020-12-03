@@ -57,7 +57,7 @@ glabel func_80AC7DAC
 /* 051C0 80AC7E60 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 051C4 80AC7E64 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 051C8 80AC7E68 AFAF0010 */  sw      $t7, 0x0010($sp)
-/* 051CC 80AC7E6C 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 051CC 80AC7E6C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 051D0 80AC7E70 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 051D4 80AC7E74 C6040238 */  lwc1    $f4, 0x0238($s0)           ## 00000238
 /* 051D8 80AC7E78 8E060230 */  lw      $a2, 0x0230($s0)           ## 00000230

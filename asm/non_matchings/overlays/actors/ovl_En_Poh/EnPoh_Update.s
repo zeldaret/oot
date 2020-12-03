@@ -52,7 +52,7 @@ glabel EnPoh_Update
 /* 0289C 80AE05EC AFAC0014 */  sw      $t4, 0x0014($sp)
 /* 028A0 80AE05F0 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 028A4 80AE05F4 24E709DC */  addiu   $a3, $a3, 0x09DC           ## $a3 = 060009DC
-/* 028A8 80AE05F8 0C0291BE */  jal     SkelAnime_InitSV
+/* 028A8 80AE05F8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 028AC 80AE05FC 24C66F90 */  addiu   $a2, $a2, 0x6F90           ## $a2 = 00006F90
 /* 028B0 80AE0600 8E180324 */  lw      $t8, 0x0324($s0)           ## 00000324
 /* 028B4 80AE0604 3C0E80AE */  lui     $t6, %hi(func_80AE1148)    ## $t6 = 80AE0000
