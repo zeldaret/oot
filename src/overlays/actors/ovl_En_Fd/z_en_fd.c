@@ -165,7 +165,7 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
     if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow ||
         this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
         return false;
-    } else if (globalCtx->actorCtx.hammerTimer != 0 && this->actor.xzDistFromLink < 300.0f &&
+    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistFromLink < 300.0f &&
                this->actor.yDistFromLink < 60.0f) {
         return true;
     } else {

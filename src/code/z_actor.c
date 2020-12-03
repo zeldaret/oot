@@ -2015,8 +2015,8 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
         globalCtx->nbSetupActors = 0;
     }
 
-    if (actorCtx->hammerTimer != 0) {
-        actorCtx->hammerTimer--;
+    if (actorCtx->unk_02 != 0) {
+        actorCtx->unk_02--;
     }
 
     if (KREG(0) == -100) {

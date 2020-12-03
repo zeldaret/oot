@@ -7477,7 +7477,7 @@ void func_808429B4(GlobalContext* globalCtx, s32 speed, s32 y, s32 countdown) {
 
 void func_80842A28(GlobalContext* globalCtx, Player* this) {
     func_808429B4(globalCtx, 27767, 7, 20);
-    globalCtx->actorCtx.hammerTimer = 4;
+    globalCtx->actorCtx.unk_02 = 4;
     func_8083264C(this, 255, 20, 150, 0);
     func_8002F7DC(&this->actor, NA_SE_IT_HAMMER_HIT);
 }

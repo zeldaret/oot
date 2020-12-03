@@ -488,7 +488,7 @@ void EnHintnuts_ColliderCheck(EnHintnuts* this, GlobalContext* globalCtx) {
             EnHintnuts_HitByScrubProjectile1(this, globalCtx);
             EnHintnuts_HitByScrubProjectile2(this);
         }
-    } else if (globalCtx->actorCtx.hammerTimer != 0) {
+    } else if (globalCtx->actorCtx.unk_02 != 0) {
         EnHintnuts_HitByScrubProjectile1(this, globalCtx);
         EnHintnuts_HitByScrubProjectile2(this);
     }
