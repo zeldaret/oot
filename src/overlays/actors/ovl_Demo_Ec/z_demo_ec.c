@@ -252,8 +252,8 @@ void func_8096D714(DemoEc* this, s16 arg1) {
     this->unk_190 = arg1;
 }
 
-void DemoEc_InitSkelanime(DemoEc* this, GlobalContext* globalCtx, SkeletonHeader* header) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, SEGMENTED_TO_VIRTUAL(header), NULL, NULL, NULL, 0);
+void DemoEc_InitSkelanime(DemoEc* this, GlobalContext* globalCtx, SkeletonHeader* skeletonHeader) {
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, SEGMENTED_TO_VIRTUAL(skeletonHeader), NULL, NULL, NULL, 0);
 }
 
 void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
@@ -304,7 +304,7 @@ void func_8096D8C4(DemoEc* this, GlobalContext* globalCtx, Gfx* arg2, Gfx* arg3,
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
     POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
+                                       overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 595);
 }
 
@@ -335,7 +335,7 @@ void func_8096DA80(DemoEc* this, GlobalContext* globalCtx, Gfx* arg2, Gfx* arg3,
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
     POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                      overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
+                                       overrideLimbDraw, postLimbDraw, &this->actor, POLY_OPA_DISP);
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 0x286);
 }
 
