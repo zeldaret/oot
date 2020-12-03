@@ -9,6 +9,9 @@ void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHonotrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0404D4E0;
+extern UNK_TYPE D_05006810;
+
 /*
 const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,

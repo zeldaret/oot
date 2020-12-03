@@ -16,6 +16,9 @@ void func_8087D66C(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D8C0(BgHakaHuta* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060006B0;
+extern UNK_TYPE D_06000870;
+
 /*
 const ActorInit Bg_Haka_Huta_InitVars = {
     ACTOR_BG_HAKA_HUTA,

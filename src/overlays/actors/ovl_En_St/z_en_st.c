@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0x02, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, 0xFF };
 
 static ColliderCylinderInit sCylinderInit2 = {
     { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
@@ -95,11 +95,11 @@ void EnSt_SetupAction(EnSt* this, EnStActionFunc actionFunc) {
 /**
  * Spawns `dustCnt` dust particles in a random pattern around the skulltulla
  */
-void EnSt_SpawnDustEffects(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
-    Color_RGBA8_n primColor = { 170, 130, 90, 255 };
-    Color_RGBA8_n envColor = { 100, 60, 20, 0 };
+void EnSt_SpawnDust(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
+    Color_RGBA8 primColor = { 170, 130, 90, 255 };
+    Color_RGBA8 envColor = { 100, 60, 20, 0 };
     Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
-    Vec3f initialYAccel = { 0.0f, 0.3f, 0.0f };
+    Vec3f dustAccel = { 0.0f, 0.3f, 0.0f };
     Vec3f dustPos;
     s16 yAngle;
     s32 i;
@@ -107,11 +107,11 @@ void EnSt_SpawnDustEffects(EnSt* this, GlobalContext* globalCtx, s32 dustCnt) {
     yAngle = (Math_Rand_ZeroOne() - 0.5f) * 65536.0f;
     dustPos.y = this->actor.groundY;
     for (i = dustCnt; i >= 0; i--, yAngle += (s16)(0x10000 / dustCnt)) {
-        initialYAccel.x = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
-        initialYAccel.z = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustAccel.x = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
+        dustAccel.z = (Math_Rand_ZeroOne() - 0.5f) * 4.0f;
         dustPos.x = this->actor.posRot.pos.x + (Math_Sins(yAngle) * 22.0f);
         dustPos.z = this->actor.posRot.pos.z + (Math_Coss(yAngle) * 22.0f);
-        func_8002836C(globalCtx, &dustPos, &dustVel, &initialYAccel, &primColor, &envColor, 120, 40, 10);
+        func_8002836C(globalCtx, &dustPos, &dustVel, &dustAccel, &primColor, &envColor, 120, 40, 10);
     }
 }
 
@@ -123,17 +123,17 @@ void EnSt_SpawnBlastEffect(EnSt* this, GlobalContext* globalCtx) {
     blastPos.y = this->actor.groundY;
     blastPos.z = this->actor.posRot.pos.z;
 
-    func_80028F84(globalCtx, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
+    EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &blastPos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
 void EnSt_SpawnDeadEffect(EnSt* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    Vec3f deadPos;
+    Vec3f firePos;
 
-    deadPos.x = this->actor.posRot.pos.x + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
-    deadPos.y = (this->actor.posRot.pos.y + 10.0f) + ((Math_Rand_ZeroOne() - 0.5f) * 45.0f);
-    deadPos.z = this->actor.posRot.pos.z + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
-    func_8002A6B8(globalCtx, &deadPos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
+    firePos.x = this->actor.posRot.pos.x + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
+    firePos.y = (this->actor.posRot.pos.y + 10.0f) + ((Math_Rand_ZeroOne() - 0.5f) * 45.0f);
+    firePos.z = this->actor.posRot.pos.z + ((Math_Rand_ZeroOne() - 0.5f) * 60.0f);
+    EffectSsDeadDb_Spawn(globalCtx, &firePos, &zeroVec, &zeroVec, 100, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
 }
 
 s32 EnSt_CreateBlureEffect(GlobalContext* globalCtx) {
@@ -247,7 +247,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x3F8F9;
+    this->colCylinder[0].body.bumper.flags = 0x0003F8F9;
     this->colCylinder[1].body.bumper.flags = 0xFFC00706;
     this->colCylinder[2].base.type = 9;
     this->colCylinder[2].body.bumperFlags = 0xD;
@@ -453,7 +453,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     }
 
     if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
-        // player has hit the backside ofthe skulltulla
+        // player has hit the backside of the skulltulla
         return true;
     }
 
@@ -581,7 +581,7 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
         rot = this->actor.shape.rot;
         yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsLink : this->initalYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
-        if (ABS(yawDiff) < 0x4001) {
+        if (ABS(yawDiff) <= 0x4000) {
             Math_SmoothScaleMaxMinS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
         } else {
             rot.y += 0x2000;
@@ -622,7 +622,7 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
     }
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-    EnSt_SpawnDustEffects(this, globalCtx, 10);
+    EnSt_SpawnDust(this, globalCtx, 10);
     // creates an elastic bouncing effect, boucing up less for each hit on the ground.
     this->actor.velocity.y = 6.0f / (4 - this->groundBounces);
     this->groundBounces--;
@@ -967,7 +967,7 @@ void EnSt_StartOnCeilingOrGround(EnSt* this, GlobalContext* globalCtx) {
 void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSt* this = THIS;
     s32 pad;
-    Color_RGBA8_n color = { 0, 0, 0, 0 };
+    Color_RGBA8 color = { 0, 0, 0, 0 };
 
     if (this->actor.flags & 0x8000) {
         SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1026,8 +1026,8 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
             break;
         case 4:
             // teeth
-            gDPPipeSync(oGfxCtx->polyOpa.p++);
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->teethR, this->teethG, this->teethB, 0);
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->teethR, this->teethG, this->teethB, 0);
             break;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2295);
@@ -1045,6 +1045,6 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
-                   EnSt_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
+                      EnSt_PostLimbDraw, this);
 }

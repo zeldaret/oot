@@ -59,7 +59,7 @@ glabel EnMm2_Draw
 /* 00B44 80AAF994 AFA80014 */  sw      $t0, 0x0014($sp)
 /* 00B48 80AAF998 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 00B4C 80AAF99C AFB00018 */  sw      $s0, 0x0018($sp)
-/* 00B50 80AAF9A0 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00B50 80AAF9A0 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00B54 80AAF9A4 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00B58 80AAF9A8 8FA90054 */  lw      $t1, 0x0054($sp)
 /* 00B5C 80AAF9AC 3C0680AB */  lui     $a2, %hi(D_80AAFBF8)       ## $a2 = 80AB0000

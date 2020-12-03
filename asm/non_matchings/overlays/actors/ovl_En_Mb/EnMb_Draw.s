@@ -19,7 +19,7 @@ glabel EnMb_Draw
 /* 039FC 80AA9A4C AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 03A00 80AA9A50 AFB50018 */  sw      $s5, 0x0018($sp)
 /* 03A04 80AA9A54 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 03A08 80AA9A58 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 03A08 80AA9A58 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 03A0C 80AA9A5C 8FA400BC */  lw      $a0, 0x00BC($sp)
 /* 03A10 80AA9A60 86B8001C */  lh      $t8, 0x001C($s5)           ## 0000001C
 /* 03A14 80AA9A64 53000029 */  beql    $t8, $zero, .L80AA9B0C
@@ -109,7 +109,7 @@ glabel EnMb_Draw
 /* 03B50 80AA9BA0 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 03B54 80AA9BA4 24C6014C */  addiu   $a2, $a2, 0x014C           ## $a2 = 0000014C
 /* 03B58 80AA9BA8 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 03B5C 80AA9BAC 0C00A877 */  jal     func_8002A1DC
+/* 03B5C 80AA9BAC 0C00A877 */  jal     EffectSsEnIce_SpawnFlyingVec3s
 /* 03B60 80AA9BB0 E7A00028 */  swc1    $f0, 0x0028($sp)
 .L80AA9BB4:
 /* 03B64 80AA9BB4 8FBF004C */  lw      $ra, 0x004C($sp)

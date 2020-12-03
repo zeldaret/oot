@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void func_800D2E30(UnkRumbleStruct* arg0) {
     s32 i;

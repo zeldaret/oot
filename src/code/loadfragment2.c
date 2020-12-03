@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void* Overlay_AllocateAndLoad(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd) {
     void* allocatedVRamAddr;

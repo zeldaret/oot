@@ -78,7 +78,7 @@ static InitChainEntry sInitChain[] = {
 
 extern Gfx D_06008688[];
 
-extern SkeletonHeader D_06008FB0;
+extern FlexSkeletonHeader D_06008FB0;
 
 extern AnimationHeader D_06009DB0;
 extern AnimationHeader D_060039B0;
@@ -99,8 +99,8 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable,
-                     &this->transitionDrawTable, 25);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable,
+                       &this->transitionDrawTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -285,8 +285,8 @@ void EnFloormas_SetupSmDecideAction(EnFloormas* this) {
 }
 
 void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
-    static Vec3f D_80A1A4D0 = { 0.0f, 0.0f, 0.0f };
-    static Vec3f D_80A1A4DC = { 0.0f, 0.0f, 0.0f };
+    static Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
     this->actor.speedXZ = 0.0f;
@@ -294,7 +294,7 @@ void EnFloormas_SetupSmShrink(EnFloormas* this, GlobalContext* globalCtx) {
     pos.x = this->actor.posRot.pos.x;
     pos.y = this->actor.posRot.pos.y + 15.0f;
     pos.z = this->actor.posRot.pos.z;
-    func_8002A6B8(globalCtx, &pos, &D_80A1A4D0, &D_80A1A4DC, 0x96, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0xFF, 1, 9, 1);
+    EffectSsDeadDb_Spawn(globalCtx, &pos, &velocity, &accel, 150, -10, 255, 255, 255, 255, 0, 0, 255, 1, 9, true);
     this->actionFunc = EnFloormas_SmShrink;
 }
 
@@ -977,8 +977,8 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     if (this->actor.colChkInfo.damageEffect == 2) {
-                        func_8002A65C(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.scale.x * 4000.f,
-                                      this->actor.scale.x * 4000.f);
+                        EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos,
+                                              this->actor.scale.x * 4000.f, this->actor.scale.x * 4000.f);
                     }
                     EnFloormas_SetupTakeDamage(this);
                 }
@@ -1049,7 +1049,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnFloormas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx, Gfx** gfx) {
+                                void* thisx, Gfx** gfx) {
     EnFloormas* this = THIS;
     if (limbIndex == 1) {
         pos->z += this->zOffset;
@@ -1057,8 +1057,7 @@ s32 EnFloormas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     return 0;
 }
 
-void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
-                             Gfx** gfx) {
+void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     if (limbIndex == 2) {
         Matrix_Push();
         Matrix_Translate(1600.0f, -700.0f, -1700.0f, MTXMODE_APPLY);
@@ -1071,7 +1070,7 @@ void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     }
 }
 
-static Color_RGBA8 sMergeColor = { 0x00, 0xFF, 0x00, 0x00 };
+static Color_RGBA8 sMergeColor = { 0, 255, 0, 0 };
 
 void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
@@ -1083,9 +1082,9 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80026230(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
 
-    oGfxCtx->polyOpa.p =
-        SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, oGfxCtx->polyOpa.p);
+    POLY_OPA_DISP =
+        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                           EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_OPA_DISP);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026608(globalCtx);
     }
@@ -1102,9 +1101,9 @@ void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026690(globalCtx, &sMergeColor, this->actionTarget % 0x28, 0x28);
     }
-    oGfxCtx->polyXlu.p =
-        SkelAnime_DrawSV2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, &this->actor, oGfxCtx->polyXlu.p);
+    POLY_XLU_DISP =
+        SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                           EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_XLU_DISP);
     if (this->collider.base.type == COLTYPE_UNK12) {
         func_80026A6C(globalCtx);
     }

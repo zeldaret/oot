@@ -1,8 +1,8 @@
 #ifndef _Z_EN_WEATHER_TAG_H_
 #define _Z_EN_WEATHER_TAG_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnWeatherTag;
 

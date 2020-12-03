@@ -19,7 +19,7 @@ glabel EnTg_Init
 /* 00190 80B184F0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00194 80B184F4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00198 80B184F8 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0019C 80B184FC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0019C 80B184FC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 001A0 80B18500 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 001A4 80B18504 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001A8 80B18508 AFA50030 */  sw      $a1, 0x0030($sp)

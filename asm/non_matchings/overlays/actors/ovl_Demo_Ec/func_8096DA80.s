@@ -162,7 +162,7 @@ glabel func_8096DA80
 /* 00818 8096DCC8 AFAC0010 */  sw      $t4, 0x0010($sp)
 /* 0081C 8096DCCC 8E0E02C0 */  lw      $t6, 0x02C0($s0)           ## 000002C0
 /* 00820 8096DCD0 8FA40074 */  lw      $a0, 0x0074($sp)
-/* 00824 8096DCD4 0C0289CF */  jal     SkelAnime_DrawSV2
+/* 00824 8096DCD4 0C0289CF */  jal     SkelAnime_DrawFlex
 /* 00828 8096DCD8 AFAE001C */  sw      $t6, 0x001C($sp)
 /* 0082C 8096DCDC 3C068097 */  lui     $a2, %hi(D_8097069C)       ## $a2 = 80970000
 /* 00830 8096DCE0 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0

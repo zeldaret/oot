@@ -8,6 +8,25 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Update(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0400CDC0;
+extern UNK_TYPE D_0400CE40;
+extern UNK_TYPE D_0400CF40;
+extern UNK_TYPE D_060000F0;
+extern UNK_TYPE D_060000FC;
+extern UNK_TYPE D_060002E4;
+extern UNK_TYPE D_06000338;
+extern UNK_TYPE D_060004A8;
+extern UNK_TYPE D_0600065C;
+extern UNK_TYPE D_0600078C;
+extern UNK_TYPE D_06002820;
+extern UNK_TYPE D_06004258;
+extern UNK_TYPE D_06004658;
+extern UNK_TYPE D_06004868;
+extern UNK_TYPE D_06009B38;
+extern UNK_TYPE D_0600BFA8;
+extern UNK_TYPE D_0600DE80;
+extern UNK_TYPE D_0600FEF0;
+
 /*
 const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,

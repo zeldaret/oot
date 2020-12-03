@@ -65,7 +65,7 @@ glabel func_808AEBC0
 /* 0050C 808AEC8C 3C07428C */  lui     $a3, 0x428C                ## $a3 = 428C0000
 /* 00510 808AEC90 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 00514 808AEC94 46049180 */  add.s   $f6, $f18, $f4             
-/* 00518 808AEC98 0C00A4F9 */  jal     func_800293E4              
+/* 00518 808AEC98 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 0051C 808AEC9C E7A60014 */  swc1    $f6, 0x0014($sp)           
 /* 00520 808AECA0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L808AECA4:

@@ -98,7 +98,7 @@ glabel L80994D4C
 /* 00114 80994D64 24C61BC8 */  addiu   $a2, $a2, 0x1BC8           ## $a2 = 06001BC8
 /* 00118 80994D68 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 0011C 80994D6C 2645014C */  addiu   $a1, $s2, 0x014C           ## $a1 = 0000014C
-/* 00120 80994D70 0C0291BE */  jal     SkelAnime_InitSV
+/* 00120 80994D70 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00124 80994D74 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00128 80994D78 3C0B8099 */  lui     $t3, %hi(func_80995D6C)    ## $t3 = 80990000
 /* 0012C 80994D7C 256B5D6C */  addiu   $t3, $t3, %lo(func_80995D6C) ## $t3 = 80995D6C

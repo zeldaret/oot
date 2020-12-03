@@ -1,8 +1,8 @@
 #ifndef _Z_EN_DAIKU_H_
 #define _Z_EN_DAIKU_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnDaiku;
 
@@ -24,7 +24,7 @@ typedef struct EnDaiku {
     /* 0x0200 */ s32 escapeSubCamTimer;
     /* 0x0204 */ s32 subCamId;
     /* 0x0208 */ s16 rotYtowardsPath;
-    /* 0x020C */ Vec3f subCamEyeInit; // unused
+    /* 0x020C */ Vec3f subCamEyeInit;
     /* 0x0218 */ Vec3f subCamAtTarget;
     /* 0x0224 */ Vec3f subCamEye;
     /* 0x0230 */ Vec3f subCamAt;
