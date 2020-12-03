@@ -3520,8 +3520,7 @@ endseg
 beginseg
     name "ovl_Obj_Switch"
     include "build/src/overlays/actors/ovl_Obj_Switch/z_obj_switch.o"
-    include "build/data/overlays/actors/z_obj_switch.data.o"
-    include "build/data/overlays/actors/z_obj_switch.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Switch/ovl_Obj_Switch_reloc.o"
 endseg
 
 beginseg
