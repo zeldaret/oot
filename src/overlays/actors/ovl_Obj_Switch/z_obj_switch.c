@@ -160,7 +160,7 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, GlobalContext* globalCtx, Col
     func_800D1694(this->dyna.actor.posRot.pos.x,
                   this->dyna.actor.posRot.pos.y + this->dyna.actor.shape.unk_08 * this->dyna.actor.scale.y,
                   this->dyna.actor.posRot.pos.z, &this->dyna.actor.shape.rot);
-    Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, 1);
+    Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, MTXMODE_APPLY);
     func_800628A4(0, colliderJntSph);
 }
 
@@ -327,7 +327,7 @@ void ObjSwitch_FloorUpInit(ObjSwitch* this) {
 
 void ObjSwitch_FloorUp(ObjSwitch* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params & 7) == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        if ((this->tris.col.base.acFlags & 2) != 0) {
+        if (this->tris.col.base.acFlags & 2) {
             ObjSwitch_FloorPressInit(this);
             ObjSwitch_SetOn(this, globalCtx);
             this->tris.col.base.acFlags &= ~2;
