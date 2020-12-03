@@ -15,6 +15,8 @@ void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHrock_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanHrock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600D054;
+
 /*
 const ActorInit Bg_Hidan_Hrock_InitVars = {
     ACTOR_BG_HIDAN_HROCK,

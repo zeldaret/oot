@@ -27,7 +27,7 @@ const ActorInit Bg_Spot11_Oasis_InitVars = {
     NULL,
 };
 
-s16 D_808B2E10[][2] = {
+static s16 D_808B2E10[][2] = {
     { 1260, 2040 }, { 1259, 1947 }, { 1135, 1860 }, { 1087, 1912 }, { 1173, 2044 },
 };
 
@@ -38,7 +38,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-Vec3f D_808B2E34[] = {
+static Vec3f D_808B2E34[] = {
     { 0.0f, -100.0f, 0.0f },   { 100.0f, -80.0f, -50.0f }, { -50.0f, -80.0f, -100.0f },
     { -75.0f, -90.0f, 90.0f }, { 30.0f, -100.0f, 40.0f },
 };

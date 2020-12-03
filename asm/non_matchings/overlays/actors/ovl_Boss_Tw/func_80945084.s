@@ -184,7 +184,7 @@ glabel func_80945084
 /* 0C638 80945308 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 0C63C 8094530C AFB90014 */  sw      $t9, 0x0014($sp)
 /* 0C640 80945310 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0C644 80945314 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0C644 80945314 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0C648 80945318 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0C64C 8094531C 0C034221 */  jal     Matrix_Pull
 /* 0C650 80945320 00000000 */  nop

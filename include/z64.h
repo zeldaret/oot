@@ -725,7 +725,10 @@ typedef struct {
     /* 0xB8 */ UNK_PTR  lightSettingsList;
     /* 0xBC */ char     unk_BC[0x03];
     /* 0xBF */ u8       unk_BF;
-    /* 0xC0 */ char     unk_C0[0x16];
+    /* 0xC0 */ char     unk_C0[0x0F];
+    /* 0xCF */ u8       unk_CF[3];
+    /* 0xD2 */ s16      unk_D2;
+    /* 0xD4 */ char     unk_D4[0x02];
     /* 0xD6 */ s16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
@@ -1945,14 +1948,5 @@ typedef struct {
     /* 0x00 */ u16* value;
     /* 0x04 */ const char* name;
 } FlagSetEntry; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ u8 limbCount;
-    /* 0x01 */ char unk_01[0x01];
-    /* 0x02 */ u8 dListCount;
-    /* 0x04 */ Skeleton* skeleton;
-    /* 0x08 */ char unk_08[0x18];
-    /* 0x20 */ Vec3s* limbDrawTable;
-} struct_80091A24_arg3; // size >= 0x24
 
 #endif

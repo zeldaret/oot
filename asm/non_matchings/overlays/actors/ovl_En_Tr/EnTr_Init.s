@@ -53,7 +53,7 @@ glabel EnTr_Init
 /* 000A0 80B22D90 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 000A4 80B22D94 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 000A8 80B22D98 24E73FC8 */  addiu   $a3, $a3, 0x3FC8           ## $a3 = 06003FC8
-/* 000AC 80B22D9C 0C0291BE */  jal     SkelAnime_InitSV
+/* 000AC 80B22D9C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000B0 80B22DA0 24C61688 */  addiu   $a2, $a2, 0x1688           ## $a2 = 06011688
 /* 000B4 80B22DA4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 000B8 80B22DA8 24A53FC8 */  addiu   $a1, $a1, 0x3FC8           ## $a1 = 06003FC8
@@ -79,7 +79,7 @@ glabel EnTr_Init
 /* 00104 80B22DF4 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00108 80B22DF8 24E71CDC */  addiu   $a3, $a3, 0x1CDC           ## $a3 = 06001CDC
 /* 0010C 80B22DFC 24C6C530 */  addiu   $a2, $a2, 0xC530           ## $a2 = 0600C530
-/* 00110 80B22E00 0C0291BE */  jal     SkelAnime_InitSV
+/* 00110 80B22E00 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00114 80B22E04 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0000014C
 /* 00118 80B22E08 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0011C 80B22E0C 24A51CDC */  addiu   $a1, $a1, 0x1CDC           ## $a1 = 06001CDC

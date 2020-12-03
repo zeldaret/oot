@@ -15,6 +15,14 @@ void EnTr_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060013CC;
+extern UNK_TYPE D_06001CDC;
+extern UNK_TYPE D_060035CC;
+extern UNK_TYPE D_06003FC8;
+extern UNK_TYPE D_060049C8;
+extern UNK_TYPE D_0600C530;
+extern UNK_TYPE D_06011688;
+
 /*
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
