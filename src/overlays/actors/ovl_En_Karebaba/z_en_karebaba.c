@@ -5,6 +5,7 @@
  */
 
 #include "z_en_karebaba.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000005
 
@@ -15,8 +16,8 @@ void EnKarebaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnKarebaba_SetupGrow(EnKarebaba*);
-void EnKarebaba_SetupIdle(EnKarebaba*);
+void EnKarebaba_SetupGrow(EnKarebaba* this);
+void EnKarebaba_SetupIdle(EnKarebaba* this);
 void EnKarebaba_Grow(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Idle(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx);
@@ -123,7 +124,7 @@ void EnKarebaba_SetupIdle(EnKarebaba* this) {
 }
 
 void EnKarebaba_SetupAwaken(EnKarebaba* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 4.0f, 0, SkelAnime_GetFrameCount(&D_060002B8), 0, -3);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 4.0f, 0.0f, SkelAnime_GetFrameCount(&D_060002B8), 0, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DUMMY482);
     this->actionFunc = EnKarebaba_Awaken;
 }
@@ -223,7 +224,7 @@ void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
         EnKarebaba_SetupUpright(this);
     }
     this->actor.shape.rot.y += 0x1999;
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 }
 
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
@@ -300,13 +301,14 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
 
     if (this->actor.params == 0) {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x4800, 0x71C);
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
         if (this->actor.scale.x > 0.005f && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~5;
-            EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 15, -1, 10, 0);
+            EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 3.0f, 0, 12, 5, 15, HAHEN_OBJECT_DEFAULT, 10,
+                                     NULL);
         }
 
         if (this->actor.bgCheckFlags & 2) {
@@ -353,7 +355,7 @@ void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y += 0x1999;
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, -1, 10, 0);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.initPosRot.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 }
 
 void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx) {
@@ -449,7 +451,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc == EnKarebaba_DeadItemDrop) {
         if (this->actor.params > 40 || (this->actor.params & 1)) {
-            Matrix_Translate(0, 0, 200.0f, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1066),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, D_06003070);
@@ -475,7 +477,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         for (i = 0; i < numDLists; i++) {
-            Matrix_Translate(0, 0, -2000.0f, MTXMODE_APPLY);
+            Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1116),
                       G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, dLists[i]);
