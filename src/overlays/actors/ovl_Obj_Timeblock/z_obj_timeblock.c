@@ -41,7 +41,7 @@ const ActorInit Obj_Timeblock_InitVars = {
     (ActorFunc)ObjTimeblock_Draw,
 };
 
-typedef struct ObjTimeblockSizeOptions {
+typedef struct {
     /* 0x00 */ f32 scale;
     /* 0x04 */ f32 height;
     /* 0x08 */ s16 demoEffectParams;

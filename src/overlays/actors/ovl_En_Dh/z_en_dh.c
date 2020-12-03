@@ -4,7 +4,15 @@
 
 #define THIS ((EnDh*)thisx)
 
-typedef enum { DH_WAIT, DH_RETREAT, DH_BURROW, DH_WALK, DH_ATTACK, DH_DEATH, DH_DAMAGE } EnDhAction;
+typedef enum {
+    /* 0 */ DH_WAIT,
+    /* 1 */ DH_RETREAT,
+    /* 2 */ DH_BURROW,
+    /* 3 */ DH_WALK,
+    /* 4 */ DH_ATTACK,
+    /* 5 */ DH_DEATH,
+    /* 6 */ DH_DAMAGE
+} EnDhAction;
 
 void EnDh_Init(Actor* this, GlobalContext* globalCtx);
 void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx);
