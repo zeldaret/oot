@@ -5,6 +5,7 @@
  */
 
 #include "z_en_gs.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x02000009
 
@@ -43,11 +44,11 @@ static ColliderCylinderInit D_80A4FDA0 = {
     { 21, 48, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80A4FDCC = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 D_80A4FDCC = { 0, 0, 0, 0, 0xFF };
 
-DamageTable D_80A4FDD8 = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0, 0xF0, 0xF0,
-                           0xB0, 0xB0, 0xB0, 0x00, 0x00, 0x00, 0xB0, 0xB0, 0xB0, 0x00, 0x00,
-                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static DamageTable D_80A4FDD8 = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0, 0xF0, 0xF0,
+                                  0xB0, 0xB0, 0xB0, 0x00, 0x00, 0x00, 0xB0, 0xB0, 0xB0, 0x00, 0x00,
+                                  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
@@ -114,11 +115,11 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
                     (globalCtx->msgCtx.unk_E3F2 == 8) || (globalCtx->msgCtx.unk_E3F2 == 9) ||
                     (globalCtx->msgCtx.unk_E3F2 == 10)) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 2);
+                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 } else if (globalCtx->msgCtx.unk_E3F2 == 11) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 7);
+                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_HEAL_BIG);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
@@ -310,7 +311,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         }
 
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
-        if ((this->unk_200++ < 0x28) ^ 1) {
+        if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
             this->actor.flags |= 0x10;
             this->actor.uncullZoneForward = 12000.0f;
@@ -541,19 +542,19 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000950);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000950);
 
         if (this->unk_19E & 4) {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
                             this->flashColor.a);
         } else {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_060009D0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000A60);
+        gSPDisplayList(POLY_OPA_DISP++, D_060009D0);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000A60);
 
         Matrix_Pull();
         if (this->unk_19E & 2) {
@@ -561,14 +562,14 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(
-                oGfxCtx->polyXlu.p++, 0x08,
+                POLY_XLU_DISP++, 0x08,
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 0, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+            gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);

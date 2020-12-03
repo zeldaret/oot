@@ -5,7 +5,7 @@
  */
 
 #include "z_en_takara_man.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x08000039
 
@@ -37,7 +37,7 @@ const ActorInit En_Takara_Man_InitVars = {
 
 static u8 sTakaraIsInitialized = false;
 
-extern SkeletonHeader D_06004FE0;
+extern FlexSkeletonHeader D_06004FE0;
 extern AnimationHeader D_06000498;
 
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -57,9 +57,9 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST,
                  globalCtx->actorCtx.flags.chest); // "Bun! %x" (needs a better translation)
     globalCtx->actorCtx.flags.chest = 0;
-    gSaveContext.dungeonKeys[gSaveContext.mapIndex] = -1;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl, this->transitionDrawTbl,
-                     10);
+    gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl,
+                       this->transitionDrawTbl, 10);
     thisx->posRot2.pos = thisx->posRot.pos;
     this->pos = thisx->posRot.pos;
     thisx->posRot.pos.x = 133.0f;
@@ -75,7 +75,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000498.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000498);
 
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     if (!this->unk_214) {
@@ -202,7 +202,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 Actor* thisx) {
+                                 void* thisx) {
     EnTakaraMan* this = THIS;
 
     if (limbIndex == 1) {
@@ -226,9 +226,9 @@ void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 528);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTakaraEyeTextures[this->eyeTextureIdx]));
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnTakaraMan_OverrideLimbDraw, NULL, &this->actor);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTakaraEyeTextures[this->eyeTextureIdx]));
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnTakaraMan_OverrideLimbDraw, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 544);
 }

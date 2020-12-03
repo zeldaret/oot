@@ -196,8 +196,8 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalC
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_StalfosPairFight);
     Flags_UnsetClear(globalCtx, this->dyna.actor.room);
-    stalfos1 =
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_TEST, 70.0f, 827.0f, -3383.0f, 0, 0, 0, 5);
+    stalfos1 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_TEST, 70.0f, 827.0f,
+                                  -3383.0f, 0, 0, 0, 5);
     if (stalfos1 != NULL) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.initPosRot.rot.z++;
@@ -205,8 +205,8 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalC
         // Warning: 3-1 Stalfos failure
         osSyncPrintf("Warning : 第３-1スタルフォス発生失敗\n");
     }
-    stalfos2 =
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_TEST, 170.0f, 827.0f, -3260.0f, 0, 0, 0, 5);
+    stalfos2 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_TEST, 170.0f, 827.0f,
+                                  -3260.0f, 0, 0, 0, 5);
     if (stalfos2 != NULL) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.initPosRot.rot.z++;
@@ -251,11 +251,11 @@ void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 548),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001E50);
+    gSPDisplayList(POLY_OPA_DISP++, D_06001E50);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 553);
 }

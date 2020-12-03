@@ -1,8 +1,8 @@
 #ifndef _Z_OBJ_TIMEBLOCK_H_
 #define _Z_OBJ_TIMEBLOCK_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct ObjTimeblock;
 
@@ -20,7 +20,7 @@ typedef struct ObjTimeblock {
     /* 0x0174 */ u8 unk_174;
     /* 0x0175 */ u8 unk_175;
     /* 0x0176 */ u8 unk_176;
-    /* 0x0177 */ u8 save;
+    /* 0x0177 */ u8 unk_177;
     /* 0x0178 */ u8 isVisible;
 } ObjTimeblock; // size = 0x017C
 

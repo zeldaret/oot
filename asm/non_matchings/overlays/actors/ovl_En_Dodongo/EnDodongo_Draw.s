@@ -19,7 +19,7 @@ glabel EnDodongo_Draw
 /* 02368 809FA5B8 24E7A0F8 */  addiu   $a3, $a3, %lo(func_809FA0F8) ## $a3 = 809FA0F8
 /* 0236C 809FA5BC AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 02370 809FA5C0 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 02374 809FA5C4 0C028572 */  jal     SkelAnime_Draw
+/* 02374 809FA5C4 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 02378 809FA5C8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0237C 809FA5CC 86180312 */  lh      $t8, 0x0312($s0)           ## 00000312
@@ -57,7 +57,7 @@ glabel EnDodongo_Draw
 /* 023FC 809FA64C 24C60358 */  addiu   $a2, $a2, 0x0358           ## $a2 = 00000358
 /* 02400 809FA650 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 02404 809FA654 24070096 */  addiu   $a3, $zero, 0x0096         ## $a3 = 00000096
-/* 02408 809FA658 0C00A850 */  jal     func_8002A140              
+/* 02408 809FA658 0C00A850 */  jal     EffectSsEnIce_SpawnFlyingVec3f              
 /* 0240C 809FA65C E7A40028 */  swc1    $f4, 0x0028($sp)           
 .L809FA660:
 /* 02410 809FA660 8FBF003C */  lw      $ra, 0x003C($sp)           

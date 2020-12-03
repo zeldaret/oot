@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_zg.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -132,9 +132,9 @@ void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
     OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
     func_80093D18(localGfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001080);
+    gSPDisplayList(POLY_OPA_DISP++, D_06001080);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);
 }

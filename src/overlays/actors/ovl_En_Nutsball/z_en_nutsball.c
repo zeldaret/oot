@@ -5,6 +5,7 @@
  */
 
 #include "z_en_nutsball.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000010
 
@@ -109,7 +110,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         sp40.y = this->actor.posRot.pos.y + 4;
         sp40.z = this->actor.posRot.pos.z;
 
-        func_800297A4(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, -1, 10, 0);
+        EffectSsHahen_SpawnBurst(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
     } else {
@@ -147,9 +148,9 @@ void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateZ(thisx->initPosRot.rot.z * 9.58738e-05f, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, sDLists[thisx->params]);
+    gSPDisplayList(POLY_OPA_DISP++, sDLists[thisx->params]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
 }

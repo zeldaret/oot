@@ -12,7 +12,7 @@ glabel func_80AC6ECC
 /* 04254 80AC6EF4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 04258 80AC6EF8 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 0425C 80AC6EFC AFA00018 */  sw      $zero, 0x0018($sp)
-/* 04260 80AC6F00 0C0291BE */  jal     SkelAnime_InitSV
+/* 04260 80AC6F00 0C0291BE */  jal     SkelAnime_InitFlex
 /* 04264 80AC6F04 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 04268 80AC6F08 8FA20028 */  lw      $v0, 0x0028($sp)
 /* 0426C 80AC6F0C 3C0E80AD */  lui     $t6, %hi(func_80AC8784)    ## $t6 = 80AD0000

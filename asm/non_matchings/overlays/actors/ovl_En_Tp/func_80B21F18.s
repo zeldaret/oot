@@ -190,7 +190,7 @@ glabel func_80B21F18
 /* 013E0 80B221C0 27A50048 */  addiu   $a1, $sp, 0x0048           ## $a1 = FFFFFFE8
 /* 013E4 80B221C4 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFFF4
 /* 013E8 80B221C8 AFA20018 */  sw      $v0, 0x0018($sp)           
-/* 013EC 80B221CC 0C00A5A5 */  jal     func_80029694              
+/* 013EC 80B221CC 0C00A5A5 */  jal     EffectSsDtBubble_SpawnCustomColor              
 /* 013F0 80B221D0 AFA00020 */  sw      $zero, 0x0020($sp)         
 .L80B221D4:
 /* 013F4 80B221D4 8FBF0034 */  lw      $ra, 0x0034($sp)           

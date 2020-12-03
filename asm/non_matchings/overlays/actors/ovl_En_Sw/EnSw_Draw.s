@@ -61,7 +61,7 @@ glabel EnSw_Draw
 /* 0322C 80B0EFDC 24E7EAC4 */  addiu   $a3, $a3, %lo(func_80B0EAC4) ## $a3 = 80B0EAC4
 /* 03230 80B0EFE0 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 03234 80B0EFE4 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 03238 80B0EFE8 0C028572 */  jal     SkelAnime_Draw
+/* 03238 80B0EFE8 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 0323C 80B0EFEC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 03240 80B0EFF0 8FA2002C */  lw      $v0, 0x002C($sp)           

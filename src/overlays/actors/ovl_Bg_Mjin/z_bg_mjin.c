@@ -109,15 +109,15 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (objBankIndex >= 0) {
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
-        gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
         dlist = D_06000330;
     } else {
         dlist = D_06000140;
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, dlist);
+    gSPDisplayList(POLY_OPA_DISP++, dlist);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
 }

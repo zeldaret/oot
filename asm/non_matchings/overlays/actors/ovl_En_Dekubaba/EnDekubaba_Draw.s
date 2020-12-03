@@ -50,7 +50,7 @@ glabel EnDekubaba_Draw
 /* 034D4 809E8CA4 8E06019C */  lw      $a2, 0x019C($s0)           ## 0000019C
 /* 034D8 809E8CA8 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 034DC 809E8CAC AFB80010 */  sw      $t8, 0x0010($sp)           
-/* 034E0 809E8CB0 0C028572 */  jal     SkelAnime_Draw
+/* 034E0 809E8CB0 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 034E4 809E8CB4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 034E8 809E8CB8 8E0801C0 */  lw      $t0, 0x01C0($s0)           ## 000001C0

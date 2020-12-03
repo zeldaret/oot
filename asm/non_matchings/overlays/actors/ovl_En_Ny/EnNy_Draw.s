@@ -213,7 +213,7 @@ glabel EnNy_Draw
 /* 01468 80ABE018 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 0146C 80ABE01C 27A6003C */  addiu   $a2, $sp, 0x003C           ## $a2 = FFFFFFAC
 /* 01470 80ABE020 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
-/* 01474 80ABE024 0C00A935 */  jal     func_8002A4D4              
+/* 01474 80ABE024 0C00A935 */  jal     EffectSsEnFire_SpawnVec3f              
 /* 01478 80ABE028 E7A40044 */  swc1    $f4, 0x0044($sp)           
 .L80ABE02C:
 /* 0147C 80ABE02C 8FBF002C */  lw      $ra, 0x002C($sp)           
