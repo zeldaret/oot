@@ -228,7 +228,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->requiredObject = objectIndex = Object_GetIndex(&globalCtx2->objectCtx, D_809980F0[phi_a3].objectId),
+    if (this->requiredObjBankIndex = objectIndex = Object_GetIndex(&globalCtx2->objectCtx, D_809980F0[phi_a3].objectId),
         (s8)objectIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -262,8 +262,8 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObject)) {
-        this->dyna.actor.objBankIndex = this->requiredObject;
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
+        this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
             // Init dynapoly for shutters of the type that uses it
             UNK_TYPE temp = 0;
@@ -332,7 +332,7 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
         DoorShutter_SetupAction(this, func_80997150);
         func_80080480(globalCtx, &this->dyna.actor);
         func_80080480(globalCtx, &PLAYER->actor);
-        this->unk_16F = -0x64;
+        this->unk_16F = -100;
     } else if (func_809968D4(this, globalCtx) != 0) {
         Player* player = PLAYER;
 
@@ -611,7 +611,7 @@ void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = THIS;
     Player* player = PLAYER;
 
-    if (!((s32)player->stateFlags1 & 0x100004C0) || (this->actionFunc == DoorShutter_SetupType)) {
+    if (!(player->stateFlags1 & 0x100004C0) || (this->actionFunc == DoorShutter_SetupType)) {
         this->actionFunc(this, globalCtx);
     }
 }
@@ -664,7 +664,7 @@ s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
 void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = THIS;
 
-    if (this->dyna.actor.objBankIndex == this->requiredObject &&
+    if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
         (this->unk_16B == 0 || func_80997A34(this, globalCtx) != 0)) {
         s32 pad[2];
         ShutterInfo* sp70 = &D_80998134[this->unk_16C];
