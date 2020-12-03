@@ -266,8 +266,8 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
                             this->actor.textId = 0x605E;
                             break;
                     }
-                } else if ((this->stateFlags & (ENDAIKU_STATEFLAG_GERUDOFIGHTING | ENDAIKU_STATEFLAG_GERUDODEFEATED)) ==
-                           0) {
+                } else if (!(this->stateFlags &
+                             (ENDAIKU_STATEFLAG_GERUDOFIGHTING | ENDAIKU_STATEFLAG_GERUDODEFEATED))) {
                     this->actor.textId = 0x6007;
                 }
             } else if (globalCtx->sceneNum == SCENE_TENT) {
@@ -583,7 +583,7 @@ void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, &this->actor);
+                          EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1255);
 }
