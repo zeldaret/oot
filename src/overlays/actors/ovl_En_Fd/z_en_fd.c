@@ -126,7 +126,9 @@ s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
     if ((this->actor.flags & 0x2000) == 0x2000) {
         func_8002DE04(globalCtx, &this->actor, this->actor.child);
     }
+
     this->coreActive = true;
+    
     return true;
 }
 
