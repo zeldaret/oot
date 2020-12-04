@@ -1,4 +1,4 @@
-glabel func_809FC5D0
+glabel EnDoor_Idle
 /* 00400 809FC5D0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00404 809FC5D4 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00408 809FC5D8 AFA50044 */  sw      $a1, 0x0044($sp)
@@ -13,10 +13,10 @@ glabel func_809FC5D0
 /* 0042C 809FC5FC 0C00B6F4 */  jal     func_8002DBD0
 /* 00430 809FC600 AFA8003C */  sw      $t0, 0x003C($sp)
 /* 00434 809FC604 8FA70040 */  lw      $a3, 0x0040($sp)
-/* 00438 809FC608 3C0A80A0 */  lui     $t2, %hi(func_809FC9DC)    ## $t2 = 80A00000
+/* 00438 809FC608 3C0A80A0 */  lui     $t2, %hi(EnDoor_Open)    ## $t2 = 80A00000
 /* 0043C 809FC60C 8FA8003C */  lw      $t0, 0x003C($sp)
 /* 00440 809FC610 90E90191 */  lbu     $t1, 0x0191($a3)           ## 00000191
-/* 00444 809FC614 254AC9DC */  addiu   $t2, $t2, %lo(func_809FC9DC) ## $t2 = 809FC9DC
+/* 00444 809FC614 254AC9DC */  addiu   $t2, $t2, %lo(EnDoor_Open) ## $t2 = 809FC9DC
 /* 00448 809FC618 3C0580A0 */  lui     $a1, %hi(D_809FCECC)       ## $a1 = 80A00000
 /* 0044C 809FC61C 1120002A */  beq     $t1, $zero, .L809FC6C8
 /* 00450 809FC620 8FA40044 */  lw      $a0, 0x0044($sp)
@@ -172,8 +172,8 @@ glabel func_809FC5D0
 /* 00670 809FC840 3C014370 */  lui     $at, 0x4370                ## $at = 43700000
 /* 00674 809FC844 44812000 */  mtc1    $at, $f4                   ## $f4 = 240.00
 /* 00678 809FC848 C4E80090 */  lwc1    $f8, 0x0090($a3)           ## 00000090
-/* 0067C 809FC84C 3C0A80A0 */  lui     $t2, %hi(func_809FC928)    ## $t2 = 80A00000
-/* 00680 809FC850 254AC928 */  addiu   $t2, $t2, %lo(func_809FC928) ## $t2 = 809FC928
+/* 0067C 809FC84C 3C0A80A0 */  lui     $t2, %hi(EnDoor_AjarOpen)    ## $t2 = 80A00000
+/* 00680 809FC850 254AC928 */  addiu   $t2, $t2, %lo(EnDoor_AjarOpen) ## $t2 = 809FC928
 /* 00684 809FC854 4608203C */  c.lt.s  $f4, $f8
 /* 00688 809FC858 00000000 */  nop
 /* 0068C 809FC85C 45020003 */  bc1fl   .L809FC86C

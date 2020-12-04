@@ -3499,7 +3499,7 @@ struct_801160DC D_801160DC[] = {
     { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, 0x050011F0, 0x05001100 },
 };
 
-void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
+void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
     struct_801160DC* entry;
     s32 i;
     MtxF spB0;
@@ -3508,7 +3508,7 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
     f32 temp2;
     f32 temp3;
 
-    entry = &D_801160DC[arg2];
+    entry = &D_801160DC[type];
     var = entry->unk_10;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8265);
@@ -3516,8 +3516,8 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
     Matrix_Translate(0.0f, entry->unk_08, 500.0f, MTXMODE_APPLY);
     Matrix_Get(&spB0);
 
-    temp1 = sinf(entry->unk_00 - var) * -(10 - arg1) * 0.1f * entry->unk_04;
-    temp2 = cosf(entry->unk_00 - var) * (10 - arg1) * 0.1f * entry->unk_04;
+    temp1 = sinf(entry->unk_00 - var) * -(10 - frame) * 0.1f * entry->unk_04;
+    temp2 = cosf(entry->unk_00 - var) * (10 - frame) * 0.1f * entry->unk_04;
 
     for (i = 0; i < 4; i++) {
         Matrix_Put(&spB0);
@@ -3542,7 +3542,7 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
     }
 
     Matrix_Put(&spB0);
-    Matrix_Scale(arg1 * 0.1f, arg1 * 0.1f, arg1 * 0.1f, MTXMODE_APPLY);
+    Matrix_Scale(frame * 0.1f, frame * 0.1f, frame * 0.1f, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8314),
               G_MTX_MODELVIEW | G_MTX_LOAD);

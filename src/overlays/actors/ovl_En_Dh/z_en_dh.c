@@ -5,13 +5,13 @@
 #define THIS ((EnDh*)thisx)
 
 typedef enum {
-    DH_WAIT,
-    DH_RETREAT,
-    DH_BURROW,
-    DH_WALK,
-    DH_ATTACK,
-    DH_DEATH,
-    DH_DAMAGE
+    /* 0 */ DH_WAIT,
+    /* 1 */ DH_RETREAT,
+    /* 2 */ DH_BURROW,
+    /* 3 */ DH_WALK,
+    /* 4 */ DH_ATTACK,
+    /* 5 */ DH_DEATH,
+    /* 6 */ DH_DAMAGE
 } EnDhAction;
 
 void EnDh_Init(Actor* this, GlobalContext* globalCtx);
@@ -96,7 +96,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->limbDrawTable, this->limbRotTable,
-                     16);
+                       16);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = 0xFE;
@@ -194,7 +194,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupWalk(EnDh* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f,
-                         SkelAnime_GetFrameCount(&D_06003A8C.genericHeader) - 3.0f, 0, -6.0f);
+                         SkelAnime_GetFrameCount(&D_06003A8C) - 3.0f, 0, -6.0f);
     this->curAction = DH_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
@@ -287,11 +287,11 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
         case 3:
             if ((this->actor.xzDistFromLink <= 100.0f) && (func_8002E084(&this->actor, 60 * 0x10000 / 360) != 0)) {
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f,
-                                     SkelAnime_GetFrameCount(&D_06004658.genericHeader), 2, -6.0f);
+                                     SkelAnime_GetFrameCount(&D_06004658), 2, -6.0f);
                 this->actionState = 0;
             } else {
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f,
-                                     SkelAnime_GetFrameCount(&D_06004658.genericHeader), 0.0f, 2, -4.0f);
+                                     SkelAnime_GetFrameCount(&D_06004658), 0.0f, 2, -4.0f);
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.list[0].body.toucherFlags = 0;
                 this->collider2.list[0].body.toucher.flags = this->collider2.list[0].body.toucher.damage = 0;
@@ -367,7 +367,7 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
         if (this->retreat) {
             EnDh_SetupRetreat(this, globalCtx);
         } else if ((this->actor.xzDistFromLink <= 105.0f) && func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
-            f32 frames = SkelAnime_GetFrameCount(&D_06004658.genericHeader);
+            f32 frames = SkelAnime_GetFrameCount(&D_06004658);
 
             EnDh_SetupAttack(this);
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f, frames, 2, -6.0f);
@@ -502,13 +502,13 @@ void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         POLY_OPA_DISP =
             SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                              this->skelAnime.dListCount, NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+                               this->skelAnime.dListCount, NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
         POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                          this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
+                                           this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
     }
     if (this->drawDirtWave) {
         func_80093D84(globalCtx->state.gfxCtx);
