@@ -186,14 +186,14 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->actor.params < EN_POH_SHARP) {
         this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_POH);
-        this->isComposer = false;
+        this->infoIdx = EN_POH_INFO_NORMAL;
         this->actor.naviEnemyId = 0x44;
     } else {
         this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_PO_COMPOSER);
-        this->isComposer = true;
+        this->infoIdx = EN_POH_INFO_COMPOSER;
         this->actor.naviEnemyId = 0x43;
     }
-    this->info = &sPoeInfo[this->isComposer];
+    this->info = &sPoeInfo[this->infoIdx];
     if (this->objectIdx < 0) {
         Actor_Kill(&this->actor);
     }
@@ -231,7 +231,7 @@ void func_80ADE1BC(EnPoh* this) {
 }
 
 void EnPoh_SetupAttack(EnPoh* this) {
-    if (!this->isComposer) {
+    if (this->infoIdx == EN_POH_INFO_NORMAL) {
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_060001A8, -6.0f);
     } else {
         SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600020C);
@@ -243,7 +243,7 @@ void EnPoh_SetupAttack(EnPoh* this) {
 }
 
 void func_80ADE28C(EnPoh* this) {
-    if (!this->isComposer) {
+    if (this->infoIdx == EN_POH_INFO_NORMAL) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_060004EC, -6.0f);
     } else {
         SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000570);
@@ -271,7 +271,7 @@ void func_80ADE368(EnPoh* this) {
 void EnPoh_SetupInitialAction(EnPoh* this) {
     this->lightColor.a = 0;
     this->actor.flags &= ~1;
-    if (!this->isComposer) {
+    if (this->infoIdx == EN_POH_INFO_NORMAL) {
         SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_060011C4, 0.0f);
         this->actionFunc = func_80ADEF38;
     } else {
@@ -331,7 +331,7 @@ void EnPoh_SetupDeath(EnPoh* this, GlobalContext* globalCtx) {
     this->actor.gravity = -1.0f;
     this->actor.shape.unk_08 = 1500.0f;
     this->actor.posRot.pos.y -= 15.0f;
-    if (this->isComposer != true) {
+    if (this->infoIdx != EN_POH_INFO_COMPOSER) {
         this->actor.shape.rot.x = -0x8000;
     }
     Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 8);
@@ -671,7 +671,7 @@ void EnPoh_Death(EnPoh* this, GlobalContext* globalCtx) {
         this->unk_198--;
     }
     if (this->actor.bgCheckFlags & 1) {
-        objId = (this->isComposer == true) ? OBJECT_PO_COMPOSER : OBJECT_POH;
+        objId = (this->infoIdx == EN_POH_INFO_COMPOSER) ? OBJECT_PO_COMPOSER : OBJECT_POH;
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 6.0f, 0, 1, 1, 15, objId, 10, this->info->unk_1C);
         func_80ADE6D4(this);
     } else if (this->unk_198 == 0) {
@@ -737,9 +737,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
     this->actor.posRot.pos.y = Math_Sins(this->unk_195 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
-    if (this->unk_195 != 0) {
-        this->unk_195--;
-    }
+    DECR(this->unk_195);
     if (this->unk_195 == 0) {
         this->unk_195 = 32;
     }
@@ -863,7 +861,7 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->objectIdx;
         this->actor.update = EnPoh_UpdateLiving;
         Actor_SetObjectDependency(globalCtx, &this->actor);
-        if (!this->isComposer) {
+        if (this->infoIdx == EN_POH_INFO_NORMAL) {
             SkelAnime_Init(globalCtx, &this->skelAnime, &D_060050D0, &D_06000A60, this->limbDrawTable,
                            this->transitionDrawTable, 21);
             this->actor.draw = EnPoh_DrawRegular;
@@ -985,7 +983,7 @@ s32 EnPoh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     } else if (this->actor.params == EN_POH_FLAT && limbIndex == 0xA) {
         *dList = D_06004638;
     }
-    if (limbIndex == 0x13 && !this->isComposer) {
+    if (limbIndex == 0x13 && this->infoIdx == EN_POH_INFO_NORMAL) {
         gDPPipeSync((*gfxP)++);
         gDPSetEnvColor((*gfxP)++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
     }
@@ -1030,12 +1028,12 @@ void EnPoh_DrawRegular(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
         gSPSegment(POLY_OPA_DISP++, 0x08, D_80116280 + 2);
         POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                       EnPoh_OverrideLimbDraw2, EnPoh_PostLimbDraw2, &this->actor, POLY_OPA_DISP);
+                                       EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->lightColor.a);
         gSPSegment(POLY_XLU_DISP++, 0x08, D_80116280);
         POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                       EnPoh_OverrideLimbDraw2, EnPoh_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
+                                       EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
@@ -1071,7 +1069,7 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
                    Gfx_EnvColor(globalCtx->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80116280 + 2);
         POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                           this->skelAnime.dListCount, EnPoh_OverrideLimbDraw2, EnPoh_PostLimbDraw2,
+                                           this->skelAnime.dListCount, EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw,
                                            &this->actor, POLY_OPA_DISP);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);
@@ -1085,7 +1083,7 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
                    Gfx_EnvColor(globalCtx->state.gfxCtx, phi_t0->r, phi_t0->g, phi_t0->b, this->lightColor.a));
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
         POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                           this->skelAnime.dListCount, EnPoh_OverrideLimbDraw2, EnPoh_PostLimbDraw2,
+                                           this->skelAnime.dListCount, EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw,
                                            &this->actor, POLY_XLU_DISP);
     }
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1124,7 +1122,7 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2854),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, this->info->unk_1C);
-        if (this->isComposer == true) {
+        if (this->infoIdx == EN_POH_INFO_COMPOSER) {
             Color_RGBA8* envColor = (this->actor.params == EN_POH_SHARP) ? &D_80AE1B4C : &D_80AE1B50;
             s32 pad;
             gSPDisplayList(POLY_OPA_DISP++, D_06004498);

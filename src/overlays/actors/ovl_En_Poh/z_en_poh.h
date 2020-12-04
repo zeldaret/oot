@@ -15,6 +15,11 @@ typedef enum {
     EN_POH_FLAT
 } EnPohType;
 
+typedef enum {
+    EN_POH_INFO_NORMAL,
+    EN_POH_INFO_COMPOSER
+} EnPohInfoType;
+
 typedef struct {
     /* 0x0000 */ Color_RGB8 primColor;
     /* 0x0003 */ Color_RGB8 lightColor;
@@ -37,7 +42,7 @@ typedef struct EnPoh {
     /* 0x0194 */ u8 unk_194;
     /* 0x0195 */ u8 unk_195;
     /* 0x0196 */ s8 objectIdx;
-    /* 0x0197 */ u8 isComposer;
+    /* 0x0197 */ u8 infoIdx;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 visibilityTimer;
     /* 0x019C */ s16 unk_19C;

@@ -52,15 +52,14 @@ extern Gfx D_06004BA0[];
 extern Gfx D_06004CC0[];
 
 void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ColliderCylinder* collider;
+    s32 pad;
     EnPoDesert* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06006A30, &D_06000924, this->limbDrawTable,
                    this->transitionDrawTable, 10);
-    collider = &this->collider;
-    Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &sColliderInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColliderInit);
     this->lightColor.r = 255;
     this->lightColor.g = 255;
     this->lightColor.b = 210;
@@ -260,6 +259,6 @@ void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280 + 2);
     }
     POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                   EnPoDesert_OverrideLimbDraw2, EnPoDesert_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
+                                   EnPoDesert_OverrideLimbDraw, EnPoDesert_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 597);
 }

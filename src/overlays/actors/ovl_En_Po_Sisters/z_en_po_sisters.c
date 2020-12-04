@@ -283,7 +283,7 @@ void func_80AD96A4(EnPoSisters* this) {
 }
 
 void func_80AD9718(EnPoSisters* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C.genericHeader),
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C),
                          2, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->unk_19C = 100;
@@ -314,7 +314,7 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD98F4(EnPoSisters* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C.genericHeader),
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C),
                          2, -3.0f);
     if (this->unk_194 == 0) {
         this->unk_294 = 110.0f;
@@ -408,7 +408,7 @@ void func_80AD9D44(EnPoSisters* this) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
     } else {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 0.5f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_0600119C.genericHeader), 3, 0.0f);
+                             SkelAnime_GetFrameCount(&D_0600119C), 3, 0.0f);
     }
     this->unk_22E.a = 0;
     this->unk_199 = 32;
@@ -425,7 +425,7 @@ void func_80AD9DF0(EnPoSisters* this, GlobalContext* globalCtx) {
 
 void func_80AD9E60(EnPoSisters* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000D40, -3.0f);
-    this->unk_19A = SkelAnime_GetFrameCount(&D_06000D40.genericHeader) * 7 + 7;
+    this->unk_19A = SkelAnime_GetFrameCount(&D_06000D40) * 7 + 7;
     if (this->actor.parent != NULL) {
         this->actor.posRot.pos = this->actor.parent->posRot.pos;
         this->actor.shape.rot.y = this->actor.parent->shape.rot.y;
@@ -494,7 +494,7 @@ void func_80ADA10C(EnPoSisters* this) {
 
 void func_80ADA1B8(EnPoSisters* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 0.833f, 0.0f,
-                         SkelAnime_GetFrameCount(&D_0600119C.genericHeader), 3, 0.0f);
+                         SkelAnime_GetFrameCount(&D_0600119C), 3, 0.0f);
     if (this->unk_194 == 0 || this->unk_194 == 1) {
         this->unk_19A = 40;
     } else {
@@ -1323,13 +1323,13 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 2);
         POLY_OPA_DISP =
             SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                           EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_OPA_DISP);
+                           EnPoSisters_OverrideLimbDraw, EnPoSisters_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, this->unk_22E.a);
         gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
         POLY_XLU_DISP =
             SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                           EnPoSisters_OverrideLimbDraw2, EnPoSisters_PostLimbDraw2, &this->actor, POLY_XLU_DISP);
+                           EnPoSisters_OverrideLimbDraw, EnPoSisters_PostLimbDraw, &this->actor, POLY_XLU_DISP);
     }
     if (!(this->unk_199 & 0x80)) {
         Matrix_Put(&this->unk_2F8);
