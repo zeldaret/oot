@@ -306,7 +306,6 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
     s32 phi_t1;
     s32 phi_v0;
     s32 phi_a0;
-    u32 zero;
     f32 animCurrentFrame;
     f32 unk_278;
 
@@ -366,34 +365,24 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
             phi_v0 = 0;
         }
 
-        zero = 0;
         if (arg2 == 2) {
             if ((this->action == 5) || (this->action == 30)) {
                 animCurrentFrame = this->skelAnime.animCurrentFrame;
                 unk_278 = this->unk_278;
                 temp_t0 = (s32)((3500.0f * animCurrentFrame) / unk_278) + phi_a0;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
             } else if ((this->action == 6) || (this->action == 31)) {
                 temp_t0 = phi_a0 + 0xDAC;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
             } else if (this->action == 20) {
                 temp_t0 = phi_a0 - 0x3E8;
                 if (temp_t0 >= temp_v1) {
-                    if (phi_v0 < zero) {
-                        phi_v0 += 1;
-                    }
                     temp_v1 = temp_t0;
                     phi_v0 /= -2;
                 }
