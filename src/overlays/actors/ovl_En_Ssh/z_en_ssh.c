@@ -598,7 +598,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTbl, this->transDrawTable, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTbl, this->morphTbl, 30);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
     this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
     EnSsh_InitColliders(this, globalCtx);
