@@ -63,7 +63,7 @@ glabel func_80931D5C
 /* 0586C 80931E3C 00000000 */  nop
 /* 05870 80931E40 8FA40020 */  lw      $a0, 0x0020($sp)           
 .L80931E44:
-/* 05874 80931E44 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 05874 80931E44 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 05878 80931E48 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0587C 80931E4C 10400003 */  beq     $v0, $zero, .L80931E5C     
 /* 05880 80931E50 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

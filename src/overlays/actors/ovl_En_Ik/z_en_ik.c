@@ -908,22 +908,22 @@ void EnIk_StartMusic(void) {
 }
 
 void func_80A76C14(EnIk* this) {
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 1.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 1.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-    } else if (SkelAnime_StopAtFrame(&this->skelAnime, 33.0f)) {
+    } else if (SkelAnime_IsOnFrame(&this->skelAnime, 33.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-    } else if (SkelAnime_StopAtFrame(&this->skelAnime, 68.0f) || SkelAnime_StopAtFrame(&this->skelAnime, 80.0f)) {
+    } else if (SkelAnime_IsOnFrame(&this->skelAnime, 68.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 80.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-    } else if (SkelAnime_StopAtFrame(&this->skelAnime, 107.0f)) {
+    } else if (SkelAnime_IsOnFrame(&this->skelAnime, 107.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-    } else if (SkelAnime_StopAtFrame(&this->skelAnime, 156.0f)) {
+    } else if (SkelAnime_IsOnFrame(&this->skelAnime, 156.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-    } else if (SkelAnime_StopAtFrame(&this->skelAnime, 188.0f)) {
+    } else if (SkelAnime_IsOnFrame(&this->skelAnime, 188.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }

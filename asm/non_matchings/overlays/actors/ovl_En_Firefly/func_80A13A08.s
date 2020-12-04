@@ -22,7 +22,7 @@ glabel func_80A13A08
 /* 009C4 80A13A34 246EFFFF */  addiu   $t6, $v1, 0xFFFF           ## $t6 = FFFFFFFF
 /* 009C8 80A13A38 A60E01BA */  sh      $t6, 0x01BA($s0)           ## 000001BA
 .L80A13A3C:
-/* 009CC 80A13A3C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 009CC 80A13A3C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 009D0 80A13A40 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 009D4 80A13A44 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

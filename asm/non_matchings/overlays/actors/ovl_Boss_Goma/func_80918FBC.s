@@ -16,7 +16,7 @@ glabel func_80918FBC
 /* 035DC 80918FEC 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 035E0 80918FF0 46802120 */  cvt.s.w $f4, $f4                   
 /* 035E4 80918FF4 44052000 */  mfc1    $a1, $f4                   
-/* 035E8 80918FF8 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 035E8 80918FF8 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 035EC 80918FFC 00000000 */  nop
 /* 035F0 80919000 50400005 */  beql    $v0, $zero, .L80919018     
 /* 035F4 80919004 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001

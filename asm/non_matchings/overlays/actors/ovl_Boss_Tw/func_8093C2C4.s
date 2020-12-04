@@ -189,7 +189,7 @@ glabel func_8093C2C4
 .L8093C558:
 /* 03888 8093C558 14600007 */  bne     $v1, $zero, .L8093C578
 /* 0388C 8093C55C 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 03890 8093C560 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 03890 8093C560 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 03894 8093C564 8E0501A4 */  lw      $a1, 0x01A4($s0)           ## 000001A4
 /* 03898 8093C568 10400003 */  beq     $v0, $zero, .L8093C578
 /* 0389C 8093C56C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

@@ -21,7 +21,7 @@ glabel func_8092DFFC
 /* 01A54 8092E024 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 01A58 8092E028 55C0000D */  bnel    $t6, $zero, .L8092E060     
 /* 01A5C 8092E02C 3C014234 */  lui     $at, 0x4234                ## $at = 42340000
-/* 01A60 8092E030 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 01A60 8092E030 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 01A64 8092E034 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 01A68 8092E038 10400008 */  beq     $v0, $zero, .L8092E05C     
 /* 01A6C 8092E03C 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001

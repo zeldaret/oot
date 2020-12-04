@@ -15,7 +15,7 @@ glabel func_808C3094
 /* 01F30 808C30C0 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 01F34 808C30C4 46802120 */  cvt.s.w $f4, $f4                   
 /* 01F38 808C30C8 44052000 */  mfc1    $a1, $f4                   
-/* 01F3C 808C30CC 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 01F3C 808C30CC 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 01F40 808C30D0 00000000 */  nop
 /* 01F44 808C30D4 50400004 */  beql    $v0, $zero, .L808C30E8     
 /* 01F48 808C30D8 8FBF0014 */  lw      $ra, 0x0014($sp)           

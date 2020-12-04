@@ -563,7 +563,7 @@ glabel func_8093C910
 /* 0440C 8093D0DC E5600050 */  swc1    $f0, 0x0050($t3)           ## 80950050
 .L8093D0E0:
 /* 04410 8093D0E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06038E2C
-/* 04414 8093D0E4 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 04414 8093D0E4 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 04418 8093D0E8 8E2501A4 */  lw      $a1, 0x01A4($s1)           ## 000001A4
 /* 0441C 8093D0EC 10400005 */  beq     $v0, $zero, .L8093D104
 /* 04420 8093D0F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06038E2C

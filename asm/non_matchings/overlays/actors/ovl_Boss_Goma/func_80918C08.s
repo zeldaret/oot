@@ -50,7 +50,7 @@ glabel func_80918C08
 /* 03290 80918CA0 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 03294 80918CA4 46804220 */  cvt.s.w $f8, $f8                   
 /* 03298 80918CA8 44054000 */  mfc1    $a1, $f8                   
-/* 0329C 80918CAC 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 0329C 80918CAC 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 032A0 80918CB0 00000000 */  nop
 /* 032A4 80918CB4 1040000E */  beq     $v0, $zero, .L80918CF0     
 /* 032A8 80918CB8 3C01437A */  lui     $at, 0x437A                ## $at = 437A0000

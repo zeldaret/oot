@@ -725,7 +725,7 @@ glabel L8093DC4C
 .L8093DF24:
 /* 05254 8093DF24 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 05258 8093DF28 8E2501A4 */  lw      $a1, 0x01A4($s1)           ## 000001A4
-/* 0525C 8093DF2C 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 0525C 8093DF2C 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 05260 8093DF30 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05264 8093DF34 1040000A */  beq     $v0, $zero, .L8093DF60
 /* 05268 8093DF38 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
@@ -851,7 +851,7 @@ glabel L8093DC4C
 /* 05420 8093E0F0 A60D00B6 */  sh      $t5, 0x00B6($s0)           ## 000000B7
 /* 05424 8093E0F4 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 05428 8093E0F8 8E2501A4 */  lw      $a1, 0x01A4($s1)           ## 000001A4
-/* 0542C 8093E0FC 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 0542C 8093E0FC 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 05430 8093E100 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05434 8093E104 104002F9 */  beq     $v0, $zero, .L8093ECEC
 /* 05438 8093E108 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
@@ -1253,7 +1253,7 @@ glabel L8093E3E8
 .L8093E6B4:
 /* 059E4 8093E6B4 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 059E8 8093E6B8 8E2501A4 */  lw      $a1, 0x01A4($s1)           ## 000001A4
-/* 059EC 8093E6BC 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 059EC 8093E6BC 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 059F0 8093E6C0 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 059F4 8093E6C4 1040000A */  beq     $v0, $zero, .L8093E6F0
 /* 059F8 8093E6C8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
@@ -1351,7 +1351,7 @@ glabel L8093E3E8
 /* 05B44 8093E814 A61800B6 */  sh      $t8, 0x00B6($s0)           ## 000000B7
 /* 05B48 8093E818 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 05B4C 8093E81C 8E2501A4 */  lw      $a1, 0x01A4($s1)           ## 000001A4
-/* 05B50 8093E820 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 05B50 8093E820 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 05B54 8093E824 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05B58 8093E828 10400130 */  beq     $v0, $zero, .L8093ECEC
 /* 05B5C 8093E82C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000

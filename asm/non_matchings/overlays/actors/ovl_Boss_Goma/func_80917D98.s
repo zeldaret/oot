@@ -111,7 +111,7 @@ glabel func_80917D98
               
 /* 02474 80917E84 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 02478 80917E88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 0000014C
-/* 0247C 80917E8C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 0247C 80917E8C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 02480 80917E90 3C0542D6 */  lui     $a1, 0x42D6                ## $a1 = 42D60000
 /* 02484 80917E94 1040000A */  beq     $v0, $zero, .L80917EC0     
 /* 02488 80917E98 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000

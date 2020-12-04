@@ -16,11 +16,11 @@ glabel func_809F3CD0
               
 /* 00A44 809F3D04 24071388 */  addiu   $a3, $zero, 0x1388         ## $a3 = 00001388
 /* 00A48 809F3D08 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00A4C 809F3D0C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00A4C 809F3D0C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00A50 809F3D10 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00A54 809F3D14 14400004 */  bne     $v0, $zero, .L809F3D28     
 /* 00A58 809F3D18 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00A5C 809F3D1C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00A5C 809F3D1C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00A60 809F3D20 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 00A64 809F3D24 10400003 */  beq     $v0, $zero, .L809F3D34     
 .L809F3D28:

@@ -643,7 +643,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     }
     this->rewardTimer++;
 
-    if (SkelAnime_StopAtFrame(&this->skelAnim, this->skelAnim.lastFrame) != 0) {
+    if (SkelAnime_IsOnFrame(&this->skelAnim, this->skelAnim.lastFrame) != 0) {
         if (this->currentReward < 0) {
             /* "Nope, nothing here!" */
             func_8010B680(globalCtx, 0x501A, NULL);

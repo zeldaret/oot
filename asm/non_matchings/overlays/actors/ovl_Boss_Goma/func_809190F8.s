@@ -9,7 +9,7 @@ glabel func_809190F8
 /* 03700 80919110 AFA4001C */  sw      $a0, 0x001C($sp)           
 /* 03704 80919114 8FAE0020 */  lw      $t6, 0x0020($sp)           
 /* 03708 80919118 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0370C 8091911C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 0370C 8091911C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 03710 80919120 8DC5021C */  lw      $a1, 0x021C($t6)           ## 0000021C
 /* 03714 80919124 50400007 */  beql    $v0, $zero, .L80919144     
 /* 03718 80919128 8FBF0014 */  lw      $ra, 0x0014($sp)           

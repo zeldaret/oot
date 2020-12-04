@@ -26,7 +26,7 @@ glabel func_808DD14C
 /* 06934 808DD1A4 A21902E4 */  sb      $t9, 0x02E4($s0)           ## 000002E4
 .L808DD1A8:
 /* 06938 808DD1A8 8FA40024 */  lw      $a0, 0x0024($sp)
-/* 0693C 808DD1AC 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 0693C 808DD1AC 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 06940 808DD1B0 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 06944 808DD1B4 10400010 */  beq     $v0, $zero, .L808DD1F8
 /* 06948 808DD1B8 3C08808E */  lui     $t0, %hi(func_808DCB7C)    ## $t0 = 808E0000

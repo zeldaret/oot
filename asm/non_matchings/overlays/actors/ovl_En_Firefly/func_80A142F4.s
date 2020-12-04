@@ -22,7 +22,7 @@ glabel func_80A142F4
               
 /* 012BC 80A1432C AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 012C0 80A14330 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 012C4 80A14334 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 012C4 80A14334 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 012C8 80A14338 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 012CC 80A1433C 50400010 */  beql    $v0, $zero, .L80A14380     
 /* 012D0 80A14340 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000

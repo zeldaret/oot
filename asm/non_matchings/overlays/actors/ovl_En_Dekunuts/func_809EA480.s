@@ -9,7 +9,7 @@ glabel func_809EA480
               
 /* 00F3C 809EA49C AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00F40 809EA4A0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00F44 809EA4A4 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00F44 809EA4A4 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00F48 809EA4A8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00F4C 809EA4AC 10400005 */  beq     $v0, $zero, .L809EA4C4     
 /* 00F50 809EA4B0 8FA60020 */  lw      $a2, 0x0020($sp)           

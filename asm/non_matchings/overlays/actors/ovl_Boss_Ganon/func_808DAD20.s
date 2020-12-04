@@ -294,7 +294,7 @@ glabel L808DB0D8
 
 /* 04890 808DB100 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 04894 808DB104 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
-/* 04898 808DB108 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 04898 808DB108 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 0489C 808DB10C 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 048A0 808DB110 1040002A */  beq     $v0, $zero, .L808DB1BC
 /* 048A4 808DB114 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
@@ -339,7 +339,7 @@ glabel L808DB174
 
 /* 0492C 808DB19C 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 04930 808DB1A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
-/* 04934 808DB1A4 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 04934 808DB1A4 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 04938 808DB1A8 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 0493C 808DB1AC 10400003 */  beq     $v0, $zero, .L808DB1BC
 /* 04940 808DB1B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

@@ -10,11 +10,11 @@ glabel func_809E6ED4
               
 /* 01724 809E6EF4 AFAE0034 */  sw      $t6, 0x0034($sp)           
 /* 01728 809E6EF8 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0172C 809E6EFC 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 0172C 809E6EFC 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 01730 809E6F00 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01734 809E6F04 14400005 */  bne     $v0, $zero, .L809E6F1C     
 /* 01738 809E6F08 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0173C 809E6F0C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 0173C 809E6F0C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 01740 809E6F10 3C054140 */  lui     $a1, 0x4140                ## $a1 = 41400000
 /* 01744 809E6F14 5040000D */  beql    $v0, $zero, .L809E6F4C     
 /* 01748 809E6F18 860201C6 */  lh      $v0, 0x01C6($s0)           ## 000001C6

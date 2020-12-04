@@ -24,7 +24,7 @@ glabel func_809E9B98
 .L809E9BEC:
 /* 0068C 809E9BEC AFA3002C */  sw      $v1, 0x002C($sp)           
 .L809E9BF0:
-/* 00690 809E9BF0 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00690 809E9BF0 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00694 809E9BF4 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 00698 809E9BF8 3C014110 */  lui     $at, 0x4110                ## $at = 41100000
 /* 0069C 809E9BFC 44816000 */  mtc1    $at, $f12                  ## $f12 = 9.00
@@ -35,7 +35,7 @@ glabel func_809E9B98
 /* 006B0 809E9C10 1000000C */  beq     $zero, $zero, .L809E9C44   
 /* 006B4 809E9C14 A21802D9 */  sb      $t8, 0x02D9($s0)           ## 000002D9
 .L809E9C18:
-/* 006B8 809E9C18 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 006B8 809E9C18 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 006BC 809E9C1C 3C054100 */  lui     $a1, 0x4100                ## $a1 = 41000000
 /* 006C0 809E9C20 3C014110 */  lui     $at, 0x4110                ## $at = 41100000
 /* 006C4 809E9C24 44816000 */  mtc1    $at, $f12                  ## $f12 = 9.00

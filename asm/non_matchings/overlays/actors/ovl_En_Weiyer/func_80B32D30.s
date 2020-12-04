@@ -9,7 +9,7 @@ glabel func_80B32D30
               
 /* 00ABC 80B32D4C AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 00AC0 80B32D50 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 00AC4 80B32D54 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00AC4 80B32D54 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00AC8 80B32D58 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00ACC 80B32D5C 10400003 */  beq     $v0, $zero, .L80B32D6C     
 /* 00AD0 80B32D60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

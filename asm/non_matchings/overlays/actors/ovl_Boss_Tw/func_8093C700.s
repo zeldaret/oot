@@ -31,7 +31,7 @@ glabel func_8093C700
               
 /* 03A98 8093C768 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 03A9C 8093C76C 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 03AA0 8093C770 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 03AA0 8093C770 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 03AA4 8093C774 8E0501A4 */  lw      $a1, 0x01A4($s0)           ## 000001A4
 /* 03AA8 8093C778 10400003 */  beq     $v0, $zero, .L8093C788     
 /* 03AAC 8093C77C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

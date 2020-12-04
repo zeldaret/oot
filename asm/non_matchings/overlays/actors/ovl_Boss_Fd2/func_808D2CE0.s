@@ -284,7 +284,7 @@ glabel func_808D2CE0
 .L808D3048:
 /* 009D8 808D3048 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000001
 .L808D304C:
-/* 009DC 808D304C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 009DC 808D304C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 009E0 808D3050 8E4501F0 */  lw      $a1, 0x01F0($s2)           ## 000001F0
 /* 009E4 808D3054 10400003 */  beq     $v0, $zero, .L808D3064     
 /* 009E8 808D3058 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000

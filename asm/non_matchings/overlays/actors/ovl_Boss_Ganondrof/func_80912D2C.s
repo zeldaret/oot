@@ -268,7 +268,7 @@ glabel L80912FB4
 /* 0299C 80912FDC 1000002B */  beq     $zero, $zero, .L8091308C
 /* 029A0 80912FE0 86450194 */  lh      $a1, 0x0194($s2)           ## 00000194
 .L80912FE4:
-/* 029A4 80912FE4 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 029A4 80912FE4 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 029A8 80912FE8 8E4501D0 */  lw      $a1, 0x01D0($s2)           ## 000001D0
 /* 029AC 80912FEC 10400026 */  beq     $v0, $zero, .L80913088
 /* 029B0 80912FF0 3C100601 */  lui     $s0, 0x0601                ## $s0 = 06010000
@@ -294,7 +294,7 @@ glabel L80912FB4
 /* 029F8 80913038 10000013 */  beq     $zero, $zero, .L80913088
 /* 029FC 8091303C A65801A2 */  sh      $t8, 0x01A2($s2)           ## 000001A2
 .L80913040:
-/* 02A00 80913040 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 02A00 80913040 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 02A04 80913044 8E4501D0 */  lw      $a1, 0x01D0($s2)           ## 000001D0
 /* 02A08 80913048 1040000D */  beq     $v0, $zero, .L80913080
 /* 02A0C 8091304C 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000

@@ -437,15 +437,15 @@ void EnFloormas_Stand(EnFloormas* this, GlobalContext* globalCtx) {
 void EnFloormas_BigWalk(EnFloormas* this, GlobalContext* globalCtx) {
     s32 animPastFrame;
     SkelAnime_Update(&this->skelAnime);
-    animPastFrame = SkelAnime_StopAtFrame(&this->skelAnime, 0.0f);
+    animPastFrame = SkelAnime_IsOnFrame(&this->skelAnime, 0.0f);
     if (animPastFrame) {
         if (this->actionTimer != 0) {
             this->actionTimer--;
         }
     }
-    if (((animPastFrame || (SkelAnime_StopAtFrame(&this->skelAnime, 12.0f))) ||
-         (SkelAnime_StopAtFrame(&this->skelAnime, 24.0f) != 0)) ||
-        (SkelAnime_StopAtFrame(&this->skelAnime, 36.0f) != 0)) {
+    if (((animPastFrame || (SkelAnime_IsOnFrame(&this->skelAnime, 12.0f))) ||
+         (SkelAnime_IsOnFrame(&this->skelAnime, 24.0f) != 0)) ||
+        (SkelAnime_IsOnFrame(&this->skelAnime, 36.0f) != 0)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
@@ -472,9 +472,9 @@ void EnFloormas_BigStopWalk(EnFloormas* this, GlobalContext* globalCtx) {
 
 void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((((SkelAnime_StopAtFrame(&this->skelAnime, 0.0f)) || (SkelAnime_StopAtFrame(&this->skelAnime, 12.0f))) ||
-         (SkelAnime_StopAtFrame(&this->skelAnime, 24.0f))) ||
-        (SkelAnime_StopAtFrame(&this->skelAnime, 36.0f))) {
+    if ((((SkelAnime_IsOnFrame(&this->skelAnime, 0.0f)) || (SkelAnime_IsOnFrame(&this->skelAnime, 12.0f))) ||
+         (SkelAnime_IsOnFrame(&this->skelAnime, 24.0f))) ||
+        (SkelAnime_IsOnFrame(&this->skelAnime, 36.0f))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 
@@ -497,8 +497,8 @@ void EnFloormas_Turn(EnFloormas* this, GlobalContext* globalCtx) {
         EnFloormas_SetupStand(this);
     }
 
-    if (((this->skelAnime.playSpeed > 0.0f) && SkelAnime_StopAtFrame(&this->skelAnime, 21.0f)) ||
-        ((this->skelAnime.playSpeed < 0.0f) && SkelAnime_StopAtFrame(&this->skelAnime, 6.0f))) {
+    if (((this->skelAnime.playSpeed > 0.0f) && SkelAnime_IsOnFrame(&this->skelAnime, 21.0f)) ||
+        ((this->skelAnime.playSpeed < 0.0f) && SkelAnime_IsOnFrame(&this->skelAnime, 6.0f))) {
         if (this->actor.scale.x > 0.004f) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
         } else {
@@ -646,7 +646,7 @@ void EnFloormas_SmWalk(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     DECR(this->smActionTimer);
 
-    if ((SkelAnime_StopAtFrame(&this->skelAnime, 0.0f)) || (SkelAnime_StopAtFrame(&this->skelAnime, 18.0f))) {
+    if ((SkelAnime_IsOnFrame(&this->skelAnime, 0.0f)) || (SkelAnime_IsOnFrame(&this->skelAnime, 18.0f))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_WALK);
     }
 
@@ -665,7 +665,7 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     s32 isAgainstWall;
 
     SkelAnime_Update(&this->skelAnime);
-    if ((SkelAnime_StopAtFrame(&this->skelAnime, 0.0f)) || (SkelAnime_StopAtFrame(&this->skelAnime, 18.0f))) {
+    if ((SkelAnime_IsOnFrame(&this->skelAnime, 0.0f)) || (SkelAnime_IsOnFrame(&this->skelAnime, 18.0f))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_WALK);
     }
     isAgainstWall = this->actor.bgCheckFlags & 8;
@@ -711,7 +711,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame < 20.0f) {
         Math_SmoothScaleMaxS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xE38);
-    } else if (SkelAnime_StopAtFrame(&this->skelAnime, 20.0f)) {
+    } else if (SkelAnime_IsOnFrame(&this->skelAnime, 20.0f)) {
         this->actor.speedXZ = 5.0f;
         this->actor.velocity.y = 7.0f;
     } else if (this->actor.bgCheckFlags & 2) {
@@ -805,7 +805,7 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
         }
         return;
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 20.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 20.0f)) {
         this->actor.speedXZ = 5.0f;
         this->actor.velocity.y = 7.0f;
     } else if (this->skelAnime.curFrame < 20.0f) {
@@ -910,7 +910,7 @@ void EnFloormas_TakeDamage(EnFloormas* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 13.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 13.0f)) {
         if (this->actor.scale.x > 0.004f) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         } else {

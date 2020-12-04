@@ -622,7 +622,7 @@ void func_80B4FD90(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4FDD4(EnZl2* this) {
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 14.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 14.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
@@ -1467,7 +1467,7 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
     u32 sfxId;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((SkelAnime_StopAtFrame(skelAnime, 6.0f)) || (SkelAnime_StopAtFrame(skelAnime, 0.0f))) {
+    if ((SkelAnime_IsOnFrame(skelAnime, 6.0f)) || (SkelAnime_IsOnFrame(skelAnime, 0.0f))) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
             sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);

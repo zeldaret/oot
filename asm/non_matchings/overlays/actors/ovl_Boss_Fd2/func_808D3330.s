@@ -13,7 +13,7 @@ glabel func_808D3330
               
 /* 00CEC 808D335C AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 00CF0 808D3360 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 00CF4 808D3364 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00CF4 808D3364 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00CF8 808D3368 8E0501F0 */  lw      $a1, 0x01F0($s0)           ## 000001F0
 /* 00CFC 808D336C 1040001F */  beq     $v0, $zero, .L808D33EC     
 /* 00D00 808D3370 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001

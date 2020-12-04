@@ -121,7 +121,7 @@ glabel L808637D4
 /* 041D4 80863824 8E0601A8 */  lw      $a2, 0x01A8($s0)           ## 000001A8
 /* 041D8 80863828 8E0704C8 */  lw      $a3, 0x04C8($s0)           ## 000004C8
 /* 041DC 8086382C AFAC0010 */  sw      $t4, 0x0010($sp)
-/* 041E0 80863830 0C028D52 */  jal     AnimationContext_SetVec3sCopyTrue
+/* 041E0 80863830 0C028D52 */  jal     AnimationContext_SetCopyTrue
 /* 041E4 80863834 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 041E8 80863838 920D07DE */  lbu     $t5, 0x07DE($s0)           ## 000007DE
 /* 041EC 8086383C 25AE0001 */  addiu   $t6, $t5, 0x0001           ## $t6 = 00000001

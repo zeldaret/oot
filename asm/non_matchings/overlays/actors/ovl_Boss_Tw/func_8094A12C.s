@@ -16,7 +16,7 @@ glabel func_8094A12C
 
 /* 11490 8094A160 3C0740A0 */  lui     $a3, 0x40A0                ## $a3 = 40A00000
 /* 11494 8094A164 8FA40024 */  lw      $a0, 0x0024($sp)
-/* 11498 8094A168 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 11498 8094A168 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 1149C 8094A16C 8E0501A4 */  lw      $a1, 0x01A4($s0)           ## 000001A4
 /* 114A0 8094A170 10400008 */  beq     $v0, $zero, .L8094A194
 /* 114A4 8094A174 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000

@@ -74,8 +74,7 @@ void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 22.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTbl,
-                   this->morphTbl, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002A40, &D_060002B8, this->jointTbl, this->morphTbl, 8);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sBodyColliderInit);
     Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
@@ -236,7 +235,7 @@ void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
         this->actor.params--;
     }
 
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 0.0f) || SkelAnime_StopAtFrame(&this->skelAnime, 12.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 0.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 12.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
 
@@ -260,7 +259,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 0.0f) || SkelAnime_StopAtFrame(&this->skelAnime, 12.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 0.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 12.0f)) {
         if (1) {} // Here for matching purposes only.
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);

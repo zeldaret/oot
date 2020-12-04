@@ -26,6 +26,12 @@ typedef enum {
     ANIMMODE_LOOP_PARTIAL_INTERP
 } AnimationModes;
 
+typedef enum {
+    ANIMTAPER_DECEL = -1,
+    ANIMTAPER_NONE,
+    ANIMTAPER_ACCEL
+} AnimationTapers;
+
 typedef struct {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
@@ -108,26 +114,26 @@ typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx
                              Gfx** gfx);
 
 typedef enum {
-    ANIMENTRY_LOADLINK,
+    ANIMENTRY_LOADFRAME,
     ANIMENTRY_COPYALL,
     ANIMENTRY_INTERP,
     ANIMENTRY_COPYTRUE,
     ANIMENTRY_COPYFALSE,
-    ANIMENTRY_TYPE5
+    ANIMENTRY_MOVEACTOR
 } AnimationType;
 
 typedef struct {
     /* 0x000 */ DmaRequest req;
     /* 0x020 */ OSMesgQueue msgQueue;
     /* 0x038 */ OSMesg msg;
-} AnimEntryLoadLinkData;
+} AnimEntryLoadFrame; // size = 0x3C
 
 typedef struct {
     /* 0x000 */ u8 queueFlag;
     /* 0x001 */ u8 vecCount;
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
-} AnimEntryCopyAll;
+} AnimEntryCopyAll; // size = 0xC
 
 typedef struct {
     /* 0x000 */ u8 queueFlag;
@@ -135,7 +141,7 @@ typedef struct {
     /* 0x004 */ Vec3s* base;
     /* 0x008 */ Vec3s* mod;
     /* 0x00C */ f32 weight;
-} AnimEntryInterp;
+} AnimEntryInterp; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 queueFlag;
@@ -143,7 +149,7 @@ typedef struct {
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
     /* 0x00C */ u8* copyFlag;
-} AnimEntryCopyTrue;
+} AnimEntryCopyTrue; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 queueFlag;
@@ -151,27 +157,22 @@ typedef struct {
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
     /* 0x00C */ u8* copyFlag;
-} AnimEntryCopyFalse;
+} AnimEntryCopyFalse; // size = 0x10
 
 typedef struct {
     /* 0x000 */ struct Actor* actor;
     /* 0x004 */ struct SkelAnime* skelAnime;
     /* 0x008 */ f32 unk_08;
-} AnimEntryType5;
-
-typedef struct {
-    /* 0x004 */ char raw[0x3C];
-} AnimEntryRaw;
+} AnimEntryMoveActor; // size = 0xC
 
 typedef union {
-    AnimEntryRaw raw;
-    AnimEntryLoadLinkData type0;
-    AnimEntryCopyAll type1;
-    AnimEntryInterp type2;
-    AnimEntryCopyTrue type3;
-    AnimEntryCopyFalse type4;
-    AnimEntryType5 type5;
-} AnimationEntryData;
+    AnimEntryLoadFrame load;
+    AnimEntryCopyAll copy;
+    AnimEntryInterp interp;
+    AnimEntryCopyTrue copy1;
+    AnimEntryCopyFalse copy0;
+    AnimEntryMoveActor move;
+} AnimationEntryData; // size = 0x3C
 
 typedef struct {
     /* 0x00 */ u8 type;
@@ -181,7 +182,7 @@ typedef struct {
 typedef struct AnimationContext {
     s16 animationCount;
     AnimationEntry entries[ANIMATION_ENTRY_MAX];
-} AnimationContext;
+} AnimationContext; // size = 0xC84
 
 typedef void (*AnimationEntryCallback)(struct GlobalContext* globalCtx, AnimationEntryData* data);
 
@@ -239,7 +240,7 @@ typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // "joint_Num"
     /* 0x01 */ u8 mode; // 0/1 repeat animation, 2/3 stop animation, >= 4 starts on frame 0 and plays once
     /* 0x02 */ u8 dListCount;
-    /* 0x03 */ s8 unk_03;
+    /* 0x03 */ s8 taper;
     /* 0x04 */ void** skeleton; // An array of pointers to limbs. Can be StandardLimb, LodLimb or SkinLimb.
     /* 0x08 */ void* animation; // Can be an AnimationHeader or LinkAnimationHeader.
     /* 0x0C */ f32 firstFrame;

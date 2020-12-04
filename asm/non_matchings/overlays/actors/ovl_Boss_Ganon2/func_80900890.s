@@ -427,7 +427,7 @@ glabel L80900E4C
 /* 03F50 80900E90 1000005B */  beq     $zero, $zero, .L80901000
 /* 03F54 80900E94 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 .L80900E98:
-/* 03F58 80900E98 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 03F58 80900E98 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 03F5C 80900E9C 8E050194 */  lw      $a1, 0x0194($s0)           ## 00000194
 /* 03F60 80900EA0 10400056 */  beq     $v0, $zero, .L80900FFC
 /* 03F64 80900EA4 8FA4002C */  lw      $a0, 0x002C($sp)
@@ -512,7 +512,7 @@ glabel L80900E4C
 
 /* 04080 80900FC0 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 04084 80900FC4 8FA4002C */  lw      $a0, 0x002C($sp)
-/* 04088 80900FC8 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 04088 80900FC8 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 0408C 80900FCC 8E050194 */  lw      $a1, 0x0194($s0)           ## 00000194
 /* 04090 80900FD0 1040000A */  beq     $v0, $zero, .L80900FFC
 /* 04094 80900FD4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

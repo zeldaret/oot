@@ -15,7 +15,7 @@ glabel func_8093C1C4
               
 /* 03524 8093C1F4 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 03528 8093C1F8 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 0352C 8093C1FC 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 0352C 8093C1FC 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 03530 8093C200 8E0501A4 */  lw      $a1, 0x01A4($s0)           ## 000001A4
 /* 03534 8093C204 10400010 */  beq     $v0, $zero, .L8093C248     
 /* 03538 8093C208 3C0E8095 */  lui     $t6, %hi(D_8094C84C)       ## $t6 = 80950000

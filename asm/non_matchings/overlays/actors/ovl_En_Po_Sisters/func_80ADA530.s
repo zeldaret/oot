@@ -16,7 +16,7 @@ glabel func_80ADA530
               
 /* 015D4 80ADA564 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 015D8 80ADA568 8FA40028 */  lw      $a0, 0x0028($sp)           
-/* 015DC 80ADA56C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 015DC 80ADA56C 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 015E0 80ADA570 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 015E4 80ADA574 10400005 */  beq     $v0, $zero, .L80ADA58C     
 /* 015E8 80ADA578 3C014348 */  lui     $at, 0x4348                ## $at = 43480000

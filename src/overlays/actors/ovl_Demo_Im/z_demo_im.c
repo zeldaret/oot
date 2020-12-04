@@ -552,7 +552,7 @@ void func_80985EAC(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985EF4(DemoIm* this) {
-    if (!SkelAnime_StopAtFrame(&this->skelAnime, SkelAnime_GetLastFrame(&D_0601182C) - 1.0f)) {
+    if (!SkelAnime_IsOnFrame(&this->skelAnime, SkelAnime_GetLastFrame(&D_0601182C) - 1.0f)) {
         func_80985060(this);
     }
 }
@@ -712,7 +712,7 @@ void func_8098652C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
-    if ((SkelAnime_StopAtFrame(&this->skelAnime, 7.0f)) && (this->actor.bgCheckFlags & 1)) {
+    if ((SkelAnime_IsOnFrame(&this->skelAnime, 7.0f)) && (this->actor.bgCheckFlags & 1)) {
         u32 sfxId = SFX_FLAG;
 
         sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);

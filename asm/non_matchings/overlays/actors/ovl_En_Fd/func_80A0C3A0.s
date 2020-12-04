@@ -14,7 +14,7 @@ glabel func_80A0C3A0
 /* 00CF0 80A0C3B0 8CE5015C */  lw      $a1, 0x015C($a3)           ## 0000015C
 /* 00CF4 80A0C3B4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00CF8 80A0C3B8 AFA4001C */  sw      $a0, 0x001C($sp)           
-/* 00CFC 80A0C3BC 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00CFC 80A0C3BC 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00D00 80A0C3C0 AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 00D04 80A0C3C4 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00D08 80A0C3C8 1040001A */  beq     $v0, $zero, .L80A0C434     

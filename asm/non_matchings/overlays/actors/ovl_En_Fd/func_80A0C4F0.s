@@ -22,7 +22,7 @@ glabel func_80A0C4F0
 /* 00E68 80A0C528 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00E6C 80A0C52C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00E70 80A0C530 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 00E74 80A0C534 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00E74 80A0C534 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00E78 80A0C538 AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 00E7C 80A0C53C 1040001F */  beq     $v0, $zero, .L80A0C5BC     
 /* 00E80 80A0C540 2404003C */  addiu   $a0, $zero, 0x003C         ## $a0 = 0000003C

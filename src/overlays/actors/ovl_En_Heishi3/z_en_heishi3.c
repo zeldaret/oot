@@ -169,7 +169,7 @@ void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx) {
 void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
-    if ((SkelAnime_StopAtFrame(&this->skelAnime, 1.0f) != 0) || (SkelAnime_StopAtFrame(&this->skelAnime, 17.0f) != 0)) {
+    if ((SkelAnime_IsOnFrame(&this->skelAnime, 1.0f) != 0) || (SkelAnime_IsOnFrame(&this->skelAnime, 17.0f) != 0)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
     if (this->caughtTimer == 0) {

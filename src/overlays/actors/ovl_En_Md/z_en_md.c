@@ -73,7 +73,7 @@ void func_80AAA274(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 2);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 3);
                 this->unk_20A++;
             }
@@ -86,7 +86,7 @@ void func_80AAA308(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 4);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->unk_20A++;
             }
@@ -100,14 +100,14 @@ void func_80AAA39C(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->unk_20A++;
             } else {
                 break;
             }
         case 2:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 8);
                 this->unk_20A++;
             }
@@ -120,7 +120,7 @@ void func_80AAA474(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 7);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }
@@ -134,7 +134,7 @@ void func_80AAA508(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }
@@ -147,7 +147,7 @@ void func_80AAA5A4(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 9);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 6);
                 this->unk_20A++;
             }
@@ -161,7 +161,7 @@ void func_80AAA638(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }
@@ -174,7 +174,7 @@ void func_80AAA6D4(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 11);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 6);
                 this->unk_20A++;
             }
@@ -187,7 +187,7 @@ void func_80AAA768(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 12);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 3);
                 this->unk_20A++;
             }
@@ -200,7 +200,7 @@ void func_80AAA7FC(EnMd* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 13);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 6);
                 this->unk_20A++;
             }
@@ -214,7 +214,7 @@ void func_80AAA890(EnMd* this) {
             func_80AAA250(this);
             this->unk_20A++;
         case 1:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
                 func_80034EC0(&this->skelAnime, sAnimations, 10);
                 this->unk_20A++;
             }

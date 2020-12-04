@@ -51,8 +51,7 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTbl,
-                       this->morphTbl, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTbl, this->morphTbl, 16);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

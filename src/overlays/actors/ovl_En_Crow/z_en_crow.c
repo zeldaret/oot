@@ -184,7 +184,7 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     s16 var;
 
     SkelAnime_Update(&this->skelAnime);
-    skelanimeUpdated = SkelAnime_StopAtFrame(&this->skelAnime, 0.0f);
+    skelanimeUpdated = SkelAnime_IsOnFrame(&this->skelAnime, 0.0f);
     this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & 8) {
@@ -420,7 +420,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, height);
 
-    if (this->actor.colChkInfo.health != 0 && SkelAnime_StopAtFrame(&this->skelAnime, 3.0f)) {
+    if (this->actor.colChkInfo.health != 0 && SkelAnime_IsOnFrame(&this->skelAnime, 3.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
     }
 }

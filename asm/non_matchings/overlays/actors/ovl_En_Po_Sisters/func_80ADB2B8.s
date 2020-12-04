@@ -20,7 +20,7 @@ glabel func_80ADB2B8
 /* 0236C 80ADB2FC 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 02370 80ADB300 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L80ADB304:
-/* 02374 80ADB304 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 02374 80ADB304 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 02378 80ADB308 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0237C 80ADB30C 10400003 */  beq     $v0, $zero, .L80ADB31C     
 /* 02380 80ADB310 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

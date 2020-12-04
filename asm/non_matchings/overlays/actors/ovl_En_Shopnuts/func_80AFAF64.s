@@ -40,7 +40,7 @@ glabel func_80AFAF64
 /* 008D0 80AFAFF0 A60F02B2 */  sh      $t7, 0x02B2($s0)           ## 000002B2
 /* 008D4 80AFAFF4 44056000 */  mfc1    $a1, $f12                  
 .L80AFAFF8:
-/* 008D8 80AFAFF8 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 008D8 80AFAFF8 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 008DC 80AFAFFC 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 008E0 80AFB000 50400005 */  beql    $v0, $zero, .L80AFB018     
 /* 008E4 80AFB004 8FBF001C */  lw      $ra, 0x001C($sp)           

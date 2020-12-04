@@ -133,8 +133,8 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case -1:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl,
-                               this->morphTbl, 28);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
+                               28);
             this->actor.colChkInfo.health = 2;
             this->actor.colChkInfo.mass = 0xFE;
             this->unk_360 = 1000.0f;
@@ -142,8 +142,8 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80AA6830(this);
             break;
         case 0:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->jointTbl,
-                               this->morphTbl, 28);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->jointTbl, this->morphTbl,
+                               28);
             this->actor.colChkInfo.health = 6;
             this->actor.colChkInfo.mass = 0xFF;
             this->actor.colChkInfo.damageTable = &sBigMoblinDamageTable;
@@ -168,8 +168,8 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80AA6898(this);
             break;
         default:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl,
-                               this->morphTbl, 28);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
+                               28);
             Actor_SetScale(&this->actor, 0.014f);
             this->path = (thisx->params & 0xFF00) >> 8;
             this->actor.params = 1;
@@ -505,7 +505,7 @@ void func_80AA7134(EnMb* this, GlobalContext* globalCtx) {
         phi_v0 = this->unk_32A;
     }
     if (phi_v0 == 0) {
-        if (SkelAnime_StopAtFrame(&this->skelAnime, 0.0f) != 0) {
+        if (SkelAnime_IsOnFrame(&this->skelAnime, 0.0f) != 0) {
             func_80AA6974(this);
         }
     }
@@ -552,8 +552,8 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
         if (this->unk_32A == 0) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C10, -1.0f, SkelAnime_GetLastFrame(&D_06002C10), 0.0f,
-                                     2, 0.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C10, -1.0f, SkelAnime_GetLastFrame(&D_06002C10), 0.0f, 2,
+                                     0.0f);
                 this->unk_32A = 1;
                 this->actor.speedXZ = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
@@ -602,8 +602,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
                     func_80AA6AC8(this);
                 } else {
                     lastFrame = SkelAnime_GetLastFrame(&D_06002C10);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C10, -1.0f, lastFrame,
-                                         0.0f, 2, 0.0f);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C10, -1.0f, lastFrame, 0.0f, 2, 0.0f);
                     this->actor.speedXZ = 0.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
                 }
@@ -617,8 +616,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
         if (SkelAnime_Update(&this->skelAnime) != 0) {
             if (this->unk_32A == 0) {
                 lastFrame = SkelAnime_GetLastFrame(&D_06002F10);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06002F10, 0.5f, 0.0f, lastFrame, 1,
-                                     0.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06002F10, 0.5f, 0.0f, lastFrame, 1, 0.0f);
                 this->unk_32A = 1;
             } else {
                 yawDiff = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos) - this->actor.yawTowardsLink;
@@ -903,13 +901,13 @@ void func_80AA840C(EnMb* this, GlobalContext* globalCtx) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
                 if (this->unk_32A == 0) {
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f,
-                                         SkelAnime_GetLastFrame(&D_0600E18C), 3, 0.0f);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, SkelAnime_GetLastFrame(&D_0600E18C),
+                                         3, 0.0f);
                     this->unk_32A = 1;
                     this->unk_32E = 6;
                 } else {
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f,
-                                         SkelAnime_GetLastFrame(&D_0600E18C), 3, 0.0f);
+                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, SkelAnime_GetLastFrame(&D_0600E18C),
+                                         3, 0.0f);
                 }
             }
         } else {
@@ -1007,7 +1005,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (currentFrame !=  (s32)this->skelAnime.curFrame) {
+    if (currentFrame != (s32)this->skelAnime.curFrame) {
         if (((sp48 <= 1) && (currentFrame + (s32)playSpeedABS >= 1)) ||
             ((sp48 <= 20) && (currentFrame + (s32)playSpeedABS >= 20))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
@@ -1056,11 +1054,9 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     }
     currentFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
-    playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed
-                                                                   : -this->skelAnime.playSpeed;
+    playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed : -this->skelAnime.playSpeed;
     temp_f6 = this->skelAnime.curFrame - playSpeedABS;
-    playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed
-                                                                   : -this->skelAnime.playSpeed;
+    playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed : -this->skelAnime.playSpeed;
     if (currentFrame != (s32)this->skelAnime.curFrame) {
         if (!(temp_f6 >= 2 || (s32)playSpeedABS + currentFrame <= 0) ||
             temp_f6 <= 20 && (s32)playSpeedABS + currentFrame >= 20) {

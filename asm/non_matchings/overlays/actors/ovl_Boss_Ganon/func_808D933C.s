@@ -259,7 +259,7 @@ glabel L808D94C4
 /* 02CF8 808D9568 E604068C */  swc1    $f4, 0x068C($s0)           ## 0000068C
 /* 02CFC 808D956C E6100694 */  swc1    $f16, 0x0694($s0)          ## 00000694
 /* 02D00 808D9570 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 02D04 808D9574 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 02D04 808D9574 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 02D08 808D9578 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 02D0C 808D957C 10400008 */  beq     $v0, $zero, .L808D95A0
 /* 02D10 808D9580 8FA40054 */  lw      $a0, 0x0054($sp)
@@ -402,7 +402,7 @@ glabel L808D9654
 /* 02F04 808D9774 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 02F08 808D9778 46049181 */  sub.s   $f6, $f18, $f4
 /* 02F0C 808D977C 44053000 */  mfc1    $a1, $f6
-/* 02F10 808D9780 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 02F10 808D9780 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 02F14 808D9784 00000000 */  nop
 /* 02F18 808D9788 10400041 */  beq     $v0, $zero, .L808D9890
 /* 02F1C 808D978C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
@@ -477,7 +477,7 @@ glabel L808D9654
 /* 0301C 808D988C 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 .L808D9890:
 /* 03020 808D9890 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 03024 808D9894 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 03024 808D9894 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 03028 808D9898 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 0302C 808D989C 10400008 */  beq     $v0, $zero, .L808D98C0
 /* 03030 808D98A0 8FA40054 */  lw      $a0, 0x0054($sp)
@@ -610,7 +610,7 @@ glabel L808D9A54
 
 /* 0320C 808D9A7C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 03210 808D9A80 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 03214 808D9A84 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 03214 808D9A84 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 03218 808D9A88 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 0321C 808D9A8C 10400014 */  beq     $v0, $zero, .L808D9AE0
 /* 03220 808D9A90 8FA40054 */  lw      $a0, 0x0054($sp)

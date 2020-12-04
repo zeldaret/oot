@@ -33,7 +33,7 @@ glabel func_80AFAE28
 /* 00778 80AFAE98 1000002E */  beq     $zero, $zero, .L80AFAF54   
 /* 0077C 80AFAE9C 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L80AFAEA0:
-/* 00780 80AFAEA0 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00780 80AFAEA0 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00784 80AFAEA4 3C0540C0 */  lui     $a1, 0x40C0                ## $a1 = 40C00000
 /* 00788 80AFAEA8 5040002A */  beql    $v0, $zero, .L80AFAF54     
 /* 0078C 80AFAEAC 8FBF0034 */  lw      $ra, 0x0034($sp)           

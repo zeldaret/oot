@@ -47,7 +47,7 @@ glabel func_80918D6C
 /* 03400 80918E10 5420FFF5 */  bnel    $at, $zero, .L80918DE8
 /* 03404 80918E14 0002C180 */  sll     $t8, $v0,  6
 .L80918E18:
-/* 03408 80918E18 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 03408 80918E18 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 0340C 80918E1C 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 03410 80918E20 1040000A */  beq     $v0, $zero, .L80918E4C
 /* 03414 80918E24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -69,7 +69,7 @@ glabel func_80918D6C
 /* 0344C 80918E5C 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 03450 80918E60 46802120 */  cvt.s.w $f4, $f4
 /* 03454 80918E64 44052000 */  mfc1    $a1, $f4
-/* 03458 80918E68 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 03458 80918E68 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 0345C 80918E6C 00000000 */  nop
 /* 03460 80918E70 1040004A */  beq     $v0, $zero, .L80918F9C
 /* 03464 80918E74 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
@@ -109,7 +109,7 @@ glabel func_80918D6C
 /* 034E0 80918EF0 1000002A */  beq     $zero, $zero, .L80918F9C
 /* 034E4 80918EF4 A61901D4 */  sh      $t9, 0x01D4($s0)           ## 000001D4
 .L80918EF8:
-/* 034E8 80918EF8 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 034E8 80918EF8 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 034EC 80918EFC 3C054040 */  lui     $a1, 0x4040                ## $a1 = 40400000
 /* 034F0 80918F00 10400003 */  beq     $v0, $zero, .L80918F10
 /* 034F4 80918F04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -150,7 +150,7 @@ glabel func_80918D6C
 /* 03568 80918F78 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 0356C 80918F7C 46808420 */  cvt.s.w $f16, $f16
 /* 03570 80918F80 44058000 */  mfc1    $a1, $f16
-/* 03574 80918F84 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 03574 80918F84 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 03578 80918F88 00000000 */  nop
 /* 0357C 80918F8C 50400004 */  beql    $v0, $zero, .L80918FA0
 /* 03580 80918F90 240B0002 */  addiu   $t3, $zero, 0x0002         ## $t3 = 00000002

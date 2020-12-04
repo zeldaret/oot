@@ -12,7 +12,7 @@ glabel func_809C04B4
 /* 00C38 809C04D8 C6040164 */  lwc1    $f4, 0x0164($s0)           ## 00000164
 /* 00C3C 809C04DC 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00C40 809C04E0 3C054110 */  lui     $a1, 0x4110                ## $a1 = 41100000
-/* 00C44 809C04E4 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 00C44 809C04E4 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 00C48 809C04E8 E7A40028 */  swc1    $f4, 0x0028($sp)           
 /* 00C4C 809C04EC 10400003 */  beq     $v0, $zero, .L809C04FC     
 /* 00C50 809C04F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

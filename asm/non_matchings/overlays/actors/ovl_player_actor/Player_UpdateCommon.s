@@ -897,7 +897,7 @@ glabel Player_UpdateCommon
 /* 179E4 80849BF4 44071000 */  mfc1    $a3, $f2
 .L80849BF8:
 /* 179E8 80849BF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 179EC 80849BFC 0C028D88 */  jal     AnimationContext_SetAnimationType5
+/* 179EC 80849BFC 0C028D88 */  jal     AnimationContext_SetMoveActor
 /* 179F0 80849C00 260601B4 */  addiu   $a2, $s0, 0x01B4           ## $a2 = 000001B4
 .L80849C04:
 /* 179F4 80849C04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

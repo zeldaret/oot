@@ -338,7 +338,7 @@ void func_80B4B834(CsCmdActorAction* npcAction, Vec3f* pos) {
 
 void func_80B4B874(EnZl1* this, GlobalContext* globalCtx) {
     this->skelAnime.flags |= 1;
-    AnimationContext_SetAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+    AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {

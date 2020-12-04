@@ -23,7 +23,7 @@ glabel func_8096D5D4
 /* 00178 8096D628 97290004 */  lhu     $t1, 0x0004($t9)           ## 00000004
 /* 0017C 8096D62C A08B0181 */  sb      $t3, 0x0181($a0)           ## 00000181
 /* 00180 8096D630 A4890188 */  sh      $t1, 0x0188($a0)           ## 00000188
-/* 00184 8096D634 0C028D88 */  jal     AnimationContext_SetAnimationType5
+/* 00184 8096D634 0C028D88 */  jal     AnimationContext_SetMoveActor
 /* 00188 8096D638 8FA4001C */  lw      $a0, 0x001C($sp)
 /* 0018C 8096D63C 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 00190 8096D640 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

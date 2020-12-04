@@ -711,7 +711,7 @@ void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
     s32 pad[2];
 
     if ((this->skelAnime.mode == 2) &&
-        (SkelAnime_StopAtFrame(&this->skelAnime, 18.0f) || SkelAnime_StopAtFrame(&this->skelAnime, 25.0f))) {
+        (SkelAnime_IsOnFrame(&this->skelAnime, 18.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 25.0f))) {
         func_80078914(&this->actor.projectedPos, NA_SE_EV_HUMAN_BOUND);
     }
 }
@@ -719,7 +719,7 @@ void EnNb_PlayKneelingOnGroundSFX(EnNb* this) {
 void EnNb_PlayLookRightSFX(EnNb* this) {
     s32 pad[2];
 
-    if ((this->skelAnime.mode == 2) && SkelAnime_StopAtFrame(&this->skelAnime, 9.0f)) {
+    if ((this->skelAnime.mode == 2) && SkelAnime_IsOnFrame(&this->skelAnime, 9.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
@@ -727,7 +727,7 @@ void EnNb_PlayLookRightSFX(EnNb* this) {
 void EnNb_PlayLookLeftSFX(EnNb* this) {
     s32 pad[2];
 
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 9.0f) || SkelAnime_StopAtFrame(&this->skelAnime, 13.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 9.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 13.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
@@ -739,7 +739,7 @@ void EnNb_InitDemo6KInConfrontation(EnNb* this, GlobalContext* globalCtx) {
 
 void func_80AB2688(EnNb* this, GlobalContext* globalCtx) {
     this->skelAnime.flags |= 1;
-    AnimationContext_SetAnimationType5(globalCtx, &this->actor, &this->skelAnime, 1.0f);
+    AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
 
 void func_80AB26C8(EnNb* this) {

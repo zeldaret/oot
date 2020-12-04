@@ -1366,7 +1366,7 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    SkelAnime_InitLinkAnimation(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &D_04003238, 9,
+    SkelAnime_InitLink(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &D_04003238, 9,
                                 ptr, ptr, PLAYER_LIMB_MAX);
 
     return size + 0x8890;

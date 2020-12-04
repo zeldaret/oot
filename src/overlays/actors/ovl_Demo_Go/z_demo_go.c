@@ -112,7 +112,7 @@ void func_8097C9B8(DemoGo* this) {
 
 void func_8097C9DC(DemoGo* this) {
     s32 pad[2];
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 12.0f) || SkelAnime_StopAtFrame(&this->skelAnime, 25.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 12.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 25.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_EN_MORIBLIN_WALK);
     }
 }

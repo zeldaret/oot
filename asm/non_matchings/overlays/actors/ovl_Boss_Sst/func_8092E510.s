@@ -122,7 +122,7 @@ glabel func_8092E510
 /* 020CC 8092E69C 8FA40028 */  lw      $a0, 0x0028($sp)           
 /* 020D0 8092E6A0 55C00005 */  bnel    $t6, $zero, .L8092E6B8     
 /* 020D4 8092E6A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 020D8 8092E6A8 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 020D8 8092E6A8 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 020DC 8092E6AC 3C054130 */  lui     $a1, 0x4130                ## $a1 = 41300000
 /* 020E0 8092E6B0 10400003 */  beq     $v0, $zero, .L8092E6C0     
 /* 020E4 8092E6B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

@@ -322,9 +322,8 @@ void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
 
     Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.yawTowardsLink + 0x8000), 0xB6);
 
-    if ((SkelAnime_StopAtFrame(&this->skelAnime, 0.0f) != 0) || (SkelAnime_StopAtFrame(&this->skelAnime, 12.0f) != 0) ||
-        (SkelAnime_StopAtFrame(&this->skelAnime, 24.0f) != 0) ||
-        (SkelAnime_StopAtFrame(&this->skelAnime, 36.0f) != 0)) {
+    if ((SkelAnime_IsOnFrame(&this->skelAnime, 0.0f) != 0) || (SkelAnime_IsOnFrame(&this->skelAnime, 12.0f) != 0) ||
+        (SkelAnime_IsOnFrame(&this->skelAnime, 24.0f) != 0) || (SkelAnime_IsOnFrame(&this->skelAnime, 36.0f) != 0)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }
@@ -343,7 +342,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
         this->actor.posRot.pos.y = this->actor.posRot.pos.y + 30.0f;
     }
 
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 20.0f) != 0) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 20.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
     }
 
@@ -356,7 +355,6 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
         if (this->actor.params == WMT_TIMER ||
             Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < 200.0f) {
             EnWallmas_TimerInit(this, globalCtx);
-            return;
         } else {
             EnWallmas_ProximityOrSwitchInit(this);
         }
@@ -371,7 +369,7 @@ void EnWallmas_TakeDamage(EnWallmas* this, GlobalContext* globalCtx) {
             EnWallmas_SetupCooldown(this);
         }
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 13.0f) != 0) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 13.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
@@ -397,7 +395,7 @@ void EnWallmas_Die(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 1.0f) != 0) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 1.0f) != 0) {
         if (LINK_IS_CHILD) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {

@@ -1044,7 +1044,7 @@ void func_80B5582C(EnZl3* this) {
 void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && SkelAnime_StopAtFrame(skelAnime, 4.0f)) {
+    if ((skelAnime->mode == 2) && SkelAnime_IsOnFrame(skelAnime, 4.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
@@ -1567,7 +1567,7 @@ void func_80B56DC8(EnZl3* this) {
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && SkelAnime_StopAtFrame(skelAnime, 9.0f) != 0) {
+    if ((skelAnime->mode == 2) && SkelAnime_IsOnFrame(skelAnime, 9.0f) != 0) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
@@ -1577,7 +1577,7 @@ void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
     s32 sfxId;
     SkelAnime* sp20 = &this->skelAnime;
 
-    if ((SkelAnime_StopAtFrame(sp20, 6.0f) || SkelAnime_StopAtFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
+    if ((SkelAnime_IsOnFrame(sp20, 6.0f) || SkelAnime_IsOnFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
         sfxId = 0x800;
         sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
         func_80078914(&this->actor.projectedPos, sfxId);

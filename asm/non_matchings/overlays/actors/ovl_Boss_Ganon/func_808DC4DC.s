@@ -69,7 +69,7 @@ glabel func_808DC4DC
 /* 05D64 808DC5D4 8C6D0000 */  lw      $t5, 0x0000($v1)           ## 00000000
 /* 05D68 808DC5D8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000150
 /* 05D6C 808DC5DC E5A616B8 */  swc1    $f6, 0x16B8($t5)           ## 000016B8
-/* 05D70 808DC5E0 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 05D70 808DC5E0 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 05D74 808DC5E4 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 05D78 808DC5E8 10400003 */  beq     $v0, $zero, .L808DC5F8
 /* 05D7C 808DC5EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

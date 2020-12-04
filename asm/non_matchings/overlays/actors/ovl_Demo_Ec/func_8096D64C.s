@@ -9,7 +9,7 @@ glabel func_8096D64C
 /* 001B8 8096D668 35CF0003 */  ori     $t7, $t6, 0x0003           ## $t7 = 00000003
 /* 001BC 8096D66C A08F0181 */  sb      $t7, 0x0181($a0)           ## 00000181
 /* 001C0 8096D670 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 001C4 8096D674 0C028D88 */  jal     AnimationContext_SetAnimationType5
+/* 001C4 8096D674 0C028D88 */  jal     AnimationContext_SetMoveActor
 /* 001C8 8096D678 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 001CC 8096D67C 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 001D0 8096D680 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

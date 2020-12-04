@@ -23,7 +23,7 @@ glabel EnDu_Update
 /* 01138 809FED68 15CF000A */  bne     $t6, $t7, .L809FED94       
 /* 0113C 809FED6C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01140 809FED70 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 01144 809FED74 0C0295B2 */  jal     SkelAnime_StopAtFrame              
+/* 01144 809FED74 0C0295B2 */  jal     SkelAnime_IsOnFrame              
 /* 01148 809FED78 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 0114C 809FED7C 10400005 */  beq     $v0, $zero, .L809FED94     
 /* 01150 809FED80 8FA4002C */  lw      $a0, 0x002C($sp)           

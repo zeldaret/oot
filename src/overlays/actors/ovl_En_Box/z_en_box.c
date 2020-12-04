@@ -467,9 +467,9 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
     } else {
         sfxId = 0;
 
-        if (SkelAnime_StopAtFrame(&this->skelanime, 30.0f)) {
+        if (SkelAnime_IsOnFrame(&this->skelanime, 30.0f)) {
             sfxId = NA_SE_EV_TBOX_UNLOCK;
-        } else if (SkelAnime_StopAtFrame(&this->skelanime, 90.0f)) {
+        } else if (SkelAnime_IsOnFrame(&this->skelanime, 90.0f)) {
             sfxId = NA_SE_EV_TBOX_OPEN;
         }
 

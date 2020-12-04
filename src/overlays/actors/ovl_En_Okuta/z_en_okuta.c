@@ -248,16 +248,16 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
         }
     } else if (this->skelAnime.curFrame <= 4.0f) {
         Actor_SetScale(&this->actor, this->skelAnime.curFrame * 0.25f * 0.01f);
-    } else if (SkelAnime_StopAtFrame(&this->skelAnime, 5.0f)) {
+    } else if (SkelAnime_IsOnFrame(&this->skelAnime, 5.0f)) {
         Actor_SetScale(&this->actor, 0.01f);
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 2.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 2.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 12.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 12.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 3.0f) || SkelAnime_StopAtFrame(&this->skelAnime, 15.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 3.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 15.0f)) {
         EnOkuta_SpawnSplash(this, globalCtx);
     }
 }
@@ -273,10 +273,10 @@ void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     } else if (this->skelAnime.curFrame >= 4.0f) {
         Actor_SetScale(&this->actor, (6.0f - this->skelAnime.curFrame) * 0.5f * 0.01f);
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 2.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 2.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 4.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 4.0f)) {
         EnOkuta_SpawnSplash(this, globalCtx);
     }
 }
@@ -287,12 +287,12 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
 
     this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
     SkelAnime_Update(&this->skelAnime);
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 0.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 0.0f)) {
         if (this->timer != 0) {
             this->timer--;
         }
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 0.5f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 0.5f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
     }
     if (this->actor.xzDistFromLink < 160.0f || this->actor.xzDistFromLink > 560.0f) {
@@ -324,13 +324,13 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
             this->actor.posRot.pos.y =
                 (sinf((0.08333f * M_PI) * curFrame) * this->jumpHeight) + this->actor.initPosRot.pos.y;
         }
-        if (SkelAnime_StopAtFrame(&this->skelAnime, 6.0f)) {
+        if (SkelAnime_IsOnFrame(&this->skelAnime, 6.0f)) {
             EnOkuta_SpawnProjectile(this, globalCtx);
         }
-        if ((this->jumpHeight > 50.0f) && SkelAnime_StopAtFrame(&this->skelAnime, 13.0f)) {
+        if ((this->jumpHeight > 50.0f) && SkelAnime_IsOnFrame(&this->skelAnime, 13.0f)) {
             EnOkuta_SpawnSplash(this, globalCtx);
         }
-        if ((this->jumpHeight > 50.0f) && SkelAnime_StopAtFrame(&this->skelAnime, 13.0f)) {
+        if ((this->jumpHeight > 50.0f) && SkelAnime_IsOnFrame(&this->skelAnime, 13.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
         }
     }
@@ -368,7 +368,7 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
         EnOkuta_SpawnDust(&pos, &velocity, -0x14, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD2);
     }
-    if (SkelAnime_StopAtFrame(&this->skelAnime, 15.0f)) {
+    if (SkelAnime_IsOnFrame(&this->skelAnime, 15.0f)) {
         EnOkuta_SpawnSplash(this, globalCtx);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
     }

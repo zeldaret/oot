@@ -131,13 +131,13 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 
     switch (this->behavior) {
         case DOG_SIT:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
-            if (SkelAnime_StopAtFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
+            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }

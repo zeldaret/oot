@@ -93,7 +93,7 @@ glabel func_808DCB7C
 /* 06414 808DCC84 00000000 */  nop
 glabel L808DCC88
 /* 06418 808DCC88 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 0641C 808DCC8C 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 0641C 808DCC8C 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 06420 808DCC90 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 06424 808DCC94 1040010E */  beq     $v0, $zero, .L808DD0D0
 /* 06428 808DCC98 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
@@ -114,7 +114,7 @@ glabel L808DCC88
 /* 06460 808DCCD0 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L808DCCD4
 /* 06464 808DCCD4 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 06468 808DCCD8 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 06468 808DCCD8 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 0646C 808DCCDC 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 06470 808DCCE0 104000FB */  beq     $v0, $zero, .L808DD0D0
 /* 06474 808DCCE4 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
@@ -178,7 +178,7 @@ glabel L808DCDA8
 /* 0654C 808DCDBC A228019F */  sb      $t0, 0x019F($s1)           ## 0000019F
 /* 06550 808DCDC0 8FA40038 */  lw      $a0, 0x0038($sp)
 .L808DCDC4:
-/* 06554 808DCDC4 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 06554 808DCDC4 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 06558 808DCDC8 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 0655C 808DCDCC 104000C0 */  beq     $v0, $zero, .L808DD0D0
 /* 06560 808DCDD0 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
@@ -199,7 +199,7 @@ glabel L808DCDA8
 /* 06598 808DCE08 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L808DCE0C
 /* 0659C 808DCE0C 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 065A0 808DCE10 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 065A0 808DCE10 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 065A4 808DCE14 3C0540A0 */  lui     $a1, 0x40A0                ## $a1 = 40A00000
 /* 065A8 808DCE18 10400003 */  beq     $v0, $zero, .L808DCE28
 /* 065AC 808DCE1C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -256,7 +256,7 @@ glabel L808DCEC8
 /* 06660 808DCED0 0C235AFC */  jal     func_808D6BF0
 /* 06664 808DCED4 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 06668 808DCED8 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 0666C 808DCEDC 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 0666C 808DCEDC 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 06670 808DCEE0 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 06674 808DCEE4 1040007A */  beq     $v0, $zero, .L808DD0D0
 /* 06678 808DCEE8 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
@@ -291,7 +291,7 @@ glabel L808DCF3C
 
 /* 066E4 808DCF54 3C07447A */  lui     $a3, 0x447A                ## $a3 = 447A0000
 /* 066E8 808DCF58 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 066EC 808DCF5C 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 066EC 808DCF5C 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 066F0 808DCF60 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 066F4 808DCF64 1040005A */  beq     $v0, $zero, .L808DD0D0
 /* 066F8 808DCF68 240D0007 */  addiu   $t5, $zero, 0x0007         ## $t5 = 00000007
@@ -341,7 +341,7 @@ glabel L808DCF74
 glabel L808DD000
 /* 06790 808DD000 A22001A0 */  sb      $zero, 0x01A0($s1)         ## 000001A0
 /* 06794 808DD004 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 06798 808DD008 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 06798 808DD008 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 0679C 808DD00C 3C0540E0 */  lui     $a1, 0x40E0                ## $a1 = 40E00000
 /* 067A0 808DD010 10400028 */  beq     $v0, $zero, .L808DD0B4
 /* 067A4 808DD014 00008025 */  or      $s0, $zero, $zero          ## $s0 = 00000000
@@ -392,7 +392,7 @@ glabel L808DD000
 /* 06840 808DD0B0 A62801BC */  sh      $t0, 0x01BC($s1)           ## 000001BC
 .L808DD0B4:
 /* 06844 808DD0B4 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 06848 808DD0B8 0C0295B2 */  jal     SkelAnime_StopAtFrame
+/* 06848 808DD0B8 0C0295B2 */  jal     SkelAnime_IsOnFrame
 /* 0684C 808DD0BC 8E2501CC */  lw      $a1, 0x01CC($s1)           ## 000001CC
 /* 06850 808DD0C0 10400003 */  beq     $v0, $zero, .L808DD0D0
 /* 06854 808DD0C4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
