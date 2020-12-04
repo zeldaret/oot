@@ -26,7 +26,7 @@ glabel func_80B15CC8
 /* 02288 80B15D28 3C06BF80 */  lui     $a2, 0xBF80                ## $a2 = BF800000
 /* 0228C 80B15D2C 3C0741E8 */  lui     $a3, 0x41E8                ## $a3 = 41E80000
 /* 02290 80B15D30 E7A60018 */  swc1    $f6, 0x0018($sp)
-/* 02294 80B15D34 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 02294 80B15D34 0C029468 */  jal     Animation_Change
 
 /* 02298 80B15D38 E7A40010 */  swc1    $f4, 0x0010($sp)
 .L80B15D3C:

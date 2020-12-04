@@ -223,7 +223,7 @@ void func_80B538B0(EnZl3* this) {
 }
 
 s32 EnZl3_FrameUpdateMatrix(EnZl3* this) {
-    return SkelAnime_Update(&this->skelAnime);
+    return Animation_Update(&this->skelAnime);
 }
 
 s32 func_80B5396C(EnZl3* this) {
@@ -769,7 +769,7 @@ void func_80B54DE0(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetLastFrame(animation);
+    f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -784,7 +784,7 @@ void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transit
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 void func_80B54EA4(EnZl3* this, GlobalContext* globalCtx) {
@@ -1044,7 +1044,7 @@ void func_80B5582C(EnZl3* this) {
 void func_80B5585C(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && SkelAnime_IsOnFrame(skelAnime, 4.0f)) {
+    if ((skelAnime->mode == 2) && Animation_IsOnFrame(skelAnime, 4.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_PAIN);
     }
 }
@@ -1067,7 +1067,7 @@ void func_80B559C4(EnZl3* this) {
     Vec3f* thisPos = &this->actor.posRot.pos;
     Vec3f* unk_32C = &this->unk_32C;
     Vec3f* unk_338 = &this->unk_338;
-    f32 temp_f0 = func_8006F9BC(SkelAnime_GetLastFrame(&D_06005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
+    f32 temp_f0 = func_8006F9BC(Animation_GetLastFrame(&D_06005248), 0, (s32)this->skelAnime.curFrame, 3, 3);
 
     thisPos->x = unk_32C->x + (temp_f0 * (unk_338->x - unk_32C->x));
     thisPos->z = unk_32C->z + (temp_f0 * (unk_338->z - unk_32C->z));
@@ -1567,7 +1567,7 @@ void func_80B56DC8(EnZl3* this) {
 void func_80B56DEC(EnZl3* this) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((skelAnime->mode == 2) && SkelAnime_IsOnFrame(skelAnime, 9.0f) != 0) {
+    if ((skelAnime->mode == 2) && Animation_IsOnFrame(skelAnime, 9.0f) != 0) {
         func_80078914(&this->actor.projectedPos, NA_SE_VO_Z1_OPENDOOR);
     }
 }
@@ -1577,7 +1577,7 @@ void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
     s32 sfxId;
     SkelAnime* sp20 = &this->skelAnime;
 
-    if ((SkelAnime_IsOnFrame(sp20, 6.0f) || SkelAnime_IsOnFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
+    if ((Animation_IsOnFrame(sp20, 6.0f) || Animation_IsOnFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
         sfxId = 0x800;
         sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
         func_80078914(&this->actor.projectedPos, sfxId);
@@ -2613,13 +2613,13 @@ void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B59B6C(EnZl3* this, GlobalContext* globalCtx) {
     s32 sp2C = func_80B54DD4(this);
 
-    this->unk_3DC = SkelAnime_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_060091D8));
-    this->unk_3E0 = SkelAnime_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A598));
-    this->unk_3E4 = SkelAnime_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A334));
-    this->unk_3F4 = SkelAnime_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001110));
-    this->unk_3EC = SkelAnime_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002348));
-    this->unk_3F0 = SkelAnime_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002E54));
-    this->unk_3E8 = SkelAnime_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001D8C));
+    this->unk_3DC = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_060091D8));
+    this->unk_3E0 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A598));
+    this->unk_3E4 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_0600A334));
+    this->unk_3F4 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001110));
+    this->unk_3EC = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002348));
+    this->unk_3F0 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06002E54));
+    this->unk_3E8 = Animation_GetLastFrame(SEGMENTED_TO_VIRTUAL(&D_06001D8C));
 
     switch (sp2C) {
         case 0:
@@ -2683,7 +2683,7 @@ void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     shape->unk_14 = 0;
     func_80B533B0(thisx, globalCtx);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, this->jointTbl, this->morphTbl, 15);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06010D70, NULL, this->jointTbl, this->morphTbl, 15);
 
     switch (func_80B54DD4(this)) {
         case 1:
@@ -2736,8 +2736,8 @@ void func_80B59FF4(EnZl3* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 11, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
-                                       EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, this, POLY_OPA_DISP);
+    POLY_OPA_DISP = Skeleton_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
+                                      EnZl3_OverrideLimbDraw, EnZl3_PostLimbDraw, this, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2190);
 }
@@ -2761,8 +2761,8 @@ void func_80B5A1D0(EnZl3* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_258);
     gSPSegment(POLY_XLU_DISP++, 11, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
-                                       EnZl3_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
+    POLY_XLU_DISP = Skeleton_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
+                                      EnZl3_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl3.c", 2234);
 }

@@ -18,7 +18,7 @@ glabel func_80998C90
 /* 0053C 80998CBC AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00540 80998CC0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00544 80998CC4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00548 80998CC8 0C02915F */  jal     SkelAnime_Init
+/* 00548 80998CC8 0C02915F */  jal     Skeleton_Init
 
 /* 0054C 80998CCC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00550 80998CD0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -35,7 +35,7 @@ glabel func_80998C90
 /* 0057C 80998CFC 24A51374 */  addiu   $a1, $a1, 0x1374           ## $a1 = 06001374
 /* 00580 80998D00 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00584 80998D04 E7A20010 */  swc1    $f2, 0x0010($sp)
-/* 00588 80998D08 0C0293F9 */  jal     SkelAnime_ChangeAnimImpl
+/* 00588 80998D08 0C0293F9 */  jal     Animation_ChangeImpl
 /* 0058C 80998D0C E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 00590 80998D10 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00594 80998D14 44811000 */  mtc1    $at, $f2                   ## $f2 = 1.00

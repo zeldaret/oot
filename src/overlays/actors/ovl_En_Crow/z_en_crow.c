@@ -67,7 +67,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnCrow* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060010C0, &D_060000F0, &this->jointTbl, &this->morphTbl, 9);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_060010C0, &D_060000F0, &this->jointTbl, &this->morphTbl, 9);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems);
     this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
@@ -104,7 +104,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ *= Math_Coss(this->actor.posRot.rot.x);
     this->actor.velocity.y = 0.0f;
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
+    Animation_Change(&this->skelAnime, &D_060000F0, 0.4f, 0.0f, 0.0f, 1, -3.0f);
     scale = this->actor.scale.x * 100.0f;
     this->actor.posRot.pos.y += 20.0f * scale;
     this->actor.bgCheckFlags &= ~1;
@@ -167,7 +167,7 @@ void func_809E0770(EnCrow* this) {
         this->collider.list[0].dim.worldSphere.radius = sJntSphInit.list->dim.modelSphere.radius;
     }
 
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060000F0);
+    Animation_PlayLoop(&this->skelAnime, &D_060000F0);
     Math_Vec3f_Copy(&this->actor.posRot, &this->actor.initPosRot);
     this->actor.shape.rot.x = 0;
     this->actor.shape.rot.z = 0;
@@ -183,8 +183,8 @@ void EnCrow_Wait(EnCrow* this, GlobalContext* globalCtx) {
     s32 skelanimeUpdated;
     s16 var;
 
-    SkelAnime_Update(&this->skelAnime);
-    skelanimeUpdated = SkelAnime_IsOnFrame(&this->skelAnime, 0.0f);
+    Animation_Update(&this->skelAnime);
+    skelanimeUpdated = Animation_IsOnFrame(&this->skelAnime, 0.0f);
     this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 3.0f;
 
     if (this->actor.bgCheckFlags & 8) {
@@ -241,7 +241,7 @@ void func_809E0C8C(EnCrow* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 target;
 
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
     if (this->timer != 0) {
         this->timer--;
     }
@@ -316,7 +316,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void func_809E1004(EnCrow* this, GlobalContext* globalCtx) {
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & 8) {
         this->aimRotY = this->actor.wallPolyRot;
@@ -343,7 +343,7 @@ void func_809E10A8(EnCrow* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        SkelAnime_Update(&this->skelAnime);
+        Animation_Update(&this->skelAnime);
         this->actor.draw = EnCrow_Draw;
         if (this->actor.params != 0) {
             target = 0.03f;
@@ -420,7 +420,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, height);
 
-    if (this->actor.colChkInfo.health != 0 && SkelAnime_IsOnFrame(&this->skelAnime, 3.0f)) {
+    if (this->actor.colChkInfo.health != 0 && Animation_IsOnFrame(&this->skelAnime, 3.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_FLUTTER);
     }
 }
@@ -456,6 +456,6 @@ void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnCrow* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                          EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                         EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, this);
 }

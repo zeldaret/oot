@@ -59,7 +59,7 @@ glabel func_809F9424
 /* 01298 809F94E8 00000000 */  nop
 /* 0129C 809F94EC 46000306 */  mov.s   $f12, $f0                  
 .L809F94F0:
-/* 012A0 809F94F0 0C02927F */  jal     SkelAnime_Update
+/* 012A0 809F94F0 0C02927F */  jal     Animation_Update
               
 /* 012A4 809F94F4 E60C0168 */  swc1    $f12, 0x0168($s0)          ## 00000168
 /* 012A8 809F94F8 C60A0164 */  lwc1    $f10, 0x0164($s0)          ## 00000164

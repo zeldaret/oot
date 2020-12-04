@@ -304,7 +304,7 @@ glabel func_80A36AE4
 /* 01BE4 80A36EF4 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 01BE8 80A36EF8 4600910D */  trunc.w.s $f4, $f18                  
 /* 01BEC 80A36EFC 44032000 */  mfc1    $v1, $f4                   
-/* 01BF0 80A36F00 0C02927F */  jal     SkelAnime_Update
+/* 01BF0 80A36F00 0C02927F */  jal     Animation_Update
               
 /* 01BF4 80A36F04 AFA30034 */  sw      $v1, 0x0034($sp)           
 /* 01BF8 80A36F08 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00

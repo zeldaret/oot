@@ -36,8 +36,8 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->jointTbl, &this->unk_1B4, 6);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->jointTbl, &this->unk_1B4, 6);
+    Animation_PlayOnce(&this->skelAnime, &D_0600039C);
 
     this->actor.colChkInfo.mass = 0xFF;
 
@@ -238,7 +238,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (Animation_Update(&this->skelAnime) != 0) {
         this->skelAnime.curFrame = 0.0f;
     }
 
@@ -277,6 +277,6 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                          EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                         EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

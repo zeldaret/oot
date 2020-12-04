@@ -9,7 +9,7 @@ glabel func_80A36690
 /* 0139C 80A366AC 844F00B6 */  lh      $t7, 0x00B6($v0)           ## 000000B6
 /* 013A0 80A366B0 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 013A4 80A366B4 01F8C823 */  subu    $t9, $t7, $t8              
-/* 013A8 80A366B8 0C02927F */  jal     SkelAnime_Update
+/* 013A8 80A366B8 0C02927F */  jal     Animation_Update
               
 /* 013AC 80A366BC A7B90022 */  sh      $t9, 0x0022($sp)           
 /* 013B0 80A366C0 10400039 */  beq     $v0, $zero, .L80A367A8     

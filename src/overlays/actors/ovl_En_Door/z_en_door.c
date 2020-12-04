@@ -87,7 +87,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     objectInfo = &sDoorInfo[0];
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0400FF78, &D_0400E758, this->jointTbl, this->morphTbl, 5);
+    Skeleton_Init(globalCtx, &this->skelAnime, &D_0400FF78, &D_0400E758, this->jointTbl, this->morphTbl, 5);
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
         if (globalCtx->sceneNum == objectInfo->sceneNum) {
             break;
@@ -191,8 +191,8 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
     func_8002DBD0(&this->actor, &sp2C, &player->actor.posRot.pos);
     if (this->unk_191 != 0) {
         this->actionFunc = EnDoor_Open;
-        SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, D_809FCECC[this->unk_190],
-                                         (player->stateFlags1 & 0x8000000) ? 0.75f : 1.5f);
+        Animation_PlayOnceSetSpeed(&this->skelAnime, D_809FCECC[this->unk_190],
+                                   (player->stateFlags1 & 0x8000000) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
             Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
@@ -264,10 +264,10 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
     s32 numEffects;
 
     if (DECR(this->lockTimer) == 0) {
-        if (SkelAnime_Update(&this->skelAnime)) {
+        if (Animation_Update(&this->skelAnime)) {
             this->actionFunc = EnDoor_Idle;
             this->unk_191 = 0;
-        } else if (SkelAnime_IsOnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->unk_190])) {
+        } else if (Animation_IsOnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->unk_190])) {
             Audio_PlayActorSound2(&this->actor,
                                   (globalCtx->sceneNum == SCENE_HAKADAN || globalCtx->sceneNum == SCENE_HAKADANCH ||
                                    globalCtx->sceneNum == SCENE_HIDAN)
@@ -279,7 +279,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
                     EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }
             }
-        } else if (SkelAnime_IsOnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->unk_190])) {
+        } else if (Animation_IsOnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->unk_190])) {
             Audio_PlayActorSound2(&this->actor,
                                   (globalCtx->sceneNum == SCENE_HAKADAN || globalCtx->sceneNum == SCENE_HAKADANCH ||
                                    globalCtx->sceneNum == SCENE_HIDAN)
@@ -330,8 +330,8 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 910);
 
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnDoor_OverrideLimbDraw, NULL,
-                          &this->actor);
+        Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnDoor_OverrideLimbDraw, NULL,
+                         &this->actor);
         if (this->actor.posRot.rot.y != 0) {
             if (1) {}
             if (this->actor.posRot.rot.y > 0) {

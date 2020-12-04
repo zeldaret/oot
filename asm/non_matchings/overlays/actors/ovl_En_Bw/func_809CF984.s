@@ -109,7 +109,7 @@ glabel func_809CF984
               
 /* 013EC 809CFACC 2405083E */  addiu   $a1, $zero, 0x083E         ## $a1 = 0000083E
 .L809CFAD0:
-/* 013F0 809CFAD0 0C02927F */  jal     SkelAnime_Update
+/* 013F0 809CFAD0 0C02927F */  jal     Animation_Update
               
 /* 013F4 809CFAD4 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 013F8 809CFAD8 96190088 */  lhu     $t9, 0x0088($s0)           ## 00000088

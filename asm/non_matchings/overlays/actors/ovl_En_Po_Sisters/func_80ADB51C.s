@@ -9,7 +9,7 @@ glabel func_80ADB51C
 /* 02594 80ADB524 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 02598 80ADB528 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0259C 80ADB52C AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 025A0 80ADB530 0C02927F */  jal     SkelAnime_Update
+/* 025A0 80ADB530 0C02927F */  jal     Animation_Update
               
 /* 025A4 80ADB534 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 025A8 80ADB538 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

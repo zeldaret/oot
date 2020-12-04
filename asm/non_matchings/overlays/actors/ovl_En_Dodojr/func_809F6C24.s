@@ -19,7 +19,7 @@ glabel func_809F6C24
 /* 00894 809F6C54 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00898 809F6C58 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
 /* 0089C 809F6C5C E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 008A0 809F6C60 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 008A0 809F6C60 0C029468 */  jal     Animation_Change
 
 /* 008A4 809F6C64 E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 008A8 809F6C68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

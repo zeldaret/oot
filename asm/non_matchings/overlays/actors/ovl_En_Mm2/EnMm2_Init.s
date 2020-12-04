@@ -32,11 +32,11 @@ glabel EnMm2_Init
 /* 00244 80AAF094 24C65E18 */  addiu   $a2, $a2, 0x5E18           ## $a2 = 06005E18
 /* 00248 80AAF098 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 0024C 80AAF09C 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00250 80AAF0A0 0C0291BE */  jal     SkelAnime_InitFlex
+/* 00250 80AAF0A0 0C0291BE */  jal     Skeleton_InitFlex
 /* 00254 80AAF0A4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00258 80AAF0A8 3C0380AB */  lui     $v1, %hi(D_80AAFAEC)       ## $v1 = 80AB0000
 /* 0025C 80AAF0AC 2463FAEC */  addiu   $v1, $v1, %lo(D_80AAFAEC)  ## $v1 = 80AAFAEC
-/* 00260 80AAF0B0 0C028800 */  jal     SkelAnime_GetLastFrame
+/* 00260 80AAF0B0 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00264 80AAF0B4 8C640020 */  lw      $a0, 0x0020($v1)           ## 80AAFB0C
 /* 00268 80AAF0B8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -51,7 +51,7 @@ glabel EnMm2_Init
 /* 0028C 80AAF0DC E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00290 80AAF0E0 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00294 80AAF0E4 AFB90014 */  sw      $t9, 0x0014($sp)
-/* 00298 80AAF0E8 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00298 80AAF0E8 0C029468 */  jal     Animation_Change
 
 /* 0029C 80AAF0EC E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 002A0 80AAF0F0 24080002 */  addiu   $t0, $zero, 0x0002         ## $t0 = 00000002

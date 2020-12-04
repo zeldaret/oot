@@ -15,7 +15,7 @@ glabel func_80B45E30
 /* 01E14 80B45E64 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01E18 80B45E68 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 01E1C 80B45E6C E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 01E20 80B45E70 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01E20 80B45E70 0C029468 */  jal     Animation_Change
 
 /* 01E24 80B45E74 E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 01E28 80B45E78 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C

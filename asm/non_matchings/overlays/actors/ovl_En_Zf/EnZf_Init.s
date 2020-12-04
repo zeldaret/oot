@@ -130,7 +130,7 @@ glabel EnZf_Init
 /* 00488 80B444D8 24E7B10C */  addiu   $a3, $a3, 0xB10C           ## $a3 = 0600B10C
 /* 0048C 80B444DC 24C66690 */  addiu   $a2, $a2, 0x6690           ## $a2 = 06006690
 /* 00490 80B444E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00494 80B444E4 0C02915F */  jal     SkelAnime_Init
+/* 00494 80B444E4 0C02915F */  jal     Skeleton_Init
               
 /* 00498 80B444E8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0049C 80B444EC 10000011 */  beq     $zero, $zero, .L80B44534   
@@ -149,7 +149,7 @@ glabel EnZf_Init
 /* 004CC 80B4451C 24E7B10C */  addiu   $a3, $a3, 0xB10C           ## $a3 = 0600B10C
 /* 004D0 80B44520 24C604B8 */  addiu   $a2, $a2, 0x04B8           ## $a2 = 060104B8
 /* 004D4 80B44524 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 004D8 80B44528 0C02915F */  jal     SkelAnime_Init
+/* 004D8 80B44528 0C02915F */  jal     Skeleton_Init
               
 /* 004DC 80B4452C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 004E0 80B44530 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C

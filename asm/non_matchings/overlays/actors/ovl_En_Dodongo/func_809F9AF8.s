@@ -29,7 +29,7 @@ glabel func_809F9AF8
 /* 01910 809F9B60 0C00D09B */  jal     func_8003426C              
 /* 01914 809F9B64 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 .L809F9B68:
-/* 01918 809F9B68 0C02927F */  jal     SkelAnime_Update
+/* 01918 809F9B68 0C02927F */  jal     Animation_Update
               
 /* 0191C 809F9B6C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01920 809F9B70 50400017 */  beql    $v0, $zero, .L809F9BD0     

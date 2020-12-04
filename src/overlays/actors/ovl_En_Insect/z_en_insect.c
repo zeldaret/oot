@@ -94,7 +94,7 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7BF58(EnInsect* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, 1, 0.0f);
 }
 
 /**
@@ -154,7 +154,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     temp_s2 = this->actor.params & 3;
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04035590, &D_040341FC, this->jointTbl, this->morphTbl, 24);
+    Skeleton_Init(globalCtx, &this->skelAnime, &D_04035590, &D_040341FC, this->jointTbl, this->morphTbl, 24);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, &this->colliderItem);
 
@@ -237,7 +237,7 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
     playSpeed = (Math_Rand_ZeroOne() * 0.8f) + (this->actor.speedXZ * 1.2f);
     this->skelAnime.playSpeed = CLAMP(playSpeed, 0.0f, 1.9f);
 
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     if (this->unk_31A <= 0) {
         func_80A7C598(this);
@@ -280,7 +280,7 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     this->skelAnime.playSpeed = CLAMP(this->actor.speedXZ * 1.4f, 0.7f, 1.9f);
 
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
 
     if (this->unk_31A <= 0) {
         func_80A7C3A0(this);
@@ -335,7 +335,7 @@ void func_80A7C86C(EnInsect* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
     this->skelAnime.playSpeed = CLAMP(this->actor.speedXZ * 1.6f, 0.8f, 1.9f);
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
 
     if (this->unk_31A <= 0 || !sp38) {
         func_80A7C3A0(this);
@@ -371,7 +371,7 @@ void func_80A7CAD0(EnInsect* this, GlobalContext* globalCtx) {
         }
     } else if (this->unk_31A < 20) {
         Actor_SetScale(&this->actor, CLAMP_MAX(this->actor.scale.x + 0.001f, 0.01f));
-        SkelAnime_Update(&this->skelAnime);
+        Animation_Update(&this->skelAnime);
     }
 }
 
@@ -401,7 +401,7 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.x = Math_Rand_ZeroOne() + this->actor.initPosRot.pos.x - 0.5f;
     this->actor.posRot.pos.z = Math_Rand_ZeroOne() + this->actor.initPosRot.pos.z - 0.5f;
 
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
 
     if (this->unk_31A > 20 && Math_Rand_ZeroOne() < 0.1f) {
         velocity.x = Math_Sins(this->actor.shape.rot.y) * -0.6f;
@@ -448,7 +448,7 @@ void func_80A7CEC0(EnInsect* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.y += this->actor.waterY;
     this->skelAnime.playSpeed = CLAMP(this->unk_31A * 0.018f, 0.1f, 1.9f);
 
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
 
     if (this->unk_31A >= 81) {
         this->unk_316 += Math_Rand_S16Offset(-50, 100);
@@ -650,7 +650,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = phi_f0;
     }
 
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
     if (!(this->unk_314 & 0x40) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & 1)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
         this->unk_314 |= 0x40;
@@ -779,7 +779,7 @@ void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnInsect* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
+    Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
     func_800628A4(0, &this->collider);
     D_80A7DEB4 = 0;
 }

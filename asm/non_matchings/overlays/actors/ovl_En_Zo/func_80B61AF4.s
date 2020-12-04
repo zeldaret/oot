@@ -21,7 +21,7 @@ glabel func_80B61AF4
 /* 018F8 80B61B18 24070014 */  addiu   $a3, $zero, 0x0014         ## $a3 = 00000014
 /* 018FC 80B61B1C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01900 80B61B20 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 01904 80B61B24 0C0295B2 */  jal     SkelAnime_IsOnFrame              
+/* 01904 80B61B24 0C0295B2 */  jal     Animation_IsOnFrame              
 /* 01908 80B61B28 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 0190C 80B61B2C 10400006 */  beq     $v0, $zero, .L80B61B48     
 /* 01910 80B61B30 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001

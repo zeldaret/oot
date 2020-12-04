@@ -4,7 +4,7 @@ glabel EnPoRelay_Update
 /* 010A4 80AD87E4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 010A8 80AD87E8 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 010AC 80AD87EC AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 010B0 80AD87F0 0C02927F */  jal     SkelAnime_Update
+/* 010B0 80AD87F0 0C02927F */  jal     Animation_Update
               
 /* 010B4 80AD87F4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 010B8 80AD87F8 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190

@@ -14,7 +14,7 @@ glabel BossTw_Destroy
 /* 01234 80939F04 28410064 */  slti    $at, $v0, 0x0064
 /* 01238 80939F08 50200006 */  beql    $at, $zero, .L80939F24
 /* 0123C 80939F0C 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
-/* 01240 80939F10 0C0295BC */  jal     SkelAnime_Free
+/* 01240 80939F10 0C0295BC */  jal     Skeleton_Free
 /* 01244 80939F14 8FA5001C */  lw      $a1, 0x001C($sp)
 /* 01248 80939F18 8FAE0018 */  lw      $t6, 0x0018($sp)
 /* 0124C 80939F1C 85C2001C */  lh      $v0, 0x001C($t6)           ## 0000001C

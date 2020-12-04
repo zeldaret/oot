@@ -13,7 +13,7 @@ glabel func_80845964
 /* 13780 80845990 00000000 */  nop
 /* 13784 80845994 45020006 */  bc1fl   .L808459B0                 
 /* 13788 80845998 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
-/* 1378C 8084599C 0C028EF0 */  jal     SkelAnime_LinkUpdate              
+/* 1378C 8084599C 0C028EF0 */  jal     LinkAnimation_Update              
 /* 13790 808459A0 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
 /* 13794 808459A4 1000007A */  beq     $zero, $zero, .L80845B90   
 /* 13798 808459A8 8FBF001C */  lw      $ra, 0x001C($sp)           

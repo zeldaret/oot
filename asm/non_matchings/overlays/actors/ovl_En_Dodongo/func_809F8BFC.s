@@ -14,7 +14,7 @@ glabel func_809F8BFC
 /* 009DC 809F8C2C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 009E0 809F8C30 3C0741C8 */  lui     $a3, 0x41C8                ## $a3 = 41C80000
 /* 009E4 809F8C34 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 009E8 809F8C38 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 009E8 809F8C38 0C029468 */  jal     Animation_Change
 
 /* 009EC 809F8C3C E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 009F0 809F8C40 921803CC */  lbu     $t8, 0x03CC($s0)           ## 000003CC

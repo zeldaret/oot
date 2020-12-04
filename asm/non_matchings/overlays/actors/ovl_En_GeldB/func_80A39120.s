@@ -23,7 +23,7 @@ glabel func_80A39120
 /* 03E5C 80A3916C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 03E60 80A39170 A6000318 */  sh      $zero, 0x0318($s0)         ## 00000318
 .L80A39174:
-/* 03E64 80A39174 0C02927F */  jal     SkelAnime_Update
+/* 03E64 80A39174 0C02927F */  jal     Animation_Update
               
 /* 03E68 80A39178 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 03E6C 80A3917C 50400006 */  beql    $v0, $zero, .L80A39198     

@@ -92,7 +92,7 @@ glabel func_80A36830
 .L80A36978:
 /* 01668 80A36978 46001207 */  neg.s   $f8, $f2                   
 .L80A3697C:
-/* 0166C 80A3697C 0C02927F */  jal     SkelAnime_Update
+/* 0166C 80A3697C 0C02927F */  jal     Animation_Update
               
 /* 01670 80A36980 E60801A4 */  swc1    $f8, 0x01A4($s0)           ## 000001A4
 /* 01674 80A36984 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

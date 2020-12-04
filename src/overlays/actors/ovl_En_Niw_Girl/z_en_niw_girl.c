@@ -53,7 +53,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec2;
     s32 pad2;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->jointTbl, &this->morphTbl, 17);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, &this->jointTbl, &this->morphTbl, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
@@ -89,8 +89,8 @@ void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetLastFrame(&D_06000378);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, 0, -10.0f);
+    f32 frameCount = Animation_GetLastFrame(&D_06000378);
+    Animation_Change(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, 0, -10.0f);
     this->actor.flags &= ~1;
     this->actionFunc = func_80AB9210;
 }
@@ -100,7 +100,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     f32 xDistBetween;
     f32 zDistBetween;
 
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
     Math_SmoothScaleMaxF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
 
     // Find the X and Z distance between the girl and the cuckoo she is chasing
@@ -130,7 +130,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, SkelAnime_GetLastFrame(&D_06009C78), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06009C78), 0, -10.0f);
     this->actor.flags |= 1;
     this->actor.textId = 0x7000;
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
@@ -159,7 +159,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB94D0(EnNiwGirl* this, GlobalContext* globalCtx) {
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx)) {
         this->chasedEnNiw->path = 0;
     }
@@ -244,8 +244,8 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                          EnNiwGirlOverrideLimbDraw, 0, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                         EnNiwGirlOverrideLimbDraw, 0, this);
     func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);

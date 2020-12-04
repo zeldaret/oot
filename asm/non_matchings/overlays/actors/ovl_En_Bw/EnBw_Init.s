@@ -29,7 +29,7 @@ glabel EnBw_Init
 /* 0005C 809CE73C 24E70228 */  addiu   $a3, $a3, 0x0228           ## $a3 = 06000228
 /* 00060 809CE740 24C620F0 */  addiu   $a2, $a2, 0x20F0           ## $a2 = 060020F0
 /* 00064 809CE744 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00068 809CE748 0C02915F */  jal     SkelAnime_Init
+/* 00068 809CE748 0C02915F */  jal     Skeleton_Init
               
 /* 0006C 809CE74C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 809CE750 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)

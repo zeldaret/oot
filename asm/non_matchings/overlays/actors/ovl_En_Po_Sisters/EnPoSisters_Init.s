@@ -27,7 +27,7 @@ glabel EnPoSisters_Init
 /* 0005C 80AD8FEC 24E714CC */  addiu   $a3, $a3, 0x14CC           ## $a3 = 060014CC
 /* 00060 80AD8FF0 24C665C8 */  addiu   $a2, $a2, 0x65C8           ## $a2 = 060065C8
 /* 00064 80AD8FF4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00068 80AD8FF8 0C02915F */  jal     SkelAnime_Init
+/* 00068 80AD8FF8 0C02915F */  jal     Skeleton_Init
               
 /* 0006C 80AD8FFC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80AD9000 240300FF */  addiu   $v1, $zero, 0x00FF         ## $v1 = 000000FF

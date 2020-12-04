@@ -36,7 +36,7 @@ glabel EnGo_Init
 /* 01640 80A3FBB0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01644 80A3FBB4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01648 80A3FBB8 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0164C 80A3FBBC 0C0291BE */  jal     SkelAnime_InitFlex
+/* 0164C 80A3FBBC 0C0291BE */  jal     Skeleton_InitFlex
 /* 01650 80A3FBC0 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01654 80A3FBC4 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 01658 80A3FBC8 AFA50030 */  sw      $a1, 0x0030($sp)
@@ -149,7 +149,7 @@ glabel L80A3FCC8
 /* 017DC 80A3FD4C 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L80A3FD50
 /* 017E0 80A3FD50 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 017E4 80A3FD54 0C028800 */  jal     SkelAnime_GetLastFrame
+/* 017E4 80A3FD54 0C028800 */  jal     Animation_GetLastFrame
 
 /* 017E8 80A3FD58 24844930 */  addiu   $a0, $a0, 0x4930           ## $a0 = 06004930
 /* 017EC 80A3FD5C 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

@@ -31,7 +31,7 @@ glabel func_80B2A300
 /* 00170 80B2A370 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00174 80B2A374 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00178 80B2A378 AFA00018 */  sw      $zero, 0x0018($sp)
-/* 0017C 80B2A37C 0C0291BE */  jal     SkelAnime_InitFlex
+/* 0017C 80B2A37C 0C0291BE */  jal     Skeleton_InitFlex
 /* 00180 80B2A380 A7A20036 */  sh      $v0, 0x0036($sp)
 /* 00184 80B2A384 1000000B */  beq     $zero, $zero, .L80B2A3B4
 /* 00188 80B2A388 87A20036 */  lh      $v0, 0x0036($sp)
@@ -43,7 +43,7 @@ glabel func_80B2A300
 /* 0019C 80B2A39C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000330
 /* 001A0 80B2A3A0 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 001A4 80B2A3A4 AFA00018 */  sw      $zero, 0x0018($sp)
-/* 001A8 80B2A3A8 0C02915F */  jal     SkelAnime_Init
+/* 001A8 80B2A3A8 0C02915F */  jal     Skeleton_Init
 
 /* 001AC 80B2A3AC A7A20036 */  sh      $v0, 0x0036($sp)
 /* 001B0 80B2A3B0 87A20036 */  lh      $v0, 0x0036($sp)
@@ -74,13 +74,13 @@ glabel func_80B2A300
 /* 00210 80B2A410 14410005 */  bne     $v0, $at, .L80B2A428
 /* 00214 80B2A414 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
 .L80B2A418:
-/* 00218 80B2A418 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
+/* 00218 80B2A418 0C0294E1 */  jal     Animation_PlayLoopSetSpeed
 /* 0021C 80B2A41C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00220 80B2A420 10000005 */  beq     $zero, $zero, .L80B2A438
 /* 00224 80B2A424 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80B2A428:
 /* 00228 80B2A428 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000330
-/* 0022C 80B2A42C 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
+/* 0022C 80B2A42C 0C0294E1 */  jal     Animation_PlayLoopSetSpeed
 /* 00230 80B2A430 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00234 80B2A434 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80B2A438:

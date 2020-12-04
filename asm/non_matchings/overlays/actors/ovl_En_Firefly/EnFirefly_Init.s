@@ -26,7 +26,7 @@ glabel EnFirefly_Init
 /* 000BC 80A1312C 24E7017C */  addiu   $a3, $a3, 0x017C           ## $a3 = 0600017C
 /* 000C0 80A13130 24C618B8 */  addiu   $a2, $a2, 0x18B8           ## $a2 = 060018B8
 /* 000C4 80A13134 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 000C8 80A13138 0C02915F */  jal     SkelAnime_Init
+/* 000C8 80A13138 0C02915F */  jal     Skeleton_Init
               
 /* 000CC 80A1313C 26050170 */  addiu   $a1, $s0, 0x0170           ## $a1 = 00000170
 /* 000D0 80A13140 26050314 */  addiu   $a1, $s0, 0x0314           ## $a1 = 00000314

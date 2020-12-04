@@ -14,7 +14,7 @@ glabel func_80A35DD0
 /* 00AD0 80A35DE0 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 00AD4 80A35DE4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00AD8 80A35DE8 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
-/* 00ADC 80A35DEC 0C02927F */  jal     SkelAnime_Update
+/* 00ADC 80A35DEC 0C02927F */  jal     Animation_Update
               
 /* 00AE0 80A35DF0 AFAF002C */  sw      $t7, 0x002C($sp)           
 /* 00AE4 80A35DF4 860402FA */  lh      $a0, 0x02FA($s0)           ## 000002FA

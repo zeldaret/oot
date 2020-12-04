@@ -10,7 +10,7 @@ glabel func_80AD4A68
 /* 00F88 80AD4A88 90980194 */  lbu     $t8, 0x0194($a0)           ## 00000194
 /* 00F8C 80AD4A8C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00F90 80AD4A90 03381823 */  subu    $v1, $t9, $t8              
-/* 00F94 80AD4A94 0C02927F */  jal     SkelAnime_Update
+/* 00F94 80AD4A94 0C02927F */  jal     Animation_Update
               
 /* 00F98 80AD4A98 AFA30028 */  sw      $v1, 0x0028($sp)           
 /* 00F9C 80AD4A9C 86020196 */  lh      $v0, 0x0196($s0)           ## 00000196

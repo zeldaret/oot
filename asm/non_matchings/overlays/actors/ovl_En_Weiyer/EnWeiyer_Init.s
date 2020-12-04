@@ -26,7 +26,7 @@ glabel EnWeiyer_Init
 /* 00058 80B322E8 24E712AC */  addiu   $a3, $a3, 0x12AC           ## $a3 = 060012AC
 /* 0005C 80B322EC 24C63410 */  addiu   $a2, $a2, 0x3410           ## $a2 = 06003410
 /* 00060 80B322F0 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00064 80B322F4 0C02915F */  jal     SkelAnime_Init
+/* 00064 80B322F4 0C02915F */  jal     Skeleton_Init
               
 /* 00068 80B322F8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 80B322FC 26050284 */  addiu   $a1, $s0, 0x0284           ## $a1 = 00000284

@@ -83,7 +83,7 @@ glabel func_808340DC
 .L808341F0:
 /* 01FE0 808341F0 AFA30038 */  sw      $v1, 0x0038($sp)
 /* 01FE4 808341F4 AFA6004C */  sw      $a2, 0x004C($sp)
-/* 01FE8 808341F8 0C028800 */  jal     SkelAnime_GetLastFrame
+/* 01FE8 808341F8 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01FEC 808341FC A3A70037 */  sb      $a3, 0x0037($sp)
 /* 01FF0 80834200 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -116,7 +116,7 @@ glabel func_808340DC
 /* 02050 80834260 E7AC0010 */  swc1    $f12, 0x0010($sp)
 /* 02054 80834264 E7AE0014 */  swc1    $f14, 0x0014($sp)
 /* 02058 80834268 AFA80018 */  sw      $t0, 0x0018($sp)
-/* 0205C 8083426C 0C028FC2 */  jal     SkelAnime_LinkChangeAnim
+/* 0205C 8083426C 0C028FC2 */  jal     LinkAnimation_Change
 /* 02060 80834270 E7B0001C */  swc1    $f16, 0x001C($sp)
 /* 02064 80834274 8E09067C */  lw      $t1, 0x067C($s0)           ## 0000067C
 /* 02068 80834278 2401FEFF */  addiu   $at, $zero, 0xFEFF         ## $at = FFFFFEFF

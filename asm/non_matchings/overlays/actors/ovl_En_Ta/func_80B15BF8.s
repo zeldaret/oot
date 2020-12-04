@@ -26,7 +26,7 @@ glabel func_80B15BF8
 /* 021B8 80B15C58 24A5BF38 */  addiu   $a1, $a1, 0xBF38           ## $a1 = 0600BF38
 /* 021BC 80B15C5C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 021C0 80B15C60 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 021C4 80B15C64 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 021C4 80B15C64 0C029468 */  jal     Animation_Change
 
 /* 021C8 80B15C68 E7A20018 */  swc1    $f2, 0x0018($sp)
 /* 021CC 80B15C6C 24090005 */  addiu   $t1, $zero, 0x0005         ## $t1 = 00000005

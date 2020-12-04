@@ -48,7 +48,7 @@ glabel EnDodongo_Init
 /* 005A4 809F87F4 24E74C20 */  addiu   $a3, $a3, 0x4C20           ## $a3 = 06004C20
 /* 005A8 809F87F8 24C68318 */  addiu   $a2, $a2, 0x8318           ## $a2 = 06008318
 /* 005AC 809F87FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 005B0 809F8800 0C02915F */  jal     SkelAnime_Init
+/* 005B0 809F8800 0C02915F */  jal     Skeleton_Init
               
 /* 005B4 809F8804 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 005B8 809F8808 3C0F80A0 */  lui     $t7, %hi(D_809FA9DC)       ## $t7 = 80A00000

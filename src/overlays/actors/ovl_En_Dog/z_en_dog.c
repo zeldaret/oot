@@ -131,13 +131,13 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 
     switch (this->behavior) {
         case DOG_SIT:
-            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
+            if (Animation_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
-            if (SkelAnime_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
+            if (Animation_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame) != 0) {
                 func_80034EC0(&this->skelAnime, sAnimations, 7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
@@ -226,7 +226,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -433,7 +433,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
     func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
@@ -460,8 +460,8 @@ void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                          EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                         EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

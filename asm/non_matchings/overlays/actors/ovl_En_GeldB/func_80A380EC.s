@@ -47,7 +47,7 @@ glabel func_80A380EC
 /* 02E70 80A38180 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 02E74 80A38184 5440003E */  bnel    $v0, $zero, .L80A38280     
 /* 02E78 80A38188 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 02E7C 80A3818C 0C02927F */  jal     SkelAnime_Update
+/* 02E7C 80A3818C 0C02927F */  jal     Animation_Update
               
 /* 02E80 80A38190 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 02E84 80A38194 5040003A */  beql    $v0, $zero, .L80A38280     

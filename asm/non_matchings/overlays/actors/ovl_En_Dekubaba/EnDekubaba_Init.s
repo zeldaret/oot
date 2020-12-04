@@ -26,7 +26,7 @@ glabel EnDekubaba_Init
 /* 00058 809E5828 24E702B8 */  addiu   $a3, $a3, 0x02B8           ## $a3 = 060002B8
 /* 0005C 809E582C 24C62A40 */  addiu   $a2, $a2, 0x2A40           ## $a2 = 06002A40
 /* 00060 809E5830 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00064 809E5834 0C02915F */  jal     SkelAnime_Init
+/* 00064 809E5834 0C02915F */  jal     Skeleton_Init
               
 /* 00068 809E5838 2605017C */  addiu   $a1, $s0, 0x017C           ## $a1 = 0000017C
 /* 0006C 809E583C 26050238 */  addiu   $a1, $s0, 0x0238           ## $a1 = 00000238

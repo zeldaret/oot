@@ -45,7 +45,7 @@ glabel EnTa_Init
 /* 00138 80B13BD8 24E71C94 */  addiu   $a3, $a3, 0x1C94           ## $a3 = 06001C94
 /* 0013C 80B13BDC 24C6B7B8 */  addiu   $a2, $a2, 0xB7B8           ## $a2 = 0600B7B8
 /* 00140 80B13BE0 AFA50038 */  sw      $a1, 0x0038($sp)
-/* 00144 80B13BE4 0C0291BE */  jal     SkelAnime_InitFlex
+/* 00144 80B13BE4 0C0291BE */  jal     Skeleton_InitFlex
 /* 00148 80B13BE8 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 0014C 80B13BEC 26050264 */  addiu   $a1, $s0, 0x0264           ## $a1 = 00000264
 /* 00150 80B13BF0 AFA5003C */  sw      $a1, 0x003C($sp)
@@ -129,7 +129,7 @@ glabel EnTa_Init
 /* 00264 80B13D04 A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 00268 80B13D08 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0026C 80B13D0C 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 00270 80B13D10 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 00270 80B13D10 0C02947A */  jal     Animation_PlayOnce
 /* 00274 80B13D14 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00278 80B13D18 3C0E0600 */  lui     $t6, 0x0600                ## $t6 = 06000000
 /* 0027C 80B13D1C 25CE1C94 */  addiu   $t6, $t6, 0x1C94           ## $t6 = 06001C94
@@ -145,7 +145,7 @@ glabel EnTa_Init
 /* 002A0 80B13D40 A60F02B4 */  sh      $t7, 0x02B4($s0)           ## 000002B4
 /* 002A4 80B13D44 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 002A8 80B13D48 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 002AC 80B13D4C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 002AC 80B13D4C 0C02947A */  jal     Animation_PlayOnce
 /* 002B0 80B13D50 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 002B4 80B13D54 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 002B8 80B13D58 44813000 */  mtc1    $at, $f6                   ## $f6 = 54.00
@@ -205,7 +205,7 @@ glabel EnTa_Init
 /* 0036C 80B13E0C A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 00370 80B13E10 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00374 80B13E14 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 00378 80B13E18 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 00378 80B13E18 0C02947A */  jal     Animation_PlayOnce
 /* 0037C 80B13E1C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00380 80B13E20 3C0D0600 */  lui     $t5, 0x0600                ## $t5 = 06000000
 /* 00384 80B13E24 25AD1C94 */  addiu   $t5, $t5, 0x1C94           ## $t5 = 06001C94
@@ -242,7 +242,7 @@ glabel EnTa_Init
 /* 003F0 80B13E90 A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 003F4 80B13E94 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 003F8 80B13E98 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 003FC 80B13E9C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 003FC 80B13E9C 0C02947A */  jal     Animation_PlayOnce
 /* 00400 80B13EA0 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00404 80B13EA4 3C180600 */  lui     $t8, 0x0600                ## $t8 = 06000000
 /* 00408 80B13EA8 27181C94 */  addiu   $t8, $t8, 0x1C94           ## $t8 = 06001C94
@@ -258,7 +258,7 @@ glabel EnTa_Init
 /* 0042C 80B13ECC A61902B4 */  sh      $t9, 0x02B4($s0)           ## 000002B4
 /* 00430 80B13ED0 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00434 80B13ED4 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 00438 80B13ED8 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 00438 80B13ED8 0C02947A */  jal     Animation_PlayOnce
 /* 0043C 80B13EDC 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00440 80B13EE0 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00444 80B13EE4 44814000 */  mtc1    $at, $f8                   ## $f8 = 54.00
@@ -402,12 +402,12 @@ glabel EnTa_Init
 /* 00648 80B140E8 0C2C4EA8 */  jal     func_80B13AA0
 /* 0064C 80B140EC 24C66938 */  addiu   $a2, $a2, %lo(func_80B16938) ## $a2 = 80B16938
 /* 00650 80B140F0 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 00654 80B140F4 0C028800 */  jal     SkelAnime_GetLastFrame
+/* 00654 80B140F4 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00658 80B140F8 2484C48C */  addiu   $a0, $a0, 0xC48C           ## $a0 = 0600C48C
 /* 0065C 80B140FC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 00660 80B14100 2484C48C */  addiu   $a0, $a0, 0xC48C           ## $a0 = 0600C48C
-/* 00664 80B14104 0C028800 */  jal     SkelAnime_GetLastFrame
+/* 00664 80B14104 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00668 80B14108 A7A20040 */  sh      $v0, 0x0040($sp)
 /* 0066C 80B1410C 87AB0040 */  lh      $t3, 0x0040($sp)
@@ -428,7 +428,7 @@ glabel EnTa_Init
 /* 006A8 80B14148 46003201 */  sub.s   $f8, $f6, $f0
 /* 006AC 80B1414C E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 006B0 80B14150 44074000 */  mfc1    $a3, $f8
-/* 006B4 80B14154 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 006B4 80B14154 0C029468 */  jal     Animation_Change
 
 /* 006B8 80B14158 00000000 */  nop
 /* 006BC 80B1415C 3C028016 */  lui     $v0, %hi(gSaveContext)
@@ -447,7 +447,7 @@ glabel EnTa_Init
 /* 006EC 80B1418C A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 006F0 80B14190 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 006F4 80B14194 24A517E8 */  addiu   $a1, $a1, 0x17E8           ## $a1 = 060017E8
-/* 006F8 80B14198 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 006F8 80B14198 0C02947A */  jal     Animation_PlayOnce
 /* 006FC 80B1419C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00700 80B141A0 3C0F0600 */  lui     $t7, 0x0600                ## $t7 = 06000000
 /* 00704 80B141A4 25EF17E8 */  addiu   $t7, $t7, 0x17E8           ## $t7 = 060017E8
@@ -461,7 +461,7 @@ glabel EnTa_Init
 /* 00720 80B141C0 A61802B4 */  sh      $t8, 0x02B4($s0)           ## 000002B4
 /* 00724 80B141C4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00728 80B141C8 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 0072C 80B141CC 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 0072C 80B141CC 0C02947A */  jal     Animation_PlayOnce
 /* 00730 80B141D0 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00734 80B141D4 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00738 80B141D8 44812000 */  mtc1    $at, $f4                   ## $f4 = 54.00
@@ -480,7 +480,7 @@ glabel EnTa_Init
 /* 00768 80B14208 A60802B4 */  sh      $t0, 0x02B4($s0)           ## 000002B4
 /* 0076C 80B1420C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00770 80B14210 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 00774 80B14214 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 00774 80B14214 0C02947A */  jal     Animation_PlayOnce
 /* 00778 80B14218 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 0077C 80B1421C 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00780 80B14220 44813000 */  mtc1    $at, $f6                   ## $f6 = 54.00

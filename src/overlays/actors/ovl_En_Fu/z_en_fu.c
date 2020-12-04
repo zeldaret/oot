@@ -77,8 +77,8 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTbl, this->morphTbl, 16);
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelanime, &D_06000B04);
+    Skeleton_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTbl, this->morphTbl, 16);
+    Animation_PlayLoop(&this->skelanime, &D_06000B04);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
@@ -125,8 +125,7 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFu_WaitChild;
 
         if (this->skelanime.animation == &D_0600057C) {
-            SkelAnime_ChangeAnim(&this->skelanime, &D_06000B04, 1.0f, 0.0f, SkelAnime_GetLastFrame(&D_06000B04), 2,
-                                 -4.0f);
+            Animation_Change(&this->skelanime, &D_06000B04, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B04), 2, -4.0f);
         }
     }
 }
@@ -145,8 +144,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
-            SkelAnime_ChangeAnim(&this->skelanime, &D_0600057C, 1.0f, 0.0f, SkelAnime_GetLastFrame(&D_0600057C), 2,
-                                 -4.0f);
+            Animation_Change(&this->skelanime, &D_0600057C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600057C), 2, -4.0f);
         }
     }
 }
@@ -243,9 +241,9 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
-        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
-                             SkelAnime_GetLastFrame(this->skelanime.animation), 2, 0.0f);
+    if ((!(this->behaviorFlags & FU_WAIT)) && (Animation_Update(&this->skelanime) != 0)) {
+        Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
+                         Animation_GetLastFrame(this->skelanime.animation), 2, 0.0f);
     }
     this->actionFunc(this, globalCtx);
     if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
@@ -303,8 +301,8 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, this->skelanime.dListCount,
-                          EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, this->skelanime.dListCount,
+                         EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
 }

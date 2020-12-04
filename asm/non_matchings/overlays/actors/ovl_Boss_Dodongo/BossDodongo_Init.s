@@ -59,11 +59,11 @@ glabel BossDodongo_Init
 /* 00864 808C19F4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00868 808C19F8 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0086C 808C19FC AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00870 808C1A00 0C02915F */  jal     SkelAnime_Init
+/* 00870 808C1A00 0C02915F */  jal     Skeleton_Init
 
 /* 00874 808C1A04 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00878 808C1A08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
-/* 0087C 808C1A0C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 0087C 808C1A0C 0C0294BE */  jal     Animation_PlayLoop
 /* 00880 808C1A10 02402825 */  or      $a1, $s2, $zero            ## $a1 = 0600F0D8
 /* 00884 808C1A14 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00888 808C1A18 44812000 */  mtc1    $at, $f4                   ## $f4 = 1.00

@@ -185,10 +185,10 @@ void func_80AA1CC0(EnMa2* this) {
 }
 
 void func_80AA1D44(EnMa2* this, s32 idx) {
-    f32 frameCount = SkelAnime_GetLastFrame(D_80AA2858[idx].animation);
+    f32 frameCount = Animation_GetLastFrame(D_80AA2858[idx].animation);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, D_80AA2858[idx].animation, 1.0f, 0.0f, frameCount, D_80AA2858[idx].unk_08,
-                         D_80AA2858[idx].transitionRate);
+    Animation_Change(&this->skelAnime, D_80AA2858[idx].animation, 1.0f, 0.0f, frameCount, D_80AA2858[idx].unk_08,
+                     D_80AA2858[idx].transitionRate);
 }
 
 void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
@@ -212,7 +212,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -248,7 +248,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMa2* this = THIS;
 
-    SkelAnime_Free(&this->skelAnime, globalCtx);
+    Skeleton_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -311,7 +311,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    SkelAnime_Update(&this->skelAnime);
+    Animation_Update(&this->skelAnime);
     func_80AA1CC0(this);
     this->actionFunc(this, globalCtx);
     func_80AA1DB4(this, globalCtx);
@@ -380,8 +380,8 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA28B4[this->unk_210]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA28C0[this->unk_20E]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                          EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                         EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 990);
 }

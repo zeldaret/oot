@@ -27,7 +27,7 @@ glabel func_80A1B524
 /* 00BD4 80A1B574 00000000 */  nop
 /* 00BD8 80A1B578 A4880032 */  sh      $t0, 0x0032($a0)           ## 00000032
 /* 00BDC 80A1B57C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00BE0 80A1B580 0C028800 */  jal     SkelAnime_GetLastFrame
+/* 00BE0 80A1B580 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00BE4 80A1B584 248407BC */  addiu   $a0, $a0, 0x07BC           ## $a0 = 060007BC
 /* 00BE8 80A1B588 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
@@ -41,7 +41,7 @@ glabel func_80A1B524
 /* 00C08 80A1B5A8 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00C0C 80A1B5AC E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 00C10 80A1B5B0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 00C14 80A1B5B4 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00C14 80A1B5B4 0C029468 */  jal     Animation_Change
 
 /* 00C18 80A1B5B8 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00C1C 80A1B5BC 3C0A80A2 */  lui     $t2, %hi(func_80A1B778)    ## $t2 = 80A20000
@@ -53,7 +53,7 @@ glabel func_80A1B524
 /* 00C30 80A1B5D0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00C34 80A1B5D4 51600014 */  beql    $t3, $zero, .L80A1B628
 /* 00C38 80A1B5D8 8FBF002C */  lw      $ra, 0x002C($sp)
-/* 00C3C 80A1B5DC 0C028800 */  jal     SkelAnime_GetLastFrame
+/* 00C3C 80A1B5DC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 00C40 80A1B5E0 248407BC */  addiu   $a0, $a0, 0x07BC           ## $a0 = 060007BC
 /* 00C44 80A1B5E4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -67,7 +67,7 @@ glabel func_80A1B524
 /* 00C64 80A1B604 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00C68 80A1B608 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00C6C 80A1B60C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 00C70 80A1B610 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 00C70 80A1B610 0C029468 */  jal     Animation_Change
 
 /* 00C74 80A1B614 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00C78 80A1B618 3C0D80A2 */  lui     $t5, %hi(func_80A1B638)    ## $t5 = 80A20000

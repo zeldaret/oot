@@ -304,7 +304,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->jointTbl, &this->morphTbl, 12);
+    Skeleton_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->jointTbl, &this->morphTbl, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -443,7 +443,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-    SkelAnime_Update(&this->skelanime);
+    Animation_Update(&this->skelanime);
     EnKz_UpdateEyes(this);
     Actor_MoveForward(&this->actor);
     if (this->actionFunc != EnKz_StartTimer) {
@@ -483,8 +483,8 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, this->skelanime.dListCount,
-                          EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, this->skelanime.dListCount,
+                         EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }

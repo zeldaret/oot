@@ -28,7 +28,7 @@ glabel func_809CF7AC
 /* 010D4 809CF7B4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 010D8 809CF7B8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 010DC 809CF7BC AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 010E0 809CF7C0 0C02927F */  jal     SkelAnime_Update
+/* 010E0 809CF7C0 0C02927F */  jal     Animation_Update
               
 /* 010E4 809CF7C4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 010E8 809CF7C8 50400009 */  beql    $v0, $zero, .L809CF7F0     

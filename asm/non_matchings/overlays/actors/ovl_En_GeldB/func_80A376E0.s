@@ -66,7 +66,7 @@ glabel func_80A376E0
 /* 0249C 80A377AC 1000005B */  beq     $zero, $zero, .L80A3791C   
 /* 024A0 80A377B0 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80A377B4:
-/* 024A4 80A377B4 0C02927F */  jal     SkelAnime_Update
+/* 024A4 80A377B4 0C02927F */  jal     Animation_Update
               
 /* 024A8 80A377B8 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 024AC 80A377BC 10400056 */  beq     $v0, $zero, .L80A37918     

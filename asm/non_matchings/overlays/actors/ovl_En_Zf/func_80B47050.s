@@ -39,7 +39,7 @@ glabel func_80B47050
 /* 03084 80B470D4 A4E803F6 */  sh      $t0, 0x03F6($a3)           ## 000003F6
 .L80B470D8:
 /* 03088 80B470D8 44061000 */  mfc1    $a2, $f2
-/* 0308C 80B470DC 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 0308C 80B470DC 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 03090 80B470E0 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 03094 80B470E4 8FA70018 */  lw      $a3, 0x0018($sp)
 .L80B470E8:

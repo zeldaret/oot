@@ -4,12 +4,12 @@ glabel func_80B167FC
 /* 02D64 80B16804 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 02D68 80B16808 AFBF001C */  sw      $ra, 0x001C($sp)
 /* 02D6C 80B1680C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 02D70 80B16810 0C02927F */  jal     SkelAnime_Update
+/* 02D70 80B16810 0C02927F */  jal     Animation_Update
 
 /* 02D74 80B16814 AFA40024 */  sw      $a0, 0x0024($sp)
 /* 02D78 80B16818 10400006 */  beq     $v0, $zero, .L80B16834
 /* 02D7C 80B1681C 8FA40024 */  lw      $a0, 0x0024($sp)
-/* 02D80 80B16820 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 02D80 80B16820 0C02947A */  jal     Animation_PlayOnce
 /* 02D84 80B16824 8E0502E4 */  lw      $a1, 0x02E4($s0)           ## 000002E4
 /* 02D88 80B16828 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02D8C 80B1682C 0C00BE0A */  jal     Audio_PlayActorSound2

@@ -14,7 +14,7 @@ glabel func_809C441C
 /* 00DF4 809C4424 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00DF8 809C4428 AFBF003C */  sw      $ra, 0x003C($sp)           
 /* 00DFC 809C442C AFA50054 */  sw      $a1, 0x0054($sp)           
-/* 00E00 809C4430 0C02927F */  jal     SkelAnime_Update
+/* 00E00 809C4430 0C02927F */  jal     Animation_Update
               
 /* 00E04 809C4434 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00E08 809C4438 860E022A */  lh      $t6, 0x022A($s0)           ## 0000022A

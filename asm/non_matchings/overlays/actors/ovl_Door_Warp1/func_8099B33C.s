@@ -173,7 +173,7 @@ glabel func_8099B33C
 /* 02E1C 8099B59C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 02E20 8099B5A0 8E0B02D0 */  lw      $t3, 0x02D0($s0)           ## 000002D0
 /* 02E24 8099B5A4 44D8F800 */  ctc1    $t8, $31
-/* 02E28 8099B5A8 0C0288A2 */  jal     SkelAnime_Draw
+/* 02E28 8099B5A8 0C0288A2 */  jal     Skeleton_Draw
 /* 02E2C 8099B5AC AFAB0018 */  sw      $t3, 0x0018($sp)
 /* 02E30 8099B5B0 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 02E34 8099B5B4 3C06809A */  lui     $a2, %hi(D_8099C658)       ## $a2 = 809A0000
@@ -182,7 +182,7 @@ glabel func_8099B33C
 /* 02E40 8099B5C0 27A40048 */  addiu   $a0, $sp, 0x0048           ## $a0 = FFFFFFD8
 /* 02E44 8099B5C4 0C031AD5 */  jal     Graph_CloseDisps
 /* 02E48 8099B5C8 24070868 */  addiu   $a3, $zero, 0x0868         ## $a3 = 00000868
-/* 02E4C 8099B5CC 0C02927F */  jal     SkelAnime_Update
+/* 02E4C 8099B5CC 0C02927F */  jal     Animation_Update
 
 /* 02E50 8099B5D0 2644014C */  addiu   $a0, $s2, 0x014C           ## $a0 = 0000014C
 /* 02E54 8099B5D4 8FBF0034 */  lw      $ra, 0x0034($sp)

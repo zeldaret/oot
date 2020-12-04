@@ -73,8 +73,8 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->jointTbl, this->morphTbl, 0x10);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060076EC);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->jointTbl, this->morphTbl, 0x10);
+    Animation_PlayOnce(&this->skelAnime, &D_060076EC);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
@@ -208,24 +208,24 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, SkelAnime_GetLastFrame(&D_060070F0), 2, -4.0f);
+        Animation_Change(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060070F0), 2, -4.0f);
         this->unk_2AA++;
         this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
     }
 }
 
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime)) {
+    if (Animation_Update(&this->skelAnime)) {
         this->unk_2AA++;
     }
 }
 
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime)) {
+    if (Animation_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, SkelAnime_GetLastFrame(&D_060067B8), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060067B8), 2, 0.0f);
         this->actor.shape.shadowDrawFunc = NULL;
         this->unk_2AA++;
     }
@@ -262,7 +262,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {
-        if (SkelAnime_Update(&this->skelAnime) != 0) {
+        if (Animation_Update(&this->skelAnime) != 0) {
             this->skelAnime.curFrame = 0.0f;
         }
         this->actionFunc(this, globalCtx);
@@ -317,8 +317,8 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                          EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);
+    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                         EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
 }

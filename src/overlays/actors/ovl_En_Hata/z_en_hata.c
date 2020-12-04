@@ -45,10 +45,10 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
 
     temp = 0;
-    frameCount = SkelAnime_GetLastFrame(&D_06000444);
+    frameCount = Animation_GetLastFrame(&D_06000444);
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    Skeleton_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
+    Animation_Change(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
     DynaPolyInfo_Alloc(&D_060000C0, &temp);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
@@ -63,7 +63,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
-    SkelAnime_Free(&this->skelAnime, globalCtx);
+    Skeleton_Free(&this->skelAnime, globalCtx);
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -76,7 +76,7 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sin;
 
     sp48 = sVec;
-    SkelAnime_Update(&THIS->skelAnime);
+    Animation_Update(&THIS->skelAnime);
     gblCtx = globalCtx;
     THIS->limbs[3].y = THIS->limbs[12].y = -0x4000;
     sp3C.x = gblCtx->envCtx.unk_A8;
@@ -123,6 +123,6 @@ void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
     func_800943C8(globalCtx->state.gfxCtx);
     Matrix_Scale(1.0f, 1.1f, 1.0f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHata_OverrideLimbDraw,
-                      EnHata_PostLimbDraw, this);
+    Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHata_OverrideLimbDraw,
+                     EnHata_PostLimbDraw, this);
 }

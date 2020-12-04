@@ -217,7 +217,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
  * towards `actor`, and there must not be a collision poly between `this` and `actor`
  */
 s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
-    CollisionPoly** colPoly;
+    CollisionPoly* colPoly;
     u32 bgId;
     Vec3f colPoint;
     s16 angle;
@@ -349,8 +349,8 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFd* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005810, NULL, this->limbDrawTable, this->transitionDrawTable,
-                       27);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06005810, NULL, this->limbDrawTable, this->transitionDrawTable,
+                      27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
@@ -384,7 +384,7 @@ void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+    if (Animation_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
         this->actor.velocity.y = 6.0f;
         this->actor.scale.y = 0.01f;
         this->actor.posRot.rot.y ^= 0x8000;
@@ -393,7 +393,7 @@ void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
         func_80034EC0(&this->skelAnime, sAnimations, 1);
         this->actionFunc = EnFd_JumpToGround;
     } else {
-        this->actor.scale.y = this->skelAnime.animCurrentFrame * (0.01f / this->skelAnime.totalFrames);
+        this->actor.scale.y = this->skelAnime.curFrame * (0.01f / this->skelAnime.animLength);
         this->actor.shape.rot.y += 0x2000;
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
     }
@@ -412,8 +412,8 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
     Vec3f adjPos;
 
-    Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+    Math_SmoothScaleMaxMinF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
+    if (Animation_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
         this->spinTimer = Math_Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
@@ -521,8 +521,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
     this->actor.posRot.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
-    if (this->skelAnime.animCurrentFrame == 6.0f || this->skelAnime.animCurrentFrame == 13.0f ||
-        this->skelAnime.animCurrentFrame == 28.0f) {
+    if (this->skelAnime.curFrame == 6.0f || this->skelAnime.curFrame == 13.0f || this->skelAnime.curFrame == 28.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_KICK);
     }
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
@@ -557,7 +556,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != EnFd_Reappear) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        Animation_Update(&this->skelAnime);
         EnFd_SpawnDot(this, globalCtx);
     }
 
@@ -685,9 +684,9 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_XLU_DISP++, 0x9, D_80116280);
 
-        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                           this->skelAnime.dListCount, EnFd_OverrideLimbDraw, EnFd_PostLimbDraw, this,
-                                           POLY_XLU_DISP);
+        POLY_XLU_DISP =
+            Skeleton_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                              EnFd_OverrideLimbDraw, EnFd_PostLimbDraw, this, POLY_XLU_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 1822);
 }

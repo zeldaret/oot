@@ -89,7 +89,7 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
 void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
 
-    SkelAnime_Free(&this->skelAnime, globalCtx);
+    Skeleton_Free(&this->skelAnime, globalCtx);
 }
 
 void func_8097C930(DemoGo* this) {
@@ -112,7 +112,7 @@ void func_8097C9B8(DemoGo* this) {
 
 void func_8097C9DC(DemoGo* this) {
     s32 pad[2];
-    if (SkelAnime_IsOnFrame(&this->skelAnime, 12.0f) || SkelAnime_IsOnFrame(&this->skelAnime, 25.0f)) {
+    if (Animation_IsOnFrame(&this->skelAnime, 12.0f) || Animation_IsOnFrame(&this->skelAnime, 25.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_EN_MORIBLIN_WALK);
     }
 }
@@ -196,7 +196,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
 }
 
 UNK_TYPE DemoGo_FrameUpdateMatrix(DemoGo* this) {
-    return SkelAnime_Update(&this->skelAnime);
+    return Animation_Update(&this->skelAnime);
 }
 
 s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 npcAction) {
@@ -245,7 +245,7 @@ void func_8097CEEC(DemoGo* this, GlobalContext* globalCtx) {
 void func_8097CF20(DemoGo* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
     AnimationHeader* animation = &D_060029A8;
     if (arg2 != 0) {
-        SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetLastFrame(animation), 0, -8.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, -8.0f);
         this->action = 5;
         this->unk_19C = 0.0f;
     }
@@ -318,8 +318,8 @@ void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_06004930;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
-    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetLastFrame(animation), 2, 0.0f);
+    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
     this->action = 0;
 }
 
@@ -339,7 +339,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount, NULL, NULL, this);
+    Skeleton_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount, NULL, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }

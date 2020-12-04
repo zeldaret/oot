@@ -178,12 +178,12 @@ glabel EnGoma_Init
 /* 00210 80A490D0 24E71548 */  addiu   $a3, $a3, 0x1548           ## $a3 = 06001548
 /* 00214 80A490D4 24C63B40 */  addiu   $a2, $a2, 0x3B40           ## $a2 = 06003B40
 /* 00218 80A490D8 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0021C 80A490DC 0C02915F */  jal     SkelAnime_Init
+/* 0021C 80A490DC 0C02915F */  jal     Skeleton_Init
 
 /* 00220 80A490E0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00224 80A490E4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00228 80A490E8 24A51548 */  addiu   $a1, $a1, 0x1548           ## $a1 = 06001548
-/* 0022C 80A490EC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 0022C 80A490EC 0C0294BE */  jal     Animation_PlayLoop
 /* 00230 80A490F0 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00234 80A490F4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 /* 00238 80A490F8 240B0002 */  addiu   $t3, $zero, 0x0002         ## $t3 = 00000002

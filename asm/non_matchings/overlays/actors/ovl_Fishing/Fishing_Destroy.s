@@ -3,7 +3,7 @@ glabel Fishing_Destroy
 /* 01520 80B6AEC0 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 01524 80B6AEC4 AFA40018 */  sw      $a0, 0x0018($sp)
 /* 01528 80B6AEC8 248401D8 */  addiu   $a0, $a0, 0x01D8           ## $a0 = 000001D8
-/* 0152C 80B6AECC 0C0295BC */  jal     SkelAnime_Free
+/* 0152C 80B6AECC 0C0295BC */  jal     Skeleton_Free
 /* 01530 80B6AED0 AFA5001C */  sw      $a1, 0x001C($sp)
 /* 01534 80B6AED4 8FA30018 */  lw      $v1, 0x0018($sp)
 /* 01538 80B6AED8 8FA7001C */  lw      $a3, 0x001C($sp)

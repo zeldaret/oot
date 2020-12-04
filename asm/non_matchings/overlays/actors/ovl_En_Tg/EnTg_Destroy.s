@@ -3,7 +3,7 @@ glabel EnTg_Destroy
 /* 0022C 80B1858C AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00230 80B18590 AFA40018 */  sw      $a0, 0x0018($sp)
 /* 00234 80B18594 AFA5001C */  sw      $a1, 0x001C($sp)
-/* 00238 80B18598 0C0295BC */  jal     SkelAnime_Free
+/* 00238 80B18598 0C0295BC */  jal     Skeleton_Free
 /* 0023C 80B1859C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00240 80B185A0 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 00244 80B185A4 8FA4001C */  lw      $a0, 0x001C($sp)

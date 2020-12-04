@@ -14,8 +14,8 @@ struct SkelAnime;
     (((u32)&_link_animetionSegmentRomStart) + ((u32)addr) - ((u32)&link_animetion_segment) + ((u32)offset))
 #define LIMB_DONE 0xFF
 #define ANIMATION_ENTRY_MAX 50
-#define ANIM_FLAG_UPDATEXZ (1 << 1)
-#define ANIM_FLAG_UPDATEY (1 << 4)
+#define ANIM_FLAG_UPDATEY (1 << 1)
+#define ANIM_FLAG_NOMOVE (1 << 4)
 
 typedef enum {
     ANIMMODE_LOOP,
@@ -255,9 +255,9 @@ typedef struct SkelAnime {
     /* 0x30 */ AnimationUpdateFunc update;
     /* 0x34 */ s8 initFlags;
     /* 0x35 */ u8 flags;
-    /* 0x36 */ s16 prevFrameRot;
-    /* 0x38 */ Vec3s prevFramePos;
-    /* 0x3E */ Vec3s unk_3E;
+    /* 0x36 */ s16 prevRot;
+    /* 0x38 */ Vec3s prevTranslation;
+    /* 0x3E */ Vec3s baseTranslation;
 } SkelAnime; // size = 0x44
 
 #endif

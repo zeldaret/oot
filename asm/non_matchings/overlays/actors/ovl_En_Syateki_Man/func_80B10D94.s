@@ -4,7 +4,7 @@ glabel func_80B10D94
 /* 0052C 80B10D9C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00530 80B10DA0 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00534 80B10DA4 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00538 80B10DA8 0C02927F */  jal     SkelAnime_Update
+/* 00538 80B10DA8 0C02927F */  jal     Animation_Update
               
 /* 0053C 80B10DAC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00540 80B10DB0 8E030118 */  lw      $v1, 0x0118($s0)           ## 00000118

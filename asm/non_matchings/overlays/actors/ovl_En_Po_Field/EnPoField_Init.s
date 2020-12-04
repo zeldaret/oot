@@ -64,7 +64,7 @@ glabel EnPoField_Init
 /* 000E8 80AD3BE8 24E70924 */  addiu   $a3, $a3, 0x0924           ## $a3 = 06000924
 /* 000EC 80AD3BEC 24C66A30 */  addiu   $a2, $a2, 0x6A30           ## $a2 = 06006A30
 /* 000F0 80AD3BF0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000F4 80AD3BF4 0C02915F */  jal     SkelAnime_Init
+/* 000F4 80AD3BF4 0C02915F */  jal     Skeleton_Init
               
 /* 000F8 80AD3BF8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000FC 80AD3BFC 26050244 */  addiu   $a1, $s0, 0x0244           ## $a1 = 00000244

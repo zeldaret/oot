@@ -33,7 +33,7 @@ glabel EnDntJiji_Init
 /* 00050 809F1B30 24E70560 */  addiu   $a3, $a3, 0x0560           ## $a3 = 06000560
 /* 00054 809F1B34 24C633E0 */  addiu   $a2, $a2, 0x33E0           ## $a2 = 060033E0
 /* 00058 809F1B38 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 0005C 809F1B3C 0C02915F */  jal     SkelAnime_Init
+/* 0005C 809F1B3C 0C02915F */  jal     Skeleton_Init
               
 /* 00060 809F1B40 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00064 809F1B44 2605025C */  addiu   $a1, $s0, 0x025C           ## $a1 = 0000025C

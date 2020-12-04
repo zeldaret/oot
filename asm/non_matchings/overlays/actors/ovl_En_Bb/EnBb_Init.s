@@ -28,7 +28,7 @@ glabel EnBb_Init
 /* 002C0 809B85A0 24E70444 */  addiu   $a3, $a3, 0x0444           ## $a3 = 06000444
 /* 002C4 809B85A4 24C61A30 */  addiu   $a2, $a2, 0x1A30           ## $a2 = 06001A30
 /* 002C8 809B85A8 8FA401EC */  lw      $a0, 0x01EC($sp)           
-/* 002CC 809B85AC 0C02915F */  jal     SkelAnime_Init
+/* 002CC 809B85AC 0C02915F */  jal     Skeleton_Init
               
 /* 002D0 809B85B0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 002D4 809B85B4 24190004 */  addiu   $t9, $zero, 0x0004         ## $t9 = 00000004

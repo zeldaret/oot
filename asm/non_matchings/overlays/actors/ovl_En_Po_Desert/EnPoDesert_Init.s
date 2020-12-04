@@ -20,7 +20,7 @@ glabel EnPoDesert_Init
 /* 00044 80AD2CF4 24E70924 */  addiu   $a3, $a3, 0x0924           ## $a3 = 06000924
 /* 00048 80AD2CF8 24C66A30 */  addiu   $a2, $a2, 0x6A30           ## $a2 = 06006A30
 /* 0004C 80AD2CFC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00050 80AD2D00 0C02915F */  jal     SkelAnime_Init
+/* 00050 80AD2D00 0C02915F */  jal     Skeleton_Init
               
 /* 00054 80AD2D04 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00058 80AD2D08 26050238 */  addiu   $a1, $s0, 0x0238           ## $a1 = 00000238

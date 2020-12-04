@@ -58,7 +58,7 @@ glabel func_80B154FC
 /* 01B1C 80B155BC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01B20 80B155C0 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
 /* 01B24 80B155C4 E7AA0010 */  swc1    $f10, 0x0010($sp)
-/* 01B28 80B155C8 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01B28 80B155C8 0C029468 */  jal     Animation_Change
 
 /* 01B2C 80B155CC E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 01B30 80B155D0 963902E0 */  lhu     $t9, 0x02E0($s1)           ## 000002E0
@@ -104,7 +104,7 @@ glabel func_80B154FC
 /* 01BCC 80B1566C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01BD0 80B15670 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
 /* 01BD4 80B15674 E7B20010 */  swc1    $f18, 0x0010($sp)
-/* 01BD8 80B15678 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01BD8 80B15678 0C029468 */  jal     Animation_Change
 
 /* 01BDC 80B1567C E7A40018 */  swc1    $f4, 0x0018($sp)
 /* 01BE0 80B15680 962B02E0 */  lhu     $t3, 0x02E0($s1)           ## 000002E0
@@ -220,7 +220,7 @@ glabel func_80B154FC
 /* 01D70 80B15810 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 01D74 80B15814 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
 /* 01D78 80B15818 E7A60010 */  swc1    $f6, 0x0010($sp)
-/* 01D7C 80B1581C 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01D7C 80B1581C 0C029468 */  jal     Animation_Change
 
 /* 01D80 80B15820 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 01D84 80B15824 962D02E0 */  lhu     $t5, 0x02E0($s1)           ## 000002E0

@@ -12,7 +12,7 @@ glabel func_80AD48CC
 /* 00DD4 80AD48D4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00DD8 80AD48D8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00DDC 80AD48DC AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00DE0 80AD48E0 0C02927F */  jal     SkelAnime_Update
+/* 00DE0 80AD48E0 0C02927F */  jal     Animation_Update
               
 /* 00DE4 80AD48E4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00DE8 80AD48E8 10400013 */  beq     $v0, $zero, .L80AD4938     
