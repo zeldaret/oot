@@ -21,7 +21,7 @@ glabel func_809CFF98
 /* 01900 809CFFE0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 01904 809CFFE4 E7A40010 */  swc1    $f4, 0x0010($sp)           
-/* 01908 809CFFE8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01908 809CFFE8 0C02927F */  jal     SkelAnime_Update
               
 /* 0190C 809CFFEC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01910 809CFFF0 960E0088 */  lhu     $t6, 0x0088($s0)           ## 00000088

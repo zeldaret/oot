@@ -11,7 +11,7 @@ typedef void (*EnSshActionFunc)(struct EnSsh*, GlobalContext*);
 typedef struct EnSsh {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[30];
+    /* 0x0190 */ Vec3s jointTbl[30];
     /* 0x0244 */ Vec3s transDrawTable[30];
     /* 0x02F8 */ EnSshActionFunc actionFunc;
     /* 0x02FC */ ColliderCylinder colCylinder[6];

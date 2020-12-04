@@ -299,7 +299,7 @@ glabel func_80B4781C
 /* 03BEC 80B47C3C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
 /* 03BF0 80B47C40 8FA60070 */  lw      $a2, 0x0070($sp)
 .L80B47C44:
-/* 03BF4 80B47C44 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03BF4 80B47C44 0C02927F */  jal     SkelAnime_Update
 
 /* 03BF8 80B47C48 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03BFC 80B47C4C 8FBF003C */  lw      $ra, 0x003C($sp)

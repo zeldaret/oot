@@ -15,7 +15,7 @@ glabel func_80AAE598
 /* 00E5C 80AAE5CC 8E0F0040 */  lw      $t7, 0x0040($s0)           ## 00000040
 /* 00E60 80AAE5D0 0C00E0A4 */  jal     func_80038290              
 /* 00E64 80AAE5D4 AFAF0018 */  sw      $t7, 0x0018($sp)           
-/* 00E68 80AAE5D8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00E68 80AAE5D8 0C02927F */  jal     SkelAnime_Update
               
 /* 00E6C 80AAE5DC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00E70 80AAE5E0 0C2AB69C */  jal     func_80AADA70              

@@ -23,7 +23,7 @@ glabel func_80B6476C
 
 /* 01DCC 80B6478C 24845324 */  addiu   $a0, $a0, %lo(D_80B65324)  ## $a0 = 80B65324
 /* 01DD0 80B64790 26040250 */  addiu   $a0, $s0, 0x0250           ## $a0 = 00000250
-/* 01DD4 80B64794 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01DD4 80B64794 0C02927F */  jal     SkelAnime_Update
 
 /* 01DD8 80B64798 AFA4004C */  sw      $a0, 0x004C($sp)
 /* 01DDC 80B6479C 8FAE0064 */  lw      $t6, 0x0064($sp)

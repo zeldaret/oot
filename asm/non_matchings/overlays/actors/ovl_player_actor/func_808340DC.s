@@ -83,7 +83,7 @@ glabel func_808340DC
 .L808341F0:
 /* 01FE0 808341F0 AFA30038 */  sw      $v1, 0x0038($sp)
 /* 01FE4 808341F4 AFA6004C */  sw      $a2, 0x004C($sp)
-/* 01FE8 808341F8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01FE8 808341F8 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01FEC 808341FC A3A70037 */  sb      $a3, 0x0037($sp)
 /* 01FF0 80834200 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

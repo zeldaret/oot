@@ -11,7 +11,7 @@ glabel func_80AA8DD8
 /* 02DAC 80AA8DFC 01F81823 */  subu    $v1, $t7, $t8              
 /* 02DB0 80AA8E00 00031C00 */  sll     $v1, $v1, 16               
 /* 02DB4 80AA8E04 00031C03 */  sra     $v1, $v1, 16               
-/* 02DB8 80AA8E08 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02DB8 80AA8E08 0C02927F */  jal     SkelAnime_Update
               
 /* 02DBC 80AA8E0C A7A3001E */  sh      $v1, 0x001E($sp)           
 /* 02DC0 80AA8E10 8FA60028 */  lw      $a2, 0x0028($sp)           

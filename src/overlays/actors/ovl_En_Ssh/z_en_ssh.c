@@ -202,7 +202,7 @@ f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
     };
     f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
     u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
-    f32 frameCount = SkelAnime_GetFrameCount(&animation[animIndex]->genericHeader);
+    f32 frameCount = SkelAnime_GetLastFrame(animation[animIndex]);
     s32 pad;
 
     SkelAnime_ChangeAnim(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount,
@@ -587,7 +587,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSsh* this = THIS;
 
-    frameCount = SkelAnime_GetFrameCount(&D_06000304.genericHeader);
+    frameCount = SkelAnime_GetLastFrame(&D_06000304);
     if (this->actor.params == ENSSH_FATHER) {
         if (gSaveContext.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
@@ -598,7 +598,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->limbDrawTable, this->transDrawTable, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTbl, this->transDrawTable, 30);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
     this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
     EnSsh_InitColliders(this, globalCtx);
@@ -733,7 +733,7 @@ void EnSsh_Drop(EnSsh* this, GlobalContext* globalCtx) {
 }
 
 void EnSsh_Return(EnSsh* this, GlobalContext* globalCtx) {
-    f32 frameRatio = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
+    f32 frameRatio = this->skelAnime.curFrame / (this->skelAnime.animLength - 1.0f);
 
     if (frameRatio == 1.0f) {
         EnSsh_SetReturnAnimation(this);
@@ -794,7 +794,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->stunTimer != 0) {
         EnSsh_Damaged(this);
     } else {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
         func_8002D7EC(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
         this->actionFunc(this, globalCtx);
@@ -859,6 +859,6 @@ void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2333);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->blinkState]));
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2336);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSsh_OverrideLimbDraw,
-                   EnSsh_PostLimbDraw, &this->actor);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnSsh_OverrideLimbDraw,
+                      EnSsh_PostLimbDraw, &this->actor);
 }

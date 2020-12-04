@@ -108,7 +108,7 @@ glabel func_80912D2C
 
 /* 02748 80912D88 00000000 */  nop
 /* 0274C 80912D8C 2651014C */  addiu   $s1, $s2, 0x014C           ## $s1 = 0000014C
-/* 02750 80912D90 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02750 80912D90 0C02927F */  jal     SkelAnime_Update
 
 /* 02754 80912D94 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
 /* 02758 80912D98 864E01B6 */  lh      $t6, 0x01B6($s2)           ## 000001B6
@@ -268,12 +268,12 @@ glabel L80912FB4
 /* 0299C 80912FDC 1000002B */  beq     $zero, $zero, .L8091308C
 /* 029A0 80912FE0 86450194 */  lh      $a1, 0x0194($s2)           ## 00000194
 .L80912FE4:
-/* 029A4 80912FE4 0C0295B2 */  jal     func_800A56C8
+/* 029A4 80912FE4 0C0295B2 */  jal     SkelAnime_StopAtFrame
 /* 029A8 80912FE8 8E4501D0 */  lw      $a1, 0x01D0($s2)           ## 000001D0
 /* 029AC 80912FEC 10400026 */  beq     $v0, $zero, .L80913088
 /* 029B0 80912FF0 3C100601 */  lui     $s0, 0x0601                ## $s0 = 06010000
 /* 029B4 80912FF4 261008D8 */  addiu   $s0, $s0, 0x08D8           ## $s0 = 060108D8
-/* 029B8 80912FF8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 029B8 80912FF8 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 029BC 80912FFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 060108D8
 /* 029C0 80913000 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -294,12 +294,12 @@ glabel L80912FB4
 /* 029F8 80913038 10000013 */  beq     $zero, $zero, .L80913088
 /* 029FC 8091303C A65801A2 */  sh      $t8, 0x01A2($s2)           ## 000001A2
 .L80913040:
-/* 02A00 80913040 0C0295B2 */  jal     func_800A56C8
+/* 02A00 80913040 0C0295B2 */  jal     SkelAnime_StopAtFrame
 /* 02A04 80913044 8E4501D0 */  lw      $a1, 0x01D0($s2)           ## 000001D0
 /* 02A08 80913048 1040000D */  beq     $v0, $zero, .L80913080
 /* 02A0C 8091304C 3C100600 */  lui     $s0, 0x0600                ## $s0 = 06000000
 /* 02A10 80913050 26100D84 */  addiu   $s0, $s0, 0x0D84           ## $s0 = 06000D84
-/* 02A14 80913054 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 02A14 80913054 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 02A18 80913058 02002025 */  or      $a0, $s0, $zero            ## $a0 = 06000D84
 /* 02A1C 8091305C 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

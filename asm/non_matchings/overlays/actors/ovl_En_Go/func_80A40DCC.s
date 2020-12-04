@@ -11,7 +11,7 @@ glabel func_80A40DCC
 /* 02880 80A40DF0 0C28FB78 */  jal     func_80A3EDE0              
 /* 02884 80A40DF4 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 02888 80A40DF8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 0288C 80A40DFC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0288C 80A40DFC 0C028800 */  jal     SkelAnime_GetLastFrame
               
 /* 02890 80A40E00 24844930 */  addiu   $a0, $a0, 0x4930           ## $a0 = 06004930
 /* 02894 80A40E04 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

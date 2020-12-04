@@ -11,7 +11,7 @@ glabel func_809F97C0
 /* 01594 809F97E4 00031C00 */  sll     $v1, $v1, 16
 /* 01598 809F97E8 00031C03 */  sra     $v1, $v1, 16
 /* 0159C 809F97EC A7A3005E */  sh      $v1, 0x005E($sp)
-/* 015A0 809F97F0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 015A0 809F97F0 0C02927F */  jal     SkelAnime_Update
 
 /* 015A4 809F97F4 AFA40038 */  sw      $a0, 0x0038($sp)
 /* 015A8 809F97F8 10400048 */  beq     $v0, $zero, .L809F991C

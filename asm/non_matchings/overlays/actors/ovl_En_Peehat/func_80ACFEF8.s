@@ -12,7 +12,7 @@ glabel func_80ACFEF8
 /* 00A6C 80ACFF0C 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 00A70 80ACFF10 24053155 */  addiu   $a1, $zero, 0x3155         ## $a1 = 00003155
-/* 00A74 80ACFF14 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00A74 80ACFF14 0C02927F */  jal     SkelAnime_Update
               
 /* 00A78 80ACFF18 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00A7C 80ACFF1C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x10)

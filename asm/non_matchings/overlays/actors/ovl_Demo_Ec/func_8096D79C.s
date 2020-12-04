@@ -16,7 +16,7 @@ glabel func_8096D79C
 /* 00324 8096D7D4 00812021 */  addu    $a0, $a0, $at
 /* 00328 8096D7D8 AFA60040 */  sw      $a2, 0x0040($sp)
 /* 0032C 8096D7DC AFA70044 */  sw      $a3, 0x0044($sp)
-/* 00330 8096D7E0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00330 8096D7E0 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00334 8096D7E4 AFA4002C */  sw      $a0, 0x002C($sp)
 /* 00338 8096D7E8 8FA90048 */  lw      $t1, 0x0048($sp)

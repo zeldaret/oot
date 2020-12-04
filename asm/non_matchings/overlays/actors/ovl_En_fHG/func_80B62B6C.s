@@ -75,7 +75,7 @@ glabel func_80B62B6C
 /* 001D4 80B62B94 50610007 */  beql    $v1, $at, .L80B62BB4
 /* 001D8 80B62B98 2C610010 */  sltiu   $at, $v1, 0x0010
 /* 001DC 80B62B9C 26040250 */  addiu   $a0, $s0, 0x0250           ## $a0 = 00000250
-/* 001E0 80B62BA0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 001E0 80B62BA0 0C02927F */  jal     SkelAnime_Update
 
 /* 001E4 80B62BA4 AFA70060 */  sw      $a3, 0x0060($sp)
 /* 001E8 80B62BA8 8FA70060 */  lw      $a3, 0x0060($sp)
@@ -845,7 +845,7 @@ glabel L80B63670
 /* 00CBC 80B6367C 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 00CC0 80B63680 260C0250 */  addiu   $t4, $s0, 0x0250           ## $t4 = 00000250
 /* 00CC4 80B63684 AFAC0044 */  sw      $t4, 0x0044($sp)
-/* 00CC8 80B63688 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00CC8 80B63688 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00CCC 80B6368C 2484E8A0 */  addiu   $a0, $a0, 0xE8A0           ## $a0 = 0600E8A0
 /* 00CD0 80B63690 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
@@ -1026,7 +1026,7 @@ glabel L80B63670
 /* 00F54 80B63914 26180250 */  addiu   $t8, $s0, 0x0250           ## $t8 = 00000250
 /* 00F58 80B63918 E61201A8 */  swc1    $f18, 0x01A8($s0)          ## 000001A8
 /* 00F5C 80B6391C AFB80044 */  sw      $t8, 0x0044($sp)
-/* 00F60 80B63920 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00F60 80B63920 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00F64 80B63924 2484C65C */  addiu   $a0, $a0, 0xC65C           ## $a0 = 0600C65C
 /* 00F68 80B63928 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -1063,7 +1063,7 @@ glabel L80B63988
 /* 00FD4 80B63994 15210014 */  bne     $t1, $at, .L80B639E8
 /* 00FD8 80B63998 2484CB1C */  addiu   $a0, $a0, 0xCB1C           ## $a0 = 0600CB1C
 /* 00FDC 80B6399C 260A0250 */  addiu   $t2, $s0, 0x0250           ## $t2 = 00000250
-/* 00FE0 80B639A0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00FE0 80B639A0 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00FE4 80B639A4 AFAA0044 */  sw      $t2, 0x0044($sp)
 /* 00FE8 80B639A8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

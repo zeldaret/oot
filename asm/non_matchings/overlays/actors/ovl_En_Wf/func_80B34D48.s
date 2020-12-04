@@ -92,7 +92,7 @@ glabel func_80B34D48
 .L80B34E90:
 /* 011E0 80B34E90 46001207 */  neg.s   $f8, $f2                   
 .L80B34E94:
-/* 011E4 80B34E94 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 011E4 80B34E94 0C02927F */  jal     SkelAnime_Update
               
 /* 011E8 80B34E98 E60801A4 */  swc1    $f8, 0x01A4($s0)           ## 000001A4
 /* 011EC 80B34E9C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

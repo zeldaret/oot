@@ -32,7 +32,7 @@ glabel func_808DBB78
 /* 05360 808DBBD0 8C480000 */  lw      $t0, 0x0000($v0)           ## 808F93C0
 /* 05364 808DBBD4 E50616D0 */  swc1    $f6, 0x16D0($t0)           ## 000016D0
 /* 05368 808DBBD8 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 0536C 808DBBDC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0536C 808DBBDC 0C02927F */  jal     SkelAnime_Update
               
 /* 05370 808DBBE0 AFA30020 */  sw      $v1, 0x0020($sp)           
 /* 05374 808DBBE4 860901C2 */  lh      $t1, 0x01C2($s0)           ## 000001C2

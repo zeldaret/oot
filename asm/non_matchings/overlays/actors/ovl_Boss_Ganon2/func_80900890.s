@@ -33,7 +33,7 @@ glabel func_80900890
 /* 03978 809008B8 8E2E1C44 */  lw      $t6, 0x1C44($s1)           ## 00001C44
 /* 0397C 809008BC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03980 809008C0 AFA4002C */  sw      $a0, 0x002C($sp)
-/* 03984 809008C4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03984 809008C4 0C02927F */  jal     SkelAnime_Update
 
 /* 03988 809008C8 AFAE0048 */  sw      $t6, 0x0048($sp)
 /* 0398C 809008CC 8E0F0398 */  lw      $t7, 0x0398($s0)           ## 00000398
@@ -427,7 +427,7 @@ glabel L80900E4C
 /* 03F50 80900E90 1000005B */  beq     $zero, $zero, .L80901000
 /* 03F54 80900E94 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 .L80900E98:
-/* 03F58 80900E98 0C0295B2 */  jal     func_800A56C8
+/* 03F58 80900E98 0C0295B2 */  jal     SkelAnime_StopAtFrame
 /* 03F5C 80900E9C 8E050194 */  lw      $a1, 0x0194($s0)           ## 00000194
 /* 03F60 80900EA0 10400056 */  beq     $v0, $zero, .L80900FFC
 /* 03F64 80900EA4 8FA4002C */  lw      $a0, 0x002C($sp)
@@ -479,7 +479,7 @@ glabel L80900E4C
 /* 0400C 80900F4C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 04010 80900F50 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 04014 80900F54 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 04018 80900F58 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04018 80900F58 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 0401C 80900F5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 060334F8
 /* 04020 80900F60 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00
@@ -512,7 +512,7 @@ glabel L80900E4C
 
 /* 04080 80900FC0 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 04084 80900FC4 8FA4002C */  lw      $a0, 0x002C($sp)
-/* 04088 80900FC8 0C0295B2 */  jal     func_800A56C8
+/* 04088 80900FC8 0C0295B2 */  jal     SkelAnime_StopAtFrame
 /* 0408C 80900FCC 8E050194 */  lw      $a1, 0x0194($s0)           ## 00000194
 /* 04090 80900FD0 1040000A */  beq     $v0, $zero, .L80900FFC
 /* 04094 80900FD4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

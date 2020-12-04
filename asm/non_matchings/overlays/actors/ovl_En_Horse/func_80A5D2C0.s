@@ -62,7 +62,7 @@ glabel func_80A5D2C0
 /* 0209C 80A5D38C 0C29758A */  jal     func_80A5D628              
 /* 020A0 80A5D390 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80A5D394:
-/* 020A4 80A5D394 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 020A4 80A5D394 0C02927F */  jal     SkelAnime_Update
               
 /* 020A8 80A5D398 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 020AC 80A5D39C 50400004 */  beql    $v0, $zero, .L80A5D3B0     

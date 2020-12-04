@@ -5,7 +5,7 @@ glabel func_809B15CC
 /* 004B8 809B15D8 8CAE1C44 */  lw      $t6, 0x1C44($a1)           ## 00001C44
 /* 004BC 809B15DC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 004C0 809B15E0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 004C4 809B15E4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 004C4 809B15E4 0C02927F */  jal     SkelAnime_Update
               
 /* 004C8 809B15E8 AFAE002C */  sw      $t6, 0x002C($sp)           
 /* 004CC 809B15EC 260400BC */  addiu   $a0, $s0, 0x00BC           ## $a0 = 000000BC

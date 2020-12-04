@@ -32,7 +32,7 @@ glabel func_80A60EB0
 .L80A60F24:
 /* 05C34 80A60F24 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 .L80A60F28:
-/* 05C38 80A60F28 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 05C38 80A60F28 0C02927F */  jal     SkelAnime_Update
 
 /* 05C3C 80A60F2C AFA40030 */  sw      $a0, 0x0030($sp)
 /* 05C40 80A60F30 50400045 */  beql    $v0, $zero, .L80A61048
@@ -50,7 +50,7 @@ glabel func_80A60EB0
 /* 05C70 80A60F60 8D6B5E58 */  lw      $t3, %lo(D_80A65E58)($t3)
 /* 05C74 80A60F64 00006880 */  sll     $t5, $zero,  2
 /* 05C78 80A60F68 016D7021 */  addu    $t6, $t3, $t5
-/* 05C7C 80A60F6C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 05C7C 80A60F6C 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 05C80 80A60F70 8DC40000 */  lw      $a0, 0x0000($t6)           ## 00000000
 /* 05C84 80A60F74 8E0F0158 */  lw      $t7, 0x0158($s0)           ## 00000158
@@ -86,7 +86,7 @@ glabel func_80A60EB0
 /* 05CF4 80A60FE4 8DCE5E58 */  lw      $t6, %lo(D_80A65E58)($t6)
 /* 05CF8 80A60FE8 000FC080 */  sll     $t8, $t7,  2
 /* 05CFC 80A60FEC 01D84021 */  addu    $t0, $t6, $t8
-/* 05D00 80A60FF0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 05D00 80A60FF0 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 05D04 80A60FF4 8D040000 */  lw      $a0, 0x0000($t0)           ## 00000000
 /* 05D08 80A60FF8 8E190158 */  lw      $t9, 0x0158($s0)           ## 00000158

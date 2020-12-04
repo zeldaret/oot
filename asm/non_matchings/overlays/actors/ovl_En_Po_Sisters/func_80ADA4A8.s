@@ -5,11 +5,11 @@ glabel func_80ADA4A8
 /* 01524 80ADA4B4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01528 80ADA4B8 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 0152C 80ADA4BC AFA4001C */  sw      $a0, 0x001C($sp)           
-/* 01530 80ADA4C0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01530 80ADA4C0 0C02927F */  jal     SkelAnime_Update
               
 /* 01534 80ADA4C4 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 01538 80ADA4C8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0153C 80ADA4CC 0C0295B2 */  jal     func_800A56C8              
+/* 0153C 80ADA4CC 0C0295B2 */  jal     SkelAnime_StopAtFrame              
 /* 01540 80ADA4D0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01544 80ADA4D4 10400005 */  beq     $v0, $zero, .L80ADA4EC     
 /* 01548 80ADA4D8 8FA60020 */  lw      $a2, 0x0020($sp)           

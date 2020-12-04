@@ -9,7 +9,7 @@ glabel func_80900210
 /* 032EC 8090022C 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 032F0 80900230 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 032F4 80900234 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 032F8 80900238 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 032F8 80900238 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 032FC 8090023C 2484DFF0 */  addiu   $a0, $a0, 0xDFF0           ## $a0 = 0600DFF0
 /* 03300 80900240 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

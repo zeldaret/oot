@@ -34,7 +34,7 @@ glabel func_809112D4
 /* 00CB8 809112F8 24845188 */  addiu   $a0, $a0, %lo(D_80915188)  ## $a0 = 80915188
 /* 00CBC 809112FC 2607014C */  addiu   $a3, $s0, 0x014C           ## $a3 = 0000014C
 /* 00CC0 80911300 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 0000014C
-/* 00CC4 80911304 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00CC4 80911304 0C02927F */  jal     SkelAnime_Update
 
 /* 00CC8 80911308 AFA70040 */  sw      $a3, 0x0040($sp)
 /* 00CCC 8091130C 3C048091 */  lui     $a0, %hi(D_80915190)       ## $a0 = 80910000

@@ -29,7 +29,7 @@ glabel EnHs_Update
 /* 007B0 80A6EB50 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 007B4 80A6EB54 0C00B92D */  jal     func_8002E4B4              
 /* 007B8 80A6EB58 E7A00010 */  swc1    $f0, 0x0010($sp)           
-/* 007BC 80A6EB5C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 007BC 80A6EB5C 0C02927F */  jal     SkelAnime_Update
               
 /* 007C0 80A6EB60 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
 /* 007C4 80A6EB64 50400005 */  beql    $v0, $zero, .L80A6EB7C     

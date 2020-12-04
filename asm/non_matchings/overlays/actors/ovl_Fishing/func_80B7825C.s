@@ -172,7 +172,7 @@ glabel func_80B7825C
 /* 0E944 80B782E4 8FB800E4 */  lw      $t8, 0x00E4($sp)           
 /* 0E948 80B782E8 A30F00C8 */  sb      $t7, 0x00C8($t8)           ## 000000C8
 /* 0E94C 80B782EC 8FA40128 */  lw      $a0, 0x0128($sp)           
-/* 0E950 80B782F0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0E950 80B782F0 0C02927F */  jal     SkelAnime_Update
               
 /* 0E954 80B782F4 248401D8 */  addiu   $a0, $a0, 0x01D8           ## $a0 = 000001D8
 /* 0E958 80B782F8 3C1980B8 */  lui     $t9, %hi(D_80B7A684)       ## $t9 = 80B80000

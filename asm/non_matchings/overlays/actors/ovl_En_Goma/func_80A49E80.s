@@ -3,7 +3,7 @@ glabel func_80A49E80
 /* 00FC4 80A49E84 AFA40030 */  sw      $a0, 0x0030($sp)
 /* 00FC8 80A49E88 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 00FCC 80A49E8C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 00FD0 80A49E90 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00FD0 80A49E90 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00FD4 80A49E94 24841548 */  addiu   $a0, $a0, 0x1548           ## $a0 = 06001548
 /* 00FD8 80A49E98 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -88,8 +88,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
-                       this->transitionDrawTable, 4);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->jointTbl, this->morphTbl, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 50.0f;
@@ -208,7 +207,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         this->actor.initPosRot.rot.z = 1;
         Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 0x3E8, 0);
         Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 0x3E8, 0);
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
     }
 }
 
@@ -228,7 +227,7 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 2000, 0);
     Math_SmoothScaleMaxMinS(&this->unk_1D0.y, 0, 1, 600, 0);
     Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 2000, 0);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->unk_1C8--;
     if (this->unk_1C8 == 0) {
         func_809EC9C8(this);
@@ -255,14 +254,14 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     Vec3f vector;
     Player* player = PLAYER;
 
-    if ((player->stateFlags2 & 0x80)  && (&this->actor == player->actor.parent)) {
+    if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
     Math_SmoothScaleMaxMinS(&this->unk_1D0.x, 0, 1, 0x7D0, 0);
     result = Math_SmoothScaleMaxMinS(&this->unk_1CE, -0x4000, 1, 0x7D0, 0);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (result == 0) {
         vector = this->actor.posRot.pos;
 
@@ -305,7 +304,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if ((this->actor.parent != NULL)  && (this->actor.parent->params == ENDH_DEATH)) {
+    if ((this->actor.parent != NULL) && (this->actor.parent->params == ENDH_DEATH)) {
         EnDha_SetupDeath(this);
     }
 }
@@ -370,6 +369,6 @@ void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
                           EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, this);
 }

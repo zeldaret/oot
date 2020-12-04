@@ -34,7 +34,7 @@ glabel func_809C3DC4
 /* 0079C 809C3DCC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 007A0 809C3DD0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 007A4 809C3DD4 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 007A8 809C3DD8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 007A8 809C3DD8 0C02927F */  jal     SkelAnime_Update
               
 /* 007AC 809C3DDC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 007B0 809C3DE0 3C0E8016 */  lui     $t6, %hi(gGameInfo)

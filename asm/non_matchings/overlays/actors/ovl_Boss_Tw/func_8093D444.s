@@ -8,7 +8,7 @@ glabel func_8093D444
 /* 0478C 8093D45C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 04790 8093D460 55C00004 */  bnel    $t6, $zero, .L8093D474     
 /* 04794 8093D464 C60404C8 */  lwc1    $f4, 0x04C8($s0)           ## 000004C8
-/* 04798 8093D468 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04798 8093D468 0C02927F */  jal     SkelAnime_Update
               
 /* 0479C 8093D46C 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 047A0 8093D470 C60404C8 */  lwc1    $f4, 0x04C8($s0)           ## 000004C8

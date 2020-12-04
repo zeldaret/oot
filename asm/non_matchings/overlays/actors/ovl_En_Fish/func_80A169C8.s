@@ -34,7 +34,7 @@ glabel func_80A169C8
 /* 017BC 80A16A3C 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 017C0 80A16A40 460A4402 */  mul.s   $f16, $f8, $f10            
 /* 017C4 80A16A44 46128100 */  add.s   $f4, $f16, $f18            
-/* 017C8 80A16A48 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 017C8 80A16A48 0C02927F */  jal     SkelAnime_Update
               
 /* 017CC 80A16A4C E60401C8 */  swc1    $f4, 0x01C8($s0)           ## 000001C8
 /* 017D0 80A16A50 8FBF001C */  lw      $ra, 0x001C($sp)           

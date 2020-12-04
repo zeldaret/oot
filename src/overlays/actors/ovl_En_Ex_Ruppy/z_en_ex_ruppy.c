@@ -314,7 +314,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     if (this->actor.xyzDistFromLinkSq < SQ(distToBlowUp)) {
         if (this->actor.parent != NULL) {
             if (this->actor.parent->update != NULL) {
-                ((EnDivingGame*)this->actor.parent)->transitionDrawTable[15].z = 1;
+                ((EnDivingGame*)this->actor.parent)->morphTbl[15].z = 1;
             }
         } else {
             // "That idiot! error"

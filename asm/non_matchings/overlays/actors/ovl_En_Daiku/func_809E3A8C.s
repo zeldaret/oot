@@ -136,7 +136,7 @@ glabel func_809E3A8C
 /* 01140 809E3C70 0C278E55 */  jal     func_809E3954              
 /* 01144 809E3C74 8FA5004C */  lw      $a1, 0x004C($sp)           
 .L809E3C78:
-/* 01148 809E3C78 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01148 809E3C78 0C02927F */  jal     SkelAnime_Update
               
 /* 0114C 809E3C7C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01150 809E3C80 8FBF0024 */  lw      $ra, 0x0024($sp)           

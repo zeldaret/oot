@@ -18,7 +18,7 @@ glabel func_80A60470
 /* 051AC 80A6049C 000FC080 */  sll     $t8, $t7,  2
 /* 051B0 80A604A0 0338C821 */  addu    $t9, $t9, $t8
 /* 051B4 80A604A4 8F395E58 */  lw      $t9, %lo(D_80A65E58)($t9)
-/* 051B8 80A604A8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 051B8 80A604A8 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 051BC 80A604AC 8F240020 */  lw      $a0, 0x0020($t9)           ## 80A60020
 /* 051C0 80A604B0 8E080158 */  lw      $t0, 0x0158($s0)           ## 00000158

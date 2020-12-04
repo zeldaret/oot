@@ -240,7 +240,7 @@ void func_80B4ED2C(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 s32 EnZl2_FrameUpdateMatrix(EnZl2* this) {
-    return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    return SkelAnime_Update(&this->skelAnime);
 }
 
 CsCmdActorAction* EnZl2_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
@@ -307,7 +307,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
     s32 phi_v0;
     s32 phi_a0;
     u32 zero;
-    f32 animCurrentFrame;
+    f32 curFrame;
     f32 unk_278;
 
     if (temp_t0 == 2) {
@@ -369,9 +369,9 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2) {
         zero = 0;
         if (arg2 == 2) {
             if ((this->action == 5) || (this->action == 30)) {
-                animCurrentFrame = this->skelAnime.animCurrentFrame;
+                curFrame = this->skelAnime.curFrame;
                 unk_278 = this->unk_278;
-                temp_t0 = (s32)((3500.0f * animCurrentFrame) / unk_278) + phi_a0;
+                temp_t0 = (s32)((3500.0f * curFrame) / unk_278) + phi_a0;
                 if (temp_t0 >= temp_v1) {
                     if (phi_v0 < zero) {
                         phi_v0 += 1;
@@ -609,7 +609,7 @@ void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetFrameCount(animation);
+    f32 frameCount = SkelAnime_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -633,7 +633,7 @@ void func_80B4FD90(EnZl2* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4FDD4(EnZl2* this) {
-    if (func_800A56C8(&this->skelAnime, 14.0f)) {
+    if (SkelAnime_StopAtFrame(&this->skelAnime, 14.0f)) {
         func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_CONCRETE);
     }
 }
@@ -1478,7 +1478,7 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
     u32 sfxId;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if ((func_800A56C8(skelAnime, 6.0f)) || (func_800A56C8(skelAnime, 0.0f))) {
+    if ((SkelAnime_StopAtFrame(skelAnime, 6.0f)) || (SkelAnime_StopAtFrame(skelAnime, 0.0f))) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
             sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
@@ -1621,7 +1621,7 @@ void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(objectCtx, bankIndex)) {
         this->unk_274 = bankIndex;
         func_80B4FCCC(this, globalCtx);
-        this->unk_278 = SkelAnime_GetFrameCount(&D_060022D0);
+        this->unk_278 = SkelAnime_GetLastFrame(&D_060022D0);
         func_80B52114(this, globalCtx);
     }
 }
@@ -1691,7 +1691,7 @@ void func_80B523C8(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0B, &D_80116280[2]);
 
-    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
                                        EnZl2_OverrideLimbDraw, EnZl2_PostLimbDraw, this, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1648);
@@ -1716,7 +1716,7 @@ void func_80B525D4(EnZl2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0B, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTbl, skelAnime->dListCount,
                                        EnZl2_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zl2.c", 1692);

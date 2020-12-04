@@ -13,7 +13,7 @@ glabel func_8093051C
 /* 03F58 80930528 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 03F5C 8093052C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 03F60 80930530 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 03F64 80930534 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03F64 80930534 0C02927F */  jal     SkelAnime_Update
 
 /* 03F68 80930538 AFA4002C */  sw      $a0, 0x002C($sp)
 /* 03F6C 8093053C 3C014248 */  lui     $at, 0x4248                ## $at = 42480000

@@ -16,7 +16,7 @@ glabel func_80AA800C
 /* 01FF4 80AA8044 2604018C */  addiu   $a0, $s0, 0x018C           ## $a0 = 0000018C
 /* 01FF8 80AA8048 4600218D */  trunc.w.s $f6, $f4                   
 /* 01FFC 80AA804C 44183000 */  mfc1    $t8, $f6                   
-/* 02000 80AA8050 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02000 80AA8050 0C02927F */  jal     SkelAnime_Update
               
 /* 02004 80AA8054 AFB80058 */  sw      $t8, 0x0058($sp)           
 /* 02008 80AA8058 3C014080 */  lui     $at, 0x4080                ## $at = 40800000

@@ -62,7 +62,7 @@ glabel EnCs_Init
 /* 001FC 809E1AAC E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00200 809E1AB0 3C03809E */  lui     $v1, %hi(D_809E2918)       ## $v1 = 809E0000
 /* 00204 809E1AB4 24632918 */  addiu   $v1, $v1, %lo(D_809E2918)  ## $v1 = 809E2918
-/* 00208 809E1AB8 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00208 809E1AB8 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 0020C 809E1ABC 8C640000 */  lw      $a0, 0x0000($v1)           ## 809E2918
 /* 00210 809E1AC0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

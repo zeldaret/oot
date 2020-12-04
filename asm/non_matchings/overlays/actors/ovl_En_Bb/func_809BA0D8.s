@@ -207,7 +207,7 @@ glabel func_809BA0D8
 /* 020B0 809BA390 0C26E7CA */  jal     func_809B9F28
 /* 020B4 809BA394 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L809BA398:
-/* 020B8 809BA398 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 020B8 809BA398 0C02927F */  jal     SkelAnime_Update
 
 /* 020BC 809BA39C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 020C0 809BA3A0 C6120164 */  lwc1    $f18, 0x0164($s0)          ## 00000164

@@ -5,7 +5,7 @@ glabel func_80B40B18
 /* 04944 80B40B24 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 04948 80B40B28 3C040602 */  lui     $a0, 0x0602                ## $a0 = 06020000
 /* 0494C 80B40B2C AFA50044 */  sw      $a1, 0x0044($sp)
-/* 04950 80B40B30 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 04950 80B40B30 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 04954 80B40B34 24849C30 */  addiu   $a0, $a0, 0x9C30           ## $a0 = 06019C30
 /* 04958 80B40B38 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

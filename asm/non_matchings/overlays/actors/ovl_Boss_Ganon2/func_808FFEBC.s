@@ -22,7 +22,7 @@ glabel func_808FFEBC
               
 /* 02FC8 808FFF08 A6090390 */  sh      $t1, 0x0390($s0)           ## 00000390
 .L808FFF0C:
-/* 02FCC 808FFF0C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02FCC 808FFF0C 0C02927F */  jal     SkelAnime_Update
               
 /* 02FD0 808FFF10 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 02FD4 808FFF14 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068

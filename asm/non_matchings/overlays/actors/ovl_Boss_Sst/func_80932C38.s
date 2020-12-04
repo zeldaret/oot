@@ -9,7 +9,7 @@ glabel func_80932C38
 /* 06684 80932C54 244EFFFF */  addiu   $t6, $v0, 0xFFFF           ## $t6 = FFFFFFFF
 /* 06688 80932C58 A48E0198 */  sh      $t6, 0x0198($a0)           ## 00000198
 .L80932C5C:
-/* 0668C 80932C5C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0668C 80932C5C 0C02927F */  jal     SkelAnime_Update
               
 /* 06690 80932C60 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 06694 80932C64 860F0198 */  lh      $t7, 0x0198($s0)           ## 00000198

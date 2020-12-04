@@ -4,15 +4,7 @@
 
 #define THIS ((EnDh*)thisx)
 
-typedef enum {
-    DH_WAIT,
-    DH_RETREAT,
-    DH_BURROW,
-    DH_WALK,
-    DH_ATTACK,
-    DH_DEATH,
-    DH_DAMAGE
-} EnDhAction;
+typedef enum { DH_WAIT, DH_RETREAT, DH_BURROW, DH_WALK, DH_ATTACK, DH_DEATH, DH_DAMAGE } EnDhAction;
 
 void EnDh_Init(Actor* this, GlobalContext* globalCtx);
 void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -95,8 +87,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->limbDrawTable, this->limbRotTable,
-                     16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007E88, &D_06005880, this->jointTbl, this->limbRotTable, 16);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = 0xFE;
@@ -152,7 +143,7 @@ void EnDh_SetupWait(EnDh* this) {
 }
 
 void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
-    if ((s32)this->skelAnime.animCurrentFrame == 5) {
+    if ((s32)this->skelAnime.curFrame == 5) {
         func_800F5ACC(0x38);
     }
     if (Actor_GetCollidedExplosive(globalCtx, &this->collider1.base)) {
@@ -185,7 +176,7 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
                 break;
         }
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x7D0, 0);
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
         if (this->actor.params != ENDH_START_ATTACK_BOMB) {
             func_8008EEAC(globalCtx, &this->actor);
         }
@@ -193,8 +184,8 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
 }
 
 void EnDh_SetupWalk(EnDh* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f,
-                         SkelAnime_GetFrameCount(&D_06003A8C.genericHeader) - 3.0f, 0, -6.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06003A8C, 1.0f, 0.0f, SkelAnime_GetLastFrame(&D_06003A8C) - 3.0f, 0,
+                         -6.0f);
     this->curAction = DH_WALK;
     this->timer = 300;
     this->actor.speedXZ = 1.0f;
@@ -204,8 +195,8 @@ void EnDh_SetupWalk(EnDh* this) {
 void EnDh_Walk(EnDh* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA, 0);
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (((s32)this->skelAnime.animCurrentFrame % 8) == 0) {
+    SkelAnime_Update(&this->skelAnime);
+    if (((s32)this->skelAnime.curFrame % 8) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_WALK);
     }
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -238,7 +229,7 @@ void EnDh_Retreat(EnDh* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, (s16)(this->actor.yawTowardsLink + 0x8000), 1, 0xBB8, 0);
     }
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void EnDh_SetupAttack(EnDh* this) {
@@ -252,10 +243,10 @@ void EnDh_SetupAttack(EnDh* this) {
 void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->actionState++;
     } else if ((this->actor.xzDistFromLink > 100.0f) || !func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f, this->skelAnime.animCurrentFrame, 0.0f, 2, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f, this->skelAnime.curFrame, 0.0f, 2, -4.0f);
         this->actionState = 4;
         this->collider2.base.atFlags = this->collider2.list[0].body.toucherFlags = 0;
         this->collider2.list[0].body.toucher.flags = this->collider2.list[0].body.toucher.damage = 0;
@@ -269,7 +260,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x5DC, 0);
             break;
         case 2:
-            if (this->skelAnime.animCurrentFrame >= 4.0f) {
+            if (this->skelAnime.curFrame >= 4.0f) {
                 this->collider2.base.atFlags = this->collider2.list[0].body.toucherFlags = 0x11;
                 this->collider2.list[0].body.toucher.flags = 0xFFCFFFFF;
                 this->collider2.list->body.toucher.damage = 8;
@@ -286,12 +277,12 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             break;
         case 3:
             if ((this->actor.xzDistFromLink <= 100.0f) && (func_8002E084(&this->actor, 60 * 0x10000 / 360) != 0)) {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f,
-                                     SkelAnime_GetFrameCount(&D_06004658.genericHeader), 2, -6.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f, SkelAnime_GetLastFrame(&D_06004658), 2,
+                                     -6.0f);
                 this->actionState = 0;
             } else {
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f,
-                                     SkelAnime_GetFrameCount(&D_06004658.genericHeader), 0.0f, 2, -4.0f);
+                SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f, SkelAnime_GetLastFrame(&D_06004658), 0.0f, 2,
+                                     -4.0f);
                 this->actionState++;
                 this->collider2.base.atFlags = this->collider2.list[0].body.toucherFlags = 0;
                 this->collider2.list[0].body.toucher.flags = this->collider2.list[0].body.toucher.damage = 0;
@@ -333,7 +324,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
             this->dirtWaveAlpha = (s16)(Math_Sins(this->dirtWavePhase) * 255.0f);
             EnDh_SpawnDebris(globalCtx, this, &this->actor.posRot.pos, this->dirtWaveSpread, 4, 2.05f, 1.2f);
             this->collider1.dim.radius = this->dirtWaveSpread * 0.6f;
-            if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+            if (SkelAnime_Update(&this->skelAnime)) {
                 this->actionState++;
             }
             break;
@@ -362,12 +353,12 @@ void EnDh_Damage(EnDh* this, GlobalContext* globalCtx) {
         this->actor.speedXZ += 0.15f;
     }
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if (this->retreat) {
             EnDh_SetupRetreat(this, globalCtx);
         } else if ((this->actor.xzDistFromLink <= 105.0f) && func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
-            f32 frames = SkelAnime_GetFrameCount(&D_06004658.genericHeader);
+            f32 frames = SkelAnime_GetLastFrame(&D_06004658);
 
             EnDh_SetupAttack(this);
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, 1.0f, 20.0f, frames, 2, -6.0f);
@@ -391,7 +382,7 @@ void EnDh_SetupDeath(EnDh* this) {
 }
 
 void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) || (this->timer != 300)) {
+    if (SkelAnime_Update(&this->skelAnime) || (this->timer != 300)) {
         if (this->timer == 300) {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_0600375C);
         }
@@ -406,11 +397,11 @@ void EnDh_Death(EnDh* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        if (((s32)this->skelAnime.animCurrentFrame == 53) || ((s32)this->skelAnime.animCurrentFrame == 56) ||
-            ((s32)this->skelAnime.animCurrentFrame == 61)) {
+        if (((s32)this->skelAnime.curFrame == 53) || ((s32)this->skelAnime.curFrame == 56) ||
+            ((s32)this->skelAnime.curFrame == 61)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
-        if ((s32)this->skelAnime.animCurrentFrame == 61) {
+        if ((s32)this->skelAnime.curFrame == 61) {
             Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_PROP);
         }
     }
@@ -501,14 +492,14 @@ void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         POLY_OPA_DISP =
-            SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                              this->skelAnime.dListCount, NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+            SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+                               this->skelAnime.dListCount, NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
-        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                                          this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+                                           this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
     }
     if (this->drawDirtWave) {
         func_80093D84(globalCtx->state.gfxCtx);

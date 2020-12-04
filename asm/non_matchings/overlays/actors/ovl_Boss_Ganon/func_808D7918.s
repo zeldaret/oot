@@ -94,7 +94,7 @@ glabel func_808D7918
 /* 01140 808D79B0 25CF0001 */  addiu   $t7, $t6, 0x0001           ## $t7 = 00000001
 /* 01144 808D79B4 AC8F0524 */  sw      $t7, 0x0524($a0)           ## 00000674
 /* 01148 808D79B8 AFA50074 */  sw      $a1, 0x0074($sp)
-/* 0114C 808D79BC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0114C 808D79BC 0C02927F */  jal     SkelAnime_Update
 
 /* 01150 808D79C0 AFA4004C */  sw      $a0, 0x004C($sp)
 /* 01154 808D79C4 96180678 */  lhu     $t8, 0x0678($s0)           ## 00000678
@@ -692,7 +692,7 @@ glabel L808D8220
 
 /* 019DC 808D824C 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 019E0 808D8250 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 019E4 808D8254 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 019E4 808D8254 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 019E8 808D8258 24844F64 */  addiu   $a0, $a0, 0x4F64           ## $a0 = 06004F64
 /* 019EC 808D825C 44829000 */  mtc1    $v0, $f18                  ## $f18 = 0.00
@@ -708,7 +708,7 @@ glabel L808D8220
 .L808D8284:
 /* 01A14 808D8284 1420000D */  bne     $at, $zero, .L808D82BC
 /* 01A18 808D8288 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 01A1C 808D828C 0C0295B2 */  jal     func_800A56C8
+/* 01A1C 808D828C 0C0295B2 */  jal     SkelAnime_StopAtFrame
 /* 01A20 808D8290 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 01A24 808D8294 10400009 */  beq     $v0, $zero, .L808D82BC
 /* 01A28 808D8298 8FA4004C */  lw      $a0, 0x004C($sp)
@@ -797,7 +797,7 @@ glabel L808D83A4
 /* 01B60 808D83D0 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 01B64 808D83D4 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 01B68 808D83D8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 01B6C 808D83DC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01B6C 808D83DC 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01B70 808D83E0 24844304 */  addiu   $a0, $a0, 0x4304           ## $a0 = 06004304
 /* 01B74 808D83E4 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
@@ -806,7 +806,7 @@ glabel L808D83A4
 /* 01B80 808D83F0 10000011 */  beq     $zero, $zero, .L808D8438
 /* 01B84 808D83F4 E61001CC */  swc1    $f16, 0x01CC($s0)          ## 000001CC
 .L808D83F8:
-/* 01B88 808D83F8 0C0295B2 */  jal     func_800A56C8
+/* 01B88 808D83F8 0C0295B2 */  jal     SkelAnime_StopAtFrame
 /* 01B8C 808D83FC 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 01B90 808D8400 1040000D */  beq     $v0, $zero, .L808D8438
 /* 01B94 808D8404 8FA40074 */  lw      $a0, 0x0074($sp)
@@ -847,7 +847,7 @@ glabel L808D8468
 /* 01C18 808D8488 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 01C1C 808D848C 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 01C20 808D8490 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 01C24 808D8494 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01C24 808D8494 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01C28 808D8498 24841F58 */  addiu   $a0, $a0, 0x1F58           ## $a0 = 06001F58
 /* 01C2C 808D849C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -942,7 +942,7 @@ glabel L808D8598
 /* 01D70 808D85E0 E6060688 */  swc1    $f6, 0x0688($s0)           ## 00000688
 /* 01D74 808D85E4 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 01D78 808D85E8 44058000 */  mfc1    $a1, $f16
-/* 01D7C 808D85EC 0C0295B2 */  jal     func_800A56C8
+/* 01D7C 808D85EC 0C0295B2 */  jal     SkelAnime_StopAtFrame
 /* 01D80 808D85F0 00000000 */  nop
 /* 01D84 808D85F4 10400009 */  beq     $v0, $zero, .L808D861C
 /* 01D88 808D85F8 8FA4004C */  lw      $a0, 0x004C($sp)
@@ -1325,7 +1325,7 @@ glabel L808D8A98
 /* 022F4 808D8B64 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 022F8 808D8B68 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 022FC 808D8B6C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 02300 808D8B70 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02300 808D8B70 0C02927F */  jal     SkelAnime_Update
 
 /* 02304 808D8B74 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 02308 808D8B78 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00

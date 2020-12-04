@@ -49,7 +49,7 @@ glabel func_80AA8514
 /* 02574 80AA85C4 8E990004 */  lw      $t9, 0x0004($s4)           ## FFFFFFF8
 /* 02578 80AA85C8 AF190004 */  sw      $t9, 0x0004($t8)           ## FFFFFFEC
 /* 0257C 80AA85CC 8E880008 */  lw      $t0, 0x0008($s4)           ## FFFFFFFC
-/* 02580 80AA85D0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02580 80AA85D0 0C02927F */  jal     SkelAnime_Update
               
 /* 02584 80AA85D4 AF080008 */  sw      $t0, 0x0008($t8)           ## FFFFFFF0
 /* 02588 80AA85D8 50400050 */  beql    $v0, $zero, .L80AA871C     

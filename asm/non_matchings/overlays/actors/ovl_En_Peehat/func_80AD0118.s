@@ -46,7 +46,7 @@ glabel func_80AD0118
 /* 00D0C 80AD01AC A61802FC */  sh      $t8, 0x02FC($s0)           ## 000002FC
 /* 00D10 80AD01B0 E6080168 */  swc1    $f8, 0x0168($s0)           ## 00000168
 .L80AD01B4:
-/* 00D14 80AD01B4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00D14 80AD01B4 0C02927F */  jal     SkelAnime_Update
               
 /* 00D18 80AD01B8 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00D1C 80AD01BC 14400005 */  bne     $v0, $zero, .L80AD01D4     

@@ -13,7 +13,7 @@ glabel func_809EE1F4
 /* 00990 809EE200 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00994 809EE204 AFB10018 */  sw      $s1, 0x0018($sp)           
 /* 00998 809EE208 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
-/* 0099C 809EE20C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0099C 809EE20C 0C02927F */  jal     SkelAnime_Update
               
 /* 009A0 809EE210 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 009A4 809EE214 0C03008C */  jal     Gameplay_CreateSubCamera              

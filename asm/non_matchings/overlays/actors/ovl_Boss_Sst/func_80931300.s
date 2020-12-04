@@ -26,7 +26,7 @@ glabel func_80931300
 .L8093135C:
 /* 04D8C 8093135C 5700005A */  bnel    $t8, $zero, .L809314C8     
 /* 04D90 80931360 8E0E011C */  lw      $t6, 0x011C($s0)           ## 0000011C
-/* 04D94 80931364 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04D94 80931364 0C02927F */  jal     SkelAnime_Update
               
 /* 04D98 80931368 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04D9C 8093136C A2020195 */  sb      $v0, 0x0195($s0)           ## 00000195

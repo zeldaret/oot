@@ -574,7 +574,7 @@ glabel Fishing_Init
 /* 0136C 80B6AD0C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 01370 80B6AD10 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L80B6AD14:
-/* 01374 80B6AD14 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01374 80B6AD14 0C02927F */  jal     SkelAnime_Update
 
 /* 01378 80B6AD18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 0137C 80B6AD1C 8658001C */  lh      $t8, 0x001C($s2)           ## 0000001C

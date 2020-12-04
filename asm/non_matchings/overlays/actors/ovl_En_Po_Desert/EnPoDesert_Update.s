@@ -5,7 +5,7 @@ glabel EnPoDesert_Update
 /* 0076C 80AD341C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00770 80AD3420 AFB10020 */  sw      $s1, 0x0020($sp)           
 /* 00774 80AD3424 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
-/* 00778 80AD3428 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00778 80AD3428 0C02927F */  jal     SkelAnime_Update
               
 /* 0077C 80AD342C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00780 80AD3430 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190

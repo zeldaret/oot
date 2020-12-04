@@ -13,7 +13,7 @@ glabel func_80A13A08
 /* 009A4 80A13A14 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 009A8 80A13A18 24840170 */  addiu   $a0, $a0, 0x0170           ## $a0 = 00000170
 /* 009AC 80A13A1C AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 009B0 80A13A20 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009B0 80A13A20 0C02927F */  jal     SkelAnime_Update
               
 /* 009B4 80A13A24 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 009B8 80A13A28 860301BA */  lh      $v1, 0x01BA($s0)           ## 000001BA
@@ -22,7 +22,7 @@ glabel func_80A13A08
 /* 009C4 80A13A34 246EFFFF */  addiu   $t6, $v1, 0xFFFF           ## $t6 = FFFFFFFF
 /* 009C8 80A13A38 A60E01BA */  sh      $t6, 0x01BA($s0)           ## 000001BA
 .L80A13A3C:
-/* 009CC 80A13A3C 0C0295B2 */  jal     func_800A56C8              
+/* 009CC 80A13A3C 0C0295B2 */  jal     SkelAnime_StopAtFrame              
 /* 009D0 80A13A40 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 009D4 80A13A44 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

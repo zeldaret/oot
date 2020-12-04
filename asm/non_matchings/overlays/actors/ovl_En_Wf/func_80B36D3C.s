@@ -30,7 +30,7 @@ glabel func_80B36D3C
 /* 030F4 80B36DA4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 030F8 80B36DA8 A6200300 */  sh      $zero, 0x0300($s1)         ## 00000300
 .L80B36DAC:
-/* 030FC 80B36DAC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 030FC 80B36DAC 0C02927F */  jal     SkelAnime_Update
               
 /* 03100 80B36DB0 26240188 */  addiu   $a0, $s1, 0x0188           ## $a0 = 00000188
 /* 03104 80B36DB4 10400010 */  beq     $v0, $zero, .L80B36DF8     

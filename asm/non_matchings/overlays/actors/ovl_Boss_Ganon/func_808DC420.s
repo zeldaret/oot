@@ -15,7 +15,7 @@ glabel func_808DC420
 /* 05BE0 808DC450 0C235C4B */  jal     func_808D712C
 /* 05BE4 808DC454 AFA20024 */  sw      $v0, 0x0024($sp)
 /* 05BE8 808DC458 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 05BEC 808DC45C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 05BEC 808DC45C 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 05BF0 808DC460 24849D5C */  addiu   $a0, $a0, 0x9D5C           ## $a0 = 06009D5C
 /* 05BF4 808DC464 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -22,12 +22,12 @@ glabel func_8099A508
 
 /* 01DD4 8099A554 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
 /* 01DD8 8099A558 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 01DDC 8099A55C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01DDC 8099A55C 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01DE0 8099A560 24841374 */  addiu   $a0, $a0, 0x1374           ## $a0 = 06001374
 /* 01DE4 8099A564 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 01DE8 8099A568 24841374 */  addiu   $a0, $a0, 0x1374           ## $a0 = 06001374
-/* 01DEC 8099A56C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01DEC 8099A56C 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01DF0 8099A570 A7A20030 */  sh      $v0, 0x0030($sp)
 /* 01DF4 8099A574 87B80030 */  lh      $t8, 0x0030($sp)

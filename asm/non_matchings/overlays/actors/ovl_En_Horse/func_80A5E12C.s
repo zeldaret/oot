@@ -39,7 +39,7 @@ glabel func_80A5E12C
 /* 02EC4 80A5E1B4 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFFC
 /* 02EC8 80A5E1B8 0C298C52 */  jal     func_80A63148              
 /* 02ECC 80A5E1BC 27A60032 */  addiu   $a2, $sp, 0x0032           ## $a2 = FFFFFFFA
-/* 02ED0 80A5E1C0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02ED0 80A5E1C0 0C02927F */  jal     SkelAnime_Update
               
 /* 02ED4 80A5E1C4 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 02ED8 80A5E1C8 10400032 */  beq     $v0, $zero, .L80A5E294     

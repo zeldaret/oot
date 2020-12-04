@@ -253,7 +253,7 @@ glabel func_8095213C
 /* 031BC 8095247C 0C00B638 */  jal     Actor_MoveForward
               
 /* 031C0 80952480 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 031C4 80952484 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 031C4 80952484 0C02927F */  jal     SkelAnime_Update
               
 /* 031C8 80952488 2664014C */  addiu   $a0, $s3, 0x014C           ## $a0 = 0000014C
 /* 031CC 8095248C 10400008 */  beq     $v0, $zero, .L809524B0     

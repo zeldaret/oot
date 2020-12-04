@@ -100,7 +100,7 @@ glabel func_80B46098
 .L80B461FC:
 /* 021AC 80B461FC 46001207 */  neg.s   $f8, $f2                   
 .L80B46200:
-/* 021B0 80B46200 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 021B0 80B46200 0C02927F */  jal     SkelAnime_Update
               
 /* 021B4 80B46204 E6080168 */  swc1    $f8, 0x0168($s0)           ## 00000168
 /* 021B8 80B46208 860B001C */  lh      $t3, 0x001C($s0)           ## 0000001C

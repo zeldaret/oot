@@ -167,7 +167,7 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, 20.0f);
     this->actor.unk_4C = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, globalCtx);
 
     if (gSaveContext.entranceIndex == 0x157 && gSaveContext.sceneSetupIndex == 8) { // ride carpet if in credits
@@ -183,6 +183,6 @@ void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMs* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
                           NULL, NULL, this);
 }

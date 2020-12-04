@@ -5,7 +5,7 @@ glabel func_80AA7134
 /* 010F0 80AA7140 2484018C */  addiu   $a0, $a0, 0x018C           ## $a0 = 0000018C
 /* 010F4 80AA7144 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 010F8 80AA7148 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 010FC 80AA714C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 010FC 80AA714C 0C02927F */  jal     SkelAnime_Update
               
 /* 01100 80AA7150 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 01104 80AA7154 8FA60020 */  lw      $a2, 0x0020($sp)           
@@ -22,7 +22,7 @@ glabel func_80AA7134
 .L80AA717C:
 /* 0112C 80AA717C 54400008 */  bnel    $v0, $zero, .L80AA71A0     
 /* 01130 80AA7180 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 01134 80AA7184 0C0295B2 */  jal     func_800A56C8              
+/* 01134 80AA7184 0C0295B2 */  jal     SkelAnime_StopAtFrame              
 /* 01138 80AA7188 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0113C 80AA718C 10400003 */  beq     $v0, $zero, .L80AA719C     
 /* 01140 80AA7190 8FA60020 */  lw      $a2, 0x0020($sp)           

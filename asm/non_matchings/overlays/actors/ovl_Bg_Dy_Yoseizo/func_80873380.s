@@ -59,7 +59,7 @@ glabel func_80873380
 /* 00C10 80873440 284103E8 */  slti    $at, $v0, 0x03E8           
 /* 00C14 80873444 10200017 */  beq     $at, $zero, .L808734A4     
 /* 00C18 80873448 00000000 */  nop
-/* 00C1C 8087344C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00C1C 8087344C 0C02927F */  jal     SkelAnime_Update
               
 /* 00C20 80873450 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
 /* 00C24 80873454 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6

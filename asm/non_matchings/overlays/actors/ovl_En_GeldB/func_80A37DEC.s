@@ -9,7 +9,7 @@ glabel func_80A37DEC
 /* 02AE4 80A37DF4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 02AE8 80A37DF8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 02AEC 80A37DFC AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 02AF0 80A37E00 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02AF0 80A37E00 0C02927F */  jal     SkelAnime_Update
               
 /* 02AF4 80A37E04 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 02AF8 80A37E08 1040002C */  beq     $v0, $zero, .L80A37EBC     

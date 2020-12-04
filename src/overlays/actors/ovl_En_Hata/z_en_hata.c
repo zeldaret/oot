@@ -45,7 +45,7 @@ void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
 
     temp = 0;
-    frameCount = SkelAnime_GetFrameCount(&D_06000444);
+    frameCount = SkelAnime_GetLastFrame(&D_06000444);
     Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
@@ -76,7 +76,7 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sin;
 
     sp48 = sVec;
-    SkelAnime_FrameUpdateMatrix(&THIS->skelAnime);
+    SkelAnime_Update(&THIS->skelAnime);
     gblCtx = globalCtx;
     THIS->limbs[3].y = THIS->limbs[12].y = -0x4000;
     sp3C.x = gblCtx->envCtx.unk_A8;
@@ -100,7 +100,7 @@ void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {
     THIS->limbs[13].y = THIS->limbs[4].y;
     THIS->limbs[4].z = -Math_Vec3f_Yaw(&sp48, &sp3C);
     THIS->limbs[13].z = THIS->limbs[4].z;
-    THIS->skelAnime.animPlaybackSpeed = (Math_Rand_ZeroFloat(1.25f) + 2.75f) * (gblCtx->envCtx.unk_B0 / 255.0f);
+    THIS->skelAnime.playSpeed = (Math_Rand_ZeroFloat(1.25f) + 2.75f) * (gblCtx->envCtx.unk_B0 / 255.0f);
 }
 
 s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -123,6 +123,6 @@ void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
     func_800943C8(globalCtx->state.gfxCtx);
     Matrix_Scale(1.0f, 1.1f, 1.0f, MTXMODE_APPLY);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHata_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHata_OverrideLimbDraw,
                       EnHata_PostLimbDraw, this);
 }

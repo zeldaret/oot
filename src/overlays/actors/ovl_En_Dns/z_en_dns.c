@@ -141,8 +141,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->limbDrawTable,
-                       this->transitionDrawTable, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTbl, this->morphTbl, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 35.0f);
@@ -168,7 +167,7 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDns_ChangeAnim(EnDns* this, u8 arg1) {
     s16 frameCount;
 
-    frameCount = SkelAnime_GetFrameCount(D_809F0538[arg1].anim);
+    frameCount = SkelAnime_GetLastFrame(D_809F0538[arg1].anim);
     this->unk_2BA = arg1; // Not used anywhere else?
     SkelAnime_ChangeAnim(&this->skelAnime, D_809F0538[arg1].anim, 1.0f, 0.0f, (f32)frameCount, D_809F0538[arg1].mode,
                          D_809F0538[arg1].transitionRate);
@@ -305,7 +304,7 @@ void func_809EFB40(EnDns* this) {
 }
 
 void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animCurrentFrame == this->skelAnime.animFrameCount) {
+    if (this->skelAnime.curFrame == this->skelAnime.lastFrame) {
         this->actionFunc = EnDns_Wait;
         EnDns_ChangeAnim(this, 0);
     }
@@ -426,9 +425,9 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06004404);
+    f32 frameCount = SkelAnime_GetLastFrame(&D_06004404);
 
-    if (this->skelAnime.animCurrentFrame == frameCount) {
+    if (this->skelAnime.curFrame == frameCount) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
         this->actionFunc = EnDns_Burrow;
         this->standOnGround = 0;
@@ -471,7 +470,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetHeight(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     if (this->standOnGround) {
@@ -487,6 +486,6 @@ void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
                           NULL, NULL, &this->actor);
 }

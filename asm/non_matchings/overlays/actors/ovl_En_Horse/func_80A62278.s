@@ -84,7 +84,7 @@ glabel func_80A62278
 /* 070B0 80A623A0 E6120068 */  swc1    $f18, 0x0068($s0)          ## 00000068
 /* 070B4 80A623A4 8DAD5E58 */  lw      $t5, %lo(D_80A65E58)($t5)
 /* 070B8 80A623A8 01AFC021 */  addu    $t8, $t5, $t7
-/* 070BC 80A623AC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 070BC 80A623AC 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 070C0 80A623B0 8F040000 */  lw      $a0, 0x0000($t8)           ## 00000004
 /* 070C4 80A623B4 8E190158 */  lw      $t9, 0x0158($s0)           ## 00000158

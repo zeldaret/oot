@@ -13,7 +13,7 @@ glabel func_808D39A8
 /* 01364 808D39D4 25CE3A08 */  addiu   $t6, $t6, %lo(func_808D3A08) ## $t6 = 808D3A08
 /* 01368 808D39D8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 0136C 808D39DC 2484B7A4 */  addiu   $a0, $a0, 0xB7A4           ## $a0 = 0600B7A4
-/* 01370 808D39E0 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01370 808D39E0 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01374 808D39E4 ADEE0190 */  sw      $t6, 0x0190($t7)           ## 00000190
 /* 01378 808D39E8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

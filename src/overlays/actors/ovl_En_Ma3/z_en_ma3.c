@@ -230,7 +230,7 @@ void func_80AA2F80(EnMa3* this) {
 }
 
 void func_80AA3004(EnMa3* this, s32 idx) {
-    f32 frameCount = SkelAnime_GetFrameCount(D_80AA3848[idx].animation);
+    f32 frameCount = SkelAnime_GetLastFrame(D_80AA3848[idx].animation);
 
     SkelAnime_ChangeAnim(&this->skelAnime, D_80AA3848[idx].animation, 1.0f, 0.0f, frameCount, D_80AA3848[idx].unk_08,
                          D_80AA3848[idx].transitionRate);
@@ -285,7 +285,7 @@ void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80AA2F80(this);
     this->actionFunc(this, globalCtx);
     func_80AA2E54(this, globalCtx);
@@ -360,7 +360,7 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
                           EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);

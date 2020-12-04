@@ -30,7 +30,7 @@ glabel EnGeldB_Draw
 /* 047D0 80A39AE0 29E10002 */  slti    $at, $t7, 0x0002
 /* 047D4 80A39AE4 5420004D */  bnel    $at, $zero, .L80A39C1C
 /* 047D8 80A39AE8 8E8B02EC */  lw      $t3, 0x02EC($s4)           ## 000002EC
-/* 047DC 80A39AEC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 047DC 80A39AEC 0C02927F */  jal     SkelAnime_Update
 
 /* 047E0 80A39AF0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000188
 /* 047E4 80A39AF4 50400049 */  beql    $v0, $zero, .L80A39C1C

@@ -21,7 +21,7 @@ glabel func_80ADBD8C
 .L80ADBDD4:
 /* 02E44 80ADBDD4 1C400038 */  bgtz    $v0, .L80ADBEB8            
 /* 02E48 80ADBDD8 24C4014C */  addiu   $a0, $a2, 0x014C           ## $a0 = 0000014C
-/* 02E4C 80ADBDDC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02E4C 80ADBDDC 0C02927F */  jal     SkelAnime_Update
               
 /* 02E50 80ADBDE0 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02E54 80ADBDE4 1040000C */  beq     $v0, $zero, .L80ADBE18     

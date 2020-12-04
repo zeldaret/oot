@@ -21,7 +21,7 @@ glabel func_80AA77D0
 /* 017C8 80AA7818 4600218D */  trunc.w.s $f6, $f4
 /* 017CC 80AA781C A7A20042 */  sh      $v0, 0x0042($sp)
 /* 017D0 80AA7820 44193000 */  mfc1    $t9, $f6
-/* 017D4 80AA7824 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 017D4 80AA7824 0C02927F */  jal     SkelAnime_Update
 
 /* 017D8 80AA7828 AFB90044 */  sw      $t9, 0x0044($sp)
 /* 017DC 80AA782C 10400007 */  beq     $v0, $zero, .L80AA784C

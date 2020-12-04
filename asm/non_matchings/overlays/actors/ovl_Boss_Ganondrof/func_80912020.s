@@ -22,7 +22,7 @@ glabel func_80912020
 /* 01A18 80912058 0018C880 */  sll     $t9, $t8,  2
 /* 01A1C 8091205C 00992021 */  addu    $a0, $a0, $t9
 /* 01A20 80912060 8C8450D0 */  lw      $a0, %lo(D_809150D0)($a0)
-/* 01A24 80912064 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01A24 80912064 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01A28 80912068 A7A2001E */  sh      $v0, 0x001E($sp)
 /* 01A2C 8091206C 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

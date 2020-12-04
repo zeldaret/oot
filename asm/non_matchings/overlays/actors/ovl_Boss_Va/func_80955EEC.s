@@ -23,7 +23,7 @@ glabel func_80955EEC
 /* 06C6C 80955F2C C7A40058 */  lwc1    $f4, 0x0058($sp)           
 /* 06C70 80955F30 AFA20074 */  sw      $v0, 0x0074($sp)           
 /* 06C74 80955F34 46062200 */  add.s   $f8, $f4, $f6              
-/* 06C78 80955F38 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 06C78 80955F38 0C02927F */  jal     SkelAnime_Update
               
 /* 06C7C 80955F3C E7A80058 */  swc1    $f8, 0x0058($sp)           
 /* 06C80 80955F40 0C253CB2 */  jal     func_8094F2C8              

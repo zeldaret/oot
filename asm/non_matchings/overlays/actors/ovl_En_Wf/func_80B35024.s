@@ -226,7 +226,7 @@ glabel func_80B35024
 /* 01678 80B35328 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 0167C 80B3532C 4600320D */  trunc.w.s $f8, $f6                   
 /* 01680 80B35330 44034000 */  mfc1    $v1, $f8                   
-/* 01684 80B35334 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01684 80B35334 0C02927F */  jal     SkelAnime_Update
               
 /* 01688 80B35338 AFA30048 */  sw      $v1, 0x0048($sp)           
 /* 0168C 80B3533C 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00

@@ -139,7 +139,7 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     AnimationHeader* objSegChangeAnime = &D_0600299C;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f, SkelAnime_GetFrameCount(&D_0600299C), 2,
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f, SkelAnime_GetLastFrame(&D_0600299C), 2,
                          0.0f);
 
     this->unk_2c4 = player->actor.posRot.pos.y;
@@ -155,7 +155,7 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     AnimationHeader* objSegFrameCount = &D_060019CC;
     AnimationHeader* objSegChangeAnime = &D_060019CC;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 41.0f, SkelAnime_GetFrameCount(objSegFrameCount), 2,
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 41.0f, SkelAnime_GetLastFrame(objSegFrameCount), 2,
                          -3.0f);
 
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
@@ -186,7 +186,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount), 2,
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f, SkelAnime_GetLastFrame(objSegFrameCount), 2,
                          -3.0f);
 
     this->actionFunc = EnWallmas_ReturnToCeiling;
@@ -302,13 +302,13 @@ void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Land(EnWallmas* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupStand(this);
     }
 }
 
 void EnWallmas_Stand(EnWallmas* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupWalk(this);
     }
 
@@ -316,33 +316,34 @@ void EnWallmas_Stand(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
     Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.yawTowardsLink + 0x8000), 0xB6);
 
-    if ((func_800A56C8(&this->skelAnime, 0.0f) != 0) || (func_800A56C8(&this->skelAnime, 12.0f) != 0) ||
-        (func_800A56C8(&this->skelAnime, 24.0f) != 0) || (func_800A56C8(&this->skelAnime, 36.0f) != 0)) {
+    if ((SkelAnime_StopAtFrame(&this->skelAnime, 0.0f) != 0) || (SkelAnime_StopAtFrame(&this->skelAnime, 12.0f) != 0) ||
+        (SkelAnime_StopAtFrame(&this->skelAnime, 24.0f) != 0) ||
+        (SkelAnime_StopAtFrame(&this->skelAnime, 36.0f) != 0)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }
 
 void EnWallmas_JumpToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
 
 void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (this->skelAnime.animCurrentFrame > 20.0f) {
+    SkelAnime_Update(&this->skelAnime);
+    if (this->skelAnime.curFrame > 20.0f) {
         this->timer += 9;
         this->actor.posRot.pos.y = this->actor.posRot.pos.y + 30.0f;
     }
 
-    if (func_800A56C8(&this->skelAnime, 20.0f) != 0) {
+    if (SkelAnime_StopAtFrame(&this->skelAnime, 20.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
     }
 
@@ -363,14 +364,14 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_TakeDamage(EnWallmas* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->actor.colChkInfo.health == 0) {
             EnWallmas_SetupDie(this, globalCtx);
         } else {
             EnWallmas_SetupCooldown(this);
         }
     }
-    if (func_800A56C8(&this->skelAnime, 13.0f) != 0) {
+    if (SkelAnime_StopAtFrame(&this->skelAnime, 13.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
@@ -378,7 +379,7 @@ void EnWallmas_TakeDamage(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Cooldown(EnWallmas* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -396,7 +397,7 @@ void EnWallmas_Die(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_800A56C8(&this->skelAnime, 1.0f) != 0) {
+    if (SkelAnime_StopAtFrame(&this->skelAnime, 1.0f) != 0) {
         if (LINK_IS_CHILD) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {
@@ -405,7 +406,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_CATCH);
     }
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         player->actor.posRot.pos.x = this->actor.posRot.pos.x;
         player->actor.posRot.pos.z = this->actor.posRot.pos.z;
 
@@ -461,7 +462,7 @@ void EnWallmas_WaitForSwitchFlag(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
         this->timer--;
     }
@@ -588,8 +589,7 @@ s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
         if (this->actionFunc != EnWallmas_TakePlayer) {
             pos->z -= 1600.0f;
         } else {
-            pos->z -= ((1600.0f * (this->skelAnime.animFrameCount - this->skelAnime.animCurrentFrame)) /
-                       this->skelAnime.animFrameCount);
+            pos->z -= ((1600.0f * (this->skelAnime.lastFrame - this->skelAnime.curFrame)) / this->skelAnime.lastFrame);
         }
     }
     return 0;
@@ -619,8 +619,8 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
-                              this->skelAnime.dListCount, EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                              EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }
 
     EnWallmas_DrawXlu(this, globalCtx);

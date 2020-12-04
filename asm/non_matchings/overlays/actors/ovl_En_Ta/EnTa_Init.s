@@ -402,12 +402,12 @@ glabel EnTa_Init
 /* 00648 80B140E8 0C2C4EA8 */  jal     func_80B13AA0
 /* 0064C 80B140EC 24C66938 */  addiu   $a2, $a2, %lo(func_80B16938) ## $a2 = 80B16938
 /* 00650 80B140F0 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 00654 80B140F4 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00654 80B140F4 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00658 80B140F8 2484C48C */  addiu   $a0, $a0, 0xC48C           ## $a0 = 0600C48C
 /* 0065C 80B140FC 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 00660 80B14100 2484C48C */  addiu   $a0, $a0, 0xC48C           ## $a0 = 0600C48C
-/* 00664 80B14104 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00664 80B14104 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00668 80B14108 A7A20040 */  sh      $v0, 0x0040($sp)
 /* 0066C 80B1410C 87AB0040 */  lh      $t3, 0x0040($sp)

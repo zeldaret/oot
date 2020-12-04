@@ -10,7 +10,7 @@ glabel EnZo_Update
 /* 01BEC 80B61E0C 00000000 */  nop
 /* 01BF0 80B61E10 11E00005 */  beq     $t7, $zero, .L80B61E28     
 /* 01BF4 80B61E14 00000000 */  nop
-/* 01BF8 80B61E18 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01BF8 80B61E18 0C02927F */  jal     SkelAnime_Update
               
 /* 01BFC 80B61E1C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01C00 80B61E20 0C2D84FE */  jal     func_80B613F8              

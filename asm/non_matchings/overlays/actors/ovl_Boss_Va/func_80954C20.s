@@ -206,7 +206,7 @@ glabel func_80954C20
 .L80954EE4:
 /* 05C24 80954EE4 A7AF0090 */  sh      $t7, 0x0090($sp)           
 .L80954EE8:
-/* 05C28 80954EE8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 05C28 80954EE8 0C02927F */  jal     SkelAnime_Update
               
 /* 05C2C 80954EEC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 05C30 80954EF0 0C253CB2 */  jal     func_8094F2C8              

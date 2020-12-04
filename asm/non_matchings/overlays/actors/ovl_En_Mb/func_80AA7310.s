@@ -34,7 +34,7 @@ glabel func_80AA7310
 /* 0133C 80AA738C E7A80014 */  swc1    $f8, 0x0014($sp)
 .L80AA7390:
 /* 01340 80AA7390 2604018C */  addiu   $a0, $s0, 0x018C           ## $a0 = 0000018C
-/* 01344 80AA7394 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01344 80AA7394 0C02927F */  jal     SkelAnime_Update
 
 /* 01348 80AA7398 AFA4003C */  sw      $a0, 0x003C($sp)
 /* 0134C 80AA739C 50400032 */  beql    $v0, $zero, .L80AA7468
@@ -49,7 +49,7 @@ glabel func_80AA7310
 /* 01370 80AA73C0 860A032E */  lh      $t2, 0x032E($s0)           ## 0000032E
 /* 01374 80AA73C4 55400028 */  bnel    $t2, $zero, .L80AA7468
 /* 01378 80AA73C8 8FBF0034 */  lw      $ra, 0x0034($sp)
-/* 0137C 80AA73CC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0137C 80AA73CC 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01380 80AA73D0 24842C10 */  addiu   $a0, $a0, 0x2C10           ## $a0 = 06002C10
 /* 01384 80AA73D4 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

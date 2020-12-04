@@ -18,7 +18,7 @@ glabel EnFd_Update
 /* 01438 80A0CAF8 8E180190 */  lw      $t8, 0x0190($s0)           ## 00000190
 /* 0143C 80A0CAFC 51F80007 */  beql    $t7, $t8, .L80A0CB1C       
 /* 01440 80A0CB00 8E190004 */  lw      $t9, 0x0004($s0)           ## 00000004
-/* 01444 80A0CB04 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01444 80A0CB04 0C02927F */  jal     SkelAnime_Update
               
 /* 01448 80A0CB08 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 0144C 80A0CB0C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

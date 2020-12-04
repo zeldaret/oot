@@ -49,7 +49,7 @@ glabel func_80A35C24
 /* 009C8 80A35CD8 0C00CC98 */  jal     func_80033260              
 /* 009CC 80A35CDC E7A80014 */  swc1    $f8, 0x0014($sp)           
 .L80A35CE0:
-/* 009D0 80A35CE0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009D0 80A35CE0 0C02927F */  jal     SkelAnime_Update
               
 /* 009D4 80A35CE4 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 009D8 80A35CE8 10400012 */  beq     $v0, $zero, .L80A35D34     

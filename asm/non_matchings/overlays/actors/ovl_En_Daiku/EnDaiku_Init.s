@@ -123,7 +123,7 @@ glabel EnDaiku_Init
 /* 0025C 809E2D8C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 00260 809E2D90 3C03809E */  lui     $v1, %hi(D_809E40B8)       ## $v1 = 809E0000
 /* 00264 809E2D94 246340B8 */  addiu   $v1, $v1, %lo(D_809E40B8)  ## $v1 = 809E40B8
-/* 00268 809E2D98 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 00268 809E2D98 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 0026C 809E2D9C 8C640000 */  lw      $a0, 0x0000($v1)           ## 809E40B8
 /* 00270 809E2DA0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

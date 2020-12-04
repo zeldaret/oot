@@ -272,7 +272,7 @@ glabel func_80B45748
 /* 01AA0 80B45AF0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01AA4 80B45AF4 4600910D */  trunc.w.s $f4, $f18                  
 /* 01AA8 80B45AF8 44192000 */  mfc1    $t9, $f4                   
-/* 01AAC 80B45AFC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01AAC 80B45AFC 0C02927F */  jal     SkelAnime_Update
               
 /* 01AB0 80B45B00 AFB90054 */  sw      $t9, 0x0054($sp)           
 /* 01AB4 80B45B04 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00

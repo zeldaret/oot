@@ -330,7 +330,7 @@ glabel func_809F8F2C
 /* 01184 809F93D4 E6220350 */  swc1    $f2, 0x0350($s1)           ## 00000350
 /* 01188 809F93D8 46140200 */  add.s   $f8, $f0, $f20             
 /* 0118C 809F93DC 2624014C */  addiu   $a0, $s1, 0x014C           ## $a0 = 0000014C
-/* 01190 809F93E0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01190 809F93E0 0C02927F */  jal     SkelAnime_Update
               
 /* 01194 809F93E4 E628034C */  swc1    $f8, 0x034C($s1)           ## 0000034C
 /* 01198 809F93E8 8639030C */  lh      $t9, 0x030C($s1)           ## 0000030C

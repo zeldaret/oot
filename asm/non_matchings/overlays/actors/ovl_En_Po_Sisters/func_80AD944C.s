@@ -20,7 +20,7 @@ glabel func_80AD944C
 /* 00500 80AD9490 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 00504 80AD9494 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00508 80AD9498 24840114 */  addiu   $a0, $a0, 0x0114           ## $a0 = 06000114
-/* 0050C 80AD949C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0050C 80AD949C 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 00510 80AD94A0 E4E40068 */  swc1    $f4, 0x0068($a3)           ## 00000068
 /* 00514 80AD94A4 8FA70018 */  lw      $a3, 0x0018($sp)

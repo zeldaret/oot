@@ -189,13 +189,13 @@ glabel func_808CB718
 /* 00998 808CB758 AFA501D4 */  sw      $a1, 0x01D4($sp)           
 /* 0099C 808CB75C A3A001CF */  sb      $zero, 0x01CF($sp)         
 /* 009A0 808CB760 8CB31C44 */  lw      $s3, 0x1C44($a1)           ## 00001C44
-/* 009A4 808CB764 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009A4 808CB764 0C02927F */  jal     SkelAnime_Update
               
 /* 009A8 808CB768 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 009AC 808CB76C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009AC 808CB76C 0C02927F */  jal     SkelAnime_Update
               
 /* 009B0 808CB770 26C40190 */  addiu   $a0, $s6, 0x0190           ## $a0 = 00000190
-/* 009B4 808CB774 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009B4 808CB774 0C02927F */  jal     SkelAnime_Update
               
 /* 009B8 808CB778 26C401D4 */  addiu   $a0, $s6, 0x01D4           ## $a0 = 000001D4
 /* 009BC 808CB77C C6C402BC */  lwc1    $f4, 0x02BC($s6)           ## 000002BC

@@ -38,7 +38,7 @@ const ActorInit En_Horse_Ganon_InitVars = {
 
 static AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4, 0x06002650, 0x06003858 };
 
-static f32 sAnimPlaybackSpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
+static f32 splaySpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
 static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x12, COLSHAPE_CYLINDER },
@@ -130,8 +130,8 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
 }
 
 void func_80A68870(EnHorseGanon* this) {
-    if ((this->skin.skelAnime.animCurrentFrame > D_80A692B8[this->soundCount]) &&
-        (this->soundCount != 0 || !(this->skin.skelAnime.animCurrentFrame > D_80A692B8[1]))) {
+    if ((this->skin.skelAnime.curFrame > D_80A692B8[this->soundCount]) &&
+        (this->soundCount != 0 || !(this->skin.skelAnime.curFrame > D_80A692B8[1]))) {
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
 
@@ -183,7 +183,7 @@ void func_80A68AC4(EnHorseGanon* this) {
 
 void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
-    SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
+    SkelAnime_Update(&this->skin.skelAnime);
 }
 
 void func_80A68B20(EnHorseGanon* this) {
@@ -223,12 +223,12 @@ void func_80A68B20(EnHorseGanon* this) {
 
     if (animationChanged == 1) {
         SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
-                             sAnimPlaybackSpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                             SkelAnime_GetFrameCount(D_80A691B0[this->currentAnimation]), 2, -3.0f);
+                             splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
+                             SkelAnime_GetLastFrame(D_80A691B0[this->currentAnimation]), 2, -3.0f);
     } else {
         SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
-                             sAnimPlaybackSpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                             SkelAnime_GetFrameCount(D_80A691B0[this->currentAnimation]), 2, 0.0f);
+                             splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
+                             SkelAnime_GetLastFrame(D_80A691B0[this->currentAnimation]), 2, 0.0f);
     }
 }
 
@@ -239,7 +239,7 @@ void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx) {
 
     func_80A686A8(this, globalCtx);
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
         func_80A68B20(this);
     }
 }

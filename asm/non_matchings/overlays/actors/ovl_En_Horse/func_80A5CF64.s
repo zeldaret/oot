@@ -55,7 +55,7 @@ glabel func_80A5CF64
 /* 01D34 80A5D024 8D295E58 */  lw      $t1, %lo(D_80A65E58)($t1)
 /* 01D38 80A5D028 000A5880 */  sll     $t3, $t2,  2
 /* 01D3C 80A5D02C 012B6021 */  addu    $t4, $t1, $t3
-/* 01D40 80A5D030 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01D40 80A5D030 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 01D44 80A5D034 8D840000 */  lw      $a0, 0x0000($t4)           ## 00000000
 /* 01D48 80A5D038 8E0D0158 */  lw      $t5, 0x0158($s0)           ## 00000158

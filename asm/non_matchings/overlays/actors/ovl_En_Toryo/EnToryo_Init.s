@@ -126,7 +126,7 @@ glabel EnToryo_Init
 /* 001C0 80B20330 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 001C4 80B20334 3C0380B2 */  lui     $v1, %hi(D_80B20C58)       ## $v1 = 80B20000
 /* 001C8 80B20338 24630C58 */  addiu   $v1, $v1, %lo(D_80B20C58)  ## $v1 = 80B20C58
-/* 001CC 80B2033C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 001CC 80B2033C 0C028800 */  jal     SkelAnime_GetLastFrame
 
 /* 001D0 80B20340 8C640000 */  lw      $a0, 0x0000($v1)           ## 80B20C58
 /* 001D4 80B20344 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
