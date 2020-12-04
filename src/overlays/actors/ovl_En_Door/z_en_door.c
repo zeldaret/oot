@@ -207,7 +207,6 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
             }
             if (ABS(phi_v0) < 0x3000) {
                 if (this->lockTimer != 0) {
-                    // numKeys = ;
                     if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                         Player* player2 = PLAYER;
 
