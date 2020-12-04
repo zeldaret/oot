@@ -1,4 +1,4 @@
-glabel func_809E3068
+glabel EnDaiku_UpdateText
 /* 00538 809E3068 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0053C 809E306C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00540 809E3070 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -7,7 +7,7 @@ glabel func_809E3068
 /* 0054C 809E307C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00550 809E3080 55C10006 */  bnel    $t6, $at, .L809E309C       
 /* 00554 809E3084 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00558 809E3088 0C278BD4 */  jal     func_809E2F50              
+/* 00558 809E3088 0C278BD4 */  jal     EnDaiku_UpdateTalking              
 /* 0055C 809E308C 00000000 */  nop
 /* 00560 809E3090 100000A4 */  beq     $zero, $zero, .L809E3324   
 /* 00564 809E3094 AE0201E4 */  sw      $v0, 0x01E4($s0)           ## 000001E4

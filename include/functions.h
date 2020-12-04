@@ -491,7 +491,7 @@ void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3);
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3);
 f32 Math_Rand_ZeroFloat(f32 f);
 f32 Math_Rand_CenteredFloat(f32 f);
-void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2);
+void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 arg1, s32 arg2);
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
 void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
@@ -1359,7 +1359,7 @@ void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimation
 void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 transitionFrame,
                    LinkAnimationHeader* linkAnimSeg2, f32 frame, f32 transitionRate, Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 void SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
