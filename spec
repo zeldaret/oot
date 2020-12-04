@@ -2260,15 +2260,13 @@ endseg
 beginseg
     name "ovl_En_Fd"
     include "build/src/overlays/actors/ovl_En_Fd/z_en_fd.o"
-    include "build/data/overlays/actors/z_en_fd.data.o"
-    include "build/data/overlays/actors/z_en_fd.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fd/ovl_En_Fd_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Fd_Fire"
     include "build/src/overlays/actors/ovl_En_Fd_Fire/z_en_fd_fire.o"
-    include "build/data/overlays/actors/z_en_fd_fire.data.o"
-    include "build/data/overlays/actors/z_en_fd_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fd_Fire/ovl_En_Fd_Fire_reloc.o"
 endseg
 
 beginseg
@@ -2321,8 +2319,7 @@ endseg
 beginseg
     name "ovl_En_Fw"
     include "build/src/overlays/actors/ovl_En_Fw/z_en_fw.o"
-    include "build/data/overlays/actors/z_en_fw.data.o"
-    include "build/data/overlays/actors/z_en_fw.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fw/ovl_En_Fw_reloc.o"
 endseg
 
 beginseg
