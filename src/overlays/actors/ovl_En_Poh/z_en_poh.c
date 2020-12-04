@@ -715,7 +715,9 @@ void func_80ADFE28(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
-    DECR(this->unk_198);
+    if (this->unk_198 != 0) {
+        this->unk_198--;
+    }
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->actor.params >= EN_POH_SHARP) {
             func_80ADE9BC(this);
@@ -737,7 +739,9 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
     this->actor.posRot.pos.y = Math_Sins(this->unk_195 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
-    DECR(this->unk_195);
+    if (this->unk_195 != 0) {
+        this->unk_195 -= 1;
+    }
     if (this->unk_195 == 0) {
         this->unk_195 = 32;
     }
