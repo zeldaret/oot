@@ -8,7 +8,7 @@ glabel D_8097067C
     .balign 4
 
 .text
-glabel func_8096D8C4
+glabel DemoEc_DrawSkeleton
 /* 00414 8096D8C4 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 00418 8096D8C8 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0041C 8096D8CC AFB00028 */  sw      $s0, 0x0028($sp)

@@ -16,7 +16,7 @@ typedef struct DemoEc {
     /* 0x0190 */ s16 unk_190;
     /* 0x0192 */ s16 unk_192;
     /* 0x0194 */ s32 animationIndex;
-    /* 0x0198 */ s32 drawIndex;
+    /* 0x0198 */ s32 drawConfig;
     /* 0x019C */ s32 action;
     /* 0x01A0 */ s32 unk_1A0;
     /* 0x01A4 */ s32 unk_1A4;
@@ -52,7 +52,7 @@ typedef enum {
     /* 25 */ ANIMATE_FISHING_POND_OWNER,
     /* 26 */ ANIMATE_BOMBCHEW_SHOP_OWNER,
     /* 27 */ ANIMATE_GORON,
-    /* 28 */ ANIMATE_MALON,
+    /* 28 */ ANIMATE_MALON
 } ANIMATION_INDEX;
 
 typedef enum {
@@ -78,7 +78,7 @@ typedef enum {
     /* 20 */ DRAW_FISHING_POND_OWNER,
     /* 21 */ DRAW_BOMBCHEW_SHOP_OWNER,
     /* 22 */ DRAW_GORON,
-    /* 23 */ DRAW_MALON,
+    /* 23 */ DRAW_MALON
 } DRAW_INDEX;
 
 #endif

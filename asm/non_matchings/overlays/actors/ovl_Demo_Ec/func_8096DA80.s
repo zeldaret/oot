@@ -8,7 +8,7 @@ glabel D_8097069C
     .balign 4
 
 .text
-glabel func_8096DA80
+glabel DemoEc_DrawSkeletonCustomColor
 /* 005D0 8096DA80 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 005D4 8096DA84 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 005D8 8096DA88 AFB00028 */  sw      $s0, 0x0028($sp)
