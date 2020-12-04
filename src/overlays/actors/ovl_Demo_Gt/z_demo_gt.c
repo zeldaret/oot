@@ -1,6 +1,5 @@
 #include "z_demo_gt.h"
 #include "vt.h"
-#include "global.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000030
@@ -12,366 +11,292 @@ void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-Color_RGBA8 D_809825C0 = { 0x64, 0x50, 0x64, 0x00 };
-Color_RGBA8 D_809825C4 = { 0xFF, 0x6E, 0x60, 0x00 };
-Vec3f D_809825C8 = { 0.0f, 6.0f, 0.0f };
-Vec3f D_809825D4 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_809825E0 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_809825EC = { 0.0f, 0.0f, 0.0f };
-
-InitChainEntry D_809825F8[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
-};
-
-Vec3f D_809825FC = { 0.0f, -16.0f, 0.0f };
-Vec3f D_80982608 = { 0.0f, 1.20000004768f, 0.0f };
-Actor* D_80982614 = NULL;
-Vec3f D_80982618 = { -12.0f, -17.0, 5.0 };
-Vec3f* D_80982624 = NULL;
-Vec2f D_80982628 = { 1.0f, 0.0f };
-Vec3f* D_80982630 = NULL;
-Vec2f D_80982634 = { 0.0f, 0.0f };
-f32 D_8098263C = 280.0f;
-f32 D_80982640 = 8.0f;
-s32 D_80982644 = 0xB;
-s32 D_80982648 = 0x1;
-s32 D_8098264C = 0x00030000;
-Vec3f D_80982650 = { 5.0f, -16.0f, -16.0f };
-Actor* D_8098265C = NULL;
-Actor* D_80982660 = NULL;
-Vec3f D_80982664 = { 0.0f, 0.0f, -10.0f };
-Vec3f D_80982670 = { 5.0f, -3.0f, 0.0f };
-Vec3f D_8098267C = { 5.0f, -3.0f, 0.0f };
-Vec3f D_80982688 = { 5.0f, -16.0f, -16.0f };
-Vec3f D_80982694 = { 15.0f, -26.0, 0.0f };
-Vec3f D_809826A0 = { 5.0f, -16.0f, -16.0f };
-Vec3f D_809826AC = { 5.0f, -16.0f, -16.0f };
-Vec3f D_809826B8 = { 20.0f, 6.0f, 0.0f };
-Vec3f D_809826C4 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_809826D0 = { 0.0f, -17.0f, 0.0f };
-Vec3f D_809826DC = { 0.0f, -30.0f, 0.0f };
-
-void Demo_Gt_Update_0(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_1(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_2(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_3(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_4(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_5(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_6(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_7(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_8(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_9(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_10(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_11(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_12(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_13(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_14(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_15(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_16(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_17(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Update_18(DemoGt* this, GlobalContext* globalCtx);
-
-void Demo_Gt_Draw_0(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_2(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_3(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_5(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_6(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_7(DemoGt* this, GlobalContext* globalCtx);
-void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx);
-
-DemoGtActionFunc D_809826E8[] = { Demo_Gt_Update_0,  Demo_Gt_Update_1,  Demo_Gt_Update_2,  Demo_Gt_Update_3,
-                                  Demo_Gt_Update_4,  Demo_Gt_Update_5,  Demo_Gt_Update_6,  Demo_Gt_Update_7,
-                                  Demo_Gt_Update_8,  Demo_Gt_Update_9,  Demo_Gt_Update_10, Demo_Gt_Update_11,
-                                  Demo_Gt_Update_12, Demo_Gt_Update_13, Demo_Gt_Update_14, Demo_Gt_Update_15,
-                                  Demo_Gt_Update_16, Demo_Gt_Update_17, Demo_Gt_Update_18 };
-
-DemoGtActionFunc D_80982734[] = { Demo_Gt_Draw_0, Demo_Gt_Draw_1, Demo_Gt_Draw_2, Demo_Gt_Draw_3, Demo_Gt_Draw_4,
-                                  Demo_Gt_Draw_5, Demo_Gt_Draw_6, Demo_Gt_Draw_7, Demo_Gt_Draw_8 };
-
-const ActorInit Demo_Gt_InitVars = {
-    ACTOR_DEMO_GT,
-    ACTORTYPE_PROP,
-    FLAGS,
-    OBJECT_GT,
-    sizeof(DemoGt),
-    (ActorFunc)DemoGt_Init,
-    (ActorFunc)DemoGt_Destroy,
-    (ActorFunc)DemoGt_Update,
-    (ActorFunc)DemoGt_Draw,
-};
-
 extern UNK_TYPE D_06005CB8;
 extern UNK_TYPE D_060091E4;
-extern UNK_TYPE D_06009970;
-extern UNK_TYPE D_06007630;
-extern UNK_TYPE D_06004F90;
+
+extern Gfx D_06009970[];
+extern Gfx D_06007630[];
+extern Gfx D_06004F90[];
+extern Gfx D_06009610[];
+extern Gfx D_06002910[];
+extern Gfx D_060041A0[];
+extern Gfx D_06009B08[];
 extern Gfx D_06000EA0[];
-extern UNK_TYPE D_06009610;
-extern UNK_TYPE D_06002910;
-extern UNK_TYPE D_060041A0;
-extern UNK_TYPE D_06009B08;
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
 
-    if (this->dyna.actor.params == 1 || this->dyna.actor.params == 2) {
+    if ((this->dyna.actor.params == 1) || (this->dyna.actor.params == 2)) {
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
 }
 
-void func_8097D6B4() {
-    func_800788CC(0x2098);
+void DemoGt_PlayEarthquakeSfx() {
+    func_800788CC(NA_SE_EV_EARTHQUAKE - SFX_FLAG);
 }
 
-void func_8097D6D4(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 0x3C, NA_SE_IT_BOMB_EXPLOSION);
+void DemoGt_PlayExplosion1Sfx(GlobalContext* globalCtx, Vec3f* pos) {
+    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
 }
 
-void func_8097D6F8(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 0x3C, NA_SE_EV_GRAVE_EXPLOSION);
+void DemoGt_PlayExplosion2Sfx(GlobalContext* globalCtx, Vec3f* pos) {
+    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
-void func_8097D71C(GlobalContext* globalCtx) {
+void DemoGt_Rumble(GlobalContext* globalCtx) {
     func_800AA000(0.0f, 0x32, 0xA, 5);
 }
 
-void func_8097D74C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5, s16 arg6) {
-    func_8002843C(globalCtx, arg1, arg2, arg3, &D_809825C0, &D_809825C4, ((Math_Rand_ZeroOne() * (arg4 * 0.2f)) + arg4),
-                  arg5, arg6);
+void DemoGt_SpawnDust(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 scale, s16 scaleStep,
+                      s16 life) {
+    static Color_RGBA8 brownPrim = { 100, 80, 100, 0 };
+    static Color_RGBA8 redEnv = { 255, 110, 96, 0 };
+
+    func_8002843C(globalCtx, pos, velocity, accel, &brownPrim, &redEnv,
+                  ((Math_Rand_ZeroOne() * (scale * 0.2f)) + scale), scaleStep, life);
 }
 
-void func_8097D7D8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32 arg3, s32 arg4, s32 arg5, s16 arg6) {
+void func_8097D7D8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {
     s32 pad;
 
     if (func_800C0D28(globalCtx) == 0) {
         s32 frames = globalCtx->gameplayFrames;
 
         if (ABS(frames % arg4) == arg5) {
-            s32 pad;
-            Vec3f* temp;
-            Vec3f sp3C = D_809825C8;
-            Vec3f sp30 = D_809825D4;
+            s32 pad[2];
+            Vec3f velocity = { 0.0f, 6.0f, 0.0f };
+            Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
-            VEC_SET(sp3C, sp3C.x * arg3, sp3C.y * arg3, sp3C.z * arg3);
+            velocity.x *= scale;
+            velocity.y *= scale;
+            velocity.z *= scale;
 
-            temp = &sp3C;
-
-            VEC_SET(sp3C, temp->x + arg2->x, temp->y + arg2->y, temp->z + arg2->z);
+            velocity.x += velOffset->x;
+            velocity.y += velOffset->y;
+            velocity.z += velOffset->z;
 
             if (0) {}
 
-            VEC_SET(sp30, sp30.x * arg3, sp30.y * arg3, sp30.z * arg3);
+            accel.x *= scale;
+            accel.y *= scale;
+            accel.z *= scale;
 
-            func_8097D74C(globalCtx, arg1, &sp3C, &sp30, 300.0f * arg3, 15.0f * arg3, arg6);
+            DemoGt_SpawnDust(globalCtx, pos, &velocity, &accel, (300.0f * scale), (15.0f * scale), life);
         }
     }
 }
 
-Actor* Spawn_ACTOR_BG_SPOT16_DOUGHNUT(GlobalContext* globalCtx, Vec3f* position, s16 params) {
-    return Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_DOUGHNUT, position->x, position->y, position->z,
-                       0, 0, 0, params);
+Actor* DemoGt_SpawnCloudRing(GlobalContext* globalCtx, Vec3f* pos, s16 params) {
+    return Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SPOT16_DOUGHNUT, pos->x, pos->y, pos->z, 0, 0, 0,
+                       params);
 }
 
-void func_8097D9C4(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2) {
+void DemoGt_SpawnExplosionWithSound(GlobalContext* globalCtx, Vec3f* pos, f32 scale) {
     s32 pad;
-    Vec3f sp30 = D_809825E0;
-    Vec3f sp24 = D_809825EC;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
-    EffectSsBomb2_SpawnLayered(globalCtx, arg1, &sp30, &sp24, 100.0f * arg2, 15.0f * arg2);
-    func_8097D6D4(globalCtx, arg1);
+    EffectSsBomb2_SpawnLayered(globalCtx, pos, &velocity, &accel, (100.0f * scale), (15.0f * scale));
+    DemoGt_PlayExplosion1Sfx(globalCtx, pos);
 }
 
-void func_8097DA78(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4) {
-    EffectSsBomb2_SpawnLayered(globalCtx, arg1, arg2, arg3, (100.0f * arg4), (25.0f * arg4));
+void DemoGt_SpawnExplosionNoSound(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 scale) {
+    EffectSsBomb2_SpawnLayered(globalCtx, pos, velocity, accel, (100.0f * scale), (25.0f * scale));
 }
 
-void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* arg3) {
-    Vec3f spC4;
-    Vec3f spB8;
+void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
+    Vec3f pos;
+    Vec3f velocity;
     f32 temp_f0;
-    s16 rotation = 0;
+    s16 angle;
     s16 phi_s0;
     s32 i;
+
+    angle = 0;
 
     for (i = 0; i < 12; i++) {
 
-        spC4.x = Math_Sins(rotation) * 46.0f;
-        spC4.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
-        spC4.z = Math_Coss(rotation) * 46.0f;
+        pos.x = Math_Sins(angle) * 46.0f;
+        pos.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+        pos.z = Math_Coss(angle) * 46.0f;
 
-        spB8.x = (spC4.x * 0.1f) + 20.0f;
-        spB8.y = Math_Rand_ZeroOne() * 16.0f;
-        spB8.z = spC4.z * 0.1f;
+        velocity.x = (pos.x * 0.1f) + 20.0f;
+        velocity.y = Math_Rand_ZeroOne() * 16.0f;
+        velocity.z = pos.z * 0.1f;
 
-        spC4.x += arg3->x;
-        spC4.y += arg3->y;
-        spC4.z += arg3->z;
+        pos.x += spawnerPos->x;
+        pos.y += spawnerPos->y;
+        pos.z += spawnerPos->z;
 
         temp_f0 = Math_Rand_ZeroOne();
+
         if (temp_f0 < 0.1f) {
-            phi_s0 = 0x60;
+            phi_s0 = 96;
         } else if (temp_f0 < 0.7f) {
-            phi_s0 = 0x40;
+            phi_s0 = 64;
         } else {
-            phi_s0 = 0x20;
+            phi_s0 = 32;
         }
 
-        EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, arg3, -247, phi_s0, 3, 0, 0,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
                              (s32)(Math_Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Math_Rand_ZeroOne() * 0.0f) + 30,
                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
-        rotation += 0x1555;
+        angle += 0x1555;
     }
 }
 
-void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* pos) {
-    Vec3f spC4;
-    Vec3f spB8;
+void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
+    Vec3f pos;
+    Vec3f velocity;
     f32 temp_f0;
-    s16 rotation = 0;
+    s16 angle;
     s16 phi_s0;
     s32 i;
+
+    angle = 0;
 
     for (i = 0; i < 8; i++) {
 
-        spC4.x = Math_Sins(rotation) * 30.0f;
-        spC4.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
-        spC4.z = Math_Coss(rotation) * 30.0f;
+        pos.x = Math_Sins(angle) * 30.0f;
+        pos.y = (Math_Rand_ZeroOne() * 75.0f) + 2.0f;
+        pos.z = Math_Coss(angle) * 30.0f;
 
-        spB8.x = 0.0f;
-        spB8.y = Math_Rand_ZeroOne() * -4.0f;
-        spB8.z = spC4.z * 0.1f;
+        velocity.x = 0.0f;
+        velocity.y = Math_Rand_ZeroOne() * -4.0f;
+        velocity.z = pos.z * 0.1f;
 
-        spC4.x += pos->x;
-        spC4.y += pos->y;
-        spC4.z += pos->z;
+        pos.x += spawnerPos->x;
+        pos.y += spawnerPos->y;
+        pos.z += spawnerPos->z;
 
         temp_f0 = Math_Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
-            phi_s0 = 0x60;
+            phi_s0 = 96;
         } else if (temp_f0 < 0.7f) {
-            phi_s0 = 0x40;
+            phi_s0 = 64;
         } else {
-            phi_s0 = 0x20;
+            phi_s0 = 32;
         }
 
-        EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, pos, -0xF7, phi_s0, 3, 0, 0,
-                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 0x12C,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
+                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
                              (s32)(Math_Rand_ZeroOne() * 0.0f) + 0x1E, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
-        rotation += 0x2000;
+        angle += 0x2000;
     }
 }
 
-void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* pos) {
-    Vec3f spC4;
-    Vec3f spB8;
+void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
+    Vec3f pos;
+    Vec3f velocity;
     f32 temp_f0;
-    s16 rotation = 0;
+    s16 angle;
     s16 phi_s0;
     s32 i;
 
-    for (i = 0; i < 0xC; i++) {
+    angle = 0;
 
-        spC4.x = Math_Sins(rotation) * 16.0f;
-        spC4.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
-        spC4.z = Math_Coss(rotation) * 16.0f;
+    for (i = 0; i < 12; i++) {
 
-        spB8.x = spC4.x * 0.6f;
-        spB8.y = (Math_Rand_ZeroOne() * 36.0f) + 6.0f;
-        spB8.z = spC4.z * 0.6f;
+        pos.x = Math_Sins(angle) * 16.0f;
+        pos.y = (Math_Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = Math_Coss(angle) * 16.0f;
 
-        spC4.x += pos->x;
-        spC4.y += pos->y;
-        spC4.z += pos->z;
+        velocity.x = pos.x * 0.6f;
+        velocity.y = (Math_Rand_ZeroOne() * 36.0f) + 6.0f;
+        velocity.z = pos.z * 0.6f;
+
+        pos.x += spawnerPos->x;
+        pos.y += spawnerPos->y;
+        pos.z += spawnerPos->z;
 
         temp_f0 = Math_Rand_ZeroOne();
 
         if (temp_f0 < 0.1f) {
-            phi_s0 = 0x61;
+            phi_s0 = 97;
         } else if (temp_f0 < 0.7f) {
-            phi_s0 = 0x41;
+            phi_s0 = 65;
         } else {
-            phi_s0 = 0x21;
+            phi_s0 = 33;
         }
 
-        EffectSsKakera_Spawn(globalCtx, &spC4, &spB8, pos, -0xC8, phi_s0, 10, 10, 0,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -200, phi_s0, 10, 10, 0,
                              Math_Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Math_Rand_ZeroOne() * 30.0f) + 30,
                              KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
-        rotation += 0x1555;
+        angle += 0x1555;
     }
 }
 
-void func_8097E1D4(GlobalContext* arg0, Vec3f* arg1, s16 arg2) {
-    Vec3f spC4;
-    Vec3f spB8;
+void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
+    Vec3f pos;
+    Vec3f velocity;
     f32 temp_f0;
-    s16 rotation = 0;
+    s16 angle;
     s16 phi_s0;
     s32 i;
+
+    angle = 0;
 
     for (i = 0; i < 1; i++) {
 
-        spC4.x = Math_Sins(rotation) * 46.0f;
-        spC4.y = (Math_Rand_ZeroOne() * 75.0f) - 28.0f;
-        spC4.z = Math_Coss(rotation) * 46.0f;
+        pos.x = Math_Sins(angle) * 46.0f;
+        pos.y = (Math_Rand_ZeroOne() * 75.0f) - 28.0f;
+        pos.z = Math_Coss(angle) * 46.0f;
 
-        spB8.x = Math_Sins(arg2) * 3.0f;
-        spB8.y = (Math_Rand_ZeroOne() * -4.0f) + 10.0f;
-        spB8.z = Math_Coss(arg2) * 3.0f;
+        velocity.x = Math_Sins(arg2) * 3.0f;
+        velocity.y = (Math_Rand_ZeroOne() * -4.0f) + 10.0f;
+        velocity.z = Math_Coss(arg2) * 3.0f;
 
-        spC4.x += arg1->x;
-        spC4.y += arg1->y;
-        spC4.z += arg1->z;
+        pos.x += arg1->x;
+        pos.y += arg1->y;
+        pos.z += arg1->z;
 
         temp_f0 = Math_Rand_ZeroOne();
+
         if (temp_f0 < 0.1f) {
-            phi_s0 = 0x61;
+            phi_s0 = 97;
         } else if (temp_f0 < 0.7f) {
-            phi_s0 = 0x41;
+            phi_s0 = 65;
         } else {
-            phi_s0 = 0x21;
+            phi_s0 = 33;
         }
 
-        EffectSsKakera_Spawn(arg0, &spC4, &spB8, arg1, -0xF7, phi_s0, 3, 0, 0,
-                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 0x12C,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg1, -247, phi_s0, 3, 0, 0,
+                             (s32)((Math_Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300,
                              (s32)(Math_Rand_ZeroOne() * 0.0f) + 30, KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
 
-        rotation += 0x10000;
+        angle += 0x10000;
     }
 }
 
-void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
-                   s32 arg7, s16 arg8);
 #ifdef NON_MATCHING
-void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, s32 arg6,
-                   s32 arg7, s16 arg8) {
+void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* accel, f32 arg4, f32 scale,
+                   s32 arg6, s32 arg7, s16 life) {
     s32 pad2[4];
     s16 increment;
     s32 frames;
     s32 i;
     s16 phi_s0;
-    s16 new_var = 15.0f * arg5;
-    f32 new_var2 = 300.0f * arg5;
-    Vec3f sp7C;
+    s16 dustScaleStep = 15.0f * scale;
+    f32 dustScale = 300.0f * scale;
+    Vec3f pos;
 
-    if (func_800C0D28(globalCtx) == 0 && arg7 > 0 && arg6 > 0) {
+    if ((func_800C0D28(globalCtx) == 0) && (arg7 > 0) && (arg6 > 0)) {
         frames = 0x10000 * (ABS((s32)globalCtx->gameplayFrames) % arg7);
         phi_s0 = frames / arg6;
         increment = 0x10000 / arg6;
 
         for (i = frames; i < arg6; i += arg7) {
 
-            sp7C.x = (Math_Sins(phi_s0) * arg4) + arg1->x;
-            sp7C.y = arg1->y;
-            sp7C.z = (Math_Coss(phi_s0) * arg4) + arg1->z;
+            pos.x = (Math_Sins(phi_s0) * arg4) + spawnerPos->x;
+            pos.y = spawnerPos->y;
+            pos.z = (Math_Coss(phi_s0) * arg4) + spawnerPos->z;
 
-            func_8097D74C(globalCtx, &sp7C, arg2, arg3, new_var2, new_var, arg8);
+            DemoGt_SpawnDust(globalCtx, &pos, velocity, accel, dustScale, dustScaleStep, life);
 
             if (Math_Rand_ZeroOne() <= 0.05f) {
-                func_8097E1D4(globalCtx, &sp7C, phi_s0);
+                func_8097E1D4(globalCtx, &pos, phi_s0);
             }
 
             phi_s0 += increment;
@@ -379,14 +304,17 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     }
 }
 #else
+void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* accel, f32 arg4, f32 scale,
+                   s32 arg6, s32 arg7, s16 life);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E454.s")
 #endif
 
 u8 func_8097E69C(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
         return true;
+    } else {
+        return false;
     }
-    return false;
 }
 
 CsCmdActorAction* DemoGt_GetNpcAction(GlobalContext* globalCtx, u32 actionIdx) {
@@ -396,21 +324,23 @@ CsCmdActorAction* DemoGt_GetNpcAction(GlobalContext* globalCtx, u32 actionIdx) {
     if (!func_8097E69C(globalCtx)) {
         ret = globalCtx->csCtx.npcActions[actionIdx];
     }
+
     return ret;
 }
 
 u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
     CsCmdActorAction* action = DemoGt_GetNpcAction(globalCtx, arg2);
 
-    if (action != NULL && action->action == arg1) {
+    if ((action != NULL) && (action->action == arg1)) {
         return true;
+    } else {
+        return false;
     }
-    return false;
 }
 
 void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
     CsCmdActorAction* npcAction = DemoGt_GetNpcAction(globalCtx, actionIdx);
-    Vec3f* thisPos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
     f32 startX;
     f32 startY;
     f32 startZ;
@@ -428,13 +358,12 @@ void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
         endY = npcAction->endPos.y;
         endZ = npcAction->endPos.z;
 
-        thisPos->x = ((endX - startX) * someFloat) + startX;
-        thisPos->y = ((endY - startY) * someFloat) + startY;
-        thisPos->z = ((endZ - startZ) * someFloat) + startZ;
+        pos->x = ((endX - startX) * someFloat) + startX;
+        pos->y = ((endY - startY) * someFloat) + startY;
+        pos->z = ((endZ - startZ) * someFloat) + startZ;
     }
 }
 
-// void func_8097E824(DemoGt* this, s32 arg1);
 #ifdef NON_MATCHING
 void func_8097E824(DemoGt* this, s32 arg1) {
     s16 phi_a1;
@@ -449,7 +378,7 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     f32 phi_f12;
     f32 phi_f14;
 
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
     Vec3s* unk16C = &this->unk_16C;
 
     if (arg1 == 1) {
@@ -518,17 +447,18 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     tempf2 = Math_Coss(unk16C->y) * phi_f12;
     tempf3 = Math_Coss(unk16C->z) * phi_f14;
 
-    posRot->x = tempf1 + posRot->x;
-    posRot->y = tempf2 + posRot->y;
-    posRot->z = tempf3 + posRot->z;
+    pos->x += tempf1;
+    pos->y += tempf2;
+    pos->z += tempf3;
 }
 #else
+void func_8097E824(DemoGt* this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
 #endif
 
-void func_8097ED64(DemoGt* this, GlobalContext* globalCtx, s32 arg0) {
-    func_8097E744(this, globalCtx, arg0);
-    func_8097E824(this, arg0);
+void func_8097ED64(DemoGt* this, GlobalContext* globalCtx, s32 actionIdx) {
+    func_8097E744(this, globalCtx, actionIdx);
+    func_8097E824(this, actionIdx);
 }
 
 u8 func_8097ED94() {
@@ -541,14 +471,18 @@ u8 func_8097ED94() {
     }
 }
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
+
 void func_8097EDD8(DemoGt* this, GlobalContext* globalCtx, UNK_PTR arg0) {
     s32 pad[3];
-    s32 localC;
+    ColHeader* localC;
 
-    if (arg0 != 0) {
-        Actor_ProcessInitChain(&this->dyna.actor, D_809825F8);
+    if (arg0 != NULL) {
+        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
         DynaPolyInfo_SetActorMove(&this->dyna, 0);
-        localC = 0;
+        localC = NULL;
         DynaPolyInfo_Alloc(arg0, &localC);
         this->dyna.dynaPolyId =
             DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
@@ -558,8 +492,8 @@ void func_8097EDD8(DemoGt* this, GlobalContext* globalCtx, UNK_PTR arg0) {
 u8 func_8097EE44(DemoGt* this, GlobalContext* globalCtx, s32 arg0, s32 arg1, UNK_PTR arg2) {
 
     if (func_8097ED94()) {
-        this->unk_164 = arg0;
-        this->unk_168 = arg1;
+        this->updateMode = arg0;
+        this->drawConfig = arg1;
         func_8097EDD8(this, globalCtx, arg2);
         return true;
     } else {
@@ -589,44 +523,48 @@ void func_8097EF34(DemoGt* this, GlobalContext* globalCtx) {
 
 void func_8097EF40(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f sp4C[2];
-    Vec3f sp40 = D_809825FC;
-    Vec3f sp34 = D_80982608;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    s32 pad1[3];
+    Vec3f dustPos;
+    Vec3f velocity = { 0.0f, -16.0f, 0.0f };
+    Vec3f accel = { 0.0f, 1.20000004768f, 0.0f };
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
     s32 pad;
 
-    if (kREG(1) == 0x14 || frames == 220) {
+    if ((kREG(1) == 20) || (frames == 220)) {
+        dustPos.x = pos->x + 256.0f;
+        dustPos.y = pos->y + 679.0f;
+        dustPos.z = pos->z + 82.0f;
 
-        sp4C[0].x = posRot->x + 256.0f;
-        sp4C[0].y = posRot->y + 679.0f;
-        sp4C[0].z = posRot->z + 82.0f;
-        func_8097D74C(globalCtx, &sp4C, &sp40, &sp34, 1700.0f, 0xF, 0x1E);
+        DemoGt_SpawnDust(globalCtx, &dustPos, &velocity, &accel, 1700.0f, 15, 30);
 
-        sp4C[0].x = posRot->x + 256.0f;
-        sp4C[0].y = posRot->y + 679.0f;
-        sp4C[0].z = posRot->z - 60.0f;
-        func_8097D74C(globalCtx, &sp4C, &sp40, &sp34, 1700.0f, 0xF, 0x1E);
+        dustPos.x = pos->x + 256.0f;
+        dustPos.y = pos->y + 679.0f;
+        dustPos.z = pos->z - 60.0f;
+
+        DemoGt_SpawnDust(globalCtx, &dustPos, &velocity, &accel, 1700.0f, 15, 30);
     }
 }
 
 void func_8097F0AC(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp38[2];
-    s16 pad[3];
+    s32 pad[3];
+    Vec3f sp38;
+    s16 pad1[3];
     Vec3f sp24;
     u16 frames = globalCtx->csCtx.frames;
     s32 pad2;
 
-    if (frames == 140 || (kREG(1) == 0x13)) {
-        sp38[0].x = this->dyna.actor.posRot.pos.x + 260.0f;
-        sp38[0].y = this->dyna.actor.posRot.pos.y + 340.0f;
-        sp38[0].z = this->dyna.actor.posRot.pos.z + 45.0f;
-        func_8097D9C4(globalCtx, &sp38, 2.0f);
+    if ((frames == 140) || (kREG(1) == 19)) {
+        sp38.x = this->dyna.actor.posRot.pos.x + 260.0f;
+        sp38.y = this->dyna.actor.posRot.pos.y + 340.0f;
+        sp38.z = this->dyna.actor.posRot.pos.z + 45.0f;
+        DemoGt_SpawnExplosionWithSound(globalCtx, &sp38, 2.0f);
     }
+
     if (frames == 176) {
         sp24.x = this->dyna.actor.posRot.pos.x + 260.0f;
         sp24.y = this->dyna.actor.posRot.pos.y + 840.0f;
         sp24.z = this->dyna.actor.posRot.pos.z + 45.0f;
-        func_8097D9C4(globalCtx, &sp24, 2.0f);
+        DemoGt_SpawnExplosionWithSound(globalCtx, &sp24, 2.0f);
     }
 }
 
@@ -654,18 +592,17 @@ void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
 
     f32 temp_f0;
 
-    if (globalCtx->csCtx.frames < 0xA0) {
-        unk178->x = 0x64;
-        unk178->y = 0xFF;
-        unk178->z = 0xC8;
+    if (globalCtx->csCtx.frames < 160) {
+        unk178->x = 100;
+        unk178->y = 255;
+        unk178->z = 200;
 
-        unk188->x = 0xFF;
-        unk188->y = 0x78;
-        unk188->z = 0x64;
+        unk188->x = 255;
+        unk188->y = 120;
+        unk188->z = 100;
 
         unk198->x += 1;
         unk198->y -= 1;
-
     } else if (globalCtx->csCtx.frames < 170) {
         temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
 
@@ -675,45 +612,45 @@ void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
 
         unk188->x = (temp_f0 * -155.0f) + 255.0f;
         unk188->y = (temp_f0 * -20.0f) + 120.0f;
-        unk188->z = 0x64;
+        unk188->z = 100;
     } else {
-        unk178->x = 0x64;
-        unk178->y = 0x64;
-        unk178->z = 0x64;
+        unk178->x = 100;
+        unk178->y = 100;
+        unk178->z = 100;
 
-        unk188->x = 0x64;
-        unk188->y = 0x64;
-        unk188->z = 0x64;
+        unk188->x = 100;
+        unk188->y = 100;
+        unk188->z = 100;
     }
 }
 
 void func_8097F3EC(DemoGt* this, GlobalContext* globalCtx) {
-    if (func_8097E704(globalCtx, 2U, 1)) {
-        this->unk_164 = 8;
+    if (func_8097E704(globalCtx, 2, 1)) {
+        this->updateMode = 8;
     }
 }
 
-void Demo_Gt_Update_0(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update0(DemoGt* this, GlobalContext* globalCtx) {
     func_8097F280(this, globalCtx);
     func_8097E824(this, 1);
     func_8097F19C(this, globalCtx);
     func_8097F3EC(this, globalCtx);
-    func_8097D6B4();
-    func_8097D71C(globalCtx);
+    DemoGt_PlayEarthquakeSfx();
+    DemoGt_Rumble(globalCtx);
     func_8097EF00(this, globalCtx);
 }
 
-void Demo_Gt_Update_8(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update8(DemoGt* this, GlobalContext* globalCtx) {
     func_8097F280(this, globalCtx);
     func_8097F1D8(this);
     func_8097ED64(this, globalCtx, 1);
     func_8097F19C(this, globalCtx);
-    func_8097D6B4();
-    func_8097D71C(globalCtx);
+    DemoGt_PlayEarthquakeSfx();
+    DemoGt_Rumble(globalCtx);
     func_8097EF00(this, globalCtx);
 }
 
-void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u32 gameplayFrames = globalCtx->gameplayFrames;
@@ -724,11 +661,9 @@ void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx) {
     s16 spBA;
     s16 spB8;
     Mtx* spB4;
-
     Vec3f spA8;
     Vec3f sp9C;
     f32 sp98;
-
     Vec3i* tempVec198;
     Vec3i* tempVec188;
     Vec3i* tempVec178;
@@ -736,10 +671,8 @@ void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx) {
     spC6 = this->unk_172;
     spC0 = fabsf(spC6 * (M_PI / 0x8000));
     spBC = kREG(71);
-
     spB8 = (s16)((s32)kREG(70)) + 0x4000;
     spBA = kREG(70);
-
     spB4 = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp98 = 1.0f - Math_Coss(spC6);
 
@@ -753,8 +686,9 @@ void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx) {
     sp9C.z = Math_Sins(spBA) * spBC * sp98;
 
     Matrix_Push();
+
     func_800D23FC(spC0, &spA8, 1);
-    Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, 1);
+    Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, MTXMODE_APPLY);
     Matrix_ToMtx(spB4, "../z_demo_gt_part1.c", 474);
     tempVec198 = &this->unk_198;
     tempVec188 = &this->unk_188;
@@ -767,26 +701,18 @@ void Demo_Gt_Draw_1(DemoGt* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
                                         tempVec178->x, tempVec178->y, tempVec178->z, 0x80));
-
     gSPSegment(POLY_OPA_DISP++, 0x0A,
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
                                         tempVec188->x, tempVec188->y, tempVec188->z, 0x80));
-
     gSPMatrix(POLY_OPA_DISP++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-    gSPDisplayList(POLY_OPA_DISP++, &D_06002910);
-
+    gSPDisplayList(POLY_OPA_DISP++, D_06002910);
     func_80093D84(gfxCtx);
-
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
-
     gSPSegment(
         POLY_XLU_DISP++, 0x09,
-        Gfx_TwoTexScroll(gfxCtx, 0, 0U, gameplayFrames * 0x14, 0x10, 0x200, 1, 0, gameplayFrames * 0x1E, 0x10, 0x200));
-
+        Gfx_TwoTexScroll(gfxCtx, 0, 0, gameplayFrames * 0x14, 0x10, 0x200, 1, 0, gameplayFrames * 0x1E, 0x10, 0x200));
     gSPMatrix(POLY_XLU_DISP++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-    gSPDisplayList(POLY_XLU_DISP++, &D_060041A0);
+    gSPDisplayList(POLY_XLU_DISP++, D_060041A0);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part1.c", 557);
 }
@@ -802,77 +728,85 @@ void func_8097F960(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_8097F96C(DemoGt* this, GlobalContext* globalCtx) {
+    static Actor* cloudRing = NULL;
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
     u16 frames = globalCtx->csCtx.frames;
 
-    if ((frames > 1059) && (frames < 1062) || kREG(1) == 0x11) {
+    if (((frames > 1059) && (frames < 1062)) || kREG(1) == 17) {
         pos.x = this->dyna.actor.posRot.pos.x;
         pos.y = this->dyna.actor.posRot.pos.y + 612.0f;
         pos.z = this->dyna.actor.posRot.pos.z;
 
-        if (D_80982614 == NULL) {
-            D_80982614 = Spawn_ACTOR_BG_SPOT16_DOUGHNUT(globalCtx, &pos, 2);
+        if (cloudRing == NULL) {
+            cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 2);
             return;
+        } else {
+            actor = cloudRing;
+            actor->posRot.pos.x = pos.x;
+            actor->posRot.pos.y = pos.y;
+            actor->posRot.pos.z = pos.z;
         }
-
-        actor = D_80982614;
-        actor->posRot.pos.x = pos.x;
-        actor->posRot.pos.y = pos.y;
-        actor->posRot.pos.z = pos.z;
     }
 }
 
 void func_8097FA1C(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp50[2];
-    u16 frames = globalCtx->csCtx.frames;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
-    Vec3f sp3C = D_80982618;
     s32 pad[3];
+    Vec3f dustPos;
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f velOffset = { -12.0f, -17.0, 5.0 };
+    s32 pad1[3];
 
     if (((frames > 502) && !(frames >= 581)) || (kREG(1) == 5)) {
-
-        sp50[0].x = posRot->x + 300.0f;
-        sp50[0].y = posRot->y + 360.0f;
-        sp50[0].z = posRot->z - 377.0f;
-        func_8097D7D8(globalCtx, &sp50, &sp3C, 6.0f, 6, 1, 0x23);
+        dustPos.x = pos->x + 300.0f;
+        dustPos.y = pos->y + 360.0f;
+        dustPos.z = pos->z - 377.0f;
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 6.0f, 6, 1, 35);
     }
 }
 
 void func_8097FAFC(DemoGt* this, GlobalContext* globalCtx) {
+    static Vec3f velocity = { 0.0f, 1.0f, 0.0f };
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    static f32 arg4 = 280.0f;
+    static f32 scale = 8.0f;
+    static s32 arg6 = 11;
+    static s32 arg7 = 1;
+    static s16 life = 3;
     s32 pad[2];
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f sp38;
+    Vec3f pos;
     f32 new_var = -200.0;
 
-    if (((frames > 0x246) && (frames < 0x2AB)) || (kREG(1) == 6)) {
-        sp38 = this->dyna.actor.posRot.pos;
-        sp38.y += 680.0f;
+    if (((frames > 582) && (frames < 683)) || (kREG(1) == 6)) {
+        pos = this->dyna.actor.posRot.pos;
+        pos.y += 680.0f;
 
-        if (frames == 0x2AA) {
-            D_80982628.x += new_var;
-        } else if (frames == 0x2A9) {
-            D_80982634.x += new_var;
+        if (frames == 682) {
+            velocity.y += new_var;
+        } else if (frames == 681) {
+            accel.y += new_var;
         }
 
-        func_8097E454(globalCtx, &sp38, &D_80982624, &D_80982630, D_8098263C, D_80982640, D_80982644, D_80982648,
-                      *((s16*)((&D_8098264C))));
+        func_8097E454(globalCtx, &pos, &velocity, &accel, arg4, scale, arg6, arg7, life);
     }
 }
 
 void func_8097FC1C(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp50[2];
-    u16 frames = globalCtx->csCtx.frames;
-    PosRot* posRot = &this->dyna.actor.posRot;
-    Vec3f sp3C = D_80982650;
     s32 pad[3];
+    Vec3f dustPos;
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
+    s32 pad1[3];
 
     if (frames > 682 || kREG(1) == 7) {
-        sp50[0].x = posRot->pos.x + 260.0f;
-        sp50[0].y = posRot->pos.y + 360.0f;
-        sp50[0].z = posRot->pos.z + 260.0f;
-        func_8097D7D8(globalCtx, &sp50, &sp3C, 6.0, 6, 0, 0x23);
+        dustPos.x = pos->x + 260.0f;
+        dustPos.y = pos->y + 360.0f;
+        dustPos.z = pos->z + 260.0f;
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 6.0f, 6, 0, 35);
     }
 }
 
@@ -885,7 +819,7 @@ void func_8097FCE4(DemoGt* this, GlobalContext* globalCtx) {
         vec.x = this->dyna.actor.posRot.pos.x + 300.0f;
         vec.y = this->dyna.actor.posRot.pos.y + 560.0f;
         vec.z = this->dyna.actor.posRot.pos.z - 377.0f;
-        func_8097D9C4(globalCtx, &vec, 2.0f);
+        DemoGt_SpawnExplosionWithSound(globalCtx, &vec, 2.0f);
     }
 }
 
@@ -903,10 +837,9 @@ void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
     Vec3i* unk198 = &this->unk_198;
 
     if (globalCtx->csCtx.frames < 610) {
-        unk178->x = 0xA3;
-        unk178->y = 0xC1;
-        unk178->z = 0xC1;
-
+        unk178->x = 163;
+        unk178->y = 193;
+        unk178->z = 193;
         unk198->x++;
         unk198->y--;
     } else if (globalCtx->csCtx.frames < 620) {
@@ -916,32 +849,32 @@ void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
         unk178->y = (temp_f0 * (-43.0f)) + 193.0f;
         unk178->z = (temp_f0 * (-43.0f)) + 193.0f;
     } else {
-        unk178->x = 0x96;
-        unk178->y = 0x96;
-        unk178->z = 0x96;
+        unk178->x = 150;
+        unk178->y = 150;
+        unk178->z = 150;
     }
 }
 
 void func_8097FED8(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 2)) {
-        this->unk_164 = 9;
+        this->updateMode = 9;
     }
 }
 
-void Demo_Gt_Update_1(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update1(DemoGt* this, GlobalContext* globalCtx) {
     func_8097FDDC(this, globalCtx);
     func_8097E824(this, 2);
     func_8097FD70(this, globalCtx);
     func_8097FED8(this, globalCtx);
 }
 
-void Demo_Gt_Update_9(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update9(DemoGt* this, GlobalContext* globalCtx) {
     func_8097FDDC(this, globalCtx);
     func_8097ED64(this, globalCtx, 2);
     func_8097FD70(this, globalCtx);
 }
 
-void Demo_Gt_Draw_2(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw2(DemoGt* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vec3i* tempVec198;
     Vec3i* tempVec178;
@@ -952,16 +885,12 @@ void Demo_Gt_Draw_2(DemoGt* this, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     tempVec198 = &this->unk_198;
     tempVec178 = &this->unk_178;
-
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0U, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
                                         tempVec178->x, tempVec178->y, tempVec178->z, 0x80));
-
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part2.c", 485),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-    gSPDisplayList(POLY_OPA_DISP++, &D_06004F90);
-
+    gSPDisplayList(POLY_OPA_DISP++, D_06004F90);
     gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part2.c", 489);
@@ -974,186 +903,191 @@ void func_80980110_Init2(DemoGt* this, GlobalContext* globalCtx) {
     func_8097EE44(this, globalCtx, 2, 3, &D_060091E4);
 }
 
-void func_DoesNothing(DemoGt* this, GlobalContext* globalCtx) {
+void func_8098016C(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_80980178(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_80980184(DemoGt* this, GlobalContext* globalCtx) {
+    static Actor* cloudRing = NULL;
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
 
-    if (globalCtx->csCtx.frames > 1027 && globalCtx->csCtx.frames < 1031) {
+    if ((globalCtx->csCtx.frames > 1027) && (globalCtx->csCtx.frames < 1031)) {
         pos.x = this->dyna.actor.posRot.pos.x;
         pos.y = this->dyna.actor.posRot.pos.y + 247.0f;
         pos.z = this->dyna.actor.posRot.pos.z;
 
-        if (D_8098265C == NULL) {
-            D_8098265C = Spawn_ACTOR_BG_SPOT16_DOUGHNUT(globalCtx, &pos, 3);
+        if (cloudRing == NULL) {
+            cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 3);
             return;
+        } else {
+            actor = cloudRing;
+            actor->posRot.pos.x = pos.x;
+            actor->posRot.pos.y = pos.y;
+            actor->posRot.pos.z = pos.z;
         }
-
-        actor = D_8098265C;
-        actor->posRot.pos.x = pos.x;
-        actor->posRot.pos.y = pos.y;
-        actor->posRot.pos.z = pos.z;
     }
 }
 
 void func_80980218(DemoGt* this, GlobalContext* globalCtx) {
+    static Actor* cloudRing = NULL;
     s32 pad[4];
     Vec3f pos;
     Actor* actor;
 
-    if (globalCtx->csCtx.frames > 997 && globalCtx->csCtx.frames < 1001) {
+    if ((globalCtx->csCtx.frames > 997) && (globalCtx->csCtx.frames < 1001)) {
         pos.x = this->dyna.actor.initPosRot.pos.x;
         pos.y = this->dyna.actor.initPosRot.pos.y + 38.0f;
         pos.z = this->dyna.actor.initPosRot.pos.z;
 
-        if (D_80982660 == NULL) {
-            D_80982660 = Spawn_ACTOR_BG_SPOT16_DOUGHNUT(globalCtx, &pos, 4);
+        if (cloudRing == NULL) {
+            cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 4);
             return;
+        } else {
+            actor = cloudRing;
+            actor->posRot.pos.x = pos.x;
+            actor->posRot.pos.y = pos.y;
+            actor->posRot.pos.z = pos.z;
         }
-
-        actor = D_80982660;
-        actor->posRot.pos.x = pos.x;
-        actor->posRot.pos.y = pos.y;
-        actor->posRot.pos.z = pos.z;
     }
 }
 
 void func_809802AC(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp50[2];
-    u16 frames = globalCtx->csCtx.frames;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
-    Vec3f sp3C = D_80982664;
     s32 pad[3];
+    Vec3f dustPos;
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f velOffset = { 0.0f, 0.0f, -10.0f };
+    s32 pad1[3];
 
     if (frames > 109 && frames < 140) {
-
-        sp50[0].x = posRot->x - 100.0f;
-        sp50[0].y = posRot->y + 1260.0f;
-        sp50[0].z = posRot->z - 323.0f;
-        func_8097D7D8(globalCtx, &sp50, &sp3C, 4.0f, 3, 0, 0x14);
+        dustPos.x = pos->x - 100.0f;
+        dustPos.y = pos->y + 1260.0f;
+        dustPos.z = pos->z - 323.0f;
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 4.0f, 3, 0, 20);
     }
 }
 
 void func_8098036C(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp50[2];
+    s32 pad[3];
+    Vec3f dustPos;
     u16 frames = globalCtx->csCtx.frames;
     Vec3f* posRot = &this->dyna.actor.posRot.pos;
-    Vec3f sp3C = D_80982670;
-    s32 pad[3];
+    Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
+    s32 pad1[3];
 
-    if (frames > 284 && frames < 421) {
-
-        sp50[0].x = posRot->x + 760.0f;
-        sp50[0].y = posRot->y - 40.0f;
-        sp50[0].z = posRot->z - 240.0f;
-        func_8097D7D8(globalCtx, &sp50, &sp3C, 6.0, 6, 1, 0x23);
+    if ((frames > 284) && (frames < 421)) {
+        dustPos.x = posRot->x + 760.0f;
+        dustPos.y = posRot->y - 40.0f;
+        dustPos.z = posRot->z - 240.0f;
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 6.0f, 6, 1, 35);
     }
 }
 
 void func_80980430(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp50[2];
-    s32 frames = globalCtx->csCtx.frames;
-    PosRot* posRot = &this->dyna.actor.posRot;
-    Vec3f sp3C = D_8098267C;
     s32 pad[3];
+    Vec3f dustPos;
+    s32 frames = globalCtx->csCtx.frames;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
+    s32 pad1[3];
 
     if (frames > 709 || kREG(1) == 8) {
-        sp50[0].x = posRot->pos.x + 760.0f;
-        sp50[0].y = posRot->pos.y - 40.0f;
-        sp50[0].z = posRot->pos.z - 240.0f;
-
-        func_8097D7D8(globalCtx, &sp50, &sp3C, 6.0, 6, 1, 0x23);
+        dustPos.x = pos->x + 760.0f;
+        dustPos.y = pos->y - 40.0f;
+        dustPos.z = pos->z - 240.0f;
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 6.0f, 6, 1, 35);
     }
 }
 
 void func_80980504(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp50[2];
-    u16 frames = globalCtx->csCtx.frames;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
-    Vec3f sp3C = D_80982688;
     s32 pad[3];
+    Vec3f dustPos;
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
+    s32 pad1[3];
 
-    if (frames > 0x2C0 || kREG(1) == 9) {
-        sp50[0].x = posRot->x + 830.0f;
-        sp50[0].y = posRot->y + 60.0f;
-        sp50[0].z = posRot->z + 390.0f;
-        func_8097D7D8(globalCtx, &sp50, &sp3C, 6.0, 6, 2, 0x23);
+    if ((frames > 704) || kREG(1) == 9) {
+        dustPos.x = pos->x + 830.0f;
+        dustPos.y = pos->y + 60.0f;
+        dustPos.z = pos->z + 390.0f;
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 6.0f, 6, 2, 35);
     }
 }
 
 void func_809805D8(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp50[2];
-    u16 frames = globalCtx->csCtx.frames;
-    Vec3f* initPosRot = &this->dyna.actor.initPosRot.pos;
-    Vec3f sp3C = D_80982694;
     s32 pad[3];
+    Vec3f dustPos;
+    u16 frames = globalCtx->csCtx.frames;
+    Vec3f* homePos = &this->dyna.actor.initPosRot.pos;
+    Vec3f velOffset = { 15.0f, -26.0, 0.0f };
+    s32 pad1[3];
 
-    if ((frames > 739) && (frames < 781) || kREG(1) == 11) {
-        sp50[0].x = initPosRot->x + 550.0f;
-        sp50[0].y = initPosRot->y - 110.0f;
-        sp50[0].z = initPosRot->z + 50.0f;
-
-        func_8097D7D8(globalCtx, &sp50, &sp3C, 6.0, 6, 4, 0x23);
+    if (((frames > 739) && (frames < 781)) || kREG(1) == 11) {
+        dustPos.x = homePos->x + 550.0f;
+        dustPos.y = homePos->y - 110.0f;
+        dustPos.z = homePos->z + 50.0f;
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 6.0f, 6, 4, 35);
     }
 }
 
 void func_809806B8(DemoGt* this, GlobalContext* globalContext) {
-    Vec3f sp50[2];
-    u16 frames = globalContext->csCtx.frames;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
-    Vec3f sp3C = D_809826A0;
     s32 pad[3];
+    Vec3f dustPos;
+    u16 frames = globalContext->csCtx.frames;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
+    s32 pad1[3];
 
-    if (frames > 964 || kREG(1) == 12) {
-        sp50[0].x = posRot->x + 460.0f;
-        sp50[0].y = posRot->y + 60.0f;
-        sp50[0].z = posRot->z + 760.0f;
-        func_8097D7D8(globalContext, &sp50, &sp3C, 6.0, 6, 3, 0x23);
+    if ((frames > 964) || (kREG(1) == 12)) {
+        dustPos.x = pos->x + 460.0f;
+        dustPos.y = pos->y + 60.0f;
+        dustPos.z = pos->z + 760.0f;
+        func_8097D7D8(globalContext, &dustPos, &velOffset, 6.0f, 6, 3, 35);
     }
 }
 
 void func_8098078C(DemoGt* this, GlobalContext* globalContext) {
-    Vec3f sp50[2];
-    u16 frames = globalContext->csCtx.frames;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
-    Vec3f sp3C = D_809826AC;
     s32 pad[3];
+    Vec3f dustPos;
+    u16 frames = globalContext->csCtx.frames;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
+    s32 pad1[3];
 
-    if (frames > 939 || kREG(1) == 14) {
-        sp50[0].x = posRot->x + 360.0f;
-        sp50[0].y = posRot->y + 70.0f;
-        sp50[0].z = posRot->z - 640.0f;
-        func_8097D7D8(globalContext, &sp50, &sp3C, 6.0, 6, 0, 0x23);
+    if ((frames > 939) || (kREG(1) == 14)) {
+        dustPos.x = pos->x + 360.0f;
+        dustPos.y = pos->y + 70.0f;
+        dustPos.z = pos->z - 640.0f;
+        func_8097D7D8(globalContext, &dustPos, &velOffset, 6.0, 6, 0, 35);
     }
 }
 
 void func_8098085C(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp28[2];
+    s32 pad[3];
+    Vec3f sp28;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
 
-    if (frames == 58 || kREG(1) == 1) {
-        sp28[0].x = posRot->x + 900.0f;
-        sp28[0].y = posRot->y - 50.0f;
-        sp28[0].z = posRot->z + 93.0f;
-        func_8097D9C4(globalCtx, &sp28, 2.0f);
+    if ((frames == 58) || (kREG(1) == 1)) {
+        sp28.x = pos->x + 900.0f;
+        sp28.y = pos->y - 50.0f;
+        sp28.z = pos->z + 93.0f;
+        DemoGt_SpawnExplosionWithSound(globalCtx, &sp28, 2.0f);
     } else if (frames == 80) {
-        sp28[0].x = posRot->x + 810.0f;
-        sp28[0].y = posRot->y + 200.0f;
-        sp28[0].z = posRot->z - 37.0f;
-        func_8097D9C4(globalCtx, &sp28, 0.899999976158f);
-        return;
+        sp28.x = pos->x + 810.0f;
+        sp28.y = pos->y + 200.0f;
+        sp28.z = pos->z - 37.0f;
+        DemoGt_SpawnExplosionWithSound(globalCtx, &sp28, 0.899999976158f);
     } else if (frames == 90) {
-        sp28[0].x = posRot->x - 220.0f;
-        sp28[0].y = posRot->y + 1350.0f;
-        sp28[0].z = posRot->z - 287.0f;
-        func_8097D9C4(globalCtx, &sp28, 2.0f);
+        sp28.x = pos->x - 220.0f;
+        sp28.y = pos->y + 1350.0f;
+        sp28.z = pos->z - 287.0f;
+        DemoGt_SpawnExplosionWithSound(globalCtx, &sp28, 2.0f);
     }
 }
 
@@ -1164,20 +1098,18 @@ void func_809809C0(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx2->csCtx.frames;
     Vec3f sp54;
     s16 pad[3];
-    Vec3f sp40;
-    Vec3f sp34;
-    s16 pad2[3];
 
-    if ((frames > 469 && frames < 481) || kREG(1) == 3) {
+    if (((frames > 469) && (frames < 481)) || (kREG(1) == 3)) {
+        Vec3f sp40 = { 20.0f, 6.0f, 0.0f };
+        Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
+        s16 pad2[3];
 
-        sp40 = D_809826B8;
-        sp34 = D_809826C4;
         sp54.x = this2->dyna.actor.posRot.pos.x + 790.0f;
         sp54.y = this2->dyna.actor.posRot.pos.y + 60.0f;
         sp54.z = this2->dyna.actor.posRot.pos.z + 23.0f;
 
         if (ABS(gameplayFrames % 12) == 0) {
-            func_8097DA78(globalCtx2, &sp54, &sp40, &sp34, 2.0f);
+            DemoGt_SpawnExplosionNoSound(globalCtx2, &sp54, &sp40, &sp34, 2.0f);
         }
     }
 }
@@ -1187,13 +1119,13 @@ void func_80980AD4(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f pos;
     u16 frames = globalCtx->csCtx.frames;
 
-    if (frames == 477 || kREG(2) == 1) {
+    if ((frames == 477) || (kREG(2) == 1)) {
         pos.x = this->dyna.actor.posRot.pos.x + 790.0f;
         pos.y = this->dyna.actor.posRot.pos.y + 60.0f;
         pos.z = this->dyna.actor.posRot.pos.z + 23.0f;
 
         func_8097DAC8(this, globalCtx, &pos);
-        func_8097D6F8(globalCtx, &pos);
+        DemoGt_PlayExplosion2Sfx(globalCtx, &pos);
     }
 }
 
@@ -1202,12 +1134,12 @@ void func_80980B68(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f pos;
     u16 frames = globalCtx->csCtx.frames;
 
-    if (frames == 317 || kREG(3) == 1) {
+    if ((frames == 317) || (kREG(3) == 1)) {
         pos.x = this->dyna.actor.posRot.pos.x + 980.0f;
         pos.y = this->dyna.actor.posRot.pos.y + 410.0f;
         pos.z = this->dyna.actor.posRot.pos.z - 177.0f;
         func_8097DD28(this, globalCtx, &pos);
-        func_8097D6F8(globalCtx, &pos);
+        DemoGt_PlayExplosion2Sfx(globalCtx, &pos);
     }
 }
 
@@ -1216,18 +1148,18 @@ void func_80980BFC(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f pos;
     u16 frames = globalCtx->csCtx.frames;
 
-    if (frames == 740 || kREG(4) == 1) {
+    if ((frames == 740) || (kREG(4) == 1)) {
         pos.x = this->dyna.actor.posRot.pos.x + 790.0f;
         pos.y = this->dyna.actor.posRot.pos.y + 60.0f;
         pos.z = this->dyna.actor.posRot.pos.z + 23.0f;
 
         func_8097DF70(this, globalCtx, &pos);
-        func_8097D6F8(globalCtx, &pos);
+        DemoGt_PlayExplosion2Sfx(globalCtx, &pos);
     }
 }
 
 void func_80980C90(DemoGt* this, GlobalContext* globalCtx) {
-    func_DoesNothing(this, globalCtx);
+    func_8098016C(this, globalCtx);
     func_80980178(this, globalCtx);
     func_80980184(this, globalCtx);
     func_80980218(this, globalCtx);
@@ -1247,30 +1179,30 @@ void func_80980C90(DemoGt* this, GlobalContext* globalCtx) {
 
 void func_80980D74(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 3)) {
-        this->unk_164 = 10;
+        this->updateMode = 10;
     }
 }
 
-void Demo_Gt_Update_2(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update2(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 3);
     func_80980C90(this, globalCtx);
     func_80980D74(this, globalCtx);
 }
 
-void Demo_Gt_Update_10(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update10(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 3);
     func_80980C90(this, globalCtx);
 }
 
-void Demo_Gt_Draw_3(DemoGt* this, GlobalContext* globalCtx) {
-    GlobalContext* gfxCtx = globalCtx->state.gfxCtx;
+void DemoGt_Draw3(DemoGt* this, GlobalContext* globalCtx) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1026);
 
     func_80093D18(gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part3.c", 0x404),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part3.c", 1028),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_06007630);
+    gSPDisplayList(POLY_OPA_DISP++, D_06007630);
     gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1032);
@@ -1288,75 +1220,71 @@ void func_80980F58(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (frames == 244) {
-        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
 void func_80980F8C(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp58[2];
-    Vec3f sp4C;
-    u16 frames = globalCtx->csCtx.frames;
-    Vec3f sp3C;
     s32 pad[3];
+    Vec3f sp58;
+    Vec3f dustPos;
+    u16 frames = globalCtx->csCtx.frames;
 
-    if (frames > 259 && frames < 289) {
-        sp3C = D_809826D0;
+    if ((frames > 259) && (frames < 289)) {
+        Vec3f velOfset = { 0.0f, -17.0f, 0.0f };
+        s32 pad[3];
 
-        sp58[0].x = 640.0f;
-        sp58[0].y = 2100.0f;
-        sp58[0].z = -170.0f;
+        sp58.x = 640.0f;
+        sp58.y = 2100.0f;
+        sp58.z = -170.0f;
 
-        Matrix_MultVec3f(sp58, &sp4C);
-        func_8097D7D8(globalCtx, &sp4C, &sp3C, 3.0f, 5, 0, 0x1E);
+        Matrix_MultVec3f(&sp58, &dustPos);
+        func_8097D7D8(globalCtx, &dustPos, &velOfset, 3.0f, 5, 0, 30);
     }
 }
 
 void func_8098103C(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 4)) {
-        this->unk_164 = 11;
+        this->updateMode = 11;
     } else if (func_8097E704(globalCtx, 3, 4)) {
-        this->unk_164 = 16;
+        this->updateMode = 16;
     }
 }
 
-void Demo_Gt_Update_3(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update3(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 4);
     func_80980F58(this, globalCtx);
     func_8098103C(this, globalCtx);
 }
 
-void Demo_Gt_Update_11(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update11(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 4);
     func_80980F58(this, globalCtx);
 }
 
-void Demo_Gt_Update_16(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update16(DemoGt* this, GlobalContext* globalCtx) {
     f32 temp = this->unk_172;
 
     this->unk_174 = (temp * ((kREG(64) * 0.001f) + 0.048f)) + (kREG(65) + 98.0f);
-
     this->unk_172 += this->unk_174;
+
     if (this->unk_172 > 0x4000) {
         this->unk_172 = 0x4000;
     }
 }
 
-void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     GlobalContext* globalCtx2 = globalCtx;
     u16 frames = globalCtx->csCtx.frames;
     s32 pad;
     s16 sp76;
-
     f32 sp70;
     f32 sp6C;
-
     s16 sp6A;
     s16 sp68;
     s16 pad2;
-
     Mtx* sp60;
-
     Vec3f sp54;
     Vec3f sp48;
     f32 sp44;
@@ -1366,10 +1294,8 @@ void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx) {
         sp76 = this->unk_172;
         sp70 = fabsf(sp76 * (M_PI / 0x8000));
         sp6C = kREG(61);
-
         sp68 = (s16)((s32)kREG(58)) + 0x4000;
         sp6A = kREG(58);
-
         gfxCtx = globalCtx2->state.gfxCtx;
         sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
         sp44 = 1.0f - Math_Coss(sp76);
@@ -1387,7 +1313,7 @@ void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx) {
         Matrix_Push();
 
         func_800D23FC(sp70, &sp54, 1);
-        Matrix_Translate(sp48.x, sp48.y, sp48.z, 1);
+        Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
         Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
 
         if (func_800C0D28(globalCtx2) == 0) {
@@ -1395,9 +1321,10 @@ void Demo_Gt_Draw_4(DemoGt* this, GlobalContext* globalCtx) {
         }
 
         Matrix_Pull();
+
         func_80093D18(gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, &D_06009610);
+        gSPDisplayList(POLY_OPA_DISP++, D_06009610);
         gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
 
         CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 246);
@@ -1416,53 +1343,52 @@ void func_80981424(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (frames == 789) {
-        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
 void func_80981458(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3f sp58[2];
-    Vec3f sp4C;
-    u16 frames = globalCtx->csCtx.frames;
-    Vec3f sp3C;
     s32 pad[3];
+    Vec3f sp58;
+    Vec3f dustPos;
+    u16 frames = globalCtx->csCtx.frames;
 
-    if ((frames > 0x357 && frames < 0x37B) || (kREG(1) == 13)) {
-        sp3C = D_809826DC;
+    if (((frames > 855) && (frames < 891)) || (kREG(1) == 13)) {
+        Vec3f velOffset = { 0.0f, -30.0f, 0.0f };
+        s32 pad1[3];
 
-        sp58[0].x = 0.0f;
-        sp58[0].y = 1170.0f;
-        sp58[0].z = -1100.0f;
+        sp58.x = 0.0f;
+        sp58.y = 1170.0f;
+        sp58.z = -1100.0f;
 
-        Matrix_MultVec3f(sp58, &sp4C);
-        func_8097D7D8(globalCtx, &sp4C, &sp3C, 7.1, 5, 1, 0x1E);
+        Matrix_MultVec3f(&sp58, &dustPos);
+        func_8097D7D8(globalCtx, &dustPos, &velOffset, 7.1f, 5, 1, 30);
     }
 }
 
 void func_80981524(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 5)) {
-        this->unk_164 = 12;
+        this->updateMode = 12;
     } else if (func_8097E704(globalCtx, 3, 5)) {
-        this->unk_164 = 17;
+        this->updateMode = 17;
     }
 }
 
-void Demo_Gt_Update_4(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update4(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 5);
     func_80981424(this, globalCtx);
     func_80981524(this, globalCtx);
 }
 
-void Demo_Gt_Update_12(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update12(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 5);
     func_80981424(this, globalCtx);
 }
 
-void Demo_Gt_Update_17(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update17(DemoGt* this, GlobalContext* globalCtx) {
     f32 temp = this->unk_172;
 
     this->unk_174 = temp * ((kREG(66) * 0.001f) + 0.048f) + (kREG(67) + 50.0f);
-
     this->unk_172 += this->unk_174;
 
     if (this->unk_172 > 0x4000) {
@@ -1470,19 +1396,16 @@ void Demo_Gt_Update_17(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void Demo_Gt_Draw_5(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     s32 pad;
     s16 sp76;
     f32 sp70;
     f32 sp6C;
-
     s16 sp6A;
     s16 sp68;
-    s16 pad_sp66;
-
+    s16 pad1;
     Mtx* sp60;
-
     Vec3f sp54;
     Vec3f sp48;
     f32 sp44;
@@ -1490,10 +1413,8 @@ void Demo_Gt_Draw_5(DemoGt* this, GlobalContext* globalCtx) {
     sp76 = this->unk_172;
     sp70 = fabsf(sp76 * (M_PI / 0x8000));
     sp6C = kREG(62);
-
     sp6A = kREG(59) - 0x4000;
     sp68 = (s16)(kREG(59) - 0x4000) + 0x4000;
-
     gfxCtx = globalCtx->state.gfxCtx;
     sp60 = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp44 = 1 - Math_Coss(sp76);
@@ -1511,8 +1432,7 @@ void Demo_Gt_Draw_5(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Push();
 
     func_800D23FC(sp70, &sp54, 1);
-
-    Matrix_Translate(sp48.x, sp48.y, sp48.z, 1);
+    Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp60, "../z_demo_gt_part4_2.c", 227);
 
     if (func_800C0D28(globalCtx) == 0) {
@@ -1522,9 +1442,8 @@ void Demo_Gt_Draw_5(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Pull();
 
     func_80093D18(gfxCtx);
-
     gSPMatrix(POLY_OPA_DISP++, sp60, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_06009610);
+    gSPDisplayList(POLY_OPA_DISP++, D_06009610);
     gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_2.c", 241);
@@ -1546,28 +1465,27 @@ void func_809818FC(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 void func_80981930(DemoGt* this, GlobalContext* globalCtx) {
-    if (func_8097E704(globalCtx, 2U, 6)) {
-        this->unk_164 = 13;
-    } else if (func_8097E704(globalCtx, 3U, 6)) {
-        this->unk_164 = 18;
+    if (func_8097E704(globalCtx, 2, 6)) {
+        this->updateMode = 13;
+    } else if (func_8097E704(globalCtx, 3, 6)) {
+        this->updateMode = 18;
     }
 }
-void Demo_Gt_Update_5(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update5(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 6);
     func_809818FC(this, globalCtx);
     func_80981930(this, globalCtx);
 }
 
-void Demo_Gt_Update_13(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update13(DemoGt* this, GlobalContext* globalCtx) {
     func_8097ED64(this, globalCtx, 6);
     func_809818FC(this, globalCtx);
 }
 
-void Demo_Gt_Update_18(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update18(DemoGt* this, GlobalContext* globalCtx) {
     f32 temp = this->unk_172;
 
     this->unk_174 = (temp * ((kREG(68) * 0.001f) + 0.005f)) + (kREG(69) + 50.0f);
-
     this->unk_172 += this->unk_174;
 
     if (this->unk_172 > 0x4000) {
@@ -1575,7 +1493,7 @@ void Demo_Gt_Update_18(DemoGt* this, GlobalContext* globalCtx) {
     }
 }
 
-void Demo_Gt_Draw_6(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
     s16 sp78 = this2->unk_172;
     f32 sp74;
@@ -1584,19 +1502,15 @@ void Demo_Gt_Draw_6(DemoGt* this, GlobalContext* globalCtx) {
     s16 sp6C;
     GraphicsContext* gfxCtx;
     Mtx* sp64;
-
     Vec3f sp58;
     Vec3f sp4C;
-
     f32 sp48;
 
     sp74 = fabsf(sp78 * (M_PI / 0x8000));
     sp70 = kREG(63);
-
     sp6E = kREG(60) + 0x4000;
     sp6C = kREG(60) + 0x4000;
     sp6C += 0x4000;
-
     gfxCtx = globalCtx->state.gfxCtx;
     sp64 = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp48 = 1.0f - Math_Coss(sp78);
@@ -1614,16 +1528,14 @@ void Demo_Gt_Draw_6(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Push();
 
     func_800D23FC(sp74, &sp58, 1);
-    Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, 1);
+    Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp64, "../z_demo_gt_part4_3.c", 291);
+
     Matrix_Pull();
 
     func_80093D18(gfxCtx);
-
     gSPMatrix(POLY_OPA_DISP++, sp64, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-    gSPDisplayList(POLY_OPA_DISP++, &D_06009610);
-
+    gSPDisplayList(POLY_OPA_DISP++, D_06009610);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_3.c", 307);
@@ -1633,7 +1545,6 @@ void func_80981C94_Init23(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
-
     func_8097EE44(this, globalCtx, 6, 7, NULL);
 }
 
@@ -1641,7 +1552,7 @@ void func_80981CEC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (frames == 183) {
-        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
@@ -1658,23 +1569,23 @@ void func_80981D20(DemoGt* this) {
 
 void func_80981DC8(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 7)) {
-        this->unk_164 = 0xE;
+        this->updateMode = 0xE;
     }
 }
 
-void Demo_Gt_Update_6(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update6(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 7);
     func_80981CEC(this, globalCtx);
     func_80981DC8(this, globalCtx);
 }
 
-void Demo_Gt_Update_14(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update14(DemoGt* this, GlobalContext* globalCtx) {
     func_80981D20(this);
     func_8097ED64(this, globalCtx, 7);
     func_80981CEC(this, globalCtx);
 }
 
-void Demo_Gt_Draw_7(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 sp6E;
@@ -1690,11 +1601,9 @@ void Demo_Gt_Draw_7(DemoGt* this, GlobalContext* globalCtx) {
     sp6E = this2->unk_172;
     sp68 = fabsf(sp6E * (M_PI / 0x8000));
     sp64 = kREG(75);
-
     sp62 = kREG(74) + 0x7FEC;
     sp60 = kREG(74) + 0x7FEC;
     sp60 = sp60 + 0x4000;
-
     sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_Coss(sp6E);
 
@@ -1709,16 +1618,16 @@ void Demo_Gt_Draw_7(DemoGt* this, GlobalContext* globalCtx) {
     sp44.z = (Math_Sins(sp62) * sp64) * sp40;
 
     Matrix_Push();
+
     func_800D23FC(sp68, &sp50, MTXMODE_APPLY);
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
-
     Matrix_ToMtx(sp5C, "../z_demo_gt_part5.c", 152);
+
     Matrix_Pull();
+
     func_80093D18(gfxCtx);
-
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-    gSPDisplayList(POLY_OPA_DISP++, &D_06009970);
+    gSPDisplayList(POLY_OPA_DISP++, D_06009970);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part5.c", 160);
 }
@@ -1732,8 +1641,8 @@ void func_80982054_Init24(DemoGt* this, GlobalContext* globalCtx) {
 
 void func_809820AC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
-    
-    if (frames == 0x9A) {
+
+    if (frames == 154) {
         func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
     }
 }
@@ -1751,23 +1660,23 @@ void func_809820E0(DemoGt* this) {
 
 void func_80982188(DemoGt* this, GlobalContext* globalCtx) {
     if (func_8097E704(globalCtx, 2, 9) != 0) {
-        this->unk_164 = 15;
+        this->updateMode = 15;
     }
 }
 
-void Demo_Gt_Update_7(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update7(DemoGt* this, GlobalContext* globalCtx) {
     func_8097E824(this, 9);
     func_809820AC(this, globalCtx);
     func_80982188(this, globalCtx);
 }
 
-void Demo_Gt_Update_15(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Update15(DemoGt* this, GlobalContext* globalCtx) {
     func_809820E0(this);
     func_8097ED64(this, globalCtx, 9);
     func_809820AC(this, globalCtx);
 }
 
-void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
     DemoGt* this2 = this;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 sp6E;
@@ -1776,7 +1685,6 @@ void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx) {
     s16 sp62;
     s16 sp60;
     Mtx* sp5C;
-
     Vec3f sp50;
     Vec3f sp44;
     f32 sp40;
@@ -1784,15 +1692,13 @@ void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx) {
     sp6E = this2->unk_172;
     sp68 = fabsf(sp6E * (M_PI / 0x8000));
     sp64 = kREG(78);
-
     sp62 = kREG(77) + 0xBE80;
     sp60 = kREG(77) + 0xBE80;
     sp60 += 0x4000;
-
-    sp5C = Graph_Alloc(gfxCtx, 0x40U);
+    sp5C = Graph_Alloc(gfxCtx, sizeof(Mtx));
     sp40 = 1.0f - Math_Coss(sp6E);
 
-    OPEN_DISPS(gfxCtx, "../z_demo_gt_part6.c", 0x89);
+    OPEN_DISPS(gfxCtx, "../z_demo_gt_part6.c", 137);
 
     sp50.x = Math_Coss(sp60);
     sp50.y = 0.0f;
@@ -1803,32 +1709,38 @@ void Demo_Gt_Draw_8(DemoGt* this, GlobalContext* globalCtx) {
     sp44.z = Math_Sins(sp62) * sp64 * sp40;
 
     Matrix_Push();
-    func_800D23FC(sp68, &sp50, 1);
-    Matrix_Translate(sp44.x, sp44.y, sp44.z, 1);
 
-    Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 0x99);
+    func_800D23FC(sp68, &sp50, 1);
+    Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
+    Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 153);
 
     Matrix_Pull();
+
     func_80093D18(gfxCtx);
-
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, D_06009B08);
 
-    gSPDisplayList(POLY_OPA_DISP++, &D_06009B08);
-
-    CLOSE_DISPS(gfxCtx, "../z_demo_gt_part6.c", 0xA3);
+    CLOSE_DISPS(gfxCtx, "../z_demo_gt_part6.c", 163);
 }
+
+static DemoGtUpdateFunc sUpdateFuncs[] = {
+    DemoGt_Update0,  DemoGt_Update1,  DemoGt_Update2,  DemoGt_Update3,  DemoGt_Update4,
+    DemoGt_Update5,  DemoGt_Update6,  DemoGt_Update7,  DemoGt_Update8,  DemoGt_Update9,
+    DemoGt_Update10, DemoGt_Update11, DemoGt_Update12, DemoGt_Update13, DemoGt_Update14,
+    DemoGt_Update15, DemoGt_Update16, DemoGt_Update17, DemoGt_Update18,
+};
 
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
-    DemoGtActionFunc function;
+    DemoGtUpdateFunc updateFunc;
 
-    if (this->unk_164 < 0 || this->unk_164 >= 19 || (function = D_809826E8[this->unk_164]) == NULL) {
+    if ((this->updateMode < 0) || (this->updateMode >= 19) || (updateFunc = sUpdateFuncs[this->updateMode]) == NULL) {
         // The main mode is strange!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    function(this, globalCtx);
+    updateFunc(this, globalCtx);
 }
 
 void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -1866,18 +1778,35 @@ void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void Demo_Gt_Draw_0(DemoGt* this, GlobalContext* globalCtx) {
+void DemoGt_Draw0(DemoGt* this, GlobalContext* globalCtx) {
 }
+
+static DemoGtDrawFunc sDrawFuncs[] = {
+    DemoGt_Draw0, DemoGt_Draw1, DemoGt_Draw2, DemoGt_Draw3, DemoGt_Draw4,
+    DemoGt_Draw5, DemoGt_Draw6, DemoGt_Draw7, DemoGt_Draw8,
+};
 
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
-    DemoGtActionFunc function;
+    DemoGtDrawFunc drawFunc;
 
-    if (this->unk_168 < 0 || this->unk_168 >= 9 || (function = D_80982734[this->unk_168]) == NULL) {
+    if ((this->drawConfig < 0) || (this->drawConfig >= 9) || (drawFunc = sDrawFuncs[this->drawConfig]) == NULL) {
         // The drawing mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    function(this, globalCtx);
+    drawFunc(this, globalCtx);
 }
+
+const ActorInit Demo_Gt_InitVars = {
+    ACTOR_DEMO_GT,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_GT,
+    sizeof(DemoGt),
+    (ActorFunc)DemoGt_Init,
+    (ActorFunc)DemoGt_Destroy,
+    (ActorFunc)DemoGt_Update,
+    (ActorFunc)DemoGt_Draw,
+};

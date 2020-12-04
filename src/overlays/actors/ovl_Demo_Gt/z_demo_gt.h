@@ -6,16 +6,16 @@
 
 struct DemoGt;
 
-typedef void (*DemoGtActionFunc)(struct DemoGt*, GlobalContext*);
+typedef void (*DemoGtUpdateFunc)(struct DemoGt*, GlobalContext*);
+typedef void (*DemoGtDrawFunc)(struct DemoGt*, GlobalContext*);
 
 typedef struct DemoGt {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ s32 unk_164; // main mode?
-    /* 0x0168 */ s32 unk_168; // drawing mode?
+    /* 0x0164 */ s32 updateMode;
+    /* 0x0168 */ s32 drawConfig;
     /* 0x016C */ Vec3s unk_16C;
     /* 0x0172 */ s16 unk_172;
     /* 0x0174 */ s16 unk_174;
-    /* 0x0176 */ char unk_176[2];
     /* 0x0178 */ Vec3i unk_178;
     /* 0x0184 */ char unk_184[0x4];
     /* 0x0188 */ Vec3i unk_188;
