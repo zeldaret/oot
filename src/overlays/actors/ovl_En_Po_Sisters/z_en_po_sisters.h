@@ -6,7 +6,7 @@
 
 struct EnPoSisters;
 
-typedef void (*EnPoSistersActionFunc)(struct EnPoSisters*, struct GlobalContext*);
+typedef void (*EnPoSistersActionFunc)(struct EnPoSisters*, GlobalContext*);
 
 typedef struct EnPoSisters {
     /* 0x0000 */ Actor actor;

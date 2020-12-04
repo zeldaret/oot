@@ -38,7 +38,7 @@ static ColliderCylinderInit sColliderInit = {
     { 25, 50, 20, { 0, 0, 0 } },
 };
 
-static InitChainEntry sInitChain[3] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 0x5C, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
@@ -201,14 +201,14 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+s32 EnPoDesert_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx, Gfx** gfxP) {
     EnPoDesert* this = THIS;
     f32 mtxScale;
 
     if (this->actionFunc == EnPoDesert_Disappear && limbIndex == 7) {
         mtxScale = this->actionTimer * 0.0625f;
-        Matrix_Scale(mtxScale, mtxScale, mtxScale, 1);
+        Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
     }
     if ((this->actor.flags & 0x80) != 0x80) {
         *dList = NULL;
@@ -216,7 +216,7 @@ s32 EnPoDesert_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     return 0;
 }
 
-void EnPoDesert_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
+void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                               Gfx** gfxP) {
     static Vec3f baseLightPos = { 0.0f, 1400.0f, 0.0f };
 

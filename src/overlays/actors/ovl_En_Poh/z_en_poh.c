@@ -60,7 +60,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 40, 20, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit D_80AE1AA0[1] = {
+static ColliderJntSphItemInit D_80AE1AA0[] = {
     {
         { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
         { 18, { { 0, 1400, 0 }, 10 }, 100 },
@@ -112,7 +112,7 @@ static Color_RGBA8 D_80AE1B50 = { 80, 110, 90, 255 };
 static Color_RGBA8 D_80AE1B54 = { 90, 85, 50, 255 };
 static Color_RGBA8 D_80AE1B58 = { 100, 90, 100, 255 };
 
-static InitChainEntry sInitChain[1] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
 };
 
@@ -326,7 +326,7 @@ void EnPoh_SetupDeath(EnPoh* this, GlobalContext* globalCtx) {
     this->actor.update = EnPoh_UpdateDead;
     this->actor.draw = EnPoh_DrawSoul;
     this->actor.shape.shadowDrawFunc = NULL;
-    Actor_SetScale(&this->actor, 0.009999999776482582f);
+    Actor_SetScale(&this->actor, 0.01f);
     this->actor.flags |= 0x10;
     this->actor.gravity = -1.0f;
     this->actor.shape.unk_08 = 1500.0f;
@@ -737,7 +737,9 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
     this->actor.posRot.pos.y = Math_Sins(this->unk_195 * 0x800) * 5.0f + this->actor.initPosRot.pos.y;
-    DECR(this->unk_195);
+    if (this->unk_195 != 0) {
+        this->unk_195--;
+    }
     if (this->unk_195 == 0) {
         this->unk_195 = 32;
     }
@@ -973,7 +975,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = this->lightColor.a;
 }
 
-s32 EnPoh_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+s32 EnPoh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                             Gfx** gfxP) {
     EnPoh* this = THIS;
 
@@ -990,7 +992,7 @@ s32 EnPoh_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     return 0;
 }
 
-void EnPoh_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
+void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
     EnPoh* this = THIS;
 
     func_800628A4(limbIndex, &this->colliderSph);
@@ -1002,7 +1004,7 @@ void EnPoh_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     if (limbIndex == this->info->unk_6) {
         if (this->actionFunc == func_80ADF15C && this->unk_198 >= 19 && 0.0f != this->actor.scale.x) {
             f32 mtxScale = 0.01f / this->actor.scale.x;
-            Matrix_Scale(mtxScale, mtxScale, mtxScale, 1);
+            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
         }
         Matrix_Get(&this->unk_368);
         if (this->actionFunc == func_80ADF15C && this->unk_198 == 27) {
@@ -1138,7 +1140,7 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, this->info->primColor.r, this->info->primColor.g,
                         this->info->primColor.b, this->lightColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
-        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, 1);
+        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2910),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, this->info->soulDisplayList);

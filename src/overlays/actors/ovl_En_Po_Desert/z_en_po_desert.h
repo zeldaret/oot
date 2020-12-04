@@ -6,7 +6,7 @@
 
 struct EnPoDesert;
 
-typedef void (*EnPoDesertActionFunc)(struct EnPoDesert*, struct GlobalContext*);
+typedef void (*EnPoDesertActionFunc)(struct EnPoDesert*, GlobalContext*);
 
 typedef struct EnPoDesert {
     /* 0x0000 */ Actor actor;

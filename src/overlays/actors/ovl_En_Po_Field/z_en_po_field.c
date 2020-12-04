@@ -68,7 +68,7 @@ static s32 sNumSpawned = 0;
 
 static Vec3f sFieldMiddle = { -1000.0f, 0.0f, 6500.0f };
 
-static InitChainEntry sInitChain[1] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 3200, ICHAIN_STOP),
 };
 
@@ -110,7 +110,8 @@ void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx) {
         sSpawnPositions[sNumSpawned].x = this->actor.posRot.pos.x;
         sSpawnPositions[sNumSpawned].y = this->actor.posRot.pos.y;
         sSpawnPositions[sNumSpawned].z = this->actor.posRot.pos.z;
-        sSpawnSwitchFlags[sNumSpawned++] = this->actor.params & 0xFF;
+        sSpawnSwitchFlags[sNumSpawned] = this->actor.params & 0xFF;
+        sNumSpawned++;
     }
     if (sNumSpawned >= 2) {
         this->actor.params = 0xFF;
@@ -865,7 +866,7 @@ void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         Matrix_MultVec3f(&D_80AD714C, &vec);
         if (this->actionFunc == EnPoField_Death && this->actionTimer >= 19 && this->actor.scale.x != 0.0f) {
             f32 mtxScale = 0.01f / this->actor.scale.x;
-            Matrix_Scale(mtxScale, mtxScale, mtxScale, 1);
+            Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
         }
         Matrix_Get(&sLimb7Mtx);
         if (this->actionFunc == EnPoField_Death && this->actionTimer == 27) {
@@ -953,7 +954,7 @@ void EnPoField_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, info->primColor.r, info->primColor.g, info->primColor.b,
                         this->lightColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
-        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, 1);
+        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_field.c", 2143),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_060023B0);
