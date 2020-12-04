@@ -4174,7 +4174,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
             if (this->doorType == 2) {
                 doorShutter = (DoorShutter*)doorActor;
 
-                this->currentYaw = doorShutter->actor.initPosRot.rot.y;
+                this->currentYaw = doorShutter->dyna.actor.initPosRot.rot.y;
                 if (sp7C > 0) {
                     this->currentYaw -= 0x8000;
                 }
@@ -4206,8 +4206,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                     this->linearVelocity = 0.1f;
                 }
 
-                if (doorShutter->actor.type == ACTORTYPE_DOOR) {
-                    this->unk_46A = globalCtx->transitionActorList[(u16)doorShutter->actor.params >> 10]
+                if (doorShutter->dyna.actor.type == ACTORTYPE_DOOR) {
+                    this->unk_46A = globalCtx->transitionActorList[(u16)doorShutter->dyna.actor.params >> 10]
                                         .sides[(sp7C > 0) ? 0 : 1]
                                         .effects;
 
