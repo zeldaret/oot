@@ -1009,7 +1009,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     }
     if (currentFrame != (s32)this->skelAnime.animCurrentFrame) {
         if (((sp48 <= 1) && ((s32)playbackSpeedABS + currentFrame >= 1)) ||
-            ((sp48 < 21) && (((s32)playbackSpeedABS + currentFrame >= 20)))) {
+            ((sp48 <= 20) && (((s32)playbackSpeedABS + currentFrame >= 20)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }
