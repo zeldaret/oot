@@ -12,7 +12,6 @@ typedef struct EnMb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ u8 unk_188;
-    /* 0x0189 */ char unk_189[3];
     /* 0x018C */ SkelAnime skelAnime;
     /* 0x01D0 */ Vec3s limbDrawTable[28];
     /* 0x0278 */ Vec3s transitionDrawTable[28];
@@ -25,7 +24,6 @@ typedef struct EnMb {
     /* 0x0330 */ s16 unk_330;
     /* 0x0332 */ s16 unk_332;
     /* 0x0334 */ s16 attackParams;
-    /* 0x0336 */ char unk_336[2];
     /* 0x0338 */ Vec3f effSpawnPos; 
     /* 0x0344 */ Vec3f waypointPos;
     /* 0x0350 */ char unk_34A[0xC];
