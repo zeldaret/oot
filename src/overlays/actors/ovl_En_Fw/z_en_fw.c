@@ -299,7 +299,6 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             if (this->slideTimer == 0) {
                 this->turnAround = true;
                 this->runDirection = -this->runDirection;
-                return;
             }
         } else {
             Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);

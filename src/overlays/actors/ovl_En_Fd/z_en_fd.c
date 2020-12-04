@@ -128,7 +128,7 @@ s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
     }
 
     this->coreActive = true;
-    
+
     return true;
 }
 
@@ -605,7 +605,8 @@ s32 EnFd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
                 break;
         }
     }
-    return false;
+
+    return 0;
 }
 
 void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
@@ -707,7 +708,7 @@ void EnFd_AddEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* acc
         eff->pos = *pos;
         eff->accel = *accel;
         eff->velocity = *velocity;
-        if ((type & 0xFF) == FD_EFFECT_DOT) {
+        if (eff->type == FD_EFFECT_DOT) {
             eff->color.a = 255;
             eff->timer = (s16)(Math_Rand_ZeroOne() * 10.0f);
         }
