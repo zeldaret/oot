@@ -24,8 +24,8 @@ void func_8002B200(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gfx* 
 
             POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
 
-            gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0,
-                              0, 0, COMBINED);
+            gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
+                              COMBINED);
 
             temp1 = (temp1 < 0.0f) ? 0.0f : ((temp1 > 150.0f) ? 150.0f : temp1);
             temp2 = 1.0f - (temp1 * (1.f / 350));
@@ -374,8 +374,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                     Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
                     Matrix_Scale(var2, 0.15f, 1.0f, MTXMODE_APPLY);
 
-                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b,
-                                    (u8)spCE);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, entry->color.r, entry->color.g, entry->color.b, (u8)spCE);
 
                     Matrix_RotateZ((targetCtx->unk_4B & 0x7F) * (M_PI / 64), MTXMODE_APPLY);
 
@@ -741,14 +740,14 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1,
-                            G_TX_RENDERTILE, 0, 0, 1024, 1024);
+        gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
+                            0, 0, 1024, 1024);
 
         spC8 = titleCtx->unk_9 - spC8;
 
         if (spC8 > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
-                                spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+            gDPLoadTextureBlock(OVERLAY_DISP++, titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8,
+                                0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
@@ -2274,8 +2273,8 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL |
                             GBL_c1(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA));
-        gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC,
-                          0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
+        gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0,
+                          PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0xFF, 74, 74, 74, 74);
     }
 
@@ -3075,12 +3074,12 @@ void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
     }
 }
 
-void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, s32* arg5, s16 arg6) {
+void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
     if ((globalCtx->actorCtx.unk_00 == 0) && (arg0->unk_10 > 0)) {
-        if ((arg1 >= arg2) && (arg3 >= arg1) && (*arg5 != 0)) {
-            arg0->unk_0C[arg0->unk_10] = *arg5;
+        if ((arg1 >= arg2) && (arg3 >= arg1) && (*dList != 0)) {
+            arg0->unk_0C[arg0->unk_10] = *dList;
             Matrix_Get(&arg0->unk_00[arg0->unk_10]);
             arg0->unk_04[arg0->unk_10] = arg6;
             arg0->unk_10++;
@@ -3500,7 +3499,7 @@ struct_801160DC D_801160DC[] = {
     { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, 0x050011F0, 0x05001100 },
 };
 
-void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
+void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 frame, s32 type) {
     struct_801160DC* entry;
     s32 i;
     MtxF spB0;
@@ -3509,7 +3508,7 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
     f32 temp2;
     f32 temp3;
 
-    entry = &D_801160DC[arg2];
+    entry = &D_801160DC[type];
     var = entry->unk_10;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8265);
@@ -3517,8 +3516,8 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
     Matrix_Translate(0.0f, entry->unk_08, 500.0f, MTXMODE_APPLY);
     Matrix_Get(&spB0);
 
-    temp1 = sinf(entry->unk_00 - var) * -(10 - arg1) * 0.1f * entry->unk_04;
-    temp2 = cosf(entry->unk_00 - var) * (10 - arg1) * 0.1f * entry->unk_04;
+    temp1 = sinf(entry->unk_00 - var) * -(10 - frame) * 0.1f * entry->unk_04;
+    temp2 = cosf(entry->unk_00 - var) * (10 - frame) * 0.1f * entry->unk_04;
 
     for (i = 0; i < 4; i++) {
         Matrix_Put(&spB0);
@@ -3543,7 +3542,7 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
     }
 
     Matrix_Put(&spB0);
-    Matrix_Scale(arg1 * 0.1f, arg1 * 0.1f, arg1 * 0.1f, MTXMODE_APPLY);
+    Matrix_Scale(frame * 0.1f, frame * 0.1f, frame * 0.1f, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8314),
               G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -3795,8 +3794,8 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
-                   PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha) {
+void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
+                   PostLimbDraw postLimbDraw, Actor* actor, s16 alpha) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8831);
 
     func_80093D18(globalCtx->state.gfxCtx);
@@ -3806,15 +3805,14 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gDPPipeSync(POLY_OPA_DISP++);
     gSPSegment(POLY_OPA_DISP++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
-    POLY_OPA_DISP =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          overrideLimbDraw, postLimbDraw, actor, POLY_OPA_DISP);
+    POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                       overrideLimbDraw, postLimbDraw, actor, POLY_OPA_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
 
-void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
-                   PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha) {
+void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
+                   PostLimbDraw postLimbDraw, Actor* actor, s16 alpha) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8876);
 
     func_80093D84(globalCtx->state.gfxCtx);
@@ -3823,9 +3821,8 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, alpha);
     gSPSegment(POLY_XLU_DISP++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
-    POLY_XLU_DISP =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                          overrideLimbDraw, postLimbDraw, actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                       overrideLimbDraw, postLimbDraw, actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }
@@ -4080,7 +4077,7 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
 /**
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
-EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 arg4, s32 unused,
+EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
                       GlobalContext* globalCtx, s16 params, s32 arg8) {
     EnPart* spawnedEnPart;
 
@@ -4092,7 +4089,7 @@ EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3,
         spawnedEnPart->actor.speedXZ = arg3[0];
         spawnedEnPart->displayList = arg8;
         spawnedEnPart->action = 2;
-        spawnedEnPart->timer = arg4;
+        spawnedEnPart->timer = timer;
         spawnedEnPart->rotZ = arg3[1];
         spawnedEnPart->rotZSpeed = arg3[2];
         return spawnedEnPart;

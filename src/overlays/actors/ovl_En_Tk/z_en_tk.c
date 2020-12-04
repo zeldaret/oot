@@ -37,7 +37,7 @@ extern UNK_TYPE D_06004B40;
 extern Gfx D_0600ACE0[];
 extern Gfx D_0600BC90[];
 extern Gfx D_0600BCA0[];
-extern SkeletonHeader D_0600BE40;
+extern FlexSkeletonHeader D_0600BE40;
 
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
@@ -170,7 +170,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
 
-    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0, -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.f;
@@ -179,7 +179,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001FA8;
 
-    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0, -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(240, 240);
 }
@@ -187,7 +187,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001144;
 
-    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06001144.genericHeader), 0, -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06001144), 0, -10.f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -285,7 +285,7 @@ f32 EnTk_Step(EnTk* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
     }
 
-    if (this->skelAnim.animCurrentSeg != &D_06001FA8) {
+    if (this->skelAnim.animation != &D_06001FA8) {
         return 0.f;
     }
 
@@ -487,9 +487,8 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
-    SkelAnime_ChangeAnim(&this->skelAnim, &D_06002F84, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
-                         0.f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
+    SkelAnime_ChangeAnim(&this->skelAnim, &D_06002F84, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84), 0, 0.f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -688,7 +687,7 @@ void func_80B1D200(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
-s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTk* this = THIS;
 
     switch (limbIndex) {
@@ -706,7 +705,7 @@ s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnTk* this = THIS;
     Vec3f sp28 = { 0.f, 0.f, 4600.f };
     Vec3f sp1C = { 0.f, 0.f, 0.f };
@@ -741,8 +740,8 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
-                     EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
+                          EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

@@ -11,7 +11,7 @@ glabel func_80B2A448
 /* 0026C 80B2A46C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00270 80B2A470 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00274 80B2A474 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00278 80B2A478 0C0291BE */  jal     SkelAnime_InitSV
+/* 00278 80B2A478 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0027C 80B2A47C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00280 80B2A480 8FAF0030 */  lw      $t7, 0x0030($sp)
 /* 00284 80B2A484 8FAE0034 */  lw      $t6, 0x0034($sp)

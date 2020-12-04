@@ -9,6 +9,13 @@ void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000460;
+extern UNK_TYPE D_060009DC;
+extern UNK_TYPE D_06000D98;
+extern UNK_TYPE D_06001854;
+extern UNK_TYPE D_060041F8;
+extern UNK_TYPE D_060047E0;
+
 /*
 const ActorInit En_Skb_InitVars = {
     ACTOR_EN_SKB,
