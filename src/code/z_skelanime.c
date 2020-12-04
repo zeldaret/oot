@@ -1296,7 +1296,7 @@ s32 SkelAnime_StopLinkAtFrame(SkelAnime* skelAnime, f32 stopFrame) {
     return SkelAnime_StopAtFrameImpl(skelAnime, stopFrame, updateRate);
 }
 
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationSeg, Vec3s* jointTbl, Vec3s* morphTbl, s32 limbCount) {
     SkeletonHeader* skeletonHeader = SEGMENTED_TO_VIRTUAL(skeletonHeaderSeg);
 
