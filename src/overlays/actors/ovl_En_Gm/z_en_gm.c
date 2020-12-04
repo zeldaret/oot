@@ -98,8 +98,7 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, this->limbDrawTable,
                            this->transitionDrawTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060002B8), 0, 0.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060002B8), 0, 0.0f);
         this->actor.draw = EnGm_Draw;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
