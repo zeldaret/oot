@@ -974,7 +974,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnPoh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                            Gfx** gfxP) {
+                           Gfx** gfxP) {
     EnPoh* this = THIS;
 
     if ((this->lightColor.a == 0 || limbIndex == this->info->unk_6) ||

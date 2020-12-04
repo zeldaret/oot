@@ -283,8 +283,7 @@ void func_80AD96A4(EnPoSisters* this) {
 }
 
 void func_80AD9718(EnPoSisters* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C),
-                         2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C), 2, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->unk_19C = 100;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -314,8 +313,7 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD98F4(EnPoSisters* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C),
-                         2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 1.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C), 2, -3.0f);
     if (this->unk_194 == 0) {
         this->unk_294 = 110.0f;
         func_80AD97C8(this, globalCtx);
@@ -407,8 +405,7 @@ void func_80AD9D44(EnPoSisters* this) {
         SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600119C);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
     } else {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 0.5f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_0600119C), 3, 0.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 0.5f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C), 3, 0.0f);
     }
     this->unk_22E.a = 0;
     this->unk_199 = 32;
@@ -493,8 +490,7 @@ void func_80ADA10C(EnPoSisters* this) {
 }
 
 void func_80ADA1B8(EnPoSisters* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 0.833f, 0.0f,
-                         SkelAnime_GetFrameCount(&D_0600119C), 3, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600119C, 0.833f, 0.0f, SkelAnime_GetFrameCount(&D_0600119C), 3, 0.0f);
     if (this->unk_194 == 0 || this->unk_194 == 1) {
         this->unk_19A = 40;
     } else {
@@ -1234,7 +1230,7 @@ void func_80ADC55C(EnPoSisters* this) {
 }
 
 s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  void* thisx, Gfx** gfxP) {
+                                 void* thisx, Gfx** gfxP) {
     EnPoSisters* this = THIS;
     Color_RGBA8* color;
 
@@ -1262,7 +1258,7 @@ s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
-                               Gfx** gfxP) {
+                              Gfx** gfxP) {
     EnPoSisters* this = THIS;
     s32 i;
     s32 pad;

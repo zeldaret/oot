@@ -201,7 +201,7 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnPoDesert_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 void* thisx, Gfx** gfxP) {
+                                void* thisx, Gfx** gfxP) {
     EnPoDesert* this = THIS;
     f32 mtxScale;
 
@@ -216,7 +216,7 @@ s32 EnPoDesert_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
-                              Gfx** gfxP) {
+                             Gfx** gfxP) {
     static Vec3f baseLightPos = { 0.0f, 1400.0f, 0.0f };
 
     EnPoDesert* this = THIS;
