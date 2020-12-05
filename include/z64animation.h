@@ -34,6 +34,14 @@ typedef struct {
     /* 0x008 */ u8 dListCount;      // Number of display lists in the model.
 } SkeletonHeader;  // Size = 0xC
 
+
+// TODO: TEMP THIS IS JUST FOR A QUICK ZAP TEST. ONCE PETRIE'S CHANGES ARE MERGED, THIS WILL BE DELETED.
+typedef struct {
+    /* 0x000 */ Skeleton* skeletonSeg; // Segment address of SkelLimbIndex.
+    /* 0x004 */ u8 limbCount;       // Number of limbs in the model.
+    /* 0x005 */ char unk_05[3];     // unknown, maybe padding?
+} SkeletonHeaderNSV;  // Size = 0x8
+
 typedef s16 AnimationRotationValue;
 
 typedef struct {

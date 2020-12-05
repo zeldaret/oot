@@ -3,7 +3,7 @@ import os
 from shutil import copyfile
 
 def Extract(xmlPath, outputPath):
-	ExtractFile(xmlPath, outputPath, 1, 0)
+	ExtractFile(xmlPath, outputPath, 1, 0)	
 
 def ExtractScene(xmlPath, outputPath):
 	ExtractFile(xmlPath, outputPath, 1, 1)
@@ -15,7 +15,8 @@ def ExtractFile(xmlPath, outputPath, genSrcFile, incFilePrefix):
 	print(execStr)
 	os.system(execStr)
 
-#Extract("assets/xml/objects/gameplay_keep.xml", "assets/objects/gameplay_keep")
+# TEST
+#Extract("assets/xml/objects/gameplay_field_keep.xml", "assets/objects/gameplay_field_keep")
 
 # Textures
 Extract("assets/xml/textures/icon_item_24_static.xml", "assets/textures/icon_item_24_static")

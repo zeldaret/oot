@@ -3908,8 +3908,8 @@ endseg
 beginseg
     name "object_sk2"
     romalign 0x1000
-    //include "build/baserom/object_sk2.o"
-    include "build/assets/objects/object_sk2/object_sk2.o"
+    include "build/baserom/object_sk2.o"
+    //include "build/assets/objects/object_sk2/object_sk2.o"
     address SEGMENT_OBJECT
 endseg
 
