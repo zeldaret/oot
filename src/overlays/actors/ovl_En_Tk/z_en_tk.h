@@ -39,7 +39,7 @@ typedef struct EnTk {
     /* 0x021C */ s16        actionCountdown;
     /* 0x021E */ s16        h_21E;
     /* 0x0220 */ char       unk_220[0x2];
-    /* 0x0222 */ s16        eyeImageIdx;
+    /* 0x0222 */ s16        eyeTextureIdx;
     /* 0x0224 */ s16        blinkCountdown;
     /* 0x0226 */ s16        headRot;
     /* 0x0228 */ s16        currentWaypoint;
