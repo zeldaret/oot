@@ -137,7 +137,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ u8 queueFlag;
-    /* 0x001 */ u8 limbCount;
+    /* 0x001 */ u8 vecCount;
     /* 0x004 */ Vec3s* base;
     /* 0x008 */ Vec3s* mod;
     /* 0x00C */ f32 weight;

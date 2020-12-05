@@ -487,7 +487,7 @@ void Animation_GetFrameData(AnimationHeader* animationSeg, s32 frame, s32 limbCo
     }
 }
 
-s16 Animation_GetAnimLength(void* animationSeg) {
+s16 Animation_GetLength(void* animationSeg) {
     s16* lastFrame = SEGMENTED_TO_VIRTUAL(animationSeg);
 
     return *lastFrame;
@@ -782,9 +782,9 @@ s16 Animation_GetLimbCount2(AnimationHeader2* animationSeg) {
 
 /*
  * Appears to be unused anywhere in the game.  Appears to be a clone of
- * Animation_GetAnimLength
+ * Animation_GetLength
  */
-s16 Animation_GetAnimLength2(AnimationHeader2* animationSeg) {
+s16 Animation_GetLength2(AnimationHeader2* animationSeg) {
     AnimationHeader2* animation = SEGMENTED_TO_VIRTUAL(animationSeg);
 
     return animation->frameCount;
@@ -890,12 +890,12 @@ void AnimationContext_SetCopyAll(GlobalContext* globalCtx, s32 vecCount, Vec3s* 
 /*
  * Requests interpolating between base and mod with the given weight, placing the result in base
  */
-void AnimationContext_SetInterp(GlobalContext* globalCtx, s32 limbCount, Vec3s* base, Vec3s* mod, f32 weight) {
+void AnimationContext_SetInterp(GlobalContext* globalCtx, s32 vecCount, Vec3s* base, Vec3s* mod, f32 weight) {
     AnimationEntry* entry = AnimationContext_AddEntry(&globalCtx->animationCtx, ANIMENTRY_INTERP);
 
     if (entry != NULL) {
         entry->data.interp.queueFlag = sAnimQueueFlags;
-        entry->data.interp.limbCount = limbCount;
+        entry->data.interp.vecCount = vecCount;
         entry->data.interp.base = base;
         entry->data.interp.mod = mod;
         entry->data.interp.weight = weight;
@@ -980,7 +980,7 @@ void AnimationContext_Interp(GlobalContext* globalCtx, AnimationEntryData* data)
     AnimEntryInterp* entry = &data->interp;
 
     if (!(entry->queueFlag & sDisableAnimQueueFlags)) {
-        Animation_InterpVec3s(entry->limbCount, entry->base, entry->base, entry->mod, entry->weight);
+        Animation_InterpVec3s(entry->vecCount, entry->base, entry->base, entry->mod, entry->weight);
     }
 }
 
@@ -1187,8 +1187,8 @@ void Animation_SetMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 morp
 }
 
 void LinkAnimation_Change(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 playSpeed,
-                          f32 firstFrame, f32 lastFrame, u8 animationMode, f32 morphFrames) {
-    skelAnime->mode = animationMode;
+                          f32 firstFrame, f32 lastFrame, u8 mode, f32 morphFrames) {
+    skelAnime->mode = mode;
     if ((morphFrames != 0.0f) && ((segment != skelAnime->animation) || (firstFrame != skelAnime->curFrame))) {
         if (morphFrames < 0) {
             LinkAnimation_SetUpdateFunction(skelAnime);
@@ -1212,7 +1212,7 @@ void LinkAnimation_Change(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAn
     skelAnime->firstFrame = firstFrame;
     skelAnime->curFrame = firstFrame;
     skelAnime->lastFrame = lastFrame;
-    skelAnime->animLength = Animation_GetAnimLength(segment);
+    skelAnime->animLength = Animation_GetLength(segment);
     skelAnime->playSpeed = playSpeed;
 }
 
@@ -1592,7 +1592,7 @@ void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animationSeg, f
     skelAnime->animation = animationSeg;
     skelAnime->firstFrame = firstFrame;
     skelAnime->lastFrame = lastFrame;
-    skelAnime->animLength = Animation_GetAnimLength(animationSeg);
+    skelAnime->animLength = Animation_GetLength(animationSeg);
     if (skelAnime->mode >= ANIMMODE_LOOP_PARTIAL) {
         skelAnime->curFrame = 0.0f;
     } else {
