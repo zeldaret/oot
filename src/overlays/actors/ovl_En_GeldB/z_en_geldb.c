@@ -1523,7 +1523,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
 // regalloc
 s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this) {
     Actor* actor = func_80033780(globalCtx, &this->actor, 800.0f);
-
+    
     if (actor != NULL) {
         s16 sp1A;
         s16 pad18;
@@ -1546,7 +1546,7 @@ s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this) {
             } else if (ABS(sp1A) < 0x5FFF) {
                 EnGeldB_SetupRollBack(this);
             }
-        }
+        } 
         return true;
     }
     return false;
