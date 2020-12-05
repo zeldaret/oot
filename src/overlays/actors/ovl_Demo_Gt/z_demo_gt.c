@@ -586,41 +586,40 @@ void func_8097F1D8(DemoGt* this) {
 }
 
 void func_8097F280(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3i* unk178 = &this->unk_178;
-    Vec3i* unk188 = &this->unk_188;
-    Vec3i* unk198 = &this->unk_198;
-
+    s32* unk178 = this->unk_178;
+    s32* unk188 = this->unk_188;
+    s32* unk198 = this->unk_198;
     f32 temp_f0;
 
     if (globalCtx->csCtx.frames < 160) {
-        unk178->x = 100;
-        unk178->y = 255;
-        unk178->z = 200;
+        unk178[0] = 100;
+        unk178[1] = 255;
+        unk178[2] = 200;
 
-        unk188->x = 255;
-        unk188->y = 120;
-        unk188->z = 100;
+        unk188[0] = 255;
+        unk188[1] = 120;
+        unk188[2] = 100;
 
-        unk198->x += 1;
-        unk198->y -= 1;
+        unk198[0]++;
+        unk198[1]--;
     } else if (globalCtx->csCtx.frames < 170) {
         temp_f0 = func_8006F9BC(170, 160, globalCtx->csCtx.frames, 0, 0);
 
-        unk178->x = (temp_f0 * -63.0f) + 163.0f;
-        unk178->y = (temp_f0 * -155.0f) + 255.0f;
-        unk178->z = temp_f0 * -100.0f + 200.0f;
+        unk178[0] = (temp_f0 * -63.0f) + 163.0f;
+        unk178[1] = (temp_f0 * -155.0f) + 255.0f;
+        unk178[2] = temp_f0 * -100.0f + 200.0f;
 
-        unk188->x = (temp_f0 * -155.0f) + 255.0f;
-        unk188->y = (temp_f0 * -20.0f) + 120.0f;
-        unk188->z = 100;
+        unk188[0] = (temp_f0 * -155.0f) + 255.0f;
+        unk188[1] = (temp_f0 * -20.0f) + 120.0f;
+        unk188[2] = 100;
     } else {
-        unk178->x = 100;
-        unk178->y = 100;
-        unk178->z = 100;
+        unk178[0] = 100;
+        unk178[1] = 100;
+        unk178[2] = 100;
 
-        unk188->x = 100;
-        unk188->y = 100;
-        unk188->z = 100;
+        unk188[0] = 100;
+        unk188[1] = 100;
+        unk188[2] = 100;
     }
 }
 
@@ -664,9 +663,9 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f spA8;
     Vec3f sp9C;
     f32 sp98;
-    Vec3i* tempVec198;
-    Vec3i* tempVec188;
-    Vec3i* tempVec178;
+    s32* unk198;
+    s32* unk188;
+    s32* unk178;
 
     spC6 = this->unk_172;
     spC0 = fabsf(spC6 * (M_PI / 0x8000));
@@ -690,20 +689,20 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
     func_800D23FC(spC0, &spA8, 1);
     Matrix_Translate(sp9C.x, sp9C.y, sp9C.z, MTXMODE_APPLY);
     Matrix_ToMtx(spB4, "../z_demo_gt_part1.c", 474);
-    tempVec198 = &this->unk_198;
-    tempVec188 = &this->unk_188;
-    tempVec178 = &this->unk_178;
+    unk198 = this->unk_198;
+    unk188 = this->unk_188;
+    unk178 = this->unk_178;
 
     Matrix_Pull();
 
     func_80093D18(gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
-                                        tempVec178->x, tempVec178->y, tempVec178->z, 0x80));
+               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40,
+                                        unk178[0], unk178[1], unk178[2], 0x80));
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
-                                        tempVec188->x, tempVec188->y, tempVec188->z, 0x80));
+               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40,
+                                        unk188[0], unk188[1], unk188[2], 0x80));
     gSPMatrix(POLY_OPA_DISP++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_06002910);
     func_80093D84(gfxCtx);
@@ -741,7 +740,6 @@ void func_8097F96C(DemoGt* this, GlobalContext* globalCtx) {
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 2);
-            return;
         } else {
             actor = cloudRing;
             actor->posRot.pos.x = pos.x;
@@ -833,25 +831,25 @@ void func_8097FD70(DemoGt* this, GlobalContext* globalCtx) {
 }
 
 void func_8097FDDC(DemoGt* this, GlobalContext* globalCtx) {
-    Vec3i* unk178 = &this->unk_178;
-    Vec3i* unk198 = &this->unk_198;
+    s32* unk178 = this->unk_178;
+    s32* unk198 = this->unk_198;
 
     if (globalCtx->csCtx.frames < 610) {
-        unk178->x = 163;
-        unk178->y = 193;
-        unk178->z = 193;
-        unk198->x++;
-        unk198->y--;
+        unk178[0] = 163;
+        unk178[1] = 193;
+        unk178[2] = 193;
+        unk198[0]++;
+        unk198[1]--;
     } else if (globalCtx->csCtx.frames < 620) {
         f32 temp_f0 = func_8006F9BC(620, 610, globalCtx->csCtx.frames, 0, 0);
 
-        unk178->x = (temp_f0 * (-13.0f)) + 163.0f;
-        unk178->y = (temp_f0 * (-43.0f)) + 193.0f;
-        unk178->z = (temp_f0 * (-43.0f)) + 193.0f;
+        unk178[0] = (temp_f0 * (-13.0f)) + 163.0f;
+        unk178[1] = (temp_f0 * (-43.0f)) + 193.0f;
+        unk178[2] = (temp_f0 * (-43.0f)) + 193.0f;
     } else {
-        unk178->x = 150;
-        unk178->y = 150;
-        unk178->z = 150;
+        unk178[0] = 150;
+        unk178[1] = 150;
+        unk178[2] = 150;
     }
 }
 
@@ -876,22 +874,22 @@ void DemoGt_Update9(DemoGt* this, GlobalContext* globalCtx) {
 
 void DemoGt_Draw2(DemoGt* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Vec3i* tempVec198;
-    Vec3i* tempVec178;
+    s32* unk198;
+    s32* unk178;
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part2.c", 470);
 
     func_80093D18(gfxCtx);
-    tempVec198 = &this->unk_198;
-    tempVec178 = &this->unk_178;
+    unk198 = this->unk_198;
+    unk178 = this->unk_178;
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0U, tempVec198->x, 0x20, 0x40, 1, 0, tempVec198->y, 0x20, 0x40,
-                                        tempVec178->x, tempVec178->y, tempVec178->z, 0x80));
+               Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40,
+                                        unk178[0], unk178[1], unk178[2], 128));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part2.c", 485),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_06004F90);
-    gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
+    gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part2.c", 489);
 }
@@ -922,7 +920,6 @@ void func_80980184(DemoGt* this, GlobalContext* globalCtx) {
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 3);
-            return;
         } else {
             actor = cloudRing;
             actor->posRot.pos.x = pos.x;
@@ -945,7 +942,6 @@ void func_80980218(DemoGt* this, GlobalContext* globalCtx) {
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 4);
-            return;
         } else {
             actor = cloudRing;
             actor->posRot.pos.x = pos.x;
@@ -1203,7 +1199,7 @@ void DemoGt_Draw3(DemoGt* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part3.c", 1028),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_06007630);
-    gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
+    gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1032);
 }
@@ -1325,7 +1321,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
         func_80093D18(gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, D_06009610);
-        gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
+        gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
         CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 246);
     }
@@ -1444,7 +1440,7 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp60, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_06009610);
-    gSPPopMatrixN(POLY_OPA_DISP++, G_MTX_MODELVIEW, 1);
+    gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_2.c", 241);
 }

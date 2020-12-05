@@ -16,12 +16,9 @@ typedef struct DemoGt {
     /* 0x016C */ Vec3s unk_16C;
     /* 0x0172 */ s16 unk_172;
     /* 0x0174 */ s16 unk_174;
-    /* 0x0178 */ Vec3i unk_178;
-    /* 0x0184 */ char unk_184[0x4];
-    /* 0x0188 */ Vec3i unk_188;
-    /* 0x0194 */ char unk_194[0x4];
-    /* 0x0198 */ Vec3i unk_198;
-    /* 0x01A4 */ char unk_1A4[0x4];
+    /* 0x0178 */ s32 unk_178[4];
+    /* 0x0188 */ s32 unk_188[4];
+    /* 0x0198 */ s32 unk_198[4];
 } DemoGt; // size = 0x01A8
 
 extern const ActorInit Demo_Gt_InitVars;
