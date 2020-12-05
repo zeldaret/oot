@@ -9,6 +9,8 @@ void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06005EB8;
+
 /*
 const ActorInit Demo_Tre_Lgt_InitVars = {
     ACTOR_DEMO_TRE_LGT,

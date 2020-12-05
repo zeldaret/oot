@@ -74,7 +74,7 @@ glabel func_809F5A6C
 /* 02884 809F5B44 24E758E4 */  addiu   $a3, $a3, %lo(func_809F58E4) ## $a3 = 809F58E4
 /* 02888 809F5B48 AFB10014 */  sw      $s1, 0x0014($sp)           
 /* 0288C 809F5B4C AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 02890 809F5B50 0C028572 */  jal     SkelAnime_Draw
+/* 02890 809F5B50 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 02894 809F5B54 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 02898 809F5B58 C62C021C */  lwc1    $f12, 0x021C($s1)          ## 0000021C
