@@ -163,12 +163,12 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->limbDrawTbl,
                        this->limbTransitionTable, 24);
-    Collider_InitCylinder(globalCtx, &this->colliderBody);
-    Collider_SetCylinder(globalCtx, &this->colliderBody, thisx, &sBodyCylInit);
-    Collider_InitTris(globalCtx, &this->colliderBlock);
-    Collider_SetTris(globalCtx, &this->colliderBlock, thisx, &sBlockTrisInit, this->blockElements);
-    Collider_InitQuad(globalCtx, &this->colliderSword);
-    Collider_SetQuad(globalCtx, &this->colliderSword, thisx, &sSwordQuadinit);
+    Collider_InitCylinder(globalCtx, &this->bodyCollider);
+    Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sBodyCylInit);
+    Collider_InitTris(globalCtx, &this->blockCollider);
+    Collider_SetTris(globalCtx, &this->blockCollider, thisx, &sBlockTrisInit, this->blockElements);
+    Collider_InitQuad(globalCtx, &this->swordCollider);
+    Collider_SetQuad(globalCtx, &this->swordCollider, thisx, &sSwordQuadinit);
     blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p1StartColor[2] = blureInit.p1StartColor[3] =
         blureInit.p2StartColor[0] = blureInit.p2StartColor[1] = blureInit.p2StartColor[2] = blureInit.p1EndColor[0] =
             blureInit.p1EndColor[1] = blureInit.p1EndColor[2] = blureInit.p2EndColor[0] = blureInit.p2EndColor[1] =
@@ -193,9 +193,9 @@ void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800F5B58();
     Effect_Delete(globalCtx, this->blureIdx);
-    Collider_DestroyTris(globalCtx, &this->colliderBlock);
-    Collider_DestroyCylinder(globalCtx, &this->colliderBody);
-    Collider_DestroyQuad(globalCtx, &this->colliderSword);
+    Collider_DestroyTris(globalCtx, &this->blockCollider);
+    Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
+    Collider_DestroyQuad(globalCtx, &this->swordCollider);
 }
 
 s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
@@ -749,7 +749,7 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_SetupSlash(EnGeldB* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060003CC);
-    this->colliderSword.base.atFlags &= ~4;
+    this->swordCollider.base.atFlags &= ~4;
     this->actionState = GELDB_SLASH;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
@@ -772,9 +772,9 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
     } else if ((s32)this->skelAnime.animCurrentFrame == 6) {
         this->swordState = -1;
     }
-    if (this->colliderSword.base.atFlags & 4) {
+    if (this->swordCollider.base.atFlags & 4) {
         this->swordState = -1;
-        this->colliderSword.base.atFlags &= ~6;
+        this->swordCollider.base.atFlags &= ~6;
         EnGeldB_SetupRollBack(this);
     } else if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if (!func_8002E084(&this->actor, 0x1554)) {
@@ -806,7 +806,7 @@ void EnGeldB_Slash(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_SetupSpinAttack(EnGeldB* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06000F5C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000F5C), 3, 0.0f);
-    this->colliderSword.base.atFlags &= ~6;
+    this->swordCollider.base.atFlags &= ~6;
     this->actionState = GELDB_SPIN_ATTACK;
     this->spinAttackState = 0;
     this->actor.speedXZ = 0.0f;
@@ -819,13 +819,13 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
     s16 temp2;
 
     if (this->spinAttackState < 2) {
-        if (this->colliderSword.base.atFlags & 4) {
-            this->colliderSword.base.atFlags &= ~6;
+        if (this->swordCollider.base.atFlags & 4) {
+            this->swordCollider.base.atFlags &= ~6;
             this->spinAttackState = 1;
             this->skelAnime.animPlaybackSpeed = 1.5f;
-        } else if (this->colliderSword.base.atFlags & 2) {
-            this->colliderSword.base.atFlags &= ~2;
-            if (&player->actor == this->colliderSword.base.at) {
+        } else if (this->swordCollider.base.atFlags & 2) {
+            this->swordCollider.base.atFlags &= ~2;
+            if (&player->actor == this->swordCollider.base.at) {
                 func_8002F71C(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsLink, 6.0f);
                 this->spinAttackState = 2;
                 func_8002DF54(globalCtx, &this->actor, 0x18);
@@ -1266,15 +1266,15 @@ void func_80A392D8(EnGeldB* this, GlobalContext* globalCtx) {
     s32 pad;
     EnItem00* key;
 
-    if (this->colliderBlock.base.acFlags & 0x80) {
-        this->colliderBlock.base.acFlags &= ~0x80;
-        this->colliderBody.base.acFlags &= ~2;
-    } else if ((this->colliderBody.base.acFlags & 2) && (this->actionState >= GELDB_READY) &&
+    if (this->blockCollider.base.acFlags & 0x80) {
+        this->blockCollider.base.acFlags &= ~0x80;
+        this->bodyCollider.base.acFlags &= ~2;
+    } else if ((this->bodyCollider.base.acFlags & 2) && (this->actionState >= GELDB_READY) &&
                (this->spinAttackState < 2)) {
-        this->colliderBody.base.acFlags &= ~2;
+        this->bodyCollider.base.acFlags &= ~2;
         if (this->actor.colChkInfo.damageEffect != GELDB_DAMAGE_UNK6) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            func_80035650(&this->actor, &this->colliderBody.body, 1);
+            func_80035650(&this->actor, &this->bodyCollider.body, 1);
             func_800F8A44(&this->actor.projectedPos, NA_SE_EN_GERUDOFT_BREATH);
             if ((this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DAMAGE_FREEZE)) {
@@ -1319,17 +1319,17 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.posRot2.pos.y += 40.0f;
         func_80A391D8(this, globalCtx);
     }
-    Collider_CylinderUpdate(&this->actor, &this->colliderBody);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
+    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if ((this->actionState >= GELDB_READY) && (this->spinAttackState < 2) &&
         ((this->actor.dmgEffectTimer == 0) || !(this->actor.dmgEffectParams & 0x4000))) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     }
     if ((this->actionState == GELDB_BLOCK) && (this->skelAnime.animCurrentFrame == 0.0f)) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderBlock.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->blockCollider.base);
     }
     if (this->swordState > 0) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSword.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->swordCollider.base);
     }
     if (this->blinkState == 0) {
         if ((Math_Rand_ZeroOne() < 0.1f) && ((globalCtx->gameplayFrames & 3) == 0)) {
@@ -1380,12 +1380,12 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     s32 effectIndex = -1;
 
     if (limbIndex == 11) {
-        Matrix_MultVec3f(&swordQuadOffset1, &this->colliderSword.dim.quad[1]);
-        Matrix_MultVec3f(&swordQuadOffset0, &this->colliderSword.dim.quad[0]);
-        Matrix_MultVec3f(&swordQuadOffset3, &this->colliderSword.dim.quad[3]);
-        Matrix_MultVec3f(&swordQuadOffset2, &this->colliderSword.dim.quad[2]);
-        func_80062734(&this->colliderSword, &this->colliderSword.dim.quad[0], &this->colliderSword.dim.quad[1],
-                      &this->colliderSword.dim.quad[2], &this->colliderSword.dim.quad[3]);
+        Matrix_MultVec3f(&swordQuadOffset1, &this->swordCollider.dim.quad[1]);
+        Matrix_MultVec3f(&swordQuadOffset0, &this->swordCollider.dim.quad[0]);
+        Matrix_MultVec3f(&swordQuadOffset3, &this->swordCollider.dim.quad[3]);
+        Matrix_MultVec3f(&swordQuadOffset2, &this->swordCollider.dim.quad[2]);
+        func_80062734(&this->swordCollider, &this->swordCollider.dim.quad[0], &this->swordCollider.dim.quad[1],
+                      &this->swordCollider.dim.quad[2], &this->swordCollider.dim.quad[3]);
         Matrix_MultVec3f(&swordTipOffset, &swordTip);
         Matrix_MultVec3f(&swordHiltOffset, &swordHilt);
 
@@ -1501,8 +1501,8 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_MultVec3f(&blockTrisOffsets0[i], &blockTrisVtx0[i]);
                 Matrix_MultVec3f(&blockTrisOffsets1[i], &blockTrisVtx1[i]);
             }
-            func_800627A0(&this->colliderBlock, 0, &blockTrisVtx0[0], &blockTrisVtx0[1], &blockTrisVtx0[2]);
-            func_800627A0(&this->colliderBlock, 1, &blockTrisVtx1[0], &blockTrisVtx1[1], &blockTrisVtx1[2]);
+            func_800627A0(&this->blockCollider, 0, &blockTrisVtx0[0], &blockTrisVtx0[1], &blockTrisVtx0[2]);
+            func_800627A0(&this->blockCollider, 1, &blockTrisVtx1[0], &blockTrisVtx1[1], &blockTrisVtx1[2]);
         }
 
         if (this->iceTimer != 0) {

@@ -31,9 +31,9 @@ typedef struct EnGeldB {
     /* 0x0318 */ s16 invisible;
     /* 0x031A */ u8 blinkState;
     /* 0x031C */ s32 blureIdx;
-    /* 0x0320 */ ColliderCylinder colliderBody;
-    /* 0x036C */ ColliderQuad colliderSword;
-    /* 0x03EC */ ColliderTris colliderBlock;
+    /* 0x0320 */ ColliderCylinder bodyCollider;
+    /* 0x036C */ ColliderQuad swordCollider;
+    /* 0x03EC */ ColliderTris blockCollider;
     /* 0x040C */ ColliderTrisItem blockElements[2];
     /* 0x04C4 */ Vec3f leftFootPos;
     /* 0x04D0 */ Vec3f rightFootPos;
