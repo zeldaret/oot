@@ -1543,8 +1543,11 @@ endseg
 beginseg
     name "ovl_Demo_Gt"
     include "build/src/overlays/actors/ovl_Demo_Gt/z_demo_gt.o"
-    include "build/data/overlays/actors/z_demo_gt.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Demo_Gt/ovl_Demo_Gt_reloc.o"
+#else
     include "build/data/overlays/actors/z_demo_gt.reloc.o"
+#endif
 endseg
 
 beginseg
