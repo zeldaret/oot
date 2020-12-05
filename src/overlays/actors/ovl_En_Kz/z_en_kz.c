@@ -51,7 +51,7 @@ static struct_80034EC0_Entry sAnimations[] = {
     { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
 };
 
-extern SkeletonHeader D_060086D0;
+extern FlexSkeletonHeader D_060086D0;
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
@@ -304,8 +304,8 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
-                     12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
+                       12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -453,7 +453,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 limb = limbIndex;
 
     if (limb == 8 || limb == 9 || limb == 10) {
@@ -463,7 +463,7 @@ s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s32 limb = limbIndex;
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
@@ -484,8 +484,8 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
-                     EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+                          EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }

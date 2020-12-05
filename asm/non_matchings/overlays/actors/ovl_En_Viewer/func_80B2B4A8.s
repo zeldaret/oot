@@ -224,7 +224,7 @@ glabel func_80B2B4A8
 /* 015DC 80B2B7DC 25EFB364 */  addiu   $t7, $t7, %lo(func_80B2B364) ## $t7 = 80B2B364
 /* 015E0 80B2B7E0 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 015E4 80B2B7E4 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 015E8 80B2B7E8 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 015E8 80B2B7E8 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 015EC 80B2B7EC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 015F0 80B2B7F0 10000037 */  beq     $zero, $zero, .L80B2B8D0
 /* 015F4 80B2B7F4 8FAF007C */  lw      $t7, 0x007C($sp)
@@ -240,7 +240,7 @@ glabel func_80B2B4A8
 /* 01618 80B2B818 2718B2F4 */  addiu   $t8, $t8, %lo(func_80B2B2F4) ## $t8 = 80B2B2F4
 /* 0161C 80B2B81C AFB80010 */  sw      $t8, 0x0010($sp)
 /* 01620 80B2B820 AFB90014 */  sw      $t9, 0x0014($sp)
-/* 01624 80B2B824 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 01624 80B2B824 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 01628 80B2B828 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 0162C 80B2B82C 8FA4007C */  lw      $a0, 0x007C($sp)
 /* 01630 80B2B830 0C2CB307 */  jal     func_80B2CC1C
@@ -271,7 +271,7 @@ glabel func_80B2B4A8
 /* 0168C 80B2B88C 9207019A */  lbu     $a3, 0x019A($s0)           ## 0000019A
 /* 01690 80B2B890 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 01694 80B2B894 AFAE0014 */  sw      $t6, 0x0014($sp)
-/* 01698 80B2B898 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 01698 80B2B898 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0169C 80B2B89C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 016A0 80B2B8A0 8FA4007C */  lw      $a0, 0x007C($sp)
 /* 016A4 80B2B8A4 0C2CB307 */  jal     func_80B2CC1C
@@ -283,7 +283,7 @@ glabel func_80B2B4A8
 /* 016B8 80B2B8B8 8E0601B8 */  lw      $a2, 0x01B8($s0)           ## 000001B8
 /* 016BC 80B2B8BC AFB00014 */  sw      $s0, 0x0014($sp)
 /* 016C0 80B2B8C0 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 016C4 80B2B8C4 0C028572 */  jal     SkelAnime_Draw
+/* 016C4 80B2B8C4 0C028572 */  jal     SkelAnime_DrawOpa
 
 /* 016C8 80B2B8C8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 .L80B2B8CC:

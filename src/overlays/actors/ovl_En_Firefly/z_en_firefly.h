@@ -14,7 +14,7 @@ typedef struct EnFirefly {
     /* 0x0170 */ SkelAnime skelAnime;
     /* 0x01B4 */ EnFireflyActionFunc actionFunc;
     /* 0x01B8 */ u8 auraType; // determines the trail: none/fire/ice
-    /* 0x01B9 */ u8 bodyLit; // determines the body color (orange for Fire Keese, black otherwise), and if it becomes a normal Keese after hitting Link
+    /* 0x01B9 */ u8 onFire;
     /* 0x01BA */ s16 timer;
     /* 0x01BC */ s16 targetPitch;
     /* 0x01BE */ Vec3s limbDrawTable[28];

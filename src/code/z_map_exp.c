@@ -46,7 +46,7 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
         interfaceCtx->unk_140[i + 16] = 0;
     }
 
-    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+    if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
         interfaceCtx->unk_140[30] = 0;
         interfaceCtx->unk_140[31] = 1;
     }
@@ -383,7 +383,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     gDPSetCombineLERP(OVERLAY_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
                                       TEXEL0, 0, PRIMITIVE, 0);
 
-                    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                    if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
                         gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
@@ -395,7 +395,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                                             0, 0, 1024, 1024);
                     }
 
-                    if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_COMPASS]) {
+                    if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                         func_80094520(globalCtx->state.gfxCtx);
                         MapMark_DrawConditionally(globalCtx);
@@ -524,7 +524,7 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
                 interfaceCtx->unk_140[30] = 0;
-                if (gSaveContext.inventory.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                     interfaceCtx->unk_140[31] = 1;
                 } else {
                     interfaceCtx->unk_140[31] = 0;

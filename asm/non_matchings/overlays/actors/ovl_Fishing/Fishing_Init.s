@@ -97,7 +97,7 @@ glabel Fishing_Init
 /* 00CA4 80B6A644 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00CA8 80B6A648 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00CAC 80B6A64C AFA00010 */  sw      $zero, 0x0010($sp)
-/* 00CB0 80B6A650 0C0291BE */  jal     SkelAnime_InitSV
+/* 00CB0 80B6A650 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00CB4 80B6A654 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00CB8 80B6A658 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00CBC 80B6A65C 24A5453C */  addiu   $a1, $a1, 0x453C           ## $a1 = 0600453C
@@ -549,7 +549,7 @@ glabel Fishing_Init
 /* 0130C 80B6ACAC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 01310 80B6ACB0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01314 80B6ACB4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 01318 80B6ACB8 0C0291BE */  jal     SkelAnime_InitSV
+/* 01318 80B6ACB8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0131C 80B6ACBC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01320 80B6ACC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01324 80B6ACC4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600007C
@@ -567,7 +567,7 @@ glabel Fishing_Init
 /* 01350 80B6ACF0 02203825 */  or      $a3, $s1, $zero            ## $a3 = 0600CFE0
 /* 01354 80B6ACF4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01358 80B6ACF8 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0135C 80B6ACFC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0135C 80B6ACFC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 01360 80B6AD00 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01364 80B6AD04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01368 80B6AD08 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600CFE0

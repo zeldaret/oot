@@ -68,7 +68,7 @@ glabel BossGoma_Draw
 /* 05358 8091AD68 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 0535C 8091AD6C 24E7A560 */  addiu   $a3, $a3, %lo(func_8091A560) ## $a3 = 8091A560
 /* 05360 8091AD70 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 05364 8091AD74 0C028572 */  jal     SkelAnime_Draw
+/* 05364 8091AD74 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 05368 8091AD78 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 0536C 8091AD7C 3C068092 */  lui     $a2, %hi(D_8091B4C8)       ## $a2 = 80920000
