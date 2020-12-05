@@ -98,7 +98,8 @@ typedef struct {
     /* 0x0E9C */ s32 gsFlags[6];
     /* 0x0EB4 */ char unk_EB4[0x10];
     /* 0x0EC4 */ s32 horseRaceRecord;
-    /* 0x0EC8 */ char unk_EC8[0x0C];
+    /* 0x0EC8 */ char unk_EC8[0x08];
+    /* 0x0ED0 */ s32 dampeRaceTime;
     /* 0x0ED4 */ u16 eventChkInf[14]; // "event_chk_inf"
     /* 0x0EF0 */ u16 itemGetInf[4]; // "item_get_inf"
     /* 0x0EF8 */ u16 infTable[30]; // "inf_table"
