@@ -9,7 +9,6 @@ void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-<<<<<<< HEAD
 void func_808C1C80(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C32F4(BossDodongo* this, GlobalContext* globalCtx);
@@ -32,38 +31,6 @@ s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
                                  Actor* thisx);
 void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
 
-=======
-extern UNK_TYPE D_030021D8;
-extern UNK_TYPE D_06001074;
-extern UNK_TYPE D_06002D0C;
-extern UNK_TYPE D_06003CF8;
-extern UNK_TYPE D_060042A8;
-extern UNK_TYPE D_06004E0C;
-extern UNK_TYPE D_060061D4;
-extern UNK_TYPE D_06008EEC;
-extern UNK_TYPE D_06009D10;
-extern UNK_TYPE D_06009D50;
-extern UNK_TYPE D_06009DD0;
-extern UNK_TYPE D_0600DF38;
-extern UNK_TYPE D_0600E848;
-extern UNK_TYPE D_0600F0D8;
-extern UNK_TYPE D_06015890;
-extern UNK_TYPE D_06015990;
-extern UNK_TYPE D_06015D90;
-extern UNK_TYPE D_06015F90;
-extern UNK_TYPE D_06016390;
-extern UNK_TYPE D_06016590;
-extern UNK_TYPE D_06016790;
-extern UNK_TYPE D_06016990;
-extern UNK_TYPE D_06016E10;
-extern UNK_TYPE D_06017210;
-extern UNK_TYPE D_06017410;
-extern UNK_TYPE D_0601B310;
-extern UNK_TYPE D_0601CAE0;
-extern UNK_TYPE D_0601D934;
-
-/*
->>>>>>> upstream/master
 const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORTYPE_BOSS,
@@ -1554,8 +1521,8 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     Matrix_RotateZ(this->unk_23C, 1);
     Matrix_RotateX((this->unk_1C4 / 32768.0f) * 3.14159f, MTXMODE_APPLY);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossDodongo_OverrideLimbDraw,
-                   BossDodongo_PostLimbDraw, thisx);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, BossDodongo_OverrideLimbDraw,
+                      BossDodongo_PostLimbDraw, this);
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3981);
     func_808C6DE8(globalCtx);
@@ -1783,7 +1750,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            this->unk_1C4 +=0x7D0;
+            this->unk_1C4 += 0x7D0;
             Math_SmoothScaleMaxMinF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.2f, 30.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->cameraAt.y, (this->actor.posRot.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.2f, 30.0f, 0.0f);
@@ -1801,12 +1768,14 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 this->unk_1DA = 1000;
                 this->unk_234 = 2000.0f;
             } else {
+                f32 three = 3.0f;
                 cornerPos = &D_808CA3F8[this->unk_1A0];
                 this->unk_1EC = 3.0f;
-                Math_SmoothScaleMaxMinF(&this->unk_1E4, 15.0f, 1.0f, 3.0f * 0.25f, 0.0f);
-                distToCorner =
-                    sqrtf(SQ(cornerPos->x - this->actor.posRot.pos.x) + SQ(cornerPos->z - this->actor.posRot.pos.z));
-                if ((distToCorner < 200.0f) || (phi_f2 = distToCorner - 200.0f, (this->unk_1DA != 0))) {
+                Math_SmoothScaleMaxMinF(&this->unk_1E4, three* 5.0f, 1.0f, three *0.25f, 0.0f);
+                
+                distToCorner = sqrtf(SQ(cornerPos->x - this->actor.posRot.pos.x) + SQ(cornerPos->z - this->actor.posRot.pos.z));
+                phi_f2 = distToCorner - 200.0f;
+                if ((distToCorner < 200.0f) ||  (this->unk_1DA != 0)) {
                     phi_f2 = 0.0f;
                 }
                 phi_f2 = CLAMP_MAX(phi_f2, 70.0f);
@@ -1815,7 +1784,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 sp198.z = Math_Sins(this->unk_19E * 1000) * phi_f2;
                 sp198.x = 0.0f;
                 sp198.y = 0.0f;
-                Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, MTXMODE_NEW);
+                Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, MTXMODE_NEW);//(M_PI/0x8000)
                 Matrix_MultVec3f(&sp198, &sp184);
                 Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, cornerPos->x + sp184.x, 1.0f, this->unk_1E4, 0.0f);
                 Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, cornerPos->z + sp184.z, 1.0f, this->unk_1E4, 0.0f);
@@ -1824,7 +1793,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     func_8005AA1C(&globalCtx->mainCamera, 2, 1, 8);
                 }
                 if ((this->unk_19E & 1) == 0) {
-                    func_80033260(globalCtx, (Actor*)this, &this->actor.posRot.pos.x, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
+                    func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
                 }
                 xDistToCorner = cornerPos->x - this->actor.posRot.pos.x;
                 zDistToCorner = cornerPos->z - this->actor.posRot.pos.z;
@@ -1913,8 +1882,8 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                         player->actor.posRot.pos.z = phi_v0_2->z;
                         this->unk_204 = 0.0f;
                     }
-                    if (this->unk_1DA >= 0x375) {
-                        Math_SmoothScaleMaxMinF(&this->unk_228, 200.0f, 0.2f, 100.0f, 0.0f);
+                    if (this->unk_1DA >= 885) {
+                        Math_SmoothScaleMaxMinF(&this->unk_228, 200.0, 0.2f, 100.0f, 0.0f);
                     } else {
                         Math_SmoothScaleMaxMinF(&this->unk_228, -6600.0f, 0.2f, 30.0f, 0.0f);
                     }
@@ -2010,15 +1979,15 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             if (this->unk_1DA == 820) {
                 Audio_SetBGM(0x21);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
-                            (Math_Sins(this->actor.shape.rot.y) * -50.0f) + this->actor.posRot.pos.x,
+                            Math_Sins(this->actor.shape.rot.y) * -50.0f + this->actor.posRot.pos.x,
                             this->actor.posRot.pos.y,
-                            (Math_Coss(this->actor.shape.rot.y) * -50.0f) + this->actor.posRot.pos.z, 0, 0, 0, 0);
+                            Math_Coss(this->actor.shape.rot.y) * -50.0f + this->actor.posRot.pos.z, 0, 0, 0, 0);
             }
             if (this->unk_1DA == 600) {
                 camera = Gameplay_GetCamera(globalCtx, 0);
                 camera->eye = this->cameraEye;
                 camera->eyeNext = this->cameraEye;
-                camera->at = this->actor.posRot.pos;
+                camera->at = this->cameraAt;
                 func_800C08AC(globalCtx, this->cutsceneCamera, 0);
                 this->unk_1BC = 0;
                 this->cutsceneCamera = 0;
@@ -2033,18 +2002,18 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             }
         case 100:
             if ((this->unk_1DA < 0x2C6) && (Math_Rand_ZeroOne() < 0.5f)) {
-                 Color_RGBA8 D_808CA568 = { 0x00, 0x00, 0x00, 0x64 };
-                 Color_RGBA8 D_808CA56C = { 0x00, 0x00, 0x00, 0x00 };
+                Color_RGBA8 D_808CA568 = { 0x00, 0x00, 0x00, 0x64 };
+                Color_RGBA8 D_808CA56C = { 0x00, 0x00, 0x00, 0x00 };
                 sp70.x = Math_Rand_CenteredFloat(60.0f) + this->actor.posRot2.pos.x;
                 sp70.y = (Math_Rand_ZeroOne() * 50.0f) + -1498.76f;
                 sp70.z = Math_Rand_CenteredFloat(60.0f) + this->actor.posRot2.pos.z;
                 EffectSsGMagma2_Spawn(globalCtx, &sp70, &D_808CA568, &D_808CA56C, 5, 1,
                                       (s16)(Math_Rand_ZeroOne() * 50.0f) + 50);
             }
-        default:
-            if (this->cutsceneCamera != 0) {
-                func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
-            }
+            break;
+    }
+    if (this->cutsceneCamera != 0) {
+        func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
 }
 s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
