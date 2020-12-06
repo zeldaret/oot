@@ -985,7 +985,7 @@ s32 func_8006F0A0(s32 arg0);
 // ? func_8006F0FC(?);
 u8 func_8006F140(GlobalContext*, EnvironmentContext*, UNK_TYPE);
 f32 func_8006F93C(u16, u16, u16);
-f32 func_8006F9BC(u16, u16, u16, u16, u16);
+f32 func_8006F9BC(u16 endFrame, u16 startFrame, u16 frames, u16, u16);
 // ? func_8006FB94(?);
 // ? func_8006FC88(?);
 // ? func_80070600(?);
