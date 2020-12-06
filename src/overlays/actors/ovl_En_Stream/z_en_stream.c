@@ -60,7 +60,7 @@ void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 #ifdef NONMATCHING
 // regalloc differences
-s32 func_80B0B81C(PosRot *vortexPosRot, PosRot *playerPosRot, Vec3f *v, f32 vortexYScale) {
+s32 func_80B0B81C(PosRot* vortexPosRot, PosRot* playerPosRot, Vec3f* v, f32 vortexYScale) {
     s32 ret = 0;
     f32 smallConstant = 28;
     f32 lowerBounds = 0 * vortexYScale * 50;
@@ -137,4 +137,19 @@ void EnStream_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002F948(thisx, NA_SE_EV_WHIRLPOOL - SFX_FLAG);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Draw.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Draw.s")
+void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    u32 multipliedFrames;
+    u32 frames = globalCtx->gameplayFrames;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_stream.c", 295);
+    func_80093D84(globalCtx->state.gfxCtx);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_stream.c", 299),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    multipliedFrames = frames * 20;
+    gSPSegment(POLY_XLU_DISP++, 0x08,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frames * 30, -multipliedFrames, 0x40, 0x40, 1,
+                                multipliedFrames, -multipliedFrames, 0x40, 0x40));
+    gSPDisplayList(POLY_XLU_DISP++, &D_06000950);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_stream.c", 310);
+}
