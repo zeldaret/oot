@@ -207,12 +207,11 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2* this = THIS;
-    f32 sp68;
+    s32 pad;
     Vec3f sp58;
     Vec3f sp4C;
     f32 angle;
     f32 sp44;
-    u32 temp_a0;
     s16 i;
     f32 phi_f2;
     s32 i2;
@@ -378,9 +377,8 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
             globalCtx->envCtx.unk_BE = 6;
             globalCtx->envCtx.unk_BD = 7;
             Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
-            temp_a0 = globalCtx->gameplayFrames;
             globalCtx->envCtx.unk_D8 =
-                (Math_Sins((s16)(((temp_a0 * 4) + temp_a0) << 0xC)) * 0.15f) + (0.15f + this->unk_33C);
+                (Math_Sins(globalCtx->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
             break;
         case 7:
             globalCtx->envCtx.unk_BE = 2;
