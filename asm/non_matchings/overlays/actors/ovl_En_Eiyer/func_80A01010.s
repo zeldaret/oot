@@ -47,7 +47,7 @@ glabel func_80A01010
 /* 01110 80A010B0 240A02BC */  addiu   $t2, $zero, 0x02BC         ## $t2 = 000002BC
 /* 01114 80A010B4 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 01118 80A010B8 AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 0111C 80A010BC 0C00A527 */  jal     func_8002949C              
+/* 0111C 80A010BC 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 01120 80A010C0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01124 80A010C4 1000000B */  beq     $zero, $zero, .L80A010F4   
 /* 01128 80A010C8 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -49,7 +49,7 @@ static CollisionCheckInfoInit sColChkInfoInit = {
     0xFF,
 };
 
-UNK_PTR D_80886D04[] = {
+static UNK_PTR D_80886D04[] = {
     0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
 };
 
@@ -192,20 +192,17 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanFirewall* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 448);
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 448);
-    gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
 
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80886D04[this->unk_150]));
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x01, 255, 255, 0, 150);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 255, 0, 0, 255);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80886D04[this->unk_150]));
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 255, 255, 0, 150);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, D_0600DA80);
+    gSPDisplayList(POLY_XLU_DISP++, D_0600DA80);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);
 }

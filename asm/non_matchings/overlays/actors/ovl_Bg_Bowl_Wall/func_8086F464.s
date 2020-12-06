@@ -129,7 +129,7 @@ glabel func_8086F464
 /* 004E0 8086F640 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFD8
 /* 004E4 8086F644 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 004E8 8086F648 AFB40014 */  sw      $s4, 0x0014($sp)           
-/* 004EC 8086F64C 0C00A5E9 */  jal     func_800297A4              
+/* 004EC 8086F64C 0C00A5E9 */  jal     EffectSsHahen_SpawnBurst              
 /* 004F0 8086F650 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 004F4 8086F654 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 004F8 8086F658 0C00BE0A */  jal     Audio_PlayActorSound2

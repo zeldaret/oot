@@ -29,7 +29,7 @@ glabel func_80A6121C
 /* 05F78 80A61268 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 05F7C 80A6126C 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFF4
 /* 05F80 80A61270 27A60038 */  addiu   $a2, $sp, 0x0038           ## $a2 = FFFFFFF0
-/* 05F84 80A61274 0C033209 */  jal     func_800CC824
+/* 05F84 80A61274 0C033209 */  jal     Math3D_RotateXZPlane
 /* 05F88 80A61278 27A70034 */  addiu   $a3, $sp, 0x0034           ## $a3 = FFFFFFEC
 /* 05F8C 80A6127C 8E2A0000 */  lw      $t2, 0x0000($s1)           ## 00000000
 /* 05F90 80A61280 8E090204 */  lw      $t1, 0x0204($s0)           ## 00000204

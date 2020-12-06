@@ -37,7 +37,7 @@ extern UNK_TYPE D_06004B40;
 extern Gfx D_0600ACE0[];
 extern Gfx D_0600BC90[];
 extern Gfx D_0600BCA0[];
-extern SkeletonHeader D_0600BE40;
+extern FlexSkeletonHeader D_0600BE40;
 
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
@@ -101,61 +101,47 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     };
 
     EnTkEff* eff = this->eff;
-    GraphicsContext* gfxCtx;
-    s16 gfxSetup;
-    s16 i;
-    s16 alpha;
     s16 imageIdx;
-    Gfx* dispRefs[4];
+    s16 gfxSetup;
+    s16 alpha;
+    s16 i;
 
-    /*
-     *  This assignment always occurs before a call to Graph_OpenDisps which
-     *  makes me suspect that they're inside a macro where the function call
-     *  is present only for debug builds. Same for Graph_CloseDisps most likely.
-     */
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
 
     gfxSetup = 0;
 
-    /*
-     *  Same code is generated without the if,
-     *  but that would make the do...while redundant so there's probably an if.
-     */
-    do {
-        if (1) {
-            func_80093D84(globalCtx->state.gfxCtx);
-        }
-    } while (0);
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    if (1) {}
 
     for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
-                gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
-                gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BC90);
-                gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 60, 20, 0);
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600BC90);
+                gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 gfxSetup = 1;
             }
 
             alpha = eff->timeLeft * (255.f / eff->timeTotal);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 170, 130, 90, alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
 
-            gDPPipeSync(gfxCtx->polyXlu.p++);
+            gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(eff->size, eff->size, 1.f, MTXMODE_APPLY);
-            gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(images) / eff->timeTotal);
-            gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
 
-            gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BCA0);
+            gSPDisplayList(POLY_XLU_DISP++, D_0600BCA0);
         }
         eff++;
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
 }
 
 s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth, f32 yAccelMax) {
@@ -184,7 +170,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
 
-    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0, -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.f;
@@ -193,7 +179,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001FA8;
 
-    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0, -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(240, 240);
 }
@@ -201,7 +187,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001144;
 
-    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06001144.genericHeader), 0, -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06001144), 0, -10.f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -210,8 +196,8 @@ void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_UpdateEyes(EnTk* this) {
     if (DECR(this->blinkCountdown) == 0) {
-        this->eyeImageIdx++;
-        if (this->eyeImageIdx > 2) {
+        this->eyeTextureIdx++;
+        if (this->eyeTextureIdx > 2) {
             this->blinkCycles--;
             if (this->blinkCycles < 0) {
                 this->blinkCountdown = Math_Rand_S16Offset(30, 30);
@@ -220,7 +206,7 @@ void EnTk_UpdateEyes(EnTk* this) {
                     this->blinkCycles++;
                 }
             }
-            this->eyeImageIdx = 0;
+            this->eyeTextureIdx = 0;
         }
     }
 }
@@ -299,7 +285,7 @@ f32 EnTk_Step(EnTk* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
     }
 
-    if (this->skelAnim.animCurrentSeg != &D_06001FA8) {
+    if (this->skelAnim.animation != &D_06001FA8) {
         return 0.f;
     }
 
@@ -501,9 +487,8 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
-    SkelAnime_InitSV(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
-    SkelAnime_ChangeAnim(&this->skelAnim, &D_06002F84, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
-                         0.f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
+    SkelAnime_ChangeAnim(&this->skelAnim, &D_06002F84, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84), 0, 0.f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -695,18 +680,14 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B1D200(GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
+    gSPDisplayList(POLY_OPA_DISP++, D_0600ACE0);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_0600ACE0);
-
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
-s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnTk* this = THIS;
 
     switch (limbIndex) {
@@ -724,7 +705,7 @@ s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnTk* this = THIS;
     Vec3f sp28 = { 0.f, 0.f, 4600.f };
     Vec3f sp1C = { 0.f, 0.f, 0.f };
@@ -748,22 +729,19 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
         0x06004B40,
     };
     EnTk* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     Matrix_Push();
     EnTkEff_Draw(this, globalCtx);
     Matrix_Pull();
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
-                     EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
+                          EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, this);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

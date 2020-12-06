@@ -79,7 +79,7 @@ static InitChainEntry sInitChain[] = {
 extern AnimationHeader D_06000EA4;
 extern AnimationHeader D_06000590;
 extern AnimationHeader D_0600299C;
-extern SkeletonHeader D_06008FB0;
+extern FlexSkeletonHeader D_06008FB0;
 extern AnimationHeader D_06009DB0;
 extern AnimationHeader D_060019CC;
 extern AnimationHeader D_06009520;
@@ -93,8 +93,8 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
-                     0x19);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
+                       25);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -215,12 +215,12 @@ void EnWallmas_SetupCooldown(EnWallmas* this) {
 }
 
 void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
-    static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
+    static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    func_8002A6B8(globalCtx, &this->actor.posRot.pos, &D_80B30D70, &D_80B30D70, 0xFA, -0xA, 0xFF, 0xFF, 0xFF, 0xFF, 0,
-                  0, 0xFF, 1, 9, 1);
+    EffectSsDeadDb_Spawn(globalCtx, &this->actor.posRot.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0,
+                         255, 1, 9, true);
 
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xC0);
     this->actionFunc = EnWallmas_Die;
@@ -265,11 +265,9 @@ void EnWallmas_SetupStun(EnWallmas* this) {
 }
 
 void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
-    Vec3f* playerPos;
-    Player* player;
+    Player* player = PLAYER;
+    Vec3f* playerPos = &player->actor.posRot.pos;
 
-    player = PLAYER;
-    playerPos = &player->actor.posRot.pos;
     this->actor.posRot.pos = *playerPos;
     this->actor.groundY = player->actor.groundY;
     this->actor.floorPoly = player->actor.floorPoly;
@@ -278,8 +276,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (((s32)(player->stateFlags1 << 0xB) < 0) || ((s32)(player->stateFlags1 << 4) < 0) ||
-        ((player->actor.bgCheckFlags & 1) == 0) ||
+    if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
         ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, playerPos)))) {
         func_800F8D04(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
@@ -296,9 +293,10 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->invincibilityTimer >= 0) &&
+
+    if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & 0x10) && (player->invincibilityTimer >= 0) &&
         (this->actor.xzDistFromLink < 30.0f) && (this->actor.yDistFromLink < -5.0f) &&
-        (-(f32)(player->unk_4DA + 0xA) < this->actor.yDistFromLink)) {
+        (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistFromLink)) {
         EnWallmas_SetupTakePlayer(this, globalCtx);
     }
 }
@@ -396,9 +394,8 @@ void EnWallmas_Die(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
-    Player* player;
+    Player* player = PLAYER;
 
-    player = PLAYER;
     if (func_800A56C8(&this->skelAnime, 1.0f) != 0) {
         if (LINK_IS_CHILD) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
@@ -500,7 +497,7 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
                 }
             } else {
                 if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
-                    func_8002A65C(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, 0x28);
+                    EffectSsFCircle_Spawn(globalCtx, &this->actor, &this->actor.posRot.pos, 40, 40);
                 }
 
                 EnWallmas_SetupTakeDamage(this);
@@ -553,22 +550,18 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
-    char pad[8];
-    MtxF mf;
-    GraphicsContext* gfxCtx;
+    s32 pad;
     f32 xzScale;
-    Gfx* dispRefs[3];
+    MtxF mf;
 
     if ((this->actor.floorPoly == NULL) || ((this->timer >= 0x51) && (this->actionFunc != EnWallmas_Stun))) {
         return;
     }
 
-    // clang-format off
-    gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1386);
-    // clang-format on
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1386);
 
     func_80094044(globalCtx->state.gfxCtx);
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0, 0, 0, 255);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
 
     func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.groundY, this->actor.posRot.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
@@ -581,13 +574,14 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     }
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_04049210);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
+    gSPDisplayList(POLY_XLU_DISP++, &D_04049210);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
 s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* thisx) {
+                               void* thisx) {
     EnWallmas* this = THIS;
 
     if (limbIndex == 1) {
@@ -601,25 +595,22 @@ s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     return 0;
 }
 
-void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
-
+void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     if (limbIndex == 2) {
-        gfxCtx = globalCtx->state.gfxCtx;
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1478);
 
-        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1478);
         Matrix_Push();
         Matrix_Translate(1600.0f, -700.0f, -1700.0f, MTXMODE_APPLY);
         Matrix_RotateY(DEGREE_60_RAD, MTXMODE_APPLY);
         Matrix_RotateZ(DEGREE_15_RAD, MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
 
-        gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
-        gSPDisplayList(gfxCtx->polyOpa.p++, D_06008688);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
+        gSPDisplayList(POLY_OPA_DISP++, D_06008688);
 
         Matrix_Pull();
-        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1495);
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1495);
     }
 }
 
@@ -628,8 +619,8 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, &this->actor);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+                              this->skelAnime.dListCount, EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }
 
     EnWallmas_DrawXlu(this, globalCtx);

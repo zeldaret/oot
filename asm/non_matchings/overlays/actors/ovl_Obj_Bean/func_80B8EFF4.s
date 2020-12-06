@@ -137,7 +137,7 @@ glabel func_80B8EFF4
 /* 0076C 80B8F1EC 8FA60054 */  lw      $a2, 0x0054($sp)
 /* 00770 80B8F1F0 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFC8
 /* 00774 80B8F1F4 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFBC
-/* 00778 80B8F1F8 0C032C04 */  jal     func_800CB010
+/* 00778 80B8F1F8 0C032C04 */  jal     Math3D_CosOut
 /* 0077C 80B8F1FC 27A60030 */  addiu   $a2, $sp, 0x0030           ## $a2 = FFFFFFB8
 /* 00780 80B8F200 10400004 */  beq     $v0, $zero, .L80B8F214
 /* 00784 80B8F204 C7A60030 */  lwc1    $f6, 0x0030($sp)

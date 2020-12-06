@@ -104,7 +104,7 @@ glabel func_800460A8
 /* ABD308 80046168 8FA600B0 */  lw    $a2, 0xb0($sp)
 /* ABD30C 8004616C 46143200 */  add.s $f8, $f6, $f20
 /* ABD310 80046170 8FA400C0 */  lw    $a0, 0xc0($sp)
-/* ABD314 80046174 0C01F124 */  jal   OLib_Vec3fDiffToVecSphRot90
+/* ABD314 80046174 0C01F124 */  jal   OLib_Vec3fDiffToVecSphGeo
 /* ABD318 80046178 E7A80090 */   swc1  $f8, 0x90($sp)
 /* ABD31C 8004617C 8FAC00C0 */  lw    $t4, 0xc0($sp)
 /* ABD320 80046180 27AB0074 */  addiu $t3, $sp, 0x74
@@ -138,7 +138,7 @@ glabel func_800460A8
 /* ABD38C 800461EC 3C013F80 */  li    $at, 0x3F800000 # 0.000000
 /* ABD390 800461F0 44817000 */  mtc1  $at, $f14
 /* ABD394 800461F4 46065101 */  sub.s $f4, $f10, $f6
-/* ABD398 800461F8 0C01F02A */  jal   func_8007C0A8
+/* ABD398 800461F8 0C01F02A */  jal   OLib_ClampMaxDist
 /* ABD39C 800461FC 46142303 */   div.s $f12, $f4, $f20
 /* ABD3A0 80046200 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* ABD3A4 80046204 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
@@ -184,7 +184,7 @@ glabel func_800460A8
 /* ABD440 800462A0 E60000CC */  swc1  $f0, 0xcc($s0)
 /* ABD444 800462A4 E60000D0 */  swc1  $f0, 0xd0($s0)
 .L800462A8:
-/* ABD448 800462A8 0C01F097 */  jal   OLib_VecSphRot90ToVec3f
+/* ABD448 800462A8 0C01F097 */  jal   OLib_VecSphGeoToVec3f
 /* ABD44C 800462AC AFA3004C */   sw    $v1, 0x4c($sp)
 /* ABD450 800462B0 3C0A8016 */  lui   $t2, %hi(gGameInfo) # $t2, 0x8016
 /* ABD454 800462B4 8D4AFA90 */  lw    $t2, %lo(gGameInfo)($t2)

@@ -35,17 +35,17 @@ const ActorInit Magic_Wind_InitVars = {
 
 #include "z_magic_wind_gfx.c"
 
-u8 sTransformRefIdx[] = {
+static u8 sTransformRefIdx[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-s16 sCopyValues[] = {
+static s16 sCopyValues[] = {
     0x0400, 0x0400, 0x0400, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0200, 0x0200, 0x0000, 0x0000,
     0x0000, 0x0000, 0x0000, 0x0000, 0x02CD, 0x02CD, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 };
 
-TransformData sTransformData[] = {
+static TransformData sTransformData[] = {
     {
         0x000C,
         0x0001,
@@ -76,11 +76,11 @@ TransformData sTransformData[] = {
     },
 };
 
-TransformUpdateIndex sTransformUpdIdx = {
+static TransformUpdateIndex sTransformUpdIdx = {
     sTransformRefIdx, sTransformData, sCopyValues, 0x0001, 0x0003C,
 };
 
-SkelCurveLimb sRootLimb = {
+static SkelCurveLimb sRootLimb = {
     0x01,
     0xFF,
     {
@@ -89,7 +89,7 @@ SkelCurveLimb sRootLimb = {
     },
 };
 
-SkelCurveLimb sInnerCylinder = {
+static SkelCurveLimb sInnerCylinder = {
     0xFF,
     0x02,
     {
@@ -98,7 +98,7 @@ SkelCurveLimb sInnerCylinder = {
     },
 };
 
-SkelCurveLimb sOuterCylinder = {
+static SkelCurveLimb sOuterCylinder = {
     0xFF,
     0xFF,
     {
@@ -107,18 +107,18 @@ SkelCurveLimb sOuterCylinder = {
     },
 };
 
-SkelCurveLimb* sLimbs[] = {
+static SkelCurveLimb* sLimbs[] = {
     &sRootLimb,
     &sInnerCylinder,
     &sOuterCylinder,
 };
 
-SkelCurveLimbList sLimbList = {
+static SkelCurveLimbList sLimbList = {
     sLimbs,
     0x03,
 };
 
-u8 sAlphaUpdVals[] = {
+static u8 sAlphaUpdVals[] = {
     0x00, 0x03, 0x04, 0x07, 0x09, 0x0A, 0x0D, 0x0F, 0x11, 0x12, 0x15, 0x16, 0x19, 0x1B, 0x1C, 0x1F, 0x21, 0x23,
 };
 
@@ -144,10 +144,9 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 1:
             SkelCurve_SetAnim(&this->skelCurve, &sTransformUpdIdx, 60.0f, 0.0f, 60.0f, -1.0f);
             MagicWind_SetupAction(this, MagicWind_Shrink);
-            // "Indicates start" = %s
             // Means start
             LOG_STRING("表示開始", "../z_magic_wind.c", 486);
-            func_8002F7DC(player, NA_SE_PL_MAGIC_WIND_WARP);
+            func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_WIND_WARP);
             break;
     }
 }
@@ -224,41 +223,41 @@ void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, Actor* thisx) {
+s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
     MagicWind* this = THIS;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
+
     if (limbIndex == 1) {
-        gSPSegment(gfxCtx->polyXlu.p++, 8,
+        gSPSegment(POLY_XLU_DISP++, 8,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->state.frames * 9) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0xF) & 0xFF), 0x40, 0x40, 1,
                                     (globalCtx->state.frames * 0xF) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0x1E) & 0xFF), 0x40, 0x40));
 
     } else if (limbIndex == 2) {
-        gSPSegment(gfxCtx->polyXlu.p++, 9,
+        gSPSegment(POLY_XLU_DISP++, 9,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (globalCtx->state.frames * 3) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 5) & 0xFF), 0x40, 0x40, 1,
                                     (globalCtx->state.frames * 6) & 0xFF,
                                     0xFF - ((globalCtx->state.frames * 0xA) & 0xFF), 0x40, 0x40));
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_magic_wind.c", 646);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 646);
+
     return 1;
 }
 
 void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
-    MagicWind* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
+    MagicWind* this = THIS;
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_magic_wind.c", 661);
+    OPEN_DISPS(gfxCtx, "../z_magic_wind.c", 661);
+
     if (this->actionFunc != MagicWind_WaitForTimer) {
-        gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 25);
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
         SkelCurve_Draw(thisx, globalCtx, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
     }
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_magic_wind.c", 673);
+
+    CLOSE_DISPS(gfxCtx, "../z_magic_wind.c", 673);
 }

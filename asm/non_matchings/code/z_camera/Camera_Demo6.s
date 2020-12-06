@@ -35,7 +35,7 @@ glabel Camera_Demo6
 .L80055CE8:
 /* ACCE88 80055CE8 860A0142 */  lh    $t2, 0x142($s0)
 .L80055CEC:
-/* ACCE8C 80055CEC 3C0C8012 */  lui   $t4, %hi(sCameraSettings)
+/* ACCE8C 80055CEC 3C0C8012 */  lui   $t4, %hi(sCameraSettings+4)
 /* ACCE90 80055CF0 860D0144 */  lh    $t5, 0x144($s0)
 /* ACCE94 80055CF4 000A58C0 */  sll   $t3, $t2, 3
 /* ACCE98 80055CF8 018B6021 */  addu  $t4, $t4, $t3

@@ -57,7 +57,7 @@ glabel func_80A99048
 /* 0235C 80A9910C AFA80014 */  sw      $t0, 0x0014($sp)
 /* 02360 80A99110 AFA90018 */  sw      $t1, 0x0018($sp)
 /* 02364 80A99114 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 02368 80A99118 0C0291BE */  jal     SkelAnime_InitSV
+/* 02368 80A99118 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0236C 80A9911C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 02370 80A99120 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 02374 80A99124 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
@@ -192,7 +192,7 @@ glabel func_80A99048
 /* 0254C 80A992FC AFA0001C */  sw      $zero, 0x001C($sp)
 /* 02550 80A99300 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
 /* 02554 80A99304 24070018 */  addiu   $a3, $zero, 0x0018         ## $a3 = 00000018
-/* 02558 80A99308 0C00C916 */  jal     Actor_SpawnAttached
+/* 02558 80A99308 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 0255C 80A9930C E7AA0018 */  swc1    $f10, 0x0018($sp)
 /* 02560 80A99310 860D001C */  lh      $t5, 0x001C($s0)           ## 0000001C

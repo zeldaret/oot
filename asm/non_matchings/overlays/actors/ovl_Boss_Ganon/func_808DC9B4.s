@@ -94,7 +94,7 @@ glabel func_808DC9B4
 /* 062A4 808DCB14 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00001C24
 /* 062A8 808DCB18 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 062AC 808DCB1C 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
-/* 062B0 808DCB20 0C00C916 */  jal     Actor_SpawnAttached
+/* 062B0 808DCB20 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 062B4 808DCB24 240700E8 */  addiu   $a3, $zero, 0x00E8         ## $a3 = 000000E8
 /* 062B8 808DCB28 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001

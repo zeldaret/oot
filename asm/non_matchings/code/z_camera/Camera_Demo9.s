@@ -36,7 +36,7 @@ glabel Camera_Demo9
 .L80056010:
 /* ACD1B0 80056010 86180142 */  lh    $t8, 0x142($s0)
 .L80056014:
-/* ACD1B4 80056014 3C098012 */  lui   $t1, %hi(sCameraSettings)
+/* ACD1B4 80056014 3C098012 */  lui   $t1, %hi(sCameraSettings+4)
 /* ACD1B8 80056018 860A0144 */  lh    $t2, 0x144($s0)
 /* ACD1BC 8005601C 0018C8C0 */  sll   $t9, $t8, 3
 /* ACD1C0 80056020 01394821 */  addu  $t1, $t1, $t9

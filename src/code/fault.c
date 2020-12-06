@@ -1,9 +1,6 @@
-#include <ultra64.h>
-#include <ultra64/controller.h>
-#include <ultra64/hardware.h>
-#include <global.h>
-#include <alloca.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
+#include "alloca.h"
 
 // data
 const char* sExceptionNames[] = {
@@ -72,7 +69,8 @@ void Fault_ProcessClientContext(FaultClientContext* ctx) {
 
     if (sFaultStructPtr->currClientThreadSp != 0) {
         thread = alloca(sizeof(OSThread));
-        osCreateThread(thread, 2, Fault_ClientProcessThread, ctx, sFaultStructPtr->currClientThreadSp, 0x7E);
+        osCreateThread(thread, 2, Fault_ClientProcessThread, ctx, sFaultStructPtr->currClientThreadSp,
+                       OS_PRIORITY_APPMAX - 1);
         osStartThread(thread);
     } else {
         Fault_ClientProcessThread(ctx);
@@ -110,22 +108,21 @@ u32 Fault_ProcessClient(u32 callback, u32 param0, u32 param1) {
     return a.ret;
 }
 
-#ifdef NON_MATCHING
-// minor ordering differences
 void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* param1) {
     OSIntMask mask;
-    u32 alreadyExists = false;
-    FaultClient* iter;
+    s32 alreadyExists = false;
 
     mask = osSetIntMask(1);
 
-    iter = sFaultStructPtr->clients;
-    while (iter != NULL) {
-        if (iter == client) {
-            alreadyExists = true;
-            goto end;
+    {
+        FaultClient* iter = sFaultStructPtr->clients;
+        while (iter != NULL) {
+            if (iter == client) {
+                alreadyExists = true;
+                goto end;
+            }
+            iter = iter->next;
         }
-        iter = iter->next;
     }
 
     client->callback = callback;
@@ -140,9 +137,6 @@ end:
         osSyncPrintf(VT_COL(RED, WHITE) "fault_AddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddClient.s")
-#endif
 
 void Fault_RemoveClient(FaultClient* client) {
     FaultClient* iter;
@@ -182,22 +176,21 @@ void Fault_RemoveClient(FaultClient* client) {
     }
 }
 
-#ifdef NON_MATCHING
-// minor ordering differences
 void Fault_AddAddrConvClient(FaultAddrConvClient* client, void* callback, void* param) {
-    FaultAddrConvClient* iter;
-    u32 alreadyExists = false;
     OSIntMask mask;
+    u32 alreadyExists = false;
 
     mask = osSetIntMask(1);
 
-    iter = sFaultStructPtr->addrConvClients;
-    while (iter != NULL) {
-        if (iter == client) {
-            alreadyExists = true;
-            goto end;
+    {
+        FaultAddrConvClient* iter = sFaultStructPtr->addrConvClients;
+        while (iter != NULL) {
+            if (iter == client) {
+                alreadyExists = true;
+                goto end;
+            }
+            iter = iter->next;
         }
-        iter = iter->next;
     }
 
     client->callback = callback;
@@ -211,9 +204,6 @@ end:
         osSyncPrintf(VT_COL(RED, WHITE) "fault_AddressConverterAddClient: %08x は既にリスト中にある\n" VT_RST, client);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddAddrConvClient.s")
-#endif
 
 void Fault_RemoveAddrConvClient(FaultAddrConvClient* client) {
     FaultAddrConvClient* iter;
@@ -295,9 +285,9 @@ u32 Fault_WaitForInputImpl() {
         Fault_Sleep(0x10);
         Fault_UpdatePadImpl();
 
-        kDown = curInput->press.in.button;
+        kDown = curInput->press.button;
 
-        if (kDown == L_TRIG) {
+        if (kDown == BTN_L) {
             sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
         }
 
@@ -306,19 +296,19 @@ u32 Fault_WaitForInputImpl() {
                 return false;
             }
         } else {
-            if (kDown == A_BUTTON || kDown == R_JPAD) {
+            if (kDown == BTN_A || kDown == BTN_DRIGHT) {
                 return false;
             }
 
-            if (kDown == L_JPAD) {
+            if (kDown == BTN_DLEFT) {
                 return true;
             }
 
-            if (kDown == U_JPAD) {
+            if (kDown == BTN_DUP) {
                 FaultDrawer_SetOsSyncPrintfEnabled(true);
             }
 
-            if (kDown == D_JPAD) {
+            if (kDown == BTN_DDOWN) {
                 FaultDrawer_SetOsSyncPrintfEnabled(false);
             }
         }
@@ -536,21 +526,21 @@ void Fault_Wait5Seconds(void) {
     sFaultStructPtr->faultActive = true;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Fault_WaitForButtonCombo() {
     Input* curInput = &sFaultStructPtr->padInput;
-    Input** curInputPtr = &curInput;
     s32 state;
     u32 s1;
     u32 s2;
     u32 kDown;
     u32 kCur;
 
+    if (1) {}
+    if (1) {}
+
     osSyncPrintf(
         VT_FGCOL(WHITE) "KeyWaitB (ＬＲＺ " VT_FGCOL(WHITE) "上" VT_FGCOL(YELLOW) "下 " VT_FGCOL(YELLOW) "上" VT_FGCOL(WHITE) "下 " VT_FGCOL(WHITE) "左" VT_FGCOL(
-            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE)
-            VT_RST "\n");
+            YELLOW) "左 " VT_FGCOL(YELLOW) "右" VT_FGCOL(WHITE) "右 " VT_FGCOL(GREEN) "Ｂ" VT_FGCOL(BLUE) "Ａ" VT_FGCOL(RED) "START" VT_FGCOL(WHITE) ")" VT_RST
+                                                                                                                                                     "\n");
     osSyncPrintf(VT_FGCOL(WHITE) "KeyWaitB'(ＬＲ左" VT_FGCOL(YELLOW) "右 +" VT_FGCOL(RED) "START" VT_FGCOL(
         WHITE) ")" VT_RST "\n");
 
@@ -565,13 +555,11 @@ void Fault_WaitForButtonCombo() {
         Fault_Sleep(0x10);
         Fault_UpdatePadImpl();
 
-        kDown = curInput->press.in.button;
-        kCur = curInput->cur.in.button;
+        kDown = curInput->press.button;
+        kCur = curInput->cur.button;
 
-        if (kCur == 0) {
-            if (s1 == s2) {
-                s1 = 0;
-            }
+        if ((kCur == 0) && (s1 == s2)) {
+            s1 = 0;
         } else if (kDown != 0) {
             if (s1 == s2) {
                 state = 0;
@@ -579,20 +567,20 @@ void Fault_WaitForButtonCombo() {
 
             switch (state) {
                 case 0:
-                    if (kCur == (Z_TRIG | L_TRIG | R_TRIG) && kDown == Z_TRIG) {
+                    if (kCur == (BTN_Z | BTN_L | BTN_R) && kDown == BTN_Z) {
                         state = s2;
                         s1 = s2;
                     }
                     break;
                 case 1:
-                    if (kDown == U_JPAD) {
+                    if (kDown == BTN_DUP) {
                         state = 2;
                     } else {
                         state = 0;
                     }
                     break;
                 case 2:
-                    if (kDown == D_CBUTTONS) {
+                    if (kDown == BTN_CDOWN) {
                         state = 3;
                         s1 = s2;
                     } else {
@@ -600,14 +588,14 @@ void Fault_WaitForButtonCombo() {
                     }
                     break;
                 case 3:
-                    if (kDown == U_CBUTTONS) {
+                    if (kDown == BTN_CUP) {
                         state = 4;
                     } else {
                         state = 0;
                     }
                     break;
                 case 4:
-                    if (kDown == D_JPAD) {
+                    if (kDown == BTN_DDOWN) {
                         state = 5;
                         s1 = s2;
                     } else {
@@ -615,14 +603,14 @@ void Fault_WaitForButtonCombo() {
                     }
                     break;
                 case 5:
-                    if (kDown == L_JPAD) {
+                    if (kDown == BTN_DLEFT) {
                         state = 6;
                     } else {
                         state = 0;
                     }
                     break;
                 case 6:
-                    if (kDown == L_CBUTTONS) {
+                    if (kDown == BTN_CLEFT) {
                         state = 7;
                         s1 = s2;
                     } else {
@@ -630,14 +618,14 @@ void Fault_WaitForButtonCombo() {
                     }
                     break;
                 case 7:
-                    if (kDown == R_CBUTTONS) {
+                    if (kDown == BTN_CRIGHT) {
                         state = 8;
                     } else {
                         state = 0;
                     }
                     break;
                 case 8:
-                    if (kDown == R_JPAD) {
+                    if (kDown == BTN_DRIGHT) {
                         state = 9;
                         s1 = s2;
                     } else {
@@ -645,32 +633,32 @@ void Fault_WaitForButtonCombo() {
                     }
                     break;
                 case 9:
-                    if (kDown == (A_BUTTON | B_BUTTON)) {
+                    if (kDown == (BTN_A | BTN_B)) {
                         state = 10;
-                    } else if (kDown == A_BUTTON) {
+                    } else if (kDown == BTN_A) {
                         state = 0x5B;
-                    } else if (kDown == B_BUTTON) {
+                    } else if (kDown == BTN_B) {
                         state = 0x5C;
                     } else {
                         state = 0;
                     }
                     break;
                 case 0x5B:
-                    if (kDown == B_BUTTON) {
+                    if (kDown == BTN_B) {
                         state = 10;
                     } else {
                         state = 0;
                     }
                     break;
                 case 0x5C:
-                    if (kDown == A_BUTTON) {
+                    if (kDown == BTN_A) {
                         state = 10;
                     } else {
                         state = 0;
                     }
                     break;
                 case 10:
-                    if (kDown == START_BUTTON) {
+                    if (kDown == BTN_START) {
                         state = 11;
                     } else {
                         state = 0;
@@ -682,9 +670,6 @@ void Fault_WaitForButtonCombo() {
         osWritebackDCacheAll();
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_WaitForButtonCombo.s")
-#endif
 
 void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     u32* alignedAddr;
@@ -719,12 +704,10 @@ void Fault_DrawMemDumpPage(const char* title, u32* addr, u32 param_3) {
     FaultDrawer_SetCharPad(0, 0);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
     Input* curInput = &sFaultStructPtr->padInput;
     u32 addr = pc;
-    u32 count;
+    s32 count;
     u32 off;
 
     do {
@@ -748,7 +731,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (CHECK_PAD(curInput->press, L_TRIG)) {
+            if (CHECK_BTN_ALL(curInput->press.button, BTN_L)) {
                 sFaultStructPtr->faultActive = false;
             }
         }
@@ -756,44 +739,43 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         do {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-        } while (curInput->press.in.button == 0);
+        } while (curInput->press.button == 0);
 
-        if (CHECK_PAD(curInput->press, START_BUTTON) || CHECK_PAD(curInput->cur, A_BUTTON)) {
+        if (CHECK_BTN_ALL(curInput->press.button, BTN_START) || CHECK_BTN_ALL(curInput->cur.button, BTN_A)) {
             return;
         }
 
         off = 0x10;
-        if (CHECK_PAD(curInput->cur, Z_TRIG)) {
+        if (CHECK_BTN_ALL(curInput->cur.button, BTN_Z)) {
             off = 0x100;
         }
-        if (CHECK_PAD(curInput->cur, B_BUTTON)) {
+
+        if (CHECK_BTN_ALL(curInput->cur.button, BTN_B)) {
             off <<= 8;
         }
-        if (CHECK_PAD(curInput->cur, U_JPAD)) {
+
+        if (CHECK_BTN_ALL(curInput->press.button, BTN_DUP)) {
             addr -= off;
         }
-        if (CHECK_PAD(curInput->cur, D_JPAD)) {
+        if (CHECK_BTN_ALL(curInput->press.button, BTN_DDOWN)) {
             addr += off;
         }
-        if (CHECK_PAD(curInput->cur, U_CBUTTONS)) {
+        if (CHECK_BTN_ALL(curInput->press.button, BTN_CUP)) {
             addr = pc;
         }
-        if (CHECK_PAD(curInput->cur, D_CBUTTONS)) {
+        if (CHECK_BTN_ALL(curInput->press.button, BTN_CDOWN)) {
             addr = sp;
         }
-        if (CHECK_PAD(curInput->cur, L_CBUTTONS)) {
+        if (CHECK_BTN_ALL(curInput->press.button, BTN_CLEFT)) {
             addr = unk0;
         }
-        if (CHECK_PAD(curInput->cur, R_CBUTTONS)) {
+        if (CHECK_BTN_ALL(curInput->press.button, BTN_CRIGHT)) {
             addr = unk1;
         }
-    } while (!CHECK_PAD(curInput->cur, L_TRIG));
+    } while (!CHECK_BTN_ALL(curInput->press.button, BTN_L));
 
     sFaultStructPtr->faultActive = true;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_DrawMemDump.s")
-#endif
 
 void Fault_WalkStack(u32* spPtr, u32* pcPtr, u32* raPtr) {
     u32 sp = *spPtr;
@@ -923,7 +905,7 @@ void Fault_CommitFB() {
     }
 
     osViSwapBuffer(fb);
-    FaultDrawer_SetDrawerFB(fb, 0x140, 0xf0);
+    FaultDrawer_SetDrawerFB(fb, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void Fault_ProcessClients(void) {
@@ -1039,7 +1021,7 @@ void Fault_SetFB(void* fb, u16 w, u16 h) {
     FaultDrawer_SetDrawerFB(fb, w, h);
 }
 
-void Fault_Start(void) {
+void Fault_Init(void) {
     sFaultStructPtr = &gFaultStruct;
     bzero(sFaultStructPtr, sizeof(FaultThreadStruct));
     FaultDrawer_SetDefault();
@@ -1054,7 +1036,8 @@ void Fault_Start(void) {
     gFaultStruct.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultStructPtr->queue, &sFaultStructPtr->msg, 1);
     StackCheck_Init(&sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack), 0x7f);
+    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack),
+                   OS_PRIORITY_APPMAX);
     osStartThread(&sFaultStructPtr->thread);
 }
 

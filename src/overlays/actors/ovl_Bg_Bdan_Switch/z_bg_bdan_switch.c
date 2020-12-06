@@ -479,7 +479,7 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_1D8 -= 1;
         return;
     }
-    if (!func_8008E988(globalCtx) && this->unk_1D8 > 0) {
+    if (!Player_InCsMode(globalCtx) && this->unk_1D8 > 0) {
         this->unk_1D8 -= 1;
     }
     temp = this->collider.base.acFlags;

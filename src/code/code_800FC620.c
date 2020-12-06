@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 typedef void (*arg3_800FC868)(void*);
 typedef void (*arg3_800FC8D8)(void*, u32);
@@ -58,7 +58,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
         osSyncPrintf("リロケーションします\n");
     }
 
-    Overlay_DoRelocation(allocatedVRamAddr, ovl, vRamStart);
+    Overlay_Relocate(allocatedVRamAddr, ovl, vRamStart);
 
     bssSize = ovl->bssSize;
     if (bssSize != 0) {

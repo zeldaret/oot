@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -319,10 +319,8 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 type = thisx->params;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 701);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 701);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -331,12 +329,12 @@ void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == A_OBJ_KNOB) {
-        gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 1, 60, 60, 60, 50);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 1, 60, 60, 60, 50);
     }
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 712),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, D_80115484[type]);
+    gSPDisplayList(POLY_OPA_DISP++, D_80115484[type]);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
 }

@@ -12,7 +12,7 @@ glabel func_80AC6B3C
 /* 03EC4 80AC6B64 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 03EC8 80AC6B68 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 03ECC 80AC6B6C AFA00018 */  sw      $zero, 0x0018($sp)
-/* 03ED0 80AC6B70 0C0291BE */  jal     SkelAnime_InitSV
+/* 03ED0 80AC6B70 0C0291BE */  jal     SkelAnime_InitFlex
 /* 03ED4 80AC6B74 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 03ED8 80AC6B78 820F01EA */  lb      $t7, 0x01EA($s0)           ## 000001EA
 /* 03EDC 80AC6B7C 8FAE004C */  lw      $t6, 0x004C($sp)
@@ -64,7 +64,7 @@ glabel func_80AC6B3C
 /* 03F8C 80AC6C2C AFA0001C */  sw      $zero, 0x001C($sp)
 /* 03F90 80AC6C30 24070018 */  addiu   $a3, $zero, 0x0018         ## $a3 = 00000018
 /* 03F94 80AC6C34 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
-/* 03F98 80AC6C38 0C00C916 */  jal     Actor_SpawnAttached
+/* 03F98 80AC6C38 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 03F9C 80AC6C3C E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 03FA0 80AC6C40 8FBF003C */  lw      $ra, 0x003C($sp)

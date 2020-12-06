@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void* osViGetNextFramebuffer() {
     s32 prevInt = __osDisableInt();

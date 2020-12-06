@@ -5,8 +5,7 @@
  */
 
 #include "z_demo_geff.h"
-
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000030
 
@@ -75,34 +74,33 @@ void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80977EA8(GlobalContext* globalCtx, Gfx* dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 181);
+    OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 181);
+
     func_80093D18(gfxCtx);
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
-    gSPPopMatrix(gfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, dlist);
+    gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 188);
+    CLOSE_DISPS(gfxCtx, "../z_demo_geff.c", 188);
 }
 
 void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 204);
+    OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
     // Necessary to match
     if (!globalCtx) {}
 
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 212);
+    CLOSE_DISPS(gfxCtx, "../z_demo_geff.c", 212);
 }
 
 void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
@@ -161,9 +159,9 @@ void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
     DemoGt* demoGt = this->demoGt;
     s16 params = this->actor.params;
     if (demoGt != NULL && (params != 6) && (params != 7) && (params != 8)) {
-        this->actor.posRot.pos.x = demoGt->actor.posRot.pos.x + this->deltaPosX;
-        this->actor.posRot.pos.y = demoGt->actor.posRot.pos.y + this->deltaPosY;
-        this->actor.posRot.pos.z = demoGt->actor.posRot.pos.z + this->deltaPosZ;
+        this->actor.posRot.pos.x = demoGt->dyna.actor.posRot.pos.x + this->deltaPosX;
+        this->actor.posRot.pos.y = demoGt->dyna.actor.posRot.pos.y + this->deltaPosY;
+        this->actor.posRot.pos.z = demoGt->dyna.actor.posRot.pos.z + this->deltaPosZ;
     }
 }
 

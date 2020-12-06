@@ -46,7 +46,7 @@ glabel EnFr_Update
 /* 00330 80A1ACD0 24E71534 */  addiu   $a3, $a3, 0x1534           ## $a3 = 06001534
 /* 00334 80A1ACD4 24C6B498 */  addiu   $a2, $a2, 0xB498           ## $a2 = 0600B498
 /* 00338 80A1ACD8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0033C 80A1ACDC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0033C 80A1ACDC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00340 80A1ACE0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00344 80A1ACE4 3C060500 */  lui     $a2, 0x0500                ## $a2 = 05000000
 /* 00348 80A1ACE8 3C070500 */  lui     $a3, 0x0500                ## $a3 = 05000000
@@ -65,7 +65,7 @@ glabel EnFr_Update
 /* 00378 80A1AD18 2606035C */  addiu   $a2, $s0, 0x035C           ## $a2 = 0000035C
 /* 0037C 80A1AD1C AFA60030 */  sw      $a2, 0x0030($sp)
 /* 00380 80A1AD20 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00384 80A1AD24 0C01E9D9 */  jal     Lights_Insert
+/* 00384 80A1AD24 0C01E9D9 */  jal     LightContext_InsertLight
 
 /* 00388 80A1AD28 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
 /* 0038C 80A1AD2C C6040008 */  lwc1    $f4, 0x0008($s0)           ## 00000008
@@ -92,7 +92,7 @@ glabel EnFr_Update
 /* 003E0 80A1AD80 AFA80018 */  sw      $t0, 0x0018($sp)
 /* 003E4 80A1AD84 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 003E8 80A1AD88 AFB80010 */  sw      $t8, 0x0010($sp)
-/* 003EC 80A1AD8C 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 003EC 80A1AD8C 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 
 /* 003F0 80A1AD90 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 003F4 80A1AD94 8FAA003C */  lw      $t2, 0x003C($sp)

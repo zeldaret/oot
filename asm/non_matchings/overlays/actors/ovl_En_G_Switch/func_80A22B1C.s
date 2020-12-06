@@ -148,7 +148,7 @@ glabel func_80A22B1C
 /* 00E60 80A22D20 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00E64 80A22D24 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 00E68 80A22D28 AFB6003C */  sw      $s6, 0x003C($sp)           
-/* 00E6C 80A22D2C 0C00A7A3 */  jal     func_80029E8C
+/* 00E6C 80A22D2C 0C00A7A3 */  jal     EffectSsKakera_Spawn
               
 /* 00E70 80A22D30 AFAC0024 */  sw      $t4, 0x0024($sp)           
 /* 00E74 80A22D34 26524E20 */  addiu   $s2, $s2, 0x4E20           ## $s2 = 00004E20

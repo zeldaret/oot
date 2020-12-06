@@ -41,7 +41,7 @@ glabel EnJj_Init
 /* 00098 80A87898 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 0009C 80A8789C 24E71F4C */  addiu   $a3, $a3, 0x1F4C           ## $a3 = 06001F4C
 /* 000A0 80A878A0 24C6B9A8 */  addiu   $a2, $a2, 0xB9A8           ## $a2 = 0600B9A8
-/* 000A4 80A878A4 0C0291BE */  jal     SkelAnime_InitSV
+/* 000A4 80A878A4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000A8 80A878A8 AFA50044 */  sw      $a1, 0x0044($sp)
 /* 000AC 80A878AC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 000B0 80A878B0 24A51F4C */  addiu   $a1, $a1, 0x1F4C           ## $a1 = 06001F4C
@@ -86,7 +86,7 @@ glabel EnJj_Init
 /* 00144 80A87944 86090032 */  lh      $t1, 0x0032($s0)           ## 00000032
 /* 00148 80A87948 AFA00028 */  sw      $zero, 0x0028($sp)
 /* 0014C 80A8794C AFA00024 */  sw      $zero, 0x0024($sp)
-/* 00150 80A87950 0C00C916 */  jal     Actor_SpawnAttached
+/* 00150 80A87950 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00154 80A87954 AFA90020 */  sw      $t1, 0x0020($sp)
 /* 00158 80A87958 AE020300 */  sw      $v0, 0x0300($s0)           ## 00000300

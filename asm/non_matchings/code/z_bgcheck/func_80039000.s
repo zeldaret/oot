@@ -33,7 +33,7 @@ glabel func_80039000
 /* AB021C 8003907C 8FA7003C */  lw    $a3, 0x3c($sp)
 /* AB0220 80039080 E7B0001C */  swc1  $f16, 0x1c($sp)
 /* AB0224 80039084 E7B20020 */  swc1  $f18, 0x20($sp)
-/* AB0228 80039088 0C033758 */  jal   func_800CDD60
+/* AB0228 80039088 0C033758 */  jal   Math3D_TriChkPointParaZIntersect
 /* AB022C 8003908C AFB80024 */   sw    $t8, 0x24($sp)
 /* AB0230 80039090 8FBF002C */  lw    $ra, 0x2c($sp)
 /* AB0234 80039094 27BD0040 */  addiu $sp, $sp, 0x40

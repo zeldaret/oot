@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 Mtx* sSkyboxDrawMatrix;
 
@@ -12,19 +12,18 @@ Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
 }
 
 void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 alpha, f32 x, f32 y, f32 z) {
-    Gfx* dispRefs[5];
+    OPEN_DISPS(gfxCtx, "../z_vr_box_draw.c", 52);
 
-    Graph_OpenDisps(dispRefs, gfxCtx, "../z_vr_box_draw.c", 52);
     func_800945A0(gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 7, skyboxCtx->staticSegments[0]);
-    gSPSegment(gfxCtx->polyOpa.p++, 8, skyboxCtx->staticSegments[1]);
-    gSPSegment(gfxCtx->polyOpa.p++, 9, skyboxCtx->staticSegments[2]);
+    gSPSegment(POLY_OPA_DISP++, 7, skyboxCtx->staticSegments[0]);
+    gSPSegment(POLY_OPA_DISP++, 8, skyboxCtx->staticSegments[1]);
+    gSPSegment(POLY_OPA_DISP++, 9, skyboxCtx->staticSegments[2]);
 
-    gDPSetPrimColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0, 0, 0, alpha);
-    gSPTexture(gfxCtx->polyOpa.p++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON)
+    gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, alpha);
+    gSPTexture(POLY_OPA_DISP++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON);
 
-        sSkyboxDrawMatrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
+    sSkyboxDrawMatrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
     Matrix_Translate(x, y, z, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
@@ -32,54 +31,55 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
     Matrix_RotateY(skyboxCtx->rot.y, MTXMODE_APPLY);
     Matrix_RotateZ(skyboxCtx->rot.z, MTXMODE_APPLY);
     Matrix_ToMtx(sSkyboxDrawMatrix, "../z_vr_box_draw.c", 76);
-    gSPMatrix(gfxCtx->polyOpa.p++, sSkyboxDrawMatrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, sSkyboxDrawMatrix, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPSetColorDither(gfxCtx->polyOpa.p++, G_CD_MAGICSQ);
-    gDPSetTextureFilter(gfxCtx->polyOpa.p++, G_TF_BILERP);
+    gDPSetColorDither(POLY_OPA_DISP++, G_CD_MAGICSQ);
+    gDPSetTextureFilter(POLY_OPA_DISP++, G_TF_BILERP);
 
-    gDPLoadTLUT_pal256(gfxCtx->polyOpa.p++, skyboxCtx->staticSegments[2]);
-    gDPSetTextureLUT(gfxCtx->polyOpa.p++, G_TT_RGBA16);
-    gDPSetTextureConvert(gfxCtx->polyOpa.p++, G_TC_FILT);
+    gDPLoadTLUT_pal256(POLY_OPA_DISP++, skyboxCtx->staticSegments[2]);
+    gDPSetTextureLUT(POLY_OPA_DISP++, G_TT_RGBA16);
+    gDPSetTextureConvert(POLY_OPA_DISP++, G_TC_FILT);
 
     if (skyboxCtx->unk_140) {
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList);
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 1);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 1);
 
-        gDPPipeSync(gfxCtx->polyOpa.p++);
+        gDPPipeSync(POLY_OPA_DISP++);
 
-        gDPLoadTLUT_pal256(gfxCtx->polyOpa.p++, (u16*)skyboxCtx->staticSegments[2] + 256 * 1);
+        gDPLoadTLUT_pal256(POLY_OPA_DISP++, (u16*)skyboxCtx->staticSegments[2] + 256 * 1);
 
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 2);
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 3);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 2);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 3);
 
         if (skyboxId != 2) {
             if (skyboxId <= 0x10 || skyboxId >= 0x19) {
-                gDPPipeSync(gfxCtx->polyOpa.p++);
-                gDPLoadTLUT_pal256(gfxCtx->polyOpa.p++, (u16*)skyboxCtx->staticSegments[2] + 256 * 2);
-                gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 4);
-                gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 5);
-                gDPPipeSync(gfxCtx->polyOpa.p++);
+                gDPPipeSync(POLY_OPA_DISP++);
+                gDPLoadTLUT_pal256(POLY_OPA_DISP++, (u16*)skyboxCtx->staticSegments[2] + 256 * 2);
+                gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 4);
+                gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 5);
+                gDPPipeSync(POLY_OPA_DISP++);
 
                 if (skyboxCtx->unk_140 != 2) {
-                    gDPLoadTLUT_pal256(gfxCtx->polyOpa.p++, (u16*)skyboxCtx->staticSegments[2] + 256 * 3);
-                    gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 6);
-                    gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 7);
+                    gDPLoadTLUT_pal256(POLY_OPA_DISP++, (u16*)skyboxCtx->staticSegments[2] + 256 * 3);
+                    gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 6);
+                    gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 7);
                 }
             }
         }
     } else {
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList);
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 2);
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 4);
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 6);
-        gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 8);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 2);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 4);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 6);
+        gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 8);
         if (skyboxId == 5) {
-            gSPDisplayList(gfxCtx->polyOpa.p++, skyboxCtx->dpList + 150 * 10);
+            gSPDisplayList(POLY_OPA_DISP++, skyboxCtx->dpList + 150 * 10);
         }
     }
 
-    gDPPipeSync(gfxCtx->polyOpa.p++);
-    Graph_CloseDisps(dispRefs, gfxCtx, "../z_vr_box_draw.c", 125);
+    gDPPipeSync(POLY_OPA_DISP++);
+
+    CLOSE_DISPS(gfxCtx, "../z_vr_box_draw.c", 125);
 }
 
 void SkyboxDraw_Update(SkyboxContext* skyboxCtx) {

@@ -21,7 +21,7 @@ glabel func_800DB0C4
 /* B522B0 800DB110 0080F025 */   move  $fp, $a0
 .L800DB114:
 /* B522B4 800DB114 2690FFFF */  addiu $s0, $s4, -1
-/* B522B8 800DB118 0C03B159 */  jal   func_800EC564
+/* B522B8 800DB118 0C03B159 */  jal   Audio_ProcessSequences
 /* B522BC 800DB11C 02002025 */   move  $a0, $s0
 /* B522C0 800DB120 86AE2854 */  lh    $t6, 0x2854($s5)
 /* B522C4 800DB124 0C036C0F */  jal   func_800DB03C

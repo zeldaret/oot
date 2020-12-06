@@ -264,7 +264,7 @@ glabel L8089DF24
 /* 003F0 8089E020 AFB80020 */  sw      $t8, 0x0020($sp)           
 /* 003F4 8089E024 86190034 */  lh      $t9, 0x0034($s0)           ## 00000034
 /* 003F8 8089E028 AFA90028 */  sw      $t1, 0x0028($sp)           
-/* 003FC 8089E02C 0C00C916 */  jal     Actor_SpawnAttached
+/* 003FC 8089E02C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00400 8089E030 AFB90024 */  sw      $t9, 0x0024($sp)           
 /* 00404 8089E034 54400004 */  bnel    $v0, $zero, .L8089E048     

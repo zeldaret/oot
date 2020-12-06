@@ -56,7 +56,7 @@ glabel func_809499AC
 /* 10DA0 80949A70 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 10DA4 80949A74 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 10DA8 80949A78 AFA0001C */  sw      $zero, 0x001C($sp)         
-/* 10DAC 80949A7C 0C00C916 */  jal     Actor_SpawnAttached
+/* 10DAC 80949A7C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 10DB0 80949A80 E7A80018 */  swc1    $f8, 0x0018($sp)           
 /* 10DB4 80949A84 10400007 */  beq     $v0, $zero, .L80949AA4     

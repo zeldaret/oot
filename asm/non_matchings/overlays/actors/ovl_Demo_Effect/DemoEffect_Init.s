@@ -463,7 +463,7 @@ glabel L809715E0
 /* 00700 80971650 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00704 80971654 AFA00020 */  sw      $zero, 0x0020($sp)
 /* 00708 80971658 AFA0001C */  sw      $zero, 0x001C($sp)
-/* 0070C 8097165C 0C00C916 */  jal     Actor_SpawnAttached
+/* 0070C 8097165C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00710 80971660 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00714 80971664 10400005 */  beq     $v0, $zero, .L8097167C
@@ -488,7 +488,7 @@ glabel L809715E0
 /* 00758 809716A8 AFA00020 */  sw      $zero, 0x0020($sp)
 /* 0075C 809716AC AFA0001C */  sw      $zero, 0x001C($sp)
 /* 00760 809716B0 2407008B */  addiu   $a3, $zero, 0x008B         ## $a3 = 0000008B
-/* 00764 809716B4 0C00C916 */  jal     Actor_SpawnAttached
+/* 00764 809716B4 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00768 809716B8 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 0076C 809716BC 10400085 */  beq     $v0, $zero, .L809718D4

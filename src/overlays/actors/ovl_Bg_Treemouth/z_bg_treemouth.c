@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_treemouth.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000030
 
@@ -47,7 +48,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 // unused
-f32 D_808BD9C4[] = {
+static f32 D_808BD9C4[] = {
     -2746.0f, 545.0f, 4694.0f, -2654.0f, 146.0f, 4534.0f,
 };
 
@@ -119,7 +120,7 @@ void func_808BC6F8(BgTreemouth* this, GlobalContext* globalCtx) {
         sp34.x = (Math_Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Math_Rand_ZeroOne() * 2026.0f) + -2163.0f;
-        func_800297A4(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, -1, 10, 0);
+        EffectSsHahen_SpawnBurst(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
     }
 }
 
@@ -226,10 +227,9 @@ void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u16 alpha = 500;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 893);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 893);
+
     func_80093D18(globalCtx->state.gfxCtx);
 
     if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
@@ -243,10 +243,10 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
         alpha = (globalCtx->unk_11D30[0] + 0x1F4);
     }
 
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 128, 128, 128, alpha * 0.1f);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
+    gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_060009D0);
+    gSPDisplayList(POLY_OPA_DISP++, &D_060009D0);
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
 }

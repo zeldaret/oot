@@ -591,9 +591,9 @@ glabel func_8080C60C
 .L8080CF1C:
 /* 091DC 8080CF1C 8FB80034 */  lw      $t8, 0x0034($sp)           
 /* 091E0 8080CF20 000D1840 */  sll     $v1, $t5,  1               
-/* 091E4 8080CF24 3C0F8013 */  lui     $t7, %hi(D_8012A4E0)
+/* 091E4 8080CF24 3C0F8013 */  lui     $t7, %hi(gSramSlotOffsets)
 /* 091E8 8080CF28 01E37821 */  addu    $t7, $t7, $v1              
-/* 091EC 8080CF2C 95EFA4E0 */  lhu     $t7, %lo(D_8012A4E0)($t7)
+/* 091EC 8080CF2C 95EFA4E0 */  lhu     $t7, %lo(gSramSlotOffsets)($t7)
 /* 091F0 8080CF30 8F190000 */  lw      $t9, 0x0000($t8)           ## 00000000
 /* 091F4 8080CF34 2401005A */  addiu   $at, $zero, 0x005A         ## $at = 0000005A
 /* 091F8 8080CF38 01F91021 */  addu    $v0, $t7, $t9              

@@ -44,7 +44,7 @@ glabel func_8003937C
 /* AB05C4 80039424 A42DBD0E */  sh    $t5, %lo(D_8015BD0E)($at)
 /* AB05C8 80039428 4600218D */  trunc.w.s $f6, $f4
 /* AB05CC 8003942C 440B3000 */  mfc1  $t3, $f6
-/* AB05D0 80039430 0C033A4D */  jal   func_800CE934
+/* AB05D0 80039430 0C033A4D */  jal   Math3D_TriVsSphIntersect
 /* AB05D4 80039434 A42BBD0C */   sh    $t3, %lo(D_8015BD0C)($at)
 /* AB05D8 80039438 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AB05DC 8003943C 27BD0028 */  addiu $sp, $sp, 0x28

@@ -33,7 +33,7 @@ glabel EnSa_Init
 /* 00CA0 80AF6200 24C6B1A0 */  addiu   $a2, $a2, 0xB1A0           ## $a2 = 0600B1A0
 /* 00CA4 80AF6204 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00CA8 80AF6208 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00CAC 80AF620C 0C0291BE */  jal     SkelAnime_InitSV
+/* 00CAC 80AF620C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00CB0 80AF6210 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00CB4 80AF6214 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00CB8 80AF6218 AFA50040 */  sw      $a1, 0x0040($sp)
@@ -170,7 +170,7 @@ glabel L80AF637C
 /* 00E98 80AF63F8 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00E9C 80AF63FC AFA00020 */  sw      $zero, 0x0020($sp)
 /* 00EA0 80AF6400 AFA0001C */  sw      $zero, 0x001C($sp)
-/* 00EA4 80AF6404 0C00C916 */  jal     Actor_SpawnAttached
+/* 00EA4 80AF6404 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00EA8 80AF6408 E7B20018 */  swc1    $f18, 0x0018($sp)
 /* 00EAC 80AF640C 8FBF003C */  lw      $ra, 0x003C($sp)

@@ -6,7 +6,7 @@ glabel func_80B9A6F8
 /* 007C8 80B9A708 0C2E694D */  jal     func_80B9A534              
 /* 007CC 80B9A70C AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 007D0 80B9A710 C60C00E4 */  lwc1    $f12, 0x00E4($s0)          ## 000000E4
-/* 007D4 80B9A714 0C032D57 */  jal     func_800CB55C              
+/* 007D4 80B9A714 0C032D57 */  jal     Math3D_Dist1DSq              
 /* 007D8 80B9A718 C60E00EC */  lwc1    $f14, 0x00EC($s0)          ## 000000EC
 /* 007DC 80B9A71C 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 007E0 80B9A720 3C0180BA */  lui     $at, %hi(D_80B9A80C)       ## $at = 80BA0000

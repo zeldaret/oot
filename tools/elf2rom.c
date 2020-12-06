@@ -64,64 +64,77 @@ static struct RomSegment *add_rom_segment(const char *name)
 
     g_romSegmentsCount++;
     g_romSegments = realloc(g_romSegments, g_romSegmentsCount * sizeof(*g_romSegments));
-
     g_romSegments[index].name = name;
-    g_romSegments[index].romStart = -1;
-    g_romSegments[index].romEnd = -1;
     return &g_romSegments[index];
 }
 
-static void find_segment_info(struct Elf32 *elf, struct RomSegment *segment)
+static int find_symbol_value(struct Elf32_Symbol *syms, int numsymbols, const char *name)
 {
-    int i;
-    char *romStartSymName = sprintf_alloc("_%sSegmentRomStart", segment->name);
-    char *romEndSymName = sprintf_alloc("_%sSegmentRomEnd", segment->name);
+    struct Elf32_Symbol *sym;
+    int lo, hi, mid, cmp;
 
-    segment->romStart = -1;
-    segment->romEnd = -1;
-
-    // TODO: use a hashmap for this instead of an O(n) loop
-    for (i = 0; i < elf->numsymbols; i++)
+    // Binary search for the symbol. We maintain the invariant that [lo, hi) is
+    // the interval that remains to search.
+    lo = 0;
+    hi = numsymbols;
+    while (lo < hi)
     {
-        struct Elf32_Symbol sym;
-        
-        if (!elf32_get_symbol(elf, &sym, i))
-            util_fatal_error("invalid or corrupt ELF file");
+        mid = lo + (hi - lo) / 2;
+        sym = &syms[mid];
+        cmp = strcmp(sym->name, name);
 
-        if (strcmp(sym.name, romStartSymName) == 0)
-        {
-            segment->romStart = sym.value;
-            if (segment->romEnd != -1)
-                break;
-        }
-        else if (strcmp(sym.name, romEndSymName) == 0)
-        {
-            segment->romEnd = sym.value;
-            if (segment->romStart != -1)
-                break;
-        }
+        if (cmp == 0)
+            return (int) sym->value;
+        else if (cmp < 0)
+            lo = mid + 1;
+        else
+            hi = mid;
     }
-    
-    if (segment->romStart == -1)
-        util_fatal_error("ROM start address of %s is not defined\n", segment->name);
-    if (segment->romEnd == -1)
-        util_fatal_error("ROM end address of %s is not defined\n", segment->name);
-    
-    free(romStartSymName);
-    free(romEndSymName);
+
+    util_fatal_error("Symbol %s is not defined\n", name);
+}
+
+static int find_rom_address(struct Elf32_Symbol *syms, int numsymbols, const char *name, const char *suffix)
+{
+    char *symName = sprintf_alloc("_%sSegmentRom%s", name, suffix);
+    int ret = find_symbol_value(syms, numsymbols, symName);
+    free(symName);
+    return ret;
+}
+
+static int cmp_symbol_by_name(const void *a, const void *b)
+{
+    return strcmp(
+        ((struct Elf32_Symbol *)a)->name,
+        ((struct Elf32_Symbol *)b)->name);
 }
 
 static void parse_input_file(const char *filename)
 {
     struct Elf32 elf;
+    struct Elf32_Symbol *syms;
     const void *data;
     size_t size;
+    int numRomSymbols;
     int i;
 
     data = util_read_whole_file(filename, &size);
 
     if (!elf32_init(&elf, data, size) || elf.machine != ELF_MACHINE_MIPS)
         util_fatal_error("%s is not a valid 32-bit MIPS ELF file", filename);
+
+    // sort all symbols that contain the substring "Rom" for fast access
+    // (sorting all symbols costs 0.1s, might as well avoid that)
+    syms = malloc(elf.numsymbols * sizeof(struct Elf32_Symbol));
+    numRomSymbols = 0;
+    for (i = 0; i < elf.numsymbols; i++)
+    {
+        if (!elf32_get_symbol(&elf, &syms[numRomSymbols], i))
+            util_fatal_error("invalid or corrupt ELF file");
+        if (strstr(syms[numRomSymbols].name, "Rom"))
+            numRomSymbols++;
+    }
+    qsort(syms, numRomSymbols, sizeof(struct Elf32_Symbol), cmp_symbol_by_name);
 
     // get ROM segments
     // sections of type SHT_PROGBITS and  whose name is ..secname are considered ROM segments
@@ -137,38 +150,17 @@ static void parse_input_file(const char *filename)
         // so we must ignore the ..secname.bss sections explicitly
          && strchr(sec.name + 2, '.') == NULL)
         {
-            
             segment = add_rom_segment(sec.name + 2);
-            find_segment_info(&elf, segment);
             segment->data = elf.data + sec.offset;
+            segment->romStart = find_rom_address(syms, numRomSymbols, segment->name, "Start");
+            segment->romEnd = find_rom_address(syms, numRomSymbols, segment->name, "End");
         }
             
     }
 
-    // find ROM size
-    for (i = 0; i < elf.numsymbols; i++)
-    {
-        struct Elf32_Symbol sym;
+    g_romSize = find_symbol_value(syms, numRomSymbols, "_RomSize");
 
-        if (!elf32_get_symbol(&elf, &sym, i))
-            util_fatal_error("invalid or corrupt ELF file");
-        if (strcmp(sym.name, "_RomSize") == 0)
-        {
-            g_romSize = sym.value;
-            goto got_rom_size;
-        }
-    }
-    util_fatal_error("could not find symbol _RomSize");
-  got_rom_size:
-
-    // verify segment info
-    for (i = 0; i < g_romSegmentsCount; i++)
-    {
-        if (g_romSegments[i].romStart == -1)
-            util_fatal_error("segment %s has no ROM start address defined.", g_romSegments[i].name);
-        if (g_romSegments[i].romEnd == -1)
-            util_fatal_error("segment %s has no ROM end address defined.", g_romSegments[i].name);
-    }
+    free(syms);
 }
 
 // Writes the N64 ROM, padding the file size to a multiple of 1 MiB
@@ -188,8 +180,7 @@ static void write_rom_file(const char *filename, int cicType)
     }
 
     // pad the remaining space with 0xFF
-    for (i = g_romSize; i < (int) fileSize; i++)
-        buffer[i] = 0xFF;
+    memset(buffer + g_romSize, 0xFF, fileSize - g_romSize);
 
     // write checksum
     if (!n64chksum_calculate(buffer, cicType, chksum))
@@ -203,7 +194,7 @@ static void write_rom_file(const char *filename, int cicType)
 
 static void usage(const char *execname)
 {
-    printf("usage: %s\n", execname);
+    printf("usage: %s -cic <number> input.elf output.z64\n", execname);
 }
 
 int main(int argc, char **argv)

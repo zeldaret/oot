@@ -187,7 +187,7 @@ glabel func_8092F8F0
 /* 035C0 8092FB90 02603025 */  or      $a2, $s3, $zero            ## $a2 = 80937898
 /* 035C4 8092FB94 E7B00084 */  swc1    $f16, 0x0084($sp)          
 /* 035C8 8092FB98 02803825 */  or      $a3, $s4, $zero            ## $a3 = 8093789C
-/* 035CC 8092FB9C 0C00A527 */  jal     func_8002949C              
+/* 035CC 8092FB9C 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 035D0 8092FBA0 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 035D4 8092FBA4 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
 /* 035D8 8092FBA8 1635FFE6 */  bne     $s1, $s5, .L8092FB44       

@@ -221,7 +221,7 @@ glabel func_80A634A0
 /* 0848C 80A6377C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 08490 80A63780 1441000A */  bne     $v0, $at, .L80A637AC
 /* 08494 80A63784 27A400AC */  addiu   $a0, $sp, 0x00AC           ## $a0 = FFFFFFEC
-/* 08498 80A63788 0C032D94 */  jal     func_800CB650
+/* 08498 80A63788 0C032D94 */  jal     Math3D_Vec3fDistSq
 /* 0849C 80A6378C 27A5005C */  addiu   $a1, $sp, 0x005C           ## $a1 = FFFFFF9C
 /* 084A0 80A63790 46000021 */  cvt.d.s $f0, $f0
 /* 084A4 80A63794 46200004 */  sqrt.d  $f0, $f0

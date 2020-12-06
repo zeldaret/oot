@@ -169,7 +169,7 @@ glabel L808FD644
 /* 007C0 808FD700 24070179 */  addiu   $a3, $zero, 0x0179         ## $a3 = 00000179
 /* 007C4 808FD704 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 007C8 808FD708 E7A60014 */  swc1    $f6, 0x0014($sp)
-/* 007CC 808FD70C 0C00C916 */  jal     Actor_SpawnAttached
+/* 007CC 808FD70C 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 007D0 808FD710 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 007D4 808FD714 3C018091 */  lui     $at, %hi(D_8090EB2C)       ## $at = 80910000
@@ -1374,7 +1374,7 @@ glabel L808FE63C
 /* 01960 808FE8A0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01964 808FE8A4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01968 808FE8A8 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0196C 808FE8AC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0196C 808FE8AC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 01970 808FE8B0 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01974 808FE8B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01978 808FE8B8 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000

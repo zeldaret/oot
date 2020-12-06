@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 MapData* gMapData;
 
@@ -8,7 +7,6 @@ s16 sPlayerInitialPosX = 0;
 s16 sPlayerInitialPosZ = 0;
 s16 sPlayerInitialDirection = 0;
 s16 sEntranceIconMapIndex = 0;
-s16 sLastRoomNum = 99;
 
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -48,7 +46,7 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
         interfaceCtx->unk_140[i + 16] = 0;
     }
 
-    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+    if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
         interfaceCtx->unk_140[30] = 0;
         interfaceCtx->unk_140[31] = 1;
     }
@@ -312,25 +310,21 @@ void Map_Init(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx;
+    s32 pad;
     Player* player = PLAYER;
-    s16 tempX, tempY, tempZ;
-    Gfx* dispRefs[4];
+    s16 tempX, tempZ;
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 565);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 565);
 
     if (globalCtx->interfaceCtx.minimapAlpha >= 0xAA) {
         func_80094A14(globalCtx->state.gfxCtx);
 
-        gSPMatrix(gfxCtx->overlay.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+        gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 0, 0, 0, 255);
-        gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+        gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
+        gDPSetCombineMode(OVERLAY_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
 
         tempX = player->actor.posRot.pos.x;
         tempZ = player->actor.posRot.pos.z;
@@ -339,13 +333,13 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         Matrix_Translate((R_COMPASS_OFFSET_X + tempX) / 10.0f, (R_COMPASS_OFFSET_Y - tempZ) / 10.0f, 0.0f, MTXMODE_NEW);
         Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
         Matrix_RotateX(-1.6f, MTXMODE_APPLY);
-        tempY = (0x7FFF - player->actor.shape.rot.y) / 0x400;
-        Matrix_RotateY(tempY / 10.0f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 585),
+        tempX = (0x7FFF - player->actor.shape.rot.y) / 0x400;
+        Matrix_RotateY(tempX / 10.0f, MTXMODE_APPLY);
+        gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 585),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 200, 255, 0, 255);
-        gSPDisplayList(gfxCtx->overlay.p++, D_0400C820);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 0, 255);
+        gSPDisplayList(OVERLAY_DISP++, D_0400C820);
 
         tempX = sPlayerInitialPosX;
         tempZ = sPlayerInitialPosZ;
@@ -355,27 +349,22 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         Matrix_Scale(VREG(9) / 100.0f, VREG(9) / 100.0f, VREG(9) / 100.0f, MTXMODE_APPLY);
         Matrix_RotateX(VREG(52) / 10.0f, MTXMODE_APPLY);
         Matrix_RotateY(sPlayerInitialDirection / 10.0f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 603),
+        gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_map_exp.c", 603),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0xFF, 200, 0, 0, 255);
-        gSPDisplayList(gfxCtx->overlay.p++, D_0400C820);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0xFF, 200, 0, 0, 255);
+        gSPDisplayList(OVERLAY_DISP++, D_0400C820);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 607);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 607);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_map_exp/Minimap_DrawCompassIcons.s")
-#endif
 
 void Minimap_Draw(GlobalContext* globalCtx) {
     s32 pad[2];
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s32 mapIndex = gSaveContext.mapIndex;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 626);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 626);
 
     if (globalCtx->pauseCtx.state < 4) {
         switch (globalCtx->sceneNum) {
@@ -391,29 +380,29 @@ void Minimap_Draw(GlobalContext* globalCtx) {
             case SCENE_ICE_DOUKUTO:
                 if (!R_MINIMAP_TOGGLED) {
                     func_80094520(globalCtx->state.gfxCtx);
-                    gDPSetCombineLERP(gfxCtx->overlay.p++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE,
-                                      0, TEXEL0, 0, PRIMITIVE, 0);
+                    gDPSetCombineLERP(OVERLAY_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
+                                      TEXEL0, 0, PRIMITIVE, 0);
 
-                    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
-                        gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
+                    if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
+                        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 100, 255, 255, interfaceCtx->minimapAlpha);
 
-                        gDPLoadTextureBlock_4b(gfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
+                        gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_I, 96, 85, 0,
                                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                                G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                        gSPTextureRectangle(gfxCtx->overlay.p++, R_DGN_MINIMAP_X << 2, R_DGN_MINIMAP_Y << 2,
+                        gSPTextureRectangle(OVERLAY_DISP++, R_DGN_MINIMAP_X << 2, R_DGN_MINIMAP_Y << 2,
                                             (R_DGN_MINIMAP_X + 96) << 2, (R_DGN_MINIMAP_Y + 85) << 2, G_TX_RENDERTILE,
                                             0, 0, 1024, 1024);
                     }
 
-                    if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_COMPASS]) {
+                    if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                         func_80094520(globalCtx->state.gfxCtx);
                         MapMark_DrawConditionally(globalCtx);
                     }
                 }
 
-                if (CHECK_PAD(globalCtx->state.input[0].press, L_TRIG) && !Gameplay_InCsMode(globalCtx)) {
+                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
                     osSyncPrintf("Game_play_demo_mode_check=%d\n", Gameplay_InCsMode(globalCtx));
                     // clang-format off
                     if (!R_MINIMAP_TOGGLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
@@ -448,16 +437,16 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                 if (!R_MINIMAP_TOGGLED) {
                     func_80094520(globalCtx->state.gfxCtx);
 
-                    gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-                    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_MINIMAP_COLOR(0), R_MINIMAP_COLOR(1),
-                                    R_MINIMAP_COLOR(2), interfaceCtx->minimapAlpha);
+                    gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+                    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MINIMAP_COLOR(0), R_MINIMAP_COLOR(1), R_MINIMAP_COLOR(2),
+                                    interfaceCtx->minimapAlpha);
 
-                    gDPLoadTextureBlock_4b(gfxCtx->overlay.p++, interfaceCtx->mapSegment, G_IM_FMT_IA,
+                    gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->mapSegment, G_IM_FMT_IA,
                                            gMapData->owMinimapWidth[mapIndex], gMapData->owMinimapHeight[mapIndex], 0,
                                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                    gSPTextureRectangle(gfxCtx->overlay.p++, R_OW_MINIMAP_X << 2, R_OW_MINIMAP_Y << 2,
+                    gSPTextureRectangle(OVERLAY_DISP++, R_OW_MINIMAP_X << 2, R_OW_MINIMAP_Y << 2,
                                         (R_OW_MINIMAP_X + gMapData->owMinimapWidth[mapIndex]) << 2,
                                         (R_OW_MINIMAP_Y + gMapData->owMinimapHeight[mapIndex]) << 2, G_TX_RENDERTILE, 0,
                                         0, 1024, 1024);
@@ -469,11 +458,11 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
                              (gSaveContext.infTable[26] & gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
-                            gDPLoadTextureBlock(gfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
+                            gDPLoadTextureBlock(OVERLAY_DISP++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                                 G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                            gSPTextureRectangle(gfxCtx->overlay.p++,
+                            gSPTextureRectangle(OVERLAY_DISP++,
                                                 gMapData->owEntranceIconPosX[sEntranceIconMapIndex] << 2,
                                                 gMapData->owEntranceIconPosY[sEntranceIconMapIndex] << 2,
                                                 (gMapData->owEntranceIconPosX[sEntranceIconMapIndex] + 8) << 2,
@@ -483,18 +472,17 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     }
 
                     if ((globalCtx->sceneNum == SCENE_SPOT08) && (gSaveContext.infTable[26] & gBitFlags[9])) {
-                        gDPLoadTextureBlock(gfxCtx->overlay.p++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
+                        gDPLoadTextureBlock(OVERLAY_DISP++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                        gSPTextureRectangle(gfxCtx->overlay.p++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1024,
-                                            1024);
+                        gSPTextureRectangle(OVERLAY_DISP++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1024, 1024);
                     }
 
                     Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                 }
 
-                if (CHECK_PAD(globalCtx->state.input[0].press, L_TRIG) && !Gameplay_InCsMode(globalCtx)) {
+                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
                     // clang-format off
                     if (!R_MINIMAP_TOGGLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
                                                                      &D_801333E0, &D_801333E0, &D_801333E8); }
@@ -508,16 +496,15 @@ void Minimap_Draw(GlobalContext* globalCtx) {
         }
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_exp.c", 782);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 782);
 }
 
 s16 Map_GetFloorTextIndexOffset(s32 mapIndex, s32 floor) {
     return gMapData->floorTexIndexOffset[mapIndex][floor];
 }
 
-#ifdef NON_MATCHING
-// single extra load instruction
 void Map_Update(GlobalContext* globalCtx) {
+    static s16 sLastRoomNum = 99;
     Player* player = PLAYER;
     s32 mapIndex = gSaveContext.mapIndex;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
@@ -536,15 +523,8 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADAN:
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
-            case SCENE_GANON:
-            case SCENE_MEN:
-            case SCENE_GERUDOWAY:
-            case SCENE_GANONTIKA:
-            case SCENE_GANON_SONOGO:
-            case SCENE_GANONTIKA_SONOGO:
-            case SCENE_TAKARAYA:
                 interfaceCtx->unk_140[30] = 0;
-                if (gSaveContext.dungeonItems[mapIndex] & gBitFlags[DUNGEON_MAP]) {
+                if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
                     interfaceCtx->unk_140[31] = 1;
                 } else {
                     interfaceCtx->unk_140[31] = 0;
@@ -568,7 +548,6 @@ void Map_Update(GlobalContext* globalCtx) {
                     // Translates to "Current floor = %d Current room = %x Number of rooms = %d"
                     osSyncPrintf("現在階＝%d  現在部屋＝%x  部屋数＝%d\n", floor, interfaceCtx->mapRoomNum,
                                  gMapData->switchEntryCount[mapIndex]);
-                    if (interfaceCtx->mapRoomNum) {} // Improves codegen but may not be necessary
                     sLastRoomNum = interfaceCtx->mapRoomNum;
                 }
 
@@ -602,6 +581,3 @@ void Map_Update(GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_map_exp/Map_Update.s")
-#endif

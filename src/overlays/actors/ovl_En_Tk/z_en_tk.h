@@ -1,8 +1,8 @@
 #ifndef _Z_EN_TK_H_
 #define _Z_EN_TK_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 /* Dirt particle effect */
 struct EnTkEff;
@@ -39,12 +39,12 @@ typedef struct EnTk {
     /* 0x021C */ s16        actionCountdown;
     /* 0x021E */ s16        h_21E;
     /* 0x0220 */ char       unk_220[0x2];
-    /* 0x0222 */ s16        eyeImageIdx;
+    /* 0x0222 */ s16        eyeTextureIdx;
     /* 0x0224 */ s16        blinkCountdown;
     /* 0x0226 */ s16        headRot;
     /* 0x0228 */ s16        currentWaypoint;
-    /* 0x022A */ u16        hz_22A[54];
-    /* 0x022A */ u16        hz_296[55];
+    /* 0x022A */ Vec3s      hz_22A[18];
+    /* 0x0296 */ Vec3s      hz_296[18];
     /* 0x0304 */ Vec3f      v3f_304;
     /* 0x0310 */ EnTkEff    eff[20];
 } EnTk; // size = 0x0770

@@ -7,12 +7,12 @@ glabel func_800E36EC
 /* B5A8A0 800E3700 AFB40024 */  sw    $s4, 0x24($sp)
 /* B5A8A4 800E3704 AFB30020 */  sw    $s3, 0x20($sp)
 /* B5A8A8 800E3708 3C128017 */  lui   $s2, %hi(gAudioContext) # $s2, 0x8017
-/* B5A8AC 800E370C 3C178017 */  lui   $s7, %hi(D_8016F248) # $s7, 0x8017
+/* B5A8AC 800E370C 3C178017 */  lui   $s7, %hi(gAudioContext+0xc8) # $s7, 0x8017
 /* B5A8B0 800E3710 0080B025 */  move  $s6, $a0
 /* B5A8B4 800E3714 AFBF0034 */  sw    $ra, 0x34($sp)
 /* B5A8B8 800E3718 AFB10018 */  sw    $s1, 0x18($sp)
 /* B5A8BC 800E371C AFB00014 */  sw    $s0, 0x14($sp)
-/* B5A8C0 800E3720 26F7F248 */  addiu $s7, %lo(D_8016F248) # addiu $s7, $s7, -0xdb8
+/* B5A8C0 800E3720 26F7F248 */  addiu $s7, %lo(gAudioContext+0xc8) # addiu $s7, $s7, -0xdb8
 /* B5A8C4 800E3724 2652F180 */  addiu $s2, %lo(gAudioContext) # addiu $s2, $s2, -0xe80
 /* B5A8C8 800E3728 24130001 */  li    $s3, 1
 /* B5A8CC 800E372C 24140002 */  li    $s4, 2

@@ -44,11 +44,8 @@ glabel gWaveSamples
     .word D_8012EE90
     .word D_8012EE90
 
-glabel D_8012F0B4
-    .incbin "baserom.z64", 0xBA6254, 0x200
-
-glabel D_8012F2B4
-    .incbin "baserom.z64", 0xBA6454, 0x200
+glabel gPitchBendFrequencyScale
+    .incbin "baserom.z64", 0xBA6254, 0x400
 
 glabel D_8012F4B4
     .incbin "baserom.z64", 0xBA6654, 0x200
@@ -56,16 +53,16 @@ glabel D_8012F4B4
 glabel D_8012F6B4
     .incbin "baserom.z64", 0xBA6854, 0x200
 
-glabel D_8012F8B4
+glabel gNoteFrequencies
     .incbin "baserom.z64", 0xBA6A54, 0x200
 
-glabel D_8012FAB4
+glabel gDefaultShortNoteVelocityTable
     .incbin "baserom.z64", 0xBA6C54, 0x10
 
-glabel D_8012FAC4
+glabel gDefaultShortNoteDurationTable
     .incbin "baserom.z64", 0xBA6C64, 0x10
 
-glabel D_8012FAD4
+glabel gDefaultEnvelope
     .incbin "baserom.z64", 0xBA6C74, 0x10
 
 glabel gZeroNoteSub

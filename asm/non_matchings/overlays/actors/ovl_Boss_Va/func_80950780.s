@@ -404,7 +404,7 @@ glabel L80950AC0
 /* 019D0 80950C90 AFA30050 */  sw      $v1, 0x0050($sp)           
 /* 019D4 80950C94 01F8C821 */  addu    $t9, $t7, $t8              
 /* 019D8 80950C98 AFB90024 */  sw      $t9, 0x0024($sp)           
-/* 019DC 80950C9C 0C00C916 */  jal     Actor_SpawnAttached
+/* 019DC 80950C9C 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 019E0 80950CA0 AFB00028 */  sw      $s0, 0x0028($sp)           
 /* 019E4 80950CA4 8FA30050 */  lw      $v1, 0x0050($sp)           

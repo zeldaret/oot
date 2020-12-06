@@ -73,7 +73,7 @@ glabel BossGanon_Init
 /* 009F8 808D7268 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 009FC 808D726C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00A00 808D7270 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00A04 808D7274 0C0291BE */  jal     SkelAnime_InitSV
+/* 00A04 808D7274 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00A08 808D7278 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00A0C 808D727C 26050610 */  addiu   $a1, $s0, 0x0610           ## $a1 = 00000610
 /* 00A10 808D7280 AFA50044 */  sw      $a1, 0x0044($sp)
@@ -149,7 +149,7 @@ glabel BossGanon_Init
 /* 00B04 808D7374 AFA00024 */  sw      $zero, 0x0024($sp)
 /* 00B08 808D7378 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00B0C 808D737C E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 00B10 808D7380 0C00C916 */  jal     Actor_SpawnAttached
+/* 00B10 808D7380 0C00C916 */  jal     Actor_SpawnAsChild
 
 /* 00B14 808D7384 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00B18 808D7388 3C018090 */  lui     $at, %hi(D_808F93C0)       ## $at = 80900000

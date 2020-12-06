@@ -153,7 +153,7 @@ glabel func_808B0CE0
 /* 005A8 808B0F08 1040002A */  beq     $v0, $zero, .L808B0FB4
 /* 005AC 808B0F0C 8FA80024 */  lw      $t0, 0x0024($sp)
 /* 005B0 808B0F10 C60C0170 */  lwc1    $f12, 0x0170($s0)          ## 00000170
-/* 005B4 808B0F14 0C032D57 */  jal     func_800CB55C
+/* 005B4 808B0F14 0C032D57 */  jal     Math3D_Dist1DSq
 /* 005B8 808B0F18 C60E0168 */  lwc1    $f14, 0x0168($s0)          ## 00000168
 /* 005BC 808B0F1C 8FAD002C */  lw      $t5, 0x002C($sp)
 /* 005C0 808B0F20 3C01808B */  lui     $at, %hi(D_808B16E0)       ## $at = 808B0000
@@ -209,7 +209,7 @@ glabel func_808B0CE0
 /* 00678 808B0FD8 3C04808B */  lui     $a0, %hi(D_808B16B0)       ## $a0 = 808B0000
 /* 0067C 808B0FDC 248416B0 */  addiu   $a0, $a0, %lo(D_808B16B0)  ## $a0 = 808B16B0
 /* 00680 808B0FE0 8FA50024 */  lw      $a1, 0x0024($sp)
-/* 00684 808B0FE4 0C032BFB */  jal     Math3D_DotProduct
+/* 00684 808B0FE4 0C032BFB */  jal     Math3D_Cos
 /* 00688 808B0FE8 AFA7002C */  sw      $a3, 0x002C($sp)
 /* 0068C 808B0FEC 0C03F4DA */  jal     Math_acosf
 /* 00690 808B0FF0 46000306 */  mov.s   $f12, $f0

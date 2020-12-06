@@ -1,6 +1,6 @@
 glabel func_800F9474
-/* B70614 800F9474 3C0E8017 */  lui   $t6, %hi(D_801719D4) # $t6, 0x8017
-/* B70618 800F9478 95CE19D4 */  lhu   $t6, %lo(D_801719D4)($t6)
+/* B70614 800F9474 3C0E8017 */  lui   $t6, %hi(gAudioContext+0x2854) # $t6, 0x8017
+/* B70618 800F9478 95CE19D4 */  lhu   $t6, %lo(gAudioContext+0x2854)($t6)
 /* B7061C 800F947C 30A6FFFF */  andi  $a2, $a1, 0xffff
 /* B70620 800F9480 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B70624 800F9484 00CE0019 */  multu $a2, $t6

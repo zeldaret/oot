@@ -51,7 +51,7 @@ static struct_80034EC0_Entry sAnimations[] = {
     { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
 };
 
-extern SkeletonHeader D_060086D0;
+extern FlexSkeletonHeader D_060086D0;
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     Player* player = PLAYER;
@@ -61,7 +61,7 @@ u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
     } else if (gSaveContext.eventChkInf[3] & 8) {
         return 0x401C;
     } else {
-        player->exchangeItemId = 0x1D;
+        player->exchangeItemId = EXCH_ITEM_LETTER_RUTO;
         return 0x401A;
     }
 }
@@ -80,7 +80,7 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
             return CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
         }
     } else {
-        player->exchangeItemId = 0xC;
+        player->exchangeItemId = EXCH_ITEM_PRESCRIPTION;
         return 0x4012;
     }
 }
@@ -219,8 +219,8 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0) != 0) {
-        if ((this->actor.textId == 0x401A) && (!(gSaveContext.eventChkInf[3] & 8))) {
-            if (func_8002F368(globalCtx) == 0x1D) {
+        if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
+            if (func_8002F368(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
             } else {
@@ -229,22 +229,25 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
             player->actor.textId = this->actor.textId;
             return;
         }
+
         if (LINK_IS_ADULT) {
-            if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) && (func_8002F368(globalCtx) == 0xC)) {
+            if ((INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) &&
+                (func_8002F368(globalCtx) == EXCH_ITEM_PRESCRIPTION)) {
                 this->actor.textId = 0x4014;
                 this->sfxPlayed = false;
                 player->actor.textId = this->actor.textId;
                 this->isTrading = true;
                 return;
             }
+
             this->isTrading = false;
             if (gSaveContext.infTable[19] & 0x200) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
-                return;
+            } else {
+                this->actor.textId = CHECK_OWNED_EQUIP(EQUIP_TUNIC, 2) ? 0x401F : 0x4012;
+                player->actor.textId = this->actor.textId;
             }
-            this->actor.textId = CHECK_OWNED_EQUIP(EQUIP_TUNIC, 2) ? 0x401F : 0x4012;
-            player->actor.textId = this->actor.textId;
         }
     }
 }
@@ -301,8 +304,8 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = THIS;
     s32 pad;
 
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
-                     12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060086D0, NULL, &this->limbDrawTable, &this->transitionDrawTable,
+                       12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -318,9 +321,9 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (LINK_IS_ADULT) {
         if (!(gSaveContext.infTable[19] & 0x100)) {
-            Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
-                                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
-                                0x04FF);
+            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
+                               this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+                               0x04FF);
         }
         this->actionFunc = EnKz_Wait;
     } else {
@@ -409,8 +412,8 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
     f32 xzRange;
     f32 yRange;
 
-    if (func_8002F410(this, globalCtx)) {
-        this->actor.attachedA = NULL;
+    if (Actor_HasParent(this, globalCtx)) {
+        this->actor.parent = NULL;
         this->unk_1E0.unk_00 = 1;
         this->actionFunc = EnKz_StartTimer;
     } else {
@@ -450,7 +453,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 limb = limbIndex;
 
     if (limb == 8 || limb == 9 || limb == 10) {
@@ -460,7 +463,7 @@ s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s32 limb = limbIndex;
     Vec3f mult = { 2600.0f, 0.0f, 0.0f };
 
@@ -476,14 +479,13 @@ void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
         0x06001C70,
     };
     EnKz* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
+
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeSegments[this->eyeIdx]));
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
-                     EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, &this->actor);
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+                          EnKz_OverrideLimbDraw, EnKz_PostLimbDraw, this);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }

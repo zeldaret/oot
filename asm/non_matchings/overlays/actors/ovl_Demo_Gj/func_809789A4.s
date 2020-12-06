@@ -3,7 +3,7 @@ glabel func_809789A4
 /* 00078 809789A8 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 0007C 809789AC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00080 809789B0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00084 809789B4 0C00CD90 */  jal     func_80033640              
+/* 00084 809789B4 0C00CD90 */  jal     Actor_GetCollidedExplosive              
 /* 00088 809789B8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 0008C 809789BC 10400003 */  beq     $v0, $zero, .L809789CC     
 /* 00090 809789C0 8FBF0014 */  lw      $ra, 0x0014($sp)           

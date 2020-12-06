@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
@@ -1815,9 +1814,9 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
                                  "圧縮されたセグメントの一部だけをＤＭＡ転送することはできません");
                 }
 
-                osSetThreadPri(NULL, 0x0A);
+                osSetThreadPri(NULL, Z_PRIORITY_MAIN);
                 Yaz0_Decompress(romStart, ram, romSize);
-                osSetThreadPri(NULL, 0x10);
+                osSetThreadPri(NULL, Z_PRIORITY_DMAMGR);
                 found = true;
 
                 "   Press ROM:%X RAM:%X SIZE:%X\n";
@@ -1910,7 +1909,7 @@ s32 DmaMgr_SendRequest0(u32 ram, u32 vrom, u32 size) {
     return 0;
 }
 
-void DmaMgr_Start() {
+void DmaMgr_Init() {
     const char** name;
     s32 idx;
     DmaEntry* iter;
@@ -1952,7 +1951,8 @@ void DmaMgr_Start() {
 
     osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, sizeof(sDmaMgrMsgs) / sizeof(sDmaMgrMsgs[0]));
     StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, sDmaMgrStack + sizeof(sDmaMgrStack), 0, 0x100, "dmamgr");
-    osCreateThread(&sDmaMgrThread, 0x12, &DmaMgr_ThreadEntry, 0, sDmaMgrStack + sizeof(sDmaMgrStack), 0x10);
+    osCreateThread(&sDmaMgrThread, 0x12, &DmaMgr_ThreadEntry, 0, sDmaMgrStack + sizeof(sDmaMgrStack),
+                   Z_PRIORITY_DMAMGR);
     osStartThread(&sDmaMgrThread);
 }
 

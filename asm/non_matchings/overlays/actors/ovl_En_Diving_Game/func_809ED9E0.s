@@ -68,7 +68,7 @@ glabel func_809ED9E0
 /* 00254 809EDAC4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00258 809EDAC8 24070131 */  addiu   $a3, $zero, 0x0131         ## $a3 = 00000131
 /* 0025C 809EDACC AFA90024 */  sw      $t1, 0x0024($sp)           
-/* 00260 809EDAD0 0C00C916 */  jal     Actor_SpawnAttached
+/* 00260 809EDAD0 0C00C916 */  jal     Actor_SpawnAsChild
               
 /* 00264 809EDAD4 24C41C24 */  addiu   $a0, $a2, 0x1C24           ## $a0 = 00001C24
 /* 00268 809EDAD8 10400006 */  beq     $v0, $zero, .L809EDAF4     

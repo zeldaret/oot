@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void osStopThread(OSThread* thread) {
     register u32 s0 = __osDisableInt();

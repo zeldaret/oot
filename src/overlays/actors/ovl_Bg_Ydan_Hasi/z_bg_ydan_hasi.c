@@ -37,7 +37,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-Gfx* D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
+static Gfx* D_808BEC24[] = { 0x06007508, 0x06005DE0, 0x06005018 };
 
 extern UNK_TYPE D_06005780;
 extern UNK_TYPE D_06007798;
@@ -189,22 +189,22 @@ void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanHasi* this = THIS;
-    GraphicsContext* gfxCtx;
-    Gfx* dispRefs[4];
 
     if (this->dyna.actor.params == 0 || this->dyna.actor.params == 2) {
         Gfx_DrawDListOpa(globalCtx, D_808BEC24[this->dyna.actor.params]);
         return;
     }
-    gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
+
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08,
+    gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (0 - globalCtx->gameplayFrames & 0x7F),
                                 globalCtx->gameplayFrames & 0x7F, 0x20, 0x20, 1, globalCtx->gameplayFrames & 0x7F,
                                 globalCtx->gameplayFrames & 0x7F, 0x20, 0x20));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_06005DE0);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 597);
+    gSPDisplayList(POLY_XLU_DISP++, &D_06005DE0);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 597);
 }

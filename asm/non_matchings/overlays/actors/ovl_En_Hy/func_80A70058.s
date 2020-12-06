@@ -242,7 +242,7 @@ glabel L80A702CC
 /* 00D4C 80A702FC 8FA40048 */  lw      $a0, 0x0048($sp)           
 /* 00D50 80A70300 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
 /* 00D54 80A70304 2407001E */  addiu   $a3, $zero, 0x001E         ## $a3 = 0000001E
-/* 00D58 80A70308 0C023B67 */  jal     func_8008ED9C              
+/* 00D58 80A70308 0C023B67 */  jal     Player_UpdateBottleHeld              
 /* 00D5C 80A7030C 8C851C44 */  lw      $a1, 0x1C44($a0)           ## 00001C44
 /* 00D60 80A70310 1000009F */  beq     $zero, $zero, .L80A70590   
 /* 00D64 80A70314 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
