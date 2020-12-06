@@ -208,13 +208,13 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2* this = THIS;
     s32 pad;
+    s16 i;
+    f32 phi_f2;
+    s32 i2;
     Vec3f sp58;
     Vec3f sp4C;
     f32 angle;
     f32 sp44;
-    s16 i;
-    f32 phi_f2;
-    s32 i2;
 
     if ((this->unk_337 == 0) || (this->unk_337 == 2)) {
         func_808FD108(this, globalCtx, OBJECT_GANON_ANIME3, 0);
