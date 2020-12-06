@@ -350,7 +350,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_EA[0] = 0xFF;
         globalCtx->envCtx.unk_EA[1] = 0xFF;
         globalCtx->envCtx.unk_EA[2] = 0xFF;
-        globalCtx->envCtx.unk_EA[3] = (s8)(globalCtx->envCtx.unk_D8 * 200.0f);
+        globalCtx->envCtx.unk_EA[3] = (s16)(globalCtx->envCtx.unk_D8 * 200.0f);
     } else {
         globalCtx->envCtx.unk_E9 = 0;
     }
