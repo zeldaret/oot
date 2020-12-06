@@ -209,18 +209,13 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2* this = THIS;
     f32 sp68;
     Vec3f sp58;
-    f32 sp54;
-    f32 sp50;
-    f32 sp4C;
+    Vec3f sp4C;
     f32 angle;
     f32 sp44;
-    f32 temp_f10;
-    f32 temp_f4;
-    s32 temp_s0_4;
     u32 temp_a0;
     s16 i;
     f32 phi_f2;
-    s32 phi_s0_3;
+    s32 i2;
 
     if ((this->unk_337 == 0) || (this->unk_337 == 2)) {
         func_808FD108(this, globalCtx, OBJECT_GANON_ANIME3, 0);
@@ -432,18 +427,16 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80906D78 != 0) {
         D_80906D78 = 0;
 
-        for (i = 0; i < 100; i++) {
+        for (i2 = 0; i2 < 100; i2 = (i2 + 1) & 0xFFFF) {
             angle = Math_Rand_ZeroFloat(2 * M_PI);
             sp44 = Math_Rand_ZeroFloat(40.0f) + 10.0f;
             sp58 = this->actor.posRot.pos;
             sp58.y = 1200.0f;
-            temp_f4 = cosf(angle) * sp44;
-            sp4C = temp_f4;
-            sp54 = sinf(angle) * sp44;
-            temp_f10 = temp_f4 * 10.0f * 0.1f;
-            sp50 = Math_Rand_ZeroFloat(15.0f) + 15.0f;
-            sp58.x += temp_f10;
-            sp58.z += (sp54 * 10.0f * 0.1f);
+            sp4C.x = cosf(angle) * sp44;
+            sp4C.z = sinf(angle) * sp44;
+            sp4C.y = Math_Rand_ZeroFloat(15.0f) + 15.0f;
+            sp58.x += sp4C.x * 10.0f * 0.1f;
+            sp58.z += sp4C.z * 10.0f * 0.1f;
             func_808FD27C(globalCtx, &sp58, &sp4C, Math_Rand_ZeroFloat(0.3f) + 0.2f);
         }
     }
