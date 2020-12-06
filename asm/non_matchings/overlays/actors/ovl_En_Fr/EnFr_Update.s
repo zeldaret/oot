@@ -26,10 +26,10 @@ glabel EnFr_Update
 /* 002E4 80A1AC84 01C17824 */  and     $t7, $t6, $at
 /* 002E8 80A1AC88 2442FFFF */  addiu   $v0, $v0, 0xFFFF           ## $v0 = FFFFFFFF
 /* 002EC 80A1AC8C 0002C080 */  sll     $t8, $v0,  2
-/* 002F0 80A1AC90 3C0180A2 */  lui     $at, %hi(D_80A1CFF4)       ## $at = 80A20000
+/* 002F0 80A1AC90 3C0180A2 */  lui     $at, %hi(D_80A1CFF0 + 0x4)       ## $at = 80A20000
 /* 002F4 80A1AC94 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 /* 002F8 80A1AC98 00380821 */  addu    $at, $at, $t8
-/* 002FC 80A1AC9C AC30CFF4 */  sw      $s0, %lo(D_80A1CFF4)($at)
+/* 002FC 80A1AC9C AC30CFF4 */  sw      $s0, %lo(D_80A1CFF0 + 0x4)($at)
 /* 00300 80A1ACA0 AFA2003C */  sw      $v0, 0x003C($sp)
 /* 00304 80A1ACA4 24A5D0BC */  addiu   $a1, $a1, %lo(D_80A1D0BC)  ## $a1 = 80A1D0BC
 /* 00308 80A1ACA8 0C01E037 */  jal     Actor_ProcessInitChain

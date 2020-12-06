@@ -1,8 +1,8 @@
 glabel func_80A1BC14
 /* 01274 80A1BC14 00057080 */  sll     $t6, $a1,  2               
-/* 01278 80A1BC18 3C0280A2 */  lui     $v0, %hi(D_80A1CFF4)       ## $v0 = 80A20000
+/* 01278 80A1BC18 3C0280A2 */  lui     $v0, %hi(D_80A1CFF0 + 0x4)       ## $v0 = 80A20000
 /* 0127C 80A1BC1C 004E1021 */  addu    $v0, $v0, $t6              
-/* 01280 80A1BC20 8C42CFF4 */  lw      $v0, %lo(D_80A1CFF4)($v0)  
+/* 01280 80A1BC20 8C42CFF4 */  lw      $v0, %lo(D_80A1CFF0 + 0x4)($v0)  
 /* 01284 80A1BC24 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01288 80A1BC28 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0128C 80A1BC2C 5040001D */  beql    $v0, $zero, .L80A1BCA4     
