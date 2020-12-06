@@ -1327,7 +1327,7 @@ glabel L80B63D54
 /* 0139C 80B63D5C 2606015C */  addiu   $a2, $s0, 0x015C           ## $a2 = 0000015C
 /* 013A0 80B63D60 50A00004 */  beql    $a1, $zero, .L80B63D74
 /* 013A4 80B63D64 8FBF003C */  lw      $ra, 0x003C($sp)
-/* 013A8 80B63D68 0C030136 */  jal     func_800C04D8
+/* 013A8 80B63D68 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 013AC 80B63D6C 26070150 */  addiu   $a3, $s0, 0x0150           ## $a3 = 00000150
 /* 013B0 80B63D70 8FBF003C */  lw      $ra, 0x003C($sp)
 .L80B63D74:

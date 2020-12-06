@@ -123,7 +123,7 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     thisx->posRot.rot.y += 0x3E8;
-    thisx->shape.rot.y = thisx->posRot.rot.y + func_8005A9F4(ACTIVE_CAM);
+    thisx->shape.rot.y = thisx->posRot.rot.y + Camera_GetCamDirYaw(ACTIVE_CAM);
     this->timer++;
     gSaveContext.nayrusLoveTimer = nayrusLoveTimer + 1;
 
@@ -251,11 +251,11 @@ void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    pos.x -=
-        (this->actor.scale.x * 300.0f * Math_Sins(func_8005A9F4(ACTIVE_CAM)) * Math_Coss(func_8005A9CC(ACTIVE_CAM)));
-    pos.y -= (this->actor.scale.x * 300.0f * Math_Sins(func_8005A9CC(ACTIVE_CAM)));
-    pos.z -=
-        (this->actor.scale.x * 300.0f * Math_Coss(func_8005A9F4(ACTIVE_CAM)) * Math_Coss(func_8005A9CC(ACTIVE_CAM)));
+    pos.x -= (this->actor.scale.x * 300.0f * Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM)) *
+              Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
+    pos.y -= (this->actor.scale.x * 300.0f * Math_Sins(Camera_GetCamDirPitch(ACTIVE_CAM)));
+    pos.z -= (this->actor.scale.x * 300.0f * Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM)) *
+              Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 619);
 

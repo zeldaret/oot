@@ -16,7 +16,7 @@ glabel D_8013996C
     .balign 4
 
 .text
-glabel func_800584E8
+glabel Camera_PrintSettings
 /* ACF688 800584E8 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* ACF68C 800584EC 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* ACF690 800584F0 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
@@ -34,11 +34,11 @@ glabel func_800584E8
 /* ACF6C0 80058520 8FBF002C */   lw    $ra, 0x2c($sp)
 /* ACF6C4 80058524 8C8E008C */  lw    $t6, 0x8c($a0)
 /* ACF6C8 80058528 84990164 */  lh    $t9, 0x164($a0)
-/* ACF6CC 8005852C 3C188012 */  lui   $t8, %hi(D_8011D394) # $t8, 0x8012
+/* ACF6CC 8005852C 3C188012 */  lui   $t8, %hi(gDbgCamEnabled) # $t8, 0x8012
 /* ACF6D0 80058530 85CF07A0 */  lh    $t7, 0x7a0($t6)
 /* ACF6D4 80058534 572F00D7 */  bnel  $t9, $t7, .L80058894
 /* ACF6D8 80058538 8FBF002C */   lw    $ra, 0x2c($sp)
-/* ACF6DC 8005853C 8F18D394 */  lw    $t8, %lo(D_8011D394)($t8)
+/* ACF6DC 8005853C 8F18D394 */  lw    $t8, %lo(gDbgCamEnabled)($t8)
 /* ACF6E0 80058540 00002825 */  move  $a1, $zero
 /* ACF6E4 80058544 27A30058 */  addiu $v1, $sp, 0x58
 /* ACF6E8 80058548 170000D1 */  bnez  $t8, .L80058890

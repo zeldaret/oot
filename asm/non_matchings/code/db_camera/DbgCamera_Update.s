@@ -1,4 +1,128 @@
-glabel func_800B4E7C
+.rdata
+glabel D_8014386C
+    .asciz "@@@\n@@@\n@@@/* *** spline point data ** start here *** */\n@@@\n"
+    .balign 4
+
+glabel D_801438AC
+    .asciz "Lookat"
+    .balign 4
+
+glabel D_801438B4
+    .asciz "Position"
+    .balign 4
+
+glabel D_801438C0
+    .asciz "@@@static short  nPoints = %d;\n@@@\n"
+    .balign 4
+
+glabel D_801438E4
+    .asciz "@@@static short  nFrames = %d;\n@@@\n"
+    .balign 4
+
+glabel D_80143908
+    .asciz "@@@static short  Mode = %d;\n@@@\n"
+    .balign 4
+
+glabel D_8014392C
+    .asciz "@@@\n@@@\n@@@/* *** spline point data ** finish! *** */\n@@@\n"
+    .balign 4
+
+.late_rodata
+glabel D_80143C54
+    .float 0.15
+
+glabel D_80143C58
+    .float 0.2
+
+glabel D_80143C5C
+    .float 30000
+
+glabel D_80143C60
+    .float 30000
+
+glabel D_80143C64
+    .float 0.8
+
+glabel D_80143C68
+    .float 182.04167
+
+glabel D_80143C6C
+    .float 0.8
+
+glabel D_80143C70
+    .float 182.04167
+
+glabel D_80143C74 # unused
+    .float 182.04167
+
+glabel D_80143C78
+    .float 0.8
+
+glabel D_80143C7C
+    .float 182.04167
+
+glabel D_80143C80
+    .float 0.8
+
+glabel D_80143C84
+    .float 182.04167
+
+glabel D_80143C88 # unused
+    .float 182.04167
+
+glabel D_80143C8C
+    .float 182.04167
+
+glabel D_80143C90
+    .float 0.00549325
+
+glabel D_80143C94
+    .float 0.00549325
+
+glabel D_80143C98
+    .float 0.2
+
+glabel D_80143C9C
+    .float 0.2
+
+glabel D_80143CA0
+    .float 0.00549325
+
+glabel D_80143CA4
+    .float 0.00549325
+
+glabel D_80143CA8
+    .float 0.00549325
+
+glabel D_80143CAC
+    .float 0.00549325
+
+glabel D_80143CB0
+    .float 0.02
+
+glabel D_80143CB4
+    .float 0.02
+
+glabel D_80143CB8
+    .float 0.02
+
+glabel D_80143CBC
+    .float 0.00549325
+
+glabel D_80143CC0
+    .float 0.00549325
+
+glabel D_80143CC4
+    .float 0.02
+
+glabel D_80143CC8
+    .float 0.02
+
+glabel D_80143CCC
+    .float 0.02
+
+.text
+glabel DbgCamera_Update
 /* B2C01C 800B4E7C 27BDFED8 */  addiu $sp, $sp, -0x128
 /* B2C020 800B4E80 AFB60064 */  sw    $s6, 0x64($sp)
 /* B2C024 800B4E84 248E0054 */  addiu $t6, $a0, 0x54
