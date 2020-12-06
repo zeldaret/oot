@@ -304,7 +304,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 /*
                  * Handles Dark Link's initial reaction to jumpslashes
                  */
-                if ((player->swordState || (player->actor.velocity.y > -3.0f)) &&
+                if (((player->swordState != 0) || (player->actor.velocity.y > -3.0f)) &&
                     (player->swordAnimation == JUMPSLASH_START)) {
                     this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
 
@@ -409,7 +409,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 EnTorch2_Backflip(this, input, &this->actor);
                             }
                             if (CHECK_BTN_ANY(input->cur.button, BTN_A | BTN_R) && (this->swordState == 0) &&
-                                player->swordState) {
+                                (player->swordState != 0)) {
                                 sCounterState = 1;
                             }
                         }
@@ -424,20 +424,20 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             ((this->actor.unk_10C != 0) || !(player->stateFlags1 & 0x00400000))) {
                             EnTorch2_SwingSword(globalCtx, input, this);
                         } else if (((this->actor.xzDistFromLink <= 70.0f) ||
-                                    ((this->actor.xzDistFromLink <= 80.0f + sp50) && player->swordState)) &&
+                                    ((this->actor.xzDistFromLink <= 80.0f + sp50) && (player->swordState != 0))) &&
                                    (this->swordState == 0)) {
                             if (!EnTorch2_SwingSword(globalCtx, input, this) && (this->swordState == 0) &&
                                 (sCounterState == 0)) {
                                 EnTorch2_Backflip(this, input, &this->actor);
                             }
-                        } else if (this->actor.xzDistFromLink <= (50 + sp50)) {
+                        } else if (this->actor.xzDistFromLink <= 50 + sp50) {
                             sStickTilt = 127.0f;
                             sStickAngle = this->actor.yawTowardsLink;
                             if (this->actor.unk_10C == 0) {
                                 Math_SmoothScaleMaxMinS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                             }
-                        } else if ((100.0f + sp50) < this->actor.xzDistFromLink) {
-                            if (!player->swordState || (player->swordAnimation < SPIN_ATTACK_1H) ||
+                        } else if (this->actor.xzDistFromLink > 100.0f + sp50) {
+                            if ((player->swordState == 0) || (player->swordAnimation < SPIN_ATTACK_1H) ||
                                 (player->swordAnimation > BIG_SPIN_2H) || (this->actor.xzDistFromLink >= 280.0f)) {
                                 sStickTilt = 127.0f;
                                 sStickAngle = this->actor.yawTowardsLink;
