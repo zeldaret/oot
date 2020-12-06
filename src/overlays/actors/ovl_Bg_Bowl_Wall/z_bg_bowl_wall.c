@@ -48,7 +48,7 @@ static Vec3f sBullseyeOffset[] = {
     { 170.0f, 0.0f, -20.0f },
 };
 
-static s16 sTargetRot[] = { 0x0000, 0x0000, 0x3FFF, 0xC001 };
+static s16 sTargetRot[] = { 0x0000, 0x0000, 0x3FFF, -0x3FFF };
 
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = THIS;
@@ -94,7 +94,7 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
     this->bullseyeCenter.x = sBullseyeOffset[type].x + this->dyna.actor.posRot.pos.x;
     this->bullseyeCenter.y = sBullseyeOffset[type].y + this->dyna.actor.posRot.pos.y;
     this->bullseyeCenter.z = sBullseyeOffset[type].z + this->dyna.actor.posRot.pos.z;
-    if (1) {};
+    if (1) {}
     bullseye = (EnWallTubo*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_WALL_TUBO,
                                                this->bullseyeCenter.x, this->bullseyeCenter.y, this->bullseyeCenter.z,
                                                0, 0, 0, this->dyna.actor.params);
@@ -130,13 +130,13 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
     Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f effectPos;
     s16 quakeIndex;
-    bool wallFallen;
+    s32 wallFallen;
     s32 i;
 
     wallFallen = false;
 
     if (this->dyna.actor.params == 0) { // wall collapses backwards
-        Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, (u16)-0x3E80, 3, 500, 0);
+        Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 500, 0);
         this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x;
         if (this->dyna.actor.shape.rot.x < -0x3C1E) {
             wallFallen = true;
@@ -158,7 +158,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
             EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
-        quakeIndex = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
+        quakeIndex = Quake_Add(ACTIVE_CAM, 1);
         Quake_SetSpeed(quakeIndex, 0x7FFF);
         Quake_SetQuakeValues(quakeIndex, 300, 0, 0, 0);
         Quake_SetCountdown(quakeIndex, 30);
@@ -211,7 +211,7 @@ void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 441);
 
     func_80093D84(globalCtx2->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 8,
+    gSPSegment(POLY_OPA_DISP++, 0x8,
                Gfx_TexScroll(globalCtx2->state.gfxCtx, 0, -2 * (frames = globalCtx2->state.frames), 16, 16));
     gDPPipeSync(POLY_OPA_DISP++);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 453),

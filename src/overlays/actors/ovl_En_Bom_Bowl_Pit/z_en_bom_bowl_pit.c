@@ -162,6 +162,7 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 break;
             case 1:
                 gSaveContext.itemGetInf[1] |= 4;
+                break;
         }
 
         Gameplay_ClearCamera(globalCtx, this->camId);

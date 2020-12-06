@@ -13,10 +13,9 @@ typedef struct EnWallTubo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnWallTuboActionFunc actionFunc;
     /* 0x0150 */ s16 timer;
-    // /* 0x0152 */ char unk_152[0x2];
     /* 0x0154 */ Vec3f explosionCenter;
     /* 0x0160 */ EnBomBowlMan* chuGirl;
-    /* 0x0164 */ Vec3f unk_164; // used once?
+    /* 0x0164 */ Vec3f unk_164;
 } EnWallTubo; // size = 0x0170
 
 extern const ActorInit En_Wall_Tubo_InitVars;

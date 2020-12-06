@@ -93,15 +93,15 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                     this->timer = 60;
                     EffectSsBomb2_SpawnLayered(globalCtx, &this->explosionCenter, &effVelocity, &effAccel, 200, 40);
-                    quakeIndex = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
+                    quakeIndex = Quake_Add(ACTIVE_CAM, 1);
                     Quake_SetSpeed(quakeIndex, 0x7FFF);
                     Quake_SetQuakeValues(quakeIndex, 100, 0, 0, 0);
                     Quake_SetCountdown(quakeIndex, 100);
                     this->actionFunc = EnWallTubo_SetWallFall;
                     break;
-                } else {
-                    chu = (EnBomChu*)chu->actor.next;
                 }
+
+                chu = (EnBomChu*)chu->actor.next;
             }
         }
     }
@@ -126,7 +126,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
         wall = (BgBowlWall*)this->actor.parent;
 
         if ((wall != NULL) && (wall->dyna.actor.update != NULL)) {
-            wall->isHit = 1;
+            wall->isHit = true;
             //  You did it field! (repeated 5 times)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆ やった原！ ☆☆☆☆☆ \n" VT_RST);

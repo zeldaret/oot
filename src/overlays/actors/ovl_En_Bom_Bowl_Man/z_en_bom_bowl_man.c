@@ -165,7 +165,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->eyeMode = CHU_GIRL_EYES_AWAKE;
         this->blinkTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
         // Check for beaten Dodongo's Cavern
-        if (!(gSaveContext.eventChkInf[2] & 0x20) && !BREG(2)) {
+        if (!((gSaveContext.eventChkInf[2] & 0x20) || BREG(2))) {
             this->actionFunc = EnBomBowMan_WaitNotBeatenDC;
         } else {
             this->actor.textId = 0x18;
@@ -237,8 +237,9 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             // Center HIT!
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
-        if ((globalCtx->bombchuBowlingAmmo == -1) && (globalCtx->actorCtx.actorList[3].length == 0) &&
-            (this->bowlPit->status == 0) && (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
+        if ((globalCtx->bombchuBowlingAmmo == -1) &&
+            (globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].length == 0) && (this->bowlPit->status == 0) &&
+            (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             // Bombchu lost
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
@@ -286,9 +287,8 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx)
             case 0: // Yes
                 if (gSaveContext.rupees >= 30) {
                     Rupees_ChangeBy(-30);
-                    this->wallStatus[1] = 0;
                     this->minigamePlayStatus = 1;
-                    this->wallStatus[0] = this->wallStatus[1];
+                    this->wallStatus[0] = this->wallStatus[1] = 0;
                     globalCtx->bombchuBowlingAmmo = 10;
                     Flags_SetSwitch(globalCtx, 0x38);
                     if (!this->startedPlaying && !this->playingAgain) {
@@ -369,7 +369,7 @@ static Vec3f sPrizePosOffset[] = {
     { 0.0f, 22.0f, 0.0f }, { 0.0f, 22.0f, 0.0f }, { 0.0f, 8.0f, 0.0f }, { 0.0f, 9.0f, 0.0f }, { 0.0f, -2.0f, 0.0f },
 };
 
-static s16 sPrizeRot[] = { 0x4268, 0x4268, 0xFC18, 0x0000, 0x4268, 0x0000 };
+static s16 sPrizeRot[] = { 0x4268, 0x4268, -0x03E8, 0x0000, 0x4268, 0x0000 };
 
 void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 prizeTemp;

@@ -863,7 +863,7 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_314 == 0xFF) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_314);
-        gSPSegment(POLY_OPA_DISP++, 8, &D_80116280[2]);
+        gSPSegment(POLY_OPA_DISP++, 0x8, &D_80116280[2]);
         POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
                                            this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw, this,
                                            POLY_OPA_DISP);
