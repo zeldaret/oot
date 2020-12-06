@@ -22,7 +22,6 @@ typedef struct EnChanger {
     /* 0x0164 */ s16 chestOpened;
     /* 0x0166 */ s16 timer;
     /* 0x0168 */ s16 roomChestsOpened;
-    /* 0x016A */ char unk_16A[0x2];
 } EnChanger; // size = 0x016C
 
 extern const ActorInit En_Changer_InitVars;

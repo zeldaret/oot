@@ -78,25 +78,25 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.25f);
     ItemEtcetera_SetupAction(this, func_80B857D0);
     switch (type) {
-        case ITEM_ETCETERA_LETTER:
+        case ITEM_ETC_LETTER:
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B858B4;
             if (gSaveContext.eventChkInf[3] & 2) {
                 Actor_Kill(&this->actor);
             }
             break;
-        case ITEM_ETCETERA_ARROW_FIRE:
+        case ITEM_ETC_ARROW_FIRE:
             this->futureActionFunc = ItemEtcetera_UpdateFireArrow;
             Actor_SetScale(&this->actor, 0.5f);
             this->actor.draw = NULL;
             this->actor.shape.unk_08 = 50.0f;
             break;
-        case ITEM_ETCETERA_RUPEE_GREEN_CHEST_GAME:
-        case ITEM_ETCETERA_RUPEE_BLUE_CHEST_GAME:
-        case ITEM_ETCETERA_RUPEE_RED_CHEST_GAME:
-        case ITEM_ETCETERA_RUPEE_PURPLE_CHEST_GAME:
-        case ITEM_ETCETERA_HEART_PIECE_CHEST_GAME:
-        case ITEM_ETCETERA_KEY_SMALL_CHEST_GAME:
+        case ITEM_ETC_RUPEE_GREEN_CHEST_GAME:
+        case ITEM_ETC_RUPEE_BLUE_CHEST_GAME:
+        case ITEM_ETC_RUPEE_RED_CHEST_GAME:
+        case ITEM_ETC_RUPEE_PURPLE_CHEST_GAME:
+        case ITEM_ETC_HEART_PIECE_CHEST_GAME:
+        case ITEM_ETC_KEY_SMALL_CHEST_GAME:
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B85B28;
             this->drawFunc = ItemEtcetera_DrawThroughLens;
