@@ -1542,11 +1542,7 @@ endseg
 beginseg
     name "ovl_Demo_Gt"
     include "build/src/overlays/actors/ovl_Demo_Gt/z_demo_gt.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Demo_Gt/ovl_Demo_Gt_reloc.o"
-#else
-    include "build/data/overlays/actors/z_demo_gt.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2057,8 +2053,7 @@ endseg
 beginseg
     name "ovl_En_Changer"
     include "build/src/overlays/actors/ovl_En_Changer/z_en_changer.o"
-    include "build/data/overlays/actors/z_en_changer.data.o"
-    include "build/data/overlays/actors/z_en_changer.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Changer/ovl_En_Changer_reloc.o"
 endseg
 
 beginseg
@@ -2288,8 +2283,7 @@ endseg
 beginseg
     name "ovl_En_Firefly"
     include "build/src/overlays/actors/ovl_En_Firefly/z_en_firefly.o"
-    include "build/data/overlays/actors/z_en_firefly.data.o"
-    include "build/data/overlays/actors/z_en_firefly.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Firefly/ovl_En_Firefly_reloc.o"
 endseg
 
 beginseg
@@ -2862,11 +2856,7 @@ endseg
 beginseg
     name "ovl_En_Po_Relay"
     include "build/src/overlays/actors/ovl_En_Po_Relay/z_en_po_relay.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Po_Relay/ovl_En_Po_Relay_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_po_relay.reloc.o"
-#endif
 endseg
 
 beginseg
