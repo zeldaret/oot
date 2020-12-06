@@ -55,8 +55,8 @@ void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 #ifdef NONMATCHING
-// regalloc differences
-s32 EnStream_PlayerInRange(PosRot* vortexPosRot, PosRot* playerPosRot, Vec3f* posRotDifference, f32 vortexYScale) {
+// regalloc differences, checks if the player is range of the vortex
+s32 func_80B0B81C(PosRot* vortexPosRot, PosRot* playerPosRot, Vec3f* posRotDifference, f32 vortexYScale) {
     s32 ret = 0;
     f32 smallConstant = 28;
     f32 lowerBounds = 0 * vortexYScale * 50;
