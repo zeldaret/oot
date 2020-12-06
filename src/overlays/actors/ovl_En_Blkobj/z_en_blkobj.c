@@ -18,7 +18,7 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx);
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx);
 void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx);
-void EnBlkobj_Noop(EnBlkobj* this, GlobalContext* globalCtx);
+void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx);
 
 const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
@@ -67,7 +67,7 @@ void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         this->alpha = 255;
-        EnBlkobj_SetupAction(this, EnBlkobj_Noop);
+        EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
         DynaPolyInfo_Alloc(&D_06007564, &colHeader);
         this->dyna.dynaPolyId =
@@ -117,13 +117,13 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx) {
         this->alpha += alphaMod;
         if (this->alpha > 255) {
             this->alpha = 255;
-            EnBlkobj_SetupAction(this, EnBlkobj_Noop);
+            EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
             DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         }
     }
 }
 
-void EnBlkobj_Noop(EnBlkobj* this, GlobalContext* globalCtx) {
+void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx) {
 }
 
 void EnBlkobj_Update(Actor* thisx, GlobalContext* globalCtx) {
