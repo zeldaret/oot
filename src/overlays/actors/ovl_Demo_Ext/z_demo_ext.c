@@ -9,6 +9,8 @@ void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600FAA0;
+
 /*
 const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,

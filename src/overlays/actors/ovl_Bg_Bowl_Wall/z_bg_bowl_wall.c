@@ -3,11 +3,11 @@
  * Overlay: Bg_Bowl_Wall
  * Description: Bombchu Bowling Alley Wall
  */
-// Walls
 
 #include "z_bg_bowl_wall.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000030
 
@@ -41,8 +41,6 @@ const ActorInit Bg_Bowl_Wall_InitVars = {
     (ActorFunc)BgBowlWall_Draw,
 };
 
-// D_ 8086FA40
-// position of spawned bullseye
 static Vec3f sBullseyeOffset[] = {
     { 0.0f, 210.0f, -20.0f },
     { 0.0f, 170.0f, -20.0f },
@@ -50,23 +48,22 @@ static Vec3f sBullseyeOffset[] = {
     { 170.0f, 0.0f, -20.0f },
 };
 
-// D_8086FA70
-// rotation of this actor (target texture)
 static s16 sTargetRot[] = { 0x0000, 0x0000, 0x3FFF, 0xC001 };
 
 void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgBowlWall* this = THIS;
-
     s32 pad1;
     s32 pad2;
     ColHeader* colHeader = NULL;
 
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
+
     if (this->dyna.actor.params == 0) {
         DynaPolyInfo_Alloc(&D_06000CB8, &colHeader);
     } else {
         DynaPolyInfo_Alloc(&D_06001B00, &colHeader);
     }
+
     this->dyna.dynaPolyId =
         DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->initPos = this->dyna.actor.posRot.pos;
@@ -122,21 +119,22 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
 }
 
 void BgBowlWall_WaitForHit(BgBowlWall* this, GlobalContext* globalCtx) {
-    if (this->isHit != 0) {
+    if (this->isHit) {
         this->actionFunc = BgBowlWall_FallDoEffects;
     }
 }
 
 void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
     s16 pad;
-    Vec3f effectAccel = { 0.0f, 0.1f, 0.0f }; // D_8086FA78
-    Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f }; // D_8086FA84
+    Vec3f effectAccel = { 0.0f, 0.1f, 0.0f };
+    Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f effectPos;
     s16 quakeIndex;
     bool wallFallen;
     s32 i;
 
     wallFallen = false;
+
     if (this->dyna.actor.params == 0) { // wall collapses backwards
         Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, (u16)-0x3E80, 3, 500, 0);
         this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x;
@@ -149,6 +147,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
             wallFallen = true;
         }
     }
+
     if (wallFallen) {
         for (i = 0; i < 15; i++) {
             effectPos.x = Math_Rand_CenteredFloat(300.0f) + this->bullseyeCenter.x;
@@ -156,7 +155,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
             effectPos.z = Math_Rand_CenteredFloat(400.0f) + this->bullseyeCenter.z;
             EffectSsBomb2_SpawnLayered(globalCtx, &effectPos, &effectVelocity, &effectAccel, 100, 30);
             effectPos.y = -50.0f;
-            EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, -1, 10, 0);
+            EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
         quakeIndex = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
@@ -171,7 +170,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
 void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->timer >= 2) {
         if (this->dyna.actor.params == 0) {
-            Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, (u16)-0x3E80, 1, 200, 0);
+            Math_SmoothScaleMaxMinS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 200, 0);
         } else {
             Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
         }
@@ -188,7 +187,7 @@ void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxF(&this->dyna.actor.posRot.pos.y, this->initPos.y, 0.3f, 50.0f);
         if (fabsf(this->dyna.actor.posRot.pos.y - this->initPos.y) <= 10.0f) {
             this->dyna.actor.posRot.pos.y = this->initPos.y;
-            this->isHit = 0;
+            this->isHit = false;
             this->actionFunc = BgBowlWall_SpawnBullseyes;
         }
     }
@@ -200,23 +199,21 @@ void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
+
     this->actionFunc(this, globalCtx);
 }
 
 void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     BgBowlWall* this = THIS;
-
     u32 frames;
 
     OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 441);
-    func_80093D84(globalCtx2->state.gfxCtx);
 
+    func_80093D84(globalCtx2->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 8,
                Gfx_TexScroll(globalCtx2->state.gfxCtx, 0, -2 * (frames = globalCtx2->state.frames), 16, 16));
-
     gDPPipeSync(POLY_OPA_DISP++);
-
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 453),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
@@ -225,5 +222,6 @@ void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         gSPDisplayList(POLY_OPA_DISP++, D_06001390);
     }
+
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_bowl_wall.c", 464);
 }

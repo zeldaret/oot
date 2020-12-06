@@ -195,7 +195,7 @@ glabel BossDodongo_Draw
 /* 03D80 808C4F10 24E74940 */  addiu   $a3, $a3, %lo(func_808C4940) ## $a3 = 808C4940
 /* 03D84 808C4F14 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 03D88 808C4F18 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 03D8C 808C4F1C 0C028572 */  jal     SkelAnime_Draw
+/* 03D8C 808C4F1C 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 03D90 808C4F20 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03D94 808C4F24 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
