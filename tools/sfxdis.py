@@ -7,24 +7,25 @@ AudioFunctions = {}
 Verbose = False
 Verbose2 = False
 
-def SetVerbose(v):
+def set_verbose(v):
     global Verbose
     global Verbose2
 
     Verbose = v
     Verbose2 = v
+    return 1
 
-def MakeAudioDict(AudioFunctions, repo):
+def make_audio_dict(AudioFunctions, repo):
     with open(repo + os.sep + 'include' + os.sep + 'functions.h','r') as funcfile:
         funcdata = funcfile.readlines()
     for i, line in enumerate(funcdata):
         if(line.count('sfxId')):
-            funcname, argnum = GetFuncData(funcdata,i)
+            funcname, argnum = get_func_data(funcdata,i)
             if(funcname != None):
                 AudioFunctions[funcname] = argnum
     return 1
 
-def GetFuncData(funcdata,i):
+def get_func_data(funcdata,i):
     j = i
     while(funcdata[j - 1].count(';') == 0):
         j -= 1
@@ -42,19 +43,19 @@ def GetFuncData(funcdata,i):
         return None,-1
     return funcname, x - 1
 
-def LookupSFX(idnum, repo):
+def lookup_sfx(idnum, repo):
     if(type(idnum) is int):
         id = '0x' + format(id,'X')
     else:
         id = idnum
-    id,sfxFlag = FixSFXFlag(id)
+    id,sfxFlag = fix_sfx_flag(id)
     with open(repo + os.sep + 'include' + os.sep + 'sfx.h','r') as sfxfile:
         for line in sfxfile:
             if(line.count(id)):
                 return line.split(' ')[1] + sfxFlag
     return 'INVALID_ID'
 
-def FixSFXFlag(id):
+def fix_sfx_flag(id):
     if(id.endswith(' - SFX_FLAG')):
         splitdata = id.split('-')
         return splitdata[0].strip(), ' -' + splitdata[1]
@@ -66,9 +67,9 @@ def FixSFXFlag(id):
         sfxFlag = ''
     return newid,sfxFlag
 
-def FixSFXFunc(sourcedata, i, j, repo):
+def fix_sfx_func(sourcedata, i, j, repo):
     data = ''.join(sourcedata[i:j])
-    func = FindAudioFunction(data)
+    func = find_audio_func(data)
     if(not func):
         print('Function parse error at line', i)
         return -3
@@ -81,7 +82,7 @@ def FixSFXFunc(sourcedata, i, j, repo):
     sfxId = args[argnum + 1].strip()
     if(sfxId.count('0x') == 0):
         return 0
-    newId = LookupSFX(sfxId, repo)
+    newId = lookup_sfx(sfxId, repo)
     if(newId == 'INVALID_ID'):
         print('ID parse error at line', i, 'in', func)
         return -2
@@ -91,23 +92,14 @@ def FixSFXFunc(sourcedata, i, j, repo):
         print('Replaced', sfxId, 'with', newId, 'in', func, 'at line', i + 1)
     return 1
 
-def FindAudioFunction(line):
+def find_audio_func(line):
     audiofuncs = list(AudioFunctions.keys())
     for func in audiofuncs:
         if(line.count(func)):
             return func
     return False
 
-def ExtractId(data):
-    args = data.replace('(',',').replace(')',',').split(',')
-    ids = [x.strip() for x in args if x.find('0x') != -1]
-    return ids
-
-def FixSFX1(file,repo):
-    FixSFX(file, file, repo)
-    return 1
-
-def FixSFXAll(repo):
+def fix_sfx_all(repo):
     global Verbose2
 
     tv = Verbose2
@@ -117,13 +109,15 @@ def FixSFXAll(repo):
         for filename in files:
             if(filename.endswith('.c')):
                 file = subdir + os.sep + filename
-                FixSFX(file, file, repo)
+                fix_sfx(file, repo)
 
     Verbose2 = tv
     return 1
 
-def FixSFX(file, outfile, repo):
-    MakeAudioDict(AudioFunctions, repo)
+def fix_sfx(file, repo, outfile = None):
+    if(outfile == None):
+        outfile = file
+    make_audio_dict(AudioFunctions, repo)
     with open(file,'r',encoding='utf-8') as sourcefile:
         sourcedata = sourcefile.readlines()
     replacements = set()
@@ -133,14 +127,14 @@ def FixSFX(file, outfile, repo):
     for i, line in enumerate(sourcedata):
         if(i < j):
             continue
-        if(FindAudioFunction(line)):
+        if(find_audio_func(line)):
             if(line.count(';')):
                 j = i + 1
             else:
                 j = i
                 while(sourcedata[j].count(';') == 0):
                     j += 1
-            status = FixSFXFunc(sourcedata, i, j + 1, repo)
+            status = fix_sfx_func(sourcedata, i, j + 1, repo)
             if(status < 0):
                 errors += 1
             elif(status > 0):
@@ -156,18 +150,15 @@ def FixSFX(file, outfile, repo):
         print('sfxdis encountered parse errors during execution. Consider formatting your source and functions.h')
     return 1
 
-    parser = argparse.ArgumentParser(description='Convert hex SFX ids to macros')
-    parser.add_argument('file', help="source file to be processed")
-    parser.add_argument('repo', help="directory of the decomp repo")
-    parser.add_argument('-o', metavar='outfile',dest='outfile',help='file to write to instead of original')
-    parser.add_argument('-v', action='store_true',help='show what changes are made')
+parser = argparse.ArgumentParser(description='Convert hex SFX ids to macros')
+parser.add_argument('file', help="source file to be processed")
+parser.add_argument('repo', help="directory of the decomp repo")
+parser.add_argument('-o', metavar='outfile',dest='outfile',help='file to write to instead of original')
+parser.add_argument('-v', action='store_true',help='show what changes are made')
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    SetVerbose(args.v)
-    if(args.outfile == None):
-        FixSFX(args.file, args.file, args.repo)
-    else:
-        FixSFX(args.file, args.outfile, args.repo)
+    set_verbose(args.v)
+    fix_sfx(args.file, args.repo, outfile=args.outfile)
 
 
