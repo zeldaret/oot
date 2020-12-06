@@ -492,7 +492,7 @@ void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3);
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3);
 f32 Math_Rand_ZeroFloat(f32 f);
 f32 Math_Rand_CenteredFloat(f32 f);
-void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2);
+void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 arg1, s32 arg2);
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
 void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
@@ -918,6 +918,7 @@ void func_80062B80(GlobalContext*, Vec3f*);
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v);
 void func_80062D60(GlobalContext* globalCtx, Vec3f* v);
 void func_80062DAC(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2);
+void func_80062DF4(GlobalContext* globalCtx, Vec3f* v);
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
 s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 void SaveContext_Init(void);
@@ -985,7 +986,7 @@ s32 func_8006F0A0(s32 arg0);
 // ? func_8006F0FC(?);
 u8 func_8006F140(GlobalContext*, EnvironmentContext*, UNK_TYPE);
 f32 func_8006F93C(u16, u16, u16);
-f32 func_8006F9BC(u16, u16, u16, u16, u16);
+f32 func_8006F9BC(u16 endFrame, u16 startFrame, u16 frames, u16, u16);
 // ? func_8006FB94(?);
 // ? func_8006FC88(?);
 // ? func_80070600(?);
@@ -1182,6 +1183,7 @@ void Player_SetEquipmentData(GlobalContext* globalCtx, Player* player);
 void Player_UpdateBottleHeld(GlobalContext* globalCtx, Player* player, s32 item, s32 actionParam);
 void func_8008EDF0(Player* player);
 void func_8008EE08(Player* player);
+void func_8008EEAC(GlobalContext* globalCtx, Actor* actor);
 s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo);
 s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 arg3);
 s32 Player_GetStrength(void);
@@ -1278,6 +1280,7 @@ Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 wi
                       u32 y2, s32 width2, s32 height2);
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
+Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
 void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(GlobalContext* globalCtx, Room* room, Input* arg2, UNK_TYPE arg3);
@@ -1358,9 +1361,9 @@ void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimation
 void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 transitionFrame,
                    LinkAnimationHeader* linkAnimSeg2, f32 frame, f32 transitionRate, Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
-void SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+s32 SkelAnime_InitFlex(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg, Vec3s* limbDrawTable, Vec3s* arg5, s32 limbCount);
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg);
@@ -2335,7 +2338,7 @@ void func_800F87A0(u8);
 void func_800F8884(u8, Vec3f*);
 void func_800F89A0(u8, Vec3f*);
 void func_800F89E8(Vec3f*);
-void func_800F8A44(Vec3f*, u16);
+void func_800F8A44(Vec3f* pos, u16 sfxId);
 void func_800F8BA0(u8, u16);
 void func_800F8D04(u32 sfxId);
 void func_800F8E3C(void);
