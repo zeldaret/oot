@@ -141,7 +141,8 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx) {
                 leever = (EnReeba*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_REEBA,
                                                       spawnPos.x, spawnPos.y, spawnPos.z, 0, 0, 0, spawnParams);
 
-                if (1) {} if (1) {}
+                if (1) {}
+                if (1) {}
                 if (leever != NULL) {
                     this->curNumSpawn++;
                     leever->unk_280 = this->leeverIndex++;
