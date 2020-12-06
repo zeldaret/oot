@@ -50,7 +50,7 @@ static InitChainEntry sInitChain[] = {
 
 extern UNK_TYPE D_060108B8;
 extern Gfx D_0600FE40[];
-extern UNK_TYPE D_0400CD80;
+extern Gfx D_0400CD80[];
 extern Gfx D_040184B0[];
 
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -105,7 +105,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             pos.y = this->dyna.actor.posRot.pos.y + 80.0f;
             EffectSsBomb2_SpawnLayered(globalCtx, &pos, &sZeroVector, &sZeroVector, 100, 45);
             Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 50, NA_SE_EV_BOX_BREAK);
-            EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40, &D_0400CD80);
+            EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40, D_0400CD80);
             this->dropTimer = 5;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.0f);
