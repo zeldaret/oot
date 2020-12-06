@@ -181,7 +181,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80B4B240;
         func_800F5C64(0x51);
     } else {
-        if (1) {}; // necessary to match
+        if (1) {} // necessary to match
         rotDiff = ABS(this->actor.yawTowardsLink - this->actor.shape.rot.y);
         if ((rotDiff < 0x238E) && !(player->actor.posRot.pos.y < this->actor.posRot.pos.y)) {
             func_8002F2F4(&this->actor, globalCtx);

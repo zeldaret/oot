@@ -251,11 +251,11 @@ void MagicDark_OrbDraw(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    pos.x -=
-        (this->actor.scale.x * 300.0f * Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM)) * Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
+    pos.x -= (this->actor.scale.x * 300.0f * Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM)) *
+              Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
     pos.y -= (this->actor.scale.x * 300.0f * Math_Sins(Camera_GetCamDirPitch(ACTIVE_CAM)));
-    pos.z -=
-        (this->actor.scale.x * 300.0f * Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM)) * Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
+    pos.z -= (this->actor.scale.x * 300.0f * Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM)) *
+              Math_Coss(Camera_GetCamDirPitch(ACTIVE_CAM)));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_dark.c", 619);
 

@@ -4275,10 +4275,10 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         Camera_ChangeDoorCam(Gameplay_GetCamera(globalCtx, 0), doorActor,
-                                      globalCtx->transitionActorList[(u16)doorActor->params >> 10]
-                                          .sides[(sp7C > 0) ? 0 : 1]
-                                          .effects,
-                                      0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
+                                             globalCtx->transitionActorList[(u16)doorActor->params >> 10]
+                                                 .sides[(sp7C > 0) ? 0 : 1]
+                                                 .effects,
+                                             0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
                     }
                 }
             }

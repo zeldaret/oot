@@ -1183,7 +1183,7 @@ s32 Camera_CalcAtForHorse(Camera* camera, VecSph* eyeAtDir, f32 yOffset, f32* yP
     player = camera->player;
     func_8002EF44(&horsePosRot, player->rideActor);
 
-    if (((EnHorse*)player->rideActor)->unk_1F0 & 4 ? 1 : 0) {
+    if (EN_HORSE_CHECK_5((EnHorse*)player->rideActor)) {
         horsePosRot.pos.y -= 49.f;
         *yPosOffset = Camera_LERPCeilF(horsePosRot.pos.y, *yPosOffset, 0.1f, 0.2f);
         camera->atLERPStepScale = Camera_LERPCeilF(0.4f, camera->atLERPStepScale, 0.2f, 0.02f);
@@ -1383,7 +1383,6 @@ void func_80046E20(Camera* camera, VecSph* eyeAdjustment, f32 minDist, f32 arg3,
                 sp40.pitch = Math_Sins(atEyeColChk.sphNorm.pitch + 0x3FFF) * 16380.0f;
                 sp40.r = (OREG(21) - temp_f0) * PCT(OREG(22));
                 Camera_Vec3fVecSphGeoAdd(eye, eye, &sp40);
-                return;
             }
             break;
         default:
@@ -1401,7 +1400,7 @@ void func_80046E20(Camera* camera, VecSph* eyeAdjustment, f32 minDist, f32 arg3,
     }
 }
 
-s32 Camera_NOP(Camera* camera) {
+s32 Camera_Noop(Camera* camera) {
     return true;
 }
 
@@ -1422,9 +1421,8 @@ s32 Camera_Normal1(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     Normal1* norm1 = (Normal1*)camera->paramData;
     Normal1Anim* anim = &norm1->anim;
-    s32 pad;
     f32 playerHeight;
-    const f32 rte = 0.1f;
+    f32 rate = 0.1f;
 
     playerHeight = Player_GetHeight(camera->player);
     if (RELOAD_PARAMS) {
@@ -1460,12 +1458,10 @@ s32 Camera_Normal1(Camera* camera) {
         case 0:
         case 0xA:
         case 0x19:
-            anim->swing.unk_18 = 0;
             anim->swing.atEyePoly = NULL;
             anim->slopePitchAdj = 0;
             anim->unk_28 = 0xA;
-            anim->swing.unk_14 = anim->swing.unk_18;
-            anim->swing.unk_16 = anim->swing.unk_18;
+            anim->swing.unk_16 = anim->swing.unk_14 = anim->swing.unk_18 = 0;
             anim->swing.swingUpdateRate = norm1->unk_0C;
             anim->yOffset = camera->playerPosRot.pos.y;
             anim->unk_20 = camera->xzSpeed;
@@ -1512,22 +1508,22 @@ s32 Camera_Normal1(Camera* camera) {
     if (anim->swing.swingUpdateRateTimer != 0) {
         camera->yawUpdateRateInv =
             Camera_LERPCeilF(anim->swing.swingUpdateRate + (f32)(anim->swing.swingUpdateRateTimer * 2),
-                             camera->yawUpdateRateInv, sp98, rte);
+                             camera->yawUpdateRateInv, sp98, rate);
         camera->pitchUpdateRateInv =
             Camera_LERPCeilF((f32)R_CAM_DEFA_PHI_UPDRATE + (f32)(anim->swing.swingUpdateRateTimer * 2),
-                             camera->pitchUpdateRateInv, sp9C, rte);
+                             camera->pitchUpdateRateInv, sp9C, rate);
         anim->swing.swingUpdateRateTimer--;
     } else {
         camera->yawUpdateRateInv =
             Camera_LERPCeilF(anim->swing.swingUpdateRate - ((OREG(49) * 0.01f) * anim->swing.swingUpdateRate * sp94),
-                             camera->yawUpdateRateInv, sp98, rte);
-        camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, sp9C, rte);
+                             camera->yawUpdateRateInv, sp98, rate);
+        camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, sp9C, rate);
     }
 
-    camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, sp9C, rte);
-    camera->xzOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(2)), camera->xzOffsetUpdateRate, spA0, rte);
-    camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, sp9C, rte);
-    camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->yOffsetUpdateRate, camera->speedRatio * 0.05f, rte);
+    camera->pitchUpdateRateInv = Camera_LERPCeilF(R_CAM_DEFA_PHI_UPDRATE, camera->pitchUpdateRateInv, sp9C, rate);
+    camera->xzOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(2)), camera->xzOffsetUpdateRate, spA0, rate);
+    camera->yOffsetUpdateRate = Camera_LERPCeilF(PCT(OREG(3)), camera->yOffsetUpdateRate, sp9C, rate);
+    camera->fovUpdateRate = Camera_LERPCeilF(PCT(OREG(4)), camera->yOffsetUpdateRate, camera->speedRatio * 0.05f, rate);
 
     if (norm1->interfaceFlags & 1) {
         t = func_80044ADC(camera, BINANG_ROT180(atEyeGeo.yaw), 0);
@@ -1862,7 +1858,9 @@ s32 Camera_Normal3(Camera* camera) {
             anim->swing.swingUpdateRateTimer = 0;
     }
 
-    DECR(anim->distTimer);
+    if (anim->distTimer != 0) {
+        anim->distTimer--;
+    }
 
     sp98 = PCT(OREG(25)) * camera->speedRatio;
     sp94 = PCT(OREG(26)) * camera->speedRatio;
@@ -1943,11 +1941,11 @@ s32 Camera_Normal3(Camera* camera) {
 }
 
 s32 Camera_Normal4(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Normal0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Parallel1(Camera* camera) {
@@ -2129,7 +2127,7 @@ s32 Camera_Parallel1(Camera* camera) {
 }
 
 s32 Camera_Parallel2(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Parallel3(Camera* camera) {
@@ -2148,11 +2146,11 @@ s32 Camera_Parallel3(Camera* camera) {
 }
 
 s32 Camera_Parallel4(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Parallel0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -2669,11 +2667,11 @@ s32 Camera_Jump3(Camera* camera) {
 }
 
 s32 Camera_Jump4(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Jump0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Battle1(Camera* camera) {
@@ -2926,11 +2924,11 @@ s32 Camera_Battle1(Camera* camera) {
 }
 
 s32 Camera_Battle2(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Battle3(Camera* camera) {
-    Camera_NOP(camera);
+    Camera_Noop(camera);
 }
 
 /**
@@ -3009,7 +3007,7 @@ s32 Camera_Battle4(Camera* camera) {
 }
 
 s32 Camera_Battle0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 // Targeting non-enemy
@@ -3249,7 +3247,7 @@ s32 Camera_KeepOn1(Camera* camera) {
 }
 
 s32 Camera_KeepOn2(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -3742,7 +3740,6 @@ Vec3f D_8015BD60;
 Vec3f D_8015BD70;
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_KeepOn4.s")
 #endif
-#undef NON_MATCHING
 
 /**
  * Talking in a pre-rendered room
@@ -4116,15 +4113,15 @@ s32 Camera_Fixed4(Camera* camera) {
 }
 
 s32 Camera_Fixed0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Subj1(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Subj2(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -4378,11 +4375,11 @@ s32 Camera_Subj4(Camera* camera) {
 }
 
 s32 Camera_Subj0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Data0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Data1(Camera* camera) {
@@ -4391,11 +4388,11 @@ s32 Camera_Data1(Camera* camera) {
 }
 
 s32 Camera_Data2(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Data3(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Data4(Camera* camera) {
@@ -4872,11 +4869,11 @@ s32 Camera_Unique0(Camera* camera) {
 }
 
 s32 Camera_Unique4(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Unique5(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -4992,7 +4989,7 @@ s32 Camera_Unique7(Camera* camera) {
 }
 
 s32 Camera_Unique8(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Unique9(Camera* camera) {
@@ -5065,7 +5062,7 @@ s32 Camera_Unique9(Camera* camera) {
                     D_8011D3AC = anim->curKeyFrame->unk_01 & 0xF;
                 } else if ((anim->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
                     Camera_UpdateInterface(0xF000 | ((anim->curKeyFrame->unk_01 & 0xF) << 8));
-                } else if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != 1) {
+                } else if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != PLAYER_BOOTS_IRON) {
                     func_8002DF38(camera->globalCtx, camera->target, 8);
                     osSyncPrintf("camera: demo: player demo set WAIT\n");
                 } else {
@@ -5445,7 +5442,7 @@ s32 Camera_Unique9(Camera* camera) {
         // Set the player's position
         camera->player->actor.posRot.pos.x = anim->playerPos.x;
         camera->player->actor.posRot.pos.z = anim->playerPos.z;
-        if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != 1) {
+        if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != PLAYER_BOOTS_IRON) {
             camera->player->actor.posRot.pos.y = anim->playerPos.y;
         }
     } else {
@@ -5582,7 +5579,7 @@ s32 Camera_Demo1(Camera* camera) {
 }
 
 s32 Camera_Demo2(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -5806,7 +5803,7 @@ s32 Camera_Demo3(Camera* camera) {
 }
 
 s32 Camera_Demo4(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -6007,7 +6004,7 @@ s32 Camera_Demo5(Camera* camera) {
 
     sDemo5PrevSfxFrame = camera->globalCtx->state.frames;
 
-    if (camera->player->stateFlags1 & 0x8000000 && (player->currentBoots != 1)) {
+    if (camera->player->stateFlags1 & 0x8000000 && (player->currentBoots != PLAYER_BOOTS_IRON)) {
         // swimming, and not iron boots
         player->stateFlags1 |= 0x20000000;
         // env frozen
@@ -6125,7 +6122,7 @@ s32 Camera_Demo7(Camera* camera) {
 }
 
 s32 Camera_Demo8(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 /**
@@ -6273,7 +6270,7 @@ s32 Camera_Demo9(Camera* camera) {
 }
 
 s32 Camera_Demo0(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Special0(Camera* camera) {
@@ -6320,7 +6317,7 @@ s32 Camera_Special0(Camera* camera) {
 }
 
 s32 Camera_Special1(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Special2(Camera* camera) {
@@ -6328,7 +6325,7 @@ s32 Camera_Special2(Camera* camera) {
 }
 
 s32 Camera_Special3(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Special4(Camera* camera) {
@@ -6615,7 +6612,7 @@ s32 Camera_Special6(Camera* camera) {
 }
 
 s32 Camera_Special8(Camera* camera) {
-    return Camera_NOP(camera);
+    return Camera_Noop(camera);
 }
 
 s32 Camera_Special9(Camera* camera) {
@@ -6916,22 +6913,18 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     camera->at = playerPosShape.pos;
     camera->at.y += playerYOffset;
 
-    {
-        camera->posOffset.x = 0;
-        camera->posOffset.y = playerYOffset;
-        camera->posOffset.z = 0;
-    }
+    camera->posOffset.x = 0;
+    camera->posOffset.y = playerYOffset;
+    camera->posOffset.z = 0;
 
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeNextAtOffset);
     *eye = *eyeNext;
     camera->roll = 0;
 
-    {
-        upXZ = 0;
-        camera->up.z = upXZ;
-        camera->up.y = 1.0f;
-        camera->up.x = upXZ;
-    }
+    upXZ = 0;
+    camera->up.z = upXZ;
+    camera->up.y = 1.0f;
+    camera->up.x = upXZ;
 
     if (Camera_GetFloorYNorm(camera, &floorPos, at, &bgId) != BGCHECK_Y_MIN) {
         camera->bgCheckId = bgId;
@@ -6946,6 +6939,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     } else {
         sCameraInterfaceFlags = 0;
     }
+
     func_80057FC4(camera);
     camera->unk_14A = 0;
     camera->paramFlags = 0;
@@ -6954,6 +6948,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     Camera_CopyModeValuesToPREG(camera, camera->mode);
     Camera_QRegInit();
     osSyncPrintf(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
+
     if (camera->thisIdx == 0) {
         Camera_CheckWater(camera);
     }
@@ -7392,8 +7387,8 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
             }
 
             if ((camera->unk_14C & 1) && (camera->unk_14C & 4) && (!(camera->unk_14C & 0x400)) &&
-                (!(camera->unk_14C & 0x200) || (player->currentBoots == 1)) && (!(camera->unk_14C & (s16)0x8000)) &&
-                (playerGroundY != BGCHECK_Y_MIN)) {
+                (!(camera->unk_14C & 0x200) || (player->currentBoots == PLAYER_BOOTS_IRON)) &&
+                (!(camera->unk_14C & (s16)0x8000)) && (playerGroundY != BGCHECK_Y_MIN)) {
                 camDataIdx = Camera_GetDataIdxForPoly(camera, &bgCheckId, playerFloorPoly);
                 if (camDataIdx != -1) {
                     camera->nextBGCheckId = bgCheckId;
@@ -7404,7 +7399,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
             }
 
             if (camera->nextCamDataIdx != -1 && (fabsf(curPlayerPosRot.pos.y - playerGroundY) < 2.0f) &&
-                (!(camera->unk_14C & 0x200) || (player->currentBoots == 1))) {
+                (!(camera->unk_14C & 0x200) || (player->currentBoots == PLAYER_BOOTS_IRON))) {
                 camera->bgCheckId = camera->nextBGCheckId;
                 Camera_ChangeDataIdx(camera, camera->nextCamDataIdx);
                 camera->nextCamDataIdx = -1;
