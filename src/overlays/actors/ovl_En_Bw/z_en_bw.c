@@ -139,7 +139,7 @@ void func_809CF72C(EnBw* this) {
     this->unk_222 = 20;
     this->unk_224 = 0xBB8;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, 0x3975);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLEWALK_AIM);
     func_809CE6E0(this, func_809CF7AC);
 }
 
@@ -170,7 +170,7 @@ void func_809CF8F0(EnBw* this) {
     this->unk_220 = 4;
     this->unk_222 = 1000;
     this->actor.velocity.y = 11.0f;
-    Audio_PlayActorSound2(&this->actor, 0x386C);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
     this->actor.flags |= 0x1000000;
     func_809CE6E0(this, func_809CF984);
 }
@@ -189,7 +189,7 @@ void func_809CF984(EnBw *this, GlobalContext *globalCtx) {
         this->actor.speedXZ = -6.0f;
         this->actor.posRot.rot.y = this->actor.yawTowardsLink;
         if ((&player->actor == this->collider1.base.at) && !(this->collider1.base.atFlags & 4)) {
-            Audio_PlayActorSound2(&player->actor, 0x83E);
+            Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
     }
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -203,7 +203,7 @@ void func_809CF984(EnBw *this, GlobalContext *globalCtx) {
         this->unk_222 = 3000;
         this->actor.flags &= ~0x01000000;
         this->actor.speedXZ = 0.0f;
-        Audio_PlayActorSound2(&this->actor, 0x387B);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         func_809CE6E0(this, func_809CE884);
     }
 }
@@ -217,11 +217,9 @@ void func_809CFBA8(EnBw *this) {
     this->actor.velocity.y = 11.0f;
     this->unk_25C = Math_Rand_ZeroOne() * 0.25f + 1.0f;
     this->unk_224 = 0xBB8;
-    Audio_PlayActorSound2(&this->actor, 0x3976);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLEWALK_REVERSE);
     func_809CE6E0(this, func_809CFC4C);
 }
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bw/func_809CFC4C.s")
 
 void func_809CFC4C(EnBw *this, GlobalContext *globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, 0x7FFF, 1, 0xFA0, 0);
@@ -236,7 +234,7 @@ void func_809CFC4C(EnBw *this, GlobalContext *globalCtx) {
         Math_SmoothScaleMaxMinF(&this->unk_260, 0.075f, 1.0f, 0.005f, 0.0f);
         if (this->actor.bgCheckFlags & 2) {
             func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
-            Audio_PlayActorSound2(&this->actor, 0x387B);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         if (this->unk_224 != 0) {
             this->unk_224 -= 250;
@@ -275,7 +273,7 @@ void func_809CFF10(EnBw *this) {
     this->unk_221 = 3;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 11.0f;
-    Audio_PlayActorSound2(&this->actor, 0x3976);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLEWALK_REVERSE);
     this->actor.bgCheckFlags &= ~1;
     func_809CE6E0(this, func_809CFF98);
 }
@@ -288,7 +286,7 @@ void func_809CFF98(EnBw *this, GlobalContext *globalCtx) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
         this->unk_222 = 0xBB8;
         this->unk_250 = 0.0f;
-        Audio_PlayActorSound2(&this->actor, 0x387B);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         func_809CE6E0(this, func_809CE884);
     }
     if (this->color1.r < 247) {
@@ -316,7 +314,7 @@ void func_809D00F4(EnBw *this) {
     this->unk_222 = 40;
     this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
-    Audio_PlayActorSound2(&this->actor, 0x3978);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLEWALK_DEAD);
     func_809CE6E0(this, func_809D014C);
 }
 
@@ -383,7 +381,7 @@ void func_809D03CC(EnBw *this) {
         this->unk_23B = 0x20;
     }
     this->unk_23C = this->actor.dmgEffectTimer;
-    Audio_PlayActorSound2(&this->actor, 0x389E);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     func_809CE6E0(this, func_809D0424);
 }
 
@@ -458,7 +456,7 @@ void func_809D0584(EnBw *this, GlobalContext *globalCtx) {
                     func_809D00F4(this);
                 }
             } else if ((this->unk_220 != 1) && (this->unk_220 != 6)) {
-                Audio_PlayActorSound2(&this->actor, 0x3977);
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLEWALK_DAMAGE);
                 func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
                 if (this->unk_220 != 5) {
                     func_809D01CC(this);
