@@ -229,7 +229,7 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     blureInit.unkFlag = false;
     blureInit.calcMode = 2;
 
-    Effect_Add(globalCtx, &this->blureIdx, 1, 0, 0, &blureInit);
+    Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
     func_8002E4B4(globalCtx, &this->actor, 75.0f, 60.0f, 70.0f, 0x1D);
     EnDodongo_SetupIdle(this);
 }
