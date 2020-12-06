@@ -57,7 +57,7 @@ glabel BgDyYoseizo_Init
 /* 000AC 808728DC 24E78698 */  addiu   $a3, $a3, 0x8698           ## $a3 = 06008698
 /* 000B0 808728E0 24C6C450 */  addiu   $a2, $a2, 0xC450           ## $a2 = 0601C450
 /* 000B4 808728E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000B8 808728E8 0C0291BE */  jal     SkelAnime_InitSV
+/* 000B8 808728E8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000BC 808728EC 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 000C0 808728F0 10000010 */  beq     $zero, $zero, .L80872934
 /* 000C4 808728F4 00000000 */  nop
@@ -76,7 +76,7 @@ glabel BgDyYoseizo_Init
 /* 000F0 80872920 24E731C0 */  addiu   $a3, $a3, 0x31C0           ## $a3 = 060031C0
 /* 000F4 80872924 24C6C450 */  addiu   $a2, $a2, 0xC450           ## $a2 = 0601C450
 /* 000F8 80872928 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000FC 8087292C 0C0291BE */  jal     SkelAnime_InitSV
+/* 000FC 8087292C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00100 80872930 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 .L80872934:
 /* 00104 80872934 3C0F8087 */  lui     $t7, %hi(func_80872D20)    ## $t7 = 80870000

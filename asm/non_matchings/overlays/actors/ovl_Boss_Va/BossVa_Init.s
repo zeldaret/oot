@@ -99,7 +99,7 @@ glabel L8094FF00
 /* 00C54 8094FF14 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00C58 8094FF18 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00C5C 8094FF1C AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00C60 8094FF20 0C0291BE */  jal     SkelAnime_InitSV
+/* 00C60 8094FF20 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00C64 8094FF24 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00C68 8094FF28 1000002C */  beq     $zero, $zero, .L8094FFDC
 /* 00C6C 8094FF2C 8E6E0024 */  lw      $t6, 0x0024($s3)           ## 00000024
@@ -112,7 +112,7 @@ glabel L8094FF30
 /* 00C84 8094FF44 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00C88 8094FF48 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00C8C 8094FF4C AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00C90 8094FF50 0C0291BE */  jal     SkelAnime_InitSV
+/* 00C90 8094FF50 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00C94 8094FF54 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00C98 8094FF58 10000020 */  beq     $zero, $zero, .L8094FFDC
 /* 00C9C 8094FF5C 8E6E0024 */  lw      $t6, 0x0024($s3)           ## 00000024
@@ -125,7 +125,7 @@ glabel L8094FF60
 /* 00CB4 8094FF74 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00CB8 8094FF78 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00CBC 8094FF7C AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00CC0 8094FF80 0C0291BE */  jal     SkelAnime_InitSV
+/* 00CC0 8094FF80 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00CC4 8094FF84 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00CC8 8094FF88 10000014 */  beq     $zero, $zero, .L8094FFDC
 /* 00CCC 8094FF8C 8E6E0024 */  lw      $t6, 0x0024($s3)           ## 00000024
@@ -330,7 +330,7 @@ glabel L80950024
 /* 00FB0 80950270 86050000 */  lh      $a1, 0x0000($s0)           ## 8095C23C
 /* 00FB4 80950274 E5040000 */  swc1    $f4, 0x0000($t0)           ## 80966908
 /* 00FB8 80950278 E5080004 */  swc1    $f8, 0x0004($t0)           ## 8096690C
-/* 00FBC 8095027C 0C030136 */  jal     func_800C04D8
+/* 00FBC 8095027C 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 00FC0 80950280 E5100008 */  swc1    $f16, 0x0008($t0)          ## 80966910
 /* 00FC4 80950284 240C0014 */  addiu   $t4, $zero, 0x0014         ## $t4 = 00000014
 /* 00FC8 80950288 3C108096 */  lui     $s0, %hi(D_8095C0F8)       ## $s0 = 80960000

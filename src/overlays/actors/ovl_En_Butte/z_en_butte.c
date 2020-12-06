@@ -110,7 +110,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = Math_Sins(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
 
-    func_8005A970(&camDir, ACTIVE_CAM);
+    Camera_GetCamDir(&camDir, ACTIVE_CAM);
     Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
     Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
@@ -409,7 +409,7 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
         func_800628A4(0, &this->collider);
     }
 
