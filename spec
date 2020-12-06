@@ -650,8 +650,7 @@ endseg
 beginseg
     name "ovl_Bg_Bowl_Wall"
     include "build/src/overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.o"
-    include "build/data/overlays/actors/z_bg_bowl_wall.data.o"
-    include "build/data/overlays/actors/z_bg_bowl_wall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Bowl_Wall/ovl_Bg_Bowl_Wall_reloc.o"
 endseg
 
 beginseg
@@ -1981,15 +1980,13 @@ endseg
 beginseg
     name "ovl_En_Bom_Bowl_Man"
     include "build/src/overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_man.data.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_man.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bom_Bowl_Man/ovl_En_Bom_Bowl_Man_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Bom_Bowl_Pit"
     include "build/src/overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_pit.data.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_pit.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bom_Bowl_Pit/ovl_En_Bom_Bowl_Pit_reloc.o"
 endseg
 
 beginseg
@@ -3173,8 +3170,7 @@ endseg
 beginseg
     name "ovl_En_Wall_Tubo"
     include "build/src/overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.o"
-    include "build/data/overlays/actors/z_en_wall_tubo.data.o"
-    include "build/data/overlays/actors/z_en_wall_tubo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wall_Tubo/ovl_En_Wall_Tubo_reloc.o"
 endseg
 
 beginseg
