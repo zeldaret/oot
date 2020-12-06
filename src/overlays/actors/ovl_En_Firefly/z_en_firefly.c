@@ -1,5 +1,4 @@
 #include "z_en_firefly.h"
-#include "macros.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
 #define FLAGS 0x00005005
@@ -98,7 +97,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->limbDrawTable,
                    this->transitionDrawTable, 28);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, &this->colliderItems[0]);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     if ((this->actor.params & 0x8000) != 0) {
@@ -328,7 +327,7 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
     }
     skelanimeUpdated = func_800A56C8(&this->skelAnime, 0.0f);
     this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
-    if ((this->onFire || (this->actor.params == KEESE_ICE_FLY)) ||
+    if (this->onFire || (this->actor.params == KEESE_ICE_FLY) ||
         ((EnFirefly_ReturnToPerch(this, globalCtx) == 0) && (EnFirefly_SeekTorch(this, globalCtx) == 0))) {
         if (skelanimeUpdated) {
             rand = Math_Rand_ZeroOne();
@@ -376,7 +375,7 @@ void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
     this->actor.dmgEffectTimer = 40;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
-    if ((this->actor.flags & 0x8000)) {
+    if (this->actor.flags & 0x8000) {
         this->actor.dmgEffectTimer = 40;
     } else {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x6800, 0x200);
@@ -702,7 +701,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     if (!this->onFire && (limbIndex == 27)) {
         gSPDisplayList((*gfx)++, D_06001678);
     } else {
-        if ((this->auraType == 1) || (this->auraType == 2)) { // Fire or Ice trail
+        if ((this->auraType == KEESE_AURA_FIRE) || (this->auraType == KEESE_AURA_ICE)) {
             if ((limbIndex == 15) || (limbIndex == 21)) {
                 if (this->actionFunc != EnFirefly_Die) {
                     Matrix_Get(&mtx);
@@ -725,7 +724,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
                     effLife = 10;
                 }
 
-                if (this->auraType == 1) {
+                if (this->auraType == KEESE_AURA_FIRE) {
                     effPrimColor = &fireAuraPrimColor;
                     effEnvColor = &fireAuraEnvColor;
                 } else {

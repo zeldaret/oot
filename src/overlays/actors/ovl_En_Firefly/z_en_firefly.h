@@ -19,7 +19,6 @@ typedef struct EnFirefly {
     /* 0x01BC */ s16 targetPitch;
     /* 0x01BE */ Vec3s limbDrawTable[28];
     /* 0x0266 */ Vec3s transitionDrawTable[28];
-    /* 0x030E */ char unk_30E[0x2];
     /* 0x0310 */ f32 maxAltitude;
     /* 0x0314 */ ColliderJntSph collider;
     /* 0x0344 */ ColliderJntSphItem colliderItems[1];
@@ -31,7 +30,7 @@ typedef enum {
     /* 2 */ KEESE_NORMAL_FLY,
     /* 3 */ KEESE_NORMAL_PERCH,
     /* 4 */ KEESE_ICE_FLY
-} KeeseParams;
+} KeeseType;
 
 extern const ActorInit En_Firefly_InitVars;
 
