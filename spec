@@ -2170,8 +2170,7 @@ endseg
 beginseg
     name "ovl_En_Dodongo"
     include "build/src/overlays/actors/ovl_En_Dodongo/z_en_dodongo.o"
-    include "build/data/overlays/actors/z_en_dodongo.data.o"
-    include "build/data/overlays/actors/z_en_dodongo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dodongo/ovl_En_Dodongo_reloc.o"
 endseg
 
 beginseg
