@@ -2057,8 +2057,7 @@ endseg
 beginseg
     name "ovl_En_Changer"
     include "build/src/overlays/actors/ovl_En_Changer/z_en_changer.o"
-    include "build/data/overlays/actors/z_en_changer.data.o"
-    include "build/data/overlays/actors/z_en_changer.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Changer/ovl_En_Changer_reloc.o"
 endseg
 
 beginseg
