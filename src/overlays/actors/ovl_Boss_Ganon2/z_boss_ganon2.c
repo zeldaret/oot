@@ -305,10 +305,8 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
             phi_f2 = 1.0f;
         }
 
-        this->unk_348[i] = (s16)(s32)(Math_Sins((s16)((s32)this->unk_35C + (i * (s16)(s32)this->unk_360.y))) * phi_f2 *
-                                      this->unk_360.z);
-        this->unk_352[i] = (s16)(s32)(Math_Sins((s16)((s32)this->unk_36C + (i * (s16)(s32)this->unk_370.y))) * phi_f2 *
-                                      this->unk_370.z);
+        this->unk_348[i] = Math_Sins(((s16)this->unk_35C + (i * (s16)this->unk_360.y))) * phi_f2 * this->unk_360.z;
+        this->unk_352[i] = Math_Sins(((s16)this->unk_36C + (i * (s16)this->unk_370.y))) * phi_f2 * this->unk_370.z;
     }
 
     func_808FF898(this, globalCtx);
