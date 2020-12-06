@@ -358,20 +358,20 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_DC = 2;
 
     switch (this->unk_339) {
-        case 0:
+        case -1:
             Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
             break;
-        case 3:
+        case 2:
             globalCtx->envCtx.unk_BE = 3;
             globalCtx->envCtx.unk_BD = 4;
             Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
-        case 4:
+        case 3:
             globalCtx->envCtx.unk_BE = 5;
             globalCtx->envCtx.unk_BD = 6;
             Math_SmoothScaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
             break;
-        case 5:
+        case 4:
             globalCtx->envCtx.unk_BE = 6;
             globalCtx->envCtx.unk_BD = 7;
             Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
@@ -383,35 +383,35 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
             globalCtx->envCtx.unk_BD = 0;
             Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
             break;
-        case 7:
+        case 6:
             globalCtx->envCtx.unk_BE = 2;
             globalCtx->envCtx.unk_BD = 8;
             Math_SmoothScaleMaxF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
             globalCtx->envCtx.unk_D8 =
                 (Math_Sins(globalCtx->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
             break;
-        case 8:
+        case 7:
             globalCtx->envCtx.unk_BE = 0;
             globalCtx->envCtx.unk_BD = 8;
             Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.02f);
             break;
-        case 21:
+        case 20:
             globalCtx->envCtx.unk_BE = 0;
+            globalCtx->envCtx.unk_BD = 9;
+            break;
+        case 21:
+            globalCtx->envCtx.unk_BE = 0xA;
             globalCtx->envCtx.unk_BD = 9;
             break;
         case 22:
             globalCtx->envCtx.unk_BE = 0xA;
-            globalCtx->envCtx.unk_BD = 9;
-            break;
-        case 23:
-            globalCtx->envCtx.unk_BE = 0xA;
             globalCtx->envCtx.unk_BD = 0xB;
             break;
-        case 24:
+        case 23:
             globalCtx->envCtx.unk_BE = 9;
             globalCtx->envCtx.unk_BD = 0xB;
             break;
-        case 25:
+        case 24:
             globalCtx->envCtx.unk_BE = 0;
             globalCtx->envCtx.unk_BD = 0xC;
             break;
