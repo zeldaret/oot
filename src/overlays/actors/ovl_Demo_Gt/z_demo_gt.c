@@ -1444,7 +1444,7 @@ void func_809818FC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (frames == 845) {
-        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 void func_80981930(DemoGt* this, GlobalContext* globalCtx) {
@@ -1626,7 +1626,7 @@ void func_809820AC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (frames == 154) {
-        func_80078914(&this->dyna.actor.projectedPos, 0x20DE);
+        func_80078914(&this->dyna.actor.projectedPos, NA_SE_EV_TOWER_PARTS_BROKEN - SFX_FLAG);
     }
 }
 
