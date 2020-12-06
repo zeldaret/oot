@@ -378,6 +378,11 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
             globalCtx->envCtx.unk_D8 =
                 (Math_Sins(globalCtx->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
             break;
+        case 55:
+            globalCtx->envCtx.unk_BE = 2;
+            globalCtx->envCtx.unk_BD = 0;
+            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            break;
         case 7:
             globalCtx->envCtx.unk_BE = 2;
             globalCtx->envCtx.unk_BD = 8;
@@ -409,11 +414,6 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         case 25:
             globalCtx->envCtx.unk_BE = 0;
             globalCtx->envCtx.unk_BD = 0xC;
-            break;
-        case 55:
-            globalCtx->envCtx.unk_BE = 2;
-            globalCtx->envCtx.unk_BD = 0;
-            Math_SmoothDownscaleMaxF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
             break;
     }
 
