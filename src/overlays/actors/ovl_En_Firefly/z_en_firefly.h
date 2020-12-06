@@ -25,6 +25,14 @@ typedef struct EnFirefly {
     /* 0x0344 */ ColliderJntSphItem colliderItems[1];
 } EnFirefly; // size = 0x0374
 
+typedef enum {
+    /* 0 */ KEESE_FIRE_FLY,
+    /* 1 */ KEESE_FIRE_PERCH,
+    /* 2 */ KEESE_NORMAL_FLY,
+    /* 3 */ KEESE_NORMAL_PERCH,
+    /* 4 */ KEESE_ICE_FLY
+} KeeseParams;
+
 extern const ActorInit En_Firefly_InitVars;
 
 #endif
