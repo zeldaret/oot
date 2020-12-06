@@ -16,7 +16,7 @@ void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80B0BAC8(EnStream* this, GlobalContext* globalCtx);
 void func_80B0B934(EnStream* this, GlobalContext* globalCtx);
-int func_80B0B81C(PosRot* p1, PosRot* p2, Vec3f* v, f32 f);
+s32 func_80B0B81C(PosRot* vortexPosRot, PosRot* playerPosRot, Vec3f* v, f32 vortexYScale);
 
 extern UNK_TYPE D_06000950;
 
@@ -58,35 +58,33 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B81C.s")
-// int func_80B0B81C(PosRot *arg0, PosRot *arg1, PosRot *arg2, f32 arg3) {
-//     f32 xzDist;
-//     f32 temp_f14;
-//     f32 temp_f2_2;
-//     int phi_v1;
+#ifdef NONMATCHING
+// regalloc differences
+s32 func_80B0B81C(PosRot *vortexPosRot, PosRot *playerPosRot, Vec3f *v, f32 vortexYScale) {
+    s32 ret = 0;
+    f32 smallConstant = 28;
+    f32 lowerBounds = 0 * vortexYScale * 50;
+    f32 upperBounds = 160 * vortexYScale * 50;
+    f32 xzDist;
 
-//     arg2->pos.x = (f32) (arg1->pos.x - arg0->pos.x);
-//     arg2->pos.y = (f32) (arg1->pos.y - arg0->pos.y);
-//     arg2->pos.z = (f32) (arg1->pos.z - arg0->pos.z);
-//     xzDist = sqrtf(SQ(arg2->pos.x) + SQ(arg2->pos.z));
-//     temp_f14 = 0.0f * arg3 * 50.0f;
-//     phi_v1 = 0;
-//     if (temp_f14 <= arg2->pos.y) {
-//         temp_f2_2 = 160.0f * arg3 * 50.0f;
-//         phi_v1 = 0;
-//         if (arg2->pos.y <= temp_f2_2) {
-//             arg2->pos.y = (f32) (arg2->pos.y - temp_f14);
-//             phi_v1 = 0;
-//             if (xzDist <= (((75.0f - 28.0f) * (arg2->pos.y / (temp_f2_2 - temp_f14))) + 28.0f)) {
-//                 phi_v1 = 1;
-//             }
-//         }
-//     }
-//     if ((arg2->pos.y <= temp_f14) && (xzDist <= 28.0f)) {
-//         phi_v1 = 2;
-//     }
-//     return phi_v1;
-// }
+    v->x = playerPosRot->pos.x - vortexPosRot->pos.x;
+    v->y = playerPosRot->pos.y - vortexPosRot->pos.y;
+    v->z = playerPosRot->pos.z - vortexPosRot->pos.z;
+    xzDist = sqrtf(SQ(v->x) + SQ(v->z));
+    if (lowerBounds <= v->y && v->y <= upperBounds) {
+        v->y = v->y - lowerBounds;
+        if (xzDist <= (((75 - smallConstant) * (v->y / (upperBounds - lowerBounds))) + smallConstant)) {
+            ret = 1;
+        }
+    }
+    if ((v->y <= lowerBounds) && (xzDist <= 28)) {
+        ret = 2;
+    }
+    return ret;
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B81C.s")
+#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B934.s")
 void func_80B0B934(EnStream* this, GlobalContext* globalCtx) {
