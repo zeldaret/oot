@@ -1808,7 +1808,7 @@ void func_80B414AC(EnXc* this, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(&D_060058C0));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(&D_060058C0));
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL, NULL);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL, NULL);
     Graph_CloseDisps(dispRefs, localGfxCtx, "../z_en_oA2_inStalker.c", 854);
 }
 
@@ -1890,7 +1890,7 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012AF0, &D_06004828, &this->limbDrawTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06012AF0, &D_06004828, &this->limbDrawTable,
                      &this->transitionDrawTable, 17);
     func_80B3C1E0(this, globalCtx);
     switch (this->actor.params) {
@@ -1966,7 +1966,7 @@ void func_80B41BA4(EnXc *this, GlobalContext *globalCtx) {
     func_80093D18(gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeSegment));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(eyeSegment));
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80B41A88, func_80B41B0C, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80B41A88, func_80B41B0C, &this->actor);
     Graph_CloseDisps(dispRefs, localGfxCtx, "../z_en_oA2.c", 1207);
 }
 
