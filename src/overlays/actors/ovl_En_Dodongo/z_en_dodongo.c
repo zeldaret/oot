@@ -469,7 +469,7 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
         }
         this->timer--;
         if (this->timer == 0) {
-            if (0.7f < Math_Rand_ZeroOne()) {
+            if (Math_Rand_ZeroOne() > 0.7f) {
                 this->timer = Math_Rand_S16Offset(50, 70);
                 this->retreatTimer = Math_Rand_S16Offset(15, 40);
             } else {
