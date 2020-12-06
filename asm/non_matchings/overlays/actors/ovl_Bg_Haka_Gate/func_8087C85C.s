@@ -98,7 +98,7 @@ glabel func_8087C85C
 /* 00B98 8087C988 862D07A0 */  lh      $t5, 0x07A0($s1)           ## 000007A0
 /* 00B9C 8087C98C 000D7080 */  sll     $t6, $t5,  2               
 /* 00BA0 8087C990 022E7821 */  addu    $t7, $s1, $t6              
-/* 00BA4 8087C994 0C016A7D */  jal     func_8005A9F4              
+/* 00BA4 8087C994 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00BA8 8087C998 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 00BAC 8087C99C 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
 /* 00BB0 8087C9A0 3C018088 */  lui     $at, %hi(D_8087CDA4)       ## $at = 80880000

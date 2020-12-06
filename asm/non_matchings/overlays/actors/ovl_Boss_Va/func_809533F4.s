@@ -738,7 +738,7 @@ glabel L80953CD8
 /* 04B5C 80953E1C 24E768D8 */  addiu   $a3, $a3, %lo(D_809668D8)  ## $a3 = 809668D8
 /* 04B60 80953E20 24C668E8 */  addiu   $a2, $a2, %lo(D_809668E8)  ## $a2 = 809668E8
 /* 04B64 80953E24 84A5C23C */  lh      $a1, %lo(D_8095C23C)($a1)  
-/* 04B68 80953E28 0C030136 */  jal     func_800C04D8              
+/* 04B68 80953E28 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 04B6C 80953E2C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L80953E30:
 /* 04B70 80953E30 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

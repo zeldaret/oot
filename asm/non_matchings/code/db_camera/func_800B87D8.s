@@ -1,8 +1,40 @@
+.rdata
+glabel D_80143968
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143978
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_801439A4
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_801439B4
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_801439C4
+    .asciz "%s: %d: デバッグカメラ メモリ確保失敗！！\n"
+    # EUC-JP: デバッグカメラ メモリ確保失敗！！ | Debug camera memory allocation failure
+    .balign 4
+
+glabel D_801439F0
+    .asciz "../db_camera.c"
+    .balign 4
+
+glabel D_80143A00
+    .asciz "../db_camera.c"
+    .balign 4
+
+.text
 glabel func_800B87D8
 /* B2F978 800B87D8 27BDFFD8 */  addiu $sp, $sp, -0x28
-/* B2F97C 800B87DC 3C0F8016 */  lui   $t7, %hi(D_80161150) # $t7, 0x8016
+/* B2F97C 800B87DC 3C0F8016 */  lui   $t7, %hi(sDbgEditorSlots) # $t7, 0x8016
 /* B2F980 800B87E0 AFB00014 */  sw    $s0, 0x14($sp)
-/* B2F984 800B87E4 25EF1150 */  addiu $t7, %lo(D_80161150) # addiu $t7, $t7, 0x1150
+/* B2F984 800B87E4 25EF1150 */  addiu $t7, %lo(sDbgEditorSlots) # addiu $t7, $t7, 0x1150
 /* B2F988 800B87E8 00047100 */  sll   $t6, $a0, 4
 /* B2F98C 800B87EC AFBF001C */  sw    $ra, 0x1c($sp)
 /* B2F990 800B87F0 AFB10018 */  sw    $s1, 0x18($sp)
@@ -12,11 +44,11 @@ glabel func_800B87D8
 /* B2F9A0 800B8800 0C02E1CC */  jal   func_800B8730
 /* B2F9A4 800B8804 A2180001 */   sb    $t8, 1($s0)
 /* B2F9A8 800B8808 304800FF */  andi  $t0, $v0, 0xff
-/* B2F9AC 800B880C 3C018016 */  lui   $at, %hi(D_8016128F)
+/* B2F9AC 800B880C 3C018016 */  lui   $at, %hi(sDbgEditorStates)
 /* B2F9B0 800B8810 A2020000 */  sb    $v0, ($s0)
 /* B2F9B4 800B8814 00280821 */  addu  $at, $at, $t0
 /* B2F9B8 800B8818 2419004F */  li    $t9, 79
-/* B2F9BC 800B881C A039128F */  sb    $t9, %lo(D_8016128F)($at)
+/* B2F9BC 800B881C A039128F */  sb    $t9, %lo(sDbgEditorStates)($at)
 /* B2F9C0 800B8820 86270004 */  lh    $a3, 4($s1)
 /* B2F9C4 800B8824 3C058014 */  lui   $a1, %hi(D_80143968) # $a1, 0x8014
 /* B2F9C8 800B8828 24A53968 */  addiu $a1, %lo(D_80143968) # addiu $a1, $a1, 0x3968
