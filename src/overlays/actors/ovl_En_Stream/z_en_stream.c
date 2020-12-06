@@ -32,29 +32,25 @@ const ActorInit En_Stream_InitVars = {
     (ActorFunc)EnStream_Draw,
 };
 
-// sInitChain
-InitChainEntry D_80B0BCC0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 20, ICHAIN_STOP),
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B7A0.s")
 void func_80B0B7A0(EnStream* this, EnStreamActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Init.s")
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnStream* this = THIS;
 
-    this->unk_150 = (s32)(thisx->params & 0xFF);
-    Actor_ProcessInitChain(thisx, &D_80B0BCC0);
+    this->unk_150 = thisx->params & 0xFF;
+    Actor_ProcessInitChain(thisx, &sInitChain);
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;
     }
     func_80B0B7A0(this, &func_80B0BAC8);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Destroy.s")
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
@@ -86,7 +82,6 @@ s32 func_80B0B81C(PosRot* vortexPosRot, PosRot* playerPosRot, Vec3f* v, f32 vort
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B81C.s")
 #endif
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B934.s")
 void func_80B0B934(EnStream* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad48;
@@ -118,7 +113,6 @@ void func_80B0B934(EnStream* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0BAC8.s")
 void func_80B0BAC8(EnStream* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 pad;
@@ -129,7 +123,6 @@ void func_80B0BAC8(EnStream* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Update.s")
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnStream* this = THIS;
 
@@ -137,7 +130,6 @@ void EnStream_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002F948(thisx, NA_SE_EV_WHIRLPOOL - SFX_FLAG);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/EnStream_Draw.s")
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 multipliedFrames;
     u32 frames = globalCtx->gameplayFrames;

@@ -3022,7 +3022,6 @@ endseg
 beginseg
     name "ovl_En_Stream"
     include "build/src/overlays/actors/ovl_En_Stream/z_en_stream.o"
-    // include "build/data/overlays/actors/z_en_stream.data.o"
     include "build/data/overlays/actors/z_en_stream.reloc.o"
 endseg
 
