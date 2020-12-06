@@ -770,8 +770,6 @@ void func_80ADAFC0(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADB17C(EnPoSisters* this, GlobalContext* globalCtx) {
-    Vec3s* vec;
-
     this->unk_19A++;
     if (this->unk_19A == 64) {
         Flags_SetSwitch(globalCtx, this->actor.params);
@@ -788,10 +786,9 @@ void func_80ADB17C(EnPoSisters* this, GlobalContext* globalCtx) {
         func_80AD9240(this, 64 - this->unk_19A, &this->actor.posRot.pos);
     }
     if (this->unk_19A == 32) {
-        vec = &D_80ADD7A4[this->unk_194];
-        this->actor.posRot.pos.x = vec->x;
-        this->actor.posRot.pos.y = vec->y;
-        this->actor.posRot.pos.z = vec->z;
+        this->actor.posRot.pos.x = D_80ADD7A4[this->unk_194].x;
+        this->actor.posRot.pos.y = D_80ADD7A4[this->unk_194].y;
+        this->actor.posRot.pos.z = D_80ADD7A4[this->unk_194].z;
     }
 }
 
@@ -1134,11 +1131,10 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Stack only
 void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoSisters* this = THIS;
     s32 pad;
+    EnPoSisters* this = THIS;
+    s16 temp;
 
     if (this->collider.base.atFlags & 2) {
         this->collider.base.atFlags &= ~2;
@@ -1154,22 +1150,26 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_80ADA35C(this, globalCtx);
         }
         Actor_MoveForward(&this->actor);
+
         if (this->unk_199 & 0x10) {
             func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);
         } else {
             Vec3f vec;
             UNK_TYPE sp34;
+
             vec.x = this->actor.posRot.pos.x;
             vec.y = this->actor.posRot.pos.y + 10.0f;
             vec.z = this->actor.posRot.pos.z;
             this->actor.groundY = func_8003C9A4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
         }
+
         Collider_CylinderUpdate(&this->actor, &this->collider);
         if (this->actionFunc == func_80ADA8C0 || this->actionFunc == func_80ADA7F0) {
             this->unk_198++;
             this->unk_198 = CLAMP_MAX(this->unk_198, 8);
         } else if (this->actionFunc != func_80ADAFC0) {
-            this->unk_198 = CLAMP_MIN((s16)(this->unk_198 - 1), 1);
+            temp = this->unk_198 - 1;
+            this->unk_198 = CLAMP_MIN(temp, 1);
         }
         if (this->actionFunc == func_80ADA8C0) {
             this->actor.flags |= 0x01000000;
@@ -1189,9 +1189,6 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Sisters/EnPoSisters_Update.s")
-#endif
 
 void func_80ADC55C(EnPoSisters* this) {
     s16 temp_var;
