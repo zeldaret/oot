@@ -1207,16 +1207,15 @@ static DemoEcInitFunc sInitFuncs[] = {
 
 void DemoEc_InitNpc(DemoEc* this, GlobalContext* globalCtx) {
     s16 type = this->actor.params;
-    DemoEcInitFunc initFunc = sInitFuncs[type];
 
-    if (initFunc == NULL) {
+    if (sInitFuncs[type] == NULL) {
         // Demo_Ec_main_init: Initialization process is wrong arg_data
         osSyncPrintf(VT_FGCOL(RED) " Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, type);
         Actor_Kill(&this->actor);
         return;
     }
 
-    initFunc(this, globalCtx);
+    sInitFuncs[type](this, globalCtx);
 }
 
 void DemoEc_InitCommon(DemoEc* this, GlobalContext* globalCtx) {
@@ -1284,20 +1283,17 @@ static DemoEcUpdateFunc sUpdateFuncs[] = {
 };
 
 void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
     DemoEc* this = THIS;
-    DemoEcUpdateFunc* updateFunc;
+    s32 updateMode = this->updateMode;
 
-    if ((this->updateMode < 0) || (this->updateMode >= ARRAY_COUNT(sUpdateFuncs)) ||
-        (updateFunc = sUpdateFuncs + this->updateMode, *updateFunc == NULL)) {
+    if ((updateMode < 0) || (updateMode >= ARRAY_COUNT(sUpdateFuncs)) || sUpdateFuncs[updateMode] == NULL) {
         // The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        if (updateFunc != sUpdateFuncs) {
+        if (updateMode != EC_UPDATE_COMMON) {
             DemoEc_UseAnimationObject(this, globalCtx);
         }
-        (*updateFunc)(this, globalCtx);
-        if (sUpdateFuncs) {}
+        sUpdateFuncs[updateMode](this, globalCtx);
     }
 }
 
@@ -1320,20 +1316,17 @@ static DemoEcDrawFunc sDrawFuncs[] = {
 };
 
 void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
     DemoEc* this = THIS;
-    DemoEcDrawFunc* drawFunc;
+    s32 drawConfig = this->drawConfig;
 
-    if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
-        (drawFunc = sDrawFuncs + this->drawConfig, *drawFunc == NULL)) {
+    if ((drawConfig < 0) || (drawConfig >= ARRAY_COUNT(sDrawFuncs)) || sDrawFuncs[drawConfig] == NULL) {
         // The main mode is strange !!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        if (drawFunc != sDrawFuncs) {
+        if (drawConfig != EC_DRAW_COMMON) {
             DemoEc_UseDrawObject(this, globalCtx);
         }
-        (*drawFunc)(this, globalCtx);
-        if (sDrawFuncs) {}
+        sDrawFuncs[drawConfig](this, globalCtx);
     }
 }
 
