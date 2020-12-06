@@ -126,7 +126,7 @@ glabel func_8097E454
 /* 00F98 8097E608 460A4400 */  add.s   $f16, $f8, $f10            
 /* 00F9C 8097E60C 8FA600B0 */  lw      $a2, 0x00B0($sp)           
 /* 00FA0 8097E610 8FA700B4 */  lw      $a3, 0x00B4($sp)           
-/* 00FA4 8097E614 0C25F5D3 */  jal     func_8097D74C              
+/* 00FA4 8097E614 0C25F5D3 */  jal     DemoGt_SpawnDust              
 /* 00FA8 8097E618 E7B00084 */  swc1    $f16, 0x0084($sp)          
 /* 00FAC 8097E61C 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

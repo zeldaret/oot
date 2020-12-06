@@ -14,7 +14,7 @@ glabel EnSyatekiMan_Draw
 /* 00CD8 80B11548 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00CDC 80B1154C AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 00CE0 80B11550 8FA4002C */  lw      $a0, 0x002C($sp)
-/* 00CE4 80B11554 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00CE4 80B11554 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00CE8 80B11558 AFA20018 */  sw      $v0, 0x0018($sp)
 /* 00CEC 80B1155C 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 00CF0 80B11560 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

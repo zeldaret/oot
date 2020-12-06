@@ -43,11 +43,11 @@ const ActorInit Obj_Oshihiki_InitVars = {
     (ActorFunc)ObjOshihiki_Draw,
 };
 
-f32 sScales[] = {
+static f32 sScales[] = {
     (1 / 10.0f), (1 / 6.0f), (1 / 5.0f), (1 / 3.0f), (1 / 10.0f), (1 / 6.0f), (1 / 5.0f), (1 / 3.0f),
 };
 
-Color_RGB8 sColors[][4] = {
+static Color_RGB8 sColors[][4] = {
     { { 110, 86, 40 }, { 110, 86, 40 }, { 110, 86, 40 }, { 110, 86, 40 } },         // deku tree
     { { 106, 120, 110 }, { 104, 80, 20 }, { 0, 0, 0 }, { 0, 0, 0 } },               // dodongos cavern
     { { 142, 99, 86 }, { 72, 118, 96 }, { 0, 0, 0 }, { 0, 0, 0 } },                 // forest temple
@@ -59,7 +59,7 @@ Color_RGB8 sColors[][4] = {
     { { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 }, { 232, 210, 176 } }, // gerudo training grounds
 };
 
-s16 sScenes[] = {
+static s16 sScenes[] = {
     SCENE_YDAN,      SCENE_DDAN,    SCENE_BMORI1, SCENE_HIDAN, SCENE_MIZUSIN,
     SCENE_JYASINZOU, SCENE_HAKADAN, SCENE_GANON,  SCENE_MEN,
 };
@@ -71,19 +71,19 @@ static InitChainEntry sInitChain[] = {
 };
 
 // The vertices and center of the bottom face
-Vec3f sColCheckPoints[5] = {
+static Vec3f sColCheckPoints[5] = {
     { 29.99f, 1.01f, -29.99f }, { -29.99f, 1.01f, -29.99f }, { -29.99f, 1.01f, 29.99f },
     { 29.99f, 1.01f, 29.99f },  { 0.0f, 1.01f, 0.0f },
 };
 
-Vec2f sFaceVtx[] = {
+static Vec2f sFaceVtx[] = {
     { -30.0f, 0.0f },
     { 30.0f, 0.0f },
     { -30.0f, 60.0f },
     { 30.0f, 60.0f },
 };
 
-Vec2f sFaceDirection[] = {
+static Vec2f sFaceDirection[] = {
     { 1.0f, 1.0f },
     { -1.0f, 1.0f },
     { 1.0f, -1.0f },

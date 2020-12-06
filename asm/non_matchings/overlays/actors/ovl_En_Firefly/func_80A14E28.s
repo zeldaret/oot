@@ -54,7 +54,7 @@ glabel func_80A14E28
 /* 01E58 80A14EC8 AFAD0010 */  sw      $t5, 0x0010($sp)
 /* 01E5C 80A14ECC 8E0E02D0 */  lw      $t6, 0x02D0($s0)           ## 000002D0
 /* 01E60 80A14ED0 8FA4005C */  lw      $a0, 0x005C($sp)
-/* 01E64 80A14ED4 0C0288A2 */  jal     SkelAnime_Draw2
+/* 01E64 80A14ED4 0C0288A2 */  jal     SkelAnime_Draw
 /* 01E68 80A14ED8 AFAE0018 */  sw      $t6, 0x0018($sp)
 /* 01E6C 80A14EDC AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 01E70 80A14EE0 8FAF005C */  lw      $t7, 0x005C($sp)

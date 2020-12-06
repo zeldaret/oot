@@ -238,75 +238,62 @@ void SkinMatrix_MtxFCopy(MtxF* src, MtxF* dest) {
  * returns 0 if successfully inverted
  * returns 2 if matrix non-invertible (0 determinant)
  */
-#ifdef NON_MATCHING
-// Saved register usage differences and probably regalloc
 s32 SkinMatrix_Invert(MtxF* src, MtxF* dest) {
     MtxF mfCopy;
     s32 i;
-    s32 k;
-    f32 temp1;
+    s32 pad;
     f32 temp2;
-    f32 diagElement;
+    f32 temp1;
     s32 thisRow;
     s32 thisCol;
-    u32 pad;
 
     SkinMatrix_MtxFCopy(src, &mfCopy);
     SkinMatrix_Clear(dest);
-    for (thisRow = 0; thisRow != 4; thisRow++) {
-        for (thisCol = thisRow; (thisCol < 4) && (fabsf(mfCopy.mf[thisRow][thisCol]) < 0.0005f); thisCol++) {}
+    for (thisRow = 0; thisRow < 4; thisRow++) {
+        thisCol = thisRow;
+        while ((thisCol < 4) && (fabsf(mfCopy.mf[thisRow][thisCol]) < 0.0005f)) {
+            thisCol++;
+        }
         if (thisCol == 4) {
             // reaching col = 4 means the row is either all 0 or a duplicate row.
             // therefore singular matrix (0 determinant).
+
             osSyncPrintf(VT_COL(YELLOW, BLACK));
             osSyncPrintf("Skin_Matrix_InverseMatrix():逆行列つくれません\n");
             osSyncPrintf(VT_RST);
             return 2;
         }
-
         if (thisCol != thisRow) { // responsible for swapping columns if zero on diagonal
-            for (i = 0; i != 4; i++) {
+            for (i = 0; i < 4; i++) {
                 temp1 = mfCopy.mf[i][thisCol];
                 mfCopy.mf[i][thisCol] = mfCopy.mf[i][thisRow];
                 mfCopy.mf[i][thisRow] = temp1;
 
-                temp1 = dest->mf[i][thisCol];
+                temp2 = dest->mf[i][thisCol];
                 dest->mf[i][thisCol] = dest->mf[i][thisRow];
-                dest->mf[i][thisRow] = temp1;
+                dest->mf[i][thisRow] = temp2;
             }
         }
 
-        diagElement = mfCopy.mf[thisRow][thisRow];
         // Scale this whole column s.t. the diag element = 1
-        mfCopy.mf[0][thisRow] = mfCopy.mf[0][thisRow] / diagElement;
-        dest->mf[0][thisRow] = dest->mf[0][thisRow] / diagElement;
-        mfCopy.mf[1][thisRow] = mfCopy.mf[1][thisRow] / diagElement;
-        dest->mf[1][thisRow] = dest->mf[1][thisRow] / diagElement;
-        mfCopy.mf[2][thisRow] = mfCopy.mf[2][thisRow] / diagElement;
-        dest->mf[2][thisRow] = dest->mf[2][thisRow] / diagElement;
-        mfCopy.mf[3][thisRow] = mfCopy.mf[3][thisRow] / diagElement;
-        dest->mf[3][thisRow] = dest->mf[3][thisRow] / diagElement;
+        temp1 = mfCopy.mf[thisRow][thisRow];
+        for (i = 0; i < 4; i++) {
+            mfCopy.mf[i][thisRow] /= temp1;
+            dest->mf[i][thisRow] /= temp1;
+        }
 
-        // col i = col i - a * col j
-        for (k = 0; k != 4; k++) {
-            if (k != thisRow) {
-                temp2 = mfCopy.mf[thisRow][k];
-                mfCopy.mf[0][k] = mfCopy.mf[0][k] - (mfCopy.mf[0][thisRow] * temp2);
-                dest->mf[0][k] = dest->mf[0][k] - (dest->mf[0][thisRow] * temp2);
-                mfCopy.mf[1][k] = mfCopy.mf[1][k] - (mfCopy.mf[1][thisRow] * temp2);
-                dest->mf[1][k] = dest->mf[1][k] - (dest->mf[1][thisRow] * temp2);
-                mfCopy.mf[2][k] = mfCopy.mf[2][k] - (mfCopy.mf[2][thisRow] * temp2);
-                dest->mf[2][k] = dest->mf[2][k] - (dest->mf[2][thisRow] * temp2);
-                mfCopy.mf[3][k] = mfCopy.mf[3][k] - (mfCopy.mf[3][thisRow] * temp2);
-                dest->mf[3][k] = dest->mf[3][k] - (dest->mf[3][thisRow] * temp2);
+        for (thisCol = 0; thisCol < 4; thisCol++) {
+            if (thisCol != thisRow) {
+                temp1 = mfCopy.mf[thisRow][thisCol];
+                for (i = 0; i < 4; i++) {
+                    mfCopy.mf[i][thisCol] -= mfCopy.mf[i][thisRow] * temp1;
+                    dest->mf[i][thisCol] -= dest->mf[i][thisRow] * temp1;
+                }
             }
         }
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/SkinMatrix_Invert.s")
-#endif
 
 /**
  * Produces a matrix which scales x,y,z components of vectors or x,y,z rows of matrices (when applied on LHS)
@@ -620,63 +607,47 @@ Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
 }
 
 /**
- * Produces a matrix which rotates vectors by angle a around the vector with components (x,y,z)
+ * Produces a matrix which rotates vectors by angle a around a unit vector with components (x,y,z)
  */
-#ifdef NON_EQUIVALENT
-// I think this is functionally correct but I cannot be 100% sure of equivalence because diff output is not very close
 void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
-    f32 sin;
-    f32 cos;
-    f32 ct;
+    f32 sinA;
+    f32 cosA;
     f32 xx;
     f32 yy;
     f32 zz;
     f32 xy;
-    f32 xz;
     f32 yz;
-    f32 sx;
-    f32 sy;
-    f32 sz;
+    f32 xz;
+    f32 pad;
 
-    sin = Math_Sins(a);
-    cos = Math_Coss(a);
-
-    ct = 1.0f - cos;
-    sx = sin * x;
-    sy = sin * y;
-    sz = sin * z;
+    sinA = Math_Sins(a);
+    cosA = Math_Coss(a);
 
     xx = x * x;
-    xy = x * y;
-    xz = x * z;
     yy = y * y;
-    yz = y * z;
     zz = z * z;
+    xy = x * y;
+    yz = y * z;
+    xz = x * z;
 
-    mf->xx = (f32)ct * xx + cos;
-    mf->xy = (f32)((ct * xy) + sz);
-    mf->xz = (f32)((ct * xz) - sy);
+    mf->xx = (1.0f - xx) * cosA + xx;
+    mf->xy = (1.0f - cosA) * xy + z * sinA;
+    mf->xz = (1.0f - cosA) * xz - y * sinA;
     mf->xw = 0.0f;
 
-    mf->yx = (f32)((ct * (xy)) - sz);
-    mf->yy = (f32)ct * yy + cos;
-    mf->yz = (f32)((ct * (yz)) + sx);
+    mf->yx = (1.0f - cosA) * xy - z * sinA;
+    mf->yy = (1.0f - yy) * cosA + yy;
+    mf->yz = (1.0f - cosA) * yz + x * sinA;
     mf->yw = 0.0f;
 
-    mf->zx = (f32)((ct * (xz)) + sy);
-    mf->zy = (f32)((ct * (yz)) - sx);
-    mf->zz = (f32)ct * zz + cos;
-
+    mf->zx = (1.0f - cosA) * xz + y * sinA;
+    mf->zy = (1.0f - cosA) * yz - x * sinA;
+    mf->zz = (1.0f - zz) * cosA + zz;
     mf->zw = 0.0f;
 
-    mf->wx = 0.0f;
-    mf->wy = 0.0f;
-    mf->wz = 0.0f;
+    mf->wx = mf->wy = mf->wz = 0.0f;
     mf->ww = 1.0f;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_matrix/func_800A7EC0.s")
-#endif
 
 void func_800A8030(MtxF* mf, f32* arg1) {
     f32 n;

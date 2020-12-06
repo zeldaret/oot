@@ -33,14 +33,14 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
-ColliderJntSphInit sJntSphInit = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
     1,
     &sJntSphItemsInit,

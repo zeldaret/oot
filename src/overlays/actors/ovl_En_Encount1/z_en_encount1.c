@@ -12,8 +12,8 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, GlobalContext* globalCtx);
 void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx);
 void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCtx);
 
-s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
-f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
+static s16 sLeeverAngles[] = { 0x0000, 0x2710, 0x7148, 0x8EB8, 0xD8F0 };
+static f32 sLeeverDists[] = { 200.0f, 170.0f, 120.0f, 120.0f, 170.0f };
 
 const ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
