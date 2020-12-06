@@ -323,13 +323,13 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if ((this->unk_332 == 0) && (this->unk_336 != 0)) {
         if (this->unk_336 == 2) {
-            this->unk_332 = (s16)((s32)Math_Rand_ZeroFloat(30.0f) + 8);
+            this->unk_332 = (s16)Math_Rand_ZeroFloat(30.0f) + 8;
         } else {
-            this->unk_332 = (s16)((s32)Math_Rand_ZeroFloat(60.0f) + 0xA);
+            this->unk_332 = (s16)Math_Rand_ZeroFloat(60.0f) + 0xA;
         }
-        this->unk_339 = (u8)0;
-        globalCtx->envCtx.unk_BE = (u8)0U;
-        globalCtx->envCtx.unk_BD = (s8)((s32)Math_Rand_ZeroFloat(1.9f) + 1);
+        this->unk_339 = 0;
+        globalCtx->envCtx.unk_BE = 0;
+        globalCtx->envCtx.unk_BD = (s8)Math_Rand_ZeroFloat(1.9f) + 1;
         globalCtx->envCtx.unk_D8 = 1.0f;
         D_8090EB20.y = 0.0f;
         D_8090EB20.x = D_8090EB20.y;
@@ -338,19 +338,19 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
             D_8090EB20.z = Math_Rand_ZeroFloat(1000.0f);
         }
         func_80078914(&D_8090EB20, NA_SE_EV_LIGHTNING);
-        this->unk_328 = (u16)0xFF;
-        this->unk_330 = (u16)5;
+        this->unk_328 = 0xFF;
+        this->unk_330 = 5;
         this->unk_32C = 0.0f;
-        this->unk_340 = (s16)(s32)Math_Rand_ZeroFloat(10000.0f);
+        this->unk_340 = (s16)Math_Rand_ZeroFloat(10000.0f);
     } else if (this->unk_332 != 0) {
         this->unk_332--;
     }
     if ((globalCtx->envCtx.unk_D8 > 0.0f) && (this->unk_336 != 0)) {
         globalCtx->envCtx.unk_E9 = 1;
-        globalCtx->envCtx.unk_EA[0] = (u8)0xFF;
-        globalCtx->envCtx.unk_EA[1] = (u8)0xFF;
-        globalCtx->envCtx.unk_EA[2] = (u8)0xFF;
-        globalCtx->envCtx.unk_EA[3] = (s8)(s32)(globalCtx->envCtx.unk_D8 * 200.0f);
+        globalCtx->envCtx.unk_EA[0] = 0xFF;
+        globalCtx->envCtx.unk_EA[1] = 0xFF;
+        globalCtx->envCtx.unk_EA[2] = 0xFF;
+        globalCtx->envCtx.unk_EA[3] = (s8)(globalCtx->envCtx.unk_D8 * 200.0f);
     } else {
         globalCtx->envCtx.unk_E9 = 0;
     }
