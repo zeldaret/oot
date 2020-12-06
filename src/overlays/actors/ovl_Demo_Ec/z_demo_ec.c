@@ -244,7 +244,7 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
     SkelAnime_ChangeAnim(&this->skelAnime, anim, playbackSpeed, startFrame, frameCount, mode, transitionRate);
 }
 
-Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8 color[4]) {
+Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* color) {
     Gfx* dList;
 
     dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 2);
@@ -420,7 +420,7 @@ void DemoEc_DrawWindmillMan(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_DrawSkeleton(this, globalCtx, &D_06005F20, &D_06006920, NULL, NULL);
 }
 
-void DemEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
+void DemoEc_InitKokiriBoy(DemoEc* this, GlobalContext* globalCtx) {
     DemoEc_UseDrawObject(this, globalCtx);
     DemoEc_InitSkelAnime(this, globalCtx, &D_060000F0);
     DemoEc_UseAnimationObject(this, globalCtx);
@@ -726,7 +726,7 @@ Gfx* DemoEc_GetGerudoPostLimbDList(DemoEc* this) {
             return D_06009690;
         default:
             osSyncPrintf(VT_FGCOL(RED) "かつらが無い!!!!!!!!!!!!!!!!\n" VT_RST);
-            return 0;
+            return NULL;
     }
 }
 
@@ -1052,7 +1052,7 @@ void DemoEc_FishingManPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx*
                                    Gfx** gfx) {
     DemoEc* this = THIS;
 
-    if ((limbIndex == 8) && (!(gSaveContext.unk_EC0 & 0x1000))) {
+    if ((limbIndex == 8) && !(gSaveContext.unk_EC0 & 0x1000)) {
         gSPDisplayList((*gfx)++, SEGMENTED_TO_VIRTUAL(D_060074C8));
     }
 }
@@ -1171,7 +1171,7 @@ static DemoEcInitFunc sInitFuncs[] = {
     DemoEc_InitIngo,
     DemoEc_InitTalon,
     DemoEc_InitWindmillMan,
-    DemEc_InitKokiriBoy,
+    DemoEc_InitKokiriBoy,
     DemoEc_InitKokiriGirl,
     DemoEc_InitOldMan,
     DemoEc_InitBeardedMan,
@@ -1241,8 +1241,8 @@ void DemoEc_InitCommon(DemoEc* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((Object_IsLoaded(&globalCtx->objectCtx, primaryBankIndex)) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, secondaryBankIndex))) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, primaryBankIndex) &&
+        Object_IsLoaded(&globalCtx->objectCtx, secondaryBankIndex)) {
 
         this->drawObjBankIndex = primaryBankIndex;
         this->animObjBankIndex = secondaryBankIndex;
