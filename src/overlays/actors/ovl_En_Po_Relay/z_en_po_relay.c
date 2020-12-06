@@ -173,11 +173,11 @@ void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
-void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
-    Player* player = PLAYER;                                     // sp5C
-    Vec3f vec;                                                   // sp50
+void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    Vec3f vec;
     f32 speed;
-    f32 multiplier; // sp48
+    f32 multiplier;
 
     if (this->actionTimer != 0) {
         this->actionTimer--;

@@ -365,11 +365,9 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     Vec3f* pos = &this->dyna.actor.posRot.pos;
     Vec3s* unk16C = &this->unk_16C;
     s32 pad;
-
     f32 tempf3;
     f32 tempf2;
     f32 tempf1;
-
     f32 phi_f2;
     f32 phi_f12;
     f32 phi_f14;
