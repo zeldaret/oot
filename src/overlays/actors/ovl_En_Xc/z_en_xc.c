@@ -157,6 +157,7 @@ void func_80B3FA2C(void);
 void func_80B3FA4C(Actor* thisx, GlobalContext* globalCtx);
 void func_80B3FAE0(EnXc* this);
 void func_80B3FB24(Actor* thisx, GlobalContext* globalCtx);
+void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx);
 void func_80B3FFB4(EnXc* this, GlobalContext* globalCtx);
 void func_80B400AC(EnXc* this, GlobalContext* globalCtx);
 void func_80B400E4(EnXc* this, GlobalContext* globalCtx);
@@ -211,7 +212,7 @@ void func_80B41BA4(EnXc* this, GlobalContext* globalCtx);
 void func_80B3E908(EnXc* this, GlobalContext* globalCtx);
 void func_80B41BA4(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EA7C(EnXc* this, GlobalContext* globalCtx);
-void func_80B402C4(EnXc* this, GlobalContext* globalCtx);
+void func_80B402C4(Actor* thisx, GlobalContext* globalCtx);
 void func_80B414AC(EnXc* this, GlobalContext* globalCtx);
 
 void func_80B3EBF0(EnXc* this, GlobalContext* globalCtx);
@@ -219,6 +220,11 @@ void func_80B3EC00(EnXc* this);
 
 s32 func_80B3E8E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 void func_80B3E87C(Gfx** dList, EnXc* this);
+
+s32 func_80B40224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                   void* actor);
+
+void func_80B40248(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* actor);
 
 extern SkeletonHeader D_06012AF0;
 extern AnimationHeader D_06004828;
@@ -1514,9 +1520,7 @@ void func_80B3FB24(Actor* thisx, GlobalContext* globalCtx) {
             scale[0] = kREG(19) * 0.1f + 40.0f;
             scale[1] = kREG(20) * 0.1f + 40.0f;
             scale[2] = kREG(21) * 0.1f + 40.0f;
-            return;
-        }
-        if (this->unk_274 == 2) {
+        } else if (this->unk_274 == 2) {
             f32 maxTime = (kREG(25) + 40.0f) + (kREG(27) + 90.0f);
             if (*timer < maxTime) {
                 f32 d = (*timer - (kREG(25) + 40.0f)) / (kREG(27) + 90.0f);
@@ -1529,17 +1533,52 @@ void func_80B3FB24(Actor* thisx, GlobalContext* globalCtx) {
                 scale[1] = (kREG(20) * 0.1f + 40.0f) * (kREG(26) + 50.0f);
                 scale[2] = (kREG(21) * 0.1f + 40.0f) * (kREG(26) + 50.0f);
             }
-            this->unk_2A4 += (u16)((kREG(28) + 0x2EE0) & 0xFFFFu);
+            this->unk_2A4 += (s16)(kREG(28) + 0x2EE0);
         }
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3FF0C.s")
+void func_80B3FF0C(EnXc *this, GlobalContext *globalCtx) {
+    if (func_80B3C53C(this, globalCtx, 1, 4)) {
+        CutsceneContext* csCtx = &globalCtx->csCtx;
+        if (csCtx->state) {
+            CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
+            if (npcAction) {
+                PosRot* posRot = &this->actor.posRot;
+                ActorShape* shape = &this->actor.shape;
+                Vec3i* startPos = &npcAction->startPos;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3FFB4.s")
+                posRot->pos.x = startPos->x;
+                posRot->pos.y = startPos->y;
+                posRot->pos.z = startPos->z;
+                
+                posRot->rot.y = shape->rot.y = npcAction->rot.y;
+            }
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40040.s")
+        this->action = 54;
+        this->drawMode = 1;
+    }
+}
 
+extern AnimationHeader D_06001A08;
+
+void func_80B3FFB4(EnXc *this, GlobalContext *globalCtx) {
+    if (func_80B3C4F0(this, globalCtx, 10, 4)) {
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06001A08, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06001A08), 2, -8.0f);
+        this->action = 55;
+        this->drawMode = 4;
+    }
+}
+
+extern AnimationHeader D_06001D14;
+
+void func_80B40040(EnXc* this, s32 animFinished) {
+    if (animFinished) {
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06001D14, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06001D14), 0, 0.0f);
+        this->action = 56;
+    }
+}
 void func_80B400AC(EnXc* this, GlobalContext* globalCtx) {
     if (func_80B3C4F0(this, globalCtx, 9, 4)) {
         Actor_Kill(&this->actor);
@@ -1581,7 +1620,46 @@ void func_80B401CC(EnXc* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40248.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B402C4.s")
+extern Gfx D_06012970[];
+
+
+// draw triforce
+void func_80B402C4(Actor* thisx, GlobalContext *globalCtx) {
+    EnXc* this = THIS;
+    s32 pad;
+    s16 eyeIdx = this->eyeIdx;
+    UNK_PTR eyeTexture = D_80B41D6C[eyeIdx];
+    SkelAnime* skelAnime = &this->skelAnime;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    s32 pad2;
+
+    OPEN_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 565);
+    if (this->unk_2BC != 0) {
+        Mtx* mtx = (Mtx *)Graph_Alloc(gfxCtx, sizeof(Mtx));
+        s32* primColor = this->triforcePrimColor;
+        s32* envColor = this->triforceEnvColor;
+        f32* scale = this->triforceScale;
+
+        Matrix_Push();
+        Matrix_Translate(kREG(16) + 100.0f, kREG(17) + 4460.0f, kREG(18) + 1190.0f, MTXMODE_APPLY);
+        Matrix_RotateRPY(kREG(22), kREG(23), this->unk_2A4, MTXMODE_APPLY);
+        Matrix_Scale(scale[0], scale[1], scale[2], MTXMODE_APPLY);
+        Matrix_ToMtx(mtx, "../z_en_oA2_inMetamol.c", 602);
+        Matrix_Pull();
+        func_80093D84(gfxCtx);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, primColor[2], primColor[3]);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, envColor[1], 0, 128);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, D_06012970);
+    }
+    
+    func_8002EBCC(thisx, globalCtx, 0);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, func_80B40224, func_80B40248, &this->actor);
+    CLOSE_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 668);
+}
 
 void func_80B40590(EnXc* this, GlobalContext* globalCtx) {
     this->action = 57;
