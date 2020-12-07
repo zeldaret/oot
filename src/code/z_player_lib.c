@@ -406,7 +406,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
     this->unk_684 = actor;
     this->stateFlags1 |= 0x10000;
     Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, actor);
-    func_8005A444(Gameplay_GetCamera(globalCtx, 0), 2);
+    Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 
 s32 func_8008EF30(GlobalContext* globalCtx) {

@@ -257,7 +257,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dFlags = 0x3F8F9;
+    this->colCylinder[0].info.bumper.dFlags = 0x0003F8F9;
     this->colCylinder[1].info.bumper.dFlags = 0xFFC00706;
     this->colCylinder[2].base.colType = COLTYPE_METAL;
     this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
@@ -463,7 +463,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     }
 
     if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
-        // player has hit the backside ofthe skulltulla
+        // player has hit the backside of the skulltulla
         return true;
     }
 
@@ -591,7 +591,7 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
         rot = this->actor.shape.rot;
         yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsLink : this->initalYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
-        if (ABS(yawDiff) < 0x4001) {
+        if (ABS(yawDiff) <= 0x4000) {
             Math_SmoothScaleMaxMinS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
         } else {
             rot.y += 0x2000;
@@ -751,7 +751,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 14.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTable, this->transDrawTable, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTable, this->transitionDrawTable, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);

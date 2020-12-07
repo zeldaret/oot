@@ -321,7 +321,7 @@ void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
 
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, playerX, playerY, playerZ, 0,
                        0, 0, 0xD);
-    Item_Give(globalCtx, GI_BOMBCHUS_5);
+    Item_Give(globalCtx, ITEM_MEDALLION_SHADOW);
 }
 
 void func_80985430(DemoIm* this, GlobalContext* globalCtx) {
@@ -337,7 +337,7 @@ void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
         this->action = 1;
         globalCtx->csCtx.segment = D_8098786C;
         gSaveContext.cutsceneTrigger = 2;
-        Item_Give(globalCtx, GI_BOMBCHUS_5);
+        Item_Give(globalCtx, ITEM_MEDALLION_SHADOW);
         player->actor.posRot.rot.y = player->actor.shape.rot.y = this->actor.posRot.rot.y + 0x8000;
     }
 }
@@ -892,7 +892,7 @@ void func_80986C30(DemoIm* this, GlobalContext* globalCtx) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02002524);
         gSaveContext.cutsceneTrigger = 1;
         gSaveContext.eventChkInf[5] |= 0x200;
-        Item_Give(globalCtx, GI_BULLET_BAG_40);
+        Item_Give(globalCtx, ITEM_SONG_LULLABY);
         func_80985F54(this);
     }
 }

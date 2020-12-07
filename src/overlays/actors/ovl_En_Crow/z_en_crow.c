@@ -78,7 +78,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
                        &this->transitionDrawTable, 9);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
-    this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements->dim.modelSphere.radius;
+    this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     sDeathCount = 0;
@@ -170,10 +170,10 @@ void func_809E0770(EnCrow* this) {
         this->actor.params = 1;
         sDeathCount = 0;
         this->collider.elements[0].dim.worldSphere.radius =
-            sJntSphInit.elements->dim.modelSphere.radius * 0.03f * 100.0f;
+            sJntSphInit.elements[0].dim.modelSphere.radius * 0.03f * 100.0f;
     } else {
         this->actor.params = 0;
-        this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements->dim.modelSphere.radius;
+        this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
     }
 
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060000F0);

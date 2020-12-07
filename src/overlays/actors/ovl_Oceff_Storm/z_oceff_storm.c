@@ -120,7 +120,7 @@ void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->actor.posRot.pos = player->actor.posRot.pos;
-    this->actor.shape.rot.y = func_8005A9F4(ACTIVE_CAM);
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM);
     this->actionFunc(this, globalCtx);
 }
 
