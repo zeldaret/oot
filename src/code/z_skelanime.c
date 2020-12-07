@@ -1166,13 +1166,13 @@ s32 LinkAnimation_Loop(GlobalContext* globalCtx, SkelAnime* skelAnime) {
 s32 LinkAnimation_Once(GlobalContext* globalCtx, SkelAnime* skelAnime) {
     f32 updateRate = R_UPDATE_RATE * 0.5f;
 
-    if (skelAnime->curFrame == skelAnime->lastFrame) {
+    if (skelAnime->curFrame == skelAnime->endFrame) {
         LinkAnimation_AnimateFrame(globalCtx, skelAnime);
         return 1;
     }
     skelAnime->curFrame += skelAnime->playSpeed * updateRate;
-    if ((skelAnime->curFrame - skelAnime->lastFrame) * skelAnime->playSpeed > 0.0f) {
-        skelAnime->curFrame = skelAnime->lastFrame;
+    if ((skelAnime->curFrame - skelAnime->endFrame) * skelAnime->playSpeed > 0.0f) {
+        skelAnime->curFrame = skelAnime->endFrame;
     } else if (skelAnime->curFrame < 0.0f) {
         skelAnime->curFrame += skelAnime->animLength;
     } else if (skelAnime->animLength <= skelAnime->curFrame) {
@@ -1188,31 +1188,31 @@ void Animation_SetMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 morp
 }
 
 void LinkAnimation_Change(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 playSpeed,
-                          f32 firstFrame, f32 lastFrame, u8 mode, f32 morphFrames) {
+                          f32 startFrame, f32 endFrame, u8 mode, f32 morphFrames) {
     skelAnime->mode = mode;
-    if ((morphFrames != 0.0f) && ((segment != skelAnime->animation) || (firstFrame != skelAnime->curFrame))) {
+    if ((morphFrames != 0.0f) && ((segment != skelAnime->animation) || (startFrame != skelAnime->curFrame))) {
         if (morphFrames < 0) {
             LinkAnimation_SetUpdateFunction(skelAnime);
             SkelAnime_CopyVec3s(skelAnime, skelAnime->morphTbl, skelAnime->jointTbl);
             morphFrames = -morphFrames;
         } else {
             skelAnime->update = LinkAnimation_Morph;
-            AnimationContext_SetLoadFrame(globalCtx, segment, (s32)firstFrame, skelAnime->limbCount,
+            AnimationContext_SetLoadFrame(globalCtx, segment, (s32)startFrame, skelAnime->limbCount,
                                           skelAnime->morphTbl);
         }
         skelAnime->morphWeight = 1.0f;
         skelAnime->morphRate = 1.0f / morphFrames;
     } else {
         LinkAnimation_SetUpdateFunction(skelAnime);
-        AnimationContext_SetLoadFrame(globalCtx, segment, (s32)firstFrame, skelAnime->limbCount, skelAnime->jointTbl);
+        AnimationContext_SetLoadFrame(globalCtx, segment, (s32)startFrame, skelAnime->limbCount, skelAnime->jointTbl);
         skelAnime->morphWeight = 0.0f;
     }
 
     skelAnime->animation = segment;
     skelAnime->curFrame = 0.0f;
-    skelAnime->firstFrame = firstFrame;
-    skelAnime->curFrame = firstFrame;
-    skelAnime->lastFrame = lastFrame;
+    skelAnime->startFrame = startFrame;
+    skelAnime->curFrame = startFrame;
+    skelAnime->endFrame = endFrame;
     skelAnime->animLength = Animation_Length(segment);
     skelAnime->playSpeed = playSpeed;
 }
@@ -1530,10 +1530,10 @@ s32 SkelAnime_LoopPartial(SkelAnime* skelAnime) {
     f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f);
 
     skelAnime->curFrame += skelAnime->playSpeed * updateRate;
-    if (skelAnime->curFrame < skelAnime->firstFrame) {
-        skelAnime->curFrame = (skelAnime->curFrame - skelAnime->firstFrame) + skelAnime->lastFrame;
-    } else if (skelAnime->lastFrame <= skelAnime->curFrame) {
-        skelAnime->curFrame = (skelAnime->curFrame - skelAnime->lastFrame) + skelAnime->firstFrame;
+    if (skelAnime->curFrame < skelAnime->startFrame) {
+        skelAnime->curFrame = (skelAnime->curFrame - skelAnime->startFrame) + skelAnime->endFrame;
+    } else if (skelAnime->endFrame <= skelAnime->curFrame) {
+        skelAnime->curFrame = (skelAnime->curFrame - skelAnime->endFrame) + skelAnime->startFrame;
     }
 
     SkelAnime_AnimateFrame(skelAnime);
@@ -1543,7 +1543,7 @@ s32 SkelAnime_LoopPartial(SkelAnime* skelAnime) {
 s32 SkelAnime_Once(SkelAnime* skelAnime) {
     f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f);
 
-    if (skelAnime->curFrame == skelAnime->lastFrame) {
+    if (skelAnime->curFrame == skelAnime->endFrame) {
         SkelAnime_GetFrameData(skelAnime->animation, (s32)skelAnime->curFrame, skelAnime->limbCount,
                                skelAnime->jointTbl);
         SkelAnime_AnimateFrame(skelAnime);
@@ -1552,8 +1552,8 @@ s32 SkelAnime_Once(SkelAnime* skelAnime) {
 
     skelAnime->curFrame += skelAnime->playSpeed * updateRate;
 
-    if ((skelAnime->curFrame - skelAnime->lastFrame) * skelAnime->playSpeed > 0.0f) {
-        skelAnime->curFrame = skelAnime->lastFrame;
+    if ((skelAnime->curFrame - skelAnime->endFrame) * skelAnime->playSpeed > 0.0f) {
+        skelAnime->curFrame = skelAnime->endFrame;
     } else if (skelAnime->curFrame < 0.0f) {
         skelAnime->curFrame += skelAnime->animLength;
     } else if (skelAnime->animLength <= skelAnime->curFrame) {
@@ -1563,10 +1563,10 @@ s32 SkelAnime_Once(SkelAnime* skelAnime) {
     return 0;
 }
 
-void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 playSpeed, f32 firstFrame,
-                          f32 lastFrame, u8 mode, f32 morphFrames, s8 taper) {
+void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 playSpeed, f32 startFrame,
+                          f32 endFrame, u8 mode, f32 morphFrames, s8 taper) {
     skelAnime->mode = mode;
-    if ((morphFrames != 0.0f) && ((animationSeg != skelAnime->animation) || (firstFrame != skelAnime->curFrame))) {
+    if ((morphFrames != 0.0f) && ((animationSeg != skelAnime->animation) || (startFrame != skelAnime->curFrame))) {
         if (morphFrames < 0) {
             SkelAnime_SetUpdate(skelAnime);
             SkelAnime_CopyVec3s(skelAnime, skelAnime->morphTbl, skelAnime->jointTbl);
@@ -1578,34 +1578,34 @@ void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animationSeg, f
             } else {
                 skelAnime->update = SkelAnime_Morph;
             }
-            SkelAnime_GetFrameData(animationSeg, firstFrame, skelAnime->limbCount, skelAnime->morphTbl);
+            SkelAnime_GetFrameData(animationSeg, startFrame, skelAnime->limbCount, skelAnime->morphTbl);
         }
         skelAnime->morphWeight = 1.0f;
         skelAnime->morphRate = 1.0f / morphFrames;
     } else {
         SkelAnime_SetUpdate(skelAnime);
-        SkelAnime_GetFrameData(animationSeg, firstFrame, skelAnime->limbCount, skelAnime->jointTbl);
+        SkelAnime_GetFrameData(animationSeg, startFrame, skelAnime->limbCount, skelAnime->jointTbl);
         skelAnime->morphWeight = 0.0f;
     }
 
     skelAnime->animation = animationSeg;
-    skelAnime->firstFrame = firstFrame;
-    skelAnime->lastFrame = lastFrame;
+    skelAnime->startFrame = startFrame;
+    skelAnime->endFrame = endFrame;
     skelAnime->animLength = Animation_Length(animationSeg);
     if (skelAnime->mode >= ANIMMODE_LOOP_PARTIAL) {
         skelAnime->curFrame = 0.0f;
     } else {
-        skelAnime->curFrame = firstFrame;
+        skelAnime->curFrame = startFrame;
         if (skelAnime->mode <= ANIMMODE_LOOP_INTERP) {
-            skelAnime->lastFrame = skelAnime->animLength - 1.0f;
+            skelAnime->endFrame = skelAnime->animLength - 1.0f;
         }
     }
     skelAnime->playSpeed = playSpeed;
 }
 
-void Animation_Change(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 playSpeed, f32 firstFrame, f32 lastFrame,
+void Animation_Change(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 playSpeed, f32 startFrame, f32 endFrame,
                       u8 mode, f32 morphFrames) {
-    Animation_ChangeImpl(skelAnime, animationSeg, playSpeed, firstFrame, lastFrame, mode, morphFrames, ANIMTAPER_NONE);
+    Animation_ChangeImpl(skelAnime, animationSeg, playSpeed, startFrame, endFrame, mode, morphFrames, ANIMTAPER_NONE);
 }
 
 void Animation_PlayOnce(SkelAnime* skelAnime, AnimationHeader* animationSeg) {
@@ -1636,16 +1636,16 @@ void Animation_PlayLoopSetSpeed(SkelAnime* skelAnime, AnimationHeader* animation
 // unused
 void Animation_SetStop(SkelAnime* skelAnime) {
     skelAnime->mode = ANIMMODE_STOP;
-    skelAnime->lastFrame = skelAnime->animLength;
+    skelAnime->endFrame = skelAnime->animLength;
     SkelAnime_SetUpdate(skelAnime);
 }
 
 void Animation_Reverse(SkelAnime* skelAnime) {
-    f32 firstFrame = skelAnime->firstFrame;
+    f32 startFrame = skelAnime->startFrame;
 
-    skelAnime->firstFrame = skelAnime->lastFrame;
+    skelAnime->startFrame = skelAnime->endFrame;
     skelAnime->playSpeed = -skelAnime->playSpeed;
-    skelAnime->lastFrame = firstFrame;
+    skelAnime->endFrame = startFrame;
 }
 
 void SkelAnime_CopyVec3sTrue(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* copyFlag) {
@@ -1690,8 +1690,8 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
         cos = Math_Coss(angle);
         diff->x = x * cos + z * sin;
         diff->z = z * cos - x * sin;
-        x = skelAnime->prevTranslation.x;
-        z = skelAnime->prevTranslation.z;
+        x = skelAnime->prevTrans.x;
+        z = skelAnime->prevTrans.z;
         // `prevRot` rotation around y axis.
         sin = Math_Sins(skelAnime->prevRot);
         cos = Math_Coss(skelAnime->prevRot);
@@ -1700,21 +1700,21 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* diff, s16 angle) {
     }
 
     skelAnime->prevRot = angle;
-    skelAnime->prevTranslation.x = skelAnime->jointTbl[0].x;
-    skelAnime->jointTbl[0].x = skelAnime->baseTranslation.x;
-    skelAnime->prevTranslation.z = skelAnime->jointTbl[0].z;
-    skelAnime->jointTbl[0].z = skelAnime->baseTranslation.z;
+    skelAnime->prevTrans.x = skelAnime->jointTbl[0].x;
+    skelAnime->jointTbl[0].x = skelAnime->baseTrans.x;
+    skelAnime->prevTrans.z = skelAnime->jointTbl[0].z;
+    skelAnime->jointTbl[0].z = skelAnime->baseTrans.z;
     if (skelAnime->flags & ANIM_FLAG_UPDATEY) {
         if (skelAnime->flags & ANIM_FLAG_NOMOVE) {
             diff->y = 0.0f;
         } else {
-            diff->y = skelAnime->jointTbl[0].y - skelAnime->prevTranslation.y;
+            diff->y = skelAnime->jointTbl[0].y - skelAnime->prevTrans.y;
         }
-        skelAnime->prevTranslation.y = skelAnime->jointTbl[0].y;
-        skelAnime->jointTbl[0].y = skelAnime->baseTranslation.y;
+        skelAnime->prevTrans.y = skelAnime->jointTbl[0].y;
+        skelAnime->jointTbl[0].y = skelAnime->baseTrans.y;
     } else {
         diff->y = 0.0f;
-        skelAnime->prevTranslation.y = skelAnime->jointTbl[0].y;
+        skelAnime->prevTrans.y = skelAnime->jointTbl[0].y;
     }
     skelAnime->flags &= ~ANIM_FLAG_NOMOVE;
 }

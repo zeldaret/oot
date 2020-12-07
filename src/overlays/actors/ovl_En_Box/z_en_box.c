@@ -104,12 +104,12 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     AnimationHeader* anim;
     s32 dynaUnk;
     f32 animFrameStart;
-    f32 lastFrame;
+    f32 endFrame;
 
     animFrameStart = 0.0f;
     anim = D_809CA800[((void)0, gSaveContext.linkAge)];
     dynaUnk = 0;
-    lastFrame = Animation_LastFrame(anim);
+    endFrame = Animation_LastFrame(anim);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
@@ -133,7 +133,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->iceSmokeTimer = 100;
         EnBox_SetupAction(this, EnBox_Open);
         this->movementFlags |= ENBOX_MOVE_STICK_TO_GROUND;
-        animFrameStart = lastFrame;
+        animFrameStart = endFrame;
     } else if ((this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_BIG || this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) &&
                !Flags_GetSwitch(globalCtx2, this->switchFlag)) {
         func_8003EBF8(globalCtx2, &globalCtx2->colCtx.dyna, this->dyna.dynaPolyId);
@@ -181,7 +181,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.initPosRot.rot.z = this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
 
     SkelAnime_Init(globalCtx2, &this->skelanime, &D_060047D8, anim, this->jointTbl, this->morphTbl, 5);
-    Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, lastFrame, 2, 0.0f);
+    Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, 2, 0.0f);
 
     switch (this->type) {
         case ENBOX_TYPE_SMALL:

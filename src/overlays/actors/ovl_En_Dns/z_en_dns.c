@@ -304,7 +304,7 @@ void func_809EFB40(EnDns* this) {
 }
 
 void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.curFrame == this->skelAnime.lastFrame) {
+    if (this->skelAnime.curFrame == this->skelAnime.endFrame) {
         this->actionFunc = EnDns_Wait;
         EnDns_Change(this, 0);
     }

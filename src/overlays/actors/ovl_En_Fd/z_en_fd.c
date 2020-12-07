@@ -383,7 +383,7 @@ void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
-    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->actor.velocity.y = 6.0f;
         this->actor.scale.y = 0.01f;
         this->actor.posRot.rot.y ^= 0x8000;
@@ -412,7 +412,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
     Vec3f adjPos;
 
     Math_SmoothScaleMaxMinF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
-    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.lastFrame)) {
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->spinTimer = Math_Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);

@@ -26,11 +26,7 @@ typedef enum {
     ANIMMODE_LOOP_PARTIAL_INTERP
 } AnimationModes;
 
-typedef enum {
-    ANIMTAPER_DECEL = -1,
-    ANIMTAPER_NONE,
-    ANIMTAPER_ACCEL
-} AnimationTapers;
+typedef enum { ANIMTAPER_DECEL = -1, ANIMTAPER_NONE, ANIMTAPER_ACCEL } AnimationTapers;
 
 typedef struct {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
@@ -44,15 +40,15 @@ typedef struct {
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ Gfx* dLists[2]; // Near and far
-} LodLimb; // size = 0x10
+} LodLimb;                     // size = 0x10
 
 typedef struct {
     /* 0x00 */ Vec3s jointPos; // Root is position in model space, children are relative to parent
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
-    /* 0x08 */ s32 unk_08; // Type of data contained in segment
+    /* 0x08 */ s32 unk_08;      // Type of data contained in segment
     /* 0x0C */ UNK_PTR segment; // Segment address of data. Currently unclear what.
-} SkinLimb; // size = 0x10
+} SkinLimb;                     // size = 0x10
 
 // Model has limbs with only rigid meshes
 typedef struct {
@@ -79,7 +75,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s16 frameCount;
-    /* 0x04 */ s16* frameDataSeg; // "tbl"
+    /* 0x04 */ s16* frameDataSeg;         // "tbl"
     /* 0x08 */ JointIndex* jointIndexSeg; // "ref_tbl"
     /* 0x0C */ u16 limit;
 } AnimationHeader; // size = 0x10
@@ -110,8 +106,7 @@ typedef void (*PostLimbDrawOpa)(struct GlobalContext* globalCtx, s32 limbIndex, 
 typedef s32 (*OverrideLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void*, Gfx** gfx);
 
-typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*,
-                             Gfx** gfx);
+typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void*, Gfx** gfx);
 
 typedef enum {
     ANIMENTRY_LOADFRAME,
@@ -234,30 +229,30 @@ typedef struct {
 typedef s32 (*OverrideCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void*);
 typedef void (*PostCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void*);
 
-typedef s32 (*AnimationUpdateFunc)();
+typedef s32 (*AnimUpdateFunc)();
 
 typedef struct SkelAnime {
-    /* 0x00 */ u8 limbCount; // "joint_Num"
-    /* 0x01 */ u8 mode; // 0/1 repeat animation, 2/3 stop animation, >= 4 starts on frame 0 and plays once
-    /* 0x02 */ u8 dListCount;
-    /* 0x03 */ s8 taper;
-    /* 0x04 */ void** skeleton; // An array of pointers to limbs. Can be StandardLimb, LodLimb or SkinLimb.
-    /* 0x08 */ void* animation; // Can be an AnimationHeader or LinkAnimationHeader.
-    /* 0x0C */ f32 firstFrame;
-    /* 0x10 */ f32 lastFrame;
-    /* 0x14 */ f32 animLength;
-    /* 0x18 */ f32 curFrame;
-    /* 0x1C */ f32 playSpeed;
-    /* 0x20 */ Vec3s* jointTbl; // "now_joint"
-    /* 0x24 */ Vec3s* morphTbl; // "morf_joint"
-    /* 0x28 */ f32 morphWeight;
-    /* 0x2C */ f32 morphRate;
-    /* 0x30 */ AnimationUpdateFunc update;
-    /* 0x34 */ s8 initFlags;
-    /* 0x35 */ u8 flags;
-    /* 0x36 */ s16 prevRot;
-    /* 0x38 */ Vec3s prevTranslation;
-    /* 0x3E */ Vec3s baseTranslation;
+    /* 0x00 */ u8 limbCount;          // Number of limbs in the skeleton
+    /* 0x01 */ u8 mode;               // 0: loop, 2: play once, 4: partial loop. +1 to interpolate between frames.
+    /* 0x02 */ u8 dListCount;         // Number of display lists in a flexible skeleton
+    /* 0x03 */ s8 taper;              // Tapering to use when morphing between animations. Only used by Door_Warp1.
+    /* 0x04 */ void** skeleton;       // An array of pointers to limbs. Can be StandardLimb, LodLimb, or SkinLimb.
+    /* 0x08 */ void* animation;       // Can be an AnimationHeader or LinkAnimationHeader.
+    /* 0x0C */ f32 startFrame;        // In mode 4, start of partial loop.
+    /* 0x10 */ f32 endFrame;          // In mode 2, Update returns true when curFrame is equal to this. In mode 4, end of partial loop.
+    /* 0x14 */ f32 animLength;        // Total number of frames in the current animation's file.
+    /* 0x18 */ f32 curFrame;          // Current frame in the animation
+    /* 0x1C */ f32 playSpeed;         // Multiplied by R_UPDATE_RATE / 3 to get the animation's frame rate.
+    /* 0x20 */ Vec3s* jointTbl;       // Current translation of model and rotations of all limbs
+    /* 0x24 */ Vec3s* morphTbl;       // Table of values used to morph between animations
+    /* 0x28 */ f32 morphWeight;       // Weight of the current animation morph as a fraction in [0,1]
+    /* 0x2C */ f32 morphRate;         // Reciprocal of the number of frames in the morph
+    /* 0x30 */ AnimUpdateFunc update; // Can be Loop, Partial loop, Play once, Morph, or Tapered morph. Link only has Loop, Play once, and Morph
+    /* 0x34 */ s8 initFlags;          // Flags used when initializing Link's skeleton
+    /* 0x35 */ u8 flags;              // Flags used for animations that move the actor in worldspace.
+    /* 0x36 */ s16 prevRot;           // Previous rotation in worldspace.
+    /* 0x38 */ Vec3s prevTrans;       // Previous modelspace translation.
+    /* 0x3E */ Vec3s baseTrans;       // Base modelspace translation.
 } SkelAnime; // size = 0x44
 
 #endif

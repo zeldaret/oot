@@ -202,7 +202,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (this->skelAnime.animation == &D_06006CF8) {
-        if (Animation_OnFrame(&this->skelAnime, this->skelAnime.lastFrame) == 0) {
+        if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.parent->posRot.pos);
             func_80034EC0(&this->skelAnime, D_80A1FBA0, 2);
         }

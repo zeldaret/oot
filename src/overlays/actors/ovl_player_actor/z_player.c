@@ -1469,15 +1469,15 @@ s32 func_80832CB0(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* a
 }
 
 void func_80832CFC(Player* this) {
-    this->skelAnime.prevTranslation = this->skelAnime.baseTranslation;
+    this->skelAnime.prevTrans = this->skelAnime.baseTrans;
     this->skelAnime.prevRot = this->actor.shape.rot.y;
 }
 
 void func_80832D20(Player* this) {
     func_80832CFC(this);
-    this->skelAnime.prevTranslation.x *= this->ageProperties->unk_08;
-    this->skelAnime.prevTranslation.y *= this->ageProperties->unk_08;
-    this->skelAnime.prevTranslation.z *= this->ageProperties->unk_08;
+    this->skelAnime.prevTrans.x *= this->ageProperties->unk_08;
+    this->skelAnime.prevTrans.y *= this->ageProperties->unk_08;
+    this->skelAnime.prevTrans.z *= this->ageProperties->unk_08;
 }
 
 void func_80832DB0(Player* this) {
@@ -1487,14 +1487,14 @@ void func_80832DB0(Player* this) {
 void func_80832DBC(Player* this) {
     if (this->skelAnime.flags != 0) {
         func_808322FC(this);
-        this->skelAnime.jointTbl[0].x = this->skelAnime.baseTranslation.x;
-        this->skelAnime.jointTbl[0].z = this->skelAnime.baseTranslation.z;
+        this->skelAnime.jointTbl[0].x = this->skelAnime.baseTrans.x;
+        this->skelAnime.jointTbl[0].z = this->skelAnime.baseTrans.z;
         if (this->skelAnime.flags & 8) {
             if (this->skelAnime.flags & 2) {
-                this->skelAnime.jointTbl[0].y = this->skelAnime.prevTranslation.y;
+                this->skelAnime.jointTbl[0].y = this->skelAnime.prevTrans.y;
             }
         } else {
-            this->skelAnime.jointTbl[0].y = this->skelAnime.baseTranslation.y;
+            this->skelAnime.jointTbl[0].y = this->skelAnime.baseTrans.y;
         }
         func_80832CFC(this);
         this->skelAnime.flags = 0;
@@ -1505,7 +1505,7 @@ void func_80832E48(Player* this, s32 flags) {
     Vec3f pos;
 
     this->skelAnime.flags = flags;
-    this->skelAnime.prevTranslation = this->skelAnime.baseTranslation;
+    this->skelAnime.prevTrans = this->skelAnime.baseTrans;
     SkelAnime_UpdateTranslation(&this->skelAnime, &pos, this->actor.shape.rot.y);
 
     if (flags & 1) {
@@ -1533,7 +1533,7 @@ void func_80832F54(GlobalContext* globalCtx, Player* this, s32 flags) {
     } else if ((flags & 0x100) || (this->skelAnime.flags != 0)) {
         func_80832CFC(this);
     } else {
-        this->skelAnime.prevTranslation = this->skelAnime.jointTbl[0];
+        this->skelAnime.prevTrans = this->skelAnime.jointTbl[0];
         this->skelAnime.prevRot = this->actor.shape.rot.y;
     }
 
@@ -2860,7 +2860,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
 
     func_80832264(globalCtx, this, anim);
     if (anim == &D_04002878) {
-        this->skelAnime.lastFrame = 84.0f;
+        this->skelAnime.endFrame = 84.0f;
     }
 
     func_80832224(this);
@@ -3236,7 +3236,7 @@ s32 func_808374A0(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime, 
     f32 sp24;
     s16 sp22;
 
-    if ((skelAnime->lastFrame - arg3) <= skelAnime->curFrame) {
+    if ((skelAnime->endFrame - arg3) <= skelAnime->curFrame) {
         if (func_80837348(globalCtx, this, D_80854418, 1)) {
             return 0;
         }
@@ -3447,7 +3447,7 @@ s32 func_80837B18(GlobalContext* globalCtx, Player* this, s32 damage) {
 }
 
 void func_80837B60(Player* this) {
-    this->skelAnime.prevTranslation = this->skelAnime.jointTbl[0];
+    this->skelAnime.prevTrans = this->skelAnime.jointTbl[0];
     func_80832E48(this, 3);
 }
 
@@ -4199,7 +4199,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 if (this->doorTimer != 0) {
                     this->unk_850 = 0;
                     func_80832B0C(globalCtx, this, func_80833338(this));
-                    this->skelAnime.lastFrame = 0.0f;
+                    this->skelAnime.endFrame = 0.0f;
                 } else {
                     this->linearVelocity = 0.1f;
                 }
@@ -4244,7 +4244,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 func_8083328C(globalCtx, this, sp5C);
 
                 if (this->doorTimer != 0) {
-                    this->skelAnime.lastFrame = 0.0f;
+                    this->skelAnime.endFrame = 0.0f;
                 }
 
                 func_80832224(this);
@@ -6811,7 +6811,7 @@ void func_80840BC8(Player* this, GlobalContext* globalCtx) {
     if (sp40 != 0) {
         if (this->unk_850 != 0) {
             if (DECR(this->unk_850) == 0) {
-                this->skelAnime.lastFrame = this->skelAnime.animLength - 1.0f;
+                this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
             this->skelAnime.jointTbl[0].y = (this->skelAnime.jointTbl[0].y + ((this->unk_850 & 1) * 0x50)) - 0x28;
         } else {
@@ -6880,7 +6880,7 @@ void func_80840DE4(Player* this, GlobalContext* globalCtx) {
     }
 
     this->skelAnime.animLength = frames;
-    this->skelAnime.lastFrame = frames - 1.0f;
+    this->skelAnime.endFrame = frames - 1.0f;
 
     if ((s16)(this->currentYaw - this->actor.shape.rot.y) >= 0) {
         direction = 1;
@@ -8115,7 +8115,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
 
         if (sp3C > 0) {
             func_8083A098(this, D_80853A64[this->modelAnimType], globalCtx);
-            this->skelAnime.lastFrame = 8.0f;
+            this->skelAnime.endFrame = 8.0f;
             if (sp3C == 1) {
                 this->unk_850 = 10;
             } else {
@@ -8718,7 +8718,7 @@ void func_80845EF8(Player* this, GlobalContext* globalCtx) {
         if (this->unk_850 == 0) {
             if (DECR(this->doorTimer) == 0) {
                 this->unk_850 = 1;
-                this->skelAnime.lastFrame = this->skelAnime.animLength - 1.0f;
+                this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
         } else {
             func_8083C0E8(this, globalCtx);
@@ -9029,10 +9029,10 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
 
     SkelAnime_InitLink(globalCtx, &this->skelAnime, skelHeader, D_80853914[this->modelAnimType], 9, this->jointTbl,
                        this->morphTbl, PLAYER_LIMB_MAX);
-    this->skelAnime.baseTranslation = D_80854730;
+    this->skelAnime.baseTrans = D_80854730;
     SkelAnime_InitLink(globalCtx, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->jointTbl2,
                        this->morphTbl2, PLAYER_LIMB_MAX);
-    this->skelAnime2.baseTranslation = D_80854730;
+    this->skelAnime2.baseTrans = D_80854730;
 
     Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Teardrop, this->ageProperties->unk_04);
@@ -10973,9 +10973,9 @@ void func_8084BDFC(Player* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (LinkAnimation_OnFrame(&this->skelAnime, this->skelAnime.lastFrame - 6.0f)) {
+    if (LinkAnimation_OnFrame(&this->skelAnime, this->skelAnime.endFrame - 6.0f)) {
         func_808328A0(this);
-    } else if (LinkAnimation_OnFrame(&this->skelAnime, this->skelAnime.lastFrame - 34.0f)) {
+    } else if (LinkAnimation_OnFrame(&this->skelAnime, this->skelAnime.endFrame - 34.0f)) {
         this->stateFlags1 &= ~0x6000;
         func_8002F7DC(&this->actor, NA_SE_PL_CLIMB_CLIFF);
         func_80832698(this, NA_SE_VO_LI_CLIMB_END);
@@ -11068,7 +11068,7 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
                             func_8083F070(this, this->ageProperties->unk_CC[this->unk_850], globalCtx);
                         }
                     } else {
-                        this->skelAnime.prevTranslation = this->ageProperties->unk_4A[sp68];
+                        this->skelAnime.prevTrans = this->ageProperties->unk_4A[sp68];
                         func_80832264(globalCtx, this, this->ageProperties->unk_AC[sp68]);
                     }
                 } else {
@@ -11077,14 +11077,14 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
                             func_8083FB7C(this, globalCtx);
                         } else {
                             if (this->unk_850 != 0) {
-                                this->skelAnime.prevTranslation = this->ageProperties->unk_44;
+                                this->skelAnime.prevTrans = this->ageProperties->unk_44;
                             }
                             func_8083F070(this, this->ageProperties->unk_C4[this->unk_850], globalCtx);
                             this->unk_850 = 1;
                         }
                     } else {
                         sp68 ^= 1;
-                        this->skelAnime.prevTranslation = this->ageProperties->unk_62[sp68];
+                        this->skelAnime.prevTrans = this->ageProperties->unk_62[sp68];
                         anim1 = this->ageProperties->unk_AC[sp68];
                         LinkAnimation_Change(globalCtx, &this->skelAnime, anim1, -1.0f, Animation_LastFrame(anim1),
                                              0.0f, 2, 0.0f);
@@ -11096,10 +11096,10 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
                     anim2 = this->ageProperties->unk_BC[this->unk_850];
 
                     if (sp80 > 0) {
-                        this->skelAnime.prevTranslation = this->ageProperties->unk_7A[this->unk_850];
+                        this->skelAnime.prevTrans = this->ageProperties->unk_7A[this->unk_850];
                         func_80832264(globalCtx, this, anim2);
                     } else {
-                        this->skelAnime.prevTranslation = this->ageProperties->unk_86[this->unk_850];
+                        this->skelAnime.prevTrans = this->ageProperties->unk_86[this->unk_850];
                         LinkAnimation_Change(globalCtx, &this->skelAnime, anim2, -1.0f, Animation_LastFrame(anim2),
                                              0.0f, 2, 0.0f);
                     }
@@ -11368,7 +11368,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
     }
 
     func_8002DE74(globalCtx, this);
-    this->skelAnime.prevTranslation = D_8085499C;
+    this->skelAnime.prevTrans = D_8085499C;
 
     if ((rideActor->unk_210 != this->unk_850) && ((rideActor->unk_210 >= 2) || (this->unk_850 >= 2))) {
         if ((this->unk_850 = rideActor->unk_210) < 2) {
@@ -12044,7 +12044,7 @@ void func_8084E9AC(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F == 0) {
             if (DECR(this->unk_850) == 0) {
                 this->unk_84F = 1;
-                this->skelAnime.lastFrame = this->skelAnime.animLength - 1.0f;
+                this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
             }
         } else {
             func_8083C0E8(this, globalCtx);
@@ -12404,7 +12404,7 @@ void func_8084F710(Player* this, GlobalContext* globalCtx) {
         if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
             if (this->unk_850 == 0) {
                 if (this->actor.bgCheckFlags & 1) {
-                    this->skelAnime.lastFrame = this->skelAnime.animLength - 1.0f;
+                    this->skelAnime.endFrame = this->skelAnime.animLength - 1.0f;
                     func_808328A0(this);
                     this->unk_850 = 1;
                 }
@@ -13753,7 +13753,7 @@ void func_8085283C(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
 void func_808528C8(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
-        func_8084285C(this, 0.0f, 99.0f, this->skelAnime.lastFrame - 8.0f);
+        func_8084285C(this, 0.0f, 99.0f, this->skelAnime.endFrame - 8.0f);
     }
 
     if (this->heldItemActionParam != PLAYER_AP_SWORD_MASTER) {

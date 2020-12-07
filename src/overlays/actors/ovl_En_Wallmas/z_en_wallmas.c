@@ -584,7 +584,7 @@ s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
         if (this->actionFunc != EnWallmas_TakePlayer) {
             pos->z -= 1600.0f;
         } else {
-            pos->z -= ((1600.0f * (this->skelAnime.lastFrame - this->skelAnime.curFrame)) / this->skelAnime.lastFrame);
+            pos->z -= ((1600.0f * (this->skelAnime.endFrame - this->skelAnime.curFrame)) / this->skelAnime.endFrame);
         }
     }
     return 0;

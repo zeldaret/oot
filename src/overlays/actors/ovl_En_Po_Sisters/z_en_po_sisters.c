@@ -612,7 +612,7 @@ void func_80ADA7F0(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_19A != 0) {
         this->unk_19A--;
     }
-    this->actor.shape.rot.y += 384.0f * ((this->skelAnime.lastFrame + 1.0f) * 3.0f - this->unk_19A);
+    this->actor.shape.rot.y += 384.0f * ((this->skelAnime.endFrame + 1.0f) * 3.0f - this->unk_19A);
     if (this->unk_19A == 18 || this->unk_19A == 7) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_ROLL);
     }
@@ -628,7 +628,7 @@ void func_80ADA8C0(EnPoSisters* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
         this->unk_19A--;
     }
-    this->actor.shape.rot.y += (384.0f * this->skelAnime.lastFrame) * 3.0f;
+    this->actor.shape.rot.y += (384.0f * this->skelAnime.endFrame) * 3.0f;
     if (this->unk_19A == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.posRot.rot.y)) < 0x1000) {
         if (this->unk_194 != 0) {
             this->collider.base.type = COLTYPE_UNK3;
@@ -675,7 +675,7 @@ void func_80ADAAA4(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_195 != 0) {
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, this->actor.parent->shape.rot.y,
                                  (this->unk_195 == 2) ? 0x800 : 0x400);
-        this->unk_22E.a = ((this->skelAnime.lastFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.lastFrame;
+        this->unk_22E.a = ((this->skelAnime.endFrame - this->skelAnime.curFrame) * 255.0f) / this->skelAnime.endFrame;
         this->actor.posRot.pos.y = this->actor.parent->posRot.pos.y;
         func_80AD97C8(this, globalCtx);
     } else if (this->unk_194 != 0) {
@@ -700,15 +700,15 @@ void func_80ADAC70(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADAD54(EnPoSisters* this, GlobalContext* globalCtx) {
-    s32 lastFrame;
+    s32 endFrame;
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 0;
         this->collider.body.bumper.flags = 0x60001;
         func_80AD93C4(this);
     } else {
-        lastFrame = this->skelAnime.lastFrame;
-        this->unk_22E.a = ((lastFrame - this->skelAnime.curFrame) * 255.0f) / lastFrame;
+        endFrame = this->skelAnime.endFrame;
+        this->unk_22E.a = ((endFrame - this->skelAnime.curFrame) * 255.0f) / endFrame;
     }
 }
 
@@ -729,7 +729,7 @@ void func_80ADAE6C(EnPoSisters* this, GlobalContext* globalCtx) {
             func_80AD9F1C(this);
         }
     } else {
-        this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.lastFrame;
+        this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
         if (this->unk_194 == 0) {
             func_80AD97C8(this, globalCtx);
         }
@@ -848,7 +848,7 @@ void func_80ADB51C(EnPoSisters* this, GlobalContext* globalCtx) {
     u8 temp;
 
     SkelAnime_Update(&this->skelAnime);
-    temp_f2 = this->skelAnime.lastFrame * 0.5f;
+    temp_f2 = this->skelAnime.endFrame * 0.5f;
     this->unk_22E.a = (fabsf(temp_f2 - this->skelAnime.curFrame) * 255.0f) / temp_f2;
     if (this->unk_19A != 0) {
         this->unk_19A -= 1;
@@ -964,7 +964,7 @@ void func_80ADB9F0(EnPoSisters* this, GlobalContext* globalCtx) {
             func_80AD9F90(this);
         }
     } else {
-        div = this->skelAnime.curFrame / this->skelAnime.lastFrame;
+        div = this->skelAnime.curFrame / this->skelAnime.endFrame;
         this->unk_22E.a = 255.0f * div;
     }
     if (this->unk_194 != 3 && Animation_OnFrame(&this->skelAnime, 1.0f)) {
@@ -1028,7 +1028,7 @@ void func_80ADBD8C(EnPoSisters* this, GlobalContext* globalCtx) {
             this->unk_22E.a = 255;
             D_80ADD784 |= (1 << this->unk_194);
         } else {
-            this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.lastFrame;
+            this->unk_22E.a = (this->skelAnime.curFrame * 255.0f) / this->skelAnime.endFrame;
         }
     }
     if (D_80ADD784 == 15) {

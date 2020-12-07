@@ -161,7 +161,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
                     if (this->timer == 0) {
                         this->unk_25E++;
                         this->skelAnime.curFrame = 0.0f;
-                        this->skelAnime.firstFrame = 0.0f;
+                        this->skelAnime.startFrame = 0.0f;
                         this->skelAnime.playSpeed = 2.0f;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIMOS_AIM);
                     }
@@ -194,7 +194,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
         }
 
         if (this->beamRot.x < 0xAAA) {
-            this->skelAnime.firstFrame = this->skelAnime.curFrame = this->skelAnime.lastFrame;
+            this->skelAnime.startFrame = this->skelAnime.curFrame = this->skelAnime.endFrame;
             this->unk_25E = this->unk_260 = 0;
             this->timer = 10;
             this->skelAnime.playSpeed = 1.0f;
@@ -272,7 +272,7 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        this->skelAnime.curFrame = this->skelAnime.firstFrame;
+        this->skelAnime.curFrame = this->skelAnime.startFrame;
     }
 }
 

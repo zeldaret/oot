@@ -577,7 +577,7 @@ void func_80AA7478(EnMb* this, GlobalContext* globalCtx) {
 
 void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 lastFrame;
+    f32 endFrame;
     s16 yawDiff;
 
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
@@ -600,8 +600,8 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
                     (ABS(yawDiff) <= 0x4000) && (this->actor.xzDistFromLink <= 200.0f)) {
                     func_80AA6AC8(this);
                 } else {
-                    lastFrame = Animation_LastFrame(&D_06002C10);
-                    Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, lastFrame, 0.0f, 2, 0.0f);
+                    endFrame = Animation_LastFrame(&D_06002C10);
+                    Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, endFrame, 0.0f, 2, 0.0f);
                     this->actor.speedXZ = 0.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
                 }
@@ -614,8 +614,8 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
         }
         if (SkelAnime_Update(&this->skelAnime) != 0) {
             if (this->unk_32A == 0) {
-                lastFrame = Animation_LastFrame(&D_06002F10);
-                Animation_Change(&this->skelAnime, &D_06002F10, 0.5f, 0.0f, lastFrame, 1, 0.0f);
+                endFrame = Animation_LastFrame(&D_06002F10);
+                Animation_Change(&this->skelAnime, &D_06002F10, 0.5f, 0.0f, endFrame, 1, 0.0f);
                 this->unk_32A = 1;
             } else {
                 yawDiff = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos) - this->actor.yawTowardsLink;

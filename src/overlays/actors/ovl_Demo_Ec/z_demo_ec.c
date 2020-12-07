@@ -186,8 +186,8 @@ void func_8096D594(DemoEc* this, GlobalContext* globalCtx) {
 }
 
 void func_8096D5D4(DemoEc* this, GlobalContext* globalCtx) {
-    this->skelAnime.baseTranslation = this->skelAnime.jointTbl[0];
-    this->skelAnime.prevTranslation = this->skelAnime.jointTbl[0];
+    this->skelAnime.baseTrans = this->skelAnime.jointTbl[0];
+    this->skelAnime.prevTrans = this->skelAnime.jointTbl[0];
     this->skelAnime.flags |= 3;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }

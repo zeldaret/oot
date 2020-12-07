@@ -612,8 +612,8 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
         }
 
         if (this->actionTimer == 0 && isOnGround) {
-            if (this->skelAnime.lastFrame < 45.0f) {
-                this->skelAnime.lastFrame = Animation_LastFrame(&D_060019CC);
+            if (this->skelAnime.endFrame < 45.0f) {
+                this->skelAnime.endFrame = Animation_LastFrame(&D_060019CC);
             } else if (this->actor.params == MERGE_MASTER) {
                 EnFloormas_SetupMerge(this);
             } else {
@@ -736,12 +736,12 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->skelAnime.playSpeed > 0.0f) {
             this->skelAnime.playSpeed = -1.0f;
-            this->skelAnime.lastFrame = 36.0f;
-            this->skelAnime.firstFrame = 45.0f;
+            this->skelAnime.endFrame = 36.0f;
+            this->skelAnime.startFrame = 45.0f;
         } else {
             this->skelAnime.playSpeed = 1.0f;
-            this->skelAnime.lastFrame = 45.0f;
-            this->skelAnime.firstFrame = 36.0f;
+            this->skelAnime.endFrame = 45.0f;
+            this->skelAnime.startFrame = 36.0f;
         }
     }
 

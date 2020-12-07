@@ -169,7 +169,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->stateFlags |= ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2;
         }
 
-        this->skelAnime.curFrame = (s32)(Math_Rand_ZeroOne() * this->skelAnime.lastFrame);
+        this->skelAnime.curFrame = (s32)(Math_Rand_ZeroOne() * this->skelAnime.endFrame);
         this->actionFunc = EnDaiku_TentIdle;
     }
 }

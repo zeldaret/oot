@@ -476,7 +476,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if (skelAnime->baseTranslation.y < skelAnime->jointTbl[0].y) {
+    if (skelAnime->baseTrans.y < skelAnime->jointTbl[0].y) {
         skelAnime->flags |= 3;
         AnimationContext_SetMoveActor(globalCtx, &this->actor, skelAnime, 1.0f);
     }
@@ -485,9 +485,9 @@ void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEB738(EnRu1* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    skelAnime->baseTranslation = *skelAnime->jointTbl;
-    skelAnime->prevTranslation = *skelAnime->jointTbl;
-    if (skelAnime->baseTranslation.y < skelAnime->jointTbl[0].y) {
+    skelAnime->baseTrans = *skelAnime->jointTbl;
+    skelAnime->prevTrans = *skelAnime->jointTbl;
+    if (skelAnime->baseTrans.y < skelAnime->jointTbl[0].y) {
         skelAnime->flags |= 3;
         AnimationContext_SetMoveActor(globalCtx, &this->actor, skelAnime, 1.0f);
     }
