@@ -3067,7 +3067,6 @@ endseg
 beginseg
     name "ovl_En_Ta"
     include "build/src/overlays/actors/ovl_En_Ta/z_en_ta.o"
-    include "build/data/overlays/actors/z_en_ta.data.o"
     include "build/data/overlays/actors/z_en_ta.reloc.o"
 endseg
 
