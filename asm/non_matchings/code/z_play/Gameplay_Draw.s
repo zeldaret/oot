@@ -602,7 +602,7 @@ glabel Gameplay_Draw
 /* B36830 800BF690 84AA0142 */  lh    $t2, 0x142($a1)
 /* B36834 800BF694 51410016 */  beql  $t2, $at, .L800BF6F0
 /* B36838 800BF698 8FAD004C */   lw    $t5, 0x4c($sp)
-/* B3683C 800BF69C 0C016BED */  jal   func_8005AFB4
+/* B3683C 800BF69C 0C016BED */  jal   Camera_GetSkyboxOffset
 /* B36840 800BF6A0 AFAB0048 */   sw    $t3, 0x48($sp)
 /* B36844 800BF6A4 C60600E0 */  lwc1  $f6, 0xe0($s0)
 /* B36848 800BF6A8 C7A80074 */  lwc1  $f8, 0x74($sp)
@@ -865,7 +865,7 @@ glabel Gameplay_Draw
 /* B36BE8 800BFA48 000A5880 */  sll   $t3, $t2, 2
 /* B36BEC 800BFA4C 020B6821 */  addu  $t5, $s0, $t3
 /* B36BF0 800BFA50 8DA50790 */  lw    $a1, 0x790($t5)
-/* B36BF4 800BFA54 0C01647B */  jal   func_800591EC
+/* B36BF4 800BFA54 0C01647B */  jal   Camera_Update
 /* B36BF8 800BFA58 AFAC0040 */   sw    $t4, 0x40($sp)
 /* B36BFC 800BFA5C 0C02AE51 */  jal   func_800AB944
 /* B36C00 800BFA60 8FA40040 */   lw    $a0, 0x40($sp)
@@ -889,7 +889,7 @@ glabel Gameplay_Draw
 .L800BFAA8:
 /* B36C48 800BFAA8 000FC080 */  sll   $t8, $t7, 2
 /* B36C4C 800BFAAC 02184821 */  addu  $t1, $s0, $t8
-/* B36C50 800BFAB0 0C0167B2 */  jal   func_80059EC8
+/* B36C50 800BFAB0 0C0167B2 */  jal   Camera_Finish
 /* B36C54 800BFAB4 8D240790 */   lw    $a0, 0x790($t1)
 /* B36C58 800BFAB8 3C068014 */  lui   $a2, %hi(D_80144738) # $a2, 0x8014
 /* B36C5C 800BFABC 24C64738 */  addiu $a2, %lo(D_80144738) # addiu $a2, $a2, 0x4738

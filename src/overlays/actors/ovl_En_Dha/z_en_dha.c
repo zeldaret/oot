@@ -255,7 +255,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     Vec3f vector;
     Player* player = PLAYER;
 
-    if ((player->stateFlags2 & 0x80)  && (&this->actor == player->actor.parent)) {
+    if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~0x80;
         player->actor.parent = NULL;
         player->unk_850 = 200;
@@ -305,7 +305,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if ((this->actor.parent != NULL)  && (this->actor.parent->params == ENDH_DEATH)) {
+    if ((this->actor.parent != NULL) && (this->actor.parent->params == ENDH_DEATH)) {
         EnDha_SetupDeath(this);
     }
 }
