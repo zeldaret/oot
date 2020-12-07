@@ -8,75 +8,75 @@ struct DemoEffect;
 
 typedef void (*DemoEffectFunc)(struct DemoEffect* this, GlobalContext* globalCtx);
 
-typedef struct DemoEffectFireBall {
-    u8 timer;
+typedef struct {
+    /* 0x00 */ u8 timer;
 } DemoEffectFireBall;
 
-typedef struct DemoEffectBlueOrb {
-    u8 opacity;
-    u8 scale;
-    u8 pad;
-    s16 rotation;
+typedef struct {
+    /* 0x00 */ u8 alpha;
+    /* 0x01 */ u8 scale;
+    /* 0x02 */ u8 pad;
+    /* 0x04 */ s16 rotation;
 } DemoEffectBlueOrb;
 
-typedef struct DemoEffectLight {
-    u8 opacity;
-    u8 scaleFlag;
-    u8 flicker;
-    s16 rotation;
+typedef struct {
+    /* 0x00 */ u8 alpha;
+    /* 0x01 */ u8 scaleFlag;
+    /* 0x02 */ u8 flicker;
+    /* 0x04 */ s16 rotation;
 } DemoEffectLight;
 
-typedef struct DemoEffectLgtShower {
-    u8 opacity;
+typedef struct {
+    /* 0x00 */ u8 alpha;
 } DemoEffectLgtShower;
 
-typedef struct DemoEffectGodLgt {
-    u8 type;
-    u8 lightRingSpawnDelay;
-    u8 rotation;
-    s16 lightRingSpawnTimer;
+typedef struct {
+    /* 0x00 */ u8 type;
+    /* 0x01 */ u8 lightRingSpawnDelay;
+    /* 0x02 */ u8 rotation;
+    /* 0x04 */ s16 lightRingSpawnTimer;
 } DemoEffectGodLgt;
 
-typedef struct DemoEffectLightRing {
-    u8 timerIncrement;
-    u8 opacity;
-    u8 pad;
-    s16 timer;
+typedef struct {
+    /* 0x00 */ u8 timerIncrement;
+    /* 0x01 */ u8 alpha;
+    /* 0x02 */ u8 pad;
+    /* 0x04 */ s16 timer;
 } DemoEffectLightRing;
 
-typedef struct DemoEffectTriforceSpot {
-    u8 triforceSpotOpacity;
-    u8 lightColumnOpacity;
-    u8 crystalLightOpacity;
-    s16 rotation;
+typedef struct {
+    /* 0x00 */ u8 triforceSpotOpacity;
+    /* 0x01 */ u8 lightColumnOpacity;
+    /* 0x02 */ u8 crystalLightOpacity;
+    /* 0x04 */ s16 rotation;
 } DemoEffectTriforceSpot;
 
-typedef struct DemoEffectGetItem {
-    u8 isPositionInit;
-    u8 isLoaded;
-    u8 giIndex;
-    s16 rotation;
+typedef struct {
+    /* 0x00 */ u8 isPositionInit;
+    /* 0x01 */ u8 isLoaded;
+    /* 0x02 */ u8 giIndex;
+    /* 0x04 */ s16 rotation;
 } DemoEffectGetItem;
 
-typedef struct DemoEffectTimeWarp {
-    u8 pad;
-    u8 pad2;
-    u8 pad3;
-    s16 shrinkTimer;
+typedef struct {
+    /* 0x00 */ u8 pad;
+    /* 0x01 */ u8 pad2;
+    /* 0x02 */ u8 pad3;
+    /* 0x04 */ s16 shrinkTimer;
 } DemoEffectTimeWarp;
 
-typedef struct DemoEffectJewel {
-    u8 type;
-    u8 isPositionInit;
-    u8 opacity;
-    s16 timer;
+typedef struct {
+    /* 0x00 */ u8 type;
+    /* 0x01 */ u8 isPositionInit;
+    /* 0x02 */ u8 alpha;
+    /* 0x04 */ s16 timer;
 } DemoEffectJewel;
 
-typedef struct DemoEffectDust {
-    u8 timer;
+typedef struct {
+    /* 0x00 */ u8 timer;
 } DemoEffectDust;
 
-typedef struct DemoEffect {
+typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnimeCurve skelCurve;
     /* 0x016C */ u8 initObjectBankIndex;
@@ -108,7 +108,7 @@ typedef struct DemoEffect {
 } DemoEffect; // size = 0x01A0
 
 // These names come from the objects that correspond to this actor type.
-typedef enum DEMO_EFFECT_TYPE {
+typedef enum {
     /* 0x00 */ DEMO_EFFECT_CRYSTAL_LIGHT,
     /* 0x01 */ DEMO_EFFECT_FIRE_BALL,
     /* 0x02 */ DEMO_EFFECT_BLUE_ORB, // Object is in GAMEPLAY_KEEP. Not a name from object. It's a blue orb.
@@ -136,9 +136,9 @@ typedef enum DEMO_EFFECT_TYPE {
     /* 0x18 */ DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE,
     /* 0x19 */ DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL,
     /* 0x1A */ DEMO_EFFECT_MAX_TYPE
-} DEMO_EFFECT_TYPE;
+} DemoEffectType;
 
-typedef enum DEMO_EFFECT_LIGHT_COLOR {
+typedef enum {
     /* 0x00 */ DEMO_EFFECT_LIGHT_RED,
     /* 0x01 */ DEMO_EFFECT_LIGHT_BLUE,
     /* 0x02 */ DEMO_EFFECT_LIGHT_GREEN,
@@ -146,17 +146,17 @@ typedef enum DEMO_EFFECT_LIGHT_COLOR {
     /* 0x04 */ DEMO_EFFECT_LIGHT_YELLOW,
     /* 0x05 */ DEMO_EFFECT_LIGHT_PURPLE,
     /* 0x06 */ DEMO_EFFECT_LIGHT_GREEN2
-} DEMO_EFFECT_LIGHT_COLOR;
+} DemoEffectLightColor;
 
-typedef enum DEMO_EFFECT_GOD_LGT_TYPE {
+typedef enum {
     /* 0x00 */ GOD_LGT_DIN,
     /* 0x01 */ GOD_LGT_NAYRU,
     /* 0x02 */ GOD_LGT_FARORE
-} DEMO_EFFECT_GOD_LGT_TYPE;
+} DemoEffectGodLgtType;
 
-#define GET_EFFECT_TYPE(thisx) ((thisx)->params & 0x00FF)
-#define GET_LIGHT_SIZE_PARAM(thisx) (((thisx)->params & 0x0F00) >> 8)
-#define GET_LIGHT_COLOR_PARAM(thisx) (((thisx)->params & 0xF000) >> 12)
-#define DEMO_EFFECT_PARAM(effectType, lightSize, lightColor) (((effectType & 0x00FF) << 0) | ((lightSize & 0x000F) << 8) | ((lightColor & 0x000F) << 12))
+// params info
+// type: (params & 0x00FF)
+// light size: ((params & 0x0F00) >> 8)
+// light color: ((params & 0xF000) >> 12)
 
 #endif
