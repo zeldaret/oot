@@ -5,7 +5,7 @@ glabel D_80A3A2D0
     .word 0x4082C000, 0x00000000, 0x00000000, 0x00000000
 
 .text
-glabel EnGeldB_ReactToProjectile
+glabel EnGeldB_DodgeRanged
 /* 04B1C 80A39E2C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 04B20 80A39E30 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 04B24 80A39E34 AFA40020 */  sw      $a0, 0x0020($sp)           

@@ -35,10 +35,10 @@ typedef enum {
 
 void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnGeldB_Update(Actor* this, GlobalContext* globalCtx);
-void EnGeldB_Draw(Actor* this, GlobalContext* globalCtx);
+void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this);
+s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this);
 
 void EnGeldB_SetupWait(EnGeldB* this);
 void EnGeldB_SetupReady(EnGeldB* this);
@@ -161,8 +161,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->limbDrawTbl,
-                       this->limbTransitionTable, 24);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->jointTbl, this->morphTbl, 24);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sBodyCylInit);
     Collider_InitTris(globalCtx, &this->blockCollider);
@@ -357,7 +356,7 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
         this->lookTimer = 0;
     }
     angleToLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
+    if (!EnGeldB_DodgeRanged(globalCtx, this)) {
         if (this->unkTimer != 0) {
             this->unkTimer--;
 
@@ -413,7 +412,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
     s32 pad2C;
     f32 playSpeed;
 
-    if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
+    if (!EnGeldB_DodgeRanged(globalCtx, this)) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x2EE, 0);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if (this->actor.xzDistFromLink <= 40.0f) {
@@ -527,7 +526,7 @@ void EnGeldB_Pivot(EnGeldB* this, GlobalContext* globalCtx) {
     s16 turnRate;
     f32 playSpeed;
 
-    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
+    if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         angleToLink = this->actor.yawTowardsLink - this->actor.shape.rot.y;
         turnRate = (angleToLink > 0) ? ((angleToLink * 0.25f) + 2000.0f) : ((angleToLink * 0.25f) - 2000.0f);
         this->actor.posRot.rot.y = this->actor.shape.rot.y += turnRate;
@@ -574,7 +573,7 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0xFA0, 1);
-    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
+    if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3A98;
         angleBehindLink = player->actor.shape.rot.y + 0x8000;
         if (Math_Sins(angleBehindLink - this->actor.shape.rot.y) >= 0.0f) {
@@ -734,7 +733,7 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if (--this->timer == 0) {
         this->actor.shape.rot.y = this->actor.yawTowardsLink;
-        if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
+        if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 70.0f)) {
                 EnGeldB_SetupSlash(this);
             } else {
@@ -976,12 +975,12 @@ void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx) {
         this->invisible = false;
     }
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 0x1194, 0);
-    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0) &&
+    if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0) &&
         SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (this->actor.bgCheckFlags & 1)) {
         angleToWall = this->actor.wallPolyRot - this->actor.shape.rot.y;
         if ((this->actor.bgCheckFlags & 8) && (ABS(angleToWall) < 0x2EE0) && (this->actor.xzDistFromLink < 90.0f)) {
             EnGeldB_SetupJump(this);
-        } else if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
+        } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if ((this->actor.xzDistFromLink <= 45.0f) && !func_80033AB8(globalCtx, &this->actor) &&
                 (globalCtx->gameplayFrames & 7)) {
                 EnGeldB_SetupSlash(this);
@@ -1077,7 +1076,7 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
                func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
         if (player->swordAnimation == 0x11) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
-        } else if (!EnGeldB_ReactToProjectile(globalCtx, this)) {
+        } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if ((globalCtx->gameplayFrames & 1)) {
                 if ((this->actor.xzDistFromLink < 100.0f) && (Math_Rand_ZeroOne() > 0.7f)) {
                     EnGeldB_SetupJump(this);
@@ -1180,7 +1179,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
 
     playSpeed = (0, ABS(this->skelAnime.animPlaybackSpeed)); // Needed to match for some reason
 
-    if (!EnGeldB_ReactToProjectile(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
+    if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {
             s16 angleFacingPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
@@ -1525,18 +1524,21 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // regalloc
-s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this) {
+s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
     Actor* actor = func_80033780(globalCtx, &this->actor, 800.0f);
 
     if (actor != NULL) {
-        s16 sp1A;
+        s16 angleToFacing;
         s16 pad18;
-        f32 temp;
+        f32 dist;
 
-        sp1A = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
+        angleToFacing = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        temp = func_8002DB6C(&this->actor, &actor->posRot.pos);
-        if ((ABS(sp1A) < 0x2EE0) && (sqrt(temp) < 600.0)) {
+        dist = func_8002DB6C(&this->actor, &actor->posRot.pos);
+        //! @bug
+        // func_8002DB6C already sqrtfs the distance, so this actually checks for a
+        // distance of 360000. Also it's a double calculation because no f on sqrt.
+        if ((ABS(angleToFacing) < 0x2EE0) && (sqrt(dist) < 600.0)) {
             if (actor->id == ACTOR_ARMS_HOOK) {
                 EnGeldB_SetupJump(this);
             } else {
@@ -1544,10 +1546,10 @@ s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this) {
             }
         } else {
             this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3FFF;
-            if ((ABS(sp1A) < 0x2000) || (ABS(sp1A) > 0x5FFF)) {
+            if ((ABS(angleToFacing) < 0x2000) || (ABS(angleToFacing) > 0x5FFF)) {
                 EnGeldB_SetupSidestep(this, globalCtx);
                 this->actor.speedXZ *= 3.0f;
-            } else if (ABS(sp1A) < 0x5FFF) {
+            } else if (ABS(angleToFacing) < 0x5FFF) {
                 EnGeldB_SetupRollBack(this);
             }
         }
@@ -1556,5 +1558,5 @@ s32 EnGeldB_ReactToProjectile(GlobalContext* globalCtx, EnGeldB* this) {
     return false;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/func_80A39E2C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GeldB/EnGeldB_DodgeRanged.s")
 #endif
