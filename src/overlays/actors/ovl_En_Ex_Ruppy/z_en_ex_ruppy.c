@@ -147,7 +147,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
-        case 4:
+        case 4: // Spawned by shooting gallery (not the target rupees)
             this->actor.gravity = -3.0f;
             this->actor.flags &= ~1;
             Actor_SetScale(&this->actor, 0.01f);
