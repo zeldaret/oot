@@ -16,12 +16,13 @@ void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B14634(EnTa* this);
-void func_80B146F8(EnTa* this);
-void func_80B14754(EnTa* this);
-void func_80B14C18(EnTa* this);
+void func_80B14634(EnTa* this, GlobalContext* globalCtx);
+void func_80B146F8(EnTa* this, GlobalContext* globalCtx);
+void func_80B14754(EnTa* this, GlobalContext* globalCtx);
+void func_80B14C18(EnTa* this, GlobalContext* globalCtx);
 void func_80B14CAC(EnTa* this, GlobalContext* globalCtx);
-void func_80B14D98(EnTa* this);
+void func_80B14D98(EnTa* this, GlobalContext* globalCtx);
+void func_80B154FC(EnTa* this, GlobalContext* globalCtx);
 void func_80B16504(EnTa* this);
 void func_80B16608(EnTa* this);
 void func_80B166CC(EnTa* this);
@@ -56,9 +57,12 @@ s32 D_80B16E88[] = { 0x06007F80, 0x06006EC0, 0x060072C0, 0x00000000, 0x00000000,
 extern AnimationHeader D_060017E8;
 extern AnimationHeader D_06001C94;
 extern SkeletonHeader D_0600B7B8;
+extern AnimationHeader D_0600BF38;
 extern AnimationHeader D_0600C48C;
+extern AnimationHeader D_0600C858;
 extern AnimationHeader D_0600CD50;
 extern AnimationHeader D_0600E3D8;
+extern AnimationHeader D_0600CF28;
 
 void func_80B13AA0(EnTa* this, EnTaActionFunc arg1, EnTaUnkFunc arg2) {
     this->unk_25C = arg1;
@@ -178,9 +182,9 @@ void EnTa_Init(Actor *thisx, GlobalContext *globalCtx) {
                     if (gSaveContext.nightFlag == 0) {
                         this->actor.flags |= 0x10;
                         this->unk_2C4 = this->unk_2C6 = this->unk_2C8 = 7;
-                        this->unk_2B8 = Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x + 5.0f, this->actor.posRot.pos.y + 3.0f, this->actor.posRot.pos.z + 26.0f, 0, 0, 0, 0xD);
-                        this->unk_2BC = Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x - 20.0f, this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z - 30.0f, 0, 0, 0, 0xD);
-                        this->unk_2C0 = Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x + 20.0f, this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z - 30.0f, 0, 0, 0, 0xD);
+                        this->unk_2B8[0] = Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x + 5.0f, this->actor.posRot.pos.y + 3.0f, this->actor.posRot.pos.z + 26.0f, 0, 0, 0, 0xD);
+                        this->unk_2B8[1] = Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x - 20.0f, this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z - 30.0f, 0, 0, 0, 0xD);
+                        this->unk_2B8[2] = Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_NIW, this->actor.posRot.pos.x + 20.0f, this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z - 30.0f, 0, 0, 0, 0xD);
                         func_80B13AAC(this, globalCtx2);
 
                         if (gSaveContext.eventInf[0] & 0x400) {
@@ -309,29 +313,158 @@ void func_80B145F8(EnTa* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14634.s")
+void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B146F8.s")
+    if (func_8002F194(&this->actor, globalCtx)) {
+        s32 exchangeItemId = func_8002F368(globalCtx);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14754.s")
+        switch (exchangeItemId) {
+            case 3:
+                player->actor.textId = 0x702B;
+                func_80B13AA0(this, func_80B14570, func_80B167C0);
+                this->unk_2CC = 40;
+                break;
+            default:
+                if (exchangeItemId != 0) {
+                    player->actor.textId = 0x702A;
+                }
+                func_80B13AA0(this, func_80B145F8, func_80B167FC);
+                break;
+        }
+    } else {
+        this->actor.textId = 0x702A;
+        func_8002F298(&this->actor, globalCtx, 100.0f, 3);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14818.s")
+void func_80B146F8(EnTa *this, GlobalContext* globalCtx) {
+    if (func_8002F194(&this->actor, globalCtx)) {
+        func_80B13AA0(this, func_80B143D4, func_80B167FC);
+    }
+    this->actor.textId = 0x204B;
+    func_8002F2CC(&this->actor, globalCtx, 100.0f);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14898.s")
+void func_80B14754(EnTa *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B1490C.s")
+    if (func_8002F194((Actor *) this, globalCtx) != 0) {
+        s32 exchangeItemId = func_8002F368(globalCtx);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B1496C.s")
+        switch (exchangeItemId) {
+            case 6:
+                player->actor.textId = 0x702B;
+                func_80B13AA0(this, func_80B14570, func_80B167C0);
+                this->unk_2CC = 40;
+                break;
+            default:
+                if (exchangeItemId != 0) {
+                    player->actor.textId = 0x5015;
+                }
+                func_80B13AA0(this, func_80B14398, func_80B167FC);
+                break;
+        }
+    } else {
+        this->actor.textId = 0x5015;
+        func_8002F298(this, globalCtx, 100.0f, 6);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B149F4.s")
+void func_80B14818(EnTa *this, GlobalContext *globalCtx) {
+    s32 framesMod12 = (s32)globalCtx->state.frames % 12;
+    
+    if (framesMod12 == 0 || framesMod12 == 6) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND);
+    }
+    if (this->actor.speedXZ < 6.0f) {
+        this->actor.speedXZ += 0.4f;
+    }
+    Actor_MoveForward(&this->actor);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14A54.s")
+void func_80B14898(EnTa *this, GlobalContext *globalCtx) {
+    func_80033480(globalCtx, &this->actor.posRot.pos, 50.0f, 2, 250, 20, 1);
+    func_80B14818(this, globalCtx);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14AF4.s")
+    if (this->unk_2CC == 0) {
+        Actor_Kill(&this->actor);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14B6C.s")
+void func_80B1490C(EnTa *this, GlobalContext *globalCtx) {
+    this->actor.posRot.rot.y = this->actor.posRot.rot.y + 0xC00;
+    this->actor.shape.rot.y = this->actor.shape.rot.y + 0xC00;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14C18.s")
+    if (this->unk_2CC == 0) {
+        func_80B13AA0(this, func_80B14898, func_80B167C0);
+        this->unk_2CC = 60;
+    }
+}
+
+void func_80B1496C(EnTa *this, GlobalContext *globalCtx) {
+    func_80033480(globalCtx, &this->actor.posRot.pos, 50.0f, 2, 250, 20, 1);
+    func_80B14818(this, globalCtx);
+
+    if (this->unk_2CC == 0) {
+        func_80B13AA0(this, func_80B1490C, func_80B167C0);
+        this->unk_2CC = 5;
+    }
+}
+
+void func_80B149F4(EnTa *this, GlobalContext *globalCtx) {
+    this->actor.posRot.rot.y = this->actor.posRot.rot.y - 0xD00;
+    this->actor.shape.rot.y = this->actor.shape.rot.y - 0xD00;
+
+    if (this->unk_2CC == 0) {
+        func_80B13AA0(this, func_80B1496C, func_80B167C0);
+        this->unk_2CC = 65;
+    }
+}
+
+void func_80B14A54(EnTa *this, GlobalContext *globalCtx) {
+    func_80033480(globalCtx, &this->actor.posRot.pos, 50.0f, 2, 250, 20, 1);
+    func_80B14818(this, globalCtx);
+
+    if (this->unk_2CC == 20) {
+        func_80106CCC(globalCtx);
+    }
+    if (this->unk_2CC == 0) {
+        this->unk_2CC = 5;
+        func_80B13AA0(this, func_80B149F4, func_80B167C0);
+    }
+}
+
+void func_80B14AF4(EnTa *this, GlobalContext *globalCtx) {
+    this->actor.posRot.rot.y = this->actor.posRot.rot.y - 0xC00;
+    this->actor.shape.rot.y = this->actor.shape.rot.y - 0xC00;
+
+    if (this->unk_2CC == 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_VO_TA_CRY_1);
+        func_80B13AA0(this, func_80B14A54, func_80B167C0);
+        this->unk_2CC = 65;
+        this->actor.flags |= 0x10;
+    }
+}
+
+void func_80B14B6C(EnTa *this, GlobalContext *globalCtx) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
+        func_800800F8(globalCtx, 0x104F, -0x63, &this->actor, 0);
+        func_80B13AA0(this, func_80B14AF4, func_80B167C0);
+        this->unk_2CC = 5;
+        gSaveContext.eventChkInf[1] |= 0x10;
+        SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600CF28);
+        this->unk_2E4 = &D_0600C858;
+    }
+    this->unk_2E0 |= 1;
+}
+
+void func_80B14C18(EnTa *this, GlobalContext *globalCtx) {
+    if (func_80B142F4(this, globalCtx, 0x702C)) {
+        func_80B13AA0(this, func_80B14B6C, func_80B167C0);
+    }
+    func_80B14248(this);
+}
 
 void func_80B14C60(EnTa *this, GlobalContext *globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
@@ -352,35 +485,189 @@ void func_80B14CAC(EnTa *this, GlobalContext* globalCtx) {
     func_80B14248(this);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14D4C.s")
+void func_80B14D4C(EnTa *this, GlobalContext *globalCtx) {
+    if (func_8002F334(&this->actor, globalCtx)) {
+        func_80B13AA0(this, func_80B14D98, func_80B167C0);
+    }
+    this->unk_2E0 |= 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14D98.s")
+void func_80B14D98(EnTa *this, GlobalContext *globalCtx) {
+    if (func_80B142F4(this, globalCtx, 0x2055)) {
+        func_80B13AA0(this, func_80B14D4C, func_80B167C0);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14DD8.s")
+s32 func_80B14DD8(void) {
+    if (gSaveContext.rupees < 30) {
+        return 0;
+    } else if (!Inventory_HasEmptyBottle()) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14E28.s")
+void func_80B14E28(EnTa *this, GlobalContext *globalCtx) {
+    Vec3f b;
+    Vec3f a;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14EDC.s")
+    this->unk_2D0 = Gameplay_CreateSubCamera(globalCtx);
+    this->unk_2D2 =  globalCtx->activeCamera;
+    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, 1);
+    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D0, 7);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14F20.s")
+    b.x = 1053.0f;
+    b.y = 11.0f;
+    b.z = 22.0f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B14FAC.s")
+    a.x = 1053.0f;
+    a.y = 45.0f;
+    a.z = -40.0f;
+    
+    func_800C04D8(globalCtx, this->unk_2D0, &a, &b);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B15034.s")
+void func_80B14EDC(EnTa *this, GlobalContext *globalCtx) {
+    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, 7);
+    Gameplay_ClearCamera(globalCtx, this->unk_2D0);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B150AC.s")
+void func_80B14F20(EnTa *this, GlobalContext *globalCtx) {
+    func_80B13AA0(this, globalCtx, func_80B16854);
+    this->unk_2B4 = 2;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060017E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060017E8.genericHeader), 2, -5.0f);
+    this->unk_2E2 = 0;
+    this->unk_2E4 = &D_060017E8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B15100.s")
+void func_80B14FAC(EnTa *this, GlobalContext *globalCtx) {
+    this->unk_2B4 = 1;
+    func_80B13AA0(this, globalCtx, func_80B16938);
+    this->unk_2E0 &= ~0x10;
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C48C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C48C), 2, -5.0f);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B15260.s")
+void func_80B15034(EnTa *this, GlobalContext *globalCtx) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+        func_80106CCC(globalCtx);
+        func_80B14F20(this, func_80B16504);
+        func_80B13AAC(this, globalCtx);
+    }
+    this->unk_2E0 |= 1;
+}
 
+s32 func_80B150AC(EnTa *this, GlobalContext *globalCtx, s32 idx) {
+    Player* player = PLAYER;
+    Actor* interactRangeActor;
+
+    if (player->stateFlags1 & 0x800) {
+        interactRangeActor = player->interactRangeActor;
+        if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW && interactRangeActor == this->unk_2B8[idx]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void func_80B15100(EnTa *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+        s32 unk_2CA;
+
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C48C, 1.0f, SkelAnime_GetFrameCount(&D_0600C48C.genericHeader) - 1.0f, SkelAnime_GetFrameCount(&D_0600C48C), 2, 10.0f);
+        this->unk_2E0 &= ~0x10;
+        func_80106CCC(globalCtx);
+        unk_2CA = this->unk_2CA;
+        this->unk_25C = func_80B154FC;
+        this->unk_2B8[unk_2CA]->gravity = 0.1f;
+        this->unk_2B8[unk_2CA]->velocity.y = 0.0f;
+        this->unk_2B8[unk_2CA]->speedXZ = 0.0f;
+        this->unk_2B8[unk_2CA]->parent = NULL;
+
+        if (player->interactRangeActor == this->unk_2B8[unk_2CA]) {
+            player->interactRangeActor = NULL;
+        }
+        if (player->heldActor == this->unk_2B8[unk_2CA]) {
+            player->heldActor = NULL;
+        }
+        player->stateFlags1 &= ~0x800;
+        this->unk_2B8[unk_2CA] = NULL;
+    }
+    this->unk_2E0 |= 1;
+}
+
+void func_80B15260(EnTa *this, GlobalContext *globalCtx) {
+    if (func_8002F194(&this->actor, globalCtx)) {
+        this->unk_25C = func_80B15100;
+        this->actor.flags &= ~0x10000;
+    } else {
+        func_8002F2CC(&this->actor, globalCtx, 1000.0f);
+    }
+    this->unk_2E0 |= 1;
+}
+
+#ifdef NON_MATCHING
+s32 func_80B152D0(EnTa *this, GlobalContext *globalCtx) {
+    s32 ct = 0;
+    s32 i;
+
+    for (i = 0; i < 3; i++) {
+        if (this->unk_2B8[i] != NULL) {
+            ct++;
+        }
+    }
+    return ct;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B152D0.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B15308.s")
+void func_80B15308(EnTa *this) {
+    if (this->unk_2E0 & 0x10) {
+        if (this->unk_2E0 & 0x100) {
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600BF38, 1.0f, 17.0f, 22.0f, 2, 0.0f);
+            this->unk_2E0 &= ~0x100;
+        } else {
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600BF38, -1.0f, 21.0f, 16.0f, 2, 3.0f);
+            this->unk_2E0 |= 0x100;
+        }
+        this->unk_2E0 &= ~0x10;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B153D4.s")
+void func_80B153D4(EnTa *this, GlobalContext *globalCtx) {
+    func_80B15308(this);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B15424.s")
+    if (this->unk_2CC == 0) {
+        if (this->unk_2E0 & 0x80) {
+            this->unk_2E0 &= ~0x80;
+            func_80B14EDC(this, globalCtx);
+        }
+    }
+}
+
+void func_80B15424(EnTa *this, GlobalContext *globalCtx) {
+    func_80B15308(this);
+    
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+        globalCtx->nextEntranceIndex = 0x5E4;
+
+        if (gSaveContext.eventInf[0] & 0x100) {
+            globalCtx->fadeTransition = 46;
+            gSaveContext.nextTransition = 3;
+        } else {
+            globalCtx->fadeTransition = 38;
+            gSaveContext.nextTransition = 2;
+        }
+
+        globalCtx->sceneLoadFlag = 0x14;
+        gSaveContext.eventInf[0] |= 0x400;
+        this->unk_25C = func_80B153D4;
+        this->unk_2CC = 22;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B154FC.s")
 
@@ -425,25 +712,23 @@ void func_80B166CC(EnTa *this) {
 }
 
 void func_80B16700(EnTa *this) {
-    s16 temp2B6;
-    s16 temp2B4;
-    s16 phi_v0;
-
-    temp2B6 = this->unk_2B6 - 1;
+    s16 temp2B6 = this->unk_2B6 - 1;
+    
     if (temp2B6 != 0) {
         this->unk_2B6 = temp2B6;
     } else {
-        temp2B4 = this->unk_2B4 + 1;
-        phi_v0 = 3;
-        if (temp2B4 >= phi_v0) {
+        s16 temp2B4 = this->unk_2B4 + 1;
+        s16 temp2B6 = 3;
+
+        if (temp2B4 >= temp2B6) {
             this->unk_2B4 = 0;
             if (this->unk_2CE > 0) {
                 this->unk_2CE--;
-                phi_v0 = 1;
+                temp2B6 = 1;
             } else {
-                phi_v0 = (s32) (Math_Rand_ZeroOne() * 60.0f) + 20;
+                temp2B6 = (s32) (Math_Rand_ZeroOne() * 60.0f) + 20;
             }
-            this->unk_2B6 = phi_v0;
+            this->unk_2B6 = temp2B6;
             this->unk_2B0 = func_80B166CC;
         } else {
             this->unk_2B4 = temp2B4;
