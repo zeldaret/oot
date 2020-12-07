@@ -295,7 +295,7 @@ s32 D_80A1D0FC[] = {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fr/func_80A1A9A0.s")
 // EnFr_OrientUnderwater
-void func_80A1A9A0(EnFr *this) {
+void func_80A1A9A0(EnFr* this) {
 
     Vec3f vec1; 
     Vec3f vec2; 
