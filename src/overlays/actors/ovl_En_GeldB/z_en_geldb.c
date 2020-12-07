@@ -5,32 +5,32 @@
 #define THIS ((EnGeldB*)thisx)
 
 typedef enum {
-    GELDB_WAIT,
-    GELDB_DEFEAT,
-    GELDB_DAMAGED,
-    GELDB_JUMP,
-    GELDB_ROLL_BACK,
-    GELDB_READY,
-    GELDB_BLOCK,
-    GELDB_SLASH,
-    GELDB_ADVANCE,
-    GELDB_PIVOT,
-    GELDB_CIRCLE,
-    GELDB_UNUSED,
-    GELDB_SPIN_ATTACK,
-    GELDB_SIDESTEP,
-    GELDB_ROLL_FORWARD,
-    GELDB_STUNNED,
-    GELDB_SPIN_DODGE
+    /*  0 */ GELDB_WAIT,
+    /*  1 */ GELDB_DEFEAT,
+    /*  2 */ GELDB_DAMAGED,
+    /*  3 */ GELDB_JUMP,
+    /*  4 */ GELDB_ROLL_BACK,
+    /*  5 */ GELDB_READY,
+    /*  6 */ GELDB_BLOCK,
+    /*  7 */ GELDB_SLASH,
+    /*  8 */ GELDB_ADVANCE,
+    /*  9 */ GELDB_PIVOT,
+    /* 10 */ GELDB_CIRCLE,
+    /* 11 */ GELDB_UNUSED,
+    /* 12 */ GELDB_SPIN_ATTACK,
+    /* 13 */ GELDB_SIDESTEP,
+    /* 14 */ GELDB_ROLL_FORWARD,
+    /* 15 */ GELDB_STUNNED,
+    /* 16 */ GELDB_SPIN_DODGE
 } EnGeldBActionState;
 
 typedef enum {
-    GELDB_DAMAGE_NORMAL,
-    GELDB_DAMAGE_STUN,
-    GELDB_DAMAGE_UNK6 = 6,
-    GELDB_DAMAGE_UNKD = 0xD,
-    GELDB_DAMAGE_UNKE,
-    GELDB_DAMAGE_FREEZE
+    /* 0 */ GELDB_DAMAGE_NORMAL,
+    /* 1 */ GELDB_DAMAGE_STUN,
+    /* 6 */ GELDB_DAMAGE_UNK6 = 6,
+    /* D */ GELDB_DAMAGE_UNKD = 0xD,
+    /* E */ GELDB_DAMAGE_UNKE,
+    /* F */ GELDB_DAMAGE_FREEZE
 } EnGeldBDamageEffects;
 
 void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -161,7 +161,8 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     this->blinkState = 0;
     this->unkFloat = 10.0f;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->jointTbl, this->morphTbl, 24);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, &D_0600B6D4, this->limbDrawTbl,
+                       this->transitionDrawTbl, 24);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sBodyCylInit);
     Collider_InitTris(globalCtx, &this->blockCollider);
@@ -178,7 +179,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     blureInit.unkFlag = 0;
     blureInit.calcMode = 2;
 
-    Effect_Add(globalCtx, &this->blureIdx, 1, 0, 0, &blureInit);
+    Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
     Actor_SetScale(thisx, 0.012499999f);
     EnGeldB_SetupWait(this);
     if ((this->keyFlag != 0) && Flags_GetCollectible(globalCtx, this->keyFlag >> 8)) {
@@ -326,7 +327,8 @@ void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY + 300.0f, 1.0f, 20.5f, 0.0f);
-        if (--this->timer == 0) {
+        this->timer--;
+        if (this->timer == 0) {
             Actor_Kill(&this->actor);
         }
     }
@@ -417,7 +419,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
         if (this->actor.xzDistFromLink <= 40.0f) {
             Math_SmoothScaleMaxMinF(&this->actor.speedXZ, -8.0f, 1.0f, 1.5f, 0.0f);
-        } else if (55.0f < this->actor.xzDistFromLink) {
+        } else if (this->actor.xzDistFromLink > 55.0f) {
             Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 8.0f, 1.0f, 1.5f, 0.0f);
         } else {
             Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 6.65f, 0.0f);
@@ -438,7 +440,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         prevKeyFrame = (s32)(this->skelAnime.animCurrentFrame - playSpeed);
         playSpeed = ABS(this->skelAnime.animPlaybackSpeed); // yes it does this twice.
         if (!func_8002E084(&this->actor, 0x11C7)) {
-            if (0.5f < Math_Rand_ZeroOne()) {
+            if (Math_Rand_ZeroOne() > 0.5f) {
                 EnGeldB_SetupCircle(this);
             } else {
                 EnGeldB_SetupReady(this);
@@ -455,7 +457,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         }
         if (!EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
             if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
-                (func_8002E084(&this->actor, 0x71C) != 0)) {
+                func_8002E084(&this->actor, 0x71C)) {
                 if (func_80033A84(globalCtx, &this->actor)) {
                     if (Math_Rand_ZeroOne() > 0.5f) {
                         EnGeldB_SetupRollForward(this);
@@ -497,7 +499,7 @@ void EnGeldB_RollForward(EnGeldB* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         this->invisible = false;
         this->actor.speedXZ = 0.0f;
-        if (func_8002E084(&this->actor, 0x1554) == 0) {
+        if (!func_8002E084(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
             if (ABS(facingAngleToLink) < 0x38E0) {
@@ -565,7 +567,7 @@ void EnGeldB_SetupCircle(EnGeldB* this) {
 
 void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
     s16 angleBehindLink;
-    s16 phi_v0_2;
+    s16 phi_v1;
     s32 nextKeyFrame;
     s32 thisKeyFrame;
     s32 pad;
@@ -591,16 +593,16 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
             !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
             if (this->actor.bgCheckFlags & 8) {
                 if (this->actor.speedXZ >= 0.0f) {
-                    phi_v0_2 = this->actor.shape.rot.y + 0x3E80;
+                    phi_v1 = this->actor.shape.rot.y + 0x3E80;
                 } else {
-                    phi_v0_2 = this->actor.shape.rot.y - 0x3E80;
+                    phi_v1 = this->actor.shape.rot.y - 0x3E80;
                 }
-                phi_v0_2 = this->actor.wallPolyRot - phi_v0_2;
+                phi_v1 = this->actor.wallPolyRot - phi_v1;
             } else {
                 this->actor.speedXZ *= -0.8f;
-                phi_v0_2 = 0;
+                phi_v1 = 0;
             }
-            if (ABS(phi_v0_2) > 0x4000) {
+            if (ABS(phi_v1) > 0x4000) {
                 this->actor.speedXZ *= -0.8f;
                 if (this->actor.speedXZ < 0.0f) {
                     this->actor.speedXZ -= 0.5f;
@@ -678,7 +680,7 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
-    s16 phi_v0_2;
+    s16 phi_v1;
     s32 thisKeyFrame;
     s32 pad;
     s32 lastKeyFrame;
@@ -688,17 +690,17 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 8) ||
         !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
         if (this->actor.bgCheckFlags & 8) {
-            if (0.0f <= this->actor.speedXZ) {
-                phi_v0_2 = this->actor.shape.rot.y + 0x3E80;
+            if (this->actor.speedXZ >= 0.0f) {
+                phi_v1 = this->actor.shape.rot.y + 0x3E80;
             } else {
-                phi_v0_2 = this->actor.shape.rot.y - 0x3E80;
+                phi_v1 = this->actor.shape.rot.y - 0x3E80;
             }
-            phi_v0_2 = this->actor.wallPolyRot - phi_v0_2;
+            phi_v1 = this->actor.wallPolyRot - phi_v1;
         } else {
-            this->actor.speedXZ = this->actor.speedXZ * -0.8f;
-            phi_v0_2 = 0;
+            this->actor.speedXZ *= -0.8f;
+            phi_v1 = 0;
         }
-        if (ABS(phi_v0_2) > 0x4000) {
+        if (ABS(phi_v1) > 0x4000) {
             EnGeldB_SetupJump(this);
             return;
         }
@@ -731,7 +733,8 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
     }
-    if (--this->timer == 0) {
+    this->timer--;
+    if (this->timer == 0) {
         this->actor.shape.rot.y = this->actor.yawTowardsLink;
         if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if (!func_80033AB8(globalCtx, &this->actor) && (this->actor.xzDistFromLink <= 70.0f)) {
@@ -853,18 +856,18 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
         this->swordState = -1;
     }
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) && (this->spinAttackState < 2)) {
-        if (func_8002E084(&this->actor, 0x1554) == 0) {
+        if (!func_8002E084(&this->actor, 0x1554)) {
             EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
             this->lookTimer = 46;
         } else if (this->spinAttackState != 0) {
             EnGeldB_SetupRollBack(this);
-        } else if (0.7f < Math_Rand_ZeroOne() || (120.0f <= this->actor.xzDistFromLink)) {
+        } else if (Math_Rand_ZeroOne() > 0.7f || (this->actor.xzDistFromLink >= 120.0f)) {
             EnGeldB_SetupReady(this);
             this->timer = (Math_Rand_ZeroOne() * 5.0f) + 5.0f;
         } else {
             this->actor.posRot.rot.y = this->actor.yawTowardsLink;
-            if (0.7f < Math_Rand_ZeroOne()) {
+            if (Math_Rand_ZeroOne() > 0.7f) {
                 EnGeldB_SetupSidestep(this, globalCtx);
             } else {
                 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
@@ -1132,7 +1135,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 8) ||
         !func_800339B8(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y + 0x3E80)) {
         if (this->actor.bgCheckFlags & 8) {
-            if (0.0f <= this->actor.speedXZ) {
+            if (this->actor.speedXZ >= 0.0f) {
                 phi_v1 = this->actor.shape.rot.y + 0x3E80;
             } else {
                 phi_v1 = this->actor.shape.rot.y - 0x3E80;
@@ -1158,7 +1161,7 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if (this->actor.xzDistFromLink <= 45.0f) {
         Math_SmoothScaleMaxMinF(&this->approachRate, -4.0f, 1.0f, 1.5f, 0.0f);
-    } else if (40.0f < this->actor.xzDistFromLink) {
+    } else if (this->actor.xzDistFromLink > 40.0f) {
         Math_SmoothScaleMaxMinF(&this->approachRate, 4.0f, 1.0f, 1.5f, 0.0f);
     } else {
         Math_SmoothScaleMaxMinF(&this->approachRate, 0.0f, 1.0f, 6.65f, 0.0f);
@@ -1195,9 +1198,9 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
                 if ((this->actor.xzDistFromLink <= 45.0f) && (!func_80033AB8(globalCtx, &this->actor)) &&
                     (!(globalCtx->gameplayFrames & 3) || (ABS(angleFacingPlayer2) < 0x38E0))) {
                     EnGeldB_SetupSlash(this);
-                } else if ((this->actor.xzDistFromLink < 210.0f) && (150.0f < this->actor.xzDistFromLink) &&
+                } else if ((210.0f > this->actor.xzDistFromLink) && (this->actor.xzDistFromLink > 150.0f) &&
                            !(globalCtx->gameplayFrames & 1)) {
-                    if (func_80033AB8(globalCtx, &this->actor) || (0.5f < Math_Rand_ZeroOne()) ||
+                    if (func_80033AB8(globalCtx, &this->actor) || (Math_Rand_ZeroOne() > 0.5f) ||
                         (ABS(angleFacingPlayer2) < 0x38E0)) {
                         EnGeldB_SetupRollForward(this);
                     } else {
@@ -1335,7 +1338,7 @@ void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->swordCollider.base);
     }
     if (this->blinkState == 0) {
-        if ((Math_Rand_ZeroOne() < 0.1f) && ((globalCtx->gameplayFrames & 3) == 0)) {
+        if ((Math_Rand_ZeroOne() < 0.1f) && ((globalCtx->gameplayFrames % 4) == 0)) {
             this->blinkState++;
         }
     } else {
@@ -1376,11 +1379,10 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     static Vec3f swordQuadOffset3 = { -3000.0f, -2000.0f, -1300.0f };
     static Vec3f swordQuadOffset2 = { 1000.0f, 1000.0f, 0.0f };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-
     Vec3f swordTip;
     Vec3f swordHilt;
     EnGeldB* this = THIS;
-    s32 effectIndex = -1;
+    s32 bodyPart = -1;
 
     if (limbIndex == 11) {
         Matrix_MultVec3f(&swordQuadOffset1, &this->swordCollider.dim.quad[1]);
@@ -1410,42 +1412,42 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (this->iceTimer != 0) {
         switch (limbIndex) {
             case 3:
-                effectIndex = 0;
+                bodyPart = 0;
                 break;
             case 16:
-                effectIndex = 1;
+                bodyPart = 1;
                 break;
             case 11:
-                effectIndex = 2;
+                bodyPart = 2;
                 break;
             case 12:
-                effectIndex = 3;
+                bodyPart = 3;
                 break;
             case 7:
-                effectIndex = 4;
+                bodyPart = 4;
                 break;
             case 2:
-                effectIndex = 5;
+                bodyPart = 5;
                 break;
             case 23:
-                effectIndex = 6;
+                bodyPart = 6;
                 break;
             case 19:
-                effectIndex = 7;
+                bodyPart = 7;
                 break;
             case 22:
-                effectIndex = 8;
+                bodyPart = 8;
                 break;
             default:
                 break;
         }
-        if (effectIndex >= 0) {
+        if (bodyPart >= 0) {
             Vec3f limbPos;
 
             Matrix_MultVec3f(&zeroVec, &limbPos);
-            this->effectPos[effectIndex].x = limbPos.x;
-            this->effectPos[effectIndex].y = limbPos.y;
-            this->effectPos[effectIndex].z = limbPos.z;
+            this->bodyPartsPos[bodyPart].x = limbPos.x;
+            this->bodyPartsPos[bodyPart].y = limbPos.y;
+            this->bodyPartsPos[bodyPart].z = limbPos.z;
         }
     }
 }
@@ -1514,7 +1516,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if ((this->iceTimer % 4) == 0) {
                 s32 iceIndex = this->iceTimer >> 2;
 
-                EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->effectPos[iceIndex], 0x96, 0x96, 0x96, 0xFA,
+                EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->bodyPartsPos[iceIndex], 0x96, 0x96, 0x96, 0xFA,
                                                0xEB, 0xF5, 0xFF, 1.5f);
             }
         }

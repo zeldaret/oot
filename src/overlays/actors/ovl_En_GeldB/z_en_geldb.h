@@ -9,10 +9,10 @@ typedef void (*EnGeldBActionFunc)(struct EnGeldB*, GlobalContext*);
 
 typedef struct EnGeldB {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ Vec3s effectPos[10];
+    /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ SkelAnime skelAnime;
-    /* 0x01CC */ Vec3s jointTbl[24];
-    /* 0x025C */ Vec3s morphTbl[24];
+    /* 0x01CC */ Vec3s limbDrawTbl[24];
+    /* 0x025C */ Vec3s transitionDrawTbl[24];
     /* 0x02EC */ s32 actionState;
     /* 0x02F0 */ char unk_2F0[4];
     /* 0x02F4 */ EnGeldBActionFunc actionFunc;
