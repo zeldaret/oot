@@ -651,7 +651,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTbl, s
 
     sDListsLodOffset = lod * 2;
 
-    Skeleton_DrawFlexLod(globalCtx, skeleton, jointTbl, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
+    SkelAnime_DrawFlexLod(globalCtx, skeleton, jointTbl, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
     if ((overrideLimbDraw != func_800902F0) && (overrideLimbDraw != func_80090440) && (gSaveContext.gameMode != 3)) {
         if (LINK_IS_ADULT) {
@@ -1366,8 +1366,8 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    Skeleton_InitLink(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &D_04003238, 9, ptr, ptr,
-                      PLAYER_LIMB_MAX);
+    SkelAnime_InitLink(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &D_04003238, 9, ptr,
+                       ptr, PLAYER_LIMB_MAX);
 
     return size + 0x8890;
 }

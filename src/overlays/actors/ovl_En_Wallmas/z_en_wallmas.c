@@ -93,8 +93,8 @@ void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
-    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
-                      25);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
+                       25);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -139,7 +139,7 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     AnimationHeader* objSegChangee = &D_0600299C;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&D_0600299C), 2, 0.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_LastFrame(&D_0600299C), 2, 0.0f);
 
     this->unk_2c4 = player->actor.posRot.pos.y;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
@@ -154,7 +154,7 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     AnimationHeader* objSegFrameCount = &D_060019CC;
     AnimationHeader* objSegChangee = &D_060019CC;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount), 2, -3.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_LastFrame(objSegFrameCount), 2, -3.0f);
 
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
@@ -184,7 +184,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 3.0f, 0.0f, Animation_GetLastFrame(objSegFrameCount), 2, -3.0f);
+    Animation_Change(&this->skelAnime, objSegChangee, 3.0f, 0.0f, Animation_LastFrame(objSegFrameCount), 2, -3.0f);
 
     this->actionFunc = EnWallmas_ReturnToCeiling;
 }
@@ -299,13 +299,13 @@ void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Land(EnWallmas* this, GlobalContext* globalCtx) {
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupStand(this);
     }
 }
 
 void EnWallmas_Stand(EnWallmas* this, GlobalContext* globalCtx) {
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupWalk(this);
     }
 
@@ -313,33 +313,33 @@ void EnWallmas_Stand(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx) {
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupJumpToCeiling(this);
     }
 
     Math_ApproxUpdateScaledS(&this->actor.posRot.rot.y, (s16)((s32)this->actor.yawTowardsLink + 0x8000), 0xB6);
 
-    if ((Animation_IsOnFrame(&this->skelAnime, 0.0f) != 0) || (Animation_IsOnFrame(&this->skelAnime, 12.0f) != 0) ||
-        (Animation_IsOnFrame(&this->skelAnime, 24.0f) != 0) || (Animation_IsOnFrame(&this->skelAnime, 36.0f) != 0)) {
+    if ((Animation_OnFrame(&this->skelAnime, 0.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 12.0f) != 0) ||
+        (Animation_OnFrame(&this->skelAnime, 24.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 36.0f) != 0)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_WALK);
     }
 }
 
 void EnWallmas_JumpToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
 
 void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->skelAnime.curFrame > 20.0f) {
         this->timer += 9;
         this->actor.posRot.pos.y = this->actor.posRot.pos.y + 30.0f;
     }
 
-    if (Animation_IsOnFrame(&this->skelAnime, 20.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 20.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_UP);
     }
 
@@ -359,14 +359,14 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_TakeDamage(EnWallmas* this, GlobalContext* globalCtx) {
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->actor.colChkInfo.health == 0) {
             EnWallmas_SetupDie(this, globalCtx);
         } else {
             EnWallmas_SetupCooldown(this);
         }
     }
-    if (Animation_IsOnFrame(&this->skelAnime, 13.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 13.0f) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
@@ -374,7 +374,7 @@ void EnWallmas_TakeDamage(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Cooldown(EnWallmas* this, GlobalContext* globalCtx) {
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnWallmas_SetupReturnToCeiling(this);
     }
 }
@@ -392,7 +392,7 @@ void EnWallmas_Die(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (Animation_IsOnFrame(&this->skelAnime, 1.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 1.0f) != 0) {
         if (LINK_IS_CHILD) {
             func_8002F7DC(&this->actor, NA_SE_VO_LI_DAMAGE_S_KID);
         } else {
@@ -401,7 +401,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_CATCH);
     }
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         player->actor.posRot.pos.x = this->actor.posRot.pos.x;
         player->actor.posRot.pos.z = this->actor.posRot.pos.z;
 
@@ -457,7 +457,7 @@ void EnWallmas_WaitForSwitchFlag(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
         this->timer--;
     }
@@ -614,8 +614,8 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                             EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                              EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }
 
     EnWallmas_DrawXlu(this, globalCtx);

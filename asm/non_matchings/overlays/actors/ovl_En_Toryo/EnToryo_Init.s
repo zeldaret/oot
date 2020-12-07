@@ -95,7 +95,7 @@ glabel EnToryo_Init
 /* 0014C 80B202BC 24C67150 */  addiu   $a2, $a2, 0x7150           ## $a2 = 06007150
 /* 00150 80B202C0 AFA50038 */  sw      $a1, 0x0038($sp)
 /* 00154 80B202C4 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 00158 80B202C8 0C0291BE */  jal     Skeleton_InitFlex
+/* 00158 80B202C8 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0015C 80B202CC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00160 80B202D0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00164 80B202D4 AFA50034 */  sw      $a1, 0x0034($sp)
@@ -126,7 +126,7 @@ glabel EnToryo_Init
 /* 001C0 80B20330 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 001C4 80B20334 3C0380B2 */  lui     $v1, %hi(D_80B20C58)       ## $v1 = 80B20000
 /* 001C8 80B20338 24630C58 */  addiu   $v1, $v1, %lo(D_80B20C58)  ## $v1 = 80B20C58
-/* 001CC 80B2033C 0C028800 */  jal     Animation_GetLastFrame
+/* 001CC 80B2033C 0C028800 */  jal     Animation_LastFrame
 
 /* 001D0 80B20340 8C640000 */  lw      $a0, 0x0000($v1)           ## 80B20C58
 /* 001D4 80B20344 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -7,7 +7,7 @@ glabel func_808C54C0
 /* 04344 808C54D4 E4800068 */  swc1    $f0, 0x0068($a0)           ## 00000068
 /* 04348 808C54D8 E48001E4 */  swc1    $f0, 0x01E4($a0)           ## 000001E4
 /* 0434C 808C54DC 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 04350 808C54E0 0C028800 */  jal     Animation_GetLastFrame
+/* 04350 808C54E0 0C028800 */  jal     Animation_LastFrame
 
 /* 04354 808C54E4 24842D0C */  addiu   $a0, $a0, 0x2D0C           ## $a0 = 06002D0C
 /* 04358 808C54E8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

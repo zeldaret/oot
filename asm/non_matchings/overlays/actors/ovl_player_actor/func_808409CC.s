@@ -117,7 +117,7 @@ glabel func_808409CC
 /* 0E944 80840B54 8C460000 */  lw      $a2, 0x0000($v0)           ## 00000008
 .L80840B58:
 /* 0E948 80840B58 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
-/* 0E94C 80840B5C 0C028800 */  jal     Animation_GetLastFrame
+/* 0E94C 80840B5C 0C028800 */  jal     Animation_LastFrame
 
 /* 0E950 80840B60 AFA60044 */  sw      $a2, 0x0044($sp)
 /* 0E954 80840B64 3C018085 */  lui     $at, %hi(D_8085540C)       ## $at = 80850000

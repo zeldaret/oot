@@ -34,7 +34,7 @@ glabel EnPeehat_Init
 /* 0005C 80ACF4FC 24E709C4 */  addiu   $a3, $a3, 0x09C4           ## $a3 = 060009C4
 /* 00060 80ACF500 24C61C80 */  addiu   $a2, $a2, 0x1C80           ## $a2 = 06001C80
 /* 00064 80ACF504 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00068 80ACF508 0C02915F */  jal     Skeleton_Init
+/* 00068 80ACF508 0C02915F */  jal     SkelAnime_Init
               
 /* 0006C 80ACF50C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80ACF510 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)

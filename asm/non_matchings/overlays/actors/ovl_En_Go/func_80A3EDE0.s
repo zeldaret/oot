@@ -21,7 +21,7 @@ glabel func_80A3EDE0
 /* 008B4 80A3EE24 03281821 */  addu    $v1, $t9, $t0
 /* 008B8 80A3EE28 8C640000 */  lw      $a0, 0x0000($v1)           ## 00000000
 /* 008BC 80A3EE2C AFA3002C */  sw      $v1, 0x002C($sp)
-/* 008C0 80A3EE30 0C028800 */  jal     Animation_GetLastFrame
+/* 008C0 80A3EE30 0C028800 */  jal     Animation_LastFrame
 
 /* 008C4 80A3EE34 E7A00030 */  swc1    $f0, 0x0030($sp)
 /* 008C8 80A3EE38 8FA3002C */  lw      $v1, 0x002C($sp)

@@ -199,7 +199,7 @@ glabel func_80A37224
 /* 021B8 80A374C8 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 021BC 80A374CC 4600218D */  trunc.w.s $f6, $f4                   
 /* 021C0 80A374D0 44033000 */  mfc1    $v1, $f6                   
-/* 021C4 80A374D4 0C02927F */  jal     Animation_Update
+/* 021C4 80A374D4 0C02927F */  jal     SkelAnime_Update
               
 /* 021C8 80A374D8 AFA30028 */  sw      $v1, 0x0028($sp)           
 /* 021CC 80A374DC 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00

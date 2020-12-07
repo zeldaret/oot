@@ -10,7 +10,7 @@ glabel func_808DC14C
 /* 058E8 808DC158 AFBF003C */  sw      $ra, 0x003C($sp)
 /* 058EC 808DC15C 24840150 */  addiu   $a0, $a0, 0x0150           ## $a0 = 00000150
 /* 058F0 808DC160 AFA50054 */  sw      $a1, 0x0054($sp)
-/* 058F4 808DC164 0C02927F */  jal     Animation_Update
+/* 058F4 808DC164 0C02927F */  jal     SkelAnime_Update
 
 /* 058F8 808DC168 AFA40044 */  sw      $a0, 0x0044($sp)
 /* 058FC 808DC16C 3C063E4C */  lui     $a2, 0x3E4C                ## $a2 = 3E4C0000
@@ -30,7 +30,7 @@ glabel func_808DC14C
 .L808DC1A0:
 /* 05930 808DC1A0 A20E01A0 */  sb      $t6, 0x01A0($s0)           ## 000001A0
 /* 05934 808DC1A4 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 05938 808DC1A8 0C0295B2 */  jal     Animation_IsOnFrame
+/* 05938 808DC1A8 0C0295B2 */  jal     Animation_OnFrame
 /* 0593C 808DC1AC 8E0501CC */  lw      $a1, 0x01CC($s0)           ## 000001CC
 /* 05940 808DC1B0 10400007 */  beq     $v0, $zero, .L808DC1D0
 /* 05944 808DC1B4 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
@@ -61,7 +61,7 @@ glabel func_808DC14C
 /* 059A4 808DC214 8E0A0268 */  lw      $t2, 0x0268($s0)           ## 00000268
 /* 059A8 808DC218 AD0A0008 */  sw      $t2, 0x0008($t0)           ## 8015FD00
 .L808DC21C:
-/* 059AC 808DC21C 0C0295B2 */  jal     Animation_IsOnFrame
+/* 059AC 808DC21C 0C0295B2 */  jal     Animation_OnFrame
 /* 059B0 808DC220 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 059B4 808DC224 10400004 */  beq     $v0, $zero, .L808DC238
 /* 059B8 808DC228 3C054130 */  lui     $a1, 0x4130                ## $a1 = 41300000
@@ -69,7 +69,7 @@ glabel func_808DC14C
 /* 059C0 808DC230 00000000 */  nop
 /* 059C4 808DC234 E6060254 */  swc1    $f6, 0x0254($s0)           ## 00000254
 .L808DC238:
-/* 059C8 808DC238 0C0295B2 */  jal     Animation_IsOnFrame
+/* 059C8 808DC238 0C0295B2 */  jal     Animation_OnFrame
 /* 059CC 808DC23C 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 059D0 808DC240 10400046 */  beq     $v0, $zero, .L808DC35C
 /* 059D4 808DC244 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
@@ -120,7 +120,7 @@ glabel func_808DC14C
 /* 05A74 808DC2E4 0018C880 */  sll     $t9, $t8,  2
 /* 05A78 808DC2E8 00992021 */  addu    $a0, $a0, $t9
 /* 05A7C 808DC2EC 8C844D38 */  lw      $a0, %lo(D_808E4D38)($a0)
-/* 05A80 808DC2F0 0C028800 */  jal     Animation_GetLastFrame
+/* 05A80 808DC2F0 0C028800 */  jal     Animation_LastFrame
 
 /* 05A84 808DC2F4 A7A2004E */  sh      $v0, 0x004E($sp)
 /* 05A88 808DC2F8 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00

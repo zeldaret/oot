@@ -741,7 +741,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 14.0f);
-    Skeleton_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTbl, this->morphTbl, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTbl, this->morphTbl, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
@@ -970,12 +970,12 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
     if (this->actor.flags & 0x8000) {
-        Animation_Update(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, globalCtx)) {
         // no collision has been detected.
 
         if (this->stunTimer == 0) {
-            Animation_Update(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
         }
 
         if (this->swayTimer == 0 && this->stunTimer == 0) {
@@ -1045,6 +1045,6 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnSt_OverrideLimbDraw,
-                     EnSt_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnSt_OverrideLimbDraw,
+                      EnSt_PostLimbDraw, this);
 }

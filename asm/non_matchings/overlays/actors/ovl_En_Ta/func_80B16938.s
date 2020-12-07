@@ -7,7 +7,7 @@ glabel func_80B16938
 /* 02EAC 80B1694C 31CF0010 */  andi    $t7, $t6, 0x0010           ## $t7 = 00000000
 /* 02EB0 80B16950 55E0000C */  bnel    $t7, $zero, .L80B16984     
 /* 02EB4 80B16954 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 02EB8 80B16958 0C02927F */  jal     Animation_Update
+/* 02EB8 80B16958 0C02927F */  jal     SkelAnime_Update
               
 /* 02EBC 80B1695C AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 02EC0 80B16960 10400004 */  beq     $v0, $zero, .L80B16974     

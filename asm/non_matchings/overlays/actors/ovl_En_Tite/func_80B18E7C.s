@@ -5,7 +5,7 @@ glabel func_80B18E7C
 /* 00408 80B18E88 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0040C 80B18E8C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00410 80B18E90 AFA5005C */  sw      $a1, 0x005C($sp)
-/* 00414 80B18E94 0C02927F */  jal     Animation_Update
+/* 00414 80B18E94 0C02927F */  jal     SkelAnime_Update
 
 /* 00418 80B18E98 AFA40038 */  sw      $a0, 0x0038($sp)
 /* 0041C 80B18E9C 504000AA */  beql    $v0, $zero, .L80B19148

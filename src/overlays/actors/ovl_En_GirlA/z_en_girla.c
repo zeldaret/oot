@@ -317,7 +317,7 @@ void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = THIS;
 
     if (this->unk_19C != 0) {
-        Skeleton_Free(&this->skelAnime, globalCtx);
+        SkelAnime_Free(&this->skelAnime, globalCtx);
     }
 }
 

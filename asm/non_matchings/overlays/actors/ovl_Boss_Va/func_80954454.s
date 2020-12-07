@@ -11,7 +11,7 @@ glabel func_80954454
 /* 051B8 80954478 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 051BC 8095447C 51E00054 */  beql    $t7, $zero, .L809545D0
 /* 051C0 80954480 8FAA004C */  lw      $t2, 0x004C($sp)
-/* 051C4 80954484 0C028800 */  jal     Animation_GetLastFrame
+/* 051C4 80954484 0C028800 */  jal     Animation_LastFrame
 
 /* 051C8 80954488 24847694 */  addiu   $a0, $a0, 0x7694           ## $a0 = 06017694
 /* 051CC 8095448C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -31,7 +31,7 @@ glabel func_80954454
 /* 05200 809544C0 27280005 */  addiu   $t0, $t9, 0x0005           ## $t0 = 00000005
 /* 05204 809544C4 AE080198 */  sw      $t0, 0x0198($s0)           ## 00000198
 /* 05208 809544C8 AFA4003C */  sw      $a0, 0x003C($sp)
-/* 0520C 809544CC 0C0295BC */  jal     Skeleton_Free
+/* 0520C 809544CC 0C0295BC */  jal     SkelAnime_Free
 /* 05210 809544D0 8FA50054 */  lw      $a1, 0x0054($sp)
 /* 05214 809544D4 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
 /* 05218 809544D8 3C070601 */  lui     $a3, 0x0601                ## $a3 = 06010000
@@ -41,7 +41,7 @@ glabel func_80954454
 /* 05228 809544E8 8FA5003C */  lw      $a1, 0x003C($sp)
 /* 0522C 809544EC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 05230 809544F0 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 05234 809544F4 0C0291BE */  jal     Skeleton_InitFlex
+/* 05234 809544F4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 05238 809544F8 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0523C 809544FC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 05240 80954500 C7B20048 */  lwc1    $f18, 0x0048($sp)
@@ -116,12 +116,12 @@ glabel func_80954454
 /* 0533C 809545FC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
 
 /* 05340 80954600 240704B0 */  addiu   $a3, $zero, 0x04B0         ## $a3 = 000004B0
-/* 05344 80954604 0C02927F */  jal     Animation_Update
+/* 05344 80954604 0C02927F */  jal     SkelAnime_Update
 
 /* 05348 80954608 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0534C 8095460C 10400014 */  beq     $v0, $zero, .L80954660
 /* 05350 80954610 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 05354 80954614 0C028800 */  jal     Animation_GetLastFrame
+/* 05354 80954614 0C028800 */  jal     Animation_LastFrame
 
 /* 05358 80954618 248477F4 */  addiu   $a0, $a0, 0x77F4           ## $a0 = 060177F4
 /* 0535C 8095461C 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00

@@ -170,7 +170,7 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
 
-    Animation_Change(&this->skelAnim, anim, 1.f, 0.f, Animation_GetLastFrame(&D_06002F84), 0, -10.f);
+    Animation_Change(&this->skelAnim, anim, 1.f, 0.f, Animation_LastFrame(&D_06002F84), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.f;
@@ -179,7 +179,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001FA8;
 
-    Animation_Change(&this->skelAnim, anim, 1.f, 0.f, Animation_GetLastFrame(&D_06002F84), 0, -10.f);
+    Animation_Change(&this->skelAnim, anim, 1.f, 0.f, Animation_LastFrame(&D_06002F84), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(240, 240);
 }
@@ -187,7 +187,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001144;
 
-    Animation_Change(&this->skelAnim, anim, 1.f, 0.f, Animation_GetLastFrame(&D_06001144), 0, -10.f);
+    Animation_Change(&this->skelAnim, anim, 1.f, 0.f, Animation_LastFrame(&D_06001144), 0, -10.f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -487,8 +487,8 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
-    Skeleton_InitFlex(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
-    Animation_Change(&this->skelAnim, &D_06002F84, 1.f, 0.f, Animation_GetLastFrame(&D_06002F84), 0, 0.f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnim, &D_0600BE40, NULL, this->hz_22A, this->hz_296, 18);
+    Animation_Change(&this->skelAnim, &D_06002F84, 1.f, 0.f, Animation_LastFrame(&D_06002F84), 0, 0.f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -643,7 +643,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     }
     this->rewardTimer++;
 
-    if (Animation_IsOnFrame(&this->skelAnim, this->skelAnim.lastFrame) != 0) {
+    if (Animation_OnFrame(&this->skelAnim, this->skelAnim.lastFrame) != 0) {
         if (this->currentReward < 0) {
             /* "Nope, nothing here!" */
             func_8010B680(globalCtx, 0x501A, NULL);
@@ -666,7 +666,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 
-    Animation_Update(&this->skelAnim);
+    SkelAnime_Update(&this->skelAnim);
 
     Actor_MoveForward(&this->actor);
 
@@ -740,8 +740,8 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
 
-    Skeleton_DrawFlexOpa(globalCtx, this->skelAnim.skeleton, this->skelAnim.jointTbl, this->skelAnim.dListCount,
-                         EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnim.skeleton, this->skelAnim.jointTbl, this->skelAnim.dListCount,
+                          EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

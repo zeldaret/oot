@@ -55,7 +55,7 @@ glabel BossFd_Init
 /* 00604 808CB3C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00608 808CB3C8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0060C 808CB3CC AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 00610 808CB3D0 0C02915F */  jal     Skeleton_Init
+/* 00610 808CB3D0 0C02915F */  jal     SkelAnime_Init
               
 /* 00614 808CB3D4 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00618 808CB3D8 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
@@ -66,7 +66,7 @@ glabel BossFd_Init
 /* 0062C 808CB3EC 26050190 */  addiu   $a1, $s0, 0x0190           ## $a1 = 00000190
 /* 00630 808CB3F0 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00634 808CB3F4 AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 00638 808CB3F8 0C02915F */  jal     Skeleton_Init
+/* 00638 808CB3F8 0C02915F */  jal     SkelAnime_Init
               
 /* 0063C 808CB3FC AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00640 808CB400 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
@@ -77,7 +77,7 @@ glabel BossFd_Init
 /* 00654 808CB414 260501D4 */  addiu   $a1, $s0, 0x01D4           ## $a1 = 000001D4
 /* 00658 808CB418 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0065C 808CB41C AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 00660 808CB420 0C02915F */  jal     Skeleton_Init
+/* 00660 808CB420 0C02915F */  jal     SkelAnime_Init
               
 /* 00664 808CB424 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00668 808CB428 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001

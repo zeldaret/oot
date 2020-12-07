@@ -36,7 +36,7 @@ glabel EnDekunuts_Init
 /* 0007C 809E95DC 24E70E6C */  addiu   $a3, $a3, 0x0E6C           ## $a3 = 06000E6C
 /* 00080 809E95E0 24C63268 */  addiu   $a2, $a2, 0x3268           ## $a2 = 06003268
 /* 00084 809E95E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00088 809E95E8 0C02915F */  jal     Skeleton_Init
+/* 00088 809E95E8 0C02915F */  jal     SkelAnime_Init
               
 /* 0008C 809E95EC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00090 809E95F0 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8

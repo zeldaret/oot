@@ -58,7 +58,7 @@ glabel func_809F3480
 /* 00294 809F3554 24E724CC */  addiu   $a3, $a3, 0x24CC           ## $a3 = 060024CC
 /* 00298 809F3558 24C623B8 */  addiu   $a2, $a2, 0x23B8           ## $a2 = 060023B8
 /* 0029C 809F355C 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 002A0 809F3560 0C02915F */  jal     Skeleton_Init
+/* 002A0 809F3560 0C02915F */  jal     SkelAnime_Init
               
 /* 002A4 809F3564 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 002A8 809F3568 3C0E809F */  lui     $t6, %hi(func_809F5C98)    ## $t6 = 809F0000
@@ -74,7 +74,7 @@ glabel func_809F3480
 /* 002CC 809F358C AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 002D0 809F3590 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 002D4 809F3594 24E70430 */  addiu   $a3, $a3, 0x0430           ## $a3 = 06000430
-/* 002D8 809F3598 0C02915F */  jal     Skeleton_Init
+/* 002D8 809F3598 0C02915F */  jal     SkelAnime_Init
               
 /* 002DC 809F359C 24C62AF0 */  addiu   $a2, $a2, 0x2AF0           ## $a2 = 00002AF0
 /* 002E0 809F35A0 3C09809F */  lui     $t1, %hi(func_809F5A6C)    ## $t1 = 809F0000

@@ -15,7 +15,7 @@ glabel func_808D3140
 /* 00ADC 808D314C AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 00AE0 808D3150 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00AE4 808D3154 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00AE8 808D3158 0C02927F */  jal     Animation_Update
+/* 00AE8 808D3158 0C02927F */  jal     SkelAnime_Update
 
 /* 00AEC 808D315C AFA40030 */  sw      $a0, 0x0030($sp)
 /* 00AF0 808D3160 860E0196 */  lh      $t6, 0x0196($s0)           ## 00000196

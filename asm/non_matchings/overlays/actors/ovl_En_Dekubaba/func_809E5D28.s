@@ -9,12 +9,12 @@ glabel func_809E5D28
 /* 00560 809E5D30 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00564 809E5D34 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00568 809E5D38 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 0056C 809E5D3C 0C028800 */  jal     Animation_GetLastFrame
+/* 0056C 809E5D3C 0C028800 */  jal     Animation_LastFrame
 
 /* 00570 809E5D40 248402B8 */  addiu   $a0, $a0, 0x02B8           ## $a0 = 060002B8
 /* 00574 809E5D44 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00578 809E5D48 248402B8 */  addiu   $a0, $a0, 0x02B8           ## $a0 = 060002B8
-/* 0057C 809E5D4C 0C028800 */  jal     Animation_GetLastFrame
+/* 0057C 809E5D4C 0C028800 */  jal     Animation_LastFrame
 
 /* 00580 809E5D50 A7A20030 */  sh      $v0, 0x0030($sp)
 /* 00584 809E5D54 87AE0030 */  lh      $t6, 0x0030($sp)

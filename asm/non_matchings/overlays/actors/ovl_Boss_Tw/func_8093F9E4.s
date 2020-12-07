@@ -29,7 +29,7 @@ glabel func_8093F9E4
 /* 06D48 8093FA18 AFAE00CC */  sw      $t6, 0x00CC($sp)
 /* 06D4C 8093FA1C 26500568 */  addiu   $s0, $s2, 0x0568           ## $s0 = 00000568
 /* 06D50 8093FA20 AFA200C8 */  sw      $v0, 0x00C8($sp)
-/* 06D54 8093FA24 0C02927F */  jal     Animation_Update
+/* 06D54 8093FA24 0C02927F */  jal     SkelAnime_Update
 
 /* 06D58 8093FA28 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000568
 /* 06D5C 8093FA2C 864F0160 */  lh      $t7, 0x0160($s2)           ## 00000160

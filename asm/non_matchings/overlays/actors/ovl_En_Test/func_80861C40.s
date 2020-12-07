@@ -5,7 +5,7 @@ glabel func_80861C40
 /* 025FC 80861C4C AFBF001C */  sw      $ra, 0x001C($sp)
 /* 02600 80861C50 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 02604 80861C54 AFA5002C */  sw      $a1, 0x002C($sp)
-/* 02608 80861C58 0C02927F */  jal     Animation_Update
+/* 02608 80861C58 0C02927F */  jal     SkelAnime_Update
 
 /* 0260C 80861C5C AFA40024 */  sw      $a0, 0x0024($sp)
 /* 02610 80861C60 10400016 */  beq     $v0, $zero, .L80861CBC

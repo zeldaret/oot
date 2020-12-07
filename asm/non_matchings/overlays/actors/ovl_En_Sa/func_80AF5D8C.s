@@ -7,7 +7,7 @@ glabel func_80AF5D8C
 /* 00840 80AF5DA0 AFA40030 */  sw      $a0, 0x0030($sp)
 /* 00844 80AF5DA4 01CF1821 */  addu    $v1, $t6, $t7
 /* 00848 80AF5DA8 8C640000 */  lw      $a0, 0x0000($v1)           ## 00000000
-/* 0084C 80AF5DAC 0C028800 */  jal     Animation_GetLastFrame
+/* 0084C 80AF5DAC 0C028800 */  jal     Animation_LastFrame
 
 /* 00850 80AF5DB0 AFA30028 */  sw      $v1, 0x0028($sp)
 /* 00854 80AF5DB4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

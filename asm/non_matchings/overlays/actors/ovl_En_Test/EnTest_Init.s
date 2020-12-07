@@ -20,7 +20,7 @@ glabel EnTest_Init
 /* 0004C 8085F69C 24E7316C */  addiu   $a3, $a3, 0x316C           ## $a3 = 0600316C
 /* 00050 8085F6A0 24C67C28 */  addiu   $a2, $a2, 0x7C28           ## $a2 = 06007C28
 /* 00054 8085F6A4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00058 8085F6A8 0C02915F */  jal     Skeleton_Init
+/* 00058 8085F6A8 0C02915F */  jal     SkelAnime_Init
               
 /* 0005C 8085F6AC 26050188 */  addiu   $a1, $s0, 0x0188           ## $a1 = 00000188
 /* 00060 8085F6B0 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
@@ -34,7 +34,7 @@ glabel EnTest_Init
 /* 00080 8085F6D0 24E7316C */  addiu   $a3, $a3, 0x316C           ## $a3 = 0600316C
 /* 00084 8085F6D4 24C67C28 */  addiu   $a2, $a2, 0x7C28           ## $a2 = 06007C28
 /* 00088 8085F6D8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0008C 8085F6DC 0C02915F */  jal     Skeleton_Init
+/* 0008C 8085F6DC 0C02915F */  jal     SkelAnime_Init
               
 /* 00090 8085F6E0 260504A8 */  addiu   $a1, $s0, 0x04A8           ## $a1 = 000004A8
 /* 00094 8085F6E4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)

@@ -5,7 +5,7 @@ glabel func_80B10C2C
 /* 003C8 80B10C38 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 003CC 80B10C3C AFB10018 */  sw      $s1, 0x0018($sp)           
 /* 003D0 80B10C40 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
-/* 003D4 80B10C44 0C02927F */  jal     Animation_Update
+/* 003D4 80B10C44 0C02927F */  jal     SkelAnime_Update
               
 /* 003D8 80B10C48 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 003DC 80B10C4C 920E021C */  lbu     $t6, 0x021C($s0)           ## 0000021C

@@ -7,7 +7,7 @@ glabel func_80B3DC24
 /* 01A58 80B3DC38 0C2CF536 */  jal     func_80B3D4D8
 /* 01A5C 80B3DC3C 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004
 /* 01A60 80B3DC40 AFA2002C */  sw      $v0, 0x002C($sp)
-/* 01A64 80B3DC44 0C028800 */  jal     Animation_GetLastFrame
+/* 01A64 80B3DC44 0C028800 */  jal     Animation_LastFrame
 
 /* 01A68 80B3DC48 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 01A6C 80B3DC4C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

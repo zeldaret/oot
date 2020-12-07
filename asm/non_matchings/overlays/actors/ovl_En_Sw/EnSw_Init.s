@@ -81,7 +81,7 @@ glabel EnSw_Init
 /* 00868 80B0C618 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 0086C 80B0C61C 24C65298 */  addiu   $a2, $a2, 0x5298           ## $a2 = 06005298
 /* 00870 80B0C620 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00874 80B0C624 0C02915F */  jal     Skeleton_Init
+/* 00874 80B0C624 0C02915F */  jal     SkelAnime_Init
               
 /* 00878 80B0C628 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 0087C 80B0C62C 3C0580B1 */  lui     $a1, %hi(D_80B0F080)       ## $a1 = 80B10000

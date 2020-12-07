@@ -9,7 +9,7 @@ glabel func_8092E470
 /* 01EBC 8092E48C 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 01EC0 8092E490 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 01EC4 8092E494 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 01EC8 8092E498 0C028800 */  jal     Animation_GetLastFrame
+/* 01EC8 8092E498 0C028800 */  jal     Animation_LastFrame
 
 /* 01ECC 8092E49C 2484B6FC */  addiu   $a0, $a0, 0xB6FC           ## $a0 = 0600B6FC
 /* 01ED0 8092E4A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

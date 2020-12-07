@@ -21,7 +21,7 @@ glabel EnDodojr_Init
 /* 00048 809F6408 24E709D4 */  addiu   $a3, $a3, 0x09D4           ## $a3 = 060009D4
 /* 0004C 809F640C 24C620E0 */  addiu   $a2, $a2, 0x20E0           ## $a2 = 060020E0
 /* 00050 809F6410 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00054 809F6414 0C02915F */  jal     Skeleton_Init
+/* 00054 809F6414 0C02915F */  jal     SkelAnime_Init
               
 /* 00058 809F6418 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0005C 809F641C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194

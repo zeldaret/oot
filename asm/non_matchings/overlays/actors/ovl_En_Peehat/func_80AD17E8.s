@@ -70,7 +70,7 @@ glabel func_80AD17E8
 /* 02424 80AD18C4 10000074 */  beq     $zero, $zero, .L80AD1A98
 /* 02428 80AD18C8 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80AD18CC:
-/* 0242C 80AD18CC 0C02927F */  jal     Animation_Update
+/* 0242C 80AD18CC 0C02927F */  jal     SkelAnime_Update
 
 /* 02430 80AD18D0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 02434 80AD18D4 860E02F2 */  lh      $t6, 0x02F2($s0)           ## 000002F2

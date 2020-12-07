@@ -48,7 +48,7 @@ void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.01);
-    Skeleton_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, 0, 0, 0);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, 0, 0, 0);
     ActorShape_Init(&this->actor.shape, 5500, ActorShadow_DrawFunc_Circle, 4);
     this->unk_194 = 0;
     this->unk_198 = 0;
@@ -68,7 +68,7 @@ void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C1CAC(EnBird* this, s16 params) {
-    f32 frameCount = Animation_GetLastFrame(&D_0600006C);
+    f32 frameCount = Animation_LastFrame(&D_0600006C);
     f32 playbackSpeed = this->unk_19C ? 0.0f : 1.0f;
     AnimationHeader* anim = &D_0600006C;
 
@@ -87,7 +87,7 @@ void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = this->actor.speedXZ + this->actor.speedXZ;
     }
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->unk_198 -= 1;
 
     if (this->unk_198 <= 0) {
@@ -114,7 +114,7 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->unk_198 -= 1;
     if (this->unk_198 < 0) {
         func_809C1CAC(this, this->actor.params);
@@ -131,5 +131,5 @@ void EnBird_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBird* this = THIS;
 
-    Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, NULL, NULL, NULL);
 }

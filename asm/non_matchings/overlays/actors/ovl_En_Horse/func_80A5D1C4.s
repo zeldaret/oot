@@ -14,7 +14,7 @@ glabel func_80A5D1C4
 /* 01F04 80A5D1F4 0018C880 */  sll     $t9, $t8,  2
 /* 01F08 80A5D1F8 01194021 */  addu    $t0, $t0, $t9
 /* 01F0C 80A5D1FC 8D085E58 */  lw      $t0, %lo(D_80A65E58)($t0)
-/* 01F10 80A5D200 0C028800 */  jal     Animation_GetLastFrame
+/* 01F10 80A5D200 0C028800 */  jal     Animation_LastFrame
 
 /* 01F14 80A5D204 8D040004 */  lw      $a0, 0x0004($t0)           ## 80A60004
 /* 01F18 80A5D208 8E090158 */  lw      $t1, 0x0158($s0)           ## 00000158

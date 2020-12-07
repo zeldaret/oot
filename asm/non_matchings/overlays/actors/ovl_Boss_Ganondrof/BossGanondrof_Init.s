@@ -38,7 +38,7 @@ glabel BossGanondrof_Init
 /* 00494 80910AD4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00498 80910AD8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0049C 80910ADC AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 004A0 80910AE0 0C02915F */  jal     Skeleton_Init
+/* 004A0 80910AE0 0C02915F */  jal     SkelAnime_Init
               
 /* 004A4 80910AE4 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 004A8 80910AE8 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C

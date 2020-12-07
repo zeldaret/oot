@@ -51,7 +51,7 @@ glabel func_809B8EF4
 /* 00CA8 809B8F88 00000000 */  nop
 .L809B8F8C:
 /* 00CAC 809B8F8C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 00CB0 809B8F90 0C02927F */  jal     Animation_Update
+/* 00CB0 809B8F90 0C02927F */  jal     SkelAnime_Update
 
 /* 00CB4 809B8F94 AFA40034 */  sw      $a0, 0x0034($sp)
 /* 00CB8 809B8F98 0C0329DD */  jal     func_800CA774

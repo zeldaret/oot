@@ -165,7 +165,7 @@ void func_80A6DC7C(EnHorseZelda* this) {
 
 void func_80A6DCCC(EnHorseZelda* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
-    if (Animation_Update(&this->skin.skelAnime)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A6DC7C(this);
     }
 }
@@ -179,12 +179,12 @@ void func_80A6DD14(EnHorseZelda* this) {
     Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     Animation_Change(&this->skin.skelAnime, sAnimationHeaders[this->animationIndex],
                      splaySpeeds[this->animationIndex] * sp34 * 1.5f, 0.0f,
-                     Animation_GetLastFrame(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
+                     Animation_LastFrame(sAnimationHeaders[this->animationIndex]), 2, 0.0f);
 }
 
 void func_80A6DDFC(EnHorseZelda* this, GlobalContext* globalCtx) {
     func_80A6D918(this, globalCtx);
-    if (Animation_Update(&this->skin.skelAnime)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A6DD14(this);
     }
 }

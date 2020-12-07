@@ -178,7 +178,7 @@ glabel EnGoma_Init
 /* 00210 80A490D0 24E71548 */  addiu   $a3, $a3, 0x1548           ## $a3 = 06001548
 /* 00214 80A490D4 24C63B40 */  addiu   $a2, $a2, 0x3B40           ## $a2 = 06003B40
 /* 00218 80A490D8 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0021C 80A490DC 0C02915F */  jal     Skeleton_Init
+/* 0021C 80A490DC 0C02915F */  jal     SkelAnime_Init
 
 /* 00220 80A490E0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00224 80A490E4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000

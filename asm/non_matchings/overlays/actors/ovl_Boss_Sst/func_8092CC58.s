@@ -23,7 +23,7 @@ glabel func_8092CC58
 .L8092CC88:
 /* 006B8 8092CC88 2644014C */  addiu   $a0, $s2, 0x014C           ## $a0 = 0000014C
 /* 006BC 8092CC8C AFA40038 */  sw      $a0, 0x0038($sp)
-/* 006C0 8092CC90 0C02927F */  jal     Animation_Update
+/* 006C0 8092CC90 0C02927F */  jal     SkelAnime_Update
 
 /* 006C4 8092CC94 AFA7004C */  sw      $a3, 0x004C($sp)
 /* 006C8 8092CC98 10400008 */  beq     $v0, $zero, .L8092CCBC

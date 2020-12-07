@@ -78,7 +78,7 @@ glabel func_80A605E0
 /* 053F0 80A606E0 E6100028 */  swc1    $f16, 0x0028($s0)          ## 00000028
 .L80A606E4:
 /* 053F4 80A606E4 AFA40028 */  sw      $a0, 0x0028($sp)
-/* 053F8 80A606E8 0C02927F */  jal     Animation_Update
+/* 053F8 80A606E8 0C02927F */  jal     SkelAnime_Update
 
 /* 053FC 80A606EC E7A2003C */  swc1    $f2, 0x003C($sp)
 /* 05400 80A606F0 14400013 */  bne     $v0, $zero, .L80A60740

@@ -3,7 +3,7 @@ glabel func_80A323B0
 /* 01A44 80A323B4 AFA40020 */  sw      $a0, 0x0020($sp)
 /* 01A48 80A323B8 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 01A4C 80A323BC 24840198 */  addiu   $a0, $a0, 0x0198           ## $a0 = 00000198
-/* 01A50 80A323C0 0C02927F */  jal     Animation_Update
+/* 01A50 80A323C0 0C02927F */  jal     SkelAnime_Update
 
 /* 01A54 80A323C4 AFA4001C */  sw      $a0, 0x001C($sp)
 /* 01A58 80A323C8 10400004 */  beq     $v0, $zero, .L80A323DC

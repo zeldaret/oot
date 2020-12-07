@@ -44,7 +44,7 @@ glabel func_80A1B638
 /* 00D30 80A1B6D0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00D34 80A1B6D4 A2000379 */  sb      $zero, 0x0379($s0)         ## 00000379
 /* 00D38 80A1B6D8 E600006C */  swc1    $f0, 0x006C($s0)           ## 0000006C
-/* 00D3C 80A1B6DC 0C028800 */  jal     Animation_GetLastFrame
+/* 00D3C 80A1B6DC 0C028800 */  jal     Animation_LastFrame
 
 /* 00D40 80A1B6E0 248411C0 */  addiu   $a0, $a0, 0x11C0           ## $a0 = 060011C0
 /* 00D44 80A1B6E4 44829000 */  mtc1    $v0, $f18                  ## $f18 = 0.00

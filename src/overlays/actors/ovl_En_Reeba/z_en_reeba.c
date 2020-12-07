@@ -66,7 +66,7 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.unk_1F = 3;
     this->actor.gravity = -3.5f;
     this->actor.posRot2.pos = this->actor.posRot.pos;
-    Skeleton_Init(globalCtx, &this->skelanime, &D_06001EE8, &D_060001E4, this->jointTbl, this->morphTbl, 18);
+    SkelAnime_Init(globalCtx, &this->skelanime, &D_06001EE8, &D_060001E4, this->jointTbl, this->morphTbl, 18);
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 4;
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -122,7 +122,7 @@ void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
-    f32 frames = Animation_GetLastFrame(&D_060001E4);
+    f32 frames = Animation_LastFrame(&D_060001E4);
     Player* player = PLAYER;
     s16 playerSpeed;
 
@@ -153,7 +153,7 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 playerLinearVel;
 
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if ((globalCtx->gameplayFrames % 4) == 0) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, this->actor.shape.unk_10, 1, 8.0f, 500, 10, 1);
@@ -201,7 +201,7 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
 void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
     s32 surfaceType;
 
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
         Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
@@ -232,7 +232,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     s16 yaw;
     s32 surfaceType;
 
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->actor.shape.unk_10 < 12.0f) {
         Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
@@ -292,7 +292,7 @@ void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
 void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
     Math_SmoothDownscaleMaxF(&this->actor.shape.unk_10, 1.0f, 0.3f);
     Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.1f, 0.3f);
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if ((this->unk_284 + 10.0f) <= this->actor.shape.unk_08) {
         if ((globalCtx->gameplayFrames % 4) == 0) {
@@ -316,7 +316,7 @@ void func_80AE57F0(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE5854(EnReeba* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->actor.speedXZ < 0.0f) {
         this->actor.speedXZ += 1.0f;
@@ -619,7 +619,7 @@ void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 255, 255, 255, 255);
     }
 
-    Skeleton_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, NULL, NULL, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, NULL, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_reeba.c", 1088);
 

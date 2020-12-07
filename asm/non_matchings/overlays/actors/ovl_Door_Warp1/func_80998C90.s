@@ -18,7 +18,7 @@ glabel func_80998C90
 /* 0053C 80998CBC AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00540 80998CC0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00544 80998CC4 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00548 80998CC8 0C02915F */  jal     Skeleton_Init
+/* 00548 80998CC8 0C02915F */  jal     SkelAnime_Init
 
 /* 0054C 80998CCC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00550 80998CD0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

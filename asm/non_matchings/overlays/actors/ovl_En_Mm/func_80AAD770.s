@@ -29,7 +29,7 @@ glabel func_80AAD770
 /* 00060 80AAD7D0 8C640000 */  lw      $a0, 0x0000($v1)           ## 00000000
 /* 00064 80AAD7D4 AFA3002C */  sw      $v1, 0x002C($sp)
 /* 00068 80AAD7D8 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 0006C 80AAD7DC 0C028800 */  jal     Animation_GetLastFrame
+/* 0006C 80AAD7DC 0C028800 */  jal     Animation_LastFrame
 
 /* 00070 80AAD7E0 E7A00034 */  swc1    $f0, 0x0034($sp)
 /* 00074 80AAD7E4 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -53,7 +53,7 @@ glabel func_80AAD770
 .L80AAD828:
 /* 000B8 80AAD828 AFA3002C */  sw      $v1, 0x002C($sp)
 /* 000BC 80AAD82C AFA5003C */  sw      $a1, 0x003C($sp)
-/* 000C0 80AAD830 0C028800 */  jal     Animation_GetLastFrame
+/* 000C0 80AAD830 0C028800 */  jal     Animation_LastFrame
 
 /* 000C4 80AAD834 E7A00034 */  swc1    $f0, 0x0034($sp)
 /* 000C8 80AAD838 44828000 */  mtc1    $v0, $f16                  ## $f16 = 0.00

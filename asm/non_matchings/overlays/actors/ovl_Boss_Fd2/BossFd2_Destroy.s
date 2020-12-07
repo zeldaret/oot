@@ -3,7 +3,7 @@ glabel BossFd2_Destroy
 /* 0052C 808D2B9C AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00530 808D2BA0 AFA40018 */  sw      $a0, 0x0018($sp)
 /* 00534 808D2BA4 AFA5001C */  sw      $a1, 0x001C($sp)
-/* 00538 808D2BA8 0C0295BC */  jal     Skeleton_Free
+/* 00538 808D2BA8 0C0295BC */  jal     SkelAnime_Free
 /* 0053C 808D2BAC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00540 808D2BB0 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 00544 808D2BB4 8FA4001C */  lw      $a0, 0x001C($sp)

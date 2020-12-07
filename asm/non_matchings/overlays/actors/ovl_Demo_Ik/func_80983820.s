@@ -54,10 +54,10 @@ glabel func_80983820
 /* 005DC 809838DC AFA50034 */  sw      $a1, 0x0034($sp)
 /* 005E0 809838E0 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 005E4 809838E4 8FA60048 */  lw      $a2, 0x0048($sp)
-/* 005E8 809838E8 0C02915F */  jal     Skeleton_Init
+/* 005E8 809838E8 0C02915F */  jal     SkelAnime_Init
 
 /* 005EC 809838EC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 005F0 809838F0 0C028800 */  jal     Animation_GetLastFrame
+/* 005F0 809838F0 0C028800 */  jal     Animation_LastFrame
 
 /* 005F4 809838F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0600035C
 /* 005F8 809838F8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

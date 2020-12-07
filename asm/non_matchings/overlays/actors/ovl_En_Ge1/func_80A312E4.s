@@ -16,7 +16,7 @@ glabel func_80A312E4
 /* 009AC 80A3131C 25CE1234 */  addiu   $t6, $t6, %lo(func_80A31234) ## $t6 = 80A31234
 /* 009B0 80A31320 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 009B4 80A31324 AE0E02B4 */  sw      $t6, 0x02B4($s0)           ## 000002B4
-/* 009B8 80A31328 0C028800 */  jal     Animation_GetLastFrame
+/* 009B8 80A31328 0C028800 */  jal     Animation_LastFrame
 
 /* 009BC 80A3132C 2484A048 */  addiu   $a0, $a0, 0xA048           ## $a0 = 0600A048
 /* 009C0 80A31330 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

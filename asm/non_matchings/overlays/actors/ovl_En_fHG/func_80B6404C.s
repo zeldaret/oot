@@ -68,7 +68,7 @@ glabel func_80B6404C
 /* 01740 80B64100 24052804 */  addiu   $a1, $zero, 0x2804         ## $a1 = 00002804
 .L80B64104:
 /* 01744 80B64104 26040250 */  addiu   $a0, $s0, 0x0250           ## $a0 = 00000250
-/* 01748 80B64108 0C02927F */  jal     Animation_Update
+/* 01748 80B64108 0C02927F */  jal     SkelAnime_Update
 
 /* 0174C 80B6410C AFA40044 */  sw      $a0, 0x0044($sp)
 /* 01750 80B64110 3C053C3C */  lui     $a1, 0x3C3C                ## $a1 = 3C3C0000

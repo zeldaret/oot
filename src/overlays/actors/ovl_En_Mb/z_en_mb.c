@@ -133,8 +133,8 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->actor.params) {
         case -1:
-            Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
-                              28);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
+                               28);
             this->actor.colChkInfo.health = 2;
             this->actor.colChkInfo.mass = 0xFE;
             this->unk_360 = 1000.0f;
@@ -142,8 +142,8 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80AA6830(this);
             break;
         case 0:
-            Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->jointTbl, this->morphTbl,
-                              28);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06014190, &D_0600EBE4, this->jointTbl, this->morphTbl,
+                               28);
             this->actor.colChkInfo.health = 6;
             this->actor.colChkInfo.mass = 0xFF;
             this->actor.colChkInfo.damageTable = &sBigMoblinDamageTable;
@@ -168,8 +168,8 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80AA6898(this);
             break;
         default:
-            Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
-                              28);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008F38, &D_060028E0, this->jointTbl, this->morphTbl,
+                               28);
             Actor_SetScale(&this->actor, 0.014f);
             this->path = (thisx->params & 0xFF00) >> 8;
             this->actor.params = 1;
@@ -316,7 +316,7 @@ void func_80AA68FC(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA6974(EnMb* this) {
-    Animation_Change(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, Animation_GetLastFrame(&D_06009FC0), 0, -4.0f);
+    Animation_Change(&this->skelAnime, &D_06009FC0, 0.0f, 0.0f, Animation_LastFrame(&D_06009FC0), 0, -4.0f);
     this->actor.speedXZ = 0.59999996f;
     this->unk_32A = Math_Rand_S16Offset(50, 70);
     this->unk_332 = 1;
@@ -327,7 +327,7 @@ void func_80AA6974(EnMb* this) {
 void func_80AA6A18(EnMb* this) {
     f32 frameCount;
 
-    frameCount = Animation_GetLastFrame(&D_06009FC0);
+    frameCount = Animation_LastFrame(&D_06009FC0);
     this->actor.speedXZ = 0.59999996f;
     this->unk_32A = Math_Rand_S16Offset(50, 70);
     this->unk_332 = 1;
@@ -339,7 +339,7 @@ void func_80AA6A18(EnMb* this) {
 void func_80AA6AC8(EnMb* this) {
     f32 frameCount;
 
-    frameCount = Animation_GetLastFrame(&D_06002C10);
+    frameCount = Animation_LastFrame(&D_06002C10);
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06002C10, -4.0f);
     this->unk_320 = 10;
     this->actor.speedXZ = 0.0f;
@@ -367,7 +367,7 @@ void func_80AA6BF0(EnMb* this) {
     s16 yawDiff;
     s32 yawDiffABS;
 
-    frames = Animation_GetLastFrame(&D_0600B4BC);
+    frames = Animation_LastFrame(&D_0600B4BC);
     this->unk_320 = 10;
     Animation_Change(&this->skelAnime, &D_0600B4BC, 3.0f, 0.0f, frames, 3, 0.0f);
     this->unk_32E = 1;
@@ -414,7 +414,7 @@ void func_80AA6D20(EnMb* this) {
 void func_80AA6DA4(EnMb* this) {
     f32 frameCount;
 
-    frameCount = Animation_GetLastFrame(&D_0600EBE4);
+    frameCount = Animation_LastFrame(&D_0600EBE4);
     this->unk_320 = 11;
     Animation_Change(&this->skelAnime, &D_0600EBE4, 5.0f, 0.0f, frameCount, 3, 0.0f);
     EnMb_SetupAction(this, func_80AA7478);
@@ -432,7 +432,7 @@ void func_80AA6E1C(EnMb* this) {
 void func_80AA6E7C(EnMb* this) {
     f32 frames;
 
-    frames = Animation_GetLastFrame(&D_0600D5D4);
+    frames = Animation_LastFrame(&D_0600D5D4);
     this->unk_320 = 2;
     this->unk_32A = 0;
     this->unk_32E = 6;
@@ -497,7 +497,7 @@ void func_80AA702C(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA7134(EnMb* this, GlobalContext* globalCtx) {
     s16 phi_v0;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_32A == 0) {
         phi_v0 = 0;
     } else {
@@ -505,7 +505,7 @@ void func_80AA7134(EnMb* this, GlobalContext* globalCtx) {
         phi_v0 = this->unk_32A;
     }
     if (phi_v0 == 0) {
-        if (Animation_IsOnFrame(&this->skelAnime, 0.0f) != 0) {
+        if (Animation_OnFrame(&this->skelAnime, 0.0f) != 0) {
             func_80AA6974(this);
         }
     }
@@ -517,7 +517,7 @@ void func_80AA71AC(EnMb* this, GlobalContext* globalCtx) {
     f32 yDistAbs;
     s32 yawDiffAbs;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_32A == 0) {
         this->unk_330 = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->waypointPos);
         if (Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->unk_330, 1, 0x3E8, 0) == 0) {
@@ -548,12 +548,11 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
     if (this->actor.speedXZ > 1.0f) {
         func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
     }
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->unk_32A == 0) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
-                Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, Animation_GetLastFrame(&D_06002C10), 0.0f, 2,
-                                 0.0f);
+                Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, Animation_LastFrame(&D_06002C10), 0.0f, 2, 0.0f);
                 this->unk_32A = 1;
                 this->actor.speedXZ = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
@@ -571,7 +570,7 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
 
 void func_80AA7478(EnMb* this, GlobalContext* globalCtx) {
     this->attackParams = 0;
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         func_80AA6898(this);
     }
 }
@@ -601,7 +600,7 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
                     (ABS(yawDiff) <= 0x4000) && (this->actor.xzDistFromLink <= 200.0f)) {
                     func_80AA6AC8(this);
                 } else {
-                    lastFrame = Animation_GetLastFrame(&D_06002C10);
+                    lastFrame = Animation_LastFrame(&D_06002C10);
                     Animation_Change(&this->skelAnime, &D_06002C10, -1.0f, lastFrame, 0.0f, 2, 0.0f);
                     this->actor.speedXZ = 0.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
@@ -613,9 +612,9 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 0.0f;
             }
         }
-        if (Animation_Update(&this->skelAnime) != 0) {
+        if (SkelAnime_Update(&this->skelAnime) != 0) {
             if (this->unk_32A == 0) {
-                lastFrame = Animation_GetLastFrame(&D_06002F10);
+                lastFrame = Animation_LastFrame(&D_06002F10);
                 Animation_Change(&this->skelAnime, &D_06002F10, 0.5f, 0.0f, lastFrame, 1, 0.0f);
                 this->unk_32A = 1;
             } else {
@@ -643,7 +642,7 @@ void func_80AA77D0(EnMb* this, GlobalContext* globalCtx) {
 
     currentFrame = this->skelAnime.curFrame;
 
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         Animation_PlayLoop(&this->skelAnime, &D_06002F10);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
     }
@@ -699,11 +698,11 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             player->invincibilityTimer = oldInvincibilityTimer;
         }
     }
-    if (Animation_Update(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->unk_32E != 0) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
-                f32 pad1 = Animation_GetLastFrame(&D_0600ABE0);
+                f32 pad1 = Animation_LastFrame(&D_0600ABE0);
                 Animation_Change(&this->skelAnime, &D_0600ABE0, 1.5f, 0.0f, pad1, 3, 0.0f);
             }
         } else {
@@ -737,7 +736,7 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
     sp4C = 0;
     sp48 = !func_800339B8(&this->actor, globalCtx, 110.0f, this->actor.posRot.rot.y);
     currentFrame = (s32)this->skelAnime.curFrame;
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         Animation_PlayLoop(&this->skelAnime, &D_06002F10);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_ATTACK);
     }
@@ -814,7 +813,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
     sp54 = 0;
     sp50 = !func_800339B8(&this->actor, globalCtx, 110.0f, this->actor.posRot.rot.y);
     currentFrame = (s32)this->skelAnime.curFrame;
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 5.0f, 3, 4.0f, 0x64, 0xF, 0);
     if (currentFrame != (s32)this->skelAnime.curFrame) {
         if (((s32)this->skelAnime.curFrame == 2) || ((s32)this->skelAnime.curFrame == 6)) {
@@ -881,7 +880,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
-    if (Animation_Update(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->unk_32E != 0) {
             Animation_PlayOnce(&this->skelAnime, &D_0600E18C);
             this->unk_32E = 0;
@@ -896,17 +895,17 @@ void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
 void func_80AA840C(EnMb* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    if (Animation_Update(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         if (this->unk_32E != 0) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
                 if (this->unk_32A == 0) {
-                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_GetLastFrame(&D_0600E18C), 3,
+                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_LastFrame(&D_0600E18C), 3,
                                      0.0f);
                     this->unk_32A = 1;
                     this->unk_32E = 6;
                 } else {
-                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_GetLastFrame(&D_0600E18C), 3,
+                    Animation_Change(&this->skelAnime, &D_0600E18C, 3.0f, 0.0f, Animation_LastFrame(&D_0600E18C), 3,
                                      0.0f);
                 }
             }
@@ -928,7 +927,7 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
     effPosition.z += Math_Coss(this->actor.shape.rot.y) * -70.0f;
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
     temp = effPosition;
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->unk_32A > 0) {
             effZeroVector = D_80AA9D78;
             this->unk_32A--;
@@ -966,7 +965,7 @@ void func_80AA87D8(EnMb* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
     this->skelAnime.playSpeed = this->actor.speedXZ;
     currentFrame = this->skelAnime.curFrame;
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     playSpeedABS = ABS(this->skelAnime.playSpeed);
 
     sp48 = this->skelAnime.curFrame - playSpeedABS;
@@ -1053,7 +1052,7 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
         this->soundTimer = Math_Rand_S16Offset(30, 70);
     }
     currentFrame = this->skelAnime.curFrame;
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed : -this->skelAnime.playSpeed;
     temp_f6 = this->skelAnime.curFrame - playSpeedABS;
     playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed : -this->skelAnime.playSpeed;
@@ -1073,7 +1072,7 @@ void func_80AA8DD8(EnMb* this, GlobalContext* globalCtx) {
     s32 yawDiffAbs;
 
     yawDiff = (this->actor.posRot.rot.y - this->actor.yawTowardsLink);
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->unk_364) {
         if (!(player->stateFlags1 & 0x4000000)) {
             yawDiffAbs = ABS(yawDiff);
@@ -1106,7 +1105,7 @@ void func_80AA8E88(EnMb* this) {
 
 void func_80AA8F50(EnMb* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->actor.params < 0) {
             func_80AA6830(this);
         } else {
@@ -1149,7 +1148,7 @@ void func_80AA90A0(EnMb* this, GlobalContext* globalCtx) {
             this->attackParams = 0;
         }
     }
-    if (Animation_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->unk_32A > 0) {
             Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
             s32 i;
@@ -1368,8 +1367,8 @@ void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMb* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                         NULL, EnMb_PostLimbDraw, thisx);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                          NULL, EnMb_PostLimbDraw, thisx);
     if (thisx->params != 0) {
         if (this->attackParams > 0) {
             func_80AA92B8(thisx, globalCtx);

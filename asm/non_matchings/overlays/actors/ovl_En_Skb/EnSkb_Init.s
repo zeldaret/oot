@@ -53,7 +53,7 @@ glabel EnSkb_Init
 /* 0025C 80AFCBFC 24C641F8 */  addiu   $a2, $a2, 0x41F8           ## $a2 = 060041F8
 /* 00260 80AFCC00 AFA20034 */  sw      $v0, 0x0034($sp)           
 /* 00264 80AFCC04 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00268 80AFCC08 0C02915F */  jal     Skeleton_Init
+/* 00268 80AFCC08 0C02915F */  jal     SkelAnime_Init
               
 /* 0026C 80AFCC0C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00270 80AFCC10 240C0055 */  addiu   $t4, $zero, 0x0055         ## $t4 = 00000055

@@ -26,7 +26,7 @@ glabel func_80949920
 /* 10CAC 8094997C AFA70018 */  sw      $a3, 0x0018($sp)
 .L80949980:
 /* 10CB0 80949980 3C040602 */  lui     $a0, 0x0602                ## $a0 = 06020000
-/* 10CB4 80949984 0C028800 */  jal     Animation_GetLastFrame
+/* 10CB4 80949984 0C028800 */  jal     Animation_LastFrame
 
 /* 10CB8 80949988 24843750 */  addiu   $a0, $a0, 0x3750           ## $a0 = 06023750
 /* 10CBC 8094998C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

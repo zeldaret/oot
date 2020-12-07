@@ -15,7 +15,7 @@ glabel func_809B977C
 /* 014BC 809B979C 01CF1823 */  subu    $v1, $t6, $t7              
 /* 014C0 809B97A0 00031C00 */  sll     $v1, $v1, 16               
 /* 014C4 809B97A4 00031C03 */  sra     $v1, $v1, 16               
-/* 014C8 809B97A8 0C02927F */  jal     Animation_Update
+/* 014C8 809B97A8 0C02927F */  jal     SkelAnime_Update
               
 /* 014CC 809B97AC A7A3003E */  sh      $v1, 0x003E($sp)           
 /* 014D0 809B97B0 96040088 */  lhu     $a0, 0x0088($s0)           ## 00000088

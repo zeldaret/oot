@@ -19,7 +19,7 @@ glabel func_80B15AD4
 /* 02078 80B15B18 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 0207C 80B15B1C 2484BF38 */  addiu   $a0, $a0, 0xBF38           ## $a0 = 0600BF38
 /* 02080 80B15B20 3328FFEF */  andi    $t0, $t9, 0xFFEF           ## $t0 = 00000000
-/* 02084 80B15B24 0C028800 */  jal     Animation_GetLastFrame
+/* 02084 80B15B24 0C028800 */  jal     Animation_LastFrame
 
 /* 02088 80B15B28 A60802E0 */  sh      $t0, 0x02E0($s0)           ## 000002E0
 /* 0208C 80B15B2C 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

@@ -21,7 +21,7 @@ glabel BossGanon_Destroy
 .L808D777C:
 /* 00F0C 808D777C 10200003 */  beq     $at, $zero, .L808D778C
 /* 00F10 808D7780 24C40150 */  addiu   $a0, $a2, 0x0150           ## $a0 = 00000150
-/* 00F14 808D7784 0C0295BC */  jal     Skeleton_Free
+/* 00F14 808D7784 0C0295BC */  jal     SkelAnime_Free
 /* 00F18 808D7788 8FA5001C */  lw      $a1, 0x001C($sp)
 .L808D778C:
 /* 00F1C 808D778C 8FBF0014 */  lw      $ra, 0x0014($sp)

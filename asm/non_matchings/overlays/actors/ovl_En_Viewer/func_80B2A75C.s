@@ -271,7 +271,7 @@ glabel func_80B2A75C
 
 /* 008C0 80B2AAC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 008C4 80B2AAC4 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
-/* 008C8 80B2AAC8 0C02927F */  jal     Animation_Update
+/* 008C8 80B2AAC8 0C02927F */  jal     SkelAnime_Update
 
 /* 008CC 80B2AACC AFA40040 */  sw      $a0, 0x0040($sp)
 /* 008D0 80B2AAD0 8FB90044 */  lw      $t9, 0x0044($sp)

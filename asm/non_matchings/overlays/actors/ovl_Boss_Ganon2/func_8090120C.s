@@ -52,7 +52,7 @@ glabel func_8090120C
 /* 042EC 8090122C 8C98024C */  lw      $t8, 0x024C($a0)           ## 00000398
 /* 042F0 80901230 27190001 */  addiu   $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 042F4 80901234 AC99024C */  sw      $t9, 0x024C($a0)           ## 00000398
-/* 042F8 80901238 0C02927F */  jal     Animation_Update
+/* 042F8 80901238 0C02927F */  jal     SkelAnime_Update
 
 /* 042FC 8090123C AFA40028 */  sw      $a0, 0x0028($sp)
 /* 04300 80901240 8603039C */  lh      $v1, 0x039C($s0)           ## 0000039C
@@ -619,7 +619,7 @@ glabel L80901968
 /* 04B24 80901A64 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04B28 80901A68 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 04B2C 80901A6C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 04B30 80901A70 0C028800 */  jal     Animation_GetLastFrame
+/* 04B30 80901A70 0C028800 */  jal     Animation_LastFrame
 
 /* 04B34 80901A74 24843B1C */  addiu   $a0, $a0, 0x3B1C           ## $a0 = 06003B1C
 /* 04B38 80901A78 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -849,7 +849,7 @@ glabel L80901AB0
 /* 04E7C 80901DBC 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 04E80 80901DC0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 04E84 80901DC4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 04E88 80901DC8 0C028800 */  jal     Animation_GetLastFrame
+/* 04E88 80901DC8 0C028800 */  jal     Animation_LastFrame
 
 /* 04E8C 80901DCC 24847288 */  addiu   $a0, $a0, 0x7288           ## $a0 = 06007288
 /* 04E90 80901DD0 44825000 */  mtc1    $v0, $f10                  ## $f10 = 0.00
@@ -914,7 +914,7 @@ glabel L80901E00
 /* 04F64 80901EA4 E4320AFC */  swc1    $f18, 0x0AFC($at)          ## 00010AFC
 .L80901EA8:
 /* 04F68 80901EA8 8FA40028 */  lw      $a0, 0x0028($sp)
-/* 04F6C 80901EAC 0C0295B2 */  jal     Animation_IsOnFrame
+/* 04F6C 80901EAC 0C0295B2 */  jal     Animation_OnFrame
 /* 04F70 80901EB0 8E050194 */  lw      $a1, 0x0194($s0)           ## 00000194
 /* 04F74 80901EB4 10400009 */  beq     $v0, $zero, .L80901EDC
 /* 04F78 80901EB8 8FA40028 */  lw      $a0, 0x0028($sp)
@@ -1209,7 +1209,7 @@ glabel L80902290
 /* 0538C 809022CC 1000001A */  beq     $zero, $zero, .L80902338
 /* 05390 809022D0 8FBF0024 */  lw      $ra, 0x0024($sp)
 .L809022D4:
-/* 05394 809022D4 0C0295B2 */  jal     Animation_IsOnFrame
+/* 05394 809022D4 0C0295B2 */  jal     Animation_OnFrame
 /* 05398 809022D8 8E050194 */  lw      $a1, 0x0194($s0)           ## 00000194
 /* 0539C 809022DC 10400015 */  beq     $v0, $zero, .L80902334
 /* 053A0 809022E0 8FA40028 */  lw      $a0, 0x0028($sp)

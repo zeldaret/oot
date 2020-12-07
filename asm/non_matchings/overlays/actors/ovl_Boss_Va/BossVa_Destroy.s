@@ -3,7 +3,7 @@ glabel BossVa_Destroy
 /* 013EC 809506AC AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 013F0 809506B0 AFA40018 */  sw      $a0, 0x0018($sp)
 /* 013F4 809506B4 AFA5001C */  sw      $a1, 0x001C($sp)
-/* 013F8 809506B8 0C0295BC */  jal     Skeleton_Free
+/* 013F8 809506B8 0C0295BC */  jal     SkelAnime_Free
 /* 013FC 809506BC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01400 809506C0 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 01404 809506C4 8FA4001C */  lw      $a0, 0x001C($sp)

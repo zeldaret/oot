@@ -76,7 +76,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     u16 time;
 
     Actor_SetScale(&this->actor, 0.01f);
-    Skeleton_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTbl, this->morphTbl, 17);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTbl, this->morphTbl, 17);
 
     this->type = (this->actor.params >> 8) & 0xFF;
     this->path = this->actor.params & 0xFF;
@@ -139,7 +139,7 @@ void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005880);
+    f32 frameCount = Animation_LastFrame(&D_06005880);
 
     Animation_Change(&this->skelAnime, &D_06005880, this->animSpeed, 0.0f, (s16)frameCount, 0, this->transitionRate);
     this->bodyTurnSpeed = 0.0f;
@@ -155,9 +155,9 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 pathDiffZ;
     s16 randOffset;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
-    if (Animation_IsOnFrame(&this->skelAnime, 1.0f) || Animation_IsOnFrame(&this->skelAnime, 17.0f)) {
+    if (Animation_OnFrame(&this->skelAnime, 1.0f) || Animation_OnFrame(&this->skelAnime, 17.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
 
@@ -222,7 +222,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005880);
+    f32 frameCount = Animation_LastFrame(&D_06005880);
 
     Animation_Change(&this->skelAnime, &D_06005880, 3.0f, 0.0f, (s16)frameCount, 0, -3.0f);
     this->bodyTurnSpeed = 0.0f;
@@ -235,7 +235,7 @@ void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
 void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 1.0f, this->moveSpeed);
     Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, player->actor.posRot.pos.z, 1.0f, this->moveSpeed);
     Math_SmoothScaleMaxF(&this->moveSpeed, 6.0f, 1.0f, 0.4f);
@@ -250,7 +250,7 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
 
 void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 rand;
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_LastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, (s16)frameCount, 0, this->transitionRate);
     this->headBehaviorDecided = false;
@@ -264,7 +264,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 randOffset;
     s32 i;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (!sPlayerIsCaught) {
         switch (this->headBehaviorDecided) {
             case false:
@@ -319,7 +319,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_LastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->kickTimer = 30;
@@ -327,7 +327,7 @@ void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->type != 5) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
@@ -341,14 +341,14 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_LastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = EnHeishi1_Kick;
 }
 
 void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (!this->loadStarted) {
         // if dialog state is 5 and textbox has been advanced, kick player out
         if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx))) {
@@ -367,14 +367,14 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_LastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = EnHeishi1_WaitNight;
 }
 
 void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.xzDistFromLink < 100.0f) {
         func_8010B680(globalCtx, 0x702D, &this->actor);
@@ -496,8 +496,8 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi1_OverrideLimbDraw, NULL,
-                     this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi1_OverrideLimbDraw, NULL,
+                      this);
     func_80033C30(&this->actor.posRot.pos, &matrixScale, 0xFF, globalCtx);
 
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {

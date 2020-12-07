@@ -20,7 +20,7 @@ glabel BossGanondrof_Destroy
 
 /* 006DC 80910D1C 24845140 */  addiu   $a0, $a0, %lo(D_80915140)  ## $a0 = 80915140
 /* 006E0 80910D20 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 006E4 80910D24 0C0295BC */  jal     Skeleton_Free
+/* 006E4 80910D24 0C0295BC */  jal     SkelAnime_Free
 /* 006E8 80910D28 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 006EC 80910D2C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 006F0 80910D30 0C0170EB */  jal     Collider_DestroyCylinder

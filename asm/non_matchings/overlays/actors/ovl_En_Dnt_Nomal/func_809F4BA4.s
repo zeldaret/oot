@@ -10,7 +10,7 @@ glabel func_809F4BA4
 /* 018F0 809F4BB0 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 018F4 809F4BB4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 018F8 809F4BB8 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 018FC 809F4BBC 0C028800 */  jal     Animation_GetLastFrame
+/* 018FC 809F4BBC 0C028800 */  jal     Animation_LastFrame
 
 /* 01900 809F4BC0 248406CC */  addiu   $a0, $a0, 0x06CC           ## $a0 = 060006CC
 /* 01904 809F4BC4 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

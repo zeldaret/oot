@@ -48,7 +48,7 @@ void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnKakasi* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
-    //! @bug Skeleton_Free is not called
+    //! @bug SkelAnime_Free is not called
 }
 
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -60,7 +60,7 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.unk_1F = 6;
-    Skeleton_InitFlex(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_060065B0, &D_06000214, NULL, NULL, 0);
 
     this->rot = this->actor.posRot.rot;
     this->actor.flags |= 0x400;
@@ -156,12 +156,12 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
         if (currentFrame == 11 || currentFrame == 17) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_SWING);
         }
-        Animation_Update(&this->skelanime);
+        SkelAnime_Update(&this->skelanime);
     }
 }
 
 void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000214);
+    f32 frameCount = Animation_LastFrame(&D_06000214);
 
     Animation_Change(&this->skelanime, &D_06000214, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
 
@@ -189,7 +189,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
     s16 absyawTowardsLink;
 
     func_80A8F28C(this);
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
     this->camId = -1;
     if (func_8002F194(&this->actor, globalCtx)) {
         if (this->unk_196 == 5) {
@@ -251,7 +251,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
 
 void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
     func_8002DF54(globalCtx, NULL, 8);
 
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0)) {
@@ -295,7 +295,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
 
 void func_80A8FBB8(EnKakasi* this, GlobalContext* globalCtx) {
     func_80A8F28C(this);
-    Animation_Update(&this->skelanime);
+    SkelAnime_Update(&this->skelanime);
 
     if (this->unk_196 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
@@ -338,6 +338,6 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowCustomSongSet);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, this->skelanime.dListCount,
-                         NULL, NULL, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTbl, this->skelanime.dListCount,
+                          NULL, NULL, this);
 }

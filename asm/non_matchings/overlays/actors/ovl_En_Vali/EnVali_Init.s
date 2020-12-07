@@ -29,7 +29,7 @@ glabel EnVali_Init
 /* 00064 80B26714 24E714AC */  addiu   $a3, $a3, 0x14AC           ## $a3 = 060014AC
 /* 00068 80B26718 24C64848 */  addiu   $a2, $a2, 0x4848           ## $a2 = 06004848
 /* 0006C 80B2671C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00070 80B26720 0C02915F */  jal     Skeleton_Init
+/* 00070 80B26720 0C02915F */  jal     SkelAnime_Init
               
 /* 00074 80B26724 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00078 80B26728 260502FC */  addiu   $a1, $s0, 0x02FC           ## $a1 = 000002FC

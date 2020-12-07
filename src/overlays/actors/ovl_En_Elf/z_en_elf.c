@@ -323,7 +323,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    Skeleton_Init(globalCtx, &this->skelAnime, &D_04016A48, &D_04014BA4, this->jointTbl, this->morphTbl, 15);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04016A48, &D_04014BA4, this->jointTbl, this->morphTbl, 15);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
     thisx->shape.unk_14 = 0xFF;
 
@@ -605,7 +605,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 heightDiff;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (Math_Rand_ZeroOne() < 0.05f) {
         this->unk_2B4 = Math_Rand_ZeroFloat(10.0f) + 10.0f;
@@ -671,7 +671,7 @@ void func_80A0353C(EnElf* this, GlobalContext* globalCtx) {
     Vec3f parentPos;
     Actor* parent;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80A02A20(this, globalCtx);
     parent = this->actor.parent;
 
@@ -692,7 +692,7 @@ void func_80A03604(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothScaleMaxMinF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
 
     this->unk_28C.x = Math_Coss(this->unk_2AC) * this->unk_2B8;
@@ -735,7 +735,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_28C.y > 200.0f) {
         Actor_Kill(&this->actor);
@@ -770,7 +770,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     this->unk_28C.z = 0.0f;
     this->unk_28C.x = 0.0f;
@@ -797,7 +797,7 @@ void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
         func_80A04414(this, globalCtx);
     }
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->func_2C8 == NULL) {
         __assert("0", "../z_en_elf.c", 1725);
@@ -1528,8 +1528,8 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPEndDisplayList(dListHead++);
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
-            POLY_XLU_DISP = Skeleton_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
-                                          EnElf_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
+            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
+                                           EnElf_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);
         }

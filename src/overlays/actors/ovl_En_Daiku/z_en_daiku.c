@@ -103,7 +103,7 @@ void EnDaiku_Change(EnDaiku* this, s32 animIndex, s32* currentAnimIndex) {
     }
 
     Animation_Change(&this->skelAnime, sAnimations[animIndex].anim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations[animIndex].anim), sAnimations[animIndex].mode, transitionRate);
+                     Animation_LastFrame(sAnimations[animIndex].anim), sAnimations[animIndex].mode, transitionRate);
 
     *currentAnimIndex = animIndex;
 }
@@ -134,7 +134,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = 0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
-    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTbl, this->morphTbl, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTbl, this->morphTbl, 17);
 
     if (!noKill) {
         Actor_Kill(&this->actor);
@@ -145,7 +145,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
 
-    Animation_Change(&this->skelAnime, sAnimations[0].anim, 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[0].anim),
+    Animation_Change(&this->skelAnime, sAnimations[0].anim, 1.0f, 0.0f, Animation_LastFrame(sAnimations[0].anim),
                      sAnimations[0].mode, sAnimations[0].transitionRate);
 
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
@@ -319,7 +319,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx);
  * The carpenter is idling in the tent.
  */
 void EnDaiku_TentIdle(EnDaiku* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     EnDaiku_UpdateText(this, globalCtx);
 }
 
@@ -334,7 +334,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
     if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING)) {
         EnDaiku_UpdateText(this, globalCtx);
     }
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     gerudo = (EnGeldB*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_GELDB, ACTORTYPE_ENEMY);
     if (gerudo == NULL) {
@@ -353,7 +353,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
  * to then talk to him
  */
 void EnDaiku_WaitFreedom(EnDaiku* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (Flags_GetSwitch(globalCtx, this->actor.params >> 8 & 0x3F)) {
         this->actor.flags |= 9;
@@ -407,7 +407,7 @@ void EnDaiku_EscapeRotate(EnDaiku* this, GlobalContext* globalCtx) {
     s16 diff;
 
     diff = Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->rotYtowardsPath, 1, 0x1388, 0);
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (diff == 0) {
         this->actionFunc = EnDaiku_EscapeRun;
         this->actionFunc(this, globalCtx);
@@ -529,7 +529,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
         }
     }
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -579,8 +579,8 @@ void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 200, 0, 150, 255);
     }
 
-    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                         EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                          EnDaiku_OverrideLimbDraw, EnDaiku_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1255);
 }

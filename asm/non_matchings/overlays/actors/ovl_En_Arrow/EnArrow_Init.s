@@ -39,7 +39,7 @@ glabel EnArrow_Init
 /* 0006C 809B398C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 809B3990 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00074 809B3994 AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 00078 809B3998 0C02915F */  jal     Skeleton_Init
+/* 00078 809B3998 0C02915F */  jal     SkelAnime_Init
               
 /* 0007C 809B399C AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 00080 809B39A0 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

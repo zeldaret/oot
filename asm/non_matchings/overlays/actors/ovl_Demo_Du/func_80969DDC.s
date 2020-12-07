@@ -5,7 +5,7 @@ glabel func_80969DDC
 /* 00318 80969DE8 AFA5002C */  sw      $a1, 0x002C($sp)
 /* 0031C 80969DEC AFA60030 */  sw      $a2, 0x0030($sp)
 /* 00320 80969DF0 AFA70034 */  sw      $a3, 0x0034($sp)
-/* 00324 80969DF4 0C028800 */  jal     Animation_GetLastFrame
+/* 00324 80969DF4 0C028800 */  jal     Animation_LastFrame
 
 /* 00328 80969DF8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0032C 80969DFC 8FAE0038 */  lw      $t6, 0x0038($sp)

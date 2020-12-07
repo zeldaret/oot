@@ -3,7 +3,7 @@ glabel BossDodongo_Destroy
 /* 00ABC 808C1C4C AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00AC0 808C1C50 AFA40018 */  sw      $a0, 0x0018($sp)
 /* 00AC4 808C1C54 AFA5001C */  sw      $a1, 0x001C($sp)
-/* 00AC8 808C1C58 0C0295BC */  jal     Skeleton_Free
+/* 00AC8 808C1C58 0C0295BC */  jal     SkelAnime_Free
 /* 00ACC 808C1C5C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00AD0 808C1C60 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 00AD4 808C1C64 8FA4001C */  lw      $a0, 0x001C($sp)

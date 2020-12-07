@@ -141,7 +141,7 @@ void EnDns_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "◆◆◆ 売りナッツ『%s』 ◆◆◆" VT_RST "\n", D_809F0424[this->actor.params],
                  this->actor.params);
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTbl, this->morphTbl, 18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060041A8, &D_060009A0, this->jointTbl, this->morphTbl, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 35.0f);
@@ -167,7 +167,7 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDns_Change(EnDns* this, u8 arg1) {
     s16 frameCount;
 
-    frameCount = Animation_GetLastFrame(D_809F0538[arg1].anim);
+    frameCount = Animation_LastFrame(D_809F0538[arg1].anim);
     this->unk_2BA = arg1; // Not used anywhere else?
     Animation_Change(&this->skelAnime, D_809F0538[arg1].anim, 1.0f, 0.0f, (f32)frameCount, D_809F0538[arg1].mode,
                      D_809F0538[arg1].transitionRate);
@@ -425,7 +425,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
 }
 
 void EnDns_SetupBurrow(EnDns* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06004404);
+    f32 frameCount = Animation_LastFrame(&D_06004404);
 
     if (this->skelAnime.curFrame == frameCount) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
@@ -470,7 +470,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.textId = D_809F040C[this->actor.params];
     Actor_SetHeight(&this->actor, 60.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     if (this->standOnGround) {
@@ -486,6 +486,6 @@ void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDns* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                         NULL, NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                          NULL, NULL, &this->actor);
 }

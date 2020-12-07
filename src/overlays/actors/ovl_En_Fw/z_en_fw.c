@@ -169,8 +169,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
 
-    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->limbDrawTable, this->transitionDrawTable,
-                      11);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->jointTbl, this->morphTbl, 11);
     func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -203,7 +202,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
     if (this->skelAnime.animation == &D_06006CF8) {
-        if (Animation_IsOnFrame(&this->skelAnime, this->skelAnime.lastFrame) == 0) {
+        if (Animation_OnFrame(&this->skelAnime, this->skelAnime.lastFrame) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.parent->posRot.pos);
             func_80034EC0(&this->skelAnime, D_80A1FBA0, 2);
         }
@@ -339,7 +338,7 @@ void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
 
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->actor.flags & 0x2000) != 0x2000) {
         // not attached to hookshot.
         Actor_MoveForward(&this->actor);
@@ -382,8 +381,8 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw_DrawDust(this, globalCtx);
     Matrix_Pull();
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                         EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                          EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
 }
 
 void EnFw_AddDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,

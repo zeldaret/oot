@@ -21,7 +21,7 @@ glabel func_80B46F2C
 /* 02F28 80B46F78 E4880068 */  swc1    $f8, 0x0068($a0)           ## 000001B4
 /* 02F2C 80B46F7C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 .L80B46F80:
-/* 02F30 80B46F80 0C02927F */  jal     Animation_Update
+/* 02F30 80B46F80 0C02927F */  jal     SkelAnime_Update
 
 /* 02F34 80B46F84 AFA40034 */  sw      $a0, 0x0034($sp)
 /* 02F38 80B46F88 10400024 */  beq     $v0, $zero, .L80B4701C

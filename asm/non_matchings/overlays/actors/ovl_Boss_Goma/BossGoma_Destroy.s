@@ -3,7 +3,7 @@ glabel BossGoma_Destroy
 /* 004F4 80915F04 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 004F8 80915F08 AFA40018 */  sw      $a0, 0x0018($sp)
 /* 004FC 80915F0C AFA5001C */  sw      $a1, 0x001C($sp)
-/* 00500 80915F10 0C0295BC */  jal     Skeleton_Free
+/* 00500 80915F10 0C0295BC */  jal     SkelAnime_Free
 /* 00504 80915F14 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00508 80915F18 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 0050C 80915F1C 8FA4001C */  lw      $a0, 0x001C($sp)

@@ -94,7 +94,7 @@ void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVm* this = THIS;
 
-    Skeleton_Init(globalCtx, &this->skelAnime, &D_06003F60, &D_06000068, this->jointTbl, this->morphTbl, 11);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003F60, &D_06000068, this->jointTbl, this->morphTbl, 11);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder, thisx, &sCylinderInit);
@@ -124,7 +124,7 @@ void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVm_SetupWait(EnVm* this) {
-    f32 frameCount = Animation_GetLastFrame(&D_06000068);
+    f32 frameCount = Animation_LastFrame(&D_06000068);
 
     Animation_Change(&this->skelAnime, &D_06000068, 1.0f, frameCount, frameCount, 2, 0.0f);
     this->unk_25E = this->unk_260 = 0;
@@ -170,7 +170,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
                 this->headRotY -= 0x1F4;
             }
 
-            Animation_Update(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
             return;
         case 1:
             break;
@@ -180,7 +180,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
 
     Math_SmoothScaleMaxMinS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F40, 0);
 
-    if (Animation_Update(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_260++;
         this->skelAnime.curFrame = 0.0f;
     }
@@ -271,13 +271,13 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
         this->unk_260 = 3;
     }
 
-    if (Animation_Update(&this->skelAnime)) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = this->skelAnime.firstFrame;
     }
 }
 
 void EnVm_SetupStun(EnVm* this) {
-    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_GetLastFrame(&D_06000068), 0.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_LastFrame(&D_06000068), 0.0f, 2, 0.0f);
     this->unk_260 = 0;
     this->timer = 180;
     this->unk_25E = this->unk_260;
@@ -290,13 +290,12 @@ void EnVm_SetupStun(EnVm* this) {
 
 void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
-        if (Animation_Update(&this->skelAnime)) {
+        if (SkelAnime_Update(&this->skelAnime)) {
             this->unk_25E++;
             if (this->unk_25E == 3) {
                 EnVm_SetupWait(this);
             } else if (this->unk_25E == 1) {
-                Animation_Change(&this->skelAnime, &D_06000068, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000068), 2,
-                                 0.0f);
+                Animation_Change(&this->skelAnime, &D_06000068, 1.0f, 0.0f, Animation_LastFrame(&D_06000068), 2, 0.0f);
             } else {
                 this->timer = 10;
                 this->skelAnime.curFrame = 0.0f;
@@ -306,12 +305,12 @@ void EnVm_Stun(EnVm* this, GlobalContext* globalCtx) {
     } else {
         Math_SmoothScaleMaxMinS(&this->beamRot, 0, 10, 0x5DC, 0);
         this->timer--;
-        Animation_Update(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
     }
 }
 
 void EnVm_SetupDie(EnVm* this) {
-    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_GetLastFrame(&D_06000068), 0.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000068, -1.0f, Animation_LastFrame(&D_06000068), 0.0f, 2, 0.0f);
     this->timer = 33;
     this->unk_25E = this->unk_260 = 0;
     this->unk_21C = 3;
@@ -480,8 +479,8 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
-    Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnVm_OverrideLimbDraw,
-                     EnVm_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnVm_OverrideLimbDraw,
+                      EnVm_PostLimbDraw, this);
     actorPos = this->actor.posRot.pos;
     func_80033C30(&actorPos, &D_80B2EB7C, 255, globalCtx);
 

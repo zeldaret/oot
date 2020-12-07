@@ -8,7 +8,7 @@ glabel func_809F50EC
 /* 01E44 809F5104 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 01E48 809F5108 55C00027 */  bnel    $t6, $zero, .L809F51A8
 /* 01E4C 809F510C 8FBF002C */  lw      $ra, 0x002C($sp)
-/* 01E50 809F5110 0C028800 */  jal     Animation_GetLastFrame
+/* 01E50 809F5110 0C028800 */  jal     Animation_LastFrame
 
 /* 01E54 809F5114 2484031C */  addiu   $a0, $a0, 0x031C           ## $a0 = 0600031C
 /* 01E58 809F5118 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

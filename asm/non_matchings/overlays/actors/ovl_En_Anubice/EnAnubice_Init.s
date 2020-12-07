@@ -36,7 +36,7 @@ glabel EnAnubice_Init
 /* 001D0 809B12F0 24E70F74 */  addiu   $a3, $a3, 0x0F74           ## $a3 = 06000F74
 /* 001D4 809B12F4 24C63990 */  addiu   $a2, $a2, 0x3990           ## $a2 = 06003990
 /* 001D8 809B12F8 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 001DC 809B12FC 0C02915F */  jal     Skeleton_Init
+/* 001DC 809B12FC 0C02915F */  jal     SkelAnime_Init
               
 /* 001E0 809B1300 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 001E4 809B1304 3C04809B */  lui     $a0, %hi(D_809B2340)       ## $a0 = 809B0000

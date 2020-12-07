@@ -130,7 +130,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags |= 1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    Skeleton_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTbl, this->morphTbl, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTbl, this->morphTbl, 16);
 
     if (globalCtx->sceneNum == SCENE_SPOT01) {
         for (i = 0; i < ARRAY_COUNT(sKakarikoPosList); i++) {
@@ -383,7 +383,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void EnNiw_ResetAction(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_LastFrame(&D_060000E8), 0, -10.0f);
 
     switch (this->actor.params) {
         case 4:
@@ -796,7 +796,7 @@ void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_LastFrame(&D_060000E8), 0, -10.0f);
     this->unk_2A0 = Math_Rand_ZeroFloat(1.99f);
     this->actor.speedXZ = 4.0f;
     this->actionFunc = func_80AB7328;
@@ -1113,8 +1113,8 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
-                         EnNiw_OverrideLimbDraw, NULL, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, this->skelAnime.dListCount,
+                          EnNiw_OverrideLimbDraw, NULL, this);
 
     if (this->actionFunc == func_80AB6450) {
         func_80033C30(&this->actor.posRot.pos, &scale, 255, globalCtx);

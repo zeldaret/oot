@@ -13,7 +13,7 @@ glabel EnArrow_Destroy
 /* 00258 809B3B78 8E050228 */  lw      $a1, 0x0228($s0)           ## 00000228
 /* 0025C 809B3B7C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 .L809B3B80:
-/* 00260 809B3B80 0C0295BC */  jal     Skeleton_Free
+/* 00260 809B3B80 0C0295BC */  jal     SkelAnime_Free
 /* 00264 809B3B84 8FA50024 */  lw      $a1, 0x0024($sp)
 /* 00268 809B3B88 8FA40024 */  lw      $a0, 0x0024($sp)
 /* 0026C 809B3B8C 0C017418 */  jal     Collider_DestroyQuad

@@ -94,8 +94,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->limbDrawTable,
-                   this->transitionDrawTable, 28);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->jointTbl, this->morphTbl, 28);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -158,14 +157,14 @@ void EnFirefly_SetupWait(EnFirefly* this) {
     this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, func_8002DAC0(&this->actor, &this->actor.initPosRot.pos), 0x300);
     this->targetPitch = ((this->maxAltitude < this->actor.posRot.pos.y) ? 0xC00 : -0xC00) + 0x1554;
-    this->skelAnime.animPlaybackSpeed = 1.0f;
+    this->skelAnime.playSpeed = 1.0f;
     this->actionFunc = EnFirefly_FlyIdle;
 }
 
 void EnFirefly_SetupFall(EnFirefly* this) {
     this->timer = 40;
     this->actor.velocity.y = 0.0f;
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600017C, 0.5f, 0.0f, 0.0f, 1, -3.0f);
+    Animation_Change(&this->skelAnime, &D_0600017C, 0.5f, 0.0f, 0.0f, 1, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 40);
@@ -181,21 +180,21 @@ void EnFirefly_SetupDie(EnFirefly* this) {
 void EnFirefly_SetupRebound(EnFirefly* this) {
     this->actor.posRot.rot.x = 0x7000;
     this->timer = 18;
-    this->skelAnime.animPlaybackSpeed = 1.0f;
+    this->skelAnime.playSpeed = 1.0f;
     this->actor.speedXZ = 2.5f;
     this->actionFunc = EnFirefly_Rebound;
 }
 
 void EnFirefly_SetupDiveAttack(EnFirefly* this) {
     this->timer = Math_Rand_S16Offset(70, 100);
-    this->skelAnime.animPlaybackSpeed = 1.0f;
+    this->skelAnime.playSpeed = 1.0f;
     this->targetPitch = ((this->actor.yDistFromLink > 0.0f) ? -0xC00 : 0xC00) + 0x1554;
     this->actionFunc = EnFirefly_DiveAttack;
 }
 
 void EnFirefly_SetupFlyAway(EnFirefly* this) {
     this->timer = 150;
-    this->skelAnime.animPlaybackSpeed = 1.0f;
+    this->skelAnime.playSpeed = 1.0f;
     this->targetPitch = 0x954;
     this->actionFunc = EnFirefly_FlyAway;
 }
@@ -205,7 +204,7 @@ void EnFirefly_SetupStunned(EnFirefly* this) {
     func_8003426C(&this->actor, 0, 0xFF, 0, 80);
     this->auraType = KEESE_AURA_NONE;
     this->actor.velocity.y = 0.0f;
-    this->skelAnime.animPlaybackSpeed = 3.0f;
+    this->skelAnime.playSpeed = 3.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = EnFirefly_Stunned;
 }
@@ -238,7 +237,7 @@ void EnFirefly_SetupPerch(EnFirefly* this) {
 }
 
 void EnFirefly_SetupDisturbDiveAttack(EnFirefly* this) {
-    this->skelAnime.animPlaybackSpeed = 3.0f;
+    this->skelAnime.playSpeed = 3.0f;
     this->actor.shape.rot.x = 0x1554;
     this->actor.shape.rot.y = this->actor.yawTowardsLink;
     this->actor.speedXZ = 3.0f;
@@ -321,11 +320,11 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
     s32 skelanimeUpdated;
     f32 rand;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
         this->timer--;
     }
-    skelanimeUpdated = func_800A56C8(&this->skelAnime, 0.0f);
+    skelanimeUpdated = Animation_OnFrame(&this->skelAnime, 0.0f);
     this->actor.speedXZ = (Math_Rand_ZeroOne() * 1.5f) + 1.5f;
     if (this->onFire || (this->actor.params == KEESE_ICE_FLY) ||
         ((EnFirefly_ReturnToPerch(this, globalCtx) == 0) && (EnFirefly_SeekTorch(this, globalCtx) == 0))) {
@@ -369,11 +368,11 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
 
 // Fall to the ground after being hit
 void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
-    if (func_800A56C8(&this->skelAnime, 6.0f)) {
-        this->skelAnime.animPlaybackSpeed = 0.0f;
+    if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
+        this->skelAnime.playSpeed = 0.0f;
     }
     this->actor.dmgEffectTimer = 40;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
     if (this->actor.flags & 0x8000) {
         this->actor.dmgEffectTimer = 40;
@@ -407,7 +406,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
 
     Vec3f preyPos;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
         this->timer--;
     }
@@ -416,9 +415,9 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.wallPolyRot, 2, 0xC00, 0x300);
         Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     } else if (func_8002E084(&this->actor, 0x2800)) {
-        if (func_800A56C8(&this->skelAnime, 4.0f)) {
-            this->skelAnime.animPlaybackSpeed = 0.0f;
-            this->skelAnime.animCurrentFrame = 4.0f;
+        if (Animation_OnFrame(&this->skelAnime, 4.0f)) {
+            this->skelAnime.playSpeed = 0.0f;
+            this->skelAnime.curFrame = 4.0f;
         }
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xC00, 0x300);
         preyPos.x = player->actor.posRot.pos.x;
@@ -427,7 +426,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, func_8002DB28(&this->actor, &preyPos) + 0x1554, 2, 0x400,
                                 0x100);
     } else {
-        this->skelAnime.animPlaybackSpeed = 1.5f;
+        this->skelAnime.playSpeed = 1.5f;
         if (this->actor.xzDistFromLink > 80.0f) {
             Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 2, 0xC00, 0x300);
         }
@@ -448,7 +447,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
 
 // Knockback after hitting player
 void EnFirefly_Rebound(EnFirefly* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x100);
     Math_ApproxF(&this->actor.velocity.y, 0.0f, 0.4f);
     if (Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.15f)) {
@@ -462,7 +461,7 @@ void EnFirefly_Rebound(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer != 0) {
         this->timer--;
     }
@@ -490,7 +489,7 @@ void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.5f);
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0x1554, 0x100);
     if (this->timer != 0) {
@@ -520,8 +519,8 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.x, 0, 0x100);
 
     if (this->timer != 0) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-        if (func_800A56C8(&this->skelAnime, 6.0f)) {
+        SkelAnime_Update(&this->skelAnime);
+        if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
             this->timer--;
         }
     } else if (Math_Rand_ZeroOne() < 0.02f) {
@@ -536,7 +535,7 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f preyPos;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->timer != 0) {
         this->timer--;
@@ -656,7 +655,7 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.colChkInfo.health != 0) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        if (func_800A56C8(&this->skelAnime, 5.0f)) {
+        if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_FLY);
         }
     }
@@ -763,7 +762,7 @@ void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     }
 
-    POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+    POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
                                    EnFirefly_OverrideLimbDraw, EnFirefly_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1763);
 }
@@ -780,7 +779,7 @@ void EnFirefly_DrawInvisible(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 255);
     }
 
-    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl,
                                    EnFirefly_OverrideLimbDraw, EnFirefly_PostLimbDraw, this, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1805);
 }

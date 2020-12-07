@@ -9,7 +9,7 @@ glabel func_80B14F20
 /* 0149C 80B14F3C 240E0002 */  addiu   $t6, $zero, 0x0002         ## $t6 = 00000002
 /* 014A0 80B14F40 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 014A4 80B14F44 A60E02B4 */  sh      $t6, 0x02B4($s0)           ## 000002B4
-/* 014A8 80B14F48 0C028800 */  jal     Animation_GetLastFrame
+/* 014A8 80B14F48 0C028800 */  jal     Animation_LastFrame
 
 /* 014AC 80B14F4C 248417E8 */  addiu   $a0, $a0, 0x17E8           ## $a0 = 060017E8
 /* 014B0 80B14F50 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

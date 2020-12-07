@@ -27,7 +27,7 @@ glabel func_80A7975C
 /* 00808 80A797B8 00095080 */  sll     $t2, $t1,  2
 /* 0080C 80A797BC A20801A6 */  sb      $t0, 0x01A6($s0)           ## 000001A6
 /* 00810 80A797C0 008A2021 */  addu    $a0, $a0, $t2
-/* 00814 80A797C4 0C028800 */  jal     Animation_GetLastFrame
+/* 00814 80A797C4 0C028800 */  jal     Animation_LastFrame
 
 /* 00818 80A797C8 8C84B918 */  lw      $a0, %lo(D_80A7B918)($a0)
 /* 0081C 80A797CC 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00

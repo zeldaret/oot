@@ -82,7 +82,7 @@ glabel L8094FEC4
 /* 00C18 8094FED8 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00C1C 8094FEDC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00C20 8094FEE0 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00C24 8094FEE4 0C02915F */  jal     Skeleton_Init
+/* 00C24 8094FEE4 0C02915F */  jal     SkelAnime_Init
 
 /* 00C28 8094FEE8 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00C2C 8094FEEC 8E690004 */  lw      $t1, 0x0004($s3)           ## 00000004
@@ -99,7 +99,7 @@ glabel L8094FF00
 /* 00C54 8094FF14 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00C58 8094FF18 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00C5C 8094FF1C AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00C60 8094FF20 0C0291BE */  jal     Skeleton_InitFlex
+/* 00C60 8094FF20 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00C64 8094FF24 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00C68 8094FF28 1000002C */  beq     $zero, $zero, .L8094FFDC
 /* 00C6C 8094FF2C 8E6E0024 */  lw      $t6, 0x0024($s3)           ## 00000024
@@ -112,7 +112,7 @@ glabel L8094FF30
 /* 00C84 8094FF44 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00C88 8094FF48 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00C8C 8094FF4C AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00C90 8094FF50 0C0291BE */  jal     Skeleton_InitFlex
+/* 00C90 8094FF50 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00C94 8094FF54 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00C98 8094FF58 10000020 */  beq     $zero, $zero, .L8094FFDC
 /* 00C9C 8094FF5C 8E6E0024 */  lw      $t6, 0x0024($s3)           ## 00000024
@@ -125,7 +125,7 @@ glabel L8094FF60
 /* 00CB4 8094FF74 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00CB8 8094FF78 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00CBC 8094FF7C AFA00014 */  sw      $zero, 0x0014($sp)
-/* 00CC0 8094FF80 0C0291BE */  jal     Skeleton_InitFlex
+/* 00CC0 8094FF80 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00CC4 8094FF84 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00CC8 8094FF88 10000014 */  beq     $zero, $zero, .L8094FFDC
 /* 00CCC 8094FF8C 8E6E0024 */  lw      $t6, 0x0024($s3)           ## 00000024
@@ -143,7 +143,7 @@ glabel L8094FF90
 /* 00CF4 8094FFB4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00CF8 8094FFB8 24C64E70 */  addiu   $a2, $a2, 0x4E70           ## $a2 = 06004E70
 /* 00CFC 8094FFBC 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 00D00 8094FFC0 0C02915F */  jal     Skeleton_Init
+/* 00D00 8094FFC0 0C02915F */  jal     SkelAnime_Init
 
 /* 00D04 8094FFC4 2665014C */  addiu   $a1, $s3, 0x014C           ## $a1 = 0000014C
 /* 00D08 8094FFC8 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000

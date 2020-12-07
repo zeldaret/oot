@@ -62,7 +62,7 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     Actor_SetScale(&this->actor, 0.01f);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    Skeleton_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTbl, this->morphTbl, 17);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTbl, this->morphTbl, 17);
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.unk_1F = 6;
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -82,7 +82,7 @@ void EnHeishi3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_SetupGuardType(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_LastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     if (this->unk_278 == 0) {
@@ -102,7 +102,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
     f32 sightRange;
 
     player = PLAYER;
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
     yawDiffNew = ABS(yawDiff);
     if (yawDiffNew < 0x4300) {
@@ -135,7 +135,7 @@ void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx)
 void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((player->actor.posRot.pos.x < -190.0f) && (player->actor.posRot.pos.x > -380.0f) &&
         (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f) &&
         (player->actor.posRot.pos.z < 1020.0f) && (player->actor.posRot.pos.z > 700.0f) && (sPlayerCaught == 0)) {
@@ -158,7 +158,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
 }
 
 void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005880);
+    f32 frameCount = Animation_LastFrame(&D_06005880);
 
     Animation_Change(&this->skelAnime, &D_06005880, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->caughtTimer = 20;
@@ -168,8 +168,8 @@ void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx) {
 
 void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 
-    Animation_Update(&this->skelAnime);
-    if ((Animation_IsOnFrame(&this->skelAnime, 1.0f) != 0) || (Animation_IsOnFrame(&this->skelAnime, 17.0f) != 0)) {
+    SkelAnime_Update(&this->skelAnime);
+    if ((Animation_OnFrame(&this->skelAnime, 1.0f) != 0) || (Animation_OnFrame(&this->skelAnime, 17.0f) != 0)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
     if (this->caughtTimer == 0) {
@@ -181,7 +181,7 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
-    f32 frameCount = Animation_GetLastFrame(&D_06005C30);
+    f32 frameCount = Animation_LastFrame(&D_06005C30);
 
     Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A55D00;
@@ -189,7 +189,7 @@ void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
 
 // This function initiates the respawn after the player gets caught.
 void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
-    Animation_Update(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0) && (this->respawnFlag == 0)) {
         gSaveContext.eventChkInf[4] |= 0x4000;
         globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
@@ -237,6 +237,6 @@ void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Skeleton_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi3_OverrideLimbDraw, NULL,
-                     this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTbl, EnHeishi3_OverrideLimbDraw, NULL,
+                      this);
 }

@@ -11,7 +11,7 @@ glabel func_80B112A0
 /* 00A3C 80B112AC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00A40 80B112B0 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00A44 80B112B4 AFA50018 */  sw      $a1, 0x0018($sp)           
-/* 00A48 80B112B8 0C02927F */  jal     Animation_Update
+/* 00A48 80B112B8 0C02927F */  jal     SkelAnime_Update
               
 /* 00A4C 80B112BC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00A50 80B112C0 8FA50018 */  lw      $a1, 0x0018($sp)           

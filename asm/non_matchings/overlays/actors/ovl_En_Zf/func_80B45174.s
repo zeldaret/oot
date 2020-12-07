@@ -121,7 +121,7 @@ glabel func_80B45174
 /* 012D4 80B45324 0C00CC98 */  jal     func_80033260
 /* 012D8 80B45328 E7AA0014 */  swc1    $f10, 0x0014($sp)
 .L80B4532C:
-/* 012DC 80B4532C 0C02927F */  jal     Animation_Update
+/* 012DC 80B4532C 0C02927F */  jal     SkelAnime_Update
 
 /* 012E0 80B45330 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 012E4 80B45334 5040000D */  beql    $v0, $zero, .L80B4536C
