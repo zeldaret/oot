@@ -237,8 +237,8 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     ColliderInfo* info;
 
-    if (this->collider.base.acFlags & 2 || EnFd_CheckHammer(this, globalCtx)) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, globalCtx)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
@@ -255,13 +255,13 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
         func_80032C7C(globalCtx, &this->actor);
         return true;
-    } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
 
-        if (this->collider.base.atFlags & 4) {
+        if (this->collider.base.atFlags & AT_BOUNCED) {
             return false;
         }
         this->attackTimer = 30;

@@ -71,13 +71,13 @@ s32 EnFdFire_CheckCollider(EnFdFire* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         return true;
     }
 
-    if (this->collider.base.ocType & 1) {
-        this->collider.base.ocType &= ~1;
+    if (this->collider.base.ocType & OT_HIT_PLAYER) {
+        this->collider.base.ocType &= ~OT_HIT_PLAYER;
         return true;
     }
     return false;

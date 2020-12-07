@@ -438,10 +438,12 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & AT_HIT) ||
-        this->collider.base.acFlags & AC_HIT || this->collider.base.ocFlags & OC_HIT || this->actor.groundY == -32000.0f) {
+        this->collider.base.acFlags & AC_HIT || this->collider.base.ocFlags & OC_HIT ||
+        this->actor.groundY == -32000.0f) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
-             (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) && 
-            this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_ENEMY && this->collider.base.atFlags & AT_BOUNCED) {
+             (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
+            this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_ENEMY &&
+            this->collider.base.atFlags & AT_BOUNCED) {
             this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_ENEMY);
             this->collider.base.atFlags |= AT_PLAYER;
             this->collider.info.toucher.dFlags = 2;

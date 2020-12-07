@@ -124,14 +124,14 @@ s32 EnFw_CheckCollider(EnFw* this, GlobalContext* globalCtx) {
     ColliderInfo* info;
     s32 phi_return;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         info = &this->collider.elements[0].info;
         if (info->acHitInfo->toucher.dFlags & 0x80) {
             this->lastDmgHook = true;
         } else {
             this->lastDmgHook = false;
         }
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
         if (Actor_ApplyDamage(&this->actor) <= 0) {
             if (this->actor.parent->colChkInfo.health <= 8) {
                 func_80032C7C(globalCtx, &this->actor);

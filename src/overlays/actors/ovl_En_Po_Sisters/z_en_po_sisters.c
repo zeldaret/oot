@@ -170,13 +170,13 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80ADA094(this, globalCtx);
     } else if (this->unk_194 == 0) {
         if (this->unk_195 == 0) {
-            this->collider.base.ocFlags = 9;
+            this->collider.base.ocFlags = OC_ON | OC_PLAYER;
             func_80AD9AA8(this, globalCtx);
         } else {
             this->actor.flags &= -0x4201;
-            this->collider.info.elemType = 4;
+            this->collider.info.elemType = ELEMTYPE_UNK4;
             this->collider.info.bumper.dFlags |= 1;
-            this->collider.base.ocFlags = 0;
+            this->collider.base.ocFlags = OC_OFF;
             func_80AD9C24(this, NULL);
         }
     } else {
@@ -231,7 +231,7 @@ void func_80AD943C(EnPoSisters* this) {
 void func_80AD944C(EnPoSisters* this) {
     if (this->unk_22E.a != 0) {
         this->collider.base.colType = COLTYPE_METAL;
-        this->collider.base.acFlags |= 4;
+        this->collider.base.acFlags |= AC_HARD;
     }
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000114, -5.0f);
     this->actor.speedXZ = 0.0f;
@@ -244,7 +244,7 @@ void func_80AD94E0(EnPoSisters* this) {
     this->actor.speedXZ = 5.0f;
     if (this->unk_194 == 0) {
         this->collider.base.colType = COLTYPE_METAL;
-        this->collider.base.acFlags |= 4;
+        this->collider.base.acFlags |= AC_HARD;
         SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000114, -5.0f);
     }
     this->unk_19A = 5;
@@ -258,7 +258,7 @@ void func_80AD9568(EnPoSisters* this) {
     this->actor.posRot.rot.y = this->actor.yawTowardsLink + 0x8000;
     if (this->unk_194 != 0) {
         this->collider.base.colType = COLTYPE_HIT3;
-        this->collider.base.acFlags &= ~4;
+        this->collider.base.acFlags &= ~AC_HARD;
     }
     this->actionFunc = func_80ADA9E8;
 }
@@ -393,7 +393,7 @@ void func_80AD9C24(EnPoSisters* this, GlobalContext* globalCtx) {
     this->unk_19C = 100;
     this->unk_199 = 32;
     this->collider.base.colType = COLTYPE_HIT3;
-    this->collider.base.acFlags &= ~4;
+    this->collider.base.acFlags &= ~AC_HARD;
     if (globalCtx != NULL) {
         vec.x = this->actor.posRot.pos.x;
         vec.y = this->actor.posRot.pos.y + 45.0f;
@@ -638,7 +638,7 @@ void func_80ADA8C0(EnPoSisters* this, GlobalContext* globalCtx) {
     if (this->unk_19A == 0 && ABS((s16)(this->actor.shape.rot.y - this->actor.posRot.rot.y)) < 0x1000) {
         if (this->unk_194 != 0) {
             this->collider.base.colType = COLTYPE_HIT3;
-            this->collider.base.acFlags &= ~4;
+            this->collider.base.acFlags &= ~AC_HARD;
             func_80AD93C4(this);
         } else {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);
@@ -1097,8 +1097,8 @@ void func_80ADC034(EnPoSisters* this, GlobalContext* globalCtx) {
 void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
     Vec3f sp24;
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->collider.info, 1);
         if (this->unk_195 != 0) {
             ((EnPoSisters*)this->actor.parent)->unk_19C--;
@@ -1141,8 +1141,8 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoSisters* this = THIS;
     s16 temp;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_80AD9568(this);
     }
     func_80ADC10C(this, globalCtx);

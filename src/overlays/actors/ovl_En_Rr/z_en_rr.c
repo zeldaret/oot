@@ -95,7 +95,7 @@ static ColliderCylinderInit_Set3 sCylinderInit1 = {
 };
 
 static ColliderCylinderInit_Set3 sCylinderInit2 = {
-    { COLTYPE_NONE, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON |  OC_NO_PUSH  | OC_PLAYER, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_NO_PUSH | OC_PLAYER, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x08 },
       { 0xFFCFFFFF, 0x00, 0x00 },
@@ -369,8 +369,8 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
     Vec3f hitPos;
     Player* player = PLAYER;
 
-    if (this->collider2.base.acFlags & 2) {
-        this->collider2.base.acFlags &= ~2;
+    if (this->collider2.base.acFlags & AC_HIT) {
+        this->collider2.base.acFlags &= ~AC_HIT;
         // Kakin (not sure what this means)
         osSyncPrintf(VT_FGCOL(GREEN) "カキン(%d)！！" VT_RST "\n", this->frameCount);
         hitPos.x = this->collider2.info.bumper.hitPos.x;
@@ -378,10 +378,10 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
         hitPos.z = this->collider2.info.bumper.hitPos.z;
         CollisionCheck_ShieldParticlesMetal2(globalCtx, &hitPos);
     } else {
-        if (this->collider1.base.acFlags & 2) {
+        if (this->collider1.base.acFlags & AC_HIT) {
             u8 dropType = RR_DROP_RANDOM_RUPEE;
 
-            this->collider1.base.acFlags &= ~2;
+            this->collider1.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 0) {
                 hitPos.x = this->collider1.info.bumper.hitPos.x;
                 hitPos.y = this->collider1.info.bumper.hitPos.y;
@@ -451,9 +451,10 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
             }
         }
         if ((this->ocTimer == 0) && (this->actor.dmgEffectTimer == 0) && (player->invincibilityTimer == 0) &&
-            !(player->stateFlags2 & 0x80) && ((this->collider1.base.ocFlags & 2) || (this->collider2.base.ocFlags & 2))) {
-            this->collider1.base.ocFlags &= ~2;
-            this->collider2.base.ocFlags &= ~2;
+            !(player->stateFlags2 & 0x80) &&
+            ((this->collider1.base.ocFlags & OC_HIT) || (this->collider2.base.ocFlags & OC_HIT))) {
+            this->collider1.base.ocFlags &= ~OC_HIT;
+            this->collider2.base.ocFlags &= ~OC_HIT;
             // catch
             osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
             if (globalCtx->grabPlayer(globalCtx, player)) {
@@ -759,10 +760,10 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
     } else {
-        this->collider2.base.ocFlags &= ~2;
-        this->collider2.base.acFlags &= ~2;
-        this->collider1.base.ocFlags &= ~2;
-        this->collider1.base.acFlags &= ~2;
+        this->collider2.base.ocFlags &= ~OC_HIT;
+        this->collider2.base.acFlags &= ~AC_HIT;
+        this->collider1.base.ocFlags &= ~OC_HIT;
+        this->collider1.base.acFlags &= ~AC_HIT;
     }
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
     if (!this->stopScroll) {

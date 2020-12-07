@@ -56,7 +56,7 @@ const ActorInit En_Dh_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_HIT0, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_HIT0, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_PLAYER, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 35, 70, 0, { 0, 0, 0 } },
 };
@@ -262,7 +262,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
     } else if ((this->actor.xzDistFromLink > 100.0f) || !func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f, this->skelAnime.animCurrentFrame, 0.0f, 2, -4.0f);
         this->actionState = 4;
-        this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = 0;
+        this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
         this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
     }
     switch (this->actionState) {
@@ -275,17 +275,18 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
             break;
         case 2:
             if (this->skelAnime.animCurrentFrame >= 4.0f) {
-                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = 0x11;
+                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
+                    AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
                 this->collider2.elements[0].info.toucher.dFlags = 0xFFCFFFFF;
                 this->collider2.elements[0].info.toucher.damage = 8;
             }
-            if (this->collider2.base.atFlags & 4) {
-                this->collider2.base.atFlags &= ~6;
-                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = 0;
+            if (this->collider2.base.atFlags & AT_BOUNCED) {
+                this->collider2.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
+                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
                 this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
                 this->actionState++;
-            } else if (this->collider2.base.atFlags & 2) {
-                this->collider2.base.atFlags &= ~2;
+            } else if (this->collider2.base.atFlags & AT_HIT) {
+                this->collider2.base.atFlags &= ~AT_HIT;
                 func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.shape.rot.y, 8.0f);
             }
             break;
@@ -298,7 +299,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_06004658, -1.0f, SkelAnime_GetFrameCount(&D_06004658), 0.0f,
                                      2, -4.0f);
                 this->actionState++;
-                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = 0;
+                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
                 this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
             }
             break;
@@ -328,7 +329,8 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
         case 0:
             this->actionState++;
             this->drawDirtWave++;
-            this->collider1.base.atFlags = this->collider1.info.toucherFlags = 0x11;
+            this->collider1.base.atFlags = this->collider1.info.toucherFlags =
+                AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
             this->collider1.info.toucher.dFlags = 0xFFCFFFFF;
             this->collider1.info.toucher.damage = 4;
         case 1:
@@ -345,7 +347,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
         case 2:
             this->drawDirtWave = false;
             this->collider1.dim.radius = 35;
-            this->collider1.base.atFlags = this->collider1.info.toucherFlags = 0;
+            this->collider1.base.atFlags = this->collider1.info.toucherFlags = AT_OFF; // Also TOUCH_OFF
             this->collider1.info.toucher.dFlags = this->collider1.info.toucher.damage = 0;
             EnDh_SetupWait(this);
             break;
@@ -426,10 +428,10 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 lastHealth;
 
-    if ((this->collider2.base.acFlags & 2) && !this->retreat) {
-        this->collider2.base.acFlags &= ~2;
+    if ((this->collider2.base.acFlags & AC_HIT) && !this->retreat) {
+        this->collider2.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
-            this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = 0;
+            this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
             this->collider2.elements[0].info.toucher.dFlags = this->collider2.elements[0].info.toucher.damage = 0;
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;

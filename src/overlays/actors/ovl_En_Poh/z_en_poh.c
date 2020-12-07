@@ -262,7 +262,7 @@ void func_80ADE28C(EnPoh* this) {
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->colliderCyl.base.ac) + 0x8000;
     }
-    this->colliderCyl.base.acFlags &= ~1;
+    this->colliderCyl.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = 5.0f;
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x10);
     this->actionFunc = func_80ADEECC;
@@ -272,7 +272,7 @@ void func_80ADE368(EnPoh* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, this->info->unk_18, -5.0f);
     this->actor.speedXZ = 5.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->colliderCyl.base.acFlags |= 1;
+    this->colliderCyl.base.acFlags |= AC_ON;
     this->unk_198 = 200;
     this->actionFunc = func_80ADF894;
 }
@@ -382,7 +382,7 @@ void EnPoh_Talk(EnPoh* this, GlobalContext* globalCtx) {
     this->colliderCyl.dim.pos.x = this->actor.posRot.pos.x;
     this->colliderCyl.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     this->colliderCyl.dim.pos.z = this->actor.posRot.pos.z;
-    this->colliderCyl.base.ocFlags = 9;
+    this->colliderCyl.base.ocFlags = OC_ON | OC_PLAYER;
     if (this->actor.params == EN_POH_FLAT || this->actor.params == EN_POH_SHARP) {
         if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
             this->actor.textId = 0x5000;
@@ -740,7 +740,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         return;
     }
-    if (this->colliderCyl.base.ocFlags & 2) {
+    if (this->colliderCyl.base.ocFlags & OC_HIT) {
         this->actor.flags |= 0x10000;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
@@ -826,8 +826,8 @@ void EnPoh_TalkComposer(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE032C(EnPoh* this, GlobalContext* globalCtx) {
-    if (this->colliderCyl.base.acFlags & 2) {
-        this->colliderCyl.base.acFlags &= ~2;
+    if (this->colliderCyl.base.acFlags & AC_HIT) {
+        this->colliderCyl.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 func_80032C7C(globalCtx, &this->actor);
@@ -952,8 +952,8 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
     UNK_TYPE sp38;
 
-    if (this->colliderSph.base.atFlags & 2) {
-        this->colliderSph.base.atFlags &= ~2;
+    if (this->colliderSph.base.atFlags & AT_HIT) {
+        this->colliderSph.base.atFlags &= ~AT_HIT;
         func_80ADE4C8(this);
     }
     func_80AE032C(this, globalCtx);
@@ -1025,8 +1025,8 @@ void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         }
         Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.elements[0].dim.worldSphere.center.x,
                                 this->colliderSph.elements[0].dim.worldSphere.center.y,
-                                this->colliderSph.elements[0].dim.worldSphere.center.z, this->envColor.r, this->envColor.g,
-                                this->envColor.b, this->envColor.a * 0.78431374f);
+                                this->colliderSph.elements[0].dim.worldSphere.center.z, this->envColor.r,
+                                this->envColor.g, this->envColor.b, this->envColor.a * 0.78431374f);
     }
 }
 

@@ -36,7 +36,7 @@ const ActorInit En_Vm_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
+    { COLTYPE_METAL, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
     { 25, 70, 0, { 0, 0, 0 } },
 };
@@ -46,7 +46,7 @@ static ColliderQuadInit sQuadInit1 = {
     { ELEMTYPE_UNK0,
       { 0xFFCFFFFF, 0x00, 0x10 },
       { 0x00000000, 0x00, 0x00 },
-      TOUCH_ON |  TOUCH_SFX_NORMAL  | TOUCH_UNK7,
+      TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
       BUMP_OFF,
       OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -463,16 +463,18 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
                 Matrix_MultVec3f(&D_80B2EB70, &this->colliderQuad1.dim.quad[2]);
                 Matrix_MultVec3f(&sp74, &this->colliderQuad1.dim.quad[1]);
                 Matrix_MultVec3f(&sp68, &this->colliderQuad1.dim.quad[0]);
-                Collider_SetQuadVertices(&this->colliderQuad1, &this->colliderQuad1.dim.quad[0], &this->colliderQuad1.dim.quad[1],
-                              &this->colliderQuad1.dim.quad[2], &this->colliderQuad1.dim.quad[3]);
+                Collider_SetQuadVertices(&this->colliderQuad1, &this->colliderQuad1.dim.quad[0],
+                                         &this->colliderQuad1.dim.quad[1], &this->colliderQuad1.dim.quad[2],
+                                         &this->colliderQuad1.dim.quad[3]);
             }
         }
         Matrix_MultVec3f(&D_80B2EB34, &this->colliderQuad2.dim.quad[1]);
         Matrix_MultVec3f(&D_80B2EB40, &this->colliderQuad2.dim.quad[0]);
         Matrix_MultVec3f(&D_80B2EB4C, &this->colliderQuad2.dim.quad[3]);
         Matrix_MultVec3f(&D_80B2EB58, &this->colliderQuad2.dim.quad[2]);
-        Collider_SetQuadVertices(&this->colliderQuad2, &this->colliderQuad2.dim.quad[0], &this->colliderQuad2.dim.quad[1],
-                      &this->colliderQuad2.dim.quad[2], &this->colliderQuad2.dim.quad[3]);
+        Collider_SetQuadVertices(&this->colliderQuad2, &this->colliderQuad2.dim.quad[0],
+                                 &this->colliderQuad2.dim.quad[1], &this->colliderQuad2.dim.quad[2],
+                                 &this->colliderQuad2.dim.quad[3]);
     }
 }
 

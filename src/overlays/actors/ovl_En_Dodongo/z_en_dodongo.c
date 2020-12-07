@@ -59,7 +59,7 @@ const ActorInit En_Dodongo_InitVars = {
     (ActorFunc)EnDodongo_Draw,
 };
 
-static ColliderJntSphElementInit sBodyElementsInit[6] =  {
+static ColliderJntSphElementInit sBodyElementsInit[6] = {
     {
         { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, TOUCH_OFF, BUMP_ON, OCELEM_ON },
         { 15, { { 0, 0, 0 }, 17 }, 100 },
@@ -91,7 +91,7 @@ static ColliderJntSphElementInit sBodyElementsInit[6] =  {
     },
 };
 
-static ColliderJntSphInit sBodyJntSphInit =  {
+static ColliderJntSphInit sBodyJntSphInit = {
     { COLTYPE_HIT0, AT_ON | AT_ENEMY, AC_ON | AC_PLAYER, OC_ON | OC_ALL, OT_TYPE1, COLSHAPE_JNTSPH },
     6,
     sBodyElementsInit,
@@ -103,7 +103,7 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
           { 0x00000000, 0x00, 0x00 },
           { 0xF24BF96E, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_ON |  BUMP_HOOKABLE  | BUMP_NO_AT_INFO,
+          BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
           OCELEM_OFF },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
@@ -112,7 +112,7 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
           { 0x00000000, 0x00, 0x00 },
           { 0xFFCBF96E, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_ON |  BUMP_HOOKABLE  | BUMP_NO_AT_INFO,
+          BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
           OCELEM_OFF },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
@@ -121,14 +121,14 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
           { 0x00000000, 0x00, 0x00 },
           { 0xFFCBF96E, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_ON |  BUMP_HOOKABLE  | BUMP_NO_AT_INFO,
+          BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
           OCELEM_OFF },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
 };
 
 static ColliderTrisInit sHardTrisInit = {
-    { COLTYPE_METAL, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_METAL, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     3,
     sHardElementsInit,
 };
@@ -138,7 +138,7 @@ static ColliderQuadInit sAttackQuadInit = {
     { ELEMTYPE_UNK0,
       { 0x20000000, 0x01, 0x10 },
       { 0x00000000, 0x00, 0x00 },
-      TOUCH_ON |  TOUCH_SFX_NORMAL  | TOUCH_UNK7,
+      TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
       BUMP_OFF,
       OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -520,9 +520,9 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime)) {
         if ((this->timer != 0) || (ABS(yawDiff1) < 0x4000)) {
-            this->sphElements[2].info.toucherFlags = 0;
-            this->sphElements[1].info.toucherFlags = 0;
-            this->colliderBody.base.atFlags = 0;
+            this->sphElements[2].info.toucherFlags = TOUCH_OFF;
+            this->sphElements[1].info.toucherFlags = TOUCH_OFF;
+            this->colliderBody.base.atFlags = AT_OFF;
             this->sphElements[2].info.toucher.dFlags = 0;
             this->sphElements[1].info.toucher.dFlags = 0;
             this->sphElements[2].info.toucher.damage = 0;
@@ -544,7 +544,7 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
             SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, animation, 2.0f);
             this->timer = 18;
             this->colliderBody.base.atFlags = this->sphElements[1].info.toucherFlags =
-                this->sphElements[2].info.toucherFlags = 0x11;
+                this->sphElements[2].info.toucherFlags = AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
             this->sphElements[1].info.toucher.dFlags = this->sphElements[2].info.toucher.dFlags = 0xFFCFFFFF;
             this->sphElements[1].info.toucher.damage = this->sphElements[2].info.toucher.damage = 8;
         }
@@ -562,7 +562,7 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
         tailPos.z = this->sphElements[2].dim.worldSphere.center.z;
         func_80033260(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
 
-        if (this->colliderBody.base.atFlags & 2) {
+        if (this->colliderBody.base.atFlags & AT_HIT) {
             Player* player = PLAYER;
 
             if (this->colliderBody.base.at == &player->actor) {
@@ -626,11 +626,11 @@ void EnDodongo_Stunned(EnDodongo* this, GlobalContext* globalCtx) {
 }
 
 void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
-    if (this->colliderHard.base.acFlags & 0x80) {
-        this->colliderHard.base.acFlags &= ~0x80;
-        this->colliderBody.base.acFlags &= ~2;
-    } else if ((this->colliderBody.base.acFlags & 2) && (this->actionState > DODONGO_DEATH)) {
-        this->colliderBody.base.acFlags &= ~2;
+    if (this->colliderHard.base.acFlags & AC_BOUNCED) {
+        this->colliderHard.base.acFlags &= ~AC_BOUNCED;
+        this->colliderBody.base.acFlags &= ~AC_HIT;
+    } else if ((this->colliderBody.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
+        this->colliderBody.base.acFlags &= ~AC_HIT;
         func_8003573C(&this->actor, &this->colliderBody, 0);
         if (this->actor.colChkInfo.damageEffect != 0xE) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
@@ -674,7 +674,7 @@ void EnDodongo_UpdateQuad(EnDodongo* this, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&sp70, &this->colliderAT.dim.quad[c]);
 
     Collider_SetQuadVertices(&this->colliderAT, &this->colliderAT.dim.quad[a], &this->colliderAT.dim.quad[b],
-                  &this->colliderAT.dim.quad[c], &this->colliderAT.dim.quad[d]);
+                             &this->colliderAT.dim.quad[c], &this->colliderAT.dim.quad[d]);
 }
 
 void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {

@@ -156,8 +156,8 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     this->actionTimer = 200;
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.flags &= ~0x00010001;
-    this->collider.base.acFlags &= ~1;
-    this->collider.base.ocFlags = 0x39;
+    this->collider.base.acFlags &= ~AC_ON;
+    this->collider.base.ocFlags = OC_ON | OC_ALL;
     this->actor.colChkInfo.health = D_80AD70D8.health;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -199,7 +199,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06000924);
-    this->collider.base.acFlags |= 1;
+    this->collider.base.acFlags |= AC_ON;
     this->scaleModifier = this->actor.xzDistFromLink;
     Math_Vec3f_Copy(&this->actor.initPosRot.pos, &player->actor.posRot.pos);
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
@@ -213,7 +213,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
 
 void EnPoField_SetupFlee(EnPoField* this) {
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06000608, -5.0f);
-    this->collider.base.acFlags |= 1;
+    this->collider.base.acFlags |= AC_ON;
     this->actionFunc = EnPoField_Flee;
     this->actor.speedXZ = 12.0f;
     if (this->actionFunc != EnPoField_Damage) {
@@ -301,7 +301,7 @@ void func_80AD4384(EnPoField* this) {
     this->collider.dim.pos.x = this->actor.posRot.pos.x;
     this->collider.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     this->collider.dim.pos.z = this->actor.posRot.pos.z;
-    this->collider.base.ocFlags = 9;
+    this->collider.base.ocFlags = OC_ON | OC_PLAYER;
     this->actor.textId = 0x5005;
     this->actionTimer = 400;
     this->unk_194 = 32;
@@ -623,7 +623,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupSoulDisappear(this);
         return;
     }
-    if (this->collider.base.ocFlags & 2) {
+    if (this->collider.base.ocFlags & OC_HIT) {
         this->actor.flags |= 0x10000;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
@@ -689,8 +689,8 @@ void EnPoField_SoulInteract(EnPoField* this, GlobalContext* globalCtx) {
 }
 
 void EnPoField_TestForDamage(EnPoField* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 func_80032C7C(globalCtx, &this->actor);
@@ -718,8 +718,8 @@ void EnPoField_UpdateFlame(EnPoField* this, GlobalContext* globalCtx) {
         if (this->flameTimer != 0) {
             this->flameTimer--;
         }
-        if (this->flameCollider.base.atFlags & 2) {
-            this->flameCollider.base.atFlags &= ~2;
+        if (this->flameCollider.base.atFlags & AT_HIT) {
+            this->flameCollider.base.atFlags &= ~AT_HIT;
             this->flameTimer = 19;
         }
         if (this->flameTimer < 20) {

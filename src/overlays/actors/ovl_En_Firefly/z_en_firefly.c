@@ -136,10 +136,10 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->actor.params == KEESE_ICE_FLY) {
             this->collider.elements[0].info.toucher.effect = 2; // Ice
-            this->actor.naviEnemyId = 0x56;               // Ice Keese
+            this->actor.naviEnemyId = 0x56;                     // Ice Keese
         } else {
             this->collider.elements[0].info.toucher.effect = 0; // Nothing
-            this->actor.naviEnemyId = 0x12;               // Keese
+            this->actor.naviEnemyId = 0x12;                     // Keese
         }
 
         this->maxAltitude = this->actor.initPosRot.pos.y + 100.0f;
@@ -577,8 +577,8 @@ void EnFirefly_Combust(EnFirefly* this, GlobalContext* globalCtx) {
 void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
     u8 damageEffect;
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_80035650(&this->actor, &this->collider.elements[0].info, 1);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
@@ -625,8 +625,8 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnFirefly* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_ATTACK);
         if (this->onFire) {
             EnFirefly_Extinguish(this);

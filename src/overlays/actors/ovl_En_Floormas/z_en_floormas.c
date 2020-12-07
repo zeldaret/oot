@@ -211,8 +211,8 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (rotDelta > 0) {
         SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06002158, -3.0f);
     } else {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06002158, -1.0f, SkelAnime_GetFrameCount(&D_06002158.genericHeader), 0.0f, 2,
-                             -3.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06002158, -1.0f, SkelAnime_GetFrameCount(&D_06002158.genericHeader),
+                             0.0f, 2, -3.0f);
     }
 
     if (this->actor.scale.x > 0.004f) {
@@ -225,7 +225,8 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
 }
 
 void EnFloormas_SetupHover(EnFloormas* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009520, 3.0f, 0, SkelAnime_GetFrameCount(&D_06009520.genericHeader), 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06009520, 3.0f, 0, SkelAnime_GetFrameCount(&D_06009520.genericHeader), 2,
+                         -3.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     EnFloormas_MakeInvulnerable(this);
@@ -264,7 +265,8 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     this->actor.shape.rot.y = this->actor.parent->shape.rot.y + 0x5555;
     this->actor.posRot.pos = this->actor.parent->posRot.pos;
     this->actor.params = 0x10;
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.0f, 41.0f, SkelAnime_GetFrameCount(&D_060019CC.genericHeader),
+                         2, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
     this->collider.info.bumperFlags &= ~BUMP_HOOKABLE;
@@ -766,8 +768,8 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
 
     // let go
     if (!(player->stateFlags2 & 0x80) || (player->invincibilityTimer < 0)) {
-        parent = (EnFloormas*) this->actor.parent;
-        child = (EnFloormas*) this->actor.child;
+        parent = (EnFloormas*)this->actor.parent;
+        child = (EnFloormas*)this->actor.child;
 
         if (((parent->actionFunc == EnFloormas_GrabLink) || parent->actionFunc == EnFloormas_SmWait) &&
             (child->actionFunc == EnFloormas_GrabLink || child->actionFunc == EnFloormas_SmWait)) {
@@ -845,8 +847,8 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
 
     DECR(this->smActionTimer);
 
-    parent = (EnFloormas*) this->actor.parent;
-    child = (EnFloormas*) this->actor.child;
+    parent = (EnFloormas*)this->actor.parent;
+    child = (EnFloormas*)this->actor.child;
 
     if (this->smActionTimer == 0) {
         if (parent->actionFunc != EnFloormas_SmWait) {
@@ -1089,7 +1091,7 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     POLY_OPA_DISP =
         SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                          EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_OPA_DISP);
+                           EnFloormas_OverrideLimbDraw, EnFloormas_PostLimbDraw, this, POLY_OPA_DISP);
     if (this->collider.base.colType == COLTYPE_HARD) {
         func_80026608(globalCtx);
     }

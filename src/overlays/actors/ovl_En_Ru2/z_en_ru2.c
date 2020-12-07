@@ -102,7 +102,7 @@ void func_80AF2550(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[5];
 
-    Collider_UpdateCylinder(&this->actor,  &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 

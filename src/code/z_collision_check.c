@@ -978,12 +978,12 @@ void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext
 
 // Enables SAC, an alternate collision check mode that allows direct management of collider lists. Unused.
 void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    colChkCtx->sacFlags |= 1;
+    colChkCtx->sacFlags |= AC_ON;
 }
 
 // Disables SAC, an alternate collision check mode that allows direct management of collider lists. Unused.
 void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    colChkCtx->sacFlags &= ~1;
+    colChkCtx->sacFlags &= ~AC_ON;
 }
 
 // Draws a collider of any shape

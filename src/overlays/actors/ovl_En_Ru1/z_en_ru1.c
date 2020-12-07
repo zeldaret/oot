@@ -307,7 +307,7 @@ BgBdanObjects* func_80AEB088(GlobalContext* globalCtx) {
 
     while (actorIt != NULL) {
         if (actorIt->id == ACTOR_BG_BDAN_OBJECTS && actorIt->params == 0) {
-            return (BgBdanObjects*) actorIt;
+            return (BgBdanObjects*)actorIt;
         }
         actorIt = actorIt->next;
     }
@@ -1015,8 +1015,8 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnX = ((kREG(1) + 12.0f) * Math_Sins(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_Coss(yawTowardsLink)) + pos->z;
-    this->unk_278 = (DoorWarp1*) Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                       0, yawTowardsLink, 0, 5);
+    this->unk_278 = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX,
+                                                   spawnY, spawnZ, 0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1568,7 +1568,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = (BgBdanObjects*) dynaActor;
+            this->unk_28C = (BgBdanObjects*)dynaActor;
             this->actor.shape.unk_14 = 0;
             return 1;
         }

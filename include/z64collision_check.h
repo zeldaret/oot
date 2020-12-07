@@ -255,6 +255,11 @@ typedef enum ColliderShape {
     COLSHAPE_INVALID
 } ColliderShape;
 
+/* Affects the sound Link's sword makes when hitting it, hookability,
+ * and possibly other things. It's definitely not flags, as all checks
+ * are == or !=. Will probably need more actors decomped to truly 
+ * understand what this is.
+ */
 typedef enum ElementType {
     ELEMTYPE_UNK0,
     ELEMTYPE_UNK1,
@@ -266,11 +271,6 @@ typedef enum ElementType {
     ELEMTYPE_UNK7
 } ElementType;
 
-/* Affects the sound Link's sword makes when hitting it, hookability,
- * and possibly other things. It's definitely not flags, as all checks
- * are == or !=. Will probably need more actors decomped to truly 
- * understand what this is.
- */
 
 #define AT_OFF 0 // Cannot have AT collisions when set as AT
 #define AT_ON (1 << 0) // Can have AT collisions when set as AT

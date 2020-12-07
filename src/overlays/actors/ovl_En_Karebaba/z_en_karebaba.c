@@ -109,7 +109,7 @@ void EnKarebaba_ResetCollider(EnKarebaba* this) {
     this->bodyCollider.dim.radius = 7;
     this->bodyCollider.dim.height = 25;
     this->bodyCollider.base.colType = COLTYPE_HARD;
-    this->bodyCollider.base.acFlags |= 4;
+    this->bodyCollider.base.acFlags |= AC_HARD;
     this->bodyCollider.info.bumper.dFlags = ~0x00300000;
     this->headCollider.dim.height = 25;
 }
@@ -138,7 +138,7 @@ void EnKarebaba_SetupUpright(EnKarebaba* this) {
     if (this->actionFunc != EnKarebaba_Spin) {
         Actor_SetScale(&this->actor, 0.01f);
         this->bodyCollider.base.colType = COLTYPE_HIT6;
-        this->bodyCollider.base.acFlags &= ~0x0004;
+        this->bodyCollider.base.acFlags &= ~AC_HARD;
         this->bodyCollider.info.bumper.dFlags = gSaveContext.linkAge != 0 ? 0x07C00710 : 0x0FC00710;
         this->bodyCollider.dim.radius = 15;
         this->bodyCollider.dim.height = 80;
@@ -245,7 +245,7 @@ void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_MOUTH);
     }
 
-    if (this->bodyCollider.base.acFlags & 2) {
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
     } else if (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) > 240.0f) {
@@ -288,7 +288,7 @@ void EnKarebaba_Spin(EnKarebaba* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.x = (Math_Sins(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.x;
     this->actor.posRot.pos.z = (Math_Coss(this->actor.shape.rot.y) * cos60) + this->actor.initPosRot.pos.z;
 
-    if (this->bodyCollider.base.acFlags & 2) {
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
         EnKarebaba_SetupDying(this);
         func_80032C7C(globalCtx, &this->actor);
     } else if (this->actor.params == 0) {

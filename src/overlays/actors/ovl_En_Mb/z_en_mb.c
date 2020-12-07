@@ -81,7 +81,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
           { 0x00000000, 0x00, 0x00 },
           { 0xFFCFFFFF, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_ON |  BUMP_HOOKABLE  | BUMP_NO_AT_INFO,
+          BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
           OCELEM_OFF },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
@@ -90,14 +90,14 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
           { 0x00000000, 0x00, 0x00 },
           { 0xFFCFFFFF, 0x00, 0x00 },
           TOUCH_OFF,
-          BUMP_ON |  BUMP_HOOKABLE  | BUMP_NO_AT_INFO,
+          BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
           OCELEM_OFF },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_METAL, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_METAL, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     2,
     sTrisElementsInit,
 };
@@ -694,8 +694,8 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, sp4C[this->attackParams - 1] + this->actor.posRot.rot.y, 1, 0x2EE,
                             0);
 
-    if (this->collider2.base.atFlags & 2) {
-        this->collider2.base.atFlags &= ~2;
+    if (this->collider2.base.atFlags & AT_HIT) {
+        this->collider2.base.atFlags &= ~AT_HIT;
         if (this->collider2.base.at == &player->actor) {
             u8 oldInvincibilityTimer = player->invincibilityTimer;
 
@@ -770,7 +770,7 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (this->collider2.base.atFlags & 2) {
+    if (this->collider2.base.atFlags & AT_HIT) {
         if (this->collider2.base.at == &player->actor) {
             if ((sp48 == 0) && !(player->stateFlags2 & 0x80)) {
                 if (player->invincibilityTimer < 0) {
@@ -781,7 +781,7 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
                         globalCtx->damagePlayer(globalCtx, -8);
                     }
                 }
-                if (!(this->collider2.base.atFlags & 4)) {
+                if (!(this->collider2.base.atFlags & AT_BOUNCED)) {
                     Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
                 }
                 if (globalCtx->grabPlayer(globalCtx, player) != 0) {
@@ -790,7 +790,7 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
             }
             sp4C = 1;
         } else {
-            this->collider2.base.atFlags &= ~2;
+            this->collider2.base.atFlags &= ~AT_HIT;
         }
     }
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
@@ -805,7 +805,7 @@ void func_80AA7CAC(EnMb* this, GlobalContext* globalCtx) {
     }
     if (sp48 != 0) {
         if ((sp4C != 0) || (player->stateFlags2 & 0x80)) {
-            this->collider2.base.atFlags &= ~2;
+            this->collider2.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & 0x80) {
                 player->stateFlags2 &= ~0x80;
                 player->actor.parent = NULL;
@@ -836,7 +836,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_DASH);
         }
     }
-    if (this->collider2.base.atFlags & 2) {
+    if (this->collider2.base.atFlags & AT_HIT) {
         if (this->collider2.base.at == &player->actor) {
             if ((sp50 == 0) && !(player->stateFlags2 & 0x80)) {
                 if (player->invincibilityTimer < 0) {
@@ -847,7 +847,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
                         globalCtx->damagePlayer(globalCtx, -8);
                     }
                 }
-                if (!(this->collider2.base.atFlags & 4)) {
+                if (!(this->collider2.base.atFlags & AT_BOUNCED)) {
                     Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
                 }
                 if (globalCtx->grabPlayer(globalCtx, player) != 0) {
@@ -856,7 +856,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
             }
             sp54 = 1;
         } else {
-            this->collider2.base.atFlags &= ~2;
+            this->collider2.base.atFlags &= ~AT_HIT;
         }
     }
     if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
@@ -871,7 +871,7 @@ void func_80AA800C(EnMb* this, GlobalContext* globalCtx) {
     }
     if (sp50 != 0) {
         if ((sp54 != 0) || (player->stateFlags2 & 0x80)) {
-            this->collider2.base.atFlags &= ~2;
+            this->collider2.base.atFlags &= ~AT_HIT;
             if (player->stateFlags2 & 0x80) {
                 player->stateFlags2 &= ~0x80;
                 player->actor.parent = NULL;
@@ -1213,7 +1213,7 @@ void func_80AA92B8(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&D_80AA9DA8, &this->collider2.dim.quad[3]);
     Matrix_MultVec3f(&D_80AA9DB4, &this->collider2.dim.quad[2]);
     Collider_SetQuadVertices(&this->collider2, &this->collider2.dim.quad[0], &this->collider2.dim.quad[1],
-                  &this->collider2.dim.quad[2], &this->collider2.dim.quad[3]);
+                             &this->collider2.dim.quad[2], &this->collider2.dim.quad[3]);
 }
 
 void func_80AA9440(Actor* thisx, GlobalContext* globalCtx) {
@@ -1228,19 +1228,19 @@ void func_80AA9440(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&D_80AA9DD8, &this->collider2.dim.quad[3]);
     Matrix_MultVec3f(&D_80AA9DE4, &this->collider2.dim.quad[2]);
     Collider_SetQuadVertices(&this->collider2, &this->collider2.dim.quad[0], &this->collider2.dim.quad[1],
-                  &this->collider2.dim.quad[2], &this->collider2.dim.quad[3]);
+                             &this->collider2.dim.quad[2], &this->collider2.dim.quad[3]);
 }
 
 void func_80AA94D8(EnMb* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->collider3.base.acFlags & 2) {
-        this->collider3.base.acFlags &= ~0x82;
-        this->collider1.base.acFlags &= ~2;
+    if (this->collider3.base.acFlags & AC_HIT) {
+        this->collider3.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+        this->collider1.base.acFlags &= ~AC_HIT;
         return;
     }
-    if ((this->collider1.base.acFlags & 2) && (this->unk_320 >= 5)) {
-        this->collider1.base.acFlags &= ~2;
+    if ((this->collider1.base.acFlags & AC_HIT) && (this->unk_320 >= 5)) {
+        this->collider1.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 5)) {
             if ((player->stateFlags2 & 0x80) && &this->actor == player->actor.parent) {
                 player->stateFlags2 &= ~0x80;

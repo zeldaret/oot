@@ -113,7 +113,7 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_METAL, AT_OFF, AC_ON |  AC_HARD  | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
+    { COLTYPE_METAL, AT_OFF, AC_ON | AC_HARD | AC_PLAYER, OC_OFF, OT_NONE, COLSHAPE_TRIS },
     2,
     sTrisElementsInit,
 };
@@ -123,7 +123,7 @@ static ColliderQuadInit sQuadInit = {
     { ELEMTYPE_UNK0,
       { 0x20000000, 0x00, 0x40 },
       { 0x00000000, 0x00, 0x00 },
-      TOUCH_ON |  TOUCH_SFX_NORMAL  | TOUCH_UNK7,
+      TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
       BUMP_OFF,
       OCELEM_OFF },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -634,7 +634,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
 
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
         return;
-    } 
+    }
     if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
         temp_f0 = SkelAnime_GetFrameCount(&D_0600485C) - 2.0f;
         if (this->skelAnime.animCurrentFrame < temp_f0) {
@@ -842,7 +842,7 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&D_80A7847C[2], &this->axeCollider.dim.quad[3]);
         Matrix_MultVec3f(&D_80A7847C[3], &this->axeCollider.dim.quad[2]);
         Collider_SetQuadVertices(&this->axeCollider, &this->axeCollider.dim.quad[0], &this->axeCollider.dim.quad[1],
-                      &this->axeCollider.dim.quad[2], &this->axeCollider.dim.quad[3]);
+                                 &this->axeCollider.dim.quad[2], &this->axeCollider.dim.quad[3]);
         Matrix_MultVec3f(&D_80A7847C[0], &spF4);
         Matrix_MultVec3f(&D_80A7847C[1], &spE8);
         if (this->unk_2FE > 0) {

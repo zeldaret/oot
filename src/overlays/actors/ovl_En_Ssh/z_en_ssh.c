@@ -67,7 +67,7 @@ const ActorInit En_Ssh_InitVars = {
     (ActorFunc)EnSsh_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit1 =  {
+static ColliderCylinderInit sCylinderInit1 = {
     { COLTYPE_HIT6, AT_OFF, AC_ON | AC_PLAYER, OC_OFF, OT_TYPE1, COLSHAPE_CYLINDER },
     { ELEMTYPE_UNK0,
       { 0x00000000, 0x00, 0x00 },
@@ -195,9 +195,9 @@ void EnSsh_InitColliders(EnSsh* this, GlobalContext* globalCtx) {
 
     this->colCylinder[0].info.bumper.dFlags = 0x0003F8E9;
     this->colCylinder[1].info.bumper.dFlags = 0xFFC00716;
-    this->colCylinder[2].base.colType = 9;
-    this->colCylinder[2].info.bumperFlags = 0xD;
-    this->colCylinder[2].info.elemType = 2;
+    this->colCylinder[2].base.colType = COLTYPE_METAL;
+    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
+    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
     this->colCylinder[2].info.bumper.dFlags = 0xFFCC0716;
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
@@ -445,8 +445,8 @@ s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
         return false;
     }
     for (i = 0; i < 3; i++) {
-        if (this->colCylinder[i + 3].base.ocType & 1) {
-            this->colCylinder[i + 3].base.ocType &= ~1;
+        if (this->colCylinder[i + 3].base.ocType & OT_HIT_PLAYER) {
+            this->colCylinder[i + 3].base.ocType &= ~OT_HIT_PLAYER;
             hit = true;
         }
     }
@@ -471,10 +471,10 @@ s32 EnSsh_CheckHitFront(EnSsh* this) {
     if (this->colCylinder[2].base.acFlags) {} // Needed for matching
     acFlags = this->colCylinder[2].base.acFlags;
 
-    if (!!(acFlags & 2) == 0) {
+    if (!!(acFlags & AC_HIT) == 0) {
         return 0;
     } else {
-        this->colCylinder[2].base.acFlags &= ~2;
+        this->colCylinder[2].base.acFlags &= ~AC_HIT;
         this->invincibilityTimer = 8;
         if ((this->swayTimer == 0) && (this->hitTimer == 0) && (this->stunTimer == 0)) {
             this->swayTimer = 60;
@@ -487,13 +487,13 @@ s32 EnSsh_CheckHitBack(EnSsh* this, GlobalContext* globalCtx) {
     ColliderCylinder* cyl = &this->colCylinder[0];
     s32 hit = false;
 
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     cyl = &this->colCylinder[1];
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     if (!hit) {
