@@ -1878,7 +1878,7 @@ glabel L808DAB60
 /* 04450 808DACC0 8FA400B4 */  lw      $a0, 0x00B4($sp)
 /* 04454 808DACC4 46083280 */  add.s   $f10, $f6, $f8
 /* 04458 808DACC8 E7AA0068 */  swc1    $f10, 0x0068($sp)
-/* 0445C 808DACCC 0C030136 */  jal     func_800C04D8
+/* 0445C 808DACCC 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 04460 808DACD0 8605067A */  lh      $a1, 0x067A($s0)           ## 0000067A
 /* 04464 808DACD4 8FBF003C */  lw      $ra, 0x003C($sp)
 .L808DACD8:

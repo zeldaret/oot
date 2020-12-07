@@ -952,7 +952,7 @@ f32 Actor_HeightDiff(Actor* actorA, Actor* actorB) {
     return actorB->posRot.pos.y - actorA->posRot.pos.y;
 }
 
-f32 Player_GetCameraYOffset(Player* player) {
+f32 Player_GetHeight(Player* player) {
     f32 offset = (player->stateFlags1 & 0x800000) ? 32.0f : 0.0f;
 
     if (LINK_IS_ADULT) {
@@ -1012,7 +1012,7 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     if ((globalCtx->roomCtx.curRoom.unk_03 != 4) && func_800C0CB8(globalCtx)) {
-        func_8005A77C(Gameplay_GetCamera(globalCtx, 0), 6);
+        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_HORSE0);
     }
 }
 
@@ -1206,7 +1206,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
     u32 sp60;
     CollisionPoly* sp5C;
     f32 sp58;
-    UNK_TYPE sp54;
+    WaterBox* sp54;
     f32 sp50;
     Vec3f ripplePos;
 
@@ -2166,10 +2166,10 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     if (actor->flags & 0x1000) {
-        func_800D1694(actor->posRot.pos.x + globalCtx->mainCamera.unk_80.x,
+        func_800D1694(actor->posRot.pos.x + globalCtx->mainCamera.skyboxOffset.x,
                       actor->posRot.pos.y +
-                          (f32)((actor->shape.unk_08 * actor->scale.y) + globalCtx->mainCamera.unk_80.y),
-                      actor->posRot.pos.z + globalCtx->mainCamera.unk_80.z, &actor->shape.rot);
+                          (f32)((actor->shape.unk_08 * actor->scale.y) + globalCtx->mainCamera.skyboxOffset.y),
+                      actor->posRot.pos.z + globalCtx->mainCamera.skyboxOffset.z, &actor->shape.rot);
     } else {
         func_800D1694(actor->posRot.pos.x, actor->posRot.pos.y + (actor->shape.unk_08 * actor->scale.y),
                       actor->posRot.pos.z, &actor->shape.rot);
@@ -2846,7 +2846,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
-        func_8005A444(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
+        Camera_ChangeMode(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
     }
 
     if (actor == actorCtx->targetCtx.arrowPointedActor) {
@@ -3831,7 +3831,7 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     Player* player = PLAYER;
     f32 var;
 
-    if ((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) {
+    if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
         var = Math_Vec3f_DistXYZ(&actor->posRot.pos, &globalCtx->view.eye) * 0.25f;
     } else {
         var = Math_Vec3f_DistXYZ(&actor->posRot.pos, &player->actor.posRot.pos);
@@ -5474,7 +5474,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->posRot2.pos = actor->posRot.pos;
     actor->posRot2.pos.y += arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsLink - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5483,7 +5483,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp2C = globalCtx->view.eye;
     } else {
         sp2C = player->actor.posRot2.pos;
@@ -5503,7 +5503,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     actor->posRot2.pos = arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsLink - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5512,7 +5512,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp24 = globalCtx->view.eye;
     } else {
         sp24 = player->actor.posRot2.pos;

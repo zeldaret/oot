@@ -291,7 +291,6 @@ beginseg
     include "build/src/code/code_800430A0.o"
     include "build/src/code/code_80043480.o"
     include "build/src/code/z_camera.o"
-    include "build/data/z_camera.bss.o"
     include "build/src/code/z_collision_btltbls.o"
     include "build/src/code/z_collision_check.o"
     include "build/src/code/z_common_data.o"
@@ -365,7 +364,6 @@ beginseg
     include "build/src/code/z_fbdemo_fade.o"
     include "build/src/code/shrink_window.o"
     include "build/src/code/db_camera.o"
-    include "build/data/db_camera.rodata.o"
     include "build/data/db_camera.data.o"
     include "build/data/db_camera.bss.o"
     include "build/src/code/code_800BB0A0.o"
@@ -650,8 +648,7 @@ endseg
 beginseg
     name "ovl_Bg_Bowl_Wall"
     include "build/src/overlays/actors/ovl_Bg_Bowl_Wall/z_bg_bowl_wall.o"
-    include "build/data/overlays/actors/z_bg_bowl_wall.data.o"
-    include "build/data/overlays/actors/z_bg_bowl_wall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Bowl_Wall/ovl_Bg_Bowl_Wall_reloc.o"
 endseg
 
 beginseg
@@ -1503,8 +1500,7 @@ endseg
 beginseg
     name "ovl_Demo_Ec"
     include "build/src/overlays/actors/ovl_Demo_Ec/z_demo_ec.o"
-    include "build/data/overlays/actors/z_demo_ec.data.o"
-    include "build/data/overlays/actors/z_demo_ec.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Ec/ovl_Demo_Ec_reloc.o"
 endseg
 
 beginseg
@@ -1543,8 +1539,7 @@ endseg
 beginseg
     name "ovl_Demo_Gt"
     include "build/src/overlays/actors/ovl_Demo_Gt/z_demo_gt.o"
-    include "build/data/overlays/actors/z_demo_gt.data.o"
-    include "build/data/overlays/actors/z_demo_gt.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Gt/ovl_Demo_Gt_reloc.o"
 endseg
 
 beginseg
@@ -1983,15 +1978,13 @@ endseg
 beginseg
     name "ovl_En_Bom_Bowl_Man"
     include "build/src/overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_man.data.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_man.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bom_Bowl_Man/ovl_En_Bom_Bowl_Man_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Bom_Bowl_Pit"
     include "build/src/overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_pit.data.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_pit.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bom_Bowl_Pit/ovl_En_Bom_Bowl_Pit_reloc.o"
 endseg
 
 beginseg
@@ -2055,8 +2048,7 @@ endseg
 beginseg
     name "ovl_En_Changer"
     include "build/src/overlays/actors/ovl_En_Changer/z_en_changer.o"
-    include "build/data/overlays/actors/z_en_changer.data.o"
-    include "build/data/overlays/actors/z_en_changer.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Changer/ovl_En_Changer_reloc.o"
 endseg
 
 beginseg
@@ -2173,8 +2165,7 @@ endseg
 beginseg
     name "ovl_En_Dodongo"
     include "build/src/overlays/actors/ovl_En_Dodongo/z_en_dodongo.o"
-    include "build/data/overlays/actors/z_en_dodongo.data.o"
-    include "build/data/overlays/actors/z_en_dodongo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dodongo/ovl_En_Dodongo_reloc.o"
 endseg
 
 beginseg
@@ -2286,8 +2277,7 @@ endseg
 beginseg
     name "ovl_En_Firefly"
     include "build/src/overlays/actors/ovl_En_Firefly/z_en_firefly.o"
-    include "build/data/overlays/actors/z_en_firefly.data.o"
-    include "build/data/overlays/actors/z_en_firefly.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Firefly/ovl_En_Firefly_reloc.o"
 endseg
 
 beginseg
@@ -2646,8 +2636,7 @@ endseg
 beginseg
     name "ovl_En_Kusa"
     include "build/src/overlays/actors/ovl_En_Kusa/z_en_kusa.o"
-    include "build/data/overlays/actors/z_en_kusa.data.o"
-    include "build/data/overlays/actors/z_en_kusa.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Kusa/ovl_En_Kusa_reloc.o"
 endseg
 
 beginseg
@@ -2849,37 +2838,35 @@ endseg
 beginseg
     name "ovl_En_Po_Desert"
     include "build/src/overlays/actors/ovl_En_Po_Desert/z_en_po_desert.o"
-    include "build/data/overlays/actors/z_en_po_desert.data.o"
-    include "build/data/overlays/actors/z_en_po_desert.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Po_Desert/ovl_En_Po_Desert_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Po_Field"
     include "build/src/overlays/actors/ovl_En_Po_Field/z_en_po_field.o"
-    include "build/data/overlays/actors/z_en_po_field.data.o"
-    include "build/data/overlays/actors/z_en_po_field.bss.o"
-    include "build/data/overlays/actors/z_en_po_field.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Po_Field/ovl_En_Po_Field_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Po_Relay"
     include "build/src/overlays/actors/ovl_En_Po_Relay/z_en_po_relay.o"
-    include "build/data/overlays/actors/z_en_po_relay.data.o"
-    include "build/data/overlays/actors/z_en_po_relay.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Po_Relay/ovl_En_Po_Relay_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Po_Sisters"
     include "build/src/overlays/actors/ovl_En_Po_Sisters/z_en_po_sisters.o"
-    include "build/data/overlays/actors/z_en_po_sisters.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Po_Sisters/ovl_En_Po_Sisters_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_po_sisters.reloc.o"
+#endif
 endseg
 
 beginseg
     name "ovl_En_Poh"
     include "build/src/overlays/actors/ovl_En_Poh/z_en_poh.o"
-    include "build/data/overlays/actors/z_en_poh.data.o"
-    include "build/data/overlays/actors/z_en_poh.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Poh/ovl_En_Poh_reloc.o"
 endseg
 
 beginseg
@@ -3181,8 +3168,7 @@ endseg
 beginseg
     name "ovl_En_Wall_Tubo"
     include "build/src/overlays/actors/ovl_En_Wall_Tubo/z_en_wall_tubo.o"
-    include "build/data/overlays/actors/z_en_wall_tubo.data.o"
-    include "build/data/overlays/actors/z_en_wall_tubo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wall_Tubo/ovl_En_Wall_Tubo_reloc.o"
 endseg
 
 beginseg

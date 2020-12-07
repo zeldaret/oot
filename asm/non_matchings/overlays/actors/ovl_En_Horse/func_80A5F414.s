@@ -49,7 +49,7 @@ glabel func_80A5F414
 /* 041DC 80A5F4CC 8F240790 */  lw      $a0, 0x0790($t9)           ## 00000790
 /* 041E0 80A5F4D0 8FA8003C */  lw      $t0, 0x003C($sp)
 /* 041E4 80A5F4D4 24050038 */  addiu   $a1, $zero, 0x0038         ## $a1 = 00000038
-/* 041E8 80A5F4D8 0C0169DF */  jal     func_8005A77C
+/* 041E8 80A5F4D8 0C0169DF */  jal     Camera_ChangeSetting
 /* 041EC 80A5F4DC 8D040790 */  lw      $a0, 0x0790($t0)           ## 00000790
 /* 041F0 80A5F4E0 8FA9003C */  lw      $t1, 0x003C($sp)
 /* 041F4 80A5F4E4 240A0051 */  addiu   $t2, $zero, 0x0051         ## $t2 = 00000051

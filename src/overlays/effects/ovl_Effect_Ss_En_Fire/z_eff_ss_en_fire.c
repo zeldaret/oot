@@ -75,7 +75,7 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_en_fire.c", 169);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
-    camYaw = (func_8005A9F4(ACTIVE_CAM) + 0x8000);
+    camYaw = (Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000);
     Matrix_RotateY(camYaw * 0.0000958738f, MTXMODE_APPLY);
 
     scale = Math_Sins(this->life * 0x333) * (this->rScale * 0.00005f);

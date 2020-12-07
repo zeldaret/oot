@@ -256,7 +256,7 @@ glabel EnBb_Draw
 /* 035EC 809BB8CC 845807A0 */  lh      $t8, 0x07A0($v0)           ## 000007A0
 /* 035F0 809BB8D0 00186880 */  sll     $t5, $t8,  2               
 /* 035F4 809BB8D4 004D7821 */  addu    $t7, $v0, $t5              
-/* 035F8 809BB8D8 0C016A7D */  jal     func_8005A9F4              
+/* 035F8 809BB8D8 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 035FC 809BB8DC 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 03600 809BB8E0 860C00B6 */  lh      $t4, 0x00B6($s0)           ## 000000B6
 /* 03604 809BB8E4 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000

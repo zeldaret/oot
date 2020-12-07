@@ -124,11 +124,11 @@ glabel func_809EE1F4
 /* 00B44 809EE3B4 46000005 */  abs.s   $f0, $f0                   
 /* 00B48 809EE3B8 E6040310 */  swc1    $f4, 0x0310($s0)           ## 00000310
 /* 00B4C 809EE3BC 46020282 */  mul.s   $f10, $f0, $f2             
-/* 00B50 809EE3C0 0C030136 */  jal     func_800C04D8              
+/* 00B50 809EE3C0 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 00B54 809EE3C4 E60A0314 */  swc1    $f10, 0x0314($s0)          ## 00000314
 /* 00B58 809EE3C8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B5C 809EE3CC 860502A0 */  lh      $a1, 0x02A0($s0)           ## 000002A0
-/* 00B60 809EE3D0 0C0301C1 */  jal     func_800C0704              
+/* 00B60 809EE3D0 0C0301C1 */  jal     Gameplay_CameraSetFov              
 /* 00B64 809EE3D4 8E2602DC */  lw      $a2, 0x02DC($s1)           ## 000002DC
 /* 00B68 809EE3D8 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00
 /* 00B6C 809EE3DC 3C08809F */  lui     $t0, %hi(func_809EE408)    ## $t0 = 809F0000

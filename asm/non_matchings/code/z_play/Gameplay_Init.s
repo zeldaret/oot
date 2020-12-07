@@ -86,7 +86,7 @@ glabel Gameplay_Init
 /* B33CB8 800BCB18 AFA60034 */  sw    $a2, 0x34($sp)
 /* B33CBC 800BCB1C AFA40038 */  sw    $a0, 0x38($sp)
 /* B33CC0 800BCB20 8FA5003C */  lw    $a1, 0x3c($sp)
-/* B33CC4 800BCB24 0C015F1B */  jal   func_80057C6C
+/* B33CC4 800BCB24 0C015F1B */  jal   Camera_Init
 /* B33CC8 800BCB28 02203825 */   move  $a3, $s1
 /* B33CCC 800BCB2C 8FA40038 */  lw    $a0, 0x38($sp)
 /* B33CD0 800BCB30 0C0160D5 */  jal   Camera_ChangeStatus
@@ -98,7 +98,7 @@ glabel Gameplay_Init
 /* B33CE4 800BCB44 8FA5003C */  lw    $a1, 0x3c($sp)
 /* B33CE8 800BCB48 8FA60034 */  lw    $a2, 0x34($sp)
 /* B33CEC 800BCB4C 02203825 */  move  $a3, $s1
-/* B33CF0 800BCB50 0C015F1B */  jal   func_80057C6C
+/* B33CF0 800BCB50 0C015F1B */  jal   Camera_Init
 /* B33CF4 800BCB54 AFA80044 */   sw    $t0, 0x44($sp)
 /* B33CF8 800BCB58 02002025 */  move  $a0, $s0
 /* B33CFC 800BCB5C 0C0160D5 */  jal   Camera_ChangeStatus
@@ -544,10 +544,10 @@ glabel Gameplay_Init
 .L800BD1D4:
 /* B34374 800BD1D4 8E251C44 */  lw    $a1, 0x1c44($s1)
 /* B34378 800BD1D8 8FA40038 */  lw    $a0, 0x38($sp)
-/* B3437C 800BD1DC 0C016052 */  jal   func_80058148
+/* B3437C 800BD1DC 0C016052 */  jal   Camera_InitPlayerSettings
 /* B34380 800BD1E0 AFA50078 */   sw    $a1, 0x78($sp)
 /* B34384 800BD1E4 8FA40038 */  lw    $a0, 0x38($sp)
-/* B34388 800BD1E8 0C016911 */  jal   func_8005A444
+/* B34388 800BD1E8 0C016911 */  jal   Camera_ChangeMode
 /* B3438C 800BD1EC 00002825 */   move  $a1, $zero
 /* B34390 800BD1F0 8FAD0078 */  lw    $t5, 0x78($sp)
 /* B34394 800BD1F4 240100FF */  li    $at, 255
@@ -560,7 +560,7 @@ glabel Gameplay_Init
 /* B343B0 800BD210 0C00084C */  jal   osSyncPrintf
 /* B343B4 800BD214 02002825 */   move  $a1, $s0
 /* B343B8 800BD218 8FA40038 */  lw    $a0, 0x38($sp)
-/* B343BC 800BD21C 0C0169EA */  jal   func_8005A7A8
+/* B343BC 800BD21C 0C0169EA */  jal   Camera_ChangeDataIdx
 /* B343C0 800BD220 02002825 */   move  $a1, $s0
 .L800BD224:
 /* B343C4 800BD224 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016

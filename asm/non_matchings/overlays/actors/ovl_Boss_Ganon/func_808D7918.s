@@ -1640,11 +1640,11 @@ glabel L808D8ED4
 .L808D8FE4:
 /* 02774 808D8FE4 8FA40074 */  lw      $a0, 0x0074($sp)
 /* 02778 808D8FE8 8FA60048 */  lw      $a2, 0x0048($sp)
-/* 0277C 808D8FEC 0C030136 */  jal     func_800C04D8
+/* 0277C 808D8FEC 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 02780 808D8FF0 8FA70044 */  lw      $a3, 0x0044($sp)
 /* 02784 808D8FF4 8FA40074 */  lw      $a0, 0x0074($sp)
 /* 02788 808D8FF8 8605067A */  lh      $a1, 0x067A($s0)           ## 0000067A
-/* 0278C 808D8FFC 0C0301C1 */  jal     func_800C0704
+/* 0278C 808D8FFC 0C0301C1 */  jal     Gameplay_CameraSetFov
 /* 02790 808D9000 8E0606F4 */  lw      $a2, 0x06F4($s0)           ## 000006F4
 /* 02794 808D9004 8FBF003C */  lw      $ra, 0x003C($sp)
 .L808D9008:

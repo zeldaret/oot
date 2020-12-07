@@ -320,15 +320,15 @@ DynaPolyActor* func_80AEB088(GlobalContext* globalCtx) {
     return NULL;
 }
 
-void func_80AEB0EC(EnRu1* this, s32 arg1) {
+void func_80AEB0EC(EnRu1* this, s32 cameraSetting) {
     if (this->unk_28C != NULL) {
-        this->unk_28C->unk_1B8 = arg1;
+        this->unk_28C->cameraSetting = cameraSetting;
     }
 }
 
 s32 func_80AEB104(EnRu1* this) {
     if (this->unk_28C != NULL) {
-        return this->unk_28C->unk_1B8;
+        return this->unk_28C->cameraSetting;
     } else {
         return 0;
     }

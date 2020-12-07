@@ -44,7 +44,7 @@ static InitChainEntry sInitChain[] = {
 
 static UNK_PTR D_80B43F64[] = { 0x06000AF0, 0x06000000 };
 
-extern UNK_TYPE D_06000A60;
+extern Gfx D_06000A60[];
 extern Gfx D_06000970[];
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -98,7 +98,7 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
 
 void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.posRot.pos, 8.0f, 0, 1300, 300, 15, OBJECT_YUKABYUN, 10,
-                             &D_06000A60);
+                             D_06000A60);
     Actor_Kill(&this->actor);
 }
 

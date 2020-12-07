@@ -2449,7 +2449,7 @@ glabel L808FF810
 /* 02930 808FF870 E60A03B4 */  swc1    $f10, 0x03B4($s0)          ## 000003B4
 /* 02934 808FF874 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 02938 808FF878 8FA7004C */  lw      $a3, 0x004C($sp)
-/* 0293C 808FF87C 0C030179 */  jal     func_800C05E4
+/* 0293C 808FF87C 0C030179 */  jal     Gameplay_CameraSetAtEyeUp
 /* 02940 808FF880 8FA60050 */  lw      $a2, 0x0050($sp)
 /* 02944 808FF884 8FBF003C */  lw      $ra, 0x003C($sp)
 .L808FF888:
