@@ -25,12 +25,12 @@ typedef enum {
 } EnGeldBActionState;
 
 typedef enum {
-    /* 0 */ GELDB_DAMAGE_NORMAL,
-    /* 1 */ GELDB_DAMAGE_STUN,
-    /* 6 */ GELDB_DAMAGE_UNK6 = 6,
-    /* D */ GELDB_DAMAGE_UNKD = 0xD,
-    /* E */ GELDB_DAMAGE_UNKE,
-    /* F */ GELDB_DAMAGE_FREEZE
+    /* 0x0 */ GELDB_DAMAGE_NORMAL,
+    /* 0x1 */ GELDB_DAMAGE_STUN,
+    /* 0x6 */ GELDB_DAMAGE_UNK6 = 0x6,
+    /* 0xD */ GELDB_DAMAGE_UNKD = 0xD,
+    /* 0xE */ GELDB_DAMAGE_UNKE,
+    /* 0xF */ GELDB_DAMAGE_FREEZE
 } EnGeldBDamageEffects;
 
 void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx);
