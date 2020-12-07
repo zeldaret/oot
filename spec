@@ -3022,7 +3022,7 @@ endseg
 beginseg
     name "ovl_En_Syateki_Itm"
     include "build/src/overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.o"
-    include "build/data/overlays/actors/z_en_syateki_itm.data.o"
+    //include "build/data/overlays/actors/z_en_syateki_itm.data.o"
     include "build/data/overlays/actors/z_en_syateki_itm.reloc.o"
 endseg
 

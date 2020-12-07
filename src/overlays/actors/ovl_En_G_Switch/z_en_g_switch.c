@@ -37,7 +37,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 40, 0, { 0, 0, 0 } },
 };
 
-static s16 sUnused[] = { 0, 1, 2, 19, 20 };
+static s16 sUnused[] = { 0, 1, 2, 19, 20 }; // Unclear what these would have been
 
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
@@ -74,6 +74,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->rupeeCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
+                // This is the chorus of the first opening of Hokuto no Ken
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
                 Actor_Kill(&this->actor);
             } else {
@@ -100,7 +101,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case 2:
             osSyncPrintf("\n\n");
-            // Yabusame buchi without pot
+            // Horseback archery destructible pot
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
             this->actor.gravity = -3.0f;
             this->unk_158 = Math_Rand_ZeroFloat(2.99f);
@@ -115,9 +116,9 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
                 // what?
-                osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n\x1b[m\n", this->objIndex);
+                osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n"VT_RST"\n", this->objIndex);
                 // bank is funny
-                osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n\x1b[m\n", this->actor.params);
+                osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n"VT_RST"\n", this->actor.params);
             }
             this->collider.dim.radius = 24;
             this->collider.dim.height = 74;
@@ -184,21 +185,24 @@ void func_80A2248C(EnGSwitch* this, GlobalContext* globalCtx) {
 
     if (this->pitchIndex < sCollectedCount) {
         if (sCollectedCount < 5) {
-            osSyncPrintf("\x1b[32m☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n\x1b[m", this->pitchIndex);
-            func_800F4BF4(&D_801333D4, 0x28E8, rupeePitches[this->pitchIndex]);
+            // sound?
+            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->pitchIndex);
+            func_800F4BF4(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, rupeePitches[this->pitchIndex]);
             this->pitchIndex = sCollectedCount;
         }
     }
     if (sCollectedCount >= this->rupeeCount) {
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n\x1b[m", this->switchFlag);
-        osSyncPrintf("\x1b[32m☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n\x1b[m");
+        // It is now the end of the century. (A line from the second opening of Hokuto no Ken)
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
+        // Last!
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
         if ((globalCtx->sceneNum == SCENE_MEN) && (this->actor.room == 2)) {
             Flags_SetTempClear(globalCtx, this->actor.room);
         } else {
-            func_80078884(0x4802);
+            func_80078884(NA_SE_SY_CORRECT_CHIME);
             Flags_SetSwitch(globalCtx, this->switchFlag);
         }
-        func_80078884(0x4803);
+        func_80078884(NA_SE_SY_GET_RUPY);
         Actor_Kill(&this->actor);
     }
 }
@@ -210,7 +214,7 @@ void func_80A22598(EnGSwitch* this, GlobalContext* globalCtx) {
     if (this->actor.xyzDistFromLinkSq < 900.0f) {
         Rupees_ChangeBy(5);
         sCollectedCount++;
-        func_80078884(0x4803);
+        func_80078884(NA_SE_SY_GET_RUPY);
         this->actor.posRot.pos = player->actor.posRot.pos;
         this->actor.posRot.pos.y += 40.0f;
         if (gSaveContext.linkAge == 0) {
@@ -310,12 +314,13 @@ void func_80A22764(EnGSwitch *this, GlobalContext *globalCtx) {
             if (gallery->actor.update != NULL) {
                 gallery->unk_156++;
                 gallery->unk_166[this->unk_160] = 2;
-                func_80078884(0x28D3);
-                func_80078884(0x4803);
-                osSyncPrintf("\x1b[33m☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n\x1b[m", gallery->unk_156);
+                func_80078884(NA_SE_EV_HIT_SOUND);
+                func_80078884(NA_SE_SY_GET_RUPY);
+                // Yeah !
+                osSyncPrintf(VT_FGCOL(YELLOW)"☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->unk_156);
                 func_80A22250(this, globalCtx);
                 this->killTimer = 50;
-                this->noDraw = true;
+                this->broken = true;
                 this->actionFunc = func_80A22E00;
             }
         }
@@ -367,10 +372,10 @@ void func_80A22B1C(EnGSwitch* this, GlobalContext* globalCtx) {
                                  OBJECT_TSUBO, D_06001960);
         }
         func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
-        Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, 0x2887);
+        Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
         func_80A22250(this, globalCtx);
         this->killTimer = 50;
-        this->noDraw = true;
+        this->broken = true;
         this->actionFunc = func_80A22E00;
     }
 }
@@ -419,13 +424,13 @@ void func_80A22FDC(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGSwitch* this = THIS;
 
-    if (!this->noDraw) {
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 0x396);
+    if (!this->broken) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 918);
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 0x39D),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, D_060017C0);
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 0x3A0);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 928);
     }
 }
 
@@ -436,15 +441,15 @@ void func_80A230A8(Actor* thisx, GlobalContext* globalCtx) {
     EnGSwitch* this = THIS;
 
     if (1) {}
-    if (!this->noDraw) {
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 0x3B7);
+    if (!this->broken) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 951);
         func_80093D18(globalCtx->state.gfxCtx);
         func_8002EBCC(&this->actor, globalCtx, 0);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 0x3BD),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->unk_158]));
         gSPDisplayList(POLY_OPA_DISP++, D_04042440);
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 0x3C1);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
     if (this->type == 3) {
         func_80A234D4(this, globalCtx);
@@ -516,7 +521,7 @@ void func_80A234D4(EnGSwitch* this, GlobalContext* globalCtx) {
     f32 temp_f20;
     s32 pad;
 
-    OPEN_DISPS(gfxCtx, "../z_en_g_switch.c", 0x431);
+    OPEN_DISPS(gfxCtx, "../z_en_g_switch.c", 1073);
     func_80093D18(globalCtx->state.gfxCtx);
     for (i = 0; i < this->unk_15C; i++, phi_s0++) {
         if (phi_s0->unk_12 != 0) {
@@ -526,11 +531,11 @@ void func_80A234D4(EnGSwitch* this, GlobalContext* globalCtx) {
             Matrix_RotateX(phi_s0->unk_20.x, MTXMODE_APPLY);
             Matrix_RotateY(phi_s0->unk_20.y, MTXMODE_APPLY);
             Matrix_RotateZ(phi_s0->unk_20.z, MTXMODE_APPLY);
-            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 0x440),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 1088),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[phi_s0->unk_10]));
             gSPDisplayList(POLY_OPA_DISP++, D_04042440);
         }
     }
-    CLOSE_DISPS(gfxCtx, "../z_en_g_switch.c", 0x447);
+    CLOSE_DISPS(gfxCtx, "../z_en_g_switch.c", 1095);
 }

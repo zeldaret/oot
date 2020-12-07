@@ -26,7 +26,7 @@ typedef struct EnGSwitch {
     /* 0x0154 */ s16 switchFlag;
     /* 0x0156 */ s16 killTimer;
     /* 0x0158 */ s16 unk_158;
-    /* 0x015A */ s16 noDraw;
+    /* 0x015A */ s16 broken;
     /* 0x015C */ s16 unk_15C;
     /* 0x015E */ s16 objNum;
     /* 0x0160 */ s16 unk_160;
