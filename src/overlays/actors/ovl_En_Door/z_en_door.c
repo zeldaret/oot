@@ -182,15 +182,11 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Regalloc only
 void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 doorType;
     Vec3f sp2C;
-    s8 numKeys;
     s16 phi_v0;
-    s16 temp_v0;
 
     doorType = this->actor.params >> 7 & 7;
     func_8002DBD0(&this->actor, &sp2C, &player->actor.posRot.pos);
@@ -211,9 +207,10 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
             }
             if (ABS(phi_v0) < 0x3000) {
                 if (this->lockTimer != 0) {
-                    numKeys = gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex];
-                    if (numKeys <= 0) {
-                        PLAYER->naviTextId = -0x203;
+                    if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
+                        Player* player2 = PLAYER;
+
+                        player2->naviTextId = -0x203;
                         return;
                     } else {
                         player->doorTimer = 10;
@@ -228,9 +225,6 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Door/EnDoor_Idle.s")
-#endif
 
 void EnDoor_WaitForCheck(EnDoor* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {

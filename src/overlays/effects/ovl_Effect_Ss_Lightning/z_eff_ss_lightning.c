@@ -132,8 +132,8 @@ void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* thi
         pos.y = this->pos.y + (Math_Sins(this->rYaw - 0x4000) * scale);
 
         scale = Math_Coss(this->rYaw - 0x4000) * scale;
-        pos.x = this->pos.x - (Math_Coss(func_8005A948(ACTIVE_CAM)) * scale);
-        pos.z = this->pos.z + (Math_Sins(func_8005A948(ACTIVE_CAM)) * scale);
+        pos.x = this->pos.x - (Math_Coss(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
+        pos.z = this->pos.z + (Math_Sins(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
 
         EffectSsLightning_NewLightning(globalCtx, &pos, yaw, this);
 
