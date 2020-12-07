@@ -102,7 +102,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 this->unk_1D4.y = fabsf(this->unk_180.y - this->unk_1BC.y) * 0.02f;
                 this->unk_1D4.z = fabsf(this->unk_180.z - this->unk_1BC.z) * 0.02f;
 
-                func_800C04D8(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
+                Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
                 this->actor.textId = 0xF;
                 func_8010B680(globalCtx, this->actor.textId, NULL);
                 this->unk_154 = 5;
@@ -128,7 +128,7 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxF(&this->unk_18C.z, this->unk_198.z, this->unk_1A4.z, this->unk_1B0.z);
     }
 
-    func_800C04D8(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
+    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
 
     if ((this->unk_154 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);

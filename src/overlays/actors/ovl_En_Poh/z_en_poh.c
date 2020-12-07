@@ -567,12 +567,12 @@ void func_80ADF15C(EnPoh* this, GlobalContext* globalCtx) {
         if (this->unk_198 < 5) {
             vec.y = Math_Sins((this->unk_198 * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
             multiplier = Math_Coss((this->unk_198 * 0x1000) - 0x4000) * 23.0f;
-            vec.x = Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.x;
-            vec.z = Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.z;
+            vec.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.x;
+            vec.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier + this->actor.posRot.pos.z;
         } else {
             vec.y = (this->actor.posRot.pos.y + 40.0f) + (15.0f * (this->unk_198 - 5));
-            vec.x = Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
-            vec.z = Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
+            vec.x = Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.x;
+            vec.z = Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AE1B60, &D_80AE1B6C, this->unk_198 * 10 + 80, 0, 255, 255, 255, 255,
                              0, 0, 255, 1, 9, 1);
@@ -1142,7 +1142,7 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, this->info->primColor.r, this->info->primColor.g,
                         this->info->primColor.b, this->lightColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
-        Matrix_RotateY((s16)(func_8005A9F4(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
+        Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * 9.58738e-05f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2910),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, this->info->soulDisplayList);
