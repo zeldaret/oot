@@ -201,7 +201,7 @@ void EnTorch2_Backflip(Player* this, Input* input, Actor* thisx) {
 
 #ifdef NON_MATCHING
 /* Static variables are sometimes loaded from pointers and sometimes directly. While
- * neither this nor the game are consistent about it, unfortunately they're not
+ * neither this nor the original are consistent about it, unfortunately they're not
  * inconsitent in the same way. Also a small instruction mismatch in the input section
  */
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
@@ -244,7 +244,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     sStickTilt = 127.0f;
                     input->cur.button = BTN_A;
                     sZTargetFlag = false;
-                    sp66 = camera->unk_13A.y - sStickAngle;
+                    sp66 = camera->camDir.y - sStickAngle;
                     input->cur.stick_x = sStickTilt * Math_Sins(sp66);
                     temp = sStickTilt * Math_Coss(sp66);
                     input->cur.stick_y = temp;
@@ -477,7 +477,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             /*
              * Rotates Dark Link's stick angle from Link-relative to camera-relative.
              */
-            sp66 = camera->unk_13A.y - sStickAngle;
+            sp66 = camera->camDir.y - sStickAngle;
             input->cur.stick_x = Math_Sins(sp66) * sStickTilt;
             temp = Math_Coss(sp66) * sStickTilt;
             input->cur.stick_y = temp;
