@@ -17,7 +17,6 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 func_80B8E404(Vec3f* vec1, Vec3f* vec2, f32 arg2, f32 arg3, f32 arg4, s16 arg5, s16 arg6);
 
-/*
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
     ACTORTYPE_ITEMACTION,
@@ -29,56 +28,51 @@ const ActorInit Mir_Ray_InitVars = {
     (ActorFunc)MirRay_Update,
     (ActorFunc)MirRay_Draw,
 };
-*/
 
-extern u8 D_80B8E670;
-// glabel D_80B8E670
-//  .word 0x00000000
+u8 D_80B8E670 = 0;
 
-extern ColliderQuadInit D_80B8E674;
-// static ColliderQuadInit sQuadInit =
-// {
-//     { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
-//     { 0x00, { 0x00200000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
-//     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
-// };
+static ColliderQuadInit sQuadInit =
+{
+    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
+    { 0x00, { 0x00200000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
+};
 
-extern ColliderJntSphItemInit D_80B8E6C4[];
-// static ColliderJntSphItemInit sJntSphItemsInit[1] = {
-//     {
-//         { 0x00, { 0x00200000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
-//         { 0, { { 0, 0, 0 }, 50 }, 100 },
-//     },
-// };
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+    {
+        { 0x00, { 0x00200000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        { 0, { { 0, 0, 0 }, 50 }, 100 },
+    },
+};
 
-extern ColliderJntSphInit D_80B8E6E8;
-// static ColliderJntSphInit sJntSphInit =
-// {
-//     { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_JNTSPH },
-//     1, D_80B8E6C4,
-// };
+static ColliderJntSphInit sJntSphInit =
+{
+    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_JNTSPH },
+    1, sJntSphItemsInit,
+};
 
-extern MirRayDataEntry D_80B8E6F8[];
-// static MirRayDataEntry D_80B8E6F8[] = { { 0xFB78, 0x02AE, 0xFC90, 0xFC68, 0x01E0, 0xFC87, 0x001E, 0x0032, 1.0f,
-// 0x0032, 0x0096, 0.8f, 255, 255, 255, 0x02 },
-//   { 0xF8C0, 0x0444, 0xFF42, 0xF959, 0x0349, 0xFF46, 0x001E, 0x0046, 0.88f, 0x0036, 0x0096, 0.8f, 255, 255, 255, 0x02
-//   }, { 0x0557, 0x02E2, 0xFCA4, 0x0443, 0x01DC, 0xFCA4, 0x001E, 0x0055, 0.0f, 0x0000, 0x0096, 0.8f, 255, 255, 255,
-//   0x00 }, { 0x0898, 0x044F, 0xFF24, 0x07F8, 0x034B, 0xFF24, 0x001E, 0x003C, 0.0f, 0x0000, 0x0096, 0.8f, 255, 255,
-//   255, 0x01 }, { 0xFDD0, 0x0879, 0xFECA, 0xFDD0, 0x06CF, 0xFECA, 0x001E, 0x0046, 0.0f, 0x0000, 0x0096, 0.8f, 255,
-//   255, 255, 0x00 }, { 0x003C, 0x070A, 0xFBBE, 0x003C, 0x03CD, 0xFBBE, 0x001E, 0x0046, 0.0f, 0x0000, 0x0096, 0.9f,
-//   255, 255, 255, 0x0D }, { 0x0474, 0x01E0, 0xFCA4, 0x0474, 0x01E0, 0xFCA4, 0x001E, 0x001E, 1.0f, 0x000A, 0x0064,
-//   0.9f, 255, 255, 255, 0x0E }, { 0xFDD0, 0x06CF, 0xFECA, 0xFDD0, 0x06CF, 0xFECA, 0x001E, 0x001E, 0.0f, 0x0000,
-//   0x0064, 0.94f, 255, 255, 255, 0x0C }, { 0x003C, 0x06CF, 0xFECA, 0x003C, 0x06CF, 0xFECA, 0x001E, 0x001E, 0.0f,
-//   0x0000, 0x0064, 0.94f, 255, 255, 255, 0x0C }, { 0xFB6A, 0x01C0, 0x04AA, 0xFB6A, 0x0094, 0x04AA, 0x0032,
-//   0x0064, 1.0f, 0x0032, 0x0096, 0.8f, 255, 255, 255, 0x03 } };
+static MirRayDataEntry D_80B8E6F8[] = {
+    { 0xFB78, 0x02AE, 0xFC90, 0xFC68, 0x01E0, 0xFC87, 0x001E, 0x0032, 1.0f, 0x0032, 0x0096, 0.8f, 255, 255, 255, 0x02 },
+    { 0xF8C0, 0x0444, 0xFF42, 0xF959, 0x0349, 0xFF46, 0x001E, 0x0046, 0.88f, 0x0036, 0x0096, 0.8f, 255, 255, 255,
+      0x02 },
+    { 0x0557, 0x02E2, 0xFCA4, 0x0443, 0x01DC, 0xFCA4, 0x001E, 0x0055, 0.0f, 0x0000, 0x0096, 0.8f, 255, 255, 255, 0x00 },
+    { 0x0898, 0x044F, 0xFF24, 0x07F8, 0x034B, 0xFF24, 0x001E, 0x003C, 0.0f, 0x0000, 0x0096, 0.8f, 255, 255, 255, 0x01 },
+    { 0xFDD0, 0x0879, 0xFECA, 0xFDD0, 0x06CF, 0xFECA, 0x001E, 0x0046, 0.0f, 0x0000, 0x0096, 0.8f, 255, 255, 255, 0x00 },
+    { 0x003C, 0x070A, 0xFBBE, 0x003C, 0x03CD, 0xFBBE, 0x001E, 0x0046, 0.0f, 0x0000, 0x0096, 0.9f, 255, 255, 255, 0x0D },
+    { 0x0474, 0x01E0, 0xFCA4, 0x0474, 0x01E0, 0xFCA4, 0x001E, 0x001E, 1.0f, 0x000A, 0x0064, 0.9f, 255, 255, 255, 0x0E },
+    { 0xFDD0, 0x06CF, 0xFECA, 0xFDD0, 0x06CF, 0xFECA, 0x001E, 0x001E, 0.0f, 0x0000, 0x0064, 0.94f, 255, 255, 255,
+      0x0C },
+    { 0x003C, 0x06CF, 0xFECA, 0x003C, 0x06CF, 0xFECA, 0x001E, 0x001E, 0.0f, 0x0000, 0x0064, 0.94f, 255, 255, 255,
+      0x0C },
+    { 0xFB6A, 0x01C0, 0x04AA, 0xFB6A, 0x0094, 0x04AA, 0x0032, 0x0064, 1.0f, 0x0032, 0x0096, 0.8f, 255, 255, 255, 0x03 }
+};
 
-extern InitChainEntry D_80B8E838[];
-// static InitChainEntry sInitChain[] = {
-//     ICHAIN_VEC3F_DIV1000(unk_50, 0, ICHAIN_CONTINUE),
-//     ICHAIN_F32(unk_F4, 4000, ICHAIN_CONTINUE),
-//     ICHAIN_F32(unk_F8, 1000, ICHAIN_CONTINUE),
-//     ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
-// };
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 0, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+};
 
 extern Gfx* D_060000B0;
 extern Gfx* D_06000C50;
@@ -135,7 +129,7 @@ void MirRay_Init(Actor* thisx, GlobalContext* globalCtx) {
     MirRayDataEntry* temp_s1;
 
     temp_s1 = &D_80B8E6F8[this->actor.params];
-    Actor_ProcessInitChain(&this->actor, D_80B8E838);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     // Generation of reflectable light!
     osSyncPrintf((const char*)"反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -181,14 +175,14 @@ void MirRay_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((temp_s1->unk_1F & 2) != 0) {
         Collider_InitJntSph(globalCtx, &this->colliderSph);
-        Collider_SetJntSph(globalCtx, &this->colliderSph, &this->actor, &D_80B8E6E8, &this->colliderSphItem);
+        Collider_SetJntSph(globalCtx, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
         if ((temp_s1->unk_1F & 4) == 0) {
             func_80B8D050(this);
         }
     }
 
     Collider_InitQuad(globalCtx, &this->colliderQuad);
-    Collider_SetQuad(globalCtx, &this->colliderQuad, &this->actor, &D_80B8E674);
+    Collider_SetQuad(globalCtx, &this->colliderQuad, &this->actor, &sQuadInit);
 
     if ((this->actor.params == 5) || (this->actor.params == 7) || (this->actor.params == 8)) {
         this->actor.room = -1;
@@ -587,33 +581,28 @@ s32 func_80B8E404(Vec3f* vec1, Vec3f* vec2, f32 arg2, f32 arg3, f32 arg4, s16 ar
     Vec3f sp5C;
     Vec3f sp50;
     Vec3f sp44;
-    // f32 sp38;
-    // f32 temp_f0;
-    // f32 temp_f12;
-    // f32 temp_f14;
-    
+
     temp_f2.x = vec2->x - vec1->x;
     temp_f2.y = vec2->y - vec1->y;
     temp_f2.z = vec2->z - vec1->z;
     if (1) {}
     sp34 = SQ(temp_f2.x) + SQ(temp_f2.y) + SQ(temp_f2.z);
-    
+
     if (sp34 == 0.0f) {
         return 0;
     }
 
     sp34 = (((arg2 - vec1->x) * temp_f2.x) + ((arg3 - vec1->y) * temp_f2.y) + ((arg4 - vec1->z) * temp_f2.z)) / sp34;
-    
+
     temp_fx = (temp_f2.x * sp34) + vec1->x;
     temp_fy = (temp_f2.y * sp34) + vec1->y;
     temp_fz = (temp_f2.z * sp34) + vec1->z;
-    
+
     temp_f2_2 = ((arg6 - arg5) * sp34) + arg5;
-    
-    if (((SQ(temp_fx - arg2) + SQ(temp_fy - arg3)) + SQ(temp_fz - arg4)) <=
-        SQ(temp_f2_2)) {
+
+    if (((SQ(temp_fx - arg2) + SQ(temp_fy - arg3)) + SQ(temp_fz - arg4)) <= SQ(temp_f2_2)) {
         if (1) {}
-        
+
         Math_Vec3f_Diff(vec2, vec1, &sp5C);
         sp50.x = arg2 - vec1->x;
         sp50.y = arg3 - vec1->y;
@@ -622,7 +611,7 @@ s32 func_80B8E404(Vec3f* vec1, Vec3f* vec2, f32 arg2, f32 arg3, f32 arg4, s16 ar
         if (Math3D_Cos(&sp5C, &sp50) < 0.0f) {
             return 0;
         }
-        
+
         sp44.x = arg2 - vec2->x;
         sp44.y = arg3 - vec2->y;
         sp44.z = arg4 - vec2->z;
