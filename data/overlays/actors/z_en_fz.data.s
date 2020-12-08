@@ -26,7 +26,7 @@ glabel D_80A21C14
 glabel D_80A21C34
  .word 0x8917003B, 0x801F0002, 0x304C001E
 glabel D_80A21C40
-.word func_80A202F4
+.word EnFz_EmptyFunc
 .word func_80A202FC
 .word func_80A203DC
 .word func_80A203DC
