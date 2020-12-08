@@ -168,9 +168,9 @@ parser.add_argument('repo', help="directory of the decomp repo")
 parser.add_argument('-o', metavar='outfile',dest='outfile',help='file to write to instead of original')
 parser.add_argument('-v', action='store_true',help='show what changes are made')
 
-# if __name__ == "__main__":
-#     args = parser.parse_args()
-#     set_verbose(args.v)
-#     fix_sfx(args.file, args.repo, outfile=args.outfile)
+if __name__ == "__main__":
+    args = parser.parse_args()
+    set_verbose(args.v)
+    fix_sfx(args.file, args.repo, outfile=args.outfile)
 
 
