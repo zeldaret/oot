@@ -37,10 +37,10 @@ glabel func_80A1C944
 /* 01FA8 80A1C948 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01FAC 80A1C94C AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 01FB0 80A1C950 8C8203A4 */  lw      $v0, 0x03A4($a0)           ## 000003A4
-/* 01FB4 80A1C954 3C0580A2 */  lui     $a1, %hi(D_80A1CFF0 + 0x14)       ## $a1 = 80A20000
+/* 01FB4 80A1C954 3C0580A2 */  lui     $a1, %hi(D_80A1D004)       ## $a1 = 80A20000
 /* 01FB8 80A1C958 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 01FBC 80A1C95C 10400003 */  beq     $v0, $zero, .L80A1C96C     
-/* 01FC0 80A1C960 24A5D004 */  addiu   $a1, $a1, %lo(D_80A1CFF0 + 0x14)  ## $a1 = 80A1D004
+/* 01FC0 80A1C960 24A5D004 */  addiu   $a1, $a1, %lo(D_80A1D004)  ## $a1 = 80A1D004
 /* 01FC4 80A1C964 240E000A */  addiu   $t6, $zero, 0x000A         ## $t6 = 0000000A
 /* 01FC8 80A1C968 A44E0110 */  sh      $t6, 0x0110($v0)           ## 00000110
 .L80A1C96C:
@@ -77,8 +77,8 @@ glabel func_80A1C944
 /* 02030 80A1C9D0 5420FFEA */  bnel    $at, $zero, .L80A1C97C     
 /* 02034 80A1C9D4 8C430004 */  lw      $v1, 0x0004($v0)           ## 00000004
 /* 02038 80A1C9D8 3C0280A2 */  lui     $v0, %hi(D_80A1CFF0)       ## $v0 = 80A20000
-/* 0203C 80A1C9DC 3C0480A2 */  lui     $a0, %hi(D_80A1CFF0 + 0x14)       ## $a0 = 80A20000
-/* 02040 80A1C9E0 2484D004 */  addiu   $a0, $a0, %lo(D_80A1CFF0 + 0x14)  ## $a0 = 80A1D004
+/* 0203C 80A1C9DC 3C0480A2 */  lui     $a0, %hi(D_80A1D004)       ## $a0 = 80A20000
+/* 02040 80A1C9E0 2484D004 */  addiu   $a0, $a0, %lo(D_80A1D004)  ## $a0 = 80A1D004
 /* 02044 80A1C9E4 2442CFF0 */  addiu   $v0, $v0, %lo(D_80A1CFF0)  ## $v0 = 80A1CFF0
 .L80A1C9E8:
 /* 02048 80A1C9E8 8C430004 */  lw      $v1, 0x0004($v0)           ## 80A1CFF4

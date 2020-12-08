@@ -39,8 +39,8 @@ glabel L80A1C2A0
 /* 01904 80A1C2A4 AFA20000 */  sw      $v0, 0x0000($sp)           
 .L80A1C2A8:
 /* 01908 80A1C2A8 8FA20000 */  lw      $v0, 0x0000($sp)           
-/* 0190C 80A1C2AC 3C0480A2 */  lui     $a0, %hi(D_80A1CFF0 + 0x4)       ## $a0 = 80A20000
-/* 01910 80A1C2B0 8C84CFF4 */  lw      $a0, %lo(D_80A1CFF0 + 0x4)($a0)  
+/* 0190C 80A1C2AC 3C0480A2 */  lui     $a0, %hi(D_80A1CFF4)       ## $a0 = 80A20000
+/* 01910 80A1C2B0 8C84CFF4 */  lw      $a0, %lo(D_80A1CFF4)($a0)  
 /* 01914 80A1C2B4 14400004 */  bne     $v0, $zero, .L80A1C2C8     
 /* 01918 80A1C2B8 24030001 */  addiu   $v1, $zero, 0x0001         ## $v1 = 00000001
 /* 0191C 80A1C2BC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001

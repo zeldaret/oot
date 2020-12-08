@@ -7,8 +7,8 @@ glabel func_80A1C388
 /* 019FC 80A1C39C 308400FF */  andi    $a0, $a0, 0x00FF           ## $a0 = 00000000
 /* 01A00 80A1C3A0 15E00006 */  bne     $t7, $zero, .L80A1C3BC     
 /* 01A04 80A1C3A4 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 01A08 80A1C3A8 3C188013 */  lui     $t8, %hi(gFrogsSongPtr)
-/* 01A0C 80A1C3AC 8F181854 */  lw      $t8, %lo(gFrogsSongPtr)($t8)
+/* 01A08 80A1C3A8 3C188013 */  lui     $t8, %hi(D_80131854)
+/* 01A0C 80A1C3AC 8F181854 */  lw      $t8, %lo(D_80131854)($t8)
 /* 01A10 80A1C3B0 0098C821 */  addu    $t9, $a0, $t8              
 /* 01A14 80A1C3B4 1000000E */  beq     $zero, $zero, .L80A1C3F0   
 /* 01A18 80A1C3B8 93220000 */  lbu     $v0, 0x0000($t9)           ## 00000000

@@ -25,11 +25,11 @@ glabel func_80A1C580
 /* 01C14 80A1C5B4 A60E0386 */  sh      $t6, 0x0386($s0)           ## 00000386
 /* 01C18 80A1C5B8 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 01C1C 80A1C5BC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 01C20 80A1C5C0 3C0680A2 */  lui     $a2, %hi(D_80A1CFF0 + 0x14)       ## $a2 = 80A20000
+/* 01C20 80A1C5C0 3C0680A2 */  lui     $a2, %hi(D_80A1D004)       ## $a2 = 80A20000
 /* 01C24 80A1C5C4 00E13821 */  addu    $a3, $a3, $at              
 /* 01C28 80A1C5C8 90E803DC */  lbu     $t0, 0x03DC($a3)           ## 000003DC
 /* 01C2C 80A1C5CC 24010032 */  addiu   $at, $zero, 0x0032         ## $at = 00000032
-/* 01C30 80A1C5D0 24C6D004 */  addiu   $a2, $a2, %lo(D_80A1CFF0 + 0x14)  ## $a2 = 80A1D004
+/* 01C30 80A1C5D0 24C6D004 */  addiu   $a2, $a2, %lo(D_80A1D004)  ## $a2 = 80A1D004
 /* 01C34 80A1C5D4 1501001A */  bne     $t0, $at, .L80A1C640       
 /* 01C38 80A1C5D8 2463CFF0 */  addiu   $v1, $v1, %lo(D_80A1CFF0)  ## $v1 = FFFFCFF0
 /* 01C3C 80A1C5DC 3C0580A2 */  lui     $a1, %hi(func_80A1B524)    ## $a1 = 80A20000

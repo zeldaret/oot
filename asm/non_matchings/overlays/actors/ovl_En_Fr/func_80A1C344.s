@@ -1,6 +1,6 @@
 glabel func_80A1C344
-/* 019A4 80A1C344 3C0380A2 */  lui     $v1, %hi(D_80A1CFF0 + 0x4)       ## $v1 = 80A20000
-/* 019A8 80A1C348 8C63CFF4 */  lw      $v1, %lo(D_80A1CFF0 + 0x4)($v1)  
+/* 019A4 80A1C344 3C0380A2 */  lui     $v1, %hi(D_80A1CFF4)       ## $v1 = 80A20000
+/* 019A8 80A1C348 8C63CFF4 */  lw      $v1, %lo(D_80A1CFF4)($v1)  
 /* 019AC 80A1C34C 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 019B0 80A1C350 3C0F80A2 */  lui     $t7, %hi(D_80A1CFF0)       ## $t7 = 80A20000
 /* 019B4 80A1C354 25EFCFF0 */  addiu   $t7, $t7, %lo(D_80A1CFF0)  ## $t7 = 80A1CFF0
