@@ -45,13 +45,15 @@ def get_func_data(funcdata,i):
 
 def lookup_sfx(idnum, repo):
     if(type(idnum) is int):
-        id = '0x' + format(id,'X')
+        id = '0x' + format(idnum,'X')
+    elif(idnum.isnumeric()):
+        id = '0x' + format(int(idnum),'X')
     else:
         id = idnum
-    id,sfxFlag = fix_sfx_flag(id)
+    idfix,sfxFlag = fix_sfx_flag(id)
     with open(repo + os.sep + 'include' + os.sep + 'sfx.h','r') as sfxfile:
         for line in sfxfile:
-            if(line.count(id)):
+            if(line.count(idfix)):
                 return line.split(' ')[1] + sfxFlag
     return 'INVALID_ID'
 
@@ -80,7 +82,7 @@ def fix_sfx_func(sourcedata, i, j, repo):
         return -1
     args = data[index:].replace('(',',').replace(')',',').split(',')
     sfxId = args[argnum + 1].strip()
-    if(sfxId.count('0x') == 0):
+    if(sfxId.count('NA_SE') != 0):
         return 0
     newId = lookup_sfx(sfxId, repo)
     if(newId == 'INVALID_ID'):
@@ -122,7 +124,9 @@ def fix_sfx(file, repo, outfile = None):
         sourcedata = sourcefile.readlines()
     replacements = set()
     j = 0
-    errors = 0
+    lookuperrors = 0
+    funcerrors = 0
+    iderrors = 0
     fixes = 0
     for i, line in enumerate(sourcedata):
         if(i < j):
@@ -135,8 +139,12 @@ def fix_sfx(file, repo, outfile = None):
                 while(sourcedata[j].count(';') == 0):
                     j += 1
             status = fix_sfx_func(sourcedata, i, j + 1, repo)
-            if(status < 0):
-                errors += 1
+            if(status == -3):
+                funcerrors += 1
+            elif(status == -2):
+                iderrors += 1
+            elif(status == -1):
+                lookuperrors += 1
             elif(status > 0):
                 fixes += 1
     if(fixes > 0):
@@ -146,8 +154,12 @@ def fix_sfx(file, repo, outfile = None):
             print(file, 'updated')
     elif Verbose2:
         print('No changes made to', file)
-    if(errors > 0):
-        print('sfxdis encountered parse errors during execution. Consider formatting your source and functions.h')
+    if(lookuperrors > 0):
+        print('Problem with function lookup. Try formatting functions.h')
+    if(funcerrors > 0):
+        print('Problem with function parsing. Encountering this message should be impossible, so please report that you did.')
+    if(iderrors > 0):
+        print('Problem with id parsing. Make sure your SFX ids are in hex.')
     return 1
 
 parser = argparse.ArgumentParser(description='Convert hex SFX ids to macros')
@@ -156,9 +168,9 @@ parser.add_argument('repo', help="directory of the decomp repo")
 parser.add_argument('-o', metavar='outfile',dest='outfile',help='file to write to instead of original')
 parser.add_argument('-v', action='store_true',help='show what changes are made')
 
-if __name__ == "__main__":
-    args = parser.parse_args()
-    set_verbose(args.v)
-    fix_sfx(args.file, args.repo, outfile=args.outfile)
+# if __name__ == "__main__":
+#     args = parser.parse_args()
+#     set_verbose(args.v)
+#     fix_sfx(args.file, args.repo, outfile=args.outfile)
 
 
