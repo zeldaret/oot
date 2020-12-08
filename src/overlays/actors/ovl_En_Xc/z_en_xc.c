@@ -2206,15 +2206,16 @@ void func_80B40E88(EnXc* this) {
     func_80B3C7BC(this, 77, 78);
 }
 
-#ifdef NON_MATCHING
+//#ifdef NON_MATCHING
 s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, 4);
-
-    if (npcAction) {
+    CsCmdActorAction* npcAction;
+    
+    if (npcAction = func_80B3C4D0(globalCtx, 4), (npcAction != NULL)) {
         s32 action;
         EnXc* this = THIS;
         s32 unk_26C = this->unk_26C;
-        if (action = npcAction->action, action != unk_26C) {
+        
+        if (unk_26C != (action = npcAction->action, action)) {
             switch (unk_26C) {
                 case 1:
                     func_80B406F8(this);
@@ -2258,9 +2259,9 @@ s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40EAC.s")
-#endif
+//#else
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40EAC.s")
+//#endif
 
 void func_80B41000(EnXc* this, GlobalContext* globalCtx) {
     func_80B40EAC(&this->actor, globalCtx);
