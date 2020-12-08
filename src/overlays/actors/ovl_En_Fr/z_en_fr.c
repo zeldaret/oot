@@ -358,85 +358,85 @@ void EnFr_DrawActive(EnFr* this) {
     this->actor.draw = EnFr_Draw;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fr/EnFr_Update.s")
-void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fr/EnFr_Update.s")
+// void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
 
-    EnFr* this = THIS;
-    LightInfo* lightInfo;
-    s32 frogindex;
-    s16 randomNumber;
+//     EnFr* this = THIS;
+//     LightInfo* lightInfo;
+//     s32 frogindex;
+//     s16 randomNumber;
 
-    // if(1) {}
+//     // if(1) {}
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.flags &= ~0x10;
-        frogindex = this->actor.params - 1;
-        D_80A1CFF0.frogs[frogindex] = this;
-        Actor_ProcessInitChain(&this->actor, D_80A1D0BC);
+//     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+//         this->actor.flags &= ~0x10;
+//         frogindex = this->actor.params - 1;
+//         D_80A1CFF0.frogs[frogindex] = this;
+//         Actor_ProcessInitChain(&this->actor, D_80A1D0BC);
 
-        // Skeleton for the frog
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, &this->limbDrawTable,
-                         &this->transitionDrawTable, 24);
-        // Skeleton for the butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, &this->limbDrawTableButterfly,
-                       &this->transitionDrawTableButterfly, 8);
+//         // Skeleton for the frog
+//         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, &this->limbDrawTable,
+//                          &this->transitionDrawTable, 24);
+//         // Skeleton for the butterfly
+//         SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, &this->limbDrawTableButterfly,
+//                        &this->transitionDrawTableButterfly, 8);
 
-        // When playing the frogs song for the HP,
-        // the frog with the next note and the butterfly
-        // turns on its lightsource
-        lightInfo = &this->lightInfo;
-        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
-        Lights_PointNoGlowSetInfo(lightInfo, this->actor.initPosRot.pos.x,
-                                  this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255,
-                                  255, 255, -1);
+//         // When playing the frogs song for the HP,
+//         // the frog with the next note and the butterfly
+//         // turns on its lightsource
+//         lightInfo = &this->lightInfo;
+//         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
+//         Lights_PointNoGlowSetInfo(lightInfo, this->actor.initPosRot.pos.x,
+//                                   this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 255,
+//                                   255, 255, -1);
 
-        // Check to see if the song for a particular frog has been played.
-        // If it has, the frog is larger. If not, the frog is smaller
-        if (gSaveContext.eventChkInf[13] & D_80A1D008[D_80A1D018[frogindex]]) {
-            this->scale = 270.0f;
-        }
-        else {
-            this->scale = 150.0f;
-        }
+//         // Check to see if the song for a particular frog has been played.
+//         // If it has, the frog is larger. If not, the frog is smaller
+//         if (gSaveContext.eventChkInf[13] & D_80A1D008[D_80A1D018[frogindex]]) {
+//             this->scale = 270.0f;
+//         }
+//         else {
+//             this->scale = 150.0f;
+//         }
 
-        // When the frogs are not active (link doesn't have his ocarina out),
-        // Then shrink the frogs down by a factor of 10,000
-        Actor_SetScale(&this->actor, this->scale * 0.0001f);
-        this->actor.minVelocityY = -9999.0f;
-        Actor_SetHeight(&this->actor, 10.0f);
+//         // When the frogs are not active (link doesn't have his ocarina out),
+//         // Then shrink the frogs down by a factor of 10,000
+//         Actor_SetScale(&this->actor, this->scale * 0.0001f);
+//         this->actor.minVelocityY = -9999.0f;
+//         Actor_SetHeight(&this->actor, 10.0f);
 
-        this->eyeTexIndex = 1;
-        randomNumber = ((s32)(Math_Rand_ZeroFloat(60.0f) + 20.0f) ) & 0xFFFF;
-        this->blinkTimer = (s16) randomNumber;
-        this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
-        this->posLogSpot = this->actor.posRot.pos;
+//         this->eyeTexIndex = 1;
+//         randomNumber = ((s32)(Math_Rand_ZeroFloat(60.0f) + 20.0f) ) & 0xFFFF;
+//         this->blinkTimer = (s16) randomNumber;
+//         this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
+//         this->posLogSpot = this->actor.posRot.pos;
 
-        this->isBelowWaterSurfaceCurrent = false;
-        this->isBelowWaterSurfacePrevious = false;
+//         this->isBelowWaterSurfaceCurrent = false;
+//         this->isBelowWaterSurfacePrevious = false;
 
-        this->isJumpingUp = false;
-        this->actionFunc = EnFr_InitJumpingOutOfWater;
-        this->isDeactivating = false;
-        this->growingScaleIndex = 0;
-        this->isActive = false;
-        this->isJumpingToFrogSong = false;
-        this->songIndex = 7;
-        this->unusedButterflyActor = 0;
+//         this->isJumpingUp = false;
+//         this->actionFunc = EnFr_InitJumpingOutOfWater;
+//         this->isDeactivating = false;
+//         this->growingScaleIndex = 0;
+//         this->isActive = false;
+//         this->isJumpingToFrogSong = false;
+//         this->songIndex = 7;
+//         this->unusedButterflyActor = 0;
 
-        EnFr_OrientUnderwater(this);
-        EnFr_DrawIdle(this);
+//         EnFr_OrientUnderwater(this);
+//         EnFr_DrawIdle(this);
 
-        this->actor.update = EnFr_UpdateActive;
-        this->isButterflyDrawn = false;
-        this->xyAngleButterfly = 0x1000 * (s16) Math_Rand_ZeroFloat(255.0f);
-        this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
-        this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
-        this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
+//         this->actor.update = EnFr_UpdateActive;
+//         this->isButterflyDrawn = false;
+//         this->xyAngleButterfly = 0x1000 * (s16) Math_Rand_ZeroFloat(255.0f);
+//         this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
+//         this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
+//         this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
 
-        this->actor.flags &= ~1;
+//         this->actor.flags &= ~1;
 
-    }
-}
+//     }
+// }
 
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
