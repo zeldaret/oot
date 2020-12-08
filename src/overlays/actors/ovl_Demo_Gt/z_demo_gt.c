@@ -270,10 +270,9 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* accel, f32 arg4, f32 scale,
                    s32 arg6, s32 arg7, s16 life) {
-    s32 pad2[4];
+    s32 pad2[3];
     s16 increment;
     s32 frames;
     s32 i;
@@ -283,8 +282,8 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
     Vec3f pos;
 
     if ((func_800C0D28(globalCtx) == 0) && (arg7 > 0) && (arg6 > 0)) {
-        frames = 0x10000 * (ABS((s32)globalCtx->gameplayFrames) % arg7);
-        phi_s0 = frames / arg6;
+        frames = (ABS((s32)globalCtx->gameplayFrames) % arg7);
+        phi_s0 = 0x10000 * frames / arg6;
         increment = 0x10000 / arg6;
 
         for (i = frames; i < arg6; i += arg7) {
@@ -303,11 +302,6 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
         }
     }
 }
-#else
-void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity, Vec3f* accel, f32 arg4, f32 scale,
-                   s32 arg6, s32 arg7, s16 life);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E454.s")
-#endif
 
 u8 func_8097E69C(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
@@ -364,22 +358,19 @@ void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_8097E824(DemoGt* this, s32 arg1) {
     s16 phi_a1;
     s16 phi_a2;
     s16 phi_a3;
-
-    f32 tempf1;
-    f32 tempf2;
+    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3s* unk16C = &this->unk_16C;
+    s32 pad;
     f32 tempf3;
-
+    f32 tempf2;
+    f32 tempf1;
     f32 phi_f2;
     f32 phi_f12;
     f32 phi_f14;
-
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
-    Vec3s* unk16C = &this->unk_16C;
 
     if (arg1 == 1) {
         phi_a1 = kREG(19) + 0x8000;
@@ -443,18 +434,14 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     unk16C->y += phi_a2;
     unk16C->z += phi_a3;
 
-    tempf1 = Math_Coss(unk16C->x) * phi_f2;
+    tempf1 = Math_Coss(unk16C->x) * phi_f14;
     tempf2 = Math_Coss(unk16C->y) * phi_f12;
-    tempf3 = Math_Coss(unk16C->z) * phi_f14;
+    tempf3 = Math_Coss(unk16C->z) * phi_f2;
 
     pos->x += tempf1;
     pos->y += tempf2;
     pos->z += tempf3;
 }
-#else
-void func_8097E824(DemoGt* this, s32 arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8097E824.s")
-#endif
 
 void func_8097ED64(DemoGt* this, GlobalContext* globalCtx, s32 actionIdx) {
     func_8097E744(this, globalCtx, actionIdx);

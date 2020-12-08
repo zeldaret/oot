@@ -1,3 +1,109 @@
+.rdata
+glabel D_80143608
+    .asciz "\n@@@ 0,0,0,2,	/* Look Camera	*/"
+    .balign 4
+
+glabel D_80143628
+    .asciz "\n@@@ 0,1,	/* dousa	*/"
+    .balign 4
+
+glabel D_80143640
+    .asciz "\n@@@ 0,0,	/* Start Flame	*/"
+    .balign 4
+
+glabel D_8014365C
+    .asciz "	/*  End   Flame	*/"
+    .balign 4
+
+glabel D_80143670
+    .asciz "\n@@@0,0,	/*  Dammy	*/\n@@@ "
+    .balign 4
+
+glabel D_8014368C
+    .asciz "\n@@@    %d, /*     code     */"
+    .balign 4
+
+glabel D_801436AC
+    .asciz "\n@@@    %d,  /*     z        */"
+    .balign 4
+
+glabel D_801436CC
+    .asciz "	/*  sokudo	*/"
+    .balign 4
+
+glabel D_801436DC
+    .asciz "	/*  zoom	*/"
+    .balign 4
+
+glabel D_801436EC
+    .asciz "	/*  x pos	*/"
+    .balign 4
+
+glabel D_801436FC
+    .asciz "	/*  y pos	*/"
+    .balign 4
+
+glabel D_8014370C
+    .asciz "	/*  z pos	*/\n"
+    .balign 4
+
+glabel D_8014371C
+    .asciz "\n@@@0,0,	/*  Dammy	*/\n@@@ "
+    .balign 4
+
+glabel D_80143738
+    .asciz "\n@@@ 0,0,0,1,	/* Position Camera */"
+    .balign 4
+
+glabel D_8014375C
+    .asciz "\n@@@ 0,1,	/* dousa	*/"
+    .balign 4
+
+glabel D_80143774
+    .asciz "\n@@@ 0,0,	/* Start Flame	*/"
+    .balign 4
+
+glabel D_80143790
+    .asciz "	/*  End   Flame	*/"
+    .balign 4
+
+glabel D_801437A4
+    .asciz "\n@@@0,0,	/*  Dammy	*/\n@@@ "
+    .balign 4
+
+glabel D_801437C0
+    .asciz "\n@@@    %d, /*     code     */"
+    .balign 4
+
+glabel D_801437E0
+    .asciz "\n@@@    %d, /*     z        */"
+    .balign 4
+
+glabel D_80143800
+    .asciz "	/*  sokudo	*/"
+    .balign 4
+
+glabel D_80143810
+    .asciz "	/*  zoom	*/"
+    .balign 4
+
+glabel D_80143820
+    .asciz "	/*  x pos	*/"
+    .balign 4
+
+glabel D_80143830
+    .asciz "	/*  y pos	*/"
+    .balign 4
+
+glabel D_80143840
+    .asciz "	/*  z pos	*/"
+    .balign 4
+
+glabel D_80143850
+    .asciz "\n@@@0,0,	/*  Dammy	*/\n@@@ "
+    .balign 4
+
+.text
 glabel func_800B4B20
 /* B2BCC0 800B4B20 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B2BCC4 800B4B24 AFBF0024 */  sw    $ra, 0x24($sp)

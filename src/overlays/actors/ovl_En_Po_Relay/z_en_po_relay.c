@@ -173,14 +173,11 @@ void EnPoRelay_Talk(EnPoRelay* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
 }
 
-#ifdef NON_MATCHING
-// Single stack difference
-void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
-    Player* player = PLAYER;                                     // sp5C
-    Vec3f vec;                                                   // sp50
-    f32 rand;
-    f32 multiplier; // sp48
+void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    Vec3f vec;
     f32 speed;
+    f32 multiplier;
 
     if (this->actionTimer != 0) {
         this->actionTimer--;
@@ -188,18 +185,18 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     if (this->actionTimer == 0 && Math_Rand_ZeroOne() < 0.03f) {
         this->actionTimer = 32;
         if (this->pathIndex < 23) {
-            rand = Math_Rand_ZeroOne() * 3.0f;
-            if (rand < 1.0f) {
+            speed = Math_Rand_ZeroOne() * 3.0f;
+            if (speed < 1.0f) {
                 multiplier = 1.0f;
-            } else if (rand < 2.0f) {
+            } else if (speed < 2.0f) {
                 multiplier = -1.0f;
             } else {
                 multiplier = 0.0f;
             }
+            speed = 30.0f * multiplier;
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HONOTRAP,
-                        Math_Coss(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y,
-                        Math_Sins(this->unk_19A) * (30.0f * multiplier) + this->actor.posRot.pos.z, 0,
+                        Math_Coss(this->unk_19A) * speed + this->actor.posRot.pos.x, this->actor.posRot.pos.y,
+                        Math_Sins(this->unk_19A) * speed + this->actor.posRot.pos.z, 0,
                         (this->unk_19A + 0x8000) - (0x2000 * multiplier), 0, 2);
         }
     }
@@ -247,9 +244,6 @@ void EnPoRelay_Race(EnPoRelay* this, GlobalContext* globalCtx) { // saved, sp64
     this->unk_19A = func_8002DAC0(&this->actor, &vec);
     func_8002F974(&this->actor, NA_SE_EN_PO_AWAY - SFX_FLAG);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Relay/EnPoRelay_Race.s")
-#endif
 
 void EnPoRelay_EndRace(EnPoRelay* this, GlobalContext* globalCtx) {
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, -0x4000, 0x800);
@@ -297,12 +291,12 @@ void EnPoRelay_DisappearAndReward(EnPoRelay* this, GlobalContext* globalCtx) {
         if (this->actionTimer < 5) {
             vec.y = Math_Sins((this->actionTimer * 0x1000) - 0x4000) * 23.0f + (this->actor.posRot.pos.y + 40.0f);
             multiplier = Math_Coss((this->actionTimer * 0x1000) - 0x4000) * 23.0f;
-            vec.x = (Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.x;
-            vec.z = (Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.z;
+            vec.x = (Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.x;
+            vec.z = (Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * multiplier) + this->actor.posRot.pos.z;
         } else {
             vec.y = this->actor.posRot.pos.y + 40.0f + 15.0f * (this->actionTimer - 5);
-            vec.x = (Math_Sins(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.x;
-            vec.z = (Math_Coss(func_8005A9F4(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.z;
+            vec.x = (Math_Sins(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.x;
+            vec.z = (Math_Coss(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4800) * 23.0f) + this->actor.posRot.pos.z;
         }
         EffectSsDeadDb_Spawn(globalCtx, &vec, &D_80AD8D30, &D_80AD8D3C, this->actionTimer * 10 + 80, 0, 255, 255, 255,
                              255, 0, 0, 255, 1, 9, true);
