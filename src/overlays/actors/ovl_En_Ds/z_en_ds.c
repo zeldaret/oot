@@ -29,14 +29,14 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Draw,
 };
 
-extern SkeletonHeader D_06004768;
+extern FlexSkeletonHeader D_06004768;
 extern AnimationHeader D_0600039C;
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
 
     this->actor.colChkInfo.mass = 0xFF;
@@ -254,7 +254,7 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDs* this = THIS;
 
     if (limbIndex == 5) {
@@ -264,11 +264,12 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     return 0;
 }
 
-void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
+    EnDs* this = THIS;
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.posRot2.pos);
     }
 }
 
@@ -276,6 +277,6 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                          EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

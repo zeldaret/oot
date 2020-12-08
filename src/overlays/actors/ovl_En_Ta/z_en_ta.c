@@ -56,13 +56,14 @@ s32 D_80B16E88[] = { 0x06007F80, 0x06006EC0, 0x060072C0, 0x00000000, 0x00000000,
 
 extern AnimationHeader D_060017E8;
 extern AnimationHeader D_06001C94;
+extern UNK_TYPE D_06006DC0;
 extern SkeletonHeader D_0600B7B8;
 extern AnimationHeader D_0600BF38;
 extern AnimationHeader D_0600C48C;
 extern AnimationHeader D_0600C858;
 extern AnimationHeader D_0600CD50;
-extern AnimationHeader D_0600E3D8;
 extern AnimationHeader D_0600CF28;
+extern AnimationHeader D_0600E3D8;
 
 void func_80B13AA0(EnTa* this, EnTaActionFunc arg1, EnTaUnkFunc arg2) {
     this->unk_25C = arg1;

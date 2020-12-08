@@ -19,6 +19,9 @@ void func_808795AC(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void func_80879668(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void func_80879808(BgGndFiremeiro* this, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600E210;
+extern UNK_TYPE D_0600ECD8;
+
 /*
 const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
