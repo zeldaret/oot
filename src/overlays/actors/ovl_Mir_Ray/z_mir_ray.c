@@ -31,8 +31,7 @@ const ActorInit Mir_Ray_InitVars = {
 
 u8 D_80B8E670 = 0;
 
-static ColliderQuadInit sQuadInit =
-{
+static ColliderQuadInit sQuadInit = {
     { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
     { 0x00, { 0x00200000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
@@ -45,10 +44,10 @@ static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     },
 };
 
-static ColliderJntSphInit sJntSphInit =
-{
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_JNTSPH },
-    1, sJntSphItemsInit,
+    1,
+    sJntSphItemsInit,
 };
 
 static MirRayDataEntry D_80B8E6F8[] = {
@@ -74,8 +73,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern Gfx* D_060000B0;
-extern Gfx* D_06000C50;
+extern Gfx D_060000B0[];
+extern Gfx D_06000C50[];
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Mir_Ray/func_80B8D050.s")
 void func_80B8D050(MirRay* this) {
@@ -347,6 +346,7 @@ void func_80B8DA78(MirRayImage* arg0) {
 void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, MirRayImage* arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Mir_Ray/func_80B8DB7C.s")
 /* void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, MirRayImage* arg2) {
+    Player* player = PLAYER;
     Vec3f sp130;
     Vec3f sp124;
     Vec3f sp118;
@@ -359,74 +359,47 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, MirRayImage* arg2);
     Vec3f spC0;
     f32 sp84;
     f32 sp80;
-    // ColliderQuad *temp_a0;
-    // Vec3f *temp_a1;
-    // Vec3f *temp_a2;
-    // Vec3f *temp_a3;
-    // Vec3f *temp_fp;
-    // Vec3f* temp_s4;
-    // Vec3f* temp_s5;
-    // Vec3f *temp_t6;
     f32 temp_f0;
     f32 temp_f0_2;
-    // f32 temp_f10;
-    // f32 temp_f10_2;
-    // f32 temp_f12;
     f32 temp_f12_2;
-    // f32 temp_f14;
     f32 temp_f14_2;
-    // f32 temp_f16;
-    // f32 temp_f16_2;
-    // f32 temp_f16_3;
-    // f32 temp_f18;
-    // f32 temp_f18_2;
     f32 temp_f2;
-    // f32 temp_f4;
-    // f32 temp_f4_2;
-    // f32 temp_f4_3;
-    // f32 temp_f4_4;
-    // f32 temp_f6;
-    // f32 temp_f6_2;
-    // f32 temp_f8;
-    // s32 temp_s2;
+    s32 pad;
+    s32 pad2;
+    s32 pad3;
+    s32 pad4;
+    s32 pad5;
     MtxF* temp_s1;
-    // void *temp_s3;
-    // MirRayDataEntry *temp_v0;
     MirRayImage* phi_s0;
     s32 phi_s2;
 
-    Player* player = PLAYER;
 
-    // player = globalCtx->unk1C44;
-    // temp_t6 = &sp124;
-    // temp_a2 = &sp130;
-    // temp_a0 = &this->colliderQuad;
-    // temp_a1 = &spCC;
-    // temp_a3 = &spC0;
-    spE8.x = -(player->shieldMf.zx * this->unk_278) * this->unk_22C * 400.0f;
-    spE8.y = -(player->shieldMf.zy * this->unk_278) * this->unk_22C * 400.0f;
-    spE8.z = -(player->shieldMf.zz * this->unk_278) * this->unk_22C * 400.0f;
-    sp130.x = player->shieldMf.wx;
-    sp130.y = player->shieldMf.wy;
-    sp130.z = player->shieldMf.wz;
+    temp_s1 = &player->shieldMf;
+    
+    spE8.x = -(temp_s1->zx * this->unk_278) * this->unk_22C * 400.0f;
+    spE8.y = -(temp_s1->zy * this->unk_278) * this->unk_22C * 400.0f;
+    spE8.z = -(temp_s1->zz * this->unk_278) * this->unk_22C * 400.0f;
+    sp130.x = temp_s1->wx;
+    sp130.y = temp_s1->wy;
+    sp130.z = temp_s1->wz;
     sp124.x = sp130.x + spE8.x;
     sp124.y = sp130.y + spE8.y;
     sp124.z = sp130.z + spE8.z;
-    spCC.x = (player->shieldMf.xx * 300.0f) + sp130.x;
-    spCC.y = (player->shieldMf.xy * 300.0f) + sp130.y;
-    spCC.z = (player->shieldMf.xz * 300.0f) + sp130.z;
-    spC0.x = (player->shieldMf.xx * 300.0f) + sp124.x;
-    spC0.y = (player->shieldMf.xy * 300.0f) + sp124.y;
-    spC0.z = (player->shieldMf.xz * 300.0f) + sp124.z;
+    spCC.x = sp130.x + (temp_s1->xx * 300.0f);
+    spCC.y = sp130.y + (temp_s1->xy * 300.0f);
+    spCC.z = sp130.z + (temp_s1->xz * 300.0f);
+    spC0.x = sp124.x + (temp_s1->xx * 300.0f);
+    spC0.y = sp124.y + (temp_s1->xy * 300.0f);
+    spC0.z = sp124.z + (temp_s1->xz * 300.0f);
     func_80062734(&this->colliderQuad, &spCC, &sp130, &spC0, &sp124);
     // temp_s5 = &sp100;
     // temp_s4 = &sp10C;
     for (phi_s0 = arg2, phi_s2 = 0; phi_s2 < 0x1F8; phi_s2 += 0x54, phi_s0 += 0x54) {
         if (phi_s0->unk_4C != NULL) {
-            normalVec.x = phi_s0->unk_4C->unk_8 * 0.00003051851f; // SHT_MINV
-            normalVec.y = phi_s0->unk_4C->unk_A * 0.00003051851f; // SHT_MINV
-            normalVec.z = phi_s0->unk_4C->unk_C * 0.00003051851f; // SHT_MINV
-            if (Math3D_LineSegVsPlane(normalVec.x, normalVec.y, normalVec.z, phi_s0->unk_4C->unk_E, &sp130, &sp124,
+            normalVec.x = phi_s0->unk_4C->norm.x * COLPOLY_NORM_FRAC;
+            normalVec.y = phi_s0->unk_4C->norm.y * COLPOLY_NORM_FRAC;
+            normalVec.z = phi_s0->unk_4C->norm.z * COLPOLY_NORM_FRAC;
+            if (Math3D_LineSegVsPlane(normalVec.x, normalVec.y, normalVec.z, phi_s0->unk_4C->dist, &sp130, &sp124,
                                       &phi_s0->unk_0, 1)) {
                 temp_s1 = &player->shieldMf;
                 sp118 = phi_s0->unk_0;
@@ -435,22 +408,28 @@ void func_80B8DB7C(MirRay* this, GlobalContext* globalCtx, MirRayImage* arg2);
                 // temp_f2 = sp118.x - sp130.x;
                 // temp_f12_2 = sp118.y - sp130.y;
                 // temp_f14_2 = sp118.z - sp130.z;
-                temp_f0 = sqrtf(SQ(phi_s0->unk_0.x - sp130.x) + SQ(phi_s0->unk_0.y - sp130.y) + SQ(phi_s0->unk_0.z -
-sp130.z)); if (temp_f0 < (this->unk_22C * 600.0f)) { phi_s0->unk_50 = 200; } else { phi_s0->unk_50 = (s8)(s32)(800.0f -
-temp_f0);
+                temp_f0 = sqrtf(SQ(phi_s0->unk_0.x - sp130.x) + SQ(phi_s0->unk_0.y - sp130.y) +
+                                SQ(phi_s0->unk_0.z - sp130.z));
+                if (temp_f0 < (this->unk_22C * 600.0f)) {
+                    phi_s0->unk_50 = 200;
+                } else {
+                    phi_s0->unk_50 = (s8)(s32)(800.0f - temp_f0);
                 }
-                sp10C.x = (player->shieldMf.xx * 100.0f) + sp130.x;
-                sp10C.y = (player->shieldMf.xy * 100.0f) + sp130.y;
-                sp10C.z = (player->shieldMf.xz * 100.0f) + sp130.z;
+                spE8 = spE8;
+                sp10C.x = (temp_s1->xx * 100.0f) + sp130.x;
+                sp10C.y = (temp_s1->xy * 100.0f) + sp130.y;
+                sp10C.z = (temp_s1->xz * 100.0f) + sp130.z;
+                if (1) {}
                 sp100.x = (spE8.x * 4.0f) + sp10C.x;
                 sp100.y = (spE8.y * 4.0f) + sp10C.y;
                 sp100.z = (spE8.z * 4.0f) + sp10C.z;
+                normalVec = normalVec;
+                phi_s0->mtx.wz = 0.0f;
+                temp_f0_2 = phi_s0->mtx.wz;
                 phi_s0->mtx.xx = 1.0f;
                 phi_s0->mtx.yy = 1.0f;
                 phi_s0->mtx.zz = 1.0f;
                 phi_s0->mtx.ww = 1.0f;
-                phi_s0->mtx.wz = 0.0f;
-                temp_f0_2 = phi_s0->mtx.wz;
                 phi_s0->mtx.wy = temp_f0_2;
                 phi_s0->mtx.wx = temp_f0_2;
                 phi_s0->mtx.zw = temp_f0_2;
@@ -462,19 +441,19 @@ temp_f0);
                 phi_s0->mtx.xw = temp_f0_2;
                 phi_s0->mtx.xz = temp_f0_2;
                 phi_s0->mtx.xy = temp_f0_2;
-                if (Math3D_LineSegVsPlane(normalVec.x, normalVec.y, normalVec.z, (f32)phi_s0->unk_4C->unk_E, &sp10C,
+                if (Math3D_LineSegVsPlane(normalVec.x, normalVec.y, normalVec.z, phi_s0->unk_4C->dist, &sp10C,
                                           &sp100, &spF4, 1)) {
                     phi_s0->mtx.xx = spF4.x - sp118.x;
                     phi_s0->mtx.xy = spF4.y - sp118.y;
                     phi_s0->mtx.xz = spF4.z - sp118.z;
                 }
-                sp10C.x = (player->shieldMf.yx * 100.0f) + sp130.x;
-                sp10C.y = (player->shieldMf.yy * 100.0f) + sp130.y;
-                sp10C.z = (player->shieldMf.yz * 100.0f) + sp130.z;
+                sp10C.x = (temp_s1->yx * 100.0f) + sp130.x;
+                sp10C.y = (temp_s1->yy * 100.0f) + sp130.y;
+                sp10C.z = (temp_s1->yz * 100.0f) + sp130.z;
                 sp100.x = (spE8.x * 4.0f) + sp10C.x;
                 sp100.y = (spE8.y * 4.0f) + sp10C.y;
                 sp100.z = (spE8.z * 4.0f) + sp10C.z;
-                if (Math3D_LineSegVsPlane(normalVec.x, normalVec.y, normalVec.z, (f32)phi_s0->unk_4C->unk_E, &sp10C,
+                if (Math3D_LineSegVsPlane(normalVec.x, normalVec.y, normalVec.z, phi_s0->unk_4C->dist, &sp10C,
                                           &sp100, &spF4, 1)) {
                     phi_s0->mtx.yx = spF4.x - sp118.x;
                     phi_s0->mtx.yy = spF4.y - sp118.y;
@@ -486,89 +465,246 @@ temp_f0);
         }
     }
 } */
+/* void func_80B8DB7C(MirRay *this, GlobalContext *globalCtx, MirRayImage *arg2) {
+    f32 sp138;
+    f32 sp134;
+    f32 sp130;
+    f32 sp12C;
+    f32 sp128;
+    f32 sp124;
+    f32 sp118;
+    f32 sp114;
+    f32 sp110;
+    f32 sp10C;
+    f32 sp108;
+    f32 sp104;
+    f32 sp100;
+    f32 spF4;
+    f32 spF0;
+    f32 spEC;
+    f32 spE8;
+    f32 spE4;
+    f32 spE0;
+    f32 spDC;
+    f32 spD4;
+    f32 spD0;
+    f32 spCC;
+    f32 spC8;
+    f32 spC4;
+    f32 spC0;
+    f32 sp84;
+    f32 sp80;
+    ColliderQuad *temp_a0;
+    f32 *temp_a1;
+    f32 *temp_a2;
+    f32 *temp_a3;
+    f32 *temp_fp;
+    f32 *temp_s4;
+    f32 *temp_s5;
+    f32 *temp_t6;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f10;
+    f32 temp_f10_2;
+    f32 temp_f12;
+    f32 temp_f12_2;
+    f32 temp_f14;
+    f32 temp_f14_2;
+    f32 temp_f16;
+    f32 temp_f16_2;
+    f32 temp_f16_3;
+    f32 temp_f18;
+    f32 temp_f18_2;
+    f32 temp_f2;
+    f32 temp_f4;
+    f32 temp_f4_2;
+    f32 temp_f4_3;
+    f32 temp_f4_4;
+    f32 temp_f6;
+    f32 temp_f6_2;
+    f32 temp_f8;
+    s32 temp_s2;
+    void *temp_s1;
+    void *temp_s3;
+    void *temp_v0;
+    MirRayImage *phi_s0;
+    s32 phi_s2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Mir_Ray/MirRay_Draw.s")
-/* void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Player *player = PLAYER;
+
+    // player = globalCtx->unk1C44;
+    temp_fp = &sp130;
+    temp_t6 = &sp124;
+    temp_a2 = temp_fp;
+    // temp_a0 = &this->colliderQuad;
+    temp_a1 = &spCC;
+    temp_a3 = &spC0;
+    temp_f4 = -(player->shieldMf.zx * this->unk_278) * this->unk_22C * 400.0f;
+    spE8 = temp_f4;
+    temp_f16 = -(player->shieldMf.zy * this->unk_278) * this->unk_22C * 400.0f;
+    spEC = temp_f16;
+    temp_f6 = -(player->shieldMf.zz * this->unk_278) * this->unk_22C * 400.0f;
+    spF0 = temp_f6;
+    temp_f18 = player->shieldMf.wx;
+    sp130 = temp_f18;
+    sp134 = player->shieldMf.wy;
+    temp_f8 = temp_f4 + temp_f18;
+    sp80 = temp_f18;
+    sp138 = player->shieldMf.wz;
+    sp124 = temp_f8;
+    temp_f4_2 = temp_f16 + sp134;
+    temp_f6_2 = temp_f6 + sp138;
+    sp128 = temp_f4_2;
+    sp12C = temp_f6_2;
+    sp84 = temp_f8;
+    spCC = (player->shieldMf.xx * 300.0f) + sp80;
+    spD0 = (player->shieldMf.xy * 300.0f) + sp134;
+    spD4 = (player->shieldMf.xz * 300.0f) + sp138;
+    spC0 = (player->shieldMf.xx * 300.0f) + sp84;
+    spC4 = (player->shieldMf.xy * 300.0f) + temp_f4_2;
+    spC8 = (player->shieldMf.xz * 300.0f) + temp_f6_2;
+    func_80062734(&this->colliderQuad, (Vec3f *) temp_a1, (Vec3f *) temp_a2, (Vec3f *) temp_a3, temp_t6);
+    temp_s5 = &sp100;
+    temp_s4 = &sp10C;
+    phi_s0 = arg2;
+    phi_s2 = 0;
+loop_1:
+    // temp_v0 = phi_s0->unk_4C;
+    if (phi_s0->unk_4C != 0) {
+        temp_f12 = (f32) phi_s0->unk_4C->norm.x * COLPOLY_NORM_FRAC;
+        spDC = temp_f12;
+        temp_f14 = (f32) phi_s0->unk_4C->norm.y * COLPOLY_NORM_FRAC;
+        spE0 = temp_f14;
+        temp_f10 = (f32) phi_s0->unk_4C->norm.z * COLPOLY_NORM_FRAC;
+        spE4 = temp_f10;
+        if (Math3D_LineSegVsPlane(temp_f12, temp_f14, temp_f10, phi_s0->unk_4C->dist, temp_fp, &sp124, &sp118, 1) != 0) {
+            phi_s0->unk_0.x = sp118;
+            temp_s1 = player + 0xA20;
+            phi_s0->unk_0.y = sp11C;
+            phi_s0->unk_0.z = sp120;
+            temp_f2 = sp118 - sp130;
+            temp_f12_2 = sp11C - sp134;
+            temp_f14_2 = sp120 - sp138;
+            temp_f0 = sqrtf((temp_f2 * temp_f2) + (temp_f12_2 * temp_f12_2) + (temp_f14_2 * temp_f14_2));
+            if (temp_f0 < (this->unk_22C * 600.0f)) {
+                phi_s0->unk_50 = 0xC8;
+            } else {
+                phi_s0->unk_50 = (s8) (s32) (800.0f - temp_f0);
+            }
+            temp_f16_2 = (temp_s1->unk0 * 100.0f) + sp130;
+            sp10C = temp_f16_2;
+            temp_f18_2 = (temp_s1->unk4 * 100.0f) + sp134;
+            sp110 = temp_f18_2;
+            temp_f4_3 = (temp_s1->unk8 * 100.0f) + sp138;
+            sp114 = temp_f4_3;
+            sp100 = (spE8 * 4.0f) + temp_f16_2;
+            sp104 = (spEC * 4.0f) + temp_f18_2;
+            sp108 = (spF0 * 4.0f) + temp_f4_3;
+            phi_s0->mtx.wz = 0.0f;
+            temp_f0_2 = phi_s0->mtx.wz;
+            phi_s0->mtx.xx = 1.0f;
+            phi_s0->mtx.yy = 1.0f;
+            phi_s0->mtx.zz = 1.0f;
+            phi_s0->mtx.ww = 1.0f;
+            phi_s0->mtx.wy = temp_f0_2;
+            phi_s0->mtx.wx = temp_f0_2;
+            phi_s0->mtx.zw = temp_f0_2;
+            phi_s0->mtx.zy = temp_f0_2;
+            phi_s0->mtx.zx = temp_f0_2;
+            phi_s0->mtx.yw = temp_f0_2;
+            phi_s0->mtx.yz = temp_f0_2;
+            phi_s0->mtx.yx = temp_f0_2;
+            phi_s0->mtx.xw = temp_f0_2;
+            phi_s0->mtx.xz = temp_f0_2;
+            phi_s0->mtx.xy = temp_f0_2;
+            if (Math3D_LineSegVsPlane(spDC, spE0, (bitwise f32) (bitwise s32) spE4, (f32) phi_s0->unk_4C->dist, temp_s4, temp_s5, &spF4, 1) != 0) {
+                phi_s0->mtx.xx = spF4 - sp118;
+                phi_s0->mtx.xy = spF8 - sp11C;
+                phi_s0->mtx.xz = spFC - sp120;
+            }
+            temp_f16_3 = (temp_s1->unk10 * 100.0f) + sp130;
+            sp10C = temp_f16_3;
+            temp_f10_2 = (temp_s1->unk14 * 100.0f) + sp134;
+            sp110 = temp_f10_2;
+            temp_f4_4 = (temp_s1->unk18 * 100.0f) + sp138;
+            sp114 = temp_f4_4;
+            sp100 = (spE8 * 4.0f) + temp_f16_3;
+            sp104 = (spEC * 4.0f) + temp_f10_2;
+            sp108 = (spF0 * 4.0f) + temp_f4_4;
+            if (Math3D_LineSegVsPlane(spDC, spE0, (bitwise f32) (bitwise s32) spE4, (f32) phi_s0->unk_4C->dist, temp_s4, temp_s5, &spF4, 1) != 0) {
+                phi_s0->mtx.yx = spF4 - sp118;
+                phi_s0->mtx.yy = spF8 - sp11C;
+                phi_s0->mtx.yz = spFC - sp120;
+            }
+        } else {
+            phi_s0->unk_4C = NULL;
+        }
+    }
+    temp_s2 = phi_s2 + 0x54;
+    phi_s0 = phi_s0 + 0x54;
+    phi_s2 = temp_s2;
+    if (temp_s2 != 0x1F8) {
+        goto loop_1;
+    }
+} */
+
+
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Mir_Ray/MirRay_Draw.s")
+void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
     MirRay* this = THIS;
 
-    // ? sp274;
-    // ? spD0;
-    // u8 spCC;
-    // ? *temp_s0_2;
-    // ? *temp_s0_3;
-    // u8 temp_v0_4;
-    // ? *phi_s0;
-    // ? *phi_s0_2;
-    s32 i;
-    Gfx *new_var;
-    MirRayImage sp7C[6];
     Player* player = PLAYER;
-    s32 pad;
-    // s32 j;
+    s32 i;
+    MirRayImage sp7C[6];
+    s32 temp;
 
     this->unk_22C = 0.0f;
     if ((D_80B8E670 == 0) && (this->unk_2AE == 0) && Player_HasMirrorShieldSetToDraw(globalCtx)) {
         Matrix_Mult(&player->shieldMf, 0);
         func_80B8D6F0(this, globalCtx);
         if (!(this->unk_22C <= 0.0f)) {
-
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_mir_ray.c", 966);
 
             func_80093D84(globalCtx->state.gfxCtx);
             Matrix_Scale(1.0f, 1.0f, this->unk_22C * 5.0f, 1);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(pad = this->unk_22C * 100.0f));
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->unk_22C * 100.0f));
             gSPDisplayList(POLY_XLU_DISP++, D_06000C50);
             func_80B8D8A0(this, globalCtx, &sp7C[0]);
             func_80B8DA78(&sp7C[0]);
             func_80B8DB7C(this, globalCtx, &sp7C[0]);
-            // i = 1;
+
             if (sp7C[0].unk_4C == NULL) {
                 sp7C[0].unk_50 = 0;
-                // i = 1;
             }
-        // loop_6:
-            for (i = 0; i < 6; i++) {
-                if (sp7C[i].unk_4C != 0) {
-                    // temp_v0_4 = sp7C[i].unk_50;
+            for (i = 1; i < 6; i++) {
+                if (sp7C[i].unk_4C != NULL) {
                     if (sp7C[0].unk_50 < sp7C[i].unk_50) {
                         sp7C[0].unk_50 = sp7C[i].unk_50;
                     }
                 }
             }
-            // temp_s0_2 = phi_s0 + 0x54;
-            // phi_s0 = temp_s0_2;
-            // if ((u32)temp_s0_2 < (u32)&sp274) {
-            //     goto loop_6;
-            // }
-            // phi_s0_2 = &sp7C;
-            // loop_11:
             for (i = 0; i < 6; i++) {
-                new_var = D_060000B0;
                 if (sp7C[i].unk_4C != NULL) {
                     Matrix_Translate(sp7C[i].unk_0.x, sp7C[i].unk_0.y, sp7C[i].unk_0.z, 0);
-                    // if (&globalCtx->actorCtx) {}
                     Matrix_Scale(0.01f, 0.01f, 0.01f, 1);
                     Matrix_Mult(&sp7C[i].mtx, 1);
                     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 1006),
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)sp7C[0].unk_50);
-                    gSPDisplayList(POLY_XLU_DISP++, new_var);
+                    gSPDisplayList(POLY_XLU_DISP++, D_060000B0);
                 }
             }
-            // temp_s0_3 = phi_s0_2 + 0x54;
-            // phi_s0_2 = temp_s0_3;
-            // if (temp_s0_3 != &sp274) {
-            //     goto loop_11;
-            // }
+
             D_80B8E670 = (u8)1U;
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_mir_ray.c", 1027);
         }
     }
-} */
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Mir_Ray/func_80B8E404.s")
 s32 func_80B8E404(Vec3f* vec1, Vec3f* vec2, f32 arg2, f32 arg3, f32 arg4, s16 arg5, s16 arg6) {
