@@ -57,7 +57,7 @@ Vec3f D_80B16E7C = {
 };
 
 UNK_TYPE D_80B16E88[] = {
-    0x06007F80, 0x06006EC0, 0x060072C0, 0x00000000, 0x00000000, 0x00000000,
+    0x06007F80, 0x06006EC0, 0x060072C0,
 };
 
 extern AnimationHeader D_060017E8;
@@ -337,13 +337,13 @@ void func_80B14634(EnTa* this, GlobalContext* globalCtx) {
         s32 exchangeItemId = func_8002F368(globalCtx);
 
         switch (exchangeItemId) {
-            case 3:
+            case EXCH_ITEM_CHICKEN:
                 player->actor.textId = 0x702B;
                 func_80B13AA0(this, func_80B14570, func_80B167C0);
                 this->unk_2CC = 40;
                 break;
             default:
-                if (exchangeItemId != 0) {
+                if (exchangeItemId != EXCH_ITEM_NONE) {
                     player->actor.textId = 0x702A;
                 }
                 func_80B13AA0(this, func_80B145F8, func_80B167FC);
@@ -370,13 +370,13 @@ void func_80B14754(EnTa* this, GlobalContext* globalCtx) {
         s32 exchangeItemId = func_8002F368(globalCtx);
 
         switch (exchangeItemId) {
-            case 6:
+            case EXCH_ITEM_POCKET_CUCCO:
                 player->actor.textId = 0x702B;
                 func_80B13AA0(this, func_80B14570, func_80B167C0);
                 this->unk_2CC = 40;
                 break;
             default:
-                if (exchangeItemId != 0) {
+                if (exchangeItemId != EXCH_ITEM_NONE) {
                     player->actor.textId = 0x5015;
                 }
                 func_80B13AA0(this, func_80B14398, func_80B167FC);
@@ -908,7 +908,7 @@ void func_80B15FE8(EnTa* this, GlobalContext* globalCtx) {
                 break;
             case 1:
                 if (gSaveContext.rupees < 10) {
-                    func_8010B720(globalCtx, 0x85U);
+                    func_8010B720(globalCtx, 0x85);
                     func_80B13AA0(this, func_80B15034, func_80B16938);
                 } else {
                     Rupees_ChangeBy(-10);
@@ -1189,8 +1189,10 @@ s32 EnTa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnTa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnTa* this = THIS;
+
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&D_80B16E7C, &((Actor*)thisx)->posRot2.pos);
+        Matrix_MultVec3f(&D_80B16E7C, &this->actor.posRot2.pos);
     }
 }
 
