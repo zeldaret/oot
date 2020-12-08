@@ -57,7 +57,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->type = (this->actor.params >> 0xC) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
-    this->unk_15C = 100;
+    this->numEffects = ARRAY_COUNT(this->effects);
     // index
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
     // save
@@ -65,7 +65,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->type) {
         case 0:
             osSyncPrintf("\n\n");
-            // parent switch occurs (better translation here)
+            // parent switch spawn
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             sCollectedCount = 0;
             this->rupeeCount = this->actor.params >> 6;
@@ -74,7 +74,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->rupeeCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-                // This is the chorus of the first opening of Hokuto no Ken
+                // This is a reference to Hokuto no Ken
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
                 Actor_Kill(&this->actor);
             } else {
@@ -83,10 +83,10 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case 1:
             osSyncPrintf("\n\n");
-            // child switch generation (better translation here)
+            // child switch spawn
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-            this->unk_158 = 5;
-            this->unk_15C = 20;
+            this->colorIdx = 5;
+            this->numEffects = 20;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
             this->actor.draw = func_80A230A8;
@@ -104,7 +104,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Horseback archery destructible pot
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
             this->actor.gravity = -3.0f;
-            this->unk_158 = Math_Rand_ZeroFloat(2.99f);
+            this->colorIdx = Math_Rand_ZeroFloat(2.99f);
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
             this->actor.scale.x = 0.25f;
@@ -116,9 +116,9 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
                 // what?
-                osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n"VT_RST"\n", this->objIndex);
+                osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
                 // bank is funny
-                osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n"VT_RST"\n", this->actor.params);
+                osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
             this->collider.dim.radius = 24;
             this->collider.dim.height = 74;
@@ -147,26 +147,26 @@ void EnGSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A22250(EnGSwitch* this, GlobalContext* globalCtx) {
-    Vec3f sp5C;
-    Vec3f sp50;
-    Vec3f sp44 = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp38 = { 0.0f, 0.0f, 0.0f };
+    Vec3f randPos;
+    Vec3f hitPos;
+    Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     s32 i;
 
-    sp5C.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(40.0f);
-    sp5C.y = this->actor.posRot.pos.y + 30.0f + Math_Rand_CenteredFloat(35.0f);
-    sp5C.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(40.0f);
-    sp50.x = this->collider.body.bumper.unk_06.x;
-    sp50.y = this->collider.body.bumper.unk_06.y;
-    sp50.z = this->collider.body.bumper.unk_06.z;
-    EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 0x2BC, &sp50);
+    randPos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(40.0f);
+    randPos.y = this->actor.posRot.pos.y + 30.0f + Math_Rand_CenteredFloat(35.0f);
+    randPos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(40.0f);
+    hitPos.x = this->collider.body.bumper.unk_06.x;
+    hitPos.y = this->collider.body.bumper.unk_06.y;
+    hitPos.z = this->collider.body.bumper.unk_06.z;
+    EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 0x2BC, &hitPos);
     if (this->type == 2) {
-        sp38.y = 15.0f;
-        EffectSsExtra_Spawn(globalCtx, &sp50, &sp38, &sp44, 5, 2);
+        velocity.y = 15.0f;
+        EffectSsExtra_Spawn(globalCtx, &hitPos, &velocity, &accel, 5, 2);
     }
     if (this->type == 3) {
-        for (i = 0; i < this->unk_15C; i++) {
-            func_80A23204(this, &sp5C, ARRAY_COUNT(this->effects), this->unk_158);
+        for (i = 0; i < this->numEffects; i++) {
+            func_80A23204(this, &randPos, 100, this->colorIdx);
         }
     }
 }
@@ -187,12 +187,13 @@ void func_80A2248C(EnGSwitch* this, GlobalContext* globalCtx) {
         if (sCollectedCount < 5) {
             // sound?
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n" VT_RST, this->pitchIndex);
-            func_800F4BF4(&D_801333D4, NA_SE_EV_FIVE_COUNT_LUPY, rupeePitches[this->pitchIndex]);
+            func_800F4BF4(&D_801333D4, 0xccccc, rupeePitches[this->pitchIndex]);
             this->pitchIndex = sCollectedCount;
         }
     }
     if (sCollectedCount >= this->rupeeCount) {
-        // It is now the end of the century. (A line from the second opening of Hokuto no Ken)
+        // It is now the end of the century.
+        // This another reference to Hokuto no Ken. It seems the dev was a fan.
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         // Last!
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
@@ -242,15 +243,16 @@ void func_80A22680(EnGSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A22764(EnGSwitch *this, GlobalContext *globalCtx) {
+void func_80A22764(EnGSwitch* this, GlobalContext* globalCtx) {
     EnSyatekiItm* gallery;
 
     this->actor.shape.rot.y += 0x3C0;
     if (this->unk_162 == 0) {
-        switch(this->unk_166) {
+        switch (this->unk_166) {
             case 2:
                 Actor_MoveForward(&this->actor);
-                if ((this->actor.velocity.y < 0.0f) && (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f))) {
+                if ((this->actor.velocity.y < 0.0f) &&
+                    (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f))) {
                     gallery = GALLERY;
                     this->actor.velocity.y = 0.0f;
                     this->actor.gravity = 0.0f;
@@ -262,7 +264,7 @@ void func_80A22764(EnGSwitch *this, GlobalContext *globalCtx) {
                 break;
             case 4:
                 func_8002D7EC(&this->actor);
-                if ((this->actor.velocity.x < 0.0f) && (this->actor.posRot.pos.x < this->unk_16C)) {
+                if ((this->actor.velocity.x < 0.0f) && (this->actor.posRot.pos.x < this->unk_16C.x)) {
                     gallery = GALLERY;
                     if (gallery->actor.update != NULL) {
                         gallery->unk_166[this->unk_160] = 1;
@@ -272,7 +274,7 @@ void func_80A22764(EnGSwitch *this, GlobalContext *globalCtx) {
                 break;
             case 5:
                 func_8002D7EC(&this->actor);
-                if (this->unk_16C < this->actor.posRot.pos.x) {
+                if (this->unk_16C.x < this->actor.posRot.pos.x) {
                     gallery = GALLERY;
                     if (gallery->actor.update != NULL) {
                         gallery->unk_166[this->unk_160] = 1;
@@ -281,21 +283,25 @@ void func_80A22764(EnGSwitch *this, GlobalContext *globalCtx) {
                 }
                 break;
             default:
-                switch(this->unk_168) {
+                switch (this->unk_168) {
                     case 0:
-                        if ((5.0f < fabsf(this->actor.posRot.pos.x - this->unk_16C)) || (5.0f < fabsf(this->actor.posRot.pos.y - this->unk_170))) {
-                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_16C, 0.3f, 30.0f);
-                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->unk_170, 0.3f, 30.0f);
+                        if ((5.0f < fabsf(this->actor.posRot.pos.x - this->unk_16C.x)) ||
+                            (5.0f < fabsf(this->actor.posRot.pos.y - this->unk_16C.y))) {
+                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_16C.x, 0.3f, 30.0f);
+                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->unk_16C.y, 0.3f, 30.0f);
                         } else {
                             this->unk_168 = 1;
                             this->unk_164 = 60;
                         }
                         break;
                     case 1:
-                        if(this->unk_164 == 0) {
-                            if ((5.0f < fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x)) || (5.0f < fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y))) {
-                                Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f, 30.0f);
-                                Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 30.0f);
+                        if (this->unk_164 == 0) {
+                            if ((5.0f < fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x)) ||
+                                (5.0f < fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y))) {
+                                Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f,
+                                                     30.0f);
+                                Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
+                                                     30.0f);
                             } else {
                                 gallery = GALLERY;
                                 if (gallery->actor.update != NULL) {
@@ -317,7 +323,7 @@ void func_80A22764(EnGSwitch *this, GlobalContext *globalCtx) {
                 func_80078884(NA_SE_EV_HIT_SOUND);
                 func_80078884(NA_SE_SY_GET_RUPY);
                 // Yeah !
-                osSyncPrintf(VT_FGCOL(YELLOW)"☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->unk_156);
+                osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->unk_156);
                 func_80A22250(this, globalCtx);
                 this->killTimer = 50;
                 this->broken = true;
@@ -447,7 +453,7 @@ void func_80A230A8(Actor* thisx, GlobalContext* globalCtx) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->unk_158]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->colorIdx]));
         gSPDisplayList(POLY_OPA_DISP++, D_04042440);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
@@ -457,58 +463,56 @@ void func_80A230A8(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A23204(EnGSwitch* this, Vec3f* arg1, s16 arg2, s16 arg3) {
-    EnGSwitchEffect* phi_s0 = this->effects;
+    EnGSwitchEffect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < this->unk_15C; i++, phi_s0++) {
-        if (phi_s0->unk_12 == 0) {
-            Vec3f sp34;
-            f32 sp30;
-            f32 pad;
+    for (i = 0; i < this->numEffects; i++, effect++) {
+        if (!effect->flag) {
+            Vec3f baseVel;
+            f32 pitch;
+            f32 yaw;
 
-            phi_s0->unk_00 = *arg1;
-            phi_s0->unk_0C = arg2;
-            phi_s0->unk_10 = arg3;
-            phi_s0->unk_0E = 30;
-            phi_s0->unk_20.x = phi_s0->unk_20.y = phi_s0->unk_20.z = 0.0f;
-            sp30 = Math_Rand_CenteredFloat(1000.0f) - 13000.0f;
-            pad = Math_Rand_CenteredFloat(65535.0f);
-            Matrix_RotateY(pad, MTXMODE_NEW);
-            Matrix_RotateX(sp30, MTXMODE_APPLY);
-            sp34.x = sp34.y = 0.0f;
-            sp34.z = 20.0f;
-            Matrix_MultVec3f(&sp34, &phi_s0->unk_14);
-            phi_s0->unk_12 = 1;
+            effect->pos = *arg1;
+            effect->scale = arg2;
+            effect->colorIdx = arg3;
+            effect->timer = 30;
+            effect->rot.x = effect->rot.y = effect->rot.z = 0.0f;
+            pitch = Math_Rand_CenteredFloat(1000.0f) - 13000.0f;
+            yaw = Math_Rand_CenteredFloat(65535.0f);
+            Matrix_RotateY(yaw, MTXMODE_NEW);
+            Matrix_RotateX(pitch, MTXMODE_APPLY);
+            baseVel.x = baseVel.y = 0.0f;
+            baseVel.z = 20.0f;
+            Matrix_MultVec3f(&baseVel, &effect->velocity);
+            effect->flag = true;
             return;
         }
     }
 }
 
 void func_80A23314(EnGSwitch* this, GlobalContext* globalCtx) {
-    f32 temp_f20;
-    f32 temp_f22;
-    f32 temp_f18;
+    Vec3f temp;
     s16 i;
-    EnGSwitchEffect* phi_s0 = this->effects;
+    EnGSwitchEffect* effect = this->effects;
 
-    for (i = 0; i < this->unk_15C; i++, phi_s0++) {
-        if (phi_s0->unk_12 != 0) {
-            phi_s0->unk_20.x += Math_Rand_ZeroOne() * 10.0f + 15.0f;
-            phi_s0->unk_20.y += Math_Rand_ZeroOne() * 10.0f + 15.0f;
-            phi_s0->unk_20.z += Math_Rand_ZeroOne() * 10.0f + 15.0f;
-            temp_f18 = phi_s0->unk_00.x + phi_s0->unk_14.x;
-            temp_f20 = phi_s0->unk_00.y + phi_s0->unk_14.y;
-            temp_f22 = phi_s0->unk_00.z + phi_s0->unk_14.z;
-            Math_SmoothScaleMaxF(&phi_s0->unk_00.x, temp_f18, 0.3f, 30.0f);
-            Math_SmoothScaleMaxF(&phi_s0->unk_00.y, temp_f20, 0.8f, 250.0f);
-            Math_SmoothScaleMaxF(&phi_s0->unk_00.z, temp_f22, 0.3f, 30.0f);
-            Math_SmoothScaleMaxF(&phi_s0->unk_14.y, -20.0f, 0.9f, 1.0f);
-            if (phi_s0->unk_0E != 0) {
-                phi_s0->unk_0E--;
-            } else if (phi_s0->unk_0C < 10) {
-                phi_s0->unk_12 = 0;
+    for (i = 0; i < this->numEffects; i++, effect++) {
+        if (effect->flag) {
+            effect->rot.x += Math_Rand_ZeroOne() * 10.0f + 15.0f;
+            effect->rot.y += Math_Rand_ZeroOne() * 10.0f + 15.0f;
+            effect->rot.z += Math_Rand_ZeroOne() * 10.0f + 15.0f;
+            temp.x = effect->pos.x + effect->velocity.x;
+            temp.y = effect->pos.y + effect->velocity.y;
+            temp.z = effect->pos.z + effect->velocity.z;
+            Math_SmoothScaleMaxF(&effect->pos.x, temp.x, 0.3f, 30.0f);
+            Math_SmoothScaleMaxF(&effect->pos.y, temp.y, 0.8f, 250.0f);
+            Math_SmoothScaleMaxF(&effect->pos.z, temp.z, 0.3f, 30.0f);
+            Math_SmoothScaleMaxF(&effect->velocity.y, -20.0f, 0.9f, 1.0f);
+            if (effect->timer != 0) {
+                effect->timer--;
+            } else if (effect->scale < 10) {
+                effect->flag = false;
             } else {
-                phi_s0->unk_0C -= 2;
+                effect->scale -= 2;
             }
         }
     }
@@ -516,24 +520,24 @@ void func_80A23314(EnGSwitch* this, GlobalContext* globalCtx) {
 
 void func_80A234D4(EnGSwitch* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    EnGSwitchEffect* phi_s0 = this->effects;
+    EnGSwitchEffect* effect = this->effects;
     s16 i;
-    f32 temp_f20;
+    f32 scale;
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_en_g_switch.c", 1073);
     func_80093D18(globalCtx->state.gfxCtx);
-    for (i = 0; i < this->unk_15C; i++, phi_s0++) {
-        if (phi_s0->unk_12 != 0) {
-            temp_f20 = phi_s0->unk_0C / 10000.0f;
-            Matrix_Translate(phi_s0->unk_00.x, phi_s0->unk_00.y, phi_s0->unk_00.z, MTXMODE_NEW);
-            Matrix_Scale(temp_f20, temp_f20, temp_f20, MTXMODE_APPLY);
-            Matrix_RotateX(phi_s0->unk_20.x, MTXMODE_APPLY);
-            Matrix_RotateY(phi_s0->unk_20.y, MTXMODE_APPLY);
-            Matrix_RotateZ(phi_s0->unk_20.z, MTXMODE_APPLY);
+    for (i = 0; i < this->numEffects; i++, effect++) {
+        if (effect->flag) {
+            scale = effect->scale / 10000.0f;
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+            Matrix_RotateX(effect->rot.x, MTXMODE_APPLY);
+            Matrix_RotateY(effect->rot.y, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->rot.z, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 1088),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[phi_s0->unk_10]));
+            gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[effect->colorIdx]));
             gSPDisplayList(POLY_OPA_DISP++, D_04042440);
         }
     }

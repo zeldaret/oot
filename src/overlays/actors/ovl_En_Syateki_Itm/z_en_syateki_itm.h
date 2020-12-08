@@ -19,7 +19,8 @@ typedef struct EnSyatekiItm {
     /* 0x015A */ s16 unk_15A[6];
     /* 0x0166 */ s16 unk_166[2];
     /* 0x016A */ s16 unk_16A;
-    /* 0x016C */ Vec3f unk_16C[4];
+    /* 0x016C */ Vec3f unk_16C[2];
+    /* 0x0184 */ Vec3f unk_184[2];
     /* 0x019C */ struct EnExRuppy* rupees[10];
     /* 0x01C4 */ struct EnGSwitch* gSwitch[2];
     /* 0x01CC */ struct EnSyatekiMan* man;
