@@ -95,14 +95,14 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
         xzDist = sqrtf(SQ(posRotDifference.x) + SQ(posRotDifference.z));
         yDistWithOffset = player->actor.posRot.pos.y - (this->actor.posRot.pos.y - 90.0f);
         player->windDirection = Math_atan2f(-posRotDifference.x, -posRotDifference.z) * 10430.378f;
-        if (3.0f < xzDist) {
+        if (xzDist > 3.0f) {
             Math_SmoothScaleMaxMinF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
         } else {
             player->windSpeed = 0.0f;
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 3.0f, 0.0f);
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 3.0f, 0.0f);
         }
-        if (0.0f < yDistWithOffset) {
+        if (yDistWithOffset > 0.0f) {
             Math_SmoothScaleMaxMinF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
             if (posRotDifference.y < -70.0f) {
                 player->stateFlags2 |= 0x80000000;
