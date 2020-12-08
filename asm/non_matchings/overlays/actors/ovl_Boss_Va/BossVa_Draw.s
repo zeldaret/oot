@@ -228,7 +228,7 @@ glabel L80959318
 /* 0A1F4 809594B4 24E77F60 */  addiu   $a3, $a3, %lo(func_80957F60) ## $a3 = 80957F60
 /* 0A1F8 809594B8 AFB00014 */  sw      $s0, 0x0014($sp)
 /* 0A1FC 809594BC AFAA0010 */  sw      $t2, 0x0010($sp)
-/* 0A200 809594C0 0C028572 */  jal     SkelAnime_Draw
+/* 0A200 809594C0 0C028572 */  jal     SkelAnime_DrawOpa
 
 /* 0A204 809594C4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0A208 809594C8 100000B1 */  beq     $zero, $zero, .L80959790
@@ -246,7 +246,7 @@ glabel L809594D0
 /* 0A234 809594F4 25AD86E4 */  addiu   $t5, $t5, %lo(func_809586E4) ## $t5 = 809586E4
 /* 0A238 809594F8 AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 0A23C 809594FC AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0A240 80959500 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0A240 80959500 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0A244 80959504 AFAC0010 */  sw      $t4, 0x0010($sp)
 /* 0A248 80959508 100000A1 */  beq     $zero, $zero, .L80959790
 /* 0A24C 8095950C 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -263,7 +263,7 @@ glabel L80959510
 /* 0A274 80959534 27398B0C */  addiu   $t9, $t9, %lo(func_80958B0C) ## $t9 = 80958B0C
 /* 0A278 80959538 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 0A27C 8095953C AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0A280 80959540 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0A280 80959540 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0A284 80959544 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 0A288 80959548 10000091 */  beq     $zero, $zero, .L80959790
 /* 0A28C 8095954C 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -274,7 +274,7 @@ glabel L80959550
 /* 0A29C 8095955C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0A2A0 80959560 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 0A2A4 80959564 AFA00010 */  sw      $zero, 0x0010($sp)
-/* 0A2A8 80959568 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0A2A8 80959568 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 0A2AC 8095956C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0A2B0 80959570 10000087 */  beq     $zero, $zero, .L80959790
 /* 0A2B4 80959574 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -290,7 +290,7 @@ glabel L80959578
 /* 0A2D4 80959594 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
 /* 0A2D8 80959598 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 0A2DC 8095959C AFB00014 */  sw      $s0, 0x0014($sp)
-/* 0A2E0 809595A0 0C028572 */  jal     SkelAnime_Draw
+/* 0A2E0 809595A0 0C028572 */  jal     SkelAnime_DrawOpa
 
 /* 0A2E4 809595A4 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 0A2E8 809595A8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000

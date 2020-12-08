@@ -15,6 +15,10 @@ void ObjKibako2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjKibako2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000960;
+extern UNK_TYPE D_06000B70;
+extern UNK_TYPE D_06001000;
+
 /*
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,

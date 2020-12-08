@@ -9,6 +9,11 @@ void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600BC70;
+extern UNK_TYPE D_0600BD80;
+extern UNK_TYPE D_0600E1B0;
+extern UNK_TYPE D_0600E2D0;
+
 /*
 const ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,

@@ -29,7 +29,7 @@ glabel EnMk_Init
 /* 00068 80AAC968 24E70D88 */  addiu   $a3, $a3, 0x0D88           ## $a3 = 06000D88
 /* 0006C 80AAC96C 24C65DF0 */  addiu   $a2, $a2, 0x5DF0           ## $a2 = 06005DF0
 /* 00070 80AAC970 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00074 80AAC974 0C0291BE */  jal     SkelAnime_InitSV
+/* 00074 80AAC974 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00078 80AAC978 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0007C 80AAC97C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00080 80AAC980 24A50D88 */  addiu   $a1, $a1, 0x0D88           ## $a1 = 06000D88
