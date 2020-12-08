@@ -29,11 +29,11 @@ typedef struct EnGSwitch {
     /* 0x015A */ s16 broken;
     /* 0x015C */ s16 numEffects;
     /* 0x015E */ s16 objNum;
-    /* 0x0160 */ s16 unk_160;
-    /* 0x0162 */ s16 unk_162;
-    /* 0x0164 */ s16 unk_164;
-    /* 0x0166 */ s16 unk_166;
-    /* 0x0168 */ s16 unk_168;
+    /* 0x0160 */ s16 unk_160; // first or second rupee in two-rupee patterns
+    /* 0x0162 */ s16 unk_162; // Wait timer for the second blue rupee
+    /* 0x0164 */ s16 unk_164; // Wait timer for green rupee
+    /* 0x0166 */ s16 unk_166; // Type of movement
+    /* 0x0168 */ s16 unk_168; // Appear or retreat (for blue rupees and the stationary green one)
     /* 0x016A */ s16 pitchIndex;
     /* 0x016C */ Vec3f unk_16C;
     /* 0x0178 */ s8 objIndex;

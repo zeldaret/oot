@@ -2029,7 +2029,7 @@ void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.type == ACTORTYPE_PLAYER) && !(this->stateFlags1 & 0x100) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & 0x400000)) &&
         (gSaveContext.health != 0) && (globalCtx->csCtx.state == 0) && (this->csMode == 0) &&
-        (globalCtx->unk_11E5C == 0) && (globalCtx->activeCamera == 0) && (globalCtx->sceneLoadFlag != 0x14) &&
+        (globalCtx->shootingGalleryAmmo == 0) && (globalCtx->activeCamera == 0) && (globalCtx->sceneLoadFlag != 0x14) &&
         (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
     }
@@ -2054,8 +2054,8 @@ s32 func_80834380(GlobalContext* globalCtx, Player* this, s32* itemPtr, s32* typ
 
     if (gSaveContext.minigameState == 1) {
         return globalCtx->interfaceCtx.hbaAmmo;
-    } else if (globalCtx->unk_11E5C != 0) {
-        return globalCtx->unk_11E5C;
+    } else if (globalCtx->shootingGalleryAmmo != 0) {
+        return globalCtx->shootingGalleryAmmo;
     } else {
         return AMMO(*itemPtr);
     }
@@ -2145,7 +2145,7 @@ s32 func_80834758(GlobalContext* globalCtx, Player* this) {
     LinkAnimationHeader* anim;
     f32 frame;
 
-    if (!(this->stateFlags1 & 0x20C00000) && (globalCtx->unk_11E5C == 0) &&
+    if (!(this->stateFlags1 & 0x20C00000) && (globalCtx->shootingGalleryAmmo == 0) &&
         (this->heldItemActionParam == this->itemActionParam) && (this->currentShield != PLAYER_SHIELD_NONE) &&
         !Player_IsChildWithHylianShield(this) && func_80833BCC(this) &&
         CHECK_BTN_ALL(sControlInput->cur.button, BTN_R)) {
@@ -2215,7 +2215,7 @@ s32 func_808349DC(Player* this, GlobalContext* globalCtx) {
 s32 func_80834A2C(Player* this, GlobalContext* globalCtx) {
     if (func_800A3BC0(globalCtx, &this->skelAnime2) ||
         ((Player_ItemToActionParam(this->heldItemId) == this->heldItemActionParam) &&
-         (D_80853614 = (D_80853614 || ((this->modelAnimType != 3) && (globalCtx->unk_11E5C == 0)))))) {
+         (D_80853614 = (D_80853614 || ((this->modelAnimType != 3) && (globalCtx->shootingGalleryAmmo == 0)))))) {
         func_80833638(this, D_80853EDC[this->heldItemActionParam]);
         this->unk_834 = 0;
         this->unk_6AC = 0;
@@ -2307,12 +2307,12 @@ s32 func_80834D2C(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80834E44(GlobalContext* globalCtx) {
-    return (globalCtx->unk_11E5C > 0) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B);
+    return (globalCtx->shootingGalleryAmmo > 0) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B);
 }
 
 s32 func_80834E7C(GlobalContext* globalCtx) {
-    return (globalCtx->unk_11E5C != 0) &&
-           ((globalCtx->unk_11E5C < 0) ||
+    return (globalCtx->shootingGalleryAmmo != 0) &&
+           ((globalCtx->shootingGalleryAmmo < 0) ||
             CHECK_BTN_ANY(sControlInput->cur.button, BTN_A | BTN_B | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN));
 }
 
@@ -2376,14 +2376,14 @@ s32 func_808350A4(GlobalContext* globalCtx, Player* this) {
 
             if (gSaveContext.minigameState == 1) {
                 globalCtx->interfaceCtx.hbaAmmo--;
-            } else if (globalCtx->unk_11E5C != 0) {
-                globalCtx->unk_11E5C--;
+            } else if (globalCtx->shootingGalleryAmmo != 0) {
+                globalCtx->shootingGalleryAmmo--;
             } else {
                 Inventory_ChangeAmmo(item, -1);
             }
 
-            if (globalCtx->unk_11E5C == 1) {
-                globalCtx->unk_11E5C = -10;
+            if (globalCtx->shootingGalleryAmmo == 1) {
+                globalCtx->shootingGalleryAmmo = -10;
             }
 
             func_8083264C(this, 150, 10, 150, 0);
@@ -5162,7 +5162,7 @@ s32 func_8083C2B0(Player* this, GlobalContext* globalCtx) {
     LinkAnimationHeader* anim;
     f32 frame;
 
-    if ((globalCtx->unk_11E5C == 0) && (this->currentShield != PLAYER_SHIELD_NONE) &&
+    if ((globalCtx->shootingGalleryAmmo == 0) && (this->currentShield != PLAYER_SHIELD_NONE) &&
         CHECK_BTN_ALL(sControlInput->cur.button, BTN_R) &&
         (Player_IsChildWithHylianShield(this) || (!func_80833B2C(this) && (this->unk_664 == NULL)))) {
 
@@ -9068,7 +9068,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 params;
     u16 entranceSound;
 
-    globalCtx->unk_11E5C = globalCtx->bombchuBowlingAmmo = 0;
+    globalCtx->shootingGalleryAmmo = globalCtx->bombchuBowlingAmmo = 0;
 
     globalCtx->playerInit = Player_InitCommon;
     globalCtx->playerUpdate = Player_UpdateCommon;
@@ -10554,7 +10554,7 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
     }
 
     this->unk_6AE |= 2;
-    return func_80836AB8(this, (globalCtx->unk_11E5C != 0) || func_8002DD78(this) || func_808334B4(this)) - arg3;
+    return func_80836AB8(this, (globalCtx->shootingGalleryAmmo != 0) || func_8002DD78(this) || func_808334B4(this)) - arg3;
 }
 #else
 s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3);
@@ -10684,7 +10684,7 @@ void func_8084B1D8(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8084B3CC(GlobalContext* globalCtx, Player* this) {
-    if (globalCtx->unk_11E5C != 0) {
+    if (globalCtx->shootingGalleryAmmo != 0) {
         func_80832564(globalCtx, this);
         func_80835C58(globalCtx, this, func_8084FA54, 0);
 
@@ -12482,9 +12482,9 @@ void func_8084FA54(Player* this, GlobalContext* globalCtx) {
     this->unk_6BE = func_8084ABD8(globalCtx, this, 1, 0) - this->actor.shape.rot.y;
     this->unk_6AE |= 0x80;
 
-    if (globalCtx->unk_11E5C < 0) {
-        globalCtx->unk_11E5C++;
-        if (globalCtx->unk_11E5C == 0) {
+    if (globalCtx->shootingGalleryAmmo < 0) {
+        globalCtx->shootingGalleryAmmo++;
+        if (globalCtx->shootingGalleryAmmo == 0) {
             func_8083C148(this, globalCtx);
         }
     }

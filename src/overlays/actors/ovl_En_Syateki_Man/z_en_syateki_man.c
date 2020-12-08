@@ -5,6 +5,7 @@
 #define FLAGS 0x08000019
 
 #define THIS ((EnSyatekiMan*)thisx)
+#define GALLERY ((EnSyatekiItm*)this->actor.parent)
 
 void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +68,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, this->limbDrawTbl,
                        this->transitionDrawTbl, 9);
     if (gSaveContext.linkAge != 0) {
-        this->unk_200.z = 20;
+        this->headRot.z = 20;
     }
     this->unk_20E = 20;
     this->unk_20C = 0;
@@ -110,14 +111,14 @@ void func_80B10A84(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_21C != 0) {
-        globalCtx->unk_11E5C = -2;
+        globalCtx->shootingGalleryAmmo = -2;
     }
     if ((this->unk_212 == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->unk_210 == 0) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0:
-                    if (gSaveContext.rupees >= 0x14) {
-                        Rupees_ChangeBy(-0x14);
+                    if (gSaveContext.rupees >= 20) {
+                        Rupees_ChangeBy(-20);
                         this->unk_210 = 1;
                         sp26 = 1;
                     } else {
@@ -154,7 +155,7 @@ void func_80B10A84(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void func_80B10C2C(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_21C != 0) {
-        globalCtx->unk_11E5C = -2;
+        globalCtx->shootingGalleryAmmo = -2;
     }
     if ((this->unk_212 == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->unk_21C != 0) {
@@ -172,7 +173,7 @@ void func_80B10CD4(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_21C != 0) {
-        globalCtx->unk_11E5C = -2;
+        globalCtx->shootingGalleryAmmo = -2;
     }
     if ((this->unk_212 == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->unk_21C != 0) {
@@ -181,7 +182,7 @@ void func_80B10CD4(EnSyatekiMan* this, GlobalContext* globalCtx) {
             this->unk_21C = 0;
         }
         func_80106CCC(globalCtx);
-        gallery = (EnSyatekiItm*)this->actor.parent;
+        gallery = GALLERY;
         if (gallery->actor.update != NULL) {
             gallery->unk_154 = 1;
             this->actionFunc = func_80B10D94;
@@ -194,7 +195,7 @@ void func_80B10D94(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (1) {}
-    gallery = (EnSyatekiItm*)this->actor.parent;
+    gallery = GALLERY;
     if ((gallery->actor.update != NULL) && (gallery->unk_154 == 2)) {
         this->unk_228 = func_800800F8(globalCtx, 0x1F42, -0x63, &this->actor, 0);
         switch (gallery->unk_156) {
@@ -210,13 +211,13 @@ void func_80B10D94(EnSyatekiMan* this, GlobalContext* globalCtx) {
             default:
                 this->unk_214 = 3;
                 this->actor.textId = 0x71AD;
-                if (globalCtx->unk_11E5C == 0x10) {
+                if (globalCtx->shootingGalleryAmmo == 15 + 1) {
                     this->unk_214 = 4;
                     this->actor.textId = 0x2D;
                 }
                 break;
         }
-        globalCtx->unk_11E5C = -2;
+        globalCtx->shootingGalleryAmmo = -2;
         func_8010B680(globalCtx, this->actor.textId, NULL);
         this->actionFunc = func_80B10EB0;
     }
@@ -232,13 +233,13 @@ void func_80B10EB0(EnSyatekiMan* this, GlobalContext* globalCtx) {
             this->unk_228 = -1;
         }
         func_80106CCC(globalCtx);
-        gallery = (EnSyatekiItm*)this->actor.parent;
+        gallery = GALLERY;
         if (gallery->actor.update != NULL) {
             gallery->unk_154 = 3;
             this->unk_210 = 0;
             switch (this->unk_214) {
                 case 1:
-                    this->unk_220 = this->actor.parent;
+                    this->tempGallery = this->actor.parent;
                     this->actor.parent = NULL;
                     if (gSaveContext.linkAge != 0) {
                         if (!(gSaveContext.itemGetInf[0] & 0x2000)) {
@@ -274,7 +275,7 @@ void func_80B10EB0(EnSyatekiMan* this, GlobalContext* globalCtx) {
                     this->actionFunc = func_80B11164;
                     break;
                 case 2:
-                    this->unk_216 = 0x14;
+                    this->timer = 20;
                     func_8008EF44(globalCtx, 0xF);
                     this->actionFunc = func_80B112A0;
                     break;
@@ -314,7 +315,7 @@ void func_80B111D4(EnSyatekiMan* this, GlobalContext* globalCtx) {
             gSaveContext.itemGetInf[0] |= 0x4000;
         }
         this->unk_214 = 0;
-        this->actor.parent = this->unk_220;
+        this->actor.parent = this->tempGallery;
         this->actor.flags |= 1;
         this->actionFunc = func_80B109DC;
     }
@@ -322,10 +323,10 @@ void func_80B111D4(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
 void func_80B112A0(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if (this->unk_216 == 0) {
-        EnSyatekiItm* gallery = (EnSyatekiItm*)this->actor.parent;
+    if (this->timer == 0) {
+        EnSyatekiItm* gallery = GALLERY;
 
-        if (gallery->actor.update != 0) {
+        if (gallery->actor.update != NULL) {
             gallery->unk_154 = 1;
             this->unk_214 = 0;
             this->actionFunc = func_80B10D94;
@@ -368,15 +369,15 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSyatekiMan* this = THIS;
 
-    if (this->unk_216 != 0) {
-        this->unk_216--;
+    if (this->timer != 0) {
+        this->timer--;
     }
     this->actionFunc(this, globalCtx);
     func_80B1156C();
     this->unk_224(this);
     this->actor.posRot2.pos.y = 70.0f;
     Actor_SetHeight(&this->actor, 70.0f);
-    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.posRot2.pos);
+    func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.posRot2.pos);
 }
 
 s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -384,7 +385,7 @@ s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     s32 phi_a0;
 
     if (limbIndex == 1) {
-        rot->x += this->unk_206.y;
+        rot->x += this->bodyRot.y;
     }
     if (limbIndex == 8) {
         *dList = D_06007E28;
@@ -392,8 +393,8 @@ s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         if (this->unk_214 == 4) {
             phi_a0 = -1;
         }
-        rot->x += this->unk_200.y * phi_a0;
-        rot->z += this->unk_200.z;
+        rot->x += this->headRot.y * phi_a0;
+        rot->z += this->headRot.z;
     }
     return false;
 }

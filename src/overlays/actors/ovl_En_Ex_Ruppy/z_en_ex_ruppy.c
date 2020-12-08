@@ -218,9 +218,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
          (this->timer == 0))) {
         this->isFalling = 1;
         this->actor.speedXZ = 0.0f;
-        this->actor.velocity.z = 0.0f;
-        this->actor.velocity.y = 0.0f;
-        this->actor.velocity.x = 0.0f;
+        this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
         this->actor.gravity = 0.0f;
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = EnExRuppy_EnterWater;

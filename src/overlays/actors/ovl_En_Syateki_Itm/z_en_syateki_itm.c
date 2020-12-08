@@ -169,7 +169,7 @@ void func_80B0FABC(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s32 temp;
 
-    if (globalCtx->unk_11E5C == -1) {
+    if (globalCtx->shootingGalleryAmmo == -1) {
         player->actor.freezeTimer = 10;
         this->unk_154 = 2;
         this->actionFunc = func_80B0FFE8;
@@ -277,7 +277,7 @@ void func_80B0FF44(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s16 j;
 
-    if (globalCtx->unk_11E5C == -1) {
+    if (globalCtx->shootingGalleryAmmo == -1) {
         player->actor.freezeTimer = 10;
         this->unk_154 = 2;
         this->actionFunc = func_80B0FFE8;
