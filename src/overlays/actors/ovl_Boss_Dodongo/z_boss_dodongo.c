@@ -618,9 +618,10 @@ extern AnimationHeader D_060042A8;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1278.s")
 
+void func_808C12C4(s16* arg1, s16 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C12C4.s")
-void func_808C1554(u16* D_030021D8, u16* D_808C73C8, s16 arg2, f32 arg3);
 
+void func_808C1554(u16* D_030021D8, u16* D_808C73C8, s16 arg2, f32 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1554.s")
 
 void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5);
@@ -1149,16 +1150,16 @@ void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
             this->unk_228 = 7700.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
             if ((this->unk_19E & 7) == 0) {
-                func_8005AA1C(&globalCtx->mainCamera, 2, 1, 8);
+                Camera_AddQuake(&globalCtx->mainCamera, 2, 1, 8);
             }
             if ((this->unk_19E & 1) == 0) {
                 func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
             }
         }
     }
+    Math_SmoothScaleMaxMinF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
     sp4C = sp5C->x - this->actor.posRot.pos.x;
     sp48 = sp5C->z - this->actor.posRot.pos.z;
-    Math_SmoothScaleMaxMinF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(sp4C, sp48) * 10430.378f, 5,
                             this->unk_1EC * this->unk_1E8, 0);
     if (fabsf(sp4C) <= 15.0f && fabsf(sp48) <= 15.0f) {
@@ -1173,7 +1174,7 @@ void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
             this->unk_228 = 9200.0f;
             this->actor.velocity.y = 20.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI);
-            func_8005AA1C(&globalCtx->mainCamera, 2, 6, 8);
+            Camera_AddQuake(&globalCtx->mainCamera, 2, 6, 8);
             sp50.x = this->actor.posRot.pos.x;
             sp50.y = this->actor.posRot.pos.y + 60.0f;
             sp50.z = this->actor.posRot.pos.z;
@@ -1683,8 +1684,6 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
     f32 xDistToCamera;
     f32 zDistToCorner;
     f32 zDistToCamera;
-    f32 temp_f2;
-    // s16 temp_v1_3;
     s32 colorIndex;
     f32 phi_f2;
     s16 i;
@@ -1790,7 +1789,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, cornerPos->z + sp184.z, 1.0f, this->unk_1E4, 0.0f);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
                 if ((this->unk_19E & 7) == 0) {
-                    func_8005AA1C(&globalCtx->mainCamera, 2, 1, 8);
+                    Camera_AddQuake(&globalCtx->mainCamera, 2, 1, 8);
                 }
                 if ((this->unk_19E & 1) == 0) {
                     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
