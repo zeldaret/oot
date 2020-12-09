@@ -23,7 +23,6 @@ void func_80898598(BgJyaHaheniron* this, GlobalContext* globalCtx);
 void func_8089861C(BgJyaHaheniron* this);
 void func_8089862C(BgJyaHaheniron* this, GlobalContext* globalCtx);
 
-
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORTYPE_PROP,
@@ -36,7 +35,7 @@ const ActorInit Bg_Jya_Haheniron_InitVars = {
     (ActorFunc)BgJyaHaheniron_Draw,
 };
 
-static ColliderJntSphItemInit D_80898740[1] = {
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
         { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
         { 0, { { 0, 0, 0 }, 10 }, 100 },
@@ -46,12 +45,12 @@ static ColliderJntSphItemInit D_80898740[1] = {
 static ColliderJntSphInit D_80898764 = {
     { COLTYPE_UNK10, 0x11, 0x01, 0x00, 0x00, COLSHAPE_JNTSPH },
     1,
-    D_80898740,
+    &sJntSphItemsInit,
 };
 
 static s16 D_80898774[] = { 5, 8, 11, 14, 17 };
 
-static InitChainEntry D_80898780[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_CONTINUE),  ICHAIN_F32_DIV1000(minVelocityY, -15000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE), ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
@@ -106,17 +105,15 @@ void func_80898114(GlobalContext* globalCtx, Vec3f* vec1, Vec3f* vec2) {
 
 void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaHaheniron* this = THIS;
-    Actor_ProcessInitChain(thisx, D_80898780);
+    Actor_ProcessInitChain(thisx, sInitChain);
     Actor_SetScale(&this->actor, D_80898794[this->actor.params]);
     if (thisx->params == 0) {
         func_808980C0(thisx, globalCtx);
         thisx->shape.rot.z = (Math_Rand_ZeroOne() * 65535.0f);
         func_8089843C(thisx);
-    }
-    else if (thisx->params == 1) {
+    } else if (thisx->params == 1) {
         func_80898588(thisx);
-    }
-    else if (thisx->params == 2) {
+    } else if (thisx->params == 2) {
         func_8089861C(thisx);
     }
 }
