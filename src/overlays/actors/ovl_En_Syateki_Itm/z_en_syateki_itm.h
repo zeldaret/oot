@@ -9,16 +9,16 @@ struct EnSyatekiItm;
 typedef void (*EnSyatekiItmActionFunc)(struct EnSyatekiItm*, GlobalContext*);
 
 typedef enum {
-    ENSYATEKI_NONE,
-    ENSYATEKI_START,
-    ENSYATEKI_END,
-    ENSYATEKI_RESULTS
+    /* 0 */ ENSYATEKI_NONE,
+    /* 1 */ ENSYATEKI_START,
+    /* 2 */ ENSYATEKI_END,
+    /* 3 */ ENSYATEKI_RESULTS
 } EnSyatekiSignal;
 
 typedef enum {
-    ENSYATEKIHIT_NONE,
-    ENSYATEKIHIT_MISS,
-    ENSYATEKIHIT_HIT
+    /* 0 */ ENSYATEKIHIT_NONE,
+    /* 1 */ ENSYATEKIHIT_MISS,
+    /* 2 */ ENSYATEKIHIT_HIT
 } EnSyatekiHitState;
 
 typedef struct EnSyatekiItm {

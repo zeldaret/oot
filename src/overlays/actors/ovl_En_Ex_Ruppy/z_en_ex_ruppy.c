@@ -151,7 +151,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
 
-        case 4: // Spawned by shooting gallery (not the target rupees)
+        case 4: // Progress markers in the shooting gallery
             this->actor.gravity = -3.0f;
             this->actor.flags &= ~1;
             Actor_SetScale(&this->actor, 0.01f);
@@ -215,8 +215,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
     divingGame = DIVING_GAME;
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
-        ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20) ||
-         (this->timer == 0))) {
+        ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20) || (this->timer == 0))) {
         this->invisible = true;
         this->actor.speedXZ = 0.0f;
         this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
@@ -230,8 +229,7 @@ void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
     EnDivingGame* divingGame = DIVING_GAME;
     f32 temp_f2;
 
-    if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
-        (divingGame->unk_2A2 == 2)) {
+    if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_2A2 == 2)) {
         this->invisible = false;
         this->actor.posRot.pos.x = ((Math_Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.posRot.pos.y = ((Math_Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
@@ -263,8 +261,7 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
         this->actionFunc = EnExRuppy_WaitInGame;
     }
     divingGame = DIVING_GAME;
-    if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
-         (divingGame->unk_29C == 0)) {
+    if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_29C == 0)) {
         this->timer = 20;
         this->actionFunc = EnExRuppy_Kill;
     }
@@ -286,7 +283,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
             if (divingGame->unk_29C == 0) {
                 this->timer = 20;
                 this->actionFunc = EnExRuppy_Kill;
-                if(1){}
+                if (1) {}
             } else if (this->actor.xyzDistFromLinkSq < SQ(localConst)) {
                 Rupees_ChangeBy(this->rupeeValue);
                 func_80078884(NA_SE_SY_GET_RUPY);
@@ -328,7 +325,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
         parent = (EnExRuppyParentActor*)this->actor.parent;
         if (parent != NULL) {
             if (parent->actor.update != NULL) {
-               parent->unk_226 = 1;
+                parent->unk_226 = 1;
             }
         } else {
             // "That idiot! error"
@@ -361,7 +358,7 @@ void EnExRuppy_WaitAsCollectible(EnExRuppy* this, GlobalContext* globalCtx) {
 }
 
 void EnExRuppy_GalleryTarget(EnExRuppy* this, GlobalContext* globalCtx) {
-    if (this->galleryFlag != 0) {
+    if (this->galleryFlag) {
         Math_SmoothScaleMaxF(&this->actor.shape.unk_08, 700.0f, 0.5f, 200.0f);
     } else {
         Math_SmoothScaleMaxF(&this->actor.shape.unk_08, -700.0f, 0.5f, 200.0f);

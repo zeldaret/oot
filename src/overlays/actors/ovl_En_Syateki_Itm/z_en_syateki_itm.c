@@ -74,7 +74,7 @@ void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
     for (i = 0; i < 10; i++) {
         this->markers[i] = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x131,
-                                                         sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
+                                                          sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
         if (this->markers[i] == NULL) {
             // Second spawn error
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n" VT_RST);
@@ -112,8 +112,6 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifndef NON_MATCHING
-// roundFlags[i] should be recalculated after the while loop
 void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
@@ -135,6 +133,7 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
             i = Math_Rand_ZeroFloat(5.99f);
             while (this->roundFlags[i]) {
                 i = Math_Rand_ZeroFloat(5.99f);
+                if(1){}
             }
             this->roundNum = i + 1;
             this->roundFlags[i] = true;
@@ -154,15 +153,12 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
         this->actionFunc = EnSyatekiItm_SpawnTargets;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Itm/func_80B0F944.s")
-#endif
 
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 // strange saved register behavior near the first if block
 void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3f zeroVec = {0.0f, 0.0f, 0.0f};
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 i;
     s32 roundIdx;
 
@@ -228,11 +224,11 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
                 this->curMarkers[1] = this->markers[9];
                 break;
         }
-        
+
         for (i = 0; i < this->numTargets; i++) {
-            this->targets[i] = (EnGSwitch*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
-                                                              ACTOR_EN_G_SWITCH, this->targetHome[i].x, this->targetHome[i].y,
-                                                              this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
+            this->targets[i] = (EnGSwitch*)Actor_SpawnAsChild(
+                &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_G_SWITCH, this->targetHome[i].x,
+                this->targetHome[i].y, this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
             if (this->targets[i] == NULL) {
                 // Rupee spawn error
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n" VT_RST);
@@ -269,7 +265,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
 }
 #else
 Vec3f D_80B103C8 = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Itm/func_80B0FABC.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Itm/EnSyatekiItm_SpawnTargets.s")
 #endif
 
 void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {

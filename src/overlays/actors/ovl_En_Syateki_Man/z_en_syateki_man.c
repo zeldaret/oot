@@ -8,18 +8,18 @@
 #define GALLERY ((EnSyatekiItm*)this->actor.parent)
 
 typedef enum {
-    RESULT_NONE,
-    RESULT_WINNER,
-    RESULT_ALMOST,
-    RESULT_FAILURE,
-    RESULT_REFUSE
+    /* 0 */ RESULT_NONE,
+    /* 1 */ RESULT_WINNER,
+    /* 2 */ RESULT_ALMOST,
+    /* 3 */ RESULT_FAILURE,
+    /* 4 */ RESULT_REFUSE
 } EnSyatekiManGameResult;
 
 typedef enum {
-    TEXT_CHOICE,
-    TEXT_START_GAME,
-    TEXT_NO_RUPEES,
-    TEXT_REFUSE
+    /* 0 */ TEXT_CHOICE,
+    /* 1 */ TEXT_START_GAME,
+    /* 2 */ TEXT_NO_RUPEES,
+    /* 3 */ TEXT_REFUSE
 } EnSyatekiManTextIdx;
 
 void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +77,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("\n\n");
     // Old man appeared!! Muhohohohohohohon
-    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST );
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
     this->actor.unk_1F = 1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, this->limbDrawTbl,
@@ -258,7 +258,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                     this->actor.parent = NULL;
                     if (gSaveContext.linkAge != 0) {
                         if (!(gSaveContext.itemGetInf[0] & 0x2000)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST ,
+                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
                                          (s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[5]) >>
                                              gUpgradeShifts[5]);
                             if ((s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[5]) >> gUpgradeShifts[5] == 1) {
@@ -271,8 +271,9 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         if (!(gSaveContext.itemGetInf[0] & 0x4000)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST ,
-                                        (s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[0]) >> gUpgradeShifts[0]);
+                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST,
+                                         (s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[0]) >>
+                                             gUpgradeShifts[0]);
                             switch ((s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[0]) >> gUpgradeShifts[0]) {
                                 case 0:
                                     this->getItemId = GI_RUPEE_PURPLE;
@@ -325,7 +326,7 @@ void EnSyaketiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         // Successful completion
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST );
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (gSaveContext.linkAge != 0) {
             gSaveContext.itemGetInf[0] |= 0x2000;
         } else if ((this->getItemId == 0x30) || (this->getItemId == 0x31)) {

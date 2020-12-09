@@ -8,8 +8,8 @@
 #define GALLERY ((EnSyatekiItm*)this->actor.parent)
 
 typedef enum {
-    MOVE_TARGET,
-    MOVE_HOME
+    /* 0 */ MOVE_TARGET,
+    /* 1 */ MOVE_HOME
 } GSwitchMoveState;
 
 void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -281,7 +281,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 break;
             case GSWITCH_RIGHT:
                 func_8002D7EC(&this->actor);
-                if (this->actor.posRot.pos.x > this->targetPos.x ) {
+                if (this->actor.posRot.pos.x > this->targetPos.x) {
                     gallery = GALLERY;
                     if (gallery->actor.update != NULL) {
                         gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
@@ -413,7 +413,8 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->delayTimer != 0) {
         this->delayTimer--;
     }
-    if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) && (this->type != ENGSWITCH_TARGET_RUPEE)) {
+    if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) &&
+        (this->type != ENGSWITCH_TARGET_RUPEE)) {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
     }

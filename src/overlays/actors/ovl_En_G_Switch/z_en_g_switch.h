@@ -9,19 +9,19 @@ struct EnGSwitch;
 typedef void (*EnGSwitchActionFunc)(struct EnGSwitch*, GlobalContext*);
 
 typedef enum {
-    GSWITCH_NONE,
-    GSWITCH_APPEAR,
-    GSWITCH_THROW,
-    GSWITCH_UNUSED,
-    GSWITCH_LEFT,
-    GSWITCH_RIGHT
+    /* 0 */ GSWITCH_NONE,
+    /* 1 */ GSWITCH_APPEAR,
+    /* 2 */ GSWITCH_THROW,
+    /* 3 */ GSWITCH_UNUSED,
+    /* 4 */ GSWITCH_LEFT,
+    /* 5 */ GSWITCH_RIGHT
 } EnGSwitchMoveMode;
 
 typedef enum {
-    ENGSWITCH_SILVER_TRACKER,
-    ENGSWITCH_SILVER_RUPEE,
-    ENGSWITCH_ARCHERY_POT,
-    ENGSWITCH_TARGET_RUPEE
+    /* 0 */ ENGSWITCH_SILVER_TRACKER,
+    /* 1 */ ENGSWITCH_SILVER_RUPEE,
+    /* 2 */ ENGSWITCH_ARCHERY_POT,
+    /* 3 */ ENGSWITCH_TARGET_RUPEE
 } EnGSwitchType;
 
 typedef struct {

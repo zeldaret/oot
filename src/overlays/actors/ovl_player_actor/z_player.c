@@ -10554,7 +10554,8 @@ s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3) {
     }
 
     this->unk_6AE |= 2;
-    return func_80836AB8(this, (globalCtx->shootingGalleryAmmo != 0) || func_8002DD78(this) || func_808334B4(this)) - arg3;
+    return func_80836AB8(this, (globalCtx->shootingGalleryAmmo != 0) || func_8002DD78(this) || func_808334B4(this)) -
+           arg3;
 }
 #else
 s16 func_8084ABD8(GlobalContext* globalCtx, Player* this, s32 arg2, s16 arg3);
