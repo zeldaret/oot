@@ -2389,8 +2389,8 @@ endseg
 beginseg
     name "ovl_En_Go"
     include "build/src/overlays/actors/ovl_En_Go/z_en_go.o"
-    include "build/data/overlays/actors/z_en_go.data.o"
-    include "build/data/overlays/actors/z_en_go.rodata.o"
+    // include "build/data/overlays/actors/z_en_go.data.o"
+    // include "build/data/overlays/actors/z_en_go.rodata.o"
     include "build/data/overlays/actors/z_en_go.reloc.o"
 endseg
 

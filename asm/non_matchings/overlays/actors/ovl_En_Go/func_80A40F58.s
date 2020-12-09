@@ -1,3 +1,20 @@
+.rdata
+
+glabel D_80A41C00
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C10
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C20
+    .asciz "../z_en_go.c"
+    .balign 4
+    
+
+
+.text
 glabel func_80A40F58
 /* 029E8 80A40F58 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 029EC 80A40F5C 3C0F80A4 */  lui     $t7, %hi(D_80A41BB4)       ## $t7 = 80A40000
