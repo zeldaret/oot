@@ -7,6 +7,11 @@
 #define THIS ((EnGSwitch*)thisx)
 #define GALLERY ((EnSyatekiItm*)this->actor.parent)
 
+typedef enum {
+    MOVE_TARGET,
+    MOVE_HOME
+} GSwitchMoveState;
+
 void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +41,10 @@ static ColliderCylinderInit sCylinderInit = {
     { 13, 40, 0, { 0, 0, 0 } },
 };
 
-static s16 sUnused[] = { 0, 1, 2, 19, 20 }; // Unclear what these would have been
+// Unused, but probably intended to be this
+static s16 sRupeeTypes[] = {
+    ITEM00_RUPEE_GREEN, ITEM00_RUPEE_BLUE, ITEM00_RUPEE_RED, ITEM00_RUPEE_ORANGE, ITEM00_RUPEE_PURPLE,
+};
 
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
@@ -62,15 +70,15 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     // save
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ\t     ☆☆☆☆☆ %x\n" VT_RST, this->switchFlag);
     switch (this->type) {
-        case 0:
+        case ENGSWITCH_SILVER_TRACKER:
             osSyncPrintf("\n\n");
             // parent switch spawn
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
             sCollectedCount = 0;
-            this->rupeeCount = this->actor.params >> 6;
-            this->rupeeCount &= 0x3F;
+            this->silverCount = this->actor.params >> 6;
+            this->silverCount &= 0x3F;
             // maximum number of checks
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->rupeeCount);
+            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 // This is a reference to Hokuto no Ken
@@ -80,7 +88,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = EnGSwitch_SilverRupeeTracker;
             }
             break;
-        case 1:
+        case ENGSWITCH_SILVER_RUPEE:
             osSyncPrintf("\n\n");
             // child switch spawn
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
@@ -98,7 +106,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = EnGSwitch_SilverRupeeIdle;
             }
             break;
-        case 2:
+        case ENGSWITCH_ARCHERY_POT:
             osSyncPrintf("\n\n");
             // Horseback archery destructible pot
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n" VT_RST);
@@ -124,7 +132,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.dim.yShift = 0;
             this->actionFunc = EnGSwitch_WaitForObject;
             break;
-        case 3:
+        case ENGSWITCH_TARGET_RUPEE:
             this->actor.shape.unk_08 = 700.0f;
             Actor_SetScale(&this->actor, 0.05f);
             Collider_InitCylinder(globalCtx, &this->collider);
@@ -159,11 +167,11 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
     hitPos.y = this->collider.body.bumper.unk_06.y;
     hitPos.z = this->collider.body.bumper.unk_06.z;
     EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 0x2BC, &hitPos);
-    if (this->type == 2) {
+    if (this->type == ENGSWITCH_ARCHERY_POT) {
         velocity.y = 15.0f;
         EffectSsExtra_Spawn(globalCtx, &hitPos, &velocity, &accel, 5, 2);
     }
-    if (this->type == 3) {
+    if (this->type == ENGSWITCH_TARGET_RUPEE) {
         for (i = 0; i < this->numEffects; i++) {
             EnGSwitch_SpawnEffects(this, &randPos, 100, this->colorIdx);
         }
@@ -190,7 +198,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, GlobalContext* globalCtx) {
             this->pitchIndex = sCollectedCount;
         }
     }
-    if (sCollectedCount >= this->rupeeCount) {
+    if (sCollectedCount >= this->silverCount) {
         // It is now the end of the century.
         // This another reference to Hokuto no Ken. It seems the dev was a fan.
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
@@ -246,9 +254,9 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
     EnSyatekiItm* gallery;
 
     this->actor.shape.rot.y += 0x3C0;
-    if (this->unk_162 == 0) {
-        switch (this->unk_166) {
-            case 2:
+    if (this->delayTimer == 0) {
+        switch (this->moveMode) {
+            case GSWITCH_THROW:
                 Actor_MoveForward(&this->actor);
                 if ((this->actor.velocity.y < 0.0f) &&
                     (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f))) {
@@ -256,47 +264,47 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                     this->actor.velocity.y = 0.0f;
                     this->actor.gravity = 0.0f;
                     if (gallery->actor.update != NULL) {
-                        gallery->unk_166[this->unk_160] = 1;
+                        gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
                     }
                     Actor_Kill(&this->actor);
                 }
                 break;
-            case 4:
+            case GSWITCH_LEFT:
                 func_8002D7EC(&this->actor);
-                if ((this->actor.velocity.x < 0.0f) && (this->actor.posRot.pos.x < this->unk_16C.x)) {
+                if ((this->actor.velocity.x < 0.0f) && (this->actor.posRot.pos.x < this->targetPos.x)) {
                     gallery = GALLERY;
                     if (gallery->actor.update != NULL) {
-                        gallery->unk_166[this->unk_160] = 1;
+                        gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
                     }
                     Actor_Kill(&this->actor);
                 }
                 break;
-            case 5:
+            case GSWITCH_RIGHT:
                 func_8002D7EC(&this->actor);
-                if (this->unk_16C.x < this->actor.posRot.pos.x) {
+                if (this->actor.posRot.pos.x > this->targetPos.x ) {
                     gallery = GALLERY;
                     if (gallery->actor.update != NULL) {
-                        gallery->unk_166[this->unk_160] = 1;
+                        gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
                     }
                     Actor_Kill(&this->actor);
                 }
                 break;
             default:
-                switch (this->unk_168) {
-                    case 0:
-                        if ((5.0f < fabsf(this->actor.posRot.pos.x - this->unk_16C.x)) ||
-                            (5.0f < fabsf(this->actor.posRot.pos.y - this->unk_16C.y))) {
-                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_16C.x, 0.3f, 30.0f);
-                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->unk_16C.y, 0.3f, 30.0f);
+                switch (this->moveState) {
+                    case MOVE_TARGET:
+                        if ((fabsf(this->actor.posRot.pos.x - this->targetPos.x) > 5.0f) ||
+                            (fabsf(this->actor.posRot.pos.y - this->targetPos.y) > 5.0f)) {
+                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->targetPos.x, 0.3f, 30.0f);
+                            Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->targetPos.y, 0.3f, 30.0f);
                         } else {
-                            this->unk_168 = 1;
-                            this->unk_164 = 60;
+                            this->moveState = MOVE_HOME;
+                            this->waitTimer = 60;
                         }
                         break;
-                    case 1:
-                        if (this->unk_164 == 0) {
-                            if ((5.0f < fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x)) ||
-                                (5.0f < fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y))) {
+                    case MOVE_HOME:
+                        if (this->waitTimer == 0) {
+                            if ((fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x) > 5.0f) ||
+                                (fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) > 5.0f)) {
                                 Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f,
                                                      30.0f);
                                 Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
@@ -304,7 +312,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                             } else {
                                 gallery = GALLERY;
                                 if (gallery->actor.update != NULL) {
-                                    gallery->unk_166[this->unk_160] = 1;
+                                    gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
                                 }
                                 Actor_Kill(&this->actor);
                             }
@@ -317,12 +325,12 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
             gallery = GALLERY;
             this->collider.base.acFlags &= ~2;
             if (gallery->actor.update != NULL) {
-                gallery->unk_156++;
-                gallery->unk_166[this->unk_160] = 2;
+                gallery->hitCount++;
+                gallery->targetState[this->index] = ENSYATEKIHIT_HIT;
                 func_80078884(NA_SE_EV_HIT_SOUND);
                 func_80078884(NA_SE_SY_GET_RUPY);
                 // Yeah !
-                osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->unk_156);
+                osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ いぇぇーす！ＨＩＴ！！ ☆☆☆☆☆ %d\n" VT_RST, gallery->hitCount);
                 EnGSwitch_Break(this, globalCtx);
                 this->killTimer = 50;
                 this->broken = true;
@@ -399,18 +407,18 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->killTimer != 0) {
         this->killTimer--;
     }
-    if (this->unk_164 != 0) {
-        this->unk_164--;
+    if (this->waitTimer != 0) {
+        this->waitTimer--;
     }
-    if (this->unk_162 != 0) {
-        this->unk_162--;
+    if (this->delayTimer != 0) {
+        this->delayTimer--;
     }
-    if ((this->type != 0) && (this->type != 1) && (this->type != 3)) {
+    if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) && (this->type != ENGSWITCH_TARGET_RUPEE)) {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
     }
     if (this->actor.draw != NULL) {
-        if (this->type == 3) {
+        if (this->type == ENGSWITCH_TARGET_RUPEE) {
             EnGSwitch_UpdateEffects(this, globalCtx);
         }
         if ((this->actionFunc != EnGSwitch_Kill) && (this->actionFunc != EnGSwitch_SilverRupeeIdle)) {
@@ -456,7 +464,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_OPA_DISP++, D_04042440);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
-    if (this->type == 3) {
+    if (this->type == ENGSWITCH_TARGET_RUPEE) {
         EnGSwitch_DrawEffects(this, globalCtx);
     }
 }

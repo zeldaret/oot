@@ -12,12 +12,12 @@ void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiItm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B0F838(EnSyatekiItm* this, GlobalContext* globalCtx);
-void func_80B0F944(EnSyatekiItm* this, GlobalContext* globalCtx);
-void func_80B0FABC(EnSyatekiItm* this, GlobalContext* globalCtx);
-void func_80B0FF44(EnSyatekiItm* this, GlobalContext* globalCtx);
-void func_80B0FFE8(EnSyatekiItm* this, GlobalContext* globalCtx);
-void func_80B10070(EnSyatekiItm* this, GlobalContext* globalCtx);
+void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx);
+void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx);
+void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx);
+void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx);
+void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, GlobalContext* globalCtx);
+void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx);
 
 const ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
@@ -52,8 +52,8 @@ Vec3f D_80B1030C = { -230.0f, 0.0f, 0.0f };
 Vec3f D_80B10318 = { 260.0f, 0.0f, 0.0f };
 Vec3f D_80B10324 = { 260.0f, 0.0f, 0.0f };
 s16 D_80B10330[] = { 0, 1, 0, 1, 2, 2 };
-static s16 D_80B1033C[] = { 0, 1, 1, 0, 1, 1, 4, 4, 4, 4 };
-static Vec3f D_80B10350[] = {
+static s16 sRupeeTypes[] = { 0, 1, 1, 0, 1, 1, 4, 4, 4, 4 };
+static Vec3f sRupeePos[] = {
     { -40.0f, 0.0f, -90.0f }, { -20.0f, 0.0f, -90.0f }, { 0.0f, 0.0f, -90.0f },   { 20.0f, 0.0f, -90.0f },
     { 40.0f, 0.0f, -90.0f },  { -40.0f, 0.0f, -60.0f }, { -20.0f, 0.0f, -60.0f }, { 0.0f, 0.0f, -60.0f },
     { 20.0f, 0.0f, -60.0f },  { 40.0f, 0.0f, -60.0f },
@@ -73,27 +73,27 @@ void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
         return;
     }
     for (i = 0; i < 10; i++) {
-        this->rupees[i] = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x131,
-                                                         D_80B10350[i].x, D_80B10350[i].y, D_80B10350[i].z, 0, 0, 0, 4);
-        if (this->rupees[i] == NULL) {
+        this->markers[i] = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x131,
+                                                         sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
+        if (this->markers[i] == NULL) {
             // Second spawn error
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n" VT_RST);
             Actor_Kill(&this->actor);
             return;
         }
-        this->rupees[i]->unk_150 = D_80B1033C[i];
+        this->markers[i]->colorIdx = sRupeeTypes[i];
     }
-    this->actionFunc = func_80B0F838;
+    this->actionFunc = EnSyatekiItm_Idle;
 }
 
 void EnSyatekiItm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80B0F838(EnSyatekiItm* this, GlobalContext* globalCtx) {
+void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     Player* player = PLAYER;
 
-    if (this->unk_154 == 1) {
+    if (this->signal == ENSYATEKI_START) {
         player->actor.posRot.pos.x = -12.0f;
         player->actor.posRot.pos.y = 20.0f;
         player->actor.posRot.pos.z = 182.0f;
@@ -101,170 +101,170 @@ void func_80B0F838(EnSyatekiItm* this, GlobalContext* globalCtx) {
         player->actor.posRot.rot.x = player->actor.shape.rot.x = player->actor.posRot.rot.z =
             player->actor.shape.rot.z = 0;
         func_8008EF44(globalCtx, 15);
-        this->unk_158 = this->unk_156 = 0;
+        this->roundNum = this->hitCount = 0;
         for (i = 0; i < 6; i++) {
-            this->unk_15A[i] = 0;
+            this->roundFlags[i] = false;
         }
         for (i = 0; i < 10; i++) {
-            this->rupees[i]->unk_15C = 0;
+            this->markers[i]->galleryFlag = false;
         }
-        this->actionFunc = func_80B0F944;
+        this->actionFunc = EnSyatekiItm_StartRound;
     }
 }
 
-#ifdef NON_MATCHING
-// weirdness in the first block loops
-void func_80B0F944(EnSyatekiItm* this, GlobalContext* globalCtx) {
-    s32 temp_f4;
+#ifndef NON_MATCHING
+// roundFlags[i] should be recalculated after the while loop
+void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
     Player* player = PLAYER;
 
-    if (this->unk_152 == 0) {
+    if (this->unkTimer == 0) {
         if (gSaveContext.linkAge == 0) {
             for (i = 0, j = 0; i < 6; i++) {
-                if (this->unk_15A[i] != 0) {
+                if (this->roundFlags[i]) {
                     j++;
                 }
             }
             if (j >= 6) {
                 player->actor.freezeTimer = 10;
-                this->unk_154 = 2;
-                this->actionFunc = func_80B0FFE8;
+                this->signal = ENSYATEKI_END;
+                this->actionFunc = EnSyatekiItm_CleanupGame;
                 return;
             }
-            temp_f4 = Math_Rand_ZeroFloat(5.99f);
-            while (this->unk_15A[temp_f4] != 0) {
-                temp_f4 = Math_Rand_ZeroFloat(5.99f);
+            i = Math_Rand_ZeroFloat(5.99f);
+            while (this->roundFlags[i]) {
+                i = Math_Rand_ZeroFloat(5.99f);
             }
-            this->unk_158 = temp_f4 + 1;
-            this->unk_15A[temp_f4] = 1;
+            this->roundNum = i + 1;
+            this->roundFlags[i] = true;
         } else {
-            this->unk_158++;
-            if (this->unk_158 >= 7) {
+            this->roundNum++;
+            if (this->roundNum > 6) {
                 player->actor.freezeTimer = 10;
-                this->unk_154 = 2;
-                this->actionFunc = func_80B0FFE8;
+                this->signal = ENSYATEKI_END;
+                this->actionFunc = EnSyatekiItm_CleanupGame;
                 return;
             }
         }
-        if (this->unk_158 == 1) {
-            this->unk_150 = 50;
-        } else {
-            this->unk_150 = 30;
-        }
+
+        this->timer = (this->roundNum == 1) ? 50 : 30;
+
         func_80078884(NA_SE_SY_FOUND);
-        this->actionFunc = func_80B0FABC;
+        this->actionFunc = EnSyatekiItm_SpawnTargets;
     }
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Itm/func_80B0F944.s")
 #endif
 
-#ifdef NON_MATCHING
-// saved register weirdness
-void func_80B0FABC(EnSyatekiItm* this, GlobalContext* globalCtx) {
+#ifndef NON_MATCHING
+// strange saved register behavior near the first if block
+void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3f sp80 = {0.0f, 0.0f, 0.0f};
+    Vec3f zeroVec = {0.0f, 0.0f, 0.0f};
     s32 i;
-    s32 temp;
+    s32 roundIdx;
 
     if (globalCtx->shootingGalleryAmmo == -1) {
         player->actor.freezeTimer = 10;
-        this->unk_154 = 2;
-        this->actionFunc = func_80B0FFE8;
-    } else if (this->unk_150 == 0) {
+        this->signal = ENSYATEKI_END;
+        this->actionFunc = EnSyatekiItm_CleanupGame;
+        return;
+    }
+    if (this->timer == 0) {
         for (i = 0; i < 2; i++) {
-            Math_Vec3f_Copy(&this->unk_16C[i], &sp80);
-            Math_Vec3f_Copy(&this->unk_184[i], &sp80);
-            this->gSwitch[i] = NULL;
+            Math_Vec3f_Copy(&this->targetHome[i], &zeroVec);
+            Math_Vec3f_Copy(&this->targetFinal[i], &zeroVec);
+            this->targets[i] = NULL;
         }
-        this->unk_16A = 2;
-        this->unk_1D0[0] = this->unk_1D0[1] = NULL;
-        temp = this->unk_158 - 1;
+        this->numTargets = 2;
+        this->curMarkers[0] = this->curMarkers[1] = NULL;
+        roundIdx = this->roundNum - 1;
 
-        switch (temp) {
+        switch (roundIdx) {
             case 0:
-                Math_Vec3f_Copy(&this->unk_16C[0], &D_80B10240);
-                Math_Vec3f_Copy(&this->unk_184[0], &D_80B102B8);
-                this->unk_1D0[0] = this->rupees[0];
-                this->unk_16A = 1;
+                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10240);
+                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102B8);
+                this->curMarkers[0] = this->markers[0];
+                this->numTargets = 1;
                 break;
             case 1:
-                Math_Vec3f_Copy(&this->unk_16C[0], &D_80B1024C);
-                Math_Vec3f_Copy(&this->unk_16C[1], &D_80B10258);
-                Math_Vec3f_Copy(&this->unk_184[0], &D_80B102C4);
-                Math_Vec3f_Copy(&this->unk_184[1], &D_80B102D0);
-                this->unk_1D0[0] = this->rupees[1];
-                this->unk_1D0[1] = this->rupees[2];
+                Math_Vec3f_Copy(&this->targetHome[0], &D_80B1024C);
+                Math_Vec3f_Copy(&this->targetHome[1], &D_80B10258);
+                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102C4);
+                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B102D0);
+                this->curMarkers[0] = this->markers[1];
+                this->curMarkers[1] = this->markers[2];
                 break;
             case 2:
-                Math_Vec3f_Copy(&this->unk_16C[0], &D_80B10264);
-                Math_Vec3f_Copy(&this->unk_184[0], &D_80B102DC);
-                this->unk_1D0[0] = this->rupees[3];
-                this->unk_16A = 1;
+                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10264);
+                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102DC);
+                this->curMarkers[0] = this->markers[3];
+                this->numTargets = 1;
                 break;
             case 3:
-                Math_Vec3f_Copy(&this->unk_16C[0], &D_80B10270);
-                Math_Vec3f_Copy(&this->unk_16C[1], &D_80B1027C);
-                Math_Vec3f_Copy(&this->unk_184[0], &D_80B102E8);
-                Math_Vec3f_Copy(&this->unk_184[1], &D_80B102F4);
-                this->unk_1D0[0] = this->rupees[4];
-                this->unk_1D0[1] = this->rupees[5];
+                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10270);
+                Math_Vec3f_Copy(&this->targetHome[1], &D_80B1027C);
+                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102E8);
+                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B102F4);
+                this->curMarkers[0] = this->markers[4];
+                this->curMarkers[1] = this->markers[5];
                 break;
             case 4:
-                Math_Vec3f_Copy(&this->unk_16C[0], &D_80B10288);
-                Math_Vec3f_Copy(&this->unk_16C[1], &D_80B10294);
-                Math_Vec3f_Copy(&this->unk_184[0], &D_80B10300);
-                Math_Vec3f_Copy(&this->unk_184[1], &D_80B1030C);
-                this->unk_1D0[0] = this->rupees[6];
-                this->unk_1D0[1] = this->rupees[7];
+                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10288);
+                Math_Vec3f_Copy(&this->targetHome[1], &D_80B10294);
+                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B10300);
+                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B1030C);
+                this->curMarkers[0] = this->markers[6];
+                this->curMarkers[1] = this->markers[7];
                 break;
             case 5:
-                Math_Vec3f_Copy(&this->unk_16C[0], &D_80B102A0);
-                Math_Vec3f_Copy(&this->unk_16C[1], &D_80B102AC);
-                Math_Vec3f_Copy(&this->unk_184[0], &D_80B10318);
-                Math_Vec3f_Copy(&this->unk_184[1], &D_80B10324);
-                this->unk_1D0[0] = this->rupees[8];
-                this->unk_1D0[1] = this->rupees[9];
+                Math_Vec3f_Copy(&this->targetHome[0], &D_80B102A0);
+                Math_Vec3f_Copy(&this->targetHome[1], &D_80B102AC);
+                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B10318);
+                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B10324);
+                this->curMarkers[0] = this->markers[8];
+                this->curMarkers[1] = this->markers[9];
                 break;
         }
-        for (i = 0; i < this->unk_16A; i++) {
-            this->gSwitch[i] = (EnGSwitch*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
-                                                              ACTOR_EN_G_SWITCH, this->unk_16C[i].x, this->unk_16C[i].y,
-                                                              this->unk_16C[i].z, 0, 0, 0, 0x303F);
-            if (this->gSwitch[i] == NULL) {
+        
+        for (i = 0; i < this->numTargets; i++) {
+            this->targets[i] = (EnGSwitch*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+                                                              ACTOR_EN_G_SWITCH, this->targetHome[i].x, this->targetHome[i].y,
+                                                              this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
+            if (this->targets[i] == NULL) {
                 // Rupee spawn error
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n" VT_RST);
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->gSwitch[i]->unk_160 = i;
-            this->gSwitch[i]->colorIdx = D_80B10330[temp];
-            Math_Vec3f_Copy(&this->gSwitch[i]->unk_16C, &this->unk_184[i]);
-            switch (temp) {
+            this->targets[i]->index = i;
+            this->targets[i]->colorIdx = D_80B10330[roundIdx];
+            Math_Vec3f_Copy(&this->targets[i]->targetPos, &this->targetFinal[i]);
+            switch (roundIdx) {
                 case 1:
                     if (i == 1) {
-                        this->gSwitch[i]->unk_162 = 60;
+                        this->targets[i]->delayTimer = 60;
                     }
                     break;
                 case 2:
-                    this->gSwitch[i]->actor.velocity.y = 15.0f;
-                    this->gSwitch[i]->actor.gravity = -1.0f;
-                    this->gSwitch[i]->unk_166 = 2;
+                    this->targets[i]->actor.velocity.y = 15.0f;
+                    this->targets[i]->actor.gravity = -1.0f;
+                    this->targets[i]->moveMode = GSWITCH_THROW;
                     break;
                 case 4:
-                    this->gSwitch[i]->actor.velocity.x = -5.0f;
-                    this->gSwitch[i]->unk_166 = 4;
+                    this->targets[i]->actor.velocity.x = -5.0f;
+                    this->targets[i]->moveMode = GSWITCH_LEFT;
                     break;
                 case 5:
-                    this->gSwitch[i]->actor.velocity.x = 7.0f;
-                    this->gSwitch[i]->unk_166 = 4;
+                    this->targets[i]->actor.velocity.x = 7.0f;
+                    this->targets[i]->moveMode = GSWITCH_RIGHT;
                     break;
             }
         }
-        this->unk_166[0] = this->unk_166[1] = 0;
-        this->actionFunc = func_80B0FF44;
+        this->targetState[0] = this->targetState[1] = ENSYATEKIHIT_NONE;
+        this->actionFunc = EnSyatekiItm_CheckTargets;
     }
 }
 #else
@@ -272,50 +272,50 @@ Vec3f D_80B103C8 = { 0.0f, 0.0f, 0.0f };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Itm/func_80B0FABC.s")
 #endif
 
-void func_80B0FF44(EnSyatekiItm* this, GlobalContext* globalCtx) {
+void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 i;
     s16 j;
 
     if (globalCtx->shootingGalleryAmmo == -1) {
         player->actor.freezeTimer = 10;
-        this->unk_154 = 2;
-        this->actionFunc = func_80B0FFE8;
+        this->signal = ENSYATEKI_END;
+        this->actionFunc = EnSyatekiItm_CleanupGame;
     } else {
         for (i = 0, j = 0; i < 2; i++) {
-            if (this->unk_166[i] != 0) {
-                if (this->unk_166[i] == 2) {
-                    this->unk_1D0[i]->unk_15C = 1;
+            if (this->targetState[i] != ENSYATEKIHIT_NONE) {
+                if (this->targetState[i] == ENSYATEKIHIT_HIT) {
+                    this->curMarkers[i]->galleryFlag = true;
                 }
                 j++;
             }
         }
-        if (j == this->unk_16A) {
-            this->actionFunc = func_80B0F944;
+        if (j == this->numTargets) {
+            this->actionFunc = EnSyatekiItm_StartRound;
         }
     }
 }
 
-void func_80B0FFE8(EnSyatekiItm* this, GlobalContext* globalCtx) {
+void EnSyatekiItm_CleanupGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        if ((this->unk_166[i] == 0) && (this->gSwitch[i] != NULL)) {
-            Actor_Kill(&this->gSwitch[i]->actor);
+        if ((this->targetState[i] == ENSYATEKIHIT_NONE) && (this->targets[i] != NULL)) {
+            Actor_Kill(&this->targets[i]->actor);
         }
     }
-    this->actionFunc = func_80B10070;
+    this->actionFunc = EnSyatekiItm_EndGame;
 }
 
-void func_80B10070(EnSyatekiItm* this, GlobalContext* globalCtx) {
+void EnSyatekiItm_EndGame(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     player->actor.freezeTimer = 10;
-    if (this->unk_154 == 3) {
-        this->unk_154 = 0;
-        this->actionFunc = func_80B0F838;
+    if (this->signal == ENSYATEKI_RESULTS) {
+        this->signal = ENSYATEKI_NONE;
+        this->actionFunc = EnSyatekiItm_Idle;
     }
-    if (this->unk_154 == 1) {
+    if (this->signal == ENSYATEKI_START) {
         // 1 frame attack and defense!
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
@@ -327,8 +327,8 @@ void func_80B10070(EnSyatekiItm* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ １フレームの攻防！ ☆☆☆☆ \n" VT_RST);
-        this->unk_154 = 0;
-        this->actionFunc = func_80B0F838;
+        this->signal = ENSYATEKI_NONE;
+        this->actionFunc = EnSyatekiItm_Idle;
     }
 }
 
@@ -338,11 +338,11 @@ void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    if (this->unk_150 != 0) {
-        this->unk_150--;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->unk_152 != 0) {
-        this->unk_152--;
+    if (this->unkTimer != 0) {
+        this->unkTimer--;
     }
     if (BREG(0)) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,

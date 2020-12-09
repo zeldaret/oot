@@ -3,7 +3,7 @@ glabel D_80B10670
  .word 0x40BFAE14
 
 .text
-glabel func_80B0F944
+glabel EnSyatekiItm_StartRound
 /* 00294 80B0F944 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00298 80B0F948 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0029C 80B0F94C AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -31,10 +31,10 @@ glabel func_80B0F944
 /* 002EC 80B0F99C 28A10006 */  slti    $at, $a1, 0x0006           
 /* 002F0 80B0F9A0 14200008 */  bne     $at, $zero, .L80B0F9C4     
 /* 002F4 80B0F9A4 2419000A */  addiu   $t9, $zero, 0x000A         ## $t9 = 0000000A
-/* 002F8 80B0F9A8 3C0980B1 */  lui     $t1, %hi(func_80B0FFE8)    ## $t1 = 80B10000
+/* 002F8 80B0F9A8 3C0980B1 */  lui     $t1, %hi(EnSyatekiItm_CleanupGame)    ## $t1 = 80B10000
 /* 002FC 80B0F9AC A4D90110 */  sh      $t9, 0x0110($a2)           ## 00000110
 /* 00300 80B0F9B0 24080002 */  addiu   $t0, $zero, 0x0002         ## $t0 = 00000002
-/* 00304 80B0F9B4 2529FFE8 */  addiu   $t1, $t1, %lo(func_80B0FFE8) ## $t1 = 80B0FFE8
+/* 00304 80B0F9B4 2529FFE8 */  addiu   $t1, $t1, %lo(EnSyatekiItm_CleanupGame) ## $t1 = 80B0FFE8
 /* 00308 80B0F9B8 A6080154 */  sh      $t0, 0x0154($s0)           ## 00000154
 /* 0030C 80B0F9BC 1000003A */  beq     $zero, $zero, .L80B0FAA8   
 /* 00310 80B0F9C0 AE09014C */  sw      $t1, 0x014C($s0)           ## 0000014C
@@ -75,13 +75,13 @@ glabel func_80B0F944
 /* 00388 80B0FA38 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 .L80B0FA3C:
 /* 0038C 80B0FA3C 860A0158 */  lh      $t2, 0x0158($s0)           ## 00000158
-/* 00390 80B0FA40 3C0E80B1 */  lui     $t6, %hi(func_80B0FFE8)    ## $t6 = 80B10000
+/* 00390 80B0FA40 3C0E80B1 */  lui     $t6, %hi(EnSyatekiItm_CleanupGame)    ## $t6 = 80B10000
 /* 00394 80B0FA44 240C000A */  addiu   $t4, $zero, 0x000A         ## $t4 = 0000000A
 /* 00398 80B0FA48 254B0001 */  addiu   $t3, $t2, 0x0001           ## $t3 = 00000001
 /* 0039C 80B0FA4C A60B0158 */  sh      $t3, 0x0158($s0)           ## 00000158
 /* 003A0 80B0FA50 86040158 */  lh      $a0, 0x0158($s0)           ## 00000158
 /* 003A4 80B0FA54 240D0002 */  addiu   $t5, $zero, 0x0002         ## $t5 = 00000002
-/* 003A8 80B0FA58 25CEFFE8 */  addiu   $t6, $t6, %lo(func_80B0FFE8) ## $t6 = 80B0FFE8
+/* 003A8 80B0FA58 25CEFFE8 */  addiu   $t6, $t6, %lo(EnSyatekiItm_CleanupGame) ## $t6 = 80B0FFE8
 /* 003AC 80B0FA5C 28810007 */  slti    $at, $a0, 0x0007           
 /* 003B0 80B0FA60 54200006 */  bnel    $at, $zero, .L80B0FA7C     
 /* 003B4 80B0FA64 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -102,8 +102,8 @@ glabel func_80B0F944
 .L80B0FA94:
 /* 003E4 80B0FA94 0C01E221 */  jal     func_80078884              
 /* 003E8 80B0FA98 2404482C */  addiu   $a0, $zero, 0x482C         ## $a0 = 0000482C
-/* 003EC 80B0FA9C 3C1980B1 */  lui     $t9, %hi(func_80B0FABC)    ## $t9 = 80B10000
-/* 003F0 80B0FAA0 2739FABC */  addiu   $t9, $t9, %lo(func_80B0FABC) ## $t9 = 80B0FABC
+/* 003EC 80B0FA9C 3C1980B1 */  lui     $t9, %hi(EnSyatekiItm_SpawnTargets)    ## $t9 = 80B10000
+/* 003F0 80B0FAA0 2739FABC */  addiu   $t9, $t9, %lo(EnSyatekiItm_SpawnTargets) ## $t9 = 80B0FABC
 /* 003F4 80B0FAA4 AE19014C */  sw      $t9, 0x014C($s0)           ## 0000014C
 .L80B0FAA8:
 /* 003F8 80B0FAA8 8FBF0024 */  lw      $ra, 0x0024($sp)           

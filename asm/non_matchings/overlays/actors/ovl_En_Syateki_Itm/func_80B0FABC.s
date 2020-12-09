@@ -14,7 +14,7 @@ glabel jtbl_80B10674
 .word 0x00000000
 
 .text
-glabel func_80B0FABC
+glabel EnSyatekiItm_SpawnTargets
 /* 0040C 80B0FABC 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00410 80B0FAC0 3C0E80B1 */  lui     $t6, %hi(D_80B103C8)       ## $t6 = 80B10000
 /* 00414 80B0FAC4 AFBF005C */  sw      $ra, 0x005C($sp)           
@@ -46,10 +46,10 @@ glabel func_80B0FABC
 /* 0047C 80B0FB2C 17210009 */  bne     $t9, $at, .L80B0FB54       
 /* 00480 80B0FB30 0000A825 */  or      $s5, $zero, $zero          ## $s5 = 00000000
 /* 00484 80B0FB34 2408000A */  addiu   $t0, $zero, 0x000A         ## $t0 = 0000000A
-/* 00488 80B0FB38 3C0980B1 */  lui     $t1, %hi(func_80B0FFE8)    ## $t1 = 80B10000
+/* 00488 80B0FB38 3C0980B1 */  lui     $t1, %hi(EnSyatekiItm_CleanupGame)    ## $t1 = 80B10000
 /* 0048C 80B0FB3C 241E0002 */  addiu   $s8, $zero, 0x0002         ## $s8 = 00000002
 /* 00490 80B0FB40 A4480110 */  sh      $t0, 0x0110($v0)           ## 00000110
-/* 00494 80B0FB44 2529FFE8 */  addiu   $t1, $t1, %lo(func_80B0FFE8) ## $t1 = 80B0FFE8
+/* 00494 80B0FB44 2529FFE8 */  addiu   $t1, $t1, %lo(EnSyatekiItm_CleanupGame) ## $t1 = 80B0FFE8
 /* 00498 80B0FB48 A49E0154 */  sh      $s8, 0x0154($a0)           ## 00000154
 /* 0049C 80B0FB4C 100000F1 */  beq     $zero, $zero, .L80B0FF14   
 /* 004A0 80B0FB50 AC89014C */  sw      $t1, 0x014C($a0)           ## 0000014C
@@ -333,8 +333,8 @@ glabel L80B0FD40
 .L80B0FEFC:
 /* 0084C 80B0FEFC A6E00168 */  sh      $zero, 0x0168($s7)         ## 00000168
 /* 00850 80B0FF00 86E80168 */  lh      $t0, 0x0168($s7)           ## 00000168
-/* 00854 80B0FF04 3C0980B1 */  lui     $t1, %hi(func_80B0FF44)    ## $t1 = 80B10000
-/* 00858 80B0FF08 2529FF44 */  addiu   $t1, $t1, %lo(func_80B0FF44) ## $t1 = 80B0FF44
+/* 00854 80B0FF04 3C0980B1 */  lui     $t1, %hi(EnSyatekiItm_CheckTargets)    ## $t1 = 80B10000
+/* 00858 80B0FF08 2529FF44 */  addiu   $t1, $t1, %lo(EnSyatekiItm_CheckTargets) ## $t1 = 80B0FF44
 /* 0085C 80B0FF0C AEE9014C */  sw      $t1, 0x014C($s7)           ## 0000014C
 /* 00860 80B0FF10 A6E80166 */  sh      $t0, 0x0166($s7)           ## 00000166
 .L80B0FF14:
