@@ -1770,11 +1770,12 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 f32 three = 3.0f;
                 cornerPos = &D_808CA3F8[this->unk_1A0];
                 this->unk_1EC = 3.0f;
-                Math_SmoothScaleMaxMinF(&this->unk_1E4, three* 5.0f, 1.0f, three *0.25f, 0.0f);
-                
-                distToCorner = sqrtf(SQ(cornerPos->x - this->actor.posRot.pos.x) + SQ(cornerPos->z - this->actor.posRot.pos.z));
+                Math_SmoothScaleMaxMinF(&this->unk_1E4, three * 5.0f, 1.0f, three * 0.25f, 0.0f);
+
+                distToCorner =
+                    sqrtf(SQ(cornerPos->x - this->actor.posRot.pos.x) + SQ(cornerPos->z - this->actor.posRot.pos.z));
                 phi_f2 = distToCorner - 200.0f;
-                if ((distToCorner < 200.0f) ||  (this->unk_1DA != 0)) {
+                if ((distToCorner < 200.0f) || (this->unk_1DA != 0)) {
                     phi_f2 = 0.0f;
                 }
                 phi_f2 = CLAMP_MAX(phi_f2, 70.0f);
@@ -1783,7 +1784,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 sp198.z = Math_Sins(this->unk_19E * 1000) * phi_f2;
                 sp198.x = 0.0f;
                 sp198.y = 0.0f;
-                Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, MTXMODE_NEW);//(M_PI/0x8000)
+                Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, MTXMODE_NEW); //(M_PI/0x8000)
                 Matrix_MultVec3f(&sp198, &sp184);
                 Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, cornerPos->x + sp184.x, 1.0f, this->unk_1E4, 0.0f);
                 Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, cornerPos->z + sp184.z, 1.0f, this->unk_1E4, 0.0f);
@@ -1955,13 +1956,11 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                         this->unk_230 -= 0.01f;
                     }
                     Math_SmoothScaleMaxMinF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
-                    Math_SmoothScaleMaxMinF(&this->cameraEye.x,
-                                            this->actor.posRot.pos.x + this->unk_22C * sinf(this->unk_230), 0.2f, 50.0f,
-                                            0.0f);
+                    tempSin = this->unk_22C * sinf(this->unk_230);
+                    tempCos = this->unk_22C * cosf(this->unk_230);
+                    Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->actor.posRot.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
-                    Math_SmoothScaleMaxMinF(&this->cameraEye.z,
-                                            this->actor.posRot.pos.z + this->unk_22C * cosf(this->unk_230), 0.2f, 50.0f,
-                                            0.0f);
+                    Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->actor.posRot.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);
                 }
             } else {
@@ -2012,7 +2011,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             break;
     }
     if (this->cutsceneCamera != 0) {
-        func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
 }
 s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
