@@ -316,7 +316,7 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_28C.y = 1145.0f;
     this->unk_28C.z = 3014.0f;
 
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53850;
 }
 
@@ -324,7 +324,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     BgSpot15Saku* gate;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
@@ -487,7 +487,7 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_28C.y = 417.0f;
     this->unk_298.z = -1079.0f;
     this->unk_28C.z = -1079.0f;
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53F30;
 }
 
@@ -495,7 +495,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);

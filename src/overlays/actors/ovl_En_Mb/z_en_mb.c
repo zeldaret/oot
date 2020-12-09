@@ -713,7 +713,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
             EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);
             func_80033480(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
-            func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
+            Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
             func_800358DC(&this->actor, &sp74, &this->actor.posRot.rot, &sp5C, 20, &sp54, globalCtx, -1, 0);
             func_80AA6DA4(this);
         }
@@ -886,7 +886,7 @@ void func_80AA8378(EnMb* this, GlobalContext* globalCtx) {
             SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600E18C);
             this->unk_32E = 0;
             func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
-            func_8005AA1C(&globalCtx->mainCamera, 2, 25, 5);
+            Camera_AddQuake(&globalCtx->mainCamera, 2, 25, 5);
         } else {
             func_80AA6898(this);
         }
@@ -947,7 +947,7 @@ void func_80AA8514(EnMb* this, GlobalContext* globalCtx) {
         func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
         func_80033260(globalCtx, &this->actor, &effPosition, 50.0f, 0xA, 3.0f, 0x190, 0x3C, 0);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
-        func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
+        Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
     }
 }
 
