@@ -11,8 +11,8 @@ typedef void (*DemoTreLgtActionFunc)(struct DemoTreLgt*, GlobalContext*);
 typedef struct {
     /* 0x00 */ f32 startFrame;
     /* 0x04 */ f32 endFrame;
-    /* 0x08 */ f32 unkFrame;
-    /* 0x0C */ f32 sideMaxFrame;
+    /* 0x08 */ f32 unk_08;
+    /* 0x0C */ f32 unk_0C;
 } FrameInfo; // size = 0x10
 
 typedef struct {
@@ -27,6 +27,11 @@ typedef struct DemoTreLgt {
     /* 0x0174 */ u32 unk_174; // another sort of alpha
     /* 0x0178 */ u8 status;
 } DemoTreLgt; // size = 0x017C
+
+typedef enum {
+    /* 0x00 */ DEMO_TRE_LGT_ACTION_WAIT, // wait until animation is needed
+    /* 0x01 */ DEMO_TRE_LGT_ACTION_ANIMATE,
+} DemoTreLgtAction;
 
 extern const ActorInit Demo_Tre_Lgt_InitVars;
 
