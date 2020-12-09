@@ -22,16 +22,16 @@ glabel EnFr_Update
 /* 002D4 80A1AC74 2401FFEF */  addiu   $at, $zero, 0xFFEF         ## $at = FFFFFFEF
 /* 002D8 80A1AC78 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
 /* 002DC 80A1AC7C 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
-/* 002E0 80A1AC80 3C0580A2 */  lui     $a1, %hi(D_80A1D0BC)       ## $a1 = 80A20000
+/* 002E0 80A1AC80 3C0580A2 */  lui     $a1, %hi(sInitChain)       ## $a1 = 80A20000
 /* 002E4 80A1AC84 01C17824 */  and     $t7, $t6, $at
 /* 002E8 80A1AC88 2442FFFF */  addiu   $v0, $v0, 0xFFFF           ## $v0 = FFFFFFFF
 /* 002EC 80A1AC8C 0002C080 */  sll     $t8, $v0,  2
-/* 002F0 80A1AC90 3C0180A2 */  lui     $at, %hi(D_80A1CFF0 + 0x4)       ## $at = 80A20000
+/* 002F0 80A1AC90 3C0180A2 */  lui     $at, %hi(sEnFrPointers + 0x4)       ## $at = 80A20000
 /* 002F4 80A1AC94 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 /* 002F8 80A1AC98 00380821 */  addu    $at, $at, $t8
-/* 002FC 80A1AC9C AC30CFF4 */  sw      $s0, %lo(D_80A1CFF0 + 0x4)($at)
+/* 002FC 80A1AC9C AC30CFF4 */  sw      $s0, %lo(sEnFrPointers + 0x4)($at)
 /* 00300 80A1ACA0 AFA2003C */  sw      $v0, 0x003C($sp)
-/* 00304 80A1ACA4 24A5D0BC */  addiu   $a1, $a1, %lo(D_80A1D0BC)  ## $a1 = 80A1D0BC
+/* 00304 80A1ACA4 24A5D0BC */  addiu   $a1, $a1, %lo(sInitChain)  ## $a1 = 80A1D0BC
 /* 00308 80A1ACA8 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0030C 80A1ACAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -96,15 +96,15 @@ glabel EnFr_Update
 
 /* 003F0 80A1AD90 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 003F4 80A1AD94 8FAA003C */  lw      $t2, 0x003C($sp)
-/* 003F8 80A1AD98 3C0B80A2 */  lui     $t3, %hi(D_80A1D018)       ## $t3 = 80A20000
-/* 003FC 80A1AD9C 3C0D80A2 */  lui     $t5, %hi(D_80A1D008)       ## $t5 = 80A20000
+/* 003F8 80A1AD98 3C0B80A2 */  lui     $t3, %hi(sFrogToSongIndex)       ## $t3 = 80A20000
+/* 003FC 80A1AD9C 3C0D80A2 */  lui     $t5, %hi(sSongIndex)       ## $t5 = 80A20000
 /* 00400 80A1ADA0 016A5821 */  addu    $t3, $t3, $t2
-/* 00404 80A1ADA4 916BD018 */  lbu     $t3, %lo(D_80A1D018)($t3)
+/* 00404 80A1ADA4 916BD018 */  lbu     $t3, %lo(sFrogToSongIndex)($t3)
 /* 00408 80A1ADA8 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xeee)
 /* 0040C 80A1ADAC 95CEF54E */  lhu     $t6, %lo(gSaveContext+0xeee)($t6)
 /* 00410 80A1ADB0 000B6040 */  sll     $t4, $t3,  1
 /* 00414 80A1ADB4 01AC6821 */  addu    $t5, $t5, $t4
-/* 00418 80A1ADB8 95ADD008 */  lhu     $t5, %lo(D_80A1D008)($t5)
+/* 00418 80A1ADB8 95ADD008 */  lhu     $t5, %lo(sSongIndex)($t5)
 /* 0041C 80A1ADBC 3C014316 */  lui     $at, 0x4316                ## $at = 43160000
 /* 00420 80A1ADC0 01AE7824 */  and     $t7, $t5, $t6
 /* 00424 80A1ADC4 51E00006 */  beql    $t7, $zero, .L80A1ADE0
