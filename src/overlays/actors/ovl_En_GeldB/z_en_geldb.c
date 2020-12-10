@@ -1367,7 +1367,7 @@ s32 EnGeldB_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         gDPSetEnvColor(POLY_OPA_DISP++, 140, 0, 0, 255);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_geldB.c", 2529);
-    return false;
+    return 0;
 }
 
 void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
