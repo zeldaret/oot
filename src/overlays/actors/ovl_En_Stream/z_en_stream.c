@@ -15,7 +15,6 @@ void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx);
-void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx);
 s32 func_80B0B81C(PosRot* vortexPosRot, PosRot* playerPosRot, Vec3f* v, f32 vortexYScale);
 
 extern Gfx D_06000950[];
