@@ -216,7 +216,7 @@ void GfxPrint_SetBasePosPx(GfxPrint* this, s32 x, s32 y) {
 }
 
 void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
-    u32 tile = (c & 0xff) * 2;
+    u32 tile = (c & 0xFF) * 2;
 
     if (this->flag & GFXPRINT_UPDATE_MODE) {
         this->flag &= ~GFXPRINT_UPDATE_MODE;
