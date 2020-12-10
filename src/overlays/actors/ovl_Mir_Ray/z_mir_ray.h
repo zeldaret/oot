@@ -26,18 +26,17 @@ typedef struct {
 } MirRayDataEntry; // size = 0x20
 
 typedef struct {
-    /* 0x00 */ Vec3f unk_0;
+    /* 0x00 */ Vec3f pos;
     /* 0x0C */ MtxF mtx;
     /* 0x4C */ CollisionPoly* unk_4C;
     /* 0x50 */ u8 unk_50;
-    /* 0x51 */ char unk_51[0x3];
 } MirRayImage; // size = 0x54
 
 typedef struct MirRay {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderJntSph colliderSph;
     /* 0x016C */ ColliderJntSphItem colliderSphItem;
-    /* 0x01AC */ ColliderQuad colliderQuad;
+    /* 0x01AC */ ColliderQuad shieldRay;
     /* 0x022C */ f32 unk_22C;
     /* 0x0230 */ Vec3f unk_230[6];
     /* 0x0278 */ f32 unk_278;
@@ -45,8 +44,7 @@ typedef struct MirRay {
     /* 0x0288 */ Vec3f unk_288;
     /* 0x0294 */ s16 unk_294;
     /* 0x0296 */ s16 unk_296;
-    /* 0x0298 */ s16 unk_298;
-    /* 0x029A */ char unk_29A[0x2];
+    /* 0x0298 */ s16 unk_298; // radius
     /* 0x029C */ LightNode* lightNode;
     /* 0x02A0 */ LightInfo lightInfo;
     /* 0x02AE */ u8 unk_2AE;
