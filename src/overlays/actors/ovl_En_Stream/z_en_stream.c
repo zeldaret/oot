@@ -48,7 +48,7 @@ void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->unk_150 != 0) && (this->unk_150 == 1)) {
         thisx->scale.y = 0.01f;
     }
-    EnStream_SetupAction(this, &EnStream_WaitForPlayer);
+    EnStream_SetupAction(this, EnStream_WaitForPlayer);
 }
 
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -109,7 +109,7 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        EnStream_SetupAction(this, &EnStream_WaitForPlayer);
+        EnStream_SetupAction(this, EnStream_WaitForPlayer);
     }
 }
 
@@ -119,7 +119,7 @@ void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx) {
     Vec3f temp;
 
     if (func_80B0B81C(&this->actor.posRot, &player->actor.posRot, &temp, this->actor.scale.y) != 0) {
-        EnStream_SetupAction(this, &EnStream_SuckPlayer);
+        EnStream_SetupAction(this, EnStream_SuckPlayer);
     }
 }
 
