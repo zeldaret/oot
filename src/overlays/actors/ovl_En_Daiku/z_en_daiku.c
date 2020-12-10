@@ -345,7 +345,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
         this->stateFlags &= ~ENDAIKU_STATEFLAG_GERUDOFIGHTING;
         EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_CELEBRATE, &this->currentAnimIndex);
         this->actionFunc = EnDaiku_WaitFreedom;
-    } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && gerudo->unk_318 == 0) {
+    } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && !gerudo->invisible) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDOFIGHTING;
         this->actor.flags &= ~9;
     }

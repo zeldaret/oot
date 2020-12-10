@@ -1,9 +1,11 @@
 .late_rodata
+glabel D_80A3A2C4
+    .word 0x00000000
 glabel D_80A3A2D0
- .word 0x4082C000, 0x00000000, 0x00000000, 0x00000000
+    .word 0x4082C000, 0x00000000, 0x00000000, 0x00000000
 
 .text
-glabel func_80A39E2C
+glabel EnGeldB_DodgeRanged
 /* 04B1C 80A39E2C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 04B20 80A39E30 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 04B24 80A39E34 AFA40020 */  sw      $a0, 0x0020($sp)           
@@ -51,12 +53,12 @@ glabel func_80A39E2C
 /* 04BC8 80A39ED8 24010066 */  addiu   $at, $zero, 0x0066         ## $at = 00000066
 /* 04BCC 80A39EDC 17210005 */  bne     $t9, $at, .L80A39EF4       
 /* 04BD0 80A39EE0 00000000 */  nop
-/* 04BD4 80A39EE4 0C28E0A4 */  jal     func_80A38290              
+/* 04BD4 80A39EE4 0C28E0A4 */  jal     EnGeldB_SetupJump              
 /* 04BD8 80A39EE8 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 04BDC 80A39EEC 1000002D */  beq     $zero, $zero, .L80A39FA4   
 /* 04BE0 80A39EF0 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80A39EF4:
-/* 04BE4 80A39EF4 0C28E10C */  jal     func_80A38430              
+/* 04BE4 80A39EF4 0C28E10C */  jal     EnGeldB_SetupBlock              
 /* 04BE8 80A39EF8 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 04BEC 80A39EFC 10000029 */  beq     $zero, $zero, .L80A39FA4   
 /* 04BF0 80A39F00 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
@@ -82,7 +84,7 @@ glabel func_80A39E2C
 /* 04C34 80A39F44 1420000B */  bne     $at, $zero, .L80A39F74     
 /* 04C38 80A39F48 00000000 */  nop
 .L80A39F4C:
-/* 04C3C 80A39F4C 0C28E1F4 */  jal     func_80A387D0              
+/* 04C3C 80A39F4C 0C28E1F4 */  jal     EnGeldB_SetupSidestep              
 /* 04C40 80A39F50 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 04C44 80A39F54 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 04C48 80A39F58 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
@@ -101,7 +103,7 @@ glabel func_80A39E2C
 /* 04C74 80A39F84 28415FFF */  slti    $at, $v0, 0x5FFF           
 /* 04C78 80A39F88 10200003 */  beq     $at, $zero, .L80A39F98     
 /* 04C7C 80A39F8C 00000000 */  nop
-/* 04C80 80A39F90 0C28DF5C */  jal     func_80A37D70              
+/* 04C80 80A39F90 0C28DF5C */  jal     EnGeldB_SetupRollBack              
 /* 04C84 80A39F94 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 .L80A39F98:
 /* 04C88 80A39F98 10000002 */  beq     $zero, $zero, .L80A39FA4   
