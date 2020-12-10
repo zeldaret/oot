@@ -57,7 +57,9 @@ Vec3f D_80B16E7C = {
 };
 
 UNK_TYPE D_80B16E88[] = {
-    0x06007F80, 0x06006EC0, 0x060072C0,
+    0x06007F80,
+    0x06006EC0,
+    0x060072C0,
 };
 
 extern AnimationHeader D_060017E8;

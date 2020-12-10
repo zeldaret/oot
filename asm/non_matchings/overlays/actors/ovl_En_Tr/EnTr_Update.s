@@ -25,13 +25,13 @@ glabel EnTr_Update
 /* 00F24 80B23C14 5040003B */  beql    $v0, $zero, .L80B23D04
 /* 00F28 80B23C18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00F2C 80B23C1C 8E0502E4 */  lw      $a1, 0x02E4($s0)           ## 000002E4
-/* 00F30 80B23C20 3C0F0600 */  lui     $t7, 0x0600                ## $t7 = 06000000
-/* 00F34 80B23C24 25EF35CC */  addiu   $t7, $t7, 0x35CC           ## $t7 = 060035CC
+/* 00F30 80B23C20 3C0F0600 */  lui     $t7, %hi(D_060035CC)                ## $t7 = 06000000
+/* 00F34 80B23C24 25EF35CC */  addiu   $t7, $t7, %lo(D_060035CC)           ## $t7 = 060035CC
 /* 00F38 80B23C28 50A00033 */  beql    $a1, $zero, .L80B23CF8
 /* 00F3C 80B23C2C 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
 /* 00F40 80B23C30 11E50004 */  beq     $t7, $a1, .L80B23C44
-/* 00F44 80B23C34 3C180600 */  lui     $t8, 0x0600                ## $t8 = 06000000
-/* 00F48 80B23C38 271813CC */  addiu   $t8, $t8, 0x13CC           ## $t8 = 060013CC
+/* 00F44 80B23C34 3C180600 */  lui     $t8, %hi(D_060013CC)                ## $t8 = 06000000
+/* 00F48 80B23C38 271813CC */  addiu   $t8, $t8, %lo(D_060013CC)           ## $t8 = 060013CC
 /* 00F4C 80B23C3C 17050011 */  bne     $t8, $a1, .L80B23C84
 /* 00F50 80B23C40 3C090600 */  lui     $t1, 0x0600                ## $t1 = 06000000
 .L80B23C44:
@@ -62,16 +62,16 @@ glabel EnTr_Update
 /* 00FA0 80B23C90 3C0580B2 */  lui     $a1, %hi(func_80B22F28)    ## $a1 = 80B20000
 /* 00FA4 80B23C94 0C2C8B3C */  jal     func_80B22CF0
 /* 00FA8 80B23C98 24A52F28 */  addiu   $a1, $a1, %lo(func_80B22F28) ## $a1 = 80B22F28
-/* 00FAC 80B23C9C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00FAC 80B23C9C 3C040600 */  lui     $a0, %hi(D_060049C8)                ## $a0 = 06000000
 /* 00FB0 80B23CA0 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 00FB4 80B23CA4 248449C8 */  addiu   $a0, $a0, 0x49C8           ## $a0 = 060049C8
+/* 00FB4 80B23CA4 248449C8 */  addiu   $a0, $a0, %lo(D_060049C8)           ## $a0 = 060049C8
 /* 00FB8 80B23CA8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 00FBC 80B23CAC 3C01C0A0 */  lui     $at, 0xC0A0                ## $at = C0A00000
 /* 00FC0 80B23CB0 44814000 */  mtc1    $at, $f8                   ## $f8 = -5.00
 /* 00FC4 80B23CB4 468021A0 */  cvt.s.w $f6, $f4
-/* 00FC8 80B23CB8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00FCC 80B23CBC 24A549C8 */  addiu   $a1, $a1, 0x49C8           ## $a1 = 060049C8
+/* 00FC8 80B23CB8 3C050600 */  lui     $a1, %hi(D_060049C8)                ## $a1 = 06000000
+/* 00FCC 80B23CBC 24A549C8 */  addiu   $a1, $a1, %lo(D_060049C8)           ## $a1 = 060049C8
 /* 00FD0 80B23CC0 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00FD4 80B23CC4 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00FD8 80B23CC8 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000

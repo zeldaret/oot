@@ -11,8 +11,8 @@ glabel func_809BA458
 /* 0219C 809BA47C ADD90000 */  sw      $t9, 0x0000($t6)           ## FFFFFFF4
 /* 021A0 809BA480 8DF90008 */  lw      $t9, 0x0008($t7)           ## 809BBB58
 /* 021A4 809BA484 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 021A8 809BA488 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 021AC 809BA48C 24A50444 */  addiu   $a1, $a1, 0x0444           ## $a1 = 06000444
+/* 021A8 809BA488 3C050600 */  lui     $a1, %hi(D_06000444)                ## $a1 = 06000000
+/* 021AC 809BA48C 24A50444 */  addiu   $a1, $a1, %lo(D_06000444)           ## $a1 = 06000444
 /* 021B0 809BA490 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 021B4 809BA494 ADD80004 */  sw      $t8, 0x0004($t6)           ## FFFFFFF8
 /* 021B8 809BA498 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat

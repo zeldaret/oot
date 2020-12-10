@@ -24,8 +24,8 @@ glabel func_80B3CA84
 /* 008E8 80B3CAC8 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 008EC 80B3CACC 1440001C */  bne     $v0, $zero, .L80B3CB40     
 /* 008F0 80B3CAD0 8FA6001C */  lw      $a2, 0x001C($sp)           
-/* 008F4 80B3CAD4 3C020200 */  lui     $v0, 0x0200                ## $v0 = 02000000
-/* 008F8 80B3CAD8 24423F80 */  addiu   $v0, $v0, 0x3F80           ## $v0 = 02003F80
+/* 008F4 80B3CAD4 3C020200 */  lui     $v0, %hi(D_02003F80)                ## $v0 = 02000000
+/* 008F8 80B3CAD8 24423F80 */  addiu   $v0, $v0, %lo(D_02003F80)           ## $v0 = 02003F80
 /* 008FC 80B3CADC 00027900 */  sll     $t7, $v0,  4               
 /* 00900 80B3CAE0 000FC702 */  srl     $t8, $t7, 28               
 /* 00904 80B3CAE4 0018C880 */  sll     $t9, $t8,  2               
