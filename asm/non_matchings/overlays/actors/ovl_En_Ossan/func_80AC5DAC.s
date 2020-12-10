@@ -59,7 +59,7 @@ glabel func_80AC5DAC
 /* 031F0 80AC5E90 10000012 */  beq     $zero, $zero, .L80AC5EDC   
 /* 031F4 80AC5E94 A60801FC */  sh      $t0, 0x01FC($s0)           ## 000001FC
 .L80AC5E98:
-/* 031F8 80AC5E98 0C2B0DEA */  jal     func_80AC37A8              
+/* 031F8 80AC5E98 0C2B0DEA */  jal     EnOssan_EndInteraction              
 /* 031FC 80AC5E9C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03200 80AC5EA0 1000000F */  beq     $zero, $zero, .L80AC5EE0   
 /* 03204 80AC5EA4 8FBF001C */  lw      $ra, 0x001C($sp)           

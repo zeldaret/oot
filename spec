@@ -2810,7 +2810,7 @@ endseg
 beginseg
     name "ovl_En_Ossan"
     include "build/src/overlays/actors/ovl_En_Ossan/z_en_ossan.o"
-    include "build/data/overlays/actors/z_en_ossan.data.o"
+    //include "build/data/overlays/actors/z_en_ossan.data.o"
     include "build/data/overlays/actors/z_en_ossan.reloc.o"
 endseg
 

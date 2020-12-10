@@ -60,7 +60,7 @@ glabel func_80AC47DC
 /* 01B5C 80AC47FC 00AFC021 */  addu    $t8, $a1, $t7              
 /* 01B60 80AC4800 8F190200 */  lw      $t9, 0x0200($t8)           ## 00000200
 /* 01B64 80AC4804 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 01B68 80AC4808 0C2B0E21 */  jal     func_80AC3884              
+/* 01B68 80AC4808 0C2B0E21 */  jal     EnOssan_Exit              
 /* 01B6C 80AC480C AFB90024 */  sw      $t9, 0x0024($sp)           
 /* 01B70 80AC4810 10400003 */  beq     $v0, $zero, .L80AC4820     
 /* 01B74 80AC4814 00000000 */  nop

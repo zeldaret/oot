@@ -19,7 +19,7 @@ glabel func_80AC4220
 /* 015C0 80AC4260 10000005 */  beq     $zero, $zero, .L80AC4278   
 /* 015C4 80AC4264 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80AC4268:
-/* 015C8 80AC4268 0C2B0DEA */  jal     func_80AC37A8              
+/* 015C8 80AC4268 0C2B0DEA */  jal     EnOssan_EndInteraction              
 /* 015CC 80AC426C 00E02825 */  or      $a1, $a3, $zero            ## $a1 = 00000000
 /* 015D0 80AC4270 10000001 */  beq     $zero, $zero, .L80AC4278   
 /* 015D4 80AC4274 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001

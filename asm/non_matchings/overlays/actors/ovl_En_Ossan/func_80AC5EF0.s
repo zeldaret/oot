@@ -37,7 +37,7 @@ glabel func_80AC5EF0
 /* 032B4 80AC5F54 00000000 */  nop
 /* 032B8 80AC5F58 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 032BC 80AC5F5C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 032C0 80AC5F60 0C2B0E21 */  jal     func_80AC3884              
+/* 032C0 80AC5F60 0C2B0E21 */  jal     EnOssan_Exit              
 /* 032C4 80AC5F64 26060014 */  addiu   $a2, $s0, 0x0014           ## $a2 = 00000014
 /* 032C8 80AC5F68 14400059 */  bne     $v0, $zero, .L80AC60D0     
 /* 032CC 80AC5F6C 3C020001 */  lui     $v0, 0x0001                ## $v0 = 00010000
@@ -87,7 +87,7 @@ glabel func_80AC5EF0
               
 /* 03370 80AC6010 2484930C */  addiu   $a0, $a0, %lo(D_80AC930C)  ## $a0 = FFFF930C
 /* 03374 80AC6014 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 03378 80AC6018 0C2B0DEA */  jal     func_80AC37A8              
+/* 03378 80AC6018 0C2B0DEA */  jal     EnOssan_EndInteraction              
 /* 0337C 80AC601C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 03380 80AC6020 1000002C */  beq     $zero, $zero, .L80AC60D4   
 /* 03384 80AC6024 8FBF001C */  lw      $ra, 0x001C($sp)           

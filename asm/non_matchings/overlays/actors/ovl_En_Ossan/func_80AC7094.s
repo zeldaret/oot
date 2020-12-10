@@ -206,7 +206,7 @@ glabel func_80AC7094
 /* 046B8 80AC7358 AE0D0004 */  sw      $t5, 0x0004($s0)           ## 00000004
 /* 046BC 80AC735C 24A573B4 */  addiu   $a1, $a1, %lo(func_80AC73B4) ## $a1 = 80AC73B4
 /* 046C0 80AC7360 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 046C4 80AC7364 0C2B0B28 */  jal     func_80AC2CA0              
+/* 046C4 80AC7364 0C2B0B28 */  jal     EnOssan_SetupAction              
 /* 046C8 80AC7368 A60901EE */  sh      $t1, 0x01EE($s0)           ## 000001EE
 .L80AC736C:
 /* 046CC 80AC736C 8FBF001C */  lw      $ra, 0x001C($sp)           

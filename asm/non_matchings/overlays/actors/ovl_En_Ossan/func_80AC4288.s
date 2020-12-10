@@ -12,7 +12,7 @@ glabel func_80AC4288
 /* 01610 80AC42B0 14410036 */  bne     $v0, $at, .L80AC438C       
 /* 01614 80AC42B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01618 80AC42B8 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 0161C 80AC42BC 0C2B0E21 */  jal     func_80AC3884              
+/* 0161C 80AC42BC 0C2B0E21 */  jal     EnOssan_Exit              
 /* 01620 80AC42C0 26260014 */  addiu   $a2, $s1, 0x0014           ## $a2 = 00000014
 /* 01624 80AC42C4 54400032 */  bnel    $v0, $zero, .L80AC4390     
 /* 01628 80AC42C8 8FBF001C */  lw      $ra, 0x001C($sp)           
