@@ -5,6 +5,7 @@
 #include "global.h"
 
 struct EnGeldB;
+
 typedef void (*EnGeldBActionFunc)(struct EnGeldB*, GlobalContext*);
 
 typedef struct EnGeldB {
