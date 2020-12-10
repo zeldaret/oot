@@ -15,7 +15,6 @@ void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx);
-s32 func_80B0B81C(Vec3f* vortexPos, Vec3f* playerPos, Vec3f* posDifference, f32 vortexYScale);
 
 extern Gfx D_06000950[];
 
@@ -78,6 +77,7 @@ s32 func_80B0B81C(Vec3f* vortexPosRot, Vec3f* playerPosRot, Vec3f* posDifference
     return ret;
 }
 #else
+s32 func_80B0B81C(Vec3f* vortexPos, Vec3f* playerPos, Vec3f* posDifference, f32 vortexYScale);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Stream/func_80B0B81C.s")
 #endif
 
