@@ -18,7 +18,7 @@ void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx);
 void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx);
 s32 func_80B0B81C(PosRot* vortexPosRot, PosRot* playerPosRot, Vec3f* v, f32 vortexYScale);
 
-extern UNK_TYPE D_06000950;
+extern Gfx D_06000950[];
 
 const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
@@ -142,6 +142,6 @@ void EnStream_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, frames * 30, -multipliedFrames, 0x40, 0x40, 1,
                                 multipliedFrames, -multipliedFrames, 0x40, 0x40));
-    gSPDisplayList(POLY_XLU_DISP++, &D_06000950);
+    gSPDisplayList(POLY_XLU_DISP++, D_06000950);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_stream.c", 310);
 }
