@@ -345,7 +345,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
         this->stateFlags &= ~ENDAIKU_STATEFLAG_GERUDOFIGHTING;
         EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_CELEBRATE, &this->currentAnimIndex);
         this->actionFunc = EnDaiku_WaitFreedom;
-    } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && gerudo->unk_318 == 0) {
+    } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && !gerudo->invisible) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDOFIGHTING;
         this->actor.flags &= ~9;
     }
@@ -446,8 +446,8 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, 7);
 
-    func_800C04D8(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
-    func_800C0704(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Gameplay_CameraSetFov(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
     func_8002DF54(globalCtx, &this->actor, 1);
 }
 
@@ -462,7 +462,7 @@ void EnDaiku_UpdateSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->subCamAt.y, this->subCamAtTarget.y, 1.0f, 1000.0f, 0.0f);
     Math_SmoothScaleMaxMinF(&this->subCamAt.z, this->subCamAtTarget.z, 1.0f, 1000.0f, 0.0f);
 
-    func_800C04D8(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
 
 void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
