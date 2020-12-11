@@ -621,7 +621,7 @@ extern AnimationHeader D_060042A8;
 void func_808C12C4(s16* arg1, s16 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C12C4.s")
 
-void func_808C1554(u16* D_030021D8, u16* D_808C73C8, s16 arg2, f32 arg3);
+void func_808C1554(UNK_PTR D_030021D8, u16* D_808C73C8, s16 arg2, f32 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1554.s")
 
 void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5);
@@ -889,7 +889,7 @@ void func_808C1D00(BossDodongo* this, GlobalContext* globalCtx) {
         sp48.x = this->unk_20C;
         sp48.y = 1.0f;
         sp48.z = this->unk_20C;
-        func_800C05E4(globalCtx, this->cutsceneCamera, &sp54, &sp60, &sp48);
+        Gameplay_CameraSetAtEyeUp(globalCtx, this->cutsceneCamera, &sp54, &sp60, &sp48);
     }
 }
 
@@ -1202,7 +1202,7 @@ Vec3f D_808CA428 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_808CA434 = { 0.0f, 0.0f, 0.0f };
 Color_RGBA8 magmaPrimColor[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 150 } };
 Color_RGBA8 magmaEnvColor[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
-s32 D_808CA450[] = { 0x459C4000, 0xC51C4000, 0x00000000 };
+Vec3f D_808CA450 = { 5000.0f, -2500.0f, 0.0f };
 
 #ifdef NON_MATCHING
 // Very minor ordering issue near SEGMENTED_TO_VIRTUAL
@@ -1664,8 +1664,8 @@ void func_808C54C0(BossDodongo* this) { // Setup Death?
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5578.s")
 void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
-    static Color_RGBA8 magmaPrimColor[] = { { 0xFF, 0xFF, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x64 } };
-    static Color_RGBA8 magmaEnvColor[] = { { 0xFF, 0x00, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x00 } };
+    // static Color_RGBA8 magmaPrimColor[] = { { 0xFF, 0xFF, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x64 } };
+    // static Color_RGBA8 magmaEnvColor[] = { { 0xFF, 0x00, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x00 } };
 
     static Color_RGBA8 dustPrimColor = { 255, 255, 255, 255 };
     static Color_RGBA8 dustEnvColor = { 255, 100, 0, 255 };
@@ -1684,13 +1684,14 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
     f32 xDistToCamera;
     f32 zDistToCorner;
     f32 zDistToCamera;
-    s32 colorIndex;
+    s16 colorIndex;
     f32 phi_f2;
     s16 i;
     Vec3f* phi_v0_2;
     Vec3f* phi_v0_3;
     f32 tempSin;
     f32 tempCos;
+    
     player = PLAYER;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1767,13 +1768,12 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 this->unk_1DA = 1000;
                 this->unk_234 = 2000.0f;
             } else {
-                f32 three = 3.0f;
                 cornerPos = &D_808CA3F8[this->unk_1A0];
                 this->unk_1EC = 3.0f;
-                Math_SmoothScaleMaxMinF(&this->unk_1E4, three * 5.0f, 1.0f, three * 0.25f, 0.0f);
-
-                distToCorner =
-                    sqrtf(SQ(cornerPos->x - this->actor.posRot.pos.x) + SQ(cornerPos->z - this->actor.posRot.pos.z));
+                Math_SmoothScaleMaxMinF(&this->unk_1E4, this->unk_1EC * 5.0f, 1.0f, this->unk_1EC * 0.25f, 0.0f);
+                xDistToCorner = cornerPos->x - this->actor.posRot.pos.x;
+                zDistToCorner = cornerPos->z - this->actor.posRot.pos.z;
+                distToCorner = sqrtf(SQ(xDistToCorner) + SQ(zDistToCorner));
                 phi_f2 = distToCorner - 200.0f;
                 if ((distToCorner < 200.0f) || (this->unk_1DA != 0)) {
                     phi_f2 = 0.0f;
@@ -1781,11 +1781,13 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 phi_f2 = CLAMP_MAX(phi_f2, 70.0f);
                 this->unk_23C = (Math_Sins(this->unk_19E * 1000) * -50.0f) / 100.0f;
 
-                sp198.z = Math_Sins(this->unk_19E * 1000) * phi_f2;
-                sp198.x = 0.0f;
+                sp198.x = Math_Sins(this->unk_19E * 1000) * phi_f2;
                 sp198.y = 0.0f;
-                Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, MTXMODE_NEW); //(M_PI/0x8000)
+                sp198.z = 0.0f;
+
+                Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW); // 0.0000958738f
                 Matrix_MultVec3f(&sp198, &sp184);
+
                 Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.x, cornerPos->x + sp184.x, 1.0f, this->unk_1E4, 0.0f);
                 Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.z, cornerPos->z + sp184.z, 1.0f, this->unk_1E4, 0.0f);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
@@ -1801,6 +1803,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y,
                                         (Math_atan2f(xDistToCorner, zDistToCorner) * 10430.378f), 5,
                                         (this->unk_1EC * this->unk_1E8), 0);
+
                 if ((fabsf(xDistToCorner) <= 15.0f) && (fabsf(zDistToCorner) <= 15.0f)) {
                     this->actor.velocity.y = 15.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI2);
@@ -1810,7 +1813,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                             this->unk_1A0 = 0;
                         }
                     } else {
-                        this->unk_1A0 = this->unk_1A0 - 1;
+                        this->unk_1A0--;
                         if (this->unk_1A0 < 0) {
                             this->unk_1A0 = 3;
                         }
@@ -1825,7 +1828,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
             break;
         case 8:
         case 9:
-            if (this->unk_1DA == 854) {
+            if (this->unk_1DA == 884) {
                 SkelAnime_ChangeAnim(&this->skelAnime, &D_060042A8, 1.0f, 0.0f,
                                      (f32)SkelAnime_GetFrameCount(&D_060042A8), 0, -20.0f);
                 xDistToCamera = this->cameraEye.x - this->actor.posRot.pos.x;
@@ -1887,9 +1890,12 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     } else {
                         Math_SmoothScaleMaxMinF(&this->unk_228, -6600.0f, 0.2f, 30.0f, 0.0f);
                     }
+                    //*(int*)0 = 0;
                     { // Scope seems to be required because of how its loaded
                         Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
                         Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
+                        Color_RGBA8* lMagmaPrimColor = &magmaPrimColor;
+                        Color_RGBA8* lMagmaEnvColor = &magmaEnvColor;
                         effectPos.x = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.x;
                         effectPos.y = Math_Rand_ZeroFloat(50.0f) + this->actor.posRot.pos.y;
                         effectPos.z = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.z;
@@ -1899,8 +1905,8 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                         effectPos.y = -1498.76f;
                         effectPos.z = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.z;
                         colorIndex = (Math_Rand_ZeroOne() * 1.9f);
-                        EffectSsGMagma2_Spawn(globalCtx, &effectPos, &magmaPrimColor[colorIndex],
-                                              &magmaEnvColor[colorIndex], 0xA - (colorIndex * 5), colorIndex,
+                        EffectSsGMagma2_Spawn(globalCtx, &effectPos, &lMagmaPrimColor[colorIndex],
+                                              &lMagmaEnvColor[colorIndex], 10 - (colorIndex * 5), colorIndex,
                                               (Math_Rand_ZeroOne() * 100.0f) + 100);
                     }
                 }
@@ -1911,15 +1917,15 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 }
             }
             Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.2f, 0.1f, 0.0f);
-            this->actor.posRot.rot.y = this->actor.posRot.rot.y + this->unk_238;
-            this->unk_1C4 = this->unk_1C4 + (s32)this->unk_234;
+            this->actor.posRot.rot.y += (s16)this->unk_238;
+            this->unk_1C4 += (s16)this->unk_234;
             if (this->unk_1DA >= 0x367) {
                 if (this->unk_1A2 == 0) {
                     if (this->unk_238 < 450.0f) {
                         this->unk_238 += 10.0f;
                     }
                 } else if (-450.0f < this->unk_238) {
-                    this->unk_238 = -10.0f;
+                    this->unk_238 -= 10.0f;
                 }
             } else {
                 Math_SmoothScaleMaxMinF(&this->unk_238, 0.0f, 0.05f, 40.0f, 0.0f);
@@ -1944,6 +1950,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     } else {
                         phi_v0_3 = &D_808CA508[this->unk_1A0];
                     }
+
                     Math_SmoothScaleMaxMinF(&this->cameraEye.x, phi_v0_3->x, 0.2f, this->unk_204 * 20.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.y, player->actor.posRot.pos.y + 30.0f, 0.1f,
                                             this->unk_204 * 20.0f, 0.0f);
@@ -1957,13 +1964,14 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     }
                     Math_SmoothScaleMaxMinF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
                     tempSin = this->unk_22C * sinf(this->unk_230);
-                    tempCos = this->unk_22C * cosf(this->unk_230);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->actor.posRot.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
+                    tempCos = this->unk_22C * cosf(this->unk_230);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->actor.posRot.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);
                 }
             } else {
+                
                 if (this->unk_1A2 == 0) {
                     Math_SmoothScaleMaxMinF(&this->unk_23C, -0.5f, 0.2f, 0.05f, 0.0f);
                 } else {
@@ -1974,6 +1982,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxMinF(&this->cameraEye.z, -3304.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
                 Math_SmoothScaleMaxMinF(&this->unk_204, 1.0f, 1.0f, 0.05f, 0.0f);
             }
+            
             if (this->unk_1DA == 820) {
                 Audio_SetBGM(0x21);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
@@ -1999,6 +2008,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
         case 100:
+
             if ((this->unk_1DA < 0x2C6) && (Math_Rand_ZeroOne() < 0.5f)) {
                 Color_RGBA8 D_808CA568 = { 0x00, 0x00, 0x00, 0x64 };
                 Color_RGBA8 D_808CA56C = { 0x00, 0x00, 0x00, 0x00 };

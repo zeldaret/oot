@@ -36,7 +36,7 @@ typedef struct BossDodongo {
     /* 0x01BE */ s16 unk_1BE;
     /* 0x01C0 */ s16 unk_1C0;
     /* 0x01C2 */ s16 unk_1C2;
-    /* 0x01C4 */ s16 unk_1C4;
+    /* 0x01C4 */ s16 unk_1C4;//Some kind of angle
     /* 0x01C6 */ s16 unk_1C6;
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ char unk_1CA[0x2];
@@ -73,8 +73,7 @@ typedef struct BossDodongo {
     /* 0x0240 */ f32 unk_240;
     /* 0x0244 */ f32 unk_244;
     /* 0x0248 */ char unk_248[0x14];
-    /* 0x025C */ f32 unk_25C[49];
-    /* 0x0320 */ char unk_320[0x4];
+    /* 0x025C */ f32 unk_25C[50];
     /* 0x0324 */ f32 unk_324[50];
     /* 0x03EC */ Vec3f unk_3EC;
     /* 0x03F8 */ Vec3f unk_3F8;
