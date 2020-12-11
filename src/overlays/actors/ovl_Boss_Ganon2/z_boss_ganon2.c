@@ -61,8 +61,24 @@ extern u8 D_80906D78;
 extern ColliderJntSphInit D_80906FBC;
 extern ColliderJntSphInit D_80907014;
 extern s16 D_80907074[4];
-extern Vec3f D_8090EB20;
-extern BossGanon2Effect D_8090EB38[100];
+
+Vec3f D_8090EB20;
+
+UNK_TYPE D_8090EB2C;
+
+UNK_TYPE D_8090EB30[2];
+
+BossGanon2Effect D_8090EB38[100];
+
+UNK_TYPE D_809105C8;
+
+UNK_TYPE D_809105CC;
+
+UNK_TYPE D_809105D0[2];
+
+Vec3f D_809105D8[8];
+
+s8 D_80910638;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FCF40.s")
 
