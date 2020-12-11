@@ -1436,7 +1436,6 @@ endseg
 beginseg
     name "ovl_Boss_Ganon2"
     include "build/src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.o"
-    include "build/data/overlays/actors/z_boss_ganon2.data.o"
     include "build/data/overlays/actors/z_boss_ganon2.reloc.o"
 endseg
 
