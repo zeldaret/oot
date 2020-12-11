@@ -7,6 +7,9 @@
 struct EnGo;
 
 typedef void (*EnGoActionFunc)(struct EnGo*, struct GlobalContext*);
+typedef u16 (*callback1_80A3ED24)(struct GlobalContext*, struct Actor*);
+typedef s16 (*callback2_80A3ED24)(struct GlobalContext*, struct Actor*);
+
 
 typedef struct {
     /* 0x0000 */ u8 unk_0;
