@@ -18,7 +18,7 @@ void func_808B44B8(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B4178(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
-s16 D_808B4590 = 0;
+static s16 D_808B4590 = 0;
 
 extern CollisionHeader D_06000348;
 extern Gfx D_06000180[];
@@ -42,12 +42,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-Vec3f D_808B45C4[] = {
+static Vec3f D_808B45C4[] = {
     { 770.0f, 1490.0f, -299.0f },
     { 770.0f, 1550.0f, -299.0f },
 };
 
-Vec3f D_808B45DC[] = {
+static Vec3f D_808B45DC[] = {
     { 29.99f, 0.01f, -29.99f }, { -29.99f, 0.01f, -29.99f }, { -29.99f, 0.01f, 29.99f },
     { 29.99f, 0.01f, 29.99f },  { 0.0f, 0.01f, 0.0f },
 };
@@ -171,7 +171,7 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     Vec3f scale;
     Actor* actor = &this->dyna.actor;
     f32 yIntersect;
-    f32 returnValue = -32000.0f;
+    f32 returnValue = BGCHECK_Y_MIN;
     s32 bgId;
 
     func_808B3A34(this);

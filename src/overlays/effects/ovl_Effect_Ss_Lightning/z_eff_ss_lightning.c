@@ -101,18 +101,18 @@ void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this)
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfRotate, &mfTrans11DA0Rotate);
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0Rotate, &mfScale, &mfResult);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         func_80094C50(gfxCtx);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[texIdx]));
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[texIdx]));
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                         this->rPrimColorA);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_lightning.c", 281);
@@ -132,8 +132,8 @@ void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* thi
         pos.y = this->pos.y + (Math_Sins(this->rYaw - 0x4000) * scale);
 
         scale = Math_Coss(this->rYaw - 0x4000) * scale;
-        pos.x = this->pos.x - (Math_Coss(func_8005A948(ACTIVE_CAM)) * scale);
-        pos.z = this->pos.z + (Math_Sins(func_8005A948(ACTIVE_CAM)) * scale);
+        pos.x = this->pos.x - (Math_Coss(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
+        pos.z = this->pos.z + (Math_Sins(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
 
         EffectSsLightning_NewLightning(globalCtx, &pos, yaw, this);
 

@@ -54,7 +54,7 @@ glabel EnEiyer_Draw
 /* 018E4 80A01884 3C0780A0 */  lui     $a3, %hi(func_80A0178C)    ## $a3 = 80A00000
 /* 018E8 80A01888 24E7178C */  addiu   $a3, $a3, %lo(func_80A0178C) ## $a3 = 80A0178C
 /* 018EC 80A0188C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 018F0 80A01890 0C0288A2 */  jal     SkelAnime_Draw2
+/* 018F0 80A01890 0C0288A2 */  jal     SkelAnime_Draw
 /* 018F4 80A01894 AFAC0018 */  sw      $t4, 0x0018($sp)
 /* 018F8 80A01898 10000020 */  beq     $zero, $zero, .L80A0191C
 /* 018FC 80A0189C AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
@@ -87,7 +87,7 @@ glabel EnEiyer_Draw
 /* 01964 80A01904 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01968 80A01908 8E0B02D0 */  lw      $t3, 0x02D0($s0)           ## 000002D0
 /* 0196C 80A0190C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 01970 80A01910 0C0288A2 */  jal     SkelAnime_Draw2
+/* 01970 80A01910 0C0288A2 */  jal     SkelAnime_Draw
 /* 01974 80A01914 AFAB0018 */  sw      $t3, 0x0018($sp)
 /* 01978 80A01918 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L80A0191C:

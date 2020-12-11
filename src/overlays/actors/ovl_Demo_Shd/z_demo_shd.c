@@ -103,26 +103,24 @@ void DemoShd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     u32 unk_14E = this->unk_14E;
 
-    if (1) {}; // Necessary to match, can be anywhere in the function
+    if (1) {} // Necessary to match, can be anywhere in the function
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_shd.c", 726);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_shd.c", 729),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_shd.c", 729),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_809932D0);
+    gSPDisplayList(POLY_XLU_DISP++, D_809932D0);
 
     if (this->unk_14C & 1) {
-        gSPDisplayList(oGfxCtx->polyXlu.p++,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0x3FF - ((unk_14E * 5) & 0x3FF), 16, 256, 1, 0,
-                                        255 - ((unk_14E * 5) & 255), 32, 32));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_80993390);
+        gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0x3FF - ((unk_14E * 5) & 0x3FF),
+                                                         16, 256, 1, 0, 255 - ((unk_14E * 5) & 255), 32, 32));
+        gSPDisplayList(POLY_XLU_DISP++, D_80993390);
     } else if (this->unk_14C & 2) {
-        gSPDisplayList(oGfxCtx->polyXlu.p++,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0x3FF - ((unk_14E * 5) & 0x3FF), 16, 256, 1, 0,
-                                        255 - ((unk_14E * 5) & 255), 32, 32));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, D_809934B8);
+        gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0x3FF - ((unk_14E * 5) & 0x3FF),
+                                                         16, 256, 1, 0, 255 - ((unk_14E * 5) & 255), 32, 32));
+        gSPDisplayList(POLY_XLU_DISP++, D_809934B8);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_shd.c", 762);

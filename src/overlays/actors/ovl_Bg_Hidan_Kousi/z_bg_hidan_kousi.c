@@ -22,7 +22,7 @@ void func_80889C18(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx);
 void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx);
 
-f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
+static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
 const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
@@ -42,20 +42,20 @@ static InitChainEntry sInitChain[] = {
 
 extern CollisionHeader D_0600E2CC, D_0600E380, D_0600E430;
 
-CollisionHeader* D_80889E70[] = {
+static CollisionHeader* D_80889E70[] = {
     &D_0600E2CC,
     &D_0600E380,
     &D_0600E430,
 };
 
-s16 D_80889E7C[] = {
+static s16 D_80889E7C[] = {
     0x4000,
     0xC000,
     0xC000,
     0x0000,
 };
 
-Gfx (*D_80889E84[])[] = {
+static Gfx (*D_80889E84[])[] = {
     0x0600C798,
     0x0600BFA8,
     0x0600BB58,
@@ -110,7 +110,7 @@ void func_80889ACC(BgHidanKousi* this) {
 void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF)) {
         BgHidanKousi_SetupAction(this, func_80889BC0);
-        func_80080480(globalCtx, this);
+        func_80080480(globalCtx, &this->dyna.actor);
         this->unk_168 = 0xC8;
     }
 }
@@ -158,9 +158,9 @@ void BgHidanKousi_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_80889E84[thisx->params & 0xFF]);
+    gSPDisplayList(POLY_OPA_DISP++, D_80889E84[thisx->params & 0xFF]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);
 }

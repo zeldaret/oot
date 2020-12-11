@@ -190,15 +190,11 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     return 0;
 }
 
-// Scene Command 0x00: Link Spawn List
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
-    ActorEntry* linkEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
-                            globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
+    ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
+                                                        globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
     s16 linkObjectId;
 
-    globalCtx->linkActorEntry = linkEntry;
     globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
 
     linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
@@ -206,10 +202,6 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
     Object_Spawn(&globalCtx->objectCtx, linkObjectId);
 }
-#else
-void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene/func_80098508.s")
-#endif
 
 // Scene Command 0x01: Actor List
 void func_800985DC(GlobalContext* globalCtx, SceneCmd* cmd) {

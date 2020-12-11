@@ -329,10 +329,10 @@ void func_808AB700(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
 
     func_80093D18(localGfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_808AAF34(this, globalCtx);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000420);
+    gSPDisplayList(POLY_OPA_DISP++, D_06000420);
 
     CLOSE_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 708);
 }

@@ -341,7 +341,7 @@ s32 func_80A4CB78(EnGoroiwa* this, GlobalContext* globalCtx) {
     Vec3f sp5C;
     f32 temp_f0_2;
     s32 pad2;
-    u32 sp50;
+    s32 sp50;
     Vec3f sp44;
     WaterBox* waterBox;
     f32 ySurface;

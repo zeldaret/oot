@@ -74,7 +74,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
 
     SET_FULLSCREEN_VIEWPORT(&view);
 
-    gfx = oGfxCtx->overlay.p;
+    gfx = OVERLAY_DISP;
     func_800AB9EC(&view, 0xF, &gfx);
 
     gDPPipeSync(gfx++);
@@ -96,7 +96,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     }
     gDPPipeSync(gfx++);
 
-    oGfxCtx->overlay.p = gfx;
+    OVERLAY_DISP = gfx;
 
     CLOSE_DISPS(gfxCtx, "../speed_meter.c", 276);
 }
@@ -130,7 +130,7 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
 
         SET_FULLSCREEN_VIEWPORT(&view);
 
-        gfx = oGfxCtx->overlay.p;
+        gfx = OVERLAY_DISP;
         func_800AB9EC(&view, 0xF, &gfx);
 
         gDPPipeSync(gfx++);
@@ -145,7 +145,7 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
 
         gDPPipeSync(gfx++);
 
-        oGfxCtx->overlay.p = gfx;
+        OVERLAY_DISP = gfx;
         CLOSE_DISPS(gfxCtx, "../speed_meter.c", 339);
     }
 }

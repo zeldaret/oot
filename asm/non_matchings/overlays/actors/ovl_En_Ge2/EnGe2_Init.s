@@ -32,7 +32,7 @@ glabel EnGe2_Init
 /* 000F0 80A32CC0 24C68968 */  addiu   $a2, $a2, 0x8968           ## $a2 = 06008968
 /* 000F4 80A32CC4 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 000F8 80A32CC8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 000FC 80A32CCC 0C0291BE */  jal     SkelAnime_InitSV
+/* 000FC 80A32CCC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00100 80A32CD0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00104 80A32CD4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00108 80A32CD8 24A59ED4 */  addiu   $a1, $a1, 0x9ED4           ## $a1 = 06009ED4

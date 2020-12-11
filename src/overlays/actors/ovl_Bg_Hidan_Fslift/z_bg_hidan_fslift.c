@@ -141,10 +141,10 @@ void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_16A == 0) {
             this->unk_16A = 3;
         }
-        func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
     } else if (func_8004356C(thisx) == 0) {
         if (this->unk_16A != 0) {
-            func_8005A77C(globalCtx->cameraPtrs[0], 3);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
         }
         this->unk_16A = 0;
     }

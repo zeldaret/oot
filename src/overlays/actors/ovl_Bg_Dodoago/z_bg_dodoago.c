@@ -45,7 +45,7 @@ static ColliderCylinderInit sColCylinderInit1 = {
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
-s16 sHasParent = false;
+static s16 sHasParent = false;
 
 extern Gfx D_60013500[];
 extern CollisionHeader D_06001DDC;
@@ -70,23 +70,23 @@ void BgDodoago_SpawnSparkles(Vec3f* vec, GlobalContext* globalCtx) {
     }
 }
 
-static InitChainEntry D_808725BC[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 5000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
-u8 D_808727C0[100];
+static u8 D_808727C0[100];
 
-s32 D_80872824;
+static s32 D_80872824;
 
 void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgDodoago* this = THIS;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_808725BC);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_06001DDC, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -274,9 +274,9 @@ void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (Flags_GetEventChkInf(0xB0)) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_60013500);
+        gSPDisplayList(POLY_OPA_DISP++, D_60013500);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 681);

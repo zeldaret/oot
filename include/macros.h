@@ -43,6 +43,7 @@
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
 
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.inventory.questItems)
+#define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
 
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
@@ -85,13 +86,20 @@
     }                                      \
     (void)0
 
-extern GraphicsContext* oGfxCtx;
+extern GraphicsContext* __gfxCtx;
 
+#define WORK_DISP       __gfxCtx->work.p
+#define POLY_OPA_DISP   __gfxCtx->polyOpa.p
+#define POLY_XLU_DISP   __gfxCtx->polyXlu.p
+#define OVERLAY_DISP    __gfxCtx->overlay.p
+
+// __gfxCtx shouldn't be used directly.
+// Use the DISP macros defined above when writing to display buffers.
 #define OPEN_DISPS(gfxCtx, file, line) \
     {                                  \
-        GraphicsContext* oGfxCtx;      \
+        GraphicsContext* __gfxCtx;     \
         Gfx* dispRefs[4];              \
-        oGfxCtx = gfxCtx;              \
+        __gfxCtx = gfxCtx;             \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
 #define CLOSE_DISPS(gfxCtx, file, line)                 \

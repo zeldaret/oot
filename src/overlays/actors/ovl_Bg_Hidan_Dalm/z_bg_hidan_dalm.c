@@ -49,13 +49,13 @@ static ColliderTrisItemInit sTrisItemInit[4] = {
     },
 };
 
-ColliderTrisInit D_80886590 = {
+static ColliderTrisInit sTrisInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
     4,
     sTrisItemInit,
 };
 
-InitChainEntry D_808865A0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 65336, ICHAIN_STOP),
 };
@@ -69,12 +69,12 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(thisx, D_808865A0);
+    Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_0600DA10, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_SetTris(globalCtx, &this->collider, thisx, &D_80886590, this->colliderItems);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->colliderItems);
 
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;

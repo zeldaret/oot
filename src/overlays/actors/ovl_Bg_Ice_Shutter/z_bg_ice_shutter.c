@@ -106,7 +106,7 @@ void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         if (this->dyna.actor.shape.rot.x == 0) {
-            func_80080480(globalCtx, this);
+            func_80080480(globalCtx, &this->dyna.actor);
         }
     }
 }
@@ -115,7 +115,7 @@ void func_80891D6C(BgIceShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
-        func_80080480(globalCtx, this);
+        func_80080480(globalCtx, &this->dyna.actor);
     }
 }
 

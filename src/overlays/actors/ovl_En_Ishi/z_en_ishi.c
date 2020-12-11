@@ -90,17 +90,17 @@ void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnIshi_SnapToFloor(EnIshi* this, GlobalContext* globalCtx, f32 arg2) {
-    CollisionPoly* sp34;
-    Vec3f sp28;
-    UNK_TYPE sp24;
-    f32 temp_f0;
+    CollisionPoly* poly;
+    Vec3f pos;
+    s32 bgId;
+    f32 floorY;
 
-    sp28.x = this->actor.posRot.pos.x;
-    sp28.y = this->actor.posRot.pos.y + 30.0f;
-    sp28.z = this->actor.posRot.pos.z;
-    temp_f0 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp34, &sp24, &this->actor, &sp28);
-    if (temp_f0 > -32000.0f) {
-        this->actor.posRot.pos.y = temp_f0 + arg2;
+    pos.x = this->actor.posRot.pos.x;
+    pos.y = this->actor.posRot.pos.y + 30.0f;
+    pos.z = this->actor.posRot.pos.z;
+    floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &poly, &bgId, &this->actor, &pos);
+    if (floorY > BGCHECK_Y_MIN) {
+        this->actor.posRot.pos.y = floorY + arg2;
         Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
         return true;
     } else {
@@ -459,10 +459,10 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1050);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_0500A3B8);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
+    gSPDisplayList(POLY_OPA_DISP++, D_0500A3B8);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }

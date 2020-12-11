@@ -332,18 +332,18 @@ void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gameplayFrames = globalCtx->gameplayFrames;
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x0C,
+    gSPSegment(POLY_XLU_DISP++, 0x0C,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1, 0,
                                 -gameplayFrames * 1, 32, 32));
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 749),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 749),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 255, 255, 128);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 255, 102);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 102);
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_06004B20);
+    gSPDisplayList(POLY_XLU_DISP++, D_06004B20);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 756);
 }

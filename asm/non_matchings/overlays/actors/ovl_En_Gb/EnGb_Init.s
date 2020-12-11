@@ -50,7 +50,7 @@ glabel EnGb_Init
 /* 000CC 80A2F24C 24E7049C */  addiu   $a3, $a3, 0x049C           ## $a3 = 0600049C
 /* 000D0 80A2F250 24C6C220 */  addiu   $a2, $a2, 0xC220           ## $a2 = 0600C220
 /* 000D4 80A2F254 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 000D8 80A2F258 0C0291BE */  jal     SkelAnime_InitSV
+/* 000D8 80A2F258 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000DC 80A2F25C 26450164 */  addiu   $a1, $s2, 0x0164           ## $a1 = 00000164
 /* 000E0 80A2F260 2650023C */  addiu   $s0, $s2, 0x023C           ## $s0 = 0000023C
 /* 000E4 80A2F264 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000023C

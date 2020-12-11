@@ -41,7 +41,7 @@ glabel EnJj_Init
 /* 00098 80A87898 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 0009C 80A8789C 24E71F4C */  addiu   $a3, $a3, 0x1F4C           ## $a3 = 06001F4C
 /* 000A0 80A878A0 24C6B9A8 */  addiu   $a2, $a2, 0xB9A8           ## $a2 = 0600B9A8
-/* 000A4 80A878A4 0C0291BE */  jal     SkelAnime_InitSV
+/* 000A4 80A878A4 0C0291BE */  jal     SkelAnime_InitFlex
 /* 000A8 80A878A8 AFA50044 */  sw      $a1, 0x0044($sp)
 /* 000AC 80A878AC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 000B0 80A878B0 24A51F4C */  addiu   $a1, $a1, 0x1F4C           ## $a1 = 06001F4C

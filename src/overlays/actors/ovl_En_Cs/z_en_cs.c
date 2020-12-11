@@ -9,6 +9,9 @@ void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06008540;
+extern UNK_TYPE D_0602AF70;
+
 /*
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,

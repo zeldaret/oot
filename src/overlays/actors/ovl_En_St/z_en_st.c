@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0x02, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, 0xFF };
 
 static ColliderCylinderInit sCylinderInit2 = {
     { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
@@ -247,7 +247,7 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x3F8F9;
+    this->colCylinder[0].body.bumper.flags = 0x0003F8F9;
     this->colCylinder[1].body.bumper.flags = 0xFFC00706;
     this->colCylinder[2].base.type = 9;
     this->colCylinder[2].body.bumperFlags = 0xD;
@@ -453,7 +453,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
     }
 
     if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
-        // player has hit the backside ofthe skulltulla
+        // player has hit the backside of the skulltulla
         return true;
     }
 
@@ -581,7 +581,7 @@ void EnSt_UpdateYaw(EnSt* this, GlobalContext* globalCtx) {
         rot = this->actor.shape.rot;
         yawTarget = (this->actionFunc == EnSt_WaitOnGround ? this->actor.yawTowardsLink : this->initalYaw);
         yawDiff = rot.y - (yawTarget ^ yawDir);
-        if (ABS(yawDiff) < 0x4001) {
+        if (ABS(yawDiff) <= 0x4000) {
             Math_SmoothScaleMaxMinS(&rot.y, yawTarget ^ yawDir, 4, 0x2000, 1);
         } else {
             rot.y += 0x2000;
@@ -741,7 +741,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 14.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTable, this->transDrawTable, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTable, this->transitionDrawTable, 30);
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
@@ -1026,8 +1026,8 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
             break;
         case 4:
             // teeth
-            gDPPipeSync(oGfxCtx->polyOpa.p++);
-            gDPSetEnvColor(oGfxCtx->polyOpa.p++, this->teethR, this->teethG, this->teethB, 0);
+            gDPPipeSync(POLY_OPA_DISP++);
+            gDPSetEnvColor(POLY_OPA_DISP++, this->teethR, this->teethG, this->teethB, 0);
             break;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_st.c", 2295);
@@ -1045,6 +1045,6 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSt_CheckBodyStickHit(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
-                   EnSt_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSt_OverrideLimbDraw,
+                      EnSt_PostLimbDraw, this);
 }

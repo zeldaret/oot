@@ -5,6 +5,7 @@
  */
 
 #include "z_en_butte.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x00000000
 
@@ -109,7 +110,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = Math_Sins(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
 
-    func_8005A970(&camDir, ACTIVE_CAM);
+    Camera_GetCamDir(&camDir, ACTIVE_CAM);
     Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
     Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
@@ -117,11 +118,11 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     func_800D1694(this->actor.posRot2.pos.x + sp5C.x, this->actor.posRot2.pos.y + sp5C.y,
                   this->actor.posRot2.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_choo.c", 317),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_choo.c", 317),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 200, 200, 180, alpha);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 200, 200, 210, 255);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(&D_04010130));
+    gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_04010130));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_choo.c", 326);
 }
@@ -347,7 +348,7 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
     } else if (this->timer == 4) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot2.pos.x, this->actor.posRot2.pos.y,
-                    this->actor.posRot2.pos.z, 0, this->actor.shape.rot.y, 0, 2);
+                    this->actor.posRot2.pos.z, 0, this->actor.shape.rot.y, 0, FAIRY_HEAL_TIMED);
         this->drawSkelAnime = false;
     } else if (this->timer <= 0) {
         EnButte_SetupWaitToDie(this);
@@ -408,7 +409,7 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, NULL);
         func_800628A4(0, &this->collider);
     }
 

@@ -157,16 +157,16 @@ void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle
-    this->actor.shape.rot.y = func_8005A9F4(ACTIVE_CAM) + 0x8000;
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
 }
 
 void DoorAna_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_05001390);
+    gSPDisplayList(POLY_XLU_DISP++, D_05001390);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
 }

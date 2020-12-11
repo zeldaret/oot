@@ -68,7 +68,7 @@ glabel EnTg_Draw
 /* 00564 80B188C4 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 00568 80B188C8 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 0056C 80B188CC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00570 80B188D0 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00570 80B188D0 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00574 80B188D4 AFA20018 */  sw      $v0, 0x0018($sp)
 /* 00578 80B188D8 3C0680B2 */  lui     $a2, %hi(D_80B18990)       ## $a2 = 80B20000
 /* 0057C 80B188DC 24C68990 */  addiu   $a2, $a2, %lo(D_80B18990)  ## $a2 = 80B18990
