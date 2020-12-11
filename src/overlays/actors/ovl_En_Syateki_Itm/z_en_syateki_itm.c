@@ -83,8 +83,9 @@ void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx2) {
         return;
     }
     for (i = 0; i < 10; i++) {
-        this->markers[i] = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x131,
-                                                          sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
+        this->markers[i] =
+            (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
+                                           sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
         if (this->markers[i] == NULL) {
             // Second spawn error
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n" VT_RST);

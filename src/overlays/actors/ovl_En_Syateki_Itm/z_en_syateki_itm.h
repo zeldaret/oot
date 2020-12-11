@@ -38,7 +38,6 @@ typedef struct EnSyatekiItm {
     /* 0x01C4 */ struct EnGSwitch* targets[2]; // currently spawned target rupees
     /* 0x01CC */ struct EnSyatekiMan* man; // shopkeeper
     /* 0x01D0 */ struct EnExRuppy* curMarkers[2]; // marker rupees for the current round
-
 } EnSyatekiItm; // size = 0x01D8
 
 extern const ActorInit En_Syateki_Itm_InitVars;
