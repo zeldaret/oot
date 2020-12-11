@@ -9,17 +9,27 @@ void EnGo2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80A42D30(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3);
+void func_80A42DD4(EnGo2* this);
+void func_80A42EE0(EnGo2* this, GlobalContext* globalCtx);
+void func_80A4320C(EnGo2* this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6);
+void func_80A43424(EnGo2* this, GlobalContext* globalCtx, s32 getItemID);
+void func_80A43468(EnGo2* this, GlobalContext* globalCtx);
+
+u16 func_80A43564(GlobalContext* globalCtx, EnGo2* this);
+u16 func_80A43824(GlobalContext* globalCtx, EnGo2* this);
+
 s32 func_80A44CE4(EnGo2* this, GlobalContext* globalCtx);
 
 s32 func_80A44DC0(EnGo2* this);
 
 void func_80A45B14(EnGo2* this, s32 unk_arg);
 
+void func_80A45B9C(EnGo2* this, GlobalContext* globalCtx);
 void func_80A45C50(EnGo2* this, GlobalContext* globalCtx);
 
 void func_80A45D40(EnGo2* this, GlobalContext* globalCtx);
 void func_80A45DA4(EnGo2* this, GlobalContext* globalCtx);
-
 
 s32 func_80A45F08(EnGo2* this, GlobalContext* globalCtx);
 
@@ -29,8 +39,10 @@ void func_80A46CD8(EnGo2* this, GlobalContext* globalCtx);
 void func_80A46D5C(EnGo2* this, GlobalContext* globalCtx);
 
 void func_80A47024(EnGo2* this, GlobalContext* globalCtx);
-
-
+void func_80A470E8(EnGo2* this, GlobalContext* globalCtx);
+void func_80A47158(EnGo2* this, GlobalContext* globalCtx);
+void func_80A4725C(EnGo2* this, GlobalContext* globalCtx);
+void func_80A47490(EnGo2* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06000750;
 extern UNK_TYPE D_06000D5C;
@@ -106,21 +118,258 @@ s32 D_80A4856C[] = { 0x44160000, 0x00000000, 0x00000000 };
 s32 D_80A48578[] = { 0x0600DA80, 0x0600CE80, 0x0600D280, 0x0600D680 };
 s32 D_80A48588[] = { 0x0600DE80, 0x0600E680 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42D30.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42D30.s")
+void func_80A42D30(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3) {
+    EnGoUnkStruct* phi_v0;
+    s16 i;
+    s16 arg1;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42DD4.s")
+    phi_v0 = this->unk_270;
+
+    for (i = 0; i < 10; i++) {
+        if (phi_v0->unk_0 != 1) {
+            phi_v0->unk_4 = unk_arg2;
+            phi_v0->unk_8 = unk_arg3;
+            if (1) {}
+            arg1 = unk_arg1;
+            phi_v0->unk_1 = arg1;
+            phi_v0->unk_0 = 1;
+            phi_v0->unk_2 = unk_arg1;
+            phi_v0->pos = *pos;
+            phi_v0->accel = *accel;
+            phi_v0->velocity = *velocity;
+            return;
+        }
+        phi_v0++;
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42DD4.s")
+void func_80A42DD4(EnGo2* this) {
+    EnGoUnkStruct* phi_s0;
+    f32 randomNumber;
+    s16 temp_s1;
+    s16 i;
+
+    phi_s0 = this->unk_270;
+
+    for (i = 0; i < 10; i++) {
+        if (phi_s0->unk_0) {
+            phi_s0->unk_1--;
+
+            if ((phi_s0->unk_1) == 0) {
+                phi_s0->unk_0 = 0;
+            }
+
+            phi_s0->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            randomNumber = Math_Rand_ZeroOne() * 0.4f;
+            phi_s0->accel.z = randomNumber - 0.2f;
+            phi_s0->pos.x += phi_s0->velocity.x;
+            phi_s0->pos.y += phi_s0->velocity.y;
+            phi_s0->pos.z += phi_s0->velocity.z;
+            phi_s0->velocity.x += phi_s0->accel.x;
+            phi_s0->velocity.y += phi_s0->accel.y;
+            phi_s0->velocity.z += randomNumber - 0.2f;
+            phi_s0->unk_4 += phi_s0->unk_8;
+        }
+        phi_s0++;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42EE0.s")
+// Just copy from ovl_En_Go/func_80A417B4 when matched
+// void func_80A42EE0(EnGo2 *this, GlobalContext *globalCtx) {
+//     Gfx *sp88;
+//     EnGoUnkStruct *temp_s2;
+//     Gfx *temp_v0;
+//     Gfx *temp_v0_2;
+//     Gfx *temp_v0_3;
+//     Gfx *temp_v0_4;
+//     Gfx *temp_v0_5;
+//     Gfx *temp_v0_6;
+//     Gfx *temp_v0_7;
+//     GraphicsContext *temp_a1;
+//     GraphicsContext *temp_s0;
+//     MtxF *temp_s3;
+//     f32 temp_f12;
+//     f32 temp_f16;
+//     f32 temp_f16_2;
+//     f32 temp_f6;
+//     f32 temp_f8;
+//     s16 temp_s4;
+//     s32 temp_a0;
+//     u8 temp_t1;
+//     u8 temp_t2;
+//     u8 temp_t2_2;
+//     u8 temp_t3;
+//     EnGoUnkStruct *phi_s2;
+//     s32 phi_s7;
+//     f32 phi_f6;
+//     f32 phi_f16;
+//     f32 phi_f16_2;
+//     f32 phi_f8;
+//     s16 phi_s4;
 
+//     temp_a1 = globalCtx->state.gfxCtx;
+//     temp_s2 = this->unk_270;
+//     temp_s0 = temp_a1;
+//     Graph_OpenDisps(&sp88, temp_a1, (const char *) "../z_en_go2_eff.c", 0x6F);
+//     func_80093D84(globalCtx->state.gfxCtx);
+//     phi_s2 = temp_s2;
+//     phi_s7 = 0;
+//     phi_s4 = (u16)0;
+// loop_1:
+//     temp_s3 = &globalCtx->mf_11DA0;
+//     if (phi_s2->unk_0 != 0) {
+//         if (phi_s7 == 0) {
+//             temp_v0 = Gfx_CallSetupDL(temp_s0->polyXlu.p, 0U);
+//             temp_s0->polyXlu.p = temp_v0;
+//             temp_s0->polyXlu.p = temp_v0 + 8;
+//             temp_v0->words.w1 = 0x600FD40;
+//             temp_v0->words.w0 = 0xDE000000;
+//             temp_v0_2 = temp_s0->polyXlu.p;
+//             temp_s0->polyXlu.p = temp_v0_2 + 8;
+//             temp_v0_2->words.w0 = 0xFB000000;
+//             temp_v0_2->words.w1 = 0x643C1400;
+//             phi_s7 = 1;
+//         }
+//         temp_t1 = phi_s2->unk_1;
+//         temp_f6 = (f32) temp_t1;
+//         phi_f6 = temp_f6;
+//         if ((s32) temp_t1 < 0) {
+//             phi_f6 = temp_f6 + 4294967296.0f;
+//         }
+//         temp_t2 = phi_s2->unk_2;
+//         temp_f16 = (f32) temp_t2;
+//         phi_f16 = temp_f16;
+//         if ((s32) temp_t2 < 0) {
+//             phi_f16 = temp_f16 + 4294967296.0f;
+//         }
+//         temp_v0_3 = temp_s0->polyXlu.p;
+//         temp_s0->polyXlu.p = temp_v0_3 + 8;
+//         temp_v0_3->words.w0 = 0xFA000000;
+//         temp_v0_3->words.w1 = ((s16) (s32) (phi_f6 * (255.0f / phi_f16)) & 0xFF) | 0xAA825A00;
+//         temp_v0_4 = temp_s0->polyXlu.p;
+//         temp_s0->polyXlu.p = temp_v0_4 + 8;
+//         temp_v0_4->words.w1 = 0;
+//         temp_v0_4->words.w0 = 0xE7000000;
+//         Matrix_Translate(phi_s2->pos.x, phi_s2->pos.y, (bitwise f32) phi_s2->pos.z, (u8)0U);
+//         func_800D1FD4(temp_s3);
+//         temp_f12 = phi_s2->unk_4;
+//         Matrix_Scale(temp_f12, temp_f12, 1.0f, (u8)1U);
+//         temp_v0_5 = temp_s0->polyXlu.p;
+//         temp_s0->polyXlu.p = temp_v0_5 + 8;
+//         temp_v0_5->words.w0 = 0xDA380003;
+//         temp_v0_5->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_en_go2_eff.c", 0x89);
+//         temp_t2_2 = phi_s2->unk_1;
+//         temp_f16_2 = (f32) temp_t2_2;
+//         phi_f16_2 = temp_f16_2;
+//         if ((s32) temp_t2_2 < 0) {
+//             phi_f16_2 = temp_f16_2 + 4294967296.0f;
+//         }
+//         temp_t3 = phi_s2->unk_2;
+//         temp_f8 = (f32) temp_t3;
+//         phi_f8 = temp_f8;
+//         if ((s32) temp_t3 < 0) {
+//             phi_f8 = temp_f8 + 4294967296.0f;
+//         }
+//         temp_v0_6 = temp_s0->polyXlu.p;
+//         temp_s0->polyXlu.p = temp_v0_6 + 8;
+//         temp_v0_6->words.w0 = 0xDB060020;
+//         temp_a0 = D_80A480D0[(s16) (s32) (phi_f16_2 * (8.0f / phi_f8))];
+//         temp_v0_6->words.w1 = (temp_a0 & 0xFFFFFF) + gSegments[(u32) (temp_a0 * 0x10) >> 0x1C] + 0x80000000;
+//         temp_v0_7 = temp_s0->polyXlu.p;
+//         temp_s0->polyXlu.p = temp_v0_7 + 8;
+//         temp_v0_7->words.w1 = 0x600FD50;
+//         temp_v0_7->words.w0 = 0xDE000000;
+//     }
+//     temp_s4 = phi_s4 + 1;
+//     phi_s2 = phi_s2 + 0x38;
+//     phi_s4 = temp_s4;
+//     if ((s32) temp_s4 < 0xA) {
+//         goto loop_1;
+//     }
+//     Graph_CloseDisps(&sp88, globalCtx->state.gfxCtx, (const char *) "../z_en_go2_eff.c", 0x97);
+// }
+
+// Just copy ovl_En_Go/func_80A3F594.s when matching
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4320C.s")
+// void func_80A4320C(EnGo2 *this, u8 unk_arg1, f32 unk_arg2, f32 unk_arg3, s32 unk_arg4, f32 unk_arg5, f32 unk_arg6) {
+//     f32 sp9C;
+//     f32 sp98;
+//     f32 sp94;
+//     ? sp88;
+//     f32 sp80;
+//     ? sp7C;
+//     f32 *temp_s4;
+//     s32 temp_s2;
+//     s16 phi_s0;
+//     s32 phi_s2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43424.s")
+//     temp_s4 = &sp94;
+//     temp_s4->unk0 = (s32) D_80A480F0->unk0;
+//     temp_s4->unk4 = (s32) D_80A480F0[1];
+//     temp_s4->unk8 = (s32) D_80A480F0[2];
+//     sp88.unk0 = (s32) D_80A480FC->unk0;
+//     sp88.unk4 = (s32) D_80A480FC[1];
+//     sp88.unk8 = (s32) D_80A480FC[2];
+//     sp7C.unk0 = (s32) D_80A48108->unk0;
+//     sp7C.unk4 = (s32) D_80A48108[1];
+//     sp7C.unk8 = (s32) D_80A48108[2];
+//     temp_s4->unk0 = (bitwise s32) this->actor.posRot.pos.x;
+//     temp_s4->unk4 = (bitwise s32) this->actor.posRot.pos.y;
+//     temp_s4->unk8 = (bitwise s32) this->actor.posRot.pos.z;
+//     sp98 = this->actor.groundY;
+//     if (unk_arg4 >= 0) {
+//         phi_s0 = (s16) (s32) ((Math_Rand_ZeroOne() - 0.5f) * 65536.0f);
+//         phi_s2 = unk_arg4;
+// loop_2:
+//         sp80 = sp80 + (Math_Rand_ZeroOne() * unk_arg6);
+//         sp94 = (Math_Sins(phi_s0) * unk_arg5) + this->actor.posRot.pos.x;
+//         sp9C = (Math_Coss(phi_s0) * unk_arg5) + this->actor.posRot.pos.z;
+//         func_80A42D30(this, (Vec3f *) temp_s4, (Vec3f *) &sp88, (Vec3f *) &sp7C, unk_arg1 & 0xFF, unk_arg2,
+//         unk_arg3); temp_s2 = phi_s2 - 1; phi_s0 = (s16) (phi_s0 + (s16) (0x10000 / unk_arg4)); phi_s2 = temp_s2; if
+//         (temp_s2 >= 0) {
+//             goto loop_2;
+//         }
+//     }
+// }
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43424.s")
+void func_80A43424(EnGo2* this, GlobalContext* globalCtx, s32 getItemID) {
+    this->getItemID = getItemID;
+    func_8002F434(&this->actor, globalCtx, getItemID, this->actor.xzDistFromLink + 1.0f,
+                  fabsf(this->actor.yDistFromLink) + 1.0f);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43468.s")
+// void func_80A43468(EnGo2* this, GlobalContext* globalCtx) {
+//     s16 temp_v0;
+
+//     temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
+//     if ((this->unk_20D == 0xA) || (this->unk_20D == 5) || (this->unk_20D == 2) || (this->unk_20D == 1)) {
+//         if (temp_v0 != this->unk_20D) {
+//             this->unk_20C++;
+//         }
+//     }
+//     this->unk_20D = temp_v0;
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A434E8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43564.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43564.s")
+u16 func_80A43564(GlobalContext* globalCtx, EnGo2* this) {
+
+    if (gSaveContext.infTable[17] & 0x4000) {
+        return 0x3013;
+    }
+    if (CUR_CAPACITY(UPG_BOMB_BAG) >= 20) {
+        if ((this->unk_210 >= 8) && (this->unk_210 < 0xC)) {
+            return 0x3012;
+        }
+    }
+    return 0x3011;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A435E8.s")
 
@@ -128,7 +377,20 @@ s32 D_80A48588[] = { 0x0600DE80, 0x0600E680 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43714.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43824.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A43824.s")
+u16 func_80A43824(GlobalContext* globalCtx, EnGo2* this) {
+    s32 phi_v1;
+
+    if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
+        return 0x3027;
+    }
+    if (gSaveContext.eventChkInf[2] & 8) {
+        phi_v1 = 0x3026;
+    } else {
+        phi_v1 = 0x3009;
+    }
+    return phi_v1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4387C.s")
 
@@ -573,7 +835,6 @@ void func_80A46CD8(EnGo2* this, GlobalContext* globalCtx) {
     f32 float2;
     f32 float3;
 
-
     float1 = this->skelAnime.animFrameCount;
     float2 = 32768.0f / float1;
     float3 = this->skelAnime.animCurrentFrame * float2;
@@ -584,10 +845,10 @@ void func_80A46CD8(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46D5C.s")
-void func_80A46D5C(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A46D5C(EnGo2* this, GlobalContext* globalCtx) {
 
     if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
-        func_80A45B14(this,1);
+        func_80A45B14(this, 1);
         this->skelAnime.animPlaybackSpeed = 0.0f;
         func_80A45DA4(this, globalCtx);
     }
@@ -600,16 +861,16 @@ void func_80A46D5C(EnGo2 *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A46F88.s")
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47024.s")
-void func_80A47024(EnGo2 *this, GlobalContext *globalCtx) {
+void func_80A47024(EnGo2* this, GlobalContext* globalCtx) {
     if (func_80A46114() == 0) {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 0.0f, 0.6f, 0.8f);
         if (this->actor.speedXZ >= 1.0f) {
             func_80A45B14(this, 3);
         }
 
-        if ((s32) this->actor.speedXZ == 0) {
+        if ((s32)this->actor.speedXZ == 0) {
             this->actor.posRot.rot.y ^= 0x8000;
-            this->actor.shape.rot.y = this->actor.posRot.rot.y; 
+            this->actor.shape.rot.y = this->actor.posRot.rot.y;
             this->unk_20E ^= 1;
             func_80A44C68(this, globalCtx);
             func_80A45DA4(this, globalCtx);
@@ -617,18 +878,158 @@ void func_80A47024(EnGo2 *this, GlobalContext *globalCtx) {
     }
 }
 
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A470E8.s")
+void func_80A470E8(EnGo2* this, GlobalContext* globalCtx) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
+        this->actor.parent = NULL;
+        this->actionFunc = func_80A47158;
+    } else {
+        func_8002F434(&this->actor, globalCtx, this->getItemID, this->actor.xzDistFromLink + 1.0f,
+                      fabsf(this->actor.yDistFromLink) + 1.0f);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A470E8.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47158.s")
+void func_80A47158(EnGo2* this, GlobalContext* globalCtx) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47158.s")
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+        this->unk_194 = 0;
+        switch (this->getItemID) {
+            case 0x26:
+                func_800775D8();
+                func_80A45D40(this, globalCtx);
+                return;
+            case 0x2C:
+                gSaveContext.infTable[16] |= 0x200;
+                func_80A45D40(this, globalCtx);
+                return;
+            case 0x57:
+                gSaveContext.bgsFlag = 1;
+                break;
+            case 0x33:
+            case 0x34:
+                func_80A45B9C(this, globalCtx);
+                this->actionFunc = func_80A46D5C;
+                return;
+        }
+        this->actionFunc = func_80A46B40;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A4725C.s")
+// void func_80A4725C(EnGo2 *this, GlobalContext *globalCtx) {
+//     // SkelAnime *sp28;
+//     // SkelAnime *temp_a0;
+//     s16 phi_v0;
+
+//     if (this->unk_212 == 0) {
+//         func_80034EC0(&this->skelAnime, D_80A48348, 5);
+//         this->actor.flags &= ~1;
+//         this->actor.shape.rot.y += 0x5B0;
+//         this->unk_26E = 1;
+//         this->unk_213 = 2;
+//         this->unk_20C = 0;
+//         this->unk_212++; ;
+//         this->unk_592 = (s16) (this->skelAnime.animFrameCount + 60.0f + 60.0f);
+//         func_800F483C(0x28, 5);
+//         func_800800F8(globalCtx, 0x105E, -0x63, &this->actor, 0);
+//     }
+//     else if (this->unk_212 != 1) {
+//         // temp_a0 = &this->skelAnime;
+//         if (this->unk_212 != 2) {
+//             return;
+//         }
+//         // sp28 = temp_a0;
+//         if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+//             this->unk_213 = 0;
+//         }
+//         if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+//             func_80034EC0(&this->skelAnime, D_80A48348, 1);
+//             this->actor.flags |= 1;
+//             this->unk_26E = 2;
+//             this->skelAnime.animPlaybackSpeed = 0.0f;
+//             this->skelAnime.animCurrentFrame = this->skelAnime.animFrameCount;
+//             func_80A43424(this, globalCtx, 0x26);
+//             this->actionFunc = func_80A470E8;
+//             this->unk_212 = 0;
+//         }
+//     }
+//     else {
+//         if (this->unk_592 == 0) {
+//             phi_v0 = 0;
+//         } else {
+//             this->unk_592--;
+//             phi_v0 = this->unk_592;
+//         }
+//         if (phi_v0 == 0) {
+//             func_800F4524(&D_801333D4, 0x391D, 0x3C);
+//             func_80034EC0(&this->skelAnime, D_80A48348, 6);
+//             func_8010B720(globalCtx, 0x305A);
+//             this->unk_213 = 3;
+//             this->unk_212++;
+//             func_800F483C(0x7F, 5);
+//         }
+//         else if (this->unk_592 == 0x3C || this->unk_592 == 0x78) {
+//             func_8005B1A4(ACTIVE_CAM, 0x391D);
+//             func_800F4524(&D_801333D4, 0x28B5, 0x3C);
+//         }
+//     }
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47490.s")
+// void func_80A47490(EnGo2 *this, GlobalContext *globalCtx) {
+//     Player* player = PLAYER;
+
+//     if (this->unk_212 == 0 || this->unk_212 == 1) {
+//         if (this->unk_212 == 0) {
+//             if (func_8010BDBC(&globalCtx->msgCtx)) {
+//                 return;
+//             }
+//             else {
+//                 func_8010B680(globalCtx, 0x3031, NULL);
+//                 player->actor.freezeTimer = 0xA;
+//                 this->unk_212++;
+//             }
+//         }
+
+//         if (func_8010BDBC(&globalCtx->msgCtx) != 2) {
+//             player->actor.freezeTimer = 0xA;
+//         }
+//         else {
+//             gSaveContext.infTable[16] |= 0x1000;
+//             this->unk_26E = 1;
+//             this->unk_211 = 0;
+//             this->unk_20F = 0;
+//             this->actionFunc = func_80A4696C;
+//         }
+
+//     }
+// }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A47578.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Update.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/EnGo2_Update.s")
+void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
+
+    EnGo2* this = THIS;
+
+    func_80A45360(this, &this->unk_220);
+    func_80A45A00(this);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    func_80A4546C(this);
+    func_8002E4B4(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f, (f32)this->collider.dim.radius * 0.6f,
+                  0.0f, 5);
+    if (this->unk_194 == 0) {
+        func_80A44AB0(this, globalCtx);
+    }
+    this->actionFunc(this, globalCtx);
+    if (this->unk_211 == 1) {
+        func_80034F54(globalCtx, &this->unk_226, &this->unk_24A, 0x12);
+    }
+    func_80A45288(this, globalCtx);
+    func_80A4592C(this);
+    func_80A44940(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A479B0.s")
 
