@@ -39,11 +39,7 @@ const ActorInit Boss_Ganon2_InitVars = {
 
 Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80906D6C = {
-    0.0f,
-    0.0f,
-    500.0f,
-};
+Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
 
 u8 D_80906D78 = 0;
 
