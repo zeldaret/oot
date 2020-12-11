@@ -8,6 +8,16 @@
 
 #define THIS ((EnSyatekiItm*)thisx)
 
+typedef enum {
+    SYATEKI_ROUND_GREEN_APPEAR,
+    SYATEKI_ROUND_BLUE_SEQUENTIAL,
+    SYATEKI_ROUND_GREEN_THROW,
+    SYATEKI_ROUND_BLUE_SIMUL,
+    SYATEKI_ROUND_RED_LEFT,
+    SYATEKI_ROUND_RED_RIGHT,
+    SYATEKI_ROUND_MAX
+} EnSyatekItemRound;
+
 void EnSyatekiItm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiItm_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -31,27 +41,27 @@ const ActorInit En_Syateki_Itm_InitVars = {
     NULL,
 };
 
-Vec3f D_80B10240 = { 0.0f, -10.0f, -270.0f };
-Vec3f D_80B1024C = { -220.0f, 66.0f, -320.0f };
-Vec3f D_80B10258 = { 260.0f, 66.0f, -320.0f };
-Vec3f D_80B10264 = { 0.0f, -10.0f, -270.0f };
-Vec3f D_80B10270 = { -220.0f, 66.0f, -320.0f };
-Vec3f D_80B1027C = { 260.0f, 66.0f, -320.0f };
-Vec3f D_80B10288 = { 260.0f, 100.0f, -320.0f };
-Vec3f D_80B10294 = { 360.0f, 100.0f, -320.0f };
-Vec3f D_80B102A0 = { -230.0f, 94.0f, -360.0f };
-Vec3f D_80B102AC = { -400.0f, 94.0f, -360.0f };
-Vec3f D_80B102B8 = { 0.0f, 53.0f, -270.0f };
-Vec3f D_80B102C4 = { -60.0f, 63.0f, -320.0f };
-Vec3f D_80B102D0 = { 60.0f, 63.0f, -320.0f };
-Vec3f D_80B102DC = { 0.0f, 0.0f, 0.0f };
-Vec3f D_80B102E8 = { -60.0f, 63.0f, -320.0f };
-Vec3f D_80B102F4 = { 60.0f, 63.0f, -320.0f };
-Vec3f D_80B10300 = { -230.0f, 0.0f, 0.0f };
-Vec3f D_80B1030C = { -230.0f, 0.0f, 0.0f };
-Vec3f D_80B10318 = { 260.0f, 0.0f, 0.0f };
-Vec3f D_80B10324 = { 260.0f, 0.0f, 0.0f };
-s16 D_80B10330[] = { 0, 1, 0, 1, 2, 2 };
+static Vec3f sGreenAppearHome = { 0.0f, -10.0f, -270.0f };
+static Vec3f sBlueSeqHome1 = { -220.0f, 66.0f, -320.0f };
+static Vec3f sBlueSeqHome2 = { 260.0f, 66.0f, -320.0f };
+static Vec3f sGreenThrowHome = { 0.0f, -10.0f, -270.0f };
+static Vec3f sBlueSimulHome1 = { -220.0f, 66.0f, -320.0f };
+static Vec3f sBlueSimulHome2 = { 260.0f, 66.0f, -320.0f };
+static Vec3f sRedLeftHome1 = { 260.0f, 100.0f, -320.0f };
+static Vec3f sRedLeftHome2 = { 360.0f, 100.0f, -320.0f };
+static Vec3f sRedRightHome1 = { -230.0f, 94.0f, -360.0f };
+static Vec3f sRedRightHome2 = { -400.0f, 94.0f, -360.0f };
+static Vec3f sGreenAppearFinal = { 0.0f, 53.0f, -270.0f };
+static Vec3f sBlueSeqFinal1 = { -60.0f, 63.0f, -320.0f };
+static Vec3f sBlueSeqFinal2 = { 60.0f, 63.0f, -320.0f };
+static Vec3f sGreenThrowFinal = { 0.0f, 0.0f, 0.0f };
+static Vec3f sBlueSimulFinal1 = { -60.0f, 63.0f, -320.0f };
+static Vec3f sBlueSimulFinal2 = { 60.0f, 63.0f, -320.0f };
+static Vec3f sRedLeftFinal1 = { -230.0f, 0.0f, 0.0f };
+static Vec3f sRedLeftFinal2 = { -230.0f, 0.0f, 0.0f };
+static Vec3f sRedRightFinal1 = { 260.0f, 0.0f, 0.0f };
+static Vec3f sRedRightFinal2 = { 260.0f, 0.0f, 0.0f };
+static s16 sTargetColors[] = { 0, 1, 0, 1, 2, 2 };
 static s16 sRupeeTypes[] = { 0, 1, 1, 0, 1, 1, 4, 4, 4, 4 };
 static Vec3f sRupeePos[] = {
     { -40.0f, 0.0f, -90.0f }, { -20.0f, 0.0f, -90.0f }, { 0.0f, 0.0f, -90.0f },   { 20.0f, 0.0f, -90.0f },
@@ -118,13 +128,13 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->unkTimer == 0) {
-        if (gSaveContext.linkAge == 0) {
-            for (i = 0, j = 0; i < 6; i++) {
+        if (LINK_IS_ADULT) {
+            for (i = 0, j = 0; i < SYATEKI_ROUND_MAX; i++) {
                 if (this->roundFlags[i]) {
                     j++;
                 }
             }
-            if (j >= 6) {
+            if (j >= SYATEKI_ROUND_MAX) {
                 player->actor.freezeTimer = 10;
                 this->signal = ENSYATEKI_END;
                 this->actionFunc = EnSyatekiItm_CleanupGame;
@@ -133,13 +143,13 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
             i = Math_Rand_ZeroFloat(5.99f);
             while (this->roundFlags[i]) {
                 i = Math_Rand_ZeroFloat(5.99f);
-                if(1){}
+                if (1) {}
             }
             this->roundNum = i + 1;
             this->roundFlags[i] = true;
         } else {
             this->roundNum++;
-            if (this->roundNum > 6) {
+            if (this->roundNum > SYATEKI_ROUND_MAX) {
                 player->actor.freezeTimer = 10;
                 this->signal = ENSYATEKI_END;
                 this->actionFunc = EnSyatekiItm_CleanupGame;
@@ -154,8 +164,6 @@ void EnSyatekiItm_StartRound(EnSyatekiItm* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// strange saved register behavior near the first if block
 void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -179,47 +187,47 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
         roundIdx = this->roundNum - 1;
 
         switch (roundIdx) {
-            case 0:
-                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10240);
-                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102B8);
+            case SYATEKI_ROUND_GREEN_APPEAR:
+                Math_Vec3f_Copy(&this->targetHome[0], &sGreenAppearHome);
+                Math_Vec3f_Copy(&this->targetFinal[0], &sGreenAppearFinal);
                 this->curMarkers[0] = this->markers[0];
                 this->numTargets = 1;
                 break;
-            case 1:
-                Math_Vec3f_Copy(&this->targetHome[0], &D_80B1024C);
-                Math_Vec3f_Copy(&this->targetHome[1], &D_80B10258);
-                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102C4);
-                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B102D0);
+            case SYATEKI_ROUND_BLUE_SEQUENTIAL:
+                Math_Vec3f_Copy(&this->targetHome[0], &sBlueSeqHome1);
+                Math_Vec3f_Copy(&this->targetHome[1], &sBlueSeqHome2);
+                Math_Vec3f_Copy(&this->targetFinal[0], &sBlueSeqFinal1);
+                Math_Vec3f_Copy(&this->targetFinal[1], &sBlueSeqFinal2);
                 this->curMarkers[0] = this->markers[1];
                 this->curMarkers[1] = this->markers[2];
                 break;
-            case 2:
-                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10264);
-                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102DC);
+            case SYATEKI_ROUND_GREEN_THROW:
+                Math_Vec3f_Copy(&this->targetHome[0], &sGreenThrowHome);
+                Math_Vec3f_Copy(&this->targetFinal[0], &sGreenThrowFinal);
                 this->curMarkers[0] = this->markers[3];
                 this->numTargets = 1;
                 break;
-            case 3:
-                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10270);
-                Math_Vec3f_Copy(&this->targetHome[1], &D_80B1027C);
-                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B102E8);
-                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B102F4);
+            case SYATEKI_ROUND_BLUE_SIMUL:
+                Math_Vec3f_Copy(&this->targetHome[0], &sBlueSimulHome1);
+                Math_Vec3f_Copy(&this->targetHome[1], &sBlueSimulHome2);
+                Math_Vec3f_Copy(&this->targetFinal[0], &sBlueSimulFinal1);
+                Math_Vec3f_Copy(&this->targetFinal[1], &sBlueSimulFinal2);
                 this->curMarkers[0] = this->markers[4];
                 this->curMarkers[1] = this->markers[5];
                 break;
-            case 4:
-                Math_Vec3f_Copy(&this->targetHome[0], &D_80B10288);
-                Math_Vec3f_Copy(&this->targetHome[1], &D_80B10294);
-                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B10300);
-                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B1030C);
+            case SYATEKI_ROUND_RED_LEFT:
+                Math_Vec3f_Copy(&this->targetHome[0], &sRedLeftHome1);
+                Math_Vec3f_Copy(&this->targetHome[1], &sRedLeftHome2);
+                Math_Vec3f_Copy(&this->targetFinal[0], &sRedLeftFinal1);
+                Math_Vec3f_Copy(&this->targetFinal[1], &sRedLeftFinal2);
                 this->curMarkers[0] = this->markers[6];
                 this->curMarkers[1] = this->markers[7];
                 break;
-            case 5:
-                Math_Vec3f_Copy(&this->targetHome[0], &D_80B102A0);
-                Math_Vec3f_Copy(&this->targetHome[1], &D_80B102AC);
-                Math_Vec3f_Copy(&this->targetFinal[0], &D_80B10318);
-                Math_Vec3f_Copy(&this->targetFinal[1], &D_80B10324);
+            case SYATEKI_ROUND_RED_RIGHT:
+                Math_Vec3f_Copy(&this->targetHome[0], &sRedRightHome1);
+                Math_Vec3f_Copy(&this->targetHome[1], &sRedRightHome2);
+                Math_Vec3f_Copy(&this->targetFinal[0], &sRedRightFinal1);
+                Math_Vec3f_Copy(&this->targetFinal[1], &sRedRightFinal2);
                 this->curMarkers[0] = this->markers[8];
                 this->curMarkers[1] = this->markers[9];
                 break;
@@ -236,24 +244,24 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
                 return;
             }
             this->targets[i]->index = i;
-            this->targets[i]->colorIdx = D_80B10330[roundIdx];
+            this->targets[i]->colorIdx = sTargetColors[roundIdx];
             Math_Vec3f_Copy(&this->targets[i]->targetPos, &this->targetFinal[i]);
             switch (roundIdx) {
-                case 1:
+                case SYATEKI_ROUND_BLUE_SEQUENTIAL:
                     if (i == 1) {
                         this->targets[i]->delayTimer = 60;
                     }
                     break;
-                case 2:
+                case SYATEKI_ROUND_GREEN_THROW:
                     this->targets[i]->actor.velocity.y = 15.0f;
                     this->targets[i]->actor.gravity = -1.0f;
                     this->targets[i]->moveMode = GSWITCH_THROW;
                     break;
-                case 4:
+                case SYATEKI_ROUND_RED_LEFT:
                     this->targets[i]->actor.velocity.x = -5.0f;
                     this->targets[i]->moveMode = GSWITCH_LEFT;
                     break;
-                case 5:
+                case SYATEKI_ROUND_RED_RIGHT:
                     this->targets[i]->actor.velocity.x = 7.0f;
                     this->targets[i]->moveMode = GSWITCH_RIGHT;
                     break;
@@ -263,10 +271,6 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
         this->actionFunc = EnSyatekiItm_CheckTargets;
     }
 }
-#else
-Vec3f D_80B103C8 = { 0.0f, 0.0f, 0.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Itm/EnSyatekiItm_SpawnTargets.s")
-#endif
 
 void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -343,6 +347,6 @@ void EnSyatekiItm_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0)) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
-                               1.0f, 0xFF, 0, 0, 255, 4, globalCtx->state.gfxCtx);
+                               1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }
 }

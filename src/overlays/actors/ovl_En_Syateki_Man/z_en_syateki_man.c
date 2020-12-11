@@ -5,21 +5,20 @@
 #define FLAGS 0x08000019
 
 #define THIS ((EnSyatekiMan*)thisx)
-#define GALLERY ((EnSyatekiItm*)this->actor.parent)
 
 typedef enum {
-    /* 0 */ RESULT_NONE,
-    /* 1 */ RESULT_WINNER,
-    /* 2 */ RESULT_ALMOST,
-    /* 3 */ RESULT_FAILURE,
-    /* 4 */ RESULT_REFUSE
+    /* 0 */ SYATEKI_RESULT_NONE,
+    /* 1 */ SYATEKI_RESULT_WINNER,
+    /* 2 */ SYATEKI_RESULT_ALMOST,
+    /* 3 */ SYATEKI_RESULT_FAILURE,
+    /* 4 */ SYATEKI_RESULT_REFUSE
 } EnSyatekiManGameResult;
 
 typedef enum {
-    /* 0 */ TEXT_CHOICE,
-    /* 1 */ TEXT_START_GAME,
-    /* 2 */ TEXT_NO_RUPEES,
-    /* 3 */ TEXT_REFUSE
+    /* 0 */ SYATEKI_TEXT_CHOICE,
+    /* 1 */ SYATEKI_TEXT_START_GAME,
+    /* 2 */ SYATEKI_TEXT_NO_RUPEES,
+    /* 3 */ SYATEKI_TEXT_REFUSE
 } EnSyatekiManTextIdx;
 
 void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +41,7 @@ void EnSyatekiMan_RestartGame(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_BlinkWait(EnSyatekiMan* this);
 void EnSyatekiMan_Blink(EnSyatekiMan* this);
 
-void EnSyatekiMan_Jukebox(void);
+void EnSyatekiMan_SetBgm(void);
 
 extern AnimationHeader D_06000338;
 extern Gfx D_06007E28[];
@@ -82,7 +81,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, this->limbDrawTbl,
                        this->transitionDrawTbl, 9);
-    if (gSaveContext.linkAge != 0) {
+    if (LINK_IS_CHILD) {
         this->headRot.z = 20;
     }
     this->blinkTimer = 20;
@@ -103,8 +102,8 @@ void EnSyatekiMan_Start(EnSyatekiMan* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    if (this->gameResult == RESULT_REFUSE) {
-        this->textIdx = TEXT_REFUSE;
+    if (this->gameResult == SYATEKI_RESULT_REFUSE) {
+        this->textIdx = SYATEKI_TEXT_REFUSE;
     }
 
     this->actor.textId = sTextIds[this->textIdx];
@@ -129,23 +128,23 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
         globalCtx->shootingGalleryAmmo = -2;
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
-        if (this->textIdx == TEXT_CHOICE) {
+        if (this->textIdx == SYATEKI_TEXT_CHOICE) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0:
                     if (gSaveContext.rupees >= 20) {
                         Rupees_ChangeBy(-20);
-                        this->textIdx = TEXT_START_GAME;
+                        this->textIdx = SYATEKI_TEXT_START_GAME;
                         nextState = 1;
                     } else {
-                        this->textIdx = TEXT_NO_RUPEES;
+                        this->textIdx = SYATEKI_TEXT_NO_RUPEES;
                         nextState = 2;
                     }
                     this->actor.textId = sTextIds[this->textIdx];
                     this->numTextBox = sTextBoxCount[this->textIdx];
                     break;
                 case 1:
-                    this->actor.textId = sTextIds[TEXT_REFUSE];
-                    this->numTextBox = sTextBoxCount[TEXT_REFUSE];
+                    this->actor.textId = sTextIds[SYATEKI_TEXT_REFUSE];
+                    this->numTextBox = sTextBoxCount[SYATEKI_TEXT_REFUSE];
                     nextState = 2;
                     break;
             }
@@ -197,7 +196,7 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
             this->cameraHold = false;
         }
         func_80106CCC(globalCtx);
-        gallery = GALLERY;
+        gallery = ((EnSyatekiItm*)this->actor.parent);
         if (gallery->actor.update != NULL) {
             gallery->signal = ENSYATEKI_START;
             this->actionFunc = EnSyatekiMan_WaitForGame;
@@ -210,24 +209,24 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (1) {}
-    gallery = GALLERY;
+    gallery = ((EnSyatekiItm*)this->actor.parent);
     if ((gallery->actor.update != NULL) && (gallery->signal == ENSYATEKI_END)) {
         this->onePointCam = func_800800F8(globalCtx, 0x1F42, -0x63, &this->actor, 0);
         switch (gallery->hitCount) {
             case 10:
-                this->gameResult = RESULT_WINNER;
+                this->gameResult = SYATEKI_RESULT_WINNER;
                 this->actor.textId = 0x71AF;
                 break;
             case 8:
             case 9:
-                this->gameResult = RESULT_ALMOST;
+                this->gameResult = SYATEKI_RESULT_ALMOST;
                 this->actor.textId = 0x71AE;
                 break;
             default:
-                this->gameResult = RESULT_FAILURE;
+                this->gameResult = SYATEKI_RESULT_FAILURE;
                 this->actor.textId = 0x71AD;
                 if (globalCtx->shootingGalleryAmmo == 15 + 1) {
-                    this->gameResult = RESULT_REFUSE;
+                    this->gameResult = SYATEKI_RESULT_REFUSE;
                     this->actor.textId = 0x2D;
                 }
                 break;
@@ -243,25 +242,23 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
-        if (this->gameResult != RESULT_FAILURE) {
+        if (this->gameResult != SYATEKI_RESULT_FAILURE) {
             func_800803F0(globalCtx, this->onePointCam);
             this->onePointCam = -1;
         }
         func_80106CCC(globalCtx);
-        gallery = GALLERY;
+        gallery = ((EnSyatekiItm*)this->actor.parent);
         if (gallery->actor.update != NULL) {
             gallery->signal = ENSYATEKI_RESULTS;
             this->textIdx = 0;
             switch (this->gameResult) {
-                case RESULT_WINNER:
+                case SYATEKI_RESULT_WINNER:
                     this->tempGallery = this->actor.parent;
                     this->actor.parent = NULL;
-                    if (gSaveContext.linkAge != 0) {
+                    if (LINK_IS_CHILD) {
                         if (!(gSaveContext.itemGetInf[0] & 0x2000)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST,
-                                         (s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[5]) >>
-                                             gUpgradeShifts[5]);
-                            if ((s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[5]) >> gUpgradeShifts[5] == 1) {
+                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n" VT_RST, CUR_UPG_VALUE(5));
+                            if (CUR_UPG_VALUE(5) == 1) {
                                 this->getItemId = GI_BULLET_BAG_40;
                             } else {
                                 this->getItemId = GI_BULLET_BAG_50;
@@ -271,10 +268,8 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                         }
                     } else {
                         if (!(gSaveContext.itemGetInf[0] & 0x4000)) {
-                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST,
-                                         (s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[0]) >>
-                                             gUpgradeShifts[0]);
-                            switch ((s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[0]) >> gUpgradeShifts[0]) {
+                            osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n" VT_RST, CUR_UPG_VALUE(0));
+                            switch (CUR_UPG_VALUE(0)) {
                                 case 0:
                                     this->getItemId = GI_RUPEE_PURPLE;
                                     break;
@@ -292,13 +287,13 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
                     func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
                     this->actionFunc = EnSyatekiMan_GivePrize;
                     break;
-                case RESULT_ALMOST:
+                case SYATEKI_RESULT_ALMOST:
                     this->timer = 20;
                     func_8008EF44(globalCtx, 15);
                     this->actionFunc = EnSyatekiMan_RestartGame;
                     break;
                 default:
-                    if (this->gameResult == RESULT_REFUSE) {
+                    if (this->gameResult == SYATEKI_RESULT_REFUSE) {
                         this->actionFunc = EnSyatekiMan_SetupIdle;
                     } else {
                         this->cameraHold = true;
@@ -327,12 +322,12 @@ void EnSyaketiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         // Successful completion
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-        if (gSaveContext.linkAge != 0) {
+        if (LINK_IS_CHILD) {
             gSaveContext.itemGetInf[0] |= 0x2000;
-        } else if ((this->getItemId == 0x30) || (this->getItemId == 0x31)) {
+        } else if ((this->getItemId == GI_QUIVER_40) || (this->getItemId == GI_QUIVER_50)) {
             gSaveContext.itemGetInf[0] |= 0x4000;
         }
-        this->gameResult = RESULT_NONE;
+        this->gameResult = SYATEKI_RESULT_NONE;
         this->actor.parent = this->tempGallery;
         this->actor.flags |= 1;
         this->actionFunc = EnSyatekiMan_SetupIdle;
@@ -342,11 +337,11 @@ void EnSyaketiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_RestartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->timer == 0) {
-        EnSyatekiItm* gallery = GALLERY;
+        EnSyatekiItm* gallery = ((EnSyatekiItm*)this->actor.parent);
 
         if (gallery->actor.update != NULL) {
             gallery->signal = ENSYATEKI_START;
-            this->gameResult = RESULT_NONE;
+            this->gameResult = SYATEKI_RESULT_NONE;
             this->actionFunc = EnSyatekiMan_WaitForGame;
             // Let's try again! Baby!
             osSyncPrintf(VT_FGCOL(BLUE) "再挑戦だぜ！ベイビー！" VT_RST "\n", this);
@@ -391,7 +386,7 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
     this->actionFunc(this, globalCtx);
-    EnSyatekiMan_Jukebox();
+    EnSyatekiMan_SetBgm();
     this->blinkFunc(this);
     this->actor.posRot2.pos.y = 70.0f;
     Actor_SetHeight(&this->actor, 70.0f);
@@ -408,13 +403,13 @@ s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (limbIndex == 8) {
         *dList = D_06007E28;
         turnDirection = 1;
-        if (this->gameResult == RESULT_REFUSE) {
+        if (this->gameResult == SYATEKI_RESULT_REFUSE) {
             turnDirection = -1;
         }
         rot->x += this->headRot.y * turnDirection;
         rot->z += this->headRot.z;
     }
-    return false;
+    return 0;
 }
 
 void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -426,7 +421,7 @@ void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
                           func_80B1148C, NULL, this);
 }
 
-void EnSyatekiMan_Jukebox(void) {
+void EnSyatekiMan_SetBgm(void) {
     if (BREG(80)) {
         BREG(80) = false;
         Audio_SetBGM(sBgmList[BREG(81)]);

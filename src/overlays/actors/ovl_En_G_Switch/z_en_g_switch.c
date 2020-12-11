@@ -1,11 +1,11 @@
 #include "z_en_g_switch.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000030
 
 #define THIS ((EnGSwitch*)thisx)
-#define GALLERY ((EnSyatekiItm*)this->actor.parent)
 
 typedef enum {
     /* 0 */ MOVE_TARGET,
@@ -118,8 +118,8 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
             this->collider.body.bumper.flags = 0x1F820;
-            this->objNum = OBJECT_TSUBO;
-            this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objNum);
+            this->objId = OBJECT_TSUBO;
+            this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
                 // what?
@@ -166,7 +166,7 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
     hitPos.x = this->collider.body.bumper.unk_06.x;
     hitPos.y = this->collider.body.bumper.unk_06.y;
     hitPos.z = this->collider.body.bumper.unk_06.z;
-    EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 0x2BC, &hitPos);
+    EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 700, &hitPos);
     if (this->type == ENGSWITCH_ARCHERY_POT) {
         velocity.y = 15.0f;
         EffectSsExtra_Spawn(globalCtx, &hitPos, &velocity, &accel, 5, 2);
@@ -200,7 +200,7 @@ void EnGSwitch_SilverRupeeTracker(EnGSwitch* this, GlobalContext* globalCtx) {
     }
     if (sCollectedCount >= this->silverCount) {
         // It is now the end of the century.
-        // This another reference to Hokuto no Ken. It seems the dev was a fan.
+        // This another reference to Hokuto no Ken.
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
         // Last!
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n" VT_RST);
@@ -225,7 +225,7 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
         func_80078884(NA_SE_SY_GET_RUPY);
         this->actor.posRot.pos = player->actor.posRot.pos;
         this->actor.posRot.pos.y += 40.0f;
-        if (gSaveContext.linkAge == 0) {
+        if (LINK_IS_ADULT) {
             this->actor.posRot.pos.y += 20.0f;
         }
         this->actor.gravity = 0.0f;
@@ -245,7 +245,7 @@ void EnGSwitch_SilverRupeeCollected(EnGSwitch* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos = player->actor.posRot.pos;
     this->actor.posRot.pos.y =
         player->actor.posRot.pos.y + 40.0f + (this->killTimer * 0.3f) * Math_Sins(this->killTimer * 0x3A98);
-    if (gSaveContext.linkAge == 0) {
+    if (LINK_IS_ADULT) {
         this->actor.posRot.pos.y += 20.0f;
     }
 }
@@ -260,7 +260,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 Actor_MoveForward(&this->actor);
                 if ((this->actor.velocity.y < 0.0f) &&
                     (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f))) {
-                    gallery = GALLERY;
+                    gallery = ((EnSyatekiItm*)this->actor.parent);
                     this->actor.velocity.y = 0.0f;
                     this->actor.gravity = 0.0f;
                     if (gallery->actor.update != NULL) {
@@ -272,7 +272,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
             case GSWITCH_LEFT:
                 func_8002D7EC(&this->actor);
                 if ((this->actor.velocity.x < 0.0f) && (this->actor.posRot.pos.x < this->targetPos.x)) {
-                    gallery = GALLERY;
+                    gallery = ((EnSyatekiItm*)this->actor.parent);
                     if (gallery->actor.update != NULL) {
                         gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
                     }
@@ -282,7 +282,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
             case GSWITCH_RIGHT:
                 func_8002D7EC(&this->actor);
                 if (this->actor.posRot.pos.x > this->targetPos.x) {
-                    gallery = GALLERY;
+                    gallery = ((EnSyatekiItm*)this->actor.parent);
                     if (gallery->actor.update != NULL) {
                         gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
                     }
@@ -310,7 +310,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                                 Math_SmoothScaleMaxF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f,
                                                      30.0f);
                             } else {
-                                gallery = GALLERY;
+                                gallery = ((EnSyatekiItm*)this->actor.parent);
                                 if (gallery->actor.update != NULL) {
                                     gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
                                 }
@@ -322,7 +322,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 break;
         }
         if ((this->collider.base.acFlags & 2) || BREG(8)) {
-            gallery = GALLERY;
+            gallery = ((EnSyatekiItm*)this->actor.parent);
             this->collider.base.acFlags &= ~2;
             if (gallery->actor.update != NULL) {
                 gallery->hitCount++;
@@ -381,8 +381,8 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
 
             scale = 30.0f + Math_Rand_ZeroOne() * 130.0f;
 
-            EffectSsKakera_Spawn(globalCtx, &pos, &vel, thisPos, -240, phi_s0, 0xA, 0xA, 0, scale, 0, 0x20, 0x3C, -1,
-                                 OBJECT_TSUBO, D_06001960);
+            EffectSsKakera_Spawn(globalCtx, &pos, &vel, thisPos, -240, phi_s0, 10, 10, 0, scale, 0, 0x20, 60,
+                                 KAKERA_COLOR_NONE, OBJECT_TSUBO, D_06001960);
         }
         func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
         Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);

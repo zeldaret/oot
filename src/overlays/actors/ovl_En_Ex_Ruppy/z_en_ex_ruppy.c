@@ -5,7 +5,6 @@
 #define FLAGS 0x00000010
 
 #define THIS ((EnExRuppy*)thisx)
-#define DIVING_GAME ((EnDivingGame*)this->actor.parent)
 
 void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnExRuppy_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -68,7 +67,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 temp1 = 200.99f;
                 if (this->actor.parent != NULL) {
-                    divingGame = DIVING_GAME;
+                    divingGame = (EnDivingGame*)this->actor.parent;
                     if (divingGame->actor.update != NULL) {
                         temp2 = divingGame->unk_2AA * 10.0f;
                         temp1 += temp2;
@@ -94,7 +93,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->rupeeValue = 500;
                     this->colorIdx = 3;
                     if (this->actor.parent != NULL) {
-                        divingGame = DIVING_GAME;
+                        divingGame = (EnDivingGame*)this->actor.parent;
                         if (divingGame->actor.update != NULL) {
                             divingGame->unk_2AA = 0;
                         }
@@ -213,7 +212,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->actor.gravity, -2.0f, 0.3f, 1.0f);
     EnExRuppy_SpawnSparkles(this, globalCtx, 2, 0);
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
-    divingGame = DIVING_GAME;
+    divingGame = (EnDivingGame*)this->actor.parent;
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
         ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20) || (this->timer == 0))) {
         this->invisible = true;
@@ -226,7 +225,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
 }
 
 void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
-    EnDivingGame* divingGame = DIVING_GAME;
+    EnDivingGame* divingGame = (EnDivingGame*)this->actor.parent;
     f32 temp_f2;
 
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_2A2 == 2)) {
@@ -260,7 +259,7 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
         func_80078914(&this->actor.projectedPos, NA_SE_EV_BOMB_DROP_WATER);
         this->actionFunc = EnExRuppy_WaitInGame;
     }
-    divingGame = DIVING_GAME;
+    divingGame = (EnDivingGame*)this->actor.parent;
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_29C == 0)) {
         this->timer = 20;
         this->actionFunc = EnExRuppy_Kill;
@@ -278,7 +277,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
         EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Math_Rand_ZeroFloat(0.03f) + 0.07f);
     }
     if (this->actor.parent != NULL) {
-        divingGame = DIVING_GAME;
+        divingGame = (EnDivingGame*)this->actor.parent;
         if (divingGame->actor.update != NULL) {
             if (divingGame->unk_29C == 0) {
                 this->timer = 20;
