@@ -12,7 +12,8 @@ Gfx D_801270B0[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    {0, 0},
+    // gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2),
@@ -257,7 +258,7 @@ s32 func_80096238(void* data) {
 }
 
 #ifdef NON_MATCHING
-// pointer arithmetic doesn't quite match
+// regalloc near the end
 void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 height, u8 fmt, u8 siz, u16 mode0,
                    u16 tlutCount, f32 frameX, f32 frameY) {
     Gfx* displayListHead;
@@ -266,9 +267,8 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     displayListHead = *displayList;
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
 
-    displayListHead++;
-    gSPBranchList(displayListHead, (u8*)displayListHead + sizeof(uObjBg));
-    bg = (void*)displayListHead;
+    bg = displayListHead + 1;
+    gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
     bg->b.imageX = 0;
     bg->b.imageW = width * 4;
     bg->b.frameX = frameX * 4;
@@ -282,11 +282,10 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     bg->b.imagePal = 0;
     bg->b.imageFlip = 0;
 
+    displayListHead = (void*)(bg + 1);
     if (fmt == G_IM_FMT_CI) {
-        displayListHead = (void*)(bg + 1);
         gDPLoadTLUT(displayListHead++, tlutCount, 256, tlut);
     } else {
-        displayListHead = (void*)(bg + 1);
         gDPPipeSync(displayListHead++);
     }
 
@@ -303,11 +302,13 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
         bg->s.scaleW = 1024;
         bg->s.scaleH = 1024;
         bg->s.imageYorig = bg->b.imageY;
-        gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        gDPSetOtherMode(displayListHead++, mode0 | 0xCF0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
                             GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
+        // do {Gfx* _g = displayListHead++;_g->words.w1 = 0xFFFCFC7E;_g->words.w0 = 0xFCFFFFFF;}while(0);
         gDPSetCombineLERP(displayListHead++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
+        // do {Gfx* _g = displayListHead++;_g->words.w1 = 0xC;_g->words.w0=0xB << 24;}while(0);
         gSPObjRenderMode(displayListHead++, G_OBJRM_ANTIALIAS | G_OBJRM_BILERP);
         gSPBgRect1Cyc(displayListHead++, bg);
     }
@@ -552,6 +553,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     } else {
         nextRoomNum = globalCtx->setupEntranceList[globalCtx->curSpawn].room;
     }
+
     func_8009728C(globalCtx, roomCtx, nextRoomNum);
 
     return maxRoomSize;
