@@ -62,7 +62,7 @@ OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h $(CHECK_WARNINGS)
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -Iassets -include stdarg.h $(CHECK_WARNINGS)
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -74,7 +74,7 @@ ASFLAGS := -march=vr4300 -32 -Iinclude
 MIPS_VERSION := -mips2
 
 # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838,712
+CFLAGS += -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Iassets -Wab,-r4300_mul -woff 649,838,712
 
 ifeq ($(shell getconf LONG_BIT), 32)
   # Work around memory allocation bug in QEMU
