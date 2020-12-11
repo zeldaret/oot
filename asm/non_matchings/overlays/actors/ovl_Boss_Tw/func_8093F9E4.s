@@ -904,7 +904,7 @@ glabel L80940690
 /* 079D0 809406A0 2646060C */  addiu   $a2, $s2, 0x060C           ## $a2 = 0000060C
 /* 079D4 809406A4 50A00004 */  beql    $a1, $zero, .L809406B8
 /* 079D8 809406A8 8FBF004C */  lw      $ra, 0x004C($sp)
-/* 079DC 809406AC 0C030136 */  jal     func_800C04D8
+/* 079DC 809406AC 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 079E0 809406B0 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 079E4 809406B4 8FBF004C */  lw      $ra, 0x004C($sp)
 .L809406B8:

@@ -159,9 +159,9 @@ void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
     DemoGt* demoGt = this->demoGt;
     s16 params = this->actor.params;
     if (demoGt != NULL && (params != 6) && (params != 7) && (params != 8)) {
-        this->actor.posRot.pos.x = demoGt->actor.posRot.pos.x + this->deltaPosX;
-        this->actor.posRot.pos.y = demoGt->actor.posRot.pos.y + this->deltaPosY;
-        this->actor.posRot.pos.z = demoGt->actor.posRot.pos.z + this->deltaPosZ;
+        this->actor.posRot.pos.x = demoGt->dyna.actor.posRot.pos.x + this->deltaPosX;
+        this->actor.posRot.pos.y = demoGt->dyna.actor.posRot.pos.y + this->deltaPosY;
+        this->actor.posRot.pos.z = demoGt->dyna.actor.posRot.pos.z + this->deltaPosZ;
     }
 }
 

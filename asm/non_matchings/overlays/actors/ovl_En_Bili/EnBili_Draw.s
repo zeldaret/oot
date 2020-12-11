@@ -96,7 +96,7 @@ glabel EnBili_Draw
 /* 01D34 809C15D4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 01D38 809C15D8 8E2802D0 */  lw      $t0, 0x02D0($s1)           ## 000002D0
 /* 01D3C 809C15DC 8FA4005C */  lw      $a0, 0x005C($sp)
-/* 01D40 809C15E0 0C0288A2 */  jal     SkelAnime_Draw2
+/* 01D40 809C15E0 0C0288A2 */  jal     SkelAnime_Draw
 /* 01D44 809C15E4 AFA80018 */  sw      $t0, 0x0018($sp)
 /* 01D48 809C15E8 AE2202D0 */  sw      $v0, 0x02D0($s1)           ## 000002D0
 /* 01D4C 809C15EC 8FA9005C */  lw      $t1, 0x005C($sp)

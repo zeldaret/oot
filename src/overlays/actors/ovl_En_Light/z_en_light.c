@@ -34,7 +34,7 @@ typedef struct {
     /* 0x07 */ u8 scale;
 } FlameParams;
 
-FlameParams D_80A9E840[] = {
+static FlameParams D_80A9E840[] = {
     { { 255, 200, 0, 255 }, { 255, 0, 0 }, 75 },     { { 255, 200, 0, 255 }, { 255, 0, 0 }, 75 },
     { { 0, 170, 255, 255 }, { 0, 0, 255 }, 75 },     { { 170, 255, 0, 255 }, { 0, 150, 0 }, 75 },
     { { 255, 200, 0, 255 }, { 255, 0, 0 }, 40 },     { { 255, 200, 0, 255 }, { 255, 0, 0 }, 75 },
@@ -80,7 +80,7 @@ void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {
     // update yaw for billboard effect
-    this->actor.shape.rot.y = func_8005A9F4(ACTIVE_CAM) + 0x8000;
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
 
     if (this->actor.parent != NULL) {
         Math_Vec3f_Copy(&this->actor.posRot.pos, &(this->actor.parent)->posRot.pos);
@@ -174,8 +174,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         dList = D_0404D4E0;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
                         flameParams->primColor.b, flameParams->primColor.a);
-        gDPSetEnvColor(POLY_XLU_DISP++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b,
-                       0);
+        gDPSetEnvColor(POLY_XLU_DISP++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b, 0);
     } else {
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 16, 32, 1, ((this->timer * 2) & 63),
@@ -186,7 +185,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     }
 
-    Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
+    Matrix_RotateY((s16)((Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
                    MTXMODE_APPLY);
 
     if (this->actor.params & 1) {

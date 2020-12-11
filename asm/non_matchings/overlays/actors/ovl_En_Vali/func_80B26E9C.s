@@ -34,7 +34,7 @@ glabel func_80B26E9C
 .L80B26F1C:
 /* 0086C 80B26F1C 000E7880 */  sll     $t7, $t6,  2               
 /* 00870 80B26F20 024FC021 */  addu    $t8, $s2, $t7              
-/* 00874 80B26F24 0C016A7D */  jal     func_8005A9F4              
+/* 00874 80B26F24 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 00878 80B26F28 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
 /* 0087C 80B26F2C 00022400 */  sll     $a0, $v0, 16               
 /* 00880 80B26F30 0C01DE0D */  jal     Math_Coss
@@ -44,7 +44,7 @@ glabel func_80B26E9C
 /* 0088C 80B26F3C 46000587 */  neg.s   $f22, $f0                  
 /* 00890 80B26F40 00194080 */  sll     $t0, $t9,  2               
 /* 00894 80B26F44 02484821 */  addu    $t1, $s2, $t0              
-/* 00898 80B26F48 0C016A7D */  jal     func_8005A9F4              
+/* 00898 80B26F48 0C016A7D */  jal     Camera_GetCamDirYaw              
 /* 0089C 80B26F4C 8D240790 */  lw      $a0, 0x0790($t1)           ## 00000790
 /* 008A0 80B26F50 00022400 */  sll     $a0, $v0, 16               
 /* 008A4 80B26F54 0C01DE1C */  jal     Math_Sins

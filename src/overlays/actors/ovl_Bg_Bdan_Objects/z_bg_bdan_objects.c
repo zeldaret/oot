@@ -69,11 +69,11 @@ extern UNK_TYPE D_06008CE0;
 s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
         case 0:
-            return this->unk_1B8 == 1;
+            return this->cameraSetting == CAM_SET_NORMAL0;
         case 4:
             return gSaveContext.infTable[20] & 0x40;
         case 3:
-            return this->unk_1B8 == 4;
+            return this->cameraSetting == CAM_SET_DUNGEON1;
         default:
             osSyncPrintf("Bg_Bdan_Objects_Get_Contact_Ru1\nそんな受信モードは無い%d!!!!!!!!\n");
             return -1;
@@ -83,10 +83,10 @@ s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
 void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
         case 1:
-            this->unk_1B8 = 2;
+            this->cameraSetting = CAM_SET_NORMAL1;
             break;
         case 2:
-            this->unk_1B8 = 3;
+            this->cameraSetting = CAM_SET_DUNGEON0;
             break;
         case 4:
             gSaveContext.infTable[20] |= 0x40;
@@ -348,13 +348,13 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (this->unk_168 == 0) {
         if (func_8004356C(&this->dyna.actor)) {
-            this->unk_1B8 = globalCtx->cameraPtrs[0]->setting;
-            func_8005A77C(globalCtx->cameraPtrs[0], 0x3A);
+            this->cameraSetting = globalCtx->cameraPtrs[0]->setting;
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_NORMAL2);
             func_8005AD1C(globalCtx->cameraPtrs[0], 4);
             this->unk_168 = 0xAU;
         }
     } else {
-        func_8005A77C(globalCtx->cameraPtrs[0], 0x3A);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_NORMAL2);
         if (!func_8004356C(&this->dyna.actor)) {
             if (this->unk_168 != 0) {
                 this->unk_168 -= 1;
@@ -363,7 +363,7 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             do {
             } while (0);
-            func_8005A77C(globalCtx->cameraPtrs[0], this->unk_1B8);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], (s16)this->cameraSetting);
             func_8005ACFC(globalCtx->cameraPtrs[0], 4);
         }
     }
@@ -425,7 +425,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         Audio_PlayActorSound2(this, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
-        func_800C078C(globalCtx, 0, -1);
+        Gameplay_CopyCamera(globalCtx, 0, -1);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
     }

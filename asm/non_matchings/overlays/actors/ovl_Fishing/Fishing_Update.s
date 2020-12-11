@@ -4397,7 +4397,7 @@ glabel L80B748A0
 /* 0B59C 80B74F3C 8FA5004C */  lw      $a1, 0x004C($sp)
 /* 0B5A0 80B74F40 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0B5A4 80B74F44 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0B5A8 80B74F48 0C0291BE */  jal     SkelAnime_InitSV
+/* 0B5A8 80B74F48 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0B5AC 80B74F4C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0B5B0 80B74F50 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0B5B4 80B74F54 24A5007C */  addiu   $a1, $a1, 0x007C           ## $a1 = 0600007C
@@ -4415,7 +4415,7 @@ glabel L80B748A0
 /* 0B5E0 80B74F80 8FA5004C */  lw      $a1, 0x004C($sp)
 /* 0B5E4 80B74F84 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0B5E8 80B74F88 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0B5EC 80B74F8C 0C0291BE */  jal     SkelAnime_InitSV
+/* 0B5EC 80B74F8C 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0B5F0 80B74F90 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0B5F4 80B74F94 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 0B5F8 80B74F98 24A5CFE0 */  addiu   $a1, $a1, 0xCFE0           ## $a1 = 0600CFE0

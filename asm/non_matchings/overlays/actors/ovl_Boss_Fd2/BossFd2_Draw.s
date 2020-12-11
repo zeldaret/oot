@@ -144,7 +144,7 @@ glabel BossFd2_Draw
 /* 038D8 808D5F48 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 038DC 808D5F4C AFB80014 */  sw      $t8, 0x0014($sp)
 /* 038E0 808D5F50 AFB10018 */  sw      $s1, 0x0018($sp)
-/* 038E4 808D5F54 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 038E4 808D5F54 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 038E8 808D5F58 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 038EC 808D5F5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 038F0 808D5F60 0C235638 */  jal     func_808D58E0

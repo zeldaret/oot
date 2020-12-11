@@ -101,11 +101,11 @@ void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx
         Flags_SetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
 
         if (type == OBJLIGHTSWITCH_TYPE_1) {
-            func_800806BC(globalCtx, thisx, 0x4807);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_TRE_BOX_APPEAR);
         } else if (type == OBJLIGHTSWITCH_TYPE_BURN) {
-            func_800806BC(globalCtx, thisx, 0x4806);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_ERROR);
         } else {
-            func_800806BC(globalCtx, thisx, 0x4802);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_CORRECT_CHIME);
         }
     }
 }
@@ -115,7 +115,7 @@ void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalC
         Flags_UnsetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
 
         if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_1) {
-            func_800806BC(globalCtx, &this->actor, 0x4807);
+            func_800806BC(globalCtx, &this->actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
 }
@@ -393,8 +393,8 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 809);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
-                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
+    gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+                   (u8)(this->alpha >> 6));
     gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
     if ((this->actor.params & 1) == 1) {
@@ -443,8 +443,8 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 890);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6),
-                   (u8)(this->color[2] >> 6), (u8)(this->alpha >> 6));
+    gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
+                   (u8)(this->alpha >> 6));
     gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
 
     sp68.x = this->actor.posRot.pos.x;
