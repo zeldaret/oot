@@ -19,13 +19,13 @@ typedef struct EnBw {
     /* 0x0228 */ EnBwActionFunc actionFunc;
     /* 0x022C */ Color_RGBA8 color1;
     /* 0x0230 */ u8 unk_230;
-    /* 0x0231 */ u8 unk_231;
+    /* 0x0231 */ u8 damageEffect;
     /* 0x0232 */ u8 unk_232;
     /* 0x0234 */ s16 unk_234;
     /* 0x0236 */ s16 unk_236;
     /* 0x0238 */ s16 unk_238;
     /* 0x023A */ u8 unk_23A;
-    /* 0x022B */ u8 unk_23B;
+    /* 0x022B */ u8 iceTimer;
     /* 0x023C */ u8 unk_23C;
     /* 0x0240 */ f32 unk_240;
     /* 0x0244 */ f32 unk_244;
