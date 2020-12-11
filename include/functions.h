@@ -479,6 +479,7 @@ void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
+Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2);
 void Actor_ChangeType(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorType);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);
 s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3);
@@ -893,7 +894,7 @@ s32 Flags_GetEnv(GlobalContext* globalCtx, s16 flag);
 f32 func_8006C5A8(f32 target, TransformData* transData, s32 refIdx);
 void SkelCurve_Clear(SkelAnimeCurve* skelCurve);
 s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
-                   TransformData* transData);
+                   TransformUpdateIndex* transUpdIdx);
 void SkelCurve_Destroy(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
 void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpdIdx, f32 arg2, f32 animFinalFrame,
                        f32 animCurFrame, f32 animSpeed);
@@ -2229,6 +2230,7 @@ void func_800F4C58(Vec3f*, u16 sfxId, u8);
 // ? func_800F5550(?);
 // ? func_800F56A8(?);
 void func_800F574C(f32 arg0, UNK_TYPE arg2);
+void func_800F5918(void);
 void func_800F595C(u16);
 void func_800F59E8(u16);
 void func_800F5ACC(u32 bgmID);

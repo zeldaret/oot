@@ -718,7 +718,6 @@ beginseg
     name "ovl_Bg_Gnd_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/z_bg_gnd_iceblock.o"
     include "build/data/overlays/actors/z_bg_gnd_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.rodata.o"
     include "build/data/overlays/actors/z_bg_gnd_iceblock.bss.o"
     include "build/data/overlays/actors/z_bg_gnd_iceblock.reloc.o"
 endseg
@@ -1239,7 +1238,6 @@ beginseg
     name "ovl_Bg_Spot08_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/z_bg_spot08_iceblock.o"
     include "build/data/overlays/actors/z_bg_spot08_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_spot08_iceblock.rodata.o"
     include "build/data/overlays/actors/z_bg_spot08_iceblock.reloc.o"
 endseg
 
@@ -1506,8 +1504,7 @@ endseg
 beginseg
     name "ovl_Demo_Effect"
     include "build/src/overlays/actors/ovl_Demo_Effect/z_demo_effect.o"
-    include "build/data/overlays/actors/z_demo_effect.data.o"
-    include "build/data/overlays/actors/z_demo_effect.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Effect/ovl_Demo_Effect_reloc.o"
 endseg
 
 beginseg
@@ -2370,8 +2367,11 @@ endseg
 beginseg
     name "ovl_En_GeldB"
     include "build/src/overlays/actors/ovl_En_GeldB/z_en_geldb.o"
-    include "build/data/overlays/actors/z_en_geldb.data.o"
-    include "build/data/overlays/actors/z_en_geldb.reloc.o"
+    #ifdef NON_MATCHING
+        include "build/src/overlays/actors/ovl_En_GeldB/ovl_En_GeldB_reloc.o"
+    #else
+        include "build/data/overlays/actors/z_en_geldb.reloc.o"
+    #endif
 endseg
 
 beginseg
@@ -3040,8 +3040,7 @@ endseg
 beginseg
     name "ovl_En_Ta"
     include "build/src/overlays/actors/ovl_En_Ta/z_en_ta.o"
-    include "build/data/overlays/actors/z_en_ta.data.o"
-    include "build/data/overlays/actors/z_en_ta.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ta/ovl_En_Ta_reloc.o"
 endseg
 
 beginseg

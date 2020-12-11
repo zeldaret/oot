@@ -1,3 +1,25 @@
+.rdata
+
+glabel D_808B17C4
+    .asciz "(spot08 流氷)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+
+glabel D_808B1890
+    .float 65535.5
+
+glabel D_808B1894
+    .float 65535.5
+
+glabel jtbl_808B1898
+    .word L808B1308
+    .word L808B1308
+    .word L808B1318
+    .word L808B1328
+    .word L808B133C
+
+.text
 glabel BgSpot08Iceblock_Init
 /* 007F4 808B1154 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 007F8 808B1158 AFB00018 */  sw      $s0, 0x0018($sp)           
