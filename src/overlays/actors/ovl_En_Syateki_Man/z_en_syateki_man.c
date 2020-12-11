@@ -125,7 +125,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->cameraHold) {
-        globalCtx->shootingGalleryAmmo = -2;
+        globalCtx->shootingGalleryStatus = -2;
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->textIdx == SYATEKI_TEXT_CHOICE) {
@@ -169,7 +169,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_StopTalk(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->cameraHold) {
-        globalCtx->shootingGalleryAmmo = -2;
+        globalCtx->shootingGalleryStatus = -2;
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
@@ -187,7 +187,7 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->cameraHold) {
-        globalCtx->shootingGalleryAmmo = -2;
+        globalCtx->shootingGalleryStatus = -2;
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
@@ -225,13 +225,13 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
             default:
                 this->gameResult = SYATEKI_RESULT_FAILURE;
                 this->actor.textId = 0x71AD;
-                if (globalCtx->shootingGalleryAmmo == 15 + 1) {
+                if (globalCtx->shootingGalleryStatus == 15 + 1) {
                     this->gameResult = SYATEKI_RESULT_REFUSE;
                     this->actor.textId = 0x2D;
                 }
                 break;
         }
-        globalCtx->shootingGalleryAmmo = -2;
+        globalCtx->shootingGalleryStatus = -2;
         func_8010B680(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnSyatekiMan_EndGame;
     }

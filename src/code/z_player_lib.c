@@ -416,7 +416,7 @@ s32 func_8008EF30(GlobalContext* globalCtx) {
 }
 
 s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo) {
-    globalCtx->shootingGalleryAmmo = ammo + 1;
+    globalCtx->shootingGalleryStatus = ammo + 1;
     return 1;
 }
 

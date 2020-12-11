@@ -171,7 +171,7 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s32 roundIdx;
 
-    if (globalCtx->shootingGalleryAmmo == -1) {
+    if (globalCtx->shootingGalleryStatus == -1) {
         player->actor.freezeTimer = 10;
         this->signal = ENSYATEKI_END;
         this->actionFunc = EnSyatekiItm_CleanupGame;
@@ -278,7 +278,7 @@ void EnSyatekiItm_CheckTargets(EnSyatekiItm* this, GlobalContext* globalCtx) {
     s32 i;
     s16 j;
 
-    if (globalCtx->shootingGalleryAmmo == -1) {
+    if (globalCtx->shootingGalleryStatus == -1) {
         player->actor.freezeTimer = 10;
         this->signal = ENSYATEKI_END;
         this->actionFunc = EnSyatekiItm_CleanupGame;
