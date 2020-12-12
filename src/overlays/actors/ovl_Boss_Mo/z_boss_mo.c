@@ -926,7 +926,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
                 Math_SmoothScaleMaxF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
                 Math_SmoothScaleMaxF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
-                func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
+                Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
             }
             break;
         case TENT_CUT:
@@ -962,7 +962,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
                 Math_SmoothScaleMaxF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
                 Math_SmoothScaleMaxF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
-                func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
+                Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
                 if (player->actor.posRot.pos.y <= 42.0f) {
                     camera2 = Gameplay_GetCamera(globalCtx, 0);
                     camera2->eye = this->cameraEye;
@@ -1541,11 +1541,11 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
         }
         this->cameraUp.x = this->cameraUp.z = sinf(this->rippleTimer * 0.03f) * this->cameraYawShake * (-2.0f);
         this->cameraUp.y = 1.0f;
-        func_800C05E4(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye, &this->cameraUp);
+        Gameplay_CameraSetAtEyeUp(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye, &this->cameraUp);
         camera->eye = this->cameraEye;
         camera->eyeNext = this->cameraEye;
         camera->at = this->cameraAt;
-        func_800C0704(globalCtx, this->cutsceneCamera, this->cameraZoom);
+        Gameplay_CameraSetFov(globalCtx, this->cutsceneCamera, this->cameraZoom);
     }
 
     if ((this->cutsceneState > INTRO_START) && (this->movementTimer > 540)) {
@@ -1786,7 +1786,7 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                                  this->cameraAtVel.y * this->cameraSpeedMod);
             Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
-        func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
 }
 
