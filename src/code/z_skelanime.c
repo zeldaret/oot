@@ -470,7 +470,7 @@ void SkelAnime_GetFrameData(AnimationHeader* animationSeg, s32 frame, s32 limbCo
     s16* frameDataTable = SEGMENTED_TO_VIRTUAL(animHeader->frameDataSeg);
     s16* staticFrameTable = &frameDataTable[0];
     s16* animFrameTable = &frameDataTable[frame];
-    u16 limit = animHeader->limit;
+    u16 staticEntries = animHeader->staticEntries;
     s32 i;
 
     for (i = 0; i < limbCount; i++, dst++, index++) {
@@ -481,9 +481,9 @@ void SkelAnime_GetFrameData(AnimationHeader* animationSeg, s32 frame, s32 limbCo
             LOG_ADDRESS("tbl", staticFrameTable, "../z_skelanime.c", 1395);
         }
 
-        dst->x = (index->x >= limit) ? animFrameTable[index->x] : staticFrameTable[index->x];
-        dst->y = (index->y >= limit) ? animFrameTable[index->y] : staticFrameTable[index->y];
-        dst->z = (index->z >= limit) ? animFrameTable[index->z] : staticFrameTable[index->z];
+        dst->x = (index->x >= staticEntries) ? animFrameTable[index->x] : staticFrameTable[index->x];
+        dst->y = (index->y >= staticEntries) ? animFrameTable[index->y] : staticFrameTable[index->y];
+        dst->z = (index->z >= staticEntries) ? animFrameTable[index->z] : staticFrameTable[index->z];
     }
 }
 

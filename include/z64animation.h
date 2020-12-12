@@ -77,7 +77,7 @@ typedef struct {
     /* 0x00 */ s16 frameCount;
     /* 0x04 */ s16* frameDataSeg;         // "tbl"
     /* 0x08 */ JointIndex* jointIndexSeg; // "ref_tbl"
-    /* 0x0C */ u16 limit;
+    /* 0x0C */ u16 staticEntries;
 } AnimationHeader; // size = 0x10
 
 // Unused
