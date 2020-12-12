@@ -428,11 +428,12 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 8) {
         temp_a1 = this->actor.wallPolyRot;
     } else {
-        temp_a1 = this->actor.yawTowardsLink - func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
+        temp_a1 =
+            this->actor.yawTowardsLink - Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - 0x8000;
         if (ABS(temp_a1) >= 0x4001) {
-            temp_a1 = func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
+            temp_a1 = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
         } else {
-            temp_a1 = func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - (temp_a1 >> 1) + 0x8000;
+            temp_a1 = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) - (temp_a1 >> 1) + 0x8000;
         }
     }
     Math_ApproxUpdateScaledS(&this->actor.shape.rot.y, temp_a1, 0x800);

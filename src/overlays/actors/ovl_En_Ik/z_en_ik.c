@@ -285,12 +285,10 @@ void func_80A7492C(EnIk* this, GlobalContext* globalCtx) {
 void func_80A74AAC(EnIk* this) {
     this->unk_2F8 = 5;
     if (this->unk_2FB == 0) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ED24, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_0600ED24), 0, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_0600ED24, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600ED24), 0, -4.0f);
         this->actor.speedXZ = 0.9f;
     } else {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06006734, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06006734), 0, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06006734, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06006734), 0, -4.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
     }
@@ -377,7 +375,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
         sp2C.z = this->actor.posRot.pos.z + Math_Coss(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.y = this->actor.posRot.pos.y;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
-        func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
+        Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
         func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
         func_80062CD4(globalCtx, &sp2C);
     }
@@ -540,12 +538,10 @@ void func_80A75790(EnIk* this) {
     this->unk_2F8 = 0;
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06006194, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_06006194), 2, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06006194, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06006194), 2, -4.0f);
         this->actor.speedXZ = -6.0f;
     } else {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060045BC, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060045BC), 2, -4.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060045BC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060045BC), 2, -4.0f);
         this->actor.speedXZ = 6.0f;
     }
     this->unk_2FE = 0;
@@ -1018,8 +1014,7 @@ void func_80A77148(EnIk* this) {
 }
 
 void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114),
-                         2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114), 2, 0.0f);
     func_80A770C0(this, globalCtx, 4);
     this->action = 1;
     this->drawMode = 1;
@@ -1027,8 +1022,7 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void func_80A771E4(EnIk* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114),
-                         2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C114, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600C114), 2, 0.0f);
     this->action = 2;
     this->drawMode = 1;
     this->unk_4D4 = 0;

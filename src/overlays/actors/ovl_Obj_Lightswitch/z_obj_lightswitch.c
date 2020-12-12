@@ -101,11 +101,11 @@ void ObjLightswitch_SetSwitchFlag(ObjLightswitch* this, GlobalContext* globalCtx
         Flags_SetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
 
         if (type == OBJLIGHTSWITCH_TYPE_1) {
-            func_800806BC(globalCtx, thisx, 0x4807);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_TRE_BOX_APPEAR);
         } else if (type == OBJLIGHTSWITCH_TYPE_BURN) {
-            func_800806BC(globalCtx, thisx, 0x4806);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_ERROR);
         } else {
-            func_800806BC(globalCtx, thisx, 0x4802);
+            func_800806BC(globalCtx, thisx, NA_SE_SY_CORRECT_CHIME);
         }
     }
 }
@@ -115,7 +115,7 @@ void ObjLightswitch_ClearSwitchFlag(ObjLightswitch* this, GlobalContext* globalC
         Flags_UnsetSwitch(globalCtx, this->actor.params >> 8 & 0x3F);
 
         if ((this->actor.params >> 4 & 3) == OBJLIGHTSWITCH_TYPE_1) {
-            func_800806BC(globalCtx, &this->actor, 0x4807);
+            func_800806BC(globalCtx, &this->actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
 }
