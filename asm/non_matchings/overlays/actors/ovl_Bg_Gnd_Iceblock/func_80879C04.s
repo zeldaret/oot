@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_8087A7EC
+    .float 2552.0
+
+.text
 glabel func_80879C04
 /* 00164 80879C04 3C0E8088 */  lui     $t6, %hi(D_8087A758)       ## $t6 = 80880000
 /* 00168 80879C08 25CEA758 */  addiu   $t6, $t6, %lo(D_8087A758)  ## $t6 = 8087A758
