@@ -6982,7 +6982,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     return camera->status;
 }
 
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 void Camera_PrintSettings(Camera* camera) {
     char sp58[8];
     char sp50[8];
