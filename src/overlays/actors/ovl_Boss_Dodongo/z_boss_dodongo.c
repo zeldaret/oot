@@ -1663,9 +1663,9 @@ void func_808C54C0(BossDodongo* this) { // Setup Death?
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5578.s")
+    Color_RGBA8 magmaPrimColor2[] = { { 0xFF, 0xFF, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x64 } };
+    Color_RGBA8 magmaEnvColor2[] = { { 0xFF, 0x00, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x00 } };
 void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
-    // static Color_RGBA8 magmaPrimColor[] = { { 0xFF, 0xFF, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x64 } };
-    // static Color_RGBA8 magmaEnvColor[] = { { 0xFF, 0x00, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x00 } };
 
     static Color_RGBA8 dustPrimColor = { 255, 255, 255, 255 };
     static Color_RGBA8 dustEnvColor = { 255, 100, 0, 255 };
@@ -1691,7 +1691,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
     Vec3f* phi_v0_3;
     f32 tempSin;
     f32 tempCos;
-    
+    f32 temp;
     player = PLAYER;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1894,8 +1894,8 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     { // Scope seems to be required because of how its loaded
                         Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
                         Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
-                        Color_RGBA8* lMagmaPrimColor = &magmaPrimColor;
-                        Color_RGBA8* lMagmaEnvColor = &magmaEnvColor;
+                        Color_RGBA8* lMagmaPrimColor = &magmaPrimColor2;
+                        Color_RGBA8* lMagmaEnvColor = &magmaEnvColor2;
                         effectPos.x = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.x;
                         effectPos.y = Math_Rand_ZeroFloat(50.0f) + this->actor.posRot.pos.y;
                         effectPos.z = Math_Rand_CenteredFloat(120.0f) + this->actor.posRot.pos.z;
@@ -1964,9 +1964,10 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     }
                     Math_SmoothScaleMaxMinF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
                     tempSin = this->unk_22C * sinf(this->unk_230);
+                    temp = cosf(this->unk_230);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->actor.posRot.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
-                    tempCos = this->unk_22C * cosf(this->unk_230);
+                    tempCos = this->unk_22C * temp;
                     Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->actor.posRot.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);
                 }
