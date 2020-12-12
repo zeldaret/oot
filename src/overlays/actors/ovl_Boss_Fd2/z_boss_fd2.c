@@ -677,7 +677,7 @@ void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
                              this->cameraAtVel.z * this->cameraSpeedMod);
         Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         this->cameraAt.y += this->cameraYMod;
-        func_800C04D8(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
         Math_SmoothScaleMaxF(&this->cameraYMod, 0.0f, 1.0f, 0.1f);
     }
 }
@@ -1071,7 +1071,7 @@ s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if ((0 < limbIndex) && (limbIndex < 16)) {
         *dList = NULL;
     }
-    return 0;
+    return false;
 }
 
 void BossFd2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

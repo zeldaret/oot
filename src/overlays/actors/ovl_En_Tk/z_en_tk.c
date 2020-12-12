@@ -196,8 +196,8 @@ void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_UpdateEyes(EnTk* this) {
     if (DECR(this->blinkCountdown) == 0) {
-        this->eyeImageIdx++;
-        if (this->eyeImageIdx > 2) {
+        this->eyeTextureIdx++;
+        if (this->eyeTextureIdx > 2) {
             this->blinkCycles--;
             if (this->blinkCycles < 0) {
                 this->blinkCountdown = Math_Rand_S16Offset(30, 30);
@@ -206,7 +206,7 @@ void EnTk_UpdateEyes(EnTk* this) {
                     this->blinkCycles++;
                 }
             }
-            this->eyeImageIdx = 0;
+            this->eyeTextureIdx = 0;
         }
     }
 }
@@ -738,7 +738,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeImageIdx]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->eyeTextureIdx]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
                           EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, this);

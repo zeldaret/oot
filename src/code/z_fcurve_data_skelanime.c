@@ -12,7 +12,7 @@ void SkelCurve_Clear(SkelAnimeCurve* skelCurve) {
 }
 
 s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
-                   TransformData* transData) {
+                   TransformUpdateIndex* transUpdIdx) {
     SkelCurveLimb** limbs;
     SkelCurveLimbList* limbList = SEGMENTED_TO_VIRTUAL(limbListSeg);
 

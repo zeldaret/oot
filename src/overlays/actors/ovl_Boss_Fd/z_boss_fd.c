@@ -268,7 +268,7 @@ void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
                              this->cameraAtVel.z * this->cameraSpeedMod);
         Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         this->cameraAt.y += this->cameraYMod;
-        func_800C04D8(globalCtx, this->introCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->introCamera, &this->cameraAt, &this->cameraEye);
         Math_SmoothDownscaleMaxF(&this->cameraYMod, 1.0f, 0.1f);
     }
 }
@@ -1788,7 +1788,7 @@ s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     if (this->skinSegments < limbIndex) {
         *dList = NULL;
     }
-    return 0;
+    return false;
 }
 
 s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -1811,7 +1811,7 @@ s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     if (this->skinSegments < limbIndex) {
         *dList = NULL;
     }
-    return 0;
+    return false;
 }
 
 static s16 sBodyIndex[] = { 0, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5 };
@@ -1907,7 +1907,7 @@ s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             *dList = NULL;
         }
     }
-    return 0;
+    return false;
 }
 
 void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
