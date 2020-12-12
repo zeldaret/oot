@@ -1205,7 +1205,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             Math_SmoothScaleMaxF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
 
-        func_800C04D8(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->deathCamera, &this->cameraAt, &this->cameraEye);
     }
 }
 

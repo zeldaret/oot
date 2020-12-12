@@ -389,7 +389,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             break;
     }
     if (this->cutsceneCamera != 0) {
-        func_800C04D8(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
 }
 

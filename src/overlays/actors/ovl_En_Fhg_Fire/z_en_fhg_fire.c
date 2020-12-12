@@ -179,7 +179,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
             this->timer = 7;
             break;
         case STRIKE_BURST:
-            this->actor.shape.rot.y = func_8005A948(camera) + 0x8000 * ((*this).varianceTimer & 0xFF);
+            this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + 0x8000 * ((*this).varianceTimer & 0xFF);
             Math_SmoothScaleMaxF(&this->scale, 1.0f, 1.0f, 0.2f);
 
             if (this->timer == 0) {
@@ -210,7 +210,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
 
             break;
         case STRIKE_TRAILS:
-            this->actor.shape.rot.y = func_8005A948(camera) + ((*this).varianceTimer & 0xFF) * 0x8000;
+            this->actor.shape.rot.y = Camera_GetInputDirYaw(camera) + ((*this).varianceTimer & 0xFF) * 0x8000;
 
             Math_SmoothScaleMaxF(&this->scale, 0.0f, 1.0f, 0.2f);
             if (this->timer == 30) {

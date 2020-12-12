@@ -174,14 +174,14 @@ void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
 
     f0 = 1100.0f - (player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
-    func_8005A77C(globalCtx->cameraPtrs[0], 4);
+    Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.shape.rot.z = -this->dyna.actor.shape.rot.z;
     }
 }
 
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
-    s16 unk_14E;
+    s16 defaultCamChildIdx;
 
     if ((Flags_GetSwitch(globalCtx, this->switchFlag) &&
          (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
@@ -190,9 +190,9 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
-        unk_14E = globalCtx->cameraPtrs[0]->unk_14E;
-        if ((unk_14E != 0) && (globalCtx->cameraPtrs[unk_14E]->setting == 0x26)) {
-            func_800803F0(globalCtx, unk_14E);
+        defaultCamChildIdx = globalCtx->cameraPtrs[0]->childCamIdx;
+        if ((defaultCamChildIdx != 0) && (globalCtx->cameraPtrs[defaultCamChildIdx]->setting == CAM_SET_DEMO1)) {
+            func_800803F0(globalCtx, defaultCamChildIdx);
         }
         func_800800F8(globalCtx, 0xCBC, 0x28, &this->dyna.actor, 0);
         D_808A43E0 = func_800800F8(globalCtx, 0xCBD, 0x28, &this->dyna.actor, 0);
