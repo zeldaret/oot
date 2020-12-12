@@ -607,19 +607,69 @@ extern AnimationHeader D_06009D10;
 extern AnimationHeader D_0601D934;
 extern AnimationHeader D_06002D0C;
 extern AnimationHeader D_060042A8;
+extern s16 D_06015890[];
+extern s16 D_06017210[];
+extern s16 D_06015D90[];
+extern s16 D_06016390[];
+extern s16 D_06016590[];
+extern s16 D_06016790[];
+extern s16 D_06015990[];
+extern s16 D_06015F90[];
+extern s16 D_06016990[];
+extern s16 D_06016E10[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1190.s")
+void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
+    if (arg2[arg1] != 0) {
+        arg0[arg2 / 2] = 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C11D0.s")
+void func_808C11D0(s16 *arg0, u8 *arg1, s16 arg2) {
+    if (arg1[arg2] != 0) {
+        arg0[arg2] = 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1200.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1230.s")
+void func_808C1200(s16* arg0, u8* arg1, s16 arg2) {
+    if (arg1[arg2] != 0) {
+        arg0[arg2] = 0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1278.s")
+void func_808C1230(s16* arg0, u8* arg1, s16 arg2) {
+    s16 index;
 
-void func_808C12C4(s16* arg1, s16 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C12C4.s")
+    if (arg1[arg2] != 0) {
+        index = ((arg2 & 0xF) + ((arg2 & 0xF0) * 2));
+        arg0[index + 16] = 0;
+        arg0[index] = 0;
+    }
+}
+
+void func_808C1278(s16* arg0, u8 *arg1, s16 arg2) {
+    s16 index;
+
+    if (arg1[arg2] != 0) {
+        index = ((arg2 & 0xF) * 2) + ((arg2 & 0xF0) * 2);
+        arg0[index+1] = 0;
+        arg0[index] = 0;
+    }
+}
+
+
+void func_808C12C4(s16* arg1, s16 arg2) {
+    func_808C1190(SEGMENTED_TO_VIRTUAL(D_06015890), arg1, arg2);
+    func_808C1200(SEGMENTED_TO_VIRTUAL(D_06017210), arg1, arg2);
+    func_808C11D0(SEGMENTED_TO_VIRTUAL(D_06015D90), arg1, arg2);
+    func_808C11D0(SEGMENTED_TO_VIRTUAL(D_06016390), arg1, arg2);
+    func_808C11D0(SEGMENTED_TO_VIRTUAL(D_06016590), arg1, arg2);
+    func_808C11D0(SEGMENTED_TO_VIRTUAL(D_06016790), arg1, arg2);
+    func_808C1230(SEGMENTED_TO_VIRTUAL(D_06015990), arg1, arg2);
+    func_808C1230(SEGMENTED_TO_VIRTUAL(D_06015F90), arg1, arg2);
+    func_808C1278(SEGMENTED_TO_VIRTUAL(D_06016990), arg1, arg2);
+    func_808C1278(SEGMENTED_TO_VIRTUAL(D_06016E10), arg1, arg2);
+}
 
 void func_808C1554(UNK_PTR D_030021D8, u16* D_808C73C8, s16 arg2, f32 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1554.s")
@@ -1157,9 +1207,9 @@ void func_808C3704(BossDodongo* this, GlobalContext* globalCtx) {
             }
         }
     }
-    Math_SmoothScaleMaxMinF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
     sp4C = sp5C->x - this->actor.posRot.pos.x;
     sp48 = sp5C->z - this->actor.posRot.pos.z;
+    Math_SmoothScaleMaxMinF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(sp4C, sp48) * 10430.378f, 5,
                             this->unk_1EC * this->unk_1E8, 0);
     if (fabsf(sp4C) <= 15.0f && fabsf(sp48) <= 15.0f) {
@@ -1662,10 +1712,12 @@ void func_808C54C0(BossDodongo* this) { // Setup Death?
     Audio_SetBGM(0x100100FF);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5578.s")
-    Color_RGBA8 magmaPrimColor2[] = { { 0xFF, 0xFF, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x64 } };
-    Color_RGBA8 magmaEnvColor2[] = { { 0xFF, 0x00, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x00 } };
+
+//#define NON_EQUIVALENT
+#ifdef NON_EQUIVALENT
 void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
+    static Color_RGBA8 magmaPrimColor2[] = { { 0xFF, 0xFF, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x64 } };
+    static Color_RGBA8 magmaEnvColor2[] = { { 0xFF, 0x00, 0x00, 0xFF }, { 0x00, 0x00, 0x00, 0x00 } };
 
     static Color_RGBA8 dustPrimColor = { 255, 255, 255, 255 };
     static Color_RGBA8 dustEnvColor = { 255, 100, 0, 255 };
@@ -1964,15 +2016,16 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                     }
                     Math_SmoothScaleMaxMinF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
                     tempSin = this->unk_22C * sinf(this->unk_230);
-                    temp = cosf(this->unk_230);
-                    Math_SmoothScaleMaxMinF(&this->cameraEye.x, this->actor.posRot.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
+                    tempCos = this->unk_22C * cosf(this->unk_230);
+                    tempSin += this->actor.posRot.pos.x;
+                    Math_SmoothScaleMaxMinF(&this->cameraEye.x, tempSin, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->cameraEye.y, this->actor.posRot.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
-                    tempCos = this->unk_22C * temp;
+
                     Math_SmoothScaleMaxMinF(&this->cameraEye.z, this->actor.posRot.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
                     Math_SmoothScaleMaxMinF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);
                 }
             } else {
-                
+
                 if (this->unk_1A2 == 0) {
                     Math_SmoothScaleMaxMinF(&this->unk_23C, -0.5f, 0.2f, 0.05f, 0.0f);
                 } else {
@@ -1983,7 +2036,7 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 Math_SmoothScaleMaxMinF(&this->cameraEye.z, -3304.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
                 Math_SmoothScaleMaxMinF(&this->unk_204, 1.0f, 1.0f, 0.05f, 0.0f);
             }
-            
+
             if (this->unk_1DA == 820) {
                 Audio_SetBGM(0x21);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
@@ -2009,7 +2062,6 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
         case 100:
-
             if ((this->unk_1DA < 0x2C6) && (Math_Rand_ZeroOne() < 0.5f)) {
                 Color_RGBA8 D_808CA568 = { 0x00, 0x00, 0x00, 0x64 };
                 Color_RGBA8 D_808CA56C = { 0x00, 0x00, 0x00, 0x00 };
@@ -2025,6 +2077,27 @@ void func_808C5578(BossDodongo* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
 }
+#else
+s32 D_808CA498[] = { 0xC3DC0000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56AA000,
+                     0xC4A78000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC5326000 };
+s32 D_808CA4C8[] = { 0xC45E8000, 0x00000000, 0xC5326000, 0xC3DC0000, 0x00000000, 0xC54E8000,
+                     0xC45E8000, 0x00000000, 0xC56AA000, 0xC4A78000, 0x00000000, 0xC54E8000 };
+s32 D_808CA4F8[] = { 0xFFFF00FF, 0x00000064 };
+s32 D_808CA500[] = { 0xFF0000FF, 0x00000000 };
+s32 D_808CA508[] = { 0xC3C30000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56DC000,
+                     0xC4ADC000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC52F4000 };
+s32 D_808CA538[] = { 0xC45E8000, 0x00000000, 0xC52F4000, 0xC3C30000, 0x00000000, 0xC54E8000,
+                     0xC45E8000, 0x00000000, 0xC56DC000, 0xC4ADC000, 0x00000000, 0xC54E8000 };
+s32 D_808CA568 = 0x00000064;
+s32 D_808CA56C = 0x00000000;
+s32 D_808CA570[] = { 0x00000000, 0x00000000, 0x00000000 };
+s32 D_808CA57C[] = { 0x00000000, 0x3F800000, 0x00000000 };
+s32 D_808CA588 = 0xFFFF64FF;
+s32 D_808CA58C = 0xFF6400FF;
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5578.s")
+#endif
+
 s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C6CB4.s")
 
