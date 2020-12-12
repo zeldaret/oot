@@ -442,7 +442,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    return 0;
+    return false;
 }
 
 void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

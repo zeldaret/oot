@@ -211,7 +211,7 @@ s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
         rot->x += this->unk_22C.y;
         rot->z += this->unk_22C.z;
     }
-    return 0;
+    return false;
 }
 
 void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {

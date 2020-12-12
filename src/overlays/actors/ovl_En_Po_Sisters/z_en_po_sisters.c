@@ -1249,7 +1249,7 @@ s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
         gDPPipeSync((*gfxP)++);
         gDPSetEnvColor((*gfxP)++, color->r, color->g, color->b, this->unk_22E.a);
     }
-    return 0;
+    return false;
 }
 
 void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,

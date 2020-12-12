@@ -664,7 +664,7 @@ s32 DemoEc_CarpenterOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
         }
     }
 
-    return 0;
+    return false;
 }
 
 Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {

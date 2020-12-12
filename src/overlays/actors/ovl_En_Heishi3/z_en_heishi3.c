@@ -230,7 +230,7 @@ s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
         rot->z += this->unk_264;
     }
 
-    return 0;
+    return false;
 }
 
 void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx) {

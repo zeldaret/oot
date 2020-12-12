@@ -1104,7 +1104,7 @@ s32 EnNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->z += (s16)this->unk_2C4;
     }
 
-    return 0;
+    return false;
 }
 
 void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {

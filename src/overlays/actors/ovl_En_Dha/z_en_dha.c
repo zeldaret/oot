@@ -335,7 +335,7 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->y = -this->unk_1D6.x;
         rot->z = -this->unk_1D0.z;
     }
-    return 0;
+    return false;
 }
 
 void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

@@ -718,7 +718,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         rot->x += unk_3F8_unk_0E->y;
         rot->y -= unk_3F8_unk_0E->x;
     }
-    return 0;
+    return false;
 }
 
 void EnZl3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
@@ -2502,7 +2502,7 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Pull();
         Matrix_Pull();
     }
-    return 0;
+    return false;
 }
 
 s32 func_80B59698(EnZl3* this, GlobalContext* globalCtx) {

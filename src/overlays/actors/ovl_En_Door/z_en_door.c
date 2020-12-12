@@ -320,7 +320,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             *dList = temp_a2[phi_v0];
         }
     }
-    return 0;
+    return false;
 }
 
 void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {

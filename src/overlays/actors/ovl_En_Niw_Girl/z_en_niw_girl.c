@@ -232,7 +232,7 @@ s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         rot->x += this->unk_260.y;
         rot->z += this->unk_260.z;
     }
-    return 0;
+    return false;
 }
 
 void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {

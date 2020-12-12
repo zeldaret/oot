@@ -66,7 +66,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
     // ☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST,
-                 globalCtx2->bombchuBowlingAmmo);
+                 globalCtx2->bombchuBowlingStatus);
     this->posCopy = this->actor.posRot.pos;
     this->actor.shape.unk_08 = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
@@ -217,7 +217,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (BREG(3)) {
-        osSyncPrintf(VT_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" VT_RST, globalCtx->bombchuBowlingAmmo);
+        osSyncPrintf(VT_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" VT_RST, globalCtx->bombchuBowlingStatus);
         //  HOW'S THE FIRST WALL DOING?
         osSyncPrintf(VT_FGCOL(RED) "☆ 壁１の状態どう？ ☆ %d\n" VT_RST, this->wallStatus[0]);
         //  HOW'S THE SECOND WALL DOING?
@@ -236,7 +236,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             // Center HIT!
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
-        if ((globalCtx->bombchuBowlingAmmo == -1) &&
+        if ((globalCtx->bombchuBowlingStatus == -1) &&
             (globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].length == 0) && (this->bowlPit->status == 0) &&
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
@@ -253,7 +253,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->exItem->unk_160 = 1;
             this->exItem = NULL;
         }
-        globalCtx->bombchuBowlingAmmo = 0;
+        globalCtx->bombchuBowlingStatus = 0;
         this->playingAgain = true;
         func_8010B680(globalCtx, this->actor.textId, NULL);
         if (this->gameResult == 2) {
@@ -288,7 +288,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx)
                     Rupees_ChangeBy(-30);
                     this->minigamePlayStatus = 1;
                     this->wallStatus[0] = this->wallStatus[1] = 0;
-                    globalCtx->bombchuBowlingAmmo = 10;
+                    globalCtx->bombchuBowlingStatus = 10;
                     Flags_SetSwitch(globalCtx, 0x38);
                     if (!this->startedPlaying && !this->playingAgain) {
                         this->actor.textId = 0x19;
@@ -442,7 +442,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             BREG(2) = 0;
         }
         // "Wow"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆ わー ☆ %d\n" VT_RST, globalCtx->bombchuBowlingAmmo);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆ わー ☆ %d\n" VT_RST, globalCtx->bombchuBowlingStatus);
         func_8002DF54(globalCtx, NULL, 7);
         this->actionFunc = EnBomBowMan_SetupRunGame;
     }
@@ -500,7 +500,7 @@ s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
         rot->z += this->unk_218.z;
     }
 
-    return 0;
+    return false;
 }
 
 void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {

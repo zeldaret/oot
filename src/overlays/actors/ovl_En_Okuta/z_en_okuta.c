@@ -645,7 +645,7 @@ s32 EnOkuta_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if (doScale) {
         Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
     }
-    return 0;
+    return false;
 }
 
 void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {

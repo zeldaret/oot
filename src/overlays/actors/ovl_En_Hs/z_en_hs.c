@@ -249,25 +249,24 @@ s32 EnHs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
             break;
         case 10:
             *dList = NULL;
-            return 0;
+            return false;
         case 11:
             *dList = NULL;
-            return 0;
+            return false;
         case 12:
             if (this->actor.params == 1) {
                 *dList = NULL;
-                return 0;
+                return false;
             }
             break;
         case 13:
             if (this->actor.params == 1) {
                 *dList = NULL;
-                return 0;
+                return false;
             }
             break;
     }
-
-    return 0;
+    return false;
 }
 
 void EnHs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

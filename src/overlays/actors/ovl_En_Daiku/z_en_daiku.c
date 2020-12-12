@@ -342,7 +342,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
         this->stateFlags &= ~ENDAIKU_STATEFLAG_GERUDOFIGHTING;
         EnDaiku_Change(this, ENDAIKU_ANIM_CELEBRATE, &this->currentAnimIndex);
         this->actionFunc = EnDaiku_WaitFreedom;
-    } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && gerudo->unk_318 == 0) {
+    } else if (!(this->stateFlags & ENDAIKU_STATEFLAG_GERUDOFIGHTING) && !gerudo->invisible) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDOFIGHTING;
         this->actor.flags &= ~9;
     }
@@ -599,7 +599,7 @@ s32 EnDaiku_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Ve
             break;
     }
 
-    return 0;
+    return false;
 }
 
 void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s* rot, void* thisx) {

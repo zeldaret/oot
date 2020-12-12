@@ -585,7 +585,7 @@ void func_80AEBAFC(EnRu1* this) {
 
 void func_80AEBB3C(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
-        func_80078914(&this->actor.projectedPos, 0x863);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_FACE_UP);
     }
 }
 
@@ -595,13 +595,13 @@ void func_80AEBB78(EnRu1* this) {
     if ((((Animation_OnFrame(skelAnime, 4.0f)) || (Animation_OnFrame(skelAnime, 13.0f))) ||
          (Animation_OnFrame(skelAnime, 22.0f))) ||
         (Animation_OnFrame(skelAnime, 31.0f))) {
-        func_80078914(&this->actor.projectedPos, 0x839);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_SWIM);
     }
 }
 
 void func_80AEBBF4(EnRu1* this) {
     if (Animation_OnFrame(&this->skelAnime, 8.0f)) {
-        func_80078914(&this->actor.projectedPos, 0x873);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_SUBMERGE);
     }
 }
 
@@ -856,7 +856,7 @@ void func_80AEC650(EnRu1* this) {
     s32 pad[2];
     if (this->unk_280 == 0) {
         if ((Animation_OnFrame(&this->skelAnime, 2.0f)) || (Animation_OnFrame(&this->skelAnime, 7.0f))) {
-            func_80078914(&this->actor.projectedPos, 0x803);
+            func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
         }
     }
 }
@@ -1284,7 +1284,7 @@ void func_80AED738(EnRu1* this, GlobalContext* globalCtx) {
             this->unk_2A8 = temp_v0;
             this->actor.shape.unk_14 = temp_v0;
         } else {
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
         }
     }
 }
@@ -1925,7 +1925,7 @@ void func_80AEF40C(EnRu1* this) {
     if ((Animation_OnFrame(skelAnime, 2.0f)) || (Animation_OnFrame(skelAnime, 7.0f)) ||
         (Animation_OnFrame(skelAnime, 12.0f)) || (Animation_OnFrame(skelAnime, 18.0f)) ||
         (Animation_OnFrame(skelAnime, 25.0f)) || (Animation_OnFrame(skelAnime, 33.0f))) {
-        func_80078914(&this->actor.projectedPos, 0x803);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
     }
 }
 
@@ -2311,7 +2311,7 @@ s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     } else {
         sPreLimbDrawFuncs[this->unk_290](this, globalCtx, limbIndex, rot);
     }
-    return 0;
+    return false;
 }
 
 void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {

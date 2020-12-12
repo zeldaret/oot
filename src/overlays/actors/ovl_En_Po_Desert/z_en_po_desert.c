@@ -211,7 +211,7 @@ s32 EnPoDesert_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     if ((this->actor.flags & 0x80) != 0x80) {
         *dList = NULL;
     }
-    return 0;
+    return false;
 }
 
 void EnPoDesert_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,

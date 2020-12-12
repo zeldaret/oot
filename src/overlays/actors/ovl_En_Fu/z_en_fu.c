@@ -262,7 +262,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     s32 pad1;
 
     if (limbIndex == 10) {
-        return 0;
+        return false;
     }
     switch (limbIndex) {
         case 14:
@@ -274,14 +274,14 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
 
     if (!(this->behaviorFlags & FU_WAIT)) {
-        return 0;
+        return false;
     }
 
     if (limbIndex == 8) {
         rot->y += (Math_Sins((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
         rot->z += (Math_Coss((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
     }
-    return 0;
+    return false;
 }
 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

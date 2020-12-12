@@ -677,7 +677,7 @@ s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     } else if (limbIndex == 1) {
         pos->y += 2300.0f;
     }
-    return 0;
+    return false;
 }
 
 void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {

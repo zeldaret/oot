@@ -552,7 +552,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             rot->z += (Math_Coss((globalCtx->state.frames * ((limbIndex * 0x32) + 0x940))) * 200.0f);
         }
     }
-    return 0;
+    return false;
 }
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -456,7 +456,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             if (this->unk_25E == 1) {
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
-                globalCtx->unk_11E5C = 0;
+                globalCtx->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
                 this->unk_25E = 0x14;
                 this->actionFunc = func_80B128D8;
@@ -642,7 +642,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     i = 0;
     switch (this->unk_29E) {
         case 0:
-            if (globalCtx->unk_11E5C != 0) {
+            if (globalCtx->shootingGalleryStatus != 0) {
                 i = 1;
             }
             break;
@@ -680,7 +680,7 @@ s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         rot->z += (s16)this->unk_2A4.x;
     }
 
-    return 0;
+    return false;
 }
 
 void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {

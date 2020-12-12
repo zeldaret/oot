@@ -459,7 +459,7 @@ s32 EnKz_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->y += Math_Sins(THIS->unk_2A6[limb]) * 200.0f;
         rot->z += Math_Coss(THIS->unk_2BE[limb]) * 200.0f;
     }
-    return 0;
+    return false;
 }
 
 void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

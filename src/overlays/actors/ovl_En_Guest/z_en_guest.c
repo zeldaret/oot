@@ -212,7 +212,7 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
 
-    return 0;
+    return false;
 }
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {

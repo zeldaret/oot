@@ -1,3 +1,28 @@
+.rdata
+glabel D_8087A790
+    .asciz "../z_bg_gnd_iceblock.c"
+    .balign 4
+
+glabel D_8087A7A8
+    .asciz "thisx->world.position.x = %f\n"
+    .balign 4
+
+glabel D_8087A7C8
+    .asciz "0"
+    .balign 4
+
+glabel D_8087A7CC
+    .asciz "../z_bg_gnd_iceblock.c"
+    .balign 4
+
+.late_rodata
+glabel D_8087A7E4
+    .float 2792.0
+
+glabel D_8087A7E8
+    .float 3032.0
+
+.text
 glabel BgGndIceblock_Init
 /* 00000 80879AA0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80879AA4 AFA50034 */  sw      $a1, 0x0034($sp)           

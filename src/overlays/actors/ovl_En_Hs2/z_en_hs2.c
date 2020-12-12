@@ -124,19 +124,19 @@ s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         case 12:
         case 13:
             *dList = NULL;
-            return 0;
+            return false;
         case 9:
             rot->x += this->unk_29C.y;
             rot->z += this->unk_29C.x;
             break;
         case 10:
             *dList = NULL;
-            return 0;
+            return false;
         case 11:
             *dList = NULL;
-            return 0;
+            return false;
     }
-    return 0;
+    return false;
 }
 
 void EnHs2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

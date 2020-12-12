@@ -325,7 +325,7 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->y += Math_Sins(this->unk_212[limbIndex].y) * 200.0f;
         rot->z += Math_Coss(this->unk_212[limbIndex].z) * 200.0f;
     }
-    return 0;
+    return false;
 }
 
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

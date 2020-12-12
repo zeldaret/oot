@@ -3236,7 +3236,7 @@ typedef struct {
     /* 0x210 */ s16 unk_210;
 } Actor_80033780;
 
-Actor_80033780* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
+Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2) {
     Actor_80033780* itemActor;
     Vec3f spA8;
     f32 deltaX;
@@ -3266,7 +3266,7 @@ Actor_80033780* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg
 
                 if (func_80062ECC(refActor->colChkInfo.unk_10, refActor->colChkInfo.unk_12, 0.0f, &refActor->posRot.pos,
                                   &itemActor->actor.posRot.pos, &spA8, &sp90, &sp84)) {
-                    return itemActor;
+                    return &itemActor->actor;
                 } else {
                     actor = actor->next;
                 }

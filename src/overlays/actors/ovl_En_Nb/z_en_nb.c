@@ -1451,20 +1451,17 @@ void EnNb_Init(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnNb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNb* this = THIS;
     struct_80034A14_arg1* unk_300 = &this->unk_300;
-    s32 ret = 0;
+    s32 ret = false;
 
     if (this->headTurnFlag != 0) {
-
         if (limbIndex == 8) {
             rot->x += unk_300->unk_0E.y;
             rot->y -= unk_300->unk_0E.x;
-            ret = 0;
-        }
-
-        else if (limbIndex == 15) {
+            ret = false;
+        } else if (limbIndex == 15) {
             rot->x += unk_300->unk_08.y;
             rot->z += unk_300->unk_08.x;
-            ret = 0;
+            ret = false;
         }
     }
 

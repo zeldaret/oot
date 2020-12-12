@@ -41,7 +41,7 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.colChkInfo.mass = 0xFF;
 
-    Actor_SetScale(this, 0.013f);
+    Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
     this->actor.unk_1F = 1;
@@ -261,7 +261,7 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->x += this->unk_1D8.y;
         rot->z += this->unk_1D8.x;
     }
-    return 0;
+    return false;
 }
 
 void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {

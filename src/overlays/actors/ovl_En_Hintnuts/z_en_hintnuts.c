@@ -542,11 +542,11 @@ s32 EnHintnuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
             vec.z = 1.0f;
             vec.x = 1.0f;
         } else {
-            return 0;
+            return false;
         }
         Matrix_Scale(vec.x, vec.y, vec.z, MTXMODE_APPLY);
     }
-    return 0;
+    return false;
 }
 
 void EnHintnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {

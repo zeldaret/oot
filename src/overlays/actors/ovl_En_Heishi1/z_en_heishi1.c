@@ -487,7 +487,7 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
         rot->x += (s16)this->headAngle;
     }
 
-    return 0;
+    return false;
 }
 
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {

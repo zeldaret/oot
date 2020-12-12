@@ -769,7 +769,7 @@ s32 EnIk_OverrideLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
             *dList = NULL;
         }
     }
-    return 0;
+    return false;
 }
 
 // unused

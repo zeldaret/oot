@@ -113,7 +113,7 @@ s32 EnHata_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         rot->y += limbs[limbIndex].y;
         rot->z += limbs[limbIndex].z;
     }
-    return 0;
+    return false;
 }
 
 void EnHata_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
