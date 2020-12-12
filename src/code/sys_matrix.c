@@ -805,9 +805,10 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
     if ((vec->y == 0x4000) || (vec->y == -0x4000)) {
         vec->x = 0;
         vec->z = Math_atan2f(-mf->yx, mf->yy) * (32768 / M_PI);
-    } else {
+        return;
+    }
 
-        vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
+    vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
 
     if (!flag) {
         vec->x = Math_atan2f(mf->yz, mf->zz) * (32768 / M_PI);
