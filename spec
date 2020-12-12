@@ -2319,8 +2319,7 @@ endseg
 beginseg
     name "ovl_En_G_Switch"
     include "build/src/overlays/actors/ovl_En_G_Switch/z_en_g_switch.o"
-    include "build/data/overlays/actors/z_en_g_switch.data.o"
-    include "build/data/overlays/actors/z_en_g_switch.reloc.o"
+    include "build/src/overlays/actors/ovl_En_G_Switch/ovl_En_G_Switch_reloc.o"
 endseg
 
 beginseg
@@ -3008,8 +3007,11 @@ endseg
 beginseg
     name "ovl_En_Stream"
     include "build/src/overlays/actors/ovl_En_Stream/z_en_stream.o"
-    include "build/data/overlays/actors/z_en_stream.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Stream/ovl_En_Stream_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_stream.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3023,15 +3025,13 @@ endseg
 beginseg
     name "ovl_En_Syateki_Itm"
     include "build/src/overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.o"
-    include "build/data/overlays/actors/z_en_syateki_itm.data.o"
-    include "build/data/overlays/actors/z_en_syateki_itm.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Syateki_Itm/ovl_En_Syateki_Itm_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Syateki_Man"
     include "build/src/overlays/actors/ovl_En_Syateki_Man/z_en_syateki_man.o"
-    include "build/data/overlays/actors/z_en_syateki_man.data.o"
-    include "build/data/overlays/actors/z_en_syateki_man.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Syateki_Man/ovl_En_Syateki_Man_reloc.o"
 endseg
 
 beginseg
