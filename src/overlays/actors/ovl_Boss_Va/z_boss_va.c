@@ -591,7 +591,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     sCameraNextAt.x = sCameraAt.x = 10.0f;
                     sCameraNextAt.y = sCameraAt.y = 50.0f;
                     sCameraNextAt.z = sCameraAt.z = -220.0f;
-                    func_800C04D8(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
+                    Gameplay_CameraSetAtEye(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
                     this->timer = 20;
 
                     for (i = BOSSVA_BARI_LOWER_5; i >= BOSSVA_BARI_UPPER_1; i--) {
@@ -974,7 +974,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinF(&sCameraAt.x, sCameraNextAt.x, 0.3f, sCameraAtMaxVel.x, 0.075f);
         Math_SmoothScaleMaxMinF(&sCameraAt.y, sCameraNextAt.y, 0.3f, sCameraAtMaxVel.y, 0.075f);
         Math_SmoothScaleMaxMinF(&sCameraAt.z, sCameraNextAt.z, 0.3f, sCameraAtMaxVel.z, 0.075f);
-        func_800C04D8(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
     }
 }
 
@@ -1596,7 +1596,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinF(&sCameraAt.x, sCameraNextAt.x, 0.3f, sCameraAtMaxVel.x, 0.15f);
         Math_SmoothScaleMaxMinF(&sCameraAt.y, sCameraNextAt.y, 0.3f, sCameraAtMaxVel.y, 0.15f);
         Math_SmoothScaleMaxMinF(&sCameraAt.z, sCameraNextAt.z, 0.3f, sCameraAtMaxVel.z, 0.15f);
-        func_800C04D8(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
+        Gameplay_CameraSetAtEye(globalCtx, sCsCamera, &sCameraAt, &sCameraEye);
     }
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -1691,7 +1691,7 @@ void BossVa_SetupSupportCut(BossVa* this, GlobalContext* globalCtx) {
     sFightProgress++;
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BOSS_VA, this->armTip.x, this->armTip.y + 20.0f, this->armTip.z,
                 0, this->actor.shape.rot.y, 0, stumpParams);
-    func_8005AA1C(&globalCtx->mainCamera, 2, 0xB, 8);
+    Camera_AddQuake(&globalCtx->mainCamera, 2, 11, 8);
     this->burst = false;
     this->timer2 = 0;
     BossVa_SetupAction(this, BossVa_SupportCut);
