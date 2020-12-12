@@ -713,23 +713,6 @@ void func_800D1FD4(MtxF* mf) {
 
     temp = cmf->xx;
     temp *= temp;
-<<<<<<< HEAD
-    // temp = SQ(cmf->xx);
-    temp += SQ(cmf->xy);
-    temp += SQ(cmf->xz);
-    temp = sqrtf(temp);
-    // temp = sqrtf(SQ(cmf->xx) + SQ(cmf->xy) + SQ(cmf->xz));
-    cmf->xx = mf->xx * temp;
-    cmf->xy = mf->xy * temp;
-    cmf->xz = mf->xz * temp;
-
-    temp = cmf->yx;
-    temp *= temp;
-    // temp = SQ(cmf->xx);
-    temp += SQ(cmf->yy);
-    temp += SQ(cmf->yz);
-    // temp = sqrtf(SQ(cmf->xx) + SQ(cmf->xy) + SQ(cmf->xz));
-=======
     temp += SQ(cmf->xy);
     temp += SQ(cmf->xz);
 
@@ -741,38 +724,17 @@ void func_800D1FD4(MtxF* mf) {
     temp *= temp;
     temp += SQ(cmf->yy);
     temp += SQ(cmf->yz);
->>>>>>> upstream/master
     cmf->yx = mf->yx * sqrtf(temp);
     cmf->yy = mf->yy * sqrtf(temp);
     cmf->yz = mf->yz * sqrtf(temp);
 
     temp = cmf->zx;
     temp *= temp;
-<<<<<<< HEAD
-    // temp = SQ(cmf->xx);
-    temp += SQ(cmf->zy);
-    temp += SQ(cmf->zz);
-    // temp = sqrtf(SQ(cmf->xx) + SQ(cmf->xy) + SQ(cmf->xz));
-    cmf->zx = mf->zx * sqrtf(temp);
-    cmf->zy = mf->zy * sqrtf(temp);
-    cmf->zz = mf->zz * sqrtf(temp);
-
-    // temp = sqrtf(SQ(cmf->yx) + SQ(cmf->yy) + SQ(cmf->yz));
-    // cmf->yx = mf->yx * temp;
-    // cmf->yy = mf->yy * temp;
-    // cmf->yz = mf->yz * temp;
-
-    // temp = sqrtf(SQ(cmf->zx) + SQ(cmf->zy) + SQ(cmf->zz));
-    // cmf->zx = mf->zx * temp;
-    // cmf->zy = mf->zy * temp;
-    // cmf->zz = mf->zz * temp;
-=======
     temp += SQ(cmf->zy);
     temp += SQ(cmf->zz);
     cmf->zx = mf->zx * sqrtf(temp);
     cmf->zy = mf->zy * sqrtf(temp);
     cmf->zz = mf->zz * sqrtf(temp);
->>>>>>> upstream/master
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D1FD4.s")
