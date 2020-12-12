@@ -84,10 +84,11 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->numShots == 0xFF) || (this->numShots == 0)) {
             this->numShots = 1;
         }
-        thisx->groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
+        thisx->groundY =
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
         //! @bug calls WaterBox_GetSurfaceImpl directly
         if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
-                           &outWaterBox) ||
+                                     &outWaterBox) ||
             (ySurface <= thisx->groundY)) {
             Actor_Kill(thisx);
         } else {
@@ -531,8 +532,8 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, globalCtx2);
-            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x, this->actor.posRot.pos.z,
-                               &ySurface, &outWaterBox) ||
+            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x,
+                                         this->actor.posRot.pos.z, &ySurface, &outWaterBox) ||
                 (ySurface < this->actor.groundY)) {
                 if (this->actor.colChkInfo.health != 0) {
                     Actor_Kill(&this->actor);
@@ -554,12 +555,14 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             Math_Vec3f_Copy(&sp38, &this->actor.posRot.pos);
             func_8002E4B4(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly,
+                                                   this->actor.wallPolySource)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~8;
             }
             if ((this->actor.bgCheckFlags & 1) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly,
+                                                   this->actor.floorPolySource)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~1;
             }

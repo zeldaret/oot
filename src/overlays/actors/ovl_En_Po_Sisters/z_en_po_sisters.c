@@ -1160,7 +1160,8 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             vec.x = this->actor.posRot.pos.x;
             vec.y = this->actor.posRot.pos.y + 10.0f;
             vec.z = this->actor.posRot.pos.z;
-            this->actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
+            this->actor.groundY =
+                BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp34, &this->actor, &vec);
         }
 
         Collider_CylinderUpdate(&this->actor, &this->collider);

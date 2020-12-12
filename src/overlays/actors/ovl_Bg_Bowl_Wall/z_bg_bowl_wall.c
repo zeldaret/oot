@@ -64,8 +64,7 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
         CollisionHeader_GetVirtual(&D_06001B00, &colHeader);
     }
 
-    this->dyna.bgId =
-        DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->initPos = this->dyna.actor.posRot.pos;
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n" VT_RST, this->dyna.actor.params);

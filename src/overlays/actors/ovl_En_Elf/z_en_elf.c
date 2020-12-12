@@ -1208,8 +1208,8 @@ void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 bgId;
 
-    this->actor.groundY = BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId, &this->actor,
-                                        &this->actor.posRot.pos);
+    this->actor.groundY = BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId,
+                                                      &this->actor, &this->actor.posRot.pos);
     this->actor.shape.unk_14 = 0x32;
 }
 

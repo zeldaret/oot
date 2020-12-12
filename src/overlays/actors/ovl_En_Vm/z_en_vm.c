@@ -443,8 +443,8 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
             sp80.z = (this->beamScale.z + 500.0f) * (this->actor.scale.y * 10000.0f);
             Matrix_MultVec3f(&sp80, &this->beamPos3);
 
-            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->beamPos1, &this->beamPos3, &posResult, &poly,
-                true, true, false, true, &bgId) == true) {
+            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->beamPos1, &this->beamPos3, &posResult, &poly, true,
+                                        true, false, true, &bgId) == true) {
                 this->beamScale.z = Math_Vec3f_DistXYZ(&this->beamPos1, &posResult) - 5.0f;
                 this->unk_260 = 4;
                 this->beamPos3 = posResult;

@@ -413,8 +413,8 @@ void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_216++;
     this->actionFunc(this, globalCtx);
-    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &temp, &this->dyna.actor,
-                                             &this->dyna.actor.posRot);
+    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &temp,
+                                                           &this->dyna.actor, &this->dyna.actor.posRot);
     if (this->actionFunc != func_808B7AFC) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
         if (this->actionFunc != func_808B7B6C) {

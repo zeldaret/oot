@@ -471,8 +471,7 @@ void func_8097EDD8(DemoGt* this, GlobalContext* globalCtx, CollisionHeader* coll
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
         colHeader = NULL;
         CollisionHeader_GetVirtual(collision, &colHeader);
-        this->dyna.bgId =
-            DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     }
 }
 

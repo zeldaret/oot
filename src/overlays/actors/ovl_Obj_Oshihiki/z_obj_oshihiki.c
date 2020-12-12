@@ -98,8 +98,7 @@ void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, Colli
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId =
-        DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG registration failure
@@ -341,8 +340,8 @@ void ObjOshihiki_SetFloors(ObjOshihiki* this, GlobalContext* globalCtx) {
 
         floorPoly = &this->floorPolys[i];
         floorBgId = &this->floorBgIds[i];
-        this->floorHeights[i] =
-            BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
+        this->floorHeights[i] = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, floorPoly, floorBgId, &this->dyna.actor,
+                                                            &colCheckPoint, 0.0f);
     }
 }
 
@@ -435,7 +434,7 @@ s32 ObjOshihiki_CheckWall(GlobalContext* globalCtx, s16 angle, f32 direction, Ob
         faceVtxNext.y = faceVtx.y;
         faceVtxNext.z = faceVtx.z + maxDist * cs;
         if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, 1, 0, 0, 1, &bgId,
-                          &this->dyna.actor, 0.0f)) {
+                                    &this->dyna.actor, 0.0f)) {
             return 1;
         }
     }
@@ -630,9 +629,10 @@ void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx) {
             ObjOshihiki_SetupOnActor(this, globalCtx);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSound2(&this->dyna.actor, SurfaceType_GetSfx(&globalCtx->colCtx, this->floorPolys[this->highestFloor],
-                                                               this->floorBgIds[this->highestFloor]) +
-                                                     SFX_FLAG);
+        Audio_PlayActorSound2(&this->dyna.actor,
+                              SurfaceType_GetSfx(&globalCtx->colCtx, this->floorPolys[this->highestFloor],
+                                                 this->floorBgIds[this->highestFloor]) +
+                                  SFX_FLAG);
     }
 }
 

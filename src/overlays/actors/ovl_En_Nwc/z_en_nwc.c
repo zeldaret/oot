@@ -77,7 +77,8 @@ void EnNwc_ChickBgCheck(EnNwcChick* chick, GlobalContext* globalCtx) {
     outPos.x = chick->pos.x;
     outPos.y = chick->pos.y;
     outPos.z = chick->pos.z;
-    if (BgCheck_EntitySphVsWall1(&globalCtx->colCtx, &outPos, &chick->pos, &chick->lastPos, 10.0f, &chick->floorPoly, 20.0f)) {
+    if (BgCheck_EntitySphVsWall1(&globalCtx->colCtx, &outPos, &chick->pos, &chick->lastPos, 10.0f, &chick->floorPoly,
+                                 20.0f)) {
         chick->bgFlags |= CHICK_BG_WALL;
     }
     //! @bug The use of outPos here is totally wrong. Even if it didn't get overwritten
