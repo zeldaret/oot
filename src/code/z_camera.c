@@ -6982,32 +6982,25 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     return camera->status;
 }
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 void Camera_PrintSettings(Camera* camera) {
     char sp58[8];
     char sp50[8];
     char sp48[8];
-    s16 temp_v0;
-    s32 temp_v0_2;
-    s8* temp_t6;
-    s8* temp_t7;
-    s8* temp_t8;
-    s8* temp_t9;
-    Camera* temp_a0;
-    s32 phi_a1;
     char* phi_v1;
     char* phi_t0;
-    s32 phi_v0;
-    s32 phi_v0_2;
+    s32 phi_a1;
 
     if (OREG(0) & 1 && camera->thisIdx == camera->globalCtx->activeCamera && !gDbgCamEnabled) {
-        for (phi_a1 = 0, phi_v1 = sp58, phi_t0 = sp48; phi_v1 < &sp58[4]; phi_v1++, phi_t0++, phi_a1++) {
-            temp_a0 = camera->globalCtx->cameraPtrs[phi_a1];
-            if (temp_a0 == NULL) {
+        phi_a1 = 0;
+        phi_v1 = sp58;
+        phi_t0 = sp48;
+        for (; phi_v1 < sp58 + 4; phi_v1++, phi_t0++, phi_a1++) {
+            if (camera->globalCtx->cameraPtrs[phi_a1] == NULL) {
                 *phi_v1 = '-';
                 *phi_t0 = ' ';
             } else {
-                switch (temp_a0->status) {
+                switch (camera->globalCtx->cameraPtrs[phi_a1]->status) {
                     case 0:
                         *phi_v1 = 'c';
                         *phi_t0 = ' ';
@@ -7035,8 +7028,8 @@ void Camera_PrintSettings(Camera* camera) {
                 }
             }
         }
-        *phi_v1++ = '\0';
-        *phi_t0++ = '\0';
+        *phi_v1 = '\0';
+        *phi_t0 = '\0';
 
         sp48[camera->globalCtx->activeCamera] = 'a';
         func_8006376C(3, 0x16, 5, sp58);
@@ -7048,21 +7041,20 @@ void Camera_PrintSettings(Camera* camera) {
         func_8006376C(3, 0x19, 5, "F:");
         func_8006376C(5, 0x19, 4,
                       sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
-
-        phi_v0 = 0;
+        
+        phi_a1 = 0;
         if (camera->camDataIdx < 0) {
-            sp50[phi_v0++] = '-';
+            sp50[phi_a1++] = '-';
         }
-        phi_v0_2 = camera->camDataIdx / 0xA;
-        if (phi_v0_2 != 0) {
-            sp50[phi_v0++] = phi_v0 / 0xA + '0';
+        if (camera->camDataIdx / 0xA != 0) {
+            sp50[phi_a1++] = phi_a1 / 0xA + '0';
         }
-        sp50[phi_v0++] = phi_v0 % 10 + '0';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0++] = ' ';
-        sp50[phi_v0] = '\0';
+        sp50[phi_a1++] = phi_a1 % 10 + '0';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1++] = ' ';
+        sp50[phi_a1] = '\0';
         func_8006376C(3, 26, 5, "I:");
         func_8006376C(5, 26, 4, sp50);
     }
