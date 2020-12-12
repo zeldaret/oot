@@ -22,20 +22,20 @@ glabel EnGe2_Init
 
 /* 000CC 80A32C9C 3C074210 */  lui     $a3, 0x4210                ## $a3 = 42100000
 /* 000D0 80A32CA0 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198
-/* 000D4 80A32CA4 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
+/* 000D4 80A32CA4 3C060601 */  lui     $a2, %hi(D_06008968)                ## $a2 = 06010000
 /* 000D8 80A32CA8 260E01DC */  addiu   $t6, $s0, 0x01DC           ## $t6 = 000001DC
 /* 000DC 80A32CAC 260F0260 */  addiu   $t7, $s0, 0x0260           ## $t7 = 00000260
 /* 000E0 80A32CB0 24180016 */  addiu   $t8, $zero, 0x0016         ## $t8 = 00000016
 /* 000E4 80A32CB4 AFB80018 */  sw      $t8, 0x0018($sp)
 /* 000E8 80A32CB8 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 000EC 80A32CBC AFAE0010 */  sw      $t6, 0x0010($sp)
-/* 000F0 80A32CC0 24C68968 */  addiu   $a2, $a2, 0x8968           ## $a2 = 06008968
+/* 000F0 80A32CC0 24C68968 */  addiu   $a2, $a2, %lo(D_06008968)           ## $a2 = 06008968
 /* 000F4 80A32CC4 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 000F8 80A32CC8 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000FC 80A32CCC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00100 80A32CD0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00104 80A32CD4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00108 80A32CD8 24A59ED4 */  addiu   $a1, $a1, 0x9ED4           ## $a1 = 06009ED4
+/* 00104 80A32CD4 3C050601 */  lui     $a1, %hi(D_06009ED4)                ## $a1 = 06010000
+/* 00108 80A32CD8 24A59ED4 */  addiu   $a1, $a1, %lo(D_06009ED4)           ## $a1 = 06009ED4
 /* 0010C 80A32CDC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00110 80A32CE0 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 00114 80A32CE4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C

@@ -9,10 +9,10 @@ glabel func_80860318
 /* 00CD0 80860320 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00CD4 80860324 AFA5002C */  sw      $a1, 0x002C($sp)
 /* 00CD8 80860328 AFBF001C */  sw      $ra, 0x001C($sp)
-/* 00CDC 8086032C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
+/* 00CDC 8086032C 3C050601 */  lui     $a1, %hi(D_0600C438)                ## $a1 = 06010000
 /* 00CE0 80860330 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 00CE4 80860334 AFA40024 */  sw      $a0, 0x0024($sp)
-/* 00CE8 80860338 24A5C438 */  addiu   $a1, $a1, 0xC438           ## $a1 = 0600C438
+/* 00CE8 80860338 24A5C438 */  addiu   $a1, $a1, %lo(D_0600C438)           ## $a1 = 0600C438
 /* 00CEC 8086033C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
 /* 00CF0 80860340 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00CF4 80860344 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

@@ -7,14 +7,14 @@ glabel func_80AFD47C
 /* 00AF0 80AFD490 44813000 */  mtc1    $at, $f6                   ## $f6 = 1.00
 /* 00AF4 80AFD494 C6040164 */  lwc1    $f4, 0x0164($s0)           ## 00000164
 /* 00AF8 80AFD498 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00AFC 80AFD49C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 00AFC 80AFD49C 3C050600 */  lui     $a1, %hi(D_06000460)                ## $a1 = 06000000
 /* 00B00 80AFD4A0 46062201 */  sub.s   $f8, $f4, $f6
 /* 00B04 80AFD4A4 3C06BECC */  lui     $a2, 0xBECC                ## $a2 = BECC0000
 /* 00B08 80AFD4A8 240E0003 */  addiu   $t6, $zero, 0x0003         ## $t6 = 00000003
 /* 00B0C 80AFD4AC AFAE0014 */  sw      $t6, 0x0014($sp)
 /* 00B10 80AFD4B0 44074000 */  mfc1    $a3, $f8
 /* 00B14 80AFD4B4 34C6CCCD */  ori     $a2, $a2, 0xCCCD           ## $a2 = BECCCCCD
-/* 00B18 80AFD4B8 24A50460 */  addiu   $a1, $a1, 0x0460           ## $a1 = 06000460
+/* 00B18 80AFD4B8 24A50460 */  addiu   $a1, $a1, %lo(D_06000460)           ## $a1 = 06000460
 /* 00B1C 80AFD4BC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00B20 80AFD4C0 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00B24 80AFD4C4 0C029468 */  jal     SkelAnime_ChangeAnim
