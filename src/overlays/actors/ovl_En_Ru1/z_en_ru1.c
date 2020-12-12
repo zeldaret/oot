@@ -320,15 +320,15 @@ DynaPolyActor* func_80AEB088(GlobalContext* globalCtx) {
     return NULL;
 }
 
-void func_80AEB0EC(EnRu1* this, s32 arg1) {
+void func_80AEB0EC(EnRu1* this, s32 cameraSetting) {
     if (this->unk_28C != NULL) {
-        this->unk_28C->unk_1B8 = arg1;
+        this->unk_28C->cameraSetting = cameraSetting;
     }
 }
 
 s32 func_80AEB104(EnRu1* this) {
     if (this->unk_28C != NULL) {
-        return this->unk_28C->unk_1B8;
+        return this->unk_28C->cameraSetting;
     } else {
         return 0;
     }
@@ -585,7 +585,7 @@ void func_80AEBAFC(EnRu1* this) {
 
 void func_80AEBB3C(EnRu1* this) {
     if (func_800A56C8(&this->skelAnime, 5.0f)) {
-        func_80078914(&this->actor.projectedPos, 0x863);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_FACE_UP);
     }
 }
 
@@ -595,13 +595,13 @@ void func_80AEBB78(EnRu1* this) {
     if ((((func_800A56C8(skelAnime, 4.0f)) || (func_800A56C8(skelAnime, 13.0f))) ||
          (func_800A56C8(skelAnime, 22.0f))) ||
         (func_800A56C8(skelAnime, 31.0f))) {
-        func_80078914(&this->actor.projectedPos, 0x839);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_SWIM);
     }
 }
 
 void func_80AEBBF4(EnRu1* this) {
     if (func_800A56C8(&this->skelAnime, 8.0f)) {
-        func_80078914(&this->actor.projectedPos, 0x873);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_SUBMERGE);
     }
 }
 
@@ -856,7 +856,7 @@ void func_80AEC650(EnRu1* this) {
     s32 pad[2];
     if (this->unk_280 == 0) {
         if ((func_800A56C8(&this->skelAnime, 2.0f)) || (func_800A56C8(&this->skelAnime, 7.0f))) {
-            func_80078914(&this->actor.projectedPos, 0x803);
+            func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
         }
     }
 }
@@ -1926,7 +1926,7 @@ void func_80AEF40C(EnRu1* this) {
 
     if ((func_800A56C8(skelAnime, 2.0f)) || (func_800A56C8(skelAnime, 7.0f)) || (func_800A56C8(skelAnime, 12.0f)) ||
         (func_800A56C8(skelAnime, 18.0f)) || (func_800A56C8(skelAnime, 25.0f)) || (func_800A56C8(skelAnime, 33.0f))) {
-        func_80078914(&this->actor.projectedPos, 0x803);
+        func_80078914(&this->actor.projectedPos, NA_SE_PL_WALK_DIRT);
     }
 }
 

@@ -16,9 +16,9 @@ void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyb
 
     func_800945A0(gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 7, skyboxCtx->staticSegments[0]);
-    gSPSegment(POLY_OPA_DISP++, 8, skyboxCtx->staticSegments[1]);
-    gSPSegment(POLY_OPA_DISP++, 9, skyboxCtx->staticSegments[2]);
+    gSPSegment(POLY_OPA_DISP++, 0x7, skyboxCtx->staticSegments[0]);
+    gSPSegment(POLY_OPA_DISP++, 0x8, skyboxCtx->staticSegments[1]);
+    gSPSegment(POLY_OPA_DISP++, 0x9, skyboxCtx->staticSegments[2]);
 
     gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x00, 0, 0, 0, alpha);
     gSPTexture(POLY_OPA_DISP++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON);

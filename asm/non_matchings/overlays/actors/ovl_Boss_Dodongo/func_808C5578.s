@@ -676,7 +676,7 @@ glabel L808C5A4C
 /* 04C60 808C5DF0 15000005 */  bne     $t0, $zero, .L808C5E08
 /* 04C64 808C5DF4 248401E0 */  addiu   $a0, $a0, 0x01E0           ## $a0 = 000001E0
 /* 04C68 808C5DF8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 04C6C 808C5DFC 0C016A87 */  jal     func_8005AA1C
+/* 04C6C 808C5DFC 0C016A87 */  jal     Camera_AddQuake
 /* 04C70 808C5E00 24070008 */  addiu   $a3, $zero, 0x0008         ## $a3 = 00000008
 /* 04C74 808C5E04 8603019E */  lh      $v1, 0x019E($s0)           ## 0000019E
 .L808C5E08:
@@ -1709,7 +1709,7 @@ glabel L808C6C84
 /* 05AFC 808C6C8C 26060434 */  addiu   $a2, $s0, 0x0434           ## $a2 = 00000434
 /* 05B00 808C6C90 50A00004 */  beql    $a1, $zero, .L808C6CA4
 /* 05B04 808C6C94 8FBF003C */  lw      $ra, 0x003C($sp)
-/* 05B08 808C6C98 0C030136 */  jal     func_800C04D8
+/* 05B08 808C6C98 0C030136 */  jal     Gameplay_CameraSetAtEye
 /* 05B0C 808C6C9C 26070428 */  addiu   $a3, $s0, 0x0428           ## $a3 = 00000428
 /* 05B10 808C6CA0 8FBF003C */  lw      $ra, 0x003C($sp)
 .L808C6CA4:

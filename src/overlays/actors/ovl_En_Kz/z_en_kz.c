@@ -361,7 +361,7 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
     pos.y += 60.0f;
     initPos.y += -100.0f;
     initPos.z += 260.0f;
-    func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
     func_8002DF54(globalCtx, &this->actor, 8);
     this->actor.speedXZ = 0.1f;
     this->actionFunc = EnKz_Mweep;
@@ -377,7 +377,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     pos.y += 60.0f;
     initPos.y += -100.0f;
     initPos.z += 260.0f;
-    func_800C04D8(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
     if ((EnKz_FollowPath(this, globalCtx) == 1) && (this->waypoint == 0)) {
         func_80034EC0(&this->skelanime, sAnimations, 1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);

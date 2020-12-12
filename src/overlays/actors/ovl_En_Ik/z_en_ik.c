@@ -375,7 +375,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
         sp2C.z = this->actor.posRot.pos.z + Math_Coss(this->actor.shape.rot.y + 0x6A4) * 70.0f;
         sp2C.y = this->actor.posRot.pos.y;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
-        func_8005AA1C(&globalCtx->mainCamera, 2, 0x19, 5);
+        Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
         func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
         func_80062CD4(globalCtx, &sp2C);
     }

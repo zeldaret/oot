@@ -12,7 +12,7 @@ void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
 extern CollisionHeader D_060194F8;
 extern Gfx D_06019210[];
 
-s32 sUnkValues[] = { 0, 0, 0 }; // Unused
+s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
 const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
@@ -53,20 +53,16 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgSstFloor* this = THIS;
     Player* player = PLAYER;
-    CollisionHeader* colHeader;
-    Actor* misc;
-    f32 distFromRim;
-    f32 xzDist;
+    CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&D_060194F8);    
 
-    colHeader = SEGMENTED_TO_VIRTUAL(&D_060194F8);
     colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
 
-    if (1) {} // Needed to match
+    if (1) {}
 
     if (func_80043590(&this->dyna) && (this->dyna.actor.yDistFromLink < 1000.0f)) {
-        func_8005A77C(globalCtx->cameraPtrs[0], 0xC);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0xC);
     } else {
-        func_8005A77C(globalCtx->cameraPtrs[0], 3);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
     }
 
     if (func_8004356C(&this->dyna) && (player->fallDistance > 1000.0f)) {
@@ -75,7 +71,10 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->dyna.actor.params == BONGOFLOOR_HIT) {
-        misc = globalCtx->actorCtx.actorList[8].first;
+        Actor* misc = globalCtx->actorCtx.actorList[8].first;
+        f32 distFromRim;
+        f32 xzDist;
+
         this->drumAmp = 80;
         this->dyna.actor.params = BONGOFLOOR_REST;
         this->drumPhase = 28;
@@ -112,8 +111,11 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         colHeader->vertexArray[3].y = colHeader->vertexArray[4].y = colHeader->vertexArray[7].y =
             colHeader->vertexArray[9].y = colHeader->vertexArray[11].y = colHeader->vertexArray[13].y =
                 this->dyna.actor.initPosRot.pos.y + this->drumHeight;
-
-    DECR(this->drumPhase);
+    
+    if(this->drumPhase != 0) {
+        this->drumPhase--;
+    }
+    if (1) {}
     func_8003EE6C(globalCtx, &globalCtx->colCtx.dyna);
 }
 
