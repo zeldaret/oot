@@ -718,7 +718,6 @@ beginseg
     name "ovl_Bg_Gnd_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Iceblock/z_bg_gnd_iceblock.o"
     include "build/data/overlays/actors/z_bg_gnd_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_iceblock.rodata.o"
     include "build/data/overlays/actors/z_bg_gnd_iceblock.bss.o"
     include "build/data/overlays/actors/z_bg_gnd_iceblock.reloc.o"
 endseg
@@ -1239,7 +1238,6 @@ beginseg
     name "ovl_Bg_Spot08_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/z_bg_spot08_iceblock.o"
     include "build/data/overlays/actors/z_bg_spot08_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_spot08_iceblock.rodata.o"
     include "build/data/overlays/actors/z_bg_spot08_iceblock.reloc.o"
 endseg
 
@@ -2321,8 +2319,7 @@ endseg
 beginseg
     name "ovl_En_G_Switch"
     include "build/src/overlays/actors/ovl_En_G_Switch/z_en_g_switch.o"
-    include "build/data/overlays/actors/z_en_g_switch.data.o"
-    include "build/data/overlays/actors/z_en_g_switch.reloc.o"
+    include "build/src/overlays/actors/ovl_En_G_Switch/ovl_En_G_Switch_reloc.o"
 endseg
 
 beginseg
@@ -2370,8 +2367,11 @@ endseg
 beginseg
     name "ovl_En_GeldB"
     include "build/src/overlays/actors/ovl_En_GeldB/z_en_geldb.o"
-    include "build/data/overlays/actors/z_en_geldb.data.o"
-    include "build/data/overlays/actors/z_en_geldb.reloc.o"
+    #ifdef NON_MATCHING
+        include "build/src/overlays/actors/ovl_En_GeldB/ovl_En_GeldB_reloc.o"
+    #else
+        include "build/data/overlays/actors/z_en_geldb.reloc.o"
+    #endif
 endseg
 
 beginseg
@@ -3007,8 +3007,11 @@ endseg
 beginseg
     name "ovl_En_Stream"
     include "build/src/overlays/actors/ovl_En_Stream/z_en_stream.o"
-    include "build/data/overlays/actors/z_en_stream.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Stream/ovl_En_Stream_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_stream.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3022,15 +3025,13 @@ endseg
 beginseg
     name "ovl_En_Syateki_Itm"
     include "build/src/overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.o"
-    include "build/data/overlays/actors/z_en_syateki_itm.data.o"
-    include "build/data/overlays/actors/z_en_syateki_itm.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Syateki_Itm/ovl_En_Syateki_Itm_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Syateki_Man"
     include "build/src/overlays/actors/ovl_En_Syateki_Man/z_en_syateki_man.o"
-    include "build/data/overlays/actors/z_en_syateki_man.data.o"
-    include "build/data/overlays/actors/z_en_syateki_man.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Syateki_Man/ovl_En_Syateki_Man_reloc.o"
 endseg
 
 beginseg
