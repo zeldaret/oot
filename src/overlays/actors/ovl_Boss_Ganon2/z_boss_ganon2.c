@@ -390,7 +390,18 @@ void BossGanon2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->unk_444);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD4D4.s")
+void func_808FD4D4(BossGanon2* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
+    if ((arg2 == 0) || (arg2 == 1)) {
+        func_80033260(globalCtx, &this->actor, &this->unk_1D0, 25.0f, arg3, 8.0f, 0x1F4, 0xA, 1);
+    }
+
+    if ((arg2 == 0) || (arg2 == 2)) {
+        func_80033260(globalCtx, &this->actor, &this->unk_1DC, 25.0f, arg3, 8.0f, 0x1F4, 0xA, 1);
+    }
+
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_WALK);
+    func_80033E88(&this->actor, globalCtx, 2, 0xA);
+}
 
 void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_808FD5F4;
