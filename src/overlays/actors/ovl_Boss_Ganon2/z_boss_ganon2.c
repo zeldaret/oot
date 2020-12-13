@@ -295,7 +295,20 @@ void func_808FCF40(s32 arg0, s32 arg1, s32 arg2) {
     D_809105D0 = arg2;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FCF5C.s")
+f32 func_808FCF5C(void) {
+    f32 temp_f2;
+
+    D_809105C8 = (D_809105C8 * 0xAB) % 0x763D;
+    D_809105CC = (D_809105CC * 0xAC) % 0x7663;
+    D_809105D0 = (D_809105D0 * 0xAA) % 0x7673;
+    temp_f2 = (D_809105C8 / 30269.0f) + (D_809105CC / 30307.0f) + (D_809105D0 / 30323.0f);
+
+    while (temp_f2 >= 1.0f) {
+        temp_f2 -= 1.0f;
+    }
+
+    return fabsf(temp_f2);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD080.s")
 
