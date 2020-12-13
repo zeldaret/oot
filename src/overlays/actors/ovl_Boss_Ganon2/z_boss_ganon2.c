@@ -1,4 +1,5 @@
 #include "z_boss_ganon2.h"
+#include "overlays/actors/ovl_Demo_Gj/z_demo_gj.h"
 
 #define FLAGS 0x00000035
 
@@ -411,7 +412,45 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD5F4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FF898.s")
+void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
+    if ((this->unk_312 != 0) && (this->unk_39E == 0)) {
+        Actor* actor = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+        while (actor != NULL) {
+            if (actor->id == ACTOR_DEMO_GJ) {
+                DemoGj* gj = (DemoGj*)actor;
+
+                if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
+                    ((actor->params & 0xFF) == 0x16)) {
+                    if (SQ(this->unk_218.x - gj->actor.posRot.pos.x) + SQ(this->unk_218.z - gj->actor.posRot.pos.z) <
+                        10000.0f) {
+                        s32 pad;
+                        Vec3f sp28;
+
+                        Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.5f, 0);
+                        sp28.x = 0.0f;
+                        sp28.y = 0.0f;
+                        sp28.z = 1.0f;
+                        Matrix_MultVec3f(&sp28, &gj->unk_26C);
+                        gj->unk_268 = 1;
+                        func_800A9F6C(0.0f, 0x96, 0x14, 0x32);
+                        this->unk_392 = 6;
+                        return;
+                    }
+                }
+            }
+
+            actor = actor->next;
+        }
+
+        if (this->unk_392 == 4) {
+            func_80078884(NA_SE_EV_GRAVE_EXPLOSION);
+        }
+
+        if (this->unk_392 == 3) {
+            func_80078884(NA_SE_EN_MGANON_SWDIMP);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFA24.s")
 
