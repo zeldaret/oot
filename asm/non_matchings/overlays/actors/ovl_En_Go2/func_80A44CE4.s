@@ -1,4 +1,4 @@
-glabel func_80A44CE4
+glabel EnGo2_Orient
 /* 01FB4 80A44CE4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 01FB8 80A44CE8 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01FBC 80A44CEC AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -31,7 +31,7 @@ glabel func_80A44CE4
 /* 02024 80A44D54 00000000 */  nop
 /* 02028 80A44D58 45000005 */  bc1f    .L80A44D70                 
 /* 0202C 80A44D5C 00000000 */  nop
-/* 02030 80A44D60 0C29131A */  jal     func_80A44C68              
+/* 02030 80A44D60 0C29131A */  jal     EnGo2_UpdateWaypoint              
 /* 02034 80A44D64 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 02038 80A44D68 10000002 */  beq     $zero, $zero, .L80A44D74   
 /* 0203C 80A44D6C 8FBF0024 */  lw      $ra, 0x0024($sp)           

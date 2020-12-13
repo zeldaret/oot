@@ -1,4 +1,4 @@
-glabel func_80A44C68
+glabel EnGo2_UpdateWaypoint
 /* 01F38 80A44C68 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 01F3C 80A44C6C 8C820208 */  lw      $v0, 0x0208($a0)           ## 00000208
 /* 01F40 80A44C70 54400004 */  bnel    $v0, $zero, .L80A44C84     

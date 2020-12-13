@@ -19,7 +19,7 @@ glabel func_80A46CD8
 /* 03FE8 80A46D18 00042403 */  sra     $a0, $a0, 16               
 /* 03FEC 80A46D1C 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 03FF0 80A46D20 E4800068 */  swc1    $f0, 0x0068($a0)           ## 00000068
-/* 03FF4 80A46D24 0C291339 */  jal     func_80A44CE4              
+/* 03FF4 80A46D24 0C291339 */  jal     EnGo2_Orient              
 /* 03FF8 80A46D28 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 03FFC 80A46D2C 10400007 */  beq     $v0, $zero, .L80A46D4C     
 /* 04000 80A46D30 8FA60018 */  lw      $a2, 0x0018($sp)           
