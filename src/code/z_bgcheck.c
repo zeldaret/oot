@@ -1369,99 +1369,86 @@ s32 func_8003B3C8(Vec3f* min, Vec3f* max, CollisionPoly* polyList, Vec3s* vtxLis
  * Initialize StaticLookup Table
  * returns size of table, in bytes
  */
-u32 func_8003BB18(CollisionContext* colCtx, GlobalContext* globalCtx, StaticLookup* lookupTbl);
-#ifdef NON_MATCHING
-// regalloc, stack
 u32 func_8003BB18(CollisionContext* colCtx, GlobalContext* globalCtx, StaticLookup* lookupTbl) {
-
-    Vec3s* temp_s4;
-    CollisionPoly* temp_s5;
-    s32 spEC; // total number of polys
-    s32 spE8; // current poly
-    s32 phi_s1;
-    s32 spE0;
-    s32 spDC;
-    // xyz subdivMin
-    s32 sxMinD8;
-    s32 syMinD4;
-    s32 szMinD0;
-    // xyx subdivMax
-    s32 sxMaxCC;
-    s32 syMaxC8;
-    s32 szMaxC4;
-
-    Vec3f spB8; // poly box min xyz
-    Vec3f spAC; // poly box max xyz
-    StaticLookup* phi_v0;
-
+    Vec3s* vtxList;
+    CollisionPoly* polyList;
+    s32 polyMax;
+    s32 polyIdx;
+    s32 sx;
+    s32 sy;
+    s32 sz;
+    // subdivMin indices
+    s32 sxMin;
+    s32 syMin;
+    s32 szMin;
+    // subdivMax indices
+    s32 sxMax;
+    s32 syMax;
+    s32 szMax;
+    // subdiv min/max bounds for adding a poly
+    Vec3f curSubdivMin;
+    Vec3f curSubdivMax;
+    CollisionHeader* colHeader;
     StaticLookup* spA4;
-    StaticLookup* phi_s0;
     StaticLookup* phi_fp;
+    StaticLookup* phi_s0;
     s32 sp98;
+    f32 subdivLengthX;
+    f32 subdivLengthY;
+    f32 subdivLengthZ;
 
-    f32 temp_f22;
-    f32 temp_f24;
-    f32 temp_f26;
+    colHeader = colCtx->colHeader;
 
-    CollisionHeader* colHeader = colCtx->colHeader;
-
-    for (phi_v0 = lookupTbl;
-         phi_v0 < (colCtx->subdivAmount.x * colCtx->subdivAmount.y * colCtx->subdivAmount.z + lookupTbl); phi_v0++) {
-        phi_v0->floor = SS_NULL;
-        phi_v0->wall = SS_NULL;
-        phi_v0->ceiling = SS_NULL;
+    for (spA4 = lookupTbl;
+         spA4 < (colCtx->subdivAmount.x * colCtx->subdivAmount.y * colCtx->subdivAmount.z + lookupTbl); spA4++) {
+        spA4->floor = SS_NULL;
+        spA4->wall = SS_NULL;
+        spA4->ceiling = SS_NULL;
     }
-    spEC = colHeader->nbPolygons;
-    temp_s4 = colHeader->vtxList;
-    temp_s5 = colHeader->polyList;
+    polyMax = colHeader->nbPolygons;
+    vtxList = colHeader->vtxList;
+    polyList = colHeader->polyList;
     sp98 = colCtx->subdivAmount.x * colCtx->subdivAmount.y;
-    temp_f22 = colCtx->subdivLength.x + (2 * BGCHECK_SUBDIV_OVERLAP);
-    temp_f24 = colCtx->subdivLength.y + (2 * BGCHECK_SUBDIV_OVERLAP);
-    temp_f26 = colCtx->subdivLength.z + (2 * BGCHECK_SUBDIV_OVERLAP);
+    subdivLengthX = colCtx->subdivLength.x + (2 * BGCHECK_SUBDIV_OVERLAP);
+    subdivLengthY = colCtx->subdivLength.y + (2 * BGCHECK_SUBDIV_OVERLAP);
+    subdivLengthZ = colCtx->subdivLength.z + (2 * BGCHECK_SUBDIV_OVERLAP);
 
-    for (spE8 = 0; spE8 < spEC; spE8++) { // 2DF4 ish to 3068
-        func_8003B218(colCtx, temp_s4, temp_s5, &sxMinD8, &syMinD4, &szMinD0, &sxMaxCC, &syMaxC8, &szMaxC4, spE8);
+    for (polyIdx = 0; polyIdx < polyMax; polyIdx++) {
+        func_8003B218(colCtx, vtxList, polyList, &sxMin, &syMin, &szMin, &sxMax, &syMax, &szMax, polyIdx);
 
-        spA4 = szMinD0 * sp98 + lookupTbl;
-        spB8.z = (colCtx->subdivLength.z * szMinD0 + colCtx->minBounds.z) - BGCHECK_SUBDIV_OVERLAP;
-        spAC.z = spB8.z + temp_f26;
+        spA4 = szMin * sp98 + lookupTbl;
+        curSubdivMin.z = (colCtx->subdivLength.z * szMin + colCtx->minBounds.z) - BGCHECK_SUBDIV_OVERLAP;
+        curSubdivMax.z = curSubdivMin.z + subdivLengthZ;
 
-        for (spDC = szMinD0; spDC < szMaxC4 + 1; spDC++) { // 2EA8
+        for (sz = szMin; sz < szMax + 1; sz++) {
+            phi_fp = (colCtx->subdivAmount.x * syMin) + spA4;
+            curSubdivMin.y = (colCtx->subdivLength.y * syMin + colCtx->minBounds.y) - BGCHECK_SUBDIV_OVERLAP;
+            curSubdivMax.y = curSubdivMin.y + subdivLengthY;
 
-            phi_fp = (colCtx->subdivAmount.x * syMinD4) + spA4;
-            spB8.y = (colCtx->subdivLength.y * syMinD4 + colCtx->minBounds.y) - BGCHECK_SUBDIV_OVERLAP;
-            spAC.y = spB8.y + temp_f24;
+            for (sy = syMin; sy < syMax + 1; sy++) {
+                phi_s0 = sxMin + phi_fp;
+                curSubdivMin.x = (colCtx->subdivLength.x * sxMin + colCtx->minBounds.x) - BGCHECK_SUBDIV_OVERLAP;
+                curSubdivMax.x = curSubdivMin.x + subdivLengthX;
 
-            for (spE0 = syMinD4; spE0 < syMaxC8 + 1; spE0++) { // 2F00
-
-                phi_s0 = sxMinD8 + phi_fp;
-                spB8.x = (colCtx->subdivLength.x * sxMinD8 + colCtx->minBounds.x) - BGCHECK_SUBDIV_OVERLAP;
-                spAC.x = spB8.x + temp_f22;
-
-                for (phi_s1 = sxMinD8; phi_s1 < sxMaxCC + 1; phi_s1++) // 2F5C
-                {
-                    if (func_8003B3C8(&spB8, &spAC, temp_s5, temp_s4, spE8)) {
-                        StaticLookup_AddPoly(phi_s0, colCtx, temp_s5, temp_s4, spE8);
+                for (sx = sxMin; sx < sxMax + 1; sx++) {
+                    if (func_8003B3C8(&curSubdivMin, &curSubdivMax, polyList, vtxList, polyIdx)) {
+                        StaticLookup_AddPoly(phi_s0, colCtx, polyList, vtxList, polyIdx);
                     }
-                    spB8.x += colCtx->subdivLength.x;
-                    spAC.x += colCtx->subdivLength.x;
+                    curSubdivMin.x += colCtx->subdivLength.x;
+                    curSubdivMax.x += colCtx->subdivLength.x;
                     phi_s0++;
-                } // 2FC0
-
-                spB8.y += colCtx->subdivLength.y;
-                spAC.y += colCtx->subdivLength.y;
+                }
+                curSubdivMin.y += colCtx->subdivLength.y;
+                curSubdivMax.y += colCtx->subdivLength.y;
                 phi_fp += colCtx->subdivAmount.x;
             }
-            spB8.z += colCtx->subdivLength.z;
-            spAC.z += colCtx->subdivLength.z;
+            curSubdivMin.z += colCtx->subdivLength.z;
+            curSubdivMax.z += colCtx->subdivLength.z;
             spA4 += sp98;
         }
     }
     return colCtx->polyNodes.count * sizeof(SSNode);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003BB18.s")
-#endif
 
 /**
  * Is current scene a SPOT scene
@@ -2159,37 +2146,22 @@ s32 BgCheck_EntityCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, 
  */
 s32 BgCheck_LineTestImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
                          Vec3f* posResult, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 chkDist,
-                         u32 bccFlags);
-#ifdef NON_MATCHING
-// regalloc, issues with spCC/spC0 for loop
-s32 BgCheck_LineTestImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
-                         Vec3f* posResult, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 chkDist,
                          u32 bccFlags) {
-
+    StaticLookup* lookupTbl;
+    StaticLookup* iLookup;
+    s32 subdivMin[3];
+    s32 subdivMax[3];
+    s32 i;
+    s32 result;
+    f32 distSq;
+    Vec3f posBTemp;
+    Vec3f sectorMin;
+    Vec3f sectorMax;
+    s32 k;
     StaticLookup* lookup;
-    StaticLookup* iLookup; // spD8 a3
-    Vec3i subdivMin;       // spCC
-    Vec3i subdivMax;       // spC0
-
-    s32 k; // z s1
-    s32 i; // x t0
-    // s32 spBC;       // phi_t0
-    s32 result;     // spB8
-    f32 distSq;     // spB4
-    Vec3f posBTemp; // spA8
-
-    Vec3f sectorMin;       // sp9C s3
-    Vec3f sectorMax;       // sp90 s4
-    s32 j;                 // sp84, y
-    StaticLookup* jLookup; // sp80 a1
-    s32 temp_lo;           // s32 sp6C;
-
-    s32 swapA; // temp_a1; // swapA
-    s32 swapB; // temp_a2; // swapB
-
-    StaticLookup* lookupTbl; // s1
-    s32* maxTemp;            // v1;
-    s32* minTemp;            // v0;
+    s32 j;
+    StaticLookup* jLookup;
+    s32 temp_lo;
 
     lookupTbl = colCtx->lookupTbl;
     posBTemp = *posB;
@@ -2202,6 +2174,7 @@ s32 BgCheck_LineTestImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, V
             osSyncPrintf("pself_actor == NULLで犯人不明\n");
         }
     }
+
     BgCheck_ResetPolyCheckTbl(&colCtx->polyNodes, colCtx->colHeader->nbPolygons);
     BgCheck_GetStaticLookupIndicesFromPos(colCtx, posA, &subdivMin);
     BgCheck_GetStaticLookupIndicesFromPos(colCtx, &posBTemp, &subdivMax);
@@ -2210,50 +2183,41 @@ s32 BgCheck_LineTestImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, V
     distSq = 1.0e38f;
     *outPoly = NULL;
 
-    if (subdivMin.x != subdivMax.x || subdivMin.y != subdivMax.y || subdivMin.z != subdivMax.z) {
-        // AB4B0C
-        for (maxTemp = &subdivMax, minTemp = &subdivMin; minTemp < (s32*)&subdivMin + 3; minTemp++, maxTemp++) {
-
-            // loop_8:
-            swapA = *maxTemp;
-            swapB = *minTemp;
-            if (swapA < swapB) {
-                *maxTemp = swapB;
-                *minTemp = swapA;
+    if (subdivMin[0] != subdivMax[0] || subdivMin[1] != subdivMax[1] || subdivMin[2] != subdivMax[2]) {
+        for (i = 0; i < 3; i++) {
+            if (subdivMax[i] < subdivMin[i]) {
+                j = subdivMax[i];
+                subdivMax[i] = subdivMin[i];
+                subdivMin[i] = j;
             }
         }
-        // ab4b38
-
         temp_lo = colCtx->subdivAmount.x * colCtx->subdivAmount.y;
-        sectorMin.z = subdivMin.z * colCtx->subdivLength.z + colCtx->minBounds.z; // temp_f4
+        iLookup = lookupTbl + subdivMin[2] * temp_lo;
+        sectorMin.z = subdivMin[2] * colCtx->subdivLength.z + colCtx->minBounds.z;
         sectorMax.z = colCtx->subdivLength.z + sectorMin.z;
 
-        iLookup = subdivMin.z * temp_lo + lookupTbl;
-
-        // ab4bbc //loop_13:
-        for (i = subdivMin.z; i < subdivMax.z + 1; i++) {
-            jLookup = subdivMin.y * colCtx->subdivAmount.x + iLookup;
-            sectorMin.y = subdivMin.y * colCtx->subdivLength.y + colCtx->minBounds.y; // temp_f8
+        for (i = subdivMin[2]; i < subdivMax[2] + 1; i++) {
+            jLookup = iLookup + subdivMin[1] * colCtx->subdivAmount.x;
+            sectorMin.y = subdivMin[1] * colCtx->subdivLength.y + colCtx->minBounds.y;
             sectorMax.y = colCtx->subdivLength.y + sectorMin.y;
-            // loop_15:
-            for (j = subdivMin.y; j < subdivMax.y + 1; j++) {
-                sectorMin.x = subdivMin.x * colCtx->subdivLength.x + colCtx->minBounds.x; // temp_f16
-                sectorMax.x = colCtx->subdivLength.x + sectorMin.x;
-                lookup = subdivMin.x + jLookup;
-                // loop_17:
 
-                // ab4c7c
-                for (k = subdivMin.x; k < subdivMax.x + 1; k++) {
+            for (j = subdivMin[1]; j < subdivMax[1] + 1; j++) {
+                lookup = jLookup + subdivMin[0];
+                sectorMin.x = subdivMin[0] * colCtx->subdivLength.x + colCtx->minBounds.x;
+                sectorMax.x = colCtx->subdivLength.x + sectorMin.x;
+
+                for (k = subdivMin[0]; k < subdivMax[0] + 1; k++) {
                     if (Math3D_LineVsCube(&sectorMin, &sectorMax, posA, &posBTemp) == true &&
                         func_8003A7D8(lookup, colCtx, xpFlags1, xpFlags2, posA, &posBTemp, posResult, outPoly, chkDist,
                                       &distSq, bccFlags)) {
                         result = true;
                     }
-                    lookup += 1;
+
+                    lookup++;
                     sectorMin.x += colCtx->subdivLength.x;
                     sectorMax.x += colCtx->subdivLength.x;
                 }
-                // ab4d28
+
                 jLookup += colCtx->subdivAmount.x;
                 sectorMin.y += colCtx->subdivLength.y;
                 sectorMax.y += colCtx->subdivLength.y;
@@ -2263,29 +2227,21 @@ s32 BgCheck_LineTestImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, V
             sectorMin.z += colCtx->subdivLength.z;
             sectorMax.z += colCtx->subdivLength.z;
         }
-
-    }
-    // ab4db8
-    else {
-        if (BgCheck_PosInStaticBoundingBox(colCtx, posA) == false) {
-            return false;
-        }
+    } else if (BgCheck_PosInStaticBoundingBox(colCtx, posA) == false) {
+        return false;
+    } else {
         result = func_8003A7D8(BgCheck_GetNearestStaticLookup(colCtx, lookupTbl, posA), colCtx, xpFlags1, xpFlags2,
                                posA, &posBTemp, posResult, outPoly, chkDist, &distSq, bccFlags);
         if (result == true) {
             distSq = Math3D_Vec3fDistSq(posResult, posA);
         }
     }
-    // ab4e40
     if ((bccFlags & BGCHECK_CHECK_DYNA) && func_80041240(colCtx, xpFlags1, posA, &posBTemp, posResult, outPoly, &distSq,
                                                          outBgId, actor, chkDist, bccFlags)) {
         result = true;
     }
     return result;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/BgCheck_LineTestImpl.s")
-#endif
 
 /**
  * Get bccFlags
@@ -3161,7 +3117,7 @@ f32 BgCheck_RaycastFloorDynaList(DynaRaycast* dynaRaycast, u32 listType) {
  * returns the yIntersect of the poly found, or BGCHECK_Y_MIN if no poly is found
  */
 #ifdef NON_MATCHING
-// codegen. type access issues at ab71f4
+// codegen at ab71f4
 f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
 
     CollisionPoly* poly; // s3
@@ -3183,7 +3139,7 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
     Vec3f vtx;      // sp74;
     f32 intersect;  // sp70;
     u16 dynaLookupStart;
-    BgActor* bgActor;
+    ScaleRotPos* curTransform;
 
     result = BGCHECK_Y_MIN;
     *dynaRaycast->bgId = BGCHECK_SCENE;
@@ -3250,17 +3206,16 @@ f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast) {
 
                     if (dynaRaycast->colCtx->dyna.bgActorFlags[*dynaRaycast->bgId] & 2) {
                         // ab71f4
-                        bgActor = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId];
-                        dynaLookupStart = bgActor->dynaLookup.polyStartIndex;
-                        polyList = bgActor->colHeader->polyList;
-                        polyMin = &dynaRaycast->dyna->polyList[dynaLookupStart];
+                        curTransform = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].curTransform;
+                        polyList = dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].colHeader->polyList;
+                        polyMin = &dynaRaycast->dyna->bgActors[*dynaRaycast->bgId]
+                                       .dynaLookup.polyStartIndex[dynaRaycast->dyna->polyList];
                         poly = *dynaRaycast->resultPoly - polyMin + polyList;
-                        // temp_v0_2 = ;
+
                         SkinMatrix_SetScaleRotateYRPTranslate(
-                            &srpMtx, bgActor->curTransform.scale.x, bgActor->curTransform.scale.y,
-                            bgActor->curTransform.scale.z, bgActor->curTransform.rot.x, bgActor->curTransform.rot.y,
-                            bgActor->curTransform.rot.z, bgActor->curTransform.pos.x, bgActor->curTransform.pos.y,
-                            bgActor->curTransform.pos.z);
+                            &srpMtx, curTransform->scale.x, curTransform->scale.y, curTransform->scale.z,
+                            curTransform->rot.x, curTransform->rot.y, curTransform->rot.z, curTransform->pos.x,
+                            curTransform->pos.y, curTransform->pos.z);
 
                         vtxList = dynaRaycast->dyna->bgActors[*dynaRaycast->bgId].colHeader->vtxList;
 
