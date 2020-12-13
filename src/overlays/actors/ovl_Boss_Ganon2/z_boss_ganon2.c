@@ -452,7 +452,28 @@ void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFA24.s")
+s32 func_808FFA24(BossGanon2* this, GlobalContext* globalCtx) {
+    Actor* actor = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+
+    while (actor != NULL) {
+        if (actor->id == ACTOR_DEMO_GJ) {
+            DemoGj* gj = (DemoGj*)actor;
+
+            if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
+                ((actor->params & 0xFF) == 0x16)) {
+                if (SQ(this->actor.posRot.pos.x - gj->actor.posRot.pos.x) +
+                        SQ(this->actor.posRot.pos.z - gj->actor.posRot.pos.z) <
+                    40000.0f) {
+                    return true;
+                }
+            }
+        }
+
+        actor = actor->next;
+    }
+
+    return false;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFAC8.s")
 
