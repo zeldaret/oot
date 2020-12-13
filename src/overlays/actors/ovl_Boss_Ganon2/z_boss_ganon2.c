@@ -310,7 +310,14 @@ f32 func_808FCF5C(void) {
     return fabsf(temp_f2);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FD080.s")
+void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
+    collider->list[idx].dim.worldSphere.center.x = arg2->x;
+    collider->list[idx].dim.worldSphere.center.y = arg2->y;
+    collider->list[idx].dim.worldSphere.center.z = arg2->z;
+
+    collider->list[idx].dim.worldSphere.radius =
+        collider->list[idx].dim.modelSphere.radius * collider->list[idx].dim.scale;
+}
 
 void func_808FD108(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 arg3) {
     s32 pad;
