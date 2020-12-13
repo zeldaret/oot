@@ -277,17 +277,23 @@ UNK_TYPE D_8090EB30[2];
 
 BossGanon2Effect D_8090EB38[100];
 
-UNK_TYPE D_809105C8;
+s32 D_809105C8;
 
-UNK_TYPE D_809105CC;
+s32 D_809105CC;
 
-UNK_TYPE D_809105D0[2];
+s32 D_809105D0;
+
+UNK_TYPE D_809105DC;
 
 Vec3f D_809105D8[8];
 
 s8 D_80910638;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FCF40.s")
+void func_808FCF40(s32 arg0, s32 arg1, s32 arg2) {
+    D_809105C8 = arg0;
+    D_809105CC = arg1;
+    D_809105D0 = arg2;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FCF5C.s")
 
