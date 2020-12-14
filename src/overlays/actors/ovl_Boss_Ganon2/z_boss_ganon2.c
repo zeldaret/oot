@@ -40,11 +40,11 @@ const ActorInit Boss_Ganon2_InitVars = {
     (ActorFunc)BossGanon2_Draw,
 };
 
-Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
+/* static */ Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
 
-Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
+/* static */ Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
 
-u8 D_80906D78 = 0;
+/* static */ u8 D_80906D78 = 0;
 
 // sJntSphItemsInit
 static ColliderJntSphItemInit D_80906D7C[] = {
@@ -141,156 +141,156 @@ static ColliderJntSphInit D_80907014 = {
 };
 
 // primColor
-Color_RGBA8 D_80907024 = { 0, 120, 0, 255 };
+/* static */ Color_RGBA8 D_80907024 = { 0, 120, 0, 255 };
 
 // envColor
-Color_RGBA8 D_80907028 = { 0, 120, 0, 255 };
+/* static */ Color_RGBA8 D_80907028 = { 0, 120, 0, 255 };
 
-Vec3f D_8090702C[] = {
+/* static */ Vec3f D_8090702C[] = {
     { 10.0f, -10.0f, 0.0f },
     { 0.0f, 0.0f, -60.0f },
     { 70.0f, -30.0f, 10.0f },
 };
 
-Vec3f D_80907050[] = {
+/* static */ Vec3f D_80907050[] = {
     { -20.0f, 0.0f, 0.0f },
     { -15.0f, 0.0f, 10.0f },
     { -16.0f, -12.0f, 40.0f },
 };
 
-s16 D_80907074[] = { 0, 1, 2, 2, 1, 0 };
+/* static */ s16 D_80907074[] = { 0, 1, 2, 2, 1, 0 };
 
-s16 D_80907080 = 0;
+/* static */ s16 D_80907080 = 0;
 
-u8 D_80907084[] = { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
+/* static */ u8 D_80907084[] = { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
 
-u8 D_80907090[] = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 };
+/* static */ u8 D_80907090[] = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 };
 
-u8 D_8090709C[] = {
+/* static */ u8 D_8090709C[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0x00, 0xFF, 0xFF, 0x02, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0xFF, 0xFF, 0xFF, 0x0F, 0xFF, 0x00,
 };
 
-UNK_TYPE D_809070CC[] = {
+/* static */ UNK_TYPE D_809070CC[] = {
     0xFFFF01FF, 0x0304FFFF, 0x05FF0607, 0xFFFF08FF, 0xFFFFFFFF, 0xFFFFFFFF,
     0xFFFFFFFF, 0xFFFFFFFF, 0x00FFFF02, 0x0C0D0E09, 0x0A0BFFFF, 0xFFFFFF00,
 };
 
-UNK_TYPE D_809070FC[] = {
+/* static */ UNK_TYPE D_809070FC[] = {
     0x00000000,
     0x00000000,
     0x459C4000,
 };
 
-UNK_TYPE D_80907108[] = {
+/* static */ UNK_TYPE D_80907108[] = {
     0x00000000,
     0x44FA0000,
     0x00000000,
 };
 
-UNK_TYPE D_80907114[] = {
+/* static */ UNK_TYPE D_80907114[] = {
     0x00000000,
     0x44FA0000,
     0x00000000,
 };
 
-UNK_TYPE D_80907120[] = {
+/* static */ UNK_TYPE D_80907120[] = {
     0x00000000,
     0x00000000,
 };
 
-UNK_TYPE D_80907128[] = { 0x4684D000 };
+/* static */ UNK_TYPE D_80907128[] = { 0x4684D000 };
 
-UNK_TYPE D_8090712C[] = {
+/* static */ UNK_TYPE D_8090712C[] = {
     0x00000000,
     0x00000000,
 };
 
-UNK_TYPE D_80907134[] = { 0x453B8000 };
+/* static */ UNK_TYPE D_80907134[] = { 0x453B8000 };
 
-UNK_TYPE D_80907138[] = {
+/* static */ UNK_TYPE D_80907138[] = {
     0x00000000,
     0x00000000,
     0x00000000,
 };
 
-u8 D_80907144[] = {
+/* static */ u8 D_80907144[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0x05, 0xFF, 0x06, 0x07, 0x08, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0xFF, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00,
 };
 
-UNK_TYPE D_80907164[] = {
+/* static */ UNK_TYPE D_80907164[] = {
     0x44480000,
     0x43D20000,
     0x42C80000,
 };
 
-UNK_TYPE D_80907170[] = {
+/* static */ UNK_TYPE D_80907170[] = {
     0x0601E188,
     0x0601E988,
     0x0601EA08,
 };
 
-UNK_TYPE D_8090717C[] = {
+/* static */ UNK_TYPE D_8090717C[] = {
     0x00000000,
     0xC4FA0000,
     0x00000000,
 };
 
-UNK_TYPE D_80907188[] = {
+/* static */ UNK_TYPE D_80907188[] = {
     0x00010002,
     0x00030003,
     0x00020001,
 };
 
-UNK_TYPE D_80907194[] = {
+/* static */ UNK_TYPE D_80907194[] = {
     0x00020003,
     0x00040004,
     0x00040003,
     0x00020000,
 };
 
-UNK_TYPE D_809071A4[] = {
+/* static */ UNK_TYPE D_809071A4[] = {
     0x00020003,
     0x00040004,
     0x00040004,
     0x00030002,
 };
 
-UNK_TYPE D_809071B4[] = {
+/* static */ UNK_TYPE D_809071B4[] = {
     0x00020004, 0x00050005, 0x00060006, 0x00060006, 0x00050005, 0x00040002,
 };
 
-UNK_TYPE D_809071CC[] = {
+/* static */ UNK_TYPE D_809071CC[] = {
     0x0001FFFF, 0x00010001, 0x00030004, 0x00010006, 0x00070002, 0x0009000A, 0x0002000C, 0x000D0000,
 };
 
-UNK_TYPE D_809071EC[] = {
+/* static */ UNK_TYPE D_809071EC[] = {
     0x03020201, 0x03030103, 0x03010003, 0x01000300, 0x00000000, 0x00000000, 0x00000000,
 };
 
 #include "z_boss_ganon2_gfx.c"
 
-Vec3f D_8090EB20;
+/* static */ Vec3f D_8090EB20;
 
-UNK_TYPE D_8090EB2C;
+/* static */ UNK_TYPE D_8090EB2C;
 
-UNK_TYPE D_8090EB30[2];
+/* static */ UNK_TYPE D_8090EB30[2];
 
-BossGanon2Effect D_8090EB38[100];
+/* static */ BossGanon2Effect D_8090EB38[100];
 
-s32 D_809105C8;
+/* static */ s32 D_809105C8;
 
-s32 D_809105CC;
+/* static */ s32 D_809105CC;
 
-s32 D_809105D0;
+/* static */ s32 D_809105D0;
 
-UNK_TYPE D_809105DC;
+/* static */ UNK_TYPE D_809105DC;
 
-Vec3f D_809105D8[8];
+/* static */ Vec3f D_809105D8[8];
 
-s8 D_80910638;
+/* static */ s8 D_80910638;
 
 void func_808FCF40(s32 arg0, s32 arg1, s32 arg2) {
     D_809105C8 = arg0;
