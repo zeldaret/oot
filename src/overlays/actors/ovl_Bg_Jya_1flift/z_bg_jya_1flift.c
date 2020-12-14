@@ -24,7 +24,7 @@ void func_80892E0C(BgJya1flift* this);
 void BgJya1flift_ResetMoveDelay(BgJya1flift* this);
 void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx);
 
-static u8 sHasSpawned = false;
+static u8 sIsSpawned = false;
 
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
@@ -85,9 +85,9 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
     // 1 F lift
-    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sHasSpawned, globalCtx->roomCtx.curRoom.num);
+    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sIsSpawned, globalCtx->roomCtx.curRoom.num);
     this->hasInitialized = false;
-    if (sHasSpawned) {
+    if (sIsSpawned) {
         Actor_Kill(thisx);
         return;
     }
@@ -100,7 +100,7 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80892DB0(this);
     }
     thisx->room = -1;
-    sHasSpawned = true;
+    sIsSpawned = true;
     this->hasInitialized = true;
 }
 
@@ -108,7 +108,7 @@ void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
 
     if (this->hasInitialized) {
-        sHasSpawned = false;
+        sIsSpawned = false;
         Collider_DestroyCylinder(globalCtx, &this->collider);
         DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
