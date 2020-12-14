@@ -2,11 +2,11 @@ glabel func_80AFF19C
 /* 00EEC 80AFF19C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00EF0 80AFF1A0 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00EF4 80AFF1A4 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 00EF8 80AFF1A8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00EF8 80AFF1A8 3C040600 */  lui     $a0, %hi(D_06006A98)                ## $a0 = 06000000
 /* 00EFC 80AFF1AC AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00F00 80AFF1B0 0C028800 */  jal     SkelAnime_GetFrameCount
               
-/* 00F04 80AFF1B4 24846A98 */  addiu   $a0, $a0, 0x6A98           ## $a0 = 06006A98
+/* 00F04 80AFF1B4 24846A98 */  addiu   $a0, $a0, %lo(D_06006A98)           ## $a0 = 06006A98
 /* 00F08 80AFF1B8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 00F0C 80AFF1BC 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00F10 80AFF1C0 468021A0 */  cvt.s.w $f6, $f4                   

@@ -1,8 +1,8 @@
 glabel func_80979FD0
 /* 016A0 80979FD0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
-/* 016A4 80979FD4 3C0E0600 */  lui     $t6, 0x0600                ## $t6 = 06000000
+/* 016A4 80979FD4 3C0E0600 */  lui     $t6, %hi(D_06001F70)                ## $t6 = 06000000
 /* 016A8 80979FD8 AFBF001C */  sw      $ra, 0x001C($sp)           
-/* 016AC 80979FDC 25CE1F70 */  addiu   $t6, $t6, 0x1F70           ## $t6 = 06001F70
+/* 016AC 80979FDC 25CE1F70 */  addiu   $t6, $t6, %lo(D_06001F70)           ## $t6 = 06001F70
 /* 016B0 80979FE0 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 016B4 80979FE4 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 016B8 80979FE8 0C25E3F3 */  jal     func_80978FCC              
