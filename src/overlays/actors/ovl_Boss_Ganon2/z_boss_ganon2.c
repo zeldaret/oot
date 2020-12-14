@@ -23,6 +23,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx);
+void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900104(BossGanon2* this, GlobalContext* globalCtx);
 void func_809002CC(BossGanon2* this, GlobalContext* globalCtx);
 
@@ -592,10 +593,30 @@ void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx) {
     func_808FFBBC(this, globalCtx, 0);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFF90.s")
+void func_808FFF90(BossGanon2* this, GlobalContext* globalCtx) {
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_0600FFE4, -10.0f);
+    this->actionFunc = func_808FFFE0;
+    this->unk_1A2[0] = 40;
+}
 
-void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFFE0.s")
+void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx) {
+    s16 target;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
+
+    if (this->unk_1A2[0] == 0) {
+        func_809002CC(this, globalCtx);
+    }
+
+    if (this->unk_1A2[0] < 30 && this->unk_1A2[0] >= 10) {
+        target = Math_Sins(this->unk_1A2[0] * 0x3000) * (f32)0x2000;
+    } else {
+        target = 0;
+    }
+
+    Math_SmoothScaleMaxS(&this->unk_31A, target, 2, 0x4000);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809000A0.s")
 
