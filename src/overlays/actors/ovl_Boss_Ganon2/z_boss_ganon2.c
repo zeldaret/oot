@@ -623,7 +623,7 @@ void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
     f32 frames;
 
     SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06026510, -2.0f);
-    frames = (f32)SkelAnime_GetFrameCount(&D_06026510);
+    frames = SkelAnime_GetFrameCount(&D_06026510);
     this->unk_1AC = 0;
     this->actionFunc = func_80900104;
     this->unk_194 = frames;
