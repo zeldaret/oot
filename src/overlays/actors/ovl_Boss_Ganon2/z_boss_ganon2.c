@@ -24,6 +24,7 @@ void func_808FD5C4(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx);
 void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900104(BossGanon2* this, GlobalContext* globalCtx);
+void func_809002CC(BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_0600FFE4;
 extern SkeletonHeader D_060114E8;
@@ -572,7 +573,24 @@ void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFEBC.s")
+void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx) {
+    if (this->unk_390 == 0) {
+        this->unk_390 = (s16)Math_Rand_ZeroFloat(50.0f) + 30;
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_UNARI);
+    }
+
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    Math_SmoothDownscaleMaxF(&this->actor.speedXZ, 0.5f, 1.0f);
+
+    if (this->unk_1A2[0] == 0) {
+        func_809002CC(this, globalCtx);
+    } else if (this->unk_1A2[1] == 0) {
+        func_808FFCFC(this, globalCtx);
+    }
+
+    func_808FFAC8(this, globalCtx, 0);
+    func_808FFBBC(this, globalCtx, 0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFF90.s")
 
