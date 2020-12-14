@@ -29,6 +29,7 @@ void func_809002CC(BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_0600FFE4;
 extern SkeletonHeader D_060114E8;
+extern AnimationHeader D_06026510;
 
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
@@ -618,7 +619,15 @@ void func_808FFFE0(BossGanon2* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxS(&this->unk_31A, target, 2, 0x4000);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809000A0.s")
+void func_809000A0(BossGanon2* this, GlobalContext* globalCtx) {
+    f32 frames;
+
+    SkelAnime_ChangeAnimTransitionRepeat(&this->skelAnime, &D_06026510, -2.0f);
+    frames = (f32)SkelAnime_GetFrameCount(&D_06026510);
+    this->unk_1AC = 0;
+    this->actionFunc = func_80900104;
+    this->unk_194 = frames;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900104.s")
 

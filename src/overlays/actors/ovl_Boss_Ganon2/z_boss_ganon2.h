@@ -12,11 +12,13 @@ typedef struct BossGanon2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossGanon2ActionFunc actionFunc;
-    /* 0x0194 */ char unk_194[0x8];
+    /* 0x0194 */ f32 unk_194;
+    /* 0x0198 */ char unk_198[0x4];
     /* 0x019C */ s16 unk_19C;
     /* 0x019E */ char unk_19E[0x4];
     /* 0x01A2 */ s16 unk_1A2[5];
-    /* 0x01AC */ char unk_1AC[0x4];
+    /* 0x01AC */ s16 unk_1AC;
+    /* 0x01AE */ char unk_1AE[0x2];
     /* 0x01B0 */ f32 unk_1B0;
     /* 0x01B4 */ char unk_1B4[0x4];
     /* 0x01B8 */ Vec3f unk_1B8;
