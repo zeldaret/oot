@@ -8,11 +8,25 @@ struct BossDodongo;
 
 typedef void (*BossDodongoActionFunc)(struct BossDodongo*, GlobalContext*);
 
+typedef struct BossDodongoEffect {
+    /* 0x00 */ Vec3f unk_0;
+    /* 0x0C */ Vec3f unk_C;
+    /* 0x18 */ Vec3f unk_18;
+    /* 0x24 */ u8 unk_24;
+    /* 0x25 */ u8 unk_25;
+    /* 0x26 */ u8 unk_26;
+    /* 0x27 */ u8 unk_27;
+    /* 0x28 */ u8 unk_28;
+    /* 0x29 */ char unk_29[0x2A - 0x29];
+    /* 0x2A */ s16 unk_2A;
+    /* 0x2C */ f32 unk_2C;
+} BossDodongoEffect; // Size = 0x00
+
 typedef struct BossDodongo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossDodongoActionFunc actionFunc;
-    /* 0x0194 */ s16 health;//u16
+    /* 0x0194 */ s16 health; // u16
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
@@ -32,24 +46,24 @@ typedef struct BossDodongo {
     /* 0x01B6 */ s16 unk_1B6;
     /* 0x01B8 */ s16 unk_1B8;
     /* 0x01BA */ s16 unk_1BA;
-    /* 0x01BC */ s16 unk_1BC;//u16 unk_1BC;
+    /* 0x01BC */ s16 unk_1BC; // u16 unk_1BC;
     /* 0x01BE */ s16 unk_1BE;
     /* 0x01C0 */ s16 unk_1C0;
     /* 0x01C2 */ s16 unk_1C2;
-    /* 0x01C4 */ s16 unk_1C4;//Some kind of angle
+    /* 0x01C4 */ s16 unk_1C4; // Some kind of angle
     /* 0x01C6 */ s16 unk_1C6;
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ char unk_1CA[0x2];
     /* 0x01CC */ s16 unk_1CC;
     /* 0x01CE */ char unk_1CE[0xC];
-    /* 0x01DA */ s16 unk_1DA; //u16 unk_1DA;
+    /* 0x01DA */ s16 unk_1DA; // u16 unk_1DA;
     /* 0x01DC */ s16 unk_1DC;
     /* 0x01DE */ s16 unk_1DE;
     /* 0x01E0 */ s16 unk_1E0;
     /* 0x01E2 */ s8 unk_1E2;
     /* 0x01E3 */ s8 unk_1E3;
     /* 0x01E4 */ f32 unk_1E4;
-    /* 0x01E8 */ f32 unk_1E8;//Vec3f?
+    /* 0x01E8 */ f32 unk_1E8; // Vec3f?
     /* 0x01EC */ f32 unk_1EC;
     /* 0x01EC */ char unk_1F0[0x8];
     /* 0x01F8 */ f32 unk_1F8;
@@ -84,9 +98,8 @@ typedef struct BossDodongo {
     /* 0x0434 */ Vec3f cameraAt;
     /* 0x0440 */ ColliderJntSph collider;
     /* 0x0460 */ ColliderJntSphItem items[19];
-    /* 0x0920 */ s32 unk_920;
-    /* 0x0924 */ char unk_924[0xEFC];
-} BossDodongo;   // size = 0x1820
+    /* 0x0920 */ BossDodongoEffect unk_920[80];
+} BossDodongo; // size = 0x1820
 
 extern const ActorInit Boss_Dodongo_InitVars;
 

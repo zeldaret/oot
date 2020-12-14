@@ -23,10 +23,12 @@ void func_808C3094(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C29B0(BossDodongo* this);
 void func_808C5578(BossDodongo* this, GlobalContext* globalCtx);
 void func_808C54C0(BossDodongo* this);
-
+void func_808C5354(BossDodongo* this, GlobalContext* globalCtx);
+void func_808C524C(BossDodongo* this, GlobalContext* globalCtx);
+void func_808C51F4(BossDodongo* this, GlobalContext* globalCtx);
 f32 func_808C4F6C(BossDodongo* this, GlobalContext* globalCtx);
 f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx);
-
+void BossDodongo_DrawEffect(GlobalContext* globalCtx);
 s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  Actor* thisx);
 void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
@@ -617,19 +619,19 @@ extern s16 D_06015990[];
 extern s16 D_06015F90[];
 extern s16 D_06016990[];
 extern s16 D_06016E10[];
-
+extern Gfx* D_06009D50[];
+extern Gfx* D_06009DD0[];
 void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
     if (arg2[arg1] != 0) {
         arg0[arg2 / 2] = 0;
     }
 }
 
-void func_808C11D0(s16 *arg0, u8 *arg1, s16 arg2) {
+void func_808C11D0(s16* arg0, u8* arg1, s16 arg2) {
     if (arg1[arg2] != 0) {
         arg0[arg2] = 0;
     }
 }
-
 
 void func_808C1200(s16* arg0, u8* arg1, s16 arg2) {
     if (arg1[arg2] != 0) {
@@ -647,16 +649,15 @@ void func_808C1230(s16* arg0, u8* arg1, s16 arg2) {
     }
 }
 
-void func_808C1278(s16* arg0, u8 *arg1, s16 arg2) {
+void func_808C1278(s16* arg0, u8* arg1, s16 arg2) {
     s16 index;
 
     if (arg1[arg2] != 0) {
         index = ((arg2 & 0xF) * 2) + ((arg2 & 0xF0) * 2);
-        arg0[index+1] = 0;
+        arg0[index + 1] = 0;
         arg0[index] = 0;
     }
 }
-
 
 void func_808C12C4(s16* arg1, s16 arg2) {
     func_808C1190(SEGMENTED_TO_VIRTUAL(D_06015890), arg1, arg2);
@@ -671,8 +672,31 @@ void func_808C12C4(s16* arg1, s16 arg2) {
     func_808C1278(SEGMENTED_TO_VIRTUAL(D_06016E10), arg1, arg2);
 }
 
-void func_808C1554(UNK_PTR D_030021D8, u16* D_808C73C8, s16 arg2, f32 arg3);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C1554.s")
+void func_808C1554(u16* D_030021D8, u16* D_808C73C8, s32 arg2, f32 arg3) {
+    u16* temp_s3 = SEGMENTED_TO_VIRTUAL(D_030021D8);
+    u16* temp_s1 = SEGMENTED_TO_VIRTUAL(D_808C73C8);
+    s16 i;
+    s16 i2;
+    u16 sp54[2048];
+    s16 temp;
+    s16 temp2;
+
+    for (i = 0; i < 2048; i += 32) {
+        temp = sinf((((i / 32) + (s16)((arg2 * 50.0f) / 100.0f)) & 0x1F) * (M_PI / 16)) * arg3;
+        for (i2 = 0; i2 < 32; i2++) {
+            sp54[i + ((temp + i2) & 0x1F)] = temp_s1[i + i2];
+        }
+    }
+
+    for (i = 0; i < 32; i++) {
+        temp = sinf(((i + (s16)((arg2 * 80.0f) / 100.0f)) & 0x1F) * (M_PI / 16)) * arg3;
+        temp *= 32;
+        for (i2 = 0; i2 < 2048; i2 += 32) {
+            temp2 = (temp + i2) & 0x7FF;
+            temp_s3[i + temp2] = sp54[i + i2];
+        }
+    }
+}
 
 void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C17C8.s")
@@ -991,7 +1015,8 @@ void func_808C2B38(BossDodongo* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C2BC8.s")
 
-void func_808C2C78(BossDodongo* this, GlobalContext* globalCtx) { // Spawn bomb explode effect //Also take bomb damage
+void func_808C2C78(BossDodongo* this,
+                   GlobalContext* globalCtx) { // Spawn bomb explode effect //Also take bomb damage
     static Color_RGBA8 dustPrimColor = { 255, 255, 0, 255 };
     static Color_RGBA8 dustEnvColor = { 255, 10, 0, 255 };
     s16 pad;
@@ -1081,7 +1106,7 @@ void func_808C30F4(BossDodongo* this, GlobalContext* globalCtx) { // Hit?
 
 void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { // Blow fire
     this->unk_1E2 = 1;
-    if (this->unk_1AC >= 0x15) {
+    if (this->unk_1AC >= 21) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
     }
     Math_SmoothScaleMaxMinF(&this->unk_208, 0.05f, 1.0f, 0.005f, 0.0f);
@@ -1090,9 +1115,9 @@ void func_808C3224(BossDodongo* this, GlobalContext* GlobalContext) { // Blow fi
         func_808C2AB0(this);
     } else {
         this->unk_1AC++;
-        if ((this->unk_1AC >= 0x15) && (this->unk_1AC < 0x52) && (func_808C18B0(this, GlobalContext) != 0)) {
+        if ((this->unk_1AC >= 21) && (this->unk_1AC < 0x52) && (func_808C18B0(this, GlobalContext) != 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DRINK);
-            func_808C290C(this); // Start here
+            func_808C290C(this);
         }
     }
 }
@@ -1254,6 +1279,7 @@ Color_RGBA8 magmaPrimColor[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 150 } };
 Color_RGBA8 magmaEnvColor[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
 Vec3f D_808CA450 = { 5000.0f, -2500.0f, 0.0f };
 
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 // Very minor ordering issue near SEGMENTED_TO_VIRTUAL
 void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1490,7 +1516,7 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Math_SmoothScaleMaxMinF(&this->unk_244, 0.0f, 1.0f, 2.0f, 0.0f);
-    func_808C6CB4(globalCtx);
+    BossDodongo_UpdateEffects(globalCtx);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
@@ -1576,7 +1602,7 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                       BossDodongo_PostLimbDraw, this);
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3981);
-    func_808C6DE8(globalCtx);
+    BossDodongo_DrawEffect(globalCtx);
 }
 
 f32 func_808C4F6C(BossDodongo* this, GlobalContext* globalCtx) {
@@ -1711,7 +1737,6 @@ void func_808C54C0(BossDodongo* this) { // Setup Death?
     this->unk_1BC = 1;
     Audio_SetBGM(0x100100FF);
 }
-
 
 //#define NON_EQUIVALENT
 #ifdef NON_EQUIVALENT
@@ -2098,7 +2123,63 @@ s32 D_808CA58C = 0xFF6400FF;
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C5578.s")
 #endif
 
-s32 D_808CA590[] = { 0xFF8000FF, 0x0000FFFF, 0x00FF0000, 0x00000000 };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C6CB4.s")
+void BossDodongo_UpdateEffects(GlobalContext* globalCtx) { 
+    BossDodongoEffect* currentEffect = (BossDodongoEffect*)globalCtx->unk_11E10;
+    Color_RGB8 sp8[] = { { 0xFF, 0x80, 0x00 }, { 0xFF, 0x00, 0x00 }, { 0xFF, 0xFF, 0x00 }, { 0xFF, 0x00, 0x00 } };
+    s16 colorIndex;
+    s16 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/func_808C6DE8.s")
+    for (i = 0; i < 80; i++, currentEffect++) {
+        if (currentEffect->unk_24 != 0) {
+            currentEffect->unk_0.x += currentEffect->unk_C.x;
+            currentEffect->unk_0.y += currentEffect->unk_C.y;
+            currentEffect->unk_0.z += currentEffect->unk_C.z;
+            currentEffect->unk_25++;
+            currentEffect->unk_C.x += currentEffect->unk_18.x;
+            currentEffect->unk_C.y += currentEffect->unk_18.y;
+            currentEffect->unk_C.z += currentEffect->unk_18.z;
+            if (currentEffect->unk_24 == 1) {
+                colorIndex = currentEffect->unk_25 % 4;
+                currentEffect->unk_26 = sp8[colorIndex].r;
+                currentEffect->unk_27 = sp8[colorIndex].g;
+                currentEffect->unk_28 = sp8[colorIndex].b;
+                currentEffect->unk_2A -= 20;
+                if (currentEffect->unk_2A <= 0) {
+                    currentEffect->unk_2A = 0;
+                    currentEffect->unk_24 = 0;
+                }
+            }
+        }
+    }
+}
+
+void BossDodongo_DrawEffect(GlobalContext* globalCtx) {
+    MtxF* unkMtx;
+    s16 i;
+    u8 phi_s3 = 0;
+    BossDodongoEffect* currentEffect;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    
+    currentEffect = (BossDodongoEffect*)globalCtx->unk_11E10;
+    OPEN_DISPS(gfxCtx, "../z_boss_dodongo.c", 5228);
+    func_80093D84(globalCtx->state.gfxCtx);
+    unkMtx = &globalCtx->mf_11DA0;
+    for (i = 0; i < 80; i++, currentEffect++) {
+        if (currentEffect->unk_24 == 1) {
+            gDPPipeSync(POLY_XLU_DISP++);
+            if (phi_s3 == 0) {
+                gSPDisplayList(POLY_XLU_DISP++, D_06009D50);
+                phi_s3++;
+            }
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, currentEffect->unk_26, currentEffect->unk_27, currentEffect->unk_28,
+                            currentEffect->unk_2A);
+            Matrix_Translate(currentEffect->unk_0.x, currentEffect->unk_0.y, currentEffect->unk_0.z, MTXMODE_NEW);
+            func_800D1FD4(unkMtx);
+            Matrix_Scale(currentEffect->unk_2C, currentEffect->unk_2C, 1.0f, MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_dodongo.c", 5253),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, D_06009DD0);
+        }
+    }
+    CLOSE_DISPS(gfxCtx, "../z_boss_dodongo.c", 5258);
+}

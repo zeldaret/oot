@@ -1061,7 +1061,7 @@ glabel BossDodongo_Update
 /* 0378C 808C491C 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 03790 808C4920 E7A00010 */  swc1    $f0, 0x0010($sp)           
-/* 03794 808C4924 0C231B2D */  jal     func_808C6CB4              
+/* 03794 808C4924 0C231B2D */  jal     BossDodongo_UpdateEffects              
 /* 03798 808C4928 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 0379C 808C492C 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 037A0 808C4930 8FB00024 */  lw      $s0, 0x0024($sp)           
