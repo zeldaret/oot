@@ -171,6 +171,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
                                                       sMirRayPoss[i].y, sMirRayPoss[i].z, 0, 0, 0, sMirRayParamss[i]);
 
                     if (this->lightBeams[i] == NULL) {
+                        // Mir Ray generation failed
                         osSyncPrintf("Error : Mir Ray 発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 310);
                     }
                 }
