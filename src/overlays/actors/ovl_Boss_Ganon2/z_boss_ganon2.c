@@ -475,7 +475,32 @@ s32 func_808FFA24(BossGanon2* this, GlobalContext* globalCtx) {
     return false;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFAC8.s")
+void func_808FFAC8(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
+    s16 temp_v1;
+    s16 phi_a1;
+
+    if ((this->unk_313 != 0) || (arg2 != 0)) {
+        phi_a1 = this->actor.shape.rot.y - this->actor.yawTowardsLink;
+
+        if (phi_a1 > 0x3000) {
+            phi_a1 = 0x3000;
+        } else if (phi_a1 < -0x3000) {
+            phi_a1 = -0x3000;
+        }
+    } else if (this->unk_19C & 0x20) {
+        phi_a1 = 0x3000;
+    } else {
+        phi_a1 = -0x3000;
+    }
+
+    Math_SmoothScaleMaxS(&this->unk_31A, phi_a1, 5, 0x7D0);
+
+    temp_v1 = atan2s(this->actor.xzDistFromLink, 150.0f) - 3000;
+    temp_v1 = CLAMP_MAX(temp_v1, 7000);
+    temp_v1 = CLAMP_MIN(temp_v1, -7000);
+
+    Math_SmoothScaleMaxS(&this->unk_31C, temp_v1, 5, 0x7D0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_808FFBBC.s")
 
