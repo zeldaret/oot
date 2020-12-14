@@ -1,6 +1,5 @@
 #include "z_en_go.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 
 #define FLAGS 0x00000039
 
