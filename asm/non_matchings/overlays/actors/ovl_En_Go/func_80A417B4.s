@@ -1,3 +1,18 @@
+.rdata
+
+glabel D_80A41C80
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C90
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41CA0
+    .asciz "../z_en_go.c"
+    .balign 4
+
+.text
 glabel func_80A417B4
 /* 03244 80A417B4 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 03248 80A417B8 AFBE0050 */  sw      $s8, 0x0050($sp)           

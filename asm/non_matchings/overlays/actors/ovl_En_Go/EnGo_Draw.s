@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_80A41C60
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C70
+    .asciz "../z_en_go.c"
+    .balign 4
+
+.text
 glabel EnGo_Draw
 /* 02EC8 80A41438 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 02ECC 80A4143C AFB10028 */  sw      $s1, 0x0028($sp)

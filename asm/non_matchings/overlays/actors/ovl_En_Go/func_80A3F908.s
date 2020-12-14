@@ -1,3 +1,12 @@
+.late_rodata
+
+glabel D_80A420DC
+    .float 0.01
+
+glabel D_80A420E0
+    .float 4.8
+
+.text
 glabel func_80A3F908
 /* 01398 80A3F908 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0139C 80A3F90C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -42,17 +51,17 @@ glabel func_80A3F908
 /* 01434 80A3F9A4 46105483 */  div.s   $f18, $f10, $f16           
 /* 01438 80A3F9A8 448E2000 */  mtc1    $t6, $f4                   ## $f4 = 0.00
 /* 0143C 80A3F9AC 24030090 */  addiu   $v1, $zero, 0x0090         ## $v1 = 00000090
-/* 01440 80A3F9B0 3C0F80A4 */  lui     $t7, %hi(func_80A3E578)    ## $t7 = 80A40000
+/* 01440 80A3F9B0 3C0F80A4 */  lui     $t7, %hi(EnGo_GetTextID)    ## $t7 = 80A40000
 /* 01444 80A3F9B4 468021A0 */  cvt.s.w $f6, $f4                   
 /* 01448 80A3F9B8 3C1880A4 */  lui     $t8, %hi(func_80A3E908)    ## $t8 = 80A40000
-/* 0144C 80A3F9BC 3C1980A4 */  lui     $t9, %hi(func_80A3E578)    ## $t9 = 80A40000
+/* 0144C 80A3F9BC 3C1980A4 */  lui     $t9, %hi(EnGo_GetTextID)    ## $t9 = 80A40000
 /* 01450 80A3F9C0 3C0880A4 */  lui     $t0, %hi(func_80A3E908)    ## $t0 = 80A40000
 /* 01454 80A3F9C4 304200F0 */  andi    $v0, $v0, 0x00F0           ## $v0 = 00000000
 /* 01458 80A3F9C8 3C0180A4 */  lui     $at, %hi(D_80A420E0)       ## $at = 80A40000
 /* 0145C 80A3F9CC 2718E908 */  addiu   $t8, $t8, %lo(func_80A3E908) ## $t8 = 80A3E908
-/* 01460 80A3F9D0 25EFE578 */  addiu   $t7, $t7, %lo(func_80A3E578) ## $t7 = 80A3E578
+/* 01460 80A3F9D0 25EFE578 */  addiu   $t7, $t7, %lo(EnGo_GetTextID) ## $t7 = 80A3E578
 /* 01464 80A3F9D4 2508E908 */  addiu   $t0, $t0, %lo(func_80A3E908) ## $t0 = 80A3E908
-/* 01468 80A3F9D8 2739E578 */  addiu   $t9, $t9, %lo(func_80A3E578) ## $t9 = 80A3E578
+/* 01468 80A3F9D8 2739E578 */  addiu   $t9, $t9, %lo(EnGo_GetTextID) ## $t9 = 80A3E578
 /* 0146C 80A3F9DC 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 01470 80A3F9E0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01474 80A3F9E4 260601E0 */  addiu   $a2, $s0, 0x01E0           ## $a2 = 000001E0

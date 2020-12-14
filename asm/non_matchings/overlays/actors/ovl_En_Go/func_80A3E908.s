@@ -1,3 +1,79 @@
+.late_rodata
+glabel jtbl_80A41E74
+    .word L80A3ED10
+    .word L80A3ED10
+    .word L80A3E970
+    .word L80A3ED10
+    .word L80A3EAE0
+    .word L80A3EC88
+    .word L80A3ECF8
+    .word L80A3ED10
+    .word L80A3ED10
+    .word L80A3ED10
+
+glabel jtbl_80A41E9C
+    .word L80A3EA54
+    .word L80A3EA88
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAA4
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAC8
+    .word L80A3EAD8
+    .word L80A3EAC8
+    .word L80A3EAC8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAC0
+    .word L80A3EAC8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD0
+
+glabel jtbl_80A41F40
+    .word L80A3E9C8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3E9E4
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EAD8
+    .word L80A3EA00
+    .word L80A3EAD8
+    .word L80A3EA1C
+    .word L80A3EAD8
+    .word L80A3EA38
+
+.text
 glabel func_80A3E908
 /* 00398 80A3E908 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0039C 80A3E90C AFBF001C */  sw      $ra, 0x001C($sp)           
