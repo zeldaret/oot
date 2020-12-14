@@ -479,7 +479,7 @@ void func_808FFAC8(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
     s16 temp_v1;
     s16 phi_a1;
 
-    if ((this->unk_313 != 0) || (arg2 != 0)) {
+    if (this->unk_313 || (arg2 != 0)) {
         phi_a1 = this->actor.shape.rot.y - this->actor.yawTowardsLink;
 
         if (phi_a1 > 0x3000) {
@@ -503,7 +503,7 @@ void func_808FFAC8(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
 }
 
 void func_808FFBBC(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
-    if (arg2 != 0 || this->unk_313 != 0) {
+    if (arg2 != 0 || this->unk_313) {
         f32 phi_f0;
         f32 phi_f2;
 
@@ -525,10 +525,10 @@ void func_808FFBBC(BossGanon2* this, GlobalContext* globalCtx, u8 arg2) {
 
 void func_808FFC84(BossGanon2* this) {
     if (ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x2800) {
-        this->unk_313 = 1;
+        this->unk_313 = true;
         this->actor.posRot2.pos = this->unk_1B8;
     } else {
-        this->unk_313 = 0;
+        this->unk_313 = false;
         this->actor.posRot2.pos = this->unk_1C4;
     }
 }
